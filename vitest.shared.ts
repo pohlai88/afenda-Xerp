@@ -12,14 +12,36 @@ const REACT_SETUP = resolve(
   MONOREPO_ROOT,
   "packages/testing/src/setup/react.ts"
 );
+const NEXT_LINK_MOCK = resolve(
+  MONOREPO_ROOT,
+  "packages/testing/src/mocks/next-link.tsx"
+);
+
+const WORKSPACE_DEPS = {
+  inline: [/@afenda\//] as const,
+};
+
+export interface ReactProjectOptions {
+  alias?: Record<string, string>;
+}
 
 function coverageOptions(root: string) {
   return {
     provider: "v8" as const,
-    reporter: ["text", "html"] as const,
+    reporter: ["text", "html", "json"] as const,
     include: ["src/**/*.{ts,tsx}"],
     exclude: ["src/**/__tests__/**", "**/*.d.ts", "**/dist/**", "**/.next/**"],
     reportsDirectory: resolve(root, "coverage"),
+  };
+}
+
+function sharedTestOptions(name: string, root: string) {
+  return {
+    name,
+    globals: false,
+    include: [TEST_FILE_PATTERN],
+    passWithNoTests: true,
+    coverage: coverageOptions(root),
   };
 }
 
@@ -28,32 +50,40 @@ export function createNodeProject(importMetaUrl: string, name: string) {
 
   return defineProject({
     root,
+    server: {
+      deps: WORKSPACE_DEPS,
+    },
     test: {
-      name,
+      ...sharedTestOptions(name, root),
       environment: "node",
-      globals: false,
-      include: [TEST_FILE_PATTERN],
-      passWithNoTests: true,
       setupFiles: [NODE_SETUP],
-      coverage: coverageOptions(root),
     },
   });
 }
 
-export function createReactProject(importMetaUrl: string, name: string) {
+export function createReactProject(
+  importMetaUrl: string,
+  name: string,
+  options: ReactProjectOptions = {}
+) {
   const root = dirname(fileURLToPath(importMetaUrl));
 
   return defineProject({
     root,
     plugins: [react()],
+    resolve: {
+      alias: {
+        "next/link": NEXT_LINK_MOCK,
+        ...options.alias,
+      },
+    },
+    server: {
+      deps: WORKSPACE_DEPS,
+    },
     test: {
-      name,
+      ...sharedTestOptions(name, root),
       environment: "jsdom",
-      globals: false,
-      include: [TEST_FILE_PATTERN],
-      passWithNoTests: true,
       setupFiles: [REACT_SETUP],
-      coverage: coverageOptions(root),
     },
   });
 }

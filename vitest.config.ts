@@ -1,7 +1,14 @@
 import { defineConfig } from "vitest/config";
 
+const isCI = Boolean(process.env.CI);
+
 export default defineConfig({
   test: {
+    pool: "threads",
+    restoreMocks: true,
+    clearMocks: true,
+    reporters: isCI ? ["default", "github-actions", "junit"] : ["default"],
+    outputFile: isCI ? { junit: "./test-results/junit.xml" } : undefined,
     projects: ["packages/*/vitest.config.ts", "apps/*/vitest.config.ts"],
   },
 });

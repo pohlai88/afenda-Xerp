@@ -6,6 +6,7 @@
     "tsconfig.base.json",
     "tsconfig.library.json",
     "tsconfig.next.json",
+    "tsconfig.vitest.base.json",
     "vitest.config.ts",
     "vitest.shared.ts"
   ],
@@ -24,7 +25,9 @@
     "typecheck": {
       "dependsOn": ["^typecheck"]
     },
-    "test": {},
+    "test": {
+      "outputs": ["coverage/**"]
+    },
     "format": {
       "cache": false
     },

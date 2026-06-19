@@ -85,7 +85,7 @@ pnpm --filter @afenda/docs dev
 | **TypeScript** | Strict mode via shared `tsconfig.*` presets |
 | **Vitest** | Unit tests with optional coverage (`@vitest/coverage-v8`) |
 
-Install the recommended editor extension: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) (see `.vscode/extensions.json`).
+Install the recommended editor extensions: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [Vitest](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) (see `.vscode/extensions.json`).
 
 ## Package conventions
 
@@ -94,6 +94,7 @@ Every package under `packages/` follows the same baseline:
 - `package.json` with explicit `exports`, `sideEffects: false`, and `files: ["dist"]`
 - `src/index.ts` placeholder export (no business logic)
 - `src/__tests__/` for Vitest files (kept out of library builds)
+- `tsconfig.vitest.json` typechecks tests and mocks separately from production `tsconfig.json`
 - `vitest.config.ts` extending shared monorepo presets from `vitest.shared.ts`
 - `tsconfig.json` extending `tsconfig.library.json`
 - Scripts: `build`, `dev`, `lint`, `typecheck`, `test`, `format`, `clean`
@@ -106,14 +107,17 @@ Next.js apps extend `tsconfig.next.json` and list `@afenda/*` packages in `trans
 
 | Layer | Config | Environment |
 |-------|--------|-------------|
-| Root | `vitest.config.ts` — Vitest **projects** workspace | orchestrates all packages |
+| Root | `vitest.config.ts` — shared pool, mock hygiene, CI reporters | orchestrates all projects |
 | Shared | `vitest.shared.ts` — `createNodeProject` / `createReactProject` | node vs jsdom |
+| Types | `tsconfig.vitest.json` per workspace | typechecks `__tests__` without emitting |
 | Package / app | `vitest.config.ts` | one project per workspace |
 | Setup | `@afenda/testing/setup/node` or `/setup/react` | jest-dom + RTL cleanup for React |
+| Mocks | `@afenda/testing/mocks/next-link` | aliased as `next/link` in React projects |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}` — never mix test files beside production modules.
 
 ```bash
+pnpm check                             # lint + typecheck (prod + tests) + test
 pnpm test                              # all projects
 pnpm test:watch                        # watch all projects
 pnpm test:coverage                     # v8 coverage (per-project reports)

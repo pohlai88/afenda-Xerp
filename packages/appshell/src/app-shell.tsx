@@ -10,7 +10,12 @@ import { AppShellSidebar } from "./app-shell-sidebar";
 export function AppShell({
   activeItemId,
   children,
+  commandItems,
+  contextSwitcherCompact,
+  contextSwitcherState,
+  currentPathname,
   navItems = DEFAULT_NAV_ITEMS,
+  onContextSwitchRequest,
   workspace = DEFAULT_WORKSPACE_CONTEXT,
 }: AppShellProps) {
   return (
@@ -18,9 +23,19 @@ export function AppShell({
       <a className={styles.skipLink} href="#app-shell-main">
         Skip to content
       </a>
-      <AppShellHeader workspace={workspace} />
+      <AppShellHeader
+        commandItems={commandItems}
+        contextSwitcherCompact={contextSwitcherCompact}
+        contextSwitcherState={contextSwitcherState}
+        onContextSwitchRequest={onContextSwitchRequest}
+        workspace={workspace}
+      />
       <div className={styles.body}>
-        <AppShellSidebar activeItemId={activeItemId} items={navItems} />
+        <AppShellSidebar
+          activeItemId={activeItemId}
+          currentPathname={currentPathname}
+          items={navItems}
+        />
         <main id="app-shell-main">{children}</main>
       </div>
     </div>
