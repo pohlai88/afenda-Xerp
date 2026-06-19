@@ -220,7 +220,8 @@ describe("grantPermissionToRole", () => {
           permissionId: PERMISSION_ID,
           reason: "catalog sync",
         },
-      })
+      }),
+      db
     );
   });
 

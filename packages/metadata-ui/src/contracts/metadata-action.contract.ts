@@ -1,4 +1,3 @@
-import type { PermissionKey } from "@afenda/permissions";
 import type { MetadataPermissionRequirement } from "./metadata-permission.contract";
 
 export const METADATA_ACTION_CATEGORIES = [
@@ -30,6 +29,12 @@ export interface MetadataActionPolicy {
   readonly policyKey?: string;
 }
 
+/**
+ * A governed UI action. Every action must carry a permission requirement,
+ * an audit descriptor, and — for sensitive categories — a policy or
+ * confirmation contract. Actions are never executed from metadata alone;
+ * modules dispatch the `commandId` through their own behavior layer.
+ */
 export interface MetadataActionContract {
   readonly audit: MetadataActionAudit;
   readonly category: MetadataActionCategory;
@@ -37,8 +42,7 @@ export interface MetadataActionContract {
   readonly executionMode: MetadataActionExecutionMode;
   readonly id: string;
   readonly label: string;
-  readonly permission: MetadataPermissionRequirement & {
-    readonly permissionKey: PermissionKey;
-  };
+  /** Every action requires a full permission requirement including a key. */
+  readonly permission: MetadataPermissionRequirement;
   readonly policy?: MetadataActionPolicy;
 }

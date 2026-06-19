@@ -5,12 +5,13 @@ export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
-export type {
-  MetadataActionAudit,
-  MetadataActionCategory,
-  MetadataActionContract,
-  MetadataActionExecutionMode,
-  MetadataActionPolicy,
+export {
+  METADATA_ACTION_CATEGORIES,
+  type MetadataActionAudit,
+  type MetadataActionCategory,
+  type MetadataActionContract,
+  type MetadataActionExecutionMode,
+  type MetadataActionPolicy,
 } from "./contracts/metadata-action.contract";
 export type {
   MetadataAuditEvidenceType,

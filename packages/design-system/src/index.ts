@@ -97,7 +97,11 @@ export {
   STATUS_TONES,
   TOKEN_CATEGORIES,
 } from "./contracts/token.contract";
-export { VARIANT_AXES } from "./contracts/variant.contract";
+export {
+  VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
+} from "./contracts/variant.contract";
 
 // ─── Values ───────────────────────────────────────────────────────────────────
 

@@ -69,30 +69,34 @@ async function loadPermissionForGrant(
 
 async function recordRolePermissionGrantAuditEvent(
   input: GrantPermissionToRoleInput,
-  audit: RolePermissionAuditContext
+  audit: RolePermissionAuditContext,
+  db: AfendaDatabase
 ): Promise<void> {
   const reason = input.reason ?? audit.reason ?? null;
 
-  await insertAuditEvent({
-    tenantId: input.tenantId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action: "role.permission.grant",
-    targetType: "role_permission",
-    targetId: input.roleId,
-    result: "success",
-    reason,
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata: {
-      roleId: input.roleId,
-      permissionId: input.permissionId,
+  await insertAuditEvent(
+    {
+      tenantId: input.tenantId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action: "role.permission.grant",
+      targetType: "role_permission",
+      targetId: input.roleId,
+      result: "success",
       reason,
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata: {
+        roleId: input.roleId,
+        permissionId: input.permissionId,
+        reason,
+      },
     },
-  });
+    db
+  );
 }
 
 /**
@@ -131,7 +135,7 @@ export async function grantPermissionToRole(
     });
 
   if (inserted) {
-    await recordRolePermissionGrantAuditEvent(input, input.audit);
+    await recordRolePermissionGrantAuditEvent(input, input.audit, db);
   }
 
   return {

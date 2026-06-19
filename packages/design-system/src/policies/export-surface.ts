@@ -8,13 +8,16 @@ import type { PublicExportContract } from "../contracts/export.contract";
  * must never be deep-imported directly — consumers always go through the root
  * entry point.
  *
- * Keep this list sorted alphabetically so the governance test can compare it
- * with Object.keys(publicRuntimeExports).sort() without order ambiguity.
+ * Invariant: this list must stay alphabetically sorted (uppercase before
+ * lowercase, matching JavaScript's Array.prototype.sort()) so the governance
+ * test can compare it with Object.keys(publicRuntimeExports).sort() without
+ * order ambiguity.  Current count: 28.
  */
 export const publicExportContract = {
   packageName: "@afenda/design-system",
   publicEntrypoints: ["."],
   stableExports: [
+    "DENSITIES",
     "GOVERNED_STATES",
     "MOTION_INTENTS",
     "PACKAGE_NAME",
@@ -25,6 +28,8 @@ export const publicExportContract = {
     "STATUS_TONES",
     "TOKEN_CATEGORIES",
     "VARIANT_AXES",
+    "VARIANT_EMPHASES",
+    "VARIANT_INTENTS",
     "accessibilityPolicy",
     "classNamePolicy",
     "designSystemContract",

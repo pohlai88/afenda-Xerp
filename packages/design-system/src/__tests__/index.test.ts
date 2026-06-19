@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   accessibilityPolicy,
   classNamePolicy,
+  DENSITIES,
   designSystemContract,
   driftPreventionChecklist,
   erpGovernedExamples,
@@ -25,6 +26,8 @@ import {
   TOKEN_CATEGORIES,
   tokenRegistry,
   VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
   validateDesignSystemGovernance,
   validateLayoutClassName,
   variantRegistry,
@@ -48,17 +51,26 @@ const requiredContractFiles = [
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/;
 
+/**
+ * Every value exported from the public entry point must be listed here.
+ * The "keeps public imports on the stable root export surface" test compares
+ * Object.keys(publicRuntimeExports).sort() against publicExportContract.stableExports,
+ * so the two must stay in sync.
+ */
 const publicRuntimeExports = {
+  DENSITIES,
   GOVERNED_STATES,
   MOTION_INTENTS,
   PACKAGE_NAME,
   RADII,
-  SLOT_ROLES,
   SHADOWS,
   SIZES,
+  SLOT_ROLES,
   STATUS_TONES,
   TOKEN_CATEGORIES,
   VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
   accessibilityPolicy,
   classNamePolicy,
   designSystemContract,
@@ -177,16 +189,14 @@ describe("@afenda/design-system", () => {
 
   it("covers all governed radii with a token", () => {
     const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
-    const radii = ["none", "sm", "md", "lg"];
-    for (const radius of radii) {
+    for (const radius of RADII) {
       expect(tokenNames.has(`radius.${radius}`)).toBe(true);
     }
   });
 
   it("covers all governed shadows with a token", () => {
     const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
-    const shadows = ["none", "raised", "overlay"];
-    for (const shadow of shadows) {
+    for (const shadow of SHADOWS) {
       expect(tokenNames.has(`shadow.${shadow}`)).toBe(true);
     }
   });
@@ -200,6 +210,11 @@ describe("@afenda/design-system", () => {
     };
     for (const entry of motionPolicy) {
       expect(entry.durationToken).toBe(intentToToken[entry.intent]);
+    }
+    // Every MOTION_INTENTS value must have a policy entry.
+    const coveredIntents = new Set(motionPolicy.map((e) => e.intent));
+    for (const intent of MOTION_INTENTS) {
+      expect(coveredIntents.has(intent)).toBe(true);
     }
   });
 
@@ -220,5 +235,43 @@ describe("@afenda/design-system", () => {
     ]);
     expect(SLOT_ROLES).toContain("root");
     expect(STATUS_TONES).toContain("danger");
+    expect(DENSITIES).toEqual(["compact", "standard", "comfortable"]);
+    expect(VARIANT_INTENTS).toEqual([
+      "primary",
+      "secondary",
+      "quiet",
+      "destructive",
+    ]);
+    expect(VARIANT_EMPHASES).toEqual(["solid", "soft", "outline", "ghost"]);
+  });
+
+  it("restricts all variant options to governed values", () => {
+    const governedOptions = new Set<string>([
+      ...VARIANT_INTENTS,
+      ...VARIANT_EMPHASES,
+      ...STATUS_TONES,
+      ...DENSITIES,
+      ...SIZES,
+      ...RADII,
+      ...SHADOWS,
+    ]);
+    for (const variant of variantRegistry.variants) {
+      expect(
+        governedOptions.has(variant.option),
+        `Variant axis="${variant.axis}" option="${variant.option}" is not a governed value`
+      ).toBe(true);
+    }
+  });
+
+  it("restricts variant allowedTokenCategories to real token categories", () => {
+    const governed = new Set<string>(TOKEN_CATEGORIES);
+    for (const variant of variantRegistry.variants) {
+      for (const category of variant.allowedTokenCategories) {
+        expect(
+          governed.has(category),
+          `Variant axis="${variant.axis}" option="${variant.option}" lists unknown token category "${category}"`
+        ).toBe(true);
+      }
+    }
   });
 });

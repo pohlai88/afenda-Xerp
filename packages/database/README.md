@@ -132,6 +132,7 @@ Format-only validation (`isIso3166Alpha2Format` / `isIso4217CurrencyFormat`) is 
 | `memberships` | Authority grants (writes via membership service; explicit `scopeType`) |
 | `roles` | Authority templates by scope (writes via role service; dot-case keys; no hard delete) |
 | `permissions` | Global capability catalog (writes via `permission/permission.service.ts`) |
+| `role_permissions` | Role-to-capability grants (writes via `grantPermissionToRole()` only) |
 | `policies` | Authority decision templates (writes via policy service; governed condition JSON; priority-ordered evaluation) |
 | `audit_events` | Append-only execution evidence ledger (writes via `insertAuditEvent()` only) |
 
@@ -189,6 +190,8 @@ Do not insert, update, or delete `audit_events` from feature modules.
 
 **Permission catalog writes:** use `insertPermission()` / `updatePermission()` only. Keys must match `{domain}.{action}` via `permission-key.contract.ts`; key/domain/action are immutable after create.
 
+**Role-permission grants:** use `grantPermissionToRole()` only. Grants are idempotent; audit `role.permission.grant` is written on first grant only. Tenant-scoped roles require matching `tenantId`; platform roles require `tenantId: null`.
+
 **Company writes:** use `insertCompany()` / `updateCompany()` only. Slugs are normalized to lowercase kebab-case; country/currency must be governed ISO codes. Tenant → company FK uses `ON DELETE restrict`.
 
 **Organization writes:** use `insertOrganization()` / `updateOrganization()` / `deleteOrganization()` only. Parent must share tenant/company; hierarchy must stay acyclic; slugs are company-unique and normalized.
@@ -205,9 +208,19 @@ Unit tests do not require a live database:
 pnpm --filter @afenda/database test
 ```
 
+Seed and bootstrap (TIP-003A):
+
+```bash
+pnpm migrate
+pnpm --filter @afenda/database db:seed:platform
+pnpm --filter @afenda/database db:bootstrap:local
+pnpm --filter @afenda/database db:verify:seed
+```
+
+See `docs/TIP-003A-seed-bootstrap.md` for profiles, safety rules, and production confirmation env vars.
+
 ## Out of scope (TIP-003)
 
 - Better Auth / Supabase Auth tables
 - Permission enforcement middleware
 - Business module schemas (accounting, HRM, CRM, MRP, inventory, AI)
-- Seed data or production fixtures

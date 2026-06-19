@@ -380,6 +380,12 @@ export {
   userStatusEnum,
   users,
 } from "./schema/index.js";
+export { PLATFORM_PERMISSION_CATALOG } from "./seeds/platform-permissions.catalog.js";
+export type {
+  SeedProfile,
+  SeedVerificationResult,
+} from "./seeds/seed-types.js";
+export { verifyPlatformSeed } from "./seeds/seed-verify.js";
 export {
   assertTenantSlug,
   buildTenantInsertRow,

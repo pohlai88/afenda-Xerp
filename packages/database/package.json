@@ -43,7 +43,13 @@
     "db:migration-hashes": "tsx scripts/list-migration-hashes.ts",
     "db:migration-status": "tsx scripts/db-migration-status.ts",
     "db:url-hints": "tsx scripts/db-url-hints.ts",
-    "db:studio": "drizzle-kit studio --config drizzle.config.ts"
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "db:seed:platform": "tsx scripts/seed-platform.ts",
+    "db:seed:dev": "tsx scripts/seed-dev.ts",
+    "db:seed:test": "tsx scripts/seed-test.ts",
+    "db:bootstrap:local": "tsx scripts/bootstrap-local.ts",
+    "db:bootstrap:preview": "tsx scripts/bootstrap-preview.ts",
+    "db:verify:seed": "tsx scripts/verify-seed.ts"
   },
   "sideEffects": false,
   "dependencies": {

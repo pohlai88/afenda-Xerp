@@ -8,6 +8,15 @@ import {
   type MetadataSectionType,
 } from "../contracts/metadata-section.contract";
 
+/**
+ * Fluent, priority-ordered renderer registry.
+ *
+ * - `register` returns the same registry instance for chaining.
+ * - `resolve` selects the highest-priority compatible renderer or returns
+ *   `{ renderer: null }` — callers must handle the null case gracefully.
+ * - `snapshot` returns a point-in-time serializable view of all registered
+ *   renderers and the governed section-type roster.
+ */
 export interface MetadataRendererRegistry {
   readonly listRenderers: () => readonly MetadataRendererContract[];
   readonly register: (
@@ -26,7 +35,7 @@ const sortRenderers = (
 
 export const createMetadataRendererRegistry = (
   initialRenderers: readonly MetadataRendererContract[] = []
-): MetadataRendererRegistry => {
+) => {
   const renderers = new Map<string, MetadataRendererContract>();
 
   for (const renderer of initialRenderers) {
