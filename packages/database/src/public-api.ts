@@ -331,6 +331,20 @@ export {
   type UpdateRoleInput,
   updateRole,
 } from "./role/role.service.js";
+export {
+  assertRolePermissionGrantBoundaries,
+  type RolePermissionGrantBoundaryInput,
+  RolePermissionGrantError,
+  type RolePermissionGrantPermissionSnapshot,
+  type RolePermissionGrantRoleSnapshot,
+  RolePermissionTenantMismatchError,
+} from "./role-permission/role-permission.contract.js";
+export {
+  type GrantPermissionToRoleInput,
+  type GrantPermissionToRoleResult,
+  grantPermissionToRole,
+  type RolePermissionAuditContext,
+} from "./role-permission/role-permission.service.js";
 export { resetRuntimeSingleton } from "./runtime-singleton.js";
 export {
   type AuthSchema,
@@ -357,6 +371,7 @@ export {
   policyEffectEnum,
   policyScopeEnum,
   policyStatusEnum,
+  rolePermissions,
   roleScopeEnum,
   roleStatusEnum,
   roles,

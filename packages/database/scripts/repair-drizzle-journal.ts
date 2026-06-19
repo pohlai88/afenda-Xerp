@@ -1,17 +1,13 @@
 import pg from "pg";
 
 import { resolveMigrationDatabaseUrl } from "../src/env.js";
+import { loadValidatedMigrationJournal } from "../src/migrations/journal.contract.js";
 import {
   buildMigrationLedgerExpectations,
   detectMigrationLedgerDrift,
   type MigrationLedgerDbRow,
 } from "../src/migrations/ledger.contract.js";
-import { loadValidatedMigrationJournal } from "../src/migrations/journal.contract.js";
-import {
-  journalPath,
-  loadDatabaseEnv,
-  migrationsDir,
-} from "./load-env.js";
+import { journalPath, loadDatabaseEnv, migrationsDir } from "./load-env.js";
 
 loadDatabaseEnv();
 
@@ -50,6 +46,16 @@ interface LoadedJournalEntry {
 
 type DbMigrationRow = MigrationLedgerDbRow;
 
+interface DrizzleMigrationQueryRow {
+  readonly created_at: string | number;
+  readonly hash: string;
+  readonly id: string | number;
+}
+
+interface MigrationProbeQueryRow {
+  readonly ok: boolean | null;
+}
+
 const loadJournalEntries = (): LoadedJournalEntry[] => {
   const entries = loadValidatedMigrationJournal(journalPath, migrationsDir);
   console.log(
@@ -65,7 +71,7 @@ const loadJournalEntries = (): LoadedJournalEntry[] => {
 };
 
 const readDbMigrations = async (pool: pg.Pool): Promise<DbMigrationRow[]> => {
-  const result = await pool.query(
+  const result = await pool.query<DrizzleMigrationQueryRow>(
     `SELECT id, hash, created_at
      FROM drizzle.__drizzle_migrations
      ORDER BY created_at ASC, id ASC`
@@ -93,7 +99,7 @@ const probeAppliedThroughIndex = async (
       continue;
     }
 
-    const result = await pool.query(probe);
+    const result = await pool.query<MigrationProbeQueryRow>(probe);
     if (result.rows[0]?.ok) {
       return entry.idx;
     }

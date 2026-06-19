@@ -1,3 +1,5 @@
+import type { StatusTone } from "./token.contract";
+
 export const GOVERNED_STATES = [
   "loading",
   "empty",
@@ -13,14 +15,8 @@ export interface StatePattern {
   readonly ariaLive: "off" | "polite" | "assertive";
   readonly requiredCopyRole: "label" | "description" | "error";
   readonly state: GovernedState;
-  readonly tone:
-    | "neutral"
-    | "info"
-    | "success"
-    | "warning"
-    | "danger"
-    | "forbidden"
-    | "invalid";
+  /** Must be a governed status tone — sourced from token.contract to prevent drift. */
+  readonly tone: StatusTone;
 }
 
 export interface StateContract {

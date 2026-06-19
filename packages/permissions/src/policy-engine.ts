@@ -23,6 +23,7 @@ import {
 } from "./policy.contract.js";
 import {
   databasePolicyAuditWriter,
+  noopPolicyAuditWriter,
   type PolicyEvaluationAuditWriter,
 } from "./policy-audit.js";
 
@@ -38,6 +39,11 @@ export interface PolicyDataSource {
 export interface PolicyEvaluationOptions {
   readonly auditWriter?: PolicyEvaluationAuditWriter;
 }
+
+/** Production wiring — persists policy evaluation audit events. */
+export const productionPolicyEvaluationOptions: PolicyEvaluationOptions = {
+  auditWriter: databasePolicyAuditWriter,
+};
 
 /** In-memory policy engine stub — evaluates registered policy rules. */
 export class InMemoryPolicyDataSource implements PolicyDataSource {
@@ -114,7 +120,7 @@ export async function evaluateAuthorizationPolicy(
   const rules = await policyDataSource.findApplicableRules(evaluationInput);
   const permissionGranted = permissionDecision.result === "allow";
   const policyResult = evaluatePolicyDecision(permissionGranted, rules);
-  const auditWriter = options.auditWriter ?? databasePolicyAuditWriter;
+  const auditWriter = options.auditWriter ?? noopPolicyAuditWriter;
 
   await auditWriter({ permissionDecision, policyResult });
 

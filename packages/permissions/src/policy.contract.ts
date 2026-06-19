@@ -81,7 +81,15 @@ export function isExecutablePolicyDecision(
 export function isPolicyGateDecision(
   decision: PolicyDecision
 ): decision is PolicyGateDecision {
-  return (POLICY_GATE_DECISIONS as readonly string[]).includes(decision);
+  switch (decision) {
+    case "require_approval":
+    case "require_evidence":
+    case "require_step_up":
+    case "readonly":
+      return true;
+    default:
+      return false;
+  }
 }
 
 export function policyRuleMatches(

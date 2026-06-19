@@ -64,6 +64,13 @@
       "when": 1781920800000,
       "tag": "20260619250000_policy_governance",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1781924400000,
+      "tag": "20260620050000_role_permissions",
+      "breakpoints": true
     }
   ]
 }

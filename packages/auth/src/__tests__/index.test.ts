@@ -78,6 +78,7 @@ describe("@afenda/auth package", () => {
       authUserId: "user_1",
       email: "user@example.com",
       platformUserId: null,
+      actorLinkStatus: "unlinked",
     });
   });
 

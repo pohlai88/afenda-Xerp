@@ -19,6 +19,7 @@ export {
   type AfendaAuthSessionMetadata,
   type AfendaAuthUser,
   AUTH_EVENT,
+  type AuthActorLinkStatus,
   type AuthAuditRecordInput,
   type AuthAuditResult,
   type AuthEventContext,

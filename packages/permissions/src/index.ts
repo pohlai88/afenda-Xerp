@@ -44,6 +44,18 @@ export {
   PolicyGateError,
 } from "./authorization-error.js";
 export {
+  createProductionAuthorizationDataSources,
+  type ProductionAuthorizationDataSources,
+} from "./database/create-production-data-sources.js";
+export {
+  createProductionPermissionDataSource,
+  DatabasePermissionDataSource,
+} from "./database/database-permission-data-source.js";
+export {
+  createProductionPolicyDataSource,
+  DatabasePolicyDataSource,
+} from "./database/database-policy-data-source.js";
+export {
   isMembershipActive,
   type MembershipContract,
   type MembershipScopeType,
@@ -51,6 +63,12 @@ export {
   membershipMatchesCompany,
   membershipMatchesOrganization,
 } from "./membership.contract.js";
+export {
+  isDeniedScopedMembershipResolution,
+  isMatchedScopedMembershipResolution,
+  resolveScopedMembership,
+  type ScopedMembershipResolution,
+} from "./membership-resolution.js";
 export {
   assertRegisteredPermissionKey,
   extractPermissionAction,
@@ -99,6 +117,7 @@ export {
   type PolicyDataSource,
   type PolicyDecisionRequest,
   type PolicyEvaluationOptions,
+  productionPolicyEvaluationOptions,
   requirePolicyDecision,
 } from "./policy-engine.js";
 export {

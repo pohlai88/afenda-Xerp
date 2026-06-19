@@ -1,12 +1,13 @@
 import {
   AUDIT_EVENT_VERSION,
   type AuditActorType,
-  findPlatformUserIdByAuthUserId,
   type InsertAuditEventInput,
   insertAuditEvent,
 } from "@afenda/database";
 
+import { resolvePlatformActorUserId } from "./auth.actor-resolution.js";
 import type {
+  AuthActorLinkStatus,
   AuthAuditRecordInput,
   AuthEventContext,
 } from "./auth.contract.js";
@@ -22,6 +23,17 @@ interface AuthAuditWriter {
 
 function resolveAuthActorType(context?: AuthEventContext): AuditActorType {
   return context?.authUserId ? "user" : "system";
+}
+
+function resolveActorLinkStatus(
+  context: AuthEventContext | undefined,
+  actorUserId: string | null
+): AuthActorLinkStatus | null {
+  if (!context?.authUserId) {
+    return null;
+  }
+
+  return actorUserId ? "linked" : "unlinked";
 }
 
 /** Builds the governed audit insert payload without performing I/O (testable). */
@@ -47,7 +59,7 @@ export function buildAuthAuditPayload(
     ipAddress: record.context?.ipAddress ?? null,
     userAgent: record.context?.userAgent ?? null,
     metadata: {
-      /** Better Auth login identity — not platform `users.id`. */
+      actorLinkStatus: resolveActorLinkStatus(record.context, actorUserId),
       authUserId: record.context?.authUserId ?? null,
       email: record.context?.email ?? null,
       platformUserId: actorUserId,
@@ -58,10 +70,7 @@ export function buildAuthAuditPayload(
 async function buildResolvedAuthAuditPayload(
   record: AuthAuditRecordInput
 ): Promise<AuthAuditInsertPayload> {
-  const authUserId = record.context?.authUserId;
-  const platformUserId = authUserId
-    ? await findPlatformUserIdByAuthUserId(authUserId)
-    : null;
+  const platformUserId = await resolvePlatformActorUserId(record.context);
 
   return buildAuthAuditPayload(record, platformUserId);
 }
@@ -86,11 +95,4 @@ export async function persistAuthAuditEvent(
   writer: AuthAuditWriter = defaultAuditWriter
 ): Promise<void> {
   await writer.write(record);
-}
-
-export function recordAuthAuditEvent(
-  record: AuthAuditRecordInput,
-  writer: AuthAuditWriter = defaultAuditWriter
-): void {
-  persistAuthAuditEvent(record, writer).catch(() => undefined);
 }

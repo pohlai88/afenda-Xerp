@@ -8,13 +8,23 @@ import {
   designSystemContract,
   driftPreventionChecklist,
   erpGovernedExamples,
+  GOVERNED_STATES,
   getPackageName,
   isPublicDesignSystemImport,
+  MOTION_INTENTS,
+  motionPolicy,
   PACKAGE_NAME,
   publicExportContract,
+  RADII,
   recipeRegistry,
+  SHADOWS,
+  SIZES,
+  SLOT_ROLES,
+  STATUS_TONES,
   statePolicy,
+  TOKEN_CATEGORIES,
   tokenRegistry,
+  VARIANT_AXES,
   validateDesignSystemGovernance,
   validateLayoutClassName,
   variantRegistry,
@@ -37,6 +47,34 @@ const requiredContractFiles = [
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/;
+
+const publicRuntimeExports = {
+  GOVERNED_STATES,
+  MOTION_INTENTS,
+  PACKAGE_NAME,
+  RADII,
+  SLOT_ROLES,
+  SHADOWS,
+  SIZES,
+  STATUS_TONES,
+  TOKEN_CATEGORIES,
+  VARIANT_AXES,
+  accessibilityPolicy,
+  classNamePolicy,
+  designSystemContract,
+  driftPreventionChecklist,
+  erpGovernedExamples,
+  getPackageName,
+  isPublicDesignSystemImport,
+  motionPolicy,
+  publicExportContract,
+  recipeRegistry,
+  statePolicy,
+  tokenRegistry,
+  validateDesignSystemGovernance,
+  validateLayoutClassName,
+  variantRegistry,
+};
 
 describe("@afenda/design-system", () => {
   it("exports the package name", () => {
@@ -110,20 +148,77 @@ describe("@afenda/design-system", () => {
       "invalid",
       "ready",
     ]);
-    expect(erpGovernedExamples).toHaveLength(1);
-    expect(erpGovernedExamples[0]?.source).toContain(
-      'from "@afenda/design-system"'
-    );
-    expect(erpGovernedExamples[0]?.source).not.toMatch(SEMANTIC_CLASS_PATTERN);
+    expect(erpGovernedExamples.length).toBeGreaterThanOrEqual(4);
+    for (const example of erpGovernedExamples) {
+      expect(example.source).toContain('from "@afenda/design-system"');
+      expect(example.source).not.toMatch(SEMANTIC_CLASS_PATTERN);
+    }
     expect(driftPreventionChecklist.length).toBeGreaterThanOrEqual(7);
   });
 
   it("keeps public imports on the stable root export surface", () => {
     expect(publicExportContract.deepImportsAllowed).toBe(false);
     expect(publicExportContract.publicEntrypoints).toEqual(["."]);
+    expect(publicExportContract.stableExports).toEqual(
+      Object.keys(publicRuntimeExports).sort()
+    );
     expect(isPublicDesignSystemImport("@afenda/design-system")).toBe(true);
     expect(isPublicDesignSystemImport("@afenda/design-system/tokens")).toBe(
       false
     );
+  });
+
+  it("covers all governed status tones with a surface token", () => {
+    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
+    for (const tone of STATUS_TONES) {
+      expect(tokenNames.has(`statusTone.${tone}.surface`)).toBe(true);
+    }
+  });
+
+  it("covers all governed radii with a token", () => {
+    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
+    const radii = ["none", "sm", "md", "lg"];
+    for (const radius of radii) {
+      expect(tokenNames.has(`radius.${radius}`)).toBe(true);
+    }
+  });
+
+  it("covers all governed shadows with a token", () => {
+    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
+    const shadows = ["none", "raised", "overlay"];
+    for (const shadow of shadows) {
+      expect(tokenNames.has(`shadow.${shadow}`)).toBe(true);
+    }
+  });
+
+  it("uses per-intent duration tokens in motionPolicy", () => {
+    const intentToToken: Record<string, string> = {
+      instant: "motion.duration.instant",
+      feedback: "motion.duration.feedback",
+      navigation: "motion.duration.navigation",
+      overlay: "motion.duration.overlay",
+    };
+    for (const entry of motionPolicy) {
+      expect(entry.durationToken).toBe(intentToToken[entry.intent]);
+    }
+  });
+
+  it("exports governed runtime constants", () => {
+    expect(GOVERNED_STATES).toEqual([
+      "loading",
+      "empty",
+      "error",
+      "forbidden",
+      "invalid",
+      "ready",
+    ]);
+    expect(MOTION_INTENTS).toEqual([
+      "instant",
+      "feedback",
+      "navigation",
+      "overlay",
+    ]);
+    expect(SLOT_ROLES).toContain("root");
+    expect(STATUS_TONES).toContain("danger");
   });
 });

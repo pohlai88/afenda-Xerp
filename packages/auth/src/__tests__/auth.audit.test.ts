@@ -37,13 +37,14 @@ describe("auth.audit", () => {
     expect(payload.source).toBe("auth");
     expect(payload.eventVersion).toBe("1.0");
     expect(payload.metadata).toMatchObject({
+      actorLinkStatus: "linked",
       authUserId: "auth_user_1",
       email: "user@example.com",
       platformUserId: "platform_user_1",
     });
   });
 
-  it("keeps actorUserId null when no platform identity link exists", () => {
+  it("marks unlinked auth identities explicitly in audit metadata", () => {
     const payload = buildAuthAuditPayload({
       event: AUTH_EVENT.signInSucceeded,
       result: "success",
@@ -54,6 +55,7 @@ describe("auth.audit", () => {
 
     expect(payload.actorUserId).toBeNull();
     expect(payload.metadata).toMatchObject({
+      actorLinkStatus: "unlinked",
       authUserId: "auth_user_1",
       platformUserId: null,
     });
@@ -67,6 +69,7 @@ describe("auth.audit", () => {
 
     expect(payload.correlationId).toMatch(AUTH_CORRELATION_PREFIX_PATTERN);
     expect(payload.actorType).toBe("system");
+    expect(payload.metadata?.actorLinkStatus).toBeNull();
   });
 
   it("persists audit events through the writer", async () => {

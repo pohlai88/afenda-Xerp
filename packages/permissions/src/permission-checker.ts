@@ -15,12 +15,8 @@ import {
   createAllowedAuthorizationResult,
   createDeniedAuthorizationResult,
 } from "./authorization-error.js";
-import {
-  isMembershipActive,
-  type MembershipContract,
-  membershipMatchesCompany,
-  membershipMatchesOrganization,
-} from "./membership.contract.js";
+import type { MembershipContract } from "./membership.contract.js";
+import { resolveScopedMembership } from "./membership-resolution.js";
 import {
   extractPermissionAction,
   type PermissionTargetType,
@@ -157,83 +153,6 @@ async function validateCompanyTenant(
   return null;
 }
 
-type ScopedMembershipResolution =
-  | { readonly outcome: "denied"; readonly result: AuthorizationResult }
-  | { readonly outcome: "matched"; readonly membership: MembershipContract };
-
-function resolveScopedMembership(
-  memberships: readonly MembershipContract[],
-  context: AuthorizationContextInput & { tenantId: string },
-  build: DecisionBuilder
-): ScopedMembershipResolution {
-  const activeMemberships = memberships.filter(isMembershipActive);
-
-  if (activeMemberships.length === 0) {
-    return {
-      outcome: "denied",
-      result: deny(build, "missing_membership", {
-        result: "deny",
-        reason: "No active membership found for actor in the requested tenant.",
-        membershipId: null,
-        roleId: null,
-      }),
-    };
-  }
-
-  const companyScopedMemberships = activeMemberships.filter((membership) =>
-    membershipMatchesCompany(membership, context.companyId)
-  );
-
-  if (companyScopedMemberships.length === 0) {
-    const referenceMembership = activeMemberships[0];
-    return {
-      outcome: "denied",
-      result: deny(build, "company_mismatch", {
-        result: "deny",
-        reason:
-          "Membership company scope does not match the requested company.",
-        membershipId: referenceMembership?.id ?? null,
-        roleId: referenceMembership?.roleId ?? null,
-      }),
-    };
-  }
-
-  const organizationScopedMemberships = companyScopedMemberships.filter(
-    (membership) =>
-      membershipMatchesOrganization(membership, context.organizationId)
-  );
-
-  if (organizationScopedMemberships.length === 0) {
-    const referenceMembership = companyScopedMemberships[0];
-    return {
-      outcome: "denied",
-      result: deny(build, "company_mismatch", {
-        result: "deny",
-        reason:
-          "Membership organization scope does not match the requested organization.",
-        membershipId: referenceMembership?.id ?? null,
-        roleId: referenceMembership?.roleId ?? null,
-      }),
-    };
-  }
-
-  const membership = organizationScopedMemberships[0];
-
-  if (!membership) {
-    return {
-      outcome: "denied",
-      result: deny(build, "missing_membership", {
-        result: "deny",
-        reason: "No membership matched the requested authorization scope.",
-        membershipId: null,
-        roleId: null,
-      }),
-    };
-  }
-
-  return { outcome: "matched", membership };
-}
-
 export async function checkPermission(
   request: PermissionCheckRequest,
   dataSource: PermissionDataSource
@@ -298,7 +217,7 @@ export async function checkPermission(
   const membershipResolution = resolveScopedMembership(
     memberships,
     request.context,
-    build
+    (code, partial) => deny(build, code, partial)
   );
 
   if (membershipResolution.outcome === "denied") {

@@ -11,20 +11,21 @@ import {
   InMemoryPolicyDataSource,
   InvalidPermissionKeyError,
   isDeniedAuthorizationResult,
+  isDeniedScopedMembershipResolution,
+  isMatchedScopedMembershipResolution,
   isPermissionKey,
   isPolicyGateError,
   MissingAuthorizationActorError,
   MissingAuthorizationContextError,
-  noopPolicyAuditWriter,
   PERMISSION_REGISTRY,
   type PolicyContract,
   PolicyGateError,
+  productionPolicyEvaluationOptions,
   requirePermission,
   requirePolicyDecision,
   resolveAuthorizationContext,
+  resolveScopedMembership,
 } from "../index";
-
-const POLICY_TEST_OPTIONS = { auditWriter: noopPolicyAuditWriter } as const;
 
 const TENANT_ID = "tenant-001";
 const COMPANY_A = "company-a";
@@ -130,6 +131,40 @@ describe("@afenda/permissions", () => {
         membershipId: null,
         roleId: null,
       });
+    });
+
+    it("narrows scoped membership resolution with explicit outcome guards", () => {
+      const resolution = resolveScopedMembership(
+        [],
+        { tenantId: TENANT_ID },
+        (code, partial) => ({
+          allowed: false as const,
+          code,
+          decision: {
+            actorId: ACTOR_ID,
+            tenantId: TENANT_ID,
+            companyId: null,
+            organizationId: null,
+            workspaceId: null,
+            membershipId: partial.membershipId,
+            roleId: partial.roleId,
+            permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+            action: "manage",
+            targetType: null,
+            targetId: null,
+            result: partial.result,
+            reason: partial.reason,
+            correlationId: CORRELATION_ID,
+            evaluatedAt: new Date().toISOString(),
+          },
+        })
+      );
+
+      expect(isDeniedScopedMembershipResolution(resolution)).toBe(true);
+      expect(isMatchedScopedMembershipResolution(resolution)).toBe(false);
+      if (isDeniedScopedMembershipResolution(resolution)) {
+        expect(resolution.result.allowed).toBe(false);
+      }
     });
   });
 
@@ -391,8 +426,7 @@ describe("@afenda/permissions", () => {
           action: "read",
         },
         permissionDataSource,
-        policyDataSource,
-        POLICY_TEST_OPTIONS
+        policyDataSource
       );
 
       expect(decision.result).toBe("require_approval");
@@ -431,8 +465,7 @@ describe("@afenda/permissions", () => {
             permissionKey: PERMISSION_REGISTRY.accounting.journal.read,
           },
           permissionDataSource,
-          policyDataSource,
-          POLICY_TEST_OPTIONS
+          policyDataSource
         )
       ).rejects.toBeInstanceOf(PolicyGateError);
     });
@@ -466,8 +499,7 @@ describe("@afenda/permissions", () => {
           permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
         },
         permissionDataSource,
-        policyDataSource,
-        POLICY_TEST_OPTIONS
+        policyDataSource
       );
 
       expect(decision.result).toBe("deny");
@@ -480,8 +512,7 @@ describe("@afenda/permissions", () => {
             permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
           },
           permissionDataSource,
-          policyDataSource,
-          POLICY_TEST_OPTIONS
+          policyDataSource
         )
       ).rejects.toSatisfy(
         (error: unknown) =>
@@ -502,8 +533,7 @@ describe("@afenda/permissions", () => {
           correlationId: CORRELATION_ID,
         },
         permissionDataSource,
-        policyDataSource,
-        POLICY_TEST_OPTIONS
+        policyDataSource
       );
 
       expect(decision.result).toBe("allow");
@@ -522,10 +552,28 @@ describe("@afenda/permissions", () => {
             permissionKey: "banana.destroy_all",
           },
           permissionDataSource,
-          policyDataSource,
-          POLICY_TEST_OPTIONS
+          policyDataSource
         )
       ).rejects.toThrow(InvalidPermissionKeyError);
+    });
+
+    it("does not audit by default", async () => {
+      const permissionDataSource = createTestDataSource();
+      const policyDataSource = new InMemoryPolicyDataSource();
+
+      await requirePolicyDecision(
+        {
+          actor: { actorId: ACTOR_ID },
+          context: { tenantId: TENANT_ID, companyId: COMPANY_A },
+          permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+        },
+        permissionDataSource,
+        policyDataSource
+      );
+    });
+
+    it("exposes production audit wiring for explicit opt-in", () => {
+      expect(productionPolicyEvaluationOptions.auditWriter).toBeDefined();
     });
 
     it("invokes the configured policy audit writer", async () => {

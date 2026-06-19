@@ -61,6 +61,10 @@ export const userIdRef = (): EntityRefColumn => entityRefId("user_id");
 /** Governed foreign-key column for role references. */
 export const roleIdRef = (): EntityRefColumn => entityRefId("role_id");
 
+/** Governed foreign-key column for permission references. */
+export const permissionIdRef = (): EntityRefColumn =>
+  entityRefId("permission_id");
+
 /** Governed foreign-key column for parent organization references. */
 export const parentOrganizationIdRef = (): EntityRefColumn =>
   entityRefId("parent_organization_id");

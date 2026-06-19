@@ -221,7 +221,14 @@ importers:
 
   packages/kernel: {}
 
-  packages/metadata-ui: {}
+  packages/metadata-ui:
+    dependencies:
+      '@afenda/design-system':
+        specifier: workspace:^
+        version: link:../design-system
+      '@afenda/permissions':
+        specifier: workspace:^
+        version: link:../permissions
 
   packages/observability: {}
 
@@ -233,6 +240,9 @@ importers:
       '@afenda/database':
         specifier: workspace:^
         version: link:../database
+      drizzle-orm:
+        specifier: ^0.45.2
+        version: 0.45.2(@prisma/client@5.22.0)(@types/pg@8.20.0)(better-sqlite3@12.11.1)(kysely@0.28.17)(pg@8.22.0)
 
   packages/testing:
     devDependencies:

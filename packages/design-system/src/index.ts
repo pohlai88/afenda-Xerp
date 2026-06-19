@@ -38,6 +38,8 @@ export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+
 export type {
   AccessibilityContract,
   AccessibilityRequirement,
@@ -78,6 +80,27 @@ export type {
   VariantRegistry,
   VariantSelection,
 } from "./contracts/variant.contract";
+export type { ClassNamePolicyResult } from "./policies/class-name-policy";
+export type { GovernanceValidationResult } from "./policies/drift-validation";
+export type { AfendaTokenName } from "./tokens/registry";
+
+// ─── Runtime constants ────────────────────────────────────────────────────────
+
+export { MOTION_INTENTS } from "./contracts/motion.contract";
+export { SLOT_ROLES } from "./contracts/slot.contract";
+export { GOVERNED_STATES } from "./contracts/state.contract";
+export {
+  DENSITIES,
+  RADII,
+  SHADOWS,
+  SIZES,
+  STATUS_TONES,
+  TOKEN_CATEGORIES,
+} from "./contracts/token.contract";
+export { VARIANT_AXES } from "./contracts/variant.contract";
+
+// ─── Values ───────────────────────────────────────────────────────────────────
+
 export { erpGovernedExamples } from "./examples/erp-patterns";
 export { accessibilityPolicy } from "./policies/accessibility";
 export {

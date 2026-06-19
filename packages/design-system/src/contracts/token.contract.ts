@@ -31,8 +31,16 @@ export type GovernedSize = (typeof SIZES)[number];
 export type GovernedRadius = (typeof RADII)[number];
 export type GovernedShadow = (typeof SHADOWS)[number];
 
+/**
+ * A valid governed token name.
+ *
+ * The first arm covers every category except statusTone (e.g. `color.surface.canvas`,
+ * `spacing.4`, `radius.md`).  The second arm enforces that statusTone names must
+ * include a recognized tone segment (e.g. `statusTone.danger.surface`), preventing
+ * loose `statusTone.anything.anything` drift.
+ */
 export type TokenName =
-  | `${TokenCategory}.${string}`
+  | `${Exclude<TokenCategory, "statusTone">}.${string}`
   | `statusTone.${StatusTone}.${string}`;
 
 export interface TokenDefinition {

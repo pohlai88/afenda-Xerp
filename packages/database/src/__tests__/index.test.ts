@@ -31,6 +31,7 @@ import {
   permissions,
   platformSchema,
   policies,
+  rolePermissions,
   roles,
   tenants,
   users,
@@ -55,6 +56,7 @@ const PLATFORM_TABLES = {
   roles,
   permissions,
   policies,
+  rolePermissions,
 } as const;
 
 describe("@afenda/database package", () => {

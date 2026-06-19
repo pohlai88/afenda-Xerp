@@ -57,11 +57,16 @@ export const AUTH_EVENT = {
 
 export type AuthEventName = (typeof AUTH_EVENT)[keyof typeof AUTH_EVENT];
 
+/** Whether a Better Auth identity is linked to a platform `users.id`. */
+export type AuthActorLinkStatus = "linked" | "unlinked";
+
 export interface AuthEventContext {
   readonly authUserId?: string;
   readonly correlationId?: string;
   readonly email?: string;
   readonly ipAddress?: string | null;
+  /** Pre-resolved platform `users.id`; skips identity-link lookup when set. */
+  readonly platformUserId?: string;
   readonly reason?: string;
   readonly sessionId?: string;
   readonly userAgent?: string | null;

@@ -19,6 +19,7 @@ Better Auth confirms identity. The permission and policy engine confirms authori
 - `requirePermission` — role-grant enforcement (registry-validated at boundary)
 - `requirePolicyDecision` — policy overlay (approval, evidence, step-up, readonly; registry-validated at boundary)
 - `checkPermission` / `checkPolicyDecision` — non-throwing paths; shape-only key validation
+- Postgres-backed `PermissionDataSource` and `PolicyDataSource` adapters
 - Audit-ready `AuthorizationDecision` output
 - Standard denied-result and error types
 
@@ -35,14 +36,17 @@ Better Auth confirms identity. The permission and policy engine confirms authori
 ```typescript
 import {
   actorFromAuthSession,
-  InMemoryPermissionDataSource,
+  createProductionAuthorizationDataSources,
   PERMISSION_REGISTRY,
+  productionPolicyEvaluationOptions,
   requirePermission,
+  requirePolicyDecision,
 } from "@afenda/permissions";
 import { requireAfendaAuthSession } from "@afenda/auth";
 
 const session = await requireAfendaAuthSession(headers);
-const dataSource = createProductionPermissionDataSource(); // TIP-006+
+const { permission: permissionDataSource, policy: policyDataSource } =
+  createProductionAuthorizationDataSources();
 
 const decision = await requirePermission(
   {
@@ -56,7 +60,7 @@ const decision = await requirePermission(
     action: "manage",
     targetType: "user",
   },
-  dataSource
+  permissionDataSource
 );
 
 // decision is audit-ready: actorId, tenantId, permissionKey, result, correlationId, ...
@@ -66,14 +70,18 @@ Policy-gated actions:
 
 ```typescript
 import {
-  InMemoryPolicyDataSource,
+  isPolicyGateError,
+  productionPolicyEvaluationOptions,
   requirePolicyDecision,
 } from "@afenda/permissions";
 
-const policyDataSource = new InMemoryPolicyDataSource();
-
 try {
-  await requirePolicyDecision(request, permissionDataSource, policyDataSource);
+  await requirePolicyDecision(
+    request,
+    permissionDataSource,
+    policyDataSource,
+    productionPolicyEvaluationOptions
+  );
   // execute mutation
 } catch (error) {
   if (isPolicyGateError(error)) {
@@ -100,7 +108,7 @@ Examples:
 
 ## Contracts
 
-All exports are normalized contracts — never raw database rows. Wire a `PermissionDataSource` implementation (database adapter in TIP-006) to connect persistence.
+All exports are normalized contracts — never raw database rows. Use `createProductionAuthorizationDataSources()` for Postgres-backed reads.
 
 ## Audit evidence
 

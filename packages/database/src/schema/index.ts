@@ -6,6 +6,7 @@ import { organizations } from "./organization.schema.js";
 import { permissions } from "./permission.schema.js";
 import { policies } from "./policy.schema.js";
 import { roles } from "./role.schema.js";
+import { rolePermissions } from "./role-permission.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
@@ -18,6 +19,7 @@ export const platformSchema = {
   organizations,
   permissions,
   policies,
+  rolePermissions,
   roles,
   tenants,
   users,
@@ -58,5 +60,6 @@ export { organizations } from "./organization.schema.js";
 export { permissions } from "./permission.schema.js";
 export { policies } from "./policy.schema.js";
 export { roles } from "./role.schema.js";
+export { rolePermissions } from "./role-permission.schema.js";
 export { tenants } from "./tenant.schema.js";
 export { users } from "./user.schema.js";

@@ -1,3 +1,4 @@
+import { clearPlatformUserIdCacheForTests } from "./auth.actor-resolution.js";
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 import type { AfendaAuthSession } from "./auth.contract.js";
 import { UnauthenticatedError } from "./auth.errors.js";
@@ -21,6 +22,7 @@ export function getAuth(env: NodeJS.ProcessEnv = process.env): AfendaAuth {
 export function resetAuthForTests(): void {
   authSingleton = undefined;
   authEnvFingerprint = undefined;
+  clearPlatformUserIdCacheForTests();
 }
 
 export async function getAfendaAuthSession(
