@@ -1,0 +1,56 @@
+---
+description: Env sources, sync workflow, derived Supabase keys, deprecated duplicates
+globs: .env.config,.env.secret,.env.example,scripts/env-*.mjs,scripts/sync-env.mjs,packages/database/src/env.ts,apps/erp/src/lib/supabase/**
+alwaysApply: false
+---
+
+# Environment Workflow
+
+Human-managed sources only:
+
+| File | Purpose |
+|------|---------|
+| `.env.config` | Shared non-secret config |
+| `.env.secret` | Secrets and credentials |
+| `.env.example` | Onboarding template (placeholders only) |
+
+Optional overlay: `.env.config.local` (local dev; gitignored).
+
+## Never edit generated targets
+
+`.env`, `.env.local`, `apps/erp/.env.local`, `apps/docs/.env.local`, `packages/database/.env`
+
+Hooks block direct edits. After changing sources:
+
+```bash
+pnpm env:sync
+pnpm env:doctor
+```
+
+## Canonical Supabase keys (config)
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_JWT_KID` (public kid from JWKS)
+- `SUPABASE_DB_REGION`
+
+Derived at sync (do **not** add to source files):
+
+- `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_JWKS_URL`, `SUPABASE_PROJECT_REF`
+
+Secrets (`.env.secret`): `SUPABASE_DB_PASSWORD`, `SUPABASE_SECRET_KEY`
+
+## Deprecated — remove if present
+
+**`.env.config`:** `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_JWKS_URL`, `SUPABASE_PROJECT_ID`, `STRIPE_PRICE_ID`, `TURBO_TEAM`
+
+**`.env.secret`:** `SENTRY_DSN` (use `NEXT_PUBLIC_SENTRY_DSN` in config), `SUPABASE_JWT_KEY`, `STRIPE_PUBLISHABLE_KEY`
+
+## Other conventions
+
+- Stripe prices: use `STRIPE_PRICE_PRO`, not `STRIPE_PRICE_ID`
+- Object storage: `OBJECT_STORAGE_*` (not legacy `CLOUDFLARE_R2_*`)
+- Turborepo: `TURBO_TEAM` + `TURBO_TOKEN` live in `.env.secret` only
+- `NEXT_PUBLIC_*` must be browser-safe — no secrets, DB URLs, or signing keys
+
+Policy source of truth: `scripts/env-utils.mjs` (`DEPRECATED_*`, `applyDerivedEnv`).

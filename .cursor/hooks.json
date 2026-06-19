@@ -4,13 +4,20 @@
     "sessionStart": [
       {
         "type": "prompt",
-        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/. Skills: .cursor/skills/. Use pnpm only. Hooks guard shell/MCP policy and run scoped stop quality gates. Prefer typecheck, pnpm check, and tests over starting dev servers."
+        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/ (env: env-workflow.mdc). Skills: .cursor/skills/. Use pnpm only. Env: edit .env.config / .env.secret only, then pnpm env:sync && pnpm env:doctor. Hooks guard shell/MCP/env policy and run scoped stop quality gates. Prefer typecheck, pnpm check, and tests over starting dev servers."
       }
     ],
     "preToolUse": [
       {
         "command": "node .cursor/hooks/guard-pre-tool-use.mjs",
         "matcher": "Write|StrReplace|Delete|EditNotebook|ApplyPatch",
+        "timeout": 5
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "node .cursor/hooks/post-env-source-edit.mjs",
+        "matcher": "Write|StrReplace|EditNotebook|ApplyPatch",
         "timeout": 5
       }
     ],

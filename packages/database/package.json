@@ -21,7 +21,25 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "format": "biome check --write src",
-    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
+    "db:generate": "drizzle-kit generate --config drizzle.config.ts",
+    "db:migrate": "node scripts/repair-drizzle-journal.mjs && drizzle-kit migrate --config drizzle.config.ts",
+    "db:repair-journal": "node scripts/repair-drizzle-journal.mjs",
+    "db:repair-journal:check": "node scripts/repair-drizzle-journal.mjs --check",
+    "db:compare-migrations": "node scripts/compare-migrations.mjs",
+    "db:migration-hashes": "node scripts/list-migration-hashes.mjs",
+    "db:migration-status": "node scripts/db-migration-status.mjs",
+    "db:url-hints": "node scripts/db-url-hints.mjs",
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10"
+  }
 }

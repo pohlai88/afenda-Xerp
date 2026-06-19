@@ -16,6 +16,17 @@ const TAG = "stop-quality-gates";
 
 const GATES = [
   {
+    scopes: [
+      ".env.config",
+      ".env.secret",
+      "scripts/env-utils.mjs",
+      "scripts/env-doctor.mjs",
+      "scripts/sync-env.mjs",
+    ],
+    command: "pnpm env:sync && pnpm env:doctor",
+    label: "env sync + doctor",
+  },
+  {
     scope: "apps/erp",
     command: "pnpm --filter @afenda/erp typecheck",
     label: "@afenda/erp typecheck",
@@ -57,12 +68,21 @@ if (status !== "completed") {
 const repoRoot = resolveRepoRoot();
 const failures = [];
 
+function gateScopeChanged(repoRoot, gate) {
+  if (Array.isArray(gate.scopes)) {
+    return gate.scopes.some((scope) => scopeChanged(repoRoot, scope));
+  }
+
+  return scopeChanged(repoRoot, gate.scope);
+}
+
 for (const gate of GATES) {
-  if (!scopeChanged(repoRoot, gate.scope)) {
+  if (!gateScopeChanged(repoRoot, gate)) {
     continue;
   }
 
-  log(TAG, `${gate.scope} changed; running ${gate.label} (loop ${loopCount})`);
+  const scopeLabel = gate.scope ?? gate.scopes?.join(", ") ?? "unknown";
+  log(TAG, `${scopeLabel} changed; running ${gate.label} (loop ${loopCount})`);
 
   const result = runShell(gate.command, repoRoot);
   const combined = truncate(

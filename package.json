@@ -18,7 +18,12 @@
     "format:check": "ultracite check",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "fix": "ultracite fix",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "env:sync": "node scripts/sync-env.mjs",
+    "env:doctor": "node scripts/env-doctor.mjs",
+    "migrate": "pnpm --filter @afenda/database db:migrate",
+    "migrate:deploy": "pnpm --filter @afenda/database db:migrate",
+    "db:generate": "pnpm --filter @afenda/database db:generate"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",

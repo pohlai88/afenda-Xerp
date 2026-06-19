@@ -13,6 +13,7 @@ import {
   parseStdinJson,
   resolveRepoRoot,
 } from "./_hook-utils.mjs";
+import { LOCAL_SYNC_TARGETS } from "./env-policy.mjs";
 
 const TAG = "guard-shell-policy";
 
@@ -29,14 +30,6 @@ const SAFE_VERCEL =
 const ENV_PULL = /\bvercel\b[\s\S]*\benv\s+pull\b/i;
 const SHELL_WRITE_HINT =
   /(?:>>?|\|\s*tee\b|\bSet-Content\b|\bAdd-Content\b|\bOut-File\b|\bsp\s)/i;
-
-const SYNCED_ENV_RELATIVE = [
-  ".env",
-  ".env.local",
-  "apps/erp/.env.local",
-  "apps/docs/.env.local",
-  "packages/database/.env",
-];
 
 const normalizeCommand = (command) =>
   command.trim().replace(/\s+/g, " ").replace(/\\\\/g, "/");
@@ -135,7 +128,7 @@ function checkSyncedEnvShellWrite(command, repoRoot) {
     return null;
   }
 
-  for (const relativePath of SYNCED_ENV_RELATIVE) {
+  for (const relativePath of LOCAL_SYNC_TARGETS) {
     const pathPattern = relativePath
       .replace(/\./g, "\\.")
       .replace(/\//g, "[/\\\\]");
