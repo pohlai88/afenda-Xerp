@@ -32,6 +32,9 @@ describe("company contract", () => {
     expect(() => assertIso4217CurrencyCode("Ringgit")).toThrow(
       InvalidCurrencyCodeError
     );
+    expect(() => assertIso3166Alpha2CountryCode("ZZ")).toThrow(
+      InvalidCountryCodeError
+    );
   });
 
   it("builds normalized insert rows", () => {

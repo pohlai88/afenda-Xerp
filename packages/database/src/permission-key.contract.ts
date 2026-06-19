@@ -39,8 +39,31 @@ function assertPermissionSegment(value: string, label: string): void {
   }
 }
 
+function validatePermissionKeyCandidate(value: string): boolean {
+  if (!PERMISSION_KEY_PATTERN.test(value)) {
+    return false;
+  }
+
+  const dotIndex = value.indexOf(".");
+  if (dotIndex <= 0 || dotIndex === value.length - 1) {
+    return false;
+  }
+
+  const domain = value.slice(0, dotIndex);
+  const action = value.slice(dotIndex + 1);
+
+  try {
+    assertPermissionSegment(domain, "domain");
+    assertPermissionSegment(action, "action");
+  } catch {
+    return false;
+  }
+
+  return true;
+}
+
 export function isPermissionKey(value: string): value is PermissionKey {
-  return PERMISSION_KEY_PATTERN.test(value);
+  return validatePermissionKeyCandidate(value.trim());
 }
 
 export function assertPermissionKey(value: string): PermissionKey {
@@ -52,19 +75,7 @@ export function assertPermissionKey(value: string): PermissionKey {
     );
   }
 
-  const dotIndex = trimmed.indexOf(".");
-  if (dotIndex <= 0 || dotIndex === trimmed.length - 1) {
-    throw new InvalidPermissionKeyError(
-      `Invalid permission key "${value}". Expected "{domain}.{action}" with lowercase snake_case segments.`
-    );
-  }
-
-  const domain = trimmed.slice(0, dotIndex);
-  const action = trimmed.slice(dotIndex + 1);
-  assertPermissionSegment(domain, "domain");
-  assertPermissionSegment(action, "action");
-
-  return trimmed as PermissionKey;
+  return trimmed;
 }
 
 export function createPermissionKey(

@@ -11,12 +11,15 @@ import {
   normalizePlatformSlug,
 } from "../platform-slug.js";
 import {
-  ISO3166_ALPHA2_COUNTRY_CODES,
-  ISO4217_CURRENCY_CODES,
+  ISO3166_ALPHA2_REGISTRY_SCOPE,
+  ISO4217_REGISTRY_SCOPE,
+  isGovernedIso3166Alpha2CountryCode,
+  isGovernedIso4217CurrencyCode,
+  isIso3166Alpha2Format,
+  isIso4217CurrencyFormat,
+  normalizeIso3166Alpha2,
+  normalizeIso4217Currency,
 } from "./iso-codes.js";
-
-const ISO3166_ALPHA2_PATTERN = /^[A-Z]{2}$/u;
-const ISO4217_ALPHA3_PATTERN = /^[A-Z]{3}$/u;
 
 export class InvalidCompanySlugError extends InvalidPlatformSlugError {
   constructor(message: string) {
@@ -58,38 +61,38 @@ export function assertCompanySlug(value: string): string {
   }
 }
 
-/** Validates ISO 3166-1 alpha-2 country codes. */
+/** Validates governed ISO 3166-1 alpha-2 country codes for company writes. */
 export function assertIso3166Alpha2CountryCode(value: string): string {
-  const normalized = value.trim().toUpperCase();
+  const normalized = normalizeIso3166Alpha2(value);
 
-  if (!ISO3166_ALPHA2_PATTERN.test(normalized)) {
+  if (!isIso3166Alpha2Format(normalized)) {
     throw new InvalidCountryCodeError(
       `Invalid country code "${value}". Expected ISO 3166-1 alpha-2.`
     );
   }
 
-  if (!ISO3166_ALPHA2_COUNTRY_CODES.has(normalized)) {
+  if (!isGovernedIso3166Alpha2CountryCode(normalized)) {
     throw new InvalidCountryCodeError(
-      `Unknown country code "${value}". Expected a governed ISO 3166-1 alpha-2 code.`
+      `Country code "${value}" is not in the governed registry (${ISO3166_ALPHA2_REGISTRY_SCOPE}). Add it to iso-codes.ts before use.`
     );
   }
 
   return normalized;
 }
 
-/** Validates ISO 4217 currency codes. */
+/** Validates governed ISO 4217 currency codes for company writes. */
 export function assertIso4217CurrencyCode(value: string): string {
-  const normalized = value.trim().toUpperCase();
+  const normalized = normalizeIso4217Currency(value);
 
-  if (!ISO4217_ALPHA3_PATTERN.test(normalized)) {
+  if (!isIso4217CurrencyFormat(normalized)) {
     throw new InvalidCurrencyCodeError(
       `Invalid currency code "${value}". Expected ISO 4217.`
     );
   }
 
-  if (!ISO4217_CURRENCY_CODES.has(normalized)) {
+  if (!isGovernedIso4217CurrencyCode(normalized)) {
     throw new InvalidCurrencyCodeError(
-      `Unknown currency code "${value}". Expected a governed ISO 4217 code.`
+      `Currency code "${value}" is not in the governed registry (${ISO4217_REGISTRY_SCOPE}). Add it to iso-codes.ts before use.`
     );
   }
 

@@ -72,7 +72,9 @@ pnpm --filter @afenda/database db:studio
 | Script | Purpose |
 |--------|---------|
 | `db:generate` | Generate SQL migrations from schema changes (no live DB required) |
-| `db:migrate` / `pnpm migrate` | Repair journal drift, then apply pending migrations |
+| `db:validate-journal` | Offline check: journal entries match SQL files (runs before `test` and `db:migrate`) |
+| `db:preflight` | Offline journal validation + live ledger drift check (`db:repair-journal:check`) |
+| `db:migrate` / `pnpm migrate` | Validate journal, repair ledger drift, then apply pending migrations |
 | `db:repair-journal` | Rewrite `drizzle.__drizzle_migrations` to match applied schema |
 | `db:repair-journal:check` | Fail if journal drift is detected (CI-friendly) |
 | `db:migration-status` | JSON summary: migration count + platform table presence |
@@ -89,9 +91,38 @@ pnpm --filter @afenda/database db:studio
 4. Run `pnpm env:sync` so `packages/database/.env` is current.
 5. Run `pnpm migrate` against your Supabase/Postgres instance.
 
-`db:migrate` runs `scripts/repair-drizzle-journal.ts` first (borrowed from legacy Xforge). It probes applied schema (e.g. `public.tenants`) and rewrites the Drizzle ledger when the database and `src/migrations/meta/_journal.json` drift.
+Before migrating a shared or production database, run:
+
+```bash
+pnpm --filter @afenda/database db:preflight
+```
+
+`db:migrate` always runs offline `db:validate-journal` first, then `repair-drizzle-journal.ts`. It probes applied schema (e.g. `public.tenants`, `public.policies`) and rewrites the Drizzle ledger when the database and `src/migrations/meta/_journal.json` drift.
 
 **Do not** run destructive reset commands against shared or production databases.
+
+## Governed ISO registries
+
+Company writes validate country (`ISO 3166-1 alpha-2`) and currency (`ISO 4217`) codes against a **governed active subset** in `src/company/iso-codes.ts` — not the full ISO publications.
+
+To onboard a new code:
+
+1. Verify the code against the official ISO publication.
+2. Append the uppercase code to `ISO3166_ALPHA2_COUNTRY_CODES` or `ISO4217_CURRENCY_CODES`.
+3. Add a contract test in `src/__tests__/iso-codes.test.ts`.
+4. Run `pnpm --filter @afenda/database test`.
+
+Format-only validation (`isIso3166Alpha2Format` / `isIso4217CurrencyFormat`) is separate from governed registry membership.
+
+## Package entrypoints
+
+| Import | Purpose |
+|--------|---------|
+| `@afenda/database` | Full platform API (`src/public-api.ts` aggregate) |
+| `@afenda/database/env` | Connection URL helpers only |
+| `@afenda/database/schema` | Drizzle schema tables and enums |
+
+`pnpm install` runs `prepare` → `build` so `dist/` exists for workspace dependents. Monorepo `typecheck` depends on `^build` via Turbo.
 
 ## Platform tables
 

@@ -9,6 +9,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./env": {
+      "types": "./dist/env.d.ts",
+      "import": "./dist/env.js",
+      "default": "./dist/env.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js",
+      "default": "./dist/schema/index.js"
     }
   },
   "files": [
@@ -16,14 +26,18 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepare": "pnpm run build",
     "dev": "tsc -p tsconfig.json --watch",
     "lint": "biome check src",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
+    "pretest": "pnpm db:validate-journal",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
-    "db:migrate": "tsx scripts/repair-drizzle-journal.ts && drizzle-kit migrate --config drizzle.config.ts",
+    "db:preflight": "pnpm db:validate-journal && pnpm db:repair-journal:check",
+    "db:migrate": "pnpm db:validate-journal && tsx scripts/repair-drizzle-journal.ts && drizzle-kit migrate --config drizzle.config.ts",
+    "db:validate-journal": "tsx scripts/validate-journal.ts",
     "db:repair-journal": "tsx scripts/repair-drizzle-journal.ts",
     "db:repair-journal:check": "tsx scripts/repair-drizzle-journal.ts --check",
     "db:compare-migrations": "tsx scripts/compare-migrations.ts",

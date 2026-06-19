@@ -1,8 +1,6 @@
-import crypto from "node:crypto";
-import fs from "node:fs";
-import path from "node:path";
 import pg from "pg";
 
+import { loadValidatedMigrationJournal } from "../src/migrations/journal.contract.js";
 import { resolveMigrationDatabaseUrl } from "../src/env.js";
 import {
   journalPath,
@@ -18,21 +16,32 @@ const dryRun = args.has("--dry-run");
 
 /** Schema probes for migrations that introduce distinctive objects (newest first). */
 const MIGRATION_PROBES: Record<string, string> = {
+  "20260619250000_policy_governance": `
+    SELECT to_regclass('public.policies') IS NOT NULL AS ok`,
+  "20260619240000_role_governance": `
+    SELECT to_regclass('public.roles') IS NOT NULL AS ok`,
+  "20260619230000_membership_governance": `
+    SELECT to_regclass('public.memberships') IS NOT NULL AS ok`,
+  "20260619220000_organization_governance": `
+    SELECT to_regclass('public.organizations') IS NOT NULL AS ok`,
+  "20260619213000_company_governance": `
+    SELECT to_regclass('public.companies') IS NOT NULL AS ok`,
+  "20260619210000_auth_schema_enterprise": `
+    SELECT to_regclass('public.auth_user') IS NOT NULL AS ok`,
+  "20260619204304_sweet_kingpin": `
+    SELECT to_regclass('public.audit_events') IS NOT NULL AS ok`,
   "20260619195805_mushy_kronos": `
-    SELECT to_regclass('public.user') IS NOT NULL AS ok`,
+    SELECT to_regclass('public.users') IS NOT NULL AS ok`,
   "20260619181744_great_robbie_robertson": `
     SELECT to_regclass('public.tenants') IS NOT NULL AS ok`,
 };
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
 
-interface JournalEntry {
+interface LoadedJournalEntry {
   idx: number;
   tag: string;
   when: number;
-}
-
-interface LoadedJournalEntry extends JournalEntry {
   hash: string;
 }
 
@@ -42,25 +51,13 @@ interface DbMigrationRow {
   createdAt: number;
 }
 
-const loadJournalEntries = (): LoadedJournalEntry[] => {
-  const journal = JSON.parse(fs.readFileSync(journalPath, "utf8")) as {
-    entries: JournalEntry[];
-  };
-
-  return journal.entries.map((entry) => {
-    const sql = fs.readFileSync(
-      path.join(migrationsDir, `${entry.tag}.sql`),
-      "utf8"
-    );
-
-    return {
-      idx: entry.idx,
-      tag: entry.tag,
-      when: entry.when,
-      hash: crypto.createHash("sha256").update(sql).digest("hex"),
-    };
-  });
-};
+const loadJournalEntries = (): LoadedJournalEntry[] =>
+  loadValidatedMigrationJournal(journalPath, migrationsDir).map((entry) => ({
+    idx: entry.idx,
+    tag: entry.tag,
+    when: entry.when,
+    hash: entry.hash,
+  }));
 
 const readDbMigrations = async (pool: pg.Pool): Promise<DbMigrationRow[]> => {
   const result = await pool.query(

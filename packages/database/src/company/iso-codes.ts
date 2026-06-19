@@ -1,3 +1,31 @@
+/** Registry scope for company ISO validation — not a full ISO publication. */
+export const ISO3166_ALPHA2_REGISTRY_SCOPE = "governed_active_subset" as const;
+
+/** Registry scope for company ISO validation — not a full ISO publication. */
+export const ISO4217_REGISTRY_SCOPE = "governed_active_subset" as const;
+
+/**
+ * Onboarding checklist when adding a country or currency code.
+ * 1. Verify against the official ISO publication.
+ * 2. Append the uppercase code to the governed Set below.
+ * 3. Add a case to `iso-codes.test.ts`.
+ * 4. Run `pnpm --filter @afenda/database test`.
+ */
+export const ISO_REGISTRY_ONBOARDING_STEPS = [
+  "verify_against_official_iso_publication",
+  "append_uppercase_code_to_governed_set",
+  "add_iso_codes_contract_test",
+  "run_database_package_tests",
+] as const;
+
+export type Iso3166Alpha2RegistryScope = typeof ISO3166_ALPHA2_REGISTRY_SCOPE;
+export type Iso4217RegistryScope = typeof ISO4217_REGISTRY_SCOPE;
+export type IsoRegistryOnboardingStep =
+  (typeof ISO_REGISTRY_ONBOARDING_STEPS)[number];
+
+const ISO3166_ALPHA2_PATTERN = /^[A-Z]{2}$/u;
+const ISO4217_ALPHA3_PATTERN = /^[A-Z]{3}$/u;
+
 /** ISO 3166-1 alpha-2 country codes (governed subset for validation). */
 export const ISO3166_ALPHA2_COUNTRY_CODES = new Set([
   "AD",
@@ -434,3 +462,35 @@ export const ISO4217_CURRENCY_CODES = new Set([
   "ZMW",
   "ZWG",
 ]);
+
+export function normalizeIso3166Alpha2(value: string): string {
+  return value.trim().toUpperCase();
+}
+
+export function normalizeIso4217Currency(value: string): string {
+  return value.trim().toUpperCase();
+}
+
+export function isIso3166Alpha2Format(value: string): boolean {
+  return ISO3166_ALPHA2_PATTERN.test(normalizeIso3166Alpha2(value));
+}
+
+export function isIso4217CurrencyFormat(value: string): boolean {
+  return ISO4217_ALPHA3_PATTERN.test(normalizeIso4217Currency(value));
+}
+
+export function isGovernedIso3166Alpha2CountryCode(value: string): boolean {
+  const normalized = normalizeIso3166Alpha2(value);
+  return (
+    isIso3166Alpha2Format(normalized) &&
+    ISO3166_ALPHA2_COUNTRY_CODES.has(normalized)
+  );
+}
+
+export function isGovernedIso4217CurrencyCode(value: string): boolean {
+  const normalized = normalizeIso4217Currency(value);
+  return (
+    isIso4217CurrencyFormat(normalized) &&
+    ISO4217_CURRENCY_CODES.has(normalized)
+  );
+}
