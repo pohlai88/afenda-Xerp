@@ -1,7 +1,12 @@
 import pg from "pg";
 
-import { loadValidatedMigrationJournal } from "../src/migrations/journal.contract.js";
 import { resolveMigrationDatabaseUrl } from "../src/env.js";
+import {
+  buildMigrationLedgerExpectations,
+  detectMigrationLedgerDrift,
+  type MigrationLedgerDbRow,
+} from "../src/migrations/ledger.contract.js";
+import { loadValidatedMigrationJournal } from "../src/migrations/journal.contract.js";
 import {
   journalPath,
   loadDatabaseEnv,
@@ -36,28 +41,28 @@ const MIGRATION_PROBES: Record<string, string> = {
     SELECT to_regclass('public.tenants') IS NOT NULL AS ok`,
 };
 
-const SHA256_HEX = /^[a-f0-9]{64}$/;
-
 interface LoadedJournalEntry {
+  hash: string;
   idx: number;
   tag: string;
   when: number;
-  hash: string;
 }
 
-interface DbMigrationRow {
-  id: number;
-  hash: string;
-  createdAt: number;
-}
+type DbMigrationRow = MigrationLedgerDbRow;
 
-const loadJournalEntries = (): LoadedJournalEntry[] =>
-  loadValidatedMigrationJournal(journalPath, migrationsDir).map((entry) => ({
+const loadJournalEntries = (): LoadedJournalEntry[] => {
+  const entries = loadValidatedMigrationJournal(journalPath, migrationsDir);
+  console.log(
+    `migrate: journal valid (${entries.length} entries, ${entries.at(-1)?.tag})`
+  );
+
+  return entries.map((entry) => ({
     idx: entry.idx,
     tag: entry.tag,
     when: entry.when,
     hash: entry.hash,
   }));
+};
 
 const readDbMigrations = async (pool: pg.Pool): Promise<DbMigrationRow[]> => {
   const result = await pool.query(
@@ -100,59 +105,16 @@ const probeAppliedThroughIndex = async (
 const buildExpectedRows = (
   entries: LoadedJournalEntry[],
   appliedThrough: number
-) =>
-  entries
-    .filter((entry) => entry.idx <= appliedThrough)
-    .map((entry) => ({
-      hash: entry.hash,
-      createdAt: entry.when,
-      tag: entry.tag,
-    }));
+) => buildMigrationLedgerExpectations(entries, appliedThrough);
 
 const detectDrift = (
   entries: LoadedJournalEntry[],
   dbRows: DbMigrationRow[],
-  expectedRows: Array<{ hash: string; createdAt: number }>
-): string[] => {
-  const reasons: string[] = [];
-  const journalMaxWhen = entries.at(-1)?.when ?? 0;
-  const lastDb = dbRows.at(-1);
-
-  if (lastDb && lastDb.createdAt > journalMaxWhen) {
-    reasons.push(
-      `last migration created_at (${lastDb.createdAt}) is after journal max when (${journalMaxWhen})`
-    );
-  }
-
-  for (const row of dbRows) {
-    if (!SHA256_HEX.test(row.hash)) {
-      reasons.push(
-        `invalid migration hash "${row.hash}" (expected sha256 hex)`
-      );
-      break;
-    }
-  }
-
-  if (dbRows.length !== expectedRows.length) {
-    reasons.push(
-      `row count mismatch (db=${dbRows.length}, expected=${expectedRows.length})`
-    );
-  }
-
-  const expectedByCreatedAt = new Map(
-    expectedRows.map((row) => [row.createdAt, row.hash])
+  expectedRows: ReturnType<typeof buildExpectedRows>
+) =>
+  detectMigrationLedgerDrift(entries, dbRows, expectedRows).map(
+    (issue) => issue.message
   );
-
-  for (const row of dbRows) {
-    const expectedHash = expectedByCreatedAt.get(row.createdAt);
-    if (expectedHash && expectedHash !== row.hash) {
-      reasons.push(`hash mismatch for created_at=${row.createdAt}`);
-      break;
-    }
-  }
-
-  return reasons;
-};
 
 const repairJournal = async () => {
   const url = resolveMigrationDatabaseUrl();

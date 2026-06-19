@@ -39,6 +39,9 @@ export interface PolicyContract {
   readonly tenantId: string | null;
 }
 
+/** Policy rule ready for in-memory or database-backed evaluation. */
+export type RegisteredPolicyRule = PolicyContract;
+
 export interface PolicyEvaluationInput {
   readonly action: string;
   readonly permissionKey: string;

@@ -34,6 +34,15 @@ jobs:
       - name: Lint, typecheck, and test
         run: pnpm check
 
+      - name: Database migration journal (offline)
+        run: pnpm --filter @afenda/database db:validate-journal
+
+      - name: Database live ledger check
+        if: ${{ secrets.DATABASE_URL != '' }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm --filter @afenda/database db:repair-journal:check
+
       - name: Upload JUnit report
         if: always()
         uses: actions/upload-artifact@v4

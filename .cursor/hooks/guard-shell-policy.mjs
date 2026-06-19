@@ -170,7 +170,7 @@ function isAllowedShellMigration(command) {
   }
 
   if (
-    /pnpm\s+--filter\s+@afenda\/database\s+db:(migrate|generate)(\s|$)/.test(
+    /pnpm\s+--filter\s+@afenda\/database\s+db:(migrate|generate|validate-journal)(\s|$)/.test(
       normalized
     )
   ) {

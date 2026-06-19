@@ -23,6 +23,20 @@ export type Iso4217RegistryScope = typeof ISO4217_REGISTRY_SCOPE;
 export type IsoRegistryOnboardingStep =
   (typeof ISO_REGISTRY_ONBOARDING_STEPS)[number];
 
+/** Business-critical codes that must remain in the governed registry. */
+export const GOVERNED_ISO_REQUIRED_COUNTRY_CODES = ["MY", "SG", "US"] as const;
+
+export const GOVERNED_ISO_REQUIRED_CURRENCY_CODES = [
+  "MYR",
+  "SGD",
+  "USD",
+] as const;
+
+export type GovernedIsoRequiredCountryCode =
+  (typeof GOVERNED_ISO_REQUIRED_COUNTRY_CODES)[number];
+export type GovernedIsoRequiredCurrencyCode =
+  (typeof GOVERNED_ISO_REQUIRED_CURRENCY_CODES)[number];
+
 const ISO3166_ALPHA2_PATTERN = /^[A-Z]{2}$/u;
 const ISO4217_ALPHA3_PATTERN = /^[A-Z]{3}$/u;
 
@@ -493,4 +507,118 @@ export function isGovernedIso4217CurrencyCode(value: string): boolean {
     isIso4217CurrencyFormat(normalized) &&
     ISO4217_CURRENCY_CODES.has(normalized)
   );
+}
+
+export interface IsoRegistryIntegrityIssue {
+  readonly code:
+    | "duplicate"
+    | "invalid_format"
+    | "missing_required"
+    | "not_uppercase";
+  readonly message: string;
+  readonly registry: "iso3166" | "iso4217";
+  readonly value: string;
+}
+
+export interface IsoRegistryIntegrityReport {
+  readonly countryCodeCount: number;
+  readonly currencyCodeCount: number;
+  readonly issues: readonly IsoRegistryIntegrityIssue[];
+}
+
+function collectRegistryIssues(
+  registry: "iso3166" | "iso4217",
+  values: Iterable<string>,
+  isFormatValid: (value: string) => boolean
+): IsoRegistryIntegrityIssue[] {
+  const issues: IsoRegistryIntegrityIssue[] = [];
+  const seen = new Set<string>();
+
+  for (const value of values) {
+    if (value !== value.toUpperCase()) {
+      issues.push({
+        code: "not_uppercase",
+        registry,
+        value,
+        message: `Registry value "${value}" must be uppercase.`,
+      });
+    }
+
+    if (!isFormatValid(value)) {
+      issues.push({
+        code: "invalid_format",
+        registry,
+        value,
+        message: `Registry value "${value}" has invalid format.`,
+      });
+    }
+
+    if (seen.has(value)) {
+      issues.push({
+        code: "duplicate",
+        registry,
+        value,
+        message: `Duplicate registry value "${value}".`,
+      });
+    }
+
+    seen.add(value);
+  }
+
+  return issues;
+}
+
+/** Offline integrity checks for governed ISO registry sets. */
+export function validateIsoRegistryIntegrity(): IsoRegistryIntegrityReport {
+  const issues = [
+    ...collectRegistryIssues(
+      "iso3166",
+      ISO3166_ALPHA2_COUNTRY_CODES,
+      isIso3166Alpha2Format
+    ),
+    ...collectRegistryIssues(
+      "iso4217",
+      ISO4217_CURRENCY_CODES,
+      isIso4217CurrencyFormat
+    ),
+  ];
+
+  for (const code of GOVERNED_ISO_REQUIRED_COUNTRY_CODES) {
+    if (!ISO3166_ALPHA2_COUNTRY_CODES.has(code)) {
+      issues.push({
+        code: "missing_required",
+        registry: "iso3166",
+        value: code,
+        message: `Required country code "${code}" is missing from the governed registry.`,
+      });
+    }
+  }
+
+  for (const code of GOVERNED_ISO_REQUIRED_CURRENCY_CODES) {
+    if (!ISO4217_CURRENCY_CODES.has(code)) {
+      issues.push({
+        code: "missing_required",
+        registry: "iso4217",
+        value: code,
+        message: `Required currency code "${code}" is missing from the governed registry.`,
+      });
+    }
+  }
+
+  return {
+    countryCodeCount: ISO3166_ALPHA2_COUNTRY_CODES.size,
+    currencyCodeCount: ISO4217_CURRENCY_CODES.size,
+    issues,
+  };
+}
+
+export function assertValidIsoRegistry(): IsoRegistryIntegrityReport {
+  const report = validateIsoRegistryIntegrity();
+
+  if (report.issues.length > 0) {
+    const details = report.issues.map((issue) => issue.message).join("; ");
+    throw new Error(`Invalid ISO registry: ${details}`);
+  }
+
+  return report;
 }

@@ -25,6 +25,8 @@ export {
   isMissingAuthorizationContextError,
   MissingAuthorizationActorError,
   MissingAuthorizationContextError,
+  type ResolvedAuthorizationContext,
+  resolveAuthorizationContext,
 } from "./authorization-context.js";
 export type { AuthorizationDenialCode } from "./authorization-denial-code.js";
 export {
@@ -52,6 +54,7 @@ export {
 export {
   assertRegisteredPermissionKey,
   extractPermissionAction,
+  extractPermissionDomain,
   isRegisteredPermissionKey,
   PERMISSION_REGISTRY,
   type PermissionAction,
@@ -78,20 +81,30 @@ export {
   type PolicyGateDecision,
   type PolicyStatus,
   policyRuleMatches,
+  type RegisteredPolicyRule,
   resolvePolicyWhenMatched,
   sortPoliciesByPriority,
 } from "./policy.contract.js";
+export {
+  databasePolicyAuditWriter,
+  noopPolicyAuditWriter,
+  type PolicyEvaluationAuditInput,
+  type PolicyEvaluationAuditWriter,
+} from "./policy-audit.js";
 export {
   checkPolicyDecision,
   evaluateAuthorizationPolicy,
   evaluatePolicyDecision,
   InMemoryPolicyDataSource,
   type PolicyDataSource,
+  type PolicyDecisionRequest,
+  type PolicyEvaluationOptions,
   requirePolicyDecision,
 } from "./policy-engine.js";
 export {
   isRoleActive,
   type RoleContract,
+  type RolePermissionAssignment,
   type RoleScope,
   type RoleStatus,
 } from "./role.contract.js";

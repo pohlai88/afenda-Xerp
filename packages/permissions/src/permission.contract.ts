@@ -115,8 +115,7 @@ export function resolveBoundaryPermissionKey(
 export type PermissionAction = string;
 export type PermissionTargetType = string;
 
-/** Parses the action segment from a `{domain}.{action}` permission key. */
-export function extractPermissionAction(permissionKey: PermissionKey): string {
+function splitPermissionKey(permissionKey: PermissionKey): [string, string] {
   const segments = permissionKey.split(".");
 
   if (segments.length !== 2) {
@@ -125,5 +124,26 @@ export function extractPermissionAction(permissionKey: PermissionKey): string {
     );
   }
 
-  return segments[1] ?? "";
+  const domain = segments[0];
+  const action = segments[1];
+
+  if (!(domain && action)) {
+    throw new InvalidPermissionKeyError(
+      `Permission key "${permissionKey}" must contain non-empty domain and action segments.`
+    );
+  }
+
+  return [domain, action];
+}
+
+/** Parses the action segment from a `{domain}.{action}` permission key. */
+export function extractPermissionAction(permissionKey: PermissionKey): string {
+  const [, action] = splitPermissionKey(permissionKey);
+  return action;
+}
+
+/** Parses the domain segment from a `{domain}.{action}` permission key. */
+export function extractPermissionDomain(permissionKey: PermissionKey): string {
+  const [domain] = splitPermissionKey(permissionKey);
+  return domain;
 }

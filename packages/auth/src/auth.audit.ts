@@ -1,6 +1,7 @@
 import {
   AUDIT_EVENT_VERSION,
   type AuditActorType,
+  findPlatformUserIdByAuthUserId,
   type InsertAuditEventInput,
   insertAuditEvent,
 } from "@afenda/database";
@@ -25,14 +26,15 @@ function resolveAuthActorType(context?: AuthEventContext): AuditActorType {
 
 /** Builds the governed audit insert payload without performing I/O (testable). */
 export function buildAuthAuditPayload(
-  record: AuthAuditRecordInput
+  record: AuthAuditRecordInput,
+  actorUserId: string | null = null
 ): AuthAuditInsertPayload {
   const correlationId =
     record.context?.correlationId ?? `auth-${crypto.randomUUID()}`;
 
   return {
     actorType: resolveAuthActorType(record.context),
-    actorUserId: null,
+    actorUserId,
     module: "auth",
     action: record.event,
     targetType: "auth_session",
@@ -48,15 +50,27 @@ export function buildAuthAuditPayload(
       /** Better Auth login identity — not platform `users.id`. */
       authUserId: record.context?.authUserId ?? null,
       email: record.context?.email ?? null,
+      platformUserId: actorUserId,
     },
   };
+}
+
+async function buildResolvedAuthAuditPayload(
+  record: AuthAuditRecordInput
+): Promise<AuthAuditInsertPayload> {
+  const authUserId = record.context?.authUserId;
+  const platformUserId = authUserId
+    ? await findPlatformUserIdByAuthUserId(authUserId)
+    : null;
+
+  return buildAuthAuditPayload(record, platformUserId);
 }
 
 function createDatabaseAuthAuditWriter(): AuthAuditWriter {
   return {
     async write(record) {
       try {
-        const payload = buildAuthAuditPayload(record);
+        const payload = await buildResolvedAuthAuditPayload(record);
         await insertAuditEvent(payload);
       } catch {
         // Audit must not block auth flows; failures are swallowed intentionally.
@@ -67,9 +81,16 @@ function createDatabaseAuthAuditWriter(): AuthAuditWriter {
 
 const defaultAuditWriter = createDatabaseAuthAuditWriter();
 
+export async function persistAuthAuditEvent(
+  record: AuthAuditRecordInput,
+  writer: AuthAuditWriter = defaultAuditWriter
+): Promise<void> {
+  await writer.write(record);
+}
+
 export function recordAuthAuditEvent(
   record: AuthAuditRecordInput,
   writer: AuthAuditWriter = defaultAuditWriter
 ): void {
-  writer.write(record).catch(() => undefined);
+  persistAuthAuditEvent(record, writer).catch(() => undefined);
 }

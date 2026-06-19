@@ -6,6 +6,7 @@ import {
   checkPermission,
   checkPolicyDecision,
   createPermissionKey,
+  extractPermissionDomain,
   InMemoryPermissionDataSource,
   InMemoryPolicyDataSource,
   InvalidPermissionKeyError,
@@ -14,12 +15,16 @@ import {
   isPolicyGateError,
   MissingAuthorizationActorError,
   MissingAuthorizationContextError,
+  noopPolicyAuditWriter,
   PERMISSION_REGISTRY,
   type PolicyContract,
   PolicyGateError,
   requirePermission,
   requirePolicyDecision,
+  resolveAuthorizationContext,
 } from "../index";
+
+const POLICY_TEST_OPTIONS = { auditWriter: noopPolicyAuditWriter } as const;
 
 const TENANT_ID = "tenant-001";
 const COMPANY_A = "company-a";
@@ -95,6 +100,36 @@ describe("@afenda/permissions", () => {
       expect(() => assertPermissionKey("InvalidKey")).toThrow(
         InvalidPermissionKeyError
       );
+    });
+
+    it("extracts domain and action segments from permission keys", () => {
+      expect(
+        extractPermissionDomain(PERMISSION_REGISTRY.accounting.journal.post)
+      ).toBe("accounting");
+    });
+  });
+
+  describe("authorization context", () => {
+    it("resolves tenant-scoped context from actor and input", () => {
+      expect(
+        resolveAuthorizationContext(
+          { actorId: ACTOR_ID },
+          {
+            tenantId: TENANT_ID,
+            companyId: COMPANY_A,
+            organizationId: null,
+            workspaceId: "workspace-001",
+          }
+        )
+      ).toEqual({
+        actorId: ACTOR_ID,
+        tenantId: TENANT_ID,
+        companyId: COMPANY_A,
+        organizationId: null,
+        workspaceId: "workspace-001",
+        membershipId: null,
+        roleId: null,
+      });
     });
   });
 
@@ -356,7 +391,8 @@ describe("@afenda/permissions", () => {
           action: "read",
         },
         permissionDataSource,
-        policyDataSource
+        policyDataSource,
+        POLICY_TEST_OPTIONS
       );
 
       expect(decision.result).toBe("require_approval");
@@ -395,7 +431,8 @@ describe("@afenda/permissions", () => {
             permissionKey: PERMISSION_REGISTRY.accounting.journal.read,
           },
           permissionDataSource,
-          policyDataSource
+          policyDataSource,
+          POLICY_TEST_OPTIONS
         )
       ).rejects.toBeInstanceOf(PolicyGateError);
     });
@@ -429,7 +466,8 @@ describe("@afenda/permissions", () => {
           permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
         },
         permissionDataSource,
-        policyDataSource
+        policyDataSource,
+        POLICY_TEST_OPTIONS
       );
 
       expect(decision.result).toBe("deny");
@@ -442,7 +480,8 @@ describe("@afenda/permissions", () => {
             permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
           },
           permissionDataSource,
-          policyDataSource
+          policyDataSource,
+          POLICY_TEST_OPTIONS
         )
       ).rejects.toSatisfy(
         (error: unknown) =>
@@ -463,7 +502,8 @@ describe("@afenda/permissions", () => {
           correlationId: CORRELATION_ID,
         },
         permissionDataSource,
-        policyDataSource
+        policyDataSource,
+        POLICY_TEST_OPTIONS
       );
 
       expect(decision.result).toBe("allow");
@@ -482,9 +522,34 @@ describe("@afenda/permissions", () => {
             permissionKey: "banana.destroy_all",
           },
           permissionDataSource,
-          policyDataSource
+          policyDataSource,
+          POLICY_TEST_OPTIONS
         )
       ).rejects.toThrow(InvalidPermissionKeyError);
+    });
+
+    it("invokes the configured policy audit writer", async () => {
+      const permissionDataSource = createTestDataSource();
+      const policyDataSource = new InMemoryPolicyDataSource();
+      let auditInvocations = 0;
+
+      await requirePolicyDecision(
+        {
+          actor: { actorId: ACTOR_ID },
+          context: { tenantId: TENANT_ID, companyId: COMPANY_A },
+          permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+        },
+        permissionDataSource,
+        policyDataSource,
+        {
+          auditWriter: () => {
+            auditInvocations += 1;
+            return Promise.resolve();
+          },
+        }
+      );
+
+      expect(auditInvocations).toBe(1);
     });
   });
 

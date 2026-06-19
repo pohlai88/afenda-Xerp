@@ -78,15 +78,21 @@ export {
   updateCompany,
 } from "./company/company.service.js";
 export {
+  assertValidIsoRegistry,
+  GOVERNED_ISO_REQUIRED_COUNTRY_CODES,
+  GOVERNED_ISO_REQUIRED_CURRENCY_CODES,
   ISO_REGISTRY_ONBOARDING_STEPS,
   ISO3166_ALPHA2_COUNTRY_CODES,
   ISO3166_ALPHA2_REGISTRY_SCOPE,
   ISO4217_CURRENCY_CODES,
   ISO4217_REGISTRY_SCOPE,
+  type IsoRegistryIntegrityIssue,
+  type IsoRegistryIntegrityReport,
   isGovernedIso3166Alpha2CountryCode,
   isGovernedIso4217CurrencyCode,
   isIso3166Alpha2Format,
   isIso4217CurrencyFormat,
+  validateIsoRegistryIntegrity,
 } from "./company/iso-codes.js";
 export {
   AUDIT_ACTOR_TYPES,

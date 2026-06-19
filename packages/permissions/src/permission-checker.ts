@@ -157,20 +157,27 @@ async function validateCompanyTenant(
   return null;
 }
 
+type ScopedMembershipResolution =
+  | { readonly outcome: "denied"; readonly result: AuthorizationResult }
+  | { readonly outcome: "matched"; readonly membership: MembershipContract };
+
 function resolveScopedMembership(
   memberships: readonly MembershipContract[],
   context: AuthorizationContextInput & { tenantId: string },
   build: DecisionBuilder
-): AuthorizationResult | MembershipContract {
+): ScopedMembershipResolution {
   const activeMemberships = memberships.filter(isMembershipActive);
 
   if (activeMemberships.length === 0) {
-    return deny(build, "missing_membership", {
-      result: "deny",
-      reason: "No active membership found for actor in the requested tenant.",
-      membershipId: null,
-      roleId: null,
-    });
+    return {
+      outcome: "denied",
+      result: deny(build, "missing_membership", {
+        result: "deny",
+        reason: "No active membership found for actor in the requested tenant.",
+        membershipId: null,
+        roleId: null,
+      }),
+    };
   }
 
   const companyScopedMemberships = activeMemberships.filter((membership) =>
@@ -179,12 +186,16 @@ function resolveScopedMembership(
 
   if (companyScopedMemberships.length === 0) {
     const referenceMembership = activeMemberships[0];
-    return deny(build, "company_mismatch", {
-      result: "deny",
-      reason: "Membership company scope does not match the requested company.",
-      membershipId: referenceMembership?.id ?? null,
-      roleId: referenceMembership?.roleId ?? null,
-    });
+    return {
+      outcome: "denied",
+      result: deny(build, "company_mismatch", {
+        result: "deny",
+        reason:
+          "Membership company scope does not match the requested company.",
+        membershipId: referenceMembership?.id ?? null,
+        roleId: referenceMembership?.roleId ?? null,
+      }),
+    };
   }
 
   const organizationScopedMemberships = companyScopedMemberships.filter(
@@ -194,27 +205,33 @@ function resolveScopedMembership(
 
   if (organizationScopedMemberships.length === 0) {
     const referenceMembership = companyScopedMemberships[0];
-    return deny(build, "company_mismatch", {
-      result: "deny",
-      reason:
-        "Membership organization scope does not match the requested organization.",
-      membershipId: referenceMembership?.id ?? null,
-      roleId: referenceMembership?.roleId ?? null,
-    });
+    return {
+      outcome: "denied",
+      result: deny(build, "company_mismatch", {
+        result: "deny",
+        reason:
+          "Membership organization scope does not match the requested organization.",
+        membershipId: referenceMembership?.id ?? null,
+        roleId: referenceMembership?.roleId ?? null,
+      }),
+    };
   }
 
   const membership = organizationScopedMemberships[0];
 
   if (!membership) {
-    return deny(build, "missing_membership", {
-      result: "deny",
-      reason: "No membership matched the requested authorization scope.",
-      membershipId: null,
-      roleId: null,
-    });
+    return {
+      outcome: "denied",
+      result: deny(build, "missing_membership", {
+        result: "deny",
+        reason: "No membership matched the requested authorization scope.",
+        membershipId: null,
+        roleId: null,
+      }),
+    };
   }
 
-  return membership;
+  return { outcome: "matched", membership };
 }
 
 export async function checkPermission(
@@ -278,17 +295,17 @@ export async function checkPermission(
     actorId: request.actor.actorId,
     tenantId,
   });
-  const membershipResult = resolveScopedMembership(
+  const membershipResolution = resolveScopedMembership(
     memberships,
     request.context,
     build
   );
 
-  if (!("id" in membershipResult)) {
-    return membershipResult;
+  if (membershipResolution.outcome === "denied") {
+    return membershipResolution.result;
   }
 
-  const membership = membershipResult;
+  const { membership } = membershipResolution;
   const role = await dataSource.getRole(membership.roleId);
 
   if (!(role && isRoleActive(role))) {

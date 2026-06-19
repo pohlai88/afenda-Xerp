@@ -1,0 +1,227 @@
+import type { RecipeRegistry } from "../contracts/recipe.contract";
+
+const commonProhibitedOverrides = [
+  "raw color classes",
+  "raw radius classes",
+  "raw shadow classes",
+  "raw motion classes",
+  "component-specific visual hacks",
+] as const;
+
+export const recipeRegistry = {
+  recipes: [
+    {
+      name: "button",
+      componentKind: "button",
+      description: "Governed action control for ERP workflows.",
+      variantAxes: ["intent", "density", "size", "radius", "emphasis"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Semantic button or link wrapper.",
+        },
+        {
+          name: "icon",
+          role: "icon",
+          required: false,
+          ownsStructureOnly: true,
+          description: "Optional leading or trailing icon slot.",
+        },
+        {
+          name: "label",
+          role: "label",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Visible command label.",
+        },
+      ],
+      declarations: [
+        { property: "typography", token: "typography.label.md" },
+        { property: "padding", token: "spacing.3" },
+        { property: "gap", token: "spacing.2" },
+        { property: "radius", token: "radius.md" },
+        { property: "focusRing", token: "color.focus.ring" },
+        { property: "transition", token: "motion.duration.feedback" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+    {
+      name: "badge",
+      componentKind: "badge",
+      description: "Governed compact metadata and status indicator.",
+      variantAxes: ["tone", "density", "size", "radius", "emphasis"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Inline status container.",
+        },
+        {
+          name: "label",
+          role: "label",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Short readable status text.",
+        },
+      ],
+      declarations: [
+        { property: "background", token: "statusTone.neutral.surface" },
+        { property: "typography", token: "typography.body.sm" },
+        { property: "padding", token: "spacing.2" },
+        { property: "radius", token: "radius.sm" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+    {
+      name: "card",
+      componentKind: "card",
+      description: "Governed content panel for grouped ERP information.",
+      variantAxes: ["density", "radius", "shadow"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Panel boundary.",
+        },
+        {
+          name: "header",
+          role: "header",
+          required: false,
+          ownsStructureOnly: true,
+          description: "Optional heading and actions region.",
+        },
+        {
+          name: "body",
+          role: "body",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Main panel content.",
+        },
+      ],
+      declarations: [
+        { property: "background", token: "color.surface.panel" },
+        { property: "border", token: "color.border.subtle" },
+        { property: "padding", token: "spacing.4" },
+        { property: "radius", token: "radius.md" },
+        { property: "shadow", token: "shadow.raised" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+    {
+      name: "table",
+      componentKind: "table",
+      description: "Governed data grid presentation for ERP records.",
+      variantAxes: ["density", "size"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Semantic table or grid boundary.",
+        },
+        {
+          name: "header",
+          role: "header",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Column labels and sort affordances.",
+        },
+        {
+          name: "body",
+          role: "body",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Record rows.",
+        },
+      ],
+      declarations: [
+        { property: "background", token: "color.surface.panel" },
+        { property: "border", token: "color.border.subtle" },
+        { property: "typography", token: "typography.body.sm" },
+        { property: "padding", token: "spacing.3" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+    {
+      name: "form",
+      componentKind: "form",
+      description: "Governed input grouping with validation states.",
+      variantAxes: ["density", "size"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Field group boundary.",
+        },
+        {
+          name: "label",
+          role: "label",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Programmatic input label.",
+        },
+        {
+          name: "control",
+          role: "control",
+          required: true,
+          ownsStructureOnly: true,
+          description: "Input, select, textarea, or composed control.",
+        },
+        {
+          name: "state",
+          role: "state",
+          required: false,
+          ownsStructureOnly: true,
+          description: "Validation or helper message.",
+        },
+      ],
+      declarations: [
+        { property: "gap", token: "spacing.2" },
+        { property: "border", token: "color.border.subtle" },
+        { property: "focusRing", token: "color.focus.ring" },
+        { property: "typography", token: "typography.body.sm" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+    {
+      name: "status-state",
+      componentKind: "status",
+      description:
+        "Governed loading, empty, error, forbidden, invalid, and ready presentation.",
+      variantAxes: ["tone", "density", "radius"],
+      slots: [
+        {
+          name: "root",
+          role: "root",
+          required: true,
+          ownsStructureOnly: true,
+          description: "State boundary with appropriate live region behavior.",
+        },
+        {
+          name: "content",
+          role: "content",
+          required: true,
+          ownsStructureOnly: true,
+          description: "State copy and supporting actions.",
+        },
+      ],
+      declarations: [
+        { property: "background", token: "statusTone.info.surface" },
+        { property: "padding", token: "spacing.4" },
+        { property: "radius", token: "radius.md" },
+        { property: "typography", token: "typography.body.sm" },
+      ],
+      prohibitedOverrides: commonProhibitedOverrides,
+    },
+  ],
+} as const satisfies RecipeRegistry;

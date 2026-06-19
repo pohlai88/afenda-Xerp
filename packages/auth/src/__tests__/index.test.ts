@@ -77,6 +77,7 @@ describe("@afenda/auth package", () => {
     expect(payload.metadata).toMatchObject({
       authUserId: "user_1",
       email: "user@example.com",
+      platformUserId: null,
     });
   });
 

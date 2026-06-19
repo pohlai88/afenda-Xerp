@@ -1,13 +1,18 @@
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 import type { AfendaAuthSession } from "./auth.contract.js";
 import { UnauthenticatedError } from "./auth.errors.js";
+import { readAuthConfigFingerprint } from "./auth.runtime.js";
 import { normalizeAfendaAuthSession } from "./auth.session.js";
 
 let authSingleton: AfendaAuth | undefined;
+let authEnvFingerprint: string | undefined;
 
 export function getAuth(env: NodeJS.ProcessEnv = process.env): AfendaAuth {
-  if (!authSingleton) {
+  const fingerprint = readAuthConfigFingerprint(env);
+
+  if (!authSingleton || authEnvFingerprint !== fingerprint) {
     authSingleton = createAuthConfig({ env });
+    authEnvFingerprint = fingerprint;
   }
 
   return authSingleton;
@@ -15,6 +20,7 @@ export function getAuth(env: NodeJS.ProcessEnv = process.env): AfendaAuth {
 
 export function resetAuthForTests(): void {
   authSingleton = undefined;
+  authEnvFingerprint = undefined;
 }
 
 export async function getAfendaAuthSession(

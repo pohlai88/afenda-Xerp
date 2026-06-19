@@ -1,4 +1,3 @@
-import { type AuditResult, insertAuditEvent } from "@afenda/database";
 import { createAuthorizationCorrelationId } from "./authorization-context.js";
 import {
   type AuthorizationDecision,
@@ -16,18 +15,28 @@ import {
   isExecutablePolicyDecision,
   isPolicyGateDecision,
   type PolicyContract,
-  type PolicyDecision,
   type PolicyEvaluationInput,
   type PolicyEvaluationResult,
   policyRuleMatches,
   resolvePolicyWhenMatched,
   sortPoliciesByPriority,
 } from "./policy.contract.js";
+import {
+  databasePolicyAuditWriter,
+  type PolicyEvaluationAuditWriter,
+} from "./policy-audit.js";
+
+/** Alias retained for API compatibility. */
+export type PolicyDecisionRequest = PermissionCheckRequest;
 
 export interface PolicyDataSource {
   findApplicableRules(
     input: PolicyEvaluationInput
   ): Promise<readonly PolicyContract[]>;
+}
+
+export interface PolicyEvaluationOptions {
+  readonly auditWriter?: PolicyEvaluationAuditWriter;
 }
 
 /** In-memory policy engine stub — evaluates registered policy rules. */
@@ -46,44 +55,6 @@ export class InMemoryPolicyDataSource implements PolicyDataSource {
       this.rules.filter((rule) => policyRuleMatches(rule, input))
     );
   }
-}
-
-function toPolicyAuditResult(decision: PolicyDecision): AuditResult {
-  return decision === "deny" ? "denied" : "success";
-}
-
-async function recordPolicyEvaluationAudit(
-  permissionDecision: AuthorizationDecision,
-  policyResult: PolicyEvaluationResult
-): Promise<void> {
-  if (process.env.VITEST === "true") {
-    return;
-  }
-
-  await insertAuditEvent({
-    tenantId: permissionDecision.tenantId,
-    companyId: permissionDecision.companyId,
-    organizationId: permissionDecision.organizationId,
-    actorType: "user",
-    actorUserId: permissionDecision.actorId,
-    module: "authorization",
-    action: "policy.evaluate",
-    targetType: "authorization",
-    targetId: permissionDecision.correlationId,
-    result: toPolicyAuditResult(policyResult.decision),
-    reason: policyResult.reason,
-    permission: permissionDecision.permissionKey,
-    policyId: policyResult.appliedPolicyIds[0] ?? null,
-    source: "app",
-    correlationId: permissionDecision.correlationId,
-    metadata: {
-      decision: policyResult.decision,
-      appliedPolicyIds: policyResult.appliedPolicyIds.join(","),
-      action: permissionDecision.action,
-      targetType: permissionDecision.targetType,
-      targetId: permissionDecision.targetId,
-    },
-  });
 }
 
 export function evaluatePolicyDecision(
@@ -129,7 +100,8 @@ export function evaluatePolicyDecision(
 
 export async function evaluateAuthorizationPolicy(
   permissionDecision: AuthorizationDecision,
-  policyDataSource: PolicyDataSource
+  policyDataSource: PolicyDataSource,
+  options: PolicyEvaluationOptions = {}
 ): Promise<AuthorizationDecision> {
   const evaluationInput: PolicyEvaluationInput = {
     tenantId: permissionDecision.tenantId,
@@ -142,8 +114,9 @@ export async function evaluateAuthorizationPolicy(
   const rules = await policyDataSource.findApplicableRules(evaluationInput);
   const permissionGranted = permissionDecision.result === "allow";
   const policyResult = evaluatePolicyDecision(permissionGranted, rules);
+  const auditWriter = options.auditWriter ?? databasePolicyAuditWriter;
 
-  await recordPolicyEvaluationAudit(permissionDecision, policyResult);
+  await auditWriter({ permissionDecision, policyResult });
 
   return buildAuthorizationDecision({
     ...permissionDecision,
@@ -156,7 +129,8 @@ export async function evaluateAuthorizationPolicy(
 export async function requirePolicyDecision(
   request: PermissionCheckRequest,
   permissionDataSource: PermissionDataSource,
-  policyDataSource: PolicyDataSource
+  policyDataSource: PolicyDataSource,
+  options: PolicyEvaluationOptions = {}
 ): Promise<AuthorizationDecision> {
   const boundaryRequest: PermissionCheckRequest = {
     ...request,
@@ -176,7 +150,8 @@ export async function requirePolicyDecision(
 
   const finalDecision = await evaluateAuthorizationPolicy(
     permissionResult.decision,
-    policyDataSource
+    policyDataSource,
+    options
   );
 
   if (finalDecision.result === "deny") {
@@ -197,7 +172,8 @@ export async function requirePolicyDecision(
 export async function checkPolicyDecision(
   request: PermissionCheckRequest,
   permissionDataSource: PermissionDataSource,
-  policyDataSource: PolicyDataSource
+  policyDataSource: PolicyDataSource,
+  options: PolicyEvaluationOptions = {}
 ): Promise<AuthorizationDecision> {
   const correlationId =
     request.correlationId ?? createAuthorizationCorrelationId();
@@ -212,6 +188,7 @@ export async function checkPolicyDecision(
 
   return evaluateAuthorizationPolicy(
     permissionResult.decision,
-    policyDataSource
+    policyDataSource,
+    options
   );
 }

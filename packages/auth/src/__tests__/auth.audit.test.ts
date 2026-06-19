@@ -1,31 +1,61 @@
 import { describe, expect, it, vi } from "vitest";
-import { buildAuthAuditPayload, recordAuthAuditEvent } from "../auth.audit.js";
+import { buildAuthAuditPayload, persistAuthAuditEvent } from "../auth.audit.js";
 import { AUTH_EVENT } from "../auth.contract.js";
 
 const AUTH_CORRELATION_PREFIX_PATTERN = /^auth-/;
 
+vi.mock("@afenda/database", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/database")>();
+  return {
+    ...actual,
+    findPlatformUserIdByAuthUserId: vi.fn(),
+    insertAuditEvent: vi.fn(),
+  };
+});
+
 describe("auth.audit", () => {
   it("builds auth audit payloads with stable module/action fields", () => {
-    const payload = buildAuthAuditPayload({
-      event: AUTH_EVENT.signInSucceeded,
-      result: "success",
-      context: {
-        authUserId: "user_1",
-        sessionId: "sess_1",
-        email: "user@example.com",
-        correlationId: "corr-test",
+    const payload = buildAuthAuditPayload(
+      {
+        event: AUTH_EVENT.signInSucceeded,
+        result: "success",
+        context: {
+          authUserId: "auth_user_1",
+          sessionId: "sess_1",
+          email: "user@example.com",
+          correlationId: "corr-test",
+        },
       },
-    });
+      "platform_user_1"
+    );
 
     expect(payload.module).toBe("auth");
     expect(payload.action).toBe(AUTH_EVENT.signInSucceeded);
     expect(payload.correlationId).toBe("corr-test");
     expect(payload.actorType).toBe("user");
+    expect(payload.actorUserId).toBe("platform_user_1");
     expect(payload.source).toBe("auth");
     expect(payload.eventVersion).toBe("1.0");
     expect(payload.metadata).toMatchObject({
-      authUserId: "user_1",
+      authUserId: "auth_user_1",
       email: "user@example.com",
+      platformUserId: "platform_user_1",
+    });
+  });
+
+  it("keeps actorUserId null when no platform identity link exists", () => {
+    const payload = buildAuthAuditPayload({
+      event: AUTH_EVENT.signInSucceeded,
+      result: "success",
+      context: {
+        authUserId: "auth_user_1",
+      },
+    });
+
+    expect(payload.actorUserId).toBeNull();
+    expect(payload.metadata).toMatchObject({
+      authUserId: "auth_user_1",
+      platformUserId: null,
     });
   });
 
@@ -39,10 +69,10 @@ describe("auth.audit", () => {
     expect(payload.actorType).toBe("system");
   });
 
-  it("records audit events without awaiting the writer", () => {
+  it("persists audit events through the writer", async () => {
     const write = vi.fn().mockResolvedValue(undefined);
 
-    recordAuthAuditEvent(
+    await persistAuthAuditEvent(
       {
         event: AUTH_EVENT.signInFailed,
         result: "failure",

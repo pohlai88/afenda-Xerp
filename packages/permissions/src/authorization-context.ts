@@ -25,6 +25,12 @@ export interface AuthorizationContext {
   readonly workspaceId: string | null;
 }
 
+/** Scope with membership and role resolved after permission checks. */
+export interface ResolvedAuthorizationContext extends AuthorizationContext {
+  readonly membershipId: string;
+  readonly roleId: string;
+}
+
 export function actorFromAuthSession(
   session: AfendaAuthSession
 ): AuthorizationActor {
@@ -47,6 +53,23 @@ export function assertTenantContext(
       "missing_tenant"
     );
   }
+}
+
+export function resolveAuthorizationContext(
+  actor: AuthorizationActor,
+  input: AuthorizationContextInput
+): AuthorizationContext {
+  assertTenantContext(input);
+
+  return {
+    actorId: actor.actorId,
+    tenantId: input.tenantId,
+    companyId: input.companyId ?? null,
+    organizationId: input.organizationId ?? null,
+    workspaceId: input.workspaceId ?? null,
+    membershipId: null,
+    roleId: null,
+  };
 }
 
 export class MissingAuthorizationContextError extends Error {
