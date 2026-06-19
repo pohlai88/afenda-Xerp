@@ -95,10 +95,40 @@ export {
   validateIsoRegistryIntegrity,
 } from "./company/iso-codes.js";
 export {
+  assertValidPlanTemplateId,
+  type CommercialPlanTemplate,
+  type EntitlementGrantRecord,
+  type EntitlementGrantTemplateRow,
+  EntitlementProvisionError,
+  type ProvisionEntitlementBundleInput,
+  InvalidPlanTemplateError,
+  type TenantEntitlementBundle,
+  type UsageLimitRecord,
+  type UsageLimitTemplateRow,
+} from "./entitlement/entitlement.contract.js";
+export { loadTenantEntitlementBundle } from "./entitlement/entitlement-load.service.js";
+export {
+  type EntitlementProvisionAuditContext,
+  type ProvisionTenantEntitlementsInput,
+  type ProvisionTenantEntitlementsResult,
+  provisionTenantEntitlements,
+} from "./entitlement/entitlement-provision.service.js";
+export {
+  commercialPlanTemplateList,
+  commercialPlanTemplates,
+  getCommercialPlanTemplate,
+} from "./entitlement/plan-templates.js";
+export {
   AUDIT_ACTOR_TYPES,
   type AuditActorType,
   type AuditResult,
   type CompanyStatus,
+  COMMERCIAL_PLAN_TEMPLATE_IDS,
+  type CommercialPlanTemplateId,
+  ENTITLEMENT_SCOPES,
+  ENTITLEMENT_TYPES,
+  type EntitlementScope,
+  type EntitlementType,
   MEMBERSHIP_SCOPE_TYPES,
   type MembershipScopeType,
   type MembershipStatus,
@@ -112,6 +142,8 @@ export {
   type RoleScope,
   type RoleStatus,
   type TenantStatus,
+  USAGE_LIMIT_PERIODS,
+  type UsageLimitPeriod,
   type UserStatus,
 } from "./database.types.js";
 export {
@@ -358,6 +390,9 @@ export {
   authVerification,
   companies,
   companyStatusEnum,
+  entitlementGrants,
+  entitlementScopeEnum,
+  entitlementTypeEnum,
   membershipScopeEnum,
   membershipStatusEnum,
   memberships,
@@ -375,8 +410,11 @@ export {
   roleScopeEnum,
   roleStatusEnum,
   roles,
+  tenantCommercialPlans,
   tenantStatusEnum,
   tenants,
+  usageLimitCounters,
+  usageLimitPeriodEnum,
   userStatusEnum,
   users,
 } from "./schema/index.js";

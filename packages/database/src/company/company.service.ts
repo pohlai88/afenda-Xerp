@@ -38,24 +38,28 @@ async function recordCompanyAuditEvent(
   companyId: string,
   tenantId: string,
   audit: CompanyAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    tenantId,
-    companyId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "company",
-    targetId: companyId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      tenantId,
+      companyId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "company",
+      targetId: companyId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /**
@@ -87,7 +91,8 @@ export async function insertCompany(
       legalName: row.legalName,
       countryCode: row.countryCode,
       baseCurrency: row.baseCurrency,
-    }
+    },
+    db
   );
 
   return { id: inserted.id };
@@ -129,7 +134,8 @@ export async function updateCompany(
       countryCode: patch.countryCode ?? null,
       baseCurrency: patch.baseCurrency ?? null,
       status: patch.status ?? null,
-    }
+    },
+    db
   );
 
   return { id: updated.id };

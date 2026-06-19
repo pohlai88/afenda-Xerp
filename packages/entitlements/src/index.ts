@@ -85,6 +85,15 @@ export {
   governedUsageLimitsExample,
 } from "./examples/governed-entitlement.example";
 export {
+  basicTierFixture,
+  betaTierFixture,
+  buildContext,
+  disabledStateFixture,
+  enterpriseTierFixture,
+  proTierFixture,
+  type TierFixture,
+} from "./fixtures/tier-fixtures";
+export {
   type FeatureFlagLookupContext,
   type FeatureFlagResolution,
   featureFlag,

@@ -51,23 +51,27 @@ async function recordRoleAuditEvent(
   tenantId: string | null,
   roleId: string,
   audit: RoleAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    tenantId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "role",
-    targetId: roleId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      tenantId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "role",
+      targetId: roleId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /**
@@ -101,7 +105,8 @@ export async function insertRole(
       name: row.name,
       scope: row.scope,
       status: row.status,
-    }
+    },
+    db
   );
 
   return { id: inserted.id };
@@ -151,7 +156,8 @@ export async function updateRole(
       name: patch.name ?? null,
       description: patch.description ?? null,
       status: patch.status ?? null,
-    }
+    },
+    db
   );
 
   return { id: updated.id };
@@ -206,7 +212,8 @@ export async function archiveRole(
     {
       reason: input.reason ?? null,
       status: "archived",
-    }
+    },
+    db
   );
 
   return { id: updated.id };

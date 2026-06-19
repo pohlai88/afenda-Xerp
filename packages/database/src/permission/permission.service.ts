@@ -43,22 +43,26 @@ async function recordPermissionAuditEvent(
   action: "permission.create" | "permission.update",
   permissionId: string,
   audit: PermissionAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "permission",
-    targetId: permissionId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "permission",
+      targetId: permissionId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /** Governed permission catalog create path. Do not insert into `permissions` directly. */
@@ -86,7 +90,8 @@ export async function insertPermission(
       name: row.name,
       domain: row.domain,
       action: row.action,
-    }
+    },
+    db
   );
 
   return { id: inserted.id };
@@ -120,7 +125,8 @@ export async function updatePermission(
     {
       name: patch.name ?? null,
       description: patch.description ?? null,
-    }
+    },
+    db
   );
 
   return { id: updated.id };

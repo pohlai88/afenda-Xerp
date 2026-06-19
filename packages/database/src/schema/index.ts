@@ -1,6 +1,11 @@
 import { auditEvents } from "./audit.schema.js";
 import { authIdentityLinks } from "./auth-identity-link.schema.js";
 import { companies } from "./company.schema.js";
+import {
+  entitlementGrants,
+  tenantCommercialPlans,
+  usageLimitCounters,
+} from "./entitlement.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
 import { permissions } from "./permission.schema.js";
@@ -15,13 +20,16 @@ export const platformSchema = {
   auditEvents,
   authIdentityLinks,
   companies,
+  entitlementGrants,
   memberships,
   organizations,
   permissions,
   policies,
   rolePermissions,
   roles,
+  tenantCommercialPlans,
   tenants,
+  usageLimitCounters,
   users,
 } as const;
 
@@ -31,6 +39,8 @@ export {
   auditActorTypeEnum,
   auditResultEnum,
   companyStatusEnum,
+  entitlementScopeEnum,
+  entitlementTypeEnum,
   membershipScopeEnum,
   membershipStatusEnum,
   organizationStatusEnum,
@@ -41,6 +51,7 @@ export {
   roleScopeEnum,
   roleStatusEnum,
   tenantStatusEnum,
+  usageLimitPeriodEnum,
   userStatusEnum,
 } from "../database.types.js";
 
@@ -55,6 +66,11 @@ export {
 } from "./auth.schema.js";
 export { authIdentityLinks } from "./auth-identity-link.schema.js";
 export { companies } from "./company.schema.js";
+export {
+  entitlementGrants,
+  tenantCommercialPlans,
+  usageLimitCounters,
+} from "./entitlement.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";
 export { permissions } from "./permission.schema.js";

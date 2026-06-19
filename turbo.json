@@ -29,6 +29,9 @@
       "dependsOn": ["^build"],
       "outputs": ["coverage/**"]
     },
+    "quality": {
+      "cache": false
+    },
     "format": {
       "cache": false
     },

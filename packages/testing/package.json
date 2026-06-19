@@ -10,14 +10,24 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./setup/node": "./src/setup/node.ts",
-    "./setup/react": "./src/setup/react.ts",
-    "./mocks/next-link": "./src/mocks/next-link.tsx"
+    "./setup/node": {
+      "types": "./dist/setup/node.d.ts",
+      "import": "./dist/setup/node.js",
+      "default": "./dist/setup/node.js"
+    },
+    "./setup/react": {
+      "types": "./dist/setup/react.d.ts",
+      "import": "./dist/setup/react.js",
+      "default": "./dist/setup/react.js"
+    },
+    "./mocks/next-link": {
+      "types": "./dist/mocks/next-link.d.ts",
+      "import": "./dist/mocks/next-link.js",
+      "default": "./dist/mocks/next-link.js"
+    }
   },
   "files": [
-    "dist",
-    "src/setup",
-    "src/mocks"
+    "dist"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

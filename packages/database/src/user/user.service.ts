@@ -42,22 +42,26 @@ async function recordUserAuditEvent(
   action: "user.create" | "user.update" | "user.deactivate",
   userId: string,
   audit: UserAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "user",
-    targetId: userId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "user",
+      targetId: userId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /**
@@ -81,11 +85,17 @@ export async function insertUser(
     throw new Error("User insert did not return a row id.");
   }
 
-  await recordUserAuditEvent("user.create", inserted.id, input.audit, {
-    email: row.email,
-    displayName: row.displayName,
-    status: row.status,
-  });
+  await recordUserAuditEvent(
+    "user.create",
+    inserted.id,
+    input.audit,
+    {
+      email: row.email,
+      displayName: row.displayName,
+      status: row.status,
+    },
+    db
+  );
 
   return { id: inserted.id };
 }
@@ -112,11 +122,17 @@ export async function updateUser(
     throw new Error(`User "${userId}" was not found.`);
   }
 
-  await recordUserAuditEvent("user.update", updated.id, input.audit, {
-    email: patch.email ?? null,
-    displayName: patch.displayName ?? null,
-    status: patch.status ?? null,
-  });
+  await recordUserAuditEvent(
+    "user.update",
+    updated.id,
+    input.audit,
+    {
+      email: patch.email ?? null,
+      displayName: patch.displayName ?? null,
+      status: patch.status ?? null,
+    },
+    db
+  );
 
   return { id: updated.id };
 }
@@ -147,10 +163,16 @@ export async function deactivateUser(
     throw new Error(`User "${userId}" was not found.`);
   }
 
-  await recordUserAuditEvent("user.deactivate", updated.id, input.audit, {
-    reason: input.reason ?? null,
-    status: "deactivated",
-  });
+  await recordUserAuditEvent(
+    "user.deactivate",
+    updated.id,
+    input.audit,
+    {
+      reason: input.reason ?? null,
+      status: "deactivated",
+    },
+    db
+  );
 
   return { id: updated.id };
 }

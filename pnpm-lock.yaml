@@ -204,9 +204,6 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@afenda/permissions':
-        specifier: workspace:^
-        version: link:../permissions
       '@types/pg':
         specifier: ^8.20.0
         version: 8.20.0
@@ -223,6 +220,12 @@ importers:
   packages/design-system: {}
 
   packages/entitlements: {}
+
+  packages/feature-flags:
+    dependencies:
+      '@afenda/entitlements':
+        specifier: workspace:^
+        version: link:../entitlements
 
   packages/kernel: {}
 

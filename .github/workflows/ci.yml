@@ -10,9 +10,14 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  check:
+  quality:
+    name: Quality gates
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,17 +36,34 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint, typecheck, and test
-        run: pnpm check
+      - name: Format check
+        run: pnpm format:check
 
-      - name: Database migration journal (offline)
-        run: pnpm --filter @afenda/database db:validate-journal
+      - name: Lint
+        run: pnpm lint
 
-      - name: Database live ledger check
-        if: ${{ secrets.DATABASE_URL != '' }}
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Package boundary check
+        run: pnpm quality:boundaries
+
+      - name: Public export surface check
+        run: pnpm quality:exports
+
+      - name: Drizzle migration check
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: pnpm --filter @afenda/database db:repair-journal:check
+        run: pnpm quality:migrations
+
+      - name: Release gate check
+        run: pnpm quality:release-gate
 
       - name: Upload JUnit report
         if: always()

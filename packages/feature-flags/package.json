@@ -1,8 +1,8 @@
 {
-  "name": "@afenda/appshell",
+  "name": "@afenda/feature-flags",
   "version": "0.0.0",
   "private": true,
-  "description": "ERP application shell foundation",
+  "description": "Deployment-flag evaluation facade — gradual rollout, kill switches, environment gates",
   "type": "module",
   "exports": {
     ".": {
@@ -23,22 +23,8 @@
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
-  "peerDependencies": {
-    "next": "^15.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "next": "catalog:",
-    "@testing-library/jest-dom": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "vitest": "catalog:"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ]
+  "sideEffects": false,
+  "dependencies": {
+    "@afenda/entitlements": "workspace:^"
+  }
 }

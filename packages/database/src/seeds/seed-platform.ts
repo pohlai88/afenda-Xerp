@@ -119,9 +119,4 @@ export function seedPlatform(db: AfendaDatabase): Promise<SeedRunResult> {
   return seedPlatformCatalog("platform", db);
 }
 
-/** Test profile uses the same platform baseline without workspace fixtures. */
-export function seedTest(db: AfendaDatabase): Promise<SeedRunResult> {
-  return seedPlatformCatalog("test", db);
-}
-
 export { seedPlatformCatalog };

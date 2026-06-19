@@ -71,6 +71,13 @@
       "when": 1781924400000,
       "tag": "20260620050000_role_permissions",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1781928000000,
+      "tag": "20260620060000_entitlement_governance",
+      "breakpoints": true
     }
   ]
 }

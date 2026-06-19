@@ -47,23 +47,27 @@ async function recordPolicyAuditEvent(
   tenantId: string | null,
   policyId: string,
   audit: PolicyAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    tenantId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "policy",
-    targetId: policyId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      tenantId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "policy",
+      targetId: policyId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /**
@@ -99,7 +103,8 @@ export async function insertPolicy(
       effect: row.effect,
       priority: String(row.priority),
       status: row.status,
-    }
+    },
+    db
   );
 
   return { id: inserted.id };
@@ -165,7 +170,8 @@ export async function updatePolicy(
       effect: patch.effect ?? null,
       priority: patch.priority === undefined ? null : String(patch.priority),
       status: patch.status ?? null,
-    }
+    },
+    db
   );
 
   return { id: updated.id };
@@ -209,7 +215,8 @@ export async function archivePolicy(
     {
       reason: input.reason ?? null,
       status: "archived",
-    }
+    },
+    db
   );
 
   return { id: updated.id };

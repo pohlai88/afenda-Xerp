@@ -124,3 +124,56 @@ export type PolicyScope = (typeof policyScopeEnum.enumValues)[number];
 export type PolicyStatus = (typeof policyStatusEnum.enumValues)[number];
 export type AuditResult = (typeof auditResultEnum.enumValues)[number];
 export type AuditActorType = (typeof auditActorTypeEnum.enumValues)[number];
+
+export const ENTITLEMENT_TYPES = [
+  "module",
+  "feature",
+  "usage_limit",
+  "localization",
+  "deployment",
+  "support",
+  "security",
+  "beta",
+] as const;
+
+export const entitlementTypeEnum = pgEnum(
+  "entitlement_type",
+  ENTITLEMENT_TYPES
+);
+
+export const ENTITLEMENT_SCOPES = [
+  "global",
+  "tenant",
+  "company",
+  "environment",
+] as const;
+
+export const entitlementScopeEnum = pgEnum(
+  "entitlement_scope",
+  ENTITLEMENT_SCOPES
+);
+
+export const USAGE_LIMIT_PERIODS = [
+  "instant",
+  "daily",
+  "monthly",
+  "annual",
+] as const;
+
+export const usageLimitPeriodEnum = pgEnum(
+  "usage_limit_period",
+  USAGE_LIMIT_PERIODS
+);
+
+export const COMMERCIAL_PLAN_TEMPLATE_IDS = [
+  "basic",
+  "pro",
+  "enterprise",
+  "beta",
+] as const;
+
+export type EntitlementType = (typeof ENTITLEMENT_TYPES)[number];
+export type EntitlementScope = (typeof ENTITLEMENT_SCOPES)[number];
+export type UsageLimitPeriod = (typeof USAGE_LIMIT_PERIODS)[number];
+export type CommercialPlanTemplateId =
+  (typeof COMMERCIAL_PLAN_TEMPLATE_IDS)[number];

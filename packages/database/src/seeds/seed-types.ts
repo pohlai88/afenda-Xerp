@@ -1,10 +1,5 @@
 /** Governed seed profile identifiers (TIP-003A). */
-export type SeedProfile =
-  | "demo"
-  | "dev"
-  | "platform"
-  | "preview"
-  | "test";
+export type SeedProfile = "demo" | "dev" | "platform" | "preview" | "test";
 
 export type BootstrapProfile = "local" | "preview";
 
@@ -41,6 +36,9 @@ export interface SeedRunResult {
   readonly roles: readonly SeedEnsureResult[];
   readonly workspace?: WorkspaceSeedResult;
 }
+
+/** JSON-serializable seed CLI output contract (no Dates, Maps, or class instances). */
+export type SerializableSeedRunResult = SeedRunResult;
 
 export interface SeedVerificationIssue {
   readonly code: string;

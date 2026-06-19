@@ -3,8 +3,8 @@ export { PLATFORM_PERMISSION_CATALOG } from "./platform-permissions.catalog.js";
 export { PLATFORM_POLICY_CATALOG } from "./platform-policies.catalog.js";
 export { PLATFORM_ROLE_CATALOG } from "./platform-roles.catalog.js";
 export { createSeedAuditBundle } from "./seed-context.js";
-export { seedDev } from "./seed-dev.js";
 export { seedDemo } from "./seed-demo.js";
+export { seedDev } from "./seed-dev.js";
 export {
   assertBootstrapAllowed,
   assertSeedProfileAllowed,
@@ -23,6 +23,7 @@ export type {
   SeedRunResult,
   SeedVerificationIssue,
   SeedVerificationResult,
+  SerializableSeedRunResult,
   WorkspaceSeedResult,
 } from "./seed-types.js";
 export { verifyPlatformSeed } from "./seed-verify.js";

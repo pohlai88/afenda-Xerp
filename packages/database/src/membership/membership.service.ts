@@ -131,25 +131,29 @@ async function recordMembershipAuditEvent(
   companyId: string | null,
   organizationId: string | null,
   audit: MembershipAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    tenantId,
-    companyId,
-    organizationId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "membership",
-    targetId: membershipId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      tenantId,
+      companyId,
+      organizationId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "membership",
+      targetId: membershipId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 export async function insertMembership(
@@ -184,7 +188,8 @@ export async function insertMembership(
       roleId: row.roleId,
       scopeType: row.scopeType,
       status: row.status,
-    }
+    },
+    db
   );
 
   return { id: inserted.id };
@@ -252,7 +257,8 @@ export async function updateMembership(
     {
       roleId: patch.roleId ?? null,
       status: patch.status ?? null,
-    }
+    },
+    db
   );
 
   return { id: updated.id };
@@ -306,7 +312,8 @@ export async function deactivateMembership(
     {
       reason: input.reason ?? null,
       status: "revoked",
-    }
+    },
+    db
   );
 
   return { id: updated.id };

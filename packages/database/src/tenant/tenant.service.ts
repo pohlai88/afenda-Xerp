@@ -42,23 +42,27 @@ async function recordTenantAuditEvent(
   action: "tenant.create" | "tenant.update" | "tenant.archive",
   tenantId: string,
   audit: TenantAuditContext,
-  metadata: Record<string, string | null>
+  metadata: Record<string, string | null>,
+  db: AfendaDatabase
 ): Promise<void> {
-  await insertAuditEvent({
-    tenantId,
-    actorType: audit.actorType,
-    actorUserId: audit.actorUserId ?? null,
-    module: "platform",
-    action,
-    targetType: "tenant",
-    targetId: tenantId,
-    result: "success",
-    source: audit.source ?? "app",
-    correlationId: audit.correlationId,
-    ipAddress: audit.ipAddress ?? null,
-    userAgent: audit.userAgent ?? null,
-    metadata,
-  });
+  await insertAuditEvent(
+    {
+      tenantId,
+      actorType: audit.actorType,
+      actorUserId: audit.actorUserId ?? null,
+      module: "platform",
+      action,
+      targetType: "tenant",
+      targetId: tenantId,
+      result: "success",
+      source: audit.source ?? "app",
+      correlationId: audit.correlationId,
+      ipAddress: audit.ipAddress ?? null,
+      userAgent: audit.userAgent ?? null,
+      metadata,
+    },
+    db
+  );
 }
 
 /**
@@ -82,11 +86,17 @@ export async function insertTenant(
     throw new Error("Tenant insert did not return a row id.");
   }
 
-  await recordTenantAuditEvent("tenant.create", inserted.id, input.audit, {
-    slug: row.slug,
-    name: row.name,
-    status: row.status,
-  });
+  await recordTenantAuditEvent(
+    "tenant.create",
+    inserted.id,
+    input.audit,
+    {
+      slug: row.slug,
+      name: row.name,
+      status: row.status,
+    },
+    db
+  );
 
   return { id: inserted.id };
 }
@@ -112,11 +122,17 @@ export async function updateTenant(
     throw new Error(`Tenant "${tenantId}" was not found.`);
   }
 
-  await recordTenantAuditEvent("tenant.update", updated.id, input.audit, {
-    slug: patch.slug ?? null,
-    name: patch.name ?? null,
-    status: patch.status ?? null,
-  });
+  await recordTenantAuditEvent(
+    "tenant.update",
+    updated.id,
+    input.audit,
+    {
+      slug: patch.slug ?? null,
+      name: patch.name ?? null,
+      status: patch.status ?? null,
+    },
+    db
+  );
 
   return { id: updated.id };
 }
@@ -147,10 +163,16 @@ export async function archiveTenant(
     throw new Error(`Tenant "${tenantId}" was not found.`);
   }
 
-  await recordTenantAuditEvent("tenant.archive", updated.id, input.audit, {
-    reason: input.reason ?? null,
-    status: "archived",
-  });
+  await recordTenantAuditEvent(
+    "tenant.archive",
+    updated.id,
+    input.audit,
+    {
+      reason: input.reason ?? null,
+      status: "archived",
+    },
+    db
+  );
 
   return { id: updated.id };
 }
