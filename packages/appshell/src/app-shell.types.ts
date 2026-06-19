@@ -85,14 +85,22 @@ export type AppShellCommandItemId = "command-center";
 /** Lifecycle state for header command actions. */
 export type AppShellCommandItemState = "ready" | "disabled" | "coming-soon";
 
+/** Command surface taxonomy for TIP-007 Cmd+K evolution. */
+export type AppShellCommandItemKind = "action" | "link" | "search" | "shortcut";
+
 /**
  * Governed command-center item contract (metadata only until TIP-007 wiring).
  */
 export interface AppShellCommandItem {
+  readonly description?: string;
+  readonly group?: string;
   readonly href?: string;
   readonly id: AppShellCommandItemId | (string & {});
+  readonly keyboardShortcut?: string;
+  readonly kind?: AppShellCommandItemKind;
   readonly label: string;
   readonly order: number;
+  readonly permission?: string;
   readonly state?: AppShellCommandItemState;
 }
 
@@ -206,7 +214,10 @@ export const DEFAULT_NAV_ITEMS = [
 export const DEFAULT_COMMAND_ITEMS = [
   {
     id: "command-center",
-    label: "Command center coming soon",
+    label: "Command center",
+    description: "Global search and workspace commands",
+    kind: "search",
+    keyboardShortcut: "⌘K",
     order: 10,
     state: "coming-soon",
   },
@@ -298,10 +309,31 @@ export function resolveAppShellCommandItemState(
 /** Whether a command item should render as an interactive route link. */
 export function isAppShellCommandItemNavigable(
   item: Pick<AppShellCommandItem, "href" | "state">
-): boolean {
+): item is AppShellCommandItem & { href: string } {
   return (
     resolveAppShellCommandItemState(item) === "ready" && Boolean(item.href)
   );
+}
+
+/** Tooltip copy explaining command availability. */
+export function resolveAppShellCommandItemTitle(
+  item: Pick<AppShellCommandItem, "description" | "label" | "state">
+): string | undefined {
+  if (item.description) {
+    return item.description;
+  }
+
+  const state = resolveAppShellCommandItemState(item);
+
+  if (state === "coming-soon") {
+    return `${item.label} is coming soon`;
+  }
+
+  if (state === "disabled") {
+    return `${item.label} is currently unavailable`;
+  }
+
+  return;
 }
 
 /** Visible command-center items sorted by order. */

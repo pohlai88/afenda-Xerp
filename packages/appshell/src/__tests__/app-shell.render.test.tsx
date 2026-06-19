@@ -40,9 +40,10 @@ describe("AppShell render", () => {
       "id",
       "app-shell-main"
     );
-    expect(screen.getByLabelText("Command center")).toHaveTextContent(
-      "Command center coming soon"
-    );
+    expect(
+      screen.getByRole("region", { name: "Command center" })
+    ).toHaveTextContent("Command center");
+    expect(screen.getByText("⌘K")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" })
     ).toBeInTheDocument();
@@ -50,7 +51,7 @@ describe("AppShell render", () => {
     const nexusLink = screen.getByRole("link", { name: "Nexus" });
     expect(nexusLink).toHaveAttribute("href", "/");
     expect(nexusLink).toHaveAttribute("aria-current", "page");
-    expect(screen.getAllByText("Soon")).toHaveLength(7);
+    expect(screen.getAllByText("Soon")).toHaveLength(8);
     expect(
       screen.queryByRole("link", { name: "Manufacturing" })
     ).not.toBeInTheDocument();

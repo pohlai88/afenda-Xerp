@@ -132,6 +132,8 @@ describe("@afenda/appshell types", () => {
     expect(DEFAULT_COMMAND_ITEMS).toHaveLength(1);
     expect(DEFAULT_COMMAND_ITEMS[0]).toMatchObject({
       id: "command-center",
+      kind: "search",
+      keyboardShortcut: "⌘K",
       state: "coming-soon",
     });
   });

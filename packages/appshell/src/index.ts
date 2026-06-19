@@ -2,6 +2,7 @@
 export { AppShell } from "./app-shell";
 export type {
   AppShellCommandItem,
+  AppShellCommandItemKind,
   AppShellCommandItemState,
   AppShellContextSwitcherState,
   AppShellCoreNavItemId,
@@ -25,6 +26,7 @@ export {
   isAppShellNavItemNavigable,
   resolveAppShellActiveNavItemId,
   resolveAppShellCommandItemState,
+  resolveAppShellCommandItemTitle,
   resolveAppShellContextSwitcherState,
   resolveAppShellContextSwitcherStatusMessage,
   resolveAppShellNavBadgeLabel,
