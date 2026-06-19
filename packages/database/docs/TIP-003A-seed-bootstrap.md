@@ -22,20 +22,23 @@ Production bootstrap is **explicit**, **audited**, and **idempotent**. Seeds nev
 
 | Command | Profile | Purpose |
 |---------|---------|---------|
-| `pnpm --filter @afenda/database db:seed:platform` | `platform` | Permissions, platform roles, grants, policy templates |
-| `pnpm --filter @afenda/database db:seed:dev` | `dev` | Platform baseline + `dev-local` workspace |
-| `pnpm --filter @afenda/database db:seed:test` | `test` | Platform baseline only (CI-friendly) |
-| `pnpm --filter @afenda/database db:bootstrap:local` | `local` | Same as `db:seed:dev` with bootstrap safety gate |
-| `pnpm --filter @afenda/database db:bootstrap:preview` | `preview` | Platform + `preview` workspace |
-| `pnpm --filter @afenda/database db:verify:seed` | verify | Read-only baseline verification |
+| `pnpm db:seed:platform` | `platform` | Permissions, platform roles, grants, policy templates |
+| `pnpm db:seed:dev` | `dev` | Platform baseline + `dev-local` workspace |
+| `pnpm db:seed:test` | `test` | Platform baseline only (CI-friendly) |
+| `pnpm db:seed:demo` | `demo` | Platform + `demo` workspace (blocked in production) |
+| `pnpm db:bootstrap:local` | `local` | Same as `db:seed:dev` with bootstrap safety gate |
+| `pnpm db:bootstrap:preview` | `preview` | Platform + `preview` workspace |
+| `pnpm db:verify:seed` | verify | Read-only baseline verification |
+
+Monorepo root aliases delegate to `@afenda/database` (same names).
 
 Recommended local flow:
 
 ```bash
 pnpm migrate
-pnpm --filter @afenda/database db:seed:platform
-pnpm --filter @afenda/database db:bootstrap:local
-pnpm --filter @afenda/database db:verify:seed
+pnpm db:seed:platform
+pnpm db:bootstrap:local
+pnpm db:verify:seed
 ```
 
 ## Seed strategy
@@ -86,7 +89,7 @@ Bootstrap does **not** create Better Auth users or auto-admin production account
 | Guard | Behavior |
 |-------|----------|
 | `isProductionEnvironment()` | `NODE_ENV`, `VERCEL_ENV`, or `AFENDA_ENV` = `production` |
-| `assertSeedProfileAllowed()` | Blocks `dev`, `test`, `demo` in production |
+| `assertSeedProfileAllowed()` | Blocks `dev`, `test`, `demo`, `preview` in production |
 | Platform seed in production | Requires `AFENDA_SEED_CONFIRM=yes` |
 | Bootstrap in production | Requires `AFENDA_BOOTSTRAP_CONFIRM=yes` |
 

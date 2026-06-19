@@ -14,10 +14,10 @@ import {
 } from "./seed-ensure.js";
 import { seedPlatformCatalog } from "./seed-platform.js";
 import type {
-  DevWorkspaceSeedResult,
   SeedEnsureResult,
   SeedProfile,
   SeedRunResult,
+  WorkspaceSeedResult,
 } from "./seed-types.js";
 import type { WorkspaceFixture } from "./workspace-fixtures.js";
 
@@ -25,7 +25,7 @@ export async function seedDevWorkspace(
   profile: SeedProfile,
   fixture: WorkspaceFixture,
   db: AfendaDatabase
-): Promise<DevWorkspaceSeedResult> {
+): Promise<WorkspaceSeedResult> {
   const audit = createSeedAuditBundle(profile);
 
   const tenant = await ensureTenant(

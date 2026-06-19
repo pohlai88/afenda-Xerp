@@ -26,6 +26,7 @@ describe("seed environment safety", () => {
     expect(isProductionEnvironment()).toBe(true);
     expect(() => assertSeedProfileAllowed("dev")).toThrow(SeedSafetyError);
     expect(() => assertSeedProfileAllowed("demo")).toThrow(SeedSafetyError);
+    expect(() => assertSeedProfileAllowed("preview")).toThrow(SeedSafetyError);
   });
 
   it("requires explicit confirmation for production platform seed", () => {

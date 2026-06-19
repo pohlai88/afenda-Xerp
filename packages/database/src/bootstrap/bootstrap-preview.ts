@@ -7,5 +7,5 @@ import { PREVIEW_WORKSPACE_FIXTURE } from "../seeds/workspace-fixtures.js";
 /** Preview bootstrap: platform baseline + preview workspace fixtures. */
 export function bootstrapPreview(db: AfendaDatabase): Promise<SeedRunResult> {
   assertBootstrapAllowed("preview");
-  return seedDevWorkspaceProfile("dev", PREVIEW_WORKSPACE_FIXTURE, db);
+  return seedDevWorkspaceProfile("preview", PREVIEW_WORKSPACE_FIXTURE, db);
 }

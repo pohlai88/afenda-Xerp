@@ -4,6 +4,7 @@ export { PLATFORM_POLICY_CATALOG } from "./platform-policies.catalog.js";
 export { PLATFORM_ROLE_CATALOG } from "./platform-roles.catalog.js";
 export { createSeedAuditBundle } from "./seed-context.js";
 export { seedDev } from "./seed-dev.js";
+export { seedDemo } from "./seed-demo.js";
 export {
   assertBootstrapAllowed,
   assertSeedProfileAllowed,
@@ -22,6 +23,7 @@ export type {
   SeedRunResult,
   SeedVerificationIssue,
   SeedVerificationResult,
+  WorkspaceSeedResult,
 } from "./seed-types.js";
 export { verifyPlatformSeed } from "./seed-verify.js";
 export { seedDevWorkspace, seedDevWorkspaceProfile } from "./seed-workspace.js";

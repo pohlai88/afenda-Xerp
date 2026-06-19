@@ -19,6 +19,16 @@
       "types": "./dist/schema/index.d.ts",
       "import": "./dist/schema/index.js",
       "default": "./dist/schema/index.js"
+    },
+    "./seeds": {
+      "types": "./dist/seeds/index.d.ts",
+      "import": "./dist/seeds/index.js",
+      "default": "./dist/seeds/index.js"
+    },
+    "./bootstrap": {
+      "types": "./dist/bootstrap/index.d.ts",
+      "import": "./dist/bootstrap/index.js",
+      "default": "./dist/bootstrap/index.js"
     }
   },
   "files": [
@@ -47,6 +57,7 @@
     "db:seed:platform": "tsx scripts/seed-platform.ts",
     "db:seed:dev": "tsx scripts/seed-dev.ts",
     "db:seed:test": "tsx scripts/seed-test.ts",
+    "db:seed:demo": "tsx scripts/seed-demo.ts",
     "db:bootstrap:local": "tsx scripts/bootstrap-local.ts",
     "db:bootstrap:preview": "tsx scripts/bootstrap-preview.ts",
     "db:verify:seed": "tsx scripts/verify-seed.ts"

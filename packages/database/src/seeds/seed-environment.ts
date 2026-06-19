@@ -14,7 +14,12 @@ export class BootstrapSafetyError extends Error {
   }
 }
 
-const UNSAFE_SEED_PROFILES = new Set<SeedProfile>(["demo", "dev", "test"]);
+const UNSAFE_SEED_PROFILES = new Set<SeedProfile>([
+  "demo",
+  "dev",
+  "preview",
+  "test",
+]);
 
 const CONFIRM_ENV = "AFENDA_SEED_CONFIRM";
 const BOOTSTRAP_CONFIRM_ENV = "AFENDA_BOOTSTRAP_CONFIRM";

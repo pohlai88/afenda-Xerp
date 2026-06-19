@@ -24,6 +24,13 @@
     "migrate": "pnpm --filter @afenda/database db:migrate",
     "migrate:deploy": "pnpm --filter @afenda/database db:migrate",
     "db:generate": "pnpm --filter @afenda/database db:generate",
+    "db:seed:platform": "pnpm --filter @afenda/database db:seed:platform",
+    "db:seed:dev": "pnpm --filter @afenda/database db:seed:dev",
+    "db:seed:test": "pnpm --filter @afenda/database db:seed:test",
+    "db:seed:demo": "pnpm --filter @afenda/database db:seed:demo",
+    "db:bootstrap:local": "pnpm --filter @afenda/database db:bootstrap:local",
+    "db:bootstrap:preview": "pnpm --filter @afenda/database db:bootstrap:preview",
+    "db:verify:seed": "pnpm --filter @afenda/database db:verify:seed",
     "auth": "better-auth"
   },
   "devDependencies": {

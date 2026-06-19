@@ -1,5 +1,10 @@
 /** Governed seed profile identifiers (TIP-003A). */
-export type SeedProfile = "demo" | "dev" | "platform" | "test";
+export type SeedProfile =
+  | "demo"
+  | "dev"
+  | "platform"
+  | "preview"
+  | "test";
 
 export type BootstrapProfile = "local" | "preview";
 
@@ -15,7 +20,7 @@ export interface SeedGrantResult {
   readonly roleKey: string;
 }
 
-export interface DevWorkspaceSeedResult {
+export interface WorkspaceSeedResult {
   readonly companyId: string;
   readonly membershipId: string;
   readonly organizationId: string | null;
@@ -24,6 +29,9 @@ export interface DevWorkspaceSeedResult {
   readonly userId: string;
 }
 
+/** @deprecated Use `WorkspaceSeedResult`. */
+export type DevWorkspaceSeedResult = WorkspaceSeedResult;
+
 export interface SeedRunResult {
   readonly correlationId: string;
   readonly grants: readonly SeedGrantResult[];
@@ -31,7 +39,7 @@ export interface SeedRunResult {
   readonly policies: readonly SeedEnsureResult[];
   readonly profile: SeedProfile;
   readonly roles: readonly SeedEnsureResult[];
-  readonly workspace?: DevWorkspaceSeedResult;
+  readonly workspace?: WorkspaceSeedResult;
 }
 
 export interface SeedVerificationIssue {
