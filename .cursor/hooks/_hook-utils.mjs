@@ -131,11 +131,7 @@ export function extractCommand(input) {
 
 export function extractToolName(input) {
   return String(
-    input.tool_name ??
-      input.toolName ??
-      input.name ??
-      input.mcp_tool ??
-      ""
+    input.tool_name ?? input.toolName ?? input.name ?? input.mcp_tool ?? ""
   );
 }
 

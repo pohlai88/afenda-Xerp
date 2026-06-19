@@ -8,6 +8,7 @@
   ],
   "files": {
     "includes": [
+      "!!**/.cursor",
       "!!**/temp-docx",
       "!!**/*.docx",
       "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx"

@@ -8,7 +8,7 @@
     "dev": "next dev --port 3001",
     "lint": "biome check src",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --config ../../vitest.config.ts src",
+    "test": "vitest run --config vitest.config.ts",
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },

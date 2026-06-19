@@ -1,4 +1,4 @@
-/** Shared testing utilities foundation — placeholder export for TIP-001 foundation. */
+/** Shared testing utilities for the afenda-Xerp monorepo. */
 export const PACKAGE_NAME = "@afenda/testing" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {

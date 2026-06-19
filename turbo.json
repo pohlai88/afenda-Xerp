@@ -6,7 +6,8 @@
     "tsconfig.base.json",
     "tsconfig.library.json",
     "tsconfig.next.json",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "vitest.shared.ts"
   ],
   "tasks": {
     "build": {

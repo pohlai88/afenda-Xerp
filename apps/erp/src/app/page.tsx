@@ -1,11 +1,12 @@
+import { AppShellMain } from "@afenda/appshell";
+
 export default function HomePage() {
   return (
-    <main>
-      <h1>Afenda ERP</h1>
-      <p>
-        Platform foundation (TIP-001). Business modules will be added in later
-        phases.
-      </p>
-    </main>
+    <AppShellMain
+      description="Application shell foundation for Afenda ERP. Module surfaces will be added in later phases."
+      title="Dashboard"
+    >
+      <p>Placeholder content area for future module pages.</p>
+    </AppShellMain>
   );
 }

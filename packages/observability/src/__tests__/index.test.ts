@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getPackageName, PACKAGE_NAME } from "./index";
+import { getPackageName, PACKAGE_NAME } from "../index";
 
 describe("@afenda/observability", () => {
   it("exports the package name", () => {

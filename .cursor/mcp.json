@@ -2,13 +2,7 @@
   "mcpServers": {
     "shadcn": {
       "command": "npx",
-      "args": [
-        "-y",
-        "shadcn@latest",
-        "mcp",
-        "-c",
-        "packages/design-system"
-      ]
+      "args": ["-y", "shadcn@latest", "mcp", "-c", "packages/design-system"]
     },
     "storybook": {
       "type": "http",

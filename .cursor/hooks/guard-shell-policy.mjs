@@ -42,7 +42,7 @@ const normalizeCommand = (command) =>
   command.trim().replace(/\s+/g, " ").replace(/\\\\/g, "/");
 
 function checkDestructiveGit(command) {
-  if (!command || !DESTRUCTIVE_GIT.test(command)) {
+  if (!(command && DESTRUCTIVE_GIT.test(command))) {
     return null;
   }
 
@@ -85,7 +85,11 @@ function checkDevServers(command) {
 }
 
 function checkVercelProduction(command) {
-  if (!command || SAFE_VERCEL.test(command) || !PRODUCTION_DEPLOY.test(command)) {
+  if (
+    !command ||
+    SAFE_VERCEL.test(command) ||
+    !PRODUCTION_DEPLOY.test(command)
+  ) {
     return null;
   }
 
@@ -120,7 +124,10 @@ function isAllowedShellCommand(command) {
 }
 
 function checkSyncedEnvShellWrite(command, repoRoot) {
-  if (!hasEnvSyncWorkflow(repoRoot) || !command || isAllowedShellCommand(command)) {
+  if (
+    !(hasEnvSyncWorkflow(repoRoot) && command) ||
+    isAllowedShellCommand(command)
+  ) {
     return null;
   }
 
@@ -185,7 +192,7 @@ function isAllowedShellMigration(command) {
 }
 
 function checkBlockedMigration(command, repoRoot) {
-  if (!hasDrizzleWorkflow(repoRoot) || !command) {
+  if (!(hasDrizzleWorkflow(repoRoot) && command)) {
     return null;
   }
 
