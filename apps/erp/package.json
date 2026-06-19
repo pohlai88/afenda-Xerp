@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@afenda/appshell": "workspace:*",
+    "@afenda/auth": "workspace:^",
     "@supabase/server": "^1.1.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
+    "better-auth": "^1.6.19",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"

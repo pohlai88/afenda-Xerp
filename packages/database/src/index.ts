@@ -2,6 +2,11 @@
 export const PACKAGE_NAME = "@afenda/database" as const;
 
 export {
+  type AfendaAuthDatabase,
+  type CreateAuthDbOptions,
+  createAuthDb,
+} from "./auth-db.js";
+export {
   type AuditResult,
   type CompanyStatus,
   createPermissionKey,
@@ -46,8 +51,14 @@ export {
 } from "./env.js";
 export { primaryId } from "./ids.js";
 export {
+  type AuthSchema,
   auditEvents,
   auditResultEnum,
+  authAccount,
+  authSchema,
+  authSession,
+  authUser,
+  authVerification,
   companies,
   companyStatusEnum,
   membershipStatusEnum,

@@ -6,6 +6,7 @@ export type {
   AppShellCommandItemState,
   AppShellContextSwitcherState,
   AppShellCoreNavItemId,
+  AppShellIdentity,
   AppShellMainProps,
   AppShellModuleNavItemId,
   AppShellNavIcon,

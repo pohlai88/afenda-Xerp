@@ -1,8 +1,10 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import styles from "./app-shell.module.css";
 import type {
   AppShellCommandItem,
   AppShellContextSwitcherState,
+  AppShellIdentity,
   AppShellWorkspaceContext,
 } from "./app-shell.types";
 import { AppShellCommandCenter } from "./app-shell-command-center";
@@ -12,6 +14,8 @@ export interface AppShellHeaderProps {
   readonly commandItems?: readonly AppShellCommandItem[];
   readonly contextSwitcherCompact?: boolean;
   readonly contextSwitcherState?: AppShellContextSwitcherState;
+  readonly identity?: AppShellIdentity;
+  readonly identityAccessory?: ReactNode;
   readonly onContextSwitchRequest?: () => void;
   readonly workspace: AppShellWorkspaceContext;
 }
@@ -21,6 +25,8 @@ export function AppShellHeader({
   commandItems,
   contextSwitcherCompact = true,
   contextSwitcherState,
+  identity,
+  identityAccessory,
   onContextSwitchRequest,
 }: AppShellHeaderProps) {
   return (
@@ -40,6 +46,13 @@ export function AppShellHeader({
 
       <div className={styles.headerEnd}>
         <AppShellCommandCenter items={commandItems} />
+        {identity ? (
+          <div className={styles.identity} title={identity.email}>
+            <span className={styles.identityName}>{identity.displayName}</span>
+            <span className={styles.identityEmail}>{identity.email}</span>
+            {identityAccessory}
+          </div>
+        ) : null}
       </div>
     </header>
   );

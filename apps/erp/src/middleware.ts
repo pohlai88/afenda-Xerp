@@ -1,9 +1,24 @@
-import type { NextRequest } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
+import { type NextRequest, NextResponse } from "next/server";
 
-import { updateSupabaseSession } from "@/lib/supabase/middleware";
+import { isPublicRoute } from "@/lib/auth/public-routes";
 
-export async function middleware(request: NextRequest) {
-  return await updateSupabaseSession(request);
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (isPublicRoute(pathname)) {
+    return NextResponse.next();
+  }
+
+  const sessionCookie = getSessionCookie(request);
+
+  if (!sessionCookie) {
+    const signInUrl = new URL("/sign-in", request.url);
+    signInUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(signInUrl);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

@@ -26,6 +26,11 @@ export const ENV_ALIASES = [
   { from: "NEON_DATABASE_URL", to: "DATABASE_URL" },
   { from: "NEON_PREVIEW_DATABASE_URL", to: "DATABASE_URL_PREVIEW" },
   { from: "SUPABASE_PROJECT_ID", to: "SUPABASE_PROJECT_REF" },
+  { from: "BETTER_AUTH_IDENTIFY_URL", to: "BETTER_AUTH_KV_URL" },
+  {
+    from: "BETTER_AUTH_IDENTIFY_URL",
+    to: "NEXT_PUBLIC_BETTER_AUTH_KV_URL",
+  },
 ];
 
 export const DEPRECATED_CONFIG_KEYS = [

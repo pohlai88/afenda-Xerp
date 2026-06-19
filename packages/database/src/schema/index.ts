@@ -38,6 +38,14 @@ export {
 } from "../database.types.js";
 
 export { auditEvents } from "./audit.schema.js";
+export {
+  type AuthSchema,
+  authAccount,
+  authSchema,
+  authSession,
+  authUser,
+  authVerification,
+} from "./auth.schema.js";
 export { companies } from "./company.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";

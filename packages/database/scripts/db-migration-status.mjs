@@ -22,7 +22,8 @@ try {
   const tables = await pool.query(
     `SELECT to_regclass('public.tenants') AS tenants,
             to_regclass('public.users') AS users,
-            to_regclass('public.audit_events') AS audit_events`
+            to_regclass('public.audit_events') AS audit_events,
+            to_regclass('public.user') AS auth_user`
   );
 
   console.log(
@@ -31,6 +32,7 @@ try {
       tenants: Boolean(tables.rows[0]?.tenants),
       users: Boolean(tables.rows[0]?.users),
       auditEvents: Boolean(tables.rows[0]?.audit_events),
+      authUser: Boolean(tables.rows[0]?.auth_user),
       host: new URL(url).hostname,
     })
   );

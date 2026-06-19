@@ -17,6 +17,8 @@ const dryRun = args.has("--dry-run");
 
 /** Schema probes for migrations that introduce distinctive objects (newest first). */
 const MIGRATION_PROBES = {
+  "20260619195805_mushy_kronos": `
+    SELECT to_regclass('public.user') IS NOT NULL AS ok`,
   "20260619181744_great_robbie_robertson": `
     SELECT to_regclass('public.tenants') IS NOT NULL AS ok`,
 };

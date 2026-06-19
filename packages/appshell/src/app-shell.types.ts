@@ -111,6 +111,12 @@ export interface AppShellMainProps {
   title: string;
 }
 
+export interface AppShellIdentity {
+  readonly displayName: string;
+  readonly email: string;
+  readonly userId: string;
+}
+
 /** Root shell layout props. */
 export interface AppShellProps {
   activeItemId?: AppShellNavItemId;
@@ -119,6 +125,8 @@ export interface AppShellProps {
   readonly contextSwitcherCompact?: boolean;
   readonly contextSwitcherState?: AppShellContextSwitcherState;
   currentPathname?: string;
+  readonly identity?: AppShellIdentity;
+  readonly identityAccessory?: ReactNode;
   navItems?: readonly AppShellNavItem[];
   readonly onContextSwitchRequest?: () => void;
   /** Demo default only — production apps must pass real workspace context. */

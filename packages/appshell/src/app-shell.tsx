@@ -14,6 +14,8 @@ export function AppShell({
   contextSwitcherCompact,
   contextSwitcherState,
   currentPathname,
+  identity,
+  identityAccessory,
   navItems = DEFAULT_NAV_ITEMS,
   onContextSwitchRequest,
   workspace = DEFAULT_WORKSPACE_CONTEXT,
@@ -27,6 +29,8 @@ export function AppShell({
         commandItems={commandItems}
         contextSwitcherCompact={contextSwitcherCompact}
         contextSwitcherState={contextSwitcherState}
+        identity={identity}
+        identityAccessory={identityAccessory}
         onContextSwitchRequest={onContextSwitchRequest}
         workspace={workspace}
       />
