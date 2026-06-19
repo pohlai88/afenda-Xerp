@@ -17,6 +17,20 @@ const dryRun = args.has("--dry-run");
 
 /** Schema probes for migrations that introduce distinctive objects (newest first). */
 const MIGRATION_PROBES: Record<string, string> = {
+  "20260620080000_observability_audit_baseline": `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'audit_events'
+        AND column_name = 'actor_id'
+    ) AS ok`,
+  "20260620070000_platform_rollout_store": `
+    SELECT to_regclass('public.platform_feature_flags') IS NOT NULL AS ok`,
+  "20260620060000_entitlement_governance": `
+    SELECT to_regclass('public.entitlement_grants') IS NOT NULL AS ok`,
+  "20260620050000_role_permissions": `
+    SELECT to_regclass('public.role_permissions') IS NOT NULL AS ok`,
   "20260619250000_policy_governance": `
     SELECT to_regclass('public.policies') IS NOT NULL AS ok`,
   "20260619240000_role_governance": `

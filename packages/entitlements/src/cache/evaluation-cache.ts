@@ -13,10 +13,14 @@ export interface EvaluationCacheKeyInput {
 }
 
 export interface EvaluationCache {
-  readonly delete: (key: string) => void;
-  readonly get: (key: string) => EvaluationCacheEntry | null;
-  readonly invalidateTenant: (tenantId: string) => void;
-  readonly set: (key: string, entry: EvaluationCacheEntry) => void;
+  readonly delete: (key: string) => Promise<void>;
+  readonly get: (key: string) => Promise<EvaluationCacheEntry | null>;
+  readonly invalidateTenant: (tenantId: string) => Promise<void>;
+  readonly set: (
+    key: string,
+    entry: EvaluationCacheEntry,
+    ttlMs: number
+  ) => Promise<void>;
 }
 
 export interface CreateMemoryEvaluationCacheOptions {
@@ -46,7 +50,10 @@ export function createMemoryEvaluationCache(
     tenantIndex.set(tenantId, keys);
   }
 
-  function isExpired(entry: EvaluationCacheEntry, currentTime: number): boolean {
+  function isExpired(
+    entry: EvaluationCacheEntry,
+    currentTime: number
+  ): boolean {
     return entry.expiresAt <= currentTime;
   }
 
@@ -55,17 +62,17 @@ export function createMemoryEvaluationCache(
       const entry = store.get(key);
 
       if (!entry) {
-        return null;
+        return Promise.resolve(null);
       }
 
       const currentTime = now();
 
       if (isExpired(entry, currentTime)) {
         store.delete(key);
-        return null;
+        return Promise.resolve(null);
       }
 
-      return entry;
+      return Promise.resolve(entry);
     },
     set(key, entry) {
       store.set(key, entry);
@@ -75,15 +82,18 @@ export function createMemoryEvaluationCache(
       if (tenantId) {
         trackTenantKey(tenantId, key);
       }
+
+      return Promise.resolve();
     },
     delete(key) {
       store.delete(key);
+      return Promise.resolve();
     },
     invalidateTenant(tenantId) {
       const keys = tenantIndex.get(tenantId);
 
       if (!keys) {
-        return;
+        return Promise.resolve();
       }
 
       for (const key of keys) {
@@ -91,6 +101,7 @@ export function createMemoryEvaluationCache(
       }
 
       tenantIndex.delete(tenantId);
+      return Promise.resolve();
     },
   };
 }
@@ -104,18 +115,20 @@ export interface CachedEvaluateCapabilityOptions {
 export function createCachedCapabilityEvaluator(
   evaluate: (input: EvaluateCapabilityInput) => EntitlementDecisionContract,
   options: CachedEvaluateCapabilityOptions
-) {
+): (input: EvaluateCapabilityInput) => Promise<EntitlementDecisionContract> {
   const ttlMs = options.ttlMs ?? DEFAULT_TTL_MS;
   const now = options.now ?? (() => Date.now());
 
-  return (input: EvaluateCapabilityInput): EntitlementDecisionContract => {
+  return async (
+    input: EvaluateCapabilityInput
+  ): Promise<EntitlementDecisionContract> => {
     const cacheKey = buildEvaluationCacheKey({
       tenantId: input.context.tenantId,
       companyId: input.context.companyId,
       capabilityKey: input.capabilityKey,
     });
 
-    const cached = options.cache.get(cacheKey);
+    const cached = await options.cache.get(cacheKey);
 
     if (cached) {
       return cached.decision;
@@ -123,10 +136,14 @@ export function createCachedCapabilityEvaluator(
 
     const decision = evaluate(input);
 
-    options.cache.set(cacheKey, {
-      decision,
-      expiresAt: now() + ttlMs,
-    });
+    await options.cache.set(
+      cacheKey,
+      {
+        decision,
+        expiresAt: now() + ttlMs,
+      },
+      ttlMs
+    );
 
     return decision;
   };

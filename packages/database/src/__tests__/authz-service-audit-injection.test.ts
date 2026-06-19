@@ -171,8 +171,6 @@ describe("governed service audit injection", () => {
         key: "system_admin.users_read",
         name: "Read users",
         description: "Read platform users.",
-        domain: "system_admin",
-        action: "users_read",
         audit,
       },
       db

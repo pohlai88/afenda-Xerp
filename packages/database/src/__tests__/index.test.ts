@@ -5,6 +5,7 @@ import {
   authIdentityLinks,
   buildSupabaseDatabaseUrl,
   companies,
+  entitlementGrants,
   getDatabaseConfigStatus,
   getDatabaseUrl,
   getDedicatedDatabaseUrl,
@@ -29,11 +30,15 @@ import {
   PACKAGE_NAME,
   PLATFORM_LIFECYCLE_STATUSES,
   permissions,
+  platformFeatureFlags,
+  platformKillSwitches,
   platformSchema,
   policies,
   rolePermissions,
   roles,
+  tenantCommercialPlans,
   tenants,
+  usageLimitCounters,
   users,
 } from "../index.js";
 
@@ -50,13 +55,18 @@ const PLATFORM_TABLES = {
   authIdentityLinks,
   tenants,
   companies,
+  entitlementGrants,
   organizations,
   users,
   memberships,
   roles,
   permissions,
+  platformFeatureFlags,
+  platformKillSwitches,
   policies,
   rolePermissions,
+  tenantCommercialPlans,
+  usageLimitCounters,
 } as const;
 
 describe("@afenda/database package", () => {
@@ -109,6 +119,7 @@ describe("@afenda/database package", () => {
       tenantId: "00000000-0000-4000-8000-000000000001",
       companyId: "00000000-0000-4000-8000-000000000002",
       organizationId: "00000000-0000-4000-8000-000000000003",
+      actorId: "00000000-0000-4000-8000-000000000004",
       actorType: "user" as const,
       actorUserId: "00000000-0000-4000-8000-000000000004",
       module: "platform",
@@ -119,13 +130,14 @@ describe("@afenda/database package", () => {
       reason: "Membership created",
       permission: "system_admin.users_manage",
       policyId: "policy-approval-001",
-      source: "app" as const,
+      source: "api" as const,
       correlationId: "corr-001",
       eventVersion: "1.0",
       metadata: { source: "test" },
     };
 
     expect(auditEvents.actorType).toBeDefined();
+    expect(auditEvents.actorId).toBeDefined();
     expect(auditEvents.actorUserId).toBeDefined();
     expect(auditEvents.tenantId).toBeDefined();
     expect(auditEvents.companyId).toBeDefined();

@@ -33,7 +33,8 @@ describe("audit event builder", () => {
   it("exports governed actor types and sources", () => {
     expect(AUDIT_ACTOR_TYPES).toContain("user");
     expect(AUDIT_ACTOR_TYPES).toContain("cron");
-    expect(AUDIT_SOURCES).toContain("auth");
+    expect(AUDIT_SOURCES).toContain("api");
+    expect(AUDIT_SOURCES).not.toContain("auth");
     expect(AUDIT_EVENT_VERSION).toBe("1.0");
   });
 
@@ -42,6 +43,7 @@ describe("audit event builder", () => {
 
     expect(row).toMatchObject({
       actorType: "user",
+      actorId: baseInput.actorUserId,
       actorUserId: baseInput.actorUserId,
       module: "platform",
       action: "membership.create",
@@ -76,7 +78,8 @@ describe("audit event builder", () => {
     expect(row.reason).toBeNull();
     expect(row.permission).toBeNull();
     expect(row.policyId).toBeNull();
-    expect(row.source).toBe("app");
+    expect(row.actorId).toBe("system");
+    expect(row.source).toBe("api");
     expect(row.eventVersion).toBe("1.0");
     expect(row.metadata).toEqual({});
   });
@@ -108,6 +111,18 @@ describe("audit event builder", () => {
         source: "frontend" as never,
       })
     ).toThrow(AuditValidationError);
+  });
+
+  it("normalizes legacy audit source aliases for backward compatibility", () => {
+    expect(buildAuditEventRow({ ...baseInput, source: "app" }).source).toBe(
+      "api"
+    );
+    expect(buildAuditEventRow({ ...baseInput, source: "auth" }).source).toBe(
+      "api"
+    );
+    expect(buildAuditEventRow({ ...baseInput, source: "cron" }).source).toBe(
+      "job"
+    );
   });
 
   it("rejects unsupported event versions", () => {

@@ -9,7 +9,13 @@ import {
   allKillSwitchesInactive,
   criticalKillSwitchesActive,
 } from "../flag-fixtures";
-import { evaluateAll, evaluateFlag, isEnabled, PACKAGE_NAME } from "../index";
+import {
+  evaluateAll,
+  evaluateFlag,
+  isEnabled,
+  isEnabledStrict,
+  PACKAGE_NAME,
+} from "../index";
 
 const PROD_CTX = {
   tenantId: "tenant_test",
@@ -288,6 +294,12 @@ describe("isEnabled", () => {
 
   it("returns false for a disabled flag", () => {
     expect(isEnabled("e_invoice", allFlagsDisabled, PROD_CTX)).toBe(false);
+  });
+
+  it("isEnabledStrict returns false for missing flags", () => {
+    expect(isEnabledStrict("nonexistent", allFlagsEnabled, PROD_CTX)).toBe(
+      false
+    );
   });
 
   it("returns true when flag does not exist (fail-open default)", () => {

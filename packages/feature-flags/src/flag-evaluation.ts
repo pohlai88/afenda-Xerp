@@ -1,8 +1,6 @@
 import {
-  type DeploymentEnvironment,
-  type FeatureFlagContract,
-  type FeatureFlagKey,
-  type KillSwitchContract,
+  type FeatureFlagResolution,
+  resolveFeatureFlagStrict as resolveEntitlementFeatureFlagStrict,
   resolveFeatureFlag,
   resolveKillSwitch,
 } from "@afenda/entitlements";
@@ -20,42 +18,29 @@ export type {
   KillSwitchResolution,
 } from "@afenda/entitlements";
 
+// Re-export typed contracts from the contracts layer
+export type { FeatureFlagAuditContract } from "./contracts/feature-flag-audit.contract";
+export type { FeatureFlagContext } from "./contracts/feature-flag-context.contract";
+export type {
+  FlagAllowed,
+  FlagDecision,
+  FlagDenialReason,
+  FlagDenied,
+} from "./contracts/feature-flag-decision.contract";
+
 // ---------------------------------------------------------------------------
-// Evaluation context
+// Evaluation context (backward-compat alias for FeatureFlagContext)
 // ---------------------------------------------------------------------------
 
-export interface FlagEvaluationContext {
-  readonly companyId: string;
-  readonly environment: DeploymentEnvironment;
-  readonly tenantId: string;
-}
+export type { FeatureFlagContext as FlagEvaluationContext } from "./contracts/feature-flag-context.contract";
 
-// ---------------------------------------------------------------------------
-// Typed denied reason — distinct from entitlement denial codes
-// ---------------------------------------------------------------------------
-
-export type FlagDenialReason =
-  | "flag_disabled"
-  | "kill_switch_active"
-  | "not_found"
-  | "environment_excluded"
-  | "tenant_excluded"
-  | "company_excluded"
-  | "rollout_off";
-
-export interface FlagAllowed {
-  readonly allowed: true;
-  readonly flag: FeatureFlagContract;
-  readonly key: FeatureFlagKey;
-}
-
-export interface FlagDenied {
-  readonly allowed: false;
-  readonly key: FeatureFlagKey;
-  readonly reason: FlagDenialReason;
-}
-
-export type FlagDecision = FlagAllowed | FlagDenied;
+import type {
+  FeatureFlagContract,
+  FeatureFlagKey,
+} from "./contracts/feature-flag.contract";
+import type { FeatureFlagContext as FlagEvaluationContext } from "./contracts/feature-flag-context.contract";
+import type { FlagDecision } from "./contracts/feature-flag-decision.contract";
+import type { KillSwitchContract } from "./contracts/kill-switch.contract";
 
 // ---------------------------------------------------------------------------
 // Detailed resolution — surfaces the denial reason for observability
@@ -113,12 +98,30 @@ export function evaluateFlag(
 // Simple boolean shorthand — wraps the entitlements resolver directly
 // ---------------------------------------------------------------------------
 
+/** Fail-open boolean shorthand — missing flags return true (gradual rollout). */
 export function isEnabled(
   key: FeatureFlagKey,
   flags: readonly FeatureFlagContract[],
   context: FlagEvaluationContext
 ): boolean {
   return resolveFeatureFlag(key, flags, context).enabled;
+}
+
+/** Fail-closed boolean shorthand — missing flags return false (security paths). */
+export function isEnabledStrict(
+  key: FeatureFlagKey,
+  flags: readonly FeatureFlagContract[],
+  context: FlagEvaluationContext
+): boolean {
+  return resolveEntitlementFeatureFlagStrict(key, flags, context).enabled;
+}
+
+export function resolveFeatureFlagStrict(
+  key: FeatureFlagKey,
+  flags: readonly FeatureFlagContract[],
+  context: FlagEvaluationContext
+): FeatureFlagResolution {
+  return resolveEntitlementFeatureFlagStrict(key, flags, context);
 }
 
 // ---------------------------------------------------------------------------

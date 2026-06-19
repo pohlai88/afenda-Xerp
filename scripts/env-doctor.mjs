@@ -58,17 +58,8 @@ function collectDeprecatedSourceWarnings(repoRoot) {
   return warnings;
 }
 
-async function main() {
-  const options = parseArgs(process.argv.slice(2));
-
-  if (options.help) {
-    printHelp();
-    return 0;
-  }
-
-  const repoRoot = resolveRepoRoot();
+function collectMissingSourceErrors(repoRoot) {
   const errors = [];
-  const warnings = [];
 
   for (const relativePath of Object.values(SOURCE_FILES)) {
     if (!existsSync(join(repoRoot, relativePath))) {
@@ -76,21 +67,14 @@ async function main() {
     }
   }
 
-  if (errors.length > 0) {
-    process.stderr.write(`${errors.join("\n")}\n`);
-    return 1;
-  }
+  return errors;
+}
 
-  warnings.push(...collectDeprecatedSourceWarnings(repoRoot));
+function collectMergedEnvDiagnostics(merged, expectedContent) {
+  const errors = [];
+  const warnings = [];
 
-  const merged = loadMergedEnv(repoRoot, {
-    overlays: [".env.config.local"].filter((relativePath) =>
-      existsSync(join(repoRoot, relativePath))
-    ),
-  });
-  const expectedContent = serializeEnvFile(merged);
   const missingRequired = findMissingRequiredKeys(merged.entries);
-
   if (missingRequired.length > 0) {
     errors.push(
       `Missing required env key(s): ${missingRequired.join(", ")} (set directly or via NEON_DATABASE_URL alias)`
@@ -118,7 +102,6 @@ async function main() {
   }
 
   const emptyKeys = findEmptyTrackedKeys(merged.entries, merged.order);
-
   if (emptyKeys.length > 0) {
     warnings.push(
       `Empty env value(s): ${emptyKeys.slice(0, 12).join(", ")}${
@@ -126,6 +109,42 @@ async function main() {
       }`
     );
   }
+
+  return { errors, warnings };
+}
+
+async function collectUpstashWarnings(merged) {
+  const warnings = [];
+  const upstashUrl = merged.entries.get("UPSTASH_REDIS_REST_URL")?.trim();
+  const upstashToken = merged.entries.get("UPSTASH_REDIS_REST_TOKEN")?.trim();
+
+  if (!(upstashUrl && upstashToken)) {
+    return warnings;
+  }
+
+  try {
+    const response = await fetch(`${upstashUrl}/ping`, {
+      headers: { Authorization: `Bearer ${upstashToken}` },
+    });
+
+    if (!response.ok) {
+      warnings.push(
+        `Upstash Redis ping failed (HTTP ${response.status}) — verify UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN`
+      );
+    }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "unknown connectivity error";
+    warnings.push(
+      `Upstash Redis unreachable (${message}) — update UPSTASH_REDIS_REST_URL in .env.config with a valid REST endpoint from the Upstash console`
+    );
+  }
+
+  return warnings;
+}
+
+async function collectStaleTargetErrors(repoRoot, expectedContent, options) {
+  const errors = [];
 
   if (!options.sourcesOnly) {
     const stale = await compareSyncedTargets(
@@ -142,6 +161,41 @@ async function main() {
       );
     }
   }
+
+  return errors;
+}
+
+async function main() {
+  const options = parseArgs(process.argv.slice(2));
+
+  if (options.help) {
+    printHelp();
+    return 0;
+  }
+
+  const repoRoot = resolveRepoRoot();
+  const errors = collectMissingSourceErrors(repoRoot);
+  const warnings = collectDeprecatedSourceWarnings(repoRoot);
+
+  if (errors.length > 0) {
+    process.stderr.write(`${errors.join("\n")}\n`);
+    return 1;
+  }
+
+  const merged = loadMergedEnv(repoRoot, {
+    overlays: [".env.config.local"].filter((relativePath) =>
+      existsSync(join(repoRoot, relativePath))
+    ),
+  });
+  const expectedContent = serializeEnvFile(merged);
+  const diagnostics = collectMergedEnvDiagnostics(merged, expectedContent);
+
+  errors.push(...diagnostics.errors);
+  warnings.push(...diagnostics.warnings);
+  warnings.push(...(await collectUpstashWarnings(merged)));
+  errors.push(
+    ...(await collectStaleTargetErrors(repoRoot, expectedContent, options))
+  );
 
   if (warnings.length > 0) {
     process.stdout.write(`${warnings.join("\n")}\n`);

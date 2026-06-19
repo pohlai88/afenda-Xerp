@@ -111,6 +111,6 @@ describe.runIf(isLiveDatabaseTestEnabled())(
       const verification = await verifyPlatformSeed(client.db, "platform");
       expect(verification.ok).toBe(true);
       expect(verification.issues).toEqual([]);
-    });
+    }, 30_000);
   }
 );

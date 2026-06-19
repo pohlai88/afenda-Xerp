@@ -1,26 +1,20 @@
+import { writeAuditEvent } from "@afenda/observability";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { auditEvents } from "../schema/audit.schema.js";
-import { buildAuditEventRow } from "./audit-event.builder.js";
-import type { InsertAuditEventInput } from "./audit-event.contract.js";
+import type {
+  AuditEventInsertRow,
+  InsertAuditEventInput,
+} from "./audit-event.contract.js";
 
 export interface InsertAuditEventResult {
   readonly id: string;
 }
 
-/**
- * Append-only audit writer.
- *
- * This is the only supported write path for `audit_events`.
- * Do not call `db.insert(auditEvents)`, `db.update(auditEvents)`,
- * or `db.delete(auditEvents)` from feature modules.
- */
-export async function insertAuditEvent(
-  input: InsertAuditEventInput,
+async function persistAuditEventRow(
+  row: AuditEventInsertRow,
   db: AfendaDatabase = getDb()
 ): Promise<InsertAuditEventResult> {
-  const row = buildAuditEventRow(input);
-
   const [inserted] = await db
     .insert(auditEvents)
     .values(row)
@@ -31,4 +25,18 @@ export async function insertAuditEvent(
   }
 
   return { id: inserted.id };
+}
+
+/**
+ * Backward-compatible database adapter for the TIP-010 audit writer authority.
+ *
+ * New code should import `writeAuditEvent()` from `@afenda/observability`.
+ */
+export async function insertAuditEvent(
+  input: InsertAuditEventInput,
+  db: AfendaDatabase = getDb()
+): Promise<InsertAuditEventResult> {
+  return await writeAuditEvent(input, {
+    write: (row) => persistAuditEventRow(row, db),
+  });
 }

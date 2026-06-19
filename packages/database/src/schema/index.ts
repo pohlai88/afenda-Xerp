@@ -12,6 +12,10 @@ import { permissions } from "./permission.schema.js";
 import { policies } from "./policy.schema.js";
 import { roles } from "./role.schema.js";
 import { rolePermissions } from "./role-permission.schema.js";
+import {
+  platformFeatureFlags,
+  platformKillSwitches,
+} from "./rollout.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
@@ -24,6 +28,8 @@ export const platformSchema = {
   memberships,
   organizations,
   permissions,
+  platformFeatureFlags,
+  platformKillSwitches,
   policies,
   rolePermissions,
   roles,
@@ -38,9 +44,12 @@ export type PlatformSchema = typeof platformSchema;
 export {
   auditActorTypeEnum,
   auditResultEnum,
+  auditSourceEnum,
   companyStatusEnum,
   entitlementScopeEnum,
   entitlementTypeEnum,
+  featureFlagRolloutEnum,
+  killSwitchSeverityEnum,
   membershipScopeEnum,
   membershipStatusEnum,
   organizationStatusEnum,
@@ -77,5 +86,9 @@ export { permissions } from "./permission.schema.js";
 export { policies } from "./policy.schema.js";
 export { roles } from "./role.schema.js";
 export { rolePermissions } from "./role-permission.schema.js";
+export {
+  platformFeatureFlags,
+  platformKillSwitches,
+} from "./rollout.schema.js";
 export { tenants } from "./tenant.schema.js";
 export { users } from "./user.schema.js";

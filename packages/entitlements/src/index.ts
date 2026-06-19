@@ -15,6 +15,26 @@ export {
   beta,
   resolveBetaAccess,
 } from "./beta/beta-access-engine";
+export {
+  buildEvaluationCacheKey,
+  type CachedEvaluateCapabilityOptions,
+  createCachedCapabilityEvaluator,
+  createMemoryEvaluationCache,
+  type EvaluationCache,
+  type EvaluationCacheEntry,
+  type EvaluationCacheKeyInput,
+} from "./cache/evaluation-cache";
+export {
+  type CreateEvaluationCacheFromEnvOptions,
+  createEvaluationCacheFromEnv,
+  createUpstashEvaluationCacheFromEnv,
+  getUpstashRedisConfig,
+  hasUpstashRedisConfig,
+  MissingUpstashRedisConfigError,
+  probeUpstashRedisConnectivity,
+  type UpstashRedisConfig,
+} from "./cache/redis-env";
+export { createUpstashEvaluationCache } from "./cache/upstash-evaluation-cache";
 export type { BetaFlagContract } from "./contracts/beta-flag.contract";
 export type {
   EntitlementContract,
@@ -47,6 +67,7 @@ export type {
   FeatureFlagKey,
   JsonPrimitive,
   JsonValue,
+  KillSwitchKey,
 } from "./contracts/shared.contract";
 export type {
   UsageLimitContract,
@@ -98,7 +119,14 @@ export {
   type FeatureFlagResolution,
   featureFlag,
   resolveFeatureFlag,
+  resolveFeatureFlagStrict,
 } from "./flags/feature-flag-engine";
+export {
+  FEATURE_FLAG_FAIL_OPEN_DEFAULT,
+  FEATURE_FLAG_ROLLOUT_POLICY,
+  FEATURE_FLAG_STRICT_POLICY,
+  type FeatureFlagResolutionPolicy,
+} from "./flags/feature-flag-policy";
 export {
   type KillSwitchResolution,
   resolveKillSwitch,
@@ -113,3 +141,11 @@ export {
   localization,
   resolveLocalizationAccess,
 } from "./localization/localization-engine";
+export {
+  type MappedEntitlementEvaluationData,
+  mapDatabaseBundleToEvaluationData,
+} from "./provisioning/database-bundle.mapper";
+export {
+  type MappedRolloutEvaluationData,
+  mapPlatformRolloutToEvaluationData,
+} from "./provisioning/rollout-bundle.mapper";

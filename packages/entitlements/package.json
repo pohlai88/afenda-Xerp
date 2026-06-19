@@ -26,6 +26,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@afenda/database": "workspace:^"
+    "@afenda/database": "workspace:^",
+    "@upstash/redis": "^1.35.3"
   }
 }

@@ -9,7 +9,6 @@ export {
   AUDIT_EVENT_VERSION,
   AUDIT_EVENT_VERSIONS,
   AUDIT_FIELD_LIMITS,
-  AUDIT_SOURCES,
   type AuditEventInsertRow,
   type AuditEventMetadata,
   type AuditEventVersion,
@@ -95,40 +94,20 @@ export {
   validateIsoRegistryIntegrity,
 } from "./company/iso-codes.js";
 export {
-  assertValidPlanTemplateId,
-  type CommercialPlanTemplate,
-  type EntitlementGrantRecord,
-  type EntitlementGrantTemplateRow,
-  EntitlementProvisionError,
-  type ProvisionEntitlementBundleInput,
-  InvalidPlanTemplateError,
-  type TenantEntitlementBundle,
-  type UsageLimitRecord,
-  type UsageLimitTemplateRow,
-} from "./entitlement/entitlement.contract.js";
-export { loadTenantEntitlementBundle } from "./entitlement/entitlement-load.service.js";
-export {
-  type EntitlementProvisionAuditContext,
-  type ProvisionTenantEntitlementsInput,
-  type ProvisionTenantEntitlementsResult,
-  provisionTenantEntitlements,
-} from "./entitlement/entitlement-provision.service.js";
-export {
-  commercialPlanTemplateList,
-  commercialPlanTemplates,
-  getCommercialPlanTemplate,
-} from "./entitlement/plan-templates.js";
-export {
   AUDIT_ACTOR_TYPES,
   type AuditActorType,
   type AuditResult,
-  type CompanyStatus,
   COMMERCIAL_PLAN_TEMPLATE_IDS,
   type CommercialPlanTemplateId,
+  type CompanyStatus,
   ENTITLEMENT_SCOPES,
   ENTITLEMENT_TYPES,
   type EntitlementScope,
   type EntitlementType,
+  FEATURE_FLAG_ROLLOUTS,
+  type FeatureFlagRollout,
+  KILL_SWITCH_SEVERITIES,
+  type KillSwitchSeverity,
   MEMBERSHIP_SCOPE_TYPES,
   type MembershipScopeType,
   type MembershipStatus,
@@ -158,6 +137,42 @@ export {
   resetDbClient,
   schema,
 } from "./db.js";
+export {
+  assertValidPlanTemplateId,
+  type CommercialPlanTemplate,
+  type EntitlementGrantRecord,
+  type EntitlementGrantTemplateRow,
+  EntitlementProvisionError,
+  InvalidPlanTemplateError,
+  type ProvisionEntitlementBundleInput,
+  type TenantEntitlementBundle,
+  type UsageLimitRecord,
+  type UsageLimitTemplateRow,
+} from "./entitlement/entitlement.contract.js";
+export { loadTenantEntitlementBundle } from "./entitlement/entitlement-load.service.js";
+export {
+  type EntitlementProvisionAuditContext,
+  type ProvisionTenantEntitlementsInput,
+  type ProvisionTenantEntitlementsResult,
+  provisionTenantEntitlements,
+} from "./entitlement/entitlement-provision.service.js";
+export {
+  commercialPlanTemplateList,
+  commercialPlanTemplates,
+  getCommercialPlanTemplate,
+} from "./entitlement/plan-templates.js";
+export {
+  type FeatureFlagRecord,
+  type KillSwitchRecord,
+  type PlatformRolloutBundle,
+  parseFeatureFlagAllowlist,
+  parseFeatureFlagEnvironments,
+} from "./entitlement/rollout.contract.js";
+export { loadPlatformRolloutBundle } from "./entitlement/rollout-load.service.js";
+export {
+  type SyncPlatformRolloutResult,
+  syncPlatformRolloutCatalog,
+} from "./entitlement/rollout-sync.service.js";
 export {
   buildSupabaseDatabaseUrl,
   DATABASE_CONFIG_ISSUES,
@@ -382,6 +397,7 @@ export {
   type AuthSchema,
   auditEvents,
   auditResultEnum,
+  auditSourceEnum,
   authAccount,
   authIdentityLinks,
   authSchema,
@@ -393,6 +409,8 @@ export {
   entitlementGrants,
   entitlementScopeEnum,
   entitlementTypeEnum,
+  featureFlagRolloutEnum,
+  killSwitchSeverityEnum,
   membershipScopeEnum,
   membershipStatusEnum,
   memberships,
@@ -401,6 +419,8 @@ export {
   organizationTypeEnum,
   type PlatformSchema,
   permissions,
+  platformFeatureFlags,
+  platformKillSwitches,
   platformSchema,
   policies,
   policyEffectEnum,
@@ -419,6 +439,10 @@ export {
   users,
 } from "./schema/index.js";
 export { PLATFORM_PERMISSION_CATALOG } from "./seeds/platform-permissions.catalog.js";
+export {
+  PLATFORM_FEATURE_FLAG_CATALOG,
+  PLATFORM_KILL_SWITCH_CATALOG,
+} from "./seeds/platform-rollout.catalog.js";
 export type {
   SeedProfile,
   SeedVerificationResult,

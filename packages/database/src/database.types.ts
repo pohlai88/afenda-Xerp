@@ -1,4 +1,16 @@
+import {
+  AUDIT_ACTOR_TYPES as OBSERVABILITY_AUDIT_ACTOR_TYPES,
+  AUDIT_RESULTS as OBSERVABILITY_AUDIT_RESULTS,
+  AUDIT_SOURCES as OBSERVABILITY_AUDIT_SOURCES,
+} from "@afenda/observability";
 import { pgEnum } from "drizzle-orm/pg-core";
+
+// biome-ignore lint/performance/noBarrelFile: preserves existing @afenda/database audit vocabulary exports.
+export {
+  AUDIT_ACTOR_TYPES,
+  AUDIT_RESULTS,
+  AUDIT_SOURCES,
+} from "@afenda/observability";
 
 /** Shared platform lifecycle vocabulary for tenant, company, and organization. */
 export const PLATFORM_LIFECYCLE_STATUSES = [
@@ -91,22 +103,18 @@ export const policyStatusEnum = pgEnum("policy_status", [
   "archived",
 ]);
 
-export const auditResultEnum = pgEnum("audit_result", [
-  "success",
-  "failure",
-  "denied",
-]);
-
-export const AUDIT_ACTOR_TYPES = [
-  "user",
-  "system",
-  "service",
-  "integration",
-  "cron",
-  "import",
-] as const;
-
-export const auditActorTypeEnum = pgEnum("audit_actor_type", AUDIT_ACTOR_TYPES);
+export const auditResultEnum = pgEnum(
+  "audit_result",
+  OBSERVABILITY_AUDIT_RESULTS
+);
+export const auditActorTypeEnum = pgEnum(
+  "audit_actor_type",
+  OBSERVABILITY_AUDIT_ACTOR_TYPES
+);
+export const auditSourceEnum = pgEnum(
+  "audit_source",
+  OBSERVABILITY_AUDIT_SOURCES
+);
 
 export type TenantStatus = (typeof tenantStatusEnum.enumValues)[number];
 export type CompanyStatus = (typeof companyStatusEnum.enumValues)[number];
@@ -124,6 +132,7 @@ export type PolicyScope = (typeof policyScopeEnum.enumValues)[number];
 export type PolicyStatus = (typeof policyStatusEnum.enumValues)[number];
 export type AuditResult = (typeof auditResultEnum.enumValues)[number];
 export type AuditActorType = (typeof auditActorTypeEnum.enumValues)[number];
+export type AuditSource = (typeof auditSourceEnum.enumValues)[number];
 
 export const ENTITLEMENT_TYPES = [
   "module",
@@ -177,3 +186,30 @@ export type EntitlementScope = (typeof ENTITLEMENT_SCOPES)[number];
 export type UsageLimitPeriod = (typeof USAGE_LIMIT_PERIODS)[number];
 export type CommercialPlanTemplateId =
   (typeof COMMERCIAL_PLAN_TEMPLATE_IDS)[number];
+
+export const FEATURE_FLAG_ROLLOUTS = [
+  "off",
+  "internal",
+  "beta",
+  "limited",
+  "on",
+] as const;
+
+export const featureFlagRolloutEnum = pgEnum(
+  "feature_flag_rollout",
+  FEATURE_FLAG_ROLLOUTS
+);
+
+export const KILL_SWITCH_SEVERITIES = [
+  "standard",
+  "urgent",
+  "critical",
+] as const;
+
+export const killSwitchSeverityEnum = pgEnum(
+  "kill_switch_severity",
+  KILL_SWITCH_SEVERITIES
+);
+
+export type FeatureFlagRollout = (typeof FEATURE_FLAG_ROLLOUTS)[number];
+export type KillSwitchSeverity = (typeof KILL_SWITCH_SEVERITIES)[number];

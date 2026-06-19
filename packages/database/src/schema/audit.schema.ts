@@ -6,7 +6,11 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { auditActorTypeEnum, auditResultEnum } from "../database.types.js";
+import {
+  auditActorTypeEnum,
+  auditResultEnum,
+  auditSourceEnum,
+} from "../database.types.js";
 import {
   actorUserIdRef,
   companyIdRef,
@@ -39,6 +43,7 @@ export const auditEvents = pgTable(
       onDelete: "set null",
     }),
     actorType: auditActorTypeEnum("actor_type").notNull(),
+    actorId: varchar("actor_id", { length: 191 }).notNull(),
     actorUserId: actorUserIdRef().references(() => users.id, {
       onDelete: "set null",
     }),
@@ -50,7 +55,7 @@ export const auditEvents = pgTable(
     reason: text("reason"),
     permission: varchar("permission", { length: 128 }),
     policyId: varchar("policy_id", { length: 128 }),
-    source: varchar("source", { length: 64 }).notNull().default("app"),
+    source: auditSourceEnum("source").notNull().default("api"),
     ipAddress: varchar("ip_address", { length: 64 }),
     userAgent: text("user_agent"),
     correlationId: varchar("correlation_id", { length: 128 }).notNull(),
@@ -69,6 +74,7 @@ export const auditEvents = pgTable(
     index("audit_events_tenant_id_idx").on(table.tenantId),
     index("audit_events_company_id_idx").on(table.companyId),
     index("audit_events_organization_id_idx").on(table.organizationId),
+    index("audit_events_actor_id_idx").on(table.actorId),
     index("audit_events_actor_user_id_idx").on(table.actorUserId),
     index("audit_events_correlation_id_idx").on(table.correlationId),
     index("audit_events_target_idx").on(table.targetType, table.targetId),

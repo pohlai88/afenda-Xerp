@@ -1,4 +1,5 @@
 import type { AfendaDatabase } from "../db.js";
+import { syncPlatformRolloutCatalog } from "../entitlement/rollout-sync.service.js";
 import { PLATFORM_PERMISSION_CATALOG } from "./platform-permissions.catalog.js";
 import { PLATFORM_POLICY_CATALOG } from "./platform-policies.catalog.js";
 import { PLATFORM_ROLE_CATALOG } from "./platform-roles.catalog.js";
@@ -103,6 +104,8 @@ async function seedPlatformCatalog(
       )
     );
   }
+
+  await syncPlatformRolloutCatalog(db);
 
   return {
     profile,
