@@ -2,20 +2,96 @@
 export const PACKAGE_NAME = "@afenda/database" as const;
 
 export {
+  type InsertAuditEventResult,
+  insertAuditEvent,
+} from "./audit/audit.writer.js";
+export { buildAuditEventRow } from "./audit/audit-event.builder.js";
+export {
+  AUDIT_EVENT_VERSION,
+  AUDIT_EVENT_VERSIONS,
+  AUDIT_FIELD_LIMITS,
+  AUDIT_SOURCES,
+  type AuditEventInsertRow,
+  type AuditEventMetadata,
+  type AuditEventVersion,
+  type AuditMetadataPrimitive,
+  type AuditSource,
+  type InsertAuditEventInput,
+  SENSITIVE_METADATA_KEY_PATTERN,
+} from "./audit/audit-event.contract.js";
+export {
+  AuditValidationError,
+  assertAuditMetadata,
+  auditActorTypeSchema,
+  auditEventVersionSchema,
+  auditMetadataPrimitiveSchema,
+  auditResultSchema,
+  auditSourceSchema,
+  insertAuditEventInputSchema,
+  parseInsertAuditEventInput,
+} from "./audit/audit-event.validation.js";
+export {
+  AUTH_ACCOUNT_PUBLIC_COLUMNS,
+  AUTH_ADAPTER_SENSITIVE_ACCOUNT_FIELDS,
+  type AuthAccountRow,
+  type AuthAdapterSensitiveAccountField,
+  type PublicAuthAccount,
+  toPublicAuthAccount,
+} from "./auth/auth-account.boundary.js";
+export {
+  findPlatformUserIdByAuthUserId,
+  type InsertAuthIdentityLinkInput,
+  type InsertAuthIdentityLinkResult,
+  insertAuthIdentityLink,
+} from "./auth/auth-identity.service.js";
+export {
   type AfendaAuthDatabase,
+  type AfendaAuthDbClient,
   type CreateAuthDbOptions,
   createAuthDb,
+  createAuthDbClient,
+  getAuthDb,
+  getAuthDbClient,
+  resetAllDbClients,
+  resetAuthDbClient,
 } from "./auth-db.js";
+export type { AfendaPgClient, CreatePgClientOptions } from "./client.types.js";
 export {
+  assertCompanySlug,
+  assertIso3166Alpha2CountryCode,
+  assertIso4217CurrencyCode,
+  buildCompanyInsertRow,
+  buildCompanyUpdatePatch,
+  type CompanyInsertRow,
+  type CompanyUpdatePatch,
+  type CompanyWriteInput,
+  InvalidCompanySlugError,
+  InvalidCountryCodeError,
+  InvalidCurrencyCodeError,
+  normalizeCompanySlug,
+} from "./company/company.contract.js";
+export {
+  type CompanyAuditContext,
+  type CompanyMutationResult,
+  type InsertCompanyInput,
+  insertCompany,
+  type UpdateCompanyInput,
+  updateCompany,
+} from "./company/company.service.js";
+export {
+  AUDIT_ACTOR_TYPES,
+  type AuditActorType,
   type AuditResult,
   type CompanyStatus,
-  createPermissionKey,
-  InvalidPermissionKeyError,
+  MEMBERSHIP_SCOPE_TYPES,
+  type MembershipScopeType,
   type MembershipStatus,
   type OrganizationStatus,
   type OrganizationType,
-  type PermissionKey,
+  PLATFORM_LIFECYCLE_STATUSES,
+  type PlatformLifecycleStatus,
   type PolicyEffect,
+  type PolicyScope,
   type PolicyStatus,
   type RoleScope,
   type RoleStatus,
@@ -24,13 +100,23 @@ export {
 } from "./database.types.js";
 export {
   type AfendaDatabase,
+  type AfendaDbClient,
   type CreateDbOptions,
   createDb,
+  createDbClient,
   createDbPool,
+  getDb,
+  getDbClient,
+  resetDbClient,
   schema,
 } from "./db.js";
 export {
   buildSupabaseDatabaseUrl,
+  DATABASE_CONFIG_ISSUES,
+  type DatabaseConfigIssue,
+  type DatabaseConfigSource,
+  type DatabaseConfigStatus,
+  getDatabaseConfigStatus,
   getDatabaseUrl,
   getDatabaseUrlForMethod,
   getDedicatedDatabaseUrl,
@@ -43,24 +129,197 @@ export {
   getTransactionDatabaseUrl,
   hasDatabaseUrl,
   hasSupabaseDatabaseConfig,
+  InvalidSupabaseDbPoolerHostError,
+  InvalidSupabaseProjectUrlError,
   MissingDatabaseUrlError,
+  MissingMigrationDatabaseUrlError,
   MissingSupabaseDbPasswordError,
   MissingSupabaseDbRegionError,
   MissingSupabaseProjectRefError,
+  resolveMigrationDatabaseUrl,
   type SupabaseConnectionMethod,
 } from "./env.js";
-export { primaryId } from "./ids.js";
+export {
+  actorUserIdRef,
+  auditEventId,
+  companyId,
+  companyIdRef,
+  type EntityRefColumn,
+  entityRefId,
+  membershipId,
+  organizationId,
+  organizationIdRef,
+  type PrimaryIdColumn,
+  parentOrganizationIdRef,
+  permissionId,
+  policyId,
+  primaryId,
+  roleId,
+  roleIdRef,
+  tenantId,
+  tenantIdRef,
+  userId,
+  userIdRef,
+} from "./ids.js";
+export {
+  assertMembershipScopeShape,
+  assertRoleMatchesMembershipScope,
+  buildMembershipInsertRow,
+  buildMembershipScopeKey,
+  buildMembershipUpdatePatch,
+  MembershipDuplicateGrantError,
+  type MembershipInsertRow,
+  MembershipRoleScopeError,
+  MembershipScopeMismatchError,
+  MembershipScopeValidationError,
+  type MembershipUpdatePatch,
+  type MembershipWriteInput,
+} from "./membership/membership.contract.js";
+export {
+  type DeactivateMembershipInput,
+  deactivateMembership,
+  type InsertMembershipInput,
+  insertMembership,
+  type MembershipAuditContext,
+  type MembershipMutationResult,
+  type UpdateMembershipInput,
+  updateMembership,
+} from "./membership/membership.service.js";
+export {
+  assertNoOrganizationCycle,
+  assertOrganizationSlug,
+  buildOrganizationInsertRow,
+  buildOrganizationUpdatePatch,
+  InvalidOrganizationSlugError,
+  normalizeOrganizationSlug,
+  OrganizationCycleError,
+  OrganizationHasChildrenError,
+  type OrganizationInsertRow,
+  OrganizationParentNotFoundError,
+  OrganizationScopeMismatchError,
+  type OrganizationUpdatePatch,
+  type OrganizationWriteInput,
+} from "./organization/organization.contract.js";
+export {
+  type DeleteOrganizationInput,
+  deleteOrganization,
+  type InsertOrganizationInput,
+  insertOrganization,
+  type OrganizationAuditContext,
+  type OrganizationMutationResult,
+  type UpdateOrganizationInput,
+  updateOrganization,
+} from "./organization/organization.service.js";
+export {
+  buildPermissionInsertRow,
+  buildPermissionUpdatePatch,
+  type PermissionCatalogWriteInput,
+  type PermissionInsertRow,
+  PermissionKeyImmutableError,
+  type PermissionRecord,
+  type PermissionUpdatePatch,
+} from "./permission/permission.contract.js";
+export {
+  type InsertPermissionInput,
+  insertPermission,
+  type PermissionAuditContext,
+  type PermissionMutationResult,
+  type UpdatePermissionInput,
+  updatePermission,
+} from "./permission/permission.service.js";
+export {
+  assertPermissionKey,
+  createPermissionKey,
+  InvalidPermissionKeyError,
+  isPermissionKey,
+  type PermissionKey,
+} from "./permission-key.contract.js";
+export {
+  assertPlatformSlug,
+  InvalidPlatformSlugError,
+  MAX_PLATFORM_SLUG_LENGTH,
+  normalizePlatformSlug,
+} from "./platform-slug.js";
+export {
+  assertPolicyKey,
+  assertPolicyPriority,
+  assertPolicyScopeMatchesTenant,
+  buildPolicyInsertRow,
+  buildPolicyUpdatePatch,
+  DEFAULT_POLICY_PRIORITY,
+  InvalidPolicyKeyError,
+  InvalidPolicyPriorityError,
+  isPolicyOperational,
+  normalizePolicyKey,
+  type PolicyInsertRow,
+  PolicyKeyImmutableError,
+  type PolicyRecord,
+  PolicyScopeTenantMismatchError,
+  type PolicyUpdatePatch,
+  type PolicyWriteInput,
+} from "./policy/policy.contract.js";
+export {
+  type ArchivePolicyInput,
+  archivePolicy,
+  type InsertPolicyInput,
+  insertPolicy,
+  type PolicyAuditContext,
+  type PolicyMutationResult,
+  type UpdatePolicyInput,
+  updatePolicy,
+} from "./policy/policy.service.js";
+export {
+  assertPolicyConditionForEffect,
+  InvalidPolicyConditionError,
+  POLICY_CONDITION_VERSION,
+  type PolicyCondition,
+  type PolicyConditionMatch,
+  type PolicyConditionV1,
+  type PolicyGateDecision,
+  parsePolicyCondition,
+  policyConditionMatches,
+} from "./policy/policy.validation.js";
+export { createPgPool, DEFAULT_POOL_CONFIG } from "./pool.js";
+export {
+  assertRoleKey,
+  assertRoleScopeMatchesTenant,
+  buildRoleInsertRow,
+  buildRoleUpdatePatch,
+  InvalidRoleKeyError,
+  isRoleOperational,
+  normalizeRoleKey,
+  type RoleInsertRow,
+  RoleKeyImmutableError,
+  type RoleRecord,
+  RoleScopeTenantMismatchError,
+  type RoleUpdatePatch,
+  type RoleWriteInput,
+} from "./role/role.contract.js";
+export {
+  type ArchiveRoleInput,
+  archiveRole,
+  type InsertRoleInput,
+  insertRole,
+  type RoleAuditContext,
+  RoleHasActiveMembershipsError,
+  type RoleMutationResult,
+  type UpdateRoleInput,
+  updateRole,
+} from "./role/role.service.js";
+export { resetRuntimeSingleton } from "./runtime-singleton.js";
 export {
   type AuthSchema,
   auditEvents,
   auditResultEnum,
   authAccount,
+  authIdentityLinks,
   authSchema,
   authSession,
   authUser,
   authVerification,
   companies,
   companyStatusEnum,
+  membershipScopeEnum,
   membershipStatusEnum,
   memberships,
   organizationStatusEnum,
@@ -71,6 +330,7 @@ export {
   platformSchema,
   policies,
   policyEffectEnum,
+  policyScopeEnum,
   policyStatusEnum,
   roleScopeEnum,
   roleStatusEnum,
@@ -80,7 +340,56 @@ export {
   userStatusEnum,
   users,
 } from "./schema/index.js";
-export { createdAtColumn, updatedAtColumn } from "./timestamps.js";
+export {
+  assertTenantSlug,
+  buildTenantInsertRow,
+  buildTenantUpdatePatch,
+  getTenantAccessBlockReason,
+  InvalidTenantSlugError,
+  isTenantOperational,
+  normalizeTenantSlug,
+  type TenantInsertRow,
+  type TenantRecord,
+  type TenantUpdatePatch,
+  type TenantWriteInput,
+} from "./tenant/tenant.contract.js";
+export {
+  type ArchiveTenantInput,
+  archiveTenant,
+  type InsertTenantInput,
+  insertTenant,
+  type TenantAuditContext,
+  type TenantMutationResult,
+  type UpdateTenantInput,
+  updateTenant,
+} from "./tenant/tenant.service.js";
+export {
+  type CreatedAtColumn,
+  createdAtColumn,
+  type UpdatedAtColumn,
+  updatedAtColumn,
+} from "./timestamps.js";
+export {
+  assertEmail,
+  buildUserInsertRow,
+  buildUserUpdatePatch,
+  InvalidEmailError,
+  isPlatformUserActive,
+  normalizeEmail,
+  type PlatformUserRecord,
+  type PlatformUserUpdatePatch,
+  type PlatformUserWriteInput,
+} from "./user/user.contract.js";
+export {
+  type DeactivateUserInput,
+  deactivateUser,
+  type InsertUserInput,
+  insertUser,
+  type UpdateUserInput,
+  type UserAuditContext,
+  type UserMutationResult,
+  updateUser,
+} from "./user/user.service.js";
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;

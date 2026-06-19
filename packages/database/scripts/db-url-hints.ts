@@ -1,13 +1,11 @@
-import { loadDatabaseEnv, resolveMigrationDatabaseUrl } from "./_load-env.mjs";
+import { resolveMigrationDatabaseUrl } from "../src/env.js";
+import { loadDatabaseEnv } from "./load-env.js";
 
 loadDatabaseEnv();
 
 const url = resolveMigrationDatabaseUrl();
-if (!url) {
-  process.exit(1);
-}
-
 const parsed = new URL(url);
+
 console.log(
   JSON.stringify({
     host: parsed.hostname,

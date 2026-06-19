@@ -1,38 +1,29 @@
-import { auditEvents, createDb } from "@afenda/database";
+import {
+  AUDIT_EVENT_VERSION,
+  type AuditActorType,
+  type InsertAuditEventInput,
+  insertAuditEvent,
+} from "@afenda/database";
 
-import type { AuthEventContext, AuthEventName } from "./auth.events.js";
+import type {
+  AuthAuditRecordInput,
+  AuthEventContext,
+} from "./auth.contract.js";
 
-export type AuthAuditResult = "success" | "failure" | "denied";
+export type AuthAuditInsertPayload = InsertAuditEventInput & {
+  readonly module: "auth";
+  readonly source: "auth";
+};
 
-export interface AuthAuditRecordInput {
-  readonly context?: AuthEventContext;
-  readonly event: AuthEventName;
-  readonly reason?: string;
-  readonly result: AuthAuditResult;
-}
-
-export interface AuthAuditWriter {
+interface AuthAuditWriter {
   write(record: AuthAuditRecordInput): Promise<void>;
 }
 
-export interface AuthAuditInsertPayload {
-  readonly action: AuthEventName;
-  readonly actorUserId: string | null;
-  readonly correlationId: string;
-  readonly metadata: {
-    readonly authUserId: string | null;
-    readonly email: string | null;
-    readonly ipAddress: string | null;
-    readonly userAgent: string | null;
-  };
-  readonly module: "auth";
-  readonly reason: string | null;
-  readonly result: AuthAuditResult;
-  readonly targetId: string | null;
-  readonly targetType: "auth_session";
+function resolveAuthActorType(context?: AuthEventContext): AuditActorType {
+  return context?.authUserId ? "user" : "system";
 }
 
-/** Builds the audit_events row payload without performing I/O (testable). */
+/** Builds the governed audit insert payload without performing I/O (testable). */
 export function buildAuthAuditPayload(
   record: AuthAuditRecordInput
 ): AuthAuditInsertPayload {
@@ -40,6 +31,7 @@ export function buildAuthAuditPayload(
     record.context?.correlationId ?? `auth-${crypto.randomUUID()}`;
 
   return {
+    actorType: resolveAuthActorType(record.context),
     actorUserId: null,
     module: "auth",
     action: record.event,
@@ -48,23 +40,24 @@ export function buildAuthAuditPayload(
     result: record.result,
     reason: record.reason ?? record.context?.reason ?? null,
     correlationId,
+    source: "auth",
+    eventVersion: AUDIT_EVENT_VERSION,
+    ipAddress: record.context?.ipAddress ?? null,
+    userAgent: record.context?.userAgent ?? null,
     metadata: {
+      /** Better Auth login identity — not platform `users.id`. */
       authUserId: record.context?.authUserId ?? null,
       email: record.context?.email ?? null,
-      ipAddress: record.context?.ipAddress ?? null,
-      userAgent: record.context?.userAgent ?? null,
     },
   };
 }
 
-export function createDatabaseAuthAuditWriter(): AuthAuditWriter {
+function createDatabaseAuthAuditWriter(): AuthAuditWriter {
   return {
     async write(record) {
       try {
-        const db = createDb();
         const payload = buildAuthAuditPayload(record);
-
-        await db.insert(auditEvents).values(payload);
+        await insertAuditEvent(payload);
       } catch {
         // Audit must not block auth flows; failures are swallowed intentionally.
       }
@@ -72,9 +65,11 @@ export function createDatabaseAuthAuditWriter(): AuthAuditWriter {
   };
 }
 
-export async function recordAuthAuditEvent(
+const defaultAuditWriter = createDatabaseAuthAuditWriter();
+
+export function recordAuthAuditEvent(
   record: AuthAuditRecordInput,
-  writer: AuthAuditWriter = createDatabaseAuthAuditWriter()
-): Promise<void> {
-  await writer.write(record);
+  writer: AuthAuditWriter = defaultAuditWriter
+): void {
+  writer.write(record).catch(() => undefined);
 }

@@ -4,30 +4,42 @@ import {
   pgTable,
   text,
   timestamp,
-  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { auditResultEnum } from "../database.types.js";
-import { primaryId } from "../ids.js";
+import { auditActorTypeEnum, auditResultEnum } from "../database.types.js";
+import {
+  actorUserIdRef,
+  companyIdRef,
+  organizationIdRef,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { companies } from "./company.schema.js";
 import { organizations } from "./organization.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
+/**
+ * Append-only execution evidence ledger (Postgres table definition).
+ *
+ * Write path: `src/audit/audit.writer.ts` → `insertAuditEvent()` only.
+ * Do not update or delete rows from application code.
+ */
 export const auditEvents = pgTable(
   "audit_events",
   {
     id: primaryId(),
-    tenantId: uuid("tenant_id").references(() => tenants.id, {
+    tenantId: tenantIdRef().references(() => tenants.id, {
       onDelete: "set null",
     }),
-    companyId: uuid("company_id").references(() => companies.id, {
+    companyId: companyIdRef().references(() => companies.id, {
       onDelete: "set null",
     }),
-    organizationId: uuid("organization_id").references(() => organizations.id, {
+    organizationId: organizationIdRef().references(() => organizations.id, {
       onDelete: "set null",
     }),
-    actorUserId: uuid("actor_user_id").references(() => users.id, {
+    actorType: auditActorTypeEnum("actor_type").notNull(),
+    actorUserId: actorUserIdRef().references(() => users.id, {
       onDelete: "set null",
     }),
     module: varchar("module", { length: 64 }).notNull(),
@@ -36,7 +48,15 @@ export const auditEvents = pgTable(
     targetId: varchar("target_id", { length: 128 }),
     result: auditResultEnum("result").notNull(),
     reason: text("reason"),
+    permission: varchar("permission", { length: 128 }),
+    policyId: varchar("policy_id", { length: 128 }),
+    source: varchar("source", { length: 64 }).notNull().default("app"),
+    ipAddress: varchar("ip_address", { length: 64 }),
+    userAgent: text("user_agent"),
     correlationId: varchar("correlation_id", { length: 128 }).notNull(),
+    eventVersion: varchar("event_version", { length: 16 })
+      .notNull()
+      .default("1.0"),
     metadata: jsonb("metadata").notNull().default({}),
     createdAt: timestamp("created_at", {
       withTimezone: true,
@@ -53,5 +73,18 @@ export const auditEvents = pgTable(
     index("audit_events_correlation_id_idx").on(table.correlationId),
     index("audit_events_target_idx").on(table.targetType, table.targetId),
     index("audit_events_created_at_idx").on(table.createdAt),
+    index("audit_events_tenant_created_at_idx").on(
+      table.tenantId,
+      table.createdAt
+    ),
+    index("audit_events_org_created_at_idx").on(
+      table.organizationId,
+      table.createdAt
+    ),
+    index("audit_events_actor_created_at_idx").on(
+      table.actorUserId,
+      table.createdAt
+    ),
+    index("audit_events_module_action_idx").on(table.module, table.action),
   ]
 );

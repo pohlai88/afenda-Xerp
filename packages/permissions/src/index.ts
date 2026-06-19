@@ -1,6 +1,108 @@
-/** Permission and policy engine foundation — placeholder export for TIP-001 foundation. */
+/** @afenda/permissions — authorization foundation (TIP-005). */
 export const PACKAGE_NAME = "@afenda/permissions" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
+
+// biome-ignore lint/performance/noBarrelFile: package public API entry point
+export {
+  assertPermissionKey,
+  createPermissionKey,
+  InvalidPermissionKeyError,
+  isPermissionKey,
+  type PermissionKey,
+} from "@afenda/database";
+export {
+  type AuthorizationActor,
+  type AuthorizationContext,
+  type AuthorizationContextInput,
+  actorFromAuthSession,
+  assertAuthorizationActor,
+  assertTenantContext,
+  createAuthorizationCorrelationId,
+  isMissingAuthorizationActorError,
+  isMissingAuthorizationContextError,
+  MissingAuthorizationActorError,
+  MissingAuthorizationContextError,
+} from "./authorization-context.js";
+export type { AuthorizationDenialCode } from "./authorization-denial-code.js";
+export {
+  type AllowedAuthorizationResult,
+  type AuthorizationDecision,
+  AuthorizationDeniedError,
+  type AuthorizationResult,
+  buildAuthorizationDecision,
+  createAllowedAuthorizationResult,
+  createDeniedAuthorizationResult,
+  type DeniedAuthorizationResult,
+  isAuthorizationDeniedError,
+  isDeniedAuthorizationResult,
+  isPolicyGateError,
+  PolicyGateError,
+} from "./authorization-error.js";
+export {
+  isMembershipActive,
+  type MembershipContract,
+  type MembershipScopeType,
+  type MembershipStatus,
+  membershipMatchesCompany,
+  membershipMatchesOrganization,
+} from "./membership.contract.js";
+export {
+  assertRegisteredPermissionKey,
+  extractPermissionAction,
+  isRegisteredPermissionKey,
+  PERMISSION_REGISTRY,
+  type PermissionAction,
+  type PermissionTargetType,
+  type RegisteredPermissionKey,
+  resolveBoundaryPermissionKey,
+} from "./permission.contract.js";
+export {
+  checkPermission,
+  InMemoryPermissionDataSource,
+  type PermissionCheckRequest,
+  type PermissionDataSource,
+  requirePermission,
+} from "./permission-checker.js";
+export {
+  isExecutablePolicyDecision,
+  isPolicyActive,
+  isPolicyGateDecision,
+  POLICY_GATE_DECISIONS,
+  type PolicyContract,
+  type PolicyDecision,
+  type PolicyEvaluationInput,
+  type PolicyEvaluationResult,
+  type PolicyGateDecision,
+  type PolicyStatus,
+  policyRuleMatches,
+  resolvePolicyWhenMatched,
+  sortPoliciesByPriority,
+} from "./policy.contract.js";
+export {
+  checkPolicyDecision,
+  evaluateAuthorizationPolicy,
+  evaluatePolicyDecision,
+  InMemoryPolicyDataSource,
+  type PolicyDataSource,
+  requirePolicyDecision,
+} from "./policy-engine.js";
+export {
+  isRoleActive,
+  type RoleContract,
+  type RoleScope,
+  type RoleStatus,
+} from "./role.contract.js";
+export {
+  getTenantAccessBlockReason,
+  isTenantOperational,
+  type PlatformTenantStatus,
+  type TenantContract,
+} from "./tenant.contract.js";
+export {
+  isPlatformUserActive,
+  type PlatformUserContract,
+  type PlatformUserStatus,
+} from "./user.contract.js";

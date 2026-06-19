@@ -2,9 +2,10 @@ import { getTableName } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
   auditEvents,
+  authIdentityLinks,
   buildSupabaseDatabaseUrl,
   companies,
-  createPermissionKey,
+  getDatabaseConfigStatus,
   getDatabaseUrl,
   getDedicatedDatabaseUrl,
   getDirectDatabaseUrl,
@@ -17,13 +18,16 @@ import {
   getTransactionDatabaseUrl,
   hasDatabaseUrl,
   hasSupabaseDatabaseConfig,
-  InvalidPermissionKeyError,
+  InvalidSupabaseDbPoolerHostError,
+  InvalidSupabaseProjectUrlError,
   MissingDatabaseUrlError,
   MissingSupabaseDbPasswordError,
   MissingSupabaseDbRegionError,
+  MissingSupabaseProjectRefError,
   memberships,
   organizations,
   PACKAGE_NAME,
+  PLATFORM_LIFECYCLE_STATUSES,
   permissions,
   platformSchema,
   policies,
@@ -32,14 +36,17 @@ import {
   users,
 } from "../index.js";
 
+const TEST_PROJECT_REF = "abcdefghijklmnopqrst";
 const SUPABASE_ENV = {
-  NEXT_PUBLIC_SUPABASE_URL: "https://example-ref.supabase.co",
+  NEXT_PUBLIC_SUPABASE_URL: `https://${TEST_PROJECT_REF}.supabase.co`,
   SUPABASE_DB_REGION: "ap-southeast-2",
   SUPABASE_DB_POOLER_HOST: "aws-1-ap-southeast-2.pooler.supabase.com",
   SUPABASE_DB_PASSWORD: "p@ss!word",
 } as const;
 
 const PLATFORM_TABLES = {
+  auditEvents,
+  authIdentityLinks,
   tenants,
   companies,
   organizations,
@@ -48,7 +55,6 @@ const PLATFORM_TABLES = {
   roles,
   permissions,
   policies,
-  auditEvents,
 } as const;
 
 describe("@afenda/database package", () => {
@@ -76,18 +82,18 @@ describe("@afenda/database package", () => {
     expect(getTableName(auditEvents)).toBe("audit_events");
   });
 
-  it("represents required permission keys", () => {
-    const tenantRead = createPermissionKey("tenant", "read");
-    const companyManage = createPermissionKey("company", "manage");
+  it("exports shared platform lifecycle statuses", () => {
+    expect(PLATFORM_LIFECYCLE_STATUSES).toEqual([
+      "active",
+      "suspended",
+      "archived",
+    ]);
+  });
 
-    expect(tenantRead).toBe("tenant.read");
-    expect(companyManage).toBe("company.manage");
+  it("defines permission table key metadata columns", () => {
     expect(permissions.key).toBeDefined();
     expect(permissions.domain).toBeDefined();
     expect(permissions.action).toBeDefined();
-    expect(() => createPermissionKey(" ", "read")).toThrow(
-      InvalidPermissionKeyError
-    );
   });
 
   it("exports a single platform schema registry aligned with table exports", () => {
@@ -101,16 +107,23 @@ describe("@afenda/database package", () => {
       tenantId: "00000000-0000-4000-8000-000000000001",
       companyId: "00000000-0000-4000-8000-000000000002",
       organizationId: "00000000-0000-4000-8000-000000000003",
+      actorType: "user" as const,
       actorUserId: "00000000-0000-4000-8000-000000000004",
       module: "platform",
       action: "membership.create",
       targetType: "membership",
       targetId: "00000000-0000-4000-8000-000000000005",
       result: "success" as const,
+      reason: "Membership created",
+      permission: "system_admin.users_manage",
+      policyId: "policy-approval-001",
+      source: "app" as const,
       correlationId: "corr-001",
+      eventVersion: "1.0",
       metadata: { source: "test" },
     };
 
+    expect(auditEvents.actorType).toBeDefined();
     expect(auditEvents.actorUserId).toBeDefined();
     expect(auditEvents.tenantId).toBeDefined();
     expect(auditEvents.companyId).toBeDefined();
@@ -119,6 +132,13 @@ describe("@afenda/database package", () => {
     expect(auditEvents.targetType).toBeDefined();
     expect(auditEvents.targetId).toBeDefined();
     expect(auditEvents.result).toBeDefined();
+    expect(auditEvents.reason).toBeDefined();
+    expect(auditEvents.permission).toBeDefined();
+    expect(auditEvents.policyId).toBeDefined();
+    expect(auditEvents.source).toBeDefined();
+    expect(auditEvents.ipAddress).toBeDefined();
+    expect(auditEvents.userAgent).toBeDefined();
+    expect(auditEvents.eventVersion).toBeDefined();
     expect(auditEvents.correlationId).toBeDefined();
     expect(auditInsert.correlationId).toBe("corr-001");
   });
@@ -140,10 +160,59 @@ describe("environment validation", () => {
     );
     expect(() =>
       buildSupabaseDatabaseUrl("session", {
-        NEXT_PUBLIC_SUPABASE_URL: "https://example-ref.supabase.co",
+        NEXT_PUBLIC_SUPABASE_URL: `https://${TEST_PROJECT_REF}.supabase.co`,
         SUPABASE_DB_PASSWORD: "secret",
       })
     ).toThrow(MissingSupabaseDbRegionError);
+  });
+
+  it("rejects invalid Supabase env values with governed errors", () => {
+    expect(() =>
+      getSupabaseProjectRef({ SUPABASE_PROJECT_REF: "abc def" })
+    ).toThrow(MissingSupabaseProjectRefError);
+    expect(() =>
+      getSupabaseProjectRef({ SUPABASE_PROJECT_REF: "http://bad" })
+    ).toThrow(MissingSupabaseProjectRefError);
+    expect(() =>
+      getSupabaseProjectRef({
+        NEXT_PUBLIC_SUPABASE_URL: "not-a-url",
+        SUPABASE_DB_PASSWORD: "secret",
+      })
+    ).toThrow(InvalidSupabaseProjectUrlError);
+    expect(() =>
+      getSupabaseDbRegion({ SUPABASE_DB_REGION: "hello world" })
+    ).toThrow(MissingSupabaseDbRegionError);
+    expect(() =>
+      getSupabasePoolerHost({
+        SUPABASE_DB_POOLER_HOST: "bad host",
+      })
+    ).toThrow(InvalidSupabaseDbPoolerHostError);
+  });
+
+  it("reports database config diagnostics without throwing", () => {
+    expect(getDatabaseConfigStatus({})).toEqual({
+      ready: false,
+      source: null,
+      issues: [
+        "missing_supabase_db_password",
+        "missing_supabase_project_ref",
+        "missing_supabase_db_region",
+      ],
+    });
+    expect(getDatabaseConfigStatus(SUPABASE_ENV)).toEqual({
+      ready: true,
+      source: "supabase",
+      issues: [],
+    });
+    expect(
+      getDatabaseConfigStatus({
+        DATABASE_URL: "postgresql://user:pass@localhost:5432/afenda",
+      })
+    ).toEqual({
+      ready: true,
+      source: "database_url",
+      issues: [],
+    });
   });
 
   it("returns the trimmed DATABASE_URL when present", () => {
@@ -152,7 +221,7 @@ describe("environment validation", () => {
   });
 
   it("builds Supabase connection strings for direct, dedicated, session, and transaction modes", () => {
-    expect(getSupabaseProjectRef(SUPABASE_ENV)).toBe("example-ref");
+    expect(getSupabaseProjectRef(SUPABASE_ENV)).toBe(TEST_PROJECT_REF);
     expect(getSupabaseDbRegion(SUPABASE_ENV)).toBe("ap-southeast-2");
     expect(getSupabasePoolerHost(SUPABASE_ENV)).toBe(
       "aws-1-ap-southeast-2.pooler.supabase.com"
@@ -160,16 +229,16 @@ describe("environment validation", () => {
     expect(getSupabaseDbPassword(SUPABASE_ENV)).toBe("p@ss!word");
 
     expect(buildSupabaseDatabaseUrl("direct", SUPABASE_ENV)).toBe(
-      "postgresql://postgres:p%40ss!word@db.example-ref.supabase.co:5432/postgres"
+      `postgresql://postgres:p%40ss!word@db.${TEST_PROJECT_REF}.supabase.co:5432/postgres`
     );
     expect(buildSupabaseDatabaseUrl("dedicated", SUPABASE_ENV)).toBe(
-      "postgresql://postgres:p%40ss!word@db.example-ref.supabase.co:6543/postgres"
+      `postgresql://postgres:p%40ss!word@db.${TEST_PROJECT_REF}.supabase.co:6543/postgres`
     );
     expect(getSessionDatabaseUrl(SUPABASE_ENV)).toBe(
-      "postgresql://postgres.example-ref:p%40ss!word@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres"
+      `postgresql://postgres.${TEST_PROJECT_REF}:p%40ss!word@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres`
     );
     expect(getTransactionDatabaseUrl(SUPABASE_ENV)).toBe(
-      "postgresql://postgres.example-ref:p%40ss!word@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres"
+      `postgresql://postgres.${TEST_PROJECT_REF}:p%40ss!word@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres`
     );
     expect(getDirectDatabaseUrl(SUPABASE_ENV)).toBe(
       buildSupabaseDatabaseUrl("direct", SUPABASE_ENV)

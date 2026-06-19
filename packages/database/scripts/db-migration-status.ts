@@ -1,13 +1,11 @@
 import pg from "pg";
-import { loadDatabaseEnv, resolveMigrationDatabaseUrl } from "./_load-env.mjs";
+
+import { resolveMigrationDatabaseUrl } from "../src/env.js";
+import { loadDatabaseEnv } from "./load-env.js";
 
 loadDatabaseEnv();
 
 const url = resolveMigrationDatabaseUrl();
-if (!url) {
-  console.log("no migration database URL configured");
-  process.exit(1);
-}
 
 const pool = new pg.Pool({
   connectionString: url,
@@ -23,7 +21,8 @@ try {
     `SELECT to_regclass('public.tenants') AS tenants,
             to_regclass('public.users') AS users,
             to_regclass('public.audit_events') AS audit_events,
-            to_regclass('public.user') AS auth_user`
+            to_regclass('public.auth_user') AS auth_user,
+            to_regclass('public.auth_identity_links') AS auth_identity_links`
   );
 
   console.log(
@@ -33,6 +32,7 @@ try {
       users: Boolean(tables.rows[0]?.users),
       auditEvents: Boolean(tables.rows[0]?.audit_events),
       authUser: Boolean(tables.rows[0]?.auth_user),
+      authIdentityLinks: Boolean(tables.rows[0]?.auth_identity_links),
       host: new URL(url).hostname,
     })
   );

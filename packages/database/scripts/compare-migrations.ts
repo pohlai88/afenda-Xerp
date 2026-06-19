@@ -1,21 +1,16 @@
 import fs from "node:fs";
 import pg from "pg";
-import {
-  journalPath,
-  loadDatabaseEnv,
-  resolveMigrationDatabaseUrl,
-} from "./_load-env.mjs";
+
+import { resolveMigrationDatabaseUrl } from "../src/env.js";
+import { journalPath, loadDatabaseEnv } from "./load-env.js";
 
 loadDatabaseEnv();
 
-const journal = JSON.parse(fs.readFileSync(journalPath, "utf8"));
+const journal = JSON.parse(fs.readFileSync(journalPath, "utf8")) as {
+  entries: Array<{ tag: string }>;
+};
 const tags = journal.entries.map((entry) => entry.tag);
 const url = resolveMigrationDatabaseUrl();
-
-if (!url) {
-  console.error("No migration database URL configured.");
-  process.exit(1);
-}
 
 const pool = new pg.Pool({
   connectionString: url,

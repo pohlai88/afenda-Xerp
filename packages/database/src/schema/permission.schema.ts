@@ -1,3 +1,9 @@
+/**
+ * Postgres table definition for `permissions` (Drizzle only).
+ *
+ * Writes: `../permission/permission.service.ts`
+ * Key shape: `../permission-key.contract.ts`
+ */
 import { pgTable, text, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { primaryId } from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
@@ -11,8 +17,8 @@ export const permissions = pgTable(
     description: text("description"),
     domain: varchar("domain", { length: 64 }).notNull(),
     action: varchar("action", { length: 64 }).notNull(),
-    createdAt: createdAtColumn,
-    updatedAt: updatedAtColumn,
+    createdAt: createdAtColumn(),
+    updatedAt: updatedAtColumn(),
   },
   (table) => [uniqueIndex("permissions_key_unique").on(table.key)]
 );

@@ -1,0 +1,77 @@
+/** Serializable auth boundary contracts (TIP-004). Types and constants only. */
+
+export interface AfendaAuthUser {
+  readonly email: string;
+  readonly emailVerified: boolean;
+  readonly name: string;
+  readonly userId: string;
+}
+
+export interface AfendaAuthSessionMetadata {
+  readonly expiresAt: string;
+  readonly image: string | null;
+  readonly ipAddress: string | null;
+  readonly issuedAt: string;
+  readonly userAgent: string | null;
+}
+
+/** Governed session contract — no permission or tenant fields. */
+export interface AfendaAuthSession {
+  readonly metadata: AfendaAuthSessionMetadata;
+  readonly sessionId: string;
+  readonly user: AfendaAuthUser;
+}
+
+/** Serializable identity surface safe for AppShell and client boundaries. */
+export interface AfendaAuthIdentity {
+  readonly displayName: string;
+  readonly email: string;
+  readonly userId: string;
+}
+
+/** Extension points reserved for future MFA, SSO, invitations (metadata only). */
+export interface AfendaAuthExtensionPoints {
+  readonly enterpriseSso: "planned";
+  readonly invitation: "planned";
+  readonly mfa: "planned";
+  readonly organization: "planned";
+  readonly passkey: "planned";
+}
+
+export const AFENDA_AUTH_EXTENSION_POINTS = {
+  enterpriseSso: "planned",
+  invitation: "planned",
+  mfa: "planned",
+  organization: "planned",
+  passkey: "planned",
+} as const satisfies AfendaAuthExtensionPoints;
+
+/** Stable auth lifecycle event names for audit + observability. */
+export const AUTH_EVENT = {
+  sessionCreated: "auth.session.created",
+  sessionInvalidated: "auth.session.invalidated",
+  signInFailed: "auth.sign_in.failed",
+  signInSucceeded: "auth.sign_in.succeeded",
+  signOut: "auth.sign_out",
+} as const;
+
+export type AuthEventName = (typeof AUTH_EVENT)[keyof typeof AUTH_EVENT];
+
+export interface AuthEventContext {
+  readonly authUserId?: string;
+  readonly correlationId?: string;
+  readonly email?: string;
+  readonly ipAddress?: string | null;
+  readonly reason?: string;
+  readonly sessionId?: string;
+  readonly userAgent?: string | null;
+}
+
+export type AuthAuditResult = "success" | "failure" | "denied";
+
+export interface AuthAuditRecordInput {
+  readonly context?: AuthEventContext;
+  readonly event: AuthEventName;
+  readonly reason?: string;
+  readonly result: AuthAuditResult;
+}

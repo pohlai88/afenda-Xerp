@@ -1,7 +1,11 @@
 import { createAuthMiddleware } from "better-auth/api";
 
 import { recordAuthAuditEvent } from "./auth.audit.js";
-import { AUTH_EVENT, createAuthCorrelationId } from "./auth.events.js";
+import { AUTH_EVENT } from "./auth.contract.js";
+
+function createAuthCorrelationId(prefix = "auth"): string {
+  return `${prefix}-${crypto.randomUUID()}`;
+}
 
 function readRequestMeta(ctx: { headers?: Headers; request?: Request }): {
   ipAddress: string | null;
@@ -29,8 +33,8 @@ function readSignInEmail(ctx: { body?: unknown }): string | undefined {
 }
 
 /** Better Auth after-hooks for governed auth audit events (TIP-004). */
-export function createAfendaAuthAuditHooks() {
-  return createAuthMiddleware(async (ctx) => {
+function createAfendaAuthAuditHooks() {
+  return createAuthMiddleware((ctx) => {
     const meta = readRequestMeta(ctx);
     const correlationId = createAuthCorrelationId();
 
@@ -53,20 +57,20 @@ export function createAfendaAuthAuditHooks() {
           correlationId,
         };
 
-        await recordAuthAuditEvent({
+        recordAuthAuditEvent({
           event: AUTH_EVENT.signInSucceeded,
           result: "success",
           context,
         });
-        await recordAuthAuditEvent({
+        recordAuthAuditEvent({
           event: AUTH_EVENT.sessionCreated,
           result: "success",
           context,
         });
-        return;
+        return Promise.resolve();
       }
 
-      await recordAuthAuditEvent({
+      recordAuthAuditEvent({
         event: AUTH_EVENT.signInFailed,
         result: "failure",
         context: {
@@ -89,16 +93,18 @@ export function createAfendaAuthAuditHooks() {
         correlationId,
       };
 
-      await recordAuthAuditEvent({
+      recordAuthAuditEvent({
         event: AUTH_EVENT.signOut,
         result: "success",
         context,
       });
-      await recordAuthAuditEvent({
+      recordAuthAuditEvent({
         event: AUTH_EVENT.sessionInvalidated,
         result: "success",
         context,
       });
     }
+
+    return Promise.resolve();
   });
 }

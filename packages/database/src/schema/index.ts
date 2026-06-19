@@ -1,4 +1,5 @@
 import { auditEvents } from "./audit.schema.js";
+import { authIdentityLinks } from "./auth-identity-link.schema.js";
 import { companies } from "./company.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
@@ -11,6 +12,7 @@ import { users } from "./user.schema.js";
 /** Single schema registry for Drizzle client wiring and type inference. */
 export const platformSchema = {
   auditEvents,
+  authIdentityLinks,
   companies,
   memberships,
   organizations,
@@ -24,12 +26,15 @@ export const platformSchema = {
 export type PlatformSchema = typeof platformSchema;
 
 export {
+  auditActorTypeEnum,
   auditResultEnum,
   companyStatusEnum,
+  membershipScopeEnum,
   membershipStatusEnum,
   organizationStatusEnum,
   organizationTypeEnum,
   policyEffectEnum,
+  policyScopeEnum,
   policyStatusEnum,
   roleScopeEnum,
   roleStatusEnum,
@@ -46,6 +51,7 @@ export {
   authUser,
   authVerification,
 } from "./auth.schema.js";
+export { authIdentityLinks } from "./auth-identity-link.schema.js";
 export { companies } from "./company.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";

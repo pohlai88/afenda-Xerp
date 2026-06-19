@@ -11,6 +11,11 @@ const SUPABASE_PROJECT_REF_ENV = "SUPABASE_PROJECT_REF";
 const SUPABASE_PUBLIC_URL_ENV = "NEXT_PUBLIC_SUPABASE_URL";
 const SUPABASE_SERVER_URL_ENV = "SUPABASE_URL";
 
+const SUPABASE_PROJECT_REF_PATTERN = /^[a-z0-9]{20}$/u;
+const SUPABASE_REGION_PATTERN = /^[a-z]+-[a-z]+-\d+$/u;
+const SUPABASE_POOLER_HOST_PATTERN =
+  /^[a-z0-9-]+-[a-z]+-[a-z]+-\d+\.pooler\.supabase\.com$/u;
+
 export type SupabaseConnectionMethod =
   | "direct"
   | "dedicated"
@@ -49,9 +54,19 @@ export class MissingSupabaseDbPasswordError extends Error {
 export class MissingSupabaseProjectRefError extends Error {
   constructor() {
     super(
-      `${SUPABASE_PROJECT_REF_ENV} or ${SUPABASE_PUBLIC_URL_ENV} is required to build Supabase Postgres URLs.`
+      `${SUPABASE_PROJECT_REF_ENV} or ${SUPABASE_PUBLIC_URL_ENV} is required to build Supabase Postgres URLs. ` +
+        "Project refs must be exactly 20 lowercase alphanumeric characters."
     );
     this.name = "MissingSupabaseProjectRefError";
+  }
+}
+
+export class InvalidSupabaseProjectUrlError extends Error {
+  constructor(projectUrl: string) {
+    super(
+      `Invalid Supabase project URL "${projectUrl}". Expected a valid URL like https://<project-ref>.supabase.co.`
+    );
+    this.name = "InvalidSupabaseProjectUrlError";
   }
 }
 
@@ -65,6 +80,44 @@ export class MissingSupabaseDbRegionError extends Error {
   }
 }
 
+export class InvalidSupabaseDbPoolerHostError extends Error {
+  constructor() {
+    super(
+      `${SUPABASE_DB_POOLER_HOST_ENV} must match a Supabase pooler host like aws-0-ap-southeast-2.pooler.supabase.com.`
+    );
+    this.name = "InvalidSupabaseDbPoolerHostError";
+  }
+}
+
+export class MissingMigrationDatabaseUrlError extends Error {
+  constructor() {
+    super(
+      "Migration database URL is required. Set DATABASE_URL_DIRECT, DATABASE_URL_DEDICATED, DATABASE_URL_SESSION, or valid Supabase DB config."
+    );
+    this.name = "MissingMigrationDatabaseUrlError";
+  }
+}
+
+export type DatabaseConfigSource = "database_url" | "supabase";
+
+export const DATABASE_CONFIG_ISSUES = [
+  "missing_supabase_db_password",
+  "missing_supabase_project_ref",
+  "invalid_supabase_project_ref",
+  "invalid_supabase_project_url",
+  "missing_supabase_db_region",
+  "invalid_supabase_db_region",
+  "invalid_supabase_db_pooler_host",
+] as const;
+
+export type DatabaseConfigIssue = (typeof DATABASE_CONFIG_ISSUES)[number];
+
+export interface DatabaseConfigStatus {
+  readonly issues: readonly DatabaseConfigIssue[];
+  readonly ready: boolean;
+  readonly source: DatabaseConfigSource | null;
+}
+
 function readTrimmedEnv(
   env: NodeJS.ProcessEnv,
   key: string
@@ -73,13 +126,55 @@ function readTrimmedEnv(
   return value ? value : undefined;
 }
 
+function assertSupabaseProjectRef(value: string): string {
+  if (!SUPABASE_PROJECT_REF_PATTERN.test(value)) {
+    throw new MissingSupabaseProjectRefError();
+  }
+
+  return value;
+}
+
+function assertSupabaseRegion(value: string): string {
+  if (!SUPABASE_REGION_PATTERN.test(value)) {
+    throw new MissingSupabaseDbRegionError();
+  }
+
+  return value;
+}
+
+function assertSupabasePoolerHost(value: string): string {
+  if (!SUPABASE_POOLER_HOST_PATTERN.test(value)) {
+    throw new InvalidSupabaseDbPoolerHostError();
+  }
+
+  return value;
+}
+
+function parseSupabaseProjectRefFromUrl(projectUrl: string): string {
+  let hostname: string;
+
+  try {
+    hostname = new URL(projectUrl).hostname;
+  } catch {
+    throw new InvalidSupabaseProjectUrlError(projectUrl);
+  }
+
+  const [projectRef] = hostname.split(".");
+
+  if (!projectRef) {
+    throw new MissingSupabaseProjectRefError();
+  }
+
+  return assertSupabaseProjectRef(projectRef);
+}
+
 export function getSupabaseProjectRef(
   env: NodeJS.ProcessEnv = process.env
 ): string {
   const explicitRef = readTrimmedEnv(env, SUPABASE_PROJECT_REF_ENV);
 
   if (explicitRef) {
-    return explicitRef;
+    return assertSupabaseProjectRef(explicitRef);
   }
 
   const projectUrl =
@@ -90,14 +185,7 @@ export function getSupabaseProjectRef(
     throw new MissingSupabaseProjectRefError();
   }
 
-  const hostname = new URL(projectUrl).hostname;
-  const [projectRef] = hostname.split(".");
-
-  if (!projectRef) {
-    throw new MissingSupabaseProjectRefError();
-  }
-
-  return projectRef;
+  return parseSupabaseProjectRefFromUrl(projectUrl);
 }
 
 export function getSupabaseDbRegion(
@@ -109,7 +197,7 @@ export function getSupabaseDbRegion(
     throw new MissingSupabaseDbRegionError();
   }
 
-  return region;
+  return assertSupabaseRegion(region);
 }
 
 export function getSupabasePoolerHost(
@@ -118,13 +206,13 @@ export function getSupabasePoolerHost(
   const explicitHost = readTrimmedEnv(env, SUPABASE_DB_POOLER_HOST_ENV);
 
   if (explicitHost) {
-    return explicitHost;
+    return assertSupabasePoolerHost(explicitHost);
   }
 
   const prefix = readTrimmedEnv(env, SUPABASE_DB_POOLER_PREFIX_ENV) ?? "aws-0";
   const region = getSupabaseDbRegion(env);
 
-  return `${prefix}-${region}.pooler.supabase.com`;
+  return assertSupabasePoolerHost(`${prefix}-${region}.pooler.supabase.com`);
 }
 
 export function getSupabaseDbPassword(
@@ -178,11 +266,15 @@ function isMissingDatabaseConfigurationError(
 ): error is
   | MissingSupabaseDbPasswordError
   | MissingSupabaseProjectRefError
-  | MissingSupabaseDbRegionError {
+  | MissingSupabaseDbRegionError
+  | InvalidSupabaseProjectUrlError
+  | InvalidSupabaseDbPoolerHostError {
   return (
     error instanceof MissingSupabaseDbPasswordError ||
     error instanceof MissingSupabaseProjectRefError ||
-    error instanceof MissingSupabaseDbRegionError
+    error instanceof MissingSupabaseDbRegionError ||
+    error instanceof InvalidSupabaseProjectUrlError ||
+    error instanceof InvalidSupabaseDbPoolerHostError
   );
 }
 
@@ -228,17 +320,146 @@ export function getTransactionDatabaseUrl(
   return getDatabaseUrlForMethod("transaction", env);
 }
 
+/**
+ * Migration URL priority:
+ * 1. DATABASE_URL_DIRECT
+ * 2. DATABASE_URL_DEDICATED
+ * 3. DATABASE_URL_SESSION
+ * 4. Generated session URL from Supabase config
+ * 5. Generated dedicated URL from Supabase config
+ * 6. Generated direct URL from Supabase config
+ *
+ * Fail-safe: no silent fallback to DATABASE_URL or local Postgres.
+ */
+export function resolveMigrationDatabaseUrl(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  const explicitUrls = [
+    readTrimmedEnv(env, DATABASE_URL_DIRECT_ENV),
+    readTrimmedEnv(env, DATABASE_URL_DEDICATED_ENV),
+    readTrimmedEnv(env, DATABASE_URL_SESSION_ENV),
+  ];
+
+  for (const url of explicitUrls) {
+    if (url) {
+      return url;
+    }
+  }
+
+  for (const resolver of [
+    getSessionDatabaseUrl,
+    getDedicatedDatabaseUrl,
+    getDirectDatabaseUrl,
+  ]) {
+    try {
+      return resolver(env);
+    } catch {
+      // Try next governed resolver.
+    }
+  }
+
+  throw new MissingMigrationDatabaseUrlError();
+}
+
+function collectSupabasePasswordIssues(
+  env: NodeJS.ProcessEnv,
+  issues: DatabaseConfigIssue[]
+): void {
+  if (!readTrimmedEnv(env, SUPABASE_DB_PASSWORD_ENV)) {
+    issues.push("missing_supabase_db_password");
+  }
+}
+
+function collectProjectRefIssues(
+  env: NodeJS.ProcessEnv,
+  issues: DatabaseConfigIssue[]
+): void {
+  const explicitRef = readTrimmedEnv(env, SUPABASE_PROJECT_REF_ENV);
+  const projectUrl =
+    readTrimmedEnv(env, SUPABASE_PUBLIC_URL_ENV) ??
+    readTrimmedEnv(env, SUPABASE_SERVER_URL_ENV);
+
+  if (explicitRef) {
+    if (!SUPABASE_PROJECT_REF_PATTERN.test(explicitRef)) {
+      issues.push("invalid_supabase_project_ref");
+    }
+    return;
+  }
+
+  if (projectUrl) {
+    try {
+      parseSupabaseProjectRefFromUrl(projectUrl);
+    } catch (error) {
+      if (error instanceof InvalidSupabaseProjectUrlError) {
+        issues.push("invalid_supabase_project_url");
+        return;
+      }
+
+      if (error instanceof MissingSupabaseProjectRefError) {
+        issues.push("invalid_supabase_project_ref");
+        return;
+      }
+
+      issues.push("missing_supabase_project_ref");
+    }
+    return;
+  }
+
+  issues.push("missing_supabase_project_ref");
+}
+
+function collectPoolerIssues(
+  env: NodeJS.ProcessEnv,
+  issues: DatabaseConfigIssue[]
+): void {
+  const explicitPoolerHost = readTrimmedEnv(env, SUPABASE_DB_POOLER_HOST_ENV);
+  const region = readTrimmedEnv(env, SUPABASE_DB_REGION_ENV);
+
+  if (explicitPoolerHost) {
+    if (!SUPABASE_POOLER_HOST_PATTERN.test(explicitPoolerHost)) {
+      issues.push("invalid_supabase_db_pooler_host");
+    }
+    return;
+  }
+
+  if (!region) {
+    issues.push("missing_supabase_db_region");
+    return;
+  }
+
+  if (!SUPABASE_REGION_PATTERN.test(region)) {
+    issues.push("invalid_supabase_db_region");
+  }
+}
+
+export function getDatabaseConfigStatus(
+  env: NodeJS.ProcessEnv = process.env
+): DatabaseConfigStatus {
+  if (readTrimmedEnv(env, DATABASE_URL_ENV)) {
+    return { issues: [], ready: true, source: "database_url" };
+  }
+
+  const issues: DatabaseConfigIssue[] = [];
+
+  collectSupabasePasswordIssues(env, issues);
+  collectProjectRefIssues(env, issues);
+  collectPoolerIssues(env, issues);
+
+  const ready = issues.length === 0;
+
+  return {
+    issues,
+    ready,
+    source: ready ? "supabase" : null,
+  };
+}
+
 export function hasDatabaseUrl(env: NodeJS.ProcessEnv = process.env): boolean {
   if (readTrimmedEnv(env, DATABASE_URL_ENV)) {
     return true;
   }
 
-  try {
-    getDatabaseUrl(env);
-    return true;
-  } catch {
-    return false;
-  }
+  return getDatabaseConfigStatus(env).ready;
 }
 
 export function hasSupabaseDatabaseConfig(

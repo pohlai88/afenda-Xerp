@@ -3,6 +3,17 @@ import { userStatusEnum } from "../database.types.js";
 import { primaryId } from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 
+/**
+ * Afenda platform actor identity (Postgres table — Drizzle only).
+ *
+ * Writes: `../user/user.service.ts`
+ * Not Better Auth login identity — see `auth.schema.ts`.
+ *
+ * Golden rule: `users.id` is the ERP authority actor — audit, membership,
+ * ownership, approval, assignment. Better Auth login lives in `auth_user`.
+ *
+ * Do not hard-delete users.
+ */
 export const users = pgTable(
   "users",
   {
@@ -10,8 +21,8 @@ export const users = pgTable(
     email: varchar("email", { length: 320 }).notNull(),
     displayName: varchar("display_name", { length: 255 }).notNull(),
     status: userStatusEnum("status").notNull().default("active"),
-    createdAt: createdAtColumn,
-    updatedAt: updatedAtColumn,
+    createdAt: createdAtColumn(),
+    updatedAt: updatedAtColumn(),
   },
   (table) => [
     uniqueIndex("users_email_unique").on(table.email),

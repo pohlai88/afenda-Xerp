@@ -1,4 +1,4 @@
-import { authSchema, createAuthDb } from "@afenda/database";
+import { authSchema, getAuthDb } from "@afenda/database";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -15,7 +15,7 @@ export interface CreateAuthOptions {
 
 export function createAuthConfig(options: CreateAuthOptions = {}) {
   const env = options.env ?? process.env;
-  const db = createAuthDb();
+  const db = getAuthDb();
   const baseURL = getBetterAuthUrl(env);
   const secret = getBetterAuthSecret(env);
 

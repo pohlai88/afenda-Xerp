@@ -2,12 +2,13 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import pg from "pg";
+
+import { resolveMigrationDatabaseUrl } from "../src/env.js";
 import {
   journalPath,
   loadDatabaseEnv,
   migrationsDir,
-  resolveMigrationDatabaseUrl,
-} from "./_load-env.mjs";
+} from "./load-env.js";
 
 loadDatabaseEnv();
 
@@ -16,7 +17,7 @@ const checkOnly = args.has("--check");
 const dryRun = args.has("--dry-run");
 
 /** Schema probes for migrations that introduce distinctive objects (newest first). */
-const MIGRATION_PROBES = {
+const MIGRATION_PROBES: Record<string, string> = {
   "20260619195805_mushy_kronos": `
     SELECT to_regclass('public.user') IS NOT NULL AS ok`,
   "20260619181744_great_robbie_robertson": `
@@ -25,8 +26,26 @@ const MIGRATION_PROBES = {
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
 
-const loadJournalEntries = () => {
-  const journal = JSON.parse(fs.readFileSync(journalPath, "utf8"));
+interface JournalEntry {
+  idx: number;
+  tag: string;
+  when: number;
+}
+
+interface LoadedJournalEntry extends JournalEntry {
+  hash: string;
+}
+
+interface DbMigrationRow {
+  id: number;
+  hash: string;
+  createdAt: number;
+}
+
+const loadJournalEntries = (): LoadedJournalEntry[] => {
+  const journal = JSON.parse(fs.readFileSync(journalPath, "utf8")) as {
+    entries: JournalEntry[];
+  };
 
   return journal.entries.map((entry) => {
     const sql = fs.readFileSync(
@@ -43,7 +62,7 @@ const loadJournalEntries = () => {
   });
 };
 
-const readDbMigrations = async (pool) => {
+const readDbMigrations = async (pool: pg.Pool): Promise<DbMigrationRow[]> => {
   const result = await pool.query(
     `SELECT id, hash, created_at
      FROM drizzle.__drizzle_migrations
@@ -51,15 +70,22 @@ const readDbMigrations = async (pool) => {
   );
 
   return result.rows.map((row) => ({
-    id: row.id,
-    hash: row.hash,
+    id: Number(row.id),
+    hash: String(row.hash),
     createdAt: Number(row.created_at),
   }));
 };
 
-const probeAppliedThroughIndex = async (pool, entries) => {
+const probeAppliedThroughIndex = async (
+  pool: pg.Pool,
+  entries: LoadedJournalEntry[]
+): Promise<number> => {
   for (let index = entries.length - 1; index >= 0; index -= 1) {
     const entry = entries[index];
+    if (!entry) {
+      continue;
+    }
+
     const probe = MIGRATION_PROBES[entry.tag];
     if (!probe) {
       continue;
@@ -74,7 +100,10 @@ const probeAppliedThroughIndex = async (pool, entries) => {
   return -1;
 };
 
-const buildExpectedRows = (entries, appliedThrough) =>
+const buildExpectedRows = (
+  entries: LoadedJournalEntry[],
+  appliedThrough: number
+) =>
   entries
     .filter((entry) => entry.idx <= appliedThrough)
     .map((entry) => ({
@@ -83,8 +112,12 @@ const buildExpectedRows = (entries, appliedThrough) =>
       tag: entry.tag,
     }));
 
-const detectDrift = (entries, dbRows, expectedRows) => {
-  const reasons = [];
+const detectDrift = (
+  entries: LoadedJournalEntry[],
+  dbRows: DbMigrationRow[],
+  expectedRows: Array<{ hash: string; createdAt: number }>
+): string[] => {
+  const reasons: string[] = [];
   const journalMaxWhen = entries.at(-1)?.when ?? 0;
   const lastDb = dbRows.at(-1);
 
@@ -126,12 +159,6 @@ const detectDrift = (entries, dbRows, expectedRows) => {
 
 const repairJournal = async () => {
   const url = resolveMigrationDatabaseUrl();
-  if (!url) {
-    throw new Error(
-      "DATABASE_URL_DIRECT, DATABASE_URL, or Supabase password/project config is required"
-    );
-  }
-
   const entries = loadJournalEntries();
   const pool = new pg.Pool({
     connectionString: url,

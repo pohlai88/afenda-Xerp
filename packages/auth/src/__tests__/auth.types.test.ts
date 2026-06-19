@@ -2,10 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import {
   isUnauthenticatedError,
+  UnauthenticatedError,
+} from "../auth.errors.js";
+import {
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
-  UnauthenticatedError,
-} from "../auth.types.js";
+} from "../auth.session.js";
 
 const sampleSession = normalizeAfendaAuthSession({
   session: {

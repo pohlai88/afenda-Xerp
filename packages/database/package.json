@@ -23,23 +23,25 @@
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
-    "db:migrate": "node scripts/repair-drizzle-journal.mjs && drizzle-kit migrate --config drizzle.config.ts",
-    "db:repair-journal": "node scripts/repair-drizzle-journal.mjs",
-    "db:repair-journal:check": "node scripts/repair-drizzle-journal.mjs --check",
-    "db:compare-migrations": "node scripts/compare-migrations.mjs",
-    "db:migration-hashes": "node scripts/list-migration-hashes.mjs",
-    "db:migration-status": "node scripts/db-migration-status.mjs",
-    "db:url-hints": "node scripts/db-url-hints.mjs",
+    "db:migrate": "tsx scripts/repair-drizzle-journal.ts && drizzle-kit migrate --config drizzle.config.ts",
+    "db:repair-journal": "tsx scripts/repair-drizzle-journal.ts",
+    "db:repair-journal:check": "tsx scripts/repair-drizzle-journal.ts --check",
+    "db:compare-migrations": "tsx scripts/compare-migrations.ts",
+    "db:migration-hashes": "tsx scripts/list-migration-hashes.ts",
+    "db:migration-status": "tsx scripts/db-migration-status.ts",
+    "db:url-hints": "tsx scripts/db-url-hints.ts",
     "db:studio": "drizzle-kit studio --config drizzle.config.ts"
   },
   "sideEffects": false,
   "dependencies": {
     "drizzle-orm": "^0.45.2",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/pg": "^8.20.0",
     "dotenv": "^17.4.2",
-    "drizzle-kit": "^0.31.10"
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.20.3"
   }
 }

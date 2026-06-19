@@ -1,9 +1,7 @@
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
-import {
-  type AfendaAuthSession,
-  normalizeAfendaAuthSession,
-  UnauthenticatedError,
-} from "./auth.types.js";
+import type { AfendaAuthSession } from "./auth.contract.js";
+import { UnauthenticatedError } from "./auth.errors.js";
+import { normalizeAfendaAuthSession } from "./auth.session.js";
 
 let authSingleton: AfendaAuth | undefined;
 

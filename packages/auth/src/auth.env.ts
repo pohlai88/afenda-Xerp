@@ -1,23 +1,9 @@
-export const BETTER_AUTH_SECRET_ENV = "BETTER_AUTH_SECRET";
-export const BETTER_AUTH_URL_ENV = "BETTER_AUTH_URL";
-
-export class MissingBetterAuthSecretError extends Error {
-  constructor() {
-    super(
-      `${BETTER_AUTH_SECRET_ENV} is required (min 32 chars). Generate with: openssl rand -base64 32`
-    );
-    this.name = "MissingBetterAuthSecretError";
-  }
-}
-
-export class MissingBetterAuthUrlError extends Error {
-  constructor() {
-    super(
-      `${BETTER_AUTH_URL_ENV} is required (e.g. http://localhost:3000 for local ERP).`
-    );
-    this.name = "MissingBetterAuthUrlError";
-  }
-}
+import {
+  BETTER_AUTH_SECRET_ENV,
+  BETTER_AUTH_URL_ENV,
+  MissingBetterAuthSecretError,
+  MissingBetterAuthUrlError,
+} from "./auth.errors.js";
 
 function readTrimmedEnv(
   env: NodeJS.ProcessEnv,

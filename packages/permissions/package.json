@@ -23,5 +23,9 @@
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "@afenda/auth": "workspace:^",
+    "@afenda/database": "workspace:^"
+  }
 }

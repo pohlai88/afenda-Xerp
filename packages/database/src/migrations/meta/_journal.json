@@ -15,6 +15,55 @@
       "when": 1781899085950,
       "tag": "20260619195805_mushy_kronos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781901784873,
+      "tag": "20260619204304_sweet_kingpin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1781905200000,
+      "tag": "20260619210000_auth_schema_enterprise",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1781907000000,
+      "tag": "20260619213000_company_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1781910000000,
+      "tag": "20260619220000_organization_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1781913600000,
+      "tag": "20260619230000_membership_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1781917200000,
+      "tag": "20260619240000_role_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1781920800000,
+      "tag": "20260619250000_policy_governance",
+      "breakpoints": true
     }
   ]
 }

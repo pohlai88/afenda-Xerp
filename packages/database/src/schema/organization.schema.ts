@@ -1,31 +1,46 @@
+/**
+ * Postgres table definition for `organizations` (Drizzle only).
+ *
+ * Writes: `../organization/organization.service.ts`
+ */
 import {
   type AnyPgColumn,
   index,
   pgTable,
   uniqueIndex,
-  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import {
   organizationStatusEnum,
   organizationTypeEnum,
 } from "../database.types.js";
-import { primaryId } from "../ids.js";
+import {
+  companyIdRef,
+  parentOrganizationIdRef,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { companies } from "./company.schema.js";
 import { tenants } from "./tenant.schema.js";
 
+/**
+ * Operating hierarchy within a company.
+ *
+ * Writes must go through `insertOrganization()` / `updateOrganization()` /
+ * `deleteOrganization()` only. Tree scope and acyclicity are enforced in service.
+ */
 export const organizations = pgTable(
   "organizations",
   {
     id: primaryId(),
-    tenantId: uuid("tenant_id")
+    tenantId: tenantIdRef()
       .notNull()
-      .references(() => tenants.id, { onDelete: "cascade" }),
-    companyId: uuid("company_id")
+      .references(() => tenants.id, { onDelete: "restrict" }),
+    companyId: companyIdRef()
       .notNull()
-      .references(() => companies.id, { onDelete: "cascade" }),
-    parentOrganizationId: uuid("parent_organization_id").references(
+      .references(() => companies.id, { onDelete: "restrict" }),
+    parentOrganizationId: parentOrganizationIdRef().references(
       (): AnyPgColumn => organizations.id,
       { onDelete: "set null" }
     ),
@@ -33,8 +48,8 @@ export const organizations = pgTable(
     name: varchar("name", { length: 255 }).notNull(),
     type: organizationTypeEnum("type").notNull().default("department"),
     status: organizationStatusEnum("status").notNull().default("active"),
-    createdAt: createdAtColumn,
-    updatedAt: updatedAtColumn,
+    createdAt: createdAtColumn(),
+    updatedAt: updatedAtColumn(),
   },
   (table) => [
     uniqueIndex("organizations_company_slug_unique").on(
@@ -43,9 +58,13 @@ export const organizations = pgTable(
     ),
     index("organizations_tenant_id_idx").on(table.tenantId),
     index("organizations_company_id_idx").on(table.companyId),
+    index("organizations_tenant_company_idx").on(
+      table.tenantId,
+      table.companyId
+    ),
+    index("organizations_company_status_idx").on(table.companyId, table.status),
     index("organizations_parent_organization_id_idx").on(
       table.parentOrganizationId
     ),
-    index("organizations_status_idx").on(table.status),
   ]
 );

@@ -1,14 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-
+import { UnauthenticatedError } from "../auth.errors.js";
 import {
   getAfendaAuthSession,
   requireAfendaAuthSession,
   resetAuthForTests,
 } from "../auth.server.js";
-import {
-  normalizeAfendaAuthSession,
-  UnauthenticatedError,
-} from "../auth.types.js";
+import { normalizeAfendaAuthSession } from "../auth.session.js";
 
 const mockGetSession = vi.fn();
 

@@ -11,7 +11,7 @@ Better Auth foundation for Afenda ERP (TIP-004).
 
 ## Out of scope
 
-- Tenant/company/organization permission enforcement (TIP-005)
+- Tenant/company/organization permission enforcement → `@afenda/permissions` (TIP-005)
 - Supabase Auth as identity provider
 - Business modules
 
@@ -35,7 +35,16 @@ import { signIn, signOut, useSession } from "@afenda/auth/client";
 
 ## Server identity mapping
 
+Better Auth proves login. Afenda decides authority.
+
+- Better Auth tables (`auth_user`, `auth_session`, …) are **login identity only**.
+- Platform actor identity lives in `users` and is linked via `auth_identity_links`.
+- Never use `authUser.id` as `actorUserId` or platform `users.id`.
+- Resolve platform user with `findPlatformUserIdByAuthUserId()` from `@afenda/database`.
+
 Use `toAfendaAuthIdentity(session)` before passing identity into AppShell or other UI boundaries.
+
+Sensitive auth account fields (`accessToken`, `refreshToken`, `idToken`, `password`) are adapter-owned and must not be selected, logged, or returned from app repositories.
 
 ## ERP wiring
 

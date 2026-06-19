@@ -89,7 +89,7 @@ pnpm --filter @afenda/database db:studio
 4. Run `pnpm env:sync` so `packages/database/.env` is current.
 5. Run `pnpm migrate` against your Supabase/Postgres instance.
 
-`db:migrate` runs `scripts/repair-drizzle-journal.mjs` first (borrowed from legacy Xforge). It probes applied schema (e.g. `public.tenants`) and rewrites the Drizzle ledger when the database and `src/migrations/meta/_journal.json` drift.
+`db:migrate` runs `scripts/repair-drizzle-journal.ts` first (borrowed from legacy Xforge). It probes applied schema (e.g. `public.tenants`) and rewrites the Drizzle ledger when the database and `src/migrations/meta/_journal.json` drift.
 
 **Do not** run destructive reset commands against shared or production databases.
 
@@ -97,25 +97,77 @@ pnpm --filter @afenda/database db:studio
 
 | Table | Purpose |
 |-------|---------|
-| `tenants` | Top-level tenant identity |
-| `companies` | Legal entities within a tenant |
-| `organizations` | Org hierarchy within a company |
-| `users` | Platform user identity (not auth provider tables) |
-| `memberships` | User ↔ tenant/company/org role assignments |
-| `roles` | Role definitions by scope |
-| `permissions` | Global permission catalog |
-| `policies` | Allow/deny policy definitions |
-| `audit_events` | Immutable audit trail |
+| `tenants` | Hard platform isolation boundary (writes via tenant service; slug normalized; no hard delete) |
+| `companies` | Legal/business entity within a tenant (writes via `insertCompany()` / `updateCompany()`) |
+| `organizations` | Operating hierarchy within a company (writes via organization service; tree validated) |
+| `users` | Platform actor identity (writes via user service; not Better Auth login) |
+| `memberships` | Authority grants (writes via membership service; explicit `scopeType`) |
+| `roles` | Authority templates by scope (writes via role service; dot-case keys; no hard delete) |
+| `permissions` | Global capability catalog (writes via `permission/permission.service.ts`) |
+| `policies` | Authority decision templates (writes via policy service; governed condition JSON; priority-ordered evaluation) |
+| `audit_events` | Append-only execution evidence ledger (writes via `insertAuditEvent()` only) |
+
+### Better Auth tables (login identity boundary)
+
+| Table | Purpose |
+|-------|---------|
+| `auth_user` | Better Auth login identity (not platform `users`) |
+| `auth_session` | Session tokens |
+| `auth_account` | Provider credentials (sensitive fields adapter-only) |
+| `auth_verification` | Verification tokens |
+| `auth_identity_links` | Maps `auth_user.id` → platform `users.id` |
+
+**Golden rule:** Better Auth proves login. Afenda decides authority. Never use `auth_user.id` as `actorUserId`.
 
 ## Usage
 
 ```typescript
-import { createDb, tenants } from "@afenda/database";
+import { createDb, insertAuditEvent, tenants } from "@afenda/database";
 
 const db = createDb();
 
 const rows = await db.select().from(tenants);
+
+await insertAuditEvent({
+  actorType: "user",
+  actorUserId: "...",
+  module: "platform",
+  action: "membership.create",
+  targetType: "membership",
+  targetId: "...",
+  result: "success",
+  correlationId: "corr-001",
+  permission: "system_admin.users_manage",
+});
 ```
+
+**Audit writes:** use `insertAuditEvent()` only (runtime-validated). Module layout:
+
+| File | Purpose |
+|------|---------|
+| `schema/audit.schema.ts` | Drizzle table (Postgres shape) |
+| `audit/audit-event.contract.ts` | Types and constants |
+| `audit/audit-event.validation.ts` | Zod + metadata sanitizer |
+| `audit/audit-event.builder.ts` | Pure row builder |
+| `audit/audit.writer.ts` | Append-only insert |
+
+Do not insert, update, or delete `audit_events` from feature modules.
+
+**Tenant writes:** use `insertTenant()` / `updateTenant()` / `archiveTenant()` only. Slugs are normalized to lowercase kebab-case; status controls workspace access; do not hard-delete tenants.
+
+**Role writes:** use `insertRole()` / `updateRole()` / `archiveRole()` only. Keys are canonical dot-case (e.g. `finance.approver`); `scope` must match `tenantId`; role key/scope/tenant are immutable after create; archive only when no memberships reference the role.
+
+**Policy writes:** use `insertPolicy()` / `updatePolicy()` / `archivePolicy()` only. Keys are canonical dot-case; `scope` must match `tenantId`; condition JSON is validated in `policy.validation.ts`; lower `priority` wins during evaluation; do not hard-delete policies.
+
+**Permission catalog writes:** use `insertPermission()` / `updatePermission()` only. Keys must match `{domain}.{action}` via `permission-key.contract.ts`; key/domain/action are immutable after create.
+
+**Company writes:** use `insertCompany()` / `updateCompany()` only. Slugs are normalized to lowercase kebab-case; country/currency must be governed ISO codes. Tenant → company FK uses `ON DELETE restrict`.
+
+**Organization writes:** use `insertOrganization()` / `updateOrganization()` / `deleteOrganization()` only. Parent must share tenant/company; hierarchy must stay acyclic; slugs are company-unique and normalized.
+
+**Membership writes:** use `insertMembership()` / `updateMembership()` / `deactivateMembership()` only. Explicit `scopeType` required; duplicate grants blocked per scope; use status changes instead of hard delete.
+
+**User writes:** use `insertUser()` / `updateUser()` / `deactivateUser()` only. Email is normalized before write; `users.id` is the platform actor — never `auth_user.id`.
 
 ## Testing
 

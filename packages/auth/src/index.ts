@@ -4,35 +4,13 @@ export const PACKAGE_NAME = "@afenda/auth" as const;
 // biome-ignore lint/performance/noBarrelFile: package public API entry point
 export {
   type AuthAuditInsertPayload,
-  type AuthAuditRecordInput,
-  type AuthAuditResult,
-  type AuthAuditWriter,
   buildAuthAuditPayload,
-  createDatabaseAuthAuditWriter,
-  recordAuthAuditEvent,
 } from "./auth.audit.js";
-export { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 export {
-  BETTER_AUTH_SECRET_ENV,
-  BETTER_AUTH_URL_ENV,
-  getBetterAuthSecret,
-  getBetterAuthUrl,
-  hasBetterAuthConfig,
-  MissingBetterAuthSecretError,
-  MissingBetterAuthUrlError,
-} from "./auth.env.js";
-export {
-  AUTH_EVENT,
-  type AuthEventContext,
-  type AuthEventName,
-  createAuthCorrelationId,
-} from "./auth.events.js";
-export {
-  getAfendaAuthSession,
-  getAuth,
-  requireAfendaAuthSession,
-  resetAuthForTests,
-} from "./auth.server.js";
+  type AfendaAuth,
+  type CreateAuthOptions,
+  createAuthConfig,
+} from "./auth.config.js";
 export {
   AFENDA_AUTH_EXTENSION_POINTS,
   type AfendaAuthExtensionPoints,
@@ -40,12 +18,35 @@ export {
   type AfendaAuthSession,
   type AfendaAuthSessionMetadata,
   type AfendaAuthUser,
-  type BetterAuthSessionLike,
+  AUTH_EVENT,
+  type AuthAuditRecordInput,
+  type AuthAuditResult,
+  type AuthEventContext,
+  type AuthEventName,
+} from "./auth.contract.js";
+export {
+  getBetterAuthSecret,
+  getBetterAuthUrl,
+  hasBetterAuthConfig,
+} from "./auth.env.js";
+export {
+  BETTER_AUTH_SECRET_ENV,
+  BETTER_AUTH_URL_ENV,
   isUnauthenticatedError,
+  MissingBetterAuthSecretError,
+  MissingBetterAuthUrlError,
+  UnauthenticatedError,
+} from "./auth.errors.js";
+export {
+  getAfendaAuthSession,
+  getAuth,
+  requireAfendaAuthSession,
+  resetAuthForTests,
+} from "./auth.server.js";
+export {
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
-  UnauthenticatedError,
-} from "./auth.types.js";
+} from "./auth.session.js";
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;

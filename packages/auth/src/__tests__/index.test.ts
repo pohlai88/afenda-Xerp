@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { getBetterAuthSecret, getBetterAuthUrl } from "../auth.env.js";
 import { resetAuthForTests } from "../auth.server.js";
 import {
@@ -70,6 +71,9 @@ describe("@afenda/auth package", () => {
     expect(payload.module).toBe("auth");
     expect(payload.action).toBe(AUTH_EVENT.signInSucceeded);
     expect(payload.correlationId).toBe("corr-test");
+    expect(payload.actorType).toBe("user");
+    expect(payload.source).toBe("auth");
+    expect(payload.eventVersion).toBe("1.0");
     expect(payload.metadata).toMatchObject({
       authUserId: "user_1",
       email: "user@example.com",
