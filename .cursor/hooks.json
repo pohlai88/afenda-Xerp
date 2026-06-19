@@ -4,60 +4,25 @@
     "sessionStart": [
       {
         "type": "prompt",
-        "prompt": "Repo: afenda-Xforge (afenda-xforge, pnpm, apps/app Next.js 16+). Rules: AGENTS.md + .cursor/rules/ (project-general.mdc index). Skill: .cursor/skills/xforge-nextjs-vercel/ for Next.js + Vercel. apps/app: MCP init(project_path=apps/app) + nextjs_docs (after llms-index) before any Next.js code. Hooks enforce: NEXT_PUBLIC secrets, Vercel prod deploy/MCP deploy/env pull, destructive git, dev servers, design-system primitives, stop quality gates."
+        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/. Skills: .cursor/skills/. Use pnpm only. Hooks guard shell/MCP policy and run scoped stop quality gates. Prefer typecheck, pnpm check, and tests over starting dev servers."
       }
     ],
     "preToolUse": [
       {
-        "command": "node .cursor/hooks/guard-workspace-compose.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-next-public-env.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-synced-env.mjs",
+        "command": "node .cursor/hooks/guard-pre-tool-use.mjs",
+        "matcher": "Write|StrReplace|Delete|EditNotebook|ApplyPatch",
         "timeout": 5
       }
     ],
     "beforeShellExecution": [
       {
-        "command": "node .cursor/hooks/block-destructive-git.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/block-dev-servers.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/warn-wrong-package-manager.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/ask-vercel-production.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/ask-vercel-env-pull.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-synced-env.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-drizzle-migrate.mjs",
+        "command": "node .cursor/hooks/guard-shell-policy.mjs",
         "timeout": 5
       }
     ],
     "beforeMCPExecution": [
       {
-        "command": "node .cursor/hooks/guard-vercel-deploy-mcp.mjs",
-        "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-drizzle-migrate.mjs",
+        "command": "node .cursor/hooks/guard-mcp-policy.mjs",
         "timeout": 5
       }
     ],

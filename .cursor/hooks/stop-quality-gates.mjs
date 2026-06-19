@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * stop hook — scoped quality gates from frontend-app, frontend-storybook,
- * frontend-design-system, and nextjs-mcp-quality rules.
+ * stop hook — scoped quality gates for afenda-Xerp.
  */
 import {
   emit,
@@ -17,24 +16,24 @@ const TAG = "stop-quality-gates";
 
 const GATES = [
   {
-    scope: "apps/app",
-    command: "pnpm --filter app typecheck",
-    label: "apps/app typecheck",
+    scope: "apps/erp",
+    command: "pnpm --filter @afenda/erp typecheck",
+    label: "@afenda/erp typecheck",
   },
   {
-    scope: "apps/app",
-    command: "pnpm --filter app test",
-    label: "apps/app unit tests",
+    scope: "apps/erp",
+    command: "pnpm --filter @afenda/erp test",
+    label: "@afenda/erp tests",
   },
   {
-    scope: "apps/storybook",
-    command: "pnpm --filter storybook typecheck",
-    label: "apps/storybook typecheck",
+    scope: "apps/docs",
+    command: "pnpm --filter @afenda/docs typecheck",
+    label: "@afenda/docs typecheck",
   },
   {
     scope: "packages/design-system",
-    command: "pnpm --filter @repo/design-system typecheck",
-    label: "@repo/design-system typecheck",
+    command: "pnpm --filter @afenda/design-system typecheck",
+    label: "@afenda/design-system typecheck",
   },
 ];
 
