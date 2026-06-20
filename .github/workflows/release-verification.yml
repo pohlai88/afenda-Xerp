@@ -71,6 +71,13 @@ jobs:
       - name: Gate 7 · public export surface
         run: pnpm quality:exports
 
+      # Gate 8 — Architecture Authority
+      - name: Gate 8 · architecture authority
+        run: pnpm quality:architecture
+
+      - name: Gate 8b · architecture drift
+        run: pnpm quality:architecture-drift
+
       # Release gate meta-check (verifies TIP-009 governance structure itself)
       - name: Release gate self-check
         run: pnpm quality:release-gate

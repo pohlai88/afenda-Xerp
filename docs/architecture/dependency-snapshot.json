@@ -1,0 +1,62 @@
+{
+  "fingerprint": "ARCH-BASELINE-2026-06-20-v1",
+  "generatedAt": "2026-06-20T02:25:47.565Z",
+  "runtimeEdges": [
+    {
+      "from": "@afenda/auth",
+      "to": "@afenda/database"
+    },
+    {
+      "from": "@afenda/database",
+      "to": "@afenda/observability"
+    },
+    {
+      "from": "@afenda/entitlements",
+      "to": "@afenda/database"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/appshell"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/auth"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/database"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/observability"
+    },
+    {
+      "from": "@afenda/execution",
+      "to": "@afenda/kernel"
+    },
+    {
+      "from": "@afenda/execution",
+      "to": "@afenda/observability"
+    },
+    {
+      "from": "@afenda/feature-flags",
+      "to": "@afenda/entitlements"
+    },
+    {
+      "from": "@afenda/metadata-ui",
+      "to": "@afenda/design-system"
+    },
+    {
+      "from": "@afenda/metadata-ui",
+      "to": "@afenda/permissions"
+    },
+    {
+      "from": "@afenda/permissions",
+      "to": "@afenda/auth"
+    },
+    {
+      "from": "@afenda/permissions",
+      "to": "@afenda/database"
+    }
+  ]
+}

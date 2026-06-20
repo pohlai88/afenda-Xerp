@@ -33,6 +33,8 @@ const requiredCiCommands = [
   "pnpm quality:boundaries",
   "pnpm quality:exports",
   "pnpm quality:migrations",
+  "pnpm quality:architecture",
+  "pnpm quality:architecture-drift",
   "pnpm quality:release-gate",
 ];
 
@@ -44,6 +46,8 @@ const requiredReleaseVerificationGates = [
   "pnpm quality:boundaries",
   "pnpm quality:migrations",
   "pnpm quality:exports",
+  "pnpm quality:architecture",
+  "pnpm quality:architecture-drift",
   "pnpm quality:release-gate",
 ];
 
@@ -52,6 +56,8 @@ const requiredQualityScripts = [
   "quality:boundaries",
   "quality:exports",
   "quality:migrations",
+  "quality:architecture",
+  "quality:architecture-drift",
   "quality:preview-policy",
   "quality:release-gate",
   "ci:biome",

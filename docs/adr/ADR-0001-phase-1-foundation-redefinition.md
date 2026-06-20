@@ -354,7 +354,7 @@ Accounting becomes the first ERP business domain built on top of a governed plat
 
 | TIP | Title | Status |
 |-----|-------|--------|
-| TIP-001 | Architecture Authority | Redefined — Pending |
+| TIP-001 | Architecture Authority | **Complete** |
 | TIP-002 | AI Development Governance | Redefined — Pending |
 | TIP-003 | Design System Authority | Redefined — Pending |
 | TIP-004 | Design System Contracts | Redefined — Pending |

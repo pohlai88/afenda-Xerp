@@ -203,6 +203,15 @@ importers:
         specifier: 'catalog:'
         version: 3.2.6(@types/node@22.19.21)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(tsx@4.22.4)(yaml@2.9.0)
 
+  packages/architecture-authority:
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/node@22.19.21)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(tsx@4.22.4)(yaml@2.9.0)
+
   packages/auth:
     dependencies:
       '@afenda/database':
