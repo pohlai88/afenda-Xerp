@@ -29,6 +29,11 @@
       "types": "./dist/storage/mock-storage-provider.d.ts",
       "import": "./dist/storage/mock-storage-provider.js",
       "default": "./dist/storage/mock-storage-provider.js"
+    },
+    "./execution/mock-provider": {
+      "types": "./dist/execution/mock-execution-provider.d.ts",
+      "import": "./dist/execution/mock-execution-provider.js",
+      "default": "./dist/execution/mock-execution-provider.js"
     }
   },
   "files": [
@@ -43,6 +48,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "devDependencies": {
+    "@afenda/execution": "workspace:^",
     "@afenda/storage": "workspace:^",
     "@afenda/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",

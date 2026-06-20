@@ -1,6 +1,7 @@
 /** Package public API surface — intentional aggregate export module. */
 // biome-ignore lint/performance/noBarrelFile: single curated export surface for @afenda/database
 export {
+  createDatabaseAuditAdapter,
   type InsertAuditEventResult,
   insertAuditEvent,
 } from "./audit/audit.writer.js";
@@ -409,6 +410,8 @@ export {
   entitlementGrants,
   entitlementScopeEnum,
   entitlementTypeEnum,
+  executionRuns,
+  executionStatusEnum,
   featureFlagRolloutEnum,
   killSwitchSeverityEnum,
   membershipScopeEnum,

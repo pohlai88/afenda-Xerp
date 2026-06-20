@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { withAuditEvidence } from "../audit-action-evidence.js";
 import { buildAuditEventRow } from "../audit-event.builder.js";
+import type {
+  AuditEventInsertRow,
+  WriteAuditEventResult,
+} from "../contracts/audit-event.contract.js";
 import {
   assertCorrelationId,
   createCorrelationId,
@@ -90,5 +95,33 @@ describe("correlation ID propagation contract", () => {
     const logEntry = logEntries[0] as { correlationId: string };
     expect(logEntry.correlationId).toBe(correlationId);
     expect(auditRow.correlationId).toBe(correlationId);
+  });
+
+  it("middleware correlation ID flows into withAuditEvidence audit row", async () => {
+    const middlewareCorrelationId = "x-corr-from-middleware-001";
+    const rows: AuditEventInsertRow[] = [];
+
+    const adapter = {
+      write: (row: AuditEventInsertRow): Promise<WriteAuditEventResult> => {
+        rows.push(row);
+        return Promise.resolve({ id: "audit-corr-001" });
+      },
+    };
+
+    await withAuditEvidence(
+      {
+        correlationId: middlewareCorrelationId,
+        actorType: "user",
+        actorUserId: "user-001",
+        module: "membership",
+        action: "membership.create",
+        targetType: "membership",
+        source: "server_action",
+      },
+      async () => ({ id: "mem-001" }),
+      adapter
+    );
+
+    expect(rows[0]?.correlationId).toBe(middlewareCorrelationId);
   });
 });

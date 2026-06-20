@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createPinoLogger } from "../create-pino-logger.js";
 import { PINO_REDACT_CENSOR, PINO_REDACT_PATHS } from "../pino.redact.js";
-import { createPinoSink } from "../pino.sink.js";
+import { createPinoSink, PinoProductionConfigError } from "../pino.sink.js";
 
 const testContext = {
   correlationId: "corr-pino-001",
@@ -10,6 +10,11 @@ const testContext = {
   package: "@afenda/erp",
   module: "auth",
   version: "0.0.0",
+} as const;
+
+const prodContext = {
+  ...testContext,
+  environment: "production",
 } as const;
 
 describe("createPinoSink", () => {
@@ -42,6 +47,20 @@ describe("createPinoSink", () => {
       ).not.toThrow();
     }
   });
+
+  it("throws PinoProductionConfigError when pretty:true is set in production", () => {
+    expect(() => createPinoSink(prodContext, { pretty: true })).toThrow(
+      PinoProductionConfigError
+    );
+  });
+
+  it("allows pretty:false in production without throwing", () => {
+    expect(() => createPinoSink(prodContext, { pretty: false })).not.toThrow();
+  });
+
+  it("allows pretty:undefined in production (defaults to JSON output)", () => {
+    expect(() => createPinoSink(prodContext)).not.toThrow();
+  });
 });
 
 describe("createPinoLogger", () => {
@@ -73,6 +92,12 @@ describe("createPinoLogger", () => {
     );
 
     expect(() => logger.info("bound context test")).not.toThrow();
+  });
+
+  it("rejects pretty:true in production", () => {
+    expect(() => createPinoLogger(prodContext, { pretty: true })).toThrow(
+      PinoProductionConfigError
+    );
   });
 });
 

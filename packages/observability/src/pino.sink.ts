@@ -49,8 +49,29 @@ export interface PinoSinkOptions {
   readonly bindings?: Record<string, string | number | boolean | null>;
   /** Override pino log level. Defaults to "info" in production, "debug" in development. */
   readonly level?: pino.Level;
-  /** Whether to activate pino-pretty for human-readable output. */
+  /**
+   * Activate pino-pretty for human-readable output.
+   *
+   * Setting this to `true` in a production environment throws `PinoProductionConfigError`
+   * to prevent accidental performance-impacting pretty-print in production.
+   * Use `NODE_ENV=development` or pass `environment: "development"` to the context.
+   */
   readonly pretty?: boolean;
+}
+
+/**
+ * Thrown when pino-pretty is explicitly requested in a production environment.
+ *
+ * pino-pretty has significant performance overhead and must never run in production.
+ */
+export class PinoProductionConfigError extends Error {
+  constructor() {
+    super(
+      "pino-pretty is not allowed in production. " +
+        "Remove `pretty: true` or set NODE_ENV to a non-production value."
+    );
+    this.name = "PinoProductionConfigError";
+  }
 }
 
 /**
@@ -67,6 +88,12 @@ export function createPinoSink(
   context: DiagnosticContext,
   options: PinoSinkOptions = {}
 ): LoggerSink {
+  const isProduction = context.environment === "production";
+
+  if (isProduction && options.pretty === true) {
+    throw new PinoProductionConfigError();
+  }
+
   const isDevelopment =
     options.pretty ??
     (context.environment === "development" || context.environment === "test");

@@ -1,3 +1,4 @@
+import type { AuditEventPersistenceAdapter } from "@afenda/observability";
 import { writeAuditEvent } from "@afenda/observability";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
@@ -13,7 +14,7 @@ export interface InsertAuditEventResult {
 
 async function persistAuditEventRow(
   row: AuditEventInsertRow,
-  db: AfendaDatabase = getDb()
+  db: AfendaDatabase
 ): Promise<InsertAuditEventResult> {
   const [inserted] = await db
     .insert(auditEvents)
@@ -28,15 +29,38 @@ async function persistAuditEventRow(
 }
 
 /**
- * Backward-compatible database adapter for the TIP-010 audit writer authority.
+ * Creates a database-backed `AuditEventPersistenceAdapter` for use with
+ * `configureAuditEventPersistence()` in server bootstrap.
  *
- * New code should import `writeAuditEvent()` from `@afenda/observability`.
+ * @example
+ * ```ts
+ * // apps/erp/instrumentation.ts
+ * import { configureAuditEventPersistence } from "@afenda/observability";
+ * import { createDatabaseAuditAdapter } from "@afenda/database";
+ *
+ * export async function register() {
+ *   if (process.env.NEXT_RUNTIME === "nodejs") {
+ *     configureAuditEventPersistence(createDatabaseAuditAdapter());
+ *   }
+ * }
+ * ```
+ */
+export function createDatabaseAuditAdapter(
+  db: AfendaDatabase = getDb()
+): AuditEventPersistenceAdapter {
+  return {
+    write: (row) => persistAuditEventRow(row, db),
+  };
+}
+
+/**
+ * Backward-compatible audit writer for the TIP-010 authority.
+ *
+ * New code should use `withAuditEvidence()` from `@afenda/observability`.
  */
 export async function insertAuditEvent(
   input: InsertAuditEventInput,
   db: AfendaDatabase = getDb()
 ): Promise<InsertAuditEventResult> {
-  return await writeAuditEvent(input, {
-    write: (row) => persistAuditEventRow(row, db),
-  });
+  return await writeAuditEvent(input, createDatabaseAuditAdapter(db));
 }

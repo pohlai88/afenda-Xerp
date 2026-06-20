@@ -6,6 +6,7 @@ import {
   tenantCommercialPlans,
   usageLimitCounters,
 } from "./entitlement.schema.js";
+import { executionRuns } from "./execution.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
 import { permissions } from "./permission.schema.js";
@@ -26,6 +27,7 @@ export const platformSchema = {
   authIdentityLinks,
   companies,
   entitlementGrants,
+  executionRuns,
   memberships,
   organizations,
   permissions,
@@ -62,6 +64,7 @@ export {
   roleScopeEnum,
   roleStatusEnum,
   storageProviderEnum,
+  executionStatusEnum,
   tenantStatusEnum,
   usageLimitPeriodEnum,
   userStatusEnum,
@@ -83,6 +86,7 @@ export {
   tenantCommercialPlans,
   usageLimitCounters,
 } from "./entitlement.schema.js";
+export { executionRuns } from "./execution.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";
 export { permissions } from "./permission.schema.js";

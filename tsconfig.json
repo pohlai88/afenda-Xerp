@@ -3,6 +3,7 @@
   "references": [
     { "path": "./packages/kernel" },
     { "path": "./packages/observability" },
+    { "path": "./packages/execution" },
     { "path": "./packages/storage" },
     { "path": "./packages/ui" },
     { "path": "./packages/design-system" },

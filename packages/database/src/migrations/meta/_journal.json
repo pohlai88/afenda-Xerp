@@ -99,6 +99,13 @@
       "when": 1781938800000,
       "tag": "20260620090000_storage_metadata",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1781942400000,
+      "tag": "20260620100000_execution_foundation",
+      "breakpoints": true
     }
   ]
 }

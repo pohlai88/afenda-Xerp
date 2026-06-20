@@ -6,7 +6,9 @@ export function getPackageName(): typeof PACKAGE_NAME {
 
 // biome-ignore lint/performance/noBarrelFile: package root is the curated public API surface.
 export {
+  AuditAdapterMissingError,
   configureAuditEventPersistence,
+  isAuditPersistenceConfigured,
   resetAuditEventPersistence,
   writeAuditEvent,
 } from "./audit.writer.js";
@@ -80,5 +82,6 @@ export {
 } from "./pino.redact.js";
 export {
   createPinoSink,
+  PinoProductionConfigError,
   type PinoSinkOptions,
 } from "./pino.sink.js";

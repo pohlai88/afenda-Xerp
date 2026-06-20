@@ -222,3 +222,20 @@ export const storageProviderEnum = pgEnum(
 );
 
 export type StorageProvider = (typeof storageProviderEnum.enumValues)[number];
+
+export const EXECUTION_STATUSES = [
+  "success",
+  "failure",
+  "retrying",
+  "cancelled",
+  "blocked",
+  "timed_out",
+] as const;
+
+/** Must stay aligned with `@afenda/execution` EXECUTION_STATUSES. */
+export const executionStatusEnum = pgEnum(
+  "execution_status",
+  EXECUTION_STATUSES
+);
+
+export type ExecutionStatus = (typeof executionStatusEnum.enumValues)[number];

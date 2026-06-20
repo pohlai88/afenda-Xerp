@@ -7,3 +7,7 @@ export function getPackageName(): typeof PACKAGE_NAME {
 
 // biome-ignore lint/performance/noBarrelFile: package root is the curated public API surface.
 export { createMockStorageProvider } from "./storage/mock-storage-provider.js";
+export {
+  createMockExecutionContext,
+  createMockExecutionProvider,
+} from "./execution/mock-execution-provider.js";
