@@ -132,6 +132,11 @@ const componentCvaPattern = /\bcva\s*\(/u;
 
 const resolvePrimitiveGovernancePattern = /resolvePrimitiveGovernance\s*\(/u;
 
+const governedAttributesBeforePropsPattern =
+  /\{\.\.\.governed\.dataAttributes\}\s*\n?\s*(?:className=\{[^}]+\}\s*\n?\s*)?\{\.\.\.props\}/u;
+
+const stateStringPropPattern = /state\?:\s*string/u;
+
 const stockShadcnCompatUsagePattern =
   /\b(?:mapStockButtonProps|mapStockButtonSize|mapStockButtonVisualToGoverned)\b/u;
 
@@ -209,6 +214,18 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
         `${relativePath}: uses arbitrary radius/shadow/typography utilities outside recipe ownership`
       );
     }
+
+    if (governedAttributesBeforePropsPattern.test(source)) {
+      failures.push(
+        `${relativePath}: {...governed.dataAttributes} must not precede {...props} — use applyGovernedPresentation()`
+      );
+    }
+
+    if (stateStringPropPattern.test(source)) {
+      failures.push(
+        `${relativePath}: state prop must use GovernedState via Governed*Props — not state?: string`
+      );
+    }
   }
 
   if (
@@ -236,8 +253,13 @@ for (const pendingFile of STOCK_SHADCN_PENDING) {
   }
 }
 
-if ((EXPORTED_STOCK_COMPONENTS as readonly string[]).length === 0) {
-  failures.push("EXPORTED_STOCK_COMPONENTS must not be empty during phase 1");
+if (
+  (EXPORTED_STOCK_COMPONENTS as readonly string[]).length === 0 &&
+  (STOCK_SHADCN_PENDING as readonly string[]).length > 0
+) {
+  failures.push(
+    "EXPORTED_STOCK_COMPONENTS must not be empty while STOCK_SHADCN_PENDING has entries"
+  );
 }
 
 const reverseDependencyImportPattern =

@@ -1,44 +1,58 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { HoverCard as HoverCardPrimitive } from "radix-ui"
+import * as React from "react";
+import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const HOVER_CARD_RECIPE_NAME = "surface" as const;
 
 function HoverCard({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Root>) {
-  return <HoverCardPrimitive.Root data-slot="hover-card" {...props} />
+  return (
+    <HoverCardPrimitive.Root
+      data-slot="hover-card"
+      {...props}
+    />
+  );
 }
 
 function HoverCardTrigger({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {
   return (
-    <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
-  )
+    <HoverCardPrimitive.Trigger
+      data-slot="hover-card-trigger"
+      {...props}
+    />
+  );
 }
 
-function HoverCardContent({
-  className,
-  align = "center",
-  sideOffset = 4,
-  ...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
+const HoverCardContent = React.forwardRef<
+  React.ComponentRef<typeof HoverCardPrimitive.Content>,
+  Omit<React.ComponentProps<typeof HoverCardPrimitive.Content>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "HoverCard",
+    recipeName: HOVER_CARD_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
   return (
     <HoverCardPrimitive.Portal data-slot="hover-card-portal">
       <HoverCardPrimitive.Content
-        data-slot="hover-card-content"
-        align={align}
-        sideOffset={sideOffset}
-        className={cn(
-          "z-50 w-64 origin-(--radix-hover-card-content-transform-origin) rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-          className
-        )}
-        {...props}
+        ref={ref}
+        {...applyGovernedPresentation({ ...props, align, sideOffset }, governed)}
       />
     </HoverCardPrimitive.Portal>
-  )
-}
+  );
+});
 
-export { HoverCard, HoverCardTrigger, HoverCardContent }
+HoverCardContent.displayName = "HoverCardContent";
+
+export { HoverCard, HoverCardTrigger, HoverCardContent };

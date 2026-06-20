@@ -42,6 +42,20 @@
     },
     "quality": {
       "cache": false
+    },
+    "storybook": {
+      "cache": false,
+      "persistent": true
+    },
+    "storybook:build": {
+      "outputs": ["storybook-static/**"]
+    },
+    "test:storybook": {
+      "cache": false
+    },
+    "test:storybook:run": {
+      "cache": false,
+      "outputs": ["coverage/**"]
     }
   }
 }

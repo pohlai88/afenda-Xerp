@@ -1,55 +1,96 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ScrollArea as ScrollAreaPrimitive } from "radix-ui"
+import * as React from "react";
+import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
+import type { GovernedFormControlProps } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function ScrollArea({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+const SCROLL_AREA_RECIPE_NAME = "form-control" as const;
+
+export interface ScrollAreaProps
+  extends Omit<React.ComponentProps<typeof ScrollAreaPrimitive.Root>, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
+}
+
+const ScrollArea = React.forwardRef<
+  React.ElementRef<typeof ScrollAreaPrimitive.Root>,
+  ScrollAreaProps
+>(({ className, state, children, ...props }, ref) => {
+  const rootGoverned = resolvePrimitiveGovernance({
+    componentName: "ScrollArea",
+    recipeName: SCROLL_AREA_RECIPE_NAME,
+    state,
+    slot: "root",
+    className,
+  });
+
+  const viewportGoverned = resolvePrimitiveGovernance({
+    componentName: "ScrollArea",
+    recipeName: SCROLL_AREA_RECIPE_NAME,
+    slot: "body",
+  });
+
   return (
     <ScrollAreaPrimitive.Root
-      data-slot="scroll-area"
-      className={cn("relative", className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, rootGoverned)}
     >
       <ScrollAreaPrimitive.Viewport
-        data-slot="scroll-area-viewport"
-        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
+        {...applyGovernedPresentation({}, viewportGoverned)}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollBar />
       <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
-  )
+  );
+});
+
+ScrollArea.displayName = "ScrollArea";
+
+export interface ScrollBarProps
+  extends Omit<
+    React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function ScrollBar({
-  className,
-  orientation = "vertical",
-  ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>) {
+const ScrollBar = React.forwardRef<
+  React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  ScrollBarProps
+>(({ className, orientation = "vertical", ...props }, ref) => {
+  const scrollbarGoverned = resolvePrimitiveGovernance({
+    componentName: "ScrollArea",
+    recipeName: SCROLL_AREA_RECIPE_NAME,
+    slot: "control",
+    className,
+  });
+
+  const thumbGoverned = resolvePrimitiveGovernance({
+    componentName: "ScrollArea",
+    recipeName: SCROLL_AREA_RECIPE_NAME,
+    slot: "icon",
+  });
+
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
-      data-slot="scroll-area-scrollbar"
-      data-orientation={orientation}
+      ref={ref}
+      {...applyGovernedPresentation(props, scrollbarGoverned, {
+        "data-orientation": orientation,
+      })}
       orientation={orientation}
-      className={cn(
-        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
-        className
-      )}
-      {...props}
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
-        data-slot="scroll-area-thumb"
-        className="relative flex-1 rounded-full bg-border"
+        {...applyGovernedPresentation({}, thumbGoverned)}
       />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
-  )
-}
+  );
+});
 
-export { ScrollArea, ScrollBar }
+ScrollBar.displayName = "ScrollBar";
+
+export { ScrollArea, ScrollBar };

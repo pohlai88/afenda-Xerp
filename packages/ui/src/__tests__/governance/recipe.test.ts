@@ -38,7 +38,7 @@ describe("recipe governance", () => {
         intent: "primary",
         tone: "danger",
       })
-    ).toThrow("Disallowed variant axes");
+    ).toThrow(/TIP-004 variant policy violation/);
   });
 
   it("resolves governed badge tones", () => {
@@ -83,7 +83,7 @@ describe("recipe governance", () => {
         tone: "neutral",
         intent: "primary",
       })
-    ).toThrow("Disallowed variant axes");
+    ).toThrow(/TIP-004 variant policy violation/);
   });
 
   it("produces button className without raw palette utilities", () => {

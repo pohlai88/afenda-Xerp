@@ -1,115 +1,189 @@
-import * as React from "react"
-import { Slot } from "radix-ui"
+import * as React from "react";
+import { Slot } from "radix-ui";
+import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
+import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
+const BREADCRUMB_RECIPE_NAME = "surface" as const;
+
+const BreadcrumbEllipsisLabel = createGovernedSpanSlot("BreadcrumbEllipsisLabel", {
+  componentName: "Breadcrumb",
+  recipeName: BREADCRUMB_RECIPE_NAME,
+  slotKey: "ellipsis-label",
+});
+
+const Breadcrumb = React.forwardRef<
+  HTMLElement,
+  Omit<React.ComponentPropsWithoutRef<"nav">, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
   return (
     <nav
-      aria-label="breadcrumb"
-      data-slot="breadcrumb"
-      className={cn(className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "aria-label": "breadcrumb",
+      })}
     />
-  )
-}
+  );
+});
 
-function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
-  return (
-    <ol
-      data-slot="breadcrumb-list"
-      className={cn(
-        "flex flex-wrap items-center gap-1.5 text-sm wrap-break-word text-muted-foreground",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+Breadcrumb.displayName = "Breadcrumb";
 
-function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
-  return (
-    <li
-      data-slot="breadcrumb-item"
-      className={cn("inline-flex items-center gap-1", className)}
-      {...props}
-    />
-  )
-}
-
-function BreadcrumbLink({
-  asChild,
-  className,
-  ...props
-}: React.ComponentProps<"a"> & {
-  asChild?: boolean
-}) {
-  const Comp = asChild ? Slot.Root : "a"
+const BreadcrumbList = React.forwardRef<
+  HTMLOListElement,
+  Omit<React.ComponentPropsWithoutRef<"ol">, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
 
   return (
-    <Comp
-      data-slot="breadcrumb-link"
-      className={cn("transition-colors hover:text-foreground", className)}
-      {...props}
-    />
-  )
-}
+    <ol ref={ref} {...applyGovernedPresentation(props, governed)} />
+  );
+});
 
-function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
+BreadcrumbList.displayName = "BreadcrumbList";
+
+const BreadcrumbItem = React.forwardRef<
+  HTMLLIElement,
+  Omit<React.ComponentPropsWithoutRef<"li">, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "content",
+    className,
+  });
+
+  return (
+    <li ref={ref} {...applyGovernedPresentation(props, governed)} />
+  );
+});
+
+BreadcrumbItem.displayName = "BreadcrumbItem";
+
+const BreadcrumbLink = React.forwardRef<
+  HTMLAnchorElement,
+  Omit<React.ComponentPropsWithoutRef<"a">, "className"> & {
+    readonly className?: string;
+    readonly asChild?: boolean;
+  }
+>(({ asChild, className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "control",
+    className,
+  });
+
+  const Comp = asChild ? Slot.Root : "a";
+
+  return (
+    <Comp ref={ref} {...applyGovernedPresentation(props, governed)} />
+  );
+});
+
+BreadcrumbLink.displayName = "BreadcrumbLink";
+
+const BreadcrumbPage = React.forwardRef<
+  HTMLSpanElement,
+  Omit<React.ComponentPropsWithoutRef<"span">, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "label",
+    className,
+  });
+
   return (
     <span
-      data-slot="breadcrumb-page"
-      role="link"
-      aria-disabled="true"
-      aria-current="page"
-      className={cn("font-normal text-foreground", className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(
+        { ...props, role: "link", "aria-disabled": true, "aria-current": "page" },
+        governed
+      )}
     />
-  )
-}
+  );
+});
 
-function BreadcrumbSeparator({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) {
+BreadcrumbPage.displayName = "BreadcrumbPage";
+
+const BreadcrumbSeparator = React.forwardRef<
+  HTMLLIElement,
+  Omit<React.ComponentPropsWithoutRef<"li">, "className"> & {
+    readonly className?: string;
+  }
+>(({ children, className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "icon",
+    className,
+  });
+
   return (
     <li
-      data-slot="breadcrumb-separator"
-      role="presentation"
-      aria-hidden="true"
-      className={cn("[&>svg]:size-3.5", className)}
-      {...props}
-    >
-      {children ?? (
-        <ChevronRightIcon />
+      ref={ref}
+      {...applyGovernedPresentation(
+        { ...props, role: "presentation", "aria-hidden": true },
+        governed
       )}
+    >
+      {children ?? <ChevronRightIcon />}
     </li>
-  )
-}
+  );
+});
 
-function BreadcrumbEllipsis({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
+
+const BreadcrumbEllipsis = React.forwardRef<
+  HTMLSpanElement,
+  Omit<React.ComponentPropsWithoutRef<"span">, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slot: "state",
+    className,
+  });
+
   return (
     <span
-      data-slot="breadcrumb-ellipsis"
-      role="presentation"
-      aria-hidden="true"
-      className={cn(
-        "flex size-5 items-center justify-center [&>svg]:size-4",
-        className
+      ref={ref}
+      {...applyGovernedPresentation(
+        { ...props, role: "presentation", "aria-hidden": true },
+        governed
       )}
-      {...props}
     >
-      <MoreHorizontalIcon
-      />
-      <span className="sr-only">More</span>
+      <MoreHorizontalIcon />
+      <BreadcrumbEllipsisLabel>More</BreadcrumbEllipsisLabel>
     </span>
-  )
-}
+  );
+});
+
+BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
 
 export {
   Breadcrumb,
@@ -119,4 +193,4 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-}
+};

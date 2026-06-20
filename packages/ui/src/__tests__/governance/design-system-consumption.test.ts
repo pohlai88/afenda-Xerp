@@ -83,7 +83,7 @@ describe("governed variant resolution", () => {
   it("rejects unsupported badge tones in development", () => {
     expect(() =>
       resolveBadgeClassName({ tone: "celebratory" as "neutral" })
-    ).toThrow(/Unsupported tone value/);
+    ).toThrow(/TIP-004 variant policy violation/);
   });
 });
 

@@ -1,4 +1,10 @@
 import type {
+  GovernedCardLayoutSize,
+  GovernedEmptyMediaVariant,
+  GovernedToggleSize,
+  GovernedToggleVariant,
+} from "./component-props";
+import type {
   AccessibilityRequirement,
   GovernedState,
   MotionContract,
@@ -32,6 +38,12 @@ export interface PrimitiveGovernanceInput {
    */
   readonly fieldOrientation?: FieldOrientation | undefined;
 
+  /**
+   * Card-only structural layout size for group-data slot selectors.
+   * Not a design-system recipe variant axis.
+   */
+  readonly layoutSize?: GovernedCardLayoutSize | undefined;
+
   readonly state?: string | undefined;
   readonly slot?: string | undefined;
 
@@ -46,6 +58,15 @@ export interface PrimitiveGovernanceInput {
 
   readonly motion?: MotionIntent | undefined;
   readonly className?: string | undefined;
+
+  /** Toggle-only variant override — not a design-system recipe axis. */
+  readonly toggleVariant?: GovernedToggleVariant | undefined;
+
+  /** Toggle-only size override — not a design-system recipe axis. */
+  readonly toggleSize?: GovernedToggleSize | undefined;
+
+  /** EmptyMedia-only presentation override. */
+  readonly emptyMediaVariant?: GovernedEmptyMediaVariant | undefined;
 }
 
 /** Normalized output from {@link resolvePrimitiveGovernance}. */

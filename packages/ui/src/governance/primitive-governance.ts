@@ -2,6 +2,7 @@ import { cn } from "../lib/utils";
 
 import { getComponentAccessibilityRequirement } from "./accessibility";
 import { resolveLayoutClassName } from "./class-name";
+import { isGovernedCardLayoutSize } from "./component-props";
 import type { MotionContract, SlotRole } from "./design-system";
 import { resolveMotionIntent } from "./motion";
 import type {
@@ -18,6 +19,7 @@ import {
   resolveButtonClassName,
   resolveFieldOrientationClassName,
   resolveGovernedRecipe,
+  resolveToggleClassName,
 } from "./recipe";
 import { resolveGovernedState } from "./state";
 import { resolveSlotRole } from "./slot";
@@ -66,6 +68,33 @@ function resolveRecipeClassName(
     return "";
   }
 
+  if (
+    (input.componentName === "Card" || input.componentName === "Alert") &&
+    input.slot !== undefined &&
+    input.slot !== "root" &&
+    input.variant === undefined &&
+    input.fieldOrientation === undefined
+  ) {
+    return "";
+  }
+
+  if (
+    input.componentName === "Field" &&
+    input.variant === undefined &&
+    input.fieldOrientation === undefined &&
+    (input.slot !== "root" || input.slotKey !== undefined)
+  ) {
+    return "";
+  }
+
+  if (
+    input.componentName === "Table" &&
+    input.variant === undefined &&
+    (input.slot !== "root" || input.slotKey !== undefined)
+  ) {
+    return "";
+  }
+
   if (recipeName === "button") {
     return resolveButtonClassName({
       ...variant,
@@ -110,7 +139,12 @@ function resolveSlotClassName(
       );
     }
 
-    return slotClassName;
+    const baseClassName =
+      input.slot === undefined
+        ? ""
+        : (definition.slotClassNames[slot] ?? "");
+
+    return cn(baseClassName, slotClassName);
   }
 
   const baseClassName = definition.slotClassNames[slot] ?? "";
@@ -122,8 +156,36 @@ function resolveSlotClassName(
       return cn(baseClassName, definition.slotClassNamesByKey?.[switchSizeKey]);
     }
 
+    if (definition.componentName === "Select" && slot === "control") {
+      const triggerSizeKey = size === "sm" ? "trigger-size-sm" : "trigger-size-md";
+      return cn(baseClassName, definition.slotClassNamesByKey?.[triggerSizeKey]);
+    }
+
     const leafSizeClassName = definition.slotClassNamesByKey?.[size];
     return cn(baseClassName, leafSizeClassName);
+  }
+
+  if (
+    (definition.componentName === "Toggle" && slot === "root") ||
+    (definition.componentName === "ToggleGroup" && slot === "control")
+  ) {
+    return cn(
+      baseClassName,
+      resolveToggleClassName({
+        variant: input.toggleVariant ?? "default",
+        size: input.toggleSize ?? "default",
+      })
+    );
+  }
+
+  if (definition.componentName === "Empty" && slot === "icon") {
+    const mediaVariant = input.emptyMediaVariant ?? "default";
+    const mediaClassName =
+      definition.slotClassNamesByKey?.[
+        mediaVariant === "icon" ? "media-icon" : "media-default"
+      ];
+
+    return cn(baseClassName, mediaClassName);
   }
 
   return baseClassName;
@@ -160,12 +222,38 @@ function buildDataAttributes(
   state: PrimitiveGovernanceResult["state"],
   slot: PrimitiveGovernanceResult["slot"]
 ): Readonly<Record<string, string>> {
-  return {
+  const attributes: Record<string, string> = {
     "data-component": input.componentName,
     "data-recipe": recipeName,
     "data-state": state,
     "data-slot": resolveDataSlot(input, definition, slot),
   };
+
+  if (
+    input.componentName === "Card" &&
+    slot === "root" &&
+    input.layoutSize !== undefined
+  ) {
+    attributes["data-size"] = input.layoutSize;
+  }
+
+  return attributes;
+}
+
+function assertCardLayoutSize(input: PrimitiveGovernanceInput): void {
+  if (input.layoutSize === undefined) {
+    return;
+  }
+
+  if (input.componentName !== "Card") {
+    return;
+  }
+
+  if (!isGovernedCardLayoutSize(input.layoutSize)) {
+    throw new Error(
+      `TIP-004B card layout size violation. Unsupported layout size "${input.layoutSize}". Allowed: default, sm.`
+    );
+  }
 }
 
 function resolvePrimitiveMotion(
@@ -186,6 +274,7 @@ export function resolvePrimitiveGovernance(
   const slot = resolveSlotRole(input.slot, definition.defaultSlot);
 
   assertPrimitiveSlotAllowed(definition, slot);
+  assertCardLayoutSize(input);
 
   const recipeClassName = resolveRecipeClassName(input, definition);
   const slotClassName = resolveSlotClassName(input, definition, slot);

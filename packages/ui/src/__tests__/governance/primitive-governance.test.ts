@@ -49,7 +49,20 @@ describe("resolvePrimitiveGovernance", () => {
     });
 
     expect(governed.className).toContain("group/card-header");
+    expect(governed.className).not.toContain("group/card flex flex-col");
     expect(governed.dataAttributes["data-slot"]).toBe("card-header");
+  });
+
+  it("emits governed card layout size on root data attributes", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Card",
+      recipeName: "card",
+      variant: { density: "standard", radius: "md", shadow: "raised" },
+      layoutSize: "sm",
+      slot: "root",
+    });
+
+    expect(governed.dataAttributes["data-size"]).toBe("sm");
   });
 
   it("resolves alert status tone through the status recipe", () => {
@@ -62,6 +75,19 @@ describe("resolvePrimitiveGovernance", () => {
     expect(governed.recipeName).toBe("status");
     expect(governed.className).toContain("group/status");
     expect(governed.dataAttributes["data-slot"]).toBe("alert");
+  });
+
+  it("resolves alert slot presentation without root recipe classes", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Alert",
+      recipeName: "status",
+      slot: "label",
+      className: "max-w-lg",
+    });
+
+    expect(governed.className).toContain("font-medium");
+    expect(governed.className).not.toContain("group/status relative grid");
+    expect(governed.dataAttributes["data-slot"]).toBe("alert-title");
   });
 
   it("allows layout-only className overrides", () => {
@@ -77,7 +103,7 @@ describe("resolvePrimitiveGovernance", () => {
   it("rejects unknown governed component names", () => {
     expect(() =>
       resolvePrimitiveGovernance({
-        componentName: "Dialog" as "Button",
+        componentName: "NotARealComponent" as "Button",
         slot: "root",
       })
     ).toThrow(/Unknown governed component/);
@@ -113,11 +139,61 @@ describe("resolvePrimitiveGovernance", () => {
   it("resolves field slotKey subparts from the registry", () => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Field",
+      recipeName: "form-control",
       slotKey: "title",
     });
 
     expect(governed.dataAttributes["data-slot"]).toBe("field-label");
     expect(governed.className.length).toBeGreaterThan(0);
+  });
+
+  it("resolves governed field separator line slotKey", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Field",
+      recipeName: "form-control",
+      slotKey: "separatorLine",
+    });
+
+    expect(governed.dataAttributes["data-slot"]).toBe("field-separator-line");
+    expect(governed.className).toContain("absolute");
+    expect(governed.className).not.toContain("group/form-control");
+  });
+
+  it("resolves field body slot without group recipe shell", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Field",
+      recipeName: "form-control",
+      slot: "body",
+    });
+
+    expect(governed.className).toContain("group/field-group");
+    expect(governed.className).not.toContain("group/form-control");
+    expect(governed.dataAttributes["data-slot"]).toBe("field-group");
+  });
+
+  it("resolves table row slotKey without root recipe shell", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Table",
+      recipeName: "table",
+      slotKey: "row",
+    });
+
+    expect(governed.dataAttributes["data-slot"]).toBe("table-row");
+    expect(governed.className).toContain("border-b");
+    expect(governed.className).not.toContain("group/table");
+  });
+
+  it("resolves table container slotKey separately from root", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Table",
+      recipeName: "table",
+      slotKey: "container",
+      className: "max-h-96",
+    });
+
+    expect(governed.dataAttributes["data-slot"]).toBe("table-container");
+    expect(governed.className).toContain("overflow-x-auto");
+    expect(governed.className).not.toContain("group/table");
   });
 
   it("resolves leaf form controls without the group recipe shell", () => {

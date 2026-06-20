@@ -42,6 +42,8 @@ coverage/
 **/coverage/
 .nyc_output/
 test-results/
+storybook-static/
+**/storybook-static/
 
 # Cache
 .cache/
@@ -63,3 +65,6 @@ temp-docx/
 temp-docx.zip
 master-plan-excerpt.txt
 *.docx
+
+*storybook.log
+storybook-static

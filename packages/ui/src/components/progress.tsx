@@ -1,31 +1,53 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Progress as ProgressPrimitive } from "radix-ui"
+import * as React from "react";
+import { Progress as ProgressPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { cn } from "#/lib/utils";
+import type { GovernedFormControlProps } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Progress({
-  className,
-  value,
-  ...props
-}: React.ComponentProps<typeof ProgressPrimitive.Root>) {
+const PROGRESS_RECIPE_NAME = "form-control" as const;
+
+export interface ProgressProps
+  extends Omit<React.ComponentProps<typeof ProgressPrimitive.Root>, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
+}
+
+const Progress = React.forwardRef<
+  React.ComponentRef<typeof ProgressPrimitive.Root>,
+  ProgressProps
+>(({ className, state, value, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Progress",
+    recipeName: PROGRESS_RECIPE_NAME,
+    state,
+    slot: "root",
+    className,
+  });
+
+  const indicator = resolvePrimitiveGovernance({
+    componentName: "Progress",
+    recipeName: PROGRESS_RECIPE_NAME,
+    slot: "control",
+  });
+
   return (
     <ProgressPrimitive.Root
-      data-slot="progress"
-      className={cn(
-        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     >
       <ProgressPrimitive.Indicator
-        data-slot="progress-indicator"
-        className="size-full flex-1 bg-primary transition-all"
+        {...indicator.dataAttributes}
+        className={cn(indicator.className)}
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />
     </ProgressPrimitive.Root>
-  )
-}
+  );
+});
 
-export { Progress }
+Progress.displayName = "Progress";
+
+export { Progress };

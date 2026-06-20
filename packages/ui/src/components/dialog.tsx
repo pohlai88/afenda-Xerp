@@ -1,158 +1,250 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Dialog as DialogPrimitive } from "radix-ui"
+import * as React from "react";
+import { Dialog as DialogPrimitive } from "radix-ui";
+import { XIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { Button } from "@afenda/ui/components/button"
-import { mapStockButtonProps } from "@afenda/ui/governance"
-import { XIcon } from "lucide-react"
+import { Button } from "#/components/button";
+import type { GovernedSurfaceProps, SlotRole } from "@/governance";
+import { createGovernedDivSlot } from "#/governance/create-governed-slot";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const DIALOG_RECIPE_NAME = "surface" as const;
+
+const DIALOG_SLOT_ROLES = {
+  header: "header",
+  footer: "footer",
+  title: "label",
+  description: "state",
+} as const satisfies Record<string, SlotRole>;
 
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
 function DialogTrigger({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
 function DialogPortal({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
-  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
 function DialogClose({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
-function DialogOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+interface DialogOverlayProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const DialogOverlay = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  DialogOverlayProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
+
   return (
     <DialogPrimitive.Overlay
-      data-slot="dialog-overlay"
-      className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+DialogOverlay.displayName = "DialogOverlay";
+
+export interface DialogContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+    "className"
+  >,
+    GovernedSurfaceProps {
+  readonly className?: string;
+  readonly showCloseButton?: boolean;
 }
 
-function DialogContent({
-  className,
-  children,
-  showCloseButton = true,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & {
-  showCloseButton?: boolean
-}) {
-  return (
-    <DialogPortal>
-      <DialogOverlay />
-      <DialogPrimitive.Content
-        data-slot="dialog-content"
-        className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-          className
-        )}
-        {...props}
-      >
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  DialogContentProps
+>(
+  (
+    {
+      className,
+      children,
+      showCloseButton = true,
+      density = "standard",
+      radius = "md",
+      shadow = "overlay",
+      ...props
+    },
+    ref
+  ) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: DIALOG_RECIPE_NAME,
+      variant: { density, radius, shadow },
+      slot: "root",
+      className,
+    });
+
+    const closeButton = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: DIALOG_RECIPE_NAME,
+      slotKey: "close-button",
+    });
+
+    const closeLabel = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: DIALOG_RECIPE_NAME,
+      slotKey: "close-label",
+    });
+
+    return (
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Content
+          ref={ref}
+          {...applyGovernedPresentation(props, governed)}
+        >
+          {children}
+          {showCloseButton ? (
+            <DialogPrimitive.Close data-slot="dialog-close" asChild>
+              <Button
+                intent="quiet"
+                emphasis="ghost"
+                size="sm"
+                presentation="icon"
+                className={closeButton.className}
+              >
+                <XIcon />
+                <span {...closeLabel.dataAttributes} className={closeLabel.className}>
+                  Close
+                </span>
+              </Button>
+            </DialogPrimitive.Close>
+          ) : null}
+        </DialogPrimitive.Content>
+      </DialogPortal>
+    );
+  }
+);
+
+DialogContent.displayName = "DialogContent";
+
+const DialogHeader = createGovernedDivSlot("DialogHeader", {
+  componentName: "Dialog",
+  recipeName: DIALOG_RECIPE_NAME,
+  slot: DIALOG_SLOT_ROLES.header,
+});
+
+interface DialogFooterProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
+  readonly showCloseButton?: boolean;
+}
+
+const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
+  ({ className, showCloseButton = false, children, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: DIALOG_RECIPE_NAME,
+      slot: DIALOG_SLOT_ROLES.footer,
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)}>
         {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button
-              {...mapStockButtonProps("ghost", "icon-sm")}
-              className="absolute top-2 right-2"
-            >
-              <XIcon
-              />
-              <span className="sr-only">Close</span>
+        {showCloseButton ? (
+          <DialogPrimitive.Close asChild>
+            <Button intent="primary" emphasis="outline" size="md">
+              Close
             </Button>
           </DialogPrimitive.Close>
-        )}
-      </DialogPrimitive.Content>
-    </DialogPortal>
-  )
+        ) : null}
+      </div>
+    );
+  }
+);
+
+DialogFooter.displayName = "DialogFooter";
+
+interface DialogTitleProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="dialog-header"
-      className={cn("flex flex-col gap-2", className)}
-      {...props}
-    />
-  )
-}
+const DialogTitle = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Title>,
+  DialogTitleProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slot: DIALOG_SLOT_ROLES.title,
+    className,
+  });
 
-function DialogFooter({
-  className,
-  showCloseButton = false,
-  children,
-  ...props
-}: React.ComponentProps<"div"> & {
-  showCloseButton?: boolean
-}) {
-  return (
-    <div
-      data-slot="dialog-footer"
-      className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      {showCloseButton && (
-        <DialogPrimitive.Close asChild>
-          <Button {...mapStockButtonProps("outline", "default")}>Close</Button>
-        </DialogPrimitive.Close>
-      )}
-    </div>
-  )
-}
-
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      data-slot="dialog-title"
-      className={cn(
-        "font-heading text-base leading-none font-medium",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+DialogTitle.displayName = "DialogTitle";
+
+interface DialogDescriptionProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  DialogDescriptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slot: DIALOG_SLOT_ROLES.description,
+    className,
+  });
+
   return (
     <DialogPrimitive.Description
-      data-slot="dialog-description"
-      className={cn(
-        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
+
+DialogDescription.displayName = "DialogDescription";
 
 export {
   Dialog,
@@ -165,4 +257,4 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-}
+};

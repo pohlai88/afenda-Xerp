@@ -125,15 +125,22 @@ export type {
   AfendaCardProps,
   GovernedBadgeProps,
   GovernedButtonProps,
+  GOVERNED_CARD_LAYOUT_SIZES,
   GovernedCardProps,
+  GovernedCardLayoutSize,
   GovernedCardRadius,
   GovernedCardShadow,
   GovernedFormControlProps,
+  GovernedEmptyMediaVariant,
   GovernedPanelRadius,
   GovernedPanelShadow,
   GovernedStatusProps,
+  GovernedAccordionProps,
   GovernedSurfaceProps,
   GovernedTableProps,
+  GovernedToggleProps,
+  GovernedToggleSize,
+  GovernedToggleVariant,
 } from "./component-props";
 
 export {
@@ -141,6 +148,7 @@ export {
   GOVERNED_CARD_SHADOWS,
   GOVERNED_PANEL_RADII,
   GOVERNED_PANEL_SHADOWS,
+  isGovernedCardLayoutSize,
   isGovernedCardRadius,
   isGovernedCardShadow,
   isGovernedPanelRadius,
@@ -226,6 +234,7 @@ export {
   resolveStatusClassName,
   resolveSurfaceClassName,
   resolveTableClassName,
+  resolveToggleClassName,
 } from "./recipe";
 
 export type {
@@ -253,6 +262,13 @@ export type { StockShadcnPendingFile } from "./primitive-registry";
 export {
   resolvePrimitiveGovernance,
 } from "./primitive-governance";
+
+export { applyGovernedPresentation } from "./governed-render";
+
+export {
+  createGovernedDivSlot,
+  createGovernedSpanSlot,
+} from "./create-governed-slot";
 
 export {
   mapStockButtonProps,

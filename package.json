@@ -52,7 +52,8 @@
     "auth": "better-auth",
     "studio:toolbar": "pnpm studio:toolbar:app",
     "studio:toolbar:app": "npx shadcn-studio-extension-cli@latest -a 3000 -p 3200 -s",
-    "studio:toolbar:docs": "npx shadcn-studio-extension-cli@latest -a 3001 -p 3200 -s"
+    "studio:toolbar:docs": "npx shadcn-studio-extension-cli@latest -a 3001 -p 3200 -s",
+    "storybook:ui": "pnpm --filter @afenda/ui storybook"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.4.21",

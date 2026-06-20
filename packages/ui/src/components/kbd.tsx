@@ -1,26 +1,53 @@
-import { cn } from "@afenda/ui/lib/utils"
+import * as React from "react";
 
-function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
-  return (
-    <kbd
-      data-slot="kbd"
-      className={cn(
-        "pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-xs font-medium text-muted-foreground select-none in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 [&_svg:not([class*='size-'])]:size-3",
-        className
-      )}
-      {...props}
-    />
-  )
+import type { GovernedFormControlProps } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const KBD_RECIPE_NAME = "form-control" as const;
+
+export interface KbdProps
+  extends Omit<React.ComponentProps<"kbd">, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
 }
 
-function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <kbd
-      data-slot="kbd-group"
-      className={cn("inline-flex items-center gap-1", className)}
-      {...props}
-    />
-  )
+export interface KbdGroupProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
 }
 
-export { Kbd, KbdGroup }
+const Kbd = React.forwardRef<HTMLElement, KbdProps>(
+  ({ className, state, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Kbd",
+      recipeName: KBD_RECIPE_NAME,
+      state,
+      slot: "root",
+      className,
+    });
+
+    return <kbd ref={ref} {...applyGovernedPresentation(props, governed)} />;
+  }
+);
+
+Kbd.displayName = "Kbd";
+
+const KbdGroup = React.forwardRef<HTMLDivElement, KbdGroupProps>(
+  ({ className, state, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Kbd",
+      recipeName: KBD_RECIPE_NAME,
+      state,
+      slotKey: "group",
+      className,
+    });
+
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+  }
+);
+
+KbdGroup.displayName = "KbdGroup";
+
+export { Kbd, KbdGroup };

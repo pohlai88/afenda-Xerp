@@ -1,22 +1,39 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Direction } from "radix-ui"
+import * as React from "react";
+import { Direction } from "radix-ui";
+
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const DIRECTION_RECIPE_NAME = "surface" as const;
 
 function DirectionProvider({
   dir,
   direction,
   children,
+  ...props
 }: React.ComponentProps<typeof Direction.DirectionProvider> & {
-  direction?: React.ComponentProps<typeof Direction.DirectionProvider>["dir"]
+  direction?: React.ComponentProps<typeof Direction.DirectionProvider>["dir"];
 }) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Direction",
+    recipeName: DIRECTION_RECIPE_NAME,
+    slot: "root",
+  });
+
   return (
-    <Direction.DirectionProvider dir={direction ?? dir}>
+    <Direction.DirectionProvider
+      {...props}
+      dir={direction ?? dir}
+      {...governed.dataAttributes}
+    >
       {children}
     </Direction.DirectionProvider>
-  )
+  );
 }
 
-const useDirection = Direction.useDirection
+DirectionProvider.displayName = "DirectionProvider";
 
-export { DirectionProvider, useDirection }
+const useDirection = Direction.useDirection;
+
+export { DirectionProvider, useDirection };

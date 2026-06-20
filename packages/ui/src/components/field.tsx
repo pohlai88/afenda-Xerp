@@ -1,239 +1,385 @@
-"use client";
+import * as React from "react";
 
-import { useMemo } from "react";
+import { cn } from "#/lib/utils";
+import { Separator } from "#/components/separator";
+import type {
+  FieldOrientation,
+  GovernedFormControlProps,
+  SlotRole,
+} from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-import { cn } from "@afenda/ui/lib/utils";
-import { Label } from "@afenda/ui/components/label";
-import { Separator } from "@afenda/ui/components/separator";
-import type { FieldOrientation, GovernedFormControlProps } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+const FIELD_RECIPE_NAME = "form-control" as const;
 
-function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
-  const governed = resolvePrimitiveGovernance({
+/**
+ * Maps Field subcomponent names to design-system SlotRole vocabulary.
+ * Do not invent slot names outside the primitive registry.
+ */
+const FIELD_SLOT_ROLES = {
+  set: "header",
+  legend: "label",
+  group: "body",
+  content: "content",
+  label: "control",
+  description: "state",
+  separator: "footer",
+  error: "actions",
+} as const satisfies Record<
+  | "set"
+  | "legend"
+  | "group"
+  | "content"
+  | "label"
+  | "description"
+  | "separator"
+  | "error",
+  SlotRole
+>;
+
+type FieldSlotKeyName = keyof typeof FIELD_SLOT_ROLES;
+
+type FieldSlotKey =
+  | "title"
+  | "separatorLine"
+  | "separatorContent"
+  | "errorList";
+
+function resolveFieldGovernance(input: {
+  readonly slot?: SlotRole;
+  readonly slotKey?: FieldSlotKey;
+  readonly className?: string | undefined;
+}) {
+  return resolvePrimitiveGovernance({
     componentName: "Field",
-    slot: "header",
-    className,
+    recipeName: FIELD_RECIPE_NAME,
+    ...input,
   });
-
-  return (
-    <fieldset {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
 }
 
-function FieldLegend({
-  className,
-  variant = "legend",
-  ...props
-}: React.ComponentProps<"legend"> & { variant?: "legend" | "label" }) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "label",
-    className,
-  });
-
-  return (
-    <legend
-      {...governed.dataAttributes}
-      data-variant={variant}
-      className={cn(governed.className)}
-      {...props}
-    />
-  );
-}
-
-function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "body",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
+interface GovernedClassNameProps {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
+  readonly className?: string;
 }
 
 export interface FieldProps
-  extends Omit<React.ComponentProps<"div">, "className">,
-    GovernedFormControlProps {
-  readonly className?: string;
-  readonly state?: string;
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedFormControlProps,
+    GovernedClassNameProps {
   readonly orientation?: FieldOrientation;
 }
 
-function Field({
-  className,
-  state,
-  orientation = "vertical",
-  density = "standard",
-  size = "md",
-  ...props
-}: FieldProps) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    recipeName: "form-control",
-    variant: { density, size },
-    fieldOrientation: orientation,
-    state,
-    slot: "root",
+const Field = React.forwardRef<HTMLDivElement, FieldProps>(
+  (
+    {
+      className,
+      state,
+      orientation = "vertical",
+      density = "standard",
+      size = "md",
+      role,
+      ...props
+    },
+    ref
+  ) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Field",
+      recipeName: FIELD_RECIPE_NAME,
+      variant: { density, size },
+      fieldOrientation: orientation,
+      state,
+      slot: "root",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...props}
+        role={role ?? "group"}
+        data-orientation={orientation}
+        data-density={density}
+        data-size={size}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+Field.displayName = "Field";
+
+interface FieldDivSlotProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedClassNameProps {}
+
+interface FieldParagraphSlotProps
+  extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "className">,
+    GovernedClassNameProps {}
+
+interface FieldSetSlotProps
+  extends Omit<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, "className">,
+    GovernedClassNameProps {}
+
+interface FieldLegendSlotProps
+  extends Omit<React.HTMLAttributes<HTMLLegendElement>, "className">,
+    GovernedClassNameProps {
+  readonly variant?: "legend" | "label";
+}
+
+function createFieldDivSlot(displayName: string, slotName: FieldSlotKeyName) {
+  const slot = FIELD_SLOT_ROLES[slotName];
+
+  const FieldSlotComponent = React.forwardRef<HTMLDivElement, FieldDivSlotProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolveFieldGovernance({
+        slot,
+        className,
+      });
+
+      return (
+        <div
+          ref={ref}
+          {...props}
+          {...governed.dataAttributes}
+          className={cn(governed.className)}
+        />
+      );
+    }
+  );
+
+  FieldSlotComponent.displayName = displayName;
+
+  return FieldSlotComponent;
+}
+
+const FieldSet = React.forwardRef<HTMLFieldSetElement, FieldSetSlotProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slot: FIELD_SLOT_ROLES.set,
+      className,
+    });
+
+    return (
+      <fieldset
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+FieldSet.displayName = "FieldSet";
+
+const FieldLegend = React.forwardRef<HTMLLegendElement, FieldLegendSlotProps>(
+  ({ className, variant = "legend", ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slot: FIELD_SLOT_ROLES.legend,
+      className,
+    });
+
+    return (
+      <legend
+        ref={ref}
+        {...props}
+        data-field-legend-variant={variant}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+FieldLegend.displayName = "FieldLegend";
+
+const FieldGroup = createFieldDivSlot("FieldGroup", "group");
+const FieldContent = createFieldDivSlot("FieldContent", "content");
+
+const FieldTitle = React.forwardRef<HTMLDivElement, FieldDivSlotProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slotKey: "title",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+FieldTitle.displayName = "FieldTitle";
+
+interface FieldLabelProps
+  extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "className">,
+    GovernedClassNameProps {}
+
+const FieldLabel = React.forwardRef<HTMLLabelElement, FieldLabelProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slot: FIELD_SLOT_ROLES.label,
+      className,
+    });
+
+    return (
+      <label
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+FieldLabel.displayName = "FieldLabel";
+
+const FieldDescription = React.forwardRef<
+  HTMLParagraphElement,
+  FieldParagraphSlotProps
+>(({ className, ...props }, ref) => {
+  const governed = resolveFieldGovernance({
+    slot: FIELD_SLOT_ROLES.description,
     className,
   });
 
   return (
-    <div
-      {...governed.dataAttributes}
-      role="group"
-      data-orientation={orientation}
-      className={cn(governed.className)}
+    <p
+      ref={ref}
       {...props}
+      {...governed.dataAttributes}
+      className={cn(governed.className)}
     />
   );
+});
+
+FieldDescription.displayName = "FieldDescription";
+
+interface FieldSeparatorProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedClassNameProps {
+  readonly children?: React.ReactNode;
 }
 
-function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "content",
-    className,
-  });
+const FieldSeparator = React.forwardRef<HTMLDivElement, FieldSeparatorProps>(
+  ({ children, className, ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slot: FIELD_SLOT_ROLES.separator,
+      className,
+    });
 
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+    const separatorLine = resolveFieldGovernance({
+      slotKey: "separatorLine",
+    });
 
-function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "control",
-    className,
-  });
+    const separatorContent = resolveFieldGovernance({
+      slotKey: "separatorContent",
+    });
 
-  return (
-    <Label {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slotKey: "title",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "state",
-    className,
-  });
-
-  return (
-    <p {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function FieldSeparator({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  children?: React.ReactNode;
-}) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "footer",
-    className,
-  });
-
-  return (
-    <div
-      {...governed.dataAttributes}
-      data-content={!!children}
-      className={cn(governed.className)}
-      {...props}
-    >
-      <Separator className="absolute inset-0 top-1/2" />
-      {children ? (() => {
-        const separatorContent = resolvePrimitiveGovernance({
-          componentName: "Field",
-          slotKey: "separatorContent",
-        });
-
-        return (
+    return (
+      <div
+        ref={ref}
+        {...props}
+        data-content={children ? "true" : "false"}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      >
+        <span
+          {...separatorLine.dataAttributes}
+          className={cn(separatorLine.className, "flex w-full items-center")}
+        >
+          <Separator />
+        </span>
+        {children ? (
           <span
             {...separatorContent.dataAttributes}
             className={cn(separatorContent.className)}
           >
             {children}
           </span>
-        );
-      })() : null}
-    </div>
+        ) : null}
+      </div>
+    );
+  }
+);
+
+FieldSeparator.displayName = "FieldSeparator";
+
+interface FieldErrorProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedClassNameProps {
+  readonly errors?: readonly ({ readonly message?: string } | undefined)[];
+}
+
+function getUniqueErrorMessages(
+  errors: FieldErrorProps["errors"]
+): readonly string[] {
+  if (!errors?.length) {
+    return [];
+  }
+
+  return Array.from(
+    new Set(
+      errors
+        .map((error) => error?.message?.trim())
+        .filter((message): message is string => Boolean(message))
+    )
   );
 }
 
-function FieldError({
-  className,
-  children,
-  errors,
-  ...props
-}: React.ComponentProps<"div"> & {
-  errors?: Array<{ message?: string } | undefined>;
-}) {
-  const content = useMemo(() => {
-    if (children) {
-      return children;
-    }
+const FieldError = React.forwardRef<HTMLDivElement, FieldErrorProps>(
+  ({ className, children, errors, ...props }, ref) => {
+    const messages = getUniqueErrorMessages(errors);
 
-    if (!errors?.length) {
+    if (!children && messages.length === 0) {
       return null;
     }
 
-    const uniqueErrors = [
-      ...new Map(errors.map((error) => [error?.message, error])).values(),
-    ];
+    const governed = resolveFieldGovernance({
+      slot: FIELD_SLOT_ROLES.error,
+      className,
+    });
 
-    if (uniqueErrors.length === 1) {
-      return uniqueErrors[0]?.message;
-    }
-
-    const errorList = resolvePrimitiveGovernance({
-      componentName: "Field",
+    const errorList = resolveFieldGovernance({
       slotKey: "errorList",
     });
 
+    const content =
+      children ??
+      (messages.length === 1 ? (
+        messages[0]
+      ) : (
+        <ul {...errorList.dataAttributes} className={cn(errorList.className)}>
+          {messages.map((message) => (
+            <li key={message}>{message}</li>
+          ))}
+        </ul>
+      ));
+
     return (
-      <ul {...errorList.dataAttributes} className={cn(errorList.className)}>
-        {uniqueErrors.map(
-          (error, index) =>
-            error?.message ? <li key={index}>{error.message}</li> : null
-        )}
-      </ul>
+      <div
+        ref={ref}
+        {...props}
+        role="alert"
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      >
+        {content}
+      </div>
     );
-  }, [children, errors]);
-
-  if (!content) {
-    return null;
   }
+);
 
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Field",
-    slot: "actions",
-    className,
-  });
-
-  return (
-    <div role="alert" {...governed.dataAttributes} className={cn(governed.className)} {...props}>
-      {content}
-    </div>
-  );
-}
+FieldError.displayName = "FieldError";
 
 export {
   Field,

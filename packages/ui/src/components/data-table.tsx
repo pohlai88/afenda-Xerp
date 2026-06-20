@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
 import {
   flexRender,
   type Table as TanstackTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import { cn } from "@afenda/ui/lib/utils"
 import {
   Table,
   TableBody,
@@ -13,12 +12,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@afenda/ui/components/table"
+} from "#/components/table";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const DATA_TABLE_RECIPE_NAME = "table" as const;
 
 interface DataTableProps<TData> {
-  table: TanstackTable<TData>
-  className?: string
-  emptyMessage?: string
+  table: TanstackTable<TData>;
+  className?: string;
+  emptyMessage?: string;
 }
 
 function DataTable<TData>({
@@ -26,8 +29,21 @@ function DataTable<TData>({
   className,
   emptyMessage = "No results.",
 }: DataTableProps<TData>) {
+  const rootGoverned = resolvePrimitiveGovernance({
+    componentName: "DataTable",
+    recipeName: DATA_TABLE_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
+  const emptyCellGoverned = resolvePrimitiveGovernance({
+    componentName: "DataTable",
+    recipeName: DATA_TABLE_RECIPE_NAME,
+    slot: "icon",
+  });
+
   return (
-    <div className={cn("overflow-hidden rounded-md border", className)}>
+    <div {...applyGovernedPresentation({}, rootGoverned)}>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -63,7 +79,7 @@ function DataTable<TData>({
             <TableRow>
               <TableCell
                 colSpan={table.getAllColumns().length}
-                className="h-24 text-center"
+                {...applyGovernedPresentation({}, emptyCellGoverned)}
               >
                 {emptyMessage}
               </TableCell>
@@ -72,8 +88,8 @@ function DataTable<TData>({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
 
-export { DataTable }
-export type { DataTableProps }
+export { DataTable };
+export type { DataTableProps };

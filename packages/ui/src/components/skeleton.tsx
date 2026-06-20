@@ -1,13 +1,31 @@
-import { cn } from "@afenda/ui/lib/utils"
+import * as React from "react";
 
-function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="skeleton"
-      className={cn("animate-pulse rounded-md bg-muted", className)}
-      {...props}
-    />
-  )
+import type { GovernedFormControlProps } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const SKELETON_RECIPE_NAME = "form-control" as const;
+
+export interface SkeletonProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
 }
 
-export { Skeleton }
+const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
+  ({ className, state, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Skeleton",
+      recipeName: SKELETON_RECIPE_NAME,
+      state,
+      slot: "root",
+      className,
+    });
+
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+  }
+);
+
+Skeleton.displayName = "Skeleton";
+
+export { Skeleton };

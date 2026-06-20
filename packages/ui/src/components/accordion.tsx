@@ -1,81 +1,197 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Accordion as AccordionPrimitive } from "radix-ui"
+import * as React from "react";
+import { Accordion as AccordionPrimitive } from "radix-ui";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+import { cn } from "#/lib/utils";
+import type { GovernedAccordionProps } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Accordion({
-  className,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return (
-    <AccordionPrimitive.Root
-      data-slot="accordion"
-      className={cn("flex w-full flex-col", className)}
-      {...props}
-    />
-  )
+const ACCORDION_RECIPE_NAME = "surface" as const;
+
+interface AccordionSlotProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
+  readonly className?: string;
 }
 
-function AccordionItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Item>) {
+export interface AccordionProps
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
+      "className"
+    >,
+    GovernedAccordionProps {
+  readonly className?: string;
+}
+
+const Accordion = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Root>,
+  AccordionProps
+>(({ className, state, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    state,
+    slot: "root",
+    className,
+  });
+
+  // Radix Accordion.Root is a discriminated union (single | multiple).
+  // TypeScript cannot narrow a union spread with exactOptionalPropertyTypes,
+  // so we cast through the known union type to preserve semantic types.
+  const radixProps = props as React.ComponentPropsWithoutRef<
+    typeof AccordionPrimitive.Root
+  >;
+
+  const rootProps = {
+    ...radixProps,
+    ...governed.dataAttributes,
+    className: cn(governed.className),
+  } as React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>;
+
+  return <AccordionPrimitive.Root ref={ref} {...rootProps} />;
+});
+
+Accordion.displayName = "Accordion";
+
+export interface AccordionItemProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  AccordionItemProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slot: "label",
+    className,
+  });
+
   return (
     <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn("not-last:border-b", className)}
+      ref={ref}
       {...props}
+      {...governed.dataAttributes}
+      className={cn(governed.className)}
     />
-  )
+  );
+});
+
+AccordionItem.displayName = "AccordionItem";
+
+export interface AccordionTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  AccordionTriggerProps
+>(({ className, children, ...props }, ref) => {
+  const header = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slotKey: "header",
+  });
+
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slot: "control",
+    className,
+  });
+
+  const iconDown = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slotKey: "trigger-icon-down",
+  });
+
+  const iconUp = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slotKey: "trigger-icon-up",
+  });
+
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header
+      {...header.dataAttributes}
+      className={cn(header.className)}
+    >
       <AccordionPrimitive.Trigger
-        data-slot="accordion-trigger"
-        className={cn(
-          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring disabled:pointer-events-none disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
-          className
-        )}
+        ref={ref}
         {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
       >
         {children}
-        <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
-        <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
+        <ChevronDownIcon
+          {...iconDown.dataAttributes}
+          className={cn(iconDown.className)}
+        />
+        <ChevronUpIcon
+          {...iconUp.dataAttributes}
+          className={cn(iconUp.className)}
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
-  )
+  );
+});
+
+AccordionTrigger.displayName = "AccordionTrigger";
+
+export interface AccordionContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AccordionContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+const AccordionContent = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Content>,
+  AccordionContentProps
+>(({ className, children, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slot: "content",
+  });
+
+  const inner = resolvePrimitiveGovernance({
+    componentName: "Accordion",
+    recipeName: ACCORDION_RECIPE_NAME,
+    slotKey: "content-inner",
+    className,
+  });
+
   return (
     <AccordionPrimitive.Content
-      data-slot="accordion-content"
-      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
+      ref={ref}
       {...props}
+      {...governed.dataAttributes}
+      className={cn(governed.className)}
     >
-      <div
-        className={cn(
-          "h-(--radix-accordion-content-height) pt-0 pb-2.5 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
-        )}
-      >
+      <div {...inner.dataAttributes} className={cn(inner.className)}>
         {children}
       </div>
     </AccordionPrimitive.Content>
-  )
-}
+  );
+});
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+AccordionContent.displayName = "AccordionContent";
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

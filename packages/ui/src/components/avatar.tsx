@@ -1,106 +1,166 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Avatar as AvatarPrimitive } from "radix-ui"
+import * as React from "react";
+import { Avatar as AvatarPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Avatar({
-  className,
-  size = "default",
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  size?: "default" | "sm" | "lg"
-}) {
+const AVATAR_RECIPE_NAME = "form-control" as const;
+
+interface AvatarProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
+    "className"
+  > {
+  readonly className?: string;
+  readonly size?: "default" | "sm" | "lg";
+}
+
+const Avatar = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Root>,
+  AvatarProps
+>(({ className, size = "default", ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Avatar",
+    recipeName: AVATAR_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
   return (
     <AvatarPrimitive.Root
-      data-slot="avatar"
-      data-size={size}
-      className={cn(
-        "group/avatar relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, { "data-size": size })}
     />
-  )
+  );
+});
+
+Avatar.displayName = "Avatar";
+
+interface AvatarImageProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AvatarImage({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+const AvatarImage = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Image>,
+  AvatarImageProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Avatar",
+    recipeName: AVATAR_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
+
   return (
     <AvatarPrimitive.Image
-      data-slot="avatar-image"
-      className={cn(
-        "aspect-square size-full rounded-full object-cover",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+AvatarImage.displayName = "AvatarImage";
+
+interface AvatarFallbackProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AvatarFallback({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+const AvatarFallback = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Fallback>,
+  AvatarFallbackProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Avatar",
+    recipeName: AVATAR_RECIPE_NAME,
+    slot: "control",
+    className,
+  });
+
   return (
     <AvatarPrimitive.Fallback
-      data-slot="avatar-fallback"
-      className={cn(
-        "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+AvatarFallback.displayName = "AvatarFallback";
+
+interface AvatarBadgeProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className"> {
+  readonly className?: string;
 }
 
-function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span
-      data-slot="avatar-badge"
-      className={cn(
-        "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background select-none",
-        "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
-        "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
-        "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-        className
-      )}
-      {...props}
-    />
-  )
+const AvatarBadge = React.forwardRef<HTMLSpanElement, AvatarBadgeProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Avatar",
+      recipeName: AVATAR_RECIPE_NAME,
+      slot: "icon",
+      className,
+    });
+
+    return (
+      <span ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+AvatarBadge.displayName = "AvatarBadge";
+
+interface AvatarGroupProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="avatar-group"
-      className={cn(
-        "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
-        className
-      )}
-      {...props}
-    />
-  )
+const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Avatar",
+      recipeName: AVATAR_RECIPE_NAME,
+      slot: "header",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+AvatarGroup.displayName = "AvatarGroup";
+
+interface AvatarGroupCountProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function AvatarGroupCount({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="avatar-group-count"
-      className={cn(
-        "relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+const AvatarGroupCount = React.forwardRef<HTMLDivElement, AvatarGroupCountProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Avatar",
+      recipeName: AVATAR_RECIPE_NAME,
+      slot: "state",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+AvatarGroupCount.displayName = "AvatarGroupCount";
 
 export {
   Avatar,
@@ -109,4 +169,4 @@ export {
   AvatarGroup,
   AvatarGroupCount,
   AvatarBadge,
-}
+};

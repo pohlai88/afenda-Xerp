@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "../src/styles/afenda-style.css";
+@import "shadcn/tailwind.css";
+
+@source "../src/**/*.{ts,tsx}";

@@ -1,87 +1,155 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { OTPInput, OTPInputContext } from "input-otp"
+import * as React from "react";
+import { OTPInput, OTPInputContext } from "input-otp";
+import { MinusIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { MinusIcon } from "lucide-react"
+import { cn } from "#/lib/utils";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function InputOTP({
-  className,
-  containerClassName,
-  ...props
-}: React.ComponentProps<typeof OTPInput> & {
-  containerClassName?: string
-}) {
-  return (
-    <OTPInput
-      data-slot="input-otp"
-      containerClassName={cn(
-        "cn-input-otp flex items-center has-disabled:opacity-50",
-        containerClassName
-      )}
-      spellCheck={false}
-      className={cn("disabled:cursor-not-allowed", className)}
-      {...props}
-    />
-  )
+const INPUT_OTP_RECIPE_NAME = "form-control" as const;
+
+/**
+ * We omit both "className" (managed by governance) and "render" (we only
+ * support the children-based branch of OTPInput's discriminated union).
+ * Keeping "render" in the type collapses the union under exactOptionalPropertyTypes,
+ * producing `render: InputOTPRenderFn` which conflicts with the `render?: never`
+ * branch when the spread is checked.  Omitting it means the spread never carries
+ * the property, satisfying `render?: never` for the children variant.
+ */
+interface InputOTPProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof OTPInput>, "className" | "render"> {
+  readonly className?: string;
+  readonly containerClassName?: string;
 }
 
-function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="input-otp-group"
-      className={cn(
-        "flex items-center rounded-lg has-aria-invalid:border-destructive has-aria-invalid:ring-3 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
+  ({ className, containerClassName, ...props }, ref) => {
+    const root = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slot: "root",
+      className,
+    });
 
-function InputOTPSlot({
-  index,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  index: number
-}) {
-  const inputOTPContext = React.useContext(OTPInputContext)
-  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {}
+    const container = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slot: "body",
+      className: containerClassName,
+    });
 
-  return (
-    <div
-      data-slot="input-otp-slot"
-      data-active={isActive}
-      className={cn(
-        "relative flex size-8 items-center justify-center border-y border-r border-input text-sm transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40",
-        className
-      )}
-      {...props}
-    >
-      {char}
-      {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" />
-        </div>
-      )}
-    </div>
-  )
-}
-
-function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="input-otp-separator"
-      className="flex items-center [&_svg:not([class*='size-'])]:size-4"
-      role="separator"
-      {...props}
-    >
-      <MinusIcon
+    return (
+      <OTPInput
+        ref={ref}
+        spellCheck={false}
+        {...props}
+        {...root.dataAttributes}
+        containerClassName={cn(container.className)}
+        className={cn(root.className)}
       />
-    </div>
-  )
+    );
+  }
+);
+
+InputOTP.displayName = "InputOTP";
+
+interface InputOTPGroupProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }
+const InputOTPGroup = React.forwardRef<HTMLDivElement, InputOTPGroupProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slotKey: "group-shell",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+InputOTPGroup.displayName = "InputOTPGroup";
+
+interface InputOTPSlotProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
+  readonly index: number;
+}
+
+const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
+  ({ index, className, ...props }, ref) => {
+    const inputOTPContext = React.useContext(OTPInputContext);
+    const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
+
+    const governed = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slot: "control",
+      className,
+    });
+
+    const caretWrap = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slotKey: "caret-blink",
+    });
+
+    const caretLine = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slotKey: "caret-line",
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, { "data-active": isActive })}
+      >
+        {char}
+        {hasFakeCaret ? (
+          <div {...caretWrap.dataAttributes} className={cn(caretWrap.className)}>
+            <div {...caretLine.dataAttributes} className={cn(caretLine.className)} />
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+);
+
+InputOTPSlot.displayName = "InputOTPSlot";
+
+interface InputOTPSeparatorProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
+}
+
+const InputOTPSeparator = React.forwardRef<HTMLDivElement, InputOTPSeparatorProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "InputOTP",
+      recipeName: INPUT_OTP_RECIPE_NAME,
+      slot: "icon",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...applyGovernedPresentation({ ...props, role: "separator" }, governed)}
+      >
+        <MinusIcon />
+      </div>
+    );
+  }
+);
+
+InputOTPSeparator.displayName = "InputOTPSeparator";
+
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };

@@ -1,129 +1,259 @@
-"use client";
-
 import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedTableProps } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedTableProps, SlotRole } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const TABLE_RECIPE_NAME = "table" as const;
+
+type TableSlotKey = "container" | "row" | "head" | "cell" | "caption";
+
+/**
+ * Maps Table subcomponent names to governed slot targets.
+ * Semantic table vocabulary is mapped to registry SlotRole or slotKey entries.
+ */
+const TABLE_SLOT_TARGETS = {
+  container: { slotKey: "container" },
+  root: { slot: "root" },
+  header: { slot: "header" },
+  body: { slot: "content" },
+  footer: { slot: "footer" },
+  row: { slotKey: "row" },
+  head: { slotKey: "head" },
+  cell: { slotKey: "cell" },
+  caption: { slotKey: "caption" },
+} as const satisfies Record<
+  | "container"
+  | "root"
+  | "header"
+  | "body"
+  | "footer"
+  | "row"
+  | "head"
+  | "cell"
+  | "caption",
+  { readonly slot?: SlotRole; readonly slotKey?: TableSlotKey }
+>;
+
+type TableSlotName = keyof typeof TABLE_SLOT_TARGETS;
+
+interface GovernedClassNameProps {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
+  readonly className?: string;
+}
 
 export interface TableProps
-  extends Omit<React.ComponentProps<"table">, "className">,
-    GovernedTableProps {
-  readonly className?: string;
-  readonly state?: string;
+  extends Omit<React.TableHTMLAttributes<HTMLTableElement>, "className">,
+    GovernedTableProps,
+    GovernedClassNameProps {
+  /**
+   * Governed extension point for the table scroll/container wrapper.
+   */
+  readonly containerClassName?: string;
 }
 
-function Table({
-  className,
-  state,
-  density = "standard",
-  size = "sm",
-  ...props
-}: TableProps) {
-  const container = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "body",
-    className,
-  });
+function resolveTableGovernance(input: {
+  readonly target: TableSlotName;
+  readonly className?: string | undefined;
+  readonly variant?: GovernedTableProps;
+  readonly state?: GovernedTableProps["state"];
+}) {
+  const target = TABLE_SLOT_TARGETS[input.target];
 
-  const governed = resolvePrimitiveGovernance({
+  return resolvePrimitiveGovernance({
     componentName: "Table",
-    recipeName: "table",
-    variant: { density, size },
-    state,
-    slot: "root",
+    recipeName: TABLE_RECIPE_NAME,
+    ...(input.variant === undefined ? {} : { variant: input.variant }),
+    ...(input.state === undefined ? {} : { state: input.state }),
+    ...("slotKey" in target && target.slotKey !== undefined
+      ? { slotKey: target.slotKey }
+      : { slot: target.slot }),
+    ...(input.className === undefined ? {} : { className: input.className }),
   });
+}
 
-  return (
-    <div {...container.dataAttributes} className={cn(container.className)}>
-      <table {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-    </div>
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  (
+    {
+      className,
+      containerClassName,
+      state,
+      density = "standard",
+      size = "sm",
+      ...props
+    },
+    ref
+  ) => {
+    const container = resolveTableGovernance({
+      target: "container",
+      className: containerClassName,
+    });
+
+    const governed = resolveTableGovernance({
+      target: "root",
+      className,
+      variant: { density, size },
+      state,
+    });
+
+    return (
+      <div {...container.dataAttributes} className={cn(container.className)}>
+        <table
+          ref={ref}
+          {...props}
+          data-density={density}
+          data-size={size}
+          {...governed.dataAttributes}
+          className={cn(governed.className)}
+        />
+      </div>
+    );
+  }
+);
+
+Table.displayName = "Table";
+
+type TableSectionProps = Omit<
+  React.HTMLAttributes<HTMLTableSectionElement>,
+  "className"
+> &
+  GovernedClassNameProps;
+
+type TableRowProps = Omit<React.HTMLAttributes<HTMLTableRowElement>, "className"> &
+  GovernedClassNameProps;
+
+type TableHeadProps = Omit<
+  React.ThHTMLAttributes<HTMLTableCellElement>,
+  "className"
+> &
+  GovernedClassNameProps;
+
+type TableCellProps = Omit<
+  React.TdHTMLAttributes<HTMLTableCellElement>,
+  "className"
+> &
+  GovernedClassNameProps;
+
+type TableCaptionProps = Omit<
+  React.HTMLAttributes<HTMLTableCaptionElement>,
+  "className"
+> &
+  GovernedClassNameProps;
+
+function createTableSectionSlot(
+  displayName: string,
+  target: "header" | "body" | "footer",
+  Element: "thead" | "tbody" | "tfoot"
+) {
+  const TableSection = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolveTableGovernance({
+        target,
+        className,
+      });
+
+      return (
+        <Element
+          ref={ref}
+          {...props}
+          {...governed.dataAttributes}
+          className={cn(governed.className)}
+        />
+      );
+    }
   );
+
+  TableSection.displayName = displayName;
+
+  return TableSection;
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "header",
-    className,
-  });
+const TableHeader = createTableSectionSlot("TableHeader", "header", "thead");
+const TableBody = createTableSectionSlot("TableBody", "body", "tbody");
+const TableFooter = createTableSectionSlot("TableFooter", "footer", "tfoot");
 
-  return (
-    <thead {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveTableGovernance({
+      target: "row",
+      className,
+    });
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "content",
-    className,
-  });
+    return (
+      <tr
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
 
-  return (
-    <tbody {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+TableRow.displayName = "TableRow";
 
-function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "footer",
-    className,
-  });
+const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveTableGovernance({
+      target: "head",
+      className,
+    });
 
-  return (
-    <tfoot {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+    return (
+      <th
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "label",
-    className,
-  });
+TableHead.displayName = "TableHead";
 
-  return (
-    <tr {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveTableGovernance({
+      target: "cell",
+      className,
+    });
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "control",
-    className,
-  });
+    return (
+      <td
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
 
-  return (
-    <th {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+TableCell.displayName = "TableCell";
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "icon",
-    className,
-  });
+const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolveTableGovernance({
+      target: "caption",
+      className,
+    });
 
-  return (
-    <td {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+    return (
+      <caption
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
 
-function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Table",
-    slot: "state",
-    className,
-  });
-
-  return (
-    <caption {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+TableCaption.displayName = "TableCaption";
 
 export {
   Table,

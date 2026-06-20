@@ -1,44 +1,43 @@
 import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedFormControlProps } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedFormControlProps } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface InputProps
-  extends Omit<React.ComponentProps<"input">, "className" | "size">,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "className" | "size">,
     GovernedFormControlProps {
   readonly className?: string;
-  readonly state?: string;
 }
 
-function Input({
-  className,
-  state,
-  density = "standard",
-  size = "md",
-  type,
-  ...props
-}: InputProps) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Input",
-    recipeName: "form-control",
-    variant: {
-      density,
-      size,
-    },
-    state,
-    slot: "root",
-    className,
-  });
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, state, density = "standard", size = "md", type, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Input",
+      recipeName: "form-control",
+      variant: {
+        density,
+        size,
+      },
+      state,
+      slot: "root",
+      className,
+    });
 
-  return (
-    <input
-      type={type}
-      {...governed.dataAttributes}
-      className={cn(governed.className)}
-      {...props}
-    />
-  );
-}
+    return (
+      <input
+        ref={ref}
+        {...props}
+        type={type}
+        data-density={density}
+        data-size={size}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+Input.displayName = "Input";
 
 export { Input };

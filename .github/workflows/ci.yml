@@ -63,6 +63,10 @@ jobs:
       - name: Gate 3 · test
         run: pnpm test:run
 
+      # ── Gate 3b · UI Governance (behavioral + static) ─────────────────────
+      - name: Gate 3b · UI governance
+        run: pnpm --filter @afenda/ui check:governance
+
       # ── Gate 4 · Build Safety ─────────────────────────────────────────────
       - name: Gate 4 · build
         run: pnpm build

@@ -1,139 +1,224 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Dialog as SheetPrimitive } from "radix-ui"
+import * as React from "react";
+import { Dialog as SheetPrimitive } from "radix-ui";
+import { XIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { Button } from "@afenda/ui/components/button"
-import { mapStockButtonProps } from "@afenda/ui/governance"
-import { XIcon } from "lucide-react"
+import { Button } from "#/components/button";
+import type { GovernedSurfaceProps, SlotRole } from "@/governance";
+import { createGovernedDivSlot } from "#/governance/create-governed-slot";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const SHEET_RECIPE_NAME = "surface" as const;
+
+const SHEET_SLOT_ROLES = {
+  header: "header",
+  footer: "footer",
+  title: "label",
+  description: "state",
+} as const satisfies Record<string, SlotRole>;
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />
+  return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
 function SheetTrigger({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
+  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
 function SheetClose({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
+  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
 function SheetPortal({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
-  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
+  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
+interface SheetOverlayProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const SheetOverlay = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Overlay>,
+  SheetOverlayProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Sheet",
+    recipeName: SHEET_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
+
   return (
     <SheetPrimitive.Overlay
-      data-slot="sheet-overlay"
-      className={cn(
-        "fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+SheetOverlay.displayName = "SheetOverlay";
+
+export interface SheetContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    "className"
+  >,
+    GovernedSurfaceProps {
+  readonly className?: string;
+  readonly side?: "top" | "right" | "bottom" | "left";
+  readonly showCloseButton?: boolean;
 }
 
-function SheetContent({
-  className,
-  children,
-  side = "right",
-  showCloseButton = true,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
-  side?: "top" | "right" | "bottom" | "left"
-  showCloseButton?: boolean
-}) {
-  return (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content
-        data-slot="sheet-content"
-        data-side={side}
-        className={cn(
-          "fixed z-50 flex flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-[side=bottom]:data-open:slide-in-from-bottom-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:animate-out data-closed:fade-out-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=right]:data-closed:slide-out-to-right-10 data-[side=top]:data-closed:slide-out-to-top-10",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <SheetPrimitive.Close data-slot="sheet-close" asChild>
-            <Button
-              {...mapStockButtonProps("ghost", "icon-sm")}
-              className="absolute top-3 right-3"
-            >
-              <XIcon
-              />
-              <span className="sr-only">Close</span>
-            </Button>
-          </SheetPrimitive.Close>
-        )}
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  )
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  SheetContentProps
+>(
+  (
+    {
+      className,
+      children,
+      side = "right",
+      showCloseButton = true,
+      density = "standard",
+      radius = "md",
+      shadow = "overlay",
+      ...props
+    },
+    ref
+  ) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: SHEET_RECIPE_NAME,
+      variant: { density, radius, shadow },
+      slot: "root",
+      className,
+    });
+
+    const closeButton = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: SHEET_RECIPE_NAME,
+      slotKey: "close-button",
+    });
+
+    const closeLabel = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: SHEET_RECIPE_NAME,
+      slotKey: "close-label",
+    });
+
+    return (
+      <SheetPortal>
+        <SheetOverlay />
+        <SheetPrimitive.Content
+          ref={ref}
+          {...applyGovernedPresentation(props, governed, { "data-side": side })}
+        >
+          {children}
+          {showCloseButton ? (
+            <SheetPrimitive.Close data-slot="sheet-close" asChild>
+              <Button
+                intent="quiet"
+                emphasis="ghost"
+                size="sm"
+                presentation="icon"
+                className={closeButton.className}
+              >
+                <XIcon />
+                <span {...closeLabel.dataAttributes} className={closeLabel.className}>
+                  Close
+                </span>
+              </Button>
+            </SheetPrimitive.Close>
+          ) : null}
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    );
+  }
+);
+
+SheetContent.displayName = "SheetContent";
+
+const SheetHeader = createGovernedDivSlot("SheetHeader", {
+  componentName: "Sheet",
+  recipeName: SHEET_RECIPE_NAME,
+  slot: SHEET_SLOT_ROLES.header,
+});
+
+const SheetFooter = createGovernedDivSlot("SheetFooter", {
+  componentName: "Sheet",
+  recipeName: SHEET_RECIPE_NAME,
+  slot: SHEET_SLOT_ROLES.footer,
+});
+
+interface SheetTitleProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="sheet-header"
-      className={cn("flex flex-col gap-0.5 p-4", className)}
-      {...props}
-    />
-  )
-}
+const SheetTitle = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Title>,
+  SheetTitleProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Sheet",
+    recipeName: SHEET_RECIPE_NAME,
+    slot: SHEET_SLOT_ROLES.title,
+    className,
+  });
 
-function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="sheet-footer"
-      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
-      {...props}
-    />
-  )
-}
-
-function SheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
   return (
     <SheetPrimitive.Title
-      data-slot="sheet-title"
-      className={cn(
-        "font-heading text-base font-medium text-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+SheetTitle.displayName = "SheetTitle";
+
+interface SheetDescriptionProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function SheetDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Description>) {
+const SheetDescription = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Description>,
+  SheetDescriptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Sheet",
+    recipeName: SHEET_RECIPE_NAME,
+    slot: SHEET_SLOT_ROLES.description,
+    className,
+  });
+
   return (
     <SheetPrimitive.Description
-      data-slot="sheet-description"
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
+
+SheetDescription.displayName = "SheetDescription";
 
 export {
   Sheet,
@@ -144,4 +229,4 @@ export {
   SheetFooter,
   SheetTitle,
   SheetDescription,
-}
+};

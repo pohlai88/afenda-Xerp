@@ -1,16 +1,32 @@
 import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedStatusProps, StatusTone } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedStatusProps, StatusTone } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface AlertProps
-  extends Omit<React.ComponentProps<"div">, "className">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
     GovernedStatusProps {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
   readonly className?: string;
-  readonly state?: string;
-  /** @deprecated Use `tone="danger"` instead of `variant="destructive"`. */
+
+  /**
+   * @deprecated Use `tone="danger"` instead of `variant="destructive"`.
+   * Migration bridge only — do not use in new code.
+   */
   readonly variant?: "default" | "destructive";
+}
+
+interface AlertSlotProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
+  readonly className?: string;
 }
 
 function resolveAlertTone(
@@ -28,71 +44,95 @@ function resolveAlertTone(
   return "neutral";
 }
 
-function Alert({
-  className,
-  state,
-  tone,
-  variant,
-  density = "standard",
-  radius = "md",
-  ...props
-}: AlertProps) {
-  const resolvedTone = resolveAlertTone(tone, variant);
+function resolveAlertRole(
+  tone: StatusTone,
+  role: React.AriaRole | undefined
+): React.AriaRole {
+  if (role !== undefined) {
+    return role;
+  }
 
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Alert",
-    recipeName: "status",
-    variant: { tone: resolvedTone, density, radius },
-    state,
-    slot: "root",
-    className,
-  });
-
-  return (
-    <div
-      {...governed.dataAttributes}
-      role="alert"
-      data-tone={resolvedTone}
-      className={cn(governed.className)}
-      {...props}
-    />
-  );
+  return tone === "danger" || tone === "warning" ? "alert" : "status";
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Alert",
-    slot: "label",
-    className,
-  });
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  (
+    {
+      className,
+      state,
+      tone,
+      variant,
+      density = "standard",
+      radius = "md",
+      role,
+      ...props
+    },
+    ref
+  ) => {
+    const resolvedTone = resolveAlertTone(tone, variant);
+    const resolvedRole = resolveAlertRole(resolvedTone, role);
 
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Alert",
+      recipeName: "status",
+      variant: {
+        tone: resolvedTone,
+        density,
+        radius,
+      },
+      state,
+      slot: "root",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...props}
+        role={resolvedRole}
+        data-tone={resolvedTone}
+        data-density={density}
+        data-radius={radius}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+Alert.displayName = "Alert";
+
+function createAlertSlot(
+  displayName: string,
+  slot: "label" | "body" | "actions"
+) {
+  const AlertSlot = React.forwardRef<HTMLDivElement, AlertSlotProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolvePrimitiveGovernance({
+        componentName: "Alert",
+        recipeName: "status",
+        slot,
+        className,
+      });
+
+      return (
+        <div
+          ref={ref}
+          {...props}
+          {...governed.dataAttributes}
+          className={cn(governed.className)}
+        />
+      );
+    }
   );
+
+  AlertSlot.displayName = displayName;
+
+  return AlertSlot;
 }
 
-function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Alert",
-    slot: "body",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Alert",
-    slot: "actions",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+const AlertTitle = createAlertSlot("AlertTitle", "label");
+const AlertDescription = createAlertSlot("AlertDescription", "body");
+const AlertAction = createAlertSlot("AlertAction", "actions");
 
 export { Alert, AlertTitle, AlertDescription, AlertAction };

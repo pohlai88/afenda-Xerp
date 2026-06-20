@@ -1,116 +1,120 @@
 import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedCardProps } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedCardProps, SlotRole } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface CardProps
-  extends Omit<React.ComponentProps<"div">, "className">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
     GovernedCardProps {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
   readonly className?: string;
-  readonly state?: string;
-  readonly size?: "default" | "sm";
 }
 
-function Card({
-  className,
-  state,
-  density = "standard",
-  radius = "md",
-  shadow = "raised",
-  size = "default",
-  ...props
-}: CardProps) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    recipeName: "card",
-    variant: { density, radius, shadow },
-    state,
-    slot: "root",
-    className,
-  });
+interface CardSlotProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
+  readonly className?: string;
+}
 
-  return (
-    <div
-      {...governed.dataAttributes}
-      data-size={size}
-      className={cn(governed.className)}
-      {...props}
-    />
+/**
+ * Maps Card subcomponent names to design-system SlotRole vocabulary.
+ * Do not invent slot names outside the primitive registry.
+ */
+const CARD_SLOT_ROLES = {
+  header: "header",
+  title: "label",
+  description: "body",
+  action: "actions",
+  content: "content",
+  footer: "footer",
+} as const satisfies Record<
+  "header" | "title" | "description" | "action" | "content" | "footer",
+  SlotRole
+>;
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  (
+    {
+      className,
+      state,
+      density = "standard",
+      radius = "md",
+      shadow = "raised",
+      size,
+      ...props
+    },
+    ref
+  ) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Card",
+      recipeName: "card",
+      variant: { density, radius, shadow },
+      layoutSize: size,
+      state,
+      slot: "root",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...props}
+        data-density={density}
+        data-radius={radius}
+        data-shadow={shadow}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+Card.displayName = "Card";
+
+function createCardSlot(
+  displayName: string,
+  slotKey: keyof typeof CARD_SLOT_ROLES
+) {
+  const slot = CARD_SLOT_ROLES[slotKey];
+
+  const CardSlot = React.forwardRef<HTMLDivElement, CardSlotProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolvePrimitiveGovernance({
+        componentName: "Card",
+        recipeName: "card",
+        slot,
+        className,
+      });
+
+      return (
+        <div
+          ref={ref}
+          {...props}
+          {...governed.dataAttributes}
+          className={cn(governed.className)}
+        />
+      );
+    }
   );
+
+  CardSlot.displayName = displayName;
+
+  return CardSlot;
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "header",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "label",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "body",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "actions",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "content",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Card",
-    slot: "footer",
-    className,
-  });
-
-  return (
-    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
-  );
-}
+const CardHeader = createCardSlot("CardHeader", "header");
+const CardTitle = createCardSlot("CardTitle", "title");
+const CardDescription = createCardSlot("CardDescription", "description");
+const CardAction = createCardSlot("CardAction", "action");
+const CardContent = createCardSlot("CardContent", "content");
+const CardFooter = createCardSlot("CardFooter", "footer");
 
 export {
   Card,

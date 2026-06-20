@@ -11,11 +11,11 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@afenda/ui/components",
-    "utils": "@afenda/ui/lib/utils",
-    "hooks": "@afenda/ui/hooks",
-    "lib": "@afenda/ui/lib",
-    "ui": "@afenda/ui/components"
+    "components": "#/components",
+    "utils": "#/lib/utils",
+    "hooks": "#/hooks",
+    "lib": "#/lib",
+    "ui": "#/components"
   },
   "rtl": false,
   "menuColor": "default",

@@ -1,20 +1,28 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { AlertDialog as AlertDialogPrimitive } from "radix-ui"
+import * as React from "react";
+import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
-import { Button } from "@afenda/ui/components/button"
-import {
-  mapStockButtonProps,
-  type StockButtonSize,
-  type StockButtonVisual,
-} from "@afenda/ui/governance"
+import { Button } from "#/components/button";
+import { cn } from "#/lib/utils";
+import type { GovernedButtonProps, SlotRole } from "@/governance";
+import { createGovernedDivSlot } from "#/governance/create-governed-slot";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const ALERT_DIALOG_RECIPE_NAME = "surface" as const;
+
+const ALERT_DIALOG_SLOT_ROLES = {
+  header: "header",
+  footer: "footer",
+  title: "label",
+  description: "state",
+} as const satisfies Record<string, SlotRole>;
 
 function AlertDialog({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
-  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />
+  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 }
 
 function AlertDialogTrigger({
@@ -22,7 +30,7 @@ function AlertDialogTrigger({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
   return (
     <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
-  )
+  );
 }
 
 function AlertDialogPortal({
@@ -30,167 +38,230 @@ function AlertDialogPortal({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
-  )
+  );
 }
 
-function AlertDialogOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>) {
+interface AlertDialogOverlayProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const AlertDialogOverlay = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
+  AlertDialogOverlayProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "AlertDialog",
+    recipeName: ALERT_DIALOG_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
+
   return (
     <AlertDialogPrimitive.Overlay
-      data-slot="alert-dialog-overlay"
-      className={cn(
-        "fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+AlertDialogOverlay.displayName = "AlertDialogOverlay";
+
+interface AlertDialogContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>,
+    "className"
+  > {
+  readonly className?: string;
+  readonly size?: "default" | "sm";
 }
 
-function AlertDialogContent({
-  className,
-  size = "default",
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
-  size?: "default" | "sm"
-}) {
+const AlertDialogContent = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Content>,
+  AlertDialogContentProps
+>(({ className, size = "default", ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "AlertDialog",
+    recipeName: ALERT_DIALOG_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Content
-        data-slot="alert-dialog-content"
-        data-size={size}
-        className={cn(
-          "group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-          className
-        )}
-        {...props}
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, { "data-size": size })}
       />
     </AlertDialogPortal>
-  )
+  );
+});
+
+AlertDialogContent.displayName = "AlertDialogContent";
+
+const AlertDialogHeader = createGovernedDivSlot("AlertDialogHeader", {
+  componentName: "AlertDialog",
+  recipeName: ALERT_DIALOG_RECIPE_NAME,
+  slot: ALERT_DIALOG_SLOT_ROLES.header,
+});
+
+const AlertDialogFooter = createGovernedDivSlot("AlertDialogFooter", {
+  componentName: "AlertDialog",
+  recipeName: ALERT_DIALOG_RECIPE_NAME,
+  slot: ALERT_DIALOG_SLOT_ROLES.footer,
+});
+
+interface AlertDialogMediaProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function AlertDialogHeader({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-dialog-header"
-      className={cn(
-        "grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-4 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]",
-        className
-      )}
-      {...props}
-    />
-  )
+const AlertDialogMedia = React.forwardRef<HTMLDivElement, AlertDialogMediaProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "AlertDialog",
+      recipeName: ALERT_DIALOG_RECIPE_NAME,
+      slotKey: "media",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+AlertDialogMedia.displayName = "AlertDialogMedia";
+
+interface AlertDialogTitleProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AlertDialogFooter({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-dialog-footer"
-      className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+const AlertDialogTitle = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Title>,
+  AlertDialogTitleProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "AlertDialog",
+    recipeName: ALERT_DIALOG_RECIPE_NAME,
+    slot: ALERT_DIALOG_SLOT_ROLES.title,
+    className,
+  });
 
-function AlertDialogMedia({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-dialog-media"
-      className={cn(
-        "mb-2 inline-flex size-10 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function AlertDialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {
   return (
     <AlertDialogPrimitive.Title
-      data-slot="alert-dialog-title"
-      className={cn(
-        "font-heading text-base font-medium sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
+  );
+});
+
+AlertDialogTitle.displayName = "AlertDialogTitle";
+
+interface AlertDialogDescriptionProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
-function AlertDialogDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
+const AlertDialogDescription = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Description>,
+  AlertDialogDescriptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "AlertDialog",
+    recipeName: ALERT_DIALOG_RECIPE_NAME,
+    slot: ALERT_DIALOG_SLOT_ROLES.description,
+    className,
+  });
+
   return (
     <AlertDialogPrimitive.Description
-      data-slot="alert-dialog-description"
-      className={cn(
-        "text-sm text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
 
-function AlertDialogAction({
-  className,
-  variant = "default",
-  size = "default",
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & {
-  variant?: StockButtonVisual
-  size?: StockButtonSize
-}) {
-  return (
-    <Button {...mapStockButtonProps(variant, size)} asChild>
+AlertDialogDescription.displayName = "AlertDialogDescription";
+
+type AlertDialogActionProps = React.ComponentPropsWithoutRef<
+  typeof AlertDialogPrimitive.Action
+> &
+  Pick<GovernedButtonProps, "intent" | "emphasis" | "size"> & {
+    readonly className?: string;
+  };
+
+const AlertDialogAction = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Action>,
+  AlertDialogActionProps
+>(
+  (
+    {
+      className,
+      intent = "primary",
+      emphasis = "solid",
+      size = "md",
+      ...props
+    },
+    ref
+  ) => (
+    <Button intent={intent} emphasis={emphasis} size={size} asChild>
       <AlertDialogPrimitive.Action
+        ref={ref}
         data-slot="alert-dialog-action"
         className={cn(className)}
         {...props}
       />
     </Button>
   )
-}
+);
 
-function AlertDialogCancel({
-  className,
-  variant = "outline",
-  size = "default",
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Cancel> & {
-  variant?: StockButtonVisual
-  size?: StockButtonSize
-}) {
-  return (
-    <Button {...mapStockButtonProps(variant, size)} asChild>
+AlertDialogAction.displayName = "AlertDialogAction";
+
+type AlertDialogCancelProps = React.ComponentPropsWithoutRef<
+  typeof AlertDialogPrimitive.Cancel
+> &
+  Pick<GovernedButtonProps, "intent" | "emphasis" | "size"> & {
+    readonly className?: string;
+  };
+
+const AlertDialogCancel = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
+  AlertDialogCancelProps
+>(
+  (
+    {
+      className,
+      intent = "primary",
+      emphasis = "outline",
+      size = "md",
+      ...props
+    },
+    ref
+  ) => (
+    <Button intent={intent} emphasis={emphasis} size={size} asChild>
       <AlertDialogPrimitive.Cancel
+        ref={ref}
         data-slot="alert-dialog-cancel"
         className={cn(className)}
         {...props}
       />
     </Button>
   )
-}
+);
+
+AlertDialogCancel.displayName = "AlertDialogCancel";
 
 export {
   AlertDialog,
@@ -205,4 +276,4 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-}
+};

@@ -1,37 +1,55 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Command as CommandPrimitive } from "cmdk"
+import * as React from "react";
+import { Command as CommandPrimitive } from "cmdk";
+import { SearchIcon, CheckIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { cn } from "#/lib/utils";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@afenda/ui/components/dialog"
+} from "#/components/dialog";
 import {
   InputGroup,
   InputGroupAddon,
-} from "@afenda/ui/components/input-group"
-import { SearchIcon, CheckIcon } from "lucide-react"
+} from "#/components/input-group";
+import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Command({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive>) {
+const COMMAND_RECIPE_NAME = "surface" as const;
+
+const CommandShortcut = createGovernedSpanSlot("CommandShortcut", {
+  componentName: "Command",
+  recipeName: COMMAND_RECIPE_NAME,
+  slot: "header",
+});
+
+const Command = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "root",
+    className,
+  });
+
   return (
     <CommandPrimitive
-      data-slot="command"
-      className={cn(
-        "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
+
+Command.displayName = "Command";
 
 function CommandDialog({
   title = "Command Palette",
@@ -41,146 +59,211 @@ function CommandDialog({
   showCloseButton = false,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
-  title?: string
-  description?: string
-  className?: string
-  showCloseButton?: boolean
+  readonly title?: string;
+  readonly description?: string;
+  readonly className?: string;
+  readonly showCloseButton?: boolean;
 }) {
+  const contentClass = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slotKey: "dialog-content",
+    className,
+  });
+
+  const dialogHeaderSr = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slotKey: "dialog-header-sr",
+  });
+
   return (
     <Dialog {...props}>
-      <DialogHeader className="sr-only">
+      <DialogHeader className={dialogHeaderSr.className}>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
-        className={cn(
-          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
-          className
-        )}
+        className={cn(contentClass.className)}
         showCloseButton={showCloseButton}
       >
         {children}
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-function CommandInput({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+const CommandInput = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Input>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const wrapper = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "body",
+  });
+
+  const inputGroupShell = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slotKey: "input-group-shell",
+  });
+
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "control",
+    className,
+  });
+
+  const icon = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slotKey: "input-search-icon",
+  });
+
   return (
-    <div data-slot="command-input-wrapper" className="p-1 pb-0">
-      <InputGroup className="h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!">
+    <div {...applyGovernedPresentation({}, wrapper)}>
+      <InputGroup {...applyGovernedPresentation({}, inputGroupShell)}>
         <CommandPrimitive.Input
-          data-slot="command-input"
-          className={cn(
-            "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
-            className
-          )}
-          {...props}
+          ref={ref}
+          {...applyGovernedPresentation(props, governed)}
         />
         <InputGroupAddon>
-          <SearchIcon className="size-4 shrink-0 opacity-50" />
+          <SearchIcon {...applyGovernedPresentation({}, icon)} />
         </InputGroupAddon>
       </InputGroup>
     </div>
-  )
-}
+  );
+});
 
-function CommandList({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.List>) {
+CommandInput.displayName = "CommandInput";
+
+const CommandList = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.List>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "content",
+    className,
+  });
+
   return (
     <CommandPrimitive.List
-      data-slot="command-list"
-      className={cn(
-        "no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
 
-function CommandEmpty({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Empty>) {
+CommandList.displayName = "CommandList";
+
+const CommandEmpty = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Empty>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "state",
+    className,
+  });
+
   return (
     <CommandPrimitive.Empty
-      data-slot="command-empty"
-      className={cn("py-6 text-center text-sm", className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
 
-function CommandGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Group>) {
+CommandEmpty.displayName = "CommandEmpty";
+
+const CommandGroup = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Group>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "label",
+    className,
+  });
+
   return (
     <CommandPrimitive.Group
-      data-slot="command-group"
-      className={cn(
-        "overflow-hidden p-1 text-foreground **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
 
-function CommandSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Separator>) {
+CommandGroup.displayName = "CommandGroup";
+
+const CommandSeparator = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Separator>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "footer",
+    className,
+  });
+
   return (
     <CommandPrimitive.Separator
-      data-slot="command-separator"
-      className={cn("-mx-1 h-px bg-border", className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     />
-  )
-}
+  );
+});
 
-function CommandItem({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Item>) {
+CommandSeparator.displayName = "CommandSeparator";
+
+const CommandItem = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Item>,
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>, "className"> & {
+    readonly className?: string;
+  }
+>(({ className, children, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slot: "actions",
+    className,
+  });
+
+  const check = resolvePrimitiveGovernance({
+    componentName: "Command",
+    recipeName: COMMAND_RECIPE_NAME,
+    slotKey: "item-check",
+  });
+
   return (
     <CommandPrimitive.Item
-      data-slot="command-item"
-      className={cn(
-        "group/command-item relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground",
-        className
-      )}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     >
       {children}
-      <CheckIcon className="ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" />
+      <CheckIcon {...applyGovernedPresentation({}, check)} />
     </CommandPrimitive.Item>
-  )
-}
+  );
+});
 
-function CommandShortcut({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
-  return (
-    <span
-      data-slot="command-shortcut"
-      className={cn(
-        "ml-auto text-xs tracking-widest text-muted-foreground group-data-selected/command-item:text-foreground",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+CommandItem.displayName = "CommandItem";
 
 export {
   Command,
@@ -192,4 +275,4 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
-}
+};

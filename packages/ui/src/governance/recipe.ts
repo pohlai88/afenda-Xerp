@@ -6,6 +6,8 @@
  */
 import { cva } from "class-variance-authority";
 
+import { cn } from "../lib/utils";
+
 import type {
   Density,
   GovernedSize,
@@ -35,6 +37,11 @@ import {
   formControlSizeClasses,
   tableSizeClasses,
   toneEmphasisClasses,
+  toggleRootSlotClassName,
+  toggleSizeClassNames,
+  toggleVariantClassNames,
+  type ToggleSizeKey,
+  type ToggleVariantKey,
 } from "./recipe-maps";
 import {
   resolveBadgeVariant,
@@ -443,6 +450,20 @@ export function resolveTableClassName(selection: VariantSelection): string {
     density: normalized.density ?? "standard",
     size: normalized.size ?? "sm",
   });
+}
+
+export function resolveToggleClassName(input: {
+  variant?: ToggleVariantKey;
+  size?: ToggleSizeKey;
+}): string {
+  const variant = input.variant ?? "default";
+  const size = input.size ?? "default";
+
+  return cn(
+    toggleRootSlotClassName,
+    toggleVariantClassNames[variant],
+    toggleSizeClassNames[size]
+  );
 }
 
 export function resolveGovernedRecipeClassName(

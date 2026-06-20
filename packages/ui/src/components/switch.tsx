@@ -3,26 +3,26 @@
 import * as React from "react";
 import { Switch as SwitchPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedSize } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import type { GovernedFormControlProps, GovernedSize } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+
+const SWITCH_RECIPE_NAME = "form-control" as const;
 
 export interface SwitchProps
-  extends Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "className"> {
+  extends Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "className" | "size">,
+    GovernedFormControlProps {
   readonly className?: string;
-  readonly state?: string;
   readonly size?: Extract<GovernedSize, "sm" | "md">;
 }
 
-function Switch({
-  className,
-  state,
-  size = "md",
-  ...props
-}: SwitchProps) {
+const Switch = React.forwardRef<
+  React.ComponentRef<typeof SwitchPrimitive.Root>,
+  SwitchProps
+>(({ className, state, size = "md", ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Switch",
-    recipeName: "form-control",
+    recipeName: SWITCH_RECIPE_NAME,
     variant: { size },
     state,
     slot: "root",
@@ -31,22 +31,24 @@ function Switch({
 
   const thumb = resolvePrimitiveGovernance({
     componentName: "Switch",
+    recipeName: SWITCH_RECIPE_NAME,
     slotKey: "thumb",
   });
 
   return (
     <SwitchPrimitive.Root
-      {...governed.dataAttributes}
-      data-size={size === "sm" ? "sm" : "default"}
-      className={cn(governed.className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-size": size === "sm" ? "sm" : "default",
+      })}
     >
       <SwitchPrimitive.Thumb
-        {...thumb.dataAttributes}
-        className={cn(thumb.className)}
+        {...applyGovernedPresentation({}, thumb)}
       />
     </SwitchPrimitive.Root>
   );
-}
+});
+
+Switch.displayName = "Switch";
 
 export { Switch };

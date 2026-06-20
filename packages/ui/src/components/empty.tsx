@@ -1,98 +1,147 @@
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils"
+import type { GovernedEmptyMediaVariant } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Empty({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty"
-      className={cn(
-        "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-xl border-dashed p-6 text-center text-balance",
-        className
-      )}
-      {...props}
-    />
-  )
+const EMPTY_RECIPE_NAME = "surface" as const;
+
+interface EmptyProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-header"
-      className={cn("flex max-w-sm flex-col items-center gap-2", className)}
-      {...props}
-    />
-  )
-}
+const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "root",
+      className,
+    });
 
-const emptyMediaVariants = cva(
-  "mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-transparent",
-        icon: "flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-4",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
   }
-)
+);
 
-function EmptyMedia({
-  className,
-  variant = "default",
-  ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof emptyMediaVariants>) {
-  return (
-    <div
-      data-slot="empty-icon"
-      data-variant={variant}
-      className={cn(emptyMediaVariants({ variant, className }))}
-      {...props}
-    />
-  )
+Empty.displayName = "Empty";
+
+interface EmptyHeaderProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-title"
-      className={cn(
-        "font-heading text-sm font-medium tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  )
+const EmptyHeader = React.forwardRef<HTMLDivElement, EmptyHeaderProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "header",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+EmptyHeader.displayName = "EmptyHeader";
+
+export interface EmptyMediaProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly variant?: GovernedEmptyMediaVariant;
+  readonly className?: string;
 }
 
-function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <div
-      data-slot="empty-description"
-      className={cn(
-        "text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
-        className
-      )}
-      {...props}
-    />
-  )
+const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(
+  ({ className, variant = "default", ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "icon",
+      emptyMediaVariant: variant,
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, { "data-variant": variant })}
+      />
+    );
+  }
+);
+
+EmptyMedia.displayName = "EmptyMedia";
+
+interface EmptyTitleProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
 }
 
-function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-content"
-      className={cn(
-        "flex w-full max-w-sm min-w-0 flex-col items-center gap-2.5 text-sm text-balance",
-        className
-      )}
-      {...props}
-    />
-  )
+const EmptyTitle = React.forwardRef<HTMLDivElement, EmptyTitleProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "label",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+EmptyTitle.displayName = "EmptyTitle";
+
+interface EmptyDescriptionProps
+  extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "className"> {
+  readonly className?: string;
 }
+
+const EmptyDescription = React.forwardRef<HTMLParagraphElement, EmptyDescriptionProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "body",
+      className,
+    });
+
+    return (
+      <p ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+EmptyDescription.displayName = "EmptyDescription";
+
+interface EmptyContentProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  readonly className?: string;
+}
+
+const EmptyContent = React.forwardRef<HTMLDivElement, EmptyContentProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Empty",
+      recipeName: EMPTY_RECIPE_NAME,
+      slot: "content",
+      className,
+    });
+
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
+    );
+  }
+);
+
+EmptyContent.displayName = "EmptyContent";
 
 export {
   Empty,
@@ -101,4 +150,4 @@ export {
   EmptyDescription,
   EmptyContent,
   EmptyMedia,
-}
+};

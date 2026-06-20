@@ -7,6 +7,7 @@ describe("@afenda/ui", () => {
   });
 
   it("exports Button from the public surface", () => {
-    expect(Button).toBeTypeOf("function");
+    expect(Button).toBeTruthy();
+    expect(Button.displayName).toBe("Button");
   });
 });

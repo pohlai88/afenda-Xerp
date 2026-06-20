@@ -1,53 +1,67 @@
 import * as React from "react";
-import { Slot } from "radix-ui";
+import { Slot } from "@radix-ui/react-slot";
 
-import { cn } from "@afenda/ui/lib/utils";
-import type { GovernedBadgeProps } from "@afenda/ui/governance";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedBadgeProps } from "@/governance";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface BadgeProps
-  extends Omit<React.ComponentProps<"span">, "className">,
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className">,
     GovernedBadgeProps {
   readonly asChild?: boolean;
+
+  /**
+   * Governed extension point only.
+   * Must be validated by primitive governance before reaching className output.
+   */
   readonly className?: string;
-  readonly state?: string;
 }
 
-function Badge({
-  className,
-  asChild = false,
-  state,
-  tone = "neutral",
-  emphasis = "solid",
-  density,
-  size,
-  ...props
-}: BadgeProps) {
-  const Comp = asChild ? Slot.Root : "span";
-
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Badge",
-    recipeName: "badge",
-    variant: {
-      tone,
-      emphasis,
-      ...(density === undefined ? {} : { density }),
-      ...(size === undefined ? {} : { size }),
+const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  (
+    {
+      className,
+      asChild = false,
+      state,
+      tone = "neutral",
+      emphasis = "solid",
+      density,
+      size,
+      ...props
     },
-    state,
-    slot: "root",
-    className,
-  });
+    ref
+  ) => {
+    const Comp = asChild ? Slot : "span";
 
-  return (
-    <Comp
-      {...governed.dataAttributes}
-      data-tone={tone}
-      data-emphasis={emphasis}
-      className={cn(governed.className)}
-      {...props}
-    />
-  );
-}
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Badge",
+      recipeName: "badge",
+      variant: {
+        tone,
+        emphasis,
+        ...(density === undefined ? {} : { density }),
+        ...(size === undefined ? {} : { size }),
+      },
+      state,
+      slot: "root",
+      className,
+    });
+
+    return (
+      <Comp
+        ref={ref}
+        {...props}
+        data-tone={tone}
+        data-emphasis={emphasis}
+        {...(density === undefined ? {} : { "data-density": density })}
+        {...(size === undefined ? {} : { "data-size": size })}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  }
+);
+
+Badge.displayName = "Badge";
 
 export { Badge };

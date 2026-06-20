@@ -4,18 +4,26 @@ import * as React from "react";
 import { Checkbox as CheckboxPrimitive } from "radix-ui";
 import { CheckIcon } from "lucide-react";
 
-import { cn } from "@afenda/ui/lib/utils";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "#/lib/utils";
+import type { GovernedFormControlProps } from "@/governance";
+import { applyGovernedPresentation } from "#/governance/governed-render";
+import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
-function Checkbox({
-  className,
-  state,
-  ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
-  readonly state?: string;
-}) {
+const CHECKBOX_RECIPE_NAME = "form-control" as const;
+
+export interface CheckboxProps
+  extends Omit<React.ComponentProps<typeof CheckboxPrimitive.Root>, "className">,
+    GovernedFormControlProps {
+  readonly className?: string;
+}
+
+const Checkbox = React.forwardRef<
+  React.ComponentRef<typeof CheckboxPrimitive.Root>,
+  CheckboxProps
+>(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Checkbox",
+    recipeName: CHECKBOX_RECIPE_NAME,
     state,
     slot: "root",
     className,
@@ -23,14 +31,14 @@ function Checkbox({
 
   const indicator = resolvePrimitiveGovernance({
     componentName: "Checkbox",
+    recipeName: CHECKBOX_RECIPE_NAME,
     slotKey: "indicator",
   });
 
   return (
     <CheckboxPrimitive.Root
-      {...governed.dataAttributes}
-      className={cn(governed.className)}
-      {...props}
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
     >
       <CheckboxPrimitive.Indicator
         {...indicator.dataAttributes}
@@ -40,6 +48,8 @@ function Checkbox({
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
-}
+});
+
+Checkbox.displayName = "Checkbox";
 
 export { Checkbox };

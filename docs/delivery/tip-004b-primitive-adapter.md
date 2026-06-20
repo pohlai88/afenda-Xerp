@@ -1,6 +1,6 @@
 # TIP-004B — Governed UI Primitive Adapter Layer
 
-Status: **Complete (Phase 1)** · **In progress (Phase 2 — form controls)**
+Status: **Complete (Phase 1–3)** · `STOCK_SHADCN_PENDING` is empty
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Introduce a single governed primitive adapter in `@afenda/ui` so Radix/shadcn be
 recipe → variant → state → slot → accessibility → motion → className policy
 ```
 
-Phase 1 wires **Button**, **Badge**, **Card**, **Alert**, **Field**, and **Table**. Phase 2 (started) adds the **form-control leaf family**: **Input**, **Label**, **Textarea**, **Checkbox**, and **Switch**. Remaining shadcn components stay in `STOCK_SHADCN_PENDING` until later phases.
+Phase 1 wired **Button**, **Badge**, **Card**, **Alert**, **Field**, and **Table**. Phase 2 added the **form-control leaf family** and overlay/navigation primitives. Phase 3 completed the remaining stock shadcn composite components (**InputGroup**, **InputOTP**, **NativeSelect**, **Command**, **Combobox**, **Carousel**, **Calendar**, **Chart**, **Resizable**, **Sidebar**) — `STOCK_SHADCN_PENDING` is now `[]`.
 
 ## Architecture
 
@@ -105,7 +105,7 @@ pnpm --filter @afenda/ui typecheck
 
 ## Stock pending components
 
-Components listed in `STOCK_SHADCN_PENDING` may still use stock shadcn patterns temporarily. They must use `mapStockButtonProps()` when rendering governed `Button` instances.
+`STOCK_SHADCN_PENDING` is empty — all exported and composite shadcn components are governed or internal-only.
 
 Do **not** run `shadcn add --all -o` on governed files without re-applying the adapter layer afterward.
 
@@ -116,9 +116,8 @@ Do **not** run `shadcn add --all -o` on governed files without re-applying the a
 
 ## Next phases
 
-- Phase 2 (in progress): form-control leaf family — Input, Label, Textarea, Checkbox, Switch ✓; Dialog, Popover, Select, Tabs, Tooltip, DropdownMenu next
-- Phase 3: Remaining stock shadcn components until `STOCK_SHADCN_PENDING` is empty
+- Phase 4: Any newly added shadcn components must register in `GOVERNED_PRIMITIVE_REGISTRY` on introduction
 
 ## Verdict
 
-Phase 1 complete — governed adapter layer, six migrated primitives, CI guards, and tests are in place. Phase 2 form-control leaf family migration is underway (five components governed).
+Phases 1–3 complete — governed adapter layer, full primary export coverage, CI guards, and tests are in place. `STOCK_SHADCN_PENDING` is empty.
