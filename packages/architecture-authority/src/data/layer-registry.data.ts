@@ -99,7 +99,7 @@ export const layerContract: LayerContract = {
     Metadata: false,
     Integration: true,
     Foundation: true,
-    Design: false,
+    Design: true,
     Platform: true,
   },
 };

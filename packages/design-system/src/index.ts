@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-003/TIP-004 require a stable public root export surface governed by publicExportContract.
+// biome-ignore-all lint/performance/noBarrelFile: TIP-003/TIP-004A require a stable public root export surface governed by publicExportContract.
 import type { DesignSystemContract } from "./contracts/design-system.contract";
 import { erpGovernedExamples } from "./examples/erp-patterns";
 import { accessibilityPolicy } from "./policies/accessibility";
@@ -6,9 +6,9 @@ import { classNamePolicy } from "./policies/class-name-policy";
 import { publicExportContract } from "./policies/export-surface";
 import { motionPolicy } from "./policies/motion";
 import { statePolicy } from "./policies/state";
-import { recipeRegistry } from "./recipes/registry";
-import { tokenRegistry } from "./tokens/registry";
-import { variantRegistry } from "./variants/registry";
+import { AFENDA_RECIPE_REGISTRY } from "./registries/recipe.registry";
+import { AFENDA_TOKEN_REGISTRY } from "./registries/token.registry";
+import { AFENDA_VARIANT_REGISTRY } from "./registries/variant.registry";
 
 export const PACKAGE_NAME = "@afenda/design-system" as const;
 
@@ -23,9 +23,9 @@ export const designSystemContract = {
     classNameOwnsLayoutOnly: true,
     exampleOwnsAiImitation: true,
   },
-  tokens: tokenRegistry,
-  variants: variantRegistry,
-  recipes: recipeRegistry,
+  tokens: AFENDA_TOKEN_REGISTRY,
+  variants: AFENDA_VARIANT_REGISTRY,
+  recipes: AFENDA_RECIPE_REGISTRY,
   classNamePolicy,
   accessibility: accessibilityPolicy,
   motion: motionPolicy,
@@ -73,6 +73,9 @@ export type {
   StatePattern,
 } from "./contracts/state.contract";
 export type {
+  AfendaCssVariableName,
+  AfendaTokenCategory,
+  AfendaTokenName,
   Density,
   GovernedRadius,
   GovernedShadow,
@@ -93,8 +96,10 @@ export type {
 } from "./contracts/variant.contract";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
-export type { AfendaTokenCssVariable } from "./css/token-css-variable";
-export type { AfendaTokenName } from "./tokens/registry";
+export type { TokenNameValidationResult } from "./policy/token-name.policy";
+export type { AiGenerationRuleSet } from "./policy/ai-generation.policy";
+export type { AfendaAccessibilityRegistry } from "./registries/accessibility.registry";
+export type { ValidationResult } from "./validation/index";
 
 // ─── Runtime constants ────────────────────────────────────────────────────────
 
@@ -120,13 +125,17 @@ export { recipeContract } from "./contracts/recipe.contract";
 export { SLOT_ROLES, slotContract } from "./contracts/slot.contract";
 export { GOVERNED_STATES, stateContract } from "./contracts/state.contract";
 export {
+  AFENDA_TOKEN_CATEGORIES,
   DENSITIES,
   RADII,
   SHADOWS,
   SIZES,
   STATUS_TONES,
   TOKEN_CATEGORIES,
+  assertAfendaTokenName,
+  isAfendaTokenName,
   tokenContract,
+  tokenNameToCssVariable,
 } from "./contracts/token.contract";
 export {
   VARIANT_AXES,
@@ -135,9 +144,40 @@ export {
   variantContract,
 } from "./contracts/variant.contract";
 
-// ─── Values ───────────────────────────────────────────────────────────────────
+// ─── CSS helper (re-export from contract for backward compat) ─────────────────
 
-export { erpGovernedExamples } from "./examples/erp-patterns";
+export type { AfendaTokenCssVariable } from "./css/token-css-variable";
+
+// ─── Registries ───────────────────────────────────────────────────────────────
+
+export {
+  AFENDA_ACCESSIBILITY_REGISTRY,
+  AFENDA_ACCESSIBILITY_REQUIREMENTS,
+} from "./registries/accessibility.registry";
+export { AFENDA_MOTION_REGISTRY, AFENDA_MOTION_INTENTS } from "./registries/motion.registry";
+export {
+  AFENDA_RECIPE_REGISTRY,
+  recipeRegistry,
+} from "./registries/recipe.registry";
+export {
+  AFENDA_STATE_REGISTRY,
+  AFENDA_STATE_NAMES,
+} from "./registries/state.registry";
+export {
+  AFENDA_CSS_VARIABLES,
+  AFENDA_TOKEN_NAMES,
+  AFENDA_TOKEN_REGISTRY,
+  tokenRegistry,
+} from "./registries/token.registry";
+export {
+  AFENDA_VARIANT_AXES,
+  AFENDA_VARIANT_OPTIONS,
+  AFENDA_VARIANT_REGISTRY,
+  variantRegistry,
+} from "./registries/variant.registry";
+
+// ─── Policies ─────────────────────────────────────────────────────────────────
+
 export { accessibilityPolicy } from "./policies/accessibility";
 export {
   classNamePolicy,
@@ -153,7 +193,31 @@ export {
 } from "./policies/export-surface";
 export { motionPolicy } from "./policies/motion";
 export { statePolicy } from "./policies/state";
-export { recipeRegistry } from "./recipes/registry";
-export { tokenNameToCssVariable } from "./css/token-css-variable";
-export { tokenRegistry } from "./tokens/registry";
-export { variantRegistry } from "./variants/registry";
+
+// ─── New policy modules (TIP-004A) ────────────────────────────────────────────
+
+export { AI_GENERATION_RULES } from "./policy/ai-generation.policy";
+export {
+  assertAfendaCssVariable,
+  cssVariablePolicy,
+  isAfendaCssVariable,
+} from "./policy/css-variable.policy";
+export {
+  extractTokenCategory,
+  tokenNamePolicy,
+  validateTokenName,
+} from "./policy/token-name.policy";
+
+// ─── Validation layer ─────────────────────────────────────────────────────────
+
+export { validateClassNames } from "./validation/class-name.validation";
+export { validateExportSurface } from "./validation/export.validation";
+export { validateMotionRegistry } from "./validation/motion.validation";
+export { validateRecipeRegistry } from "./validation/recipe.validation";
+export { validateStateRegistry } from "./validation/state.validation";
+export { validateTokenRegistry } from "./validation/token.validation";
+export { validateVariantRegistry } from "./validation/variant.validation";
+
+// ─── Examples ─────────────────────────────────────────────────────────────────
+
+export { erpGovernedExamples } from "./examples/erp-patterns";

@@ -4,20 +4,31 @@ import type { PublicExportContract } from "../contracts/export.contract";
  * Stable public export surface for @afenda/design-system.
  *
  * Only symbols listed in `stableExports` may be consumed by other packages.
- * Internal folders (contracts, examples, policies, recipes, tokens, variants)
- * must never be deep-imported directly — consumers always go through the root
- * entry point.
+ * Internal folders must never be deep-imported — consumers always go through
+ * the root entry point.
  *
  * Invariant: this list must stay alphabetically sorted (uppercase before
  * lowercase, matching JavaScript's Array.prototype.sort()) so the governance
  * test can compare it with Object.keys(publicRuntimeExports).sort() without
- * order ambiguity.  Current count: 49.
+ * order ambiguity.
  */
 export const publicExportContract = {
   packageName: "@afenda/design-system",
   publicEntrypoints: [".", "./css/tokens.css"],
   stableExports: [
     "ACCESSIBILITY_REQUIREMENTS",
+    "AFENDA_ACCESSIBILITY_REGISTRY",
+    "AFENDA_CSS_VARIABLES",
+    "AFENDA_MOTION_REGISTRY",
+    "AFENDA_RECIPE_REGISTRY",
+    "AFENDA_STATE_REGISTRY",
+    "AFENDA_TOKEN_CATEGORIES",
+    "AFENDA_TOKEN_NAMES",
+    "AFENDA_TOKEN_REGISTRY",
+    "AFENDA_VARIANT_AXES",
+    "AFENDA_VARIANT_OPTIONS",
+    "AFENDA_VARIANT_REGISTRY",
+    "AI_GENERATION_RULES",
     "ALLOWED_LAYOUT_CLASSNAME_PATTERNS",
     "DENSITIES",
     "DESIGN_AUTHORITY_DOMAINS",
@@ -37,16 +48,22 @@ export const publicExportContract = {
     "VARIANT_INTENTS",
     "accessibilityContract",
     "accessibilityPolicy",
+    "assertAfendaCssVariable",
+    "assertAfendaTokenName",
     "classNamePolicy",
     "classNamePolicyContract",
     "componentContract",
+    "cssVariablePolicy",
     "designSystemAuthorityContract",
     "designSystemContract",
     "driftPreventionChecklist",
     "erpGovernedExamples",
     "exampleContract",
     "exportContract",
+    "extractTokenCategory",
     "getPackageName",
+    "isAfendaCssVariable",
+    "isAfendaTokenName",
     "isPublicDesignSystemImport",
     "motionContract",
     "motionPolicy",
@@ -57,10 +74,19 @@ export const publicExportContract = {
     "stateContract",
     "statePolicy",
     "tokenContract",
+    "tokenNamePolicy",
     "tokenNameToCssVariable",
     "tokenRegistry",
+    "validateClassNames",
     "validateDesignSystemGovernance",
+    "validateExportSurface",
     "validateLayoutClassName",
+    "validateMotionRegistry",
+    "validateRecipeRegistry",
+    "validateStateRegistry",
+    "validateTokenName",
+    "validateTokenRegistry",
+    "validateVariantRegistry",
     "variantContract",
     "variantRegistry",
   ],
@@ -70,19 +96,22 @@ export const publicExportContract = {
     "css",
     "examples",
     "policies",
+    "policy",
     "recipes",
+    "registries",
+    "scripts",
     "tokens",
+    "validation",
     "variants",
   ],
 } as const satisfies PublicExportContract;
 
 const PUBLIC_ENTRYPOINTS = new Set<string>(
-  publicExportContract.publicEntrypoints.map(
-    (entrypoint) =>
-      entrypoint === "."
-        ? "@afenda/design-system"
-        : `@afenda/design-system${entrypoint.slice(1)}`,
-  ),
+  publicExportContract.publicEntrypoints.map((entrypoint) =>
+    entrypoint === "."
+      ? "@afenda/design-system"
+      : `@afenda/design-system${entrypoint.slice(1)}`
+  )
 );
 
 export const isPublicDesignSystemImport = (specifier: string): boolean =>

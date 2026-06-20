@@ -1,29 +1,6 @@
 @import "tailwindcss";
-@import "@afenda/design-system/css/tokens.css";
+@import "@afenda/ui/afenda-style.css";
+@import "shadcn/tailwind.css";
 
-@theme inline {
-  --color-surface-canvas: var(--token-color-surface-canvas);
-  --color-surface-panel: var(--token-color-surface-panel);
-  --color-border-subtle: var(--token-color-border-subtle);
-  --color-foreground-default: var(--token-color-foreground-default);
-  --color-foreground-muted: var(--token-color-foreground-muted);
-  --color-focus-ring: var(--token-color-focus-ring);
-  --spacing-1: var(--token-spacing-1);
-  --spacing-2: var(--token-spacing-2);
-  --spacing-3: var(--token-spacing-3);
-  --spacing-4: var(--token-spacing-4);
-  --spacing-5: var(--token-spacing-5);
-  --spacing-6: var(--token-spacing-6);
-  --spacing-8: var(--token-spacing-8);
-  --radius-sm: var(--token-radius-sm);
-  --radius-md: var(--token-radius-md);
-  --radius-lg: var(--token-radius-lg);
-  --shadow-raised: var(--token-shadow-raised);
-  --shadow-overlay: var(--token-shadow-overlay);
-}
-
-@layer base {
-  body {
-    @apply bg-surface-canvas text-foreground-default antialiased;
-  }
-}
+@source "../**/*.{ts,tsx}";
+@source "../../../../packages/appshell/**/*.{ts,tsx}";

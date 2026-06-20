@@ -9,6 +9,7 @@ import type { GovernedExample } from "../contracts/example.contract";
  * 3. Apply className for layout only — no semantic classes in className strings.
  * 4. Annotate interactive elements with governed accessibility attributes.
  * 5. Include drift warnings so AI IDEs stay within the guardrails.
+ * 6. All token references must use the afenda.* prefix.
  */
 export const erpGovernedExamples = [
   {
@@ -18,15 +19,15 @@ export const erpGovernedExamples = [
       "Shows a common ERP review surface using governed recipes, variants, slots, states, and layout-only className.",
     importsFrom: "@afenda/design-system",
     demonstrates: [
-      "button recipe",
-      "badge recipe",
+      "button recipe with afenda.* tokens",
+      "badge recipe with afenda.status-tone.* tokens",
       "card recipe",
       "status state",
       "layout-only className",
       "semantic labels and live region",
     ],
     source: `import {
-  recipeRegistry,
+  AFENDA_RECIPE_REGISTRY,
   statePolicy,
   validateLayoutClassName,
 } from "@afenda/design-system";
@@ -38,7 +39,7 @@ if (!layoutResult.valid) {
   throw new Error("InvoiceApprovalPanel uses semantic styling in className.");
 }
 
-const cardRecipe = recipeRegistry.recipes.find((recipe) => recipe.name === "card");
+const cardRecipe = AFENDA_RECIPE_REGISTRY.recipes.find((recipe) => recipe.name === "card");
 const statusPattern = statePolicy.states.find((pattern) => pattern.state === "ready");
 
 export function InvoiceApprovalPanel() {
@@ -59,6 +60,7 @@ export function InvoiceApprovalPanel() {
       "Do not replace data-recipe with raw bg, text, rounded, shadow, or animation classes.",
       "Do not deep-import contracts or registries from internal folders.",
       "Do not add ERP business logic to the design-system package.",
+      "Token names must use the afenda.* prefix — never use unprefixed names.",
     ],
   },
   {
@@ -75,7 +77,7 @@ export function InvoiceApprovalPanel() {
       "layout-only className",
     ],
     source: `import {
-  recipeRegistry,
+  AFENDA_RECIPE_REGISTRY,
   statePolicy,
   validateLayoutClassName,
 } from "@afenda/design-system";
@@ -87,7 +89,7 @@ if (!layoutResult.valid) {
   throw new Error("VendorTableView uses semantic styling in className.");
 }
 
-const tableRecipe = recipeRegistry.recipes.find((recipe) => recipe.name === "table");
+const tableRecipe = AFENDA_RECIPE_REGISTRY.recipes.find((recipe) => recipe.name === "table");
 const emptyState = statePolicy.states.find((pattern) => pattern.state === "empty");
 
 export function VendorTableView({ vendors }: { vendors: string[] }) {
@@ -139,10 +141,10 @@ export function VendorTableView({ vendors }: { vendors: string[] }) {
     name: "PurchaseOrderForm",
     imitationOnly: true,
     purpose:
-      "Demonstrates the governed form recipe with label, control, and state slots, plus the invalid state for validation feedback.",
+      "Demonstrates the governed form-control recipe with label, control, and state slots, plus the invalid state for validation feedback.",
     importsFrom: "@afenda/design-system",
     demonstrates: [
-      "form recipe",
+      "form-control recipe",
       "label slot",
       "control slot",
       "state slot",
@@ -150,7 +152,7 @@ export function VendorTableView({ vendors }: { vendors: string[] }) {
       "aria error message pattern",
     ],
     source: `import {
-  recipeRegistry,
+  AFENDA_RECIPE_REGISTRY,
   statePolicy,
   validateLayoutClassName,
 } from "@afenda/design-system";
@@ -162,7 +164,7 @@ if (!layoutResult.valid) {
   throw new Error("PurchaseOrderForm uses semantic styling in className.");
 }
 
-const formRecipe = recipeRegistry.recipes.find((recipe) => recipe.name === "form");
+const formRecipe = AFENDA_RECIPE_REGISTRY.recipes.find((recipe) => recipe.name === "form-control");
 const invalidState = statePolicy.states.find((pattern) => pattern.state === "invalid");
 
 export function PurchaseOrderForm({ error }: { error?: string }) {
@@ -208,17 +210,17 @@ export function PurchaseOrderForm({ error }: { error?: string }) {
     name: "PermissionDeniedState",
     imitationOnly: true,
     purpose:
-      "Demonstrates the governed status-state recipe with the forbidden tone, assertive aria-live, and a clear user-actionable message.",
+      "Demonstrates the governed status recipe with the forbidden tone, assertive aria-live, and a clear user-actionable message.",
     importsFrom: "@afenda/design-system",
     demonstrates: [
-      "status-state recipe",
+      "status recipe",
       "forbidden tone",
       "assertive aria-live",
       "governed state copy role",
       "layout-only className",
     ],
     source: `import {
-  recipeRegistry,
+  AFENDA_RECIPE_REGISTRY,
   statePolicy,
   validateLayoutClassName,
 } from "@afenda/design-system";
@@ -230,8 +232,8 @@ if (!layoutResult.valid) {
   throw new Error("PermissionDeniedState uses semantic styling in className.");
 }
 
-const statusRecipe = recipeRegistry.recipes.find(
-  (recipe) => recipe.name === "status-state",
+const statusRecipe = AFENDA_RECIPE_REGISTRY.recipes.find(
+  (recipe) => recipe.name === "status",
 );
 const forbiddenState = statePolicy.states.find(
   (pattern) => pattern.state === "forbidden",

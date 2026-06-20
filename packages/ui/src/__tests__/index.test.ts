@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { getPackageName, PACKAGE_NAME } from "../index";
+import { Button, cn } from "../index";
 
 describe("@afenda/ui", () => {
-  it("exports the package name", () => {
-    expect(PACKAGE_NAME).toBe("@afenda/ui");
-    expect(getPackageName()).toBe("@afenda/ui");
+  it("exports cn helper", () => {
+    expect(cn("px-2", "px-4")).toBe("px-4");
+  });
+
+  it("exports Button from the public surface", () => {
+    expect(Button).toBeTypeOf("function");
   });
 });

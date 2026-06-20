@@ -41,7 +41,7 @@ export const accessibilityContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "interaction safety",
-  owner: "TIP-004 accessibility contract",
+  owner: "TIP-004A accessibility contract",
   prohibitedResponsibility: [
     "Define domain permissions",
     "Define domain business rules",
@@ -50,7 +50,7 @@ export const accessibilityContract = {
   ],
   purpose:
     "Own interaction safety requirements for governed Afenda UI surfaces.",
-  version: "0.1.0",
+  version: "0.2.0",
 } as const;
 
 export type AccessibilityRequirement =
@@ -58,7 +58,9 @@ export type AccessibilityRequirement =
 
 export interface AccessibilityContract {
   readonly baseline: readonly AccessibilityRequirement[];
-  readonly focusRingToken: "color.focus.ring";
+  /** Afenda-prefixed token name for focus ring color. */
+  readonly focusRingToken: "afenda.color.focus.ring";
+  /** Minimum touch target size (44px per WCAG 2.5.5). */
   readonly minTouchTarget: "44px";
   readonly statusMustUseAriaLive: boolean;
 }

@@ -49,7 +49,7 @@ export const dependencyContract: DependencyContract = {
     "@afenda/storage": [],
     "@afenda/testing": [],
     "@afenda/typescript-config": [],
-    "@afenda/ui": [],
+    "@afenda/ui": ["@afenda/design-system"],
     "@afenda/architecture-authority": [],
     "@afenda/ai-governance": ["@afenda/architecture-authority"],
   },

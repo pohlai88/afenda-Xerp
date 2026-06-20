@@ -4,12 +4,25 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   ACCESSIBILITY_REQUIREMENTS,
+  AFENDA_ACCESSIBILITY_REGISTRY,
+  AFENDA_CSS_VARIABLES,
+  AFENDA_MOTION_REGISTRY,
+  AFENDA_RECIPE_REGISTRY,
+  AFENDA_STATE_REGISTRY,
+  AFENDA_TOKEN_CATEGORIES,
+  AFENDA_TOKEN_NAMES,
+  AFENDA_TOKEN_REGISTRY,
+  AFENDA_VARIANT_AXES,
+  AFENDA_VARIANT_OPTIONS,
+  AFENDA_VARIANT_REGISTRY,
+  AI_GENERATION_RULES,
   ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
-  accessibilityContract,
-  accessibilityPolicy,
+  assertAfendaCssVariable,
+  assertAfendaTokenName,
   classNamePolicy,
   classNamePolicyContract,
   componentContract,
+  cssVariablePolicy,
   DENSITIES,
   DESIGN_AUTHORITY_DOMAINS,
   designSystemAuthorityContract,
@@ -18,8 +31,11 @@ import {
   erpGovernedExamples,
   exampleContract,
   exportContract,
-  GOVERNED_STATES,
+  extractTokenCategory,
   getPackageName,
+  GOVERNED_STATES,
+  isAfendaCssVariable,
+  isAfendaTokenName,
   isPublicDesignSystemImport,
   MOTION_INTENTS,
   motionContract,
@@ -33,23 +49,36 @@ import {
   SHADOWS,
   SIZES,
   SLOT_ROLES,
-  STATUS_TONES,
   slotContract,
+  STATUS_TONES,
   stateContract,
   statePolicy,
   TIP_004_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
   tokenContract,
+  tokenNamePolicy,
   tokenNameToCssVariable,
   tokenRegistry,
+  validateClassNames,
+  validateDesignSystemGovernance,
+  validateExportSurface,
+  validateLayoutClassName,
+  validateMotionRegistry,
+  validateRecipeRegistry,
+  validateStateRegistry,
+  validateTokenName,
+  validateTokenRegistry,
+  validateVariantRegistry,
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
-  validateDesignSystemGovernance,
-  validateLayoutClassName,
   variantContract,
   variantRegistry,
+  accessibilityContract,
+  accessibilityPolicy,
 } from "../index";
+
+// ─── Contract file presence ───────────────────────────────────────────────────
 
 const requiredContractFiles = [
   "design-system-authority.contract.ts",
@@ -70,14 +99,26 @@ const requiredContractFiles = [
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/u;
 
+// ─── Stable runtime export map ────────────────────────────────────────────────
+
 /**
- * Every value exported from the public entry point must be listed here.
- * The "keeps public imports on the stable root export surface" test compares
- * Object.keys(publicRuntimeExports).sort() against publicExportContract.stableExports,
- * so the two must stay in sync.
+ * Every value exported from the public entry point must be listed here AND
+ * in `publicExportContract.stableExports`.
  */
 const publicRuntimeExports = {
   ACCESSIBILITY_REQUIREMENTS,
+  AFENDA_ACCESSIBILITY_REGISTRY,
+  AFENDA_CSS_VARIABLES,
+  AFENDA_MOTION_REGISTRY,
+  AFENDA_RECIPE_REGISTRY,
+  AFENDA_STATE_REGISTRY,
+  AFENDA_TOKEN_CATEGORIES,
+  AFENDA_TOKEN_NAMES,
+  AFENDA_TOKEN_REGISTRY,
+  AFENDA_VARIANT_AXES,
+  AFENDA_VARIANT_OPTIONS,
+  AFENDA_VARIANT_REGISTRY,
+  AI_GENERATION_RULES,
   ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
   DENSITIES,
   DESIGN_AUTHORITY_DOMAINS,
@@ -97,16 +138,22 @@ const publicRuntimeExports = {
   VARIANT_INTENTS,
   accessibilityContract,
   accessibilityPolicy,
+  assertAfendaCssVariable,
+  assertAfendaTokenName,
   classNamePolicy,
   classNamePolicyContract,
   componentContract,
+  cssVariablePolicy,
   designSystemAuthorityContract,
   designSystemContract,
   driftPreventionChecklist,
   erpGovernedExamples,
   exampleContract,
   exportContract,
+  extractTokenCategory,
   getPackageName,
+  isAfendaCssVariable,
+  isAfendaTokenName,
   isPublicDesignSystemImport,
   motionContract,
   motionPolicy,
@@ -117,21 +164,36 @@ const publicRuntimeExports = {
   stateContract,
   statePolicy,
   tokenContract,
+  tokenNamePolicy,
   tokenNameToCssVariable,
   tokenRegistry,
+  validateClassNames,
   validateDesignSystemGovernance,
+  validateExportSurface,
   validateLayoutClassName,
+  validateMotionRegistry,
+  validateRecipeRegistry,
+  validateStateRegistry,
+  validateTokenName,
+  validateTokenRegistry,
+  validateVariantRegistry,
   variantContract,
   variantRegistry,
 };
 
-describe("@afenda/design-system", () => {
+// ─── Tests ────────────────────────────────────────────────────────────────────
+
+describe("@afenda/design-system (TIP-004A)", () => {
+  // ── Package identity ──────────────────────────────────────────────────────
+
   it("exports the package name", () => {
     expect(PACKAGE_NAME).toBe("@afenda/design-system");
     expect(getPackageName()).toBe("@afenda/design-system");
   });
 
-  it("defines the required TIP-006 contract surface", () => {
+  // ── Contract file surface ─────────────────────────────────────────────────
+
+  it("defines the required contract file surface", () => {
     for (const fileName of requiredContractFiles) {
       expect(
         existsSync(join(currentDirectory, "..", "contracts", fileName))
@@ -148,6 +210,8 @@ describe("@afenda/design-system", () => {
       exampleOwnsAiImitation: true,
     });
   });
+
+  // ── Authority contract ────────────────────────────────────────────────────
 
   it("defines TIP-003 authority without creating TIP-004 implementation ownership", () => {
     expect(designSystemAuthorityContract.identity).toMatchObject({
@@ -224,14 +288,134 @@ describe("@afenda/design-system", () => {
     ).toBe(true);
   });
 
-  it("validates recipe references against tokens and variants", () => {
+  // ── Token prefix policy (TIP-004A core) ──────────────────────────────────
+
+  it("enforces afenda. prefix on every token name", () => {
+    for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
+      expect(token.name).toMatch(/^afenda\./);
+    }
+    expect(AFENDA_TOKEN_NAMES.every((n) => n.startsWith("afenda."))).toBe(true);
+  });
+
+  it("enforces --afenda- prefix on every CSS variable", () => {
+    for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
+      expect(token.cssVariable).toMatch(/^--afenda-/);
+    }
+    expect(
+      AFENDA_CSS_VARIABLES.every((v) => v.startsWith("--afenda-"))
+    ).toBe(true);
+  });
+
+  it("cssVariable is derived from the token name (dot→hyphen transform)", () => {
+    for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
+      expect(token.cssVariable).toBe(tokenNameToCssVariable(token.name));
+    }
+  });
+
+  it("isAfendaTokenName identifies valid token names", () => {
+    expect(isAfendaTokenName("afenda.color.surface.canvas")).toBe(true);
+    expect(isAfendaTokenName("color.surface.canvas")).toBe(false);
+    expect(isAfendaTokenName("--afenda-color-surface-canvas")).toBe(false);
+  });
+
+  it("assertAfendaTokenName throws on unprefixed names", () => {
+    expect(() => assertAfendaTokenName("color.surface.canvas")).toThrow();
+    expect(() =>
+      assertAfendaTokenName("afenda.color.surface.canvas")
+    ).not.toThrow();
+  });
+
+  it("isAfendaCssVariable identifies valid CSS variables", () => {
+    expect(isAfendaCssVariable("--afenda-color-surface-canvas")).toBe(true);
+    expect(isAfendaCssVariable("--token-color-surface-canvas")).toBe(false);
+  });
+
+  it("assertAfendaCssVariable throws on wrong prefix", () => {
+    expect(() =>
+      assertAfendaCssVariable("--token-color-surface-canvas")
+    ).toThrow();
+    expect(() =>
+      assertAfendaCssVariable("--afenda-color-surface-canvas")
+    ).not.toThrow();
+  });
+
+  it("tokenNameToCssVariable converts dot-notation to CSS custom property", () => {
+    expect(tokenNameToCssVariable("afenda.color.surface.canvas")).toBe(
+      "--afenda-color-surface-canvas"
+    );
+    expect(
+      tokenNameToCssVariable("afenda.status-tone.danger.surface")
+    ).toBe("--afenda-status-tone-danger-surface");
+  });
+
+  // ── Token registry coverage ───────────────────────────────────────────────
+
+  it("covers all governed status tones with surface, foreground, border, and focus tokens", () => {
+    const tokenNames = new Set<string>(
+      AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
+    );
+    for (const tone of STATUS_TONES) {
+      for (const variant of ["surface", "foreground", "border", "focus"]) {
+        expect(
+          tokenNames.has(`afenda.status-tone.${tone}.${variant}`),
+          `Missing afenda.status-tone.${tone}.${variant}`
+        ).toBe(true);
+      }
+    }
+  });
+
+  it("covers all governed radii with tokens (including full)", () => {
+    const tokenNames = new Set<string>(
+      AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
+    );
+    for (const radius of RADII) {
+      expect(
+        tokenNames.has(`afenda.radius.${radius}`),
+        `Missing afenda.radius.${radius}`
+      ).toBe(true);
+    }
+    expect(RADII).toContain("full");
+  });
+
+  it("covers all governed shadows with tokens (including focus)", () => {
+    const tokenNames = new Set<string>(
+      AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
+    );
+    for (const shadow of SHADOWS) {
+      expect(
+        tokenNames.has(`afenda.shadow.${shadow}`),
+        `Missing afenda.shadow.${shadow}`
+      ).toBe(true);
+    }
+    expect(SHADOWS).toContain("focus");
+  });
+
+  it("includes the touch target token for accessibility", () => {
+    const tokenNames = new Set<string>(
+      AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
+    );
+    expect(
+      tokenNames.has("afenda.layout.touch-target.minimum")
+    ).toBe(true);
+  });
+
+  it("every token has stable: true and public: true", () => {
+    for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
+      expect(token.stable, `${token.name} not stable`).toBe(true);
+      expect(token.public, `${token.name} not public`).toBe(true);
+    }
+  });
+
+  // ── Governance validation ─────────────────────────────────────────────────
+
+  it("validates recipe references against afenda.* tokens and governed variant axes", () => {
     const result = validateDesignSystemGovernance();
 
     expect(result).toEqual({ valid: true, errors: [] });
-    expect(tokenRegistry.tokens.length).toBeGreaterThan(0);
-    expect(variantRegistry.variants.length).toBeGreaterThan(0);
+    expect(AFENDA_TOKEN_REGISTRY.tokens.length).toBeGreaterThan(0);
+    expect(AFENDA_VARIANT_REGISTRY.variants.length).toBeGreaterThan(0);
     expect(
-      recipeRegistry.recipes.map((recipe) => recipe.componentKind)
+      AFENDA_RECIPE_REGISTRY.recipes.map((recipe) => recipe.componentKind)
     ).toEqual(
       expect.arrayContaining([
         "button",
@@ -244,6 +428,26 @@ describe("@afenda/design-system", () => {
     );
   });
 
+  it("passes all validators from the validation layer", () => {
+    const tokenResults = validateTokenRegistry();
+    const variantResults = validateVariantRegistry();
+    const recipeResults = validateRecipeRegistry();
+    const stateResults = validateStateRegistry();
+    const motionResults = validateMotionRegistry();
+
+    const allFailed = [
+      ...tokenResults,
+      ...variantResults,
+      ...recipeResults,
+      ...stateResults,
+      ...motionResults,
+    ].filter((r) => !r.passed);
+
+    expect(allFailed, `Validation failures:\n${allFailed.map((r) => r.detail).join("\n")}`).toHaveLength(0);
+  });
+
+  // ── className policy ──────────────────────────────────────────────────────
+
   it("keeps className limited to layout", () => {
     expect(validateLayoutClassName("grid gap-4 items-center").valid).toBe(true);
     expect(
@@ -252,7 +456,9 @@ describe("@afenda/design-system", () => {
     expect(classNamePolicy.allowedPurpose).toBe("layout-only");
   });
 
-  it("governs accessibility, state, and examples for AI imitation", () => {
+  // ── Accessibility, state, motion ──────────────────────────────────────────
+
+  it("governs accessibility with afenda.* token references", () => {
     expect(accessibilityPolicy.baseline).toEqual(
       expect.arrayContaining([
         "semanticElement",
@@ -264,7 +470,12 @@ describe("@afenda/design-system", () => {
         "reducedMotionSafe",
       ])
     );
-    expect(statePolicy.states.map((state) => state.state)).toEqual([
+    expect(accessibilityPolicy.focusRingToken).toBe("afenda.color.focus.ring");
+    expect(accessibilityPolicy.minTouchTarget).toBe("44px");
+  });
+
+  it("governs state policy with all six UI states", () => {
+    expect(statePolicy.states.map((s) => s.state)).toEqual([
       "loading",
       "empty",
       "error",
@@ -272,13 +483,43 @@ describe("@afenda/design-system", () => {
       "invalid",
       "ready",
     ]);
+  });
+
+  it("uses per-intent afenda.* duration tokens in motionPolicy", () => {
+    const intentToToken: Record<string, string> = {
+      instant: "afenda.motion.duration.instant",
+      feedback: "afenda.motion.duration.fast",
+      overlay: "afenda.motion.duration.normal",
+      navigation: "afenda.motion.duration.slow",
+    };
+    for (const entry of motionPolicy) {
+      expect(
+        entry.durationToken,
+        `Intent "${entry.intent}" has wrong duration token`
+      ).toBe(intentToToken[entry.intent]);
+      expect(entry.durationToken).toMatch(/^afenda\./);
+      expect(entry.easingToken).toMatch(/^afenda\./);
+    }
+    const coveredIntents = new Set(motionPolicy.map((e) => e.intent));
+    for (const intent of MOTION_INTENTS) {
+      expect(coveredIntents.has(intent)).toBe(true);
+    }
+  });
+
+  // ── Examples ──────────────────────────────────────────────────────────────
+
+  it("governs examples for AI imitation", () => {
     expect(erpGovernedExamples.length).toBeGreaterThanOrEqual(4);
     for (const example of erpGovernedExamples) {
+      expect(example.imitationOnly).toBe(true);
+      expect(example.importsFrom).toBe("@afenda/design-system");
       expect(example.source).toContain('from "@afenda/design-system"');
       expect(example.source).not.toMatch(SEMANTIC_CLASS_PATTERN);
     }
     expect(driftPreventionChecklist.length).toBeGreaterThanOrEqual(7);
   });
+
+  // ── Export surface ────────────────────────────────────────────────────────
 
   it("keeps public imports on the stable root export surface", () => {
     expect(publicExportContract.deepImportsAllowed).toBe(false);
@@ -287,54 +528,21 @@ describe("@afenda/design-system", () => {
       "./css/tokens.css",
     ]);
     expect(publicExportContract.stableExports).toEqual(
-      Object.keys(publicRuntimeExports).sort(),
+      Object.keys(publicRuntimeExports).sort()
     );
     expect(isPublicDesignSystemImport("@afenda/design-system")).toBe(true);
     expect(
-      isPublicDesignSystemImport("@afenda/design-system/css/tokens.css"),
+      isPublicDesignSystemImport("@afenda/design-system/css/tokens.css")
     ).toBe(true);
-    expect(isPublicDesignSystemImport("@afenda/design-system/tokens")).toBe(
-      false,
-    );
+    expect(
+      isPublicDesignSystemImport("@afenda/design-system/tokens")
+    ).toBe(false);
+    expect(
+      isPublicDesignSystemImport("@afenda/design-system/registries")
+    ).toBe(false);
   });
 
-  it("covers all governed status tones with a surface token", () => {
-    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
-    for (const tone of STATUS_TONES) {
-      expect(tokenNames.has(`statusTone.${tone}.surface`)).toBe(true);
-    }
-  });
-
-  it("covers all governed radii with a token", () => {
-    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
-    for (const radius of RADII) {
-      expect(tokenNames.has(`radius.${radius}`)).toBe(true);
-    }
-  });
-
-  it("covers all governed shadows with a token", () => {
-    const tokenNames = new Set<string>(tokenRegistry.tokens.map((t) => t.name));
-    for (const shadow of SHADOWS) {
-      expect(tokenNames.has(`shadow.${shadow}`)).toBe(true);
-    }
-  });
-
-  it("uses per-intent duration tokens in motionPolicy", () => {
-    const intentToToken: Record<string, string> = {
-      instant: "motion.duration.instant",
-      feedback: "motion.duration.feedback",
-      navigation: "motion.duration.navigation",
-      overlay: "motion.duration.overlay",
-    };
-    for (const entry of motionPolicy) {
-      expect(entry.durationToken).toBe(intentToToken[entry.intent]);
-    }
-    // Every MOTION_INTENTS value must have a policy entry.
-    const coveredIntents = new Set(motionPolicy.map((e) => e.intent));
-    for (const intent of MOTION_INTENTS) {
-      expect(coveredIntents.has(intent)).toBe(true);
-    }
-  });
+  // ── Runtime constants ─────────────────────────────────────────────────────
 
   it("exports governed runtime constants", () => {
     expect(GOVERNED_STATES).toEqual([
@@ -373,7 +581,7 @@ describe("@afenda/design-system", () => {
       ...RADII,
       ...SHADOWS,
     ]);
-    for (const variant of variantRegistry.variants) {
+    for (const variant of AFENDA_VARIANT_REGISTRY.variants) {
       expect(
         governedOptions.has(variant.option),
         `Variant axis="${variant.axis}" option="${variant.option}" is not a governed value`
@@ -383,13 +591,51 @@ describe("@afenda/design-system", () => {
 
   it("restricts variant allowedTokenCategories to real token categories", () => {
     const governed = new Set<string>(TOKEN_CATEGORIES);
-    for (const variant of variantRegistry.variants) {
+    for (const variant of AFENDA_VARIANT_REGISTRY.variants) {
       for (const category of variant.allowedTokenCategories) {
         expect(
           governed.has(category),
           `Variant axis="${variant.axis}" option="${variant.option}" lists unknown token category "${category}"`
         ).toBe(true);
       }
+    }
+  });
+
+  // ── TIP-004A policy files ─────────────────────────────────────────────────
+
+  it("exports tokenNamePolicy with correct format rules", () => {
+    expect(tokenNamePolicy.prefix).toBe("afenda.");
+    expect(tokenNamePolicy.format).toContain("afenda.");
+    expect(tokenNamePolicy.rules.length).toBeGreaterThan(0);
+  });
+
+  it("exports cssVariablePolicy with correct prefix rule", () => {
+    expect(cssVariablePolicy.prefix).toBe("--afenda-");
+    expect(cssVariablePolicy.format).toContain("--afenda-");
+  });
+
+  it("exports AI_GENERATION_RULES with all rule sections", () => {
+    expect(AI_GENERATION_RULES.tokenRules.forbidden).toContain(
+      "Use unprefixed token names (e.g. color.surface.canvas)"
+    );
+    expect(AI_GENERATION_RULES.importRules.forbidden).toContain(
+      "Deep import from @afenda/design-system/tokens, /variants, /recipes, etc."
+    );
+  });
+
+  it("AFENDA_ACCESSIBILITY_REGISTRY references afenda.* tokens", () => {
+    expect(AFENDA_ACCESSIBILITY_REGISTRY.focusRingToken).toBe(
+      "afenda.color.focus.ring"
+    );
+    expect(AFENDA_ACCESSIBILITY_REGISTRY.minTouchTargetToken).toBe(
+      "afenda.layout.touch-target.minimum"
+    );
+  });
+
+  it("AFENDA_MOTION_REGISTRY entries use afenda.* token names", () => {
+    for (const entry of AFENDA_MOTION_REGISTRY) {
+      expect(entry.durationToken).toMatch(/^afenda\.motion\.duration\./);
+      expect(entry.easingToken).toMatch(/^afenda\.motion\.easing\./);
     }
   });
 });

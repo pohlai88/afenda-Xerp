@@ -1,18 +1,19 @@
-import type { AfendaTokenName } from "../tokens/registry.js";
-
-export type AfendaTokenCssVariable = `--token-${string}`;
+/**
+ * Re-exports the canonical `tokenNameToCssVariable` helper and its types from
+ * the token contract so that consumers always reach the single source of truth.
+ *
+ * The function and types live in `token.contract.ts` to co-locate them with
+ * the type definitions that govern them.  This module exists purely to
+ * preserve the existing import path used by the build script.
+ */
+export type {
+  AfendaCssVariableName,
+  AfendaTokenName,
+} from "../contracts/token.contract";
+export { tokenNameToCssVariable } from "../contracts/token.contract";
 
 /**
- * Converts a dot-namespaced token name to a CSS custom property.
- *
- * Dots become dashes and camelCase word boundaries are expanded to kebab-case
- * so that all generated properties use standard all-lowercase-kebab format:
- *   "color.surface.canvas"       → "--token-color-surface-canvas"
- *   "statusTone.neutral.surface" → "--token-status-tone-neutral-surface"
+ * @deprecated Use `AfendaCssVariableName` from `contracts/token.contract` instead.
+ * Kept for backward-compatibility with existing imports.
  */
-export function tokenNameToCssVariable(name: AfendaTokenName): AfendaTokenCssVariable {
-  const kebab = name
-    .replaceAll(".", "-")
-    .replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
-  return `--token-${kebab}`;
-}
+export type AfendaTokenCssVariable = import("../contracts/token.contract").AfendaCssVariableName;

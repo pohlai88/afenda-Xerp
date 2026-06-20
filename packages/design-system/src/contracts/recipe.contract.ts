@@ -50,10 +50,13 @@ export interface RecipeDeclaration {
   readonly property:
     | "background"
     | "border"
+    | "font-size"
+    | "font-weight"
     | "foreground"
     | "focusRing"
     | "gap"
     | "height"
+    | "line-height"
     | "padding"
     | "radius"
     | "shadow"

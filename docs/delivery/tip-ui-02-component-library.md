@@ -1,6 +1,6 @@
 # TIP-UI-02 — Component Library
 
-Status: **Not started**
+Status: **Complete**
 
 ## Purpose
 
@@ -12,11 +12,12 @@ Build `@afenda/ui` as Afenda's shared component library using shadcn/ui on Radix
 
 **In scope**
 
-- shadcn/ui components scaffolded into `packages/ui/src/components/ui/`
+- shadcn/ui components scaffolded into `packages/ui/src/components/`
 - `packages/ui/src/lib/utils.ts` — `cn()` helper
 - P0 component set (see master plan Section 6)
 - Vitest + Testing Library render tests
 - Updated `package.json` exports
+- Governed variant props wired to `@afenda/design-system` contracts
 
 **Out of scope**
 
@@ -41,6 +42,19 @@ Build `@afenda/ui` as Afenda's shared component library using shadcn/ui on Radix
 | Data | Table, DataTable, Card, ScrollArea |
 | Feedback | Alert, AlertDialog, Dialog, Sheet, Sonner |
 
+## Governed prop surfaces
+
+Components with visual meaning consume `@afenda/design-system` vocabulary:
+
+| Component | Governed props | Source contract |
+| --- | --- | --- |
+| Button | `intent`, `emphasis`, `size` | `VariantIntent`, `VariantEmphasis`, `GovernedSize` |
+| Badge | `intent`, `emphasis` | `VariantIntent`, `VariantEmphasis` |
+| Alert | `tone` | `StatusTone` |
+| Card | `density` | `Density` |
+
+CVA maps live in `packages/ui/src/lib/afenda-variants.ts`. Prop interfaces in `packages/ui/src/lib/afenda-contracts.ts`.
+
 ## TypeScript requirements
 
 - Explicit props interfaces on every component
@@ -49,13 +63,16 @@ Build `@afenda/ui` as Afenda's shared component library using shadcn/ui on Radix
 - Export only through `package.json` export map
 - Server/client components marked correctly (`"use client"` where needed)
 
-## Package structure (planned)
+## Package structure
 
 ```text
 packages/ui/src/
-  components/ui/     ← shadcn components
-  lib/utils.ts       ← cn helper
-  index.ts           ← public exports
+  components/          ← shadcn/base-ui implementations
+  lib/
+    utils.ts           ← cn helper
+    afenda-contracts.ts
+    afenda-variants.ts
+  index.ts             ← public exports
 ```
 
 ## Acceptance criteria
@@ -70,4 +87,4 @@ AND pnpm typecheck passes
 
 ## Verdict
 
-Not started — `@afenda/ui` is currently a placeholder.
+Complete — `@afenda/ui` exports P0 components with governed props wired to `@afenda/design-system`.

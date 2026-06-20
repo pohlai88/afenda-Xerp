@@ -1,8 +1,8 @@
 {
   "name": "@afenda/design-system",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Design tokens and UI governance foundation",
+  "description": "Design tokens and UI governance foundation — Afenda-prefixed authority",
   "type": "module",
   "exports": {
     ".": {
@@ -10,18 +10,27 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./css/tokens.css": "./dist/css/tokens.css"
+    "./css/tokens.css": "./dist/css/tokens.css",
+    "./css/afenda-tokens.css": "./dist/css/tokens.css",
+    "./css/globals.css": "./dist/css/globals.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsc -b && tsx scripts/generate-tokens-css.ts",
-    "check:governance": "vitest run --config vitest.config.ts src/__tests__/index.test.ts",
-    "dev": "tsc -b --watch",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.scripts.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "check:governance": "vitest run --config vitest.config.ts src/__tests__/index.test.ts",
+    "check:public-api": "tsx src/scripts/check-public-api.ts",
+    "check:token-prefix": "tsx src/scripts/check-token-prefix.ts",
+    "check:no-runtime-ui": "tsx src/scripts/check-no-runtime-ui.ts",
+    "check:no-deep-imports": "tsx src/scripts/check-no-deep-imports.ts",
+    "check:no-duplicate-authority": "tsx src/scripts/check-no-duplicate-authority.ts",
+    "check:contrast": "tsx src/scripts/check-contrast.ts",
+    "check:all": "tsx src/scripts/check-governance.ts",
+    "dev": "tsc -b --watch",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": ["**/*.css"],

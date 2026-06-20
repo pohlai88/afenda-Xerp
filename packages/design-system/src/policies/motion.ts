@@ -1,37 +1,42 @@
 import type { MotionContract } from "../contracts/motion.contract";
 
 /**
- * Each motion intent maps to its own governed duration token so that
- * "instant" interactions feel snappy, "feedback" interactions feel responsive,
- * and "overlay"/"navigation" transitions have enough time to be perceived
- * without feeling slow on enterprise-density screens.
+ * Motion intent → duration token mapping.
  *
- * All intents share the same easing curve to maintain a coherent feel.
- * Reduced-motion behavior degrades gracefully without hard-coding durations.
+ * Intent names describe purpose; duration token names describe scale.
+ * This separation allows intents to remain stable while duration
+ * scale names evolve independently.
+ *
+ *   instant   → 0ms   (zero-cost state reset)
+ *   feedback  → fast  (hover / press / focus)
+ *   overlay   → normal (dialog entrance/exit)
+ *   navigation → slow  (page-level transitions)
+ *
+ * All intents share the standard easing curve for a coherent feel.
  */
 export const motionPolicy = [
   {
     intent: "instant",
-    durationToken: "motion.duration.instant",
-    easingToken: "motion.easing.standard",
+    durationToken: "afenda.motion.duration.instant",
+    easingToken: "afenda.motion.easing.standard",
     reducedMotionBehavior: "skip-animation",
   },
   {
     intent: "feedback",
-    durationToken: "motion.duration.feedback",
-    easingToken: "motion.easing.standard",
-    reducedMotionBehavior: "remove-transform",
-  },
-  {
-    intent: "navigation",
-    durationToken: "motion.duration.navigation",
-    easingToken: "motion.easing.standard",
+    durationToken: "afenda.motion.duration.fast",
+    easingToken: "afenda.motion.easing.standard",
     reducedMotionBehavior: "remove-transform",
   },
   {
     intent: "overlay",
-    durationToken: "motion.duration.overlay",
-    easingToken: "motion.easing.standard",
+    durationToken: "afenda.motion.duration.normal",
+    easingToken: "afenda.motion.easing.standard",
+    reducedMotionBehavior: "remove-transform",
+  },
+  {
+    intent: "navigation",
+    durationToken: "afenda.motion.duration.slow",
+    easingToken: "afenda.motion.easing.standard",
     reducedMotionBehavior: "remove-transform",
   },
 ] as const satisfies readonly MotionContract[];

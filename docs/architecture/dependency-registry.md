@@ -83,7 +83,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/storage` | *(none)* |
 | `@afenda/testing` | *(none — devDependencies only)* |
 | `@afenda/typescript-config` | *(none)* |
-| `@afenda/ui` | *(none)* |
+| `@afenda/ui` | `@afenda/design-system` |
 | `@afenda/architecture-authority` | *(none)* |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` |
 
@@ -129,7 +129,6 @@ Packages with no outbound runtime workspace dependencies:
   @afenda/storage
   @afenda/testing
   @afenda/typescript-config
-  @afenda/ui
   @afenda/architecture-authority
 ```
 

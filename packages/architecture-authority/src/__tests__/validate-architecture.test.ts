@@ -27,6 +27,7 @@ describe("validateArchitecture", () => {
         "@afenda/appshell": "workspace:*",
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
+        "@afenda/design-system": "workspace:*",
         "@afenda/observability": "workspace:*",
       }),
       workspace("@afenda/execution", {
@@ -50,7 +51,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui"),
+      workspace("@afenda/ui", { "@afenda/design-system": "workspace:*" }),
       workspace("@afenda/architecture-authority"),
       workspace("@afenda/ai-governance", {
         "@afenda/architecture-authority": "workspace:*",
@@ -83,6 +84,7 @@ describe("validateArchitecture", () => {
         "@afenda/appshell": "workspace:*",
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
+        "@afenda/design-system": "workspace:*",
         "@afenda/observability": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
@@ -100,7 +102,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui"),
+      workspace("@afenda/ui", { "@afenda/design-system": "workspace:*" }),
       workspace("@afenda/architecture-authority"),
     ]);
     expect(result.ok).toBe(false);

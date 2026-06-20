@@ -17,6 +17,7 @@
     "@afenda/database": "workspace:^",
     "@afenda/design-system": "workspace:*",
     "@afenda/observability": "workspace:^",
+    "@afenda/ui": "workspace:*",
     "@supabase/server": "^1.1.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",

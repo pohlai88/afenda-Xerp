@@ -10,6 +10,11 @@ out/
 .turbo/
 *.tsbuildinfo
 
+# Generated design-system source CSS (rebuild with: pnpm --filter @afenda/design-system build)
+packages/design-system/src/css/afenda-tokens.css
+packages/design-system/src/css/afenda-globals.css
+packages/ui/src/styles/afenda-style.css
+
 # Environment
 .env
 .env.*
