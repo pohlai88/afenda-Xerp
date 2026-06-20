@@ -16,6 +16,7 @@ import {
   platformFeatureFlags,
   platformKillSwitches,
 } from "./rollout.schema.js";
+import { storageObjects } from "./storage.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
@@ -33,6 +34,7 @@ export const platformSchema = {
   policies,
   rolePermissions,
   roles,
+  storageObjects,
   tenantCommercialPlans,
   tenants,
   usageLimitCounters,
@@ -59,6 +61,7 @@ export {
   policyStatusEnum,
   roleScopeEnum,
   roleStatusEnum,
+  storageProviderEnum,
   tenantStatusEnum,
   usageLimitPeriodEnum,
   userStatusEnum,
@@ -90,5 +93,6 @@ export {
   platformFeatureFlags,
   platformKillSwitches,
 } from "./rollout.schema.js";
+export { storageObjects } from "./storage.schema.js";
 export { tenants } from "./tenant.schema.js";
 export { users } from "./user.schema.js";

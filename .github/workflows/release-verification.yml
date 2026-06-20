@@ -1,0 +1,98 @@
+name: Release Verification
+
+# Runs on every push to protected branches and on release events.
+# This is the final TIP-009 gate before any artifact reaches production.
+# It mirrors the full CI gate set and adds release-specific checks.
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+concurrency:
+  group: release-verification-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release-gates:
+    name: Release gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Gate 1 — Type Safety
+      - name: Gate 1 · typecheck
+        run: pnpm typecheck
+
+      # Gate 2 — Code Quality
+      - name: Gate 2 · lint
+        run: pnpm lint
+
+      # Gate 3 — Test Quality
+      - name: Gate 3 · test
+        run: pnpm test
+
+      # Gate 4 — Build Safety
+      - name: Gate 4 · build
+        run: pnpm build
+
+      # Gate 5 — Boundary Safety
+      - name: Gate 5 · package boundaries
+        run: pnpm quality:boundaries
+
+      # Gate 6 — Migration Safety
+      - name: Gate 6 · migration integrity
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm quality:migrations
+
+      # Gate 7 — Public API Safety
+      - name: Gate 7 · public export surface
+        run: pnpm quality:exports
+
+      # Release gate meta-check (verifies TIP-009 governance structure itself)
+      - name: Release gate self-check
+        run: pnpm quality:release-gate
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-junit-report
+          path: test-results/junit.xml
+          if-no-files-found: ignore
+
+      - name: Summarise release gate result
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "## Release Gates: PASSED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "All 7 TIP-009 gates passed on \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## Release Gates: FAILED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "One or more TIP-009 gates failed on \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
+            echo "No artifact may be released until all gates pass." >> "$GITHUB_STEP_SUMMARY"
+          fi

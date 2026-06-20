@@ -1,5 +1,16 @@
 name: Preview
 
+# TIP-009 — Preview Deployment Policy
+#
+# Runs only for pull requests targeting main.
+# Every PR gets an isolated, disposable preview deployment.
+# Production is never touched by this workflow.
+#
+# Policy rules enforced by check-preview-policy.mjs:
+#   - VERCEL_ENV must be "preview", never "production"
+#   - Protected branch names (main, master, production) are blocked
+#   - Only pull_request events are permitted
+
 on:
   pull_request:
     branches: [main]
@@ -12,13 +23,15 @@ concurrency:
 permissions:
   contents: read
   deployments: write
-  pull-requests: read
+  pull-requests: write
 
 jobs:
+  # ── Policy guard ────────────────────────────────────────────────────────────
   preview-policy:
     name: Preview policy
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,6 +55,7 @@ jobs:
           VERCEL_ENV: preview
         run: pnpm quality:preview-policy
 
+  # ── Vercel preview deployment ───────────────────────────────────────────────
   vercel-preview:
     name: Vercel preview
     needs: preview-policy
@@ -50,11 +64,13 @@ jobs:
     timeout-minutes: 30
     environment:
       name: preview
+
     env:
       VERCEL_ENV: preview
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -85,9 +101,69 @@ jobs:
         run: pnpm dlx vercel@latest build --token="$VERCEL_TOKEN"
 
       - name: Deploy Vercel preview
+        id: deploy
         if: ${{ env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '' }}
-        run: pnpm dlx vercel@latest deploy --prebuilt --token="$VERCEL_TOKEN"
+        run: |
+          DEPLOYMENT_URL=$(pnpm dlx vercel@latest deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL on PR
+        if: ${{ steps.deploy.outputs.url != '' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.deploy.outputs.url }}';
+            const sha = context.payload.pull_request.head.sha.slice(0, 7);
+            const body = [
+              '### Preview deployment ready',
+              '',
+              `**URL:** ${url}`,
+              `**Commit:** \`${sha}\``,
+              '',
+              '_This preview is isolated and disposable. It does not affect production._',
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Preview deployment ready')
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
 
       - name: Skip Vercel deploy without secrets
         if: ${{ env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == '' }}
         run: echo "Vercel preview deployment skipped because Vercel secrets are not configured."
+
+      - name: Summarise preview result
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "## Preview: DEPLOYED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            if [ -n "${{ steps.deploy.outputs.url }}" ]; then
+              echo "Preview URL: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          else
+            echo "## Preview: FAILED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Preview deployment failed. Check the logs above for the failed step." >> "$GITHUB_STEP_SUMMARY"
+          fi

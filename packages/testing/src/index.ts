@@ -4,3 +4,6 @@ export const PACKAGE_NAME = "@afenda/testing" as const;
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
+
+// biome-ignore lint/performance/noBarrelFile: package root is the curated public API surface.
+export { createMockStorageProvider } from "./storage/mock-storage-provider.js";

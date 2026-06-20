@@ -36,6 +36,7 @@ import {
   policies,
   rolePermissions,
   roles,
+  storageObjects,
   tenantCommercialPlans,
   tenants,
   usageLimitCounters,
@@ -65,6 +66,7 @@ const PLATFORM_TABLES = {
   platformKillSwitches,
   policies,
   rolePermissions,
+  storageObjects,
   tenantCommercialPlans,
   usageLimitCounters,
 } as const;

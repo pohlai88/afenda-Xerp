@@ -92,6 +92,13 @@
       "when": 1781935200000,
       "tag": "20260620080000_observability_audit_baseline",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1781938800000,
+      "tag": "20260620090000_storage_metadata",
+      "breakpoints": true
     }
   ]
 }

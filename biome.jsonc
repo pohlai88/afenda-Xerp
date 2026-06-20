@@ -11,8 +11,12 @@
       "!!**/.cursor",
       "!!**/temp-docx",
       "!!**/*.docx",
-      "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx"
+      "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx",
+      "!!**/*.tsbuildinfo"
     ]
+  },
+  "formatter": {
+    "useEditorconfig": true
   },
   "vcs": {
     "enabled": true,

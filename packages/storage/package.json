@@ -1,8 +1,8 @@
 {
-  "name": "@afenda/observability",
+  "name": "@afenda/storage",
   "version": "0.0.0",
   "private": true,
-  "description": "Logging, tracing, and audit foundation",
+  "description": "Tenant-scoped storage abstraction foundation",
   "type": "module",
   "exports": {
     ".": {
@@ -23,12 +23,5 @@
     "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
-  "sideEffects": false,
-  "dependencies": {
-    "pino": "^10.3.1",
-    "pino-std-serializers": "^7.1.0"
-  },
-  "devDependencies": {
-    "pino-pretty": "^13.1.3"
-  }
+  "sideEffects": false
 }

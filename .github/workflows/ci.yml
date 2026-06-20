@@ -1,5 +1,19 @@
 name: CI
 
+# TIP-009 — Delivery Governance Spine
+#
+# Every pull request to main must pass all 7 gates before merge is permitted.
+# No gate may be skipped. No release may bypass this pipeline.
+#
+# Gate 1  · typecheck       — type safety
+# Gate 2  · lint            — code quality
+# Gate 3  · test            — test quality
+# Gate 4  · build           — build safety
+# Gate 5  · boundaries      — package boundary safety
+# Gate 6  · migrations      — migration integrity
+# Gate 7  · exports         — public API surface safety
+# Gate ∞  · release-gate    — TIP-009 governance self-check
+
 on:
   push:
     branches: [main]
@@ -18,6 +32,7 @@ jobs:
     name: Quality gates
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,35 +51,44 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Format check
-        run: pnpm format:check
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Typecheck
+      # ── Gate 1 · Type Safety ──────────────────────────────────────────────
+      - name: Gate 1 · typecheck
         run: pnpm typecheck
 
-      - name: Test
+      # ── Gate 2 · Code Quality ─────────────────────────────────────────────
+      - name: Gate 2 · format check
+        run: pnpm format:check
+
+      - name: Gate 2 · lint
+        run: pnpm lint
+
+      # ── Gate 3 · Test Quality ─────────────────────────────────────────────
+      - name: Gate 3 · test
         run: pnpm test
 
-      - name: Build
+      # ── Gate 4 · Build Safety ─────────────────────────────────────────────
+      - name: Gate 4 · build
         run: pnpm build
 
-      - name: Package boundary check
+      # ── Gate 5 · Boundary Safety ──────────────────────────────────────────
+      - name: Gate 5 · package boundary check
         run: pnpm quality:boundaries
 
-      - name: Public export surface check
-        run: pnpm quality:exports
-
-      - name: Drizzle migration check
+      # ── Gate 6 · Migration Safety ─────────────────────────────────────────
+      - name: Gate 6 · Drizzle migration check
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm quality:migrations
 
+      # ── Gate 7 · Public API Safety ────────────────────────────────────────
+      - name: Gate 7 · public export surface check
+        run: pnpm quality:exports
+
+      # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check
         run: pnpm quality:release-gate
 
+      # ── Artefacts ─────────────────────────────────────────────────────────
       - name: Upload JUnit report
         if: always()
         uses: actions/upload-artifact@v4
@@ -72,3 +96,18 @@ jobs:
           name: junit-report
           path: test-results/junit.xml
           if-no-files-found: ignore
+
+      - name: Summarise gate result
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "## CI: PASSED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "All 7 TIP-009 gates passed on \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## CI: FAILED" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "One or more TIP-009 gates failed. Merge is blocked." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Run \`pnpm run ci\` locally to reproduce the failure before pushing again." >> "$GITHUB_STEP_SUMMARY"
+          fi

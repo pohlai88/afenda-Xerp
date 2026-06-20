@@ -10,6 +10,11 @@ export {
   resetAuditEventPersistence,
   writeAuditEvent,
 } from "./audit.writer.js";
+export {
+  type ActionEvidenceInput,
+  type ActionEvidenceResult,
+  withAuditEvidence,
+} from "./audit-action-evidence.js";
 export { buildAuditEventRow } from "./audit-event.builder.js";
 export {
   AuditValidationError,
@@ -67,4 +72,13 @@ export type {
   LogMetadataPrimitive,
   StructuredLogEntry,
 } from "./contracts/logger.contract.js";
+export { createPinoLogger } from "./create-pino-logger.js";
 export { createLogger } from "./logger.js";
+export {
+  PINO_REDACT_CENSOR,
+  PINO_REDACT_PATHS,
+} from "./pino.redact.js";
+export {
+  createPinoSink,
+  type PinoSinkOptions,
+} from "./pino.sink.js";

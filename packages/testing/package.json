@@ -24,6 +24,11 @@
       "types": "./dist/mocks/next-link.d.ts",
       "import": "./dist/mocks/next-link.js",
       "default": "./dist/mocks/next-link.js"
+    },
+    "./storage/mock-provider": {
+      "types": "./dist/storage/mock-storage-provider.d.ts",
+      "import": "./dist/storage/mock-storage-provider.js",
+      "default": "./dist/storage/mock-storage-provider.js"
     }
   },
   "files": [
@@ -39,6 +44,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "devDependencies": {
+    "@afenda/storage": "workspace:^",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@testing-library/user-event": "catalog:",

@@ -213,3 +213,12 @@ export const killSwitchSeverityEnum = pgEnum(
 
 export type FeatureFlagRollout = (typeof FEATURE_FLAG_ROLLOUTS)[number];
 export type KillSwitchSeverity = (typeof KILL_SWITCH_SEVERITIES)[number];
+
+export const STORAGE_PROVIDERS = ["r2", "blob"] as const;
+
+export const storageProviderEnum = pgEnum(
+  "storage_provider",
+  STORAGE_PROVIDERS
+);
+
+export type StorageProvider = (typeof storageProviderEnum.enumValues)[number];
