@@ -1,3 +1,3 @@
-import { createNodeProject } from "../../vitest.shared";
+import { createDatabaseProject } from "../../vitest.shared";
 
-export default createNodeProject(import.meta.url, "@afenda/database");
+export default createDatabaseProject(import.meta.url, "@afenda/database");

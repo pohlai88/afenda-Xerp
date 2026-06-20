@@ -430,6 +430,8 @@ export {
   roleScopeEnum,
   roleStatusEnum,
   roles,
+  storageObjects,
+  storageProviderEnum,
   tenantCommercialPlans,
   tenantStatusEnum,
   tenants,

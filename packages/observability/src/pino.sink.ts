@@ -20,8 +20,10 @@ const LEVEL_MAP = {
 } as const;
 
 /**
- * Detects whether pino-pretty is available for development transports.
- * Falls back to JSON transport when unavailable (CI, production).
+ * Returns a pino-pretty transport config for development environments.
+ *
+ * `pino-pretty` is a devDependency of this package and is always present
+ * in development. Production and CI always receive undefined (raw JSON).
  */
 function resolvePinoTransport(
   isDevelopment: boolean
@@ -30,21 +32,16 @@ function resolvePinoTransport(
     return;
   }
 
-  try {
-    require.resolve("pino-pretty");
-    return {
-      target: "pino-pretty",
-      options: {
-        colorize: true,
-        translateTime: "SYS:standard",
-        ignore: "pid,hostname",
-        messageFormat: "[{service}] {msg}",
-        levelFirst: false,
-      },
-    };
-  } catch {
-    return;
-  }
+  return {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+      translateTime: "SYS:standard",
+      ignore: "pid,hostname",
+      messageFormat: "[{service}] {msg}",
+      levelFirst: false,
+    },
+  };
 }
 
 export interface PinoSinkOptions {
@@ -63,7 +60,7 @@ export interface PinoSinkOptions {
  * - Child loggers bind correlationId and module from DiagnosticContext
  * - Automatic redaction of 30+ sensitive path patterns
  * - ISO timestamp serialization
- * - Optional pino-pretty transport for development
+ * - Optional pino-pretty transport for development (devDep, always available)
  * - Standard serializers for Error objects and HTTP requests
  */
 export function createPinoSink(

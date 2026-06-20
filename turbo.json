@@ -11,6 +11,12 @@
     "vitest.shared.ts"
   ],
   "tasks": {
+    "//#lint": {
+      "cache": false
+    },
+    "//#fix": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
@@ -18,9 +24,6 @@
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "lint": {
-      "cache": false
     },
     "typecheck": {
       "dependsOn": ["^build"]
@@ -30,9 +33,6 @@
       "outputs": ["coverage/**"]
     },
     "quality": {
-      "cache": false
-    },
-    "format": {
       "cache": false
     },
     "clean": {

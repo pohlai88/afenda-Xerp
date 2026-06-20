@@ -28,9 +28,21 @@ export interface ReactProjectOptions {
 function coverageOptions(root: string) {
   return {
     provider: "v8" as const,
-    reporter: ["text", "html", "json"] as const,
+    reporter: ["text", "html", "json", "json-summary"] as const,
     include: ["src/**/*.{ts,tsx}"],
-    exclude: ["src/**/__tests__/**", "**/*.d.ts", "**/dist/**", "**/.next/**"],
+    exclude: [
+      "src/**/__tests__/**",
+      "**/*.d.ts",
+      "**/*.config.*",
+      "**/index.ts",
+      "**/__fixtures__/**",
+      "**/__mocks__/**",
+      "**/dist/**",
+      "**/.next/**",
+      "**/generated/**",
+      "**/drizzle/**",
+      "**/supabase/**",
+    ],
     reportsDirectory: resolve(root, "coverage"),
   };
 }
@@ -39,6 +51,7 @@ function sharedTestOptions(name: string, root: string) {
   return {
     name,
     globals: false,
+    isolate: true,
     include: [TEST_FILE_PATTERN],
     passWithNoTests: true,
     coverage: coverageOptions(root),
@@ -57,6 +70,43 @@ export function createNodeProject(importMetaUrl: string, name: string) {
       ...sharedTestOptions(name, root),
       environment: "node",
       setupFiles: [NODE_SETUP],
+    },
+  });
+}
+
+export function createDatabaseProject(importMetaUrl: string, name: string) {
+  const root = dirname(fileURLToPath(importMetaUrl));
+
+  return defineProject({
+    root,
+    server: {
+      deps: WORKSPACE_DEPS,
+    },
+    test: {
+      ...sharedTestOptions(name, root),
+      environment: "node",
+      setupFiles: [NODE_SETUP],
+      pool: "forks",
+      fileParallelism: false,
+      testTimeout: 20_000,
+      hookTimeout: 20_000,
+    },
+  });
+}
+
+export function createUiProject(importMetaUrl: string, name: string) {
+  const root = dirname(fileURLToPath(importMetaUrl));
+
+  return defineProject({
+    root,
+    plugins: [react()],
+    server: {
+      deps: WORKSPACE_DEPS,
+    },
+    test: {
+      ...sharedTestOptions(name, root),
+      environment: "jsdom",
+      setupFiles: [REACT_SETUP],
     },
   });
 }

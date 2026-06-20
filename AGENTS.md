@@ -4,11 +4,12 @@ This project uses **Ultracite**, a zero-config preset that enforces strict code 
 
 ## Quick Reference
 
-- **Format code**: `pnpm dlx ultracite fix`
-- **Check for issues**: `pnpm dlx ultracite check`
+- **Format code (local)**: `pnpm format` or `pnpm fix` (`ultracite fix`)
+- **Check for issues (local)**: `pnpm lint` (`ultracite check`)
+- **CI hygiene gate**: `pnpm ci:biome` (`biome ci .`)
 - **Diagnose setup**: `pnpm dlx ultracite doctor`
 
-Biome (the underlying engine) provides robust linting and formatting. Most issues are automatically fixable.
+Biome is the underlying engine. Use Ultracite locally for auto-fix; CI runs `biome ci` for format, lint, and import checks.
 
 ---
 
@@ -120,4 +121,4 @@ Biome's linter will catch most issues automatically. Focus your attention on:
 
 ---
 
-Most formatting and common issues are automatically fixed by Biome. Run `pnpm dlx ultracite fix` before committing to ensure compliance.
+Most formatting and common issues are automatically fixed by Biome. Run `pnpm format` before committing to ensure compliance.

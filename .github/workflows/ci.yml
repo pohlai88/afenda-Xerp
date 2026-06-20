@@ -56,11 +56,8 @@ jobs:
         run: pnpm typecheck
 
       # ── Gate 2 · Code Quality ─────────────────────────────────────────────
-      - name: Gate 2 · format check
-        run: pnpm format:check
-
-      - name: Gate 2 · lint
-        run: pnpm lint
+      - name: Gate 2 · biome (format + lint + imports)
+        run: pnpm ci:biome
 
       # ── Gate 3 · Test Quality ─────────────────────────────────────────────
       - name: Gate 3 · test

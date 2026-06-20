@@ -58,14 +58,18 @@ pnpm build
 Run quality checks:
 
 ```bash
-pnpm check           # lint + typecheck + test
-pnpm lint            # ultracite check (Biome lint + format)
+pnpm check           # ci:biome + typecheck + test
+pnpm lint            # ultracite check (local read-only)
+pnpm ci:biome        # biome ci (CI Gate 2 — format + lint + imports)
 pnpm typecheck
 pnpm test
 pnpm test:coverage   # vitest with v8 coverage
-pnpm format          # ultracite fix (auto-fix)
-pnpm format:check    # read-only format/lint check
+pnpm format          # ultracite fix (local auto-fix)
+pnpm format:check    # alias for ci:biome
+pnpm fix             # ultracite fix
 pnpm clean           # remove build outputs across workspace
+turbo run //#lint    # root ultracite check via Turborepo
+turbo run //#fix     # root ultracite fix via Turborepo
 ```
 
 Run a single app:
@@ -81,7 +85,7 @@ pnpm --filter @afenda/docs dev
 |------|------|
 | **pnpm** | Workspace + dependency catalog (`pnpm-workspace.yaml`) |
 | **Turborepo** | Cached build/typecheck pipeline with global config deps |
-| **Ultracite + Biome** | Unified lint, format, and import organization |
+| **Ultracite + Biome** | Local hygiene (`ultracite fix` / `ultracite check`); CI hygiene (`biome ci`) |
 | **TypeScript** | Strict mode via shared `tsconfig.*` presets |
 | **Vitest** | Unit tests with optional coverage (`@vitest/coverage-v8`) |
 
@@ -97,7 +101,7 @@ Every package under `packages/` follows the same baseline:
 - `tsconfig.vitest.json` typechecks tests and mocks separately from production `tsconfig.json`
 - `vitest.config.ts` extending shared monorepo presets from `vitest.shared.ts`
 - `tsconfig.json` extending `tsconfig.library.json`
-- Scripts: `build`, `dev`, `lint`, `typecheck`, `test`, `format`, `clean`
+- Scripts: `build`, `dev`, `typecheck`, `test`, `clean` (lint/format run from repo root)
 
 Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript.
 
@@ -108,20 +112,57 @@ Next.js apps extend `tsconfig.next.json` and list `@afenda/*` packages in `trans
 | Layer | Config | Environment |
 |-------|--------|-------------|
 | Root | `vitest.config.ts` — shared pool, mock hygiene, CI reporters | orchestrates all projects |
-| Shared | `vitest.shared.ts` — `createNodeProject` / `createReactProject` | node vs jsdom |
+| Shared | `vitest.shared.ts` — `createNodeProject` / `createUiProject` / `createReactProject` / `createDatabaseProject` | node vs jsdom vs DB forks |
 | Types | `tsconfig.vitest.json` per workspace | typechecks `__tests__` without emitting |
 | Package / app | `vitest.config.ts` | one project per workspace |
-| Setup | `@afenda/testing/setup/node` or `/setup/react` | jest-dom + RTL cleanup for React |
-| Mocks | `@afenda/testing/mocks/next-link` | aliased as `next/link` in React projects |
+| Setup | `@afenda/testing/setup/node` or `/setup/react` | jest-dom + RTL cleanup for React/jsdom |
+| Mocks | `@afenda/testing/mocks/next-link` | aliased as `next/link` in Next.js app projects |
+
+**Environment split:**
+
+| Factory | Packages |
+|---------|----------|
+| `createNodeProject` | auth, kernel, permissions, observability, storage, entitlements, feature-flags, testing |
+| `createDatabaseProject` | database (forks pool, serial files) |
+| `createUiProject` | design-system, ui, metadata-ui (jsdom, no Next mock) |
+| `createReactProject` | appshell, erp, docs (jsdom + `next/link` mock) |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}` — never mix test files beside production modules.
 
+**Test naming (team convention):**
+
+| Suffix | Purpose |
+|--------|---------|
+| `*.unit.test.ts` | Pure functions, schemas, contracts |
+| `*.contract.test.ts` | API/event/schema contract stability |
+| `*.service.test.ts` | Domain/service behavior |
+| `*.permission.test.ts` | Permission and policy rules |
+| `*.integration.test.ts` | Database, auth, API bridges |
+| `*.migration.test.ts` | Drizzle journal / migration integrity |
+| `*.live.test.ts` | Env-gated real infra (`AFENDA_LIVE_DB_TEST=yes`) |
+| `*.ui.test.tsx` | React component behavior |
+
+Vitest `include` stays broad (`*.test.ts` / `*.spec.ts`); suffixes are conventions, not config filters.
+
+**Quality stack (TIP-009):**
+
+| Tool | Role |
+|------|------|
+| Vitest | Unit + integration + contract tests (Gate 3) |
+| Playwright | Full browser E2E (future) |
+| TypeScript | Type correctness (Gate 1) |
+| Biome | Lint/format (Gate 2) |
+| Turbo | Build + typecheck orchestration (Gates 1, 4) |
+| Custom scripts | Boundaries, migrations, exports (Gates 5–7) |
+
 ```bash
-pnpm check                             # lint + typecheck (prod + tests) + test
+pnpm check                             # ci:biome + typecheck + test
 pnpm test                              # all projects
 pnpm test:watch                        # watch all projects
 pnpm test:coverage                     # v8 coverage (per-project reports)
-pnpm --filter @afenda/kernel test      # single workspace
+pnpm test:ui                           # Vitest UI (local)
+pnpm --filter @afenda/kernel test      # single workspace (node)
+pnpm --filter @afenda/design-system test  # UI package (jsdom)
 pnpm --filter @afenda/erp test         # Next.js app (jsdom + React)
 ```
 

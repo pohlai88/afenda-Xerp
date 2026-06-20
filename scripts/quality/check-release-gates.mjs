@@ -26,8 +26,7 @@ const requiredFiles = [
 ];
 
 const requiredCiCommands = [
-  "pnpm format:check",
-  "pnpm lint",
+  "pnpm ci:biome",
   "pnpm typecheck",
   "pnpm test",
   "pnpm build",
@@ -39,7 +38,7 @@ const requiredCiCommands = [
 
 const requiredReleaseVerificationGates = [
   "pnpm typecheck",
-  "pnpm lint",
+  "pnpm ci:biome",
   "pnpm test",
   "pnpm build",
   "pnpm quality:boundaries",
@@ -55,6 +54,7 @@ const requiredQualityScripts = [
   "quality:migrations",
   "quality:preview-policy",
   "quality:release-gate",
+  "ci:biome",
 ];
 
 const failures = [];

@@ -46,7 +46,7 @@ Runs on every pull request and push to `main`.
 | Gate | Command | What it checks |
 |---|---|---|
 | 1 | `pnpm typecheck` | TypeScript type safety across all packages |
-| 2 | `pnpm format:check` + `pnpm lint` | Code quality and formatting via Ultracite/Biome |
+| 2 | `pnpm ci:biome` | Format, lint, and import organization via Biome CI |
 | 3 | `pnpm test` | Test quality via Vitest |
 | 4 | `pnpm build` | Build safety via Turborepo |
 | 5 | `pnpm quality:boundaries` | Package boundary integrity |
@@ -219,8 +219,7 @@ Protected branch policy must be configured in GitHub repository settings:
 Full gate before requesting review:
 
 ```sh
-pnpm format:check
-pnpm lint
+pnpm ci:biome
 pnpm typecheck
 pnpm test
 pnpm build
@@ -267,7 +266,7 @@ The following are permanently forbidden:
 | Gate | Script | Status |
 |---|---|---|
 | Typecheck | `pnpm typecheck` | Active in ci.yml + release-verification.yml |
-| Lint | `pnpm lint` | Active in ci.yml + release-verification.yml |
+| Biome (format + lint + imports) | `pnpm ci:biome` | Active in ci.yml + release-verification.yml |
 | Test | `pnpm test` | Active in ci.yml + release-verification.yml |
 | Build | `pnpm build` | Active in ci.yml + release-verification.yml |
 | Package boundaries | `pnpm quality:boundaries` | Active |

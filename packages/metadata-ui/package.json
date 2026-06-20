@@ -18,15 +18,22 @@
     "build": "tsc -p tsconfig.json",
     "check:governance": "vitest run --config vitest.config.ts src/__tests__/index.test.ts",
     "dev": "tsc -p tsconfig.json --watch",
-    "lint": "biome check src",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest run --config vitest.config.ts",
-    "format": "biome check --write src",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": false,
   "dependencies": {
     "@afenda/design-system": "workspace:^",
     "@afenda/permissions": "workspace:^"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "vitest": "catalog:"
   }
 }

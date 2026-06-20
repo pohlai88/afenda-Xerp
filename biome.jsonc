@@ -4,7 +4,8 @@
     "ultracite/biome/core",
     "ultracite/biome/react",
     "ultracite/biome/next",
-    "ultracite/biome/vitest"
+    "ultracite/biome/vitest",
+    "ultracite/biome/type-aware"
   ],
   "files": {
     "includes": [
@@ -12,16 +13,34 @@
       "!!**/temp-docx",
       "!!**/*.docx",
       "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx",
-      "!!**/*.tsbuildinfo"
+      "!!**/*.tsbuildinfo",
+      "!**/packages/database/src/migrations/meta",
+      "!!**/dist",
+      "!!**/.next",
+      "!!**/.turbo",
+      "!!**/coverage",
+      "!!**/pnpm-lock.yaml"
     ]
   },
   "formatter": {
     "useEditorconfig": true
   },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "useImportExtensions": "off",
+        "noUnresolvedImports": "off"
+      },
+      "suspicious": {
+        "noDeprecatedImports": "warn"
+      }
+    }
+  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
   },
   "overrides": [
     {
