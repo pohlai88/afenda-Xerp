@@ -13,6 +13,7 @@ import type { GovernedExample } from "../contracts/example.contract";
 export const erpGovernedExamples = [
   {
     name: "InvoiceApprovalPanel",
+    imitationOnly: true,
     purpose:
       "Shows a common ERP review surface using governed recipes, variants, slots, states, and layout-only className.",
     importsFrom: "@afenda/design-system",
@@ -62,6 +63,7 @@ export function InvoiceApprovalPanel() {
   },
   {
     name: "VendorTableView",
+    imitationOnly: true,
     purpose:
       "Demonstrates the governed table recipe with density and size variants, an empty state, and aria-live for async data.",
     importsFrom: "@afenda/design-system",
@@ -135,6 +137,7 @@ export function VendorTableView({ vendors }: { vendors: string[] }) {
   },
   {
     name: "PurchaseOrderForm",
+    imitationOnly: true,
     purpose:
       "Demonstrates the governed form recipe with label, control, and state slots, plus the invalid state for validation feedback.",
     importsFrom: "@afenda/design-system",
@@ -203,6 +206,7 @@ export function PurchaseOrderForm({ error }: { error?: string }) {
   },
   {
     name: "PermissionDeniedState",
+    imitationOnly: true,
     purpose:
       "Demonstrates the governed status-state recipe with the forbidden tone, assertive aria-live, and a clear user-actionable message.",
     importsFrom: "@afenda/design-system",

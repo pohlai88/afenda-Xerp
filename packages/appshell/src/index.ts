@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: package public API entry point
 export { AppShell } from "./app-shell";
 export type {
   AppShellCommandItem,

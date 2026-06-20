@@ -1,7 +1,6 @@
 /** @afenda/auth — Better Auth foundation (TIP-004). */
 export const PACKAGE_NAME = "@afenda/auth" as const;
 
-// biome-ignore lint/performance/noBarrelFile: package public API entry point
 export {
   type AuthAuditInsertPayload,
   buildAuthAuditPayload,

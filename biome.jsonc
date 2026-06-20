@@ -18,7 +18,7 @@
       "!!**/dist",
       "!!**/.next",
       "!!**/.turbo",
-      "!!**/coverage",
+      "!!**/packages/ai-governance",
       "!!**/pnpm-lock.yaml"
     ]
   },
@@ -46,7 +46,8 @@
     {
       "includes": [
         "packages/database/src/index.ts",
-        "packages/database/src/schema/index.ts"
+        "packages/database/src/schema/index.ts",
+        "packages/*/src/index.ts"
       ],
       "linter": {
         "rules": {

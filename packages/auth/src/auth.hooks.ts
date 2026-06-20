@@ -104,7 +104,7 @@ export async function handleAfendaAuthAuditHook(
       event: AUTH_EVENT.signInFailed,
       result: "failure",
       context: {
-        ...(signInEmail !== undefined ? { email: signInEmail } : {}),
+        ...(signInEmail === undefined ? {} : { email: signInEmail }),
         ipAddress: meta.ipAddress,
         userAgent: meta.userAgent,
         correlationId,
@@ -143,11 +143,11 @@ export async function handleAfendaAuthAuditHook(
 export function createAfendaAuthAuditHooks() {
   return createAuthMiddleware(async (ctx) => {
     await handleAfendaAuthAuditHook({
-      ...(ctx.body !== undefined ? { body: ctx.body } : {}),
+      ...(ctx.body === undefined ? {} : { body: ctx.body }),
       context: ctx.context,
       path: ctx.path,
-      ...(ctx.headers !== undefined ? { headers: ctx.headers } : {}),
-      ...(ctx.request !== undefined ? { request: ctx.request } : {}),
+      ...(ctx.headers === undefined ? {} : { headers: ctx.headers }),
+      ...(ctx.request === undefined ? {} : { request: ctx.request }),
     });
   });
 }

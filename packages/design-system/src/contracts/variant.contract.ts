@@ -38,6 +38,51 @@ export const VARIANT_INTENTS = [
  */
 export const VARIANT_EMPHASES = ["solid", "soft", "outline", "ghost"] as const;
 
+export const variantContract = {
+  acceptanceRules: [
+    "Every visual meaning must map to approved variant vocabulary",
+    "Variant options must reference governed token categories only",
+    "Variants must never contain raw CSS values",
+  ],
+  aiGenerationRules: {
+    forbidden: [
+      "Invent variant axes or options",
+      "Attach raw CSS values to a variant",
+      "Use variant names to create behavior or data rules",
+    ],
+    allowed: [
+      "Select approved variant axes and options",
+      "Map product intent to existing variant meaning",
+      "Request a contract extension when a visual meaning is missing",
+    ],
+  },
+  allowedResponsibility: [
+    "Define visual meaning",
+    "Define governed variant axes",
+    "Define approved variant options",
+  ],
+  contractId: "afenda.design-system.variant",
+  downstreamConsumers: [
+    "recipe.contract.ts",
+    "component.contract.ts",
+    "example.contract.ts",
+    "AppShell",
+    "Metadata UI",
+  ],
+  ownedResponsibility: "meaning",
+  owner: "TIP-004 variant contract",
+  prohibitedResponsibility: [
+    "Define raw CSS values",
+    "Define component behavior",
+    "Define slot structure",
+    "Define business logic",
+    "Override token ownership",
+  ],
+  purpose:
+    "Own the visual meaning vocabulary that recipes and components consume.",
+  version: "0.1.0",
+} as const;
+
 export type VariantAxis = (typeof VARIANT_AXES)[number];
 export type VariantIntent = (typeof VARIANT_INTENTS)[number];
 export type VariantEmphasis = (typeof VARIANT_EMPHASES)[number];

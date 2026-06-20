@@ -88,13 +88,13 @@ export function createEvaluationCacheFromEnv(
 
     return createUpstashEvaluationCache({
       redis,
-      ...(options.now !== undefined ? { now: options.now } : {}),
+      ...(options.now === undefined ? {} : { now: options.now }),
     });
   }
 
   return createMemoryEvaluationCache({
-    ...(options.ttlMs !== undefined ? { ttlMs: options.ttlMs } : {}),
-    ...(options.now !== undefined ? { now: options.now } : {}),
+    ...(options.ttlMs === undefined ? {} : { ttlMs: options.ttlMs }),
+    ...(options.now === undefined ? {} : { now: options.now }),
   });
 }
 

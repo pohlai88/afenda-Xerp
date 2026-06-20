@@ -6,9 +6,5 @@
     "composite": false,
     "types": ["vitest"]
   },
-  "include": [
-    "src/**/__tests__/**/*",
-    "src/**/__mocks__/**/*",
-    "src/**/*.d.ts"
-  ]
+  "include": ["src/**/__tests__/**/*", "src/**/__mocks__/**/*", "src/**/*.d.ts"]
 }

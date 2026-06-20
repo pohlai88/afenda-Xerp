@@ -24,6 +24,57 @@ export const SIZES = ["xs", "sm", "md", "lg"] as const;
 export const RADII = ["none", "sm", "md", "lg"] as const;
 export const SHADOWS = ["none", "raised", "overlay"] as const;
 
+export const tokenContract = {
+  acceptanceRules: [
+    "Every design value must be represented by an approved token before use",
+    "Token names must remain stable once consumed by variants, recipes, or components",
+    "Raw CSS values must not appear in variants, recipes, examples, AppShell, Metadata UI, or business modules",
+  ],
+  aiGenerationRules: {
+    forbidden: [
+      "Invent raw color, spacing, radius, shadow, typography, density, or motion values",
+      "Create token lookalikes outside @afenda/design-system",
+      "Infer token names from visual screenshots or neighboring code",
+    ],
+    allowed: [
+      "Select existing exported tokens",
+      "Reference token categories and token names from this contract",
+      "Request a contract extension when a required value does not exist",
+    ],
+  },
+  allowedResponsibility: [
+    "Define raw design values",
+    "Define semantic design values",
+    "Define token categories and stable token names",
+  ],
+  contractId: "afenda.design-system.token",
+  downstreamConsumers: [
+    "variant.contract.ts",
+    "recipe.contract.ts",
+    "component.contract.ts",
+    "motion.contract.ts",
+    "state.contract.ts",
+    "accessibility.contract.ts",
+    "class-name-policy.contract.ts",
+    "examples",
+    "AppShell",
+    "Metadata UI",
+  ],
+  ownedResponsibility: "value",
+  owner: "TIP-004 token contract",
+  prohibitedResponsibility: [
+    "Define visual meaning",
+    "Compose styling recipes",
+    "Define component behavior",
+    "Define slot structure",
+    "Define UI state semantics",
+    "Define business logic",
+  ],
+  purpose:
+    "Own the only approved raw and semantic design values for Afenda UI surfaces.",
+  version: "0.1.0",
+} as const;
+
 export type TokenCategory = (typeof TOKEN_CATEGORIES)[number];
 export type StatusTone = (typeof STATUS_TONES)[number];
 export type Density = (typeof DENSITIES)[number];

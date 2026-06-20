@@ -3,37 +3,55 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
+  ACCESSIBILITY_REQUIREMENTS,
+  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
+  accessibilityContract,
   accessibilityPolicy,
   classNamePolicy,
+  classNamePolicyContract,
+  componentContract,
   DENSITIES,
+  DESIGN_AUTHORITY_DOMAINS,
+  designSystemAuthorityContract,
   designSystemContract,
   driftPreventionChecklist,
   erpGovernedExamples,
+  exampleContract,
+  exportContract,
   GOVERNED_STATES,
   getPackageName,
   isPublicDesignSystemImport,
   MOTION_INTENTS,
+  motionContract,
   motionPolicy,
   PACKAGE_NAME,
+  PROHIBITED_CLASSNAME_PATTERNS,
   publicExportContract,
   RADII,
+  recipeContract,
   recipeRegistry,
   SHADOWS,
   SIZES,
   SLOT_ROLES,
   STATUS_TONES,
+  slotContract,
+  stateContract,
   statePolicy,
+  TIP_004_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
+  tokenContract,
   tokenRegistry,
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
   validateDesignSystemGovernance,
   validateLayoutClassName,
+  variantContract,
   variantRegistry,
 } from "../index";
 
 const requiredContractFiles = [
+  "design-system-authority.contract.ts",
   "design-system.contract.ts",
   "token.contract.ts",
   "recipe.contract.ts",
@@ -58,33 +76,50 @@ const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/;
  * so the two must stay in sync.
  */
 const publicRuntimeExports = {
+  ACCESSIBILITY_REQUIREMENTS,
+  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
   DENSITIES,
+  DESIGN_AUTHORITY_DOMAINS,
   GOVERNED_STATES,
   MOTION_INTENTS,
   PACKAGE_NAME,
+  PROHIBITED_CLASSNAME_PATTERNS,
   RADII,
   SHADOWS,
   SIZES,
   SLOT_ROLES,
   STATUS_TONES,
+  TIP_004_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
+  accessibilityContract,
   accessibilityPolicy,
   classNamePolicy,
+  classNamePolicyContract,
+  componentContract,
+  designSystemAuthorityContract,
   designSystemContract,
   driftPreventionChecklist,
   erpGovernedExamples,
+  exampleContract,
+  exportContract,
   getPackageName,
   isPublicDesignSystemImport,
+  motionContract,
   motionPolicy,
   publicExportContract,
+  recipeContract,
   recipeRegistry,
+  slotContract,
+  stateContract,
   statePolicy,
+  tokenContract,
   tokenRegistry,
   validateDesignSystemGovernance,
   validateLayoutClassName,
+  variantContract,
   variantRegistry,
 };
 
@@ -110,6 +145,81 @@ describe("@afenda/design-system", () => {
       classNameOwnsLayoutOnly: true,
       exampleOwnsAiImitation: true,
     });
+  });
+
+  it("defines TIP-003 authority without creating TIP-004 implementation ownership", () => {
+    expect(designSystemAuthorityContract.identity).toMatchObject({
+      contractId: "afenda.design-system.authority",
+      version: "0.1.0",
+      owner: "Afenda Architecture Authority",
+      packageOwner: "@afenda/design-system",
+      decisionAuthority: "ADR-governed Design System Authority",
+    });
+    expect(designSystemAuthorityContract.identity.relatedTips).toEqual([
+      "TIP-003",
+      "TIP-004",
+    ]);
+    expect(
+      designSystemAuthorityContract.identity.downstreamContractsOwnedByTip004
+    ).toEqual([...TIP_004_DOWNSTREAM_CONTRACTS]);
+  });
+
+  it("declares every design authority domain exactly once", () => {
+    const declaredDomains = designSystemAuthorityContract.ownershipDomains.map(
+      (entry) => entry.domain
+    );
+
+    expect(declaredDomains).toEqual([...DESIGN_AUTHORITY_DOMAINS]);
+    expect(new Set(declaredDomains).size).toBe(DESIGN_AUTHORITY_DOMAINS.length);
+
+    for (const entry of designSystemAuthorityContract.ownershipDomains) {
+      expect(entry.owner).toContain("TIP-004");
+      expect(entry.owns.length).toBeGreaterThan(0);
+      expect(entry.boundary.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("lists prohibited overlap and AI anti-drift rules", () => {
+    const prohibitedRuleIds =
+      designSystemAuthorityContract.prohibitedOverlap.map((rule) => rule.id);
+
+    expect(prohibitedRuleIds).toEqual(
+      expect.arrayContaining([
+        "components-must-not-invent-tokens",
+        "recipes-must-not-invent-behavior",
+        "variants-must-not-invent-raw-values",
+        "slots-must-not-invent-styling",
+        "examples-must-not-invent-apis",
+        "class-name-must-not-override-design-meaning",
+        "apps-must-not-define-design-primitives",
+        "metadata-ui-must-not-bypass-authority",
+        "app-shell-must-not-invent-local-visual-rules",
+        "business-modules-must-not-own-ui-governance",
+      ])
+    );
+    expect(designSystemAuthorityContract.aiAntiDriftRules.may).toContain(
+      "Implement UI only after TIP-004 contracts exist"
+    );
+    expect(designSystemAuthorityContract.aiAntiDriftRules.mayNot).toContain(
+      "Duplicate design contracts in metadata-ui or apps"
+    );
+  });
+
+  it("keeps the authority contract immutable except by ADR", () => {
+    expect(designSystemAuthorityContract.immutability.rule).toBe(
+      "Authority contract is immutable except by ADR"
+    );
+    expect(Object.isFrozen(designSystemAuthorityContract)).toBe(true);
+    expect(Object.isFrozen(designSystemAuthorityContract.identity)).toBe(true);
+    expect(
+      Object.isFrozen(designSystemAuthorityContract.ownershipDomains)
+    ).toBe(true);
+    expect(
+      Object.isFrozen(designSystemAuthorityContract.prohibitedOverlap)
+    ).toBe(true);
+    expect(
+      Object.isFrozen(designSystemAuthorityContract.aiAntiDriftRules.mayNot)
+    ).toBe(true);
   });
 
   it("validates recipe references against tokens and variants", () => {

@@ -36,10 +36,7 @@ describe("AppShell render", () => {
         hidden: true,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("main")).toHaveAttribute(
-      "id",
-      "app-shell-main"
-    );
+    expect(screen.getByRole("main")).toHaveAttribute("id", "app-shell-main");
     expect(
       screen.getByRole("region", { name: "Command center" })
     ).toHaveTextContent("Command center");

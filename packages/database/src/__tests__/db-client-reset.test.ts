@@ -34,12 +34,12 @@ describe("database client reset hooks", () => {
     const root = globalThis as typeof globalThis &
       Record<string, { close: () => Promise<void> } | undefined>;
 
-    root["__afendaDbClient__"] = { close };
+    root['__afendaDbClient__'] = { close };
 
     await resetDbClient();
 
     expect(close).toHaveBeenCalledOnce();
-    expect(root["__afendaDbClient__"]).toBeUndefined();
+    expect(root['__afendaDbClient__']).toBeUndefined();
   });
 
   it("does not recreate clients when reset helpers run without prior get* calls", () => {

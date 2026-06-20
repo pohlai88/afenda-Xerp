@@ -21,7 +21,7 @@ function requireCssClass(className: string | undefined, token: string): string {
     return className;
   }
 
-  if (process.env["NODE_ENV"] !== "production") {
+  if (process.env['NODE_ENV'] !== "production") {
     throw new Error(`Missing AppShell CSS class: ${token}`);
   }
 

@@ -18,7 +18,9 @@ export type ExecutionJsonValue =
 /** Workflow input payload — must round-trip through JSON. */
 export type ExecutionPayload = Readonly<Record<string, ExecutionJsonValue>>;
 
-export function isExecutionJsonValue(value: unknown): value is ExecutionJsonValue {
+export function isExecutionJsonValue(
+  value: unknown
+): value is ExecutionJsonValue {
   if (
     value === null ||
     typeof value === "string" ||

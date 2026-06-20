@@ -112,8 +112,8 @@ export function AppShellSidebar({
 }: AppShellSidebarProps) {
   const visibleItems = filterVisibleAppShellNavItems(items);
   const resolvedActiveItemId = resolveAppShellActiveNavItemId(items, {
-    ...(activeItemId !== undefined ? { activeItemId } : {}),
-    ...(currentPathname !== undefined ? { currentPathname } : {}),
+    ...(activeItemId === undefined ? {} : { activeItemId }),
+    ...(currentPathname === undefined ? {} : { currentPathname }),
   });
 
   return (

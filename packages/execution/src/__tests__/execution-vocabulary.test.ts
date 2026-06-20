@@ -3,9 +3,9 @@ import {
   createExecutionContext,
   EXECUTION_KINDS,
   EXECUTION_STATUSES,
+  type ExecutionOutboxEnvelope,
   isExecutionJsonValue,
   isExecutionPayload,
-  type ExecutionOutboxEnvelope,
 } from "../index.js";
 
 describe("execution vocabulary governance", () => {

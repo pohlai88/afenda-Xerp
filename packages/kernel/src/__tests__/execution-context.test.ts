@@ -5,6 +5,8 @@ import {
   createExecutionId,
 } from "../index.js";
 
+const ISO_TIMESTAMP_PREFIX = /^\d{4}-\d{2}-\d{2}T/;
+
 describe("execution context contract", () => {
   it("creates execution context with generated identifiers", () => {
     const context = createExecutionContext({
@@ -15,7 +17,7 @@ describe("execution context contract", () => {
 
     expect(context.executionId.startsWith("exec-")).toBe(true);
     expect(context.correlationId).toBe("corr-kernel-001");
-    expect(context.startedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+    expect(context.startedAt).toMatch(ISO_TIMESTAMP_PREFIX);
   });
 
   it("asserts required identifiers", () => {

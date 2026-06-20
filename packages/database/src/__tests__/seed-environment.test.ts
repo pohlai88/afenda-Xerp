@@ -16,13 +16,13 @@ describe("seed environment safety", () => {
   });
 
   it("allows platform seed outside production", () => {
-    process.env["NODE_ENV"] = "development";
+    process.env['NODE_ENV'] = "development";
     expect(() => assertSeedProfileAllowed("platform")).not.toThrow();
     expect(() => assertSeedProfileAllowed("dev")).not.toThrow();
   });
 
   it("blocks dev seeds in production", () => {
-    process.env["NODE_ENV"] = "production";
+    process.env['NODE_ENV'] = "production";
     expect(isProductionEnvironment()).toBe(true);
     expect(() => assertSeedProfileAllowed("dev")).toThrow(SeedSafetyError);
     expect(() => assertSeedProfileAllowed("demo")).toThrow(SeedSafetyError);
@@ -30,22 +30,22 @@ describe("seed environment safety", () => {
   });
 
   it("requires explicit confirmation for production platform seed", () => {
-    process.env["NODE_ENV"] = "production";
-    delete process.env["AFENDA_SEED_CONFIRM"];
+    process.env['NODE_ENV'] = "production";
+    delete process.env['AFENDA_SEED_CONFIRM'];
 
     expect(() => assertSeedProfileAllowed("platform")).toThrow(SeedSafetyError);
 
-    process.env["AFENDA_SEED_CONFIRM"] = "yes";
+    process.env['AFENDA_SEED_CONFIRM'] = "yes";
     expect(() => assertSeedProfileAllowed("platform")).not.toThrow();
   });
 
   it("requires explicit confirmation for production bootstrap", () => {
-    process.env["NODE_ENV"] = "production";
-    delete process.env["AFENDA_BOOTSTRAP_CONFIRM"];
+    process.env['NODE_ENV'] = "production";
+    delete process.env['AFENDA_BOOTSTRAP_CONFIRM'];
 
     expect(() => assertBootstrapAllowed("local")).toThrow(BootstrapSafetyError);
 
-    process.env["AFENDA_BOOTSTRAP_CONFIRM"] = "yes";
+    process.env['AFENDA_BOOTSTRAP_CONFIRM'] = "yes";
     expect(() => assertBootstrapAllowed("preview")).not.toThrow();
   });
 });

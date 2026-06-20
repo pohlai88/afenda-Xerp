@@ -27,9 +27,9 @@ const CONFIRM_VALUE = "yes";
 
 /** Detects production-like runtime where unsafe seeds must be blocked. */
 export function isProductionEnvironment(): boolean {
-  const nodeEnv = process.env["NODE_ENV"]?.trim().toLowerCase();
-  const vercelEnv = process.env["VERCEL_ENV"]?.trim().toLowerCase();
-  const afendaEnv = process.env["AFENDA_ENV"]?.trim().toLowerCase();
+  const nodeEnv = process.env['NODE_ENV']?.trim().toLowerCase();
+  const vercelEnv = process.env['VERCEL_ENV']?.trim().toLowerCase();
+  const afendaEnv = process.env['AFENDA_ENV']?.trim().toLowerCase();
 
   return (
     nodeEnv === "production" ||

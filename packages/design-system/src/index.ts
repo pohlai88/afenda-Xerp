@@ -47,6 +47,17 @@ export type {
 export type { ClassNamePolicyContract } from "./contracts/class-name-policy.contract";
 export type { GovernedComponentContract } from "./contracts/component.contract";
 export type { DesignSystemContract } from "./contracts/design-system.contract";
+export type {
+  AiAntiDriftRules,
+  DesignAuthorityAcceptanceCriteria,
+  DesignAuthorityDomain,
+  DesignAuthorityIdentity,
+  DesignSystemAuthorityContract,
+  DesignSystemPackageBoundary,
+  OwnershipDomainAuthority,
+  ProhibitedOverlapRule,
+  Tip004DownstreamContract,
+} from "./contracts/design-system-authority.contract";
 export type { GovernedExample } from "./contracts/example.contract";
 export type { PublicExportContract } from "./contracts/export.contract";
 export type { MotionContract, MotionIntent } from "./contracts/motion.contract";
@@ -86,9 +97,27 @@ export type { AfendaTokenName } from "./tokens/registry";
 
 // ─── Runtime constants ────────────────────────────────────────────────────────
 
-export { MOTION_INTENTS } from "./contracts/motion.contract";
-export { SLOT_ROLES } from "./contracts/slot.contract";
-export { GOVERNED_STATES } from "./contracts/state.contract";
+export {
+  ACCESSIBILITY_REQUIREMENTS,
+  accessibilityContract,
+} from "./contracts/accessibility.contract";
+export {
+  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
+  classNamePolicyContract,
+  PROHIBITED_CLASSNAME_PATTERNS,
+} from "./contracts/class-name-policy.contract";
+export { componentContract } from "./contracts/component.contract";
+export {
+  DESIGN_AUTHORITY_DOMAINS,
+  designSystemAuthorityContract,
+  TIP_004_DOWNSTREAM_CONTRACTS,
+} from "./contracts/design-system-authority.contract";
+export { exampleContract } from "./contracts/example.contract";
+export { exportContract } from "./contracts/export.contract";
+export { MOTION_INTENTS, motionContract } from "./contracts/motion.contract";
+export { recipeContract } from "./contracts/recipe.contract";
+export { SLOT_ROLES, slotContract } from "./contracts/slot.contract";
+export { GOVERNED_STATES, stateContract } from "./contracts/state.contract";
 export {
   DENSITIES,
   RADII,
@@ -96,11 +125,13 @@ export {
   SIZES,
   STATUS_TONES,
   TOKEN_CATEGORIES,
+  tokenContract,
 } from "./contracts/token.contract";
 export {
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
+  variantContract,
 } from "./contracts/variant.contract";
 
 // ─── Values ───────────────────────────────────────────────────────────────────

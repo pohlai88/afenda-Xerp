@@ -4,7 +4,6 @@ export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
-// biome-ignore lint/performance/noBarrelFile: package root is the curated public API surface.
 export {
   AuditAdapterMissingError,
   configureAuditEventPersistence,

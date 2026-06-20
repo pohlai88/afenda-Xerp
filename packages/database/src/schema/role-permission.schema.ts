@@ -3,9 +3,10 @@
  *
  * Golden rule: role is the authority template; this table binds capabilities to roles.
  */
-import { index, pgTable, primaryKey } from "drizzle-orm/pg-core";
+import { index, pgTable } from "drizzle-orm/pg-core";
 import { permissionIdRef, roleIdRef } from "../ids.js";
 import { createdAtColumn } from "../timestamps.js";
+import { compositePrimaryKey } from "./composite-primary-key.js";
 import { permissions } from "./permission.schema.js";
 import { roles } from "./role.schema.js";
 
@@ -21,7 +22,7 @@ export const rolePermissions = pgTable(
     createdAt: createdAtColumn(),
   },
   (table) => [
-    primaryKey({ columns: [table.roleId, table.permissionId] }),
+    compositePrimaryKey({ columns: [table.roleId, table.permissionId] }),
     index("role_permissions_role_id_idx").on(table.roleId),
     index("role_permissions_permission_id_idx").on(table.permissionId),
   ]

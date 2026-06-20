@@ -62,34 +62,34 @@ function parsePolicyConditionMatch(value: unknown): PolicyConditionMatch {
     targetType?: string;
   } = {};
 
-  if (value["permissionKey"] !== undefined) {
-    if (typeof value["permissionKey"] !== "string") {
+  if (value['permissionKey'] !== undefined) {
+    if (typeof value['permissionKey'] !== "string") {
       throw new InvalidPolicyConditionError(
         "Policy condition match.permissionKey must be a string."
       );
     }
-    match.permissionKey = assertPermissionKey(value["permissionKey"]);
+    match.permissionKey = assertPermissionKey(value['permissionKey']);
   }
 
-  if (value["action"] !== undefined) {
-    if (typeof value["action"] !== "string" || value["action"].trim() === "") {
+  if (value['action'] !== undefined) {
+    if (typeof value['action'] !== "string" || value['action'].trim() === "") {
       throw new InvalidPolicyConditionError(
         "Policy condition match.action must be a non-empty string."
       );
     }
-    match.action = value["action"].trim().toLowerCase();
+    match.action = value['action'].trim().toLowerCase();
   }
 
-  if (value["targetType"] !== undefined) {
+  if (value['targetType'] !== undefined) {
     if (
-      typeof value["targetType"] !== "string" ||
-      value["targetType"].trim() === ""
+      typeof value['targetType'] !== "string" ||
+      value['targetType'].trim() === ""
     ) {
       throw new InvalidPolicyConditionError(
         "Policy condition match.targetType must be a non-empty string."
       );
     }
-    match.targetType = value["targetType"].trim().toLowerCase();
+    match.targetType = value['targetType'].trim().toLowerCase();
   }
 
   return match;
@@ -118,30 +118,30 @@ export function parsePolicyCondition(value: unknown): PolicyCondition {
     );
   }
 
-  if (value["version"] !== POLICY_CONDITION_VERSION) {
+  if (value['version'] !== POLICY_CONDITION_VERSION) {
     throw new InvalidPolicyConditionError(
-      `Unsupported policy condition version "${String(value["version"])}".`
+      `Unsupported policy condition version "${String(value['version'])}".`
     );
   }
 
-  const match = parsePolicyConditionMatch(value["match"]);
+  const match = parsePolicyConditionMatch(value['match']);
 
   if (
-    value["gateDecision"] !== undefined &&
-    (typeof value["gateDecision"] !== "string" ||
-      !POLICY_GATE_DECISIONS.has(value["gateDecision"] as PolicyGateDecision))
+    value['gateDecision'] !== undefined &&
+    (typeof value['gateDecision'] !== "string" ||
+      !POLICY_GATE_DECISIONS.has(value['gateDecision'] as PolicyGateDecision))
   ) {
     throw new InvalidPolicyConditionError(
       "Policy condition gateDecision is invalid."
     );
   }
 
-  const gateDecision = value["gateDecision"] as PolicyGateDecision | undefined;
+  const gateDecision = value['gateDecision'] as PolicyGateDecision | undefined;
 
   return {
     version: POLICY_CONDITION_VERSION,
     match,
-    ...(gateDecision !== undefined ? { gateDecision } : {}),
+    ...(gateDecision === undefined ? {} : { gateDecision }),
   };
 }
 

@@ -5,7 +5,6 @@ export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
-// biome-ignore lint/performance/noBarrelFile: package public API entry point
 export {
   assertPermissionKey,
   createPermissionKey,

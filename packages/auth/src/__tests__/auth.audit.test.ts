@@ -69,7 +69,7 @@ describe("auth.audit", () => {
 
     expect(payload.correlationId).toMatch(AUTH_CORRELATION_PREFIX_PATTERN);
     expect(payload.actorType).toBe("system");
-    expect(payload.metadata?.["actorLinkStatus"]).toBeNull();
+    expect(payload.metadata?.['actorLinkStatus']).toBeNull();
   });
 
   it("persists audit events through the writer", async () => {
