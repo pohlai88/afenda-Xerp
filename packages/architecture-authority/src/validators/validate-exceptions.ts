@@ -1,12 +1,15 @@
+import type { ArchitectureException } from "../contracts/exception.contract.js";
 import type { ArchitectureViolation } from "../contracts/validation-result.contract.js";
 import { createValidationResult } from "../contracts/validation-result.contract.js";
 import { exceptionContract } from "../data/exception-registry.data.js";
 
-export function validateExceptions() {
+export function validateExceptionEntries(
+  exceptions: readonly ArchitectureException[],
+  referenceTime = Date.now()
+): ReturnType<typeof createValidationResult> {
   const violations: ArchitectureViolation[] = [];
-  const now = Date.now();
 
-  for (const exception of exceptionContract.exceptions) {
+  for (const exception of exceptions) {
     const expiresAt = Date.parse(exception.expiresAt);
 
     if (Number.isNaN(expiresAt)) {
@@ -18,7 +21,7 @@ export function validateExceptions() {
       continue;
     }
 
-    if (expiresAt < now) {
+    if (expiresAt < referenceTime) {
       violations.push({
         gate: "exceptions",
         packageName: exception.packageName,
@@ -28,4 +31,8 @@ export function validateExceptions() {
   }
 
   return createValidationResult(violations);
+}
+
+export function validateExceptions() {
+  return validateExceptionEntries(exceptionContract.exceptions);
 }

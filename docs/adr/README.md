@@ -21,6 +21,7 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0004](ADR-0004-ownership-governance.md) | Ownership Governance | Accepted |
 | [ADR-0005](ADR-0005-exception-governance.md) | Exception Governance | Accepted |
 | [ADR-0006](ADR-0006-package-lifecycle-governance.md) | Package Lifecycle Governance | Accepted |
+| [ADR-0007](ADR-0007-ai-development-governance.md) | AI Development Governance | Accepted |
 
 ## Process
 

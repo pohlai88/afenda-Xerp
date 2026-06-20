@@ -1,3 +1,4 @@
+import type { PackageOwnership } from "../contracts/ownership.contract.js";
 import type { ArchitectureViolation } from "../contracts/validation-result.contract.js";
 import { createValidationResult } from "../contracts/validation-result.contract.js";
 import type { DiscoveredWorkspace } from "../contracts/workspace.contract.js";
@@ -26,21 +27,35 @@ function collectRegistryDuplicateViolations(): ArchitectureViolation[] {
   return violations;
 }
 
+export function findMissingOwnershipViolations(
+  packageNames: readonly string[],
+  ownershipLookup: ReadonlyMap<string, PackageOwnership>
+): ArchitectureViolation[] {
+  const violations: ArchitectureViolation[] = [];
+
+  for (const packageName of packageNames) {
+    if (!ownershipLookup.has(packageName)) {
+      violations.push({
+        gate: "ownership",
+        packageName,
+        message: `no ownership entry for ${packageName}`,
+      });
+    }
+  }
+
+  return violations;
+}
+
 export function validateOwnership(workspaces: readonly DiscoveredWorkspace[]) {
   const violations: ArchitectureViolation[] =
     collectRegistryDuplicateViolations();
 
-  for (const workspace of workspaces) {
-    const ownership = ownershipByPackage.get(workspace.packageJson.name);
-
-    if (!ownership) {
-      violations.push({
-        gate: "ownership",
-        packageName: workspace.packageJson.name,
-        message: `no ownership entry for ${workspace.packageJson.name}`,
-      });
-    }
-  }
+  violations.push(
+    ...findMissingOwnershipViolations(
+      workspaces.map((workspace) => workspace.packageJson.name),
+      ownershipByPackage
+    )
+  );
 
   return createValidationResult(violations);
 }

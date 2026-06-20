@@ -94,6 +94,11 @@ const OWNERSHIP_ROWS = [
     ownerDomain: "Architecture Authority",
     authorityLevel: "architecture",
   },
+  {
+    packageName: "@afenda/ai-governance",
+    ownerDomain: "Architecture Authority",
+    authorityLevel: "architecture",
+  },
 ] as const satisfies readonly PackageOwnership[];
 
 function auditApprover(authorityLevel: string): string {

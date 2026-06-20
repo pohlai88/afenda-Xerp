@@ -1,0 +1,41 @@
+{
+  "tip": "TIP-002",
+  "adr": "ADR-0007",
+  "allowedPaths": [
+    "docs/ai/**",
+    "docs/adr/ADR-0007-ai-development-governance.md",
+    "docs/adr/README.md",
+    "docs/architecture/**",
+    "packages/ai-governance/**",
+    "packages/architecture-authority/src/data/**",
+    "packages/architecture-authority/src/__tests__/**",
+    "scripts/ai/**",
+    "scripts/quality/check-ai-governance.mjs",
+    "scripts/quality/check-release-gates.mjs",
+    ".github/workflows/**",
+    "package.json",
+    "pnpm-lock.yaml",
+    ".tip-scope.json"
+  ],
+  "forbiddenPaths": [
+    "apps/erp/**",
+    "packages/database/**",
+    "packages/permissions/**",
+    "packages/execution/**",
+    "packages/storage/**"
+  ],
+  "reason": "Implement TIP-002 AI Development Governance only.",
+  "nonGoals": [
+    "No ERP business logic",
+    "No domain package changes",
+    "No design-system primitive edits"
+  ],
+  "testPlan": [
+    "pnpm --filter @afenda/ai-governance test:run",
+    "pnpm quality:ai-governance -- --scope .tip-scope.json",
+    "pnpm quality:architecture",
+    "pnpm ci"
+  ],
+  "deletionJustifications": [],
+  "testExemptions": []
+}

@@ -34,3 +34,10 @@ export function buildDependencySnapshot(
     runtimeEdges,
   };
 }
+
+export function runtimeEdgesMatch(
+  live: ReadonlyArray<{ readonly from: string; readonly to: string }>,
+  committed: ReadonlyArray<{ readonly from: string; readonly to: string }>
+): boolean {
+  return JSON.stringify(live) === JSON.stringify(committed);
+}

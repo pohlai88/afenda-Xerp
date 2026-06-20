@@ -23,6 +23,7 @@ const requiredFiles = [
   ".github/workflows/preview.yml",
   ".github/workflows/release-verification.yml",
   "docs/delivery/tip-009-ci-cd-preview.md",
+  "docs/ai/README.md",
 ];
 
 const requiredCiCommands = [
@@ -35,6 +36,7 @@ const requiredCiCommands = [
   "pnpm quality:migrations",
   "pnpm quality:architecture",
   "pnpm quality:architecture-drift",
+  "pnpm quality:ai-governance",
   "pnpm quality:release-gate",
 ];
 
@@ -48,6 +50,7 @@ const requiredReleaseVerificationGates = [
   "pnpm quality:exports",
   "pnpm quality:architecture",
   "pnpm quality:architecture-drift",
+  "pnpm quality:ai-governance",
   "pnpm quality:release-gate",
 ];
 
@@ -58,6 +61,7 @@ const requiredQualityScripts = [
   "quality:migrations",
   "quality:architecture",
   "quality:architecture-drift",
+  "quality:ai-governance",
   "quality:preview-policy",
   "quality:release-gate",
   "ci:biome",

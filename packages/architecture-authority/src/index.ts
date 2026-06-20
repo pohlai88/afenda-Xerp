@@ -1,5 +1,3 @@
-// biome-ignore-all lint/performance/noBarrelFile: package root is the curated public API surface.
-
 export {
   ARCHITECTURE_AUTHORITY_VERSION,
   ARCHITECTURE_BASELINE_FINGERPRINT,
@@ -61,15 +59,22 @@ export { buildArchitectureReport } from "./reports/build-architecture-report.js"
 export {
   buildDependencySnapshot,
   type DependencySnapshot,
+  runtimeEdgesMatch,
 } from "./reports/build-dependency-snapshot.js";
 export { buildOwnershipAuditMarkdown } from "./reports/build-ownership-audit.js";
 export { validateArchitecture } from "./validators/validate-architecture.js";
 export { validateCycles } from "./validators/validate-cycles.js";
 export { validateDependencies } from "./validators/validate-dependencies.js";
-export { validateExceptions } from "./validators/validate-exceptions.js";
+export {
+  validateExceptionEntries,
+  validateExceptions,
+} from "./validators/validate-exceptions.js";
 export { validateForbiddenDependencies } from "./validators/validate-forbidden-dependencies.js";
 export { validateLayers } from "./validators/validate-layers.js";
-export { validateOwnership } from "./validators/validate-ownership.js";
+export {
+  findMissingOwnershipViolations,
+  validateOwnership,
+} from "./validators/validate-ownership.js";
 export { validateRegistry } from "./validators/validate-registry.js";
 export {
   discoverWorkspaces,

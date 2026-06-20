@@ -51,6 +51,9 @@ describe("validateArchitecture", () => {
       workspace("@afenda/typescript-config"),
       workspace("@afenda/ui"),
       workspace("@afenda/architecture-authority"),
+      workspace("@afenda/ai-governance", {
+        "@afenda/architecture-authority": "workspace:*",
+      }),
     ];
 
     const result = validateArchitecture(workspaces);

@@ -88,6 +88,16 @@ jobs:
       - name: Gate 8b · architecture drift check
         run: pnpm quality:architecture-drift
 
+      - name: Gate 8c · AI governance (PR scope)
+        if: github.event_name == 'pull_request'
+        run: |
+          test -f .tip-scope.json || (echo "missing .tip-scope.json" && exit 1)
+          pnpm quality:ai-governance -- --scope .tip-scope.json
+
+      - name: Gate 8c · AI governance (baseline)
+        if: github.event_name != 'pull_request'
+        run: pnpm quality:ai-governance
+
       # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check
         run: pnpm quality:release-gate

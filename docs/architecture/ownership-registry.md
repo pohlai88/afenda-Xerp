@@ -139,6 +139,7 @@ Without escalation, ownership conflicts cannot be resolved. All disputes are log
 | Package | Owner domain | Authority level |
 |---------|--------------|-----------------|
 | `@afenda/architecture-authority` | Architecture Authority | `architecture` |
+| `@afenda/ai-governance` | Architecture Authority | `architecture` |
 | `@afenda/appshell` | ERP Spine Authority | `erp-spine` |
 | `@afenda/auth` | Platform Authority | `platform` |
 | `@afenda/database` | Platform Authority | `platform` |

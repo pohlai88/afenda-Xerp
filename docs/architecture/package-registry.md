@@ -7,7 +7,7 @@
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
-| **Active workspaces** | 18 |
+| **Active workspaces** | 19 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date.
@@ -61,6 +61,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-016 | `@afenda/typescript-config` | `packages/typescript-config` | Platform (tooling) | active | Shared TypeScript compiler presets | Platform Authority | Config only | `active-exempt` |
 | PKG-017 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
 | PKG-018 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
+| PKG-019 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
 
 **`active-exempt`:** PKG-016 is exempt from layer-dependency enforcement only. It remains registered and owned.
 
@@ -104,17 +105,18 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 |------|--------|-------------|-------------------|-----|
 | 2026-06-20 | Created | — | Baseline registry (PKG-001–018 active, PKG-R01–R05 reserved) | ADR-0001 |
 | 2026-06-20 | Activated | PKG-018 | `@afenda/architecture-authority` promoted from planned to active | TIP-001C |
-| 2026-06-20 | Accepted | — | ADR constitution (ADR-0000–0006) | ADR-0000–0006 |
+| 2026-06-20 | Activated | PKG-019 | `@afenda/ai-governance` registered active | ADR-0007 |
+| 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
 
 ---
 
 ## Acceptance
 
-- [x] 100% active workspace packages discovered (18/18)
+- [x] 100% active workspace packages discovered (19/19)
 - [x] Planned workspaces documented separately (0 filesystem-planned)
 - [x] 0 unknown packages in `apps/*` or `packages/*`
 - [x] Machine-readable status values defined
-- [x] Registry IDs assigned (PKG-001–018, PKG-R01–R05)
+- [x] Registry IDs assigned (PKG-001–019, PKG-R01–R05)
 - [x] Package purpose documented (one line each)
 - [x] Public API owner documented per package
 - [x] Domain inter-domain dependency rule stated

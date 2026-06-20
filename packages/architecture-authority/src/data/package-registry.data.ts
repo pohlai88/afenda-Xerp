@@ -203,6 +203,17 @@ const ACTIVE_PACKAGES = [
     layerDepExempt: false,
     filesystemRequired: true,
   },
+  {
+    registryId: "PKG-019",
+    packageName: "@afenda/ai-governance",
+    path: "packages/ai-governance",
+    layer: "Platform",
+    lifecycle: "active",
+    purpose: "AI-assisted development governance contracts and validators",
+    publicApiOwner: "Architecture Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
 ] as const satisfies readonly PackageDefinition[];
 
 const RESERVED_PACKAGES = [

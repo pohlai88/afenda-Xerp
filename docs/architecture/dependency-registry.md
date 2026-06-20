@@ -27,7 +27,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (14 direct edges)
+## Runtime Dependency Edges (15 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
@@ -45,6 +45,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/metadata-ui` | `@afenda/permissions` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/auth` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/database` | Approved | — | — |
+| `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
 
 **Exception / deprecated runtime edges at baseline:** 0
 
@@ -81,6 +82,8 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/testing` | *(none — devDependencies only)* |
 | `@afenda/typescript-config` | *(none)* |
 | `@afenda/ui` | *(none)* |
+| `@afenda/architecture-authority` | *(none)* |
+| `@afenda/ai-governance` | `@afenda/architecture-authority` |
 
 ---
 
@@ -108,6 +111,9 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
   → @afenda/kernel
   → @afenda/observability
 
+@afenda/ai-governance
+  → @afenda/architecture-authority
+
 Packages with no outbound runtime workspace dependencies:
   @afenda/appshell
   @afenda/design-system
@@ -118,6 +124,7 @@ Packages with no outbound runtime workspace dependencies:
   @afenda/testing
   @afenda/typescript-config
   @afenda/ui
+  @afenda/architecture-authority
 ```
 
 ---
