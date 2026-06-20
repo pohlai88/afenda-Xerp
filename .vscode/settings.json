@@ -13,8 +13,8 @@
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "emmet.showExpandedAbbreviation": "never",
-  "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "[css]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
