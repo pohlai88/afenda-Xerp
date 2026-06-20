@@ -93,18 +93,20 @@ function buildFailureMetadata(
   thrown: unknown,
   override?: AuditEventMetadata
 ): AuditEventMetadata {
-  const base: Record<string, string | null> = {};
+  let errorCode: string | undefined;
 
   if (thrown instanceof Error) {
     const code =
       "code" in thrown && typeof thrown.code === "string" ? thrown.code : null;
 
     if (code) {
-      base.errorCode = code;
+      errorCode = code;
     }
   }
 
-  return mergeMetadata(base as AuditEventMetadata, override);
+  const base: AuditEventMetadata = errorCode ? { errorCode } : {};
+
+  return mergeMetadata(base, override);
 }
 
 function mergeMetadata(

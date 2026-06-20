@@ -18,7 +18,7 @@ function createEntry(
     correlationId: context.correlationId,
     level,
     message,
-    metadata,
+    ...(metadata !== undefined ? { metadata } : {}),
     timestamp: new Date().toISOString(),
   };
 }

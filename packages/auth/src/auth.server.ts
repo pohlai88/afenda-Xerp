@@ -36,7 +36,22 @@ export async function getAfendaAuthSession(
     return null;
   }
 
-  return normalizeAfendaAuthSession(result);
+  return normalizeAfendaAuthSession({
+    session: {
+      id: result.session.id,
+      expiresAt: result.session.expiresAt,
+      createdAt: result.session.createdAt,
+      ipAddress: result.session.ipAddress ?? null,
+      userAgent: result.session.userAgent ?? null,
+    },
+    user: {
+      id: result.user.id,
+      email: result.user.email,
+      name: result.user.name,
+      emailVerified: result.user.emailVerified,
+      image: result.user.image ?? null,
+    },
+  });
 }
 
 export async function requireAfendaAuthSession(

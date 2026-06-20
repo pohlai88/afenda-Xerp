@@ -38,20 +38,20 @@ function isSupabaseJwk(value: unknown): value is SupabaseJwk {
   }
 
   return (
-    typeof value.kid === "string" &&
-    typeof value.kty === "string" &&
-    typeof value.alg === "string"
+    typeof value["kid"] === "string" &&
+    typeof value["kty"] === "string" &&
+    typeof value["alg"] === "string"
   );
 }
 
 export function parseSupabaseJwks(payload: unknown): SupabaseJwks {
-  if (!(isRecord(payload) && Array.isArray(payload.keys))) {
+  if (!(isRecord(payload) && Array.isArray(payload["keys"]))) {
     throw new InvalidSupabaseJwksError(
       "JWKS payload must contain a keys array."
     );
   }
 
-  const keys = payload.keys.filter(isSupabaseJwk);
+  const keys = payload["keys"].filter(isSupabaseJwk);
 
   if (keys.length === 0) {
     throw new InvalidSupabaseJwksError(

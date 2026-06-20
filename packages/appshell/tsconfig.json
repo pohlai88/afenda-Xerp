@@ -1,11 +1,16 @@
 {
-  "extends": "../../tsconfig.library.json",
+  "extends": "@afenda/typescript-config/strict-react-library.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
-  "include": ["src"],
-  "exclude": ["src/**/__tests__/**", "src/setup/**"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "src/setup/**"
+  ]
 }

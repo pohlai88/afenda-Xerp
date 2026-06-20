@@ -90,7 +90,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Verify before preview
-        run: pnpm ci:biome && pnpm typecheck && pnpm test && pnpm build && pnpm quality:boundaries && pnpm quality:exports
+        run: pnpm ci:biome && pnpm typecheck && pnpm test:run && pnpm build && pnpm quality:boundaries && pnpm quality:exports
 
       - name: Pull Vercel preview environment
         if: ${{ env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '' }}

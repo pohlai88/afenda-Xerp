@@ -1,9 +1,18 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "strictNullChecks": true
-  },
-  "include": [],
-  "references": []
+  "files": [],
+  "references": [
+    { "path": "./packages/kernel" },
+    { "path": "./packages/observability" },
+    { "path": "./packages/storage" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/design-system" },
+    { "path": "./packages/testing" },
+    { "path": "./packages/database" },
+    { "path": "./packages/auth" },
+    { "path": "./packages/entitlements" },
+    { "path": "./packages/permissions" },
+    { "path": "./packages/feature-flags" },
+    { "path": "./packages/metadata-ui" },
+    { "path": "./packages/appshell" }
+  ]
 }

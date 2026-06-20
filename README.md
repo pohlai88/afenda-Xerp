@@ -20,12 +20,13 @@ afenda/
 │   ├── permissions/       # Permission and policy engine (TIP-005)
 │   ├── database/          # Database schema and Drizzle (TIP-003)
 │   ├── kernel/            # Platform kernel and shared contracts
-│   ├── observability/     # Logging, tracing, and audit (TIP-010)
+│   ├── storage/           # Tenant-scoped storage abstraction
+│   ├── entitlements/      # Feature flags, entitlements, limits
+│   ├── feature-flags/     # Deployment-flag evaluation facade
+│   ├── typescript-config/ # Shared TypeScript presets (TIP-001A)
 │   └── testing/           # Shared testing utilities
 ├── biome.jsonc            # Biome + Ultracite presets
-├── tsconfig.base.json     # Shared strict TypeScript baseline
-├── tsconfig.library.json  # Library package preset
-├── tsconfig.next.json     # Next.js app preset
+├── packages/typescript-config/  # @afenda/typescript-config presets
 ├── turbo.json             # Turborepo task pipeline
 └── vitest.config.ts       # Shared Vitest baseline
 ```
@@ -58,18 +59,17 @@ pnpm build
 Run quality checks:
 
 ```bash
-pnpm check           # ci:biome + typecheck + test
+pnpm check           # ci:biome + typecheck + test:run
 pnpm lint            # ultracite check (local read-only)
 pnpm ci:biome        # biome ci (CI Gate 2 — format + lint + imports)
 pnpm typecheck
-pnpm test
+pnpm test            # vitest watch (local)
+pnpm test:run        # vitest run (CI gate)
 pnpm test:coverage   # vitest with v8 coverage
 pnpm format          # ultracite fix (local auto-fix)
 pnpm format:check    # alias for ci:biome
 pnpm fix             # ultracite fix
 pnpm clean           # remove build outputs across workspace
-turbo run //#lint    # root ultracite check via Turborepo
-turbo run //#fix     # root ultracite fix via Turborepo
 ```
 
 Run a single app:
@@ -86,10 +86,27 @@ pnpm --filter @afenda/docs dev
 | **pnpm** | Workspace + dependency catalog (`pnpm-workspace.yaml`) |
 | **Turborepo** | Cached build/typecheck pipeline with global config deps |
 | **Ultracite + Biome** | Local hygiene (`ultracite fix` / `ultracite check`); CI hygiene (`biome ci`) |
-| **TypeScript** | Strict mode via shared `tsconfig.*` presets |
+| **TypeScript** | Full strict baseline via `@afenda/typescript-config` (see below) |
 | **Vitest** | Unit tests with optional coverage (`@vitest/coverage-v8`) |
 
 Install the recommended editor extensions: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [Vitest](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) (see `.vscode/extensions.json`).
+
+## TypeScript strictness (TIP-001)
+
+Shared presets live in `@afenda/typescript-config`. All workspaces extend one of the **strict** presets below — the staged rollout (TIP-001B–001H) is complete and every flag now lives in `base.json`.
+
+| Preset | Used by |
+|--------|---------|
+| `strict-node.json` | Node/library packages (kernel, auth, database, storage, …) |
+| `strict-react-library.json` | React UI packages (design-system, ui, appshell, metadata-ui, testing) |
+| `nextjs.json` | Next.js apps (`apps/erp`, `apps/docs`) |
+| `test.json` | Vitest `tsconfig.vitest.json` overlays |
+
+**Baseline flags in `base.json`:** `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `useUnknownInCatchVariables`, `noPropertyAccessFromIndexSignature`, and `exactOptionalPropertyTypes`. `strict-next.json` and `strict-final.json` are aliases of `base.json` (kept for preset chaining only).
+
+**Build graph:** composite library packages use `tsc -b` with `dist/.tsbuildinfo`. Root `tsconfig.json` references composite packages only — apps typecheck via their own `next build` / `tsc --noEmit` scripts, not root project references.
+
+**Export rule:** build from `src/`, publish from `dist/`, import through package `exports` only — never consume another package's `src/`.
 
 ## Package conventions
 
@@ -100,12 +117,12 @@ Every package under `packages/` follows the same baseline:
 - `src/__tests__/` for Vitest files (kept out of library builds)
 - `tsconfig.vitest.json` typechecks tests and mocks separately from production `tsconfig.json`
 - `vitest.config.ts` extending shared monorepo presets from `vitest.shared.ts`
-- `tsconfig.json` extending `tsconfig.library.json`
-- Scripts: `build`, `dev`, `typecheck`, `test`, `clean` (lint/format run from repo root)
+- `tsconfig.json` extending `@afenda/typescript-config/strict-node.json` or `strict-react-library.json`
+- Scripts: `build` (`tsc -b`), `dev`, `typecheck`, `test`, `test:run`, `clean` (lint/format run from repo root)
 
-Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript.
+Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript project builds.
 
-Next.js apps extend `tsconfig.next.json` and list `@afenda/*` packages in `transpilePackages` for workspace imports in TIP-002+.
+Next.js apps extend `@afenda/typescript-config/nextjs.json` and list `@afenda/*` packages in `transpilePackages` for workspace imports.
 
 ## Testing (Vitest)
 
@@ -156,14 +173,15 @@ Vitest `include` stays broad (`*.test.ts` / `*.spec.ts`); suffixes are conventio
 | Custom scripts | Boundaries, migrations, exports (Gates 5–7) |
 
 ```bash
-pnpm check                             # ci:biome + typecheck + test
-pnpm test                              # all projects
+pnpm check                             # ci:biome + typecheck + test:run
+pnpm test                              # watch all projects (local)
+pnpm test:run                          # run all projects (CI)
 pnpm test:watch                        # watch all projects
 pnpm test:coverage                     # v8 coverage (per-project reports)
 pnpm test:ui                           # Vitest UI (local)
-pnpm --filter @afenda/kernel test      # single workspace (node)
-pnpm --filter @afenda/design-system test  # UI package (jsdom)
-pnpm --filter @afenda/erp test         # Next.js app (jsdom + React)
+pnpm --filter @afenda/kernel test:run  # single workspace (node)
+pnpm --filter @afenda/design-system test:run  # UI package (jsdom)
+pnpm --filter @afenda/erp test:run     # Next.js app (jsdom + React)
 ```
 
 ## What is intentionally not included (TIP-001 scope)

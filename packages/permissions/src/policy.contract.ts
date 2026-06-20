@@ -107,7 +107,7 @@ export function policyRuleMatches(
   return policyConditionMatches(rule.condition, {
     permissionKey: input.permissionKey,
     action: input.action,
-    targetType: input.targetType,
+    ...(input.targetType !== undefined ? { targetType: input.targetType } : {}),
   });
 }
 

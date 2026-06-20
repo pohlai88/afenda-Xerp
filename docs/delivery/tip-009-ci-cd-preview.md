@@ -47,7 +47,7 @@ Runs on every pull request and push to `main`.
 |---|---|---|
 | 1 | `pnpm typecheck` | TypeScript type safety across all packages |
 | 2 | `pnpm ci:biome` | Format, lint, and import organization via Biome CI |
-| 3 | `pnpm test` | Test quality via Vitest |
+| 3 | `pnpm test:run` | Test quality via Vitest |
 | 4 | `pnpm build` | Build safety via Turborepo |
 | 5 | `pnpm quality:boundaries` | Package boundary integrity |
 | 6 | `pnpm quality:migrations` | Drizzle migration journal integrity |
@@ -221,7 +221,7 @@ Full gate before requesting review:
 ```sh
 pnpm ci:biome
 pnpm typecheck
-pnpm test
+pnpm test:run
 pnpm build
 pnpm quality
 ```
@@ -267,7 +267,7 @@ The following are permanently forbidden:
 |---|---|---|
 | Typecheck | `pnpm typecheck` | Active in ci.yml + release-verification.yml |
 | Biome (format + lint + imports) | `pnpm ci:biome` | Active in ci.yml + release-verification.yml |
-| Test | `pnpm test` | Active in ci.yml + release-verification.yml |
+| Test | `pnpm test:run` | Active in ci.yml + release-verification.yml |
 | Build | `pnpm build` | Active in ci.yml + release-verification.yml |
 | Package boundaries | `pnpm quality:boundaries` | Active |
 | Migration integrity | `pnpm quality:migrations` | Active |

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const workspaceRoot = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const packageRoots = ["apps", "packages"];
+const exportGateExemptPackages = new Set(["@afenda/typescript-config"]);
 const jsExtensionPattern = /\.js$/u;
 const tsExtensionPattern = /\.ts$/u;
 const failures = [];
@@ -65,6 +66,10 @@ function validatePackage(workspacePackage) {
     failures.push(`${packageJson.name} is declared more than once`);
   }
   packageNames.add(packageJson.name);
+
+  if (exportGateExemptPackages.has(packageJson.name)) {
+    return;
+  }
 
   if (!packageJson.exports) {
     return;

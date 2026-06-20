@@ -78,8 +78,8 @@ describe("withAuditEvidence", () => {
       withAuditEvidence(baseEvidence, () => Promise.reject(codedError), adapter)
     ).rejects.toThrow();
 
-    const metadata = writtenRows[0]?.metadata as Record<string, unknown>;
-    expect(metadata?.errorCode).toBe("ERR_UNIQUE");
+    const metadata = writtenRows[0]?.metadata;
+    expect(metadata?.["errorCode"]).toBe("ERR_UNIQUE");
     expect(JSON.stringify(metadata)).not.toContain("Internal");
   });
 
@@ -144,9 +144,9 @@ describe("withAuditEvidence", () => {
       adapter
     );
 
-    const metadata = writtenRows[0]?.metadata as Record<string, unknown>;
-    expect(metadata?.sourceModule).toBe("onboarding");
-    expect(metadata?.planTier).toBe("enterprise");
+    const metadata = writtenRows[0]?.metadata;
+    expect(metadata?.["sourceModule"]).toBe("onboarding");
+    expect(metadata?.["planTier"]).toBe("enterprise");
   });
 
   it("rejects sensitive keys in caller successMetadata via validation", async () => {

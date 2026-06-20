@@ -28,7 +28,7 @@ const requiredFiles = [
 const requiredCiCommands = [
   "pnpm ci:biome",
   "pnpm typecheck",
-  "pnpm test",
+  "pnpm test:run",
   "pnpm build",
   "pnpm quality:boundaries",
   "pnpm quality:exports",
@@ -39,7 +39,7 @@ const requiredCiCommands = [
 const requiredReleaseVerificationGates = [
   "pnpm typecheck",
   "pnpm ci:biome",
-  "pnpm test",
+  "pnpm test:run",
   "pnpm build",
   "pnpm quality:boundaries",
   "pnpm quality:migrations",

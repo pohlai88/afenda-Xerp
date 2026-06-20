@@ -1,6 +1,7 @@
 {
-  "extends": "../../tsconfig.next.json",
+  "extends": "@afenda/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

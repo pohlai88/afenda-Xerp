@@ -2,40 +2,45 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalDependencies": [
+    "tsconfig.json",
+    "packages/typescript-config/*.json",
     "biome.jsonc",
-    "tsconfig.base.json",
-    "tsconfig.library.json",
-    "tsconfig.next.json",
-    "tsconfig.vitest.base.json",
+    "pnpm-lock.yaml",
     "vitest.config.ts",
     "vitest.shared.ts"
   ],
   "tasks": {
-    "//#lint": {
-      "cache": false
-    },
-    "//#fix": {
-      "cache": false
-    },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/.tsbuildinfo"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "format:check": {
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:run": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
-    "typecheck": {
-      "dependsOn": ["^build"]
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"]
-    },
-    "quality": {
+    "clean": {
       "cache": false
     },
-    "clean": {
+    "quality": {
       "cache": false
     }
   }

@@ -36,7 +36,7 @@ describe("AppShell render", () => {
         hidden: true,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("main", { name: undefined })).toHaveAttribute(
+    expect(screen.getByRole("main")).toHaveAttribute(
       "id",
       "app-shell-main"
     );

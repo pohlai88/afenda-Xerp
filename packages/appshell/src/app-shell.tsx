@@ -26,18 +26,24 @@ export function AppShell({
         Skip to content
       </a>
       <AppShellHeader
-        commandItems={commandItems}
-        contextSwitcherCompact={contextSwitcherCompact}
-        contextSwitcherState={contextSwitcherState}
-        identity={identity}
-        identityAccessory={identityAccessory}
-        onContextSwitchRequest={onContextSwitchRequest}
+        {...(commandItems !== undefined ? { commandItems } : {})}
+        {...(contextSwitcherCompact !== undefined
+          ? { contextSwitcherCompact }
+          : {})}
+        {...(contextSwitcherState !== undefined
+          ? { contextSwitcherState }
+          : {})}
+        {...(identity !== undefined ? { identity } : {})}
+        {...(identityAccessory !== undefined ? { identityAccessory } : {})}
+        {...(onContextSwitchRequest !== undefined
+          ? { onContextSwitchRequest }
+          : {})}
         workspace={workspace}
       />
       <div className={styles.body}>
         <AppShellSidebar
-          activeItemId={activeItemId}
-          currentPathname={currentPathname}
+          {...(activeItemId !== undefined ? { activeItemId } : {})}
+          {...(currentPathname !== undefined ? { currentPathname } : {})}
           items={navItems}
         />
         <main id="app-shell-main">{children}</main>

@@ -38,14 +38,20 @@ export function AppShellHeader({
         </Link>
         <AppShellContextSwitcher
           compact={contextSwitcherCompact}
-          onSwitchRequest={onContextSwitchRequest}
-          state={contextSwitcherState}
+          {...(onContextSwitchRequest !== undefined
+            ? { onSwitchRequest: onContextSwitchRequest }
+            : {})}
+          {...(contextSwitcherState !== undefined
+            ? { state: contextSwitcherState }
+            : {})}
           workspace={workspace}
         />
       </div>
 
       <div className={styles.headerEnd}>
-        <AppShellCommandCenter items={commandItems} />
+        <AppShellCommandCenter
+          {...(commandItems !== undefined ? { items: commandItems } : {})}
+        />
         {identity ? (
           <div className={styles.identity} title={identity.email}>
             <span className={styles.identityName}>{identity.displayName}</span>

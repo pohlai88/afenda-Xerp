@@ -43,12 +43,12 @@ interface AuthAuditHookContext {
     newSession?: {
       session: { id: string };
       user: { id: string; email: string };
-    };
+    } | null;
     returned?: unknown;
     session?: {
       session: { id: string };
       user: { id: string };
-    };
+    } | null;
   };
   headers?: Headers;
   path: string;
@@ -98,11 +98,13 @@ export async function handleAfendaAuthAuditHook(
       return;
     }
 
+    const signInEmail = readAuthSignInEmail(ctx);
+
     await persist({
       event: AUTH_EVENT.signInFailed,
       result: "failure",
       context: {
-        email: readAuthSignInEmail(ctx),
+        ...(signInEmail !== undefined ? { email: signInEmail } : {}),
         ipAddress: meta.ipAddress,
         userAgent: meta.userAgent,
         correlationId,
@@ -140,6 +142,12 @@ export async function handleAfendaAuthAuditHook(
 /** Better Auth after-hooks for governed auth audit events (TIP-004). */
 export function createAfendaAuthAuditHooks() {
   return createAuthMiddleware(async (ctx) => {
-    await handleAfendaAuthAuditHook(ctx);
+    await handleAfendaAuthAuditHook({
+      ...(ctx.body !== undefined ? { body: ctx.body } : {}),
+      context: ctx.context,
+      path: ctx.path,
+      ...(ctx.headers !== undefined ? { headers: ctx.headers } : {}),
+      ...(ctx.request !== undefined ? { request: ctx.request } : {}),
+    });
   });
 }
