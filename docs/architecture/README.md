@@ -82,12 +82,20 @@ Never: implementation first, documentation later. This principle is normative in
 
 ---
 
+## LLM development compass
+
+| Document | Purpose |
+|----------|---------|
+| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v4.0.0** — Phase 1 Track A (governance) + Track B (UI: Tailwind v4, shadcn/ui, renderers, ERP surfaces). Narrative only; ADRs and registries win on conflict. |
+
+---
+
 ## Registry Files
 
 | Document | Purpose |
 |----------|---------|
 | [`architecture-authority-baseline.md`](architecture-authority-baseline.md) | **Architecture Baseline Report** — fingerprint `ARCH-BASELINE-2026-06-20-v1` |
-| [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–018, PKG-R01–R05) |
+| [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–020, PKG-R01–R05) |
 | [`ownership-registry.md`](ownership-registry.md) | Single owner, rights, escalation |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |
 | [`layer-registry.md`](layer-registry.md) | Layer assignments and cross-layer rules |

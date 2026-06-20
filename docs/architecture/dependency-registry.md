@@ -27,7 +27,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (15 direct edges)
+## Runtime Dependency Edges (16 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
@@ -37,6 +37,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
+| `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
@@ -71,10 +72,11 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/observability` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/observability` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
+| `@afenda/metadata` | *(none)* |
 | `@afenda/metadata-ui` | `@afenda/design-system`, `@afenda/permissions` |
 | `@afenda/observability` | *(none)* |
 | `@afenda/permissions` | `@afenda/auth`, `@afenda/database` |
@@ -104,6 +106,9 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
   → @afenda/design-system
   → @afenda/permissions
 
+@afenda/metadata
+  *(no outbound runtime dependencies — authority consumed when implementation wires in)*
+
 @afenda/feature-flags
   → @afenda/entitlements → @afenda/database
 
@@ -119,6 +124,7 @@ Packages with no outbound runtime workspace dependencies:
   @afenda/design-system
   @afenda/docs
   @afenda/kernel
+  @afenda/metadata
   @afenda/observability
   @afenda/storage
   @afenda/testing

@@ -1,0 +1,335 @@
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+/* ─── Step 1: Define CSS variables ───────────────────────────────────────────
+ * Afenda Atlas v2 — Light
+ * Enterprise ERP theme.
+ * Warm ivory shell · deep navy ink · authority blue · intelligent green accent.
+ * Designed for AppShell, metadata UI, forms, tables, audit, charts, and admin.
+ * ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Shape */
+  --radius: 0.875rem;
+
+  /* Typography — override any var via next/font injection */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "Fira Code", Menlo, Consolas,
+    "Courier New", monospace;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+
+  /* Surfaces */
+  --background: oklch(0.986 0.006 85);
+  --foreground: oklch(0.18 0.025 255);
+
+  --card: oklch(0.998 0.002 85);
+  --card-foreground: oklch(0.18 0.025 255);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 255);
+
+  /* Brand authority — deep blue  ≈ #005DB3 */
+  --primary: oklch(0.47 0.16 252);
+  --primary-foreground: oklch(0.985 0.005 95);
+
+  /* Supporting surfaces */
+  --secondary: oklch(0.945 0.016 238);
+  --secondary-foreground: oklch(0.24 0.035 250);
+
+  --muted: oklch(0.958 0.011 88);
+  --muted-foreground: oklch(0.48 0.025 250);
+
+  /* Intelligent green accent — organised clarity */
+  --accent: oklch(0.93 0.04 150);
+  --accent-foreground: oklch(0.24 0.06 150);
+
+  /* Risk */
+  --destructive: oklch(0.535 0.205 25);
+  --destructive-foreground: oklch(0.985 0.005 95);
+
+  /* Chrome */
+  --border: oklch(0.895 0.014 245);
+  --input: oklch(0.875 0.016 245);
+  --ring: oklch(0.54 0.16 252);
+
+  /* Charts — blue · green · amber · rose · violet */
+  --chart-1: oklch(0.52 0.16 252);
+  --chart-2: oklch(0.60 0.13 150);
+  --chart-3: oklch(0.73 0.12 78);
+  --chart-4: oklch(0.61 0.16 335);
+  --chart-5: oklch(0.57 0.12 292);
+
+  /* Sidebar — warmer/lighter than main surface */
+  --sidebar: oklch(0.978 0.007 85);
+  --sidebar-foreground: oklch(0.22 0.025 255);
+  --sidebar-primary: oklch(0.47 0.16 252);
+  --sidebar-primary-foreground: oklch(0.985 0.005 95);
+  --sidebar-accent: oklch(0.94 0.025 150);
+  --sidebar-accent-foreground: oklch(0.24 0.055 150);
+  --sidebar-border: oklch(0.895 0.014 245);
+  --sidebar-ring: oklch(0.54 0.16 252);
+
+  /* Shadows — namespaced to avoid collision with Tailwind's base --shadow-* vars */
+  --afenda-shadow-2xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+  --afenda-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --afenda-shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.08),
+    0 1px 2px -1px oklch(0 0 0 / 0.08);
+  --afenda-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.09),
+    0 1px 2px -1px oklch(0 0 0 / 0.09);
+  --afenda-shadow-md: 0 4px 8px -4px oklch(0 0 0 / 0.12),
+    0 2px 4px -2px oklch(0 0 0 / 0.08);
+  --afenda-shadow-lg: 0 12px 20px -12px oklch(0 0 0 / 0.18),
+    0 4px 8px -4px oklch(0 0 0 / 0.10);
+  --afenda-shadow-xl: 0 20px 28px -16px oklch(0 0 0 / 0.22),
+    0 8px 12px -8px oklch(0 0 0 / 0.12);
+  --afenda-shadow-2xl: 0 28px 48px -24px oklch(0 0 0 / 0.28);
+}
+
+/* Afenda Atlas v2 — Dark
+ * Midnight navy · luminous blue primary · green accent glow.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --background: oklch(0.15 0.026 255);
+  --foreground: oklch(0.965 0.006 85);
+
+  --card: oklch(0.202 0.027 255);
+  --card-foreground: oklch(0.965 0.006 85);
+
+  --popover: oklch(0.218 0.028 255);
+  --popover-foreground: oklch(0.965 0.006 85);
+
+  /* Brand authority — luminous blue  ≈ #4DACF6 */
+  --primary: oklch(0.72 0.14 245);
+  --primary-foreground: oklch(0.15 0.025 255);
+
+  /* Supporting surfaces */
+  --secondary: oklch(0.265 0.032 250);
+  --secondary-foreground: oklch(0.965 0.006 85);
+
+  --muted: oklch(0.245 0.024 255);
+  --muted-foreground: oklch(0.74 0.02 245);
+
+  /* Intelligent green accent */
+  --accent: oklch(0.30 0.06 150);
+  --accent-foreground: oklch(0.90 0.05 150);
+
+  /* Risk */
+  --destructive: oklch(0.54 0.19 25);
+  --destructive-foreground: oklch(0.965 0.006 85);
+
+  /* Chrome */
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.14 245);
+
+  /* Charts — varied lightness for multi-series distinction */
+  --chart-1: oklch(0.72 0.14 245);
+  --chart-2: oklch(0.72 0.13 150);
+  --chart-3: oklch(0.82 0.13 78);
+  --chart-4: oklch(0.72 0.15 330);
+  --chart-5: oklch(0.72 0.12 292);
+
+  /* Sidebar — deeper than main for spatial depth */
+  --sidebar: oklch(0.175 0.027 255);
+  --sidebar-foreground: oklch(0.94 0.008 85);
+  --sidebar-primary: oklch(0.72 0.14 245);
+  --sidebar-primary-foreground: oklch(0.15 0.025 255);
+  --sidebar-accent: oklch(0.255 0.04 150);
+  --sidebar-accent-foreground: oklch(0.92 0.04 150);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.72 0.14 245);
+
+  /* Shadows — higher opacity; dark surfaces absorb shadows more aggressively */
+  --afenda-shadow-2xs: 0 1px 2px 0 oklch(0 0 0 / 0.18);
+  --afenda-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.20);
+  --afenda-shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.24),
+    0 1px 2px -1px oklch(0 0 0 / 0.20);
+  --afenda-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.26),
+    0 1px 2px -1px oklch(0 0 0 / 0.22);
+  --afenda-shadow-md: 0 4px 8px -4px oklch(0 0 0 / 0.34),
+    0 2px 4px -2px oklch(0 0 0 / 0.26);
+  --afenda-shadow-lg: 0 12px 20px -12px oklch(0 0 0 / 0.42),
+    0 4px 8px -4px oklch(0 0 0 / 0.32);
+  --afenda-shadow-xl: 0 20px 28px -16px oklch(0 0 0 / 0.48),
+    0 8px 12px -8px oklch(0 0 0 / 0.36);
+  --afenda-shadow-2xl: 0 28px 48px -24px oklch(0 0 0 / 0.56);
+}
+
+/* ─── Step 2: Map CSS variables to Tailwind utilities ────────────────────────
+ * @theme inline bridges :root variables to Tailwind bg-*, text-*, shadow-*,
+ * rounded-*, and font-* utilities. Without mappings the utilities don't exist.
+ * ─────────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  /* Surfaces */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Brand */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Chrome */
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius — single base drives the whole scale */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Shadows — maps Tailwind shadow-* utilities to --afenda-shadow-* values */
+  --shadow-2xs: var(--afenda-shadow-2xs);
+  --shadow-xs: var(--afenda-shadow-xs);
+  --shadow-sm: var(--afenda-shadow-sm);
+  --shadow: var(--afenda-shadow);
+  --shadow-md: var(--afenda-shadow-md);
+  --shadow-lg: var(--afenda-shadow-lg);
+  --shadow-xl: var(--afenda-shadow-xl);
+  --shadow-2xl: var(--afenda-shadow-2xl);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+/* ─── Step 3: Global base styles ─────────────────────────────────────────── */
+@layer base {
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-weight: 650;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+
+  h5 {
+    font-size: 1.125rem;
+    line-height: 1.45;
+    font-weight: 550;
+  }
+
+  h6 {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 550;
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 22%, transparent);
+    color: var(--foreground);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

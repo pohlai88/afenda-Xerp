@@ -87,9 +87,7 @@ describe("withAuditEvidence — success path", () => {
     );
 
     const metadata = rows[0]?.metadata as Record<string, unknown>;
-    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket notation
     expect(metadata?.["sourceModule"]).toBe("onboarding");
-    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket notation
     expect(metadata?.["planTier"]).toBe("enterprise");
   });
 });
@@ -127,7 +125,6 @@ describe("withAuditEvidence — failure path", () => {
     ).rejects.toThrow();
 
     const metadata = rows[0]?.metadata as Record<string, unknown>;
-    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket notation
     expect(metadata?.["errorCode"]).toBe("ERR_UNIQUE");
     expect(JSON.stringify(metadata)).not.toContain("Internal");
   });

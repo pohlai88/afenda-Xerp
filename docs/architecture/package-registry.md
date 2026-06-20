@@ -7,7 +7,7 @@
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
-| **Active workspaces** | 19 |
+| **Active workspaces** | 20 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date.
@@ -37,7 +37,7 @@ TIP-001D validators consume these values exactly — no human variants.
 
 ---
 
-## Active Registry (18)
+## Active Registry (20)
 
 Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 
@@ -53,17 +53,18 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-008 | `@afenda/execution` | `packages/execution` | Foundation | active | Durable execution and workflow registry | Platform Authority | Yes | `active` |
 | PKG-009 | `@afenda/feature-flags` | `packages/feature-flags` | Integration | active | Deployment flags and rollout evaluation | Platform Authority | Yes | `active` |
 | PKG-010 | `@afenda/kernel` | `packages/kernel` | Foundation | active | Platform kernel and shared execution contracts | Platform Authority | Yes | `active` |
-| PKG-011 | `@afenda/metadata-ui` | `packages/metadata-ui` | Metadata | active | Metadata-driven rendering contracts | Metadata Authority | Yes | `active` |
-| PKG-012 | `@afenda/observability` | `packages/observability` | Platform | active | Logging, tracing, and audit authority | Platform Authority | Yes | `active` |
-| PKG-013 | `@afenda/permissions` | `packages/permissions` | Platform | active | Authorization and policy engine authority | Platform Authority | Yes | `active` |
-| PKG-014 | `@afenda/storage` | `packages/storage` | Foundation | active | Tenant-scoped storage abstraction | Platform Authority | Yes | `active` |
-| PKG-015 | `@afenda/testing` | `packages/testing` | Integration | active | Shared test utilities and mock providers | Platform Authority | Yes | `active` |
-| PKG-016 | `@afenda/typescript-config` | `packages/typescript-config` | Platform (tooling) | active | Shared TypeScript compiler presets | Platform Authority | Config only | `active-exempt` |
-| PKG-017 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
-| PKG-018 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
-| PKG-019 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
+| PKG-011 | `@afenda/metadata` | `packages/metadata` | Metadata | active | Metadata architecture authority contracts | Metadata Authority | Yes | `active` |
+| PKG-012 | `@afenda/metadata-ui` | `packages/metadata-ui` | Metadata | active | Metadata-driven rendering contracts | Metadata Authority | Yes | `active` |
+| PKG-013 | `@afenda/observability` | `packages/observability` | Platform | active | Logging, tracing, and audit authority | Platform Authority | Yes | `active` |
+| PKG-014 | `@afenda/permissions` | `packages/permissions` | Platform | active | Authorization and policy engine authority | Platform Authority | Yes | `active` |
+| PKG-015 | `@afenda/storage` | `packages/storage` | Foundation | active | Tenant-scoped storage abstraction | Platform Authority | Yes | `active` |
+| PKG-016 | `@afenda/testing` | `packages/testing` | Integration | active | Shared test utilities and mock providers | Platform Authority | Yes | `active` |
+| PKG-017 | `@afenda/typescript-config` | `packages/typescript-config` | Platform (tooling) | active | Shared TypeScript compiler presets | Platform Authority | Config only | `active-exempt` |
+| PKG-018 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
+| PKG-019 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
+| PKG-020 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
 
-**`active-exempt`:** PKG-016 is exempt from layer-dependency enforcement only. It remains registered and owned.
+**`active-exempt`:** PKG-017 is exempt from layer-dependency enforcement only. It remains registered and owned.
 
 ---
 
@@ -104,19 +105,20 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | Date | Action | Registry ID | Package / subject | ADR |
 |------|--------|-------------|-------------------|-----|
 | 2026-06-20 | Created | — | Baseline registry (PKG-001–018 active, PKG-R01–R05 reserved) | ADR-0001 |
-| 2026-06-20 | Activated | PKG-018 | `@afenda/architecture-authority` promoted from planned to active | TIP-001C |
-| 2026-06-20 | Activated | PKG-019 | `@afenda/ai-governance` registered active | ADR-0007 |
+| 2026-06-20 | Activated | PKG-019 | `@afenda/architecture-authority` promoted from planned to active | TIP-001C |
+| 2026-06-20 | Activated | PKG-020 | `@afenda/ai-governance` registered active | ADR-0007 |
+| 2026-06-20 | Activated | PKG-011 | `@afenda/metadata` registered active (metadata authority) | TIP-005 |
 | 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
 
 ---
 
 ## Acceptance
 
-- [x] 100% active workspace packages discovered (19/19)
+- [x] 100% active workspace packages discovered (20/20)
 - [x] Planned workspaces documented separately (0 filesystem-planned)
 - [x] 0 unknown packages in `apps/*` or `packages/*`
 - [x] Machine-readable status values defined
-- [x] Registry IDs assigned (PKG-001–019, PKG-R01–R05)
+- [x] Registry IDs assigned (PKG-001–020, PKG-R01–R05)
 - [x] Package purpose documented (one line each)
 - [x] Public API owner documented per package
 - [x] Domain inter-domain dependency rule stated

@@ -8,7 +8,6 @@
  * @see https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
  */
 export async function register() {
-  // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket notation
   if (process.env["NEXT_RUNTIME"] === "nodejs") {
     const { configureAuditEventPersistence } = await import(
       "@afenda/observability"

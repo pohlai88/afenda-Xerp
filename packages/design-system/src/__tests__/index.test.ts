@@ -40,6 +40,7 @@ import {
   TIP_004_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
   tokenContract,
+  tokenNameToCssVariable,
   tokenRegistry,
   VARIANT_AXES,
   VARIANT_EMPHASES,
@@ -67,7 +68,7 @@ const requiredContractFiles = [
 ] as const;
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
-const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/;
+const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/u;
 
 /**
  * Every value exported from the public entry point must be listed here.
@@ -116,6 +117,7 @@ const publicRuntimeExports = {
   stateContract,
   statePolicy,
   tokenContract,
+  tokenNameToCssVariable,
   tokenRegistry,
   validateDesignSystemGovernance,
   validateLayoutClassName,
@@ -280,13 +282,19 @@ describe("@afenda/design-system", () => {
 
   it("keeps public imports on the stable root export surface", () => {
     expect(publicExportContract.deepImportsAllowed).toBe(false);
-    expect(publicExportContract.publicEntrypoints).toEqual(["."]);
+    expect(publicExportContract.publicEntrypoints).toEqual([
+      ".",
+      "./css/tokens.css",
+    ]);
     expect(publicExportContract.stableExports).toEqual(
-      Object.keys(publicRuntimeExports).sort()
+      Object.keys(publicRuntimeExports).sort(),
     );
     expect(isPublicDesignSystemImport("@afenda/design-system")).toBe(true);
+    expect(
+      isPublicDesignSystemImport("@afenda/design-system/css/tokens.css"),
+    ).toBe(true);
     expect(isPublicDesignSystemImport("@afenda/design-system/tokens")).toBe(
-      false
+      false,
     );
   });
 

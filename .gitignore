@@ -50,6 +50,9 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Agent skill lock files (local tool artifact)
+skills-lock.json
+
 # Local planning artifacts
 temp-docx/
 temp-docx.zip

@@ -1,40 +1,34 @@
 {
-  "tip": "TIP-002",
-  "adr": "ADR-0007",
+  "tip": "TIP-UI-01",
+  "adr": "ADR-0001",
   "allowedPaths": [
-    "docs/ai/**",
-    "docs/adr/ADR-0007-ai-development-governance.md",
-    "docs/adr/README.md",
-    "docs/architecture/**",
-    "packages/ai-governance/**",
-    "packages/architecture-authority/src/data/**",
-    "packages/architecture-authority/src/__tests__/**",
-    "scripts/ai/**",
-    "scripts/quality/check-ai-governance.mjs",
-    "scripts/quality/check-release-gates.mjs",
-    ".github/workflows/**",
-    "package.json",
+    "docs/delivery/tip-ui-01-css-pipeline.md",
+    "docs/architecture/dependency-registry.md",
+    "docs/architecture/dependency-snapshot.json",
+    "packages/design-system/**",
+    "packages/architecture-authority/src/data/dependency-registry.data.ts",
+    "packages/ui/package.json",
+    "apps/erp/**",
+    "pnpm-workspace.yaml",
     "pnpm-lock.yaml",
     ".tip-scope.json"
   ],
   "forbiddenPaths": [
-    "apps/erp/**",
     "packages/database/**",
-    "packages/permissions/**",
-    "packages/execution/**",
-    "packages/storage/**"
+    "packages/permissions/**"
   ],
-  "reason": "Implement TIP-002 AI Development Governance only.",
+  "reason": "Implement TIP-UI-01 CSS pipeline only.",
   "nonGoals": [
-    "No ERP business logic",
-    "No domain package changes",
-    "No design-system primitive edits"
+    "No shadcn component scaffolding in this change",
+    "No AppShell token migration",
+    "No auth page restyling"
   ],
   "testPlan": [
-    "pnpm --filter @afenda/ai-governance test:run",
-    "pnpm quality:ai-governance -- --scope .tip-scope.json",
+    "pnpm --filter @afenda/design-system build",
+    "pnpm --filter @afenda/design-system test:run",
+    "pnpm --filter @afenda/erp typecheck",
     "pnpm quality:architecture",
-    "pnpm ci"
+    "pnpm --filter @afenda/erp build"
   ],
   "deletionJustifications": [],
   "testExemptions": []

@@ -4,7 +4,7 @@ import {
   PROHIBITED_CLASSNAME_PATTERNS,
 } from "../contracts/class-name-policy.contract";
 
-const CLASS_NAME_SEPARATOR_PATTERN = /\s+/;
+const CLASS_NAME_SEPARATOR_PATTERN = /\s+/u;
 
 export const classNamePolicy = {
   allowedPurpose: "layout-only",

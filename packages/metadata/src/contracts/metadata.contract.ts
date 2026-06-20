@@ -9,12 +9,13 @@ export type MetadataLifecycleState = (typeof METADATA_LIFECYCLE_STATES)[number];
 
 export interface MetadataIdentity {
   readonly id: string;
-  readonly version: string;
   readonly lifecycle: MetadataLifecycleState;
+  readonly version: string;
 }
 
 export interface MetadataContract {
   readonly contractId: "metadata";
+  readonly mustNotOwn: readonly ["rendering", "layout", "presentation"];
   readonly owner: "Metadata";
   readonly owns: readonly [
     "metadata vocabulary",
@@ -22,7 +23,8 @@ export interface MetadataContract {
     "metadata lifecycle",
     "metadata governance",
   ];
-  readonly mustNotOwn: readonly ["rendering", "layout", "presentation"];
+  readonly purpose: string;
+  readonly version: string;
 }
 
 export const metadataContract = {
@@ -35,4 +37,7 @@ export const metadataContract = {
     "metadata lifecycle",
     "metadata governance",
   ],
+  purpose:
+    "Own the metadata vocabulary, identity, lifecycle, and governance for Afenda metadata-driven surfaces.",
+  version: "0.1.0",
 } as const satisfies MetadataContract;

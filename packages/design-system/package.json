@@ -9,21 +9,22 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
-    }
+    },
+    "./css/tokens.css": "./dist/css/tokens.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && tsx scripts/generate-tokens-css.ts",
     "check:governance": "vitest run --config vitest.config.ts src/__tests__/index.test.ts",
     "dev": "tsc -b --watch",
-    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.scripts.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
-  "sideEffects": false,
+  "sideEffects": ["**/*.css"],
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
@@ -32,6 +33,7 @@
     "@types/react-dom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "tsx": "^4.20.3",
     "vitest": "catalog:"
   }
 }

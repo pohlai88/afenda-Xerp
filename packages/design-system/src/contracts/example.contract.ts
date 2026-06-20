@@ -46,7 +46,8 @@ export const exampleContract = {
 export interface GovernedExample {
   readonly demonstrates: readonly string[];
   readonly driftWarnings: readonly string[];
-  readonly imitationOnly?: true;
+  /** Must always be `true` — examples are imitation patterns, never authority. */
+  readonly imitationOnly: true;
   readonly importsFrom: "@afenda/design-system";
   readonly name: string;
   readonly purpose: string;

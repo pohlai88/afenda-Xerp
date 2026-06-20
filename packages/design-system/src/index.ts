@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-006 requires a stable public root export surface.
+// biome-ignore-all lint/performance/noBarrelFile: TIP-003/TIP-004 require a stable public root export surface governed by publicExportContract.
 import type { DesignSystemContract } from "./contracts/design-system.contract";
 import { erpGovernedExamples } from "./examples/erp-patterns";
 import { accessibilityPolicy } from "./policies/accessibility";
@@ -93,6 +93,7 @@ export type {
 } from "./contracts/variant.contract";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
+export type { AfendaTokenCssVariable } from "./css/token-css-variable";
 export type { AfendaTokenName } from "./tokens/registry";
 
 // ─── Runtime constants ────────────────────────────────────────────────────────
@@ -153,5 +154,6 @@ export {
 export { motionPolicy } from "./policies/motion";
 export { statePolicy } from "./policies/state";
 export { recipeRegistry } from "./recipes/registry";
+export { tokenNameToCssVariable } from "./css/token-css-variable";
 export { tokenRegistry } from "./tokens/registry";
 export { variantRegistry } from "./variants/registry";

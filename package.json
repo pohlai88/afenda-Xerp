@@ -49,7 +49,10 @@
     "db:bootstrap:local": "pnpm --filter @afenda/database db:bootstrap:local",
     "db:bootstrap:preview": "pnpm --filter @afenda/database db:bootstrap:preview",
     "db:verify:seed": "pnpm --filter @afenda/database db:verify:seed",
-    "auth": "better-auth"
+    "auth": "better-auth",
+    "studio:toolbar": "pnpm studio:toolbar:app",
+    "studio:toolbar:app": "npx shadcn-studio-extension-cli@latest -a 3000 -p 3200 -s",
+    "studio:toolbar:docs": "npx shadcn-studio-extension-cli@latest -a 3001 -p 3200 -s"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.4.21",

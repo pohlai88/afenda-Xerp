@@ -37,6 +37,7 @@ describe("validateArchitecture", () => {
         "@afenda/entitlements": "workspace:*",
       }),
       workspace("@afenda/kernel"),
+      workspace("@afenda/metadata"),
       workspace("@afenda/metadata-ui", {
         "@afenda/design-system": "workspace:*",
         "@afenda/permissions": "workspace:*",
@@ -87,6 +88,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",
       }),
+      workspace("@afenda/metadata"),
       workspace("@afenda/metadata-ui", {
         "@afenda/design-system": "workspace:*",
         "@afenda/permissions": "workspace:*",

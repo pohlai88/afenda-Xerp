@@ -1,0 +1,20 @@
+{
+  "workspace": ".",
+  "app": "apps/erp",
+  "appPort": 3000,
+  "toolbarPort": 3200,
+  "shadcn": {
+    "cwd": "apps/erp",
+    "uiPackage": "packages/ui"
+  },
+  "targets": {
+    "erp": {
+      "appPort": 3000,
+      "dev": "pnpm --filter @afenda/erp dev"
+    },
+    "docs": {
+      "appPort": 3001,
+      "dev": "pnpm --filter @afenda/docs dev"
+    }
+  }
+}

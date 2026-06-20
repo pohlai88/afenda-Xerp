@@ -1,3 +1,7 @@
 {
-  "recommendations": ["biomejs.biome", "vitest.explorer"]
+  "recommendations": [
+    "biomejs.biome",
+    "vitest.explorer",
+    "Themeselection.shadcn-studio-vscode-extension"
+  ]
 }

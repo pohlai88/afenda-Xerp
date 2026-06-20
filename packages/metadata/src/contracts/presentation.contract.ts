@@ -17,6 +17,7 @@ export interface PresentationDefinition {
 
 export interface PresentationContract {
   readonly contractId: "presentation";
+  readonly mustNotOwn: readonly ["design tokens", "component styling"];
   readonly owner: "Metadata";
   readonly owns: readonly [
     "presentation modes",
@@ -24,7 +25,8 @@ export interface PresentationContract {
     "readonly modes",
     "visibility modes",
   ];
-  readonly mustNotOwn: readonly ["design tokens", "component styling"];
+  readonly purpose: string;
+  readonly version: string;
 }
 
 export const presentationContract = {
@@ -37,4 +39,7 @@ export const presentationContract = {
     "readonly modes",
     "visibility modes",
   ],
+  purpose:
+    "Own presentation, density, readonly, and visibility modes for governed metadata surfaces.",
+  version: "0.1.0",
 } as const satisfies PresentationContract;

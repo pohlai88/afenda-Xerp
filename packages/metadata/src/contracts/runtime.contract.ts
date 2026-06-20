@@ -1,7 +1,6 @@
 export const RUNTIME_DIAGNOSTIC_LEVELS = ["info", "warning", "error"] as const;
 
-export type RuntimeDiagnosticLevel =
-  (typeof RUNTIME_DIAGNOSTIC_LEVELS)[number];
+export type RuntimeDiagnosticLevel = (typeof RUNTIME_DIAGNOSTIC_LEVELS)[number];
 
 export interface RuntimeDiagnostic {
   readonly code: string;
@@ -18,6 +17,7 @@ export interface MetadataRuntimeContext {
 
 export interface RuntimeContract {
   readonly contractId: "runtime";
+  readonly mustNotOwn: readonly ["ERP workflows", "database access"];
   readonly owner: "Metadata";
   readonly owns: readonly [
     "render context",
@@ -25,7 +25,8 @@ export interface RuntimeContract {
     "runtime state",
     "runtime diagnostics",
   ];
-  readonly mustNotOwn: readonly ["ERP workflows", "database access"];
+  readonly purpose: string;
+  readonly version: string;
 }
 
 export const runtimeContract = {
@@ -38,4 +39,7 @@ export const runtimeContract = {
     "runtime state",
     "runtime diagnostics",
   ],
+  purpose:
+    "Own render context, execution context, runtime state, and diagnostics for metadata execution.",
+  version: "0.1.0",
 } as const satisfies RuntimeContract;

@@ -46,6 +46,6 @@ export interface PublicExportContract {
   readonly deepImportsAllowed: false;
   readonly internalFolders: readonly string[];
   readonly packageName: "@afenda/design-system";
-  readonly publicEntrypoints: readonly ["."];
+  readonly publicEntrypoints: readonly string[];
   readonly stableExports: readonly string[];
 }

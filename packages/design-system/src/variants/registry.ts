@@ -65,7 +65,7 @@ interface AxisOptionType {
 const mapOptions = <TAxis extends MappableAxis>(
   axis: TAxis,
   options: readonly AxisOptionType[TAxis][]
-): VariantDefinition[] =>
+): readonly VariantDefinition[] =>
   options.map((option) => ({
     axis,
     option,

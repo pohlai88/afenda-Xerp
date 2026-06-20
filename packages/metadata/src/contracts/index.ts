@@ -1,13 +1,20 @@
 // biome-ignore-all lint/performance/noBarrelFile: TIP-005 requires a stable contract export surface.
+
 export type {
-  MetadataAuthorityDecision,
-  MetadataAuthorityKey,
-  MetadataAuthorityOwnership,
-} from "./metadata-authority-map.js";
+  CrossPackageAuthority,
+  CrossPackageAuthorityEntry,
+  CrossPackageName,
+} from "./cross-package-authority.js";
 export {
-  METADATA_AUTHORITY_KEYS,
-  metadataAuthorityMap,
-} from "./metadata-authority-map.js";
+  CROSS_PACKAGE_NAMES,
+  crossPackageAuthority,
+} from "./cross-package-authority.js";
+export type {
+  LayoutContract,
+  LayoutDefinition,
+  LayoutType,
+} from "./layout.contract.js";
+export { LAYOUT_TYPES, layoutContract } from "./layout.contract.js";
 export type {
   MetadataContract,
   MetadataIdentity,
@@ -18,11 +25,16 @@ export {
   metadataContract,
 } from "./metadata.contract.js";
 export type {
-  LayoutContract,
-  LayoutDefinition,
-  LayoutType,
-} from "./layout.contract.js";
-export { LAYOUT_TYPES, layoutContract } from "./layout.contract.js";
+  MetadataAiGovernanceRules,
+  MetadataAuthorityDecision,
+  MetadataAuthorityKey,
+  MetadataAuthorityOwnership,
+} from "./metadata-authority-map.js";
+export {
+  METADATA_AUTHORITY_KEYS,
+  metadataAiGovernanceRules,
+  metadataAuthorityMap,
+} from "./metadata-authority-map.js";
 export type {
   MetadataDensityMode,
   PresentationContract,
@@ -34,14 +46,14 @@ export type {
 export {
   DENSITY_MODES,
   PRESENTATION_MODES,
+  presentationContract,
   READONLY_MODES,
   VISIBILITY_MODES,
-  presentationContract,
 } from "./presentation.contract.js";
 export type {
+  RegistrationLifecycleState,
   RegistryContract,
   RegistryEntry,
-  RegistrationLifecycleState,
 } from "./registry.contract.js";
 export {
   REGISTRATION_LIFECYCLE_STATES,
@@ -57,10 +69,10 @@ export {
   rendererContract,
 } from "./renderer.contract.js";
 export type {
+  MetadataRuntimeContext,
   RuntimeContract,
   RuntimeDiagnostic,
   RuntimeDiagnosticLevel,
-  MetadataRuntimeContext,
 } from "./runtime.contract.js";
 export {
   RUNTIME_DIAGNOSTIC_LEVELS,

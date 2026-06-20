@@ -11,11 +11,11 @@ import type { PublicExportContract } from "../contracts/export.contract";
  * Invariant: this list must stay alphabetically sorted (uppercase before
  * lowercase, matching JavaScript's Array.prototype.sort()) so the governance
  * test can compare it with Object.keys(publicRuntimeExports).sort() without
- * order ambiguity.  Current count: 48.
+ * order ambiguity.  Current count: 49.
  */
 export const publicExportContract = {
   packageName: "@afenda/design-system",
-  publicEntrypoints: ["."],
+  publicEntrypoints: [".", "./css/tokens.css"],
   stableExports: [
     "ACCESSIBILITY_REQUIREMENTS",
     "ALLOWED_LAYOUT_CLASSNAME_PATTERNS",
@@ -57,6 +57,7 @@ export const publicExportContract = {
     "stateContract",
     "statePolicy",
     "tokenContract",
+    "tokenNameToCssVariable",
     "tokenRegistry",
     "validateDesignSystemGovernance",
     "validateLayoutClassName",
@@ -66,6 +67,7 @@ export const publicExportContract = {
   deepImportsAllowed: false,
   internalFolders: [
     "contracts",
+    "css",
     "examples",
     "policies",
     "recipes",
@@ -74,5 +76,14 @@ export const publicExportContract = {
   ],
 } as const satisfies PublicExportContract;
 
+const PUBLIC_ENTRYPOINTS = new Set<string>(
+  publicExportContract.publicEntrypoints.map(
+    (entrypoint) =>
+      entrypoint === "."
+        ? "@afenda/design-system"
+        : `@afenda/design-system${entrypoint.slice(1)}`,
+  ),
+);
+
 export const isPublicDesignSystemImport = (specifier: string): boolean =>
-  specifier === "@afenda/design-system";
+  PUBLIC_ENTRYPOINTS.has(specifier);

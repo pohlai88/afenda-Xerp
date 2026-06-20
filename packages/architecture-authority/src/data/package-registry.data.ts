@@ -117,6 +117,17 @@ const ACTIVE_PACKAGES = [
   },
   {
     registryId: "PKG-011",
+    packageName: "@afenda/metadata",
+    path: "packages/metadata",
+    layer: "Metadata",
+    lifecycle: "active",
+    purpose: "Metadata architecture authority contracts",
+    publicApiOwner: "Metadata Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
+    registryId: "PKG-012",
     packageName: "@afenda/metadata-ui",
     path: "packages/metadata-ui",
     layer: "Metadata",
@@ -127,7 +138,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-012",
+    registryId: "PKG-013",
     packageName: "@afenda/observability",
     path: "packages/observability",
     layer: "Platform",
@@ -138,7 +149,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-013",
+    registryId: "PKG-014",
     packageName: "@afenda/permissions",
     path: "packages/permissions",
     layer: "Platform",
@@ -149,7 +160,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-014",
+    registryId: "PKG-015",
     packageName: "@afenda/storage",
     path: "packages/storage",
     layer: "Foundation",
@@ -160,7 +171,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-015",
+    registryId: "PKG-016",
     packageName: "@afenda/testing",
     path: "packages/testing",
     layer: "Integration",
@@ -171,7 +182,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-016",
+    registryId: "PKG-017",
     packageName: "@afenda/typescript-config",
     path: "packages/typescript-config",
     layer: "Platform",
@@ -182,7 +193,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-017",
+    registryId: "PKG-018",
     packageName: "@afenda/ui",
     path: "packages/ui",
     layer: "Design",
@@ -193,7 +204,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-018",
+    registryId: "PKG-019",
     packageName: "@afenda/architecture-authority",
     path: "packages/architecture-authority",
     layer: "Platform",
@@ -204,7 +215,7 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
-    registryId: "PKG-019",
+    registryId: "PKG-020",
     packageName: "@afenda/ai-governance",
     path: "packages/ai-governance",
     layer: "Platform",

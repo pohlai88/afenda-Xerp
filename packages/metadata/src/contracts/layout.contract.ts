@@ -11,12 +11,13 @@ export type LayoutType = (typeof LAYOUT_TYPES)[number];
 
 export interface LayoutDefinition {
   readonly id: string;
-  readonly type: LayoutType;
   readonly surfaceId: string;
+  readonly type: LayoutType;
 }
 
 export interface LayoutContract {
   readonly contractId: "layout";
+  readonly mustNotOwn: readonly ["visual styling", "renderer behavior"];
   readonly owner: "Metadata";
   readonly owns: readonly [
     "dashboard layouts",
@@ -26,7 +27,8 @@ export interface LayoutContract {
     "tabs layouts",
     "wizard layouts",
   ];
-  readonly mustNotOwn: readonly ["visual styling", "renderer behavior"];
+  readonly purpose: string;
+  readonly version: string;
 }
 
 export const layoutContract = {
@@ -41,4 +43,7 @@ export const layoutContract = {
     "tabs layouts",
     "wizard layouts",
   ],
+  purpose:
+    "Own dashboard, grid, panel, stack, tabs, and wizard layout arrangements for metadata-driven surfaces.",
+  version: "0.1.0",
 } as const satisfies LayoutContract;

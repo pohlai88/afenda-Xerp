@@ -64,6 +64,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/entitlements": "workspace:*",
     }),
     workspace("@afenda/kernel", "kernel"),
+    workspace("@afenda/metadata", "metadata"),
     workspace("@afenda/metadata-ui", "metadata-ui", {
       "@afenda/design-system": "workspace:*",
       "@afenda/permissions": "workspace:*",

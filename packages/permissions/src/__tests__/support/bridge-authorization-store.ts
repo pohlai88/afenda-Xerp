@@ -184,32 +184,36 @@ function queryTable(
   filters: Record<string, unknown>
 ): Record<string, unknown>[] {
   if (table === roles) {
-    const role = filters['id'] ? store.roles.get(String(filters['id'])) : undefined;
+    const role = filters["id"]
+      ? store.roles.get(String(filters["id"]))
+      : undefined;
     return role ? [projectFields({ ...role }, fields)] : [];
   }
 
   if (table === permissions) {
-    const permission = filters['id']
-      ? store.permissions.get(String(filters['id']))
+    const permission = filters["id"]
+      ? store.permissions.get(String(filters["id"]))
       : undefined;
     return permission ? [projectFields({ ...permission }, fields)] : [];
   }
 
   if (table === users) {
-    const user = filters['id'] ? store.users.get(String(filters['id'])) : undefined;
+    const user = filters["id"]
+      ? store.users.get(String(filters["id"]))
+      : undefined;
     return user ? [projectFields({ ...user }, fields)] : [];
   }
 
   if (table === tenants) {
-    const tenant = filters['id']
-      ? store.tenants.get(String(filters['id']))
+    const tenant = filters["id"]
+      ? store.tenants.get(String(filters["id"]))
       : undefined;
     return tenant ? [projectFields({ ...tenant }, fields)] : [];
   }
 
   if (table === companies) {
-    const company = filters['id']
-      ? store.companies.get(String(filters['id']))
+    const company = filters["id"]
+      ? store.companies.get(String(filters["id"]))
       : undefined;
 
     if (!company) {
@@ -217,8 +221,8 @@ function queryTable(
     }
 
     if (
-      filters['tenantId'] !== undefined &&
-      company.tenantId !== filters['tenantId']
+      filters["tenantId"] !== undefined &&
+      company.tenantId !== filters["tenantId"]
     ) {
       return [];
     }
@@ -230,15 +234,15 @@ function queryTable(
     return store.memberships
       .filter((membership) => {
         if (
-          filters['userId'] !== undefined &&
-          membership.userId !== filters['userId']
+          filters["userId"] !== undefined &&
+          membership.userId !== filters["userId"]
         ) {
           return false;
         }
 
         if (
-          filters['tenantId'] !== undefined &&
-          membership.tenantId !== filters['tenantId']
+          filters["tenantId"] !== undefined &&
+          membership.tenantId !== filters["tenantId"]
         ) {
           return false;
         }
@@ -249,7 +253,7 @@ function queryTable(
   }
 
   if (table === rolePermissions) {
-    const roleId = String(filters['roleId'] ?? "");
+    const roleId = String(filters["roleId"] ?? "");
     const rows = [...store.rolePermissions]
       .filter((entry) => entry.startsWith(`${roleId}:`))
       .map((entry) => {
@@ -271,7 +275,7 @@ function queryRolePermissionJoin(
   fields: Record<string, { name?: string }>,
   filters: Record<string, unknown>
 ): Record<string, unknown>[] {
-  const roleId = String(filters['roleId'] ?? "");
+  const roleId = String(filters["roleId"] ?? "");
   const rows: Record<string, unknown>[] = [];
 
   for (const entry of store.rolePermissions) {

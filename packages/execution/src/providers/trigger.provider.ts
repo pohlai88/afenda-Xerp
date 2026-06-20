@@ -72,7 +72,6 @@ function mapTriggerRunStatus(status: string): ExecutionStatusRecord["status"] {
 }
 
 function readTriggerSecretKey(): string | null {
-  // biome-ignore lint/complexity/useLiteralKeys: bracket access required for Node env index signature under exactOptionalPropertyTypes
   return process.env["TRIGGER_SECRET_KEY"] ?? null;
 }
 

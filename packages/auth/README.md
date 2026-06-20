@@ -1,17 +1,17 @@
 # Afenda Auth (`@afenda/auth`)
 
-Better Auth foundation for Afenda ERP (TIP-004).
+Better Auth foundation for Afenda ERP (TIP-010 — Identity & Authorization Foundation).
 
 ## Responsibilities
 
 - Application-owned sign-in, sign-out, and session retrieval
 - Drizzle-backed auth tables on Supabase Postgres
-- Normalized `AfendaAuthSession` contract for TIP-005 authorization
+- Normalized `AfendaAuthSession` contract for authorization via `@afenda/permissions`
 - Auth audit events (`audit_events` module `auth`)
 
 ## Out of scope
 
-- Tenant/company/organization permission enforcement → `@afenda/permissions` (TIP-005)
+- Tenant/company/organization permission enforcement → `@afenda/permissions`
 - Supabase Auth as identity provider
 - Business modules
 

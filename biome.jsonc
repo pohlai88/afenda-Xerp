@@ -31,6 +31,9 @@
         "useImportExtensions": "off",
         "noUnresolvedImports": "off"
       },
+      "complexity": {
+        "useLiteralKeys": "off"
+      },
       "suspicious": {
         "noDeprecatedImports": "warn"
       }
