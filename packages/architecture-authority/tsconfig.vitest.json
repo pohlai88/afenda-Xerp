@@ -1,8 +1,14 @@
 {
-  "extends": "@afenda/typescript-config/test.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "noEmit": true
+    "noEmit": true,
+    "composite": false,
+    "types": ["vitest"]
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/__tests__/**/*",
+    "src/**/__mocks__/**/*",
+    "src/**/*.d.ts"
+  ],
+  "exclude": []
 }

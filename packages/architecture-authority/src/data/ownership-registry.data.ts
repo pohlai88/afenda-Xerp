@@ -1,4 +1,7 @@
-import type { OwnershipContract } from "../contracts/ownership.contract.js";
+import type {
+  OwnershipContract,
+  PackageOwnership,
+} from "../contracts/ownership.contract.js";
 
 const OWNERSHIP_ROWS = [
   {
@@ -91,7 +94,7 @@ const OWNERSHIP_ROWS = [
     ownerDomain: "Architecture Authority",
     authorityLevel: "architecture",
   },
-] as const;
+] as const satisfies readonly PackageOwnership[];
 
 function auditApprover(authorityLevel: string): string {
   if (authorityLevel === "architecture") {

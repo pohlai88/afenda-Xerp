@@ -7,6 +7,72 @@ import type {
 
 const SOURCE_ROOTS = ["apps", "packages"] as const;
 
+interface PackageJsonShape {
+  dependencies?: unknown;
+  devDependencies?: unknown;
+  name?: unknown;
+  peerDependencies?: unknown;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isPackageJsonShape(value: unknown): value is PackageJsonShape {
+  return isRecord(value);
+}
+
+function isStringRecord(value: unknown): value is Record<string, string> {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  return Object.values(value).every((entry) => typeof entry === "string");
+}
+
+export function parseWorkspacePackageJson(
+  raw: unknown
+): WorkspacePackageJson | null {
+  if (!isPackageJsonShape(raw) || typeof raw.name !== "string") {
+    return null;
+  }
+
+  let dependencies: Record<string, string> | undefined;
+  let devDependencies: Record<string, string> | undefined;
+  let peerDependencies: Record<string, string> | undefined;
+
+  if (raw.dependencies !== undefined) {
+    if (!isStringRecord(raw.dependencies)) {
+      return null;
+    }
+
+    dependencies = raw.dependencies;
+  }
+
+  if (raw.devDependencies !== undefined) {
+    if (!isStringRecord(raw.devDependencies)) {
+      return null;
+    }
+
+    devDependencies = raw.devDependencies;
+  }
+
+  if (raw.peerDependencies !== undefined) {
+    if (!isStringRecord(raw.peerDependencies)) {
+      return null;
+    }
+
+    peerDependencies = raw.peerDependencies;
+  }
+
+  return {
+    name: raw.name,
+    ...(dependencies === undefined ? {} : { dependencies }),
+    ...(devDependencies === undefined ? {} : { devDependencies }),
+    ...(peerDependencies === undefined ? {} : { peerDependencies }),
+  };
+}
+
 export function discoverWorkspaces(
   workspaceRoot: string
 ): DiscoveredWorkspace[] {
@@ -33,11 +99,10 @@ export function discoverWorkspaces(
         continue;
       }
 
-      const packageJson = JSON.parse(
-        readFileSync(packageJsonPath, "utf8")
-      ) as WorkspacePackageJson;
+      const raw: unknown = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+      const packageJson = parseWorkspacePackageJson(raw);
 
-      if (typeof packageJson.name !== "string") {
+      if (!packageJson) {
         continue;
       }
 

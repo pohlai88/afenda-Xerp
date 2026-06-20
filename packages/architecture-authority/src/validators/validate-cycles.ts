@@ -44,7 +44,7 @@ export function validateCycles(workspaces: readonly DiscoveredWorkspace[]) {
     stack.delete(node);
   }
 
-  for (const node of graph.keys()) {
+  for (const node of Array.from(graph.keys())) {
     visit(node, []);
   }
 

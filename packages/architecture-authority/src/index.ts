@@ -75,4 +75,5 @@ export {
   discoverWorkspaces,
   getDevWorkspaceDependencies,
   getRuntimeWorkspaceDependencies,
+  parseWorkspacePackageJson,
 } from "./workspace/discover-workspaces.js";
