@@ -7,6 +7,7 @@ import useEmblaCarousel, {
 
 import { cn } from "@afenda/ui/lib/utils"
 import { Button } from "@afenda/ui/components/button"
+import { mapStockButtonProps, type StockButtonSize, type StockButtonVisual } from "@afenda/ui/governance"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -173,21 +174,19 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 
 function CarouselPrevious({
   className,
-  intent = "primary",
-  emphasis = "outline",
-  size = "sm",
-  presentation = "icon",
+  variant = "outline",
+  size = "icon-sm",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: Omit<React.ComponentProps<typeof Button>, "variant" | "size"> & {
+  variant?: StockButtonVisual
+  size?: StockButtonSize
+}) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
     <Button
       data-slot="carousel-previous"
-      intent={intent}
-      emphasis={emphasis}
-      size={size}
-      presentation={presentation}
+      {...mapStockButtonProps(variant, size)}
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
@@ -207,21 +206,19 @@ function CarouselPrevious({
 
 function CarouselNext({
   className,
-  intent = "primary",
-  emphasis = "outline",
-  size = "sm",
-  presentation = "icon",
+  variant = "outline",
+  size = "icon-sm",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: Omit<React.ComponentProps<typeof Button>, "variant" | "size"> & {
+  variant?: StockButtonVisual
+  size?: StockButtonSize
+}) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
     <Button
       data-slot="carousel-next"
-      intent={intent}
-      emphasis={emphasis}
-      size={size}
-      presentation={presentation}
+      {...mapStockButtonProps(variant, size)}
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"

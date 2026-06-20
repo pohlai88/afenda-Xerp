@@ -1,48 +1,55 @@
-import { Button as ButtonPrimitive } from "@base-ui/react/button";
-import type { ButtonState } from "@base-ui/react/button";
+import * as React from "react";
+import { Slot } from "radix-ui";
 
 import { cn } from "@afenda/ui/lib/utils";
-import {
-  assertAllowedLayoutClassName,
-  getComponentAccessibilityRequirement,
-  resolveButtonClassName,
-} from "@afenda/ui/governance";
-import type { AfendaButtonProps } from "@afenda/ui/lib/afenda-contracts";
+import type { GovernedButtonProps } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-type ButtonPrimitiveProps = ButtonPrimitive.Props;
+export interface ButtonProps
+  extends Omit<React.ComponentProps<"button">, "className">,
+    GovernedButtonProps {
+  readonly asChild?: boolean;
+  readonly className?: string;
+  readonly state?: string;
+}
 
 function Button({
+  asChild = false,
   className,
+  state,
   intent = "primary",
   emphasis = "solid",
   size = "md",
   density,
   presentation = "default",
   ...props
-}: ButtonPrimitiveProps & AfendaButtonProps) {
-  if (typeof className === "string") {
-    assertAllowedLayoutClassName(className);
-  }
-  getComponentAccessibilityRequirement("Button");
+}: ButtonProps) {
+  const Comp = asChild ? Slot.Root : "button";
 
-  const recipeSelection = {
-    intent,
-    emphasis,
-    size,
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Button",
+    recipeName: "button",
+    variant: {
+      intent,
+      emphasis,
+      size,
+      ...(density === undefined ? {} : { density }),
+    },
     presentation,
-    ...(density === undefined ? {} : { density }),
-  };
-  const recipeClasses = resolveButtonClassName(recipeSelection);
-  const mergedClassName =
-    typeof className === "function"
-      ? (state: ButtonState) => cn(recipeClasses, className(state))
-      : cn(recipeClasses, className);
+    state,
+    slot: "root",
+    className,
+  });
 
   return (
-    <ButtonPrimitive
-      data-slot="button"
+    <Comp
+      {...governed.dataAttributes}
       {...(density === undefined ? {} : { "data-density": density })}
-      className={mergedClassName}
+      data-intent={intent}
+      data-emphasis={emphasis}
+      data-size={size}
+      data-presentation={presentation}
+      className={cn(governed.className)}
       {...props}
     />
   );

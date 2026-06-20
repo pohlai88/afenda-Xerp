@@ -199,12 +199,16 @@ packages/design-system/src/
     accessibility.registry.ts
     example.registry.ts
 
-  policy/
-    class-name.policy.ts
-    export.policy.ts
-    token-name.policy.ts
-    css-variable.policy.ts
-    ai-generation.policy.ts
+  policies/
+    accessibility.ts
+    ai-generation-policy.ts
+    class-name-policy.ts
+    css-variable-policy.ts
+    drift-validation.ts
+    export-surface.ts
+    motion.ts
+    state.ts
+    token-name-policy.ts
 
   validation/
     token.validation.ts

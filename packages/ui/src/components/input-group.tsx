@@ -5,7 +5,11 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@afenda/ui/lib/utils"
 import { Button } from "@afenda/ui/components/button"
-import type { AfendaButtonProps } from "@afenda/ui/lib/afenda-contracts"
+import {
+  mapStockButtonProps,
+  type StockButtonSize,
+  type StockButtonVisual,
+} from "@afenda/ui/governance"
 import { Input } from "@afenda/ui/components/input"
 import { Textarea } from "@afenda/ui/components/textarea"
 
@@ -73,8 +77,9 @@ const inputGroupButtonVariants = cva(
       size: {
         xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
         sm: "",
-        md: "",
-        lg: "",
+        "icon-xs":
+          "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
+        "icon-sm": "size-8 p-0 has-[>svg]:p-0",
       },
     },
     defaultVariants: {
@@ -86,23 +91,21 @@ const inputGroupButtonVariants = cva(
 function InputGroupButton({
   className,
   type = "button",
-  intent = "quiet",
-  emphasis = "ghost",
+  variant = "ghost",
   size = "xs",
-  presentation = "default",
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "type"> &
-  AfendaButtonProps & {
-    type?: "button" | "submit" | "reset"
+}: Omit<React.ComponentProps<typeof Button>, "size" | "variant"> &
+  VariantProps<typeof inputGroupButtonVariants> & {
+    variant?: StockButtonVisual
+    size?: StockButtonSize | "xs"
   }) {
+  const governedSize: StockButtonSize = size === "xs" ? "xs" : size
+
   return (
     <Button
       type={type}
-      intent={intent}
-      emphasis={emphasis}
-      size={size}
-      presentation={presentation}
       data-size={size}
+      {...mapStockButtonProps(variant, governedSize)}
       className={cn(inputGroupButtonVariants({ size }), className)}
       {...props}
     />
@@ -123,13 +126,14 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
 
 function InputGroupInput({
   className,
+  size: _nativeSize,
   ...props
 }: React.ComponentProps<"input">) {
   return (
     <Input
       data-slot="input-group-control"
       className={cn(
-        "flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent",
+        "flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent",
         className
       )}
       {...props}
@@ -145,7 +149,7 @@ function InputGroupTextarea({
     <Textarea
       data-slot="input-group-control"
       className={cn(
-        "flex-1 resize-none rounded-none border-0 bg-transparent py-2 shadow-none focus-visible:ring-0 dark:bg-transparent",
+        "flex-1 resize-none rounded-none border-0 bg-transparent py-2 shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent",
         className
       )}
       {...props}
@@ -157,7 +161,7 @@ export {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
-  InputGroupInput,
   InputGroupText,
+  InputGroupInput,
   InputGroupTextarea,
 }

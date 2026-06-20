@@ -30,14 +30,18 @@ describe("@afenda/ui component renders", () => {
       </Button>
     );
     expect(screen.getByRole("button", { name: "Save" })).toHaveClass("bg-primary");
+    expect(screen.getByRole("button", { name: "Save" })).toHaveAttribute(
+      "data-component",
+      "Button"
+    );
   });
 
-  it("renders Input with data-slot marker", () => {
+  it("renders Input with governed data attributes", () => {
     render(<Input aria-label="Email" placeholder="you@example.com" />);
-    expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
-      "data-slot",
-      "input"
-    );
+    const input = screen.getByRole("textbox", { name: "Email" });
+    expect(input).toHaveAttribute("data-slot", "input");
+    expect(input).toHaveAttribute("data-component", "Input");
+    expect(input).toHaveAttribute("data-recipe", "form-control");
   });
 
   it("renders Table structure", () => {
@@ -64,7 +68,9 @@ describe("@afenda/ui component renders", () => {
   it("renders shell primitives", () => {
     render(
       <div>
-        <Badge tone="info">New</Badge>
+        <Badge tone="info" emphasis="soft">
+          New
+        </Badge>
         <Separator aria-hidden />
         <Skeleton aria-hidden data-testid="skeleton" />
         <Label htmlFor="name">Name</Label>
@@ -89,14 +95,14 @@ describe("@afenda/ui component renders", () => {
     expect(screen.getByText("Overview")).toBeInTheDocument();
     expect(screen.getByText("Metrics")).toBeInTheDocument();
     expect(screen.getByText("Overview").closest("[data-slot=card]")).toHaveAttribute(
-      "data-density",
-      "standard"
+      "data-recipe",
+      "card"
     );
   });
 
-  it("renders Alert", () => {
+  it("renders Alert with governed tone", () => {
     render(
-      <Alert variant="destructive">
+      <Alert tone="danger">
         <AlertTitle>Action required</AlertTitle>
         <AlertDescription>Review the failed journal entry.</AlertDescription>
       </Alert>
@@ -104,5 +110,6 @@ describe("@afenda/ui component renders", () => {
 
     expect(screen.getByRole("alert")).toBeInTheDocument();
     expect(screen.getByText("Action required")).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveAttribute("data-tone", "danger");
   });
 });

@@ -1,76 +1,98 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { cn } from "@afenda/ui/lib/utils";
+import type { GovernedStatusProps, StatusTone } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-const alertVariants = cva(
-  "group/alert relative grid w-full gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
-  {
-    variants: {
-      variant: {
-        default: "bg-card text-card-foreground",
-        destructive:
-          "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
+export interface AlertProps
+  extends Omit<React.ComponentProps<"div">, "className">,
+    GovernedStatusProps {
+  readonly className?: string;
+  readonly state?: string;
+  /** @deprecated Use `tone="danger"` instead of `variant="destructive"`. */
+  readonly variant?: "default" | "destructive";
+}
+
+function resolveAlertTone(
+  tone: StatusTone | undefined,
+  variant: AlertProps["variant"]
+): StatusTone {
+  if (tone !== undefined) {
+    return tone;
   }
-)
+
+  if (variant === "destructive") {
+    return "danger";
+  }
+
+  return "neutral";
+}
 
 function Alert({
   className,
+  state,
+  tone,
   variant,
+  density = "standard",
+  radius = "md",
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+}: AlertProps) {
+  const resolvedTone = resolveAlertTone(tone, variant);
+
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Alert",
+    recipeName: "status",
+    variant: { tone: resolvedTone, density, radius },
+    state,
+    slot: "root",
+    className,
+  });
+
   return (
     <div
-      data-slot="alert"
+      {...governed.dataAttributes}
       role="alert"
-      className={cn(alertVariants({ variant }), className)}
+      data-tone={resolvedTone}
+      className={cn(governed.className)}
       {...props}
     />
-  )
+  );
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Alert",
+    slot: "label",
+    className,
+  });
+
   return (
-    <div
-      data-slot="alert-title"
-      className={cn(
-        "font-medium group-has-[>svg]/alert:col-start-2 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground",
-        className
-      )}
-      {...props}
-    />
-  )
+    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
-function AlertDescription({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Alert",
+    slot: "body",
+    className,
+  });
+
   return (
-    <div
-      data-slot="alert-description"
-      className={cn(
-        "text-sm text-balance text-muted-foreground md:text-pretty [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-        className
-      )}
-      {...props}
-    />
-  )
+    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Alert",
+    slot: "actions",
+    className,
+  });
+
   return (
-    <div
-      data-slot="alert-action"
-      className={cn("absolute top-2 right-2", className)}
-      {...props}
-    />
-  )
+    <div {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
-export { Alert, AlertTitle, AlertDescription, AlertAction }
+export { Alert, AlertTitle, AlertDescription, AlertAction };

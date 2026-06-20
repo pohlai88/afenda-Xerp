@@ -7,11 +7,57 @@ import {
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
+  type Density,
+  type GovernedRadius,
+  type GovernedShadow,
+  type GovernedSize,
+  type StatusTone,
   type VariantAxis,
+  type VariantEmphasis,
+  type VariantIntent,
   type VariantSelection,
 } from "./design-system";
+import { isDevelopment } from "./dev-env";
+import {
+  BADGE_VARIANT_AXES,
+  BUTTON_VARIANT_AXES,
+  CARD_VARIANT_AXES,
+  FORM_CONTROL_VARIANT_AXES,
+  STATUS_VARIANT_AXES,
+  SURFACE_VARIANT_AXES,
+  TABLE_VARIANT_AXES,
+} from "./recipe-coverage";
 
-const isDevelopment = process.env["NODE_ENV"] !== "production";
+export {
+  BADGE_VARIANT_AXES,
+  BUTTON_VARIANT_AXES,
+  CARD_VARIANT_AXES,
+  FORM_CONTROL_VARIANT_AXES,
+  STATUS_VARIANT_AXES,
+  SURFACE_VARIANT_AXES,
+  TABLE_VARIANT_AXES,
+} from "./recipe-coverage";
+
+export interface VariantPolicyViolation {
+  readonly axis?: string;
+  readonly value?: string;
+  readonly reason: "unknown-axis" | "disallowed-axis" | "unsupported-value";
+}
+
+export interface VariantPolicyResult {
+  readonly valid: boolean;
+  readonly violations: readonly VariantPolicyViolation[];
+}
+
+type AxisOptionMap = {
+  intent: VariantIntent;
+  emphasis: VariantEmphasis;
+  tone: StatusTone;
+  density: Density;
+  size: GovernedSize;
+  radius: GovernedRadius;
+  shadow: GovernedShadow;
+};
 
 const axisOptions = {
   intent: VARIANT_INTENTS,
@@ -21,163 +67,159 @@ const axisOptions = {
   size: SIZES,
   radius: RADII,
   shadow: SHADOWS,
-} as const satisfies Record<VariantAxis, readonly string[]>;
-
-const axisValueGetters = {
-  intent: (selection: VariantSelection) => selection.intent,
-  emphasis: (selection: VariantSelection) => selection.emphasis,
-  tone: (selection: VariantSelection) => selection.tone,
-  density: (selection: VariantSelection) => selection.density,
-  size: (selection: VariantSelection) => selection.size,
-  radius: (selection: VariantSelection) => selection.radius,
-  shadow: (selection: VariantSelection) => selection.shadow,
 } as const satisfies {
-  readonly [K in VariantAxis]: (selection: VariantSelection) => string | undefined;
+  readonly [K in VariantAxis]: readonly AxisOptionMap[K][];
 };
-
-type MutableVariantSelection = {
-  -readonly [K in keyof VariantSelection]: VariantSelection[K];
-};
-
-export const BUTTON_VARIANT_AXES = [
-  "intent",
-  "density",
-  "size",
-  "radius",
-  "emphasis",
-] as const satisfies readonly VariantAxis[];
-
-export const BADGE_VARIANT_AXES = [
-  "tone",
-  "density",
-  "size",
-  "radius",
-  "emphasis",
-] as const satisfies readonly VariantAxis[];
-
-export const CARD_VARIANT_AXES = [
-  "density",
-  "radius",
-  "shadow",
-] as const satisfies readonly VariantAxis[];
 
 function isVariantAxis(value: string): value is VariantAxis {
   return (VARIANT_AXES as readonly string[]).includes(value);
 }
 
-function isAllowedOption(axis: VariantAxis, value: string): boolean {
+function isAllowedOption<K extends VariantAxis>(
+  axis: K,
+  value: string
+): value is AxisOptionMap[K] {
   return (axisOptions[axis] as readonly string[]).includes(value);
 }
 
+function readAxisValue<K extends VariantAxis>(
+  selection: VariantSelection,
+  axis: K
+): AxisOptionMap[K] | undefined {
+  return selection[axis] as AxisOptionMap[K] | undefined;
+}
+
 function getProvidedAxes(selection: VariantSelection): readonly VariantAxis[] {
-  return VARIANT_AXES.filter(
-    (axis) => axisValueGetters[axis](selection) !== undefined
-  );
+  return VARIANT_AXES.filter((axis) => readAxisValue(selection, axis) !== undefined);
 }
 
-function assertNoUnknownVariantKeys(selection: VariantSelection): void {
-  if (!isDevelopment) {
-    return;
+function assignAxisValue<K extends VariantAxis>(
+  target: VariantSelection,
+  axis: K,
+  value: AxisOptionMap[K]
+): VariantSelection {
+  return { ...target, [axis]: value };
+}
+
+export function validateGovernedVariant(
+  selection: VariantSelection,
+  allowedAxes?: readonly VariantAxis[]
+): VariantPolicyResult {
+  const violations: VariantPolicyViolation[] = [];
+
+  for (const key of Object.keys(selection)) {
+    if (!isVariantAxis(key)) {
+      violations.push({
+        axis: key,
+        reason: "unknown-axis",
+      });
+      continue;
+    }
+
+    if (allowedAxes && !allowedAxes.includes(key)) {
+      violations.push({
+        axis: key,
+        reason: "disallowed-axis",
+      });
+      continue;
+    }
+
+    const value = selection[key];
+
+    if (value !== undefined && !isAllowedOption(key, String(value))) {
+      violations.push({
+        axis: key,
+        value: String(value),
+        reason: "unsupported-value",
+      });
+    }
   }
 
-  const unknownKeys = Object.keys(selection).filter((key) => !isVariantAxis(key));
+  return {
+    valid: violations.length === 0,
+    violations,
+  };
+}
 
-  if (unknownKeys.length > 0) {
-    throw new Error(
-      `TIP-004 variant policy violation. Unknown variant keys: ${unknownKeys.join(
-        ", "
-      )}. Use only governed variant axes: ${VARIANT_AXES.join(", ")}.`
-    );
+function formatVariantPolicyViolation(
+  result: VariantPolicyResult,
+  allowedAxes?: readonly VariantAxis[]
+): string {
+  const details = result.violations
+    .map((violation) => {
+      if (violation.reason === "unknown-axis") {
+        return `${violation.axis} (unknown axis)`;
+      }
+
+      if (violation.reason === "disallowed-axis") {
+        return `${violation.axis} (disallowed for recipe)`;
+      }
+
+      return `${violation.axis}=${violation.value} (unsupported value)`;
+    })
+    .join(", ");
+
+  const allowedAxisMessage = allowedAxes
+    ? ` Allowed axes for this recipe: ${allowedAxes.join(", ")}.`
+    : ` Allowed governed axes: ${VARIANT_AXES.join(", ")}.`;
+
+  return `TIP-004 variant policy violation. ${details}.${allowedAxisMessage}`;
+}
+
+export function assertGovernedVariantStrict(
+  selection: VariantSelection,
+  allowedAxes?: readonly VariantAxis[]
+): void {
+  const result = validateGovernedVariant(selection, allowedAxes);
+
+  if (!result.valid) {
+    throw new Error(formatVariantPolicyViolation(result, allowedAxes));
   }
 }
 
-function assertAllowedAxes(
-  providedAxes: readonly VariantAxis[],
-  allowedAxes: readonly VariantAxis[]
+function assertGovernedVariantInDevelopment(
+  selection: VariantSelection,
+  allowedAxes?: readonly VariantAxis[]
 ): void {
   if (!isDevelopment) {
     return;
   }
 
-  const disallowedAxes = providedAxes.filter((axis) => !allowedAxes.includes(axis));
-
-  if (disallowedAxes.length > 0) {
-    throw new Error(
-      `TIP-004 variant policy violation. Disallowed variant axes: ${disallowedAxes.join(
-        ", "
-      )}. Allowed for this component: ${allowedAxes.join(", ")}.`
-    );
-  }
-}
-
-function assignVariantValue(
-  target: MutableVariantSelection,
-  axis: VariantAxis,
-  value: string
-): void {
-  switch (axis) {
-    case "intent":
-      target.intent = value as NonNullable<VariantSelection["intent"]>;
-      return;
-    case "emphasis":
-      target.emphasis = value as NonNullable<VariantSelection["emphasis"]>;
-      return;
-    case "tone":
-      target.tone = value as NonNullable<VariantSelection["tone"]>;
-      return;
-    case "density":
-      target.density = value as NonNullable<VariantSelection["density"]>;
-      return;
-    case "size":
-      target.size = value as NonNullable<VariantSelection["size"]>;
-      return;
-    case "radius":
-      target.radius = value as NonNullable<VariantSelection["radius"]>;
-      return;
-    case "shadow":
-      target.shadow = value as NonNullable<VariantSelection["shadow"]>;
-      return;
-  }
+  assertGovernedVariantStrict(selection, allowedAxes);
 }
 
 export function resolveGovernedVariant(
   selection: VariantSelection,
   allowedAxes?: readonly VariantAxis[]
 ): VariantSelection {
-  assertNoUnknownVariantKeys(selection);
+  assertGovernedVariantInDevelopment(selection, allowedAxes);
 
-  const providedAxes = getProvidedAxes(selection);
-  const axes = allowedAxes ?? providedAxes;
-
-  if (allowedAxes) {
-    assertAllowedAxes(providedAxes, allowedAxes);
-  }
-
-  const normalized: MutableVariantSelection = {};
+  const axes = allowedAxes ?? getProvidedAxes(selection);
+  let normalized: VariantSelection = {};
 
   for (const axis of axes) {
-    const value = axisValueGetters[axis](selection);
+    const value = readAxisValue(selection, axis);
 
     if (value === undefined) {
       continue;
     }
 
     if (!isAllowedOption(axis, value)) {
-      if (isDevelopment) {
-        throw new Error(
-          `TIP-004 variant policy violation. Unsupported ${axis} value "${value}". Allowed: ${axisOptions[
-            axis
-          ].join(", ")}.`
-        );
-      }
-
       continue;
     }
 
-    assignVariantValue(normalized, axis, value);
+    normalized = assignAxisValue(normalized, axis, value);
   }
 
   return normalized;
+}
+
+export function resolveGovernedVariantStrict(
+  selection: VariantSelection,
+  allowedAxes?: readonly VariantAxis[]
+): VariantSelection {
+  assertGovernedVariantStrict(selection, allowedAxes);
+  return resolveGovernedVariant(selection, allowedAxes);
 }
 
 export function resolveButtonVariant(
@@ -186,14 +228,80 @@ export function resolveButtonVariant(
   return resolveGovernedVariant(selection, BUTTON_VARIANT_AXES);
 }
 
+export function resolveButtonVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, BUTTON_VARIANT_AXES);
+}
+
 export function resolveBadgeVariant(
   selection: VariantSelection
 ): VariantSelection {
   return resolveGovernedVariant(selection, BADGE_VARIANT_AXES);
 }
 
+export function resolveBadgeVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, BADGE_VARIANT_AXES);
+}
+
 export function resolveCardVariant(
   selection: VariantSelection
 ): VariantSelection {
   return resolveGovernedVariant(selection, CARD_VARIANT_AXES);
+}
+
+export function resolveCardVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, CARD_VARIANT_AXES);
+}
+
+export function resolveSurfaceVariant(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariant(selection, SURFACE_VARIANT_AXES);
+}
+
+export function resolveSurfaceVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, SURFACE_VARIANT_AXES);
+}
+
+export function resolveStatusVariant(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariant(selection, STATUS_VARIANT_AXES);
+}
+
+export function resolveStatusVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, STATUS_VARIANT_AXES);
+}
+
+export function resolveFormControlVariant(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariant(selection, FORM_CONTROL_VARIANT_AXES);
+}
+
+export function resolveFormControlVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, FORM_CONTROL_VARIANT_AXES);
+}
+
+export function resolveTableVariant(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariant(selection, TABLE_VARIANT_AXES);
+}
+
+export function resolveTableVariantStrict(
+  selection: VariantSelection
+): VariantSelection {
+  return resolveGovernedVariantStrict(selection, TABLE_VARIANT_AXES);
 }

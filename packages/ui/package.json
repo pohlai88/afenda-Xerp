@@ -14,6 +14,7 @@
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
     "./governance": "./src/governance/index.ts",
+    "./governance/*": "./src/governance/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
   },
@@ -45,6 +46,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.525.0",
     "next-themes": "^0.4.6",
+    "radix-ui": "^1.4.3",
     "react-day-picker": "^10.0.1",
     "react-resizable-panels": "^4.11.2",
     "recharts": "3.8.0",

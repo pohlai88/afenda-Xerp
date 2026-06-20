@@ -2,11 +2,37 @@ import { describe, expect, it } from "vitest";
 
 import {
   MOTION_INTENTS,
+  assertMotionPolicyCoverageStrict,
+  getMissingMotionIntents,
   getMotionIntent,
   getMotionPolicy,
+  isMotionIntent,
+  resolveMotionIntent,
 } from "../../governance";
 
 describe("motion governance", () => {
+  it("has policy coverage for every governed motion intent", () => {
+    expect(getMissingMotionIntents()).toEqual([]);
+    expect(() => assertMotionPolicyCoverageStrict()).not.toThrow();
+  });
+
+  it("resolves a known motion intent", () => {
+    expect(getMotionIntent("instant").intent).toBe("instant");
+  });
+
+  it("resolves fallback motion intent", () => {
+    expect(resolveMotionIntent(undefined, "instant").intent).toBe("instant");
+  });
+
+  it("narrows known motion intent strings", () => {
+    expect(isMotionIntent("instant")).toBe(true);
+    expect(isMotionIntent("random-motion")).toBe(false);
+  });
+
+  it("returns the governed motion policy", () => {
+    expect(getMotionPolicy().length).toBeGreaterThan(0);
+  });
+
   it("covers every governed motion intent", () => {
     const policyIntents = getMotionPolicy().map((entry) => entry.intent);
 
@@ -23,8 +49,8 @@ describe("motion governance", () => {
   it("returns governed feedback motion", () => {
     expect(getMotionIntent("feedback")).toMatchObject({
       intent: "feedback",
-      durationToken: "motion.duration.feedback",
-      easingToken: "motion.easing.standard",
+      durationToken: "afenda.motion.duration.fast",
+      easingToken: "afenda.motion.easing.standard",
       reducedMotionBehavior: "remove-transform",
     });
   });

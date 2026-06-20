@@ -4,6 +4,7 @@ import {
   getAccessibilityPolicy,
   getComponentAccessibilityDefinition,
   getComponentAccessibilityRequirement,
+  hasComponentAccessibilityDefinition,
 } from "../../governance";
 
 describe("accessibility governance", () => {
@@ -21,11 +22,29 @@ describe("accessibility governance", () => {
     );
   });
 
-  it("returns governed Badge accessibility definition", () => {
+  it("returns governed Badge accessibility definition without recipe ownership", () => {
     expect(getComponentAccessibilityDefinition("Badge")).toMatchObject({
       componentName: "Badge",
-      recipeName: "badge",
+      rationale: expect.stringContaining("color alone"),
     });
+    expect(getComponentAccessibilityDefinition("Badge")).not.toHaveProperty(
+      "recipeName"
+    );
+  });
+
+  it("returns governed Alert accessibility definition", () => {
+    expect(getComponentAccessibilityDefinition("Alert")).toMatchObject({
+      componentName: "Alert",
+      rationale: expect.stringContaining("status semantics"),
+    });
+  });
+
+  it("registers Field and Table accessibility definitions", () => {
+    expect(hasComponentAccessibilityDefinition("Field")).toBe(true);
+    expect(hasComponentAccessibilityDefinition("Table")).toBe(true);
+    expect(getComponentAccessibilityDefinition("Field").requirements.length).toBeGreaterThan(
+      0
+    );
   });
 
   it("rejects unknown governed components in development", () => {

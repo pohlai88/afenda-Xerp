@@ -5,6 +5,7 @@ import { Combobox as ComboboxPrimitive } from "@base-ui/react"
 
 import { cn } from "@afenda/ui/lib/utils"
 import { Button } from "@afenda/ui/components/button"
+import { mapStockButtonProps } from "@afenda/ui/governance"
 import {
   InputGroup,
   InputGroupAddon,
@@ -40,7 +41,7 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   return (
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
-      render={<InputGroupButton emphasis="ghost" size="xs" presentation="icon" />}
+      render={<InputGroupButton variant="ghost" size="icon-xs" />}
       className={cn(className)}
       {...props}
     >
@@ -69,14 +70,15 @@ function ComboboxInput({
       <InputGroupAddon align="inline-end">
         {showTrigger && (
           <InputGroupButton
-            size="xs"
-            emphasis="ghost"
-            presentation="icon"
-            render={<ComboboxTrigger />}
+            size="icon-xs"
+            variant="ghost"
+            asChild
             data-slot="input-group-button"
             className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
             disabled={disabled}
-          />
+          >
+            <ComboboxTrigger />
+          </InputGroupButton>
         )}
         {showClear && <ComboboxClear disabled={disabled} />}
       </InputGroupAddon>
@@ -250,7 +252,7 @@ function ComboboxChip({
       {children}
       {showRemove && (
         <ComboboxPrimitive.ChipRemove
-          render={<Button emphasis="ghost" size="xs" presentation="icon" />}
+          render={<Button {...mapStockButtonProps("ghost", "icon-xs")} />}
           className="-ml-1 opacity-50 hover:opacity-100"
           data-slot="combobox-chip-remove"
         >

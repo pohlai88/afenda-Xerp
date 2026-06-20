@@ -2,8 +2,41 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertAllowedLayoutClassName,
+  assertAllowedLayoutClassNameStrict,
   resolveLayoutClassName,
+  validateLayoutClassName,
 } from "../../governance";
+
+describe("className governance", () => {
+  it("allows layout-only class names", () => {
+    expect(
+      validateLayoutClassName("flex w-full justify-between overflow-hidden").valid
+    ).toBe(true);
+  });
+
+  it("blocks semantic color classes", () => {
+    expect(validateLayoutClassName("bg-red-500").valid).toBe(false);
+  });
+
+  it("blocks arbitrary values", () => {
+    expect(validateLayoutClassName("w-[123px]").valid).toBe(false);
+  });
+
+  it("blocks unapproved layout classes", () => {
+    expect(validateLayoutClassName("container").valid).toBe(false);
+  });
+
+  it("treats undefined and empty className as valid", () => {
+    expect(validateLayoutClassName(undefined).valid).toBe(true);
+    expect(validateLayoutClassName("").valid).toBe(true);
+  });
+
+  it("strict assertion throws outside development assumptions", () => {
+    expect(() =>
+      assertAllowedLayoutClassNameStrict("text-white")
+    ).toThrow("TIP-004 className policy violation");
+  });
+});
 
 describe("assertAllowedLayoutClassName", () => {
   it("allows approved layout utilities", () => {

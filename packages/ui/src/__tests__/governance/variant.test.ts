@@ -1,93 +1,95 @@
 import { describe, expect, it } from "vitest";
 
-import { resolveGovernedVariant } from "../../governance";
+import {
+  assertGovernedVariantStrict,
+  resolveButtonVariant,
+  resolveButtonVariantStrict,
+  validateGovernedVariant,
+} from "../../governance/variant";
 
-describe("resolveGovernedVariant", () => {
-  it("accepts governed button variant selections", () => {
+describe("variant governance", () => {
+  it("accepts governed button variants", () => {
     expect(
-      resolveGovernedVariant(
-        {
-          intent: "primary",
-          emphasis: "solid",
-          size: "md",
-          density: "standard",
-        },
-        ["intent", "emphasis", "size", "density"]
-      )
+      resolveButtonVariantStrict({
+        intent: "primary",
+        emphasis: "solid",
+        size: "md",
+      })
     ).toEqual({
       intent: "primary",
       emphasis: "solid",
       size: "md",
-      density: "standard",
     });
   });
 
-  it("rejects unsupported intent values in development", () => {
+  it("rejects unknown variant axes", () => {
     expect(() =>
-      resolveGovernedVariant(
-        {
-          intent: "brand" as never,
-        },
-        ["intent"]
-      )
-    ).toThrow("TIP-004 variant policy violation");
+      assertGovernedVariantStrict({
+        color: "red",
+      } as never)
+    ).toThrow("unknown axis");
   });
 
-  it("rejects axes not allowed for the component", () => {
+  it("rejects disallowed recipe axes", () => {
     expect(() =>
-      resolveGovernedVariant(
-        {
-          intent: "primary",
-          tone: "danger",
-        },
-        ["intent"]
-      )
-    ).toThrow("Disallowed variant axes");
+      resolveButtonVariantStrict({
+        tone: "danger",
+      })
+    ).toThrow("disallowed for recipe");
   });
 
-  it("accepts governed badge tone selections", () => {
+  it("rejects unsupported values", () => {
+    expect(() =>
+      resolveButtonVariantStrict({
+        intent: "random",
+      } as never)
+    ).toThrow("unsupported value");
+  });
+
+  it("runtime resolver normalizes valid axes", () => {
     expect(
-      resolveGovernedVariant(
-        {
-          tone: "success",
-          size: "sm",
-          density: "compact",
-        },
-        ["tone", "size", "density"]
-      )
+      resolveButtonVariant({
+        intent: "primary",
+        size: "md",
+      })
     ).toEqual({
-      tone: "success",
-      size: "sm",
-      density: "compact",
+      intent: "primary",
+      size: "md",
     });
   });
 
-  it("accepts governed card surface selections", () => {
+  it("validator returns inspectable violations", () => {
+    const result = validateGovernedVariant({
+      intent: "random",
+      tone: "danger",
+    } as never);
+
+    expect(result.valid).toBe(false);
+    expect(result.violations.length).toBeGreaterThan(0);
+  });
+
+  it("accepts governed card surface selections via strict resolver", () => {
     expect(
-      resolveGovernedVariant(
+      validateGovernedVariant(
         {
           radius: "md",
           shadow: "raised",
           density: "standard",
         },
         ["radius", "shadow", "density"]
-      )
-    ).toEqual({
-      radius: "md",
-      shadow: "raised",
-      density: "standard",
-    });
+      ).valid
+    ).toBe(true);
   });
 
-  it("rejects unknown runtime keys", () => {
+  it("reports multiple invalid contract roles at once", () => {
     expect(() =>
-      resolveGovernedVariant(
+      assertGovernedVariantStrict(
         {
-          intent: "primary",
-          color: "blue",
+          intent: "random",
+          tone: "danger",
         } as never,
         ["intent"]
       )
-    ).toThrow("Unknown variant keys");
+    ).toThrow("unsupported value");
   });
 });

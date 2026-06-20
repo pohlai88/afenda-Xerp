@@ -4,16 +4,20 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
-  BUTTON_VARIANT_AXES,
-  BADGE_VARIANT_AXES,
-  CARD_VARIANT_AXES,
+  FORM_CONTROL_VARIANT_AXES,
+  GOVERNED_RECIPE_VARIANT_AXES,
   GOVERNED_STATES,
+  GOVERNED_UI_RECIPES,
+  STATUS_VARIANT_AXES,
   STATUS_TONES,
+  SURFACE_VARIANT_AXES,
+  TABLE_VARIANT_AXES,
   VARIANT_INTENTS,
   assertAllowedLayoutClassName,
   assertGovernedState,
   getComponentAccessibilityRequirement,
   getMotionIntent,
+  getPrimitiveDefinition,
   resolveBadgeClassName,
   resolveButtonClassName,
   resolveCardClassName,
@@ -130,7 +134,7 @@ describe("accessibility and motion helpers", () => {
   });
 
   it("returns motion policy entries by intent", () => {
-    expect(getMotionIntent("feedback").durationToken).toBe("motion.duration.feedback");
+    expect(getMotionIntent("feedback").durationToken).toBe("afenda.motion.duration.fast");
   });
 });
 
@@ -138,18 +142,27 @@ describe("governance bridge discipline", () => {
   it("keeps governed recipe axes aligned with design-system authority", async () => {
     const { recipeRegistry } = await import("@afenda/design-system");
 
-    const expectedAxes = {
-      button: BUTTON_VARIANT_AXES,
-      badge: BADGE_VARIANT_AXES,
-      card: CARD_VARIANT_AXES,
-    } as const;
-
-    for (const [recipeName, axes] of Object.entries(expectedAxes)) {
+    for (const recipeName of GOVERNED_UI_RECIPES) {
       const authorityRecipe = recipeRegistry.recipes.find(
         (entry) => entry.name === recipeName
       );
-      expect(authorityRecipe?.variantAxes).toEqual(axes);
+      expect(authorityRecipe?.variantAxes).toEqual(
+        GOVERNED_RECIPE_VARIANT_AXES[recipeName]
+      );
     }
+  });
+
+  it("maps governed components to recipe contracts via primitive registry", () => {
+    expect(getPrimitiveDefinition("Alert").recipeName).toBe("status");
+    expect(getPrimitiveDefinition("Field").recipeName).toBe("form-control");
+    expect(getPrimitiveDefinition("Table").recipeName).toBe("table");
+  });
+
+  it("covers all recipe variant axis registries", () => {
+    expect(SURFACE_VARIANT_AXES).toEqual(["density", "radius", "shadow"]);
+    expect(STATUS_VARIANT_AXES).toEqual(["tone", "density", "radius"]);
+    expect(FORM_CONTROL_VARIANT_AXES).toEqual(["density", "size"]);
+    expect(TABLE_VARIANT_AXES).toEqual(["density", "size"]);
   });
 });
 

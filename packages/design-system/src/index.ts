@@ -96,8 +96,8 @@ export type {
 } from "./contracts/variant.contract";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
-export type { TokenNameValidationResult } from "./policy/token-name.policy";
-export type { AiGenerationRuleSet } from "./policy/ai-generation.policy";
+export type { TokenNameValidationResult } from "./policies/token-name-policy";
+export type { AiGenerationRuleSet } from "./policies/ai-generation-policy";
 export type { AfendaAccessibilityRegistry } from "./registries/accessibility.registry";
 export type { ValidationResult } from "./validation/index";
 
@@ -193,20 +193,17 @@ export {
 } from "./policies/export-surface";
 export { motionPolicy } from "./policies/motion";
 export { statePolicy } from "./policies/state";
-
-// ─── New policy modules (TIP-004A) ────────────────────────────────────────────
-
-export { AI_GENERATION_RULES } from "./policy/ai-generation.policy";
+export { AI_GENERATION_RULES } from "./policies/ai-generation-policy";
 export {
   assertAfendaCssVariable,
   cssVariablePolicy,
   isAfendaCssVariable,
-} from "./policy/css-variable.policy";
+} from "./policies/css-variable-policy";
 export {
   extractTokenCategory,
   tokenNamePolicy,
   validateTokenName,
-} from "./policy/token-name.policy";
+} from "./policies/token-name-policy";
 
 // ─── Validation layer ─────────────────────────────────────────────────────────
 

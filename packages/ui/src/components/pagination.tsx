@@ -2,6 +2,11 @@ import * as React from "react"
 
 import { cn } from "@afenda/ui/lib/utils"
 import { Button } from "@afenda/ui/components/button"
+import {
+  mapStockButtonProps,
+  type StockButtonSize,
+  type StockButtonVisual,
+} from "@afenda/ui/governance"
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
@@ -35,33 +40,31 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 
 type PaginationLinkProps = {
   isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, "size" | "presentation"> &
-  React.ComponentProps<"a">
+  variant?: StockButtonVisual
+  size?: StockButtonSize
+} & React.ComponentProps<"a">
 
 function PaginationLink({
   className,
   isActive,
-  size = "md",
-  presentation = "icon",
+  variant,
+  size = "icon",
   ...props
 }: PaginationLinkProps) {
+  const buttonProps = mapStockButtonProps(
+    variant ?? (isActive ? "outline" : "ghost"),
+    size
+  )
+
   return (
-    <Button
-      intent="primary"
-      emphasis={isActive ? "outline" : "ghost"}
-      size={size}
-      presentation={presentation}
-      className={cn(className)}
-      nativeButton={false}
-      render={
-        <a
-          aria-current={isActive ? "page" : undefined}
-          data-slot="pagination-link"
-          data-active={isActive}
-          {...props}
-        />
-      }
-    />
+    <Button asChild {...buttonProps} className={cn(className)}>
+      <a
+        aria-current={isActive ? "page" : undefined}
+        data-slot="pagination-link"
+        data-active={isActive}
+        {...props}
+      />
+    </Button>
   )
 }
 
@@ -73,8 +76,7 @@ function PaginationPrevious({
   return (
     <PaginationLink
       aria-label="Go to previous page"
-      size="md"
-      presentation="default"
+      size="default"
       className={cn("pl-1.5!", className)}
       {...props}
     >
@@ -92,8 +94,7 @@ function PaginationNext({
   return (
     <PaginationLink
       aria-label="Go to next page"
-      size="md"
-      presentation="default"
+      size="default"
       className={cn("pr-1.5!", className)}
       {...props}
     >

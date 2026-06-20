@@ -10,7 +10,11 @@ import {
 
 import { cn } from "@afenda/ui/lib/utils"
 import { Button } from "@afenda/ui/components/button"
-import { resolveButtonClassName } from "@afenda/ui/governance"
+import {
+  mapStockButtonProps,
+  resolveButtonClassName,
+  type StockButtonVisual,
+} from "@afenda/ui/governance"
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from "lucide-react"
 
 function Calendar({
@@ -18,15 +22,18 @@ function Calendar({
   classNames,
   showOutsideDays = true,
   captionLayout = "label",
-  buttonEmphasis = "ghost",
+  buttonVariant = "ghost",
   locale,
   formatters,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
-  buttonEmphasis?: React.ComponentProps<typeof Button>["emphasis"]
+  buttonVariant?: StockButtonVisual
 }) {
   const defaultClassNames = getDefaultClassNames()
+  const navButtonClassName = resolveButtonClassName({
+    ...mapStockButtonProps(buttonVariant, "icon"),
+  })
 
   return (
     <DayPicker
@@ -56,22 +63,12 @@ function Calendar({
           defaultClassNames.nav
         ),
         button_previous: cn(
-          resolveButtonClassName({
-            intent: "quiet",
-            emphasis: buttonEmphasis,
-            size: "sm",
-            presentation: "icon",
-          }),
+          navButtonClassName,
           "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_previous
         ),
         button_next: cn(
-          resolveButtonClassName({
-            intent: "quiet",
-            emphasis: buttonEmphasis,
-            size: "sm",
-            presentation: "icon",
-          }),
+          navButtonClassName,
           "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_next
         ),
@@ -174,8 +171,8 @@ function Calendar({
         },
         DayButton: (dayButtonProps) => (
           <CalendarDayButton
-            {...(locale === undefined ? {} : { locale })}
             {...dayButtonProps}
+            {...(locale !== undefined ? { locale } : {})}
           />
         ),
         WeekNumber: ({ children, ...props }) => {
@@ -210,10 +207,8 @@ function CalendarDayButton({
 
   return (
     <Button
-      intent="quiet"
-      emphasis="ghost"
-      presentation="icon"
-      size="md"
+      ref={ref}
+      {...mapStockButtonProps("ghost", "icon")}
       data-day={day.date.toLocaleDateString(locale?.code)}
       data-selected-single={
         modifiers["selected"] &&

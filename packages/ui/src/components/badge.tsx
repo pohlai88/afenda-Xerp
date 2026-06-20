@@ -1,48 +1,53 @@
 import * as React from "react";
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
+import { Slot } from "radix-ui";
 
 import { cn } from "@afenda/ui/lib/utils";
-import {
-  assertAllowedLayoutClassName,
-  getComponentAccessibilityRequirement,
-  resolveBadgeClassName,
-} from "@afenda/ui/governance";
-import type { AfendaBadgeProps } from "@afenda/ui/lib/afenda-contracts";
+import type { GovernedBadgeProps } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+
+export interface BadgeProps
+  extends Omit<React.ComponentProps<"span">, "className">,
+    GovernedBadgeProps {
+  readonly asChild?: boolean;
+  readonly className?: string;
+  readonly state?: string;
+}
 
 function Badge({
   className,
+  asChild = false,
+  state,
   tone = "neutral",
   emphasis = "solid",
-  density = "standard",
-  size = "sm",
-  render,
+  density,
+  size,
   ...props
-}: useRender.ComponentProps<"span"> & AfendaBadgeProps) {
-  if (typeof className === "string") {
-    assertAllowedLayoutClassName(className);
-  }
-  getComponentAccessibilityRequirement("Badge");
+}: BadgeProps) {
+  const Comp = asChild ? Slot.Root : "span";
 
-  return useRender({
-    defaultTagName: "span",
-    props: mergeProps<"span">(
-      {
-        className: cn(
-          resolveBadgeClassName({ tone, emphasis, density, size }),
-          className
-        ),
-        "data-slot": "badge",
-        "data-tone": tone,
-      } as React.HTMLAttributes<HTMLSpanElement>,
-      props
-    ),
-    render,
-    state: {
-      slot: "badge",
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Badge",
+    recipeName: "badge",
+    variant: {
       tone,
+      emphasis,
+      ...(density === undefined ? {} : { density }),
+      ...(size === undefined ? {} : { size }),
     },
+    state,
+    slot: "root",
+    className,
   });
+
+  return (
+    <Comp
+      {...governed.dataAttributes}
+      data-tone={tone}
+      data-emphasis={emphasis}
+      className={cn(governed.className)}
+      {...props}
+    />
+  );
 }
 
 export { Badge };

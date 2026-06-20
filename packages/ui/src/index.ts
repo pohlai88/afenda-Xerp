@@ -61,11 +61,17 @@ export {
 } from "./components/form"
 export { Input } from "./components/input"
 export type {
-  AfendaAlertProps,
   AfendaBadgeProps,
   AfendaButtonProps,
   AfendaCardProps,
-} from "./lib/afenda-contracts"
+  GovernedBadgeProps,
+  GovernedButtonProps,
+  GovernedCardProps,
+  GovernedCardRadius,
+  GovernedCardShadow,
+  GovernedPanelRadius,
+  GovernedPanelShadow,
+} from "./governance"
 export { Label } from "./components/label"
 export { RadioGroup, RadioGroupItem } from "./components/radio-group"
 export { ScrollArea, ScrollBar } from "./components/scroll-area"

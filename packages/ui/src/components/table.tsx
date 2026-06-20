@@ -1,107 +1,128 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { cn } from "@afenda/ui/lib/utils";
+import type { GovernedTableProps } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+export interface TableProps
+  extends Omit<React.ComponentProps<"table">, "className">,
+    GovernedTableProps {
+  readonly className?: string;
+  readonly state?: string;
+}
+
+function Table({
+  className,
+  state,
+  density = "standard",
+  size = "sm",
+  ...props
+}: TableProps) {
+  const container = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "body",
+    className,
+  });
+
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    recipeName: "table",
+    variant: { density, size },
+    state,
+    slot: "root",
+  });
+
   return (
-    <div
-      data-slot="table-container"
-      className="relative w-full overflow-x-auto"
-    >
-      <table
-        data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
-        {...props}
-      />
+    <div {...container.dataAttributes} className={cn(container.className)}>
+      <table {...governed.dataAttributes} className={cn(governed.className)} {...props} />
     </div>
-  )
+  );
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "header",
+    className,
+  });
+
   return (
-    <thead
-      data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
-      {...props}
-    />
-  )
+    <thead {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "content",
+    className,
+  });
+
   return (
-    <tbody
-      data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
-      {...props}
-    />
-  )
+    <tbody {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "footer",
+    className,
+  });
+
   return (
-    <tfoot
-      data-slot="table-footer"
-      className={cn(
-        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-        className
-      )}
-      {...props}
-    />
-  )
+    <tfoot {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "label",
+    className,
+  });
+
   return (
-    <tr
-      data-slot="table-row"
-      className={cn(
-        "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
-        className
-      )}
-      {...props}
-    />
-  )
+    <tr {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "control",
+    className,
+  });
+
   return (
-    <th
-      data-slot="table-head"
-      className={cn(
-        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0",
-        className
-      )}
-      {...props}
-    />
-  )
+    <th {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "icon",
+    className,
+  });
+
   return (
-    <td
-      data-slot="table-cell"
-      className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
-        className
-      )}
-      {...props}
-    />
-  )
+    <td {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
-function TableCaption({
-  className,
-  ...props
-}: React.ComponentProps<"caption">) {
+function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Table",
+    slot: "state",
+    className,
+  });
+
   return (
-    <caption
-      data-slot="table-caption"
-      className={cn("mt-4 text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  )
+    <caption {...governed.dataAttributes} className={cn(governed.className)} {...props} />
+  );
 }
 
 export {
@@ -113,4 +134,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-}
+};

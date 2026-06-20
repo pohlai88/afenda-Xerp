@@ -2,12 +2,24 @@ import { describe, expect, it } from "vitest";
 
 import {
   GOVERNED_UI_RECIPES,
+  resolveFormControlClassName,
   resolveGovernedRecipe,
+  resolveStatusClassName,
+  resolveSurfaceClassName,
+  resolveTableClassName,
 } from "../../governance";
 
 describe("recipe governance", () => {
-  it("covers expected governed recipes", () => {
-    expect(GOVERNED_UI_RECIPES).toEqual(["button", "badge", "card"]);
+  it("covers all design-system governed recipes", () => {
+    expect(GOVERNED_UI_RECIPES).toEqual([
+      "button",
+      "badge",
+      "card",
+      "surface",
+      "status",
+      "form-control",
+      "table",
+    ]);
   });
 
   it("resolves governed button recipe", () => {
@@ -48,6 +60,21 @@ describe("recipe governance", () => {
       radius: "md",
       shadow: "raised",
     });
+  });
+
+  it("resolves surface, status, form-control, and table recipes", () => {
+    expect(resolveSurfaceClassName({ radius: "lg", shadow: "none" })).toContain(
+      "group/surface"
+    );
+    expect(resolveStatusClassName({ tone: "info", radius: "md" })).toContain(
+      "group/status"
+    );
+    expect(resolveFormControlClassName({ density: "compact", size: "sm" })).toContain(
+      "group/form-control"
+    );
+    expect(resolveTableClassName({ density: "comfortable", size: "md" })).toContain(
+      "group/table"
+    );
   });
 
   it("rejects Button-only intent on Badge", () => {

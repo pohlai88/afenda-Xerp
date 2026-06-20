@@ -1,58 +1,51 @@
 import {
   MOTION_INTENTS,
+  motionPolicy,
   type MotionContract,
   type MotionIntent,
 } from "./design-system";
-
-const isDevelopment = process.env["NODE_ENV"] !== "production";
-
-const motionPolicy = Object.freeze([
-  {
-    intent: "instant",
-    durationToken: "motion.duration.instant",
-    easingToken: "motion.easing.standard",
-    reducedMotionBehavior: "skip-animation",
-  },
-  {
-    intent: "feedback",
-    durationToken: "motion.duration.feedback",
-    easingToken: "motion.easing.standard",
-    reducedMotionBehavior: "remove-transform",
-  },
-  {
-    intent: "navigation",
-    durationToken: "motion.duration.navigation",
-    easingToken: "motion.easing.standard",
-    reducedMotionBehavior: "remove-transform",
-  },
-  {
-    intent: "overlay",
-    durationToken: "motion.duration.overlay",
-    easingToken: "motion.easing.standard",
-    reducedMotionBehavior: "remove-transform",
-  },
-] as const satisfies readonly MotionContract[]);
+import { isDevelopment } from "./dev-env";
 
 const motionByIntent = new Map<MotionIntent, MotionContract>(
   motionPolicy.map((entry) => [entry.intent, entry])
 );
 
-function assertMotionPolicyCoverage(): void {
-  if (!isDevelopment) {
-    return;
-  }
+function formatMissingMotionIntents(
+  missingIntents: readonly MotionIntent[]
+): string {
+  return `TIP-004 motion policy violation. Missing motion intents: ${missingIntents.join(
+    ", "
+  )}. Every motion intent declared by @afenda/design-system must have a motion policy entry.`;
+}
 
-  const missingIntents = MOTION_INTENTS.filter(
-    (intent) => !motionByIntent.has(intent)
-  );
+function formatUnknownMotionIntent(intent: string): string {
+  return `TIP-004 motion policy violation. Unknown motion intent "${intent}". Allowed: ${MOTION_INTENTS.join(
+    ", "
+  )}.`;
+}
+
+export function getMissingMotionIntents(): readonly MotionIntent[] {
+  return MOTION_INTENTS.filter((intent) => !motionByIntent.has(intent));
+}
+
+function assertMotionPolicyCoverage(): void {
+  const missingIntents = getMissingMotionIntents();
+
+  if (missingIntents.length > 0 && isDevelopment) {
+    throw new Error(formatMissingMotionIntents(missingIntents));
+  }
+}
+
+export function assertMotionPolicyCoverageStrict(): void {
+  const missingIntents = getMissingMotionIntents();
 
   if (missingIntents.length > 0) {
-    throw new Error(
-      `TIP-004 motion policy violation. Missing motion intents: ${missingIntents.join(
-        ", "
-      )}.`
-    );
+    throw new Error(formatMissingMotionIntents(missingIntents));
   }
+}
+
+export function isMotionIntent(intent: string): intent is MotionIntent {
+  return (MOTION_INTENTS as readonly string[]).includes(intent);
 }
 
 export function getMotionIntent(intent: MotionIntent): MotionContract {
@@ -61,14 +54,17 @@ export function getMotionIntent(intent: MotionIntent): MotionContract {
   const entry = motionByIntent.get(intent);
 
   if (!entry) {
-    throw new Error(
-      `TIP-004 motion policy violation. Unknown motion intent "${intent}". Allowed: ${MOTION_INTENTS.join(
-        ", "
-      )}.`
-    );
+    throw new Error(formatUnknownMotionIntent(intent));
   }
 
   return entry;
+}
+
+export function resolveMotionIntent(
+  intent: MotionIntent | undefined,
+  fallback: MotionIntent = "instant"
+): MotionContract {
+  return getMotionIntent(intent ?? fallback);
 }
 
 export function getMotionPolicy(): readonly MotionContract[] {

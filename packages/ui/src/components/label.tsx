@@ -1,20 +1,28 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
+import { Label as LabelPrimitive } from "radix-ui";
 
-import { cn } from "@afenda/ui/lib/utils"
+import { cn } from "@afenda/ui/lib/utils";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-function Label({ className, ...props }: React.ComponentProps<"label">) {
+function Label({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Label",
+    slot: "root",
+    className,
+  });
+
   return (
-    <label
-      data-slot="label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className
-      )}
+    <LabelPrimitive.Root
+      {...governed.dataAttributes}
+      className={cn(governed.className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Label }
+export { Label };
