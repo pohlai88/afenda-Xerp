@@ -1,16 +1,18 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
-
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const SCROLL_AREA_RECIPE_NAME = "form-control" as const;
 
 export interface ScrollAreaProps
-  extends Omit<React.ComponentProps<typeof ScrollAreaPrimitive.Root>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof ScrollAreaPrimitive.Root>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }

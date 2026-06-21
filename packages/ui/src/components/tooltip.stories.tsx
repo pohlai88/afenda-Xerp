@@ -20,6 +20,7 @@ import type { ComponentType, ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
+import { Kbd } from "./kbd";
 import { Label } from "./label";
 import {
   Tooltip,
@@ -114,6 +115,13 @@ const meta = {
   title: "Primitives/Tooltip",
   component: Tooltip,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <TooltipProvider delayDuration={0}>
+        <Story />
+      </TooltipProvider>
+    ),
+  ],
   parameters: {
     layout: "padded",
     docs: {
@@ -164,9 +172,7 @@ export const AllSides: Story = {
                   {side}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side={side}>
-                Tooltip on {side}
-              </TooltipContent>
+              <TooltipContent side={side}>Tooltip on {side}</TooltipContent>
             </Tooltip>
           ))}
         </StoryRow>
@@ -206,7 +212,9 @@ export const DelayDuration: Story = {
                 Hover delayed
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Appears after 700ms — reduces noise in dense UIs</TooltipContent>
+            <TooltipContent>
+              Appears after 700ms — reduces noise in dense UIs
+            </TooltipContent>
           </Tooltip>
         </ErpTooltipProvider>
       </StoryStack>
@@ -365,9 +373,7 @@ export const KeyboardShortcutHints: Story = {
           <TooltipContent>
             <StoryRow gap="sm">
               <span>Save changes</span>
-              <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-xs">
-                ⌘S
-              </kbd>
+              <Kbd>⌘S</Kbd>
             </StoryRow>
           </TooltipContent>
         </Tooltip>
@@ -381,9 +387,7 @@ export const KeyboardShortcutHints: Story = {
           <TooltipContent>
             <StoryRow gap="sm">
               <span>Open filter panel</span>
-              <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-xs">
-                F
-              </kbd>
+              <Kbd>F</Kbd>
             </StoryRow>
           </TooltipContent>
         </Tooltip>
@@ -434,12 +438,7 @@ export const DisabledActionReason: Story = {
         <Tooltip>
           <TooltipTrigger asChild>
             <span className="inline-flex">
-              <Button
-                disabled
-                emphasis="outline"
-                intent="secondary"
-                size="sm"
-              >
+              <Button disabled emphasis="outline" intent="secondary" size="sm">
                 <EditIcon />
                 Edit amount
               </Button>
@@ -628,7 +627,10 @@ export const ComplianceFieldHint: Story = {
   render: () => (
     <ErpTooltipProvider>
       <StoryRow align="center" gap="sm">
-        <ShieldIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+        <ShieldIcon
+          aria-hidden="true"
+          className="size-4 text-muted-foreground"
+        />
         <span className="text-sm">Tax ID verification</span>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -658,7 +660,9 @@ export const InventoryReorderHint: Story = {
   render: () => (
     <ErpTooltipProvider>
       <StoryRow align="center" gap="sm">
-        <Badge emphasis="soft" tone="warning">Low stock</Badge>
+        <Badge emphasis="soft" tone="warning">
+          Low stock
+        </Badge>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -753,7 +757,9 @@ export const TooltipVsPopover: Story = {
       <StoryFrame width="lg">
         <StoryStack gap="md">
           <StoryStack gap="xs">
-            <span className="font-medium text-sm">Tooltip — read-only hint</span>
+            <span className="font-medium text-sm">
+              Tooltip — read-only hint
+            </span>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button emphasis="outline" intent="secondary" size="sm">
@@ -767,7 +773,9 @@ export const TooltipVsPopover: Story = {
             </Tooltip>
           </StoryStack>
           <StoryStack gap="xs">
-            <span className="font-medium text-sm">Popover — interactive filter</span>
+            <span className="font-medium text-sm">
+              Popover — interactive filter
+            </span>
             <span className="text-muted-foreground text-xs">
               See Primitives/Popover for date pickers, column pickers, and quick
               assign panels

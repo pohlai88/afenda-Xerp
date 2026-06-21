@@ -1,15 +1,14 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-
-import { cn } from "#/lib/utils";
-import { Button } from "#/components/button";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
+import { Button } from "./button";
 
 const CAROUSEL_RECIPE_NAME = "surface" as const;
 
@@ -18,12 +17,12 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CarouselProps = {
+interface CarouselProps {
   readonly opts?: CarouselOptions;
-  readonly plugins?: CarouselPlugin;
   readonly orientation?: "horizontal" | "vertical";
+  readonly plugins?: CarouselPlugin;
   readonly setApi?: (api: CarouselApi) => void;
-};
+}
 
 type CarouselContextProps = {
   readonly carouselRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -76,7 +75,9 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
     const [canScrollNext, setCanScrollNext] = React.useState(false);
 
     const onSelect = React.useCallback((carouselApi: CarouselApi) => {
-      if (!carouselApi) return;
+      if (!carouselApi) {
+        return;
+      }
       setCanScrollPrev(carouselApi.canScrollPrev());
       setCanScrollNext(carouselApi.canScrollNext());
     }, []);
@@ -103,12 +104,16 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
     );
 
     React.useEffect(() => {
-      if (!api || !setApi) return;
+      if (!(api && setApi)) {
+        return;
+      }
       setApi(api);
     }, [api, setApi]);
 
     React.useEffect(() => {
-      if (!api) return;
+      if (!api) {
+        return;
+      }
       onSelect(api);
       api.on("reInit", onSelect);
       api.on("select", onSelect);
@@ -129,7 +134,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
       <CarouselContext.Provider
         value={{
           carouselRef,
-          api: api,
+          api,
           opts,
           orientation:
             orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
@@ -180,12 +185,18 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
       recipeName: CAROUSEL_RECIPE_NAME,
       slot: "content",
       slotKey:
-        orientation === "horizontal" ? "content-horizontal" : "content-vertical",
+        orientation === "horizontal"
+          ? "content-horizontal"
+          : "content-vertical",
       className,
     });
 
     return (
-      <div ref={carouselRef} {...body.dataAttributes} className={cn(body.className)}>
+      <div
+        ref={carouselRef}
+        {...body.dataAttributes}
+        className={cn(body.className)}
+      >
         <div ref={ref} {...applyGovernedPresentation(props, content)} />
       </div>
     );
@@ -207,7 +218,8 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
       slot: "label",
-      slotKey: orientation === "horizontal" ? "item-horizontal" : "item-vertical",
+      slotKey:
+        orientation === "horizontal" ? "item-horizontal" : "item-vertical",
       className,
     });
 
@@ -247,7 +259,9 @@ const CarouselPrevious = React.forwardRef<
       recipeName: CAROUSEL_RECIPE_NAME,
       slot: "control",
       slotKey:
-        orientation === "horizontal" ? "previous-horizontal" : "previous-vertical",
+        orientation === "horizontal"
+          ? "previous-horizontal"
+          : "previous-vertical",
       className,
     });
 
@@ -305,7 +319,8 @@ const CarouselNext = React.forwardRef<
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
       slot: "control",
-      slotKey: orientation === "horizontal" ? "next-horizontal" : "next-vertical",
+      slotKey:
+        orientation === "horizontal" ? "next-horizontal" : "next-vertical",
       className,
     });
 
@@ -343,11 +358,11 @@ const CarouselNext = React.forwardRef<
 CarouselNext.displayName = "CarouselNext";
 
 export {
-  type CarouselApi,
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
   CarouselNext,
+  CarouselPrevious,
   useCarousel,
 };

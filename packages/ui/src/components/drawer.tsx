@@ -1,13 +1,12 @@
 "use client";
 
+import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
-
-import { cn } from "#/lib/utils";
-import type { GovernedSurfaceProps, SlotRole } from "@/governance";
-import { createGovernedDivSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const DRAWER_RECIPE_NAME = "surface" as const;
 
@@ -73,9 +72,9 @@ DrawerOverlay.displayName = "DrawerOverlay";
 
 export interface DrawerContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>,
+      "className"
+    >,
     GovernedSurfaceProps {
   readonly className?: string;
 }
@@ -198,13 +197,13 @@ DrawerDescription.displayName = "DrawerDescription";
 
 export {
   Drawer,
-  DrawerPortal,
-  DrawerOverlay,
-  DrawerTrigger,
   DrawerClose,
   DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
   DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTitle,
+  DrawerTrigger,
 };

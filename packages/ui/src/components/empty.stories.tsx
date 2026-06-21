@@ -57,11 +57,7 @@ function EmptyStateIcon({
   );
 }
 
-function EmptyActions({
-  children,
-}: {
-  readonly children: ReactNode;
-}) {
+function EmptyActions({ children }: { readonly children: ReactNode }) {
   return (
     <StoryRow gap="sm" justify="center" wrap>
       {children}
@@ -80,7 +76,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed empty-state surface for ERP zero-data views: no records, no search results, access denied, integration errors, and positive “all clear” states. Use `EmptyMedia` `variant=\"icon\"` for compact toolbar/table empties.",
+          'Governed empty-state surface for ERP zero-data views: no records, no search results, access denied, integration errors, and positive “all clear” states. Use `EmptyMedia` `variant="icon"` for compact toolbar/table empties.',
       },
     },
   },
@@ -143,15 +139,21 @@ export const GovernanceMediaVariants: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryStack gap="lg">
-      {(
-        [
-          { label: "variant=\"icon\" (default for actions)", variant: "icon" as const },
-          { label: "variant=\"default\" (decorative)", variant: "default" as const },
-        ]
-      ).map(({ label, variant }) => (
+      {[
+        {
+          label: 'variant="icon" (default for actions)',
+          variant: "icon" as const,
+        },
+        {
+          label: 'variant="default" (decorative)',
+          variant: "default" as const,
+        },
+      ].map(({ label, variant }) => (
         <StoryFrame key={label} width="md">
           <StoryStack gap="xs">
-            <span className="font-mono text-muted-foreground text-xs">{label}</span>
+            <span className="font-mono text-muted-foreground text-xs">
+              {label}
+            </span>
             <Empty>
               <EmptyHeader>
                 <EmptyStateIcon icon={PackageIcon} variant={variant} />
@@ -439,7 +441,9 @@ export const InboxEmpty: Story = {
           <EmptyDescription>
             No pending approvals or notifications at this time.
           </EmptyDescription>
-          <Badge emphasis="soft" tone="success">Queue clear</Badge>
+          <Badge emphasis="soft" tone="success">
+            Queue clear
+          </Badge>
         </EmptyContent>
       </Empty>
     </StoryFrame>
@@ -554,8 +558,8 @@ export const IntegrationSyncFailed: Story = {
         <EmptyContent>
           <EmptyTitle>Bank sync unavailable</EmptyTitle>
           <EmptyDescription>
-            Payment batch BATCH-2026-06-18 could not reach the banking API.
-            Your data is safe — retry or contact support if the issue persists.
+            Payment batch BATCH-2026-06-18 could not reach the banking API. Your
+            data is safe — retry or contact support if the issue persists.
           </EmptyDescription>
           <EmptyActions>
             <Button emphasis="outline" intent="secondary" size="sm">
@@ -616,7 +620,9 @@ export const MaintenanceWindow: Story = {
             Payroll module is offline until 02:00 UTC for database maintenance.
             Read-only views remain available.
           </EmptyDescription>
-          <Badge emphasis="soft" tone="warning">Est. 45 min remaining</Badge>
+          <Badge emphasis="soft" tone="warning">
+            Est. 45 min remaining
+          </Badge>
         </EmptyContent>
       </Empty>
     </StoryFrame>
@@ -660,7 +666,9 @@ export const EmptyKanbanColumn: Story = {
       >
         <StoryRow align="center" justify="between">
           <span className="font-medium text-sm">In review</span>
-          <Badge emphasis="soft" size="sm" tone="info">0</Badge>
+          <Badge emphasis="soft" size="sm" tone="info">
+            0
+          </Badge>
         </StoryRow>
         <Empty>
           <EmptyHeader>
@@ -707,7 +715,10 @@ export const InTableContext: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <StoryStack className="overflow-hidden rounded-md border border-border" gap="xs">
+      <StoryStack
+        className="overflow-hidden rounded-md border border-border"
+        gap="xs"
+      >
         <StoryRow
           className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs"
           gap="lg"
@@ -794,12 +805,16 @@ export const EmptyVsErrorGuidance: Story = {
             </EmptyHeader>
             <EmptyContent>
               <EmptyTitle>No invoices</EmptyTitle>
-              <EmptyDescription>Expected when the list is new.</EmptyDescription>
+              <EmptyDescription>
+                Expected when the list is new.
+              </EmptyDescription>
             </EmptyContent>
           </Empty>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Error — sync failed (use Alert)</span>
+          <span className="font-medium text-sm">
+            Error — sync failed (use Alert)
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Alert for destructive error banners with retry
           </span>
@@ -808,7 +823,9 @@ export const EmptyVsErrorGuidance: Story = {
               aria-hidden="true"
               className="size-4 text-destructive"
             />
-            <span className="text-sm">Bank sync failed — retry from toolbar</span>
+            <span className="text-sm">
+              Bank sync failed — retry from toolbar
+            </span>
           </StoryRow>
         </StoryStack>
       </StoryStack>
@@ -823,10 +840,18 @@ export const EmptyStateMatrix: Story = {
     <StoryStack gap="md">
       {(
         [
-          { icon: FileTextIcon, title: "No invoices", desc: "Create or import" },
+          {
+            icon: FileTextIcon,
+            title: "No invoices",
+            desc: "Create or import",
+          },
           { icon: PackageIcon, title: "No POs", desc: "Start procurement" },
           { icon: UsersIcon, title: "No employees", desc: "Import roster" },
-          { icon: ShieldIcon, title: "Access denied", desc: "Request permission" },
+          {
+            icon: ShieldIcon,
+            title: "Access denied",
+            desc: "Request permission",
+          },
         ] as const
       ).map(({ icon, title, desc }) => (
         <StoryFrame key={title} width="md">

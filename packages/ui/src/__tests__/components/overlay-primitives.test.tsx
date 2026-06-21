@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -27,8 +27,14 @@ describe("overlay primitive governance", () => {
       </Dialog>
     );
 
-    expect(screen.getByRole("dialog")).toHaveAttribute("data-slot", "dialog-content");
-    expect(screen.getByText("Confirm")).toHaveAttribute("data-slot", "dialog-title");
+    expect(screen.getByRole("dialog")).toHaveAttribute(
+      "data-slot",
+      "dialog-content"
+    );
+    expect(screen.getByText("Confirm")).toHaveAttribute(
+      "data-slot",
+      "dialog-title"
+    );
     expect(screen.getByText("Are you sure?")).toHaveAttribute(
       "data-slot",
       "dialog-description"
@@ -39,10 +45,10 @@ describe("overlay primitive governance", () => {
     render(
       <Dialog open>
         <DialogContent
-          showCloseButton={false}
           data-component="Override"
           data-recipe="override"
           data-slot="override"
+          showCloseButton={false}
         >
           Body
         </DialogContent>

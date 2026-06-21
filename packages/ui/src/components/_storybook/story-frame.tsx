@@ -58,14 +58,12 @@ export function StoryFrame({
   readonly width?: "sm" | "md" | "lg" | "xl";
   readonly padding?: Padding;
 }) {
-  const widthClass =
-    width === "sm"
-      ? "max-w-sm"
-      : width === "md"
-        ? "max-w-md"
-        : width === "lg"
-          ? "max-w-lg"
-          : "max-w-xl";
+  const widthClass = {
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
+  }[width];
 
   const classes = ["w-full", widthClass, padding ? paddingClass[padding] : ""]
     .filter(Boolean)

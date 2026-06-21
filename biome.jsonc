@@ -59,6 +59,47 @@
           }
         }
       }
+    },
+    {
+      "includes": ["packages/ui/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noNamespaceImport": "off",
+            "noBarrelFile": "off",
+            "noImgElement": "off",
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noNestedTernary": "off",
+            "noExportedImports": "off",
+            "useDefaultSwitchClause": "off"
+          },
+          "correctness": {
+            "noNestedComponentDefinitions": "off",
+            "useImageSize": "off"
+          },
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "noVoid": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off",
+            "noDocumentCookie": "off",
+            "useAwait": "off",
+            "noMisplacedAssertion": "off",
+            "noEmptyBlockStatements": "off"
+          },
+          "a11y": {
+            "useValidAnchor": "off",
+            "noLabelWithoutControl": "off",
+            "useAriaPropsSupportedByRole": "off"
+          },
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
+          }
+        }
+      }
     }
   ]
 }

@@ -2,15 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import { assertMotionPolicyCoverageStrict } from "../../governance/motion";
 import {
-  GOVERNED_PRIMITIVE_REGISTRY,
-  PRIMARY_UI_EXPORTS,
-  STOCK_SHADCN_PENDING,
   EXPORTED_STOCK_COMPONENTS,
+  GOVERNED_PRIMITIVE_REGISTRY,
   getPrimitiveDefinition,
   isGovernedPrimitive,
+  PRIMARY_UI_EXPORTS,
+  STOCK_SHADCN_PENDING,
 } from "../../governance/primitive-registry";
-import { GOVERNED_UI_COMPONENTS, GOVERNED_UI_RECIPES } from "../../governance/types";
 import { getRecipeVariantAxes } from "../../governance/recipe-coverage";
+import {
+  GOVERNED_UI_COMPONENTS,
+  GOVERNED_UI_RECIPES,
+} from "../../governance/types";
 
 describe("GOVERNED_PRIMITIVE_REGISTRY", () => {
   it("has complete motion policy coverage", () => {
@@ -22,7 +25,9 @@ describe("GOVERNED_PRIMITIVE_REGISTRY", () => {
       const definition = getPrimitiveDefinition(componentName);
       expect(definition.componentName).toBe(componentName);
       expect(GOVERNED_UI_RECIPES).toContain(definition.recipeName);
-      expect(getRecipeVariantAxes(definition.recipeName).length).toBeGreaterThan(0);
+      expect(
+        getRecipeVariantAxes(definition.recipeName).length
+      ).toBeGreaterThan(0);
     }
   });
 
@@ -48,8 +53,9 @@ describe("GOVERNED_PRIMITIVE_REGISTRY", () => {
   it("covers primary exports with governed or stock pending declarations", () => {
     for (const exportName of PRIMARY_UI_EXPORTS) {
       const isGoverned = isGovernedPrimitive(exportName);
-      const isStock =
-        (EXPORTED_STOCK_COMPONENTS as readonly string[]).includes(exportName);
+      const isStock = (EXPORTED_STOCK_COMPONENTS as readonly string[]).includes(
+        exportName
+      );
       expect(isGoverned || isStock).toBe(true);
     }
   });

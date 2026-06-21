@@ -1,4 +1,8 @@
 import type {
+  GovernedPanelRadius,
+  GovernedPanelShadow,
+} from "./component-props";
+import type {
   Density,
   GovernedSize,
   SlotRole,
@@ -6,7 +10,6 @@ import type {
   VariantEmphasis,
   VariantIntent,
 } from "./design-system";
-import type { GovernedPanelRadius, GovernedPanelShadow } from "./component-props";
 
 type SlotClassMap<TKey extends string> = Readonly<Record<TKey, string>>;
 
@@ -19,7 +22,14 @@ export type AlertSlotRoleKey = Extract<SlotRole, "label" | "body" | "actions">;
 
 export type FieldSlotRoleKey = Extract<
   SlotRole,
-  "header" | "body" | "label" | "content" | "control" | "state" | "footer" | "actions"
+  | "header"
+  | "body"
+  | "label"
+  | "content"
+  | "control"
+  | "state"
+  | "footer"
+  | "actions"
 >;
 
 export type FieldSlotKey =
@@ -150,7 +160,8 @@ export const badgeToneEmphasis: Record<
   success: {
     solid: "bg-accent text-accent-foreground [a]:hover:bg-accent/80",
     soft: "bg-accent/60 text-accent-foreground [a]:hover:bg-accent/80",
-    outline: "border-accent-foreground/20 text-accent-foreground [a]:hover:bg-accent/30",
+    outline:
+      "border-accent-foreground/20 text-accent-foreground [a]:hover:bg-accent/30",
     ghost: "text-accent-foreground [a]:hover:bg-accent/40",
   },
   warning: {
@@ -163,19 +174,22 @@ export const badgeToneEmphasis: Record<
     solid:
       "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
     soft: "bg-destructive/5 text-destructive [a]:hover:bg-destructive/10",
-    outline: "border-destructive/40 text-destructive [a]:hover:bg-destructive/10",
+    outline:
+      "border-destructive/40 text-destructive [a]:hover:bg-destructive/10",
     ghost: "text-destructive [a]:hover:bg-destructive/10",
   },
   forbidden: {
     solid: "bg-destructive/5 text-destructive [a]:hover:bg-destructive/10",
     soft: "bg-destructive/5 text-destructive [a]:hover:bg-destructive/10",
-    outline: "border-destructive/40 text-destructive [a]:hover:bg-destructive/10",
+    outline:
+      "border-destructive/40 text-destructive [a]:hover:bg-destructive/10",
     ghost: "text-destructive [a]:hover:bg-destructive/10",
   },
   invalid: {
     solid: "bg-destructive/10 text-destructive [a]:hover:bg-destructive/20",
     soft: "bg-destructive/5 text-destructive [a]:hover:bg-destructive/10",
-    outline: "border-destructive/50 text-destructive [a]:hover:bg-destructive/10",
+    outline:
+      "border-destructive/50 text-destructive [a]:hover:bg-destructive/10",
     ghost: "text-destructive [a]:hover:bg-destructive/10",
   },
 };
@@ -183,7 +197,8 @@ export const badgeToneEmphasis: Record<
 export const densitySpacingClasses: Record<Density, string> = {
   compact: "[--field-spacing:--spacing(2)] [--surface-spacing:--spacing(3)]",
   standard: "[--field-spacing:--spacing(3)] [--surface-spacing:--spacing(4)]",
-  comfortable: "[--field-spacing:--spacing(4)] [--surface-spacing:--spacing(6)]",
+  comfortable:
+    "[--field-spacing:--spacing(4)] [--surface-spacing:--spacing(6)]",
 };
 
 export const panelRadiusClasses: Record<GovernedPanelRadius, string> = {
@@ -311,10 +326,8 @@ export const switchThumbSlotClassName =
   "pointer-events-none block rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground";
 
 export const switchSizeClassNamesByKey = {
-  "size-sm":
-    "data-[size=sm]:h-[14px] data-[size=sm]:w-[24px]",
-  "size-md":
-    "data-[size=default]:h-[18.4px] data-[size=default]:w-[32px]",
+  "size-sm": "data-[size=sm]:h-[14px] data-[size=sm]:w-[24px]",
+  "size-md": "data-[size=default]:h-[18.4px] data-[size=default]:w-[32px]",
 } as const;
 
 /** Dialog overlay and panel slots. */
@@ -403,7 +416,8 @@ export const dropdownMenuSlotClassNames = {
     "z-50 min-w-[96px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-lg bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
   control:
     "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive",
-  state: "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
+  state:
+    "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
   footer: "-mx-1 my-1 h-px bg-border",
   actions:
     "ml-auto text-xs tracking-widest text-muted-foreground group-focus/dropdown-menu-item:text-accent-foreground",
@@ -469,7 +483,8 @@ export const radioGroupSlotClassNamesByKey = {
 export const tableSlotClassNames = {
   header: "[&_[data-slot=table-row]]:border-b",
   content: "[&_[data-slot=table-row]:last-child]:border-0",
-  footer: "border-t bg-muted/50 font-medium [&_[data-slot=table-row]]:last:border-b-0",
+  footer:
+    "border-t bg-muted/50 font-medium [&_[data-slot=table-row]]:last:border-b-0",
 } as const satisfies SlotClassMap<TableSlotRoleKey>;
 
 /** Table-specific slot keys that do not map cleanly to global SlotRole names. */
@@ -563,7 +578,8 @@ export const contextMenuSlotClassNames = {
     "z-50 min-w-32 origin-(--radix-context-menu-content-transform-origin) overflow-hidden rounded-lg border bg-popover p-1 text-popover-foreground shadow-lg duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
   control:
     "group/context-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 focus:*:[svg]:text-accent-foreground data-[variant=destructive]:*:[svg]:text-destructive",
-  state: "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
+  state:
+    "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
   footer: "-mx-1 my-1 h-px bg-border",
   actions:
     "ml-auto text-xs tracking-widest text-muted-foreground group-focus/context-menu-item:text-accent-foreground",
@@ -710,13 +726,16 @@ export const itemSlotClassNames = {
 export const itemSlotClassNamesByKey = {
   "default-default": "border-transparent gap-2.5 px-3 py-2.5",
   "default-sm": "border-transparent gap-2.5 px-3 py-2.5",
-  "default-xs": "border-transparent gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
+  "default-xs":
+    "border-transparent gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
   "outline-default": "border-border gap-2.5 px-3 py-2.5",
   "outline-sm": "border-border gap-2.5 px-3 py-2.5",
-  "outline-xs": "border-border gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
+  "outline-xs":
+    "border-border gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
   "muted-default": "border-transparent bg-muted/50 gap-2.5 px-3 py-2.5",
   "muted-sm": "border-transparent bg-muted/50 gap-2.5 px-3 py-2.5",
-  "muted-xs": "border-transparent bg-muted/50 gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
+  "muted-xs":
+    "border-transparent bg-muted/50 gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
   "media-default": "bg-transparent",
   "media-icon": "[&_svg:not([class*='size-'])]:size-4",
   "media-image":
@@ -777,7 +796,7 @@ export const accordionSlotClassNames = {
 } as const;
 
 export const accordionSlotClassNamesByKey = {
-  "header": "flex",
+  header: "flex",
   "content-inner":
     "h-(--radix-accordion-content-height) pt-0 pb-2.5 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
   "trigger-icon-down":

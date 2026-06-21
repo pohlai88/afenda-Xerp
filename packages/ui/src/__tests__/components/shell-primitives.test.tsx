@@ -25,7 +25,7 @@ describe("shell primitive governance", () => {
   it("renders shell primitives with expected slots and associations", () => {
     render(
       <div>
-        <Badge tone="info" emphasis="soft">
+        <Badge emphasis="soft" tone="info">
           New
         </Badge>
         <Separator aria-hidden />
@@ -35,12 +35,21 @@ describe("shell primitive governance", () => {
     );
 
     expect(screen.getByText("New")).toBeInTheDocument();
-    expect(screen.getByTestId("skeleton")).toHaveAttribute("data-slot", "skeleton");
+    expect(screen.getByTestId("skeleton")).toHaveAttribute(
+      "data-slot",
+      "skeleton"
+    );
     expect(screen.getByText("Name")).toHaveAttribute("for", "name");
   });
 
   it("keeps governed data attributes authoritative on Separator", () => {
-    render(<Separator data-slot="override" data-recipe="override" data-testid="separator" />);
+    render(
+      <Separator
+        data-recipe="override"
+        data-slot="override"
+        data-testid="separator"
+      />
+    );
 
     const separator = screen.getByTestId("separator");
 

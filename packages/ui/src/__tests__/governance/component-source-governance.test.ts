@@ -17,14 +17,12 @@
  * Rules reference: .cursor/skills/govern-primitive/SKILL.md
  */
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import {
-  GOVERNED_COMPONENT_SOURCE_FILES,
-} from "../../governance";
+import { GOVERNED_COMPONENT_SOURCE_FILES } from "../../governance";
 
 // ─── Paths ───────────────────────────────────────────────────────────────────
 
@@ -42,7 +40,9 @@ function collectSourceFiles(dir: string): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) {
-      if (entry === "__tests__") continue;
+      if (entry === "__tests__") {
+        continue;
+      }
       files.push(...collectSourceFiles(full));
     } else if (/\.[cm]?tsx?$/u.test(entry)) {
       files.push(full);
@@ -56,10 +56,12 @@ const ALL_FILES = collectSourceFiles(componentsDir);
 /** Component implementation files — exclude stories, storybook helpers, and test files. */
 const COMPONENT_IMPL_FILES = ALL_FILES.filter(
   (f) =>
-    !f.endsWith(".stories.tsx") &&
-    !f.includes("_storybook") &&
-    !f.endsWith(".test.tsx") &&
-    !f.endsWith(".test.ts")
+    !(
+      f.endsWith(".stories.tsx") ||
+      f.includes("_storybook") ||
+      f.endsWith(".test.tsx") ||
+      f.endsWith(".test.ts")
+    )
 );
 
 /** Story files only. */
@@ -152,10 +154,14 @@ const GOVERNED_FILES = COMPONENT_IMPL_FILES.filter((f) =>
 function findCallMissingRecipeName(source: string): string | null {
   const parts = source.split("resolvePrimitiveGovernance(");
   for (let i = 1; i < parts.length; i++) {
+    const part = parts[i];
+    if (part === undefined) {
+      continue;
+    }
     // Capture content up to the first `});` that closes this call.
-    const closingIdx = parts[i].indexOf("});");
+    const closingIdx = part.indexOf("});");
     const callBody =
-      closingIdx !== -1 ? parts[i].slice(0, closingIdx) : parts[i].slice(0, 400);
+      closingIdx === -1 ? part.slice(0, 400) : part.slice(0, closingIdx);
     if (!callBody.includes("recipeName")) {
       return callBody.trim().slice(0, 120);
     }
@@ -203,7 +209,7 @@ describe("govern-primitive: governed component call discipline", () => {
     it(`${filePath}: calls resolvePrimitiveGovernance()`, () => {
       expect(
         source,
-        `Missing resolvePrimitiveGovernance() call — governed component must delegate all styling to governance`
+        "Missing resolvePrimitiveGovernance() call — governed component must delegate all styling to governance"
       ).toMatch(RESOLVE_GOVERNANCE_PATTERN);
     });
 
@@ -211,7 +217,7 @@ describe("govern-primitive: governed component call discipline", () => {
       const match = LOCAL_CVA_PATTERN.exec(source);
       expect(
         match,
-        `Found local cva() — governed components must not define their own CVA instances`
+        "Found local cva() — governed components must not define their own CVA instances"
       ).toBeNull();
     });
 
@@ -227,12 +233,14 @@ describe("govern-primitive: governed component call discipline", () => {
       const match = GOVERNED_ATTRS_BEFORE_PROPS_PATTERN.exec(source);
       expect(
         match,
-        `Found {...governed.dataAttributes} before {...props} — consumer props would override governed attributes`
+        "Found {...governed.dataAttributes} before {...props} — consumer props would override governed attributes"
       ).toBeNull();
     });
 
     it(`${filePath}: every resolvePrimitiveGovernance() call includes recipeName`, () => {
-      if (!RESOLVE_GOVERNANCE_PATTERN.test(source)) return; // already caught above
+      if (!RESOLVE_GOVERNANCE_PATTERN.test(source)) {
+        return; // already caught above
+      }
       const offendingBlock = findCallMissingRecipeName(source);
       expect(
         offendingBlock,
@@ -247,7 +255,9 @@ describe("govern-primitive: import discipline in all component files", () => {
 
   for (const absPath of allFiles) {
     const filePath = rel(absPath);
-    if (filePath === DESIGN_SYSTEM_BRIDGE_REL) continue;
+    if (filePath === DESIGN_SYSTEM_BRIDGE_REL) {
+      continue;
+    }
 
     const source = read(absPath);
 
@@ -276,7 +286,9 @@ describe("govern-primitive: no duplicate design-authority registries", () => {
 
   for (const absPath of allFiles) {
     const filePath = rel(absPath);
-    if (filePath === DESIGN_SYSTEM_BRIDGE_REL) continue;
+    if (filePath === DESIGN_SYSTEM_BRIDGE_REL) {
+      continue;
+    }
 
     const source = read(absPath);
 
@@ -301,7 +313,7 @@ describe("govern-primitive: story-file safety (import + cva discipline)", () => 
       const match = LOCAL_CVA_PATTERN.exec(source);
       expect(
         match,
-        `Found cva() in story file — story composition must not define its own variant system`
+        "Found cva() in story file — story composition must not define its own variant system"
       ).toBeNull();
     });
 
@@ -362,10 +374,16 @@ describe("govern-primitive: story files TIP-004 className policy", () => {
 
     it(`${filePath}: no raw palette classes in static className="…" literals`, () => {
       const violations: string[] = [];
-      for (const [, classStr] of source.matchAll(STATIC_CLASSNAME_RE)) {
-        const match = RAW_PALETTE_PATTERN.exec(classStr);
-        if (match) {
-          violations.push(`  className="${classStr}" → "${match[0]}" (raw-palette)`);
+      for (const match of source.matchAll(STATIC_CLASSNAME_RE)) {
+        const classStr = match[1];
+        if (classStr === undefined) {
+          continue;
+        }
+        const paletteMatch = RAW_PALETTE_PATTERN.exec(classStr);
+        if (paletteMatch) {
+          violations.push(
+            `  className="${classStr}" → "${paletteMatch[0]}" (raw-palette)`
+          );
         }
       }
       expect(
@@ -376,10 +394,16 @@ describe("govern-primitive: story files TIP-004 className policy", () => {
 
     it(`${filePath}: no spacing utilities in static className="…" literals — use StoryRow/StoryStack gap props`, () => {
       const violations: string[] = [];
-      for (const [, classStr] of source.matchAll(STATIC_CLASSNAME_RE)) {
+      for (const match of source.matchAll(STATIC_CLASSNAME_RE)) {
+        const classStr = match[1];
+        if (classStr === undefined) {
+          continue;
+        }
         for (const token of classStr.split(/\s+/u)) {
           if (STORY_SPACING_PATTERN.test(token)) {
-            violations.push(`  className="…${token}…" — replace with StoryRow gap or StoryStack gap prop`);
+            violations.push(
+              `  className="…${token}…" — replace with StoryRow gap or StoryStack gap prop`
+            );
           }
         }
       }
@@ -391,7 +415,11 @@ describe("govern-primitive: story files TIP-004 className policy", () => {
 
     it(`${filePath}: no arbitrary value utilities in static className="…" literals`, () => {
       const violations: string[] = [];
-      for (const [, classStr] of source.matchAll(STATIC_CLASSNAME_RE)) {
+      for (const match of source.matchAll(STATIC_CLASSNAME_RE)) {
+        const classStr = match[1];
+        if (classStr === undefined) {
+          continue;
+        }
         for (const token of classStr.split(/\s+/u)) {
           if (STORY_ARBITRARY_PATTERN.test(token)) {
             violations.push(`  className="…${token}…" (arbitrary-value)`);

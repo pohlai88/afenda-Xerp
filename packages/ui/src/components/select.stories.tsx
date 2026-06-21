@@ -4,10 +4,7 @@ import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Label } from "./label";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "./native-select";
+import { NativeSelect, NativeSelectOption } from "./native-select";
 import {
   Select,
   SelectContent,
@@ -48,7 +45,13 @@ const CURRENCIES = [
   "SGD — Singapore Dollar",
 ] as const;
 
-const PAYMENT_TERMS = ["Net 15", "Net 30", "Net 45", "Net 60", "Due on receipt"] as const;
+const PAYMENT_TERMS = [
+  "Net 15",
+  "Net 30",
+  "Net 45",
+  "Net 60",
+  "Due on receipt",
+] as const;
 
 const GL_ACCOUNTS = [
   "6100 — Office Supplies",
@@ -238,7 +241,11 @@ export const WithLabel: Story = {
   name: "Select — With Label",
   render: () => (
     <StoryFrame width="sm">
-      <LabeledSelect id="sel-status" label="Record status" placeholder="Choose status…">
+      <LabeledSelect
+        id="sel-status"
+        label="Record status"
+        placeholder="Choose status…"
+      >
         {RECORD_STATUSES.map((status) => (
           <SelectItem key={status} value={status.toLowerCase()}>
             {status}
@@ -400,11 +407,7 @@ export const PaymentTerms: Story = {
   name: "ERP — Payment Terms",
   render: () => (
     <StoryFrame width="sm">
-      <LabeledSelect
-        defaultValue="net 30"
-        id="pay-terms"
-        label="Payment terms"
-      >
+      <LabeledSelect defaultValue="net 30" id="pay-terms" label="Payment terms">
         {PAYMENT_TERMS.map((term) => (
           <SelectItem key={term} value={term.toLowerCase()}>
             {term}
@@ -554,7 +557,12 @@ export const PageSizeSelector: Story = {
   name: "ERP — Page Size",
   render: () => (
     <StoryFrame width="sm">
-      <LabeledSelect defaultValue="25" id="page-size" label="Rows per page" size="sm">
+      <LabeledSelect
+        defaultValue="25"
+        id="page-size"
+        label="Rows per page"
+        size="sm"
+      >
         {["10", "25", "50", "100"].map((size) => (
           <SelectItem key={size} value={size}>
             {size}

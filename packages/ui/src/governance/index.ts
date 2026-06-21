@@ -1,46 +1,60 @@
 // Authority vocabulary — re-exported from the design-system bridge.
-export {
-  ACCESSIBILITY_REQUIREMENTS,
-  AFENDA_TOKEN_CATEGORIES,
-  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
-  DESIGN_AUTHORITY_DOMAINS,
-  DENSITIES,
-  GOVERNED_STATES,
-  MOTION_INTENTS,
-  PROHIBITED_CLASSNAME_PATTERNS,
-  RADII,
-  SHADOWS,
-  SIZES,
-  SLOT_ROLES,
-  STATUS_TONES,
-  TIP_004_DOWNSTREAM_CONTRACTS,
-  TOKEN_CATEGORIES,
-  VARIANT_AXES,
-  VARIANT_EMPHASES,
-  VARIANT_INTENTS,
-  assertAfendaTokenName,
-  isAfendaTokenName,
-  tokenNameToCssVariable,
-  accessibilityPolicy,
-  motionPolicy,
-} from "./design-system";
 
-// Authority contracts — re-exported from the design-system bridge.
 export {
-  accessibilityContract,
-  classNamePolicyContract,
-  componentContract,
-  designSystemAuthorityContract,
-  exampleContract,
-  exportContract,
-  motionContract,
-  recipeContract,
-  slotContract,
-  stateContract,
-  tokenContract,
-  variantContract,
-} from "./design-system";
-
+  type ComponentAccessibilityDefinition,
+  getAccessibilityPolicy,
+  getComponentAccessibilityDefinition,
+  getComponentAccessibilityRequirement,
+  getRecipeAccessibilityDefinitions,
+  hasComponentAccessibilityDefinition,
+} from "./accessibility";
+// Runtime implementation helpers.
+export {
+  assertAllowedLayoutClassName,
+  assertAllowedLayoutClassNameStrict,
+  getClassNamePolicy,
+  resolveLayoutClassName,
+  validateLayoutClassName,
+} from "./class-name";
+// Governed component prop surfaces.
+export type {
+  AfendaBadgeProps,
+  AfendaButtonProps,
+  AfendaCardProps,
+  GOVERNED_CARD_LAYOUT_SIZES,
+  GovernedAccordionProps,
+  GovernedBadgeProps,
+  GovernedButtonProps,
+  GovernedCardLayoutSize,
+  GovernedCardProps,
+  GovernedCardRadius,
+  GovernedCardShadow,
+  GovernedEmptyMediaVariant,
+  GovernedFormControlProps,
+  GovernedPanelRadius,
+  GovernedPanelShadow,
+  GovernedStatusProps,
+  GovernedSurfaceProps,
+  GovernedTableProps,
+  GovernedToggleProps,
+  GovernedToggleSize,
+  GovernedToggleVariant,
+} from "./component-props";
+export {
+  GOVERNED_CARD_RADII,
+  GOVERNED_CARD_SHADOWS,
+  GOVERNED_PANEL_RADII,
+  GOVERNED_PANEL_SHADOWS,
+  isGovernedCardLayoutSize,
+  isGovernedCardRadius,
+  isGovernedCardShadow,
+  isGovernedPanelRadius,
+  isGovernedPanelShadow,
+} from "./component-props";
+export {
+  createGovernedDivSlot,
+  createGovernedSpanSlot,
+} from "./create-governed-slot";
 // Authority types — re-exported from the design-system bridge.
 export type {
   AccessibilityContract,
@@ -51,13 +65,13 @@ export type {
   AfendaTokenName,
   AiAntiDriftRules,
   ClassNamePolicyContract,
+  Density,
   DesignAuthorityAcceptanceCriteria,
   DesignAuthorityDomain,
   DesignAuthorityIdentity,
   DesignSystemAuthorityContract,
   DesignSystemContract,
   DesignSystemPackageBoundary,
-  Density,
   GovernedComponentContract,
   GovernedExample,
   GovernedRadius,
@@ -89,90 +103,44 @@ export type {
   VariantRegistry,
   VariantSelection,
 } from "./design-system";
-
-// Governed UI vocabulary.
-export type {
-  ClassNamePolicyResult,
-  ClassNamePolicyViolation,
-  GovernedRecipeName,
-  GovernedRecipeResult,
-  GovernedUiComponentName,
-} from "./types";
-
 export {
-  GOVERNED_UI_COMPONENTS,
-  GOVERNED_UI_RECIPES,
-  isGovernedRecipeName,
-  isGovernedUiComponentName,
-} from "./types";
-
-export {
-  GOVERNED_RECIPE_VARIANT_AXES,
-  BADGE_VARIANT_AXES,
-  BUTTON_VARIANT_AXES,
-  CARD_VARIANT_AXES,
-  FORM_CONTROL_VARIANT_AXES,
-  STATUS_VARIANT_AXES,
-  SURFACE_VARIANT_AXES,
-  TABLE_VARIANT_AXES,
-  getRecipeVariantAxes,
-} from "./recipe-coverage";
-
-// Governed component prop surfaces.
-export type {
-  AfendaBadgeProps,
-  AfendaButtonProps,
-  AfendaCardProps,
-  GovernedBadgeProps,
-  GovernedButtonProps,
-  GOVERNED_CARD_LAYOUT_SIZES,
-  GovernedCardProps,
-  GovernedCardLayoutSize,
-  GovernedCardRadius,
-  GovernedCardShadow,
-  GovernedFormControlProps,
-  GovernedEmptyMediaVariant,
-  GovernedPanelRadius,
-  GovernedPanelShadow,
-  GovernedStatusProps,
-  GovernedAccordionProps,
-  GovernedSurfaceProps,
-  GovernedTableProps,
-  GovernedToggleProps,
-  GovernedToggleSize,
-  GovernedToggleVariant,
-} from "./component-props";
-
-export {
-  GOVERNED_CARD_RADII,
-  GOVERNED_CARD_SHADOWS,
-  GOVERNED_PANEL_RADII,
-  GOVERNED_PANEL_SHADOWS,
-  isGovernedCardLayoutSize,
-  isGovernedCardRadius,
-  isGovernedCardShadow,
-  isGovernedPanelRadius,
-  isGovernedPanelShadow,
-} from "./component-props";
-
-// Runtime implementation helpers.
-export {
-  assertAllowedLayoutClassName,
-  assertAllowedLayoutClassNameStrict,
-  getClassNamePolicy,
-  resolveLayoutClassName,
-  validateLayoutClassName,
-} from "./class-name";
-
-export {
-  assertGovernedState,
-  assertGovernedStates,
-  getGovernedStates,
-  getUnknownGovernedStates,
-  isGovernedState,
-  resolveGovernedState,
-} from "./state";
-
+  ACCESSIBILITY_REQUIREMENTS,
+  AFENDA_TOKEN_CATEGORIES,
+  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
+  accessibilityContract,
+  accessibilityPolicy,
+  assertAfendaTokenName,
+  classNamePolicyContract,
+  componentContract,
+  DENSITIES,
+  DESIGN_AUTHORITY_DOMAINS,
+  designSystemAuthorityContract,
+  exampleContract,
+  exportContract,
+  GOVERNED_STATES,
+  isAfendaTokenName,
+  MOTION_INTENTS,
+  motionContract,
+  motionPolicy,
+  PROHIBITED_CLASSNAME_PATTERNS,
+  RADII,
+  recipeContract,
+  SHADOWS,
+  SIZES,
+  SLOT_ROLES,
+  STATUS_TONES,
+  slotContract,
+  stateContract,
+  TIP_004_DOWNSTREAM_CONTRACTS,
+  TOKEN_CATEGORIES,
+  tokenContract,
+  tokenNameToCssVariable,
+  VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
+  variantContract,
+} from "./design-system";
+export { applyGovernedPresentation } from "./governed-render";
 export {
   assertMotionPolicyCoverageStrict,
   getMissingMotionIntents,
@@ -181,16 +149,51 @@ export {
   isMotionIntent,
   resolveMotionIntent,
 } from "./motion";
+export type {
+  FieldOrientation,
+  GovernedPrimitiveDefinition,
+  PrimitiveGovernanceInput,
+  PrimitiveGovernanceResult,
+} from "./primitive-contract";
+export { resolvePrimitiveGovernance } from "./primitive-governance";
+export type { StockShadcnPendingFile } from "./primitive-registry";
+export {
+  assertComponentExportCoverage,
+  EXPORTED_STOCK_COMPONENTS,
+  GOVERNED_COMPONENT_SOURCE_FILES,
+  GOVERNED_PRIMITIVE_REGISTRY,
+  getPrimitiveDefinition,
+  isGovernedPrimitive,
+  isGovernedSourceFile,
+  isStockPendingSourceFile,
+  PRIMARY_UI_EXPORTS,
+  STOCK_SHADCN_PENDING,
+} from "./primitive-registry";
 
 export {
-  getAccessibilityPolicy,
-  getComponentAccessibilityDefinition,
-  getComponentAccessibilityRequirement,
-  getRecipeAccessibilityDefinitions,
-  hasComponentAccessibilityDefinition,
-  type ComponentAccessibilityDefinition,
-} from "./accessibility";
-
+  resolveBadgeClassName,
+  resolveButtonClassName,
+  resolveCardClassName,
+  resolveFieldOrientationClassName,
+  resolveFormControlClassName,
+  resolveGovernedRecipe,
+  resolveGovernedRecipeClassName,
+  resolveStatusClassName,
+  resolveSurfaceClassName,
+  resolveTableClassName,
+  resolveToggleClassName,
+} from "./recipe";
+export {
+  BADGE_VARIANT_AXES,
+  BUTTON_VARIANT_AXES,
+  CARD_VARIANT_AXES,
+  FORM_CONTROL_VARIANT_AXES,
+  GOVERNED_RECIPE_VARIANT_AXES,
+  getRecipeVariantAxes,
+  STATUS_VARIANT_AXES,
+  SURFACE_VARIANT_AXES,
+  TABLE_VARIANT_AXES,
+} from "./recipe-coverage";
 export {
   assertSlotContract,
   assertSlotRole,
@@ -199,7 +202,35 @@ export {
   isSlotRole,
   resolveSlotRole,
 } from "./slot";
-
+export {
+  assertGovernedState,
+  assertGovernedStates,
+  getGovernedStates,
+  getUnknownGovernedStates,
+  isGovernedState,
+  resolveGovernedState,
+} from "./state";
+export {
+  mapStockButtonProps,
+  mapStockButtonSize,
+  mapStockButtonVisualToGoverned,
+  type StockButtonSize,
+  type StockButtonVisual,
+} from "./stock-shadcn-compat";
+// Governed UI vocabulary.
+export type {
+  ClassNamePolicyResult,
+  ClassNamePolicyViolation,
+  GovernedRecipeName,
+  GovernedRecipeResult,
+  GovernedUiComponentName,
+} from "./types";
+export {
+  GOVERNED_UI_COMPONENTS,
+  GOVERNED_UI_RECIPES,
+  isGovernedRecipeName,
+  isGovernedUiComponentName,
+} from "./types";
 export {
   assertGovernedVariantStrict,
   resolveBadgeVariant,
@@ -218,62 +249,7 @@ export {
   resolveSurfaceVariantStrict,
   resolveTableVariant,
   resolveTableVariantStrict,
-  validateGovernedVariant,
   type VariantPolicyResult,
   type VariantPolicyViolation,
+  validateGovernedVariant,
 } from "./variant";
-
-export {
-  resolveBadgeClassName,
-  resolveButtonClassName,
-  resolveCardClassName,
-  resolveFieldOrientationClassName,
-  resolveFormControlClassName,
-  resolveGovernedRecipe,
-  resolveGovernedRecipeClassName,
-  resolveStatusClassName,
-  resolveSurfaceClassName,
-  resolveTableClassName,
-  resolveToggleClassName,
-} from "./recipe";
-
-export type {
-  FieldOrientation,
-  GovernedPrimitiveDefinition,
-  PrimitiveGovernanceInput,
-  PrimitiveGovernanceResult,
-} from "./primitive-contract";
-
-export {
-  EXPORTED_STOCK_COMPONENTS,
-  GOVERNED_COMPONENT_SOURCE_FILES,
-  GOVERNED_PRIMITIVE_REGISTRY,
-  PRIMARY_UI_EXPORTS,
-  STOCK_SHADCN_PENDING,
-  assertComponentExportCoverage,
-  getPrimitiveDefinition,
-  isGovernedPrimitive,
-  isGovernedSourceFile,
-  isStockPendingSourceFile,
-} from "./primitive-registry";
-
-export type { StockShadcnPendingFile } from "./primitive-registry";
-
-export {
-  resolvePrimitiveGovernance,
-} from "./primitive-governance";
-
-export { applyGovernedPresentation } from "./governed-render";
-
-export {
-  createGovernedDivSlot,
-  createGovernedSpanSlot,
-} from "./create-governed-slot";
-
-export {
-  mapStockButtonProps,
-  mapStockButtonSize,
-  mapStockButtonVisualToGoverned,
-  type StockButtonSize,
-  type StockButtonVisual,
-} from "./stock-shadcn-compat";

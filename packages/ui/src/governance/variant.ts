@@ -1,17 +1,17 @@
 import {
   DENSITIES,
-  RADII,
-  SHADOWS,
-  SIZES,
-  STATUS_TONES,
-  VARIANT_AXES,
-  VARIANT_EMPHASES,
-  VARIANT_INTENTS,
   type Density,
   type GovernedRadius,
   type GovernedShadow,
   type GovernedSize,
+  RADII,
+  SHADOWS,
+  SIZES,
+  STATUS_TONES,
   type StatusTone,
+  VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
   type VariantAxis,
   type VariantEmphasis,
   type VariantIntent,
@@ -40,8 +40,8 @@ export {
 
 export interface VariantPolicyViolation {
   readonly axis?: string;
-  readonly value?: string;
   readonly reason: "unknown-axis" | "disallowed-axis" | "unsupported-value";
+  readonly value?: string;
 }
 
 export interface VariantPolicyResult {
@@ -49,15 +49,15 @@ export interface VariantPolicyResult {
   readonly violations: readonly VariantPolicyViolation[];
 }
 
-type AxisOptionMap = {
-  intent: VariantIntent;
-  emphasis: VariantEmphasis;
-  tone: StatusTone;
+interface AxisOptionMap {
   density: Density;
-  size: GovernedSize;
+  emphasis: VariantEmphasis;
+  intent: VariantIntent;
   radius: GovernedRadius;
   shadow: GovernedShadow;
-};
+  size: GovernedSize;
+  tone: StatusTone;
+}
 
 const axisOptions = {
   intent: VARIANT_INTENTS,
@@ -90,7 +90,9 @@ function readAxisValue<K extends VariantAxis>(
 }
 
 function getProvidedAxes(selection: VariantSelection): readonly VariantAxis[] {
-  return VARIANT_AXES.filter((axis) => readAxisValue(selection, axis) !== undefined);
+  return VARIANT_AXES.filter(
+    (axis) => readAxisValue(selection, axis) !== undefined
+  );
 }
 
 function assignAxisValue<K extends VariantAxis>(

@@ -1,11 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ChevronDownIcon } from "lucide-react";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui";
+import * as React from "react";
 
 const NAVIGATION_MENU_RECIPE_NAME = "surface" as const;
 
@@ -235,7 +234,9 @@ const NavigationMenu = React.forwardRef<
   return (
     <NavigationMenuPrimitive.Root
       ref={ref}
-      {...applyGovernedPresentation(props, governed, { "data-viewport": viewport })}
+      {...applyGovernedPresentation(props, governed, {
+        "data-viewport": viewport,
+      })}
     >
       {children}
       {viewport ? <NavigationMenuViewport /> : null}
@@ -247,11 +248,11 @@ NavigationMenu.displayName = "NavigationMenu";
 
 export {
   NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
   NavigationMenuContent,
-  NavigationMenuTrigger,
-  NavigationMenuLink,
   NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
   NavigationMenuViewport,
 };

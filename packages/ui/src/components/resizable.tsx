@@ -1,27 +1,26 @@
 "use client";
 
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
 import * as ResizablePrimitive from "react-resizable-panels";
-
-import { cn } from "#/lib/utils";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 // Re-export the library's imperative handle types so consumers stay in
 // the governed abstraction layer and never need to import from the raw library.
 export type {
   GroupImperativeHandle as ResizablePanelGroupHandle,
-  PanelImperativeHandle as ResizablePanelHandle,
   Layout as ResizableLayout,
+  PanelImperativeHandle as ResizablePanelHandle,
 } from "react-resizable-panels";
 
 // Convenience hooks for TypeScript-typed imperative access.
 // useResizablePanelGroupRef   → getLayout() / setLayout()
 // useResizablePanelRef        → collapse() / expand() / getSize() / resize()
 export {
-  useGroupRef as useResizablePanelGroupRef,
   useGroupCallbackRef as useResizablePanelGroupCallbackRef,
-  usePanelRef as useResizablePanelRef,
+  useGroupRef as useResizablePanelGroupRef,
   usePanelCallbackRef as useResizablePanelCallbackRef,
+  usePanelRef as useResizablePanelRef,
 } from "react-resizable-panels";
 
 const RESIZABLE_RECIPE_NAME = "surface" as const;
@@ -105,7 +104,7 @@ const ResizableHandle = React.forwardRef<HTMLDivElement, ResizableHandleProps>(
         ) : null}
       </ResizablePrimitive.Separator>
     );
-  },
+  }
 );
 ResizableHandle.displayName = "ResizableHandle";
 

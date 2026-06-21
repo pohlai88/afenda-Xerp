@@ -26,7 +26,10 @@ describe("menu primitive governance", () => {
   it("renders PopoverTitle with governed overlay slot", () => {
     render(<PopoverTitle>Title</PopoverTitle>);
 
-    expect(screen.getByText("Title")).toHaveAttribute("data-slot", "popover-title");
+    expect(screen.getByText("Title")).toHaveAttribute(
+      "data-slot",
+      "popover-title"
+    );
   });
 
   it("renders DropdownMenuContent with emitted menu slots", () => {

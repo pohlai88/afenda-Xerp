@@ -7,11 +7,11 @@ import { Toaster } from "./sonner";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-type ToastTrigger = {
+interface ToastTrigger {
   readonly id: string;
   readonly label: string;
   readonly onClick: () => void;
-};
+}
 
 function ToastTriggerButton({
   label,
@@ -27,7 +27,11 @@ function ToastTriggerButton({
   );
 }
 
-function ToastTriggerRow({ triggers }: { readonly triggers: readonly ToastTrigger[] }) {
+function ToastTriggerRow({
+  triggers,
+}: {
+  readonly triggers: readonly ToastTrigger[];
+}) {
   return (
     <StoryRow gap="sm" wrap>
       {triggers.map(({ id, label, onClick }) => (
@@ -90,7 +94,9 @@ const meta = {
           <div className="bg-background text-foreground">
             <Story />
             <Toaster
-              {...(toaster.closeButton ? { closeButton: toaster.closeButton } : {})}
+              {...(toaster.closeButton
+                ? { closeButton: toaster.closeButton }
+                : {})}
               {...(toaster.expand ? { expand: toaster.expand } : {})}
               {...(toaster.position ? { position: toaster.position } : {})}
             />
@@ -297,10 +303,22 @@ export const MatrixAllTypes: Story = {
   render: () => (
     <ToastTriggerRow
       triggers={[
-        { id: "default", label: "Default", onClick: () => toast("Notification") },
-        { id: "success", label: "Success", onClick: () => toast.success("Saved") },
+        {
+          id: "default",
+          label: "Default",
+          onClick: () => toast("Notification"),
+        },
+        {
+          id: "success",
+          label: "Success",
+          onClick: () => toast.success("Saved"),
+        },
         { id: "error", label: "Error", onClick: () => toast.error("Failed") },
-        { id: "warning", label: "Warning", onClick: () => toast.warning("Review") },
+        {
+          id: "warning",
+          label: "Warning",
+          onClick: () => toast.warning("Review"),
+        },
         { id: "info", label: "Info", onClick: () => toast.info("Scheduled") },
         {
           id: "loading",
@@ -331,12 +349,14 @@ export const PositionVariants: Story = {
         {
           id: "br",
           label: "Bottom right",
-          onClick: () => toast.info("Bottom right", { position: "bottom-right" }),
+          onClick: () =>
+            toast.info("Bottom right", { position: "bottom-right" }),
         },
         {
           id: "bc",
           label: "Bottom center",
-          onClick: () => toast.info("Bottom center", { position: "bottom-center" }),
+          onClick: () =>
+            toast.info("Bottom center", { position: "bottom-center" }),
         },
       ]}
     />
@@ -437,7 +457,7 @@ export const SessionExpiring: Story = {
       onClick={() =>
         toast.warning("Session expiring soon", {
           description: "You will be signed out in 5 minutes due to inactivity",
-          duration: 10000,
+          duration: 10_000,
         })
       }
     />
@@ -501,7 +521,8 @@ export const DuplicateSkipped: Story = {
       label="Import with duplicates"
       onClick={() =>
         toast.warning("3 duplicates skipped", {
-          description: "Employee IDs already exist — see import log for details",
+          description:
+            "Employee IDs already exist — see import log for details",
         })
       }
     />
@@ -820,16 +841,21 @@ export const ToasterVsAlert: Story = {
   render: () => (
     <StoryStack gap="md">
       <StoryStack gap="xs">
-        <span className="font-medium text-sm">Toaster — transient feedback</span>
+        <span className="font-medium text-sm">
+          Toaster — transient feedback
+        </span>
         <ToastTriggerButton
           label="Show save confirmation"
           onClick={() => toast.success("Vendor updated")}
         />
       </StoryStack>
       <StoryStack gap="xs">
-        <span className="font-medium text-sm">Alert — persistent inline notice</span>
+        <span className="font-medium text-sm">
+          Alert — persistent inline notice
+        </span>
         <span className="text-muted-foreground text-xs">
-          See Primitives/Alert for import warnings, compliance banners, and form errors
+          See Primitives/Alert for import warnings, compliance banners, and form
+          errors
         </span>
       </StoryStack>
     </StoryStack>
@@ -858,7 +884,8 @@ export const ToasterVsDialog: Story = {
       <StoryStack gap="xs">
         <span className="font-medium text-sm">Dialog — blocking decision</span>
         <span className="text-muted-foreground text-xs">
-          See Primitives/Dialog for void invoice, delete record, and period close flows
+          See Primitives/Dialog for void invoice, delete record, and period
+          close flows
         </span>
       </StoryStack>
     </StoryStack>

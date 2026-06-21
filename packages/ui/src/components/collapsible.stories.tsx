@@ -14,7 +14,7 @@ import {
   UserIcon,
   WebhookIcon,
 } from "lucide-react";
-import { useState, type ComponentType, type ReactNode } from "react";
+import { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -148,7 +148,11 @@ function ChevronTrigger({
 
 function BorderedPanel({ children }: { readonly children: ReactNode }) {
   return (
-    <StoryStack className="rounded-md border border-border" gap="xs" padding="lg">
+    <StoryStack
+      className="rounded-md border border-border"
+      gap="xs"
+      padding="lg"
+    >
       {children}
     </StoryStack>
   );
@@ -277,13 +281,19 @@ function AdvancedFiltersDemo() {
                 <StoryRow align="center" gap="md" wrap>
                   <StoryRow align="center" gap="sm">
                     <Checkbox defaultChecked id="filter-overdue" />
-                    <Label className="font-normal text-sm" htmlFor="filter-overdue">
+                    <Label
+                      className="font-normal text-sm"
+                      htmlFor="filter-overdue"
+                    >
                       Overdue only
                     </Label>
                   </StoryRow>
                   <StoryRow align="center" gap="sm">
                     <Checkbox id="filter-assigned" />
-                    <Label className="font-normal text-sm" htmlFor="filter-assigned">
+                    <Label
+                      className="font-normal text-sm"
+                      htmlFor="filter-assigned"
+                    >
                       Assigned to me
                     </Label>
                   </StoryRow>
@@ -355,7 +365,11 @@ export const Default: Story = {
                 </Button>
               </CollapsibleTrigger>
             </StoryRow>
-            <StoryStack className="rounded-md border border-border font-mono text-sm" paddingX="lg" paddingY="sm">
+            <StoryStack
+              className="rounded-md border border-border font-mono text-sm"
+              paddingX="lg"
+              paddingY="sm"
+            >
               {RELATED_ORDERS[0].id} · {RELATED_ORDERS[0].total}
             </StoryStack>
             <CollapsibleContent>
@@ -408,8 +422,14 @@ export const DefaultOpen: Story = {
         <CollapsibleContent>
           <BorderedPanel>
             <StoryStack gap="sm">
-              <DefinitionRow label="Webhook URL" value="https://api.example.com/hooks" />
-              <DefinitionRow label="Last sync" value="Jun 21, 2026 · 08:00 UTC" />
+              <DefinitionRow
+                label="Webhook URL"
+                value="https://api.example.com/hooks"
+              />
+              <DefinitionRow
+                label="Last sync"
+                value="Jun 21, 2026 · 08:00 UTC"
+              />
               <DefinitionRow label="Status" value="Connected" />
             </StoryStack>
           </BorderedPanel>
@@ -524,12 +544,16 @@ export const OrderLineItems: Story = {
                 >
                   <StoryStack className="flex-1" gap="xs">
                     <span>{line.description}</span>
-                    <span className="text-muted-foreground text-xs">{line.sku}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {line.sku}
+                    </span>
                   </StoryStack>
                   <span className="w-16 text-right text-muted-foreground">
                     {line.qty}
                   </span>
-                  <span className="w-20 text-right font-medium">{line.unit}</span>
+                  <span className="w-20 text-right font-medium">
+                    {line.unit}
+                  </span>
                 </StoryRow>
               ))}
             </StoryStack>
@@ -609,7 +633,10 @@ export const ShippingTracking: Story = {
                 <DefinitionRow label="Carrier" value="FedEx Freight" />
                 <DefinitionRow label="Tracking No." value="7849 1234 5678" />
                 <DefinitionRow label="ETA" value="Jun 24, 2026" />
-                <DefinitionRow label="Destination" value="Warehouse B · Dock 3" />
+                <DefinitionRow
+                  label="Destination"
+                  value="Warehouse B · Dock 3"
+                />
               </StoryStack>
             </BorderedPanel>
           </CollapsibleContent>
@@ -640,7 +667,10 @@ export const PaymentTermsDetail: Story = {
               <StoryStack gap="sm">
                 <DefinitionRow label="Terms" value="Net 30" />
                 <DefinitionRow label="Due Date" value="Jul 21, 2026" />
-                <DefinitionRow label="Early Pay Discount" value="2% if paid within 10 days" />
+                <DefinitionRow
+                  label="Early Pay Discount"
+                  value="2% if paid within 10 days"
+                />
                 <DefinitionRow label="Late Fee" value="1.5% per month" />
               </StoryStack>
             </BorderedPanel>
@@ -717,7 +747,9 @@ export const WarehouseBinInventory: Story = {
                 >
                   <StoryStack gap="xs">
                     <span className="font-medium">{bin.location}</span>
-                    <span className="text-muted-foreground text-xs">{bin.sku}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {bin.sku}
+                    </span>
                   </StoryStack>
                   <Badge emphasis="soft" size="sm" tone="neutral">
                     {bin.qty} units
@@ -807,7 +839,11 @@ export const CommentReplies: Story = {
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <StoryStack className="border-border border-l" gap="sm" paddingX="lg">
+              <StoryStack
+                className="border-border border-l"
+                gap="sm"
+                paddingX="lg"
+              >
                 {COMMENT_REPLIES.map((reply) => (
                   <StoryStack gap="xs" key={reply.id}>
                     <StoryRow align="center" justify="between">

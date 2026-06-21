@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import type { ReactNode } from "react";
 
+import { TooltipProvider } from "../src/components/tooltip";
 import "./preview.css";
 
 const preview: Preview = {
@@ -80,12 +81,21 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const theme = context.globals["theme"] === "dark" ? "dark" : "";
+      const isFullscreen = context.parameters["layout"] === "fullscreen";
       const wrapper = (
-        <div className={theme}>
-          <div className="bg-background text-foreground p-4">
-            <Story />
+        <TooltipProvider delayDuration={0}>
+          <div className={theme}>
+            <div
+              className={
+                isFullscreen
+                  ? "min-h-svh bg-background text-foreground"
+                  : "bg-background p-4 text-foreground"
+              }
+            >
+              <Story />
+            </div>
           </div>
-        </div>
+        </TooltipProvider>
       ) satisfies ReactNode;
 
       return wrapper;

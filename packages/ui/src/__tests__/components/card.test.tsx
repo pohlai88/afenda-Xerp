@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -65,15 +65,29 @@ describe("Card governance", () => {
       </Card>
     );
 
-    expect(screen.getByText("Title").closest("[data-slot=card-header]")).toBeTruthy();
-    expect(screen.getByText("Title")).toHaveAttribute("data-slot", "card-title");
+    expect(
+      screen.getByText("Title").closest("[data-slot=card-header]")
+    ).toBeTruthy();
+    expect(screen.getByText("Title")).toHaveAttribute(
+      "data-slot",
+      "card-title"
+    );
     expect(screen.getByText("Description")).toHaveAttribute(
       "data-slot",
       "card-description"
     );
-    expect(screen.getByText("Action")).toHaveAttribute("data-slot", "card-action");
-    expect(screen.getByText("Body")).toHaveAttribute("data-slot", "card-content");
-    expect(screen.getByText("Footer")).toHaveAttribute("data-slot", "card-footer");
+    expect(screen.getByText("Action")).toHaveAttribute(
+      "data-slot",
+      "card-action"
+    );
+    expect(screen.getByText("Body")).toHaveAttribute(
+      "data-slot",
+      "card-content"
+    );
+    expect(screen.getByText("Footer")).toHaveAttribute(
+      "data-slot",
+      "card-footer"
+    );
   });
 
   it("does not emit root-only variant attributes on slot elements", () => {
@@ -117,9 +131,8 @@ describe("Card governance", () => {
 
     expect(screen.getByText("Overview")).toBeInTheDocument();
     expect(screen.getByText("Metrics")).toBeInTheDocument();
-    expect(screen.getByText("Overview").closest("[data-slot=card]")).toHaveAttribute(
-      "data-recipe",
-      "card"
-    );
+    expect(
+      screen.getByText("Overview").closest("[data-slot=card]")
+    ).toHaveAttribute("data-recipe", "card");
   });
 });

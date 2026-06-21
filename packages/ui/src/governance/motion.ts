@@ -1,8 +1,8 @@
 import {
   MOTION_INTENTS,
-  motionPolicy,
   type MotionContract,
   type MotionIntent,
+  motionPolicy,
 } from "./design-system";
 import { isDevelopment } from "./dev-env";
 

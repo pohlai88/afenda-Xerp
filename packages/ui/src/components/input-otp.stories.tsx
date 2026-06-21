@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { LockIcon, MailIcon, ShieldCheckIcon, SmartphoneIcon } from "lucide-react";
+import {
+  LockIcon,
+  MailIcon,
+  ShieldCheckIcon,
+  SmartphoneIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Button } from "./button";
@@ -69,10 +74,10 @@ function SixDigitOtp({
     <InputOTP
       maxLength={6}
       pattern={REGEXP_ONLY_DIGITS}
-      {...(disabled !== undefined ? { disabled } : {})}
+      {...(disabled === undefined ? {} : { disabled })}
       {...(onChange ? { onChange } : {})}
       {...(onComplete ? { onComplete } : {})}
-      {...(value !== undefined ? { value } : {})}
+      {...(value === undefined ? {} : { value })}
     >
       <OtpSlots length={6} />
     </InputOTP>
@@ -112,15 +117,17 @@ function MfaVerifyComponent() {
           </span>
         ) : null}
         {status === "success" ? (
-          <span className="text-sm text-success">Verified — session unlocked.</span>
+          <span className="text-sm text-success">
+            Verified — session unlocked.
+          </span>
         ) : null}
         <StoryRow gap="sm">
           <Button
             disabled={value.length < 6}
             emphasis="solid"
             intent="primary"
-            size="sm"
             onClick={() => handleComplete(value)}
+            size="sm"
           >
             Verify
           </Button>
@@ -203,11 +210,7 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="sm">
       <Field>
         <FieldLabel htmlFor="a11y-otp">Verification code</FieldLabel>
-        <InputOTP
-          id="a11y-otp"
-          maxLength={6}
-          pattern={REGEXP_ONLY_DIGITS}
-        >
+        <InputOTP id="a11y-otp" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <OtpSlots length={6} separatorAt={3} />
         </InputOTP>
         <FieldDescription>
@@ -222,7 +225,12 @@ export const Disabled: Story = {
   name: "InputOTP — Disabled",
   render: () => (
     <StoryFrame width="sm">
-      <InputOTP disabled maxLength={6} pattern={REGEXP_ONLY_DIGITS} value="482910">
+      <InputOTP
+        disabled
+        maxLength={6}
+        pattern={REGEXP_ONLY_DIGITS}
+        value="482910"
+      >
         <OtpSlots length={6} />
       </InputOTP>
     </StoryFrame>
@@ -245,7 +253,10 @@ export const EmailVerification: Story = {
       <StoryStack gap="md">
         <StoryStack gap="xs">
           <StoryRow align="center" gap="sm">
-            <MailIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+            <MailIcon
+              aria-hidden="true"
+              className="size-4 text-muted-foreground"
+            />
             <span className="font-medium text-sm">Verify your email</span>
           </StoryRow>
           <FieldDescription>
@@ -331,8 +342,8 @@ export const AdminApprovalCode: Story = {
             <span className="font-medium text-sm">Elevated action</span>
           </StoryRow>
           <FieldDescription>
-            Posting journal entry JE-2026-0892 requires a second-factor code from
-            a finance administrator.
+            Posting journal entry JE-2026-0892 requires a second-factor code
+            from a finance administrator.
           </FieldDescription>
         </StoryStack>
         <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
@@ -370,7 +381,10 @@ export const SessionUnlock: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="md">
         <StoryRow align="center" gap="sm">
-          <LockIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <LockIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">Session locked</span>
         </StoryRow>
         <FieldDescription>
@@ -417,11 +431,7 @@ export const EmployeeClockPin: Story = {
       <StoryStack gap="md">
         <Field>
           <FieldLabel htmlFor="clock-pin">Clock-in PIN</FieldLabel>
-          <InputOTP
-            id="clock-pin"
-            maxLength={4}
-            pattern={REGEXP_ONLY_DIGITS}
-          >
+          <InputOTP id="clock-pin" maxLength={4} pattern={REGEXP_ONLY_DIGITS}>
             <OtpSlots length={4} />
           </InputOTP>
           <FieldDescription>
@@ -520,13 +530,17 @@ export const InputOtpVsPassword: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">OTP — one-time verification</span>
+          <span className="font-medium text-sm">
+            OTP — one-time verification
+          </span>
           <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
             <OtpSlots length={6} separatorAt={3} />
           </InputOTP>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Password — reusable secret</span>
+          <span className="font-medium text-sm">
+            Password — reusable secret
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Input or InputGroup for password fields
           </span>

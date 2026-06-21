@@ -158,7 +158,10 @@ export const GovernanceAccessibility: Story = {
     },
   },
   render: () => (
-    <Toggle aria-label="Pin invoice INV-2026-0042 to workspace" variant="outline">
+    <Toggle
+      aria-label="Pin invoice INV-2026-0042 to workspace"
+      variant="outline"
+    >
       <PinIcon />
       Pin
     </Toggle>
@@ -204,7 +207,12 @@ export const AllSizes: Story = {
   render: () => (
     <StoryRow align="center" gap="sm">
       {(["sm", "default", "lg"] as const).map((size) => (
-        <Toggle aria-label={`Size ${size}`} key={size} size={size} variant="outline">
+        <Toggle
+          aria-label={`Size ${size}`}
+          key={size}
+          size={size}
+          variant="outline"
+        >
           <BoldIcon />
           {size}
         </Toggle>
@@ -260,14 +268,18 @@ export const ToggleGroupReference: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Single toggle — pin record</span>
+          <span className="font-medium text-sm">
+            Single toggle — pin record
+          </span>
           <Toggle aria-label="Pin record" variant="outline">
             <PinIcon />
             Pin
           </Toggle>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Need a view switcher or filter row?</span>
+          <span className="font-medium text-sm">
+            Need a view switcher or filter row?
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/ToggleGroup for list/grid/table, period filters, and
             approval status chips.
@@ -299,7 +311,9 @@ export const ToggleVsSwitch: Story = {
           </Toggle>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Switch — email notifications</span>
+          <span className="font-medium text-sm">
+            Switch — email notifications
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Switch for persisted settings panels
           </span>

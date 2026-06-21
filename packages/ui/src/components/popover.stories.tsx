@@ -168,7 +168,9 @@ export const SideTop: Story = {
           </PopoverTrigger>
           <PopoverContent side="top">
             <PopoverTitle>Top placement</PopoverTitle>
-            <PopoverDescription>Panel opens above the trigger.</PopoverDescription>
+            <PopoverDescription>
+              Panel opens above the trigger.
+            </PopoverDescription>
           </PopoverContent>
         </Popover>
       </StoryRow>
@@ -241,9 +243,17 @@ export const GovernanceSurfaceVariants: Story = {
     <StoryStack gap="md">
       {(
         [
-          { label: "standard / md / overlay", density: "standard", radius: "md" },
+          {
+            label: "standard / md / overlay",
+            density: "standard",
+            radius: "md",
+          },
           { label: "compact / sm / overlay", density: "compact", radius: "sm" },
-          { label: "standard / lg / overlay", density: "standard", radius: "lg" },
+          {
+            label: "standard / lg / overlay",
+            density: "standard",
+            radius: "lg",
+          },
         ] as const
       ).map(({ label, density, radius }) => (
         <Popover key={label}>
@@ -318,7 +328,9 @@ export const QuickFilterPopover: Story = {
       <PopoverContent className="w-72">
         <PopoverHeader>
           <PopoverTitle>Filter by date range</PopoverTitle>
-          <PopoverDescription>Applies to the current invoice list.</PopoverDescription>
+          <PopoverDescription>
+            Applies to the current invoice list.
+          </PopoverDescription>
         </PopoverHeader>
         <StoryStack gap="sm">
           <StoryStack gap="xs">
@@ -413,7 +425,9 @@ export const ExportOptionsPopover: Story = {
       <PopoverContent className="w-64">
         <PopoverHeader>
           <PopoverTitle>Export invoices</PopoverTitle>
-          <PopoverDescription>284 records match current filters.</PopoverDescription>
+          <PopoverDescription>
+            284 records match current filters.
+          </PopoverDescription>
         </PopoverHeader>
         <StoryStack gap="sm">
           <Select defaultValue="csv">
@@ -448,19 +462,16 @@ export const AssignUserPopover: Story = {
       <PopoverContent className="w-64">
         <PopoverHeader>
           <PopoverTitle>Assign approver</PopoverTitle>
-          <PopoverDescription>PO-2026-1184 · Industrial fasteners</PopoverDescription>
+          <PopoverDescription>
+            PO-2026-1184 · Industrial fasteners
+          </PopoverDescription>
         </PopoverHeader>
         <StoryStack gap="sm">
           {[
             { name: "Jane Doe", initials: "JD", role: "Finance lead" },
             { name: "Alex Chen", initials: "AC", role: "Procurement manager" },
           ].map((person) => (
-            <Button
-              emphasis="ghost"
-              intent="quiet"
-              key={person.name}
-              size="sm"
-            >
+            <Button emphasis="ghost" intent="quiet" key={person.name} size="sm">
               <StoryRow align="center" gap="sm">
                 <Avatar size="sm">
                   <AvatarFallback>{person.initials}</AvatarFallback>
@@ -492,7 +503,9 @@ export const ApprovalCommentPopover: Story = {
       <PopoverContent className="w-72">
         <PopoverHeader>
           <PopoverTitle>Approval comment</PopoverTitle>
-          <PopoverDescription>Recorded in the audit trail for INV-2026-0042.</PopoverDescription>
+          <PopoverDescription>
+            Recorded in the audit trail for INV-2026-0042.
+          </PopoverDescription>
         </PopoverHeader>
         <StoryStack gap="sm">
           <Textarea placeholder="Optional note for reviewers…" rows={3} />
@@ -635,7 +648,12 @@ export const NotificationPopover: Story = {
             "Payment batch BATCH-2026-06-18 ready to post",
             "Expense EXP-2026-042 rejected — comment required",
           ].map((message) => (
-            <StoryStack className="rounded-md border border-border" gap="xs" key={message} padding="sm">
+            <StoryStack
+              className="rounded-md border border-border"
+              gap="xs"
+              key={message}
+              padding="sm"
+            >
               <span className="text-sm">{message}</span>
             </StoryStack>
           ))}
@@ -833,7 +851,11 @@ export const GovernanceAccessibility: Story = {
   render: () => (
     <Popover>
       <PopoverTrigger asChild>
-        <Button aria-label="Open due date picker" emphasis="outline" intent="secondary">
+        <Button
+          aria-label="Open due date picker"
+          emphasis="outline"
+          intent="secondary"
+        >
           <CalendarIcon />
           Jul 15, 2026
         </Button>

@@ -98,7 +98,7 @@ function AsyncSaveDialogComponent() {
           </DialogDescription>
         </DialogHeader>
         {saving ? (
-          <StoryRow justify="center" gap="md" paddingY="md">
+          <StoryRow gap="md" justify="center" paddingY="md">
             <Spinner />
             <span className="text-muted-foreground text-sm">
               Updating invoice #INV-0042…
@@ -241,7 +241,8 @@ export const FooterWithCloseButton: Story = {
           </DialogDescription>
         </DialogHeader>
         <p className="text-muted-foreground text-sm">
-          Revenue {formatCurrency(1284000)} · Expenses {formatCurrency(942000)}
+          Revenue {formatCurrency(1_284_000)} · Expenses{" "}
+          {formatCurrency(942_000)}
         </p>
         <DialogFooter showCloseButton />
       </DialogContent>
@@ -267,12 +268,16 @@ export const OpenByDefault: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
-            <span className="font-semibold text-sm">{formatCurrency(24850)}</span>
+            <span className="font-semibold text-sm">
+              {formatCurrency(24_850)}
+            </span>
           </StoryRow>
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="solid" intent="primary">Record payment</Button>
+          <Button emphasis="solid" intent="primary">
+            Record payment
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -309,7 +314,9 @@ export const GovernanceAccessibility: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="solid" intent="primary">Save</Button>
+          <Button emphasis="solid" intent="primary">
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -323,9 +330,17 @@ export const GovernanceSurfaceVariants: Story = {
     <StoryStack gap="md">
       {(
         [
-          { label: "standard / md / overlay", density: "standard", radius: "md" },
+          {
+            label: "standard / md / overlay",
+            density: "standard",
+            radius: "md",
+          },
           { label: "compact / sm / overlay", density: "compact", radius: "sm" },
-          { label: "standard / lg / overlay", density: "standard", radius: "lg" },
+          {
+            label: "standard / lg / overlay",
+            density: "standard",
+            radius: "lg",
+          },
         ] as const
       ).map(({ label, density, radius }) => (
         <Dialog key={label}>
@@ -509,11 +524,15 @@ export const RecordDetailView: Story = {
         <StoryStack gap="sm">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Status</span>
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
           </StoryRow>
           <StoryRow justify="between">
-            <span className="text-muted-foreground text-sm">Invoice amount</span>
-            <span>{formatCurrency(24850)}</span>
+            <span className="text-muted-foreground text-sm">
+              Invoice amount
+            </span>
+            <span>{formatCurrency(24_850)}</span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Amount paid</span>
@@ -522,7 +541,7 @@ export const RecordDetailView: Story = {
           <Separator />
           <StoryRow justify="between">
             <span className="font-medium text-sm">Balance due</span>
-            <span className="font-semibold">{formatCurrency(24850)}</span>
+            <span className="font-semibold">{formatCurrency(24_850)}</span>
           </StoryRow>
         </StoryStack>
         <DialogFooter>
@@ -581,8 +600,12 @@ export const CreatePurchaseOrder: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
-          <Button emphasis="solid" intent="primary">Create PO</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Create PO
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -604,7 +627,7 @@ export const RecordPayment: Story = {
         <DialogHeader>
           <DialogTitle>Record payment — INV-2026-0042</DialogTitle>
           <DialogDescription>
-            Balance due {formatCurrency(24850)} · Acme Supplies Ltd.
+            Balance due {formatCurrency(24_850)} · Acme Supplies Ltd.
           </DialogDescription>
         </DialogHeader>
         <StoryStack gap="sm">
@@ -748,7 +771,9 @@ export const ImportColumnMapping: Story = {
             { file: "dept_code", field: "Department" },
           ].map(({ file, field }) => (
             <StoryRow align="center" gap="md" key={file}>
-              <span className="font-mono text-muted-foreground text-xs">{file}</span>
+              <span className="font-mono text-muted-foreground text-xs">
+                {file}
+              </span>
               <span className="text-muted-foreground text-xs">→</span>
               <span className="text-sm">{field}</span>
             </StoryRow>
@@ -756,7 +781,9 @@ export const ImportColumnMapping: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="solid" intent="primary">Run import</Button>
+          <Button emphasis="solid" intent="primary">
+            Run import
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -782,12 +809,15 @@ export const AttachmentUpload: Story = {
           </DialogDescription>
         </DialogHeader>
         <StoryStack
-          className="rounded-md border border-dashed border-border"
+          className="rounded-md border border-border border-dashed"
           gap="sm"
           padding="lg"
         >
           <StoryRow align="center" justify="center">
-            <UploadIcon aria-hidden="true" className="size-8 text-muted-foreground" />
+            <UploadIcon
+              aria-hidden="true"
+              className="size-8 text-muted-foreground"
+            />
           </StoryRow>
           <p className="text-center text-muted-foreground text-sm">
             Drag files here or click to browse
@@ -795,7 +825,9 @@ export const AttachmentUpload: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="solid" intent="primary">Upload files</Button>
+          <Button emphasis="solid" intent="primary">
+            Upload files
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -848,7 +880,9 @@ export const BulkEditFields: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="solid" intent="primary">Apply to 8 records</Button>
+          <Button emphasis="solid" intent="primary">
+            Apply to 8 records
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -881,8 +915,12 @@ export const RecoverableError: Story = {
         </DialogHeader>
         <DialogFooter>
           <DialogCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
-          <Button emphasis="solid" intent="primary">Retry sync</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Retry sync
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -956,8 +994,12 @@ export const WorkflowStepDialog: Story = {
           </Button>
         </StoryStack>
         <DialogFooter>
-          <Button emphasis="ghost" intent="secondary">Back</Button>
-          <Button emphasis="solid" intent="primary">Next: Review</Button>
+          <Button emphasis="ghost" intent="secondary">
+            Back
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Next: Review
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

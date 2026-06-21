@@ -3,22 +3,16 @@ import {
   PROHIBITED_CLASSNAME_PATTERNS,
 } from "./design-system";
 import { isDevelopment } from "./dev-env";
-import type {
-  ClassNamePolicyResult,
-  ClassNamePolicyViolation,
-} from "./types";
+import type { ClassNamePolicyResult, ClassNamePolicyViolation } from "./types";
 
 const CLASS_NAME_SEPARATOR_PATTERN = /\s+/u;
-const ARBITRARY_CLASS_PATTERN = /[\[\]()]/u;
+const ARBITRARY_CLASS_PATTERN = /[[\]()]/u;
 
 function splitClassName(className: string): readonly string[] {
   return className.split(CLASS_NAME_SEPARATOR_PATTERN).filter(Boolean);
 }
 
-function matchesAnyPrefix(
-  token: string,
-  patterns: readonly string[]
-): boolean {
+function matchesAnyPrefix(token: string, patterns: readonly string[]): boolean {
   return patterns.some(
     (pattern) => token === pattern || token.startsWith(pattern)
   );
@@ -72,9 +66,7 @@ export function validateLayoutClassName(
   };
 }
 
-function formatClassNamePolicyViolation(
-  result: ClassNamePolicyResult
-): string {
+function formatClassNamePolicyViolation(result: ClassNamePolicyResult): string {
   return result.violations
     .map((violation) => `${violation.token} (${violation.reason})`)
     .join(", ");
@@ -116,9 +108,7 @@ export function assertAllowedLayoutClassNameStrict(
   }
 }
 
-export function resolveLayoutClassName(
-  className: string | undefined
-): string {
+export function resolveLayoutClassName(className: string | undefined): string {
   assertAllowedLayoutClassName(className);
   return className ?? "";
 }

@@ -1,18 +1,21 @@
 "use client";
 
-import * as React from "react";
-import { Checkbox as CheckboxPrimitive } from "radix-ui";
-import { CheckIcon } from "lucide-react";
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import { CheckIcon } from "lucide-react";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
+import * as React from "react";
 
 const CHECKBOX_RECIPE_NAME = "form-control" as const;
 
 export interface CheckboxProps
-  extends Omit<React.ComponentProps<typeof CheckboxPrimitive.Root>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof CheckboxPrimitive.Root>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }

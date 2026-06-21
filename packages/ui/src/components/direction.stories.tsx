@@ -10,7 +10,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { Fragment, useState, type ReactNode } from "react";
+import { Fragment, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
@@ -65,7 +65,11 @@ function DirectionShell({
   return (
     <StoryFrame width={width}>
       <DirectionProvider dir={dir}>
-        <StoryStack className="rounded-lg border border-border" gap="sm" padding="lg">
+        <StoryStack
+          className="rounded-lg border border-border"
+          gap="sm"
+          padding="lg"
+        >
           {header}
           {children}
           {footer}
@@ -125,7 +129,11 @@ function LocaleToggleDemo() {
   return (
     <StoryFrame width="md">
       <DirectionProvider dir={dir}>
-        <StoryStack className="rounded-lg border border-border" gap="sm" padding="lg">
+        <StoryStack
+          className="rounded-lg border border-border"
+          gap="sm"
+          padding="lg"
+        >
           <StoryRow align="center" justify="between" wrap>
             <StoryStack gap="xs">
               <span className="font-medium text-sm">
@@ -152,7 +160,9 @@ function LocaleToggleDemo() {
             <Button
               emphasis="outline"
               intent="secondary"
-              onClick={() => setDir((value) => (value === "ltr" ? "rtl" : "ltr"))}
+              onClick={() =>
+                setDir((value) => (value === "ltr" ? "rtl" : "ltr"))
+              }
               size="sm"
             >
               <GlobeIcon aria-hidden="true" className="size-4" />
@@ -175,7 +185,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed Radix direction provider for ERP locale and RTL support. Wrap subtrees with `dir=\"ltr\"` or `dir=\"rtl\"` (alias: `direction`) so nested primitives inherit correct reading order, keyboard traversal, and mirrored layout semantics.",
+          'Governed Radix direction provider for ERP locale and RTL support. Wrap subtrees with `dir="ltr"` or `dir="rtl"` (alias: `direction`) so nested primitives inherit correct reading order, keyboard traversal, and mirrored layout semantics.',
       },
     },
   },
@@ -204,7 +214,9 @@ export const Default: Story = {
       dir="ltr"
       header={
         <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">Purchase Order PO-2026-1184</span>
+          <span className="font-medium text-sm">
+            Purchase Order PO-2026-1184
+          </span>
           <DirectionReadout />
         </StoryRow>
       }
@@ -244,7 +256,11 @@ export const DirectionPropAlias: Story = {
   render: () => (
     <StoryFrame width="md">
       <DirectionProvider dir="ltr" direction="rtl">
-        <StoryStack className="rounded-lg border border-border" gap="sm" padding="lg">
+        <StoryStack
+          className="rounded-lg border border-border"
+          gap="sm"
+          padding="lg"
+        >
           <StoryRow align="center" justify="between">
             <span className="font-medium text-sm">فاتورة INV-2026-0042</span>
             <DirectionReadout />
@@ -269,7 +285,11 @@ export const UseDirectionHook: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <DirectionProvider dir="ltr">
-          <StoryStack className="rounded-lg border border-border" gap="sm" padding="lg">
+          <StoryStack
+            className="rounded-lg border border-border"
+            gap="sm"
+            padding="lg"
+          >
             <StoryRow align="center" justify="between">
               <span className="font-medium text-sm">LTR subtree</span>
               <DirectionReadout />
@@ -280,7 +300,11 @@ export const UseDirectionHook: Story = {
           </StoryStack>
         </DirectionProvider>
         <DirectionProvider dir="rtl">
-          <StoryStack className="rounded-lg border border-border" gap="sm" padding="lg">
+          <StoryStack
+            className="rounded-lg border border-border"
+            gap="sm"
+            padding="lg"
+          >
             <StoryRow align="center" justify="between">
               <span className="font-medium text-sm">RTL subtree</span>
               <DirectionReadout />
@@ -306,7 +330,11 @@ export const SideBySideComparison: Story = {
     <StoryFrame width="xl">
       <StoryRow align="start" gap="lg" wrap>
         <DirectionProvider dir="ltr">
-          <StoryStack className="min-w-72 flex-1 rounded-lg border border-border" gap="sm" padding="lg">
+          <StoryStack
+            className="min-w-72 flex-1 rounded-lg border border-border"
+            gap="sm"
+            padding="lg"
+          >
             <StoryRow align="center" justify="between">
               <span className="font-medium text-sm">Invoice Summary</span>
               <Badge emphasis="soft" size="sm" tone="neutral">
@@ -328,7 +356,11 @@ export const SideBySideComparison: Story = {
           </StoryStack>
         </DirectionProvider>
         <DirectionProvider dir="rtl">
-          <StoryStack className="min-w-72 flex-1 rounded-lg border border-border" gap="sm" padding="lg">
+          <StoryStack
+            className="min-w-72 flex-1 rounded-lg border border-border"
+            gap="sm"
+            padding="lg"
+          >
             <StoryRow align="center" justify="between">
               <span className="font-medium text-sm">ملخص الفاتورة</span>
               <Badge emphasis="soft" size="sm" tone="info">
@@ -372,7 +404,7 @@ export const ArabicPurchaseOrderHeader: Story = {
             ]}
           />
           <StoryRow align="center" gap="sm">
-            <h2 className="font-heading text-lg font-semibold">
+            <h2 className="font-heading font-semibold text-lg">
               أمر شراء PO-2026-1184
             </h2>
             <Badge emphasis="soft" size="sm" tone="warning">
@@ -503,7 +535,10 @@ export const ArabicEmployeeProfile: Story = {
       header={
         <StoryRow align="center" gap="sm">
           <div className="flex size-10 items-center justify-center rounded-full bg-muted">
-            <UserIcon aria-hidden="true" className="size-5 text-muted-foreground" />
+            <UserIcon
+              aria-hidden="true"
+              className="size-5 text-muted-foreground"
+            />
           </div>
           <StoryStack gap="xs">
             <span className="font-medium text-sm">Jane Doe</span>
@@ -565,7 +600,10 @@ export const LocaleSettingsPanel: Story = {
     <DirectionShell
       header={
         <StoryRow align="center" gap="sm">
-          <SettingsIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <SettingsIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">Language & Region</span>
         </StoryRow>
       }
@@ -595,7 +633,11 @@ export const LocaleSettingsPanel: Story = {
         </StoryRow>
         <Separator />
         <DirectionProvider dir="rtl">
-          <StoryStack className="rounded-md border border-border" gap="xs" padding="sm">
+          <StoryStack
+            className="rounded-md border border-border"
+            gap="xs"
+            padding="sm"
+          >
             <StoryRow align="center" justify="between">
               <span className="text-sm">معاينة RTL</span>
               <DirectionReadout />
@@ -660,7 +702,9 @@ export const RtlDashboardMetrics: Story = {
               key={metric.label}
               padding="md"
             >
-              <span className="text-muted-foreground text-xs">{metric.label}</span>
+              <span className="text-muted-foreground text-xs">
+                {metric.label}
+              </span>
               <span className="font-semibold text-lg tabular-nums">
                 {metric.value}
               </span>
@@ -680,7 +724,10 @@ export const RtlNotificationList: Story = {
       dir="rtl"
       header={
         <StoryRow align="center" gap="sm">
-          <BellIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <BellIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">الإشعارات</span>
         </StoryRow>
       }
@@ -725,7 +772,11 @@ export const NestedDirectionScope: Story = {
   render: () => (
     <StoryFrame width="lg">
       <DirectionProvider dir="ltr">
-        <StoryStack className="rounded-lg border border-border" gap="md" padding="lg">
+        <StoryStack
+          className="rounded-lg border border-border"
+          gap="md"
+          padding="lg"
+        >
           <StoryStack gap="xs">
             <span className="font-medium text-sm">Global Report — English</span>
             <span className="text-muted-foreground text-sm">
@@ -733,14 +784,18 @@ export const NestedDirectionScope: Story = {
             </span>
           </StoryStack>
           <DirectionProvider dir="rtl">
-            <StoryStack className="rounded-md border border-border bg-muted/20" gap="sm" padding="md">
+            <StoryStack
+              className="rounded-md border border-border bg-muted/20"
+              gap="sm"
+              padding="md"
+            >
               <StoryRow align="center" justify="between">
                 <span className="font-medium text-sm">ملاحظة المورد (RTL)</span>
                 <DirectionReadout />
               </StoryRow>
               <span className="text-muted-foreground text-sm">
-                تم تأكيد شروط الشحن الجديدة. يرجى مراجعة أمر الشراء قبل
-                الاعتماد النهائي.
+                تم تأكيد شروط الشحن الجديدة. يرجى مراجعة أمر الشراء قبل الاعتماد
+                النهائي.
               </span>
             </StoryStack>
           </DirectionProvider>

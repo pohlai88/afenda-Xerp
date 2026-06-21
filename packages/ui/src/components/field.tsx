@@ -1,13 +1,12 @@
-import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import { Separator } from "#/components/separator";
 import type {
   FieldOrientation,
   GovernedFormControlProps,
   SlotRole,
-} from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+} from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import * as React from "react";
+import { Separator } from "./separator";
 
 const FIELD_RECIPE_NAME = "form-control" as const;
 
@@ -98,10 +97,10 @@ const Field = React.forwardRef<HTMLDivElement, FieldProps>(
       <div
         ref={ref}
         {...props}
-        role={role ?? "group"}
-        data-orientation={orientation}
         data-density={density}
+        data-orientation={orientation}
         data-size={size}
+        role={role ?? "group"}
         {...governed.dataAttributes}
         className={cn(governed.className)}
       />
@@ -132,23 +131,24 @@ interface FieldLegendSlotProps
 function createFieldDivSlot(displayName: string, slotName: FieldSlotKeyName) {
   const slot = FIELD_SLOT_ROLES[slotName];
 
-  const FieldSlotComponent = React.forwardRef<HTMLDivElement, FieldDivSlotProps>(
-    ({ className, ...props }, ref) => {
-      const governed = resolveFieldGovernance({
-        slot,
-        className,
-      });
+  const FieldSlotComponent = React.forwardRef<
+    HTMLDivElement,
+    FieldDivSlotProps
+  >(({ className, ...props }, ref) => {
+    const governed = resolveFieldGovernance({
+      slot,
+      className,
+    });
 
-      return (
-        <div
-          ref={ref}
-          {...props}
-          {...governed.dataAttributes}
-          className={cn(governed.className)}
-        />
-      );
-    }
-  );
+    return (
+      <div
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  });
 
   FieldSlotComponent.displayName = displayName;
 
@@ -383,13 +383,13 @@ FieldError.displayName = "FieldError";
 
 export {
   Field,
-  FieldLabel,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
+  FieldLabel,
   FieldLegend,
   FieldSeparator,
   FieldSet,
-  FieldContent,
   FieldTitle,
 };

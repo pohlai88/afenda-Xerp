@@ -1,24 +1,21 @@
 "use client";
 
-import * as React from "react";
-import { Command as CommandPrimitive } from "cmdk";
-import { SearchIcon, CheckIcon } from "lucide-react";
+import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
+import { cn } from "@afenda/ui/lib/utils";
+import { Command as CommandPrimitive } from "cmdk";
+import { CheckIcon, SearchIcon } from "lucide-react";
+import * as React from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "#/components/dialog";
-import {
-  InputGroup,
-  InputGroupAddon,
-} from "#/components/input-group";
-import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+} from "./dialog";
+import { InputGroup, InputGroupAddon } from "./input-group";
 
 const COMMAND_RECIPE_NAME = "surface" as const;
 
@@ -95,7 +92,10 @@ function CommandDialog({
 
 const CommandInput = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Input>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -143,7 +143,10 @@ CommandInput.displayName = "CommandInput";
 
 const CommandList = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.List>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -166,7 +169,10 @@ CommandList.displayName = "CommandList";
 
 const CommandEmpty = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Empty>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -189,7 +195,10 @@ CommandEmpty.displayName = "CommandEmpty";
 
 const CommandGroup = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Group>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -212,7 +221,10 @@ CommandGroup.displayName = "CommandGroup";
 
 const CommandSeparator = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Separator>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -235,7 +247,10 @@ CommandSeparator.displayName = "CommandSeparator";
 
 const CommandItem = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Item>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, children, ...props }, ref) => {
@@ -268,11 +283,11 @@ CommandItem.displayName = "CommandItem";
 export {
   Command,
   CommandDialog,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
-  CommandShortcut,
+  CommandList,
   CommandSeparator,
+  CommandShortcut,
 };

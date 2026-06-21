@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { AspectRatio as AspectRatioPrimitive } from "radix-ui";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const ASPECT_RATIO_RECIPE_NAME = "surface" as const;
 

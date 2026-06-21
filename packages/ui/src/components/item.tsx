@@ -1,9 +1,8 @@
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Slot } from "radix-ui";
-
-import { Separator } from "#/components/separator";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
+import { Separator } from "./separator";
 
 const ITEM_RECIPE_NAME = "surface" as const;
 
@@ -55,7 +54,10 @@ const ItemSeparator = React.forwardRef<
   return (
     <Separator
       ref={ref}
-      {...applyGovernedPresentation({ ...props, orientation: "horizontal" }, governed)}
+      {...applyGovernedPresentation(
+        { ...props, orientation: "horizontal" },
+        governed
+      )}
     />
   );
 });
@@ -64,10 +66,10 @@ ItemSeparator.displayName = "ItemSeparator";
 
 interface ItemProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly className?: string;
-  readonly variant?: ItemVariant;
-  readonly size?: ItemSize;
   readonly asChild?: boolean;
+  readonly className?: string;
+  readonly size?: ItemSize;
+  readonly variant?: ItemVariant;
 }
 
 const Item = React.forwardRef<HTMLDivElement, ItemProps>(
@@ -124,7 +126,9 @@ const ItemMedia = React.forwardRef<HTMLDivElement, ItemMediaProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation(props, governed, { "data-variant": variant })}
+        {...applyGovernedPresentation(props, governed, {
+          "data-variant": variant,
+        })}
       />
     );
   }
@@ -146,9 +150,7 @@ const ItemContent = React.forwardRef<HTMLDivElement, ItemContentProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -168,9 +170,7 @@ const ItemTitle = React.forwardRef<HTMLDivElement, ItemTitleProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -181,20 +181,19 @@ interface ItemDescriptionProps
   readonly className?: string;
 }
 
-const ItemDescription = React.forwardRef<HTMLParagraphElement, ItemDescriptionProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Item",
-      recipeName: ITEM_RECIPE_NAME,
-      slot: "state",
-      className,
-    });
+const ItemDescription = React.forwardRef<
+  HTMLParagraphElement,
+  ItemDescriptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Item",
+    recipeName: ITEM_RECIPE_NAME,
+    slot: "state",
+    className,
+  });
 
-    return (
-      <p ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
-  }
-);
+  return <p ref={ref} {...applyGovernedPresentation(props, governed)} />;
+});
 
 ItemDescription.displayName = "ItemDescription";
 
@@ -212,9 +211,7 @@ const ItemActions = React.forwardRef<HTMLDivElement, ItemActionsProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -234,9 +231,7 @@ const ItemHeader = React.forwardRef<HTMLDivElement, ItemHeaderProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -256,9 +251,7 @@ const ItemFooter = React.forwardRef<HTMLDivElement, ItemFooterProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -266,13 +259,13 @@ ItemFooter.displayName = "ItemFooter";
 
 export {
   Item,
-  ItemMedia,
-  ItemContent,
   ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
   ItemGroup,
+  ItemHeader,
+  ItemMedia,
   ItemSeparator,
   ItemTitle,
-  ItemDescription,
-  ItemHeader,
-  ItemFooter,
 };

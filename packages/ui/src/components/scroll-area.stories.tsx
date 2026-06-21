@@ -19,8 +19,9 @@ import { Separator } from "./separator";
 
 // ─── Shared data ─────────────────────────────────────────────────────────────
 
-const RELEASE_TAGS = Array.from({ length: 50 }, (_, index) =>
-  `v1.2.0-beta.${50 - index}`,
+const RELEASE_TAGS = Array.from(
+  { length: 50 },
+  (_, index) => `v1.2.0-beta.${50 - index}`
 );
 
 const MODULE_LINKS = [
@@ -113,8 +114,18 @@ const INVOICE_RECORDS = [
   { id: "INV-002", customer: "Globex Ltd", amount: 1200, status: "Pending" },
   { id: "INV-003", customer: "Initech", amount: 8750, status: "Overdue" },
   { id: "INV-004", customer: "Umbrella Co", amount: 3200, status: "Draft" },
-  { id: "INV-005", customer: "Stark Industries", amount: 15600, status: "Paid" },
-  { id: "INV-006", customer: "Wayne Enterprises", amount: 9200, status: "Pending" },
+  {
+    id: "INV-005",
+    customer: "Stark Industries",
+    amount: 15_600,
+    status: "Paid",
+  },
+  {
+    id: "INV-006",
+    customer: "Wayne Enterprises",
+    amount: 9200,
+    status: "Pending",
+  },
 ] as const;
 
 const FILTER_CHIPS = [
@@ -148,19 +159,49 @@ const WAREHOUSE_BINS = [
 ] as const;
 
 const TEAM_MEMBERS = [
-  { id: "emp-142", name: "Jane Doe", role: "Finance controller", dept: "Finance" },
-  { id: "emp-208", name: "Michael Chen", role: "Ops manager", dept: "Operations" },
-  { id: "emp-311", name: "Alex Brown", role: "Procurement lead", dept: "Procurement" },
+  {
+    id: "emp-142",
+    name: "Jane Doe",
+    role: "Finance controller",
+    dept: "Finance",
+  },
+  {
+    id: "emp-208",
+    name: "Michael Chen",
+    role: "Ops manager",
+    dept: "Operations",
+  },
+  {
+    id: "emp-311",
+    name: "Alex Brown",
+    role: "Procurement lead",
+    dept: "Procurement",
+  },
   { id: "emp-415", name: "Sam Rivera", role: "HR specialist", dept: "HR" },
-  { id: "emp-502", name: "Taylor Kim", role: "Inventory clerk", dept: "Inventory" },
+  {
+    id: "emp-502",
+    name: "Taylor Kim",
+    role: "Inventory clerk",
+    dept: "Inventory",
+  },
 ] as const;
 
 const TRANSACTIONS = [
   { id: "txn-901", desc: "Payment — Acme Corp", amount: -4850, date: "Jun 21" },
   { id: "txn-902", desc: "Receipt — Globex Ltd", amount: 1200, date: "Jun 20" },
-  { id: "txn-903", desc: "Journal — Accrued freight", amount: -320, date: "Jun 20" },
+  {
+    id: "txn-903",
+    desc: "Journal — Accrued freight",
+    amount: -320,
+    date: "Jun 20",
+  },
   { id: "txn-904", desc: "Payment — Initech", amount: -8750, date: "Jun 19" },
-  { id: "txn-905", desc: "Deposit — Stark Industries", amount: 15600, date: "Jun 18" },
+  {
+    id: "txn-905",
+    desc: "Deposit — Stark Industries",
+    amount: 15_600,
+    date: "Jun 18",
+  },
 ] as const;
 
 const ATTACHMENTS = [
@@ -383,7 +424,10 @@ export const SidebarNavigation: Story = {
         {MODULE_LINKS.map(({ id, label, icon: Icon, count }) => (
           <StoryRow justify="between" key={id}>
             <StoryRow gap="sm">
-              <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <Icon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="text-sm">{label}</span>
             </StoryRow>
             <Badge emphasis="soft" tone="neutral">
@@ -394,7 +438,9 @@ export const SidebarNavigation: Story = {
         {MODULE_LINKS.map(({ id, label, icon: Icon }) => (
           <StoryRow gap="sm" key={`extra-${id}`}>
             <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-            <span className="text-muted-foreground text-sm">{label} archive</span>
+            <span className="text-muted-foreground text-sm">
+              {label} archive
+            </span>
           </StoryRow>
         ))}
       </StoryStack>
@@ -409,7 +455,10 @@ export const AuditEventLog: Story = {
     <ScrollAreaShell frameWidth="md" height="h-80">
       <StoryStack gap="md" padding="md">
         <StoryRow align="center" gap="sm">
-          <HistoryIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <HistoryIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <SectionTitle>PO-1042 audit trail</SectionTitle>
         </StoryRow>
         {AUDIT_EVENTS.map(({ id, actor, action, timestamp }) => (
@@ -465,7 +514,10 @@ export const NotificationList: Story = {
     <ScrollAreaShell frameWidth="md" height="h-80">
       <StoryStack gap="sm" padding="md">
         <StoryRow align="center" gap="sm">
-          <BellIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <BellIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <SectionTitle>Notifications</SectionTitle>
         </StoryRow>
         {NOTIFICATIONS.map(({ id, title, body, time, unread }) => (
@@ -721,7 +773,10 @@ export const DocumentAttachments: Story = {
         <SectionTitle>Attachments</SectionTitle>
         {ATTACHMENTS.map(({ id, name, size }) => (
           <StoryRow gap="sm" key={id}>
-            <PaperclipIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+            <PaperclipIcon
+              aria-hidden="true"
+              className="size-4 text-muted-foreground"
+            />
             <StoryStack gap="xs">
               <span className="text-sm">{name}</span>
               <MutedCaption>{size}</MutedCaption>
@@ -768,8 +823,8 @@ export const GovernanceAccessibility: Story = {
       <StoryStack gap="sm" padding="md">
         <SectionTitle>Keyboard-scrollable list</SectionTitle>
         <span className="text-muted-foreground text-sm">
-          Tab into the panel and use arrow keys or Page Up/Down when focus is inside
-          the scrollable region.
+          Tab into the panel and use arrow keys or Page Up/Down when focus is
+          inside the scrollable region.
         </span>
         {Array.from({ length: 16 }, (_, index) => (
           <span className="text-sm" key={`a11y-${index}`}>

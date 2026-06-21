@@ -1,0 +1,279 @@
+import type { ReactNode } from "react";
+import { LinkIcon, SettingsIcon, XIcon } from "lucide-react";
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@afenda/ui";
+
+import { resolveStockButtonProps } from "../stock-props";
+
+type NotificationDropdownProps = {
+  readonly trigger: ReactNode;
+  readonly defaultOpen?: boolean;
+  readonly align?: "start" | "center" | "end";
+};
+
+const NotificationDropdown = ({
+  trigger,
+  defaultOpen,
+  align = "end",
+}: NotificationDropdownProps) => {
+  return (
+    <DropdownMenu {...(defaultOpen === undefined ? {} : { defaultOpen })}>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent align={align}>
+        <Tabs defaultValue="inbox">
+          <DropdownMenuLabel>
+            <div className="flex flex-col pb-0">
+              <div className="flex items-center justify-between gap-6 pb-2.5">
+                <span className="text-muted-foreground text-sm font-normal uppercase">
+                  Notifications
+                </span>
+                <Badge emphasis="soft" tone="neutral">
+                  8 New
+                </Badge>
+              </div>
+              <div className="-mb-0.5 flex items-center justify-between gap-4">
+                <TabsList variant="line">
+                  <TabsTrigger value="inbox">Inbox</TabsTrigger>
+                  <TabsTrigger value="general">General</TabsTrigger>
+                </TabsList>
+                <a href="#">
+                  <SettingsIcon className="text-foreground size-5" />
+                </a>
+              </div>
+            </div>
+          </DropdownMenuLabel>
+
+          <DropdownMenuSeparator />
+
+          <TabsContent value="inbox">
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-19.png" />
+                <AvatarFallback>MB</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">Mark Bush</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    12 Minutes ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">New post</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3">
+                <XIcon className="text-foreground size-3.5" />
+                <div className="bg-primary size-1.5 rounded-full" />
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png" />
+                <AvatarFallback>AB</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">Aaron Black</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    27 Minutes ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    New comment
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3">
+                <XIcon className="text-foreground size-3.5" />
+                <div className="bg-primary size-1.5 rounded-full" />
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png" />
+                <AvatarFallback>A</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">
+                  Anna has applied to create an ad for your campaign
+                </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    2 hours ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    New request for campaign
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center gap-4">
+                  <Button
+                    {...resolveStockButtonProps({
+                      variant: "secondary",
+                      size: "sm",
+                    })}
+                  >
+                    Decline
+                  </Button>
+                  <Button {...resolveStockButtonProps({ size: "sm" })}>
+                    Accept
+                  </Button>
+                </div>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png" />
+                <AvatarFallback>J</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">
+                  Jason attached the file
+                </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    6 hours ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    Attached files
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center gap-1.5">
+                  <LinkIcon className="text-foreground" />
+                  <span className="text-sm">Work examples.com</span>
+                </div>
+              </div>
+            </DropdownMenuItem>
+          </TabsContent>
+
+          <TabsContent value="general">
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-7.png" />
+                <AvatarFallback>FC</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">Fred Campbell</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    39 Minutes ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    New comment
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3">
+                <XIcon className="text-foreground size-3.5" />
+                <div className="bg-primary size-1.5 rounded-full" />
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-15.png" />
+                <AvatarFallback>S</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">
+                  Scott attached the file
+                </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    3 hours ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    Attached files
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center gap-1.5">
+                  <LinkIcon className="text-foreground" />
+                  <span className="text-sm">Work examples.com</span>
+                </div>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-11.png" />
+                <AvatarFallback>HL</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">Harold Larson</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    5 hours ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">New post</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3">
+                <XIcon className="text-foreground size-3.5" />
+                <div className="bg-primary size-1.5 rounded-full" />
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Avatar>
+                <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png" />
+                <AvatarFallback>R</AvatarFallback>
+              </Avatar>
+              <div className="flex w-full flex-col items-start">
+                <span className="text-base font-medium">
+                  Rosie has applied to create an ad for your campaign
+                </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground text-sm">
+                    8 hours ago
+                  </span>
+                  <div className="bg-primary/30 size-1.5 rounded-full" />
+                  <span className="text-muted-foreground text-sm">
+                    New request for campaign
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center gap-4">
+                  <Button
+                    {...resolveStockButtonProps({
+                      variant: "secondary",
+                      size: "sm",
+                    })}
+                  >
+                    Decline
+                  </Button>
+                  <Button {...resolveStockButtonProps({ size: "sm" })}>
+                    Accept
+                  </Button>
+                </div>
+              </div>
+            </DropdownMenuItem>
+          </TabsContent>
+        </Tabs>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export default NotificationDropdown;

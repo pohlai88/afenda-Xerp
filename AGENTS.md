@@ -122,3 +122,20 @@ Biome's linter will catch most issues automatically. Focus your attention on:
 ---
 
 Most formatting and common issues are automatically fixed by Biome. Run `pnpm format` before committing to ensure compliance.
+
+---
+
+## Governed UI (TIP-004)
+
+Two layers — do not confuse them:
+
+| Layer | Path | className rule |
+|-------|------|----------------|
+| **Author** | `packages/ui/src/components/` | Only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
+| **Consumer** | `packages/appshell/`, `apps/erp/` | No `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
+
+**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly. No re-export barrels, no extra CSS modules when `globals.css` suffices.
+
+**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all four gates) or `pnpm ui:guard:scan` for a sub-2 s local check.
+
+**Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, Cursor preToolUse hook, stop hook appshell test gate.

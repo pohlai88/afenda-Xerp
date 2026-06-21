@@ -5,8 +5,8 @@ import Link from "next/link";
 import {
   Badge,
   Button,
+  Kbd,
 } from "@afenda/ui";
-import { cn } from "@afenda/ui/lib/utils";
 import { Search } from "lucide-react";
 
 import {
@@ -35,11 +35,7 @@ function CommandItemContent({
   return (
     <>
       <span>{item.label}</span>
-      {item.keyboardShortcut ? (
-        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:inline-flex">
-          {item.keyboardShortcut}
-        </kbd>
-      ) : null}
+      {item.keyboardShortcut ? <Kbd>{item.keyboardShortcut}</Kbd> : null}
       {state === "coming-soon" ? (
         <Badge emphasis="soft" size="sm" tone="neutral">
           Soon
@@ -68,7 +64,7 @@ function AppShellCommandItemShell({ item }: { item: AppShellCommandItem }) {
         title={title}
       >
         <Link href={item.href}>
-          <Search className="size-4" />
+          <Search aria-hidden />
           {content}
         </Link>
       </Button>
@@ -88,7 +84,7 @@ function AppShellCommandItemShell({ item }: { item: AppShellCommandItem }) {
       title={title}
       type="button"
     >
-      <Search className="size-4" />
+      <Search aria-hidden />
       {content}
     </Button>
   );
@@ -102,7 +98,7 @@ export function AppShellCommandCenter({
   return (
     <section
       aria-labelledby={COMMAND_CENTER_HEADING_ID}
-      className={cn("flex flex-wrap items-center gap-2")}
+      className="flex flex-wrap items-center"
     >
       <h2 className="sr-only" id={COMMAND_CENTER_HEADING_ID}>
         Command center

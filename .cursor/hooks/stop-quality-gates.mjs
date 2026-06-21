@@ -51,6 +51,11 @@ const GATES = [
     command: "pnpm --filter @afenda/ui check:governance",
     label: "@afenda/ui governance check",
   },
+  {
+    scope: "packages/appshell",
+    command: "pnpm --filter @afenda/appshell test:run",
+    label: "@afenda/appshell tests (incl. TIP-004 consumption)",
+  },
 ];
 
 const input = parseStdinJson();

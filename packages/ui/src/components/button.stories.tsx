@@ -71,7 +71,9 @@ function AsyncSubmitButton() {
   const [phase, setPhase] = useState<"idle" | "loading" | "success">("idle");
 
   const handleClick = () => {
-    if (phase !== "idle") return;
+    if (phase !== "idle") {
+      return;
+    }
     setPhase("loading");
     setTimeout(() => setPhase("success"), 1500);
     setTimeout(() => setPhase("idle"), 3500);
@@ -115,7 +117,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed button primitive for ERP action surfaces. Combines `intent` (primary · secondary · quiet · destructive) with `emphasis` (solid · soft · outline · ghost), `size`, `state`, and optional `presentation=\"icon\"` for toolbar slots.",
+          'Governed button primitive for ERP action surfaces. Combines `intent` (primary · secondary · quiet · destructive) with `emphasis` (solid · soft · outline · ghost), `size`, `state`, and optional `presentation="icon"` for toolbar slots.',
       },
     },
   },
@@ -355,7 +357,6 @@ export const AsChildLink: Story = {
   },
   render: (args) => (
     <Button {...args} asChild>
-      {/* biome-ignore lint/a11y/useAnchorContent: story probe only */}
       <a href="/example">Open Example</a>
     </Button>
   ),
@@ -372,8 +373,7 @@ export const AsChildDisabledLink: Story = {
     },
   },
   render: () => (
-    <Button asChild disabled intent="primary" emphasis="solid">
-      {/* biome-ignore lint/a11y/useAnchorContent: story probe only */}
+    <Button asChild disabled emphasis="solid" intent="primary">
       <a href="/danger">Disabled Link</a>
     </Button>
   ),
@@ -385,18 +385,18 @@ export const GovernanceDataAuthority: Story = {
     docs: {
       description: {
         story:
-          "Consumer passes `data-intent=\"destructive\"` and `data-emphasis=\"ghost\"` — governed props (`intent=\"primary\"`, `emphasis=\"solid\"`) must win in the DOM. Inspect the element to confirm.",
+          'Consumer passes `data-intent="destructive"` and `data-emphasis="ghost"` — governed props (`intent="primary"`, `emphasis="solid"`) must win in the DOM. Inspect the element to confirm.',
       },
     },
   },
   render: () => (
     <Button
-      intent="primary"
-      emphasis="solid"
-      size="md"
-      data-intent="destructive"
       data-emphasis="ghost"
+      data-intent="destructive"
       data-size="lg"
+      emphasis="solid"
+      intent="primary"
+      size="md"
     >
       Governed Wins
     </Button>
@@ -546,15 +546,15 @@ export const FormActions: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryRow gap="sm" align="center" justify="end">
-        <Button intent="secondary" emphasis="ghost">
+      <StoryRow align="center" gap="sm" justify="end">
+        <Button emphasis="ghost" intent="secondary">
           <XIcon />
           Cancel
         </Button>
-        <Button intent="secondary" emphasis="outline">
+        <Button emphasis="outline" intent="secondary">
           Save Draft
         </Button>
-        <Button intent="primary" emphasis="solid">
+        <Button emphasis="solid" intent="primary">
           <SaveIcon />
           Save &amp; Close
         </Button>
@@ -568,11 +568,11 @@ export const ConfirmDestructive: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryRow gap="sm" align="center" justify="end">
-        <Button intent="secondary" emphasis="ghost">
+      <StoryRow align="center" gap="sm" justify="end">
+        <Button emphasis="ghost" intent="secondary">
           Cancel
         </Button>
-        <Button intent="destructive" emphasis="solid">
+        <Button emphasis="solid" intent="destructive">
           <Trash2Icon />
           Delete Record
         </Button>
@@ -585,25 +585,25 @@ export const CrudToolbar: Story = {
   name: "ERP — CRUD Toolbar",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="xs" align="center">
-      <Button intent="primary" emphasis="solid" size="sm">
+    <StoryRow align="center" gap="xs">
+      <Button emphasis="solid" intent="primary" size="sm">
         <PlusIcon />
         New
       </Button>
-      <Button intent="secondary" emphasis="outline" size="sm">
+      <Button emphasis="outline" intent="secondary" size="sm">
         <FilterIcon />
         Filter
       </Button>
-      <Button intent="secondary" emphasis="outline" size="sm">
+      <Button emphasis="outline" intent="secondary" size="sm">
         <DownloadIcon />
         Export
       </Button>
       <Button
-        intent="quiet"
-        emphasis="ghost"
-        size="sm"
-        presentation="icon"
         aria-label="Refresh"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
       >
         <RefreshCwIcon />
       </Button>
@@ -615,40 +615,40 @@ export const RowActions: Story = {
   name: "ERP — Row Actions",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="xs" align="center">
+    <StoryRow align="center" gap="xs">
       <Button
-        intent="quiet"
-        emphasis="ghost"
-        size="sm"
-        presentation="icon"
         aria-label="View"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
       >
         <EyeIcon />
       </Button>
       <Button
-        intent="quiet"
-        emphasis="ghost"
-        size="sm"
-        presentation="icon"
         aria-label="Edit"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
       >
         <EditIcon />
       </Button>
       <Button
-        intent="destructive"
-        emphasis="ghost"
-        size="sm"
-        presentation="icon"
         aria-label="Delete"
+        emphasis="ghost"
+        intent="destructive"
+        presentation="icon"
+        size="sm"
       >
         <Trash2Icon />
       </Button>
       <Button
-        intent="quiet"
-        emphasis="ghost"
-        size="sm"
-        presentation="icon"
         aria-label="More options"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
       >
         <MoreHorizontalIcon />
       </Button>
@@ -660,12 +660,12 @@ export const AsyncSave: Story = {
   name: "ERP — Async Save (loading)",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
-      <Button intent="primary" emphasis="solid" state="loading" disabled>
+    <StoryRow align="center" gap="sm">
+      <Button disabled emphasis="solid" intent="primary" state="loading">
         <Spinner />
         Saving…
       </Button>
-      <Button intent="secondary" emphasis="ghost" disabled>
+      <Button disabled emphasis="ghost" intent="secondary">
         Cancel
       </Button>
     </StoryRow>
@@ -676,12 +676,12 @@ export const BulkApprove: Story = {
   name: "ERP — Bulk Approve",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
-      <Button intent="primary" emphasis="soft">
+    <StoryRow align="center" gap="sm">
+      <Button emphasis="soft" intent="primary">
         <CheckIcon />
         Approve Selected
       </Button>
-      <Button intent="destructive" emphasis="soft">
+      <Button emphasis="soft" intent="destructive">
         <XIcon />
         Reject Selected
       </Button>
@@ -693,7 +693,7 @@ export const ApproveRejectPair: Story = {
   name: "ERP — Approve / Reject Pair",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
+    <StoryRow align="center" gap="sm">
       <Button emphasis="soft" intent="primary" size="sm">
         <ShieldCheckIcon />
         Approve
@@ -802,7 +802,7 @@ export const PrintPreview: Story = {
   name: "ERP — Print Preview",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
+    <StoryRow align="center" gap="sm">
       <Button emphasis="outline" intent="secondary" size="sm">
         <EyeIcon />
         Preview
@@ -846,7 +846,9 @@ export const WizardNavigation: Story = {
           <ArrowRightIcon className="rotate-180" />
           Back
         </Button>
-        <span className="text-muted-foreground text-sm">Step 2 of 4 — Vendor details</span>
+        <span className="text-muted-foreground text-sm">
+          Step 2 of 4 — Vendor details
+        </span>
         <Button emphasis="solid" intent="primary" size="sm">
           Next
           <ArrowRightIcon />
@@ -884,7 +886,7 @@ export const PublishWorkflow: Story = {
   name: "ERP — Publish Workflow",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
+    <StoryRow align="center" gap="sm">
       <Button emphasis="outline" intent="secondary" size="sm">
         Save Draft
       </Button>
@@ -919,7 +921,9 @@ export const RecordDetailActions: Story = {
     <StoryFrame width="xl">
       <StoryRow align="center" justify="between" wrap>
         <StoryStack gap="xs">
-          <span className="font-mono text-muted-foreground text-xs">INV-2024-0892</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            INV-2024-0892
+          </span>
           <span className="font-semibold">Vendor payment — Acme Supplies</span>
         </StoryStack>
         <StoryRow align="center" gap="sm" wrap>
@@ -942,7 +946,7 @@ export const ImportExportPair: Story = {
   name: "ERP — Import / Export Pair",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center">
+    <StoryRow align="center" gap="sm">
       <Button emphasis="outline" intent="secondary" size="sm">
         <UploadIcon />
         Import
@@ -962,19 +966,37 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Icon-only buttons require `aria-label`. Async buttons use `state=\"loading\"` with `disabled`. Notification buttons expose unread count in the label.",
+          'Icon-only buttons require `aria-label`. Async buttons use `state="loading"` with `disabled`. Notification buttons expose unread count in the label.',
       },
     },
   },
   render: () => (
     <StoryStack gap="sm">
-      <Button aria-label="Edit employee record" emphasis="ghost" intent="quiet" presentation="icon" size="sm">
+      <Button
+        aria-label="Edit employee record"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
+      >
         <EditIcon />
       </Button>
-      <Button aria-label="Delete employee record" emphasis="ghost" intent="destructive" presentation="icon" size="sm">
+      <Button
+        aria-label="Delete employee record"
+        emphasis="ghost"
+        intent="destructive"
+        presentation="icon"
+        size="sm"
+      >
         <Trash2Icon />
       </Button>
-      <Button disabled emphasis="solid" intent="primary" size="sm" state="loading">
+      <Button
+        disabled
+        emphasis="solid"
+        intent="primary"
+        size="sm"
+        state="loading"
+      >
         <Spinner />
         Processing…
       </Button>
@@ -990,7 +1012,7 @@ export const AllIntents: Story = {
   render: () => (
     <StoryRow gap="sm" wrap>
       {VARIANT_INTENTS.map((intent) => (
-        <Button key={intent} intent={intent} emphasis="solid">
+        <Button emphasis="solid" intent={intent} key={intent}>
           {intent}
         </Button>
       ))}
@@ -1004,7 +1026,7 @@ export const AllEmphases: Story = {
   render: () => (
     <StoryRow gap="sm" wrap>
       {VARIANT_EMPHASES.map((emphasis) => (
-        <Button key={emphasis} intent="primary" emphasis={emphasis}>
+        <Button emphasis={emphasis} intent="primary" key={emphasis}>
           {emphasis}
         </Button>
       ))}
@@ -1016,9 +1038,9 @@ export const AllSizes: Story = {
   name: "Matrix — All Sizes",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryRow gap="sm" align="center" wrap>
+    <StoryRow align="center" gap="sm" wrap>
       {SIZES.map((size) => (
-        <Button key={size} size={size} intent="primary" emphasis="solid">
+        <Button emphasis="solid" intent="primary" key={size} size={size}>
           Size {size}
         </Button>
       ))}
@@ -1032,9 +1054,14 @@ export const AllVariants: Story = {
   render: () => (
     <StoryStack gap="md">
       {VARIANT_INTENTS.map((intent) => (
-        <StoryRow key={intent} align="center" gap="sm" wrap>
+        <StoryRow align="center" gap="sm" key={intent} wrap>
           {VARIANT_EMPHASES.map((emphasis) => (
-            <Button emphasis={emphasis} intent={intent} key={emphasis} size="sm">
+            <Button
+              emphasis={emphasis}
+              intent={intent}
+              key={emphasis}
+              size="sm"
+            >
               {intent}/{emphasis}
             </Button>
           ))}
@@ -1057,7 +1084,12 @@ export const AllDensities: Story = {
           <Button density={density} emphasis="solid" intent="primary" size="sm">
             Primary
           </Button>
-          <Button density={density} emphasis="outline" intent="secondary" size="sm">
+          <Button
+            density={density}
+            emphasis="outline"
+            intent="secondary"
+            size="sm"
+          >
             Secondary
           </Button>
         </StoryRow>

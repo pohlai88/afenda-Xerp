@@ -10,7 +10,8 @@ import {
 describe("className governance", () => {
   it("allows layout-only class names", () => {
     expect(
-      validateLayoutClassName("flex w-full justify-between overflow-hidden").valid
+      validateLayoutClassName("flex w-full justify-between overflow-hidden")
+        .valid
     ).toBe(true);
   });
 
@@ -32,16 +33,18 @@ describe("className governance", () => {
   });
 
   it("strict assertion throws outside development assumptions", () => {
-    expect(() =>
-      assertAllowedLayoutClassNameStrict("text-white")
-    ).toThrow("TIP-004 className policy violation");
+    expect(() => assertAllowedLayoutClassNameStrict("text-white")).toThrow(
+      "TIP-004 className policy violation"
+    );
   });
 });
 
 describe("assertAllowedLayoutClassName", () => {
   it("allows approved layout utilities", () => {
     expect(() =>
-      assertAllowedLayoutClassName("flex w-full justify-between overflow-hidden")
+      assertAllowedLayoutClassName(
+        "flex w-full justify-between overflow-hidden"
+      )
     ).not.toThrow();
   });
 
@@ -76,9 +79,9 @@ describe("assertAllowedLayoutClassName", () => {
   });
 
   it("rejects arbitrary layout escape values", () => {
-    expect(() =>
-      assertAllowedLayoutClassName("w-[calc(100%-1rem)]")
-    ).toThrow("arbitrary-value");
+    expect(() => assertAllowedLayoutClassName("w-[calc(100%-1rem)]")).toThrow(
+      "arbitrary-value"
+    );
   });
 });
 

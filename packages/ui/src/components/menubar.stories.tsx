@@ -877,8 +877,12 @@ export const HREmployeeDirectoryMenubar: Story = {
             <MenubarSeparator />
             <MenubarRadioGroup value="name">
               <MenubarRadioItem value="name">Sort by name</MenubarRadioItem>
-              <MenubarRadioItem value="dept">Sort by department</MenubarRadioItem>
-              <MenubarRadioItem value="start">Sort by start date</MenubarRadioItem>
+              <MenubarRadioItem value="dept">
+                Sort by department
+              </MenubarRadioItem>
+              <MenubarRadioItem value="start">
+                Sort by start date
+              </MenubarRadioItem>
             </MenubarRadioGroup>
           </MenubarContent>
         </MenubarMenu>
@@ -957,9 +961,7 @@ export const SettingsPreferencesMenubar: Story = {
         <MenubarMenu>
           <MenubarTrigger>Preferences</MenubarTrigger>
           <MenubarContent>
-            <MenubarCheckboxItem checked>
-              Show row numbers
-            </MenubarCheckboxItem>
+            <MenubarCheckboxItem checked>Show row numbers</MenubarCheckboxItem>
             <MenubarCheckboxItem checked>
               Confirm destructive actions
             </MenubarCheckboxItem>

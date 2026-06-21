@@ -41,9 +41,27 @@ const INVOICE_ROWS = [
 ] as const;
 
 const PO_LINE_ITEMS = [
-  { line: 1, sku: "SKU-4412", desc: "Industrial fasteners", qty: 500, unit: 0.42 },
-  { line: 2, sku: "SKU-8820", desc: "Stainless bolts M8", qty: 200, unit: 1.15 },
-  { line: 3, sku: "SKU-1190", desc: "Safety gloves — bulk", qty: 50, unit: 8.9 },
+  {
+    line: 1,
+    sku: "SKU-4412",
+    desc: "Industrial fasteners",
+    qty: 500,
+    unit: 0.42,
+  },
+  {
+    line: 2,
+    sku: "SKU-8820",
+    desc: "Stainless bolts M8",
+    qty: 200,
+    unit: 1.15,
+  },
+  {
+    line: 3,
+    sku: "SKU-1190",
+    desc: "Safety gloves — bulk",
+    qty: 50,
+    unit: 8.9,
+  },
 ] as const;
 
 const MODULE_LINKS = [
@@ -61,9 +79,19 @@ const AUDIT_EVENTS = [
 ] as const;
 
 const APPROVAL_QUEUE = [
-  { id: "PO-1042", title: "FastCo Industrial", amount: 12450, priority: "High" },
+  {
+    id: "PO-1042",
+    title: "FastCo Industrial",
+    amount: 12_450,
+    priority: "High",
+  },
   { id: "INV-2048", title: "Globex renewal", amount: 8750, priority: "Medium" },
-  { id: "EXP-331", title: "Travel reimbursement", amount: 890, priority: "Low" },
+  {
+    id: "EXP-331",
+    title: "Travel reimbursement",
+    amount: 890,
+    priority: "Low",
+  },
 ] as const;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -177,7 +205,10 @@ function CollapsibleNavDemo() {
             Collapse or expand navigation panel
           </span>
         </StoryRow>
-        <ResizablePanelGroup className="min-h-0 flex-1" orientation="horizontal">
+        <ResizablePanelGroup
+          className="min-h-0 flex-1"
+          orientation="horizontal"
+        >
           <ResizablePanel
             collapsible
             defaultSize={22}
@@ -189,7 +220,10 @@ function CollapsibleNavDemo() {
               <StoryStack gap="xs">
                 {MODULE_LINKS.map(({ id, label, icon: Icon }) => (
                   <StoryRow gap="sm" key={id}>
-                    <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                    <Icon
+                      aria-hidden="true"
+                      className="size-4 text-muted-foreground"
+                    />
                     <span className="text-sm">{label}</span>
                   </StoryRow>
                 ))}
@@ -405,7 +439,9 @@ export const RecordDetailSplit: Story = {
                 <StoryRow justify="between" key={id}>
                   <StoryStack gap="xs">
                     <span className="font-mono text-sm">{id}</span>
-                    <span className="text-muted-foreground text-xs">{customer}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {customer}
+                    </span>
                   </StoryStack>
                   <StoryStack gap="xs">
                     <Badge emphasis="soft" tone="neutral">
@@ -452,7 +488,10 @@ export const ModuleNavigationShell: Story = {
             <StoryStack gap="sm">
               {MODULE_LINKS.map(({ id, label, icon: Icon }) => (
                 <StoryRow gap="sm" key={id}>
-                  <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                  <Icon
+                    aria-hidden="true"
+                    className="size-4 text-muted-foreground"
+                  />
                   <span className="text-sm">{label}</span>
                 </StoryRow>
               ))}
@@ -463,8 +502,8 @@ export const ModuleNavigationShell: Story = {
         <ResizablePanel defaultSize={82}>
           <PanelShell title="Finance · Invoices">
             <span className="text-muted-foreground text-sm">
-              Main module workspace — collapse the nav by dragging the handle past
-              the minimum width.
+              Main module workspace — collapse the nav by dragging the handle
+              past the minimum width.
             </span>
           </PanelShell>
         </ResizablePanel>
@@ -506,7 +545,10 @@ export const DocumentEditorLayout: Story = {
               padding="md"
             >
               <StoryRow align="center" gap="sm">
-                <FileTextIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+                <FileTextIcon
+                  aria-hidden="true"
+                  className="size-4 text-muted-foreground"
+                />
                 <span className="font-medium text-sm">Purchase order PDF</span>
               </StoryRow>
               <span className="text-muted-foreground text-xs">
@@ -524,7 +566,7 @@ export const DataGridInspector: Story = {
   name: "ERP — Data Grid + Inspector",
   parameters: { layout: "padded" },
   render: () => (
-    <ResizableFrame width="xl" height="h-80">
+    <ResizableFrame height="h-80" width="xl">
       <ResizablePanelGroup className="h-full" orientation="vertical">
         <ResizablePanel defaultSize={65} minSize={45}>
           <PanelShell title="Employee roster">
@@ -581,19 +623,19 @@ export const FinanceDashboard: Story = {
               <StoryStack gap="xs">
                 <SectionLabel>Receivables</SectionLabel>
                 <span className="font-semibold text-lg tabular-nums">
-                  {formatCurrency(128400)}
+                  {formatCurrency(128_400)}
                 </span>
               </StoryStack>
               <StoryStack gap="xs">
                 <SectionLabel>Payables</SectionLabel>
                 <span className="font-semibold text-lg tabular-nums">
-                  {formatCurrency(84200)}
+                  {formatCurrency(84_200)}
                 </span>
               </StoryStack>
               <StoryStack gap="xs">
                 <SectionLabel>Cash</SectionLabel>
                 <span className="font-semibold text-lg tabular-nums">
-                  {formatCurrency(256000)}
+                  {formatCurrency(256_000)}
                 </span>
               </StoryStack>
             </StoryRow>
@@ -603,7 +645,8 @@ export const FinanceDashboard: Story = {
         <ResizablePanel defaultSize={70}>
           <PanelShell title="Ledger activity">
             <span className="text-muted-foreground text-sm">
-              Drag the horizontal handle to give more room to KPIs or the ledger.
+              Drag the horizontal handle to give more room to KPIs or the
+              ledger.
             </span>
           </PanelShell>
         </ResizablePanel>
@@ -622,7 +665,7 @@ export const AuditTrailPanel: Story = {
           <PanelShell title="PO-1042 · Header">
             <StoryStack gap="sm">
               <KeyValueRow label="Vendor" value="FastCo Industrial" />
-              <KeyValueRow label="Total" value={formatCurrency(12450)} />
+              <KeyValueRow label="Total" value={formatCurrency(12_450)} />
               <KeyValueRow label="Status" value="Pending approval" />
             </StoryStack>
           </PanelShell>
@@ -658,7 +701,7 @@ export const ProcurementPOLines: Story = {
   render: () => {
     const subtotal = PO_LINE_ITEMS.reduce(
       (sum, line) => sum + line.qty * line.unit,
-      0,
+      0
     );
 
     return (
@@ -685,9 +728,15 @@ export const ProcurementPOLines: Story = {
           <ResizablePanel defaultSize={28} minSize={18}>
             <PanelShell title="Totals">
               <StoryStack gap="xs">
-                <KeyValueRow label="Subtotal" value={formatCurrency(subtotal)} />
+                <KeyValueRow
+                  label="Subtotal"
+                  value={formatCurrency(subtotal)}
+                />
                 <KeyValueRow label="Freight" value={formatCurrency(120)} />
-                <KeyValueRow label="Tax" value={formatCurrency(subtotal * 0.08)} />
+                <KeyValueRow
+                  label="Tax"
+                  value={formatCurrency(subtotal * 0.08)}
+                />
                 <Separator />
                 <KeyValueRow
                   label="Grand total"
@@ -756,7 +805,7 @@ export const ReportBuilder: Story = {
         <ResizablePanel defaultSize={68}>
           <PanelShell title="Preview">
             <StoryStack
-              className="h-full rounded-md border border-dashed border-border"
+              className="h-full rounded-md border border-border border-dashed"
               gap="xs"
               padding="md"
             >
@@ -824,7 +873,9 @@ export const ApprovalQueue: Story = {
                 <StoryRow justify="between" key={id}>
                   <StoryStack gap="xs">
                     <span className="font-mono text-sm">{id}</span>
-                    <span className="text-muted-foreground text-xs">{title}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {title}
+                    </span>
                   </StoryStack>
                   <StoryStack gap="xs">
                     <Badge
@@ -893,7 +944,8 @@ export const GovernanceAccessibility: Story = {
         <ResizablePanel defaultSize={50}>
           <PanelShell title="Focus the handle">
             <span className="text-muted-foreground text-sm">
-              Tab to the resize handle, then use arrow keys to adjust panel sizes.
+              Tab to the resize handle, then use arrow keys to adjust panel
+              sizes.
             </span>
           </PanelShell>
         </ResizablePanel>
@@ -901,8 +953,8 @@ export const GovernanceAccessibility: Story = {
         <ResizablePanel defaultSize={50}>
           <PanelShell title="Accessible split">
             <span className="text-muted-foreground text-sm">
-              Visible grip (`withHandle`) improves discoverability for keyboard and
-              pointer users.
+              Visible grip (`withHandle`) improves discoverability for keyboard
+              and pointer users.
             </span>
           </PanelShell>
         </ResizablePanel>

@@ -1,9 +1,8 @@
 "use client";
 
-import * as React from "react";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Direction } from "radix-ui";
-
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import type * as React from "react";
 
 const DIRECTION_RECIPE_NAME = "surface" as const;
 

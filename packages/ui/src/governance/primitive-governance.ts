@@ -21,8 +21,8 @@ import {
   resolveGovernedRecipe,
   resolveToggleClassName,
 } from "./recipe";
-import { resolveGovernedState } from "./state";
 import { resolveSlotRole } from "./slot";
+import { resolveGovernedState } from "./state";
 import type { GovernedUiComponentName } from "./types";
 
 function assertGovernedComponentName(
@@ -140,9 +140,7 @@ function resolveSlotClassName(
     }
 
     const baseClassName =
-      input.slot === undefined
-        ? ""
-        : (definition.slotClassNames[slot] ?? "");
+      input.slot === undefined ? "" : (definition.slotClassNames[slot] ?? "");
 
     return cn(baseClassName, slotClassName);
   }
@@ -157,8 +155,12 @@ function resolveSlotClassName(
     }
 
     if (definition.componentName === "Select" && slot === "control") {
-      const triggerSizeKey = size === "sm" ? "trigger-size-sm" : "trigger-size-md";
-      return cn(baseClassName, definition.slotClassNamesByKey?.[triggerSizeKey]);
+      const triggerSizeKey =
+        size === "sm" ? "trigger-size-sm" : "trigger-size-md";
+      return cn(
+        baseClassName,
+        definition.slotClassNamesByKey?.[triggerSizeKey]
+      );
     }
 
     const leafSizeClassName = definition.slotClassNamesByKey?.[size];
@@ -279,7 +281,9 @@ export function resolvePrimitiveGovernance(
   const recipeClassName = resolveRecipeClassName(input, definition);
   const slotClassName = resolveSlotClassName(input, definition, slot);
   const layoutClassName = resolveLayoutClassName(input.className);
-  const accessibility = getComponentAccessibilityRequirement(input.componentName);
+  const accessibility = getComponentAccessibilityRequirement(
+    input.componentName
+  );
   const motion = resolvePrimitiveMotion(input, definition);
 
   return {
@@ -299,4 +303,8 @@ export function resolvePrimitiveGovernance(
   };
 }
 
-export type { FieldOrientation, PrimitiveGovernanceInput, PrimitiveGovernanceResult };
+export type {
+  FieldOrientation,
+  PrimitiveGovernanceInput,
+  PrimitiveGovernanceResult,
+};

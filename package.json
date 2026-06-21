@@ -53,7 +53,10 @@
     "studio:toolbar": "pnpm studio:toolbar:app",
     "studio:toolbar:app": "npx shadcn-studio-extension-cli@latest -a 3000 -p 3200 -s",
     "studio:toolbar:docs": "npx shadcn-studio-extension-cli@latest -a 3001 -p 3200 -s",
-    "storybook:ui": "pnpm --filter @afenda/ui storybook"
+    "storybook:ui": "pnpm --filter @afenda/ui storybook",
+    "ui:guard": "node scripts/governance/ui-guard.mjs",
+    "ui:guard:scan": "node scripts/governance/ui-guard.mjs --scan-only --fix-hint",
+    "ui:guard:hints": "node scripts/governance/ui-guard.mjs --fix-hint"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.4.21",

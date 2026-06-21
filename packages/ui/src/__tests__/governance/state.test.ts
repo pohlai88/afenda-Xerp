@@ -47,9 +47,9 @@ describe("state governance", () => {
   });
 
   it("throws once with all invalid states", () => {
-    expect(() =>
-      assertGovernedStates(["ready", "posted", "approved"])
-    ).toThrow("posted, approved");
+    expect(() => assertGovernedStates(["ready", "posted", "approved"])).toThrow(
+      "posted, approved"
+    );
   });
 
   it("exposes governed states", () => {

@@ -1,13 +1,8 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
-import {
-  Alert,
-  AlertAction,
-  AlertDescription,
-  AlertTitle,
-} from "../../index";
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "../../index";
 import {
   expectGovernedDataAuthority,
   expectGovernedPrimitive,
@@ -16,7 +11,7 @@ import {
 describe("Alert governance", () => {
   it("keeps governed data attributes authoritative on root", () => {
     render(
-      <Alert tone="danger" data-component="Fake" data-state="fake">
+      <Alert data-component="Fake" data-state="fake" tone="danger">
         Warning
       </Alert>
     );
@@ -49,7 +44,7 @@ describe("Alert governance", () => {
 
   it("allows caller role override on Alert", () => {
     render(
-      <Alert tone="info" role="alert">
+      <Alert role="alert" tone="info">
         Override
       </Alert>
     );
@@ -67,7 +62,10 @@ describe("Alert governance", () => {
     const alert = screen.getByRole("alert");
 
     expect(alert).toHaveAttribute("data-tone", "danger");
-    expect(screen.getByText("Failed")).toHaveAttribute("data-slot", "alert-title");
+    expect(screen.getByText("Failed")).toHaveAttribute(
+      "data-slot",
+      "alert-title"
+    );
   });
 
   it("prefers tone over deprecated variant", () => {
@@ -99,11 +97,13 @@ describe("Alert governance", () => {
       "data-slot",
       "alert-title"
     );
-    expect(screen.getByText("Review the failed journal entry.")).toHaveAttribute(
+    expect(
+      screen.getByText("Review the failed journal entry.")
+    ).toHaveAttribute("data-slot", "alert-description");
+    expect(screen.getByText("Retry")).toHaveAttribute(
       "data-slot",
-      "alert-description"
+      "alert-action"
     );
-    expect(screen.getByText("Retry")).toHaveAttribute("data-slot", "alert-action");
   });
 
   it("forwards ref on Alert root", () => {

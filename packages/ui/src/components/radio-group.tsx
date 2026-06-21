@@ -1,23 +1,28 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
-
-import { cn } from "#/lib/utils";
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const RADIO_GROUP_RECIPE_NAME = "form-control" as const;
 
 export interface RadioGroupProps
-  extends Omit<React.ComponentProps<typeof RadioGroupPrimitive.Root>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof RadioGroupPrimitive.Root>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }
 
 export interface RadioGroupItemProps
-  extends Omit<React.ComponentProps<typeof RadioGroupPrimitive.Item>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof RadioGroupPrimitive.Item>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }
@@ -77,7 +82,10 @@ const RadioGroupItem = React.forwardRef<
         {...indicator.dataAttributes}
         className={cn(indicator.className)}
       >
-        <span {...indicatorDot.dataAttributes} className={cn(indicatorDot.className)} />
+        <span
+          {...indicatorDot.dataAttributes}
+          className={cn(indicatorDot.className)}
+        />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );

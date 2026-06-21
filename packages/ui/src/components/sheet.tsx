@@ -1,14 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { Dialog as SheetPrimitive } from "radix-ui";
+import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { XIcon } from "lucide-react";
-
-import { Button } from "#/components/button";
-import type { GovernedSurfaceProps, SlotRole } from "@/governance";
-import { createGovernedDivSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Dialog as SheetPrimitive } from "radix-ui";
+import * as React from "react";
+import { Button } from "./button";
 
 const SHEET_RECIPE_NAME = "surface" as const;
 
@@ -72,13 +71,13 @@ SheetOverlay.displayName = "SheetOverlay";
 
 export interface SheetContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+      "className"
+    >,
     GovernedSurfaceProps {
   readonly className?: string;
-  readonly side?: "top" | "right" | "bottom" | "left";
   readonly showCloseButton?: boolean;
+  readonly side?: "top" | "right" | "bottom" | "left";
 }
 
 const SheetContent = React.forwardRef<
@@ -127,16 +126,19 @@ const SheetContent = React.forwardRef<
         >
           {children}
           {showCloseButton ? (
-            <SheetPrimitive.Close data-slot="sheet-close" asChild>
+            <SheetPrimitive.Close asChild data-slot="sheet-close">
               <Button
-                intent="quiet"
-                emphasis="ghost"
-                size="sm"
-                presentation="icon"
                 className={closeButton.className}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="sm"
               >
                 <XIcon />
-                <span {...closeLabel.dataAttributes} className={closeLabel.className}>
+                <span
+                  {...closeLabel.dataAttributes}
+                  className={closeLabel.className}
+                >
                   Close
                 </span>
               </Button>
@@ -222,11 +224,11 @@ SheetDescription.displayName = "SheetDescription";
 
 export {
   Sheet,
-  SheetTrigger,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 };

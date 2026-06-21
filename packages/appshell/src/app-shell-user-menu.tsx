@@ -13,6 +13,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  Item,
+  ItemContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -43,49 +45,42 @@ function resolveInitials(displayName: string): string {
   return `${first}${last}`.toUpperCase();
 }
 
+function UserIdentitySummary({ identity }: { identity: AppShellIdentity }) {
+  const initials = resolveInitials(identity.displayName);
+
+  return (
+    <>
+      <Avatar size="sm">
+        <AvatarImage alt="" src="" />
+        <AvatarFallback>{initials}</AvatarFallback>
+      </Avatar>
+      <ItemContent>
+        <span>{identity.displayName}</span>
+        <span>{identity.email}</span>
+      </ItemContent>
+    </>
+  );
+}
+
 export function AppShellUserMenu({
   identity,
   identityAccessory,
 }: AppShellUserMenuProps) {
-  const initials = resolveInitials(identity.displayName);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton size="lg">
-              <Avatar size="sm">
-                <AvatarImage alt="" src="" />
-                <AvatarFallback>{initials}</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
-                  {identity.displayName}
-                </span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {identity.email}
-                </span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <UserIdentitySummary identity={identity} />
+              <ChevronsUpDown aria-hidden />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="bottom" sideOffset={4}>
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar size="sm">
-                  <AvatarImage alt="" src="" />
-                  <AvatarFallback>{initials}</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    {identity.displayName}
-                  </span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    {identity.email}
-                  </span>
-                </div>
-              </div>
+            <DropdownMenuLabel>
+              <Item size="sm">
+                <UserIdentitySummary identity={identity} />
+              </Item>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {identityAccessory ? (

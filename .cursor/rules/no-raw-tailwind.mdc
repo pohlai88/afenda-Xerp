@@ -64,3 +64,22 @@ etc. No other file in `packages/ui/src/components` may do so.
 
 Do not duplicate these utilities by adding a new `className="..."` string to
 a story; instead, add a prop to `StoryFrame`, `StoryStack`, or `StoryRow`.
+
+---
+
+## Consumer packages (`packages/appshell`, `apps/erp`)
+
+This rule covers the **author** layer (`packages/ui/src/components/`).
+
+For consuming `@afenda/ui` primitives in shell composition, a separate rule applies:
+→ **`.cursor/rules/governed-ui-consumption.mdc`**
+
+Key difference: consumers are allowed to use token utilities on **plain HTML**
+(`div`, `span`, `header`, etc.) sourced from `globals.css`. What they must
+**never** do is pass `className` to a governed `@afenda/ui` component — that
+is caught by the consumer rule, not this one.
+
+Static enforcement for both layers runs via:
+- `pnpm --filter @afenda/ui check:governance` (author)
+- `pnpm --filter @afenda/appshell check:governance` (appshell consumer)
+- `pnpm --filter @afenda/erp test:run` (erp consumer, includes static test)

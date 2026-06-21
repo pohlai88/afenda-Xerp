@@ -10,9 +10,19 @@ import {
   breadcrumbSlotClassNamesByKey,
   buttonGroupSlotClassNames,
   buttonGroupSlotClassNamesByKey,
+  calendarSlotClassNames,
+  calendarSlotClassNamesByKey,
   cardSlotClassNames,
+  carouselSlotClassNames,
+  carouselSlotClassNamesByKey,
+  chartSlotClassNames,
+  chartSlotClassNamesByKey,
   checkboxIndicatorSlotClassName,
   checkboxRootSlotClassName,
+  comboboxSlotClassNames,
+  comboboxSlotClassNamesByKey,
+  commandSlotClassNames,
+  commandSlotClassNamesByKey,
   contextMenuSlotClassNames,
   contextMenuSlotClassNamesByKey,
   dataTableEmptyCellSlotClassName,
@@ -29,6 +39,10 @@ import {
   fieldSlotClassNamesByKey,
   formControlLeafSizeClassNames,
   hoverCardSlotClassNames,
+  inputGroupSlotClassNames,
+  inputGroupSlotClassNamesByKey,
+  inputOtpSlotClassNames,
+  inputOtpSlotClassNamesByKey,
   inputRootSlotClassName,
   itemSlotClassNames,
   itemSlotClassNamesByKey,
@@ -37,6 +51,8 @@ import {
   labelRootSlotClassName,
   menubarSlotClassNames,
   menubarSlotClassNamesByKey,
+  nativeSelectSlotClassNames,
+  nativeSelectSlotClassNamesByKey,
   navigationMenuSlotClassNames,
   navigationMenuSlotClassNamesByKey,
   paginationSlotClassNames,
@@ -45,12 +61,16 @@ import {
   progressSlotClassNames,
   radioGroupSlotClassNames,
   radioGroupSlotClassNamesByKey,
+  resizableSlotClassNames,
+  resizableSlotClassNamesByKey,
   scrollAreaSlotClassNames,
   selectSlotClassNames,
   selectSlotClassNamesByKey,
   separatorRootSlotClassName,
   sheetSlotClassNames,
   sheetSlotClassNamesByKey,
+  sidebarSlotClassNames,
+  sidebarSlotClassNamesByKey,
   skeletonRootSlotClassName,
   sliderSlotClassNames,
   spinnerSlotClassNames,
@@ -67,26 +87,6 @@ import {
   toggleGroupSlotClassNames,
   tooltipSlotClassNames,
   tooltipSlotClassNamesByKey,
-  calendarSlotClassNames,
-  calendarSlotClassNamesByKey,
-  carouselSlotClassNames,
-  carouselSlotClassNamesByKey,
-  chartSlotClassNames,
-  chartSlotClassNamesByKey,
-  comboboxSlotClassNames,
-  comboboxSlotClassNamesByKey,
-  commandSlotClassNames,
-  commandSlotClassNamesByKey,
-  inputGroupSlotClassNames,
-  inputGroupSlotClassNamesByKey,
-  inputOtpSlotClassNames,
-  inputOtpSlotClassNamesByKey,
-  nativeSelectSlotClassNames,
-  nativeSelectSlotClassNamesByKey,
-  resizableSlotClassNames,
-  resizableSlotClassNamesByKey,
-  sidebarSlotClassNames,
-  sidebarSlotClassNamesByKey,
 } from "./recipe-maps";
 import type { GovernedUiComponentName } from "./types";
 import { GOVERNED_UI_COMPONENTS } from "./types";
@@ -548,7 +548,17 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/navigation-menu.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "content", "control", "header", "label", "state", "footer", "actions"],
+    slots: [
+      "root",
+      "body",
+      "content",
+      "control",
+      "header",
+      "label",
+      "state",
+      "footer",
+      "actions",
+    ],
     motion: "instant",
     allowAsChild: false,
     controlPresentation: "leaf",
@@ -595,7 +605,18 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/item.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "control", "content", "label", "state", "actions", "header", "footer", "icon"],
+    slots: [
+      "root",
+      "body",
+      "control",
+      "content",
+      "label",
+      "state",
+      "actions",
+      "header",
+      "footer",
+      "icon",
+    ],
     motion: "instant",
     allowAsChild: true,
     controlPresentation: "leaf",
@@ -907,7 +928,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     slotClassNames: accordionSlotClassNames,
     slotClassNamesByKey: accordionSlotClassNamesByKey,
     dataSlotByKey: {
-      "header": "accordion-header",
+      header: "accordion-header",
       "content-inner": "accordion-content-inner",
       "trigger-icon-down": "accordion-trigger-icon",
       "trigger-icon-up": "accordion-trigger-icon",
@@ -1111,7 +1132,17 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/command.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "control", "content", "state", "label", "footer", "actions", "header"],
+    slots: [
+      "root",
+      "body",
+      "control",
+      "content",
+      "state",
+      "label",
+      "footer",
+      "actions",
+      "header",
+    ],
     motion: "instant",
     allowAsChild: false,
     controlPresentation: "leaf",
@@ -1141,7 +1172,18 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/combobox.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "content", "control", "state", "footer", "label", "actions", "header", "icon"],
+    slots: [
+      "root",
+      "body",
+      "content",
+      "control",
+      "state",
+      "footer",
+      "label",
+      "actions",
+      "header",
+      "icon",
+    ],
     motion: "instant",
     allowAsChild: false,
     controlPresentation: "leaf",
@@ -1234,7 +1276,18 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/chart.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "content", "control", "label", "state", "actions", "header", "icon", "footer"],
+    slots: [
+      "root",
+      "body",
+      "content",
+      "control",
+      "label",
+      "state",
+      "actions",
+      "header",
+      "icon",
+      "footer",
+    ],
     motion: "instant",
     allowAsChild: false,
     controlPresentation: "leaf",
@@ -1278,7 +1331,18 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     sourceFile: "src/components/sidebar.tsx",
     defaultState: "ready",
     defaultSlot: "root",
-    slots: ["root", "body", "content", "header", "footer", "label", "control", "state", "actions", "icon"],
+    slots: [
+      "root",
+      "body",
+      "content",
+      "header",
+      "footer",
+      "label",
+      "control",
+      "state",
+      "actions",
+      "icon",
+    ],
     motion: "instant",
     allowAsChild: true,
     controlPresentation: "leaf",
@@ -1333,7 +1397,10 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
       "sr-only": "sidebar-trigger",
     },
   },
-} as const satisfies Record<GovernedUiComponentName, GovernedPrimitiveDefinition>;
+} as const satisfies Record<
+  GovernedUiComponentName,
+  GovernedPrimitiveDefinition
+>;
 
 /** Governed component source paths — enforced by CI in phase 1. */
 export const GOVERNED_COMPONENT_SOURCE_FILES = GOVERNED_UI_COMPONENTS.map(
@@ -1379,13 +1446,17 @@ export const PRIMARY_UI_EXPORTS = [
   ...EXPORTED_STOCK_COMPONENTS,
 ] as const;
 
-export function assertComponentExportCoverage(componentExportName: string): void {
+export function assertComponentExportCoverage(
+  componentExportName: string
+): void {
   if (isGovernedPrimitive(componentExportName)) {
     return;
   }
 
   if (
-    (EXPORTED_STOCK_COMPONENTS as readonly string[]).includes(componentExportName)
+    (EXPORTED_STOCK_COMPONENTS as readonly string[]).includes(
+      componentExportName
+    )
   ) {
     return;
   }

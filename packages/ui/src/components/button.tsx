@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
+import type { GovernedButtonProps } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
-import type { GovernedButtonProps } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "className">,
@@ -64,14 +64,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         {...props}
-        type={resolvedType}
-        disabled={asChild ? undefined : disabled}
         aria-disabled={resolvedAriaDisabled}
-        tabIndex={resolvedTabIndex}
-        data-intent={intent}
         data-emphasis={emphasis}
-        data-size={size}
+        data-intent={intent}
         data-presentation={presentation}
+        data-size={size}
+        disabled={asChild ? undefined : disabled}
+        tabIndex={resolvedTabIndex}
+        type={resolvedType}
         {...(density === undefined ? {} : { "data-density": density })}
         {...governed.dataAttributes}
         className={cn(governed.className)}

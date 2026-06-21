@@ -1,3 +1,7 @@
+import { useId } from "react";
+
+import { Button } from "@afenda/ui";
+
 import type { AppShellWorkspaceContext } from "./app-shell.types";
 import {
   type AppShellContextSwitcherState,
@@ -5,7 +9,6 @@ import {
   resolveAppShellContextSwitcherStatusMessage,
 } from "./app-shell.types";
 
-const WORKSPACE_CONTEXT_HEADING_ID = "workspace-context";
 
 export interface AppShellContextSwitcherProps {
   readonly compact?: boolean;
@@ -25,7 +28,6 @@ function ContextValue({
 }) {
   return (
     <span
-      className="truncate font-medium"
       data-context-id={contextId}
       data-context-kind={kind}
       title={`${kind} id: ${contextId}`}
@@ -42,41 +44,36 @@ export function AppShellContextSwitcher({
   state: contextState,
   onSwitchRequest,
 }: AppShellContextSwitcherProps) {
+  const headingId = useId();
   const state = resolveAppShellContextSwitcherState(contextState);
   const statusMessage = resolveAppShellContextSwitcherStatusMessage(state);
   const canSwitch = state === "ready" && Boolean(onSwitchRequest);
 
   return (
     <section
-      aria-labelledby={WORKSPACE_CONTEXT_HEADING_ID}
-      className="flex w-full min-w-0 flex-wrap items-center gap-1 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2 py-1.5 text-xs text-sidebar-foreground"
+      aria-labelledby={headingId}
+      className="flex min-w-0 items-center"
       data-context-state={state}
     >
-      <h2 className="sr-only" id={WORKSPACE_CONTEXT_HEADING_ID}>
+      <h2 className="sr-only" id={headingId}>
         Workspace context
       </h2>
 
       {statusMessage ? (
-        <p className="text-muted-foreground italic" role="status">
-          {statusMessage}
-        </p>
+        <p role="status">{statusMessage}</p>
       ) : (
         <>
-          <div className="flex min-w-0 items-center gap-1">
-            <ContextValue
-              contextId={workspace.companyId}
-              kind="company"
-              label={workspace.companyLabel}
-            />
-            <span aria-hidden="true" className="text-muted-foreground">
-              /
-            </span>
-            <ContextValue
-              contextId={workspace.organizationId}
-              kind="organization"
-              label={workspace.organizationLabel}
-            />
-          </div>
+          <ContextValue
+            contextId={workspace.companyId}
+            kind="company"
+            label={workspace.companyLabel}
+          />
+          <span aria-hidden="true">/</span>
+          <ContextValue
+            contextId={workspace.organizationId}
+            kind="organization"
+            label={workspace.organizationLabel}
+          />
 
           {compact ? null : (
             <ContextValue
@@ -89,13 +86,15 @@ export function AppShellContextSwitcher({
       )}
 
       {canSwitch ? (
-        <button
-          className="ml-auto shrink-0 rounded-md border border-sidebar-border px-2 py-0.5 text-xs hover:bg-sidebar-accent"
+        <Button
+          emphasis="outline"
+          intent="secondary"
           onClick={onSwitchRequest}
+          size="sm"
           type="button"
         >
           Switch workspace
-        </button>
+        </Button>
       ) : null}
     </section>
   );

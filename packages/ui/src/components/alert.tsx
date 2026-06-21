@@ -1,8 +1,7 @@
+import type { GovernedStatusProps, StatusTone } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import type { GovernedStatusProps, StatusTone } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface AlertProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
@@ -89,10 +88,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       <div
         ref={ref}
         {...props}
-        role={resolvedRole}
-        data-tone={resolvedTone}
         data-density={density}
         data-radius={radius}
+        data-tone={resolvedTone}
+        role={resolvedRole}
         {...governed.dataAttributes}
         className={cn(governed.className)}
       />
@@ -135,4 +134,4 @@ const AlertTitle = createAlertSlot("AlertTitle", "label");
 const AlertDescription = createAlertSlot("AlertDescription", "body");
 const AlertAction = createAlertSlot("AlertAction", "actions");
 
-export { Alert, AlertTitle, AlertDescription, AlertAction };
+export { Alert, AlertAction, AlertDescription, AlertTitle };

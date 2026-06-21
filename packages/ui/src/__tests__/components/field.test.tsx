@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -38,8 +38,12 @@ describe("Field governance", () => {
       </Field>
     );
 
-    const separatorLine = screen.getByText("Or").closest("[data-slot=field-separator]");
-    expect(separatorLine?.querySelector("[data-slot=field-separator-line]")).toBeTruthy();
+    const separatorLine = screen
+      .getByText("Or")
+      .closest("[data-slot=field-separator]");
+    expect(
+      separatorLine?.querySelector("[data-slot=field-separator-line]")
+    ).toBeTruthy();
   });
 
   it("renders FieldLabel and FieldLegend with correct slot names", () => {
@@ -52,8 +56,14 @@ describe("Field governance", () => {
       </FieldSet>
     );
 
-    expect(screen.getByText("Section")).toHaveAttribute("data-slot", "field-legend");
-    expect(screen.getByText("Name")).toHaveAttribute("data-slot", "field-label");
+    expect(screen.getByText("Section")).toHaveAttribute(
+      "data-slot",
+      "field-legend"
+    );
+    expect(screen.getByText("Name")).toHaveAttribute(
+      "data-slot",
+      "field-label"
+    );
   });
 
   it("returns null when FieldError has no content or errors", () => {
@@ -65,11 +75,7 @@ describe("Field governance", () => {
   it("renders a single unique error message without a list", () => {
     render(
       <FieldError
-        errors={[
-          { message: "Required" },
-          { message: "Required" },
-          undefined,
-        ]}
+        errors={[{ message: "Required" }, { message: "Required" }, undefined]}
       />
     );
 
@@ -91,7 +97,10 @@ describe("Field governance", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("Required");
     expect(screen.getByRole("alert")).toHaveTextContent("Too short");
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
-    expect(screen.getByRole("list")).toHaveAttribute("data-slot", "field-error-list");
+    expect(screen.getByRole("list")).toHaveAttribute(
+      "data-slot",
+      "field-error-list"
+    );
   });
 
   it("forwards ref on FieldError and FieldLabel", () => {
@@ -100,10 +109,10 @@ describe("Field governance", () => {
 
     render(
       <Field>
-        <FieldLabel ref={labelRef} htmlFor="email">
+        <FieldLabel htmlFor="email" ref={labelRef}>
           Email
         </FieldLabel>
-        <FieldError ref={errorRef} errors={[{ message: "Required" }]} />
+        <FieldError errors={[{ message: "Required" }]} ref={errorRef} />
       </Field>
     );
 

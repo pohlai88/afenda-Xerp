@@ -19,26 +19,29 @@ export type SidebarContainerVariantKey = "sidebar" | "floating";
 const inputGroupAddonBaseClassName =
   "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4";
 
-export const inputGroupAddonAlignClassNames: Record<InputGroupAddonAlignKey, string> =
-  {
-    "inline-start":
-      "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
-    "inline-end":
-      "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
-    "block-start":
-      "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
-    "block-end":
-      "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2",
-  };
+export const inputGroupAddonAlignClassNames: Record<
+  InputGroupAddonAlignKey,
+  string
+> = {
+  "inline-start":
+    "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
+  "inline-end":
+    "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
+  "block-start":
+    "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
+  "block-end":
+    "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2",
+};
 
-export const inputGroupButtonSizeClassNames: Record<InputGroupButtonSizeKey, string> =
-  {
-    xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
-    sm: "",
-    "icon-xs":
-      "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
-    "icon-sm": "size-8 p-0 has-[>svg]:p-0",
-  };
+export const inputGroupButtonSizeClassNames: Record<
+  InputGroupButtonSizeKey,
+  string
+> = {
+  xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
+  sm: "",
+  "icon-xs": "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
+  "icon-sm": "size-8 p-0 has-[>svg]:p-0",
+};
 
 export const inputGroupButtonBaseClassName =
   "flex items-center gap-2 text-sm shadow-none";
@@ -56,16 +59,18 @@ export const inputGroupSlotClassNames = {
 export const inputGroupSlotClassNamesByKey = {
   ...Object.fromEntries(
     (
-      Object.entries(inputGroupAddonAlignClassNames) as Array<
-        [InputGroupAddonAlignKey, string]
-      >
+      Object.entries(inputGroupAddonAlignClassNames) as [
+        InputGroupAddonAlignKey,
+        string,
+      ][]
     ).map(([align, className]) => [`addon-${align}`, className] as const)
   ),
   ...Object.fromEntries(
     (
-      Object.entries(inputGroupButtonSizeClassNames) as Array<
-        [InputGroupButtonSizeKey, string]
-      >
+      Object.entries(inputGroupButtonSizeClassNames) as [
+        InputGroupButtonSizeKey,
+        string,
+      ][]
     ).map(([size, className]) => [`button-${size}`, className] as const)
   ),
   "control-input":
@@ -123,8 +128,7 @@ export const commandSlotClassNames = {
 } as const;
 
 export const commandSlotClassNamesByKey = {
-  "dialog-content":
-    "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
+  "dialog-content": "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
   "dialog-header-sr": "sr-only",
   "input-group-shell":
     "h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!",
@@ -269,11 +273,12 @@ export const sidebarSlotClassNames = {
   icon: "group/menu-item relative",
 } as const;
 
-export const sidebarGapVariantClassNames: Record<SidebarGapVariantKey, string> = {
-  sidebar: "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
-  floating:
-    "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]",
-};
+export const sidebarGapVariantClassNames: Record<SidebarGapVariantKey, string> =
+  {
+    sidebar: "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+    floating:
+      "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]",
+  };
 
 export const sidebarContainerVariantClassNames: Record<
   SidebarContainerVariantKey,
@@ -307,7 +312,7 @@ export const sidebarSlotClassNamesByKey = {
   rail: "absolute inset-y-0 z-20 hidden w-4 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] hover:after:bg-sidebar-border sm:flex ltr:-translate-x-1/2 rtl:-translate-x-1/2 in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize [[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full hover:group-data-[collapsible=offcanvas]:bg-sidebar [[data-side=left][data-collapsible=offcanvas]_&]:-right-2 [[data-side=right][data-collapsible=offcanvas]_&]:-left-2",
   inset:
     "relative flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
-  input: "h-8 w-full bg-background shadow-none",
+  input: "h-8 w-full",
   separator: "mx-2 w-auto bg-sidebar-border",
   "content-scroll":
     "no-scrollbar flex min-h-0 flex-1 flex-col gap-0 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
@@ -326,18 +331,20 @@ export const sidebarSlotClassNamesByKey = {
   "menu-sub-item": "group/menu-sub-item relative",
   "menu-sub-button":
     "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[size=md]:text-sm data-[size=sm]:text-xs data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-  trigger: "shrink-0",
+  trigger: "",
   "sr-only": "sr-only",
   ...Object.fromEntries(
     (
-      Object.entries(sidebarMenuButtonVariantClassNames) as Array<
-        [SidebarMenuButtonVariantKey, string]
-      >
+      Object.entries(sidebarMenuButtonVariantClassNames) as [
+        SidebarMenuButtonVariantKey,
+        string,
+      ][]
     ).flatMap(([variant, variantClassName]) =>
       (
-        Object.entries(sidebarMenuButtonSizeClassNames) as Array<
-          [SidebarMenuButtonSizeKey, string]
-        >
+        Object.entries(sidebarMenuButtonSizeClassNames) as [
+          SidebarMenuButtonSizeKey,
+          string,
+        ][]
       ).map(
         ([size, sizeClassName]) =>
           [
@@ -358,8 +365,7 @@ export const calendarSlotClassNamesByKey = {
   months: "relative flex flex-col gap-4 md:flex-row",
   month: "flex w-full flex-col gap-4",
   nav: "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
-  "nav-button":
-    "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
+  "nav-button": "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
   month_caption:
     "flex h-(--cell-size) w-full items-center justify-center px-(--cell-size)",
   dropdowns:

@@ -211,7 +211,9 @@ export const WithSubMenu: Story = {
     <StoryFrame width="md">
       <ContextMenu>
         <ContextSurface>
-          <span className="font-medium text-sm">Vendor contract — Acme Supplies</span>
+          <span className="font-medium text-sm">
+            Vendor contract — Acme Supplies
+          </span>
         </ContextSurface>
         <ContextMenuContent>
           <ContextMenuItem>
@@ -307,7 +309,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Context menus open on right-click (or long-press). Destructive items use `variant=\"destructive\"`. Keyboard navigation follows Radix menu semantics.",
+          'Context menus open on right-click (or long-press). Destructive items use `variant="destructive"`. Keyboard navigation follows Radix menu semantics.',
       },
     },
   },
@@ -315,7 +317,9 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="md">
       <ContextMenu>
         <ContextSurface hint="Right-click — keyboard navigable menu">
-          <span className="font-medium text-sm">Accessible context surface</span>
+          <span className="font-medium text-sm">
+            Accessible context surface
+          </span>
         </ContextSurface>
         <ContextMenuContent>
           <ContextMenuItem>
@@ -339,7 +343,10 @@ export const TableRowContextMenu: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <StoryStack className="overflow-hidden rounded-md border border-border" gap="xs">
+      <StoryStack
+        className="overflow-hidden rounded-md border border-border"
+        gap="xs"
+      >
         <StoryRow
           className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs"
           gap="lg"
@@ -352,24 +359,47 @@ export const TableRowContextMenu: Story = {
         </StoryRow>
         {(
           [
-            { id: "INV-001", status: "Active", tone: "success", amount: "$4,850" },
-            { id: "INV-002", status: "Pending", tone: "warning", amount: "$1,200" },
-            { id: "INV-003", status: "Overdue", tone: "danger", amount: "$8,750" },
+            {
+              id: "INV-001",
+              status: "Active",
+              tone: "success",
+              amount: "$4,850",
+            },
+            {
+              id: "INV-002",
+              status: "Pending",
+              tone: "warning",
+              amount: "$1,200",
+            },
+            {
+              id: "INV-003",
+              status: "Overdue",
+              tone: "danger",
+              amount: "$8,750",
+            },
           ] as const
         ).map(({ id, status, tone, amount }) => (
           <ContextMenu key={id}>
             <ContextMenuTrigger asChild>
               <button
-                className="flex w-full items-center gap-4 border-border border-b bg-transparent px-4 py-2 text-left transition-colors last:border-0 hover:bg-muted/20"
+                className="w-full border-border border-b bg-transparent text-left transition-colors last:border-0 hover:bg-muted/20"
                 type="button"
               >
-                <span className="flex-1 font-medium text-sm">{id}</span>
-                <span className="w-24">
-                  <Badge emphasis="soft" size="sm" tone={tone}>
-                    {status}
-                  </Badge>
-                </span>
-                <span className="w-24 text-sm tabular-nums">{amount}</span>
+                <StoryRow
+                  align="center"
+                  className="w-full"
+                  gap="md"
+                  paddingX="md"
+                  paddingY="sm"
+                >
+                  <span className="flex-1 font-medium text-sm">{id}</span>
+                  <span className="w-24">
+                    <Badge emphasis="soft" size="sm" tone={tone}>
+                      {status}
+                    </Badge>
+                  </span>
+                  <span className="w-24 text-sm tabular-nums">{amount}</span>
+                </StoryRow>
               </button>
             </ContextMenuTrigger>
             <ContextMenuContent>
@@ -420,7 +450,9 @@ export const InvoiceRecordSurface: Story = {
             </span>
             <span className="font-semibold text-lg">Acme Supplies Ltd.</span>
             <StoryRow gap="sm">
-              <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+              <Badge emphasis="soft" tone="warning">
+                Awaiting payment
+              </Badge>
               <span className="text-muted-foreground text-sm">$24,850 due</span>
             </StoryRow>
           </StoryStack>
@@ -461,7 +493,9 @@ export const KanbanCardContext: Story = {
             <span className="text-muted-foreground text-xs">
               PO-2026-1184 · Alex Brown
             </span>
-            <Badge emphasis="soft" size="sm" tone="warning">In review</Badge>
+            <Badge emphasis="soft" size="sm" tone="warning">
+              In review
+            </Badge>
           </StoryStack>
         </ContextSurface>
         <ContextMenuContent>
@@ -540,7 +574,9 @@ export const ActivityFeedContext: Story = {
       <ContextMenu>
         <ContextSurface hint="Right-click activity item">
           <StoryStack gap="xs">
-            <span className="font-medium text-sm">Jane Doe approved PO-2026-1184</span>
+            <span className="font-medium text-sm">
+              Jane Doe approved PO-2026-1184
+            </span>
             <span className="text-muted-foreground text-xs">2 minutes ago</span>
           </StoryStack>
         </ContextSurface>
@@ -571,7 +607,9 @@ export const ApprovalWorkflowActions: Story = {
       <ContextMenu>
         <ContextSurface hint="Right-click pending approval">
           <StoryStack gap="xs">
-            <span className="font-medium text-sm">Expense report — Q2 2026</span>
+            <span className="font-medium text-sm">
+              Expense report — Q2 2026
+            </span>
             <span className="text-muted-foreground text-xs">
               $4,820 · Submitted by Jane Doe
             </span>
@@ -612,7 +650,9 @@ export const BulkSelectionContext: Story = {
         <ContextSurface hint="Right-click selection summary">
           <StoryRow align="center" gap="md" justify="between">
             <span className="font-medium text-sm">8 invoices selected</span>
-            <Badge emphasis="soft" tone="info">Bulk mode</Badge>
+            <Badge emphasis="soft" tone="info">
+              Bulk mode
+            </Badge>
           </StoryRow>
         </ContextSurface>
         <ContextMenuContent>
@@ -661,7 +701,9 @@ export const InventoryLineContext: Story = {
                 </span>
               </StoryStack>
             </StoryRow>
-            <Badge emphasis="soft" tone="success">1,240 in stock</Badge>
+            <Badge emphasis="soft" tone="success">
+              1,240 in stock
+            </Badge>
           </StoryRow>
         </ContextSurface>
         <ContextMenuContent>
@@ -695,7 +737,9 @@ export const DropdownVsContextComparison: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Explicit trigger (dropdown)</span>
+          <span className="font-medium text-sm">
+            Explicit trigger (dropdown)
+          </span>
           <span className="text-muted-foreground text-xs">
             Use for toolbar and icon buttons
           </span>
@@ -705,7 +749,9 @@ export const DropdownVsContextComparison: Story = {
           </Button>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Pointer surface (context menu)</span>
+          <span className="font-medium text-sm">
+            Pointer surface (context menu)
+          </span>
           <span className="text-muted-foreground text-xs">
             Use for grid rows, cards, and document tiles
           </span>

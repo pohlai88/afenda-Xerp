@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  MOTION_INTENTS,
   assertMotionPolicyCoverageStrict,
   getMissingMotionIntents,
   getMotionIntent,
   getMotionPolicy,
   isMotionIntent,
+  MOTION_INTENTS,
   resolveMotionIntent,
 } from "../../governance";
 
@@ -41,7 +41,9 @@ describe("motion governance", () => {
   });
 
   it("aligns with design-system motion authority", async () => {
-    const { motionPolicy: authorityPolicy } = await import("@afenda/design-system");
+    const { motionPolicy: authorityPolicy } = await import(
+      "@afenda/design-system"
+    );
 
     expect(getMotionPolicy()).toEqual(authorityPolicy);
   });

@@ -1,16 +1,18 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Label as LabelPrimitive } from "radix-ui";
-
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const LABEL_RECIPE_NAME = "form-control" as const;
 
 export interface LabelProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>, "className">,
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }

@@ -68,6 +68,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@afenda/appshell": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@storybook/addon-a11y": "^10.4.6",
     "@storybook/addon-docs": "^10.4.6",

@@ -81,9 +81,15 @@ function ControlledScopeFilterComponent() {
           value={scope}
           variant="outline"
         >
-          <ToggleGroupItem size="sm" value="mine">My queue</ToggleGroupItem>
-          <ToggleGroupItem size="sm" value="team">Team</ToggleGroupItem>
-          <ToggleGroupItem size="sm" value="all">All</ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="mine">
+            My queue
+          </ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="team">
+            Team
+          </ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="all">
+            All
+          </ToggleGroupItem>
         </ToggleGroup>
         <span className="text-muted-foreground text-sm">
           Filtering approvals for: <span className="font-mono">{scope}</span>
@@ -104,7 +110,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed Radix-UI toggle group for ERP view switchers, period filters, column pickers, and toolbar formatting sets. Supports `type=\"single\"` or `multiple`, `variant`, `size`, `spacing`, and `orientation`. For standalone icon toggles, see Primitives/Toggle.",
+          'Governed Radix-UI toggle group for ERP view switchers, period filters, column pickers, and toolbar formatting sets. Supports `type="single"` or `multiple`, `variant`, `size`, `spacing`, and `orientation`. For standalone icon toggles, see Primitives/Toggle.',
       },
     },
   },
@@ -266,9 +272,15 @@ export const SpacingMatrix: Story = {
             type="single"
             variant="outline"
           >
-            <ToggleGroupItem size="sm" value="a">A</ToggleGroupItem>
-            <ToggleGroupItem size="sm" value="b">B</ToggleGroupItem>
-            <ToggleGroupItem size="sm" value="c">C</ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="a">
+              A
+            </ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="b">
+              B
+            </ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="c">
+              C
+            </ToggleGroupItem>
           </ToggleGroup>
         </StoryStack>
       ))}
@@ -287,7 +299,9 @@ export const GovernanceItemStates: Story = {
             item state=&quot;{state}&quot;
           </span>
           <ToggleGroup defaultValue="on" type="single" variant="outline">
-            <ToggleGroupItem state={state} value="on">On</ToggleGroupItem>
+            <ToggleGroupItem state={state} value="on">
+              On
+            </ToggleGroupItem>
             <ToggleGroupItem value="off">Off</ToggleGroupItem>
           </ToggleGroup>
         </StoryFrame>
@@ -402,12 +416,23 @@ export const PeriodFilter: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow align="center" gap="sm">
-      <CalendarIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+      <CalendarIcon
+        aria-hidden="true"
+        className="size-4 text-muted-foreground"
+      />
       <ToggleGroup defaultValue="month" type="single" variant="outline">
-        <ToggleGroupItem size="sm" value="day">Day</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="week">Week</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="month">Month</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="quarter">Quarter</ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="day">
+          Day
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="week">
+          Week
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="month">
+          Month
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="quarter">
+          Quarter
+        </ToggleGroupItem>
       </ToggleGroup>
     </StoryRow>
   ),
@@ -438,10 +463,16 @@ export const ApprovalStatusFilter: Story = {
     <ToggleGroup defaultValue="pending" type="single" variant="outline">
       <ToggleGroupItem size="sm" value="pending">
         Pending
-        <Badge emphasis="soft" size="sm" tone="warning">18</Badge>
+        <Badge emphasis="soft" size="sm" tone="warning">
+          18
+        </Badge>
       </ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="approved">Approved</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="rejected">Rejected</ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="approved">
+        Approved
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="rejected">
+        Rejected
+      </ToggleGroupItem>
     </ToggleGroup>
   ),
 };
@@ -453,9 +484,15 @@ export const TableDensitySwitcher: Story = {
     <StoryRow align="center" gap="sm">
       <span className="text-muted-foreground text-xs">Density:</span>
       <ToggleGroup defaultValue="standard" type="single" variant="outline">
-        <ToggleGroupItem size="sm" value="compact">Compact</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="standard">Standard</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="comfortable">Comfortable</ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="compact">
+          Compact
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="standard">
+          Standard
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="comfortable">
+          Comfortable
+        </ToggleGroupItem>
       </ToggleGroup>
     </StoryRow>
   ),
@@ -466,9 +503,15 @@ export const CurrencyDisplaySwitcher: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <ToggleGroup defaultValue="usd" type="single" variant="outline">
-      <ToggleGroupItem size="sm" value="usd">USD</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="eur">EUR</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="local">Local</ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="usd">
+        USD
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="eur">
+        EUR
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="local">
+        Local
+      </ToggleGroupItem>
     </ToggleGroup>
   ),
 };
@@ -502,11 +545,21 @@ export const ShowHideColumns: Story = {
       type="multiple"
       variant="outline"
     >
-      <ToggleGroupItem size="sm" value="id">ID</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="name">Name</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="dept">Department</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="email">Email</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="salary">Salary</ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="id">
+        ID
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="name">
+        Name
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="dept">
+        Department
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="email">
+        Email
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="salary">
+        Salary
+      </ToggleGroupItem>
     </ToggleGroup>
   ),
 };
@@ -518,9 +571,15 @@ export const ReportSectionToolbar: Story = {
     <StoryFrame width="lg">
       <StoryRow align="center" gap="sm" wrap>
         <ToggleGroup defaultValue="pnl" type="single" variant="outline">
-          <ToggleGroupItem size="sm" value="pnl">P&amp;L</ToggleGroupItem>
-          <ToggleGroupItem size="sm" value="balance">Balance</ToggleGroupItem>
-          <ToggleGroupItem size="sm" value="cash">Cash flow</ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="pnl">
+            P&amp;L
+          </ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="balance">
+            Balance
+          </ToggleGroupItem>
+          <ToggleGroupItem size="sm" value="cash">
+            Cash flow
+          </ToggleGroupItem>
         </ToggleGroup>
         <Separator className="h-5" orientation="vertical" />
         <ToggleGroup defaultValue="chart" type="single" variant="outline">
@@ -541,10 +600,18 @@ export const ModuleFilter: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <ToggleGroup defaultValue="finance" type="single" variant="outline">
-      <ToggleGroupItem size="sm" value="finance">Finance</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="hr">HR</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="ops">Operations</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="proc">Procurement</ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="finance">
+        Finance
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="hr">
+        HR
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="ops">
+        Operations
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="proc">
+        Procurement
+      </ToggleGroupItem>
     </ToggleGroup>
   ),
 };
@@ -562,9 +629,15 @@ export const TeamQueueFilter: Story = {
     <StoryRow align="center" gap="sm">
       <UsersIcon aria-hidden="true" className="size-4 text-muted-foreground" />
       <ToggleGroup defaultValue="mine" type="single" variant="outline">
-        <ToggleGroupItem size="sm" value="mine">My queue</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="team">Team</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="dept">Department</ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="mine">
+          My queue
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="team">
+          Team
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="dept">
+          Department
+        </ToggleGroupItem>
       </ToggleGroup>
     </StoryRow>
   ),
@@ -575,11 +648,20 @@ export const CostCenterView: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow align="center" gap="sm">
-      <Building2Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+      <Building2Icon
+        aria-hidden="true"
+        className="size-4 text-muted-foreground"
+      />
       <ToggleGroup defaultValue="210" type="single" variant="outline">
-        <ToggleGroupItem size="sm" value="210">210 Mfg</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="320">320 Sales</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="all">All centers</ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="210">
+          210 Mfg
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="320">
+          320 Sales
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="all">
+          All centers
+        </ToggleGroupItem>
       </ToggleGroup>
     </StoryRow>
   ),
@@ -590,10 +672,18 @@ export const FiscalPeriodSwitcher: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <ToggleGroup defaultValue="q2" type="single" variant="outline">
-      <ToggleGroupItem size="sm" value="q1">Q1</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="q2">Q2</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="q3">Q3</ToggleGroupItem>
-      <ToggleGroupItem size="sm" value="q4">Q4</ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="q1">
+        Q1
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="q2">
+        Q2
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="q3">
+        Q3
+      </ToggleGroupItem>
+      <ToggleGroupItem size="sm" value="q4">
+        Q4
+      </ToggleGroupItem>
     </ToggleGroup>
   ),
 };
@@ -611,11 +701,21 @@ export const ExportColumnPicker: Story = {
         type="multiple"
         variant="outline"
       >
-        <ToggleGroupItem size="sm" value="id">ID</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="name">Name</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="dept">Department</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="status">Status</ToggleGroupItem>
-        <ToggleGroupItem size="sm" value="salary">Salary</ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="id">
+          ID
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="name">
+          Name
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="dept">
+          Department
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="status">
+          Status
+        </ToggleGroupItem>
+        <ToggleGroupItem size="sm" value="salary">
+          Salary
+        </ToggleGroupItem>
       </ToggleGroup>
     </StoryStack>
   ),
@@ -635,14 +735,22 @@ export const ToggleGroupVsToggle: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">ToggleGroup — view switcher</span>
+          <span className="font-medium text-sm">
+            ToggleGroup — view switcher
+          </span>
           <ToggleGroup defaultValue="list" type="single" variant="outline">
-            <ToggleGroupItem size="sm" value="list">List</ToggleGroupItem>
-            <ToggleGroupItem size="sm" value="grid">Grid</ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="list">
+              List
+            </ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="grid">
+              Grid
+            </ToggleGroupItem>
           </ToggleGroup>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Toggle — single pin action</span>
+          <span className="font-medium text-sm">
+            Toggle — single pin action
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Toggle → Pin Record Toolbar
           </span>
@@ -666,10 +774,16 @@ export const ToggleGroupVsTabs: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">ToggleGroup — open / closed filter</span>
+          <span className="font-medium text-sm">
+            ToggleGroup — open / closed filter
+          </span>
           <ToggleGroup defaultValue="open" type="single" variant="outline">
-            <ToggleGroupItem size="sm" value="open">Open</ToggleGroupItem>
-            <ToggleGroupItem size="sm" value="closed">Closed</ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="open">
+              Open
+            </ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="closed">
+              Closed
+            </ToggleGroupItem>
           </ToggleGroup>
         </StoryStack>
         <StoryStack gap="xs">
@@ -697,14 +811,22 @@ export const ToggleGroupVsSwitch: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">ToggleGroup — period filter</span>
+          <span className="font-medium text-sm">
+            ToggleGroup — period filter
+          </span>
           <ToggleGroup defaultValue="month" type="single" variant="outline">
-            <ToggleGroupItem size="sm" value="week">Week</ToggleGroupItem>
-            <ToggleGroupItem size="sm" value="month">Month</ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="week">
+              Week
+            </ToggleGroupItem>
+            <ToggleGroupItem size="sm" value="month">
+              Month
+            </ToggleGroupItem>
           </ToggleGroup>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Switch — email notifications</span>
+          <span className="font-medium text-sm">
+            Switch — email notifications
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Switch for persisted workspace settings
           </span>

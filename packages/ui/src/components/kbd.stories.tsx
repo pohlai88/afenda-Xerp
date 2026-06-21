@@ -71,7 +71,11 @@ function ShortcutPanel({
   return (
     <StoryFrame width="lg">
       <div className="overflow-hidden rounded-md border border-border">
-        <StoryStack className="border-border border-b bg-muted/30" paddingX="lg" paddingY="md">
+        <StoryStack
+          className="border-border border-b bg-muted/30"
+          paddingX="lg"
+          paddingY="md"
+        >
           <h3 className="font-semibold text-sm">{title}</h3>
         </StoryStack>
         <div className="divide-y divide-border">
@@ -429,7 +433,11 @@ export const MenuItemShortcut: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
-      <StoryStack className="rounded-md border border-border" gap="xs" paddingY="xs">
+      <StoryStack
+        className="rounded-md border border-border"
+        gap="xs"
+        paddingY="xs"
+      >
         {[
           { label: "New purchase order", keys: ["⌘", "⇧", "P"] },
           { label: "New invoice", keys: ["⌘", "⇧", "I"] },
@@ -632,7 +640,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Shortcut hints are visual only — expose the same actions via menus, buttons, and command palette. Use readable key labels; avoid relying on color alone for disabled shortcuts (`state=\"forbidden\"`).",
+          'Shortcut hints are visual only — expose the same actions via menus, buttons, and command palette. Use readable key labels; avoid relying on color alone for disabled shortcuts (`state="forbidden"`).',
       },
     },
   },
@@ -640,14 +648,19 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <Button aria-keyshortcuts="Meta+S" emphasis="solid" intent="primary" size="sm">
+          <Button
+            aria-keyshortcuts="Meta+S"
+            emphasis="solid"
+            intent="primary"
+            size="sm"
+          >
             Save record
           </Button>
           <ShortcutCombo keys={["⌘", "S"]} />
         </StoryRow>
         <span className="text-muted-foreground text-xs">
-          Primary action exposes `aria-keyshortcuts` on the button; `Kbd` provides
-          the visible hint for sighted users.
+          Primary action exposes `aria-keyshortcuts` on the button; `Kbd`
+          provides the visible hint for sighted users.
         </span>
       </StoryStack>
     </StoryFrame>

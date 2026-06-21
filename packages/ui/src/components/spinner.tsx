@@ -1,9 +1,8 @@
-import * as React from "react";
+import type { GovernedState } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Loader2Icon } from "lucide-react";
-
-import type { GovernedState } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const SPINNER_RECIPE_NAME = "form-control" as const;
 

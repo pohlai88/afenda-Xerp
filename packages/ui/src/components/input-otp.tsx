@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
-
-import { cn } from "#/lib/utils";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const INPUT_OTP_RECIPE_NAME = "form-control" as const;
 
@@ -19,7 +18,10 @@ const INPUT_OTP_RECIPE_NAME = "form-control" as const;
  * the property, satisfying `render?: never` for the children variant.
  */
 interface InputOTPProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof OTPInput>, "className" | "render"> {
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof OTPInput>,
+    "className" | "render"
+  > {
   readonly className?: string;
   readonly containerClassName?: string;
 }
@@ -46,8 +48,8 @@ const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
         spellCheck={false}
         {...props}
         {...root.dataAttributes}
-        containerClassName={cn(container.className)}
         className={cn(root.className)}
+        containerClassName={cn(container.className)}
       />
     );
   }
@@ -69,9 +71,7 @@ const InputOTPGroup = React.forwardRef<HTMLDivElement, InputOTPGroupProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -86,7 +86,8 @@ interface InputOTPSlotProps
 const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
   ({ index, className, ...props }, ref) => {
     const inputOTPContext = React.useContext(OTPInputContext);
-    const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
+    const { char, hasFakeCaret, isActive } =
+      inputOTPContext?.slots[index] ?? {};
 
     const governed = resolvePrimitiveGovernance({
       componentName: "InputOTP",
@@ -110,12 +111,20 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation(props, governed, { "data-active": isActive })}
+        {...applyGovernedPresentation(props, governed, {
+          "data-active": isActive,
+        })}
       >
         {char}
         {hasFakeCaret ? (
-          <div {...caretWrap.dataAttributes} className={cn(caretWrap.className)}>
-            <div {...caretLine.dataAttributes} className={cn(caretLine.className)} />
+          <div
+            {...caretWrap.dataAttributes}
+            className={cn(caretWrap.className)}
+          >
+            <div
+              {...caretLine.dataAttributes}
+              className={cn(caretLine.className)}
+            />
           </div>
         ) : null}
       </div>
@@ -130,26 +139,27 @@ interface InputOTPSeparatorProps
   readonly className?: string;
 }
 
-const InputOTPSeparator = React.forwardRef<HTMLDivElement, InputOTPSeparatorProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "InputOTP",
-      recipeName: INPUT_OTP_RECIPE_NAME,
-      slot: "icon",
-      className,
-    });
+const InputOTPSeparator = React.forwardRef<
+  HTMLDivElement,
+  InputOTPSeparatorProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "InputOTP",
+    recipeName: INPUT_OTP_RECIPE_NAME,
+    slot: "icon",
+    className,
+  });
 
-    return (
-      <div
-        ref={ref}
-        {...applyGovernedPresentation({ ...props, role: "separator" }, governed)}
-      >
-        <MinusIcon />
-      </div>
-    );
-  }
-);
+  return (
+    <div
+      ref={ref}
+      {...applyGovernedPresentation({ ...props, role: "separator" }, governed)}
+    >
+      <MinusIcon />
+    </div>
+  );
+});
 
 InputOTPSeparator.displayName = "InputOTPSeparator";
 
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };
+export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };

@@ -57,17 +57,19 @@ function CheckboxField({
       <Checkbox
         disabled={disabled}
         id={id}
-        {...(checked !== undefined
-          ? {
+        {...(checked === undefined
+          ? defaultChecked === undefined
+            ? {}
+            : { defaultChecked }
+          : {
               checked,
               ...(onCheckedChange ? { onCheckedChange } : {}),
-            }
-          : defaultChecked !== undefined
-            ? { defaultChecked }
-            : {})}
+            })}
       />
       <StoryStack className="flex-1" gap="xs">
-        <Label className="font-medium" htmlFor={id}>{label}</Label>
+        <Label className="font-medium" htmlFor={id}>
+          {label}
+        </Label>
         {description ? (
           <span className="text-muted-foreground text-xs">{description}</span>
         ) : null}
@@ -76,11 +78,11 @@ function CheckboxField({
   );
 }
 
-type TreeNode = {
+interface TreeNode {
+  readonly children?: readonly TreeNode[];
   readonly id: string;
   readonly label: string;
-  readonly children?: readonly TreeNode[];
-};
+}
 
 const ORG_UNITS: readonly TreeNode[] = [
   {
@@ -138,7 +140,9 @@ function OrgUnitTreeComponent() {
     }
     const childStates = node.children.map(getBranchState);
     const allChecked = childStates.every((s) => s === true);
-    const someChecked = childStates.some((s) => s === true || s === "indeterminate");
+    const someChecked = childStates.some(
+      (s) => s === true || s === "indeterminate"
+    );
     if (allChecked) {
       return true;
     }
@@ -149,9 +153,7 @@ function OrgUnitTreeComponent() {
   };
 
   const toggleBranch = (node: TreeNode) => {
-    const leafIds = node.children
-      ? collectLeafIds(node.children)
-      : [node.id];
+    const leafIds = node.children ? collectLeafIds(node.children) : [node.id];
     const allSelected = leafIds.every((id) => selected.includes(id));
     setSelected((prev) => {
       if (allSelected) {
@@ -208,11 +210,11 @@ function OrgUnitTreeComponent() {
 }
 
 const BULK_INVOICES = [
-  { id: "INV-2026-001", vendor: "Acme Supplies", amount: 24850 },
+  { id: "INV-2026-001", vendor: "Acme Supplies", amount: 24_850 },
   { id: "INV-2026-002", vendor: "Metro Logistics", amount: 8420 },
-  { id: "INV-2026-003", vendor: "TechServe Inc.", amount: 15600 },
+  { id: "INV-2026-003", vendor: "TechServe Inc.", amount: 15_600 },
   { id: "INV-2026-004", vendor: "CleanCo Facilities", amount: 3200 },
-  { id: "INV-2026-005", vendor: "Global Parts Ltd.", amount: 42100 },
+  { id: "INV-2026-005", vendor: "Global Parts Ltd.", amount: 42_100 },
 ] as const;
 
 function BulkSelectComponent() {
@@ -220,9 +222,9 @@ function BulkSelectComponent() {
   const [checked, setChecked] = useState<string[]>([]);
   const allChecked = checked.length === ids.length;
   const indeterminate = checked.length > 0 && !allChecked;
-  const selectedTotal = BULK_INVOICES
-    .filter((row) => checked.includes(row.id))
-    .reduce((sum, row) => sum + row.amount, 0);
+  const selectedTotal = BULK_INVOICES.filter((row) =>
+    checked.includes(row.id)
+  ).reduce((sum, row) => sum + row.amount, 0);
 
   const toggleAll = () => {
     setChecked(allChecked ? [] : [...ids]);
@@ -236,7 +238,10 @@ function BulkSelectComponent() {
 
   return (
     <StoryFrame width="xl">
-      <StoryStack className="overflow-hidden rounded-md border border-border" gap="xs">
+      <StoryStack
+        className="overflow-hidden rounded-md border border-border"
+        gap="xs"
+      >
         <StoryRow
           className="border-border border-b bg-muted/30"
           gap="md"
@@ -280,7 +285,10 @@ function BulkSelectComponent() {
                 onCheckedChange={() => toggleOne(id)}
               />
               <StoryStack gap="xs">
-                <Label className="cursor-pointer font-mono text-sm" htmlFor={`bulk-${id}`}>
+                <Label
+                  className="cursor-pointer font-mono text-sm"
+                  htmlFor={`bulk-${id}`}
+                >
                   {id}
                 </Label>
                 <span className="text-muted-foreground text-xs">{vendor}</span>
@@ -344,8 +352,13 @@ function TaskChecklistComponent() {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow justify="between">
-          <span className="font-semibold text-sm">Invoice approval checklist</span>
-          <Badge emphasis="soft" tone={completed === tasks.length ? "success" : "warning"}>
+          <span className="font-semibold text-sm">
+            Invoice approval checklist
+          </span>
+          <Badge
+            emphasis="soft"
+            tone={completed === tasks.length ? "success" : "warning"}
+          >
             {completed}/{tasks.length} complete
           </Badge>
         </StoryRow>
@@ -508,7 +521,10 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <Checkbox aria-label="Include archived records in export" id="cb-a11y-1" />
+          <Checkbox
+            aria-label="Include archived records in export"
+            id="cb-a11y-1"
+          />
           <Label htmlFor="cb-a11y-1">Include archived records</Label>
         </StoryRow>
         <StoryRow align="center" gap="sm">
@@ -531,7 +547,9 @@ export const PermissionsGroup: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryStack gap="xs">
-          <span className="font-semibold text-sm">Finance module permissions</span>
+          <span className="font-semibold text-sm">
+            Finance module permissions
+          </span>
           <span className="text-muted-foreground text-xs">
             Role: Finance Analyst · Applies to all users in this role group
           </span>
@@ -644,7 +662,11 @@ export const ExportColumnPicker: Story = {
           { id: "col-salary", label: "Annual salary", defaultChecked: false },
           { id: "col-manager", label: "Manager", defaultChecked: true },
           { id: "col-start", label: "Start date", defaultChecked: false },
-          { id: "col-status", label: "Employment status", defaultChecked: true },
+          {
+            id: "col-status",
+            label: "Employment status",
+            defaultChecked: true,
+          },
         ].map(({ id, label, defaultChecked }) => (
           <StoryRow align="center" gap="sm" key={id}>
             <Checkbox defaultChecked={defaultChecked} id={id} />
@@ -676,7 +698,9 @@ export const ComplianceChecklist: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryStack gap="xs">
-          <span className="font-semibold text-sm">SOX compliance — payment batch</span>
+          <span className="font-semibold text-sm">
+            SOX compliance — payment batch
+          </span>
           <span className="text-muted-foreground text-xs">
             All items required before releasing BATCH-2026-06-18
           </span>
@@ -697,13 +721,15 @@ export const ComplianceChecklist: Story = {
           {
             id: "cx-threshold",
             label: "Threshold exceptions documented",
-            description: "3 invoices exceed single-approval limit — notes attached",
+            description:
+              "3 invoices exceed single-approval limit — notes attached",
             defaultChecked: false,
           },
           {
             id: "cx-audit",
             label: "Audit trail complete",
-            description: "All line items linked to source PO and receiving report",
+            description:
+              "All line items linked to source PO and receiving report",
             defaultChecked: false,
           },
         ].map((field) => (
@@ -752,7 +778,9 @@ export const FilterFacets: Story = {
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>{label}</Label>
+                <Label className="font-normal" htmlFor={id}>
+                  {label}
+                </Label>
               </StoryRow>
             ))}
           </StoryRow>
@@ -770,13 +798,17 @@ export const FilterFacets: Story = {
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>{label}</Label>
+                <Label className="font-normal" htmlFor={id}>
+                  {label}
+                </Label>
               </StoryRow>
             ))}
           </StoryRow>
         </StoryStack>
         <StoryRow gap="sm" justify="end">
-          <Button emphasis="ghost" intent="quiet" size="sm">Reset</Button>
+          <Button emphasis="ghost" intent="quiet" size="sm">
+            Reset
+          </Button>
           <Button size="sm">Apply filters</Button>
         </StoryRow>
       </StoryStack>
@@ -829,10 +861,17 @@ export const CardStyleOptions: Story = {
             <Checkbox defaultChecked={defaultChecked} id={id} />
             <StoryStack className="flex-1" gap="xs">
               <StoryRow align="center" gap="sm">
-                <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-                <Label className="font-medium" htmlFor={id}>{label}</Label>
+                <Icon
+                  aria-hidden="true"
+                  className="size-4 text-muted-foreground"
+                />
+                <Label className="font-medium" htmlFor={id}>
+                  {label}
+                </Label>
               </StoryRow>
-              <span className="text-muted-foreground text-xs">{description}</span>
+              <span className="text-muted-foreground text-xs">
+                {description}
+              </span>
             </StoryStack>
           </StoryRow>
         ))}
@@ -915,10 +954,17 @@ export const NotificationPreferences: Story = {
             <Checkbox defaultChecked={defaultChecked} id={id} />
             <StoryStack className="flex-1" gap="xs">
               <StoryRow align="center" gap="sm">
-                <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-                <Label className="font-medium" htmlFor={id}>{label}</Label>
+                <Icon
+                  aria-hidden="true"
+                  className="size-4 text-muted-foreground"
+                />
+                <Label className="font-medium" htmlFor={id}>
+                  {label}
+                </Label>
               </StoryRow>
-              <span className="text-muted-foreground text-xs">{description}</span>
+              <span className="text-muted-foreground text-xs">
+                {description}
+              </span>
             </StoryStack>
           </StoryRow>
         ))}
@@ -963,26 +1009,49 @@ export const EmailDigestOptions: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="start" gap="md" padding="sm">
-          <MailIcon aria-hidden="true" className="size-5 text-muted-foreground" />
+          <MailIcon
+            aria-hidden="true"
+            className="size-5 text-muted-foreground"
+          />
           <StoryStack className="flex-1" gap="sm">
             <StoryStack gap="xs">
-              <span className="font-semibold text-sm">Email digest frequency</span>
+              <span className="font-semibold text-sm">
+                Email digest frequency
+              </span>
               <span className="text-muted-foreground text-xs">
                 Choose which updates are bundled into your daily digest
               </span>
             </StoryStack>
             {[
-              { id: "dig-pending", label: "Pending approvals", defaultChecked: true },
-              { id: "dig-overdue", label: "Overdue items", defaultChecked: true },
-              { id: "dig-comments", label: "New comments on watched records", defaultChecked: false },
-              { id: "dig-reports", label: "Scheduled report outputs", defaultChecked: false },
+              {
+                id: "dig-pending",
+                label: "Pending approvals",
+                defaultChecked: true,
+              },
+              {
+                id: "dig-overdue",
+                label: "Overdue items",
+                defaultChecked: true,
+              },
+              {
+                id: "dig-comments",
+                label: "New comments on watched records",
+                defaultChecked: false,
+              },
+              {
+                id: "dig-reports",
+                label: "Scheduled report outputs",
+                defaultChecked: false,
+              },
             ].map(({ id, label, defaultChecked }) => (
               <StoryRow align="center" gap="sm" key={id}>
                 <Checkbox
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>{label}</Label>
+                <Label className="font-normal" htmlFor={id}>
+                  {label}
+                </Label>
               </StoryRow>
             ))}
           </StoryStack>

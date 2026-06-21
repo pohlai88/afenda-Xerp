@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
@@ -75,9 +75,9 @@ function SingleDatePicker({
         mode="single"
         onSelect={setDate}
         selected={date}
-        {...(captionLayout !== undefined ? { captionLayout } : {})}
-        {...(disabled !== undefined ? { disabled } : {})}
-        {...(showOutsideDays !== undefined ? { showOutsideDays } : {})}
+        {...(captionLayout === undefined ? {} : { captionLayout })}
+        {...(disabled === undefined ? {} : { disabled })}
+        {...(showOutsideDays === undefined ? {} : { showOutsideDays })}
       />
     </CalendarFrame>
   );
@@ -369,8 +369,8 @@ export const PurchaseOrderDelivery: Story = {
         label="Requested Delivery Date"
       />
       <SingleDatePicker
-        disabled={{ before: new Date(2026, 5, 22) }}
         defaultMonth={new Date(2026, 5, 1)}
+        disabled={{ before: new Date(2026, 5, 22) }}
       />
     </StoryStack>
   ),
@@ -418,7 +418,9 @@ export const AccountingPeriodFilter: Story = {
       <StoryFrame width="md">
         <StoryStack gap="sm">
           <StoryRow align="center" justify="between" wrap>
-            <span className="font-medium text-sm">General Ledger · Period Filter</span>
+            <span className="font-medium text-sm">
+              General Ledger · Period Filter
+            </span>
             <Badge emphasis="soft" size="sm" tone="success">
               April 2026 Open
             </Badge>

@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const COLLAPSIBLE_RECIPE_NAME = "surface" as const;
 
@@ -68,4 +67,4 @@ const CollapsibleContent = React.forwardRef<
 
 CollapsibleContent.displayName = "CollapsibleContent";
 
-export { Collapsible, CollapsibleTrigger, CollapsibleContent };
+export { Collapsible, CollapsibleContent, CollapsibleTrigger };

@@ -51,9 +51,7 @@ export function createGovernedDivSlot(
   >(({ className, ...props }, ref) => {
     const governed = resolveSlotGovernance(input, className);
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   });
 
   GovernedDivSlot.displayName = displayName;
@@ -71,9 +69,7 @@ export function createGovernedSpanSlot(
   >(({ className, ...props }, ref) => {
     const governed = resolveSlotGovernance(input, className);
 
-    return (
-      <span ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <span ref={ref} {...applyGovernedPresentation(props, governed)} />;
   });
 
   GovernedSpanSlot.displayName = displayName;

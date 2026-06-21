@@ -1,14 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { Dialog as DialogPrimitive } from "radix-ui";
+import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { XIcon } from "lucide-react";
-
-import { Button } from "#/components/button";
-import type { GovernedSurfaceProps, SlotRole } from "@/governance";
-import { createGovernedDivSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Dialog as DialogPrimitive } from "radix-ui";
+import * as React from "react";
+import { Button } from "./button";
 
 const DIALOG_RECIPE_NAME = "surface" as const;
 
@@ -74,9 +73,9 @@ DialogOverlay.displayName = "DialogOverlay";
 
 export interface DialogContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+      "className"
+    >,
     GovernedSurfaceProps {
   readonly className?: string;
   readonly showCloseButton?: boolean;
@@ -127,16 +126,19 @@ const DialogContent = React.forwardRef<
         >
           {children}
           {showCloseButton ? (
-            <DialogPrimitive.Close data-slot="dialog-close" asChild>
+            <DialogPrimitive.Close asChild data-slot="dialog-close">
               <Button
-                intent="quiet"
-                emphasis="ghost"
-                size="sm"
-                presentation="icon"
                 className={closeButton.className}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="sm"
               >
                 <XIcon />
-                <span {...closeLabel.dataAttributes} className={closeLabel.className}>
+                <span
+                  {...closeLabel.dataAttributes}
+                  className={closeLabel.className}
+                >
                   Close
                 </span>
               </Button>
@@ -176,7 +178,7 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
         {children}
         {showCloseButton ? (
           <DialogPrimitive.Close asChild>
-            <Button intent="primary" emphasis="outline" size="md">
+            <Button emphasis="outline" intent="primary" size="md">
               Close
             </Button>
           </DialogPrimitive.Close>

@@ -135,9 +135,7 @@ const AUDIT_EVENTS = [
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-function permissionTone(
-  access: string
-): "success" | "info" | "neutral" {
+function permissionTone(access: string): "success" | "info" | "neutral" {
   if (access === "Read / Write") {
     return "success";
   }
@@ -613,11 +611,7 @@ export const SettingsAccordion: Story = {
                 ["Time Zone", "Asia/Singapore (UTC+8)"],
               ]}
             />
-            <Button
-              emphasis="outline"
-              intent="secondary"
-              size="sm"
-            >
+            <Button emphasis="outline" intent="secondary" size="sm">
               Edit Profile
             </Button>
           </AccordionContent>
@@ -906,7 +900,12 @@ export const InvoiceRecord: Story = {
           </AccordionTrigger>
           <AccordionContent>
             <div className="overflow-hidden rounded-md border border-border text-sm">
-              <StoryRow className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs" gap="lg" paddingX="lg" paddingY="sm">
+              <StoryRow
+                className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs"
+                gap="lg"
+                paddingX="lg"
+                paddingY="sm"
+              >
                 <span className="flex-1">Description</span>
                 <span className="w-16 text-right">Qty</span>
                 <span className="w-24 text-right">Unit</span>
@@ -1057,7 +1056,12 @@ export const ApprovalAuditTrail: Story = {
                   date: "Jun 21, 2026",
                 },
               ].map(({ author, text, date }) => (
-                <StoryStack className="rounded-md border border-border" gap="xs" padding="md">
+                <StoryStack
+                  className="rounded-md border border-border"
+                  gap="xs"
+                  key={`${author}-${date}`}
+                  padding="md"
+                >
                   <StoryRow justify="between">
                     <span className="font-medium text-sm">{author}</span>
                     <span className="text-muted-foreground text-xs">

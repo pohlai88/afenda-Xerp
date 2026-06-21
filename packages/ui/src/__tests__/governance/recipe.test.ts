@@ -69,12 +69,12 @@ describe("recipe governance", () => {
     expect(resolveStatusClassName({ tone: "info", radius: "md" })).toContain(
       "group/status"
     );
-    expect(resolveFormControlClassName({ density: "compact", size: "sm" })).toContain(
-      "group/form-control"
-    );
-    expect(resolveTableClassName({ density: "comfortable", size: "md" })).toContain(
-      "group/table"
-    );
+    expect(
+      resolveFormControlClassName({ density: "compact", size: "sm" })
+    ).toContain("group/form-control");
+    expect(
+      resolveTableClassName({ density: "comfortable", size: "md" })
+    ).toContain("group/table");
   });
 
   it("rejects Button-only intent on Badge", () => {

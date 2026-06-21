@@ -23,7 +23,6 @@ import {
 import type { ComponentType } from "react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
-import { Label } from "./label";
 import {
   InputGroup,
   InputGroupAddon,
@@ -32,6 +31,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "./input-group";
+import { Label } from "./label";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -211,7 +211,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Root has `role=\"group\"`. Pair with a visible `Label` or `aria-label` on the input. Icon-only buttons need `aria-label`.",
+          'Root has `role="group"`. Pair with a visible `Label` or `aria-label` on the input. Icon-only buttons need `aria-label`.',
       },
     },
   },
@@ -301,11 +301,7 @@ export const CopyRecordId: Story = {
           <InputGroupAddon align="inline-start">
             <InputGroupText>INV-2026-</InputGroupText>
           </InputGroupAddon>
-          <InputGroupInput
-            defaultValue="0042"
-            id="ig-copy-id"
-            readOnly
-          />
+          <InputGroupInput defaultValue="0042" id="ig-copy-id" readOnly />
           <InputGroupAddon align="inline-end">
             <InputGroupButton aria-label="Copy invoice ID" size="icon-xs">
               <CopyIcon />
@@ -342,7 +338,7 @@ export const FilterBarSearch: Story = {
           </InputGroupAddon>
           <InputGroupInput placeholder="Filter invoices…" size="sm" />
         </InputGroup>
-        <InputGroup className="max-w-[10rem]">
+        <InputGroup className="max-w-40">
           <InputGroupAddon align="inline-start">
             <MutedIcon icon={CalendarIcon} />
           </InputGroupAddon>
@@ -684,7 +680,9 @@ export const InternalNotesTextarea: Story = {
           rows={4}
         />
         <InputGroupAddon align="block-end">
-          <InputGroupText>Not visible to vendor · Max 2,000 characters</InputGroupText>
+          <InputGroupText>
+            Not visible to vendor · Max 2,000 characters
+          </InputGroupText>
         </InputGroupAddon>
       </InputGroup>
     </StoryFrame>
@@ -745,7 +743,7 @@ export const InlinePoLineRow: Story = {
           </InputGroupAddon>
           <InputGroupInput placeholder="FAST-M8" size="sm" />
         </InputGroup>
-        <InputGroup className="min-w-[12rem] flex-1">
+        <InputGroup className="min-w-48 flex-1">
           <InputGroupInput placeholder="Description" size="sm" />
         </InputGroup>
         <InputGroup className="w-24">
@@ -777,7 +775,9 @@ export const InputGroupVsPlainInput: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">InputGroup — prefixed amount</span>
+          <span className="font-medium text-sm">
+            InputGroup — prefixed amount
+          </span>
           <InputGroup>
             <InputGroupAddon align="inline-start">
               <InputGroupText>$</InputGroupText>
@@ -789,7 +789,9 @@ export const InputGroupVsPlainInput: Story = {
           </InputGroup>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Plain Input — simple text field</span>
+          <span className="font-medium text-sm">
+            Plain Input — simple text field
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Input for standalone fields
           </span>
@@ -847,11 +849,15 @@ export const AllFormInputGroups: Story = {
             </span>
             <InputGroup className="flex-1">
               {"prefix" in row && row.prefix ? (
-                <InputGroupAddon align="inline-start">{row.prefix}</InputGroupAddon>
+                <InputGroupAddon align="inline-start">
+                  {row.prefix}
+                </InputGroupAddon>
               ) : null}
               <InputGroupInput placeholder={row.placeholder} />
               {"suffix" in row && row.suffix ? (
-                <InputGroupAddon align="inline-end">{row.suffix}</InputGroupAddon>
+                <InputGroupAddon align="inline-end">
+                  {row.suffix}
+                </InputGroupAddon>
               ) : null}
             </InputGroup>
           </StoryRow>

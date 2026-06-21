@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ChevronRight } from "lucide-react";
 
 import {
   Badge,
@@ -22,14 +23,12 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail,
-  SidebarTrigger,
 } from "@afenda/ui";
-import { ChevronRight } from "lucide-react";
+import SidebarUserDropdown from "./shadcn-studio/blocks/sidebar-user-dropdown";
 
+import LogoSvg from "./assets/svg/logo";
 import { AppShellContextSwitcher } from "./app-shell-context-switcher";
 import { resolveAppShellNavIcon } from "./app-shell-nav-icons";
-import { AppShellUserMenu } from "./app-shell-user-menu";
 import {
   type AppShellContextSwitcherState,
   type AppShellIdentity,
@@ -99,6 +98,23 @@ function resolveNavTooltip(
   return item.label;
 }
 
+function resolveInitials(displayName: string): string {
+  const parts = displayName.trim().split(/\s+/).filter(Boolean);
+
+  if (parts.length === 0) {
+    return "?";
+  }
+
+  if (parts.length === 1) {
+    return parts[0]?.slice(0, 2).toUpperCase() ?? "?";
+  }
+
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.at(-1)?.[0] ?? "";
+
+  return `${first}${last}`.toUpperCase();
+}
+
 function AppShellNavItemBadge({ item }: { item: AppShellNavItem }) {
   const state = resolveAppShellNavItemState(item);
 
@@ -131,9 +147,8 @@ function AppShellNavLinkContent({ item }: { item: AppShellNavItem }) {
 
   return (
     <>
-      <Icon className="size-4 shrink-0" />
-      <span className="truncate">{item.label}</span>
-      <AppShellNavItemBadge item={item} />
+      <Icon aria-hidden />
+      <span>{item.label}</span>
       {state === "disabled" ? (
         <Badge emphasis="outline" size="sm" tone="neutral">
           Off
@@ -154,10 +169,11 @@ function AppShellNavMenuItem({
   item: AppShellNavItem;
   items: readonly AppShellNavItem[];
 }) {
-  const isActive = resolveAppShellActiveNavItemId(items, {
-    ...(activeItemId === undefined ? {} : { activeItemId }),
-    ...(currentPathname === undefined ? {} : { currentPathname }),
-  }) === item.id;
+  const isActive =
+    resolveAppShellActiveNavItemId(items, {
+      ...(activeItemId === undefined ? {} : { activeItemId }),
+      ...(currentPathname === undefined ? {} : { currentPathname }),
+    }) === item.id;
   const childItems = filterVisibleAppShellNavItems(item.children ?? []);
   const hasChildren = childItems.length > 0;
   const isNavigable = isAppShellNavItemNavigable(item);
@@ -165,18 +181,15 @@ function AppShellNavMenuItem({
 
   if (hasChildren) {
     return (
-      <SidebarMenuItem
-        data-nav-kind={item.kind}
-        data-nav-order={item.order}
-      >
-        <Collapsible
-          className="group/collapsible"
-          defaultOpen={isActive}
-        >
+      <Collapsible defaultOpen={isActive}>
+        <SidebarMenuItem data-nav-kind={item.kind} data-nav-order={item.order}>
           <CollapsibleTrigger asChild>
-            <SidebarMenuButton isActive={isActive} tooltip={tooltip}>
+            <SidebarMenuButton
+              isActive={isActive}
+              {...(tooltip ? { tooltip } : {})}
+            >
               <AppShellNavLinkContent item={item} />
-              <ChevronRight className="ml-auto size-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+              <ChevronRight aria-hidden />
             </SidebarMenuButton>
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -191,13 +204,13 @@ function AppShellNavMenuItem({
                       ? {}
                       : { currentPathname }),
                   })}
-                  key={child.id}
+                  key={`${child.id}-${child.href}-${child.label}`}
                 />
               ))}
             </SidebarMenuSub>
           </CollapsibleContent>
-        </Collapsible>
-      </SidebarMenuItem>
+        </SidebarMenuItem>
+      </Collapsible>
     );
   }
 
@@ -207,7 +220,7 @@ function AppShellNavMenuItem({
         {...(isNavigable ? { asChild: true } : {})}
         disabled={!isNavigable}
         isActive={isActive}
-        tooltip={tooltip}
+        {...(tooltip ? { tooltip } : {})}
       >
         {isNavigable ? (
           <Link
@@ -221,6 +234,7 @@ function AppShellNavMenuItem({
           <AppShellNavLinkContent item={item} />
         )}
       </SidebarMenuButton>
+      <AppShellNavItemBadge item={item} />
     </SidebarMenuItem>
   );
 }
@@ -257,10 +271,22 @@ function AppShellNavSubMenuItem({
             href={item.href}
             title={tooltip}
           >
-            <span className="truncate">{item.label}</span>
+            <span>{item.label}</span>
+            {item.badgeLabel ? (
+              <span className="bg-primary/10 flex h-5 min-w-5 items-center justify-center rounded-full text-xs">
+                {item.badgeLabel}
+              </span>
+            ) : null}
           </Link>
         ) : (
-          <span className="truncate">{item.label}</span>
+          <>
+            <span>{item.label}</span>
+            {item.badgeLabel ? (
+              <span className="bg-primary/10 flex h-5 min-w-5 items-center justify-center rounded-full text-xs">
+                {item.badgeLabel}
+              </span>
+            ) : null}
+          </>
         )}
       </SidebarMenuSubButton>
     </SidebarMenuSubItem>
@@ -275,25 +301,27 @@ export function AppShellSidebar({
   contextSwitcherCompact = true,
   contextSwitcherState,
   identity,
-  identityAccessory,
   onContextSwitchRequest,
 }: AppShellSidebarProps) {
   const navGroups = groupAppShellNavItemsByKind(items);
+  const avatarFallback = identity
+    ? resolveInitials(identity.displayName)
+    : "CN";
 
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
-        <div className="flex flex-col gap-2 p-2">
-          <div className="flex items-center gap-2 px-1">
-            <SidebarTrigger />
-            <Link
-              aria-label="Afenda ERP home"
-              className="truncate font-semibold tracking-tight"
-              href="/"
-            >
-              Afenda ERP
-            </Link>
-          </div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild size="lg">
+              <Link aria-label="Afenda ERP home" href="/">
+                <LogoSvg />
+                <span>Afenda ERP</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <div className="mt-3 px-2 sm:hidden">
           <AppShellContextSwitcher
             compact={contextSwitcherCompact}
             {...(onContextSwitchRequest === undefined
@@ -339,16 +367,13 @@ export function AppShellSidebar({
 
       {identity ? (
         <SidebarFooter>
-          <AppShellUserMenu
-            identity={identity}
-            {...(identityAccessory === undefined
-              ? {}
-              : { identityAccessory })}
+          <SidebarUserDropdown
+            avatarFallback={avatarFallback}
+            displayName={identity.displayName}
+            roleLabel={identity.email}
           />
         </SidebarFooter>
       ) : null}
-
-      <SidebarRail />
     </Sidebar>
   );
 }

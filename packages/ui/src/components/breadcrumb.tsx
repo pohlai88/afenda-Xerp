@@ -1,18 +1,20 @@
-import * as React from "react";
-import { Slot } from "radix-ui";
+import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
-
-import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Slot } from "radix-ui";
+import * as React from "react";
 
 const BREADCRUMB_RECIPE_NAME = "surface" as const;
 
-const BreadcrumbEllipsisLabel = createGovernedSpanSlot("BreadcrumbEllipsisLabel", {
-  componentName: "Breadcrumb",
-  recipeName: BREADCRUMB_RECIPE_NAME,
-  slotKey: "ellipsis-label",
-});
+const BreadcrumbEllipsisLabel = createGovernedSpanSlot(
+  "BreadcrumbEllipsisLabel",
+  {
+    componentName: "Breadcrumb",
+    recipeName: BREADCRUMB_RECIPE_NAME,
+    slotKey: "ellipsis-label",
+  }
+);
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -52,9 +54,7 @@ const BreadcrumbList = React.forwardRef<
     className,
   });
 
-  return (
-    <ol ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <ol ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 BreadcrumbList.displayName = "BreadcrumbList";
@@ -72,9 +72,7 @@ const BreadcrumbItem = React.forwardRef<
     className,
   });
 
-  return (
-    <li ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <li ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 BreadcrumbItem.displayName = "BreadcrumbItem";
@@ -95,9 +93,7 @@ const BreadcrumbLink = React.forwardRef<
 
   const Comp = asChild ? Slot.Root : "a";
 
-  return (
-    <Comp ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <Comp ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 BreadcrumbLink.displayName = "BreadcrumbLink";
@@ -119,7 +115,12 @@ const BreadcrumbPage = React.forwardRef<
     <span
       ref={ref}
       {...applyGovernedPresentation(
-        { ...props, role: "link", "aria-disabled": true, "aria-current": "page" },
+        {
+          ...props,
+          role: "link",
+          "aria-disabled": true,
+          "aria-current": "page",
+        },
         governed
       )}
     />
@@ -187,10 +188,10 @@ BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
 
 export {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
 };

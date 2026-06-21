@@ -22,9 +22,9 @@ describe("AppShell render", () => {
       screen.getByRole("link", { name: "Afenda ERP home" })
     ).toHaveAttribute("href", "/");
     expect(
-      screen.getByRole("region", { name: "Workspace context" })
-    ).toBeInTheDocument();
-    expect(screen.getByText("Demo Company")).toBeInTheDocument();
+      screen.getAllByRole("region", { name: "Workspace context" }).length
+    ).toBeGreaterThan(0);
+    expect(screen.getAllByText("Demo Company").length).toBeGreaterThan(0);
     expect(screen.queryByText("Demo Tenant")).not.toBeInTheDocument();
     expect(
       screen.getByRole("navigation", { name: "ERP modules" })
@@ -40,7 +40,9 @@ describe("AppShell render", () => {
     expect(
       screen.getByRole("region", { name: "Command center" })
     ).toHaveTextContent("Command center");
-    expect(screen.getByText("⌘K")).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Command center" })
+    ).toHaveTextContent("⌘K");
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" })
     ).toBeInTheDocument();

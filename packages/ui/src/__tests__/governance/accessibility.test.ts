@@ -42,14 +42,14 @@ describe("accessibility governance", () => {
   it("registers Field and Table accessibility definitions", () => {
     expect(hasComponentAccessibilityDefinition("Field")).toBe(true);
     expect(hasComponentAccessibilityDefinition("Table")).toBe(true);
-    expect(getComponentAccessibilityDefinition("Field").requirements.length).toBeGreaterThan(
-      0
-    );
+    expect(
+      getComponentAccessibilityDefinition("Field").requirements.length
+    ).toBeGreaterThan(0);
   });
 
   it("rejects unknown governed components in development", () => {
-    expect(() =>
-      getComponentAccessibilityRequirement("FancyButton")
-    ).toThrow("TIP-004 accessibility policy violation");
+    expect(() => getComponentAccessibilityRequirement("FancyButton")).toThrow(
+      "TIP-004 accessibility policy violation"
+    );
   });
 });

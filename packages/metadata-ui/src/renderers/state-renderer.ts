@@ -12,7 +12,7 @@ export const resolveMetadataStatePresentation = (
 ): MetadataStatePresentation => ({
   recipe: "status-state",
   recipeAvailable: recipeRegistry.recipes.some(
-    (recipe) => recipe.name === "status-state"
+    (recipe) => recipe.name === "status"
   ),
   state,
 });

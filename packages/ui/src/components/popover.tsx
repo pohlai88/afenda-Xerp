@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Popover as PopoverPrimitive } from "radix-ui";
-
-import type { GovernedSurfaceProps, SlotRole } from "@/governance";
-import { createGovernedDivSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const POPOVER_RECIPE_NAME = "surface" as const;
 
@@ -30,9 +29,9 @@ function PopoverTrigger({
 
 export interface PopoverContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>,
+      "className"
+    >,
     GovernedSurfaceProps {
   readonly className?: string;
 }
@@ -65,7 +64,10 @@ const PopoverContent = React.forwardRef<
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
           ref={ref}
-          {...applyGovernedPresentation({ ...props, align, sideOffset }, governed)}
+          {...applyGovernedPresentation(
+            { ...props, align, sideOffset },
+            governed
+          )}
         />
       </PopoverPrimitive.Portal>
     );
@@ -108,9 +110,7 @@ const PopoverDescription = React.forwardRef<
     className,
   });
 
-  return (
-    <p ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <p ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 PopoverDescription.displayName = "PopoverDescription";

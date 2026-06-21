@@ -43,9 +43,7 @@ export function resolveSlotRole(
 export function getUnknownSlotRoles(
   slots: readonly SlotContract[]
 ): readonly string[] {
-  return slots
-    .map((slot) => slot.role)
-    .filter((role) => !isSlotRole(role));
+  return slots.map((slot) => slot.role).filter((role) => !isSlotRole(role));
 }
 
 export function assertSlotContract(slots: readonly SlotContract[]): void {

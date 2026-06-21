@@ -67,6 +67,10 @@ jobs:
       - name: Gate 3b · UI governance
         run: pnpm --filter @afenda/ui check:governance
 
+      # ── Gate 3c · Appshell consumer-layer TIP-004 ─────────────────────────
+      - name: Gate 3c · appshell governance (TIP-004 consumption)
+        run: pnpm --filter @afenda/appshell check:governance
+
       # ── Gate 4 · Build Safety ─────────────────────────────────────────────
       - name: Gate 4 · build
         run: pnpm build

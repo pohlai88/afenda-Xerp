@@ -1,10 +1,8 @@
 "use client";
 
-import {
-  flexRender,
-  type Table as TanstackTable,
-} from "@tanstack/react-table";
-
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -12,16 +10,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "#/components/table";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+} from "./table";
 
 const DATA_TABLE_RECIPE_NAME = "table" as const;
 
 interface DataTableProps<TData> {
-  table: TanstackTable<TData>;
   className?: string;
   emptyMessage?: string;
+  table: TanstackTable<TData>;
 }
 
 function DataTable<TData>({
@@ -65,8 +61,8 @@ function DataTable<TData>({
           {table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                key={row.id}
                 data-state={row.getIsSelected() ? "selected" : undefined}
+                key={row.id}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -91,5 +87,5 @@ function DataTable<TData>({
   );
 }
 
-export { DataTable };
 export type { DataTableProps };
+export { DataTable };

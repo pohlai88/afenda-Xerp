@@ -8,7 +8,9 @@ function formatGovernedStateViolation(state: string): string {
   )}. UI components must use design-system governed states only; domain workflow states must be mapped before reaching @afenda/ui.`;
 }
 
-function formatGovernedStateContractViolation(states: readonly string[]): string {
+function formatGovernedStateContractViolation(
+  states: readonly string[]
+): string {
   return `TIP-004 state contract violation. Unsupported governed states: ${states.join(
     ", "
   )}. Allowed states: ${GOVERNED_STATES.join(

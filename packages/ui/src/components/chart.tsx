@@ -1,12 +1,11 @@
 "use client";
 
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
-import * as RechartsPrimitive from "recharts";
 import type { TooltipValueType } from "recharts";
-
-import { cn } from "#/lib/utils";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as RechartsPrimitive from "recharts";
 
 const CHART_RECIPE_NAME = "surface" as const;
 
@@ -26,9 +25,9 @@ export type ChartConfig = Record<
   )
 >;
 
-type ChartContextProps = {
+interface ChartContextProps {
   readonly config: ChartConfig;
-};
+}
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
@@ -54,18 +53,20 @@ function chartGovernance(
     recipeName: CHART_RECIPE_NAME,
     slot,
     ...(options?.slotKey === undefined ? {} : { slotKey: options.slotKey }),
-    ...(options?.className === undefined ? {} : { className: options.className }),
+    ...(options?.className === undefined
+      ? {}
+      : { className: options.className }),
   });
 }
 
 interface ChartContainerProps
   extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
-  readonly className?: string;
-  readonly id?: string;
-  readonly config: ChartConfig;
   readonly children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
+  readonly className?: string;
+  readonly config: ChartConfig;
+  readonly id?: string;
   readonly initialDimension?: {
     readonly width: number;
     readonly height: number;
@@ -92,10 +93,14 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
       <ChartContext.Provider value={{ config }}>
         <div
           ref={ref}
-          {...applyGovernedPresentation(props, governed, { "data-chart": chartId })}
+          {...applyGovernedPresentation(props, governed, {
+            "data-chart": chartId,
+          })}
         >
-          <ChartStyle id={chartId} config={config} />
-          <RechartsPrimitive.ResponsiveContainer initialDimension={initialDimension}>
+          <ChartStyle config={config} id={chartId} />
+          <RechartsPrimitive.ResponsiveContainer
+            initialDimension={initialDimension}
+          >
             {children}
           </RechartsPrimitive.ResponsiveContainer>
         </div>
@@ -106,7 +111,13 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 
 ChartContainer.displayName = "ChartContainer";
 
-const ChartStyle = ({ id, config }: { readonly id: string; readonly config: ChartConfig }) => {
+const ChartStyle = ({
+  id,
+  config,
+}: {
+  readonly id: string;
+  readonly config: ChartConfig;
+}) => {
   const colorConfig = Object.entries(config).filter(
     ([, itemConfig]) => itemConfig.theme ?? itemConfig.color
   );
@@ -188,7 +199,10 @@ function ChartTooltipContent({
 
     if (labelFormatter) {
       return (
-        <div {...labelClass.dataAttributes} className={cn(labelClass.className)}>
+        <div
+          {...labelClass.dataAttributes}
+          className={cn(labelClass.className)}
+        >
           {labelFormatter(value, payload)}
         </div>
       );
@@ -214,7 +228,7 @@ function ChartTooltipContent({
     labelKey,
   ]);
 
-  if (!active || !payload?.length) {
+  if (!(active && payload?.length)) {
     return null;
   }
 
@@ -227,7 +241,9 @@ function ChartTooltipContent({
   const rowFooter = chartGovernance("footer", {
     slotKey: nestLabel ? "tooltip-label-end" : "tooltip-label-center",
   });
-  const labelGrid = chartGovernance("content", { slotKey: "tooltip-label-grid" });
+  const labelGrid = chartGovernance("content", {
+    slotKey: "tooltip-label-grid",
+  });
   const itemLabel = chartGovernance("state");
   const itemValue = chartGovernance("actions");
 
@@ -240,7 +256,7 @@ function ChartTooltipContent({
 
   return (
     <div {...tooltipRoot.dataAttributes} className={cn(tooltipRoot.className)}>
-      {!nestLabel ? tooltipLabel : null}
+      {nestLabel ? null : tooltipLabel}
       <div {...list.dataAttributes} className={cn(list.className)}>
         {payload
           .filter((item) => item.type !== "none")
@@ -253,7 +269,9 @@ function ChartTooltipContent({
             });
             const dashedNested =
               nestLabel && indicator === "dashed"
-                ? chartGovernance("control", { slotKey: "indicator-dashed-nested" })
+                ? chartGovernance("control", {
+                    slotKey: "indicator-dashed-nested",
+                  })
                 : null;
 
             return (
@@ -285,15 +303,27 @@ function ChartTooltipContent({
                         />
                       )
                     )}
-                    <div {...rowFooter.dataAttributes} className={cn(rowFooter.className)}>
-                      <div {...labelGrid.dataAttributes} className={cn(labelGrid.className)}>
+                    <div
+                      {...rowFooter.dataAttributes}
+                      className={cn(rowFooter.className)}
+                    >
+                      <div
+                        {...labelGrid.dataAttributes}
+                        className={cn(labelGrid.className)}
+                      >
                         {nestLabel ? tooltipLabel : null}
-                        <span {...itemLabel.dataAttributes} className={cn(itemLabel.className)}>
+                        <span
+                          {...itemLabel.dataAttributes}
+                          className={cn(itemLabel.className)}
+                        >
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
                       {item.value != null && (
-                        <span {...itemValue.dataAttributes} className={cn(itemValue.className)}>
+                        <span
+                          {...itemValue.dataAttributes}
+                          className={cn(itemValue.className)}
+                        >
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
                             : String(item.value)}
@@ -308,7 +338,7 @@ function ChartTooltipContent({
       </div>
     </div>
   );
-};
+}
 
 const ChartLegend = RechartsPrimitive.Legend;
 
@@ -374,7 +404,7 @@ function getPayloadConfigFromPayload(
   key: string
 ) {
   if (typeof payload !== "object" || payload === null) {
-    return undefined;
+    return;
   }
 
   const payloadPayload =
@@ -406,9 +436,9 @@ function getPayloadConfigFromPayload(
 
 export {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
 };

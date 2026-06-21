@@ -29,15 +29,9 @@ import {
 
 const TEXT_LINE_WIDTHS = ["100%", "92%", "78%", "64%"] as const;
 
-function SkeletonAvatar({
-  size = "2.5rem",
-}: {
-  readonly size?: string;
-}) {
+function SkeletonAvatar({ size = "2.5rem" }: { readonly size?: string }) {
   return (
-    <Skeleton
-      style={{ height: size, width: size, borderRadius: "50%" }}
-    />
+    <Skeleton style={{ height: size, width: size, borderRadius: "50%" }} />
   );
 }
 
@@ -51,11 +45,7 @@ function SkeletonLine({
   return <Skeleton style={{ height, width }} />;
 }
 
-function SkeletonButton({
-  width = "5rem",
-}: {
-  readonly width?: string;
-}) {
+function SkeletonButton({ width = "5rem" }: { readonly width?: string }) {
   return <Skeleton style={{ height: "2rem", width }} />;
 }
 
@@ -71,9 +61,7 @@ function SkeletonTextBlock({
       {Array.from({ length: lines }, (_, index) => {
         const width =
           TEXT_LINE_WIDTHS[index % TEXT_LINE_WIDTHS.length] ?? "100%";
-        return (
-          <SkeletonLine height={lineHeight} key={index} width={width} />
-        );
+        return <SkeletonLine height={lineHeight} key={index} width={width} />;
       })}
     </StoryStack>
   );
@@ -180,7 +168,9 @@ function ControlledRecordLoadDemo() {
                 </span>
               </StoryStack>
               <StoryRow gap="sm">
-                <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+                <Badge emphasis="soft" tone="warning">
+                  Awaiting payment
+                </Badge>
                 <Button emphasis="outline" intent="primary" size="sm">
                   Pay now
                 </Button>
@@ -307,7 +297,10 @@ export const GovernanceAllStates: Story = {
             <span className="font-mono text-muted-foreground text-xs">
               state=&quot;{state}&quot;
             </span>
-            <Skeleton state={state} style={{ height: "0.75rem", width: "12rem" }} />
+            <Skeleton
+              state={state}
+              style={{ height: "0.75rem", width: "12rem" }}
+            />
           </StoryStack>
         </StoryFrame>
       ))}
@@ -555,7 +548,7 @@ export const DocumentPreview: Story = {
             borderRadius: "0.375rem",
           }}
         />
-        <SkeletonTextBlock lines={2} lineHeight="0.625rem" />
+        <SkeletonTextBlock lineHeight="0.625rem" lines={2} />
       </StoryStack>
     </StoryFrame>
   ),
@@ -570,9 +563,10 @@ export const SearchResultsList: Story = {
         <SkeletonLine height="0.625rem" width="40%" />
         {Array.from({ length: 5 }, (_, index) => (
           <StoryStack
-            className="border-border border-b pb-3"
+            className="border-border border-b"
             gap="xs"
             key={index}
+            paddingY="sm"
           >
             <SkeletonLine height="0.875rem" width="70%" />
             <SkeletonLine height="0.625rem" width="90%" />
@@ -603,7 +597,7 @@ export const ApprovalQueueCards: Story = {
               </StoryRow>
             </CardHeader>
             <CardContent>
-              <SkeletonTextBlock lines={2} lineHeight="0.625rem" />
+              <SkeletonTextBlock lineHeight="0.625rem" lines={2} />
             </CardContent>
             <CardFooter>
               <StoryRow gap="sm">
@@ -648,9 +642,9 @@ export const MasterDetailLayout: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <div className="grid grid-cols-[14rem_1fr] gap-4">
+      <StoryRow align="start" gap="md">
         <StoryStack
-          className="rounded-md border border-border"
+          className="w-56 rounded-md border border-border"
           gap="sm"
           padding="sm"
         >
@@ -661,7 +655,7 @@ export const MasterDetailLayout: Story = {
             </StoryStack>
           ))}
         </StoryStack>
-        <StoryStack gap="md">
+        <StoryStack className="flex-1" gap="md">
           <RecordHeaderLoading />
           <SkeletonTextBlock lines={5} />
           <SkeletonTableRows
@@ -669,7 +663,7 @@ export const MasterDetailLayout: Story = {
             rows={4}
           />
         </StoryStack>
-      </div>
+      </StoryRow>
     </StoryFrame>
   ),
 };
@@ -734,7 +728,9 @@ export const ExportJobPreview: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Exporting invoices</CardTitle>
-          <CardDescription>284 records · CSV · Finance workspace</CardDescription>
+          <CardDescription>
+            284 records · CSV · Finance workspace
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <StoryStack gap="md">
@@ -832,12 +828,16 @@ export const SkeletonVsSpinner: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Skeleton — invoice list loading</span>
+          <span className="font-medium text-sm">
+            Skeleton — invoice list loading
+          </span>
           <SkeletonLine height="0.75rem" width="70%" />
           <SkeletonLine height="0.625rem" width="90%" />
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Spinner — posting payment batch</span>
+          <span className="font-medium text-sm">
+            Spinner — posting payment batch
+          </span>
           <StoryRow align="center" gap="sm">
             <Spinner />
             <span className="text-muted-foreground text-sm">
@@ -892,7 +892,9 @@ export const SkeletonVsProgress: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Layout placeholder (Skeleton)</span>
+          <span className="font-medium text-sm">
+            Layout placeholder (Skeleton)
+          </span>
           <Skeleton
             style={{ height: "6rem", width: "100%", borderRadius: "0.375rem" }}
           />

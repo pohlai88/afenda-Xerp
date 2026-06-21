@@ -1,19 +1,19 @@
 import {
   ACCESSIBILITY_REQUIREMENTS,
-  accessibilityPolicy,
   type AccessibilityContract,
   type AccessibilityRequirement,
+  accessibilityPolicy,
 } from "./design-system";
 import { isDevelopment } from "./dev-env";
 import {
-  isGovernedUiComponentName,
   type GovernedUiComponentName,
+  isGovernedUiComponentName,
 } from "./types";
 
 export interface ComponentAccessibilityDefinition {
   readonly componentName: GovernedUiComponentName;
-  readonly requirements: readonly AccessibilityRequirement[];
   readonly rationale: string;
+  readonly requirements: readonly AccessibilityRequirement[];
 }
 
 const componentAccessibilityRegistry = Object.freeze({
@@ -369,11 +369,7 @@ function formatUnknownComponentViolation(componentName: string): string {
 }
 
 export function getComponentAccessibilityRequirement(
-  componentName: GovernedUiComponentName
-): readonly AccessibilityRequirement[];
-
-export function getComponentAccessibilityRequirement(
-  componentName: string
+  componentName: string | GovernedUiComponentName
 ): readonly AccessibilityRequirement[];
 
 export function getComponentAccessibilityRequirement(

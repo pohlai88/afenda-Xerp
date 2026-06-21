@@ -1,8 +1,4 @@
-import {
-  DENSITIES,
-  GOVERNED_STATES,
-  SIZES,
-} from "@afenda/ui/governance";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
@@ -49,7 +45,9 @@ function ValidatedEmployeeIdField() {
       />
       <FieldDescription>Format: EMP- followed by 4 digits.</FieldDescription>
       {invalid ? (
-        <FieldError errors={[{ message: "Employee ID must be at least 4 characters" }]} />
+        <FieldError
+          errors={[{ message: "Employee ID must be at least 4 characters" }]}
+        />
       ) : null}
     </Field>
   );
@@ -137,7 +135,9 @@ export const Responsive: Story = {
       <Field {...args}>
         <FieldLabel htmlFor="field-responsive">Department</FieldLabel>
         <Input id="field-responsive" placeholder="Engineering" />
-        <FieldDescription>Stacks vertically on narrow viewports.</FieldDescription>
+        <FieldDescription>
+          Stacks vertically on narrow viewports.
+        </FieldDescription>
       </Field>
     </StoryFrame>
   ),
@@ -182,7 +182,9 @@ export const Disabled: Story = {
       <Field {...args}>
         <FieldLabel htmlFor="field-disabled">Disabled field</FieldLabel>
         <Input disabled id="field-disabled" placeholder="Unavailable" />
-        <FieldDescription>This field is read-only for your role.</FieldDescription>
+        <FieldDescription>
+          This field is read-only for your role.
+        </FieldDescription>
       </Field>
     </StoryFrame>
   ),
@@ -262,17 +264,21 @@ export const AllOrientations: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryStack gap="lg">
-      {(["vertical", "horizontal", "responsive"] as const).map((orientation) => (
-        <StoryStack gap="xs" key={orientation}>
-          <span className="font-medium text-muted-foreground text-xs">
-            orientation=&quot;{orientation}&quot;
-          </span>
-          <Field orientation={orientation}>
-            <FieldLabel htmlFor={`ori-${orientation}`}>Cost centre</FieldLabel>
-            <Input id={`ori-${orientation}`} placeholder="CC-100" />
-          </Field>
-        </StoryStack>
-      ))}
+      {(["vertical", "horizontal", "responsive"] as const).map(
+        (orientation) => (
+          <StoryStack gap="xs" key={orientation}>
+            <span className="font-medium text-muted-foreground text-xs">
+              orientation=&quot;{orientation}&quot;
+            </span>
+            <Field orientation={orientation}>
+              <FieldLabel htmlFor={`ori-${orientation}`}>
+                Cost centre
+              </FieldLabel>
+              <Input id={`ori-${orientation}`} placeholder="CC-100" />
+            </Field>
+          </StoryStack>
+        )
+      )}
     </StoryStack>
   ),
 };
@@ -285,7 +291,11 @@ export const AllDensities: Story = {
       {DENSITIES.map((density) => (
         <Field density={density} key={density}>
           <FieldLabel htmlFor={`density-${density}`}>{density}</FieldLabel>
-          <Input density={density} id={`density-${density}`} placeholder="Value" />
+          <Input
+            density={density}
+            id={`density-${density}`}
+            placeholder="Value"
+          />
         </Field>
       ))}
     </StoryStack>
@@ -400,7 +410,11 @@ export const EmployeeRecordForm: Story = {
         </StoryRow>
         <Field>
           <FieldLabel htmlFor="emp-email">Work email *</FieldLabel>
-          <Input id="emp-email" placeholder="jane.doe@company.com" type="email" />
+          <Input
+            id="emp-email"
+            placeholder="jane.doe@company.com"
+            type="email"
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="emp-dept">Department</FieldLabel>
@@ -444,7 +458,9 @@ export const VendorContactForm: Story = {
         <Field>
           <FieldLabel htmlFor="vendor-email">Accounts email</FieldLabel>
           <Input id="vendor-email" placeholder="ap@acme.example" type="email" />
-          <FieldDescription>Used for invoice delivery and payment remittance.</FieldDescription>
+          <FieldDescription>
+            Used for invoice delivery and payment remittance.
+          </FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="vendor-tax">Tax ID / ABN</FieldLabel>
@@ -464,7 +480,10 @@ export const InvoiceLineItemField: Story = {
         <FieldTitle>Line item</FieldTitle>
         <Field>
           <FieldLabel htmlFor="line-desc">Description *</FieldLabel>
-          <Input id="line-desc" placeholder="Consulting services — March 2026" />
+          <Input
+            id="line-desc"
+            placeholder="Consulting services — March 2026"
+          />
         </Field>
         <StoryRow gap="md" wrap>
           <Field className="flex-1">
@@ -518,7 +537,10 @@ export const PurchaseOrderField: Story = {
         </Field>
         <Field>
           <FieldLabel htmlFor="po-notes">Buyer notes</FieldLabel>
-          <Textarea id="po-notes" placeholder="Delivery instructions or special terms…" />
+          <Textarea
+            id="po-notes"
+            placeholder="Delivery instructions or special terms…"
+          />
         </Field>
       </FieldSet>
     </StoryFrame>
@@ -534,7 +556,8 @@ export const GLAccountField: Story = {
         <FieldLabel htmlFor="gl-account">GL account *</FieldLabel>
         <Input id="gl-account" placeholder="6100 — Office Supplies" />
         <FieldDescription>
-          Must be an active account in the current fiscal year chart of accounts.
+          Must be an active account in the current fiscal year chart of
+          accounts.
         </FieldDescription>
       </Field>
     </StoryFrame>
@@ -593,8 +616,15 @@ export const FormValidationErrors: Story = {
         <FieldLegend>Submit expense report</FieldLegend>
         <Field state="error">
           <FieldLabel htmlFor="val-amount">Amount *</FieldLabel>
-          <Input id="val-amount" placeholder="0.00" state="error" type="number" />
-          <FieldError errors={[{ message: "Amount must be greater than zero" }]} />
+          <Input
+            id="val-amount"
+            placeholder="0.00"
+            state="error"
+            type="number"
+          />
+          <FieldError
+            errors={[{ message: "Amount must be greater than zero" }]}
+          />
         </Field>
         <Field state="error">
           <FieldLabel htmlFor="val-date">Expense date *</FieldLabel>
@@ -626,7 +656,12 @@ export const PermissionRestrictedField: Story = {
     <StoryFrame width="md">
       <Field>
         <FieldLabel htmlFor="restricted-salary">Annual salary</FieldLabel>
-        <Input disabled id="restricted-salary" placeholder="Restricted" value="—" />
+        <Input
+          disabled
+          id="restricted-salary"
+          placeholder="Restricted"
+          value="—"
+        />
         <FieldDescription>
           You need HR Admin permission to view or edit compensation fields.
         </FieldDescription>
@@ -708,7 +743,11 @@ export const MultiSectionForm: Story = {
         <FieldSeparator>Billing</FieldSeparator>
         <Field>
           <FieldLabel htmlFor="cust-billing-email">Billing email</FieldLabel>
-          <Input id="cust-billing-email" placeholder="billing@northwind.example" type="email" />
+          <Input
+            id="cust-billing-email"
+            placeholder="billing@northwind.example"
+            type="email"
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="cust-terms">Payment terms</FieldLabel>
@@ -727,8 +766,12 @@ export const MultiSectionForm: Story = {
         <Field orientation="horizontal">
           <Switch defaultChecked id="cust-portal" />
           <FieldContent>
-            <FieldLabel htmlFor="cust-portal">Customer portal access</FieldLabel>
-            <FieldDescription>Allow self-service invoice downloads.</FieldDescription>
+            <FieldLabel htmlFor="cust-portal">
+              Customer portal access
+            </FieldLabel>
+            <FieldDescription>
+              Allow self-service invoice downloads.
+            </FieldDescription>
           </FieldContent>
         </Field>
       </FieldSet>
@@ -743,7 +786,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Every control needs a `FieldLabel` with matching `htmlFor`/`id`. `FieldError` renders `role=\"alert\"`. Field root uses `role=\"group\"`.",
+          'Every control needs a `FieldLabel` with matching `htmlFor`/`id`. `FieldError` renders `role="alert"`. Field root uses `role="group"`.',
       },
     },
   },
@@ -751,8 +794,16 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="md">
       <Field state="error">
         <FieldLabel htmlFor="a11y-email">Work email *</FieldLabel>
-        <Input aria-invalid id="a11y-email" placeholder="name@company.com" state="error" type="email" />
-        <FieldError errors={[{ message: "Enter a valid company email address" }]} />
+        <Input
+          aria-invalid
+          id="a11y-email"
+          placeholder="name@company.com"
+          state="error"
+          type="email"
+        />
+        <FieldError
+          errors={[{ message: "Enter a valid company email address" }]}
+        />
       </Field>
     </StoryFrame>
   ),

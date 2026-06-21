@@ -50,11 +50,11 @@ export function isGovernedPanelShadow(
 
 /** Governed variant props for Button. */
 export interface GovernedButtonProps {
-  readonly intent?: VariantIntent;
-  readonly emphasis?: VariantEmphasis;
-  readonly size?: GovernedSize;
   readonly density?: Density;
+  readonly emphasis?: VariantEmphasis;
+  readonly intent?: VariantIntent;
   readonly presentation?: "default" | "icon";
+  readonly size?: GovernedSize;
   readonly state?: GovernedState;
 }
 
@@ -65,11 +65,11 @@ export interface GovernedButtonProps {
  * Badge styling is driven by tone, emphasis, density, and size only.
  */
 export interface GovernedBadgeProps {
-  readonly tone?: StatusTone;
-  readonly emphasis?: VariantEmphasis;
   readonly density?: Density;
+  readonly emphasis?: VariantEmphasis;
   readonly size?: GovernedSize;
   readonly state?: GovernedState;
+  readonly tone?: StatusTone;
 }
 
 /** Governed variant props for Card. */
@@ -120,10 +120,10 @@ export interface GovernedAccordionProps {
 
 /** Governed variant props for status and alert presentation. */
 export interface GovernedStatusProps {
-  readonly tone?: StatusTone;
   readonly density?: Density;
   readonly radius?: GovernedPanelRadius;
   readonly state?: GovernedState;
+  readonly tone?: StatusTone;
 }
 
 /** Governed variant props for form field groups. */
@@ -148,9 +148,9 @@ export type GovernedToggleSize = "default" | "sm" | "lg";
 
 /** Governed variant props for Toggle and ToggleGroup items. */
 export interface GovernedToggleProps {
-  readonly variant?: GovernedToggleVariant;
   readonly size?: GovernedToggleSize;
   readonly state?: GovernedState;
+  readonly variant?: GovernedToggleVariant;
 }
 
 /** Empty media presentation variant — stock shadcn parity. */

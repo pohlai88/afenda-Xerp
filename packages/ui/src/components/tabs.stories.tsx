@@ -91,7 +91,7 @@ function MetadataGrid({
   return (
     <StoryRow gap="lg" wrap>
       {items.map(([label, value]) => (
-        <StoryStack className="min-w-[140px] flex-1" gap="xs" key={label}>
+        <StoryStack className="min-w-36 flex-1" gap="xs" key={label}>
           <span className="text-muted-foreground text-xs">{label}</span>
           <span className="font-medium text-sm">{value}</span>
         </StoryStack>
@@ -263,7 +263,11 @@ export const VerticalOrientation: Story = {
   name: "Tabs — Vertical Settings Nav",
   render: () => (
     <StoryFrame width="xl">
-      <Tabs className="flex gap-4" defaultValue="general" orientation="vertical">
+      <Tabs
+        className="flex gap-4"
+        defaultValue="general"
+        orientation="vertical"
+      >
         <TabsList className="flex flex-col">
           <TabsTrigger value="general">
             <SettingsIcon aria-hidden="true" className="size-4" />
@@ -318,12 +322,16 @@ export const GovernanceAccessibility: Story = {
           <TabsTrigger value="summary">Invoice summary</TabsTrigger>
           <TabsTrigger value="attachments">
             Attachments
-            <Badge emphasis="soft" size="sm" tone="neutral">3</Badge>
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              3
+            </Badge>
           </TabsTrigger>
         </TabsList>
         <Separator />
         <TabsContent value="summary">
-          <TabPlaceholder>Accessible tab panel for INV-2026-0042</TabPlaceholder>
+          <TabPlaceholder>
+            Accessible tab panel for INV-2026-0042
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="attachments">
           <TabPlaceholder>Three PDF attachments listed</TabPlaceholder>
@@ -428,10 +436,14 @@ export const EmployeeRecord: Story = {
           </StoryStack>
         </TabsContent>
         <TabsContent value="activity">
-          <TabPlaceholder>Recent tasks, approvals, and login events</TabPlaceholder>
+          <TabPlaceholder>
+            Recent tasks, approvals, and login events
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="access">
-          <TabPlaceholder>Module permissions and role assignments</TabPlaceholder>
+          <TabPlaceholder>
+            Module permissions and role assignments
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="history">
           <TabPlaceholder>Audit trail of HR record changes</TabPlaceholder>
@@ -451,15 +463,21 @@ export const InvoiceRecordTabs: Story = {
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="line-items">
             Line items
-            <Badge emphasis="soft" size="sm" tone="neutral">12</Badge>
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              12
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="approvals">
             Approvals
-            <Badge emphasis="soft" size="sm" tone="warning">Pending</Badge>
+            <Badge emphasis="soft" size="sm" tone="warning">
+              Pending
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="attachments">
             Attachments
-            <Badge emphasis="soft" size="sm" tone="neutral">3</Badge>
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              3
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="comments">Comments</TabsTrigger>
         </TabsList>
@@ -475,7 +493,7 @@ export const InvoiceRecordTabs: Story = {
                 ["Due date", "Jul 15, 2026"],
               ]}
             />
-            <StoryRow justify="end" gap="sm">
+            <StoryRow gap="sm" justify="end">
               <Button emphasis="outline" intent="secondary" size="sm">
                 Record payment
               </Button>
@@ -516,10 +534,14 @@ export const InvoiceRecordTabs: Story = {
           </StoryStack>
         </TabsContent>
         <TabsContent value="approvals">
-          <TabPlaceholder>Workflow stages, approvers, and timestamps</TabPlaceholder>
+          <TabPlaceholder>
+            Workflow stages, approvers, and timestamps
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="attachments">
-          <TabPlaceholder>PDF invoice, vendor W-9, remittance advice</TabPlaceholder>
+          <TabPlaceholder>
+            PDF invoice, vendor W-9, remittance advice
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="comments">
           <TabPlaceholder>Reviewer thread and finance notes</TabPlaceholder>
@@ -542,7 +564,9 @@ export const PurchaseOrderRecord: Story = {
           </TabsTrigger>
           <TabsTrigger value="lines">
             Line items
-            <Badge emphasis="soft" size="sm" tone="neutral">3</Badge>
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              3
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="receiving">
             <TruckIcon aria-hidden="true" className="size-4" />
@@ -560,14 +584,16 @@ export const PurchaseOrderRecord: Story = {
               items={[
                 ["PO number", "PO-2026-1184"],
                 ["Vendor", "Acme Supplies"],
-                ["Total", formatCurrency(12400)],
+                ["Total", formatCurrency(12_400)],
                 ["Need by", "Jul 1, 2026"],
               ]}
             />
           </StoryStack>
         </TabsContent>
         <TabsContent value="lines">
-          <TabPlaceholder>Industrial fasteners, safety gloves, packing tape</TabPlaceholder>
+          <TabPlaceholder>
+            Industrial fasteners, safety gloves, packing tape
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="receiving">
           <TabPlaceholder>ASN status and warehouse receipts</TabPlaceholder>
@@ -594,7 +620,9 @@ export const VendorRecord: Story = {
           <TabsTrigger value="contracts">Contracts</TabsTrigger>
           <TabsTrigger value="invoices">
             Open invoices
-            <Badge emphasis="soft" size="sm" tone="warning">4</Badge>
+            <Badge emphasis="soft" size="sm" tone="warning">
+              4
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="compliance">
             <ShieldIcon aria-hidden="true" className="size-4" />
@@ -618,10 +646,14 @@ export const VendorRecord: Story = {
           <TabPlaceholder>MSA, rate cards, and renewal dates</TabPlaceholder>
         </TabsContent>
         <TabsContent value="invoices">
-          <TabPlaceholder>Four open AP invoices totaling $42,800</TabPlaceholder>
+          <TabPlaceholder>
+            Four open AP invoices totaling $42,800
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="compliance">
-          <TabPlaceholder>W-9, insurance certificates, SOC reports</TabPlaceholder>
+          <TabPlaceholder>
+            W-9, insurance certificates, SOC reports
+          </TabPlaceholder>
         </TabsContent>
       </Tabs>
     </StoryFrame>
@@ -637,15 +669,21 @@ export const ApprovalPipelineTabs: Story = {
         <TabsList>
           <TabsTrigger value="pending">
             Pending
-            <Badge emphasis="soft" size="sm" tone="warning">18</Badge>
+            <Badge emphasis="soft" size="sm" tone="warning">
+              18
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="approved">
             Approved
-            <Badge emphasis="soft" size="sm" tone="success">42</Badge>
+            <Badge emphasis="soft" size="sm" tone="success">
+              42
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="rejected">
             Rejected
-            <Badge emphasis="soft" size="sm" tone="danger">3</Badge>
+            <Badge emphasis="soft" size="sm" tone="danger">
+              3
+            </Badge>
           </TabsTrigger>
           <TabsTrigger value="all">All</TabsTrigger>
         </TabsList>
@@ -653,7 +691,9 @@ export const ApprovalPipelineTabs: Story = {
           <TabPlaceholder>18 records awaiting your approval</TabPlaceholder>
         </TabsContent>
         <TabsContent value="approved">
-          <TabPlaceholder>Approved this quarter — filterable list</TabPlaceholder>
+          <TabPlaceholder>
+            Approved this quarter — filterable list
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="rejected">
           <TabPlaceholder>Rejected with reviewer comments</TabPlaceholder>
@@ -681,19 +721,31 @@ export const FinancialReportsTabs: Story = {
         <Separator />
         <TabsContent value="pnl">
           <StoryStack gap="sm" paddingY="md">
-            <DefinitionRow label="Revenue Q2" value={formatCurrency(1284000)} />
-            <DefinitionRow label="Expenses Q2" value={formatCurrency(942000)} />
-            <DefinitionRow label="Net income" value={formatCurrency(342000)} />
+            <DefinitionRow
+              label="Revenue Q2"
+              value={formatCurrency(1_284_000)}
+            />
+            <DefinitionRow
+              label="Expenses Q2"
+              value={formatCurrency(942_000)}
+            />
+            <DefinitionRow label="Net income" value={formatCurrency(342_000)} />
           </StoryStack>
         </TabsContent>
         <TabsContent value="balance">
-          <TabPlaceholder>Assets, liabilities, and equity snapshot</TabPlaceholder>
+          <TabPlaceholder>
+            Assets, liabilities, and equity snapshot
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="cashflow">
-          <TabPlaceholder>Operating, investing, and financing flows</TabPlaceholder>
+          <TabPlaceholder>
+            Operating, investing, and financing flows
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="budget">
-          <TabPlaceholder>Variance by cost center and department</TabPlaceholder>
+          <TabPlaceholder>
+            Variance by cost center and department
+          </TabPlaceholder>
         </TabsContent>
       </Tabs>
     </StoryFrame>
@@ -710,7 +762,9 @@ export const AuditLogTab: Story = {
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="audit">
             Audit log
-            <Badge emphasis="soft" size="sm" tone="neutral">24</Badge>
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              24
+            </Badge>
           </TabsTrigger>
         </TabsList>
         <Separator />
@@ -723,7 +777,9 @@ export const AuditLogTab: Story = {
               <StoryStack gap="xs" key={event.time}>
                 <StoryRow justify="between">
                   <span className="font-medium text-sm">{event.actor}</span>
-                  <span className="text-muted-foreground text-xs">{event.time}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {event.time}
+                  </span>
                 </StoryRow>
                 <StoryRow align="center" gap="sm">
                   <Badge emphasis="soft" size="sm" tone={event.tone}>
@@ -758,7 +814,9 @@ export const ViewToggleTabs: Story = {
         <TabPlaceholder>248 employees in dense table view</TabPlaceholder>
       </TabsContent>
       <TabsContent value="grid">
-        <TabPlaceholder>Card grid with avatar and department chips</TabPlaceholder>
+        <TabPlaceholder>
+          Card grid with avatar and department chips
+        </TabPlaceholder>
       </TabsContent>
     </Tabs>
   ),
@@ -792,13 +850,17 @@ export const SettingsTabs: Story = {
         </TabsList>
         <Separator />
         <TabsContent value="general">
-          <TabPlaceholder>Company name, locale, fiscal year start</TabPlaceholder>
+          <TabPlaceholder>
+            Company name, locale, fiscal year start
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="users">
           <TabPlaceholder>User management and team structure</TabPlaceholder>
         </TabsContent>
         <TabsContent value="security">
-          <TabPlaceholder>Authentication, 2FA, and session policies</TabPlaceholder>
+          <TabPlaceholder>
+            Authentication, 2FA, and session policies
+          </TabPlaceholder>
         </TabsContent>
         <TabsContent value="billing">
           <TabPlaceholder>Subscription plan and payment history</TabPlaceholder>
@@ -846,7 +908,7 @@ export const RecordHeaderWithActions: Story = {
           <TabsContent value="summary">
             <MetadataGrid
               items={[
-                ["Balance due", formatCurrency(24850)],
+                ["Balance due", formatCurrency(24_850)],
                 ["Due date", "Jul 15, 2026"],
                 ["Cost center", "210 — Manufacturing"],
               ]}
@@ -884,7 +946,9 @@ export const TabsVsAccordion: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Tabs — record detail sections</span>
+          <span className="font-medium text-sm">
+            Tabs — record detail sections
+          </span>
           <Tabs defaultValue="a">
             <TabsList>
               <TabsTrigger value="a">Summary</TabsTrigger>
@@ -896,7 +960,9 @@ export const TabsVsAccordion: Story = {
           </Tabs>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Accordion — collapsible filters</span>
+          <span className="font-medium text-sm">
+            Accordion — collapsible filters
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Accordion for filter panels and FAQ patterns
           </span>
@@ -929,7 +995,9 @@ export const TabsVsToggle: Story = {
           </Tabs>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Toggle — list/grid switcher</span>
+          <span className="font-medium text-sm">
+            Toggle — list/grid switcher
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Toggle → View Mode Switcher
           </span>

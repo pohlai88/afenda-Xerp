@@ -8,6 +8,8 @@ import { Label } from "./label";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
+const EMPLOYEE_ID_PATTERN = /^EMP-\d{5}$/u;
+
 function LabeledField({
   id,
   label,
@@ -38,7 +40,7 @@ function LabeledField({
 function ValidatedEmployeeIdField() {
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
-  const invalid = touched && !/^EMP-\d{5}$/u.test(value);
+  const invalid = touched && !EMPLOYEE_ID_PATTERN.test(value);
 
   return (
     <LabeledField id="live-emp-id" label="Employee ID" required>
@@ -685,7 +687,11 @@ export const ValidationStates: Story = {
           <Input disabled id="val-disabled" placeholder="Read-only field" />
         </LabeledField>
         <LabeledField id="val-loading" label="Loading">
-          <Input id="val-loading" placeholder="Fetching data…" state="loading" />
+          <Input
+            id="val-loading"
+            placeholder="Fetching data…"
+            state="loading"
+          />
         </LabeledField>
       </StoryStack>
     </StoryFrame>
@@ -763,7 +769,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Pair every input with a `Label` via `htmlFor`/`id`. Use `aria-invalid` and `state=\"error\"` for validation. Provide `aria-label` on standalone search fields.",
+          'Pair every input with a `Label` via `htmlFor`/`id`. Use `aria-invalid` and `state="error"` for validation. Provide `aria-label` on standalone search fields.',
       },
     },
   },

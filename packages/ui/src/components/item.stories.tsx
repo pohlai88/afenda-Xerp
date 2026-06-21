@@ -13,7 +13,7 @@ import {
   UserIcon,
   WebhookIcon,
 } from "lucide-react";
-import { Fragment, type ComponentType, type ReactNode } from "react";
+import { type ComponentType, Fragment, type ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
@@ -28,8 +28,8 @@ import {
   ItemHeader,
   ItemMedia,
   ItemSeparator,
-  ItemTitle,
   type ItemSize,
+  ItemTitle,
   type ItemVariant,
 } from "./item";
 
@@ -137,7 +137,14 @@ const PRODUCTS = [
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function statusTone(
-  status: "pending" | "approved" | "overdue" | "success" | "warning" | "high" | "normal"
+  status:
+    | "pending"
+    | "approved"
+    | "overdue"
+    | "success"
+    | "warning"
+    | "high"
+    | "normal"
 ): "success" | "warning" | "danger" | "info" | "neutral" {
   switch (status) {
     case "approved":
@@ -226,10 +233,15 @@ function SizeItem({
       <IconMedia icon={FileTextIcon} />
       <ItemContent>
         <ItemTitle>{label}</ItemTitle>
-        <ItemDescription>Compact list row for dense ERP surfaces.</ItemDescription>
+        <ItemDescription>
+          Compact list row for dense ERP surfaces.
+        </ItemDescription>
       </ItemContent>
       <ItemActions>
-        <ChevronRightIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+        <ChevronRightIcon
+          aria-hidden="true"
+          className="size-4 text-muted-foreground"
+        />
       </ItemActions>
     </Item>
   );
@@ -344,7 +356,10 @@ export const IconMediaStory: Story = {
           </ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRightIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <ChevronRightIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
         </ItemActions>
       </Item>
     </ItemListFrame>
@@ -387,7 +402,10 @@ export const AsChildLink: Story = {
             <ItemTitle>INV-2026-0042 · Pending approval</ItemTitle>
           </ItemContent>
           <ItemActions>
-            <ChevronRightIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+            <ChevronRightIcon
+              aria-hidden="true"
+              className="size-4 text-muted-foreground"
+            />
           </ItemActions>
         </a>
       </Item>
@@ -490,7 +508,12 @@ export const InvoiceListRow: Story = {
                 <span className="font-medium text-sm tabular-nums">
                   {invoice.amount}
                 </span>
-                <Button emphasis="ghost" intent="quiet" presentation="icon" size="sm">
+                <Button
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="sm"
+                >
                   <ChevronRightIcon aria-hidden="true" />
                 </Button>
               </ItemActions>
@@ -622,7 +645,9 @@ export const NotificationItem: Story = {
               <ItemContent>
                 <StoryRow align="center" justify="between" wrap>
                   <ItemTitle>{note.title}</ItemTitle>
-                  <span className="text-muted-foreground text-xs">{note.time}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {note.time}
+                  </span>
                 </StoryRow>
                 <ItemDescription>{note.body}</ItemDescription>
               </ItemContent>

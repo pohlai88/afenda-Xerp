@@ -1,8 +1,7 @@
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
-
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const SKELETON_RECIPE_NAME = "form-control" as const;
 

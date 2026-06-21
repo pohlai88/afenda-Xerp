@@ -105,11 +105,11 @@ export interface GovernedRecipeResult {
 
 /** Serializable className policy violation record. */
 export interface ClassNamePolicyViolation {
-  readonly token: string;
   readonly reason:
     | "prohibited-semantic-pattern"
     | "not-approved-layout-pattern"
     | "arbitrary-value";
+  readonly token: string;
 }
 
 /** Serializable className validation output. */

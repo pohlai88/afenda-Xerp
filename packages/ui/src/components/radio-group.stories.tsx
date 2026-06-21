@@ -23,8 +23,16 @@ const PRIORITY_LEVELS = ["Critical", "High", "Medium", "Low"] as const;
 
 const PAYMENT_METHODS = [
   { value: "ach", label: "ACH transfer", description: "2–3 business days" },
-  { value: "wire", label: "Wire transfer", description: "Same day if before 3 PM ET" },
-  { value: "check", label: "Check", description: "Mail to vendor address on file" },
+  {
+    value: "wire",
+    label: "Wire transfer",
+    description: "Same day if before 3 PM ET",
+  },
+  {
+    value: "check",
+    label: "Check",
+    description: "Mail to vendor address on file",
+  },
 ] as const;
 
 const SHIPPING_CARRIERS = [
@@ -49,12 +57,10 @@ function RadioField({
 }) {
   return (
     <StoryRow align="center" gap="sm">
-      <RadioGroupItem
-        disabled={disabled}
-        id={id}
-        value={value}
-      />
-      <Label className="font-normal" htmlFor={id}>{label}</Label>
+      <RadioGroupItem disabled={disabled} id={id} value={value} />
+      <Label className="font-normal" htmlFor={id}>
+        {label}
+      </Label>
     </StoryRow>
   );
 }
@@ -89,7 +95,9 @@ function RadioOptionField({
           {Icon ? (
             <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
           ) : null}
-          <Label className="font-medium" htmlFor={id}>{label}</Label>
+          <Label className="font-medium" htmlFor={id}>
+            {label}
+          </Label>
           {badge ? (
             <Badge emphasis="soft" size="sm" tone={badge.tone}>
               {badge.text}
@@ -285,7 +293,11 @@ export const GovernanceAccessibility: Story = {
         <FieldLabel>Invoice status</FieldLabel>
         <RadioGroup defaultValue="pending">
           <StoryStack gap="sm">
-            <RadioField id="a11y-pending" label="Pending approval" value="pending" />
+            <RadioField
+              id="a11y-pending"
+              label="Pending approval"
+              value="pending"
+            />
             <RadioField id="a11y-approved" label="Approved" value="approved" />
             <RadioField id="a11y-paid" label="Paid" value="paid" />
           </StoryStack>
@@ -309,7 +321,11 @@ export const GovernanceValidationStates: Story = {
             <RadioGroup defaultValue="medium" state={state}>
               <StoryStack gap="sm">
                 <RadioField id={`${state}-low`} label="Low" value="low" />
-                <RadioField id={`${state}-medium`} label="Medium" value="medium" />
+                <RadioField
+                  id={`${state}-medium`}
+                  label="Medium"
+                  value="medium"
+                />
                 <RadioField id={`${state}-high`} label="High" value="high" />
               </StoryStack>
             </RadioGroup>
@@ -383,7 +399,11 @@ export const InvoiceStatus: Story = {
         <RadioGroup defaultValue="pending">
           <StoryStack gap="sm">
             <RadioField id="inv-draft" label="Draft" value="draft" />
-            <RadioField id="inv-pending" label="Pending approval" value="pending" />
+            <RadioField
+              id="inv-pending"
+              label="Pending approval"
+              value="pending"
+            />
             <RadioField id="inv-approved" label="Approved" value="approved" />
             <RadioField id="inv-paid" label="Paid" value="paid" />
             <RadioField id="inv-void" label="Void" value="void" />
@@ -407,8 +427,8 @@ export const PaymentMethod: Story = {
             {PAYMENT_METHODS.map(({ value, label, description }) => (
               <RadioOptionField
                 description={description}
-                id={`pay-${value}`}
                 icon={CreditCardIcon}
+                id={`pay-${value}`}
                 key={value}
                 label={label}
                 value={value}
@@ -473,9 +493,9 @@ export const ExpenseCategory: Story = {
               value="entertainment"
             />
             <RadioOptionField
+              badge={{ text: "Policy", tone: "warning" }}
               description="Requires CFO pre-approval"
               id="exp-capital"
-              badge={{ text: "Policy", tone: "warning" }}
               label="Capital expenditure"
               value="capital"
             />
@@ -495,10 +515,26 @@ export const TaxTreatment: Story = {
         <FieldLabel>Tax code</FieldLabel>
         <RadioGroup defaultValue="standard">
           <StoryStack gap="sm">
-            <RadioField id="tax-standard" label="Standard rate (8.25%)" value="standard" />
-            <RadioField id="tax-exempt" label="Tax exempt — nonprofit vendor" value="exempt" />
-            <RadioField id="tax-reverse" label="Reverse charge (EU)" value="reverse" />
-            <RadioField id="tax-out-of-scope" label="Out of scope" value="out-of-scope" />
+            <RadioField
+              id="tax-standard"
+              label="Standard rate (8.25%)"
+              value="standard"
+            />
+            <RadioField
+              id="tax-exempt"
+              label="Tax exempt — nonprofit vendor"
+              value="exempt"
+            />
+            <RadioField
+              id="tax-reverse"
+              label="Reverse charge (EU)"
+              value="reverse"
+            />
+            <RadioField
+              id="tax-out-of-scope"
+              label="Out of scope"
+              value="out-of-scope"
+            />
           </StoryStack>
         </RadioGroup>
       </Field>
@@ -515,8 +551,16 @@ export const FiscalPeriod: Story = {
         <FieldLabel>Post to period</FieldLabel>
         <RadioGroup defaultValue="current">
           <StoryStack gap="sm">
-            <RadioField id="fp-current" label="Current period (Jun 2026)" value="current" />
-            <RadioField id="fp-next" label="Next period (Jul 2026)" value="next" />
+            <RadioField
+              id="fp-current"
+              label="Current period (Jun 2026)"
+              value="current"
+            />
+            <RadioField
+              id="fp-next"
+              label="Next period (Jul 2026)"
+              value="next"
+            />
             <RadioField
               disabled
               id="fp-closed"
@@ -620,8 +664,8 @@ export const ApprovalRoute: Story = {
             />
             <RadioOptionField
               description="Required for amounts over $5,000"
-              id="route-finance"
               icon={Building2Icon}
+              id="route-finance"
               label="Finance controller"
               value="finance"
             />
@@ -649,7 +693,11 @@ export const PoUrgency: Story = {
           <StoryRow gap="md" wrap>
             <RadioField id="urg-rush" label="Rush" value="rush" />
             <RadioField id="urg-standard" label="Standard" value="standard" />
-            <RadioField id="urg-scheduled" label="Scheduled" value="scheduled" />
+            <RadioField
+              id="urg-scheduled"
+              label="Scheduled"
+              value="scheduled"
+            />
           </StoryRow>
         </RadioGroup>
         <FieldDescription>
@@ -684,7 +732,9 @@ export const DocumentTypeFilter: Story = {
             </StoryRow>
             <StoryRow align="center" gap="xs">
               <RadioGroupItem id="doc-img" value="image" />
-              <Label className="font-normal" htmlFor="doc-img">Images</Label>
+              <Label className="font-normal" htmlFor="doc-img">
+                Images
+              </Label>
             </StoryRow>
           </StoryRow>
         </RadioGroup>
@@ -704,8 +754,8 @@ export const ReceivingMode: Story = {
           <StoryStack gap="sm">
             <RadioOptionField
               description="Barcode scanner WH-SCAN-04"
-              id="recv-scan"
               icon={PackageIcon}
+              id="recv-scan"
               label="Scan items"
               value="scan"
             />
@@ -717,8 +767,8 @@ export const ReceivingMode: Story = {
             />
             <RadioOptionField
               description="Import receipt file from carrier"
-              id="recv-import"
               icon={TruckIcon}
+              id="recv-import"
               label="Import ASN"
               value="import"
             />
@@ -742,7 +792,11 @@ export const FilterBarRadioCluster: Story = {
               <StoryRow gap="sm" wrap>
                 <RadioField id="fb-active" label="Active" value="active" />
                 <RadioField id="fb-pending" label="Pending" value="pending" />
-                <RadioField id="fb-archived" label="Archived" value="archived" />
+                <RadioField
+                  id="fb-archived"
+                  label="Archived"
+                  value="archived"
+                />
               </StoryRow>
             </RadioGroup>
           </StoryStack>
@@ -778,7 +832,9 @@ export const RadioGroupVsSelect: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">RadioGroup — visible options</span>
+          <span className="font-medium text-sm">
+            RadioGroup — visible options
+          </span>
           <RadioGroup defaultValue="approve">
             <StoryRow gap="md" wrap>
               <RadioField id="cmp-approve" label="Approve" value="approve" />
@@ -787,7 +843,9 @@ export const RadioGroupVsSelect: Story = {
           </RadioGroup>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Select — long option lists</span>
+          <span className="font-medium text-sm">
+            Select — long option lists
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Select for department and vendor pickers
           </span>
@@ -816,7 +874,9 @@ export const OptionLayoutMatrix: Story = {
       </StoryFrame>
       <StoryFrame width="md">
         <StoryStack gap="xs">
-          <span className="text-muted-foreground text-xs">Horizontal cluster</span>
+          <span className="text-muted-foreground text-xs">
+            Horizontal cluster
+          </span>
           <RadioGroup defaultValue="medium">
             <StoryRow gap="md" wrap>
               <RadioField id="mx-h-low" label="Low" value="low" />

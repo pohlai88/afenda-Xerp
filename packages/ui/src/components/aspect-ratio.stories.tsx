@@ -31,13 +31,7 @@ function RatioPlaceholder({
   );
 }
 
-function MediaImage({
-  alt,
-  src,
-}: {
-  alt: string;
-  src: string;
-}) {
+function MediaImage({ alt, src }: { alt: string; src: string }) {
   return (
     <img
       alt={alt}
@@ -128,7 +122,7 @@ export const WideBanner: Story = {
 
 export const DocumentA4: Story = {
   name: "AspectRatio — A4 Document",
-  args: { ratio: 1 / 1.414 },
+  args: { ratio: 1 / Math.SQRT2 },
   render: (args) => (
     <StoryFrame width="md">
       <AspectRatio {...args}>
@@ -205,7 +199,11 @@ export const InvoiceAttachmentPreview: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryStack className="rounded-lg border border-border" gap="sm" padding="md">
+      <StoryStack
+        className="rounded-lg border border-border"
+        gap="sm"
+        padding="md"
+      >
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
             <span className="font-medium text-sm">INV-2026-0142_scan.pdf</span>
@@ -217,7 +215,7 @@ export const InvoiceAttachmentPreview: Story = {
             Pending Review
           </Badge>
         </StoryRow>
-        <AspectRatio ratio={1 / 1.414}>
+        <AspectRatio ratio={1 / Math.SQRT2}>
           <RatioPlaceholder icon={FileTextIcon} label="Page 1 of 3" />
         </AspectRatio>
         <StoryRow gap="sm">
@@ -240,7 +238,10 @@ export const WarehouseItemPhoto: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <PackageIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <PackageIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">PO-LI-002 · Standing Desk</span>
         </StoryRow>
         <AspectRatio ratio={4 / 3}>
@@ -333,8 +334,13 @@ export const LocationMapPreview: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <MapPinIcon aria-hidden="true" className="size-4 text-muted-foreground" />
-          <span className="font-medium text-sm">Delivery Address — PO-8821</span>
+          <MapPinIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
+          <span className="font-medium text-sm">
+            Delivery Address — PO-8821
+          </span>
         </StoryRow>
         <AspectRatio ratio={16 / 9}>
           <MediaImage
@@ -398,7 +404,11 @@ export const AssetRegisterPhoto: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryStack className="rounded-lg border border-border" gap="sm" padding="md">
+      <StoryStack
+        className="rounded-lg border border-border"
+        gap="sm"
+        padding="md"
+      >
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
             <span className="font-medium text-sm">FA-2026-0088</span>
@@ -434,7 +444,11 @@ export const DashboardWidgetChart: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryStack className="rounded-lg border border-border" gap="sm" padding="md">
+      <StoryStack
+        className="rounded-lg border border-border"
+        gap="sm"
+        padding="md"
+      >
         <StoryRow align="center" justify="between">
           <span className="font-medium text-sm">Revenue — Q2 2026</span>
           <Badge emphasis="soft" size="sm" tone="success">

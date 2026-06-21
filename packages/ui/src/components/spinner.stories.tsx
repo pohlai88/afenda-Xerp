@@ -105,7 +105,9 @@ function SimulatedRefreshPanel() {
           <StoryStack gap="xs">
             <span className="font-medium text-sm">Open purchase orders</span>
             <span className="text-muted-foreground text-xs">
-              {refreshing ? "Refreshing from procurement service…" : "Last synced 2 minutes ago"}
+              {refreshing
+                ? "Refreshing from procurement service…"
+                : "Last synced 2 minutes ago"}
             </span>
           </StoryStack>
           <Button
@@ -149,7 +151,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed indeterminate loading indicator for ERP async actions — save, sync, validate, search, and post operations. Exposes `role=\"status\"` and `aria-label` by default. Use `Progress` when completion % is known; use `Skeleton` for layout placeholders; use Button `state=\"loading\"` for submit affordances.",
+          'Governed indeterminate loading indicator for ERP async actions — save, sync, validate, search, and post operations. Exposes `role="status"` and `aria-label` by default. Use `Progress` when completion % is known; use `Skeleton` for layout placeholders; use Button `state="loading"` for submit affordances.',
       },
     },
   },
@@ -181,7 +183,9 @@ export const WithLoadingText: Story = {
   render: () => (
     <StoryRow align="center" gap="sm">
       <Spinner aria-label="Validating import file" />
-      <span className="text-muted-foreground text-sm">Validating import file…</span>
+      <span className="text-muted-foreground text-sm">
+        Validating import file…
+      </span>
     </StoryRow>
   ),
 };
@@ -263,7 +267,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Default `aria-label=\"Loading\"` is overridden with action-specific labels (`Posting payment`, `Syncing ledger`). Pair visible text with the spinner for sighted users; the label covers assistive tech.",
+          'Default `aria-label="Loading"` is overridden with action-specific labels (`Posting payment`, `Syncing ledger`). Pair visible text with the spinner for sighted users; the label covers assistive tech.',
       },
     },
   },
@@ -286,7 +290,9 @@ export const MatrixSizes: Story = {
       {SPINNER_SIZES.map((sizeClass) => (
         <StoryStack className="items-center" gap="xs" key={sizeClass}>
           <Spinner aria-label={`Size ${sizeClass}`} className={sizeClass} />
-          <span className="font-mono text-muted-foreground text-xs">{sizeClass}</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            {sizeClass}
+          </span>
         </StoryStack>
       ))}
     </StoryRow>
@@ -344,7 +350,9 @@ export const SearchingRecords: Story = {
     <StoryRow align="center" gap="sm">
       <SearchIcon aria-hidden="true" className="size-4 text-muted-foreground" />
       <Spinner aria-label="Searching vendors" className="size-4" />
-      <span className="text-muted-foreground text-sm">Searching vendors matching &quot;acme&quot;…</span>
+      <span className="text-muted-foreground text-sm">
+        Searching vendors matching &quot;acme&quot;…
+      </span>
     </StoryRow>
   ),
 };
@@ -495,7 +503,9 @@ export const DialogSubmitLoading: Story = {
         </StoryStack>
         <StoryRow align="center" gap="sm" justify="center">
           <Spinner aria-label="Voiding invoice" />
-          <span className="text-muted-foreground text-sm">Voiding invoice…</span>
+          <span className="text-muted-foreground text-sm">
+            Voiding invoice…
+          </span>
         </StoryRow>
         <StoryRow justify="end">
           <Button disabled emphasis="ghost" intent="secondary" size="sm">
@@ -592,10 +602,7 @@ export const OperationFeedbackMatrix: Story = {
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="sm">
-        <LoadingStatusRow
-          label="Saving draft"
-          spinnerLabel="Saving draft"
-        />
+        <LoadingStatusRow label="Saving draft" spinnerLabel="Saving draft" />
         <LoadingStatusRow
           detail="WMS connector"
           label="Syncing inventory"
@@ -632,10 +639,14 @@ export const SpinnerVsProgress: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Spinner — validating import</span>
+          <span className="font-medium text-sm">
+            Spinner — validating import
+          </span>
           <StoryRow align="center" gap="sm">
             <Spinner aria-label="Validating import" />
-            <span className="text-muted-foreground text-xs">No row count yet</span>
+            <span className="text-muted-foreground text-xs">
+              No row count yet
+            </span>
           </StoryRow>
         </StoryStack>
         <StoryStack gap="xs">
@@ -666,11 +677,15 @@ export const SpinnerVsSkeleton: Story = {
           <span className="font-medium text-sm">Spinner — posting payment</span>
           <StoryRow align="center" gap="sm">
             <Spinner aria-label="Posting payment" />
-            <span className="text-muted-foreground text-xs">Action in flight</span>
+            <span className="text-muted-foreground text-xs">
+              Action in flight
+            </span>
           </StoryRow>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Skeleton — invoice list loading</span>
+          <span className="font-medium text-sm">
+            Skeleton — invoice list loading
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Skeleton for table and card placeholders
           </span>
@@ -686,7 +701,7 @@ export const SpinnerVsButtonState: Story = {
     docs: {
       description: {
         story:
-          "Place `Spinner` inside a Button with `state=\"loading\"` and `disabled` for submit affordances. Use standalone `Spinner` in panels, tables, and dialogs where a button is not the anchor.",
+          'Place `Spinner` inside a Button with `state="loading"` and `disabled` for submit affordances. Use standalone `Spinner` in panels, tables, and dialogs where a button is not the anchor.',
       },
     },
   },

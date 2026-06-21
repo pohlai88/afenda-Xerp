@@ -3,13 +3,13 @@ import {
   type Column,
   type ColumnDef,
   type ColumnFiltersState,
-  type SortingState,
-  type VisibilityState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  type SortingState,
   useReactTable,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDownIcon,
@@ -19,7 +19,7 @@ import {
   EyeIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -47,98 +47,98 @@ import {
 
 type InvoiceStatus = "draft" | "pending" | "approved" | "overdue" | "paid";
 
-type Invoice = {
-  readonly id: string;
-  readonly vendor: string;
+interface Invoice {
   readonly amount: number;
-  readonly status: InvoiceStatus;
   readonly dueDate: string;
-};
-
-type PurchaseOrder = {
   readonly id: string;
+  readonly status: InvoiceStatus;
   readonly vendor: string;
-  readonly items: number;
-  readonly total: number;
-  readonly status: "open" | "approved" | "received" | "closed";
-  readonly requestedBy: string;
-};
+}
 
-type Employee = {
+interface PurchaseOrder {
   readonly id: string;
-  readonly name: string;
+  readonly items: number;
+  readonly requestedBy: string;
+  readonly status: "open" | "approved" | "received" | "closed";
+  readonly total: number;
+  readonly vendor: string;
+}
+
+interface Employee {
   readonly department: string;
   readonly email: string;
+  readonly id: string;
+  readonly name: string;
   readonly status: "active" | "on-leave" | "terminated";
-};
+}
 
-type InventoryItem = {
-  readonly sku: string;
+interface InventoryItem {
+  readonly location: string;
   readonly name: string;
   readonly qty: number;
-  readonly location: string;
   readonly reorderLevel: number;
-};
+  readonly sku: string;
+}
 
-type Vendor = {
+interface Vendor {
+  readonly category: string;
   readonly id: string;
   readonly name: string;
-  readonly category: string;
-  readonly terms: string;
   readonly rating: "preferred" | "standard" | "review";
-};
+  readonly terms: string;
+}
 
-type JournalEntry = {
-  readonly id: string;
+interface JournalEntry {
   readonly account: string;
-  readonly description: string;
-  readonly debit: number;
   readonly credit: number;
-  readonly period: string;
-};
-
-type ExpenseClaim = {
+  readonly debit: number;
+  readonly description: string;
   readonly id: string;
-  readonly employee: string;
-  readonly category: string;
+  readonly period: string;
+}
+
+interface ExpenseClaim {
   readonly amount: number;
+  readonly category: string;
+  readonly employee: string;
+  readonly id: string;
   readonly status: "submitted" | "approved" | "rejected" | "paid";
   readonly submittedOn: string;
-};
+}
 
-type ReceivableRow = {
-  readonly customer: string;
+interface ReceivableRow {
   readonly current: number;
+  readonly customer: string;
   readonly days30: number;
   readonly days60: number;
   readonly days90: number;
   readonly total: number;
-};
+}
 
-type Shipment = {
-  readonly id: string;
+interface Shipment {
   readonly carrier: string;
   readonly destination: string;
   readonly eta: string;
+  readonly id: string;
   readonly status: "pending" | "in-transit" | "delivered" | "exception";
-};
+}
 
-type ApprovalItem = {
-  readonly id: string;
-  readonly type: string;
-  readonly requester: string;
+interface ApprovalItem {
   readonly amount: number;
-  readonly submitted: string;
-  readonly priority: "low" | "normal" | "high";
-};
-
-type AuditLogEntry = {
   readonly id: string;
-  readonly actor: string;
+  readonly priority: "low" | "normal" | "high";
+  readonly requester: string;
+  readonly submitted: string;
+  readonly type: string;
+}
+
+interface AuditLogEntry {
   readonly action: string;
+  readonly actor: string;
+  readonly id: string;
   readonly resource: string;
   readonly timestamp: string;
-};
+}
 
 const INVOICES: Invoice[] = [
   {
@@ -151,7 +151,7 @@ const INVOICES: Invoice[] = [
   {
     id: "INV-2026-0038",
     vendor: "FastCo Industrial",
-    amount: 12450,
+    amount: 12_450,
     status: "approved",
     dueDate: "Jul 1, 2026",
   },
@@ -204,7 +204,7 @@ const PURCHASE_ORDERS: PurchaseOrder[] = [
     id: "PO-2026-1184",
     vendor: "FastCo Industrial",
     items: 12,
-    total: 12450,
+    total: 12_450,
     status: "approved",
     requestedBy: "Jane Doe",
   },
@@ -341,7 +341,7 @@ const JOURNAL_ENTRIES: JournalEntry[] = [
     id: "JE-2026-8839",
     account: "1200 · Inventory Asset",
     description: "PO receipt — FastCo Industrial",
-    debit: 12450,
+    debit: 12_450,
     credit: 0,
     period: "Jun 2026",
   },
@@ -377,11 +377,11 @@ const EXPENSE_CLAIMS: ExpenseClaim[] = [
 const RECEIVABLES: ReceivableRow[] = [
   {
     customer: "Contoso Ltd.",
-    current: 12400,
+    current: 12_400,
     days30: 3200,
     days60: 0,
     days90: 0,
-    total: 15600,
+    total: 15_600,
   },
   {
     customer: "Fabrikam Inc.",
@@ -389,7 +389,7 @@ const RECEIVABLES: ReceivableRow[] = [
     days30: 8900,
     days60: 2100,
     days90: 500,
-    total: 11500,
+    total: 11_500,
   },
   {
     customer: "Adventure Works",
@@ -430,7 +430,7 @@ const APPROVAL_QUEUE: ApprovalItem[] = [
     id: "PO-2026-1184",
     type: "Purchase Order",
     requester: "Jane Doe",
-    amount: 12450,
+    amount: 12_450,
     submitted: "Jun 21, 2026",
     priority: "high",
   },
@@ -603,7 +603,11 @@ const invoiceColumnsBasic: ColumnDef<Invoice>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge emphasis="soft" size="sm" tone={invoiceStatusTone(row.original.status)}>
+      <Badge
+        emphasis="soft"
+        size="sm"
+        tone={invoiceStatusTone(row.original.status)}
+      >
         {invoiceStatusLabel(row.original.status)}
       </Badge>
     ),
@@ -632,9 +636,7 @@ function buildInvoiceColumns(options?: {
     {
       accessorKey: "id",
       header: "Invoice",
-      cell: ({ row }) => (
-        <span className="font-medium">{row.original.id}</span>
-      ),
+      cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
     },
     {
       accessorKey: "vendor",
@@ -705,7 +707,9 @@ function DataTableToolbar<TData>({
           <Input
             className="max-w-sm"
             onChange={(event) =>
-              table.getColumn(filterColumnId)?.setFilterValue(event.target.value)
+              table
+                .getColumn(filterColumnId)
+                ?.setFilterValue(event.target.value)
             }
             placeholder={filterPlaceholder}
             size="sm"
@@ -818,14 +822,20 @@ function useDataTable<TData>(options: {
     data: options.data,
     columns: options.columns,
     ...(options.enableSorting ? { onSortingChange: setSorting } : {}),
-    ...(options.enableFiltering ? { onColumnFiltersChange: setColumnFilters } : {}),
+    ...(options.enableFiltering
+      ? { onColumnFiltersChange: setColumnFilters }
+      : {}),
     onColumnVisibilityChange: setColumnVisibility,
-    ...(options.enableSelection ? { onRowSelectionChange: setRowSelection } : {}),
+    ...(options.enableSelection
+      ? { onRowSelectionChange: setRowSelection }
+      : {}),
     getCoreRowModel: getCoreRowModel(),
     ...(options.enablePagination
       ? { getPaginationRowModel: getPaginationRowModel() }
       : {}),
-    ...(options.enableSorting ? { getSortedRowModel: getSortedRowModel() } : {}),
+    ...(options.enableSorting
+      ? { getSortedRowModel: getSortedRowModel() }
+      : {}),
     ...(options.enableFiltering
       ? { getFilteredRowModel: getFilteredRowModel() }
       : {}),
@@ -860,10 +870,7 @@ function SimpleDataTable<TData>({
 
   return (
     <DataTableShell width={width}>
-      <DataTable
-        table={table}
-        {...(emptyMessage ? { emptyMessage } : {})}
-      />
+      <DataTable table={table} {...(emptyMessage ? { emptyMessage } : {})} />
     </DataTableShell>
   );
 }
@@ -891,7 +898,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <SimpleDataTable columns={invoiceColumnsBasic} data={INVOICES.slice(0, 5)} />
+    <SimpleDataTable
+      columns={invoiceColumnsBasic}
+      data={INVOICES.slice(0, 5)}
+    />
   ),
 };
 
@@ -962,10 +972,7 @@ export const ColumnVisibility: Story = {
     });
 
     return (
-      <DataTableShell
-        header={<DataTableToolbar table={table} />}
-        width="xl"
-      >
+      <DataTableShell header={<DataTableToolbar table={table} />} width="xl">
         <DataTable table={table} />
       </DataTableShell>
     );
@@ -1115,7 +1122,8 @@ export const PurchaseOrders: Story = {
         header: "Status",
         cell: ({ row }) => {
           const tone =
-            row.original.status === "approved" || row.original.status === "closed"
+            row.original.status === "approved" ||
+            row.original.status === "closed"
               ? "success"
               : row.original.status === "open"
                 ? "warning"
@@ -1183,7 +1191,7 @@ export const InventoryStock: Story = {
         cell: ({ row }) => {
           const lowStock = row.original.qty <= row.original.reorderLevel;
           return (
-            <StoryRow align="center" justify="end" gap="sm">
+            <StoryRow align="center" gap="sm" justify="end">
               <span className="tabular-nums">{row.original.qty}</span>
               {lowStock ? (
                 <Badge emphasis="soft" size="sm" tone="warning">
@@ -1256,7 +1264,9 @@ export const GLJournalEntries: Story = {
         cell: ({ row }) => (
           <StoryRow justify="end">
             <span className="tabular-nums">
-              {row.original.debit > 0 ? formatCurrency(row.original.debit) : "—"}
+              {row.original.debit > 0
+                ? formatCurrency(row.original.debit)
+                : "—"}
             </span>
           </StoryRow>
         ),
@@ -1267,14 +1277,18 @@ export const GLJournalEntries: Story = {
         cell: ({ row }) => (
           <StoryRow justify="end">
             <span className="tabular-nums">
-              {row.original.credit > 0 ? formatCurrency(row.original.credit) : "—"}
+              {row.original.credit > 0
+                ? formatCurrency(row.original.credit)
+                : "—"}
             </span>
           </StoryRow>
         ),
       },
     ];
 
-    return <SimpleDataTable columns={columns} data={JOURNAL_ENTRIES} width="xl" />;
+    return (
+      <SimpleDataTable columns={columns} data={JOURNAL_ENTRIES} width="xl" />
+    );
   },
 };
 
@@ -1317,7 +1331,9 @@ export const ExpenseClaims: Story = {
       },
     ];
 
-    return <SimpleDataTable columns={columns} data={EXPENSE_CLAIMS} width="lg" />;
+    return (
+      <SimpleDataTable columns={columns} data={EXPENSE_CLAIMS} width="lg" />
+    );
   },
 };
 
@@ -1533,10 +1549,7 @@ export const AuditLog: Story = {
         }
         width="xl"
       >
-        <DataTable
-          emptyMessage="No audit events recorded."
-          table={table}
-        />
+        <DataTable emptyMessage="No audit events recorded." table={table} />
       </DataTableShell>
     );
   },
@@ -1546,10 +1559,7 @@ export const PaginatedWithPageSize: Story = {
   name: "ERP — Pagination + Page Size",
   parameters: { layout: "padded" },
   render: () => {
-    const columns = useMemo(
-      () => buildInvoiceColumns({ sortable: true }),
-      []
-    );
+    const columns = useMemo(() => buildInvoiceColumns({ sortable: true }), []);
     const table = useDataTable({
       columns,
       data: INVOICES,
@@ -1563,7 +1573,9 @@ export const PaginatedWithPageSize: Story = {
         footer={
           <StoryRow align="center" justify="between" wrap>
             <StoryRow align="center" gap="sm">
-              <span className="text-muted-foreground text-xs">Rows per page</span>
+              <span className="text-muted-foreground text-xs">
+                Rows per page
+              </span>
               <Select
                 defaultValue="3"
                 onValueChange={(value) => table.setPageSize(Number(value))}

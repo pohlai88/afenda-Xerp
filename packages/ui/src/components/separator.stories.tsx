@@ -93,7 +93,9 @@ export const Vertical: Story = {
       <StoryRow align="start" gap="md" paddingY="md">
         <StoryStack className="flex-1" gap="xs">
           <span className="font-medium text-sm">Finance</span>
-          <span className="text-muted-foreground text-xs">12 open invoices</span>
+          <span className="text-muted-foreground text-xs">
+            12 open invoices
+          </span>
         </StoryStack>
         <Separator orientation="vertical" />
         <StoryStack className="flex-1" gap="xs">
@@ -202,7 +204,11 @@ export const SettingsPanelSections: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryStack className="rounded-md border border-border" gap="md" padding="md">
+      <StoryStack
+        className="rounded-md border border-border"
+        gap="md"
+        padding="md"
+      >
         <StoryStack gap="sm">
           <span className="font-semibold text-sm">Profile</span>
           <KeyValueRow label="Display name" value="Jane Doe" />
@@ -236,12 +242,15 @@ export const InvoiceSummarySections: Story = {
         </CardHeader>
         <CardContent>
           <StoryStack gap="sm">
-            <KeyValueRow label="Invoice amount" value={formatCurrency(24850)} />
+            <KeyValueRow
+              label="Invoice amount"
+              value={formatCurrency(24_850)}
+            />
             <KeyValueRow label="Amount paid" value={formatCurrency(0)} />
             <Separator />
             <StoryRow justify="between">
               <span className="font-medium text-sm">Balance due</span>
-              <span className="font-semibold">{formatCurrency(24850)}</span>
+              <span className="font-semibold">{formatCurrency(24_850)}</span>
             </StoryRow>
             <Separator />
             <StoryRow gap="sm">
@@ -302,8 +311,12 @@ export const FilterToolbarClusters: Story = {
     <StoryFrame width="xl">
       <StoryRow align="center" gap="md" wrap>
         <StoryRow gap="sm" wrap>
-          <Badge emphasis="soft" tone="info">Status: Active</Badge>
-          <Badge emphasis="soft" tone="warning">Overdue</Badge>
+          <Badge emphasis="soft" tone="info">
+            Status: Active
+          </Badge>
+          <Badge emphasis="soft" tone="warning">
+            Overdue
+          </Badge>
         </StoryRow>
         <Separator className="hidden h-8 sm:block" orientation="vertical" />
         <StoryRow gap="sm" wrap>
@@ -363,7 +376,10 @@ export const DataTableSectionHeader: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <StoryStack className="overflow-hidden rounded-md border border-border" gap="xs">
+      <StoryStack
+        className="overflow-hidden rounded-md border border-border"
+        gap="xs"
+      >
         <StoryRow
           className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs"
           gap="lg"
@@ -541,7 +557,9 @@ export const SeparatorVsBorder: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Separator — in-flow divider</span>
+          <span className="font-medium text-sm">
+            Separator — in-flow divider
+          </span>
           <StoryStack gap="sm">
             <span className="text-sm">Totals section</span>
             <Separator />

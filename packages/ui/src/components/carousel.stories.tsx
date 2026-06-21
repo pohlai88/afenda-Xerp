@@ -10,7 +10,7 @@ import {
   TruckIcon,
   UserIcon,
 } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { AspectRatio } from "./aspect-ratio";
 import { Avatar, AvatarFallback } from "./avatar";
@@ -166,15 +166,48 @@ const INVOICE_ATTACHMENTS = [
 ] as const;
 
 const DEPARTMENTS = [
-  { id: "dept-1", name: "Finance", head: "Maria Kim", initials: "MK", openItems: 12 },
-  { id: "dept-2", name: "Operations", head: "Alex Brown", initials: "AB", openItems: 28 },
-  { id: "dept-3", name: "Procurement", head: "Jane Doe", initials: "JD", openItems: 7 },
+  {
+    id: "dept-1",
+    name: "Finance",
+    head: "Maria Kim",
+    initials: "MK",
+    openItems: 12,
+  },
+  {
+    id: "dept-2",
+    name: "Operations",
+    head: "Alex Brown",
+    initials: "AB",
+    openItems: 28,
+  },
+  {
+    id: "dept-3",
+    name: "Procurement",
+    head: "Jane Doe",
+    initials: "JD",
+    openItems: 7,
+  },
 ] as const;
 
 const PO_LINE_ITEMS = [
-  { id: "line-1", description: "Industrial fasteners (×500)", qty: 500, unit: "$0.42" },
-  { id: "line-2", description: "Stainless steel bolts M8 (×200)", qty: 200, unit: "$1.15" },
-  { id: "line-3", description: "Safety gloves — bulk pack", qty: 50, unit: "$8.90" },
+  {
+    id: "line-1",
+    description: "Industrial fasteners (×500)",
+    qty: 500,
+    unit: "$0.42",
+  },
+  {
+    id: "line-2",
+    description: "Stainless steel bolts M8 (×200)",
+    qty: 200,
+    unit: "$1.15",
+  },
+  {
+    id: "line-3",
+    description: "Safety gloves — bulk pack",
+    qty: 50,
+    unit: "$8.90",
+  },
 ] as const;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -228,7 +261,9 @@ function SlideIndicators({
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (!api) return;
+    if (!api) {
+      return;
+    }
 
     setCurrent(api.selectedScrollSnap());
 
@@ -440,7 +475,10 @@ export const ProductImageGallery: Story = {
               PO-2026-1184 · 3 images
             </span>
           </StoryStack>
-          <PackageIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <PackageIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
         </StoryRow>
         <Carousel>
           <CarouselContent>
@@ -523,7 +561,10 @@ export const CompanyAnnouncements: Story = {
     <CarouselFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <BellIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <BellIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">Company Announcements</span>
         </StoryRow>
         <Carousel opts={{ loop: true }}>
@@ -573,7 +614,9 @@ export const TrainingModules: Story = {
   render: () => (
     <CarouselFrame width="md">
       <StoryStack gap="sm">
-        <span className="font-medium text-sm">Onboarding · Required Modules</span>
+        <span className="font-medium text-sm">
+          Onboarding · Required Modules
+        </span>
         <Carousel>
           <CarouselContent>
             {TRAINING_MODULES.map((module) => (
@@ -641,7 +684,9 @@ export const ActivityFeed: Story = {
                           <AvatarFallback>{item.initials}</AvatarFallback>
                         </Avatar>
                         <StoryStack gap="xs">
-                          <span className="font-medium text-sm">{item.actor}</span>
+                          <span className="font-medium text-sm">
+                            {item.actor}
+                          </span>
                           <span className="text-muted-foreground text-xs">
                             {item.action}
                           </span>
@@ -730,7 +775,10 @@ export const DepartmentSpotlight: Story = {
     <CarouselFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <UserIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+          <UserIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
           <span className="font-medium text-sm">Department Overview</span>
         </StoryRow>
         <Carousel opts={{ loop: true }}>
@@ -746,9 +794,7 @@ export const DepartmentSpotlight: Story = {
                         </Avatar>
                         <StoryStack gap="xs">
                           <CardTitle>{dept.name}</CardTitle>
-                          <CardDescription>
-                            Head: {dept.head}
-                          </CardDescription>
+                          <CardDescription>Head: {dept.head}</CardDescription>
                         </StoryStack>
                       </StoryRow>
                     </CardHeader>

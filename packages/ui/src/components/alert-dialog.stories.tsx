@@ -11,7 +11,7 @@ import {
   UserPlusIcon,
   XIcon,
 } from "lucide-react";
-import { type ComponentType, type ComponentProps } from "react";
+import type { ComponentProps, ComponentType } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import {
   AlertDialog,
@@ -53,10 +53,7 @@ function AlertDialogMediaIcon({
   );
 }
 
-function ConfirmTrigger({
-  children,
-  ...props
-}: ComponentProps<typeof Button>) {
+function ConfirmTrigger({ children, ...props }: ComponentProps<typeof Button>) {
   return (
     <AlertDialogTrigger asChild>
       <Button {...props}>{children}</Button>
@@ -442,8 +439,8 @@ export const VoidInvoice: Story = {
           <AlertDialogTitle>Void invoice INV-2026-0098?</AlertDialogTitle>
           <AlertDialogDescription>
             This invoice has been posted to the general ledger. Voiding will
-            create a reversing journal entry of <strong>-$18,750.00</strong>{" "}
-            and notify the accounts payable team.
+            create a reversing journal entry of <strong>-$18,750.00</strong> and
+            notify the accounts payable team.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -530,7 +527,9 @@ export const RevokeApiKey: Story = {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMediaIcon icon={ShieldAlertIcon} />
-          <AlertDialogTitle>Revoke API key &quot;Warehouse Sync&quot;?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Revoke API key &quot;Warehouse Sync&quot;?
+          </AlertDialogTitle>
           <AlertDialogDescription>
             The warehouse integration will stop receiving inventory updates
             immediately. 4 scheduled sync jobs are in progress and will fail.
@@ -620,12 +619,14 @@ export const WorkflowFinalApproval: Story = {
       </ConfirmTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Submit final approval for PO-8821?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Submit final approval for PO-8821?
+          </AlertDialogTitle>
           <AlertDialogDescription>
             <StoryStack gap="sm">
               <span>
-                This is the final approval step. The purchase order will be
-                sent to Acme Supplies and cannot be edited afterward.
+                This is the final approval step. The purchase order will be sent
+                to Acme Supplies and cannot be edited afterward.
               </span>
               <StoryRow align="center" gap="sm">
                 <Badge emphasis="soft" tone="warning">

@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@afenda/typescript-config/base.json",
   "compilerOptions": {
+    "customConditions": ["@afenda/ui/development", "development"],
     "baseUrl": ".",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -14,20 +15,15 @@
     "paths": {
       "@/*": ["./src/*"],
       "#/*": ["./src/*"],
+      "@/governance": ["./src/governance/index.ts"],
+      "@/governance/*": ["./src/governance/*"],
+      "#/governance": ["./src/governance/index.ts"],
+      "#/governance/*": ["./src/governance/*"],
+      "#/lib/utils": ["./src/lib/utils.ts"],
       "@afenda/ui/governance": ["./src/governance/index.ts"],
-      "@afenda/ui/governance/component-props": [
-        "./src/governance/component-props.ts"
-      ],
-      "@afenda/ui/governance/primitive-governance": [
-        "./src/governance/primitive-governance.ts"
-      ],
-      "@afenda/ui/governance/governed-render": [
-        "./src/governance/governed-render.ts"
-      ],
-      "@afenda/ui/governance/create-governed-slot": [
-        "./src/governance/create-governed-slot.tsx"
-      ],
-      "@afenda/ui/lib/utils": ["./src/lib/utils.ts"]
+      "@afenda/ui/governance/*": ["./src/governance/*"],
+      "@afenda/ui/lib/utils": ["./src/lib/utils.ts"],
+      "@afenda/ui/lib/*": ["./src/lib/*"]
     }
   },
   "include": [

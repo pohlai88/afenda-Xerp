@@ -1,8 +1,7 @@
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import type { GovernedFormControlProps } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "className">,

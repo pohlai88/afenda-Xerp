@@ -34,7 +34,7 @@ const INVOICES = [
   {
     id: "INV-2026-0042",
     vendor: "Acme Supplies Ltd.",
-    amount: 24850,
+    amount: 24_850,
     due: "2026-07-15",
     status: "Awaiting payment",
     tone: "warning" as const,
@@ -50,7 +50,7 @@ const INVOICES = [
   {
     id: "INV-2026-0031",
     vendor: "Northwind Traders",
-    amount: 15400,
+    amount: 15_400,
     due: "2026-06-10",
     status: "Paid",
     tone: "success" as const,
@@ -96,7 +96,7 @@ const PURCHASE_ORDERS = [
   {
     id: "PO-2026-1184",
     vendor: "Acme Supplies",
-    amount: 12400,
+    amount: 12_400,
     status: "Pending approval",
     tone: "warning" as const,
   },
@@ -110,16 +110,34 @@ const PURCHASE_ORDERS = [
   {
     id: "PO-2026-1160",
     vendor: "Northwind Traders",
-    amount: 21500,
+    amount: 21_500,
     status: "Draft",
     tone: "neutral" as const,
   },
 ] as const;
 
 const INVENTORY_ROWS = [
-  { sku: "SKU-8842", name: "Industrial fasteners", onHand: 1240, reorder: 500, tone: "success" as const },
-  { sku: "SKU-7710", name: "Safety gloves", onHand: 180, reorder: 200, tone: "warning" as const },
-  { sku: "SKU-5521", name: "Hydraulic fluid", onHand: 0, reorder: 100, tone: "danger" as const },
+  {
+    sku: "SKU-8842",
+    name: "Industrial fasteners",
+    onHand: 1240,
+    reorder: 500,
+    tone: "success" as const,
+  },
+  {
+    sku: "SKU-7710",
+    name: "Safety gloves",
+    onHand: 180,
+    reorder: 200,
+    tone: "warning" as const,
+  },
+  {
+    sku: "SKU-5521",
+    name: "Hydraulic fluid",
+    onHand: 0,
+    reorder: 100,
+    tone: "danger" as const,
+  },
 ] as const;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -355,7 +373,9 @@ export const Compact: Story = {
             <TableRow key={row.sku}>
               <TableCell className="font-mono text-sm">{row.sku}</TableCell>
               <TableCell>{row.name}</TableCell>
-              <TableCell className="text-right tabular-nums">{row.onHand}</TableCell>
+              <TableCell className="text-right tabular-nums">
+                {row.onHand}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -405,7 +425,7 @@ export const GovernanceAllStates: Story = {
           <span className="font-mono text-muted-foreground text-xs">
             state=&quot;{state}&quot;
           </span>
-          <Table state={state} size="sm">
+          <Table size="sm" state={state}>
             <TableHeader>
               <TableRow>
                 <TableHead>Record</TableHead>
@@ -431,21 +451,19 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Use `TableCaption` for table title, `scope=\"col\"` on headers, and semantic `th`/`td`. Pair actions with `aria-label` on icon buttons.",
+          'Use `TableCaption` for table title, `scope="col"` on headers, and semantic `th`/`td`. Pair actions with `aria-label` on icon buttons.',
       },
     },
   },
   render: () => (
     <StoryFrame width="xl">
       <Table size="sm">
-        <TableCaption>
-          Open invoices — sorted by due date
-        </TableCaption>
+        <TableCaption>Open invoices — sorted by due date</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead scope="col">Invoice</TableHead>
             <TableHead scope="col">Vendor</TableHead>
-            <TableHead scope="col" className="text-right">
+            <TableHead className="text-right" scope="col">
               Amount
             </TableHead>
           </TableRow>
@@ -517,7 +535,7 @@ export const AllSizes: Story = {
               <TableRow>
                 <TableCell>INV-0042</TableCell>
                 <TableCell className="tabular-nums">
-                  {formatCurrency(24850)}
+                  {formatCurrency(24_850)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -756,7 +774,7 @@ export const ApprovalQueue: Story = {
                 id: "PO-2026-1184",
                 type: "Purchase order",
                 submitter: "Jane Doe",
-                amount: 12400,
+                amount: 12_400,
                 sla: "2 days left",
                 tone: "info" as const,
               },
@@ -896,7 +914,9 @@ export const LineItemsGrid: Story = {
               <TableRow key={row.line}>
                 <TableCell className="tabular-nums">{row.line}</TableCell>
                 <TableCell>{row.desc}</TableCell>
-                <TableCell className="text-right tabular-nums">{row.qty}</TableCell>
+                <TableCell className="text-right tabular-nums">
+                  {row.qty}
+                </TableCell>
                 <TableCell className="text-right tabular-nums">
                   {formatCurrency(row.unit)}
                 </TableCell>
@@ -937,9 +957,24 @@ export const ExpenseReportLines: Story = {
           </TableHeader>
           <TableBody>
             {[
-              { date: "Jun 18", category: "Travel", desc: "Flight SFO → NYC", amount: 420 },
-              { date: "Jun 18", category: "Meals", desc: "Client dinner", amount: 186 },
-              { date: "Jun 19", category: "Lodging", desc: "Hotel — 2 nights", amount: 574 },
+              {
+                date: "Jun 18",
+                category: "Travel",
+                desc: "Flight SFO → NYC",
+                amount: 420,
+              },
+              {
+                date: "Jun 18",
+                category: "Meals",
+                desc: "Client dinner",
+                amount: 186,
+              },
+              {
+                date: "Jun 19",
+                category: "Lodging",
+                desc: "Hotel — 2 nights",
+                amount: 574,
+              },
             ].map((row) => (
               <TableRow key={row.desc}>
                 <TableCell className="text-muted-foreground text-sm">
@@ -1044,12 +1079,29 @@ export const TimesheetEntries: Story = {
           </TableHeader>
           <TableBody>
             {[
-              { project: "PRJ-210", task: "Implementation", hours: 6.5, billable: true },
-              { project: "PRJ-210", task: "Client meeting", hours: 2, billable: true },
-              { project: "INT-001", task: "Training", hours: 1.5, billable: false },
+              {
+                project: "PRJ-210",
+                task: "Implementation",
+                hours: 6.5,
+                billable: true,
+              },
+              {
+                project: "PRJ-210",
+                task: "Client meeting",
+                hours: 2,
+                billable: true,
+              },
+              {
+                project: "INT-001",
+                task: "Training",
+                hours: 1.5,
+                billable: false,
+              },
             ].map((row) => (
               <TableRow key={`${row.project}-${row.task}`}>
-                <TableCell className="font-mono text-sm">{row.project}</TableCell>
+                <TableCell className="font-mono text-sm">
+                  {row.project}
+                </TableCell>
                 <TableCell>{row.task}</TableCell>
                 <TableCell className="text-right tabular-nums">
                   {row.hours.toFixed(1)}
@@ -1098,14 +1150,31 @@ export const MultiCurrencyColumns: Story = {
           </TableHeader>
           <TableBody>
             {[
-              { id: "INV-EU-012", currency: "EUR", amount: "€18,200", usd: 19840 },
-              { id: "INV-SG-008", currency: "SGD", amount: "S$42,500", usd: 31200 },
-              { id: "INV-US-042", currency: "USD", amount: "$24,850", usd: 24850 },
+              {
+                id: "INV-EU-012",
+                currency: "EUR",
+                amount: "€18,200",
+                usd: 19_840,
+              },
+              {
+                id: "INV-SG-008",
+                currency: "SGD",
+                amount: "S$42,500",
+                usd: 31_200,
+              },
+              {
+                id: "INV-US-042",
+                currency: "USD",
+                amount: "$24,850",
+                usd: 24_850,
+              },
             ].map((row) => (
               <TableRow key={row.id}>
                 <TableCell className="font-mono text-sm">{row.id}</TableCell>
                 <TableCell>{row.currency}</TableCell>
-                <TableCell className="text-right tabular-nums">{row.amount}</TableCell>
+                <TableCell className="text-right tabular-nums">
+                  {row.amount}
+                </TableCell>
                 <TableCell className="text-right tabular-nums">
                   {formatCurrency(row.usd)}
                 </TableCell>
@@ -1136,10 +1205,12 @@ export const EmptyResults: Story = {
           <TableBody>
             <TableRow>
               <TableCell
-                className="py-8 text-center text-muted-foreground text-sm"
+                className="text-center text-muted-foreground text-sm"
                 colSpan={3}
               >
-                No records match your filters. Adjust filters or clear search.
+                <StoryStack padding="lg">
+                  No records match your filters. Adjust filters or clear search.
+                </StoryStack>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -1154,32 +1225,34 @@ export const LoadingState: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <TableShell>
-        <Table size="sm" state="loading">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Invoice</TableHead>
-              <TableHead>Vendor</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {INVOICES.slice(0, 2).map((row) => (
-              <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
-                <TableCell>{row.vendor}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {formatCurrency(row.amount)}
-                </TableCell>
+      <StoryStack gap="xs">
+        <TableShell>
+          <Table size="sm" state="loading">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Invoice</TableHead>
+                <TableHead>Vendor</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableShell>
-      <span className="mt-2 text-muted-foreground text-xs">
-        `state=&quot;loading&quot;` on `Table` — pair with skeleton rows in app
-        views.
-      </span>
+            </TableHeader>
+            <TableBody>
+              {INVOICES.slice(0, 2).map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                  <TableCell>{row.vendor}</TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {formatCurrency(row.amount)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableShell>
+        <span className="text-muted-foreground text-xs">
+          `state=&quot;loading&quot;` on `Table` — pair with skeleton rows in
+          app views.
+        </span>
+      </StoryStack>
     </StoryFrame>
   ),
 };

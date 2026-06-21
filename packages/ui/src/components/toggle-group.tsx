@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedToggleProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui";
-
-import { cn } from "#/lib/utils";
-import type { GovernedToggleProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const TOGGLE_GROUP_RECIPE_NAME = "form-control" as const;
 
@@ -23,12 +22,15 @@ const ToggleGroupContext = React.createContext<
 });
 
 export interface ToggleGroupProps
-  extends Omit<React.ComponentProps<typeof ToggleGroupPrimitive.Root>, "className"> {
+  extends Omit<
+    React.ComponentProps<typeof ToggleGroupPrimitive.Root>,
+    "className"
+  > {
   readonly className?: string;
-  readonly variant?: GovernedToggleProps["variant"];
+  readonly orientation?: "horizontal" | "vertical";
   readonly size?: GovernedToggleProps["size"];
   readonly spacing?: number;
-  readonly orientation?: "horizontal" | "vertical";
+  readonly variant?: GovernedToggleProps["variant"];
 }
 
 function ToggleGroup({
@@ -78,7 +80,10 @@ function ToggleGroup({
 }
 
 export interface ToggleGroupItemProps
-  extends Omit<React.ComponentProps<typeof ToggleGroupPrimitive.Item>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof ToggleGroupPrimitive.Item>,
+      "className"
+    >,
     GovernedToggleProps {
   readonly className?: string;
 }
@@ -86,34 +91,46 @@ export interface ToggleGroupItemProps
 const ToggleGroupItem = React.forwardRef<
   React.ComponentRef<typeof ToggleGroupPrimitive.Item>,
   ToggleGroupItemProps
->(({ className, children, variant = "default", size = "default", state, ...props }, ref) => {
-  const context = React.useContext(ToggleGroupContext);
-  const resolvedVariant = context.variant ?? variant;
-  const resolvedSize = context.size ?? size;
+>(
+  (
+    {
+      className,
+      children,
+      variant = "default",
+      size = "default",
+      state,
+      ...props
+    },
+    ref
+  ) => {
+    const context = React.useContext(ToggleGroupContext);
+    const resolvedVariant = context.variant ?? variant;
+    const resolvedSize = context.size ?? size;
 
-  const governed = resolvePrimitiveGovernance({
-    componentName: "ToggleGroup",
-    recipeName: TOGGLE_GROUP_RECIPE_NAME,
-    state,
-    slot: "control",
-    toggleVariant: resolvedVariant,
-    toggleSize: resolvedSize,
-    className,
-  });
+    const governed = resolvePrimitiveGovernance({
+      componentName: "ToggleGroup",
+      recipeName: TOGGLE_GROUP_RECIPE_NAME,
+      state,
+      slot: "control",
+      toggleVariant: resolvedVariant,
+      toggleSize: resolvedSize,
+      className,
+    });
 
-  return (
-    <ToggleGroupPrimitive.Item
-      ref={ref}
-      {...applyGovernedPresentation(props, governed, {
-        "data-variant": resolvedVariant,
-        "data-size": resolvedSize,
-        "data-spacing": context.spacing,
-      })}
-    >
-      {children}
-    </ToggleGroupPrimitive.Item>
-  );
-});
+    return (
+      <ToggleGroupPrimitive.Item
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, {
+          "data-variant": resolvedVariant,
+          "data-size": resolvedSize,
+          "data-spacing": context.spacing,
+        })}
+      >
+        {children}
+      </ToggleGroupPrimitive.Item>
+    );
+  }
+);
 
 ToggleGroupItem.displayName = "ToggleGroupItem";
 

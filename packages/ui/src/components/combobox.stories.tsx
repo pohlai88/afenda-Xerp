@@ -30,42 +30,72 @@ import { Separator } from "./separator";
 
 // ─── Types & data ────────────────────────────────────────────────────────────
 
-type LabeledOption = {
-  readonly value: string;
+interface LabeledOption {
   readonly label: string;
-};
+  readonly value: string;
+}
 
 type VendorOption = LabeledOption & {
   readonly code: string;
   readonly region: string;
 };
 
-type EmployeeOption = {
-  readonly id: string;
-  readonly label: string;
+interface EmployeeOption {
   readonly dept: string;
+  readonly id: string;
   readonly initials: string;
-};
+  readonly label: string;
+}
 
-type SkuOption = {
+interface SkuOption {
   readonly id: string;
   readonly label: string;
   readonly sku: string;
   readonly stock: number;
-};
+}
 
-type GroupedVendor = {
-  readonly value: string;
+interface GroupedVendor {
   readonly items: readonly VendorOption[];
-};
+  readonly value: string;
+}
 
 const VENDORS: readonly VendorOption[] = [
-  { value: "vnd-88421", label: "Acme Supplies Ltd.", code: "VND-88421", region: "US" },
-  { value: "vnd-55210", label: "Metro Logistics", code: "VND-55210", region: "US" },
-  { value: "vnd-33108", label: "TechServe Inc.", code: "VND-33108", region: "US" },
-  { value: "vnd-90214", label: "Global Parts Ltd.", code: "VND-90214", region: "UK" },
-  { value: "vnd-77103", label: "Pacific Components", code: "VND-77103", region: "SG" },
-  { value: "vnd-64092", label: "Nordic Industrial", code: "VND-64092", region: "EU" },
+  {
+    value: "vnd-88421",
+    label: "Acme Supplies Ltd.",
+    code: "VND-88421",
+    region: "US",
+  },
+  {
+    value: "vnd-55210",
+    label: "Metro Logistics",
+    code: "VND-55210",
+    region: "US",
+  },
+  {
+    value: "vnd-33108",
+    label: "TechServe Inc.",
+    code: "VND-33108",
+    region: "US",
+  },
+  {
+    value: "vnd-90214",
+    label: "Global Parts Ltd.",
+    code: "VND-90214",
+    region: "UK",
+  },
+  {
+    value: "vnd-77103",
+    label: "Pacific Components",
+    code: "VND-77103",
+    region: "SG",
+  },
+  {
+    value: "vnd-64092",
+    label: "Nordic Industrial",
+    code: "VND-64092",
+    region: "EU",
+  },
 ];
 
 const EMPLOYEES: readonly EmployeeOption[] = [
@@ -132,7 +162,9 @@ const SKUS: readonly SkuOption[] = [
   { id: "sku-5", label: "Label printer ribbon", sku: "OFF-LBL-RIB", stock: 0 },
 ];
 
-function groupVendorsByRegion(vendors: readonly VendorOption[]): GroupedVendor[] {
+function groupVendorsByRegion(
+  vendors: readonly VendorOption[]
+): GroupedVendor[] {
   const buckets = new Map<string, VendorOption[]>();
   for (const vendor of vendors) {
     const list = buckets.get(vendor.region) ?? [];
@@ -196,11 +228,7 @@ function SingleCombobox<T extends LabeledOption>({
       isItemEqualToValue={labeledEquality}
       items={items}
     >
-      <ComboboxInput
-        id={id}
-        placeholder={placeholder}
-        showClear={showClear}
-      />
+      <ComboboxInput id={id} placeholder={placeholder} showClear={showClear} />
       <ComboboxContent>
         <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
         <ComboboxList>
@@ -291,10 +319,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <StoryFrame width="md">
-      <SingleCombobox
-        items={VENDORS}
-        placeholder="Search vendors…"
-      />
+      <SingleCombobox items={VENDORS} placeholder="Search vendors…" />
     </StoryFrame>
   ),
 };
@@ -367,10 +392,7 @@ export const GroupedOptions: Story = {
   name: "Combobox — Grouped Options",
   render: () => (
     <StoryFrame width="md">
-      <Combobox
-        isItemEqualToValue={labeledEquality}
-        items={GROUPED_VENDORS}
-      >
+      <Combobox isItemEqualToValue={labeledEquality} items={GROUPED_VENDORS}>
         <ComboboxInput placeholder="Search by vendor or region…" />
         <ComboboxContent>
           <ComboboxEmpty>No vendors found.</ComboboxEmpty>
@@ -453,10 +475,7 @@ export const EmployeeAssigneePicker: Story = {
     <StoryFrame width="md">
       <StoryStack gap="xs">
         <Label htmlFor="erp-assignee">Assign to</Label>
-        <Combobox
-          isItemEqualToValue={objectEquality}
-          items={EMPLOYEES}
-        >
+        <Combobox isItemEqualToValue={objectEquality} items={EMPLOYEES}>
           <ComboboxInput
             id="erp-assignee"
             placeholder="Search employees…"
@@ -472,7 +491,9 @@ export const EmployeeAssigneePicker: Story = {
                       <AvatarFallback>{employee.initials}</AvatarFallback>
                     </Avatar>
                     <StoryStack gap="xs">
-                      <span className="font-medium text-sm">{employee.label}</span>
+                      <span className="font-medium text-sm">
+                        {employee.label}
+                      </span>
                       <span className="text-muted-foreground text-xs">
                         {employee.dept}
                       </span>
@@ -566,10 +587,7 @@ export const CountrySelector: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="xs">
         <Label htmlFor="erp-country">Ship-to country</Label>
-        <Combobox
-          isItemEqualToValue={labeledEquality}
-          items={COUNTRIES}
-        >
+        <Combobox isItemEqualToValue={labeledEquality} items={COUNTRIES}>
           <ComboboxInput
             id="erp-country"
             placeholder="Search countries…"
@@ -604,10 +622,7 @@ export const ProjectCodeSearch: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="xs">
         <Label htmlFor="erp-project">Project code</Label>
-        <Combobox
-          isItemEqualToValue={labeledEquality}
-          items={PROJECT_CODES}
-        >
+        <Combobox isItemEqualToValue={labeledEquality} items={PROJECT_CODES}>
           <ComboboxInput
             id="erp-project"
             placeholder="Search active projects…"
@@ -641,10 +656,7 @@ export const InventorySkuSearch: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="xs">
         <Label htmlFor="erp-sku">Inventory item</Label>
-        <Combobox
-          isItemEqualToValue={objectEquality}
-          items={SKUS}
-        >
+        <Combobox isItemEqualToValue={objectEquality} items={SKUS}>
           <ComboboxInput
             id="erp-sku"
             placeholder="Search SKU or description…"
@@ -668,9 +680,17 @@ export const InventorySkuSearch: Story = {
                     <Badge
                       emphasis="soft"
                       size="sm"
-                      tone={sku.stock === 0 ? "danger" : sku.stock < 50 ? "warning" : "success"}
+                      tone={
+                        sku.stock === 0
+                          ? "danger"
+                          : sku.stock < 50
+                            ? "warning"
+                            : "success"
+                      }
                     >
-                      {sku.stock === 0 ? "Out of stock" : `${sku.stock} in stock`}
+                      {sku.stock === 0
+                        ? "Out of stock"
+                        : `${sku.stock} in stock`}
                     </Badge>
                   </StoryRow>
                 </ComboboxItem>
@@ -758,14 +778,8 @@ export const FilterBarComboboxRow: Story = {
         </StoryStack>
         <StoryStack gap="xs">
           <Label htmlFor="filter-assignee">Assignee</Label>
-          <Combobox
-            isItemEqualToValue={objectEquality}
-            items={EMPLOYEES}
-          >
-            <ComboboxInput
-              id="filter-assignee"
-              placeholder="Anyone…"
-            />
+          <Combobox isItemEqualToValue={objectEquality} items={EMPLOYEES}>
+            <ComboboxInput id="filter-assignee" placeholder="Anyone…" />
             <ComboboxContent>
               <ComboboxEmpty>No assignees found.</ComboboxEmpty>
               <ComboboxList>
@@ -808,15 +822,18 @@ export const RecordLinkingCombobox: Story = {
           <Combobox
             isItemEqualToValue={labeledEquality}
             items={[
-              { value: "po-1184", label: "PO-2026-1184 — Industrial fasteners" },
-              { value: "po-1185", label: "PO-2026-1185 — Server rack components" },
+              {
+                value: "po-1184",
+                label: "PO-2026-1184 — Industrial fasteners",
+              },
+              {
+                value: "po-1185",
+                label: "PO-2026-1185 — Server rack components",
+              },
               { value: "po-1186", label: "PO-2026-1186 — Office consumables" },
             ]}
           >
-            <ComboboxInput
-              id="erp-link-po"
-              placeholder="Search open POs…"
-            />
+            <ComboboxInput id="erp-link-po" placeholder="Search open POs…" />
             <ComboboxContent>
               <ComboboxEmpty>No matching purchase orders.</ComboboxEmpty>
               <ComboboxList>
@@ -860,10 +877,7 @@ export const LocationSitePicker: Story = {
             { value: "wh-intl", label: "WH-Intl — Singapore hub" },
           ]}
         >
-          <ComboboxInput
-            id="erp-site"
-            placeholder="Search sites…"
-          />
+          <ComboboxInput id="erp-site" placeholder="Search sites…" />
           <ComboboxContent>
             <ComboboxEmpty>No sites found.</ComboboxEmpty>
             <ComboboxList>

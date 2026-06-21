@@ -96,10 +96,18 @@ export function createDatabaseProject(importMetaUrl: string, name: string) {
 
 export function createUiProject(importMetaUrl: string, name: string) {
   const root = dirname(fileURLToPath(importMetaUrl));
+  const srcRoot = resolve(root, "src");
 
   return defineProject({
     root,
     plugins: [react()],
+    resolve: {
+      alias: {
+        "@": srcRoot,
+        "#": srcRoot,
+        "next/link": NEXT_LINK_MOCK,
+      },
+    },
     server: {
       deps: WORKSPACE_DEPS,
     },

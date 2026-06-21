@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -58,7 +58,10 @@ describe("Table governance", () => {
       </Table>
     );
 
-    expect(screen.getByText("Users")).toHaveAttribute("data-slot", "table-caption");
+    expect(screen.getByText("Users")).toHaveAttribute(
+      "data-slot",
+      "table-caption"
+    );
     expect(screen.getByText("Users").closest("thead")).toBeNull();
 
     const headerSection = screen.getByText("Name").closest("thead");
@@ -129,8 +132,14 @@ describe("Table governance", () => {
       </Table>
     );
 
-    expect(screen.getByText("Column")).toHaveAttribute("data-slot", "table-head");
-    expect(screen.getByText("Value")).toHaveAttribute("data-slot", "table-cell");
+    expect(screen.getByText("Column")).toHaveAttribute(
+      "data-slot",
+      "table-head"
+    );
+    expect(screen.getByText("Value")).toHaveAttribute(
+      "data-slot",
+      "table-cell"
+    );
     expect(screen.getByText("Column").closest("tr")).toHaveAttribute(
       "data-slot",
       "table-row"

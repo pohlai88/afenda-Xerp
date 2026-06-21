@@ -18,6 +18,10 @@ import {
   isEditableEnvSource,
   isSyncedEnvOutput,
 } from "./env-policy.mjs";
+import {
+  checkGovernedUiConsumption,
+  GOVERNED_UI_CONSUMER_PATH,
+} from "../../scripts/governance/governed-ui-consumption.mjs";
 
 const TAG = "guard-pre-tool-use";
 
@@ -309,6 +313,24 @@ if (relativePath && UI_COMPONENT_FILE.test(relativePath) && !UI_STORY_FILE.test(
       ask(
         `Governed component contains ${violations.length} raw Tailwind violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
         `TIP-001/TIP-004: Raw Tailwind in governed component. All styling must flow through resolvePrimitiveGovernance and the recipe system. See .cursor/rules/no-raw-tailwind.mdc.`
+      );
+    }
+  }
+}
+
+// ─── Governed UI consumer layer (appshell, erp app wiring) ───────────────────
+
+if (relativePath && GOVERNED_UI_CONSUMER_PATH.test(relativePath)) {
+  const content = extractContent(input);
+
+  if (content) {
+    const violations = checkGovernedUiConsumption(content);
+
+    if (violations.length > 0) {
+      log(TAG, `governed UI consumption: ${relativePath} (${violations.length})`);
+      ask(
+        `@afenda/ui consumer file has ${violations.length} TIP-004 violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
+        `TIP-004: Do not pass className to governed @afenda/ui primitives. Use governed props; put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
       );
     }
   }

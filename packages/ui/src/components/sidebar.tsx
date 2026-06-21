@@ -1,29 +1,24 @@
 "use client";
 
-import * as React from "react";
-import { Slot } from "radix-ui";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { PanelLeftIcon } from "lucide-react";
-
-import { useIsMobile } from "#/hooks/use-mobile";
-import { cn } from "#/lib/utils";
-import { Button } from "#/components/button";
-import { Input } from "#/components/input";
-import { Separator } from "#/components/separator";
+import { Slot } from "radix-ui";
+import * as React from "react";
+import { useIsMobile } from "../hooks/use-mobile";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Separator } from "./separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "#/components/sheet";
-import { Skeleton } from "#/components/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "#/components/tooltip";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+} from "./sheet";
+import { Skeleton } from "./skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 const SIDEBAR_RECIPE_NAME = "surface" as const;
 
@@ -37,15 +32,15 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 type SidebarMenuButtonVariant = "default" | "outline";
 type SidebarMenuButtonSize = "default" | "sm" | "lg";
 
-type SidebarContextProps = {
-  readonly state: "expanded" | "collapsed";
-  readonly open: boolean;
-  readonly setOpen: (open: boolean) => void;
-  readonly openMobile: boolean;
-  readonly setOpenMobile: (open: boolean) => void;
+interface SidebarContextProps {
   readonly isMobile: boolean;
+  readonly open: boolean;
+  readonly openMobile: boolean;
+  readonly setOpen: (open: boolean) => void;
+  readonly setOpenMobile: (open: boolean) => void;
+  readonly state: "expanded" | "collapsed";
   readonly toggleSidebar: () => void;
-};
+}
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 
@@ -71,7 +66,9 @@ function sidebarClass(
     recipeName: SIDEBAR_RECIPE_NAME,
     ...(slot === undefined ? {} : { slot }),
     ...(options?.slotKey === undefined ? {} : { slotKey: options.slotKey }),
-    ...(options?.className === undefined ? {} : { className: options.className }),
+    ...(options?.className === undefined
+      ? {}
+      : { className: options.className }),
   });
 }
 
@@ -95,81 +92,86 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-  const isMobile = useIsMobile();
-  const [openMobile, setOpenMobile] = React.useState(false);
-  const [_open, _setOpen] = React.useState(defaultOpen);
-  const open = openProp ?? _open;
+    const isMobile = useIsMobile();
+    const [openMobile, setOpenMobile] = React.useState(false);
+    const [_open, _setOpen] = React.useState(defaultOpen);
+    const open = openProp ?? _open;
 
-  const setOpen = React.useCallback(
-    (value: boolean | ((value: boolean) => boolean)) => {
-      const openState = typeof value === "function" ? value(open) : value;
-      if (setOpenProp) {
-        setOpenProp(openState);
-      } else {
-        _setOpen(openState);
-      }
+    const setOpen = React.useCallback(
+      (value: boolean | ((value: boolean) => boolean)) => {
+        const openState = typeof value === "function" ? value(open) : value;
+        if (setOpenProp) {
+          setOpenProp(openState);
+        } else {
+          _setOpen(openState);
+        }
 
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
-    },
-    [setOpenProp, open]
-  );
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+      },
+      [setOpenProp, open]
+    );
 
-  const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((current) => !current) : setOpen((current) => !current);
-  }, [isMobile, setOpen, setOpenMobile]);
+    const toggleSidebar = React.useCallback(
+      () =>
+        isMobile
+          ? setOpenMobile((current) => !current)
+          : setOpen((current) => !current),
+      [isMobile, setOpen]
+    );
 
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-        (event.metaKey || event.ctrlKey)
-      ) {
-        event.preventDefault();
-        toggleSidebar();
-      }
-    };
+    React.useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (
+          event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
+          (event.metaKey || event.ctrlKey)
+        ) {
+          event.preventDefault();
+          toggleSidebar();
+        }
+      };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [toggleSidebar]);
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [toggleSidebar]);
 
-  const state = open ? "expanded" : "collapsed";
-  const governed = sidebarClass("root", { className });
+    const state = open ? "expanded" : "collapsed";
+    const governed = sidebarClass("root", { className });
 
-  const contextValue = React.useMemo<SidebarContextProps>(
-    () => ({
-      state,
-      open,
-      setOpen,
-      isMobile,
-      openMobile,
-      setOpenMobile,
-      toggleSidebar,
-    }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
-  );
+    const contextValue = React.useMemo<SidebarContextProps>(
+      () => ({
+        state,
+        open,
+        setOpen,
+        isMobile,
+        openMobile,
+        setOpenMobile,
+        toggleSidebar,
+      }),
+      [state, open, setOpen, isMobile, openMobile, toggleSidebar]
+    );
 
-  return (
-    <SidebarContext.Provider value={contextValue}>
-      <div
-        ref={ref}
-        {...applyGovernedPresentation(
-          {
-            style: {
-              "--sidebar-width": SIDEBAR_WIDTH,
-              "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
-              ...style,
-            } as React.CSSProperties,
-            ...props,
-          },
-          governed
-        )}
-      >
-        {children}
-      </div>
-    </SidebarContext.Provider>
-  );
-});
+    return (
+      <SidebarContext.Provider value={contextValue}>
+        <div
+          ref={ref}
+          {...applyGovernedPresentation(
+            {
+              style: {
+                "--sidebar-width": SIDEBAR_WIDTH,
+                "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
+                ...style,
+              } as React.CSSProperties,
+              ...props,
+            },
+            governed
+          )}
+        >
+          {children}
+        </div>
+      </SidebarContext.Provider>
+    );
+  }
+);
 
 SidebarProvider.displayName = "SidebarProvider";
 
@@ -193,9 +195,7 @@ function Sidebar({
     const governed = sidebarClass(undefined, { slotKey: "sidebar", className });
 
     return (
-      <div {...applyGovernedPresentation(props, governed)}>
-        {children}
-      </div>
+      <div {...applyGovernedPresentation(props, governed)}>{children}</div>
     );
   }
 
@@ -205,19 +205,19 @@ function Sidebar({
     const header = sidebarClass(undefined, { slotKey: "mobile-header" });
 
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+      <Sheet onOpenChange={setOpenMobile} open={openMobile} {...props}>
         <SheetContent
-          dir={dir}
-          data-sidebar="sidebar"
           data-mobile="true"
+          data-sidebar="sidebar"
+          dir={dir}
           {...content.dataAttributes}
           className={cn(content.className)}
+          side={side}
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
             } as React.CSSProperties
           }
-          side={side}
         >
           <SheetHeader className={cn(header.className)}>
             <SheetTitle>Sidebar</SheetTitle>
@@ -248,18 +248,20 @@ function Sidebar({
   return (
     <div
       {...body.dataAttributes}
-      data-state={state}
-      data-collapsible={state === "collapsed" ? collapsible : ""}
-      data-variant={variant}
-      data-side={side}
       className={cn(body.className)}
+      data-collapsible={state === "collapsed" ? collapsible : ""}
+      data-side={side}
+      data-state={state}
+      data-variant={variant}
     >
       <div
         {...gapBase.dataAttributes}
         className={cn(gapBase.className, gapVariant.className)}
       />
       <div
-        {...applyGovernedPresentation(props, containerBase, { "data-side": side })}
+        {...applyGovernedPresentation(props, containerBase, {
+          "data-side": side,
+        })}
         className={cn(containerBase.className, containerVariant.className)}
       >
         <div
@@ -282,26 +284,19 @@ function SidebarTrigger({
   const { toggleSidebar } = useSidebar();
   const srOnly = sidebarClass(undefined, { slotKey: "sr-only" });
 
-  const trigger = sidebarClass(undefined, { slotKey: "trigger" });
-
   return (
     <Button
-      {...applyGovernedPresentation(
-        {
-          intent: "quiet",
-          emphasis: "ghost",
-          size: "sm",
-          presentation: "icon",
-          className: cn(className),
-          onClick: (event) => {
-            onClick?.(event);
-            toggleSidebar();
-          },
-          ...props,
-        },
-        trigger,
-        { "data-sidebar": "trigger" }
-      )}
+      {...props}
+      {...(className === undefined ? {} : { className })}
+      data-sidebar="trigger"
+      emphasis="ghost"
+      intent="quiet"
+      onClick={(event) => {
+        onClick?.(event);
+        toggleSidebar();
+      }}
+      presentation="icon"
+      size="sm"
     >
       <PanelLeftIcon />
       <span {...srOnly.dataAttributes} className={cn(srOnly.className)}>
@@ -334,38 +329,47 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
 
 const SidebarInset = React.forwardRef<
   HTMLElement,
-  Omit<React.ComponentPropsWithoutRef<"main">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"main">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, { slotKey: "inset", className });
 
-  return (
-    <main ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <main ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 SidebarInset.displayName = "SidebarInset";
 
 function SidebarInput({
   className,
+  size = "sm",
   ...props
 }: React.ComponentProps<typeof Input>) {
-  const governed = sidebarClass(undefined, { slotKey: "input", className });
-
   return (
     <Input
-      {...applyGovernedPresentation(props, governed, { "data-sidebar": "input" })}
+      {...props}
+      {...(className === undefined ? {} : { className })}
+      data-sidebar="input"
+      size={size}
     />
   );
 }
 
 const SidebarHeader = React.forwardRef<
   HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass("header", { className });
 
   return (
-    <div ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "header" })} />
+    <div
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "header",
+      })}
+    />
   );
 });
 
@@ -373,12 +377,19 @@ SidebarHeader.displayName = "SidebarHeader";
 
 const SidebarFooter = React.forwardRef<
   HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass("footer", { className });
 
   return (
-    <div ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "footer" })} />
+    <div
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "footer",
+      })}
+    />
   );
 });
 
@@ -392,14 +403,18 @@ function SidebarSeparator({
 
   return (
     <Separator
-      {...applyGovernedPresentation(props, governed, { "data-sidebar": "separator" })}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "separator",
+      })}
     />
   );
 }
 
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, {
     slotKey: "content-scroll",
@@ -407,7 +422,12 @@ const SidebarContent = React.forwardRef<
   });
 
   return (
-    <div ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "content" })} />
+    <div
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "content",
+      })}
+    />
   );
 });
 
@@ -415,12 +435,19 @@ SidebarContent.displayName = "SidebarContent";
 
 const SidebarGroup = React.forwardRef<
   HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, { slotKey: "group", className });
 
   return (
-    <div ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "group" })} />
+    <div
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "group",
+      })}
+    />
   );
 });
 
@@ -436,7 +463,9 @@ function SidebarGroupLabel({
 
   return (
     <Comp
-      {...applyGovernedPresentation(props, governed, { "data-sidebar": "group-label" })}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "group-label",
+      })}
     />
   );
 }
@@ -451,7 +480,9 @@ function SidebarGroupAction({
 
   return (
     <Comp
-      {...applyGovernedPresentation(props, governed, { "data-sidebar": "group-action" })}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "group-action",
+      })}
     />
   );
 }
@@ -463,18 +494,29 @@ function SidebarGroupContent({
   const governed = sidebarClass("state", { className });
 
   return (
-    <div {...applyGovernedPresentation(props, governed, { "data-sidebar": "group-content" })} />
+    <div
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "group-content",
+      })}
+    />
   );
 }
 
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
-  Omit<React.ComponentPropsWithoutRef<"ul">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"ul">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass("actions", { className });
 
   return (
-    <ul ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu" })} />
+    <ul
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu",
+      })}
+    />
   );
 });
 
@@ -482,12 +524,19 @@ SidebarMenu.displayName = "SidebarMenu";
 
 const SidebarMenuItem = React.forwardRef<
   HTMLLIElement,
-  Omit<React.ComponentPropsWithoutRef<"li">, "className"> & { readonly className?: string }
+  Omit<React.ComponentPropsWithoutRef<"li">, "className"> & {
+    readonly className?: string;
+  }
 >(({ className, ...props }, ref) => {
   const governed = sidebarClass("icon", { className });
 
   return (
-    <li ref={ref} {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-item" })} />
+    <li
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-item",
+      })}
+    />
   );
 });
 
@@ -541,9 +590,9 @@ function SidebarMenuButton({
     <Tooltip>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
       <TooltipContent
-        side="right"
         align="center"
         hidden={state !== "collapsed" || isMobile}
+        side="right"
         {...tooltipProps}
       />
     </Tooltip>
@@ -570,7 +619,9 @@ function SidebarMenuAction({
 
   return (
     <Comp
-      {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-action" })}
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-action",
+      })}
       className={cn(governed.className, hover?.className)}
     />
   );
@@ -586,7 +637,11 @@ function SidebarMenuBadge({
   });
 
   return (
-    <div {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-badge" })} />
+    <div
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-badge",
+      })}
+    />
   );
 }
 
@@ -597,7 +652,9 @@ function SidebarMenuSkeleton({
 }: React.ComponentProps<"div"> & {
   readonly showIcon?: boolean;
 }) {
-  const [width] = React.useState(() => `${Math.floor(Math.random() * 40) + 50}%`);
+  const [width] = React.useState(
+    () => `${Math.floor(Math.random() * 40) + 50}%`
+  );
   const governed = sidebarClass(undefined, {
     slotKey: "menu-skeleton",
     className,
@@ -606,7 +663,11 @@ function SidebarMenuSkeleton({
   const text = sidebarClass(undefined, { slotKey: "menu-skeleton-text" });
 
   return (
-    <div {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-skeleton" })}>
+    <div
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-skeleton",
+      })}
+    >
       {showIcon ? (
         <Skeleton
           {...icon.dataAttributes}
@@ -632,7 +693,11 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   const governed = sidebarClass(undefined, { slotKey: "menu-sub", className });
 
   return (
-    <ul {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-sub" })} />
+    <ul
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-sub",
+      })}
+    />
   );
 }
 
@@ -646,7 +711,11 @@ function SidebarMenuSubItem({
   });
 
   return (
-    <li {...applyGovernedPresentation(props, governed, { "data-sidebar": "menu-sub-item" })} />
+    <li
+      {...applyGovernedPresentation(props, governed, {
+        "data-sidebar": "menu-sub-item",
+      })}
+    />
   );
 }
 

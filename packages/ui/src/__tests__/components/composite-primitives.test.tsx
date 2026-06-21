@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -25,7 +25,9 @@ describe("composite primitive governance", () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete item</AlertDialogTitle>
-            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+            <AlertDialogDescription>
+              This action cannot be undone.
+            </AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>
       </AlertDialog>
@@ -94,13 +96,23 @@ describe("composite primitive governance", () => {
       </Avatar>
     );
 
-    expect(screen.getByText("AB")).toHaveAttribute("data-slot", "avatar-fallback");
-    expect(screen.getByText("AB").parentElement).toHaveAttribute("data-slot", "avatar");
+    expect(screen.getByText("AB")).toHaveAttribute(
+      "data-slot",
+      "avatar-fallback"
+    );
+    expect(screen.getByText("AB").parentElement).toHaveAttribute(
+      "data-slot",
+      "avatar"
+    );
   });
 
   it("keeps governed data attributes authoritative on Avatar", () => {
     render(
-      <Avatar data-component="Override" data-recipe="override" data-slot="override">
+      <Avatar
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+      >
         <AvatarFallback>AB</AvatarFallback>
       </Avatar>
     );
@@ -143,7 +155,12 @@ describe("composite primitive governance", () => {
       </AvatarGroup>
     );
 
-    expect(screen.getByText("+3")).toHaveAttribute("data-slot", "avatar-group-count");
-    expect(screen.getByText("A").closest("[data-slot='avatar-group']")).not.toBeNull();
+    expect(screen.getByText("+3")).toHaveAttribute(
+      "data-slot",
+      "avatar-group-count"
+    );
+    expect(
+      screen.getByText("A").closest("[data-slot='avatar-group']")
+    ).not.toBeNull();
   });
 });

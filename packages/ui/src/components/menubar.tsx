@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { Menubar as MenubarPrimitive } from "radix-ui";
+import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
-
-import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Menubar as MenubarPrimitive } from "radix-ui";
+import * as React from "react";
 
 const MENUBAR_RECIPE_NAME = "surface" as const;
 
@@ -18,7 +17,10 @@ const MenubarShortcut = createGovernedSpanSlot("MenubarShortcut", {
 
 const Menubar = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Root>,
-  Omit<React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -100,26 +102,31 @@ const MenubarContent = React.forwardRef<
   > & {
     readonly className?: string;
   }
->(({ className, align = "start", alignOffset = -4, sideOffset = 8, ...props }, ref) => {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Menubar",
-    recipeName: MENUBAR_RECIPE_NAME,
-    slot: "content",
-    className,
-  });
+>(
+  (
+    { className, align = "start", alignOffset = -4, sideOffset = 8, ...props },
+    ref
+  ) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Menubar",
+      recipeName: MENUBAR_RECIPE_NAME,
+      slot: "content",
+      className,
+    });
 
-  return (
-    <MenubarPortal>
-      <MenubarPrimitive.Content
-        ref={ref}
-        {...applyGovernedPresentation(
-          { ...props, align, alignOffset, sideOffset },
-          governed
-        )}
-      />
-    </MenubarPortal>
-  );
-});
+    return (
+      <MenubarPortal>
+        <MenubarPrimitive.Content
+          ref={ref}
+          {...applyGovernedPresentation(
+            { ...props, align, alignOffset, sideOffset },
+            governed
+          )}
+        />
+      </MenubarPortal>
+    );
+  }
+);
 
 MenubarContent.displayName = "MenubarContent";
 
@@ -182,7 +189,7 @@ const MenubarCheckboxItem = React.forwardRef<
     <MenubarPrimitive.CheckboxItem
       ref={ref}
       {...applyGovernedPresentation(
-        { ...props, ...(checked !== undefined ? { checked } : {}) },
+        { ...props, ...(checked === undefined ? {} : { checked }) },
         governed,
         { "data-inset": inset }
       )}
@@ -365,19 +372,19 @@ MenubarSubContent.displayName = "MenubarSubContent";
 
 export {
   Menubar,
-  MenubarPortal,
-  MenubarMenu,
-  MenubarTrigger,
+  MenubarCheckboxItem,
   MenubarContent,
   MenubarGroup,
-  MenubarSeparator,
-  MenubarLabel,
   MenubarItem,
-  MenubarShortcut,
-  MenubarCheckboxItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
   MenubarRadioGroup,
   MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
   MenubarSub,
-  MenubarSubTrigger,
   MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
 };

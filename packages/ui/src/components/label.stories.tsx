@@ -102,10 +102,7 @@ function RadioLabel({
   readonly normalWeight?: boolean;
 }) {
   return (
-    <Label
-      htmlFor={id}
-      {...(normalWeight ? { className: "font-normal" } : {})}
-    >
+    <Label htmlFor={id} {...(normalWeight ? { className: "font-normal" } : {})}>
       {label}
     </Label>
   );
@@ -250,7 +247,11 @@ export const GovernanceAllStates: Story = {
             <Label htmlFor={`label-${state}`} state={state}>
               Employee ID
             </Label>
-            <Input id={`label-${state}`} placeholder="EMP-00142" state={state} />
+            <Input
+              id={`label-${state}`}
+              placeholder="EMP-00142"
+              state={state}
+            />
           </StoryStack>
         </StoryFrame>
       ))}
@@ -264,7 +265,9 @@ export const FieldVsLabel: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Standalone Label + control</span>
+          <span className="font-medium text-sm">
+            Standalone Label + control
+          </span>
           <LabeledControl id="standalone-dept" label="Department">
             <Input id="standalone-dept" placeholder="Finance" />
           </LabeledControl>
@@ -558,11 +561,19 @@ export const RecordDetailLabels: Story = {
       <StoryStack gap="md">
         <StoryRow gap="md" wrap>
           <StoryStack className="min-w-48 flex-1" gap="xs">
-            <IconLabel htmlFor="detail-invoice" icon={FileTextIcon} label="Invoice No." />
+            <IconLabel
+              htmlFor="detail-invoice"
+              icon={FileTextIcon}
+              label="Invoice No."
+            />
             <Input id="detail-invoice" readOnly value="INV-2026-0042" />
           </StoryStack>
           <StoryStack className="min-w-48 flex-1" gap="xs">
-            <IconLabel htmlFor="detail-vendor" icon={BuildingIcon} label="Vendor" />
+            <IconLabel
+              htmlFor="detail-vendor"
+              icon={BuildingIcon}
+              label="Vendor"
+            />
             <Input id="detail-vendor" readOnly value="Acme Software Ltd." />
           </StoryStack>
         </StoryRow>
@@ -664,7 +675,11 @@ export const ContactEmailLabel: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <LabeledControl id="contact-email" label="Accounts Payable Email" required>
+      <LabeledControl
+        id="contact-email"
+        label="Accounts Payable Email"
+        required
+      >
         <StoryRow align="center" gap="sm">
           <MailIcon
             aria-hidden="true"

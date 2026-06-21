@@ -1,12 +1,15 @@
+import type { GovernedButtonProps } from "@afenda/ui/governance";
+import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreHorizontalIcon,
+} from "lucide-react";
 import * as React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
-
-import { Button } from "#/components/button";
-import { cn } from "#/lib/utils";
-import type { GovernedButtonProps } from "@/governance";
-import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Button } from "./button";
 
 const PAGINATION_RECIPE_NAME = "surface" as const;
 
@@ -16,11 +19,14 @@ const PaginationLinkText = createGovernedSpanSlot("PaginationLinkText", {
   slotKey: "link-text",
 });
 
-const PaginationEllipsisLabel = createGovernedSpanSlot("PaginationEllipsisLabel", {
-  componentName: "Pagination",
-  recipeName: PAGINATION_RECIPE_NAME,
-  slotKey: "ellipsis-label",
-});
+const PaginationEllipsisLabel = createGovernedSpanSlot(
+  "PaginationEllipsisLabel",
+  {
+    componentName: "Pagination",
+    recipeName: PAGINATION_RECIPE_NAME,
+    slotKey: "ellipsis-label",
+  }
+);
 
 const Pagination = React.forwardRef<
   HTMLElement,
@@ -62,9 +68,7 @@ const PaginationContent = React.forwardRef<
     className,
   });
 
-  return (
-    <ul ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <ul ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 PaginationContent.displayName = "PaginationContent";
@@ -72,9 +76,7 @@ PaginationContent.displayName = "PaginationContent";
 const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<"li">
->((props, ref) => (
-  <li ref={ref} data-slot="pagination-item" {...props} />
-));
+>((props, ref) => <li data-slot="pagination-item" ref={ref} {...props} />);
 
 PaginationItem.displayName = "PaginationItem";
 
@@ -97,16 +99,16 @@ function PaginationLink({
   return (
     <Button
       asChild
-      intent={intent}
-      emphasis={emphasis}
-      size={size}
-      presentation={presentation}
       className={cn(className)}
+      emphasis={emphasis}
+      intent={intent}
+      presentation={presentation}
+      size={size}
     >
       <a
         aria-current={isActive ? "page" : undefined}
-        data-slot="pagination-link"
         data-active={isActive}
+        data-slot="pagination-link"
         {...props}
       />
     </Button>
@@ -128,8 +130,8 @@ function PaginationPrevious({
   return (
     <PaginationLink
       aria-label="Go to previous page"
-      presentation={presentation}
       className={cn(padding.className, className)}
+      presentation={presentation}
       {...props}
     >
       <ChevronLeftIcon data-icon="inline-start" />
@@ -153,8 +155,8 @@ function PaginationNext({
   return (
     <PaginationLink
       aria-label="Go to next page"
-      presentation={presentation}
       className={cn(padding.className, className)}
+      presentation={presentation}
       {...props}
     >
       <PaginationLinkText>{text}</PaginationLinkText>
@@ -179,7 +181,10 @@ const PaginationEllipsis = React.forwardRef<
   return (
     <span
       ref={ref}
-      {...applyGovernedPresentation({ ...props, "aria-hidden": true }, governed)}
+      {...applyGovernedPresentation(
+        { ...props, "aria-hidden": true },
+        governed
+      )}
     >
       <MoreHorizontalIcon />
       <PaginationEllipsisLabel>More pages</PaginationEllipsisLabel>

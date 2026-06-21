@@ -8,18 +8,10 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "./avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "./hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { Separator } from "./separator";
 import {
   Table,
@@ -64,11 +56,7 @@ function HoverCardPanel({
   readonly children: ReactNode;
   readonly width?: string;
 }) {
-  return (
-    <HoverCardContent className={width}>
-      {children}
-    </HoverCardContent>
-  );
+  return <HoverCardContent className={width}>{children}</HoverCardContent>;
 }
 
 function UserIdentity({
@@ -287,7 +275,9 @@ export const RecordPreviewInvoice: Story = {
       <HoverCardPanel>
         <StoryStack gap="sm">
           <StoryRow align="center" justify="between">
-            <span className="font-semibold text-sm">Invoice #INV-2026-0042</span>
+            <span className="font-semibold text-sm">
+              Invoice #INV-2026-0042
+            </span>
             <Badge emphasis="soft" tone="warning">
               Pending
             </Badge>

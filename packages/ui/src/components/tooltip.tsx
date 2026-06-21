@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { Tooltip as TooltipPrimitive } from "radix-ui";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
+import * as React from "react";
 
 const TOOLTIP_RECIPE_NAME = "surface" as const;
 

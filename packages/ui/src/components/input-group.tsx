@@ -1,14 +1,12 @@
 "use client";
 
+import type { GovernedButtonProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import { Button } from "#/components/button";
-import type { GovernedButtonProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
-import { Input } from "#/components/input";
-import { Textarea } from "#/components/textarea";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Textarea } from "./textarea";
 
 const INPUT_GROUP_RECIPE_NAME = "form-control" as const;
 
@@ -47,8 +45,8 @@ InputGroup.displayName = "InputGroup";
 
 interface InputGroupAddonProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly className?: string;
   readonly align?: InputGroupAddonAlign;
+  readonly className?: string;
 }
 
 const InputGroupAddon = React.forwardRef<HTMLDivElement, InputGroupAddonProps>(
@@ -71,7 +69,9 @@ const InputGroupAddon = React.forwardRef<HTMLDivElement, InputGroupAddonProps>(
               if ((event.target as HTMLElement).closest("button")) {
                 return;
               }
-              event.currentTarget.parentElement?.querySelector("input")?.focus();
+              event.currentTarget.parentElement
+                ?.querySelector("input")
+                ?.focus();
             },
             ...props,
           },
@@ -124,14 +124,7 @@ const InputGroupButton = React.forwardRef<
   InputGroupButtonProps
 >(
   (
-    {
-      className,
-      type = "button",
-      intent,
-      emphasis,
-      size = "xs",
-      ...props
-    },
+    { className, type = "button", intent, emphasis, size = "xs", ...props },
     ref
   ) => {
     const buttonSize = size;
@@ -146,12 +139,12 @@ const InputGroupButton = React.forwardRef<
 
     return (
       <Button
-        ref={ref}
-        type={type}
         data-size={buttonSize}
-        intent={intent ?? governedButton.intent ?? "quiet"}
         emphasis={emphasis ?? governedButton.emphasis ?? "ghost"}
+        intent={intent ?? governedButton.intent ?? "quiet"}
+        ref={ref}
         size={governedButton.size ?? "xs"}
+        type={type}
         {...(governedButton.presentation === undefined
           ? {}
           : { presentation: governedButton.presentation })}
@@ -177,9 +170,7 @@ const InputGroupText = React.forwardRef<HTMLSpanElement, InputGroupTextProps>(
       className,
     });
 
-    return (
-      <span ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <span ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -190,21 +181,20 @@ interface InputGroupInputProps
   readonly className?: string;
 }
 
-const InputGroupInput = React.forwardRef<HTMLInputElement, InputGroupInputProps>(
-  ({ className, size: _nativeSize, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "InputGroup",
-      recipeName: INPUT_GROUP_RECIPE_NAME,
-      slot: "state",
-      slotKey: "control-input",
-      className,
-    });
+const InputGroupInput = React.forwardRef<
+  HTMLInputElement,
+  InputGroupInputProps
+>(({ className, size: _nativeSize, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "InputGroup",
+    recipeName: INPUT_GROUP_RECIPE_NAME,
+    slot: "state",
+    slotKey: "control-input",
+    className,
+  });
 
-    return (
-      <Input ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
-  }
-);
+  return <Input ref={ref} {...applyGovernedPresentation(props, governed)} />;
+});
 
 InputGroupInput.displayName = "InputGroupInput";
 
@@ -225,9 +215,7 @@ const InputGroupTextarea = React.forwardRef<
     className,
   });
 
-  return (
-    <Textarea ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <Textarea ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 InputGroupTextarea.displayName = "InputGroupTextarea";
@@ -236,7 +224,7 @@ export {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
-  InputGroupText,
   InputGroupInput,
+  InputGroupText,
   InputGroupTextarea,
 };

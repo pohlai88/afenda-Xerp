@@ -1,16 +1,21 @@
 "use client";
 
-import * as React from "react";
+import type {
+  GovernedFormControlProps,
+  GovernedSize,
+} from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Switch as SwitchPrimitive } from "radix-ui";
-
-import type { GovernedFormControlProps, GovernedSize } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const SWITCH_RECIPE_NAME = "form-control" as const;
 
 export interface SwitchProps
-  extends Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "className" | "size">,
+  extends Omit<
+      React.ComponentProps<typeof SwitchPrimitive.Root>,
+      "className" | "size"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
   readonly size?: Extract<GovernedSize, "sm" | "md">;
@@ -42,9 +47,7 @@ const Switch = React.forwardRef<
         "data-size": size === "sm" ? "sm" : "default",
       })}
     >
-      <SwitchPrimitive.Thumb
-        {...applyGovernedPresentation({}, thumb)}
-      />
+      <SwitchPrimitive.Thumb {...applyGovernedPresentation({}, thumb)} />
     </SwitchPrimitive.Root>
   );
 });

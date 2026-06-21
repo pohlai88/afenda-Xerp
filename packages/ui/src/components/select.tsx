@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { Select as SelectPrimitive } from "radix-ui";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import type { GovernedSize } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
-import type { GovernedSize } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { Select as SelectPrimitive } from "radix-ui";
+import * as React from "react";
 
 const SELECT_RECIPE_NAME = "form-control" as const;
 
@@ -19,7 +19,10 @@ function Select({
 
 const SelectGroup = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Group>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Group>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Group>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -93,64 +96,84 @@ SelectTrigger.displayName = "SelectTrigger";
 
 const SelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>,
+    "className"
+  > & {
     readonly className?: string;
   }
->(({ className, children, position = "item-aligned", align = "center", ...props }, ref) => {
-  const popperOffset =
-    position === "popper"
-      ? resolvePrimitiveGovernance({
-          componentName: "Select",
-          recipeName: SELECT_RECIPE_NAME,
-          slotKey: "content-popper",
-        })
-      : null;
+>(
+  (
+    {
+      className,
+      children,
+      position = "item-aligned",
+      align = "center",
+      ...props
+    },
+    ref
+  ) => {
+    const popperOffset =
+      position === "popper"
+        ? resolvePrimitiveGovernance({
+            componentName: "Select",
+            recipeName: SELECT_RECIPE_NAME,
+            slotKey: "content-popper",
+          })
+        : null;
 
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Select",
-    recipeName: SELECT_RECIPE_NAME,
-    slot: "root",
-    className: cn(className, popperOffset?.className),
-  });
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Select",
+      recipeName: SELECT_RECIPE_NAME,
+      slot: "root",
+      className: cn(className, popperOffset?.className),
+    });
 
-  const viewportPopper =
-    position === "popper"
-      ? resolvePrimitiveGovernance({
-          componentName: "Select",
-          recipeName: SELECT_RECIPE_NAME,
-          slotKey: "viewport-popper",
-        })
-      : null;
+    const viewportPopper =
+      position === "popper"
+        ? resolvePrimitiveGovernance({
+            componentName: "Select",
+            recipeName: SELECT_RECIPE_NAME,
+            slotKey: "viewport-popper",
+          })
+        : null;
 
-  return (
-    <SelectPrimitive.Portal>
-      <SelectPrimitive.Content
-        ref={ref}
-        {...applyGovernedPresentation(
-          { ...props, align, position },
-          governed,
-          { "data-align-trigger": position === "item-aligned" }
-        )}
-      >
-        <SelectScrollUpButton />
-        <SelectPrimitive.Viewport
-          {...(viewportPopper
-            ? applyGovernedPresentation({ "data-position": position }, viewportPopper)
-            : { "data-position": position })}
+    return (
+      <SelectPrimitive.Portal>
+        <SelectPrimitive.Content
+          ref={ref}
+          {...applyGovernedPresentation(
+            { ...props, align, position },
+            governed,
+            { "data-align-trigger": position === "item-aligned" }
+          )}
         >
-          {children}
-        </SelectPrimitive.Viewport>
-        <SelectScrollDownButton />
-      </SelectPrimitive.Content>
-    </SelectPrimitive.Portal>
-  );
-});
+          <SelectScrollUpButton />
+          <SelectPrimitive.Viewport
+            {...(viewportPopper
+              ? applyGovernedPresentation(
+                  { "data-position": position },
+                  viewportPopper
+                )
+              : { "data-position": position })}
+          >
+            {children}
+          </SelectPrimitive.Viewport>
+          <SelectScrollDownButton />
+        </SelectPrimitive.Content>
+      </SelectPrimitive.Portal>
+    );
+  }
+);
 
 SelectContent.displayName = "SelectContent";
 
 const SelectLabel = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Label>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {
@@ -173,7 +196,10 @@ SelectLabel.displayName = "SelectLabel";
 
 const SelectItem = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Item>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, children, ...props }, ref) => {
@@ -215,7 +241,10 @@ SelectItem.displayName = "SelectItem";
 
 const SelectSeparator = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Separator>,
-  Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>, "className"> & {
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>,
+    "className"
+  > & {
     readonly className?: string;
   }
 >(({ className, ...props }, ref) => {

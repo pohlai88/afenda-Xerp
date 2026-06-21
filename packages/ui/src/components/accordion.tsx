@@ -1,23 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { Accordion as AccordionPrimitive } from "radix-ui";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-
-import { cn } from "#/lib/utils";
-import type { GovernedAccordionProps } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { Accordion as AccordionPrimitive } from "radix-ui";
+import * as React from "react";
+import type { GovernedAccordionProps } from "../governance";
+import { cn } from "../lib/utils";
 
 const ACCORDION_RECIPE_NAME = "surface" as const;
-
-interface AccordionSlotProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  /**
-   * Governed extension point only.
-   * Must be validated by primitive governance before reaching className output.
-   */
-  readonly className?: string;
-}
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Root
@@ -194,4 +184,4 @@ const AccordionContent = React.forwardRef<
 
 AccordionContent.displayName = "AccordionContent";
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };

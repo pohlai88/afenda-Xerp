@@ -28,20 +28,20 @@ function formatHours(value: number): string {
   return `${value}h`;
 }
 
-type LabeledSliderProps = {
+interface LabeledSliderProps {
+  readonly defaultValue?: number[];
+  readonly description?: string;
+  readonly disabled?: boolean;
+  readonly formatValue?: (value: number) => string;
   readonly id: string;
   readonly label: string;
-  readonly description?: string;
-  readonly defaultValue?: number[];
-  readonly value?: number[];
-  readonly onValueChange?: (value: number[]) => void;
-  readonly min?: number;
   readonly max?: number;
-  readonly step?: number;
-  readonly disabled?: boolean;
+  readonly min?: number;
+  readonly onValueChange?: (value: number[]) => void;
   readonly state?: (typeof GOVERNED_STATES)[number];
-  readonly formatValue?: (value: number) => string;
-};
+  readonly step?: number;
+  readonly value?: number[];
+}
 
 function LabeledSlider({
   id,
@@ -63,7 +63,9 @@ function LabeledSlider({
     <StoryStack gap="xs">
       <StoryRow justify="between">
         <Label htmlFor={id}>{label}</Label>
-        <span className="text-muted-foreground text-xs">{formatValue(display)}</span>
+        <span className="text-muted-foreground text-xs">
+          {formatValue(display)}
+        </span>
       </StoryRow>
       {description ? (
         <span className="text-muted-foreground text-xs">{description}</span>
@@ -75,22 +77,24 @@ function LabeledSlider({
         min={min}
         step={step}
         {...(disabled ? { disabled } : {})}
-        {...(onValueChange ? { onValueChange, value: value ?? defaultValue } : { defaultValue })}
+        {...(onValueChange
+          ? { onValueChange, value: value ?? defaultValue }
+          : { defaultValue })}
         {...(state ? { state } : {})}
       />
     </StoryStack>
   );
 }
 
-type RangeSliderFieldProps = {
+interface RangeSliderFieldProps {
+  readonly defaultValue?: number[];
+  readonly formatValue?: (value: number) => string;
   readonly id: string;
   readonly label: string;
-  readonly defaultValue?: number[];
-  readonly min?: number;
   readonly max?: number;
+  readonly min?: number;
   readonly step?: number;
-  readonly formatValue?: (value: number) => string;
-};
+}
 
 function RangeSliderField({
   id,
@@ -106,7 +110,8 @@ function RangeSliderField({
       <StoryRow justify="between">
         <Label htmlFor={id}>{label}</Label>
         <span className="text-muted-foreground text-xs">
-          {formatValue(defaultValue[0] ?? min)} – {formatValue(defaultValue[1] ?? max)}
+          {formatValue(defaultValue[0] ?? min)} –{" "}
+          {formatValue(defaultValue[1] ?? max)}
         </span>
       </StoryRow>
       <Slider
@@ -253,11 +258,11 @@ export const Range: Story = {
   render: () => (
     <StoryFrame width="md">
       <RangeSliderField
-        defaultValue={[15000, 85000]}
+        defaultValue={[15_000, 85_000]}
         formatValue={formatCurrency}
         id="sl-range"
         label="Deal value band"
-        max={100000}
+        max={100_000}
         min={0}
         step={5000}
       />
@@ -290,7 +295,7 @@ export const CustomMinMax: Story = {
         formatValue={formatCurrency}
         id="sl-minmax"
         label="Spend ceiling"
-        max={10000}
+        max={10_000}
         min={500}
         step={250}
       />
@@ -335,7 +340,9 @@ export const GovernanceAccessibility: Story = {
     <StoryFrame width="md">
       <Field>
         <FieldContent>
-          <FieldLabel htmlFor="sl-a11y">Approval confidence threshold</FieldLabel>
+          <FieldLabel htmlFor="sl-a11y">
+            Approval confidence threshold
+          </FieldLabel>
           <FieldDescription>
             Route to senior approver when match score falls below this level.
           </FieldDescription>
@@ -451,7 +458,7 @@ export const ApprovalThreshold: Story = {
         formatValue={formatCurrency}
         id="erp-approval"
         label="Auto-approve ceiling"
-        max={25000}
+        max={25_000}
         min={0}
         step={500}
       />
@@ -668,13 +675,15 @@ export const ReportFilterPanel: Story = {
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="md">
-        <span className="font-medium text-sm">Open invoices — advanced filters</span>
+        <span className="font-medium text-sm">
+          Open invoices — advanced filters
+        </span>
         <RangeSliderField
-          defaultValue={[1000, 50000]}
+          defaultValue={[1000, 50_000]}
           formatValue={formatCurrency}
           id="rf-amount"
           label="Outstanding balance"
-          max={100000}
+          max={100_000}
           min={0}
           step={1000}
         />
@@ -719,12 +728,12 @@ export const ApprovalRulesConfigurator: Story = {
             step={100}
           />
           <LabeledSlider
-            defaultValue={[10000]}
+            defaultValue={[10_000]}
             description="CFO queue for amounts above this threshold"
             formatValue={formatCurrency}
             id="ar-cfo"
             label="CFO escalation"
-            max={50000}
+            max={50_000}
             step={1000}
           />
           <LabeledSlider
@@ -749,7 +758,9 @@ export const ResourceAllocationBoard: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">Project Phoenix — Q3 staffing</span>
+          <span className="font-medium text-sm">
+            Project Phoenix — Q3 staffing
+          </span>
           <Badge emphasis="soft" tone="warning">
             92% allocated
           </Badge>
@@ -799,7 +810,9 @@ export const SliderVsInput: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Slider — approximate tuning</span>
+          <span className="font-medium text-sm">
+            Slider — approximate tuning
+          </span>
           <LabeledSlider
             defaultValue={[15]}
             id="vs-slider"
@@ -839,9 +852,12 @@ export const SliderVsProgress: Story = {
           />
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Progress — system reports status</span>
+          <span className="font-medium text-sm">
+            Progress — system reports status
+          </span>
           <span className="text-muted-foreground text-xs">
-            See Primitives/Progress for import completion and approval pipeline bars
+            See Primitives/Progress for import completion and approval pipeline
+            bars
           </span>
         </StoryStack>
       </StoryStack>

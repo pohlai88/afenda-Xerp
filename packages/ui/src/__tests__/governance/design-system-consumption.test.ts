@@ -4,17 +4,12 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  assertAllowedLayoutClassName,
+  assertGovernedState,
   FORM_CONTROL_VARIANT_AXES,
   GOVERNED_RECIPE_VARIANT_AXES,
   GOVERNED_STATES,
   GOVERNED_UI_RECIPES,
-  STATUS_VARIANT_AXES,
-  STATUS_TONES,
-  SURFACE_VARIANT_AXES,
-  TABLE_VARIANT_AXES,
-  VARIANT_INTENTS,
-  assertAllowedLayoutClassName,
-  assertGovernedState,
   getComponentAccessibilityRequirement,
   getMotionIntent,
   getPrimitiveDefinition,
@@ -23,6 +18,11 @@ import {
   resolveCardClassName,
   resolveGovernedRecipe,
   resolveGovernedVariant,
+  STATUS_TONES,
+  STATUS_VARIANT_AXES,
+  SURFACE_VARIANT_AXES,
+  TABLE_VARIANT_AXES,
+  VARIANT_INTENTS,
 } from "../../governance";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -34,7 +34,9 @@ describe("governance dependency direction", () => {
       readFileSync(join(packageRoot, "package.json"), "utf8")
     ) as { dependencies?: Record<string, string> };
 
-    expect(packageJson.dependencies?.["@afenda/design-system"]).toBe("workspace:*");
+    expect(packageJson.dependencies?.["@afenda/design-system"]).toBe(
+      "workspace:*"
+    );
   });
 
   it("does not allow @afenda/design-system to depend on @afenda/ui", () => {
@@ -89,9 +91,21 @@ describe("governed variant resolution", () => {
 
 describe("governed recipe resolution", () => {
   it("resolves button, badge, and card recipes", () => {
-    expect(resolveGovernedRecipe("button", { intent: "primary", emphasis: "solid" }).className).toContain("bg-primary");
-    expect(resolveGovernedRecipe("badge", { tone: "info", emphasis: "solid" }).className).toContain("group/badge");
-    expect(resolveGovernedRecipe("card", { density: "standard", radius: "md", shadow: "raised" }).className).toContain("bg-card");
+    expect(
+      resolveGovernedRecipe("button", { intent: "primary", emphasis: "solid" })
+        .className
+    ).toContain("bg-primary");
+    expect(
+      resolveGovernedRecipe("badge", { tone: "info", emphasis: "solid" })
+        .className
+    ).toContain("group/badge");
+    expect(
+      resolveGovernedRecipe("card", {
+        density: "standard",
+        radius: "md",
+        shadow: "raised",
+      }).className
+    ).toContain("bg-card");
   });
 
   it("maps card surface, radius, and shadow recipes", () => {
@@ -107,7 +121,9 @@ describe("governed recipe resolution", () => {
 
 describe("className and state policy", () => {
   it("permits layout-only className overrides", () => {
-    expect(() => assertAllowedLayoutClassName("flex w-full max-w-sm")).not.toThrow();
+    expect(() =>
+      assertAllowedLayoutClassName("flex w-full max-w-sm")
+    ).not.toThrow();
   });
 
   it("rejects semantic className overrides in development", () => {
@@ -129,12 +145,18 @@ describe("className and state policy", () => {
 
 describe("accessibility and motion helpers", () => {
   it("returns accessibility requirements for governed components", () => {
-    expect(getComponentAccessibilityRequirement("Button")).toContain("semanticElement");
-    expect(getComponentAccessibilityRequirement("Badge")).toContain("programmaticName");
+    expect(getComponentAccessibilityRequirement("Button")).toContain(
+      "semanticElement"
+    );
+    expect(getComponentAccessibilityRequirement("Badge")).toContain(
+      "programmaticName"
+    );
   });
 
   it("returns motion policy entries by intent", () => {
-    expect(getMotionIntent("feedback").durationToken).toBe("afenda.motion.duration.fast");
+    expect(getMotionIntent("feedback").durationToken).toBe(
+      "afenda.motion.duration.fast"
+    );
   });
 });
 
@@ -168,7 +190,12 @@ describe("governance bridge discipline", () => {
 
 describe("public export stability", () => {
   it("keeps governed vocabulary aligned with design-system intents", () => {
-    expect(VARIANT_INTENTS).toEqual(["primary", "secondary", "quiet", "destructive"]);
+    expect(VARIANT_INTENTS).toEqual([
+      "primary",
+      "secondary",
+      "quiet",
+      "destructive",
+    ]);
   });
 
   it("produces button classes without raw palette utilities", () => {

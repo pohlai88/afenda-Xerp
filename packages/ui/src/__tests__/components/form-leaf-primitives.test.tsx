@@ -36,7 +36,13 @@ describe("form-leaf primitive governance", () => {
     });
 
     it("keeps governed data attributes authoritative", () => {
-      render(<Textarea aria-label="Notes" data-slot="override" data-recipe="override" />);
+      render(
+        <Textarea
+          aria-label="Notes"
+          data-recipe="override"
+          data-slot="override"
+        />
+      );
       const el = screen.getByRole("textbox", { name: "Notes" });
       expect(el).toHaveAttribute("data-slot", "textarea");
       expect(el).toHaveAttribute("data-recipe", "form-control");
@@ -47,7 +53,7 @@ describe("form-leaf primitive governance", () => {
     it("renders root with governed data-slot", () => {
       render(
         <RadioGroup aria-label="Options">
-          <RadioGroupItem value="a" aria-label="Option A" />
+          <RadioGroupItem aria-label="Option A" value="a" />
         </RadioGroup>
       );
       const group = screen.getByRole("radiogroup", { name: "Options" });
@@ -58,7 +64,7 @@ describe("form-leaf primitive governance", () => {
     it("renders item with governed data-slot", () => {
       render(
         <RadioGroup aria-label="Options">
-          <RadioGroupItem value="a" aria-label="Option A" />
+          <RadioGroupItem aria-label="Option A" value="a" />
         </RadioGroup>
       );
       const item = screen.getByRole("radio", { name: "Option A" });
@@ -67,8 +73,12 @@ describe("form-leaf primitive governance", () => {
 
     it("keeps governed data attributes authoritative on root", () => {
       render(
-        <RadioGroup aria-label="Options" data-slot="override" data-component="Override">
-          <RadioGroupItem value="a" aria-label="A" />
+        <RadioGroup
+          aria-label="Options"
+          data-component="Override"
+          data-slot="override"
+        >
+          <RadioGroupItem aria-label="A" value="a" />
         </RadioGroup>
       );
       const group = screen.getByRole("radiogroup", { name: "Options" });
@@ -87,7 +97,11 @@ describe("form-leaf primitive governance", () => {
     });
 
     it("keeps governed data attributes authoritative", () => {
-      render(<Toggle aria-label="Bold" data-slot="override">B</Toggle>);
+      render(
+        <Toggle aria-label="Bold" data-slot="override">
+          B
+        </Toggle>
+      );
       const el = screen.getByRole("button", { name: "Bold" });
       expect(el).toHaveAttribute("data-slot", "toggle");
     });
@@ -96,9 +110,13 @@ describe("form-leaf primitive governance", () => {
   describe("ToggleGroup", () => {
     it("renders root with governed data-slot", () => {
       render(
-        <ToggleGroup type="single" aria-label="Text align">
-          <ToggleGroupItem value="left" aria-label="Left">L</ToggleGroupItem>
-          <ToggleGroupItem value="right" aria-label="Right">R</ToggleGroupItem>
+        <ToggleGroup aria-label="Text align" type="single">
+          <ToggleGroupItem aria-label="Left" value="left">
+            L
+          </ToggleGroupItem>
+          <ToggleGroupItem aria-label="Right" value="right">
+            R
+          </ToggleGroupItem>
         </ToggleGroup>
       );
       // Radix ToggleGroup emits role="radiogroup" for type="single"
@@ -109,8 +127,10 @@ describe("form-leaf primitive governance", () => {
 
     it("renders item with governed data-slot", () => {
       render(
-        <ToggleGroup type="single" aria-label="Text align">
-          <ToggleGroupItem value="left" aria-label="Left">L</ToggleGroupItem>
+        <ToggleGroup aria-label="Text align" type="single">
+          <ToggleGroupItem aria-label="Left" value="left">
+            L
+          </ToggleGroupItem>
         </ToggleGroup>
       );
       const item = screen.getByRole("radio", { name: "Left" });
@@ -131,7 +151,11 @@ describe("form-leaf primitive governance", () => {
 
     it("keeps governed data attributes authoritative on select", () => {
       render(
-        <NativeSelect aria-label="Country" data-slot="override" data-component="Override">
+        <NativeSelect
+          aria-label="Country"
+          data-component="Override"
+          data-slot="override"
+        >
           <NativeSelectOption value="us">US</NativeSelectOption>
         </NativeSelect>
       );
@@ -143,7 +167,7 @@ describe("form-leaf primitive governance", () => {
     it("renders optgroup with governed data-slot", () => {
       render(
         <NativeSelect aria-label="Country">
-          <NativeSelectOptGroup label="Europe" data-testid="optgroup">
+          <NativeSelectOptGroup data-testid="optgroup" label="Europe">
             <NativeSelectOption value="fr">France</NativeSelectOption>
           </NativeSelectOptGroup>
         </NativeSelect>
@@ -156,7 +180,13 @@ describe("form-leaf primitive governance", () => {
 
   describe("Slider", () => {
     it("renders root with governed data-slot", () => {
-      render(<Slider aria-label="Volume" defaultValue={[50]} data-testid="slider-root" />);
+      render(
+        <Slider
+          aria-label="Volume"
+          data-testid="slider-root"
+          defaultValue={[50]}
+        />
+      );
       const sliderRoot = screen.getByTestId("slider-root");
       expect(sliderRoot).toHaveAttribute("data-slot", "slider");
       expect(sliderRoot).toHaveAttribute("data-component", "Slider");
@@ -173,9 +203,9 @@ describe("form-leaf primitive governance", () => {
       render(
         <Slider
           aria-label="Volume"
-          defaultValue={[50]}
-          data-testid="slider-root"
           data-slot="override"
+          data-testid="slider-root"
+          defaultValue={[50]}
         />
       );
       const sliderRoot = screen.getByTestId("slider-root");

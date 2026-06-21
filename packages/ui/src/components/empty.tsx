@@ -1,8 +1,7 @@
+import type { GovernedEmptyMediaVariant } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
-
-import type { GovernedEmptyMediaVariant } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const EMPTY_RECIPE_NAME = "surface" as const;
 
@@ -20,9 +19,7 @@ const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -42,9 +39,7 @@ const EmptyHeader = React.forwardRef<HTMLDivElement, EmptyHeaderProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -52,8 +47,8 @@ EmptyHeader.displayName = "EmptyHeader";
 
 export interface EmptyMediaProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly variant?: GovernedEmptyMediaVariant;
   readonly className?: string;
+  readonly variant?: GovernedEmptyMediaVariant;
 }
 
 const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(
@@ -69,7 +64,9 @@ const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation(props, governed, { "data-variant": variant })}
+        {...applyGovernedPresentation(props, governed, {
+          "data-variant": variant,
+        })}
       />
     );
   }
@@ -91,9 +88,7 @@ const EmptyTitle = React.forwardRef<HTMLDivElement, EmptyTitleProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -104,20 +99,19 @@ interface EmptyDescriptionProps
   readonly className?: string;
 }
 
-const EmptyDescription = React.forwardRef<HTMLParagraphElement, EmptyDescriptionProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Empty",
-      recipeName: EMPTY_RECIPE_NAME,
-      slot: "body",
-      className,
-    });
+const EmptyDescription = React.forwardRef<
+  HTMLParagraphElement,
+  EmptyDescriptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Empty",
+    recipeName: EMPTY_RECIPE_NAME,
+    slot: "body",
+    className,
+  });
 
-    return (
-      <p ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
-  }
-);
+  return <p ref={ref} {...applyGovernedPresentation(props, governed)} />;
+});
 
 EmptyDescription.displayName = "EmptyDescription";
 
@@ -135,9 +129,7 @@ const EmptyContent = React.forwardRef<HTMLDivElement, EmptyContentProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -145,9 +137,9 @@ EmptyContent.displayName = "EmptyContent";
 
 export {
   Empty,
-  EmptyHeader,
-  EmptyTitle,
-  EmptyDescription,
   EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
   EmptyMedia,
+  EmptyTitle,
 };

@@ -4,8 +4,8 @@ import {
   CheckCircle2Icon,
   CreditCardIcon,
   DownloadIcon,
-  FilterIcon,
   FileTextIcon,
+  FilterIcon,
   PackageIcon,
   PlusIcon,
   SaveIcon,
@@ -103,7 +103,7 @@ function SnapPointsPeekComponent() {
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
             <span className="font-semibold text-sm">
-              {formatCurrency(24850)}
+              {formatCurrency(24_850)}
             </span>
           </StoryRow>
           {snap === 1 || snap === SNAP_POINTS[1] ? (
@@ -114,11 +114,15 @@ function SnapPointsPeekComponent() {
                 <span className="text-sm">Jul 15, 2026</span>
               </StoryRow>
               <StoryRow justify="between">
-                <span className="text-muted-foreground text-sm">Cost center</span>
+                <span className="text-muted-foreground text-sm">
+                  Cost center
+                </span>
                 <span className="text-sm">210 — Manufacturing</span>
               </StoryRow>
               <StoryRow justify="between">
-                <span className="text-muted-foreground text-sm">PO reference</span>
+                <span className="text-muted-foreground text-sm">
+                  PO reference
+                </span>
                 <span className="font-mono text-sm">PO-2026-1184</span>
               </StoryRow>
             </>
@@ -173,12 +177,16 @@ export const Default: Story = {
             Bottom sheet with drag handle — ideal for mobile ERP workflows.
           </DrawerDescription>
         </DrawerHeader>
-        <p className="text-muted-foreground text-sm px-4">
-          Drawer content goes here.
-        </p>
+        <StoryStack paddingX="md">
+          <p className="text-muted-foreground text-sm">
+            Drawer content goes here.
+          </p>
+        </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Confirm</Button>
+          <Button emphasis="solid" intent="primary">
+            Confirm
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -199,16 +207,22 @@ export const OpenByDefault: Story = {
         <StoryStack gap="sm" paddingX="md">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Status</span>
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance</span>
-            <span className="font-semibold text-sm">{formatCurrency(24850)}</span>
+            <span className="font-semibold text-sm">
+              {formatCurrency(24_850)}
+            </span>
           </StoryRow>
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Record payment</Button>
+          <Button emphasis="solid" intent="primary">
+            Record payment
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -245,7 +259,9 @@ export const GovernanceAccessibility: Story = {
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Save</Button>
+          <Button emphasis="solid" intent="primary">
+            Save
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -337,11 +353,15 @@ export const RecordDetailPeek: Story = {
         <StoryStack gap="sm" paddingX="md">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Status</span>
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
           </StoryRow>
           <StoryRow justify="between">
-            <span className="text-muted-foreground text-sm">Invoice amount</span>
-            <span className="text-sm">{formatCurrency(24850)}</span>
+            <span className="text-muted-foreground text-sm">
+              Invoice amount
+            </span>
+            <span className="text-sm">{formatCurrency(24_850)}</span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Amount paid</span>
@@ -350,7 +370,7 @@ export const RecordDetailPeek: Story = {
           <Separator />
           <StoryRow justify="between">
             <span className="font-medium text-sm">Balance due</span>
-            <span className="font-semibold">{formatCurrency(24850)}</span>
+            <span className="font-semibold">{formatCurrency(24_850)}</span>
           </StoryRow>
         </StoryStack>
         <DrawerFooter>
@@ -464,7 +484,9 @@ export const MobileFilterPanel: Story = {
             <Label htmlFor="dr-date-from">Date range</Label>
             <StoryRow gap="xs">
               <Input id="dr-date-from" type="date" />
-              <span className="self-center text-muted-foreground text-sm">to</span>
+              <span className="self-center text-muted-foreground text-sm">
+                to
+              </span>
               <Input id="dr-date-to" type="date" />
             </StoryRow>
           </StoryStack>
@@ -490,7 +512,9 @@ export const MobileFilterPanel: Story = {
             <XIcon />
             Clear all
           </Button>
-          <Button emphasis="solid" intent="primary">Apply filters</Button>
+          <Button emphasis="solid" intent="primary">
+            Apply filters
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -555,7 +579,9 @@ export const QuickAddRecord: Story = {
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
           <Button emphasis="solid" intent="primary">
             <SaveIcon />
             Create
@@ -590,7 +616,9 @@ export const ApprovalActions: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Policy</span>
-            <Badge emphasis="soft" tone="warning">Requires manager</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Requires manager
+            </Badge>
           </StoryRow>
           <StoryStack gap="xs">
             <Label htmlFor="dr-approval-note">Comment (optional)</Label>
@@ -630,7 +658,7 @@ export const RecordPayment: Story = {
         <DrawerHeader>
           <DrawerTitle>Record payment</DrawerTitle>
           <DrawerDescription>
-            INV-2026-0042 · Balance {formatCurrency(24850)}
+            INV-2026-0042 · Balance {formatCurrency(24_850)}
           </DrawerDescription>
         </DrawerHeader>
         <StoryStack gap="sm" paddingX="md">
@@ -660,7 +688,9 @@ export const RecordPayment: Story = {
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Post payment</Button>
+          <Button emphasis="solid" intent="primary">
+            Post payment
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -680,7 +710,9 @@ export const ActivityFeedPeek: Story = {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>PO-2026-1184 activity</DrawerTitle>
-          <DrawerDescription>Recent audit events on this record.</DrawerDescription>
+          <DrawerDescription>
+            Recent audit events on this record.
+          </DrawerDescription>
         </DrawerHeader>
         <StoryStack gap="sm" paddingX="md">
           {[
@@ -743,10 +775,7 @@ export const WarehouseScan: Story = {
           <StoryStack gap="xs">
             <Label htmlFor="dr-scan">Barcode / SKU</Label>
             <StoryRow gap="xs">
-              <Input
-                id="dr-scan"
-                placeholder="Scan or type SKU…"
-              />
+              <Input id="dr-scan" placeholder="Scan or type SKU…" />
               <Button
                 aria-label="Open camera scanner"
                 emphasis="outline"
@@ -788,7 +817,9 @@ export const OrderSummary: Story = {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>PO-2026-1184</DrawerTitle>
-          <DrawerDescription>Acme Supplies Ltd. · 3 line items</DrawerDescription>
+          <DrawerDescription>
+            Acme Supplies Ltd. · 3 line items
+          </DrawerDescription>
         </DrawerHeader>
         <StoryStack gap="sm" paddingX="md">
           {[
@@ -813,7 +844,9 @@ export const OrderSummary: Story = {
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Submit for approval</Button>
+          <Button emphasis="solid" intent="primary">
+            Submit for approval
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -852,7 +885,9 @@ export const ExportOptions: Story = {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Export employee roster</DrawerTitle>
-          <DrawerDescription>248 records match current filters.</DrawerDescription>
+          <DrawerDescription>
+            248 records match current filters.
+          </DrawerDescription>
         </DrawerHeader>
         <StoryStack gap="sm" paddingX="md">
           <StoryStack gap="xs">
@@ -874,7 +909,11 @@ export const ExportOptions: Story = {
               { id: "col-id", label: "Employee ID", checked: true },
               { id: "col-name", label: "Full name", checked: true },
               { id: "col-dept", label: "Department", checked: true },
-              { id: "col-salary", label: "Salary (restricted)", checked: false },
+              {
+                id: "col-salary",
+                label: "Salary (restricted)",
+                checked: false,
+              },
             ].map(({ id, label, checked }) => (
               <StoryRow justify="between" key={id}>
                 <Label className="font-normal text-sm" htmlFor={id}>
@@ -916,9 +955,10 @@ export const AttachmentUpload: Story = {
           </DrawerDescription>
         </DrawerHeader>
         <StoryStack
-          className="mx-4 rounded-md border border-dashed border-border"
+          className="rounded-md border border-border border-dashed"
           gap="sm"
           padding="lg"
+          paddingX="md"
         >
           <StoryRow align="center" justify="center">
             <UploadIcon
@@ -932,7 +972,9 @@ export const AttachmentUpload: Story = {
         </StoryStack>
         <DrawerFooter>
           <DrawerCancelButton />
-          <Button emphasis="solid" intent="primary">Upload files</Button>
+          <Button emphasis="solid" intent="primary">
+            Upload files
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -985,7 +1027,9 @@ export const DrawerVsSheetVsDialog: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Drawer — mobile bottom sheet</span>
+          <span className="font-medium text-sm">
+            Drawer — mobile bottom sheet
+          </span>
           <Drawer>
             <DrawerTrigger asChild>
               <Button emphasis="outline" intent="secondary" size="sm">

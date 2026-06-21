@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
@@ -41,9 +40,9 @@ describe("layout and display primitive governance", () => {
     it("keeps governed data attributes authoritative on root", () => {
       render(
         <Collapsible
-          data-testid="collapsible-root"
-          data-slot="override"
           data-component="Override"
+          data-slot="override"
+          data-testid="collapsible-root"
         >
           <CollapsibleTrigger>Toggle</CollapsibleTrigger>
           <CollapsibleContent>Content</CollapsibleContent>
@@ -71,9 +70,9 @@ describe("layout and display primitive governance", () => {
     it("keeps governed data attributes authoritative on root", () => {
       render(
         <ScrollArea
-          data-testid="scroll-root"
-          data-slot="override"
           data-component="Override"
+          data-slot="override"
+          data-testid="scroll-root"
         >
           <div>Content</div>
         </ScrollArea>
@@ -103,16 +102,18 @@ describe("layout and display primitive governance", () => {
           <AvatarFallback>AB</AvatarFallback>
         </Avatar>
       );
-      const fallback = screen.getByText("AB").closest("[data-slot='avatar-fallback']");
+      const fallback = screen
+        .getByText("AB")
+        .closest("[data-slot='avatar-fallback']");
       expect(fallback).toHaveAttribute("data-slot", "avatar-fallback");
     });
 
     it("keeps governed data attributes authoritative on root", () => {
       render(
         <Avatar
-          data-testid="avatar-root"
-          data-slot="override"
           data-component="Override"
+          data-slot="override"
+          data-testid="avatar-root"
         >
           <AvatarFallback>AB</AvatarFallback>
         </Avatar>
@@ -125,11 +126,7 @@ describe("layout and display primitive governance", () => {
 
   describe("Empty", () => {
     it("renders root with governed data-slot", () => {
-      render(
-        <Empty data-testid="empty-root">
-          No results
-        </Empty>
-      );
+      render(<Empty data-testid="empty-root">No results</Empty>);
       const root = screen.getByTestId("empty-root");
       expect(root).toHaveAttribute("data-slot", "empty");
       expect(root).toHaveAttribute("data-component", "Empty");
@@ -138,9 +135,9 @@ describe("layout and display primitive governance", () => {
     it("keeps governed data attributes authoritative on root", () => {
       render(
         <Empty
-          data-testid="empty-root"
-          data-slot="override"
           data-component="Override"
+          data-slot="override"
+          data-testid="empty-root"
         >
           No results
         </Empty>

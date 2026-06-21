@@ -19,8 +19,8 @@ import {
   FieldDescription,
   FieldLabel,
   FieldLegend,
-  FieldSet,
   FieldSeparator,
+  FieldSet,
 } from "./field";
 import { Label } from "./label";
 import { Separator } from "./separator";
@@ -28,15 +28,15 @@ import { Switch } from "./switch";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-type SwitchSettingRowProps = {
+interface SwitchSettingRowProps {
+  readonly badge?: { text: string; tone: "success" | "warning" | "info" };
+  readonly defaultChecked?: boolean;
+  readonly description?: string;
+  readonly disabled?: boolean;
   readonly id: string;
   readonly label: string;
-  readonly description?: string;
-  readonly defaultChecked?: boolean;
-  readonly disabled?: boolean;
-  readonly badge?: { text: string; tone: "success" | "warning" | "info" };
   readonly size?: "sm" | "md";
-};
+}
 
 function SwitchSettingRow({
   id,
@@ -71,7 +71,7 @@ function SwitchSettingRow({
         disabled={disabled}
         id={id}
         size={size}
-        {...(defaultChecked !== undefined ? { defaultChecked } : {})}
+        {...(defaultChecked === undefined ? {} : { defaultChecked })}
       />
     </StoryRow>
   );
@@ -288,8 +288,8 @@ export const SettingsPanel: Story = {
         />
         <SwitchSettingRow
           defaultChecked
-          disabled
           description="Log all user actions for compliance"
+          disabled
           id="sw-log"
           label="Audit logging"
         />
@@ -355,8 +355,8 @@ export const SecurityPolicies: Story = {
         />
         <SwitchSettingRow
           defaultChecked
-          disabled
           description="Organization policy — cannot be disabled"
+          disabled
           id="sec-audit"
           label="Immutable audit trail"
         />
@@ -563,8 +563,8 @@ export const PayrollSettings: Story = {
         />
         <SwitchSettingRow
           defaultChecked
-          disabled
           description="Statutory requirement — cannot disable"
+          disabled
           id="pay-tax"
           label="Withhold income tax"
         />
@@ -676,12 +676,17 @@ export const SettingsWithIcons: Story = {
             padding="sm"
           >
             <StoryRow align="center" gap="sm">
-              <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-              <Label className="font-medium text-sm" htmlFor={id}>{label}</Label>
+              <Icon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
+              <Label className="font-medium text-sm" htmlFor={id}>
+                {label}
+              </Label>
             </StoryRow>
             <Switch
               id={id}
-              {...(defaultChecked !== undefined ? { defaultChecked } : {})}
+              {...(defaultChecked === undefined ? {} : { defaultChecked })}
             />
           </StoryRow>
         ))}
@@ -724,12 +729,20 @@ export const ModuleCapabilityMatrix: Story = {
         ].map(({ module, icon: Icon, settings }) => (
           <StoryStack gap="sm" key={module}>
             <StoryRow align="center" gap="sm">
-              <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <Icon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="font-semibold text-sm">{module}</span>
             </StoryRow>
             <StoryStack gap="xs">
               {settings.map(({ id, label, checked }) => (
-                <StoryRow align="center" justify="between" key={id} paddingX="sm">
+                <StoryRow
+                  align="center"
+                  justify="between"
+                  key={id}
+                  paddingX="sm"
+                >
                   <Label className="font-normal text-sm" htmlFor={id}>
                     {label}
                   </Label>
@@ -793,7 +806,9 @@ export const SwitchVsToggle: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Switch — persisted setting</span>
+          <span className="font-medium text-sm">
+            Switch — persisted setting
+          </span>
           <SwitchSettingRow
             defaultChecked
             id="vs-tog-switch"
@@ -818,7 +833,12 @@ export const ComplianceReadOnly: Story = {
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="sm">
-        <StoryRow align="center" className="rounded-md border border-border" justify="between" padding="sm">
+        <StoryRow
+          align="center"
+          className="rounded-md border border-border"
+          justify="between"
+          padding="sm"
+        >
           <StoryStack gap="xs">
             <StoryRow align="center" gap="sm">
               <ShieldCheckIcon
@@ -826,7 +846,9 @@ export const ComplianceReadOnly: Story = {
                 className="size-4 text-muted-foreground"
               />
               <span className="font-medium text-sm">SOC 2 audit logging</span>
-              <Badge emphasis="soft" tone="success">Enforced</Badge>
+              <Badge emphasis="soft" tone="success">
+                Enforced
+              </Badge>
             </StoryRow>
             <span className="text-muted-foreground text-xs">
               Organization policy — controlled by compliance admin
@@ -834,7 +856,12 @@ export const ComplianceReadOnly: Story = {
           </StoryStack>
           <Switch defaultChecked disabled id="comp-audit" />
         </StoryRow>
-        <StoryRow align="center" className="rounded-md border border-border" justify="between" padding="sm">
+        <StoryRow
+          align="center"
+          className="rounded-md border border-border"
+          justify="between"
+          padding="sm"
+        >
           <StoryStack gap="xs">
             <span className="font-medium text-sm">PII field encryption</span>
             <span className="text-muted-foreground text-xs">

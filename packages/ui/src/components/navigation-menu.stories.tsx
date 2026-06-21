@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { ReactNode } from "react";
 import {
   BarChart3Icon,
   Building2Icon,
@@ -10,6 +9,7 @@ import {
   TruckIcon,
   UsersIcon,
 } from "lucide-react";
+import type { ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -34,11 +34,11 @@ import {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-type NavLinkItem = {
+interface NavLinkItem {
+  readonly description?: string;
   readonly href: string;
   readonly label: string;
-  readonly description?: string;
-};
+}
 
 function NavLinkCard({ href, label, description }: NavLinkItem) {
   return (
@@ -294,49 +294,49 @@ export const ErpFinanceModule: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Accounts payable",
-          links: [
-            {
-              href: "#",
-              label: "Invoices",
-              description: "Vendor bills and matching",
-            },
-            {
-              href: "#",
-              label: "Payment batches",
-              description: "Scheduled disbursements",
-            },
-            {
-              href: "#",
-              label: "Vendor credits",
-              description: "Adjustments and refunds",
-            },
-          ],
-        },
-        {
-          title: "General ledger",
-          links: [
-            {
-              href: "#",
-              label: "Journal entries",
-              description: "Post and reverse entries",
-            },
-            {
-              href: "#",
-              label: "Chart of accounts",
-              description: "GL structure FY 2026",
-            },
-            {
-              href: "#",
-              label: "Trial balance",
-              description: "Period close review",
-            },
-          ],
-        },
-      ]}
-      label="Finance"
+        columns={[
+          {
+            title: "Accounts payable",
+            links: [
+              {
+                href: "#",
+                label: "Invoices",
+                description: "Vendor bills and matching",
+              },
+              {
+                href: "#",
+                label: "Payment batches",
+                description: "Scheduled disbursements",
+              },
+              {
+                href: "#",
+                label: "Vendor credits",
+                description: "Adjustments and refunds",
+              },
+            ],
+          },
+          {
+            title: "General ledger",
+            links: [
+              {
+                href: "#",
+                label: "Journal entries",
+                description: "Post and reverse entries",
+              },
+              {
+                href: "#",
+                label: "Chart of accounts",
+                description: "GL structure FY 2026",
+              },
+              {
+                href: "#",
+                label: "Trial balance",
+                description: "Period close review",
+              },
+            ],
+          },
+        ]}
+        label="Finance"
       />
     </ErpNavMenu>
   ),
@@ -348,44 +348,44 @@ export const ErpProcurementModule: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Purchasing",
-          links: [
-            {
-              href: "#",
-              label: "Purchase orders",
-              description: "Create and track POs",
-            },
-            {
-              href: "#",
-              label: "Requisitions",
-              description: "Internal requests",
-            },
-            {
-              href: "#",
-              label: "Goods receipt",
-              description: "Receive against POs",
-            },
-          ],
-        },
-        {
-          title: "Suppliers",
-          links: [
-            {
-              href: "#",
-              label: "Vendor master",
-              description: "Approved supplier list",
-            },
-            {
-              href: "#",
-              label: "Contracts",
-              description: "Terms and pricing",
-            },
-          ],
-        },
-      ]}
-      label="Procurement"
+        columns={[
+          {
+            title: "Purchasing",
+            links: [
+              {
+                href: "#",
+                label: "Purchase orders",
+                description: "Create and track POs",
+              },
+              {
+                href: "#",
+                label: "Requisitions",
+                description: "Internal requests",
+              },
+              {
+                href: "#",
+                label: "Goods receipt",
+                description: "Receive against POs",
+              },
+            ],
+          },
+          {
+            title: "Suppliers",
+            links: [
+              {
+                href: "#",
+                label: "Vendor master",
+                description: "Approved supplier list",
+              },
+              {
+                href: "#",
+                label: "Contracts",
+                description: "Terms and pricing",
+              },
+            ],
+          },
+        ]}
+        label="Procurement"
       />
     </ErpNavMenu>
   ),
@@ -397,44 +397,44 @@ export const ErpHrModule: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "People",
-          links: [
-            {
-              href: "#",
-              label: "Employee roster",
-              description: "Active headcount",
-            },
-            {
-              href: "#",
-              label: "Onboarding",
-              description: "New hire workflows",
-            },
-            {
-              href: "#",
-              label: "Org chart",
-              description: "Departments and managers",
-            },
-          ],
-        },
-        {
-          title: "Payroll",
-          links: [
-            {
-              href: "#",
-              label: "Pay runs",
-              description: "Fortnightly payroll",
-            },
-            {
-              href: "#",
-              label: "Leave balances",
-              description: "Accruals and requests",
-            },
-          ],
-        },
-      ]}
-      label="Human Resources"
+        columns={[
+          {
+            title: "People",
+            links: [
+              {
+                href: "#",
+                label: "Employee roster",
+                description: "Active headcount",
+              },
+              {
+                href: "#",
+                label: "Onboarding",
+                description: "New hire workflows",
+              },
+              {
+                href: "#",
+                label: "Org chart",
+                description: "Departments and managers",
+              },
+            ],
+          },
+          {
+            title: "Payroll",
+            links: [
+              {
+                href: "#",
+                label: "Pay runs",
+                description: "Fortnightly payroll",
+              },
+              {
+                href: "#",
+                label: "Leave balances",
+                description: "Accruals and requests",
+              },
+            ],
+          },
+        ]}
+        label="Human Resources"
       />
     </ErpNavMenu>
   ),
@@ -446,44 +446,44 @@ export const ErpInventoryModule: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Stock",
-          links: [
-            {
-              href: "#",
-              label: "Stock levels",
-              description: "On-hand by warehouse",
-            },
-            {
-              href: "#",
-              label: "Transfers",
-              description: "Inter-location moves",
-            },
-            {
-              href: "#",
-              label: "Adjustments",
-              description: "Cycle count corrections",
-            },
-          ],
-        },
-        {
-          title: "Planning",
-          links: [
-            {
-              href: "#",
-              label: "Reorder rules",
-              description: "Min/max thresholds",
-            },
-            {
-              href: "#",
-              label: "SKU catalog",
-              description: "Item master data",
-            },
-          ],
-        },
-      ]}
-      label="Inventory"
+        columns={[
+          {
+            title: "Stock",
+            links: [
+              {
+                href: "#",
+                label: "Stock levels",
+                description: "On-hand by warehouse",
+              },
+              {
+                href: "#",
+                label: "Transfers",
+                description: "Inter-location moves",
+              },
+              {
+                href: "#",
+                label: "Adjustments",
+                description: "Cycle count corrections",
+              },
+            ],
+          },
+          {
+            title: "Planning",
+            links: [
+              {
+                href: "#",
+                label: "Reorder rules",
+                description: "Min/max thresholds",
+              },
+              {
+                href: "#",
+                label: "SKU catalog",
+                description: "Item master data",
+              },
+            ],
+          },
+        ]}
+        label="Inventory"
       />
     </ErpNavMenu>
   ),
@@ -495,39 +495,39 @@ export const ErpSalesModule: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Customers",
-          links: [
-            {
-              href: "#",
-              label: "Customer master",
-              description: "Accounts and contacts",
-            },
-            {
-              href: "#",
-              label: "Quotes",
-              description: "Open opportunities",
-            },
-          ],
-        },
-        {
-          title: "Billing",
-          links: [
-            {
-              href: "#",
-              label: "Sales orders",
-              description: "Fulfillment pipeline",
-            },
-            {
-              href: "#",
-              label: "AR invoices",
-              description: "Customer billing",
-            },
-          ],
-        },
-      ]}
-      label="Sales"
+        columns={[
+          {
+            title: "Customers",
+            links: [
+              {
+                href: "#",
+                label: "Customer master",
+                description: "Accounts and contacts",
+              },
+              {
+                href: "#",
+                label: "Quotes",
+                description: "Open opportunities",
+              },
+            ],
+          },
+          {
+            title: "Billing",
+            links: [
+              {
+                href: "#",
+                label: "Sales orders",
+                description: "Fulfillment pipeline",
+              },
+              {
+                href: "#",
+                label: "AR invoices",
+                description: "Customer billing",
+              },
+            ],
+          },
+        ]}
+        label="Sales"
       />
     </ErpNavMenu>
   ),
@@ -539,32 +539,32 @@ export const ErpReportsMegaMenu: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Financial",
-          links: [
-            { href: "#", label: "P&L statement" },
-            { href: "#", label: "Balance sheet" },
-            { href: "#", label: "Cash flow" },
-          ],
-        },
-        {
-          title: "Operational",
-          links: [
-            { href: "#", label: "AP aging" },
-            { href: "#", label: "Inventory valuation" },
-            { href: "#", label: "PO spend by vendor" },
-          ],
-        },
-        {
-          title: "Compliance",
-          links: [
-            { href: "#", label: "Audit trail export" },
-            { href: "#", label: "Tax summary" },
-          ],
-        },
-      ]}
-      label="Reports"
+        columns={[
+          {
+            title: "Financial",
+            links: [
+              { href: "#", label: "P&L statement" },
+              { href: "#", label: "Balance sheet" },
+              { href: "#", label: "Cash flow" },
+            ],
+          },
+          {
+            title: "Operational",
+            links: [
+              { href: "#", label: "AP aging" },
+              { href: "#", label: "Inventory valuation" },
+              { href: "#", label: "PO spend by vendor" },
+            ],
+          },
+          {
+            title: "Compliance",
+            links: [
+              { href: "#", label: "Audit trail export" },
+              { href: "#", label: "Tax summary" },
+            ],
+          },
+        ]}
+        label="Reports"
       />
     </ErpNavMenu>
   ),
@@ -576,25 +576,25 @@ export const ErpSettingsMenu: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Organization",
-          links: [
-            { href: "#", label: "Company profile" },
-            { href: "#", label: "Fiscal calendar" },
-            { href: "#", label: "Currencies" },
-          ],
-        },
-        {
-          title: "Access",
-          links: [
-            { href: "#", label: "Users and roles" },
-            { href: "#", label: "Approval policies" },
-            { href: "#", label: "API keys" },
-          ],
-        },
-      ]}
-      label="Settings"
+        columns={[
+          {
+            title: "Organization",
+            links: [
+              { href: "#", label: "Company profile" },
+              { href: "#", label: "Fiscal calendar" },
+              { href: "#", label: "Currencies" },
+            ],
+          },
+          {
+            title: "Access",
+            links: [
+              { href: "#", label: "Users and roles" },
+              { href: "#", label: "Approval policies" },
+              { href: "#", label: "API keys" },
+            ],
+          },
+        ]}
+        label="Settings"
       />
     </ErpNavMenu>
   ),
@@ -606,39 +606,39 @@ export const ErpAdminMenu: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Platform",
-          links: [
-            {
-              href: "#",
-              label: "Tenant settings",
-              description: "Multi-entity config",
-            },
-            {
-              href: "#",
-              label: "Integrations",
-              description: "Bank feeds and EDI",
-            },
-          ],
-        },
-        {
-          title: "Security",
-          links: [
-            {
-              href: "#",
-              label: "SSO configuration",
-              description: "Identity provider",
-            },
-            {
-              href: "#",
-              label: "Audit logs",
-              description: "Admin activity",
-            },
-          ],
-        },
-      ]}
-      label="System Admin"
+        columns={[
+          {
+            title: "Platform",
+            links: [
+              {
+                href: "#",
+                label: "Tenant settings",
+                description: "Multi-entity config",
+              },
+              {
+                href: "#",
+                label: "Integrations",
+                description: "Bank feeds and EDI",
+              },
+            ],
+          },
+          {
+            title: "Security",
+            links: [
+              {
+                href: "#",
+                label: "SSO configuration",
+                description: "Identity provider",
+              },
+              {
+                href: "#",
+                label: "Audit logs",
+                description: "Admin activity",
+              },
+            ],
+          },
+        ]}
+        label="System Admin"
       />
     </ErpNavMenu>
   ),
@@ -802,31 +802,31 @@ export const ErpAnalyticsMenu: Story = {
   render: () => (
     <ErpNavMenu>
       <ModuleMegaMenu
-      columns={[
-        {
-          title: "Dashboards",
-          links: [
-            {
-              href: "#",
-              label: "Executive summary",
-              description: "KPIs and cash position",
-            },
-            {
-              href: "#",
-              label: "AP operations",
-              description: "Invoice throughput",
-            },
-          ],
-        },
-        {
-          title: "Exports",
-          links: [
-            { href: "#", label: "Scheduled reports" },
-            { href: "#", label: "Data warehouse sync" },
-          ],
-        },
-      ]}
-      label="Analytics"
+        columns={[
+          {
+            title: "Dashboards",
+            links: [
+              {
+                href: "#",
+                label: "Executive summary",
+                description: "KPIs and cash position",
+              },
+              {
+                href: "#",
+                label: "AP operations",
+                description: "Invoice throughput",
+              },
+            ],
+          },
+          {
+            title: "Exports",
+            links: [
+              { href: "#", label: "Scheduled reports" },
+              { href: "#", label: "Data warehouse sync" },
+            ],
+          },
+        ]}
+        label="Analytics"
       />
     </ErpNavMenu>
   ),
@@ -860,7 +860,9 @@ export const NavigationMenuVsDropdown: Story = {
           </ErpNavMenu>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Toolbar action (DropdownMenu)</span>
+          <span className="font-medium text-sm">
+            Toolbar action (DropdownMenu)
+          </span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button emphasis="outline" intent="secondary" size="sm">

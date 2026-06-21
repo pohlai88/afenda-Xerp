@@ -25,7 +25,9 @@ describe("governance shared types", () => {
     expect(GOVERNED_UI_COMPONENTS).toContain("Button");
     expect(GOVERNED_UI_COMPONENTS).toContain("InputGroup");
     expect(GOVERNED_UI_COMPONENTS).toContain("Sidebar");
-    expect(new Set(GOVERNED_UI_COMPONENTS).size).toBe(GOVERNED_UI_COMPONENTS.length);
+    expect(new Set(GOVERNED_UI_COMPONENTS).size).toBe(
+      GOVERNED_UI_COMPONENTS.length
+    );
   });
 
   it("keeps P0 governed recipes explicit", () => {

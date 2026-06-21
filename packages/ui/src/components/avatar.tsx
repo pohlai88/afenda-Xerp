@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Avatar as AvatarPrimitive } from "radix-ui";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const AVATAR_RECIPE_NAME = "form-control" as const;
 
@@ -110,9 +109,7 @@ const AvatarBadge = React.forwardRef<HTMLSpanElement, AvatarBadgeProps>(
       className,
     });
 
-    return (
-      <span ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <span ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -132,9 +129,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
       className,
     });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -145,28 +140,27 @@ interface AvatarGroupCountProps
   readonly className?: string;
 }
 
-const AvatarGroupCount = React.forwardRef<HTMLDivElement, AvatarGroupCountProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Avatar",
-      recipeName: AVATAR_RECIPE_NAME,
-      slot: "state",
-      className,
-    });
+const AvatarGroupCount = React.forwardRef<
+  HTMLDivElement,
+  AvatarGroupCountProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Avatar",
+    recipeName: AVATAR_RECIPE_NAME,
+    slot: "state",
+    className,
+  });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
-  }
-);
+  return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+});
 
 AvatarGroupCount.displayName = "AvatarGroupCount";
 
 export {
   Avatar,
-  AvatarImage,
+  AvatarBadge,
   AvatarFallback,
   AvatarGroup,
   AvatarGroupCount,
-  AvatarBadge,
+  AvatarImage,
 };

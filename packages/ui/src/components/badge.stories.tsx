@@ -43,7 +43,12 @@ function StatusDot({ tone }: { readonly tone: StatusTone }) {
             ? "bg-primary"
             : "bg-muted-foreground";
 
-  return <span aria-hidden="true" className={`size-2 shrink-0 rounded-full ${dotClass}`} />;
+  return (
+    <span
+      aria-hidden="true"
+      className={`size-2 shrink-0 rounded-full ${dotClass}`}
+    />
+  );
 }
 
 function StatusBadge({
@@ -274,7 +279,9 @@ export const AllSizes: Story = {
           <Badge emphasis="soft" size={size} tone="info">
             {size}
           </Badge>
-          <span className="text-muted-foreground text-xs">size=&quot;{size}&quot;</span>
+          <span className="text-muted-foreground text-xs">
+            size=&quot;{size}&quot;
+          </span>
         </StoryStack>
       ))}
     </StoryRow>
@@ -326,11 +333,23 @@ export const WithIcon: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow gap="sm" wrap>
-      <IconStatusBadge icon={CheckCircle2Icon} label="Approved" tone="success" />
+      <IconStatusBadge
+        icon={CheckCircle2Icon}
+        label="Approved"
+        tone="success"
+      />
       <IconStatusBadge icon={ClockIcon} label="Pending" tone="warning" />
-      <IconStatusBadge icon={AlertTriangleIcon} label="At risk" tone="warning" />
+      <IconStatusBadge
+        icon={AlertTriangleIcon}
+        label="At risk"
+        tone="warning"
+      />
       <IconStatusBadge icon={BanIcon} label="Rejected" tone="danger" />
-      <IconStatusBadge icon={ShieldAlertIcon} label="Restricted" tone="forbidden" />
+      <IconStatusBadge
+        icon={ShieldAlertIcon}
+        label="Restricted"
+        tone="forbidden"
+      />
     </StoryRow>
   ),
 };
@@ -396,7 +415,11 @@ export const InvoiceStatus: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow gap="sm" wrap>
-      <IconStatusBadge icon={ClockIcon} label="Awaiting payment" tone="warning" />
+      <IconStatusBadge
+        icon={ClockIcon}
+        label="Awaiting payment"
+        tone="warning"
+      />
       <IconStatusBadge icon={CheckCircle2Icon} label="Paid" tone="success" />
       <IconStatusBadge icon={AlertTriangleIcon} label="Overdue" tone="danger" />
       <Badge emphasis="outline" size="sm" tone="info">
@@ -591,9 +614,24 @@ export const SLAIndicators: Story = {
   render: () => (
     <StoryStack gap="sm">
       {[
-        { ticket: "TKT-4401", label: "On track", tone: "success" as const, due: "Due in 2 days" },
-        { ticket: "TKT-4402", label: "At risk", tone: "warning" as const, due: "Due tomorrow" },
-        { ticket: "TKT-4403", label: "Breached", tone: "danger" as const, due: "Overdue 4 hr" },
+        {
+          ticket: "TKT-4401",
+          label: "On track",
+          tone: "success" as const,
+          due: "Due in 2 days",
+        },
+        {
+          ticket: "TKT-4402",
+          label: "At risk",
+          tone: "warning" as const,
+          due: "Due tomorrow",
+        },
+        {
+          ticket: "TKT-4403",
+          label: "Breached",
+          tone: "danger" as const,
+          due: "Overdue 4 hr",
+        },
       ].map(({ ticket, label, tone, due }) => (
         <StoryRow align="center" justify="between" key={ticket}>
           <StoryRow align="center" gap="md">
@@ -612,9 +650,21 @@ export const ComplianceLabels: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow gap="sm" wrap>
-      <IconStatusBadge icon={CheckCircle2Icon} label="Compliant" tone="success" />
-      <IconStatusBadge icon={ClockIcon} label="Review required" tone="warning" />
-      <IconStatusBadge icon={ShieldAlertIcon} label="Non-compliant" tone="danger" />
+      <IconStatusBadge
+        icon={CheckCircle2Icon}
+        label="Compliant"
+        tone="success"
+      />
+      <IconStatusBadge
+        icon={ClockIcon}
+        label="Review required"
+        tone="warning"
+      />
+      <IconStatusBadge
+        icon={ShieldAlertIcon}
+        label="Non-compliant"
+        tone="danger"
+      />
       <Badge emphasis="outline" size="sm" tone="invalid">
         Data incomplete
       </Badge>
@@ -630,8 +680,16 @@ export const BatchJobStatus: Story = {
       <StoryStack gap="sm">
         {[
           { job: "Nightly GL sync", status: "Running", tone: "info" as const },
-          { job: "Payroll export", status: "Completed", tone: "success" as const },
-          { job: "Inventory reconcile", status: "Failed", tone: "danger" as const },
+          {
+            job: "Payroll export",
+            status: "Completed",
+            tone: "success" as const,
+          },
+          {
+            job: "Inventory reconcile",
+            status: "Failed",
+            tone: "danger" as const,
+          },
           { job: "Email digest", status: "Queued", tone: "neutral" as const },
         ].map(({ job, status, tone }) => (
           <StoryRow align="center" justify="between" key={job}>
@@ -672,7 +730,9 @@ export const RecordDetailHeader: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm" wrap>
-          <span className="font-mono text-muted-foreground text-xs">PO-1042</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            PO-1042
+          </span>
           <StatusBadge label="Pending Approval" tone="warning" />
           <Badge emphasis="soft" size="sm" tone="warning">
             High priority
@@ -681,7 +741,9 @@ export const RecordDetailHeader: Story = {
             Procurement
           </Badge>
         </StoryRow>
-        <span className="font-semibold text-lg">Office supplies — Q2 restock</span>
+        <span className="font-semibold text-lg">
+          Office supplies — Q2 restock
+        </span>
         <span className="text-muted-foreground text-sm">
           Submitted by Jane Doe · Awaiting Alex Brown approval
         </span>
@@ -722,8 +784,17 @@ export const GovernanceAccessibility: Story = {
   render: () => (
     <StoryStack gap="sm">
       <StatusBadge label="Approved — accessible label" tone="success" />
-      <IconStatusBadge icon={BanIcon} label="Rejected — icon + text" tone="danger" />
-      <Badge aria-label="3 pending approvals" emphasis="solid" size="sm" tone="warning">
+      <IconStatusBadge
+        icon={BanIcon}
+        label="Rejected — icon + text"
+        tone="danger"
+      />
+      <Badge
+        aria-label="3 pending approvals"
+        emphasis="solid"
+        size="sm"
+        tone="warning"
+      >
         3
       </Badge>
     </StoryStack>

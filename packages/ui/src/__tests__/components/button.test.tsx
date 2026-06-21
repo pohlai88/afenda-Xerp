@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import { Button } from "../../index";
@@ -11,7 +11,7 @@ import {
 describe("Button governance", () => {
   it("renders with governed recipe classes and default attributes", () => {
     render(
-      <Button intent="primary" emphasis="solid" size="md">
+      <Button emphasis="solid" intent="primary" size="md">
         Save
       </Button>
     );
@@ -57,15 +57,15 @@ describe("Button governance", () => {
   it("does not allow consumer props to override governed data attributes", () => {
     render(
       <Button
-        intent="primary"
-        emphasis="solid"
-        size="md"
         data-component="Fake"
-        data-recipe="fake"
-        data-state="fake"
-        data-intent="danger"
         data-emphasis="ghost"
+        data-intent="danger"
+        data-recipe="fake"
         data-size="xl"
+        data-state="fake"
+        emphasis="solid"
+        intent="primary"
+        size="md"
       >
         Save
       </Button>

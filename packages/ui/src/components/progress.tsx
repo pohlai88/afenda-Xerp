@@ -1,17 +1,19 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { Progress as ProgressPrimitive } from "radix-ui";
-
-import { cn } from "#/lib/utils";
-import type { GovernedFormControlProps } from "@/governance";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const PROGRESS_RECIPE_NAME = "form-control" as const;
 
 export interface ProgressProps
-  extends Omit<React.ComponentProps<typeof ProgressPrimitive.Root>, "className">,
+  extends Omit<
+      React.ComponentProps<typeof ProgressPrimitive.Root>,
+      "className"
+    >,
     GovernedFormControlProps {
   readonly className?: string;
 }

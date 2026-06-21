@@ -29,10 +29,10 @@ import {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-type Crumb = {
-  readonly label: string;
+interface Crumb {
   readonly href?: string;
-};
+  readonly label: string;
+}
 
 function BreadcrumbTrail({ items }: { items: readonly Crumb[] }) {
   return (
@@ -72,7 +72,7 @@ function PageHeader({
     <StoryStack gap="sm">
       <BreadcrumbTrail items={crumbs} />
       <StoryRow align="center" gap="sm">
-        <h1 className="font-heading text-xl font-semibold">{title}</h1>
+        <h1 className="font-heading font-semibold text-xl">{title}</h1>
         {badge ? (
           <Badge emphasis="soft" size="sm" tone={badge.tone}>
             {badge.label}
@@ -247,10 +247,7 @@ export const ModuleOverview: Story = {
           },
           {
             icon: PackageIcon,
-            items: [
-              { label: "Operations", href: "#" },
-              { label: "Inventory" },
-            ],
+            items: [{ label: "Operations", href: "#" }, { label: "Inventory" }],
           },
           {
             icon: SettingsIcon,
@@ -262,7 +259,10 @@ export const ModuleOverview: Story = {
         ] as const
       ).map(({ icon: Icon, items }) => (
         <StoryRow align="center" gap="sm" key={items.at(-1)?.label}>
-          <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+          <Icon
+            aria-hidden="true"
+            className="size-4 shrink-0 text-muted-foreground"
+          />
           <BreadcrumbTrail items={items} />
         </StoryRow>
       ))}
@@ -461,8 +461,13 @@ export const MultiOrgContext: Story = {
     <StoryFrame width="xl">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm">
-          <BuildingIcon aria-hidden="true" className="size-4 text-muted-foreground" />
-          <span className="text-muted-foreground text-sm">Acme Holdings Pte Ltd</span>
+          <BuildingIcon
+            aria-hidden="true"
+            className="size-4 text-muted-foreground"
+          />
+          <span className="text-muted-foreground text-sm">
+            Acme Holdings Pte Ltd
+          </span>
         </StoryRow>
         <BreadcrumbTrail
           items={[

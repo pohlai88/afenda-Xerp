@@ -31,9 +31,7 @@ function LabeledProgress({
   );
 }
 
-function stepBadgeTone(
-  pct: number
-): "success" | "warning" | "neutral" {
+function stepBadgeTone(pct: number): "success" | "warning" | "neutral" {
   if (pct === 100) {
     return "success";
   }
@@ -69,7 +67,11 @@ function FileUploadDemo() {
 
   return (
     <StoryFrame width="lg">
-      <StoryStack className="rounded-md border border-border" gap="md" padding="lg">
+      <StoryStack
+        className="rounded-md border border-border"
+        gap="md"
+        padding="lg"
+      >
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
             <span className="font-medium text-sm">payroll_june_2026.xlsx</span>
@@ -499,7 +501,11 @@ export const DashboardSummary: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryStack className="rounded-md border border-border" gap="md" padding="lg">
+      <StoryStack
+        className="rounded-md border border-border"
+        gap="md"
+        padding="lg"
+      >
         <StoryRow justify="between">
           <span className="font-medium text-sm">Month-end close</span>
           <Badge emphasis="soft" tone="warning">

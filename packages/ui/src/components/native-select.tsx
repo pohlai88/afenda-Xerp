@@ -1,13 +1,16 @@
-import * as React from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "#/lib/utils";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
+import { ChevronDownIcon } from "lucide-react";
+import * as React from "react";
 
 const NATIVE_SELECT_RECIPE_NAME = "form-control" as const;
 
-type NativeSelectProps = Omit<React.ComponentPropsWithoutRef<"select">, "size"> & {
+type NativeSelectProps = Omit<
+  React.ComponentPropsWithoutRef<"select">,
+  "size"
+> & {
   readonly size?: "sm" | "default";
   readonly className?: string;
 };
@@ -43,8 +46,8 @@ const NativeSelect = React.forwardRef<HTMLDivElement, NativeSelectProps>(
         />
         <ChevronDownIcon
           {...icon.dataAttributes}
-          className={cn(icon.className)}
           aria-hidden="true"
+          className={cn(icon.className)}
         />
       </div>
     );
@@ -69,9 +72,7 @@ const NativeSelectOption = React.forwardRef<
     className,
   });
 
-  return (
-    <option ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <option ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 NativeSelectOption.displayName = "NativeSelectOption";
@@ -92,9 +93,7 @@ const NativeSelectOptGroup = React.forwardRef<
     className,
   });
 
-  return (
-    <optgroup ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <optgroup ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 NativeSelectOptGroup.displayName = "NativeSelectOptGroup";

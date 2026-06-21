@@ -12,49 +12,6 @@
  * Runtime implementation helpers belong in sibling governance modules.
  */
 
-// Authority vocabulary
-export {
-  ACCESSIBILITY_REQUIREMENTS,
-  AFENDA_TOKEN_CATEGORIES,
-  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
-  DESIGN_AUTHORITY_DOMAINS,
-  DENSITIES,
-  GOVERNED_STATES,
-  MOTION_INTENTS,
-  PROHIBITED_CLASSNAME_PATTERNS,
-  RADII,
-  SHADOWS,
-  SIZES,
-  SLOT_ROLES,
-  STATUS_TONES,
-  TIP_004_DOWNSTREAM_CONTRACTS,
-  TOKEN_CATEGORIES,
-  VARIANT_AXES,
-  VARIANT_EMPHASES,
-  VARIANT_INTENTS,
-  assertAfendaTokenName,
-  isAfendaTokenName,
-  tokenNameToCssVariable,
-  accessibilityPolicy,
-  motionPolicy,
-} from "@afenda/design-system";
-
-// Authority contracts
-export {
-  accessibilityContract,
-  classNamePolicyContract,
-  componentContract,
-  designSystemAuthorityContract,
-  exampleContract,
-  exportContract,
-  motionContract,
-  recipeContract,
-  slotContract,
-  stateContract,
-  tokenContract,
-  variantContract,
-} from "@afenda/design-system";
-
 // Governed types
 export type {
   AccessibilityContract,
@@ -65,13 +22,13 @@ export type {
   AfendaTokenName,
   AiAntiDriftRules,
   ClassNamePolicyContract,
+  Density,
   DesignAuthorityAcceptanceCriteria,
   DesignAuthorityDomain,
   DesignAuthorityIdentity,
   DesignSystemAuthorityContract,
   DesignSystemContract,
   DesignSystemPackageBoundary,
-  Density,
   GovernedComponentContract,
   GovernedExample,
   GovernedRadius,
@@ -103,4 +60,43 @@ export type {
   VariantIntent,
   VariantRegistry,
   VariantSelection,
+} from "@afenda/design-system";
+// Authority vocabulary
+// Authority contracts
+export {
+  ACCESSIBILITY_REQUIREMENTS,
+  AFENDA_TOKEN_CATEGORIES,
+  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
+  accessibilityContract,
+  accessibilityPolicy,
+  assertAfendaTokenName,
+  classNamePolicyContract,
+  componentContract,
+  DENSITIES,
+  DESIGN_AUTHORITY_DOMAINS,
+  designSystemAuthorityContract,
+  exampleContract,
+  exportContract,
+  GOVERNED_STATES,
+  isAfendaTokenName,
+  MOTION_INTENTS,
+  motionContract,
+  motionPolicy,
+  PROHIBITED_CLASSNAME_PATTERNS,
+  RADII,
+  recipeContract,
+  SHADOWS,
+  SIZES,
+  SLOT_ROLES,
+  STATUS_TONES,
+  slotContract,
+  stateContract,
+  TIP_004_DOWNSTREAM_CONTRACTS,
+  TOKEN_CATEGORIES,
+  tokenContract,
+  tokenNameToCssVariable,
+  VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
+  variantContract,
 } from "@afenda/design-system";

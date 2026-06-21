@@ -3,12 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from "./field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "./field";
 import { Label } from "./label";
 import { Textarea } from "./textarea";
 
@@ -72,7 +67,9 @@ function ValidatedRejectionReasonField() {
       </FieldDescription>
       {invalid ? (
         <FieldError
-          errors={[{ message: "Rejection reason must be at least 10 characters" }]}
+          errors={[
+            { message: "Rejection reason must be at least 10 characters" },
+          ]}
         />
       ) : null}
     </Field>
@@ -202,7 +199,12 @@ export const GovernanceAllSizes: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         {SIZES.map((size) => (
-          <Textarea key={size} placeholder={`Size: ${size}`} rows={2} size={size} />
+          <Textarea
+            key={size}
+            placeholder={`Size: ${size}`}
+            rows={2}
+            size={size}
+          />
         ))}
       </StoryStack>
     </StoryFrame>
@@ -254,7 +256,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Pair with `Label` or `FieldLabel` via matching `id`/`htmlFor`. Use `aria-invalid` and `state=\"error\"` for validation. Link hints with `aria-describedby`.",
+          'Pair with `Label` or `FieldLabel` via matching `id`/`htmlFor`. Use `aria-invalid` and `state="error"` for validation. Link hints with `aria-describedby`.',
       },
     },
   },
@@ -597,7 +599,11 @@ export const ValidationStates: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <LabeledField id="val-default" label="Default">
-          <Textarea id="val-default" placeholder="Enter internal notes…" rows={2} />
+          <Textarea
+            id="val-default"
+            placeholder="Enter internal notes…"
+            rows={2}
+          />
         </LabeledField>
         <LabeledField id="val-error" label="Error">
           <Textarea
@@ -702,7 +708,7 @@ export const TextareaVsInput: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <LabeledField id="vs-input" label="Invoice number (single line)">
-          <span className="text-muted-foreground text-sm font-mono">
+          <span className="font-mono text-muted-foreground text-sm">
             Use Primitives/Input → INV-2026-0042
           </span>
         </LabeledField>
@@ -739,7 +745,9 @@ export const InputGroupReference: Story = {
           />
         </LabeledField>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Needs block header or footer?</span>
+          <span className="font-medium text-sm">
+            Needs block header or footer?
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/InputGroup → Internal Notes Textarea for PO-2026-1184
             pattern with block-start label and character limit footer.

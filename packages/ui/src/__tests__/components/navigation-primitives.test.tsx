@@ -14,6 +14,9 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
+  SidebarInput,
+  SidebarProvider,
+  SidebarTrigger,
   Tabs,
   TabsContent,
   TabsList,
@@ -31,7 +34,9 @@ describe("navigation primitive governance", () => {
           <TabsContent value="tab1">Content 1</TabsContent>
         </Tabs>
       );
-      const tabsRoot = screen.getByRole("tablist", { name: "My tabs" }).closest("[data-slot='tabs']");
+      const tabsRoot = screen
+        .getByRole("tablist", { name: "My tabs" })
+        .closest("[data-slot='tabs']");
       expect(tabsRoot).toHaveAttribute("data-slot", "tabs");
       expect(tabsRoot).toHaveAttribute("data-component", "Tabs");
     });
@@ -65,7 +70,11 @@ describe("navigation primitive governance", () => {
     it("keeps governed data attributes authoritative on tabs-list", () => {
       render(
         <Tabs defaultValue="tab1">
-          <TabsList aria-label="My tabs" data-slot="override" data-component="Override">
+          <TabsList
+            aria-label="My tabs"
+            data-component="Override"
+            data-slot="override"
+          >
             <TabsTrigger value="tab1">Tab 1</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">Content 1</TabsContent>
@@ -112,7 +121,7 @@ describe("navigation primitive governance", () => {
 
     it("keeps governed data attributes authoritative on root", () => {
       render(
-        <Breadcrumb data-slot="override" data-component="Override">
+        <Breadcrumb data-component="Override" data-slot="override">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbPage>Page</BreadcrumbPage>
@@ -142,7 +151,7 @@ describe("navigation primitive governance", () => {
 
     it("keeps governed data attributes authoritative on root", () => {
       render(
-        <Pagination data-slot="override" data-component="Override">
+        <Pagination data-component="Override" data-slot="override">
           <PaginationContent>
             <PaginationItem />
           </PaginationContent>
@@ -157,7 +166,7 @@ describe("navigation primitive governance", () => {
   describe("Accordion", () => {
     it("renders root with governed data-slot", () => {
       render(
-        <Accordion type="single" data-testid="accordion-root">
+        <Accordion data-testid="accordion-root" type="single">
           <AccordionItem value="item-1">
             <AccordionTrigger>Question 1</AccordionTrigger>
             <AccordionContent>Answer 1</AccordionContent>
@@ -172,7 +181,7 @@ describe("navigation primitive governance", () => {
     it("renders accordion-item slot", () => {
       render(
         <Accordion type="single">
-          <AccordionItem value="item-1" data-testid="accordion-item">
+          <AccordionItem data-testid="accordion-item" value="item-1">
             <AccordionTrigger>Question 1</AccordionTrigger>
             <AccordionContent>Answer 1</AccordionContent>
           </AccordionItem>
@@ -197,7 +206,12 @@ describe("navigation primitive governance", () => {
 
     it("keeps governed data attributes authoritative on root", () => {
       render(
-        <Accordion type="single" data-testid="acc" data-slot="override" data-component="Override">
+        <Accordion
+          data-component="Override"
+          data-slot="override"
+          data-testid="acc"
+          type="single"
+        >
           <AccordionItem value="item-1">
             <AccordionTrigger>Q</AccordionTrigger>
             <AccordionContent>A</AccordionContent>
@@ -207,6 +221,36 @@ describe("navigation primitive governance", () => {
       const root = screen.getByTestId("acc");
       expect(root).toHaveAttribute("data-slot", "accordion");
       expect(root).toHaveAttribute("data-component", "Accordion");
+    });
+  });
+
+  describe("Sidebar", () => {
+    it("renders SidebarTrigger without layout className policy violations", () => {
+      render(
+        <SidebarProvider>
+          <SidebarTrigger />
+        </SidebarProvider>
+      );
+
+      const trigger = screen.getByRole("button", { name: "Toggle Sidebar" });
+
+      expect(trigger).toHaveAttribute("data-sidebar", "trigger");
+      expect(trigger).toHaveAttribute("data-slot", "button");
+      expect(trigger).toHaveAttribute("data-component", "Button");
+    });
+
+    it("renders SidebarInput without TIP-004 className policy violations", () => {
+      render(
+        <SidebarProvider>
+          <SidebarInput placeholder="Search modules" />
+        </SidebarProvider>
+      );
+
+      const input = screen.getByPlaceholderText("Search modules");
+
+      expect(input).toHaveAttribute("data-sidebar", "input");
+      expect(input).toHaveAttribute("data-slot", "input");
+      expect(input).toHaveAttribute("data-component", "Input");
     });
   });
 });

@@ -1,8 +1,7 @@
+import type { GovernedCardProps, SlotRole } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import type { GovernedCardProps, SlotRole } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 export interface CardProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
@@ -118,10 +117,10 @@ const CardFooter = createCardSlot("CardFooter", "footer");
 
 export {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 };

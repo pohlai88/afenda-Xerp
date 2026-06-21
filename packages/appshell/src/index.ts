@@ -45,3 +45,4 @@ export { AppShellHeader } from "./app-shell-header";
 export { AppShellMain } from "./app-shell-main";
 export type { AppShellSidebarProps } from "./app-shell-sidebar";
 export { AppShellSidebar } from "./app-shell-sidebar";
+export { AppShellFooter } from "./app-shell-footer";

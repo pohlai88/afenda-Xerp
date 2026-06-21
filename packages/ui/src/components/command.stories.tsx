@@ -13,7 +13,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
-import { useState, type ComponentType, type ReactNode } from "react";
+import { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -64,10 +64,30 @@ const RECENT_RECORDS = [
 ] as const;
 
 const QUICK_ACTIONS = [
-  { id: "new-po", label: "Create purchase order", shortcut: "⌘⇧P", icon: PackageIcon },
-  { id: "new-invoice", label: "Create invoice", shortcut: "⌘⇧I", icon: FileTextIcon },
-  { id: "new-employee", label: "Add employee", shortcut: "⌘⇧E", icon: UserIcon },
-  { id: "new-vendor", label: "Register vendor", shortcut: "⌘⇧V", icon: Building2Icon },
+  {
+    id: "new-po",
+    label: "Create purchase order",
+    shortcut: "⌘⇧P",
+    icon: PackageIcon,
+  },
+  {
+    id: "new-invoice",
+    label: "Create invoice",
+    shortcut: "⌘⇧I",
+    icon: FileTextIcon,
+  },
+  {
+    id: "new-employee",
+    label: "Add employee",
+    shortcut: "⌘⇧E",
+    icon: UserIcon,
+  },
+  {
+    id: "new-vendor",
+    label: "Register vendor",
+    shortcut: "⌘⇧V",
+    icon: Building2Icon,
+  },
 ] as const;
 
 const APPROVAL_ACTIONS = [
@@ -189,7 +209,10 @@ export const Default: Story = {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem value="dashboard">
-              <CommandItemRow icon={LayoutDashboardIcon} label="Go to dashboard" />
+              <CommandItemRow
+                icon={LayoutDashboardIcon}
+                label="Go to dashboard"
+              />
             </CommandItem>
             <CommandItem value="invoices">
               <CommandItemRow icon={FileTextIcon} label="Open invoices" />
@@ -288,7 +311,10 @@ export const GovernanceAccessibility: Story = {
         title="ERP command palette"
       >
         <Command>
-          <CommandInput aria-label="Search ERP commands" placeholder="Search…" />
+          <CommandInput
+            aria-label="Search ERP commands"
+            placeholder="Search…"
+          />
           <CommandList>
             <CommandGroup heading="Navigation">
               <CommandItem value="dashboard">
@@ -326,12 +352,14 @@ export const GlobalCommandPalette: Story = {
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading="Quick actions">
-              {QUICK_ACTIONS.slice(0, 3).map(({ id, label, shortcut, icon: Icon }) => (
-                <CommandItem key={id} value={id}>
-                  <CommandItemRow icon={Icon} label={label} />
-                  <CommandShortcut>{shortcut}</CommandShortcut>
-                </CommandItem>
-              ))}
+              {QUICK_ACTIONS.slice(0, 3).map(
+                ({ id, label, shortcut, icon: Icon }) => (
+                  <CommandItem key={id} value={id}>
+                    <CommandItemRow icon={Icon} label={label} />
+                    <CommandShortcut>{shortcut}</CommandShortcut>
+                  </CommandItem>
+                )
+              )}
             </CommandGroup>
           </CommandList>
         </Command>
@@ -353,8 +381,8 @@ export const RecordJumpSearch: Story = {
             {RECENT_RECORDS.map(({ id, label, module }) => (
               <CommandItem key={id} value={id}>
                 <CommandItemRow
-                  icon={FolderOpenIcon}
                   hint={module}
+                  icon={FolderOpenIcon}
                   label={label}
                 />
               </CommandItem>
@@ -386,10 +414,7 @@ export const QuickActionsPalette: Story = {
           <CommandSeparator />
           <CommandGroup heading="Import">
             <CommandItem value="import-employees">
-              <CommandItemRow
-                icon={UsersIcon}
-                label="Import employee roster"
-              />
+              <CommandItemRow icon={UsersIcon} label="Import employee roster" />
             </CommandItem>
             <CommandItem value="import-invoices">
               <CommandItemRow
@@ -416,7 +441,12 @@ export const ModuleNavigation: Story = {
           <CommandGroup heading="Core modules">
             {MODULES.map(({ id, label, icon: Icon }) => (
               <CommandItem key={id} value={id}>
-                <StoryRow align="center" className="flex-1" gap="sm" justify="between">
+                <StoryRow
+                  align="center"
+                  className="flex-1"
+                  gap="sm"
+                  justify="between"
+                >
                   <CommandItemRow icon={Icon} label={label} />
                   <Badge emphasis="soft" size="sm" tone="neutral">
                     Open
@@ -443,10 +473,15 @@ export const RecentRecords: Story = {
           <CommandGroup heading="Opened today">
             {RECENT_RECORDS.map(({ id, label, module }) => (
               <CommandItem key={id} value={id}>
-                <StoryRow align="center" className="flex-1" gap="sm" justify="between">
+                <StoryRow
+                  align="center"
+                  className="flex-1"
+                  gap="sm"
+                  justify="between"
+                >
                   <CommandItemRow
-                    icon={ClipboardListIcon}
                     hint={module}
+                    icon={ClipboardListIcon}
                     label={label}
                   />
                   <span className="text-muted-foreground text-xs">Today</span>
@@ -472,7 +507,12 @@ export const ApprovalActions: Story = {
           <CommandGroup heading="Pending your review">
             {APPROVAL_ACTIONS.map(({ id, label }) => (
               <CommandItem key={id} value={id}>
-                <StoryRow align="center" className="flex-1" gap="sm" justify="between">
+                <StoryRow
+                  align="center"
+                  className="flex-1"
+                  gap="sm"
+                  justify="between"
+                >
                   <CommandItemRow icon={CheckCircle2Icon} label={label} />
                   <Badge emphasis="soft" size="sm" tone="warning">
                     Pending
@@ -572,7 +612,10 @@ export const FilteredWorkflowPalette: Story = {
             <CommandEmpty>No workflow commands match.</CommandEmpty>
             <CommandGroup heading="PO-2026-1184">
               <CommandItem value="view-po">
-                <CommandItemRow icon={PackageIcon} label="View purchase order" />
+                <CommandItemRow
+                  icon={PackageIcon}
+                  label="View purchase order"
+                />
               </CommandItem>
               <CommandItem value="add-line">
                 <CommandItemRow icon={PlusIcon} label="Add line item" />

@@ -131,7 +131,11 @@ function ControlledNativeSelectDemo() {
 
   return (
     <StoryStack gap="sm">
-      <NativeSelect id="controlled-status" onChange={handleChange} value={value}>
+      <NativeSelect
+        id="controlled-status"
+        onChange={handleChange}
+        value={value}
+      >
         <NativeSelectOption value="">Select status…</NativeSelectOption>
         {RECORD_STATUSES.map((status) => (
           <NativeSelectOption key={status} value={status.toLowerCase()}>
@@ -379,9 +383,15 @@ export const DenseGridCells: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm" wrap>
-          <span className="font-mono text-muted-foreground text-xs">Record</span>
-          <span className="font-mono text-muted-foreground text-xs">Status</span>
-          <span className="font-mono text-muted-foreground text-xs">Priority</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            Record
+          </span>
+          <span className="font-mono text-muted-foreground text-xs">
+            Status
+          </span>
+          <span className="font-mono text-muted-foreground text-xs">
+            Priority
+          </span>
         </StoryRow>
         <DenseGridRow id="row-inv-001" recordId="INV-001" status="active" />
         <DenseGridRow id="row-inv-002" recordId="INV-002" status="pending" />
@@ -596,7 +606,9 @@ export const MobileDataEntryForm: Story = {
       <StoryStack gap="md">
         <LabeledNativeSelect id="mobile-status" label="Ticket status" size="sm">
           <NativeSelectOption value="open">Open</NativeSelectOption>
-          <NativeSelectOption value="in-progress">In progress</NativeSelectOption>
+          <NativeSelectOption value="in-progress">
+            In progress
+          </NativeSelectOption>
           <NativeSelectOption value="resolved">Resolved</NativeSelectOption>
         </LabeledNativeSelect>
         <LabeledNativeSelect id="mobile-priority" label="Priority" size="sm">
@@ -651,7 +663,10 @@ export const BulkEditToolbar: Story = {
           >
             <NativeSelectOption value="">Set department…</NativeSelectOption>
             {DEPARTMENTS.map((department) => (
-              <NativeSelectOption key={department} value={department.toLowerCase()}>
+              <NativeSelectOption
+                key={department}
+                value={department.toLowerCase()}
+              >
                 {department}
               </NativeSelectOption>
             ))}
@@ -689,7 +704,11 @@ export const NativeSelectVsRadixSelect: Story = {
   render: () => (
     <StoryFrame width="sm">
       <StoryStack gap="md">
-        <LabeledNativeSelect id="native-status" label="Status (NativeSelect)" size="sm">
+        <LabeledNativeSelect
+          id="native-status"
+          label="Status (NativeSelect)"
+          size="sm"
+        >
           <NativeSelectOption value="">Select…</NativeSelectOption>
           {RECORD_STATUSES.map((status) => (
             <NativeSelectOption key={status} value={status.toLowerCase()}>
@@ -698,8 +717,8 @@ export const NativeSelectVsRadixSelect: Story = {
           ))}
         </LabeledNativeSelect>
         <span className="text-muted-foreground text-xs">
-          See Primitives/Select for Radix overlay pickers with groups, separators,
-          and custom item layouts.
+          See Primitives/Select for Radix overlay pickers with groups,
+          separators, and custom item layouts.
         </span>
       </StoryStack>
     </StoryFrame>
@@ -722,7 +741,10 @@ export const GovernanceAccessibility: Story = {
         <LabeledNativeSelect id="a11y-dept" label="Department" required>
           <NativeSelectOption value="">Select department…</NativeSelectOption>
           {DEPARTMENTS.map((department) => (
-            <NativeSelectOption key={department} value={department.toLowerCase()}>
+            <NativeSelectOption
+              key={department}
+              value={department.toLowerCase()}
+            >
               {department}
             </NativeSelectOption>
           ))}

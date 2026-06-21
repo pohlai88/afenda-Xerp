@@ -7,15 +7,6 @@
 import { cva } from "class-variance-authority";
 
 import { cn } from "../lib/utils";
-
-import type {
-  Density,
-  GovernedSize,
-  StatusTone,
-  VariantEmphasis,
-  VariantIntent,
-  VariantSelection,
-} from "./design-system";
 import type {
   GovernedPanelRadius,
   GovernedPanelShadow,
@@ -24,25 +15,33 @@ import {
   isGovernedPanelRadius,
   isGovernedPanelShadow,
 } from "./component-props";
-import { GOVERNED_UI_RECIPES } from "./types";
-import type { GovernedRecipeName, GovernedRecipeResult } from "./types";
+import type {
+  Density,
+  GovernedSize,
+  StatusTone,
+  VariantEmphasis,
+  VariantIntent,
+  VariantSelection,
+} from "./design-system";
 import {
   badgeToneEmphasis,
   buttonIconSizeClasses,
   buttonIntentEmphasis,
-  panelRadiusClasses,
-  panelShadowClasses,
   densitySpacingClasses,
   fieldOrientationClasses,
   formControlSizeClasses,
+  panelRadiusClasses,
+  panelShadowClasses,
+  type ToggleSizeKey,
+  type ToggleVariantKey,
   tableSizeClasses,
-  toneEmphasisClasses,
   toggleRootSlotClassName,
   toggleSizeClassNames,
   toggleVariantClassNames,
-  type ToggleSizeKey,
-  type ToggleVariantKey,
+  toneEmphasisClasses,
 } from "./recipe-maps";
+import type { GovernedRecipeName, GovernedRecipeResult } from "./types";
+import { GOVERNED_UI_RECIPES } from "./types";
 import {
   resolveBadgeVariant,
   resolveButtonVariant,
@@ -53,27 +52,28 @@ import {
   resolveTableVariant,
 } from "./variant";
 
-export { GOVERNED_UI_RECIPES };
 export type { GovernedRecipeName, GovernedRecipeResult };
+export { GOVERNED_UI_RECIPES };
 
 function buildCompoundVariants<TKey extends string>(
   map: Record<TKey, Record<VariantEmphasis, string>>,
   keyName: "intent" | "tone"
 ) {
-  return (Object.entries(map) as Array<[TKey, Record<VariantEmphasis, string>]>).flatMap(
-    ([key, emphases]) =>
-      (Object.entries(emphases) as Array<[VariantEmphasis, string]>).map(
-        ([emphasis, className]) => ({
-          [keyName]: key,
-          emphasis,
-          class: className,
-        })
-      )
+  return (
+    Object.entries(map) as [TKey, Record<VariantEmphasis, string>][]
+  ).flatMap(([key, emphases]) =>
+    (Object.entries(emphases) as [VariantEmphasis, string][]).map(
+      ([emphasis, className]) => ({
+        [keyName]: key,
+        emphasis,
+        class: className,
+      })
+    )
   );
 }
 
 const buttonRecipeRuntime = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-lg border border-transparent bg-clip-padding font-medium text-sm outline-none transition-all focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       intent: {
@@ -102,7 +102,7 @@ const buttonRecipeRuntime = cva(
     compoundVariants: [
       ...buildCompoundVariants(buttonIntentEmphasis, "intent"),
       ...(
-        Object.entries(buttonIconSizeClasses) as Array<[GovernedSize, string]>
+        Object.entries(buttonIconSizeClasses) as [GovernedSize, string][]
       ).map(([size, className]) => ({
         presentation: "icon" as const,
         size,
@@ -119,7 +119,7 @@ const buttonRecipeRuntime = cva(
 );
 
 const badgeRecipeRuntime = cva(
-  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-4xl border border-transparent px-2 py-0.5 font-medium text-xs transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       tone: {
@@ -160,7 +160,7 @@ const badgeRecipeRuntime = cva(
 );
 
 const cardRecipeRuntime = cva(
-  "group/card flex flex-col gap-(--card-spacing) overflow-hidden bg-card py-(--card-spacing) text-sm text-card-foreground has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0",
+  "group/card flex flex-col gap-(--card-spacing) overflow-hidden bg-card py-(--card-spacing) text-card-foreground text-sm has-[>img:first-child]:pt-0 has-data-[slot=card-footer]:pb-0",
   {
     variants: {
       density: {
@@ -197,7 +197,7 @@ const surfaceRecipeRuntime = cva(
 );
 
 const statusRecipeRuntime = cva(
-  "group/status relative grid w-full gap-1 rounded-lg border px-(--surface-spacing) py-(--surface-spacing) text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
+  "group/status relative grid w-full gap-1 rounded-lg border px-(--surface-spacing) py-(--surface-spacing) text-left text-sm has-data-[slot=alert-action]:relative has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 has-data-[slot=alert-action]:pr-18 *:[svg:not([class*='size-'])]:size-4 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current",
   {
     variants: {
       tone: {
@@ -436,7 +436,9 @@ export function resolveStatusClassName(selection: VariantSelection): string {
   });
 }
 
-export function resolveFormControlClassName(selection: VariantSelection): string {
+export function resolveFormControlClassName(
+  selection: VariantSelection
+): string {
   const normalized = resolveFormControlVariant(selection);
   return formControlRecipeRuntime({
     density: normalized.density ?? "standard",

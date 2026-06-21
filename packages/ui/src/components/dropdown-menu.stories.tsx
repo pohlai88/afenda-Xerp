@@ -212,10 +212,7 @@ export const WithCheckboxItems: Story = {
           <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {EXPORT_COLUMNS.map(({ id, label, checked }) => (
-            <DropdownMenuCheckboxItem
-              checked={checked}
-              key={id}
-            >
+            <DropdownMenuCheckboxItem checked={checked} key={id}>
               {label}
             </DropdownMenuCheckboxItem>
           ))}
@@ -365,7 +362,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Icon triggers require `aria-label`. Destructive items use `variant=\"destructive\"`. Keyboard navigation follows Radix menu semantics.",
+          'Icon triggers require `aria-label`. Destructive items use `variant="destructive"`. Keyboard navigation follows Radix menu semantics.',
       },
     },
   },
@@ -395,7 +392,10 @@ export const TableRowActions: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
-      <StoryStack className="overflow-hidden rounded-md border border-border" gap="xs">
+      <StoryStack
+        className="overflow-hidden rounded-md border border-border"
+        gap="xs"
+      >
         <StoryRow
           className="border-border border-b bg-muted/30 font-medium text-muted-foreground text-xs"
           gap="lg"
@@ -460,7 +460,9 @@ export const UserAccountMenu: Story = {
             <span className="text-muted-foreground text-xs">
               jane.doe@company.com
             </span>
-            <Badge emphasis="soft" size="sm" tone="info">Finance admin</Badge>
+            <Badge emphasis="soft" size="sm" tone="info">
+              Finance admin
+            </Badge>
           </StoryStack>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -540,7 +542,9 @@ export const InvoiceRecordActions: Story = {
           </span>
           <span className="font-semibold text-lg">Acme Supplies Ltd.</span>
           <StoryRow gap="sm">
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
             <span className="text-muted-foreground text-sm">$24,850 due</span>
           </StoryRow>
         </StoryStack>
@@ -619,7 +623,9 @@ export const KanbanCardActions: Story = {
             </DropdownMenuContent>
           </DropdownMenu>
         </StoryRow>
-        <Badge emphasis="soft" size="sm" tone="warning">In review</Badge>
+        <Badge emphasis="soft" size="sm" tone="warning">
+          In review
+        </Badge>
       </StoryStack>
     </StoryFrame>
   ),
@@ -757,7 +763,9 @@ export const BulkSelectionMenu: Story = {
       <StoryRow align="center" gap="md" justify="between">
         <StoryRow align="center" gap="sm">
           <span className="font-medium text-sm">8 invoices selected</span>
-          <Badge emphasis="soft" tone="info">Bulk mode</Badge>
+          <Badge emphasis="soft" tone="info">
+            Bulk mode
+          </Badge>
         </StoryRow>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -811,7 +819,9 @@ export const InventoryLineActions: Story = {
           </StoryStack>
         </StoryRow>
         <StoryRow align="center" gap="sm">
-          <Badge emphasis="soft" tone="success">1,240 in stock</Badge>
+          <Badge emphasis="soft" tone="success">
+            1,240 in stock
+          </Badge>
           <DropdownMenu>
             <RowActionsTrigger label="Inventory line actions" />
             <DropdownMenuContent align="end">
@@ -885,8 +895,12 @@ export const ToolbarCommandMenu: Story = {
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup value="csv">
               <DropdownMenuRadioItem value="csv">CSV</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="xlsx">Excel (.xlsx)</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="pdf">PDF summary</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="xlsx">
+                Excel (.xlsx)
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="pdf">
+                PDF summary
+              </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -926,7 +940,9 @@ export const StatusChangeMenu: Story = {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button emphasis="soft" intent="secondary" size="sm">
-            <Badge emphasis="soft" tone="warning">Pending</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Pending
+            </Badge>
             Change status
           </Button>
         </DropdownMenuTrigger>
@@ -935,8 +951,12 @@ export const StatusChangeMenu: Story = {
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value="pending">
             <DropdownMenuRadioItem value="draft">Draft</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="pending">Pending approval</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="approved">Approved</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="pending">
+              Pending approval
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="approved">
+              Approved
+            </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="paid">Paid</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="void">Void</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
@@ -1066,7 +1086,9 @@ export const DropdownVsContextComparison: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Explicit trigger (dropdown)</span>
+          <span className="font-medium text-sm">
+            Explicit trigger (dropdown)
+          </span>
           <span className="text-muted-foreground text-xs">
             Use for toolbar and icon buttons
           </span>
@@ -1092,17 +1114,21 @@ export const DropdownVsContextComparison: Story = {
           </DropdownMenu>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Pointer surface (context menu)</span>
+          <span className="font-medium text-sm">
+            Pointer surface (context menu)
+          </span>
           <span className="text-muted-foreground text-xs">
             Use for grid rows, cards, and document tiles
           </span>
           <ContextMenu>
             <ContextMenuTrigger asChild>
               <button
-                className="w-full rounded-md border border-border bg-transparent px-4 py-3 text-left text-sm transition-colors hover:bg-muted/30"
+                className="w-full rounded-md border border-border bg-transparent text-left text-sm transition-colors hover:bg-muted/30"
                 type="button"
               >
-                INV-2026-0042 — Acme Supplies · right-click this surface
+                <StoryRow paddingX="md" paddingY="md">
+                  INV-2026-0042 — Acme Supplies · right-click this surface
+                </StoryRow>
               </button>
             </ContextMenuTrigger>
             <ContextMenuContent>

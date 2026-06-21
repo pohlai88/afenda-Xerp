@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
+import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
-
-import { createGovernedSpanSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
+import * as React from "react";
 
 const CONTEXT_MENU_RECIPE_NAME = "surface" as const;
 
@@ -232,7 +231,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
     <ContextMenuPrimitive.CheckboxItem
       ref={ref}
       {...applyGovernedPresentation(
-        { ...props, ...(checked !== undefined ? { checked } : {}) },
+        { ...props, ...(checked === undefined ? {} : { checked }) },
         governed,
         { "data-inset": inset }
       )}
@@ -345,18 +344,18 @@ ContextMenuSeparator.displayName = "ContextMenuSeparator";
 
 export {
   ContextMenu,
-  ContextMenuTrigger,
-  ContextMenuContent,
-  ContextMenuItem,
   ContextMenuCheckboxItem,
-  ContextMenuRadioItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
   ContextMenuSeparator,
   ContextMenuShortcut,
-  ContextMenuGroup,
-  ContextMenuPortal,
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-  ContextMenuRadioGroup,
+  ContextMenuTrigger,
 };

@@ -1,3 +1,4 @@
+import { cn } from "@afenda/ui/lib/utils";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   BellIcon,
@@ -15,7 +16,6 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { cn } from "#/lib/utils";
 import { StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
@@ -284,12 +284,15 @@ function ProcurementNavWithChildren() {
                 <Collapsible className="group/collapsible" defaultOpen>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton isActive tooltip="Procurement">
-                      <PackageIcon aria-hidden="true" className="size-4 shrink-0" />
+                      <PackageIcon
+                        aria-hidden="true"
+                        className="size-4 shrink-0"
+                      />
                       <span className="flex-1 truncate">Procurement</span>
                       <ChevronRightIcon
                         className={cn(
                           "size-4 shrink-0 transition-transform",
-                          "group-data-[state=open]/collapsible:rotate-90",
+                          "group-data-[state=open]/collapsible:rotate-90"
                         )}
                       />
                     </SidebarMenuButton>
@@ -303,7 +306,10 @@ function ProcurementNavWithChildren() {
 
                         return (
                           <SidebarMenuSubItem key={title}>
-                            <SidebarMenuSubButton asChild isActive={Boolean(isActive)}>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={Boolean(isActive)}
+                            >
                               <a href={url}>
                                 <span>{title}</span>
                                 {badge ? (
@@ -342,7 +348,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed ERP application sidebar — module navigation, workspace context, collapsible icon rail, and mobile sheet fallback. Wrap with `SidebarProvider`; pair `Sidebar` with `SidebarInset` for main content. Production shells compose this in `packages/appshell`.",
+          "Governed ERP application sidebar — module navigation, workspace context, collapsible icon rail, and mobile sheet fallback. Wrap with `SidebarProvider`; pair `Sidebar` with `SidebarInset` for main content. See **Shell/AppShell** for the production `@afenda/appshell` composition.",
       },
     },
   },
@@ -419,7 +425,7 @@ export const WithRail: Story = {
     docs: {
       description: {
         story:
-          "Drag or click the rail edge to toggle collapse. Pairs with `collapsible=\"icon\"` layouts.",
+          'Drag or click the rail edge to toggle collapse. Pairs with `collapsible="icon"` layouts.',
       },
     },
   },
@@ -497,10 +503,7 @@ export const FooterUserMenu: Story = {
 export const NonCollapsible: Story = {
   name: "Sidebar — Non Collapsible",
   render: () => (
-    <SidebarStoryFrame
-      collapsible="none"
-      sidebar={<ApplicationNav />}
-    />
+    <SidebarStoryFrame collapsible="none" sidebar={<ApplicationNav />} />
   ),
 };
 
@@ -512,8 +515,8 @@ export const ModuleNavigation: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={<ErpModuleNav activeModule="Finance" />}
       main={<MainShell title="Finance · Invoices" />}
+      sidebar={<ErpModuleNav activeModule="Finance" />}
     />
   ),
 };
@@ -524,7 +527,6 @@ export const FinanceWorkspace: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={<ErpModuleNav activeModule="Finance" showSearch />}
       main={
         <MainShell title="Finance · Accounts receivable">
           <StoryStack gap="sm">
@@ -542,6 +544,7 @@ export const FinanceWorkspace: Story = {
           </StoryStack>
         </MainShell>
       }
+      sidebar={<ErpModuleNav activeModule="Finance" showSearch />}
       variant="inset"
     />
   ),
@@ -553,8 +556,8 @@ export const ProcurementModule: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={<ProcurementNavWithChildren />}
       main={<MainShell title="Purchase orders" />}
+      sidebar={<ProcurementNavWithChildren />}
     />
   ),
 };
@@ -574,13 +577,13 @@ export const CollapsedIconRail: Story = {
     <SidebarStoryFrame
       collapsible="icon"
       defaultOpen={false}
+      main={<MainShell title="Collapsed navigation" />}
       sidebar={
         <>
           <ErpModuleNav activeModule="Finance" />
           <SidebarRail />
         </>
       }
-      main={<MainShell title="Collapsed navigation" />}
     />
   ),
 };
@@ -591,6 +594,7 @@ export const WorkspaceSwitcherHeader: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
+      main={<MainShell title="Operations workspace" />}
       sidebar={
         <>
           <SidebarHeader>
@@ -602,7 +606,10 @@ export const WorkspaceSwitcherHeader: Story = {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton tooltip="Operations · East region">
-                    <Building2Icon aria-hidden="true" className="size-4 shrink-0" />
+                    <Building2Icon
+                      aria-hidden="true"
+                      className="size-4 shrink-0"
+                    />
                     <StoryStack className="min-w-0 flex-1" gap="xs">
                       <span className="text-sm">Operations</span>
                       <span className="text-muted-foreground text-xs">
@@ -620,23 +627,24 @@ export const WorkspaceSwitcherHeader: Story = {
               <SidebarGroupLabel>Modules</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {ERP_MODULE_GROUPS[0].items.slice(0, 3).map(({ title, icon: Icon }) => (
-                    <SidebarMenuItem key={title}>
-                      <SidebarMenuButton asChild tooltip={title}>
-                        <a href="#">
-                          <Icon aria-hidden="true" className="size-4" />
-                          <span>{title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
+                  {ERP_MODULE_GROUPS[0].items
+                    .slice(0, 3)
+                    .map(({ title, icon: Icon }) => (
+                      <SidebarMenuItem key={title}>
+                        <SidebarMenuButton asChild tooltip={title}>
+                          <a href="#">
+                            <Icon aria-hidden="true" className="size-4" />
+                            <span>{title}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
         </>
       }
-      main={<MainShell title="Operations workspace" />}
     />
   ),
 };
@@ -647,6 +655,7 @@ export const ApprovalQueueBadges: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
+      main={<MainShell title="Invoice approvals" />}
       sidebar={
         <>
           <SidebarHeader>
@@ -688,7 +697,6 @@ export const ApprovalQueueBadges: Story = {
           </SidebarContent>
         </>
       }
-      main={<MainShell title="Invoice approvals" />}
     />
   ),
 };
@@ -699,13 +707,16 @@ export const SettingsAdminGroup: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
+      main={<MainShell title="Security policies" />}
       sidebar={
         <>
           <SidebarHeader>
             <StoryStack gap="sm" padding="sm">
               <StoryRow align="center" gap="sm">
                 <SidebarTrigger />
-                <span className="font-semibold tracking-tight">Administration</span>
+                <span className="font-semibold tracking-tight">
+                  Administration
+                </span>
               </StoryRow>
             </StoryStack>
           </SidebarHeader>
@@ -713,7 +724,10 @@ export const SettingsAdminGroup: Story = {
             <SidebarGroup>
               <StoryRow align="center" justify="between">
                 <SidebarGroupLabel>Settings</SidebarGroupLabel>
-                <SidebarGroupAction aria-label="Add setting" title="Add setting">
+                <SidebarGroupAction
+                  aria-label="Add setting"
+                  title="Add setting"
+                >
                   <PlusIcon />
                 </SidebarGroupAction>
               </StoryRow>
@@ -753,7 +767,6 @@ export const SettingsAdminGroup: Story = {
           </SidebarContent>
         </>
       }
-      main={<MainShell title="Security policies" />}
     />
   ),
 };
@@ -764,8 +777,8 @@ export const NestedModuleChildren: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={<ProcurementNavWithChildren />}
       main={<MainShell title="Purchase orders · PO-1042" />}
+      sidebar={<ProcurementNavWithChildren />}
     />
   ),
 };
@@ -779,7 +792,8 @@ export const RecordContextSidebar: Story = {
       main={
         <MainShell title="PO-1042 · FastCo Industrial">
           <span className="text-muted-foreground text-sm">
-            Document body — use a secondary sidebar for record section navigation.
+            Document body — use a secondary sidebar for record section
+            navigation.
           </span>
         </MainShell>
       }
@@ -803,7 +817,9 @@ export const RecordContextSidebar: Story = {
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         asChild
-                        {...("active" in item && item.active ? { isActive: true } : {})}
+                        {...("active" in item && item.active
+                          ? { isActive: true }
+                          : {})}
                         tooltip={item.title}
                       >
                         <a href="#">
@@ -828,17 +844,13 @@ export const MainContentShell: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={
-        <>
-          <ErpModuleNav activeModule="Inventory" />
-          <SidebarRail />
-        </>
-      }
       main={
         <StoryStack className="flex-1" gap="md" padding="md">
           <StoryRow align="center" gap="sm">
             <SidebarTrigger />
-            <span className="font-medium text-sm">Inventory · Stock levels</span>
+            <span className="font-medium text-sm">
+              Inventory · Stock levels
+            </span>
           </StoryRow>
           <StoryStack
             className="flex-1 rounded-md border border-border"
@@ -854,11 +866,17 @@ export const MainContentShell: Story = {
               </Badge>
             </StoryRow>
             <span className="text-muted-foreground text-sm">
-              Data grid and filters occupy the inset while module navigation stays
-              in the collapsible sidebar.
+              Data grid and filters occupy the inset while module navigation
+              stays in the collapsible sidebar.
             </span>
           </StoryStack>
         </StoryStack>
+      }
+      sidebar={
+        <>
+          <ErpModuleNav activeModule="Inventory" />
+          <SidebarRail />
+        </>
       }
       variant="inset"
     />
@@ -879,23 +897,25 @@ export const GovernanceAccessibility: Story = {
   render: () => (
     <SidebarStoryFrame
       collapsible="icon"
-      sidebar={<ApplicationNav />}
       main={
         <MainShell title="Keyboard navigation">
           <StoryStack gap="sm">
             <span className="text-muted-foreground text-sm">
-              Focus the trigger or use the keyboard shortcut to collapse and expand
-              the navigation rail.
+              Focus the trigger or use the keyboard shortcut to collapse and
+              expand the navigation rail.
             </span>
             <StoryRow gap="sm">
               <Badge emphasis="outline" tone="neutral">
                 Ctrl+B
               </Badge>
-              <span className="text-muted-foreground text-xs">Toggle sidebar</span>
+              <span className="text-muted-foreground text-xs">
+                Toggle sidebar
+              </span>
             </StoryRow>
           </StoryStack>
         </MainShell>
       }
+      sidebar={<ApplicationNav />}
     />
   ),
 };

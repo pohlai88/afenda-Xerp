@@ -1,19 +1,18 @@
 "use client";
 
-import * as React from "react";
-import { useTheme } from "next-themes";
-import { Toaster as Sonner, type ToasterProps } from "sonner";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { toasterInlineStyleVariables } from "@afenda/ui/governance/recipe-maps";
 import {
   CircleCheckIcon,
   InfoIcon,
-  TriangleAlertIcon,
-  OctagonXIcon,
   Loader2Icon,
+  OctagonXIcon,
+  TriangleAlertIcon,
 } from "lucide-react";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
-import { toasterInlineStyleVariables } from "#/governance/recipe-maps";
+import { useTheme } from "next-themes";
+import type * as React from "react";
+import { Toaster as Sonner, type ToasterProps } from "sonner";
 
 const TOASTER_RECIPE_NAME = "surface" as const;
 
@@ -53,11 +52,11 @@ const Toaster = ({ className, ...props }: ToasterProps) => {
       theme={resolvedTheme}
       {...applyGovernedPresentation(props, governed)}
       icons={{
-        success: <ToasterIcon slotKey="success" Icon={CircleCheckIcon} />,
-        info: <ToasterIcon slotKey="info" Icon={InfoIcon} />,
-        warning: <ToasterIcon slotKey="warning" Icon={TriangleAlertIcon} />,
-        error: <ToasterIcon slotKey="error" Icon={OctagonXIcon} />,
-        loading: <ToasterIcon slotKey="loading" Icon={Loader2Icon} />,
+        success: <ToasterIcon Icon={CircleCheckIcon} slotKey="success" />,
+        info: <ToasterIcon Icon={InfoIcon} slotKey="info" />,
+        warning: <ToasterIcon Icon={TriangleAlertIcon} slotKey="warning" />,
+        error: <ToasterIcon Icon={OctagonXIcon} slotKey="error" />,
+        loading: <ToasterIcon Icon={Loader2Icon} slotKey="loading" />,
       }}
       style={toasterInlineStyleVariables as React.CSSProperties}
       toastOptions={{

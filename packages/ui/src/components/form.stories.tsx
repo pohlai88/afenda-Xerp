@@ -1,8 +1,4 @@
-import {
-  DENSITIES,
-  GOVERNED_STATES,
-  SIZES,
-} from "@afenda/ui/governance";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
@@ -32,10 +28,12 @@ import { Textarea } from "./textarea";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
+const VENDOR_CODE_PATTERN = /^VND-\d{4}$/u;
+
 function ValidatedVendorCodeField() {
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
-  const invalid = touched && !/^VND-\d{4}$/u.test(value);
+  const invalid = touched && !VENDOR_CODE_PATTERN.test(value);
 
   return (
     <FormItem state={invalid ? "error" : "ready"}>
@@ -52,7 +50,9 @@ function ValidatedVendorCodeField() {
       </FormControl>
       <FormDescription>Format: VND- followed by 4 digits.</FormDescription>
       {invalid ? (
-        <FormMessage errors={[{ message: "Vendor code must match VND-####" }]} />
+        <FormMessage
+          errors={[{ message: "Vendor code must match VND-####" }]}
+        />
       ) : null}
     </FormItem>
   );
@@ -111,9 +111,15 @@ export const Default: Story = {
         <FormItem {...args}>
           <FormLabel htmlFor="form-email">Work email</FormLabel>
           <FormControl>
-            <Input id="form-email" placeholder="jane@company.com" type="email" />
+            <Input
+              id="form-email"
+              placeholder="jane@company.com"
+              type="email"
+            />
           </FormControl>
-          <FormDescription>Used for login and approval notifications.</FormDescription>
+          <FormDescription>
+            Used for login and approval notifications.
+          </FormDescription>
         </FormItem>
       </Form>
     </StoryFrame>
@@ -144,7 +150,9 @@ export const MultipleErrors: Story = {
         <FormControl>
           <Input id="form-username" state="error" />
         </FormControl>
-        <FormMessage errors={[{ message: "Required" }, { message: "Too short" }]} />
+        <FormMessage
+          errors={[{ message: "Required" }, { message: "Too short" }]}
+        />
       </FormItem>
     </StoryFrame>
   ),
@@ -262,19 +270,21 @@ export const AllOrientations: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryStack gap="lg">
-      {(["vertical", "horizontal", "responsive"] as const).map((orientation) => (
-        <StoryStack gap="xs" key={orientation}>
-          <span className="font-medium text-muted-foreground text-xs">
-            orientation=&quot;{orientation}&quot;
-          </span>
-          <FormItem orientation={orientation}>
-            <FormLabel htmlFor={`ori-${orientation}`}>Cost centre</FormLabel>
-            <FormControl>
-              <Input id={`ori-${orientation}`} placeholder="CC-100" />
-            </FormControl>
-          </FormItem>
-        </StoryStack>
-      ))}
+      {(["vertical", "horizontal", "responsive"] as const).map(
+        (orientation) => (
+          <StoryStack gap="xs" key={orientation}>
+            <span className="font-medium text-muted-foreground text-xs">
+              orientation=&quot;{orientation}&quot;
+            </span>
+            <FormItem orientation={orientation}>
+              <FormLabel htmlFor={`ori-${orientation}`}>Cost centre</FormLabel>
+              <FormControl>
+                <Input id={`ori-${orientation}`} placeholder="CC-100" />
+              </FormControl>
+            </FormItem>
+          </StoryStack>
+        )
+      )}
     </StoryStack>
   ),
 };
@@ -316,7 +326,10 @@ export const WithTextarea: Story = {
       <FormItem>
         <FormLabel htmlFor="form-notes">Notes</FormLabel>
         <FormControl>
-          <Textarea id="form-notes" placeholder="Internal notes for reviewers…" />
+          <Textarea
+            id="form-notes"
+            placeholder="Internal notes for reviewers…"
+          />
         </FormControl>
       </FormItem>
     </StoryFrame>
@@ -354,7 +367,9 @@ export const WithSwitch: Story = {
         </FormControl>
         <StoryStack gap="xs">
           <FormLabel htmlFor="form-notify">Email on approval</FormLabel>
-          <FormDescription>Notify when records need your sign-off.</FormDescription>
+          <FormDescription>
+            Notify when records need your sign-off.
+          </FormDescription>
         </StoryStack>
       </FormItem>
     </StoryFrame>
@@ -382,7 +397,11 @@ export const LoginForm: Story = {
         <FormItem>
           <FormLabel htmlFor="login-email">Email</FormLabel>
           <FormControl>
-            <Input id="login-email" placeholder="you@company.com" type="email" />
+            <Input
+              id="login-email"
+              placeholder="you@company.com"
+              type="email"
+            />
           </FormControl>
         </FormItem>
         <FormItem>
@@ -423,7 +442,11 @@ export const EmployeeOnboardingForm: Story = {
         <FormItem>
           <FormLabel htmlFor="emp-email">Work email *</FormLabel>
           <FormControl>
-            <Input id="emp-email" placeholder="jane.doe@company.com" type="email" />
+            <Input
+              id="emp-email"
+              placeholder="jane.doe@company.com"
+              type="email"
+            />
           </FormControl>
         </FormItem>
         <FormItem>
@@ -459,7 +482,11 @@ export const VendorMasterForm: Story = {
         <FormItem>
           <FormLabel htmlFor="vendor-email">Accounts payable email</FormLabel>
           <FormControl>
-            <Input id="vendor-email" placeholder="ap@acme.example" type="email" />
+            <Input
+              id="vendor-email"
+              placeholder="ap@acme.example"
+              type="email"
+            />
           </FormControl>
         </FormItem>
       </Form>
@@ -544,9 +571,16 @@ export const ExpenseReportValidation: Story = {
         <FormItem state="error">
           <FormLabel htmlFor="exp-amount">Amount *</FormLabel>
           <FormControl>
-            <Input id="exp-amount" placeholder="0.00" state="error" type="number" />
+            <Input
+              id="exp-amount"
+              placeholder="0.00"
+              state="error"
+              type="number"
+            />
           </FormControl>
-          <FormMessage errors={[{ message: "Amount must be greater than zero" }]} />
+          <FormMessage
+            errors={[{ message: "Amount must be greater than zero" }]}
+          />
         </FormItem>
         <FormItem state="error">
           <FormLabel htmlFor="exp-date">Expense date *</FormLabel>
@@ -625,7 +659,9 @@ export const ApprovalCommentForm: Story = {
             placeholder="Optional note for audit trail…"
           />
         </FormControl>
-        <FormDescription>Recorded in the approval history for PO-1042.</FormDescription>
+        <FormDescription>
+          Recorded in the approval history for PO-1042.
+        </FormDescription>
       </FormItem>
     </StoryFrame>
   ),
@@ -667,7 +703,11 @@ export const CustomerMultiSectionForm: Story = {
           <FormItem>
             <FormLabel htmlFor="cust-billing">Billing email</FormLabel>
             <FormControl>
-              <Input id="cust-billing" placeholder="billing@northwind.example" type="email" />
+              <Input
+                id="cust-billing"
+                placeholder="billing@northwind.example"
+                type="email"
+              />
             </FormControl>
           </FormItem>
           <FormItem>
@@ -692,7 +732,9 @@ export const CustomerMultiSectionForm: Story = {
             </FormControl>
             <StoryStack gap="xs">
               <FormLabel htmlFor="cust-portal">Customer portal</FormLabel>
-              <FormDescription>Allow self-service invoice downloads.</FormDescription>
+              <FormDescription>
+                Allow self-service invoice downloads.
+              </FormDescription>
             </StoryStack>
           </FormItem>
         </Form>
@@ -736,7 +778,10 @@ export const JournalEntryForm: Story = {
         <FormItem>
           <FormLabel htmlFor="je-memo">Memo</FormLabel>
           <FormControl>
-            <Textarea id="je-memo" placeholder="Month-end accrual adjustment…" />
+            <Textarea
+              id="je-memo"
+              placeholder="Month-end accrual adjustment…"
+            />
           </FormControl>
         </FormItem>
         <FormItem>
@@ -757,7 +802,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "`FormLabel` pairs with control `id`. `FormMessage` renders `role=\"alert\"`. `FormControl` wraps the interactive element for correct association.",
+          '`FormLabel` pairs with control `id`. `FormMessage` renders `role="alert"`. `FormControl` wraps the interactive element for correct association.',
       },
     },
   },
@@ -774,7 +819,9 @@ export const GovernanceAccessibility: Story = {
             type="email"
           />
         </FormControl>
-        <FormMessage errors={[{ message: "Enter a valid company email address" }]} />
+        <FormMessage
+          errors={[{ message: "Enter a valid company email address" }]}
+        />
       </FormItem>
     </StoryFrame>
   ),

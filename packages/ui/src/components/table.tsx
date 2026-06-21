@@ -1,8 +1,7 @@
+import type { GovernedTableProps, SlotRole } from "@afenda/ui/governance";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
-
-import { cn } from "#/lib/utils";
-import type { GovernedTableProps, SlotRole } from "@/governance";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const TABLE_RECIPE_NAME = "table" as const;
 
@@ -122,7 +121,10 @@ type TableSectionProps = Omit<
 > &
   GovernedClassNameProps;
 
-type TableRowProps = Omit<React.HTMLAttributes<HTMLTableRowElement>, "className"> &
+type TableRowProps = Omit<
+  React.HTMLAttributes<HTMLTableRowElement>,
+  "className"
+> &
   GovernedClassNameProps;
 
 type TableHeadProps = Omit<
@@ -148,23 +150,24 @@ function createTableSectionSlot(
   target: "header" | "body" | "footer",
   Element: "thead" | "tbody" | "tfoot"
 ) {
-  const TableSection = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
-    ({ className, ...props }, ref) => {
-      const governed = resolveTableGovernance({
-        target,
-        className,
-      });
+  const TableSection = React.forwardRef<
+    HTMLTableSectionElement,
+    TableSectionProps
+  >(({ className, ...props }, ref) => {
+    const governed = resolveTableGovernance({
+      target,
+      className,
+    });
 
-      return (
-        <Element
-          ref={ref}
-          {...props}
-          {...governed.dataAttributes}
-          className={cn(governed.className)}
-        />
-      );
-    }
-  );
+    return (
+      <Element
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+        className={cn(governed.className)}
+      />
+    );
+  });
 
   TableSection.displayName = displayName;
 
@@ -235,33 +238,34 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
 
 TableCell.displayName = "TableCell";
 
-const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolveTableGovernance({
-      target: "caption",
-      className,
-    });
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  TableCaptionProps
+>(({ className, ...props }, ref) => {
+  const governed = resolveTableGovernance({
+    target: "caption",
+    className,
+  });
 
-    return (
-      <caption
-        ref={ref}
-        {...props}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
-      />
-    );
-  }
-);
+  return (
+    <caption
+      ref={ref}
+      {...props}
+      {...governed.dataAttributes}
+      className={cn(governed.className)}
+    />
+  );
+});
 
 TableCaption.displayName = "TableCaption";
 
 export {
   Table,
-  TableHeader,
   TableBody,
+  TableCaption,
+  TableCell,
   TableFooter,
   TableHead,
+  TableHeader,
   TableRow,
-  TableCell,
-  TableCaption,
 };

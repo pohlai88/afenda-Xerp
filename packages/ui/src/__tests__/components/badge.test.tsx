@@ -1,5 +1,5 @@
-import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import { Badge } from "../../index";
@@ -26,7 +26,13 @@ describe("Badge governance", () => {
 
   it("does not allow consumer data attributes to override governed badge attributes", () => {
     render(
-      <Badge tone="success" emphasis="soft" data-component="Fake" data-state="fake" data-tone="danger">
+      <Badge
+        data-component="Fake"
+        data-state="fake"
+        data-tone="danger"
+        emphasis="soft"
+        tone="success"
+      >
         Active
       </Badge>
     );
@@ -44,7 +50,7 @@ describe("Badge governance", () => {
 
   it("emits optional density and size data attributes when provided", () => {
     render(
-      <Badge tone="neutral" emphasis="solid" density="compact" size="sm">
+      <Badge density="compact" emphasis="solid" size="sm" tone="neutral">
         Count
       </Badge>
     );

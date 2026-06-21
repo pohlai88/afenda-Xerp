@@ -1,6 +1,8 @@
 {
   "files": [],
   "references": [
+    { "path": "./apps/erp" },
+    { "path": "./apps/docs" },
     { "path": "./packages/kernel" },
     { "path": "./packages/observability" },
     { "path": "./packages/execution" },
@@ -14,6 +16,9 @@
     { "path": "./packages/permissions" },
     { "path": "./packages/feature-flags" },
     { "path": "./packages/metadata-ui" },
+    { "path": "./packages/metadata" },
+    { "path": "./packages/ai-governance" },
+    { "path": "./packages/architecture-authority" },
     { "path": "./packages/appshell" }
   ]
 }

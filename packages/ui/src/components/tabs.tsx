@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Tabs as TabsPrimitive } from "radix-ui";
-
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
 
 const TABS_RECIPE_NAME = "surface" as const;
 
@@ -69,7 +68,10 @@ const TabsList = React.forwardRef<
 TabsList.displayName = "TabsList";
 
 export interface TabsTriggerProps
-  extends Omit<React.ComponentProps<typeof TabsPrimitive.Trigger>, "className"> {
+  extends Omit<
+    React.ComponentProps<typeof TabsPrimitive.Trigger>,
+    "className"
+  > {
   readonly className?: string;
 }
 
@@ -95,7 +97,10 @@ const TabsTrigger = React.forwardRef<
 TabsTrigger.displayName = "TabsTrigger";
 
 export interface TabsContentProps
-  extends Omit<React.ComponentProps<typeof TabsPrimitive.Content>, "className"> {
+  extends Omit<
+    React.ComponentProps<typeof TabsPrimitive.Content>,
+    "className"
+  > {
   readonly className?: string;
 }
 
@@ -120,4 +125,4 @@ const TabsContent = React.forwardRef<
 
 TabsContent.displayName = "TabsContent";
 
-export { Tabs, TabsList, TabsTrigger, TabsContent };
+export { Tabs, TabsContent, TabsList, TabsTrigger };

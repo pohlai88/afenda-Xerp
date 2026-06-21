@@ -249,7 +249,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed pagination controls for ERP data tables and list views. Wraps page links in `<nav role=\"navigation\">` with governed prev/next, numbered links, and ellipsis. Pair with page-size selectors and record summaries in table footers.",
+          'Governed pagination controls for ERP data tables and list views. Wraps page links in `<nav role="navigation">` with governed prev/next, numbered links, and ellipsis. Pair with page-size selectors and record summaries in table footers.',
       },
     },
   },
@@ -575,7 +575,11 @@ export const EmployeeRosterFooter: Story = {
         <span className="text-muted-foreground text-xs">
           Showing 51–100 of 412 employees
         </span>
-        <PaginatedControls onPageChange={() => undefined} page={3} totalPages={9} />
+        <PaginatedControls
+          onPageChange={() => undefined}
+          page={3}
+          totalPages={9}
+        />
       </StoryRow>
     </StoryFrame>
   ),
@@ -630,7 +634,11 @@ export const ApprovalInboxFooter: Story = {
             Action required
           </Badge>
         </StoryRow>
-        <PaginatedControls onPageChange={() => undefined} page={1} totalPages={3} />
+        <PaginatedControls
+          onPageChange={() => undefined}
+          page={1}
+          totalPages={3}
+        />
       </StoryRow>
     </StoryFrame>
   ),
@@ -681,7 +689,11 @@ export const SearchResultsFooter: Story = {
           37 results for &quot;Acme Supplies&quot;
         </span>
         <StoryRow justify="center">
-          <PaginatedControls onPageChange={() => undefined} page={2} totalPages={4} />
+          <PaginatedControls
+            onPageChange={() => undefined}
+            page={2}
+            totalPages={4}
+          />
         </StoryRow>
       </StoryStack>
     </StoryFrame>
@@ -697,7 +709,11 @@ export const SelectionSummaryFooter: Story = {
         <span className="text-muted-foreground text-sm">
           3 of 25 row(s) selected on this page
         </span>
-        <PaginatedControls onPageChange={() => undefined} page={4} totalPages={18} />
+        <PaginatedControls
+          onPageChange={() => undefined}
+          page={4}
+          totalPages={18}
+        />
       </StoryRow>
     </StoryFrame>
   ),
@@ -738,7 +754,11 @@ export const CenteredPagination: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryRow justify="center">
-        <PaginatedControls onPageChange={() => undefined} page={6} totalPages={14} />
+        <PaginatedControls
+          onPageChange={() => undefined}
+          page={6}
+          totalPages={14}
+        />
       </StoryRow>
     </StoryFrame>
   ),
@@ -750,13 +770,21 @@ export const CardListFooter: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="md">
-        <StoryStack className="rounded-md border border-border" gap="xs" padding="md">
+        <StoryStack
+          className="rounded-md border border-border"
+          gap="xs"
+          padding="md"
+        >
           <span className="font-medium text-sm">PO-2026-1184</span>
           <span className="text-muted-foreground text-xs">
             Global Parts Co. · $12,400.00
           </span>
         </StoryStack>
-        <StoryStack className="rounded-md border border-border" gap="xs" padding="md">
+        <StoryStack
+          className="rounded-md border border-border"
+          gap="xs"
+          padding="md"
+        >
           <span className="font-medium text-sm">PO-2026-1183</span>
           <span className="text-muted-foreground text-xs">
             Acme Supplies · $4,850.00
@@ -831,11 +859,19 @@ export const ButtonGroupReference: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Numbered pages (Pagination)</span>
-          <PaginatedControls onPageChange={() => undefined} page={3} totalPages={12} />
+          <span className="font-medium text-sm">
+            Numbered pages (Pagination)
+          </span>
+          <PaginatedControls
+            onPageChange={() => undefined}
+            page={3}
+            totalPages={12}
+          />
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Compact toolbar (ButtonGroup)</span>
+          <span className="font-medium text-sm">
+            Compact toolbar (ButtonGroup)
+          </span>
           <span className="text-muted-foreground text-xs">
             See ERP — Pagination Controls in Primitives/ButtonGroup
           </span>
@@ -851,7 +887,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Root renders `<nav aria-label=\"pagination\">`. Active page uses `aria-current=\"page\"`. Prev/next expose `aria-label`; disabled boundaries use `aria-disabled`.",
+          'Root renders `<nav aria-label="pagination">`. Active page uses `aria-current="page"`. Prev/next expose `aria-label`; disabled boundaries use `aria-disabled`.',
       },
     },
   },

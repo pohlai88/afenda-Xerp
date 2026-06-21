@@ -1,14 +1,13 @@
 "use client";
 
-import * as React from "react";
+import type { GovernedButtonProps, SlotRole } from "@afenda/ui/governance";
+import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
-
-import { Button } from "#/components/button";
-import { cn } from "#/lib/utils";
-import type { GovernedButtonProps, SlotRole } from "@/governance";
-import { createGovernedDivSlot } from "#/governance/create-governed-slot";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
+import { Button } from "./button";
 
 const ALERT_DIALOG_RECIPE_NAME = "surface" as const;
 
@@ -120,20 +119,19 @@ interface AlertDialogMediaProps
   readonly className?: string;
 }
 
-const AlertDialogMedia = React.forwardRef<HTMLDivElement, AlertDialogMediaProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "AlertDialog",
-      recipeName: ALERT_DIALOG_RECIPE_NAME,
-      slotKey: "media",
-      className,
-    });
+const AlertDialogMedia = React.forwardRef<
+  HTMLDivElement,
+  AlertDialogMediaProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "AlertDialog",
+    recipeName: ALERT_DIALOG_RECIPE_NAME,
+    slotKey: "media",
+    className,
+  });
 
-    return (
-      <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
-  }
-);
+  return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+});
 
 AlertDialogMedia.displayName = "AlertDialogMedia";
 
@@ -216,11 +214,11 @@ const AlertDialogAction = React.forwardRef<
     },
     ref
   ) => (
-    <Button intent={intent} emphasis={emphasis} size={size} asChild>
+    <Button asChild emphasis={emphasis} intent={intent} size={size}>
       <AlertDialogPrimitive.Action
-        ref={ref}
-        data-slot="alert-dialog-action"
         className={cn(className)}
+        data-slot="alert-dialog-action"
+        ref={ref}
         {...props}
       />
     </Button>
@@ -250,11 +248,11 @@ const AlertDialogCancel = React.forwardRef<
     },
     ref
   ) => (
-    <Button intent={intent} emphasis={emphasis} size={size} asChild>
+    <Button asChild emphasis={emphasis} intent={intent} size={size}>
       <AlertDialogPrimitive.Cancel
-        ref={ref}
-        data-slot="alert-dialog-cancel"
         className={cn(className)}
+        data-slot="alert-dialog-cancel"
+        ref={ref}
         {...props}
       />
     </Button>

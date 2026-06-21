@@ -5,8 +5,8 @@ import {
   CheckCircle2Icon,
   CreditCardIcon,
   DownloadIcon,
-  FilterIcon,
   FileTextIcon,
+  FilterIcon,
   HistoryIcon,
   PackageIcon,
   PlusIcon,
@@ -33,7 +33,6 @@ import {
   SelectValue,
 } from "./select";
 import { Separator } from "./separator";
-import { Spinner } from "./spinner";
 import {
   Sheet,
   SheetClose,
@@ -44,6 +43,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./sheet";
+import { Spinner } from "./spinner";
 import { Switch } from "./switch";
 import { Textarea } from "./textarea";
 
@@ -94,10 +94,12 @@ function ToggleRow({
 }) {
   return (
     <StoryRow justify="between">
-      <Label className="font-normal text-sm" htmlFor={id}>{label}</Label>
+      <Label className="font-normal text-sm" htmlFor={id}>
+        {label}
+      </Label>
       <Switch
         id={id}
-        {...(defaultChecked !== undefined ? { defaultChecked } : {})}
+        {...(defaultChecked === undefined ? {} : { defaultChecked })}
         size="sm"
       />
     </StoryRow>
@@ -219,11 +221,13 @@ export const Default: Story = {
             <SheetTitle>Panel title</SheetTitle>
             <SheetDescription>Panel description or context.</SheetDescription>
           </SheetHeader>
-          <p className="text-muted-foreground text-sm px-4">
-            Content goes here.
-          </p>
+          <StoryStack paddingX="md">
+            <p className="text-muted-foreground text-sm">Content goes here.</p>
+          </StoryStack>
           <SheetFooter>
-            <Button emphasis="solid" intent="primary">Confirm</Button>
+            <Button emphasis="solid" intent="primary">
+              Confirm
+            </Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>
@@ -245,12 +249,16 @@ export const OpenByDefault: Story = {
         <StoryStack gap="sm" paddingX="md">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Status</span>
-            <Badge emphasis="soft" tone="info">Active</Badge>
+            <Badge emphasis="soft" tone="info">
+              Active
+            </Badge>
           </StoryRow>
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Apply filters</Button>
+          <Button emphasis="solid" intent="primary">
+            Apply filters
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -273,12 +281,7 @@ export const FromLeft: Story = {
         </SheetHeader>
         <StoryStack gap="xs" paddingX="md">
           {MODULE_LINKS.map((module) => (
-            <Button
-              emphasis="ghost"
-              intent="quiet"
-              key={module}
-              size="sm"
-            >
+            <Button emphasis="ghost" intent="quiet" key={module} size="sm">
               {module}
             </Button>
           ))}
@@ -339,11 +342,15 @@ export const WithoutCloseButton: Story = {
             Finish required steps before payments can be issued.
           </SheetDescription>
         </SheetHeader>
-        <p className="text-muted-foreground text-sm px-4">
-          Upload W-9 and banking details for Acme Supplies Ltd.
-        </p>
+        <StoryStack paddingX="md">
+          <p className="text-muted-foreground text-sm">
+            Upload W-9 and banking details for Acme Supplies Ltd.
+          </p>
+        </StoryStack>
         <SheetFooter>
-          <Button emphasis="solid" intent="primary">Continue</Button>
+          <Button emphasis="solid" intent="primary">
+            Continue
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -369,11 +376,15 @@ export const FooterWithCloseButton: Story = {
         <StoryStack gap="sm" paddingX="md">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Revenue</span>
-            <span className="text-sm tabular-nums">{formatCurrency(1284000)}</span>
+            <span className="text-sm tabular-nums">
+              {formatCurrency(1_284_000)}
+            </span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Expenses</span>
-            <span className="text-sm tabular-nums">{formatCurrency(942000)}</span>
+            <span className="text-sm tabular-nums">
+              {formatCurrency(942_000)}
+            </span>
           </StoryRow>
         </StoryStack>
         <SheetFooter>
@@ -414,7 +425,9 @@ export const GovernanceAccessibility: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Save</Button>
+          <Button emphasis="solid" intent="primary">
+            Save
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -428,9 +441,17 @@ export const GovernanceSurfaceVariants: Story = {
     <StoryStack gap="md">
       {(
         [
-          { label: "standard / md / overlay", density: "standard", radius: "md" },
+          {
+            label: "standard / md / overlay",
+            density: "standard",
+            radius: "md",
+          },
           { label: "compact / sm / overlay", density: "compact", radius: "sm" },
-          { label: "standard / lg / overlay", density: "standard", radius: "lg" },
+          {
+            label: "standard / lg / overlay",
+            density: "standard",
+            radius: "lg",
+          },
         ] as const
       ).map(({ label, density, radius }) => (
         <Sheet key={label}>
@@ -534,7 +555,9 @@ export const FilterPanel: Story = {
             <Label htmlFor="sf-date-from">Date range</Label>
             <StoryRow gap="xs">
               <Input id="sf-date-from" type="date" />
-              <span className="self-center text-muted-foreground text-sm">to</span>
+              <span className="self-center text-muted-foreground text-sm">
+                to
+              </span>
               <Input id="sf-date-to" type="date" />
             </StoryRow>
           </StoryStack>
@@ -673,8 +696,16 @@ export const UserSettingsPanel: Story = {
           <Separator />
           <StoryStack gap="sm">
             <span className="font-semibold text-sm">Notifications</span>
-            <ToggleRow defaultChecked id="nt-email" label="Email notifications" />
-            <ToggleRow defaultChecked id="nt-approval" label="Approval reminders" />
+            <ToggleRow
+              defaultChecked
+              id="nt-email"
+              label="Email notifications"
+            />
+            <ToggleRow
+              defaultChecked
+              id="nt-approval"
+              label="Approval reminders"
+            />
             <ToggleRow id="nt-system" label="System announcements" />
           </StoryStack>
         </StoryStack>
@@ -714,15 +745,19 @@ export const RecordDetailPanel: Story = {
         <StoryStack gap="sm" paddingX="md">
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Status</span>
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
           </StoryRow>
           <StoryRow justify="between">
-            <span className="text-muted-foreground text-sm">Invoice amount</span>
-            <span>{formatCurrency(24850)}</span>
+            <span className="text-muted-foreground text-sm">
+              Invoice amount
+            </span>
+            <span>{formatCurrency(24_850)}</span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
-            <span className="font-semibold">{formatCurrency(24850)}</span>
+            <span className="font-semibold">{formatCurrency(24_850)}</span>
           </StoryRow>
         </StoryStack>
         <SheetFooter>
@@ -761,7 +796,9 @@ export const ApprovalReviewPanel: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Policy</span>
-            <Badge emphasis="soft" tone="warning">Requires manager</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Requires manager
+            </Badge>
           </StoryRow>
           <Field>
             <FieldLabel htmlFor="sh-approval-note">Comment</FieldLabel>
@@ -799,7 +836,9 @@ export const ExportOptionsPanel: Story = {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Export employee roster</SheetTitle>
-          <SheetDescription>248 records match current filters.</SheetDescription>
+          <SheetDescription>
+            248 records match current filters.
+          </SheetDescription>
         </SheetHeader>
         <StoryStack gap="sm" paddingX="md">
           <StoryStack gap="xs">
@@ -821,13 +860,14 @@ export const ExportOptionsPanel: Story = {
               { id: "col-id", label: "Employee ID", checked: true },
               { id: "col-name", label: "Full name", checked: true },
               { id: "col-dept", label: "Department", checked: true },
-              { id: "col-salary", label: "Salary (restricted)", checked: false },
+              {
+                id: "col-salary",
+                label: "Salary (restricted)",
+                checked: false,
+              },
             ].map(({ id, label, checked }) => (
               <StoryRow align="center" gap="sm" key={id}>
-                <Checkbox
-                  defaultChecked={checked}
-                  id={id}
-                />
+                <Checkbox defaultChecked={checked} id={id} />
                 <Label className="font-normal text-sm" htmlFor={id}>
                   {label}
                 </Label>
@@ -900,7 +940,9 @@ export const QuickAssignPanel: Story = {
       <SheetContent density="compact" radius="sm">
         <SheetHeader>
           <SheetTitle>Assign PO-2026-1184</SheetTitle>
-          <SheetDescription>Route to procurement queue reviewer.</SheetDescription>
+          <SheetDescription>
+            Route to procurement queue reviewer.
+          </SheetDescription>
         </SheetHeader>
         <StoryStack gap="xs" paddingX="md">
           <Label htmlFor="sh-assign">Assignee</Label>
@@ -938,13 +980,27 @@ export const ActivityAuditPanel: Story = {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>PO-2026-1184 activity</SheetTitle>
-          <SheetDescription>Recent audit events on this record.</SheetDescription>
+          <SheetDescription>
+            Recent audit events on this record.
+          </SheetDescription>
         </SheetHeader>
         <StoryStack gap="sm" paddingX="md">
           {[
-            { actor: "Jane Doe", action: "Approved line item change", time: "2h ago" },
-            { actor: "System", action: "Vendor quote attached", time: "Yesterday" },
-            { actor: "Alex Brown", action: "Created purchase order", time: "Jun 18" },
+            {
+              actor: "Jane Doe",
+              action: "Approved line item change",
+              time: "2h ago",
+            },
+            {
+              actor: "System",
+              action: "Vendor quote attached",
+              time: "Yesterday",
+            },
+            {
+              actor: "Alex Brown",
+              action: "Created purchase order",
+              time: "Jun 18",
+            },
           ].map(({ actor, action, time }) => (
             <StoryStack gap="xs" key={action}>
               <StoryRow justify="between">
@@ -989,13 +1045,20 @@ export const VendorOnboardingPanel: Story = {
           </StoryStack>
           <Field>
             <FieldLabel htmlFor="sh-v-notes">Notes</FieldLabel>
-            <Textarea id="sh-v-notes" placeholder="Payment terms or compliance notes…" />
+            <Textarea
+              id="sh-v-notes"
+              placeholder="Payment terms or compliance notes…"
+            />
           </Field>
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
-          <Button emphasis="solid" intent="primary">Create vendor</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Create vendor
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1017,7 +1080,7 @@ export const RecordPaymentPanel: Story = {
         <SheetHeader>
           <SheetTitle>Record payment</SheetTitle>
           <SheetDescription>
-            INV-2026-0042 · Balance {formatCurrency(24850)}
+            INV-2026-0042 · Balance {formatCurrency(24_850)}
           </SheetDescription>
         </SheetHeader>
         <StoryStack gap="sm" paddingX="md">
@@ -1047,7 +1110,9 @@ export const RecordPaymentPanel: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Post payment</Button>
+          <Button emphasis="solid" intent="primary">
+            Post payment
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1068,9 +1133,7 @@ export const CreatePurchaseOrderPanel: Story = {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Create purchase order</SheetTitle>
-          <SheetDescription>
-            PO number assigned on submit.
-          </SheetDescription>
+          <SheetDescription>PO number assigned on submit.</SheetDescription>
         </SheetHeader>
         <StoryStack gap="sm" paddingX="md">
           <StoryStack gap="xs">
@@ -1090,8 +1153,12 @@ export const CreatePurchaseOrderPanel: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
-          <Button emphasis="solid" intent="primary">Create PO</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Create PO
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1123,7 +1190,9 @@ export const ImportMappingPanel: Story = {
             { file: "dept_code", field: "Department" },
           ].map(({ file, field }) => (
             <StoryRow align="center" gap="md" key={file}>
-              <span className="font-mono text-muted-foreground text-xs">{file}</span>
+              <span className="font-mono text-muted-foreground text-xs">
+                {file}
+              </span>
               <span className="text-muted-foreground text-xs">→</span>
               <span className="text-sm">{field}</span>
             </StoryRow>
@@ -1131,7 +1200,9 @@ export const ImportMappingPanel: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Run import</Button>
+          <Button emphasis="solid" intent="primary">
+            Run import
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1152,7 +1223,9 @@ export const ModuleNavigationPanel: Story = {
       <SheetContent side="left">
         <SheetHeader>
           <SheetTitle>ERP modules</SheetTitle>
-          <SheetDescription>Jump to a module without losing list context.</SheetDescription>
+          <SheetDescription>
+            Jump to a module without losing list context.
+          </SheetDescription>
         </SheetHeader>
         <StoryStack gap="xs" paddingX="md">
           {MODULE_LINKS.map((module) => (
@@ -1191,7 +1264,11 @@ export const EditInvoicePanel: Story = {
           <StoryRow gap="sm" wrap>
             <StoryStack className="flex-1" gap="xs">
               <Label htmlFor="sh-edit-amount">Amount</Label>
-              <Input defaultValue="24850.00" id="sh-edit-amount" type="number" />
+              <Input
+                defaultValue="24850.00"
+                id="sh-edit-amount"
+                type="number"
+              />
             </StoryStack>
             <StoryStack className="flex-1" gap="xs">
               <Label htmlFor="sh-edit-currency">Currency</Label>
@@ -1301,9 +1378,10 @@ export const AttachmentUploadPanel: Story = {
           </SheetDescription>
         </SheetHeader>
         <StoryStack
-          className="mx-4 rounded-md border border-dashed border-border"
+          className="rounded-md border border-border border-dashed"
           gap="sm"
           padding="lg"
+          paddingX="md"
         >
           <StoryRow align="center" justify="center">
             <UploadIcon
@@ -1317,7 +1395,9 @@ export const AttachmentUploadPanel: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Upload files</Button>
+          <Button emphasis="solid" intent="primary">
+            Upload files
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1354,8 +1434,12 @@ export const WorkflowStepPanel: Story = {
           </Button>
         </StoryStack>
         <SheetFooter>
-          <Button emphasis="ghost" intent="secondary">Back</Button>
-          <Button emphasis="solid" intent="primary">Next: Review</Button>
+          <Button emphasis="ghost" intent="secondary">
+            Back
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Next: Review
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1388,8 +1472,12 @@ export const RecoverableErrorPanel: Story = {
         </SheetHeader>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="outline" intent="secondary">Save draft</Button>
-          <Button emphasis="solid" intent="primary">Retry sync</Button>
+          <Button emphasis="outline" intent="secondary">
+            Save draft
+          </Button>
+          <Button emphasis="solid" intent="primary">
+            Retry sync
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1542,7 +1630,9 @@ export const LeaveRequestPanel: Story = {
         </StoryStack>
         <SheetFooter>
           <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">Submit request</Button>
+          <Button emphasis="solid" intent="primary">
+            Submit request
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -1590,7 +1680,11 @@ export const SheetVsDialogVsDrawer: Story = {
                 <SheetTitle>Filter invoices</SheetTitle>
               </SheetHeader>
               <StoryStack gap="xs" paddingX="md">
-                <ToggleRow defaultChecked id="vs-overdue" label="Overdue only" />
+                <ToggleRow
+                  defaultChecked
+                  id="vs-overdue"
+                  label="Overdue only"
+                />
               </StoryStack>
               <SheetFooter>
                 <SheetCancelButton />
@@ -1606,7 +1700,9 @@ export const SheetVsDialogVsDrawer: Story = {
           </span>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Drawer — mobile bottom sheet</span>
+          <span className="font-medium text-sm">
+            Drawer — mobile bottom sheet
+          </span>
           <span className="text-muted-foreground text-xs">
             See Primitives/Drawer for touch peek and bulk actions
           </span>

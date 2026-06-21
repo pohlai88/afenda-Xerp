@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-  ArchiveIcon,
   AlignCenterIcon,
   AlignLeftIcon,
   AlignRightIcon,
+  ArchiveIcon,
   BarChart3Icon,
   BoldIcon,
   CheckIcon,
@@ -570,9 +570,7 @@ export const SplitButtonSave: Story = {
             <SaveIcon />
             Save &amp; New
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Save as Draft
-          </DropdownMenuItem>
+          <DropdownMenuItem>Save as Draft</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </ButtonGroup>
@@ -680,7 +678,10 @@ export const CurrencySelector: Story = {
   name: "ERP — Currency Selector",
   parameters: { layout: "padded" },
   render: () => (
-    <SegmentedFilter defaultValue="USD" options={["USD", "EUR", "GBP", "AUD"]} />
+    <SegmentedFilter
+      defaultValue="USD"
+      options={["USD", "EUR", "GBP", "AUD"]}
+    />
   ),
 };
 
@@ -827,7 +828,9 @@ export const POLineQuantity: Story = {
       <StoryRow align="center" justify="between">
         <StoryStack gap="xs">
           <span className="font-medium text-sm">Office paper — A4 ream</span>
-          <span className="font-mono text-muted-foreground text-xs">SKU-1042</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            SKU-1042
+          </span>
         </StoryStack>
         <QuantityStepper initial={4} max={50} />
       </StoryRow>
@@ -950,7 +953,9 @@ export const RecordDetailToolbar: Story = {
     <StoryFrame width="xl">
       <StoryRow align="center" justify="between" wrap>
         <StoryStack gap="xs">
-          <span className="font-mono text-muted-foreground text-xs">PO-1042</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            PO-1042
+          </span>
           <span className="font-semibold">Office supplies — Q2 restock</span>
         </StoryStack>
         <StoryRow align="center" gap="sm" wrap>
@@ -1045,7 +1050,10 @@ export const ReportComparisonPeriod: Story = {
   render: () => (
     <StoryStack gap="xs">
       <span className="text-muted-foreground text-xs">Compare to</span>
-      <SegmentedFilter defaultValue="MoM" options={["MoM", "QoQ", "YoY", "Custom"]} />
+      <SegmentedFilter
+        defaultValue="MoM"
+        options={["MoM", "QoQ", "YoY", "Custom"]}
+      />
     </StoryStack>
   ),
 };
@@ -1143,19 +1151,37 @@ export const KanbanCardActions: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
-      <StoryStack className="rounded-md border border-border" gap="sm" padding="sm">
+      <StoryStack
+        className="rounded-md border border-border"
+        gap="sm"
+        padding="sm"
+      >
         <StoryRow align="center" justify="between">
           <span className="font-medium text-sm">INV-0892 approval</span>
           <Badge emphasis="soft" size="sm" tone="warning">
             Pending
           </Badge>
         </StoryRow>
-        <span className="text-muted-foreground text-xs">Due Friday · $4,850</span>
+        <span className="text-muted-foreground text-xs">
+          Due Friday · $4,850
+        </span>
         <ButtonGroup>
-          <Button emphasis="ghost" intent="quiet" presentation="icon" size="sm" aria-label="View">
+          <Button
+            aria-label="View"
+            emphasis="ghost"
+            intent="quiet"
+            presentation="icon"
+            size="sm"
+          >
             <EyeIcon />
           </Button>
-          <Button emphasis="ghost" intent="quiet" presentation="icon" size="sm" aria-label="Edit">
+          <Button
+            aria-label="Edit"
+            emphasis="ghost"
+            intent="quiet"
+            presentation="icon"
+            size="sm"
+          >
             <EditIcon />
           </Button>
           <Button emphasis="solid" intent="primary" size="sm">
@@ -1245,7 +1271,13 @@ export const LoadingButtonGroup: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <ButtonGroup>
-      <Button disabled emphasis="solid" intent="primary" size="sm" state="loading">
+      <Button
+        disabled
+        emphasis="solid"
+        intent="primary"
+        size="sm"
+        state="loading"
+      >
         Saving…
       </Button>
       <Button disabled emphasis="outline" intent="secondary" size="sm">
@@ -1263,7 +1295,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "ButtonGroup renders `role=\"group\"`. Icon-only buttons require `aria-label`. Quantity and zoom controls use `aria-live` on the value display.",
+          'ButtonGroup renders `role="group"`. Icon-only buttons require `aria-label`. Quantity and zoom controls use `aria-live` on the value display.',
       },
     },
   },

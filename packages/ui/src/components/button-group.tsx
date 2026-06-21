@@ -1,9 +1,8 @@
-import * as React from "react";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Slot } from "radix-ui";
-
-import { Separator } from "#/components/separator";
-import { applyGovernedPresentation } from "#/governance/governed-render";
-import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
+import * as React from "react";
+import { Separator } from "./separator";
 
 const BUTTON_GROUP_RECIPE_NAME = "surface" as const;
 
@@ -28,11 +27,9 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation(
-          { ...props, role: "group" },
-          governed,
-          { "data-orientation": orientation }
-        )}
+        {...applyGovernedPresentation({ ...props, role: "group" }, governed, {
+          "data-orientation": orientation,
+        })}
       />
     );
   }
@@ -42,8 +39,8 @@ ButtonGroup.displayName = "ButtonGroup";
 
 interface ButtonGroupTextProps
   extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
-  readonly className?: string;
   readonly asChild?: boolean;
+  readonly className?: string;
 }
 
 const ButtonGroupText = React.forwardRef<HTMLDivElement, ButtonGroupTextProps>(
@@ -57,9 +54,7 @@ const ButtonGroupText = React.forwardRef<HTMLDivElement, ButtonGroupTextProps>(
 
     const Comp = asChild ? Slot.Root : "div";
 
-    return (
-      <Comp ref={ref} {...applyGovernedPresentation(props, governed)} />
-    );
+    return <Comp ref={ref} {...applyGovernedPresentation(props, governed)} />;
   }
 );
 
@@ -67,7 +62,9 @@ ButtonGroupText.displayName = "ButtonGroupText";
 
 const ButtonGroupSeparator = React.forwardRef<
   React.ComponentRef<typeof Separator>,
-  React.ComponentPropsWithoutRef<typeof Separator> & { readonly className?: string }
+  React.ComponentPropsWithoutRef<typeof Separator> & {
+    readonly className?: string;
+  }
 >(({ className, orientation = "vertical", ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "ButtonGroup",

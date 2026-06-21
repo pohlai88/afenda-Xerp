@@ -83,9 +83,7 @@ function StatusAvatar({
   );
 }
 
-function memberBadgeTone(
-  i: number
-): "success" | "warning" | "neutral" {
+function memberBadgeTone(i: number): "success" | "warning" | "neutral" {
   if (i === 0) {
     return "success";
   }
@@ -138,17 +136,47 @@ type Story = StoryObj<typeof meta>;
 // ─── Sample data ───────────────────────────────────────────────────────────
 
 const TEAM = [
-  { initials: "JD", name: "Jane Doe", role: "Senior Engineer", dept: "Engineering" },
-  { initials: "AB", name: "Alex Brown", role: "Product Manager", dept: "Product" },
+  {
+    initials: "JD",
+    name: "Jane Doe",
+    role: "Senior Engineer",
+    dept: "Engineering",
+  },
+  {
+    initials: "AB",
+    name: "Alex Brown",
+    role: "Product Manager",
+    dept: "Product",
+  },
   { initials: "SC", name: "Sam Chen", role: "Design Lead", dept: "Design" },
   { initials: "MK", name: "Maria Kim", role: "QA Engineer", dept: "Quality" },
-  { initials: "OT", name: "Omar Tan", role: "DevOps Engineer", dept: "Infrastructure" },
+  {
+    initials: "OT",
+    name: "Omar Tan",
+    role: "DevOps Engineer",
+    dept: "Infrastructure",
+  },
 ] as const;
 
 const PURCHASE_ORDERS = [
-  { id: "PO-1042", vendor: "Acme Supplies", assignee: TEAM[0], status: "Pending Approval" },
-  { id: "PO-1041", vendor: "Global Parts Co.", assignee: TEAM[1], status: "Approved" },
-  { id: "PO-1040", vendor: "Tech Hardware Ltd", assignee: TEAM[2], status: "Draft" },
+  {
+    id: "PO-1042",
+    vendor: "Acme Supplies",
+    assignee: TEAM[0],
+    status: "Pending Approval",
+  },
+  {
+    id: "PO-1041",
+    vendor: "Global Parts Co.",
+    assignee: TEAM[1],
+    status: "Approved",
+  },
+  {
+    id: "PO-1040",
+    vendor: "Tech Hardware Ltd",
+    assignee: TEAM[2],
+    status: "Draft",
+  },
 ] as const;
 
 // ─── Single variant playground ─────────────────────────────────────────────
@@ -222,7 +250,9 @@ export const AllSizes: Story = {
           <Avatar size={size}>
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
-          <span className="text-muted-foreground text-xs">size=&quot;{size}&quot;</span>
+          <span className="text-muted-foreground text-xs">
+            size=&quot;{size}&quot;
+          </span>
         </StoryStack>
       ))}
     </StoryRow>
@@ -244,7 +274,10 @@ export const GovernanceAccessibility: Story = {
     <StoryRow align="center" gap="lg">
       <StoryStack className="items-center" gap="xs">
         <Avatar>
-          <AvatarImage alt="Jane Doe, Senior Engineer" src="https://github.com/shadcn.png" />
+          <AvatarImage
+            alt="Jane Doe, Senior Engineer"
+            src="https://github.com/shadcn.png"
+          />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <span className="text-muted-foreground text-xs">Image + alt</span>
@@ -253,7 +286,9 @@ export const GovernanceAccessibility: Story = {
         <Avatar>
           <AvatarFallback aria-label="Jane Doe">JD</AvatarFallback>
         </Avatar>
-        <span className="text-muted-foreground text-xs">Initials + aria-label</span>
+        <span className="text-muted-foreground text-xs">
+          Initials + aria-label
+        </span>
       </StoryStack>
       <StoryStack className="items-center" gap="xs">
         <Avatar>
@@ -557,7 +592,9 @@ export const ApprovalChain: Story = {
           ] as const
         ).map(({ initials, label, name, status }, i) => (
           <StoryRow align="center" gap="sm" key={name}>
-            {i > 0 && <ChevronRightIcon className="size-4 text-muted-foreground" />}
+            {i > 0 && (
+              <ChevronRightIcon className="size-4 text-muted-foreground" />
+            )}
             <StoryStack className="items-center" gap="xs">
               <StatusAvatar initials={initials} size="sm" status={status} />
               <span className="text-muted-foreground text-xs">{label}</span>
@@ -577,10 +614,19 @@ export const RecordOwnerHeader: Story = {
     <StoryFrame width="lg">
       <StoryRow align="center" justify="between">
         <StoryStack gap="xs">
-          <span className="font-mono text-muted-foreground text-xs">INV-2024-0892</span>
-          <span className="font-semibold text-lg">Vendor Payment — Acme Supplies</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            INV-2024-0892
+          </span>
+          <span className="font-semibold text-lg">
+            Vendor Payment — Acme Supplies
+          </span>
         </StoryStack>
-        <StoryRow align="center" className="rounded-md border border-border" gap="sm" padding="sm">
+        <StoryRow
+          align="center"
+          className="rounded-md border border-border"
+          gap="sm"
+          padding="sm"
+        >
           <Avatar size="sm">
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
@@ -623,7 +669,13 @@ export const ActivityFeed: Story = {
             </Avatar>
             <StoryStack gap="xs">
               <p className="text-sm">
-                <span className="font-medium">{initials === "AB" ? "Alex Brown" : initials === "SC" ? "Sam Chen" : "Maria Kim"}</span>{" "}
+                <span className="font-medium">
+                  {initials === "AB"
+                    ? "Alex Brown"
+                    : initials === "SC"
+                      ? "Sam Chen"
+                      : "Maria Kim"}
+                </span>{" "}
                 {action}
               </p>
               <span className="text-muted-foreground text-xs">{time}</span>
@@ -672,7 +724,12 @@ export const VendorContact: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryRow align="center" className="rounded-md border border-border" gap="md" padding="md">
+      <StoryRow
+        align="center"
+        className="rounded-md border border-border"
+        gap="md"
+        padding="md"
+      >
         <Avatar size="lg">
           <AvatarFallback>
             <Building2Icon aria-hidden="true" />
@@ -680,11 +737,15 @@ export const VendorContact: Story = {
         </Avatar>
         <StoryStack gap="xs">
           <span className="font-semibold">Acme Supplies Ltd</span>
-          <span className="text-muted-foreground text-sm">Primary contact: Sarah Mitchell</span>
+          <span className="text-muted-foreground text-sm">
+            Primary contact: Sarah Mitchell
+          </span>
           <StoryRow gap="md">
             <StoryRow align="center" gap="xs">
               <MailIcon className="size-3 text-muted-foreground" />
-              <span className="text-muted-foreground text-xs">sarah@acme.example</span>
+              <span className="text-muted-foreground text-xs">
+                sarah@acme.example
+              </span>
             </StoryRow>
             <StoryRow align="center" gap="xs">
               <PhoneIcon className="size-3 text-muted-foreground" />
@@ -728,7 +789,13 @@ export const TableAssigneeColumn: Story = {
                 <Badge
                   emphasis="soft"
                   size="sm"
-                  tone={status === "Approved" ? "success" : status === "Draft" ? "neutral" : "warning"}
+                  tone={
+                    status === "Approved"
+                      ? "success"
+                      : status === "Draft"
+                        ? "neutral"
+                        : "warning"
+                  }
                 >
                   {status}
                 </Badge>
@@ -781,7 +848,12 @@ export const DelegationOutOfOffice: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryRow align="center" className="rounded-md border border-border" gap="md" padding="md">
+      <StoryRow
+        align="center"
+        className="rounded-md border border-border"
+        gap="md"
+        padding="md"
+      >
         <StoryStack className="items-center" gap="xs">
           <StatusAvatar initials="JD" size="lg" status="away" />
           <span className="font-medium text-sm">Jane Doe</span>
@@ -798,7 +870,9 @@ export const DelegationOutOfOffice: Story = {
           </Badge>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="text-muted-foreground text-xs">Delegation period</span>
+          <span className="text-muted-foreground text-xs">
+            Delegation period
+          </span>
           <span className="text-sm">Jun 15 – Jun 28, 2026</span>
           <span className="text-muted-foreground text-xs">
             All PO approvals route to Alex during this period.
@@ -815,10 +889,20 @@ export const CustomerAccountManager: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="sm">
-        <span className="font-medium text-sm">Northwind Traders — Account team</span>
-        <StoryRow align="center" className="rounded-md border border-border" gap="md" padding="md">
+        <span className="font-medium text-sm">
+          Northwind Traders — Account team
+        </span>
+        <StoryRow
+          align="center"
+          className="rounded-md border border-border"
+          gap="md"
+          padding="md"
+        >
           <Avatar size="lg">
-            <AvatarImage alt="Account manager" src="https://github.com/shadcn.png" />
+            <AvatarImage
+              alt="Account manager"
+              src="https://github.com/shadcn.png"
+            />
             <AvatarFallback>SC</AvatarFallback>
             <AvatarBadge className="bg-success" />
           </Avatar>
@@ -895,9 +979,15 @@ export const MentionInComment: Story = {
         <StoryStack className="flex-1" gap="xs">
           <StoryRow align="center" gap="sm">
             <span className="font-medium text-sm">Alex Brown</span>
-            <span className="text-muted-foreground text-xs">Today at 14:32</span>
+            <span className="text-muted-foreground text-xs">
+              Today at 14:32
+            </span>
           </StoryRow>
-          <StoryStack className="rounded-md border border-border" gap="xs" padding="md">
+          <StoryStack
+            className="rounded-md border border-border"
+            gap="xs"
+            padding="md"
+          >
             <span className="text-sm">
               Can{" "}
               <span className="inline-flex items-center gap-1">
@@ -906,7 +996,8 @@ export const MentionInComment: Story = {
                 </Avatar>
                 <span className="font-medium text-primary">@Jane Doe</span>
               </span>{" "}
-              review the updated budget figures before Friday&apos;s board meeting?
+              review the updated budget figures before Friday&apos;s board
+              meeting?
             </span>
           </StoryStack>
         </StoryStack>
@@ -959,7 +1050,11 @@ export const NotificationActor: Story = {
             <StoryStack gap="xs">
               <p className="text-sm">
                 <span className="font-medium">
-                  {initials === "MK" ? "Maria Kim" : initials === "OT" ? "Omar Tan" : "Sam Chen"}
+                  {initials === "MK"
+                    ? "Maria Kim"
+                    : initials === "OT"
+                      ? "Omar Tan"
+                      : "Sam Chen"}
                 </span>{" "}
                 {message}
               </p>

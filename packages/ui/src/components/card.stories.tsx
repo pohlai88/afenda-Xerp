@@ -57,8 +57,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 // ─── Sample data ───────────────────────────────────────────────────────────
 
 const TEAM = [
-  { initials: "JD", name: "Jane Doe", role: "Finance Manager", dept: "Finance" },
-  { initials: "AB", name: "Alex Brown", role: "Procurement Lead", dept: "Operations" },
+  {
+    initials: "JD",
+    name: "Jane Doe",
+    role: "Finance Manager",
+    dept: "Finance",
+  },
+  {
+    initials: "AB",
+    name: "Alex Brown",
+    role: "Procurement Lead",
+    dept: "Operations",
+  },
   { initials: "SC", name: "Sam Chen", role: "Department Head", dept: "HR" },
   { initials: "MK", name: "Maria Kim", role: "CFO", dept: "Executive" },
 ] as const;
@@ -226,7 +236,9 @@ export const Compact: Story = {
           <CardTitle>Compact card</CardTitle>
           <CardDescription>Reduced density and layout size.</CardDescription>
         </CardHeader>
-        <CardContent>Compact content area for dense ERP tables and side panels.</CardContent>
+        <CardContent>
+          Compact content area for dense ERP tables and side panels.
+        </CardContent>
       </Card>
     </StoryFrame>
   ),
@@ -242,7 +254,9 @@ export const OverlayShadow: Story = {
       <Card {...args}>
         <CardHeader>
           <CardTitle>Overlay shadow</CardTitle>
-          <CardDescription>Elevated surface for modals, drawers, and spotlight panels.</CardDescription>
+          <CardDescription>
+            Elevated surface for modals, drawers, and spotlight panels.
+          </CardDescription>
         </CardHeader>
         <CardContent>Overlay shadow variant.</CardContent>
       </Card>
@@ -257,7 +271,9 @@ export const HeaderWithAction: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Open purchase orders</CardTitle>
-          <CardDescription>12 orders awaiting delivery confirmation</CardDescription>
+          <CardDescription>
+            12 orders awaiting delivery confirmation
+          </CardDescription>
           <CardAction>
             <Button emphasis="outline" size="sm">
               View all
@@ -276,17 +292,27 @@ export const FooterActions: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Expense report — Q2 2026</CardTitle>
-          <CardDescription>Submitted by Jane Doe · 14 line items</CardDescription>
+          <CardDescription>
+            Submitted by Jane Doe · 14 line items
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <StoryStack gap="xs">
             <StoryRow justify="between">
-              <span className="text-muted-foreground text-sm">Total amount</span>
-              <span className="font-semibold text-sm">{formatCurrency(4820)}</span>
+              <span className="text-muted-foreground text-sm">
+                Total amount
+              </span>
+              <span className="font-semibold text-sm">
+                {formatCurrency(4820)}
+              </span>
             </StoryRow>
             <StoryRow justify="between">
-              <span className="text-muted-foreground text-sm">Policy compliance</span>
-              <Badge emphasis="soft" tone="success">Within limit</Badge>
+              <span className="text-muted-foreground text-sm">
+                Policy compliance
+              </span>
+              <Badge emphasis="soft" tone="success">
+                Within limit
+              </Badge>
             </StoryRow>
           </StoryStack>
         </CardContent>
@@ -338,7 +364,8 @@ export const AllDensities: Story = {
             <CardHeader>
               <CardTitle>density=&quot;{density}&quot;</CardTitle>
               <CardDescription>
-                Spacing density for compact data grids or comfortable detail views.
+                Spacing density for compact data grids or comfortable detail
+                views.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -378,7 +405,9 @@ export const AllLayoutSizes: Story = {
             <CardHeader>
               <CardTitle>size=&quot;{size}&quot;</CardTitle>
             </CardHeader>
-            <CardContent>Layout size governs internal padding rhythm.</CardContent>
+            <CardContent>
+              Layout size governs internal padding rhythm.
+            </CardContent>
           </Card>
         </StoryFrame>
       ))}
@@ -427,7 +456,8 @@ export const GovernanceAccessibility: Story = {
         <CardHeader>
           <CardTitle>Accessible card actions</CardTitle>
           <CardDescription>
-            Primary workflow actions are exposed as labeled buttons, not clickable card shells.
+            Primary workflow actions are exposed as labeled buttons, not
+            clickable card shells.
           </CardDescription>
         </CardHeader>
         <CardFooter>
@@ -460,7 +490,7 @@ export const KpiMetricCard: Story = {
       <Card density="compact" size="sm">
         <CardHeader>
           <CardDescription>Monthly revenue</CardDescription>
-          <CardTitle>{formatCurrency(1284000)}</CardTitle>
+          <CardTitle>{formatCurrency(1_284_000)}</CardTitle>
           <CardAction>
             <Badge emphasis="soft" tone="success">
               <ArrowUpIcon />
@@ -470,8 +500,12 @@ export const KpiMetricCard: Story = {
         </CardHeader>
         <CardContent>
           <StoryRow gap="xs">
-            <span className="text-muted-foreground text-xs">vs. prior month</span>
-            <span className="font-medium text-success text-xs">+{formatCurrency(142000)}</span>
+            <span className="text-muted-foreground text-xs">
+              vs. prior month
+            </span>
+            <span className="font-medium text-success text-xs">
+              +{formatCurrency(142_000)}
+            </span>
           </StoryRow>
         </CardContent>
       </Card>
@@ -515,13 +549,16 @@ export const DashboardStatGrid: Story = {
             icon: Building2Icon,
           },
         ].map(({ label, value, delta, tone, icon: Icon }) => (
-          <StoryStack className="min-w-[10rem] flex-1" gap="xs" key={label}>
+          <StoryStack className="min-w-40 flex-1" gap="xs" key={label}>
             <Card density="compact" size="sm">
               <CardHeader>
                 <CardDescription>{label}</CardDescription>
                 <CardTitle>{value}</CardTitle>
                 <CardAction>
-                  <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                  <Icon
+                    aria-hidden="true"
+                    className="size-4 text-muted-foreground"
+                  />
                 </CardAction>
               </CardHeader>
               <CardContent>
@@ -545,19 +582,25 @@ export const InvoiceSummaryCard: Story = {
       <Card>
         <CardHeader>
           <StoryStack gap="xs">
-            <span className="font-mono text-muted-foreground text-xs">INV-2026-0042</span>
+            <span className="font-mono text-muted-foreground text-xs">
+              INV-2026-0042
+            </span>
             <CardTitle>Acme Supplies Ltd.</CardTitle>
           </StoryStack>
           <CardDescription>Due Apr 15, 2026 · Net 30 terms</CardDescription>
           <CardAction>
-            <Badge emphasis="soft" tone="warning">Awaiting payment</Badge>
+            <Badge emphasis="soft" tone="warning">
+              Awaiting payment
+            </Badge>
           </CardAction>
         </CardHeader>
         <CardContent>
           <StoryStack gap="sm">
             <StoryRow justify="between">
-              <span className="text-muted-foreground text-sm">Invoice amount</span>
-              <span className="font-semibold">{formatCurrency(24850)}</span>
+              <span className="text-muted-foreground text-sm">
+                Invoice amount
+              </span>
+              <span className="font-semibold">{formatCurrency(24_850)}</span>
             </StoryRow>
             <StoryRow justify="between">
               <span className="text-muted-foreground text-sm">Amount paid</span>
@@ -566,7 +609,7 @@ export const InvoiceSummaryCard: Story = {
             <Separator />
             <StoryRow justify="between">
               <span className="font-medium text-sm">Balance due</span>
-              <span className="font-semibold">{formatCurrency(24850)}</span>
+              <span className="font-semibold">{formatCurrency(24_850)}</span>
             </StoryRow>
           </StoryStack>
         </CardContent>
@@ -591,7 +634,9 @@ export const RecordDetailSection: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Vendor details</CardTitle>
-          <CardDescription>Core identification and compliance fields</CardDescription>
+          <CardDescription>
+            Core identification and compliance fields
+          </CardDescription>
           <CardAction>
             <Button emphasis="outline" size="sm">
               <SettingsIcon />
@@ -635,7 +680,9 @@ export const FormSectionCard: Story = {
         <CardContent>
           <StoryStack gap="sm">
             <StoryStack gap="xs">
-              <span className="font-medium text-sm">Warehouse — East Campus</span>
+              <span className="font-medium text-sm">
+                Warehouse — East Campus
+              </span>
               <span className="text-muted-foreground text-sm">
                 4200 Industrial Parkway, Suite 200
               </span>
@@ -644,8 +691,12 @@ export const FormSectionCard: Story = {
               </span>
             </StoryStack>
             <StoryRow gap="sm">
-              <Badge emphasis="soft" tone="neutral">Receiving dock B</Badge>
-              <Badge emphasis="soft" tone="info">Business hours only</Badge>
+              <Badge emphasis="soft" tone="neutral">
+                Receiving dock B
+              </Badge>
+              <Badge emphasis="soft" tone="info">
+                Business hours only
+              </Badge>
             </StoryRow>
           </StoryStack>
         </CardContent>
@@ -667,16 +718,22 @@ export const ApprovalWorkflowCard: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Purchase order approval</CardTitle>
-          <CardDescription>PO-2026-1184 · {formatCurrency(18420)} total</CardDescription>
+          <CardDescription>
+            PO-2026-1184 · {formatCurrency(18_420)} total
+          </CardDescription>
           <CardAction>
-            <Badge emphasis="soft" tone="warning">In review</Badge>
+            <Badge emphasis="soft" tone="warning">
+              In review
+            </Badge>
           </CardAction>
         </CardHeader>
         <CardContent>
           <StoryStack gap="md">
             <StoryStack gap="xs">
               <StoryRow justify="between">
-                <span className="text-muted-foreground text-sm">Overall progress</span>
+                <span className="text-muted-foreground text-sm">
+                  Overall progress
+                </span>
                 <span className="text-sm">60%</span>
               </StoryRow>
               <Progress value={60} />
@@ -684,9 +741,21 @@ export const ApprovalWorkflowCard: Story = {
             <StoryStack gap="sm">
               {[
                 { step: "Submitted", status: "done", actor: "Alex Brown" },
-                { step: "Department review", status: "done", actor: "Sam Chen" },
-                { step: "Finance approval", status: "pending", actor: "Jane Doe" },
-                { step: "Executive sign-off", status: "waiting", actor: "Maria Kim" },
+                {
+                  step: "Department review",
+                  status: "done",
+                  actor: "Sam Chen",
+                },
+                {
+                  step: "Finance approval",
+                  status: "pending",
+                  actor: "Jane Doe",
+                },
+                {
+                  step: "Executive sign-off",
+                  status: "waiting",
+                  actor: "Maria Kim",
+                },
               ].map(({ step, status, actor }) => (
                 <StoryRow align="center" gap="sm" key={step}>
                   <CheckCircle2Icon
@@ -714,7 +783,9 @@ export const ApprovalWorkflowCard: Story = {
                         {status}
                       </Badge>
                     </StoryRow>
-                    <span className="text-muted-foreground text-xs">{actor}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {actor}
+                    </span>
                   </StoryStack>
                 </StoryRow>
               ))}
@@ -756,7 +827,9 @@ export const TabbedRecordCard: Story = {
             <TabsContent value="overview">
               <StoryStack gap="sm" paddingY="sm">
                 <StoryRow justify="between">
-                  <span className="text-muted-foreground text-sm">Department</span>
+                  <span className="text-muted-foreground text-sm">
+                    Department
+                  </span>
                   <span className="text-sm">Finance</span>
                 </StoryRow>
                 <StoryRow justify="between">
@@ -764,7 +837,9 @@ export const TabbedRecordCard: Story = {
                   <span className="text-sm">Maria Kim</span>
                 </StoryRow>
                 <StoryRow justify="between">
-                  <span className="text-muted-foreground text-sm">Start date</span>
+                  <span className="text-muted-foreground text-sm">
+                    Start date
+                  </span>
                   <span className="text-sm">Mar 12, 2019</span>
                 </StoryRow>
               </StoryStack>
@@ -772,7 +847,7 @@ export const TabbedRecordCard: Story = {
             <TabsContent value="compensation">
               <StoryStack paddingY="sm">
                 <p className="text-muted-foreground text-sm">
-                  Annual salary {formatCurrency(92000)} · Paid bi-weekly
+                  Annual salary {formatCurrency(92_000)} · Paid bi-weekly
                 </p>
               </StoryStack>
             </TabsContent>
@@ -805,7 +880,9 @@ export const TeamStakeholdersCard: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Project stakeholders</CardTitle>
-          <CardDescription>ERP rollout — Phase 2 implementation</CardDescription>
+          <CardDescription>
+            ERP rollout — Phase 2 implementation
+          </CardDescription>
           <CardAction>
             <Button emphasis="outline" size="sm">
               <PlusIcon />
@@ -869,7 +946,9 @@ export const NestedAlertCard: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Payment batch — BATCH-2026-06-18</CardTitle>
-          <CardDescription>18 invoices · {formatCurrency(98420)} total</CardDescription>
+          <CardDescription>
+            18 invoices · {formatCurrency(98_420)} total
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <StoryStack gap="md">
@@ -882,11 +961,15 @@ export const NestedAlertCard: Story = {
             </Alert>
             <StoryStack gap="sm">
               <StoryRow justify="between">
-                <span className="text-muted-foreground text-sm">Ready to pay</span>
+                <span className="text-muted-foreground text-sm">
+                  Ready to pay
+                </span>
                 <span className="text-sm">15 invoices</span>
               </StoryRow>
               <StoryRow justify="between">
-                <span className="text-muted-foreground text-sm">Needs review</span>
+                <span className="text-muted-foreground text-sm">
+                  Needs review
+                </span>
                 <span className="text-sm">3 invoices</span>
               </StoryRow>
             </StoryStack>
@@ -950,7 +1033,10 @@ export const OrderLineItemCard: Story = {
               gap="xs"
               padding="sm"
             >
-              <PackageIcon aria-hidden="true" className="size-5 text-muted-foreground" />
+              <PackageIcon
+                aria-hidden="true"
+                className="size-5 text-muted-foreground"
+              />
             </StoryStack>
             <StoryStack gap="xs">
               <CardTitle>Industrial fasteners — M8 bolt kit</CardTitle>
@@ -958,7 +1044,9 @@ export const OrderLineItemCard: Story = {
             </StoryStack>
           </StoryRow>
           <CardAction>
-            <Badge emphasis="soft" tone="info">In transit</Badge>
+            <Badge emphasis="soft" tone="info">
+              In transit
+            </Badge>
           </CardAction>
         </CardHeader>
         <CardContent>
@@ -973,12 +1061,17 @@ export const OrderLineItemCard: Story = {
             </StoryStack>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Line total</span>
-              <span className="font-medium text-sm">{formatCurrency(6000)}</span>
+              <span className="font-medium text-sm">
+                {formatCurrency(6000)}
+              </span>
             </StoryStack>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">ETA</span>
               <StoryRow align="center" gap="xs">
-                <TruckIcon aria-hidden="true" className="size-3 text-muted-foreground" />
+                <TruckIcon
+                  aria-hidden="true"
+                  className="size-3 text-muted-foreground"
+                />
                 <span className="font-medium text-sm">Jun 28, 2026</span>
               </StoryRow>
             </StoryStack>
@@ -1009,19 +1102,31 @@ export const VendorContactCard: Story = {
         <CardContent>
           <StoryStack gap="sm">
             <StoryRow align="center" gap="sm">
-              <UserIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <UserIcon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="text-sm">Sarah Mitchell — Account manager</span>
             </StoryRow>
             <StoryRow align="center" gap="sm">
-              <MailIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <MailIcon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="text-sm">sarah.mitchell@acmesupplies.com</span>
             </StoryRow>
             <StoryRow align="center" gap="sm">
-              <PhoneIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <PhoneIcon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="text-sm">+1 (614) 555-0192</span>
             </StoryRow>
             <StoryRow align="center" gap="sm">
-              <Building2Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+              <Building2Icon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
               <span className="text-sm">Columbus, OH · Net 30</span>
             </StoryRow>
           </StoryStack>
@@ -1047,7 +1152,9 @@ export const EmptyStateCard: Story = {
       <Card>
         <CardHeader>
           <CardTitle>Attachments</CardTitle>
-          <CardDescription>Supporting documents for expense report</CardDescription>
+          <CardDescription>
+            Supporting documents for expense report
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Empty>
@@ -1121,9 +1228,9 @@ export const TrendComparisonCard: Story = {
         <CardContent>
           <StoryStack gap="md">
             {[
-              { category: "Raw materials", actual: 420000, budget: 400000 },
-              { category: "IT services", actual: 182000, budget: 210000 },
-              { category: "Facilities", actual: 95000, budget: 88000 },
+              { category: "Raw materials", actual: 420_000, budget: 400_000 },
+              { category: "IT services", actual: 182_000, budget: 210_000 },
+              { category: "Facilities", actual: 95_000, budget: 88_000 },
             ].map(({ category, actual, budget }) => {
               const pct = Math.round((actual / budget) * 100);
               const over = actual > budget;
@@ -1133,11 +1240,19 @@ export const TrendComparisonCard: Story = {
                     <span className="text-sm">{category}</span>
                     <StoryRow align="center" gap="xs">
                       {over ? (
-                        <ArrowUpIcon aria-hidden="true" className="size-3 text-danger" />
+                        <ArrowUpIcon
+                          aria-hidden="true"
+                          className="size-3 text-danger"
+                        />
                       ) : (
-                        <ArrowDownIcon aria-hidden="true" className="size-3 text-success" />
+                        <ArrowDownIcon
+                          aria-hidden="true"
+                          className="size-3 text-success"
+                        />
                       )}
-                      <span className="text-muted-foreground text-xs">{pct}% of budget</span>
+                      <span className="text-muted-foreground text-xs">
+                        {pct}% of budget
+                      </span>
                     </StoryRow>
                   </StoryRow>
                   <StoryRow justify="between">
