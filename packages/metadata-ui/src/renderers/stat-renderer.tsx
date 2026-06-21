@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { StatSection } from "../sections/list-section.js";
 
-export const statRenderer = {
-  key: "metadata-ui.renderer.stat.default",
+export const statRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.stat.default",
+    version: "0.1.0",
+    label: "Stat Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.stat.default",
@@ -12,15 +17,17 @@ export const statRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-stat",
-  sectionType: "stat",
-  priority: 100,
+  sectionTypes: ["stat"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.stat",
+  },
   render(_input, context) {
     return (
       <StatSection
         context={context}
-        id="metadata-stat"
-        title="Stat"
+        identity={{ id: "metadata-stat", title: "Stat" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

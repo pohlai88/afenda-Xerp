@@ -1,7 +1,7 @@
 import type { MetadataRuntimeContext } from "@afenda/metadata";
 
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";
-import { createMetadataRenderContext } from "../runtime/create-metadata-render-context.js";
+import { createMetadataUiRenderContext } from "../runtime/create-metadata-ui-render-context.js";
 
 export const sampleRuntimeContext = {
   density: "default",
@@ -18,14 +18,14 @@ export const sampleDiagnosticsRuntimeContext = {
 } satisfies MetadataRuntimeContext;
 
 export const sampleRenderContext: MetadataUiRenderContext =
-  createMetadataRenderContext({
+  createMetadataUiRenderContext({
     runtime: sampleRuntimeContext,
     source: "static-preview",
   });
 
 export const sampleDiagnosticsRenderContext: MetadataUiRenderContext =
-  createMetadataRenderContext({
+  createMetadataUiRenderContext({
     runtime: sampleDiagnosticsRuntimeContext,
     source: "static-preview",
-    diagnosticsEnabled: true,
+    diagnosticsLevel: "summary",
   });

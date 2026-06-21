@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { FormSection } from "../sections/list-section.js";
 
-export const formRenderer = {
-  key: "metadata-ui.renderer.form.default",
+export const formRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.form.default",
+    version: "0.1.0",
+    label: "Form Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.form.default",
@@ -12,15 +17,17 @@ export const formRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-form",
-  sectionType: "form",
-  priority: 100,
+  sectionTypes: ["form"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.form",
+  },
   render(_input, context) {
     return (
       <FormSection
         context={context}
-        id="metadata-form"
-        title="Form"
+        identity={{ id: "metadata-form", title: "Form" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

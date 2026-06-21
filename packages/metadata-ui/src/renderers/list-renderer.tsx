@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { ListSection } from "../sections/list-section.js";
 
-export const listRenderer = {
-  key: "metadata-ui.renderer.list.default",
+export const listRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.list.default",
+    version: "0.1.0",
+    label: "List Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.list.default",
@@ -12,15 +17,17 @@ export const listRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-list",
-  sectionType: "list",
-  priority: 100,
+  sectionTypes: ["list"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.list",
+  },
   render(_input, context) {
     return (
       <ListSection
         context={context}
-        id="metadata-list"
-        title="List"
+        identity={{ id: "metadata-list", title: "List" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

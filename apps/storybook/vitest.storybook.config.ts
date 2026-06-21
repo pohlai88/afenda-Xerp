@@ -13,6 +13,20 @@ const storybookPlugins = await storybookTest({
 });
 
 export default defineConfig({
+  optimizeDeps: {
+    include: [
+      "react",
+      "react/jsx-dev-runtime",
+      "react-dom",
+      "react-dom/client",
+      "@afenda/design-system",
+    ],
+  },
+  server: {
+    deps: {
+      inline: [/@afenda\//],
+    },
+  },
   define: {
     "import.meta.env.VITEST_STORYBOOK": JSON.stringify(true),
   },

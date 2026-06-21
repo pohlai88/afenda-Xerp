@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { ChartSection } from "../sections/list-section.js";
 
-export const chartRenderer = {
-  key: "metadata-ui.renderer.chart.default",
+export const chartRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.chart.default",
+    version: "0.1.0",
+    label: "Chart Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.chart.default",
@@ -12,15 +17,17 @@ export const chartRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-chart",
-  sectionType: "chart",
-  priority: 100,
+  sectionTypes: ["chart"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.chart",
+  },
   render(_input, context) {
     return (
       <ChartSection
         context={context}
-        id="metadata-chart"
-        title="Chart"
+        identity={{ id: "metadata-chart", title: "Chart" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

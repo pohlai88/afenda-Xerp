@@ -1,4 +1,5 @@
 import type { MetadataSurfaceProps } from "../contracts/surface-renderer.contract.js";
+import { createMetadataDiagnosticsSnapshot } from "../diagnostics/create-metadata-diagnostics-snapshot.js";
 import { MetadataDiagnosticsPanel } from "../diagnostics/metadata-diagnostics-panel.js";
 
 export function MetadataSurface({
@@ -21,20 +22,12 @@ export function MetadataSurface({
         {description ? <p>{description}</p> : null}
       </header>
       <div className="metadata-surface-body">{children}</div>
-      {context.diagnosticsEnabled ? (
+      {context.diagnostics.enabled ? (
         <MetadataDiagnosticsPanel
           context={context}
-          snapshot={{
-            surfaceType: type,
-            runtimeState: context.runtime.state,
-            densityMode: context.runtime.density,
-            presentationMode: context.runtime.presentationMode,
-            readonlyMode: context.runtime.readonlyMode,
-            diagnosticsEnabled: context.diagnosticsEnabled,
-            ...(context.runtime.correlationId
-              ? { correlationId: context.runtime.correlationId }
-              : {}),
-          }}
+          snapshot={createMetadataDiagnosticsSnapshot(context, {
+            surface: { surfaceType: type },
+          })}
         />
       ) : null}
     </section>

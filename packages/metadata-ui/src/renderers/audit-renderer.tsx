@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { AuditSection } from "../sections/list-section.js";
 
-export const auditRenderer = {
-  key: "metadata-ui.renderer.audit.default",
+export const auditRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.audit.default",
+    version: "0.1.0",
+    label: "Audit Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.audit.default",
@@ -12,15 +17,17 @@ export const auditRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-audit",
-  sectionType: "audit",
-  priority: 100,
+  sectionTypes: ["audit"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.audit",
+  },
   render(_input, context) {
     return (
       <AuditSection
         context={context}
-        id="metadata-audit"
-        title="Audit"
+        identity={{ id: "metadata-audit", title: "Audit" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

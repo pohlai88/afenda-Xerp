@@ -180,6 +180,7 @@ export const METADATA_AUTHORITY_KEYS = [
   "registry",
   "presentation",
   "runtime",
+  "action",
 ] as const;
 
 export type MetadataAuthorityKey = (typeof METADATA_AUTHORITY_KEYS)[number];

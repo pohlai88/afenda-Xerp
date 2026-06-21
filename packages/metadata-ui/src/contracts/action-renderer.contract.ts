@@ -1,23 +1,67 @@
-export type MetadataActionKind = "button" | "destructive" | "link" | "menu";
+/**
+ * Metadata action renderer contracts.
+ *
+ * Authority:
+ * - Defines the renderer-layer contracts for metadata actions.
+ * - Imports and re-exports action vocabulary from @afenda/metadata.
+ * - Adds presentation hints, execution context, handler, and result shapes.
+ * - Does not own action vocabulary, permissions, or business logic.
+ */
 
-export interface MetadataActionConfirm {
-  readonly title: string;
-  readonly description: string;
-  readonly confirmLabel: string;
+export type {
+  MetadataAction,
+  MetadataActionAccess,
+  MetadataActionAudit,
+  MetadataActionConfirm,
+  MetadataActionKind,
+  MetadataActionTarget,
+  MetadataActionVisibilityState,
+} from "@afenda/metadata";
+
+export interface MetadataActionPresentation {
+  /**
+   * Icon key resolved by the renderer.
+   *
+   * The renderer decides how to map this to an actual icon component.
+   * Examples: "user-plus", "trash", "external-link"
+   */
+  readonly icon?: string;
+
+  /**
+   * Grouping key for action bars or menus.
+   *
+   * Examples: "primary", "secondary", "danger"
+   */
+  readonly group?: string;
+
+  /**
+   * Stable ordering value. Lower numbers render first.
+   */
+  readonly order?: number;
 }
 
-export interface MetadataAction {
-  readonly key: string;
-  readonly label: string;
-  readonly description?: string;
-  readonly kind: MetadataActionKind;
-  readonly href?: string;
-  readonly disabled?: boolean;
-  readonly hidden?: boolean;
+export interface MetadataActionContext {
+  /**
+   * Surface or section that emitted this action.
+   */
+  readonly source: string;
+
+  /**
+   * Optional record or entity currently in scope.
+   */
+  readonly targetId?: string;
+}
+
+export interface MetadataActionResult {
+  readonly ok: boolean;
+  readonly actionKey: string;
+  readonly message?: string;
   readonly reason?: string;
-  readonly confirm?: MetadataActionConfirm;
 }
 
 export interface MetadataActionHandler {
-  readonly (actionKey: string): void;
+  readonly (
+    action: import("@afenda/metadata").MetadataAction,
+    context: MetadataActionContext
+  ): MetadataActionResult | Promise<MetadataActionResult>;
 }

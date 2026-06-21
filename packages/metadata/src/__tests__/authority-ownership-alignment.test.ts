@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ACTION_CONTRACT_OWNERSHIPS } from "../action.contract.js";
 import {
   METADATA_AUTHORITY_OWNERSHIPS,
   metadataAuthorityMap,
@@ -21,6 +22,7 @@ const domainOwnershipSources = [
   ["registry", REGISTRY_CONTRACT_OWNERSHIPS],
   ["presentation", PRESENTATION_CONTRACT_OWNERSHIPS],
   ["runtime", RUNTIME_CONTRACT_OWNERSHIPS],
+  ["action", ACTION_CONTRACT_OWNERSHIPS],
 ] as const;
 
 describe("authority ownership alignment", () => {

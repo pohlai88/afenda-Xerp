@@ -120,6 +120,7 @@ describe("governed contract arrays", () => {
       "registry",
       "presentation",
       "runtime",
+      "action",
     ]);
     expect(isMetadataAuthorityKey("renderer")).toBe(true);
     expect(isMetadataAuthorityKey("phantom")).toBe(false);

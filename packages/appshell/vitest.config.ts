@@ -11,15 +11,13 @@ const portableStoriesSetup = path.join(
   "src/__tests__/setup/portable-stories.tsx"
 );
 
-/** Heavy ApplicationShell renders need headroom when Storybook browser tests run in parallel. */
+/** Heavy ApplicationShell renders need longer timeouts under parallel workspace load. */
 export default mergeConfig(
   createReactProject(import.meta.url, "@afenda/appshell", {
     setupFiles: [portableStoriesSetup],
   }),
   defineProject({
     test: {
-      pool: "forks",
-      fileParallelism: false,
       testTimeout: 60_000,
       hookTimeout: 60_000,
     },

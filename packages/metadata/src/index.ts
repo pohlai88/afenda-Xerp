@@ -1,4 +1,24 @@
 export type {
+  ActionContract,
+  ActionContractOwnership,
+  ActionContractProhibition,
+  MetadataAction,
+  MetadataActionAccess,
+  MetadataActionAudit,
+  MetadataActionConfirm,
+  MetadataActionKind,
+  MetadataActionTarget,
+  MetadataActionVisibilityState,
+} from "./action.contract.js";
+export {
+  ACTION_CONTRACT_OWNERSHIPS,
+  ACTION_CONTRACT_PROHIBITIONS,
+  actionContract,
+  METADATA_ACTION_KINDS,
+  METADATA_ACTION_TARGETS,
+  METADATA_ACTION_VISIBILITY_STATES,
+} from "./action.contract.js";
+export type {
   CrossPackageAuthority,
   CrossPackageAuthorityEntry,
   CrossPackageImportPolicy,

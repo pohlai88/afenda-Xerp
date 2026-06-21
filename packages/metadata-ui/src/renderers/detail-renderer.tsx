@@ -1,9 +1,14 @@
 import { createRegistryEntry } from "@afenda/metadata";
-import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
+
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { DetailSection } from "../sections/list-section.js";
 
-export const detailRenderer = {
-  key: "metadata-ui.renderer.detail.default",
+export const detailRenderer = createMetadataRendererDefinition({
+  identity: {
+    key: "metadata-ui.renderer.detail.default",
+    version: "0.1.0",
+    label: "Detail Renderer",
+  },
   registry: createRegistryEntry({
     authority: "renderer",
     id: "metadata-ui.renderer.detail.default",
@@ -12,15 +17,17 @@ export const detailRenderer = {
     ownerPackage: "@afenda/metadata-ui",
   }),
   capability: "render-detail",
-  sectionType: "detail",
-  priority: 100,
+  sectionTypes: ["detail"],
+  diagnostics: {
+    namespace: "metadata-ui.renderer.detail",
+  },
   render(_input, context) {
     return (
       <DetailSection
         context={context}
-        id="metadata-detail"
-        title="Detail"
+        identity={{ id: "metadata-detail", title: "Detail" }}
+        slots={{ content: null }}
       />
     );
   },
-} satisfies MetadataRendererDefinition;
+});

@@ -5,6 +5,7 @@ import {
   createMetadataRendererRegistry,
   defaultMetadataRenderers,
 } from "../index.js";
+import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { listRenderer } from "../renderers/list-renderer.js";
 
 describe("metadata renderer registry", () => {
@@ -32,9 +33,11 @@ describe("metadata renderer registry", () => {
   it("rejects incompatible capability and section pairs at registration", () => {
     expect(() =>
       createMetadataRendererRegistry([
-        {
-          ...listRenderer,
-          key: "metadata-ui.renderer.invalid",
+        createMetadataRendererDefinition({
+          identity: {
+            key: "metadata-ui.renderer.invalid",
+            version: "0.1.0",
+          },
           registry: createRegistryEntry({
             authority: "renderer",
             id: "metadata-ui.renderer.invalid",
@@ -43,7 +46,9 @@ describe("metadata renderer registry", () => {
             ownerPackage: "@afenda/metadata-ui",
           }),
           capability: "render-stat",
-        },
+          sectionTypes: ["list"],
+          render: () => null,
+        }),
       ])
     ).toThrow(/incompatible section/);
   });

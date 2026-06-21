@@ -20,10 +20,12 @@ function isCompatiblePair(
 }
 
 function assertCompatibleRenderer(renderer: MetadataRendererDefinition): void {
-  if (!isCompatiblePair(renderer.capability, renderer.sectionType)) {
-    throw new MetadataUiError(
-      `Renderer "${renderer.key}" pairs capability "${renderer.capability}" with incompatible section "${renderer.sectionType}".`
-    );
+  for (const sectionType of renderer.governance.sectionTypes) {
+    if (!isCompatiblePair(renderer.governance.capability, sectionType)) {
+      throw new MetadataUiError(
+        `Renderer "${renderer.identity.key}" pairs capability "${renderer.governance.capability}" with incompatible section "${sectionType}".`
+      );
+    }
   }
 }
 
@@ -39,13 +41,13 @@ export function createMetadataRendererRegistry(
   ): MetadataRendererRegistry => {
     assertCompatibleRenderer(renderer);
 
-    if (renderers.has(renderer.key)) {
+    if (renderers.has(renderer.identity.key)) {
       throw new MetadataUiError(
-        `Duplicate renderer key "${renderer.key}" is not allowed.`
+        `Duplicate renderer key "${renderer.identity.key}" is not allowed.`
       );
     }
 
-    renderers.set(renderer.key, renderer);
+    renderers.set(renderer.identity.key, renderer);
     return registry;
   };
 

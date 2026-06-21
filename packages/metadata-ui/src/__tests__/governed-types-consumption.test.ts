@@ -22,8 +22,10 @@ describe("governed type consumption", () => {
     expect(RENDERER_CAPABILITIES.length).toBeGreaterThan(0);
 
     for (const renderer of defaultMetadataRenderers) {
-      expect(SECTION_TYPES).toContain(renderer.sectionType);
-      expect(RENDERER_CAPABILITIES).toContain(renderer.capability);
+      for (const sectionType of renderer.governance.sectionTypes) {
+        expect(SECTION_TYPES).toContain(sectionType);
+      }
+      expect(RENDERER_CAPABILITIES).toContain(renderer.governance.capability);
     }
   });
 });

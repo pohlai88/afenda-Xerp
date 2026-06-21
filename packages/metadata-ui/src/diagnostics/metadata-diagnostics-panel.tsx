@@ -4,9 +4,11 @@ export function MetadataDiagnosticsPanel({
   context,
   snapshot,
 }: MetadataDiagnosticsProps) {
-  if (!context.diagnosticsEnabled) {
+  if (!context.diagnostics.enabled) {
     return null;
   }
+
+  const { surface, renderer, runtime, presentation } = snapshot;
 
   return (
     <aside
@@ -16,48 +18,54 @@ export function MetadataDiagnosticsPanel({
     >
       <h2>Diagnostics</h2>
       <dl>
-        {snapshot.surfaceType ? (
+        {surface?.surfaceType ? (
           <>
             <dt>Surface</dt>
-            <dd>{snapshot.surfaceType}</dd>
+            <dd>{surface.surfaceType}</dd>
           </>
         ) : null}
-        {snapshot.layoutType ? (
+        {surface?.layoutType ? (
           <>
             <dt>Layout</dt>
-            <dd>{snapshot.layoutType}</dd>
+            <dd>{surface.layoutType}</dd>
           </>
         ) : null}
-        {snapshot.sectionType ? (
+        {surface?.sectionType ? (
           <>
             <dt>Section</dt>
-            <dd>{snapshot.sectionType}</dd>
+            <dd>{surface.sectionType}</dd>
           </>
         ) : null}
-        {snapshot.rendererKey ? (
+        {renderer?.rendererKey ? (
           <>
             <dt>Renderer</dt>
-            <dd>{snapshot.rendererKey}</dd>
+            <dd>{renderer.rendererKey}</dd>
           </>
         ) : null}
-        {snapshot.rendererCapability ? (
+        {renderer?.rendererCapability ? (
           <>
             <dt>Capability</dt>
-            <dd>{snapshot.rendererCapability}</dd>
+            <dd>{renderer.rendererCapability}</dd>
+          </>
+        ) : null}
+        {renderer?.rendererVersion ? (
+          <>
+            <dt>Renderer version</dt>
+            <dd>{renderer.rendererVersion}</dd>
           </>
         ) : null}
         <dt>Runtime state</dt>
-        <dd>{snapshot.runtimeState}</dd>
+        <dd>{runtime.runtimeState}</dd>
         <dt>Density</dt>
-        <dd>{snapshot.densityMode}</dd>
+        <dd>{presentation.densityMode}</dd>
         <dt>Presentation</dt>
-        <dd>{snapshot.presentationMode}</dd>
+        <dd>{presentation.presentationMode}</dd>
         <dt>Read-only</dt>
-        <dd>{snapshot.readonlyMode ? "yes" : "no"}</dd>
-        {snapshot.correlationId ? (
+        <dd>{runtime.readonlyMode ? "yes" : "no"}</dd>
+        {runtime.correlationId ? (
           <>
             <dt>Correlation</dt>
-            <dd>{snapshot.correlationId}</dd>
+            <dd>{runtime.correlationId}</dd>
           </>
         ) : null}
       </dl>
@@ -69,15 +77,18 @@ export function MetadataRenderTrace({
   context,
   snapshot,
 }: MetadataDiagnosticsProps) {
-  if (!context.diagnosticsEnabled) {
+  if (!context.diagnostics.enabled) {
     return null;
   }
+
+  const rendererKey = snapshot.renderer?.rendererKey ?? "unknown";
+  const sectionType = snapshot.surface?.sectionType ?? "unknown";
 
   return (
     <pre
       className="metadata-render-trace"
       data-slot="metadata-render-trace"
-    >{`${snapshot.rendererKey ?? "unknown"} → ${snapshot.sectionType ?? "unknown"}`}</pre>
+    >{`${rendererKey} → ${sectionType}`}</pre>
   );
 }
 
@@ -85,7 +96,7 @@ export function MetadataBoundaryWarning({
   context,
   message,
 }: MetadataDiagnosticsProps & { readonly message: string }) {
-  if (!context.diagnosticsEnabled) {
+  if (!context.diagnostics.enabled) {
     return null;
   }
 

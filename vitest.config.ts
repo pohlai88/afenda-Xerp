@@ -2,11 +2,9 @@ import { defineConfig } from "vitest/config";
 
 const isCI = Boolean(process.env.CI);
 
+/** Workspace unit/integration tests. Browser Storybook tests run via `pnpm test:run:storybook`. */
 export default defineConfig({
   test: {
-    pool: "forks",
-    maxWorkers: isCI ? 2 : 4,
-    fileParallelism: false,
     restoreMocks: true,
     clearMocks: true,
     mockReset: true,
@@ -17,7 +15,6 @@ export default defineConfig({
     projects: [
       "packages/*/vitest.config.ts",
       "apps/*/vitest.config.ts",
-      "apps/storybook/vitest.storybook.config.ts",
     ],
   },
 });

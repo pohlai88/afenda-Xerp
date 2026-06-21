@@ -1,3 +1,4 @@
+import { ACTION_CONTRACT_OWNERSHIPS } from "../action.contract.js";
 import { LAYOUT_CONTRACT_OWNERSHIPS } from "../layout.contract.js";
 import { METADATA_CONTRACT_OWNERSHIPS } from "../metadata.contract.js";
 import type { MetadataAuthorityKey } from "../metadata.types.js";
@@ -26,6 +27,7 @@ export const METADATA_AUTHORITY_OWNERSHIPS = [
   ...REGISTRY_CONTRACT_OWNERSHIPS,
   ...PRESENTATION_CONTRACT_OWNERSHIPS,
   ...RUNTIME_CONTRACT_OWNERSHIPS,
+  ...ACTION_CONTRACT_OWNERSHIPS,
 ] as const;
 
 export type MetadataAuthorityOwnership =
@@ -67,6 +69,7 @@ export const METADATA_AUTHORITY_CHANGE_RULES = [
   "requires-registry-entry-contract-change-and-contract-version-bump",
   "requires-presentation-modes-or-density-modes-change-and-contract-version-bump",
   "requires-runtime-context-change-and-contract-version-bump",
+  "requires-action-vocabulary-change-and-contract-version-bump",
 ] as const;
 
 export type MetadataAuthorityChangeRule =
@@ -215,6 +218,21 @@ export const metadataAuthorityMap = {
     ],
     downstreamConsumer: "@afenda/metadata-ui",
     changeRule: "requires-runtime-context-change-and-contract-version-bump",
+  },
+
+  action: {
+    authority: "action",
+    owns: ACTION_CONTRACT_OWNERSHIPS,
+    doesNotOwn: [
+      "permission-execution",
+      "audit-writing",
+      "renderer-implementation",
+      "ui-implementation",
+      "business-logic",
+      "database-access",
+    ],
+    downstreamConsumer: "@afenda/metadata-ui",
+    changeRule: "requires-action-vocabulary-change-and-contract-version-bump",
   },
 } as const satisfies MetadataAuthorityMap;
 
