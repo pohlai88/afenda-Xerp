@@ -4,7 +4,7 @@
 **Lifecycle:** Active  
 **Registry ID:** PKG-011  
 **TIP:** TIP-005 — Metadata Authority  
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 ## What this package is
 
@@ -12,21 +12,48 @@
 
 This package is **governance-only**. It contains no UI components, no renderers, no React code, no business logic, and no database access. It has zero runtime dependencies on other Afenda packages.
 
+## Source layout
+
+```txt
+packages/metadata/src/
+  governance/
+    cross-package-authority.contract.ts   # inter-package boundaries
+    metadata-authority-map.contract.ts    # authority map (derives from domain contracts)
+  metadata.constants.ts                   # governed vocabulary — single source of truth
+  metadata.types.ts                       # type re-export bridge (no manual unions)
+  metadata.version.ts                     # package + contract version constants
+  metadata.errors.ts                      # serializable governance errors
+  metadata.contract.ts                    # root metadata authority
+  surface.contract.ts
+  layout.contract.ts
+  section.contract.ts
+  renderer.contract.ts
+  registry.contract.ts
+  presentation.contract.ts
+  runtime.contract.ts
+  index.ts                                # sole public export surface
+  __tests__/                              # 18 governance test files (125 tests)
+```
+
 ## What this package owns
 
-| Contract | Exported symbol | Owns |
+| File | Exported symbol | Owns |
 | --- | --- | --- |
-| `metadata.contract.ts` | `metadataContract` | vocabulary, identity, lifecycle, governance |
-| `surface.contract.ts` | `surfaceContract` | page, workspace, module surface definitions |
-| `layout.contract.ts` | `layoutContract` | dashboard, grid, panel, stack, tabs, wizard layouts |
-| `section.contract.ts` | `sectionContract` | list, stat, chart, form, detail, audit, action sections |
+| `metadata.contract.ts` | `metadataContract` | vocabulary, identity, lifecycle, governance, authority identity |
+| `surface.contract.ts` | `surfaceContract` | surface definitions, page/workspace/module surfaces |
+| `layout.contract.ts` | `layoutContract` | layout arrangements, dashboard/grid/panel/stack/tabs/wizard |
+| `section.contract.ts` | `sectionContract` | section definitions, list/stat/chart/form/detail/audit/action |
 | `renderer.contract.ts` | `rendererContract` | renderer identity, capability, compatibility, resolution |
-| `registry.contract.ts` | `registryContract` | registration lifecycle, governance, resolution |
-| `presentation.contract.ts` | `presentationContract` | presentation, density, readonly, visibility modes |
-| `runtime.contract.ts` | `runtimeContract` | render context, execution context, state, diagnostics |
-| `metadata-authority-map.ts` | `metadataAuthorityMap` | single decision table for ownership resolution |
-| `metadata-authority-map.ts` | `metadataAiGovernanceRules` | AI may/may-not rules for metadata architecture |
-| `cross-package-authority.ts` | `crossPackageAuthority` | inter-package boundary rules |
+| `registry.contract.ts` | `registryContract` | registration lifecycle, registry authority, deprecation/experimental governance |
+| `presentation.contract.ts` | `presentationContract` | presentation modes, density, readonly rules, visibility |
+| `runtime.contract.ts` | `runtimeContract` | render context shape, runtime state, diagnostics intent |
+| `governance/metadata-authority-map.contract.ts` | `metadataAuthorityMap` | decision table — `owns` derived from domain contracts |
+| `governance/metadata-authority-map.contract.ts` | `metadataAiGovernanceRules` | AI may / may-not / must rules |
+| `governance/cross-package-authority.contract.ts` | `crossPackageAuthority` | cross-package boundary rules |
+| `metadata.constants.ts` | `SURFACE_TYPES`, guards, … | governed vocabulary arrays and type guards |
+| `metadata.errors.ts` | `MetadataGovernanceError` | typed, serializable governance errors |
+
+Each domain contract also exports `*_CONTRACT_OWNERSHIPS` and `*_CONTRACT_PROHIBITIONS` arrays for CI validation.
 
 ## What this package does NOT own
 
@@ -38,11 +65,11 @@ This package is **governance-only**. It contains no UI components, no renderers,
 
 ## Package dependency rule
 
-`@afenda/metadata-ui` **must** depend on `@afenda/metadata` and consume its authority contracts. These two packages must never be merged. The prohibition is encoded in `crossPackageAuthority.tip005IntegrationRule`.
+`@afenda/metadata-ui` **must** depend on `@afenda/metadata` and consume its authority contracts. These two packages must never be merged. The prohibition is encoded in `metadataUiIntegrationRule` (also available on `crossPackageAuthority.metadataUiIntegrationRule`).
 
 ## Architecture dependency graph
 
-```
+```txt
 @afenda/design-system ──┐
                         ├──▶ @afenda/metadata-ui   (TIP-007, implementation)
 @afenda/metadata ───────┘
@@ -62,9 +89,18 @@ import {
   metadataAuthorityMap,
   metadataAiGovernanceRules,
   crossPackageAuthority,
+  metadataUiIntegrationRule,
   LAYOUT_TYPES,
   SECTION_TYPES,
   SURFACE_TYPES,
+  METADATA_RUNTIME_STATES,
+  RENDERER_COMPATIBILITY_RULES,
+  isSurfaceType,
+  isRendererCapabilityCompatibleWithSectionType,
+  getRendererCapabilityForSectionType,
+  createMetadataRuntimeContext,
+  createRegistryEntry,
+  createMetadataGovernanceError,
   surfaceContract,
   layoutContract,
   sectionContract,
@@ -72,45 +108,72 @@ import {
   registryContract,
   presentationContract,
   runtimeContract,
+  METADATA_CONTRACT_VERSION,
 } from "@afenda/metadata";
 
-// Check which authority owns a domain
 const surfaceAuthority = metadataAuthorityMap.surface;
-// → { authority: "surface", owns: "surface definitions", ... }
+console.log(SURFACE_TYPES);
+console.log(isSurfaceType("page"));
+console.log(isRendererCapabilityCompatibleWithSectionType("render-list", "list"));
+console.log(metadataUiIntegrationRule);
+console.log(METADATA_CONTRACT_VERSION);
 
-// Enumerate governed types
-console.log(SURFACE_TYPES);  // ["page", "workspace", "module"]
-console.log(LAYOUT_TYPES);   // ["dashboard", "grid", "panel", "stack", "tabs", "wizard"]
-console.log(SECTION_TYPES);  // ["list", "stat", "chart", "form", "detail", "audit", "action"]
-
-// Verify AI governance rules
-console.log(metadataAiGovernanceRules.mayNot);
+const runtime = createMetadataRuntimeContext({
+  density: "default",
+  presentationMode: "default",
+  state: "ready",
+  readonlyMode: false,
+});
 ```
 
 ## Key types
 
 ```typescript
 import type {
-  SurfaceType,          // "page" | "workspace" | "module"
-  LayoutType,           // "dashboard" | "grid" | "panel" | "stack" | "tabs" | "wizard"
-  SectionType,          // "list" | "stat" | "chart" | "form" | "detail" | "audit" | "action"
-  RendererCapability,   // "canRenderList" | "canRenderForm" | ...
-  RendererCompatibilityRule,  // { capability: RendererCapability; sectionType: SectionType }
-  RegistryEntry,        // { authority: MetadataAuthorityKey; id: string; lifecycle: ... }
-  MetadataAuthorityKey, // "metadata" | "surface" | "layout" | "section" | ...
+  SurfaceType,
+  LayoutType,
+  SectionType,
+  RendererCapability,
+  RendererCompatibilityRule,
+  RegistryEntry,
+  MetadataAuthorityKey,
   MetadataRuntimeContext,
+  CreateMetadataRuntimeContextInput,
   PresentationMode,
   MetadataDensityMode,
+  MetadataLifecycle,
+  MetadataRuntimeState,
+  MetadataGovernanceErrorCode,
+  SerializedMetadataGovernanceError,
 } from "@afenda/metadata";
 ```
 
-Note: `RendererCompatibilityRule.sectionType` is typed as `SectionType` — a non-governed section type is a compile error. `RegistryEntry.authority` is typed as `MetadataAuthorityKey` — phantom authority registrations are compile errors.
+- `RendererCompatibilityRule.sectionType` is typed as `SectionType` — a non-governed section type is a compile error.
+- `RegistryEntry.authority` is typed as `MetadataAuthorityKey` — phantom authority registrations are compile errors.
+- `MetadataRuntimeContext.readonlyMode` carries readonly intent (not `readonly`).
+- `RENDERER_CAPABILITIES` use kebab-case keys (`render-list`, not `canRenderList`).
+
+## Renderer capability mapping
+
+| Capability | Section type |
+| --- | --- |
+| `render-list` | `list` |
+| `render-stat` | `stat` |
+| `render-chart` | `chart` |
+| `render-form` | `form` |
+| `render-detail` | `detail` |
+| `render-audit` | `audit` |
+| `render-action` | `action` |
+
+Use `getRendererCapabilityForSectionType(sectionType)` or `isRendererCapabilityCompatibleWithSectionType(capability, sectionType)` at resolution boundaries.
+
+Registry entries should be created with `createRegistryEntry()` so `RegistryEntryId`, `RegistryOwnerPackage`, and `RegistryEntryVersion` stay boundary-safe while remaining JSON-serializable strings at runtime.
 
 ## Commands
 
 ```bash
 pnpm --filter @afenda/metadata typecheck
-pnpm --filter @afenda/metadata test
+pnpm --filter @afenda/metadata test:run
 pnpm --filter @afenda/metadata build
 ```
 
@@ -119,13 +182,21 @@ pnpm --filter @afenda/metadata build
 | AI may | AI may not |
 | --- | --- |
 | Consume approved contracts from this package | Invent new metadata authority domains |
-| Generate metadata schemas from approved `SURFACE_TYPES`, `LAYOUT_TYPES`, `SECTION_TYPES` | Invent layout, surface, or section types outside governed arrays |
-| Implement renderers in `@afenda/metadata-ui` that consume these contracts | Invent registry or runtime architecture |
-| | Merge `@afenda/metadata` into `@afenda/metadata-ui` |
+| Generate metadata schemas from approved governed arrays | Invent layout, surface, or section types outside governed arrays |
+| Implement renderers in `@afenda/metadata-ui` | Invent registry or runtime architecture |
+| Create tests for metadata governance | Merge `@afenda/metadata` into `@afenda/metadata-ui` |
+
+See `metadataAiGovernanceRules` for the full machine-readable rule set (`may`, `mayNot`, `must`).
 
 ## Mutability rule
 
 This package may only be changed by:
+
 1. An accepted ADR scoped to metadata governance
-2. A version bump in all affected contracts
+2. A version bump in all affected contracts (`METADATA_CONTRACT_VERSION`)
 3. Updated tests that verify the new governance rules
+
+## Further reading
+
+- Implementation spec: `doc/TIP-005.md`
+- Delivery record: `docs/delivery/tip-005-metadata-authority.md`

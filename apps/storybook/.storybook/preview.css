@@ -1,10 +1,19 @@
+/**
+ * Storybook CSS entry — mirror apps/erp/src/app/globals.css load order.
+ *
+ * 1. tailwindcss
+ * 2. @afenda/ui/afenda-style.css (design tokens + @theme)
+ * 3. app-shell.presentation.css (shell chrome @layer components)
+ * 4. shadcn/tailwind.css (registry utilities last)
+ */
 @import "tailwindcss";
 @import "../../../packages/ui/src/styles/afenda-style.css";
-@import "shadcn/tailwind.css";
 @import "../../../packages/appshell/src/app-shell.presentation.css";
+@import "shadcn/tailwind.css";
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../packages/appshell/src/**/*.{ts,tsx}";
+@source "./**/*.{ts,tsx}";
 
 html,
 body,

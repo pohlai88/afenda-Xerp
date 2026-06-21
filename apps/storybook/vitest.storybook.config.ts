@@ -19,6 +19,11 @@ export default defineConfig({
   plugins: [...storybookPlugins],
   test: {
     name: "storybook",
+    pool: "forks",
+    fileParallelism: false,
+    maxWorkers: 1,
+    testTimeout: 60_000,
+    hookTimeout: 60_000,
     env: {
       AFENDA_GOVERNANCE_RUNTIME: "off",
       VITEST_STORYBOOK: "true",

@@ -25,7 +25,7 @@ const customNavigationPages = [
 ] satisfies readonly AppShellMenuItem[];
 
 describe("ApplicationShell", () => {
-  it("mounts the governed shell without TIP-004 consumer violations", { timeout: 15000 }, () => {
+  it("mounts the governed shell without TIP-004 consumer violations", () => {
     render(<ApplicationShell />);
 
     expect(screen.getByText("Hey, User")).toBeInTheDocument();

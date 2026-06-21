@@ -29,8 +29,10 @@
     "../../packages/ui/src/components/**/*.tsx",
     "../../packages/ui/src/governance/**/*.ts",
     "../../packages/ui/src/governance/**/*.tsx",
-    "../../packages/appshell/src/**/*.ts",
-    "../../packages/appshell/src/**/*.tsx",
+    "../../packages/appshell/src/**/*.stories.ts",
+    "../../packages/appshell/src/**/*.stories.tsx",
+    "../../packages/appshell/src/_storybook/**/*.ts",
+    "../../packages/appshell/src/_storybook/**/*.tsx",
     "vitest.storybook.config.ts"
   ],
   "exclude": [

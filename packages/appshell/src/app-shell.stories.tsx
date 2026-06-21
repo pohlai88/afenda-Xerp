@@ -8,6 +8,11 @@ import {
   renderInventoryWorkspaceStory,
   storySignOutAccessory,
 } from "./_storybook/app-shell-story.compositions";
+import { renderDashboardInShellStory } from "./_storybook/app-shell-dashboard-story.compositions";
+import {
+  FINANCE_DASHBOARD_ARGS,
+  MODERN_DASHBOARD_ARGS,
+} from "./_storybook/app-shell-dashboard-story.fixtures";
 import {
   ERP_STORY_BASE_ARGS,
   ERP_STORY_SESSION_IDENTITY,
@@ -87,7 +92,7 @@ const meta = {
     children: {
       control: false,
       description:
-        "Main workspace content. Defaults to the ERP KPI overview placeholder dashboard.",
+        "Main workspace content. Defaults to the governed ERP overview dashboard.",
     },
     identity: { control: false },
     identityAccessory: { control: false },
@@ -105,13 +110,40 @@ export type ApplicationShellStoriesGovernedComponents = Extract<
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** ERP baseline — floating sidebar, module navigation, KPI overview placeholder. */
+/** ERP baseline — floating sidebar, module navigation, full overview dashboard. */
 export const Default: Story = {
   parameters: {
     docs: {
       description: {
         story:
-          "Default shell chrome with the governed ERP dashboard (sparkline metrics, KPI row, revenue chart, module widgets, invoice table, and legacy module performance).",
+          "Default shell chrome with the governed ERP dashboard (sparkline metrics, KPI row, revenue chart, module earnings, regional sales, transactions, payment history, legacy module widgets, and accounts receivable).",
+      },
+    },
+  },
+};
+
+/** Modern dashboard inside the shell — legacy placeholder widgets hidden. */
+export const DashboardModern: Story = {
+  render: (args) => renderDashboardInShellStory(args, MODERN_DASHBOARD_ARGS),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Shell chrome unchanged with the upgraded dashboard only. Use when reviewing enterprise widgets without legacy module performance rows.",
+      },
+    },
+  },
+};
+
+/** Finance module shell with finance-tuned dashboard labels. */
+export const DashboardFinance: Story = {
+  args: FINANCE_MODULE_ARGS,
+  render: (args) => renderDashboardInShellStory(args, FINANCE_DASHBOARD_ARGS),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Finance navigation labels plus a finance control tower dashboard — useful for period-close and controller reviews.",
       },
     },
   },

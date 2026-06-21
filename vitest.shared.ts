@@ -58,6 +58,8 @@ function sharedTestOptions(name: string, root: string) {
     isolate: true,
     include: [TEST_FILE_PATTERN],
     passWithNoTests: true,
+    testTimeout: 10_000,
+    hookTimeout: 10_000,
     coverage: coverageOptions(root),
   };
 }

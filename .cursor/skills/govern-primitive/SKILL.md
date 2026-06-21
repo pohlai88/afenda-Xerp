@@ -20,22 +20,23 @@ Run this before touching code. Read the component file first, then read its regi
 [ ] 6.  Every public slot uses forwardRef + displayName (use slot factory when ≥3 identical slots)
 [ ] 7.  Every governance call includes recipeName (traceability)
 [ ] 8.  Slot names and emitted data-slot DOM values match primitive-registry.ts exactly
-[ ] 9.  No "use client" unless client APIs are genuinely required
-[ ] 10. No raw Tailwind/class strings passed into Slot or sub-primitive className props
-[ ] 11. Accessibility semantics are preserved and tested
-[ ] 12. Deprecated props only bridge into canonical governed props — canonical wins
-[ ] 13. Render tests prove consumer data-* cannot override governed data-*
-[ ] 14. Public exports remain stable after upgrade
-[ ] 15. pnpm --filter @afenda/ui check:governance passes
+[ ] 9.  Every static slotKey in source is registered in slotClassNamesByKey AND dataSlotByKey
+[ ] 10. No "use client" unless client APIs are genuinely required
+[ ] 11. No raw Tailwind/class strings passed into Slot or sub-primitive className props
+[ ] 12. Accessibility semantics are preserved and tested
+[ ] 13. Deprecated props only bridge into canonical governed props — canonical wins
+[ ] 14. Render tests prove consumer data-* cannot override governed data-*
+[ ] 15. Public exports remain stable after upgrade
+[ ] 16. pnpm --filter @afenda/ui check:governance passes
 ```
 
 **Scoring:**
 
 | Score | Meaning |
 |-------|---------|
-| 14–15 | Accepted — 9.5+ |
-| 12–13 | Conditionally accepted — document the gap |
-| < 12  | Not accepted — fix blockers before merge |
+| 15–16 | Accepted — 9.5+ |
+| 13–14 | Conditionally accepted — document the gap |
+| < 13  | Not accepted — fix blockers before merge |
 
 ---
 
@@ -101,7 +102,7 @@ packages/ui/src/index.ts                            (public exports)
 
 ### 2. Score against checklist
 
-State each item as ✅ / ❌ and give a `/15` total.
+State each item as ✅ / ❌ and give a `/16` total.
 Report blockers (items that must fix before acceptance).
 
 ### 3. Add failing tests (test-first rule)
@@ -177,12 +178,33 @@ If a slot is missing:
 3. Check `recipe-maps.ts`.
 4. Only add a new slot after confirming the component needs a new governed DOM part.
 
-Every new slot must update **all four** of:
+Every new slot must update **all five** of:
 
-- `slots[]`
+- `slots[]` (when introducing a new SlotRole)
 - `dataSlotByRole` or `dataSlotByKey`
 - `slotClassNames` or `slotClassNamesByKey`
+- **`dataSlotByKey` for every `slotClassNamesByKey` entry** (runtime throws without it)
 - render tests asserting the new `data-slot` value
+
+### slotKey rule (TIP-004B)
+
+When a component calls `resolvePrimitiveGovernance({ slotKey: "..." })` — directly or via a local helper such as `chartGovernance()` — the key must exist in **both**:
+
+1. `primitive-registry.ts` → `slotClassNamesByKey`
+2. `primitive-registry.ts` → `dataSlotByKey`
+
+Missing `dataSlotByKey` throws at runtime in dev/Storybook:
+
+```
+TIP-004B primitive slot key violation. Component "Chart" does not define slotKey "tooltip-row-dot".
+```
+
+**Verification:** `pnpm --filter @afenda/ui test:run src/__tests__/governance/primitive-registry.test.ts` — tests every governed component for:
+
+- each `slotClassNamesByKey` key has `dataSlotByKey`
+- each static `slotKey: "..."` in the component source is registered
+
+Do not add slot keys in `recipe-maps-composite.ts` alone; always pair with `dataSlotByKey` in the registry entry.
 
 ---
 
@@ -278,7 +300,7 @@ After implementation, always run:
 pnpm --filter @afenda/ui check:governance
 ```
 
-This is checklist item 15 and is not optional.
+This is checklist item 16 and is not optional.
 
 ---
 
@@ -498,6 +520,6 @@ When installing a shadcn-studio block, run `pnpm ui:guard:scan` first to catch l
 
 | Task | Checklist |
 |------|-----------|
-| Edit `packages/ui/src/components/*.tsx` | Author checklist (15 items) |
+| Edit `packages/ui/src/components/*.tsx` | Author checklist (16 items) |
 | Edit appshell / erp composition | Consumer checklist (8 items) |
 | shadcn-studio block install | Consumer checklist first, then strip classNames |

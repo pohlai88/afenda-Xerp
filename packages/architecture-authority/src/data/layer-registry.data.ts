@@ -97,7 +97,7 @@ export const layerContract: LayerContract = {
     Application: false,
     Domain: false,
     ERPSpine: false,
-    Metadata: false,
+    Metadata: true,
     Integration: true,
     Foundation: true,
     Design: true,

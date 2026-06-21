@@ -200,6 +200,35 @@ ${buildTokenBlocks()}
   --shadow-lg: var(--afenda-shadow-lg);
   --shadow-xl: var(--afenda-shadow-xl);
   --shadow-2xl: var(--afenda-shadow-2xl);
+  --shadow-focus: var(--afenda-shadow-focus);
+
+  /* Z-index — maps --afenda-z-index-* to Tailwind z-* utilities */
+  --z-index-hide: var(--afenda-z-index-hide);
+  --z-index-base: var(--afenda-z-index-base);
+  --z-index-raised: var(--afenda-z-index-raised);
+  --z-index-docked: var(--afenda-z-index-docked);
+  --z-index-sticky: var(--afenda-z-index-sticky);
+  --z-index-banner: var(--afenda-z-index-banner);
+  --z-index-dropdown: var(--afenda-z-index-dropdown);
+  --z-index-overlay: var(--afenda-z-index-overlay);
+  --z-index-modal: var(--afenda-z-index-modal);
+  --z-index-popover: var(--afenda-z-index-popover);
+  --z-index-toast: var(--afenda-z-index-toast);
+  --z-index-tooltip: var(--afenda-z-index-tooltip);
+  --z-index-command: var(--afenda-z-index-command);
+
+  /* Motion — duration utilities */
+  --duration-instant: var(--afenda-motion-duration-instant);
+  --duration-fast: var(--afenda-motion-duration-fast);
+  --duration-normal: var(--afenda-motion-duration-normal);
+  --duration-slow: var(--afenda-motion-duration-slow);
+  --duration-slower: var(--afenda-motion-duration-slower);
+
+  /* Motion — easing utilities */
+  --ease-standard: var(--afenda-motion-easing-standard);
+  --ease-emphasized: var(--afenda-motion-easing-emphasized);
+  --ease-decelerate: var(--afenda-motion-easing-decelerate);
+  --ease-accelerate: var(--afenda-motion-easing-accelerate);
 
   /* Fonts */
   --font-sans: var(--font-sans);
@@ -296,6 +325,11 @@ ${buildTokenBlocks()}
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+}
+
+/* ── Part E: Custom utilities ────────────────────────────────────────────── */
+@utility tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 `;
 }

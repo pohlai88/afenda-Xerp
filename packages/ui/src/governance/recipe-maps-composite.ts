@@ -157,6 +157,10 @@ export const comboboxSlotClassNames = {
 
 export const comboboxSlotClassNamesByKey = {
   positioner: "isolate z-50",
+  value: "",
+  clear: "",
+  group: "",
+  collection: "",
   "trigger-chevron": "pointer-events-none size-4 text-muted-foreground",
   "item-indicator":
     "pointer-events-none absolute right-2 flex size-4 items-center justify-center",
@@ -402,6 +406,26 @@ export const calendarSlotClassNamesByKey = {
   "day-button":
     "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-(--cell-radius) data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-muted data-[range-middle=true]:text-foreground data-[range-start=true]:rounded-(--cell-radius) data-[range-start=true]:rounded-l-(--cell-radius) data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
 } as const;
+
+const calendarButtonSlotKeys = new Set(["nav-button", "day-button"]);
+
+/** Emitted data-slot for every Calendar slotKey — required by TIP-004B runtime. */
+export const calendarDataSlotByKey = Object.fromEntries(
+  (
+    Object.keys(calendarSlotClassNamesByKey) as Array<
+      keyof typeof calendarSlotClassNamesByKey
+    >
+  ).map((key) => [
+    key,
+    calendarButtonSlotKeys.has(key) ? "button" : "calendar",
+  ])
+) as {
+  readonly [K in keyof typeof calendarSlotClassNamesByKey]: K extends
+    | "nav-button"
+    | "day-button"
+    ? "button"
+    : "calendar";
+};
 
 export const calendarSlotClassNames = {
   root: "",

@@ -28,6 +28,24 @@ export function extractWorkspacePackageName(specifier: string): string {
   return `${segments[0]}/${segments[1]}`;
 }
 
+function matchesWildcardExportKey(
+  exportKey: string,
+  exportKeys: readonly string[]
+): boolean {
+  for (const key of exportKeys) {
+    if (!key.endsWith("/*")) {
+      continue;
+    }
+
+    const prefix = key.slice(0, -1);
+    if (exportKey.startsWith(prefix) && exportKey.length > prefix.length) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function isPublicExportSpecifier(
   specifier: string,
   exportKeys: readonly string[]
@@ -44,5 +62,9 @@ export function isPublicExportSpecifier(
   }
 
   const exportKey = `.${subpath}`;
-  return exportKeys.includes(exportKey);
+  if (exportKeys.includes(exportKey)) {
+    return true;
+  }
+
+  return matchesWildcardExportKey(exportKey, exportKeys);
 }

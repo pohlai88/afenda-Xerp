@@ -14,7 +14,7 @@ const {
 } = composeStories(stories);
 
 describe("ApplicationShell stories (portable CSF)", () => {
-  it("Default renders ERP baseline greeting from story args", { timeout: 15000 }, () => {
+  it("Default renders ERP baseline greeting from story args", () => {
     render(<Default />);
 
     expect(screen.getByText("Hey, Alex Morgan")).toBeInTheDocument();

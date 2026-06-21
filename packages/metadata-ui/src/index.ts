@@ -1,83 +1,65 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 requires a stable public root export surface.
+// biome-ignore-all lint/performance/noBarrelFile: TIP-007 requires stable shared exports.
 export const PACKAGE_NAME = "@afenda/metadata-ui" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
-export {
-  METADATA_ACTION_CATEGORIES,
-  type MetadataActionAudit,
-  type MetadataActionCategory,
-  type MetadataActionContract,
-  type MetadataActionExecutionMode,
-  type MetadataActionPolicy,
-} from "./contracts/metadata-action.contract";
+export { metadataUiContract } from "./contracts/metadata-ui.contract.js";
 export type {
-  MetadataAuditEvidenceType,
-  MetadataAuditField,
-  MetadataAuditPanelContract,
-} from "./contracts/metadata-audit-panel.contract";
-export type { MetadataExampleContract } from "./contracts/metadata-example.contract";
+  CreateMetadataRenderContextInput,
+  MetadataUiRenderContext,
+  MetadataUiRenderSource,
+} from "./contracts/render-context.contract.js";
+export type { MetadataRendererDefinition } from "./contracts/renderer-definition.contract.js";
 export type {
-  MetadataLayoutContract,
-  MetadataLayoutDensity,
-  MetadataLayoutRegion,
-} from "./contracts/metadata-layout.contract";
+  MetadataAction,
+  MetadataActionConfirm,
+  MetadataActionHandler,
+  MetadataActionKind,
+} from "./contracts/action-renderer.contract.js";
+export type { MetadataSectionProps } from "./contracts/section-renderer.contract.js";
+export type { MetadataSurfaceProps } from "./contracts/surface-renderer.contract.js";
+export type { MetadataLayoutProps } from "./contracts/layout-renderer.contract.js";
 export type {
-  MetadataPermissionRequirement,
-  MetadataVisibilityContext,
-  MetadataVisibilityEffect,
-  MetadataVisibilityResolution,
-} from "./contracts/metadata-permission.contract";
-export type { MetadataRegistryContract } from "./contracts/metadata-registry.contract";
-export type {
-  MetadataRendererContract,
-  MetadataRendererResolution,
-} from "./contracts/metadata-renderer.contract";
-export type {
-  MetadataFieldSchema,
-  MetadataListColumn,
-  MetadataSectionContract,
-  MetadataSectionType,
-} from "./contracts/metadata-section.contract";
-export type {
-  MetadataStateContract,
-  MetadataSurfaceState,
-} from "./contracts/metadata-state.contract";
-export type { MetadataSurfaceContract } from "./contracts/metadata-surface.contract";
-export { governedMetadataSurfaceExample } from "./examples/governed-surface.example";
-export {
-  createExampleRendererRegistry,
-  exampleRendererRegistration,
-} from "./examples/renderer-registration.example";
-export {
-  resolveMetadataActions,
-  resolveMetadataVisibility,
-} from "./registry/permission-visibility";
+  MetadataDiagnosticsProps,
+  MetadataDiagnosticsSnapshot,
+} from "./contracts/diagnostics.contract.js";
+
+export { createMetadataRenderContext } from "./runtime/create-metadata-render-context.js";
+export { resolveMetadataRenderState } from "./runtime/resolve-metadata-render-state.js";
+export { assertMetadataUiBoundary } from "./runtime/assert-metadata-ui-boundary.js";
+export { MetadataUiError, isMetadataUiError } from "./runtime/metadata-ui-error.js";
+
 export {
   createMetadataRendererRegistry,
-  type MetadataRendererRegistry,
-} from "./registry/renderer-registry";
-export { defaultMetadataRenderers } from "./renderers/default-renderers";
+  isRendererCapabilityCompatible,
+} from "./registry/metadata-renderer-registry.js";
+export type {
+  MetadataRendererRegistry,
+  MetadataRendererResolveInput,
+} from "./registry/metadata-renderer-registry.types.js";
+export { resolveMetadataRenderer } from "./registry/resolve-metadata-renderer.js";
 export {
-  type MetadataStatePresentation,
-  resolveMetadataStatePresentation,
-} from "./renderers/state-renderer";
+  createDefaultMetadataRendererRegistry,
+  defaultMetadataRendererRegistry,
+  defaultMetadataRenderers,
+} from "./registry/default-renderer-registry.js";
+
 export {
-  isSensitiveMetadataAction,
-  type MetadataActionValidationResult,
-  validateMetadataAction,
-} from "./schemas/action-schema";
+  resolvePresentationMode,
+  resolveDensityMode,
+  resolveReadonlyMode,
+  resolveVisibility,
+} from "./presentation/resolve-presentation-mode.js";
+export type {
+  MetadataVisibilityInput,
+  MetadataVisibilityResult,
+} from "./presentation/resolve-presentation-mode.js";
+
 export {
-  isMetadataSectionType,
-  type MetadataSchemaValidationResult,
-  metadataSectionSchemas,
-  validateMetadataSection,
-} from "./schemas/section-schema";
-export {
-  metadataStateSchema,
-  resolveMetadataState,
-} from "./schemas/state-schema";
-export { validateMetadataSurface } from "./schemas/surface-schema";
-export { governedMetadataSectionTypes } from "./sections/section-types";
+  sampleDiagnosticsRenderContext,
+  sampleDiagnosticsRuntimeContext,
+  sampleRenderContext,
+  sampleRuntimeContext,
+} from "./fixtures/sample-runtime-context.fixture.js";

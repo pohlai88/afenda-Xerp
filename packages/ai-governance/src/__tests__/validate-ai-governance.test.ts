@@ -40,8 +40,14 @@ function baseScope(
 
 function baselineWorkspaces(): DiscoveredWorkspace[] {
   return [
-    workspace("@afenda/appshell", "appshell"),
-    workspace("@afenda/auth", "auth", { "@afenda/database": "workspace:*" }),
+    workspace("@afenda/appshell", "appshell", {
+      "@afenda/ui": "workspace:*",
+      "@afenda/kernel": "workspace:*",
+    }),
+    workspace("@afenda/auth", "auth", {
+      "@afenda/database": "workspace:*",
+      "@afenda/kernel": "workspace:*",
+    }),
     workspace("@afenda/database", "database", {
       "@afenda/observability": "workspace:*",
     }),
@@ -54,7 +60,9 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/appshell": "workspace:*",
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
+      "@afenda/design-system": "workspace:*",
       "@afenda/observability": "workspace:*",
+      "@afenda/ui": "workspace:*",
     }),
     workspace("@afenda/execution", "execution", {
       "@afenda/kernel": "workspace:*",
@@ -67,17 +75,23 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/metadata", "metadata"),
     workspace("@afenda/metadata-ui", "metadata-ui", {
       "@afenda/design-system": "workspace:*",
-      "@afenda/permissions": "workspace:*",
+      "@afenda/metadata": "workspace:*",
+      "@afenda/ui": "workspace:*",
     }),
     workspace("@afenda/observability", "observability"),
     workspace("@afenda/permissions", "permissions", {
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
     }),
+    workspace("@afenda/storybook", "storybook", {
+      "@afenda/appshell": "workspace:*",
+      "@afenda/design-system": "workspace:*",
+      "@afenda/ui": "workspace:*",
+    }),
     workspace("@afenda/storage", "storage"),
     workspace("@afenda/testing", "testing"),
     workspace("@afenda/typescript-config", "typescript-config"),
-    workspace("@afenda/ui", "ui"),
+    workspace("@afenda/ui", "ui", { "@afenda/design-system": "workspace:*" }),
     workspace("@afenda/architecture-authority", "architecture-authority"),
     workspace("@afenda/ai-governance", "ai-governance", {
       "@afenda/architecture-authority": "workspace:*",
@@ -189,6 +203,45 @@ describe("validateAiGovernance", () => {
           [
             filePath,
             `import { server } from "${metadataPackage}${serverExport}";`,
+          ],
+        ]),
+      })
+    );
+
+    expect(result.violations.some((v) => v.invariant === "AI-006")).toBe(false);
+  });
+
+  it("allows wildcard export subpaths (AI-006 pass)", () => {
+    const filePath = "packages/ui/src/components/button.tsx";
+    const uiPackage = "@afenda/ui";
+    const governanceExport = "/governance/primitive-governance";
+    const result = validateAiGovernance(
+      context({
+        changedFiles: [filePath],
+        packageExports: [
+          {
+            packageName: "@afenda/database",
+            exportKeys: ["."],
+          },
+          {
+            packageName: "@afenda/metadata-ui",
+            exportKeys: [".", "./server", "./client"],
+          },
+          {
+            packageName: "@afenda/ui",
+            exportKeys: [
+              ".",
+              "./governance",
+              "./governance/*",
+              "./lib/utils",
+              "./lib/*",
+            ],
+          },
+        ],
+        sourceFilesByPath: new Map([
+          [
+            filePath,
+            `import { resolvePrimitiveGovernance } from "${uiPackage}${governanceExport}";`,
           ],
         ]),
       })

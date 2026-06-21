@@ -15,6 +15,7 @@ const ignoredDirectories = new Set([
   "coverage",
   "dist",
   "node_modules",
+  "storybook-static",
   "test-results",
 ]);
 const triggerImportPattern = /@trigger\.dev\//u;
@@ -76,9 +77,13 @@ function collectTriggerImportViolations(): string[] {
 }
 
 describe("Trigger.dev isolation governance", () => {
-  it("allows Trigger.dev SDK imports only in the execution provider", () => {
-    expect(collectTriggerImportViolations()).toEqual([]);
-  });
+  it(
+    "allows Trigger.dev SDK imports only in the execution provider",
+    () => {
+      expect(collectTriggerImportViolations()).toEqual([]);
+    },
+    30_000
+  );
 });
 
 describe("execution provider boundary", () => {

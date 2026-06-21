@@ -269,4 +269,24 @@ describe("resolvePrimitiveGovernance", () => {
     expect(closeLabel.dataAttributes["data-slot"]).toBe("dialog-close-label");
     expect(closeLabel.className).toContain("sr-only");
   });
+
+  it("resolves Chart tooltip-row-dot slotKey with registry data-slot and layout", () => {
+    const row = resolvePrimitiveGovernance({
+      componentName: "Chart",
+      recipeName: "surface",
+      slot: "control",
+      slotKey: "tooltip-row-dot",
+    });
+    const indicator = resolvePrimitiveGovernance({
+      componentName: "Chart",
+      recipeName: "surface",
+      slot: "control",
+      slotKey: "indicator-dot",
+    });
+
+    expect(row.dataAttributes["data-slot"]).toBe("chart-tooltip-row");
+    expect(row.className).toContain("items-center");
+    expect(indicator.dataAttributes["data-slot"]).toBe("chart-tooltip-indicator");
+    expect(indicator.className).toContain("rounded-[2px]");
+  });
 });

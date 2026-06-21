@@ -150,7 +150,7 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(screen.queryByText("Net Income")).not.toBeInTheDocument();
   });
 
-  it("mounts inside ApplicationShell as the default main content", { timeout: 15000 }, async () => {
+  it("mounts inside ApplicationShell as the default main content", async () => {
     const { ApplicationShell } = await import("../app-shell");
 
     render(<ApplicationShell />);

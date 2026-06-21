@@ -1,11 +1,18 @@
 import {
   BarChart3Icon,
   BriefcaseIcon,
+  CircleDollarSignIcon,
+  Columns3Icon,
   DollarSignIcon,
+  DownloadIcon,
+  FileDownIcon,
   PackageIcon,
+  RefreshCwIcon,
+  Settings2Icon,
   ShoppingCartIcon,
   TrendingUpIcon,
   UsersIcon,
+  WalletIcon,
 } from "lucide-react";
 
 import {
@@ -13,11 +20,13 @@ import {
   asAppShellInvoiceId,
   type AppShellDashboardInvoiceRow,
   type AppShellDashboardKpiMetric,
+  type AppShellDashboardOverflowMenuItem,
   type AppShellDashboardModuleEarningRow,
   type AppShellDashboardPaymentHistoryRow,
   type AppShellDashboardRegionalSalesRow,
   type AppShellDashboardRevenueBarPoint,
   type AppShellDashboardRevenueGrowthSlice,
+  type AppShellDashboardRevenueYearSummary,
   type AppShellDashboardSparklineMetric,
   type AppShellDashboardTransactionRow,
   type AppShellTrendDirection,
@@ -26,21 +35,87 @@ import {
 export const DEFAULT_APP_SHELL_DASHBOARD_LABEL = "ERP overview dashboard";
 export const DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL = "vs last month";
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TITLE = "Module revenue";
+export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_SUBTITLE =
+  "FY2026 Q2 · consolidated by business unit";
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_COMPARISON =
   "Compared to Q1 FY2026";
 export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_TITLE = "Recent transactions";
+export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_SUBTITLE =
+  "Jun 2026 · cross-module ledger activity";
+export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_COMPARISON =
+  "Net flow across AP, AR, payroll, and inventory";
 export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_TITLE = "Revenue by region";
 export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_SUBTITLE =
   "FY2026 Q2 · consolidated";
+export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_COMPARISON =
+  "Weighted change vs Q1 FY2026";
 export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_TITLE = "Corporate card spend";
+export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_SUBTITLE =
+  "FY2026 Q2 · corporate card programs";
+export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_COMPARISON =
+  "Spend vs allocated limits · current billing cycle";
+export const DEFAULT_APP_SHELL_DASHBOARD_INVOICES_TITLE = "Accounts receivable";
+export const DEFAULT_APP_SHELL_DASHBOARD_INVOICES_SUBTITLE =
+  "Open invoices across all business units";
+const dashboardInvoiceOverflowItemsSource = [
+  {
+    id: "invoice-export-csv",
+    label: "Export CSV",
+    Icon: FileDownIcon,
+    shortcut: "⌘⇧E",
+    section: "primary",
+  },
+  {
+    id: "invoice-refresh",
+    label: "Refresh",
+    Icon: RefreshCwIcon,
+    shortcut: "⌘R",
+    section: "primary",
+  },
+  {
+    id: "invoice-configure-columns",
+    label: "Configure columns",
+    Icon: Columns3Icon,
+    section: "secondary",
+  },
+] as const satisfies readonly AppShellDashboardOverflowMenuItem[];
+
+export const DEFAULT_APP_SHELL_DASHBOARD_INVOICE_OVERFLOW_ITEMS: readonly AppShellDashboardOverflowMenuItem[] =
+  dashboardInvoiceOverflowItemsSource;
+
 export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_TITLE = "Total revenue";
+export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_SUBTITLE =
+  "FY2026 · monthly YoY variance by period";
+export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_COMPARISON =
+  "Stacked bars compare current fiscal year against prior-year baseline";
 export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_LABEL = "78%";
 export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_CAPTION = "62% company growth";
-export const DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS = [
-  "Export",
-  "Refresh",
-  "Configure",
-] as const satisfies readonly string[];
+
+const dashboardOverflowItemsSource = [
+  {
+    id: "widget-export",
+    label: "Export",
+    Icon: DownloadIcon,
+    shortcut: "⌘E",
+    section: "primary",
+  },
+  {
+    id: "widget-refresh",
+    label: "Refresh",
+    Icon: RefreshCwIcon,
+    shortcut: "⌘R",
+    section: "primary",
+  },
+  {
+    id: "widget-configure",
+    label: "Configure",
+    Icon: Settings2Icon,
+    section: "secondary",
+  },
+] as const satisfies readonly AppShellDashboardOverflowMenuItem[];
+
+export const DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS: readonly AppShellDashboardOverflowMenuItem[] =
+  dashboardOverflowItemsSource;
 
 const revenueSparklineSource = [
   { date: "2026-05-24", value: 190 },
@@ -297,6 +372,21 @@ const revenueGrowthSource = [
   { date: "2026-06-01", revenue: 20 },
 ] as const satisfies readonly AppShellDashboardRevenueGrowthSlice[];
 
+const revenueYearSummariesSource = [
+  {
+    id: asAppShellDashboardRowId("revenue-fy2026"),
+    year: "FY2026",
+    amount: "$248.7K",
+    Icon: CircleDollarSignIcon,
+  },
+  {
+    id: asAppShellDashboardRowId("revenue-fy2025"),
+    year: "FY2025",
+    amount: "$212.4K",
+    Icon: WalletIcon,
+  },
+] as const satisfies readonly AppShellDashboardRevenueYearSummary[];
+
 const invoiceRowsSource = [
   {
     id: asAppShellInvoiceId("5092"),
@@ -389,6 +479,9 @@ export const defaultAppShellDashboardRevenueBars: readonly AppShellDashboardReve
 
 export const defaultAppShellDashboardRevenueGrowthSlices: readonly AppShellDashboardRevenueGrowthSlice[] =
   revenueGrowthSource;
+
+export const defaultAppShellDashboardRevenueYearSummaries: readonly AppShellDashboardRevenueYearSummary[] =
+  revenueYearSummariesSource;
 
 export const defaultAppShellDashboardInvoices: readonly AppShellDashboardInvoiceRow[] =
   invoiceRowsSource;

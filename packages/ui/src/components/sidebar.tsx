@@ -1,10 +1,13 @@
 "use client";
 
-import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import {
+  applyGovernedPresentation,
+  mergeGovernedPresentation,
+} from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { cn } from "@afenda/ui/lib/utils";
 import { PanelLeftIcon } from "lucide-react";
-import { Slot } from "radix-ui";
+import { Dialog as SheetPrimitive, Slot } from "radix-ui";
 import * as React from "react";
 import { useIsMobile } from "../hooks/use-mobile";
 import { Button } from "./button";
@@ -12,7 +15,6 @@ import { Input } from "./input";
 import { Separator } from "./separator";
 import {
   Sheet,
-  SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
@@ -200,33 +202,50 @@ function Sidebar({
   }
 
   if (isMobile) {
-    const content = sidebarClass(undefined, { slotKey: "mobile-content" });
+    const mobileContent = sidebarClass(undefined, { slotKey: "mobile-content" });
     const inner = sidebarClass(undefined, { slotKey: "mobile-inner" });
     const header = sidebarClass(undefined, { slotKey: "mobile-header" });
+    const sheetOverlay = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: SIDEBAR_RECIPE_NAME,
+      slot: "body",
+    });
+    const sheetRoot = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: SIDEBAR_RECIPE_NAME,
+      slot: "root",
+      variant: { density: "standard", radius: "md", shadow: "overlay" },
+    });
+    const mergedPanel = mergeGovernedPresentation(sheetRoot, mobileContent);
 
     return (
       <Sheet onOpenChange={setOpenMobile} open={openMobile} {...props}>
-        <SheetContent
-          data-mobile="true"
-          data-sidebar="sidebar"
-          dir={dir}
-          {...content.dataAttributes}
-          className={cn(content.className)}
-          side={side}
-          style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-            } as React.CSSProperties
-          }
-        >
-          <SheetHeader className={cn(header.className)}>
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
-          </SheetHeader>
-          <div {...inner.dataAttributes} className={cn(inner.className)}>
-            {children}
-          </div>
-        </SheetContent>
+        <SheetPrimitive.Portal data-slot="sheet-portal">
+          <SheetPrimitive.Overlay
+            {...applyGovernedPresentation({}, sheetOverlay)}
+          />
+          <SheetPrimitive.Content
+            data-mobile="true"
+            data-sidebar="sidebar"
+            dir={dir}
+            {...applyGovernedPresentation({}, mergedPanel, {
+              "data-side": side,
+            })}
+            style={
+              {
+                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+              } as React.CSSProperties
+            }
+          >
+            <div {...applyGovernedPresentation({}, header)}>
+              <SheetHeader>
+                <SheetTitle>Sidebar</SheetTitle>
+                <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+              </SheetHeader>
+            </div>
+            <div {...applyGovernedPresentation({}, inner)}>{children}</div>
+          </SheetPrimitive.Content>
+        </SheetPrimitive.Portal>
       </Sheet>
     );
   }

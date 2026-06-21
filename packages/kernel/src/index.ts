@@ -6,7 +6,12 @@ export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;
 }
 
-export { type Brand, unbrand } from "./contracts/brand.contract.js";
+export {
+  brandOptionalId,
+  brandRequiredId,
+  type Brand,
+  unbrand,
+} from "./contracts/brand.contract.js";
 export {
   brandAuditEventId,
   brandCompanyId,

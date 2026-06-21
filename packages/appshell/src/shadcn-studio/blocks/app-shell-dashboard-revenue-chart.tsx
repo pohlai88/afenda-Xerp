@@ -1,7 +1,22 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { CircleDollarSignIcon, WalletIcon } from "lucide-react";
+import { useId, useMemo } from "react";
+
+import {
+  Badge,
+  Card,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Separator,
+} from "@afenda/ui";
+import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
 import {
   Bar,
   BarChart,
@@ -14,47 +29,39 @@ import {
 } from "recharts";
 
 import {
-  Avatar,
-  AvatarFallback,
-  Card,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
-
-import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
+  DEFAULT_APP_SHELL_DASHBOARD_REVENUE_COMPARISON,
   DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_CAPTION,
   DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_LABEL,
+  DEFAULT_APP_SHELL_DASHBOARD_REVENUE_SUBTITLE,
   DEFAULT_APP_SHELL_DASHBOARD_REVENUE_TITLE,
   defaultAppShellDashboardRevenueBars,
   defaultAppShellDashboardRevenueGrowthSlices,
+  defaultAppShellDashboardRevenueYearSummaries,
 } from "../data/app-shell.dashboard.data";
 import type {
+  AppShellDashboardOverflowMenuItem,
   AppShellDashboardRevenueBarPoint,
   AppShellDashboardRevenueGrowthSlice,
+  AppShellDashboardRevenueYearSummary,
 } from "../data/app-shell.dashboard.types";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardRevenueChartGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Avatar" | "Card" | "Chart" | "Select"
+  "Badge" | "Card" | "Chart" | "Select" | "Separator"
 >;
 
 export interface AppShellDashboardRevenueChartProps {
   readonly title?: string;
+  readonly subtitle?: string;
+  readonly comparisonText?: string;
   readonly growthLabel?: string;
   readonly growthCaption?: string;
-  readonly overflowItems?: readonly string[];
+  readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
   readonly barData?: readonly AppShellDashboardRevenueBarPoint[];
   readonly growthData?: readonly AppShellDashboardRevenueGrowthSlice[];
+  readonly yearSummaries?: readonly AppShellDashboardRevenueYearSummary[];
 }
 
 const revenueBarChartConfig = {
@@ -66,105 +73,272 @@ const revenueBarChartConfig = {
     label: "FY2025",
     color: "color-mix(in oklab, var(--primary) 20%, var(--background))",
   },
-} satisfies Record<
-  string,
-  { readonly label: string; readonly color: string }
->;
+} satisfies Record<string, { readonly label: string; readonly color: string }>;
 
 const revenueGrowthChartConfig = {
-  revenue: { label: "Revenue" },
-} satisfies Record<string, { readonly label: string }>;
+  revenue: {
+    label: "Revenue mix",
+    color: "var(--chart-1)",
+  },
+} satisfies Record<string, { readonly label: string; readonly color: string }>;
 
-const revenueYearSummaries = [
-  {
-    icon: <CircleDollarSignIcon aria-hidden className="app-shell-dashboard-revenue-icon" />,
-    year: "FY2026",
-    amount: "$248.7K",
-  },
-  {
-    icon: <WalletIcon aria-hidden className="app-shell-dashboard-revenue-icon" />,
-    year: "FY2025",
-    amount: "$212.4K",
-  },
-] as const satisfies readonly {
-  readonly icon: ReactNode;
-  readonly year: string;
-  readonly amount: string;
-}[];
+const REPORT_OPTIONS = [
+  { value: "revenue", label: "Revenue" },
+  { value: "expenses", label: "Expenses" },
+  { value: "profit", label: "Profit" },
+  { value: "net-income", label: "Net income" },
+] as const satisfies readonly { readonly label: string; readonly value: string }[];
+
+function resolveGrowthBadgeTone(growthLabel: string): NonNullable<GovernedBadgeProps["tone"]> {
+  return growthLabel.trimStart().startsWith("-") ? "danger" : "success";
+}
+
+function computeSignedBarDomain(
+  data: readonly AppShellDashboardRevenueBarPoint[]
+): readonly [number, number] {
+  let minValue = 0;
+  let maxValue = 0;
+
+  for (const point of data) {
+    minValue = Math.min(minValue, point.priorYear);
+    maxValue = Math.max(maxValue, point.currentYear);
+  }
+
+  const step = 10;
+  const min = Math.floor(minValue / step) * step - step;
+  const max = Math.ceil(maxValue / step) * step + step;
+
+  return [min, max];
+}
+
+function parseCompactCurrency(value: string): number {
+  const normalized = value.replace("$", "").trim();
+
+  if (normalized.endsWith("K")) {
+    return Number.parseFloat(normalized.slice(0, -1)) * 1000;
+  }
+
+  if (normalized.endsWith("M")) {
+    return Number.parseFloat(normalized.slice(0, -1)) * 1_000_000;
+  }
+
+  return Number.parseFloat(normalized.replaceAll(",", ""));
+}
+
+function computePrimaryYearAmount(
+  summaries: readonly AppShellDashboardRevenueYearSummary[]
+): string {
+  const currentYear =
+    summaries.find((summary) => summary.year.startsWith("FY2026")) ?? summaries[0];
+
+  return currentYear?.amount ?? "$0";
+}
+
+function computeYearOverYearChange(
+  summaries: readonly AppShellDashboardRevenueYearSummary[]
+): string {
+  const sorted = [...summaries].sort((left, right) => right.year.localeCompare(left.year));
+
+  if (sorted.length < 2) {
+    return "+0%";
+  }
+
+  const currentSummary = sorted[0];
+  const priorSummary = sorted[1];
+
+  if (currentSummary === undefined || priorSummary === undefined) {
+    return "+0%";
+  }
+
+  const current = parseCompactCurrency(currentSummary.amount);
+  const prior = parseCompactCurrency(priorSummary.amount);
+
+  if (prior <= 0) {
+    return "+0%";
+  }
+
+  const change = ((current - prior) / prior) * 100;
+  const prefix = change > 0 ? "+" : "";
+
+  return `${prefix}${change.toFixed(1)}%`;
+}
+
+function buildYAxisTicks(min: number, max: number): readonly number[] {
+  const ticks: number[] = [];
+
+  for (let value = min; value <= max; value += 10) {
+    ticks.push(value);
+  }
+
+  return ticks;
+}
+
+function RevenueYearSummaryItem({
+  summary,
+}: {
+  readonly summary: AppShellDashboardRevenueYearSummary;
+}) {
+  return (
+    <div className="app-shell-dashboard-revenue-summary-item">
+      <div className="app-shell-dashboard-revenue-icon-frame">
+        <summary.Icon aria-hidden className="app-shell-dashboard-revenue-icon" />
+      </div>
+      <div className="app-shell-dashboard-revenue-summary-copy">
+        <span className="app-shell-dashboard-revenue-summary-year">{summary.year}</span>
+        <span className="app-shell-dashboard-revenue-summary-amount">{summary.amount}</span>
+      </div>
+    </div>
+  );
+}
 
 export function AppShellDashboardRevenueChart({
   title = DEFAULT_APP_SHELL_DASHBOARD_REVENUE_TITLE,
+  subtitle = DEFAULT_APP_SHELL_DASHBOARD_REVENUE_SUBTITLE,
+  comparisonText = DEFAULT_APP_SHELL_DASHBOARD_REVENUE_COMPARISON,
   growthLabel = DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_LABEL,
   growthCaption = DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_CAPTION,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
   barData = defaultAppShellDashboardRevenueBars,
   growthData = defaultAppShellDashboardRevenueGrowthSlices,
+  yearSummaries = defaultAppShellDashboardRevenueYearSummaries,
 }: AppShellDashboardRevenueChartProps) {
+  const primarySectionId = useId();
+  const growthSectionId = useId();
+  const reportSelectId = useId();
+  const [yMin, yMax] = useMemo(() => computeSignedBarDomain(barData), [barData]);
+  const yAxisTicks = useMemo(() => buildYAxisTicks(yMin, yMax), [yMin, yMax]);
+  const primaryYearAmount = useMemo(
+    () => computePrimaryYearAmount(yearSummaries),
+    [yearSummaries]
+  );
+  const yearOverYearChange = useMemo(
+    () => computeYearOverYearChange(yearSummaries),
+    [yearSummaries]
+  );
+
   return (
     <div className="app-shell-dashboard-widget app-shell-dashboard-revenue-widget">
       <Card>
         <div className="app-shell-dashboard-revenue-layout">
-          <div className="app-shell-dashboard-revenue-primary">
-            <div className="app-shell-dashboard-widget-header">
-              <span className="app-shell-dashboard-widget-title">{title}</span>
-              <AppShellDashboardOverflowMenu items={overflowItems} />
+          <section
+            aria-labelledby={primarySectionId}
+            className="app-shell-dashboard-revenue-primary"
+          >
+            <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
+              <div className="app-shell-dashboard-widget-heading">
+                <span className="app-shell-dashboard-widget-title" id={primarySectionId}>
+                  {title}
+                </span>
+                <span className="app-shell-dashboard-widget-subtitle">{subtitle}</span>
+              </div>
+              <AppShellDashboardOverflowMenu
+                items={overflowItems}
+                menuLabel="Revenue chart actions"
+              />
             </div>
-            <div className="app-shell-dashboard-revenue-bar-frame">
-              <ChartContainer config={revenueBarChartConfig}>
-                <BarChart
-                  barSize={12}
-                  data={[...barData]}
-                  margin={{ left: -25 }}
-                  stackOffset="sign"
-                >
-                  <CartesianGrid stroke="var(--border)" strokeDasharray="6" vertical={false} />
-                  <XAxis
-                    axisLine={false}
-                    dataKey="name"
-                    tick={{ fill: "var(--muted-foreground)", fontSize: 14 }}
-                    tickFormatter={(value: string) => value.slice(0, 3)}
-                    tickLine={false}
-                    tickMargin={10}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    domain={[-20, 30]}
-                    tick={{ fill: "var(--muted-foreground)" }}
-                    tickFormatter={(value: number) => String(value)}
-                    tickLine={false}
-                    tickMargin={8}
-                    ticks={[-20, -10, 0, 10, 20, 30]}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
-                  <Bar
-                    dataKey="currentYear"
-                    fill="var(--color-currentYear)"
-                    radius={[12, 12, 0, 0]}
-                    stackId="stack"
-                  />
-                  <Bar
-                    dataKey="priorYear"
-                    fill="var(--color-priorYear)"
-                    radius={[12, 12, 0, 0]}
-                    stackId="stack"
-                  />
-                </BarChart>
-              </ChartContainer>
-            </div>
-          </div>
 
-          <div className="app-shell-dashboard-revenue-secondary">
+            <div className="app-shell-dashboard-revenue-primary-body">
+              <div className="app-shell-dashboard-revenue-hero">
+                <div className="app-shell-dashboard-revenue-hero-row">
+                  <span className="app-shell-dashboard-revenue-hero-amount">
+                    {primaryYearAmount}
+                  </span>
+                  <Badge emphasis="soft" tone={resolveGrowthBadgeTone(yearOverYearChange)}>
+                    {yearOverYearChange} YoY
+                  </Badge>
+                </div>
+                <span className="app-shell-dashboard-revenue-comparison">{comparisonText}</span>
+              </div>
+
+              <div aria-hidden="true" className="app-shell-dashboard-revenue-legend">
+                <span className="app-shell-dashboard-revenue-legend-item">
+                  <span className="app-shell-dashboard-revenue-legend-swatch app-shell-dashboard-revenue-legend-swatch-current" />
+                  FY2026
+                </span>
+                <span className="app-shell-dashboard-revenue-legend-item">
+                  <span className="app-shell-dashboard-revenue-legend-swatch app-shell-dashboard-revenue-legend-swatch-prior" />
+                  FY2025
+                </span>
+              </div>
+
+              {barData.length === 0 ? (
+                <p className="app-shell-dashboard-revenue-empty">
+                  No revenue variance data available for this period.
+                </p>
+              ) : (
+                <div className="app-shell-dashboard-revenue-bar-frame">
+                  <ChartContainer config={revenueBarChartConfig}>
+                    <BarChart
+                      accessibilityLayer
+                      barSize={12}
+                      data={[...barData]}
+                      margin={{ left: -25, right: 8, top: 8 }}
+                      stackOffset="sign"
+                    >
+                      <CartesianGrid
+                        stroke="var(--border)"
+                        strokeDasharray="6"
+                        vertical={false}
+                      />
+                      <XAxis
+                        axisLine={false}
+                        dataKey="name"
+                        tick={{ fill: "var(--muted-foreground)", fontSize: 14 }}
+                        tickFormatter={(value: string) => value.slice(0, 3)}
+                        tickLine={false}
+                        tickMargin={10}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        domain={[yMin, yMax]}
+                        tick={{ fill: "var(--muted-foreground)" }}
+                        tickFormatter={(value: number) => String(value)}
+                        tickLine={false}
+                        tickMargin={8}
+                        ticks={[...yAxisTicks]}
+                      />
+                      <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+                      <Bar
+                        dataKey="currentYear"
+                        fill="var(--color-currentYear)"
+                        radius={[12, 12, 0, 0]}
+                        stackId="stack"
+                      />
+                      <Bar
+                        dataKey="priorYear"
+                        fill="var(--color-priorYear)"
+                        radius={[12, 12, 0, 0]}
+                        stackId="stack"
+                      />
+                    </BarChart>
+                  </ChartContainer>
+                </div>
+              )}
+            </div>
+          </section>
+
+          <aside
+            aria-labelledby={growthSectionId}
+            className="app-shell-dashboard-revenue-secondary"
+          >
             <div className="app-shell-dashboard-revenue-select-row">
+              <label
+                className="app-shell-dashboard-revenue-select-label"
+                htmlFor={reportSelectId}
+              >
+                Report view
+              </label>
               <Select defaultValue="revenue">
-                <SelectTrigger>
+                <SelectTrigger id={reportSelectId}>
                   <SelectValue placeholder="Report" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="revenue">Revenue</SelectItem>
-                    <SelectItem value="expenses">Expenses</SelectItem>
-                    <SelectItem value="profit">Profit</SelectItem>
-                    <SelectItem value="net-income">Net income</SelectItem>
+                    {REPORT_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -174,10 +348,12 @@ export function AppShellDashboardRevenueChart({
               <div className="app-shell-dashboard-revenue-growth-chart-frame">
                 <ChartContainer config={revenueGrowthChartConfig}>
                   <PieChart margin={{ bottom: -20, top: 0 }}>
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
                     <Pie
                       data={[...growthData]}
                       dataKey="revenue"
                       endAngle={220}
+                      fill="var(--color-revenue)"
                       innerRadius={60}
                       nameKey="date"
                       outerRadius={85}
@@ -218,29 +394,25 @@ export function AppShellDashboardRevenueChart({
                   </PieChart>
                 </ChartContainer>
               </div>
-              <span className="app-shell-dashboard-revenue-growth-footnote">
-                {growthCaption}
-              </span>
+
+              <div className="app-shell-dashboard-revenue-growth-meta">
+                <Badge emphasis="soft" tone={resolveGrowthBadgeTone(growthLabel)}>
+                  {growthCaption}
+                </Badge>
+                <span className="app-shell-dashboard-revenue-growth-footnote" id={growthSectionId}>
+                  Portfolio growth index
+                </span>
+              </div>
             </div>
 
+            <Separator />
+
             <div className="app-shell-dashboard-revenue-summary-row">
-              {revenueYearSummaries.map((summary) => (
-                <div className="app-shell-dashboard-revenue-summary-item" key={summary.year}>
-                  <Avatar>
-                    <AvatarFallback>{summary.icon}</AvatarFallback>
-                  </Avatar>
-                  <div className="app-shell-dashboard-revenue-summary-copy">
-                    <span className="app-shell-dashboard-revenue-summary-year">
-                      {summary.year}
-                    </span>
-                    <span className="app-shell-dashboard-revenue-summary-amount">
-                      {summary.amount}
-                    </span>
-                  </div>
-                </div>
+              {yearSummaries.map((summary) => (
+                <RevenueYearSummaryItem key={summary.id} summary={summary} />
               ))}
             </div>
-          </div>
+          </aside>
         </div>
       </Card>
     </div>

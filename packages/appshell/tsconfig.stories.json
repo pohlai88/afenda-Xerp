@@ -17,7 +17,11 @@
     "src/**/*.stories.ts",
     "src/**/*.stories.tsx",
     "src/_storybook/**/*.ts",
-    "src/_storybook/**/*.tsx"
+    "src/_storybook/**/*.tsx",
+    "src/app-shell*.tsx",
+    "src/app-shell-dashboard.tsx",
+    "src/shadcn-studio/**/*.ts",
+    "src/shadcn-studio/**/*.tsx"
   ],
   "exclude": ["dist", "node_modules"]
 }

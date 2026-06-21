@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-20-v1",
-  "generatedAt": "2026-06-21T13:08:24.267Z",
+  "generatedAt": "2026-06-21T15:49:08.230Z",
   "runtimeEdges": [
     {
       "from": "@afenda/ai-governance",
@@ -72,7 +72,11 @@
     },
     {
       "from": "@afenda/metadata-ui",
-      "to": "@afenda/permissions"
+      "to": "@afenda/metadata"
+    },
+    {
+      "from": "@afenda/metadata-ui",
+      "to": "@afenda/ui"
     },
     {
       "from": "@afenda/permissions",

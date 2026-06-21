@@ -69,6 +69,22 @@ const requiredQualityScripts = [
 
 const failures = [];
 
+function ciIncludesCommand(ciContents, command) {
+  if (ciContents.includes(command)) {
+    return true;
+  }
+
+  const turboAlternatives = {
+    "pnpm typecheck": ["pnpm turbo run typecheck"],
+    "pnpm build": ["pnpm turbo run build"],
+    "pnpm test:run": ["pnpm test:run:affected"],
+  };
+
+  return (turboAlternatives[command] ?? []).some((alternative) =>
+    ciContents.includes(alternative)
+  );
+}
+
 // ── Required files ────────────────────────────────────────────────────────────
 
 for (const filePath of requiredFiles) {
@@ -84,7 +100,7 @@ const ciPath = join(workspaceRoot, ".github/workflows/ci.yml");
 if (existsSync(ciPath)) {
   const ci = readFileSync(ciPath, "utf8");
   for (const command of requiredCiCommands) {
-    if (!ci.includes(command)) {
+    if (!ciIncludesCommand(ci, command)) {
       failures.push(`ci.yml must run "${command}"`);
     }
   }
@@ -100,7 +116,7 @@ const releasePath = join(
 if (existsSync(releasePath)) {
   const release = readFileSync(releasePath, "utf8");
   for (const command of requiredReleaseVerificationGates) {
-    if (!release.includes(command)) {
+    if (!ciIncludesCommand(release, command)) {
       failures.push(`release-verification.yml must run "${command}"`);
     }
   }

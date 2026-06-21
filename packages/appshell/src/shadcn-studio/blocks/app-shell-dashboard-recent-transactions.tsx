@@ -1,14 +1,15 @@
-import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
-
-import { Avatar, AvatarFallback, Card } from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { Avatar, AvatarFallback, Badge, Card, Separator } from "@afenda/ui";
+import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
+  DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_COMPARISON,
+  DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_SUBTITLE,
   DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_TITLE,
   defaultAppShellDashboardTransactions,
 } from "../data/app-shell.dashboard.data";
 import type {
+  AppShellDashboardOverflowMenuItem,
   AppShellDashboardTransactionRow,
   AppShellTransactionDirection,
 } from "../data/app-shell.dashboard.types";
@@ -16,77 +17,192 @@ import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-me
 
 export type AppShellDashboardRecentTransactionsGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Avatar" | "Card"
+  "Avatar" | "Badge" | "Card" | "Separator"
 >;
 
 export interface AppShellDashboardRecentTransactionsProps {
   readonly title?: string;
+  readonly subtitle?: string;
+  readonly comparisonText?: string;
   readonly transactions?: readonly AppShellDashboardTransactionRow[];
-  readonly overflowItems?: readonly string[];
+  readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
 }
 
-function TransactionDirectionIndicator({
-  direction,
-}: {
-  readonly direction: AppShellTransactionDirection;
-}) {
+interface TransactionTotals {
+  readonly credits: number;
+  readonly debits: number;
+  readonly net: number;
+}
+
+function parseAmount(value: string): number {
+  return Number.parseFloat(value.replaceAll(/[$,]/g, ""));
+}
+
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("en-US", {
+    currency: "USD",
+    maximumFractionDigits: 0,
+    style: "currency",
+  }).format(Math.abs(value));
+}
+
+function formatSignedAmount(
+  direction: AppShellTransactionDirection,
+  amount: string
+): string {
+  const prefix = direction === "credit" ? "+" : "-";
+  return `${prefix}${formatCurrency(parseAmount(amount))}`;
+}
+
+function resolveDirectionBadgeTone(
+  direction: AppShellTransactionDirection
+): NonNullable<GovernedBadgeProps["tone"]> {
+  return direction === "credit" ? "success" : "danger";
+}
+
+function resolveNetFlowBadgeTone(net: number): NonNullable<GovernedBadgeProps["tone"]> {
+  if (net > 0) {
+    return "success";
+  }
+
+  if (net < 0) {
+    return "danger";
+  }
+
+  return "neutral";
+}
+
+function formatNetFlow(net: number): string {
+  const prefix = net > 0 ? "+" : net < 0 ? "-" : "";
+  return `${prefix}${formatCurrency(net)}`;
+}
+
+function computeTransactionTotals(
+  transactions: readonly AppShellDashboardTransactionRow[]
+): TransactionTotals {
+  return transactions.reduce<TransactionTotals>(
+    (totals, transaction) => {
+      const amount = parseAmount(transaction.amount);
+
+      if (transaction.direction === "credit") {
+        return {
+          credits: totals.credits + amount,
+          debits: totals.debits,
+          net: totals.net + amount,
+        };
+      }
+
+      return {
+        credits: totals.credits,
+        debits: totals.debits + amount,
+        net: totals.net - amount,
+      };
+    },
+    { credits: 0, debits: 0, net: 0 }
+  );
+}
+
+function TransactionRow({ transaction }: { readonly transaction: AppShellDashboardTransactionRow }) {
+  const rowLabel = `${transaction.paymentMethod}, ${transaction.module}, ${formatSignedAmount(transaction.direction, transaction.amount)}`;
+
   return (
-    <div className="app-shell-dashboard-transaction-indicator">
-      {direction === "debit" ? (
-        <ArrowDownIcon
-          aria-hidden
-          className="app-shell-dashboard-transaction-indicator-icon app-shell-dashboard-transaction-indicator-icon-debit"
-        />
-      ) : (
-        <ArrowUpIcon
-          aria-hidden
-          className="app-shell-dashboard-transaction-indicator-icon app-shell-dashboard-transaction-indicator-icon-credit"
-        />
-      )}
-    </div>
+    <li aria-label={rowLabel} className="app-shell-dashboard-transaction-row">
+      <div className="app-shell-dashboard-transaction-main">
+        <Avatar>
+          <AvatarFallback>
+            <div className="app-shell-dashboard-transaction-icon-frame">
+              <transaction.Icon aria-hidden className="app-shell-dashboard-transaction-icon" />
+            </div>
+          </AvatarFallback>
+        </Avatar>
+        <div className="app-shell-dashboard-transaction-copy">
+          <span className="app-shell-dashboard-transaction-title">
+            {transaction.paymentMethod}
+          </span>
+          <span className="app-shell-dashboard-transaction-subtitle">{transaction.module}</span>
+        </div>
+      </div>
+      <Badge emphasis="soft" tone={resolveDirectionBadgeTone(transaction.direction)}>
+        {formatSignedAmount(transaction.direction, transaction.amount)}
+      </Badge>
+    </li>
   );
 }
 
 export function AppShellDashboardRecentTransactions({
   title = DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_TITLE,
+  subtitle = DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_SUBTITLE,
+  comparisonText = DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_COMPARISON,
   transactions = defaultAppShellDashboardTransactions,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardRecentTransactionsProps) {
+  const summaryId = "app-shell-dashboard-transactions-summary";
+  const { credits, debits, net } = computeTransactionTotals(transactions);
+  const postingsLabel =
+    transactions.length === 1 ? "1 posting" : `${transactions.length} postings`;
+
   return (
     <div className="app-shell-dashboard-widget">
       <Card>
-        <div className="app-shell-dashboard-widget-header">
-          <span className="app-shell-dashboard-widget-title">{title}</span>
+        <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
+          <div className="app-shell-dashboard-widget-heading">
+            <span className="app-shell-dashboard-widget-title">{title}</span>
+            <span className="app-shell-dashboard-widget-subtitle">{subtitle}</span>
+          </div>
           <AppShellDashboardOverflowMenu items={overflowItems} />
         </div>
-        <ul className="app-shell-dashboard-transaction-list">
-          {transactions.map((transaction) => (
-            <li className="app-shell-dashboard-transaction-row" key={transaction.id}>
-              <div className="app-shell-dashboard-transaction-main">
-                <Avatar>
-                  <AvatarFallback>
-                    <transaction.Icon aria-hidden className="app-shell-dashboard-transaction-icon" />
-                  </AvatarFallback>
-                </Avatar>
-                <div className="app-shell-dashboard-transaction-copy">
-                  <span className="app-shell-dashboard-transaction-title">
-                    {transaction.paymentMethod}
-                  </span>
-                  <span className="app-shell-dashboard-transaction-subtitle">
-                    {transaction.module}
-                  </span>
-                </div>
+
+        <div className="app-shell-dashboard-widget-body">
+          <section
+            aria-labelledby={summaryId}
+            className="app-shell-dashboard-transaction-summary"
+          >
+            <div className="app-shell-dashboard-transaction-total-row">
+              <span className="app-shell-dashboard-transaction-total" id={summaryId}>
+                {formatNetFlow(net)}
+              </span>
+              <Badge emphasis="soft" tone={resolveNetFlowBadgeTone(net)}>
+                {postingsLabel}
+              </Badge>
+            </div>
+            <div className="app-shell-dashboard-transaction-flow-row">
+              <span className="app-shell-dashboard-transaction-flow-item">
+                In {formatCurrency(credits)}
+              </span>
+              <span aria-hidden="true" className="app-shell-dashboard-transaction-flow-divider">
+                ·
+              </span>
+              <span className="app-shell-dashboard-transaction-flow-item">
+                Out {formatCurrency(debits)}
+              </span>
+            </div>
+            <span className="app-shell-dashboard-transaction-comparison">{comparisonText}</span>
+          </section>
+
+          <Separator />
+
+          {transactions.length === 0 ? (
+            <p className="app-shell-dashboard-transaction-empty">No ledger activity yet.</p>
+          ) : (
+            <>
+              <div
+                aria-hidden="true"
+                className="app-shell-dashboard-transaction-list-header"
+              >
+                <span>Transaction</span>
+                <span>Amount</span>
               </div>
-              <div className="app-shell-dashboard-transaction-amount-row">
-                <span className="app-shell-dashboard-transaction-amount">
-                  {transaction.direction === "debit" ? "-" : "+"}
-                  {transaction.amount}
-                </span>
-                <TransactionDirectionIndicator direction={transaction.direction} />
-              </div>
-            </li>
-          ))}
-        </ul>
+              <ul
+                aria-labelledby={summaryId}
+                className="app-shell-dashboard-transaction-list"
+              >
+                {transactions.map((transaction) => (
+                  <TransactionRow key={transaction.id} transaction={transaction} />
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
       </Card>
     </div>
   );

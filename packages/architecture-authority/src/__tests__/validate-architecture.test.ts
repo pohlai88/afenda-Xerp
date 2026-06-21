@@ -48,7 +48,8 @@ describe("validateArchitecture", () => {
       workspace("@afenda/metadata"),
       workspace("@afenda/metadata-ui", {
         "@afenda/design-system": "workspace:*",
-        "@afenda/permissions": "workspace:*",
+        "@afenda/metadata": "workspace:*",
+        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/observability"),
       workspace("@afenda/permissions", {
@@ -106,7 +107,8 @@ describe("validateArchitecture", () => {
       workspace("@afenda/metadata"),
       workspace("@afenda/metadata-ui", {
         "@afenda/design-system": "workspace:*",
-        "@afenda/permissions": "workspace:*",
+        "@afenda/metadata": "workspace:*",
+        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/permissions", {
         "@afenda/auth": "workspace:*",

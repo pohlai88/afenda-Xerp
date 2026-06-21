@@ -4,7 +4,7 @@
 **Lifecycle:** Active  
 **Registry ID:** PKG-012  
 **TIP:** Post-TIP-005 — Metadata UI Implementation  
-**Depends on:** `@afenda/design-system`, `@afenda/permissions`
+**Depends on:** `@afenda/metadata`, `@afenda/design-system`, `@afenda/ui`
 
 ## What this package is
 
@@ -24,9 +24,9 @@ This package is **implementation**, not authority. It owns renderer implementati
 
 ## Relationship to `@afenda/metadata`
 
-`@afenda/metadata` owns the **architecture vocabulary** (what surface types, layout types, and section types exist). This package **implements** against that vocabulary. The two must remain separate packages — see `crossPackageAuthority.tip005IntegrationRule` in `@afenda/metadata`.
+`@afenda/metadata` owns the **architecture vocabulary** (what surface types, layout types, and section types exist). This package **implements** against that vocabulary. The two must remain separate packages — see `metadataUiIntegrationRule` (or `crossPackageAuthority.metadataUiIntegrationRule`) in `@afenda/metadata`.
 
-> **Dependency wiring:** `@afenda/metadata-ui` will consume `@afenda/metadata` at implementation time. Same-layer runtime dependencies (`Metadata → Metadata`) are blocked by current layer rules; wiring requires an ADR exception before the dependency is added to `package.json`.
+`@afenda/metadata-ui` declares a workspace dependency on `@afenda/metadata` in `package.json` and must consume governed contracts rather than redefining vocabulary arrays.
 
 ```
 @afenda/metadata ───────────▶ @afenda/metadata-ui

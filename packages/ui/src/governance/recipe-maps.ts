@@ -398,6 +398,7 @@ export const selectSlotClassNamesByKey = {
   "trigger-size-sm":
     "data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)]",
   "trigger-size-md": "data-[size=default]:h-8",
+  viewport: "",
   "viewport-popper":
     "data-[position=popper]:h-(--radix-select-trigger-height) data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)",
   "item-indicator":
@@ -807,6 +808,11 @@ export const accordionSlotClassNamesByKey = {
 /** HoverCard content panel slot. */
 export const hoverCardSlotClassNames = {
   root: "z-50 w-64 origin-(--radix-hover-card-content-transform-origin) rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+} as const;
+
+export const hoverCardSlotClassNamesByKey = {
+  trigger: "",
+  portal: "",
 } as const;
 
 /** Kbd root and group slots. */

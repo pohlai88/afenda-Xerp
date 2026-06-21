@@ -57,6 +57,7 @@ export type ApplicationShellDashboardGovernedComponents = Extract<
   | "Pagination"
   | "Progress"
   | "Select"
+  | "Separator"
   | "Table"
   | "Tooltip"
 >;
@@ -102,7 +103,11 @@ export function ApplicationShellDashboardContent({
 
       <div className="app-shell-kpi-grid">
         {kpiMetrics.map((metric) => (
-          <AppShellDashboardKpiStat key={metric.id} {...metric} />
+          <AppShellDashboardKpiStat
+            comparisonLabel={comparisonLabel}
+            key={metric.id}
+            {...metric}
+          />
         ))}
       </div>
 

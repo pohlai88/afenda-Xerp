@@ -12,23 +12,38 @@
  *   3. @import "@afenda/appshell/src/app-shell.presentation.css"; ← This file
  *
  * Scope: @afenda/appshell only — not part of the governed primitive layer.
- * Do NOT add global typography, form resets, or page-level tokens here.
+ * All appshell presentation classes live in this single file (shell chrome,
+ * dashboard blocks, placeholder content, page layout). Do not split into
+ * co-located CSS files. Do NOT add global typography, form resets, or page-level
+ * tokens here — those belong in afenda-style.css (generated from token.registry.ts).
+ *
+ * ═══ STRUCTURE ═══
+ * 1. Tokens (@theme inline) — shell-scoped spacing/z-index only
+ * 2. Overrides (@layer base) — sidebar-provider ring
+ * 3. Shell chrome (@layer components) — root, header, sidebar, footer, nav
+ * 4. Content grids (@layer components) — kpi-grid, sparkline-grid, widget-grid
+ * 5. Dashboard widgets (@layer components) — sparkline, kpi, revenue, earnings,
+ *    transactions, regional, payment, invoice
+ * 6. Placeholder content (@layer components) — placeholder-dashboard, kpi, sparkline, etc.
+ * 7. Page layout (@layer components) — page header, title, body
+ * 8. Unlayered overrides — dropdown width !important, avatar sizing
+ * 9. Print (@media print)
  */
 
-/* ── 1. Layout spacing & z-index tokens ──────────────────────────────────── */
+/* ── 1. Tokens (@theme inline) — shell-scoped spacing/z-index only ─────── */
 @theme inline {
   /* Header strip: fixed before: pseudo-element on .app-shell-root */
   --spacing-105: 26.25rem;
 
-  /* Z-index layers — used by .app-shell-* classes below */
-  --z-index-1: 1;
+  /* Shell-internal z-index — not global design-system tokens */
+  --z-shell-base: 1;
   --z-index-shell-header: 20;
   --z-index-shell-sidebar: 30;
   --z-index-shell-overlay: 40;
   --z-index-shell-modal: 50;
 }
 
-/* ── 2. Sidebar CSS variable overrides for shell-05 visual parity ─────────── */
+/* ── 2. Overrides (@layer base) — sidebar-provider ring ─────────────────── */
 /*
  * Shell-05 uses --sidebar-ring: var(--primary) for active-nav highlight rings.
  * Scoped to [data-slot="sidebar-provider"] to avoid leaking into other consumers.
@@ -39,7 +54,7 @@
   }
 }
 
-/* ── 3. Shell chrome layout classes ──────────────────────────────────────── */
+/* ── 3. Shell chrome (@layer components) ─────────────────────────────────── */
 @layer components {
   /**
    * .app-shell-root
@@ -70,7 +85,7 @@
    */
   .app-shell-main {
     position: relative;
-    z-index: var(--z-index-1);
+    z-index: var(--z-shell-base);
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -103,10 +118,8 @@
     padding-left: 1rem;
     padding-right: 1rem;
     width: 100%;
-  }
 
-  @media (min-width: 640px) {
-    .app-shell-header-grid {
+    @media (min-width: 640px) {
       gap: 1.5rem;
       grid-template-columns: auto minmax(0, 1fr) auto;
       padding-left: 1.5rem;
@@ -126,10 +139,8 @@
     flex-direction: column;
     align-items: flex-start;
     min-width: 0;
-  }
 
-  @media (min-width: 640px) {
-    .app-shell-header-greeting {
+    @media (min-width: 640px) {
       display: flex;
     }
   }
@@ -150,10 +161,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .app-shell-header-greeting-subtitle {
+    @media (min-width: 768px) and (max-width: 1023px) {
       display: none;
     }
   }
@@ -168,10 +177,8 @@
   .app-shell-search-dialog-desktop {
     display: none;
     min-width: 0;
-  }
 
-  @media (min-width: 1280px) {
-    .app-shell-search-dialog-desktop {
+    @media (min-width: 1280px) {
       display: block;
       justify-self: center;
       max-width: 18rem;
@@ -180,10 +187,8 @@
 
   .app-shell-search-dialog-mobile {
     display: block;
-  }
 
-  @media (min-width: 1280px) {
-    .app-shell-search-dialog-mobile {
+    @media (min-width: 1280px) {
       display: none;
     }
   }
@@ -239,10 +244,8 @@
     max-width: 80rem;
     padding: 1.5rem 1rem;
     width: 100%;
-  }
 
-  @media (min-width: 640px) {
-    .app-shell-content {
+    @media (min-width: 640px) {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
@@ -263,18 +266,14 @@
     padding-left: 1rem;
     padding-right: 1rem;
     width: 100%;
-  }
 
-  @media (min-width: 640px) {
-    .app-shell-footer-inner {
+    @media (min-width: 640px) {
       gap: 1.5rem;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
-  }
 
-  @media (max-width: 639px) {
-    .app-shell-footer-inner {
+    @media (max-width: 639px) {
       flex-direction: column;
     }
   }
@@ -282,10 +281,8 @@
   .app-shell-footer-copy {
     font-size: 0.875rem;
     text-wrap: balance;
-  }
 
-  @media (max-width: 639px) {
-    .app-shell-footer-copy {
+    @media (max-width: 639px) {
       text-align: center;
     }
   }
@@ -409,392 +406,6 @@
     width: 1rem;
   }
 
-  /* ── Dashboard content grid helpers ────────────────────────────────────── */
-
-  /**
-   * .app-shell-kpi-grid
-   * Shell-05 statistics row: 1→2→4 column responsive KPI card grid.
-   */
-  .app-shell-kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1rem;
-
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-
-  /**
-   * .app-shell-sparkline-grid
-   * Shell-05 sparkline row: 1→2 column for revenue + expense cards.
-   */
-  .app-shell-sparkline-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1rem;
-
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  /**
-   * .app-shell-widget-grid
-   * Shell-05 lower widget row: 1→2 column for transactions + performance.
-   */
-  .app-shell-widget-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1rem;
-
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  /**
-   * Placeholder dashboard stack spacing for ApplicationShellPlaceholderContent.
-   */
-  .app-shell-placeholder-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .app-shell-placeholder-surface {
-    background-color: var(--card);
-    color: var(--card-foreground);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-  }
-
-  .app-shell-placeholder-kpi-card {
-    position: relative;
-    display: flex;
-    min-height: 9rem;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    padding: 1.25rem;
-  }
-
-  .app-shell-placeholder-kpi-header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-  }
-
-  .app-shell-placeholder-kpi-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-kpi-value-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .app-shell-placeholder-kpi-value {
-    font-size: 1.5rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.2;
-  }
-
-  .app-shell-placeholder-kpi-watermark {
-    pointer-events: none;
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0;
-  }
-
-  .app-shell-placeholder-kpi-watermark-icon {
-    height: 5rem;
-    width: 5rem;
-    opacity: 0.06;
-  }
-
-  .app-shell-placeholder-sparkline-card {
-    display: flex;
-    min-height: 9rem;
-    flex-direction: column;
-    gap: 1rem;
-    overflow: hidden;
-    padding: 1.25rem;
-  }
-
-  .app-shell-placeholder-sparkline-body {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .app-shell-placeholder-sparkline-meta {
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .app-shell-placeholder-sparkline-title-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-
-  .app-shell-placeholder-sparkline-title {
-    color: var(--muted-foreground);
-    font-size: 0.875rem;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-sparkline-amount {
-    font-size: 1.875rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-  }
-
-  .app-shell-placeholder-sparkline-change-row {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-  }
-
-  .app-shell-placeholder-sparkline-comparison {
-    color: var(--muted-foreground);
-    font-size: 0.75rem;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-sparkline-chart {
-    flex: 1;
-    width: 100%;
-    max-width: 17.5rem;
-    max-height: 6.625rem;
-  }
-
-  @media (max-width: 639px) {
-    .app-shell-placeholder-sparkline-chart {
-      max-width: 8.75rem;
-    }
-  }
-
-  .app-shell-placeholder-widget {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: 1.25rem;
-  }
-
-  .app-shell-placeholder-widget-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .app-shell-placeholder-widget-title {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-widget-caption {
-    color: var(--muted-foreground);
-    font-size: 0.75rem;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-order-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .app-shell-placeholder-order-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .app-shell-placeholder-order-main {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-width: 0;
-  }
-
-  .app-shell-placeholder-order-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-
-  .app-shell-placeholder-order-description {
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-order-module {
-    color: var(--muted-foreground);
-    font-size: 0.75rem;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-order-amount-row {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .app-shell-placeholder-order-amount {
-    font-size: 0.875rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-order-indicator {
-    display: flex;
-    height: 1.5rem;
-    width: 1.5rem;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9999px;
-    background-color: var(--muted);
-  }
-
-  .app-shell-placeholder-order-indicator-icon {
-    height: 0.875rem;
-    width: 0.875rem;
-  }
-
-  .app-shell-placeholder-order-indicator-icon-credit {
-    color: var(--success);
-  }
-
-  .app-shell-placeholder-order-indicator-icon-debit {
-    color: var(--destructive);
-  }
-
-  .app-shell-placeholder-module-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .app-shell-placeholder-module-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .app-shell-placeholder-module-copy {
-    min-width: 0;
-    flex: 1;
-  }
-
-  .app-shell-placeholder-module-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.375rem;
-  }
-
-  .app-shell-placeholder-module-name {
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .app-shell-placeholder-module-status {
-    flex-shrink: 0;
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.25;
-  }
-
-  .app-shell-placeholder-module-status-high {
-    color: var(--success);
-  }
-
-  .app-shell-placeholder-module-status-mid {
-    color: var(--warning);
-  }
-
-  .app-shell-placeholder-module-status-low {
-    color: var(--destructive);
-  }
-
-  .app-shell-placeholder-progress-track {
-    height: 0.375rem;
-    overflow: hidden;
-    border-radius: 9999px;
-    background-color: var(--muted);
-  }
-
-  .app-shell-placeholder-progress-fill {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 500ms ease;
-  }
-
-  .app-shell-placeholder-progress-fill-high {
-    background: var(--color-chart-1, var(--primary));
-  }
-
-  .app-shell-placeholder-progress-fill-mid {
-    background: var(--color-chart-2, oklch(0.769 0.188 70.08));
-  }
-
-  .app-shell-placeholder-progress-fill-low {
-    background: var(--color-chart-3, oklch(0.646 0.222 41.116));
-  }
-
-  .app-shell-placeholder-module-percent {
-    width: 2rem;
-    flex-shrink: 0;
-    color: var(--muted-foreground);
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.25;
-    text-align: right;
-  }
-
-  .app-shell-placeholder-trend-icon-up {
-    color: var(--success);
-    height: 1rem;
-    width: 1rem;
-  }
-
-  .app-shell-placeholder-trend-icon-down {
-    color: var(--destructive);
-    height: 1rem;
-    width: 1rem;
-  }
-
   /**
    * Header sidebar trigger — inverted colors on the primary header strip.
    * Apply on the plain HTML wrapper from `AppShellMenuTrigger`.
@@ -828,7 +439,7 @@
 
   /**
    * Shell-05 notification dropdown layout — width overrides live outside @layer
-   * (see section 3b) so they beat DropdownMenuContent trigger-width utilities.
+   * (see section 8) so they beat DropdownMenuContent trigger-width utilities.
    */
   .app-shell-notification-dropdown {
     width: 100%;
@@ -1104,13 +715,13 @@
     margin-left: auto;
     transition: transform 200ms ease;
     width: 1rem;
+
+    @media (max-width: 1023px) {
+      transform: rotate(270deg);
+    }
   }
 
   @media (max-width: 1023px) {
-    .app-shell-sidebar-user-chevron {
-      transform: rotate(270deg);
-    }
-
     [data-state="open"] .app-shell-sidebar-user-chevron {
       transform: rotate(90deg);
     }
@@ -1122,7 +733,55 @@
     }
   }
 
-  /* ── Dashboard presentation surfaces (shadcn-studio → appshell) ─────────── */
+  /* ── 4. Content grids (@layer components) ──────────────────────────────── */
+
+  /**
+   * .app-shell-kpi-grid
+   * Shell-05 statistics row: 1→2→4 column responsive KPI card grid.
+   */
+  .app-shell-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-sparkline-grid
+   * Shell-05 sparkline row: 1→2 column for revenue + expense cards.
+   */
+  .app-shell-sparkline-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-widget-grid
+   * Shell-05 lower widget row: 1→2 column for transactions + performance.
+   */
+  .app-shell-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ── 5. Dashboard widgets (@layer components) ──────────────────────────── */
 
   .app-shell-dashboard {
     display: flex;
@@ -1822,9 +1481,343 @@
     width: 1rem;
   }
 
-  /**
-   * ERP page main: title row, optional badge/actions slots, and body region.
-   */
+  /* ── 6. Placeholder content (@layer components) ──────────────────────── */
+
+  .app-shell-placeholder-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .app-shell-placeholder-surface {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-placeholder-kpi-card {
+    position: relative;
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-kpi-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .app-shell-placeholder-kpi-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-kpi-value-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-kpi-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+
+  .app-shell-placeholder-kpi-watermark {
+    pointer-events: none;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0;
+  }
+
+  .app-shell-placeholder-kpi-watermark-icon {
+    height: 5rem;
+    width: 5rem;
+    opacity: 0.06;
+  }
+
+  .app-shell-placeholder-sparkline-card {
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-sparkline-body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .app-shell-placeholder-sparkline-meta {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-sparkline-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-sparkline-title {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-amount {
+    font-size: 1.875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .app-shell-placeholder-sparkline-change-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .app-shell-placeholder-sparkline-comparison {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-chart {
+    flex: 1;
+    width: 100%;
+    max-width: 17.5rem;
+    max-height: 6.625rem;
+
+    @media (max-width: 639px) {
+      max-width: 8.75rem;
+    }
+  }
+
+  .app-shell-placeholder-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-widget-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-widget-caption {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-order-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .app-shell-placeholder-order-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-order-description {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-module {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-amount-row {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-order-amount {
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-indicator {
+    display: flex;
+    height: 1.5rem;
+    width: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-order-indicator-icon {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .app-shell-placeholder-order-indicator-icon-credit {
+    color: var(--success);
+  }
+
+  .app-shell-placeholder-order-indicator-icon-debit {
+    color: var(--destructive);
+  }
+
+  .app-shell-placeholder-module-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-module-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-module-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .app-shell-placeholder-module-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .app-shell-placeholder-module-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-placeholder-module-status {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-module-status-high {
+    color: var(--success);
+  }
+
+  .app-shell-placeholder-module-status-mid {
+    color: var(--warning);
+  }
+
+  .app-shell-placeholder-module-status-low {
+    color: var(--destructive);
+  }
+
+  .app-shell-placeholder-progress-track {
+    height: 0.375rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 500ms ease;
+  }
+
+  .app-shell-placeholder-progress-fill-high {
+    background: var(--color-chart-1, var(--primary));
+  }
+
+  .app-shell-placeholder-progress-fill-mid {
+    background: var(--color-chart-2, oklch(0.769 0.188 70.08));
+  }
+
+  .app-shell-placeholder-progress-fill-low {
+    background: var(--color-chart-3, oklch(0.646 0.222 41.116));
+  }
+
+  .app-shell-placeholder-module-percent {
+    width: 2rem;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+    text-align: right;
+  }
+
+  .app-shell-placeholder-trend-icon-up {
+    color: var(--success);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-placeholder-trend-icon-down {
+    color: var(--destructive);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /* ── 7. Page layout (@layer components) ────────────────────────────────── */
+
   .app-shell-page {
     display: flex;
     flex-direction: column;
@@ -1887,10 +1880,7 @@
   }
 }
 
-/**
- * Sidebar team avatars — UNLAYERED so fixed wrapper sizes beat Avatar `size-*`
- * utilities when the sidebar collapses to icon width.
- */
+/* ── 8. Unlayered overrides — dropdown width !important, avatar sizing ─── */
 .app-shell-recipient-avatar > [data-slot="avatar"] {
   height: 100%;
   width: 100%;
@@ -1918,7 +1908,7 @@
   max-width: min(18rem, calc(100vw - 2rem));
 }
 
-/* ── 4. Print: hide shell chrome, show content only ─────────────────────── */
+/* ── 9. Print (@media print) ─────────────────────────────────────────────── */
 @media print {
   .app-shell-root::before,
   .app-shell-sidebar-frame,
