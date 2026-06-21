@@ -49,6 +49,7 @@ export type AppShellNavItemTone =
  */
 export interface AppShellNavItem {
   readonly badgeLabel?: string;
+  readonly children?: readonly AppShellNavItem[];
   readonly description?: string;
   readonly href: string;
   readonly icon: AppShellNavIcon;
@@ -60,6 +61,28 @@ export interface AppShellNavItem {
   readonly state?: AppShellNavItemState;
   readonly tone?: AppShellNavItemTone;
 }
+
+/** Grouped navigation slice rendered inside a sidebar section. */
+export interface AppShellNavGroup {
+  readonly items: readonly AppShellNavItem[];
+  readonly kind: AppShellNavItemKind;
+  readonly label: string;
+}
+
+/** Display labels for governed nav groups in the shell sidebar. */
+export const APP_SHELL_NAV_GROUP_LABELS = {
+  core: "Platform",
+  workspace: "Workspace",
+  module: "Modules",
+  admin: "Administration",
+} as const satisfies Record<AppShellNavItemKind, string>;
+
+const APP_SHELL_NAV_GROUP_ORDER: readonly AppShellNavItemKind[] = [
+  "core",
+  "workspace",
+  "module",
+  "admin",
+];
 
 /** Workspace execution context (IDs) with display labels. */
 export interface AppShellWorkspaceContext {
@@ -255,6 +278,29 @@ export function filterVisibleAppShellNavItems(
   return items
     .filter((item) => resolveAppShellNavItemState(item) !== "hidden")
     .sort((left, right) => left.order - right.order);
+}
+
+/** Group visible nav items by kind for sidebar section rendering. */
+export function groupAppShellNavItemsByKind(
+  items: readonly AppShellNavItem[]
+): AppShellNavGroup[] {
+  const visibleItems = filterVisibleAppShellNavItems(items);
+
+  return APP_SHELL_NAV_GROUP_ORDER.flatMap((kind) => {
+    const groupItems = visibleItems.filter((item) => item.kind === kind);
+
+    if (groupItems.length === 0) {
+      return [];
+    }
+
+    return [
+      {
+        kind,
+        label: APP_SHELL_NAV_GROUP_LABELS[kind],
+        items: groupItems,
+      },
+    ];
+  });
 }
 
 /** Whether a nav item should render as an interactive route link. */

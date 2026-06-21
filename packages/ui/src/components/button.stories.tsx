@@ -1,19 +1,3 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  CheckIcon,
-  DownloadIcon,
-  EditIcon,
-  EyeIcon,
-  FilterIcon,
-  MoreHorizontalIcon,
-  PlusIcon,
-  RefreshCwIcon,
-  SaveIcon,
-  Trash2Icon,
-  UploadIcon,
-  XIcon,
-} from "lucide-react";
-
 import {
   DENSITIES,
   GOVERNED_STATES,
@@ -21,20 +5,117 @@ import {
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
 } from "@afenda/ui/governance";
-
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import {
+  AlertTriangleIcon,
+  ArrowRightIcon,
+  BellIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  CopyIcon,
+  DownloadIcon,
+  EditIcon,
+  EyeIcon,
+  FileTextIcon,
+  FilterIcon,
+  LockIcon,
+  MailIcon,
+  MoreHorizontalIcon,
+  PlayIcon,
+  PlusIcon,
+  RefreshCwIcon,
+  SaveIcon,
+  SendIcon,
+  ShieldCheckIcon,
+  ShieldXIcon,
+  Trash2Icon,
+  UploadIcon,
+  UserIcon,
+  XIcon,
+} from "lucide-react";
+import { useState } from "react";
+import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import { Badge } from "./badge";
 import { Button } from "./button";
 import { Spinner } from "./spinner";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./tooltip";
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
+
+function CopyRecordLinkButton() {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <Button
+      emphasis="outline"
+      intent="secondary"
+      onClick={() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }}
+      size="sm"
+    >
+      {copied ? <CheckIcon /> : <CopyIcon />}
+      {copied ? "Copied" : "Copy link"}
+    </Button>
+  );
+}
+
+function AsyncSubmitButton() {
+  const [phase, setPhase] = useState<"idle" | "loading" | "success">("idle");
+
+  const handleClick = () => {
+    if (phase !== "idle") return;
+    setPhase("loading");
+    setTimeout(() => setPhase("success"), 1500);
+    setTimeout(() => setPhase("idle"), 3500);
+  };
+
+  return (
+    <Button
+      disabled={phase === "loading"}
+      emphasis="solid"
+      intent="primary"
+      onClick={handleClick}
+      size="sm"
+      {...(phase === "loading" ? { state: "loading" as const } : {})}
+    >
+      {phase === "loading" ? (
+        <>
+          <Spinner />
+          Submitting…
+        </>
+      ) : phase === "success" ? (
+        <>
+          <CheckIcon />
+          Submitted
+        </>
+      ) : (
+        <>
+          <SendIcon />
+          Submit for approval
+        </>
+      )}
+    </Button>
+  );
+}
 
 const meta = {
   title: "Primitives/Button",
   component: Button,
   tags: ["autodocs"],
   parameters: {
+    layout: "padded",
     docs: {
       description: {
         component:
-          "Governed button primitive for ERP action surfaces. Combines `intent` (primary · secondary · quiet · destructive) with `emphasis` (solid · soft · outline · ghost) and optional `presentation=\"icon\"` for toolbar slots.",
+          "Governed button primitive for ERP action surfaces. Combines `intent` (primary · secondary · quiet · destructive) with `emphasis` (solid · soft · outline · ghost), `size`, `state`, and optional `presentation=\"icon\"` for toolbar slots.",
       },
     },
   },
@@ -123,6 +204,11 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: { size: "lg" },
+};
+
+export const ExtraSmall: Story = {
+  name: "Size — Extra Small",
+  args: { size: "xs" },
 };
 
 // ─── States ───────────────────────────────────────────────────────────────────
@@ -317,6 +403,142 @@ export const GovernanceDataAuthority: Story = {
   ),
 };
 
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryRow align="center" gap="md" key={state}>
+          <span className="w-24 font-mono text-muted-foreground text-xs">
+            {state}
+          </span>
+          <Button emphasis="solid" intent="primary" size="sm" state={state}>
+            Primary
+          </Button>
+          <Button emphasis="outline" intent="secondary" size="sm" state={state}>
+            Secondary
+          </Button>
+          <Button emphasis="ghost" intent="destructive" size="sm" state={state}>
+            Destructive
+          </Button>
+        </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
+// ─── Composed variants (studio-inspired) ───────────────────────────────────
+
+export const IconTrailing: Story = {
+  name: "Button — Icon Trailing",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="outline" intent="secondary" size="sm">
+      View report
+      <ChevronRightIcon />
+    </Button>
+  ),
+};
+
+export const SoftSave: Story = {
+  name: "Button — Soft Save",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="soft" intent="primary" size="sm">
+      <SaveIcon />
+      Save draft
+    </Button>
+  ),
+};
+
+export const CautionAction: Story = {
+  name: "Button — Caution Action",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="soft" intent="secondary" size="sm">
+      <AlertTriangleIcon />
+      Review warnings
+    </Button>
+  ),
+};
+
+export const CopyRecordLink: Story = {
+  name: "Button — Copy Record Link",
+  parameters: { layout: "padded" },
+  render: () => <CopyRecordLinkButton />,
+};
+
+export const AsyncSubmit: Story = {
+  name: "Button — Async Submit",
+  parameters: { layout: "padded" },
+  render: () => <AsyncSubmitButton />,
+};
+
+export const NotificationBell: Story = {
+  name: "Button — Notification Bell",
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="relative inline-flex">
+      <Button
+        aria-label="Notifications, 5 unread"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
+      >
+        <BellIcon />
+      </Button>
+      <Badge
+        className="absolute -top-1 -right-1"
+        emphasis="solid"
+        size="sm"
+        tone="danger"
+      >
+        5
+      </Badge>
+    </div>
+  ),
+};
+
+export const TooltipIconButton: Story = {
+  name: "Button — Icon With Tooltip",
+  parameters: { layout: "padded" },
+  render: () => (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label="Add record"
+            emphasis="outline"
+            intent="primary"
+            presentation="icon"
+            size="sm"
+          >
+            <PlusIcon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Add record</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ),
+};
+
+export const UserProfileTrigger: Story = {
+  name: "Button — User Profile Trigger",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="ghost" intent="secondary" size="sm">
+      <Avatar size="sm">
+        <AvatarImage alt="Jane Doe" src="https://github.com/shadcn.png" />
+        <AvatarFallback>JD</AvatarFallback>
+      </Avatar>
+      Jane Doe
+      <ChevronRightIcon />
+    </Button>
+  ),
+};
+
 // ─── ERP composite patterns ───────────────────────────────────────────────────
 
 export const FormActions: Story = {
@@ -467,6 +689,299 @@ export const BulkApprove: Story = {
   ),
 };
 
+export const ApproveRejectPair: Story = {
+  name: "ERP — Approve / Reject Pair",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow gap="sm" align="center">
+      <Button emphasis="soft" intent="primary" size="sm">
+        <ShieldCheckIcon />
+        Approve
+      </Button>
+      <Button emphasis="soft" intent="destructive" size="sm">
+        <ShieldXIcon />
+        Reject
+      </Button>
+    </StoryRow>
+  ),
+};
+
+export const SubmitForApproval: Story = {
+  name: "ERP — Submit For Approval",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryRow align="center" gap="sm" justify="end">
+        <Button emphasis="ghost" intent="secondary" size="sm">
+          Save Draft
+        </Button>
+        <AsyncSubmitButton />
+      </StoryRow>
+    </StoryFrame>
+  ),
+};
+
+export const PostJournalEntry: Story = {
+  name: "ERP — Post Journal Entry",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="solid" intent="primary" size="sm">
+      <SendIcon />
+      Post Entry
+    </Button>
+  ),
+};
+
+export const VoidPostedRecord: Story = {
+  name: "ERP — Void Posted Record",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="outline" intent="destructive" size="sm">
+      <XIcon />
+      Void Invoice
+    </Button>
+  ),
+};
+
+export const RunReport: Story = {
+  name: "ERP — Run Report",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="solid" intent="primary" size="sm">
+      <PlayIcon />
+      Run Report
+    </Button>
+  ),
+};
+
+export const SendPaymentReminder: Story = {
+  name: "ERP — Send Payment Reminder",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="outline" intent="secondary" size="sm">
+      <MailIcon />
+      Send Reminder
+    </Button>
+  ),
+};
+
+export const AssignToMe: Story = {
+  name: "ERP — Assign To Me",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="soft" intent="primary" size="sm">
+      <UserIcon />
+      Assign to me
+    </Button>
+  ),
+};
+
+export const LockAccountingPeriod: Story = {
+  name: "ERP — Lock Accounting Period",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="outline" intent="destructive" size="sm">
+      <LockIcon />
+      Lock Period
+    </Button>
+  ),
+};
+
+export const ReconcileBankFeed: Story = {
+  name: "ERP — Reconcile Bank Feed",
+  parameters: { layout: "padded" },
+  render: () => (
+    <Button emphasis="solid" intent="primary" size="sm">
+      <CheckIcon />
+      Reconcile 12 transactions
+    </Button>
+  ),
+};
+
+export const PrintPreview: Story = {
+  name: "ERP — Print Preview",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow gap="sm" align="center">
+      <Button emphasis="outline" intent="secondary" size="sm">
+        <EyeIcon />
+        Preview
+      </Button>
+      <Button emphasis="solid" intent="primary" size="sm">
+        <FileTextIcon />
+        Print PDF
+      </Button>
+    </StoryRow>
+  ),
+};
+
+export const DialogFooterActions: Story = {
+  name: "ERP — Dialog Footer Actions",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryRow align="center" gap="sm" justify="end">
+        <Button emphasis="ghost" intent="secondary" size="sm">
+          Cancel
+        </Button>
+        <Button emphasis="outline" intent="secondary" size="sm">
+          Save Draft
+        </Button>
+        <Button emphasis="solid" intent="primary" size="sm">
+          <SaveIcon />
+          Confirm
+        </Button>
+      </StoryRow>
+    </StoryFrame>
+  ),
+};
+
+export const WizardNavigation: Story = {
+  name: "ERP — Wizard Navigation",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryRow align="center" justify="between">
+        <Button emphasis="ghost" intent="secondary" size="sm">
+          <ArrowRightIcon className="rotate-180" />
+          Back
+        </Button>
+        <span className="text-muted-foreground text-sm">Step 2 of 4 — Vendor details</span>
+        <Button emphasis="solid" intent="primary" size="sm">
+          Next
+          <ArrowRightIcon />
+        </Button>
+      </StoryRow>
+    </StoryFrame>
+  ),
+};
+
+export const EmptyStateCTA: Story = {
+  name: "ERP — Empty State CTA",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack className="items-center" gap="md">
+        <span className="text-muted-foreground text-sm">
+          No purchase orders yet. Create your first PO to get started.
+        </span>
+        <StoryRow gap="sm" justify="center">
+          <Button emphasis="outline" intent="secondary" size="sm">
+            <UploadIcon />
+            Import CSV
+          </Button>
+          <Button emphasis="solid" intent="primary" size="sm">
+            <PlusIcon />
+            Create PO
+          </Button>
+        </StoryRow>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const PublishWorkflow: Story = {
+  name: "ERP — Publish Workflow",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow gap="sm" align="center">
+      <Button emphasis="outline" intent="secondary" size="sm">
+        Save Draft
+      </Button>
+      <Button emphasis="solid" intent="primary" size="sm">
+        <SendIcon />
+        Publish
+      </Button>
+    </StoryRow>
+  ),
+};
+
+export const PermissionLockedAction: Story = {
+  name: "ERP — Permission Locked Action",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="xs">
+      <Button disabled emphasis="solid" intent="primary" size="sm">
+        <LockIcon />
+        Post Entry
+      </Button>
+      <span className="text-muted-foreground text-xs">
+        You need Finance Admin permission to post journal entries.
+      </span>
+    </StoryStack>
+  ),
+};
+
+export const RecordDetailActions: Story = {
+  name: "ERP — Record Detail Actions",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="xl">
+      <StoryRow align="center" justify="between" wrap>
+        <StoryStack gap="xs">
+          <span className="font-mono text-muted-foreground text-xs">INV-2024-0892</span>
+          <span className="font-semibold">Vendor payment — Acme Supplies</span>
+        </StoryStack>
+        <StoryRow align="center" gap="sm" wrap>
+          <CopyRecordLinkButton />
+          <Button emphasis="outline" intent="secondary" size="sm">
+            <EditIcon />
+            Edit
+          </Button>
+          <Button emphasis="solid" intent="primary" size="sm">
+            <CheckIcon />
+            Approve
+          </Button>
+        </StoryRow>
+      </StoryRow>
+    </StoryFrame>
+  ),
+};
+
+export const ImportExportPair: Story = {
+  name: "ERP — Import / Export Pair",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow gap="sm" align="center">
+      <Button emphasis="outline" intent="secondary" size="sm">
+        <UploadIcon />
+        Import
+      </Button>
+      <Button emphasis="outline" intent="secondary" size="sm">
+        <DownloadIcon />
+        Export
+      </Button>
+    </StoryRow>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Icon-only buttons require `aria-label`. Async buttons use `state=\"loading\"` with `disabled`. Notification buttons expose unread count in the label.",
+      },
+    },
+  },
+  render: () => (
+    <StoryStack gap="sm">
+      <Button aria-label="Edit employee record" emphasis="ghost" intent="quiet" presentation="icon" size="sm">
+        <EditIcon />
+      </Button>
+      <Button aria-label="Delete employee record" emphasis="ghost" intent="destructive" presentation="icon" size="sm">
+        <Trash2Icon />
+      </Button>
+      <Button disabled emphasis="solid" intent="primary" size="sm" state="loading">
+        <Spinner />
+        Processing…
+      </Button>
+    </StoryStack>
+  ),
+};
+
 // ─── Full matrix ──────────────────────────────────────────────────────────────
 
 export const AllIntents: Story = {
@@ -517,12 +1032,34 @@ export const AllVariants: Story = {
   render: () => (
     <StoryStack gap="md">
       {VARIANT_INTENTS.map((intent) => (
-        <StoryRow key={intent} gap="sm" wrap align="center">
+        <StoryRow key={intent} align="center" gap="sm" wrap>
           {VARIANT_EMPHASES.map((emphasis) => (
-            <Button key={emphasis} intent={intent} emphasis={emphasis} size="sm">
+            <Button emphasis={emphasis} intent={intent} key={emphasis} size="sm">
               {intent}/{emphasis}
             </Button>
           ))}
+        </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const AllDensities: Story = {
+  name: "Matrix — All Densities",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="sm">
+      {DENSITIES.map((density) => (
+        <StoryRow align="center" gap="md" key={density}>
+          <span className="w-24 font-mono text-muted-foreground text-xs">
+            {density}
+          </span>
+          <Button density={density} emphasis="solid" intent="primary" size="sm">
+            Primary
+          </Button>
+          <Button density={density} emphasis="outline" intent="secondary" size="sm">
+            Secondary
+          </Button>
         </StoryRow>
       ))}
     </StoryStack>

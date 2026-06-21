@@ -8,7 +8,7 @@ import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const AVATAR_RECIPE_NAME = "form-control" as const;
 
-interface AvatarProps
+export interface AvatarProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
     "className"

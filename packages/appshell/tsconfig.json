@@ -3,7 +3,12 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@/governance": ["../ui/src/governance/index.ts"],
+      "@/governance/*": ["../ui/src/governance/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [

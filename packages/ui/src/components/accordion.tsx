@@ -19,14 +19,14 @@ interface AccordionSlotProps
   readonly className?: string;
 }
 
-export interface AccordionProps
-  extends Omit<
-      React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
-      "className"
-    >,
-    GovernedAccordionProps {
-  readonly className?: string;
-}
+type AccordionRootProps = React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Root
+>;
+
+export type AccordionProps = AccordionRootProps &
+  GovernedAccordionProps & {
+    readonly className?: string;
+  };
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,

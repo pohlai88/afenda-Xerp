@@ -5,6 +5,7 @@ import {
   DEFAULT_NAV_ITEMS,
   DEFAULT_WORKSPACE_CONTEXT,
   filterVisibleAppShellNavItems,
+  groupAppShellNavItemsByKind,
   isAppShellNavItemNavigable,
   resolveAppShellActiveNavItemId,
   resolveAppShellNavBadgeLabel,
@@ -79,6 +80,22 @@ describe("@afenda/appshell types", () => {
       "projects",
       "system-admin",
     ]);
+  });
+
+  it("groups visible nav items by kind for sidebar sections", () => {
+    const groups = groupAppShellNavItemsByKind(DEFAULT_NAV_ITEMS);
+
+    expect(groups.map((group) => group.kind)).toEqual(["core", "module", "admin"]);
+    expect(groups[0]?.items.map((item) => item.id)).toEqual(["nexus"]);
+    expect(groups[1]?.items.map((item) => item.id)).toEqual([
+      "manufacturing",
+      "inventory",
+      "sales",
+      "accounting",
+      "hrm",
+      "projects",
+    ]);
+    expect(groups[2]?.items.map((item) => item.id)).toEqual(["system-admin"]);
   });
 
   it("resolves navigability and active item from id or pathname", () => {

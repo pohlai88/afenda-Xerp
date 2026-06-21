@@ -4,6 +4,11 @@
       "command": "npx",
       "args": ["-y", "shadcn@latest", "mcp", "-c", "apps/erp"]
     },
+    "shadcn-studio": {
+      "command": "node",
+      "args": ["${workspaceFolder}/.cursor/mcp/shadcn-studio.mjs"],
+      "envFile": "${workspaceFolder}/.env"
+    },
     "storybook": {
       "type": "http",
       "url": "http://127.0.0.1:6006/mcp"

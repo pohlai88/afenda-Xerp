@@ -1,0 +1,37 @@
+{
+  "extends": "@afenda/typescript-config/strict-react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "#/*": ["./src/*"],
+      "@afenda/ui/governance": ["./src/governance/index.ts"],
+      "@afenda/ui/governance/component-props": [
+        "./src/governance/component-props.ts"
+      ],
+      "@afenda/ui/governance/primitive-governance": [
+        "./src/governance/primitive-governance.ts"
+      ],
+      "@afenda/ui/governance/governed-render": [
+        "./src/governance/governed-render.ts"
+      ],
+      "@afenda/ui/governance/create-governed-slot": [
+        "./src/governance/create-governed-slot.tsx"
+      ],
+      "@afenda/ui/lib/utils": ["./src/lib/utils.ts"]
+    },
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    ".storybook"
+  ]
+}

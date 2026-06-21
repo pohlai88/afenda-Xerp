@@ -21,12 +21,12 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
-  docs: {
-    autodocs: "tag",
-  },
   typescript: {
+    // Vite builder: typecheck via `pnpm typecheck` / tsconfig.storybook.json, not fork-ts-checker.
+    check: false,
     reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
+      // Compiler options only — include/exclude come from this file, not tsconfig paths.
       tsconfigPath: join(
         dirname(fileURLToPath(import.meta.url)),
         "../tsconfig.storybook.json"

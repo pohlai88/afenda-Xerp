@@ -1,64 +1,20 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
-import styles from "./app-shell.module.css";
-import type {
-  AppShellCommandItem,
-  AppShellContextSwitcherState,
-  AppShellIdentity,
-  AppShellWorkspaceContext,
-} from "./app-shell.types";
+"use client";
+
 import { AppShellCommandCenter } from "./app-shell-command-center";
-import { AppShellContextSwitcher } from "./app-shell-context-switcher";
+import type { AppShellCommandItem } from "./app-shell.types";
 
 export interface AppShellHeaderProps {
   readonly commandItems?: readonly AppShellCommandItem[];
-  readonly contextSwitcherCompact?: boolean;
-  readonly contextSwitcherState?: AppShellContextSwitcherState;
-  readonly identity?: AppShellIdentity;
-  readonly identityAccessory?: ReactNode;
-  readonly onContextSwitchRequest?: () => void;
-  readonly workspace: AppShellWorkspaceContext;
 }
 
-export function AppShellHeader({
-  workspace,
-  commandItems,
-  contextSwitcherCompact = true,
-  contextSwitcherState,
-  identity,
-  identityAccessory,
-  onContextSwitchRequest,
-}: AppShellHeaderProps) {
+export function AppShellHeader({ commandItems }: AppShellHeaderProps) {
   return (
-    <header className={styles.header}>
-      <p className={styles.srOnly}>Application header</p>
-      <div className={styles.headerStart}>
-        <Link aria-label="Afenda ERP home" className={styles.brand} href="/">
-          Afenda ERP
-        </Link>
-        <AppShellContextSwitcher
-          compact={contextSwitcherCompact}
-          {...(onContextSwitchRequest === undefined
-            ? {}
-            : { onSwitchRequest: onContextSwitchRequest })}
-          {...(contextSwitcherState === undefined
-            ? {}
-            : { state: contextSwitcherState })}
-          workspace={workspace}
-        />
-      </div>
-
-      <div className={styles.headerEnd}>
+    <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+      <p className="sr-only">Application header</p>
+      <div className="ml-auto flex items-center gap-2">
         <AppShellCommandCenter
           {...(commandItems === undefined ? {} : { items: commandItems })}
         />
-        {identity ? (
-          <div className={styles.identity} title={identity.email}>
-            <span className={styles.identityName}>{identity.displayName}</span>
-            <span className={styles.identityEmail}>{identity.email}</span>
-            {identityAccessory}
-          </div>
-        ) : null}
       </div>
     </header>
   );

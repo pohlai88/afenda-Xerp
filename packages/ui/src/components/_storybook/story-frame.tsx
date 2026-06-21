@@ -2,6 +2,10 @@ import type { ReactNode } from "react";
 
 type Gap = "xs" | "sm" | "md" | "lg";
 type Align = "start" | "center" | "end";
+type Justify = Align | "between";
+type Padding = "xs" | "sm" | "md" | "lg";
+type PaddingX = "xs" | "sm" | "md" | "lg";
+type PaddingY = "xs" | "sm" | "md" | "lg";
 
 const gapClass: Record<Gap, string> = {
   xs: "gap-1",
@@ -16,19 +20,43 @@ const alignClass: Record<Align, string> = {
   end: "items-end",
 };
 
-const justifyClass: Record<Align, string> = {
+const justifyClass: Record<Justify, string> = {
   start: "justify-start",
   center: "justify-center",
   end: "justify-end",
+  between: "justify-between",
+};
+
+const paddingClass: Record<Padding, string> = {
+  xs: "p-1",
+  sm: "p-2",
+  md: "p-3",
+  lg: "p-4",
+};
+
+const paddingXClass: Record<PaddingX, string> = {
+  xs: "px-1",
+  sm: "px-2",
+  md: "px-3",
+  lg: "px-4",
+};
+
+const paddingYClass: Record<PaddingY, string> = {
+  xs: "py-1",
+  sm: "py-2",
+  md: "py-3",
+  lg: "py-4",
 };
 
 /** Constrains width so governed primitives are not infinitely wide in canvas. */
 export function StoryFrame({
   children,
   width = "md",
+  padding,
 }: {
   readonly children: ReactNode;
   readonly width?: "sm" | "md" | "lg" | "xl";
+  readonly padding?: Padding;
 }) {
   const widthClass =
     width === "sm"
@@ -39,7 +67,11 @@ export function StoryFrame({
           ? "max-w-lg"
           : "max-w-xl";
 
-  return <div className={`w-full ${widthClass}`}>{children}</div>;
+  const classes = ["w-full", widthClass, padding ? paddingClass[padding] : ""]
+    .filter(Boolean)
+    .join(" ");
+
+  return <div className={classes}>{children}</div>;
 }
 
 /**
@@ -48,16 +80,24 @@ export function StoryFrame({
  */
 export function StoryRow({
   children,
+  className,
   gap = "sm",
   align = "center",
   justify = "start",
   wrap = false,
+  padding,
+  paddingX,
+  paddingY,
 }: {
   readonly children: ReactNode;
+  readonly className?: string;
   readonly gap?: Gap;
   readonly align?: Align;
-  readonly justify?: Align;
+  readonly justify?: Justify;
   readonly wrap?: boolean;
+  readonly padding?: Padding;
+  readonly paddingX?: PaddingX;
+  readonly paddingY?: PaddingY;
 }) {
   const classes = [
     "flex",
@@ -65,6 +105,10 @@ export function StoryRow({
     alignClass[align],
     justifyClass[justify],
     gapClass[gap],
+    padding ? paddingClass[padding] : "",
+    paddingX ? paddingXClass[paddingX] : "",
+    paddingY ? paddingYClass[paddingY] : "",
+    className,
   ]
     .filter(Boolean)
     .join(" ");
@@ -78,10 +122,30 @@ export function StoryRow({
  */
 export function StoryStack({
   children,
+  className,
   gap = "sm",
+  padding,
+  paddingX,
+  paddingY,
 }: {
   readonly children: ReactNode;
+  readonly className?: string;
   readonly gap?: Gap;
+  readonly padding?: Padding;
+  readonly paddingX?: PaddingX;
+  readonly paddingY?: PaddingY;
 }) {
-  return <div className={`flex flex-col ${gapClass[gap]}`}>{children}</div>;
+  const classes = [
+    "flex",
+    "flex-col",
+    gapClass[gap],
+    padding ? paddingClass[padding] : "",
+    paddingX ? paddingXClass[paddingX] : "",
+    paddingY ? paddingYClass[paddingY] : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return <div className={classes}>{children}</div>;
 }

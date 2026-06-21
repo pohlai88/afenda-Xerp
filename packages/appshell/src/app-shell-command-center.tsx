@@ -1,5 +1,14 @@
+"use client";
+
 import Link from "next/link";
-import styles from "./app-shell.module.css";
+
+import {
+  Badge,
+  Button,
+} from "@afenda/ui";
+import { cn } from "@afenda/ui/lib/utils";
+import { Search } from "lucide-react";
+
 import {
   type AppShellCommandItem,
   type AppShellCommandItemState,
@@ -16,41 +25,7 @@ export interface AppShellCommandCenterProps {
   readonly items?: readonly AppShellCommandItem[];
 }
 
-function requireCssClass(className: string | undefined, token: string): string {
-  if (className) {
-    return className;
-  }
-
-  if (process.env["NODE_ENV"] !== "production") {
-    throw new Error(`Missing AppShell CSS class: ${token}`);
-  }
-
-  return "";
-}
-
-const COMMAND_STATE_CLASS = {
-  ready: requireCssClass(styles.commandState_ready, "commandState_ready"),
-  disabled: requireCssClass(
-    styles.commandState_disabled,
-    "commandState_disabled"
-  ),
-  "coming-soon": requireCssClass(
-    styles.commandState_comingSoon,
-    "commandState_comingSoon"
-  ),
-} as const satisfies Record<AppShellCommandItemState, string>;
-
-function joinCommandClasses(
-  ...parts: Array<string | false | undefined>
-): string {
-  return parts.filter(Boolean).join(" ");
-}
-
-function commandItemClassName(state: AppShellCommandItemState): string {
-  return joinCommandClasses(styles.commandItem, COMMAND_STATE_CLASS[state]);
-}
-
-function AppShellCommandItemContent({
+function CommandItemContent({
   item,
   state,
 }: {
@@ -59,12 +34,16 @@ function AppShellCommandItemContent({
 }) {
   return (
     <>
-      <span className={styles.commandLabel}>{item.label}</span>
+      <span>{item.label}</span>
       {item.keyboardShortcut ? (
-        <kbd className={styles.commandShortcut}>{item.keyboardShortcut}</kbd>
+        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:inline-flex">
+          {item.keyboardShortcut}
+        </kbd>
       ) : null}
       {state === "coming-soon" ? (
-        <span className={styles.commandStateTag}>Soon</span>
+        <Badge emphasis="soft" size="sm" tone="neutral">
+          Soon
+        </Badge>
       ) : null}
     </>
   );
@@ -72,36 +51,46 @@ function AppShellCommandItemContent({
 
 function AppShellCommandItemShell({ item }: { item: AppShellCommandItem }) {
   const state = resolveAppShellCommandItemState(item);
-  const className = commandItemClassName(state);
   const title = resolveAppShellCommandItemTitle(item);
-  const content = <AppShellCommandItemContent item={item} state={state} />;
+  const isDisabled = state !== "ready";
+  const content = <CommandItemContent item={item} state={state} />;
 
   if (isAppShellCommandItemNavigable(item)) {
     return (
-      <Link
-        className={className}
+      <Button
+        asChild
         data-command-group={item.group}
         data-command-id={item.id}
         data-command-kind={item.kind}
-        href={item.href}
+        emphasis="outline"
+        intent="secondary"
+        size="sm"
         title={title}
       >
-        {content}
-      </Link>
+        <Link href={item.href}>
+          <Search className="size-4" />
+          {content}
+        </Link>
+      </Button>
     );
   }
 
   return (
-    <span
-      aria-disabled={state === "ready" ? undefined : true}
-      className={className}
+    <Button
+      aria-disabled={isDisabled}
       data-command-group={item.group}
       data-command-id={item.id}
       data-command-kind={item.kind}
+      disabled={isDisabled}
+      emphasis="outline"
+      intent="secondary"
+      size="sm"
       title={title}
+      type="button"
     >
+      <Search className="size-4" />
       {content}
-    </span>
+    </Button>
   );
 }
 
@@ -113,9 +102,9 @@ export function AppShellCommandCenter({
   return (
     <section
       aria-labelledby={COMMAND_CENTER_HEADING_ID}
-      className={styles.commandCenter}
+      className={cn("flex flex-wrap items-center gap-2")}
     >
-      <h2 className={styles.srOnly} id={COMMAND_CENTER_HEADING_ID}>
+      <h2 className="sr-only" id={COMMAND_CENTER_HEADING_ID}>
         Command center
       </h2>
       {visibleItems.map((item) => (

@@ -6,7 +6,7 @@ import { resolvePrimitiveGovernance } from "#/governance/primitive-governance";
 
 const EMPTY_RECIPE_NAME = "surface" as const;
 
-interface EmptyProps
+export interface EmptyProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }

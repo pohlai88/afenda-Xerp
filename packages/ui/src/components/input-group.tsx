@@ -20,7 +20,7 @@ type InputGroupAddonAlign =
 
 type InputGroupButtonSize = "xs" | "sm" | "icon-xs" | "icon-sm";
 
-interface InputGroupProps
+export interface InputGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }

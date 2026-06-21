@@ -1,4 +1,3 @@
-import styles from "./app-shell.module.css";
 import type { AppShellWorkspaceContext } from "./app-shell.types";
 import {
   type AppShellContextSwitcherState,
@@ -26,12 +25,12 @@ function ContextValue({
 }) {
   return (
     <span
-      className={styles.contextValue}
+      className="truncate font-medium"
       data-context-id={contextId}
       data-context-kind={kind}
       title={`${kind} id: ${contextId}`}
     >
-      <span className={styles.srOnly}>{kind} </span>
+      <span className="sr-only">{kind} </span>
       {label}
     </span>
   );
@@ -50,26 +49,26 @@ export function AppShellContextSwitcher({
   return (
     <section
       aria-labelledby={WORKSPACE_CONTEXT_HEADING_ID}
-      className={styles.contextSwitcher}
+      className="flex w-full min-w-0 flex-wrap items-center gap-1 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2 py-1.5 text-xs text-sidebar-foreground"
       data-context-state={state}
     >
-      <h2 className={styles.contextLegend} id={WORKSPACE_CONTEXT_HEADING_ID}>
+      <h2 className="sr-only" id={WORKSPACE_CONTEXT_HEADING_ID}>
         Workspace context
       </h2>
 
       {statusMessage ? (
-        <p className={styles.contextStatus} role="status">
+        <p className="text-muted-foreground italic" role="status">
           {statusMessage}
         </p>
       ) : (
         <>
-          <div className={styles.contextPrimary}>
+          <div className="flex min-w-0 items-center gap-1">
             <ContextValue
               contextId={workspace.companyId}
               kind="company"
               label={workspace.companyLabel}
             />
-            <span aria-hidden="true" className={styles.contextDivider}>
+            <span aria-hidden="true" className="text-muted-foreground">
               /
             </span>
             <ContextValue
@@ -91,7 +90,7 @@ export function AppShellContextSwitcher({
 
       {canSwitch ? (
         <button
-          className={styles.contextSwitchAction}
+          className="ml-auto shrink-0 rounded-md border border-sidebar-border px-2 py-0.5 text-xs hover:bg-sidebar-accent"
           onClick={onSwitchRequest}
           type="button"
         >

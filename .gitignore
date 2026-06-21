@@ -8,6 +8,7 @@ build/
 .next/
 out/
 .turbo/
+.tsbuild/
 *.tsbuildinfo
 
 # Generated design-system source CSS (rebuild with: pnpm --filter @afenda/design-system build)

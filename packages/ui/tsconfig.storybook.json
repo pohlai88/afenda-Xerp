@@ -1,8 +1,15 @@
 {
-  "extends": "./tsconfig.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@afenda/typescript-config/base.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "noEmit": true,
     "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
     "rootDir": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -26,9 +33,9 @@
   "include": [
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx",
-    "src/**/*.ts",
-    "src/**/*.tsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
     "vitest.storybook.config.ts"
   ],
-  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["dist", "node_modules"]
 }

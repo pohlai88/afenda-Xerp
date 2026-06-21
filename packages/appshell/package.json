@@ -15,12 +15,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && node scripts/copy-assets.mjs",
+    "build": "tsc -b",
     "dev": "tsc -b --watch",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
+  },
+  "dependencies": {
+    "@afenda/ui": "workspace:*",
+    "lucide-react": "^0.525.0"
   },
   "peerDependencies": {
     "next": "^15.0.0",
@@ -37,8 +41,5 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "vitest": "catalog:"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ]
+  }
 }

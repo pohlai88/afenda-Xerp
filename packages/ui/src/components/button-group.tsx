@@ -9,7 +9,7 @@ const BUTTON_GROUP_RECIPE_NAME = "surface" as const;
 
 export type ButtonGroupOrientation = "horizontal" | "vertical";
 
-interface ButtonGroupProps
+export interface ButtonGroupProps
   extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
   readonly className?: string;
   readonly orientation?: ButtonGroupOrientation;

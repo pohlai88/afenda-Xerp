@@ -8,6 +8,7 @@ export type {
   AppShellIdentity,
   AppShellMainProps,
   AppShellModuleNavItemId,
+  AppShellNavGroup,
   AppShellNavIcon,
   AppShellNavItem,
   AppShellNavItemId,
@@ -18,10 +19,12 @@ export type {
   AppShellWorkspaceContext,
 } from "./app-shell.types";
 export {
+  APP_SHELL_NAV_GROUP_LABELS,
   DEFAULT_COMMAND_ITEMS,
   DEFAULT_NAV_ITEMS,
   DEFAULT_WORKSPACE_CONTEXT,
   filterVisibleAppShellNavItems,
+  groupAppShellNavItemsByKind,
   isAppShellCommandItemNavigable,
   isAppShellNavItemNavigable,
   resolveAppShellActiveNavItemId,
