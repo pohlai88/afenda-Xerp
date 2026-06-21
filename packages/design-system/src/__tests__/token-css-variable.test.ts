@@ -5,6 +5,8 @@ import { describe, expect, it } from "vitest";
 import { tokenNameToCssVariable } from "../contracts/token.contract";
 import { AFENDA_TOKEN_REGISTRY } from "../registries/token.registry";
 
+const AFENDA_CSS_VARIABLE_PATTERN = /^--afenda-/;
+
 describe("tokenNameToCssVariable", () => {
   it("maps afenda.* token names to --afenda-* CSS custom properties", () => {
     expect(tokenNameToCssVariable("afenda.color.surface.canvas")).toBe(
@@ -13,7 +15,9 @@ describe("tokenNameToCssVariable", () => {
     expect(tokenNameToCssVariable("afenda.status-tone.danger.surface")).toBe(
       "--afenda-status-tone-danger-surface"
     );
-    expect(tokenNameToCssVariable("afenda.radius.md")).toBe("--afenda-radius-md");
+    expect(tokenNameToCssVariable("afenda.radius.md")).toBe(
+      "--afenda-radius-md"
+    );
     expect(tokenNameToCssVariable("afenda.motion.duration.fast")).toBe(
       "--afenda-motion-duration-fast"
     );
@@ -34,7 +38,7 @@ describe("tokenNameToCssVariable", () => {
 
   it("every CSS variable starts with --afenda-", () => {
     for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
-      expect(token.cssVariable).toMatch(/^--afenda-/);
+      expect(token.cssVariable).toMatch(AFENDA_CSS_VARIABLE_PATTERN);
     }
   });
 

@@ -126,23 +126,21 @@ const SheetContent = React.forwardRef<
         >
           {children}
           {showCloseButton ? (
-            <SheetPrimitive.Close asChild data-slot="sheet-close">
-              <Button
-                className={closeButton.className}
-                emphasis="ghost"
-                intent="quiet"
-                presentation="icon"
-                size="sm"
-              >
-                <XIcon />
-                <span
-                  {...closeLabel.dataAttributes}
-                  className={closeLabel.className}
+            <div {...applyGovernedPresentation({}, closeButton)}>
+              <SheetPrimitive.Close asChild>
+                <Button
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="sm"
                 >
-                  Close
-                </span>
-              </Button>
-            </SheetPrimitive.Close>
+                  <XIcon />
+                  <span {...applyGovernedPresentation({}, closeLabel)}>
+                    Close
+                  </span>
+                </Button>
+              </SheetPrimitive.Close>
+            </div>
           ) : null}
         </SheetPrimitive.Content>
       </SheetPortal>

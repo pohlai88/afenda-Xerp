@@ -4,8 +4,9 @@
  *
  * Exit code 0 = pass, exit code 1 = fail.
  */
-import { AFENDA_EXAMPLE_REGISTRY } from "../registries/example.registry";
+
 import { publicExportContract } from "../policies/export-surface";
+import { AFENDA_EXAMPLE_REGISTRY } from "../registries/example.registry";
 
 const errors: string[] = [];
 
@@ -29,9 +30,7 @@ for (const example of AFENDA_EXAMPLE_REGISTRY) {
   }
 
   if (!example.imitationOnly) {
-    errors.push(
-      `  ✗ Example "${example.name}" must have imitationOnly: true`
-    );
+    errors.push(`  ✗ Example "${example.name}" must have imitationOnly: true`);
   }
 }
 

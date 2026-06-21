@@ -16,4 +16,5 @@ export { tokenNameToCssVariable } from "../contracts/token.contract";
  * @deprecated Use `AfendaCssVariableName` from `contracts/token.contract` instead.
  * Kept for backward-compatibility with existing imports.
  */
-export type AfendaTokenCssVariable = import("../contracts/token.contract").AfendaCssVariableName;
+export type AfendaTokenCssVariable =
+  import("../contracts/token.contract").AfendaCssVariableName;

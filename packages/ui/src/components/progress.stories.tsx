@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import { useEffect, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
@@ -196,7 +196,9 @@ export const MatrixProgressValues: Story = {
             <span className="w-8 text-right text-muted-foreground text-xs">
               {value}%
             </span>
-            <Progress className="min-w-0 flex-1" value={value} />
+            <div className="min-w-0 flex-1">
+              <Progress value={value} />
+            </div>
           </StoryRow>
         ))}
       </StoryStack>

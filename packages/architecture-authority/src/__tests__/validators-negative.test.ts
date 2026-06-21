@@ -108,7 +108,7 @@ describe("architecture authority negative paths", () => {
   it("forbidden-dependencies fails for design-layer packages depending on foundation", () => {
     const result = validateForbiddenDependencies([
       workspace("@afenda/design-system", {
-        "@afenda/kernel": "workspace:*",
+        "@afenda/execution": "workspace:*",
       }),
     ]);
 

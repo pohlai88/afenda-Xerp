@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   BellIcon,
   CreditCardIcon,
@@ -85,9 +85,9 @@ function ControlledAutoSaveComponent() {
       <StoryStack gap="md">
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
-            <Label className="font-medium" htmlFor="ctrl-autosave">
-              Auto-save drafts
-            </Label>
+            <span className="font-medium">
+              <Label htmlFor="ctrl-autosave">Auto-save drafts</Label>
+            </span>
             <span className="text-muted-foreground text-xs">
               Saves open forms every 30 seconds
             </span>
@@ -680,9 +680,9 @@ export const SettingsWithIcons: Story = {
                 aria-hidden="true"
                 className="size-4 text-muted-foreground"
               />
-              <Label className="font-medium text-sm" htmlFor={id}>
-                {label}
-              </Label>
+              <span className="font-medium text-sm">
+                <Label htmlFor={id}>{label}</Label>
+              </span>
             </StoryRow>
             <Switch
               id={id}
@@ -743,9 +743,9 @@ export const ModuleCapabilityMatrix: Story = {
                   key={id}
                   paddingX="sm"
                 >
-                  <Label className="font-normal text-sm" htmlFor={id}>
-                    {label}
-                  </Label>
+                  <span className="font-normal text-sm">
+                    <Label htmlFor={id}>{label}</Label>
+                  </span>
                   <Switch defaultChecked={checked} id={id} size="sm" />
                 </StoryRow>
               ))}

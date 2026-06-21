@@ -39,7 +39,8 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@afenda/database": "workspace:^",
+    "@afenda/database": "workspace:*",
+    "@afenda/kernel": "workspace:*",
     "better-auth": "^1.6.19"
   }
 }

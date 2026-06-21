@@ -1,5 +1,5 @@
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { ChangeEvent, ReactNode } from "react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
@@ -627,20 +627,20 @@ export const FilterToolbar: Story = {
   render: () => (
     <StoryFrame width="xl">
       <StoryRow align="center" gap="sm" wrap>
-        <Input
-          className="min-w-48 flex-1"
-          density="compact"
-          placeholder="Search invoices…"
-          size="sm"
-          type="search"
-        />
-        <Input
-          className="w-36"
-          density="compact"
-          placeholder="Vendor"
-          size="sm"
-        />
-        <Input className="w-32" density="compact" size="sm" type="date" />
+        <div className="min-w-48 flex-1">
+          <Input
+            density="compact"
+            placeholder="Search invoices…"
+            size="sm"
+            type="search"
+          />
+        </div>
+        <div className="w-36">
+          <Input density="compact" placeholder="Vendor" size="sm" />
+        </div>
+        <div className="w-32">
+          <Input density="compact" size="sm" type="date" />
+        </div>
       </StoryRow>
     </StoryFrame>
   ),
@@ -652,15 +652,18 @@ export const InlineEditRow: Story = {
   render: () => (
     <StoryFrame width="xl">
       <StoryRow align="center" gap="sm">
-        <Input className="w-28" placeholder="Line #" size="sm" />
-        <Input className="min-w-0 flex-1" placeholder="Description" size="sm" />
-        <Input className="w-20" placeholder="Qty" size="sm" type="number" />
-        <Input
-          className="w-28"
-          placeholder="Unit price"
-          size="sm"
-          type="number"
-        />
+        <div className="w-28">
+          <Input placeholder="Line #" size="sm" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <Input placeholder="Description" size="sm" />
+        </div>
+        <div className="w-20">
+          <Input placeholder="Qty" size="sm" type="number" />
+        </div>
+        <div className="w-28">
+          <Input placeholder="Unit price" size="sm" type="number" />
+        </div>
       </StoryRow>
     </StoryFrame>
   ),

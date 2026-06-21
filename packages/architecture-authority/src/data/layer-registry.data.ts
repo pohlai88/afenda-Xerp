@@ -60,10 +60,10 @@ export const layerContract: LayerContract = {
     "@afenda/typescript-config": "Platform",
     "@afenda/architecture-authority": "Platform",
     "@afenda/ai-governance": "Platform",
+    "@afenda/kernel": "Platform",
     "@afenda/design-system": "Design",
     "@afenda/ui": "Design",
     "@afenda/execution": "Foundation",
-    "@afenda/kernel": "Foundation",
     "@afenda/storage": "Foundation",
     "@afenda/metadata": "Metadata",
     "@afenda/metadata-ui": "Metadata",
@@ -73,6 +73,7 @@ export const layerContract: LayerContract = {
     "@afenda/appshell": "ERPSpine",
     "@afenda/erp": "Application",
     "@afenda/docs": "Application",
+    "@afenda/storybook": "Application",
   },
   allowedTargets: {
     Application: [

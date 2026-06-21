@@ -408,3 +408,8 @@ export type {
   VariantIntent,
 } from "./governance";
 export { cn } from "./lib/utils";
+export { FacebookIcon } from "./icons/facebook-icon";
+export { InstagramIcon } from "./icons/instagram-icon";
+export { LinkedinIcon } from "./icons/linkedin-icon";
+export { Logo } from "./icons/logo";
+export { TwitterIcon } from "./icons/twitter-icon";

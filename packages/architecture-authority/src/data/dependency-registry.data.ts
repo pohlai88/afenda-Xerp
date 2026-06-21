@@ -1,7 +1,10 @@
 import type { DependencyContract } from "../contracts/dependency.contract.js";
 
 const RUNTIME_EDGES = [
+  ["@afenda/appshell", "@afenda/ui"],
+  ["@afenda/appshell", "@afenda/kernel"],
   ["@afenda/auth", "@afenda/database"],
+  ["@afenda/auth", "@afenda/kernel"],
   ["@afenda/database", "@afenda/observability"],
   ["@afenda/entitlements", "@afenda/database"],
   ["@afenda/erp", "@afenda/appshell"],
@@ -9,6 +12,10 @@ const RUNTIME_EDGES = [
   ["@afenda/erp", "@afenda/database"],
   ["@afenda/erp", "@afenda/design-system"],
   ["@afenda/erp", "@afenda/observability"],
+  ["@afenda/erp", "@afenda/ui"],
+  ["@afenda/storybook", "@afenda/appshell"],
+  ["@afenda/storybook", "@afenda/design-system"],
+  ["@afenda/storybook", "@afenda/ui"],
   ["@afenda/execution", "@afenda/kernel"],
   ["@afenda/execution", "@afenda/observability"],
   ["@afenda/feature-flags", "@afenda/entitlements"],
@@ -26,8 +33,8 @@ export const dependencyContract: DependencyContract = {
     classification: "Approved",
   })),
   approvedRuntimeByPackage: {
-    "@afenda/appshell": [],
-    "@afenda/auth": ["@afenda/database"],
+    "@afenda/appshell": ["@afenda/ui", "@afenda/kernel"],
+    "@afenda/auth": ["@afenda/database", "@afenda/kernel"],
     "@afenda/database": ["@afenda/observability"],
     "@afenda/design-system": [],
     "@afenda/docs": [],
@@ -38,6 +45,12 @@ export const dependencyContract: DependencyContract = {
       "@afenda/database",
       "@afenda/design-system",
       "@afenda/observability",
+      "@afenda/ui",
+    ],
+    "@afenda/storybook": [
+      "@afenda/appshell",
+      "@afenda/design-system",
+      "@afenda/ui",
     ],
     "@afenda/execution": ["@afenda/kernel", "@afenda/observability"],
     "@afenda/feature-flags": ["@afenda/entitlements"],

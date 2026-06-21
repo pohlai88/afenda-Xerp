@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
   CreditCardIcon,
@@ -318,12 +318,16 @@ export const FilterToolbarClusters: Story = {
             Overdue
           </Badge>
         </StoryRow>
-        <Separator className="hidden h-8 sm:block" orientation="vertical" />
+        <div className="hidden h-8 sm:block">
+          <Separator orientation="vertical" />
+        </div>
         <StoryRow gap="sm" wrap>
           <Badge emphasis="outline">Department: Finance</Badge>
           <Badge emphasis="outline">Assigned: Me</Badge>
         </StoryRow>
-        <Separator className="hidden h-8 sm:block" orientation="vertical" />
+        <div className="hidden h-8 sm:block">
+          <Separator orientation="vertical" />
+        </div>
         <Button emphasis="ghost" intent="secondary" size="sm">
           Clear filters
         </Button>
@@ -533,7 +537,9 @@ export const VerticalToolbarSplit: Story = {
         <Button emphasis="outline" intent="secondary" size="sm">
           Import
         </Button>
-        <Separator className="h-8" orientation="vertical" />
+        <div className="h-8">
+          <Separator orientation="vertical" />
+        </div>
         <Button intent="primary" size="sm">
           New record
         </Button>

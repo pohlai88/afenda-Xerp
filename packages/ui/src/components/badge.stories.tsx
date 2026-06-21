@@ -5,7 +5,7 @@ import {
   STATUS_TONES,
   VARIANT_EMPHASES,
 } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertTriangleIcon,
   BanIcon,
@@ -590,7 +590,9 @@ export const TableStatusColumn: Story = {
             },
           ].map(({ id, module, status, priority }) => (
             <TableRow key={id}>
-              <TableCell className="font-mono text-sm">{id}</TableCell>
+              <TableCell>
+                <span className="font-mono text-sm">{id}</span>
+              </TableCell>
               <TableCell>{module}</TableCell>
               <TableCell>
                 <StatusBadge label={status.label} tone={status.tone} />
@@ -767,6 +769,50 @@ export const PaymentStatus: Story = {
         Chargeback
       </Badge>
     </StoryRow>
+  ),
+};
+
+export const StatusBridgeTones: Story = {
+  name: "Token — Status Bridge Tones",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Success, warning, and info tones now use `--success`, `--warning`, and `--info` bridge utilities (retargeted from accent/chart-3/primary proxies). Toggle Theme to verify dark-mode token values. Solid emphasis fills with the bridge background; soft/outline use alpha variants.",
+      },
+    },
+  },
+  render: () => (
+    <StoryStack gap="lg">
+      <StoryStack gap="sm">
+        <span className="font-medium text-foreground text-xs">Solid (filled background)</span>
+        <StoryRow gap="sm" wrap>
+          <Badge emphasis="solid" tone="success">Success</Badge>
+          <Badge emphasis="solid" tone="warning">Warning</Badge>
+          <Badge emphasis="solid" tone="info">Info</Badge>
+          <Badge emphasis="solid" tone="danger">Danger</Badge>
+        </StoryRow>
+      </StoryStack>
+      <StoryStack gap="sm">
+        <span className="font-medium text-foreground text-xs">Soft (10 % alpha surface)</span>
+        <StoryRow gap="sm" wrap>
+          <Badge emphasis="soft" tone="success">Success</Badge>
+          <Badge emphasis="soft" tone="warning">Warning</Badge>
+          <Badge emphasis="soft" tone="info">Info</Badge>
+          <Badge emphasis="soft" tone="danger">Danger</Badge>
+        </StoryRow>
+      </StoryStack>
+      <StoryStack gap="sm">
+        <span className="font-medium text-foreground text-xs">Outline (border only)</span>
+        <StoryRow gap="sm" wrap>
+          <Badge emphasis="outline" tone="success">Success</Badge>
+          <Badge emphasis="outline" tone="warning">Warning</Badge>
+          <Badge emphasis="outline" tone="info">Info</Badge>
+          <Badge emphasis="outline" tone="danger">Danger</Badge>
+        </StoryRow>
+      </StoryStack>
+    </StoryStack>
   ),
 };
 

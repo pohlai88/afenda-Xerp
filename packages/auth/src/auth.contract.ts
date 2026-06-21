@@ -1,5 +1,7 @@
 /** Serializable auth boundary contracts (TIP-004). Types and constants only. */
 
+import type { UserId } from "@afenda/kernel";
+
 export interface AfendaAuthUser {
   readonly email: string;
   readonly emailVerified: boolean;
@@ -26,7 +28,7 @@ export interface AfendaAuthSession {
 export interface AfendaAuthIdentity {
   readonly displayName: string;
   readonly email: string;
-  readonly userId: string;
+  readonly userId: UserId;
 }
 
 /** Extension points reserved for future MFA, SSO, invitations (metadata only). */

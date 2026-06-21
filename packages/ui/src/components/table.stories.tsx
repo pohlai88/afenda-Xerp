@@ -1,5 +1,5 @@
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArrowDownIcon,
   ArrowUpDownIcon,
@@ -238,16 +238,20 @@ function SelectableInvoiceTableComponent() {
           <Table size="sm">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-10">
+                <TableHead>
+                  <div className="w-10">
                   <Checkbox
                     aria-label="Select all invoices"
                     checked={someSelected ? "indeterminate" : allSelected}
                     onCheckedChange={toggleAll}
                   />
+                </div>
                 </TableHead>
                 <TableHead>Invoice</TableHead>
                 <TableHead>Vendor</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>
+                  <div className="text-right">Amount</div>
+                </TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -261,10 +265,14 @@ function SelectableInvoiceTableComponent() {
                       onCheckedChange={() => toggleRow(row.id)}
                     />
                   </TableCell>
-                  <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                  <TableCell>
+                    <span className="font-mono text-sm">{row.id}</span>
+                  </TableCell>
                   <TableCell>{row.vendor}</TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell>
+                    <span className="text-right tabular-nums">
                     {formatCurrency(row.amount)}
+                  </span>
                   </TableCell>
                   <TableCell>
                     <StatusCell label={row.status} tone={row.tone} />
@@ -365,16 +373,22 @@ export const Compact: Story = {
           <TableRow>
             <TableHead>SKU</TableHead>
             <TableHead>Product</TableHead>
-            <TableHead className="text-right">On hand</TableHead>
+            <TableHead>
+              <div className="text-right">On hand</div>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {INVENTORY_ROWS.map((row) => (
             <TableRow key={row.sku}>
-              <TableCell className="font-mono text-sm">{row.sku}</TableCell>
+              <TableCell>
+                <span className="font-mono text-sm">{row.sku}</span>
+              </TableCell>
               <TableCell>{row.name}</TableCell>
-              <TableCell className="text-right tabular-nums">
+              <TableCell>
+                <span className="text-right tabular-nums">
                 {row.onHand}
+              </span>
               </TableCell>
             </TableRow>
           ))}
@@ -463,18 +477,24 @@ export const GovernanceAccessibility: Story = {
           <TableRow>
             <TableHead scope="col">Invoice</TableHead>
             <TableHead scope="col">Vendor</TableHead>
-            <TableHead className="text-right" scope="col">
+            <TableHead scope="col">
+              <div className="text-right">
               Amount
+            </div>
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {INVOICES.slice(0, 2).map((row) => (
             <TableRow key={row.id}>
-              <TableCell className="font-mono text-sm">{row.id}</TableCell>
+              <TableCell>
+                <span className="font-mono text-sm">{row.id}</span>
+              </TableCell>
               <TableCell>{row.vendor}</TableCell>
-              <TableCell className="text-right tabular-nums">
+              <TableCell>
+                <span className="text-right tabular-nums">
                 {formatCurrency(row.amount)}
+              </span>
               </TableCell>
             </TableRow>
           ))}
@@ -503,7 +523,9 @@ export const AllDensities: Story = {
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="font-mono text-sm">PO-1184</TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm">PO-1184</span>
+                </TableCell>
                 <TableCell>Acme Supplies</TableCell>
               </TableRow>
             </TableBody>
@@ -534,8 +556,10 @@ export const AllSizes: Story = {
             <TableBody>
               <TableRow>
                 <TableCell>INV-0042</TableCell>
-                <TableCell className="tabular-nums">
+                <TableCell>
+                  <span className="tabular-nums">
                   {formatCurrency(24_850)}
+                </span>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -565,8 +589,10 @@ export const InvoiceList: Story = {
               <TableHead>
                 <SortableHeader label="Due date" sort="none" />
               </TableHead>
-              <TableHead className="text-right">
+              <TableHead>
+                <div className="text-right">
                 <SortableHeader label="Amount" sort="desc" />
+              </div>
               </TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
@@ -574,13 +600,19 @@ export const InvoiceList: Story = {
           <TableBody>
             {INVOICES.map((row) => (
               <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
-                <TableCell>{row.vendor}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">
-                  {row.due}
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
                 </TableCell>
-                <TableCell className="text-right font-medium tabular-nums">
+                <TableCell>{row.vendor}</TableCell>
+                <TableCell>
+                  <span className="text-muted-foreground text-sm">
+                  {row.due}
+                </span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-right font-medium tabular-nums">
                   {formatCurrency(row.amount)}
+                </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -591,10 +623,12 @@ export const InvoiceList: Story = {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>4 invoices shown</TableCell>
-              <TableCell className="text-right font-semibold tabular-nums">
+              <TableCell>
+                <span className="text-right font-semibold tabular-nums">
                 {formatCurrency(
                   INVOICES.reduce((sum, row) => sum + row.amount, 0)
                 )}
+              </span>
               </TableCell>
               <TableCell />
             </TableRow>
@@ -637,10 +671,14 @@ export const EmployeeRoster: Story = {
                     <span className="font-medium text-sm">{row.name}</span>
                   </StoryRow>
                 </TableCell>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
+                </TableCell>
                 <TableCell>{row.department}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">
+                <TableCell>
+                  <span className="text-muted-foreground text-sm">
                   {row.email}
+                </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -672,17 +710,23 @@ export const PurchaseOrderList: Story = {
             <TableRow>
               <TableHead>PO number</TableHead>
               <TableHead>Vendor</TableHead>
-              <TableHead className="text-right">Total</TableHead>
+              <TableHead>
+                <div className="text-right">Total</div>
+              </TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {PURCHASE_ORDERS.map((row) => (
               <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
+                </TableCell>
                 <TableCell>{row.vendor}</TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {formatCurrency(row.amount)}
+                </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -707,21 +751,31 @@ export const InventoryStockLevels: Story = {
             <TableRow>
               <TableHead>SKU</TableHead>
               <TableHead>Product</TableHead>
-              <TableHead className="text-right">On hand</TableHead>
-              <TableHead className="text-right">Reorder pt.</TableHead>
+              <TableHead>
+                <div className="text-right">On hand</div>
+              </TableHead>
+              <TableHead>
+                <div className="text-right">Reorder pt.</div>
+              </TableHead>
               <TableHead>Stock level</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {INVENTORY_ROWS.map((row) => (
               <TableRow key={row.sku}>
-                <TableCell className="font-mono text-sm">{row.sku}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {row.onHand.toLocaleString()}
+                <TableCell>
+                  <span className="font-mono text-sm">{row.sku}</span>
                 </TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>{row.name}</TableCell>
+                <TableCell>
+                  <span className="text-right tabular-nums">
+                  {row.onHand.toLocaleString()}
+                </span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {row.reorder}
+                </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell
@@ -756,7 +810,9 @@ export const ApprovalQueue: Story = {
               <TableHead>Record</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Submitted by</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>
+                <div className="text-right">Amount</div>
+              </TableHead>
               <TableHead>SLA</TableHead>
             </TableRow>
           </TableHeader>
@@ -788,11 +844,15 @@ export const ApprovalQueue: Story = {
               },
             ].map((row) => (
               <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
+                </TableCell>
                 <TableCell>{row.type}</TableCell>
                 <TableCell>{row.submitter}</TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {formatCurrency(row.amount)}
+                </span>
                 </TableCell>
                 <TableCell>
                   <Badge emphasis="outline" size="sm" tone={row.tone}>
@@ -826,18 +886,23 @@ export const RowActionsColumn: Story = {
               <TableHead>PO number</TableHead>
               <TableHead>Vendor</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>
+                <div className="text-right">Actions</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {PURCHASE_ORDERS.slice(0, 2).map((row) => (
               <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
+                </TableCell>
                 <TableCell>{row.vendor}</TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell>
+                  <div className="text-right">
                   <StoryRow gap="xs" justify="end">
                     <ButtonGroup>
                       <Button
@@ -878,6 +943,7 @@ export const RowActionsColumn: Story = {
                       <MoreHorizontalIcon />
                     </Button>
                   </StoryRow>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -900,9 +966,15 @@ export const LineItemsGrid: Story = {
             <TableRow>
               <TableHead>Line</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead className="text-right">Qty</TableHead>
-              <TableHead className="text-right">Unit price</TableHead>
-              <TableHead className="text-right">Line total</TableHead>
+              <TableHead>
+                <div className="text-right">Qty</div>
+              </TableHead>
+              <TableHead>
+                <div className="text-right">Unit price</div>
+              </TableHead>
+              <TableHead>
+                <div className="text-right">Line total</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -912,16 +984,24 @@ export const LineItemsGrid: Story = {
               { line: 3, desc: "Packing tape (rolls)", qty: 80, unit: 4.5 },
             ].map((row) => (
               <TableRow key={row.line}>
-                <TableCell className="tabular-nums">{row.line}</TableCell>
+                <TableCell>
+                  <span className="tabular-nums">{row.line}</span>
+                </TableCell>
                 <TableCell>{row.desc}</TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {row.qty}
+                </span>
                 </TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {formatCurrency(row.unit)}
+                </span>
                 </TableCell>
-                <TableCell className="text-right font-medium tabular-nums">
+                <TableCell>
+                  <span className="text-right font-medium tabular-nums">
                   {formatCurrency(row.qty * row.unit)}
+                </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -929,8 +1009,10 @@ export const LineItemsGrid: Story = {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={4}>Subtotal</TableCell>
-              <TableCell className="text-right font-semibold tabular-nums">
+              <TableCell>
+                <span className="text-right font-semibold tabular-nums">
                 {formatCurrency(500 * 12 + 200 * 9 + 80 * 4.5)}
+              </span>
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -952,7 +1034,9 @@ export const ExpenseReportLines: Story = {
               <TableHead>Date</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>
+                <div className="text-right">Amount</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -977,8 +1061,10 @@ export const ExpenseReportLines: Story = {
               },
             ].map((row) => (
               <TableRow key={row.desc}>
-                <TableCell className="text-muted-foreground text-sm">
+                <TableCell>
+                  <span className="text-muted-foreground text-sm">
                   {row.date}
+                </span>
                 </TableCell>
                 <TableCell>
                   <Badge emphasis="outline" size="sm" tone="neutral">
@@ -986,8 +1072,10 @@ export const ExpenseReportLines: Story = {
                   </Badge>
                 </TableCell>
                 <TableCell>{row.desc}</TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {formatCurrency(row.amount)}
+                </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -995,8 +1083,10 @@ export const ExpenseReportLines: Story = {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total reimbursement</TableCell>
-              <TableCell className="text-right font-semibold tabular-nums">
+              <TableCell>
+                <span className="text-right font-semibold tabular-nums">
                 {formatCurrency(1180)}
+              </span>
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -1043,8 +1133,10 @@ export const AuditTrailTable: Story = {
               },
             ].map((row) => (
               <TableRow key={row.time}>
-                <TableCell className="text-muted-foreground text-sm">
+                <TableCell>
+                  <span className="text-muted-foreground text-sm">
                   {row.time}
+                </span>
                 </TableCell>
                 <TableCell>{row.actor}</TableCell>
                 <TableCell>
@@ -1052,7 +1144,9 @@ export const AuditTrailTable: Story = {
                     {row.action}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-sm">{row.field}</TableCell>
+                <TableCell>
+                  <span className="text-sm">{row.field}</span>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -1073,8 +1167,12 @@ export const TimesheetEntries: Story = {
             <TableRow>
               <TableHead>Project</TableHead>
               <TableHead>Task</TableHead>
-              <TableHead className="text-right">Hours</TableHead>
-              <TableHead className="text-right">Billable</TableHead>
+              <TableHead>
+                <div className="text-right">Hours</div>
+              </TableHead>
+              <TableHead>
+                <div className="text-right">Billable</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -1099,14 +1197,19 @@ export const TimesheetEntries: Story = {
               },
             ].map((row) => (
               <TableRow key={`${row.project}-${row.task}`}>
-                <TableCell className="font-mono text-sm">
+                <TableCell>
+                  <span className="font-mono text-sm">
                   {row.project}
+                </span>
                 </TableCell>
                 <TableCell>{row.task}</TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {row.hours.toFixed(1)}
+                </span>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell>
+                  <div className="text-right">
                   <Badge
                     emphasis="soft"
                     size="sm"
@@ -1114,6 +1217,7 @@ export const TimesheetEntries: Story = {
                   >
                     {row.billable ? "Yes" : "No"}
                   </Badge>
+                </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -1121,8 +1225,10 @@ export const TimesheetEntries: Story = {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={2}>Week total</TableCell>
-              <TableCell className="text-right font-semibold tabular-nums">
+              <TableCell>
+                <span className="text-right font-semibold tabular-nums">
                 10.0
+              </span>
               </TableCell>
               <TableCell />
             </TableRow>
@@ -1144,8 +1250,12 @@ export const MultiCurrencyColumns: Story = {
             <TableRow>
               <TableHead>Invoice</TableHead>
               <TableHead>Currency</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="text-right">USD equivalent</TableHead>
+              <TableHead>
+                <div className="text-right">Amount</div>
+              </TableHead>
+              <TableHead>
+                <div className="text-right">USD equivalent</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -1170,13 +1280,19 @@ export const MultiCurrencyColumns: Story = {
               },
             ].map((row) => (
               <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.id}</TableCell>
-                <TableCell>{row.currency}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {row.amount}
+                <TableCell>
+                  <span className="font-mono text-sm">{row.id}</span>
                 </TableCell>
-                <TableCell className="text-right tabular-nums">
+                <TableCell>{row.currency}</TableCell>
+                <TableCell>
+                  <span className="text-right tabular-nums">
+                  {row.amount}
+                </span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-right tabular-nums">
                   {formatCurrency(row.usd)}
+                </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -1204,13 +1320,12 @@ export const EmptyResults: Story = {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell
-                className="text-center text-muted-foreground text-sm"
-                colSpan={3}
-              >
-                <StoryStack padding="lg">
-                  No records match your filters. Adjust filters or clear search.
-                </StoryStack>
+              <TableCell colSpan={3}>
+                <div className="text-center text-muted-foreground text-sm">
+                  <StoryStack padding="lg">
+                    No records match your filters. Adjust filters or clear search.
+                  </StoryStack>
+                </div>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -1232,16 +1347,22 @@ export const LoadingState: Story = {
               <TableRow>
                 <TableHead>Invoice</TableHead>
                 <TableHead>Vendor</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>
+                  <div className="text-right">Amount</div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {INVOICES.slice(0, 2).map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                  <TableCell>
+                    <span className="font-mono text-sm">{row.id}</span>
+                  </TableCell>
                   <TableCell>{row.vendor}</TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell>
+                    <span className="text-right tabular-nums">
                     {formatCurrency(row.amount)}
+                  </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -1277,18 +1398,24 @@ export const PaginationIntegration: Story = {
               <TableRow>
                 <TableHead>Invoice</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>
+                  <div className="text-right">Amount</div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {INVOICES.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell className="font-mono text-sm">{row.id}</TableCell>
+                  <TableCell>
+                    <span className="font-mono text-sm">{row.id}</span>
+                  </TableCell>
                   <TableCell>
                     <StatusCell label={row.status} tone={row.tone} />
                   </TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell>
+                    <span className="text-right tabular-nums">
                     {formatCurrency(row.amount)}
+                  </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -1309,6 +1436,69 @@ export const PaginationIntegration: Story = {
           </StoryRow>
         </StoryRow>
       </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const SemanticRowStates: Story = {
+  name: "Token — Semantic Row States",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Hover and selected row states driven by `--afenda-table-row-hover` and `--afenda-table-row-selected` tokens. Toggle Theme to verify dark-mode values. Row border uses `--afenda-table-row-border`; header uses `--afenda-table-header-foreground` and `--afenda-table-header-background` (footer).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="xl">
+      <TableShell>
+        <Table size="sm">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Invoice</TableHead>
+              <TableHead>Vendor</TableHead>
+              <TableHead>Row state</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow data-state="selected">
+              <TableCell>INV-2026-0042</TableCell>
+              <TableCell>Acme Supplies Ltd.</TableCell>
+              <TableCell>
+                <Badge emphasis="soft" size="sm" tone="info">
+                  selected
+                </Badge>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>INV-2026-0038</TableCell>
+              <TableCell>Global Parts Inc.</TableCell>
+              <TableCell>
+                <Badge emphasis="soft" size="sm" tone="neutral">
+                  default (hover me)
+                </Badge>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>INV-2026-0031</TableCell>
+              <TableCell>Northwind Traders</TableCell>
+              <TableCell>
+                <Badge emphasis="soft" size="sm" tone="neutral">
+                  default (hover me)
+                </Badge>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={2}>Footer — header background token</TableCell>
+              <TableCell>3 rows</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableShell>
     </StoryFrame>
   ),
 };
@@ -1335,7 +1525,9 @@ export const TableVsBadgeStatus: Story = {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-mono text-sm">PO-1184</TableCell>
+              <TableCell>
+                <span className="font-mono text-sm">PO-1184</span>
+              </TableCell>
               <TableCell>
                 <StatusCell label="Pending approval" tone="warning" />
               </TableCell>

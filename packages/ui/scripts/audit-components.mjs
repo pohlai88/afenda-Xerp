@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const dir = join(import.meta.dirname, "../src/components");
@@ -16,8 +16,12 @@ for (const file of files) {
   const rawCls = (c.match(/className="[^"]+"/g) ?? []).length;
   const stateStr = /state\?: string/.test(c);
   const cva = /\bcva\s*\(/.test(c);
-  const govBeforeProps = /\{\.\.\.governed\.dataAttributes\}\s*\n?\s*(?:className=\{[^}]+\}\s*\n?\s*)?\{\.\.\.props\}/u.test(c);
-  const propsBeforeGov = /\{\.\.\.props\}[\s\S]{0,200}\{\.\.\.governed\.dataAttributes\}/.test(c);
+  const govBeforeProps =
+    /\{\.\.\.governed\.dataAttributes\}\s*\n?\s*(?:className=\{[^}]+\}\s*\n?\s*)?\{\.\.\.props\}/u.test(
+      c
+    );
+  const propsBeforeGov =
+    /\{\.\.\.props\}[\s\S]{0,200}\{\.\.\.governed\.dataAttributes\}/.test(c);
   console.log(
     [
       base,

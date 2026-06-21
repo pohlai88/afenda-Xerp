@@ -4,7 +4,7 @@ import {
   type AccessibilityRequirement,
   accessibilityPolicy,
 } from "./design-system";
-import { isDevelopment } from "./dev-env";
+import { reportGovernanceRuntimeViolation } from "./dev-env";
 import {
   type GovernedUiComponentName,
   isGovernedUiComponentName,
@@ -376,9 +376,9 @@ export function getComponentAccessibilityRequirement(
   componentName: string
 ): readonly AccessibilityRequirement[] {
   if (!isGovernedUiComponentName(componentName)) {
-    if (isDevelopment) {
-      throw new Error(formatUnknownComponentViolation(componentName));
-    }
+    reportGovernanceRuntimeViolation(
+      formatUnknownComponentViolation(componentName)
+    );
 
     return accessibilityPolicy.baseline;
   }

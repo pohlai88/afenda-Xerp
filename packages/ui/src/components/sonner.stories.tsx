@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import { ThemeProvider } from "next-themes";
 import { toast } from "sonner";
 import { StoryRow, StoryStack } from "./_storybook/story-frame";

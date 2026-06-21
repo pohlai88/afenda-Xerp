@@ -5,8 +5,6 @@ import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
 import { Button } from "./button";
-import { Input } from "./input";
-import { Textarea } from "./textarea";
 
 const INPUT_GROUP_RECIPE_NAME = "form-control" as const;
 
@@ -177,14 +175,14 @@ const InputGroupText = React.forwardRef<HTMLSpanElement, InputGroupTextProps>(
 InputGroupText.displayName = "InputGroupText";
 
 interface InputGroupInputProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof Input>, "className"> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "className" | "size"> {
   readonly className?: string;
 }
 
 const InputGroupInput = React.forwardRef<
   HTMLInputElement,
   InputGroupInputProps
->(({ className, size: _nativeSize, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "InputGroup",
     recipeName: INPUT_GROUP_RECIPE_NAME,
@@ -193,13 +191,15 @@ const InputGroupInput = React.forwardRef<
     className,
   });
 
-  return <Input ref={ref} {...applyGovernedPresentation(props, governed)} />;
+  return (
+    <input ref={ref} {...applyGovernedPresentation(props, governed)} />
+  );
 });
 
 InputGroupInput.displayName = "InputGroupInput";
 
 interface InputGroupTextareaProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof Textarea>, "className"> {
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "className"> {
   readonly className?: string;
 }
 
@@ -215,7 +215,9 @@ const InputGroupTextarea = React.forwardRef<
     className,
   });
 
-  return <Textarea ref={ref} {...applyGovernedPresentation(props, governed)} />;
+  return (
+    <textarea ref={ref} {...applyGovernedPresentation(props, governed)} />
+  );
 });
 
 InputGroupTextarea.displayName = "InputGroupTextarea";

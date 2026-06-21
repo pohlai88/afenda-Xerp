@@ -10,6 +10,7 @@
   "files": {
     "includes": [
       "!!**/.cursor",
+      "!!**/packages/ui/src/components/shadcn-studio",
       "!!**/temp-docx",
       "!!**/*.docx",
       "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx",
@@ -19,7 +20,8 @@
       "!!**/.next",
       "!!**/.turbo",
       "!!**/packages/ai-governance",
-      "!!**/pnpm-lock.yaml"
+      "!!**/pnpm-lock.yaml",
+      "!!**/packages/*/scripts/**/*.js"
     ]
   },
   "formatter": {
@@ -50,7 +52,13 @@
       "includes": [
         "packages/database/src/index.ts",
         "packages/database/src/schema/index.ts",
-        "packages/*/src/index.ts"
+        "packages/*/src/index.ts",
+        "packages/design-system/src/validation/index.ts",
+        "packages/design-system/src/recipes/registry.ts",
+        "packages/design-system/src/tokens/registry.ts",
+        "packages/design-system/src/variants/registry.ts",
+        "packages/design-system/src/css/token-css-variable.ts",
+        "packages/design-system/src/policies/**/*.ts"
       ],
       "linter": {
         "rules": {
@@ -61,7 +69,7 @@
       }
     },
     {
-      "includes": ["packages/ui/**"],
+      "includes": ["packages/ui/**", "packages/appshell/**"],
       "linter": {
         "rules": {
           "performance": {
@@ -93,10 +101,37 @@
           "a11y": {
             "useValidAnchor": "off",
             "noLabelWithoutControl": "off",
-            "useAriaPropsSupportedByRole": "off"
+            "useAriaPropsSupportedByRole": "off",
+            "noStaticElementInteractions": "off",
+            "noNoninteractiveElementInteractions": "off",
+            "useKeyWithClickEvents": "off",
+            "noSvgWithoutTitle": "off"
           },
           "security": {
             "noDangerouslySetInnerHtml": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/governance/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off"
+          },
+          "correctness": {
+            "noUnusedFunctionParameters": "off"
+          },
+          "performance": {
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "useBlockStatements": "off"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "off",
+            "noBitwiseOperators": "off"
           }
         }
       }

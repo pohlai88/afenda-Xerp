@@ -2,7 +2,7 @@ import {
   ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
   PROHIBITED_CLASSNAME_PATTERNS,
 } from "./design-system";
-import { isDevelopment } from "./dev-env";
+import { reportGovernanceRuntimeViolation } from "./dev-env";
 import type { ClassNamePolicyResult, ClassNamePolicyViolation } from "./types";
 
 const CLASS_NAME_SEPARATOR_PATTERN = /\s+/u;
@@ -93,8 +93,8 @@ export function assertAllowedLayoutClassName(
 ): void {
   const result = validateLayoutClassName(className);
 
-  if (!result.valid && isDevelopment) {
-    throw new Error(formatClassNamePolicyError(result));
+  if (!result.valid) {
+    reportGovernanceRuntimeViolation(formatClassNamePolicyError(result));
   }
 }
 

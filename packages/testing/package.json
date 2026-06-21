@@ -25,6 +25,11 @@
       "import": "./dist/mocks/next-link.js",
       "default": "./dist/mocks/next-link.js"
     },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "default": "./dist/react/index.js"
+    },
     "./storage/mock-provider": {
       "types": "./dist/storage/mock-storage-provider.d.ts",
       "import": "./dist/storage/mock-storage-provider.js",
@@ -45,21 +50,28 @@
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "test:interaction": "vitest run --config vitest.config.ts react-interaction",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
+  "dependencies": {
+    "@testing-library/react": "catalog:",
+    "@testing-library/user-event": "catalog:"
+  },
   "devDependencies": {
-    "@afenda/execution": "workspace:^",
-    "@afenda/storage": "workspace:^",
+    "@afenda/execution": "workspace:*",
+    "@afenda/storage": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@testing-library/user-event": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "dotenv": "^17.4.2",
     "react": "catalog:",
     "react-dom": "catalog:",
     "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "sideEffects": false
 }

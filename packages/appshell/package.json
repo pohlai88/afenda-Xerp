@@ -17,15 +17,19 @@
   "scripts": {
     "build": "tsc -b",
     "dev": "tsc -b --watch",
-    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "check:governance": "vitest run --config vitest.config.ts src/__tests__/governed-ui-consumption.test.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "dependencies": {
+    "@afenda/kernel": "workspace:*",
     "@afenda/ui": "workspace:*",
-    "lucide-react": "^0.525.0"
+    "@tanstack/react-table": "^8.21.3",
+    "lucide-react": "^0.525.0",
+    "recharts": "3.8.0"
   },
   "peerDependencies": {
     "next": "^15.0.0",
@@ -33,7 +37,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
+    "@storybook/react": "^10.4.6",
     "next": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",

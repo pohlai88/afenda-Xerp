@@ -118,6 +118,16 @@ export interface GovernedAccordionProps {
   readonly state?: GovernedState;
 }
 
+/**
+ * Governed variant props for Command.
+ *
+ * Command uses the surface recipe with no variant axes — styling is
+ * entirely slot-driven through primitive governance.
+ */
+export interface GovernedCommandProps {
+  readonly state?: GovernedState;
+}
+
 /** Governed variant props for status and alert presentation. */
 export interface GovernedStatusProps {
   readonly density?: Density;

@@ -1,31 +1,66 @@
-import FacebookIcon from "./assets/svg/facebook-icon";
-import InstagramIcon from "./assets/svg/instagram-icon";
-import LinkedinIcon from "./assets/svg/linkedin-icon";
-import TwitterIcon from "./assets/svg/twitter-icon";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
-export function AppShellFooter() {
+import type { ApplicationShellResolvedChrome } from "./app-shell.types";
+
+/**
+ * Social icon primitives (FacebookIcon, InstagramIcon, etc.) are not in
+ * GOVERNED_UI_TAGS — no className restriction applies. The governance import
+ * satisfies the TIP-004 consumer-layer policy for all @afenda/ui consumers.
+ */
+export type AppShellFooterGovernedComponents = Extract<
+  GovernedUiComponentName,
+  never
+>;
+
+interface AppShellFooterProps {
+  readonly chrome: ApplicationShellResolvedChrome;
+}
+
+export function AppShellFooter({ chrome }: AppShellFooterProps) {
   return (
-    <footer>
-      <div className="text-muted-foreground mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 max-sm:flex-col sm:gap-6 sm:px-6">
-        <p className="text-sm text-balance max-sm:text-center">
+    <footer className="app-shell-footer">
+      <div className="app-shell-footer-inner">
+        <p className="app-shell-footer-copy">
           {`©${new Date().getFullYear()}`}{" "}
-          <a className="text-primary" href="https://afenda.io">
-            Afenda ERP
-          </a>
-          , Enterprise operations platform
+          {chrome.footerBrand !== "" ? (
+            <a
+              className="app-shell-footer-brand-link"
+              href={chrome.footerBrandHref}
+            >
+              {chrome.footerBrand}
+            </a>
+          ) : null}
+          . All rights reserved.
         </p>
-        <div className="flex items-center gap-5">
-          <a aria-label="Facebook" href="#">
-            <FacebookIcon className="size-4" />
+        <div className="app-shell-footer-social">
+          <a
+            aria-label="Facebook"
+            className="app-shell-footer-social-link"
+            href="#"
+          >
+            <FacebookIcon className="app-shell-footer-social-icon" />
           </a>
-          <a aria-label="Instagram" href="#">
-            <InstagramIcon className="size-4" />
+          <a
+            aria-label="Instagram"
+            className="app-shell-footer-social-link"
+            href="#"
+          >
+            <InstagramIcon className="app-shell-footer-social-icon" />
           </a>
-          <a aria-label="LinkedIn" href="#">
-            <LinkedinIcon className="size-4" />
+          <a
+            aria-label="LinkedIn"
+            className="app-shell-footer-social-link"
+            href="#"
+          >
+            <LinkedinIcon className="app-shell-footer-social-icon" />
           </a>
-          <a aria-label="Twitter" href="#">
-            <TwitterIcon className="size-4" />
+          <a
+            aria-label="Twitter"
+            className="app-shell-footer-social-link"
+            href="#"
+          >
+            <TwitterIcon className="app-shell-footer-social-icon" />
           </a>
         </div>
       </div>

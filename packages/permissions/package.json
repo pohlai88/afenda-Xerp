@@ -24,8 +24,8 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@afenda/auth": "workspace:^",
-    "@afenda/database": "workspace:^",
+    "@afenda/auth": "workspace:*",
+    "@afenda/database": "workspace:*",
     "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {

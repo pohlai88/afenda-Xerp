@@ -29,6 +29,9 @@ function collectTsxFiles(dir: string): string[] {
       }
       files.push(...collectTsxFiles(full));
     } else if (entry.endsWith(".tsx")) {
+      if (entry.endsWith(".stories.tsx")) {
+        continue;
+      }
       files.push(full);
     }
   }
@@ -38,10 +41,53 @@ function collectTsxFiles(dir: string): string[] {
 const sourceFiles = collectTsxFiles(srcDir);
 
 describe("governed UI consumption (TIP-004)", () => {
+  it("policy: requires @afenda/ui/governance import when @afenda/ui is used", () => {
+    const violations = checkGovernedUiConsumption(`
+      import { DropdownMenu } from "@afenda/ui";
+      export function X() {
+        return <DropdownMenu />;
+      }
+    `);
+    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(true);
+  });
+
+  it("policy: rejects local stock-props wrapper imports", () => {
+    const violations = checkGovernedUiConsumption(`
+      import { Button } from "@afenda/ui";
+      import { resolveStockButtonProps } from "../stock-props";
+      export function X() {
+        return <Button {...resolveStockButtonProps({ variant: "ghost", size: "icon-lg" })} />;
+      }
+    `);
+    expect(violations.some((v) => v.includes("stock-props"))).toBe(true);
+    expect(violations.some((v) => v.includes("resolveStockButtonProps"))).toBe(true);
+  });
+
+  it("policy: requires direct @afenda/ui/governance import for mapStockButtonProps", () => {
+    const violations = checkGovernedUiConsumption(`
+      import { Button } from "@afenda/ui";
+      export function X() {
+        return <Button {...mapStockButtonProps("ghost", "icon-lg")} />;
+      }
+    `);
+    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(true);
+  });
+
+  it("policy: accepts mapStockButtonProps with direct governance import", () => {
+    const violations = checkGovernedUiConsumption(`
+      import { Button } from "@afenda/ui";
+      import { mapStockButtonProps } from "@afenda/ui/governance";
+      export function X() {
+        return <Button {...mapStockButtonProps("ghost", "icon-lg")} />;
+      }
+    `);
+    expect(violations).toEqual([]);
+  });
+
   for (const file of sourceFiles) {
     const rel = relative(packageRoot, file).replace(/\\/g, "/");
 
-    it(`${rel} does not pass className to governed @afenda/ui primitives`, () => {
+    it(`${rel} passes TIP-004 consumer policy (className + governance imports)`, () => {
       const violations = checkGovernedUiConsumption(readFileSync(file, "utf8"));
       expect(violations, violations.join("\n")).toEqual([]);
     });

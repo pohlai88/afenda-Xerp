@@ -1,4 +1,5 @@
 import { GOVERNED_STATES, type GovernedState } from "./design-system";
+import { enforceGovernanceOr } from "./dev-env";
 
 const governedStateSet = new Set<string>(GOVERNED_STATES);
 
@@ -42,7 +43,10 @@ export function resolveGovernedState(
     return fallback;
   }
 
-  assertGovernedState(state);
+  if (!isGovernedState(state)) {
+    return enforceGovernanceOr(formatGovernedStateViolation(state), fallback);
+  }
+
   return state;
 }
 

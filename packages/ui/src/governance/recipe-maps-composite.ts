@@ -48,7 +48,7 @@ export const inputGroupButtonBaseClassName =
 
 /** InputGroup root, addon, button, text, and control overlay slots. */
 export const inputGroupSlotClassNames = {
-  root: "group/input-group relative flex h-8 w-full min-w-0 items-center rounded-lg border border-input transition-colors outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-input/50 has-disabled:opacity-50 has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-3 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:bg-input/30 dark:has-disabled:bg-input/80 dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+  root: "group/input-group relative flex h-8 w-full min-w-0 items-center rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) transition-colors outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-(--afenda-form-field-disabled-background) has-disabled:opacity-50 has-[[data-slot=input-group-control]:focus-visible]:border-(--afenda-form-field-border-focus) has-[[data-slot=input-group-control]:focus-visible]:ring-3 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot][aria-invalid=true]]:border-(--afenda-form-field-invalid-border) has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
   control: inputGroupAddonBaseClassName,
   actions: inputGroupButtonBaseClassName,
   body: "flex items-center gap-2 text-sm text-muted-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
@@ -84,7 +84,7 @@ export const inputOtpSlotClassNames = {
   root: "disabled:cursor-not-allowed",
   body: "cn-input-otp flex items-center has-disabled:opacity-50",
   control:
-    "relative flex size-8 items-center justify-center border-y border-r border-input text-sm transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40",
+    "relative flex size-8 items-center justify-center border-y border-r border-(--afenda-form-field-border) bg-(--afenda-form-field-background) text-sm transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-(--afenda-form-field-invalid-border) data-[active=true]:z-10 data-[active=true]:border-(--afenda-form-field-border-focus) data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-(--afenda-form-field-invalid-border) data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40",
   icon: "flex items-center [&_svg:not([class*='size-'])]:size-4",
 } as const;
 
@@ -100,7 +100,7 @@ export const inputOtpSlotClassNamesByKey = {
 export const nativeSelectSlotClassNames = {
   root: "group/native-select relative w-fit has-[select:disabled]:opacity-50",
   control:
-    "h-8 w-full min-w-0 appearance-none rounded-lg border border-input bg-transparent py-1 pr-8 pl-2.5 text-sm transition-colors outline-none select-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] data-[size=sm]:py-0.5 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+    "h-8 w-full min-w-0 appearance-none rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) py-1 pr-8 pl-2.5 text-sm transition-colors outline-none select-none selection:bg-primary selection:text-primary-foreground placeholder:text-(--afenda-form-field-placeholder) focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] data-[size=sm]:py-0.5 dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40",
   state: "bg-[Canvas] text-[CanvasText]",
 } as const;
 
@@ -112,9 +112,9 @@ export const nativeSelectSlotClassNamesByKey = {
 /** Command palette root, list, item, and input slots. */
 export const commandSlotClassNames = {
   root: "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
-  body: "p-1 pb-0",
+  body: "shrink-0 p-1 pb-0 *:data-[slot=input-group]:h-8! *:data-[slot=input-group]:rounded-lg! *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none! *:data-[slot=input-group-addon]:pl-2!",
   control:
-    "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+    "min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent w-full text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
   content:
     "no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
   state: "py-6 text-center text-sm",
@@ -130,17 +130,16 @@ export const commandSlotClassNames = {
 export const commandSlotClassNamesByKey = {
   "dialog-content": "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
   "dialog-header-sr": "sr-only",
-  "input-group-shell":
-    "h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!",
   "item-check":
     "ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100",
+  "input-group-shell": "w-auto",
   "input-search-icon": "size-4 shrink-0 opacity-50",
 } as const;
 
 /** Combobox trigger, content, list, and chip slots. */
 export const comboboxSlotClassNames = {
   root: "[&_svg:not([class*='size-'])]:size-4",
-  body: "group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+  body: "group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:w-auto *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none *:data-[slot=input-group-button]:group-has-data-[slot=combobox-clear]/input-group:hidden *:data-[slot=input-group-button]:data-pressed:bg-transparent data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
   content:
     "no-scrollbar max-h-[min(calc(--spacing(72)---spacing(9)),calc(var(--available-height)---spacing(9)))] scroll-py-1 overflow-y-auto overscroll-contain p-1 data-empty:p-0",
   control:
@@ -150,7 +149,7 @@ export const comboboxSlotClassNames = {
   label:
     "hidden w-full justify-center py-2 text-center text-sm text-muted-foreground group-data-empty/combobox-content:flex",
   actions:
-    "flex min-h-8 flex-wrap items-center gap-1 rounded-lg border border-input bg-transparent bg-clip-padding px-2.5 py-1 text-sm transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-3 has-aria-invalid:ring-destructive/20 has-data-[slot=combobox-chip]:px-1 dark:bg-input/30 dark:has-aria-invalid:border-destructive/50 dark:has-aria-invalid:ring-destructive/40",
+    "flex min-h-8 flex-wrap items-center gap-1 rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) bg-clip-padding px-2.5 py-1 text-sm transition-colors focus-within:border-(--afenda-form-field-border-focus) focus-within:ring-3 focus-within:ring-ring/50 has-aria-invalid:border-(--afenda-form-field-invalid-border) has-aria-invalid:ring-3 has-aria-invalid:ring-destructive/20 has-data-[slot=combobox-chip]:px-1 dark:has-aria-invalid:border-(--afenda-form-field-invalid-border) dark:has-aria-invalid:ring-destructive/40",
   header:
     "flex h-[calc(--spacing(5.25))] w-fit items-center justify-center gap-1 rounded-sm bg-muted px-1.5 text-xs font-medium whitespace-nowrap text-foreground has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50 has-data-[slot=combobox-chip-remove]:pr-0",
   icon: "min-w-16 flex-1 outline-none",
@@ -294,7 +293,7 @@ export const sidebarSlotClassNamesByKey = {
   sidebar:
     "flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground",
   "mobile-content":
-    "w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden",
+    "w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&_[data-slot=sheet-close-button]]:hidden",
   "mobile-inner": "flex h-full w-full flex-col",
   "mobile-header": "sr-only",
   gap: "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0 group-data-[side=right]:rotate-180",

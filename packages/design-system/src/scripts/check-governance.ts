@@ -5,8 +5,8 @@
  * Exit code 1 = one or more checks failed.
  */
 import { spawnSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const scriptsDir = dirname(fileURLToPath(import.meta.url));
 
@@ -36,7 +36,7 @@ for (const check of checks) {
   }
 }
 
-process.stdout.write(`\n─── Governance summary ────────────────────────\n`);
+process.stdout.write("\n─── Governance summary ────────────────────────\n");
 process.stdout.write(`  Passed: ${passed}/${checks.length}\n`);
 process.stdout.write(`  Failed: ${failed}/${checks.length}\n`);
 

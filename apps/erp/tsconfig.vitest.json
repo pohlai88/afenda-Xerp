@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noEmit": true,
     "composite": false,
+    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/tsconfig.vitest.tsbuildinfo",
     "types": ["@testing-library/jest-dom"]
   },
   "include": [

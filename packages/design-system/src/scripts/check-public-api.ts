@@ -35,7 +35,9 @@ const errors: string[] = [];
 
 for (const name of publicExportContract.stableExports) {
   if (!(name in distExports)) {
-    errors.push(`  ✗ Stable export "${name}" is not exported from dist/index.js`);
+    errors.push(
+      `  ✗ Stable export "${name}" is not exported from dist/index.js`
+    );
   }
 }
 

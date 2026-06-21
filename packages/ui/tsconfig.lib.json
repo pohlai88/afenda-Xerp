@@ -28,6 +28,7 @@
     "**/*.test.tsx",
     "**/*.stories.ts",
     "**/*.stories.tsx",
-    ".storybook"
+    /** Raw MCP install output — see scripts/governance/path-ignores.mjs */
+    "src/components/shadcn-studio/**"
   ]
 }

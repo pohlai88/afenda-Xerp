@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../ui/tsconfig.stories.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@afenda/appshell": ["./src/index.ts"],
+      "@afenda/ui": ["../ui/src/index.ts"],
+      "@afenda/ui/governance": ["../ui/src/governance/index.ts"],
+      "@afenda/ui/governance/*": ["../ui/src/governance/*"],
+      "@afenda/ui/lib/utils": ["../ui/src/lib/utils.ts"],
+      "@afenda/ui/lib/*": ["../ui/src/lib/*"],
+      "next/link": ["../testing/src/mocks/next-link.tsx"]
+    }
+  },
+  "include": [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/_storybook/**/*.ts",
+    "src/_storybook/**/*.tsx"
+  ],
+  "exclude": ["dist", "node_modules"]
+}

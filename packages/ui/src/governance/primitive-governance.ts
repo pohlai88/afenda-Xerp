@@ -3,6 +3,7 @@ import { cn } from "../lib/utils";
 import { getComponentAccessibilityRequirement } from "./accessibility";
 import { resolveLayoutClassName } from "./class-name";
 import { isGovernedCardLayoutSize } from "./component-props";
+import { enforceGovernance, enforceGovernanceOr } from "./dev-env";
 import type { MotionContract, SlotRole } from "./design-system";
 import { resolveMotionIntent } from "./motion";
 import type {
@@ -29,7 +30,7 @@ function assertGovernedComponentName(
   componentName: string
 ): asserts componentName is GovernedUiComponentName {
   if (!isGovernedPrimitive(componentName)) {
-    throw new Error(
+    enforceGovernance(
       `TIP-004B primitive governance violation. Unknown governed component "${componentName}". Register it in GOVERNED_PRIMITIVE_REGISTRY before calling resolvePrimitiveGovernance().`
     );
   }
@@ -40,7 +41,7 @@ function assertPrimitiveSlotAllowed(
   slot: SlotRole
 ): void {
   if (!definition.slots.includes(slot)) {
-    throw new Error(
+    enforceGovernance(
       `TIP-004B primitive slot violation. Component "${definition.componentName}" does not allow slot "${slot}". Allowed slots: ${definition.slots.join(
         ", "
       )}.`
@@ -134,8 +135,9 @@ function resolveSlotClassName(
     const slotClassName = definition.slotClassNamesByKey?.[input.slotKey];
 
     if (!slotClassName) {
-      throw new Error(
-        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`
+      return enforceGovernanceOr(
+        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
+        definition.slotClassNames[slot] ?? ""
       );
     }
 
@@ -202,8 +204,9 @@ function resolveDataSlot(
     const dataSlot = definition.dataSlotByKey?.[input.slotKey];
 
     if (!dataSlot) {
-      throw new Error(
-        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`
+      return enforceGovernanceOr(
+        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
+        definition.componentName.toLowerCase()
       );
     }
 
@@ -252,7 +255,7 @@ function assertCardLayoutSize(input: PrimitiveGovernanceInput): void {
   }
 
   if (!isGovernedCardLayoutSize(input.layoutSize)) {
-    throw new Error(
+    enforceGovernance(
       `TIP-004B card layout size violation. Unsupported layout size "${input.layoutSize}". Allowed: default, sm.`
     );
   }

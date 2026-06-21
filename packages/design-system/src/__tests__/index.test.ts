@@ -17,6 +17,8 @@ import {
   AFENDA_VARIANT_REGISTRY,
   AI_GENERATION_RULES,
   ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
+  accessibilityContract,
+  accessibilityPolicy,
   assertAfendaCssVariable,
   assertAfendaTokenName,
   classNamePolicy,
@@ -32,8 +34,8 @@ import {
   exampleContract,
   exportContract,
   extractTokenCategory,
-  getPackageName,
   GOVERNED_STATES,
+  getPackageName,
   isAfendaCssVariable,
   isAfendaTokenName,
   isPublicDesignSystemImport,
@@ -49,8 +51,8 @@ import {
   SHADOWS,
   SIZES,
   SLOT_ROLES,
-  slotContract,
   STATUS_TONES,
+  slotContract,
   stateContract,
   statePolicy,
   TIP_004_DOWNSTREAM_CONTRACTS,
@@ -59,6 +61,9 @@ import {
   tokenNamePolicy,
   tokenNameToCssVariable,
   tokenRegistry,
+  VARIANT_AXES,
+  VARIANT_EMPHASES,
+  VARIANT_INTENTS,
   validateClassNames,
   validateDesignSystemGovernance,
   validateExportSurface,
@@ -69,13 +74,8 @@ import {
   validateTokenName,
   validateTokenRegistry,
   validateVariantRegistry,
-  VARIANT_AXES,
-  VARIANT_EMPHASES,
-  VARIANT_INTENTS,
   variantContract,
   variantRegistry,
-  accessibilityContract,
-  accessibilityPolicy,
 } from "../index";
 
 // ─── Contract file presence ───────────────────────────────────────────────────
@@ -98,6 +98,10 @@ const requiredContractFiles = [
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const SEMANTIC_CLASS_PATTERN = /\b(?:bg|text|rounded|shadow|animate)-/u;
+const AFENDA_TOKEN_NAME_PATTERN = /^afenda\./;
+const AFENDA_CSS_VARIABLE_PATTERN = /^--afenda-/;
+const AFENDA_MOTION_DURATION_TOKEN_PATTERN = /^afenda\.motion\.duration\./;
+const AFENDA_MOTION_EASING_TOKEN_PATTERN = /^afenda\.motion\.easing\./;
 
 // ─── Stable runtime export map ────────────────────────────────────────────────
 
@@ -292,18 +296,18 @@ describe("@afenda/design-system (TIP-004A)", () => {
 
   it("enforces afenda. prefix on every token name", () => {
     for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
-      expect(token.name).toMatch(/^afenda\./);
+      expect(token.name).toMatch(AFENDA_TOKEN_NAME_PATTERN);
     }
     expect(AFENDA_TOKEN_NAMES.every((n) => n.startsWith("afenda."))).toBe(true);
   });
 
   it("enforces --afenda- prefix on every CSS variable", () => {
     for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
-      expect(token.cssVariable).toMatch(/^--afenda-/);
+      expect(token.cssVariable).toMatch(AFENDA_CSS_VARIABLE_PATTERN);
     }
-    expect(
-      AFENDA_CSS_VARIABLES.every((v) => v.startsWith("--afenda-"))
-    ).toBe(true);
+    expect(AFENDA_CSS_VARIABLES.every((v) => v.startsWith("--afenda-"))).toBe(
+      true
+    );
   });
 
   it("cssVariable is derived from the token name (dot→hyphen transform)", () => {
@@ -343,9 +347,9 @@ describe("@afenda/design-system (TIP-004A)", () => {
     expect(tokenNameToCssVariable("afenda.color.surface.canvas")).toBe(
       "--afenda-color-surface-canvas"
     );
-    expect(
-      tokenNameToCssVariable("afenda.status-tone.danger.surface")
-    ).toBe("--afenda-status-tone-danger-surface");
+    expect(tokenNameToCssVariable("afenda.status-tone.danger.surface")).toBe(
+      "--afenda-status-tone-danger-surface"
+    );
   });
 
   // ── Token registry coverage ───────────────────────────────────────────────
@@ -394,9 +398,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
     const tokenNames = new Set<string>(
       AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
     );
-    expect(
-      tokenNames.has("afenda.layout.touch-target.minimum")
-    ).toBe(true);
+    expect(tokenNames.has("afenda.layout.touch-target.minimum")).toBe(true);
   });
 
   it("every token has stable: true and public: true", () => {
@@ -443,7 +445,10 @@ describe("@afenda/design-system (TIP-004A)", () => {
       ...motionResults,
     ].filter((r) => !r.passed);
 
-    expect(allFailed, `Validation failures:\n${allFailed.map((r) => r.detail).join("\n")}`).toHaveLength(0);
+    expect(
+      allFailed,
+      `Validation failures:\n${allFailed.map((r) => r.detail).join("\n")}`
+    ).toHaveLength(0);
   });
 
   // ── className policy ──────────────────────────────────────────────────────
@@ -497,8 +502,8 @@ describe("@afenda/design-system (TIP-004A)", () => {
         entry.durationToken,
         `Intent "${entry.intent}" has wrong duration token`
       ).toBe(intentToToken[entry.intent]);
-      expect(entry.durationToken).toMatch(/^afenda\./);
-      expect(entry.easingToken).toMatch(/^afenda\./);
+      expect(entry.durationToken).toMatch(AFENDA_TOKEN_NAME_PATTERN);
+      expect(entry.easingToken).toMatch(AFENDA_TOKEN_NAME_PATTERN);
     }
     const coveredIntents = new Set(motionPolicy.map((e) => e.intent));
     for (const intent of MOTION_INTENTS) {
@@ -534,12 +539,12 @@ describe("@afenda/design-system (TIP-004A)", () => {
     expect(
       isPublicDesignSystemImport("@afenda/design-system/css/tokens.css")
     ).toBe(true);
-    expect(
-      isPublicDesignSystemImport("@afenda/design-system/tokens")
-    ).toBe(false);
-    expect(
-      isPublicDesignSystemImport("@afenda/design-system/registries")
-    ).toBe(false);
+    expect(isPublicDesignSystemImport("@afenda/design-system/tokens")).toBe(
+      false
+    );
+    expect(isPublicDesignSystemImport("@afenda/design-system/registries")).toBe(
+      false
+    );
   });
 
   // ── Runtime constants ─────────────────────────────────────────────────────
@@ -634,8 +639,8 @@ describe("@afenda/design-system (TIP-004A)", () => {
 
   it("AFENDA_MOTION_REGISTRY entries use afenda.* token names", () => {
     for (const entry of AFENDA_MOTION_REGISTRY) {
-      expect(entry.durationToken).toMatch(/^afenda\.motion\.duration\./);
-      expect(entry.easingToken).toMatch(/^afenda\.motion\.easing\./);
+      expect(entry.durationToken).toMatch(AFENDA_MOTION_DURATION_TOKEN_PATTERN);
+      expect(entry.easingToken).toMatch(AFENDA_MOTION_EASING_TOKEN_PATTERN);
     }
   });
 });

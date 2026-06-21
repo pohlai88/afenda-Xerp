@@ -16,32 +16,48 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./afenda-style.css": "./src/styles/afenda-style.css",
-    "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./src/lib/*.ts",
-    "./governance": "./src/governance/index.ts",
-    "./governance/*": "./src/governance/*",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./afenda-style.css": {
+      "types": "./dist/styles/afenda-style.css",
+      "import": "./dist/styles/afenda-style.css",
+      "default": "./dist/styles/afenda-style.css"
+    },
+    "./governance": {
+      "types": "./dist/governance/index.d.ts",
+      "import": "./dist/governance/index.js",
+      "default": "./dist/governance/index.js"
+    },
+    "./governance/*": {
+      "types": "./dist/governance/*.d.ts",
+      "import": "./dist/governance/*.js",
+      "default": "./dist/governance/*.js"
+    },
+    "./lib/utils": {
+      "types": "./dist/lib/utils.d.ts",
+      "import": "./dist/lib/utils.js",
+      "default": "./dist/lib/utils.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js",
+      "default": "./dist/lib/*.js"
+    }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b tsconfig.lib.json",
+    "build": "tsc -b tsconfig.lib.json && node --input-type=module -e \"import { copyFileSync, existsSync, mkdirSync } from 'node:fs'; const css='src/styles/afenda-style.css'; if (!existsSync(css)) { throw new Error('Missing src/styles/afenda-style.css — build @afenda/design-system first'); } mkdirSync('dist/styles', { recursive: true }); copyFileSync(css, 'dist/styles/afenda-style.css');\"",
     "dev": "tsc -b tsconfig.lib.json --watch",
-    "typecheck": "tsc -b tsconfig.lib.json --pretty false && tsc -p tsconfig.storybook.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b tsconfig.lib.json --pretty false && tsc -p tsconfig.stories.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "test:ui": "vitest --config vitest.config.ts --ui",
     "test:coverage": "vitest run --config vitest.config.ts --coverage",
     "check:design-system": "tsx scripts/check-design-system-consumption.ts",
-    "check:governance": "pnpm test:run && pnpm check:design-system",
-    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true }); rmSync('.tsbuild', { recursive: true, force: true })\"",
-    "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build -o storybook-static",
-    "test:storybook": "vitest --config vitest.storybook.config.ts",
-    "test:storybook:run": "vitest run --config vitest.storybook.config.ts"
+    "test:governance:run": "vitest run --config vitest.config.ts src/__tests__/governance",
+    "check:governance": "pnpm test:governance:run && pnpm check:design-system",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true }); rmSync('.tsbuild', { recursive: true, force: true })\""
   },
   "sideEffects": [
     "**/*.css"
@@ -59,7 +75,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.525.0",
     "next-themes": "^0.4.6",
-    "radix-ui": "^1.4.3",
+    "radix-ui": "^1.6.0",
     "react-day-picker": "^10.0.1",
     "react-resizable-panels": "^4.11.2",
     "recharts": "3.8.0",
@@ -68,27 +84,21 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@afenda/appshell": "workspace:*",
+    "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
-    "@storybook/addon-a11y": "^10.4.6",
-    "@storybook/addon-docs": "^10.4.6",
-    "@storybook/addon-vitest": "^10.4.6",
-    "@storybook/react-vite": "^10.4.6",
+    "@storybook/react": "^10.4.6",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@vitest/coverage-v8": "3.2.6",
     "react": "catalog:",
     "react-dom": "catalog:",
     "shadcn": "^4.11.0",
-    "storybook": "^10.4.6",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.3",
-    "vitest": "catalog:",
-    "playwright": "^1.61.0",
-    "@vitest/browser": "3.2.6",
-    "@vitest/coverage-v8": "3.2.6"
+    "vitest": "catalog:"
   }
 }

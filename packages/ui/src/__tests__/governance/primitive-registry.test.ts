@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import { assertMotionPolicyCoverageStrict } from "../../governance/motion";
@@ -14,6 +17,41 @@ import {
   GOVERNED_UI_COMPONENTS,
   GOVERNED_UI_RECIPES,
 } from "../../governance/types";
+
+const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../../..");
+
+function readComponentSource(sourceFile: string): string {
+  return readFileSync(join(packageRoot, sourceFile), "utf8");
+}
+
+function collectExplicitSlotKeys(
+  source: string,
+  componentName: string
+): string[] {
+  const keys = new Set<string>();
+
+  for (const match of source.matchAll(
+    /resolvePrimitiveGovernance\(\{([\s\S]*?)\}\)/gu
+  )) {
+    const block = match[1];
+    if (block === undefined) {
+      continue;
+    }
+
+    if (!block.includes(`componentName: "${componentName}"`)) {
+      continue;
+    }
+
+    for (const slotMatch of block.matchAll(/slotKey:\s*["']([^"']+)["']/gu)) {
+      const key = slotMatch[1];
+      if (key !== undefined) {
+        keys.add(key);
+      }
+    }
+  }
+
+  return [...keys];
+}
 
 describe("GOVERNED_PRIMITIVE_REGISTRY", () => {
   it("has complete motion policy coverage", () => {
@@ -69,6 +107,20 @@ describe("GOVERNED_PRIMITIVE_REGISTRY", () => {
       for (const role of Object.keys(definition.dataSlotByRole)) {
         expect(definition.slots).toContain(role);
       }
+    }
+  });
+
+  it("maps Command explicit slotKey usage to dataSlotByKey", () => {
+    const definition = getPrimitiveDefinition("Command");
+    const source = readComponentSource(definition.sourceFile);
+    const slotKeys = collectExplicitSlotKeys(source, "Command");
+    const dataSlotKeys = Object.keys(definition.dataSlotByKey ?? {});
+
+    for (const slotKey of slotKeys) {
+      expect(
+        dataSlotKeys,
+        `Command uses slotKey "${slotKey}" but dataSlotByKey is missing it`
+      ).toContain(slotKey);
     }
   });
 });

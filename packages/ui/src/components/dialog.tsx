@@ -126,23 +126,21 @@ const DialogContent = React.forwardRef<
         >
           {children}
           {showCloseButton ? (
-            <DialogPrimitive.Close asChild data-slot="dialog-close">
-              <Button
-                className={closeButton.className}
-                emphasis="ghost"
-                intent="quiet"
-                presentation="icon"
-                size="sm"
-              >
-                <XIcon />
-                <span
-                  {...closeLabel.dataAttributes}
-                  className={closeLabel.className}
+            <div {...applyGovernedPresentation({}, closeButton)}>
+              <DialogPrimitive.Close asChild>
+                <Button
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="sm"
                 >
-                  Close
-                </span>
-              </Button>
-            </DialogPrimitive.Close>
+                  <XIcon />
+                  <span {...applyGovernedPresentation({}, closeLabel)}>
+                    Close
+                  </span>
+                </Button>
+              </DialogPrimitive.Close>
+            </div>
           ) : null}
         </DialogPrimitive.Content>
       </DialogPortal>

@@ -29,6 +29,7 @@ export type {
   GovernedCardProps,
   GovernedCardRadius,
   GovernedCardShadow,
+  GovernedCommandProps,
   GovernedEmptyMediaVariant,
   GovernedFormControlProps,
   GovernedPanelRadius,

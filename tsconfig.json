@@ -7,7 +7,7 @@
     { "path": "./packages/observability" },
     { "path": "./packages/execution" },
     { "path": "./packages/storage" },
-    { "path": "./packages/ui" },
+    { "path": "./packages/ui/tsconfig.lib.json" },
     { "path": "./packages/design-system" },
     { "path": "./packages/testing" },
     { "path": "./packages/database" },

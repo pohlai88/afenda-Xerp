@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "../../../packages/ui/src/styles/afenda-style.css";
+@import "shadcn/tailwind.css";
+@import "../../../packages/appshell/src/app-shell.presentation.css";
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../../../packages/appshell/src/**/*.{ts,tsx}";
+
+html,
+body,
+#storybook-root,
+#storybook-docs {
+  min-height: 100%;
+  background-color: var(--background);
+  color: var(--foreground);
+}

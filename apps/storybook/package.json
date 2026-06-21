@@ -1,0 +1,41 @@
+{
+  "name": "@afenda/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Application-layer Storybook for @afenda/ui and @afenda/appshell",
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build -o storybook-static",
+    "typecheck": "tsc -p tsconfig.storybook.json --noEmit",
+    "test:storybook": "vitest --config vitest.storybook.config.ts",
+    "test:storybook:run": "vitest run --config vitest.storybook.config.ts",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('storybook-static', { recursive: true, force: true })\""
+  },
+  "dependencies": {
+    "@afenda/appshell": "workspace:*",
+    "@afenda/design-system": "workspace:*",
+    "@afenda/ui": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@afenda/testing": "workspace:*",
+    "@afenda/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-vitest": "^10.4.6",
+    "@storybook/react": "^10.4.6",
+    "@storybook/react-vite": "^10.4.6",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitest/browser": "3.2.6",
+    "playwright": "^1.61.0",
+    "shadcn": "^4.11.0",
+    "storybook": "^10.4.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

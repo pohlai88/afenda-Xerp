@@ -1,6 +1,5 @@
 import {
   ACCESSIBILITY_REQUIREMENTS,
-  type AccessibilityContract,
   type AccessibilityRequirement,
 } from "../contracts/accessibility.contract";
 

@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   BuildingIcon,
   CalendarIcon,
@@ -101,10 +101,11 @@ function RadioLabel({
   readonly label: string;
   readonly normalWeight?: boolean;
 }) {
-  return (
-    <Label htmlFor={id} {...(normalWeight ? { className: "font-normal" } : {})}>
-      {label}
-    </Label>
+  const labelNode = <Label htmlFor={id}>{label}</Label>;
+  return normalWeight ? (
+    <span className="font-normal">{labelNode}</span>
+  ) : (
+    labelNode
   );
 }
 
@@ -165,9 +166,9 @@ export const WithCheckbox: Story = {
     <StoryFrame width="md">
       <StoryRow align="center" gap="sm">
         <Checkbox defaultChecked id="terms" />
-        <Label className="font-normal" htmlFor="terms">
-          Accept terms and conditions
-        </Label>
+        <span className="font-normal">
+          <Label htmlFor="terms">Accept terms and conditions</Label>
+        </span>
       </StoryRow>
     </StoryFrame>
   ),
@@ -363,7 +364,9 @@ export const PaymentMethodLabels: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="sm">
-        <Label className="font-medium">Payment Method</Label>
+        <span className="font-medium">
+          <Label>Payment Method</Label>
+        </span>
         <RadioGroup defaultValue="ach">
           <StoryStack gap="sm">
             <StoryRow align="center" gap="sm">
@@ -397,9 +400,9 @@ export const PermissionToggleLabels: Story = {
           { id: "perm-reports", label: "Export financial reports" },
         ].map((item) => (
           <StoryRow align="center" justify="between" key={item.id}>
-            <Label className="font-normal" htmlFor={item.id}>
-              {item.label}
-            </Label>
+            <span className="font-normal">
+              <Label htmlFor={item.id}>{item.label}</Label>
+            </span>
             <Switch defaultChecked={item.id === "perm-finance"} id={item.id} />
           </StoryRow>
         ))}
@@ -444,9 +447,9 @@ export const FilterPanelLabels: Story = {
         </StoryRow>
         <StoryRow align="center" gap="sm">
           <Checkbox id="filter-overdue" />
-          <Label className="font-normal" htmlFor="filter-overdue">
-            Overdue only
-          </Label>
+          <span className="font-normal">
+            <Label htmlFor="filter-overdue">Overdue only</Label>
+          </span>
         </StoryRow>
       </StoryStack>
     </StoryFrame>
@@ -503,9 +506,11 @@ export const TermsAcceptance: Story = {
         <StoryRow align="start" gap="sm">
           <Checkbox id="terms-erp" />
           <StoryStack gap="xs">
-            <Label className="font-normal" htmlFor="terms-erp">
-              I confirm this purchase complies with company procurement policy
-            </Label>
+            <span className="font-normal">
+              <Label htmlFor="terms-erp">
+                I confirm this purchase complies with company procurement policy
+              </Label>
+            </span>
             <span className="text-muted-foreground text-xs">
               Required before PO submission · Policy v2026.3
             </span>
@@ -522,7 +527,9 @@ export const SectionGroupLabel: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="md">
-        <Label className="font-medium">Billing Address</Label>
+        <span className="font-medium">
+          <Label>Billing Address</Label>
+        </span>
         <LabeledControl id="bill-street" label="Street" required>
           <Input id="bill-street" placeholder="123 Main Street" />
         </LabeledControl>
@@ -628,17 +635,19 @@ export const SecurityConsentLabel: Story = {
             className="size-4 shrink-0 text-muted-foreground"
           />
           <StoryStack gap="sm">
-            <Label className="font-medium" htmlFor="security-consent">
-              Sensitive data access
-            </Label>
+            <span className="font-medium">
+              <Label htmlFor="security-consent">Sensitive data access</Label>
+            </span>
             <span className="text-muted-foreground text-sm">
               Payroll and compensation fields require elevated permissions.
             </span>
             <StoryRow align="center" gap="sm">
               <Checkbox id="security-consent" />
-              <Label className="font-normal" htmlFor="security-consent">
-                I acknowledge SOX logging for this access
-              </Label>
+              <span className="font-normal">
+                <Label htmlFor="security-consent">
+                  I acknowledge SOX logging for this access
+                </Label>
+              </span>
             </StoryRow>
           </StoryStack>
         </StoryRow>

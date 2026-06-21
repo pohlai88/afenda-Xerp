@@ -17,8 +17,14 @@ function workspace(
 describe("validateArchitecture", () => {
   it("passes for the baseline workspace graph", () => {
     const workspaces: DiscoveredWorkspace[] = [
-      workspace("@afenda/appshell"),
-      workspace("@afenda/auth", { "@afenda/database": "workspace:*" }),
+      workspace("@afenda/appshell", {
+        "@afenda/ui": "workspace:*",
+        "@afenda/kernel": "workspace:*",
+      }),
+      workspace("@afenda/auth", {
+        "@afenda/database": "workspace:*",
+        "@afenda/kernel": "workspace:*",
+      }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
       workspace("@afenda/design-system"),
       workspace("@afenda/docs"),
@@ -29,6 +35,7 @@ describe("validateArchitecture", () => {
         "@afenda/database": "workspace:*",
         "@afenda/design-system": "workspace:*",
         "@afenda/observability": "workspace:*",
+        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/execution", {
         "@afenda/kernel": "workspace:*",
@@ -47,6 +54,11 @@ describe("validateArchitecture", () => {
       workspace("@afenda/permissions", {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
+      }),
+      workspace("@afenda/storybook", {
+        "@afenda/appshell": "workspace:*",
+        "@afenda/design-system": "workspace:*",
+        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
@@ -74,7 +86,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/kernel", { "@afenda/execution": "workspace:*" }),
       workspace("@afenda/execution", { "@afenda/kernel": "workspace:*" }),
       workspace("@afenda/observability"),
-      workspace("@afenda/appshell"),
+      workspace("@afenda/appshell", { "@afenda/ui": "workspace:*" }),
       workspace("@afenda/auth", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
       workspace("@afenda/design-system"),
@@ -86,6 +98,7 @@ describe("validateArchitecture", () => {
         "@afenda/database": "workspace:*",
         "@afenda/design-system": "workspace:*",
         "@afenda/observability": "workspace:*",
+        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",

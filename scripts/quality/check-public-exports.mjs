@@ -1,6 +1,8 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+const ASSET_EXTENSIONS = new Set([".css", ".mjs", ".cjs", ".json"]);
 
 const workspaceRoot = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const packageRoots = ["apps", "packages"];
@@ -127,7 +129,32 @@ function validateExportDefinition(
     }
   }
 
-  const sourceFile = resolveSourceFile(packageRoot, exportDefinition.import);
+  const importTarget = exportDefinition.import;
+
+  if (typeof importTarget !== "string") {
+    return;
+  }
+
+  if (entrypoint.includes("*")) {
+    if (!importTarget.includes("*")) {
+      failures.push(
+        `${formatPath(packageJsonPath)} export ${entrypoint} must use a wildcard dist target`
+      );
+    }
+    return;
+  }
+
+  if (ASSET_EXTENSIONS.has(extname(importTarget))) {
+    const distAsset = join(packageRoot, importTarget);
+    if (!existsSync(distAsset)) {
+      failures.push(
+        `${formatPath(packageJsonPath)} export ${entrypoint} has no matching dist asset ${formatPath(distAsset)}`
+      );
+    }
+    return;
+  }
+
+  const sourceFile = resolveSourceFile(packageRoot, importTarget);
 
   if (!existsSync(sourceFile)) {
     failures.push(

@@ -1057,7 +1057,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     slots: ["root", "control", "actions", "body", "state"],
     motion: "instant",
     allowAsChild: false,
-    controlPresentation: "group",
+    controlPresentation: "leaf",
     dataSlotByRole: {
       root: "input-group",
       control: "input-group-addon",
@@ -1163,6 +1163,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
       "dialog-content": "dialog-content",
       "dialog-header-sr": "dialog-header",
       "input-group-shell": "input-group",
+      "input-search-icon": "command-search-icon",
       "item-check": "command-item",
     },
   },

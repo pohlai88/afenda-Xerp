@@ -1,5 +1,5 @@
 import { SIZES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
   CheckCircle2Icon,
@@ -385,14 +385,11 @@ export const WithNotificationCount: Story = {
             <Avatar>
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
-            <Badge
-              className="absolute -top-1 -right-1"
-              emphasis="solid"
-              size="sm"
-              tone="danger"
-            >
-              {count}
-            </Badge>
+            <div className="absolute -top-1 -right-1">
+              <Badge emphasis="solid" size="sm" tone="danger">
+                {count}
+              </Badge>
+            </div>
           </div>
           <span className="text-muted-foreground text-xs">Unread mentions</span>
         </StoryStack>
@@ -775,7 +772,9 @@ export const TableAssigneeColumn: Story = {
         <TableBody>
           {PURCHASE_ORDERS.map(({ id, vendor, assignee, status }) => (
             <TableRow key={id}>
-              <TableCell className="font-mono text-sm">{id}</TableCell>
+              <TableCell>
+                <span className="font-mono text-sm">{id}</span>
+              </TableCell>
               <TableCell>{vendor}</TableCell>
               <TableCell>
                 <StoryRow align="center" gap="sm">

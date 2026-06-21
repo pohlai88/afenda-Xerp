@@ -19,6 +19,7 @@ export const TOKEN_CATEGORIES = [
   "chart",
   "opacity",
   "z-index",
+  "borderWidth",
   "breakpoint",
 ] as const;
 
@@ -41,6 +42,7 @@ export const AFENDA_TOKEN_CATEGORIES = [
   "chart",
   "opacity",
   "z-index",
+  "border-width",
   "breakpoint",
 ] as const;
 
@@ -60,8 +62,18 @@ export const DENSITIES = ["compact", "standard", "comfortable"] as const;
 export const SIZES = ["xs", "sm", "md", "lg"] as const;
 export const RADII = ["none", "sm", "md", "lg", "full", "base"] as const;
 export const SHADOWS = [
-  "none", "raised", "overlay", "focus",
-  "2xs", "xs", "sm", "base", "md", "lg", "xl", "2xl",
+  "none",
+  "raised",
+  "overlay",
+  "focus",
+  "2xs",
+  "xs",
+  "sm",
+  "base",
+  "md",
+  "lg",
+  "xl",
+  "2xl",
 ] as const;
 
 // ─── Token name & CSS variable types ─────────────────────────────────────────
@@ -144,14 +156,10 @@ export type GovernedRadius = (typeof RADII)[number];
 export type GovernedShadow = (typeof SHADOWS)[number];
 
 export interface TokenDefinition {
-  /** Afenda-prefixed token name (e.g. `afenda.color.surface.canvas`). */
-  readonly name: AfendaTokenName;
-  /** Generated CSS custom property (e.g. `--afenda-color-surface-canvas`). */
-  readonly cssVariable: AfendaCssVariableName;
   /** Registry-level category for tooling and validation. */
   readonly category: TokenCategory;
-  /** Raw design value (HSL, OKLCH, rem, px, ms, etc.) — the light-mode default. */
-  readonly value: string;
+  /** Generated CSS custom property (e.g. `--afenda-color-surface-canvas`). */
+  readonly cssVariable: AfendaCssVariableName;
   /**
    * Dark-mode override value. When present, `generate-tokens-css` emits this
    * into the `.dark { }` block. Omit entirely for tokens that are mode-agnostic
@@ -160,19 +168,29 @@ export interface TokenDefinition {
   readonly darkValue?: string;
   /** Human-readable purpose description. */
   readonly description: string;
-  /** Whether this token is stable and safe for downstream consumption. */
-  readonly stable: boolean;
+  /**
+   * Optional section grouping label used by `generate-tokens-css` to
+   * reconstruct `/* ── <group> ── *​/` comment banners in the emitted CSS.
+   * Mode-agnostic; purely for generated-file readability and governance docs.
+   */
+  readonly group?: string;
+  /** Afenda-prefixed token name (e.g. `afenda.color.surface.canvas`). */
+  readonly name: AfendaTokenName;
   /** Whether this token is part of the public API surface. */
   readonly public: boolean;
+  /** Whether this token is stable and safe for downstream consumption. */
+  readonly stable: boolean;
+  /** Raw design value (HSL, OKLCH, rem, px, ms, etc.) — the light-mode default. */
+  readonly value: string;
 }
 
 export interface TokenRegistry {
   readonly categories: readonly TokenCategory[];
-  readonly statusTones: readonly StatusTone[];
   readonly densities: readonly Density[];
-  readonly sizes: readonly GovernedSize[];
   readonly radii: readonly GovernedRadius[];
   readonly shadows: readonly GovernedShadow[];
+  readonly sizes: readonly GovernedSize[];
+  readonly statusTones: readonly StatusTone[];
   readonly tokens: readonly TokenDefinition[];
 }
 

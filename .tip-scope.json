@@ -13,10 +13,7 @@
     "pnpm-lock.yaml",
     ".tip-scope.json"
   ],
-  "forbiddenPaths": [
-    "packages/database/**",
-    "packages/permissions/**"
-  ],
+  "forbiddenPaths": ["packages/database/**", "packages/permissions/**"],
   "reason": "Implement TIP-UI-01 CSS pipeline only.",
   "nonGoals": [
     "No shadcn component scaffolding in this change",

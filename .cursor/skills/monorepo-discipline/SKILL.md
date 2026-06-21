@@ -11,16 +11,17 @@ The `@afenda/architecture-authority` package enforces these rules automatically 
 ## Layer hierarchy (from `layer-registry.data.ts`)
 
 ```
-Rank 6 — Application  : @afenda/erp, @afenda/docs
+Rank 6 — Application  : @afenda/erp, @afenda/docs, @afenda/storybook
 Rank 5 — Domain       : (future domain packages)
 Rank 4 — ERPSpine     : @afenda/appshell
 Rank 3 — Metadata     : @afenda/metadata, @afenda/metadata-ui
 Rank 3 — Integration  : @afenda/entitlements, @afenda/feature-flags, @afenda/testing
-Rank 2 — Foundation   : @afenda/execution, @afenda/kernel, @afenda/storage
+Rank 2 — Foundation   : @afenda/execution, @afenda/storage
 Rank 2 — Design       : @afenda/design-system, @afenda/ui
 Rank 1 — Platform     : @afenda/auth, @afenda/database, @afenda/observability,
                          @afenda/permissions, @afenda/architecture-authority,
-                         @afenda/typescript-config, @afenda/ai-governance
+                         @afenda/typescript-config, @afenda/ai-governance,
+                         @afenda/kernel
 ```
 
 **Direction rule:** packages may only import from the same rank or lower (lower rank number = closer to platform). Higher-rank packages must never be imported by lower-rank packages.

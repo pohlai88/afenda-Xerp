@@ -1,23 +1,30 @@
 "use client";
 
+import type { GovernedCommandProps } from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
-import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import {
+  applyGovernedPresentation,
+  mergeGovernedPresentation,
+} from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
-import { cn } from "@afenda/ui/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
-import { CheckIcon, SearchIcon } from "lucide-react";
+import { CheckIcon, SearchIcon, XIcon } from "lucide-react";
+import { Dialog as DialogPrimitive } from "radix-ui";
 import * as React from "react";
+import { Button } from "./button";
 import {
   Dialog,
-  DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
 } from "./dialog";
 import { InputGroup, InputGroupAddon } from "./input-group";
 
 const COMMAND_RECIPE_NAME = "surface" as const;
+const DIALOG_RECIPE_NAME = "surface" as const;
 
 const CommandShortcut = createGovernedSpanSlot("CommandShortcut", {
   componentName: "Command",
@@ -27,14 +34,16 @@ const CommandShortcut = createGovernedSpanSlot("CommandShortcut", {
 
 const Command = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive>, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
+  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive>, "className"> &
+    GovernedCommandProps & {
+      readonly className?: string;
+    }
+>(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
     slot: "root",
+    state,
     className,
   });
 
@@ -61,12 +70,20 @@ function CommandDialog({
   readonly className?: string;
   readonly showCloseButton?: boolean;
 }) {
-  const contentClass = resolvePrimitiveGovernance({
+  const contentExtension = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
     slotKey: "dialog-content",
     className,
   });
+
+  const dialogRoot = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slot: "root",
+  });
+
+  const mergedPanel = mergeGovernedPresentation(dialogRoot, contentExtension);
 
   const dialogHeaderSr = resolvePrimitiveGovernance({
     componentName: "Command",
@@ -74,18 +91,47 @@ function CommandDialog({
     slotKey: "dialog-header-sr",
   });
 
+  const closeButton = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slotKey: "close-button",
+  });
+
+  const closeLabel = resolvePrimitiveGovernance({
+    componentName: "Dialog",
+    recipeName: DIALOG_RECIPE_NAME,
+    slotKey: "close-label",
+  });
+
   return (
     <Dialog {...props}>
-      <DialogHeader className={dialogHeaderSr.className}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
-      <DialogContent
-        className={cn(contentClass.className)}
-        showCloseButton={showCloseButton}
-      >
-        {children}
-      </DialogContent>
+      <div {...applyGovernedPresentation({}, dialogHeaderSr)}>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+      </div>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Content {...applyGovernedPresentation({}, mergedPanel)}>
+          <Command>{children}</Command>
+          {showCloseButton ? (
+            <div {...applyGovernedPresentation({}, closeButton)}>
+              <DialogPrimitive.Close asChild>
+                <Button
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="sm"
+                >
+                  <XIcon />
+                  <span {...applyGovernedPresentation({}, closeLabel)}>Close</span>
+                </Button>
+              </DialogPrimitive.Close>
+            </div>
+          ) : null}
+        </DialogPrimitive.Content>
+      </DialogPortal>
     </Dialog>
   );
 }

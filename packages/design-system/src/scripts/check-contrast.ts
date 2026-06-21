@@ -41,11 +41,11 @@ export function contrastFromOklchL(textL: number, bgL: number): number {
 // ─── Governed pairs ───────────────────────────────────────────────────────────
 
 export interface ContrastPair {
-  label: string;
-  textL: number;
   bgL: number;
+  label: string;
   minRatio: number;
   mode: "light" | "dark";
+  textL: number;
 }
 
 /** WCAG AA minimums: 4.5 for normal text, 3.0 for large text / non-text UI. */
@@ -58,47 +58,197 @@ export const WCAG_AA_LARGE = 3.0;
  */
 export const GOVERNED_CONTRAST_PAIRS: readonly ContrastPair[] = [
   // ── Core text (light mode) ────────────────────────────────────────────────
-  { label: "text.default / surface.canvas (light)",        textL: 0.18,  bgL: 0.986, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "text.muted / surface.canvas (light)",          textL: 0.42,  bgL: 0.986, minRatio: WCAG_AA_NORMAL, mode: "light" },
+  {
+    label: "text.default / surface.canvas (light)",
+    textL: 0.18,
+    bgL: 0.986,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "text.muted / surface.canvas (light)",
+    textL: 0.42,
+    bgL: 0.986,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
   // ── Brand buttons (light mode) ────────────────────────────────────────────
-  { label: "primary.foreground / primary (light)",         textL: 0.985, bgL: 0.47,  minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "secondary.foreground / secondary (light)",     textL: 0.24,  bgL: 0.945, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "destructive.foreground / destructive (light)", textL: 0.985, bgL: 0.46,  minRatio: WCAG_AA_NORMAL, mode: "light" },
+  {
+    label: "primary.foreground / primary (light)",
+    textL: 0.985,
+    bgL: 0.47,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "secondary.foreground / secondary (light)",
+    textL: 0.24,
+    bgL: 0.945,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "destructive.foreground / destructive (light)",
+    textL: 0.985,
+    bgL: 0.46,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
   // ── Status tones — foreground on surface (light mode) ────────────────────
-  { label: "status.neutral.fg / surface (light)",          textL: 0.38,  bgL: 0.966, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.info.fg / surface (light)",             textL: 0.38,  bgL: 0.955, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.success.fg / surface (light)",          textL: 0.32,  bgL: 0.935, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.warning.fg / surface (light)",          textL: 0.42,  bgL: 0.930, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.danger.fg / surface (light)",           textL: 0.36,  bgL: 0.955, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.forbidden.fg / surface (light)",        textL: 0.33,  bgL: 0.954, minRatio: WCAG_AA_NORMAL, mode: "light" },
-  { label: "status.invalid.fg / surface (light)",          textL: 0.40,  bgL: 0.945, minRatio: WCAG_AA_NORMAL, mode: "light" },
+  {
+    label: "status.neutral.fg / surface (light)",
+    textL: 0.38,
+    bgL: 0.966,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.info.fg / surface (light)",
+    textL: 0.38,
+    bgL: 0.955,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.success.fg / surface (light)",
+    textL: 0.32,
+    bgL: 0.935,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.warning.fg / surface (light)",
+    textL: 0.42,
+    bgL: 0.93,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.danger.fg / surface (light)",
+    textL: 0.36,
+    bgL: 0.955,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.forbidden.fg / surface (light)",
+    textL: 0.33,
+    bgL: 0.954,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
+  {
+    label: "status.invalid.fg / surface (light)",
+    textL: 0.4,
+    bgL: 0.945,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "light",
+  },
   // ── Core text (dark mode) ─────────────────────────────────────────────────
-  { label: "text.default / surface.canvas (dark)",         textL: 0.965, bgL: 0.15,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "text.muted / surface.canvas (dark)",           textL: 0.78,  bgL: 0.15,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
+  {
+    label: "text.default / surface.canvas (dark)",
+    textL: 0.965,
+    bgL: 0.15,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "text.muted / surface.canvas (dark)",
+    textL: 0.78,
+    bgL: 0.15,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
   // ── Brand buttons (dark mode) ─────────────────────────────────────────────
-  { label: "primary.foreground / primary (dark)",          textL: 0.15,  bgL: 0.72,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "destructive.foreground / destructive (dark)",  textL: 0.965, bgL: 0.42,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
+  {
+    label: "primary.foreground / primary (dark)",
+    textL: 0.15,
+    bgL: 0.72,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "destructive.foreground / destructive (dark)",
+    textL: 0.965,
+    bgL: 0.42,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
   // ── Status tones — foreground on surface (dark mode) ─────────────────────
-  { label: "status.neutral.fg / surface (dark)",           textL: 0.83,  bgL: 0.27,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.info.fg / surface (dark)",              textL: 0.80,  bgL: 0.23,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.success.fg / surface (dark)",           textL: 0.80,  bgL: 0.23,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.warning.fg / surface (dark)",           textL: 0.85,  bgL: 0.26,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.danger.fg / surface (dark)",            textL: 0.82,  bgL: 0.23,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.forbidden.fg / surface (dark)",         textL: 0.82,  bgL: 0.22,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
-  { label: "status.invalid.fg / surface (dark)",           textL: 0.84,  bgL: 0.24,  minRatio: WCAG_AA_NORMAL, mode: "dark" },
+  {
+    label: "status.neutral.fg / surface (dark)",
+    textL: 0.83,
+    bgL: 0.27,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.info.fg / surface (dark)",
+    textL: 0.8,
+    bgL: 0.23,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.success.fg / surface (dark)",
+    textL: 0.8,
+    bgL: 0.23,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.warning.fg / surface (dark)",
+    textL: 0.85,
+    bgL: 0.26,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.danger.fg / surface (dark)",
+    textL: 0.82,
+    bgL: 0.23,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.forbidden.fg / surface (dark)",
+    textL: 0.82,
+    bgL: 0.22,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
+  {
+    label: "status.invalid.fg / surface (dark)",
+    textL: 0.84,
+    bgL: 0.24,
+    minRatio: WCAG_AA_NORMAL,
+    mode: "dark",
+  },
   // ── Non-text: focus ring on surface (3:1 threshold) ──────────────────────
-  { label: "focus.ring / surface.canvas (light)",          textL: 0.54,  bgL: 0.986, minRatio: WCAG_AA_LARGE,  mode: "light" },
-  { label: "focus.ring / surface.canvas (dark)",           textL: 0.72,  bgL: 0.15,  minRatio: WCAG_AA_LARGE,  mode: "dark"  },
+  {
+    label: "focus.ring / surface.canvas (light)",
+    textL: 0.54,
+    bgL: 0.986,
+    minRatio: WCAG_AA_LARGE,
+    mode: "light",
+  },
+  {
+    label: "focus.ring / surface.canvas (dark)",
+    textL: 0.72,
+    bgL: 0.15,
+    minRatio: WCAG_AA_LARGE,
+    mode: "dark",
+  },
 ] as const;
 
 // ─── Runner ───────────────────────────────────────────────────────────────────
 
 export interface ContrastResult {
   label: string;
-  ratio: number;
   minRatio: number;
   mode: "light" | "dark";
   passed: boolean;
+  ratio: number;
 }
 
 export function runContrastChecks(
@@ -118,7 +268,10 @@ export function runContrastChecks(
 
 // ─── CLI entry point ──────────────────────────────────────────────────────────
 
-if (process.argv[1]?.endsWith("check-contrast.ts") || process.argv[1]?.endsWith("check-contrast.js")) {
+if (
+  process.argv[1]?.endsWith("check-contrast.ts") ||
+  process.argv[1]?.endsWith("check-contrast.js")
+) {
   const results = runContrastChecks();
   const failures = results.filter((r) => !r.passed);
   const longest = Math.max(...results.map((r) => r.label.length));
@@ -139,5 +292,7 @@ if (process.argv[1]?.endsWith("check-contrast.ts") || process.argv[1]?.endsWith(
     process.exit(1);
   }
 
-  console.log(`\n✓ All ${results.length} governed contrast pairs pass WCAG AA.`);
+  console.log(
+    `\n✓ All ${results.length} governed contrast pairs pass WCAG AA.`
+  );
 }

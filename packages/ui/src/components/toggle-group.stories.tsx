@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlignCenterIcon,
   AlignLeftIcon,
@@ -369,7 +369,9 @@ export const FormattingToolbar: Story = {
           <UnderlineIcon />
         </ToggleGroupItem>
       </ToggleGroup>
-      <Separator className="h-5" orientation="vertical" />
+      <div className="h-5">
+        <Separator orientation="vertical" />
+      </div>
       <ToggleGroup defaultValue="left" type="single">
         <ToggleGroupItem aria-label="Align left" value="left">
           <AlignLeftIcon />
@@ -581,7 +583,9 @@ export const ReportSectionToolbar: Story = {
             Cash flow
           </ToggleGroupItem>
         </ToggleGroup>
-        <Separator className="h-5" orientation="vertical" />
+        <div className="h-5">
+        <Separator orientation="vertical" />
+      </div>
         <ToggleGroup defaultValue="chart" type="single" variant="outline">
           <ToggleGroupItem aria-label="Table view" size="sm" value="table">
             <TableIcon />

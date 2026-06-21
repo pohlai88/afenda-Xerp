@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -11,6 +11,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
+  Command,
+  CommandInput,
+  CommandItem,
+  CommandList,
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -22,6 +26,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../index";
+import {
+  expectGovernedDataAuthority,
+  expectGovernedPrimitive,
+} from "../helpers/governance-assertions";
 
 describe("navigation primitive governance", () => {
   describe("Tabs", () => {
@@ -251,6 +259,124 @@ describe("navigation primitive governance", () => {
       expect(input).toHaveAttribute("data-sidebar", "input");
       expect(input).toHaveAttribute("data-slot", "input");
       expect(input).toHaveAttribute("data-component", "Input");
+    });
+  });
+
+  describe("Command", () => {
+    it("renders CommandInput without TIP-004 className policy violations", () => {
+      render(
+        <Command>
+          <CommandInput
+            aria-label="Search commands"
+            placeholder="Search commands"
+          />
+          <CommandList />
+        </Command>
+      );
+
+      const input = screen.getByPlaceholderText("Search commands");
+      const wrapper = input.closest("[data-slot='command-input-wrapper']");
+      const inputGroup = input.closest("[data-slot='input-group']");
+
+      expect(wrapper).not.toBeNull();
+      expect(inputGroup).not.toBeNull();
+      expect(input).toHaveAttribute("data-slot", "command-input");
+      expect(
+        wrapper?.querySelector("[data-slot='command-search-icon']")
+      ).not.toBeNull();
+
+      const addon = inputGroup?.querySelector(
+        "[data-slot='input-group-addon']"
+      );
+      expect(addon).not.toBeNull();
+      if (addon === null || inputGroup === null) {
+        throw new Error("Expected command input group structure");
+      }
+      if (!(inputGroup instanceof HTMLElement)) {
+        throw new Error("Expected input group to be an HTMLElement");
+      }
+      expect(inputGroup).toContainElement(input);
+      expect(within(inputGroup).getByLabelText("Search commands")).toBe(input);
+    });
+
+    it("applies governed state to root", () => {
+      render(
+        <Command data-testid="command-root" state="loading">
+          <CommandList />
+        </Command>
+      );
+
+      expect(screen.getByTestId("command-root")).toHaveAttribute(
+        "data-state",
+        "loading"
+      );
+    });
+
+    it("preserves keyboard-navigable option semantics on CommandItem", () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem value="dashboard">Dashboard</CommandItem>
+          </CommandList>
+        </Command>
+      );
+
+      const item = screen.getByRole("option", { name: "Dashboard" });
+
+      expect(item).toHaveAttribute("data-slot", "command-item");
+      expect(item).toHaveAttribute("data-component", "Command");
+    });
+
+    it("keeps governed data attributes authoritative on Command root", () => {
+      render(
+        <Command
+          data-component="Override"
+          data-recipe="override"
+          data-slot="override"
+        >
+          <CommandList />
+        </Command>
+      );
+
+      const root = document.querySelector("[data-slot='command']");
+
+      expect(root).not.toBeNull();
+      expectGovernedDataAuthority(root as HTMLElement, {
+        "data-component": "Command",
+        "data-recipe": "surface",
+        "data-slot": "command",
+        "data-state": "ready",
+      });
+      expectGovernedPrimitive(root as HTMLElement, {
+        component: "Command",
+        slot: "command",
+        recipe: "surface",
+      });
+    });
+
+    it("keeps governed data attributes authoritative on CommandItem", () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem
+              data-component="Override"
+              data-slot="override"
+              value="dashboard"
+            >
+              Dashboard
+            </CommandItem>
+          </CommandList>
+        </Command>
+      );
+
+      const item = screen.getByText("Dashboard");
+
+      expectGovernedDataAuthority(item, {
+        "data-component": "Command",
+        "data-recipe": "surface",
+        "data-slot": "command-item",
+        "data-state": "ready",
+      });
     });
   });
 });

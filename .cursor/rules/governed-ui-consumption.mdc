@@ -26,7 +26,7 @@ For **authoring** primitives, use `.cursor/skills/govern-primitive/SKILL.md`.
 ```tsx
 // ✅ shell chrome on plain wrapper
 <div className="relative">
-  <Button {...resolveStockButtonProps({ variant: "ghost", size: "icon-lg" })} />
+  <Button {...mapStockButtonProps("ghost", "icon-lg")} />
   <span className="bg-destructive absolute size-2 rounded-full" aria-hidden />
 </div>
 
@@ -35,13 +35,19 @@ For **authoring** primitives, use `.cursor/skills/govern-primitive/SKILL.md`.
 
 // ❌ studio copy-paste
 <SheetContent className="gap-0 sm:max-w-md [&>button]:top-2" />
+
+// ❌ local wrapper or missing governance import
+import { resolveStockButtonProps } from "../stock-props";
+<Button variant="ghost" size="icon-lg" />
 ```
 
 ## Imports
 
 - Import primitives from `@afenda/ui`
-- Import `resolveStockButtonProps` / governance helpers from `@afenda/ui/governance` **at call sites**
+- **Every consumer file** must also import from `@afenda/ui/governance` (types or `mapStockButtonProps`)
+- **Do not** create local wrappers (`stock-props.ts`, `resolveStockButtonProps`)
 - **Do not** create local re-export barrels (`packages/appshell/src/governance/index.ts`)
+- **Do not** import from `@/components/ui` — use `@afenda/ui` + `@afenda/ui/governance`
 - **Do not** add CSS modules for shell chrome when `globals.css` already sources the package
 
 ## shadcn-studio workflow

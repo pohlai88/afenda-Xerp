@@ -5,6 +5,21 @@
  * but does not redefine them.
  */
 
+import {
+  brandCompanyId,
+  brandCorrelationId,
+  brandExecutionId,
+  brandOrganizationId,
+  brandTenantId,
+  brandUserId,
+  type CompanyId,
+  type CorrelationId,
+  type ExecutionId,
+  type OrganizationId,
+  type TenantId,
+  type UserId,
+} from "./platform-id.contract.js";
+
 export const EXECUTION_CONTEXT_SOURCES = [
   "api",
   "cron",
@@ -18,43 +33,46 @@ export const EXECUTION_CONTEXT_SOURCES = [
 export type ExecutionContextSource = (typeof EXECUTION_CONTEXT_SOURCES)[number];
 
 export interface ExecutionContext {
-  readonly actorId: string | null;
-  readonly companyId: string | null;
-  readonly correlationId: string;
-  readonly executionId: string;
-  readonly organizationId: string | null;
+  readonly actorId: UserId | null;
+  readonly companyId: CompanyId | null;
+  readonly correlationId: CorrelationId;
+  readonly executionId: ExecutionId;
+  readonly organizationId: OrganizationId | null;
   readonly source: ExecutionContextSource;
   readonly startedAt: string;
-  readonly tenantId: string | null;
+  readonly tenantId: TenantId | null;
 }
 
 export interface ExecutionContextInput {
-  readonly actorId?: string | null;
-  readonly companyId?: string | null;
-  readonly correlationId: string;
-  readonly executionId?: string;
-  readonly organizationId?: string | null;
+  readonly actorId?: string | UserId | null;
+  readonly companyId?: string | CompanyId | null;
+  readonly correlationId: string | CorrelationId;
+  readonly executionId?: string | ExecutionId;
+  readonly organizationId?: string | OrganizationId | null;
   readonly source: ExecutionContextSource;
   readonly startedAt?: string;
-  readonly tenantId?: string | null;
+  readonly tenantId?: string | TenantId | null;
 }
 
-export function createExecutionId(prefix = "exec"): string {
-  return `${prefix}-${crypto.randomUUID()}`;
+export function createExecutionId(prefix = "exec"): ExecutionId {
+  return brandExecutionId(`${prefix}-${crypto.randomUUID()}`);
 }
 
 export function createExecutionContext(
   input: ExecutionContextInput
 ): ExecutionContext {
   return {
-    actorId: input.actorId ?? null,
-    companyId: input.companyId ?? null,
-    correlationId: input.correlationId,
-    executionId: input.executionId ?? createExecutionId(),
-    organizationId: input.organizationId ?? null,
+    actorId: brandUserId(input.actorId),
+    companyId: brandCompanyId(input.companyId),
+    correlationId: brandCorrelationId(input.correlationId),
+    executionId:
+      input.executionId === undefined
+        ? createExecutionId()
+        : brandExecutionId(input.executionId),
+    organizationId: brandOrganizationId(input.organizationId),
     source: input.source,
     startedAt: input.startedAt ?? new Date().toISOString(),
-    tenantId: input.tenantId ?? null,
+    tenantId: brandTenantId(input.tenantId),
   };
 }
 

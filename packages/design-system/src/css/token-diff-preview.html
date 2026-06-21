@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afenda CSS Token Diff — afenda-tokens.css vs afenda-style.css</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --ui-bg: #0f1117;
+      --ui-surface: #181b24;
+      --ui-border: #2a3040;
+      --ui-text: #e8eaef;
+      --ui-muted: #9aa3b5;
+      --ui-accent: #5b8def;
+      --ui-added: #2d6a4f;
+      --ui-removed: #7f1d1d;
+      --ui-changed: #854d0e;
+      --ui-same: #1e293b;
+      --ui-font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --ui-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--ui-bg);
+      color: var(--ui-text);
+      font-family: var(--ui-font);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 20px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--ui-border);
+      background: color-mix(in srgb, var(--ui-bg) 92%, transparent);
+      backdrop-filter: blur(8px);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--ui-muted);
+      font-size: 0.82rem;
+      flex: 1 1 280px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button, select, input[type="search"] {
+      font: inherit;
+      border: 1px solid var(--ui-border);
+      background: var(--ui-surface);
+      color: var(--ui-text);
+      border-radius: 8px;
+      padding: 6px 12px;
+    }
+
+    button { cursor: pointer; }
+    button:hover { border-color: var(--ui-accent); }
+    button.active { background: var(--ui-accent); border-color: var(--ui-accent); color: #fff; }
+
+    input[type="search"] { min-width: 220px; }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+    }
+
+    .stat {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--ui-border);
+      background: var(--ui-surface);
+    }
+
+    .stat b { font-weight: 650; }
+
+    main { padding: 16px 20px 40px; }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── Visual compare ── */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .visual-grid { grid-template-columns: 1fr; }
+    }
+
+    .theme-panel {
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--ui-surface);
+    }
+
+    .theme-panel header {
+      position: static;
+      padding: 10px 14px;
+      background: #12151c;
+      border-bottom: 1px solid var(--ui-border);
+    }
+
+    .theme-panel header h2 {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .theme-panel header code {
+      font-family: var(--ui-mono);
+      font-size: 0.75rem;
+      color: var(--ui-muted);
+    }
+
+    .theme-canvas {
+      padding: 16px;
+      min-height: 420px;
+      transition: background 0.2s;
+    }
+
+    .mock-app {
+      border-radius: var(--mock-radius, 0.5rem);
+      overflow: hidden;
+      border: 1px solid var(--mock-border, #ccc);
+      font-family: var(--mock-font-body, system-ui, sans-serif);
+      box-shadow: var(--mock-shadow-md, 0 4px 12px rgba(0,0,0,.08));
+    }
+
+    .mock-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--mock-header-bg, #fafafa);
+      border-bottom: 1px solid var(--mock-border, #ddd);
+      color: var(--mock-text, #111);
+    }
+
+    .mock-header strong { font-size: 0.9rem; }
+
+    .mock-body {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      min-height: 280px;
+    }
+
+    .mock-sidebar {
+      background: var(--mock-sidebar-bg, #f4f4f5);
+      border-right: 1px solid var(--mock-border, #ddd);
+      padding: 12px 10px;
+      color: var(--mock-sidebar-fg, #333);
+      font-size: 0.78rem;
+    }
+
+    .mock-sidebar div {
+      padding: 6px 8px;
+      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
+      margin-bottom: 4px;
+    }
+
+    .mock-sidebar .active-item {
+      background: var(--mock-sidebar-accent, #e8f0fe);
+      color: var(--mock-sidebar-accent-fg, #1a3a6b);
+    }
+
+    .mock-content {
+      padding: 14px;
+      background: var(--mock-bg, #fff);
+      color: var(--mock-text, #111);
+    }
+
+    .mock-card {
+      background: var(--mock-card, #fff);
+      border: 1px solid var(--mock-border, #ddd);
+      border-radius: var(--mock-radius, 0.5rem);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .mock-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .mock-btn {
+      padding: 6px 12px;
+      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .mock-btn.primary {
+      background: var(--mock-primary, #2563eb);
+      color: var(--mock-primary-fg, #fff);
+    }
+
+    .mock-btn.secondary {
+      background: var(--mock-secondary, #e5e7eb);
+      color: var(--mock-secondary-fg, #111);
+    }
+
+    .mock-btn.destructive {
+      background: var(--mock-destructive, #dc2626);
+      color: var(--mock-destructive-fg, #fff);
+    }
+
+    .mock-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .mock-badge {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    /* ── Swatches ── */
+    .swatch-section { margin-top: 14px; }
+
+    .swatch-section h3 {
+      margin: 0 0 8px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ui-muted);
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 6px;
+    }
+
+    .swatch {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--ui-border);
+      font-size: 0.62rem;
+    }
+
+    .swatch-color {
+      height: 36px;
+    }
+
+    .swatch-label {
+      padding: 4px 5px;
+      background: #12151c;
+      color: var(--ui-muted);
+      word-break: break-all;
+      line-height: 1.2;
+    }
+
+    /* ── Diff table ── */
+    .table-wrap {
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      overflow: auto;
+      max-height: calc(100vh - 200px);
+      background: var(--ui-surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--ui-border);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #12151c;
+      z-index: 1;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ui-muted);
+    }
+
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    td code {
+      font-family: var(--ui-mono);
+      font-size: 0.72rem;
+      word-break: break-all;
+    }
+
+    .row-same td:first-child { border-left: 3px solid #334155; }
+    .row-changed td:first-child { border-left: 3px solid #eab308; }
+    .row-tokens-only td:first-child { border-left: 3px solid #22c55e; }
+    .row-style-only td:first-child { border-left: 3px solid #ef4444; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge.same { background: var(--ui-same); color: #94a3b8; }
+    .badge.changed { background: var(--ui-changed); color: #fde68a; }
+    .badge.tokens-only { background: var(--ui-added); color: #bbf7d0; }
+    .badge.style-only { background: var(--ui-removed); color: #fecaca; }
+
+    .loading, .error {
+      padding: 24px;
+      text-align: center;
+      color: var(--ui-muted);
+    }
+
+    .error { color: #fca5a5; }
+
+    .hint {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px dashed var(--ui-border);
+      color: var(--ui-muted);
+      font-size: 0.82rem;
+    }
+
+    .hint code { font-family: var(--ui-mono); font-size: 0.78rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Afenda CSS Token Diff</h1>
+      <p>
+        <code>afenda-tokens.css</code> (hand-authored authority) vs
+        <code>afenda-style.css</code> (generated from registry)
+      </p>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="mode-light" class="active">Light</button>
+      <button type="button" id="mode-dark">Dark</button>
+      <select id="filter-status" aria-label="Filter by status">
+        <option value="all">All tokens</option>
+        <option value="changed">Changed only</option>
+        <option value="tokens-only">Tokens.css only</option>
+        <option value="style-only">Style.css only</option>
+        <option value="same">Unchanged</option>
+      </select>
+      <input type="search" id="search" placeholder="Search token name…" />
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <button type="button" class="tab active" data-tab="visual">Visual compare</button>
+      <button type="button" class="tab" data-tab="swatches">Color swatches</button>
+      <button type="button" class="tab" data-tab="diff">Token diff table</button>
+    </div>
+
+    <div id="panel-visual" class="panel active">
+      <div class="visual-grid" id="visual-grid">
+        <div class="loading">Loading CSS files…</div>
+      </div>
+    </div>
+
+    <div id="panel-swatches" class="panel">
+      <div class="visual-grid" id="swatch-grid"></div>
+    </div>
+
+    <div id="panel-diff" class="panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Status</th>
+              <th>afenda-tokens.css</th>
+              <th>afenda-style.css</th>
+            </tr>
+          </thead>
+          <tbody id="diff-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="hint" id="serve-hint" hidden>
+      Could not fetch CSS (browser blocked local file access).
+      Run a static server from <code>packages/</code>, then open this page:
+      <br /><br />
+      <code>pnpm dlx serve packages -p 8765</code>
+      → <code>http://localhost:8765/design-system/src/css/token-diff-preview.html</code>
+      <br /><br />
+      Alternative (repo root):
+      <code>pnpm dlx serve . -p 8765</code>
+      → <code>http://localhost:8765/packages/design-system/src/css/token-diff-preview.html</code>
+    </div>
+  </main>
+
+  <script>
+    const FILE_CANDIDATES = {
+      tokens: [
+        "afenda-tokens.css",
+        "packages/design-system/src/css/afenda-tokens.css",
+        "design-system/src/css/afenda-tokens.css",
+      ],
+      style: [
+        "../../../ui/src/styles/afenda-style.css",
+        "packages/ui/src/styles/afenda-style.css",
+        "ui/src/styles/afenda-style.css",
+      ],
+    };
+
+    let mode = "light";
+    let parsed = { tokens: {}, style: {} };
+    let diffRows = [];
+
+    const COLOR_KEY_RE = /color|surface|text|primary|secondary|accent|destructive|border|input|ring|chart|sidebar|status|tone|trend|state|tenant|success|warning|danger|forbidden|invalid|info|muted|background|foreground|overlay|hover|selected|link|placeholder|subtle|inverse|solid|skeleton|readonly|disabled|degraded|maintenance|offline/i;
+
+    function normalizeValue(v) {
+      if (v == null) return "";
+      return String(v)
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
+    }
+
+    function extractBlockVars(cssText, selectorPattern) {
+      const cleaned = cssText.replace(/\/\*[\s\S]*?\*\//g, "");
+      const re = new RegExp(`${selectorPattern}\\s*\\{`, "g");
+      const vars = {};
+      let match;
+
+      while ((match = re.exec(cleaned)) !== null) {
+        let i = match.index + match[0].length;
+        let depth = 1;
+        let body = "";
+
+        while (i < cleaned.length && depth > 0) {
+          const ch = cleaned[i++];
+          if (ch === "{") depth++;
+          else if (ch === "}") depth--;
+          else if (depth === 1) body += ch;
+        }
+
+        const declRe = /(--[a-zA-Z0-9-]+)\s*:\s*([^;]+);/g;
+        let dm;
+        while ((dm = declRe.exec(body)) !== null) {
+          vars[dm[1]] = dm[2].trim();
+        }
+      }
+
+      return vars;
+    }
+
+    function parseCssTokens(cssText) {
+      const light = extractBlockVars(cssText, ":root");
+      const dark = extractBlockVars(cssText, "\\.dark");
+      return { light, dark };
+    }
+
+    function getModeTokens(source) {
+      return mode === "dark"
+        ? { ...source.light, ...source.dark }
+        : source.light;
+    }
+
+    function buildDiff(tokensParsed, styleParsed) {
+      const tLight = tokensParsed.light;
+      const tDark = tokensParsed.dark;
+      const sLight = styleParsed.light;
+      const sDark = styleParsed.dark;
+
+      const allNames = new Set([
+        ...Object.keys(tLight),
+        ...Object.keys(tDark),
+        ...Object.keys(sLight),
+        ...Object.keys(sDark),
+      ]);
+
+      const rows = [];
+
+      for (const name of [...allNames].sort()) {
+        const tVal = mode === "dark"
+          ? (tDark[name] ?? tLight[name] ?? null)
+          : (tLight[name] ?? null);
+        const sVal = mode === "dark"
+          ? (sDark[name] ?? sLight[name] ?? null)
+          : (sLight[name] ?? null);
+
+        let status;
+        if (tVal == null && sVal == null) continue;
+        if (tVal == null && sVal != null) status = "style-only";
+        else if (tVal != null && sVal == null) status = "tokens-only";
+        else if (normalizeValue(tVal) === normalizeValue(sVal)) status = "same";
+        else status = "changed";
+
+        rows.push({ name, tVal, sVal, status });
+      }
+
+      return rows;
+    }
+
+    function applyMockTheme(root, vars) {
+      const g = (k, fb) => vars[k] ?? fb;
+      root.style.setProperty("--mock-bg", g("--afenda-color-surface-canvas", "#fafafa"));
+      root.style.setProperty("--mock-card", g("--afenda-color-surface-card", "#fff"));
+      root.style.setProperty("--mock-header-bg", g("--afenda-color-surface-header", g("--afenda-color-surface-canvas", "#fafafa")));
+      root.style.setProperty("--mock-text", g("--afenda-color-text-default", "#111"));
+      root.style.setProperty("--mock-border", g("--afenda-color-border-default", "#ddd"));
+      root.style.setProperty("--mock-primary", g("--afenda-color-primary", "#2563eb"));
+      root.style.setProperty("--mock-primary-fg", g("--afenda-color-primary-foreground", "#fff"));
+      root.style.setProperty("--mock-secondary", g("--afenda-color-secondary", "#e5e7eb"));
+      root.style.setProperty("--mock-secondary-fg", g("--afenda-color-secondary-foreground", "#111"));
+      root.style.setProperty("--mock-destructive", g("--afenda-color-destructive", "#dc2626"));
+      root.style.setProperty("--mock-destructive-fg", g("--afenda-color-destructive-foreground", "#fff"));
+      root.style.setProperty("--mock-sidebar-bg", g("--afenda-color-sidebar-background", "#f4f4f5"));
+      root.style.setProperty("--mock-sidebar-fg", g("--afenda-color-sidebar-foreground", "#333"));
+      root.style.setProperty("--mock-sidebar-accent", g("--afenda-color-sidebar-accent", "#e8f0fe"));
+      root.style.setProperty("--mock-sidebar-accent-fg", g("--afenda-color-sidebar-accent-foreground", "#1a3a6b"));
+      root.style.setProperty("--mock-radius", g("--afenda-radius-base", "0.5rem"));
+      root.style.setProperty("--mock-shadow-md", g("--afenda-shadow-md", "0 4px 12px rgba(0,0,0,.08)"));
+      root.style.setProperty("--mock-font-body", g("--afenda-font-body", "system-ui, sans-serif"));
+
+      root.style.background = g("--afenda-color-surface-canvas", "#eee");
+    }
+
+    function mockAppHtml() {
+      return `
+        <div class="mock-app">
+          <div class="mock-header">
+            <strong>Afenda ERP</strong>
+            <span style="font-size:0.75rem;opacity:.7">Dashboard</span>
+          </div>
+          <div class="mock-body">
+            <nav class="mock-sidebar">
+              <div class="active-item">Overview</div>
+              <div>Inventory</div>
+              <div>Orders</div>
+              <div>Reports</div>
+            </nav>
+            <div class="mock-content">
+              <div class="mock-card">
+                <div style="font-weight:650;margin-bottom:4px">Revenue summary</div>
+                <div style="font-size:0.78rem;opacity:.75">Primary surfaces, text, and chrome</div>
+                <div class="mock-row">
+                  <button type="button" class="mock-btn primary">Primary</button>
+                  <button type="button" class="mock-btn secondary">Secondary</button>
+                  <button type="button" class="mock-btn destructive">Destructive</button>
+                </div>
+                <div class="mock-badges">
+                  <span class="mock-badge" style="background:var(--badge-success-bg,#dcfce7);color:var(--badge-success-fg,#166534);border-color:var(--badge-success-border,#86efac)">Success</span>
+                  <span class="mock-badge" style="background:var(--badge-warning-bg,#fef3c7);color:var(--badge-warning-fg,#92400e);border-color:var(--badge-warning-border,#fcd34d)">Warning</span>
+                  <span class="mock-badge" style="background:var(--badge-danger-bg,#fee2e2);color:var(--badge-danger-fg,#991b1b);border-color:var(--badge-danger-border,#fca5a5)">Danger</span>
+                  <span class="mock-badge" style="background:var(--badge-info-bg,#dbeafe);color:var(--badge-info-fg,#1e40af);border-color:var(--badge-info-border,#93c5fd)">Info</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function setBadgeVars(root, vars) {
+      const map = [
+        ["success", "--afenda-status-tone-success"],
+        ["warning", "--afenda-status-tone-warning"],
+        ["danger", "--afenda-status-tone-danger"],
+        ["info", "--afenda-status-tone-info"],
+      ];
+      for (const [key, prefix] of map) {
+        root.style.setProperty(`--badge-${key}-bg`, vars[`${prefix}-surface`] ?? "#eee");
+        root.style.setProperty(`--badge-${key}-fg`, vars[`${prefix}-foreground`] ?? "#111");
+        root.style.setProperty(`--badge-${key}-border`, vars[`${prefix}-border`] ?? "#ccc");
+      }
+    }
+
+    function renderVisual() {
+      const grid = document.getElementById("visual-grid");
+      const tVars = getModeTokens(parsed.tokens);
+      const sVars = getModeTokens(parsed.style);
+
+      grid.innerHTML = `
+        <article class="theme-panel">
+          <header><h2>afenda-tokens.css</h2><code>packages/design-system/src/css/</code></header>
+          <div class="theme-canvas" id="canvas-tokens">${mockAppHtml()}</div>
+        </article>
+        <article class="theme-panel">
+          <header><h2>afenda-style.css</h2><code>packages/ui/src/styles/</code></header>
+          <div class="theme-canvas" id="canvas-style">${mockAppHtml()}</div>
+        </article>`;
+
+      const cTokens = document.getElementById("canvas-tokens");
+      const cStyle = document.getElementById("canvas-style");
+      applyMockTheme(cTokens, tVars);
+      applyMockTheme(cStyle, sVars);
+      setBadgeVars(cTokens, tVars);
+      setBadgeVars(cStyle, sVars);
+    }
+
+    function isColorToken(name) {
+      return name.startsWith("--afenda-") && COLOR_KEY_RE.test(name);
+    }
+
+    function resolveColor(value, vars, depth = 0) {
+      if (!value || depth > 6) return value;
+      const trimmed = value.trim();
+      if (/^(oklch|rgb|hsl|#)/i.test(trimmed)) return trimmed;
+      const varMatch = trimmed.match(/^var\(\s*(--[^,)]+)/);
+      if (varMatch && vars[varMatch[1]]) {
+        return resolveColor(vars[varMatch[1]], vars, depth + 1);
+      }
+      return trimmed;
+    }
+
+    function renderSwatches() {
+      const grid = document.getElementById("swatch-grid");
+      const tVars = getModeTokens(parsed.tokens);
+      const sVars = getModeTokens(parsed.style);
+
+      const tColors = Object.keys(tVars).filter(isColorToken);
+      const sColors = Object.keys(sVars).filter(isColorToken);
+      const all = [...new Set([...tColors, ...sColors])].sort();
+
+      function swatchBlock(title, vars, names) {
+        const items = names.map((name) => {
+          const raw = vars[name];
+          if (!raw) return "";
+          const color = resolveColor(raw, vars);
+          const short = name.replace(/^--afenda-/, "");
+          return `<div class="swatch" title="${name}: ${raw}">
+            <div class="swatch-color" style="background:${color}"></div>
+            <div class="swatch-label">${short}</div>
+          </div>`;
+        }).join("");
+
+        return `<article class="theme-panel">
+          <header><h2>${title}</h2></header>
+          <div style="padding:14px">
+            <div class="swatch-grid">${items || "<p class='loading'>No color tokens</p>"}</div>
+          </div>
+        </article>`;
+      }
+
+      grid.innerHTML =
+        swatchBlock("afenda-tokens.css", tVars, all.filter((n) => tVars[n])) +
+        swatchBlock("afenda-style.css", sVars, all.filter((n) => sVars[n]));
+    }
+
+    function renderStats() {
+      const counts = { same: 0, changed: 0, "tokens-only": 0, "style-only": 0 };
+      for (const r of diffRows) counts[r.status]++;
+      document.getElementById("stats").innerHTML = `
+        <span class="stat"><b>${diffRows.length}</b> tokens</span>
+        <span class="stat" style="border-color:#eab308"><b>${counts.changed}</b> changed</span>
+        <span class="stat" style="border-color:#22c55e"><b>${counts["tokens-only"]}</b> tokens only</span>
+        <span class="stat" style="border-color:#ef4444"><b>${counts["style-only"]}</b> style only</span>
+        <span class="stat"><b>${counts.same}</b> same</span>`;
+    }
+
+    function renderDiff() {
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const filter = document.getElementById("filter-status").value;
+      const tbody = document.getElementById("diff-body");
+
+      const rows = diffRows.filter((r) => {
+        if (filter !== "all" && r.status !== filter) return false;
+        if (q && !r.name.toLowerCase().includes(q)) return false;
+        return true;
+      });
+
+      tbody.innerHTML = rows.map((r) => `
+        <tr class="row-${r.status}">
+          <td><code>${r.name}</code></td>
+          <td><span class="badge ${r.status}">${r.status.replace("-", " ")}</span></td>
+          <td><code>${r.tVal ?? "—"}</code></td>
+          <td><code>${r.sVal ?? "—"}</code></td>
+        </tr>`).join("");
+    }
+
+    function renderAll() {
+      diffRows = buildDiff(parsed.tokens, parsed.style);
+      renderStats();
+      renderVisual();
+      renderSwatches();
+      renderDiff();
+    }
+
+    async function fetchFirst(paths) {
+      for (const path of paths) {
+        try {
+          const r = await fetch(path);
+          if (r.ok) return r.text();
+        } catch {
+          /* try next candidate */
+        }
+      }
+      throw new Error(`Could not load: ${paths.join(" | ")}`);
+    }
+
+    async function load() {
+      try {
+        const [tokensCss, styleCss] = await Promise.all([
+          fetchFirst(FILE_CANDIDATES.tokens),
+          fetchFirst(FILE_CANDIDATES.style),
+        ]);
+
+        parsed.tokens = parseCssTokens(tokensCss);
+        parsed.style = parseCssTokens(styleCss);
+        renderAll();
+      } catch (err) {
+        document.getElementById("serve-hint").hidden = false;
+        document.getElementById("visual-grid").innerHTML =
+          `<div class="error">Failed to load CSS: ${err?.message ?? err}</div>`;
+      }
+    }
+
+    document.getElementById("mode-light").addEventListener("click", () => {
+      mode = "light";
+      document.getElementById("mode-light").classList.add("active");
+      document.getElementById("mode-dark").classList.remove("active");
+      renderAll();
+    });
+
+    document.getElementById("mode-dark").addEventListener("click", () => {
+      mode = "dark";
+      document.getElementById("mode-dark").classList.add("active");
+      document.getElementById("mode-light").classList.remove("active");
+      renderAll();
+    });
+
+    document.querySelectorAll(".tab").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    document.getElementById("search").addEventListener("input", renderDiff);
+    document.getElementById("filter-status").addEventListener("change", renderDiff);
+
+    load();
+  </script>
+</body>
+</html>

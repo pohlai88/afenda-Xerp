@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@afenda/typescript-config/base.json",
+  "compilerOptions": {
+    "customConditions": ["@afenda/ui/development", "development"],
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "paths": {
+      "@afenda/ui/governance": ["../../packages/ui/src/governance/index.ts"],
+      "@afenda/ui/governance/*": ["../../packages/ui/src/governance/*"],
+      "@afenda/ui/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
+      "@afenda/ui/lib/*": ["../../packages/ui/src/lib/*"],
+      "@afenda/ui": ["../../packages/ui/src/index.ts"],
+      "@afenda/appshell": ["../../packages/appshell/src/index.ts"],
+      "next/link": ["../../packages/testing/src/mocks/next-link.tsx"]
+    }
+  },
+  "include": [
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx",
+    "../../packages/ui/src/**/*.stories.ts",
+    "../../packages/ui/src/**/*.stories.tsx",
+    "../../packages/ui/src/components/**/*.tsx",
+    "../../packages/ui/src/governance/**/*.ts",
+    "../../packages/ui/src/governance/**/*.tsx",
+    "../../packages/appshell/src/**/*.ts",
+    "../../packages/appshell/src/**/*.tsx",
+    "vitest.storybook.config.ts"
+  ],
+  "exclude": [
+    "../../packages/appshell/src/**/__tests__/**",
+    "../../packages/appshell/src/**/*.test.ts",
+    "../../packages/appshell/src/**/*.test.tsx",
+    "../../packages/ui/src/components/shadcn-studio/**"
+  ]
+}

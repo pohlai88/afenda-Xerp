@@ -4,7 +4,10 @@ import {
   type MotionIntent,
   motionPolicy,
 } from "./design-system";
-import { isDevelopment } from "./dev-env";
+import {
+  enforceGovernanceOr,
+  reportGovernanceRuntimeViolation,
+} from "./dev-env";
 
 const motionByIntent = new Map<MotionIntent, MotionContract>(
   motionPolicy.map((entry) => [entry.intent, entry])
@@ -31,8 +34,8 @@ export function getMissingMotionIntents(): readonly MotionIntent[] {
 function assertMotionPolicyCoverage(): void {
   const missingIntents = getMissingMotionIntents();
 
-  if (missingIntents.length > 0 && isDevelopment) {
-    throw new Error(formatMissingMotionIntents(missingIntents));
+  if (missingIntents.length > 0) {
+    reportGovernanceRuntimeViolation(formatMissingMotionIntents(missingIntents));
   }
 }
 
@@ -54,7 +57,10 @@ export function getMotionIntent(intent: MotionIntent): MotionContract {
   const entry = motionByIntent.get(intent);
 
   if (!entry) {
-    throw new Error(formatUnknownMotionIntent(intent));
+    return enforceGovernanceOr(
+      formatUnknownMotionIntent(intent),
+      motionByIntent.get("instant") ?? motionPolicy[0]!
+    );
   }
 
   return entry;

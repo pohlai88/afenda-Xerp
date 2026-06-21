@@ -1,3 +1,5 @@
+import { brandUserId } from "@afenda/kernel";
+
 import type { AfendaAuthIdentity, AfendaAuthSession } from "./auth.contract.js";
 
 /** Better Auth session shape accepted by the Afenda normalizer. */
@@ -43,8 +45,13 @@ export function normalizeAfendaAuthSession(
 export function toAfendaAuthIdentity(
   session: AfendaAuthSession
 ): AfendaAuthIdentity {
+  const userId = brandUserId(session.user.userId);
+  if (userId === null) {
+    throw new Error("userId is required.");
+  }
+
   return {
-    userId: session.user.userId,
+    userId,
     displayName: session.user.name,
     email: session.user.email,
   };

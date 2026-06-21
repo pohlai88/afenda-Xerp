@@ -2,6 +2,38 @@ import { cn } from "../lib/utils";
 
 import type { PrimitiveGovernanceResult } from "./primitive-contract";
 
+/** Merges governed slot results for internal composition on plain DOM nodes. */
+export function mergeGovernedPresentation(
+  ...results: readonly PrimitiveGovernanceResult[]
+): PrimitiveGovernanceResult {
+  if (results.length === 0) {
+    throw new Error("mergeGovernedPresentation requires at least one result.");
+  }
+
+  const first = results[0];
+  if (first === undefined) {
+    throw new Error("mergeGovernedPresentation requires at least one result.");
+  }
+
+  const rest = results.slice(1);
+
+  return rest.reduce<PrimitiveGovernanceResult>(
+    (merged, next) => ({
+      recipeName: next.recipeName,
+      className: cn(merged.className, next.className),
+      state: next.state,
+      slot: next.slot,
+      motion: next.motion,
+      accessibility: next.accessibility,
+      dataAttributes: {
+        ...merged.dataAttributes,
+        ...next.dataAttributes,
+      },
+    }),
+    first
+  );
+}
+
 /**
  * Merges consumer DOM props with governed presentation in canonical order:
  * `{...props}` → semantic `data-*` → `{...governed.dataAttributes}` (wins).

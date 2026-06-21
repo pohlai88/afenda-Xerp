@@ -26,6 +26,7 @@ const packageByName = new Map(
 const failures = [];
 
 for (const workspacePackage of workspacePackages) {
+  validateWorkspacePinning(workspacePackage);
   for (const filePath of listSourceFiles(workspacePackage.root)) {
     validateImports(workspacePackage, filePath);
   }
@@ -107,6 +108,29 @@ function listSourceFiles(directory) {
   return files;
 }
 
+function validateWorkspacePinning(workspacePackage) {
+  const { packageJson, packageJsonPath } = workspacePackage;
+
+  for (const field of ["dependencies", "devDependencies", "peerDependencies"]) {
+    const deps = packageJson[field];
+
+    if (!deps || typeof deps !== "object") {
+      continue;
+    }
+
+    for (const [dependencyName, versionRange] of Object.entries(deps)) {
+      if (
+        dependencyName.startsWith("@afenda/") &&
+        versionRange !== "workspace:*"
+      ) {
+        failures.push(
+          `${formatPath(packageJsonPath)} ${field}["${dependencyName}"] must use workspace:* (found ${versionRange})`
+        );
+      }
+    }
+  }
+}
+
 function validateImports(workspacePackage, filePath) {
   const source = readFileSync(filePath, "utf8");
 
@@ -168,14 +192,41 @@ function validateWorkspaceImport(workspacePackage, filePath, specifier) {
     return;
   }
 
-  const exportKey = `.${subpath}`;
   const exportsField = importedPackage.packageJson.exports;
 
-  if (!(exportsField && Object.hasOwn(exportsField, exportKey))) {
-    failures.push(
-      `${formatPath(filePath)} deep-imports ${specifier}; use an exported public entrypoint`
-    );
+  if (matchesPackageExport(exportsField, subpath)) {
+    return;
   }
+
+  failures.push(
+    `${formatPath(filePath)} deep-imports ${specifier}; use an exported public entrypoint`
+  );
+}
+
+function matchesPackageExport(exportsField, subpath) {
+  const exportKey = `.${subpath}`;
+
+  if (!exportsField || typeof exportsField !== "object") {
+    return false;
+  }
+
+  if (Object.hasOwn(exportsField, exportKey)) {
+    return true;
+  }
+
+  for (const pattern of Object.keys(exportsField)) {
+    if (!pattern.endsWith("/*")) {
+      continue;
+    }
+
+    const prefix = pattern.slice(0, -1);
+
+    if (exportKey.startsWith(prefix) && exportKey.length > prefix.length) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function extractWorkspacePackageName(specifier) {

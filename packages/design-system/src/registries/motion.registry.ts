@@ -1,5 +1,8 @@
 import type { MotionContract } from "../contracts/motion.contract";
-import { MOTION_INTENTS, type MotionIntent } from "../contracts/motion.contract";
+import {
+  MOTION_INTENTS,
+  type MotionIntent,
+} from "../contracts/motion.contract";
 
 const motionPatterns: readonly MotionContract[] = [
   {
@@ -31,4 +34,5 @@ const motionPatterns: readonly MotionContract[] = [
 export const AFENDA_MOTION_REGISTRY = motionPatterns;
 
 /** All governed motion intent names. */
-export const AFENDA_MOTION_INTENTS = MOTION_INTENTS satisfies readonly MotionIntent[];
+export const AFENDA_MOTION_INTENTS =
+  MOTION_INTENTS satisfies readonly MotionIntent[];

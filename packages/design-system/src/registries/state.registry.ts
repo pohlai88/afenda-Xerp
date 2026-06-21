@@ -1,5 +1,8 @@
 import type { StateContract, StatePattern } from "../contracts/state.contract";
-import { GOVERNED_STATES, type GovernedState } from "../contracts/state.contract";
+import {
+  GOVERNED_STATES,
+  type GovernedState,
+} from "../contracts/state.contract";
 
 const statePatterns: readonly StatePattern[] = [
   {
@@ -45,4 +48,5 @@ export const AFENDA_STATE_REGISTRY = {
 } as const satisfies StateContract;
 
 /** All governed UI state names. */
-export const AFENDA_STATE_NAMES = GOVERNED_STATES satisfies readonly GovernedState[];
+export const AFENDA_STATE_NAMES =
+  GOVERNED_STATES satisfies readonly GovernedState[];

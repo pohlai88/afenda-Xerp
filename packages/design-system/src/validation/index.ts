@@ -6,16 +6,16 @@
  */
 
 export interface ValidationResult {
-  readonly rule: string;
-  readonly passed: boolean;
   /** Present when `passed` is false. */
   readonly detail: string | undefined;
+  readonly passed: boolean;
+  readonly rule: string;
 }
 
-export { validateTokenRegistry } from "./token.validation";
-export { validateVariantRegistry } from "./variant.validation";
-export { validateRecipeRegistry } from "./recipe.validation";
-export { validateStateRegistry } from "./state.validation";
-export { validateMotionRegistry } from "./motion.validation";
 export { validateClassNames } from "./class-name.validation";
 export { validateExportSurface } from "./export.validation";
+export { validateMotionRegistry } from "./motion.validation";
+export { validateRecipeRegistry } from "./recipe.validation";
+export { validateStateRegistry } from "./state.validation";
+export { validateTokenRegistry } from "./token.validation";
+export { validateVariantRegistry } from "./variant.validation";

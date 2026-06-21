@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createMockExecutionProvider } from "../execution/mock-execution-provider.js";
+import {
+  createMockExecutionContext,
+  createMockExecutionProvider,
+} from "../execution/mock-execution-provider.js";
 
 describe("mock execution provider", () => {
   it("implements the execution provider contract", async () => {
@@ -17,16 +20,10 @@ describe("mock execution provider", () => {
 
   it("tracks execution lifecycle for tests", async () => {
     const provider = createMockExecutionProvider();
-    const context = {
-      actorId: "actor-1",
-      companyId: null,
+    const context = createMockExecutionContext({
       correlationId: "corr-mock-001",
       executionId: "exec-mock-001",
-      organizationId: null,
-      source: "manual" as const,
-      startedAt: "2026-06-20T00:00:00.000Z",
-      tenantId: "tenant-1",
-    };
+    });
 
     const started = await provider.execute({
       context,

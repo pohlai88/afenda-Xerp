@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
   CreditCardIcon,
@@ -58,9 +58,9 @@ function RadioField({
   return (
     <StoryRow align="center" gap="sm">
       <RadioGroupItem disabled={disabled} id={id} value={value} />
-      <Label className="font-normal" htmlFor={id}>
-        {label}
-      </Label>
+      <span className="font-normal">
+        <Label htmlFor={id}>{label}</Label>
+      </span>
     </StoryRow>
   );
 }
@@ -95,9 +95,9 @@ function RadioOptionField({
           {Icon ? (
             <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
           ) : null}
-          <Label className="font-medium" htmlFor={id}>
-            {label}
-          </Label>
+          <span className="font-medium">
+            <Label htmlFor={id}>{label}</Label>
+          </span>
           {badge ? (
             <Badge emphasis="soft" size="sm" tone={badge.tone}>
               {badge.text}
@@ -189,7 +189,9 @@ export const Horizontal: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
-        <Label className="font-medium text-sm">Priority</Label>
+        <span className="font-medium text-sm">
+          <Label>Priority</Label>
+        </span>
         <RadioGroup defaultValue="medium">
           <StoryRow gap="md" wrap>
             {PRIORITY_LEVELS.map((level) => (
@@ -349,7 +351,9 @@ export const ApprovalDecision: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="sm">
-        <Label className="font-semibold text-sm">Approval decision</Label>
+        <span className="font-semibold text-sm">
+          <Label>Approval decision</Label>
+        </span>
         <span className="text-muted-foreground text-xs">
           PO-2026-1184 · $8,760 · Acme Supplies Ltd.
         </span>
@@ -714,27 +718,31 @@ export const DocumentTypeFilter: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="sm">
-        <Label className="font-medium text-sm">Attachment type</Label>
+        <span className="font-medium text-sm">
+          <Label>Attachment type</Label>
+        </span>
         <RadioGroup defaultValue="all">
           <StoryRow gap="md" wrap>
             <RadioField id="doc-all" label="All types" value="all" />
             <StoryRow align="center" gap="xs">
               <RadioGroupItem id="doc-pdf" value="pdf" />
-              <Label className="font-normal" htmlFor="doc-pdf">
-                <StoryRow align="center" gap="xs">
-                  <FileTextIcon
-                    aria-hidden="true"
-                    className="size-4 text-muted-foreground"
-                  />
-                  PDF
-                </StoryRow>
-              </Label>
+              <span className="font-normal">
+                <Label htmlFor="doc-pdf">
+                  <StoryRow align="center" gap="xs">
+                    <FileTextIcon
+                      aria-hidden="true"
+                      className="size-4 text-muted-foreground"
+                    />
+                    PDF
+                  </StoryRow>
+                </Label>
+              </span>
             </StoryRow>
             <StoryRow align="center" gap="xs">
               <RadioGroupItem id="doc-img" value="image" />
-              <Label className="font-normal" htmlFor="doc-img">
-                Images
-              </Label>
+              <span className="font-normal">
+                <Label htmlFor="doc-img">Images</Label>
+              </span>
             </StoryRow>
           </StoryRow>
         </RadioGroup>
@@ -800,7 +808,9 @@ export const FilterBarRadioCluster: Story = {
               </StoryRow>
             </RadioGroup>
           </StoryStack>
-          <Separator className="hidden h-8 sm:block" orientation="vertical" />
+          <div className="hidden h-8 sm:block">
+            <Separator orientation="vertical" />
+          </div>
           <StoryStack gap="xs">
             <span className="text-muted-foreground text-xs">Assignment</span>
             <RadioGroup defaultValue="mine">

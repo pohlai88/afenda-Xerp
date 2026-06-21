@@ -1,5 +1,4 @@
-"use client";
-
+import type { ReactNode } from "react";
 import {
   ActivityIcon,
   BellIcon,
@@ -12,204 +11,136 @@ import {
   AvatarFallback,
   AvatarImage,
   Button,
-  Kbd,
-  TooltipProvider,
 } from "@afenda/ui";
-import ActivityDialog from "./shadcn-studio/blocks/dialog-activity";
-import SearchDialog from "./shadcn-studio/blocks/dialog-search";
-import LanguageDropdown from "./shadcn-studio/blocks/dropdown-language";
-import NotificationDropdown from "./shadcn-studio/blocks/dropdown-notification";
-import ProfileDropdown from "./shadcn-studio/blocks/dropdown-profile";
-import MenuTrigger from "./shadcn-studio/blocks/menu-trigger";
-import { resolveStockButtonProps } from "./shadcn-studio/stock-props";
+import {
+  mapStockButtonProps,
+  type GovernedUiComponentName,
+} from "@afenda/ui/governance";
 
-import { AppShellCommandCenter } from "./app-shell-command-center";
-import { AppShellContextSwitcher } from "./app-shell-context-switcher";
-import type {
-  AppShellCommandItem,
-  AppShellContextSwitcherState,
-  AppShellIdentity,
-  AppShellWorkspaceContext,
-} from "./app-shell.types";
+import type { ApplicationShellResolvedChrome } from "./app-shell.types";
+import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
+import { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
+import { AppShellLanguageDropdown } from "./shadcn-studio/blocks/app-shell-language-dropdown";
+import { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigger";
+import { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-notification-dropdown";
+import { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
+import { AppShellSearchDialog } from "./shadcn-studio/blocks/app-shell-search-dialog";
 
-function resolveGreetingName(identity?: AppShellIdentity): string {
-  if (!identity?.displayName) {
-    return "there";
-  }
+export type AppShellHeaderGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Avatar" | "Button"
+>;
 
-  return identity.displayName.split(/\s+/)[0] ?? identity.displayName;
+interface AppShellHeaderProps {
+  readonly chrome: ApplicationShellResolvedChrome;
+  readonly identityAccessory?: ReactNode;
 }
 
-function resolveInitials(displayName: string): string {
-  const parts = displayName.trim().split(/\s+/).filter(Boolean);
-
-  if (parts.length === 0) {
-    return "?";
-  }
-
-  if (parts.length === 1) {
-    return parts[0]?.slice(0, 2).toUpperCase() ?? "?";
-  }
-
-  const first = parts[0]?.[0] ?? "";
-  const last = parts.at(-1)?.[0] ?? "";
-
-  return `${first}${last}`.toUpperCase();
-}
-
-export interface AppShellHeaderProps {
-  readonly commandItems?: readonly AppShellCommandItem[];
-  readonly contextSwitcherCompact?: boolean;
-  readonly contextSwitcherState?: AppShellContextSwitcherState;
-  readonly identity?: AppShellIdentity;
-  readonly onContextSwitchRequest?: () => void;
-  readonly workspace?: AppShellWorkspaceContext;
-}
-
-export function AppShellHeader({
-  commandItems,
-  contextSwitcherCompact = true,
-  contextSwitcherState,
-  identity,
-  onContextSwitchRequest,
-  workspace,
-}: AppShellHeaderProps) {
-  const greetingName = resolveGreetingName(identity);
-  const avatarFallback = identity
-    ? resolveInitials(identity.displayName)
-    : "JD";
+export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProps) {
+  const unreadNotificationCount = countDefaultAppShellUnreadNotifications();
+  const notificationTriggerLabel =
+    unreadNotificationCount > 0
+      ? `Notifications, ${unreadNotificationCount} unread`
+      : "Notifications";
 
   return (
-    <header className="text-primary-foreground" role="banner">
-      <p className="sr-only">Application header</p>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 sm:px-6">
-        <div className="flex items-center gap-4">
-          <MenuTrigger variant="outline" />
-          <div className="hidden sm:flex sm:flex-col sm:items-start">
-            <p className="text-lg font-semibold">Hey, {greetingName}</p>
-            <p className="text-primary-foreground/50 md:max-lg:hidden">
-              Welcome back to your workspace
+    <header className="app-shell-header-bar">
+      <div className="app-shell-header app-shell-header-grid">
+        <div className="app-shell-header-leading">
+          <AppShellMenuTrigger
+            className="app-shell-menu-trigger"
+            variant="outline"
+          />
+          <div className="app-shell-header-greeting">
+            <p className="app-shell-header-greeting-title">
+              Hey, {chrome.userName}
             </p>
-            {workspace ? (
-              <div className="text-primary-foreground/70 mt-1 text-sm">
-                <AppShellContextSwitcher
-                  compact={contextSwitcherCompact}
-                  {...(onContextSwitchRequest === undefined
-                    ? {}
-                    : { onSwitchRequest: onContextSwitchRequest })}
-                  {...(contextSwitcherState === undefined
-                    ? {}
-                    : { state: contextSwitcherState })}
-                  workspace={workspace}
-                />
-              </div>
-            ) : null}
+            <p className="app-shell-header-greeting-subtitle">
+              {chrome.welcomeMessage}
+            </p>
           </div>
         </div>
 
-        <SearchDialog
-          className="hidden w-full max-w-72 xl:block"
+        <AppShellSearchDialog
+          className="app-shell-search-dialog-desktop"
           trigger={
-            <Button
-              {...resolveStockButtonProps({ variant: "secondary", size: "default" })}
-            >
-              <SearchIcon className="size-4" />
-              <span>Type to search...</span>
-              <Kbd>⌘K</Kbd>
-            </Button>
+            <div className="app-shell-search-trigger-desktop">
+              <SearchIcon
+                aria-hidden
+                className="app-shell-search-trigger-icon"
+              />
+              <span className="app-shell-search-trigger-label">
+                {chrome.searchTriggerLabel}
+              </span>
+            </div>
           }
         />
 
-        <div className="flex items-center gap-1.5">
-          <SearchDialog
-            className="block xl:hidden"
+        <div className="app-shell-header-actions">
+          <AppShellSearchDialog
+            className="app-shell-search-dialog-mobile"
             trigger={
-              <Button
-                {...resolveStockButtonProps({
-                  variant: "ghost",
-                  size: "icon-lg",
-                })}
-              >
+              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
                 <SearchIcon />
                 <span className="sr-only">Search</span>
               </Button>
             }
           />
-          <LanguageDropdown
+          <AppShellLanguageDropdown
             trigger={
-              <Button
-                {...resolveStockButtonProps({
-                  variant: "ghost",
-                  size: "icon-lg",
-                })}
-              >
+              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
                 <LanguagesIcon />
                 <span className="sr-only">Language</span>
               </Button>
             }
           />
-          <ActivityDialog
+          <AppShellActivityDialog
             trigger={
-              <Button
-                {...resolveStockButtonProps({
-                  variant: "ghost",
-                  size: "icon-lg",
-                })}
-              >
+              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
                 <ActivityIcon />
                 <span className="sr-only">Activity</span>
               </Button>
             }
           />
-          <NotificationDropdown
+          <AppShellNotificationDropdown
             trigger={
-              <div className="relative">
+              <div className="app-shell-notification-trigger">
                 <Button
-                  {...resolveStockButtonProps({
-                    variant: "ghost",
-                    size: "icon-lg",
-                  })}
+                  {...mapStockButtonProps("ghost", "icon-lg")}
+                  aria-label={notificationTriggerLabel}
+                  type="button"
                 >
                   <BellIcon />
-                  <span className="sr-only">Notifications</span>
                 </Button>
-                <span
-                  aria-hidden
-                  className="bg-destructive pointer-events-none absolute top-[14%] right-[23%] size-2 rounded-full"
-                />
+                {unreadNotificationCount > 0 ? (
+                  <span
+                    aria-hidden
+                    className="app-shell-notification-unread-dot"
+                  />
+                ) : null}
               </div>
             }
           />
-          {identity ? (
-            <ProfileDropdown
-              avatarFallback={avatarFallback}
-              displayName={identity.displayName}
-              email={identity.email}
-              trigger={
-                <Button
-                  {...resolveStockButtonProps({
-                    variant: "ghost",
-                    size: "icon-lg",
-                  })}
-                >
-                  <Avatar>
-                    <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png" />
-                    <AvatarFallback>{avatarFallback}</AvatarFallback>
-                  </Avatar>
-                  <span className="sr-only">Profile menu</span>
-                </Button>
-              }
-            />
-          ) : null}
-        </div>
-      </div>
-
-      <div className="sr-only">
-        <TooltipProvider delayDuration={0}>
-          <AppShellCommandCenter
-            {...(commandItems === undefined ? {} : { items: commandItems })}
+          <AppShellProfileDropdown
+            avatarFallback={chrome.avatarFallback}
+            avatarSrc={chrome.avatarSrc}
+            displayName={chrome.userName}
+            {...(chrome.email === undefined ? {} : { email: chrome.email })}
+            trigger={
+              <Button
+                {...mapStockButtonProps("ghost", "icon-lg")}
+                aria-label={`Profile: ${chrome.userName}`}
+                type="button"
+              >
+                <Avatar>
+                  <AvatarImage alt={chrome.userName} src={chrome.avatarSrc} />
+                  <AvatarFallback>{chrome.avatarFallback}</AvatarFallback>
+                </Avatar>
+              </Button>
+            }
           />
-        </TooltipProvider>
+          {identityAccessory}
+        </div>
       </div>
     </header>
   );

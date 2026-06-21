@@ -1,23 +1,26 @@
 {
   "biome.lsp.bin": {
-    "darwin-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-arm64/biome",
-    "darwin-x64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-x64/biome",
-    "linux-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-linux-arm64/biome",
-    "linux-x64": "${workspaceFolder}/node_modules/@biomejs/cli-linux-x64/biome",
-    "win32-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-arm64/biome.exe",
-    "win32-x64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-x64/biome.exe"
+    "darwin-arm64": "./node_modules/@biomejs/cli-darwin-arm64/biome",
+    "darwin-x64": "./node_modules/@biomejs/cli-darwin-x64/biome",
+    "linux-arm64": "./node_modules/@biomejs/cli-linux-arm64/biome",
+    "linux-x64": "./node_modules/@biomejs/cli-linux-x64/biome",
+    "win32-arm64": "./node_modules/@biomejs/cli-win32-arm64/biome.exe",
+    "win32-x64": "./node_modules/@biomejs/cli-win32-x64/biome.exe"
   },
-  "biome.configurationPath": "./biome.jsonc",
-  "biome.runFromTemporaryLocation": false,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "emmet.showExpandedAbbreviation": "never",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
   "typescript.tsserver.watchOptions": {
-    "excludeDirectories": ["**/node_modules", "**/.git", "**/dist", "**/.tsbuild"]
+    "excludeDirectories": [
+      "**/node_modules",
+      "**/.git",
+      "**/dist",
+      "**/.tsbuild"
+    ]
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
   "[css]": {

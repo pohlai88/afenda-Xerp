@@ -1,9 +1,0 @@
-@import "tailwindcss";
-@import "../src/styles/afenda-style.css";
-@import "shadcn/tailwind.css";
-
-/* UI primitives + stories */
-@source "../src/**/*.{ts,tsx}";
-/* @afenda/appshell compose layer (Shell/AppShell stories import from dist/src) */
-@source "../../appshell/src/**/*.{ts,tsx}";
-@source "../../appshell/dist/**/*.js";

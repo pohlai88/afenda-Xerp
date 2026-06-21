@@ -24,7 +24,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@afenda/entitlements": "workspace:^"
+    "@afenda/entitlements": "workspace:*"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

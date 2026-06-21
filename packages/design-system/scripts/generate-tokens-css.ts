@@ -1,32 +1,48 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { TokenDefinition } from "../src/contracts/token.contract.js";
 import { AFENDA_TOKEN_REGISTRY } from "../src/registries/token.registry.js";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const packageRoot = join(scriptDirectory, "..");
 
 const allTokens = AFENDA_TOKEN_REGISTRY.tokens;
-
-const lightLines = allTokens.map(
-  (token) => `  ${token.cssVariable}: ${token.value};`
-);
-
 const darkTokens = allTokens.filter((t) => t.darkValue !== undefined);
-const darkLines = darkTokens.map(
-  (token) => `  ${token.cssVariable}: ${token.darkValue};`
-);
 
-const darkBlock =
-  darkTokens.length > 0
-    ? `\n.dark {\n${darkLines.join("\n")}\n}\n`
-    : "";
+/**
+ * Emits grouped CSS custom-property lines, inserting a `/* ── <group> ── *​/`
+ * comment banner each time the registry section `group` changes. This is how
+ * the generated CSS reconstructs the authored section structure from metadata.
+ */
+function emitGroupedVars(
+  list: readonly TokenDefinition[],
+  pick: (token: TokenDefinition) => string | undefined
+): string {
+  let out = "";
+  let currentGroup: string | undefined;
+  for (const token of list) {
+    const value = pick(token);
+    if (value === undefined) {
+      continue;
+    }
+    if (token.group !== undefined && token.group !== currentGroup) {
+      currentGroup = token.group;
+      out += `\n  /* ── ${token.group} ── */\n`;
+    }
+    out += `  ${token.cssVariable}: ${value};\n`;
+  }
+  return out;
+}
 
 function buildTokenBlocks(): string {
-  return `:root {
-${lightLines.join("\n")}
-}
-${darkBlock}`;
+  const lightBody = emitGroupedVars(allTokens, (token) => token.value);
+  const darkBody = emitGroupedVars(allTokens, (token) => token.darkValue);
+  const darkBlock =
+    darkBody.trim().length > 0
+      ? `\n.dark {\n  color-scheme: dark;\n${darkBody}}\n`
+      : "";
+  return `:root {\n${lightBody}}\n${darkBlock}`;
 }
 
 function buildTokensCss(): string {
@@ -85,17 +101,28 @@ ${buildTokenBlocks()}
   --destructive: var(--afenda-color-destructive);
   --destructive-foreground: var(--afenda-color-destructive-foreground);
 
+  /* Feedback — governed semantic fills (mirrors destructive pattern) */
+  --success: var(--afenda-status-tone-success-solid);
+  --success-foreground: var(--afenda-status-tone-success-solid-foreground);
+  --warning: var(--afenda-status-tone-warning-solid);
+  --warning-foreground: var(--afenda-status-tone-warning-solid-foreground);
+  --info: var(--afenda-status-tone-info-solid);
+  --info-foreground: var(--afenda-status-tone-info-solid-foreground);
+
   /* Chrome */
   --border: var(--afenda-color-border-default);
   --input: var(--afenda-color-input);
   --ring: var(--afenda-color-focus-ring);
 
-  /* Charts */
+  /* Charts (shadcn supports chart-1..5 by default; 6..8 extend it) */
   --chart-1: var(--afenda-color-chart-1);
   --chart-2: var(--afenda-color-chart-2);
   --chart-3: var(--afenda-color-chart-3);
   --chart-4: var(--afenda-color-chart-4);
   --chart-5: var(--afenda-color-chart-5);
+  --chart-6: var(--afenda-color-chart-6);
+  --chart-7: var(--afenda-color-chart-7);
+  --chart-8: var(--afenda-color-chart-8);
 
   /* Sidebar */
   --sidebar: var(--afenda-color-sidebar-background);
@@ -108,8 +135,7 @@ ${buildTokenBlocks()}
   --sidebar-ring: var(--afenda-color-sidebar-ring);
 }
 
-/* Dark-mode color-scheme only — token overrides already emitted in Part A .dark {} */
-.dark { color-scheme: dark; }
+/* Dark-mode token + color-scheme overrides already emitted in Part A .dark {} */
 
 /* ── Part C: @theme inline (Tailwind utility mappings) ───────────────────── */
 @theme inline {
@@ -130,6 +156,12 @@ ${buildTokenBlocks()}
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -138,6 +170,9 @@ ${buildTokenBlocks()}
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -292,10 +327,8 @@ function buildAfendaStyleCss(): string {
  * Theme layer only (Parts A–D). Do NOT @import "tailwindcss" here — that belongs
  * once at the app entry to avoid duplicate Tailwind processing.
  *
- * App wiring (Tailwind v4 import order):
- *   @import "tailwindcss";
- *   @import "@afenda/ui/afenda-style.css";
- *   @import "shadcn/tailwind.css";
+ * App wiring (Tailwind v4 load order): tailwindcss, then
+ * @afenda/ui/afenda-style.css, then shadcn/tailwind.css at the app entry.
  */
 ${buildThemePartsCss()}
 @source "../**/*.{ts,tsx}";
@@ -332,13 +365,18 @@ const uiStylePath = join(packageRoot, "../ui/src/styles/afenda-style.css");
 mkdirSync(dirname(uiStylePath), { recursive: true });
 writeFileSync(uiStylePath, afendaStyleCss, "utf8");
 
-// biome-ignore lint/suspicious/noConsole: build script output
-console.log(`✓ Generated dist/css/tokens.css        (${count} tokens, ${darkCount} with dark overrides)`);
-// biome-ignore lint/suspicious/noConsole: build script output
-console.log(`✓ Generated src/css/afenda-tokens.css   (${count} tokens, ${darkCount} with dark overrides)`);
-// biome-ignore lint/suspicious/noConsole: build script output
-console.log(`✓ Generated dist/css/globals.css        (${count} tokens, ${darkCount} with dark overrides)`);
-// biome-ignore lint/suspicious/noConsole: build script output
-console.log(`✓ Generated src/css/afenda-globals.css   (${count} tokens, ${darkCount} with dark overrides)`);
-// biome-ignore lint/suspicious/noConsole: build script output
-console.log(`✓ Generated packages/ui/src/styles/afenda-style.css (${count} tokens, ${darkCount} with dark overrides)`);
+console.log(
+  `✓ Generated dist/css/tokens.css        (${count} tokens, ${darkCount} with dark overrides)`
+);
+console.log(
+  `✓ Generated src/css/afenda-tokens.css   (${count} tokens, ${darkCount} with dark overrides)`
+);
+console.log(
+  `✓ Generated dist/css/globals.css        (${count} tokens, ${darkCount} with dark overrides)`
+);
+console.log(
+  `✓ Generated src/css/afenda-globals.css   (${count} tokens, ${darkCount} with dark overrides)`
+);
+console.log(
+  `✓ Generated packages/ui/src/styles/afenda-style.css (${count} tokens, ${darkCount} with dark overrides)`
+);

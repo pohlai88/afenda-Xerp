@@ -67,7 +67,9 @@ for (const file of allFiles) {
 
   // No .tsx component implementation files (test files are allowed)
   if (ext === ".tsx" && !rel.includes("__tests__")) {
-    errors.push(`  ✗ TSX component file in src/: ${rel} — React components belong in @afenda/ui`);
+    errors.push(
+      `  ✗ TSX component file in src/: ${rel} — React components belong in @afenda/ui`
+    );
     continue;
   }
 
@@ -89,6 +91,6 @@ if (errors.length > 0) {
   process.exit(1);
 } else {
   process.stdout.write(
-    `check:no-runtime-ui PASSED — no React, Radix, shadcn, CSS, or component TSX files found in src/.\n`
+    "check:no-runtime-ui PASSED — no React, Radix, shadcn, CSS, or component TSX files found in src/.\n"
   );
 }

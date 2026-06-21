@@ -73,7 +73,13 @@ master-plan-excerpt.txt
 # Accidental TypeScript emit into source trees (build output belongs in dist/)
 vitest.shared.js
 packages/*/vitest.config.js
+packages/*/scripts/**/*.js
 packages/*/src/**/*.js
+packages/*/src/**/*.d.ts
+packages/*/.storybook/**/*.js
+packages/*/.storybook/**/*.d.ts
+*.js.map
+*.d.ts.map
 
 *storybook.log
 storybook-static

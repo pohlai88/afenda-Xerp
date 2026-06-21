@@ -7,6 +7,9 @@ const MONOREPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)));
 
 export const TEST_FILE_PATTERN = "src/**/__tests__/**/*.{test,spec}.{ts,tsx}";
 
+/** Convention for Radix / user-event interaction suites (subset of TEST_FILE_PATTERN). */
+export const INTERACTION_TEST_PATTERN = "**/*.interaction.test.{ts,tsx}";
+
 const NODE_SETUP = resolve(MONOREPO_ROOT, "packages/testing/src/setup/node.ts");
 const REACT_SETUP = resolve(
   MONOREPO_ROOT,
@@ -23,6 +26,7 @@ const WORKSPACE_DEPS = {
 
 export interface ReactProjectOptions {
   alias?: Record<string, string>;
+  setupFiles?: string[];
 }
 
 function coverageOptions(root: string) {
@@ -97,16 +101,33 @@ export function createDatabaseProject(importMetaUrl: string, name: string) {
 export function createUiProject(importMetaUrl: string, name: string) {
   const root = dirname(fileURLToPath(importMetaUrl));
   const srcRoot = resolve(root, "src");
+  const governanceRoot = resolve(srcRoot, "governance");
 
   return defineProject({
     root,
     plugins: [react()],
     resolve: {
-      alias: {
-        "@": srcRoot,
-        "#": srcRoot,
-        "next/link": NEXT_LINK_MOCK,
-      },
+      alias: [
+        {
+          find: /^@afenda\/ui\/governance\/(.+)$/,
+          replacement: `${governanceRoot}/$1`,
+        },
+        {
+          find: "@afenda/ui/governance",
+          replacement: resolve(governanceRoot, "index.ts"),
+        },
+        {
+          find: "@afenda/ui/lib/utils",
+          replacement: resolve(srcRoot, "lib/utils.ts"),
+        },
+        {
+          find: "@afenda/ui",
+          replacement: resolve(srcRoot, "index.ts"),
+        },
+        { find: "@", replacement: srcRoot },
+        { find: "#", replacement: srcRoot },
+        { find: "next/link", replacement: NEXT_LINK_MOCK },
+      ],
     },
     server: {
       deps: WORKSPACE_DEPS,
@@ -115,6 +136,10 @@ export function createUiProject(importMetaUrl: string, name: string) {
       ...sharedTestOptions(name, root),
       environment: "jsdom",
       setupFiles: [REACT_SETUP],
+      env: {
+        AFENDA_GOVERNANCE_RUNTIME: "strict",
+        NODE_ENV: "test",
+      },
     },
   });
 }
@@ -141,7 +166,11 @@ export function createReactProject(
     test: {
       ...sharedTestOptions(name, root),
       environment: "jsdom",
-      setupFiles: [REACT_SETUP],
+      setupFiles: [REACT_SETUP, ...(options.setupFiles ?? [])],
+      env: {
+        AFENDA_GOVERNANCE_RUNTIME: "strict",
+        NODE_ENV: "test",
+      },
     },
   });
 }

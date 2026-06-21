@@ -103,22 +103,22 @@ export const toneEmphasisClasses: Record<
     ghost: "text-muted-foreground",
   },
   info: {
-    solid: "bg-primary/10 text-primary",
-    soft: "bg-primary/5 text-primary",
-    outline: "border-primary/20 text-primary",
-    ghost: "text-primary",
+    solid: "bg-info/10 text-info",
+    soft: "bg-info/5 text-info",
+    outline: "border-info/20 text-info",
+    ghost: "text-info",
   },
   success: {
-    solid: "bg-accent text-accent-foreground",
-    soft: "bg-accent/60 text-accent-foreground",
-    outline: "border-accent-foreground/20 text-accent-foreground",
-    ghost: "text-accent-foreground",
+    solid: "bg-success/10 text-success",
+    soft: "bg-success/5 text-success",
+    outline: "border-success/20 text-success",
+    ghost: "text-success",
   },
   warning: {
-    solid: "bg-chart-3/10 text-foreground",
-    soft: "bg-chart-3/5 text-foreground",
-    outline: "border-chart-3/30 text-foreground",
-    ghost: "text-foreground",
+    solid: "bg-warning/10 text-warning",
+    soft: "bg-warning/5 text-warning",
+    outline: "border-warning/20 text-warning",
+    ghost: "text-warning",
   },
   danger: {
     solid:
@@ -152,23 +152,22 @@ export const badgeToneEmphasis: Record<
     ghost: "text-muted-foreground [a]:hover:bg-muted/50",
   },
   info: {
-    solid: "bg-primary/10 text-primary [a]:hover:bg-primary/15",
-    soft: "bg-primary/5 text-primary [a]:hover:bg-primary/10",
-    outline: "border-primary/20 text-primary [a]:hover:bg-primary/5",
-    ghost: "text-primary [a]:hover:bg-primary/5",
+    solid: "bg-info text-info-foreground [a]:hover:bg-info/80",
+    soft: "bg-info/10 text-info [a]:hover:bg-info/15",
+    outline: "border-info/20 text-info [a]:hover:bg-info/10",
+    ghost: "text-info [a]:hover:bg-info/10",
   },
   success: {
-    solid: "bg-accent text-accent-foreground [a]:hover:bg-accent/80",
-    soft: "bg-accent/60 text-accent-foreground [a]:hover:bg-accent/80",
-    outline:
-      "border-accent-foreground/20 text-accent-foreground [a]:hover:bg-accent/30",
-    ghost: "text-accent-foreground [a]:hover:bg-accent/40",
+    solid: "bg-success text-success-foreground [a]:hover:bg-success/80",
+    soft: "bg-success/10 text-success [a]:hover:bg-success/15",
+    outline: "border-success/20 text-success [a]:hover:bg-success/10",
+    ghost: "text-success [a]:hover:bg-success/10",
   },
   warning: {
-    solid: "bg-chart-3/10 text-foreground [a]:hover:bg-chart-3/15",
-    soft: "bg-chart-3/5 text-foreground [a]:hover:bg-chart-3/10",
-    outline: "border-chart-3/30 text-foreground [a]:hover:bg-chart-3/10",
-    ghost: "text-foreground [a]:hover:bg-chart-3/10",
+    solid: "bg-warning text-warning-foreground [a]:hover:bg-warning/80",
+    soft: "bg-warning/10 text-warning [a]:hover:bg-warning/15",
+    outline: "border-warning/20 text-warning [a]:hover:bg-warning/10",
+    ghost: "text-warning [a]:hover:bg-warning/10",
   },
   danger: {
     solid:
@@ -299,13 +298,13 @@ export const formControlLeafSizeClassNames = {
   lg: "h-10 px-3 text-base",
 } as const satisfies Record<GovernedSize, string>;
 
-/** Input root presentation — stock shadcn parity, size merged at runtime. */
+/** Input root presentation — form-field tokens authoritative, size merged at runtime. */
 export const inputRootSlotClassName =
-  "w-full min-w-0 rounded-lg border border-input bg-transparent py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40";
+  "w-full min-w-0 rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-(--afenda-form-field-placeholder) focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-(--afenda-form-field-disabled-background) disabled:opacity-50 aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40";
 
-/** Textarea root presentation — stock shadcn parity, size merged at runtime. */
+/** Textarea root presentation — form-field tokens authoritative, size merged at runtime. */
 export const textareaRootSlotClassName =
-  "field-sizing-content flex min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40";
+  "field-sizing-content flex min-h-16 w-full rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) px-2.5 py-2 text-base transition-colors outline-none placeholder:text-(--afenda-form-field-placeholder) focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-(--afenda-form-field-disabled-background) disabled:opacity-50 aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40";
 
 /** Label root presentation. */
 export const labelRootSlotClassName =
@@ -313,7 +312,7 @@ export const labelRootSlotClassName =
 
 /** Checkbox root and indicator presentation. */
 export const checkboxRootSlotClassName =
-  "peer relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-input transition-colors outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary";
+  "peer relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-(--afenda-form-field-border) transition-colors outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary bg-(--afenda-form-field-background) dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary";
 
 export const checkboxIndicatorSlotClassName =
   "grid place-content-center text-current transition-none [&>svg]:size-3.5";
@@ -383,7 +382,7 @@ export const tabsSlotClassNamesByKey = {
 /** Select trigger, menu, and item slots. */
 export const selectSlotClassNames = {
   control:
-    "flex w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "flex w-fit items-center justify-between gap-1.5 rounded-lg border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-(--afenda-form-field-placeholder) *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   root: "relative z-50 max-h-(--radix-select-content-available-height) min-w-36 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
   body: "scroll-my-1 p-1",
   state: "px-1.5 py-1 text-xs text-muted-foreground",
@@ -438,7 +437,7 @@ export const dropdownMenuSlotClassNamesByKey = {
 /** Sheet overlay and panel slots. */
 export const sheetSlotClassNames = {
   body: "fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
-  root: "fixed z-50 flex flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-[side=bottom]:data-open:slide-in-from-bottom-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:animate-out data-closed:fade-out-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=right]:data-closed:slide-out-to-right-10 data-[side=top]:data-closed:slide-out-to-top-10",
+  root: "fixed z-50 flex flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground shadow-lg transition duration-200 ease-in-out data-[mobile=true]:w-(--sidebar-width) data-[mobile=true]:bg-sidebar data-[mobile=true]:p-0 data-[mobile=true]:text-sidebar-foreground data-[mobile=true]:[&_[data-slot=sheet-close-button]]:hidden data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-[side=bottom]:data-open:slide-in-from-bottom-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:animate-out data-closed:fade-out-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=right]:data-closed:slide-out-to-right-10 data-[side=top]:data-closed:slide-out-to-top-10",
   header: "flex flex-col gap-0.5 p-4",
   footer: "mt-auto flex flex-col gap-2 p-4",
   label: "font-heading text-base font-medium text-foreground",
@@ -470,7 +469,7 @@ export const drawerSlotClassNamesByKey = {
 export const radioGroupSlotClassNames = {
   root: "grid w-full gap-2",
   control:
-    "group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-input outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary",
+    "group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-(--afenda-form-field-border) bg-(--afenda-form-field-background) outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-(--afenda-form-field-border-focus) focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-(--afenda-form-field-invalid-border) aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:aria-invalid:border-(--afenda-form-field-invalid-border) dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary",
 } as const;
 
 export const radioGroupSlotClassNamesByKey = {
@@ -484,16 +483,16 @@ export const tableSlotClassNames = {
   header: "[&_[data-slot=table-row]]:border-b",
   content: "[&_[data-slot=table-row]:last-child]:border-0",
   footer:
-    "border-t bg-muted/50 font-medium [&_[data-slot=table-row]]:last:border-b-0",
+    "border-t bg-(--afenda-table-header-background) font-medium [&_[data-slot=table-row]]:last:border-b-0",
 } as const satisfies SlotClassMap<TableSlotRoleKey>;
 
 /** Table-specific slot keys that do not map cleanly to global SlotRole names. */
 export const tableSlotClassNamesByKey = {
   container: "relative w-full overflow-x-auto",
-  row: "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
-  head: "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0",
+  row: "border-b border-(--afenda-table-row-border) transition-colors hover:bg-(--afenda-table-row-hover) has-aria-expanded:bg-(--afenda-table-row-hover) data-[state=selected]:bg-(--afenda-table-row-selected)",
+  head: "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-(--afenda-table-header-foreground) [&:has([role=checkbox])]:pr-0",
   cell: "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
-  caption: "mt-4 text-sm text-muted-foreground",
+  caption: "mt-4 text-sm text-(--afenda-table-cell-muted)",
 } as const satisfies SlotClassMap<TableSlotKey>;
 
 /** Separator root presentation — stock shadcn parity. */

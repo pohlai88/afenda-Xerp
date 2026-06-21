@@ -451,7 +451,7 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 [ ] 3.  Governed primitives use props only — zero className on Button, Dialog*, Sheet*, Dropdown*, Sidebar*, Avatar, Badge, Tabs*, Combobox*, InputGroup*, Kbd, etc.
 [ ] 4.  Shell layout / studio chrome on plain HTML wrappers (div, span, header) only
 [ ] 5.  shadcn-studio blocks live under packages/appshell/src/shadcn-studio/blocks/
-[ ] 6.  Stock shadcn variants mapped via resolveStockButtonProps (stock-props.ts), not raw variant strings
+[ ] 6.  Stock shadcn variants mapped via mapStockButtonProps from @afenda/ui/governance — no stock-props.ts, no raw variant strings
 [ ] 7.  Integration render test exists (AppShell mounts without TIP-004 throw)
 [ ] 8.  pnpm --filter @afenda/appshell test:run passes (includes governed-ui-consumption static test)
 ```

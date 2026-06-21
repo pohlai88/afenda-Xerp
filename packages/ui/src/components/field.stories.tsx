@@ -1,5 +1,5 @@
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Checkbox } from "./checkbox";
@@ -223,14 +223,18 @@ export const FieldGroupLayout: Story = {
       <FieldGroup>
         <FieldTitle>Invoice totals</FieldTitle>
         <StoryRow gap="md" wrap>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="subtotal">Subtotal</FieldLabel>
-            <Input id="subtotal" placeholder="0.00" type="number" />
-          </Field>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="tax">Tax</FieldLabel>
-            <Input id="tax" placeholder="0.00" type="number" />
-          </Field>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="subtotal">Subtotal</FieldLabel>
+              <Input id="subtotal" placeholder="0.00" type="number" />
+            </Field>
+          </div>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="tax">Tax</FieldLabel>
+              <Input id="tax" placeholder="0.00" type="number" />
+            </Field>
+          </div>
         </StoryRow>
       </FieldGroup>
     </StoryFrame>
@@ -399,14 +403,18 @@ export const EmployeeRecordForm: Story = {
       <FieldSet>
         <FieldLegend>Employee details</FieldLegend>
         <StoryRow gap="md" wrap>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="emp-first">First name *</FieldLabel>
-            <Input id="emp-first" placeholder="Jane" />
-          </Field>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="emp-last">Last name *</FieldLabel>
-            <Input id="emp-last" placeholder="Doe" />
-          </Field>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="emp-first">First name *</FieldLabel>
+              <Input id="emp-first" placeholder="Jane" />
+            </Field>
+          </div>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="emp-last">Last name *</FieldLabel>
+              <Input id="emp-last" placeholder="Doe" />
+            </Field>
+          </div>
         </StoryRow>
         <Field>
           <FieldLabel htmlFor="emp-email">Work email *</FieldLabel>
@@ -486,26 +494,32 @@ export const InvoiceLineItemField: Story = {
           />
         </Field>
         <StoryRow gap="md" wrap>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="line-qty">Quantity</FieldLabel>
-            <Input id="line-qty" placeholder="1" type="number" />
-          </Field>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="line-rate">Unit price</FieldLabel>
-            <Input id="line-rate" placeholder="150.00" type="number" />
-          </Field>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="line-tax">Tax code</FieldLabel>
-            <Select>
-              <SelectTrigger id="line-tax">
-                <SelectValue placeholder="GST 10%" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gst">GST 10%</SelectItem>
-                <SelectItem value="exempt">Tax exempt</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="line-qty">Quantity</FieldLabel>
+              <Input id="line-qty" placeholder="1" type="number" />
+            </Field>
+          </div>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="line-rate">Unit price</FieldLabel>
+              <Input id="line-rate" placeholder="150.00" type="number" />
+            </Field>
+          </div>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="line-tax">Tax code</FieldLabel>
+              <Select>
+                <SelectTrigger id="line-tax">
+                  <SelectValue placeholder="GST 10%" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gst">GST 10%</SelectItem>
+                  <SelectItem value="exempt">Tax exempt</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </div>
         </StoryRow>
       </FieldGroup>
     </StoryFrame>
@@ -580,14 +594,18 @@ export const AddressFieldGroup: Story = {
           <Input id="addr-line2" placeholder="Suite 400" />
         </Field>
         <StoryRow gap="md" wrap>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="addr-city">City</FieldLabel>
-            <Input id="addr-city" placeholder="Melbourne" />
-          </Field>
-          <Field className="flex-1">
-            <FieldLabel htmlFor="addr-post">Postcode</FieldLabel>
-            <Input id="addr-post" placeholder="3000" />
-          </Field>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="addr-city">City</FieldLabel>
+              <Input id="addr-city" placeholder="Melbourne" />
+            </Field>
+          </div>
+          <div className="flex-1">
+            <Field>
+              <FieldLabel htmlFor="addr-post">Postcode</FieldLabel>
+              <Input id="addr-post" placeholder="3000" />
+            </Field>
+          </div>
         </StoryRow>
         <Field>
           <FieldLabel htmlFor="addr-country">Country</FieldLabel>
@@ -805,6 +823,63 @@ export const GovernanceAccessibility: Story = {
           errors={[{ message: "Enter a valid company email address" }]}
         />
       </Field>
+    </StoryFrame>
+  ),
+};
+
+export const FormFieldTokenStates: Story = {
+  name: "Token — Form Field State Surfaces",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "All four form-field surfaces driven by `--afenda-form-field-*` tokens. Default, focused (click into), disabled, and invalid borders/backgrounds adapt in dark mode automatically via the generated token values.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="md">
+        <Field>
+          <FieldLabel htmlFor="ff-default">Default</FieldLabel>
+          <Input
+            id="ff-default"
+            placeholder="Placeholder text"
+          />
+          <FieldDescription>Border: --afenda-form-field-border · Placeholder: --afenda-form-field-placeholder</FieldDescription>
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="ff-disabled">Disabled</FieldLabel>
+          <Input
+            disabled
+            id="ff-disabled"
+            placeholder="Not editable"
+          />
+          <FieldDescription>Background: --afenda-form-field-disabled-background</FieldDescription>
+        </Field>
+
+        <Field state="error">
+          <FieldLabel htmlFor="ff-invalid">Invalid</FieldLabel>
+          <Input
+            aria-invalid
+            id="ff-invalid"
+            placeholder="Error state"
+            state="error"
+          />
+          <FieldError errors={[{ message: "Border: --afenda-form-field-invalid-border" }]} />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="ff-textarea">Textarea</FieldLabel>
+          <Textarea
+            id="ff-textarea"
+            placeholder="Multiline — same form-field border/background tokens"
+            rows={3}
+          />
+        </Field>
+      </StoryStack>
     </StoryFrame>
   ),
 };

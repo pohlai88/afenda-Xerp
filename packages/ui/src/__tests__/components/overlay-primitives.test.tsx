@@ -8,6 +8,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
 } from "../../index";
 import {
   expectGovernedDataAuthority,
@@ -82,5 +87,121 @@ describe("overlay primitive governance", () => {
     );
 
     expect(ref.current).toBe(screen.getByText("Title"));
+  });
+
+  it("renders DialogContent close button on governed wrapper slots", () => {
+    render(
+      <Dialog open>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm</DialogTitle>
+            <DialogDescription>Are you sure?</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    );
+
+    const closeWrapper = document.querySelector(
+      "[data-slot='dialog-close-button']"
+    );
+
+    expect(closeWrapper).not.toBeNull();
+    expectGovernedPrimitive(closeWrapper as HTMLElement, {
+      component: "Dialog",
+      slot: "dialog-close-button",
+      recipe: "surface",
+    });
+
+    const closeLabel = screen.getByText("Close");
+
+    expect(closeLabel).toHaveAttribute("data-slot", "dialog-close-label");
+    expect(screen.getByRole("button", { name: "Close" })).toHaveAttribute(
+      "data-slot",
+      "button"
+    );
+  });
+
+  it("renders SheetContent close button on governed wrapper slots", () => {
+    render(
+      <Sheet open>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Panel</SheetTitle>
+            <SheetDescription>Details</SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+    );
+
+    const closeWrapper = document.querySelector(
+      "[data-slot='sheet-close-button']"
+    );
+
+    expect(closeWrapper).not.toBeNull();
+    expectGovernedPrimitive(closeWrapper as HTMLElement, {
+      component: "Sheet",
+      slot: "sheet-close-button",
+      recipe: "surface",
+    });
+
+    const closeLabel = screen.getByText("Close");
+
+    expect(closeLabel).toHaveAttribute("data-slot", "sheet-close-label");
+    expect(screen.getByRole("button", { name: "Close" })).toHaveAttribute(
+      "data-slot",
+      "button"
+    );
+  });
+
+  it("hides governed Sheet close button wrapper on mobile sidebar sheets", () => {
+    render(
+      <Sheet open>
+        <SheetContent data-mobile="true" side="left">
+          Mobile panel
+        </SheetContent>
+      </Sheet>
+    );
+
+    const content = screen.getByRole("dialog");
+
+    expect(content).toHaveAttribute("data-mobile", "true");
+    expect(content.className).toContain(
+      "data-[mobile=true]:[&_[data-slot=sheet-close-button]]:hidden"
+    );
+
+    const closeWrapper = document.querySelector(
+      "[data-slot='sheet-close-button']"
+    );
+
+    expect(closeWrapper).not.toBeNull();
+  });
+
+  it("keeps governed data attributes authoritative on SheetContent", () => {
+    render(
+      <Sheet open>
+        <SheetContent
+          data-component="Override"
+          data-recipe="override"
+          data-slot="override"
+          showCloseButton={false}
+        >
+          Body
+        </SheetContent>
+      </Sheet>
+    );
+
+    const content = screen.getByRole("dialog");
+
+    expectGovernedDataAuthority(content, {
+      "data-component": "Sheet",
+      "data-recipe": "surface",
+      "data-slot": "sheet-content",
+      "data-state": "ready",
+    });
+    expectGovernedPrimitive(content, {
+      component: "Sheet",
+      slot: "sheet-content",
+      recipe: "surface",
+    });
   });
 });

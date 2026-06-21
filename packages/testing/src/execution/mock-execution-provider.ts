@@ -3,7 +3,7 @@ import {
   createExecutionContext,
   createExecutionFailure,
   createExecutionSuccess,
-  type ExecutionContext,
+  type ExecutionContextInput,
   type ExecutionHandle,
   type ExecutionHealthCheck,
   type ExecutionProvider,
@@ -195,7 +195,7 @@ export function createMockExecutionProvider(
 }
 
 export function createMockExecutionContext(
-  overrides: Partial<ExecutionContext> = {}
+  overrides: Partial<ExecutionContextInput> = {}
 ) {
   return createExecutionContext({
     actorId: "actor-1",

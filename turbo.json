@@ -9,6 +9,18 @@
     "vitest.config.ts",
     "vitest.shared.ts"
   ],
+  "globalPassThroughEnv": [
+    "CI",
+    "GITHUB_ACTIONS",
+    "GITHUB_EVENT_NAME",
+    "GITHUB_REF",
+    "GITHUB_SHA",
+    "TURBO_TEAM",
+    "TURBO_TOKEN"
+  ],
+  "remoteCache": {
+    "enabled": true
+  },
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -16,7 +28,8 @@
     },
     "typecheck": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/.tsbuildinfo"]
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["node_modules/.cache/tsbuildinfo/**", "**/.tsbuildinfo"]
     },
     "lint": {
       "outputs": []
@@ -31,6 +44,7 @@
     },
     "test:run": {
       "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.config.ts", "$TURBO_ROOT$/vitest.shared.ts"],
       "outputs": ["coverage/**"]
     },
     "dev": {
@@ -56,6 +70,10 @@
     "test:storybook:run": {
       "cache": false,
       "outputs": ["coverage/**"]
+    },
+    "check:governance": {
+      "dependsOn": ["^build"],
+      "outputs": []
     }
   }
 }

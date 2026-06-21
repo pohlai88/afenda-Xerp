@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /**
  * ui:guard — TIP-004 UI Governance bundle
  *
@@ -8,7 +9,7 @@
  *   Gate B  appshell consumer layer   pnpm --filter @afenda/appshell check:governance
  *   Gate C  erp consumer layer        pnpm --filter @afenda/erp test:run (static subset)
  *   Gate D  in-process policy scan    scripts/governance/governed-ui-consumption.mjs
- *            on the full src tree — catches files not yet covered by package tests
+ *            on appshell, erp, and packages/ui story files (*.stories.tsx)
  *
  * Usage
  *   pnpm ui:guard                   # all gates
@@ -21,10 +22,10 @@
  *   1  one or more gates failed
  */
 
+import { spawnSync } from "node:child_process";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { spawnSync } from "node:child_process";
 
 // ─── Paths ────────────────────────────────────────────────────────────────────
 
@@ -33,15 +34,14 @@ const policyUrl = pathToFileURL(
   join(repoRoot, "scripts/governance/governed-ui-consumption.mjs")
 ).href;
 
-const { checkGovernedUiConsumption, GOVERNED_UI_CONSUMER_PATH } =
-  await import(policyUrl);
+const { checkGovernedUiConsumption } = await import(policyUrl);
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
 const argv = process.argv.slice(2);
 const gateFilter = (() => {
   const i = argv.indexOf("--gate");
-  return i !== -1 ? argv[i + 1]?.toUpperCase() : null;
+  return i === -1 ? null : argv[i + 1]?.toUpperCase();
 })();
 const scanOnly = argv.includes("--scan-only");
 const fixHint = argv.includes("--fix-hint");
@@ -50,13 +50,13 @@ const fixHint = argv.includes("--fix-hint");
 
 const isTTY = process.stdout.isTTY;
 const C = {
-  reset:  isTTY ? "\x1b[0m"  : "",
-  bold:   isTTY ? "\x1b[1m"  : "",
-  dim:    isTTY ? "\x1b[2m"  : "",
-  red:    isTTY ? "\x1b[31m" : "",
-  green:  isTTY ? "\x1b[32m" : "",
+  reset: isTTY ? "\x1b[0m" : "",
+  bold: isTTY ? "\x1b[1m" : "",
+  dim: isTTY ? "\x1b[2m" : "",
+  red: isTTY ? "\x1b[31m" : "",
+  green: isTTY ? "\x1b[32m" : "",
   yellow: isTTY ? "\x1b[33m" : "",
-  cyan:   isTTY ? "\x1b[36m" : "",
+  cyan: isTTY ? "\x1b[36m" : "",
 };
 
 function pass(label) {
@@ -111,7 +111,11 @@ function collectTsxFiles(dir) {
     const full = join(dir, entry);
     try {
       if (statSync(full).isDirectory()) {
-        if (entry === "__tests__" || entry === "node_modules" || entry === ".next") {
+        if (
+          entry === "__tests__" ||
+          entry === "node_modules" ||
+          entry === ".next"
+        ) {
           continue;
         }
         files.push(...collectTsxFiles(full));
@@ -125,16 +129,47 @@ function collectTsxFiles(dir) {
   return files;
 }
 
+function collectStoryFiles(dir) {
+  const files = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    try {
+      if (statSync(full).isDirectory()) {
+        if (
+          entry === "__tests__" ||
+          entry === "node_modules" ||
+          entry === ".next"
+        ) {
+          continue;
+        }
+        files.push(...collectStoryFiles(full));
+      } else if (entry.endsWith(".stories.tsx")) {
+        files.push(full);
+      }
+    } catch {
+      // skip unreadable entries
+    }
+  }
+  return files;
+}
+
 function runScan() {
-  // Collect all .tsx files matching consumer-layer paths
+  // Consumer-layer app wiring + Storybook story composition files
   const searchRoots = [
     join(repoRoot, "packages", "appshell", "src"),
     join(repoRoot, "apps", "erp", "src"),
+    join(repoRoot, "packages", "ui", "src"),
   ];
 
   const files = searchRoots.flatMap((root) => {
-    try { return collectTsxFiles(root); }
-    catch { return []; }
+    try {
+      if (root.endsWith(`${join("packages", "ui", "src")}`)) {
+        return collectStoryFiles(root);
+      }
+      return collectTsxFiles(root);
+    } catch {
+      return [];
+    }
   });
 
   const allViolations = [];
@@ -142,8 +177,11 @@ function runScan() {
   for (const file of files) {
     const rel = relative(repoRoot, file).replace(/\\/g, "/");
     let content;
-    try { content = readFileSync(file, "utf8"); }
-    catch { continue; }
+    try {
+      content = readFileSync(file, "utf8");
+    } catch {
+      continue;
+    }
 
     const violations = checkGovernedUiConsumption(content);
     if (violations.length > 0) {
@@ -157,10 +195,10 @@ function runScan() {
 // ─── Fix hints ────────────────────────────────────────────────────────────────
 
 const FIX_HINTS = {
-  "className": [
-    "Move layout/chrome to a plain wrapper: <div className=\"…\"><GovernedComponent /></div>",
+  className: [
+    'Move layout/chrome to a plain wrapper: <div className="…"><GovernedComponent /></div>',
     "Use governed props instead: intent, emphasis, tone, size, variant",
-    "For shell dot/badge: wrap Button in <div className=\"relative\"> not className on Button",
+    'For shell dot/badge: wrap Button in <div className="relative"> not className on Button',
   ],
   "Re-export barrel": [
     "Import directly: import { mapStockButtonVisualToGoverned } from '@afenda/ui/governance'",
@@ -197,7 +235,8 @@ const SUBPROCESS_GATES = [
   {
     id: "C",
     label: "@afenda/erp — consumer governance (TIP-004 consumption)",
-    command: "pnpm --filter @afenda/erp test:run --reporter=verbose src/__tests__/governed-ui-consumption.test.ts",
+    command:
+      "pnpm --filter @afenda/erp test:run --reporter=verbose src/__tests__/governed-ui-consumption.test.ts",
     ref: ".cursor/rules/governed-ui-consumption.mdc",
   },
 ];
@@ -207,9 +246,15 @@ const SUBPROCESS_GATES = [
 console.log();
 console.log(`${C.bold}${C.cyan}ui:guard${C.reset} — TIP-004 UI Governance`);
 divider();
-console.log(`  ${C.dim}Policy:  scripts/governance/governed-ui-consumption.mjs${C.reset}`);
-console.log(`  ${C.dim}Skill:   .cursor/skills/govern-primitive/SKILL.md${C.reset}`);
-console.log(`  ${C.dim}Rule:    .cursor/rules/governed-ui-consumption.mdc${C.reset}`);
+console.log(
+  `  ${C.dim}Policy:  scripts/governance/governed-ui-consumption.mjs${C.reset}`
+);
+console.log(
+  `  ${C.dim}Skill:   .cursor/skills/govern-primitive/SKILL.md${C.reset}`
+);
+console.log(
+  `  ${C.dim}Rule:    .cursor/rules/governed-ui-consumption.mdc${C.reset}`
+);
 
 const failures = [];
 const startMs = Date.now();
@@ -234,7 +279,9 @@ if (!scanOnly) {
         console.log(`    ${C.red}${line}${C.reset}`);
       }
       if (result.output.split("\n").length > 20) {
-        console.log(`    ${C.dim}… (truncated — run command directly for full output)${C.reset}`);
+        console.log(
+          `    ${C.dim}… (truncated — run command directly for full output)${C.reset}`
+        );
       }
       console.log(`    ${C.dim}ref: ${gate.ref}${C.reset}`);
     }
@@ -245,7 +292,7 @@ if (!scanOnly) {
 
 if (!gateFilter || gateFilter === "D") {
   header("Gate D  In-process full-tree scan (multiline + barrel detection)");
-  info(`scanning consumer-layer .tsx files…`);
+  info("scanning consumer-layer .tsx files…");
 
   const { files, allViolations } = runScan();
 
@@ -256,18 +303,24 @@ if (!gateFilter || gateFilter === "D") {
       (n, v) => n + v.violations.length,
       0
     );
-    fail(`${totalViolations} violation(s) across ${allViolations.length} file(s)`);
+    fail(
+      `${totalViolations} violation(s) across ${allViolations.length} file(s)`
+    );
 
     for (const { file, violations } of allViolations) {
       console.log(`\n    ${C.bold}${file}${C.reset}`);
       for (const v of violations) {
         console.log(`      ${C.red}• ${v}${C.reset}`);
-        if (fixHint) { printHints(v); }
+        if (fixHint) {
+          printHints(v);
+        }
       }
     }
 
     if (!fixHint) {
-      console.log(`\n  ${C.dim}Re-run with --fix-hint for remediation guidance${C.reset}`);
+      console.log(
+        `\n  ${C.dim}Re-run with --fix-hint for remediation guidance${C.reset}`
+      );
     }
 
     failures.push({
@@ -298,10 +351,16 @@ if (failures.length === 0) {
     `\n${C.bold}${C.red}${failures.length} gate(s) failed${C.reset} [${ids}]  ${C.dim}(${elapsed}s)${C.reset}`
   );
   console.log();
-  console.log(`  Quick fixes:`);
-  console.log(`    pnpm ui:guard --scan-only --fix-hint   # fast local scan + hints`);
-  console.log(`    pnpm ui:guard --gate A                 # re-run single gate`);
-  console.log(`    See .cursor/skills/govern-primitive/SKILL.md — Consumer checklist`);
+  console.log("  Quick fixes:");
+  console.log(
+    "    pnpm ui:guard --scan-only --fix-hint   # fast local scan + hints"
+  );
+  console.log(
+    "    pnpm ui:guard --gate A                 # re-run single gate"
+  );
+  console.log(
+    "    See .cursor/skills/govern-primitive/SKILL.md — Consumer checklist"
+  );
   console.log();
   process.exit(1);
 }

@@ -4,7 +4,10 @@
  *
  * Exit code 0 = pass, exit code 1 = fail.
  */
-import { AFENDA_CSS_VARIABLES, AFENDA_TOKEN_NAMES } from "../registries/token.registry";
+import {
+  AFENDA_CSS_VARIABLES,
+  AFENDA_TOKEN_NAMES,
+} from "../registries/token.registry";
 
 const tokenErrors: string[] = [];
 

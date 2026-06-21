@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@afenda/ui/afenda-style.css";
+@import "../../../../packages/appshell/src/app-shell.presentation.css";
 @import "shadcn/tailwind.css";
 
 @source "../**/*.{ts,tsx}";

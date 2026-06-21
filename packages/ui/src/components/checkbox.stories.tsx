@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
   CreditCardIcon,
@@ -67,9 +67,9 @@ function CheckboxField({
             })}
       />
       <StoryStack className="flex-1" gap="xs">
-        <Label className="font-medium" htmlFor={id}>
-          {label}
-        </Label>
+        <span className="font-medium">
+          <Label htmlFor={id}>{label}</Label>
+        </span>
         {description ? (
           <span className="text-muted-foreground text-xs">{description}</span>
         ) : null}
@@ -181,9 +181,9 @@ function OrgUnitTreeComponent() {
               isParent ? toggleBranch(node) : toggleLeaf(node.id)
             }
           />
-          <Label className="font-medium text-sm" htmlFor={`org-${node.id}`}>
-            {node.label}
-          </Label>
+          <span className="font-medium text-sm">
+            <Label htmlFor={`org-${node.id}`}>{node.label}</Label>
+          </span>
         </StoryRow>
         {node.children?.map((child) => renderNode(child, depth + 1))}
       </StoryStack>
@@ -256,11 +256,13 @@ function BulkSelectComponent() {
               id="bulk-all"
               onCheckedChange={toggleAll}
             />
-            <Label className="font-medium text-sm" htmlFor="bulk-all">
-              {checked.length > 0
-                ? `${checked.length} invoice${checked.length === 1 ? "" : "s"} selected`
-                : "Select all"}
-            </Label>
+            <span className="font-medium text-sm">
+              <Label htmlFor="bulk-all">
+                {checked.length > 0
+                  ? `${checked.length} invoice${checked.length === 1 ? "" : "s"} selected`
+                  : "Select all"}
+              </Label>
+            </span>
           </StoryRow>
           {checked.length > 0 ? (
             <Badge emphasis="soft" tone="info">
@@ -285,12 +287,9 @@ function BulkSelectComponent() {
                 onCheckedChange={() => toggleOne(id)}
               />
               <StoryStack gap="xs">
-                <Label
-                  className="cursor-pointer font-mono text-sm"
-                  htmlFor={`bulk-${id}`}
-                >
-                  {id}
-                </Label>
+                <span className="cursor-pointer font-mono text-sm">
+                  <Label htmlFor={`bulk-${id}`}>{id}</Label>
+                </span>
                 <span className="text-muted-foreground text-xs">{vendor}</span>
               </StoryStack>
             </StoryRow>
@@ -369,12 +368,11 @@ function TaskChecklistComponent() {
               id={id}
               onCheckedChange={() => toggleTask(id)}
             />
-            <Label
-              className={done ? "text-muted-foreground line-through" : ""}
-              htmlFor={id}
+            <span
+              className={done ? "text-muted-foreground line-through" : undefined}
             >
-              {label}
-            </Label>
+              <Label htmlFor={id}>{label}</Label>
+            </span>
           </StoryRow>
         ))}
       </StoryStack>
@@ -778,9 +776,9 @@ export const FilterFacets: Story = {
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-normal">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
             ))}
           </StoryRow>
@@ -798,9 +796,9 @@ export const FilterFacets: Story = {
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-normal">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
             ))}
           </StoryRow>
@@ -865,9 +863,9 @@ export const CardStyleOptions: Story = {
                   aria-hidden="true"
                   className="size-4 text-muted-foreground"
                 />
-                <Label className="font-medium" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-medium">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
               <span className="text-muted-foreground text-xs">
                 {description}
@@ -897,9 +895,9 @@ export const HorizontalCategoryFilters: Story = {
           ].map((category, i) => (
             <StoryRow align="center" gap="sm" key={category}>
               <Checkbox defaultChecked={i < 2} id={`cat-${category}`} />
-              <Label className="font-normal" htmlFor={`cat-${category}`}>
-                {category}
-              </Label>
+              <span className="font-normal">
+                <Label htmlFor={`cat-${category}`}>{category}</Label>
+              </span>
             </StoryRow>
           ))}
         </StoryRow>
@@ -958,9 +956,9 @@ export const NotificationPreferences: Story = {
                   aria-hidden="true"
                   className="size-4 text-muted-foreground"
                 />
-                <Label className="font-medium" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-medium">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
               <span className="text-muted-foreground text-xs">
                 {description}
@@ -1049,9 +1047,9 @@ export const EmailDigestOptions: Story = {
                   id={id}
                   {...(defaultChecked ? { defaultChecked: true } : {})}
                 />
-                <Label className="font-normal" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-normal">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
             ))}
           </StoryStack>
@@ -1086,7 +1084,9 @@ export const RadioGroupApproval: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="sm">
-        <Label className="font-semibold text-sm">Approval Decision</Label>
+        <span className="font-semibold text-sm">
+          <Label>Approval Decision</Label>
+        </span>
         <RadioGroup className="flex flex-col gap-3" defaultValue="approve">
           {[
             {
@@ -1114,9 +1114,9 @@ export const RadioGroupApproval: Story = {
             >
               <RadioGroupItem id={`radio-${value}`} value={value} />
               <StoryStack gap="xs">
-                <Label className="font-medium" htmlFor={`radio-${value}`}>
-                  {label}
-                </Label>
+                <span className="font-medium">
+                  <Label htmlFor={`radio-${value}`}>{label}</Label>
+                </span>
                 <span className="text-muted-foreground text-xs">
                   {description}
                 </span>
@@ -1135,7 +1135,9 @@ export const RadioGroupHorizontal: Story = {
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
-        <Label className="font-medium text-sm">Priority</Label>
+        <span className="font-medium text-sm">
+          <Label>Priority</Label>
+        </span>
         <RadioGroup className="flex gap-4" defaultValue="medium">
           {["Low", "Medium", "High", "Critical"].map((p) => (
             <StoryRow align="center" gap="xs" key={p}>

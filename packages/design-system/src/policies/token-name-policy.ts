@@ -2,14 +2,18 @@ import {
   AFENDA_TOKEN_CATEGORIES,
   type AfendaTokenCategory,
   type AfendaTokenName,
+  isAfendaTokenName,
+} from "../contracts/token.contract";
+
+export type {
+  AfendaTokenCategory,
+  AfendaTokenName,
+} from "../contracts/token.contract";
+export {
   assertAfendaTokenName,
   isAfendaTokenName,
   tokenNameToCssVariable,
 } from "../contracts/token.contract";
-
-// ─── Re-exports (policy surface for consumers) ────────────────────────────────
-
-export { assertAfendaTokenName, isAfendaTokenName, tokenNameToCssVariable };
 
 // ─── Policy declaration ───────────────────────────────────────────────────────
 
@@ -29,19 +33,15 @@ export const tokenNamePolicy = {
 // ─── Validation helpers ───────────────────────────────────────────────────────
 
 export interface TokenNameValidationResult {
-  readonly valid: boolean;
-  readonly name: string;
   readonly errors: readonly string[];
+  readonly name: string;
+  readonly valid: boolean;
 }
 
 export function validateTokenName(name: string): TokenNameValidationResult {
   const errors: string[] = [];
 
-  if (!isAfendaTokenName(name)) {
-    errors.push(
-      `Token name "${name}" must start with "afenda." (e.g. afenda.color.surface.canvas)`
-    );
-  } else {
+  if (isAfendaTokenName(name)) {
     const segments = name.split(".");
     if (segments.length < 3) {
       errors.push(
@@ -58,6 +58,10 @@ export function validateTokenName(name: string): TokenNameValidationResult {
         `Token category "${category}" in "${name}" is not a governed AfendaTokenCategory. Allowed: ${AFENDA_TOKEN_CATEGORIES.join(", ")}`
       );
     }
+  } else {
+    errors.push(
+      `Token name "${name}" must start with "afenda." (e.g. afenda.color.surface.canvas)`
+    );
   }
 
   return {

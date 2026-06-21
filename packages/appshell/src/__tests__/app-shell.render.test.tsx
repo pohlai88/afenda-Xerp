@@ -1,58 +1,140 @@
+import { brandUserId } from "@afenda/kernel";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { AppShell } from "../app-shell";
-import { AppShellMain } from "../app-shell-main";
 
-describe("AppShell render", () => {
-  it("renders skip link, header, navigation, main landmark, and command center", () => {
+import { HomeIcon } from "lucide-react";
+
+import { countDefaultAppShellUnreadNotifications } from "../shadcn-studio/data/app-shell.notification.data";
+import { ApplicationShell } from "../app-shell";
+import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
+
+function testUserId(value: string) {
+  const userId = brandUserId(value);
+  if (userId === null) {
+    throw new Error("userId is required.");
+  }
+  return userId;
+}
+
+const customNavigationPages = [
+  {
+    icon: <HomeIcon aria-hidden />,
+    label: "Custom module",
+    href: "#custom",
+  },
+] satisfies readonly AppShellMenuItem[];
+
+describe("ApplicationShell", () => {
+  it("mounts the governed shell without TIP-004 consumer violations", { timeout: 15000 }, () => {
+    render(<ApplicationShell />);
+
+    expect(screen.getByText("Hey, User")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Collapse sidebar" })
+    ).toBeInTheDocument();
+    expect(screen.getByText("Afenda ERP")).toBeInTheDocument();
+    expect(screen.getByText("Navigation")).toBeInTheDocument();
+    expect(screen.getByText("Team")).toBeInTheDocument();
+  });
+
+  it("renders custom main content when children are provided", () => {
     render(
-      <AppShell currentPathname="/">
-        <AppShellMain description="Test page description" title="Dashboard">
-          <p>Content</p>
-        </AppShellMain>
-      </AppShell>
+      <ApplicationShell>
+        <p>Custom workspace</p>
+      </ApplicationShell>
     );
 
+    expect(screen.getByText("Custom workspace")).toBeInTheDocument();
+  });
+
+  it("prefers explicit userName over identity.displayName", () => {
+    render(
+      <ApplicationShell
+        identity={{
+          displayName: "Identity Name",
+          email: "identity@example.com",
+          userId: testUserId("user_identity"),
+        }}
+        userName="Explicit Name"
+      />
+    );
+
+    expect(screen.getByText("Hey, Explicit Name")).toBeInTheDocument();
+  });
+
+  it("falls back to identity.displayName and renders identityAccessory", () => {
+    render(
+      <ApplicationShell
+        identity={{
+          displayName: "Session User",
+          email: "session@example.com",
+          userId: testUserId("user_session"),
+        }}
+        identityAccessory={<button type="button">Sign out</button>}
+      />
+    );
+
+    expect(screen.getByText("Hey, Session User")).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Skip to content" })
-    ).toHaveAttribute("href", "#app-shell-main");
-    expect(screen.getByRole("banner")).toBeInTheDocument();
-    expect(screen.getByText("Application header")).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: "Afenda ERP home" })
-    ).toHaveAttribute("href", "/");
-    expect(
-      screen.getAllByRole("region", { name: "Workspace context" }).length
-    ).toBeGreaterThan(0);
-    expect(screen.getAllByText("Demo Company").length).toBeGreaterThan(0);
-    expect(screen.queryByText("Demo Tenant")).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("navigation", { name: "ERP modules" })
+      screen.getByRole("button", { name: "Sign out" })
     ).toBeInTheDocument();
+  });
+
+  it("exposes a main landmark for page content", () => {
+    render(
+      <ApplicationShell>
+        <p>Workspace body</p>
+      </ApplicationShell>
+    );
+
+    const main = screen.getByRole("main");
+    expect(main).toHaveClass("app-shell-content");
+    expect(main).toHaveTextContent("Workspace body");
+  });
+
+  it("announces unread notifications on the header trigger", () => {
+    const unreadCount = countDefaultAppShellUnreadNotifications();
+    render(<ApplicationShell />);
+
     expect(
-      screen.getByRole("heading", {
-        level: 2,
-        name: "ERP modules",
-        hidden: true,
+      screen.getByRole("button", {
+        name: `Notifications, ${unreadCount} unread`,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("main")).toHaveAttribute("id", "app-shell-main");
-    expect(
-      screen.getByRole("region", { name: "Command center" })
-    ).toHaveTextContent("Command center");
-    expect(
-      screen.getByRole("region", { name: "Command center" })
-    ).toHaveTextContent("⌘K");
-    expect(
-      screen.getByRole("heading", { level: 1, name: "Dashboard" })
-    ).toBeInTheDocument();
+  });
 
-    const nexusLink = screen.getByRole("link", { name: "Nexus" });
-    expect(nexusLink).toHaveAttribute("href", "/");
-    expect(nexusLink).toHaveAttribute("aria-current", "page");
-    expect(screen.getAllByText("Soon")).toHaveLength(8);
-    expect(
-      screen.queryByRole("link", { name: "Manufacturing" })
-    ).not.toBeInTheDocument();
+  it("renders footer social links with accessible names", () => {
+    render(<ApplicationShell />);
+
+    expect(screen.getByRole("link", { name: "Facebook" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Instagram" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Twitter" })).toBeInTheDocument();
+  });
+
+  it("supports custom navigation pages and search trigger label", () => {
+    render(
+      <ApplicationShell
+        navigationPages={customNavigationPages}
+        searchTriggerLabel="Find anything"
+      />
+    );
+
+    expect(screen.getByText("Custom module")).toBeInTheDocument();
+    expect(screen.getByText("Find anything")).toBeInTheDocument();
+    expect(screen.queryByText("Dashboard")).not.toBeInTheDocument();
+  });
+
+  it("wires roleLabel to the sidebar user dropdown", () => {
+    render(<ApplicationShell roleLabel="Finance lead" />);
+
+    expect(screen.getByText("Finance lead")).toBeInTheDocument();
+  });
+
+  it("suppresses the footer brand link when footerBrand is empty", () => {
+    render(<ApplicationShell footerBrand="" />);
+
+    expect(screen.queryByRole("link", { name: "Afenda" })).not.toBeInTheDocument();
+    expect(screen.getByText(/All rights reserved\./)).toBeInTheDocument();
   });
 });

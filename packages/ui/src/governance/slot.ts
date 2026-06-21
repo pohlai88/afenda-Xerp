@@ -1,4 +1,5 @@
 import { SLOT_ROLES, type SlotContract, type SlotRole } from "./design-system";
+import { enforceGovernanceOr } from "./dev-env";
 
 const slotRoleSet = new Set<string>(SLOT_ROLES);
 
@@ -36,7 +37,10 @@ export function resolveSlotRole(
     return fallback;
   }
 
-  assertSlotRole(role);
+  if (!isSlotRole(role)) {
+    return enforceGovernanceOr(formatSlotRoleViolation(role), fallback);
+  }
+
   return role;
 }
 

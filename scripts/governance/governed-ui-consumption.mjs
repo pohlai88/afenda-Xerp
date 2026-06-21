@@ -183,6 +183,64 @@ const IMPORTS_AFENDA_UI_RE = /\bfrom\s+["']@afenda\/ui(?:\/[^"']*)?["']/;
 const GOVERNANCE_REEXPORT_RE =
   /export\s+(?:\{[^}]*\}|\*\s+as\s+\w+)\s+from\s+["']@afenda\/ui\/governance["']/;
 
+const STOCK_PROPS_IMPORT_RE = /\bfrom\s+["'][^"']*stock-props["']/;
+
+const RESOLVE_STOCK_BUTTON_PROPS_RE = /\bresolveStockButtonProps\b/;
+
+const SHADCN_ALIAS_IMPORT_RE =
+  /\bfrom\s+["']@\/components\/ui(?:\/[^"']*)?["']/;
+
+const GOVERNANCE_HELPER_USAGE_RE =
+  /\b(?:mapStockButtonProps|mapStockButtonSize|mapStockButtonVisualToGoverned)\b/;
+
+const GOVERNANCE_DIRECT_IMPORT_RE =
+  /\bimport\s+(?:type\s+)?(?:\{[^}]*\}|\*\s+as\s+\w+)\s+from\s+["']@afenda\/ui\/governance["']/;
+
+const BUTTON_RAW_VARIANT_RE = /<Button(?=[\s/>])[^>]*\bvariant\s*=/;
+
+/**
+ * @param {string} content
+ * @returns {string[]}
+ */
+function checkGovernanceImportPolicy(content) {
+  const violations = [];
+
+  if (STOCK_PROPS_IMPORT_RE.test(content)) {
+    violations.push(
+      "Local stock-props import — import mapStockButtonProps from @afenda/ui/governance at call sites"
+    );
+  }
+
+  if (RESOLVE_STOCK_BUTTON_PROPS_RE.test(content)) {
+    violations.push(
+      "resolveStockButtonProps — use mapStockButtonProps from @afenda/ui/governance directly"
+    );
+  }
+
+  if (SHADCN_ALIAS_IMPORT_RE.test(content)) {
+    violations.push(
+      "@/components/ui import — use @afenda/ui and @afenda/ui/governance instead"
+    );
+  }
+
+  if (
+    GOVERNANCE_HELPER_USAGE_RE.test(content) &&
+    !GOVERNANCE_DIRECT_IMPORT_RE.test(content)
+  ) {
+    violations.push(
+      "Governance helper used without direct import from @afenda/ui/governance"
+    );
+  }
+
+  if (BUTTON_RAW_VARIANT_RE.test(content)) {
+    violations.push(
+      "<Button variant=…> — spread mapStockButtonProps(...) from @afenda/ui/governance instead of raw stock variant strings"
+    );
+  }
+
+  return violations;
+}
+
 /**
  * Build a regex that matches an opening JSX tag for any governed component.
  * Anchored to word boundary so "ButtonGroup" doesn't match on "Button".
@@ -261,8 +319,11 @@ function findMultilineViolations(content, lines) {
         let depth = 1;
         pos += 1;
         while (pos < content.length && depth > 0) {
-          if (content[pos] === "{") depth += 1;
-          else if (content[pos] === "}") depth -= 1;
+          if (content[pos] === "{") {
+            depth += 1;
+          } else if (content[pos] === "}") {
+            depth -= 1;
+          }
           pos += 1;
         }
         continue;
@@ -286,7 +347,8 @@ function findMultilineViolations(content, lines) {
     // Only flag if className appears AND it spans multiple source lines.
     if (/\bclassName\s*=/.test(propSlice)) {
       const tagLine = lineNumberAt(tagStart);
-      const classNameOffset = tagStart + tagMatch[0].length + propSlice.search(/\bclassName\s*=/);
+      const classNameOffset =
+        tagStart + tagMatch[0].length + propSlice.search(/\bclassName\s*=/);
       const classNameLine = lineNumberAt(classNameOffset);
 
       if (classNameLine !== tagLine) {
@@ -318,6 +380,14 @@ export function checkGovernedUiConsumption(content) {
       "Re-export barrel from @afenda/ui/governance — import directly at call sites instead"
     );
   }
+
+  if (!GOVERNANCE_DIRECT_IMPORT_RE.test(content)) {
+    violations.push(
+      "Missing direct import from @afenda/ui/governance — consumer files must import both @afenda/ui and @afenda/ui/governance"
+    );
+  }
+
+  violations.push(...checkGovernanceImportPolicy(content));
 
   const lines = content.split("\n");
 

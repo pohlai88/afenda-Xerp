@@ -1,5 +1,5 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   ActivityIcon,
   BellIcon,
@@ -647,9 +647,11 @@ export const SettingsAccordion: Story = {
               ].map(({ id, label, description, checked }) => (
                 <div className="flex items-center justify-between" key={id}>
                   <div className="flex flex-col gap-0.5">
-                    <Label className="text-sm" htmlFor={id}>
-                      {label}
-                    </Label>
+                    <span className="text-sm">
+                      <Label htmlFor={id}>
+                        {label}
+                      </Label>
+                    </span>
                     <span className="text-muted-foreground text-xs">
                       {description}
                     </span>
@@ -1279,9 +1281,11 @@ export const ReportFilterGroups: Story = {
               ].map(({ id, label }) => (
                 <div className="flex items-center gap-2" key={id}>
                   <Checkbox id={id} />
-                  <Label className="font-normal text-sm" htmlFor={id}>
-                    {label}
-                  </Label>
+                  <span className="font-normal text-sm">
+                    <Label htmlFor={id}>
+                      {label}
+                    </Label>
+                  </span>
                 </div>
               ))}
             </StoryStack>

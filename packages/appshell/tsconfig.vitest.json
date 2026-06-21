@@ -8,6 +8,7 @@
   "include": [
     "src/**/__tests__/**/*",
     "src/**/__mocks__/**/*",
+    "src/**/*.stories.tsx",
     "src/**/*.d.ts"
   ],
   "exclude": []

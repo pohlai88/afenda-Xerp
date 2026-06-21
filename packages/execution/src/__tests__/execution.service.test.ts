@@ -288,13 +288,13 @@ describe("execution service audit integration", () => {
 });
 
 describe("execution context propagation", () => {
-  it("requires correlation and execution identifiers", () => {
+  it("requires correlation and execution identifiers at the brand boundary", () => {
     expect(() =>
       createExecutionContext({
         correlationId: "",
         source: "api",
       })
-    ).not.toThrow();
+    ).toThrow("correlationId");
 
     expect(() =>
       createExecutionContext({
@@ -302,6 +302,6 @@ describe("execution context propagation", () => {
         executionId: "",
         source: "api",
       })
-    ).not.toThrow();
+    ).toThrow("executionId");
   });
 });

@@ -1,0 +1,1932 @@
+/**
+ * @afenda/appshell — Shell-05 Presentation CSS
+ *
+ * Self-contained CSS foundation for dashboard-shell-05 layout parity.
+ * Import this file as the PRIMARY CSS entry point for applications that
+ * use @afenda/appshell — it replaces the need for a separate globals.css
+ * that includes unrelated global resets.
+ *
+ * Recommended import order in your app entry:
+ *   1. @import "tailwindcss";                          ← Tailwind base
+ *   2. @import "@afenda/ui/src/styles/afenda-style.css"; ← Design tokens
+ *   3. @import "@afenda/appshell/src/app-shell.presentation.css"; ← This file
+ *
+ * Scope: @afenda/appshell only — not part of the governed primitive layer.
+ * Do NOT add global typography, form resets, or page-level tokens here.
+ */
+
+/* ── 1. Layout spacing & z-index tokens ──────────────────────────────────── */
+@theme inline {
+  /* Header strip: fixed before: pseudo-element on .app-shell-root */
+  --spacing-105: 26.25rem;
+
+  /* Z-index layers — used by .app-shell-* classes below */
+  --z-index-1: 1;
+  --z-index-shell-header: 20;
+  --z-index-shell-sidebar: 30;
+  --z-index-shell-overlay: 40;
+  --z-index-shell-modal: 50;
+}
+
+/* ── 2. Sidebar CSS variable overrides for shell-05 visual parity ─────────── */
+/*
+ * Shell-05 uses --sidebar-ring: var(--primary) for active-nav highlight rings.
+ * Scoped to [data-slot="sidebar-provider"] to avoid leaking into other consumers.
+ */
+@layer base {
+  [data-slot="sidebar-provider"] {
+    --sidebar-ring: var(--primary);
+  }
+}
+
+/* ── 3. Shell chrome layout classes ──────────────────────────────────────── */
+@layer components {
+  /**
+   * .app-shell-root
+   * Full shell layout: muted canvas, fixed primary header strip, isolation context.
+   */
+  .app-shell-root {
+    isolation: isolate;
+    position: relative;
+    display: flex;
+    min-height: 100dvh;
+    width: 100%;
+    background-color: var(--muted);
+  }
+
+  .app-shell-root::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--spacing-105);
+    background-color: var(--primary);
+  }
+
+  /**
+   * .app-shell-main
+   * Main column above the fixed header strip.
+   */
+  .app-shell-main {
+    position: relative;
+    z-index: var(--z-index-1);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  /**
+   * .app-shell-header
+   * Full-width header chrome. z-index sits above main content but below sidebar.
+   */
+  .app-shell-header {
+    position: relative;
+    z-index: var(--z-index-shell-header);
+    width: 100%;
+  }
+
+  .app-shell-header-bar {
+    color: var(--primary-foreground);
+  }
+
+  .app-shell-header-grid {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .app-shell-header-grid {
+      gap: 1.5rem;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  .app-shell-header-leading {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .app-shell-header-greeting {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .app-shell-header-greeting {
+      display: flex;
+    }
+  }
+
+  .app-shell-header-greeting-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-header-greeting-subtitle {
+    color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .app-shell-header-greeting-subtitle {
+      display: none;
+    }
+  }
+
+  .app-shell-header-actions {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+    justify-self: end;
+  }
+
+  .app-shell-search-dialog-desktop {
+    display: none;
+    min-width: 0;
+  }
+
+  @media (min-width: 1280px) {
+    .app-shell-search-dialog-desktop {
+      display: block;
+      justify-self: center;
+      max-width: 18rem;
+    }
+  }
+
+  .app-shell-search-dialog-mobile {
+    display: block;
+  }
+
+  @media (min-width: 1280px) {
+    .app-shell-search-dialog-mobile {
+      display: none;
+    }
+  }
+
+  .app-shell-search-trigger-desktop {
+    align-items: center;
+    background-color: color-mix(in oklab, var(--secondary) 20%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: background-color 150ms ease;
+    width: 100%;
+  }
+
+  .app-shell-search-trigger-desktop:hover {
+    background-color: color-mix(in oklab, var(--secondary) 30%, transparent);
+  }
+
+  .app-shell-search-trigger-icon {
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-search-trigger-label {
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-notification-trigger {
+    position: relative;
+  }
+
+  .app-shell-notification-unread-dot {
+    background-color: var(--destructive);
+    border-radius: 9999px;
+    height: 0.5rem;
+    position: absolute;
+    right: 23%;
+    top: 14%;
+    width: 0.5rem;
+  }
+
+  .app-shell-content {
+    flex: 1;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding: 1.5rem 1rem;
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .app-shell-content {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  .app-shell-footer {
+    color: var(--muted-foreground);
+  }
+
+  .app-shell-footer-inner {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .app-shell-footer-inner {
+      gap: 1.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .app-shell-footer-inner {
+      flex-direction: column;
+    }
+  }
+
+  .app-shell-footer-copy {
+    font-size: 0.875rem;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 639px) {
+    .app-shell-footer-copy {
+      text-align: center;
+    }
+  }
+
+  .app-shell-footer-brand-link {
+    color: var(--foreground);
+    font-weight: 500;
+  }
+
+  .app-shell-footer-brand-link:hover {
+    text-decoration: underline;
+  }
+
+  .app-shell-footer-social {
+    align-items: center;
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .app-shell-footer-social-link {
+    color: var(--muted-foreground);
+    transition: color 150ms ease;
+  }
+
+  .app-shell-footer-social-link:hover {
+    color: var(--foreground);
+  }
+
+  .app-shell-footer-social-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * .app-shell-sidebar-frame
+   * The outer padding wrapper around the floating sidebar panel.
+   */
+  .app-shell-sidebar-frame {
+    position: relative;
+    z-index: var(--z-index-shell-sidebar);
+    padding: 1.5rem;
+    padding-right: 0;
+  }
+
+  .app-shell-sidebar-frame [data-slot="sidebar-inner"] {
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-brand-link {
+    align-items: center;
+    display: flex;
+    gap: 0.625rem;
+  }
+
+  .app-shell-brand-link > svg {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .app-shell-brand-logo rect:first-child {
+    fill: var(--primary);
+  }
+
+  .app-shell-brand-logo rect {
+    fill: var(--sidebar);
+  }
+
+  .app-shell-brand-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .app-shell-nav-trigger {
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
+
+  .app-shell-nav-chevron {
+    margin-left: auto;
+    transition: transform 200ms ease;
+  }
+
+  .app-shell-nav-trigger[data-state="open"] .app-shell-nav-chevron {
+    transform: rotate(90deg);
+  }
+
+  .app-shell-nav-link {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-nav-sub-link {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .app-shell-team-link {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-recipient-avatar {
+    align-items: center;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 9999px;
+    transition: height 200ms ease, width 200ms ease;
+    width: 1.5rem;
+  }
+
+  [data-state="collapsed"] .app-shell-recipient-avatar {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /* ── Dashboard content grid helpers ────────────────────────────────────── */
+
+  /**
+   * .app-shell-kpi-grid
+   * Shell-05 statistics row: 1→2→4 column responsive KPI card grid.
+   */
+  .app-shell-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-sparkline-grid
+   * Shell-05 sparkline row: 1→2 column for revenue + expense cards.
+   */
+  .app-shell-sparkline-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-widget-grid
+   * Shell-05 lower widget row: 1→2 column for transactions + performance.
+   */
+  .app-shell-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * Placeholder dashboard stack spacing for ApplicationShellPlaceholderContent.
+   */
+  .app-shell-placeholder-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .app-shell-placeholder-surface {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-placeholder-kpi-card {
+    position: relative;
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-kpi-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .app-shell-placeholder-kpi-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-kpi-value-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-kpi-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+
+  .app-shell-placeholder-kpi-watermark {
+    pointer-events: none;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0;
+  }
+
+  .app-shell-placeholder-kpi-watermark-icon {
+    height: 5rem;
+    width: 5rem;
+    opacity: 0.06;
+  }
+
+  .app-shell-placeholder-sparkline-card {
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-sparkline-body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .app-shell-placeholder-sparkline-meta {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-sparkline-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-sparkline-title {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-amount {
+    font-size: 1.875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .app-shell-placeholder-sparkline-change-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .app-shell-placeholder-sparkline-comparison {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-chart {
+    flex: 1;
+    width: 100%;
+    max-width: 17.5rem;
+    max-height: 6.625rem;
+  }
+
+  @media (max-width: 639px) {
+    .app-shell-placeholder-sparkline-chart {
+      max-width: 8.75rem;
+    }
+  }
+
+  .app-shell-placeholder-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .app-shell-placeholder-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-widget-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-widget-caption {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-order-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .app-shell-placeholder-order-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-order-description {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-module {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-amount-row {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-shell-placeholder-order-amount {
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-indicator {
+    display: flex;
+    height: 1.5rem;
+    width: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-order-indicator-icon {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .app-shell-placeholder-order-indicator-icon-credit {
+    color: var(--success);
+  }
+
+  .app-shell-placeholder-order-indicator-icon-debit {
+    color: var(--destructive);
+  }
+
+  .app-shell-placeholder-module-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-module-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .app-shell-placeholder-module-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .app-shell-placeholder-module-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .app-shell-placeholder-module-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-placeholder-module-status {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-module-status-high {
+    color: var(--success);
+  }
+
+  .app-shell-placeholder-module-status-mid {
+    color: var(--warning);
+  }
+
+  .app-shell-placeholder-module-status-low {
+    color: var(--destructive);
+  }
+
+  .app-shell-placeholder-progress-track {
+    height: 0.375rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 500ms ease;
+  }
+
+  .app-shell-placeholder-progress-fill-high {
+    background: var(--color-chart-1, var(--primary));
+  }
+
+  .app-shell-placeholder-progress-fill-mid {
+    background: var(--color-chart-2, oklch(0.769 0.188 70.08));
+  }
+
+  .app-shell-placeholder-progress-fill-low {
+    background: var(--color-chart-3, oklch(0.646 0.222 41.116));
+  }
+
+  .app-shell-placeholder-module-percent {
+    width: 2rem;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+    text-align: right;
+  }
+
+  .app-shell-placeholder-trend-icon-up {
+    color: var(--success);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-placeholder-trend-icon-down {
+    color: var(--destructive);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * Header sidebar trigger — inverted colors on the primary header strip.
+   * Apply on the plain HTML wrapper from `AppShellMenuTrigger`.
+   */
+  .app-shell-menu-trigger > button,
+  .app-shell-menu-trigger > [data-slot="button"] {
+    border-color: var(--primary-foreground);
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+    box-shadow: none;
+  }
+
+  /* ── Sheet / dialog width overrides for shell-05 panels ────────────────── */
+
+  /**
+   * Scrollable activity feed body inside the shell-05 activity sheet.
+   */
+  .app-shell-activity-feed {
+    overflow-y: auto;
+  }
+
+  /**
+   * Shell-05 activity sheet: max-w-112 (28rem) at sm breakpoint.
+   * Applied via [&>button] selector on SheetContent in AppShellActivityDialog.
+   */
+  .app-shell-activity-sheet {
+    @media (min-width: 640px) {
+      max-width: 28rem; /* 112 * 0.25rem */
+    }
+  }
+
+  /**
+   * Shell-05 notification dropdown layout — width overrides live outside @layer
+   * (see section 3b) so they beat DropdownMenuContent trigger-width utilities.
+   */
+  .app-shell-notification-dropdown {
+    width: 100%;
+  }
+
+  .app-shell-notification-dropdown [data-slot="dropdown-menu-item"] {
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .app-shell-notification-dropdown [data-slot="dropdown-menu-label"] {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  .app-shell-notification-dropdown [data-slot="tabs-content"] {
+    max-height: min(24rem, 60vh);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app-shell-notification-dropdown [data-slot="tabs-list"] {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .app-shell-notification-row-body {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .app-shell-notification-row-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-notification-row-title {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .app-shell-notification-row-meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  .app-shell-notification-row-time {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-notification-row-category {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-notification-item-unread-dot {
+    background-color: color-mix(in oklab, var(--primary) 30%, transparent);
+    border-radius: 9999px;
+    flex-shrink: 0;
+    height: 0.375rem;
+    width: 0.375rem;
+  }
+
+  .app-shell-notification-dismiss {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 0.75rem;
+  }
+
+  .app-shell-notification-dismiss-icon {
+    color: var(--foreground);
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .app-shell-notification-dismiss-marker {
+    background-color: var(--primary);
+    border-radius: 9999px;
+    height: 0.375rem;
+    width: 0.375rem;
+  }
+
+  .app-shell-notification-approval-actions {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .app-shell-notification-attachment-link {
+    align-items: center;
+    display: flex;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    margin-top: 0.75rem;
+  }
+
+  .app-shell-notification-attachment-link:hover {
+    text-decoration: underline;
+  }
+
+  .app-shell-notification-attachment-icon {
+    color: var(--foreground);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-notification-menu-header {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .app-shell-notification-menu-title-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 0.625rem;
+  }
+
+  .app-shell-notification-menu-title {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .app-shell-notification-menu-tabs-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: -0.125rem;
+  }
+
+  .app-shell-notification-settings-link {
+    border-radius: var(--radius-sm);
+    color: var(--foreground);
+    padding: 0.25rem;
+    transition: color 150ms ease;
+  }
+
+  .app-shell-notification-settings-link:hover {
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  }
+
+  .app-shell-notification-settings-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-profile-dropdown {
+    width: 100%;
+  }
+
+  .app-shell-profile-dropdown-header {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    padding: 0.625rem 1rem;
+  }
+
+  .app-shell-profile-dropdown-identity {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .app-shell-profile-dropdown-name {
+    color: var(--foreground);
+    font-size: 1.125rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .app-shell-profile-dropdown-email {
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .app-shell-sidebar-user-dropdown {
+    width: 100%;
+  }
+
+  /**
+   * Profile dropdown header: online presence dot on avatar.
+   */
+  .app-shell-profile-online-indicator {
+    background-color: var(--success);
+  }
+
+  /**
+   * Shell-05 command search: semantic list rows (no ComboboxInput — TIP-004 safe).
+   */
+  .app-shell-search-field {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-shell-search-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-search-result {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .app-shell-search-result:hover {
+    background-color: var(--muted);
+  }
+
+  .app-shell-search-suggestion-icon {
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+
+  .app-shell-search-results {
+    max-height: min(24rem, 60vh);
+    overflow-y: auto;
+  }
+
+  .app-shell-search-divider {
+    background-color: var(--border);
+    height: 1px;
+  }
+
+  .app-shell-search-footer {
+    display: none;
+
+    @media (min-width: 640px) {
+      display: flex;
+    }
+  }
+
+  /**
+   * Sidebar footer user menu: chevron rotation when dropdown opens.
+   */
+  .app-shell-sidebar-user-chevron {
+    height: 1rem;
+    margin-left: auto;
+    transition: transform 200ms ease;
+    width: 1rem;
+  }
+
+  @media (max-width: 1023px) {
+    .app-shell-sidebar-user-chevron {
+      transform: rotate(270deg);
+    }
+
+    [data-state="open"] .app-shell-sidebar-user-chevron {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    [data-state="open"] .app-shell-sidebar-user-chevron {
+      transform: rotate(-180deg);
+    }
+  }
+
+  /* ── Dashboard presentation surfaces (shadcn-studio → appshell) ─────────── */
+
+  .app-shell-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .app-shell-dashboard-widget {
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-widget-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .app-shell-dashboard-widget-header-stacked {
+    align-items: flex-start;
+  }
+
+  .app-shell-dashboard-widget-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .app-shell-dashboard-widget-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .app-shell-dashboard-widget-subtitle {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-widget-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .app-shell-dashboard-overflow-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-sparkline-body {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1.25rem;
+  }
+
+  .app-shell-dashboard-sparkline-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-sparkline-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .app-shell-dashboard-sparkline-label {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-sparkline-amount {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .app-shell-dashboard-sparkline-change-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .app-shell-dashboard-sparkline-comparison {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-sparkline-chart-frame {
+    flex: 1;
+    max-height: 6.625rem;
+    max-width: 17.5rem;
+    min-height: 6.625rem;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-kpi-body {
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 1.25rem;
+    position: relative;
+  }
+
+  .app-shell-dashboard-kpi-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .app-shell-dashboard-kpi-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-kpi-value-row {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .app-shell-dashboard-kpi-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .app-shell-dashboard-kpi-watermark {
+    bottom: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0.125rem;
+  }
+
+  .app-shell-dashboard-kpi-watermark-icon {
+    color: color-mix(in oklab, var(--primary) 12%, transparent);
+    height: 5rem;
+    width: 5rem;
+  }
+
+  .app-shell-dashboard-revenue-widget {
+    width: 100%;
+  }
+
+  .app-shell-dashboard-revenue-layout {
+    display: grid;
+    gap: 0;
+    grid-template-columns: minmax(0, 1fr);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+
+  .app-shell-dashboard-revenue-primary {
+    border-bottom: 1px solid var(--border);
+
+    @media (min-width: 1024px) {
+      border-bottom: 0;
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  .app-shell-dashboard-revenue-bar-frame {
+    min-height: 13.75rem;
+    padding: 0 1.25rem 1.5rem;
+    width: 100%;
+
+    @media (min-width: 1024px) {
+      min-height: 18.75rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .app-shell-dashboard-revenue-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: space-between;
+    padding: 1.25rem;
+  }
+
+  .app-shell-dashboard-revenue-select-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-shell-dashboard-revenue-growth-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .app-shell-dashboard-revenue-growth-chart-frame {
+    height: 10rem;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-revenue-growth-value {
+    fill: var(--card-foreground);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .app-shell-dashboard-revenue-growth-caption {
+    fill: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-revenue-growth-footnote {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .app-shell-dashboard-revenue-summary-item {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-year {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-amount {
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-revenue-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-dashboard-trend-icon-up {
+    color: var(--success);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-trend-icon-down {
+    color: var(--destructive);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-earnings-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .app-shell-dashboard-earnings-total-row {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-dashboard-earnings-total {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .app-shell-dashboard-earnings-change {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-earnings-comparison {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-earnings-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-dashboard-earnings-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.625rem;
+  }
+
+  .app-shell-dashboard-earnings-row-main {
+    align-items: center;
+    display: flex;
+    gap: 0.625rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-earnings-row-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-earnings-row-title {
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-earnings-row-subtitle {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-earnings-row-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 9rem;
+  }
+
+  .app-shell-dashboard-earnings-row-amount {
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-earnings-progress-frame {
+    width: 9rem;
+  }
+
+  .app-shell-dashboard-transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .app-shell-dashboard-transaction-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .app-shell-dashboard-transaction-main {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-transaction-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-transaction-title {
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-transaction-subtitle {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-transaction-amount-row {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-transaction-indicator {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: 9999px;
+    color: var(--primary);
+    display: flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon-debit {
+    color: var(--destructive);
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon-credit {
+    color: var(--success);
+  }
+
+  .app-shell-dashboard-transaction-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-dashboard-regional-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .app-shell-dashboard-regional-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .app-shell-dashboard-regional-main {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-regional-flag-frame {
+    border-radius: 9999px;
+    height: 2.5rem;
+    overflow: hidden;
+    width: 2.5rem;
+  }
+
+  .app-shell-dashboard-regional-flag-frame img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-regional-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-regional-amount {
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-regional-name {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-regional-change {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-payment-table-frame {
+    padding: 0 0 0.5rem;
+  }
+
+  .app-shell-dashboard-payment-card-cell {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-dashboard-payment-brand-frame {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: var(--radius-sm);
+    display: flex;
+    height: 2.625rem;
+    justify-content: center;
+    width: 2.625rem;
+  }
+
+  .app-shell-dashboard-payment-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-payment-card-number {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-payment-card-type {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-payment-date {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+
+  .app-shell-dashboard-payment-spend-cell {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-payment-spend {
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-payment-remaining {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+
+  .app-shell-dashboard-invoice-widget {
+    width: 100%;
+  }
+
+  .app-shell-dashboard-invoice-shell {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .app-shell-dashboard-invoice-toolbar {
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+    padding: 1.5rem;
+  }
+
+  .app-shell-dashboard-invoice-toolbar-primary,
+  .app-shell-dashboard-invoice-toolbar-filters {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-page-size {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-dashboard-invoice-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 12rem;
+  }
+
+  .app-shell-dashboard-invoice-sort-trigger {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-invoice-sort-icon {
+    height: 1rem;
+    opacity: 0.6;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-id {
+    color: var(--muted-foreground);
+  }
+
+  .app-shell-dashboard-invoice-client-cell {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .app-shell-dashboard-invoice-client-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-invoice-client-name {
+    font-weight: 500;
+  }
+
+  .app-shell-dashboard-invoice-client-field {
+    color: var(--muted-foreground);
+  }
+
+  .app-shell-dashboard-invoice-date {
+    color: var(--muted-foreground);
+  }
+
+  .app-shell-dashboard-invoice-actions {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+  }
+
+  .app-shell-dashboard-invoice-action-icon {
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+
+  .app-shell-dashboard-invoice-status-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-status-paid {
+    color: var(--success);
+  }
+
+  .app-shell-dashboard-invoice-status-past-due {
+    color: var(--destructive);
+  }
+
+  .app-shell-dashboard-invoice-status-draft {
+    color: var(--warning);
+  }
+
+  .app-shell-dashboard-invoice-status-downloaded {
+    color: var(--info);
+  }
+
+  .app-shell-dashboard-invoice-empty {
+    display: block;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .app-shell-dashboard-invoice-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+  }
+
+  .app-shell-dashboard-invoice-summary {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .app-shell-dashboard-invoice-nav-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-search-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * ERP page main: title row, optional badge/actions slots, and body region.
+   */
+  .app-shell-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .app-shell-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .app-shell-page-title-row {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    min-height: 2.25rem;
+  }
+
+  .app-shell-page-title-group {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .app-shell-page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .app-shell-page-description {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .app-shell-page-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 0.5rem;
+  }
+
+  .app-shell-page-badge {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .app-shell-page-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+}
+
+/**
+ * Sidebar team avatars — UNLAYERED so fixed wrapper sizes beat Avatar `size-*`
+ * utilities when the sidebar collapses to icon width.
+ */
+.app-shell-recipient-avatar > [data-slot="avatar"] {
+  height: 100%;
+  width: 100%;
+}
+
+/**
+ * Icon-trigger dropdown panels — UNLAYERED so width beats Tailwind utilities on
+ * DropdownMenuContent (`w-(--radix-dropdown-menu-trigger-width)`).
+ */
+[data-slot="dropdown-menu-content"]:has(.app-shell-notification-dropdown) {
+  width: auto !important;
+  min-width: 20rem;
+  max-width: min(30.5rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(.app-shell-profile-dropdown) {
+  width: auto !important;
+  min-width: 17.5rem;
+  max-width: min(20rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(.app-shell-sidebar-user-dropdown) {
+  width: auto !important;
+  min-width: 16rem;
+  max-width: min(18rem, calc(100vw - 2rem));
+}
+
+/* ── 4. Print: hide shell chrome, show content only ─────────────────────── */
+@media print {
+  .app-shell-root::before,
+  .app-shell-sidebar-frame,
+  .app-shell-header {
+    display: none !important;
+  }
+
+  .app-shell-main {
+    position: static;
+  }
+}

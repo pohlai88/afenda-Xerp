@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "EditorConfig.EditorConfig",
     "biomejs.biome",
     "vitest.explorer",
     "Themeselection.shadcn-studio-vscode-extension"

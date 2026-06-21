@@ -30,7 +30,9 @@ export function validateRecipeRegistry(): ValidationResult[] {
     results.push({
       rule: `recipe.${recipe.name}.has-root-slot`,
       passed: hasRoot,
-      detail: hasRoot ? undefined : `Recipe "${recipe.name}" must define a root slot`,
+      detail: hasRoot
+        ? undefined
+        : `Recipe "${recipe.name}" must define a root slot`,
     });
 
     // Every declaration token must be in the registry

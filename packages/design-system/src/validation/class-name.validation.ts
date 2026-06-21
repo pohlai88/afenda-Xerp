@@ -1,7 +1,4 @@
-import {
-  ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
-  PROHIBITED_CLASSNAME_PATTERNS,
-} from "../contracts/class-name-policy.contract";
+import { PROHIBITED_CLASSNAME_PATTERNS } from "../contracts/class-name-policy.contract";
 import type { ValidationResult } from "./index";
 
 const SEPARATOR = /\s+/u;

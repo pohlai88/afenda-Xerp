@@ -14,7 +14,7 @@ export default defineConfig({
     outputFile: isCI ? { junit: "./test-results/junit.xml" } : undefined,
     projects: [
       "packages/*/vitest.config.ts",
-      "packages/ui/vitest.storybook.config.ts",
+      "apps/storybook/vitest.storybook.config.ts",
       "apps/*/vitest.config.ts",
     ],
   },

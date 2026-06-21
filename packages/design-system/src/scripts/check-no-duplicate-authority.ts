@@ -43,17 +43,23 @@ function walkDir(dir: string): string[] {
 const allFiles = walkDir(srcDir);
 
 for (const file of allFiles) {
-  if (extname(file) !== ".ts") continue;
-  if (file.includes("__tests__")) continue;
+  if (extname(file) !== ".ts") {
+    continue;
+  }
+  if (file.includes("__tests__")) {
+    continue;
+  }
   // Files in the approved registries folder are fine
-  if (file.startsWith(APPROVED_REGISTRY_DIR)) continue;
+  if (file.startsWith(APPROVED_REGISTRY_DIR)) {
+    continue;
+  }
 
   const content = readFileSync(file, "utf8");
   const rel = relative(srcDir, file);
 
   for (const pattern of DUPLICATE_AUTHORITY_PATTERNS) {
     // Allow re-export shims (lines with just `export { ... } from ...`)
-    if (content.includes(pattern) && !content.includes(`export {`)) {
+    if (content.includes(pattern) && !content.includes("export {")) {
       errors.push(
         `  ✗ Duplicate authority pattern "${pattern}" in ${rel} — registries must live in src/registries/`
       );
@@ -68,6 +74,6 @@ if (errors.length > 0) {
   process.exit(1);
 } else {
   process.stdout.write(
-    `check:no-duplicate-authority PASSED — no duplicate registry authority detected outside src/registries/.\n`
+    "check:no-duplicate-authority PASSED — no duplicate registry authority detected outside src/registries/.\n"
   );
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   AtSignIcon,
   BarcodeIcon,
@@ -336,13 +336,13 @@ export const FilterBarSearch: Story = {
           <InputGroupAddon align="inline-start">
             <MutedIcon icon={FilterIcon} />
           </InputGroupAddon>
-          <InputGroupInput placeholder="Filter invoices…" size="sm" />
+          <InputGroupInput placeholder="Filter invoices…" />
         </InputGroup>
         <InputGroup className="max-w-40">
           <InputGroupAddon align="inline-start">
             <MutedIcon icon={CalendarIcon} />
           </InputGroupAddon>
-          <InputGroupInput placeholder="Due date" size="sm" type="date" />
+          <InputGroupInput placeholder="Due date" type="date" />
         </InputGroup>
       </StoryRow>
     </StoryFrame>
@@ -713,7 +713,6 @@ export const ValidationStates: Story = {
             <InputGroupInput
               aria-invalid
               placeholder="Invalid employee ID"
-              state="error"
             />
           </InputGroup>
         </StoryStack>
@@ -741,19 +740,19 @@ export const InlinePoLineRow: Story = {
           <InputGroupAddon align="inline-start">
             <InputGroupText>SKU</InputGroupText>
           </InputGroupAddon>
-          <InputGroupInput placeholder="FAST-M8" size="sm" />
+          <InputGroupInput placeholder="FAST-M8" />
         </InputGroup>
         <InputGroup className="min-w-48 flex-1">
-          <InputGroupInput placeholder="Description" size="sm" />
+          <InputGroupInput placeholder="Description" />
         </InputGroup>
         <InputGroup className="w-24">
-          <InputGroupInput placeholder="Qty" size="sm" type="number" />
+          <InputGroupInput placeholder="Qty" type="number" />
         </InputGroup>
         <InputGroup className="w-28">
           <InputGroupAddon align="inline-start">
             <InputGroupText>$</InputGroupText>
           </InputGroupAddon>
-          <InputGroupInput placeholder="0.00" size="sm" type="number" />
+          <InputGroupInput placeholder="0.00" type="number" />
         </InputGroup>
       </StoryRow>
     </StoryFrame>

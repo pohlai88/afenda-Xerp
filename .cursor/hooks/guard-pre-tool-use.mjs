@@ -330,7 +330,7 @@ if (relativePath && GOVERNED_UI_CONSUMER_PATH.test(relativePath)) {
       log(TAG, `governed UI consumption: ${relativePath} (${violations.length})`);
       ask(
         `@afenda/ui consumer file has ${violations.length} TIP-004 violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
-        `TIP-004: Do not pass className to governed @afenda/ui primitives. Use governed props; put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
+        `TIP-004: Do not pass className to governed @afenda/ui primitives. Import mapStockButtonProps from @afenda/ui/governance directly — no stock-props wrappers. Put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
       );
     }
   }

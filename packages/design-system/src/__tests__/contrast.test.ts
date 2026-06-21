@@ -23,8 +23,10 @@ describe("WCAG AA contrast gate — governed token pairs", () => {
   });
 
   it("every governed pair covers both light and dark modes", () => {
-    const lightPairs = GOVERNED_CONTRAST_PAIRS.filter((p) => p.mode === "light");
-    const darkPairs  = GOVERNED_CONTRAST_PAIRS.filter((p) => p.mode === "dark");
+    const lightPairs = GOVERNED_CONTRAST_PAIRS.filter(
+      (p) => p.mode === "light"
+    );
+    const darkPairs = GOVERNED_CONTRAST_PAIRS.filter((p) => p.mode === "dark");
     expect(lightPairs.length).toBeGreaterThanOrEqual(10);
     expect(darkPairs.length).toBeGreaterThanOrEqual(10);
   });
@@ -42,12 +44,15 @@ describe("WCAG AA contrast gate — governed token pairs", () => {
   });
 
   it("core text pairs achieve at least 7:1 (WCAG AAA)", () => {
-    const coreTextPairs = GOVERNED_CONTRAST_PAIRS.filter(
-      (p) => p.label.includes("text.default")
+    const coreTextPairs = GOVERNED_CONTRAST_PAIRS.filter((p) =>
+      p.label.includes("text.default")
     );
     const results = runContrastChecks(coreTextPairs);
     for (const r of results) {
-      expect(r.ratio, `${r.label} should be AAA (≥ 7:1)`).toBeGreaterThanOrEqual(7);
+      expect(
+        r.ratio,
+        `${r.label} should be AAA (≥ 7:1)`
+      ).toBeGreaterThanOrEqual(7);
     }
   });
 });

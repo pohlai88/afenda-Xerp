@@ -3,6 +3,7 @@ import {
   assertExecutionContext,
   createExecutionContext,
   createExecutionId,
+  type CorrelationId,
 } from "../index.js";
 
 const ISO_TIMESTAMP_PREFIX = /^\d{4}-\d{2}-\d{2}T/;
@@ -35,8 +36,8 @@ describe("execution context contract", () => {
       assertExecutionContext({
         actorId: null,
         companyId: null,
-        correlationId: "   ",
-        executionId: "exec-1",
+        correlationId: "   " as CorrelationId,
+        executionId: createExecutionId(),
         organizationId: null,
         source: "api",
         startedAt: "2026-06-20T00:00:00.000Z",

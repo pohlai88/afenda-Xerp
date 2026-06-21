@@ -147,6 +147,17 @@ describe("resolvePrimitiveGovernance", () => {
     expect(governed.className.length).toBeGreaterThan(0);
   });
 
+  it("resolves command input-search-icon slotKey from the registry", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Command",
+      recipeName: "surface",
+      slotKey: "input-search-icon",
+    });
+
+    expect(governed.dataAttributes["data-slot"]).toBe("command-search-icon");
+    expect(governed.className).toContain("opacity-50");
+  });
+
   it("resolves governed field separator line slotKey", () => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Field",
@@ -207,5 +218,55 @@ describe("resolvePrimitiveGovernance", () => {
     expect(governed.className).toContain("rounded-lg");
     expect(governed.className).not.toContain("group/form-control");
     expect(governed.dataAttributes["data-slot"]).toBe("input");
+  });
+
+  it("resolves InputGroup root as horizontal flex without Field form-control shell", () => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "InputGroup",
+      recipeName: "form-control",
+      slot: "root",
+    });
+
+    expect(governed.recipeName).toBe("form-control");
+    expect(governed.className).toContain("group/input-group");
+    expect(governed.className).toContain("items-center");
+    expect(governed.className).not.toContain("group/form-control");
+    expect(governed.dataAttributes["data-slot"]).toBe("input-group");
+  });
+
+  it("resolves Sheet close-button slotKey with registry data-slot and positioning", () => {
+    const closeButton = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: "surface",
+      slotKey: "close-button",
+    });
+    const closeLabel = resolvePrimitiveGovernance({
+      componentName: "Sheet",
+      recipeName: "surface",
+      slotKey: "close-label",
+    });
+
+    expect(closeButton.dataAttributes["data-slot"]).toBe("sheet-close-button");
+    expect(closeButton.className).toContain("absolute");
+    expect(closeLabel.dataAttributes["data-slot"]).toBe("sheet-close-label");
+    expect(closeLabel.className).toContain("sr-only");
+  });
+
+  it("resolves Dialog close-button slotKey with registry data-slot and positioning", () => {
+    const closeButton = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: "surface",
+      slotKey: "close-button",
+    });
+    const closeLabel = resolvePrimitiveGovernance({
+      componentName: "Dialog",
+      recipeName: "surface",
+      slotKey: "close-label",
+    });
+
+    expect(closeButton.dataAttributes["data-slot"]).toBe("dialog-close-button");
+    expect(closeButton.className).toContain("absolute");
+    expect(closeLabel.dataAttributes["data-slot"]).toBe("dialog-close-label");
+    expect(closeLabel.className).toContain("sr-only");
   });
 });

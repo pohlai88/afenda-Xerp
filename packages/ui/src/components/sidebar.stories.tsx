@@ -1,5 +1,6 @@
 import { cn } from "@afenda/ui/lib/utils";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   BellIcon,
   Building2Icon,
@@ -131,10 +132,12 @@ function SidebarStoryFrame({
   readonly providerClassName?: string;
 } & React.ComponentProps<typeof Sidebar>) {
   return (
-    <SidebarProvider className={providerClassName} defaultOpen={defaultOpen}>
-      <Sidebar {...sidebarProps}>{sidebar}</Sidebar>
-      <SidebarInset>{main ?? <MainShell />}</SidebarInset>
-    </SidebarProvider>
+    <div className={providerClassName}>
+      <SidebarProvider defaultOpen={defaultOpen}>
+        <Sidebar {...sidebarProps}>{sidebar}</Sidebar>
+        <SidebarInset>{main ?? <MainShell />}</SidebarInset>
+      </SidebarProvider>
+    </div>
   );
 }
 
@@ -281,7 +284,8 @@ function ProcurementNavWithChildren() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Collapsible className="group/collapsible" defaultOpen>
+                <div className="group/collapsible">
+                  <Collapsible defaultOpen>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton isActive tooltip="Procurement">
                       <PackageIcon
@@ -322,7 +326,8 @@ function ProcurementNavWithChildren() {
                       })}
                     </SidebarMenuSub>
                   </CollapsibleContent>
-                </Collapsible>
+                  </Collapsible>
+                </div>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Inventory">
@@ -339,6 +344,11 @@ function ProcurementNavWithChildren() {
 }
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
+
+export type SidebarStoriesGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Collapsible" | "Sidebar" | "SidebarProvider"
+>;
 
 const meta = {
   title: "Primitives/Sidebar",

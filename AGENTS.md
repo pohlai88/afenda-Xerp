@@ -104,9 +104,28 @@ Write code that is **accessible, performant, type-safe, and maintainable**. Focu
 ## Testing
 
 - Write assertions inside `it()` or `test()` blocks
-- Avoid done callbacks in async tests - use async/await instead
+- Avoid done callbacks in async tests — use `async/await` instead
 - Don't use `.only` or `.skip` in committed code
-- Keep test suites reasonably flat - avoid excessive `describe` nesting
+- Keep test suites reasonably flat — avoid excessive `describe` nesting
+
+### React component tests (jsdom)
+
+- Shared setup: `packages/testing/src/setup/react.ts` (polyfills for Radix, cmdk, pointer capture)
+- Vitest projects: `createUiProject` / `createReactProject` in `vitest.shared.ts` wire jsdom + `AFENDA_GOVERNANCE_RUNTIME=strict`
+- **Do not use `fireEvent`** for interactive components — use `@afenda/testing/react`:
+
+```ts
+import { render, screen } from "@testing-library/react";
+import { openMenu, setupUser } from "@afenda/testing/react";
+
+const user = setupUser();
+await user.click(screen.getByRole("button", { name: "Open" }));
+const menu = await openMenu(user, "Open");
+```
+
+- Name interaction suites `*.interaction.test.tsx` (discovered by `TEST_FILE_PATTERN`)
+- Run interaction subset: `pnpm test:interaction`
+- Governance/render tests stay in `*.test.tsx`; click-to-open flows go in `*.interaction.test.tsx`
 
 ## When Biome Can't Help
 
@@ -134,7 +153,7 @@ Two layers — do not confuse them:
 | **Author** | `packages/ui/src/components/` | Only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
 | **Consumer** | `packages/appshell/`, `apps/erp/` | No `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
 
-**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly. No re-export barrels, no extra CSS modules when `globals.css` suffices.
+**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly (`mapStockButtonProps` at call sites). No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
 
 **After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all four gates) or `pnpm ui:guard:scan` for a sub-2 s local check.
 

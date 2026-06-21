@@ -1,8 +1,8 @@
 import {
+  isAfendaTokenName,
   RADII,
   SHADOWS,
   STATUS_TONES,
-  isAfendaTokenName,
 } from "../contracts/token.contract";
 import { AFENDA_TOKEN_REGISTRY } from "../registries/token.registry";
 import type { ValidationResult } from "./index";
@@ -69,7 +69,12 @@ export function validateTokenRegistry(): ValidationResult[] {
 
   // Coverage: every STATUS_TONES value has surface + foreground + border + focus tokens
   for (const tone of STATUS_TONES) {
-    for (const variant of ["surface", "foreground", "border", "focus"] as const) {
+    for (const variant of [
+      "surface",
+      "foreground",
+      "border",
+      "focus",
+    ] as const) {
       const name = `afenda.status-tone.${tone}.${variant}`;
       const has = nameSet.has(name);
       results.push({

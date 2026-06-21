@@ -40,6 +40,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "application",
   },
   {
+    packageName: "@afenda/storybook",
+    ownerDomain: "Application Authority",
+    authorityLevel: "application",
+  },
+  {
     packageName: "@afenda/execution",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",

@@ -2,17 +2,9 @@ name: CI
 
 # TIP-009 — Delivery Governance Spine
 #
-# Every pull request to main must pass all 7 gates before merge is permitted.
-# No gate may be skipped. No release may bypass this pipeline.
-#
-# Gate 1  · typecheck       — type safety
-# Gate 2  · lint            — code quality
-# Gate 3  · test            — test quality
-# Gate 4  · build           — build safety
-# Gate 5  · boundaries      — package boundary safety
-# Gate 6  · migrations      — migration integrity
-# Gate 7  · exports         — public API surface safety
-# Gate ∞  · release-gate    — TIP-009 governance self-check
+# Pull requests to main must pass all gates before merge.
+# Core gates: typecheck, biome, test, build, boundaries, migrations, exports,
+# architecture authority, UI governance, storybook build, release-gate.
 
 on:
   push:
@@ -36,6 +28,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -51,16 +45,33 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Resolve Turbo scope
+        id: turbo_scope
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "affected=--affected" >> "$GITHUB_OUTPUT"
+          else
+            echo "affected=" >> "$GITHUB_OUTPUT"
+          fi
+
       # ── Gate 1 · Type Safety ──────────────────────────────────────────────
       - name: Gate 1 · typecheck
-        run: pnpm typecheck
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm turbo run typecheck ${{ steps.turbo_scope.outputs.affected }}
 
       # ── Gate 2 · Code Quality ─────────────────────────────────────────────
       - name: Gate 2 · biome (format + lint + imports)
         run: pnpm ci:biome
 
       # ── Gate 3 · Test Quality ─────────────────────────────────────────────
-      - name: Gate 3 · test
+      - name: Gate 3 · test (affected on PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm test:run:affected
+
+      - name: Gate 3 · test (full on main)
+        if: github.event_name != 'pull_request'
         run: pnpm test:run
 
       # ── Gate 3b · UI Governance (behavioral + static) ─────────────────────
@@ -73,7 +84,17 @@ jobs:
 
       # ── Gate 4 · Build Safety ─────────────────────────────────────────────
       - name: Gate 4 · build
-        run: pnpm build
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm turbo run build ${{ steps.turbo_scope.outputs.affected }}
+
+      # ── Gate 4b · Storybook static build (deployable docs) ────────────────
+      - name: Gate 4b · storybook build
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm turbo run storybook:build ${{ steps.turbo_scope.outputs.affected }}
 
       # ── Gate 5 · Boundary Safety ──────────────────────────────────────────
       - name: Gate 5 · package boundary check
@@ -125,7 +146,7 @@ jobs:
           if [ "${{ job.status }}" = "success" ]; then
             echo "## CI: PASSED" >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "All 7 TIP-009 gates passed on \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
+            echo "All TIP-009 gates passed on \`${{ github.ref_name }}\`." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "## CI: FAILED" >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"

@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@afenda/appshell": "workspace:*",
-    "@afenda/auth": "workspace:^",
-    "@afenda/database": "workspace:^",
+    "@afenda/auth": "workspace:*",
+    "@afenda/database": "workspace:*",
     "@afenda/design-system": "workspace:*",
-    "@afenda/observability": "workspace:^",
+    "@afenda/observability": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@supabase/server": "^1.1.0",
     "@supabase/ssr": "^0.12.0",

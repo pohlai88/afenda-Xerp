@@ -41,7 +41,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 | `@afenda/design-system` | Design | Design Authority |
 | `@afenda/ui` | Design | Design Authority |
 | `@afenda/execution` | Foundation | Platform Authority |
-| `@afenda/kernel` | Foundation | Platform Authority |
+| `@afenda/kernel` | Platform | Platform Authority |
 | `@afenda/storage` | Foundation | Platform Authority |
 | `@afenda/metadata` | Metadata | Metadata Authority |
 | `@afenda/metadata-ui` | Metadata | Metadata Authority |
@@ -51,6 +51,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 | `@afenda/appshell` | ERPSpine | ERP Spine Authority |
 | `@afenda/erp` | Application | Application Authority |
 | `@afenda/docs` | Application | Application Authority |
+| `@afenda/storybook` | Application | Application Authority |
 | `@afenda/permissions` | Platform | Platform Authority |
 
 ### Authority levels

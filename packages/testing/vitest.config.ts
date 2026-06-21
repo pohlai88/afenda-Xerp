@@ -1,3 +1,3 @@
-import { createNodeProject } from "../../vitest.shared";
+import { createReactProject } from "../../vitest.shared";
 
-export default createNodeProject(import.meta.url, "@afenda/testing");
+export default createReactProject(import.meta.url, "@afenda/testing");

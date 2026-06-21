@@ -12,6 +12,9 @@
     "node_modules",
     "**/*.test.ts",
     "**/*.test.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    "src/_storybook/**",
     "src/setup/**"
   ]
 }

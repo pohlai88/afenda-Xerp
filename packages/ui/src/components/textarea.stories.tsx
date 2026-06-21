@@ -1,5 +1,5 @@
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";

@@ -16,9 +16,11 @@ Authority: `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflo
 | Item | Path / command |
 |------|----------------|
 | MCP workflow rule | `.cursor/rules/shadcn-studio.instructions.mdc` |
-| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/design-system`) |
+| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/ui`) |
 | Studio toolbar config | `shadcn-studio.config.json` |
-| shadcn install cwd | `packages/design-system` |
+| **shadcn install cwd** | **`packages/ui`** — `components.json` lives here with `@ss-blocks` registry |
+| Blocks output path | `packages/ui/src/components/shadcn-studio/blocks/` |
+| Install artifact policy | Raw output under `packages/ui/src/components/shadcn-studio/` is **excluded from typecheck, Biome, and governance scans** until governed and moved to `packages/appshell/src/shadcn-studio/` |
 | Toolbar (Storybook) | `pnpm studio:toolbar` → port 3200 → Storybook 6006 |
 | Toolbar (app) | `pnpm studio:toolbar:app` → port 3200 → app 3000 |
 | Toolbar (web) | `pnpm studio:toolbar:web` → port 3200 → web 3001 |
@@ -29,8 +31,37 @@ Start the target dev server **before** the toolbar. Do not start long-running se
 
 | Server | Role |
 |--------|------|
-| `shadcn` (configured) | Registry search, `shadcn add`, audit checklist — `-c packages/design-system` |
+| `shadcn` (configured) | Registry search, `shadcn add`, audit checklist — `-c packages/ui` |
 | `shadcn-studio-mcp` (upstream) | `/cui`, `/rui`, `/iui`, `/ftc` block workflows — add from [shadcn/studio onboarding](https://shadcnstudio.com/mcp/onboarding) if not enabled |
+
+## Pro block installation (shadcn/studio license)
+
+`@ss-blocks/*` blocks require `EMAIL` + `LICENSE_KEY` env vars at install time.
+Credentials live in `.env.secret` as `SHADCN_STUDIO_ACCOUNT_EMAIL` / `SHADCN_STUDIO_LICENSE_KEY`.
+
+**Always install from `packages/ui` (the cwd that has `components.json`).**
+
+PowerShell (Windows):
+```powershell
+$env:EMAIL="<SHADCN_STUDIO_ACCOUNT_EMAIL>"; $env:LICENSE_KEY="<SHADCN_STUDIO_LICENSE_KEY>"; npx shadcn@latest add @ss-blocks/<block-name> -y
+```
+
+Bash (Linux/macOS):
+```bash
+EMAIL=<SHADCN_STUDIO_ACCOUNT_EMAIL> LICENSE_KEY=<SHADCN_STUDIO_LICENSE_KEY> npx shadcn@latest add @ss-blocks/<block-name> -y
+```
+
+Read the credential values from `.env.secret` before running. Do **not** hard-code them in any tracked file.
+
+### Install target paths (set by `packages/ui/components.json` aliases)
+
+| Block file type | Lands in |
+|-----------------|----------|
+| Block components | `packages/ui/src/components/shadcn-studio/blocks/` |
+| Shared UI primitives | `packages/ui/src/components/` |
+| Hooks | `packages/ui/src/hooks/` |
+| Assets (SVG etc.) | `packages/ui/src/assets/svg/` |
+| App page route | `packages/ui/app/<block-name>/page.tsx` — move to target app after install |
 
 When `shadcn/studio` MCP is active, follow its step-by-step workflow exactly.
 
@@ -60,9 +91,10 @@ If the workflow drifted: stop → identify last completed step → resume from t
 ## Repo compatibility
 
 - `AGENTS.md` and `.cursor/rules/*.mdc` still apply.
-- Layer order: `apps/app` → Storybook → `packages/design-system` (`agent-discipline.mdc`).
-- Do not edit `packages/design-system/components/ui/` primitives for app-only polish — hook may block.
-- Add components: `npx shadcn@latest add [component] -c packages/design-system`
+- Layer order: `apps/app` → Storybook → `packages/ui` (`agent-discipline.mdc`).
+- Do not edit `packages/ui/src/components/` primitives for app-only polish — hook may block.
+- Add free shadcn components: `npx shadcn@latest add [component]` (cwd: `packages/ui`)
+- Add Pro ss-blocks: see **Pro block installation** section above.
 - Use `pnpm` for repo commands.
 
 ## Verification after generated UI lands

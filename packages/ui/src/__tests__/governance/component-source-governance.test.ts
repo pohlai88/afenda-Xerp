@@ -40,7 +40,7 @@ function collectSourceFiles(dir: string): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) {
-      if (entry === "__tests__") {
+      if (entry === "__tests__" || entry === "shadcn-studio") {
         continue;
       }
       files.push(...collectSourceFiles(full));

@@ -120,6 +120,83 @@ describe("Table governance", () => {
     expect(ref.current).toBeInstanceOf(HTMLTableCellElement);
   });
 
+  it("uses afenda table token classes for row hover and selection states", () => {
+    render(
+      <Table>
+        <TableBody>
+          <TableRow data-state="selected">
+            <TableCell>Selected</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Normal</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    const rows = document.querySelectorAll("[data-slot=table-row]");
+    // row should use afenda token for hover and selection
+    expect(rows[0]?.className).toContain("--afenda-table-row-selected");
+    expect(rows[0]?.className).toContain("--afenda-table-row-hover");
+    expect(rows[0]?.className).toContain("--afenda-table-row-border");
+  });
+
+  it("uses afenda token class for table head foreground", () => {
+    render(
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Column</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Value</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    const head = screen.getByText("Column");
+    expect(head.className).toContain("--afenda-table-header-foreground");
+  });
+
+  it("uses afenda token class for table caption muted text", () => {
+    render(
+      <Table>
+        <TableCaption>Results</TableCaption>
+        <TableBody>
+          <TableRow>
+            <TableCell>Item</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    const caption = screen.getByText("Results");
+    expect(caption.className).toContain("--afenda-table-cell-muted");
+  });
+
+  it("uses afenda token class for table footer background", () => {
+    render(
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell>Row</TableCell>
+          </TableRow>
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell>Total</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    );
+
+    const footer = screen.getByText("Total").closest("tfoot");
+    expect(footer?.className).toContain("--afenda-table-header-background");
+  });
+
   it("maps semantic table slots to registry vocabulary", () => {
     render(
       <Table>

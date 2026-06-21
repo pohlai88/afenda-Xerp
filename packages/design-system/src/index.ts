@@ -94,10 +94,10 @@ export type {
   VariantRegistry,
   VariantSelection,
 } from "./contracts/variant.contract";
+export type { AiGenerationRuleSet } from "./policies/ai-generation-policy";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
 export type { TokenNameValidationResult } from "./policies/token-name-policy";
-export type { AiGenerationRuleSet } from "./policies/ai-generation-policy";
 export type { AfendaAccessibilityRegistry } from "./registries/accessibility.registry";
 export type { ValidationResult } from "./validation/index";
 
@@ -126,14 +126,14 @@ export { SLOT_ROLES, slotContract } from "./contracts/slot.contract";
 export { GOVERNED_STATES, stateContract } from "./contracts/state.contract";
 export {
   AFENDA_TOKEN_CATEGORIES,
+  assertAfendaTokenName,
   DENSITIES,
+  isAfendaTokenName,
   RADII,
   SHADOWS,
   SIZES,
   STATUS_TONES,
   TOKEN_CATEGORIES,
-  assertAfendaTokenName,
-  isAfendaTokenName,
   tokenContract,
   tokenNameToCssVariable,
 } from "./contracts/token.contract";
@@ -154,14 +154,17 @@ export {
   AFENDA_ACCESSIBILITY_REGISTRY,
   AFENDA_ACCESSIBILITY_REQUIREMENTS,
 } from "./registries/accessibility.registry";
-export { AFENDA_MOTION_REGISTRY, AFENDA_MOTION_INTENTS } from "./registries/motion.registry";
+export {
+  AFENDA_MOTION_INTENTS,
+  AFENDA_MOTION_REGISTRY,
+} from "./registries/motion.registry";
 export {
   AFENDA_RECIPE_REGISTRY,
   recipeRegistry,
 } from "./registries/recipe.registry";
 export {
-  AFENDA_STATE_REGISTRY,
   AFENDA_STATE_NAMES,
+  AFENDA_STATE_REGISTRY,
 } from "./registries/state.registry";
 export {
   AFENDA_CSS_VARIABLES,
@@ -179,10 +182,16 @@ export {
 // ─── Policies ─────────────────────────────────────────────────────────────────
 
 export { accessibilityPolicy } from "./policies/accessibility";
+export { AI_GENERATION_RULES } from "./policies/ai-generation-policy";
 export {
   classNamePolicy,
   validateLayoutClassName,
 } from "./policies/class-name-policy";
+export {
+  assertAfendaCssVariable,
+  cssVariablePolicy,
+  isAfendaCssVariable,
+} from "./policies/css-variable-policy";
 export {
   driftPreventionChecklist,
   validateDesignSystemGovernance,
@@ -193,12 +202,6 @@ export {
 } from "./policies/export-surface";
 export { motionPolicy } from "./policies/motion";
 export { statePolicy } from "./policies/state";
-export { AI_GENERATION_RULES } from "./policies/ai-generation-policy";
-export {
-  assertAfendaCssVariable,
-  cssVariablePolicy,
-  isAfendaCssVariable,
-} from "./policies/css-variable-policy";
 export {
   extractTokenCategory,
   tokenNamePolicy,

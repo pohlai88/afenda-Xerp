@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noEmit": true,
     "composite": false,
+    "jsx": "react-jsx",
     "types": ["@testing-library/jest-dom"]
   },
   "include": [
@@ -10,5 +11,5 @@
     "src/**/__mocks__/**/*",
     "src/**/*.d.ts"
   ],
-  "exclude": ["src/setup/**"]
+  "exclude": ["dist", "node_modules"]
 }

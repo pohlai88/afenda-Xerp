@@ -4,7 +4,7 @@ import {
   GOVERNED_PANEL_SHADOWS,
   GOVERNED_STATES,
 } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,

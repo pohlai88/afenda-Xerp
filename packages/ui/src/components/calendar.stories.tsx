@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { type ReactNode, useState } from "react";

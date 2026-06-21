@@ -27,10 +27,11 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (16 direct edges)
+## Runtime Dependency Edges (18 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
+| `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
 | `@afenda/auth` | `@afenda/database` | Approved | — | — |
 | `@afenda/database` | `@afenda/observability` | Approved | — | — |
 | `@afenda/entitlements` | `@afenda/database` | Approved | — | — |
@@ -39,6 +40,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
+| `@afenda/erp` | `@afenda/ui` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
 | `@afenda/feature-flags` | `@afenda/entitlements` | Approved | — | — |
@@ -60,19 +62,21 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/testing` | `@afenda/execution` | Dev-only exempt | Mock execution provider for tests |
 | `@afenda/testing` | `@afenda/storage` | Dev-only exempt | Mock storage provider for tests |
 
+`@afenda/testing` also publishes `@afenda/testing/react` (runtime npm: `@testing-library/react`, `@testing-library/user-event`; peers: `react`, `react-dom`). Those are third-party edges — not tracked as `@afenda/*` runtime links.
+
 ---
 
 ## Approved Runtime Dependencies (by package)
 
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
-| `@afenda/appshell` | *(none)* |
+| `@afenda/appshell` | `@afenda/ui` |
 | `@afenda/auth` | `@afenda/database` |
 | `@afenda/database` | `@afenda/observability` |
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/observability` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/observability`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
@@ -81,7 +85,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/observability` | *(none)* |
 | `@afenda/permissions` | `@afenda/auth`, `@afenda/database` |
 | `@afenda/storage` | *(none)* |
-| `@afenda/testing` | *(none — devDependencies only)* |
+| `@afenda/testing` | *(none — workspace runtime)* |
 | `@afenda/typescript-config` | *(none)* |
 | `@afenda/ui` | `@afenda/design-system` |
 | `@afenda/architecture-authority` | *(none)* |
@@ -93,10 +97,12 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ```text
 @afenda/erp
-  → @afenda/appshell
+  → @afenda/appshell → @afenda/ui → @afenda/design-system
   → @afenda/auth → @afenda/database → @afenda/observability
   → @afenda/database
+  → @afenda/design-system
   → @afenda/observability
+  → @afenda/ui
 
 @afenda/permissions
   → @afenda/auth
@@ -120,7 +126,6 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
   → @afenda/architecture-authority
 
 Packages with no outbound runtime workspace dependencies:
-  @afenda/appshell
   @afenda/design-system
   @afenda/docs
   @afenda/kernel

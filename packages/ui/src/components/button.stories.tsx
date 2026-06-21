@@ -5,7 +5,7 @@ import {
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
 } from "@afenda/ui/governance";
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertTriangleIcon,
   ArrowRightIcon,
@@ -489,14 +489,11 @@ export const NotificationBell: Story = {
       >
         <BellIcon />
       </Button>
-      <Badge
-        className="absolute -top-1 -right-1"
-        emphasis="solid"
-        size="sm"
-        tone="danger"
-      >
-        5
-      </Badge>
+      <div className="absolute -top-1 -right-1">
+        <Badge emphasis="solid" size="sm" tone="danger">
+          5
+        </Badge>
+      </div>
     </div>
   ),
 };

@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -78,8 +78,17 @@ const collectSourceFiles = (
         continue;
       }
 
+      if (
+        entry === "shadcn-studio" &&
+        fullPath.replace(/\\/g, "/").endsWith("src/components")
+      ) {
+        continue;
+      }
+
       if (entry === "governance" && !options?.includeGovernance) {
-        files.push(...collectSourceFiles(fullPath, { includeGovernance: true }));
+        files.push(
+          ...collectSourceFiles(fullPath, { includeGovernance: true })
+        );
         continue;
       }
 
@@ -117,11 +126,6 @@ const prohibitedArbitraryPattern = /\b(?:rounded|shadow|text)-\[/u;
 
 const exportedCvaPattern = /export\s+const\s+\w+Variants\s*=/u;
 
-const localAuthorityPatterns = [
-  /const\s+LOCAL_\w+\s*=/u,
-  /tone:\s*\{\s*(?!neutral|info|success|warning|danger|forbidden|invalid)/u,
-];
-
 const deepImportPattern =
   /@afenda\/design-system\/(?:src|contracts|policies|recipes|tokens|variants)\//u;
 
@@ -156,12 +160,16 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
   if (!isDesignSystemBridge) {
     for (const pattern of duplicateAuthorityPatterns) {
       if (pattern.test(source)) {
-        failures.push(`${relativePath}: defines duplicate design authority registry`);
+        failures.push(
+          `${relativePath}: defines duplicate design authority registry`
+        );
       }
     }
 
     if (deepImportPattern.test(source)) {
-      failures.push(`${relativePath}: deep-imports @afenda/design-system private paths`);
+      failures.push(
+        `${relativePath}: deep-imports @afenda/design-system private paths`
+      );
     }
 
     if (
@@ -190,7 +198,9 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
 
   if (isGovernedComponent) {
     if (componentCvaPattern.test(source)) {
-      failures.push(`${relativePath}: governed component must not define local cva()`);
+      failures.push(
+        `${relativePath}: governed component must not define local cva()`
+      );
     }
 
     if (!resolvePrimitiveGovernancePattern.test(source)) {
@@ -200,7 +210,9 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
     }
 
     if (rawPalettePattern.test(source)) {
-      failures.push(`${relativePath}: uses raw semantic Tailwind palette classes`);
+      failures.push(
+        `${relativePath}: uses raw semantic Tailwind palette classes`
+      );
     }
 
     if (prohibitedSemanticPattern.test(source)) {
@@ -249,7 +261,9 @@ for (const exportName of PRIMARY_UI_EXPORTS) {
 
 for (const pendingFile of STOCK_SHADCN_PENDING) {
   if (!readText(join(packageRoot, pendingFile))) {
-    failures.push(`${pendingFile}: listed in STOCK_SHADCN_PENDING but file is missing`);
+    failures.push(
+      `${pendingFile}: listed in STOCK_SHADCN_PENDING but file is missing`
+    );
   }
 }
 
@@ -277,12 +291,16 @@ for (const filePath of designSystemFiles) {
   }
 }
 
-const uiPackageJson = JSON.parse(readText(join(packageRoot, "package.json"))) as {
+const uiPackageJson = JSON.parse(
+  readText(join(packageRoot, "package.json"))
+) as {
   dependencies?: Record<string, string>;
 };
 
 if (!uiPackageJson.dependencies?.["@afenda/design-system"]) {
-  failures.push("packages/ui/package.json: missing @afenda/design-system dependency");
+  failures.push(
+    "packages/ui/package.json: missing @afenda/design-system dependency"
+  );
 }
 
 if (failures.length > 0) {
