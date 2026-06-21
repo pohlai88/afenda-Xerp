@@ -17,6 +17,10 @@ import {
 import { AppShellFooter } from "./app-shell-footer";
 import { AppShellHeader } from "./app-shell-header";
 import { AppShellSidebar } from "./app-shell-sidebar";
+import {
+  joinAppShellGovernedClassName,
+  resolveAppShellDensityAttribute,
+} from "./wiring/governance";
 
 export type { ApplicationShellProps } from "./app-shell.types";
 
@@ -44,7 +48,14 @@ export function ApplicationShell({
   const chrome = resolveApplicationShellChrome(shellProps);
 
   return (
-    <div className="app-shell-root">
+    <div
+      className={joinAppShellGovernedClassName(
+        "app-shell-root",
+        "root",
+        { density: chrome.density }
+      )}
+      data-afenda-density={resolveAppShellDensityAttribute(chrome.density)}
+    >
       <SidebarProvider style={sidebarProviderStyle}>
         <AppShellSidebar
           chrome={chrome}

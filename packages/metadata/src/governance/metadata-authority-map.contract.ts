@@ -52,6 +52,7 @@ export const METADATA_AUTHORITY_PROHIBITIONS = [
   "permission-execution",
   "auth-services",
   "observability-services",
+  "audit-writing",
 
   "layout-arrangements",
   "section-definitions",

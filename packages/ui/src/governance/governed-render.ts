@@ -20,6 +20,9 @@ export function mergeGovernedPresentation(
   return rest.reduce<PrimitiveGovernanceResult>(
     (merged, next) => ({
       recipeName: next.recipeName,
+      recipe: next.recipe,
+      selection: next.selection,
+      violations: [...merged.violations, ...next.violations],
       className: cn(merged.className, next.className),
       state: next.state,
       slot: next.slot,

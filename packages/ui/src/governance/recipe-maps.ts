@@ -127,6 +127,24 @@ export const toneEmphasisClasses: Record<
     outline: "border-destructive/40 text-destructive",
     ghost: "text-destructive",
   },
+  critical: {
+    solid:
+      "border-(--afenda-status-tone-critical-border) bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground) focus-visible:ring-(--afenda-status-tone-critical-focus)/35",
+    soft:
+      "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground)",
+    outline:
+      "border-(--afenda-status-tone-critical-border) text-(--afenda-status-tone-critical-foreground)",
+    ghost: "text-(--afenda-status-tone-critical-foreground)",
+  },
+  pending: {
+    solid:
+      "border-(--afenda-status-tone-pending-border) bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground) focus-visible:ring-(--afenda-status-tone-pending-focus)/35",
+    soft:
+      "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground)",
+    outline:
+      "border-(--afenda-status-tone-pending-border) text-(--afenda-status-tone-pending-foreground)",
+    ghost: "text-(--afenda-status-tone-pending-foreground)",
+  },
   forbidden: {
     solid: "bg-destructive/5 text-destructive",
     soft: "bg-destructive/5 text-destructive",
@@ -176,6 +194,26 @@ export const badgeToneEmphasis: Record<
     outline:
       "border-destructive/40 text-destructive [a]:hover:bg-destructive/10",
     ghost: "text-destructive [a]:hover:bg-destructive/10",
+  },
+  critical: {
+    solid:
+      "border-(--afenda-status-tone-critical-border) bg-(--afenda-status-tone-critical-solid) text-(--afenda-status-tone-critical-solid-foreground) [a]:hover:opacity-90",
+    soft:
+      "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground) [a]:hover:opacity-90",
+    outline:
+      "border-(--afenda-status-tone-critical-border) text-(--afenda-status-tone-critical-foreground) [a]:hover:bg-(--afenda-status-tone-critical-surface)",
+    ghost:
+      "text-(--afenda-status-tone-critical-foreground) [a]:hover:bg-(--afenda-status-tone-critical-surface)",
+  },
+  pending: {
+    solid:
+      "border-(--afenda-status-tone-pending-border) bg-(--afenda-status-tone-pending-solid) text-(--afenda-status-tone-pending-solid-foreground) [a]:hover:opacity-90",
+    soft:
+      "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground) [a]:hover:opacity-90",
+    outline:
+      "border-(--afenda-status-tone-pending-border) text-(--afenda-status-tone-pending-foreground) [a]:hover:bg-(--afenda-status-tone-pending-surface)",
+    ghost:
+      "text-(--afenda-status-tone-pending-foreground) [a]:hover:bg-(--afenda-status-tone-pending-surface)",
   },
   forbidden: {
     solid: "bg-destructive/5 text-destructive [a]:hover:bg-destructive/10",

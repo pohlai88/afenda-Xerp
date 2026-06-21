@@ -14,6 +14,8 @@ export const GOVERNED_RECIPE_VARIANT_AXES = {
   // Status CVA applies emphasis internally via defaultVariants; not a public axis per AFENDA_RECIPE_REGISTRY.
   "form-control": ["density", "size"],
   table: ["density", "size"],
+  "app-shell": ["density", "tone"],
+  "metadata-ui": ["density", "tone"],
 } as const satisfies Record<GovernedRecipeName, readonly VariantAxis[]>;
 
 export const BUTTON_VARIANT_AXES = GOVERNED_RECIPE_VARIANT_AXES.button;
@@ -24,6 +26,10 @@ export const STATUS_VARIANT_AXES = GOVERNED_RECIPE_VARIANT_AXES.status;
 export const FORM_CONTROL_VARIANT_AXES =
   GOVERNED_RECIPE_VARIANT_AXES["form-control"];
 export const TABLE_VARIANT_AXES = GOVERNED_RECIPE_VARIANT_AXES.table;
+export const APP_SHELL_VARIANT_AXES =
+  GOVERNED_RECIPE_VARIANT_AXES["app-shell"];
+export const METADATA_UI_VARIANT_AXES =
+  GOVERNED_RECIPE_VARIANT_AXES["metadata-ui"];
 
 export function getRecipeVariantAxes(
   recipeName: GovernedRecipeName

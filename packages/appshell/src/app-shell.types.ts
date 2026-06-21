@@ -1,4 +1,5 @@
 import type { UserId } from "@afenda/kernel";
+import type { Density } from "@afenda/ui/governance";
 import type { ReactNode } from "react";
 
 import type {
@@ -79,6 +80,8 @@ export interface ApplicationShellProps {
   readonly searchTriggerLabel?: string;
   /** Role line under the sidebar user name. */
   readonly roleLabel?: string;
+  /** Governed shell density — defaults to `standard` (DOM: `default`). */
+  readonly density?: Density;
 }
 
 export interface AppShellMainProps {
@@ -112,6 +115,7 @@ export type ApplicationShellResolvedChrome = Required<
     | "footerBrandHref"
     | "navigationLabel"
     | "teamLabel"
+    | "density"
   >
 > & {
   readonly avatarSrc: string;
@@ -149,6 +153,7 @@ export function resolveApplicationShellChrome(
     searchTriggerLabel:
       props.searchTriggerLabel ??
       DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
+    density: props.density ?? "standard",
   };
 }
 

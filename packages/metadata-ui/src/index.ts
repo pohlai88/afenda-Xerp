@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 requires stable shared exports.
+// biome-ignore-all lint/performance/noBarrelFile: TIP-007 shared entry surface.
 export const PACKAGE_NAME = "@afenda/metadata-ui" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {
@@ -16,6 +16,7 @@ export {
   METADATA_UI_PROHIBITS,
 } from "./contracts/metadata-ui.contract.js";
 export type { MetadataUiContract } from "./contracts/metadata-ui.contract.js";
+
 export type {
   CreateMetadataRenderContextInput,
   CreateMetadataUiRenderContextInput,
@@ -32,6 +33,7 @@ export {
   METADATA_UI_HYDRATION_MODES,
   METADATA_UI_RENDER_SOURCES,
 } from "./contracts/render-context.contract.js";
+
 export type {
   AnyMetadataRendererDefinition,
   MetadataRendererDefinition,
@@ -52,20 +54,28 @@ export {
   METADATA_RENDERER_LIFECYCLE_STATES,
   METADATA_RENDERER_RESOLVE_FAILURE_REASONS,
 } from "./contracts/renderer-definition.contract.js";
-export { createMetadataRendererDefinition } from "./registry/create-metadata-renderer-definition.js";
+
 export type {
   MetadataAction,
   MetadataActionAccess,
   MetadataActionAudit,
   MetadataActionConfirm,
   MetadataActionContext,
+  MetadataActionErrorCode,
+  MetadataActionFailureResult,
+  MetadataActionGroup,
   MetadataActionHandler,
   MetadataActionKind,
   MetadataActionPresentation,
   MetadataActionResult,
+  MetadataActionResultHandler,
+  MetadataActionSuccessResult,
   MetadataActionTarget,
   MetadataActionVisibilityState,
-} from "./contracts/action-renderer.contract.js";
+  MetadataRenderableAction,
+} from "./contracts/action.contract.js";
+export { METADATA_ACTION_ERROR_CODES, METADATA_ACTION_GROUPS } from "./contracts/action.contract.js";
+
 export type {
   MetadataSectionA11y,
   MetadataSectionChromeMode,
@@ -76,12 +86,13 @@ export type {
   MetadataSectionSlots,
   MetadataSectionState,
   MetadataSectionVisibilityState,
-} from "./contracts/section-renderer.contract.js";
+  MetadataSpecificSectionProps,
+} from "./contracts/section.contract.js";
 export {
   METADATA_SECTION_CHROME_MODES,
   METADATA_SECTION_VISIBILITY_STATES,
-} from "./contracts/section-renderer.contract.js";
-export type { MetadataSurfaceProps } from "./contracts/surface-renderer.contract.js";
+} from "./contracts/section.contract.js";
+
 export type {
   MetadataLayoutA11y,
   MetadataLayoutDiagnostics,
@@ -90,10 +101,43 @@ export type {
   MetadataLayoutProps,
   MetadataLayoutRegion,
   MetadataLayoutSlots,
-} from "./contracts/layout-renderer.contract.js";
-export { METADATA_LAYOUT_REGIONS } from "./contracts/layout-renderer.contract.js";
+  MetadataSpecificLayoutProps,
+} from "./contracts/layout.contract.js";
+export { METADATA_LAYOUT_REGIONS } from "./contracts/layout.contract.js";
+
+export type {
+  MetadataModuleSurfaceProps,
+  MetadataPageSurfaceProps,
+  MetadataSpecificSurfaceProps,
+  MetadataSurfaceA11y,
+  MetadataSurfaceBreadcrumb,
+  MetadataSurfaceChromeMode,
+  MetadataSurfaceDiagnostics,
+  MetadataSurfaceIdentity,
+  MetadataSurfacePresentation,
+  MetadataSurfaceProps,
+  MetadataSurfaceSlots,
+  MetadataSurfaceState,
+  MetadataSurfaceVisibilityState,
+  MetadataSurfaceWidthMode,
+  MetadataWorkspaceSurfaceProps,
+} from "./contracts/surface.contract.js";
+export {
+  METADATA_SURFACE_CHROME_MODES,
+  METADATA_SURFACE_VISIBILITY_STATES,
+  METADATA_SURFACE_WIDTH_MODES,
+} from "./contracts/surface.contract.js";
+
+export type {
+  MetadataSpecificStateProps,
+  MetadataStateCopy,
+  MetadataStateProps,
+  MetadataStateSlots,
+} from "./contracts/state.contract.js";
+
 export type {
   CreateMetadataDiagnosticsSnapshotInput,
+  MetadataBoundaryWarningProps,
   MetadataDiagnosticsIdentitySnapshot,
   MetadataDiagnosticsPresentationSnapshot,
   MetadataDiagnosticsProps,
@@ -104,44 +148,122 @@ export type {
 } from "./contracts/diagnostics.contract.js";
 
 export {
-  createMetadataUiRenderContext,
+  assertMetadataUiBoundary,
   createMetadataRenderContext,
+  createMetadataUiRenderContext,
   getDefaultMetadataUiHydrationMode,
-} from "./runtime/create-metadata-ui-render-context.js";
-export { createMetadataDiagnosticsSnapshot } from "./diagnostics/create-metadata-diagnostics-snapshot.js";
-export { resolveMetadataRenderState } from "./runtime/resolve-metadata-render-state.js";
-export { assertMetadataUiBoundary } from "./runtime/assert-metadata-ui-boundary.js";
-export { MetadataUiError, isMetadataUiError } from "./runtime/metadata-ui-error.js";
+  isMetadataUiError,
+  MetadataUiError,
+  resolveMetadataRenderState,
+} from "./runtime/index.js";
+export {
+  DEFAULT_METADATA_UI_HYDRATION_BY_SOURCE,
+  METADATA_UI_FORBIDDEN_PACKAGE_IMPORTS,
+} from "./runtime/index.js";
+export type { MetadataUiForbiddenPackageImport } from "./runtime/index.js";
 
 export {
-  createMetadataRendererRegistry,
-  isRendererCapabilityCompatible,
-} from "./registry/metadata-renderer-registry.js";
-export type {
-  MetadataRendererRegistry,
-  MetadataRendererResolveInput,
-} from "./registry/metadata-renderer-registry.types.js";
-export { resolveMetadataRenderer } from "./registry/resolve-metadata-renderer.js";
-export {
-  createDefaultMetadataRendererRegistry,
-  defaultMetadataRendererRegistry,
-  defaultMetadataRenderers,
-} from "./registry/default-renderer-registry.js";
-
-export {
-  resolvePresentationMode,
+  METADATA_VISIBILITY_REASONS,
+  METADATA_VISIBILITY_STATES,
+  normalizeLegacyVisibilityInput,
   resolveDensityMode,
+  resolvePresentationMode,
   resolveReadonlyMode,
   resolveVisibility,
-} from "./presentation/resolve-presentation-mode.js";
+} from "./presentation/index.js";
 export type {
+  LegacyMetadataVisibilityInput,
   MetadataVisibilityInput,
+  MetadataVisibilityReason,
   MetadataVisibilityResult,
-} from "./presentation/resolve-presentation-mode.js";
+  MetadataVisibilityState,
+} from "./presentation/index.js";
 
 export {
+  actionRequiresConfirmation,
+  createMetadataActionFailure,
+  createMetadataActionInternalError,
+  createMetadataActionSuccess,
+  destructiveActionMissingConfirm,
+  isDestructiveMetadataAction,
+  isMetadataActionFailure,
+  isMetadataActionSuccess,
+} from "./actions/metadata-action-handler.js";
+
+export {
+  compareRenderableActions,
+  countVisiblePrimaryActions,
+  createMultiplePrimaryActionsWarning,
+  getMetadataActionReasonId,
+  getMetadataActionVisibility,
+  isMetadataActionDisabled,
+  isMetadataActionHidden,
+  resolveMetadataActionGroup,
+  shouldOpenInNewTab,
+  sortRenderableActions,
+} from "./actions/metadata-action-presentation.js";
+
+export {
+  createDefaultMetadataRendererRegistry,
+  createMetadataRendererDefinition,
+  createMetadataRendererRegistry,
+  defaultMetadataRendererRegistry,
+  isRendererCapabilityCompatible,
+  resolveMetadataRenderer,
+} from "./registry/index.js";
+export type {
+  CreateMetadataRendererDefinitionInput,
+  MetadataRendererRegistry,
+  MetadataRendererRegistryResolveInput,
+  MetadataRendererResolveInputRegistry,
+} from "./registry/index.js";
+
+export {
+  actionRenderer,
+  auditRenderer,
+  chartRenderer,
+  createSectionRenderer,
+  defaultMetadataRenderers,
+  detailRenderer,
+  formRenderer,
+  listRenderer,
+  statRenderer,
+} from "./renderers/index.js";
+export type {
+  CreateSectionRendererInput,
+  MetadataSectionRendererComponent,
+  SectionRendererSpec,
+} from "./renderers/index.js";
+export {
+  DEFAULT_SECTION_RENDERER_OWNER_PACKAGE,
+  DEFAULT_SECTION_RENDERER_VERSION,
+} from "./renderers/index.js";
+
+export { createMetadataDiagnosticsSnapshot } from "./diagnostics/index.js";
+
+export {
+  SAMPLE_METADATA_UI_FIXTURE_NAMESPACE,
+  SAMPLE_METADATA_UI_RENDER_SOURCE_CLIENT,
+  SAMPLE_METADATA_UI_RENDER_SOURCE_SERVER,
+  SAMPLE_METADATA_UI_RENDER_SOURCE_STATIC_PREVIEW,
+  SAMPLE_RUNTIME_CORRELATION_ID,
+  sampleClientRenderContext,
+  sampleClientRenderContextInput,
   sampleDiagnosticsRenderContext,
+  sampleDiagnosticsRenderContextInput,
   sampleDiagnosticsRuntimeContext,
+  sampleDiagnosticsRuntimeContextInput,
+  sampleReadonlyRenderContext,
+  sampleReadonlyRenderContextInput,
+  sampleReadonlyRuntimeContext,
+  sampleReadonlyRuntimeContextInput,
   sampleRenderContext,
+  sampleRenderContextInput,
   sampleRuntimeContext,
+  sampleRuntimeContextFixture,
+  sampleRuntimeContextInput,
+  sampleStrictRenderContext,
+  sampleStrictRenderContextInput,
+  sampleVerboseDiagnosticsRenderContext,
+  sampleVerboseDiagnosticsRenderContextInput,
 } from "./fixtures/sample-runtime-context.fixture.js";

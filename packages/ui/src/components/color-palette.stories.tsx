@@ -9,7 +9,7 @@
  *   alias  — semantic references via var() (table, form-field, etc.)
  *   bridge — shadcn-compatible aliases (--primary, --chart-1, …)
  *
- * See: apps/storybook/.storybook/preview.css for token loading.
+ * See: apps/storybook/.storybook/preview.css — loads `@afenda/ui/afenda-ui-full.css`.
  */
 import type { Meta, StoryObj } from "@storybook/react";
 import { SearchIcon } from "lucide-react";

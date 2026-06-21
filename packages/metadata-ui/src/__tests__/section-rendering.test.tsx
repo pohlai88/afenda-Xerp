@@ -1,20 +1,78 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { METADATA_SECTION_VISIBILITY_STATES } from "../contracts/section-renderer.contract.js";
-import { sampleSectionFixture } from "../fixtures/sample-section.fixture.js";
-import { ListSection } from "../sections/list-section.js";
+import { METADATA_SECTION_VISIBILITY_STATES } from "../contracts/section.contract.js";
+import {
+  sampleListSectionFixture,
+  sampleListSectionOrderRows,
+  sampleListSectionProps,
+  sampleListSectionRenderProps,
+} from "../fixtures/sample-list-section.fixture.js";
+import { ListSection } from "../sections/index.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
 
 describe("section rendering", () => {
-  it("renders section title and description", () => {
-    render(sampleSectionFixture.element);
+  it("renders enterprise list section fixture regions and sample rows", () => {
+    render(sampleListSectionFixture.element);
 
-    expect(screen.getByRole("heading", { name: "Orders" })).toBeInTheDocument();
-    expect(screen.getByText("Recent orders")).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: /sample orders list/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Sample orders list" })
+    ).toBeInTheDocument();
+    expect(screen.getByText("Sample Trading Co.")).toBeInTheDocument();
+    expect(
+      screen.getByRole("table", {
+        name: /sample orders for the list section fixture/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Export section data" })
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-metadata-section="list"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-section-id="section.sample.orders.list"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-metadata-runtime-state="ready"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-metadata-source="static-preview"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-slot="metadata-section-header"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-fixture-region="header"]')
+    ).not.toBeNull();
     expect(
       document.querySelector('[data-slot="metadata-section-content"]')
     ).not.toBeNull();
+    expect(
+      document.querySelector('[data-fixture-region="content"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector('[data-renderer-key="metadata-ui.section.list"]')
+    ).not.toBeNull();
+    expect(sampleListSectionOrderRows).toHaveLength(3);
+  });
+
+  it("exposes reusable section fixture props", () => {
+    expect(sampleListSectionFixture.type).toBe("list");
+    expect(sampleListSectionFixture.renderProps).toEqual(
+      sampleListSectionRenderProps
+    );
+    expect(sampleListSectionProps.type).toBe("list");
+    expect(sampleListSectionProps.presentation?.chrome).toBe("card");
+    expect(sampleListSectionProps.a11y?.ariaLabelledBy).toBe(
+      "section-sample-orders-list-heading"
+    );
+    expect(sampleListSectionProps.diagnostics?.rendererKey).toBe(
+      "metadata-ui.section.list"
+    );
   });
 
   it("renders structured section slots and accessibility metadata", () => {

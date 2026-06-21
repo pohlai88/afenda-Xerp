@@ -85,5 +85,54 @@ export function validateTokenRegistry(): ValidationResult[] {
     }
   }
 
+  // Semantic tokens must alias RAW via var() — never carry literals or darkValue
+  const cssVarSet = new Set<string>(
+    tokens.map((token) => token.cssVariable)
+  );
+  const semanticPrefixes = [
+    "afenda.semantic.",
+    "afenda.table.",
+    "afenda.form-field.",
+  ] as const;
+
+  for (const token of tokens) {
+    const isSemantic = semanticPrefixes.some((prefix) =>
+      token.name.startsWith(prefix)
+    );
+    if (!isSemantic) {
+      continue;
+    }
+
+    const usesVarAlias = token.value.startsWith("var(--afenda-");
+    results.push({
+      rule: `token.semantic.varAlias: ${token.name}`,
+      passed: usesVarAlias,
+      detail: usesVarAlias
+        ? undefined
+        : `Semantic token "${token.name}" must reference RAW via var(--afenda-*)`,
+    });
+
+    results.push({
+      rule: `token.semantic.noDarkValue: ${token.name}`,
+      passed: token.darkValue === undefined,
+      detail:
+        token.darkValue === undefined
+          ? undefined
+          : `Semantic token "${token.name}" must not define darkValue — theme switches at RAW`,
+    });
+
+    if (usesVarAlias) {
+      const referenced = token.value.slice(4, -1);
+      const referenceExists = cssVarSet.has(referenced);
+      results.push({
+        rule: `token.semantic.reference: ${token.name}`,
+        passed: referenceExists,
+        detail: referenceExists
+          ? undefined
+          : `Semantic token "${token.name}" references missing CSS variable "${referenced}"`,
+      });
+    }
+  }
+
   return results;
 }

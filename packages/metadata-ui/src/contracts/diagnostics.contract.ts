@@ -149,6 +149,32 @@ export interface MetadataDiagnosticsProps {
 }
 
 export interface CreateMetadataDiagnosticsSnapshotInput {
+  /**
+   * Optional identity override or extension.
+   *
+   * Useful for tests, static previews, sanitized diagnostics, or scoped renderers.
+   */
+  readonly identity?: MetadataDiagnosticsIdentitySnapshot;
+
+  /**
+   * Optional surface/layout/section snapshot.
+   */
   readonly surface?: MetadataDiagnosticsSurfaceSnapshot;
+
+  /**
+   * Optional renderer snapshot.
+   */
   readonly renderer?: MetadataDiagnosticsRendererSnapshot;
+}
+
+export interface MetadataBoundaryWarningProps {
+  /**
+   * Current metadata-ui render context.
+   */
+  readonly context: MetadataUiRenderContext;
+
+  /**
+   * Boundary-safe warning message for diagnostics surfaces.
+   */
+  readonly message: string;
 }

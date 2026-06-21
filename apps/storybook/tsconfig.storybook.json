@@ -16,8 +16,18 @@
       "@afenda/ui/governance/*": ["../../packages/ui/src/governance/*"],
       "@afenda/ui/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
       "@afenda/ui/lib/*": ["../../packages/ui/src/lib/*"],
+      "@afenda/ui/afenda-style.css": ["../../packages/ui/src/styles/afenda-style.css"],
       "@afenda/ui": ["../../packages/ui/src/index.ts"],
       "@afenda/appshell": ["../../packages/appshell/src/index.ts"],
+      "@afenda/metadata-ui/styles.css": ["../../packages/metadata-ui/src/styles.css"],
+      "@afenda/metadata-ui/fixtures.css": [
+        "../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css"
+      ],
+      "@afenda/metadata-ui": ["../../packages/metadata-ui/src/index.ts"],
+      "@afenda/design-system/css/globals.css": [
+        "../../packages/design-system/dist/css/globals.css"
+      ],
+      "@storybook/react": ["./node_modules/@storybook/react"],
       "next/link": ["../../packages/testing/src/mocks/next-link.tsx"]
     }
   },
@@ -33,12 +43,21 @@
     "../../packages/appshell/src/**/*.stories.tsx",
     "../../packages/appshell/src/_storybook/**/*.ts",
     "../../packages/appshell/src/_storybook/**/*.tsx",
+    "../../packages/metadata-ui/src/**/*.stories.ts",
+    "../../packages/metadata-ui/src/**/*.stories.tsx",
+    "../../packages/metadata-ui/src/_storybook/**/*.ts",
+    "../../packages/metadata-ui/src/_storybook/**/*.tsx",
+    "../../packages/metadata-ui/src/**/*.ts",
+    "../../packages/metadata-ui/src/**/*.tsx",
     "vitest.storybook.config.ts"
   ],
   "exclude": [
     "../../packages/appshell/src/**/__tests__/**",
     "../../packages/appshell/src/**/*.test.ts",
     "../../packages/appshell/src/**/*.test.tsx",
+    "../../packages/metadata-ui/src/**/__tests__/**",
+    "../../packages/metadata-ui/src/**/*.test.ts",
+    "../../packages/metadata-ui/src/**/*.test.tsx",
     "../../packages/ui/src/components/shadcn-studio/**"
   ]
 }

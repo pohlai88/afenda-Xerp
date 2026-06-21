@@ -19,6 +19,8 @@ describe("recipe governance", () => {
       "status",
       "form-control",
       "table",
+      "app-shell",
+      "metadata-ui",
     ]);
   });
 

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../ui/tsconfig.stories.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@afenda/metadata-ui": ["./src/index.ts"],
+      "@afenda/metadata-ui/client": ["./src/client.ts"],
+      "@afenda/metadata-ui/server": ["./src/server.ts"],
+      "@afenda/metadata-ui/styles.css": ["./src/styles.css"],
+      "@afenda/metadata-ui/fixtures.css": [
+        "./src/fixtures/metadata-ui-fixtures.css"
+      ],
+      "@afenda/ui": ["../ui/src/index.ts"],
+      "@afenda/ui/governance": ["../ui/src/governance/index.ts"],
+      "@afenda/ui/governance/*": ["../ui/src/governance/*"],
+      "@afenda/ui/lib/utils": ["../ui/src/lib/utils.ts"],
+      "@afenda/ui/lib/*": ["../ui/src/lib/*"]
+    }
+  },
+  "include": [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/_storybook/**/*.ts",
+    "src/_storybook/**/*.tsx",
+    "src/states/**/*.tsx",
+    "src/layouts/**/*.tsx",
+    "src/surfaces/**/*.tsx",
+    "src/client/**/*.tsx",
+    "src/fixtures/**/*.tsx"
+  ],
+  "exclude": ["dist", "node_modules"]
+}

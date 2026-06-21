@@ -22,11 +22,6 @@ export default defineConfig({
       "@afenda/design-system",
     ],
   },
-  server: {
-    deps: {
-      inline: [/@afenda\//],
-    },
-  },
   define: {
     "import.meta.env.VITEST_STORYBOOK": JSON.stringify(true),
   },
@@ -38,6 +33,11 @@ export default defineConfig({
     maxWorkers: 1,
     testTimeout: 60_000,
     hookTimeout: 60_000,
+    server: {
+      deps: {
+        inline: [/@afenda\//],
+      },
+    },
     env: {
       AFENDA_GOVERNANCE_RUNTIME: "off",
       VITEST_STORYBOOK: "true",

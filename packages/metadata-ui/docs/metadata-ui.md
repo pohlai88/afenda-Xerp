@@ -84,69 +84,56 @@ packages/metadata-ui/
       metadata-ui.contract.ts
       render-context.contract.ts
       renderer-definition.contract.ts
+      action.contract.ts
+      state.contract.ts
+      section.contract.ts
+      layout.contract.ts
+      surface.contract.ts
+      diagnostics.contract.ts
+      action-renderer.contract.ts
       section-renderer.contract.ts
       surface-renderer.contract.ts
       layout-renderer.contract.ts
-      action-renderer.contract.ts
-      diagnostics.contract.ts
 
     runtime/
-      create-metadata-render-context.ts
+      index.ts
+      runtime.contract.ts
+      create-metadata-ui-render-context.ts
       resolve-metadata-render-state.ts
       assert-metadata-ui-boundary.ts
       metadata-ui-error.ts
 
     registry/
+      index.ts
+      registry.contract.ts
+      renderer-compatibility.ts
+      create-metadata-renderer-definition.ts
       metadata-renderer-registry.ts
-      metadata-renderer-registry.types.ts
-      default-renderer-registry.ts
       resolve-metadata-renderer.ts
+      default-renderer-registry.ts
 
     presentation/
-      resolve-presentation-mode.ts
-      resolve-density-mode.ts
-      resolve-readonly-mode.ts
-      resolve-visibility.ts
+      index.ts
+      presentation.contract.ts
+      resolve-presentation.ts
 
     surfaces/
+      index.tsx
       metadata-surface.tsx
-      metadata-page-surface.tsx
-      metadata-workspace-surface.tsx
-      metadata-module-surface.tsx
-      metadata-surface.types.ts
 
     layouts/
+      index.tsx
       metadata-layout.tsx
-      dashboard-layout.tsx
-      grid-layout.tsx
-      panel-layout.tsx
-      stack-layout.tsx
-      tabs-layout.tsx
       wizard-layout.tsx
       metadata-layout.types.ts
 
     sections/
+      index.tsx
       metadata-section.tsx
-      list-section.tsx
-      stat-section.tsx
-      chart-section.tsx
-      form-section.tsx
-      detail-section.tsx
-      audit-section.tsx
-      action-section.tsx
-      metadata-section.types.ts
 
     states/
-      metadata-loading-state.tsx
-      metadata-empty-state.tsx
-      metadata-error-state.tsx
-      metadata-forbidden-state.tsx
-      metadata-invalid-state.tsx
-      metadata-degraded-state.tsx
-      metadata-partial-state.tsx
-      metadata-readonly-state.tsx
-      metadata-maintenance-state.tsx
-      metadata-state.types.ts
+      index.tsx
+      metadata-state.tsx
 
     actions/
       metadata-action-bar.tsx
@@ -155,24 +142,21 @@ packages/metadata-ui/
       metadata-action.types.ts
 
     diagnostics/
+      index.ts
+      create-metadata-diagnostics-snapshot.ts
       metadata-diagnostics-panel.tsx
-      metadata-render-trace.tsx
-      metadata-boundary-warning.tsx
-      metadata-diagnostics.types.ts
 
     renderers/
-      list-renderer.tsx
-      stat-renderer.tsx
-      chart-renderer.tsx
-      form-renderer.tsx
-      detail-renderer.tsx
-      audit-renderer.tsx
-      action-renderer.tsx
+      index.ts
+      section-renderer.contract.ts
+      create-section-renderer.tsx
+      default-section-renderers.tsx
 
     fixtures/
       sample-page-surface.fixture.ts
       sample-dashboard-layout.fixture.ts
-      sample-section.fixture.ts
+      sample-list-section.fixture.tsx
+      sample-state.fixture.tsx
       sample-runtime-context.fixture.ts
 
     __tests__/
@@ -311,6 +295,60 @@ Server-safe exports:
 * non-interactive renderer registry helpers
 
 Must not import client-only files.
+
+### Action handling by entry point
+
+Surface components exported from `@afenda/metadata-ui/server` render **static action chrome** suitable for React Server Components (RSC). They use `MetadataSurfaceActionBar` internally — the same governed DOM contract (`data-slot`, `data-action-*`) as the interactive client bar, but without client event handlers.
+
+| Entry | Action component | Button clicks | Confirm dialogs | Link navigation |
+| --- | --- | --- | --- | --- |
+| `@afenda/metadata-ui/server` | `MetadataSurfaceActionBar` (internal) | Renders inert buttons (no `onClick`) | Not supported | Works via `href` |
+| `@afenda/metadata-ui/client` | `MetadataActionBar` | Via `onAction` callback | Via `window.confirm` when `confirm` metadata is set | Works via `href` |
+
+**Server / RSC — static chrome**
+
+Import surfaces from the server entry and pass governed `MetadataAction[]` on the `actions` prop. Link actions navigate; button actions appear but do not invoke handlers until a client wrapper hydrates them.
+
+```tsx
+import { MetadataPageSurface } from "@afenda/metadata-ui/server";
+
+export function OrdersPage({ context, actions, content }) {
+  return (
+    <MetadataPageSurface
+      actions={actions}
+      context={context}
+      identity={{ id: "orders", title: "Orders" }}
+      slots={{ content }}
+    />
+  );
+}
+```
+
+**Client — interactive handling**
+
+Import `MetadataActionBar` from the client entry and wire an `onAction` callback. The package does not execute business logic, call server actions, or perform permission checks — the consumer owns handler implementation.
+
+```tsx
+"use client";
+
+import { MetadataActionBar } from "@afenda/metadata-ui/client";
+import type { MetadataActionHandler } from "@afenda/metadata-ui";
+
+const handleAction: MetadataActionHandler = async (action, event) => {
+  // Consumer-owned: route, mutate, open dialog, etc.
+};
+
+export function OrdersActionBar({ actions }) {
+  return <MetadataActionBar actions={actions} onAction={handleAction} />;
+}
+```
+
+To combine a server-rendered surface with interactive actions, either:
+
+1. Pass pre-rendered action UI via `slots.toolbar` from a client child component, or
+2. Render `MetadataActionBar` alongside the surface in a client boundary wrapper.
+
+Do not import `@afenda/metadata-ui/client` from server components. Surfaces under `src/surfaces/` must not import `metadata-action-renderer.client.tsx`.
 
 ---
 
@@ -737,19 +775,23 @@ Rules:
 
 # 15. Action Rendering Requirement
 
-Create:
+Implementation layout:
 
 ```txt
-src/actions/
+src/actions/metadata-action-presentation.ts   # shared sort/visibility helpers (pure)
+src/surfaces/metadata-surface-actions.tsx     # server-safe MetadataSurfaceActionBar
+src/client/metadata-action-renderer.client.tsx # interactive MetadataActionBar (+ "use client")
 ```
 
-Required components:
+Required **client** components (exported from `@afenda/metadata-ui/client`):
 
 ```txt
 MetadataActionBar
 MetadataActionButton
 MetadataActionMenu
 ```
+
+Server surfaces use `MetadataSurfaceActionBar` internally when the `actions` prop is set. See **Entry Point Rules → Action handling by entry point** (§4) for the server vs client split.
 
 Action contract:
 
@@ -780,7 +822,8 @@ Rules:
 * Hidden actions must not render.
 * Disabled actions must explain reason when available.
 * Link actions must require `href`.
-* Button actions must require callback from consumer.
+* Button actions on **server surfaces** render static chrome only (no handler).
+* Button actions on **client surfaces** must use `MetadataActionBar` with an injected `onAction` callback.
 
 ---
 
@@ -867,14 +910,14 @@ src/runtime/
 Required functions:
 
 ```ts
-createMetadataRenderContext(input)
+createMetadataUiRenderContext(input)
 resolveMetadataRenderState(context)
-assertMetadataUiBoundary(value)
+assertMetadataUiBoundary(packageName)
 ```
 
 Rules:
 
-* `createMetadataRenderContext()` must require a valid `MetadataRuntimeContext`.
+* `createMetadataUiRenderContext()` must require a valid `MetadataRuntimeContext`.
 * Runtime must not query auth.
 * Runtime must not query database.
 * Runtime must not execute permissions.
@@ -895,13 +938,10 @@ src/renderers/
 Required renderers:
 
 ```txt
-list-renderer.tsx
-stat-renderer.tsx
-chart-renderer.tsx
-form-renderer.tsx
-detail-renderer.tsx
-audit-renderer.tsx
-action-renderer.tsx
+default-section-renderers.tsx
+create-section-renderer.tsx
+section-renderer.contract.ts
+index.ts
 ```
 
 Each renderer must:
@@ -1208,6 +1248,8 @@ Acceptance:
 * server exports in `server.ts`
 * server entry does not import client-only files
 * client-only files use `"use client"` only when needed
+* server surfaces render static action chrome via `MetadataSurfaceActionBar`
+* interactive button handling requires `@afenda/metadata-ui/client` + `MetadataActionBar` with `onAction`
 
 ---
 

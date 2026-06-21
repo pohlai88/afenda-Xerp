@@ -65,6 +65,7 @@ describe("ApplicationShell contracts", () => {
     expect(chrome.brandName).toBe(DEFAULT_APPLICATION_SHELL_PROPS.brandName);
     expect(chrome.roleLabel).toBe("Operations admin");
     expect(chrome.searchTriggerLabel).toBe("Search modules…");
+    expect(chrome.density).toBe("standard");
   });
 
   it("derives avatar initials from display name", () => {

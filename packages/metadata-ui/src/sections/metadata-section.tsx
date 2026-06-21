@@ -1,12 +1,9 @@
-import type { MetadataSectionProps } from "../contracts/section-renderer.contract.js";
-
-function joinClassNames(
-  ...values: Array<string | false | undefined>
-): string | undefined {
-  const classNames = values.filter(Boolean);
-
-  return classNames.length > 0 ? classNames.join(" ") : undefined;
-}
+import type { MetadataSectionProps } from "../contracts/section.contract.js";
+import { joinClassNames } from "../rendering/join-class-names.js";
+import {
+  resolveMetadataUiDensityAttribute,
+  resolveMetadataUiGovernedClassName,
+} from "../wiring/governance.js";
 
 export function MetadataSection({
   identity,
@@ -25,21 +22,59 @@ export function MetadataSection({
   }
 
   const titleId = identity.title ? `${identity.id}-title` : undefined;
+  const isReadonly =
+    state?.readonly === true || context.runtime.readonlyMode === true;
+
   const rootClassName = joinClassNames(
-    "metadata-section",
-    presentation?.className,
-    presentation?.chrome ? `metadata-section-${presentation.chrome}` : undefined,
-    presentation?.padded ? "metadata-section-padded" : undefined,
-    visibility === "disabled" ? "metadata-section-disabled" : undefined,
-    visibility === "collapsed" ? "metadata-section-collapsed" : undefined
+    resolveMetadataUiGovernedClassName("section", {
+      structuralClassNames: [
+        "metadata-container",
+        "metadata-section",
+        presentation?.className,
+        presentation?.chrome
+          ? `metadata-section-${presentation.chrome}`
+          : undefined,
+        presentation?.padded === true ? "metadata-section-padded" : undefined,
+        visibility === "disabled" ? "metadata-section-disabled" : undefined,
+        visibility === "collapsed" ? "metadata-section-collapsed" : undefined,
+      ],
+      density: context.runtime.density,
+    }),
+    visibility === "disabled"
+      ? resolveMetadataUiGovernedClassName("disabled", {
+          density: context.runtime.density,
+        })
+      : undefined,
+    isReadonly
+      ? resolveMetadataUiGovernedClassName("readonly", {
+          density: context.runtime.density,
+        })
+      : undefined
   );
+
+  const headerClassName = resolveMetadataUiGovernedClassName("section-header", {
+    structuralClassNames: ["metadata-section-header"],
+    density: context.runtime.density,
+  });
+  const actionsClassName = resolveMetadataUiGovernedClassName("action-bar", {
+    structuralClassNames: ["metadata-section-actions"],
+    density: context.runtime.density,
+  });
+  const contentClassName = joinClassNames("metadata-section-content");
+  const footerClassName = joinClassNames("metadata-section-footer");
 
   const headerContent =
     slots.header ??
     (identity.title || identity.description ? (
       <>
-        {identity.title ? <h2 id={titleId}>{identity.title}</h2> : null}
-        {identity.description ? <p>{identity.description}</p> : null}
+        {identity.title ? (
+          <h2 className="metadata-section-title" id={titleId}>
+            {identity.title}
+          </h2>
+        ) : null}
+        {identity.description ? (
+          <p className="metadata-section-description">{identity.description}</p>
+        ) : null}
       </>
     ) : null);
 
@@ -49,10 +84,14 @@ export function MetadataSection({
       aria-label={a11y?.ariaLabel}
       aria-labelledby={a11y?.ariaLabelledBy ?? titleId}
       className={rootClassName}
-      data-metadata-readonly={state?.readonly ? "true" : undefined}
+      data-metadata-density={resolveMetadataUiDensityAttribute(context.runtime.density)}
+      data-metadata-hydration={context.environment.hydration}
+      data-metadata-readonly={isReadonly ? "true" : "false"}
+      data-metadata-runtime-state={context.runtime.state}
       data-metadata-section={type}
-      data-metadata-state={context.runtime.state}
+      data-metadata-source={context.environment.source}
       data-metadata-visibility={visibility}
+      data-section-id={identity.id}
       data-slot="metadata-section"
       id={identity.id}
       {...(diagnostics?.rendererKey
@@ -61,25 +100,28 @@ export function MetadataSection({
       {...(diagnostics?.rendererVersion
         ? { "data-renderer-version": diagnostics.rendererVersion }
         : {})}
+      {...(isReadonly && state?.reason
+        ? { "data-metadata-readonly-reason": state.reason }
+        : {})}
       {...(state?.reason ? { "data-visibility-reason": state.reason } : {})}
     >
       {headerContent ? (
-        <header className="metadata-section-header" data-slot="metadata-section-header">
+        <header className={headerClassName} data-slot="metadata-section-header">
           {headerContent}
         </header>
       ) : null}
       {slots.actions ? (
-        <div className="metadata-section-actions" data-slot="metadata-section-actions">
+        <div className={actionsClassName} data-slot="metadata-section-actions">
           {slots.actions}
         </div>
       ) : null}
-      {visibility !== "collapsed" ? (
-        <div className="metadata-section-content" data-slot="metadata-section-content">
+      {visibility === "collapsed" ? null : (
+        <div className={contentClassName} data-slot="metadata-section-content">
           {slots.content}
         </div>
-      ) : null}
+      )}
       {slots.footer ? (
-        <footer className="metadata-section-footer" data-slot="metadata-section-footer">
+        <footer className={footerClassName} data-slot="metadata-section-footer">
           {slots.footer}
         </footer>
       ) : null}
@@ -87,4 +129,4 @@ export function MetadataSection({
   );
 }
 
-export type { MetadataSectionProps } from "../contracts/section-renderer.contract.js";
+export type { MetadataSectionProps } from "../contracts/section.contract.js";

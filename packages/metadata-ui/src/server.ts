@@ -1,12 +1,17 @@
 // biome-ignore-all lint/performance/noBarrelFile: TIP-007 server entry surface.
 export {
   MetadataSurface,
-} from "./surfaces/metadata-surface.js";
-export {
   MetadataPageSurface,
   MetadataModuleSurface,
   MetadataWorkspaceSurface,
-} from "./surfaces/metadata-page-surface.js";
+} from "./surfaces/index.js";
+export type {
+  MetadataModuleSurfaceProps,
+  MetadataPageSurfaceProps,
+  MetadataSpecificSurfaceProps,
+  MetadataSurfaceProps,
+  MetadataWorkspaceSurfaceProps,
+} from "./surfaces/index.js";
 
 export {
   MetadataLayout,
@@ -14,7 +19,13 @@ export {
   GridLayout,
   PanelLayout,
   StackLayout,
-} from "./layouts/dashboard-layout.js";
+  TabsLayout,
+  WizardLayout,
+} from "./layouts/index.js";
+export type {
+  MetadataLayoutProps,
+  MetadataSpecificLayoutProps,
+} from "./layouts/index.js";
 
 export {
   MetadataSection,
@@ -25,9 +36,14 @@ export {
   DetailSection,
   AuditSection,
   ActionSection,
-} from "./sections/list-section.js";
+} from "./sections/index.js";
+export type {
+  MetadataSectionProps,
+  MetadataSpecificSectionProps,
+} from "./sections/index.js";
 
 export {
+  MetadataState,
   MetadataLoadingState,
   MetadataEmptyState,
   MetadataErrorState,
@@ -37,6 +53,11 @@ export {
   MetadataPartialState,
   MetadataReadonlyState,
   MetadataMaintenanceState,
-} from "./states/metadata-loading-state.js";
+} from "./states/index.js";
+export type {
+  MetadataSpecificStateProps,
+  MetadataStateCopy,
+  MetadataStateProps,
+} from "./states/index.js";
 
 export * from "./index.js";

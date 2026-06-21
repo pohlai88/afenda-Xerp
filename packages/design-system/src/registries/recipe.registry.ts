@@ -1,12 +1,7 @@
 import type { RecipeRegistry } from "../contracts/recipe.contract";
-
-const commonProhibitedOverrides = [
-  "raw color classes",
-  "raw radius classes",
-  "raw shadow classes",
-  "raw motion classes",
-  "component-specific visual hacks",
-] as const;
+import { appShellRecipe } from "../recipes/app-shell.recipe";
+import { metadataUiRecipe } from "../recipes/metadata-ui.recipe";
+import { commonProhibitedOverrides } from "../recipes/shared";
 
 export const AFENDA_RECIPE_REGISTRY = {
   recipes: [
@@ -61,7 +56,7 @@ export const AFENDA_RECIPE_REGISTRY = {
         { property: "padding", token: "afenda.spacing.3" },
         { property: "gap", token: "afenda.spacing.2" },
         { property: "radius", token: "afenda.radius.md" },
-        { property: "focusRing", token: "afenda.color.focus.ring" },
+        { property: "focusRing", token: "afenda.semantic.border.focus" },
         { property: "transition", token: "afenda.motion.duration.fast" },
       ],
       prohibitedOverrides: commonProhibitedOverrides,
@@ -158,12 +153,12 @@ export const AFENDA_RECIPE_REGISTRY = {
         },
       ],
       declarations: [
-        { property: "background", token: "afenda.color.surface.card" },
-        { property: "foreground", token: "afenda.color.text.default" },
-        { property: "border", token: "afenda.color.border.default" },
+        { property: "background", token: "afenda.semantic.surface.card" },
+        { property: "foreground", token: "afenda.semantic.text.primary" },
+        { property: "border", token: "afenda.semantic.border.default" },
         { property: "padding", token: "afenda.spacing.4" },
         { property: "radius", token: "afenda.radius.md" },
-        { property: "shadow", token: "afenda.shadow.raised" },
+        { property: "shadow", token: "afenda.semantic.elevation.raised" },
       ],
       prohibitedOverrides: commonProhibitedOverrides,
     },
@@ -189,8 +184,8 @@ export const AFENDA_RECIPE_REGISTRY = {
         },
       ],
       declarations: [
-        { property: "background", token: "afenda.color.surface.canvas" },
-        { property: "foreground", token: "afenda.color.text.default" },
+        { property: "background", token: "afenda.semantic.surface.canvas" },
+        { property: "foreground", token: "afenda.semantic.text.primary" },
         { property: "padding", token: "afenda.spacing.4" },
       ],
       prohibitedOverrides: commonProhibitedOverrides,
@@ -271,8 +266,8 @@ export const AFENDA_RECIPE_REGISTRY = {
       ],
       declarations: [
         { property: "gap", token: "afenda.spacing.2" },
-        { property: "border", token: "afenda.color.border.default" },
-        { property: "focusRing", token: "afenda.color.focus.ring" },
+        { property: "border", token: "afenda.semantic.border.default" },
+        { property: "focusRing", token: "afenda.semantic.border.focus" },
         { property: "font-size", token: "afenda.typography.font-size.body.sm" },
         {
           property: "line-height",
@@ -314,8 +309,8 @@ export const AFENDA_RECIPE_REGISTRY = {
         },
       ],
       declarations: [
-        { property: "background", token: "afenda.color.surface.card" },
-        { property: "border", token: "afenda.color.border.default" },
+        { property: "background", token: "afenda.semantic.surface.card" },
+        { property: "border", token: "afenda.semantic.border.default" },
         { property: "font-size", token: "afenda.typography.font-size.body.sm" },
         {
           property: "line-height",
@@ -329,6 +324,8 @@ export const AFENDA_RECIPE_REGISTRY = {
       ],
       prohibitedOverrides: commonProhibitedOverrides,
     },
+    appShellRecipe,
+    metadataUiRecipe,
   ],
 } as const satisfies RecipeRegistry;
 

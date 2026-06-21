@@ -4,19 +4,13 @@ import type {
   MetadataUiRenderContext,
   MetadataUiRenderSource,
 } from "../contracts/render-context.contract.js";
+import { DEFAULT_METADATA_UI_HYDRATION_BY_SOURCE } from "./runtime.contract.js";
 import { MetadataUiError } from "./metadata-ui-error.js";
 
 export function getDefaultMetadataUiHydrationMode(
   source: MetadataUiRenderSource
 ): MetadataUiHydrationMode {
-  switch (source) {
-    case "client":
-      return "full";
-
-    case "server":
-    case "static-preview":
-      return "none";
-  }
+  return DEFAULT_METADATA_UI_HYDRATION_BY_SOURCE[source];
 }
 
 export function createMetadataUiRenderContext(

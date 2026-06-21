@@ -4,7 +4,10 @@
   "private": true,
   "description": "Governed metadata rendering for Afenda ERP surfaces",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/styles.css",
+    "./dist/fixtures/metadata-ui-fixtures.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -20,19 +23,28 @@
       "types": "./dist/server.d.ts",
       "import": "./dist/server.js",
       "default": "./dist/server.js"
+    },
+    "./styles.css": {
+      "types": "./dist/styles.css",
+      "import": "./dist/styles.css",
+      "default": "./dist/styles.css"
+    },
+    "./fixtures.css": {
+      "types": "./dist/fixtures/metadata-ui-fixtures.css",
+      "import": "./dist/fixtures/metadata-ui-fixtures.css",
+      "default": "./dist/fixtures/metadata-ui-fixtures.css"
     }
   },
   "files": ["dist"],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/fixtures', { recursive: true }); copyFileSync('src/styles.css', 'dist/styles.css'); copyFileSync('src/fixtures/metadata-ui-fixtures.css', 'dist/fixtures/metadata-ui-fixtures.css');\"",
     "dev": "tsc -b --watch",
-    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "dependencies": {
-    "@afenda/design-system": "workspace:*",
     "@afenda/metadata": "workspace:*",
     "@afenda/ui": "workspace:*"
   },
@@ -43,6 +55,7 @@
   "devDependencies": {
     "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
+    "@storybook/react": "^10.4.6",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",

@@ -114,6 +114,8 @@ export {
   classNamePolicyContract,
   componentContract,
   DENSITIES,
+  DENSITY_ATTRIBUTES,
+  densityContract,
   DESIGN_AUTHORITY_DOMAINS,
   designSystemAuthorityContract,
   exampleContract,
@@ -141,6 +143,32 @@ export {
   VARIANT_INTENTS,
   variantContract,
 } from "./design-system";
+export {
+  resolveAppShellClassName,
+  resolveAppShellSlotClassName,
+  resolveAppShellVariant,
+  resolveAuthorityRecipeSlotClassName,
+  resolveMetadataUiClassName,
+  resolveMetadataUiSlotClassName,
+  resolveMetadataUiVariant,
+  APP_SHELL_RECIPE_SLOTS,
+  APP_SHELL_SLOT_CLASS_NAMES,
+  METADATA_UI_RECIPE_SLOTS,
+  METADATA_UI_SLOT_CLASS_NAMES,
+  type AppShellRecipeSlot,
+  type AuthorityRecipeName,
+  type MetadataUiRecipeSlot,
+  isAppShellRecipeSlot,
+  isAuthorityRecipeName,
+  isMetadataUiRecipeSlot,
+} from "./authority-recipe";
+export {
+  densityAttributeSelector,
+  densityFromAttribute,
+  densityToAttribute,
+  isDensity,
+  isDensityAttribute,
+} from "./density";
 export { applyGovernedPresentation } from "./governed-render";
 export {
   assertMotionPolicyCoverageStrict,
@@ -157,6 +185,26 @@ export type {
   PrimitiveGovernanceResult,
 } from "./primitive-contract";
 export { resolvePrimitiveGovernance } from "./primitive-governance";
+export { resolvePrimitiveGovernance as resolvePrimitiveGovernanceFromCanonical } from "./resolve-primitive-governance";
+export {
+  assertGuardedClassName,
+  guardClassName,
+} from "./class-name-guard";
+export {
+  classNamePolicyError,
+  invalidSlotError,
+  invalidSlotKeyError,
+  PRIMITIVE_GOVERNANCE_ERROR_PREFIX,
+  primitiveGovernanceError,
+  unknownPrimitiveError,
+} from "./primitive-errors";
+export {
+  CORE_PRIMITIVE_NAMES,
+  getPrimitiveRegistryEntry,
+  PRIMITIVE_REGISTRY_ENTRIES,
+  type CorePrimitiveName,
+  type PrimitiveRegistryEntry,
+} from "./primitive-registry-meta";
 export type { StockShadcnPendingFile } from "./primitive-registry";
 export {
   assertComponentExportCoverage,
@@ -190,6 +238,8 @@ export {
   CARD_VARIANT_AXES,
   FORM_CONTROL_VARIANT_AXES,
   GOVERNED_RECIPE_VARIANT_AXES,
+  APP_SHELL_VARIANT_AXES,
+  METADATA_UI_VARIANT_AXES,
   getRecipeVariantAxes,
   STATUS_VARIANT_AXES,
   SURFACE_VARIANT_AXES,

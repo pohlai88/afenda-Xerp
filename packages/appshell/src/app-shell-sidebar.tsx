@@ -32,6 +32,7 @@ import type {
   AppShellRecipientItem,
 } from "./shadcn-studio/data/app-shell.data";
 import { AppShellSidebarUserDropdown } from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
+import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellSidebarGovernedComponents = Extract<
   GovernedUiComponentName,
@@ -50,7 +51,13 @@ export function AppShellSidebar({
   teamRecipients,
 }: AppShellSidebarProps) {
   return (
-    <div className="app-shell-sidebar-frame">
+    <div
+      className={joinAppShellGovernedClassName(
+        "app-shell-sidebar-frame",
+        "sidebar",
+        { density: chrome.density }
+      )}
+    >
       <Sidebar collapsible="icon" variant="floating">
         <SidebarHeader>
           <SidebarMenu>
@@ -92,7 +99,11 @@ export function AppShellSidebar({
                               <SidebarMenuSubItem key={subItem.label}>
                                 <SidebarMenuSubButton asChild>
                                   <a
-                                    className="app-shell-nav-sub-link"
+                                    className={joinAppShellGovernedClassName(
+                                      "app-shell-nav-sub-link",
+                                      "navigation-item",
+                                      { density: chrome.density }
+                                    )}
                                     href={subItem.href}
                                   >
                                     {subItem.label}

@@ -12,7 +12,11 @@ import type {
   SlotRole,
   VariantSelection,
 } from "./design-system";
-import type { GovernedRecipeName, GovernedUiComponentName } from "./types";
+import type {
+  ClassNamePolicyViolation,
+  GovernedRecipeName,
+  GovernedUiComponentName,
+} from "./types";
 
 /** Field layout orientation — structural, not a design-system variant axis. */
 export type FieldOrientation = "vertical" | "horizontal" | "responsive";
@@ -75,9 +79,13 @@ export interface PrimitiveGovernanceResult {
   readonly className: string;
   readonly dataAttributes: Readonly<Record<string, string>>;
   readonly motion: MotionContract;
+  /** Alias for {@link recipeName} — stable design-system recipe id. */
+  readonly recipe: GovernedRecipeName;
   readonly recipeName: GovernedRecipeName;
+  readonly selection: VariantSelection;
   readonly slot: SlotRole;
   readonly state: GovernedState;
+  readonly violations: readonly ClassNamePolicyViolation[];
 }
 
 /** Registry entry describing a governed UI primitive contract. */

@@ -1,8 +1,4 @@
-import type {
-  AfendaCssVariableName,
-  AfendaTokenName,
-} from "../contracts/token.contract";
-import { tokenNameToCssVariable } from "../contracts/token.contract";
+import type { AfendaCssVariableName } from "../contracts/token.contract";
 
 // ─── Policy declaration ───────────────────────────────────────────────────────
 
@@ -36,14 +32,3 @@ export function assertAfendaCssVariable(
   }
 }
 
-/**
- * Verifies that a CSS variable string is the canonical form of the given
- * token name. Use this in tests to catch drift between registry names and
- * generated variables.
- */
-export function isCssVariableAlignedWithToken(
-  cssVariable: string,
-  tokenName: AfendaTokenName
-): boolean {
-  return cssVariable === tokenNameToCssVariable(tokenName);
-}

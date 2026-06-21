@@ -1,27 +1,17 @@
-import {
-  RENDERER_COMPATIBILITY_RULES,
-  type RendererCapability,
-  type SectionType,
-} from "@afenda/metadata";
-
 import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
 import { MetadataUiError } from "../runtime/metadata-ui-error.js";
-import type { MetadataRendererRegistry } from "./metadata-renderer-registry.types.js";
+import type { MetadataRendererRegistry } from "./registry.contract.js";
+import { isRendererCapabilityCompatible } from "./renderer-compatibility.js";
 import { resolveMetadataRenderer } from "./resolve-metadata-renderer.js";
-
-function isCompatiblePair(
-  capability: RendererCapability,
-  sectionType: SectionType
-): boolean {
-  return RENDERER_COMPATIBILITY_RULES.some(
-    (rule) =>
-      rule.capability === capability && rule.sectionType === sectionType
-  );
-}
 
 function assertCompatibleRenderer(renderer: MetadataRendererDefinition): void {
   for (const sectionType of renderer.governance.sectionTypes) {
-    if (!isCompatiblePair(renderer.governance.capability, sectionType)) {
+    if (
+      !isRendererCapabilityCompatible(
+        renderer.governance.capability,
+        sectionType
+      )
+    ) {
       throw new MetadataUiError(
         `Renderer "${renderer.identity.key}" pairs capability "${renderer.governance.capability}" with incompatible section "${sectionType}".`
       );
@@ -67,9 +57,4 @@ export function createMetadataRendererRegistry(
   return registry;
 }
 
-export function isRendererCapabilityCompatible(
-  capability: RendererCapability,
-  sectionType: SectionType
-): boolean {
-  return isCompatiblePair(capability, sectionType);
-}
+export { isRendererCapabilityCompatible } from "./renderer-compatibility.js";

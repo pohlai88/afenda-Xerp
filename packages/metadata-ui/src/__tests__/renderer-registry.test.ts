@@ -5,8 +5,8 @@ import {
   createMetadataRendererRegistry,
   defaultMetadataRenderers,
 } from "../index.js";
-import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
-import { listRenderer } from "../renderers/list-renderer.js";
+import { createMetadataRendererDefinition } from "../registry/index.js";
+import { listRenderer } from "../renderers/index.js";
 
 describe("metadata renderer registry", () => {
   it("registers default renderers", () => {

@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import {
   assertAllowedLayoutClassName,
   assertGovernedState,
+  APP_SHELL_VARIANT_AXES,
   FORM_CONTROL_VARIANT_AXES,
   GOVERNED_RECIPE_VARIANT_AXES,
   GOVERNED_STATES,
@@ -13,6 +14,7 @@ import {
   getComponentAccessibilityRequirement,
   getMotionIntent,
   getPrimitiveDefinition,
+  METADATA_UI_VARIANT_AXES,
   resolveBadgeClassName,
   resolveButtonClassName,
   resolveCardClassName,
@@ -185,6 +187,8 @@ describe("governance bridge discipline", () => {
     expect(STATUS_VARIANT_AXES).toEqual(["tone", "density", "radius"]);
     expect(FORM_CONTROL_VARIANT_AXES).toEqual(["density", "size"]);
     expect(TABLE_VARIANT_AXES).toEqual(["density", "size"]);
+    expect(APP_SHELL_VARIANT_AXES).toEqual(["density", "tone"]);
+    expect(METADATA_UI_VARIANT_AXES).toEqual(["density", "tone"]);
   });
 });
 

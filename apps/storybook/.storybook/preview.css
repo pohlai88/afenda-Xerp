@@ -2,17 +2,21 @@
  * Storybook CSS entry — mirror apps/erp/src/app/globals.css load order.
  *
  * 1. tailwindcss
- * 2. @afenda/ui/afenda-style.css (design tokens + @theme)
+ * 2. @afenda/ui/afenda-ui-full.css (@theme bridge + primitive structural hooks)
  * 3. app-shell.presentation.css (shell chrome @layer components)
- * 4. shadcn/tailwind.css (registry utilities last)
+ * 4. metadata-ui structural hooks
+ * 5. shadcn/tailwind.css (registry utilities last)
  */
 @import "tailwindcss";
-@import "../../../packages/ui/src/styles/afenda-style.css";
+@import "../../../packages/ui/src/styles/afenda-ui-full.css";
 @import "../../../packages/appshell/src/app-shell.presentation.css";
+@import "../../../packages/metadata-ui/src/styles.css";
+@import "../../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css";
 @import "shadcn/tailwind.css";
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../packages/appshell/src/**/*.{ts,tsx}";
+@source "../../../packages/metadata-ui/src/**/*.{ts,tsx}";
 @source "./**/*.{ts,tsx}";
 
 html,

@@ -1,7 +1,8 @@
 import { cn } from "../lib/utils";
 
 import { getComponentAccessibilityRequirement } from "./accessibility";
-import { resolveLayoutClassName } from "./class-name";
+import { assertAllowedLayoutClassName, resolveLayoutClassName } from "./class-name";
+import { guardClassName } from "./class-name-guard";
 import { isGovernedCardLayoutSize } from "./component-props";
 import { enforceGovernance, enforceGovernanceOr } from "./dev-env";
 import type { MotionContract, SlotRole } from "./design-system";
@@ -283,7 +284,10 @@ export function resolvePrimitiveGovernance(
 
   const recipeClassName = resolveRecipeClassName(input, definition);
   const slotClassName = resolveSlotClassName(input, definition, slot);
+  const classNamePolicy = guardClassName(input.className);
+  assertAllowedLayoutClassName(input.className);
   const layoutClassName = resolveLayoutClassName(input.className);
+  const selection = input.variant ?? {};
   const accessibility = getComponentAccessibilityRequirement(
     input.componentName
   );
@@ -291,6 +295,9 @@ export function resolvePrimitiveGovernance(
 
   return {
     recipeName,
+    recipe: recipeName,
+    selection,
+    violations: classNamePolicy.violations,
     className: cn(recipeClassName, slotClassName, layoutClassName),
     state,
     slot,

@@ -9,6 +9,8 @@ export const GOVERNED_UI_RECIPES = [
   "status",
   "form-control",
   "table",
+  "app-shell",
+  "metadata-ui",
 ] as const;
 
 export type GovernedRecipeName = (typeof GOVERNED_UI_RECIPES)[number];

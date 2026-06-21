@@ -1,11 +1,10 @@
-import { RENDERER_COMPATIBILITY_RULES } from "@afenda/metadata";
-
 import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
-import type { MetadataRendererResolveInput } from "./metadata-renderer-registry.types.js";
+import type { MetadataRendererRegistryResolveInput } from "./registry.contract.js";
+import { isRendererCapabilityCompatible } from "./renderer-compatibility.js";
 
 function isRendererSupported(
   renderer: MetadataRendererDefinition,
-  input: MetadataRendererResolveInput
+  input: MetadataRendererRegistryResolveInput
 ): boolean {
   const supportResult = renderer.supports?.(input.input, input.context);
 
@@ -14,7 +13,7 @@ function isRendererSupported(
 
 function isRendererLifecycleAllowed(
   renderer: MetadataRendererDefinition,
-  context: MetadataRendererResolveInput["context"]
+  context: MetadataRendererRegistryResolveInput["context"]
 ): boolean {
   const { lifecycle } = renderer.governance;
 
@@ -41,7 +40,7 @@ function isRendererLifecycleAllowed(
 
 function isRendererEnvironmentAllowed(
   renderer: MetadataRendererDefinition,
-  context: MetadataRendererResolveInput["context"]
+  context: MetadataRendererRegistryResolveInput["context"]
 ): boolean {
   const { source } = context.environment;
   const policy = renderer.policy;
@@ -62,16 +61,11 @@ function isRendererEnvironmentAllowed(
 }
 
 export function resolveMetadataRenderer(
-  input: MetadataRendererResolveInput
+  input: MetadataRendererRegistryResolveInput
 ): MetadataRendererDefinition | undefined {
   const { registry, sectionType, capability, context } = input;
 
-  const compatible = RENDERER_COMPATIBILITY_RULES.some(
-    (rule) =>
-      rule.capability === capability && rule.sectionType === sectionType
-  );
-
-  if (!compatible) {
+  if (!isRendererCapabilityCompatible(capability, sectionType)) {
     return undefined;
   }
 

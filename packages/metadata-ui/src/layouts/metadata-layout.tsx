@@ -1,12 +1,9 @@
-import type { MetadataLayoutProps } from "../contracts/layout-renderer.contract.js";
-
-function joinClassNames(
-  ...values: Array<string | false | undefined>
-): string | undefined {
-  const classNames = values.filter(Boolean);
-
-  return classNames.length > 0 ? classNames.join(" ") : undefined;
-}
+import type { MetadataLayoutProps } from "../contracts/layout.contract.js";
+import { joinClassNames } from "../rendering/join-class-names.js";
+import {
+  resolveMetadataUiDensityAttribute,
+  resolveMetadataUiGovernedClassName,
+} from "../wiring/governance.js";
 
 export function MetadataLayout({
   identity,
@@ -17,21 +14,66 @@ export function MetadataLayout({
   presentation,
   diagnostics,
 }: MetadataLayoutProps) {
-  const rootClassName = joinClassNames(
-    "metadata-layout",
-    presentation?.className,
-    presentation?.contained ? "metadata-layout-contained" : undefined,
-    presentation?.padded ? "metadata-layout-padded" : undefined
+  const rootClassName = resolveMetadataUiGovernedClassName("container", {
+    structuralClassNames: [
+      "metadata-container",
+      "metadata-layout",
+      presentation?.className,
+      presentation?.contained === true ? "metadata-layout-contained" : undefined,
+      presentation?.padded === true ? "metadata-layout-padded" : undefined,
+    ],
+    density: context.runtime.density,
+  });
+
+  const bodyClassName = resolveMetadataUiGovernedClassName("layout", {
+    structuralClassNames: [
+      "metadata-layout-body",
+      presentation?.regionClassNames?.body,
+    ],
+    density: context.runtime.density,
+  });
+
+  const headerClassName = resolveMetadataUiGovernedClassName("section-header", {
+    structuralClassNames: [
+      "metadata-layout-header",
+      presentation?.regionClassNames?.header,
+    ],
+    density: context.runtime.density,
+  });
+
+  const toolbarClassName = joinClassNames(
+    "metadata-layout-toolbar",
+    presentation?.regionClassNames?.toolbar
+  );
+
+  const asideClassName = joinClassNames(
+    "metadata-layout-aside",
+    presentation?.regionClassNames?.aside
+  );
+
+  const contentClassName = joinClassNames(
+    "metadata-layout-content",
+    presentation?.regionClassNames?.content
+  );
+
+  const footerClassName = joinClassNames(
+    "metadata-layout-footer",
+    presentation?.regionClassNames?.footer
   );
 
   return (
-    <div
+    <section
       aria-describedby={a11y?.ariaDescribedBy}
       aria-label={a11y?.ariaLabel}
       aria-labelledby={a11y?.ariaLabelledBy}
       className={rootClassName}
-      data-metadata-density={context.runtime.density}
+      data-layout-id={identity.id}
+      data-metadata-density={resolveMetadataUiDensityAttribute(context.runtime.density)}
+      data-metadata-hydration={context.environment.hydration}
       data-metadata-layout={type}
+      data-metadata-readonly={context.runtime.readonlyMode ? "true" : "false"}
+      data-metadata-runtime-state={context.runtime.state}
+      data-metadata-source={context.environment.source}
       data-slot="metadata-layout"
       id={identity.id}
       {...(diagnostics?.rendererKey
@@ -43,47 +85,39 @@ export function MetadataLayout({
       {...(identity.label ? { "data-layout-label": identity.label } : {})}
     >
       {slots.header ? (
-        <header
-          className={presentation?.regionClassNames?.header}
-          data-slot="metadata-layout-header"
-        >
+        <header className={headerClassName} data-slot="metadata-layout-header">
           {slots.header}
         </header>
       ) : null}
+
       {slots.toolbar ? (
-        <div
-          className={presentation?.regionClassNames?.toolbar}
+        <section
+          className={toolbarClassName}
           data-slot="metadata-layout-toolbar"
         >
           {slots.toolbar}
-        </div>
+        </section>
       ) : null}
-      <div className="metadata-layout-body" data-slot="metadata-layout-body">
+
+      <div className={bodyClassName} data-slot="metadata-layout-body">
         {slots.aside ? (
-          <aside
-            className={presentation?.regionClassNames?.aside}
-            data-slot="metadata-layout-aside"
-          >
+          <aside className={asideClassName} data-slot="metadata-layout-aside">
             {slots.aside}
           </aside>
         ) : null}
-        <main
-          className={presentation?.regionClassNames?.content}
-          data-slot="metadata-layout-content"
-        >
+
+        <div className={contentClassName} data-slot="metadata-layout-content">
           {slots.content}
-        </main>
+        </div>
       </div>
+
       {slots.footer ? (
-        <footer
-          className={presentation?.regionClassNames?.footer}
-          data-slot="metadata-layout-footer"
-        >
+        <footer className={footerClassName} data-slot="metadata-layout-footer">
           {slots.footer}
         </footer>
       ) : null}
-    </div>
+    </section>
   );
 }
 
-export type { MetadataLayoutProps } from "../contracts/layout-renderer.contract.js";
+export type { MetadataLayoutProps } from "../contracts/layout.contract.js";

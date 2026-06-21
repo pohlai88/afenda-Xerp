@@ -1,0 +1,431 @@
+/**
+ * @afenda/metadata-ui — production rendering chrome.
+ *
+ * Import once in the app shell:
+ *   @import "@afenda/metadata-ui/styles.css";
+ *
+ * Structural hooks only — no colors, tokens, shadows, or brand styling.
+ */
+
+/* ── Container roots ─────────────────────────────────────────────────────── */
+
+.metadata-container {
+  min-width: 0;
+  max-width: 100%;
+  container-name: metadata-ui;
+  container-type: inline-size;
+}
+
+/* ── Layout & surface regions (mobile-first stack) ───────────────────────── */
+
+.metadata-layout,
+.metadata-surface,
+.metadata-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2cqi, 1.25rem);
+  min-width: 0;
+}
+
+.metadata-layout-body,
+.metadata-surface-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2.5cqi, 1.5rem);
+  min-width: 0;
+}
+
+.metadata-layout-content,
+.metadata-surface-content,
+.metadata-section-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.metadata-layout-aside,
+.metadata-surface-aside {
+  min-width: 0;
+}
+
+.metadata-layout-contained,
+.metadata-surface-contained {
+  width: 100%;
+  max-width: min(100%, 80rem);
+  margin-inline: auto;
+}
+
+.metadata-layout-padded,
+.metadata-surface-padded,
+.metadata-section-padded {
+  padding: clamp(0.75rem, 2.5cqi, 1.5rem);
+}
+
+@container metadata-ui (min-width: 48rem) {
+  .metadata-layout-body,
+  .metadata-surface-body {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .metadata-layout-aside,
+  .metadata-surface-aside {
+    flex: 0 0 min(100%, 16rem);
+  }
+}
+
+/* ── Header / toolbar / footer regions ───────────────────────────────────── */
+
+.metadata-layout-header,
+.metadata-surface-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.metadata-layout-toolbar,
+.metadata-surface-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 1.5cqi, 0.75rem);
+  align-items: center;
+  min-width: 0;
+}
+
+.metadata-layout-footer,
+.metadata-surface-footer,
+.metadata-section-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+/* ── Density modes ───────────────────────────────────────────────────────── */
+
+[data-metadata-density="compact"] .metadata-layout-body,
+[data-metadata-density="compact"] .metadata-surface-body {
+  gap: clamp(0.5rem, 1.5cqi, 1rem);
+}
+
+[data-metadata-density="comfortable"] .metadata-layout-body,
+[data-metadata-density="comfortable"] .metadata-surface-body {
+  gap: clamp(1rem, 3cqi, 2rem);
+}
+
+/* ── Typography (fluid, 16px floor) ──────────────────────────────────────── */
+
+.metadata-surface-title,
+.metadata-layout-title,
+.metadata-surface-header h1,
+.metadata-layout-header h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1rem + 1.5cqi, 1.75rem);
+  line-height: 1.2;
+}
+
+.metadata-section-title,
+.metadata-section-header h2,
+.metadata-state-title,
+.metadata-state h2 {
+  margin: 0;
+  font-size: clamp(1.0625rem, 0.95rem + 0.75cqi, 1.375rem);
+  line-height: 1.3;
+}
+
+.metadata-surface-description,
+.metadata-layout-description,
+.metadata-section-description,
+.metadata-state-description,
+.metadata-surface-header p,
+.metadata-layout-header p,
+.metadata-section-header p,
+.metadata-state p {
+  margin: 0;
+  font-size: clamp(1rem, 0.925rem + 0.35cqi, 1.0625rem);
+  line-height: 1.5;
+}
+
+/* ── Production utilities ────────────────────────────────────────────────── */
+
+.metadata-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.metadata-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metadata-wrap-anywhere {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ── Visually hidden (a11y utility) ──────────────────────────────────────── */
+
+.metadata-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+/* ── Breadcrumbs ─────────────────────────────────────────────────────────── */
+
+.metadata-surface-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.metadata-surface-breadcrumbs a {
+  touch-action: manipulation;
+}
+
+.metadata-surface-breadcrumbs a:focus-visible,
+.metadata-action-button:focus-visible,
+.metadata-action-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ── Action bar & buttons (touch-first) ──────────────────────────────────── */
+
+.metadata-action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 1.5cqi, 0.75rem);
+  align-items: center;
+  max-width: 100%;
+  border: 0;
+  margin: 0;
+  min-inline-size: 0;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.metadata-action-button,
+.metadata-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 2.75rem;
+  min-block-size: 2.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  touch-action: manipulation;
+}
+
+.metadata-action-link[aria-disabled="true"],
+.metadata-action-button:disabled {
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.metadata-action-confirm-dialog {
+  border: 0;
+  margin: auto;
+  max-inline-size: min(100%, 28rem);
+  padding: 1rem;
+}
+
+.metadata-action-confirm-dialog::backdrop {
+  background: transparent;
+}
+
+.metadata-action-confirm-dialog-title {
+  margin: 0 0 0.5rem;
+}
+
+.metadata-action-confirm-dialog-description {
+  margin: 0 0 1rem;
+}
+
+.metadata-action-confirm-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+@media (hover: hover) {
+  .metadata-action-button:not(:disabled):hover,
+  .metadata-action-link:not([aria-disabled="true"]):hover {
+    text-decoration: underline;
+  }
+}
+
+/* Hierarchy: supporting actions cluster first, the primary action trails. */
+@container metadata-ui (min-width: 28rem) {
+  .metadata-action-bar > [data-action-group="primary"] {
+    order: 1;
+    margin-inline-start: auto;
+  }
+}
+
+.metadata-action-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.metadata-action-menu-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.metadata-action-menu-item {
+  min-width: 0;
+}
+
+.metadata-action-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* ── Section header + actions ────────────────────────────────────────────── */
+
+.metadata-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metadata-section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@container metadata-ui (min-width: 40rem) {
+  .metadata-section-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+/* ── State messages ──────────────────────────────────────────────────────── */
+
+.metadata-state {
+  padding: clamp(1rem, 3cqi, 2rem);
+  text-align: center;
+}
+
+.metadata-state-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5cqi, 0.75rem);
+  align-items: center;
+  max-width: min(100%, 42rem);
+  margin-inline: auto;
+}
+
+.metadata-state-icon-slot,
+.metadata-state-action-slot,
+.metadata-state-detail-slot {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ── Diagnostics ─────────────────────────────────────────────────────────── */
+
+.metadata-diagnostics-panel {
+  max-width: 100%;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.metadata-diagnostics-list {
+  display: grid;
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+
+@container metadata-ui (min-width: 32rem) {
+  .metadata-diagnostics-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.metadata-diagnostics-item {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.metadata-diagnostics-item dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.metadata-diagnostics-item dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.metadata-diagnostics-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.metadata-render-trace {
+  font-size: 0.75rem;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  -webkit-overflow-scrolling: touch;
+}
+
+.metadata-boundary-warning {
+  padding-inline-start: 0.5rem;
+  margin: 0;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+  border-inline-start: 2px solid currentColor;
+}
+
+/* ── Readonly / disabled (structural only) ───────────────────────────────── */
+
+.metadata-surface-readonly,
+.metadata-section-readonly {
+  cursor: default;
+  opacity: 0.88;
+}
+
+.metadata-surface-disabled,
+.metadata-section-disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+[data-metadata-readonly="true"] .metadata-action-bar {
+  pointer-events: none;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .metadata-action-bar {
+    scroll-behavior: auto;
+  }
+}

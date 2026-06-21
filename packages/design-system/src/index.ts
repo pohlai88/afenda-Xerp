@@ -77,6 +77,7 @@ export type {
   AfendaTokenCategory,
   AfendaTokenName,
   Density,
+  DensityAttribute,
   GovernedRadius,
   GovernedShadow,
   GovernedSize,
@@ -98,7 +99,10 @@ export type { AiGenerationRuleSet } from "./policies/ai-generation-policy";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
 export type { TokenNameValidationResult } from "./policies/token-name-policy";
+export type { DesignTokenPolicy } from "./policies/design-token-policy";
+export type { VisualDriftPolicy } from "./policies/visual-drift-policy";
 export type { AfendaAccessibilityRegistry } from "./registries/accessibility.registry";
+export type { AfendaSemanticRoleRegistry } from "./registries/semantic-role.registry";
 export type { ValidationResult } from "./validation/index";
 
 // ─── Runtime constants ────────────────────────────────────────────────────────
@@ -128,6 +132,7 @@ export {
   AFENDA_TOKEN_CATEGORIES,
   assertAfendaTokenName,
   DENSITIES,
+  DENSITY_ATTRIBUTES,
   isAfendaTokenName,
   RADII,
   SHADOWS,
@@ -137,6 +142,14 @@ export {
   tokenContract,
   tokenNameToCssVariable,
 } from "./contracts/token.contract";
+export {
+  densityAttributeSelector,
+  densityContract,
+  densityFromAttribute,
+  densityToAttribute,
+  isDensity,
+  isDensityAttribute,
+} from "./contracts/density.contract";
 export {
   VARIANT_AXES,
   VARIANT_EMPHASES,
@@ -162,6 +175,9 @@ export {
   AFENDA_RECIPE_REGISTRY,
   recipeRegistry,
 } from "./registries/recipe.registry";
+export {
+  AFENDA_SEMANTIC_ROLE_REGISTRY,
+} from "./registries/semantic-role.registry";
 export {
   AFENDA_STATE_NAMES,
   AFENDA_STATE_REGISTRY,
@@ -192,10 +208,12 @@ export {
   cssVariablePolicy,
   isAfendaCssVariable,
 } from "./policies/css-variable-policy";
+export { designTokenPolicy } from "./policies/design-token-policy";
 export {
   driftPreventionChecklist,
   validateDesignSystemGovernance,
 } from "./policies/drift-validation";
+export { visualDriftPolicy } from "./policies/visual-drift-policy";
 export {
   isPublicDesignSystemImport,
   publicExportContract,
@@ -221,3 +239,4 @@ export { validateVariantRegistry } from "./validation/variant.validation";
 // ─── Examples ─────────────────────────────────────────────────────────────────
 
 export { erpGovernedExamples } from "./examples/erp-patterns";
+export { appShellRecipe, metadataUiRecipe } from "./recipes/index";

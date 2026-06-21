@@ -74,9 +74,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/kernel", "kernel"),
     workspace("@afenda/metadata", "metadata"),
     workspace("@afenda/metadata-ui", "metadata-ui", {
-      "@afenda/design-system": "workspace:*",
       "@afenda/metadata": "workspace:*",
-      "@afenda/ui": "workspace:*",
     }),
     workspace("@afenda/observability", "observability"),
     workspace("@afenda/permissions", "permissions", {
@@ -86,6 +84,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/storybook", "storybook", {
       "@afenda/appshell": "workspace:*",
       "@afenda/design-system": "workspace:*",
+      "@afenda/metadata-ui": "workspace:*",
       "@afenda/ui": "workspace:*",
     }),
     workspace("@afenda/storage", "storage"),
@@ -117,7 +116,7 @@ function context(
       },
       {
         packageName: "@afenda/metadata-ui",
-        exportKeys: [".", "./server", "./client"],
+        exportKeys: [".", "./server", "./client", "./styles.css", "./fixtures.css"],
       },
     ],
     sourceFilesByPath: new Map(),
@@ -225,7 +224,7 @@ describe("validateAiGovernance", () => {
           },
           {
             packageName: "@afenda/metadata-ui",
-            exportKeys: [".", "./server", "./client"],
+            exportKeys: [".", "./server", "./client", "./styles.css", "./fixtures.css"],
           },
           {
             packageName: "@afenda/ui",

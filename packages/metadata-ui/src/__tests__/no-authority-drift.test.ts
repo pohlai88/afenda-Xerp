@@ -13,6 +13,10 @@ const forbiddenAuthorityArrays = [
   "METADATA_RUNTIME_STATES",
   "RENDERER_CAPABILITIES",
   "METADATA_AUTHORITY_KEYS",
+  "METADATA_UI_RECIPE_SLOTS",
+  "APP_SHELL_RECIPE_SLOTS",
+  "DENSITY_ATTRIBUTES",
+  "METADATA_LAYOUT_DENSITIES",
 ] as const;
 
 function collectSourceFiles(directory: string): string[] {

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import "@afenda/ui/afenda-ui-full.css";
+
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import { ApplicationShell } from "./app-shell";
@@ -31,7 +33,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004). Navigation defaults to the ERP module tree; labels, identity, and main content are fully configurable for route layouts in `apps/erp`.",
+          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004). Visual recipe slots wire through `@afenda/ui/governance` — see ERP/ApplicationShell/Authority Preview before integration.",
       },
     },
     a11y: {

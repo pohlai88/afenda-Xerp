@@ -1,0 +1,12 @@
+/**
+ * Full @afenda/ui CSS bundle for Tailwind v4 apps.
+ *
+ * Load order:
+ * 1. afenda-style.css — generated @theme bridge + :root tokens
+ * 2. ui.css — primitive structural hooks (imports afenda-tokens.css transitively)
+ *
+ * Token-only surfaces that do not need Tailwind @theme may import
+ * `@afenda/ui/styles.css` or `@afenda/design-system/css/afenda-tokens.css` alone.
+ */
+@import "./afenda-style.css";
+@import "./ui.css";

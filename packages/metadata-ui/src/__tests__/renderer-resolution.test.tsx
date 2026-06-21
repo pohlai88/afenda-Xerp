@@ -7,9 +7,9 @@ import {
   resolveMetadataRenderer,
   sampleRenderContext,
 } from "../index.js";
-import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
-import { ListSection } from "../sections/list-section.js";
-import { listRenderer } from "../renderers/list-renderer.js";
+import { createMetadataRendererDefinition } from "../registry/index.js";
+import { ListSection } from "../sections/index.js";
+import { listRenderer } from "../renderers/index.js";
 
 function createListRendererVariant(options: {
   readonly key: string;

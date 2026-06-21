@@ -5,8 +5,8 @@ import {
   METADATA_RENDERER_RESOLVE_FAILURE_REASONS,
 } from "../contracts/renderer-definition.contract.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
-import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
-import { listRenderer } from "../renderers/list-renderer.js";
+import { createMetadataRendererDefinition } from "../registry/index.js";
+import { listRenderer } from "../renderers/index.js";
 
 function expectUniqueValues(values: readonly string[]): void {
   expect(new Set(values).size).toBe(values.length);

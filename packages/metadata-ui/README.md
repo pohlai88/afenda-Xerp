@@ -1,58 +1,103 @@
 # `@afenda/metadata-ui`
 
-**Architecture layer:** Metadata  
+**Architecture layer:** Metadata (rank 3)  
 **Lifecycle:** Active  
 **Registry ID:** PKG-012  
-**TIP:** Post-TIP-005 — Metadata UI Implementation  
-**Depends on:** `@afenda/metadata`, `@afenda/design-system`, `@afenda/ui`
+**Runtime depends on:** `@afenda/metadata` only
 
 ## What this package is
 
-`@afenda/metadata-ui` is the **Metadata UI implementation layer**. It implements the renderer system, section types, schemas, and permission-aware visibility that turn metadata surface definitions (governed by `@afenda/metadata`) into renderable UI contracts.
+`@afenda/metadata-ui` is the **Metadata UI implementation layer**. It consumes governed contracts from `@afenda/metadata` and implements renderers, surfaces, layouts, sections, states, diagnostics, and registry resolution.
 
-This package is **implementation**, not authority. It owns renderer implementation. It does not own metadata architecture — that is owned by `@afenda/metadata`.
+This package is **implementation**, not authority. Vocabulary and governance live in `@afenda/metadata`.
 
-## Ownership boundary
+## Monorepo rules
 
-| This package owns | This package does NOT own |
+| Rule | Status |
 | --- | --- |
-| Renderer implementation | Metadata architecture |
-| Section type schemas | Design tokens or recipes |
-| Permission-aware visibility resolution | ERP business rules |
-| Renderer registry and resolution | AppShell implementation |
-| Governed surface examples | Permission authority |
+| Import via package name only (`@afenda/metadata`, not deep paths) | Enforced in source |
+| Public surface is `index.ts`, `client.ts`, `server.ts` only | `package.json#exports` |
+| No imports from `@afenda/appshell`, `@afenda/permissions`, `@afenda/database` | `runtime.contract.ts` |
+| Internal deps use `workspace:*` | `package.json` |
+| Layer: Metadata — may import Platform + Design only when declared | Currently `@afenda/metadata` only |
+
+Verification:
+
+```bash
+pnpm --filter @afenda/metadata-ui test:run
+pnpm --filter @afenda/architecture-authority test:run
+```
 
 ## Relationship to `@afenda/metadata`
 
-`@afenda/metadata` owns the **architecture vocabulary** (what surface types, layout types, and section types exist). This package **implements** against that vocabulary. The two must remain separate packages — see `metadataUiIntegrationRule` (or `crossPackageAuthority.metadataUiIntegrationRule`) in `@afenda/metadata`.
-
-`@afenda/metadata-ui` declares a workspace dependency on `@afenda/metadata` in `package.json` and must consume governed contracts rather than redefining vocabulary arrays.
-
 ```
-@afenda/metadata ───────────▶ @afenda/metadata-ui
-  (governance, authority)       (implementation)
-
-@afenda/design-system ─────▶ @afenda/metadata-ui
-  (tokens, recipes, components)
+@afenda/metadata ──▶ @afenda/metadata-ui
+  (vocabulary)         (rendering implementation)
 ```
 
-## Public API
+Do not merge the packages. Do not redefine governed metadata arrays locally.
 
-### Contracts
+## Entry points
+
+| Import path | Purpose |
+| --- | --- |
+| `@afenda/metadata-ui` | Shared kernel: contracts, runtime, registry, renderers, fixtures |
+| `@afenda/metadata-ui/client` | Interactive components, diagnostics UI, client fixtures |
+| `@afenda/metadata-ui/server` | RSC-safe surfaces, layouts, sections, states |
+
+### Action handling: server vs client
+
+**`@afenda/metadata-ui/server`** — surfaces render **static action chrome** for RSC. Link actions use `href`; button actions render without click handlers.
+
+**`@afenda/metadata-ui/client`** — use `MetadataActionBar` with `onAction` for interactive button/destructive actions. Wire `onActionResult` to surface `{ ok: false, code, userMessage }` from your Server Action — metadata-ui never executes server actions or permission checks.
+
+```tsx
+import { MetadataPageSurface } from "@afenda/metadata-ui/server";
+
+"use client";
+import { MetadataActionBar } from "@afenda/metadata-ui/client";
+import {
+  createMetadataActionFailure,
+  type MetadataActionHandler,
+} from "@afenda/metadata-ui";
+import { deleteOrderAction } from "@/app/actions/orders";
+
+const handleAction: MetadataActionHandler = async (action, context) => {
+  if (action.key === "delete-order") {
+    return deleteOrderAction({ orderId: context.targetId ?? "" });
+  }
+  return createMetadataActionFailure(
+    action.key,
+    "NOT_FOUND",
+    "Unknown action."
+  );
+};
+
+export function OrdersActionBar({ actions, orderId }) {
+  return (
+    <MetadataActionBar
+      actions={actions}
+      onAction={(action, ctx) =>
+        handleAction(action, { ...ctx, targetId: orderId })
+      }
+      onActionResult={(result) => {
+        if (!result.ok) {
+          // toast, inline alert, etc.
+        }
+      }}
+    />
+  );
+}
+```
+
+Server Actions invoked from `onAction` must follow the server-action-security checklist: re-verify session inside the action, validate with Zod, check resource ownership, return shaped `{ ok, code, userMessage }`, never throw to the client.
+
+## Public API (current)
+
+### Package contract
 
 ```typescript
-import type {
-  MetadataSurfaceContract,   // Full surface definition with layout, sections, state, actions
-  MetadataSectionContract,   // Section with type, fields, columns, state, permissions
-  MetadataSectionType,       // "page-header" | "action-bar" | "list" | "form" | "stat" | ...
-  MetadataLayoutContract,    // Layout regions and density
-  MetadataRendererContract,  // Renderer id, priority, recipe, sectionTypes, stable flag
-  MetadataRendererResolution,// Resolution result: renderer | null + reason
-  MetadataStateContract,     // Surface state definition
-  MetadataActionContract,    // Action definition with execution mode and audit
-  MetadataPermissionRequirement, // Permission check definition
-  MetadataRegistryContract,  // Registry snapshot
-} from "@afenda/metadata-ui";
+import { metadataUiContract, PACKAGE_NAME } from "@afenda/metadata-ui";
 ```
 
 ### Renderer registry
@@ -60,80 +105,55 @@ import type {
 ```typescript
 import {
   createMetadataRendererRegistry,
-  type MetadataRendererRegistry,
+  defaultMetadataRenderers,
+  resolveMetadataRenderer,
 } from "@afenda/metadata-ui";
-
-const registry = createMetadataRendererRegistry();
-registry.register(myRenderer);
-const resolution = registry.resolve("list");
 ```
 
-### Default renderers
-
-```typescript
-import { defaultMetadataRenderers } from "@afenda/metadata-ui";
-
-// Array of stable renderer definitions covering all governed section types
-```
-
-### State presentation
+### Render context and presentation
 
 ```typescript
 import {
-  resolveMetadataStatePresentation,
-  type MetadataStatePresentation,
+  createMetadataUiRenderContext,
+  resolveVisibility,
+  resolvePresentationMode,
 } from "@afenda/metadata-ui";
 ```
 
-### Permission-aware visibility
+### Server composition
 
 ```typescript
 import {
-  resolveMetadataVisibility,
-  resolveMetadataActions,
-} from "@afenda/metadata-ui";
+  MetadataPageSurface,
+  MetadataLayout,
+  ListSection,
+  MetadataLoadingState,
+} from "@afenda/metadata-ui/server";
 ```
 
-### Schema validation
+### Client interactivity
 
 ```typescript
 import {
-  validateMetadataSurface,
-  validateMetadataSection,
-  validateMetadataAction,
-  metadataSectionSchemas,
-} from "@afenda/metadata-ui";
-```
-
-### Section types
-
-```typescript
-import {
-  governedMetadataSectionTypes,
-  METADATA_SECTION_TYPES,
-} from "@afenda/metadata-ui";
-
-// METADATA_SECTION_TYPES:
-// "page-header" | "action-bar" | "list" | "form" | "stat" |
-// "chart" | "kanban" | "detail-tabs" | "audit-panel" | "empty-state" | "surface-chrome"
-```
-
-### Governed examples (AI imitation patterns)
-
-```typescript
-import {
-  governedMetadataSurfaceExample,
-  exampleRendererRegistration,
-  createExampleRendererRegistry,
-} from "@afenda/metadata-ui";
+  MetadataActionBar,
+  MetadataDiagnosticsPanel,
+  TabsLayout,
+} from "@afenda/metadata-ui/client";
 ```
 
 ## Installation
 
 ```bash
-# Workspace-internal only. Not published to npm.
 pnpm add @afenda/metadata-ui --workspace
 ```
+
+Import responsive chrome once in the app or Storybook entry CSS:
+
+```css
+@import "@afenda/metadata-ui/styles.css";
+```
+
+Layouts use **container queries** on `.metadata-container` roots — they adapt to their parent width, not only the viewport. Action controls meet **44×44px** touch targets; hover styles apply only under `@media (hover: hover)`.
 
 ## Commands
 
@@ -141,14 +161,13 @@ pnpm add @afenda/metadata-ui --workspace
 pnpm --filter @afenda/metadata-ui typecheck
 pnpm --filter @afenda/metadata-ui test
 pnpm --filter @afenda/metadata-ui build
-pnpm --filter @afenda/metadata-ui check:governance
 ```
 
 ## Governance rules
 
 | AI may | AI may not |
 | --- | --- |
-| Implement renderers by consuming `@afenda/metadata` contracts | Define new metadata authority domains |
-| Add section types to `METADATA_SECTION_TYPES` with a governed schema | Invent layout arrangements outside `@afenda/metadata` governance |
-| Register renderers via `createMetadataRendererRegistry` | Create parallel metadata governance contracts in this package |
-| Generate examples that follow `GovernedExample.imitationOnly: true` | Bypass `@afenda/design-system` tokens in renderer recipes |
+| Implement renderers consuming `@afenda/metadata` contracts | Define new metadata authority domains |
+| Register renderers via `createMetadataRendererRegistry` | Redefine governed metadata vocabulary arrays |
+| Add fixtures and composition components | Import `@afenda/permissions` or execute permission checks |
+| Use `@afenda/ui` when adopted (add explicit `package.json` dependency first) | Rely on hoisted phantom dependencies |

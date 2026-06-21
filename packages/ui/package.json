@@ -21,6 +21,16 @@
       "import": "./dist/styles/afenda-style.css",
       "default": "./dist/styles/afenda-style.css"
     },
+    "./styles.css": {
+      "types": "./dist/styles/ui.css",
+      "import": "./dist/styles/ui.css",
+      "default": "./dist/styles/ui.css"
+    },
+    "./afenda-ui-full.css": {
+      "types": "./dist/styles/afenda-ui-full.css",
+      "import": "./dist/styles/afenda-ui-full.css",
+      "default": "./dist/styles/afenda-ui-full.css"
+    },
     "./governance": {
       "types": "./dist/governance/index.d.ts",
       "import": "./dist/governance/index.js",
@@ -46,7 +56,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b tsconfig.lib.json && node --input-type=module -e \"import { copyFileSync, existsSync, mkdirSync } from 'node:fs'; const css='src/styles/afenda-style.css'; if (!existsSync(css)) { throw new Error('Missing src/styles/afenda-style.css — build @afenda/design-system first'); } mkdirSync('dist/styles', { recursive: true }); copyFileSync(css, 'dist/styles/afenda-style.css');\"",
+    "build": "tsc -b tsconfig.lib.json && node --input-type=module -e \"import { copyFileSync, existsSync, mkdirSync } from 'node:fs'; mkdirSync('dist/styles', { recursive: true }); copyFileSync('src/styles/ui.css', 'dist/styles/ui.css'); copyFileSync('src/styles/afenda-ui-full.css', 'dist/styles/afenda-ui-full.css'); const theme='src/styles/afenda-style.css'; if (!existsSync(theme)) { throw new Error('Missing src/styles/afenda-style.css — build @afenda/design-system first'); } copyFileSync(theme, 'dist/styles/afenda-style.css');\"",
     "dev": "tsc -b tsconfig.lib.json --watch",
     "typecheck": "tsc -b tsconfig.lib.json --pretty false && tsc -p tsconfig.stories.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",

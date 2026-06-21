@@ -54,13 +54,31 @@ export const STATUS_TONES = [
   "success",
   "warning",
   "danger",
+  "critical",
+  "pending",
   "forbidden",
   "invalid",
 ] as const;
 
 export const DENSITIES = ["compact", "standard", "comfortable"] as const;
+
+/** Public density attribute values — `standard` maps to `default` in CSS hooks. */
+export const DENSITY_ATTRIBUTES = [
+  "compact",
+  "default",
+  "comfortable",
+] as const;
 export const SIZES = ["xs", "sm", "md", "lg"] as const;
-export const RADII = ["none", "sm", "md", "lg", "full", "base"] as const;
+export const RADII = [
+  "none",
+  "xs",
+  "sm",
+  "md",
+  "lg",
+  "xl",
+  "full",
+  "base",
+] as const;
 export const SHADOWS = [
   "none",
   "raised",
@@ -151,6 +169,7 @@ export type TokenCategory = (typeof TOKEN_CATEGORIES)[number];
 export type AfendaTokenCategory = (typeof AFENDA_TOKEN_CATEGORIES)[number];
 export type StatusTone = (typeof STATUS_TONES)[number];
 export type Density = (typeof DENSITIES)[number];
+export type DensityAttribute = (typeof DENSITY_ATTRIBUTES)[number];
 export type GovernedSize = (typeof SIZES)[number];
 export type GovernedRadius = (typeof RADII)[number];
 export type GovernedShadow = (typeof SHADOWS)[number];

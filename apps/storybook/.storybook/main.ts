@@ -11,6 +11,7 @@ const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const uiRoot = join(appRoot, "../../packages/ui");
 const uiSrcRoot = join(uiRoot, "src");
 const appshellRoot = join(appRoot, "../../packages/appshell");
+const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const governanceRoot = join(uiSrcRoot, "governance");
@@ -19,6 +20,7 @@ const config: StorybookConfig = {
   stories: [
     "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
     "../../../packages/appshell/src/**/*.stories.@(ts|tsx)",
+    "../../../packages/metadata-ui/src/**/*.stories.@(ts|tsx)",
   ],
   addons: [
     getAbsolutePath("@storybook/addon-docs"),
@@ -44,6 +46,10 @@ const config: StorybookConfig = {
   async viteFinal(viteConfig) {
     const storybookAliases = [
       {
+        find: "@afenda/ui/afenda-ui-full.css",
+        replacement: join(uiSrcRoot, "styles/afenda-ui-full.css"),
+      },
+      {
         find: "@afenda/ui/afenda-style.css",
         replacement: join(uiSrcRoot, "styles/afenda-style.css"),
       },
@@ -66,6 +72,18 @@ const config: StorybookConfig = {
       {
         find: "@afenda/appshell",
         replacement: join(appshellRoot, "src/index.ts"),
+      },
+      {
+        find: "@afenda/metadata-ui/styles.css",
+        replacement: join(metadataUiRoot, "src/styles.css"),
+      },
+      {
+        find: "@afenda/metadata-ui/fixtures.css",
+        replacement: join(metadataUiRoot, "src/fixtures/metadata-ui-fixtures.css"),
+      },
+      {
+        find: "@afenda/metadata-ui",
+        replacement: join(metadataUiRoot, "src/index.ts"),
       },
       { find: "next/link", replacement: nextLinkMock },
       { find: "@", replacement: uiSrcRoot },

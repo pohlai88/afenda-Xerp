@@ -9,11 +9,11 @@
   "exclude": [
     "dist",
     "node_modules",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/_storybook/**",
     "**/*.test.ts",
     "**/*.test.tsx"
   ],
-  "references": [
-    { "path": "../design-system" },
-    { "path": "../metadata" }
-  ]
+  "references": [{ "path": "../metadata" }]
 }

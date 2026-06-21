@@ -7,6 +7,12 @@
 import { cva } from "class-variance-authority";
 
 import { cn } from "../lib/utils";
+import {
+  resolveAppShellClassName,
+  resolveAppShellVariant,
+  resolveMetadataUiClassName,
+  resolveMetadataUiVariant,
+} from "./authority-recipe";
 import type {
   GovernedPanelRadius,
   GovernedPanelShadow,
@@ -128,6 +134,8 @@ const badgeRecipeRuntime = cva(
         success: "",
         warning: "",
         danger: "",
+        critical: "",
+        pending: "",
         forbidden: "",
         invalid: "",
       } satisfies Record<StatusTone, string>,
@@ -206,6 +214,8 @@ const statusRecipeRuntime = cva(
         success: "",
         warning: "",
         danger: "",
+        critical: "",
+        pending: "",
         forbidden: "",
         invalid: "",
       } satisfies Record<StatusTone, string>,
@@ -331,6 +341,10 @@ function resolveRecipeVariant(
       return resolveFormControlVariant(selection);
     case "table":
       return resolveTableVariant(selection);
+    case "app-shell":
+      return resolveAppShellVariant(selection);
+    case "metadata-ui":
+      return resolveMetadataUiVariant(selection);
   }
 }
 
@@ -382,6 +396,18 @@ export function resolveGovernedRecipe(
         recipeName,
         selection: normalized,
         className: resolveTableClassName(normalized),
+      };
+    case "app-shell":
+      return {
+        recipeName,
+        selection: normalized,
+        className: resolveAppShellClassName(normalized),
+      };
+    case "metadata-ui":
+      return {
+        recipeName,
+        selection: normalized,
+        className: resolveMetadataUiClassName(normalized),
       };
     default: {
       const exhaustive: never = recipeName;

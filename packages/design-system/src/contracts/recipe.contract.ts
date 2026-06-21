@@ -67,12 +67,14 @@ export interface RecipeDeclaration {
 
 export interface RecipeDefinition {
   readonly componentKind:
-    | "button"
+    | "app-shell"
     | "badge"
+    | "button"
     | "card"
-    | "table"
     | "form"
-    | "status";
+    | "metadata-ui"
+    | "status"
+    | "table";
   readonly declarations: readonly RecipeDeclaration[];
   readonly description: string;
   readonly name: string;

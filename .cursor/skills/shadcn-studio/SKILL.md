@@ -19,8 +19,9 @@ Authority: `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflo
 | shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/ui`) |
 | Studio toolbar config | `shadcn-studio.config.json` |
 | **shadcn install cwd** | **`packages/ui`** — `components.json` lives here with `@ss-blocks` registry |
-| Blocks output path | `packages/ui/src/components/shadcn-studio/blocks/` |
-| Install artifact policy | Raw output under `packages/ui/src/components/shadcn-studio/` is **excluded from typecheck, Biome, and governance scans** until governed and moved to `packages/appshell/src/shadcn-studio/` |
+| MCP staging (optional) | `packages/ui/src/components/shadcn-studio/` — README only; **do not keep governed blocks here** |
+| Governed blocks path | `packages/appshell/src/shadcn-studio/blocks/` |
+| Install artifact policy | Raw MCP output is excluded from typecheck, Biome, and governance scans — govern primitives, then move to `@afenda/appshell` |
 | Toolbar (Storybook) | `pnpm studio:toolbar` → port 3200 → Storybook 6006 |
 | Toolbar (app) | `pnpm studio:toolbar:app` → port 3200 → app 3000 |
 | Toolbar (web) | `pnpm studio:toolbar:web` → port 3200 → web 3001 |
@@ -57,7 +58,7 @@ Read the credential values from `.env.secret` before running. Do **not** hard-co
 
 | Block file type | Lands in |
 |-----------------|----------|
-| Block components | `packages/ui/src/components/shadcn-studio/blocks/` |
+| Block components (raw MCP) | `packages/ui/src/components/shadcn-studio/blocks/` — **move to** `packages/appshell/src/shadcn-studio/blocks/` after governing |
 | Shared UI primitives | `packages/ui/src/components/` |
 | Hooks | `packages/ui/src/hooks/` |
 | Assets (SVG etc.) | `packages/ui/src/assets/svg/` |

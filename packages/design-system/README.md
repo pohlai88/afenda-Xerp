@@ -9,11 +9,11 @@
 
 ## What this package is
 
-`@afenda/design-system` is the **Design Authority** for the Afenda workspace. It owns every design decision that flows downstream — tokens, variants, recipes, component behaviors, slot structures, state patterns, motion intents, accessibility requirements, class-name policy, export surface, and AI imitation examples.
+`@afenda/design-system` is the **Design Authority** for the Afenda workspace. It owns design vocabulary — tokens, semantic roles, variants, recipes, component contracts, slot structures, state patterns, motion intents, accessibility requirements, class-name policy, export surface, and AI imitation examples.
 
-This package is **governance-only**. It contains no React components, no Storybook stories, no CSS files, and no runtime UI code. It has zero runtime dependencies on other Afenda packages.
+This package is **governance-only**. It contains no React components, no Storybook stories, and no runtime UI code. CSS is generated from the token registry (`src/css/afenda-tokens.css`, consumed via `@afenda/design-system/css/tokens.css`). It has zero runtime dependencies on other Afenda packages.
 
-Downstream UI packages (`@afenda/ui`, `@afenda/metadata-ui`, `@afenda/appshell`) are the implementation layer. They **must** consume the contracts and registries from this package and must not define parallel design values.
+Downstream UI packages (`@afenda/ui`, `@afenda/metadata-ui`, `@afenda/appshell`) are the implementation layer. They **must** consume contracts, registries, and recipes from this package and must not define parallel design values.
 
 ## Governance principles
 
@@ -57,13 +57,38 @@ Governed enumerations:
 
 ```typescript
 import {
-  TOKEN_CATEGORIES,  // 8 categories
-  STATUS_TONES,      // "neutral" | "info" | "success" | "warning" | "danger" | "forbidden" | "invalid"
+  TOKEN_CATEGORIES,  // 15 categories (color, statusTone, spacing, radius, shadow, typography, motion, density, layout, font, chart, opacity, z-index, borderWidth, breakpoint)
+  STATUS_TONES,      // neutral · info · success · warning · danger · critical · pending · forbidden · invalid
   DENSITIES,         // "compact" | "standard" | "comfortable"
+  DENSITY_ATTRIBUTES, // data-afenda-density hooks: compact | default | comfortable
+  densityToAttribute, // standard → default
+  densityFromAttribute, // default → standard
+  densityAttributeSelector, // [data-afenda-density="…"]
   SIZES,             // "xs" | "sm" | "md" | "lg"
-  RADII,             // "none" | "sm" | "md" | "lg"
-  SHADOWS,           // "none" | "raised" | "overlay"
+  RADII,             // "none" | "xs" | "sm" | "md" | "lg" | "xl" | "full"
+  SHADOWS,           // "none" | "xs" | "sm" | "md" | "lg" | "focus" | "popover" | "modal"
 } from "@afenda/design-system";
+```
+
+### Semantic role registry
+
+```typescript
+import { AFENDA_SEMANTIC_ROLE_REGISTRY } from "@afenda/design-system";
+// Maps semantic roles (surface.canvas, text.muted, brand.default, …) to token names and CSS variables.
+```
+
+### Surface recipes (AppShell + Metadata UI)
+
+```typescript
+import { appShellRecipe, metadataUiRecipe } from "@afenda/design-system";
+// Visual authority for @afenda/appshell and @afenda/metadata-ui — recipes only, no React.
+```
+
+### Design policies
+
+```typescript
+import { designTokenPolicy, visualDriftPolicy } from "@afenda/design-system";
+// Enterprise anti-drift rules: prohibited slop, allowed token usage, AI generation guardrails.
 ```
 
 ### Variant registry

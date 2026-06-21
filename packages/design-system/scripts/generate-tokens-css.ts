@@ -10,6 +10,89 @@ const packageRoot = join(scriptDirectory, "..");
 const allTokens = AFENDA_TOKEN_REGISTRY.tokens;
 const darkTokens = allTokens.filter((t) => t.darkValue !== undefined);
 
+/** Derive a Tailwind @theme suffix from an Afenda token name segment. */
+function tokenSuffix(name: string, prefix: string): string {
+  return name.slice(prefix.length).replaceAll(".", "-");
+}
+
+/** Emit @theme spacing utilities from governed spacing tokens (registry-driven). */
+function buildSpacingThemeBlock(): string {
+  return allTokens
+    .filter((token) => token.category === "spacing")
+    .map((token) => {
+      const suffix = tokenSuffix(token.name, "afenda.spacing.");
+      return `  --spacing-${suffix}: var(${token.cssVariable});`;
+    })
+    .join("\n");
+}
+
+/** Emit @theme text-* utilities from governed typography font-size tokens. */
+function buildFontSizeThemeBlock(): string {
+  return allTokens
+    .filter(
+      (token) =>
+        token.category === "typography" &&
+        token.name.startsWith("afenda.typography.font-size.")
+    )
+    .map((token) => {
+      const suffix = tokenSuffix(token.name, "afenda.typography.font-size.");
+      return `  --text-${suffix}: var(${token.cssVariable});`;
+    })
+    .join("\n");
+}
+
+/** Emit @theme leading-* utilities from governed typography line-height tokens. */
+function buildLineHeightThemeBlock(): string {
+  return allTokens
+    .filter(
+      (token) =>
+        token.category === "typography" &&
+        token.name.startsWith("afenda.typography.line-height.")
+    )
+    .map((token) => {
+      const suffix = tokenSuffix(token.name, "afenda.typography.line-height.");
+      return `  --leading-${suffix}: var(${token.cssVariable});`;
+    })
+    .join("\n");
+}
+
+/** Emit @theme font-weight utilities from governed typography weight tokens. */
+function buildFontWeightThemeBlock(): string {
+  return allTokens
+    .filter(
+      (token) =>
+        token.category === "typography" &&
+        token.name.startsWith("afenda.typography.font-weight.")
+    )
+    .map((token) => {
+      const suffix = tokenSuffix(token.name, "afenda.typography.font-weight.");
+      return `  --font-weight-${suffix}: var(${token.cssVariable});`;
+    })
+    .join("\n");
+}
+
+/** Semantic color utilities — stable Tailwind consumption layer above RAW. */
+function buildSemanticColorThemeBlock(): string {
+  const semanticColors = [
+    ["surface-canvas", "--afenda-semantic-surface-canvas"],
+    ["surface-card", "--afenda-semantic-surface-card"],
+    ["surface-raised", "--afenda-semantic-surface-raised"],
+    ["surface-muted", "--afenda-semantic-surface-muted"],
+    ["surface-overlay", "--afenda-semantic-surface-overlay"],
+    ["text-primary", "--afenda-semantic-text-primary"],
+    ["text-secondary", "--afenda-semantic-text-secondary"],
+    ["text-tertiary", "--afenda-semantic-text-tertiary"],
+    ["border-default", "--afenda-semantic-border-default"],
+    ["border-subtle", "--afenda-semantic-border-subtle"],
+    ["border-strong", "--afenda-semantic-border-strong"],
+    ["border-focus", "--afenda-semantic-border-focus"],
+  ] as const;
+
+  return semanticColors
+    .map(([name, cssVar]) => `  --color-${name}: var(${cssVar});`)
+    .join("\n");
+}
+
 /**
  * Emits grouped CSS custom-property lines, inserting a `/* ── <group> ── *​/`
  * comment banner each time the registry section `group` changes. This is how
@@ -79,21 +162,21 @@ ${buildTokenBlocks()}
   --font-heading: var(--afenda-font-heading);
   --font-body: var(--afenda-font-body);
 
-  /* Surfaces */
-  --background: var(--afenda-color-surface-canvas);
-  --foreground: var(--afenda-color-text-default);
-  --card: var(--afenda-color-surface-card);
-  --card-foreground: var(--afenda-color-text-default);
-  --popover: var(--afenda-color-surface-popover);
-  --popover-foreground: var(--afenda-color-text-default);
+  /* Surfaces — semantic layer (stable bridge; RAW switches in Part A .dark) */
+  --background: var(--afenda-semantic-surface-canvas);
+  --foreground: var(--afenda-semantic-text-primary);
+  --card: var(--afenda-semantic-surface-card);
+  --card-foreground: var(--afenda-semantic-text-primary);
+  --popover: var(--afenda-semantic-surface-overlay);
+  --popover-foreground: var(--afenda-semantic-text-primary);
 
-  /* Brand */
-  --primary: var(--afenda-color-primary);
-  --primary-foreground: var(--afenda-color-primary-foreground);
+  /* Brand — accent semantic roles for primary actions */
+  --primary: var(--afenda-semantic-accent-bg);
+  --primary-foreground: var(--afenda-semantic-accent-text);
   --secondary: var(--afenda-color-secondary);
   --secondary-foreground: var(--afenda-color-secondary-foreground);
-  --muted: var(--afenda-color-surface-muted);
-  --muted-foreground: var(--afenda-color-text-muted);
+  --muted: var(--afenda-semantic-surface-muted);
+  --muted-foreground: var(--afenda-semantic-text-secondary);
   --accent: var(--afenda-color-accent);
   --accent-foreground: var(--afenda-color-accent-foreground);
 
@@ -109,10 +192,10 @@ ${buildTokenBlocks()}
   --info: var(--afenda-status-tone-info-solid);
   --info-foreground: var(--afenda-status-tone-info-solid-foreground);
 
-  /* Chrome */
-  --border: var(--afenda-color-border-default);
+  /* Chrome — semantic border roles */
+  --border: var(--afenda-semantic-border-default);
   --input: var(--afenda-color-input);
-  --ring: var(--afenda-color-focus-ring);
+  --ring: var(--afenda-semantic-border-focus);
 
   /* Charts (shadcn supports chart-1..5 by default; 6..8 extend it) */
   --chart-1: var(--afenda-color-chart-1);
@@ -181,6 +264,19 @@ ${buildTokenBlocks()}
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Semantic surface / text / border — direct Tailwind utilities (bg-surface-canvas, etc.) */
+${buildSemanticColorThemeBlock()}
+
+  /* Spacing — registry-driven scale (p-*, gap-*, m-*) */
+${buildSpacingThemeBlock()}
+
+  /* Typography — registry-driven scale (text-*, leading-*, font-weight-*) */
+${buildFontSizeThemeBlock()}
+
+${buildLineHeightThemeBlock()}
+
+${buildFontWeightThemeBlock()}
 
   /* Radius — single base drives the whole scale */
   --radius-sm: calc(var(--radius) * 0.6);
@@ -253,7 +349,8 @@ ${buildTokenBlocks()}
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-body);
-    line-height: 1.6;
+    font-size: var(--afenda-typography-font-size-body-md);
+    line-height: var(--afenda-typography-line-height-body-md);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -270,43 +367,43 @@ ${buildTokenBlocks()}
   }
 
   h1 {
-    font-size: 2.25rem;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    font-weight: 700;
+    font-size: var(--afenda-typography-font-size-display-sm);
+    line-height: var(--afenda-typography-line-height-display-sm);
+    letter-spacing: var(--afenda-typography-letter-spacing-tighter);
+    font-weight: var(--afenda-typography-font-weight-display-sm);
   }
 
   h2 {
-    font-size: 1.875rem;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-    font-weight: 650;
+    font-size: var(--afenda-typography-font-size-heading-xl);
+    line-height: var(--afenda-typography-line-height-heading-xl);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    font-weight: var(--afenda-typography-font-weight-heading-xl);
   }
 
   h3 {
-    font-size: 1.5rem;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-    font-weight: 600;
+    font-size: var(--afenda-typography-font-size-heading-lg);
+    line-height: var(--afenda-typography-line-height-heading-lg);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    font-weight: var(--afenda-typography-font-weight-heading-lg);
   }
 
   h4 {
-    font-size: 1.25rem;
-    line-height: 1.35;
-    letter-spacing: -0.015em;
-    font-weight: 600;
+    font-size: var(--afenda-typography-font-size-heading-md);
+    line-height: var(--afenda-typography-line-height-heading-md);
+    letter-spacing: var(--afenda-typography-letter-spacing-normal);
+    font-weight: var(--afenda-typography-font-weight-heading-md);
   }
 
   h5 {
-    font-size: 1.125rem;
-    line-height: 1.45;
-    font-weight: 550;
+    font-size: var(--afenda-typography-font-size-body-lg);
+    line-height: var(--afenda-typography-line-height-body-lg);
+    font-weight: var(--afenda-typography-font-weight-heading-sm);
   }
 
   h6 {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 550;
+    font-size: var(--afenda-typography-font-size-heading-sm);
+    line-height: var(--afenda-typography-line-height-heading-sm);
+    font-weight: var(--afenda-typography-font-weight-heading-sm);
   }
 
   code,
@@ -330,6 +427,34 @@ ${buildTokenBlocks()}
 /* ── Part E: Custom utilities ────────────────────────────────────────────── */
 @utility tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Part F: Density attribute hooks ─────────────────────────────────────── */
+[data-afenda-density="compact"] {
+  --afenda-density-control-height: var(--afenda-density-compact-control-height);
+  --afenda-density-gap: var(--afenda-density-compact-gap);
+  --afenda-density-section-gap: var(--afenda-density-compact-section-gap);
+  --afenda-density-table-row-height: var(--afenda-density-compact-table-row-height);
+  --afenda-density-toolbar-gap: var(--afenda-density-compact-toolbar-gap);
+  --afenda-density-field-gap: var(--afenda-density-compact-field-gap);
+}
+
+[data-afenda-density="default"] {
+  --afenda-density-control-height: var(--afenda-density-default-control-height);
+  --afenda-density-gap: var(--afenda-density-default-gap);
+  --afenda-density-section-gap: var(--afenda-density-default-section-gap);
+  --afenda-density-table-row-height: var(--afenda-density-default-table-row-height);
+  --afenda-density-toolbar-gap: var(--afenda-density-default-toolbar-gap);
+  --afenda-density-field-gap: var(--afenda-density-default-field-gap);
+}
+
+[data-afenda-density="comfortable"] {
+  --afenda-density-control-height: var(--afenda-density-comfortable-control-height);
+  --afenda-density-gap: var(--afenda-density-comfortable-gap);
+  --afenda-density-section-gap: var(--afenda-density-comfortable-section-gap);
+  --afenda-density-table-row-height: var(--afenda-density-comfortable-table-row-height);
+  --afenda-density-toolbar-gap: var(--afenda-density-comfortable-toolbar-gap);
+  --afenda-density-field-gap: var(--afenda-density-comfortable-field-gap);
 }
 `;
 }

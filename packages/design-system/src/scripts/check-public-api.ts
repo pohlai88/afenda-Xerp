@@ -19,9 +19,9 @@ const distIndex = join(
 
 if (!existsSync(distIndex)) {
   process.stderr.write(
-    `check:public-api SKIPPED — dist/index.js not found. Run 'pnpm --filter @afenda/design-system build' first.\n`
+    `check:public-api FAILED — dist/index.js not found. Run 'pnpm --filter @afenda/design-system build' first.\n`
   );
-  process.exit(0);
+  process.exit(1);
 }
 
 const distIndexUrl = pathToFileURL(distIndex).href;

@@ -8,8 +8,11 @@ import {
 import {
   createMetadataUiRenderContext,
   getDefaultMetadataUiHydrationMode,
-} from "../runtime/create-metadata-ui-render-context.js";
-import { sampleRuntimeContext } from "../fixtures/sample-runtime-context.fixture.js";
+} from "../runtime/index.js";
+import {
+  sampleRuntimeContext,
+  sampleRuntimeContextFixture,
+} from "../fixtures/sample-runtime-context.fixture.js";
 
 function expectUniqueValues(values: readonly string[]): void {
   expect(new Set(values).size).toBe(values.length);
@@ -91,5 +94,45 @@ describe("createMetadataUiRenderContext", () => {
     expect(context.diagnostics.enabled).toBe(false);
     expect(context.environment.interactive).toBe(true);
     expect(context.environment.hydration).toBe("full");
+  });
+});
+
+describe("sample runtime context fixture", () => {
+  it("builds governed runtime and render context variants", () => {
+    expect(sampleRuntimeContextFixture.constants.correlationId).toBe(
+      "corr_fixture_sample_001"
+    );
+    expect(sampleRuntimeContextFixture.constants.diagnosticsNamespace).toBe(
+      "metadata-ui.fixture"
+    );
+    expect(sampleRuntimeContextFixture.runtime.context.workspaceId).toBe(
+      "workspace_fixture_sample"
+    );
+    expect(sampleRuntimeContextFixture.runtime.input.density).toBe("comfortable");
+    expect(sampleRuntimeContextFixture.runtime.input.presentationMode).toBe(
+      "compact"
+    );
+    expect(sampleRuntimeContextFixture.render.context.diagnostics.enabled).toBe(
+      false
+    );
+    expect(sampleRuntimeContextFixture.render.input.hydration).toBe("none");
+    expect(
+      sampleRuntimeContextFixture.diagnosticsRender.context.diagnostics.level
+    ).toBe("summary");
+    expect(
+      sampleRuntimeContextFixture.verboseDiagnosticsRender.context.diagnostics
+        .level
+    ).toBe("verbose");
+    expect(sampleRuntimeContextFixture.clientRender.context.environment).toEqual({
+      source: "client",
+      hydration: "full",
+      interactive: true,
+    });
+    expect(sampleRuntimeContextFixture.strictRender.context.policy.strict).toBe(
+      true
+    );
+    expect(
+      sampleRuntimeContextFixture.readonlyRender.context.runtime.readonlyMode
+    ).toBe(true);
   });
 });

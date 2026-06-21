@@ -2,7 +2,7 @@
   "name": "@afenda/storybook",
   "version": "0.0.0",
   "private": true,
-  "description": "Application-layer Storybook for @afenda/ui and @afenda/appshell",
+  "description": "Application-layer Storybook for @afenda/ui, @afenda/appshell, and @afenda/metadata-ui",
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@afenda/appshell": "workspace:*",
+    "@afenda/metadata-ui": "workspace:*",
     "@afenda/design-system": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",

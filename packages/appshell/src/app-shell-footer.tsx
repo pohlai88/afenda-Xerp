@@ -2,6 +2,7 @@ import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "@afenda/
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import type { ApplicationShellResolvedChrome } from "./app-shell.types";
+import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 /**
  * Social icon primitives (FacebookIcon, InstagramIcon, etc.) are not in
@@ -19,7 +20,13 @@ interface AppShellFooterProps {
 
 export function AppShellFooter({ chrome }: AppShellFooterProps) {
   return (
-    <footer className="app-shell-footer">
+    <footer
+      className={joinAppShellGovernedClassName(
+        "app-shell-footer",
+        "utility-bar",
+        { density: chrome.density }
+      )}
+    >
       <div className="app-shell-footer-inner">
         <p className="app-shell-footer-copy">
           {`©${new Date().getFullYear()}`}{" "}

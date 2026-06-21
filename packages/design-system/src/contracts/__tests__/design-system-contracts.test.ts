@@ -31,7 +31,6 @@ const requiredContractFiles = [
   "export.contract.ts",
   "example.contract.ts",
   "class-name-policy.contract.ts",
-  "index.ts",
 ] as const;
 
 const designSystemContracts = [

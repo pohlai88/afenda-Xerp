@@ -1,6 +1,8 @@
 // Component: [Name]
 // TODO: Customize for your framework (React, Vue, Svelte, etc.)
 
+import React from "react";
+
 type Props = Record<string, never>;
 
 export function ComponentName(_props: Props) {

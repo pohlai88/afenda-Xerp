@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 
+import "@afenda/ui/afenda-ui-full.css";
+
 import type { ApplicationShellDashboardGovernedComponents } from "./app-shell-dashboard";
 import { ApplicationShellDashboardContent } from "./app-shell-dashboard";
 import {
@@ -23,7 +25,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed ERP overview dashboard from `@afenda/appshell`. Composes sparkline metrics, KPI cards, revenue chart, module earnings, regional sales, transactions, payment history, accounts receivable, and optional legacy module widgets. Layout chrome uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004).",
+          "Governed ERP overview dashboard from `@afenda/appshell`. Composes sparkline metrics, KPI cards, revenue chart, module earnings, regional sales, transactions, payment history, accounts receivable, and optional legacy module widgets. Layout chrome uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004). Token-backed surfaces will adopt `@afenda/ui/governance` app-shell recipe slots — see Authority Preview stories.",
       },
     },
     a11y: {

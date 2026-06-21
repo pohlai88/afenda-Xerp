@@ -1,4 +1,182 @@
-import type { MetadataDiagnosticsProps } from "../contracts/diagnostics.contract.js";
+import type {
+  MetadataBoundaryWarningProps,
+  MetadataDiagnosticsProps,
+} from "../contracts/diagnostics.contract.js";
+import { resolveMetadataUiGovernedClassName } from "../wiring/governance.js";
+
+interface DiagnosticsItem {
+  readonly key: string;
+  readonly label: string;
+  readonly value: string | number | boolean | undefined;
+  readonly verboseOnly?: boolean;
+}
+
+function formatDiagnosticsBoolean(value: boolean): string {
+  return value ? "yes" : "no";
+}
+
+function hasDiagnosticsValue(
+  value: string | number | boolean | undefined
+): value is string | number | boolean {
+  return value !== undefined && value !== "";
+}
+
+function isVerboseDiagnosticsEnabled(
+  context: MetadataDiagnosticsProps["context"]
+): boolean {
+  return context.diagnostics.level === "verbose";
+}
+
+function createIdentityDiagnosticsItems(
+  identity: MetadataDiagnosticsProps["snapshot"]["identity"]
+): readonly DiagnosticsItem[] {
+  if (identity === undefined) {
+    return [];
+  }
+
+  return [
+    {
+      key: "actor-id",
+      label: "Actor",
+      value: identity.actorId,
+      verboseOnly: true,
+    },
+    {
+      key: "tenant-id",
+      label: "Tenant",
+      value: identity.tenantId,
+      verboseOnly: true,
+    },
+    {
+      key: "company-id",
+      label: "Company",
+      value: identity.companyId,
+      verboseOnly: true,
+    },
+    {
+      key: "organization-id",
+      label: "Organization",
+      value: identity.organizationId,
+      verboseOnly: true,
+    },
+    {
+      key: "workspace-id",
+      label: "Workspace",
+      value: identity.workspaceId,
+      verboseOnly: true,
+    },
+  ];
+}
+
+function createDiagnosticsItems({
+  context,
+  snapshot,
+}: MetadataDiagnosticsProps): readonly DiagnosticsItem[] {
+  const { identity, surface, renderer, runtime, presentation } = snapshot;
+
+  return [
+    ...createIdentityDiagnosticsItems(identity),
+
+    {
+      key: "surface-type",
+      label: "Surface",
+      value: surface?.surfaceType,
+    },
+    {
+      key: "layout-type",
+      label: "Layout",
+      value: surface?.layoutType,
+    },
+    {
+      key: "section-type",
+      label: "Section",
+      value: surface?.sectionType,
+    },
+    {
+      key: "renderer-key",
+      label: "Renderer",
+      value: renderer?.rendererKey,
+    },
+    {
+      key: "renderer-capability",
+      label: "Capability",
+      value: renderer?.rendererCapability,
+    },
+    {
+      key: "renderer-version",
+      label: "Renderer version",
+      value: renderer?.rendererVersion,
+      verboseOnly: true,
+    },
+    {
+      key: "runtime-state",
+      label: "Runtime state",
+      value: runtime.runtimeState,
+    },
+    {
+      key: "density-mode",
+      label: "Density",
+      value: presentation.densityMode,
+    },
+    {
+      key: "presentation-mode",
+      label: "Presentation",
+      value: presentation.presentationMode,
+    },
+    {
+      key: "readonly-mode",
+      label: "Read-only",
+      value: formatDiagnosticsBoolean(runtime.readonlyMode),
+    },
+    {
+      key: "diagnostics-level",
+      label: "Diagnostics level",
+      value: context.diagnostics.level,
+      verboseOnly: true,
+    },
+    {
+      key: "correlation-id",
+      label: "Correlation",
+      value: runtime.correlationId,
+      verboseOnly: true,
+    },
+  ];
+}
+
+function MetadataDiagnosticsDescriptionList({
+  items,
+  verbose,
+}: {
+  readonly items: readonly DiagnosticsItem[];
+  readonly verbose: boolean;
+}) {
+  const visibleItems = items.filter((item) => {
+    if (item.verboseOnly === true && !verbose) {
+      return false;
+    }
+
+    return hasDiagnosticsValue(item.value);
+  });
+
+  if (visibleItems.length === 0) {
+    return null;
+  }
+
+  return (
+    <dl className="metadata-diagnostics-list">
+      {visibleItems.map((item) => (
+        <div
+          className="metadata-diagnostics-item"
+          data-diagnostics-key={item.key}
+          key={item.key}
+        >
+          <dt>{item.label}</dt>
+          <dd>{String(item.value)}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 export function MetadataDiagnosticsPanel({
   context,
@@ -8,67 +186,27 @@ export function MetadataDiagnosticsPanel({
     return null;
   }
 
-  const { surface, renderer, runtime, presentation } = snapshot;
+  const verbose = isVerboseDiagnosticsEnabled(context);
+  const items = createDiagnosticsItems({ context, snapshot });
 
   return (
     <aside
       aria-label="Metadata diagnostics"
-      className="metadata-diagnostics-panel"
+      className={resolveMetadataUiGovernedClassName("diagnostics", {
+        structuralClassNames: ["metadata-diagnostics-panel"],
+        density: context.runtime.density,
+      })}
+      data-diagnostics-level={context.diagnostics.level}
+      data-metadata-diagnostics-enabled={context.diagnostics.enabled ? "true" : "false"}
+      data-metadata-hydration={context.environment.hydration}
+      data-metadata-runtime-state={snapshot.runtime.runtimeState}
+      data-metadata-source={context.environment.source}
+      data-runtime-state={snapshot.runtime.runtimeState}
       data-slot="metadata-diagnostics-panel"
     >
-      <h2>Diagnostics</h2>
-      <dl>
-        {surface?.surfaceType ? (
-          <>
-            <dt>Surface</dt>
-            <dd>{surface.surfaceType}</dd>
-          </>
-        ) : null}
-        {surface?.layoutType ? (
-          <>
-            <dt>Layout</dt>
-            <dd>{surface.layoutType}</dd>
-          </>
-        ) : null}
-        {surface?.sectionType ? (
-          <>
-            <dt>Section</dt>
-            <dd>{surface.sectionType}</dd>
-          </>
-        ) : null}
-        {renderer?.rendererKey ? (
-          <>
-            <dt>Renderer</dt>
-            <dd>{renderer.rendererKey}</dd>
-          </>
-        ) : null}
-        {renderer?.rendererCapability ? (
-          <>
-            <dt>Capability</dt>
-            <dd>{renderer.rendererCapability}</dd>
-          </>
-        ) : null}
-        {renderer?.rendererVersion ? (
-          <>
-            <dt>Renderer version</dt>
-            <dd>{renderer.rendererVersion}</dd>
-          </>
-        ) : null}
-        <dt>Runtime state</dt>
-        <dd>{runtime.runtimeState}</dd>
-        <dt>Density</dt>
-        <dd>{presentation.densityMode}</dd>
-        <dt>Presentation</dt>
-        <dd>{presentation.presentationMode}</dd>
-        <dt>Read-only</dt>
-        <dd>{runtime.readonlyMode ? "yes" : "no"}</dd>
-        {runtime.correlationId ? (
-          <>
-            <dt>Correlation</dt>
-            <dd>{runtime.correlationId}</dd>
-          </>
-        ) : null}
-      </dl>
+      <h2 className="metadata-diagnostics-title">Diagnostics</h2>
+
+      <MetadataDiagnosticsDescriptionList items={items} verbose={verbose} />
     </aside>
   );
 }
@@ -81,21 +219,29 @@ export function MetadataRenderTrace({
     return null;
   }
 
-  const rendererKey = snapshot.renderer?.rendererKey ?? "unknown";
-  const sectionType = snapshot.surface?.sectionType ?? "unknown";
+  const rendererKey = snapshot.renderer?.rendererKey ?? "unknown-renderer";
+  const sectionType = snapshot.surface?.sectionType ?? "unknown-section";
+  const runtimeState = snapshot.runtime.runtimeState;
 
   return (
     <pre
+      aria-label="Metadata render trace"
       className="metadata-render-trace"
+      data-metadata-runtime-state={runtimeState}
+      data-renderer-key={rendererKey}
+      data-runtime-state={runtimeState}
+      data-section-type={sectionType}
       data-slot="metadata-render-trace"
-    >{`${rendererKey} → ${sectionType}`}</pre>
+    >
+      {`${rendererKey} → ${sectionType} [${runtimeState}]`}
+    </pre>
   );
 }
 
 export function MetadataBoundaryWarning({
   context,
   message,
-}: MetadataDiagnosticsProps & { readonly message: string }) {
+}: MetadataBoundaryWarningProps) {
   if (!context.diagnostics.enabled) {
     return null;
   }
@@ -103,6 +249,7 @@ export function MetadataBoundaryWarning({
   return (
     <p
       className="metadata-boundary-warning"
+      data-diagnostics-level={context.diagnostics.level}
       data-slot="metadata-boundary-warning"
       role="note"
     >

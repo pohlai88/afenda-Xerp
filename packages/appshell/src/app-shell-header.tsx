@@ -25,6 +25,7 @@ import { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigg
 import { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-notification-dropdown";
 import { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
 import { AppShellSearchDialog } from "./shadcn-studio/blocks/app-shell-search-dialog";
+import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellHeaderGovernedComponents = Extract<
   GovernedUiComponentName,
@@ -44,7 +45,13 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
       : "Notifications";
 
   return (
-    <header className="app-shell-header-bar">
+    <header
+      className={joinAppShellGovernedClassName(
+        "app-shell-header-bar",
+        "topbar",
+        { density: chrome.density }
+      )}
+    >
       <div className="app-shell-header app-shell-header-grid">
         <div className="app-shell-header-leading">
           <AppShellMenuTrigger
@@ -62,7 +69,11 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
         </div>
 
         <AppShellSearchDialog
-          className="app-shell-search-dialog-desktop"
+          className={joinAppShellGovernedClassName(
+            "app-shell-search-dialog-desktop",
+            "command-center",
+            { density: chrome.density }
+          )}
           trigger={
             <div className="app-shell-search-trigger-desktop">
               <SearchIcon
@@ -76,7 +87,13 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
           }
         />
 
-        <div className="app-shell-header-actions">
+        <div
+          className={joinAppShellGovernedClassName(
+            "app-shell-header-actions",
+            "utility-bar",
+            { density: chrome.density }
+          )}
+        >
           <AppShellSearchDialog
             className="app-shell-search-dialog-mobile"
             trigger={

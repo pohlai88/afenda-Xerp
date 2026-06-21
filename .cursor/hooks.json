@@ -37,7 +37,7 @@
       {
         "command": "node .cursor/hooks/stop-quality-gates.mjs",
         "timeout": 180,
-        "loop_limit": 3
+        "loop_limit": 1
       }
     ]
   }
