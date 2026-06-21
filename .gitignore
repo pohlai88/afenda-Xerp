@@ -67,5 +67,13 @@ temp-docx.zip
 master-plan-excerpt.txt
 *.docx
 
+# Agent / IDE debug dumps (local only)
+.cursor-*-errors.txt
+
+# Accidental TypeScript emit into source trees (build output belongs in dist/)
+vitest.shared.js
+packages/*/vitest.config.js
+packages/*/src/**/*.js
+
 *storybook.log
 storybook-static
