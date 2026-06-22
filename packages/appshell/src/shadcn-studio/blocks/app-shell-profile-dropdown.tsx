@@ -53,7 +53,7 @@ function ProfileOnlineIndicator() {
   return (
     <span
       aria-hidden
-      className="app-shell-profile-online-indicator ring-card absolute right-0 bottom-0 block size-2 rounded-full ring-2"
+      className="app-shell-profile-online-indicator"
     />
   );
 }
@@ -110,7 +110,7 @@ function ProfileMenuItemRow({ item }: { readonly item: AppShellProfileMenuItem }
     <DropdownMenuItem
       {...(item.variant === undefined ? {} : { variant: item.variant })}
     >
-      <item.Icon aria-hidden className="text-foreground size-5" />
+      <item.Icon aria-hidden className="app-shell-profile-menu-item-icon" />
       <span>{item.label}</span>
     </DropdownMenuItem>
   );

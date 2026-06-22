@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "src/styles/afenda-style.css",
+    "css": "src/styles/afenda-ui.css",
     "baseColor": "neutral",
     "cssVariables": true
   },

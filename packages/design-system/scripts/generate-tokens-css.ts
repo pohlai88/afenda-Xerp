@@ -137,7 +137,7 @@ function buildTokensCss(): string {
  * All custom properties use the --afenda-* prefix (TIP-004A).
  * Safe to consume in any CSS context without namespace collisions.
  *
- * Usage in apps/erp or packages/ui afenda-style.css:
+ * Usage (token-only surfaces):
  *   @import "@afenda/design-system/css/afenda-tokens.css";
  */
 ${buildTokenBlocks()}`;
@@ -459,47 +459,32 @@ ${buildFontWeightThemeBlock()}
 `;
 }
 
-function buildGlobalsCss(): string {
+function buildDesignSystemCss(): string {
   return `/**
  * @generated — do not edit manually.
  * Source: packages/design-system/src/registries/token.registry.ts
  * Regenerate: pnpm --filter @afenda/design-system build
+ *
+ * Canonical design-system CSS. NOT named globals.css — that name is reserved
+ * for the app composition entry (apps/<app>/src/app/globals.css).
  *
  * Tailwind v4 four-step architecture:
  *   Part A  Design tokens  (--afenda-* custom properties)
  *   Part B  Bridge layer   (@custom-variant dark + shadcn :root vars)
- *   Part C  Utility map    (@theme inline → Tailwind bg-*/text-*/shadow-*/rounded-*)
+ *   Part C  Utility map    (@theme inline maps Tailwind bg-, text-, shadow-, rounded-)
  *   Part D  Base styles    (@layer base — NO @apply, direct var() refs only)
  *
- * Usage: @import "@afenda/design-system/css/globals.css";
+ * Usage: @import "@afenda/design-system/css/afenda-design-system.css";
  */
 
 ${buildThemePartsCss()}`;
-}
-
-function buildAfendaStyleCss(): string {
-  return `/**
- * @generated — do not edit manually.
- * Source: packages/design-system/src/registries/token.registry.ts
- * Regenerate: pnpm --filter @afenda/design-system build
- *
- * Theme layer only (Parts A–D). Do NOT @import "tailwindcss" here — that belongs
- * once at the app entry to avoid duplicate Tailwind processing.
- *
- * App wiring (Tailwind v4 load order): tailwindcss, then
- * @afenda/ui/afenda-style.css, then shadcn/tailwind.css at the app entry.
- */
-${buildThemePartsCss()}
-@source "../**/*.{ts,tsx}";
-`;
 }
 
 const count = allTokens.length;
 const darkCount = darkTokens.length;
 
 const tokensCss = buildTokensCss();
-const globalsCss = buildGlobalsCss();
-const afendaStyleCss = buildAfendaStyleCss();
+const designSystemCss = buildDesignSystemCss();
 
 // 1. tokens.css — raw --afenda-* vars only
 const distTokensPath = join(packageRoot, "dist/css/tokens.css");
@@ -510,32 +495,24 @@ const srcTokensPath = join(packageRoot, "src/css/afenda-tokens.css");
 mkdirSync(dirname(srcTokensPath), { recursive: true });
 writeFileSync(srcTokensPath, tokensCss, "utf8");
 
-// 2. globals.css — complete Tailwind v4 theme (Parts A–D, no tailwind import)
-const distGlobalsPath = join(packageRoot, "dist/css/globals.css");
-mkdirSync(dirname(distGlobalsPath), { recursive: true });
-writeFileSync(distGlobalsPath, globalsCss, "utf8");
+// 2. afenda-design-system.css — complete Tailwind v4 theme (Parts A–D, no tailwind import)
+const distDesignSystemPath = join(packageRoot, "dist/css/afenda-design-system.css");
+mkdirSync(dirname(distDesignSystemPath), { recursive: true });
+writeFileSync(distDesignSystemPath, designSystemCss, "utf8");
 
-const srcGlobalsPath = join(packageRoot, "src/css/afenda-globals.css");
-mkdirSync(dirname(srcGlobalsPath), { recursive: true });
-writeFileSync(srcGlobalsPath, globalsCss, "utf8");
-
-// 3. afenda-style.css — UI package consumption entry (tailwind + theme + shadcn)
-const uiStylePath = join(packageRoot, "../ui/src/styles/afenda-style.css");
-mkdirSync(dirname(uiStylePath), { recursive: true });
-writeFileSync(uiStylePath, afendaStyleCss, "utf8");
+const srcDesignSystemPath = join(packageRoot, "src/css/afenda-design-system.css");
+mkdirSync(dirname(srcDesignSystemPath), { recursive: true });
+writeFileSync(srcDesignSystemPath, designSystemCss, "utf8");
 
 console.log(
-  `✓ Generated dist/css/tokens.css        (${count} tokens, ${darkCount} with dark overrides)`
+  `✓ Generated dist/css/tokens.css                (${count} tokens, ${darkCount} with dark overrides)`
 );
 console.log(
-  `✓ Generated src/css/afenda-tokens.css   (${count} tokens, ${darkCount} with dark overrides)`
+  `✓ Generated src/css/afenda-tokens.css          (${count} tokens, ${darkCount} with dark overrides)`
 );
 console.log(
-  `✓ Generated dist/css/globals.css        (${count} tokens, ${darkCount} with dark overrides)`
+  `✓ Generated dist/css/afenda-design-system.css  (${count} tokens, ${darkCount} with dark overrides)`
 );
 console.log(
-  `✓ Generated src/css/afenda-globals.css   (${count} tokens, ${darkCount} with dark overrides)`
-);
-console.log(
-  `✓ Generated packages/ui/src/styles/afenda-style.css (${count} tokens, ${darkCount} with dark overrides)`
+  `✓ Generated src/css/afenda-design-system.css   (${count} tokens, ${darkCount} with dark overrides)`
 );

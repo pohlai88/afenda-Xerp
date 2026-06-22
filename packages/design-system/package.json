@@ -10,20 +10,13 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./css/tokens.css": {
-      "types": "./dist/css/tokens.css",
-      "import": "./dist/css/tokens.css",
-      "default": "./dist/css/tokens.css"
-    },
     "./css/afenda-tokens.css": {
-      "types": "./dist/css/tokens.css",
       "import": "./dist/css/tokens.css",
       "default": "./dist/css/tokens.css"
     },
-    "./css/globals.css": {
-      "types": "./dist/css/globals.css",
-      "import": "./dist/css/globals.css",
-      "default": "./dist/css/globals.css"
+    "./css/afenda-design-system.css": {
+      "import": "./dist/css/afenda-design-system.css",
+      "default": "./dist/css/afenda-design-system.css"
     }
   },
   "files": [
@@ -46,7 +39,8 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": [
-    "**/*.css"
+    "./dist/css/tokens.css",
+    "./dist/css/afenda-design-system.css"
   ],
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

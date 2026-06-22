@@ -1,7 +1,7 @@
 /**
  * Afenda ERP v2 enterprise design token catalog.
  *
- * Visualises generated tokens from token.registry.ts via afenda-style.css.
+ * Visualises generated tokens from token.registry.ts via afenda-design-system.css.
  * Swatches read live CSS variables — no hardcoded colors. Theme toolbar = light/dark.
  *
  * Layer legend:
@@ -9,7 +9,7 @@
  *   alias  — semantic references via var() (table, form-field, etc.)
  *   bridge — shadcn-compatible aliases (--primary, --chart-1, …)
  *
- * See: apps/storybook/.storybook/preview.css — loads `@afenda/ui/afenda-ui-full.css`.
+ * See: apps/storybook/.storybook/preview.css — loads the app globals.css (which includes `@afenda/ui/afenda-ui.css`).
  */
 import type { Meta, StoryObj } from "@storybook/react";
 import { SearchIcon } from "lucide-react";

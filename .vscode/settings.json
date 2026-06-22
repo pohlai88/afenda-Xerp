@@ -65,6 +65,7 @@
   "[yaml]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "css.validate": false,
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
   "less.lint.unknownAtRules": "ignore",

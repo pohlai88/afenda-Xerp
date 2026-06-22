@@ -25,16 +25,16 @@ const PROHIBITED_EXTENSIONS = [".css"];
 
 /**
  * CSS files that are explicitly permitted in src/.
- * `afenda-tokens.css` and `afenda-globals.css` are @generated build artifacts
- * (gitignored) written by `scripts/generate-tokens-css.ts` for local-dev
- * @import convenience. They are not hand-authored CSS — the source of truth
- * is token.registry.ts.
+ * `afenda-tokens.css` and `afenda-design-system.css` are @generated build
+ * artifacts (gitignored) written by `scripts/generate-tokens-css.ts` for
+ * local-dev @import convenience. They are not hand-authored CSS — the source of
+ * truth is token.registry.ts. (Never named globals.css — that is app-only.)
  */
 const ALLOWED_CSS_FILES = new Set([
   "css\\afenda-tokens.css",
   "css/afenda-tokens.css",
-  "css\\afenda-globals.css",
-  "css/afenda-globals.css",
+  "css\\afenda-design-system.css",
+  "css/afenda-design-system.css",
 ]);
 
 const errors: string[] = [];

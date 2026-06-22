@@ -1,22 +1,29 @@
 /**
- * Storybook CSS entry — mirror apps/erp/src/app/globals.css load order.
+ * Storybook CSS entry — mirrors apps/erp/src/app/globals.css composition.
  *
- * 1. tailwindcss
- * 2. @afenda/ui/afenda-ui-full.css (@theme bridge + primitive structural hooks)
- * 3. app-shell.presentation.css (shell chrome @layer components)
- * 4. metadata-ui structural hooks
- * 5. shadcn/tailwind.css (registry utilities last)
+ * Do NOT import only package CSS files (afenda-ui.css alone skips Tailwind base).
+ * Do NOT import erp/globals.css via relative path — @source and PostCSS root
+ * stay anchored here so Tailwind scans monorepo package sources.
+ *
+ * See docs/architecture/css-authority.md
  */
+@layer theme, base, components, utilities;
+
 @import "tailwindcss";
-@import "../../../packages/ui/src/styles/afenda-ui-full.css";
-@import "../../../packages/appshell/src/app-shell.presentation.css";
-@import "../../../packages/metadata-ui/src/styles.css";
-@import "../../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css";
+
+@import "@afenda/ui/afenda-ui.css";
+@import "@afenda/appshell/afenda-appshell.css";
+@import "@afenda/metadata-ui/afenda-metadata-ui.css" layer(components);
 @import "shadcn/tailwind.css";
 
+/* Storybook-only fixture styling (never in app globals). */
+@import "../../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css";
+
+@source "../../../packages/design-system/src/**/*.{ts,tsx,css}";
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../packages/appshell/src/**/*.{ts,tsx}";
 @source "../../../packages/metadata-ui/src/**/*.{ts,tsx}";
+@source "../../erp/src/**/*.{ts,tsx}";
 @source "./**/*.{ts,tsx}";
 
 html,

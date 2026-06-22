@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, Badge } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_SECTION_ID,
@@ -32,8 +32,6 @@ export type ApplicationShellPlaceholderGovernedComponents = Extract<
   GovernedUiComponentName,
   "Avatar" | "Badge"
 >;
-
-type GovernedSparklineBadgeTone = NonNullable<GovernedBadgeProps["tone"]>;
 
 export interface ApplicationShellPlaceholderProps {
   readonly dashboardLabel?: string;
@@ -168,8 +166,6 @@ function SparklineStatCard({
   comparisonLabel,
 }: AppShellPlaceholderSparklineCard & { readonly comparisonLabel: string }) {
   const gradientId = `app-shell-sparkline-${id}`;
-  const sparklineBadgeTone: GovernedSparklineBadgeTone =
-    trend === "up" ? "success" : "danger";
 
   return (
     <div className="app-shell-placeholder-surface app-shell-placeholder-sparkline-card">
@@ -180,7 +176,7 @@ function SparklineStatCard({
             <span className="app-shell-placeholder-sparkline-amount">{amount}</span>
           </div>
           <div className="app-shell-placeholder-sparkline-change-row">
-            <Badge emphasis="soft" tone={sparklineBadgeTone}>{change}</Badge>
+            <span className="app-shell-placeholder-sparkline-change">{change}</span>
             <span className="app-shell-placeholder-sparkline-comparison">
               {comparisonLabel}
             </span>

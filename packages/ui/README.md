@@ -15,29 +15,31 @@
 
 This package does **not** define raw colors, spacing scales, typography, radius, shadow, or motion tokens.
 
-## CSS consumption
+## CSS
 
-Choose one entrypoint based on surface needs:
+**Authority:** `@afenda/ui` owns primitive structural hooks (`[data-slot]`, `[data-component]`). No class selectors.
+**Property namespace:** `--afenda-*` values are read via `var()` only — not defined here.
+**Cascade layer:** `components` (Tailwind v4 native).
+
+Full authority model and decision tree: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md).
+Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
+
+### CSS entrypoint
+
+`@afenda/ui` owns exactly **one** CSS file. It bundles the design-system theme
+bridge and the primitive structural hooks:
 
 | Import | Use when |
 | --- | --- |
-| `@afenda/ui/afenda-ui-full.css` | Tailwind v4 apps needing full `@theme` bridge **and** primitive structural hooks (recommended default) |
-| `@afenda/ui/afenda-style.css` | Tailwind v4 apps needing `@theme` only — no primitive structural hooks |
-| `@afenda/ui/styles.css` | Token + primitive structural hooks without the generated `@theme` bridge |
+| `@afenda/ui/afenda-ui.css` | Tailwind v4 apps — the single, recommended UI entry |
 | `@afenda/design-system/css/afenda-tokens.css` | Token-only surfaces (no `@afenda/ui` primitive hooks) |
 
-Recommended full-stack load:
-
 ```css
-@import "@afenda/ui/afenda-ui-full.css";
+@import "@afenda/ui/afenda-ui.css";
 ```
 
-Manual composition (equivalent):
-
-```css
-@import "@afenda/ui/afenda-style.css";
-@import "@afenda/ui/styles.css";
-```
+`afenda-ui.css` itself `@import`s `@afenda/design-system/css/afenda-design-system.css`
+(the generated `@theme` bridge + tokens) — you never import that directly.
 
 ## Authority surface recipes (pre-wiring)
 

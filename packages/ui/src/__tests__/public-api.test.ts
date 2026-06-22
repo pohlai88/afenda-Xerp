@@ -30,14 +30,13 @@ describe("@afenda/ui public API", () => {
     }
   });
 
-  it("exports styles.css and afenda-ui-full.css subpaths from package.json", () => {
+  it("exports the single afenda-ui.css subpath from package.json", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")
     ) as { exports?: Record<string, { import?: string }> };
 
-    expect(packageJson.exports?.["./styles.css"]?.import).toContain("ui.css");
-    expect(packageJson.exports?.["./afenda-ui-full.css"]?.import).toContain(
-      "afenda-ui-full.css"
+    expect(packageJson.exports?.["./afenda-ui.css"]?.import).toContain(
+      "afenda-ui.css"
     );
   });
 });

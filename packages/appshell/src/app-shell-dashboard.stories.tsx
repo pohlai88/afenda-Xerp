@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 
-import "@afenda/ui/afenda-ui-full.css";
-
 import type { ApplicationShellDashboardGovernedComponents } from "./app-shell-dashboard";
 import { ApplicationShellDashboardContent } from "./app-shell-dashboard";
 import {
@@ -25,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed ERP overview dashboard from `@afenda/appshell`. Composes sparkline metrics, KPI cards, revenue chart, module earnings, regional sales, transactions, payment history, accounts receivable, and optional legacy module widgets. Layout chrome uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004). Token-backed surfaces will adopt `@afenda/ui/governance` app-shell recipe slots — see Authority Preview stories.",
+          "Governed ERP overview dashboard from `@afenda/appshell`. Composes sparkline metrics, KPI cards, statistics metric widgets, line trend metrics, revenue chart, module earnings, regional sales, transactions, payment history, accounts receivable, and optional legacy module widgets. Layout chrome uses plain HTML wrappers and `@afenda/appshell/afenda-appshell.css` (TIP-004). Token-backed surfaces will adopt `@afenda/ui/governance` app-shell recipe slots — see Authority Preview stories.",
       },
     },
     a11y: {
@@ -50,6 +48,17 @@ const meta = {
       description:
         "When true, renders legacy module performance and recent orders placeholders below the invoice table.",
     },
+    showStatisticsMetrics: {
+      control: "boolean",
+      description:
+        "When true, renders the statistics-component-10 metric row (revenue, leads, activity, profile traffic).",
+    },
+    showStatisticsLineTrends: {
+      control: "boolean",
+      description:
+        "When true, renders the statistics-component-21 line trend row (orders, gross revenue, inventory movement).",
+    },
+    statisticsLineTrendsCards: { control: false },
     sparklineMetrics: { control: false },
     kpiMetrics: { control: false },
     moduleEarnings: { control: false },
@@ -74,7 +83,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          "Default dashboard composition: sparkline stats, KPI row, revenue chart, module earnings, regional sales, transactions, corporate card spend, legacy module widgets, and the accounts receivable table.",
+          "Default dashboard composition: sparkline stats, KPI row, statistics metrics, line trend metrics, revenue chart, module earnings, regional sales, transactions, corporate card spend, legacy module widgets, and the accounts receivable table.",
       },
     },
   },

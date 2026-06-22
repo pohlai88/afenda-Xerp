@@ -268,6 +268,21 @@ export {
   type StockButtonSize,
   type StockButtonVisual,
 } from "./stock-shadcn-compat";
+// CSS governance contract — shared across appshell, metadata-ui, and the governance script.
+export type {
+  CssClassNamespace,
+  CssEntrypointManifestItem,
+  CssEntrypointPurpose,
+  CssManifest,
+  CssManifestViolation,
+  CssPropertyNamespace,
+} from "./css-manifest";
+export {
+  assertFixtureEntriesNotProductionSafe,
+  assertManifestSourceFiles,
+  assertNoDuplicateExportPaths,
+  validateManifest,
+} from "./css-manifest";
 // Governed UI vocabulary.
 export type {
   ClassNamePolicyResult,

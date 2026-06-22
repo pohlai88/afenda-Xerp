@@ -1,8 +1,8 @@
 import { useId, useMemo } from "react";
-import { ChevronDownIcon, ChevronUpIcon, Globe2Icon } from "lucide-react";
+import { Globe2Icon } from "lucide-react";
 
 import { Badge, Card, Progress, Separator } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -16,6 +16,13 @@ import type {
   AppShellDashboardRegionalSalesRow,
   AppShellTrendDirection,
 } from "../data/app-shell.dashboard.types";
+import {
+  computeDashboardShare,
+  computeWeightedDashboardTrend,
+  formatDashboardCurrency,
+  parseDashboardAmount,
+  TrendIndicator,
+} from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardRegionalSalesGovernedComponents = Extract<
@@ -51,15 +58,11 @@ export interface RegionalSalesSummary {
 }
 
 export function parseRegionalAmount(value: string): number {
-  return Number.parseFloat(value.replaceAll(/[$,]/g, ""));
+  return parseDashboardAmount(value);
 }
 
 export function formatRegionalCurrency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    currency: "USD",
-    maximumFractionDigits: 0,
-    style: "currency",
-  }).format(value);
+  return formatDashboardCurrency(value);
 }
 
 export function computeTotalRegionalSales(
@@ -69,40 +72,13 @@ export function computeTotalRegionalSales(
 }
 
 export function computeRegionalShare(amount: string, total: number): number {
-  if (total <= 0) {
-    return 0;
-  }
-
-  return Math.round((parseRegionalAmount(amount) / total) * 100);
-}
-
-function parseChangeLabel(changeLabel: string): number {
-  return Number.parseFloat(changeLabel.replaceAll(/[%+]/g, ""));
+  return computeDashboardShare(amount, total);
 }
 
 export function computeWeightedRegionalTrend(
   rows: readonly AppShellDashboardRegionalSalesRow[]
 ): RegionalSalesAggregateTrend {
-  let weightedSum = 0;
-  let totalWeight = 0;
-
-  for (const row of rows) {
-    const weight = parseRegionalAmount(row.amount);
-    weightedSum += parseChangeLabel(row.changeLabel) * weight;
-    totalWeight += weight;
-  }
-
-  if (totalWeight <= 0) {
-    return { label: "0%", trend: "up" };
-  }
-
-  const average = weightedSum / totalWeight;
-  const prefix = average > 0 ? "+" : "";
-
-  return {
-    label: `${prefix}${average.toFixed(1)}%`,
-    trend: average >= 0 ? "up" : "down",
-  };
+  return computeWeightedDashboardTrend(rows);
 }
 
 export function buildRankedRegionalSalesRows(
@@ -117,7 +93,8 @@ export function buildRankedRegionalSalesRows(
       share: computeRegionalShare(row.amount, totalSales),
     }))
     .sort((left, right) => {
-      const amountDelta = parseRegionalAmount(right.row.amount) - parseRegionalAmount(left.row.amount);
+      const amountDelta =
+        parseRegionalAmount(right.row.amount) - parseRegionalAmount(left.row.amount);
       if (amountDelta !== 0) {
         return amountDelta;
       }
@@ -147,20 +124,6 @@ export function buildRegionalSalesSummary(
   };
 }
 
-function resolveTrendBadgeTone(
-  trend: AppShellTrendDirection
-): NonNullable<GovernedBadgeProps["tone"]> {
-  return trend === "up" ? "success" : "danger";
-}
-
-function TrendIndicator({ trend }: { readonly trend: AppShellTrendDirection }) {
-  return trend === "up" ? (
-    <ChevronUpIcon aria-hidden className="app-shell-dashboard-trend-icon-up" />
-  ) : (
-    <ChevronDownIcon aria-hidden className="app-shell-dashboard-trend-icon-down" />
-  );
-}
-
 function RegionalSalesRow({
   rank,
   row,
@@ -175,42 +138,40 @@ function RegionalSalesRow({
   const shareLabel = `${row.region} represents ${share}% of ${formatRegionalCurrency(total)} consolidated revenue`;
   const rowClassName =
     rank === 1
-      ? "app-shell-dashboard-regional-row app-shell-dashboard-regional-row-leading"
-      : "app-shell-dashboard-regional-row";
+      ? "app-shell-dashboard-breakdown-row app-shell-dashboard-breakdown-row-leading"
+      : "app-shell-dashboard-breakdown-row";
 
   return (
     <li
       aria-label={`Rank ${rank}, ${row.region}, ${row.amount}, ${row.changeLabel} change`}
       className={rowClassName}
     >
-      <div className="app-shell-dashboard-regional-row-main">
-        <span aria-hidden className="app-shell-dashboard-regional-rank">
+      <div className="app-shell-dashboard-breakdown-row-main">
+        <span aria-hidden className="app-shell-dashboard-breakdown-rank">
           {rank}
         </span>
-        <div className="app-shell-dashboard-regional-flag-frame">
+        <div className="app-shell-dashboard-breakdown-icon-frame">
           <img alt={row.flagAlt} height={40} loading="lazy" src={row.flagSrc} width={40} />
         </div>
-        <div className="app-shell-dashboard-regional-copy">
-          <span className="app-shell-dashboard-regional-name">{row.region}</span>
-          <span className="app-shell-dashboard-regional-amount">{row.amount}</span>
-          <div className="app-shell-dashboard-regional-share-frame">
+        <div className="app-shell-dashboard-breakdown-copy">
+          <span className="app-shell-dashboard-breakdown-name">{row.region}</span>
+          <span className="app-shell-dashboard-breakdown-amount">{row.amount}</span>
+          <div className="app-shell-dashboard-breakdown-share-frame">
             <Progress aria-label={shareLabel} value={share} />
           </div>
         </div>
       </div>
-      <div className="app-shell-dashboard-regional-metrics">
-        <div className="app-shell-dashboard-regional-change-row">
-          <Badge emphasis="soft" tone={resolveTrendBadgeTone(row.trend)}>
-            {row.changeLabel}
-          </Badge>
-          <span className="app-shell-dashboard-regional-trend">
+      <div className="app-shell-dashboard-breakdown-metrics">
+        <div className="app-shell-dashboard-breakdown-change-row">
+          <span className="app-shell-dashboard-breakdown-change-value">{row.changeLabel}</span>
+          <span className="app-shell-dashboard-breakdown-trend">
             <TrendIndicator trend={row.trend} />
             <span className="sr-only">
               {row.trend === "up" ? "Trending up" : "Trending down"}
             </span>
           </span>
         </div>
-        <span className="app-shell-dashboard-regional-share">{share}% mix</span>
+        <span className="app-shell-dashboard-breakdown-share">{share}% mix</span>
       </div>
     </li>
   );
@@ -251,61 +212,58 @@ export function AppShellDashboardRegionalSales({
         <div className="app-shell-dashboard-widget-body">
           <section
             aria-labelledby={summaryId}
-            className="app-shell-dashboard-regional-summary"
+            className="app-shell-dashboard-breakdown-summary"
           >
-            <div className="app-shell-dashboard-regional-total-row">
-              <span className="app-shell-dashboard-regional-total" id={summaryId}>
+            <div className="app-shell-dashboard-breakdown-total-row">
+              <span className="app-shell-dashboard-breakdown-total" id={summaryId}>
                 {formatRegionalCurrency(summary.totalSales)}
               </span>
-              <Badge
-                emphasis="soft"
-                tone={resolveTrendBadgeTone(summary.aggregateTrend.trend)}
-              >
+              <span className="app-shell-dashboard-breakdown-change-value">
                 {summary.aggregateTrend.label}
-              </Badge>
+              </span>
               <Badge emphasis="soft" tone="neutral">
                 {regionCountLabel}
               </Badge>
             </div>
-            <div className="app-shell-dashboard-regional-insights-row">
-              <span className="app-shell-dashboard-regional-insight">{insightsLabel}</span>
-              <span aria-hidden className="app-shell-dashboard-regional-insight-divider">
+            <div className="app-shell-dashboard-breakdown-insights-row">
+              <span className="app-shell-dashboard-breakdown-insight">{insightsLabel}</span>
+              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
                 ·
               </span>
-              <span className="app-shell-dashboard-regional-insight">
+              <span className="app-shell-dashboard-breakdown-insight">
                 {summary.growingCount} growing
               </span>
-              <span aria-hidden className="app-shell-dashboard-regional-insight-divider">
+              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
                 ·
               </span>
-              <span className="app-shell-dashboard-regional-insight">
+              <span className="app-shell-dashboard-breakdown-insight">
                 {summary.decliningCount} declining
               </span>
             </div>
-            <span className="app-shell-dashboard-regional-comparison">{comparisonText}</span>
+            <span className="app-shell-dashboard-breakdown-comparison">{comparisonText}</span>
           </section>
 
           <Separator />
 
           {rows.length === 0 ? (
-            <div className="app-shell-dashboard-regional-empty">
-              <Globe2Icon aria-hidden className="app-shell-dashboard-regional-empty-icon" />
-              <span className="app-shell-dashboard-regional-empty-title">
+            <div className="app-shell-dashboard-breakdown-empty">
+              <Globe2Icon aria-hidden className="app-shell-dashboard-breakdown-empty-icon" />
+              <span className="app-shell-dashboard-breakdown-empty-title">
                 No regional revenue yet
               </span>
-              <span className="app-shell-dashboard-regional-empty-copy">
+              <span className="app-shell-dashboard-breakdown-empty-copy">
                 Connect subsidiary ledgers or import regional rollups to populate this view.
               </span>
             </div>
           ) : (
             <>
-              <div aria-hidden="true" className="app-shell-dashboard-regional-list-header">
+              <div aria-hidden="true" className="app-shell-dashboard-breakdown-list-header">
                 <span>Region · revenue mix</span>
                 <span>QoQ change</span>
               </div>
               <ul
                 aria-labelledby={summaryId}
-                className="app-shell-dashboard-regional-list"
+                className="app-shell-dashboard-breakdown-list"
                 id={listId}
               >
                 {rankedRows.map((entry) => (

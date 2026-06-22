@@ -11,7 +11,7 @@ import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.
 import React from "react";
 
 const productionCss = readFileSync(
-  join(import.meta.dirname, "../styles.css"),
+  join(import.meta.dirname, "../afenda-metadata-ui.css"),
   "utf8"
 );
 

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 const presentationCssPath = join(
   dirname(fileURLToPath(import.meta.url)),
-  "../app-shell.presentation.css"
+  "../styles/afenda-appshell.css"
 );
 
 describe("app-shell dropdown presentation drift guards", () => {

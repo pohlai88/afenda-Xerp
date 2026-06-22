@@ -1,7 +1,44 @@
+/**
+ * apps/erp — global CSS composition entry.
+ *
+ * Canonical import order (see docs/architecture/css-authority.md):
+ *   1. tailwindcss               — Tailwind base reset + utilities
+ *   2. afenda-ui.css             — design-system @theme bridge + UI primitives
+ *   3. afenda-appshell.css       — AppShell structural chrome
+ *   4. afenda-metadata-ui.css    — Metadata renderer structural CSS
+ *   5. shadcn/tailwind.css       — shadcn primitive resets
+ *   6. app overrides             — (none currently; add after this block)
+ *
+ * This file is THE globals.css — the single app composition entry. Package CSS
+ * is never named globals.css; each package owns one afenda-<package>.css.
+ *
+ * DO NOT import fixture CSS here (metadata-ui/fixtures.css).
+ * DO NOT import @afenda/metadata (pure contract package — no CSS).
+ */
+
+/* ── Cascade layer order ─────────────────────────────────────────────────── */
+/*
+ * Declare Tailwind v4's native layer order once so the cascade is deterministic
+ * regardless of import order. @import "tailwindcss" declares the same order;
+ * restating it here keeps intent explicit. Layers resolve in declaration order:
+ * later layers (utilities) win over earlier ones (theme/base/components).
+ */
+@layer theme, base, components, utilities;
+
+/* ── 1. Tailwind base ────────────────────────────────────────────────────── */
 @import "tailwindcss";
-@import "@afenda/ui/afenda-style.css";
-@import "../../../../packages/appshell/src/app-shell.presentation.css";
+
+/* ── 2. Design tokens + UI primitives (Tailwind v4 @theme-aware) ─────────── */
+@import "@afenda/ui/afenda-ui.css";
+
+/* ── 3. AppShell structural chrome ──────────────────────────────────────── */
+@import "@afenda/appshell/afenda-appshell.css";
+
+/* ── 4. Metadata renderer structural CSS (unlayered file → components) ───── */
+@import "@afenda/metadata-ui/afenda-metadata-ui.css" layer(components);
+
+/* ── 5. shadcn primitive resets ─────────────────────────────────────────── */
 @import "shadcn/tailwind.css";
 
+/* ── App source scanning ────────────────────────────────────────────────── */
 @source "../**/*.{ts,tsx}";
-@source "../../../../packages/appshell/**/*.{ts,tsx}";

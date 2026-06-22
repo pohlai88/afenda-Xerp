@@ -51,14 +51,13 @@ describe("appshell UI governance wiring", () => {
   });
 
   it("does not import @afenda/metadata-ui from production source", () => {
+    const metadataUiImportPattern =
+      /(?:from\s+|import\s*\(\s*|import\s+)["']@afenda\/metadata-ui["']/;
     const violations: string[] = [];
 
     for (const filePath of collectProductionSourceFiles(srcRoot)) {
       const content = readFileSync(filePath, "utf8");
-      if (
-        content.includes('@afenda/metadata-ui"') ||
-        content.includes("@afenda/metadata-ui'")
-      ) {
+      if (metadataUiImportPattern.test(content)) {
         violations.push(filePath);
       }
     }

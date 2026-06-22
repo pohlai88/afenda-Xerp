@@ -3,6 +3,7 @@ import {
   resolveAppShellSlotClassName,
 } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
+import React from "react";
 
 const meta = {
   title: "ERP/ApplicationShell/Authority Preview",
@@ -12,7 +13,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Pre-wiring preview: combines existing `app-shell.presentation.css` structural classes with `@afenda/ui/governance` app-shell recipe slot maps. Production `ApplicationShell` will adopt this pattern before removing duplicate visual hooks.",
+          "Pre-wiring preview: combines `@afenda/appshell/afenda-appshell.css` structural classes with `@afenda/ui/governance` app-shell recipe slot maps. Production `ApplicationShell` will adopt this pattern before removing duplicate visual hooks.",
       },
     },
   },
@@ -40,40 +41,32 @@ export const ShellChromeWithRecipeSlots: Story = {
           resolveAppShellSlotClassName("sidebar")
         )}
       >
-        <nav className="flex flex-col gap-2 p-4">
-          <div
-            className={resolveAppShellSlotClassName("navigation-item")}
-          >
+        <nav className="app-shell-authority-preview-sidebar-nav">
+          <div className={resolveAppShellSlotClassName("navigation-item")}>
             Dashboard
           </div>
-          <div className={resolveAppShellSlotClassName("active-item")}>
-            Finance
-          </div>
-          <div
-            className={resolveAppShellSlotClassName("attention-item")}
-          >
+          <div className={resolveAppShellSlotClassName("active-item")}>Finance</div>
+          <div className={resolveAppShellSlotClassName("attention-item")}>
             3 approvals pending
           </div>
         </nav>
       </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="app-shell-authority-preview-main-column">
         <header
           className={joinClasses(
             "app-shell-header",
             resolveAppShellSlotClassName("topbar")
           )}
         >
-          <div className="flex items-center gap-3 px-4 py-3">
-            <span className="font-medium text-sm">Afenda ERP</span>
-            <div
-              className={resolveAppShellSlotClassName("command-center")}
-            >
+          <div className="app-shell-authority-preview-topbar-inner">
+            <span className="app-shell-authority-preview-topbar-title">Afenda ERP</span>
+            <div className={resolveAppShellSlotClassName("command-center")}>
               Search…
             </div>
           </div>
         </header>
-        <main className="app-shell-main flex-1 p-6">
-          <p className="text-sm">
+        <main className="app-shell-main app-shell-authority-preview-main">
+          <p className="app-shell-authority-preview-main-copy">
             Main workspace — presentation CSS owns layout; recipe slots own
             token-backed surfaces.
           </p>
@@ -84,7 +77,7 @@ export const ShellChromeWithRecipeSlots: Story = {
             resolveAppShellSlotClassName("utility-bar")
           )}
         >
-          <p className="px-4 py-2 text-xs">© Afenda</p>
+          <p className="app-shell-authority-preview-footer-copy">© Afenda</p>
         </footer>
       </div>
     </div>
@@ -108,8 +101,8 @@ export const CompactDensity: Story = {
       )}
       data-afenda-density={densityToAttribute("compact")}
     >
-      <main className="app-shell-main p-4">
-        <p className="text-sm">
+      <main className="app-shell-main app-shell-authority-preview-compact-main">
+        <p className="app-shell-authority-preview-main-copy">
           Compact density — verify spacing tokens via{" "}
           <code>{densityToAttribute("compact")}</code> attribute hook.
         </p>

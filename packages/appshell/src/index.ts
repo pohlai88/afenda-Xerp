@@ -96,6 +96,35 @@ export type {
   ApplicationShellDashboardProps,
 } from "./app-shell-dashboard";
 export { ApplicationShellDashboardContent } from "./app-shell-dashboard";
+export type {
+  StatisticsLineTrendsCardGovernedComponents,
+  StatisticsLineTrendsCardProps,
+  StatisticsTrendSeries,
+} from "./shadcn-studio/blocks/statistics-line-trends-card";
+export { StatisticsLineTrendsCard } from "./shadcn-studio/blocks/statistics-line-trends-card";
+export {
+  DEFAULT_STATISTICS_LINE_TRENDS_LABEL,
+  defaultStatisticsLineTrendsCards,
+} from "./shadcn-studio/data/statistics-line-trends.data";
+export { StatisticsActivityCard } from "./shadcn-studio/blocks/statistics-activity-card";
+export type { StatisticsActivityCardGovernedComponents } from "./shadcn-studio/blocks/statistics-activity-card";
+export { StatisticsLeadsCard } from "./shadcn-studio/blocks/statistics-leads-card";
+export type { StatisticsLeadsCardGovernedComponents } from "./shadcn-studio/blocks/statistics-leads-card";
+export { StatisticsProfileTrafficCard } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
+export type { StatisticsProfileTrafficCardGovernedComponents } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
+export { StatisticsRevenueCard } from "./shadcn-studio/blocks/statistics-revenue-card";
+export type { StatisticsRevenueCardGovernedComponents } from "./shadcn-studio/blocks/statistics-revenue-card";
+export type { AppShellDashboardStatisticsLineTrendsGovernedComponents } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
+export {
+  AppShellDashboardStatisticsLineTrends,
+  type AppShellDashboardStatisticsLineTrendsProps,
+} from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
+export type { AppShellDashboardStatisticsMetricsGovernedComponents } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
+export { AppShellDashboardStatisticsMetrics } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
+export {
+  DEFAULT_STATISTICS_COMPONENT_10_LABEL,
+  DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
+} from "./shadcn-studio/data/statistics-component-10.data";
 export type { AppShellActivityDialogProps } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export type {

@@ -19,7 +19,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Pre-wiring preview: structural `metadata-*` hooks from `@afenda/metadata-ui/styles.css` plus token-backed recipe slots from `@afenda/ui/governance`. Downstream components will merge these class sources before visual styling moves out of fixture CSS.",
+          "Pre-wiring preview: structural `metadata-*` hooks from `@afenda/metadata-ui/afenda-metadata-ui.css` plus token-backed recipe slots from `@afenda/ui/governance`. Downstream components will merge these class sources before visual styling moves out of fixture CSS.",
       },
     },
   },

@@ -1,0 +1,3146 @@
+/**
+ * @afenda/appshell — Shell structural CSS
+ *
+ * The ONLY CSS file this package owns. Export-based import only:
+ *   @import "@afenda/appshell/afenda-appshell.css";
+ *
+ * Recommended app import order (see docs/architecture/css-authority.md):
+ *   1. @import "tailwindcss";                            ← Tailwind base
+ *   2. @import "@afenda/ui/afenda-ui.css";               ← Design tokens + ui primitives
+ *   3. @import "@afenda/appshell/afenda-appshell.css";   ← This file
+ *   4. @import "@afenda/metadata-ui/afenda-metadata-ui.css"; ← Metadata renderer
+ *
+ * Scope: @afenda/appshell only — not part of the governed primitive layer.
+ * All appshell structural classes live in this single file (shell chrome,
+ * dashboard blocks, placeholder content, page layout). Do not split into
+ * co-located CSS files. Do NOT add global typography, form resets, or page-level
+ * tokens here — those belong in the design-system (afenda-design-system.css,
+ * generated from token.registry.ts).
+ *
+ * CSS governance: see packages/appshell/src/styles/css-manifest.ts
+ * Class namespace: .app-shell-* (no .appshell-fixture-* in this file)
+ * Custom property namespace: --app-shell-* definitions only (may consume --afenda-* / shadcn bridge via var())
+ *
+ * ═══ STRUCTURE ═══
+ * 1. Shell-scoped custom properties (under .app-shell-root)
+ * 2. Overrides (@layer base) — sidebar-provider ring
+ * 3. Shell chrome (@layer components) — root, header, sidebar, footer, nav
+ * 4. Content grids (@layer components) — kpi-grid, sparkline-grid, widget-grid
+ * 5. Dashboard widgets (@layer components) — sparkline, kpi, revenue, earnings,
+ *    transactions, regional, payment, invoice
+ * 6. Placeholder content (@layer components) — placeholder-dashboard, kpi, sparkline, etc.
+ * 7. Page layout (@layer components) — page header, title, body
+ * 8. Unlayered overrides — dropdown width !important, avatar sizing
+ * 9. Print (@media print)
+ */
+
+/* ── 1. Shell-scoped custom properties ──────────────────────────────────── */
+/*
+ * Package-internal --app-shell-* bridge variables. Definitions use the
+ * --app-shell-* prefix only; values consume @afenda/design-system tokens
+ * (via afenda-ui.css → globals.css import order). Layout-only geometry
+ * (header strip height) stays shell-local; everything else delegates upstream.
+ */
+.app-shell-root {
+  /* Layout geometry — shell-specific, not in token registry */
+  --app-shell-header-strip-height: 7.25rem;
+
+  /* Z-index — design-system scale (see --afenda-z-index-* / --z-index-*) */
+  --app-shell-z-base: var(--z-index-base);
+  --app-shell-z-header: var(--z-index-sticky);
+  --app-shell-z-sidebar: var(--z-index-docked);
+  --app-shell-z-overlay: var(--z-index-overlay);
+  --app-shell-z-modal: var(--z-index-modal);
+
+  /* Typography — afenda semantic type scale */
+  --app-shell-type-caption: var(--afenda-semantic-type-caption);
+  --app-shell-type-body-xs: var(--afenda-typography-font-size-body-xs);
+  --app-shell-type-body-sm: var(--afenda-semantic-type-body-sm);
+  --app-shell-type-body: var(--afenda-semantic-type-body);
+  --app-shell-type-body-lg: var(--afenda-typography-font-size-body-lg);
+  --app-shell-type-title: var(--afenda-semantic-type-title);
+  --app-shell-type-heading: var(--afenda-semantic-type-heading);
+  --app-shell-type-kpi: var(--afenda-typography-font-size-heading-lg);
+  --app-shell-type-hero: var(--afenda-typography-font-size-heading-xl);
+  --app-shell-type-display: var(--afenda-semantic-type-display);
+
+  /* Text color — afenda semantic text + chart trend tokens */
+  --app-shell-text-muted: var(--afenda-semantic-text-secondary);
+  --app-shell-text-subtle: var(--afenda-semantic-text-tertiary);
+  --app-shell-text-trend-positive: var(--afenda-chart-trend-positive);
+  --app-shell-text-trend-negative: var(--afenda-chart-trend-negative);
+
+  /* Spacing — afenda spacing ramp + density hooks (reads data-afenda-density on root) */
+  --app-shell-gap-xs: var(--afenda-spacing-1);
+  --app-shell-gap-sm: var(--afenda-spacing-2);
+  --app-shell-gap-md: var(--afenda-spacing-3);
+  --app-shell-gap-lg: var(--afenda-spacing-4);
+  --app-shell-gap-xl: var(--afenda-spacing-6);
+  --app-shell-gap-2xl: var(--afenda-spacing-8);
+  --app-shell-padding-card: var(--afenda-spacing-5);
+  --app-shell-density-gap: var(--afenda-density-gap, var(--afenda-density-default-gap));
+  --app-shell-density-field-gap: var(--afenda-density-field-gap, var(--afenda-density-default-field-gap));
+  --app-shell-density-toolbar-gap: var(--afenda-density-toolbar-gap, var(--afenda-density-default-toolbar-gap));
+  --app-shell-section-gap: var(--afenda-density-section-gap, var(--afenda-density-default-section-gap));
+
+  /* Typography rhythm — afenda leading + label tracking */
+  --app-shell-leading-tight: var(--leading-heading-sm);
+  --app-shell-leading-display: var(--leading-heading-xl);
+  --app-shell-letter-spacing-label: var(--afenda-typography-letter-spacing-wider);
+
+  /* Radii + elevation — afenda semantic surface tokens */
+  --app-shell-radius-control: var(--afenda-semantic-radius-control);
+  --app-shell-radius-card: var(--afenda-semantic-radius-card);
+  --app-shell-radius-surface: var(--afenda-semantic-radius-surface);
+  --app-shell-shadow-raised: var(--afenda-semantic-elevation-raised);
+  --app-shell-shadow-overlay: var(--afenda-semantic-elevation-overlay);
+
+  /* Motion — afenda duration + easing bridge */
+  --app-shell-duration-fast: var(--duration-fast);
+  --app-shell-duration-normal: var(--duration-normal);
+  --app-shell-duration-slow: var(--duration-slow);
+  --app-shell-ease-standard: var(--ease-standard);
+}
+
+/* ── 2. Overrides (@layer base) — sidebar-provider ring ─────────────────── */
+/*
+ * Shell-05 uses --sidebar-ring: var(--primary) for active-nav highlight rings.
+ * Scoped to [data-slot="sidebar-provider"] to avoid leaking into other consumers.
+ */
+@layer base {
+  [data-slot="sidebar-provider"] {
+    --sidebar-ring: var(--primary);
+  }
+}
+
+/* ── 3. Shell chrome (@layer components) ─────────────────────────────────── */
+@layer components {
+  /**
+   * .app-shell-root
+   * Full shell layout: muted canvas, fixed primary header strip, isolation context.
+   */
+  .app-shell-root {
+    isolation: isolate;
+    position: relative;
+    display: flex;
+    min-height: 100dvh;
+    width: 100%;
+    background-color: var(--background);
+  }
+
+  .app-shell-root::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--app-shell-header-strip-height);
+    background: linear-gradient(
+      180deg,
+      var(--primary) 0%,
+      color-mix(in oklab, var(--primary) 38%, var(--background)) 62%,
+      var(--background) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /**
+   * .app-shell-main
+   * Main column above the fixed header strip.
+   */
+  .app-shell-main {
+    position: relative;
+    z-index: var(--app-shell-z-base);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-top: var(--app-shell-gap-xl);
+    padding-bottom: var(--app-shell-gap-xl);
+  }
+
+  /**
+   * .app-shell-header
+   * Full-width header chrome. z-index sits above main content but below sidebar.
+   */
+  .app-shell-header {
+    position: relative;
+    z-index: var(--app-shell-z-header);
+    width: 100%;
+  }
+
+  .app-shell-header-bar {
+    color: var(--primary-foreground);
+  }
+
+  .app-shell-header-grid {
+    align-items: center;
+    display: grid;
+    gap: var(--app-shell-gap-lg);
+    grid-template-columns: minmax(0, 1fr) auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+
+    @media (min-width: 640px) {
+      gap: var(--app-shell-gap-xl);
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      padding-left: var(--app-shell-gap-xl);
+      padding-right: var(--app-shell-gap-xl);
+    }
+  }
+
+  .app-shell-header-leading {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    min-width: 0;
+  }
+
+  .app-shell-header-greeting {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+
+    @media (min-width: 640px) {
+      display: flex;
+    }
+  }
+
+  .app-shell-header-greeting-title {
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--leading-body-lg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-header-greeting-subtitle {
+    color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--leading-body-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      display: none;
+    }
+  }
+
+  .app-shell-header-actions {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    justify-self: end;
+  }
+
+  .app-shell-header-action-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-search-dialog-desktop {
+    display: none;
+    min-width: 0;
+
+    @media (min-width: 1280px) {
+      display: block;
+      justify-self: center;
+      max-width: 18rem;
+    }
+  }
+
+  .app-shell-search-dialog-mobile {
+    display: block;
+
+    @media (min-width: 1280px) {
+      display: none;
+    }
+  }
+
+  .app-shell-search-trigger-desktop {
+    align-items: center;
+    background-color: color-mix(in oklab, var(--secondary) 20%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
+    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    width: 100%;
+  }
+
+  .app-shell-search-trigger-desktop:hover {
+    background-color: color-mix(in oklab, var(--secondary) 30%, transparent);
+  }
+
+  .app-shell-search-trigger-icon {
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-search-trigger-label {
+    font-size: var(--app-shell-type-body-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-notification-trigger {
+    position: relative;
+  }
+
+  .app-shell-notification-unread-dot {
+    background-color: var(--app-shell-text-trend-negative);
+    border-radius: 9999px;
+    height: 0.5rem;
+    position: absolute;
+    right: 23%;
+    top: 14%;
+    width: 0.5rem;
+  }
+
+  .app-shell-content {
+    flex: 1;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding: var(--app-shell-gap-xl) 1rem;
+    width: 100%;
+
+    @media (min-width: 640px) {
+      padding-left: var(--app-shell-gap-xl);
+      padding-right: var(--app-shell-gap-xl);
+    }
+  }
+
+  .app-shell-footer {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-footer-inner {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+
+    @media (min-width: 640px) {
+      gap: var(--app-shell-gap-xl);
+      padding-left: var(--app-shell-gap-xl);
+      padding-right: var(--app-shell-gap-xl);
+    }
+
+    @media (max-width: 639px) {
+      flex-direction: column;
+    }
+  }
+
+  .app-shell-footer-copy {
+    font-size: var(--app-shell-type-body-sm);
+    text-wrap: balance;
+
+    @media (max-width: 639px) {
+      text-align: center;
+    }
+  }
+
+  .app-shell-footer-brand-link {
+    color: var(--foreground);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-footer-brand-link:hover {
+    text-decoration: underline;
+  }
+
+  .app-shell-footer-social {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-padding-card);
+  }
+
+  .app-shell-footer-social-link {
+    color: var(--app-shell-text-muted);
+    transition: color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+  }
+
+  .app-shell-footer-social-link:hover {
+    color: var(--foreground);
+  }
+
+  .app-shell-footer-social-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * .app-shell-sidebar-frame
+   * The outer padding wrapper around the floating sidebar panel.
+   */
+  .app-shell-sidebar-frame {
+    position: relative;
+    z-index: var(--app-shell-z-sidebar);
+    padding: var(--app-shell-gap-xl);
+    padding-right: 0;
+  }
+
+  .app-shell-sidebar-frame [data-slot="sidebar-inner"] {
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-brand-link {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-density-field-gap);
+  }
+
+  .app-shell-brand-link > svg {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .app-shell-brand-logo rect:first-child {
+    fill: var(--primary);
+  }
+
+  .app-shell-brand-logo rect {
+    fill: var(--sidebar);
+  }
+
+  .app-shell-brand-name {
+    font-size: var(--app-shell-type-heading);
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-nav-trigger {
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
+
+  .app-shell-nav-chevron {
+    margin-left: auto;
+    transition: transform var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+  }
+
+  .app-shell-nav-trigger[data-state="open"] .app-shell-nav-chevron {
+    transform: rotate(90deg);
+  }
+
+  .app-shell-nav-link {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-nav-sub-link {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .app-shell-team-link {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-recipient-avatar {
+    align-items: center;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 9999px;
+    transition: height var(--app-shell-duration-slow) var(--app-shell-ease-standard), width var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+    width: 1.5rem;
+  }
+
+  [data-state="collapsed"] .app-shell-recipient-avatar {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * Header sidebar trigger — inverted colors on the primary header strip.
+   * Apply on the plain HTML wrapper from `AppShellMenuTrigger`.
+   */
+  .app-shell-menu-trigger > button,
+  .app-shell-menu-trigger > [data-slot="button"] {
+    border-color: var(--primary-foreground);
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+    box-shadow: none;
+  }
+
+  /* ── Sheet / dialog width overrides for shell-05 panels ────────────────── */
+
+  /**
+   * Scrollable activity feed body inside the shell-05 activity sheet.
+   */
+  .app-shell-activity-feed {
+    overflow-y: auto;
+  }
+
+  .app-shell-activity-row {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-activity-row-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--app-shell-density-field-gap);
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-activity-summary {
+    color: var(--app-shell-text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-activity-actor-name {
+    color: var(--foreground);
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-activity-mention {
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    padding: 0.625rem 1rem;
+  }
+
+  .app-shell-activity-mention-quote {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    margin: 0;
+  }
+
+  .app-shell-activity-reply-group {
+    align-items: center;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
+  }
+
+  .app-shell-activity-reply-input {
+    background: transparent;
+    border: 0;
+    flex: 1;
+    font-size: var(--app-shell-type-body-sm);
+    min-width: 0;
+    outline: none;
+  }
+
+  .app-shell-activity-reply-input::placeholder {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-activity-reply-icon {
+    color: var(--app-shell-text-muted);
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-activity-file-inline {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+    color: inherit;
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    padding: 0.25rem 0.375rem;
+    text-decoration: none;
+    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+  }
+
+  .app-shell-activity-file-inline:hover {
+    background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
+  }
+
+  .app-shell-activity-file-inline-thumb {
+    height: 1.25rem;
+  }
+
+  .app-shell-activity-file-inline-name {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-activity-file-card {
+    align-items: center;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: inherit;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    padding: 0.625rem 1rem;
+    text-decoration: none;
+    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    width: 100%;
+  }
+
+  .app-shell-activity-file-card:hover {
+    background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
+  }
+
+  .app-shell-activity-file-card-thumb {
+    border-radius: var(--radius-sm);
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .app-shell-activity-file-card-name {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-activity-tag-group {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-activity-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    padding: var(--app-shell-gap-xl) 1rem;
+  }
+
+  .app-shell-language-menu-label {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-weight: 400;
+    letter-spacing: var(--app-shell-letter-spacing-label);
+    padding: 0 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .app-shell-notification-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md) 1rem;
+  }
+
+  .app-shell-menu-trigger-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * Shell-05 activity sheet: max-w-112 (28rem) at sm breakpoint.
+   * Applied via [&>button] selector on SheetContent in AppShellActivityDialog.
+   */
+  .app-shell-activity-sheet {
+    @media (min-width: 640px) {
+      max-width: 28rem; /* 112 * 0.25rem */
+    }
+  }
+
+  /**
+   * Shell-05 notification dropdown layout — width overrides live outside @layer
+   * (see section 8) so they beat DropdownMenuContent trigger-width utilities.
+   */
+  .app-shell-notification-dropdown {
+    width: 100%;
+  }
+
+  .app-shell-notification-dropdown [data-slot="dropdown-menu-item"] {
+    align-items: flex-start;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-notification-dropdown [data-slot="dropdown-menu-label"] {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  .app-shell-notification-dropdown [data-slot="tabs-content"] {
+    max-height: min(24rem, 60vh);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app-shell-notification-dropdown [data-slot="tabs-list"] {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .app-shell-notification-row-body {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-notification-row-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-notification-row-title {
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-label-sm);
+    line-height: 1.4;
+  }
+
+  .app-shell-notification-row-meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-density-field-gap);
+  }
+
+  .app-shell-notification-row-time {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-notification-row-category {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-notification-item-unread-dot {
+    background-color: color-mix(in oklab, var(--primary) 30%, transparent);
+    border-radius: 9999px;
+    flex-shrink: 0;
+    height: 0.375rem;
+    width: 0.375rem;
+  }
+
+  .app-shell-notification-dismiss {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-notification-dismiss-icon {
+    color: var(--foreground);
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .app-shell-notification-dismiss-marker {
+    background-color: var(--primary);
+    border-radius: 9999px;
+    height: 0.375rem;
+    width: 0.375rem;
+  }
+
+  .app-shell-notification-approval-actions {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    margin-top: 0.75rem;
+  }
+
+  .app-shell-notification-attachment-link {
+    align-items: center;
+    display: flex;
+    gap: 0.375rem;
+    font-size: var(--app-shell-type-body-sm);
+    margin-top: 0.75rem;
+  }
+
+  .app-shell-notification-attachment-link:hover {
+    text-decoration: underline;
+  }
+
+  .app-shell-notification-attachment-icon {
+    color: var(--foreground);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-notification-menu-header {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .app-shell-notification-menu-title-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-xl);
+    padding-bottom: 0.625rem;
+  }
+
+  .app-shell-notification-menu-title {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: 400;
+    letter-spacing: var(--app-shell-letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .app-shell-notification-menu-tabs-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-lg);
+    margin-bottom: -0.125rem;
+  }
+
+  .app-shell-notification-settings-link {
+    border-radius: var(--radius-sm);
+    color: var(--foreground);
+    padding: 0.25rem;
+    transition: color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+  }
+
+  .app-shell-notification-settings-link:hover {
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  }
+
+  .app-shell-notification-settings-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-profile-dropdown {
+    width: 100%;
+  }
+
+  .app-shell-profile-dropdown-header {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    padding: 0.625rem 1rem;
+  }
+
+  .app-shell-profile-dropdown-identity {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .app-shell-profile-dropdown-name {
+    color: var(--foreground);
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .app-shell-profile-dropdown-email {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .app-shell-sidebar-user-dropdown {
+    width: 100%;
+  }
+
+  .app-shell-sidebar-user-meta {
+    display: grid;
+    flex: 1;
+    line-height: 1.25;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .app-shell-sidebar-user-trigger-copy {
+    display: grid;
+    flex: 1;
+    line-height: 1.25;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .app-shell-sidebar-user-name {
+    font-weight: var(--font-weight-label-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-sidebar-user-role {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-sidebar-user-menu-header {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    padding: 0.375rem 0.25rem;
+    text-align: left;
+  }
+
+  .app-shell-sidebar-user-menu-name {
+    color: var(--popover-foreground);
+    font-weight: var(--font-weight-label-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-sidebar-user-menu-item-icon {
+    color: var(--foreground);
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * Profile dropdown header: online presence dot on avatar.
+   */
+  .app-shell-profile-online-indicator {
+    background-color: var(--app-shell-text-trend-positive);
+    border-radius: 9999px;
+    bottom: 0;
+    box-shadow: 0 0 0 2px var(--card);
+    display: block;
+    height: 0.5rem;
+    position: absolute;
+    right: 0;
+    width: 0.5rem;
+  }
+
+  .app-shell-profile-menu-item-icon {
+    color: var(--foreground);
+    flex-shrink: 0;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  /**
+   * Shell-05 command search: semantic list rows (no ComboboxInput — TIP-004 safe).
+   */
+  .app-shell-search-command {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-shell-search-field {
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-search-field-icon {
+    flex-shrink: 0;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-search-input {
+    background: transparent;
+    border: 0;
+    flex: 1;
+    font-size: var(--app-shell-type-body);
+    outline: none;
+  }
+
+  .app-shell-search-input::placeholder {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-search-section-label {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-weight: var(--font-weight-label-sm);
+    letter-spacing: var(--app-shell-letter-spacing-label);
+    padding: 0.5rem 1rem 0;
+    text-transform: uppercase;
+  }
+
+  .app-shell-search-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-search-result-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-search-result-title {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-search-result-subtitle {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-search-result-subtitle-light {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: 300;
+  }
+
+  .app-shell-search-result-more-icon {
+    color: var(--app-shell-text-muted);
+    flex-shrink: 0;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-search-keycap {
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .app-shell-search-keycap-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-search-footer-hint-row {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-search-footer-hint-group {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-search-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-search-result {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    padding: 0.5rem 1rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .app-shell-search-result:hover {
+    background-color: var(--muted);
+  }
+
+  .app-shell-search-suggestion-icon {
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+
+  .app-shell-search-results {
+    max-height: min(24rem, 60vh);
+    overflow-y: auto;
+  }
+
+  .app-shell-search-divider {
+    background-color: var(--border);
+    height: 1px;
+  }
+
+  .app-shell-search-footer {
+    align-items: center;
+    color: var(--app-shell-text-muted);
+    display: none;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    padding: 1rem;
+
+    @media (min-width: 640px) {
+      display: flex;
+    }
+  }
+
+  /**
+   * Sidebar footer user menu: chevron rotation when dropdown opens.
+   */
+  .app-shell-sidebar-user-chevron {
+    height: 1rem;
+    margin-left: auto;
+    transition: transform var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+    width: 1rem;
+
+    @media (max-width: 1023px) {
+      transform: rotate(270deg);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    [data-state="open"] .app-shell-sidebar-user-chevron {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    [data-state="open"] .app-shell-sidebar-user-chevron {
+      transform: rotate(-180deg);
+    }
+  }
+
+  /* ── 4. Content grids (@layer components) ──────────────────────────────── */
+
+  /**
+   * .app-shell-kpi-grid
+   * Shell-05 statistics row: 1→2→4 column responsive KPI card grid.
+   */
+  .app-shell-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--app-shell-density-gap);
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-sparkline-grid
+   * Shell-05 sparkline row: 1→2 column for revenue + expense cards.
+   */
+  .app-shell-sparkline-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--app-shell-density-gap);
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /**
+   * .app-shell-widget-grid
+   * Shell-05 lower widget row: 1→2 column for transactions + performance.
+   */
+  .app-shell-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--app-shell-density-gap);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ── 5. Dashboard widgets (@layer components) ──────────────────────────── */
+
+  .app-shell-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-section-gap);
+  }
+
+  .app-shell-dashboard-statistics-metrics {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-statistics-line-trends {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-widget {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-widget > [data-component="Card"] {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .app-shell-dashboard-widget-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-lg);
+    padding: var(--app-shell-padding-card) var(--app-shell-padding-card) 0;
+  }
+
+  .app-shell-dashboard-widget-header-stacked {
+    align-items: flex-start;
+  }
+
+  .app-shell-dashboard-widget-heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-widget-title {
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--app-shell-leading-tight);
+    text-wrap: balance;
+  }
+
+  .app-shell-dashboard-widget-subtitle {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-widget-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    padding: var(--app-shell-gap-lg) var(--app-shell-padding-card) var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-overflow-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-overflow-menu {
+    flex-shrink: 0;
+  }
+
+  .app-shell-dashboard-overflow-item {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-overflow-item-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-overflow-label {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-kpi-widget {
+    height: 100%;
+  }
+
+  .app-shell-dashboard-kpi-widget > [data-component="Card"] {
+    border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+    box-shadow: var(--app-shell-shadow-raised);
+    height: 100%;
+  }
+
+  .app-shell-dashboard-kpi-metric {
+    margin: 0;
+  }
+
+  .app-shell-dashboard-kpi-footnote {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    margin: 0;
+  }
+
+  .app-shell-dashboard-kpi-change {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-kpi-comparison {
+    color: var(--app-shell-text-subtle);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-kpi-icon-chip {
+    align-items: center;
+    background-color: color-mix(in oklab, var(--muted) 72%, transparent);
+    border: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+    border-radius: var(--app-shell-radius-control);
+    display: flex;
+    flex-shrink: 0;
+    height: 2.25rem;
+    justify-content: center;
+    width: 2.25rem;
+  }
+
+  .app-shell-dashboard-kpi-icon {
+    color: var(--app-shell-text-muted);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-sparkline-widget {
+    height: 100%;
+  }
+
+  .app-shell-dashboard-sparkline-trend {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .app-shell-dashboard-sparkline-change {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-sparkline-insights {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+  }
+
+  .app-shell-dashboard-sparkline-empty-chart {
+    align-items: center;
+    color: var(--app-shell-text-muted);
+    display: flex;
+    font-size: var(--app-shell-type-body-xs);
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-sparkline-body {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-sparkline-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xl);
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-sparkline-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-sparkline-label {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-sparkline-amount {
+    font-size: var(--app-shell-type-hero);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    line-height: var(--app-shell-leading-display);
+  }
+
+  .app-shell-dashboard-sparkline-change-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-sparkline-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-sparkline-chart-frame {
+    flex: 1;
+    max-height: 6.625rem;
+    max-width: 17.5rem;
+    min-height: 6.625rem;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-kpi-body {
+    display: flex;
+    min-height: 8.5rem;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-kpi-header {
+    align-items: flex-start;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    justify-content: space-between;
+  }
+
+  .app-shell-dashboard-kpi-heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-density-field-gap);
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-kpi-title {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    letter-spacing: var(--app-shell-letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .app-shell-dashboard-kpi-value-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-kpi-value {
+    font-size: var(--app-shell-type-kpi);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    line-height: var(--app-shell-leading-tight);
+  }
+
+  .app-shell-dashboard-revenue-widget {
+    width: 100%;
+  }
+
+  .app-shell-dashboard-revenue-layout {
+    display: grid;
+    gap: 0;
+    grid-template-columns: minmax(0, 1fr);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+
+  .app-shell-dashboard-revenue-primary {
+    border-bottom: 1px solid var(--border);
+
+    @media (min-width: 1024px) {
+      border-bottom: 0;
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  .app-shell-dashboard-revenue-bar-frame {
+    min-height: 13.75rem;
+    padding: 0 var(--app-shell-padding-card) var(--app-shell-gap-xl);
+    width: 100%;
+
+    @media (min-width: 1024px) {
+      min-height: 18.75rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .app-shell-dashboard-revenue-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-2xl);
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-revenue-select-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-shell-dashboard-revenue-growth-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-2xl);
+    text-align: center;
+  }
+
+  .app-shell-dashboard-revenue-growth-chart-frame {
+    height: 10rem;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-revenue-growth-value {
+    fill: var(--card-foreground);
+    font-size: var(--app-shell-type-kpi);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-dashboard-revenue-growth-caption {
+    fill: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-revenue-growth-footnote {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-revenue-summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+  }
+
+  .app-shell-dashboard-revenue-summary-item {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    padding: 0.5rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-revenue-summary-year {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-revenue-summary-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-revenue-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-dashboard-revenue-primary-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    padding-bottom: var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-revenue-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    padding: 0 var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-revenue-hero-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-revenue-hero-amount {
+    font-size: var(--app-shell-type-hero);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    line-height: var(--app-shell-leading-display);
+  }
+
+  .app-shell-dashboard-revenue-yoy-change {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-revenue-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-revenue-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    padding: 0 var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-revenue-legend-item {
+    align-items: center;
+    color: var(--app-shell-text-muted);
+    display: inline-flex;
+    font-size: var(--app-shell-type-body-sm);
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-revenue-legend-swatch {
+    border-radius: 9999px;
+    height: 0.625rem;
+    width: 0.625rem;
+  }
+
+  .app-shell-dashboard-revenue-legend-swatch-current {
+    background-color: var(--primary);
+  }
+
+  .app-shell-dashboard-revenue-legend-swatch-prior {
+    background-color: color-mix(in oklab, var(--primary) 20%, var(--background));
+  }
+
+  .app-shell-dashboard-revenue-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    padding: 0 var(--app-shell-padding-card) var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-revenue-select-label {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    left: -9999px;
+    position: absolute;
+  }
+
+  .app-shell-dashboard-revenue-icon-frame {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+    display: flex;
+    height: 2rem;
+    justify-content: center;
+    width: 2rem;
+  }
+
+  .app-shell-dashboard-revenue-growth-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-revenue-growth-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-trend-icon-up {
+    color: var(--app-shell-text-trend-positive);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-trend-icon-down {
+    color: var(--app-shell-text-trend-negative);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /**
+   * Shared ranked breakdown widgets — module revenue + regional sales.
+   */
+  .app-shell-dashboard-breakdown-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .app-shell-dashboard-breakdown-total-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-breakdown-total {
+    font-size: var(--app-shell-type-kpi);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+  }
+
+  .app-shell-dashboard-breakdown-change-value {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-breakdown-insights-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .app-shell-dashboard-breakdown-insight {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-breakdown-insight-divider {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-dashboard-breakdown-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-breakdown-list-header {
+    color: var(--app-shell-text-muted);
+    display: flex;
+    font-size: var(--app-shell-type-body-xs);
+    justify-content: space-between;
+    letter-spacing: var(--afenda-typography-letter-spacing-wide);
+    padding: 0 0.25rem;
+  }
+
+  .app-shell-dashboard-breakdown-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-dashboard-breakdown-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-dashboard-breakdown-row-leading {
+    border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+    border-radius: var(--app-shell-radius-control);
+    padding: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-breakdown-row-main {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-breakdown-rank {
+    color: var(--app-shell-text-muted);
+    flex-shrink: 0;
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-breakdown-icon-frame {
+    border-radius: 9999px;
+    flex-shrink: 0;
+    height: 2.5rem;
+    overflow: hidden;
+    width: 2.5rem;
+  }
+
+  .app-shell-dashboard-breakdown-icon-frame img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-breakdown-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-breakdown-name {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-breakdown-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-breakdown-detail {
+    color: var(--app-shell-text-subtle);
+    font-size: var(--app-shell-type-body-xs);
+  }
+
+  .app-shell-dashboard-breakdown-share-frame {
+    margin-top: 0.25rem;
+    max-width: 8rem;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-breakdown-metrics {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: var(--app-shell-gap-xs);
+    min-width: 4.5rem;
+  }
+
+  .app-shell-dashboard-breakdown-change-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-breakdown-trend {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .app-shell-dashboard-breakdown-share {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-breakdown-empty {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+    padding: var(--app-shell-gap-2xl) 0;
+    text-align: center;
+  }
+
+  .app-shell-dashboard-breakdown-empty-icon {
+    color: var(--app-shell-text-muted);
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .app-shell-dashboard-breakdown-empty-title {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-breakdown-empty-copy {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    max-width: 20rem;
+  }
+
+  .app-shell-dashboard-transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--app-shell-padding-card) var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-transaction-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-transaction-main {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-transaction-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-transaction-title {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-transaction-subtitle {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-transaction-amount-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-transaction-indicator {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: 9999px;
+    color: var(--primary);
+    display: flex;
+    flex-shrink: 0;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon-debit {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-transaction-indicator-icon-credit {
+    color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-dashboard-transaction-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .app-shell-dashboard-transaction-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-transaction-total-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-transaction-total {
+    font-size: var(--app-shell-type-kpi);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-dashboard-transaction-flow-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-transaction-flow-item {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-transaction-flow-divider {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-dashboard-transaction-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-transaction-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-transaction-list-header {
+    color: var(--app-shell-text-muted);
+    display: flex;
+    font-size: var(--app-shell-type-body-xs);
+    justify-content: space-between;
+    letter-spacing: var(--afenda-typography-letter-spacing-wide);
+    padding: 0 var(--app-shell-padding-card);
+  }
+
+  .app-shell-dashboard-transaction-icon-frame {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-transaction-amount {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-transaction-amount-credit {
+    color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-dashboard-transaction-amount-debit {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-transaction-postings {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-table-frame {
+    padding: 0 0 0.5rem;
+  }
+
+  .app-shell-dashboard-payment-card-cell {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-payment-brand-frame {
+    align-items: center;
+    background-color: var(--muted);
+    border-radius: var(--radius-sm);
+    display: flex;
+    height: 2.625rem;
+    justify-content: center;
+    width: 2.625rem;
+  }
+
+  .app-shell-dashboard-payment-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-payment-card-number {
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-payment-card-type {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-date {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+  }
+
+  .app-shell-dashboard-payment-spend-cell {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-payment-spend {
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-remaining {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+  }
+
+  .app-shell-dashboard-payment-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-payment-total-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-dashboard-payment-total {
+    font-size: var(--app-shell-type-kpi);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-dashboard-payment-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-empty {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-spend-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    justify-content: flex-end;
+  }
+
+  .app-shell-dashboard-payment-utilization-frame {
+    margin-top: 0.25rem;
+    width: 100%;
+    max-width: 8rem;
+  }
+
+  .app-shell-dashboard-invoice-widget {
+    width: 100%;
+  }
+
+  .app-shell-dashboard-invoice-header {
+    align-items: flex-start;
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card) 1.5rem 0;
+  }
+
+  .app-shell-dashboard-invoice-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-invoice-title {
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .app-shell-dashboard-invoice-subtitle {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    margin: 0;
+  }
+
+  .app-shell-dashboard-invoice-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    margin-top: 0.25rem;
+  }
+
+  .app-shell-dashboard-invoice-metric {
+    align-items: baseline;
+    color: var(--app-shell-text-muted);
+    display: inline-flex;
+    font-size: var(--app-shell-type-body-sm);
+    gap: 0.375rem;
+  }
+
+  .app-shell-dashboard-invoice-metric-value {
+    color: var(--foreground);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-invoice-metric-value-danger {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-invoice-bulk-bar {
+    align-items: center;
+    background-color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .app-shell-dashboard-invoice-bulk-copy {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-invoice-bulk-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-invoice-table-scroll {
+    overflow-x: auto;
+  }
+
+  .app-shell-dashboard-invoice-amount {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-invoice-amount-danger {
+    color: var(--app-shell-text-trend-negative);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-invoice-status-cell {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-invoice-status-label {
+    white-space: nowrap;
+  }
+
+  .app-shell-dashboard-invoice-empty-icon {
+    color: var(--app-shell-text-muted);
+    height: 2rem;
+    margin: 0 auto 0.75rem;
+    width: 2rem;
+  }
+
+  .app-shell-dashboard-invoice-empty-title {
+    display: block;
+    font-weight: var(--font-weight-label-sm);
+    margin-bottom: 0.25rem;
+  }
+
+  .app-shell-dashboard-invoice-empty-copy {
+    color: var(--app-shell-text-muted);
+    display: block;
+    font-size: var(--app-shell-type-body-sm);
+    margin-bottom: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-shell {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .app-shell-dashboard-invoice-toolbar {
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-xl);
+    justify-content: space-between;
+    padding: var(--app-shell-gap-xl);
+  }
+
+  .app-shell-dashboard-invoice-toolbar-primary,
+  .app-shell-dashboard-invoice-toolbar-filters {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-dashboard-invoice-page-size {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-invoice-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 12rem;
+  }
+
+  .app-shell-dashboard-invoice-sort-trigger {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .app-shell-dashboard-invoice-sort-icon {
+    height: 1rem;
+    opacity: 0.6;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-id {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-dashboard-invoice-client-cell {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-dashboard-invoice-client-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-dashboard-invoice-client-name {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-dashboard-invoice-client-field {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-dashboard-invoice-date {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-dashboard-invoice-actions {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    justify-content: center;
+  }
+
+  .app-shell-dashboard-invoice-action-icon {
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+
+  .app-shell-dashboard-invoice-status-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-status-paid {
+    color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-dashboard-invoice-status-past-due {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-invoice-status-draft {
+    color: var(--warning);
+  }
+
+  .app-shell-dashboard-invoice-status-downloaded {
+    color: var(--info);
+  }
+
+  .app-shell-dashboard-invoice-empty {
+    display: block;
+    padding: var(--app-shell-gap-xl);
+    text-align: center;
+  }
+
+  .app-shell-dashboard-invoice-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    justify-content: space-between;
+    padding: var(--app-shell-gap-lg) var(--app-shell-gap-xl);
+  }
+
+  .app-shell-dashboard-invoice-summary {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-invoice-nav-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-dashboard-invoice-search-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /* ── 6. Placeholder content (@layer components) ──────────────────────── */
+
+  .app-shell-placeholder-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-section-gap);
+  }
+
+  .app-shell-placeholder-surface {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-placeholder-kpi-card {
+    position: relative;
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-placeholder-kpi-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-density-field-gap);
+  }
+
+  .app-shell-placeholder-kpi-title {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    line-height: var(--leading-body-sm);
+  }
+
+  .app-shell-placeholder-kpi-value-row {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-placeholder-kpi-value {
+    font-size: var(--app-shell-type-kpi);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    line-height: var(--leading-heading-lg);
+  }
+
+  .app-shell-placeholder-kpi-watermark {
+    pointer-events: none;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0;
+  }
+
+  .app-shell-placeholder-kpi-watermark-icon {
+    height: 5rem;
+    width: 5rem;
+    opacity: 0.06;
+  }
+
+  .app-shell-placeholder-sparkline-card {
+    display: flex;
+    min-height: 9rem;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    overflow: hidden;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-placeholder-sparkline-body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-placeholder-sparkline-meta {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-placeholder-sparkline-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-sparkline-title {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-amount {
+    font-size: var(--app-shell-type-hero);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    line-height: var(--app-shell-leading-display);
+  }
+
+  .app-shell-placeholder-sparkline-change-row {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-density-field-gap);
+  }
+
+  .app-shell-placeholder-sparkline-change {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-placeholder-sparkline-comparison {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-sparkline-chart {
+    flex: 1;
+    width: 100%;
+    max-width: 17.5rem;
+    max-height: 6.625rem;
+
+    @media (max-width: 639px) {
+      max-width: 8.75rem;
+    }
+  }
+
+  .app-shell-placeholder-widget {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-padding-card);
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-placeholder-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-placeholder-widget-title {
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-widget-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-placeholder-order-main {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-placeholder-order-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-placeholder-order-description {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-module {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-order-amount-row {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-placeholder-order-amount {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-body-sm);
+  }
+
+  .app-shell-placeholder-order-indicator {
+    display: flex;
+    height: 1.5rem;
+    width: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-order-indicator-icon {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .app-shell-placeholder-order-indicator-icon-credit {
+    color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-placeholder-order-indicator-icon-debit {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-placeholder-module-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-placeholder-module-row {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-placeholder-module-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .app-shell-placeholder-module-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-sm);
+    margin-bottom: 0.375rem;
+  }
+
+  .app-shell-placeholder-module-name {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-placeholder-module-status {
+    flex-shrink: 0;
+    font-size: var(--app-shell-type-body-xs);
+    font-weight: var(--font-weight-label-sm);
+    line-height: 1.25;
+  }
+
+  .app-shell-placeholder-module-status-high {
+    color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-placeholder-module-status-mid {
+    color: var(--warning);
+  }
+
+  .app-shell-placeholder-module-status-low {
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-placeholder-progress-track {
+    height: 0.375rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--muted);
+  }
+
+  .app-shell-placeholder-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+  }
+
+  .app-shell-placeholder-progress-fill-high {
+    background: var(--color-chart-1, var(--primary));
+  }
+
+  .app-shell-placeholder-progress-fill-mid {
+    background: var(--color-chart-2, oklch(0.769 0.188 70.08));
+  }
+
+  .app-shell-placeholder-progress-fill-low {
+    background: var(--color-chart-3, oklch(0.646 0.222 41.116));
+  }
+
+  .app-shell-placeholder-module-percent {
+    width: 2rem;
+    flex-shrink: 0;
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+    text-align: right;
+  }
+
+  .app-shell-placeholder-trend-icon-up {
+    color: var(--app-shell-text-trend-positive);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-placeholder-trend-icon-down {
+    color: var(--app-shell-text-trend-negative);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /* ── 7. Page layout (@layer components) ────────────────────────────────── */
+
+  .app-shell-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xl);
+  }
+
+  .app-shell-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-page-title-row {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    min-height: 2.25rem;
+  }
+
+  .app-shell-page-title-group {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-page-title {
+    font-size: var(--app-shell-type-kpi);
+    font-weight: var(--font-weight-heading-sm);
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .app-shell-page-description {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    line-height: 1.5;
+  }
+
+  .app-shell-page-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-page-badge {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .app-shell-page-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    min-width: 0;
+  }
+
+  /* Authority preview — Storybook recipe wiring demos */
+  .app-shell-authority-preview-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .app-shell-authority-preview-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+    padding: 1rem;
+  }
+
+  .app-shell-authority-preview-main-column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .app-shell-authority-preview-topbar-inner {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-authority-preview-topbar-title {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-authority-preview-main {
+    flex: 1;
+    padding: var(--app-shell-gap-xl);
+  }
+
+  .app-shell-authority-preview-main-copy {
+    font-size: var(--app-shell-type-body-sm);
+    line-height: 1.5;
+  }
+
+  .app-shell-authority-preview-footer-copy {
+    font-size: var(--app-shell-type-body-xs);
+    padding: 0.5rem 1rem;
+  }
+
+  .app-shell-authority-preview-compact-main {
+    padding: 1rem;
+  }
+
+  /**
+   * statistics-component-21 — dual-series line trend metric cards
+   */
+  .app-shell-statistics-trend-section {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding: var(--app-shell-gap-2xl) var(--app-shell-gap-xl);
+    width: 100%;
+  }
+
+  .app-shell-statistics-trend-grid {
+    display: grid;
+    gap: var(--app-shell-density-gap);
+    grid-template-columns: minmax(0, 1fr);
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .app-shell-statistics-trend-card {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .app-shell-statistics-trend-card > [data-component="Card"] {
+    height: 100%;
+  }
+
+  .app-shell-statistics-trend-header {
+    padding: var(--app-shell-padding-card) var(--app-shell-padding-card) 0;
+  }
+
+  .app-shell-statistics-trend-title {
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-heading-sm);
+  }
+
+  .app-shell-statistics-trend-layout {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xl);
+
+    @media (min-width: 640px) {
+      flex-direction: row;
+    }
+  }
+
+  .app-shell-statistics-trend-metrics {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    width: 100%;
+
+    @media (min-width: 640px) {
+      flex-direction: column;
+      justify-content: flex-start;
+      width: auto;
+    }
+  }
+
+  .app-shell-statistics-trend-metric {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    min-width: 0;
+  }
+
+  .app-shell-statistics-trend-swatch {
+    border-radius: var(--app-shell-radius-control);
+    flex-shrink: 0;
+    height: 2.25rem;
+    width: 0.25rem;
+  }
+
+  .app-shell-statistics-trend-metric-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-statistics-trend-metric-label {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    margin: 0;
+  }
+
+  .app-shell-statistics-trend-metric-value {
+    font-size: var(--app-shell-type-title);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--app-shell-leading-tight);
+    margin: 0;
+  }
+
+  .app-shell-statistics-trend-chart {
+    flex: 1;
+    height: 7rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /**
+   * statistics-component-10 — revenue, leads, activity, profile traffic cards
+   */
+  .app-shell-statistics-metric-section {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding: var(--app-shell-gap-2xl) var(--app-shell-gap-xl);
+    width: 100%;
+  }
+
+  .app-shell-statistics-metric-grid {
+    display: grid;
+    gap: var(--app-shell-density-gap);
+    grid-template-columns: minmax(0, 1fr);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .app-shell-statistics-metric-card {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .app-shell-statistics-metric-card > [data-component="Card"] {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app-shell-statistics-metric-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    min-width: 0;
+    padding-block: var(--app-shell-padding-card);
+
+    @media (min-width: 640px) {
+      align-items: stretch;
+      flex-direction: row;
+      gap: var(--app-shell-gap-xl);
+    }
+  }
+
+  .app-shell-statistics-metric-copy {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    min-width: 0;
+
+    @media (min-width: 640px) {
+      flex-basis: 42%;
+      max-width: 14rem;
+    }
+  }
+
+  .app-shell-statistics-metric-title {
+    color: var(--foreground);
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--app-shell-leading-tight);
+  }
+
+  .app-shell-statistics-metric-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--app-shell-leading-normal);
+  }
+
+  .app-shell-statistics-metric-heading-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-statistics-metric-value-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-statistics-metric-amount {
+    font-size: var(--app-shell-type-title);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--app-shell-leading-tight);
+  }
+
+  .app-shell-statistics-metric-amount-hero {
+    font-size: var(--app-shell-type-display);
+    line-height: var(--app-shell-leading-display);
+  }
+
+  .app-shell-statistics-metric-change {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-statistics-metric-chart {
+    flex: 1 1 auto;
+    min-height: 7rem;
+    min-width: 0;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .app-shell-statistics-metric-chart-bars {
+    height: 8.5rem;
+  }
+
+  .app-shell-statistics-metric-chart-area {
+    height: 8.5rem;
+  }
+
+  .app-shell-statistics-metric-chart-donut {
+    height: 8.5rem;
+    max-width: 10rem;
+
+    @media (min-width: 640px) {
+      align-self: center;
+      margin-left: auto;
+      max-width: 9rem;
+    }
+  }
+
+  .app-shell-statistics-metric-chart [data-component="Chart"] {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+  }
+}
+
+/* ── 8. Unlayered overrides — dropdown width !important, avatar sizing ─── */
+.app-shell-recipient-avatar > [data-slot="avatar"] {
+  height: 100%;
+  width: 100%;
+}
+
+/**
+ * Icon-trigger dropdown panels — UNLAYERED so width beats Tailwind utilities on
+ * DropdownMenuContent (`w-(--radix-dropdown-menu-trigger-width)`).
+ */
+[data-slot="dropdown-menu-content"]:has(.app-shell-notification-dropdown) {
+  width: auto !important;
+  min-width: 20rem;
+  max-width: min(30.5rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(.app-shell-profile-dropdown) {
+  width: auto !important;
+  min-width: 17.5rem;
+  max-width: min(20rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(.app-shell-sidebar-user-dropdown) {
+  width: auto !important;
+  min-width: 16rem;
+  max-width: min(18rem, calc(100vw - 2rem));
+}
+
+/* ── 9. Print (@media print) ─────────────────────────────────────────────── */
+@media print {
+  .app-shell-root::before,
+  .app-shell-sidebar-frame,
+  .app-shell-header {
+    display: none !important;
+  }
+
+  .app-shell-main {
+    position: static;
+  }
+}

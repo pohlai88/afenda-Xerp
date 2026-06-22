@@ -208,6 +208,8 @@ const moduleEarningsSource = [
     subtitle: "GL · AP · AR",
     amount: "$84,200",
     progress: 82,
+    changeLabel: "+14.2%",
+    trend: "up",
     iconSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png",
     iconAlt: "Finance module",
   },
@@ -217,6 +219,8 @@ const moduleEarningsSource = [
     subtitle: "Pipeline · Orders",
     amount: "$62,480",
     progress: 74,
+    changeLabel: "+8.3%",
+    trend: "up",
     iconSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-12.png",
     iconAlt: "Sales module",
   },
@@ -226,6 +230,8 @@ const moduleEarningsSource = [
     subtitle: "Stock · Warehouses",
     amount: "$41,960",
     progress: 58,
+    changeLabel: "-2.1%",
+    trend: "down",
     iconSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-8.png",
     iconAlt: "Inventory module",
   },
@@ -487,6 +493,3 @@ export const defaultAppShellDashboardInvoices: readonly AppShellDashboardInvoice
   invoiceRowsSource;
 
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TOTAL = 188640;
-export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TREND: AppShellTrendDirection =
-  "up";
-export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_PERCENTAGE = 11.6;

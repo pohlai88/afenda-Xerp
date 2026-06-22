@@ -30,11 +30,12 @@ describe("ApplicationShellPlaceholderContent", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders sparkline badges with governed data-slot values", () => {
+  it("renders sparkline change values as plain secondary text", () => {
     render(<ApplicationShellPlaceholderContent />);
 
     const revenueChange = screen.getByText("+14.2%");
-    expect(revenueChange).toHaveAttribute("data-slot", "badge");
+    expect(revenueChange).toHaveClass("app-shell-placeholder-sparkline-change");
+    expect(revenueChange.closest("[data-slot='badge']")).toBeNull();
   });
 
   it("renders KPI badges with governed data-slot values", () => {

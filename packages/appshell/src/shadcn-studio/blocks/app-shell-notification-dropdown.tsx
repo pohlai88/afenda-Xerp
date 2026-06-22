@@ -158,7 +158,7 @@ function NotificationList({
 }) {
   if (items.length === 0) {
     return (
-      <p className="text-muted-foreground px-2 py-4 text-sm" role="status">
+      <p className="app-shell-notification-empty" role="status">
         No notifications in this tab.
       </p>
     );

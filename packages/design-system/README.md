@@ -214,3 +214,24 @@ Adding a token, variant, recipe, state, or motion intent requires:
 2. A version bump in the affected contract interface and runtime object
 3. Updated tests confirming the new value is reachable via the public API
 4. No changes to the governance principles above without Architecture Authority approval
+
+## CSS
+
+**Authority:** `@afenda/design-system` is the **sole authority** for `--afenda-*` custom properties and Tailwind `@theme` bridge CSS.
+**Class namespace:** none — token files define no class selectors.
+**Property namespace:** `--afenda-*` only.
+
+Full authority model and decision tree: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md).
+Manifest: `src/css/css-manifest.ts`. Governance: `pnpm check:css-governance`.
+
+### CSS entrypoints
+
+Both files are **generated** by `scripts/generate-tokens-css.ts` — never edit by
+hand. The theme file is intentionally **not** named `globals.css`; that name is
+reserved for the app composition entry. Apps consume it transitively via
+`@afenda/ui/afenda-ui.css`, not directly.
+
+| Export | Purpose | Note |
+|---|---|---|
+| `./css/afenda-tokens.css` | Raw `--afenda-*` token variables | No `@theme`; usable without Tailwind v4 |
+| `./css/afenda-design-system.css` | Full Tailwind v4 `@theme` bridge | Requires Tailwind v4 pipeline; imported by `@afenda/ui` |

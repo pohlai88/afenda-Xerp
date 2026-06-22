@@ -4,8 +4,8 @@ import { useId, useMemo } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Area, AreaChart } from "recharts";
 
-import { Badge, Card, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import { Card, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import type {
   AppShellDashboardSparklineMetric,
@@ -15,7 +15,7 @@ import type {
 
 export type AppShellDashboardSparklineStatGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card" | "Chart"
+  "Card" | "Chart"
 >;
 
 export interface AppShellDashboardSparklineStatProps
@@ -30,12 +30,6 @@ export interface SparklineSeriesSummary {
   readonly latestValue: number;
   readonly latestDate: string;
   readonly windowDelta: number;
-}
-
-function resolveSparklineBadgeTone(
-  trend: AppShellTrendDirection
-): NonNullable<GovernedBadgeProps["tone"]> {
-  return trend === "up" ? "success" : "danger";
 }
 
 function sanitizeSvgId(value: string): string {
@@ -165,9 +159,7 @@ export function AppShellDashboardSparklineStat({
             </div>
 
             <div className="app-shell-dashboard-sparkline-change-row">
-              <Badge emphasis="soft" tone={resolveSparklineBadgeTone(trend)}>
-                {changeLabel}
-              </Badge>
+              <span className="app-shell-dashboard-sparkline-change">{changeLabel}</span>
               <span className="app-shell-dashboard-sparkline-trend">
                 <TrendIndicator trend={trend} />
                 <span className="sr-only">

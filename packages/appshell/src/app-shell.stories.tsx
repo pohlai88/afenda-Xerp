@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import "@afenda/ui/afenda-ui-full.css";
-
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import { ApplicationShell } from "./app-shell";
@@ -33,7 +31,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `app-shell.presentation.css` (TIP-004). Visual recipe slots wire through `@afenda/ui/governance` — see ERP/ApplicationShell/Authority Preview before integration.",
+          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `@afenda/appshell/afenda-appshell.css` (TIP-004). Visual recipe slots wire through `@afenda/ui/governance` — see ERP/ApplicationShell/Authority Preview before integration.",
       },
     },
     a11y: {
@@ -118,7 +116,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          "Default shell chrome with the governed ERP dashboard (sparkline metrics, KPI row, revenue chart, module earnings, regional sales, transactions, payment history, legacy module widgets, and accounts receivable).",
+          "Default shell chrome with the governed ERP dashboard (sparkline metrics, KPI row, statistics metrics, line trend metrics, revenue chart, module earnings, regional sales, transactions, payment history, legacy module widgets, and accounts receivable).",
       },
     },
   },

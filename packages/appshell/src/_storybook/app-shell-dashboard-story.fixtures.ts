@@ -8,6 +8,8 @@ export const DASHBOARD_STORY_BASE_ARGS = {
   dashboardLabel: DEFAULT_APP_SHELL_DASHBOARD_LABEL,
   comparisonLabel: DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,
   showLegacyWidgets: true,
+  showStatisticsMetrics: true,
+  showStatisticsLineTrends: true,
 } satisfies ApplicationShellDashboardProps;
 
 export const MODERN_DASHBOARD_ARGS = {

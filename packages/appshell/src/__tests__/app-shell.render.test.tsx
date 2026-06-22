@@ -29,6 +29,7 @@ describe("ApplicationShell", () => {
     render(<ApplicationShell />);
 
     expect(screen.getByText("Hey, User")).toBeInTheDocument();
+    expect(screen.getByText("Orders")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Collapse sidebar" })
     ).toBeInTheDocument();

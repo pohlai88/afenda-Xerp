@@ -1,0 +1,41 @@
+/**
+ * @afenda/ui — single CSS entry.
+ *
+ * The ONLY CSS file this package owns. Import via:
+ *   @import "@afenda/ui/afenda-ui.css";
+ *
+ * Composition:
+ *   1. design-system theme bridge + tokens  (theme + base layers)
+ *      — @theme + --afenda-* authority lives in @afenda/design-system.
+ *   2. primitive structural hooks            (components layer)
+ *
+ * Do NOT define --afenda-* tokens or @theme here — that is design-system's job.
+ * Do NOT @import "tailwindcss" or add @source here — those belong in app entries
+ * (apps/<app>/src/app/globals.css).
+ */
+
+/* ── Cascade layer order: Tailwind v4 native — mirrors @import "tailwindcss" ── */
+@layer theme, base, components, utilities;
+
+/* ── 1. Design-system theme bridge + tokens ──────────────────────────────── */
+@import "@afenda/design-system/css/afenda-design-system.css";
+
+/* ── 2. Primitive structural hooks ───────────────────────────────────────── */
+@layer components {
+  [data-component="Button"],
+  [data-slot="button"] {
+    touch-action: manipulation;
+  }
+
+  [data-component="Table"] [data-slot="table-cell"][data-numeric="true"],
+  [data-component="Table"] [data-slot="table-cell"].tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-component] {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}

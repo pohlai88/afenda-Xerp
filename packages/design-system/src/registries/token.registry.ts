@@ -18,9 +18,8 @@ import {
  *
  * Single source of truth for every governed design value. `generate-tokens-css`
  * reverse-renders this registry into:
- *   src/css/afenda-tokens.css      (raw --afenda-* vars, grouped by `group`)
- *   src/css/afenda-globals.css     (Parts A–D, full Tailwind v4 theme)
- *   packages/ui/src/styles/afenda-style.css (UI consumption entry)
+ *   src/css/afenda-tokens.css          (raw --afenda-* vars, grouped by `group`)
+ *   src/css/afenda-design-system.css   (Parts A–D, full Tailwind v4 theme)
  *
  * Authority layers (mirrors the generated CSS section order):
  *   RAW       literal oklch()/px/rem values — light in `value`, dark in `darkValue`

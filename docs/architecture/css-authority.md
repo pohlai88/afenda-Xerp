@@ -1,0 +1,207 @@
+# CSS Authority — Canonical Reference
+
+> Single source of truth for CSS ownership, import rules, cascade layer order,
+> namespace contracts, and entrypoint decision trees across the Afenda monorepo.
+>
+> Package READMEs link here with a short summary — do not duplicate rule tables.
+
+---
+
+## Authority model
+
+**One file per package, named `afenda-<package>.css`. `globals.css` is reserved
+for the app composition entry only — no package may use that name.**
+
+```
+@afenda/design-system
+  Owns: raw tokens, semantic tokens, Tailwind @theme bridge, --afenda-* authority
+  Files (generated): ./css/afenda-tokens.css, ./css/afenda-design-system.css
+  May import from: (nothing upstream)
+
+@afenda/ui
+  Owns: ONE entry — design-system theme bridge + primitive structural hooks
+  File: ./afenda-ui.css   (@imports @afenda/design-system/css/afenda-design-system.css)
+  May import from: @afenda/design-system
+
+@afenda/metadata-ui
+  Owns: metadata renderer structural CSS (+ storybook-only fixture CSS)
+  Files: ./afenda-metadata-ui.css, ./fixtures.css
+  May import from: @afenda/design-system, @afenda/ui
+
+@afenda/appshell
+  Owns: AppShell structural CSS only
+  File: ./afenda-appshell.css
+  May import from: @afenda/design-system, @afenda/ui
+
+apps/erp
+  Owns: globals.css — the single final composition entry
+  May import from: all packages
+```
+
+### Forbidden cross-package CSS imports
+
+| Package | May NOT import |
+|---|---|
+| `@afenda/metadata-ui` | `@afenda/appshell` CSS |
+| `@afenda/appshell` | `@afenda/metadata-ui` CSS |
+| `@afenda/ui` | `@afenda/metadata-ui` or `@afenda/appshell` CSS |
+| `@afenda/metadata` | ANY CSS (pure contract package) |
+| `@afenda/design-system` | ANY downstream package CSS |
+| production app globals | any `fixtures.css` file |
+
+---
+
+## Cascade layer order
+
+We use **Tailwind v4's native layer order**. `@import "tailwindcss"` declares it,
+and we restate it once in `@afenda/ui/afenda-ui.css` (and the app entry) so the
+cascade stays deterministic regardless of `@import` order changes.
+
+```css
+@layer theme, base, components, utilities;
+```
+
+| Layer | Content | Owner |
+|---|---|---|
+| `theme` | Design tokens + `@theme` bridge (`--afenda-*`, utility map) | `@afenda/design-system` (via `afenda-ui.css`) |
+| `base` | Element/base styles (html, body, h1–h6, resets) | design-system + `shadcn/tailwind.css` |
+| `components` | `@afenda/ui` primitive hooks, `@afenda/appshell` `.app-shell-*`, `@afenda/metadata-ui` `.metadata-*` | ui / appshell / metadata-ui |
+| `utilities` | Tailwind utilities + app-level overrides (always win) | Tailwind / app |
+
+Packages place their rules in `components` either by declaring `@layer components { … }`
+in-file (`appshell`) or by being imported with `layer(components)` (`metadata-ui`,
+which is intentionally unlayered so it stays composable).
+
+---
+
+## Class namespace contract (BEM/SMACSS)
+
+| Package | Allowed leading class prefix | Notes |
+|---|---|---|
+| `@afenda/design-system` | none | Token CSS only — no class selectors |
+| `@afenda/ui` | `[data-component]`, `[data-slot]` | No bare class authority |
+| `@afenda/metadata-ui` | `.metadata-*` | Production |
+| `@afenda/metadata-ui` | `.metadata-fixture-*` | Fixture CSS only |
+| `@afenda/appshell` | `.app-shell-*` | Production only — no fixture classes |
+| State | `is-*` or `data-*` | Not ad-hoc class names |
+
+---
+
+## Custom-property namespace contract
+
+| Package | Allowed custom-property prefix | Forbidden |
+|---|---|---|
+| `@afenda/design-system` | `--afenda-*` | — |
+| `@afenda/ui` | none (reads `--afenda-*` via `var()`) | must not define `--afenda-*` |
+| `@afenda/appshell` | `--app-shell-*` | `--color-*`, `--spacing-*`, `--font-*`, `--radius-*`, `--afenda-*` |
+| `@afenda/metadata-ui` | `--metadata-*` | same as above |
+
+Generic Tailwind/shared namespaces (`--color-*`, `--spacing-*`, `--font-*`, `--radius-*`, `--shadow-*`) are squatted namespaces — downstream packages must not define them.
+
+---
+
+## Entrypoint decision tree
+
+### Which CSS to import?
+
+```
+Building an app (Tailwind v4)?
+  → import each package's single entry, in order (see Canonical app import order):
+      @afenda/ui/afenda-ui.css
+      @afenda/appshell/afenda-appshell.css
+      @afenda/metadata-ui/afenda-metadata-ui.css
+
+Need only design-system token variables (no UI primitives)?
+  → @import "@afenda/design-system/css/afenda-tokens.css"
+```
+
+`@afenda/ui/afenda-ui.css` already `@import`s
+`@afenda/design-system/css/afenda-design-system.css` (the generated `@theme`
+bridge + tokens) — never import that design-system file directly from an app.
+
+```
+Rendering metadata-ui fixtures or composed Storybook?
+  → also @import "@afenda/metadata-ui/fixtures.css"  (Storybook only, not app globals)
+```
+
+---
+
+## Canonical ERP app import order (`apps/erp/src/app/globals.css`)
+
+`globals.css` is THE single composition entry. Package CSS is never named
+`globals.css`.
+
+```css
+/* 1. Tailwind base */
+@import "tailwindcss";
+
+/* 2. Design tokens + UI primitives */
+@import "@afenda/ui/afenda-ui.css";
+
+/* 3. AppShell structural chrome */
+@import "@afenda/appshell/afenda-appshell.css";
+
+/* 4. Metadata renderer structural CSS */
+@import "@afenda/metadata-ui/afenda-metadata-ui.css";
+
+/* 5. shadcn primitive resets */
+@import "shadcn/tailwind.css";
+
+/* 6. App-specific overrides (if needed) */
+```
+
+**Do NOT** include `./fixtures.css` in app globals. Fixture CSS belongs inside story files only.
+
+---
+
+## Storybook CSS rules
+
+Storybook renders every component, so `preview.css` loads the SAME single
+composition entry the app uses — `apps/erp/src/app/globals.css` — instead of
+re-listing each package file. It adds only storybook-only fixture CSS and the
+Tailwind `@source` globs for package sources.
+
+| Story type | Allowed imports |
+|---|---|
+| `preview.css` global | The app `globals.css` + fixture CSS + `@source` globs |
+| Per-story (optional) | `@afenda/ui/afenda-ui.css` (redundant with preview, harmless) |
+
+---
+
+## Governance enforcement
+
+| Command | What it checks |
+|---|---|
+| `pnpm check:css-governance` | All 18 rules (manifest-driven) |
+| `pnpm quality:css` | Same — runs as part of `pnpm quality` |
+| Per-package `css-manifest.test.ts` | sourceFile existence, export alignment, sideEffects, boundary assertions |
+
+Script: `scripts/css/check-css-governance.mts`
+Manifest types: `packages/ui/src/governance/css-manifest.ts`
+
+---
+
+## CSS manifest format
+
+Every CSS export must have a manifest entry in the owning package's `css-manifest.ts`:
+
+```typescript
+import type { CssManifest } from "@afenda/ui/governance";
+
+export const packageCssManifest = [
+  {
+    packageName: "@afenda/example",
+    exportPath: "./styles.css",         // matches package.json exports key
+    sourceFile: "src/styles.css",       // relative to package root
+    purpose: "renderer-structural",     // SMACSS-aligned category
+    productionSafe: true,               // false for fixture CSS
+    requiresTailwindTheme: false,       // true only for @theme bridge files
+    allowedImporters: ["apps/*"],
+    prohibitedImporters: ["@afenda/metadata"],
+    classNamespace: "metadata-",        // leading class prefix contract
+    propertyNamespace: "none",          // custom-property prefix contract
+  },
+] as const satisfies CssManifest;
+```
+
+`design-system` mirrors the interface locally (cannot depend on `@afenda/ui`).

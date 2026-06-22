@@ -8,9 +8,11 @@ function getAbsolutePath(value: string): string {
 
 const NODE_MODULES_PATTERN = /node_modules/;
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+const shadcnTailwindCss = join(appRoot, "node_modules/shadcn/dist/tailwind.css");
 const uiRoot = join(appRoot, "../../packages/ui");
 const uiSrcRoot = join(uiRoot, "src");
 const appshellRoot = join(appRoot, "../../packages/appshell");
+const designSystemRoot = join(appRoot, "../../packages/design-system");
 const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
@@ -46,12 +48,20 @@ const config: StorybookConfig = {
   async viteFinal(viteConfig) {
     const storybookAliases = [
       {
-        find: "@afenda/ui/afenda-ui-full.css",
-        replacement: join(uiSrcRoot, "styles/afenda-ui-full.css"),
+        find: "shadcn/tailwind.css",
+        replacement: shadcnTailwindCss,
       },
       {
-        find: "@afenda/ui/afenda-style.css",
-        replacement: join(uiSrcRoot, "styles/afenda-style.css"),
+        find: "@afenda/ui/afenda-ui.css",
+        replacement: join(uiSrcRoot, "styles/afenda-ui.css"),
+      },
+      {
+        find: "@afenda/design-system/css/afenda-design-system.css",
+        replacement: join(designSystemRoot, "src/css/afenda-design-system.css"),
+      },
+      {
+        find: "@afenda/appshell/afenda-appshell.css",
+        replacement: join(appshellRoot, "src/styles/afenda-appshell.css"),
       },
       {
         find: /^@afenda\/ui\/governance\/(.+)$/,
@@ -74,8 +84,8 @@ const config: StorybookConfig = {
         replacement: join(appshellRoot, "src/index.ts"),
       },
       {
-        find: "@afenda/metadata-ui/styles.css",
-        replacement: join(metadataUiRoot, "src/styles.css"),
+        find: "@afenda/metadata-ui/afenda-metadata-ui.css",
+        replacement: join(metadataUiRoot, "src/afenda-metadata-ui.css"),
       },
       {
         find: "@afenda/metadata-ui/fixtures.css",

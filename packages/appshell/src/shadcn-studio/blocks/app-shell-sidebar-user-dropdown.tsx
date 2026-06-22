@@ -54,7 +54,7 @@ function SidebarUserMenuItemRow({ item }: { readonly item: AppShellProfileMenuIt
     <DropdownMenuItem
       {...(item.variant === undefined ? {} : { variant: item.variant })}
     >
-      <item.Icon aria-hidden className="text-foreground size-4" />
+      <item.Icon aria-hidden className="app-shell-sidebar-user-menu-item-icon" />
       <span>{item.label}</span>
     </DropdownMenuItem>
   );
@@ -73,19 +73,19 @@ function SidebarUserMenuHeader({
 }) {
   return (
     <DropdownMenuLabel>
-      <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+      <div className="app-shell-sidebar-user-menu-header">
         <Avatar>
           <AvatarImage alt={displayName} src={avatarSrc} />
           <AvatarFallback>{avatarFallback}</AvatarFallback>
         </Avatar>
-        <div className="app-shell-sidebar-user-meta grid min-w-0 flex-1 text-left text-sm leading-tight">
+        <div className="app-shell-sidebar-user-meta">
           <span
-            className="text-popover-foreground truncate font-medium"
+            className="app-shell-sidebar-user-menu-name"
             id={SIDEBAR_USER_MENU_LABEL_ID}
           >
             {displayName}
           </span>
-          <span className="text-muted-foreground truncate text-xs">{roleLabel}</span>
+          <span className="app-shell-sidebar-user-role">{roleLabel}</span>
         </div>
       </div>
     </DropdownMenuLabel>
@@ -115,11 +115,9 @@ export function AppShellSidebarUserDropdown({
                 <AvatarImage alt={displayName} src={avatarSrc} />
                 <AvatarFallback>{avatarFallback}</AvatarFallback>
               </Avatar>
-              <div className="app-shell-sidebar-user-meta grid min-w-0 flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{displayName}</span>
-                <span className="text-muted-foreground truncate text-xs">
-                  {roleLabel}
-                </span>
+              <div className="app-shell-sidebar-user-trigger-copy">
+                <span className="app-shell-sidebar-user-name">{displayName}</span>
+                <span className="app-shell-sidebar-user-role">{roleLabel}</span>
               </div>
               <ChevronRightIcon
                 aria-hidden

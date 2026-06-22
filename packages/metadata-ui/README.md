@@ -150,7 +150,7 @@ pnpm add @afenda/metadata-ui --workspace
 Import responsive chrome once in the app or Storybook entry CSS:
 
 ```css
-@import "@afenda/metadata-ui/styles.css";
+@import "@afenda/metadata-ui/afenda-metadata-ui.css";
 ```
 
 Layouts use **container queries** on `.metadata-container` roots — they adapt to their parent width, not only the viewport. Action controls meet **44×44px** touch targets; hover styles apply only under `@media (hover: hover)`.
@@ -162,6 +162,29 @@ pnpm --filter @afenda/metadata-ui typecheck
 pnpm --filter @afenda/metadata-ui test
 pnpm --filter @afenda/metadata-ui build
 ```
+
+## CSS
+
+**Authority:** `@afenda/metadata-ui` owns all `.metadata-*` structural classes.
+**Property namespace:** `--metadata-*` (no `--afenda-*`, `--color-*`, or `--spacing-*` definitions).
+**Cascade layer:** `components` — assigned at import via `layer(components)` (file is intentionally unlayered).
+
+Full authority model and decision tree: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md).
+Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
+
+### CSS entrypoints
+
+| Export | Purpose |
+|---|---|
+| `./styles.css` | Production structural classes (`.metadata-*`) |
+| `./fixtures.css` | Storybook/fixture classes (`.metadata-fixture-*`) — **not for app globals** |
+
+### Rules
+
+- All production classes use `.metadata-` prefix.
+- Fixture classes (`metadata-fixture-*`) live in `src/fixtures/metadata-ui-fixtures.css` only.
+- `styles.css` must not contain any `.metadata-fixture-*` selectors.
+- `fixtures.css` is `productionSafe: false` — do not import it in `apps/erp/globals.css`.
 
 ## Governance rules
 

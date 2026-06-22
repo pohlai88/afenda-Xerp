@@ -3,7 +3,6 @@
 import { useId, useMemo } from "react";
 
 import {
-  Badge,
   Card,
   ChartContainer,
   ChartTooltip,
@@ -16,7 +15,7 @@ import {
   SelectValue,
   Separator,
 } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import {
   Bar,
   BarChart,
@@ -49,7 +48,7 @@ import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-me
 
 export type AppShellDashboardRevenueChartGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card" | "Chart" | "Select" | "Separator"
+  "Card" | "Chart" | "Select" | "Separator"
 >;
 
 export interface AppShellDashboardRevenueChartProps {
@@ -88,10 +87,6 @@ const REPORT_OPTIONS = [
   { value: "profit", label: "Profit" },
   { value: "net-income", label: "Net income" },
 ] as const satisfies readonly { readonly label: string; readonly value: string }[];
-
-function resolveGrowthBadgeTone(growthLabel: string): NonNullable<GovernedBadgeProps["tone"]> {
-  return growthLabel.trimStart().startsWith("-") ? "danger" : "success";
-}
 
 function computeSignedBarDomain(
   data: readonly AppShellDashboardRevenueBarPoint[]
@@ -243,9 +238,9 @@ export function AppShellDashboardRevenueChart({
                   <span className="app-shell-dashboard-revenue-hero-amount">
                     {primaryYearAmount}
                   </span>
-                  <Badge emphasis="soft" tone={resolveGrowthBadgeTone(yearOverYearChange)}>
+                  <span className="app-shell-dashboard-revenue-yoy-change">
                     {yearOverYearChange} YoY
-                  </Badge>
+                  </span>
                 </div>
                 <span className="app-shell-dashboard-revenue-comparison">{comparisonText}</span>
               </div>
@@ -396,9 +391,7 @@ export function AppShellDashboardRevenueChart({
               </div>
 
               <div className="app-shell-dashboard-revenue-growth-meta">
-                <Badge emphasis="soft" tone={resolveGrowthBadgeTone(growthLabel)}>
-                  {growthCaption}
-                </Badge>
+                <span className="app-shell-dashboard-revenue-growth-caption">{growthCaption}</span>
                 <span className="app-shell-dashboard-revenue-growth-footnote" id={growthSectionId}>
                   Portfolio growth index
                 </span>

@@ -59,9 +59,9 @@ function ActivitySummary({
   readonly occurredAt: string;
 }) {
   return (
-    <div className="text-muted-foreground flex flex-col items-start text-sm">
+    <div className="app-shell-activity-summary">
       <p>
-        <span className="text-foreground font-semibold">{actorName}</span> {action}
+        <span className="app-shell-activity-actor-name">{actorName}</span> {action}
       </p>
       <p>
         <time dateTime={occurredAt}>{relativeTime}</time>
@@ -72,20 +72,16 @@ function ActivitySummary({
 
 function ActivityMentionAttachment({ quote }: { readonly quote: string }) {
   return (
-    <div className="bg-muted flex flex-col gap-4 rounded-md border px-4 py-2.5">
-      <p className="text-sm font-medium">{quote}</p>
-      <div
-        aria-label="Reply to mention"
-        className="bg-background flex items-center gap-2 rounded-md border px-3 py-2"
-        role="group"
-      >
+    <div className="app-shell-activity-mention">
+      <p className="app-shell-activity-mention-quote">{quote}</p>
+      <div aria-label="Reply to mention" className="app-shell-activity-reply-group" role="group">
         <input
           aria-label="Reply message"
-          className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-sm outline-none"
+          className="app-shell-activity-reply-input"
           placeholder="Reply"
           type="text"
         />
-        <ImageIcon aria-hidden className="text-muted-foreground size-4 shrink-0" />
+        <ImageIcon aria-hidden className="app-shell-activity-reply-icon" />
         <span className="sr-only">Attach image</span>
       </div>
     </div>
@@ -104,12 +100,9 @@ function ActivityFileInlineAttachment({
   readonly thumbnailSrc: string;
 }) {
   return (
-    <a
-      className="bg-muted hover:bg-muted/80 flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors"
-      href={fileHref}
-    >
-      <img alt={thumbnailAlt} className="h-5" src={thumbnailSrc} />
-      <span className="text-sm font-medium">{fileName}</span>
+    <a className="app-shell-activity-file-inline" href={fileHref}>
+      <img alt={thumbnailAlt} className="app-shell-activity-file-inline-thumb" src={thumbnailSrc} />
+      <span className="app-shell-activity-file-inline-name">{fileName}</span>
     </a>
   );
 }
@@ -126,12 +119,9 @@ function ActivityFileCardAttachment({
   readonly thumbnailSrc: string;
 }) {
   return (
-    <a
-      className="bg-muted hover:bg-muted/80 flex w-full items-center gap-4 rounded-md border px-4 py-2.5 transition-colors"
-      href={fileHref}
-    >
-      <img alt={thumbnailAlt} className="size-8 rounded-sm" src={thumbnailSrc} />
-      <span className="text-sm font-medium">{fileName}</span>
+    <a className="app-shell-activity-file-card" href={fileHref}>
+      <img alt={thumbnailAlt} className="app-shell-activity-file-card-thumb" src={thumbnailSrc} />
+      <span className="app-shell-activity-file-card-name">{fileName}</span>
     </a>
   );
 }
@@ -145,7 +135,7 @@ function ActivityTagGroup({
   }[];
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="app-shell-activity-tag-group">
       {tags.map((tag) => (
         <Badge
           key={tag.label}
@@ -192,9 +182,9 @@ function ActivityFeedRow({ item }: { readonly item: AppShellActivityItem }) {
   const summaryId = activitySummaryId(item.id);
 
   return (
-    <article aria-labelledby={summaryId} className="flex gap-4 px-4 py-3">
+    <article aria-labelledby={summaryId} className="app-shell-activity-row">
       <ActivityActorAvatar actor={item.actor} />
-      <div className="flex w-full min-w-0 flex-col items-start gap-2.5">
+      <div className="app-shell-activity-row-body">
         <div id={summaryId}>
           <ActivitySummary
             action={item.action}
@@ -211,9 +201,8 @@ function ActivityFeedRow({ item }: { readonly item: AppShellActivityItem }) {
 
 function ActivityFeedEmptyState() {
   return (
-    <p className="text-muted-foreground px-4 py-6 text-sm" role="status">
-      No team activity yet. Module updates, approvals, and shared documents will
-      appear here.
+    <p className="app-shell-activity-empty" role="status">
+      No team activity yet. Module updates, approvals, and shared documents will appear here.
     </p>
   );
 }

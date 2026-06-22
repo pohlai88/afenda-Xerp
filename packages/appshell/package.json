@@ -9,13 +9,20 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./afenda-appshell.css": {
+      "import": "./dist/styles/afenda-appshell.css",
+      "default": "./dist/styles/afenda-appshell.css"
     }
   },
+  "sideEffects": [
+    "./dist/styles/afenda-appshell.css"
+  ],
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/styles', { recursive: true }); copyFileSync('src/styles/afenda-appshell.css', 'dist/styles/afenda-appshell.css');\"",
     "dev": "tsc -b --watch",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",

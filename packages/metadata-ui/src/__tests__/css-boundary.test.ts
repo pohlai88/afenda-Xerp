@@ -6,7 +6,7 @@ const metadataUiRoot = join(import.meta.dirname, "../..");
 const metadataRoot = join(metadataUiRoot, "../metadata");
 
 const productionCss = readFileSync(
-  join(metadataUiRoot, "src/styles.css"),
+  join(metadataUiRoot, "src/afenda-metadata-ui.css"),
   "utf8"
 );
 
@@ -94,15 +94,15 @@ describe("metadata-ui CSS boundary", () => {
     expect(existsSync(metadataSrcStyles)).toBe(false);
   });
 
-  it("package.json exposes both styles.css and fixtures.css", () => {
+  it("package.json exposes both afenda-metadata-ui.css and fixtures.css", () => {
     const packageJson = JSON.parse(
       readFileSync(join(metadataUiRoot, "package.json"), "utf8")
     ) as { exports?: Record<string, unknown>; sideEffects?: unknown };
 
-    expect(packageJson.exports?.["./styles.css"]).toBeDefined();
+    expect(packageJson.exports?.["./afenda-metadata-ui.css"]).toBeDefined();
     expect(packageJson.exports?.["./fixtures.css"]).toBeDefined();
 
-    expect(packageJson.sideEffects).toContain("./dist/styles.css");
+    expect(packageJson.sideEffects).toContain("./dist/afenda-metadata-ui.css");
     expect(packageJson.sideEffects).toContain(
       "./dist/fixtures/metadata-ui-fixtures.css"
     );

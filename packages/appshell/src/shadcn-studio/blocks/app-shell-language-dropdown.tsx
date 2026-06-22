@@ -76,10 +76,7 @@ export function AppShellLanguageDropdown({
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent align={align}>
         <DropdownMenuLabel>
-          <span
-            className="text-muted-foreground px-1 text-xs font-normal uppercase tracking-wide"
-            id="app-shell-language-menu-label"
-          >
+          <span className="app-shell-language-menu-label" id="app-shell-language-menu-label">
             {menuLabel}
           </span>
         </DropdownMenuLabel>

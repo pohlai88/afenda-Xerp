@@ -87,7 +87,7 @@ function SearchSuggestionRow({
   return (
     <li>
       <button className="app-shell-search-result" onClick={onSelect} type="button">
-        <item.Icon aria-hidden className="app-shell-search-suggestion-icon text-foreground" />
+        <item.Icon aria-hidden className="app-shell-search-suggestion-icon" />
         <span>{item.label}</span>
       </button>
     </li>
@@ -110,9 +110,9 @@ function SearchInteractionRow({
           <AvatarImage alt={item.name} src={item.logoSrc} />
           <AvatarFallback>{item.name.slice(0, 1)}</AvatarFallback>
         </Avatar>
-        <div className="flex w-full min-w-0 flex-col items-start">
-          <span className="font-medium">{item.name}</span>
-          <span className="text-muted-foreground text-sm">{item.description}</span>
+        <div className="app-shell-search-result-copy">
+          <span className="app-shell-search-result-title">{item.name}</span>
+          <span className="app-shell-search-result-subtitle">{item.description}</span>
         </div>
         <AvatarGroup>
           {item.participants.map((participant) => (
@@ -142,12 +142,14 @@ function SearchUserRow({
           <AvatarImage alt={item.name} src={item.avatarSrc} />
           <AvatarFallback>{item.fallback}</AvatarFallback>
         </Avatar>
-        <div className="flex w-full min-w-0 flex-col items-start">
-          <span className="font-medium">{item.name}</span>
-          <span className="text-muted-foreground text-sm font-light">{item.email}</span>
+        <div className="app-shell-search-result-copy">
+          <span className="app-shell-search-result-title">{item.name}</span>
+          <span className="app-shell-search-result-subtitle-light">{item.email}</span>
         </div>
-        <Badge emphasis="soft" tone={item.statusTone}>{item.status}</Badge>
-        <MoreVerticalIcon aria-hidden className="text-muted-foreground size-5 shrink-0" />
+        <Badge emphasis="soft" tone={item.statusTone}>
+          {item.status}
+        </Badge>
+        <MoreVerticalIcon aria-hidden className="app-shell-search-result-more-icon" />
       </button>
     </li>
   );
@@ -163,23 +165,23 @@ function SearchKeyboardHints({
   readonly navigateHint: string;
 }) {
   return (
-    <div className="app-shell-search-footer text-muted-foreground flex flex-wrap items-center gap-4 p-4">
-      <div className="flex flex-1 items-center gap-2">
+    <div className="app-shell-search-footer">
+      <div className="app-shell-search-footer-hint-row">
         <Kbd>esc</Kbd>
         <span>{closeHint}</span>
       </div>
-      <div className="flex items-center gap-2">
-        <div className="app-shell-search-keycap flex size-6 items-center justify-center rounded-sm border">
-          <Undo2Icon aria-hidden className="size-4" />
+      <div className="app-shell-search-footer-hint-group">
+        <div className="app-shell-search-keycap">
+          <Undo2Icon aria-hidden className="app-shell-search-keycap-icon" />
         </div>
         <span>{selectHint}</span>
       </div>
-      <div className="flex items-center gap-2">
-        <div className="app-shell-search-keycap flex size-6 items-center justify-center rounded-sm border">
-          <ArrowUpIcon aria-hidden className="size-4" />
+      <div className="app-shell-search-footer-hint-group">
+        <div className="app-shell-search-keycap">
+          <ArrowUpIcon aria-hidden className="app-shell-search-keycap-icon" />
         </div>
-        <div className="app-shell-search-keycap flex size-6 items-center justify-center rounded-sm border">
-          <ArrowDownIcon aria-hidden className="size-4" />
+        <div className="app-shell-search-keycap">
+          <ArrowDownIcon aria-hidden className="app-shell-search-keycap-icon" />
         </div>
         <span>{navigateHint}</span>
       </div>
@@ -243,12 +245,14 @@ export function AppShellSearchCommand({
 
   return (
     <div className="app-shell-search-command" role="search">
-      <label className="sr-only" htmlFor={SEARCH_INPUT_ID}>{searchLabel}</label>
-      <div className="app-shell-search-field flex items-center gap-2 px-4 py-3">
-        <SearchIcon aria-hidden className="size-5 shrink-0" />
+      <label className="sr-only" htmlFor={SEARCH_INPUT_ID}>
+        {searchLabel}
+      </label>
+      <div className="app-shell-search-field">
+        <SearchIcon aria-hidden className="app-shell-search-field-icon" />
         <input
           autoFocus
-          className="placeholder:text-muted-foreground flex-1 bg-transparent text-base outline-none"
+          className="app-shell-search-input"
           id={SEARCH_INPUT_ID}
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setSearch(event.target.value)
@@ -265,15 +269,15 @@ export function AppShellSearchCommand({
         role="region"
       >
         {!hasResults ? (
-          <p className="text-muted-foreground px-4 py-3 text-sm">{emptyMessage}</p>
+          <p className="app-shell-search-empty">{emptyMessage}</p>
         ) : null}
 
         {filteredSuggestions.length > 0 ? (
           <section aria-labelledby={suggestionsHeadingId}>
-            <h2 className="sr-only" id={suggestionsHeadingId}>{suggestionsLabel}</h2>
-            <p className="text-muted-foreground px-4 pt-2 text-xs font-medium uppercase tracking-wide">
+            <h2 className="sr-only" id={suggestionsHeadingId}>
               {suggestionsLabel}
-            </p>
+            </h2>
+            <p className="app-shell-search-section-label">{suggestionsLabel}</p>
             <ul className="app-shell-search-list">
               {filteredSuggestions.map((item) => (
                 <SearchSuggestionRow
@@ -288,10 +292,10 @@ export function AppShellSearchCommand({
 
         {filteredInteractions.length > 0 ? (
           <section aria-labelledby={interactionsHeadingId}>
-            <h2 className="sr-only" id={interactionsHeadingId}>{interactionsLabel}</h2>
-            <p className="text-muted-foreground px-4 pt-2 text-xs font-medium uppercase tracking-wide">
+            <h2 className="sr-only" id={interactionsHeadingId}>
               {interactionsLabel}
-            </p>
+            </h2>
+            <p className="app-shell-search-section-label">{interactionsLabel}</p>
             <ul className="app-shell-search-list">
               {filteredInteractions.map((item) => (
                 <SearchInteractionRow
@@ -307,10 +311,10 @@ export function AppShellSearchCommand({
 
         {filteredUsers.length > 0 ? (
           <section aria-labelledby={usersHeadingId}>
-            <h2 className="sr-only" id={usersHeadingId}>{usersLabel}</h2>
-            <p className="text-muted-foreground px-4 pt-2 text-xs font-medium uppercase tracking-wide">
+            <h2 className="sr-only" id={usersHeadingId}>
               {usersLabel}
-            </p>
+            </h2>
+            <p className="app-shell-search-section-label">{usersLabel}</p>
             <ul className="app-shell-search-list">
               {filteredUsers.map((item) => (
                 <SearchUserRow

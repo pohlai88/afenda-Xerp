@@ -52,9 +52,9 @@ export function AppShellMenuTrigger({
       type="button"
     >
       {isOpen ? (
-        <PanelLeftCloseIcon aria-hidden className="size-4" />
+        <PanelLeftCloseIcon aria-hidden className="app-shell-menu-trigger-icon" />
       ) : (
-        <PanelRightCloseIcon aria-hidden className="size-4" />
+        <PanelRightCloseIcon aria-hidden className="app-shell-menu-trigger-icon" />
       )}
       <span className="sr-only">{accessibleLabel}</span>
     </Button>

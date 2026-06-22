@@ -1,8 +1,12 @@
 /**
  * @afenda/metadata-ui — production rendering chrome.
  *
- * Import once in the app shell:
- *   @import "@afenda/metadata-ui/styles.css";
+ * The ONLY CSS file this package owns. Import once in the app shell, placing it
+ * into Tailwind's components layer so utilities can override it:
+ *   @import "@afenda/metadata-ui/afenda-metadata-ui.css" layer(components);
+ *
+ * This file is intentionally unlayered — the consuming entry assigns the layer
+ * via layer() so the package stays composable in any cascade.
  *
  * Structural hooks only — no colors, tokens, shadows, or brand styling.
  */

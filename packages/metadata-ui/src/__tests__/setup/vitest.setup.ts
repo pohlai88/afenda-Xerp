@@ -1,1 +1,1 @@
-import "../../styles.css";
+import "../../afenda-metadata-ui.css";

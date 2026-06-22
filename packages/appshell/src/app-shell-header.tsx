@@ -98,7 +98,7 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
             className="app-shell-search-dialog-mobile"
             trigger={
               <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <SearchIcon />
+                <SearchIcon aria-hidden className="app-shell-header-action-icon" />
                 <span className="sr-only">Search</span>
               </Button>
             }
@@ -106,7 +106,7 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
           <AppShellLanguageDropdown
             trigger={
               <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <LanguagesIcon />
+                <LanguagesIcon aria-hidden className="app-shell-header-action-icon" />
                 <span className="sr-only">Language</span>
               </Button>
             }
@@ -114,7 +114,7 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
           <AppShellActivityDialog
             trigger={
               <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <ActivityIcon />
+                <ActivityIcon aria-hidden className="app-shell-header-action-icon" />
                 <span className="sr-only">Activity</span>
               </Button>
             }
@@ -127,7 +127,7 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
                   aria-label={notificationTriggerLabel}
                   type="button"
                 >
-                  <BellIcon />
+                  <BellIcon aria-hidden className="app-shell-header-action-icon" />
                 </Button>
                 {unreadNotificationCount > 0 ? (
                   <span

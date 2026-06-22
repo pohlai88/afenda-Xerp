@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import "@afenda/ui/afenda-ui-full.css";
+import "@afenda/ui/afenda-ui.css";
 import "./styles.css";
 import "./fixtures/metadata-ui-fixtures.css";
 

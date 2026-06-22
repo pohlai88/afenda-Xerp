@@ -16,7 +16,7 @@ import {
 import { sampleDiagnosticsRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
-const productionCss = readFileSync(join(packageRoot, "src/styles.css"), "utf8");
+const productionCss = readFileSync(join(packageRoot, "src/afenda-metadata-ui.css"), "utf8");
 const fixturesCss = readFileSync(
   join(packageRoot, "src/fixtures/metadata-ui-fixtures.css"),
   "utf8"
@@ -197,20 +197,23 @@ describe("metadata-ui craft remediation", () => {
     expect("toolbar" in sampleDashboardLayoutProps.slots).toBe(true);
   });
 
-  it("Storybook preview.css imports metadata-ui production and fixture styles", () => {
-    expect(previewCss).toContain("packages/metadata-ui/src/styles.css");
+  it("Storybook preview.css loads the full globals composition + fixtures", () => {
+    expect(previewCss).toContain('@import "tailwindcss"');
+    expect(previewCss).toContain("@afenda/ui/afenda-ui.css");
+    expect(previewCss).toContain("@afenda/appshell/afenda-appshell.css");
+    expect(previewCss).toContain("@afenda/metadata-ui/afenda-metadata-ui.css");
+    expect(previewCss).toContain("shadcn/tailwind.css");
     expect(previewCss).toContain(
       "packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css"
     );
-    expect(previewCss).toContain("packages/ui/src/styles/afenda-ui-full.css");
   });
 
-  it("package.json exposes styles.css from src/styles.css build output", () => {
+  it("package.json exposes afenda-metadata-ui.css from src build output", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")
     ) as { exports?: Record<string, unknown> };
 
-    expect(packageJson.exports?.["./styles.css"]).toBeDefined();
-    expect(existsSync(join(packageRoot, "src/styles.css"))).toBe(true);
+    expect(packageJson.exports?.["./afenda-metadata-ui.css"]).toBeDefined();
+    expect(existsSync(join(packageRoot, "src/afenda-metadata-ui.css"))).toBe(true);
   });
 });

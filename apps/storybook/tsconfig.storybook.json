@@ -16,16 +16,19 @@
       "@afenda/ui/governance/*": ["../../packages/ui/src/governance/*"],
       "@afenda/ui/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
       "@afenda/ui/lib/*": ["../../packages/ui/src/lib/*"],
-      "@afenda/ui/afenda-style.css": ["../../packages/ui/src/styles/afenda-style.css"],
+      "@afenda/ui/afenda-ui.css": ["../../packages/ui/src/styles/afenda-ui.css"],
       "@afenda/ui": ["../../packages/ui/src/index.ts"],
+      "@afenda/appshell/afenda-appshell.css": [
+        "../../packages/appshell/src/styles/afenda-appshell.css"
+      ],
       "@afenda/appshell": ["../../packages/appshell/src/index.ts"],
-      "@afenda/metadata-ui/styles.css": ["../../packages/metadata-ui/src/styles.css"],
+      "@afenda/metadata-ui/afenda-metadata-ui.css": ["../../packages/metadata-ui/src/afenda-metadata-ui.css"],
       "@afenda/metadata-ui/fixtures.css": [
         "../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css"
       ],
       "@afenda/metadata-ui": ["../../packages/metadata-ui/src/index.ts"],
-      "@afenda/design-system/css/globals.css": [
-        "../../packages/design-system/dist/css/globals.css"
+      "@afenda/design-system/css/afenda-design-system.css": [
+        "../../packages/design-system/dist/css/afenda-design-system.css"
       ],
       "@storybook/react": ["./node_modules/@storybook/react"],
       "next/link": ["../../packages/testing/src/mocks/next-link.tsx"]

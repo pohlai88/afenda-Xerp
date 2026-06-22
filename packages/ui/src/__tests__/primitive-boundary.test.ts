@@ -69,14 +69,16 @@ describe("primitive package boundary", () => {
     }
   });
 
-  it("ui.css imports design-system tokens and does not define :root authority", () => {
-    const css = readFileSync(join(srcRoot, "styles", "ui.css"), "utf8");
-    expect(css).toContain('@import "@afenda/design-system/css/afenda-tokens.css"');
+  it("afenda-ui.css imports the design-system entry and defines no :root authority", () => {
+    const css = readFileSync(join(srcRoot, "styles", "afenda-ui.css"), "utf8");
+    expect(css).toContain(
+      '@import "@afenda/design-system/css/afenda-design-system.css"'
+    );
     expect(css).not.toMatch(/:root\s*\{/u);
     expect(css).not.toMatch(/^\s*--afenda-/mu);
   });
 
-  it("package.json exports styles.css with sideEffects", () => {
+  it("package.json exports afenda-ui.css with sideEffects", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")
     ) as {
@@ -84,7 +86,7 @@ describe("primitive package boundary", () => {
       sideEffects?: readonly string[];
     };
 
-    expect(packageJson.exports?.["./styles.css"]).toBeDefined();
+    expect(packageJson.exports?.["./afenda-ui.css"]).toBeDefined();
     expect(packageJson.sideEffects?.some((entry) => entry.includes(".css"))).toBe(
       true
     );

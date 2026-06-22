@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, Badge, Card, Separator } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import { Avatar, AvatarFallback, Card, Separator } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -17,7 +17,7 @@ import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-me
 
 export type AppShellDashboardRecentTransactionsGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Avatar" | "Badge" | "Card" | "Separator"
+  "Avatar" | "Card" | "Separator"
 >;
 
 export interface AppShellDashboardRecentTransactionsProps {
@@ -52,24 +52,6 @@ function formatSignedAmount(
 ): string {
   const prefix = direction === "credit" ? "+" : "-";
   return `${prefix}${formatCurrency(parseAmount(amount))}`;
-}
-
-function resolveDirectionBadgeTone(
-  direction: AppShellTransactionDirection
-): NonNullable<GovernedBadgeProps["tone"]> {
-  return direction === "credit" ? "success" : "danger";
-}
-
-function resolveNetFlowBadgeTone(net: number): NonNullable<GovernedBadgeProps["tone"]> {
-  if (net > 0) {
-    return "success";
-  }
-
-  if (net < 0) {
-    return "danger";
-  }
-
-  return "neutral";
 }
 
 function formatNetFlow(net: number): string {
@@ -122,9 +104,15 @@ function TransactionRow({ transaction }: { readonly transaction: AppShellDashboa
           <span className="app-shell-dashboard-transaction-subtitle">{transaction.module}</span>
         </div>
       </div>
-      <Badge emphasis="soft" tone={resolveDirectionBadgeTone(transaction.direction)}>
+      <span
+        className={
+          transaction.direction === "credit"
+            ? "app-shell-dashboard-transaction-amount app-shell-dashboard-transaction-amount-credit"
+            : "app-shell-dashboard-transaction-amount app-shell-dashboard-transaction-amount-debit"
+        }
+      >
         {formatSignedAmount(transaction.direction, transaction.amount)}
-      </Badge>
+      </span>
     </li>
   );
 }
@@ -161,9 +149,9 @@ export function AppShellDashboardRecentTransactions({
               <span className="app-shell-dashboard-transaction-total" id={summaryId}>
                 {formatNetFlow(net)}
               </span>
-              <Badge emphasis="soft" tone={resolveNetFlowBadgeTone(net)}>
+              <span className="app-shell-dashboard-transaction-postings">
                 {postingsLabel}
-              </Badge>
+              </span>
             </div>
             <div className="app-shell-dashboard-transaction-flow-row">
               <span className="app-shell-dashboard-transaction-flow-item">

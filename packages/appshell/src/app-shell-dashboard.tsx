@@ -1,8 +1,6 @@
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
-  APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_SECTION_ID,
-  APP_SHELL_PLACEHOLDER_RECENT_ORDERS_SECTION_ID,
   DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERIOD_LABEL,
   DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE,
   DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_CAPTION,
@@ -21,6 +19,7 @@ import {
   defaultAppShellDashboardSparklineMetrics,
   defaultAppShellDashboardTransactions,
 } from "./shadcn-studio/data/app-shell.dashboard.data";
+import type { StatisticsLineTrendsCardProps } from "./shadcn-studio/blocks/statistics-line-trends-card";
 import type {
   AppShellDashboardInvoiceRow,
   AppShellDashboardKpiMetric,
@@ -38,6 +37,8 @@ import { AppShellDashboardRecentTransactions } from "./shadcn-studio/blocks/app-
 import { AppShellDashboardRegionalSales } from "./shadcn-studio/blocks/app-shell-dashboard-regional-sales";
 import { AppShellDashboardRevenueChart } from "./shadcn-studio/blocks/app-shell-dashboard-revenue-chart";
 import { AppShellDashboardSparklineStat } from "./shadcn-studio/blocks/app-shell-dashboard-sparkline-stat";
+import { AppShellDashboardStatisticsLineTrends } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
+import { AppShellDashboardStatisticsMetrics } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
 import {
   ApplicationShellPlaceholderContent,
   type ApplicationShellPlaceholderProps,
@@ -73,6 +74,9 @@ export interface ApplicationShellDashboardProps {
   readonly paymentHistory?: readonly AppShellDashboardPaymentHistoryRow[];
   readonly invoices?: readonly AppShellDashboardInvoiceRow[];
   readonly showLegacyWidgets?: boolean;
+  readonly showStatisticsMetrics?: boolean;
+  readonly showStatisticsLineTrends?: boolean;
+  readonly statisticsLineTrendsCards?: readonly StatisticsLineTrendsCardProps[];
   readonly legacyPlaceholderProps?: ApplicationShellPlaceholderProps;
 }
 
@@ -87,6 +91,9 @@ export function ApplicationShellDashboardContent({
   paymentHistory = defaultAppShellDashboardPaymentHistory,
   invoices = defaultAppShellDashboardInvoices,
   showLegacyWidgets = true,
+  showStatisticsMetrics = true,
+  showStatisticsLineTrends = true,
+  statisticsLineTrendsCards,
   legacyPlaceholderProps,
 }: ApplicationShellDashboardProps = {}) {
   return (
@@ -110,6 +117,16 @@ export function ApplicationShellDashboardContent({
           />
         ))}
       </div>
+
+      {showStatisticsMetrics ? <AppShellDashboardStatisticsMetrics /> : null}
+
+      {showStatisticsLineTrends ? (
+        <AppShellDashboardStatisticsLineTrends
+          {...(statisticsLineTrendsCards === undefined
+            ? {}
+            : { cards: statisticsLineTrendsCards })}
+        />
+      ) : null}
 
       <AppShellDashboardRevenueChart />
 

@@ -68,6 +68,8 @@ export interface AppShellDashboardModuleEarningRow {
   readonly subtitle: string;
   readonly amount: string;
   readonly progress: number;
+  readonly changeLabel: string;
+  readonly trend: AppShellTrendDirection;
   readonly iconSrc: string;
   readonly iconAlt: string;
 }
