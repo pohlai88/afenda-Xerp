@@ -1,3 +1,4 @@
+import React from "react";
 import type { Density } from "@afenda/ui/governance";
 import {
   APP_SHELL_RECIPE_SLOTS,
@@ -17,7 +18,6 @@ import {
   StoryRow,
   StoryStack,
 } from "../components/_storybook/story-frame";
-import React from "react";
 
 const DENSITY_LABELS: Record<Density, string> = {
   compact: "Compact",

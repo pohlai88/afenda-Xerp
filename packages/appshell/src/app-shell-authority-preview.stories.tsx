@@ -1,9 +1,9 @@
+import React from "react";
 import {
   densityToAttribute,
   resolveAppShellSlotClassName,
 } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
 const meta = {
   title: "ERP/ApplicationShell/Authority Preview",

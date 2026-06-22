@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import React, { type ComponentProps, type ReactNode, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
@@ -62,8 +62,8 @@ function SingleDatePicker({
   showOutsideDays,
 }: {
   defaultMonth?: Date;
-  disabled?: React.ComponentProps<typeof Calendar>["disabled"];
-  captionLayout?: React.ComponentProps<typeof Calendar>["captionLayout"];
+  disabled?: ComponentProps<typeof Calendar>["disabled"];
+  captionLayout?: ComponentProps<typeof Calendar>["captionLayout"];
   showOutsideDays?: boolean;
 }) {
   const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 21));

@@ -105,6 +105,9 @@ export const ARCHITECTURE_DOC_SYNC_COMMANDS = {
   architectureValidation: "pnpm quality:architecture",
 } as const;
 
+export const MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE =
+  "multi-tenancy-dependency-rules-enforced-by-governance-gate" as const;
+
 /**
  * Multi-tenancy dependency ownership (multi-tenancy.md lines 432–439).
  * Documented for governance gates — enforcement uses forbidden edges below.
@@ -119,6 +122,50 @@ export const MULTI_TENANCY_AUTHORITY_OWNERS = [
     owner: "@afenda/appshell",
     responsibility: "display and context-switch UI only",
   },
+] as const;
+
+/**
+ * Registry edges that must remain approved (multi-tenancy.md line 445).
+ * If architecture validation fails for these edges, fix dependency-registry.data.ts.
+ */
+export const MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES = [
+  {
+    from: "@afenda/erp",
+    to: "@afenda/kernel",
+    reason:
+      "ERP integrates serializable context contracts from kernel — fix dependency registry if architecture check fails",
+  },
+  {
+    from: "@afenda/erp",
+    to: "@afenda/permissions",
+    reason: "ERP delegates grant decisions — must not duplicate permission engine",
+  },
+  {
+    from: "@afenda/permissions",
+    to: "@afenda/kernel",
+    reason: "PermissionScopeContext types from kernel (TIP-007)",
+  },
+  {
+    from: "@afenda/appshell",
+    to: "@afenda/kernel",
+    reason: "AppShell consumes serializable context labels only",
+  },
+] as const;
+
+/** Markers required in multi-tenancy.md Dependency rules section (lines 432–445). */
+export const MULTI_TENANCY_DEPENDENCY_DOC_MARKERS = [
+  "Dependency rules:",
+  "@afenda/kernel` owns serializable context contracts",
+  "@afenda/database` owns persistence and query adapters",
+  "apps/erp` owns Next.js request/context integration",
+  "@afenda/permissions` owns permission and grant decisions",
+  "@afenda/observability` owns logging/audit evidence",
+  "@afenda/appshell` owns display and context-switch UI only",
+  "@afenda/appshell` must not depend on `@afenda/database`",
+  "@afenda/kernel` must not depend on Next.js or React",
+  "apps/erp` must not duplicate permission engine",
+  "No deep imports",
+  "No unapproved dependencies",
 ] as const;
 
 /** Runtime edges explicitly forbidden by multi-tenancy authority boundaries. */
@@ -168,6 +215,38 @@ export const ERP_FORBIDDEN_PERMISSION_ENGINE_SYMBOLS = [
 ] as const;
 
 export const ERP_PERMISSION_ENGINE_SCAN_ROOT = "apps/erp/src" as const;
+
+/**
+ * ERP files that orchestrate @afenda/permissions — not duplicate engines.
+ * Excluded from erp-permission-engine-duplication scan (false-positive mitigation).
+ */
+export const ERP_PERMISSION_ENGINE_ORCHESTRATION_RELATIVE_PATHS = [
+  "apps/erp/src/lib/api/authorize-api-route.ts",
+] as const;
+
+/** Gate ownership — dependency-rules gate is authoritative for §432–445 enforcement. */
+export const MULTI_TENANCY_GATE_OWNERSHIP = {
+  dependencyRules: "scripts/governance/check-multi-tenancy-dependency-rules.mts",
+  dosProhibitions:
+    "scripts/governance/check-multi-tenancy-dos-prohibitions.mts",
+  architectureAuthority:
+    "scripts/governance/check-architecture-authority-surface.mts",
+} as const;
+
+/** Shared enforcement module — single source for §432–445 runtime boundary checks. */
+export const MULTI_TENANCY_DEPENDENCY_ENFORCEMENT_LIB =
+  "scripts/governance/lib/multi-tenancy-dependency-enforcement.mts" as const;
+
+/** Registry files to update when live architecture validation reports drift. */
+export const ARCHITECTURE_REGISTRY_DRIFT_SOURCES = {
+  dependency:
+    "packages/architecture-authority/src/data/dependency-registry.data.ts",
+  package: "packages/architecture-authority/src/data/package-registry.data.ts",
+  layer: "packages/architecture-authority/src/data/layer-registry.data.ts",
+  ownership:
+    "packages/architecture-authority/src/data/ownership-registry.data.ts",
+  snapshot: "docs/architecture/dependency-snapshot.json",
+} as const;
 
 /** Workspace roots scanned for forbidden @afenda/architecture-authority deep imports. */
 export const ARCHITECTURE_AUTHORITY_CONSUMER_SCAN_ROOTS = [

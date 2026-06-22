@@ -1,7 +1,19 @@
-import type { GovernedStatusProps, StatusTone } from "@afenda/ui/governance";
+import type {
+  GovernedStatusProps,
+  SlotRole,
+  StatusTone,
+} from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
+
+const ALERT_RECIPE_NAME = "status" as const;
+
+const ALERT_SLOT_ROLES = {
+  title: "label",
+  description: "body",
+  action: "actions",
+} as const satisfies Record<string, SlotRole>;
 
 export interface AlertProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
@@ -21,10 +33,6 @@ export interface AlertProps
 
 interface AlertSlotProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  /**
-   * Governed extension point only.
-   * Must be validated by primitive governance before reaching className output.
-   */
   readonly className?: string;
 }
 
@@ -73,7 +81,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 
     const governed = resolvePrimitiveGovernance({
       componentName: "Alert",
-      recipeName: "status",
+      recipeName: ALERT_RECIPE_NAME,
       variant: {
         tone: resolvedTone,
         density,
@@ -87,13 +95,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div
         ref={ref}
-        {...props}
-        data-density={density}
-        data-radius={radius}
-        data-tone={resolvedTone}
-        role={resolvedRole}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, {
+          "data-density": density,
+          "data-radius": radius,
+          "data-tone": resolvedTone,
+          role: resolvedRole,
+        })}
       />
     );
   }
@@ -103,24 +110,19 @@ Alert.displayName = "Alert";
 
 function createAlertSlot(
   displayName: string,
-  slot: "label" | "body" | "actions"
+  slot: keyof typeof ALERT_SLOT_ROLES
 ) {
   const AlertSlot = React.forwardRef<HTMLDivElement, AlertSlotProps>(
     ({ className, ...props }, ref) => {
       const governed = resolvePrimitiveGovernance({
         componentName: "Alert",
-        recipeName: "status",
-        slot,
+        recipeName: ALERT_RECIPE_NAME,
+        slot: ALERT_SLOT_ROLES[slot],
         className,
       });
 
       return (
-        <div
-          ref={ref}
-          {...props}
-          {...governed.dataAttributes}
-          className={cn(governed.className)}
-        />
+        <div ref={ref} {...applyGovernedPresentation(props, governed)} />
       );
     }
   );
@@ -130,8 +132,8 @@ function createAlertSlot(
   return AlertSlot;
 }
 
-const AlertTitle = createAlertSlot("AlertTitle", "label");
-const AlertDescription = createAlertSlot("AlertDescription", "body");
-const AlertAction = createAlertSlot("AlertAction", "actions");
+const AlertTitle = createAlertSlot("AlertTitle", "title");
+const AlertDescription = createAlertSlot("AlertDescription", "description");
+const AlertAction = createAlertSlot("AlertAction", "action");
 
 export { Alert, AlertAction, AlertDescription, AlertTitle };

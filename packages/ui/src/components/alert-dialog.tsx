@@ -1,10 +1,13 @@
 "use client";
 
-import type { GovernedButtonProps, SlotRole } from "@afenda/ui/governance";
+import type {
+  GovernedAlertDialogProps,
+  GovernedButtonProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import * as React from "react";
 import { Button } from "./button";
@@ -69,22 +72,23 @@ const AlertDialogOverlay = React.forwardRef<
 
 AlertDialogOverlay.displayName = "AlertDialogOverlay";
 
-interface AlertDialogContentProps
+export interface AlertDialogContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>,
-    "className"
-  > {
+      React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>,
+      "className"
+    >,
+    GovernedAlertDialogProps {
   readonly className?: string;
-  readonly size?: "default" | "sm";
 }
 
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(({ className, size = "default", ...props }, ref) => {
+>(({ className, size = "default", state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "AlertDialog",
     recipeName: ALERT_DIALOG_RECIPE_NAME,
+    state,
     slot: "root",
     className,
   });
@@ -193,33 +197,25 @@ const AlertDialogDescription = React.forwardRef<
 
 AlertDialogDescription.displayName = "AlertDialogDescription";
 
-type AlertDialogActionProps = React.ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Action
+type AlertDialogActionProps = Omit<
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>,
+  "className"
 > &
-  Pick<GovernedButtonProps, "intent" | "emphasis" | "size"> & {
-    readonly className?: string;
-  };
+  Pick<GovernedButtonProps, "intent" | "emphasis" | "size">;
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   AlertDialogActionProps
 >(
   (
-    {
-      className,
-      intent = "primary",
-      emphasis = "solid",
-      size = "md",
-      ...props
-    },
+    { intent = "primary", emphasis = "solid", size = "md", ...props },
     ref
   ) => (
     <Button asChild emphasis={emphasis} intent={intent} size={size}>
       <AlertDialogPrimitive.Action
-        className={cn(className)}
-        data-slot="alert-dialog-action"
         ref={ref}
         {...props}
+        data-slot="alert-dialog-action"
       />
     </Button>
   )
@@ -227,33 +223,25 @@ const AlertDialogAction = React.forwardRef<
 
 AlertDialogAction.displayName = "AlertDialogAction";
 
-type AlertDialogCancelProps = React.ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Cancel
+type AlertDialogCancelProps = Omit<
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>,
+  "className"
 > &
-  Pick<GovernedButtonProps, "intent" | "emphasis" | "size"> & {
-    readonly className?: string;
-  };
+  Pick<GovernedButtonProps, "intent" | "emphasis" | "size">;
 
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   AlertDialogCancelProps
 >(
   (
-    {
-      className,
-      intent = "primary",
-      emphasis = "outline",
-      size = "md",
-      ...props
-    },
+    { intent = "primary", emphasis = "outline", size = "md", ...props },
     ref
   ) => (
     <Button asChild emphasis={emphasis} intent={intent} size={size}>
       <AlertDialogPrimitive.Cancel
-        className={cn(className)}
-        data-slot="alert-dialog-cancel"
         ref={ref}
         {...props}
+        data-slot="alert-dialog-cancel"
       />
     </Button>
   )

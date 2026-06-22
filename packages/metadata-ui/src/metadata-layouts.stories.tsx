@@ -1,4 +1,6 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import type { ReactNode } from "react";
 import { withRawStoryCanvas } from "./_storybook/metadata-story.decorators";
 import {
   metadataCenteredLayout,
@@ -23,7 +25,7 @@ import {
 
 const SHARED_LAYOUT_CONTEXT = sampleRenderContext;
 
-function makeSharedSlots(content: React.ReactNode) {
+function makeSharedSlots(content: ReactNode) {
   return {
     header: (
       <header>

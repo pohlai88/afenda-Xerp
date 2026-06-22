@@ -11,7 +11,13 @@ import {
 describe("Alert governance", () => {
   it("keeps governed data attributes authoritative on root", () => {
     render(
-      <Alert data-component="Fake" data-state="fake" tone="danger">
+      <Alert
+        data-component="Fake"
+        data-slot="override"
+        data-state="fake"
+        data-testid="alert-root"
+        tone="danger"
+      >
         Warning
       </Alert>
     );
@@ -25,7 +31,25 @@ describe("Alert governance", () => {
       "data-tone": "danger",
     });
     expect(alert).not.toHaveAttribute("data-variant");
-    expectGovernedPrimitive(alert, { component: "Alert", slot: "alert" });
+    expectGovernedPrimitive(alert, {
+      component: "Alert",
+      slot: "alert",
+      recipe: "status",
+      state: "ready",
+    });
+  });
+
+  it("applies governed state to root", () => {
+    render(
+      <Alert data-testid="alert-root" state="loading" tone="info">
+        Loading
+      </Alert>
+    );
+
+    expect(screen.getByTestId("alert-root")).toHaveAttribute(
+      "data-state",
+      "loading"
+    );
   });
 
   it("uses role=status for non-critical Alert tones", () => {
@@ -117,5 +141,18 @@ describe("Alert governance", () => {
 
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
     expect(ref.current).toHaveTextContent("FYI");
+  });
+
+  it("forwards ref on AlertTitle", () => {
+    const ref = createRef<HTMLDivElement>();
+
+    render(
+      <Alert tone="info">
+        <AlertTitle ref={ref}>Title</AlertTitle>
+      </Alert>
+    );
+
+    expect(ref.current).toBe(screen.getByText("Title"));
+    expect(ref.current).toHaveAttribute("data-slot", "alert-title");
   });
 });

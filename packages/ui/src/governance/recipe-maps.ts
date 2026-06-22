@@ -556,7 +556,7 @@ export const avatarSlotClassNames = {
   body: "aspect-square size-full rounded-full object-cover",
   control:
     "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs",
-  icon: "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background select-none group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
+  icon: "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background select-none group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2 data-[tone=success]:bg-success data-[tone=warning]:bg-warning data-[tone=danger]:bg-destructive data-[tone=neutral]:bg-muted data-[tone=info]:bg-primary data-[tone=critical]:bg-destructive data-[tone=pending]:bg-warning data-[tone=forbidden]:bg-muted data-[tone=invalid]:bg-destructive",
   header:
     "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
   state:
@@ -866,6 +866,25 @@ export const kbdSlotClassNamesByKey = {
 export const spinnerSlotClassNames = {
   root: "size-4 animate-spin",
 } as const;
+
+/** ERP table/cell status — dot color only; label stays secondary. */
+export const statusIndicatorSlotClassNames = {
+  root: "inline-flex items-center gap-2 text-sm text-muted-foreground",
+  label: "truncate tabular-nums",
+} as const;
+
+export const statusIndicatorDotClassNamesByKey = {
+  "dot-neutral": "size-2 shrink-0 rounded-full bg-muted-foreground",
+  "dot-info": "size-2 shrink-0 rounded-full bg-info",
+  "dot-success": "size-2 shrink-0 rounded-full bg-success",
+  "dot-warning": "size-2 shrink-0 rounded-full bg-warning",
+  "dot-danger": "size-2 shrink-0 rounded-full bg-destructive",
+  "dot-critical":
+    "size-2 shrink-0 rounded-full bg-(--afenda-status-tone-critical-foreground)",
+  "dot-pending": "size-2 shrink-0 rounded-full bg-warning",
+  "dot-forbidden": "size-2 shrink-0 rounded-full bg-destructive",
+  "dot-invalid": "size-2 shrink-0 rounded-full bg-destructive",
+} as const satisfies Record<string, string>;
 
 export type EmptyMediaVariantKey = "default" | "icon";
 

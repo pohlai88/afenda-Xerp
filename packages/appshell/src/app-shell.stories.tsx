@@ -1,3 +1,4 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
@@ -24,7 +25,6 @@ import {
   HUMAN_RESOURCES_ARGS,
   WHITE_LABEL_ARGS,
 } from "./_storybook/app-shell-story.fixtures";
-import React from "react";
 
 const meta = {
   title: "ERP/ApplicationShell",

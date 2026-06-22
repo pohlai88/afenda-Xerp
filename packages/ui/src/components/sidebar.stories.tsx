@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "@afenda/ui/lib/utils";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
@@ -16,7 +17,7 @@ import {
   ShieldIcon,
   UsersIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
@@ -130,7 +131,7 @@ function SidebarStoryFrame({
   readonly main?: ReactNode;
   readonly defaultOpen?: boolean;
   readonly providerClassName?: string;
-} & React.ComponentProps<typeof Sidebar>) {
+} & ComponentProps<typeof Sidebar>) {
   return (
     <div className={providerClassName}>
       <SidebarProvider defaultOpen={defaultOpen}>

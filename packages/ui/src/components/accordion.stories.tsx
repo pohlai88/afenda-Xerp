@@ -5,7 +5,6 @@ import {
   BellIcon,
   BuildingIcon,
   CalendarIcon,
-  ChevronDownIcon,
   ClipboardListIcon,
   CreditCardIcon,
   FileTextIcon,
@@ -19,7 +18,12 @@ import {
   UserIcon,
 } from "lucide-react";
 import { type ComponentType, type ReactNode, useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryInset,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import {
   Accordion,
   AccordionContent,
@@ -40,6 +44,7 @@ import {
 } from "./select";
 import { Separator } from "./separator";
 import { Switch } from "./switch";
+import React from "react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
 
@@ -150,18 +155,18 @@ function AccordionTriggerWithIcon({
   label,
   badge,
 }: {
-  icon: ComponentType<{ className?: string }>;
-  label: string;
-  badge?: ReactNode;
+  readonly icon: ComponentType<{ className?: string }>;
+  readonly label: string;
+  readonly badge?: ReactNode;
 }) {
   return (
-    <span className="flex w-full items-center justify-between gap-2">
-      <span className="flex items-center gap-2">
-        <Icon className="size-4 shrink-0 text-muted-foreground" />
+    <StoryRow align="center" className="w-full" justify="between">
+      <StoryRow align="center" gap="sm">
+        <Icon aria-hidden className="size-4 shrink-0 text-muted-foreground" />
         {label}
-      </span>
+      </StoryRow>
       {badge}
-    </span>
+    </StoryRow>
   );
 }
 
@@ -169,20 +174,22 @@ function DefinitionGrid({
   rows,
   columns = 2,
 }: {
-  rows: readonly (readonly [string, string])[];
-  columns?: 2 | 3;
+  readonly rows: readonly (readonly [string, string])[];
+  readonly columns?: 2 | 3;
 }) {
   return (
-    <dl
-      className={`grid gap-x-6 gap-y-3 py-2 text-sm ${columns === 3 ? "grid-cols-3" : "grid-cols-2"}`}
-    >
-      {rows.map(([label, value]) => (
-        <div key={label}>
-          <dt className="text-muted-foreground text-xs">{label}</dt>
-          <dd className="font-medium">{value}</dd>
-        </div>
-      ))}
-    </dl>
+    <StoryStack gap="sm" paddingY="sm">
+      <dl
+        className={`grid gap-x-6 text-sm ${columns === 3 ? "grid-cols-3" : "grid-cols-2"}`}
+      >
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <dt className="text-muted-foreground text-xs">{label}</dt>
+            <dd className="font-medium">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </StoryStack>
   );
 }
 
@@ -192,7 +199,7 @@ function ControlledAccordionComponent() {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm" justify="between">
-          <span className="text-muted-foreground text-xs">
+          <span aria-live="polite" className="text-muted-foreground text-xs">
             Open section: <strong className="text-foreground">{value}</strong>
           </span>
           <Button
@@ -1058,20 +1065,17 @@ export const ApprovalAuditTrail: Story = {
                   date: "Jun 21, 2026",
                 },
               ].map(({ author, text, date }) => (
-                <StoryStack
-                  className="rounded-md border border-border"
-                  gap="xs"
-                  key={`${author}-${date}`}
-                  padding="md"
-                >
-                  <StoryRow justify="between">
-                    <span className="font-medium text-sm">{author}</span>
-                    <span className="text-muted-foreground text-xs">
-                      {date}
-                    </span>
-                  </StoryRow>
-                  <p className="text-muted-foreground text-sm">{text}</p>
-                </StoryStack>
+                <StoryInset key={`${author}-${date}`} padding="md">
+                  <StoryStack gap="xs">
+                    <StoryRow justify="between">
+                      <span className="font-medium text-sm">{author}</span>
+                      <span className="text-muted-foreground text-xs">
+                        {date}
+                      </span>
+                    </StoryRow>
+                    <p className="text-muted-foreground text-sm">{text}</p>
+                  </StoryStack>
+                </StoryInset>
               ))}
             </StoryStack>
           </AccordionContent>
@@ -1471,13 +1475,14 @@ export const HelpCenter: Story = {
             <AccordionContent>
               <StoryStack gap="xs">
                 {articles.map((article) => (
-                  <button
-                    className="rounded-md text-left text-primary text-sm hover:bg-muted/40"
+                  <Button
+                    emphasis="ghost"
+                    intent="quiet"
                     key={article}
-                    type="button"
+                    size="sm"
                   >
                     {article}
-                  </button>
+                  </Button>
                 ))}
               </StoryStack>
             </AccordionContent>

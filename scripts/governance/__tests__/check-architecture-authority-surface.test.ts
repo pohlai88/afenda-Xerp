@@ -33,6 +33,18 @@ describe("check-architecture-authority-surface script", () => {
     expect(forbiddenTargets).toContain("@afenda/permissions");
   });
 
+  it("delegates §432–445 runtime enforcement to dependency-rules gate", () => {
+    const architectureGate = readFileSync(
+      join(repoRoot, "scripts/governance/check-architecture-authority-surface.mts"),
+      "utf8"
+    );
+
+    expect(architectureGate).toContain(
+      "check-multi-tenancy-dependency-rules.mts"
+    );
+    expect(architectureGate).not.toContain("MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES");
+  });
+
   it("documents permissions→kernel as an approved registry edge (TIP-007)", () => {
     const permissionsKernel = dependencyContract.runtimeEdges.find(
       (edge) =>
@@ -86,7 +98,7 @@ describe("check-architecture-authority-surface script", () => {
 
     if (violations.length > 0) {
       expect(formatted).toMatch(
-        /\[(required-module-missing|doc-dependency-drift|doc-dependency-summary-drift|multi-tenancy-forbidden-edge|architecture-validation|registry-export-drift)\]/
+        /\[(required-module-missing|doc-dependency-drift|doc-dependency-summary-drift|registry-export-drift|stale-dist|unapproved-afenda-dependency)\]/
       );
     }
   });

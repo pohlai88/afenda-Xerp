@@ -10,7 +10,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { Fragment, type ReactNode, useState } from "react";
+import React, { Fragment, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {

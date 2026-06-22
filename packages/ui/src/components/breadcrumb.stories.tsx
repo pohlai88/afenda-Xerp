@@ -7,7 +7,7 @@ import {
   SlashIcon,
   UserIcon,
 } from "lucide-react";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {

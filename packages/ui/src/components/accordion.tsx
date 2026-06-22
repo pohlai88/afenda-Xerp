@@ -1,11 +1,12 @@
 "use client";
 
+import type { GovernedAccordionProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import { cn } from "@afenda/ui/lib/utils";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 import * as React from "react";
-import type { GovernedAccordionProps } from "../governance";
-import { cn } from "../lib/utils";
 
 const ACCORDION_RECIPE_NAME = "surface" as const;
 
@@ -33,17 +34,15 @@ const Accordion = React.forwardRef<
   // Radix Accordion.Root is a discriminated union (single | multiple).
   // TypeScript cannot narrow a union spread with exactOptionalPropertyTypes,
   // so we cast through the known union type to preserve semantic types.
-  const radixProps = props as React.ComponentPropsWithoutRef<
-    typeof AccordionPrimitive.Root
-  >;
-
-  const rootProps = {
-    ...radixProps,
-    ...governed.dataAttributes,
-    className: cn(governed.className),
-  } as React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>;
-
-  return <AccordionPrimitive.Root ref={ref} {...rootProps} />;
+  return (
+    <AccordionPrimitive.Root
+      ref={ref}
+      {...(applyGovernedPresentation(
+        props,
+        governed
+      ) as React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>)}
+    />
+  );
 });
 
 Accordion.displayName = "Accordion";
@@ -70,9 +69,7 @@ const AccordionItem = React.forwardRef<
   return (
     <AccordionPrimitive.Item
       ref={ref}
-      {...props}
-      {...governed.dataAttributes}
-      className={cn(governed.className)}
+      {...applyGovernedPresentation(props, governed)}
     />
   );
 });
@@ -117,24 +114,19 @@ const AccordionTrigger = React.forwardRef<
   });
 
   return (
-    <AccordionPrimitive.Header
-      {...header.dataAttributes}
-      className={cn(header.className)}
-    >
+    <AccordionPrimitive.Header {...applyGovernedPresentation({}, header)}>
       <AccordionPrimitive.Trigger
         ref={ref}
-        {...props}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed)}
       >
         {children}
         <ChevronDownIcon
-          {...iconDown.dataAttributes}
-          className={cn(iconDown.className)}
+          aria-hidden="true"
+          {...applyGovernedPresentation({}, iconDown)}
         />
         <ChevronUpIcon
-          {...iconUp.dataAttributes}
-          className={cn(iconUp.className)}
+          aria-hidden="true"
+          {...applyGovernedPresentation({}, iconUp)}
         />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -171,13 +163,9 @@ const AccordionContent = React.forwardRef<
   return (
     <AccordionPrimitive.Content
       ref={ref}
-      {...props}
-      {...governed.dataAttributes}
-      className={cn(governed.className)}
+      {...applyGovernedPresentation(props, governed)}
     >
-      <div {...inner.dataAttributes} className={cn(inner.className)}>
-        {children}
-      </div>
+      <div {...applyGovernedPresentation({}, inner)}>{children}</div>
     </AccordionPrimitive.Content>
   );
 });

@@ -96,6 +96,9 @@ describe("Accordion governance", () => {
       '[data-slot="accordion-trigger-icon"]'
     );
     expect(icons.length).toBeGreaterThanOrEqual(2);
+    for (const icon of icons) {
+      expect(icon).toHaveAttribute("aria-hidden", "true");
+    }
   });
 
   it("applies governed state to root", () => {

@@ -22,6 +22,7 @@ describe("@afenda/ui public API", () => {
     expect(publicApi.Alert).toBeTruthy();
     expect(publicApi.Field).toBeTruthy();
     expect(publicApi.Table).toBeTruthy();
+    expect(publicApi.StatusIndicator).toBeTruthy();
   });
 
   it("does not expose internal governance guards from root index", () => {

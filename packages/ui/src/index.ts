@@ -362,6 +362,7 @@ export { Skeleton } from "./components/skeleton";
 export { Slider } from "./components/slider";
 export { Toaster } from "./components/sonner";
 export { Spinner } from "./components/spinner";
+export { StatusIndicator } from "./components/status-indicator";
 export { Switch } from "./components/switch";
 export {
   Table,

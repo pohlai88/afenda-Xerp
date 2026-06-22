@@ -1,3 +1,4 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArchiveIcon,
@@ -21,6 +22,7 @@ import {
   UserIcon,
   UserPlusIcon,
 } from "lucide-react";
+import type { ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
@@ -159,7 +161,7 @@ function ErpMenubarShell({
   children,
   width = "xl",
 }: {
-  readonly children: React.ReactNode;
+  readonly children: ReactNode;
   readonly width?: "sm" | "md" | "lg" | "xl";
 }) {
   return (

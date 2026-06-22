@@ -1,4 +1,10 @@
-import { SIZES } from "@afenda/ui/governance";
+import React from "react";
+import {
+  GOVERNED_AVATAR_SIZES,
+  GOVERNED_STATES,
+  STATUS_TONES,
+} from "@afenda/ui/governance";
+import type { StatusTone } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
@@ -8,7 +14,7 @@ import {
   PhoneIcon,
   UserIcon,
 } from "lucide-react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { StoryFrame, StoryInset, StoryRow, StoryStack } from "./_storybook/story-frame";
 import {
   Avatar,
   AvatarBadge,
@@ -53,17 +59,17 @@ type PresenceStatus =
   | "pending"
   | "waiting";
 
-function statusBadgeTone(status: PresenceStatus): string {
+function presenceTone(status: PresenceStatus): StatusTone {
   if (status === "online" || status === "done") {
-    return "bg-success";
+    return "success";
   }
   if (status === "away" || status === "pending") {
-    return "bg-warning";
+    return "warning";
   }
   if (status === "busy") {
-    return "bg-destructive";
+    return "danger";
   }
-  return "bg-muted";
+  return "neutral";
 }
 
 function StatusAvatar({
@@ -78,7 +84,7 @@ function StatusAvatar({
   return (
     <Avatar size={size}>
       <AvatarFallback>{initials}</AvatarFallback>
-      <AvatarBadge className={statusBadgeTone(status)} />
+      <AvatarBadge aria-hidden="true" tone={presenceTone(status)} />
     </Avatar>
   );
 }
@@ -121,8 +127,13 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: [...SIZES],
+      options: [...GOVERNED_AVATAR_SIZES],
       table: { defaultValue: { summary: "default" } },
+    },
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      table: { defaultValue: { summary: "ready" } },
     },
   },
   args: {
@@ -302,6 +313,43 @@ export const GovernanceAccessibility: Story = {
   ),
 };
 
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <Avatar state={state}>
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const BadgeToneMatrix: Story = {
+  name: "Matrix — Badge Tones",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow align="center" gap="md" wrap>
+      {STATUS_TONES.map((tone) => (
+        <StoryStack className="items-center" gap="xs" key={tone}>
+          <Avatar>
+            <AvatarFallback>{tone.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarBadge aria-hidden="true" tone={tone} />
+          </Avatar>
+          <span className="font-mono text-muted-foreground text-xs">{tone}</span>
+        </StoryStack>
+      ))}
+    </StoryRow>
+  ),
+};
+
 // ─── With badges ──────────────────────────────────────────────────────────
 
 export const WithStatusBadge: Story = {
@@ -387,7 +435,7 @@ export const WithNotificationCount: Story = {
             </Avatar>
             <div className="absolute -top-1 -right-1">
               <Badge emphasis="solid" size="sm" tone="danger">
-                {count}
+                <span className="tabular-nums">{count}</span>
               </Badge>
             </div>
           </div>
@@ -424,7 +472,9 @@ export const AvatarGroupWithCount: Story = {
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       ))}
-      <AvatarGroupCount>+8</AvatarGroupCount>
+      <AvatarGroupCount>
+        <span className="tabular-nums">+8</span>
+      </AvatarGroupCount>
     </AvatarGroup>
   ),
 };
@@ -496,21 +546,17 @@ export const AssigneeChip: Story = {
   render: () => (
     <StoryStack gap="sm">
       {TEAM.slice(0, 3).map(({ initials, name, role }) => (
-        <StoryRow
-          align="center"
-          className="rounded-md border border-border"
-          gap="sm"
-          key={name}
-          padding="sm"
-        >
-          <Avatar size="sm">
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">{name}</span>
-            <span className="text-muted-foreground text-xs">{role}</span>
-          </StoryStack>
-        </StoryRow>
+        <StoryInset key={name} padding="sm">
+          <StoryRow align="center" gap="sm">
+            <Avatar size="sm">
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <StoryStack gap="xs">
+              <span className="font-medium text-sm">{name}</span>
+              <span className="text-muted-foreground text-xs">{role}</span>
+            </StoryStack>
+          </StoryRow>
+        </StoryInset>
       ))}
     </StoryStack>
   ),
@@ -611,27 +657,24 @@ export const RecordOwnerHeader: Story = {
     <StoryFrame width="lg">
       <StoryRow align="center" justify="between">
         <StoryStack gap="xs">
-          <span className="font-mono text-muted-foreground text-xs">
+          <span className="font-mono text-muted-foreground text-xs tabular-nums">
             INV-2024-0892
           </span>
-          <span className="font-semibold text-lg">
+          <span className="font-semibold text-lg tracking-tight">
             Vendor Payment — Acme Supplies
           </span>
         </StoryStack>
-        <StoryRow
-          align="center"
-          className="rounded-md border border-border"
-          gap="sm"
-          padding="sm"
-        >
-          <Avatar size="sm">
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
-          <StoryStack gap="xs">
-            <span className="text-muted-foreground text-xs">Record owner</span>
-            <span className="font-medium text-sm">Jane Doe</span>
-          </StoryStack>
-        </StoryRow>
+        <StoryInset padding="sm">
+          <StoryRow align="center" gap="sm">
+            <Avatar size="sm">
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            <StoryStack gap="xs">
+              <span className="text-muted-foreground text-xs">Record owner</span>
+              <span className="font-medium text-sm">Jane Doe</span>
+            </StoryStack>
+          </StoryRow>
+        </StoryInset>
       </StoryRow>
     </StoryFrame>
   ),
@@ -721,36 +764,35 @@ export const VendorContact: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryRow
-        align="center"
-        className="rounded-md border border-border"
-        gap="md"
-        padding="md"
-      >
-        <Avatar size="lg">
-          <AvatarFallback>
-            <Building2Icon aria-hidden="true" />
-          </AvatarFallback>
-        </Avatar>
-        <StoryStack gap="xs">
-          <span className="font-semibold">Acme Supplies Ltd</span>
-          <span className="text-muted-foreground text-sm">
-            Primary contact: Sarah Mitchell
-          </span>
-          <StoryRow gap="md">
-            <StoryRow align="center" gap="xs">
-              <MailIcon className="size-3 text-muted-foreground" />
-              <span className="text-muted-foreground text-xs">
-                sarah@acme.example
-              </span>
+      <StoryInset padding="md">
+        <StoryRow align="center" gap="md">
+          <Avatar size="lg">
+            <AvatarFallback>
+              <Building2Icon aria-hidden="true" />
+            </AvatarFallback>
+          </Avatar>
+          <StoryStack gap="xs">
+            <span className="font-semibold">Acme Supplies Ltd</span>
+            <span className="text-muted-foreground text-sm">
+              Primary contact: Sarah Mitchell
+            </span>
+            <StoryRow gap="md">
+              <StoryRow align="center" gap="xs">
+                <MailIcon className="size-3 text-muted-foreground" />
+                <span className="text-muted-foreground text-xs">
+                  sarah@acme.example
+                </span>
+              </StoryRow>
+              <StoryRow align="center" gap="xs">
+                <PhoneIcon className="size-3 text-muted-foreground" />
+                <span className="text-muted-foreground text-xs tabular-nums">
+                  +1 555-0142
+                </span>
+              </StoryRow>
             </StoryRow>
-            <StoryRow align="center" gap="xs">
-              <PhoneIcon className="size-3 text-muted-foreground" />
-              <span className="text-muted-foreground text-xs">+1 555-0142</span>
-            </StoryRow>
-          </StoryRow>
-        </StoryStack>
-      </StoryRow>
+          </StoryStack>
+        </StoryRow>
+      </StoryInset>
     </StoryFrame>
   ),
 };
@@ -773,7 +815,7 @@ export const TableAssigneeColumn: Story = {
           {PURCHASE_ORDERS.map(({ id, vendor, assignee, status }) => (
             <TableRow key={id}>
               <TableCell>
-                <span className="font-mono text-sm">{id}</span>
+                <span className="font-mono text-sm tabular-nums">{id}</span>
               </TableCell>
               <TableCell>{vendor}</TableCell>
               <TableCell>
@@ -847,37 +889,34 @@ export const DelegationOutOfOffice: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryRow
-        align="center"
-        className="rounded-md border border-border"
-        gap="md"
-        padding="md"
-      >
-        <StoryStack className="items-center" gap="xs">
-          <StatusAvatar initials="JD" size="lg" status="away" />
-          <span className="font-medium text-sm">Jane Doe</span>
-          <Badge emphasis="soft" size="sm" tone="warning">
-            Out of office
-          </Badge>
-        </StoryStack>
-        <ChevronRightIcon className="size-5 text-muted-foreground" />
-        <StoryStack className="items-center" gap="xs">
-          <StatusAvatar initials="AB" size="lg" status="online" />
-          <span className="font-medium text-sm">Alex Brown</span>
-          <Badge emphasis="soft" size="sm" tone="success">
-            Acting approver
-          </Badge>
-        </StoryStack>
-        <StoryStack gap="xs">
-          <span className="text-muted-foreground text-xs">
-            Delegation period
-          </span>
-          <span className="text-sm">Jun 15 – Jun 28, 2026</span>
-          <span className="text-muted-foreground text-xs">
-            All PO approvals route to Alex during this period.
-          </span>
-        </StoryStack>
-      </StoryRow>
+      <StoryInset padding="md">
+        <StoryRow align="center" gap="md">
+          <StoryStack className="items-center" gap="xs">
+            <StatusAvatar initials="JD" size="lg" status="away" />
+            <span className="font-medium text-sm">Jane Doe</span>
+            <Badge emphasis="soft" size="sm" tone="warning">
+              Out of office
+            </Badge>
+          </StoryStack>
+          <ChevronRightIcon className="size-5 text-muted-foreground" />
+          <StoryStack className="items-center" gap="xs">
+            <StatusAvatar initials="AB" size="lg" status="online" />
+            <span className="font-medium text-sm">Alex Brown</span>
+            <Badge emphasis="soft" size="sm" tone="success">
+              Acting approver
+            </Badge>
+          </StoryStack>
+          <StoryStack gap="xs">
+            <span className="text-muted-foreground text-xs">
+              Delegation period
+            </span>
+            <span className="text-sm tabular-nums">Jun 15 – Jun 28, 2026</span>
+            <span className="text-muted-foreground text-xs">
+              All PO approvals route to Alex during this period.
+            </span>
+          </StoryStack>
+        </StoryRow>
+      </StoryInset>
     </StoryFrame>
   ),
 };
@@ -891,41 +930,38 @@ export const CustomerAccountManager: Story = {
         <span className="font-medium text-sm">
           Northwind Traders — Account team
         </span>
-        <StoryRow
-          align="center"
-          className="rounded-md border border-border"
-          gap="md"
-          padding="md"
-        >
-          <Avatar size="lg">
-            <AvatarImage
-              alt="Account manager"
-              src="https://github.com/shadcn.png"
-            />
-            <AvatarFallback>SC</AvatarFallback>
-            <AvatarBadge className="bg-success" />
-          </Avatar>
-          <StoryStack gap="xs">
-            <StoryRow align="center" gap="sm">
-              <span className="font-semibold">Sam Chen</span>
-              <Badge emphasis="soft" size="sm" tone="info">
-                Account Manager
-              </Badge>
-            </StoryRow>
-            <span className="text-muted-foreground text-sm">
-              Enterprise accounts · APAC region
-            </span>
-            <StoryRow gap="sm">
-              <Button emphasis="outline" intent="secondary" size="sm">
-                <MailIcon />
-                Email
-              </Button>
-              <Button emphasis="ghost" intent="secondary" size="sm">
-                View profile
-              </Button>
-            </StoryRow>
-          </StoryStack>
-        </StoryRow>
+        <StoryInset padding="md">
+          <StoryRow align="center" gap="md">
+            <Avatar size="lg">
+              <AvatarImage
+                alt="Account manager"
+                src="https://github.com/shadcn.png"
+              />
+              <AvatarFallback>SC</AvatarFallback>
+              <AvatarBadge aria-hidden="true" tone="success" />
+            </Avatar>
+            <StoryStack gap="xs">
+              <StoryRow align="center" gap="sm">
+                <span className="font-semibold">Sam Chen</span>
+                <Badge emphasis="soft" size="sm" tone="info">
+                  Account Manager
+                </Badge>
+              </StoryRow>
+              <span className="text-muted-foreground text-sm">
+                Enterprise accounts · APAC region
+              </span>
+              <StoryRow gap="sm">
+                <Button emphasis="outline" intent="secondary" size="sm">
+                  <MailIcon />
+                  Email
+                </Button>
+                <Button emphasis="ghost" intent="secondary" size="sm">
+                  View profile
+                </Button>
+              </StoryRow>
+            </StoryStack>
+          </StoryRow>
+        </StoryInset>
       </StoryStack>
     </StoryFrame>
   ),
@@ -940,17 +976,18 @@ export const EmployeeProfileHeader: Story = {
         <Avatar size="lg">
           <AvatarImage alt="Jane Doe" src="https://github.com/shadcn.png" />
           <AvatarFallback>JD</AvatarFallback>
-          <AvatarBadge className="bg-success" />
+          <AvatarBadge aria-hidden="true" tone="success" />
         </Avatar>
         <StoryStack gap="xs">
           <StoryRow align="center" gap="sm">
-            <span className="font-semibold text-xl">Jane Doe</span>
+            <span className="font-semibold text-xl tracking-tight">Jane Doe</span>
             <Badge emphasis="soft" size="sm" tone="success">
               Active
             </Badge>
           </StoryRow>
           <span className="text-muted-foreground text-sm">
-            Senior Engineer · Engineering · EMP-0042
+            Senior Engineer · Engineering ·{" "}
+            <span className="tabular-nums">EMP-0042</span>
           </span>
           <StoryRow gap="sm">
             <Badge emphasis="outline" size="sm" tone="neutral">
@@ -982,11 +1019,7 @@ export const MentionInComment: Story = {
               Today at 14:32
             </span>
           </StoryRow>
-          <StoryStack
-            className="rounded-md border border-border"
-            gap="xs"
-            padding="md"
-          >
+          <StoryInset padding="md">
             <span className="text-sm">
               Can{" "}
               <span className="inline-flex items-center gap-1">
@@ -998,7 +1031,7 @@ export const MentionInComment: Story = {
               review the updated budget figures before Friday&apos;s board
               meeting?
             </span>
-          </StoryStack>
+          </StoryInset>
         </StoryStack>
       </StoryRow>
     </StoryFrame>

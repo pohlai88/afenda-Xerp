@@ -275,6 +275,12 @@ const componentAccessibilityRegistry = Object.freeze({
     rationale:
       "Spinner must expose loading status programmatically and respect reduced-motion preferences.",
   }),
+  StatusIndicator: Object.freeze({
+    componentName: "StatusIndicator",
+    requirements: ACCESSIBILITY_REQUIREMENTS,
+    rationale:
+      "StatusIndicator must communicate status with dot-plus-text semantics without color-only meaning or filled background pills.",
+  }),
   Empty: Object.freeze({
     componentName: "Empty",
     requirements: ACCESSIBILITY_REQUIREMENTS,

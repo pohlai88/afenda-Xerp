@@ -13,7 +13,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
-import { type ComponentType, type ReactNode, useState } from "react";
+import React, { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";

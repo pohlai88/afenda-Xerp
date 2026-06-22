@@ -19,7 +19,7 @@ import {
   EyeIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
-import { type ReactNode, useMemo, useState } from "react";
+import React, { type ReactNode, useMemo, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";

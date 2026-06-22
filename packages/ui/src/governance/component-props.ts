@@ -118,6 +118,20 @@ export interface GovernedAccordionProps {
   readonly state?: GovernedState;
 }
 
+/** Alert dialog content size axis — maps to `data-size` on the panel root. */
+export type GovernedAlertDialogContentSize = "default" | "sm";
+
+/**
+ * Governed variant props for AlertDialog content.
+ *
+ * AlertDialog uses the surface recipe with a single size axis — styling is
+ * otherwise slot-driven through primitive governance.
+ */
+export interface GovernedAlertDialogProps {
+  readonly size?: GovernedAlertDialogContentSize;
+  readonly state?: GovernedState;
+}
+
 /**
  * Governed variant props for Command.
  *
@@ -126,6 +140,53 @@ export interface GovernedAccordionProps {
  */
 export interface GovernedCommandProps {
   readonly state?: GovernedState;
+}
+
+/**
+ * Governed variant props for AspectRatio.
+ *
+ * AspectRatio uses the surface recipe with no variant axes — styling is
+ * entirely slot-driven through primitive governance.
+ */
+export interface GovernedAspectRatioProps {
+  readonly state?: GovernedState;
+}
+
+/** Avatar root size axis — maps to `data-size` on the avatar root. */
+export type GovernedAvatarSize = "default" | "sm" | "lg";
+
+export const GOVERNED_AVATAR_SIZES = [
+  "default",
+  "sm",
+  "lg",
+] as const satisfies readonly GovernedAvatarSize[];
+
+export function isGovernedAvatarSize(
+  value: string
+): value is GovernedAvatarSize {
+  return (GOVERNED_AVATAR_SIZES as readonly string[]).includes(value);
+}
+
+/**
+ * Governed variant props for Avatar.
+ *
+ * Avatar uses the form-control recipe with a structural size axis — styling is
+ * otherwise slot-driven through primitive governance.
+ */
+export interface GovernedAvatarProps {
+  readonly size?: GovernedAvatarSize;
+  readonly state?: GovernedState;
+}
+
+/**
+ * Governed variant props for AvatarBadge.
+ *
+ * Presence and status dots use the tone axis; verified badges omit tone and
+ * inherit the default primary badge surface.
+ */
+export interface GovernedAvatarBadgeProps {
+  readonly state?: GovernedState;
+  readonly tone?: StatusTone;
 }
 
 /** Governed variant props for status and alert presentation. */

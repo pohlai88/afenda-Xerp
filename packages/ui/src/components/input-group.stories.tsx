@@ -21,7 +21,7 @@ import {
   XIcon,
 } from "lucide-react";
 import type { ComponentType } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import {
   InputGroup,

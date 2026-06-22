@@ -33,7 +33,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";

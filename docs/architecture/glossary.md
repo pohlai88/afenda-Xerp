@@ -144,6 +144,8 @@ A Team is a named group of platform users assembled for a specific operational o
 - Is the execution unit for workflow tasks, approvals, and assignments
 - Is not the same as an Organization Unit — a Team may be cross-department or cross-entity
 
+**Must not be confused with Tenant or Legal Entity.** A Team is an execution grouping of people; it does not own accounting books, tax identity, or statutory filings.
+
 **Examples:** "Invoice approval team", "Warehouse picking team", "ERP implementation project team"
 
 **Current mapping:** Teams are currently modelled as `organizations.type = "team"` within the Organization tree.

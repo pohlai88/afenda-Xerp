@@ -1,3 +1,5 @@
+import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   FileTextIcon,
@@ -7,7 +9,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import type { ComponentType } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { StoryFrame, StoryInset, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { AspectRatio } from "./aspect-ratio";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -18,8 +20,8 @@ function RatioPlaceholder({
   label,
   icon: Icon,
 }: {
-  label: string;
-  icon?: ComponentType<{ className?: string }>;
+  readonly label: string;
+  readonly icon?: ComponentType<{ className?: string }>;
 }) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg bg-muted">
@@ -31,7 +33,7 @@ function RatioPlaceholder({
   );
 }
 
-function MediaImage({ alt, src }: { alt: string; src: string }) {
+function MediaImage({ alt, src }: { readonly alt: string; readonly src: string }) {
   return (
     <img
       alt={alt}
@@ -62,6 +64,12 @@ const meta = {
       control: { type: "number", min: 0.1, max: 3, step: 0.1 },
       description: "Width ÷ height aspect ratio",
       table: { defaultValue: { summary: "1" } },
+    },
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { category: "Governance" },
     },
   },
   args: {
@@ -158,6 +166,25 @@ export const RatioComparison: Story = {
   ),
 };
 
+export const GovernedStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <AspectRatio ratio={16 / 9} state={state}>
+            <RatioPlaceholder label={`Governed state: ${state}`} />
+          </AspectRatio>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
 // ─── ERP composite patterns ───────────────────────────────────────────────
 
 export const ProductCatalogCard: Story = {
@@ -165,7 +192,7 @@ export const ProductCatalogCard: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
-      <StoryStack className="overflow-hidden rounded-lg border border-border">
+      <StoryInset overflow="hidden">
         <AspectRatio ratio={1}>
           <MediaImage
             alt="Ergonomic office chair — black"
@@ -183,13 +210,13 @@ export const ProductCatalogCard: Story = {
             Ergonomic Office Chair — Black
           </span>
           <StoryRow align="center" justify="between">
-            <span className="font-semibold text-sm">$189.00</span>
+            <span className="font-semibold tabular-nums text-sm">$189.00</span>
             <Button emphasis="outline" intent="secondary" size="sm">
               View
             </Button>
           </StoryRow>
         </StoryStack>
-      </StoryStack>
+      </StoryInset>
     </StoryFrame>
   ),
 };
@@ -199,34 +226,33 @@ export const InvoiceAttachmentPreview: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryStack
-        className="rounded-lg border border-border"
-        gap="sm"
-        padding="md"
-      >
-        <StoryRow align="center" justify="between">
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">INV-2026-0142_scan.pdf</span>
-            <span className="text-muted-foreground text-xs">
-              Uploaded Jun 21, 2026 · 1.2 MB
-            </span>
-          </StoryStack>
-          <Badge emphasis="soft" size="sm" tone="info">
-            Pending Review
-          </Badge>
-        </StoryRow>
-        <AspectRatio ratio={1 / Math.SQRT2}>
-          <RatioPlaceholder icon={FileTextIcon} label="Page 1 of 3" />
-        </AspectRatio>
-        <StoryRow gap="sm">
-          <Button emphasis="outline" intent="secondary" size="sm">
-            Download
-          </Button>
-          <Button emphasis="solid" intent="primary" size="sm">
-            Approve
-          </Button>
-        </StoryRow>
-      </StoryStack>
+      <StoryInset padding="md">
+        <StoryStack gap="sm">
+          <StoryRow align="center" justify="between">
+            <StoryStack gap="xs">
+              <span className="font-medium text-sm">INV-2026-0142_scan.pdf</span>
+              <span className="text-muted-foreground text-xs">
+                Uploaded Jun 21, 2026 ·{" "}
+                <span className="tabular-nums">1.2 MB</span>
+              </span>
+            </StoryStack>
+            <Badge emphasis="soft" size="sm" tone="info">
+              Pending Review
+            </Badge>
+          </StoryRow>
+          <AspectRatio ratio={1 / Math.SQRT2}>
+            <RatioPlaceholder icon={FileTextIcon} label="Page 1 of 3" />
+          </AspectRatio>
+          <StoryRow gap="sm">
+            <Button emphasis="outline" intent="secondary" size="sm">
+              Download
+            </Button>
+            <Button emphasis="solid" intent="primary" size="sm">
+              Approve
+            </Button>
+          </StoryRow>
+        </StoryStack>
+      </StoryInset>
     </StoryFrame>
   ),
 };
@@ -252,7 +278,8 @@ export const WarehouseItemPhoto: Story = {
         </AspectRatio>
         <StoryRow align="center" justify="between">
           <span className="text-muted-foreground text-xs">
-            Warehouse A · Bay 12 · Qty 6
+            Warehouse A · Bay 12 · Qty{" "}
+            <span className="tabular-nums">6</span>
           </span>
           <Badge emphasis="soft" size="sm" tone="neutral">
             Received
@@ -404,37 +431,36 @@ export const AssetRegisterPhoto: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
-      <StoryStack
-        className="rounded-lg border border-border"
-        gap="sm"
-        padding="md"
-      >
-        <StoryRow align="center" justify="between">
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">FA-2026-0088</span>
+      <StoryInset padding="md">
+        <StoryStack gap="sm">
+          <StoryRow align="center" justify="between">
+            <StoryStack gap="xs">
+              <span className="font-medium text-sm">FA-2026-0088</span>
+              <span className="text-muted-foreground text-xs">
+                Dell PowerEdge R750 · Server Room B
+              </span>
+            </StoryStack>
+            <Badge emphasis="soft" size="sm" tone="success">
+              Active
+            </Badge>
+          </StoryRow>
+          <AspectRatio ratio={16 / 9}>
+            <MediaImage
+              alt="Dell PowerEdge server rack in server room"
+              src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80"
+            />
+          </AspectRatio>
+          <StoryRow align="center" justify="between">
             <span className="text-muted-foreground text-xs">
-              Dell PowerEdge R750 · Server Room B
+              Book value:{" "}
+              <span className="tabular-nums">$18,400.00</span>
             </span>
-          </StoryStack>
-          <Badge emphasis="soft" size="sm" tone="success">
-            Active
-          </Badge>
-        </StoryRow>
-        <AspectRatio ratio={16 / 9}>
-          <MediaImage
-            alt="Dell PowerEdge server rack in server room"
-            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80"
-          />
-        </AspectRatio>
-        <StoryRow align="center" justify="between">
-          <span className="text-muted-foreground text-xs">
-            Book value: $18,400.00
-          </span>
-          <Button emphasis="ghost" intent="secondary" size="sm">
-            View Asset
-          </Button>
-        </StoryRow>
-      </StoryStack>
+            <Button emphasis="ghost" intent="secondary" size="sm">
+              View Asset
+            </Button>
+          </StoryRow>
+        </StoryStack>
+      </StoryInset>
     </StoryFrame>
   ),
 };
@@ -444,29 +470,27 @@ export const DashboardWidgetChart: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
-      <StoryStack
-        className="rounded-lg border border-border"
-        gap="sm"
-        padding="md"
-      >
-        <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">Revenue — Q2 2026</span>
-          <Badge emphasis="soft" size="sm" tone="success">
-            +12.4%
-          </Badge>
-        </StoryRow>
-        <AspectRatio ratio={16 / 9}>
-          <RatioPlaceholder label="Chart area · 16:9 widget slot" />
-        </AspectRatio>
-        <StoryRow align="center" justify="between">
-          <span className="text-muted-foreground text-xs">
-            Last updated 09:14 today
-          </span>
-          <Button emphasis="ghost" intent="secondary" size="sm">
-            View Report
-          </Button>
-        </StoryRow>
-      </StoryStack>
+      <StoryInset padding="md">
+        <StoryStack gap="sm">
+          <StoryRow align="center" justify="between">
+            <span className="font-medium text-sm">Revenue — Q2 2026</span>
+            <Badge emphasis="soft" size="sm" tone="success">
+              <span className="tabular-nums">+12.4%</span>
+            </Badge>
+          </StoryRow>
+          <AspectRatio ratio={16 / 9}>
+            <RatioPlaceholder label="Chart area · 16:9 widget slot" />
+          </AspectRatio>
+          <StoryRow align="center" justify="between">
+            <span className="text-muted-foreground text-xs">
+              Last updated 09:14 today
+            </span>
+            <Button emphasis="ghost" intent="secondary" size="sm">
+              View Report
+            </Button>
+          </StoryRow>
+        </StoryStack>
+      </StoryInset>
     </StoryFrame>
   ),
 };

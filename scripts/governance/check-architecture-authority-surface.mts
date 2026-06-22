@@ -1,11 +1,14 @@
 #!/usr/bin/env tsx
 /**
- * Architecture authority surface gate (multi-tenancy.md §421–445).
+ * Architecture authority surface gate (multi-tenancy.md §421–427).
+ *
+ * Doc/registry/module sync and deep-import boundaries. Runtime dependency
+ * enforcement (§432–445) is authoritative in check-multi-tenancy-dependency-rules.mts.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 import { ARCHITECTURE_BASELINE_FINGERPRINT } from "../../packages/architecture-authority/src/contracts/architecture-authority-version.ts";
 import { dependencyContract } from "../../packages/architecture-authority/src/data/dependency-registry.data.ts";
@@ -18,11 +21,7 @@ import {
   ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT,
   ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES,
   ARCHITECTURE_DOC_SYNC_COMMANDS,
-  ERP_FORBIDDEN_PERMISSION_ENGINE_SYMBOLS,
-  ERP_PERMISSION_ENGINE_SCAN_ROOT,
   LAYER_DOC_DISPLAY_OVERRIDES,
-  MULTI_TENANCY_FORBIDDEN_PACKAGE_DEPENDENCIES,
-  MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES,
 } from "../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -63,38 +62,6 @@ export interface ArchitectureAuthoritySurfaceViolation {
   readonly message: string;
 }
 
-function listProductionSourceFiles(directory: string): string[] {
-  if (!existsSync(directory)) {
-    return [];
-  }
-
-  const files: string[] = [];
-
-  for (const entry of readdirSync(directory, { withFileTypes: true })) {
-    const fullPath = join(directory, entry.name);
-    if (entry.isDirectory()) {
-      if (
-        entry.name === "__tests__" ||
-        entry.name === "node_modules" ||
-        entry.name === "dist"
-      ) {
-        continue;
-      }
-      files.push(...listProductionSourceFiles(fullPath));
-      continue;
-    }
-
-    if (
-      /\.(ts|tsx)$/.test(entry.name) &&
-      !/\.(test|spec)\.tsx?$/.test(entry.name)
-    ) {
-      files.push(fullPath);
-    }
-  }
-
-  return files;
-}
-
 function listSourceFiles(directory: string): string[] {
   if (!existsSync(directory)) {
     return [];
@@ -128,29 +95,6 @@ function isNewerOrEqual(sourcePath: string, distPath: string): boolean {
   return statSync(distPath).mtimeMs >= statSync(sourcePath).mtimeMs;
 }
 
-function readPackageJsonDependencies(packageJsonPath: string): Record<string, string> {
-  if (!existsSync(packageJsonPath)) {
-    return {};
-  }
-
-  const parsed = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
-    dependencies?: Record<string, string>;
-  };
-
-  return parsed.dependencies ?? {};
-}
-
-function packageJsonPathFor(packageName: string): string | null {
-  const entry = packageContract.packages.find(
-    (pkg) => pkg.packageName === packageName && pkg.filesystemRequired
-  );
-  if (!entry) {
-    return null;
-  }
-
-  return join(repoRoot, entry.path, "package.json");
-}
-
 function layerDocMatchesAssignment(
   layerDoc: string,
   packageName: string,
@@ -162,21 +106,6 @@ function layerDocMatchesAssignment(
   return layerLabels.some((label) =>
     layerDoc.includes(`| \`${packageName}\` | ${label}`)
   );
-}
-
-function referencesForbiddenErpPermissionSymbol(
-  source: string,
-  symbol: string
-): boolean {
-  if (symbol === "export const PERMISSION_REGISTRY") {
-    return /export\s+const\s+PERMISSION_REGISTRY\b/.test(source);
-  }
-
-  if (symbol === "class PermissionEngine") {
-    return /class\s+PermissionEngine\b/.test(source);
-  }
-
-  return source.includes(symbol);
 }
 
 function verifyDocRegistryAlignment(
@@ -312,35 +241,6 @@ function verifyDocRegistryAlignment(
   }
 }
 
-async function verifyLiveArchitectureValidation(
-  violations: ArchitectureAuthoritySurfaceViolation[]
-): Promise<void> {
-  const distIndex = join(authorityRoot, "dist/index.js");
-  if (!existsSync(distIndex)) {
-    violations.push({
-      rule: "dist-missing",
-      file: distIndex,
-      message:
-        "Missing dist/index.js — run pnpm --filter @afenda/architecture-authority build",
-    });
-    return;
-  }
-
-  const authority = await import(pathToFileURL(distIndex).href);
-  const workspaces = authority.discoverWorkspaces(repoRoot);
-  const result = authority.validateArchitecture(workspaces);
-
-  if (!result.ok) {
-    for (const violation of result.violations) {
-      violations.push({
-        rule: "architecture-validation",
-        file: distIndex,
-        message: `(${violation.gate})${violation.packageName ? ` [${violation.packageName}]` : ""} ${violation.message}`,
-      });
-    }
-  }
-}
-
 export async function checkArchitectureAuthoritySurface(): Promise<
   ArchitectureAuthoritySurfaceViolation[]
 > {
@@ -411,58 +311,6 @@ export async function checkArchitectureAuthoritySurface(): Promise<
         file: snapshotPath,
         message: `dependency-snapshot.json has ${snapshotEdgeCount} edges; registry declares ${expectedEdgeCount}. Run ${ARCHITECTURE_DOC_SYNC_COMMANDS.dependencySnapshot}.`,
       });
-    }
-  }
-
-  for (const edge of MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES) {
-    const fromPath = packageJsonPathFor(edge.from);
-    if (!fromPath) {
-      continue;
-    }
-
-    const fromDeps = readPackageJsonDependencies(fromPath);
-    if (edge.to in fromDeps) {
-      violations.push({
-        rule: "multi-tenancy-forbidden-edge",
-        file: fromPath,
-        message: `${edge.from} must not depend on ${edge.to}: ${edge.reason}`,
-      });
-    }
-  }
-
-  for (const rule of MULTI_TENANCY_FORBIDDEN_PACKAGE_DEPENDENCIES) {
-    const packageJsonPath = packageJsonPathFor(rule.packageName);
-    if (!packageJsonPath) {
-      continue;
-    }
-
-    const dependencies = readPackageJsonDependencies(packageJsonPath);
-    for (const forbidden of rule.forbidden) {
-      if (forbidden in dependencies) {
-        violations.push({
-          rule: "multi-tenancy-forbidden-dependency",
-          file: packageJsonPath,
-          message: `${rule.packageName} must not depend on ${forbidden}: ${rule.reason}`,
-        });
-      }
-    }
-  }
-
-  const erpScanRoot = join(repoRoot, ERP_PERMISSION_ENGINE_SCAN_ROOT);
-  for (const file of listProductionSourceFiles(erpScanRoot)) {
-    if (file.includes("__tests__")) {
-      continue;
-    }
-
-    const source = readFileSync(file, "utf8");
-    for (const symbol of ERP_FORBIDDEN_PERMISSION_ENGINE_SYMBOLS) {
-      if (referencesForbiddenErpPermissionSymbol(source, symbol)) {
-        violations.push({
-          rule: "erp-permission-engine-duplication",
-          file,
-          message: `ERP must delegate permission evaluation to @afenda/permissions — found ${symbol}`,
-        });
-      }
     }
   }
 
@@ -599,8 +447,6 @@ export async function checkArchitectureAuthoritySurface(): Promise<
         "dist/surface/index.d.ts is older than src — run pnpm --filter @afenda/architecture-authority build",
     });
   }
-
-  await verifyLiveArchitectureValidation(violations);
 
   return violations;
 }

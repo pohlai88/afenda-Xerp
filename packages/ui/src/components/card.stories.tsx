@@ -25,7 +25,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { GOVERNED_CARD_LAYOUT_SIZES } from "../governance/component-props";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Alert, AlertDescription, AlertTitle } from "./alert";

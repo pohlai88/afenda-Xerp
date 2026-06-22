@@ -1,5 +1,9 @@
 "use client";
 
+import type {
+  GovernedAvatarBadgeProps,
+  GovernedAvatarProps,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Avatar as AvatarPrimitive } from "radix-ui";
@@ -9,20 +13,21 @@ const AVATAR_RECIPE_NAME = "form-control" as const;
 
 export interface AvatarProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
-    "className"
-  > {
+      React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
+      "className"
+    >,
+    GovernedAvatarProps {
   readonly className?: string;
-  readonly size?: "default" | "sm" | "lg";
 }
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   AvatarProps
->(({ className, size = "default", ...props }, ref) => {
+>(({ className, size = "default", state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Avatar",
     recipeName: AVATAR_RECIPE_NAME,
+    state,
     slot: "root",
     className,
   });
@@ -37,7 +42,7 @@ const Avatar = React.forwardRef<
 
 Avatar.displayName = "Avatar";
 
-interface AvatarImageProps
+export interface AvatarImageProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>,
     "className"
@@ -66,7 +71,7 @@ const AvatarImage = React.forwardRef<
 
 AvatarImage.displayName = "AvatarImage";
 
-interface AvatarFallbackProps
+export interface AvatarFallbackProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>,
     "className"
@@ -95,27 +100,39 @@ const AvatarFallback = React.forwardRef<
 
 AvatarFallback.displayName = "AvatarFallback";
 
-interface AvatarBadgeProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className"> {
+export interface AvatarBadgeProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className">,
+    GovernedAvatarBadgeProps {
   readonly className?: string;
 }
 
 const AvatarBadge = React.forwardRef<HTMLSpanElement, AvatarBadgeProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, state, tone, ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Avatar",
       recipeName: AVATAR_RECIPE_NAME,
+      variant: tone === undefined ? undefined : { tone },
+      state,
       slot: "icon",
       className,
     });
 
-    return <span ref={ref} {...applyGovernedPresentation(props, governed)} />;
+    return (
+      <span
+        ref={ref}
+        {...applyGovernedPresentation(
+          props,
+          governed,
+          tone === undefined ? undefined : { "data-tone": tone }
+        )}
+      />
+    );
   }
 );
 
 AvatarBadge.displayName = "AvatarBadge";
 
-interface AvatarGroupProps
+export interface AvatarGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -135,7 +152,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 
 AvatarGroup.displayName = "AvatarGroup";
 
-interface AvatarGroupCountProps
+export interface AvatarGroupCountProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }

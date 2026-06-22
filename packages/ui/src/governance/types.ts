@@ -68,6 +68,7 @@ export const GOVERNED_UI_COMPONENTS = [
   "HoverCard",
   "Kbd",
   "Spinner",
+  "StatusIndicator",
   "Empty",
   "Collapsible",
   "AspectRatio",

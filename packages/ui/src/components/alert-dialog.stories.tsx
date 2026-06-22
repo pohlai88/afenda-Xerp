@@ -1,3 +1,5 @@
+import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertCircleIcon,
@@ -44,7 +46,7 @@ import { Label } from "./label";
 function AlertDialogMediaIcon({
   icon: Icon,
 }: {
-  icon: ComponentType<{ className?: string }>;
+  readonly icon: ComponentType<{ className?: string }>;
 }) {
   return (
     <AlertDialogMedia>
@@ -53,7 +55,10 @@ function AlertDialogMediaIcon({
   );
 }
 
-function ConfirmTrigger({ children, ...props }: ComponentProps<typeof Button>) {
+function ConfirmTrigger({
+  children,
+  ...props
+}: ComponentProps<typeof Button>) {
   return (
     <AlertDialogTrigger asChild>
       <Button {...props}>{children}</Button>
@@ -125,8 +130,10 @@ export const WithMedia: Story = {
           <AlertDialogMediaIcon icon={Trash2Icon} />
           <AlertDialogTitle>Delete invoice INV-2026-0142?</AlertDialogTitle>
           <AlertDialogDescription>
-            Invoice INV-2026-0142 ($12,450.00) and its line items will be
-            permanently deleted. Linked payment records will remain for audit.
+            Invoice INV-2026-0142 (
+            <span className="tabular-nums">$12,450.00</span>) and its line items
+            will be permanently deleted. Linked payment records will remain for
+            audit.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -192,6 +199,32 @@ export const OpenByDefault: Story = {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  ),
+};
+
+export const GovernedStates: Story = {
+  name: "AlertDialog — Governed States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow align="start" gap="sm" wrap>
+      {GOVERNED_STATES.map((state) => (
+        <AlertDialog defaultOpen key={state}>
+          <AlertDialogContent size="sm" state={state}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>State: {state}</AlertDialogTitle>
+              <AlertDialogDescription>
+                `AlertDialogContent` exposes governed `state` for loading,
+                empty, error, and forbidden surfaces.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Confirm</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ))}
+    </StoryRow>
   ),
 };
 
@@ -346,8 +379,8 @@ export const BulkDeleteConfirm: Story = {
           <AlertDialogDescription>
             You are about to permanently delete{" "}
             <strong>12 invoice records</strong> totalling{" "}
-            <strong>$48,250.00</strong>. This action is irreversible and cannot
-            be recovered from backup within 30 days.
+            <strong className="tabular-nums">$48,250.00</strong>. This action is
+            irreversible and cannot be recovered from backup within 30 days.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -439,8 +472,9 @@ export const VoidInvoice: Story = {
           <AlertDialogTitle>Void invoice INV-2026-0098?</AlertDialogTitle>
           <AlertDialogDescription>
             This invoice has been posted to the general ledger. Voiding will
-            create a reversing journal entry of <strong>-$18,750.00</strong> and
-            notify the accounts payable team.
+            create a reversing journal entry of{" "}
+            <strong className="tabular-nums">-$18,750.00</strong> and notify the
+            accounts payable team.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -468,9 +502,10 @@ export const CancelPurchaseOrder: Story = {
           <AlertDialogMediaIcon icon={BanIcon} />
           <AlertDialogTitle>Cancel purchase order PO-8821?</AlertDialogTitle>
           <AlertDialogDescription>
-            PO-8821 ($5,949.00 · 3 line items) will be cancelled. The supplier
-            will be notified and any partial receipts must be reversed before
-            cancellation completes.
+            PO-8821 (
+            <span className="tabular-nums">$5,949.00</span> · 3 line items) will
+            be cancelled. The supplier will be notified and any partial receipts
+            must be reversed before cancellation completes.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -499,8 +534,8 @@ export const PostJournalEntry: Story = {
           <AlertDialogTitle>Post journal entry JE-2026-0312?</AlertDialogTitle>
           <AlertDialogDescription>
             Posting is final for period March 2026. Debits and credits totalling{" "}
-            <strong>$142,800.00</strong> will be written to the general ledger.
-            Only a reversing entry can undo this action.
+            <strong className="tabular-nums">$142,800.00</strong> will be written
+            to the general ledger. Only a reversing entry can undo this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -561,8 +596,8 @@ export const ApproveBudgetOverride: Story = {
           <AlertDialogTitle>Approve budget override?</AlertDialogTitle>
           <AlertDialogDescription>
             Requisition REQ-4410 exceeds the Engineering department budget by{" "}
-            <strong>$12,400.00</strong>. Your approval will be logged in the
-            audit trail and notify Finance leadership.
+            <strong className="tabular-nums">$12,400.00</strong>. Your approval
+            will be logged in the audit trail and notify Finance leadership.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -633,7 +668,8 @@ export const WorkflowFinalApproval: Story = {
                   Pending CFO
                 </Badge>
                 <span className="text-muted-foreground text-sm">
-                  Total: $5,949.00 · 3 items
+                  Total: <span className="tabular-nums">$5,949.00</span> · 3
+                  items
                 </span>
               </StoryRow>
             </StoryStack>

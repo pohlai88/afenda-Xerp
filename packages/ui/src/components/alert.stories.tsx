@@ -18,7 +18,7 @@ import {
   WrenchIcon,
   XIcon,
 } from "lucide-react";
-import { type ComponentType, type ReactNode, useState } from "react";
+import React, { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "./alert";
 import { Button } from "./button";
@@ -28,7 +28,7 @@ import { Button } from "./button";
 function AlertIcon({
   icon: Icon,
 }: {
-  icon: ComponentType<{ className?: string }>;
+  readonly icon: ComponentType<{ className?: string }>;
 }) {
   return <Icon aria-hidden="true" />;
 }
@@ -37,13 +37,13 @@ function AlertWithDismiss({
   children,
   tone = "info",
 }: {
-  children: ReactNode;
-  tone?: (typeof STATUS_TONES)[number];
+  readonly children: ReactNode;
+  readonly tone?: (typeof STATUS_TONES)[number];
 }) {
   const [visible, setVisible] = useState(true);
   if (!visible) {
     return (
-      <p className="text-muted-foreground text-sm italic">
+      <p aria-live="polite" className="text-muted-foreground text-sm italic">
         Alert dismissed — refresh story to reset.
       </p>
     );
@@ -95,7 +95,7 @@ function DismissibleStackComponent() {
 
   if (alerts.length === 0) {
     return (
-      <p className="text-muted-foreground text-sm italic">
+      <p aria-live="polite" className="text-muted-foreground text-sm italic">
         All notifications dismissed.
       </p>
     );
@@ -325,6 +325,34 @@ export const Dismissible: Story = {
 };
 
 // ─── Governance probes ─────────────────────────────────────────────────────
+
+export const DeprecatedVariantBridge: Story = {
+  name: "Governance — Deprecated Variant Bridge",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Stock `variant=\"destructive\"` maps to `tone=\"danger\"`. Canonical `tone` wins when both are set. No `data-variant` is emitted.",
+      },
+    },
+  },
+  render: () => (
+    <StoryStack gap="sm">
+      <Alert variant="destructive">
+        <AlertTitle>variant=&quot;destructive&quot; → danger</AlertTitle>
+        <AlertDescription>
+          Migration bridge only — prefer `tone=&quot;danger&quot;` in new code.
+        </AlertDescription>
+      </Alert>
+      <Alert tone="warning" variant="destructive">
+        <AlertTitle>tone wins over variant</AlertTitle>
+        <AlertDescription>
+          `data-tone` is &quot;warning&quot; even when variant is destructive.
+        </AlertDescription>
+      </Alert>
+    </StoryStack>
+  ),
+};
 
 export const GovernanceStates: Story = {
   name: "Governance — All States",
@@ -566,8 +594,9 @@ export const ApprovalPending: Story = {
         <AlertTriangleIcon aria-hidden="true" />
         <AlertTitle>Approval required — INV-2026-0042</AlertTitle>
         <AlertDescription>
-          This invoice ($4,850.00) is awaiting VP Finance approval. You will be
-          notified once the review is complete.
+          This invoice (
+          <span className="tabular-nums">$4,850.00</span>) is awaiting VP
+          Finance approval. You will be notified once the review is complete.
         </AlertDescription>
         <AlertAction>
           <Button emphasis="outline" intent="secondary" size="sm">
@@ -587,7 +616,10 @@ export const DataImportResult: Story = {
       <StoryStack gap="sm">
         <Alert tone="success">
           <CheckCircle2Icon aria-hidden="true" />
-          <AlertTitle>248 records imported successfully</AlertTitle>
+          <AlertTitle>
+            <span className="tabular-nums">248</span> records imported
+            successfully
+          </AlertTitle>
           <AlertDescription>
             Employee records from payroll_june_2026.xlsx are now available in
             the HR module.
@@ -620,8 +652,9 @@ export const PaymentOverdue: Story = {
         <CreditCardIcon aria-hidden="true" />
         <AlertTitle>Payment overdue — INV-2026-0031</AlertTitle>
         <AlertDescription>
-          Invoice for Acme Software Ltd. ($4,850.00) was due Jul 15, 2026. Late
-          fees may apply after 30 days.
+          Invoice for Acme Software Ltd. (
+          <span className="tabular-nums">$4,850.00</span>) was due Jul 15,
+          2026. Late fees may apply after 30 days.
         </AlertDescription>
         <AlertAction>
           <StoryRow gap="xs">
@@ -673,7 +706,10 @@ export const BulkOperationResult: Story = {
     <StoryFrame width="lg">
       <Alert tone="info">
         <UploadIcon aria-hidden="true" />
-        <AlertTitle>Bulk update complete — 18 of 20 records</AlertTitle>
+        <AlertTitle>
+          Bulk update complete —{" "}
+          <span className="tabular-nums">18 of 20</span> records
+        </AlertTitle>
         <AlertDescription>
           18 invoice records were approved. 2 records failed due to missing
           approver assignments. Failed records remain in &quot;Pending&quot;

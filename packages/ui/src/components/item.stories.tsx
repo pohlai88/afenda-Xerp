@@ -13,7 +13,7 @@ import {
   UserIcon,
   WebhookIcon,
 } from "lucide-react";
-import { type ComponentType, Fragment, type ReactNode } from "react";
+import React, { type ComponentType, Fragment, type ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
