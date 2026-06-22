@@ -8,14 +8,26 @@ import type {
   DashboardLayoutPreset,
   DashboardWidgetLayoutItem,
 } from "./dashboard-layout.contract";
-import { DASHBOARD_GRID_BREAKPOINTS } from "./dashboard-layout.contract";
-import { isDashboardWidgetId } from "./dashboard-layout.schema";
+import {
+  DASHBOARD_GRID_BREAKPOINTS,
+  DASHBOARD_GRID_MARGIN,
+} from "./dashboard-layout.contract";
+import type {
+  DashboardWidgetDefinition,
+  DashboardWidgetId,
+} from "./dashboard-widget.contract";
+import { isDashboardWidgetId } from "./dashboard-widget-registry";
 
 import "react-grid-layout/css/styles.css";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-function toGridLayoutItem(item: DashboardWidgetLayoutItem): Layout[number] {
+function toGridLayoutItem(
+  item: DashboardWidgetLayoutItem,
+  registry: ReadonlyMap<DashboardWidgetId, DashboardWidgetDefinition>
+): Layout[number] {
+  const widget = isDashboardWidgetId(item.i) ? registry.get(item.i) : undefined;
+
   const gridItem: Layout[number] = {
     i: item.i,
     x: item.x,
@@ -24,19 +36,25 @@ function toGridLayoutItem(item: DashboardWidgetLayoutItem): Layout[number] {
     h: item.h,
   };
 
-  if (item.minW !== undefined) {
-    return { ...gridItem, minW: item.minW };
+  let nextItem = gridItem;
+  const minW = item.minW ?? widget?.minW;
+  if (minW !== undefined) {
+    nextItem = { ...nextItem, minW };
   }
 
-  if (item.minH !== undefined) {
-    return { ...gridItem, minH: item.minH };
+  const minH = item.minH ?? widget?.minH;
+  if (minH !== undefined) {
+    nextItem = { ...nextItem, minH };
   }
 
-  return gridItem;
+  return nextItem;
 }
 
-function presetToLayouts(preset: DashboardLayoutPreset): ResponsiveLayouts {
-  const layout = preset.items.map(toGridLayoutItem);
+function presetToLayouts(
+  preset: DashboardLayoutPreset,
+  registry: ReadonlyMap<DashboardWidgetId, DashboardWidgetDefinition>
+): ResponsiveLayouts {
+  const layout = preset.items.map((item) => toGridLayoutItem(item, registry));
 
   return {
     desktop: layout,
@@ -62,17 +80,17 @@ function mapGridLayoutToItems(layout: Layout): DashboardWidgetLayoutItem[] {
       h: entry.h,
     };
 
+    let nextItem: DashboardWidgetLayoutItem = item;
+
     if (entry.minW !== undefined) {
-      items.push({ ...item, minW: entry.minW });
-      continue;
+      nextItem = { ...nextItem, minW: entry.minW };
     }
 
     if (entry.minH !== undefined) {
-      items.push({ ...item, minH: entry.minH });
-      continue;
+      nextItem = { ...nextItem, minH: entry.minH };
     }
 
-    items.push(item);
+    items.push(nextItem);
   }
 
   return items;
@@ -82,6 +100,7 @@ export interface DashboardGridLayoutAdapterProps {
   readonly layout: DashboardLayoutPreset;
   readonly editMode: boolean;
   readonly onLayoutChange: (layout: DashboardLayoutPreset) => void;
+  readonly registry: ReadonlyMap<DashboardWidgetId, DashboardWidgetDefinition>;
   readonly children: React.ReactNode;
 }
 
@@ -89,6 +108,7 @@ export function DashboardGridLayoutAdapter({
   layout,
   editMode,
   onLayoutChange,
+  registry,
   children,
 }: DashboardGridLayoutAdapterProps) {
   const breakpoints = useMemo(
@@ -111,7 +131,10 @@ export function DashboardGridLayoutAdapter({
     []
   );
 
-  const layouts = useMemo(() => presetToLayouts(layout), [layout]);
+  const layouts = useMemo(
+    () => presetToLayouts(layout, registry),
+    [layout, registry]
+  );
 
   return (
     <ResponsiveGridLayout
@@ -122,7 +145,7 @@ export function DashboardGridLayoutAdapter({
       isDraggable={editMode}
       isResizable={editMode}
       layouts={layouts}
-      margin={[12, 12]}
+      margin={[...DASHBOARD_GRID_MARGIN]}
       onLayoutChange={(currentLayout: Layout) => {
         if (!editMode) {
           return;

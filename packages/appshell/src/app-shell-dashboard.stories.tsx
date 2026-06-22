@@ -1,29 +1,33 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
-import type { ApplicationShellDashboardGovernedComponents } from "./app-shell-dashboard";
-import { ApplicationShellDashboardContent } from "./app-shell-dashboard";
-import {
-  renderDashboardStory,
-} from "./_storybook/app-shell-dashboard-story.compositions";
 import {
   DASHBOARD_STORY_BASE_ARGS,
-  EMPTY_INVOICES_DASHBOARD_ARGS,
-  EMPTY_REGIONAL_SALES_DASHBOARD_ARGS,
   FINANCE_DASHBOARD_ARGS,
+  FINANCE_GATED_DASHBOARD_ARGS,
   MODERN_DASHBOARD_ARGS,
 } from "./_storybook/app-shell-dashboard-story.fixtures";
+import {
+  renderDashboardStory,
+  renderEmptyInvoicesBlockStory,
+  renderEmptyRegionalSalesBlockStory,
+} from "./_storybook/app-shell-dashboard-story.compositions";
+import {
+  ApplicationShellDashboardDemo,
+  type ApplicationShellDashboardDemoProps,
+} from "./dashboard";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { compactDensityDecorator } from "./_storybook/dashboard-block-story.compositions";
 
 const meta = {
   title: "ERP/ApplicationShell/Dashboard",
-  component: ApplicationShellDashboardContent,
+  component: ApplicationShellDashboardDemo,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
     docs: {
       description: {
         component:
-          "Governed ERP overview dashboard from `@afenda/appshell`. Composes sparkline metrics, KPI cards, statistics metric widgets, line trend metrics, revenue chart, module earnings, regional sales, transactions, payment history, accounts receivable, and optional legacy module widgets. Layout chrome uses plain HTML wrappers and `@afenda/appshell/afenda-appshell.css` (TIP-004). Token-backed surfaces will adopt `@afenda/ui/governance` app-shell recipe slots — see Authority Preview stories.",
+          "Governed ERP overview dashboard from `@afenda/appshell/dashboard`. Readonly canvas with 14 independently placed registry widgets (one metric card per grid cell). See Dashboard Canvas stories for edit mode and drag-resize.",
       },
     },
     a11y: {
@@ -39,51 +43,44 @@ const meta = {
       control: "text",
       description: "Accessible region label for the dashboard surface.",
     },
-    comparisonLabel: {
-      control: "text",
-      description: "Shared comparison suffix for sparkline and KPI widgets.",
-    },
-    showLegacyWidgets: {
+    showReadonlyPreviewLabel: {
       control: "boolean",
-      description:
-        "When true, renders legacy module performance and recent orders placeholders below the invoice table.",
+      description: "When true, shows the readonly preview badge above the canvas.",
     },
-    showStatisticsMetrics: {
-      control: "boolean",
-      description:
-        "When true, renders the statistics-component-10 metric row (revenue, leads, activity, profile traffic).",
-    },
-    showStatisticsLineTrends: {
-      control: "boolean",
-      description:
-        "When true, renders the statistics-component-21 line trend row (orders, gross revenue, inventory movement).",
-    },
-    statisticsLineTrendsCards: { control: false },
-    sparklineMetrics: { control: false },
-    kpiMetrics: { control: false },
-    moduleEarnings: { control: false },
-    transactions: { control: false },
-    regionalSales: { control: false },
-    paymentHistory: { control: false },
-    invoices: { control: false },
-    legacyPlaceholderProps: { control: false },
+    renderContext: { control: false },
   },
-} satisfies Meta<typeof ApplicationShellDashboardContent>;
+} satisfies Meta<ApplicationShellDashboardDemoProps>;
 
 /** Governed primitives referenced across dashboard widgets (TIP-004 traceability). */
-export type ApplicationShellDashboardStoriesGovernedComponents =
-  ApplicationShellDashboardGovernedComponents;
+export type ApplicationShellDashboardStoriesGovernedComponents = Extract<
+  GovernedUiComponentName,
+  | "Avatar"
+  | "Badge"
+  | "Button"
+  | "Card"
+  | "Chart"
+  | "Checkbox"
+  | "DropdownMenu"
+  | "InputGroup"
+  | "Label"
+  | "Pagination"
+  | "Progress"
+  | "Select"
+  | "Separator"
+  | "Table"
+  | "Tooltip"
+>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Full ERP overview — enterprise widgets plus legacy module performance rows. */
+/** Full ERP overview on the governed readonly canvas. */
 export const Default: Story = {
   parameters: {
     docs: {
       description: {
         story:
-          "Default static dashboard composition for widget-level review without shell chrome.",
+          "Default canvas with all 14 registry widgets — each KPI, sparkline, chart, and table is an independent grid cell.",
       },
     },
   },
@@ -96,33 +93,45 @@ export const WidgetsOnly: Story = {
     docs: {
       description: {
         story:
-          "Block-level dashboard review surface — widgets render without shell chrome.",
+          "Canvas-only review surface — widgets render without shell chrome.",
       },
     },
   },
 };
 
-/** Modern layout — upgraded widgets only, without legacy placeholder sections. */
+/** Modern layout — registry widgets on the governed canvas. */
 export const Modern: Story = {
   args: MODERN_DASHBOARD_ARGS,
   parameters: {
     docs: {
       description: {
-        story:
-          "Recommended production layout after the enterprise dashboard upgrade. Hides legacy module performance and recent orders placeholders.",
+        story: "Recommended production layout on the readonly dashboard canvas.",
       },
     },
   },
 };
 
-/** Finance close context — relabelled region and comparison copy. */
+/** Finance close context — relabelled region. */
 export const FinanceControlTower: Story = {
   args: FINANCE_DASHBOARD_ARGS,
   parameters: {
     docs: {
       description: {
         story:
-          "Finance controller review — custom dashboard label and comparison language while keeping the modern widget set.",
+          "Finance controller review — custom dashboard label while keeping the governed widget set.",
+      },
+    },
+  },
+};
+
+/** Breakdown widgets visible; finance-gated tables hidden. */
+export const FinanceGated: Story = {
+  args: FINANCE_GATED_DASHBOARD_ARGS,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Capability-only render context — module earnings and regional sales remain; invoice, payment, and transaction widgets are hidden.",
       },
     },
   },
@@ -130,12 +139,12 @@ export const FinanceControlTower: Story = {
 
 /** Empty receivables — invoice table rich empty state. */
 export const EmptyInvoices: Story = {
-  args: EMPTY_INVOICES_DASHBOARD_ARGS,
+  render: renderEmptyInvoicesBlockStory,
   parameters: {
     docs: {
       description: {
         story:
-          "Accounts receivable with no rows — validates bulk actions, sorting chrome, and the governed empty state.",
+          "Accounts receivable block with no rows — validates bulk actions, sorting chrome, and the governed empty state.",
       },
     },
   },
@@ -143,12 +152,12 @@ export const EmptyInvoices: Story = {
 
 /** Empty regional sales — ranked list empty state and summary insights. */
 export const EmptyRegionalSales: Story = {
-  args: EMPTY_REGIONAL_SALES_DASHBOARD_ARGS,
+  render: renderEmptyRegionalSalesBlockStory,
   parameters: {
     docs: {
       description: {
         story:
-          "Regional revenue widget with no rows — validates ranked list empty state and summary insight copy.",
+          "Regional revenue block with no rows — validates ranked list empty state and summary insight copy.",
       },
     },
   },
@@ -169,13 +178,19 @@ export const DarkTheme: Story = {
   },
 };
 
+export const Compact: Story = {
+  args: MODERN_DASHBOARD_ARGS,
+  decorators: [compactDensityDecorator],
+};
+
 export const Tablet: Story = {
   args: MODERN_DASHBOARD_ARGS,
   parameters: {
     viewport: { defaultViewport: "tablet" },
     docs: {
       description: {
-        story: "Responsive widget grids and sticky invoice table at tablet width.",
+        story:
+          "Responsive react-grid-layout canvas at tablet width — widgets reflow per breakpoint presets.",
       },
     },
   },
@@ -187,7 +202,8 @@ export const Desktop: Story = {
     viewport: { defaultViewport: "desktop" },
     docs: {
       description: {
-        story: "Full desktop layout — multi-column widget grids and expanded table chrome.",
+        story:
+          "Full desktop layout — independently sized widget cells with expanded table chrome.",
       },
     },
   },

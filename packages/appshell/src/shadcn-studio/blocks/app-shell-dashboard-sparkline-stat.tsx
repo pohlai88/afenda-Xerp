@@ -1,17 +1,17 @@
 "use client";
 
 import { useId, useMemo } from "react";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Area, AreaChart } from "recharts";
 
 import { Card, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
+import { APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN } from "../data/app-shell.dashboard.data";
 import type {
   AppShellDashboardSparklineMetric,
   AppShellDashboardSparklinePoint,
-  AppShellTrendDirection,
 } from "../data/app-shell.dashboard.types";
+import { TrendIndicator } from "./app-shell-dashboard-breakdown.utils";
 
 export type AppShellDashboardSparklineStatGovernedComponents = Extract<
   GovernedUiComponentName,
@@ -110,14 +110,6 @@ function resolveSparklineChartFrameClass(
     : "app-shell-dashboard-sparkline-chart-frame app-shell-dashboard-sparkline-chart-frame-revenue";
 }
 
-function TrendIndicator({ trend }: { readonly trend: AppShellTrendDirection }) {
-  return trend === "up" ? (
-    <ChevronUpIcon aria-hidden className="app-shell-dashboard-trend-icon-up" />
-  ) : (
-    <ChevronDownIcon aria-hidden className="app-shell-dashboard-trend-icon-down" />
-  );
-}
-
 export function AppShellDashboardSparklineStat({
   id,
   metricKey,
@@ -155,7 +147,7 @@ export function AppShellDashboardSparklineStat({
               <span className="app-shell-dashboard-sparkline-label" id={titleId}>
                 {title}
               </span>
-              <p className="app-shell-dashboard-sparkline-amount">{amount}</p>
+              <span className="app-shell-dashboard-sparkline-amount">{amount}</span>
             </div>
 
             <div className="app-shell-dashboard-sparkline-change-row">
@@ -191,13 +183,17 @@ export function AppShellDashboardSparklineStat({
               </div>
             ) : (
               <ChartContainer config={chartConfig}>
-                <AreaChart data={chartData} margin={{ bottom: 0, left: 4, right: 0, top: 4 }}>
+                <AreaChart
+                  accessibilityLayer
+                  data={chartData}
+                  margin={APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN}
+                >
                   <defs>
                     <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
                       <stop
                         offset="10%"
                         stopColor="var(--sparkline-stroke, var(--primary))"
-                        stopOpacity={1}
+                        stopOpacity={0.15}
                       />
                       <stop
                         offset="90%"

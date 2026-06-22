@@ -3,28 +3,33 @@ import { describe, expect, it } from "vitest";
 import {
   isUnauthenticatedError,
   UnauthenticatedError,
+  UnlinkedPlatformUserError,
+  isUnlinkedPlatformUserError,
 } from "../auth.errors.js";
 import {
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
 } from "../auth.session.js";
 
-const sampleSession = normalizeAfendaAuthSession({
-  session: {
-    id: "sess_1",
-    createdAt: new Date("2026-06-20T00:00:00.000Z"),
-    expiresAt: new Date("2026-06-27T00:00:00.000Z"),
-    ipAddress: "127.0.0.1",
-    userAgent: "vitest",
+const sampleSession = normalizeAfendaAuthSession(
+  {
+    session: {
+      id: "sess_1",
+      createdAt: new Date("2026-06-20T00:00:00.000Z"),
+      expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+      ipAddress: "127.0.0.1",
+      userAgent: "vitest",
+    },
+    user: {
+      id: "auth_user_1",
+      email: "user@example.com",
+      name: "Test User",
+      emailVerified: true,
+      image: null,
+    },
   },
-  user: {
-    id: "user_1",
-    email: "user@example.com",
-    name: "Test User",
-    emailVerified: true,
-    image: null,
-  },
-});
+  "platform_user_1"
+);
 
 describe("Afenda auth contracts", () => {
   it("round-trips AfendaAuthSession through JSON", () => {
@@ -33,7 +38,7 @@ describe("Afenda auth contracts", () => {
 
   it("maps session to UI-safe AfendaAuthIdentity without session fields", () => {
     expect(toAfendaAuthIdentity(sampleSession)).toEqual({
-      userId: "user_1",
+      userId: "platform_user_1",
       displayName: "Test User",
       email: "user@example.com",
     });
@@ -43,5 +48,34 @@ describe("Afenda auth contracts", () => {
   it("narrows UnauthenticatedError with isUnauthenticatedError", () => {
     expect(isUnauthenticatedError(new UnauthenticatedError())).toBe(true);
     expect(isUnauthenticatedError(new Error("other"))).toBe(false);
+  });
+
+  it("throws UnlinkedPlatformUserError for unlinked sessions", () => {
+    const unlinkedSession = normalizeAfendaAuthSession(
+      {
+        session: {
+          id: "sess_1",
+          createdAt: new Date("2026-06-20T00:00:00.000Z"),
+          expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+          ipAddress: null,
+          userAgent: null,
+        },
+        user: {
+          id: "auth_user_1",
+          email: "user@example.com",
+          name: "Test User",
+          emailVerified: true,
+          image: null,
+        },
+      },
+      null
+    );
+
+    expect(() => toAfendaAuthIdentity(unlinkedSession)).toThrow(
+      UnlinkedPlatformUserError
+    );
+    expect(isUnlinkedPlatformUserError(new UnlinkedPlatformUserError())).toBe(
+      true
+    );
   });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { UnauthenticatedError } from "../auth.errors.js";
+import { UnauthenticatedError, UnlinkedPlatformUserError } from "../auth.errors.js";
 import { readAuthConfigFingerprint } from "../auth.runtime.js";
 import {
   getAfendaAuthSession,
@@ -10,6 +10,7 @@ import {
 import { normalizeAfendaAuthSession } from "../auth.session.js";
 
 const mockGetSession = vi.fn();
+const mockResolvePlatformActorUserId = vi.fn();
 const authConfigState = vi.hoisted(() => ({
   calls: [] as Array<{ env?: NodeJS.ProcessEnv } | undefined>,
 }));
@@ -23,6 +24,12 @@ vi.mock("../auth.config.js", () => ({
       },
     };
   },
+}));
+
+vi.mock("../auth.actor-resolution.js", () => ({
+  clearPlatformUserIdCacheForTests: vi.fn(),
+  resolvePlatformActorUserId: (...args: unknown[]) =>
+    mockResolvePlatformActorUserId(...args),
 }));
 
 describe("auth.server session helpers", () => {
@@ -47,31 +54,63 @@ describe("auth.server session helpers", () => {
         userAgent: null,
       },
       user: {
-        id: "user_1",
+        id: "auth_user_1",
         email: "user@example.com",
         name: "Test User",
         emailVerified: true,
         image: null,
       },
     });
+    mockResolvePlatformActorUserId.mockResolvedValueOnce("platform_user_1");
 
     await expect(getAfendaAuthSession(new Headers())).resolves.toEqual(
-      normalizeAfendaAuthSession({
-        session: {
-          id: "sess_1",
-          createdAt,
-          expiresAt,
-          ipAddress: null,
-          userAgent: null,
+      normalizeAfendaAuthSession(
+        {
+          session: {
+            id: "sess_1",
+            createdAt,
+            expiresAt,
+            ipAddress: null,
+            userAgent: null,
+          },
+          user: {
+            id: "auth_user_1",
+            email: "user@example.com",
+            name: "Test User",
+            emailVerified: true,
+            image: null,
+          },
         },
-        user: {
-          id: "user_1",
-          email: "user@example.com",
-          name: "Test User",
-          emailVerified: true,
-          image: null,
-        },
-      })
+        "platform_user_1"
+      )
+    );
+    expect(mockResolvePlatformActorUserId).toHaveBeenCalledWith({
+      authUserId: "auth_user_1",
+    });
+  });
+
+  it("throws UnlinkedPlatformUserError when platform user is not linked", async () => {
+    resetAuthForTests();
+    mockGetSession.mockResolvedValueOnce({
+      session: {
+        id: "sess_1",
+        createdAt: new Date("2026-06-20T00:00:00.000Z"),
+        expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+        ipAddress: null,
+        userAgent: null,
+      },
+      user: {
+        id: "auth_user_1",
+        email: "user@example.com",
+        name: "Test User",
+        emailVerified: true,
+        image: null,
+      },
+    });
+    mockResolvePlatformActorUserId.mockResolvedValueOnce(null);
+
+    await expect(requireAfendaAuthSession(new Headers())).rejects.toThrow(
+      UnlinkedPlatformUserError
     );
   });
 

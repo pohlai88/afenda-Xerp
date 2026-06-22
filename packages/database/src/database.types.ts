@@ -32,17 +32,47 @@ export const companyStatusEnum = pgEnum(
   PLATFORM_LIFECYCLE_STATUSES
 );
 
+/** Must stay aligned with `@afenda/kernel` LEGAL_ENTITY_COMPANY_TYPES. */
+export const LEGAL_ENTITY_COMPANY_TYPES = [
+  "holding",
+  "parent",
+  "subsidiary",
+  "associate",
+  "joint_venture",
+  "minority_interest",
+  "branch_entity",
+  "standalone",
+] as const;
+
+export const legalEntityCompanyTypeEnum = pgEnum(
+  "legal_entity_company_type",
+  LEGAL_ENTITY_COMPANY_TYPES
+);
+
 export const organizationStatusEnum = pgEnum(
   "organization_status",
   PLATFORM_LIFECYCLE_STATUSES
 );
 
-export const organizationTypeEnum = pgEnum("organization_type", [
+export const ORGANIZATION_UNIT_TYPES = [
   "company_root",
   "branch",
   "department",
   "team",
-]);
+  "site",
+  "farm",
+  "factory",
+  "warehouse",
+  "retail_outlet",
+  "cost_center",
+  "shared_service",
+  "operating_unit",
+] as const;
+
+export const organizationTypeEnum = pgEnum(
+  "organization_type",
+  ORGANIZATION_UNIT_TYPES
+);
 
 export const userStatusEnum = pgEnum("user_status", [
   "active",
@@ -118,9 +148,15 @@ export const auditSourceEnum = pgEnum(
 
 export type TenantStatus = (typeof tenantStatusEnum.enumValues)[number];
 export type CompanyStatus = (typeof companyStatusEnum.enumValues)[number];
+export type LegalEntityCompanyType =
+  (typeof legalEntityCompanyTypeEnum.enumValues)[number];
 export type OrganizationStatus =
   (typeof organizationStatusEnum.enumValues)[number];
-export type OrganizationType = (typeof organizationTypeEnum.enumValues)[number];
+export type OrganizationType =
+  (typeof organizationTypeEnum.enumValues)[number];
+
+/** Domain alias aligned with multi-tenancy.md organization unit terminology. */
+export type OrganizationUnitType = OrganizationType;
 export type UserStatus = (typeof userStatusEnum.enumValues)[number];
 export type MembershipStatus = (typeof membershipStatusEnum.enumValues)[number];
 export type MembershipScopeType =
@@ -239,3 +275,48 @@ export const executionStatusEnum = pgEnum(
 );
 
 export type ExecutionStatus = (typeof executionStatusEnum.enumValues)[number];
+
+export const OWNERSHIP_CONTROL_TYPES = [
+  "control",
+  "significant_influence",
+  "joint_control",
+  "passive_investment",
+] as const;
+
+export const ownershipControlTypeEnum = pgEnum(
+  "ownership_control_type",
+  OWNERSHIP_CONTROL_TYPES
+);
+
+export const OWNERSHIP_RELATIONSHIP_TYPES = [
+  "subsidiary",
+  "associate",
+  "joint_venture",
+  "minority_interest",
+  "non_controlling_interest",
+] as const;
+
+export const ownershipRelationshipTypeEnum = pgEnum(
+  "ownership_relationship_type",
+  OWNERSHIP_RELATIONSHIP_TYPES
+);
+
+export const CONSOLIDATION_METHODS = [
+  "full",
+  "proportional",
+  "equity",
+  "cost",
+  "none",
+] as const;
+
+export const consolidationMethodEnum = pgEnum(
+  "consolidation_method",
+  CONSOLIDATION_METHODS
+);
+
+export type OwnershipControlType =
+  (typeof ownershipControlTypeEnum.enumValues)[number];
+export type OwnershipRelationshipType =
+  (typeof ownershipRelationshipTypeEnum.enumValues)[number];
+export type ConsolidationMethod =
+  (typeof consolidationMethodEnum.enumValues)[number];

@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { Avatar, AvatarFallback, Card, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
@@ -13,6 +15,10 @@ import type {
   AppShellDashboardTransactionRow,
   AppShellTransactionDirection,
 } from "../data/app-shell.dashboard.types";
+import {
+  formatDashboardCurrency,
+  parseDashboardAmount,
+} from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardRecentTransactionsGovernedComponents = Extract<
@@ -34,29 +40,17 @@ interface TransactionTotals {
   readonly net: number;
 }
 
-function parseAmount(value: string): number {
-  return Number.parseFloat(value.replaceAll(/[$,]/g, ""));
-}
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    currency: "USD",
-    maximumFractionDigits: 0,
-    style: "currency",
-  }).format(Math.abs(value));
-}
-
 function formatSignedAmount(
   direction: AppShellTransactionDirection,
   amount: string
 ): string {
   const prefix = direction === "credit" ? "+" : "-";
-  return `${prefix}${formatCurrency(parseAmount(amount))}`;
+  return `${prefix}${formatDashboardCurrency(parseDashboardAmount(amount))}`;
 }
 
 function formatNetFlow(net: number): string {
   const prefix = net > 0 ? "+" : net < 0 ? "-" : "";
-  return `${prefix}${formatCurrency(net)}`;
+  return `${prefix}${formatDashboardCurrency(Math.abs(net))}`;
 }
 
 function computeTransactionTotals(
@@ -64,7 +58,7 @@ function computeTransactionTotals(
 ): TransactionTotals {
   return transactions.reduce<TransactionTotals>(
     (totals, transaction) => {
-      const amount = parseAmount(transaction.amount);
+      const amount = parseDashboardAmount(transaction.amount);
 
       if (transaction.direction === "credit") {
         return {
@@ -124,7 +118,7 @@ export function AppShellDashboardRecentTransactions({
   transactions = defaultAppShellDashboardTransactions,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardRecentTransactionsProps) {
-  const summaryId = "app-shell-dashboard-transactions-summary";
+  const summaryId = useId();
   const { credits, debits, net } = computeTransactionTotals(transactions);
   const postingsLabel =
     transactions.length === 1 ? "1 posting" : `${transactions.length} postings`;
@@ -155,13 +149,13 @@ export function AppShellDashboardRecentTransactions({
             </div>
             <div className="app-shell-dashboard-transaction-flow-row">
               <span className="app-shell-dashboard-transaction-flow-item">
-                In {formatCurrency(credits)}
+                In {formatDashboardCurrency(credits)}
               </span>
               <span aria-hidden="true" className="app-shell-dashboard-transaction-flow-divider">
                 ·
               </span>
               <span className="app-shell-dashboard-transaction-flow-item">
-                Out {formatCurrency(debits)}
+                Out {formatDashboardCurrency(debits)}
               </span>
             </div>
             <span className="app-shell-dashboard-transaction-comparison">{comparisonText}</span>

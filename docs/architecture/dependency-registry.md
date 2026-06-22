@@ -27,28 +27,41 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (18 direct edges)
+## Runtime Dependency Edges (31 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
+| `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
+| `@afenda/appshell` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
 | `@afenda/auth` | `@afenda/database` | Approved | — | — |
+| `@afenda/auth` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/database` | `@afenda/observability` | Approved | — | — |
 | `@afenda/entitlements` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
+| `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
+| `@afenda/erp` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
+| `@afenda/erp` | `@afenda/permissions` | Approved | TIP-010 | — |
 | `@afenda/erp` | `@afenda/ui` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
 | `@afenda/feature-flags` | `@afenda/entitlements` | Approved | — | — |
-| `@afenda/metadata-ui` | `@afenda/design-system` | Approved | — | — |
-| `@afenda/metadata-ui` | `@afenda/permissions` | Approved | — | — |
+| `@afenda/metadata-ui` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/metadata-ui` | `@afenda/ui` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/auth` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/database` | Approved | — | — |
-| `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
+| `@afenda/permissions` | `@afenda/kernel` | Approved | TIP-007 | — |
+| `@afenda/storybook` | `@afenda/appshell` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/design-system` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/metadata-ui` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/ui` | Approved | — | — |
+| `@afenda/ui` | `@afenda/design-system` | Approved | — | — |
 
 **Exception / deprecated runtime edges at baseline:** 0
 
@@ -70,21 +83,22 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
-| `@afenda/appshell` | `@afenda/ui` |
-| `@afenda/auth` | `@afenda/database` |
+| `@afenda/appshell` | `@afenda/kernel`, `@afenda/ui` |
+| `@afenda/auth` | `@afenda/database`, `@afenda/kernel` |
 | `@afenda/database` | `@afenda/observability` |
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/observability`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
 | `@afenda/metadata` | *(none)* |
-| `@afenda/metadata-ui` | `@afenda/design-system`, `@afenda/permissions` |
+| `@afenda/metadata-ui` | `@afenda/metadata`, `@afenda/ui` |
 | `@afenda/observability` | *(none)* |
-| `@afenda/permissions` | `@afenda/auth`, `@afenda/database` |
+| `@afenda/permissions` | `@afenda/auth`, `@afenda/database`, `@afenda/kernel` |
 | `@afenda/storage` | *(none)* |
+| `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui` |
 | `@afenda/testing` | *(none — workspace runtime)* |
 | `@afenda/typescript-config` | *(none)* |
 | `@afenda/ui` | `@afenda/design-system` |
@@ -97,23 +111,28 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ```text
 @afenda/erp
+  → @afenda/appshell → @afenda/kernel
   → @afenda/appshell → @afenda/ui → @afenda/design-system
   → @afenda/auth → @afenda/database → @afenda/observability
+  → @afenda/auth → @afenda/kernel
   → @afenda/database
   → @afenda/design-system
+  → @afenda/kernel
+  → @afenda/metadata
+  → @afenda/metadata-ui → @afenda/metadata
+  → @afenda/metadata-ui → @afenda/ui
   → @afenda/observability
+  → @afenda/permissions → @afenda/auth
+  → @afenda/permissions → @afenda/database
+  → @afenda/permissions → @afenda/kernel
   → @afenda/ui
 
-@afenda/permissions
-  → @afenda/auth
-  → @afenda/database
-
-@afenda/metadata-ui
+@afenda/storybook
+  → @afenda/appshell
   → @afenda/design-system
-  → @afenda/permissions
-
-@afenda/metadata
-  *(no outbound runtime dependencies — authority consumed when implementation wires in)*
+  → @afenda/metadata
+  → @afenda/metadata-ui
+  → @afenda/ui → @afenda/design-system
 
 @afenda/feature-flags
   → @afenda/entitlements → @afenda/database

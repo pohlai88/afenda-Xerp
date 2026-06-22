@@ -1,7 +1,7 @@
 import { useId, useMemo } from "react";
 import { Globe2Icon } from "lucide-react";
 
-import { Badge, Card, Progress, Separator } from "@afenda/ui";
+import { Card, Progress, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
@@ -14,7 +14,6 @@ import {
 import type {
   AppShellDashboardOverflowMenuItem,
   AppShellDashboardRegionalSalesRow,
-  AppShellTrendDirection,
 } from "../data/app-shell.dashboard.types";
 import {
   computeDashboardShare,
@@ -22,12 +21,13 @@ import {
   formatDashboardCurrency,
   parseDashboardAmount,
   TrendIndicator,
+  type DashboardBreakdownAggregateTrend,
 } from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardRegionalSalesGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card" | "Progress" | "Separator"
+  "Card" | "Progress" | "Separator"
 >;
 
 export interface AppShellDashboardRegionalSalesProps {
@@ -44,41 +44,18 @@ export interface RankedRegionalSalesRow {
   readonly share: number;
 }
 
-export interface RegionalSalesAggregateTrend {
-  readonly label: string;
-  readonly trend: AppShellTrendDirection;
-}
-
 export interface RegionalSalesSummary {
   readonly totalSales: number;
-  readonly aggregateTrend: RegionalSalesAggregateTrend;
+  readonly aggregateTrend: DashboardBreakdownAggregateTrend;
   readonly topRegion: { readonly name: string; readonly share: number } | null;
   readonly growingCount: number;
   readonly decliningCount: number;
 }
 
-export function parseRegionalAmount(value: string): number {
-  return parseDashboardAmount(value);
-}
-
-export function formatRegionalCurrency(value: number): string {
-  return formatDashboardCurrency(value);
-}
-
 export function computeTotalRegionalSales(
   rows: readonly AppShellDashboardRegionalSalesRow[]
 ): number {
-  return rows.reduce((total, row) => total + parseRegionalAmount(row.amount), 0);
-}
-
-export function computeRegionalShare(amount: string, total: number): number {
-  return computeDashboardShare(amount, total);
-}
-
-export function computeWeightedRegionalTrend(
-  rows: readonly AppShellDashboardRegionalSalesRow[]
-): RegionalSalesAggregateTrend {
-  return computeWeightedDashboardTrend(rows);
+  return rows.reduce((total, row) => total + parseDashboardAmount(row.amount), 0);
 }
 
 export function buildRankedRegionalSalesRows(
@@ -90,11 +67,11 @@ export function buildRankedRegionalSalesRows(
     .map((row) => ({
       rank: 0,
       row,
-      share: computeRegionalShare(row.amount, totalSales),
+      share: computeDashboardShare(row.amount, totalSales),
     }))
     .sort((left, right) => {
       const amountDelta =
-        parseRegionalAmount(right.row.amount) - parseRegionalAmount(left.row.amount);
+        parseDashboardAmount(right.row.amount) - parseDashboardAmount(left.row.amount);
       if (amountDelta !== 0) {
         return amountDelta;
       }
@@ -114,7 +91,7 @@ export function buildRegionalSalesSummary(
   const topEntry = rankedRows[0];
 
   return {
-    aggregateTrend: computeWeightedRegionalTrend(rows),
+    aggregateTrend: computeWeightedDashboardTrend(rows),
     decliningCount: rows.filter((row) => row.trend === "down").length,
     growingCount: rows.filter((row) => row.trend === "up").length,
     topRegion: topEntry
@@ -135,7 +112,7 @@ function RegionalSalesRow({
   readonly share: number;
   readonly total: number;
 }) {
-  const shareLabel = `${row.region} represents ${share}% of ${formatRegionalCurrency(total)} consolidated revenue`;
+  const shareLabel = `${row.region} represents ${share}% of ${formatDashboardCurrency(total)} consolidated revenue`;
   const rowClassName =
     rank === 1
       ? "app-shell-dashboard-breakdown-row app-shell-dashboard-breakdown-row-leading"
@@ -216,14 +193,12 @@ export function AppShellDashboardRegionalSales({
           >
             <div className="app-shell-dashboard-breakdown-total-row">
               <span className="app-shell-dashboard-breakdown-total" id={summaryId}>
-                {formatRegionalCurrency(summary.totalSales)}
+                {formatDashboardCurrency(summary.totalSales)}
               </span>
               <span className="app-shell-dashboard-breakdown-change-value">
                 {summary.aggregateTrend.label}
               </span>
-              <Badge emphasis="soft" tone="neutral">
-                {regionCountLabel}
-              </Badge>
+              <span className="app-shell-dashboard-breakdown-meta">{regionCountLabel}</span>
             </div>
             <div className="app-shell-dashboard-breakdown-insights-row">
               <span className="app-shell-dashboard-breakdown-insight">{insightsLabel}</span>

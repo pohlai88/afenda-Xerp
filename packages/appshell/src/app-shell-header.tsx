@@ -17,7 +17,7 @@ import {
   type GovernedUiComponentName,
 } from "@afenda/ui/governance";
 
-import type { ApplicationShellResolvedChrome } from "./app-shell.types";
+import type { ApplicationShellResolvedChrome, ApplicationShellOperatingContext } from "./app-shell.types";
 import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
 import { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 import { AppShellLanguageDropdown } from "./shadcn-studio/blocks/app-shell-language-dropdown";
@@ -34,10 +34,17 @@ export type AppShellHeaderGovernedComponents = Extract<
 
 interface AppShellHeaderProps {
   readonly chrome: ApplicationShellResolvedChrome;
+  readonly contextSwitcher?: ReactNode;
   readonly identityAccessory?: ReactNode;
+  readonly operatingContext?: ApplicationShellOperatingContext;
 }
 
-export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProps) {
+export function AppShellHeader({
+  chrome,
+  contextSwitcher,
+  identityAccessory,
+  operatingContext,
+}: AppShellHeaderProps) {
   const unreadNotificationCount = countDefaultAppShellUnreadNotifications();
   const notificationTriggerLabel =
     unreadNotificationCount > 0
@@ -65,6 +72,25 @@ export function AppShellHeader({ chrome, identityAccessory }: AppShellHeaderProp
             <p className="app-shell-header-greeting-subtitle">
               {chrome.welcomeMessage}
             </p>
+            {operatingContext ? (
+              <div className="app-shell-header-context-row">
+                <p
+                  className="app-shell-header-context"
+                  aria-label="Current operating context"
+                >
+                  {[
+                    operatingContext.tenantLabel,
+                    operatingContext.entityGroupLabel,
+                    operatingContext.legalEntityLabel,
+                    operatingContext.organizationUnitLabel,
+                    operatingContext.workspaceLabel,
+                  ]
+                    .filter(Boolean)
+                    .join(" / ")}
+                </p>
+                {contextSwitcher}
+              </div>
+            ) : null}
           </div>
         </div>
 

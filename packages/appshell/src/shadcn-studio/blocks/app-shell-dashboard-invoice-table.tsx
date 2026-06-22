@@ -2,23 +2,15 @@
 
 import { useId, useMemo, useState } from "react";
 import {
-  AlertTriangleIcon,
-  CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronUpIcon,
-  DownloadIcon,
-  EllipsisVerticalIcon,
-  EyeIcon,
   FileSearchIcon,
-  MailIcon,
   SearchIcon,
-  Trash2Icon,
 } from "lucide-react";
 import type {
   Column,
-  ColumnDef,
   ColumnFiltersState,
   PaginationState,
   RowData,
@@ -38,18 +30,7 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Badge,
   Button,
-  Checkbox,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
@@ -69,16 +50,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Tooltip,
-  TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
 } from "@afenda/ui";
-import {
-  mapStockButtonProps,
-  type GovernedBadgeProps,
-  type GovernedUiComponentName,
-} from "@afenda/ui/governance";
+import { mapStockButtonProps, type GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_INVOICE_OVERFLOW_ITEMS,
@@ -89,8 +63,12 @@ import {
 import type {
   AppShellDashboardInvoiceRow,
   AppShellDashboardOverflowMenuItem,
-  AppShellInvoiceStatus,
 } from "../data/app-shell.dashboard.types";
+import {
+  createAppShellDashboardInvoiceColumns,
+  formatInvoiceCurrency,
+  resolveInvoiceStatusLabelFromFilterValue,
+} from "./app-shell-dashboard-invoice-table.columns";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 import { useDashboardPagination } from "./app-shell-dashboard-pagination";
 
@@ -104,7 +82,6 @@ declare module "@tanstack/react-table" {
 export type AppShellDashboardInvoiceTableGovernedComponents = Extract<
   GovernedUiComponentName,
   | "Avatar"
-  | "Badge"
   | "Button"
   | "Checkbox"
   | "DropdownMenu"
@@ -127,90 +104,6 @@ export interface AppShellDashboardInvoiceTableProps {
 const DEFAULT_PAGE_SIZE = 5;
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50] as const;
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    currency: "USD",
-    style: "currency",
-  }).format(amount);
-}
-
-function formatIssuedDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function resolveStatusTone(
-  status: AppShellInvoiceStatus
-): NonNullable<GovernedBadgeProps["tone"]> {
-  switch (status.kind) {
-    case "paid":
-      return "success";
-    case "past_due":
-      return "danger";
-    case "draft":
-      return "warning";
-    case "downloaded":
-      return "info";
-  }
-}
-
-function resolveStatusClass(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "paid":
-      return "app-shell-dashboard-invoice-status-paid";
-    case "past_due":
-      return "app-shell-dashboard-invoice-status-past-due";
-    case "draft":
-      return "app-shell-dashboard-invoice-status-draft";
-    case "downloaded":
-      return "app-shell-dashboard-invoice-status-downloaded";
-  }
-}
-
-function resolveStatusIcon(status: AppShellInvoiceStatus) {
-  switch (status.kind) {
-    case "downloaded":
-      return <DownloadIcon aria-hidden className="app-shell-dashboard-invoice-status-icon" />;
-    case "draft":
-      return <MailIcon aria-hidden className="app-shell-dashboard-invoice-status-icon" />;
-    case "paid":
-      return <CheckIcon aria-hidden className="app-shell-dashboard-invoice-status-icon" />;
-    case "past_due":
-      return (
-        <AlertTriangleIcon aria-hidden className="app-shell-dashboard-invoice-status-icon" />
-      );
-  }
-}
-
-function resolveStatusLabel(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "downloaded":
-      return "Downloaded";
-    case "draft":
-      return "Draft";
-    case "paid":
-      return "Paid";
-    case "past_due":
-      return "Past due";
-  }
-}
-
-function resolveStatusDescription(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "downloaded":
-      return "Invoice PDF downloaded by the client";
-    case "draft":
-      return "Draft invoice awaiting review and send";
-    case "paid":
-      return "Invoice settled in full";
-    case "past_due":
-      return "Payment overdue — follow up required";
-  }
-}
-
 function computeInvoiceMetrics(rows: readonly AppShellDashboardInvoiceRow[]) {
   const outstanding = rows.reduce((sum, row) => sum + row.balance, 0);
   const pastDueCount = rows.filter((row) => row.status.kind === "past_due").length;
@@ -222,196 +115,13 @@ function computeInvoiceMetrics(rows: readonly AppShellDashboardInvoiceRow[]) {
   };
 }
 
-function createInvoiceColumns(): ColumnDef<AppShellDashboardInvoiceRow>[] {
-  return [
-    {
-      id: "select",
-      enableSorting: false,
-      header: ({ table }) => (
-        <Checkbox
-          aria-label="Select all invoices on this page"
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(value === true)}
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          aria-label={`Select invoice ${row.original.id}`}
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(value === true)}
-        />
-      ),
-      size: 50,
-    },
-    {
-      accessorKey: "id",
-      cell: ({ row }) => (
-        <span className="app-shell-dashboard-invoice-id">#{row.getValue("id")}</span>
-      ),
-      enableSorting: true,
-      header: "Invoice",
-      size: 100,
-    },
-    {
-      accessorKey: "status",
-      accessorFn: (row) => row.status.kind,
-      cell: ({ row }) => {
-        const status = row.original.status;
-        return (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="app-shell-dashboard-invoice-status-cell">
-                <div className={resolveStatusClass(status)}>
-                  <Avatar size="sm">
-                    <AvatarFallback>{resolveStatusIcon(status)}</AvatarFallback>
-                  </Avatar>
-                </div>
-                <Badge
-                  emphasis="soft"
-                  tone={resolveStatusTone(status)}
-                >
-                  <span className="app-shell-dashboard-invoice-status-label">
-                    {resolveStatusLabel(status)}
-                  </span>
-                </Badge>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{resolveStatusDescription(status)}</p>
-            </TooltipContent>
-          </Tooltip>
-        );
-      },
-      enableSorting: true,
-      header: "Status",
-      meta: { filterVariant: "select" },
-      size: 140,
-    },
-    {
-      accessorKey: "client",
-      cell: ({ row }) => (
-        <div className="app-shell-dashboard-invoice-client-cell">
-          <Avatar size="sm">
-            <AvatarImage alt={row.getValue("client")} src={row.original.avatarSrc} />
-            <AvatarFallback>{row.original.avatarFallback}</AvatarFallback>
-          </Avatar>
-          <div className="app-shell-dashboard-invoice-client-copy">
-            <span className="app-shell-dashboard-invoice-client-name">
-              {row.getValue("client")}
-            </span>
-            <span className="app-shell-dashboard-invoice-client-field">
-              {row.original.field}
-            </span>
-          </div>
-        </div>
-      ),
-      enableSorting: true,
-      header: "Client",
-      size: 280,
-    },
-    {
-      accessorKey: "total",
-      cell: ({ row }) => (
-        <span className="app-shell-dashboard-invoice-amount">
-          {formatCurrency(Number(row.getValue("total")))}
-        </span>
-      ),
-      enableSorting: true,
-      header: "Total",
-    },
-    {
-      accessorKey: "issuedDate",
-      cell: ({ row }) => {
-        const date = row.getValue("issuedDate");
-        if (!(date instanceof Date)) {
-          return null;
-        }
-        return (
-          <span className="app-shell-dashboard-invoice-date">{formatIssuedDate(date)}</span>
-        );
-      },
-      enableSorting: true,
-      header: "Issued",
-      sortingFn: "datetime",
-    },
-    {
-      accessorKey: "balance",
-      cell: ({ row }) => {
-        if (row.original.balance === 0) {
-          return (
-            <Badge emphasis="soft" tone={resolveStatusTone({ kind: "paid" })}>
-              Paid
-            </Badge>
-          );
-        }
-
-        const isPastDue = row.original.status.kind === "past_due";
-        return (
-          <span
-            className={
-              isPastDue
-                ? "app-shell-dashboard-invoice-amount-danger"
-                : "app-shell-dashboard-invoice-amount"
-            }
-          >
-            {formatCurrency(row.original.balance)}
-          </span>
-        );
-      },
-      enableSorting: true,
-      header: "Balance",
-    },
-    {
-      cell: ({ row }) => (
-        <div className="app-shell-dashboard-invoice-actions">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                {...mapStockButtonProps("ghost", "icon-sm")}
-                aria-label={`Delete invoice ${row.original.id}`}
-              >
-                <Trash2Icon aria-hidden className="app-shell-dashboard-invoice-action-icon" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Delete</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                {...mapStockButtonProps("ghost", "icon-sm")}
-                aria-label={`View invoice ${row.original.id}`}
-              >
-                <EyeIcon aria-hidden className="app-shell-dashboard-invoice-action-icon" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>View</p>
-            </TooltipContent>
-          </Tooltip>
-          <InvoiceRowActions invoiceId={row.original.id} status={row.original.status} />
-        </div>
-      ),
-      enableHiding: false,
-      enableSorting: false,
-      header: () => "Actions",
-      id: "actions",
-      size: 128,
-    },
-  ];
-}
-
 export function AppShellDashboardInvoiceTable({
   rows = defaultAppShellDashboardInvoices,
   title = DEFAULT_APP_SHELL_DASHBOARD_INVOICES_TITLE,
   subtitle = DEFAULT_APP_SHELL_DASHBOARD_INVOICES_SUBTITLE,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_INVOICE_OVERFLOW_ITEMS,
 }: AppShellDashboardInvoiceTableProps) {
-  const columns = useMemo(() => createInvoiceColumns(), []);
+  const columns = useMemo(() => createAppShellDashboardInvoiceColumns(), []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [sorting, setSorting] = useState<SortingState>([{ desc: true, id: "issuedDate" }]);
@@ -481,7 +191,7 @@ export function AppShellDashboardInvoiceTable({
                 <span className="app-shell-dashboard-invoice-metric">
                   Outstanding
                   <span className="app-shell-dashboard-invoice-metric-value">
-                    {formatCurrency(sourceMetrics.outstanding)}
+                    {formatInvoiceCurrency(sourceMetrics.outstanding)}
                   </span>
                 </span>
                 {sourceMetrics.pastDueCount > 0 ? (
@@ -726,7 +436,7 @@ function InvoiceColumnFilter({ column }: { readonly column: Column<AppShellDashb
             <SelectItem value="all">All</SelectItem>
             {sortedUniqueValues.map((value) => (
               <SelectItem key={value} value={value}>
-                {resolveStatusLabelFromFilterValue(value)}
+                {resolveInvoiceStatusLabelFromFilterValue(value)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -751,60 +461,5 @@ function InvoiceColumnFilter({ column }: { readonly column: Column<AppShellDashb
         />
       </InputGroup>
     </div>
-  );
-}
-
-function resolveStatusLabelFromFilterValue(value: string): string {
-  switch (value) {
-    case "downloaded":
-      return "Downloaded";
-    case "draft":
-      return "Draft";
-    case "paid":
-      return "Paid";
-    case "past_due":
-      return "Past due";
-    default:
-      return value;
-  }
-}
-
-function InvoiceRowActions({
-  invoiceId,
-  status,
-}: {
-  readonly invoiceId: string;
-  readonly status: AppShellInvoiceStatus;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          {...mapStockButtonProps("ghost", "icon-sm")}
-          aria-label={`More actions for invoice ${invoiceId}`}
-        >
-          <EllipsisVerticalIcon
-            aria-hidden
-            className="app-shell-dashboard-invoice-action-icon"
-          />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Download PDF</DropdownMenuItem>
-          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-          {status.kind === "past_due" ? (
-            <DropdownMenuItem>Send payment reminder</DropdownMenuItem>
-          ) : null}
-          {status.kind === "draft" ? (
-            <DropdownMenuItem>Send to client</DropdownMenuItem>
-          ) : null}
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Archive</DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }

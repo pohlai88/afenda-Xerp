@@ -4,12 +4,17 @@ import {
   assertCompanySlug,
   assertIso3166Alpha2CountryCode,
   assertIso4217CurrencyCode,
+  assertIsoDateOnly,
+  assertLegalEntityCompanyType,
   buildCompanyInsertRow,
   InvalidCompanySlugError,
   InvalidCountryCodeError,
   InvalidCurrencyCodeError,
+  InvalidEffectiveDateError,
+  InvalidLegalEntityCompanyTypeError,
   normalizeCompanySlug,
 } from "../company/company.contract.js";
+import { LEGAL_ENTITY_COMPANY_TYPES as DATABASE_COMPANY_TYPES } from "../database.types.js";
 
 describe("company contract", () => {
   it("normalizes slugs to lowercase kebab-case", () => {
@@ -46,6 +51,8 @@ describe("company contract", () => {
       baseCurrency: "myr",
       countryCode: "my",
       registrationNumber: " 123456-A ",
+      companyType: "subsidiary",
+      effectiveFrom: "2024-01-15",
     });
 
     expect(row).toMatchObject({
@@ -55,7 +62,51 @@ describe("company contract", () => {
       baseCurrency: "MYR",
       countryCode: "MY",
       registrationNumber: "123456-A",
+      companyType: "subsidiary",
+      fiscalCalendarId: null,
+      effectiveFrom: "2024-01-15",
+      effectiveTo: null,
       status: "active",
     });
+  });
+
+  it("defaults companyType to standalone and validates governed types", () => {
+    expect(assertLegalEntityCompanyType("holding")).toBe("holding");
+    expect(() => assertLegalEntityCompanyType("invalid")).toThrow(
+      InvalidLegalEntityCompanyTypeError
+    );
+
+    const row = buildCompanyInsertRow({
+      tenantId: "00000000-0000-4000-8000-000000000001",
+      slug: "standalone-co",
+      legalName: "Standalone Co",
+      displayName: "Standalone",
+      baseCurrency: "USD",
+      countryCode: "US",
+    });
+
+    expect(row.companyType).toBe("standalone");
+  });
+
+  it("validates ISO calendar effective dates", () => {
+    expect(assertIsoDateOnly("2025-06-01")).toBe("2025-06-01");
+    expect(() => assertIsoDateOnly("06/01/2025")).toThrow(
+      InvalidEffectiveDateError
+    );
+  });
+
+  it("keeps legal entity company types aligned with kernel vocabulary", () => {
+    const kernelAlignedCompanyTypes = [
+      "holding",
+      "parent",
+      "subsidiary",
+      "associate",
+      "joint_venture",
+      "minority_interest",
+      "branch_entity",
+      "standalone",
+    ] as const;
+
+    expect(DATABASE_COMPANY_TYPES).toEqual(kernelAlignedCompanyTypes);
   });
 });

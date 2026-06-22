@@ -2,26 +2,15 @@ import type {
   DashboardLayoutPreset,
   DashboardWidgetLayoutItem,
 } from "./dashboard-layout.contract";
-import type { DashboardWidgetId } from "./dashboard-widget.contract";
-
-const DASHBOARD_WIDGET_IDS = [
-  "invoice-table",
-  "kpi-stats",
-  "module-earnings",
-  "payment-history",
-  "recent-transactions",
-  "regional-sales",
-  "revenue-chart",
-  "sparkline-stats",
-  "statistics-line-trends",
-  "statistics-metrics",
-] as const satisfies readonly DashboardWidgetId[];
-
-function isDashboardWidgetId(value: string): value is DashboardWidgetId {
-  return (DASHBOARD_WIDGET_IDS as readonly string[]).includes(value);
-}
+import { migrateDashboardLayoutPreset } from "./dashboard-layout.migration";
+import { isLegacyDashboardCompositeWidgetId } from "./dashboard-layout.migration";
+import { isDashboardWidgetId } from "./dashboard-widget-registry";
 
 export { isDashboardWidgetId };
+
+function isParseableLayoutWidgetId(value: string): boolean {
+  return isDashboardWidgetId(value) || isLegacyDashboardCompositeWidgetId(value);
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -37,7 +26,7 @@ function parseLayoutItem(value: unknown): DashboardWidgetLayoutItem | null {
   }
 
   const idValue = value["i"];
-  if (typeof idValue !== "string" || !isDashboardWidgetId(idValue)) {
+  if (typeof idValue !== "string" || !isParseableLayoutWidgetId(idValue)) {
     return null;
   }
 
@@ -51,7 +40,7 @@ function parseLayoutItem(value: unknown): DashboardWidgetLayoutItem | null {
   }
 
   const item: DashboardWidgetLayoutItem = {
-    i: idValue,
+    i: idValue as DashboardWidgetLayoutItem["i"],
     x: value["x"],
     y: value["y"],
     w: value["w"],
@@ -105,12 +94,12 @@ export function parseDashboardLayoutPreset(
     items.push(parsedItem);
   }
 
-  return {
+  return migrateDashboardLayoutPreset({
     version: 1,
     columns: 12,
     rowHeight: value["rowHeight"],
     items,
-  };
+  });
 }
 
 export const dashboardLayoutPresetSchema = {

@@ -1,0 +1,84 @@
+---
+description: >-
+  CSP nonce + third-party script rules for apps/erp. Requires getCspNonce(),
+  next/script nonce prop, and explicit csp-allowlist.ts entries — no wildcards.
+globs: "{apps/erp/src/**/*.{tsx,ts},apps/erp/src/lib/security/**}"
+alwaysApply: false
+---
+
+# CSP Third-Party Scripts (ERP)
+
+Applies when adding analytics, tag managers, payment widgets, chat, maps, or any external script to `apps/erp`.
+
+**Authority:** `docs/delivery/nextjs-csp-nonce-pipeline.md`, `.cursor/skills/csp-third-party/SKILL.md`
+
+## Non-negotiable rules
+
+| Rule | Requirement |
+|------|-------------|
+| Nonce source | `getCspNonce()` from `@/lib/security/nonce.server` — never generate in components |
+| Script tag | `next/script` in **Server Components** only — never raw `<script>` |
+| Nonce prop | `<Script nonce={nonce} ... />` when `nonce` is non-null |
+| CSP domains | Add explicit origins to `csp-allowlist.ts` in the **same PR** |
+| Wildcards | Never `*`, never bare `https:`, never `'unsafe-inline'` in production `script-src` |
+| Client state | Never store nonce in cookies, localStorage, sessionStorage, or React state |
+| Client bundles | Never import `getCspNonce()` from `"use client"` files |
+
+## Workflow (same PR)
+
+1. Add vendor origin(s) to `apps/erp/src/lib/security/csp-allowlist.ts` with a short comment naming the integration.
+2. In a Server Component layout/page:
+
+```tsx
+import Script from "next/script";
+import { getCspNonce } from "@/lib/security/nonce.server";
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const nonce = await getCspNonce();
+
+  return (
+    <>
+      {children}
+      {nonce === null ? null : (
+        <Script
+          nonce={nonce}
+          src="https://www.example-cdn.com/vendor.js"
+          strategy="afterInteractive"
+        />
+      )}
+    </>
+  );
+}
+```
+
+3. Map required directives (`script-src`, `connect-src`, `img-src`, `frame-src`) in the allowlist.
+4. Run `pnpm check:csp-third-party` and `pnpm --filter @afenda/erp test:run`.
+
+## Forbidden patterns
+
+```tsx
+// ❌ raw script
+<script src="https://cdn.example.com/a.js" />
+
+// ❌ Script without nonce
+<Script src="https://cdn.example.com/a.js" />
+
+// ❌ nonce generated in component
+const nonce = crypto.randomUUID()
+
+// ❌ client component importing server nonce helper
+"use client";
+import { getCspNonce } from "@/lib/security/nonce.server"
+
+// ❌ inline snippet
+<div dangerouslySetInnerHTML={{ __html: "<script>...</script>" }} />
+```
+
+## Enforcement
+
+| Layer | Path |
+|-------|------|
+| Skill | `.cursor/skills/csp-third-party/SKILL.md` |
+| CI gate | `pnpm check:csp-third-party` |
+| Cursor hook | `.cursor/hooks/guard-pre-tool-use.mjs` |
+| Unit tests | `apps/erp/src/lib/security/__tests__/csp*.test.ts` |

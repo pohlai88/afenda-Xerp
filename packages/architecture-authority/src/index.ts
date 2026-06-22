@@ -62,6 +62,12 @@ export {
   runtimeEdgesMatch,
 } from "./reports/build-dependency-snapshot.js";
 export { buildOwnershipAuditMarkdown } from "./reports/build-ownership-audit.js";
+export {
+  ARCHITECTURE_AUTHORITY_CANONICAL_DOCS,
+  ARCHITECTURE_AUTHORITY_DATA_MODULES,
+  ARCHITECTURE_AUTHORITY_SURFACE_RULE,
+  MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES,
+} from "./surface/index.js";
 export { validateArchitecture } from "./validators/validate-architecture.js";
 export { validateCycles } from "./validators/validate-cycles.js";
 export { validateDependencies } from "./validators/validate-dependencies.js";

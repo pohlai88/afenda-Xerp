@@ -56,10 +56,14 @@ export function StatisticsActivityCard() {
               role="img"
             >
               <ChartContainer config={salesGrowthChartConfig}>
-                <AreaChart data={chartData} margin={STATISTICS_METRIC_CHART_MARGIN}>
+                <AreaChart
+                  accessibilityLayer
+                  data={chartData}
+                  margin={STATISTICS_METRIC_CHART_MARGIN}
+                >
                   <defs>
                     <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="10%" stopColor="var(--primary)" stopOpacity={0.35} />
+                      <stop offset="10%" stopColor="var(--primary)" stopOpacity={0.15} />
                       <stop offset="90%" stopColor="var(--primary)" stopOpacity={0} />
                     </linearGradient>
                   </defs>

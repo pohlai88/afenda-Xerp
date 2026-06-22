@@ -5,16 +5,32 @@
  */
 import { sql } from "drizzle-orm";
 import {
+  type AnyPgColumn,
   char,
+  date,
   index,
   pgTable,
   uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
-import { companyStatusEnum } from "../database.types.js";
-import { primaryId, tenantIdRef } from "../ids.js";
+import {
+  companyStatusEnum,
+  legalEntityCompanyTypeEnum,
+} from "../database.types.js";
+import {
+  entityGroupIdRef,
+  fiscalCalendarIdRef,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { tenants } from "./tenant.schema.js";
+
+function entityGroupsIdColumn(): AnyPgColumn {
+  const { entityGroups } =
+    require("./entity-group.schema.js") as typeof import("./entity-group.schema.js");
+  return entityGroups.id;
+}
 
 /**
  * Governed legal/business entity within a tenant.
@@ -29,6 +45,9 @@ export const companies = pgTable(
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
+    entityGroupId: entityGroupIdRef().references(entityGroupsIdColumn, {
+      onDelete: "set null",
+    }),
     slug: varchar("slug", { length: 128 }).notNull(),
     legalName: varchar("legal_name", { length: 255 }).notNull(),
     displayName: varchar("display_name", { length: 255 }).notNull(),
@@ -36,6 +55,12 @@ export const companies = pgTable(
     taxId: varchar("tax_id", { length: 128 }),
     baseCurrency: char("base_currency", { length: 3 }).notNull(),
     countryCode: char("country_code", { length: 2 }).notNull(),
+    companyType: legalEntityCompanyTypeEnum("company_type")
+      .notNull()
+      .default("standalone"),
+    fiscalCalendarId: fiscalCalendarIdRef(),
+    effectiveFrom: date("effective_from"),
+    effectiveTo: date("effective_to"),
     status: companyStatusEnum("status").notNull().default("active"),
     createdAt: createdAtColumn(),
     updatedAt: updatedAtColumn(),
@@ -48,5 +73,6 @@ export const companies = pgTable(
     index("companies_tenant_id_idx").on(table.tenantId),
     index("companies_tenant_status_idx").on(table.tenantId, table.status),
     index("companies_status_idx").on(table.status),
+    index("companies_entity_group_id_idx").on(table.entityGroupId),
   ]
 );

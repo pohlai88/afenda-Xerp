@@ -4,7 +4,11 @@
  * Table: `schema/company.schema.ts`
  * Writes: `company.service.ts`
  */
-import type { CompanyStatus } from "../database.types.js";
+import type {
+  CompanyStatus,
+  LegalEntityCompanyType,
+} from "../database.types.js";
+import { LEGAL_ENTITY_COMPANY_TYPES } from "../database.types.js";
 import {
   assertPlatformSlug,
   InvalidPlatformSlugError,
@@ -40,6 +44,59 @@ export class InvalidCurrencyCodeError extends Error {
     super(message);
     this.name = "InvalidCurrencyCodeError";
   }
+}
+
+export class InvalidLegalEntityCompanyTypeError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidLegalEntityCompanyTypeError";
+  }
+}
+
+export class InvalidEffectiveDateError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidEffectiveDateError";
+  }
+}
+
+const ISO_DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+export function assertLegalEntityCompanyType(
+  value: string
+): LegalEntityCompanyType {
+  if (
+    !(LEGAL_ENTITY_COMPANY_TYPES as readonly string[]).includes(value)
+  ) {
+    throw new InvalidLegalEntityCompanyTypeError(
+      `Invalid company type "${value}". Expected one of: ${LEGAL_ENTITY_COMPANY_TYPES.join(", ")}.`
+    );
+  }
+
+  return value as LegalEntityCompanyType;
+}
+
+/** Validates ISO 8601 calendar date (YYYY-MM-DD) for company effective dates. */
+export function assertIsoDateOnly(value: string): string {
+  const trimmed = value.trim();
+
+  if (!ISO_DATE_ONLY_PATTERN.test(trimmed)) {
+    throw new InvalidEffectiveDateError(
+      `Invalid effective date "${value}". Expected ISO calendar date YYYY-MM-DD.`
+    );
+  }
+
+  return trimmed;
+}
+
+export function normalizeOptionalIsoDateOnly(
+  value: string | null | undefined
+): string | null {
+  if (value == null || value === "") {
+    return null;
+  }
+
+  return assertIsoDateOnly(value);
 }
 
 /**
@@ -101,8 +158,13 @@ export function assertIso4217CurrencyCode(value: string): string {
 
 export interface CompanyWriteInput {
   readonly baseCurrency: string;
+  readonly companyType?: LegalEntityCompanyType;
   readonly countryCode: string;
   readonly displayName: string;
+  readonly effectiveFrom?: string | null;
+  readonly effectiveTo?: string | null;
+  readonly entityGroupId?: string | null;
+  readonly fiscalCalendarId?: string | null;
   readonly legalName: string;
   readonly registrationNumber?: string | null;
   readonly slug: string;
@@ -113,8 +175,13 @@ export interface CompanyWriteInput {
 
 export interface CompanyInsertRow {
   baseCurrency: string;
+  companyType: LegalEntityCompanyType;
   countryCode: string;
   displayName: string;
+  effectiveFrom: string | null;
+  effectiveTo: string | null;
+  entityGroupId: string | null;
+  fiscalCalendarId: string | null;
   legalName: string;
   registrationNumber: string | null;
   slug: string;
@@ -133,6 +200,7 @@ export function buildCompanyInsertRow(
 ): CompanyInsertRow {
   return {
     tenantId: input.tenantId,
+    entityGroupId: input.entityGroupId ?? null,
     slug: assertCompanySlug(input.slug),
     legalName: input.legalName.trim(),
     displayName: input.displayName.trim(),
@@ -140,6 +208,12 @@ export function buildCompanyInsertRow(
     taxId: input.taxId?.trim() || null,
     baseCurrency: assertIso4217CurrencyCode(input.baseCurrency),
     countryCode: assertIso3166Alpha2CountryCode(input.countryCode),
+    companyType: input.companyType
+      ? assertLegalEntityCompanyType(input.companyType)
+      : "standalone",
+    fiscalCalendarId: input.fiscalCalendarId ?? null,
+    effectiveFrom: normalizeOptionalIsoDateOnly(input.effectiveFrom),
+    effectiveTo: normalizeOptionalIsoDateOnly(input.effectiveTo),
     status: input.status ?? "active",
   };
 }
@@ -169,6 +243,21 @@ export function buildCompanyUpdatePatch(
   }
   if (input.countryCode !== undefined) {
     patch.countryCode = assertIso3166Alpha2CountryCode(input.countryCode);
+  }
+  if (input.entityGroupId !== undefined) {
+    patch.entityGroupId = input.entityGroupId;
+  }
+  if (input.companyType !== undefined) {
+    patch.companyType = assertLegalEntityCompanyType(input.companyType);
+  }
+  if (input.fiscalCalendarId !== undefined) {
+    patch.fiscalCalendarId = input.fiscalCalendarId;
+  }
+  if (input.effectiveFrom !== undefined) {
+    patch.effectiveFrom = normalizeOptionalIsoDateOnly(input.effectiveFrom);
+  }
+  if (input.effectiveTo !== undefined) {
+    patch.effectiveTo = normalizeOptionalIsoDateOnly(input.effectiveTo);
   }
   if (input.status !== undefined) {
     patch.status = input.status;

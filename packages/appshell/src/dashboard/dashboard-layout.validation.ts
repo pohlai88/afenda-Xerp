@@ -2,16 +2,27 @@ import type {
   DashboardLayoutPreset,
   DashboardLayoutValidationResult,
 } from "./dashboard-layout.contract";
+import { migrateDashboardLayoutPreset } from "./dashboard-layout.migration";
 import type {
   DashboardWidgetDefinition,
   DashboardWidgetId,
 } from "./dashboard-widget.contract";
+import { isDashboardWidgetId } from "./dashboard-widget-registry";
 
 export function validateDashboardLayoutPreset(
   layout: DashboardLayoutPreset,
   registry: ReadonlyMap<DashboardWidgetId, DashboardWidgetDefinition>
 ): DashboardLayoutValidationResult {
-  for (const item of layout.items) {
+  const migrated = migrateDashboardLayoutPreset(layout);
+
+  for (const item of migrated.items) {
+    if (!isDashboardWidgetId(item.i)) {
+      return {
+        valid: false,
+        reason: `Unknown dashboard widget: ${item.i}`,
+      };
+    }
+
     const widget = registry.get(item.i);
 
     if (!widget) {
@@ -41,10 +52,11 @@ export function resolveDashboardLayoutPreset(
     return fallback;
   }
 
-  const validation = validateDashboardLayoutPreset(candidate, registry);
+  const migrated = migrateDashboardLayoutPreset(candidate);
+  const validation = validateDashboardLayoutPreset(migrated, registry);
   if (!validation.valid) {
     return fallback;
   }
 
-  return candidate;
+  return migrated;
 }

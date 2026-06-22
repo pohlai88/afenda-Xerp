@@ -1,20 +1,29 @@
 import type { AfendaAuthSession } from "@afenda/auth";
-import {
-  brandCorrelationId,
-  brandUserId,
-  createExecutionContext,
-  type ExecutionContext,
-  type UserId,
-} from "@afenda/kernel";
+import type { ExecutionContext, OperatingContext, UserId } from "@afenda/kernel";
+import type {
+  AuthorizationDecision,
+  ResolvedAuthorizationContext,
+} from "@afenda/permissions";
 
+import {
+  assertAuthorizedApiRoute,
+  resolveActorIdFromSession,
+} from "@/lib/api/authorize-api-route";
+import {
+  resolveRoutePermissionRequirement,
+  resolveRouteProtectionLevel,
+} from "@/lib/api/api-route-permissions";
 import type { ApiRouteContract } from "../contracts/api-contract";
 import type { ApiRoutePermissionPolicy } from "../contracts/api-contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRequestContext<TRequest = undefined> {
+  readonly authorization: ResolvedAuthorizationContext | null;
+  readonly authorizationDecision: AuthorizationDecision | null;
   readonly contract: ApiRouteContract<TRequest, unknown>;
   readonly correlationId: string;
   readonly execution: ExecutionContext;
+  readonly operatingContext: OperatingContext | null;
   readonly request: Request;
   readonly requestBody: TRequest;
   readonly requestId: string;
@@ -25,40 +34,37 @@ export interface ApiRequestContext<TRequest = undefined> {
 export function createApiRequestContext<TRequest>(input: {
   readonly contract: ApiRouteContract<TRequest, unknown>;
   readonly correlationId: string;
+  readonly execution: ExecutionContext;
+  readonly operatingContext?: OperatingContext | null;
   readonly request: Request;
   readonly requestBody: TRequest;
   readonly requestId: string;
   readonly session: AfendaAuthSession | null;
+  readonly userId: UserId | null;
+  readonly authorization?: ResolvedAuthorizationContext | null;
+  readonly authorizationDecision?: AuthorizationDecision | null;
 }): ApiRequestContext<TRequest> {
-  const userId = brandUserId(input.session?.user.userId ?? null);
-  const execution = createExecutionContext({
-    actorId: userId,
-    correlationId: brandCorrelationId(input.correlationId),
-    source: "api",
-  });
-
   return {
+    authorization: input.authorization ?? null,
+    authorizationDecision: input.authorizationDecision ?? null,
     contract: input.contract,
     correlationId: input.correlationId,
-    execution,
+    execution: input.execution,
+    operatingContext: input.operatingContext ?? null,
     request: input.request,
     requestBody: input.requestBody,
     requestId: input.requestId,
     session: input.session,
-    userId,
+    userId: input.userId,
   };
 }
 
 export async function assertRoutePermission(
   context: ApiRequestContext<unknown>,
   permissionPolicy: ApiRoutePermissionPolicy | undefined
-): Promise<void> {
+): Promise<ApiRequestContext<unknown>> {
   if (permissionPolicy === undefined) {
-    return;
-  }
-
-  if (context.session === null || context.userId === null) {
-    throw new ApiRouteError("unauthenticated", "Authentication is required.");
+    return context;
   }
 
   if (permissionPolicy.permission.trim().length === 0) {
@@ -68,6 +74,21 @@ export async function assertRoutePermission(
     );
   }
 
-  // Interim gate: authenticated session required. Full RBAC via checkPermission
-  // is wired when tenant execution context is available on ERP API routes.
+  const authorization = await assertAuthorizedApiRoute({
+    actorId: resolveActorIdFromSession(context.session),
+    correlationId: context.correlationId,
+    method: context.contract.method,
+    path: context.contract.path,
+    permission: resolveRoutePermissionRequirement(permissionPolicy.permission),
+    protectionLevel: resolveRouteProtectionLevel(context.contract),
+    request: context.request,
+  });
+
+  return createApiRequestContext({
+    ...context,
+    authorization: authorization.authorization,
+    authorizationDecision: authorization.decision,
+    execution: authorization.execution,
+    operatingContext: authorization.operatingContext,
+  });
 }

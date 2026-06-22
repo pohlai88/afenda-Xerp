@@ -146,4 +146,41 @@ describe("ApplicationShell", () => {
     expect(screen.queryByRole("link", { name: "Afenda" })).not.toBeInTheDocument();
     expect(screen.getByText(/All rights reserved\./)).toBeInTheDocument();
   });
+
+  it("renders the full operating context chain including workspace label", () => {
+    render(
+      <ApplicationShell
+        operatingContext={{
+          tenantLabel: "Dev Tenant",
+          entityGroupLabel: "Dev Group",
+          legalEntityLabel: "Dev Company",
+          organizationUnitLabel: "Dev HQ",
+          workspaceLabel: "Dev Company · Dev HQ",
+        }}
+      />
+    );
+
+    expect(
+      screen.getByLabelText("Current operating context")
+    ).toHaveTextContent(
+      "Dev Tenant / Dev Group / Dev Company / Dev HQ / Dev Company · Dev HQ"
+    );
+  });
+
+  it("renders a host-provided context switcher slot beside operating context", () => {
+    render(
+      <ApplicationShell
+        contextSwitcher={<button type="button">Switch workspace</button>}
+        operatingContext={{
+          tenantLabel: "Dev Tenant",
+          legalEntityLabel: "Dev Company",
+          workspaceLabel: "Dev Company",
+        }}
+      />
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Switch workspace" })
+    ).toBeInTheDocument();
+  });
 });

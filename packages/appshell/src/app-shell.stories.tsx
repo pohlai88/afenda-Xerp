@@ -160,7 +160,11 @@ export const DashboardDemo: Story = {
 
 /** Editable dashboard canvas inside the shell. */
 export const DashboardCanvasEditable: Story = {
-  render: (args) => renderDashboardCanvasInShellStory(args, { editMode: true }),
+  render: (args) =>
+    renderDashboardCanvasInShellStory(args, {
+      editMode: true,
+      ...MODERN_DASHBOARD_ARGS,
+    }),
   parameters: {
     docs: {
       description: {
@@ -177,6 +181,7 @@ export const DashboardCanvasReadonly: Story = {
     renderDashboardCanvasInShellStory(args, {
       editMode: false,
       showReadonlyPreviewLabel: true,
+      ...MODERN_DASHBOARD_ARGS,
     }),
   parameters: {
     docs: {
@@ -188,14 +193,14 @@ export const DashboardCanvasReadonly: Story = {
   },
 };
 
-/** Modern dashboard inside the shell — legacy placeholder widgets hidden. */
+/** Modern dashboard inside the shell — registry-backed canvas widgets. */
 export const DashboardModern: Story = {
   render: (args) => renderDashboardInShellStory(args, MODERN_DASHBOARD_ARGS),
   parameters: {
     docs: {
       description: {
         story:
-          "Shell chrome unchanged with the upgraded dashboard only. Use when reviewing enterprise widgets without legacy module performance rows.",
+          "Shell chrome with the governed dashboard canvas — 14 independent widget cells on the production layout preset.",
       },
     },
   },

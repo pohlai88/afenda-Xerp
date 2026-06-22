@@ -11,8 +11,14 @@
       "default": "./dist/index.js"
     },
     "./afenda-appshell.css": {
+      "types": "./dist/styles/afenda-appshell.css",
       "import": "./dist/styles/afenda-appshell.css",
       "default": "./dist/styles/afenda-appshell.css"
+    },
+    "./context": {
+      "types": "./dist/context/index.d.ts",
+      "import": "./dist/context/index.js",
+      "default": "./dist/context/index.js"
     }
   },
   "sideEffects": [
@@ -40,7 +46,7 @@
     "recharts": "3.8.0"
   },
   "peerDependencies": {
-    "next": "^15.0.0",
+    "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

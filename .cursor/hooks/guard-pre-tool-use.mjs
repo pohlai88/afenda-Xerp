@@ -22,6 +22,10 @@ import {
   checkGovernedUiConsumption,
   GOVERNED_UI_CONSUMER_PATH,
 } from "../../scripts/governance/governed-ui-consumption.mjs";
+import {
+  checkCspThirdPartyGovernance,
+  CSP_ERP_SOURCE_PATH,
+} from "../../scripts/governance/csp-third-party-governance.mjs";
 
 const TAG = "guard-pre-tool-use";
 
@@ -331,6 +335,24 @@ if (relativePath && GOVERNED_UI_CONSUMER_PATH.test(relativePath)) {
       ask(
         `@afenda/ui consumer file has ${violations.length} TIP-004 violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
         `TIP-004: Do not pass className to governed @afenda/ui primitives. Import mapStockButtonProps from @afenda/ui/governance directly — no stock-props wrappers. Put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
+      );
+    }
+  }
+}
+
+// ─── CSP third-party script governance (apps/erp) ─────────────────────────────
+
+if (relativePath && CSP_ERP_SOURCE_PATH.test(relativePath)) {
+  const content = extractContent(input);
+
+  if (content) {
+    const violations = checkCspThirdPartyGovernance(content, relativePath);
+
+    if (violations.length > 0) {
+      log(TAG, `CSP third-party: ${relativePath} (${violations.length})`);
+      ask(
+        `ERP file has ${violations.length} CSP third-party violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
+        `CSP: Use getCspNonce() + next/script nonce prop and update csp-allowlist.ts. See .cursor/rules/csp-third-party-scripts.mdc and .cursor/skills/csp-third-party/SKILL.md. Run pnpm check:csp-third-party.`
       );
     }
   }

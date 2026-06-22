@@ -1,32 +1,65 @@
 "use server";
 
-import { isUnauthenticatedError } from "@afenda/auth";
+import { z } from "zod";
 
-import { requireSession } from "@/lib/auth/require-session";
+import { failServerAction } from "@/lib/server-actions/fail-server-action";
+import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
+import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
+import { resolveActionOperatingContext } from "@/lib/server-actions/resolve-action-operating-context.server";
+import {
+  serverActionSuccess,
+  type ServerActionResult,
+} from "@/lib/server-actions/server-action-result";
+
+const DEMO_PROTECTED_RECORD_ACTION = "demo.protected.record" as const;
+
+const recordProtectedDemoMessageSchema = z.object({
+  message: z.string().trim().min(1).max(500),
+});
+
+export type ProtectedDemoActionData = {
+  readonly message: string;
+};
 
 export type ProtectedDemoActionResult =
-  | { ok: true; message: string; userId: string }
-  | { ok: false; code: "unauthenticated" };
+  ServerActionResult<ProtectedDemoActionData>;
 
 export async function recordProtectedDemoAction(
-  message: string
+  input: unknown
 ): Promise<ProtectedDemoActionResult> {
-  try {
-    const session = await requireSession();
-
-    return {
-      ok: true,
-      message,
-      userId: session.user.userId,
-    };
-  } catch (error) {
-    if (isUnauthenticatedError(error)) {
-      return {
-        ok: false,
-        code: "unauthenticated",
-      };
-    }
-
-    throw error;
+  const contextResult = await resolveActionOperatingContext();
+  if (!contextResult.ok) {
+    return failServerAction({
+      action: DEMO_PROTECTED_RECORD_ACTION,
+      error: contextResult.error,
+    });
   }
+
+  const { operatingContext, session } = contextResult;
+  const actorUserId = session.user.userId?.trim() ?? "";
+
+  const parsed = parseProtectedActionInput(
+    recordProtectedDemoMessageSchema,
+    input
+  );
+  if (!parsed.ok) {
+    return failServerAction({
+      action: DEMO_PROTECTED_RECORD_ACTION,
+      error: parsed.error,
+      userId: actorUserId,
+    });
+  }
+
+  await recordActionAudit({
+    action: DEMO_PROTECTED_RECORD_ACTION,
+    actorUserId,
+    module: "erp.demo",
+    result: "success",
+    targetId: operatingContext.workspace.companyId,
+    targetType: "workspace.company",
+  });
+
+  return serverActionSuccess({
+    message: parsed.value.message,
+  });
 }

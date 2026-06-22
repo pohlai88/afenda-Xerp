@@ -20,9 +20,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Label as RechartsLabel,
-  Pie,
-  PieChart,
+  Cell,
   XAxis,
   YAxis,
 } from "recharts";
@@ -168,6 +166,29 @@ function buildYAxisTicks(min: number, max: number): readonly number[] {
   return ticks;
 }
 
+export function buildRevenueBarChartLabel(
+  barData: readonly AppShellDashboardRevenueBarPoint[]
+): string {
+  if (barData.length === 0) {
+    return "Monthly revenue variance chart with no data";
+  }
+
+  const months = barData.map((point) => point.name).join(", ");
+  return `Monthly revenue variance comparing FY2026 and FY2025 for ${months}`;
+}
+
+function formatGrowthDateTick(value: string): string {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+
+  return parsed.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+  });
+}
+
 function RevenueYearSummaryItem({
   summary,
 }: {
@@ -210,6 +231,7 @@ export function AppShellDashboardRevenueChart({
     () => computeYearOverYearChange(yearSummaries),
     [yearSummaries]
   );
+  const barChartLabel = useMemo(() => buildRevenueBarChartLabel(barData), [barData]);
 
   return (
     <div className="app-shell-dashboard-widget app-shell-dashboard-revenue-widget">
@@ -261,7 +283,11 @@ export function AppShellDashboardRevenueChart({
                   No revenue variance data available for this period.
                 </p>
               ) : (
-                <div className="app-shell-dashboard-revenue-bar-frame">
+                <div
+                  aria-label={barChartLabel}
+                  className="app-shell-dashboard-revenue-bar-frame"
+                  role="img"
+                >
                   <ChartContainer config={revenueBarChartConfig}>
                     <BarChart
                       accessibilityLayer
@@ -340,54 +366,55 @@ export function AppShellDashboardRevenueChart({
             </div>
 
             <div className="app-shell-dashboard-revenue-growth-panel">
-              <div className="app-shell-dashboard-revenue-growth-chart-frame">
-                <ChartContainer config={revenueGrowthChartConfig}>
-                  <PieChart margin={{ bottom: -20, top: 0 }}>
-                    <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
-                    <Pie
+              <div className="app-shell-dashboard-revenue-growth-headline">
+                <span className="app-shell-dashboard-revenue-growth-value">{growthLabel}</span>
+                <span className="app-shell-dashboard-revenue-growth-headline-caption">Growth</span>
+              </div>
+
+              <div
+                aria-label="Portfolio revenue mix by period"
+                className="app-shell-dashboard-revenue-growth-chart-frame app-shell-dashboard-revenue-growth-chart-frame-bars"
+                role="img"
+              >
+                {growthData.length === 0 ? (
+                  <p className="app-shell-dashboard-revenue-empty">
+                    No growth mix data available for this period.
+                  </p>
+                ) : (
+                  <ChartContainer config={revenueGrowthChartConfig}>
+                    <BarChart
+                      accessibilityLayer
+                      barSize={8}
                       data={[...growthData]}
-                      dataKey="revenue"
-                      endAngle={220}
-                      fill="var(--color-revenue)"
-                      innerRadius={60}
-                      nameKey="date"
-                      outerRadius={85}
-                      paddingAngle={5}
-                      startAngle={0}
+                      layout="vertical"
+                      margin={{ bottom: 0, left: 4, right: 8, top: 0 }}
                     >
-                      <RechartsLabel
-                        content={({ viewBox }) => {
-                          if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                            return (
-                              <text
-                                dominantBaseline="middle"
-                                textAnchor="middle"
-                                x={viewBox.cx}
-                                y={viewBox.cy}
-                              >
-                                <tspan
-                                  className="app-shell-dashboard-revenue-growth-value"
-                                  x={viewBox.cx}
-                                  y={(viewBox.cy ?? 0) + 3}
-                                >
-                                  {growthLabel}
-                                </tspan>
-                                <tspan
-                                  className="app-shell-dashboard-revenue-growth-caption"
-                                  x={viewBox.cx}
-                                  y={(viewBox.cy ?? 0) + 24}
-                                >
-                                  Growth
-                                </tspan>
-                              </text>
-                            );
-                          }
-                          return null;
-                        }}
+                      <XAxis hide type="number" />
+                      <YAxis
+                        axisLine={false}
+                        dataKey="date"
+                        tick={{ fill: "var(--muted-foreground)", fontSize: 11 }}
+                        tickFormatter={formatGrowthDateTick}
+                        tickLine={false}
+                        type="category"
+                        width={52}
                       />
-                    </Pie>
-                  </PieChart>
-                </ChartContainer>
+                      <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+                      <Bar dataKey="revenue" radius={[0, 4, 4, 0]}>
+                        {growthData.map((entry, index) => (
+                          <Cell
+                            fill={
+                              index % 2 === 0
+                                ? "var(--primary)"
+                                : "color-mix(in oklab, var(--primary) 45%, transparent)"
+                            }
+                            key={entry.date}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ChartContainer>
+                )}
               </div>
 
               <div className="app-shell-dashboard-revenue-growth-meta">

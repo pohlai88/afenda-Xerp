@@ -4,8 +4,11 @@ export const PUBLIC_ROUTE_PREFIXES = [
   "/api/auth",
   "/api/health",
   "/api/internal/v1/health",
+  "/api/internal/v1/client-error",
   "/governance-integration",
   "/appshell-demo",
+  "/appshell-canvas",
+  "/policy-gate",
 ] as const;
 
 export function isPublicRoute(pathname: string): boolean {

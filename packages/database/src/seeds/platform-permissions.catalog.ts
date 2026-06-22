@@ -65,6 +65,41 @@ export const PLATFORM_PERMISSION_CATALOG = [
     name: "Read employees",
     description: "Read employee records.",
   },
+  {
+    key: catalogKey("workspace", "dashboard_read"),
+    name: "Read workspace dashboard",
+    description: "Read workspace dashboard layout and widgets.",
+  },
+  {
+    key: catalogKey("workspace", "dashboard_write"),
+    name: "Write workspace dashboard",
+    description: "Update or reset workspace dashboard layout.",
+  },
+  {
+    key: catalogKey("finance", "invoices_read"),
+    name: "Read invoices",
+    description: "Read accounts receivable invoice widgets and tables.",
+  },
+  {
+    key: catalogKey("finance", "cards_read"),
+    name: "Read corporate cards",
+    description: "Read corporate card spend and payment history widgets.",
+  },
+  {
+    key: catalogKey("finance", "transactions_read"),
+    name: "Read transactions",
+    description: "Read recent finance transaction activity widgets.",
+  },
+  {
+    key: catalogKey("dashboard", "module_earnings"),
+    name: "View module earnings",
+    description: "View module earnings breakdown dashboard widgets.",
+  },
+  {
+    key: catalogKey("dashboard", "regional_sales"),
+    name: "View regional sales",
+    description: "View regional sales breakdown dashboard widgets.",
+  },
 ] as const satisfies readonly PlatformPermissionCatalogEntry[];
 
 export const PLATFORM_PERMISSION_KEYS = PLATFORM_PERMISSION_CATALOG.map(

@@ -233,6 +233,41 @@
     }
   }
 
+  .app-shell-header-context-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-header-context {
+    color: color-mix(in oklab, var(--primary-foreground) 72%, transparent);
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--leading-body-sm);
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-context-switcher-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .app-shell-context-switcher-label {
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--leading-body-sm);
+  }
+
+  .app-shell-context-switcher-menu-label {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--leading-body-sm);
+  }
+
   .app-shell-header-actions {
     align-items: center;
     display: flex;
@@ -1204,22 +1239,43 @@
     width: 100%;
   }
 
+  .app-shell-dashboard-grid .react-grid-item {
+    display: flex;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .app-shell-dashboard-grid .react-grid-item.react-grid-placeholder {
+    background: color-mix(in oklab, var(--primary) 16%, transparent);
+    border: 1px dashed color-mix(in oklab, var(--primary) 40%, transparent);
+    border-radius: var(--afenda-radius-lg, var(--radius-lg));
+    opacity: 1;
+  }
+
+  .app-shell-dashboard-canvas[data-edit-mode="true"] .react-grid-item > .react-resizable-handle::after {
+    border-color: color-mix(in oklab, var(--primary) 55%, transparent);
+  }
+
   .app-shell-dashboard-grid-item {
     background: var(--afenda-color-surface-card, var(--card));
     border: 1px solid var(--afenda-color-border-subtle, var(--border));
     border-radius: var(--afenda-radius-lg, var(--radius-lg));
     display: flex;
+    flex: 1;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     min-width: 0;
     overflow: hidden;
+    width: 100%;
   }
 
   .app-shell-dashboard-grid-item-body {
+    display: flex;
     flex: 1;
+    flex-direction: column;
     min-height: 0;
-    overflow: auto;
+    overflow: hidden;
     padding: var(--app-shell-content-padding-inline);
   }
 
@@ -1283,7 +1339,11 @@
   }
 
   .app-shell-dashboard-widget {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     height: 100%;
+    min-height: 0;
     min-width: 0;
   }
 
@@ -1522,6 +1582,12 @@
     text-transform: uppercase;
   }
 
+  .app-shell-dashboard-kpi-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
   .app-shell-dashboard-kpi-value-row {
     align-items: center;
     display: flex;
@@ -1586,8 +1652,19 @@
   .app-shell-dashboard-revenue-growth-panel {
     display: flex;
     flex-direction: column;
-    gap: var(--app-shell-gap-2xl);
+    gap: var(--app-shell-gap-lg);
     text-align: center;
+  }
+
+  .app-shell-dashboard-revenue-growth-headline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-revenue-growth-headline-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
   }
 
   .app-shell-dashboard-revenue-growth-chart-frame {
@@ -1595,16 +1672,16 @@
     width: 100%;
   }
 
+  .app-shell-dashboard-revenue-growth-chart-frame-bars {
+    min-height: 10rem;
+  }
+
   .app-shell-dashboard-revenue-growth-value {
-    fill: var(--card-foreground);
+    color: var(--card-foreground);
     font-size: var(--app-shell-type-kpi);
     font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
-  }
-
-  .app-shell-dashboard-revenue-growth-caption {
-    fill: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-revenue-growth-footnote {
@@ -1789,6 +1866,11 @@
     color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-dashboard-breakdown-meta {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
   }
 
   .app-shell-dashboard-breakdown-insights-row {
@@ -2189,6 +2271,48 @@
     font-size: var(--app-shell-type-body-sm);
   }
 
+  .app-shell-dashboard-payment-postings {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-sm);
+  }
+
+  .app-shell-dashboard-payment-utilization-row {
+    align-items: center;
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-payment-utilization-indicator {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-dashboard-payment-utilization-dot {
+    border-radius: 9999px;
+    flex-shrink: 0;
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+
+  .app-shell-dashboard-payment-utilization-dot--high {
+    background-color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-payment-utilization-dot--mid {
+    background-color: var(--muted-foreground);
+  }
+
+  .app-shell-dashboard-payment-utilization-dot--low {
+    background-color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-dashboard-payment-utilization-label {
+    color: var(--foreground);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
   .app-shell-dashboard-payment-empty {
     color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
@@ -2306,8 +2430,21 @@
     gap: var(--app-shell-gap-sm);
   }
 
+  .app-shell-dashboard-invoice-status-dot {
+    border-radius: 9999px;
+    flex-shrink: 0;
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+
   .app-shell-dashboard-invoice-status-label {
+    color: var(--foreground);
     white-space: nowrap;
+  }
+
+  .app-shell-dashboard-invoice-balance-settled {
+    color: var(--app-shell-text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-dashboard-invoice-empty-icon {
@@ -2426,25 +2563,20 @@
     width: 1.125rem;
   }
 
-  .app-shell-dashboard-invoice-status-icon {
-    height: 1rem;
-    width: 1rem;
-  }
-
   .app-shell-dashboard-invoice-status-paid {
-    color: var(--app-shell-text-trend-positive);
+    background-color: var(--app-shell-text-trend-positive);
   }
 
   .app-shell-dashboard-invoice-status-past-due {
-    color: var(--app-shell-text-trend-negative);
+    background-color: var(--app-shell-text-trend-negative);
   }
 
   .app-shell-dashboard-invoice-status-draft {
-    color: var(--warning);
+    background-color: var(--warning);
   }
 
   .app-shell-dashboard-invoice-status-downloaded {
-    color: var(--info);
+    background-color: var(--info);
   }
 
   .app-shell-dashboard-invoice-empty {
@@ -2512,6 +2644,12 @@
     font-size: var(--app-shell-type-body-sm);
     font-weight: var(--font-weight-label-sm);
     line-height: var(--leading-body-sm);
+  }
+
+  .app-shell-placeholder-kpi-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-placeholder-kpi-value-row {
@@ -2638,6 +2776,12 @@
     color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     line-height: 1.25;
+  }
+
+  .app-shell-placeholder-widget-period-caption {
+    color: var(--app-shell-text-muted);
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-placeholder-order-list {
@@ -2791,11 +2935,11 @@
   }
 
   .app-shell-placeholder-progress-fill-mid {
-    background: var(--color-chart-2, oklch(0.769 0.188 70.08));
+    background: var(--color-chart-2, var(--chart-2));
   }
 
   .app-shell-placeholder-progress-fill-low {
-    background: var(--color-chart-3, oklch(0.646 0.222 41.116));
+    background: var(--color-chart-3, var(--chart-3));
   }
 
   .app-shell-placeholder-module-percent {
@@ -3010,6 +3154,7 @@
   }
 
   .app-shell-statistics-trend-swatch {
+    background-color: var(--series-swatch-color);
     border-radius: var(--app-shell-radius-control);
     flex-shrink: 0;
     height: 2.25rem;
@@ -3158,19 +3303,19 @@
     height: 8.5rem;
   }
 
-  .app-shell-statistics-metric-chart-area {
+  .app-shell-statistics-metric-chart-bars-horizontal {
     height: 8.5rem;
-  }
-
-  .app-shell-statistics-metric-chart-donut {
-    height: 8.5rem;
-    max-width: 10rem;
+    max-width: 12rem;
 
     @media (min-width: 640px) {
       align-self: center;
       margin-left: auto;
-      max-width: 9rem;
+      max-width: 11rem;
     }
+  }
+
+  .app-shell-statistics-metric-chart-area {
+    height: 8.5rem;
   }
 
   .app-shell-statistics-metric-chart [data-component="Chart"] {
@@ -3178,6 +3323,15 @@
     height: 100%;
     min-height: 0;
     width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-shell-search-trigger-desktop,
+    .app-shell-sidebar-user-chevron,
+    .app-shell-placeholder-progress-fill {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
 }
 

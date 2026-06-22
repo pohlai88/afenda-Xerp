@@ -389,6 +389,64 @@ describe("@afenda/permissions", () => {
       expect(result.decision.companyId).toBe(COMPANY_B);
       expect(result.decision.membershipId).toBe(MEMBERSHIP_ID);
     });
+
+    it("denies tenant-scoped grant for legal entity context without explicit company membership", async () => {
+      const dataSource = new InMemoryPermissionDataSource()
+        .seedTenant({
+          id: TENANT_ID,
+          slug: "test-tenant",
+          name: "Test Tenant",
+          status: "active",
+        })
+        .seedCompany(TENANT_ID, COMPANY_A)
+        .seedPlatformUser({
+          id: ACTOR_ID,
+          email: "actor@example.com",
+          displayName: "Tenant Admin",
+          status: "active",
+        })
+        .seedRole(
+          {
+            id: ROLE_ID,
+            key: "tenant.admin",
+            name: "Tenant Admin",
+            description: null,
+            scope: "tenant",
+            status: "active",
+            tenantId: TENANT_ID,
+          },
+          [PERMISSION_REGISTRY.systemAdmin.users.manage]
+        )
+        .seedMembership({
+          id: MEMBERSHIP_ID,
+          tenantId: TENANT_ID,
+          companyId: null,
+          organizationId: null,
+          userId: ACTOR_ID,
+          roleId: ROLE_ID,
+          scopeType: "tenant",
+          status: "active",
+        });
+
+      const result = await checkPermission(
+        {
+          actor: { actorId: ACTOR_ID },
+          context: {
+            tenantId: TENANT_ID,
+            companyId: COMPANY_A,
+          },
+          permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+        },
+        dataSource
+      );
+
+      expect(isDeniedAuthorizationResult(result)).toBe(true);
+      if (result.allowed) {
+        throw new Error("Expected denied result");
+      }
+
+      expect(result.code).toBe("company_mismatch");
+    });
   });
 
   describe("policy engine", () => {

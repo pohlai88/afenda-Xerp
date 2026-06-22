@@ -33,9 +33,11 @@ export {
   BETTER_AUTH_SECRET_ENV,
   BETTER_AUTH_URL_ENV,
   isUnauthenticatedError,
+  isUnlinkedPlatformUserError,
   MissingBetterAuthSecretError,
   MissingBetterAuthUrlError,
   UnauthenticatedError,
+  UnlinkedPlatformUserError,
 } from "./auth.errors.js";
 export {
   getAfendaAuthSession,
@@ -44,6 +46,24 @@ export {
   resetAuthForTests,
 } from "./auth.server.js";
 export {
+  DEV_AUTH_CREDENTIAL_PROVIDER_ID,
+  DEV_LOGIN_DISPLAY_NAME,
+  DEV_LOGIN_EMAIL,
+  DEV_LOGIN_EMAIL_ENV,
+  DEV_LOGIN_PASSWORD_ENV,
+} from "./bootstrap/dev-login.fixture.js";
+export {
+  assertDevAuthBootstrapAllowed,
+  resolveDevLoginEmail,
+  resolveDevLoginPassword,
+} from "./bootstrap/dev-login.env.js";
+export {
+  ensureDevAuthLogin,
+  MissingPlatformUserError,
+  type EnsureDevAuthLoginResult,
+} from "./bootstrap/ensure-dev-auth-login.js";
+export {
+  isAfendaAuthSessionLinked,
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
 } from "./auth.session.js";

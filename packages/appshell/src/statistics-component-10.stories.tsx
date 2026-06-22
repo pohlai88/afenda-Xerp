@@ -1,44 +1,49 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
-import { StatisticsActivityCard } from "./shadcn-studio/blocks/statistics-activity-card";
-import { StatisticsLeadsCard } from "./shadcn-studio/blocks/statistics-leads-card";
-import { StatisticsProfileTrafficCard } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
-import { StatisticsRevenueCard } from "./shadcn-studio/blocks/statistics-revenue-card";
-import { DEFAULT_STATISTICS_COMPONENT_10_LABEL } from "./shadcn-studio/data/statistics-component-10.data";
-
-function StatisticsComponent10Preview() {
-  return (
-    <section
-      aria-label={DEFAULT_STATISTICS_COMPONENT_10_LABEL}
-      className="app-shell-statistics-metric-section"
-    >
-      <div className="app-shell-statistics-metric-grid">
-        <StatisticsRevenueCard />
-        <StatisticsLeadsCard />
-        <StatisticsActivityCard />
-        <StatisticsProfileTrafficCard />
-      </div>
-    </section>
-  );
-}
+import {
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "./_storybook/dashboard-block-story.compositions";
+import {
+  AppShellDashboardStatisticsMetrics,
+  type AppShellDashboardStatisticsMetricsGovernedComponents,
+} from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
+import {
+  createDashboardBlockMeta,
+  dashboardBlockDarkThemeGlobals,
+  dashboardBlockStoryParameters,
+} from "./_storybook/dashboard-block-story.shared";
 
 const meta = {
-  title: "ERP/ApplicationShell/Statistics/Component 10",
-  component: StatisticsComponent10Preview,
-  tags: ["autodocs"],
+  ...createDashboardBlockMeta({
+    title: "ERP/ApplicationShell/Statistics/Component 10",
+    component: AppShellDashboardStatisticsMetrics,
+  }),
+  render: () => renderDashboardBlockStory(AppShellDashboardStatisticsMetrics, {}),
   parameters: {
-    layout: "fullscreen",
+    ...dashboardBlockStoryParameters,
     docs: {
       description: {
         component:
-          "Governed adaptation of shadcn/studio `statistics-component-10` — revenue, leads, activity, and profile traffic metric cards with embedded charts. Layout chrome in `afenda-appshell.css`; `@afenda/ui` primitives without consumer `className` (TIP-004).",
+          "Production dashboard widget wrapping shadcn/studio `statistics-component-10` — revenue, leads, activity, and profile traffic metric cards with embedded charts.",
       },
     },
   },
-} satisfies Meta<typeof StatisticsComponent10Preview>;
+} satisfies Meta<typeof AppShellDashboardStatisticsMetrics>;
+
+export type StatisticsComponent10StoriesGovernedComponents =
+  AppShellDashboardStatisticsMetricsGovernedComponents;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Alias of Blocks/Dashboard/StatisticsMetrics — kept for sidebar continuity. */
 export const Default: Story = {};
+
+export const DarkTheme: Story = {
+  globals: dashboardBlockDarkThemeGlobals,
+};
+
+export const Compact: Story = {
+  decorators: [compactDensityDecorator],
+};

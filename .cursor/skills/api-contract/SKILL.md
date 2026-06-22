@@ -22,6 +22,20 @@ All route handlers use exactly two shapes:
 
 No other top-level keys. No `result`, `payload`, `body`, `response`, or ad-hoc wrappers.
 
+### Governed ERP internal v1 exception
+
+Routes wired through `createApiHandler` (`apps/erp/src/app/api/internal/v1/**`) use the **governed envelope**:
+
+```ts
+// Success
+{ ok: true, data: T, meta: { requestId, correlationId, timestamp } }
+
+// Error
+{ ok: false, error: { code, message, correlationId?, details? }, meta: { ... } }
+```
+
+Always use `createApiHandler` for new internal v1 routes. Parse client responses with `readApiEnvelope` — see `docs/governance/api-contract.md`.
+
 ---
 
 ## Non-negotiable rules

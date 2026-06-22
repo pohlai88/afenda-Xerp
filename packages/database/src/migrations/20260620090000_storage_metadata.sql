@@ -14,9 +14,9 @@ CREATE TABLE "storage_objects" (
   "metadata" jsonb DEFAULT '{}'::jsonb NOT NULL,
   "created_at" timestamp with time zone DEFAULT now() NOT NULL
 );--> statement-breakpoint
-ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_tenant_id_tenants_tenant_id_fk" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenants"("tenant_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_company_id_companies_company_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("company_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_organization_id_organizations_organization_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("organization_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_tenant_id_tenants_id_fk" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenants"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "storage_objects" ADD CONSTRAINT "storage_objects_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "storage_objects_tenant_id_idx" ON "storage_objects" USING btree ("tenant_id");--> statement-breakpoint
 CREATE INDEX "storage_objects_company_id_idx" ON "storage_objects" USING btree ("company_id");--> statement-breakpoint
 CREATE INDEX "storage_objects_organization_id_idx" ON "storage_objects" USING btree ("organization_id");--> statement-breakpoint

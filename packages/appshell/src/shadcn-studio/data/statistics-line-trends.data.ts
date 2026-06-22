@@ -58,3 +58,11 @@ export const defaultStatisticsLineTrendsCards = [
 ] as const satisfies readonly StatisticsLineTrendsCardProps[];
 
 export const DEFAULT_STATISTICS_LINE_TRENDS_LABEL = "Operations trend metrics";
+
+/** Shared chart margins for line trend cards. */
+export const STATISTICS_LINE_TRENDS_CHART_MARGIN = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 4,
+} as const;

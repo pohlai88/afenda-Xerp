@@ -59,6 +59,8 @@ export {
   assertCompanySlug,
   assertIso3166Alpha2CountryCode,
   assertIso4217CurrencyCode,
+  assertIsoDateOnly,
+  assertLegalEntityCompanyType,
   buildCompanyInsertRow,
   buildCompanyUpdatePatch,
   type CompanyInsertRow,
@@ -67,7 +69,10 @@ export {
   InvalidCompanySlugError,
   InvalidCountryCodeError,
   InvalidCurrencyCodeError,
+  InvalidEffectiveDateError,
+  InvalidLegalEntityCompanyTypeError,
   normalizeCompanySlug,
+  normalizeOptionalIsoDateOnly,
 } from "./company/company.contract.js";
 export {
   type CompanyAuditContext,
@@ -100,7 +105,11 @@ export {
   type AuditResult,
   COMMERCIAL_PLAN_TEMPLATE_IDS,
   type CommercialPlanTemplateId,
+  CONSOLIDATION_METHODS,
+  type ConsolidationMethod,
   type CompanyStatus,
+  LEGAL_ENTITY_COMPANY_TYPES,
+  type LegalEntityCompanyType,
   ENTITLEMENT_SCOPES,
   ENTITLEMENT_TYPES,
   type EntitlementScope,
@@ -114,6 +123,12 @@ export {
   type MembershipStatus,
   type OrganizationStatus,
   type OrganizationType,
+  ORGANIZATION_UNIT_TYPES,
+  type OrganizationUnitType,
+  OWNERSHIP_CONTROL_TYPES,
+  OWNERSHIP_RELATIONSHIP_TYPES,
+  type OwnershipControlType,
+  type OwnershipRelationshipType,
   PLATFORM_LIFECYCLE_STATUSES,
   type PlatformLifecycleStatus,
   type PolicyEffect,
@@ -270,8 +285,14 @@ export {
   type OrganizationInsertRow,
   OrganizationParentNotFoundError,
   OrganizationScopeMismatchError,
+  OrganizationValidationError,
+  type OrganizationUnitAuthorityRecord,
   type OrganizationUpdatePatch,
   type OrganizationWriteInput,
+  resolveLegalEntityId,
+  resolveOrganizationUnitType,
+  resolveParentOrganizationUnitId,
+  toOrganizationUnitAuthorityRecord,
 } from "./organization/organization.contract.js";
 export {
   type DeleteOrganizationInput,
@@ -407,19 +428,24 @@ export {
   authVerification,
   companies,
   companyStatusEnum,
+  consolidationMethodEnum,
   entitlementGrants,
   entitlementScopeEnum,
   entitlementTypeEnum,
+  entityGroups,
   executionRuns,
   executionStatusEnum,
   featureFlagRolloutEnum,
   killSwitchSeverityEnum,
+  legalEntityOwnership,
   membershipScopeEnum,
   membershipStatusEnum,
   memberships,
   organizationStatusEnum,
   organizations,
   organizationTypeEnum,
+  ownershipControlTypeEnum,
+  ownershipRelationshipTypeEnum,
   type PlatformSchema,
   permissions,
   platformFeatureFlags,
@@ -503,3 +529,113 @@ export {
   type UserMutationResult,
   updateUser,
 } from "./user/user.service.js";
+export {
+  findCompanyById,
+  findCompanyByTenantAndSlug,
+  findEntityGroupById,
+  findOrganizationByCompanyAndSlug,
+  findOrganizationById,
+  findTenantById,
+  findTenantBySlug,
+  type CompanyLookupRow,
+  type EntityGroupLookupRow,
+  type OrganizationLookupRow,
+  type TenantLookupRow,
+} from "./workspace/workspace-lookup.service.js";
+export {
+  findTeamByCompanyAndSlug,
+  findTeamById,
+  isTeamOrganizationRow,
+  type TeamLookupRow,
+} from "./team/team-lookup.service.js";
+export { TEAM_ORGANIZATION_UNIT_TYPE } from "./team/team.constants.js";
+export {
+  RLS_SESSION_KEYS,
+  type RlsSessionContext,
+} from "./rls/rls-session-context.contract.js";
+export {
+  DEFAULT_RLS_GRANT_ELEVATION_FLAGS,
+  membershipMatchesGrantScope,
+  PLANNED_MEMBERSHIP_SCOPE_TYPES,
+  PERSISTED_MEMBERSHIP_SCOPE_TYPES,
+  resolveRlsGrantScope,
+  resolveRlsGrantScopeType,
+  resolveRlsGrantElevations,
+  RLS_GRANT_ELEVATION_KINDS,
+  RLS_GRANT_SCOPE_TYPES,
+  RlsGrantScopeValidationError,
+  type MembershipScopeMatchInput,
+  type ResolvedRlsGrantScope,
+  type RlsFilterContext,
+  type RlsGrantElevationFlags,
+  type RlsGrantElevationKind,
+  type RlsGrantScopeType,
+  type ResolveRlsGrantScopeInput,
+  toRlsFilterContext,
+  assertRlsTenantFilter,
+} from "./rls/rls-grant.contract.js";
+export { withRlsSessionContext } from "./rls/with-rls-session-context.js";
+export {
+  assertEntityGroupSlug,
+  buildEntityGroupInsertRow,
+  buildEntityGroupUpdatePatch,
+  type EntityGroupInsertRow,
+  type EntityGroupUpdatePatch,
+  type EntityGroupWriteInput,
+  InvalidEntityGroupSlugError,
+  normalizeEntityGroupSlug,
+} from "./entity-group/entity-group.contract.js";
+export {
+  type EntityGroupAuditContext,
+  EntityGroupScopeMismatchError,
+  type EntityGroupMutationResult,
+  type InsertEntityGroupInput,
+  insertEntityGroup,
+  type UpdateEntityGroupInput,
+  updateEntityGroup,
+} from "./entity-group/entity-group.service.js";
+export {
+  assertDistinctLegalEntities,
+  buildOwnershipInterestInsertRow,
+  type OwnershipInterestAuthorityRecord,
+  type OwnershipInterestInsertRow,
+  type OwnershipInterestWriteInput,
+  OwnershipInterestCycleError,
+  OwnershipInterestValidationError,
+  resolveInvesteeLegalEntityId,
+  resolveNonControllingInterestApplicable,
+  toOwnershipInterestAuthorityRecord,
+} from "./ownership-interest/ownership-interest.contract.js";
+export {
+  CONSOLIDATION_TREATMENTS,
+  consolidationMethodToTreatment,
+  consolidationTreatmentToMethod,
+  isConsolidationTreatment,
+  type ConsolidationTreatment,
+} from "./ownership-interest/ownership-interest.consolidation-treatment.js";
+export {
+  type InsertOwnershipInterestInput,
+  insertOwnershipInterest,
+  type OwnershipInterestAuditContext,
+  OwnershipInterestScopeMismatchError,
+  type OwnershipInterestMutationResult,
+} from "./ownership-interest/ownership-interest.service.js";
+export {
+  findOwnershipInterestsByEntityGroup,
+  type FindOwnershipInterestsInput,
+} from "./ownership-interest/ownership-interest-lookup.service.js";
+export {
+  DATABASE_TENANT_DOMAIN_BARREL_DIRECTORIES,
+  DATABASE_TENANT_DOMAIN_MODULES,
+  type DatabaseTenantDomainImplementationStatus,
+  type DatabaseTenantDomainModule,
+} from "./tenant-domain/tenant-domain-registry.js";
+export {
+  PROJECT_DOMAIN_STATUS,
+  PROJECT_LIFECYCLE_STATUSES,
+  type ProjectAuthorityRecord,
+  type ProjectDomainStatus,
+  type ProjectLifecycleStatus,
+} from "./project/project.contract.js";
+export type { CompanyLookupRow as LegalEntityLookupRow } from "./workspace/workspace-lookup.service.js";
+export type { OrganizationLookupRow as OrganizationUnitLookupRow } from "./workspace/workspace-lookup.service.js";

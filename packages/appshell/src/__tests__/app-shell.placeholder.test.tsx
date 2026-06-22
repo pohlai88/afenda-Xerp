@@ -38,11 +38,12 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(revenueChange.closest("[data-slot='badge']")).toBeNull();
   });
 
-  it("renders KPI badges with governed data-slot values", () => {
+  it("renders KPI period captions as plain secondary text", () => {
     render(<ApplicationShellPlaceholderContent />);
 
-    const liveBadge = screen.getByText("Live");
-    expect(liveBadge.closest("[data-slot='badge']")).not.toBeNull();
+    const liveCaption = screen.getByText("Live");
+    expect(liveCaption).toHaveClass("app-shell-placeholder-kpi-caption");
+    expect(liveCaption.closest("[data-slot='badge']")).toBeNull();
   });
 
   it("exposes sparkline charts as labelled images", () => {
@@ -145,7 +146,9 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(screen.getByRole("heading", { name: "Custom orders" })).toBeInTheDocument();
     expect(screen.getByText("Latest entries")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Custom modules" })).toBeInTheDocument();
-    expect(screen.getByText("Q3 demo")).toHaveAttribute("data-slot", "badge");
+    const periodCaption = screen.getByText("Q3 demo");
+    expect(periodCaption).toHaveClass("app-shell-placeholder-widget-period-caption");
+    expect(periodCaption.closest("[data-slot='badge']")).toBeNull();
     expect(screen.getByText("Custom order line")).toBeInTheDocument();
     expect(screen.getByText("Custom Module")).toBeInTheDocument();
     expect(screen.queryByText("Net Income")).not.toBeInTheDocument();
@@ -153,13 +156,11 @@ describe("ApplicationShellPlaceholderContent", () => {
 
   it("mounts inside ApplicationShell when passed as explicit children", async () => {
     const { ApplicationShell } = await import("../app-shell");
-    const { ApplicationShellDashboardContent } = await import(
-      "../app-shell-dashboard"
-    );
+    const { ApplicationShellDashboardDemo } = await import("../dashboard");
 
     render(
       <ApplicationShell>
-        <ApplicationShellDashboardContent />
+        <ApplicationShellDashboardDemo />
       </ApplicationShell>
     );
 
@@ -169,7 +170,7 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(within(dashboard).getByText("Revenue this month")).toBeInTheDocument();
     expect(within(dashboard).getByText("Total revenue")).toBeInTheDocument();
     expect(
-      within(dashboard).getByRole("progressbar", { name: "Finance progress: 82%" })
+      within(dashboard).getByRole("progressbar", { name: /Finance represents/i })
     ).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
 import { useId, useMemo } from "react";
 import { LayersIcon } from "lucide-react";
 
-import { Badge, Card, Progress, Separator } from "@afenda/ui";
+import { Card, Progress, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
@@ -22,12 +22,13 @@ import {
   formatDashboardCurrency,
   parseDashboardAmount,
   TrendIndicator,
+  type DashboardBreakdownAggregateTrend,
 } from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardModuleEarningsGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card" | "Progress" | "Separator"
+  "Card" | "Progress" | "Separator"
 >;
 
 export interface AppShellDashboardModuleEarningsProps {
@@ -47,7 +48,7 @@ export interface RankedModuleEarningRow {
 
 export interface ModuleEarningsSummary {
   readonly totalRevenue: number;
-  readonly aggregateTrend: ReturnType<typeof computeWeightedDashboardTrend>;
+  readonly aggregateTrend: DashboardBreakdownAggregateTrend;
   readonly topModule: { readonly name: string; readonly share: number } | null;
   readonly growingCount: number;
   readonly decliningCount: number;
@@ -206,9 +207,7 @@ export function AppShellDashboardModuleEarnings({
               <span className="app-shell-dashboard-breakdown-change-value">
                 {summary.aggregateTrend.label}
               </span>
-              <Badge emphasis="soft" tone="neutral">
-                {moduleCountLabel}
-              </Badge>
+              <span className="app-shell-dashboard-breakdown-meta">{moduleCountLabel}</span>
             </div>
             <div className="app-shell-dashboard-breakdown-insights-row">
               <span className="app-shell-dashboard-breakdown-insight">{insightsLabel}</span>

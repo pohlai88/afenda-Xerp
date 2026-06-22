@@ -5,12 +5,12 @@ import {
   buildAuthorizationDecision,
   PolicyGateError,
 } from "./authorization-error.js";
-import { resolveBoundaryPermissionKey } from "./permission.contract.js";
+import { resolveBoundaryPermissionKey } from "./grants/permission.contract.js";
 import {
   checkPermission,
   type PermissionCheckRequest,
   type PermissionDataSource,
-} from "./permission-checker.js";
+} from "./grants/permission-checker.js";
 import {
   isExecutablePolicyDecision,
   isPolicyGateDecision,

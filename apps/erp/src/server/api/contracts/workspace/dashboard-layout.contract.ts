@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { PERMISSION_REGISTRY } from "@afenda/permissions";
+
 import type { ApiRouteContract } from "../api-contract";
 import {
   dashboardLayoutDeleteResponseSchema,
@@ -19,7 +21,7 @@ export const dashboardLayoutGetContract = {
   path: "/api/internal/v1/workspace/dashboard-layout",
   permission: {
     mode: "required",
-    permission: "workspace.dashboard.read",
+    permission: PERMISSION_REGISTRY.workspace.dashboard.read,
   },
   requestSchema: emptyRequestSchema,
   responseSchema: dashboardLayoutResponseSchema,
@@ -40,7 +42,7 @@ export const dashboardLayoutPutContract = {
   path: "/api/internal/v1/workspace/dashboard-layout",
   permission: {
     mode: "required",
-    permission: "workspace.dashboard.write",
+    permission: PERMISSION_REGISTRY.workspace.dashboard.write,
   },
   requestSchema: dashboardLayoutPutRequestSchema,
   responseSchema: dashboardLayoutResponseSchema,
@@ -64,7 +66,7 @@ export const dashboardLayoutDeleteContract = {
   path: "/api/internal/v1/workspace/dashboard-layout",
   permission: {
     mode: "required",
-    permission: "workspace.dashboard.write",
+    permission: PERMISSION_REGISTRY.workspace.dashboard.write,
   },
   requestSchema: emptyRequestSchema,
   responseSchema: dashboardLayoutDeleteResponseSchema,

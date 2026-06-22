@@ -14,6 +14,7 @@ describe("protected route blocking helpers", () => {
     expect(isPublicRoute("/api/auth/sign-in/email")).toBe(true);
     expect(isPublicRoute("/sign-in")).toBe(true);
     expect(isPublicRoute("/sign-up")).toBe(true);
+    expect(isPublicRoute("/appshell-canvas")).toBe(true);
   });
 
   it("treats ERP dashboard routes as protected", () => {

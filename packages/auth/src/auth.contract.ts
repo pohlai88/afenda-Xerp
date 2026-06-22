@@ -3,10 +3,14 @@
 import type { UserId } from "@afenda/kernel";
 
 export interface AfendaAuthUser {
+  /** Better Auth `user.id` — login identity only; never use for authorization. */
+  readonly authUserId: string;
   readonly email: string;
   readonly emailVerified: boolean;
+  readonly linkStatus: AuthActorLinkStatus;
   readonly name: string;
-  readonly userId: string;
+  /** Platform `users.id` when linked; null when no identity bridge exists. */
+  readonly userId: string | null;
 }
 
 export interface AfendaAuthSessionMetadata {

@@ -1,5 +1,6 @@
 import type { ApiRouteContract } from "./api-contract";
 import { healthGetContract } from "./health.api-contract";
+import { clientErrorPostContract } from "./observability/client-error.contract";
 import {
   dashboardLayoutDeleteContract,
   dashboardLayoutGetContract,
@@ -8,6 +9,7 @@ import {
 
 export const API_CONTRACTS = [
   healthGetContract,
+  clientErrorPostContract,
   dashboardLayoutGetContract,
   dashboardLayoutPutContract,
   dashboardLayoutDeleteContract,

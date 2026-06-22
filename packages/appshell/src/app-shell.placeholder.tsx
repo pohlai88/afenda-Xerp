@@ -5,7 +5,7 @@ import {
   ChevronUpIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, Badge } from "@afenda/ui";
+import { Avatar, AvatarFallback } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
@@ -30,7 +30,7 @@ import {
 
 export type ApplicationShellPlaceholderGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Avatar" | "Badge"
+  "Avatar"
 >;
 
 export interface ApplicationShellPlaceholderProps {
@@ -96,7 +96,7 @@ function SparklineSvg({
   const color =
     trend === "up"
       ? "var(--color-chart-1, var(--primary))"
-      : "var(--color-chart-3, oklch(0.646 0.222 41.116))";
+      : "var(--color-chart-3, var(--destructive))";
 
   return (
     <svg
@@ -107,7 +107,7 @@ function SparklineSvg({
     >
       <defs>
         <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="10%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="10%" stopColor={color} stopOpacity="0.15" />
           <stop offset="90%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -141,7 +141,7 @@ function KpiStatCard({ title, badge, value, trend, Icon }: AppShellPlaceholderKp
     <div className="app-shell-placeholder-surface app-shell-placeholder-kpi-card">
       <div className="app-shell-placeholder-kpi-header">
         <span className="app-shell-placeholder-kpi-title">{title}</span>
-        <Badge emphasis="soft" tone="neutral">{badge}</Badge>
+        <span className="app-shell-placeholder-kpi-caption">{badge}</span>
       </div>
 
       <div className="app-shell-placeholder-kpi-value-row">
@@ -287,7 +287,7 @@ function ModulePerformanceWidget({
     >
       <div className="app-shell-placeholder-widget-header">
         <h2 className="app-shell-placeholder-widget-title" id={sectionId}>{title}</h2>
-        <Badge emphasis="soft" tone="neutral">{periodLabel}</Badge>
+        <span className="app-shell-placeholder-widget-period-caption">{periodLabel}</span>
       </div>
 
       <ul className="app-shell-placeholder-module-list">

@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { ApplicationShellDashboardContent } from "../app-shell-dashboard";
+import { ApplicationShellDashboardDemo } from "../dashboard";
 
-describe("ApplicationShellDashboardContent", () => {
+describe("ApplicationShellDashboardDemo", () => {
   it("renders governed ERP dashboard surfaces without TIP-004 violations", () => {
-    render(<ApplicationShellDashboardContent showLegacyWidgets={false} />);
+    render(<ApplicationShellDashboardDemo />);
 
     expect(
       screen.getByRole("region", { name: "ERP overview dashboard" })

@@ -1,7 +1,7 @@
 import { PLATFORM_PERMISSION_CATALOG } from "@afenda/database";
 import { describe, expect, it } from "vitest";
 
-import { PERMISSION_REGISTRY } from "../permission.contract.js";
+import { PERMISSION_REGISTRY } from "../grants/permission.contract.js";
 
 function collectRegistryKeys(
   value: unknown,

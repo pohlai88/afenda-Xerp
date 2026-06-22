@@ -14,6 +14,7 @@ const uiSrcRoot = join(uiRoot, "src");
 const appshellRoot = join(appRoot, "../../packages/appshell");
 const designSystemRoot = join(appRoot, "../../packages/design-system");
 const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
+const metadataRoot = join(appRoot, "../../packages/metadata");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const governanceRoot = join(uiSrcRoot, "governance");
@@ -93,8 +94,16 @@ const config: StorybookConfig = {
         replacement: join(metadataUiRoot, "src/fixtures/metadata-ui-fixtures.css"),
       },
       {
+        find: "@afenda/metadata-ui/server",
+        replacement: join(metadataUiRoot, "src/server.ts"),
+      },
+      {
         find: "@afenda/metadata-ui",
         replacement: join(metadataUiRoot, "src/index.ts"),
+      },
+      {
+        find: "@afenda/metadata",
+        replacement: join(metadataRoot, "src/index.ts"),
       },
       { find: "next/link", replacement: nextLinkMock },
       { find: "@", replacement: uiSrcRoot },

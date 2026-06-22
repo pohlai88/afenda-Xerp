@@ -493,3 +493,11 @@ export const defaultAppShellDashboardInvoices: readonly AppShellDashboardInvoice
   invoiceRowsSource;
 
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TOTAL = 188640;
+
+/** Shared chart margins for dashboard sparkline stat cards. */
+export const APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN = {
+  bottom: 0,
+  left: 4,
+  right: 0,
+  top: 4,
+} as const;

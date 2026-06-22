@@ -1,5 +1,7 @@
 import type { ZodType } from "zod";
 
+import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
+
 import type { ApiErrorCode } from "../contracts/api-error.contract";
 
 export class ApiRouteError extends Error {
@@ -39,6 +41,20 @@ export function parseRequestBody<T>(
   schema: ZodType<T>,
   value: unknown
 ): T {
+  const authorityError = rejectUntrustedAuthorityFields(value);
+  if (authorityError) {
+    throw new ApiRouteError(
+      "validation_failed",
+      authorityError.userMessage,
+      {
+        issues:
+          authorityError.code === "VALIDATION_ERROR"
+            ? (authorityError.fields ?? [])
+            : [],
+      }
+    );
+  }
+
   const result = schema.safeParse(value);
 
   if (!result.success) {

@@ -7,6 +7,7 @@
 import type {
   OrganizationStatus,
   OrganizationType,
+  OrganizationUnitType,
 } from "../database.types.js";
 import {
   assertPlatformSlug,
@@ -49,6 +50,13 @@ export class OrganizationHasChildrenError extends Error {
   }
 }
 
+export class OrganizationValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "OrganizationValidationError";
+  }
+}
+
 export function normalizeOrganizationSlug(value: string): string {
   return normalizePlatformSlug(value);
 }
@@ -65,9 +73,14 @@ export function assertOrganizationSlug(value: string): string {
 }
 
 export interface OrganizationWriteInput {
-  readonly companyId: string;
+  readonly companyId?: string;
+  readonly effectiveFrom?: string | null;
+  readonly effectiveTo?: string | null;
+  readonly legalEntityId?: string;
   readonly name: string;
+  readonly organizationUnitType?: OrganizationUnitType;
   readonly parentOrganizationId?: string | null;
+  readonly parentOrganizationUnitId?: string | null;
   readonly slug: string;
   readonly status?: OrganizationStatus;
   readonly tenantId: string;
@@ -76,6 +89,8 @@ export interface OrganizationWriteInput {
 
 export interface OrganizationInsertRow {
   companyId: string;
+  effectiveFrom: string | null;
+  effectiveTo: string | null;
   name: string;
   parentOrganizationId: string | null;
   slug: string;
@@ -87,21 +102,120 @@ export interface OrganizationInsertRow {
 export type OrganizationUpdatePatch = Partial<
   Omit<OrganizationInsertRow, "tenantId" | "companyId">
 > & {
-  readonly tenantId?: never;
   readonly companyId?: never;
+  readonly tenantId?: never;
 };
+
+/** Authority read model aligned with multi-tenancy.md organization unit fields. */
+export interface OrganizationUnitAuthorityRecord {
+  readonly displayName: string;
+  readonly effectiveFrom: string | null;
+  readonly effectiveTo: string | null;
+  readonly legalEntityId: string;
+  readonly organizationUnitId: string;
+  readonly organizationUnitType: OrganizationUnitType;
+  readonly parentOrganizationUnitId: string | null;
+  readonly slug: string;
+  readonly status: OrganizationStatus;
+  readonly tenantId: string;
+}
+
+function assertEffectiveDateRange(
+  effectiveFrom: string | null,
+  effectiveTo: string | null
+): void {
+  if (
+    effectiveFrom !== null &&
+    effectiveTo !== null &&
+    effectiveTo < effectiveFrom
+  ) {
+    throw new OrganizationValidationError(
+      "effectiveTo must be on or after effectiveFrom."
+    );
+  }
+}
+
+export function resolveLegalEntityId(
+  input: Pick<OrganizationWriteInput, "companyId" | "legalEntityId">
+): string {
+  const legalEntityId = input.legalEntityId ?? input.companyId;
+
+  if (legalEntityId === undefined || legalEntityId.length === 0) {
+    throw new OrganizationValidationError(
+      "legalEntityId (or companyId) is required."
+    );
+  }
+
+  if (
+    input.legalEntityId !== undefined &&
+    input.companyId !== undefined &&
+    input.legalEntityId !== input.companyId
+  ) {
+    throw new OrganizationValidationError(
+      "legalEntityId and companyId must match when both are provided."
+    );
+  }
+
+  return legalEntityId;
+}
+
+export function resolveParentOrganizationUnitId(
+  input: Pick<
+    OrganizationWriteInput,
+    "parentOrganizationId" | "parentOrganizationUnitId"
+  >
+): string | null {
+  const parentOrganizationUnitId =
+    input.parentOrganizationUnitId ?? input.parentOrganizationId ?? null;
+
+  if (
+    input.parentOrganizationId !== undefined &&
+    input.parentOrganizationUnitId !== undefined &&
+    input.parentOrganizationId !== input.parentOrganizationUnitId
+  ) {
+    throw new OrganizationValidationError(
+      "parentOrganizationUnitId and parentOrganizationId must match when both are provided."
+    );
+  }
+
+  return parentOrganizationUnitId;
+}
+
+export function resolveOrganizationUnitType(
+  input: Pick<OrganizationWriteInput, "organizationUnitType" | "type">
+): OrganizationUnitType {
+  const organizationUnitType = input.organizationUnitType ?? input.type;
+
+  if (
+    input.organizationUnitType !== undefined &&
+    input.type !== undefined &&
+    input.organizationUnitType !== input.type
+  ) {
+    throw new OrganizationValidationError(
+      "organizationUnitType and type must match when both are provided."
+    );
+  }
+
+  return organizationUnitType ?? "department";
+}
 
 export function buildOrganizationInsertRow(
   input: OrganizationWriteInput
 ): OrganizationInsertRow {
+  const effectiveFrom = input.effectiveFrom ?? null;
+  const effectiveTo = input.effectiveTo ?? null;
+  assertEffectiveDateRange(effectiveFrom, effectiveTo);
+
   return {
     tenantId: input.tenantId,
-    companyId: input.companyId,
-    parentOrganizationId: input.parentOrganizationId ?? null,
+    companyId: resolveLegalEntityId(input),
+    parentOrganizationId: resolveParentOrganizationUnitId(input),
     slug: assertOrganizationSlug(input.slug),
     name: input.name.trim(),
-    type: input.type ?? "department",
+    type: resolveOrganizationUnitType(input),
     status: input.status ?? "active",
+    effectiveFrom,
+    effectiveTo,
   };
 }
 
@@ -125,8 +239,50 @@ export function buildOrganizationUpdatePatch(
   if (input.status !== undefined) {
     patch.status = input.status;
   }
+  if (input.effectiveFrom !== undefined) {
+    patch.effectiveFrom = input.effectiveFrom;
+  }
+  if (input.effectiveTo !== undefined) {
+    patch.effectiveTo = input.effectiveTo;
+  }
+
+  if (
+    patch.effectiveFrom !== undefined ||
+    patch.effectiveTo !== undefined
+  ) {
+    assertEffectiveDateRange(
+      patch.effectiveFrom ?? null,
+      patch.effectiveTo ?? null
+    );
+  }
 
   return patch;
+}
+
+export function toOrganizationUnitAuthorityRecord(input: {
+  readonly companyId: string;
+  readonly effectiveFrom: string | null;
+  readonly effectiveTo: string | null;
+  readonly id: string;
+  readonly name: string;
+  readonly parentOrganizationId: string | null;
+  readonly slug: string;
+  readonly status: OrganizationStatus;
+  readonly tenantId: string;
+  readonly type: OrganizationType;
+}): OrganizationUnitAuthorityRecord {
+  return {
+    organizationUnitId: input.id,
+    tenantId: input.tenantId,
+    legalEntityId: input.companyId,
+    parentOrganizationUnitId: input.parentOrganizationId,
+    organizationUnitType: input.type,
+    displayName: input.name,
+    slug: input.slug,
+    status: input.status,
+    effectiveFrom: input.effectiveFrom,
+    effectiveTo: input.effectiveTo,
+  };
 }
 
 /**

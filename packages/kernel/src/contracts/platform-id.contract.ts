@@ -8,8 +8,11 @@ import {
 export type { Brand };
 
 export type TenantId = Brand<string, "TenantId">;
+export type EntityGroupId = Brand<string, "EntityGroupId">;
 export type CompanyId = Brand<string, "CompanyId">;
 export type OrganizationId = Brand<string, "OrganizationId">;
+export type TeamId = Brand<string, "TeamId">;
+export type ProjectId = Brand<string, "ProjectId">;
 export type UserId = Brand<string, "UserId">;
 export type RoleId = Brand<string, "RoleId">;
 export type MembershipId = Brand<string, "MembershipId">;
@@ -25,6 +28,12 @@ export function brandTenantId(
   return brandOptionalId(value, "tenantId") as TenantId | null;
 }
 
+export function brandEntityGroupId(
+  value: string | EntityGroupId | null | undefined
+): EntityGroupId | null {
+  return brandOptionalId(value, "entityGroupId") as EntityGroupId | null;
+}
+
 export function brandCompanyId(
   value: string | CompanyId | null | undefined
 ): CompanyId | null {
@@ -35,6 +44,18 @@ export function brandOrganizationId(
   value: string | OrganizationId | null | undefined
 ): OrganizationId | null {
   return brandOptionalId(value, "organizationId") as OrganizationId | null;
+}
+
+export function brandTeamId(
+  value: string | TeamId | null | undefined
+): TeamId | null {
+  return brandOptionalId(value, "teamId") as TeamId | null;
+}
+
+export function brandProjectId(
+  value: string | ProjectId | null | undefined
+): ProjectId | null {
+  return brandOptionalId(value, "projectId") as ProjectId | null;
 }
 
 export function brandUserId(

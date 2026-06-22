@@ -25,6 +25,7 @@
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "auth:bootstrap:dev": "tsx scripts/bootstrap-dev-login.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": false,
@@ -34,13 +35,16 @@
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
+    "dotenv": "^17.4.2",
     "next": "catalog:",
     "react": "catalog:",
+    "tsx": "^4.20.3",
     "vitest": "catalog:"
   },
   "dependencies": {
     "@afenda/database": "workspace:*",
     "@afenda/kernel": "workspace:*",
-    "better-auth": "^1.6.19"
+    "better-auth": "^1.6.19",
+    "drizzle-orm": "^0.45.2"
   }
 }

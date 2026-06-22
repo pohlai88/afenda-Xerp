@@ -31,3 +31,18 @@ export class MissingBetterAuthUrlError extends Error {
     this.name = "MissingBetterAuthUrlError";
   }
 }
+
+export class UnlinkedPlatformUserError extends Error {
+  constructor(
+    message = "Authenticated identity is not linked to a platform user."
+  ) {
+    super(message);
+    this.name = "UnlinkedPlatformUserError";
+  }
+}
+
+export function isUnlinkedPlatformUserError(
+  error: unknown
+): error is UnlinkedPlatformUserError {
+  return error instanceof UnlinkedPlatformUserError;
+}

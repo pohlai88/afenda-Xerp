@@ -42,3 +42,35 @@
 
 /* ── App source scanning ────────────────────────────────────────────────── */
 @source "../**/*.{ts,tsx}";
+
+/* ── 6. App overrides ───────────────────────────────────────────────────── */
+@layer components {
+  .erp-policy-gate {
+    margin-block-start: var(--afenda-spacing-3);
+  }
+
+  .erp-policy-gate-demo {
+    display: grid;
+    gap: var(--afenda-spacing-6);
+    padding-block: var(--afenda-spacing-6);
+  }
+
+  .erp-policy-gate-demo__section {
+    display: grid;
+    gap: var(--afenda-spacing-3);
+  }
+
+  .erp-integration-harness-banner {
+    align-items: center;
+    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+    border-radius: var(--afenda-radius-lg);
+    color: var(--foreground);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    gap: var(--afenda-spacing-3);
+    justify-content: space-between;
+    margin-block-end: var(--afenda-spacing-4);
+    padding: var(--afenda-spacing-3) var(--afenda-spacing-4);
+  }
+}

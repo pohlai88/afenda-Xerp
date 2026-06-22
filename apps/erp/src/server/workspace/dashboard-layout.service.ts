@@ -15,6 +15,13 @@ interface StoredDashboardLayout {
 
 const workspaceDashboardLayoutStore = new Map<string, StoredDashboardLayout>();
 
+function buildDashboardLayoutStorageKey(
+  tenantId: string,
+  userId: string
+): string {
+  return `${tenantId}:${userId}`;
+}
+
 function assertLayoutIntegrity(layout: DashboardLayoutPresetDto): void {
   const preset = parseDashboardLayoutPreset(layout);
 
@@ -38,8 +45,13 @@ function assertLayoutIntegrity(layout: DashboardLayoutPresetDto): void {
   }
 }
 
-export async function getWorkspaceDashboardLayout(userId: string) {
-  const stored = workspaceDashboardLayoutStore.get(userId);
+export async function getWorkspaceDashboardLayout(
+  tenantId: string,
+  userId: string
+) {
+  const stored = workspaceDashboardLayoutStore.get(
+    buildDashboardLayoutStorageKey(tenantId, userId)
+  );
 
   if (stored === undefined) {
     return {
@@ -57,13 +69,17 @@ export async function getWorkspaceDashboardLayout(userId: string) {
 }
 
 export async function saveWorkspaceDashboardLayout(
+  tenantId: string,
   userId: string,
   layout: DashboardLayoutPresetDto
 ) {
   assertLayoutIntegrity(layout);
 
   const updatedAt = new Date().toISOString();
-  workspaceDashboardLayoutStore.set(userId, { layout, updatedAt });
+  workspaceDashboardLayoutStore.set(
+    buildDashboardLayoutStorageKey(tenantId, userId),
+    { layout, updatedAt }
+  );
 
   return {
     layout,
@@ -72,8 +88,13 @@ export async function saveWorkspaceDashboardLayout(
   };
 }
 
-export async function resetWorkspaceDashboardLayout(userId: string) {
-  workspaceDashboardLayoutStore.delete(userId);
+export async function resetWorkspaceDashboardLayout(
+  tenantId: string,
+  userId: string
+) {
+  workspaceDashboardLayoutStore.delete(
+    buildDashboardLayoutStorageKey(tenantId, userId)
+  );
   return { reset: true as const };
 }
 

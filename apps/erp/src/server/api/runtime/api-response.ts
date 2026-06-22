@@ -36,6 +36,7 @@ export function createErrorEnvelope(
     ok: false,
     error: {
       code,
+      correlationId: meta.correlationId,
       message,
       ...(details === undefined ? {} : { details }),
     },

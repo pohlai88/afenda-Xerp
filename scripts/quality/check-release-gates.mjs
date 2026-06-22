@@ -37,6 +37,8 @@ const requiredCiCommands = [
   "pnpm quality:architecture",
   "pnpm quality:architecture-drift",
   "pnpm quality:ai-governance",
+  "pnpm check:csp-third-party",
+  "pnpm check:erp-observability",
   "pnpm quality:release-gate",
 ];
 
@@ -51,6 +53,8 @@ const requiredReleaseVerificationGates = [
   "pnpm quality:architecture",
   "pnpm quality:architecture-drift",
   "pnpm quality:ai-governance",
+  "pnpm check:csp-third-party",
+  "pnpm check:erp-observability",
   "pnpm quality:release-gate",
 ];
 
@@ -64,6 +68,10 @@ const requiredQualityScripts = [
   "quality:ai-governance",
   "quality:preview-policy",
   "quality:release-gate",
+  "quality:csp-third-party",
+  "check:csp-third-party",
+  "quality:erp-observability",
+  "check:erp-observability",
   "ci:biome",
 ];
 

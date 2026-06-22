@@ -5,6 +5,7 @@ import type { AfendaDatabase } from "../db.js";
 import type { MembershipWriteInput } from "../membership/membership.contract.js";
 import { insertMembership } from "../membership/membership.service.js";
 import type { OrganizationWriteInput } from "../organization/organization.contract.js";
+import { resolveLegalEntityId } from "../organization/organization.contract.js";
 import { insertOrganization } from "../organization/organization.service.js";
 import type { PermissionCatalogWriteInput } from "../permission/permission.contract.js";
 import { insertPermission } from "../permission/permission.service.js";
@@ -222,13 +223,15 @@ export async function ensureOrganization(
   audit: SeedAuditBundle,
   db: AfendaDatabase
 ): Promise<SeedEnsureResult> {
+  const companyId = resolveLegalEntityId(input);
+
   const [existing] = await db
     .select({ id: organizations.id })
     .from(organizations)
     .where(
       and(
         eq(organizations.tenantId, input.tenantId),
-        eq(organizations.companyId, input.companyId),
+        eq(organizations.companyId, companyId),
         eq(organizations.slug, input.slug)
       )
     )

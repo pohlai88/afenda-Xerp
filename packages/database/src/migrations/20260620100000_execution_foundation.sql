@@ -18,9 +18,9 @@ CREATE TABLE "execution_runs" (
   "finished_at" timestamp with time zone,
   "created_at" timestamp with time zone DEFAULT now() NOT NULL
 );--> statement-breakpoint
-ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_tenant_id_tenants_tenant_id_fk" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenants"("tenant_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_company_id_companies_company_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("company_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_organization_id_organizations_organization_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("organization_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_tenant_id_tenants_id_fk" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenants"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "execution_runs" ADD CONSTRAINT "execution_runs_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "execution_runs_workflow_id_idx" ON "execution_runs" USING btree ("workflow_id");--> statement-breakpoint
 CREATE INDEX "execution_runs_status_idx" ON "execution_runs" USING btree ("status");--> statement-breakpoint
 CREATE INDEX "execution_runs_correlation_id_idx" ON "execution_runs" USING btree ("correlation_id");--> statement-breakpoint

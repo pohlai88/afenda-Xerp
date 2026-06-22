@@ -3,9 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   buildRankedRegionalSalesRows,
   buildRegionalSalesSummary,
-  computeRegionalShare,
-  computeWeightedRegionalTrend,
 } from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales";
+import {
+  computeDashboardShare,
+  computeWeightedDashboardTrend,
+} from "../shadcn-studio/blocks/app-shell-dashboard-breakdown.utils";
 import type { AppShellDashboardRegionalSalesRow } from "../shadcn-studio/data/app-shell.dashboard.types";
 import { asAppShellDashboardRowId } from "../shadcn-studio/data/app-shell.dashboard.types";
 
@@ -41,8 +43,8 @@ const sampleRows = [
 
 describe("regional sales view model", () => {
   it("computes revenue share percentages", () => {
-    expect(computeRegionalShare("$100,000", 200_000)).toBe(50);
-    expect(computeRegionalShare("$100,000", 0)).toBe(0);
+    expect(computeDashboardShare("$100,000", 200_000)).toBe(50);
+    expect(computeDashboardShare("$100,000", 0)).toBe(0);
   });
 
   it("ranks regions by revenue descending", () => {
@@ -54,7 +56,7 @@ describe("regional sales view model", () => {
   });
 
   it("builds a weighted aggregate trend", () => {
-    expect(computeWeightedRegionalTrend(sampleRows).trend).toBe("up");
+    expect(computeWeightedDashboardTrend(sampleRows).trend).toBe("up");
   });
 
   it("summarizes top region and trend counts", () => {

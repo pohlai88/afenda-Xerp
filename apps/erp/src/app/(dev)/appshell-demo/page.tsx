@@ -1,20 +1,6 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { ApplicationShell, ApplicationShellDashboardDemo } from "@afenda/appshell";
-
-export const metadata = {
-  title: "AppShell dashboard demo",
-  description: "Readonly dashboard demo inside ApplicationShell chrome.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-} satisfies Metadata;
-
+/** Legacy readonly demo — use `/appshell-canvas` for the governed layout harness. */
 export default function AppShellDemoPage() {
-  return (
-    <ApplicationShell userName="Demo User" welcomeMessage="Readonly dashboard demo">
-      <ApplicationShellDashboardDemo showReadonlyPreviewLabel />
-    </ApplicationShell>
-  );
+  redirect("/appshell-canvas");
 }

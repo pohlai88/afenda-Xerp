@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
@@ -10,6 +11,8 @@ import {
   ChartTooltipContent,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+
+import { STATISTICS_LINE_TRENDS_CHART_MARGIN } from "../data/statistics-line-trends.data";
 
 export interface StatisticsTrendSeries {
   readonly key: string;
@@ -57,13 +60,15 @@ export function StatisticsLineTrendsCard({
                 <div className="app-shell-statistics-trend-metric" key={item.key}>
                   <div
                     className="app-shell-statistics-trend-swatch"
-                    style={{ backgroundColor: item.color }}
+                    style={
+                      { "--series-swatch-color": item.color } as CSSProperties
+                    }
                   />
                   <div className="app-shell-statistics-trend-metric-copy">
-                    <p className="app-shell-statistics-trend-metric-label">{item.label}</p>
-                    <p className="app-shell-statistics-trend-metric-value">
+                    <span className="app-shell-statistics-trend-metric-label">{item.label}</span>
+                    <span className="app-shell-statistics-trend-metric-value">
                       {item.value.toLocaleString()}
-                    </p>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -76,8 +81,9 @@ export function StatisticsLineTrendsCard({
             >
               <ChartContainer config={chartConfig}>
                 <LineChart
+                  accessibilityLayer
                   data={chartData}
-                  margin={{ bottom: 0, left: 0, right: 0, top: 4 }}
+                  margin={STATISTICS_LINE_TRENDS_CHART_MARGIN}
                 >
                   <CartesianGrid
                     stroke="var(--border)"
@@ -102,7 +108,7 @@ export function StatisticsLineTrendsCard({
                       dataKey={item.key}
                       dot={false}
                       key={item.key}
-                      stroke={`var(--color-${item.key})`}
+                      stroke={item.color}
                       strokeWidth={2}
                       type="monotone"
                     />

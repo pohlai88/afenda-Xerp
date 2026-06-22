@@ -4,34 +4,37 @@ import { ApplicationShell } from "../app-shell";
 import {
   ApplicationShellDashboardCanvas,
   ApplicationShellDashboardDemo,
+  type ApplicationShellDashboardDemoProps,
 } from "../dashboard";
-import {
-  ApplicationShellDashboardContent,
-  type ApplicationShellDashboardProps,
-} from "../app-shell-dashboard";
 import type { ApplicationShellProps } from "../app-shell.types";
 import type { ApplicationShellDashboardCanvasProps } from "../dashboard/app-shell-dashboard-canvas.client";
+import {
+  renderEmptyInvoicesBlockStory,
+  renderEmptyRegionalSalesBlockStory,
+} from "./dashboard-block-story.compositions";
 
 /** Pads dashboard content the same way the shell main region does in Storybook. */
 export function DashboardStoryCanvas({ children }: { readonly children: ReactNode }) {
   return <div className="app-shell-content">{children}</div>;
 }
 
-export function renderDashboardStory(args: ApplicationShellDashboardProps = {}) {
+export { renderEmptyInvoicesBlockStory, renderEmptyRegionalSalesBlockStory };
+
+export function renderDashboardStory(args: ApplicationShellDashboardDemoProps = {}) {
   return (
     <DashboardStoryCanvas>
-      <ApplicationShellDashboardContent {...args} />
+      <ApplicationShellDashboardDemo {...args} />
     </DashboardStoryCanvas>
   );
 }
 
 export function renderDashboardInShellStory(
   shellArgs: ApplicationShellProps,
-  dashboardArgs: ApplicationShellDashboardProps
+  dashboardArgs: ApplicationShellDashboardDemoProps
 ) {
   return (
     <ApplicationShell {...shellArgs}>
-      <ApplicationShellDashboardContent {...dashboardArgs} />
+      <ApplicationShellDashboardDemo {...dashboardArgs} />
     </ApplicationShell>
   );
 }
@@ -46,14 +49,21 @@ export function renderDashboardDemoInShellStory(shellArgs: ApplicationShellProps
 
 export function renderDashboardCanvasInShellStory(
   shellArgs: ApplicationShellProps,
-  canvasArgs: Pick<
-    ApplicationShellDashboardCanvasProps,
-    "editMode" | "showReadonlyPreviewLabel"
-  >
+  canvasArgs: ApplicationShellDashboardCanvasProps = { editMode: false }
 ) {
   return (
     <ApplicationShell {...shellArgs}>
       <ApplicationShellDashboardCanvas {...canvasArgs} />
     </ApplicationShell>
+  );
+}
+
+export function renderDashboardCanvasStory(
+  canvasArgs: ApplicationShellDashboardCanvasProps = { editMode: false }
+) {
+  return (
+    <DashboardStoryCanvas>
+      <ApplicationShellDashboardCanvas {...canvasArgs} />
+    </DashboardStoryCanvas>
   );
 }

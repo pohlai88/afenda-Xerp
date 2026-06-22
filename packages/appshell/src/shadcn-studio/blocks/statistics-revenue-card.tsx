@@ -9,6 +9,7 @@ import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
   formatStatisticsWeekdayTick,
   STATISTICS_METRIC_CHART_MARGIN,
+  STATISTICS_REVENUE_HIGHLIGHT_DAY,
   statisticsRevenueBarData,
 } from "../data/statistics-component-10.data";
 
@@ -20,6 +21,12 @@ export type StatisticsRevenueCardGovernedComponents = Extract<
 const revenueChartConfig = {
   revenue: { label: "Revenue" },
 } satisfies Record<string, { readonly label: string }>;
+
+function resolveRevenueBarFill(day: string): string {
+  return day === STATISTICS_REVENUE_HIGHLIGHT_DAY
+    ? "var(--primary)"
+    : "color-mix(in oklab, var(--primary) 20%, transparent)";
+}
 
 export function StatisticsRevenueCard() {
   const chartData = [...statisticsRevenueBarData];
@@ -68,14 +75,7 @@ export function StatisticsRevenueCard() {
                   />
                   <Bar dataKey="revenue" radius={[6, 6, 0, 0]}>
                     {chartData.map((entry) => (
-                      <Cell
-                        fill={
-                          "fill" in entry && entry.fill !== undefined
-                            ? entry.fill
-                            : "var(--primary)"
-                        }
-                        key={entry.day}
-                      />
+                      <Cell fill={resolveRevenueBarFill(entry.day)} key={entry.day} />
                     ))}
                   </Bar>
                 </BarChart>

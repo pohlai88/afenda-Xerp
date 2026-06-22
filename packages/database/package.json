@@ -29,6 +29,51 @@
       "types": "./dist/bootstrap/index.d.ts",
       "import": "./dist/bootstrap/index.js",
       "default": "./dist/bootstrap/index.js"
+    },
+    "./tenant": {
+      "types": "./dist/tenant/index.d.ts",
+      "import": "./dist/tenant/index.js",
+      "default": "./dist/tenant/index.js"
+    },
+    "./entity-group": {
+      "types": "./dist/entity-group/index.d.ts",
+      "import": "./dist/entity-group/index.js",
+      "default": "./dist/entity-group/index.js"
+    },
+    "./legal-entity": {
+      "types": "./dist/legal-entity/index.d.ts",
+      "import": "./dist/legal-entity/index.js",
+      "default": "./dist/legal-entity/index.js"
+    },
+    "./ownership-interest": {
+      "types": "./dist/ownership-interest/index.d.ts",
+      "import": "./dist/ownership-interest/index.js",
+      "default": "./dist/ownership-interest/index.js"
+    },
+    "./organization-unit": {
+      "types": "./dist/organization-unit/index.d.ts",
+      "import": "./dist/organization-unit/index.js",
+      "default": "./dist/organization-unit/index.js"
+    },
+    "./team": {
+      "types": "./dist/team/index.d.ts",
+      "import": "./dist/team/index.js",
+      "default": "./dist/team/index.js"
+    },
+    "./project": {
+      "types": "./dist/project/index.d.ts",
+      "import": "./dist/project/index.js",
+      "default": "./dist/project/index.js"
+    },
+    "./grant-scope": {
+      "types": "./dist/grant-scope/index.d.ts",
+      "import": "./dist/grant-scope/index.js",
+      "default": "./dist/grant-scope/index.js"
+    },
+    "./tenant-domain": {
+      "types": "./dist/tenant-domain/index.d.ts",
+      "import": "./dist/tenant-domain/index.js",
+      "default": "./dist/tenant-domain/index.js"
     }
   },
   "files": [
@@ -44,7 +89,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
     "pretest": "pnpm db:validate-journal",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
-    "db:migrate": "tsx scripts/repair-drizzle-journal.ts && drizzle-kit migrate --config drizzle.config.ts",
+    "db:migrate": "tsx scripts/repair-drizzle-journal.ts && tsx scripts/apply-pending-migrations.ts",
     "db:validate-journal": "tsx scripts/validate-journal.ts",
     "db:repair-journal": "tsx scripts/repair-drizzle-journal.ts",
     "db:repair-journal:check": "tsx scripts/repair-drizzle-journal.ts --check",

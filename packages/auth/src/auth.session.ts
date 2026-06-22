@@ -1,6 +1,11 @@
 import { brandUserId } from "@afenda/kernel";
 
-import type { AfendaAuthIdentity, AfendaAuthSession } from "./auth.contract.js";
+import type {
+  AfendaAuthIdentity,
+  AfendaAuthSession,
+  AuthActorLinkStatus,
+} from "./auth.contract.js";
+import { UnlinkedPlatformUserError } from "./auth.errors.js";
 
 /** Better Auth session shape accepted by the Afenda normalizer. */
 export interface BetterAuthSessionLike {
@@ -20,16 +25,25 @@ export interface BetterAuthSessionLike {
   };
 }
 
+function resolveAuthActorLinkStatus(
+  platformUserId: string | null
+): AuthActorLinkStatus {
+  return platformUserId ? "linked" : "unlinked";
+}
+
 export function normalizeAfendaAuthSession(
-  session: BetterAuthSessionLike
+  session: BetterAuthSessionLike,
+  platformUserId: string | null = null
 ): AfendaAuthSession {
   return {
     sessionId: session.session.id,
     user: {
-      userId: session.user.id,
+      authUserId: session.user.id,
       email: session.user.email,
       name: session.user.name,
       emailVerified: session.user.emailVerified,
+      linkStatus: resolveAuthActorLinkStatus(platformUserId),
+      userId: platformUserId,
     },
     metadata: {
       image: session.user.image ?? null,
@@ -41,13 +55,19 @@ export function normalizeAfendaAuthSession(
   };
 }
 
+export function isAfendaAuthSessionLinked(
+  session: AfendaAuthSession
+): boolean {
+  return session.user.linkStatus === "linked" && session.user.userId !== null;
+}
+
 /** Maps a governed session into UI-safe identity fields (no session tokens). */
 export function toAfendaAuthIdentity(
   session: AfendaAuthSession
 ): AfendaAuthIdentity {
   const userId = brandUserId(session.user.userId);
   if (userId === null) {
-    throw new Error("userId is required.");
+    throw new UnlinkedPlatformUserError();
   }
 
   return {

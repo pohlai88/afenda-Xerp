@@ -13,7 +13,9 @@ const RUNTIME_EDGES = [
   ["@afenda/erp", "@afenda/design-system"],
   ["@afenda/erp", "@afenda/metadata"],
   ["@afenda/erp", "@afenda/metadata-ui"],
+  ["@afenda/erp", "@afenda/kernel"],
   ["@afenda/erp", "@afenda/observability"],
+  ["@afenda/erp", "@afenda/permissions"],
   ["@afenda/erp", "@afenda/ui"],
   ["@afenda/storybook", "@afenda/appshell"],
   ["@afenda/storybook", "@afenda/design-system"],
@@ -27,6 +29,9 @@ const RUNTIME_EDGES = [
   ["@afenda/metadata-ui", "@afenda/ui"],
   ["@afenda/permissions", "@afenda/auth"],
   ["@afenda/permissions", "@afenda/database"],
+  // TIP-007: PermissionScopeContext types from @afenda/kernel — Platform→Platform edge
+  ["@afenda/permissions", "@afenda/kernel"],
+  ["@afenda/ui", "@afenda/design-system"],
   ["@afenda/ai-governance", "@afenda/architecture-authority"],
 ] as const;
 
@@ -48,9 +53,11 @@ export const dependencyContract: DependencyContract = {
       "@afenda/auth",
       "@afenda/database",
       "@afenda/design-system",
+      "@afenda/kernel",
       "@afenda/metadata",
       "@afenda/metadata-ui",
       "@afenda/observability",
+      "@afenda/permissions",
       "@afenda/ui",
     ],
     "@afenda/storybook": [
@@ -66,7 +73,11 @@ export const dependencyContract: DependencyContract = {
     "@afenda/metadata": [],
     "@afenda/metadata-ui": ["@afenda/metadata", "@afenda/ui"],
     "@afenda/observability": [],
-    "@afenda/permissions": ["@afenda/auth", "@afenda/database"],
+    "@afenda/permissions": [
+      "@afenda/auth",
+      "@afenda/database",
+      "@afenda/kernel",
+    ],
     "@afenda/storage": [],
     "@afenda/testing": [],
     "@afenda/typescript-config": [],

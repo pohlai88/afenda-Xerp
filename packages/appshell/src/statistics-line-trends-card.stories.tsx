@@ -1,49 +1,50 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
 import {
-  StatisticsLineTrendsCard,
-  type StatisticsLineTrendsCardGovernedComponents,
-} from "./shadcn-studio/blocks/statistics-line-trends-card";
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "./_storybook/dashboard-block-story.compositions";
 import {
-  DEFAULT_STATISTICS_LINE_TRENDS_LABEL,
-  defaultStatisticsLineTrendsCards,
-} from "./shadcn-studio/data/statistics-line-trends.data";
-
-function StatisticsLineTrendsPreview() {
-  return (
-    <section
-      aria-label={DEFAULT_STATISTICS_LINE_TRENDS_LABEL}
-      className="app-shell-statistics-trend-section"
-    >
-      <div className="app-shell-statistics-trend-grid">
-        {defaultStatisticsLineTrendsCards.map((card) => (
-          <StatisticsLineTrendsCard key={card.title} {...card} />
-        ))}
-      </div>
-    </section>
-  );
-}
+  AppShellDashboardStatisticsLineTrends,
+  type AppShellDashboardStatisticsLineTrendsGovernedComponents,
+  type AppShellDashboardStatisticsLineTrendsProps,
+} from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
+import {
+  createDashboardBlockMeta,
+  dashboardBlockDarkThemeGlobals,
+  dashboardBlockStoryParameters,
+} from "./_storybook/dashboard-block-story.shared";
 
 const meta = {
-  title: "ERP/ApplicationShell/Statistics/Line Trends",
-  component: StatisticsLineTrendsPreview,
-  tags: ["autodocs"],
+  ...createDashboardBlockMeta({
+    title: "ERP/ApplicationShell/Statistics/Line Trends",
+    component: AppShellDashboardStatisticsLineTrends,
+  }),
+  render: () => renderDashboardBlockStory(AppShellDashboardStatisticsLineTrends, {}),
   parameters: {
-    layout: "fullscreen",
+    ...dashboardBlockStoryParameters,
     docs: {
       description: {
         component:
-          "Governed adaptation of shadcn/studio `statistics-component-21` — dual-series metric cards with inline totals and compact line charts. Uses `@afenda/ui` Card + Chart primitives without consumer `className` (TIP-004); layout chrome lives in `afenda-appshell.css`.",
+          "Production dashboard widget wrapping shadcn/studio `statistics-component-21` — dual-series metric cards with inline totals and compact line charts.",
       },
     },
   },
-} satisfies Meta<typeof StatisticsLineTrendsPreview>;
+} satisfies Meta<AppShellDashboardStatisticsLineTrendsProps>;
 
-export type StatisticsLineTrendsCardStoriesGovernedComponents =
-  StatisticsLineTrendsCardGovernedComponents;
+export type StatisticsLineTrendsStoriesGovernedComponents =
+  AppShellDashboardStatisticsLineTrendsGovernedComponents;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Alias of Blocks/Dashboard/StatisticsLineTrends — kept for sidebar continuity. */
 export const Default: Story = {};
+
+export const DarkTheme: Story = {
+  globals: dashboardBlockDarkThemeGlobals,
+};
+
+export const Compact: Story = {
+  decorators: [compactDensityDecorator],
+};

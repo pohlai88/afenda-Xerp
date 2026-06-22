@@ -35,6 +35,7 @@ describe("API envelope", () => {
 
     expect(envelope.ok).toBe(false);
     expect(envelope.error.code).toBe("validation_failed");
+    expect(envelope.error.correlationId).toBe(meta.correlationId);
     expect(envelope.meta).toEqual(meta);
     expect(Object.keys(envelope)).toEqual(["ok", "error", "meta"]);
   });

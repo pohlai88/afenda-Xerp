@@ -7,6 +7,7 @@ import {
   detectMigrationLedgerDrift,
   type MigrationLedgerDbRow,
 } from "../src/migrations/ledger.contract.js";
+import { MIGRATION_GOVERNANCE_RULES } from "../src/migrations/migration-governance.contract.js";
 import { journalPath, loadDatabaseEnv, migrationsDir } from "./load-env.js";
 
 loadDatabaseEnv();
@@ -14,42 +15,6 @@ loadDatabaseEnv();
 const args = new Set(process.argv.slice(2));
 const checkOnly = args.has("--check");
 const dryRun = args.has("--dry-run");
-
-/** Schema probes for migrations that introduce distinctive objects (newest first). */
-const MIGRATION_PROBES: Record<string, string> = {
-  "20260620080000_observability_audit_baseline": `
-    SELECT EXISTS (
-      SELECT 1
-      FROM information_schema.columns
-      WHERE table_schema = 'public'
-        AND table_name = 'audit_events'
-        AND column_name = 'actor_id'
-    ) AS ok`,
-  "20260620070000_platform_rollout_store": `
-    SELECT to_regclass('public.platform_feature_flags') IS NOT NULL AS ok`,
-  "20260620060000_entitlement_governance": `
-    SELECT to_regclass('public.entitlement_grants') IS NOT NULL AS ok`,
-  "20260620050000_role_permissions": `
-    SELECT to_regclass('public.role_permissions') IS NOT NULL AS ok`,
-  "20260619250000_policy_governance": `
-    SELECT to_regclass('public.policies') IS NOT NULL AS ok`,
-  "20260619240000_role_governance": `
-    SELECT to_regclass('public.roles') IS NOT NULL AS ok`,
-  "20260619230000_membership_governance": `
-    SELECT to_regclass('public.memberships') IS NOT NULL AS ok`,
-  "20260619220000_organization_governance": `
-    SELECT to_regclass('public.organizations') IS NOT NULL AS ok`,
-  "20260619213000_company_governance": `
-    SELECT to_regclass('public.companies') IS NOT NULL AS ok`,
-  "20260619210000_auth_schema_enterprise": `
-    SELECT to_regclass('public.auth_user') IS NOT NULL AS ok`,
-  "20260619204304_sweet_kingpin": `
-    SELECT to_regclass('public.audit_events') IS NOT NULL AS ok`,
-  "20260619195805_mushy_kronos": `
-    SELECT to_regclass('public.users') IS NOT NULL AS ok`,
-  "20260619181744_great_robbie_robertson": `
-    SELECT to_regclass('public.tenants') IS NOT NULL AS ok`,
-};
 
 interface LoadedJournalEntry {
   hash: string;
@@ -68,6 +33,10 @@ interface DrizzleMigrationQueryRow {
 
 interface MigrationProbeQueryRow {
   readonly ok: boolean | null;
+}
+
+interface MigrationPartialQueryRow {
+  readonly partial: boolean | null;
 }
 
 const loadJournalEntries = (): LoadedJournalEntry[] => {
@@ -108,18 +77,68 @@ const probeAppliedThroughIndex = async (
       continue;
     }
 
-    const probe = MIGRATION_PROBES[entry.tag];
-    if (!probe) {
+    const rule = MIGRATION_GOVERNANCE_RULES[entry.tag];
+    if (!rule) {
       continue;
     }
 
-    const result = await pool.query<MigrationProbeQueryRow>(probe);
+    const result = await pool.query<MigrationProbeQueryRow>(rule.completeProbe);
     if (result.rows[0]?.ok) {
       return entry.idx;
     }
   }
 
   return -1;
+};
+
+const normalizePartialMigrationArtifacts = async (
+  pool: pg.Pool,
+  entries: LoadedJournalEntry[],
+  appliedThrough: number
+): Promise<number> => {
+  let normalizedCount = 0;
+
+  for (const entry of entries) {
+    if (entry.idx <= appliedThrough) {
+      continue;
+    }
+
+    const rule = MIGRATION_GOVERNANCE_RULES[entry.tag];
+    if (!rule || rule.partialCleanup.length === 0) {
+      continue;
+    }
+
+    const complete = await pool.query<MigrationProbeQueryRow>(
+      rule.completeProbe
+    );
+    if (complete.rows[0]?.ok) {
+      continue;
+    }
+
+    const partial = await pool.query<MigrationPartialQueryRow>(
+      rule.partialProbe
+    );
+    if (!partial.rows[0]?.partial) {
+      continue;
+    }
+
+    console.log(`normalize: cleaning partial artifacts for ${entry.tag}`);
+    if (dryRun) {
+      normalizedCount += 1;
+      continue;
+    }
+
+    for (const statement of rule.partialCleanup) {
+      await pool.query(statement);
+    }
+    normalizedCount += 1;
+  }
+
+  if (normalizedCount > 0 && !dryRun) {
+    console.log(`normalize: cleaned ${normalizedCount} partial migration(s)`);
+  }
+
+  return normalizedCount;
 };
 
 const buildExpectedRows = (
@@ -153,6 +172,8 @@ const repairJournal = async () => {
       );
       return { repaired: false, appliedThrough };
     }
+
+    await normalizePartialMigrationArtifacts(pool, entries, appliedThrough);
 
     const expectedRows = buildExpectedRows(entries, appliedThrough);
     const dbRows = await readDbMigrations(pool);

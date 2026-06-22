@@ -66,6 +66,48 @@ describe("@afenda/appshell downstream governance wiring", () => {
     expect(violations).toEqual([]);
   });
 
+  it("does not import @afenda/database from production source", () => {
+    const violations: string[] = [];
+
+    for (const filePath of collectProductionSourceFiles(srcRoot)) {
+      const content = readFileSync(filePath, "utf8");
+      if (/from ["']@afenda\/database["']/.test(content)) {
+        violations.push(filePath);
+      }
+    }
+
+    expect(violations).toEqual([]);
+  });
+
+  it("does not import @afenda/permissions from production source", () => {
+    const violations: string[] = [];
+
+    for (const filePath of collectProductionSourceFiles(srcRoot)) {
+      const content = readFileSync(filePath, "utf8");
+      if (
+        /from ["']@afenda\/permissions["']/.test(content) ||
+        /from ["']@afenda\/permissions\//.test(content)
+      ) {
+        violations.push(filePath);
+      }
+    }
+
+    expect(violations).toEqual([]);
+  });
+
+  it("does not import @afenda/auth from production source", () => {
+    const violations: string[] = [];
+
+    for (const filePath of collectProductionSourceFiles(srcRoot)) {
+      const content = readFileSync(filePath, "utf8");
+      if (/from ["']@afenda\/auth["']/.test(content)) {
+        violations.push(filePath);
+      }
+    }
+
+    expect(violations).toEqual([]);
+  });
+
   it("does not define duplicate recipe slot maps", () => {
     const forbidden = [
       "APP_SHELL_RECIPE_SLOTS",

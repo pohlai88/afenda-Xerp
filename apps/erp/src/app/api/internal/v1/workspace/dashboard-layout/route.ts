@@ -14,28 +14,41 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function requireAuthenticatedUserId(
-  userId: string | null
-): asserts userId is string {
-  if (userId === null) {
+function requireTenantScopedActor(context: {
+  readonly execution: { readonly tenantId: string | null };
+  readonly userId: string | null;
+}): { readonly tenantId: string; readonly userId: string } {
+  if (context.userId === null) {
     throw new ApiRouteError("unauthenticated", "Authentication is required.");
   }
+
+  const tenantId = context.execution.tenantId;
+
+  if (tenantId === null || tenantId.trim().length === 0) {
+    throw new ApiRouteError(
+      "forbidden",
+      "A valid workspace tenant context is required."
+    );
+  }
+
+  return { tenantId, userId: context.userId };
 }
 
 export const GET = createApiHandler({
   contract: dashboardLayoutGetContract,
   async handler(context) {
-    requireAuthenticatedUserId(context.userId);
-    return getWorkspaceDashboardLayout(context.userId);
+    const actor = requireTenantScopedActor(context);
+    return getWorkspaceDashboardLayout(actor.tenantId, actor.userId);
   },
 });
 
 export const PUT = createApiHandler({
   contract: dashboardLayoutPutContract,
   async handler(context) {
-    requireAuthenticatedUserId(context.userId);
+    const actor = requireTenantScopedActor(context);
     return saveWorkspaceDashboardLayout(
-      context.userId,
+      actor.tenantId,
+      actor.userId,
       context.requestBody
     );
   },
@@ -44,8 +57,8 @@ export const PUT = createApiHandler({
 export const DELETE = createApiHandler({
   contract: dashboardLayoutDeleteContract,
   async handler(context) {
-    requireAuthenticatedUserId(context.userId);
-    await resetWorkspaceDashboardLayout(context.userId);
+    const actor = requireTenantScopedActor(context);
+    await resetWorkspaceDashboardLayout(actor.tenantId, actor.userId);
     return { reset: true as const };
   },
 });

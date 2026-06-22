@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-20-v1",
-  "generatedAt": "2026-06-21T23:28:10.233Z",
+  "generatedAt": "2026-06-22T16:21:21.058Z",
   "runtimeEdges": [
     {
       "from": "@afenda/ai-governance",
@@ -48,7 +48,23 @@
     },
     {
       "from": "@afenda/erp",
+      "to": "@afenda/kernel"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/metadata"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/metadata-ui"
+    },
+    {
+      "from": "@afenda/erp",
       "to": "@afenda/observability"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/permissions"
     },
     {
       "from": "@afenda/erp",
@@ -83,12 +99,20 @@
       "to": "@afenda/database"
     },
     {
+      "from": "@afenda/permissions",
+      "to": "@afenda/kernel"
+    },
+    {
       "from": "@afenda/storybook",
       "to": "@afenda/appshell"
     },
     {
       "from": "@afenda/storybook",
       "to": "@afenda/design-system"
+    },
+    {
+      "from": "@afenda/storybook",
+      "to": "@afenda/metadata"
     },
     {
       "from": "@afenda/storybook",

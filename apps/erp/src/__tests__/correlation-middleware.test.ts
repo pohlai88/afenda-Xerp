@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CORRELATION_ID_HEADER } from "../middleware";
+import { CORRELATION_ID_HEADER } from "../proxy";
 
 describe("CORRELATION_ID_HEADER", () => {
   it("is the canonical lowercase header name", () => {

@@ -106,6 +106,48 @@
       "when": 1781942400000,
       "tag": "20260620100000_execution_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1781946000000,
+      "tag": "20260621100000_entity_group_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1781949600000,
+      "tag": "20260621110000_tenant_company_rls",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1781953200000,
+      "tag": "20260621120000_rls_app_session_fallback",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1781956800000,
+      "tag": "20260621130000_legal_entity_company_authority",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1781960400000,
+      "tag": "20260621140000_ownership_interest_authority",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1781964000000,
+      "tag": "20260621150000_organization_unit_authority",
+      "breakpoints": true
     }
   ]
 }

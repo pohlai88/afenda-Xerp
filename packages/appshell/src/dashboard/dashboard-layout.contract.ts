@@ -1,7 +1,14 @@
-import type { DashboardWidgetId } from "./dashboard-widget.contract";
+import type {
+  DashboardWidgetId,
+  LegacyDashboardCompositeWidgetId,
+} from "./dashboard-widget.contract";
+
+export type DashboardLayoutWidgetKey =
+  | DashboardWidgetId
+  | LegacyDashboardCompositeWidgetId;
 
 export interface DashboardWidgetLayoutItem {
-  readonly i: DashboardWidgetId;
+  readonly i: DashboardLayoutWidgetKey;
   readonly x: number;
   readonly y: number;
   readonly w: number;
@@ -28,5 +35,8 @@ export const DASHBOARD_GRID_BREAKPOINTS = {
   tablet: { breakpoint: 768, columns: 8 },
   mobile: { breakpoint: 480, columns: 4 },
 } as const satisfies Record<string, { breakpoint: number; columns: number }>;
+
+/** Matches `--afenda-spacing-3` (12px) — react-grid-layout margin tuple. */
+export const DASHBOARD_GRID_MARGIN = [12, 12] as const satisfies readonly [number, number];
 
 export type DashboardGridBreakpointKey = keyof typeof DASHBOARD_GRID_BREAKPOINTS;

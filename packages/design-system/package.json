@@ -11,10 +11,12 @@
       "default": "./dist/index.js"
     },
     "./css/afenda-tokens.css": {
+      "types": "./dist/css/tokens.css",
       "import": "./dist/css/tokens.css",
       "default": "./dist/css/tokens.css"
     },
     "./css/afenda-design-system.css": {
+      "types": "./dist/css/afenda-design-system.css",
       "import": "./dist/css/afenda-design-system.css",
       "default": "./dist/css/afenda-design-system.css"
     }

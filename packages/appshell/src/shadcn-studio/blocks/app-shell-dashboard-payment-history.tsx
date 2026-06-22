@@ -1,5 +1,6 @@
+import { useId } from "react";
+
 import {
-  Badge,
   Card,
   Progress,
   Separator,
@@ -10,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -23,11 +24,15 @@ import type {
   AppShellDashboardOverflowMenuItem,
   AppShellDashboardPaymentHistoryRow,
 } from "../data/app-shell.dashboard.types";
+import {
+  formatDashboardCurrency,
+  parseDashboardAmount,
+} from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
 export type AppShellDashboardPaymentHistoryGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card" | "Progress" | "Separator" | "Table"
+  "Card" | "Progress" | "Separator" | "Table"
 >;
 
 export interface AppShellDashboardPaymentHistoryProps {
@@ -38,21 +43,9 @@ export interface AppShellDashboardPaymentHistoryProps {
   readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
 }
 
-function parseAmount(value: string): number {
-  return Number.parseFloat(value.replaceAll(",", ""));
-}
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    currency: "USD",
-    maximumFractionDigits: 0,
-    style: "currency",
-  }).format(value);
-}
-
 function computeUtilization(spend: string, remaining: string): number {
-  const spent = parseAmount(spend);
-  const left = parseAmount(remaining);
+  const spent = parseDashboardAmount(spend);
+  const left = parseDashboardAmount(remaining);
   const limit = spent + left;
 
   if (limit <= 0) {
@@ -62,22 +55,20 @@ function computeUtilization(spend: string, remaining: string): number {
   return Math.round((spent / limit) * 100);
 }
 
-function resolveUtilizationBadgeTone(
-  utilization: number
-): NonNullable<GovernedBadgeProps["tone"]> {
+function resolveUtilizationDotClass(utilization: number): string {
   if (utilization >= 85) {
-    return "danger";
+    return "app-shell-dashboard-payment-utilization-dot app-shell-dashboard-payment-utilization-dot--high";
   }
 
   if (utilization >= 60) {
-    return "neutral";
+    return "app-shell-dashboard-payment-utilization-dot app-shell-dashboard-payment-utilization-dot--mid";
   }
 
-  return "success";
+  return "app-shell-dashboard-payment-utilization-dot app-shell-dashboard-payment-utilization-dot--low";
 }
 
 function computeTotalSpend(rows: readonly AppShellDashboardPaymentHistoryRow[]): number {
-  return rows.reduce((total, row) => total + parseAmount(row.spend), 0);
+  return rows.reduce((total, row) => total + parseDashboardAmount(row.spend), 0);
 }
 
 function PaymentHistoryRow({ row }: { readonly row: AppShellDashboardPaymentHistoryRow }) {
@@ -108,14 +99,29 @@ function PaymentHistoryRow({ row }: { readonly row: AppShellDashboardPaymentHist
         <div className="app-shell-dashboard-payment-spend-cell">
           <div className="app-shell-dashboard-payment-spend-row">
             <span className="app-shell-dashboard-payment-spend">
-              -{formatCurrency(parseAmount(row.spend))}
+              -{formatDashboardCurrency(parseDashboardAmount(row.spend))}
             </span>
-            <Badge emphasis="soft" tone={resolveUtilizationBadgeTone(utilization)}>
-              {utilization}%
-            </Badge>
+            <div className="app-shell-dashboard-payment-utilization-row">
+              <span
+                aria-label={utilizationLabel}
+                className="app-shell-dashboard-payment-utilization-indicator"
+                role="img"
+              >
+                <span
+                  aria-hidden
+                  className={resolveUtilizationDotClass(utilization)}
+                />
+                <span
+                  aria-hidden
+                  className="app-shell-dashboard-payment-utilization-label"
+                >
+                  {utilization}%
+                </span>
+              </span>
+            </div>
           </div>
           <span className="app-shell-dashboard-payment-remaining">
-            {formatCurrency(parseAmount(row.remaining))} remaining
+            {formatDashboardCurrency(parseDashboardAmount(row.remaining))} remaining
           </span>
           <div className="app-shell-dashboard-payment-utilization-frame">
             <Progress aria-label={utilizationLabel} value={utilization} />
@@ -133,7 +139,7 @@ export function AppShellDashboardPaymentHistory({
   rows = defaultAppShellDashboardPaymentHistory,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardPaymentHistoryProps) {
-  const summaryId = "app-shell-dashboard-payment-history-summary";
+  const summaryId = useId();
   const totalSpend = computeTotalSpend(rows);
   const activeCardsLabel =
     rows.length === 1 ? "1 active card" : `${rows.length} active cards`;
@@ -156,11 +162,9 @@ export function AppShellDashboardPaymentHistory({
           >
             <div className="app-shell-dashboard-payment-total-row">
               <span className="app-shell-dashboard-payment-total" id={summaryId}>
-                {formatCurrency(totalSpend)}
+                {formatDashboardCurrency(totalSpend)}
               </span>
-              <Badge emphasis="soft" tone="neutral">
-                {activeCardsLabel}
-              </Badge>
+              <span className="app-shell-dashboard-payment-postings">{activeCardsLabel}</span>
             </div>
             <span className="app-shell-dashboard-payment-comparison">{comparisonText}</span>
           </section>

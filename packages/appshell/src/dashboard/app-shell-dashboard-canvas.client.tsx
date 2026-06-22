@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
 import { DashboardGridLayoutAdapter } from "./dashboard-grid-layout-adapter.client";
+import { DashboardGridWidget } from "./dashboard-grid-widget.client";
 import { DEFAULT_DASHBOARD_LAYOUT } from "./dashboard-layout.defaults";
 import type { DashboardLayoutPreset } from "./dashboard-layout.contract";
 import { resolveDashboardLayoutPreset } from "./dashboard-layout.validation";
@@ -18,6 +19,7 @@ import {
 import {
   DASHBOARD_WIDGET_DEFINITIONS,
   getDashboardWidgetRegistry,
+  isDashboardWidgetId,
 } from "./dashboard-widget-registry";
 
 export interface ApplicationShellDashboardCanvasProps {
@@ -38,13 +40,16 @@ export function ApplicationShellDashboardCanvas({
   showReadonlyPreviewLabel = false,
 }: ApplicationShellDashboardCanvasProps) {
   const registry = getDashboardWidgetRegistry();
-  const resolvedInitialLayout = resolveDashboardLayoutPreset(
-    layoutProp,
-    registry,
-    DEFAULT_DASHBOARD_LAYOUT
+  const resolvedInitialLayout = useMemo(
+    () => resolveDashboardLayoutPreset(layoutProp, registry, DEFAULT_DASHBOARD_LAYOUT),
+    [layoutProp, registry]
   );
 
   const [layout, setLayout] = useState(resolvedInitialLayout);
+
+  useEffect(() => {
+    setLayout(resolvedInitialLayout);
+  }, [resolvedInitialLayout]);
 
   const visibleWidgets = useMemo(
     () => resolveDashboardWidgets(DASHBOARD_WIDGET_DEFINITIONS, renderContext),
@@ -106,6 +111,7 @@ export function ApplicationShellDashboardCanvas({
     <div
       aria-label={dashboardLabel}
       className="app-shell-dashboard app-shell-dashboard-canvas"
+      data-edit-mode={editMode ? "true" : "false"}
       role="region"
     >
       {editMode ? (
@@ -119,26 +125,23 @@ export function ApplicationShellDashboardCanvas({
         editMode={editMode}
         layout={visibleLayout}
         onLayoutChange={handleLayoutChange}
+        registry={registry}
       >
         {visibleLayoutItems.map((item) => {
-          const widget = registry.get(item.i);
+          const widget = isDashboardWidgetId(item.i) ? registry.get(item.i) : undefined;
           if (widget === undefined) {
             return null;
           }
 
           return (
-            <div className="app-shell-dashboard-grid-item" key={item.i}>
-              {editMode ? (
-                <button
-                  aria-label={`Drag ${widget.title}`}
-                  className="app-shell-dashboard-drag-handle"
-                  type="button"
-                />
-              ) : null}
-              <div className="app-shell-dashboard-grid-item-body">
-                {widget.render(renderContext)}
-              </div>
-            </div>
+            <DashboardGridWidget
+              editMode={editMode}
+              key={item.i}
+              title={widget.title}
+              widgetId={widget.id}
+            >
+              {widget.render(renderContext)}
+            </DashboardGridWidget>
           );
         })}
       </DashboardGridLayoutAdapter>

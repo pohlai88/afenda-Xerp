@@ -4,7 +4,7 @@ name: CI
 #
 # Pull requests to main must pass all gates before merge.
 # Core gates: typecheck, biome, test, build, boundaries, migrations, exports,
-# architecture authority, UI governance, storybook build, release-gate.
+# architecture authority, UI governance, storybook build, CSP third-party, release-gate.
 
 on:
   push:
@@ -129,6 +129,14 @@ jobs:
       - name: Gate 8c · AI governance (baseline)
         if: github.event_name != 'pull_request'
         run: pnpm quality:ai-governance
+
+      # ── Gate 8d · CSP third-party governance (static ERP scan) ────────────
+      - name: Gate 8d · CSP third-party governance
+        run: pnpm check:csp-third-party
+
+      # ── Gate 8e · ERP observability governance (pino edge + metadata) ───
+      - name: Gate 8e · ERP observability governance
+        run: pnpm check:erp-observability
 
       # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check

@@ -4,9 +4,9 @@ import {
   parsePolicyCondition,
 } from "@afenda/database";
 
-import type { MembershipContract } from "../membership.contract.js";
+import type { MembershipContract } from "../scope/membership.contract.js";
+import type { RoleContract } from "../grants/role.contract.js";
 import type { PolicyContract } from "../policy.contract.js";
-import type { RoleContract } from "../role.contract.js";
 import type { TenantContract } from "../tenant.contract.js";
 import type { PlatformUserContract } from "../user.contract.js";
 

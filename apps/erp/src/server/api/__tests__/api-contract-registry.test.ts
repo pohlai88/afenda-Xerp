@@ -40,6 +40,12 @@ describe("API contract registry", () => {
         continue;
       }
 
+      if (contract.tags.some((tag) => tag === "telemetry")) {
+        expect(contract.cache.kind).toBe("no-store");
+        assertMutationCachePolicy(contract);
+        continue;
+      }
+
       expect(contract.cache.kind).toBe("no-store");
       assertMutationCachePolicy(contract);
       expect("audit" in contract && contract.audit?.enabled).toBe(true);

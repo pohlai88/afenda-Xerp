@@ -5,6 +5,7 @@
  */
 import {
   type AnyPgColumn,
+  date,
   index,
   pgTable,
   uniqueIndex,
@@ -48,6 +49,8 @@ export const organizations = pgTable(
     name: varchar("name", { length: 255 }).notNull(),
     type: organizationTypeEnum("type").notNull().default("department"),
     status: organizationStatusEnum("status").notNull().default("active"),
+    effectiveFrom: date("effective_from"),
+    effectiveTo: date("effective_to"),
     createdAt: createdAtColumn(),
     updatedAt: updatedAtColumn(),
   },

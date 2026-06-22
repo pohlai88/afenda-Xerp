@@ -9,6 +9,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./scope": {
+      "types": "./dist/scope/index.d.ts",
+      "import": "./dist/scope/index.js",
+      "default": "./dist/scope/index.js"
+    },
+    "./grants": {
+      "types": "./dist/grants/index.d.ts",
+      "import": "./dist/grants/index.js",
+      "default": "./dist/grants/index.js"
     }
   },
   "files": [
@@ -26,6 +36,7 @@
   "dependencies": {
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
+    "@afenda/kernel": "workspace:*",
     "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {

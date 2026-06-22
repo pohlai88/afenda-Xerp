@@ -90,7 +90,7 @@ pnpm --filter @afenda/database db:studio
 4. Run `pnpm env:sync` so `packages/database/.env` is current.
 5. Run `pnpm migrate` (or `pnpm migrate:deploy` — same command).
 
-`db:migrate` runs `repair-drizzle-journal.ts` then `drizzle-kit migrate`. The repair step validates the checked-in journal offline, probes applied schema, auto-repairs ledger drift (including DB-only hashes not in the journal), then Drizzle applies pending SQL.
+`db:migrate` runs `repair-drizzle-journal.ts` (journal validation, partial-artifact normalization, ledger drift repair) then `apply-pending-migrations.ts` (`drizzle-kit migrate` with captured errors). The repair step validates the checked-in journal offline, probes applied schema, auto-cleans failed partial migrations, auto-repairs ledger drift (including DB-only hashes not in the journal), then Drizzle applies pending SQL.
 
 Do not apply `src/migrations/*.sql` manually or run `drizzle-kit migrate` outside this workflow.
 

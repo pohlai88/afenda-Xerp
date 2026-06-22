@@ -19,7 +19,7 @@ describe("ApplicationShell dashboard canvas accessibility", () => {
     render(<ApplicationShellDashboardCanvas editMode />);
 
     expect(
-      screen.getByRole("button", { name: "Drag Sparkline metrics" })
+      screen.getByRole("button", { name: "Drag Revenue this month" })
     ).toBeInTheDocument();
   });
 

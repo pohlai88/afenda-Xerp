@@ -11,6 +11,15 @@ import {
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
 } from "./shadcn-studio/data/app-shell.chrome.constants";
 
+/** Serializable operating context labels for shell chrome — display only, no authority. */
+export interface ApplicationShellOperatingContext {
+  readonly entityGroupLabel?: string;
+  readonly legalEntityLabel: string;
+  readonly organizationUnitLabel?: string;
+  readonly tenantLabel: string;
+  readonly workspaceLabel: string;
+}
+
 /** Serializable identity surface for shell chrome — boundary-safe, no session fields. */
 export interface ApplicationShellIdentity {
   readonly displayName: string;
@@ -82,6 +91,10 @@ export interface ApplicationShellProps {
   readonly roleLabel?: string;
   /** Governed shell density — defaults to `standard` (DOM: `default`). */
   readonly density?: Density;
+  /** Server-resolved workspace labels — shell displays only, does not authorize. */
+  readonly operatingContext?: ApplicationShellOperatingContext;
+  /** Optional workspace context switcher slot — wired by the host app via server action. */
+  readonly contextSwitcher?: ReactNode;
 }
 
 export interface AppShellMainProps {

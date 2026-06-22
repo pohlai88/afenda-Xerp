@@ -20,6 +20,10 @@ describe("Better Auth schema boundary", () => {
     expect(getTableName(authIdentityLinks)).toBe("auth_identity_links");
   });
 
+  it("maps auth identity link platform user FK to user_id (migration column)", () => {
+    expect(authIdentityLinks.userId.name).toBe("user_id");
+  });
+
   it("strips sensitive account credential fields from public projections", () => {
     const publicAccount = toPublicAuthAccount({
       id: "acc_1",

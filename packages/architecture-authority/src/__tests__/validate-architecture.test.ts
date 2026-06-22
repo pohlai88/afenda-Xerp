@@ -34,7 +34,11 @@ describe("validateArchitecture", () => {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
         "@afenda/design-system": "workspace:*",
+        "@afenda/kernel": "workspace:*",
+        "@afenda/metadata": "workspace:*",
+        "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
+        "@afenda/permissions": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/execution", {
@@ -54,10 +58,12 @@ describe("validateArchitecture", () => {
       workspace("@afenda/permissions", {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
+        "@afenda/kernel": "workspace:*",
       }),
       workspace("@afenda/storybook", {
         "@afenda/appshell": "workspace:*",
         "@afenda/design-system": "workspace:*",
+        "@afenda/metadata": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
@@ -98,7 +104,11 @@ describe("validateArchitecture", () => {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
         "@afenda/design-system": "workspace:*",
+        "@afenda/kernel": "workspace:*",
+        "@afenda/metadata": "workspace:*",
+        "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
+        "@afenda/permissions": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
@@ -112,6 +122,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/permissions", {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
+        "@afenda/kernel": "workspace:*",
       }),
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),

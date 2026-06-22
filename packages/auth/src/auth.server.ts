@@ -1,9 +1,12 @@
-import { clearPlatformUserIdCacheForTests } from "./auth.actor-resolution.js";
+import {
+  clearPlatformUserIdCacheForTests,
+  resolvePlatformActorUserId,
+} from "./auth.actor-resolution.js";
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 import type { AfendaAuthSession } from "./auth.contract.js";
-import { UnauthenticatedError } from "./auth.errors.js";
+import { UnauthenticatedError, UnlinkedPlatformUserError } from "./auth.errors.js";
 import { readAuthConfigFingerprint } from "./auth.runtime.js";
-import { normalizeAfendaAuthSession } from "./auth.session.js";
+import { isAfendaAuthSessionLinked, normalizeAfendaAuthSession } from "./auth.session.js";
 
 let authSingleton: AfendaAuth | undefined;
 let authEnvFingerprint: string | undefined;
@@ -36,22 +39,29 @@ export async function getAfendaAuthSession(
     return null;
   }
 
-  return normalizeAfendaAuthSession({
-    session: {
-      id: result.session.id,
-      expiresAt: result.session.expiresAt,
-      createdAt: result.session.createdAt,
-      ipAddress: result.session.ipAddress ?? null,
-      userAgent: result.session.userAgent ?? null,
-    },
-    user: {
-      id: result.user.id,
-      email: result.user.email,
-      name: result.user.name,
-      emailVerified: result.user.emailVerified,
-      image: result.user.image ?? null,
-    },
+  const platformUserId = await resolvePlatformActorUserId({
+    authUserId: result.user.id,
   });
+
+  return normalizeAfendaAuthSession(
+    {
+      session: {
+        id: result.session.id,
+        expiresAt: result.session.expiresAt,
+        createdAt: result.session.createdAt,
+        ipAddress: result.session.ipAddress ?? null,
+        userAgent: result.session.userAgent ?? null,
+      },
+      user: {
+        id: result.user.id,
+        email: result.user.email,
+        name: result.user.name,
+        emailVerified: result.user.emailVerified,
+        image: result.user.image ?? null,
+      },
+    },
+    platformUserId
+  );
 }
 
 export async function requireAfendaAuthSession(
@@ -62,6 +72,10 @@ export async function requireAfendaAuthSession(
 
   if (!session) {
     throw new UnauthenticatedError();
+  }
+
+  if (!isAfendaAuthSessionLinked(session)) {
+    throw new UnlinkedPlatformUserError();
   }
 
   return session;

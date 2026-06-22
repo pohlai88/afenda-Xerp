@@ -69,6 +69,25 @@ export const permissionIdRef = (): EntityRefColumn =>
 export const parentOrganizationIdRef = (): EntityRefColumn =>
   entityRefId("parent_organization_id");
 
+/** Governed foreign-key column for entity group references. */
+export const entityGroupIdRef = (): EntityRefColumn =>
+  entityRefId("entity_group_id");
+
+/** Governed foreign-key column for parent legal entity references. */
+export const parentLegalEntityIdRef = (): EntityRefColumn =>
+  entityRefId("parent_legal_entity_id");
+
+/** Governed foreign-key column for child/investee legal entity references. */
+export const childLegalEntityIdRef = (): EntityRefColumn =>
+  entityRefId("child_legal_entity_id");
+
+/**
+ * Placeholder reference for fiscal calendar (table planned).
+ * No FK until fiscal calendar authority is implemented.
+ */
+export const fiscalCalendarIdRef = (): EntityRefColumn =>
+  entityRefId("fiscal_calendar_id");
+
 /** Governed foreign-key column for audit actor user references. */
 export const actorUserIdRef = (): EntityRefColumn =>
   entityRefId("actor_user_id");
@@ -97,6 +116,13 @@ export const permissionId = (): PrimaryIdColumn => primaryId("permission_id");
 
 /** Governed primary key for policy entities. */
 export const policyId = (): PrimaryIdColumn => primaryId("policy_id");
+
+/** Governed primary key for entity group entities. */
+export const entityGroupId = (): PrimaryIdColumn => primaryId("entity_group_id");
+
+/** Governed primary key for ownership interest entities. */
+export const ownershipInterestId = (): PrimaryIdColumn =>
+  primaryId("ownership_interest_id");
 
 /** Governed primary key for audit event entities. */
 export const auditEventId = (): PrimaryIdColumn => primaryId("audit_event_id");

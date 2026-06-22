@@ -1,3 +1,10 @@
+export {
+  APPSHELL_APPROVED_RUNTIME_DEPENDENCIES,
+  APPSHELL_CONTEXT_CONSUMPTION_MODULES,
+  APPSHELL_CONTEXT_SURFACE_RULE,
+  APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES,
+  APPSHELL_FORBIDDEN_AUTHORITY_SYMBOLS,
+} from "./context/index.js";
 export type {
   ApplicationShellGovernedComponents,
   ApplicationShellProps,
@@ -9,6 +16,7 @@ export {
 } from "./shadcn-studio/data/app-shell.chrome.constants";
 export type {
   ApplicationShellIdentity,
+  ApplicationShellOperatingContext,
   AppShellMainProps,
 } from "./app-shell.types";
 export {
@@ -91,16 +99,23 @@ export type {
   ApplicationShellPlaceholderProps,
 } from "./app-shell.placeholder";
 export { ApplicationShellPlaceholderContent } from "./app-shell.placeholder";
-export type {
-  ApplicationShellDashboardGovernedComponents,
-  ApplicationShellDashboardProps,
-} from "./app-shell-dashboard";
-export { ApplicationShellDashboardContent } from "./app-shell-dashboard";
 export {
   ApplicationShellDashboardCanvas,
   ApplicationShellDashboardDemo,
+  applyDashboardWidgetRenderContextPreview,
   DEFAULT_DASHBOARD_LAYOUT,
+  DashboardWidgetRenderContextProvider,
+  DEMO_DASHBOARD_WIDGET_CAPABILITIES,
+  DEMO_DASHBOARD_WIDGET_PERMISSIONS,
   DASHBOARD_GRID_BREAKPOINTS,
+  DASHBOARD_WIDGET_CAPABILITIES,
+  DASHBOARD_WIDGET_FINANCE_PERMISSIONS,
+  EMPTY_DASHBOARD_WIDGET_RENDER_CONTEXT,
+  hydrateDashboardWidgetRenderContext,
+  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
+  serializeDashboardWidgetRenderContext,
+  useDashboardWidgetRenderContext,
+  useOptionalDashboardWidgetRenderContext,
   APPSHELL_DASHBOARD_LAYOUT_STORAGE_KEY,
   clearStoredDashboardLayout,
   getDashboardWidgetRegistry,
@@ -123,6 +138,8 @@ export type {
   DashboardWidgetId,
   DashboardWidgetLayoutItem,
   DashboardWidgetRenderContext,
+  DashboardWidgetRenderContextPreviewMode,
+  SerializableDashboardWidgetRenderContext,
 } from "./dashboard";
 export type {
   StatisticsLineTrendsCardGovernedComponents,
@@ -153,6 +170,12 @@ export {
   DEFAULT_STATISTICS_COMPONENT_10_LABEL,
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
 } from "./shadcn-studio/data/statistics-component-10.data";
+export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-shell-context-switcher";
+export {
+  AppShellContextSwitcher,
+  type AppShellContextSwitchSelection,
+  type AppShellContextSwitcherGovernedComponents,
+} from "./shadcn-studio/blocks/app-shell-context-switcher";
 export type { AppShellActivityDialogProps } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export type {

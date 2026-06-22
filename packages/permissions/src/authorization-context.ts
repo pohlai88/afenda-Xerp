@@ -34,8 +34,16 @@ export interface ResolvedAuthorizationContext extends AuthorizationContext {
 export function actorFromAuthSession(
   session: AfendaAuthSession
 ): AuthorizationActor {
+  const actorId = session.user.userId?.trim();
+
+  if (!actorId) {
+    throw new MissingAuthorizationActorError(
+      "Authenticated identity is not linked to a platform user."
+    );
+  }
+
   return {
-    actorId: session.user.userId,
+    actorId,
   };
 }
 

@@ -38,8 +38,11 @@ Recommended local flow:
 pnpm migrate
 pnpm db:seed:platform
 pnpm db:bootstrap:local
+pnpm auth:bootstrap:dev
 pnpm db:verify:seed
 ```
+
+Set `AFENDA_DEV_LOGIN_PASSWORD` in `.env.secret` (minimum 8 characters) before running `auth:bootstrap:dev`. The script creates a Better Auth credential for `dev-admin@localhost.afenda` and links it to the seeded platform user so ERP sign-in works on `/`.
 
 ## Seed strategy
 
@@ -82,7 +85,7 @@ Bootstrap commands are CLI-only entry points that compose seed profiles:
 - **local** — development workspace for day-to-day ERP work
 - **preview** — isolated preview tenant for deployment previews
 
-Bootstrap does **not** create Better Auth users or auto-admin production accounts.
+Bootstrap does **not** auto-create production admin accounts. For local ERP sign-in, run `pnpm auth:bootstrap:dev` after workspace bootstrap (see `@afenda/auth`).
 
 ## Production safety
 

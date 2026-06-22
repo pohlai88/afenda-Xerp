@@ -13,9 +13,9 @@ export const statisticsActivitySalesData = [
 ] as const;
 
 export const statisticsLeadChartData = [
-  { month: "january", sales: 340, fill: "var(--color-january)" },
-  { month: "february", sales: 200, fill: "var(--color-february)" },
-  { month: "march", sales: 200, fill: "var(--color-march)" },
+  { month: "january", sales: 340 },
+  { month: "february", sales: 200 },
+  { month: "march", sales: 200 },
 ] as const;
 
 export const statisticsProfileTrafficData = [
@@ -29,40 +29,17 @@ export const statisticsProfileTrafficData = [
 ] as const;
 
 export const statisticsRevenueBarData = [
-  {
-    day: "Monday",
-    revenue: 150,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Tuesday",
-    revenue: 250,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Wednesday",
-    revenue: 190,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
+  { day: "Monday", revenue: 150 },
+  { day: "Tuesday", revenue: 250 },
+  { day: "Wednesday", revenue: 190 },
   { day: "Thursday", revenue: 290 },
-  {
-    day: "Friday",
-    revenue: 220,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Saturday",
-    revenue: 350,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Sunday",
-    revenue: 250,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
+  { day: "Friday", revenue: 220 },
+  { day: "Saturday", revenue: 350 },
+  { day: "Sunday", revenue: 250 },
 ] as const;
 
-export const STATISTICS_LEAD_CENTER_LABEL = "$23K";
+/** Highlight day receives full primary fill; other bars use muted primary mix. */
+export const STATISTICS_REVENUE_HIGHLIGHT_DAY = "Thursday" as const;
 
 const WEEKDAY_ABBREVIATIONS: Record<string, string> = {
   Friday: "Fr",
@@ -76,6 +53,25 @@ const WEEKDAY_ABBREVIATIONS: Record<string, string> = {
 
 export function formatStatisticsWeekdayTick(value: string): string {
   return WEEKDAY_ABBREVIATIONS[value] ?? value.slice(0, 2);
+}
+
+const MONTH_ABBREVIATIONS: Record<string, string> = {
+  april: "Apr",
+  august: "Aug",
+  december: "Dec",
+  february: "Feb",
+  january: "Jan",
+  july: "Jul",
+  june: "Jun",
+  march: "Mar",
+  may: "May",
+  november: "Nov",
+  october: "Oct",
+  september: "Sep",
+};
+
+export function formatStatisticsMonthTick(value: string): string {
+  return MONTH_ABBREVIATIONS[value.toLowerCase()] ?? value.slice(0, 3);
 }
 
 /** Shared chart margins — avoid negative values that clip bars outside the card. */

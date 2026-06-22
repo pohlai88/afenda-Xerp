@@ -146,9 +146,10 @@ Governed dashboard surfaces live under `packages/appshell/src/dashboard/`:
 
 - `ApplicationShellDashboardDemo` — readonly canvas
 - `ApplicationShellDashboardCanvas` — edit/readonly grid with versioned layout, widget registry, and capability resolution
-- Dev demos: ERP `/appshell-demo` (readonly), `/appshell-canvas` (editable + reset)
+- Protected ERP home (`/`) — primary workspace dashboard via `ProtectedWorkspaceDashboard` inside `AppShellMain`; layout edit mode when the actor has `workspace.dashboard_write`
+- Dev harness: `/appshell-canvas` (layout editing, RBAC preview toggles, reset). `/appshell-demo` redirects here (legacy alias).
 
-Protected ERP home uses `AppShellMain` integration placeholder — not demo widgets.
+Protected home loads layout from `GET /api/internal/v1/workspace/dashboard-layout` and persists changes with `PUT` when edit mode is enabled server-side.
 
 ## Final acceptance gates
 

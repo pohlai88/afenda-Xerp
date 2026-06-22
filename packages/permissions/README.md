@@ -13,8 +13,8 @@ Better Auth confirms identity. The permission and policy engine confirms authori
 
 ## Responsibilities
 
-- Typed permission key registry (dot notation)
-- Role and membership contracts
+- Typed permission key registry (dot notation) under `src/grants/`
+- Role and membership contracts; scope resolution under `src/scope/`
 - Platform actor status gate — only `active` users pass permission checks
 - `requirePermission` — role-grant enforcement (registry-validated at boundary)
 - `requirePolicyDecision` — policy overlay (approval, evidence, step-up, readonly; registry-validated at boundary)

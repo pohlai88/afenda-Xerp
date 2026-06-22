@@ -2,6 +2,8 @@ import type {
   DashboardWidgetDefinition,
   DashboardWidgetRenderContext,
 } from "./dashboard-widget.contract";
+import { isDashboardWidgetId } from "./dashboard-widget-registry";
+import type { DashboardWidgetLayoutItem } from "./dashboard-layout.contract";
 
 export function resolveDashboardWidgets(
   widgets: readonly DashboardWidgetDefinition[],
@@ -33,11 +35,11 @@ export function resolveDashboardWidgets(
   });
 }
 
-export function filterLayoutItemsByVisibleWidgets<
-  T extends { readonly i: DashboardWidgetDefinition["id"] },
->(
-  items: readonly T[],
+export function filterLayoutItemsByVisibleWidgets(
+  items: readonly DashboardWidgetLayoutItem[],
   visibleWidgetIds: ReadonlySet<DashboardWidgetDefinition["id"]>
-): readonly T[] {
-  return items.filter((item) => visibleWidgetIds.has(item.i));
+): readonly DashboardWidgetLayoutItem[] {
+  return items.filter(
+    (item) => isDashboardWidgetId(item.i) && visibleWidgetIds.has(item.i)
+  );
 }

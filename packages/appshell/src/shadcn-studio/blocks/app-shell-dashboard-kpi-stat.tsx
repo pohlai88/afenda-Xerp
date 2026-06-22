@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import { Badge, Card } from "@afenda/ui";
+import { Card } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import { DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL } from "../data/app-shell.dashboard.data";
@@ -8,7 +8,7 @@ import type { AppShellDashboardKpiMetric } from "../data/app-shell.dashboard.typ
 
 export type AppShellDashboardKpiStatGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Badge" | "Card"
+  "Card"
 >;
 
 export interface AppShellDashboardKpiStatProps extends AppShellDashboardKpiMetric {
@@ -43,9 +43,7 @@ export function AppShellDashboardKpiStat({
               <span className="app-shell-dashboard-kpi-title" id={titleId}>
                 {title}
               </span>
-              <Badge emphasis="soft" tone="neutral">
-                {badge}
-              </Badge>
+              <span className="app-shell-dashboard-kpi-caption">{badge}</span>
             </div>
             <div aria-hidden="true" className="app-shell-dashboard-kpi-icon-chip">
               <Icon className="app-shell-dashboard-kpi-icon" />

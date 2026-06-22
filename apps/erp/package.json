@@ -5,10 +5,13 @@
   "description": "Afenda ERP application shell entry point",
   "scripts": {
     "build": "next build",
+    "predev": "pnpm --filter @afenda/kernel build && pnpm --filter @afenda/database build && pnpm --filter @afenda/permissions build",
     "dev": "next dev --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
@@ -16,10 +19,11 @@
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
     "@afenda/design-system": "workspace:*",
-    "@afenda/kernel": "workspace:^",
+    "@afenda/kernel": "workspace:*",
     "@afenda/metadata": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
     "@afenda/observability": "workspace:*",
+    "@afenda/permissions": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@supabase/server": "^1.1.0",
     "@supabase/ssr": "^0.12.0",
@@ -32,7 +36,9 @@
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "catalog:",
+    "dotenv": "^17.4.2",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",

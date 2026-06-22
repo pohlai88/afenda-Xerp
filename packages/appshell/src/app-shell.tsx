@@ -62,7 +62,16 @@ export function ApplicationShell({
           teamRecipients={teamRecipients}
         />
         <div className="app-shell-main">
-          <AppShellHeader chrome={chrome} identityAccessory={identityAccessory} />
+          <AppShellHeader
+            chrome={chrome}
+            identityAccessory={identityAccessory}
+            {...(shellProps.contextSwitcher
+              ? { contextSwitcher: shellProps.contextSwitcher }
+              : {})}
+            {...(shellProps.operatingContext
+              ? { operatingContext: shellProps.operatingContext }
+              : {})}
+          />
           <main className="app-shell-content" data-app-shell-content="">
             {children}
           </main>

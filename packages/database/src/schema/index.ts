@@ -1,12 +1,14 @@
 import { auditEvents } from "./audit.schema.js";
 import { authIdentityLinks } from "./auth-identity-link.schema.js";
 import { companies } from "./company.schema.js";
+import { entityGroups } from "./entity-group.schema.js";
 import {
   entitlementGrants,
   tenantCommercialPlans,
   usageLimitCounters,
 } from "./entitlement.schema.js";
 import { executionRuns } from "./execution.schema.js";
+import { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
 import { permissions } from "./permission.schema.js";
@@ -26,8 +28,10 @@ export const platformSchema = {
   auditEvents,
   authIdentityLinks,
   companies,
+  entityGroups,
   entitlementGrants,
   executionRuns,
+  legalEntityOwnership,
   memberships,
   organizations,
   permissions,
@@ -50,6 +54,9 @@ export {
   auditResultEnum,
   auditSourceEnum,
   companyStatusEnum,
+  LEGAL_ENTITY_COMPANY_TYPES,
+  legalEntityCompanyTypeEnum,
+  consolidationMethodEnum,
   entitlementScopeEnum,
   entitlementTypeEnum,
   executionStatusEnum,
@@ -59,6 +66,8 @@ export {
   membershipStatusEnum,
   organizationStatusEnum,
   organizationTypeEnum,
+  ownershipControlTypeEnum,
+  ownershipRelationshipTypeEnum,
   policyEffectEnum,
   policyScopeEnum,
   policyStatusEnum,
@@ -81,12 +90,14 @@ export {
 } from "./auth.schema.js";
 export { authIdentityLinks } from "./auth-identity-link.schema.js";
 export { companies } from "./company.schema.js";
+export { entityGroups } from "./entity-group.schema.js";
 export {
   entitlementGrants,
   tenantCommercialPlans,
   usageLimitCounters,
 } from "./entitlement.schema.js";
 export { executionRuns } from "./execution.schema.js";
+export { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";
 export { permissions } from "./permission.schema.js";

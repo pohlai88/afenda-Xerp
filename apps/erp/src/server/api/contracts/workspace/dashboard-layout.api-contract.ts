@@ -2,20 +2,31 @@ import { z } from "zod";
 
 const dashboardWidgetIdSchema = z.enum([
   "invoice-table",
-  "kpi-stats",
+  "kpi-active-orders",
+  "kpi-headcount",
+  "kpi-net-income",
+  "kpi-open-tasks",
   "module-earnings",
   "payment-history",
   "recent-transactions",
   "regional-sales",
   "revenue-chart",
-  "sparkline-stats",
+  "sparkline-expense",
+  "sparkline-revenue",
   "statistics-line-trends",
   "statistics-metrics",
 ]);
 
+const legacyDashboardWidgetIdSchema = z.enum(["kpi-stats", "sparkline-stats"]);
+
+const dashboardLayoutWidgetKeySchema = z.union([
+  dashboardWidgetIdSchema,
+  legacyDashboardWidgetIdSchema,
+]);
+
 const dashboardWidgetLayoutItemSchema = z.object({
   h: z.number().int().positive(),
-  i: dashboardWidgetIdSchema,
+  i: dashboardLayoutWidgetKeySchema,
   minH: z.number().int().positive().optional(),
   minW: z.number().int().positive().optional(),
   w: z.number().int().positive(),

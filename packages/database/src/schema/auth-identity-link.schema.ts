@@ -6,7 +6,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-import { actorUserIdRef, primaryId } from "../ids.js";
+import { primaryId, userIdRef } from "../ids.js";
 import { authUser } from "./auth.schema.js";
 import { users } from "./user.schema.js";
 
@@ -22,7 +22,7 @@ export const authIdentityLinks = pgTable(
     authUserId: text("auth_user_id")
       .notNull()
       .references(() => authUser.id, { onDelete: "cascade" }),
-    userId: actorUserIdRef()
+    userId: userIdRef()
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     providerId: text("provider_id").notNull(),

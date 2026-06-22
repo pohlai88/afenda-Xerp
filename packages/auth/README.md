@@ -39,8 +39,10 @@ Better Auth proves login. Afenda decides authority.
 
 - Better Auth tables (`auth_user`, `auth_session`, …) are **login identity only**.
 - Platform actor identity lives in `users` and is linked via `auth_identity_links`.
-- Never use `authUser.id` as `actorUserId` or platform `users.id`.
-- Resolve platform user with `findPlatformUserIdByAuthUserId()` from `@afenda/database`.
+- `AfendaAuthSession.user.authUserId` is the Better Auth login id — never use it for RBAC.
+- `AfendaAuthSession.user.userId` is the platform `users.id` when `linkStatus === "linked"`.
+- `getAfendaAuthSession()` resolves the platform bridge on every call (LRU-cached).
+- `requireAfendaAuthSession()` rejects unlinked identities with `UnlinkedPlatformUserError`.
 
 Use `toAfendaAuthIdentity(session)` before passing identity into AppShell or other UI boundaries.
 

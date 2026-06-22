@@ -7,7 +7,7 @@
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
-| **Active workspaces** | 20 |
+| **Active workspaces** | 21 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date.
@@ -37,7 +37,7 @@ TIP-001D validators consume these values exactly — no human variants.
 
 ---
 
-## Active Registry (20)
+## Active Registry (21)
 
 Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 
@@ -50,9 +50,10 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-005 | `@afenda/docs` | `apps/docs` | Application | active | Documentation delivery surface | Application Authority | No | `active` |
 | PKG-006 | `@afenda/entitlements` | `packages/entitlements` | Integration | active | Entitlements, limits, and access gates | Platform Authority | Yes | `active` |
 | PKG-007 | `@afenda/erp` | `apps/erp` | Application | active | Primary ERP application delivery surface | Application Authority | No | `active` |
+| PKG-021 | `@afenda/storybook` | `apps/storybook` | Application | active | Design-system and ERP shell Storybook delivery surface | Application Authority | No | `active` |
 | PKG-008 | `@afenda/execution` | `packages/execution` | Foundation | active | Durable execution and workflow registry | Platform Authority | Yes | `active` |
 | PKG-009 | `@afenda/feature-flags` | `packages/feature-flags` | Integration | active | Deployment flags and rollout evaluation | Platform Authority | Yes | `active` |
-| PKG-010 | `@afenda/kernel` | `packages/kernel` | Foundation | active | Platform kernel and shared execution contracts | Platform Authority | Yes | `active` |
+| PKG-010 | `@afenda/kernel` | `packages/kernel` | Platform | active | Platform kernel — branded IDs, Result, and execution contracts | Platform Authority | Yes | `active` |
 | PKG-011 | `@afenda/metadata` | `packages/metadata` | Metadata | active | Metadata architecture authority contracts | Metadata Authority | Yes | `active` |
 | PKG-012 | `@afenda/metadata-ui` | `packages/metadata-ui` | Metadata | active | Metadata-driven rendering contracts | Metadata Authority | Yes | `active` |
 | PKG-013 | `@afenda/observability` | `packages/observability` | Platform | active | Logging, tracing, and audit authority | Platform Authority | Yes | `active` |

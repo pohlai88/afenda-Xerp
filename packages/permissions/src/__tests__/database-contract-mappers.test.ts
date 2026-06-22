@@ -8,7 +8,7 @@ import {
   toRoleContract,
   toTenantContract,
 } from "../database/contract-mappers";
-import { PERMISSION_REGISTRY } from "../permission.contract";
+import { PERMISSION_REGISTRY } from "../grants/permission.contract.js";
 
 describe("database contract mappers", () => {
   it("maps membership rows to authorization contracts", () => {

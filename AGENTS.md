@@ -158,3 +158,20 @@ Two layers — do not confuse them:
 **After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all four gates) or `pnpm ui:guard:scan` for a sub-2 s local check.
 
 **Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, Cursor preToolUse hook, stop hook appshell test gate.
+
+---
+
+## CSP third-party scripts (ERP)
+
+Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scripts:
+
+| Step | Action |
+|------|--------|
+| 1 | Add explicit `https://` origins to `apps/erp/src/lib/security/csp-allowlist.ts` |
+| 2 | Load via `next/script` in a **Server Component** with `nonce={nonce}` from `getCspNonce()` |
+| 3 | Never use raw `<script>`, `'unsafe-inline'` in production `script-src`, or wildcard CSP sources |
+| 4 | Run `pnpm check:csp-third-party` |
+
+**Skill:** `.cursor/skills/csp-third-party/SKILL.md`  
+**Rule:** `.cursor/rules/csp-third-party-scripts.mdc`  
+**Delivery:** `docs/delivery/nextjs-csp-nonce-pipeline.md`

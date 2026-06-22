@@ -1,17 +1,10 @@
-import { CORRELATION_ID_HEADER } from "@/middleware";
+import { resolveCorrelationIdFromRequest } from "@/lib/observability/resolve-correlation-id";
 
-export { CORRELATION_ID_HEADER };
+export { CORRELATION_ID_HEADER } from "@/lib/observability/correlation-header";
 
 export const REQUEST_ID_HEADER = "x-request-id" as const;
 
-export function resolveCorrelationId(request: Request): string {
-  const incoming = request.headers.get(CORRELATION_ID_HEADER);
-  if (incoming !== null && incoming.trim().length > 0) {
-    return incoming.trim();
-  }
-
-  return crypto.randomUUID();
-}
+export const resolveCorrelationId = resolveCorrelationIdFromRequest;
 
 export function createRequestId(): string {
   return crypto.randomUUID();

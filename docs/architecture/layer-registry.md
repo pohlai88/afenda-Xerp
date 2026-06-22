@@ -54,7 +54,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 18)
+## Package Layer Assignments (active — 21)
 
 | Package | Layer | Rank |
 |---------|-------|------|
@@ -62,14 +62,15 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 | `@afenda/ai-governance` | Platform | 1 |
 | `@afenda/auth` | Platform | 1 |
 | `@afenda/database` | Platform | 1 |
+| `@afenda/kernel` | Platform | 1 |
 | `@afenda/observability` | Platform | 1 |
 | `@afenda/permissions` | Platform | 1 |
 | `@afenda/typescript-config` | Platform (tooling) | 1 — exempt from layer-dep enforcement |
 | `@afenda/design-system` | Design | 2 |
 | `@afenda/ui` | Design | 2 |
 | `@afenda/execution` | Foundation | 2 |
-| `@afenda/kernel` | Foundation | 2 |
 | `@afenda/storage` | Foundation | 2 |
+| `@afenda/metadata` | Metadata | 3 |
 | `@afenda/metadata-ui` | Metadata | 3 |
 | `@afenda/entitlements` | Integration | 3 |
 | `@afenda/feature-flags` | Integration | 3 |
@@ -77,6 +78,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 | `@afenda/appshell` | ERPSpine | 4 |
 | `@afenda/erp` | Application | 6 |
 | `@afenda/docs` | Application | 6 |
+| `@afenda/storybook` | Application | 6 |
 
 ---
 

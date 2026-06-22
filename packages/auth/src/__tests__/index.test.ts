@@ -22,29 +22,34 @@ describe("@afenda/auth package", () => {
     const expiresAt = new Date("2026-06-27T00:00:00.000Z");
 
     expect(
-      normalizeAfendaAuthSession({
-        session: {
-          id: "sess_1",
-          createdAt,
-          expiresAt,
-          ipAddress: "127.0.0.1",
-          userAgent: "vitest",
+      normalizeAfendaAuthSession(
+        {
+          session: {
+            id: "sess_1",
+            createdAt,
+            expiresAt,
+            ipAddress: "127.0.0.1",
+            userAgent: "vitest",
+          },
+          user: {
+            id: "auth_user_1",
+            email: "user@example.com",
+            name: "Test User",
+            emailVerified: true,
+            image: null,
+          },
         },
-        user: {
-          id: "user_1",
-          email: "user@example.com",
-          name: "Test User",
-          emailVerified: true,
-          image: null,
-        },
-      })
+        "platform_user_1"
+      )
     ).toEqual({
       sessionId: "sess_1",
       user: {
-        userId: "user_1",
+        authUserId: "auth_user_1",
         email: "user@example.com",
         name: "Test User",
         emailVerified: true,
+        linkStatus: "linked",
+        userId: "platform_user_1",
       },
       metadata: {
         image: null,
