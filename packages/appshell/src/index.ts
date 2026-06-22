@@ -96,6 +96,34 @@ export type {
   ApplicationShellDashboardProps,
 } from "./app-shell-dashboard";
 export { ApplicationShellDashboardContent } from "./app-shell-dashboard";
+export {
+  ApplicationShellDashboardCanvas,
+  ApplicationShellDashboardDemo,
+  DEFAULT_DASHBOARD_LAYOUT,
+  DASHBOARD_GRID_BREAKPOINTS,
+  APPSHELL_DASHBOARD_LAYOUT_STORAGE_KEY,
+  clearStoredDashboardLayout,
+  getDashboardWidgetRegistry,
+  parseStoredDashboardLayout,
+  parseDashboardLayoutPreset,
+  readStoredDashboardLayout,
+  resolveDashboardLayoutPreset,
+  resolveDashboardWidgets,
+  validateDashboardLayoutPreset,
+  writeStoredDashboardLayout,
+} from "./dashboard";
+export type {
+  ApplicationShellDashboardCanvasProps,
+  ApplicationShellDashboardDemoProps,
+  DashboardGridBreakpointKey,
+  DashboardLayoutPreset,
+  DashboardLayoutValidationResult,
+  DashboardWidgetCategory,
+  DashboardWidgetDefinition,
+  DashboardWidgetId,
+  DashboardWidgetLayoutItem,
+  DashboardWidgetRenderContext,
+} from "./dashboard";
 export type {
   StatisticsLineTrendsCardGovernedComponents,
   StatisticsLineTrendsCardProps,

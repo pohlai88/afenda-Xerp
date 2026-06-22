@@ -151,10 +151,17 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(screen.queryByText("Net Income")).not.toBeInTheDocument();
   });
 
-  it("mounts inside ApplicationShell as the default main content", async () => {
+  it("mounts inside ApplicationShell when passed as explicit children", async () => {
     const { ApplicationShell } = await import("../app-shell");
+    const { ApplicationShellDashboardContent } = await import(
+      "../app-shell-dashboard"
+    );
 
-    render(<ApplicationShell />);
+    render(
+      <ApplicationShell>
+        <ApplicationShellDashboardContent />
+      </ApplicationShell>
+    );
 
     const dashboard = screen.getByRole("region", {
       name: DEFAULT_APP_SHELL_DASHBOARD_LABEL,

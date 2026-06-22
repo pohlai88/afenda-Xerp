@@ -20,6 +20,7 @@ const governanceRoot = join(uiSrcRoot, "governance");
 
 const config: StorybookConfig = {
   stories: [
+    "../stories/**/*.stories.@(ts|tsx)",
     "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
     "../../../packages/appshell/src/**/*.stories.@(ts|tsx)",
     "../../../packages/metadata-ui/src/**/*.stories.@(ts|tsx)",

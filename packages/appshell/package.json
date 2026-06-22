@@ -36,6 +36,7 @@
     "@afenda/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^0.525.0",
+    "react-grid-layout": "^2.2.3",
     "recharts": "3.8.0"
   },
   "peerDependencies": {
@@ -47,11 +48,12 @@
     "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@storybook/react": "^10.4.6",
-    "next": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@types/react-grid-layout": "^2.1.0",
+    "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "vitest": "catalog:"

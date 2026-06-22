@@ -1,5 +1,5 @@
-import { withSupabaseRoute } from "@/lib/supabase/route-handler";
+export const runtime = "nodejs";
+export const dynamic = "auto";
+export const revalidate = 30;
 
-export const GET = withSupabaseRoute({ auth: "none" }, (_request, _ctx) =>
-  Promise.resolve(Response.json({ status: "ok" }))
-);
+export { GET } from "../internal/v1/health/route";

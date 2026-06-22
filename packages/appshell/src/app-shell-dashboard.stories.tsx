@@ -83,7 +83,20 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          "Default dashboard composition: sparkline stats, KPI row, statistics metrics, line trend metrics, revenue chart, module earnings, regional sales, transactions, corporate card spend, legacy module widgets, and the accounts receivable table.",
+          "Default static dashboard composition for widget-level review without shell chrome.",
+      },
+    },
+  },
+};
+
+/** Isolated widget review without ApplicationShell dependency. */
+export const WidgetsOnly: Story = {
+  render: renderDashboardStory,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Block-level dashboard review surface — widgets render without shell chrome.",
       },
     },
   },

@@ -80,6 +80,12 @@ export interface ApplicationShellDashboardProps {
   readonly legacyPlaceholderProps?: ApplicationShellPlaceholderProps;
 }
 
+/**
+ * Static dashboard grid for widget-level review and legacy Storybook stories.
+ *
+ * @deprecated Prefer `ApplicationShellDashboardDemo` (readonly canvas) or
+ * `ApplicationShellDashboardCanvas` for governed layout surfaces.
+ */
 export function ApplicationShellDashboardContent({
   dashboardLabel = DEFAULT_APP_SHELL_DASHBOARD_LABEL,
   comparisonLabel = DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,

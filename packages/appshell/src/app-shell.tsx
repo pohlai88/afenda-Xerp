@@ -9,7 +9,6 @@ import {
   defaultAppShellPages,
   defaultAppShellRecipients,
 } from "./shadcn-studio/data/app-shell.data";
-import { ApplicationShellDashboardContent } from "./app-shell-dashboard";
 import {
   resolveApplicationShellChrome,
   type ApplicationShellProps,
@@ -64,8 +63,8 @@ export function ApplicationShell({
         />
         <div className="app-shell-main">
           <AppShellHeader chrome={chrome} identityAccessory={identityAccessory} />
-          <main className="app-shell-content">
-            {children ?? <ApplicationShellDashboardContent />}
+          <main className="app-shell-content" data-app-shell-content="">
+            {children}
           </main>
           <AppShellFooter chrome={chrome} />
         </div>

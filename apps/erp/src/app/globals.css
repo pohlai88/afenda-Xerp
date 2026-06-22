@@ -1,7 +1,7 @@
 /**
  * apps/erp — global CSS composition entry.
  *
- * Canonical import order (see docs/architecture/css-authority.md):
+ * Canonical import order (see docs/governance/downstream-ui-composition.md):
  *   1. tailwindcss               — Tailwind base reset + utilities
  *   2. afenda-ui.css             — design-system @theme bridge + UI primitives
  *   3. afenda-appshell.css       — AppShell structural chrome

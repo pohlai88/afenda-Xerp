@@ -29,7 +29,6 @@ describe("ApplicationShell", () => {
     render(<ApplicationShell />);
 
     expect(screen.getByText("Hey, User")).toBeInTheDocument();
-    expect(screen.getByText("Orders")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Collapse sidebar" })
     ).toBeInTheDocument();
@@ -90,7 +89,16 @@ describe("ApplicationShell", () => {
 
     const main = screen.getByRole("main");
     expect(main).toHaveClass("app-shell-content");
+    expect(main).toHaveAttribute("data-app-shell-content", "");
     expect(main).toHaveTextContent("Workspace body");
+  });
+
+  it("renders an empty workspace slot when children are omitted", () => {
+    render(<ApplicationShell />);
+
+    const main = screen.getByRole("main");
+    expect(main).toHaveAttribute("data-app-shell-content", "");
+    expect(main).toBeEmptyDOMElement();
   });
 
   it("announces unread notifications on the header trigger", () => {

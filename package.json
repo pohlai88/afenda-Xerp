@@ -26,6 +26,8 @@
     "check": "pnpm ci:biome && pnpm typecheck && pnpm test:run:all",
     "ci": "pnpm ci:biome && pnpm typecheck && pnpm test:run:all && pnpm build && pnpm quality",
     "check:css-governance": "tsx scripts/css/check-css-governance.mts",
+    "check:downstream-integration": "tsx scripts/governance/check-downstream-integration.mts",
+    "check:api-contracts": "tsx scripts/api-contract/check-api-contracts.mts",
     "quality:css": "tsx scripts/css/check-css-governance.mts",
     "quality": "pnpm quality:boundaries && pnpm quality:exports && pnpm quality:migrations && pnpm quality:architecture && pnpm quality:architecture-drift && pnpm quality:ai-governance && pnpm quality:release-gate && pnpm quality:css",
     "quality:boundaries": "node scripts/quality/check-package-boundaries.mjs",

@@ -8,7 +8,11 @@ import {
   renderInventoryWorkspaceStory,
   storySignOutAccessory,
 } from "./_storybook/app-shell-story.compositions";
-import { renderDashboardInShellStory } from "./_storybook/app-shell-dashboard-story.compositions";
+import {
+  renderDashboardCanvasInShellStory,
+  renderDashboardDemoInShellStory,
+  renderDashboardInShellStory,
+} from "./_storybook/app-shell-dashboard-story.compositions";
 import {
   FINANCE_DASHBOARD_ARGS,
   MODERN_DASHBOARD_ARGS,
@@ -92,7 +96,7 @@ const meta = {
     children: {
       control: false,
       description:
-        "Main workspace content. Defaults to the governed ERP overview dashboard.",
+        "Main workspace content. Omit for an empty chrome-only workspace slot.",
     },
     identity: { control: false },
     identityAccessory: { control: false },
@@ -110,13 +114,75 @@ export type ApplicationShellStoriesGovernedComponents = Extract<
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** ERP baseline — floating sidebar, module navigation, full overview dashboard. */
+/** Shell chrome only — empty workspace slot with no dashboard dependency. */
 export const Default: Story = {
   parameters: {
     docs: {
       description: {
         story:
-          "Default shell chrome with the governed ERP dashboard (sparkline metrics, KPI row, statistics metrics, line trend metrics, revenue chart, module earnings, regional sales, transactions, payment history, legacy module widgets, and accounts receivable).",
+          "Chrome-only ApplicationShell with a stable empty `<main>` workspace slot. No dashboard modules are imported by the shell.",
+      },
+    },
+  },
+};
+
+/** Route layout pattern — realistic page content inside the shell. */
+export const WithRouteContent: Story = {
+  args: {
+    userName: "Taylor Kim",
+    welcomeMessage: "Inventory · warehouse operations",
+    roleLabel: "Warehouse lead",
+    searchTriggerLabel: "Search stock…",
+  },
+  render: renderInventoryWorkspaceStory,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Proves shell chrome wrapping route content via `AppShellMain` without implicit dashboard defaults.",
+      },
+    },
+  },
+};
+
+/** Explicit readonly dashboard demo inside the shell. */
+export const DashboardDemo: Story = {
+  render: (args) => renderDashboardDemoInShellStory(args),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Shell plus explicit readonly dashboard demo canvas — dashboard is opt-in, not shell-owned.",
+      },
+    },
+  },
+};
+
+/** Editable dashboard canvas inside the shell. */
+export const DashboardCanvasEditable: Story = {
+  render: (args) => renderDashboardCanvasInShellStory(args, { editMode: true }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Editable grid canvas with drag handles and edit-mode chrome for dev/demo review.",
+      },
+    },
+  },
+};
+
+/** Readonly dashboard canvas inside the shell. */
+export const DashboardCanvasReadonly: Story = {
+  render: (args) =>
+    renderDashboardCanvasInShellStory(args, {
+      editMode: false,
+      showReadonlyPreviewLabel: true,
+    }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Production-style readonly canvas — no drag handles, optional dev-only readonly label.",
       },
     },
   },

@@ -16,6 +16,9 @@
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
     "@afenda/design-system": "workspace:*",
+    "@afenda/kernel": "workspace:^",
+    "@afenda/metadata": "workspace:*",
+    "@afenda/metadata-ui": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@supabase/server": "^1.1.0",
@@ -24,7 +27,8 @@
     "better-auth": "^1.6.19",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

@@ -124,10 +124,10 @@ describe("metadata-ui monorepo discipline", () => {
   it("exposes only governed public entry points", () => {
     expect(Object.keys(packageJson.exports ?? {}).sort()).toEqual([
       ".",
+      "./afenda-metadata-ui.css",
       "./client",
       "./fixtures.css",
       "./server",
-      "./styles.css",
     ]);
   });
 

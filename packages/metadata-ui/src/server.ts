@@ -60,4 +60,10 @@ export type {
   MetadataStateProps,
 } from "./states/index.js";
 
+export {
+  metadataRuntimeDensityToGovernedDensity,
+  resolveMetadataUiDensityAttribute,
+  resolveMetadataUiGovernedClassName,
+} from "./wiring/governance.js";
+
 export * from "./index.js";

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@afenda/appshell": "workspace:*",
+    "@afenda/metadata": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
     "@afenda/design-system": "workspace:*",
     "@afenda/ui": "workspace:*",
