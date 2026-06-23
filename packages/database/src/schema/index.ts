@@ -11,6 +11,7 @@ import { executionRuns } from "./execution.schema.js";
 import { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
+import { outboxEvents } from "./outbox.schema.js";
 import { permissions } from "./permission.schema.js";
 import { policies } from "./policy.schema.js";
 import { roles } from "./role.schema.js";
@@ -32,6 +33,7 @@ export const platformSchema = {
   entitlementGrants,
   executionRuns,
   legalEntityOwnership,
+  outboxEvents,
   memberships,
   organizations,
   permissions,
@@ -100,6 +102,12 @@ export { executionRuns } from "./execution.schema.js";
 export { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";
+export {
+  OUTBOX_STATUSES,
+  type OutboxStatus,
+  outboxEvents,
+  outboxStatusEnum,
+} from "./outbox.schema.js";
 export { permissions } from "./permission.schema.js";
 export { policies } from "./policy.schema.js";
 export { roles } from "./role.schema.js";

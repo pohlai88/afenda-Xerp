@@ -219,4 +219,23 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260623100000_outbox_foundation": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.table_constraints
+      WHERE table_schema = 'public'
+        AND table_name = 'outbox_events'
+        AND constraint_name = 'outbox_events_tenant_id_tenants_id_fk'
+    ) AS ok`,
+    partialProbe: `
+    SELECT (
+      to_regclass('public.outbox_events') IS NOT NULL
+      OR to_regtype('public.outbox_status') IS NOT NULL
+    ) AS partial`,
+    partialCleanup: [
+      `DROP TABLE IF EXISTS "outbox_events" CASCADE`,
+      `DROP TYPE IF EXISTS "public"."outbox_status"`,
+    ],
+  },
 };

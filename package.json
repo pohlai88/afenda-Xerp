@@ -102,7 +102,7 @@
     "env:doctor": "node scripts/env-doctor.mjs",
     "migrate": "pnpm --filter @afenda/database db:migrate",
     "migrate:deploy": "pnpm --filter @afenda/database db:migrate",
-    "db:generate": "pnpm --filter @afenda/database db:generate",
+    "db:generate": "pnpm --filter @afenda/database exec drizzle-kit generate --config ../../drizzle.config.ts",
     "db:seed:platform": "pnpm --filter @afenda/database db:seed:platform",
     "db:seed:dev": "pnpm --filter @afenda/database db:seed:dev",
     "db:seed:test": "pnpm --filter @afenda/database db:seed:test",

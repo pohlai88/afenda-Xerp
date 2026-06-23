@@ -148,6 +148,13 @@
       "when": 1781964000000,
       "tag": "20260621150000_organization_unit_authority",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1781967600000,
+      "tag": "20260623100000_outbox_foundation",
+      "breakpoints": true
     }
   ]
 }
