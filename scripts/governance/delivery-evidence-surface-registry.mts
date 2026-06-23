@@ -9,7 +9,7 @@ export const DELIVERY_EVIDENCE_SURFACE_RULE =
   "tip-007-012-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation" as const;
 
 export const TIP_007_012_DELIVERY_DOC =
-  "docs/delivery/tip-007-012-enterprise-group-operating-context.md" as const;
+  "docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md" as const;
 
 export const MULTI_TENANCY_DOC_REFERENCE =
   "docs/architecture/multi-tenancy.md" as const;

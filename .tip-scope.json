@@ -2,7 +2,7 @@
   "tip": "TIP-UI-01",
   "adr": "ADR-0001",
   "allowedPaths": [
-    "docs/delivery/tip-ui-01-css-pipeline.md",
+    "docs/delivery/tips/[Complete] tip-ui-01-css-pipeline.md",
     "docs/architecture/dependency-registry.md",
     "docs/architecture/dependency-snapshot.json",
     "packages/design-system/**",

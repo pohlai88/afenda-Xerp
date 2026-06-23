@@ -5,7 +5,7 @@
 | **Status** | **Partially Implemented** |
 | **ADR-0001 TIP-010 scope** | Identity & Authorization — this doc covers API RBAC slice only |
 | **Misnumbered evidence** | [`tip-010-observability-audit.md`](tip-010-observability-audit.md) (observability — not identity) |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Remaining gap** | All protected ERP routes + server actions gated; System Admin permissions |
 
 ## Scope

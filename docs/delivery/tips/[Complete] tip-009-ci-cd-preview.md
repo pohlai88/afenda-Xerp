@@ -129,7 +129,7 @@ TIP-009 governance self-check:
 - `ci.yml` contains every required command
 - `release-verification.yml` contains every required gate command
 - `package.json` defines all required quality scripts
-- `docs/delivery/tip-009-ci-cd-preview.md` exists
+- `docs/delivery/tips/[Complete] tip-009-ci-cd-preview.md` exists
 
 ---
 

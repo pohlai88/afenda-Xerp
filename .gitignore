@@ -19,6 +19,10 @@ packages/design-system/src/css/afenda-design-system.css
 .env
 .env.*
 !.env.example
+!.env.config.production
+
+# Trigger.dev local dev cache
+.trigger
 
 # Deployment
 .vercel/

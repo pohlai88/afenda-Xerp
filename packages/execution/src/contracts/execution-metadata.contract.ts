@@ -48,3 +48,13 @@ export function isExecutionPayload(value: unknown): value is ExecutionPayload {
 
   return Object.values(value).every(isExecutionJsonValue);
 }
+
+export function isExecutionJsonObject(
+  value: unknown
+): value is ExecutionJsonObject {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  return Object.values(value).every(isExecutionJsonValue);
+}

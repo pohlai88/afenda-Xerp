@@ -1,3 +1,6 @@
+import { unbrand } from "@afenda/kernel";
+
+import { commitWorkspaceDashboardMutation } from "@/lib/outbox/commit-workspace-dashboard-mutation.server.js";
 import {
   dashboardLayoutDeleteContract,
   dashboardLayoutGetContract,
@@ -8,7 +11,6 @@ import { createApiHandler } from "@/server/api/runtime/create-api-handler";
 import {
   getWorkspaceDashboardLayout,
   resetWorkspaceDashboardLayout,
-  saveWorkspaceDashboardLayout,
 } from "@/server/workspace/dashboard-layout.service";
 
 export const runtime = "nodejs";
@@ -36,7 +38,7 @@ function requireTenantScopedActor(context: {
 
 export const GET = createApiHandler({
   contract: dashboardLayoutGetContract,
-  async handler(context) {
+  handler(context) {
     const actor = requireTenantScopedActor(context);
     return getWorkspaceDashboardLayout(actor.tenantId, actor.userId);
   },
@@ -45,12 +47,39 @@ export const GET = createApiHandler({
 export const PUT = createApiHandler({
   contract: dashboardLayoutPutContract,
   async handler(context) {
-    const actor = requireTenantScopedActor(context);
-    return saveWorkspaceDashboardLayout(
-      actor.tenantId,
-      actor.userId,
-      context.requestBody
-    );
+    if (
+      context.userId === null ||
+      context.execution.companyId === null ||
+      context.execution.tenantId === null
+    ) {
+      throw new ApiRouteError(
+        "forbidden",
+        "A valid tenant and company context is required."
+      );
+    }
+
+    const actorId =
+      context.execution.actorId === null
+        ? unbrand(context.userId)
+        : unbrand(context.execution.actorId);
+
+    const committed = await commitWorkspaceDashboardMutation({
+      actorId,
+      companyId: unbrand(context.execution.companyId),
+      correlationId: context.correlationId,
+      layout: context.requestBody,
+      organizationId: context.execution.organizationId
+        ? unbrand(context.execution.organizationId)
+        : null,
+      tenantId: unbrand(context.execution.tenantId),
+      userId: unbrand(context.userId),
+    });
+
+    return {
+      layout: committed.layout,
+      source: committed.source,
+      updatedAt: committed.updatedAt,
+    };
   },
 });
 

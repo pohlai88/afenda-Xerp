@@ -4,7 +4,7 @@
 |-------|-------|
 | **Date** | 2026-06-22 |
 | **Scope** | CI / quality wiring only — no CSP policy changes |
-| **Authority** | `docs/delivery/nextjs-csp-nonce-pipeline.md`, TIP-009 |
+| **Authority** | `docs/delivery/support/nextjs-csp-nonce-pipeline.md`, TIP-009 |
 
 ## Where the gate is wired
 

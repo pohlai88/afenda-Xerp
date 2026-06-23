@@ -20,16 +20,18 @@
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "trigger:deploy": "trigger deploy",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": false,
   "dependencies": {
     "@afenda/kernel": "workspace:*",
     "@afenda/observability": "workspace:*",
-    "@trigger.dev/sdk": "catalog:"
+    "@trigger.dev/sdk": "4.4.6"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
-    "vitest": "catalog:"
+    "trigger.dev": "4.4.6",
+    "vitest": "^3.2.4"
   }
 }

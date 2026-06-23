@@ -19,8 +19,10 @@ const ignoredDirectories = new Set([
   "test-results",
 ]);
 const triggerImportPattern = /@trigger\.dev\//u;
-const allowedTriggerProviderSuffix =
-  "packages/execution/src/providers/trigger.provider.ts";
+const allowedTriggerProviderSuffixes = [
+  "packages/execution/src/providers/trigger.provider.ts",
+  "packages/execution/trigger.config.ts",
+] as const;
 
 function listSourceFiles(directory: string): string[] {
   const files: string[] = [];
@@ -61,7 +63,11 @@ function collectTriggerImportViolations(): string[] {
         "/"
       );
 
-      if (normalizedPath === allowedTriggerProviderSuffix) {
+      if (
+        allowedTriggerProviderSuffixes.includes(
+          normalizedPath as (typeof allowedTriggerProviderSuffixes)[number]
+        )
+      ) {
         continue;
       }
 

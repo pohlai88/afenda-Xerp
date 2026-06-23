@@ -4,7 +4,7 @@
 | --- | --- |
 | **Status** | **Partially Implemented** |
 | **Runtime evidence** | `globals.css`, `@afenda/ui` auth, protected dashboard, dev harnesses |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Remaining gap** | Module placeholder routes, production ApplicationShell wiring |
 
 ## Purpose

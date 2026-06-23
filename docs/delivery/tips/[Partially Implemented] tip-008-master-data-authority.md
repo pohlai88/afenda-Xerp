@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Status** | **Partially Implemented** (split scope) |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **ADR** | ADR-0011 — multi-level company model is foundational |
 
 This TIP is split into two scopes. **Do not mark TIP-008 Complete until both slices pass their gates.**

@@ -115,6 +115,6 @@ Build output should include scripts with `integrity="sha256-…"` attributes whe
 
 ## Related docs
 
-- `docs/delivery/nextjs-csp-nonce-pipeline.md` — nonce pipeline (protected surfaces)
-- `docs/delivery/csp-supabase-platform-approval.md` — Supabase connect/img origins
-- `docs/delivery/csp-third-party-ci-gate.md` — third-party script governance
+- `docs/delivery/support/nextjs-csp-nonce-pipeline.md` — nonce pipeline (protected surfaces)
+- `docs/delivery/support/csp-supabase-platform-approval.md` — Supabase connect/img origins
+- `docs/delivery/support/csp-third-party-ci-gate.md` — third-party script governance

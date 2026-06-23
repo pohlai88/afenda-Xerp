@@ -25,9 +25,27 @@ disable-model-invocation: true
 
 | Phase | Action | Skill sections |
 |-------|--------|----------------|
-| **0 · Contract** | State §0 six lines; check §0.1 hard stops; search `docs/adr/` + `docs/delivery/` before claiming no pending decision | §0, §0.1, §0.2, §1 |
+| **0 · Contract** | State §0 six lines; **paste Handoff from TIP doc if present**; check §0.1 hard stops; search `docs/adr/` + `docs/delivery/` before claiming no pending decision | §0, §0.0, §0.1, §0.2, §1 |
 | **1 · Implement** | Edit only allowed files; follow layer order and implementation rules | §2 – §10 |
 | **2 · Evidence** | Post §11 Completion Report with pass/fail drift table and gates run | §11 |
+
+---
+
+## 0.0 · Receiving handoff from write-tip
+
+When the task implements a foundation TIP (`docs/delivery/tips/[status] tip-*.md`):
+
+1. Read [`tip-status-index.md`](../../../docs/delivery/tip-status-index.md) — confirm TIP status, **§Runtime implementation sequence**, and blockers.
+2. Open the prefixed delivery doc under `docs/delivery/tips/` — scroll to **§Handoff to implementation**.
+3. Copy **one slice block only** (multi-package TIPs use numbered slices; see [write-tip §10](../../../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation)).
+4. Paste into Phase 0 below — the six lines **must match** the handoff block verbatim unless Architecture Authority approves a narrower slice.
+5. At session end, §11 Completion Report **closes the TIP DoD rows** the handoff referenced.
+
+**Do not start coding** if the delivery doc has no Handoff section — run `/write-tip` first or escalate.
+
+**Priority chain (dependency order — not TIP number):** See [tip-status-index §Runtime implementation sequence](../../../docs/delivery/tip-status-index.md#runtime-implementation-sequence). Current spine: TIP-011 Slices 1–3 → TIP-012 Slices 1–2 → then TIP-010A / TIP-007A → TIP-013.
+
+**Subagent:** For slice-by-slice execution with prerequisite checks, use [tip-slice-implementer](../agents/tip-slice-implementer.md).
 
 ---
 

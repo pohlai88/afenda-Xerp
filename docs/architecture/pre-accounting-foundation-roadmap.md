@@ -12,7 +12,7 @@
 
 ## Rule
 
-> **No Accounting Core coding (`TIP-013+`, `@afenda/accounting`, ledger/journal/posting/consolidation logic) may begin until every Phase 0–8 exit criterion passes and Phase 9 Accounting Readiness Gate is signed off with runtime evidence.**
+> **No Accounting Core coding (`TIP-014+`, `@afenda/accounting`, ledger/journal/posting/consolidation logic) may begin until every Phase 0–8 exit criterion passes and Phase 9 Accounting Readiness Gate is signed off with runtime evidence.**
 
 This roadmap is the **delivery authority** for AI agents and human implementers until Accounting Core begins.
 
@@ -133,6 +133,8 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** REST-first, stable, envelope-based API contracts for all ERP surfaces.
 
+**Delivery TIP:** [TIP-010A](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) (accepted slice under TIP-010)
+
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
 | REST-first standard | **Partial** | Document in `docs/governance/api-contract.md` |
@@ -175,6 +177,8 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Feature source → domain → module → capability → navigation → dashboard projection pipeline.
 
+**Delivery TIP:** [TIP-007A](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) (accepted slice under TIP-007)
+
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
 | Feature source | **Partial** — entitlements catalog | Single feature source registry |
@@ -193,6 +197,8 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 ## Foundation Phase 8 — System Admin Completion Before Accounting
 
 **Objective:** Control plane operational for users, security, and platform configuration.
+
+**Delivery TIP:** [TIP-013](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
 
 | Surface | Current | Exit criterion |
 | --- | --- | --- |
@@ -243,7 +249,7 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
                     ACCOUNTING READINESS GATE PASSED
                                     │
                                     ▼
-                          TIP-013 Accounting Core Contracts
+                          TIP-014 Accounting Core Contracts
                           (@afenda/accounting — PKG-R01 via ADR)
 ```
 
@@ -251,12 +257,12 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
 
 | TIP | Domain | Priority |
 | --- | --- | --- |
-| TIP-013 | Accounting core contracts | P0 |
-| TIP-014 | Chart of accounts | P0 |
-| TIP-015 | General ledger & journals | P0 |
-| TIP-016 | AP/AR foundation | P0 |
-| TIP-017 | Vietnam localization | P0 |
-| TIP-018–023 | Reports, postings, outbox domain events | P0/P1 |
+| TIP-014 | Accounting core contracts | P0 |
+| TIP-015 | Chart of accounts | P0 |
+| TIP-016 | General ledger & journals | P0 |
+| TIP-017 | AP/AR foundation | P0 |
+| TIP-018 | Vietnam localization | P0 |
+| TIP-019–024 | Reports, postings, outbox domain events | P0/P1 |
 
 **Reserved packages:** PKG-R01–R05 — register via ADR before filesystem creation.
 
@@ -267,12 +273,16 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
 ```text
 1. Read ADR > Registry > Delivery TIP > master plan v5
 2. Read afenda-runtime-truth-matrix.md for current status
-3. Identify current foundation phase from exit criteria checklists
-4. State §0 execution contract (afenda-coding-session skill)
-5. Implement ONLY the next incomplete TIP in the current phase
-6. Update runtime matrix + delivery doc with evidence
-7. Never skip to TIP-013+ regardless of user pressure
+3. Read tip-status-index.md — Implementation workflow section
+4. Open the target docs/delivery/tips/[status] tip-*.md; copy §Handoff to implementation (write-tip §10)
+5. Paste handoff into afenda-coding-session §0 execution contract — do not skip to code
+6. Implement ONLY the next incomplete slice in the current phase (one package layer per session)
+7. Post afenda-coding-session §11 Completion Report; close TIP DoD rows with evidence
+8. Update runtime matrix + delivery doc + tip-status-index in the same PR
+9. Never skip to TIP-014+ regardless of user pressure
 ```
+
+Handoff template: [write-tip TEMPLATES §G](../.cursor/skills/write-tip/TEMPLATES.md#g--handoff-block-template-paste-into-afenda-coding-session).
 
 ---
 

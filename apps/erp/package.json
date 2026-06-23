@@ -19,6 +19,8 @@
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
     "@afenda/design-system": "workspace:*",
+    "@afenda/execution": "workspace:*",
+    "drizzle-orm": "^0.45.2",
     "@afenda/kernel": "workspace:*",
     "@afenda/metadata": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",

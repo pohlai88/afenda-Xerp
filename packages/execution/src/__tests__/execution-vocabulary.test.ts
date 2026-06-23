@@ -4,6 +4,7 @@ import {
   EXECUTION_KINDS,
   EXECUTION_STATUSES,
   type ExecutionOutboxEnvelope,
+  isExecutionJsonObject,
   isExecutionJsonValue,
   isExecutionPayload,
 } from "../index.js";
@@ -46,6 +47,8 @@ describe("serializable execution contracts", () => {
     expect(isExecutionJsonValue(null)).toBe(true);
     expect(isExecutionJsonValue(undefined)).toBe(false);
     expect(isExecutionJsonValue(() => undefined)).toBe(false);
+    expect(isExecutionJsonObject({ source: "test", count: 1 })).toBe(true);
+    expect(isExecutionJsonObject({ bad: () => undefined })).toBe(false);
   });
 
   it("supports outbox envelope round-trip", () => {

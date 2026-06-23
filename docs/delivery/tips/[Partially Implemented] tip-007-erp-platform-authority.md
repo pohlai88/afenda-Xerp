@@ -5,7 +5,7 @@
 | **Status** | **Partially Implemented** |
 | **Authority status** | Partial — platform entity map incomplete |
 | **Runtime evidence** | Kernel context contracts, `@afenda/database` platform schemas, multi-tenancy slice |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Related delivery** | [`tip-007-012-enterprise-group-operating-context.md`](tip-007-012-enterprise-group-operating-context.md) |
 
 ## Purpose

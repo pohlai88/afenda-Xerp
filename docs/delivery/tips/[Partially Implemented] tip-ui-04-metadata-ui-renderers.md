@@ -4,7 +4,7 @@
 | --- | --- |
 | **Status** | **Partially Implemented** |
 | **Runtime evidence** | Section renderers, surfaces, layouts, actions — 44+ `.tsx` files |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Remaining gap** | Production ERP pages wired to metadata renderers |
 
 ## Purpose

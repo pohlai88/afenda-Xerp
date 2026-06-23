@@ -1,6 +1,6 @@
 # TIP-004 — Governed UI Policy (canonical)
 
-Operational policy for `@afenda/ui` governance. Delivery history lives in [`docs/delivery/`](../delivery/); this document is the **single source of truth** for day-to-day enforcement.
+Operational policy for `@afenda/ui` governance. Delivery history lives in [`docs/delivery/tips/`](../delivery/tips/); status authority is [`tip-status-index.md`](../delivery/tip-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
 
 Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downstream-ui-composition.md)
 
@@ -10,9 +10,10 @@ Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downst
 
 | ID | Topic | Status | Doc |
 |----|-------|--------|-----|
-| TIP-004 | Design system contracts (tokens, recipes, className policy metadata) | Complete | [`tip-004-design-system-contracts.md`](../delivery/tip-004-design-system-contracts.md) |
-| TIP-004A | Token authority (`--afenda-*` CSS variables) | Complete | [`packages/design-system/doc/tip-004A.md`](../../packages/design-system/doc/tip-004A.md) |
-| TIP-004B | Governed primitive adapter (`resolvePrimitiveGovernance`) | Complete | [`tip-004b-primitive-adapter.md`](../delivery/tip-004b-primitive-adapter.md) |
+| TIP-004 contracts | Design system contracts (tokens, recipes, className policy metadata) | Complete (authority only) | [`tip-004-design-system-contracts.md`](../delivery/tips/%5BComplete%20(authority%20only)%5D%20tip-004-design-system-contracts.md) |
+| TIP-004 UI consumption | `@afenda/ui` adapter + consumer adoption evidence | Complete | [`tip-004-ui-consumption.md`](../delivery/tips/%5BComplete%5D%20tip-004-ui-consumption.md) |
+| TIP-004A | Token authority (`--afenda-*` CSS variables) | Complete | [`tip-004a-token-authority.md`](../delivery/tips/%5BComplete%5D%20tip-004a-token-authority.md) |
+| TIP-004B | Governed primitive adapter (`resolvePrimitiveGovernance`) | Complete | [`tip-004b-primitive-adapter.md`](../delivery/tips/%5BComplete%5D%20tip-004b-primitive-adapter.md) |
 | TIP-004 (this) | Author + consumer runtime policy | Active | **This file** |
 
 ---

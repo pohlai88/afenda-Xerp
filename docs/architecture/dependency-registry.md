@@ -41,6 +41,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
+| `@afenda/erp` | `@afenda/execution` | Approved | TIP-011 | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata` | Approved | — | — |
@@ -89,7 +90,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/execution`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |

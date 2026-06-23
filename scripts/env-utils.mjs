@@ -20,6 +20,7 @@ export const LOCAL_SYNC_TARGETS = [
   "apps/erp/.env.local",
   "apps/docs/.env.local",
   "packages/database/.env",
+  "packages/execution/.env",
 ];
 
 export const ENV_ALIASES = [

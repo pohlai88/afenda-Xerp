@@ -9,7 +9,13 @@ export const CONTEXT_INTEGRATION_WIRING = [
     id: "protected-api-routes",
     step: "Wire protected API routes",
     module: "server/api/runtime/create-api-handler.ts",
-    delegate: "assertRoutePermission",
+    delegate: "runProtectedMutation",
+  },
+  {
+    id: "protected-mutation-spine",
+    step: "Execute governed mutations through operating spine",
+    module: "lib/spine/run-protected-mutation.ts",
+    delegate: "runProtectedMutation",
   },
   {
     id: "protected-server-actions",
@@ -39,6 +45,10 @@ export const CONTEXT_INTEGRATION_WIRING = [
 
 /** Primary integration entry points. */
 export const CONTEXT_INTEGRATION_FUNCTIONS = [
+  {
+    name: "runProtectedMutation",
+    file: "lib/spine/run-protected-mutation.ts",
+  },
   {
     name: "createApiHandler",
     file: "server/api/runtime/create-api-handler.ts",

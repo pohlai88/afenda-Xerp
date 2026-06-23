@@ -4,7 +4,7 @@
 | --- | --- |
 | **Status** | **Implemented** |
 | **Runtime evidence** | `apps/erp/src/app/globals.css`, `packages/design-system/dist/css/tokens.css` |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 
 Status: **Complete** (runtime proven)
 

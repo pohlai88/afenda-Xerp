@@ -1,7 +1,7 @@
 import { getAfendaAuthSession } from "@afenda/auth";
 import { brandUserId, createExecutionContext } from "@afenda/kernel";
 import { headers } from "next/headers";
-
+import { runProtectedMutation } from "@/lib/spine/run-protected-mutation";
 import type { ApiRouteContract } from "../contracts/api-contract";
 import { isMutationMethod } from "../contracts/api-route-policy.contract";
 import { createRequestId, resolveCorrelationId } from "./api-correlation";
@@ -29,11 +29,24 @@ import {
   readJsonBody,
 } from "./api-validation";
 
+function resolveHandlerSuccessStatus<TResponse>(
+  method: ApiRouteContract<unknown, TResponse>["method"],
+  dto: TResponse,
+  resolveSuccessStatus?: (data: TResponse) => number
+): number {
+  if (resolveSuccessStatus) {
+    return resolveSuccessStatus(dto);
+  }
+
+  return method === "POST" ? 201 : 200;
+}
+
 export function createApiHandler<TRequest, TResponse>(config: {
   readonly contract: ApiRouteContract<TRequest, TResponse>;
   readonly handler: (
     context: ApiRequestContext<TRequest>
   ) => Promise<TResponse>;
+  readonly resolveSuccessStatus?: (data: TResponse) => number;
 }): (request: Request) => Promise<Response> {
   return async (request: Request): Promise<Response> => {
     const startedAt = Date.now();
@@ -109,7 +122,21 @@ export function createApiHandler<TRequest, TResponse>(config: {
         config.contract.permission
       )) as ApiRequestContext<TRequest>;
 
-      const result = await config.handler(context);
+      const result = isMutationMethod(config.contract.method)
+        ? (
+            await runProtectedMutation({
+              context,
+              execute: async (_scope) => config.handler(context),
+              onObservability: ({ correlationId, scope }) => {
+                logger.info("spine.mutation.executing", {
+                  companyId: scope.companyId,
+                  correlationId,
+                  tenantId: scope.tenantId,
+                });
+              },
+            })
+          ).result
+        : await config.handler(context);
       const dto = parseResponseData(config.contract.responseSchema, result);
 
       await emitApiAuditEvidence(config.contract.audit, context);
@@ -118,7 +145,11 @@ export function createApiHandler<TRequest, TResponse>(config: {
         dto,
         meta,
         config.contract.cache,
-        config.contract.method === "POST" ? 201 : 200
+        resolveHandlerSuccessStatus(
+          config.contract.method,
+          dto,
+          config.resolveSuccessStatus
+        )
       );
 
       logApiRequest(

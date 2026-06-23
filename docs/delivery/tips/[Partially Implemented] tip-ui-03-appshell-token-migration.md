@@ -4,7 +4,7 @@
 | --- | --- |
 | **Status** | **Partially Implemented** |
 | **Runtime evidence** | `packages/appshell/src/styles/afenda-appshell.css` — replaces legacy CSS Modules approach |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Remaining gap** | TIP-006 authority contracts; full visual regression sign-off |
 
 ## Purpose

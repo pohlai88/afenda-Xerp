@@ -5,7 +5,7 @@
  * Detects obvious stale documentation markers and missing authority index files.
  */
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,6 +15,8 @@ import {
   DOCUMENTATION_DRIFT_SURFACE_RULE,
   DRIFT_AUDIT,
   FINGERPRINT_REQUIRED_DOCS,
+  LEGACY_DELIVERY_PATH_PATTERN,
+  LEGACY_DELIVERY_PATH_SCAN_FILES,
   MASTER_PLAN,
   MASTER_PLAN_FORBIDDEN_MARKERS,
   MASTER_PLAN_REQUIRED_MARKERS,
@@ -23,7 +25,10 @@ import {
   REQUIRED_ACCEPTED_ADRS,
   RUNTIME_TRUTH_MATRIX,
   STALE_DELIVERY_MARKERS,
+  TIP_DELIVERY_TIPS_DIR,
   TIP_STATUS_INDEX,
+  TIP_STATUS_INDEX_BASENAME,
+  TIP_STATUS_INDEX_TIPS_PATH_MARKER,
 } from "./documentation-drift-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -59,6 +64,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     MASTER_PLAN,
     DRIFT_AUDIT,
     TIP_STATUS_INDEX,
+    TIP_DELIVERY_TIPS_DIR,
   ]) {
     if (!existsSync(join(repoRoot, requiredPath))) {
       violations.push({
@@ -147,6 +153,50 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
           rule: "adr-index-not-accepted",
         });
       }
+    }
+  }
+
+  const tipStatusIndex = readText(TIP_STATUS_INDEX);
+  if (tipStatusIndex && !tipStatusIndex.includes(TIP_STATUS_INDEX_TIPS_PATH_MARKER)) {
+    violations.push({
+      file: TIP_STATUS_INDEX,
+      message: `TIP status index must reference ${TIP_STATUS_INDEX_TIPS_PATH_MARKER} (tips/ layout with [status] prefixes)`,
+      rule: "tip-status-index-missing-tips-path",
+    });
+  }
+
+  const deliveryRoot = join(repoRoot, "docs/delivery");
+  if (existsSync(deliveryRoot)) {
+    for (const name of readdirSync(deliveryRoot)) {
+      if (
+        name.startsWith("tip-") &&
+        name.endsWith(".md") &&
+        name !== TIP_STATUS_INDEX_BASENAME
+      ) {
+        violations.push({
+          file: `docs/delivery/${name}`,
+          message:
+            "Legacy unprefixed TIP at docs/delivery root — move to docs/delivery/tips/[status] tip-*.md",
+          rule: "legacy-delivery-tip-at-root",
+        });
+      }
+    }
+  }
+
+  for (const scanPath of LEGACY_DELIVERY_PATH_SCAN_FILES) {
+    const content = readText(scanPath);
+    if (!content) {
+      continue;
+    }
+
+    const matches = content.match(LEGACY_DELIVERY_PATH_PATTERN);
+    if (matches && matches.length > 0) {
+      const unique = [...new Set(matches)];
+      violations.push({
+        file: scanPath,
+        message: `Legacy delivery path(s) without tips/ prefix: ${unique.join(", ")}`,
+        rule: "legacy-delivery-path-reference",
+      });
     }
   }
 

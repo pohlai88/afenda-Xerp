@@ -7,7 +7,7 @@
 
 ## Objective
 
-Implement a production-safe CSP pipeline that generates a fresh nonce per protected HTML request, applies strict Content-Security-Policy, exposes the nonce to Server Components through request headers, preserves auth/correlation proxy behavior, and keeps Next.js development tooling functional. Public auth routes use SRI-compatible CSP for cacheable HTML (see `docs/delivery/csp-sri-hybrid-strategy.md`).
+Implement a production-safe CSP pipeline that generates a fresh nonce per protected HTML request, applies strict Content-Security-Policy, exposes the nonce to Server Components through request headers, preserves auth/correlation proxy behavior, and keeps Next.js development tooling functional. Public auth routes use SRI-compatible CSP for cacheable HTML (see `docs/delivery/support/csp-sri-hybrid-strategy.md`).
 
 ## What changed
 
@@ -122,7 +122,7 @@ upgrade-insecure-requests
 | `connect-src` | `wss://{ref}.supabase.co` (Realtime) |
 | `img-src` | `https://{ref}.supabase.co` (public Storage URLs) |
 
-MCP-finalized for project `esxjzvcfqtaxmiwjntje` — see `docs/delivery/csp-supabase-platform-approval.md`.
+MCP-finalized for project `esxjzvcfqtaxmiwjntje` — see `docs/delivery/support/csp-supabase-platform-approval.md`.
 
 ## Rollback
 

@@ -3,12 +3,12 @@
 > **⚠️ Misnumbered evidence doc (TIP-000D hygiene)**  
 > Filename suggests TIP-010, but ADR-0001 TIP-010 is **Identity & Authorization**.  
 > This document is **TIP-011 observability/audit slice evidence**.  
-> **Canonical TIP-010 (API RBAC):** [`tip-010-api-rbac-wiring.md`](tip-010-api-rbac-wiring.md)  
+> **Canonical TIP-010 (API RBAC):** [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-rbac-wiring.md)  
 > **Canonical TIP-011:** [`tip-011-execution-foundation.md`](tip-011-execution-foundation.md)  
-> **Status:** Partially Implemented (observability baseline delivered; not full execution/outbox)
+> **Status:** Superseded (misnumbered evidence — observability slice retained for audit trail)
 
-**Status:** Partially Implemented (evidence only — misnumbered)  
-**Date:** 2026-06-20  
+**Status:** Superseded (misnumbered evidence — observability slice; see [`tip-011-execution-foundation.md`](tip-011-execution-foundation.md))  
+**Date:** 2026-06-23  
 **Package:** `@afenda/observability`  
 **Scope:** Structured logging, correlation IDs, audit event contract, action evidence, error visibility, diagnostic readiness
 
@@ -70,7 +70,7 @@ The `@afenda/observability` package has **zero** dependency on `@afenda/database
 | `packages/observability/src/__tests__/correlation.test.ts` | Correlation ID contract tests |
 | `packages/observability/src/__tests__/audit-action-evidence.test.ts` | Action evidence tests |
 | `apps/erp/src/__tests__/correlation-middleware.test.ts` | Middleware header constant tests |
-| `docs/delivery/tip-010-observability-audit.md` | This document |
+| `docs/delivery/tips/[Superseded] tip-010-observability-audit.md` | This document |
 
 ### Modified
 

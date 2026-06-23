@@ -5,6 +5,14 @@ import { recordErpAuditEvent } from "@/lib/observability/record-erp-audit-event"
 import type { ApiAuditPolicy } from "../contracts/api-contract";
 import type { ApiRequestContext } from "./api-request-context";
 
+function buildAuditScopeMetadata(context: ApiRequestContext<unknown>) {
+  return {
+    companyId: context.execution.companyId,
+    organizationId: context.execution.organizationId,
+    tenantId: context.execution.tenantId,
+  };
+}
+
 export async function emitApiDeniedAuditEvidence(
   audit: ApiAuditPolicy | undefined,
   context: {
@@ -43,7 +51,10 @@ export async function emitApiAuditEvidence(
     actorType: context.userId === null ? "system" : "user",
     actorUserId: context.userId === null ? null : unbrand(context.userId),
     correlationId: context.correlationId,
-    fallbackMetadata: { requestId: context.requestId },
+    fallbackMetadata: {
+      requestId: context.requestId,
+      ...buildAuditScopeMetadata(context),
+    },
     module: "@afenda/erp",
     result: "success",
     source: "api",

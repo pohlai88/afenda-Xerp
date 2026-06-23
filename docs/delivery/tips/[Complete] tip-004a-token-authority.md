@@ -78,7 +78,7 @@ Do not modify:
 Allowed scope:
 
 * `packages/design-system`
-* `docs/delivery/tip-004a-design-system-authority.md`
+* `docs/delivery/tips/[Complete] tip-004a-token-authority.md`
 * workspace package references only if required for scripts
 
 ---
@@ -1123,7 +1123,7 @@ Tests must prove:
 Create:
 
 ```txt
-docs/delivery/tip-004a-design-system-authority.md
+docs/delivery/tips/[Complete] tip-004a-token-authority.md
 ```
 
 Document:

@@ -6,7 +6,8 @@
 
 ## §A — TIP Delivery Doc Template
 
-File path: `docs/delivery/tip-NNN-short-title.md`
+File path: `docs/delivery/tips/[status] tip-NNN-short-title.md`  
+When status changes, rename the `[status]` prefix in the same PR as `tip-status-index.md`.
 
 ```markdown
 # TIP-NNN — <Title>
@@ -86,13 +87,35 @@ AND   <additional outcome — always include audit event for mutations>
 | # | Criterion | Verification | Status |
 |---|-----------|-------------|--------|
 | 1 | Runtime evidence exists at stated file paths | File exists in repo | [ ] |
-| 2 | Acceptance criteria pass as tests | `pnpm test:run --filter <pkg>` | [ ] |
+| 2 | Acceptance criteria pass as tests | `pnpm --filter <pkg> test:run` | [ ] |
 | 3 | No unauthorized package boundary crossing | `pnpm quality:boundaries` | [ ] |
 | 4 | TypeScript strict — no `any` | `pnpm --filter <pkg> typecheck` | [ ] |
 | 5 | Biome lint + format clean | `pnpm ci:biome` | [ ] |
 | 6 | Runtime truth matrix updated | `docs/architecture/afenda-runtime-truth-matrix.md` | [ ] |
-| 7 | Delivery doc status matches codebase | `pnpm check:documentation-drift` | [ ] |
-| 8 | Completion report posted | afenda-coding-session §11 | [ ] |
+| 7 | TIP status index updated when status changes | `docs/delivery/tip-status-index.md` | [ ] |
+| 8 | Delivery doc + matrix in sync | `pnpm check:documentation-drift` | [ ] |
+| 9 | Completion report posted | afenda-coding-session §11 | [ ] |
+| 10 | Handoff block present and matches Deliverables | §Handoff to implementation in this doc | [ ] |
+
+## Handoff to implementation
+
+> **Mandatory before code edits.** Paste the block below into `/afenda-coding-session` Phase 0.  
+> Maps TIP sections → afenda-coding-session §0 per [write-tip §10](../../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation).
+
+```
+Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
+
+1. Objective    — <Purpose paragraph, one sentence>
+2. Allowed layer— <single owning package path from Package ownership table>
+3. Files        — <Deliverables table: each New/Modified row, one per line>
+4. Prohibited   — <Out of scope items + PKG-R01–R05 + ADR-0010 blocked packages>
+5. Authority    — <ADR-NNNN cited in Purpose>
+6. Gates        — <Acceptance gate pnpm commands, one per line>
+```
+
+For multi-package TIPs, add **numbered slices** (dependency order: types/contracts → database → platform → app). Each slice gets its own handoff block and its own coding session. Link prerequisites to upstream slice anchors.
+
+The **DoD table is the checklist.** afenda-coding-session **§11 Completion Report** proves each DoD row passed.
 
 ## Verdict
 
@@ -199,8 +222,9 @@ AND   an audit event records actor, action, target, correlation ID
 | Criterion | Gate | Done |
 |-----------|------|------|
 | Contract exported from package | `pnpm --filter <pkg> typecheck` | [ ] |
-| Test covers happy + error path | `pnpm test:run --filter <pkg>` | [ ] |
+| Test covers happy + error path | `pnpm --filter <pkg> test:run` | [ ] |
 | No boundary violations | `pnpm quality:boundaries` | [ ] |
+| TIP status index updated | `docs/delivery/tip-status-index.md` | [ ] |
 | Runtime matrix updated | File edit + `pnpm check:documentation-drift` | [ ] |
 ```
 
@@ -277,16 +301,58 @@ AND   an audit event records the denial with actor and correlation ID
 ## §F — Consistency checklist (run before committing any doc)
 
 ```
-[ ] TIP ID matches master plan table (TIP-NNN; not invented)
-[ ] Status is one of the six ADR-0012 vocabulary values
-[ ] "Complete" has runtime evidence file paths (not claims only)
+[ ] TIP ID exists in tip-status-index.md or pre-accounting-foundation-roadmap.md (not invented)
+[ ] Status is one of the seven TIP delivery statuses (not runtime matrix vocabulary)
+[ ] "Complete" has runtime evidence file paths (not delivery doc claims only)
+[ ] "Complete (authority only)" meets all four conditions from SKILL.md §2 Step 5
 [ ] Out-of-scope list exists with at least one entry
 [ ] Acceptance criteria are in Gherkin format
 [ ] Every DoD criterion links to a pnpm gate or file path
 [ ] Deliverables table has concrete file paths (not vague descriptions)
 [ ] ADR cited as authority for the TIP
 [ ] Package names match docs/architecture/package-registry.md
+[ ] pnpm commands use `pnpm --filter <pkg> test:run` format (not `pnpm test:run --filter`)
+[ ] tip-status-index.md updated when TIP status changes
 [ ] pnpm check:documentation-drift passes after update
 [ ] No invented directory paths (docs/tip/, docs/roadmap/, etc.)
 [ ] Verdict is one sentence, plain English
+[ ] Handoff to implementation section exists with paste-ready §0 block(s)
+[ ] Multi-package TIPs use numbered slices with prerequisites
+```
+
+---
+
+## §G — Handoff block template (paste into afenda-coding-session)
+
+Use after **Definition of Done**, before **Verdict**. One block per implementation slice.
+
+```markdown
+## Handoff to implementation
+
+> **Mandatory before code edits.** Copy into `/afenda-coding-session` Phase 0.
+
+### Slice N — <short title> (`@afenda/<pkg>`)
+
+\`\`\`
+Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md (Slice N)
+
+1. Objective    — <one sentence from Purpose, scoped to this slice>
+2. Allowed layer— <package path>
+3. Files        — <path> (New|Modified)
+                  ...
+4. Prohibited   — <out of scope + blocked packages>
+5. Authority    — <ADR-NNNN — authority name>
+6. Gates        — pnpm --filter @afenda/<pkg> typecheck
+                  pnpm --filter @afenda/<pkg> test:run
+                  ...
+\`\`\`
+
+**Prerequisite:** <upstream slice or TIP, with link>
+
+### Post-implementation doc updates
+
+1. This delivery doc — Runtime evidence + DoD checkboxes
+2. `docs/delivery/tip-status-index.md` — if status changes
+3. `docs/architecture/afenda-runtime-truth-matrix.md` — evidence row
+4. `pnpm check:documentation-drift`
 ```

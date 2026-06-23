@@ -14,11 +14,11 @@ Human-managed sources only:
 | `.env.secret` | Secrets and credentials |
 | `.env.example` | Onboarding template (placeholders only) |
 
-Optional overlay: `.env.config.local` (local dev; gitignored).
+Optional overlays: `.env.config.local` (local dev; gitignored), `.env.config.production` (committed production spine policy).
 
 ## Never edit generated targets
 
-`.env`, `.env.local`, `apps/erp/.env.local`, `apps/docs/.env.local`, `packages/database/.env`
+`.env`, `.env.local`, `apps/erp/.env.local`, `apps/docs/.env.local`, `packages/database/.env`, `packages/execution/.env`
 
 Hooks block direct edits. After changing sources:
 
@@ -51,6 +51,8 @@ Secrets (`.env.secret`): `SUPABASE_DB_PASSWORD`, `SUPABASE_SECRET_KEY`
 - Stripe prices: use `STRIPE_PRICE_PRO`, not `STRIPE_PRICE_ID`
 - Object storage: `OBJECT_STORAGE_*` (not legacy `CLOUDFLARE_R2_*`)
 - Turborepo: `TURBO_TEAM` + `TURBO_TOKEN` live in `.env.secret` only
+- Trigger.dev: `TRIGGER_PROJECT_REF` + `TRIGGER_API_URL` in `.env.config`; `TRIGGER_SECRET_KEY` in `.env.secret` (synced to `packages/execution/.env` for CLI deploy/dev)
+- Execution spine: `OUTBOX_SCHEDULER_REQUIRED` in `.env.config` — `false` local default (degraded); production values in committed `.env.config.production`; `WORKER_RELEASE_CHECK_REQUIRED` defaults to scheduler policy; `ALLOW_DEGRADED_EXECUTION=true` only for incident response
 - `NEXT_PUBLIC_*` must be browser-safe — no secrets, DB URLs, or signing keys
 
 Policy source of truth: `scripts/env-utils.mjs` (`DEPRECATED_*`, `applyDerivedEnv`).

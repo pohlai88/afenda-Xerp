@@ -6,7 +6,7 @@
 > **Canonical TIP-012 (operating spine):** [`tip-012-erp-operating-spine.md`](tip-012-erp-operating-spine.md)  
 > **Status:** Partially Implemented (Trigger.dev spine ✅; outbox ❌)
 
-Status: **Partially Implemented** (Trigger.dev foundation only — see canonical TIP-011)
+Status: **Superseded** (misnumbered evidence — Trigger.dev slice; see [`tip-011-execution-foundation.md`](tip-011-execution-foundation.md))
 
 ## Purpose
 
@@ -95,7 +95,7 @@ executionService  (@afenda/execution)
 - `packages/database/src/schema/execution.schema.ts`
 - `packages/database/src/migrations/20260620100000_execution_foundation.sql`
 - `packages/testing/src/execution/mock-execution-provider.ts`
-- `docs/delivery/tip-012-execution-foundation.md`
+- `docs/delivery/tips/[Superseded] tip-012-execution-foundation.md`
 
 ### Updated
 

@@ -1,12 +1,12 @@
 # TIP-004 — UI Consumption
 
-Status: **Complete** (superseded for operational policy by [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md))
+Status: **Complete** (superseded for operational policy by [`docs/governance/tip-004-policy.md`](../../governance/tip-004-policy.md))
 
 ## Purpose
 
 Adopt `@afenda/design-system` as the single design authority inside `@afenda/ui`. Governed React components consume contracts, recipes, variants, tokens, state policy, motion policy, accessibility policy, and className policy through a centralized adapter — they do not invent parallel design vocabulary.
 
-> **Operational policy:** author vs consumer `className` rules, import discipline, anti-slop, and verification gates are maintained in [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md). This delivery doc records the original TIP scope and acceptance evidence.
+> **Operational policy:** author vs consumer `className` rules, import discipline, anti-slop, and verification gates are maintained in [`docs/governance/tip-004-policy.md`](../../governance/tip-004-policy.md). This delivery doc records the original TIP scope and acceptance evidence.
 
 ## Dependency direction
 
@@ -26,7 +26,7 @@ flowchart TD
 | --- | --- |
 | `@afenda/design-system` | Tokens, variants, recipes (metadata), states, motion, accessibility, className policy, export surface |
 | `@afenda/ui` | React/Base UI implementation, recipe projection to className, component behavior |
-| Consumer packages | Page/shell wiring only — see [TIP-004 policy](../governance/tip-004-policy.md) |
+| Consumer packages | Page/shell wiring only — see [TIP-004 policy](../../governance/tip-004-policy.md) |
 
 **Prohibited:** `@afenda/design-system` must never depend on or import `@afenda/ui`.
 
@@ -37,7 +37,7 @@ All design-system imports flow through [`packages/ui/src/governance/`](../../pac
 | Module | Responsibility |
 | --- | --- |
 | `design-system.ts` | Sole re-export surface from `@afenda/design-system` |
-| `primitive-governance.ts` | `resolvePrimitiveGovernance()` — see [TIP-004B](./tip-004b-primitive-adapter.md) |
+| `primitive-governance.ts` | `resolvePrimitiveGovernance()` — see [TIP-004B](%5BComplete%5D%20tip-004b-primitive-adapter.md) |
 | `variant.ts` | `resolveGovernedVariant(selection)` |
 | `recipe.ts` | `resolveGovernedRecipe(name, selection)`, CVA projections |
 | `class-name.ts` | `assertAllowedLayoutClassName(className)` (author layer) |
@@ -55,7 +55,7 @@ Components import `@afenda/ui/governance` — never deep-import design-system in
 | **Author** (`packages/ui/src/components/`) | Layout-only `className` through `resolvePrimitiveGovernance()` |
 | **Consumer** (`appshell`, `metadata-ui`, `erp`) | **Zero** `className` on governed primitives — props only |
 
-Full rules: [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md)
+Full rules: [`docs/governance/tip-004-policy.md`](../../governance/tip-004-policy.md)
 
 ## Prohibited drift examples
 
@@ -111,8 +111,8 @@ pnpm ui:guard
 
 ## Related
 
-- [TIP-004 Policy (canonical)](../governance/tip-004-policy.md)
+- [TIP-004 Policy (canonical)](../../governance/tip-004-policy.md)
 - [TIP-004 Design System Contracts](./tip-004-design-system-contracts.md)
 - [TIP-004B — Primitive Adapter](./tip-004b-primitive-adapter.md)
-- [UI Guard](../governance/ui-guard.md)
+- [UI Guard](../../governance/ui-guard.md)
 - [TIP-UI-02 Component Library](./tip-ui-02-component-library.md)

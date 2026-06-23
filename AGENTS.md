@@ -170,6 +170,8 @@ Verify doc hygiene: `pnpm check:documentation-drift`
 
 When documentation status, roadmap authority, ADR acceptance, master plan version, TIP status, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
 
+For **slice-by-slice TIP implementation** (explicit invoke only — one handoff slice, gates, §11 Completion Report), use [`.cursor/agents/tip-slice-implementer.md`](.cursor/agents/tip-slice-implementer.md). It does not bypass index sequence without Architecture Authority artifacts.
+
 ---
 
 ## Governed UI (TIP-004)
@@ -204,4 +206,4 @@ Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scr
 
 **Skill:** `.cursor/skills/csp-third-party/SKILL.md`  
 **Rule:** `.cursor/rules/csp-third-party-scripts.mdc`  
-**Delivery:** `docs/delivery/nextjs-csp-nonce-pipeline.md`
+**Delivery:** `docs/delivery/support/nextjs-csp-nonce-pipeline.md`

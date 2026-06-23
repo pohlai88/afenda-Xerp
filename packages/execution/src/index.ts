@@ -42,6 +42,7 @@ export {
   type ExecutionJsonPrimitive,
   type ExecutionJsonValue,
   type ExecutionPayload,
+  isExecutionJsonObject,
   isExecutionJsonValue,
   isExecutionPayload,
 } from "./contracts/execution-metadata.contract.js";
@@ -65,6 +66,25 @@ export type {
   RegisterJobInput,
 } from "./contracts/job.contract.js";
 export {
+  assertOutboxRecordTenantScope,
+  type ClaimOutboxEventsInput,
+  isOutboxStatus,
+  type MarkOutboxDeadLetterInput,
+  type MarkOutboxFailedInput,
+  type MarkOutboxPublishedInput,
+  OUTBOX_EVENT_VERSION,
+  OUTBOX_STATUSES,
+  type OutboxDispatchResult,
+  type OutboxEventDispatcher,
+  type OutboxEventEnvelope,
+  type OutboxEventRecord,
+  type OutboxPersistencePort,
+  type OutboxStatus,
+  type ReleaseOutboxClaimInput,
+  toOutboxEventEnvelope,
+  validateOutboxPayload,
+} from "./contracts/outbox-event.contract.js";
+export {
   computeRetryDelayMs,
   DEFAULT_RETRY_POLICY,
   type RetryPolicy,
@@ -84,7 +104,30 @@ export type {
   ScheduleHandle,
   WorkflowDefinition,
 } from "./contracts/workflow.contract.js";
-export { createTriggerExecutionProvider } from "./providers/trigger.provider.js";
+export {
+  createPublishOutboxEventsScheduleDefinition,
+  PUBLISH_OUTBOX_EVENTS_CRON,
+  PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
+  PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
+  PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
+  type RunPublishOutboxEventsJobInput,
+  registerPublishOutboxEventsWorkflow,
+  runPublishOutboxEventsJob,
+} from "./jobs/publish-outbox-events.job.js";
+export {
+  readAppReleaseIdentifier,
+  readWorkerReleaseCheckRequired,
+} from "./lib/app-release-identifier.js";
+export { parseEnvBoolean } from "./lib/env-boolean.js";
+export {
+  evaluateWorkerReleaseAlignment,
+  type WorkerReleaseAlignmentInput,
+  type WorkerReleaseAlignmentResult,
+} from "./lib/worker-release-alignment.js";
+export {
+  configurePublishOutboxEventsTask,
+  createTriggerExecutionProvider,
+} from "./providers/trigger.provider.js";
 export {
   createExecutionRegistry,
   type ExecutionRegistry,
@@ -96,3 +139,17 @@ export {
   type ExecutionServiceDependencies,
   executionService,
 } from "./services/execution.service.js";
+export {
+  createOutboxPublishService,
+  type OutboxPublishService,
+  type OutboxPublishServiceDependencies,
+  outboxPublishService,
+  type PublishOutboxBatchInput,
+  type PublishOutboxBatchResult,
+  unavailableOutboxDispatcher,
+} from "./services/outbox-publish.service.js";
+export {
+  type FetchLatestTriggerDeploymentOptions,
+  fetchLatestTriggerDeployment,
+  type TriggerDeploymentSnapshot,
+} from "./services/trigger-deployment.service.js";

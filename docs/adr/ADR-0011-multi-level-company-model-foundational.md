@@ -71,5 +71,5 @@ Runtime evidence (2026-06-23) shows **partial delivery** via TIP-007/012 slice: 
 ## References
 
 - [`docs/architecture/multi-tenancy.md`](../architecture/multi-tenancy.md)
-- [`tip-007-012-enterprise-group-operating-context.md`](../delivery/tip-007-012-enterprise-group-operating-context.md)
+- [`tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md`](../delivery/tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md)
 - ADR-0010 Accounting Readiness Gate

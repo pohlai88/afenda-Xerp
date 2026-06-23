@@ -5,7 +5,7 @@ Human-readable source of truth for architecture, governance, delivery evidence, 
 **Hierarchy (when artifacts disagree, higher wins):**
 
 ```text
-ADR  >  docs/architecture/*-registry.md  >  pre-accounting-foundation-roadmap.md  >  docs/delivery/tip-*.md  >  skills / AGENTS.md
+ADR  >  docs/architecture/*-registry.md  >  pre-accounting-foundation-roadmap.md  >  docs/delivery/tips/[status] tip-*.md  >  skills / AGENTS.md
 ```
 
 Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard`). Docs lead; code enforces.

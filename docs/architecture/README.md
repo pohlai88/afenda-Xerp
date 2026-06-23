@@ -90,9 +90,10 @@ Never: implementation first, documentation later. This principle is normative in
 
 1. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — delivery authority (ADR-0013)
 2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — status source (ADR-0009)
-3. [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) — TIP statuses (ADR-0012)
-4. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5
-5. ADR-0009–0013 (Accepted)
+3. [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) — TIP statuses + **Implementation workflow**
+4. Target `docs/delivery/tips/[status] tip-*.md` — copy **§Handoff to implementation** before coding ([write-tip §10](../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation))
+5. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5
+6. ADR-0009–0013 (Accepted)
 
 | Document | Purpose |
 |----------|---------|
@@ -100,7 +101,12 @@ Never: implementation first, documentation later. This principle is normative in
 | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | **Delivery authority** (ADR-0013) — Foundation Phases 0–9 before Accounting Core. |
 | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed status of all foundation areas (ADR-0009). |
 | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-23 drift audit — master plan reconciliation. |
-| [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before individual tip-*.md files. |
+| [`repo-housekeeping-inventory.md`](repo-housekeeping-inventory.md) | Governed housekeeping inventory — superseded artifacts, cleanup candidates (pre-TIP-011). |
+| [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before `docs/delivery/tips/[status] tip-*.md`; **Implementation workflow** links write-tip handoff → afenda-coding-session |
+| [`../delivery/tips/[Not started] tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) | TIP-010A — Phase 5 API contract closeout (canonical) |
+| [`../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) | TIP-007A — Phase 7 manifest pipeline (canonical) |
+| [`../delivery/tips/[Not started] tip-013-system-admin-control-plane.md`](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) | TIP-013 — Phase 8 System Admin control plane (canonical) |
+| [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Proposal archive only** — superseded drafts; not implementation authority |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
 | [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
 
@@ -108,7 +114,7 @@ Never: implementation first, documentation later. This principle is normative in
 
 **Enforcement:** `pnpm check:documentation-drift` · `pnpm quality:documentation-drift` (in `pnpm quality`)
 
-**Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/delivery/tip-*.md`.
+**Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/delivery/tips/[status] tip-*.md`.
 
 ---
 

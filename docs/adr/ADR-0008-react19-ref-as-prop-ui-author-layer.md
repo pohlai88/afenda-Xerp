@@ -26,7 +26,7 @@ Third-party dependencies (Radix UI, cmdk, recharts wrappers) still ship `forward
 
 1. **Defer** ref-as-prop migration until the active design-system / primitive-normalization gates are stable (`pnpm --filter @afenda/ui check:governance`, `pnpm ui:guard`, Storybook, ERP surface smoke).
 
-2. **Adopt** ref-as-prop as the **canonical pattern for new and migrated code in `packages/ui` author layer only**, executed as a **single package-wide batch** documented in [TIP-UI-06](../delivery/tip-ui-06-react19-ref-as-prop.md).
+2. **Adopt** ref-as-prop as the **canonical pattern for new and migrated code in `packages/ui` author layer only**, executed as a **single package-wide batch** documented in [TIP-UI-06](../delivery/tips/%5BBlocked%5D%20tip-ui-06-react19-ref-as-prop.md).
 
 3. **Do not** change consumer-facing ref APIs in `apps/erp`, `@afenda/appshell`, or `@afenda/metadata-ui`. Call sites keep `<Primitive ref={…} />`.
 
@@ -101,8 +101,8 @@ If ref-as-prop migration causes regressions:
 
 ## References
 
-- Delivery: [TIP-UI-06 — React 19 Ref-as-Prop Migration](../delivery/tip-ui-06-react19-ref-as-prop.md)
+- Delivery: [TIP-UI-06 — React 19 Ref-as-Prop Migration](../delivery/tips/%5BBlocked%5D%20tip-ui-06-react19-ref-as-prop.md)
 - Primitive normalization: [ui-radix-primitive-normalization.md](../delivery/ui-radix-primitive-normalization.md)
-- Governed adapter: [tip-004b-primitive-adapter.md](../delivery/tip-004b-primitive-adapter.md)
+- Governed adapter: [tip-004b-primitive-adapter.md](../delivery/tips/%5BComplete%5D%20tip-004b-primitive-adapter.md)
 - Skill: `.cursor/skills/govern-primitive/SKILL.md` (checklist item 5 — update after ADR Accepted)
 - React catalog: `pnpm-workspace.yaml` → `react: ^19.1.0`

@@ -524,6 +524,7 @@ export {
   membershipStatusEnum,
   memberships,
   OUTBOX_STATUSES,
+  type OutboxStatus,
   organizationStatusEnum,
   organizations,
   organizationTypeEnum,

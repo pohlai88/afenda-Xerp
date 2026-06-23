@@ -22,7 +22,7 @@ Scope is limited to `packages/design-system` contract governance. TIP-004 does n
 - `packages/design-system/src/contracts/example.contract.ts`
 - `packages/design-system/src/contracts/class-name-policy.contract.ts`
 - `packages/design-system/src/contracts/__tests__/design-system-contracts.test.ts`
-- `docs/delivery/tip-004-design-system-contracts.md`
+- `docs/delivery/tips/[Complete (authority only)] tip-004-design-system-contracts.md`
 
 ## Files updated
 

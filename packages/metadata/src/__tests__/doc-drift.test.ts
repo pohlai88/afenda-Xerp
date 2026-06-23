@@ -8,7 +8,7 @@ const packageRoot = join(fileURLToPath(new URL("../..", import.meta.url)));
 const metadataDocPaths = [
   join(packageRoot, "README.md"),
   join(packageRoot, "doc/TIP-005.md"),
-  join(packageRoot, "../../docs/delivery/tip-005-metadata-authority.md"),
+  join(packageRoot, "../../docs/delivery/tips/[Complete (authority only)] tip-005-metadata-authority.md"),
   join(packageRoot, "../metadata-ui/README.md"),
 ];
 

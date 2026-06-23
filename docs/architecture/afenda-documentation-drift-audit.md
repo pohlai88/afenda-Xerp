@@ -43,7 +43,7 @@ The Afenda ERP monorepo has **advanced materially since 2026-06-20**, but the LL
 | TIP-UI-03/04/05 — Not started | **drifted** | Runtime exists; delivery docs stale | **partially-implemented** |
 | TIP-012 — Not started, 7 kernel contexts missing | **drifted** | `packages/kernel/src/context/context-registry.ts` — 10 required operating-context modules | **partially-implemented** — contracts + ERP resolver exist; spine lifecycle/outbox incomplete |
 | TIP-008 — Not started | **drifted** | `entity_groups`, `legal_entity_ownership` schemas + services | **partially-implemented** — enterprise hierarchy authority foundation delivered via TIP-007/012 slice; master-data entity map still missing |
-| TIP-010 — In progress, ERP wiring incomplete | **partially-implemented** | `docs/delivery/tip-010-api-rbac-wiring.md`, `authorizeApiRoute` | **partially-implemented** — API RBAC wired for governed routes; not all protected actions |
+| TIP-010 — In progress, ERP wiring incomplete | **partially-implemented** | `docs/delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md`, `authorizeApiRoute` | **partially-implemented** — API RBAC wired for governed routes; not all protected actions |
 | TIP-011 — outbox missing | **implemented (claim)** | No `outbox` table in `packages/database/src/schema/` | **documented-only / blocked** — outbox still not implemented |
 | Phase 1 exit gate ready for TIP-013 | **drifted** | Multiple foundation gaps (System Admin, outbox, feature manifest, TIP-006 contracts) | **blocked** — Accounting Readiness Gate not passed |
 
@@ -145,7 +145,7 @@ These must complete before Accounting Core (`TIP-013+`):
 | `tip-006-appshell-authority.md` verdict | Says Not started | **Update** — implementation ahead of contracts |
 | `tip-008-master-data-authority.md` | Ignores entity group delivery | **Split** enterprise hierarchy vs business master data |
 | `tip-010-observability-audit.md` / `tip-012-execution-foundation.md` | Misnumbered per ADR-0001 | **Mark** evidence-only; rename in hygiene TIP-000D |
-| `docs/tip/` directory | Does not exist | **Not created** — delivery authority remains `docs/delivery/tip-*.md` |
+| `docs/tip/` directory | Does not exist | **Not created** — delivery authority remains `docs/delivery/tips/[status] tip-*.md` |
 | `docs/roadmap/` directory | Does not exist | **Replaced** by `pre-accounting-foundation-roadmap.md` |
 
 ---

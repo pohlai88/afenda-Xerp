@@ -15,5 +15,11 @@ export async function register() {
     const { createDatabaseAuditAdapter } = await import("@afenda/database");
 
     configureAuditEventPersistence(createDatabaseAuditAdapter());
+
+    const { registerOutboxFoundation } = await import(
+      "@/lib/outbox/register-outbox-foundation.server"
+    );
+
+    await registerOutboxFoundation();
   }
 }

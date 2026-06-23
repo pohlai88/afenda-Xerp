@@ -4,7 +4,7 @@
  * This is the ONLY module in the monorepo permitted to import `@trigger.dev/sdk`.
  * Business domains must consume `executionService` instead.
  */
-import { runs, schedules, tasks } from "@trigger.dev/sdk";
+import { runs, schedules, task, tasks } from "@trigger.dev/sdk";
 import type {
   CancelInput,
   ExecutionHandle,
@@ -29,6 +29,7 @@ import {
   shouldRetry,
 } from "../contracts/retry-policy.contract.js";
 import type { ScheduleHandle } from "../contracts/workflow.contract.js";
+import { PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID } from "../jobs/publish-outbox-events.job.js";
 
 export interface TriggerExecutionProviderOptions {
   readonly nowIso?: () => string;
@@ -75,11 +76,44 @@ function readTriggerSecretKey(): string | null {
   return process.env["TRIGGER_SECRET_KEY"] ?? null;
 }
 
+type PublishOutboxEventsTaskRun = () => Promise<unknown>;
+
+let publishOutboxEventsTaskRun: PublishOutboxEventsTaskRun | null = null;
+
+/**
+ * Injects the ERP-owned publish runner. Called from `@afenda/erp` instrumentation.
+ * The Trigger.dev task definition is exported statically as `publishOutboxEventsTriggerTask`.
+ */
+export function configurePublishOutboxEventsTask(
+  run: PublishOutboxEventsTaskRun
+): void {
+  publishOutboxEventsTaskRun = run;
+}
+
+export async function invokeConfiguredPublishOutboxEventsTask(): Promise<unknown> {
+  if (publishOutboxEventsTaskRun === null) {
+    throw new Error(
+      "Publish outbox events task handler is not configured. Call configurePublishOutboxEventsTask from ERP instrumentation."
+    );
+  }
+
+  return await publishOutboxEventsTaskRun();
+}
+
+/** Static Trigger.dev task — scanned by `trigger.config.ts` for remote deployment. */
+export const publishOutboxEventsTriggerTask = task({
+  id: PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
+  run: invokeConfiguredPublishOutboxEventsTask,
+});
+
 export function createTriggerExecutionProvider(
   options: TriggerExecutionProviderOptions = {}
 ): ExecutionProvider {
   const nowIso = options.nowIso ?? (() => new Date().toISOString());
-  const secretKey = options.secretKey ?? readTriggerSecretKey();
+  const secretKey =
+    options.secretKey === undefined
+      ? readTriggerSecretKey()
+      : options.secretKey;
   const localExecutions = new Map<string, StoredExecution>();
 
   async function executeThroughTrigger(

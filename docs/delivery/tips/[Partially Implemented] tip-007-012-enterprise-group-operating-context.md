@@ -870,7 +870,7 @@ Registry: `MULTI_TENANCY_VERIFICATION_COMMANDS` in
 
 Delivery evidence path (required by Step 10):
 
-`docs/delivery/tip-007-012-enterprise-group-operating-context.md`
+`docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md`
 
 Governance gate tests:
 `scripts/governance/__tests__/check-multi-tenancy-documentation-verification.test.ts`.

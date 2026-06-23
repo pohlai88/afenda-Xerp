@@ -12,7 +12,7 @@ TIP-003 is governance only. TIP-004 owns the detailed contract implementations.
 
 - `packages/design-system/src/contracts/design-system-authority.contract.ts`
 - `packages/design-system/src/contracts/index.ts`
-- `docs/delivery/tip-003-design-system-authority.md`
+- `docs/delivery/tips/[Complete (authority only)] tip-003-design-system-authority.md`
 
 ## Files updated
 

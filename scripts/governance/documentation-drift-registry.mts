@@ -20,6 +20,33 @@ export const DRIFT_AUDIT =
 
 export const TIP_STATUS_INDEX = "docs/delivery/tip-status-index.md";
 
+/** Canonical TIP delivery doc directory (ADR-0013 / tip-status-index). */
+export const TIP_DELIVERY_TIPS_DIR = "docs/delivery/tips" as const;
+
+/** Index must reference tips/ paths — not legacy docs/delivery/tip-*.md root layout. */
+export const TIP_STATUS_INDEX_TIPS_PATH_MARKER =
+  "docs/delivery/tips/" as const;
+
+/** Only this file may live at docs/delivery/tip-*.md root (not under tips/). */
+export const TIP_STATUS_INDEX_BASENAME = "tip-status-index.md" as const;
+
+/**
+ * Authority docs scanned for legacy delivery paths (`docs/delivery/tip-*.md` without `tips/`).
+ * Catches stale links that look like drift after the tips/ restructure.
+ */
+export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
+  "docs/architecture/afenda-runtime-truth-matrix.md",
+  "docs/architecture/README.md",
+  "docs/architecture/multi-tenancy.md",
+  "docs/governance/tip-004-policy.md",
+  "docs/governance/README.md",
+  "AGENTS.md",
+] as const;
+
+/** Regex: legacy root delivery path (excludes tip-status-index). */
+export const LEGACY_DELIVERY_PATH_PATTERN =
+  /(?:docs\/delivery|\.\.\/delivery)\/tip-(?!status-index)[a-z0-9-]+\.md/gi;
+
 /** Canonical architecture baseline fingerprint (must match dependency-snapshot.json). */
 export const ARCHITECTURE_BASELINE_DOC =
   "docs/architecture/architecture-authority-baseline.md";
@@ -46,12 +73,12 @@ export const REQUIRED_ACCEPTED_ADRS = [
 /** Markers that must NOT appear — evidence of stale delivery doc. */
 export const STALE_DELIVERY_MARKERS = [
   {
-    file: "docs/delivery/tip-ui-03-appshell-token-migration.md",
+    file: "docs/delivery/tips/[Partially Implemented] tip-ui-03-appshell-token-migration.md",
     forbidden: ["Status: **Not started**"],
     rule: "tip-ui-03-stale-status",
   },
   {
-    file: "docs/delivery/tip-ui-04-metadata-ui-renderers.md",
+    file: "docs/delivery/tips/[Partially Implemented] tip-ui-04-metadata-ui-renderers.md",
     forbidden: [
       "Status: **Not started**",
       "zero React renderer implementations",
@@ -60,7 +87,7 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-ui-04-stale-status",
   },
   {
-    file: "docs/delivery/tip-ui-05-erp-app-surfaces.md",
+    file: "docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md",
     forbidden: [
       "Status: **Not started**",
       "No CSS import",
@@ -69,12 +96,12 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-ui-05-stale-status",
   },
   {
-    file: "docs/delivery/tip-006-appshell-authority.md",
+    file: "docs/delivery/tips/[Partially Implemented] tip-006-appshell-authority.md",
     forbidden: ["Verdict\n\nNot started — awaiting implementation PR"],
     rule: "tip-006-stale-verdict",
   },
   {
-    file: "docs/delivery/tip-008-master-data-authority.md",
+    file: "docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md",
     forbidden: ["Status: **Not started**"],
     rule: "tip-008-stale-status",
   },

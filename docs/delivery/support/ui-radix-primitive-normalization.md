@@ -167,7 +167,7 @@ Extended governed set (also normalized): Combobox, Sidebar, Chart, Calendar, Car
 | `packages/ui/src/components/status-indicator.tsx` | ERP dot-plus-text status primitive |
 | `packages/ui/src/__tests__/components/status-indicator.test.tsx` | Governance + tone matrix tests |
 | `packages/ui/src/__tests__/components/enterprise-radix-interaction.test.tsx` | Controlled/uncontrolled + aria-invalid contracts |
-| `docs/delivery/ui-radix-primitive-normalization.md` | This document |
+| `docs/delivery/support/ui-radix-primitive-normalization.md` | This document |
 
 ### Updated
 

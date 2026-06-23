@@ -163,7 +163,7 @@ scripts/quality/check-architecture.mjs
 scripts/quality/check-release-gates.mjs   (Gate 8 entries)
 docs/architecture/**
 docs/adr/**
-docs/delivery/tip-001-architecture-authority.md
+docs/delivery/tips/[Complete] tip-001-architecture-authority.md
 package.json                            (quality + architecture:* scripts)
 .github/workflows/ci.yml
 .github/workflows/preview.yml
@@ -195,6 +195,6 @@ TIP-001 must not be reopened unless architecture gates regress or registry finge
 
 ## References
 
-- [`docs/architecture/README.md`](../architecture/README.md)
+- [`docs/architecture/README.md`](../../architecture/README.md)
 - [`docs/adr/README.md`](../adr/README.md)
 - [`ADR-0001`](../adr/ADR-0001-phase-1-foundation-redefinition.md)

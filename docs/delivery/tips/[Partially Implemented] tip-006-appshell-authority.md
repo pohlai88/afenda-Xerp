@@ -5,7 +5,7 @@
 | **Status** | **Partially Implemented** |
 | **Authority status** | Documented — contracts not frozen |
 | **Runtime evidence** | `packages/appshell/` — 92+ `.tsx`, `src/styles/afenda-appshell.css`, shadcn-studio blocks, dashboard canvas, tests |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Remaining gap** | Frozen authority contracts under `packages/appshell/src/contracts/` (planned deliverables below) |
 
 ## Purpose
