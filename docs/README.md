@@ -14,10 +14,22 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 
 ## Start here
 
+### AI / Cursor agents (mandatory read order)
+
+1. [`architecture/pre-accounting-foundation-roadmap.md`](architecture/pre-accounting-foundation-roadmap.md) — delivery sequence (ADR-0013)
+2. [`architecture/afenda-runtime-truth-matrix.md`](architecture/afenda-runtime-truth-matrix.md) — status source of truth (ADR-0009)
+3. [`delivery/tip-status-index.md`](delivery/tip-status-index.md) — current TIP statuses (ADR-0012)
+4. [`architecture/_afenda-erp-master-plan.llms.md`](architecture/_afenda-erp-master-plan.llms.md) v5 — strategic compass (narrative only)
+5. [`architecture/afenda-documentation-drift-audit.md`](architecture/afenda-documentation-drift-audit.md) — drift findings
+6. ADR-0009–0013 — Accepted foundation documentation gates
+7. Individual [`delivery/tip-*.md`](delivery/) — evidence only; defer to index + matrix on conflict
+
+**Do not start from stale delivery docs or master plan v4 sections.**
+
 | Audience | Entry point |
 |----------|-------------|
 | New contributor | [Root README](../README.md) → [Architecture](architecture/README.md) |
-| AI / Cursor agent | [AGENTS.md](../AGENTS.md) → [AI governance](ai/README.md) → relevant skill in `.cursor/skills/` |
+| AI / Cursor agent | See mandatory read order above → [AGENTS.md](../AGENTS.md) → `.cursor/skills/afenda-coding-session/SKILL.md` |
 | UI block install | [afenda-ui-quality skill](../.cursor/skills/afenda-ui-quality/SKILL.md) → [UI guard](governance/ui-guard.md) |
 | React ERP quality | [react-erp-quality skill](../.cursor/skills/react-erp-quality/SKILL.md) → Gate F in [UI guard](governance/ui-guard.md) |
 | API routes | [API contract](governance/api-contract.md) → [Next.js API hardening](governance/nextjs-api-hardening.md) |
@@ -51,6 +63,8 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | `pnpm quality:css` | CSS manifest + token authority (Gate E) |
 | `pnpm quality:architecture` | Package registry, layers, dependencies |
 | `pnpm quality:ai-governance` | AI scope and drift policy |
+| `pnpm check:documentation-drift` | Stale TIP markers, ADR index, authority files, fingerprint sync (ADR-0009) |
+| `pnpm quality:documentation-drift` | Same gate in quality chain |
 | `pnpm check` | Biome + typecheck + test:run |
 
 Full gate breakdown: [`governance/ui-guard.md`](governance/ui-guard.md).
@@ -59,8 +73,8 @@ Full gate breakdown: [`governance/ui-guard.md`](governance/ui-guard.md).
 
 ## LLM compass
 
-[`architecture/_afenda-erp-master-plan.llms.md`](architecture/_afenda-erp-master-plan.llms.md) — strategic roadmap and Phase 1 tracks. **Not authoritative** when it conflicts with ADRs or registries.
+[`architecture/_afenda-erp-master-plan.llms.md`](architecture/_afenda-erp-master-plan.llms.md) v5 — strategic roadmap. **Supersedes v4.** Not authoritative when it conflicts with ADR-0009–0013, runtime matrix, or pre-accounting roadmap.
 
 ---
 
-*Last structural audit: 2026-06-23*
+*Last structural audit: 2026-06-23 — TIP-000D complete*

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Proposed |
+| **Status** | Accepted |
 | **Date** | 2026-06-23 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | — |
@@ -50,10 +50,13 @@ Related artifacts:
 
 ## Acceptance Gate
 
-- [ ] `afenda-runtime-truth-matrix.md` exists with evidence column populated for all foundation areas.
-- [ ] Master plan v5 includes "Runtime Truth as of Current Audit" section.
-- [ ] Drift audit published with classified findings.
-- [ ] CI `pnpm quality:delivery-evidence-surface` passes (existing gate).
+- [x] `afenda-runtime-truth-matrix.md` exists with evidence column populated for all foundation areas.
+- [x] Master plan v5 includes "Runtime Truth as of Current Audit" section.
+- [x] Drift audit published with classified findings.
+- [x] CI `pnpm quality:delivery-evidence-surface` passes (existing gate).
+- [x] TIP-000D closeout — `pnpm check:documentation-drift` passes.
+- [x] `pnpm quality` includes `quality:documentation-drift`.
+- [x] Baseline fingerprint bumped to `ARCH-BASELINE-2026-06-23-v2`.
 
 ---
 

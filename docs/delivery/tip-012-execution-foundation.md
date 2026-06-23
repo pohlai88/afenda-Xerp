@@ -1,6 +1,12 @@
 # TIP-012 — Trigger.dev Execution Foundation
 
-Status: **Complete (foundation)**
+> **⚠️ Misnumbered evidence doc (TIP-000D hygiene)**  
+> Per ADR-0001, this file is **TIP-011 execution slice evidence**, not ERP Operating Spine TIP-012.  
+> **Canonical TIP-011:** [`tip-011-execution-foundation.md`](tip-011-execution-foundation.md)  
+> **Canonical TIP-012 (operating spine):** [`tip-012-erp-operating-spine.md`](tip-012-erp-operating-spine.md)  
+> **Status:** Partially Implemented (Trigger.dev spine ✅; outbox ❌)
+
+Status: **Partially Implemented** (Trigger.dev foundation only — see canonical TIP-011)
 
 ## Purpose
 

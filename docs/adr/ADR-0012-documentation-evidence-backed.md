@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Proposed |
+| **Status** | Accepted |
 | **Date** | 2026-06-23 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | — |
@@ -58,10 +58,11 @@ Several delivery TIPs marked "Not started" while runtime code existed (TIP-UI-04
 
 ## Acceptance Gate
 
-- [ ] Runtime truth matrix published with Evidence column
-- [ ] Drift audit classifies all major master plan claims
-- [ ] Delivery doc update backlog listed in Phase 0 roadmap
-- [ ] AI change boundaries doc references evidence rule
+- [x] Runtime truth matrix published with Evidence column
+- [x] Drift audit classifies all major master plan claims
+- [x] Delivery doc update completed in TIP-000D (`tip-status-index.md`)
+- [x] AI change boundaries doc references evidence rule (see `docs/ai/ai-drift-policy.md`)
+- [x] `pnpm check:documentation-drift` passes
 
 ---
 

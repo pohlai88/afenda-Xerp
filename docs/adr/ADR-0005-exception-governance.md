@@ -36,7 +36,7 @@ Exceptions may apply to ownership, layers, dependencies, or lifecycle — not on
 
    `subject` may be a dependency edge, layer assignment, ownership rule, or lifecycle gate.
 
-6. **Baseline** — zero active exceptions at `ARCH-BASELINE-2026-06-20-v1`.
+6. **Baseline** — zero active exceptions at `ARCH-BASELINE-2026-06-23-v2`.
 
 7. **Machine enforcement** — `validateExceptions()` consults `ExceptionContract` after rule validators; expired or unregistered bypass attempts fail.
 

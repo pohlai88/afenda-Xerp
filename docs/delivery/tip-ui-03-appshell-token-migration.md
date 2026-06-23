@@ -1,53 +1,60 @@
 # TIP-UI-03 — AppShell Token Migration
 
-Status: **Not started**
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **Runtime evidence** | `packages/appshell/src/styles/afenda-appshell.css` — replaces legacy CSS Modules approach |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Remaining gap** | TIP-006 authority contracts; full visual regression sign-off |
 
 ## Purpose
 
-Migrate `@afenda/appshell` from hardcoded hex colors in CSS Modules to `@afenda/design-system` CSS custom properties. Align the only real UI package in the repo with the token authority.
+Migrate `@afenda/appshell` from hardcoded hex colors to `@afenda/design-system` CSS custom properties and governed shell styling. Align AppShell with the token authority.
 
 ## Scope
 
 **In scope**
 
-- Replace hex values in `app-shell.module.css` with `var(--token-*)`
-- Add `@afenda/design-system` CSS dependency to appshell (registry update required)
-- Visual regression tests (render tests + snapshot or screenshot baseline)
-- Remove color drift between shell and future `@afenda/ui` components
+- Token-aligned shell CSS (`afenda-appshell.css`)
+- Design-system CSS dependency for appshell consumers
+- Visual regression tests (render tests + baseline)
+- Remove color drift between shell and `@afenda/ui` components
 
 **Out of scope**
 
 - Rewriting shell in Tailwind (optional follow-up)
 - New nav modules or business routes
+- AppShell authority contracts (TIP-006)
+
+## Runtime evidence (2026-06-23)
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Legacy `app-shell.module.css` | Absent | Grep — file removed |
+| `afenda-appshell.css` exists | Yes | `packages/appshell/src/styles/afenda-appshell.css` |
+| CSS manifest tests | Yes | `packages/appshell/src/__tests__/css-manifest.test.ts` |
+| No raw hex in shell CSS tests | Yes | Same test file |
+| ERP imports shell CSS | Yes | Storybook + ERP globals composition |
 
 ## Depends on
 
-- TIP-006 AppShell Authority
-- TIP-UI-01 CSS Pipeline
-- TIP-UI-02 Component Library (for shared Badge/Button in shell chrome)
+- TIP-006 AppShell Authority (partial)
+- TIP-UI-01 CSS Pipeline ✅
+- TIP-UI-02 Component Library ✅
 
 ## Blocks
 
-- TIP-UI-05 ERP App Surfaces (visual consistency)
-
-## Files to change (planned)
-
-| File | Change |
-| --- | --- |
-| `packages/appshell/src/app-shell.module.css` | Hex → CSS variables |
-| `packages/appshell/package.json` | Depend on design-system CSS export |
-| `docs/architecture/package-registry.md` | New dependency edge (ADR if required) |
-| `docs/architecture/dependency-registry.md` | Approved edge appshell → design-system |
+- TIP-UI-05 ERP App Surfaces (visual consistency closeout)
 
 ## Acceptance criteria
 
 ```gherkin
-GIVEN app-shell.module.css uses design-system tokens
-WHEN the shell renders in apps/erp
-THEN no hardcoded hex color values remain in app-shell.module.css
-AND visual layout matches pre-migration baseline
+GIVEN afenda-appshell.css uses design-system token composition
+WHEN the shell renders in apps/erp or Storybook
+THEN no hardcoded hex color values remain in appshell CSS sources
+AND visual layout matches governed baseline tests
 ```
 
 ## Verdict
 
-Not started.
+**Partially Implemented** — token migration largely complete via `afenda-appshell.css`; closeout blocked on TIP-006 contract freeze and production ERP shell integration (TIP-UI-05).

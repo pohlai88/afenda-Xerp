@@ -15,7 +15,7 @@
 
 | Area | Runtime package / path | Current status | Evidence | Gaps | Required action |
 | --- | --- | --- | --- | --- | --- |
-| **Architecture Authority** | `packages/architecture-authority/` | **implemented** | Package exists; `pnpm quality:architecture`, `quality:architecture-drift`; registries in `docs/architecture/` | Baseline fingerprint still `2026-06-20-v1`; PKG-021 storybook in registry but count narrative stale in master plan | Bump baseline fingerprint after ADR acceptance; keep registry synced |
+| **Architecture Authority** | `packages/architecture-authority/` | **implemented** | Package exists; `pnpm quality:architecture`, `quality:architecture-drift`; registries in `docs/architecture/` | — | Maintain; fingerprint `ARCH-BASELINE-2026-06-23-v2` |
 | **Package Ownership** | `docs/architecture/ownership-registry.md` | **implemented** | Registry file + `pnpm architecture:owners` | Sign-off pending on baseline | Architecture Authority sign-off |
 | **Dependency Governance** | `docs/architecture/dependency-registry.md`, `packages/architecture-authority/` | **implemented** | Registry + `pnpm quality:boundaries` | New edges (appshell→design-system, erp→ui) need registry verification | Run `pnpm architecture:dependencies`; update registry on new edges |
 | **Design System** | `packages/design-system/` | **partially-implemented** | Token registry, recipes, `generate-tokens-css.ts`, contrast tests; **no runtime UI** (by design) | No component implementations in design-system (correct — lives in `@afenda/ui`) | Maintain authority-only boundary; TIP-003/004 complete |

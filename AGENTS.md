@@ -156,6 +156,22 @@ Invoke `/afenda-coding-session` for the full implementation standard (TypeScript
 
 ---
 
+## Documentation authority (TIP-000D / ADR-0009–0013)
+
+Before foundation or delivery work, read in order:
+
+1. [`docs/architecture/pre-accounting-foundation-roadmap.md`](docs/architecture/pre-accounting-foundation-roadmap.md)
+2. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
+3. [`docs/delivery/tip-status-index.md`](docs/delivery/tip-status-index.md)
+
+**Accounting Core (`TIP-013+`) is blocked until Phase 9 gate (ADR-0010).** Do not use master plan v4 Section 3 or stale delivery doc statuses.
+
+Verify doc hygiene: `pnpm check:documentation-drift`
+
+When documentation status, roadmap authority, ADR acceptance, master plan version, TIP status, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
+
+---
+
 ## Governed UI (TIP-004)
 
 Canonical policy: [`docs/governance/tip-004-policy.md`](docs/governance/tip-004-policy.md). Gates: [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md).

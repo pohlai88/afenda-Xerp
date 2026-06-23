@@ -3,7 +3,7 @@
 **Status:** Complete  
 **Authority:** Constitutional governance layer — all future TIPs inherit TIP-001 enforcement  
 **Date:** 2026-06-20  
-**Fingerprint:** `ARCH-BASELINE-2026-06-20-v1`  
+**Fingerprint:** `ARCH-BASELINE-2026-06-23-v2`  
 **Package version:** `1.0.0` (`@afenda/architecture-authority`)
 
 ---
@@ -134,7 +134,7 @@ validateCycles            → no circular @afenda/* runtime graph
 validateExceptions        → no exception without expiry (ADR-0005)
 ```
 
-Live enforcement: **18 workspaces**, fingerprint `ARCH-BASELINE-2026-06-20-v1`.
+Live enforcement: **18 workspaces**, fingerprint `ARCH-BASELINE-2026-06-23-v2`.
 
 ---
 

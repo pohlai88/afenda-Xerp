@@ -4,7 +4,7 @@
 **Lifecycle:** Active  
 **Registry ID:** PKG-019  
 **Version:** 1.0.0  
-**Fingerprint:** `ARCH-BASELINE-2026-06-20-v1`  
+**Fingerprint:** `ARCH-BASELINE-2026-06-23-v2`  
 **Dependencies:** none
 
 ## What this package is

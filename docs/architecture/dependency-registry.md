@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
 | **Invariant** | ARCH-003 — every runtime `@afenda/*` dependency must be declared and approved |
 
 This registry documents **approved runtime workspace dependencies** (`dependencies` in `package.json`). Dev-only links are classified separately and do not require runtime registry declaration.

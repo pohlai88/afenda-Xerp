@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
 | **Active workspaces** | 21 |
 | **Planned workspaces** | 0 |
 
@@ -110,6 +110,7 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-20 | Activated | PKG-020 | `@afenda/ai-governance` registered active | ADR-0007 |
 | 2026-06-20 | Activated | PKG-011 | `@afenda/metadata` registered active (metadata authority) | TIP-005 |
 | 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
+| 2026-06-23 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-23-v2` — TIP-000D documentation authority closeout (ADR-0009–0013) | ADR-0012 |
 
 ---
 

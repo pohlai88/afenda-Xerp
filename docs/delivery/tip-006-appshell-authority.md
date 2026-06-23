@@ -1,6 +1,12 @@
 # TIP-006 — AppShell Authority
 
-Status: **In progress** (authority contracts pending; `packages/appshell` implementation underway)
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **Authority status** | Documented — contracts not frozen |
+| **Runtime evidence** | `packages/appshell/` — 92+ `.tsx`, `src/styles/afenda-appshell.css`, shadcn-studio blocks, dashboard canvas, tests |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Remaining gap** | Frozen authority contracts under `packages/appshell/src/contracts/` (planned deliverables below) |
 
 ## Purpose
 
@@ -22,8 +28,18 @@ ADR-0001 authority: AppShell architecture must be frozen before business domains
 
 - New ERP business modules
 - Metadata UI renderers (TIP-UI-04)
-- Token migration (TIP-UI-03)
+- Token migration (TIP-UI-03) — tracked separately; runtime partial
 - Permission engine implementation (TIP-010)
+
+## Runtime evidence (2026-06-23)
+
+| Artifact | Path | Proven |
+| --- | --- | --- |
+| Shell CSS (token-aligned) | `packages/appshell/src/styles/afenda-appshell.css` | Yes — no `app-shell.module.css` |
+| Governed UI blocks | `packages/appshell/src/shadcn-studio/blocks/` | Yes |
+| Dashboard canvas | `packages/appshell/src/dashboard/` | Yes |
+| Tests | `packages/appshell/src/__tests__/` | Yes |
+| Authority contracts | `packages/appshell/src/contracts/` | **No** — directory absent |
 
 ## Package ownership
 
@@ -38,17 +54,17 @@ ADR-0001 authority: AppShell architecture must be frozen before business domains
 
 ## Blocks
 
-- TIP-UI-03 AppShell Token Migration
-- TIP-012 ERP Operating Spine (MetadataContext integration)
+- TIP-UI-03 AppShell Token Migration (closeout)
+- TIP-012 ERP Operating Spine (shell context integration)
 
-## Deliverables (planned)
+## Deliverables (remaining)
 
 - `packages/appshell/src/contracts/appshell-authority.contract.ts`
 - `packages/appshell/src/contracts/navigation.contract.ts`
 - `packages/appshell/src/contracts/context.contract.ts`
 - `packages/appshell/src/contracts/command-center.contract.ts`
 - Contract tests under `packages/appshell/src/contracts/__tests__/`
-- Alignment of existing `app-shell.types.ts` with frozen contracts
+- Alignment of existing shell types with frozen contracts
 
 ## Acceptance gate
 
@@ -56,7 +72,7 @@ ADR-0001 authority: AppShell architecture must be frozen before business domains
 - No nav/context/command behavior without a contract owner
 - Existing shell components reference governed types only
 
-## Acceptance criteria (draft)
+## Acceptance criteria
 
 ```gherkin
 GIVEN the AppShell authority contracts are registered
@@ -65,11 +81,6 @@ THEN the change requires a contract update and test
 AND no ad-hoc string literals for nav IDs outside governed unions
 ```
 
-## Rollout / rollback
-
-- Merge contracts first; align existing shell incrementally
-- Rollback: revert contract files; shell continues with prior types
-
 ## Verdict
 
-Not started — awaiting implementation PR.
+**Partially Implemented** — substantial shell UI and CSS exist; authority contract freeze is the remaining TIP-006 deliverable. Do not treat as Complete until contracts land.

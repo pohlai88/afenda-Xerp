@@ -86,14 +86,27 @@ Never: implementation first, documentation later. This principle is normative in
 
 ## LLM development compass
 
+**AI agents — read in this order:**
+
+1. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — delivery authority (ADR-0013)
+2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — status source (ADR-0009)
+3. [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) — TIP statuses (ADR-0012)
+4. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5
+5. ADR-0009–0013 (Accepted)
+
 | Document | Purpose |
 |----------|---------|
 | [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v5.0.0** — Strategic compass with runtime truth snapshot. Narrative only; ADRs and registries win on conflict. |
 | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | **Delivery authority** (ADR-0013) — Foundation Phases 0–9 before Accounting Core. |
 | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed status of all foundation areas (ADR-0009). |
 | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-23 drift audit — master plan reconciliation. |
+| [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before individual tip-*.md files. |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
 | [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
+
+**Foundation ADRs (Accepted 2026-06-23):** ADR-0009 Runtime Truth · ADR-0010 No Accounting Before Gate · ADR-0011 Multi-level Company Model · ADR-0012 Evidence-backed Docs · ADR-0013 TIP Roadmap Authority
+
+**Enforcement:** `pnpm check:documentation-drift` · `pnpm quality:documentation-drift` (in `pnpm quality`)
 
 **Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/delivery/tip-*.md`.
 
@@ -103,7 +116,7 @@ Never: implementation first, documentation later. This principle is normative in
 
 | Document | Purpose |
 |----------|---------|
-| [`architecture-authority-baseline.md`](architecture-authority-baseline.md) | **Architecture Baseline Report** — fingerprint `ARCH-BASELINE-2026-06-20-v1` |
+| [`architecture-authority-baseline.md`](architecture-authority-baseline.md) | **Architecture Baseline Report** — fingerprint `ARCH-BASELINE-2026-06-23-v2` |
 | [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–020, PKG-R01–R05) |
 | [`ownership-registry.md`](ownership-registry.md) | Single owner, rights, escalation |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |

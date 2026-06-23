@@ -18,6 +18,8 @@ authority_order:
 phase_1_authority: ADR-0001
 accounting_gate: ADR-0010
 delivery_authority: ADR-0013
+documentation_gate: ADR-0009
+accepted_foundation_adrs: ADR-0009 through ADR-0013
 ui_technology:
   css: Tailwind v4 (CSS-first)
   components: shadcn/ui on Radix UI in @afenda/ui
@@ -31,6 +33,21 @@ ui_technology:
 > **Delivery authority:** [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) (ADR-0013)
 > **Runtime evidence:** [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md)
 > **Not authoritative for:** TIP scope after ADR-0001, package ownership, dependency edges — use registries and ADRs.
+
+---
+
+## ⛔ Do not use stale delivery authority
+
+Do not use older roadmap sections as delivery authority if they conflict with:
+
+1. **ADR-0009–0013** (Accepted — documentation and foundation gates)
+2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — **status source of truth**
+3. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — **delivery sequence**
+4. [`tip-status-index.md`](../delivery/tip-status-index.md) — current TIP statuses
+
+Master plan v5 **supersedes** v4 Section 3, v4 Track B status table, and v4 Section 8 execution order.
+
+**AI agents must read (in order):** pre-accounting roadmap → runtime truth matrix → tip-status-index → then individual delivery TIP docs.
 
 ---
 
@@ -162,7 +179,7 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 
 | TIP | Title | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- |
-| TIP-001 | Architecture Authority | **Complete** | CI gates, registries | Baseline fingerprint bump pending |
+| TIP-001 | Architecture Authority | **Complete** | CI gates, registries | — |
 | TIP-002 | AI Governance | **Complete** | ADR-0007 | — |
 | TIP-003 | Design System Authority | **Complete (authority)** | Contracts, token registry | No runtime UI (by design) |
 | TIP-004 | Design System Contracts + UI consumption | **Complete** | TIP-004 policy, ui-guard | — |
@@ -187,17 +204,9 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 | TIP-UI-05 | ERP App Surfaces | **Partial** | `@afenda/ui` auth | Module placeholders missing |
 | TIP-UI-06 | React 19 ref-as-prop | **Proposed** | ADR-0008 | Not started (batch deferred) |
 
-### 5.3 Delivery doc hygiene (STALE — update in TIP-000D)
+### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-23)
 
-| File | Issue |
-| --- | --- |
-| `tip-ui-03` | Says Not started; runtime partial |
-| `tip-ui-04` | Says no renderers; renderers exist |
-| `tip-ui-05` | Baseline lists inline auth; migrated |
-| `tip-006` | Verdict Not started; implementation exists |
-| `tip-008` | Says Not started; hierarchy schemas exist |
-| `tip-010-observability-audit.md` | Misnumbered — evidence only |
-| `tip-012-execution-foundation.md` | Misnumbered — evidence only |
+Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Misnumbered evidence retained with superseded banners.
 
 ---
 

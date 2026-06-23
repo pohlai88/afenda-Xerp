@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Proposed |
+| **Status** | Accepted |
 | **Date** | 2026-06-23 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | Master plan v4 informal execution order (Section 8) |
@@ -59,10 +59,11 @@ Missing directories (recorded, not created):
 
 ## Acceptance Gate
 
-- [ ] `pre-accounting-foundation-roadmap.md` published with Phases 0–9
-- [ ] Master plan v5 references foundation roadmap as delivery authority
-- [ ] ADR-0010 accounting prohibition linked from roadmap Phase 9
-- [ ] `docs/architecture/README.md` indexes foundation roadmap
+- [x] `pre-accounting-foundation-roadmap.md` published with Phases 0–9
+- [x] Master plan v5 references foundation roadmap as delivery authority
+- [x] ADR-0010 accounting prohibition linked from roadmap Phase 9
+- [x] `docs/architecture/README.md` indexes foundation roadmap
+- [x] `docs/delivery/tip-status-index.md` published
 
 ---
 

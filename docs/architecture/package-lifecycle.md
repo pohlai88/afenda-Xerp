@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001G — Package Lifecycle Governance |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
 | **ADR** | ADR-0006 (to be authored in TIP-001B) |
 
 ## Constitutional Principle

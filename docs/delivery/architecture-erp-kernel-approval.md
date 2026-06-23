@@ -5,7 +5,7 @@
 | **Date** | 2026-06-22 |
 | **Owner** | Architecture Authority |
 | **Scope** | Registry / dependency approval only (no ERP runtime refactor) |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` (unchanged) |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
 
 ## Violation
 

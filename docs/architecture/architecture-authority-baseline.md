@@ -3,8 +3,8 @@
 | Field | Value |
 |-------|-------|
 | **Report** | ARCHITECTURE BASELINE REPORT |
-| **Status** | TIP-001A COMPLETE — Pending final sign-off |
-| **Date** | 2026-06-20 |
+| **Status** | TIP-001A COMPLETE — TIP-000D documentation authority closeout |
+| **Date** | 2026-06-23 (fingerprint bump) |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
 | **Authority version** | `1.0.0` (`@afenda/architecture-authority`) |
@@ -24,8 +24,10 @@ Immutable identifier for this audit artifact. Any material edit to active worksp
 | Active package owners | 18 |
 
 ```text
-Fingerprint: ARCH-BASELINE-2026-06-20-v1
+Fingerprint: ARCH-BASELINE-2026-06-23-v2
 ```
+
+**v2 change (2026-06-23):** Documentation authority closeout (TIP-000D). ADR-0009–0013 Accepted; runtime truth matrix, pre-accounting roadmap, tip-status-index, and `pnpm quality:documentation-drift` enforced. No workspace topology change from v1.
 
 ---
 

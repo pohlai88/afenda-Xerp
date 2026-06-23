@@ -1,6 +1,12 @@
 # TIP-UI-02 — Component Library
 
-Status: **Complete**
+| Field | Value |
+| --- | --- |
+| **Status** | **Implemented** |
+| **Runtime evidence** | 58 components, 68+ tests — `packages/ui/src/components/` |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+
+Status: **Complete** (runtime proven)
 
 ## Purpose
 

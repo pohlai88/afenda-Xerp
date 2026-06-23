@@ -26,16 +26,17 @@ This roadmap is the **delivery authority** for AI agents and human implementers 
 | --- | --- | --- | --- |
 | TIP-000A | Documentation Truth Audit | **Complete (this audit)** | `afenda-documentation-drift-audit.md` published |
 | TIP-000B | Runtime Truth Matrix | **Complete (this audit)** | `afenda-runtime-truth-matrix.md` published with evidence columns |
-| TIP-000C | Master Plan Rewrite | **In progress** | `_afenda-erp-master-plan.llms.md` v5 with runtime truth section |
-| TIP-000D | Glossary and Authority Normalization | **Partial** | Glossary exists; delivery doc statuses reconciled |
+| TIP-000C | Master Plan Rewrite | **Complete** | `_afenda-erp-master-plan.llms.md` v5 with runtime truth section |
+| TIP-000D | Glossary and Authority Normalization | **Complete** | Delivery TIP statuses synced; ADR-0009–0013 Accepted; `pnpm check:documentation-drift` |
 
 **Phase 0 gate:**
 
 - [x] Drift audit complete
 - [x] Runtime matrix complete
-- [ ] Master plan v5 accepted
-- [ ] ADR-0009–0013 proposed/accepted
-- [ ] Stale TIP delivery doc statuses updated (TIP-UI-03/04/05, TIP-006, TIP-008)
+- [x] Master plan v5 accepted (TIP-000C)
+- [x] ADR-0009–0013 Accepted
+- [x] Stale TIP delivery doc statuses updated (TIP-000D)
+- [x] Documentation drift guard operational
 
 ---
 

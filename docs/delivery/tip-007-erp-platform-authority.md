@@ -1,12 +1,18 @@
 # TIP-007 — ERP Platform Authority
 
-Status: **Pending**
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **Authority status** | Partial — platform entity map incomplete |
+| **Runtime evidence** | Kernel context contracts, `@afenda/database` platform schemas, multi-tenancy slice |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Related delivery** | [`tip-007-012-enterprise-group-operating-context.md`](tip-007-012-enterprise-group-operating-context.md) |
 
 ## Purpose
 
 Define and freeze ERP operating platform entity ownership before domain packages exist. TIP-007 maps tenant, company, organization, user, membership, role, permission, policy, approval, and audit boundaries.
 
-Database schemas partially exist in `@afenda/database`; this TIP freezes the **authority contract map**, not new business logic.
+Database schemas exist in `@afenda/database`; this TIP freezes the **authority contract map**, not new business logic.
 
 ## Scope
 
@@ -19,9 +25,18 @@ Database schemas partially exist in `@afenda/database`; this TIP freezes the **a
 
 **Out of scope**
 
-- Master data entities (TIP-008)
-- Identity provider wiring (TIP-010)
+- Business master data entities (TIP-008B)
+- Enterprise hierarchy runtime (partial — see TIP-008A / tip-007-012)
 - Business domain packages (TIP-013+)
+
+## Runtime evidence (2026-06-23)
+
+| Entity / concern | Evidence | Status |
+| --- | --- | --- |
+| Tenant, company, org, membership | `packages/database/src/schema/`, kernel context contracts | Implemented |
+| Operating context resolver | `apps/erp/src/lib/context/`, tip-007-012 delivery doc | Partial |
+| Platform authority map (single doc) | This TIP deliverables section | **Missing** |
+| Serializable platform barrel | `packages/kernel/src/context/` | Partial |
 
 ## Package ownership
 
@@ -42,29 +57,14 @@ Database schemas partially exist in `@afenda/database`; this TIP freezes the **a
 - TIP-010 Identity & Authorization Foundation
 - TIP-012 ERP Operating Spine
 
-## Deliverables (planned)
+## Deliverables (remaining)
 
-Contracts for:
+Contracts map document + tests for:
 
-- Tenant
-- Company
-- Organization
-- Workspace
-- User
-- Membership
-- Role
-- Permission
-- Policy
-- Approval
-- Audit
+- Tenant, Company, Organization, Workspace, User, Membership
+- Role, Permission, Policy, Approval, Audit
 
 Suggested location: `packages/kernel/src/contracts/platform/` with barrel export from `@afenda/kernel`.
-
-## TypeScript requirements
-
-- All public contract types must be JSON-serializable (no functions, classes, React nodes)
-- Use `as const` object maps for permission/policy key registries
-- Explicit interfaces for entity shapes; prefer discriminated unions for scope types
 
 ## Acceptance gate
 
@@ -72,4 +72,4 @@ All platform entities have ownership and boundaries per ADR-0001.
 
 ## Verdict
 
-Not started — schemas exist; authority map missing.
+**Partially Implemented** — schemas and multi-tenancy slice delivered; formal platform authority map and contract barrel remain open.

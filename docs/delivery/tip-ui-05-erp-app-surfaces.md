@@ -1,57 +1,63 @@
 # TIP-UI-05 — ERP App Surfaces
 
-Status: **Not started**
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **Runtime evidence** | `globals.css`, `@afenda/ui` auth, protected dashboard, dev harnesses |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Remaining gap** | Module placeholder routes, production ApplicationShell wiring |
 
 ## Purpose
 
-Replace minimal inline-styled ERP pages with governed `@afenda/ui` components, proper layouts, and module placeholder surfaces. Delivers the user-visible ERP experience for Phase 1.
+Replace minimal ERP pages with governed `@afenda/ui` components, proper layouts, and module placeholder surfaces.
 
 ## Scope
 
 **In scope**
 
-- Import `globals.css` in `apps/erp/src/app/layout.tsx`
-- Replace inline styles on sign-in / sign-out with `@afenda/ui` Form, Input, Button, Card
-- Protected dashboard using AppShell + `@afenda/ui` Card/Badge/Skeleton
+- `globals.css` in ERP layout
+- Auth pages using `@afenda/ui`
+- Protected dashboard using AppShell + governed components
 - Module placeholder routes: Manufacturing, Inventory, Sales, Accounting, HRM, Projects, System Admin
 - Route `loading.tsx` and `error.tsx` with Skeleton and Alert
-- Wire `AppShellMain` consistently
 
 **Out of scope**
 
 - Business domain logic
 - Real accounting/inventory data
-- Metadata renderer integration (optional stretch — prefer after TIP-UI-04)
+- Accounting Core (ADR-0010)
+
+## Runtime evidence (2026-06-23)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| CSS pipeline in ERP | **Implemented** | `apps/erp/src/app/globals.css`, `layout.tsx` import |
+| Sign-in uses `@afenda/ui` | **Implemented** | `apps/erp/src/app/(auth)/sign-in/sign-in-form.tsx` |
+| Protected dashboard | **Partial** | `apps/erp/src/app/(protected)/page.tsx` |
+| ApplicationShell in production layout | **Partial** | Dev harnesses exist; full shell integration open |
+| Module placeholder routes | **Missing** | Only 6 page routes — no `/manufacturing`, `/system-admin`, etc. |
+| Inline-styled auth (legacy baseline) | **Obsolete claim** | Superseded — auth migrated |
 
 ## Depends on
 
-- TIP-UI-02 Component Library
-- TIP-UI-03 AppShell Token Migration
-- TIP-UI-04 Metadata-UI Renderers (recommended)
-- TIP-010 Identity & Authorization (protected routes)
+- TIP-UI-02 Component Library ✅
+- TIP-UI-03 AppShell Token Migration (partial)
+- TIP-UI-04 Metadata-UI Renderers (partial)
+- TIP-010 Identity & Authorization (partial)
 
 ## Blocks
 
-- Phase 1 UI exit gate
+- Foundation Phase 6 gate
 - Demo-ready ERP shell for stakeholders
 
-## Current problems (baseline)
+## Deliverables (remaining)
 
-| File | Issue |
-| --- | --- |
-| `apps/erp/src/app/layout.tsx` | No CSS import |
-| `apps/erp/src/app/(auth)/sign-in/sign-in-form.tsx` | Inline styles, native inputs |
-| `apps/erp/src/components/sign-out-button.tsx` | Inline styles |
-| Module routes | Missing — nav links go to 404 |
-
-## Deliverables (planned)
-
-| Route | Surface |
-| --- | --- |
-| `/` | Dashboard with Card layout |
-| `/sign-in` | Form with @afenda/ui |
-| `/manufacturing` … `/system-admin` | Placeholder pages (coming-soon state) |
-| `loading.tsx` / `error.tsx` | Skeleton + Alert per route group |
+| Route | Surface | Status |
+| --- | --- | --- |
+| `/` | Dashboard with governed layout | Partial |
+| `/sign-in` | Form with @afenda/ui | Implemented |
+| `/manufacturing` … `/system-admin` | Placeholder pages | **Missing** |
+| `(protected)` layout | ApplicationShell integration | Partial |
 
 ## Acceptance criteria
 
@@ -61,8 +67,9 @@ WHEN a user signs in and navigates module nav items
 THEN no page uses inline style objects for layout or color
 AND all module routes render without 404
 AND auth pages use @afenda/ui components
+AND production layout uses ApplicationShell
 ```
 
 ## Verdict
 
-Not started.
+**Partially Implemented** — auth and CSS foundation done; module surfaces and production shell integration remain.

@@ -1,21 +1,25 @@
 # TIP-UI-04 — Metadata-UI Renderers
 
-Status: **Not started**
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **Runtime evidence** | Section renderers, surfaces, layouts, actions — 44+ `.tsx` files |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Remaining gap** | Production ERP pages wired to metadata renderers |
 
 ## Purpose
 
-Implement actual React renderers in `@afenda/metadata-ui`. Today the package exports contracts, registries, and schema validators only — no UI. This TIP delivers metadata-driven ERP surfaces.
+Implement React renderers in `@afenda/metadata-ui` for metadata-driven ERP surfaces.
 
 ## Scope
 
 **In scope**
 
-- `ListSurfaceRenderer` — data table from column metadata
-- `FormSurfaceRenderer` — form from field metadata
-- `PanelSurfaceRenderer` — read-only detail panel
-- `ActionBarRenderer` — permission-scoped action buttons
-- Wire renderers to `@afenda/ui` components and `@afenda/metadata` contracts
-- Register renderers in `defaultMetadataRenderers`
+- List, Form, Stat, Chart, Detail, Audit section renderers
+- Surface and layout composition
+- Action bar renderers
+- Wire renderers to `@afenda/ui` and `@afenda/metadata` contracts
+- Register renderers in default renderer registry
 
 **Out of scope**
 
@@ -23,10 +27,22 @@ Implement actual React renderers in `@afenda/metadata-ui`. Today the package exp
 - Permission engine (TIP-010) — renderers accept visibility resolution as input
 - Accounting / inventory logic
 
+## Runtime evidence (2026-06-23)
+
+| Deliverable | Path | Proven |
+| --- | --- | --- |
+| Default section renderers | `packages/metadata-ui/src/renderers/default-section-renderers.tsx` | Yes |
+| List / Form / Stat / Chart sections | `packages/metadata-ui/src/sections/` | Yes |
+| Metadata surface | `packages/metadata-ui/src/surfaces/metadata-surface.tsx` | Yes |
+| Layout renderer | `packages/metadata-ui/src/layouts/metadata-layout.tsx` | Yes |
+| Action bar | `packages/metadata-ui/src/actions/` | Yes |
+| Tests | `packages/metadata-ui/src/__tests__/` | Yes |
+| ERP production metadata pages | `apps/erp/src/app/` | **No** |
+
 ## Depends on
 
-- TIP-005 Metadata Authority
-- TIP-UI-02 Component Library
+- TIP-005 Metadata Authority ✅
+- TIP-UI-02 Component Library ✅
 
 ## Blocks
 
@@ -42,34 +58,17 @@ Implement actual React renderers in `@afenda/metadata-ui`. Today the package exp
 apps/erp                ← consumes renderers; no renderer logic in app
 ```
 
-## TypeScript requirements
-
-- Renderer props: explicit interfaces referencing metadata contract types
-- No `any` in renderer resolution pipeline
-- Serializable metadata input; React nodes only in renderer output layer
-- Permission visibility passed in — renderers do not call auth directly
-
-## Deliverables (planned)
-
-```text
-packages/metadata-ui/src/renderers/
-  list-surface-renderer.tsx
-  form-surface-renderer.tsx
-  panel-surface-renderer.tsx
-  action-bar-renderer.tsx
-  index.ts
-```
-
 ## Acceptance criteria
 
 ```gherkin
 GIVEN a governed MetadataSurfaceContract for a list view
-WHEN ListSurfaceRenderer renders with sample data
+WHEN ListSection renderer renders with sample data
 THEN columns match metadata definitions
 AND actions respect MetadataVisibilityResolution input
 AND components come from @afenda/ui only
+AND at least one ERP page uses the renderer in production routing
 ```
 
 ## Verdict
 
-Not started — contracts exist; zero React renderer implementations.
+**Partially Implemented** — renderers and tests exist in `@afenda/metadata-ui`; ERP production wiring remains.

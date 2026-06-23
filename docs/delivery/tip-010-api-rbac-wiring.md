@@ -1,5 +1,13 @@
 # TIP-010 — ERP API RBAC Wiring
 
+| Field | Value |
+| --- | --- |
+| **Status** | **Partially Implemented** |
+| **ADR-0001 TIP-010 scope** | Identity & Authorization — this doc covers API RBAC slice only |
+| **Misnumbered evidence** | [`tip-010-observability-audit.md`](tip-010-observability-audit.md) (observability — not identity) |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Remaining gap** | All protected ERP routes + server actions gated; System Admin permissions |
+
 ## Scope
 
 Wire server-side RBAC for all governed ERP API routes using `@afenda/permissions`, governed tenant execution context from `@afenda/kernel`, and safe observability through the ERP Pino logger.

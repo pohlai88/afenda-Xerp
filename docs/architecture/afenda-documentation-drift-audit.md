@@ -203,9 +203,10 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 
 ## 12. Manual review checklist
 
-- [ ] Accept ADR-0009 through ADR-0013
-- [ ] Update stale delivery doc statuses (TIP-UI-03/04/05, TIP-006, TIP-008)
-- [ ] Architecture Authority sign-off on package registry fingerprint bump
+- [x] Accept ADR-0009 through ADR-0013
+- [x] Update stale delivery doc statuses (TIP-UI-03/04/05, TIP-006, TIP-008)
+- [x] Architecture Authority sign-off on package registry fingerprint bump (`ARCH-BASELINE-2026-06-23-v2`)
+- [x] Wire `quality:documentation-drift` into `pnpm quality`
 - [ ] Verify Postgres RLS policies against glossary RLS Grant model
 - [ ] Define System Admin route map before Phase 8 implementation
 - [ ] Confirm outbox schema design before TIP-011 implementation PR

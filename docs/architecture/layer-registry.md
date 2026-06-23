@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-20-v1` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
 | **Invariant** | ARCH-002 — every package belongs to exactly one layer |
 
 Validation at baseline is against the **proposed model** pending ADR-0002 acceptance.
