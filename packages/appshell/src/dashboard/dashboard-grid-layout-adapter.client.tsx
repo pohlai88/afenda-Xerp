@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { Responsive, WidthProvider } from "react-grid-layout/legacy";
 import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
+import { Responsive, WidthProvider } from "react-grid-layout/legacy";
 
 import type {
   DashboardLayoutPreset,
@@ -97,11 +97,11 @@ function mapGridLayoutToItems(layout: Layout): DashboardWidgetLayoutItem[] {
 }
 
 export interface DashboardGridLayoutAdapterProps {
-  readonly layout: DashboardLayoutPreset;
+  readonly children: React.ReactNode;
   readonly editMode: boolean;
+  readonly layout: DashboardLayoutPreset;
   readonly onLayoutChange: (layout: DashboardLayoutPreset) => void;
   readonly registry: ReadonlyMap<DashboardWidgetId, DashboardWidgetDefinition>;
-  readonly children: React.ReactNode;
 }
 
 export function DashboardGridLayoutAdapter({

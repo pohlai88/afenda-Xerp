@@ -1,4 +1,6 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -10,7 +12,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import React, { Fragment, type ReactNode, useState } from "react";
+import { Fragment, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
@@ -54,17 +56,19 @@ function DirectionShell({
   dir = "ltr",
   footer,
   header,
+  state,
   width = "md",
 }: {
   readonly children: ReactNode;
   readonly dir?: DirectionValue;
   readonly footer?: ReactNode;
   readonly header?: ReactNode;
+  readonly state?: (typeof GOVERNED_STATES)[number];
   readonly width?: "sm" | "md" | "lg" | "xl";
 }) {
   return (
     <StoryFrame width={width}>
-      <DirectionProvider dir={dir}>
+      <DirectionProvider dir={dir} state={state}>
         <StoryStack
           className="rounded-lg border border-border"
           gap="sm"
@@ -89,7 +93,7 @@ function DefinitionRow({
   return (
     <StoryRow align="center" justify="between">
       <span className="text-muted-foreground text-sm">{label}</span>
-      <span className="font-medium text-sm">{value}</span>
+      <span className="font-medium text-sm tabular-nums">{value}</span>
     </StoryRow>
   );
 }
@@ -177,8 +181,65 @@ function LocaleToggleDemo() {
 
 // ─── Direction ─────────────────────────────────────────────────────────────
 
+function DirectionPlaygroundDemo({
+  dir = "ltr",
+  state = "ready",
+}: {
+  readonly dir?: DirectionValue;
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <DirectionShell
+      dir={dir}
+      header={
+        <StoryRow align="center" justify="between">
+          <span className="font-medium text-sm">Direction playground</span>
+          <DirectionReadout />
+        </StoryRow>
+      }
+      state={state}
+    >
+      <StoryStack gap="sm">
+        <DefinitionRow label="Governed state" value={state} />
+        <DefinitionRow label="Document dir" value={dir} />
+        <DefinitionRow label="Sample amount" value="$12,450.00" />
+      </StoryStack>
+    </DirectionShell>
+  );
+}
+
+function DirectionStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <DirectionProvider dir="rtl" state={state}>
+        <StoryStack
+          className="rounded-lg border border-border"
+          gap="sm"
+          padding="lg"
+        >
+          <StoryRow align="center" justify="between">
+            <span className="font-medium text-sm">Governed direction probe</span>
+            <DirectionReadout />
+          </StoryRow>
+          <span className="text-muted-foreground text-xs">
+            Inspect `data-state` on the direction root shell.
+          </span>
+        </StoryStack>
+      </DirectionProvider>
+    </StoryFrame>
+  );
+}
+
 const meta = {
   title: "Primitives/Direction",
+  component: DirectionProvider,
   tags: ["autodocs"],
   parameters: {
     layout: "padded",
@@ -190,6 +251,12 @@ const meta = {
     },
   },
   argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state on the direction root",
+      table: { defaultValue: { summary: "ready" } },
+    },
     dir: {
       control: "inline-radio",
       options: ["ltr", "rtl"],
@@ -198,13 +265,163 @@ const meta = {
     direction: {
       control: "inline-radio",
       options: ["ltr", "rtl"],
-      description: "Alias for `dir`",
+      description: "Canonical alias for `dir` — wins when both are supplied",
     },
   },
-} satisfies Meta;
+  args: {
+    dir: "ltr",
+    state: "ready",
+  },
+} satisfies Meta<typeof DirectionProvider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <DirectionPlaygroundDemo
+      dir={(args.dir ?? args.direction ?? "ltr") as DirectionValue}
+      state={args.state}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `DirectionProvider` — governed values (`data-slot="direction"`, `data-component="Direction"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <DirectionProvider
+      data-component="Override"
+      data-slot="override"
+      data-testid="governance-direction-root"
+      dir="rtl"
+    >
+      <StoryStack
+        className="rounded-lg border border-border"
+        gap="sm"
+        padding="lg"
+      >
+        <StoryRow align="center" justify="between">
+          <span className="font-medium text-sm">Data authority probe</span>
+          <DirectionReadout />
+        </StoryRow>
+        <span className="text-muted-foreground text-xs">
+          Inspect the direction root — governed `data-*` attributes must override
+          consumer props.
+        </span>
+      </StoryStack>
+    </DirectionProvider>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal role `root` emits `direction`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → direction
+        </p>
+        <DirectionProvider dir="rtl">
+          <StoryStack
+            className="rounded-lg border border-border"
+            gap="sm"
+            padding="lg"
+          >
+            <StoryRow align="center" justify="between">
+              <span className="font-medium text-sm">Inspect slot attributes</span>
+              <DirectionReadout />
+            </StoryRow>
+            <span className="text-muted-foreground text-xs">
+              Open DevTools and verify `data-component`, `data-recipe`, and
+              `data-slot` on the direction root shell.
+            </span>
+          </StoryStack>
+        </DirectionProvider>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <DirectionStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Direction scopes RTL reading order and keyboard traversal. Form controls remain associated with labels; nested `useDirection` readouts reflect the active provider.",
+      },
+    },
+  },
+  render: () => (
+    <DirectionShell
+      dir="rtl"
+      header={
+        <StoryRow align="center" justify="between">
+          <span className="font-medium text-sm">إعدادات اللغة</span>
+          <DirectionReadout />
+        </StoryRow>
+      }
+      width="md"
+    >
+      <StoryStack gap="md">
+        <StoryStack gap="xs">
+          <Label htmlFor="a11y-language">لغة الواجهة</Label>
+          <Select defaultValue="ar">
+            <SelectTrigger id="a11y-language">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ar">العربية (RTL)</SelectItem>
+              <SelectItem value="en">English (LTR)</SelectItem>
+            </SelectContent>
+          </Select>
+        </StoryStack>
+        <StoryRow align="center" justify="between">
+          <StoryStack gap="xs">
+            <Label htmlFor="a11y-rtl">تخطيط من اليمين لليسار</Label>
+            <span className="text-muted-foreground text-xs">
+              يعكس التنقل وترتيب النماذج للغات RTL
+            </span>
+          </StoryStack>
+          <Switch defaultChecked id="a11y-rtl" />
+        </StoryRow>
+      </StoryStack>
+    </DirectionShell>
+  ),
+};
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
 
@@ -611,9 +828,9 @@ export const LocaleSettingsPanel: Story = {
     >
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <Label>Interface language</Label>
+          <Label htmlFor="interface-language">Interface language</Label>
           <Select defaultValue="en">
-            <SelectTrigger>
+            <SelectTrigger id="interface-language">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -624,7 +841,7 @@ export const LocaleSettingsPanel: Story = {
         </StoryStack>
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
-            <span className="font-medium text-sm">Right-to-left layout</span>
+            <Label htmlFor="rtl-layout">Right-to-left layout</Label>
             <span className="text-muted-foreground text-xs">
               Mirror navigation and form layout for RTL locales
             </span>

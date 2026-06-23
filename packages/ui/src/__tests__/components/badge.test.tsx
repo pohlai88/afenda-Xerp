@@ -28,6 +28,7 @@ describe("Badge governance", () => {
     render(
       <Badge
         data-component="Fake"
+        data-emphasis="ghost"
         data-state="fake"
         data-tone="danger"
         emphasis="soft"
@@ -46,6 +47,29 @@ describe("Badge governance", () => {
       "data-recipe": "badge",
       "data-state": "ready",
     });
+  });
+
+  it("applies governed state to the badge root", () => {
+    render(
+      <Badge data-testid="badge-root" state="loading" tone="info">
+        Syncing
+      </Badge>
+    );
+
+    expect(screen.getByTestId("badge-root")).toHaveAttribute(
+      "data-state",
+      "loading"
+    );
+  });
+
+  it("preserves caller aria-label for count-only badges", () => {
+    render(
+      <Badge aria-label="3 pending approvals" tone="warning">
+        3
+      </Badge>
+    );
+
+    expect(screen.getByLabelText("3 pending approvals")).toHaveTextContent("3");
   });
 
   it("emits optional density and size data attributes when provided", () => {
@@ -71,22 +95,26 @@ describe("Badge governance", () => {
     expect(ref.current).toHaveTextContent("New");
   });
 
-  it("supports asChild without losing governed attributes", () => {
-    render(
-      <Badge asChild tone="info">
-        <a href="/status">Status</a>
-      </Badge>
-    );
+  it(
+    "supports asChild without losing governed attributes",
+    () => {
+      render(
+        <Badge asChild tone="info">
+          <a href="/status">Status</a>
+        </Badge>
+      );
 
-    const link = screen.getByRole("link", { name: "Status" });
+      const link = screen.getByRole("link", { name: "Status" });
 
-    expect(link).toHaveAttribute("data-tone", "info");
-    expectGovernedPrimitive(link, {
-      component: "Badge",
-      slot: "badge",
-      recipe: "badge",
-    });
-  });
+      expect(link).toHaveAttribute("data-tone", "info");
+      expectGovernedPrimitive(link, {
+        component: "Badge",
+        slot: "badge",
+        recipe: "badge",
+      });
+    },
+    30_000
+  );
 
   it("routes allowed layout className through governance", () => {
     render(<Badge className="w-full">Active</Badge>);

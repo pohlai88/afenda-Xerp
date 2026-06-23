@@ -29,7 +29,9 @@ export function readStoredDashboardLayout(): DashboardLayoutPreset | null {
   );
 }
 
-export function writeStoredDashboardLayout(layout: DashboardLayoutPreset): void {
+export function writeStoredDashboardLayout(
+  layout: DashboardLayoutPreset
+): void {
   if (typeof window === "undefined") {
     return;
   }

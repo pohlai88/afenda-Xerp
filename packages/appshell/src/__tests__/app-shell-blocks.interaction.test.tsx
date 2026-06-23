@@ -9,6 +9,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME } from "../shadcn-studio/data/app-shell.profile.data";
 import { AppShellActivityDialog } from "../shadcn-studio/blocks/app-shell-activity-dialog";
+import { AppShellContextSwitcher } from "../shadcn-studio/blocks/app-shell-context-switcher";
 import { AppShellLanguageDropdown } from "../shadcn-studio/blocks/app-shell-language-dropdown";
 import { AppShellNotificationDropdown } from "../shadcn-studio/blocks/app-shell-notification-dropdown";
 import { AppShellProfileDropdown } from "../shadcn-studio/blocks/app-shell-profile-dropdown";
@@ -82,6 +83,37 @@ describe("AppShell block interactions", () => {
 
     expect(
       within(dialog).getByRole("feed", { name: "Team activity feed" })
+    ).toBeInTheDocument();
+  });
+
+  it("opens the context switcher menu from its trigger", async () => {
+    const user = setupUser();
+
+    render(
+      <AppShellContextSwitcher
+        allowedOptions={{
+          targets: [
+            {
+              companySlug: "alpha-co",
+              label: "Alpha Co",
+              isSelected: true,
+            },
+            {
+              companySlug: "beta-co",
+              label: "Beta Co",
+              isSelected: false,
+            },
+          ],
+        }}
+        onSelect={vi.fn()}
+      />
+    );
+
+    const menu = await openMenu(user, "Switch workspace context");
+
+    expect(within(menu).getByText("Switch workspace")).toBeInTheDocument();
+    expect(
+      within(menu).getByRole("menuitemradio", { name: "Beta Co" })
     ).toBeInTheDocument();
   });
 });

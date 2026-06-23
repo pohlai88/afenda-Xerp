@@ -1,7 +1,8 @@
+import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ChangeEvent, ReactNode } from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Input } from "./input";
 import { Label } from "./label";
@@ -182,7 +183,7 @@ export const GovernanceAllStates: Story = {
 };
 
 export const GovernanceAllSizes: Story = {
-  name: "Matrix — All Sizes",
+  name: "Governance — All Sizes",
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
@@ -196,7 +197,7 @@ export const GovernanceAllSizes: Story = {
 };
 
 export const GovernanceAllDensities: Story = {
-  name: "Matrix — All Densities",
+  name: "Governance — All Densities",
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
@@ -209,6 +210,76 @@ export const GovernanceAllDensities: Story = {
           />
         ))}
       </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Input` — governed values (`data-slot="input"`, `data-component="Input"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Input
+        aria-label="Inspect governed attributes"
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-input"
+        placeholder="Inspect governed attributes"
+      />
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → input (single-slot form-control leaf)
+        </p>
+        <Input
+          aria-label="Employee ID"
+          data-testid="slot-map-input"
+          placeholder="EMP-00142"
+        />
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    density: { control: "select", options: [...DENSITIES] },
+    size: { control: "select", options: [...SIZES] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    density: "standard",
+    size: "md",
+    state: "ready",
+    placeholder: "Adjust density, size, and state",
+  },
+  render: ({ density, size, state, placeholder }) => (
+    <StoryFrame width="md">
+      <Input
+        aria-label="Governed input playground"
+        density={density}
+        placeholder={placeholder}
+        size={size}
+        state={state}
+      />
     </StoryFrame>
   ),
 };
@@ -790,7 +861,7 @@ export const GovernanceAccessibility: Story = {
             type="email"
           />
         </LabeledField>
-        <span className="text-destructive text-xs" id="a11y-email-hint">
+        <span className="text-destructive text-xs" id="a11y-email-hint" role="alert">
           Enter a valid company email address.
         </span>
       </StoryStack>

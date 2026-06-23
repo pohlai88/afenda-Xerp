@@ -73,6 +73,23 @@ describe("operating-context.resolution.contract", () => {
           "Corporate group is suspended and workspace access is blocked.",
       });
     });
+
+    it("accepts operational entity group within tenant boundary", () => {
+      expect(
+        verifyEntityGroupBoundary({
+          entityGroupId: ENTITY_GROUP_ID,
+          entityGroupRow: {
+            id: ENTITY_GROUP_ID,
+            tenantId: TENANT_ID,
+            slug: "acme-group",
+            displayName: "Acme Group",
+            parentLegalEntityId: null,
+            status: "active",
+          },
+          tenantId: TENANT_ID,
+        })
+      ).toBeNull();
+    });
   });
 
   describe("verifyProjectSelection", () => {

@@ -23,23 +23,30 @@ const ALERT_DIALOG_SLOT_ROLES = {
 
 function AlertDialog({
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
-  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
+}: React.ComponentProps<typeof AlertDialogPrimitive.Root>): React.ReactElement {
+  return <AlertDialogPrimitive.Root {...props} data-slot="alert-dialog" />;
 }
 
 function AlertDialogTrigger({
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
+}: React.ComponentProps<
+  typeof AlertDialogPrimitive.Trigger
+>): React.ReactElement {
   return (
-    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
+    <AlertDialogPrimitive.Trigger
+      {...props}
+      data-slot="alert-dialog-trigger"
+    />
   );
 }
 
 function AlertDialogPortal({
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
+}: React.ComponentProps<
+  typeof AlertDialogPrimitive.Portal
+>): React.ReactElement {
   return (
-    <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
+    <AlertDialogPrimitive.Portal {...props} data-slot="alert-dialog-portal" />
   );
 }
 

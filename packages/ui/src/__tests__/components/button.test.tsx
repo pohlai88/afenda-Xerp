@@ -139,4 +139,55 @@ describe("Button governance", () => {
       "false"
     );
   });
+
+  it("sets aria-busy when state is loading", () => {
+    render(
+      <Button disabled state="loading">
+        Saving
+      </Button>
+    );
+
+    expect(screen.getByRole("button", { name: "Saving" })).toHaveAttribute(
+      "aria-busy",
+      "true"
+    );
+    expect(screen.getByRole("button", { name: "Saving" })).toHaveAttribute(
+      "data-state",
+      "loading"
+    );
+  });
+
+  it("preserves caller aria-busy over loading state default", () => {
+    render(
+      <Button aria-busy={false} disabled state="loading">
+        Saving
+      </Button>
+    );
+
+    expect(screen.getByRole("button", { name: "Saving" })).toHaveAttribute(
+      "aria-busy",
+      "false"
+    );
+  });
+
+  it("emits presentation and density governed attributes", () => {
+    render(
+      <Button
+        aria-label="Refresh"
+        density="compact"
+        emphasis="ghost"
+        intent="quiet"
+        presentation="icon"
+        size="sm"
+      >
+        R
+      </Button>
+    );
+
+    const button = screen.getByRole("button", { name: "Refresh" });
+
+    expect(button).toHaveAttribute("data-presentation", "icon");
+    expect(button).toHaveAttribute("data-density", "compact");
+    expect(button).toHaveAttribute("data-size", "sm");
+  });
 });

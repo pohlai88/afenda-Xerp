@@ -3,8 +3,6 @@
 import type { GovernedFormControlProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-
-import { cn } from "@afenda/ui/lib/utils";
 import { CheckIcon } from "lucide-react";
 import { Checkbox as CheckboxPrimitive } from "radix-ui";
 import * as React from "react";
@@ -44,10 +42,9 @@ const Checkbox = React.forwardRef<
       {...applyGovernedPresentation(props, governed)}
     >
       <CheckboxPrimitive.Indicator
-        {...indicator.dataAttributes}
-        className={cn(indicator.className)}
+        {...applyGovernedPresentation({}, indicator)}
       >
-        <CheckIcon />
+        <CheckIcon aria-hidden="true" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

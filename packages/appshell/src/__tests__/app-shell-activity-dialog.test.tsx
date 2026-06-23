@@ -33,5 +33,20 @@ describe("AppShellActivityDialog", () => {
     expect(
       screen.getByRole("feed", { name: "Team activity feed" })
     ).toBeInTheDocument();
+    expect(document.querySelector(".app-shell-activity-panel")).not.toBeNull();
+  });
+
+  it("passes a custom feed label to the activity feed", () => {
+    render(
+      <AppShellActivityDialog
+        defaultOpen
+        feedLabel="Finance activity"
+        trigger={<button type="button">Open activity</button>}
+      />
+    );
+
+    expect(
+      screen.getByRole("feed", { name: "Finance activity" })
+    ).toBeInTheDocument();
   });
 });

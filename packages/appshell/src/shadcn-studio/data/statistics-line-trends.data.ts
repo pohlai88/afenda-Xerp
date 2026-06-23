@@ -32,7 +32,7 @@ const inventoryTrendData = [
 
 export const defaultStatisticsLineTrendsCards = [
   {
-    title: "Orders",
+    title: "Daily orders",
     series: [
       { key: "ThisWeek", label: "This week", value: 574, color: "var(--chart-1)" },
       { key: "LastWeek", label: "Last week", value: 455, color: "var(--chart-2)" },
@@ -58,6 +58,14 @@ export const defaultStatisticsLineTrendsCards = [
 ] as const satisfies readonly StatisticsLineTrendsCardProps[];
 
 export const DEFAULT_STATISTICS_LINE_TRENDS_LABEL = "Operations trend metrics";
+
+/** Builds accessible chart label for dual-series line trend cards. */
+export function formatStatisticsLineTrendsChartLabel(
+  title: string,
+  seriesLabels: readonly [string, string]
+): string {
+  return `${title} line trend comparing ${seriesLabels[0]} and ${seriesLabels[1]}`;
+}
 
 /** Shared chart margins for line trend cards. */
 export const STATISTICS_LINE_TRENDS_CHART_MARGIN = {

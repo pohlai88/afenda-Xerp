@@ -1,7 +1,12 @@
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { ValidatedEmployeeIdField } from "./_storybook/field-story.compositions";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Checkbox } from "./checkbox";
 import {
   Field,
@@ -25,33 +30,6 @@ import {
 } from "./select";
 import { Switch } from "./switch";
 import { Textarea } from "./textarea";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function ValidatedEmployeeIdField() {
-  const [value, setValue] = useState("");
-  const [touched, setTouched] = useState(false);
-  const invalid = touched && value.length < 4;
-
-  return (
-    <Field state={invalid ? "error" : "ready"}>
-      <FieldLabel htmlFor="emp-id">Employee ID *</FieldLabel>
-      <Input
-        id="emp-id"
-        onBlur={() => setTouched(true)}
-        onChange={(event) => setValue(event.target.value)}
-        placeholder="EMP-0000"
-        value={value}
-      />
-      <FieldDescription>Format: EMP- followed by 4 digits.</FieldDescription>
-      {invalid ? (
-        <FieldError
-          errors={[{ message: "Employee ID must be at least 4 characters" }]}
-        />
-      ) : null}
-    </Field>
-  );
-}
 
 // ─── Field ─────────────────────────────────────────────────────────────────
 
@@ -223,18 +201,18 @@ export const FieldGroupLayout: Story = {
       <FieldGroup>
         <FieldTitle>Invoice totals</FieldTitle>
         <StoryRow gap="md" wrap>
-          <div className="flex-1">
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="subtotal">Subtotal</FieldLabel>
               <Input id="subtotal" placeholder="0.00" type="number" />
             </Field>
-          </div>
-          <div className="flex-1">
+          </StoryStack>
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="tax">Tax</FieldLabel>
               <Input id="tax" placeholder="0.00" type="number" />
             </Field>
-          </div>
+          </StoryStack>
         </StoryRow>
       </FieldGroup>
     </StoryFrame>
@@ -249,15 +227,15 @@ export const GovernanceStates: Story = {
   render: () => (
     <StoryStack gap="md">
       {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <Field state={state}>
-            <FieldLabel htmlFor={`state-${state}`}>Field label</FieldLabel>
-            <Input id={`state-${state}`} placeholder="Value" state={state} />
-          </Field>
-        </StoryFrame>
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <StoryFrame width="md">
+            <Field state={state}>
+              <FieldLabel htmlFor={`state-${state}`}>Field label</FieldLabel>
+              <Input id={`state-${state}`} placeholder="Value" state={state} />
+            </Field>
+          </StoryFrame>
+        </StoryRow>
       ))}
     </StoryStack>
   ),
@@ -271,9 +249,7 @@ export const AllOrientations: Story = {
       {(["vertical", "horizontal", "responsive"] as const).map(
         (orientation) => (
           <StoryStack gap="xs" key={orientation}>
-            <span className="font-medium text-muted-foreground text-xs">
-              orientation=&quot;{orientation}&quot;
-            </span>
+            <StoryCaption>{orientation}</StoryCaption>
             <Field orientation={orientation}>
               <FieldLabel htmlFor={`ori-${orientation}`}>
                 Cost centre
@@ -403,18 +379,18 @@ export const EmployeeRecordForm: Story = {
       <FieldSet>
         <FieldLegend>Employee details</FieldLegend>
         <StoryRow gap="md" wrap>
-          <div className="flex-1">
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="emp-first">First name *</FieldLabel>
               <Input id="emp-first" placeholder="Jane" />
             </Field>
-          </div>
-          <div className="flex-1">
+          </StoryStack>
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="emp-last">Last name *</FieldLabel>
               <Input id="emp-last" placeholder="Doe" />
             </Field>
-          </div>
+          </StoryStack>
         </StoryRow>
         <Field>
           <FieldLabel htmlFor="emp-email">Work email *</FieldLabel>
@@ -494,19 +470,19 @@ export const InvoiceLineItemField: Story = {
           />
         </Field>
         <StoryRow gap="md" wrap>
-          <div className="flex-1">
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="line-qty">Quantity</FieldLabel>
               <Input id="line-qty" placeholder="1" type="number" />
             </Field>
-          </div>
-          <div className="flex-1">
+          </StoryStack>
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="line-rate">Unit price</FieldLabel>
               <Input id="line-rate" placeholder="150.00" type="number" />
             </Field>
-          </div>
-          <div className="flex-1">
+          </StoryStack>
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="line-tax">Tax code</FieldLabel>
               <Select>
@@ -519,7 +495,7 @@ export const InvoiceLineItemField: Story = {
                 </SelectContent>
               </Select>
             </Field>
-          </div>
+          </StoryStack>
         </StoryRow>
       </FieldGroup>
     </StoryFrame>
@@ -594,18 +570,18 @@ export const AddressFieldGroup: Story = {
           <Input id="addr-line2" placeholder="Suite 400" />
         </Field>
         <StoryRow gap="md" wrap>
-          <div className="flex-1">
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="addr-city">City</FieldLabel>
               <Input id="addr-city" placeholder="Melbourne" />
             </Field>
-          </div>
-          <div className="flex-1">
+          </StoryStack>
+          <StoryStack className="flex-1" gap="xs">
             <Field>
               <FieldLabel htmlFor="addr-post">Postcode</FieldLabel>
               <Input id="addr-post" placeholder="3000" />
             </Field>
-          </div>
+          </StoryStack>
         </StoryRow>
         <Field>
           <FieldLabel htmlFor="addr-country">Country</FieldLabel>
@@ -793,6 +769,43 @@ export const MultiSectionForm: Story = {
           </FieldContent>
         </Field>
       </FieldSet>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Field root, label, or error attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Field
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+        data-state="fake"
+        state="ready"
+      >
+        <FieldLabel
+          data-component="Override"
+          data-slot="override"
+          htmlFor="authority-email"
+        >
+          Work email
+        </FieldLabel>
+        <Input id="authority-email" placeholder="name@company.com" />
+        <FieldError
+          data-component="Override"
+          data-slot="override"
+          errors={[{ message: "Required" }]}
+        />
+      </Field>
     </StoryFrame>
   ),
 };

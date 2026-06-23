@@ -1,3 +1,4 @@
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   BuildingIcon,
@@ -7,7 +8,7 @@ import {
   SlashIcon,
   UserIcon,
 } from "lucide-react";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
@@ -34,7 +35,7 @@ interface Crumb {
   readonly label: string;
 }
 
-function BreadcrumbTrail({ items }: { items: readonly Crumb[] }) {
+function BreadcrumbTrail({ items }: { readonly items: readonly Crumb[] }) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -64,15 +65,20 @@ function PageHeader({
   title,
   badge,
 }: {
-  crumbs: readonly Crumb[];
-  title: string;
-  badge?: { label: string; tone: "success" | "warning" | "info" | "neutral" };
+  readonly crumbs: readonly Crumb[];
+  readonly title: string;
+  readonly badge?: {
+    readonly label: string;
+    readonly tone: "success" | "warning" | "info" | "neutral";
+  };
 }) {
   return (
     <StoryStack gap="sm">
       <BreadcrumbTrail items={crumbs} />
       <StoryRow align="center" gap="sm">
-        <h1 className="font-heading font-semibold text-xl">{title}</h1>
+        <h1 className="font-heading font-semibold text-xl tracking-tight">
+          {title}
+        </h1>
         {badge ? (
           <Badge emphasis="soft" size="sm" tone={badge.tone}>
             {badge.label}
@@ -98,12 +104,44 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed lifecycle state on the root landmark.",
+    },
+  },
+  args: {
+    state: "ready",
+  },
 } satisfies Meta<typeof Breadcrumb>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <StoryFrame width="lg">
+      <Breadcrumb {...args}>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Finance</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Invoices</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </StoryFrame>
+  ),
+};
 
 export const Default: Story = {
   render: () => (
@@ -199,12 +237,15 @@ export const WithEllipsis: Story = {
           <BreadcrumbItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button
+                <Button
                   aria-label="Show hidden breadcrumb segments"
-                  type="button"
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="sm"
                 >
                   <BreadcrumbEllipsis />
-                </button>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
                 <DropdownMenuItem>Finance</DropdownMenuItem>
@@ -265,6 +306,138 @@ export const ModuleOverview: Story = {
           />
           <BreadcrumbTrail items={items} />
         </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-component="Override"` — governed values (`data-slot="breadcrumb"`, `data-component="Breadcrumb"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <Breadcrumb
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-breadcrumb-root"
+      >
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Current</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Root is a `nav` landmark with `aria-label=\"breadcrumb\"`. Current page uses `aria-current=\"page\"`. Separators and ellipsis are `aria-hidden`. Verify keyboard focus on links and collapsed-menu trigger.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Finance</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Invoice INV-2026-0142</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal slot roles (e.g. `body`, `control`) differ from emitted DOM values (e.g. `breadcrumb-list`, `breadcrumb-link`).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="xl">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → breadcrumb · body → breadcrumb-list · content → breadcrumb-item
+          · control → breadcrumb-link · label → breadcrumb-page · icon →
+          breadcrumb-separator · state → breadcrumb-ellipsis
+        </p>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem data-testid="slot-item">
+              <BreadcrumbLink href="#">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator data-testid="slot-separator" />
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis data-testid="slot-ellipsis" />
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage data-testid="slot-page">Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="lg">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <Breadcrumb state={state}>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Current</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </StoryFrame>
       ))}
     </StoryStack>
   ),
@@ -379,7 +552,7 @@ export const ReportDrillDown: Story = {
             { label: "Engineering · Q2 2026" },
           ]}
         />
-        <span className="text-muted-foreground text-sm">
+        <span className="text-muted-foreground text-sm tabular-nums">
           Revenue $1.2M · Expenses $840K · Net $360K
         </span>
       </StoryStack>

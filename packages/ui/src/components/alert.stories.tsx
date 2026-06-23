@@ -1,3 +1,4 @@
+import React from "react";
 import {
   DENSITIES,
   GOVERNED_PANEL_RADII,
@@ -18,7 +19,7 @@ import {
   WrenchIcon,
   XIcon,
 } from "lucide-react";
-import React, { type ComponentType, type ReactNode, useState } from "react";
+import { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "./alert";
 import { Button } from "./button";

@@ -2,8 +2,8 @@
  * Canonical Do's and Prohibitions registry — aligned with
  * `docs/architecture/multi-tenancy.md` (lines 447–480).
  *
- * Authoritative runtime scans live in
- * `lib/multi-tenancy-dos-prohibitions-enforcement.mts`.
+ * Glossary vocabulary authority: `multi-tenancy-glossary-first-registry.mts` (Step 1 §484–500).
+ * Runtime scans live in `lib/multi-tenancy-dos-prohibitions-enforcement.mts`.
  */
 export const MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE =
   "multi-tenancy-dos-prohibitions-are-enforced-by-governance-gate-and-delegated-surface-gates" as const;
@@ -44,34 +44,12 @@ export const MULTI_TENANCY_DOC_PROHIBITIONS_MARKERS = [
   "Do not leave TODOs as completion.",
 ] as const;
 
-/** Required glossary H2 headings (11 domain terms). */
-export const MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS = [
-  "## Tenant",
-  "## Entity Group",
-  "## Legal Entity / Company",
-  "## Ownership Interest",
-  "## Organization Unit",
-  "## Team",
-  "## Project",
-  "## Workspace",
-  "## Surface",
-  "## RLS Grant",
-  "## Consolidation Scope",
-] as const;
-
-/** Minimum do-not-confuse notes across glossary domain terms. */
-export const MULTI_TENANCY_GLOSSARY_MIN_DO_NOT_CONFUSE = 4 as const;
-
-/** Explicit glossary phrases — tier-separation prohibitions (§465–470). */
-export const MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES = [
-  "Must not be confused with legal entity",
-  "Must not be treated as a generic organization unit",
-  "Must not replace Legal Entity/Company",
-  "Must not be confused with Tenant or Legal Entity",
-] as const;
-
-export const MULTI_TENANCY_GLOSSARY_PATH =
-  "docs/architecture/glossary.md" as const;
+export {
+  MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES,
+  MULTI_TENANCY_GLOSSARY_MIN_DO_NOT_CONFUSE,
+  MULTI_TENANCY_GLOSSARY_PATH,
+  MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS,
+} from "./multi-tenancy-glossary-first-registry.mts";
 
 /**
  * Do's mapped to delegated governance gates (enforcement is authoritative in
@@ -81,7 +59,7 @@ export const MULTI_TENANCY_DOS_DELEGATED_GATES = [
   {
     id: "glossary-first",
     marker: "Do create/update glossary first.",
-    checkScript: "check:multi-tenancy-dos-prohibitions",
+    checkScript: "check:multi-tenancy-glossary-first",
   },
   {
     id: "separate-tiers",
@@ -162,19 +140,19 @@ export const MULTI_TENANCY_PROHIBITION_ENFORCEMENT = [
   {
     id: "legal-entity-not-organization",
     marker: "Do not call legal entity",
-    checkScript: "check:multi-tenancy-dos-prohibitions",
+    checkScript: "check:multi-tenancy-glossary-first",
     scanRule: "glossary-do-not-confuse",
   },
   {
     id: "organization-not-company-replacement",
     marker: "Do not use organization as replacement for company.",
-    checkScript: "check:multi-tenancy-dos-prohibitions",
+    checkScript: "check:multi-tenancy-glossary-first",
     scanRule: "glossary-do-not-confuse",
   },
   {
     id: "tenant-not-company",
     marker: "Do not treat tenant as company.",
-    checkScript: "check:multi-tenancy-dos-prohibitions",
+    checkScript: "check:multi-tenancy-glossary-first",
     scanRule: "glossary-do-not-confuse",
   },
   {
@@ -306,7 +284,7 @@ export const MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS = [
   {
     risk: "Glossary tier conflation",
     mitigation:
-      "Required do-not-confuse phrases per Tenant / Legal Entity / Organization Unit / Team",
+      "Step 1 glossary-first gate: 11 terms, per-section do-not-confuse notes, cross-term phrases (check:multi-tenancy-glossary-first)",
     scanRule: "glossary-do-not-confuse",
     residual: "low",
   },

@@ -1,38 +1,38 @@
 export interface DashboardPaginationOptions {
-  /** 1-based active page index. Values outside `[1, totalPages]` are clamped. */
-  readonly currentPage: number;
-  /** Total number of pages. `0` yields an empty range. */
-  readonly totalPages: number;
-  /**
-   * Sibling pages rendered on each side of the active page.
-   * @default 1
-   */
-  readonly siblingCount?: number;
   /**
    * Boundary pages always shown at the start and end of the control.
    * @default 1
    */
   readonly boundaryCount?: number;
+  /** 1-based active page index. Values outside `[1, totalPages]` are clamped. */
+  readonly currentPage: number;
   /**
    * Legacy window size used by shadcn datatable blocks.
    * When set without `siblingCount`, derives siblings from this value.
    * @deprecated Prefer `siblingCount` and `boundaryCount`.
    */
   readonly paginationItemsToDisplay?: number;
+  /**
+   * Sibling pages rendered on each side of the active page.
+   * @default 1
+   */
+  readonly siblingCount?: number;
+  /** Total number of pages. `0` yields an empty range. */
+  readonly totalPages: number;
 }
 
 export interface DashboardPaginationResult {
+  readonly canGoNext: boolean;
+  readonly canGoPrevious: boolean;
+  /** Clamped active page used for calculations. */
+  readonly currentPage: number;
+  readonly isFirstPage: boolean;
+  readonly isLastPage: boolean;
   /** Visible 1-based page numbers in render order. */
   readonly pages: readonly number[];
   readonly showLeftEllipsis: boolean;
   readonly showRightEllipsis: boolean;
-  /** Clamped active page used for calculations. */
-  readonly currentPage: number;
   readonly totalPages: number;
-  readonly canGoPrevious: boolean;
-  readonly canGoNext: boolean;
-  readonly isFirstPage: boolean;
-  readonly isLastPage: boolean;
 }
 
 const DEFAULT_SIBLING_COUNT = 1;
@@ -90,9 +90,7 @@ function resolveEllipsisFlags(
 
   return {
     showLeftEllipsis:
-      firstPage === 1 &&
-      secondPage !== undefined &&
-      secondPage > firstPage + 1,
+      firstPage === 1 && secondPage !== undefined && secondPage > firstPage + 1,
     showRightEllipsis:
       lastPage === totalPages &&
       penultimatePage !== undefined &&
@@ -111,7 +109,10 @@ export function buildDashboardPaginationRange(
   const totalPages = Math.max(0, Math.trunc(options.totalPages));
   const currentPage = clampPageIndex(options.currentPage, totalPages);
   const siblingCount = resolveSiblingCount(options);
-  const boundaryCount = normalizeCount(options.boundaryCount, DEFAULT_BOUNDARY_COUNT);
+  const boundaryCount = normalizeCount(
+    options.boundaryCount,
+    DEFAULT_BOUNDARY_COUNT
+  );
 
   if (totalPages === 0) {
     return {
@@ -134,21 +135,28 @@ export function buildDashboardPaginationRange(
   if (totalPages <= totalVisibleSlots) {
     pages = createPageRange(1, totalPages);
   } else {
-    const leftSiblingIndex = Math.max(currentPage - siblingCount, boundaryCount + 1);
+    const leftSiblingIndex = Math.max(
+      currentPage - siblingCount,
+      boundaryCount + 1
+    );
     const rightSiblingIndex = Math.min(
       currentPage + siblingCount,
       totalPages - boundaryCount
     );
 
     const shouldShowLeftDots = leftSiblingIndex > boundaryCount + 2;
-    const shouldShowRightDots = rightSiblingIndex < totalPages - boundaryCount - 1;
+    const shouldShowRightDots =
+      rightSiblingIndex < totalPages - boundaryCount - 1;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
       const leadingWindow = 3 + siblingCount * 2;
       pages = [...createPageRange(1, leadingWindow), totalPages];
     } else if (shouldShowLeftDots && !shouldShowRightDots) {
       const trailingWindow = 3 + siblingCount * 2;
-      pages = [1, ...createPageRange(totalPages - trailingWindow + 1, totalPages)];
+      pages = [
+        1,
+        ...createPageRange(totalPages - trailingWindow + 1, totalPages),
+      ];
     } else if (shouldShowLeftDots && shouldShowRightDots) {
       pages = [
         1,
@@ -160,7 +168,10 @@ export function buildDashboardPaginationRange(
     }
   }
 
-  const { showLeftEllipsis, showRightEllipsis } = resolveEllipsisFlags(pages, totalPages);
+  const { showLeftEllipsis, showRightEllipsis } = resolveEllipsisFlags(
+    pages,
+    totalPages
+  );
 
   return {
     pages,

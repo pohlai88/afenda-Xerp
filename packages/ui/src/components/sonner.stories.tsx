@@ -2,65 +2,17 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ThemeProvider } from "next-themes";
 import { toast } from "sonner";
-import { StoryRow, StoryStack } from "./_storybook/story-frame";
-import { Button } from "./button";
+import {
+  simulateCsvExport,
+  simulateLedgerPost,
+  TOAST_TYPE_TRIGGERS,
+  ToastTriggerButton,
+  ToastTriggerRow,
+} from "./_storybook/sonner-story.compositions";
+import type { ToasterProps } from "./sonner";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Toaster } from "./sonner";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-interface ToastTrigger {
-  readonly id: string;
-  readonly label: string;
-  readonly onClick: () => void;
-}
-
-function ToastTriggerButton({
-  label,
-  onClick,
-}: {
-  readonly label: string;
-  readonly onClick: () => void;
-}) {
-  return (
-    <Button emphasis="outline" intent="secondary" onClick={onClick} size="sm">
-      {label}
-    </Button>
-  );
-}
-
-function ToastTriggerRow({
-  triggers,
-}: {
-  readonly triggers: readonly ToastTrigger[];
-}) {
-  return (
-    <StoryRow gap="sm" wrap>
-      {triggers.map(({ id, label, onClick }) => (
-        <ToastTriggerButton key={id} label={label} onClick={onClick} />
-      ))}
-    </StoryRow>
-  );
-}
-
-function simulateLedgerPost(): Promise<{ entryId: string }> {
-  return new Promise((resolve, reject) => {
-    window.setTimeout(() => {
-      if (Math.random() > 0.35) {
-        resolve({ entryId: "JE-20481" });
-      } else {
-        reject(new Error("Period locked"));
-      }
-    }, 1800);
-  });
-}
-
-function simulateCsvExport(): Promise<{ rows: number }> {
-  return new Promise((resolve) => {
-    window.setTimeout(() => resolve({ rows: 248 }), 2200);
-  });
-}
-
-// ─── Toaster ───────────────────────────────────────────────────────────────
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 
 const meta = {
   title: "Primitives/Toaster",
@@ -80,6 +32,7 @@ const meta = {
       const theme = context.globals["theme"] === "dark" ? "dark" : "light";
       const toaster = (context.parameters["toaster"] ?? {}) as {
         readonly closeButton?: boolean;
+        readonly disable?: boolean;
         readonly expand?: boolean;
         readonly position?:
           | "top-left"
@@ -89,12 +42,19 @@ const meta = {
           | "top-center"
           | "bottom-center";
       };
+      const toasterProps = (context.parameters["toasterProps"] ??
+        {}) as ToasterProps;
+
+      if (toaster.disable) {
+        return <Story />;
+      }
 
       return (
         <ThemeProvider attribute="class" forcedTheme={theme}>
           <div className="bg-background text-foreground">
             <Story />
             <Toaster
+              {...toasterProps}
               {...(toaster.closeButton
                 ? { closeButton: toaster.closeButton }
                 : {})}
@@ -299,35 +259,105 @@ export const ExpandedStack: Story = {
 };
 
 export const MatrixAllTypes: Story = {
-  name: "Matrix — All Toast Types",
+  name: "Governance — Toast Types",
   parameters: { layout: "padded" },
+  render: () => <ToastTriggerRow triggers={TOAST_TYPE_TRIGGERS} />,
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    toasterProps: {
+      "data-component": "Override",
+      "data-recipe": "override",
+      "data-slot": "override",
+      "data-state": "fake",
+      state: "ready",
+    } satisfies ToasterProps,
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Toaster root attributes.",
+      },
+    },
+  },
   render: () => (
-    <ToastTriggerRow
-      triggers={[
-        {
-          id: "default",
-          label: "Default",
-          onClick: () => toast("Notification"),
-        },
-        {
-          id: "success",
-          label: "Success",
-          onClick: () => toast.success("Saved"),
-        },
-        { id: "error", label: "Error", onClick: () => toast.error("Failed") },
-        {
-          id: "warning",
-          label: "Warning",
-          onClick: () => toast.warning("Review"),
-        },
-        { id: "info", label: "Info", onClick: () => toast.info("Scheduled") },
-        {
-          id: "loading",
-          label: "Loading",
-          onClick: () => toast.loading("Processing…"),
-        },
-      ]}
+    <ToastTriggerButton
+      label="Show governed toast"
+      onClick={() => toast.success("Payment recorded")}
     />
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded", toaster: { disable: true } },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <ThemeProvider attribute="class" forcedTheme="light">
+            <StoryRow align="start" gap="md">
+              <StoryCaption width="sm">{state}</StoryCaption>
+              <StoryStack className="min-w-0 flex-1" gap="sm">
+                <ToastTriggerButton
+                  label={`Trigger (${state})`}
+                  onClick={() => toast.info(`Toast while state=${state}`)}
+                />
+                <Toaster state={state} />
+              </StoryStack>
+            </StoryRow>
+          </ThemeProvider>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Root role emits `data-slot=\"toaster\"`. Icon slots emit `toaster-{severity}-icon` via governed slot keys.",
+      },
+    },
+  },
+  render: () => (
+    <StoryStack gap="sm">
+      <p className="font-mono text-muted-foreground text-xs">
+        root → toaster · success → toaster-success-icon · info → toaster-info-icon
+        · warning → toaster-warning-icon · error → toaster-error-icon · loading →
+        toaster-loading-icon
+      </p>
+      <ToastTriggerRow triggers={TOAST_TYPE_TRIGGERS} />
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded", toaster: { disable: true } },
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    state: "ready",
+  },
+  render: ({ state }) => (
+    <StoryFrame width="md">
+      <ThemeProvider attribute="class" forcedTheme="light">
+        <StoryStack gap="sm">
+          <ToastTriggerButton
+            label={`Show toast (state=${state})`}
+            onClick={() => toast.info(`Governed state=${state}`)}
+          />
+          <Toaster state={state} />
+        </StoryStack>
+      </ThemeProvider>
+    </StoryFrame>
   ),
 };
 

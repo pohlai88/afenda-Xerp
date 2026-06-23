@@ -1,6 +1,10 @@
 "use client";
 
-import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import type {
+  GovernedPopoverProps,
+  GovernedSurfaceProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -15,17 +19,59 @@ const POPOVER_SLOT_ROLES = {
   description: "state",
 } as const satisfies Record<string, SlotRole>;
 
-function Popover({
-  ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Root>) {
-  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+export interface PopoverProps
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>,
+      "className"
+    >,
+    GovernedPopoverProps {
+  readonly className?: string;
 }
 
-function PopoverTrigger({
-  ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
-  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
+function Popover({ className, state, ...props }: PopoverProps) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Popover",
+    recipeName: POPOVER_RECIPE_NAME,
+    slotKey: "menu-root",
+    state,
+    className,
+  });
+
+  return (
+    <PopoverPrimitive.Root {...applyGovernedPresentation(props, governed)} />
+  );
 }
+
+Popover.displayName = "Popover";
+
+export interface PopoverTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const PopoverTrigger = React.forwardRef<
+  React.ComponentRef<typeof PopoverPrimitive.Trigger>,
+  PopoverTriggerProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Popover",
+    recipeName: POPOVER_RECIPE_NAME,
+    slotKey: "trigger",
+    className,
+  });
+
+  return (
+    <PopoverPrimitive.Trigger
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
+  );
+});
+
+PopoverTrigger.displayName = "PopoverTrigger";
 
 export interface PopoverContentProps
   extends Omit<
@@ -82,6 +128,8 @@ function PopoverAnchor({
   return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
 }
 
+PopoverAnchor.displayName = "PopoverAnchor";
+
 const PopoverHeader = createGovernedDivSlot("PopoverHeader", {
   componentName: "Popover",
   recipeName: POPOVER_RECIPE_NAME,
@@ -94,7 +142,7 @@ const PopoverTitle = createGovernedDivSlot("PopoverTitle", {
   slot: POPOVER_SLOT_ROLES.title,
 });
 
-interface PopoverDescriptionProps
+export interface PopoverDescriptionProps
   extends Omit<React.ComponentPropsWithoutRef<"p">, "className"> {
   readonly className?: string;
 }

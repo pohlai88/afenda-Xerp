@@ -1,9 +1,9 @@
+import type { DashboardWidgetLayoutItem } from "./dashboard-layout.contract";
 import type {
   DashboardWidgetDefinition,
   DashboardWidgetRenderContext,
 } from "./dashboard-widget.contract";
 import { isDashboardWidgetId } from "./dashboard-widget-registry";
-import type { DashboardWidgetLayoutItem } from "./dashboard-layout.contract";
 
 export function resolveDashboardWidgets(
   widgets: readonly DashboardWidgetDefinition[],

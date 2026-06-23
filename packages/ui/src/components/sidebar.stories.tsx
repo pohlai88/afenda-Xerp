@@ -1,4 +1,5 @@
 import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import { cn } from "@afenda/ui/lib/utils";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
@@ -18,7 +19,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
-import { StoryRow, StoryStack } from "./_storybook/story-frame";
+import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import {
@@ -927,6 +928,138 @@ export const GovernanceAccessibility: Story = {
         </MainShell>
       }
       sidebar={<ApplicationNav />}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `SidebarHeader` — governed values (`data-slot="sidebar-header"`, `data-component="Sidebar"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex min-h-svh w-full">
+      <SidebarProvider defaultOpen>
+        <Sidebar collapsible="none">
+          <SidebarHeader
+            data-component="Override"
+            data-slot="override"
+            data-testid="governance-sidebar-header"
+          >
+            Header probe
+          </SidebarHeader>
+        </Sidebar>
+      </SidebarProvider>
+    </div>
+  ),
+};
+
+function SidebarGovernanceProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <div className="flex min-h-svh w-full">
+      <SidebarProvider data-testid={`sidebar-state-${state}`} state={state}>
+        <Sidebar collapsible="none">
+          <SidebarHeader>State probe</SidebarHeader>
+        </Sidebar>
+      </SidebarProvider>
+    </div>
+  );
+}
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`header`, `actions`, `icon`) emit `sidebar-header`, `sidebar-menu`, `sidebar-menu-item`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → sidebar-wrapper · body → sidebar · header → sidebar-header ·
+          footer → sidebar-footer · label → sidebar-group-label · control →
+          sidebar-group-action · state → sidebar-group-content · actions →
+          sidebar-menu · icon → sidebar-menu-item · inset → sidebar-inset
+        </p>
+        <SidebarStoryFrame
+          sidebar={
+            <>
+              <SidebarHeader data-testid="slot-map-header">Afenda ERP</SidebarHeader>
+              <SidebarContent>
+                <SidebarGroup>
+                  <SidebarGroupLabel>Modules</SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton data-testid="slot-map-button">
+                          Finance
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </SidebarContent>
+              <SidebarFooter>Footer</SidebarFooter>
+            </>
+          }
+        />
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "fullscreen" },
+  render: () => (
+    <StoryStack gap="md" padding="md">
+      {GOVERNED_STATES.map((state) => (
+        <SidebarGovernanceProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "fullscreen" },
+  argTypes: {
+    collapsible: {
+      control: "select",
+      options: ["offcanvas", "icon", "none"],
+    },
+    variant: {
+      control: "select",
+      options: ["sidebar", "floating", "inset"],
+    },
+    side: { control: "select", options: ["left", "right"] },
+    defaultOpen: { control: "boolean" },
+  },
+  args: {
+    collapsible: "icon",
+    variant: "sidebar",
+    side: "left",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <SidebarStoryFrame
+      {...args}
+      sidebar={<ApplicationNav activeTitle="Dashboard" />}
     />
   ),
 };

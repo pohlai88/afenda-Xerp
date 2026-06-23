@@ -45,7 +45,8 @@ export const WidgetsOnly: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Canvas without ApplicationShell — fastest path for widget grid QA.",
+        story:
+          "Canvas without ApplicationShell — fastest path for widget grid QA.",
       },
     },
   },
@@ -79,6 +80,23 @@ export const FinanceGated: Story = {
       description: {
         story:
           "Finance permission-gated widgets hidden — validates capability-only render context on the canvas.",
+      },
+    },
+  },
+};
+
+export const EmptyCanvas: Story = {
+  render: () =>
+    renderDashboardCanvasStory({
+      editMode: false,
+      layout: { version: 1, columns: 12, rowHeight: 80, items: [] },
+      ...DASHBOARD_STORY_BASE_ARGS,
+    }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Zero layout items — aria-live empty state region with status copy.",
       },
     },
   },

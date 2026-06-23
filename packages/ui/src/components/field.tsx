@@ -114,19 +114,29 @@ interface FieldDivSlotProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
     GovernedClassNameProps {}
 
+export type FieldContentProps = FieldDivSlotProps;
+export type FieldGroupProps = FieldDivSlotProps;
+export type FieldTitleProps = FieldDivSlotProps;
+
 interface FieldParagraphSlotProps
   extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "className">,
     GovernedClassNameProps {}
 
+export type FieldDescriptionProps = FieldParagraphSlotProps;
+
 interface FieldSetSlotProps
   extends Omit<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, "className">,
     GovernedClassNameProps {}
+
+export type FieldSetProps = FieldSetSlotProps;
 
 interface FieldLegendSlotProps
   extends Omit<React.HTMLAttributes<HTMLLegendElement>, "className">,
     GovernedClassNameProps {
   readonly variant?: "legend" | "label";
 }
+
+export type FieldLegendProps = FieldLegendSlotProps;
 
 function createFieldDivSlot(displayName: string, slotName: FieldSlotKeyName) {
   const slot = FIELD_SLOT_ROLES[slotName];
@@ -219,7 +229,9 @@ const FieldTitle = React.forwardRef<HTMLDivElement, FieldDivSlotProps>(
 
 FieldTitle.displayName = "FieldTitle";
 
-interface FieldLabelProps
+export type FieldLabelProps = FieldLabelPropsInternal;
+
+interface FieldLabelPropsInternal
   extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "className">,
     GovernedClassNameProps {}
 
@@ -245,7 +257,7 @@ FieldLabel.displayName = "FieldLabel";
 
 const FieldDescription = React.forwardRef<
   HTMLParagraphElement,
-  FieldParagraphSlotProps
+  FieldDescriptionProps
 >(({ className, ...props }, ref) => {
   const governed = resolveFieldGovernance({
     slot: FIELD_SLOT_ROLES.description,
@@ -264,7 +276,7 @@ const FieldDescription = React.forwardRef<
 
 FieldDescription.displayName = "FieldDescription";
 
-interface FieldSeparatorProps
+export interface FieldSeparatorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
     GovernedClassNameProps {
   readonly children?: React.ReactNode;
@@ -295,7 +307,7 @@ const FieldSeparator = React.forwardRef<HTMLDivElement, FieldSeparatorProps>(
       >
         <span
           {...separatorLine.dataAttributes}
-          className={cn(separatorLine.className, "flex w-full items-center")}
+          className={cn(separatorLine.className)}
         >
           <Separator />
         </span>
@@ -319,6 +331,8 @@ interface FieldErrorProps
     GovernedClassNameProps {
   readonly errors?: readonly ({ readonly message?: string } | undefined)[];
 }
+
+export type { FieldErrorProps };
 
 function getUniqueErrorMessages(
   errors: FieldErrorProps["errors"]

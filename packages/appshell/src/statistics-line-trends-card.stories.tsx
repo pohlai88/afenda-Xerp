@@ -40,7 +40,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Alias of Blocks/Dashboard/StatisticsLineTrends — kept for sidebar continuity. */
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Fixture trio: daily orders, gross revenue, inventory movement — `var(--chart-*)` series colors.",
+      },
+    },
+  },
+};
 
 export const DarkTheme: Story = {
   globals: dashboardBlockDarkThemeGlobals,

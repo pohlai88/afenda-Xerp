@@ -1,11 +1,18 @@
 "use client";
 
+import type {
+  GovernedSidebarProps,
+  SlotRole,
+} from "@afenda/ui/governance";
+import type {
+  SidebarMenuButtonSizeKey,
+  SidebarMenuButtonVariantKey,
+} from "@afenda/ui/governance/recipe-maps-composite";
 import {
   applyGovernedPresentation,
   mergeGovernedPresentation,
 } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { PanelLeftIcon } from "lucide-react";
 import { Dialog as SheetPrimitive, Slot } from "radix-ui";
 import * as React from "react";
@@ -24,6 +31,18 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 const SIDEBAR_RECIPE_NAME = "surface" as const;
 
+const SIDEBAR_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  header: "header",
+  footer: "footer",
+  label: "label",
+  control: "control",
+  state: "state",
+  actions: "actions",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
+
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
@@ -31,8 +50,8 @@ const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
-type SidebarMenuButtonVariant = "default" | "outline";
-type SidebarMenuButtonSize = "default" | "sm" | "lg";
+export type SidebarMenuButtonVariant = SidebarMenuButtonVariantKey;
+export type SidebarMenuButtonSize = SidebarMenuButtonSizeKey;
 
 interface SidebarContextProps {
   readonly isMobile: boolean;
@@ -61,11 +80,13 @@ function sidebarClass(
   options?: {
     readonly slotKey?: string;
     readonly className?: string | undefined;
+    readonly state?: GovernedSidebarProps["state"];
   }
 ) {
   return resolvePrimitiveGovernance({
     componentName: "Sidebar",
     recipeName: SIDEBAR_RECIPE_NAME,
+    ...(options?.state === undefined ? {} : { state: options.state }),
     ...(slot === undefined ? {} : { slot }),
     ...(options?.slotKey === undefined ? {} : { slotKey: options.slotKey }),
     ...(options?.className === undefined
@@ -74,14 +95,16 @@ function sidebarClass(
   });
 }
 
-const SidebarProvider = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<"div"> & {
-    readonly defaultOpen?: boolean;
-    readonly open?: boolean;
-    readonly onOpenChange?: (open: boolean) => void;
-  }
->(
+export interface SidebarProviderProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className">,
+    GovernedSidebarProps {
+  readonly className?: string;
+  readonly defaultOpen?: boolean;
+  readonly open?: boolean;
+  readonly onOpenChange?: (open: boolean) => void;
+}
+
+const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderProps>(
   (
     {
       defaultOpen = true,
@@ -89,6 +112,7 @@ const SidebarProvider = React.forwardRef<
       onOpenChange: setOpenProp,
       className,
       style,
+      state: governedState,
       children,
       ...props
     },
@@ -137,7 +161,10 @@ const SidebarProvider = React.forwardRef<
     }, [toggleSidebar]);
 
     const state = open ? "expanded" : "collapsed";
-    const governed = sidebarClass("root", { className });
+    const governed = sidebarClass(SIDEBAR_SLOT_ROLES.root, {
+      className,
+      state: governedState,
+    });
 
     const contextValue = React.useMemo<SidebarContextProps>(
       () => ({
@@ -177,6 +204,15 @@ const SidebarProvider = React.forwardRef<
 
 SidebarProvider.displayName = "SidebarProvider";
 
+export interface SidebarProps
+  extends Omit<React.ComponentProps<"div">, "className">,
+    GovernedSidebarProps {
+  readonly className?: string;
+  readonly side?: "left" | "right";
+  readonly variant?: "sidebar" | "floating" | "inset";
+  readonly collapsible?: "offcanvas" | "icon" | "none";
+}
+
 function Sidebar({
   side = "left",
   variant = "sidebar",
@@ -184,17 +220,18 @@ function Sidebar({
   className,
   children,
   dir,
+  state: governedState,
   ...props
-}: React.ComponentProps<"div"> & {
-  readonly side?: "left" | "right";
-  readonly variant?: "sidebar" | "floating" | "inset";
-  readonly collapsible?: "offcanvas" | "icon" | "none";
-}) {
+}: SidebarProps) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
   const isFloatingVariant = variant === "floating" || variant === "inset";
 
   if (collapsible === "none") {
-    const governed = sidebarClass(undefined, { slotKey: "sidebar", className });
+    const governed = sidebarClass(undefined, {
+      slotKey: "sidebar",
+      className,
+      state: governedState,
+    });
 
     return (
       <div {...applyGovernedPresentation(props, governed)}>{children}</div>
@@ -250,7 +287,7 @@ function Sidebar({
     );
   }
 
-  const body = sidebarClass("body");
+  const body = sidebarClass(SIDEBAR_SLOT_ROLES.body);
   const gapBase = sidebarClass(undefined, { slotKey: "gap" });
   const gapVariant = sidebarClass(undefined, {
     slotKey: isFloatingVariant ? "gap-floating" : "gap-sidebar",
@@ -263,30 +300,31 @@ function Sidebar({
     slotKey: isFloatingVariant ? "container-floating" : "container-sidebar",
   });
   const inner = sidebarClass(undefined, { slotKey: "inner" });
+  const gap = mergeGovernedPresentation(gapBase, gapVariant);
+  const container = mergeGovernedPresentation(containerBase, containerVariant);
 
   return (
     <div
-      {...body.dataAttributes}
-      className={cn(body.className)}
-      data-collapsible={state === "collapsed" ? collapsible : ""}
-      data-side={side}
+      {...applyGovernedPresentation(
+        {
+          "data-collapsible": state === "collapsed" ? collapsible : "",
+          "data-side": side,
+          "data-variant": variant,
+        },
+        body
+      )}
       data-state={state}
-      data-variant={variant}
     >
+      <div {...applyGovernedPresentation({}, gap)} />
       <div
-        {...gapBase.dataAttributes}
-        className={cn(gapBase.className, gapVariant.className)}
-      />
-      <div
-        {...applyGovernedPresentation(props, containerBase, {
+        {...applyGovernedPresentation(props, container, {
           "data-side": side,
         })}
-        className={cn(containerBase.className, containerVariant.className)}
       >
         <div
-          data-sidebar="sidebar"
-          {...inner.dataAttributes}
-          className={cn(inner.className)}
+          {...applyGovernedPresentation({}, inner, {
+            "data-sidebar": "sidebar",
+          })}
         >
           {children}
         </div>
@@ -295,37 +333,50 @@ function Sidebar({
   );
 }
 
+export interface SidebarTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof Button>,
+    "className" | "emphasis" | "intent" | "presentation" | "size"
+  > {
+  readonly className?: string;
+}
+
 function SidebarTrigger({
   className,
   onClick,
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: SidebarTriggerProps) {
   const { toggleSidebar } = useSidebar();
+  const triggerShell = sidebarClass(undefined, {
+    slotKey: "trigger",
+    className,
+  });
   const srOnly = sidebarClass(undefined, { slotKey: "sr-only" });
 
   return (
-    <Button
-      {...props}
-      {...(className === undefined ? {} : { className })}
-      data-sidebar="trigger"
-      emphasis="ghost"
-      intent="quiet"
-      onClick={(event) => {
-        onClick?.(event);
-        toggleSidebar();
-      }}
-      presentation="icon"
-      size="sm"
-    >
-      <PanelLeftIcon />
-      <span {...srOnly.dataAttributes} className={cn(srOnly.className)}>
-        Toggle Sidebar
-      </span>
-    </Button>
+    <span {...applyGovernedPresentation({}, triggerShell)}>
+      <Button
+        {...props}
+        data-sidebar="trigger"
+        emphasis="ghost"
+        intent="quiet"
+        onClick={(event) => {
+          onClick?.(event);
+          toggleSidebar();
+        }}
+        presentation="icon"
+        size="sm"
+      >
+        <PanelLeftIcon />
+        <span {...applyGovernedPresentation({}, srOnly)}>Toggle Sidebar</span>
+      </Button>
+    </span>
   );
 }
 
-function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
+SidebarTrigger.displayName = "SidebarTrigger";
+
+function SidebarRail({ className, ...props }: SidebarRailProps) {
   const { toggleSidebar } = useSidebar();
   const governed = sidebarClass(undefined, { slotKey: "rail", className });
 
@@ -346,12 +397,14 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   );
 }
 
-const SidebarInset = React.forwardRef<
-  HTMLElement,
-  Omit<React.ComponentPropsWithoutRef<"main">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
+SidebarRail.displayName = "SidebarRail";
+
+export interface SidebarRailProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "className"> {
+  readonly className?: string;
+}
+
+const SidebarInset = React.forwardRef<HTMLElement, SidebarInsetProps>(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, { slotKey: "inset", className });
 
   return <main ref={ref} {...applyGovernedPresentation(props, governed)} />;
@@ -359,28 +412,37 @@ const SidebarInset = React.forwardRef<
 
 SidebarInset.displayName = "SidebarInset";
 
-function SidebarInput({
-  className,
-  size = "sm",
-  ...props
-}: React.ComponentProps<typeof Input>) {
-  return (
-    <Input
-      {...props}
-      {...(className === undefined ? {} : { className })}
-      data-sidebar="input"
-      size={size}
-    />
-  );
+export interface SidebarInsetProps
+  extends Omit<React.ComponentPropsWithoutRef<"main">, "className"> {
+  readonly className?: string;
 }
 
-const SidebarHeader = React.forwardRef<
-  HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
-    readonly className?: string;
+const SidebarInput = React.forwardRef<HTMLInputElement, SidebarInputProps>(
+  ({ className, size = "sm", ...props }, ref) => {
+    const governed = sidebarClass(undefined, { slotKey: "input", className });
+
+    return (
+      <div {...applyGovernedPresentation({}, governed)}>
+        <Input
+          ref={ref}
+          {...props}
+          data-sidebar="input"
+          size={size}
+        />
+      </div>
+    );
   }
->(({ className, ...props }, ref) => {
-  const governed = sidebarClass("header", { className });
+);
+
+SidebarInput.displayName = "SidebarInput";
+
+export interface SidebarInputProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof Input>, "className"> {
+  readonly className?: string;
+}
+
+const SidebarHeader = React.forwardRef<HTMLDivElement, SidebarHeaderProps>(({ className, ...props }, ref) => {
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.header, { className });
 
   return (
     <div
@@ -394,13 +456,13 @@ const SidebarHeader = React.forwardRef<
 
 SidebarHeader.displayName = "SidebarHeader";
 
-const SidebarFooter = React.forwardRef<
-  HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
-  const governed = sidebarClass("footer", { className });
+export interface SidebarHeaderProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
+}
+
+const SidebarFooter = React.forwardRef<HTMLDivElement, SidebarFooterProps>(({ className, ...props }, ref) => {
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.footer, { className });
 
   return (
     <div
@@ -414,27 +476,39 @@ const SidebarFooter = React.forwardRef<
 
 SidebarFooter.displayName = "SidebarFooter";
 
-function SidebarSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
-  const governed = sidebarClass(undefined, { slotKey: "separator", className });
-
-  return (
-    <Separator
-      {...applyGovernedPresentation(props, governed, {
-        "data-sidebar": "separator",
-      })}
-    />
-  );
+export interface SidebarFooterProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
 }
 
-const SidebarContent = React.forwardRef<
-  HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
-    readonly className?: string;
+const SidebarSeparator = React.forwardRef<HTMLDivElement, SidebarSeparatorProps>(
+  ({ className, orientation: _orientation, ...props }, ref) => {
+    const governed = sidebarClass(undefined, {
+      slotKey: "separator",
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, {
+          "data-sidebar": "separator",
+        })}
+      >
+        <Separator orientation="horizontal" />
+      </div>
+    );
   }
->(({ className, ...props }, ref) => {
+);
+
+SidebarSeparator.displayName = "SidebarSeparator";
+
+export interface SidebarSeparatorProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof Separator>, "className"> {
+  readonly className?: string;
+}
+
+const SidebarContent = React.forwardRef<HTMLDivElement, SidebarContentProps>(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, {
     slotKey: "content-scroll",
     className,
@@ -452,12 +526,12 @@ const SidebarContent = React.forwardRef<
 
 SidebarContent.displayName = "SidebarContent";
 
-const SidebarGroup = React.forwardRef<
-  HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<"div">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
+export interface SidebarContentProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
+}
+
+const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(({ className, ...props }, ref) => {
   const governed = sidebarClass(undefined, { slotKey: "group", className });
 
   return (
@@ -472,62 +546,85 @@ const SidebarGroup = React.forwardRef<
 
 SidebarGroup.displayName = "SidebarGroup";
 
-function SidebarGroupLabel({
-  className,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"div"> & { readonly asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "div";
-  const governed = sidebarClass("label", { className });
-
-  return (
-    <Comp
-      {...applyGovernedPresentation(props, governed, {
-        "data-sidebar": "group-label",
-      })}
-    />
-  );
+export interface SidebarGroupProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
 }
 
-function SidebarGroupAction({
-  className,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"button"> & { readonly asChild?: boolean }) {
+const SidebarGroupLabel = React.forwardRef<HTMLDivElement, SidebarGroupLabelProps>(
+  ({ className, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot.Root : "div";
+    const governed = sidebarClass(SIDEBAR_SLOT_ROLES.label, { className });
+
+    return (
+      <Comp
+        ref={ref}
+        {...applyGovernedPresentation(props, governed, {
+          "data-sidebar": "group-label",
+        })}
+      />
+    );
+  }
+);
+
+SidebarGroupLabel.displayName = "SidebarGroupLabel";
+
+export interface SidebarGroupLabelProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
+  readonly asChild?: boolean;
+}
+
+const SidebarGroupAction = React.forwardRef<
+  HTMLButtonElement,
+  SidebarGroupActionProps
+>(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot.Root : "button";
-  const governed = sidebarClass("control", { className });
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.control, { className });
 
   return (
     <Comp
+      ref={ref}
       {...applyGovernedPresentation(props, governed, {
         "data-sidebar": "group-action",
       })}
     />
   );
+});
+
+SidebarGroupAction.displayName = "SidebarGroupAction";
+
+export interface SidebarGroupActionProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "className"> {
+  readonly className?: string;
+  readonly asChild?: boolean;
 }
 
-function SidebarGroupContent({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const governed = sidebarClass("state", { className });
+const SidebarGroupContent = React.forwardRef<
+  HTMLDivElement,
+  SidebarGroupContentProps
+>(({ className, ...props }, ref) => {
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.state, { className });
 
   return (
     <div
+      ref={ref}
       {...applyGovernedPresentation(props, governed, {
         "data-sidebar": "group-content",
       })}
     />
   );
+});
+
+SidebarGroupContent.displayName = "SidebarGroupContent";
+
+export interface SidebarGroupContentProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  readonly className?: string;
 }
 
-const SidebarMenu = React.forwardRef<
-  HTMLUListElement,
-  Omit<React.ComponentPropsWithoutRef<"ul">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
-  const governed = sidebarClass("actions", { className });
+const SidebarMenu = React.forwardRef<HTMLUListElement, SidebarMenuProps>(({ className, ...props }, ref) => {
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.actions, { className });
 
   return (
     <ul
@@ -541,13 +638,13 @@ const SidebarMenu = React.forwardRef<
 
 SidebarMenu.displayName = "SidebarMenu";
 
-const SidebarMenuItem = React.forwardRef<
-  HTMLLIElement,
-  Omit<React.ComponentPropsWithoutRef<"li">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
-  const governed = sidebarClass("icon", { className });
+export interface SidebarMenuProps
+  extends Omit<React.ComponentPropsWithoutRef<"ul">, "className"> {
+  readonly className?: string;
+}
+
+const SidebarMenuItem = React.forwardRef<HTMLLIElement, SidebarMenuItemProps>(({ className, ...props }, ref) => {
+  const governed = sidebarClass(SIDEBAR_SLOT_ROLES.icon, { className });
 
   return (
     <li
@@ -561,6 +658,11 @@ const SidebarMenuItem = React.forwardRef<
 
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
+export interface SidebarMenuItemProps
+  extends Omit<React.ComponentPropsWithoutRef<"li">, "className"> {
+  readonly className?: string;
+}
+
 function SidebarMenuButton({
   asChild = false,
   isActive = false,
@@ -569,13 +671,7 @@ function SidebarMenuButton({
   tooltip,
   className,
   ...props
-}: React.ComponentProps<"button"> & {
-  readonly asChild?: boolean;
-  readonly isActive?: boolean;
-  readonly variant?: SidebarMenuButtonVariant;
-  readonly size?: SidebarMenuButtonSize;
-  readonly tooltip?: string | React.ComponentProps<typeof TooltipContent>;
-}) {
+}: SidebarMenuButtonProps) {
   const Comp = asChild ? Slot.Root : "button";
   const { isMobile, state } = useSidebar();
 
@@ -618,38 +714,50 @@ function SidebarMenuButton({
   );
 }
 
+export interface SidebarMenuButtonProps
+  extends Omit<React.ComponentProps<"button">, "className"> {
+  readonly asChild?: boolean;
+  readonly isActive?: boolean;
+  readonly variant?: SidebarMenuButtonVariant;
+  readonly size?: SidebarMenuButtonSize;
+  readonly className?: string;
+  readonly tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+}
+
 function SidebarMenuAction({
   className,
   asChild = false,
   showOnHover = false,
   ...props
-}: React.ComponentProps<"button"> & {
-  readonly asChild?: boolean;
-  readonly showOnHover?: boolean;
-}) {
+}: SidebarMenuActionProps) {
   const Comp = asChild ? Slot.Root : "button";
-  const governed = sidebarClass(undefined, {
-    slotKey: "menu-action",
-    className,
-  });
-  const hover = showOnHover
-    ? sidebarClass(undefined, { slotKey: "menu-action-hover" })
-    : null;
+  const governed = showOnHover
+    ? mergeGovernedPresentation(
+        sidebarClass(undefined, { slotKey: "menu-action", className }),
+        sidebarClass(undefined, { slotKey: "menu-action-hover" })
+      )
+    : sidebarClass(undefined, { slotKey: "menu-action", className });
 
   return (
     <Comp
       {...applyGovernedPresentation(props, governed, {
         "data-sidebar": "menu-action",
       })}
-      className={cn(governed.className, hover?.className)}
     />
   );
+}
+
+export interface SidebarMenuActionProps
+  extends Omit<React.ComponentProps<"button">, "className"> {
+  readonly asChild?: boolean;
+  readonly showOnHover?: boolean;
+  readonly className?: string;
 }
 
 function SidebarMenuBadge({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: SidebarMenuBadgeProps) {
   const governed = sidebarClass(undefined, {
     slotKey: "menu-badge",
     className,
@@ -664,13 +772,16 @@ function SidebarMenuBadge({
   );
 }
 
+export interface SidebarMenuBadgeProps
+  extends Omit<React.ComponentProps<"div">, "className"> {
+  readonly className?: string;
+}
+
 function SidebarMenuSkeleton({
   className,
   showIcon = false,
   ...props
-}: React.ComponentProps<"div"> & {
-  readonly showIcon?: boolean;
-}) {
+}: SidebarMenuSkeletonProps) {
   const [width] = React.useState(
     () => `${Math.floor(Math.random() * 40) + 50}%`
   );
@@ -688,27 +799,38 @@ function SidebarMenuSkeleton({
       })}
     >
       {showIcon ? (
-        <Skeleton
-          {...icon.dataAttributes}
-          className={cn(icon.className)}
-          data-sidebar="menu-skeleton-icon"
-        />
+        <div
+          {...applyGovernedPresentation({}, icon, {
+            "data-sidebar": "menu-skeleton-icon",
+          })}
+        >
+          <Skeleton />
+        </div>
       ) : null}
-      <Skeleton
-        {...text.dataAttributes}
-        className={cn(text.className)}
-        data-sidebar="menu-skeleton-text"
-        style={
+      <div
+        {...applyGovernedPresentation(
           {
-            "--skeleton-width": width,
-          } as React.CSSProperties
-        }
-      />
+            style: {
+              "--skeleton-width": width,
+            } as React.CSSProperties,
+          },
+          text,
+          { "data-sidebar": "menu-skeleton-text" }
+        )}
+      >
+        <Skeleton />
+      </div>
     </div>
   );
 }
 
-function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
+export interface SidebarMenuSkeletonProps
+  extends Omit<React.ComponentProps<"div">, "className"> {
+  readonly showIcon?: boolean;
+  readonly className?: string;
+}
+
+function SidebarMenuSub({ className, ...props }: SidebarMenuSubProps) {
   const governed = sidebarClass(undefined, { slotKey: "menu-sub", className });
 
   return (
@@ -720,10 +842,15 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
+export interface SidebarMenuSubProps
+  extends Omit<React.ComponentProps<"ul">, "className"> {
+  readonly className?: string;
+}
+
 function SidebarMenuSubItem({
   className,
   ...props
-}: React.ComponentProps<"li">) {
+}: SidebarMenuSubItemProps) {
   const governed = sidebarClass(undefined, {
     slotKey: "menu-sub-item",
     className,
@@ -738,17 +865,18 @@ function SidebarMenuSubItem({
   );
 }
 
+export interface SidebarMenuSubItemProps
+  extends Omit<React.ComponentProps<"li">, "className"> {
+  readonly className?: string;
+}
+
 function SidebarMenuSubButton({
   asChild = false,
   size = "md",
   isActive = false,
   className,
   ...props
-}: React.ComponentProps<"a"> & {
-  readonly asChild?: boolean;
-  readonly size?: "sm" | "md";
-  readonly isActive?: boolean;
-}) {
+}: SidebarMenuSubButtonProps) {
   const Comp = asChild ? Slot.Root : "a";
   const governed = sidebarClass(undefined, {
     slotKey: "menu-sub-button",
@@ -764,6 +892,14 @@ function SidebarMenuSubButton({
       })}
     />
   );
+}
+
+export interface SidebarMenuSubButtonProps
+  extends Omit<React.ComponentProps<"a">, "className"> {
+  readonly asChild?: boolean;
+  readonly size?: "sm" | "md";
+  readonly isActive?: boolean;
+  readonly className?: string;
 }
 
 export {

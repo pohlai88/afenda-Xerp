@@ -1,4 +1,4 @@
-import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArchiveIcon,
@@ -23,7 +23,12 @@ import {
   UserPlusIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
   Menubar,
@@ -185,6 +190,17 @@ const meta = {
           "Governed Radix-UI Menubar for persistent ERP module commands — document editors, register toolbars, view toggles, and workspace switchers. Prefer `DropdownMenu` for single-action triggers on rows or cards.",
       },
     },
+  },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
+  args: {
+    state: "ready",
   },
 } satisfies Meta<typeof Menubar>;
 
@@ -442,6 +458,176 @@ export const WithInsetItems: Story = {
         </MenubarMenu>
       </Menubar>
     </ErpMenubarShell>
+  ),
+};
+
+// ─── Playground & governance probes ─────────────────────────────────────────
+
+function MenubarStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <StoryFrame width="md">
+        <Menubar state={state} value="file">
+          <MenubarMenu value="file">
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent forceMount>
+              <MenubarItem>View ({state})</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      </StoryFrame>
+    </StoryRow>
+  );
+}
+
+export const Playground: Story = {
+  render: (args) => (
+    <ErpMenubarShell>
+      <Menubar state={args.state}>
+        <MenubarMenu>
+          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>New document</MenubarItem>
+            <MenubarItem>Open</MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>Save</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>Undo</MenubarItem>
+            <MenubarItem>Redo</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </ErpMenubarShell>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-state="fake"` — governed attributes must win on root, trigger, content, and items.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Menubar
+        data-slot="override"
+        data-state="fake"
+        state="ready"
+        value="file"
+      >
+        <MenubarMenu value="file">
+          <MenubarTrigger data-slot="override">File</MenubarTrigger>
+          <MenubarContent data-slot="override" forceMount>
+            <MenubarItem data-slot="override">View</MenubarItem>
+            <MenubarItem variant="destructive">Delete</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`control`, `state`, `footer`, `actions`) emit `menubar-item`, `menubar-label`, `menubar-separator`, `menubar-shortcut`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → menubar · trigger → menubar-trigger · content → menubar-content
+          · control → menubar-item · state → menubar-label · footer →
+          menubar-separator · actions → menubar-shortcut · checkbox-item →
+          menubar-checkbox-item · radio-item → menubar-radio-item · sub-trigger
+          → menubar-sub-trigger · sub-content → menubar-sub-content ·
+          item-indicator → menubar-checkbox-item-indicator
+        </p>
+        <Menubar value="inspect">
+          <MenubarMenu value="inspect">
+            <MenubarTrigger>Inspect</MenubarTrigger>
+            <MenubarContent forceMount>
+              <MenubarLabel>Slot map</MenubarLabel>
+              <MenubarSeparator />
+              <MenubarItem>
+                View
+                <MenubarShortcut>⌘V</MenubarShortcut>
+              </MenubarItem>
+              <MenubarCheckboxItem checked>Grid lines</MenubarCheckboxItem>
+              <MenubarSub open>
+                <MenubarSubTrigger>More</MenubarSubTrigger>
+                <MenubarSubContent forceMount>
+                  <MenubarItem>Nested item</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <MenubarStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Menubar triggers are keyboard navigable across top-level menus. Destructive items use `variant="destructive"`. Decorative Lucide icons use `aria-hidden="true"`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>Record</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>
+              <EyeIcon aria-hidden="true" />
+              View record
+            </MenubarItem>
+            <MenubarItem variant="destructive">
+              <Trash2Icon aria-hidden="true" />
+              Delete record
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </StoryFrame>
   ),
 };
 

@@ -1,21 +1,19 @@
 "use client";
 
-import type { CSSProperties } from "react";
-
 import { SidebarProvider } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
-
+import type { CSSProperties } from "react";
 import {
-  defaultAppShellPages,
-  defaultAppShellRecipients,
-} from "./shadcn-studio/data/app-shell.data";
-import {
-  resolveApplicationShellChrome,
   type ApplicationShellProps,
+  resolveApplicationShellChrome,
 } from "./app-shell.types";
 import { AppShellFooter } from "./app-shell-footer";
 import { AppShellHeader } from "./app-shell-header";
 import { AppShellSidebar } from "./app-shell-sidebar";
+import {
+  defaultAppShellPages,
+  defaultAppShellRecipients,
+} from "./shadcn-studio/data/app-shell.data";
 import {
   joinAppShellGovernedClassName,
   resolveAppShellDensityAttribute,
@@ -28,10 +26,8 @@ export type ApplicationShellGovernedComponents = Extract<
   "Avatar" | "Badge" | "Button" | "Collapsible" | "Sidebar"
 >;
 
-const sidebarProviderStyle: CSSProperties & Record<
-  "--sidebar" | "--sidebar-width" | "--sidebar-width-icon",
-  string
-> = {
+const sidebarProviderStyle: CSSProperties &
+  Record<"--sidebar" | "--sidebar-width" | "--sidebar-width-icon", string> = {
   "--sidebar": "var(--card)",
   "--sidebar-width": "17.5rem",
   "--sidebar-width-icon": "3.375rem",
@@ -48,11 +44,9 @@ export function ApplicationShell({
 
   return (
     <div
-      className={joinAppShellGovernedClassName(
-        "app-shell-root",
-        "root",
-        { density: chrome.density }
-      )}
+      className={joinAppShellGovernedClassName("app-shell-root", "root", {
+        density: chrome.density,
+      })}
       data-afenda-density={resolveAppShellDensityAttribute(chrome.density)}
     >
       <SidebarProvider style={sidebarProviderStyle}>

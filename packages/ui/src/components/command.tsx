@@ -1,6 +1,6 @@
 "use client";
 
-import type { GovernedCommandProps } from "@afenda/ui/governance";
+import type { GovernedCommandProps, SlotRole } from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import {
   applyGovernedPresentation,
@@ -26,23 +26,41 @@ import { InputGroup, InputGroupAddon } from "./input-group";
 const COMMAND_RECIPE_NAME = "surface" as const;
 const DIALOG_RECIPE_NAME = "surface" as const;
 
+const COMMAND_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  control: "control",
+  content: "content",
+  state: "state",
+  label: "label",
+  footer: "footer",
+  actions: "actions",
+  header: "header",
+} as const satisfies Record<string, SlotRole>;
+
 const CommandShortcut = createGovernedSpanSlot("CommandShortcut", {
   componentName: "Command",
   recipeName: COMMAND_RECIPE_NAME,
-  slot: "header",
+  slot: COMMAND_SLOT_ROLES.header,
 });
+
+export interface CommandProps
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof CommandPrimitive>,
+      "className"
+    >,
+    GovernedCommandProps {
+  readonly className?: string;
+}
 
 const Command = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive>,
-  Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive>, "className"> &
-    GovernedCommandProps & {
-      readonly className?: string;
-    }
+  CommandProps
 >(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "root",
+    slot: COMMAND_SLOT_ROLES.root,
     state,
     className,
   });
@@ -105,15 +123,15 @@ function CommandDialog({
 
   return (
     <Dialog {...props}>
-      <div {...applyGovernedPresentation({}, dialogHeaderSr)}>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-      </div>
       <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Content {...applyGovernedPresentation({}, mergedPanel)}>
+          <div {...applyGovernedPresentation({}, dialogHeaderSr)}>
+            <DialogHeader>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription>{description}</DialogDescription>
+            </DialogHeader>
+          </div>
           <Command>{children}</Command>
           {showCloseButton ? (
             <div {...applyGovernedPresentation({}, closeButton)}>
@@ -124,7 +142,7 @@ function CommandDialog({
                   presentation="icon"
                   size="sm"
                 >
-                  <XIcon />
+                  <XIcon aria-hidden="true" />
                   <span {...applyGovernedPresentation({}, closeLabel)}>Close</span>
                 </Button>
               </DialogPrimitive.Close>
@@ -148,7 +166,7 @@ const CommandInput = React.forwardRef<
   const wrapper = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "body",
+    slot: COMMAND_SLOT_ROLES.body,
   });
 
   const inputGroupShell = resolvePrimitiveGovernance({
@@ -160,7 +178,7 @@ const CommandInput = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "control",
+    slot: COMMAND_SLOT_ROLES.control,
     className,
   });
 
@@ -178,7 +196,7 @@ const CommandInput = React.forwardRef<
           {...applyGovernedPresentation(props, governed)}
         />
         <InputGroupAddon>
-          <SearchIcon {...applyGovernedPresentation({}, icon)} />
+          <SearchIcon aria-hidden="true" {...applyGovernedPresentation({}, icon)} />
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -199,7 +217,7 @@ const CommandList = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "content",
+    slot: COMMAND_SLOT_ROLES.content,
     className,
   });
 
@@ -225,7 +243,7 @@ const CommandEmpty = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "state",
+    slot: COMMAND_SLOT_ROLES.state,
     className,
   });
 
@@ -251,7 +269,7 @@ const CommandGroup = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "label",
+    slot: COMMAND_SLOT_ROLES.label,
     className,
   });
 
@@ -277,7 +295,7 @@ const CommandSeparator = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "footer",
+    slot: COMMAND_SLOT_ROLES.footer,
     className,
   });
 
@@ -303,7 +321,7 @@ const CommandItem = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Command",
     recipeName: COMMAND_RECIPE_NAME,
-    slot: "actions",
+    slot: COMMAND_SLOT_ROLES.actions,
     className,
   });
 
@@ -319,7 +337,7 @@ const CommandItem = React.forwardRef<
       {...applyGovernedPresentation(props, governed)}
     >
       {children}
-      <CheckIcon {...applyGovernedPresentation({}, check)} />
+      <CheckIcon aria-hidden="true" {...applyGovernedPresentation({}, check)} />
     </CommandPrimitive.Item>
   );
 });

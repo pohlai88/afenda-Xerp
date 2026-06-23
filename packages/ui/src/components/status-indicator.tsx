@@ -1,20 +1,23 @@
-import type { GovernedStatusProps, StatusTone } from "@afenda/ui/governance";
+import type {
+  GovernedStatusIndicatorProps,
+  StatusTone,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
+import type { SlotRole } from "@afenda/ui/governance/primitive-contract";
 import * as React from "react";
 
 const STATUS_INDICATOR_RECIPE_NAME = "status" as const;
 
+const STATUS_INDICATOR_SLOT_ROLES = {
+  root: "root",
+  label: "label",
+} as const satisfies Record<string, SlotRole>;
+
 export interface StatusIndicatorProps
   extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className">,
-    GovernedStatusProps {
+    GovernedStatusIndicatorProps {
   readonly children: React.ReactNode;
-
-  /**
-   * Governed extension point only.
-   * Must be validated by primitive governance before reaching className output.
-   */
   readonly className?: string;
 }
 
@@ -24,7 +27,15 @@ function resolveStatusIndicatorDotSlotKey(tone: StatusTone): string {
 
 const StatusIndicator = React.forwardRef<HTMLSpanElement, StatusIndicatorProps>(
   (
-    { className, children, state, tone = "neutral", density, radius, ...props },
+    {
+      className,
+      children,
+      state,
+      tone = "neutral",
+      density,
+      radius,
+      ...props
+    },
     ref
   ) => {
     const governed = resolvePrimitiveGovernance({
@@ -36,7 +47,7 @@ const StatusIndicator = React.forwardRef<HTMLSpanElement, StatusIndicatorProps>(
         ...(radius === undefined ? {} : { radius }),
       },
       state,
-      slot: "root",
+      slot: STATUS_INDICATOR_SLOT_ROLES.root,
       className,
     });
 
@@ -49,16 +60,13 @@ const StatusIndicator = React.forwardRef<HTMLSpanElement, StatusIndicatorProps>(
     const label = resolvePrimitiveGovernance({
       componentName: "StatusIndicator",
       recipeName: STATUS_INDICATOR_RECIPE_NAME,
-      slot: "label",
+      slot: STATUS_INDICATOR_SLOT_ROLES.label,
     });
 
     return (
       <span
         ref={ref}
-        {...props}
-        data-tone={tone}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, { "data-tone": tone })}
       >
         <span aria-hidden="true" {...applyGovernedPresentation({}, dot)} />
         <span {...applyGovernedPresentation({}, label)}>{children}</span>

@@ -1,5 +1,9 @@
 "use client";
 
+import type {
+  GovernedMenubarProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -9,25 +13,42 @@ import * as React from "react";
 
 const MENUBAR_RECIPE_NAME = "surface" as const;
 
+const MENUBAR_SLOT_ROLES = {
+  root: "root",
+  content: "content",
+  control: "control",
+  state: "state",
+  footer: "footer",
+  actions: "actions",
+} as const satisfies Record<
+  "root" | "content" | "control" | "state" | "footer" | "actions",
+  SlotRole
+>;
+
 const MenubarShortcut = createGovernedSpanSlot("MenubarShortcut", {
   componentName: "Menubar",
   recipeName: MENUBAR_RECIPE_NAME,
-  slot: "actions",
+  slot: MENUBAR_SLOT_ROLES.actions,
 });
+
+export interface MenubarProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>,
+    "className"
+  >,
+    GovernedMenubarProps {
+  readonly className?: string;
+}
 
 const Menubar = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Root>,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>,
-    "className"
-  > & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
+  MenubarProps
+>(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: MENUBAR_SLOT_ROLES.root,
     className,
   });
 
@@ -67,20 +88,23 @@ function MenubarRadioGroup({
   );
 }
 
-const MenubarTrigger = React.forwardRef<
-  React.ComponentRef<typeof MenubarPrimitive.Trigger>,
-  Omit<
+export interface MenubarTriggerProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const MenubarTrigger = React.forwardRef<
+  React.ComponentRef<typeof MenubarPrimitive.Trigger>,
+  MenubarTriggerProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
     slotKey: "trigger",
-    slot: "control",
+    slot: MENUBAR_SLOT_ROLES.control,
     className,
   });
 
@@ -94,14 +118,17 @@ const MenubarTrigger = React.forwardRef<
 
 MenubarTrigger.displayName = "MenubarTrigger";
 
-const MenubarContent = React.forwardRef<
-  React.ComponentRef<typeof MenubarPrimitive.Content>,
-  Omit<
+export interface MenubarContentProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const MenubarContent = React.forwardRef<
+  React.ComponentRef<typeof MenubarPrimitive.Content>,
+  MenubarContentProps
 >(
   (
     { className, align = "start", alignOffset = -4, sideOffset = 8, ...props },
@@ -110,7 +137,7 @@ const MenubarContent = React.forwardRef<
     const governed = resolvePrimitiveGovernance({
       componentName: "Menubar",
       recipeName: MENUBAR_RECIPE_NAME,
-      slot: "content",
+      slot: MENUBAR_SLOT_ROLES.content,
       className,
     });
 
@@ -130,21 +157,24 @@ const MenubarContent = React.forwardRef<
 
 MenubarContent.displayName = "MenubarContent";
 
-const MenubarItem = React.forwardRef<
-  React.ComponentRef<typeof MenubarPrimitive.Item>,
-  Omit<
+export interface MenubarItemProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item>,
     "className"
-  > & {
-    readonly className?: string;
-    readonly inset?: boolean;
-    readonly variant?: "default" | "destructive";
-  }
+  > {
+  readonly className?: string;
+  readonly inset?: boolean;
+  readonly variant?: "default" | "destructive";
+}
+
+const MenubarItem = React.forwardRef<
+  React.ComponentRef<typeof MenubarPrimitive.Item>,
+  MenubarItemProps
 >(({ className, inset, variant = "default", ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
-    slot: "control",
+    slot: MENUBAR_SLOT_ROLES.control,
     className,
   });
 
@@ -175,7 +205,7 @@ const MenubarCheckboxItem = React.forwardRef<
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
     slotKey: "checkbox-item",
-    slot: "control",
+    slot: MENUBAR_SLOT_ROLES.control,
     className,
   });
 
@@ -196,7 +226,7 @@ const MenubarCheckboxItem = React.forwardRef<
     >
       <span {...applyGovernedPresentation({}, indicator)}>
         <MenubarPrimitive.ItemIndicator>
-          <CheckIcon />
+          <CheckIcon aria-hidden="true" />
         </MenubarPrimitive.ItemIndicator>
       </span>
       {children}
@@ -220,7 +250,7 @@ const MenubarRadioItem = React.forwardRef<
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
     slotKey: "radio-item",
-    slot: "control",
+    slot: MENUBAR_SLOT_ROLES.control,
     className,
   });
 
@@ -237,7 +267,7 @@ const MenubarRadioItem = React.forwardRef<
     >
       <span {...applyGovernedPresentation({}, indicator)}>
         <MenubarPrimitive.ItemIndicator>
-          <CheckIcon />
+          <CheckIcon aria-hidden="true" />
         </MenubarPrimitive.ItemIndicator>
       </span>
       {children}
@@ -260,7 +290,7 @@ const MenubarLabel = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
-    slot: "state",
+    slot: MENUBAR_SLOT_ROLES.state,
     className,
   });
 
@@ -286,7 +316,7 @@ const MenubarSeparator = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
-    slot: "footer",
+    slot: MENUBAR_SLOT_ROLES.footer,
     className,
   });
 
@@ -320,7 +350,7 @@ const MenubarSubTrigger = React.forwardRef<
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
     slotKey: "sub-trigger",
-    slot: "control",
+    slot: MENUBAR_SLOT_ROLES.control,
     className,
   });
 
@@ -336,7 +366,10 @@ const MenubarSubTrigger = React.forwardRef<
       {...applyGovernedPresentation(props, governed, { "data-inset": inset })}
     >
       {children}
-      <ChevronRightIcon {...applyGovernedPresentation({}, chevron)} />
+      <ChevronRightIcon
+        aria-hidden="true"
+        {...applyGovernedPresentation({}, chevron)}
+      />
     </MenubarPrimitive.SubTrigger>
   );
 });
@@ -356,7 +389,7 @@ const MenubarSubContent = React.forwardRef<
     componentName: "Menubar",
     recipeName: MENUBAR_RECIPE_NAME,
     slotKey: "sub-content",
-    slot: "content",
+    slot: MENUBAR_SLOT_ROLES.content,
     className,
   });
 

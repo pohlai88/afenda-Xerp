@@ -1,3 +1,4 @@
+import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -17,8 +18,8 @@ import {
   UnderlineIcon,
   UsersIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { useState } from "react";
+import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Separator } from "./separator";
 import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
@@ -99,6 +100,22 @@ function ControlledScopeFilterComponent() {
   );
 }
 
+function ToggleGroupStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <ToggleGroup defaultValue="on" state={state} type="single" variant="outline">
+        <ToggleGroupItem value="on">On ({state})</ToggleGroupItem>
+        <ToggleGroupItem value="off">Off</ToggleGroupItem>
+      </ToggleGroup>
+    </StoryRow>
+  );
+}
+
 // ─── ToggleGroup ───────────────────────────────────────────────────────────
 
 const meta = {
@@ -136,6 +153,11 @@ const meta = {
       options: ["horizontal", "vertical"],
       table: { defaultValue: { summary: "horizontal" } },
     },
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state on root",
+    },
   },
   args: {
     type: "single",
@@ -143,11 +165,197 @@ const meta = {
     size: "default",
     spacing: 2,
     orientation: "horizontal",
+    state: "ready",
   },
 } satisfies Meta<typeof ToggleGroup>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ──────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <ToggleGroup {...args} defaultValue="list">
+      <ToggleGroupItem aria-label="List view" value="list">
+        <ListIcon aria-hidden="true" />
+      </ToggleGroupItem>
+      <ToggleGroupItem aria-label="Grid view" value="grid">
+        <LayoutGridIcon aria-hidden="true" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on root and items — governed attributes must win. Canonical `orientation`, `spacing`, `variant`, `size`, and `state` win over consumer `data-*` overrides.',
+      },
+    },
+  },
+  render: () => (
+    <ToggleGroup
+      aria-label="View mode"
+      data-orientation="vertical"
+      data-size="lg"
+      data-slot="override"
+      data-spacing={0}
+      data-state="fake"
+      data-variant="outline"
+      defaultValue="list"
+      orientation="horizontal"
+      size="sm"
+      spacing={2}
+      state="ready"
+      type="single"
+      variant="default"
+    >
+      <ToggleGroupItem
+        aria-label="List view"
+        data-slot="override"
+        value="list"
+      >
+        List
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        aria-label="Grid view"
+        data-slot="override"
+        value="grid"
+      >
+        Grid
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal roles: root → toggle-group, control → toggle-group-item.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → toggle-group · control → toggle-group-item
+        </p>
+        <ToggleGroup
+          aria-label="Slot map probe"
+          defaultValue="list"
+          type="single"
+          variant="outline"
+        >
+          <ToggleGroupItem aria-label="List view" value="list">
+            List
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <ToggleGroupStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceItemStates: Story = {
+  name: "Governance — Item States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="sm">
+          <span className="font-mono text-muted-foreground text-xs">
+            item state=&quot;{state}&quot;
+          </span>
+          <ToggleGroup defaultValue="on" type="single" variant="outline">
+            <ToggleGroupItem state={state} value="on">
+              On
+            </ToggleGroupItem>
+            <ToggleGroupItem value="off">Off</ToggleGroupItem>
+          </ToggleGroup>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+    variant: { control: "radio", options: ["default", "outline"] },
+    size: { control: "radio", options: ["default", "sm", "lg"] },
+    orientation: { control: "radio", options: ["horizontal", "vertical"] },
+    spacing: { control: { type: "number", min: 0, max: 8, step: 1 } },
+  },
+  args: {
+    state: "ready",
+    variant: "outline",
+    size: "default",
+    orientation: "horizontal",
+    spacing: 2,
+  },
+  render: ({ state, variant, size, orientation, spacing }) => (
+    <ToggleGroup
+      aria-label="Governance playground"
+      defaultValue="a"
+      orientation={orientation}
+      size={size}
+      spacing={spacing}
+      state={state}
+      type="single"
+      variant={variant}
+    >
+      <ToggleGroupItem value="a">Option A</ToggleGroupItem>
+      <ToggleGroupItem value="b">Option B</ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Icon-only items need `aria-label`. Group root preserves single/multi selection semantics and keyboard traversal.",
+      },
+    },
+  },
+  render: () => (
+    <ToggleGroup defaultValue="list" type="single" variant="outline">
+      <ToggleGroupItem aria-label="List view — employee roster" value="list">
+        <ListIcon aria-hidden="true" />
+        List
+      </ToggleGroupItem>
+      <ToggleGroupItem aria-label="Grid view — employee cards" value="grid">
+        <LayoutGridIcon aria-hidden="true" />
+        Grid
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -155,10 +363,10 @@ export const Default: Story = {
   render: (args) => (
     <ToggleGroup {...args} defaultValue="list">
       <ToggleGroupItem aria-label="List view" value="list">
-        <ListIcon />
+        <ListIcon aria-hidden="true" />
       </ToggleGroupItem>
       <ToggleGroupItem aria-label="Grid view" value="grid">
-        <LayoutGridIcon />
+        <LayoutGridIcon aria-hidden="true" />
       </ToggleGroupItem>
     </ToggleGroup>
   ),
@@ -285,52 +493,6 @@ export const SpacingMatrix: Story = {
         </StoryStack>
       ))}
     </StoryStack>
-  ),
-};
-
-export const GovernanceItemStates: Story = {
-  name: "Governance — Item States",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="sm">
-          <span className="font-mono text-muted-foreground text-xs">
-            item state=&quot;{state}&quot;
-          </span>
-          <ToggleGroup defaultValue="on" type="single" variant="outline">
-            <ToggleGroupItem state={state} value="on">
-              On
-            </ToggleGroupItem>
-            <ToggleGroupItem value="off">Off</ToggleGroupItem>
-          </ToggleGroup>
-        </StoryFrame>
-      ))}
-    </StoryStack>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Icon-only items need `aria-label`. Group root preserves single/multi selection semantics and keyboard traversal.",
-      },
-    },
-  },
-  render: () => (
-    <ToggleGroup defaultValue="list" type="single" variant="outline">
-      <ToggleGroupItem aria-label="List view — employee roster" value="list">
-        <ListIcon />
-        List
-      </ToggleGroupItem>
-      <ToggleGroupItem aria-label="Grid view — employee cards" value="grid">
-        <LayoutGridIcon />
-        Grid
-      </ToggleGroupItem>
-    </ToggleGroup>
   ),
 };
 

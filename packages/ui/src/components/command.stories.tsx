@@ -1,3 +1,5 @@
+import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
@@ -13,7 +15,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
-import React, { type ComponentType, type ReactNode, useState } from "react";
+import { type ComponentType, type ReactNode, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -131,7 +133,12 @@ function CommandPaletteDialog({
   return (
     <StoryStack gap="sm">
       <StoryRow align="center" gap="md" wrap>
-        <Button onClick={() => setOpen(true)} size="sm">
+        <Button
+          emphasis="solid"
+          intent="primary"
+          onClick={() => setOpen(true)}
+          size="sm"
+        >
           Open command palette
         </Button>
         <StoryRow align="center" gap="xs">
@@ -193,12 +200,44 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
+  args: {
+    state: "ready",
+  },
 } satisfies Meta<typeof Command>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic variants ────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <InlineCommandShell>
+      <Command {...args}>
+        <CommandInput placeholder="Search commands…" />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem value="dashboard">
+              <CommandItemRow icon={LayoutDashboardIcon} label="Go to dashboard" />
+            </CommandItem>
+            <CommandItem value="settings">
+              <CommandItemRow icon={SettingsIcon} label="Open settings" />
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </InlineCommandShell>
+  ),
+};
 
 export const Default: Story = {
   render: () => (
@@ -294,13 +333,107 @@ export const EmptyState: Story = {
   ),
 };
 
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
   parameters: {
+    layout: "padded",
     docs: {
       description: {
         story:
-          "CommandDialog exposes title and description to screen readers. Items are keyboard navigable list options from cmdk.",
+          'Consumer passes `data-slot="override"` and `data-component="Override"` — governed values (`data-slot="command"`, `data-component="Command"`, `data-recipe="surface"`) must win on the root.',
+      },
+    },
+  },
+  render: () => (
+    <InlineCommandShell>
+      <Command
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-command-root"
+      >
+        <CommandInput placeholder="Inspect root attributes…" />
+        <CommandList>
+          <CommandItem value="probe">Governed root wins over consumer data-*</CommandItem>
+        </CommandList>
+      </Command>
+    </InlineCommandShell>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (e.g. `control`, `actions`) differ from emitted DOM values (e.g. `command-input`, `command-item`).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → command · body → command-input-wrapper · control →
+          command-input · content → command-list · state → command-empty ·
+          label → command-group · footer → command-separator · actions →
+          command-item · header → command-shortcut
+        </p>
+        <InlineCommandShell>
+          <Command>
+            <CommandInput data-testid="slot-input" placeholder="Search…" />
+            <CommandList>
+              <CommandEmpty>No results.</CommandEmpty>
+              <CommandGroup heading="Probe">
+                <CommandItem data-testid="slot-item" value="probe">
+                  Inspect slot attributes
+                  <CommandShortcut>⌘K</CommandShortcut>
+                </CommandItem>
+              </CommandGroup>
+              <CommandSeparator />
+            </CommandList>
+          </Command>
+        </InlineCommandShell>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <InlineCommandShell>
+            <Command state={state}>
+              <CommandInput placeholder="State probe…" />
+              <CommandList>
+                <CommandItem value="probe">Governed command probe</CommandItem>
+              </CommandList>
+            </Command>
+          </InlineCommandShell>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "CommandDialog exposes title and description to screen readers. Items are keyboard-navigable `option` elements from cmdk. Search icon is decorative (`aria-hidden`).",
       },
     },
   },

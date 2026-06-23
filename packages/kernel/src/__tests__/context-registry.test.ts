@@ -90,6 +90,7 @@ type _PermissionScopeContextSerializable =
   AssertSerializable<PermissionScopeContext>;
 type _ConsolidationScopeContextSerializable =
   AssertSerializable<ConsolidationScopeContext>;
+type _OperatingContextSerializable = AssertSerializable<OperatingContext>;
 type _AccountingReadinessContextSerializable =
   AssertSerializable<AccountingReadinessContext>;
 

@@ -1,3 +1,4 @@
+import React from "react";
 import type { ComponentProps, ComponentType } from "react";
 import type { Decorator } from "@storybook/react";
 
@@ -50,6 +51,6 @@ export function createDashboardBlockMeta<C extends ComponentType<any>>(config: {
     tags: ["autodocs"],
     parameters: dashboardBlockStoryParameters,
     decorators: dashboardBlockStoryDecorators(),
-    ...(config.args !== undefined ? { args: config.args } : {}),
+    ...(config.args === undefined ? {} : { args: config.args }),
   };
 }

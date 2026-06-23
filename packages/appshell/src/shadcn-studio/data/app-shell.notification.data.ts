@@ -173,3 +173,10 @@ export function countDefaultAppShellUnreadNotifications(): number {
     countUnreadAppShellNotifications(defaultAppShellGeneralNotifications)
   );
 }
+
+export const DEFAULT_APP_SHELL_NOTIFICATION_MENU_LABEL = "Notifications";
+export const DEFAULT_APP_SHELL_NOTIFICATION_INBOX_TAB_LABEL = "Inbox";
+export const DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_TAB_LABEL = "General";
+export const DEFAULT_APP_SHELL_NOTIFICATION_INBOX_LIST_LABEL = "Inbox notifications";
+export const DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_LIST_LABEL = "General notifications";
+export const DEFAULT_APP_SHELL_NOTIFICATION_SETTINGS_LABEL = "Notification settings";

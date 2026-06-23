@@ -1,14 +1,24 @@
 "use client";
 
-import { Bar, BarChart, Cell, XAxis } from "recharts";
-
-import { Card, CardContent, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
+import {
+  Card,
+  CardContent,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useId } from "react";
+import { Bar, BarChart, Cell, XAxis } from "recharts";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
   formatStatisticsWeekdayTick,
+  STATISTICS_ACTIVITY_CHART_ARIA_LABEL,
+  STATISTICS_LEADS_CHART_ARIA_LABEL,
   STATISTICS_METRIC_CHART_MARGIN,
+  STATISTICS_PROFILE_TRAFFIC_CHART_ARIA_LABEL,
+  STATISTICS_REVENUE_CHART_ARIA_LABEL,
   STATISTICS_REVENUE_HIGHLIGHT_DAY,
   statisticsRevenueBarData,
 } from "../data/statistics-component-10.data";
@@ -29,27 +39,47 @@ function resolveRevenueBarFill(day: string): string {
 }
 
 export function StatisticsRevenueCard() {
+  const titleId = useId();
+  const footnoteId = useId();
   const chartData = [...statisticsRevenueBarData];
 
   return (
-    <article className="app-shell-statistics-metric-card">
+    <article
+      aria-labelledby={titleId}
+      className="app-shell-statistics-metric-card"
+    >
       <Card>
         <CardContent>
           <div className="app-shell-statistics-metric-panel">
             <div className="app-shell-statistics-metric-copy">
               <div className="app-shell-statistics-metric-heading-stack">
-                <span className="app-shell-statistics-metric-title">Revenue growth</span>
+                <span
+                  className="app-shell-statistics-metric-title"
+                  id={titleId}
+                >
+                  Revenue growth
+                </span>
                 <span className="app-shell-statistics-metric-caption">
                   {DEFAULT_STATISTICS_METRIC_REPORT_CAPTION}
                 </span>
               </div>
               <div className="app-shell-statistics-metric-value-stack">
-                <span className="app-shell-statistics-metric-amount">$3,234</span>
-                <span className="app-shell-statistics-metric-change">+15%</span>
+                <span
+                  aria-describedby={footnoteId}
+                  className="app-shell-statistics-metric-amount"
+                >
+                  $3,234
+                </span>
+                <span
+                  className="app-shell-statistics-metric-change"
+                  id={footnoteId}
+                >
+                  +15%
+                </span>
               </div>
             </div>
             <div
-              aria-label="Revenue growth bar chart"
+              aria-label={STATISTICS_REVENUE_CHART_ARIA_LABEL}
               className="app-shell-statistics-metric-chart app-shell-statistics-metric-chart-bars"
               role="img"
             >
@@ -75,7 +105,10 @@ export function StatisticsRevenueCard() {
                   />
                   <Bar dataKey="revenue" radius={[6, 6, 0, 0]}>
                     {chartData.map((entry) => (
-                      <Cell fill={resolveRevenueBarFill(entry.day)} key={entry.day} />
+                      <Cell
+                        fill={resolveRevenueBarFill(entry.day)}
+                        key={entry.day}
+                      />
                     ))}
                   </Bar>
                 </BarChart>

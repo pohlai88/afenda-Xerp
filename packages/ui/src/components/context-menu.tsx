@@ -1,5 +1,6 @@
 "use client";
 
+import type { GovernedContextMenuProps } from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -15,20 +16,44 @@ const ContextMenuShortcut = createGovernedSpanSlot("ContextMenuShortcut", {
   slot: "actions",
 });
 
-function ContextMenu({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Root>) {
-  return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
+export interface ContextMenuProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>,
+    "className"
+  >,
+    GovernedContextMenuProps {
+  readonly className?: string;
+}
+
+function ContextMenu({ className, state, ...props }: ContextMenuProps) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "ContextMenu",
+    recipeName: CONTEXT_MENU_RECIPE_NAME,
+    slotKey: "menu-root",
+    state,
+    className,
+  });
+
+  return (
+    <ContextMenuPrimitive.Root
+      {...applyGovernedPresentation(props, governed)}
+    />
+  );
+}
+
+ContextMenu.displayName = "ContextMenu";
+
+export interface ContextMenuTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>,
+    "className"
+  > {
+  readonly className?: string;
 }
 
 const ContextMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof ContextMenuPrimitive.Trigger>,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>,
-    "className"
-  > & {
-    readonly className?: string;
-  }
+  ContextMenuTriggerProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "ContextMenu",
@@ -81,14 +106,17 @@ function ContextMenuRadioGroup({
   );
 }
 
-const ContextMenuContent = React.forwardRef<
-  React.ComponentRef<typeof ContextMenuPrimitive.Content>,
-  Omit<
+export interface ContextMenuContentProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const ContextMenuContent = React.forwardRef<
+  React.ComponentRef<typeof ContextMenuPrimitive.Content>,
+  ContextMenuContentProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "ContextMenu",
@@ -109,16 +137,19 @@ const ContextMenuContent = React.forwardRef<
 
 ContextMenuContent.displayName = "ContextMenuContent";
 
-const ContextMenuItem = React.forwardRef<
-  React.ComponentRef<typeof ContextMenuPrimitive.Item>,
-  Omit<
+export interface ContextMenuItemProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>,
     "className"
-  > & {
-    readonly className?: string;
-    readonly inset?: boolean;
-    readonly variant?: "default" | "destructive";
-  }
+  > {
+  readonly className?: string;
+  readonly inset?: boolean;
+  readonly variant?: "default" | "destructive";
+}
+
+const ContextMenuItem = React.forwardRef<
+  React.ComponentRef<typeof ContextMenuPrimitive.Item>,
+  ContextMenuItemProps
 >(({ className, inset, variant = "default", ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "ContextMenu",

@@ -1,6 +1,6 @@
 /**
  * Canonical operating-context module registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Kernel package, lines 354–369).
+ * `docs/architecture/multi-tenancy.md` (Step 4 §522–536, Kernel §354–369).
  */
 export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
   {

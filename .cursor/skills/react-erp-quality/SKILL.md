@@ -459,9 +459,45 @@ Checklist:
 
 ---
 
+## Automated guard — Gate F
+
+`pnpm ui:guard` runs **Gate F** (React ERP quality) automatically as part of the full governance
+sweep. Gate F is a **warning gate** in dev — violations are printed in yellow but don't break the
+run. Pass `--strict` to make it a hard failure (for CI enforcement).
+
+```bash
+# Run Gate F only (with fix hints)
+pnpm ui:guard:erp
+
+# Run Gate F as a hard failure (CI mode)
+pnpm ui:guard:strict
+
+# Run all gates including Gate F
+pnpm ui:guard
+```
+
+Gate F checks (statically, no build required):
+
+| Rule | Detection |
+|------|-----------|
+| **R1** Static recharts import | `import … from "recharts"` — use `next/dynamic` |
+| **R2** `forwardRef()` | React 19 pattern — use ref as plain prop |
+| **R3** `useEffect` → `setState` | Single-setter body syncing derived state |
+| **R4** Chart a11y | recharts element without `aria-hidden="true"` |
+| **R5** Raw `<img>` | Should use `next/image` |
+| **R6** Module mutable state | `let`/`var` at top scope in non-`"use client"` files |
+
+Policy source: `scripts/governance/react-erp-policy.mjs`
+Tests: `scripts/governance/__tests__/react-erp-policy.test.ts`
+
+---
+
 ## Verification commands
 
 ```bash
+# Gate F (react-erp-quality) — fastest, no build required
+pnpm ui:guard:erp
+
 # Biome catches inline components, hook rule violations
 pnpm lint
 

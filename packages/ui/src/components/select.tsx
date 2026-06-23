@@ -1,21 +1,54 @@
 "use client";
 
-import type { GovernedSize } from "@afenda/ui/governance";
-import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import type {
+  GovernedSelectProps,
+  GovernedSize,
+  SlotRole,
+} from "@afenda/ui/governance";
+import {
+  applyGovernedPresentation,
+  mergeGovernedPresentation,
+} from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-
-import { cn } from "@afenda/ui/lib/utils";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
 import * as React from "react";
 
 const SELECT_RECIPE_NAME = "form-control" as const;
 
-function Select({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />;
+const SELECT_SLOT_ROLES = {
+  root: "root",
+  control: "control",
+  body: "body",
+  state: "state",
+  label: "label",
+  footer: "footer",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
+
+export interface SelectProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>,
+    "className"
+  >,
+    GovernedSelectProps {
+  readonly className?: string;
 }
+
+function Select({ className, state, ...props }: SelectProps) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Select",
+    recipeName: SELECT_RECIPE_NAME,
+    slotKey: "select-root",
+    state,
+    className,
+  });
+
+  return (
+    <SelectPrimitive.Root {...applyGovernedPresentation(props, governed)} />
+  );
+}
+Select.displayName = "Select";
 
 const SelectGroup = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Group>,
@@ -29,7 +62,7 @@ const SelectGroup = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
-    slot: "body",
+    slot: SELECT_SLOT_ROLES.body,
     className,
   });
 
@@ -44,10 +77,23 @@ const SelectGroup = React.forwardRef<
 SelectGroup.displayName = "SelectGroup";
 
 function SelectValue({
+  className,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Value>) {
-  return <SelectPrimitive.Value data-slot="select-value" {...props} />;
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Value>, "className"> & {
+  readonly className?: string;
+}) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Select",
+    recipeName: SELECT_RECIPE_NAME,
+    slotKey: "select-value",
+    className,
+  });
+
+  return (
+    <SelectPrimitive.Value {...applyGovernedPresentation(props, governed)} />
+  );
 }
+SelectValue.displayName = "SelectValue";
 
 export interface SelectTriggerProps
   extends Omit<
@@ -67,7 +113,7 @@ const SelectTrigger = React.forwardRef<
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
     variant: { size: governedSize },
-    slot: "control",
+    slot: SELECT_SLOT_ROLES.control,
     className,
   });
 
@@ -86,7 +132,10 @@ const SelectTrigger = React.forwardRef<
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon {...applyGovernedPresentation({}, chevron)} />
+        <ChevronDownIcon
+          aria-hidden="true"
+          {...applyGovernedPresentation({}, chevron)}
+        />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -113,6 +162,13 @@ const SelectContent = React.forwardRef<
     },
     ref
   ) => {
+    const baseGoverned = resolvePrimitiveGovernance({
+      componentName: "Select",
+      recipeName: SELECT_RECIPE_NAME,
+      slot: SELECT_SLOT_ROLES.root,
+      className,
+    });
+
     const popperOffset =
       position === "popper"
         ? resolvePrimitiveGovernance({
@@ -122,21 +178,15 @@ const SelectContent = React.forwardRef<
           })
         : null;
 
-    const governed = resolvePrimitiveGovernance({
+    const governed = popperOffset
+      ? mergeGovernedPresentation(baseGoverned, popperOffset)
+      : baseGoverned;
+
+    const viewportGoverned = resolvePrimitiveGovernance({
       componentName: "Select",
       recipeName: SELECT_RECIPE_NAME,
-      slot: "root",
-      className: cn(className, popperOffset?.className),
+      slotKey: position === "popper" ? "viewport-popper" : "viewport",
     });
-
-    const viewportPopper =
-      position === "popper"
-        ? resolvePrimitiveGovernance({
-            componentName: "Select",
-            recipeName: SELECT_RECIPE_NAME,
-            slotKey: "viewport-popper",
-          })
-        : null;
 
     return (
       <SelectPrimitive.Portal>
@@ -150,12 +200,10 @@ const SelectContent = React.forwardRef<
         >
           <SelectScrollUpButton />
           <SelectPrimitive.Viewport
-            {...(viewportPopper
-              ? applyGovernedPresentation(
-                  { "data-position": position },
-                  viewportPopper
-                )
-              : { "data-position": position })}
+            {...applyGovernedPresentation(
+              { "data-position": position },
+              viewportGoverned
+            )}
           >
             {children}
           </SelectPrimitive.Viewport>
@@ -180,7 +228,7 @@ const SelectLabel = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
-    slot: "state",
+    slot: SELECT_SLOT_ROLES.state,
     className,
   });
 
@@ -206,7 +254,7 @@ const SelectItem = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
-    slot: "label",
+    slot: SELECT_SLOT_ROLES.label,
     className,
   });
 
@@ -229,7 +277,10 @@ const SelectItem = React.forwardRef<
     >
       <span {...applyGovernedPresentation({}, indicator)}>
         <SelectPrimitive.ItemIndicator>
-          <CheckIcon {...applyGovernedPresentation({}, checkIcon)} />
+          <CheckIcon
+            aria-hidden="true"
+            {...applyGovernedPresentation({}, checkIcon)}
+          />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
@@ -251,7 +302,7 @@ const SelectSeparator = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
-    slot: "footer",
+    slot: SELECT_SLOT_ROLES.footer,
     className,
   });
 
@@ -277,7 +328,7 @@ const SelectScrollUpButton = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Select",
     recipeName: SELECT_RECIPE_NAME,
-    slot: "icon",
+    slot: SELECT_SLOT_ROLES.icon,
     className,
   });
 
@@ -286,7 +337,7 @@ const SelectScrollUpButton = React.forwardRef<
       ref={ref}
       {...applyGovernedPresentation(props, governed)}
     >
-      <ChevronUpIcon />
+      <ChevronUpIcon aria-hidden="true" />
     </SelectPrimitive.ScrollUpButton>
   );
 });
@@ -314,7 +365,7 @@ const SelectScrollDownButton = React.forwardRef<
       ref={ref}
       {...applyGovernedPresentation(props, governed)}
     >
-      <ChevronDownIcon />
+      <ChevronDownIcon aria-hidden="true" />
     </SelectPrimitive.ScrollDownButton>
   );
 });

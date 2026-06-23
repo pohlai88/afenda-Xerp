@@ -1,3 +1,9 @@
+import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_STATES,
+  SIZES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import {
@@ -6,7 +12,7 @@ import {
   ShieldCheckIcon,
   SmartphoneIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Button } from "./button";
 import { Field, FieldDescription, FieldLabel } from "./field";
@@ -144,6 +150,7 @@ function MfaVerifyComponent() {
 
 const meta = {
   title: "Primitives/InputOTP",
+  component: InputOTP,
   tags: ["autodocs"],
   parameters: {
     layout: "padded",
@@ -217,6 +224,148 @@ export const GovernanceAccessibility: Story = {
           We sent a code to jane.doe@company.com. Expires in 10 minutes.
         </FieldDescription>
       </Field>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `InputOTP` — governed values (`data-slot="input-otp"`, `data-component="InputOTP"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <InputOTP
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-input-otp"
+        maxLength={4}
+        pattern={REGEXP_ONLY_DIGITS}
+      >
+        <OtpSlots length={4} />
+      </InputOTP>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → input-otp · body → input-otp-group · control → input-otp-slot
+          · icon → input-otp-separator
+        </p>
+        <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+          <InputOTPGroup data-testid="slot-map-group">
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+          </InputOTPGroup>
+          <InputOTPSeparator data-testid="slot-map-separator" />
+          <InputOTPGroup>
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="sm">
+          <span className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </span>
+          <InputOTP
+            maxLength={4}
+            pattern={REGEXP_ONLY_DIGITS}
+            state={state}
+          >
+            <OtpSlots length={4} />
+          </InputOTP>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAllSizes: Story = {
+  name: "Governance — All Sizes",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="sm">
+        {SIZES.map((size) => (
+          <InputOTP key={size} maxLength={4} pattern={REGEXP_ONLY_DIGITS} size={size}>
+            <OtpSlots length={4} />
+          </InputOTP>
+        ))}
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllDensities: Story = {
+  name: "Governance — All Densities",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="sm">
+        {DENSITIES.map((density) => (
+          <InputOTP
+            density={density}
+            key={density}
+            maxLength={4}
+            pattern={REGEXP_ONLY_DIGITS}
+          >
+            <OtpSlots length={4} />
+          </InputOTP>
+        ))}
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    density: { control: "select", options: [...DENSITIES] },
+    size: { control: "select", options: [...SIZES] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    density: "standard",
+    size: "md",
+    state: "ready",
+  },
+  render: ({ density, size, state }) => (
+    <StoryFrame width="sm">
+      <InputOTP
+        density={density}
+        maxLength={6}
+        pattern={REGEXP_ONLY_DIGITS}
+        size={size}
+        state={state}
+      >
+        <OtpSlots length={6} separatorAt={3} />
+      </InputOTP>
     </StoryFrame>
   ),
 };
@@ -313,7 +462,8 @@ export const PaymentConfirmation: Story = {
           <span className="font-medium text-sm">Confirm wire transfer</span>
           <FieldDescription>
             Enter the 6-digit approval code from your banking token to post
-            payment BATCH-2026-06-18 for $24,850.
+            payment BATCH-2026-06-18 for{" "}
+            <span className="tabular-nums">$24,850</span>.
           </FieldDescription>
         </StoryStack>
         <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
@@ -474,8 +624,9 @@ export const ExpenseApprovalToken: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="md">
         <FieldDescription>
-          Manager approval for EXP-2026-042 ($1,240). Enter the token from the
-          approval email.
+          Manager approval for EXP-2026-042 (
+          <span className="tabular-nums">$1,240</span>). Enter the token from
+          the approval email.
         </FieldDescription>
         <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <OtpSlots length={6} />

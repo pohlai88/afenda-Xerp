@@ -1,20 +1,14 @@
 "use client";
 
+import { createContext, type ReactNode, useContext, useMemo } from "react";
 import {
-  createContext,
-  useContext,
-  useMemo,
-  type ReactNode,
-} from "react";
-
+  type DashboardWidgetRenderContext,
+  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
+} from "./dashboard-widget.contract";
 import {
   hydrateDashboardWidgetRenderContext,
   type SerializableDashboardWidgetRenderContext,
 } from "./dashboard-widget-render-context";
-import {
-  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
-  type DashboardWidgetRenderContext,
-} from "./dashboard-widget.contract";
 
 const DashboardWidgetRenderContextReactContext =
   createContext<DashboardWidgetRenderContext | null>(null);
@@ -30,7 +24,7 @@ export function DashboardWidgetRenderContextProvider({
 }: DashboardWidgetRenderContextProviderProps) {
   const hydrated = useMemo(
     () => hydrateDashboardWidgetRenderContext(value),
-    [value.capabilities, value.featureFlags, value.permissions]
+    [value]
   );
 
   return (

@@ -2,14 +2,18 @@ import type {
   DashboardLayoutPreset,
   DashboardWidgetLayoutItem,
 } from "./dashboard-layout.contract";
-import { migrateDashboardLayoutPreset } from "./dashboard-layout.migration";
-import { isLegacyDashboardCompositeWidgetId } from "./dashboard-layout.migration";
+import {
+  isLegacyDashboardCompositeWidgetId,
+  migrateDashboardLayoutPreset,
+} from "./dashboard-layout.migration";
 import { isDashboardWidgetId } from "./dashboard-widget-registry";
 
 export { isDashboardWidgetId };
 
 function isParseableLayoutWidgetId(value: string): boolean {
-  return isDashboardWidgetId(value) || isLegacyDashboardCompositeWidgetId(value);
+  return (
+    isDashboardWidgetId(value) || isLegacyDashboardCompositeWidgetId(value)
+  );
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -31,10 +35,12 @@ function parseLayoutItem(value: unknown): DashboardWidgetLayoutItem | null {
   }
 
   if (
-    !isFiniteNumber(value["x"]) ||
-    !isFiniteNumber(value["y"]) ||
-    !isFiniteNumber(value["w"]) ||
-    !isFiniteNumber(value["h"])
+    !(
+      isFiniteNumber(value["x"]) &&
+      isFiniteNumber(value["y"]) &&
+      isFiniteNumber(value["w"]) &&
+      isFiniteNumber(value["h"])
+    )
   ) {
     return null;
   }

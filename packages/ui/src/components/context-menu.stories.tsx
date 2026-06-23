@@ -1,4 +1,4 @@
-import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArchiveIcon,
@@ -19,7 +19,12 @@ import {
   UserPlusIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -78,6 +83,14 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
 } satisfies Meta<typeof ContextMenu>;
 
 export default meta;
@@ -92,7 +105,7 @@ export const Default: Story = {
         <ContextSurface>
           <StoryStack gap="xs">
             <span className="font-medium text-sm">INV-2026-0042</span>
-            <span className="text-muted-foreground text-sm">
+            <span className="text-muted-foreground text-sm tabular-nums">
               Acme Supplies Ltd. · $24,850
             </span>
           </StoryStack>
@@ -304,6 +317,57 @@ export const WithShortcuts: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-state="fake"` — governed attributes must win on root, trigger, content, and items.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <ContextMenu
+        data-slot="override"
+        data-state="fake"
+        open
+        state="ready"
+      >
+        <ContextMenuTrigger data-slot="override">Record surface</ContextMenuTrigger>
+        <ContextMenuContent data-slot="override">
+          <ContextMenuItem data-slot="override">View</ContextMenuItem>
+          <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <StoryFrame width="md">
+            <ContextMenu open state={state}>
+              <ContextMenuTrigger>State {state}</ContextMenuTrigger>
+              <ContextMenuContent>
+                <ContextMenuItem>View</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
+          </StoryFrame>
+        </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
 export const GovernanceAccessibility: Story = {
   name: "Governance — Accessibility",
   parameters: {
@@ -454,7 +518,9 @@ export const InvoiceRecordSurface: Story = {
               <Badge emphasis="soft" tone="warning">
                 Awaiting payment
               </Badge>
-              <span className="text-muted-foreground text-sm">$24,850 due</span>
+              <span className="text-muted-foreground text-sm tabular-nums">
+                $24,850 due
+              </span>
             </StoryRow>
           </StoryStack>
         </ContextSurface>

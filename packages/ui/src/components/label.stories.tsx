@@ -1,5 +1,5 @@
 import React from "react";
-import { GOVERNED_STATES } from "@afenda/ui/governance";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   BuildingIcon,
@@ -112,6 +112,59 @@ function RadioLabel({
 
 // ─── Label ─────────────────────────────────────────────────────────────────
 
+function LabelPlaygroundDemo({
+  density = "standard",
+  size = "md",
+  state = "ready",
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly size?: (typeof SIZES)[number];
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <StoryStack gap="xs">
+        <Label
+          density={density}
+          htmlFor="label-playground"
+          size={size}
+          state={state}
+        >
+          Purchase order total
+        </Label>
+        <Input
+          density={density}
+          id="label-playground"
+          placeholder="12,450.00"
+          size={size}
+          state={state}
+          type="number"
+        />
+      </StoryStack>
+    </StoryFrame>
+  );
+}
+
+function LabelStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <StoryStack gap="xs">
+        <p className="font-mono text-muted-foreground text-xs">
+          state=&quot;{state}&quot;
+        </p>
+        <Label htmlFor={`label-${state}`} state={state}>
+          Employee ID
+        </Label>
+        <Input id={`label-${state}`} placeholder="EMP-00142" state={state} />
+      </StoryStack>
+    </StoryFrame>
+  );
+}
+
 const meta = {
   title: "Primitives/Label",
   component: Label,
@@ -121,7 +174,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed Radix label for ERP forms, filters, and settings. Associate controls with `htmlFor`. Use `font-normal` for checkbox/radio companion labels; keep default weight for primary field captions. Supports governed `state` for error, loading, and disabled contexts.",
+          "Governed Radix label for ERP forms, filters, and settings. Associate controls with `htmlFor`. Use `font-normal` for checkbox/radio companion labels; keep default weight for primary field captions. Supports governed `density`, `size`, and `state`.",
       },
     },
   },
@@ -130,15 +183,129 @@ const meta = {
       control: "select",
       options: [...GOVERNED_STATES],
       description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    density: {
+      control: "select",
+      options: [...DENSITIES],
+      description: "Form-field density axis",
+    },
+    size: {
+      control: "select",
+      options: [...SIZES],
+      description: "Form-field size axis",
     },
   },
   args: {
     children: "Field label",
+    density: "standard",
+    size: "md",
+    state: "ready",
   },
 } satisfies Meta<typeof Label>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <LabelPlaygroundDemo
+      density={args.density}
+      size={args.size}
+      state={args.state}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Label` — governed values (`data-slot="label"`, `data-component="Label"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Label
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-label"
+        htmlFor="authority-email"
+      >
+        Work email
+      </Label>
+      <Input id="authority-email" placeholder="name@company.com" />
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal role `root` emits `label`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">root → label</p>
+        <Label data-testid="slot-map-label" htmlFor="slot-map-input">
+          Inspect slot attributes
+        </Label>
+        <Input id="slot-map-input" placeholder="name@company.com" />
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <LabelStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "`Label` must pair `htmlFor` with a unique control `id`. Disabled peer styling follows the associated control. Required markers use `aria-hidden` on decorative asterisks.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <LabeledControl id="a11y-email" label="Work email" required>
+        <Input
+          aria-invalid
+          id="a11y-email"
+          placeholder="name@company.com"
+          state="error"
+          type="email"
+        />
+      </LabeledControl>
+    </StoryFrame>
+  ),
+};
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
 
@@ -232,32 +399,6 @@ export const WithBadge: Story = {
         <Input id="beta-feature" placeholder="Enable preview dashboards" />
       </StoryStack>
     </StoryFrame>
-  ),
-};
-
-export const GovernanceAllStates: Story = {
-  name: "Governance — All States",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <StoryStack gap="xs">
-            <span className="font-mono text-muted-foreground text-xs">
-              state=&quot;{state}&quot;
-            </span>
-            <Label htmlFor={`label-${state}`} state={state}>
-              Employee ID
-            </Label>
-            <Input
-              id={`label-${state}`}
-              placeholder="EMP-00142"
-              state={state}
-            />
-          </StoryStack>
-        </StoryFrame>
-      ))}
-    </StoryStack>
   ),
 };
 
@@ -487,7 +628,9 @@ export const AmountCurrencyLabel: Story = {
             aria-hidden="true"
             className="size-4 shrink-0 text-muted-foreground"
           />
-          <Input id="payment-amount" inputMode="decimal" placeholder="0.00" />
+          <div className="tabular-nums">
+            <Input id="payment-amount" inputMode="decimal" placeholder="0.00" />
+          </div>
         </StoryRow>
       </LabeledControl>
     </StoryFrame>
@@ -592,7 +735,9 @@ export const RecordDetailLabels: Story = {
           </StoryStack>
           <StoryStack className="min-w-48 flex-1" gap="xs">
             <IconLabel htmlFor="detail-amount" icon={HashIcon} label="Amount" />
-            <Input id="detail-amount" readOnly value="$4,850.00" />
+            <div className="tabular-nums">
+              <Input id="detail-amount" readOnly value="$4,850.00" />
+            </div>
           </StoryStack>
         </StoryRow>
       </StoryStack>
@@ -637,7 +782,7 @@ export const SecurityConsentLabel: Story = {
           />
           <StoryStack gap="sm">
             <span className="font-medium">
-              <Label htmlFor="security-consent">Sensitive data access</Label>
+              <Label>Sensitive data access</Label>
             </span>
             <span className="text-muted-foreground text-sm">
               Payroll and compensation fields require elevated permissions.
@@ -726,7 +871,9 @@ export const CreditLimitLabel: Story = {
             aria-hidden="true"
             className="size-4 shrink-0 text-muted-foreground"
           />
-          <Input id="credit-limit" inputMode="decimal" placeholder="50000" />
+          <div className="tabular-nums">
+            <Input id="credit-limit" inputMode="decimal" placeholder="50000" />
+          </div>
         </StoryRow>
       </StoryStack>
     </StoryFrame>

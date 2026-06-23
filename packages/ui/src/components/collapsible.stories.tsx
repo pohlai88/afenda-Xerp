@@ -1,3 +1,4 @@
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   BellIcon,
@@ -14,8 +15,12 @@ import {
   UserIcon,
   WebhookIcon,
 } from "lucide-react";
-import React, { type ComponentType, type ReactNode, useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { type ComponentType, type ReactNode, useState } from "react";
+import {
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
@@ -126,11 +131,7 @@ function ChevronTrigger({
   readonly badge?: ReactNode;
 }) {
   return (
-    <Button
-      className="w-full justify-between"
-      emphasis="ghost"
-      intent="secondary"
-    >
+    <StoryRow align="center" justify="between" width="full">
       <StoryRow align="center" gap="sm">
         {Icon ? (
           <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
@@ -140,9 +141,9 @@ function ChevronTrigger({
       </StoryRow>
       <ChevronDownIcon
         aria-hidden="true"
-        className={`size-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+        className={`size-4 shrink-0 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
       />
-    </Button>
+    </StoryRow>
   );
 }
 
@@ -168,7 +169,7 @@ function DefinitionRow({
   return (
     <StoryRow align="center" justify="between">
       <span className="text-muted-foreground text-sm">{label}</span>
-      <span className="font-medium text-sm">{value}</span>
+      <span className="font-medium text-sm tabular-nums">{value}</span>
     </StoryRow>
   );
 }
@@ -193,7 +194,7 @@ function ControlledCollapsibleDemo() {
           </Button>
         </StoryRow>
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger label="Controlled section" open={open} />
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -210,33 +211,84 @@ function ControlledCollapsibleDemo() {
   );
 }
 
+function RelatedOrdersDemo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <StoryFrame width="md">
+      <Collapsible onOpenChange={setOpen} open={open}>
+        <StoryStack gap="sm">
+          <StoryRow align="center" justify="between" paddingX="lg">
+            <span className="font-semibold text-sm">
+              3 related purchase orders
+            </span>
+            <CollapsibleTrigger asChild>
+              <Button
+                aria-expanded={open}
+                aria-label="Toggle related orders"
+                emphasis="ghost"
+                intent="secondary"
+                presentation="icon"
+                size="sm"
+              >
+                <ChevronsUpDownIcon aria-hidden="true" className="size-4" />
+              </Button>
+            </CollapsibleTrigger>
+          </StoryRow>
+          <StoryStack
+            className="rounded-md border border-border font-mono text-sm tabular-nums"
+            paddingX="lg"
+            paddingY="sm"
+          >
+            {RELATED_ORDERS[0].id} · {RELATED_ORDERS[0].total}
+          </StoryStack>
+          <CollapsibleContent>
+            <StoryStack gap="sm">
+              {RELATED_ORDERS.slice(1).map((order) => (
+                <StoryStack
+                  className="rounded-md border border-border font-mono text-sm tabular-nums"
+                  key={order.id}
+                  paddingX="lg"
+                  paddingY="sm"
+                >
+                  {order.id} · {order.total}
+                </StoryStack>
+              ))}
+            </StoryStack>
+          </CollapsibleContent>
+        </StoryStack>
+      </Collapsible>
+    </StoryFrame>
+  );
+}
+
 function AdvancedFiltersDemo() {
   const [open, setOpen] = useState(false);
 
   return (
     <StoryFrame width="xl">
-      <StoryStack gap="sm">
-        <StoryRow
-          align="center"
-          className="border-border border-b"
-          justify="between"
-          paddingY="sm"
-        >
-          <span className="font-medium text-sm">Search Results (142)</span>
-          <Collapsible onOpenChange={setOpen} open={open}>
+      <Collapsible onOpenChange={setOpen} open={open}>
+        <StoryStack gap="sm">
+          <StoryRow
+            align="center"
+            className="border-border border-b"
+            justify="between"
+            paddingY="sm"
+          >
+            <span className="font-medium text-sm tabular-nums">
+              Search Results (142)
+            </span>
             <CollapsibleTrigger asChild>
               <Button emphasis="ghost" intent="secondary" size="sm">
                 <FilterIcon aria-hidden="true" className="size-4" />
                 Advanced Filters
                 <ChevronDownIcon
                   aria-hidden="true"
-                  className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
+                  className={`size-4 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
                 />
               </Button>
             </CollapsibleTrigger>
-          </Collapsible>
-        </StoryRow>
-        <Collapsible onOpenChange={setOpen} open={open}>
+          </StoryRow>
           <CollapsibleContent>
             <BorderedPanel>
               <StoryStack gap="md">
@@ -281,21 +333,11 @@ function AdvancedFiltersDemo() {
                 <StoryRow align="center" gap="md" wrap>
                   <StoryRow align="center" gap="sm">
                     <Checkbox defaultChecked id="filter-overdue" />
-                    <Label
-                      className="font-normal text-sm"
-                      htmlFor="filter-overdue"
-                    >
-                      Overdue only
-                    </Label>
+                    <Label htmlFor="filter-overdue">Overdue only</Label>
                   </StoryRow>
                   <StoryRow align="center" gap="sm">
                     <Checkbox id="filter-assigned" />
-                    <Label
-                      className="font-normal text-sm"
-                      htmlFor="filter-assigned"
-                    >
-                      Assigned to me
-                    </Label>
+                    <Label htmlFor="filter-assigned">Assigned to me</Label>
                   </StoryRow>
                 </StoryRow>
                 <StoryRow gap="sm" justify="end">
@@ -309,8 +351,8 @@ function AdvancedFiltersDemo() {
               </StoryStack>
             </BorderedPanel>
           </CollapsibleContent>
-        </Collapsible>
-      </StoryStack>
+        </StoryStack>
+      </Collapsible>
     </StoryFrame>
   );
 }
@@ -333,6 +375,15 @@ const meta = {
   argTypes: {
     defaultOpen: { control: "boolean" },
     disabled: { control: "boolean" },
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
+  args: {
+    state: "ready",
   },
 } satisfies Meta<typeof Collapsible>;
 
@@ -341,56 +392,32 @@ type Story = StoryObj<typeof meta>;
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
 
-export const Default: Story = {
-  render: () => {
+export const Playground: Story = {
+  render: (args) => {
     const [open, setOpen] = useState(false);
 
     return (
       <StoryFrame width="md">
-        <Collapsible onOpenChange={setOpen} open={open}>
-          <StoryStack gap="sm">
-            <StoryRow align="center" justify="between" paddingX="lg">
-              <span className="font-semibold text-sm">
-                3 related purchase orders
-              </span>
-              <CollapsibleTrigger asChild>
-                <Button
-                  aria-label="Toggle related orders"
-                  emphasis="ghost"
-                  intent="secondary"
-                  presentation="icon"
-                  size="sm"
-                >
-                  <ChevronsUpDownIcon aria-hidden="true" className="size-4" />
-                </Button>
-              </CollapsibleTrigger>
-            </StoryRow>
-            <StoryStack
-              className="rounded-md border border-border font-mono text-sm"
-              paddingX="lg"
-              paddingY="sm"
-            >
-              {RELATED_ORDERS[0].id} · {RELATED_ORDERS[0].total}
-            </StoryStack>
-            <CollapsibleContent>
-              <StoryStack gap="sm">
-                {RELATED_ORDERS.slice(1).map((order) => (
-                  <StoryStack
-                    className="rounded-md border border-border font-mono text-sm"
-                    key={order.id}
-                    paddingX="lg"
-                    paddingY="sm"
-                  >
-                    {order.id} · {order.total}
-                  </StoryStack>
-                ))}
-              </StoryStack>
-            </CollapsibleContent>
-          </StoryStack>
+        <Collapsible {...args} onOpenChange={setOpen} open={open}>
+          <CollapsibleTrigger>
+            <ChevronTrigger label="Playground section" open={open} />
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <BorderedPanel>
+              <p className="text-muted-foreground text-sm">
+                Toggle with controls or click the trigger. Governed root exposes
+                `data-slot=&quot;collapsible&quot;`.
+              </p>
+            </BorderedPanel>
+          </CollapsibleContent>
         </Collapsible>
       </StoryFrame>
     );
   },
+};
+
+export const Default: Story = {
+  render: () => <RelatedOrdersDemo />,
 };
 
 export const Controlled: Story = {
@@ -403,12 +430,8 @@ export const DefaultOpen: Story = {
   render: () => (
     <StoryFrame width="md">
       <Collapsible defaultOpen>
-        <CollapsibleTrigger asChild>
-          <Button
-            className="w-full justify-between"
-            emphasis="ghost"
-            intent="secondary"
-          >
+        <CollapsibleTrigger>
+          <StoryRow align="center" justify="between" width="full">
             <StoryRow align="center" gap="sm">
               <SettingsIcon
                 aria-hidden="true"
@@ -417,7 +440,7 @@ export const DefaultOpen: Story = {
               Integration settings
             </StoryRow>
             <ChevronDownIcon aria-hidden="true" className="size-4 rotate-180" />
-          </Button>
+          </StoryRow>
         </CollapsibleTrigger>
         <CollapsibleContent>
           <BorderedPanel>
@@ -444,16 +467,11 @@ export const Disabled: Story = {
   render: () => (
     <StoryFrame width="md">
       <Collapsible disabled>
-        <CollapsibleTrigger asChild>
-          <Button
-            className="w-full justify-between"
-            disabled
-            emphasis="ghost"
-            intent="secondary"
-          >
-            Locked section
+        <CollapsibleTrigger>
+          <StoryRow align="center" justify="between" width="full">
+            <span>Locked section</span>
             <ChevronDownIcon aria-hidden="true" className="size-4" />
-          </Button>
+          </StoryRow>
         </CollapsibleTrigger>
         <CollapsibleContent>
           <BorderedPanel>
@@ -463,6 +481,133 @@ export const Disabled: Story = {
           </BorderedPanel>
         </CollapsibleContent>
       </Collapsible>
+    </StoryFrame>
+  ),
+};
+
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-state="fake"` — governed attributes must win on root, trigger, and content.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Collapsible
+        data-slot="override"
+        data-state="fake"
+        data-testid="governance-collapsible-root"
+        defaultOpen
+        state="ready"
+      >
+        <CollapsibleTrigger data-slot="override">
+          Section header
+        </CollapsibleTrigger>
+        <CollapsibleContent data-slot="override">
+          <BorderedPanel>
+            <p className="text-muted-foreground text-sm">
+              Inspect root (`data-slot=&quot;collapsible&quot;`), trigger
+              (`collapsible-trigger`), and content (`collapsible-content`).
+            </p>
+          </BorderedPanel>
+        </CollapsibleContent>
+      </Collapsible>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles `control` and `content` emit `collapsible-trigger` and `collapsible-content`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → collapsible · control → collapsible-trigger · content →
+          collapsible-content
+        </p>
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger data-testid="slot-trigger">
+            Inspect slot attributes
+          </CollapsibleTrigger>
+          <CollapsibleContent data-testid="slot-content">
+            Open DevTools and verify `data-component`, `data-recipe`, and
+            `data-slot` on each part.
+          </CollapsibleContent>
+        </Collapsible>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <Collapsible defaultOpen state={state}>
+            <CollapsibleTrigger>Governed collapsible probe</CollapsibleTrigger>
+            <CollapsibleContent>
+              Content panel for state probe — {state}
+            </CollapsibleContent>
+          </Collapsible>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Trigger is a native `button` with `aria-expanded`. Disabled collapsibles cannot expand. Verify keyboard activation (Enter/Space) and focus-visible ring on trigger.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger>Expanded section</CollapsibleTrigger>
+          <CollapsibleContent>
+            Trigger exposes `aria-expanded=&quot;true&quot;` when open.
+          </CollapsibleContent>
+        </Collapsible>
+        <Collapsible>
+          <CollapsibleTrigger>Collapsed section</CollapsibleTrigger>
+          <CollapsibleContent>
+            Trigger exposes `aria-expanded=&quot;false&quot;` when closed.
+          </CollapsibleContent>
+        </Collapsible>
+        <Collapsible disabled>
+          <CollapsibleTrigger>Disabled section</CollapsibleTrigger>
+          <CollapsibleContent>Content unavailable while disabled.</CollapsibleContent>
+        </Collapsible>
+      </StoryStack>
     </StoryFrame>
   ),
 };
@@ -478,7 +623,7 @@ export const AdvancedOptions: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger label="Advanced Options" open={open} />
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -510,7 +655,7 @@ export const OrderLineItems: Story = {
     return (
       <StoryFrame width="lg">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               badge={
                 <Badge emphasis="soft" size="sm" tone="neutral">
@@ -548,10 +693,10 @@ export const OrderLineItems: Story = {
                       {line.sku}
                     </span>
                   </StoryStack>
-                  <span className="w-16 text-right text-muted-foreground">
+                  <span className="w-16 text-right text-muted-foreground tabular-nums">
                     {line.qty}
                   </span>
-                  <span className="w-20 text-right font-medium">
+                  <span className="w-20 text-right font-medium tabular-nums">
                     {line.unit}
                   </span>
                 </StoryRow>
@@ -573,7 +718,7 @@ export const AuditTrailEntry: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               icon={HistoryIcon}
               label="Approval workflow — 3 events"
@@ -615,7 +760,7 @@ export const ShippingTracking: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               badge={
                 <Badge emphasis="soft" size="sm" tone="info">
@@ -655,7 +800,7 @@ export const PaymentTermsDetail: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               icon={CreditCardIcon}
               label="Payment terms — Net 30"
@@ -690,7 +835,7 @@ export const EmployeeEmergencyContact: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               icon={UserIcon}
               label="Emergency contact"
@@ -722,7 +867,7 @@ export const WarehouseBinInventory: Story = {
     return (
       <StoryFrame width="lg">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               badge={
                 <Badge emphasis="soft" size="sm" tone="warning">
@@ -773,7 +918,7 @@ export const IntegrationWebhooks: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               icon={WebhookIcon}
               label="Outbound webhooks"
@@ -834,7 +979,7 @@ export const CommentReplies: Story = {
                 {open ? "Hide" : "Show"} {COMMENT_REPLIES.length} replies
                 <ChevronDownIcon
                   aria-hidden="true"
-                  className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
+                  className={`size-4 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
                 />
               </Button>
             </CollapsibleTrigger>
@@ -877,7 +1022,7 @@ export const TaxBreakdown: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger label="Tax breakdown — $412.50" open={open} />
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -906,7 +1051,7 @@ export const NotificationPreferences: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               icon={BellIcon}
               label="Email notifications"
@@ -917,21 +1062,15 @@ export const NotificationPreferences: Story = {
             <BorderedPanel>
               <StoryStack gap="md">
                 <StoryRow align="center" justify="between">
-                  <Label className="font-normal text-sm" htmlFor="notify-po">
-                    Purchase order approvals
-                  </Label>
+                  <Label htmlFor="notify-po">Purchase order approvals</Label>
                   <Switch defaultChecked id="notify-po" />
                 </StoryRow>
                 <StoryRow align="center" justify="between">
-                  <Label className="font-normal text-sm" htmlFor="notify-inv">
-                    Invoice due reminders
-                  </Label>
+                  <Label htmlFor="notify-inv">Invoice due reminders</Label>
                   <Switch defaultChecked id="notify-inv" />
                 </StoryRow>
                 <StoryRow align="center" justify="between">
-                  <Label className="font-normal text-sm" htmlFor="notify-sys">
-                    System maintenance alerts
-                  </Label>
+                  <Label htmlFor="notify-sys">System maintenance alerts</Label>
                   <Switch id="notify-sys" />
                 </StoryRow>
               </StoryStack>
@@ -952,7 +1091,7 @@ export const AccessRestrictions: Story = {
     return (
       <StoryFrame width="md">
         <Collapsible onOpenChange={setOpen} open={open}>
-          <CollapsibleTrigger asChild>
+          <CollapsibleTrigger>
             <ChevronTrigger
               badge={
                 <Badge emphasis="soft" size="sm" tone="warning">

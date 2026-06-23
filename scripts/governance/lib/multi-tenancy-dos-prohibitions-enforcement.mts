@@ -11,14 +11,11 @@ import {
   MULTI_TENANCY_FORBIDDEN_ACCOUNTING_PATTERNS,
   MULTI_TENANCY_FORBIDDEN_ANY_SCAN_ROOTS,
   MULTI_TENANCY_FORBIDDEN_BUSINESS_MODULE_SEGMENTS,
-  MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES,
-  MULTI_TENANCY_GLOSSARY_MIN_DO_NOT_CONFUSE,
-  MULTI_TENANCY_GLOSSARY_PATH,
-  MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS,
   MULTI_TENANCY_GOVERNANCE_TEST_ROOT,
   MULTI_TENANCY_SESSION_TENANT_ID_PATTERN,
   MULTI_TENANCY_SESSION_TENANT_ID_SCAN_ROOTS,
 } from "../multi-tenancy-dos-prohibitions-registry.mts";
+import { collectGlossaryFirstViolations } from "./multi-tenancy-glossary-first-enforcement.mts";
 import {
   sourceContainsCodePattern,
   sourceContainsForbiddenAny,
@@ -91,62 +88,10 @@ function listTypeScriptFiles(
   return files;
 }
 
-function countMatches(content: string, pattern: RegExp): number {
-  const matches = content.match(new RegExp(pattern.source, "g"));
-  return matches?.length ?? 0;
-}
-
 export function collectGlossaryViolations(
   repoRoot: string
 ): DosProhibitionsEnforcementViolation[] {
-  const violations: DosProhibitionsEnforcementViolation[] = [];
-  const glossaryPath = join(repoRoot, MULTI_TENANCY_GLOSSARY_PATH);
-
-  if (!existsSync(glossaryPath)) {
-    violations.push({
-      rule: "glossary-missing",
-      file: glossaryPath,
-      message: `${MULTI_TENANCY_GLOSSARY_PATH} is required (Do create/update glossary first)`,
-    });
-    return violations;
-  }
-
-  const content = readFileSync(glossaryPath, "utf8");
-
-  for (const heading of MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS) {
-    if (!content.includes(heading)) {
-      violations.push({
-        rule: "glossary-heading-missing",
-        file: glossaryPath,
-        message: `Glossary missing required heading: ${heading}`,
-      });
-    }
-  }
-
-  for (const phrase of MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES) {
-    if (!content.includes(phrase)) {
-      violations.push({
-        rule: "glossary-do-not-confuse",
-        file: glossaryPath,
-        message: `Glossary missing required do-not-confuse phrase: ${phrase}`,
-      });
-    }
-  }
-
-  const doNotConfuseCount = countMatches(
-    content,
-    /Must not (?:be confused|be treated|replace)|do-not-confuse|Do not confuse|is not the same as/i
-  );
-
-  if (doNotConfuseCount < MULTI_TENANCY_GLOSSARY_MIN_DO_NOT_CONFUSE) {
-    violations.push({
-      rule: "glossary-do-not-confuse",
-      file: glossaryPath,
-      message: `Glossary must include at least ${MULTI_TENANCY_GLOSSARY_MIN_DO_NOT_CONFUSE} do-not-confuse notes (found ${doNotConfuseCount})`,
-    });
-  }
-
-  return violations;
+  return collectGlossaryFirstViolations(repoRoot);
 }
 
 export function collectForbiddenAnyViolations(
@@ -183,7 +128,7 @@ export function collectSessionTenantIdViolations(
 
     for (const filePath of listTypeScriptFiles(absoluteRoot, repoRoot)) {
       const source = readFileSync(filePath, "utf8");
-      if (MULTI_TENANCY_SESSION_TENANT_ID_PATTERN.test(source)) {
+      if (sourceContainsCodePattern(source, MULTI_TENANCY_SESSION_TENANT_ID_PATTERN)) {
         violations.push({
           rule: "session-tenant-id",
           file: filePath,

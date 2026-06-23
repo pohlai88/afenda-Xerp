@@ -1,10 +1,14 @@
 "use client";
 
+import {
+  Card,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId, useMemo } from "react";
 import { Area, AreaChart } from "recharts";
-
-import { Card, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import { APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN } from "../data/app-shell.dashboard.data";
 import type {
@@ -24,11 +28,11 @@ export interface AppShellDashboardSparklineStatProps
 }
 
 export interface SparklineSeriesSummary {
-  readonly pointCount: number;
-  readonly peakValue: number;
-  readonly peakDate: string;
-  readonly latestValue: number;
   readonly latestDate: string;
+  readonly latestValue: number;
+  readonly peakDate: string;
+  readonly peakValue: number;
+  readonly pointCount: number;
   readonly windowDelta: number;
 }
 
@@ -91,12 +95,15 @@ export function buildSparklineSeriesSummary(
   };
 }
 
-function resolveSparklineInsights(summary: SparklineSeriesSummary | null): string | null {
+function resolveSparklineInsights(
+  summary: SparklineSeriesSummary | null
+): string | null {
   if (summary === null) {
     return null;
   }
 
-  const pointsLabel = summary.pointCount === 1 ? "1 point" : `${summary.pointCount} points`;
+  const pointsLabel =
+    summary.pointCount === 1 ? "1 point" : `${summary.pointCount} points`;
   const peakLabel = `peak ${formatSparklineCurrency(summary.peakValue)} on ${formatSparklineDateLabel(summary.peakDate)}`;
 
   return `${pointsLabel} · ${peakLabel}`;
@@ -121,8 +128,11 @@ export function AppShellDashboardSparklineStat({
   data,
 }: AppShellDashboardSparklineStatProps) {
   const titleId = useId();
+  const footnoteId = useId();
   const rawGradientId = useId();
-  const gradientId = sanitizeSvgId(`app-shell-sparkline-${metricKey}-${id}-${rawGradientId}`);
+  const gradientId = sanitizeSvgId(
+    `app-shell-sparkline-${metricKey}-${id}-${rawGradientId}`
+  );
   const summary = useMemo(() => buildSparklineSeriesSummary(data), [data]);
   const chartData = useMemo(() => [...data], [data]);
   const insights = resolveSparklineInsights(summary);
@@ -144,19 +154,29 @@ export function AppShellDashboardSparklineStat({
         <div className="app-shell-dashboard-sparkline-body">
           <div className="app-shell-dashboard-sparkline-copy">
             <div className="app-shell-dashboard-sparkline-meta">
-              <span className="app-shell-dashboard-sparkline-label" id={titleId}>
+              <span
+                className="app-shell-dashboard-sparkline-label"
+                id={titleId}
+              >
                 {title}
               </span>
-              <span className="app-shell-dashboard-sparkline-amount">{amount}</span>
+              <span
+                aria-describedby={footnoteId}
+                className="app-shell-dashboard-sparkline-amount"
+              >
+                {amount}
+              </span>
             </div>
 
-            <div className="app-shell-dashboard-sparkline-change-row">
-              <span className="app-shell-dashboard-sparkline-change">{changeLabel}</span>
+            <div
+              className="app-shell-dashboard-sparkline-change-row"
+              id={footnoteId}
+            >
+              <span className="app-shell-dashboard-sparkline-change">
+                {changeLabel}
+              </span>
               <span className="app-shell-dashboard-sparkline-trend">
                 <TrendIndicator trend={trend} />
-                <span className="sr-only">
-                  {trend === "up" ? "Trending up" : "Trending down"}
-                </span>
               </span>
               <span className="app-shell-dashboard-sparkline-comparison">
                 {comparisonLabel}
@@ -168,7 +188,9 @@ export function AppShellDashboardSparklineStat({
                 No trend data available
               </span>
             ) : (
-              <span className="app-shell-dashboard-sparkline-insights">{insights}</span>
+              <span className="app-shell-dashboard-sparkline-insights">
+                {insights}
+              </span>
             )}
           </div>
 
@@ -205,9 +227,13 @@ export function AppShellDashboardSparklineStat({
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
-                        formatter={(value) => formatSparklineCurrency(Number(value))}
+                        formatter={(value) =>
+                          formatSparklineCurrency(Number(value))
+                        }
                         hideLabel={false}
-                        labelFormatter={(label) => formatSparklineDateLabel(String(label))}
+                        labelFormatter={(label) =>
+                          formatSparklineDateLabel(String(label))
+                        }
                       />
                     }
                     cursor={false}

@@ -6,17 +6,13 @@
  *
  * Detection strategy
  * ──────────────────
- * Line-by-line scan catches the common case: `<Button className=`.
- * Multiline scan catches split attributes:
- *
- *   <Button
- *     className="..."   ← different line from the open tag
- *   />
- *
- * We do a second pass over the whole source treating consecutive JSX lines as
- * a single logical unit: whenever we encounter an open governed tag we look
- * ahead for a className= that appears before the closing > or />.
+ * Pass 1 — single-line: `<Button className=` on the same line as the open tag.
+ * Pass 2 — multiline: className split across lines before the closing `>` / `/>`.
+ * Pass 3 — wrapper slop: static className strings with anti-slop violations
+ *          (gradients, arbitrary values, raw palette scales).
+ * Pass 4 — import policy: governance imports, stock-props bridges, stock Button props.
  */
+import { findConsumerWrapperClassNameSlop } from "./consumer-class-name-policy.mjs";
 
 /** PascalCase tags exported from @afenda/ui that enforce TIP-004 className policy. */
 export const GOVERNED_UI_TAGS = new Set([
@@ -198,6 +194,9 @@ const GOVERNANCE_DIRECT_IMPORT_RE =
 
 const BUTTON_RAW_VARIANT_RE = /<Button(?=[\s/>])[^>]*\bvariant\s*=/;
 
+const BUTTON_STOCK_SIZE_RE =
+  /<Button(?=[\s/>])[^>]*\bsize\s*=\s*["'](?:default|icon|icon-xs|icon-sm|icon-lg)["']/;
+
 /**
  * @param {string} content
  * @returns {string[]}
@@ -235,6 +234,12 @@ function checkGovernanceImportPolicy(content) {
   if (BUTTON_RAW_VARIANT_RE.test(content)) {
     violations.push(
       "<Button variant=…> — spread mapStockButtonProps(...) from @afenda/ui/governance instead of raw stock variant strings"
+    );
+  }
+
+  if (BUTTON_STOCK_SIZE_RE.test(content)) {
+    violations.push(
+      '<Button size="icon|icon-*|default"> — spread mapStockButtonProps(...) instead of raw stock shadcn size strings'
     );
   }
 
@@ -344,7 +349,6 @@ function findMultilineViolations(content, lines) {
 
     const propSlice = content.slice(tagStart + tagMatch[0].length, closedAt);
 
-    // Only flag if className appears AND it spans multiple source lines.
     if (/\bclassName\s*=/.test(propSlice)) {
       const tagLine = lineNumberAt(tagStart);
       const classNameOffset =
@@ -352,12 +356,11 @@ function findMultilineViolations(content, lines) {
       const classNameLine = lineNumberAt(classNameOffset);
 
       if (classNameLine !== tagLine) {
-        // Multiline split — line-by-line scan would have missed this.
         violations.push(
-          `line ${classNameLine}: <${tag} className=…> (multiline split from line ${tagLine}) — use governed props only`
+          `line ${classNameLine}: <${tag} className=…> (multiline split from line ${tagLine}) — use governed props only; wrap with plain div/span for shell layout`
         );
       }
-      // Single-line case is already caught by the line-by-line pass.
+      // Static or dynamic single-line cases are caught by the line-by-line pass.
     }
   }
 
@@ -415,9 +418,13 @@ export function checkGovernedUiConsumption(content) {
     }
   }
 
-  // ── Pass 2: multiline detection ─────────────────────────────────────────────
-  // Catches `<Button\n  className=` split across lines.
+  // ── Pass 2: multiline + dynamic className on governed primitives ─────────────
   for (const v of findMultilineViolations(content, lines)) {
+    violations.push(v);
+  }
+
+  // ── Pass 3: anti-slop on static wrapper className strings ───────────────────
+  for (const v of findConsumerWrapperClassNameSlop(content, lines)) {
     violations.push(v);
   }
 
@@ -426,4 +433,4 @@ export function checkGovernedUiConsumption(content) {
 
 /** Paths where consumer-layer policy applies. */
 export const GOVERNED_UI_CONSUMER_PATH =
-  /(?:^|[/\\])(?:packages[/\\]appshell[/\\]src|apps[/\\]erp[/\\]src)[/\\].*\.tsx$/i;
+  /(?:^|[/\\])(?:packages[/\\]appshell[/\\]src|packages[/\\]metadata-ui[/\\]src|apps[/\\]erp[/\\]src)[/\\].*\.tsx$/i;

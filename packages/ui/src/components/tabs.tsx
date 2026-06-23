@@ -1,5 +1,6 @@
 "use client";
 
+import type { GovernedTabsProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Tabs as TabsPrimitive } from "radix-ui";
@@ -7,25 +8,44 @@ import * as React from "react";
 
 const TABS_RECIPE_NAME = "surface" as const;
 
-export interface TabsProps
-  extends Omit<React.ComponentProps<typeof TabsPrimitive.Root>, "className"> {
-  readonly className?: string;
-}
+const TABS_SLOT_ROLES = {
+  root: "root",
+  list: "header",
+  trigger: "control",
+  content: "content",
+} as const satisfies Record<string, SlotRole>;
+
+export type TabsListVariant = "default" | "line";
+
+const TABS_LIST_SLOT_KEYS = {
+  default: "list-default",
+  line: "list-line",
+} as const satisfies Record<TabsListVariant, "list-default" | "list-line">;
+
+export type TabsProps = Omit<
+  React.ComponentProps<typeof TabsPrimitive.Root>,
+  "className"
+> &
+  GovernedTabsProps & {
+    readonly className?: string;
+  };
 
 const Tabs = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Root>,
   TabsProps
->(({ className, orientation = "horizontal", ...props }, ref) => {
+>(({ className, orientation = "horizontal", state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Tabs",
     recipeName: TABS_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: TABS_SLOT_ROLES.root,
     className,
   });
 
   return (
     <TabsPrimitive.Root
       ref={ref}
+      orientation={orientation}
       {...applyGovernedPresentation(props, governed, {
         "data-orientation": orientation,
       })}
@@ -34,8 +54,6 @@ const Tabs = React.forwardRef<
 });
 
 Tabs.displayName = "Tabs";
-
-export type TabsListVariant = "default" | "line";
 
 export interface TabsListProps
   extends Omit<React.ComponentProps<typeof TabsPrimitive.List>, "className"> {
@@ -50,8 +68,8 @@ const TabsList = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Tabs",
     recipeName: TABS_RECIPE_NAME,
-    slot: "header",
-    slotKey: variant === "line" ? "list-line" : "list-default",
+    slot: TABS_SLOT_ROLES.list,
+    slotKey: TABS_LIST_SLOT_KEYS[variant],
     className,
   });
 
@@ -82,7 +100,7 @@ const TabsTrigger = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Tabs",
     recipeName: TABS_RECIPE_NAME,
-    slot: "control",
+    slot: TABS_SLOT_ROLES.trigger,
     className,
   });
 
@@ -111,7 +129,7 @@ const TabsContent = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Tabs",
     recipeName: TABS_RECIPE_NAME,
-    slot: "content",
+    slot: TABS_SLOT_ROLES.content,
     className,
   });
 

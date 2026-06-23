@@ -1,6 +1,5 @@
 import type { DashboardWidgetRenderContext } from "./dashboard-widget.contract";
 import {
-  DEMO_DASHBOARD_WIDGET_CAPABILITIES,
   DEMO_DASHBOARD_WIDGET_PERMISSIONS,
   EMPTY_DASHBOARD_WIDGET_RENDER_CONTEXT,
   PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
@@ -8,9 +7,9 @@ import {
 
 /** JSON-safe render context for server → client handoff. */
 export interface SerializableDashboardWidgetRenderContext {
-  readonly permissions: readonly string[];
   readonly capabilities: readonly string[];
   readonly featureFlags: readonly string[];
+  readonly permissions: readonly string[];
 }
 
 export type DashboardWidgetRenderContextPreviewMode =

@@ -1,3 +1,10 @@
+import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_PANEL_RADII,
+  GOVERNED_PANEL_SHADOWS,
+  GOVERNED_STATES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertCircleIcon,
@@ -12,7 +19,7 @@ import {
   UserPlusIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -98,7 +105,13 @@ function AsyncSaveDialogComponent() {
           </DialogDescription>
         </DialogHeader>
         {saving ? (
-          <StoryRow gap="md" justify="center" paddingY="md">
+          <StoryRow
+            aria-busy="true"
+            aria-label="Saving invoice changes"
+            gap="md"
+            justify="center"
+            paddingY="md"
+          >
             <Spinner />
             <span className="text-muted-foreground text-sm">
               Updating invoice #INV-0042…
@@ -139,7 +152,7 @@ function AsyncSaveDialogComponent() {
               </>
             ) : (
               <>
-                <SaveIcon />
+                <SaveIcon aria-hidden="true" />
                 Save changes
               </>
             )}
@@ -147,6 +160,54 @@ function AsyncSaveDialogComponent() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function DialogPlaygroundDemo({
+  density = "standard",
+  radius = "md",
+  shadow = "overlay",
+  state = "ready",
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly radius?: (typeof GOVERNED_PANEL_RADII)[number];
+  readonly shadow?: (typeof GOVERNED_PANEL_SHADOWS)[number];
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <Dialog defaultOpen>
+      <DialogContent density={density} radius={radius} shadow={shadow} state={state}>
+        <DialogHeader>
+          <DialogTitle>Dialog playground</DialogTitle>
+          <DialogDescription>
+            Adjust density, radius, shadow, and governed state from controls.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter showCloseButton />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DialogStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <Dialog defaultOpen>
+        <DialogContent showCloseButton={false} state={state}>
+          <DialogHeader>
+            <DialogTitle>Governed dialog probe</DialogTitle>
+            <DialogDescription>Inspect `data-state` on dialog-content.</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </StoryFrame>
   );
 }
 
@@ -165,12 +226,52 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state on DialogContent",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    density: {
+      control: "select",
+      options: [...DENSITIES],
+      description: "Panel density on DialogContent",
+    },
+    radius: {
+      control: "select",
+      options: [...GOVERNED_PANEL_RADII],
+      description: "Panel radius on DialogContent",
+    },
+    shadow: {
+      control: "select",
+      options: [...GOVERNED_PANEL_SHADOWS],
+      description: "Panel shadow on DialogContent",
+    },
+  },
+  args: {
+    state: "ready",
+    density: "standard",
+    radius: "md",
+    shadow: "overlay",
+  },
 } satisfies Meta<typeof Dialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic dialogs ─────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <DialogPlaygroundDemo
+      density={args.density}
+      radius={args.radius}
+      shadow={args.shadow}
+      state={args.state}
+    />
+  ),
+};
 
 export const Default: Story = {
   render: () => (
@@ -268,7 +369,7 @@ export const OpenByDefault: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
-            <span className="font-semibold text-sm">
+            <span className="font-semibold text-sm tabular-nums">
               {formatCurrency(24_850)}
             </span>
           </StoryRow>
@@ -284,13 +385,96 @@ export const OpenByDefault: Story = {
   ),
 };
 
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
   parameters: {
+    layout: "padded",
     docs: {
       description: {
         story:
-          "`DialogTitle` and `DialogDescription` provide accessible names. Header close button includes a screen-reader label. Focus is trapped while open.",
+          'Consumer passes `data-slot="override"` on `DialogContent` — governed values (`data-slot="dialog-content"`, `data-component="Dialog"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-dialog-content"
+        showCloseButton={false}
+      >
+        <DialogHeader>
+          <DialogTitle>Data authority probe</DialogTitle>
+          <DialogDescription>
+            Inspect the content root — governed `data-*` attributes must override
+            consumer props.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`label`, `state`, `body`) emit `dialog-title`, `dialog-description`, `dialog-overlay`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → dialog-content · body → dialog-overlay · header →
+          dialog-header · footer → dialog-footer · label → dialog-title · state
+          → dialog-description · close-button → dialog-close-button ·
+          close-label → dialog-close-label
+        </p>
+        <Dialog defaultOpen>
+          <DialogContent data-testid="slot-map-content">
+            <DialogHeader>
+              <DialogTitle>Inspect slot attributes</DialogTitle>
+              <DialogDescription>
+                Open DevTools and verify `data-component`, `data-recipe`, and
+                `data-slot` on each dialog part.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter showCloseButton />
+          </DialogContent>
+        </Dialog>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <DialogStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "`DialogTitle` and `DialogDescription` provide accessible names. Header close button includes a screen-reader label. Focus is trapped while open; close returns focus to trigger.",
       },
     },
   },
@@ -536,12 +720,14 @@ export const RecordDetailView: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Amount paid</span>
-            <span>{formatCurrency(0)}</span>
+            <span className="tabular-nums">{formatCurrency(0)}</span>
           </StoryRow>
           <Separator />
           <StoryRow justify="between">
             <span className="font-medium text-sm">Balance due</span>
-            <span className="font-semibold">{formatCurrency(24_850)}</span>
+            <span className="font-semibold tabular-nums">
+              {formatCurrency(24_850)}
+            </span>
           </StoryRow>
         </StoryStack>
         <DialogFooter>
@@ -739,7 +925,9 @@ export const QuickAssignUser: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button size="sm">Assign</Button>
+          <Button emphasis="solid" intent="primary" size="sm">
+            Assign
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -957,7 +1145,9 @@ export const VendorQuickAdd: Story = {
         </StoryStack>
         <DialogFooter>
           <DialogCancelButton />
-          <Button size="sm">Create vendor</Button>
+          <Button emphasis="solid" intent="primary" size="sm">
+            Create vendor
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

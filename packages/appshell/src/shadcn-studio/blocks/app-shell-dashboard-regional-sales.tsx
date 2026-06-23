@@ -1,8 +1,7 @@
-import { useId, useMemo } from "react";
-import { Globe2Icon } from "lucide-react";
-
 import { Card, Progress, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { Globe2Icon } from "lucide-react";
+import { useId, useMemo } from "react";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -18,10 +17,10 @@ import type {
 import {
   computeDashboardShare,
   computeWeightedDashboardTrend,
+  type DashboardBreakdownAggregateTrend,
   formatDashboardCurrency,
   parseDashboardAmount,
   TrendIndicator,
-  type DashboardBreakdownAggregateTrend,
 } from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
@@ -31,31 +30,34 @@ export type AppShellDashboardRegionalSalesGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardRegionalSalesProps {
-  readonly title?: string;
-  readonly subtitle?: string;
   readonly comparisonText?: string;
-  readonly rows?: readonly AppShellDashboardRegionalSalesRow[];
   readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
+  readonly rows?: readonly AppShellDashboardRegionalSalesRow[];
+  readonly subtitle?: string;
+  readonly title?: string;
 }
 
 export interface RankedRegionalSalesRow {
-  readonly row: AppShellDashboardRegionalSalesRow;
   readonly rank: number;
+  readonly row: AppShellDashboardRegionalSalesRow;
   readonly share: number;
 }
 
 export interface RegionalSalesSummary {
-  readonly totalSales: number;
   readonly aggregateTrend: DashboardBreakdownAggregateTrend;
-  readonly topRegion: { readonly name: string; readonly share: number } | null;
-  readonly growingCount: number;
   readonly decliningCount: number;
+  readonly growingCount: number;
+  readonly topRegion: { readonly name: string; readonly share: number } | null;
+  readonly totalSales: number;
 }
 
 export function computeTotalRegionalSales(
   rows: readonly AppShellDashboardRegionalSalesRow[]
 ): number {
-  return rows.reduce((total, row) => total + parseDashboardAmount(row.amount), 0);
+  return rows.reduce(
+    (total, row) => total + parseDashboardAmount(row.amount),
+    0
+  );
 }
 
 export function buildRankedRegionalSalesRows(
@@ -71,7 +73,8 @@ export function buildRankedRegionalSalesRows(
     }))
     .sort((left, right) => {
       const amountDelta =
-        parseDashboardAmount(right.row.amount) - parseDashboardAmount(left.row.amount);
+        parseDashboardAmount(right.row.amount) -
+        parseDashboardAmount(left.row.amount);
       if (amountDelta !== 0) {
         return amountDelta;
       }
@@ -128,11 +131,21 @@ function RegionalSalesRow({
           {rank}
         </span>
         <div className="app-shell-dashboard-breakdown-icon-frame">
-          <img alt={row.flagAlt} height={40} loading="lazy" src={row.flagSrc} width={40} />
+          <img
+            alt={row.flagAlt}
+            height={40}
+            loading="lazy"
+            src={row.flagSrc}
+            width={40}
+          />
         </div>
         <div className="app-shell-dashboard-breakdown-copy">
-          <span className="app-shell-dashboard-breakdown-name">{row.region}</span>
-          <span className="app-shell-dashboard-breakdown-amount">{row.amount}</span>
+          <span className="app-shell-dashboard-breakdown-name">
+            {row.region}
+          </span>
+          <span className="app-shell-dashboard-breakdown-amount">
+            {row.amount}
+          </span>
           <div className="app-shell-dashboard-breakdown-share-frame">
             <Progress aria-label={shareLabel} value={share} />
           </div>
@@ -140,15 +153,16 @@ function RegionalSalesRow({
       </div>
       <div className="app-shell-dashboard-breakdown-metrics">
         <div className="app-shell-dashboard-breakdown-change-row">
-          <span className="app-shell-dashboard-breakdown-change-value">{row.changeLabel}</span>
+          <span className="app-shell-dashboard-breakdown-change-value">
+            {row.changeLabel}
+          </span>
           <span className="app-shell-dashboard-breakdown-trend">
             <TrendIndicator trend={row.trend} />
-            <span className="sr-only">
-              {row.trend === "up" ? "Trending up" : "Trending down"}
-            </span>
           </span>
         </div>
-        <span className="app-shell-dashboard-breakdown-share">{share}% mix</span>
+        <span className="app-shell-dashboard-breakdown-share">
+          {share}% mix
+        </span>
       </div>
     </li>
   );
@@ -161,8 +175,9 @@ export function AppShellDashboardRegionalSales({
   rows = defaultAppShellDashboardRegionalSales,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardRegionalSalesProps) {
+  const titleId = useId();
   const summaryId = useId();
-  const listId = useId();
+  const listLabelId = useId();
   const summary = useMemo(() => buildRegionalSalesSummary(rows), [rows]);
   const rankedRows = useMemo(() => buildRankedRegionalSalesRows(rows), [rows]);
   const regionCountLabel =
@@ -173,11 +188,13 @@ export function AppShellDashboardRegionalSales({
     : "No regional mix available";
 
   return (
-    <div className="app-shell-dashboard-widget">
+    <article aria-labelledby={titleId} className="app-shell-dashboard-widget">
       <Card>
         <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
           <div className="app-shell-dashboard-widget-heading">
-            <h2 className="app-shell-dashboard-widget-title">{title}</h2>
+            <h2 className="app-shell-dashboard-widget-title" id={titleId}>
+              {title}
+            </h2>
             <p className="app-shell-dashboard-widget-subtitle">{subtitle}</p>
           </div>
           <AppShellDashboardOverflowMenu
@@ -192,54 +209,78 @@ export function AppShellDashboardRegionalSales({
             className="app-shell-dashboard-breakdown-summary"
           >
             <div className="app-shell-dashboard-breakdown-total-row">
-              <span className="app-shell-dashboard-breakdown-total" id={summaryId}>
+              <span
+                className="app-shell-dashboard-breakdown-total"
+                id={summaryId}
+              >
                 {formatDashboardCurrency(summary.totalSales)}
               </span>
               <span className="app-shell-dashboard-breakdown-change-value">
                 {summary.aggregateTrend.label}
               </span>
-              <span className="app-shell-dashboard-breakdown-meta">{regionCountLabel}</span>
+              <span className="app-shell-dashboard-breakdown-meta">
+                {regionCountLabel}
+              </span>
             </div>
             <div className="app-shell-dashboard-breakdown-insights-row">
-              <span className="app-shell-dashboard-breakdown-insight">{insightsLabel}</span>
-              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
+              <span className="app-shell-dashboard-breakdown-insight">
+                {insightsLabel}
+              </span>
+              <span
+                aria-hidden
+                className="app-shell-dashboard-breakdown-insight-divider"
+              >
                 ·
               </span>
               <span className="app-shell-dashboard-breakdown-insight">
                 {summary.growingCount} growing
               </span>
-              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
+              <span
+                aria-hidden
+                className="app-shell-dashboard-breakdown-insight-divider"
+              >
                 ·
               </span>
               <span className="app-shell-dashboard-breakdown-insight">
                 {summary.decliningCount} declining
               </span>
             </div>
-            <span className="app-shell-dashboard-breakdown-comparison">{comparisonText}</span>
+            <span className="app-shell-dashboard-breakdown-comparison">
+              {comparisonText}
+            </span>
           </section>
 
           <Separator />
 
           {rows.length === 0 ? (
-            <div className="app-shell-dashboard-breakdown-empty">
-              <Globe2Icon aria-hidden className="app-shell-dashboard-breakdown-empty-icon" />
+            <div className="app-shell-dashboard-breakdown-empty" role="status">
+              <Globe2Icon
+                aria-hidden
+                className="app-shell-dashboard-breakdown-empty-icon"
+              />
               <span className="app-shell-dashboard-breakdown-empty-title">
                 No regional revenue yet
               </span>
               <span className="app-shell-dashboard-breakdown-empty-copy">
-                Connect subsidiary ledgers or import regional rollups to populate this view.
+                Connect subsidiary ledgers or import regional rollups to
+                populate this view.
               </span>
             </div>
           ) : (
             <>
-              <div aria-hidden="true" className="app-shell-dashboard-breakdown-list-header">
+              <div
+                aria-hidden="true"
+                className="app-shell-dashboard-breakdown-list-header"
+              >
                 <span>Region · revenue mix</span>
                 <span>QoQ change</span>
               </div>
+              <span className="sr-only" id={listLabelId}>
+                Regional revenue breakdown ranked by amount
+              </span>
               <ul
-                aria-labelledby={summaryId}
+                aria-labelledby={`${summaryId} ${listLabelId}`}
                 className="app-shell-dashboard-breakdown-list"
-                id={listId}
               >
                 {rankedRows.map((entry) => (
                   <RegionalSalesRow
@@ -255,6 +296,6 @@ export function AppShellDashboardRegionalSales({
           )}
         </div>
       </Card>
-    </div>
+    </article>
   );
 }

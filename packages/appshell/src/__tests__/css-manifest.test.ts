@@ -55,7 +55,10 @@ describe("@afenda/appshell CSS manifest", () => {
 
   it("afenda-appshell.css contains no --afenda-* token definitions", () => {
     const css = readFileSync(cssPath, "utf8");
-    expect(css).not.toMatch(/^\s*--afenda-[a-z]/m);
+    // Definitions have the pattern `--name: value` (colon on the same line, not a comma/paren
+    // from a var() fallback argument). Using [^\n:] prevents cross-line false positives where
+    // var(--afenda-foo, fallback) arguments appear at the start of their own line.
+    expect(css).not.toMatch(/^\s*--afenda-[^\n:]+\s*:/m);
   });
 
   it("afenda-appshell.css contains no --spacing-* squatted properties", () => {

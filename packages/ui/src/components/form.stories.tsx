@@ -1,6 +1,7 @@
+import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
@@ -60,6 +61,63 @@ function ValidatedVendorCodeField() {
 
 // ─── Form (Field aliases) ──────────────────────────────────────────────────
 
+function FormPlaygroundDemo({
+  density = "standard",
+  orientation = "vertical",
+  size = "md",
+  state = "ready",
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly orientation?: "vertical" | "horizontal" | "responsive";
+  readonly size?: (typeof SIZES)[number];
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <Form>
+        <FormItem
+          density={density}
+          orientation={orientation}
+          size={size}
+          state={state}
+        >
+          <FormLabel htmlFor="form-playground">Purchase order total</FormLabel>
+          <FormControl>
+            <Input
+              id="form-playground"
+              placeholder="12,450.00"
+              type="number"
+            />
+          </FormControl>
+          <FormDescription>
+            Adjust orientation, density, size, and governed state from controls.
+          </FormDescription>
+        </FormItem>
+      </Form>
+    </StoryFrame>
+  );
+}
+
+function FormStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <FormItem state={state}>
+        <FormLabel htmlFor={`gov-form-${state}`}>Amount</FormLabel>
+        <FormControl>
+          <Input id={`gov-form-${state}`} placeholder="0.00" state={state} />
+        </FormControl>
+      </FormItem>
+    </StoryFrame>
+  );
+}
+
 const meta = {
   title: "Primitives/Form",
   component: FormItem,
@@ -96,11 +154,145 @@ const meta = {
     orientation: "vertical",
     density: "standard",
     size: "md",
+    state: "ready",
   },
 } satisfies Meta<typeof FormItem>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <FormPlaygroundDemo
+      density={args.density}
+      orientation={args.orientation}
+      size={args.size}
+      state={args.state}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Form alias attributes on `FormItem`, `FormLabel`, or `FormMessage`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <FormItem
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+        data-testid="governance-form-item"
+        state="ready"
+      >
+        <FormLabel
+          data-component="Override"
+          data-slot="override"
+          htmlFor="authority-email"
+        >
+          Work email
+        </FormLabel>
+        <FormControl>
+          <Input id="authority-email" placeholder="name@company.com" />
+        </FormControl>
+        <FormMessage
+          data-component="Override"
+          data-slot="override"
+          errors={[{ message: "Required" }]}
+        />
+      </FormItem>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Form aliases emit the same governed `data-slot` values as Field. `Form` → field-group · `FormItem` → field · `FormLabel` → field-label · `FormControl` → field-content · `FormDescription` → field-description · `FormMessage` → field-error.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          Form → field-group · FormItem → field · FormLabel → field-label ·
+          FormControl → field-content · FormDescription → field-description ·
+          FormMessage → field-error
+        </p>
+        <Form data-testid="slot-map-form">
+          <FormItem data-testid="slot-map-item">
+            <FormLabel htmlFor="slot-map-email">Inspect slot attributes</FormLabel>
+            <FormControl data-testid="slot-map-control">
+              <Input id="slot-map-email" placeholder="name@company.com" />
+            </FormControl>
+            <FormDescription>
+              Open DevTools and verify governed attributes on each alias.
+            </FormDescription>
+            <FormMessage errors={[{ message: "Example validation message" }]} />
+          </FormItem>
+        </Form>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <FormStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          '`FormLabel` pairs with control `id`. `FormMessage` renders `role="alert"`. `FormItem` defaults to `role="group"`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <FormItem state="error">
+        <FormLabel htmlFor="a11y-email">Work email *</FormLabel>
+        <FormControl>
+          <Input
+            aria-invalid
+            id="a11y-email"
+            placeholder="name@company.com"
+            state="error"
+            type="email"
+          />
+        </FormControl>
+        <FormMessage
+          errors={[{ message: "Enter a valid company email address" }]}
+        />
+      </FormItem>
+    </StoryFrame>
+  ),
+};
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -242,28 +434,6 @@ export const FieldSetSection: Story = {
 };
 
 // ─── Governance matrices ───────────────────────────────────────────────────
-
-export const GovernanceStates: Story = {
-  name: "Governance — All States",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <FormItem state={state}>
-            <FormLabel htmlFor={`gov-${state}`}>Amount</FormLabel>
-            <FormControl>
-              <Input id={`gov-${state}`} placeholder="0.00" state={state} />
-            </FormControl>
-          </FormItem>
-        </StoryFrame>
-      ))}
-    </StoryStack>
-  ),
-};
 
 export const AllOrientations: Story = {
   name: "Matrix — Orientations",
@@ -426,18 +596,22 @@ export const EmployeeOnboardingForm: Story = {
       <FieldSet>
         <FieldLegend>New employee</FieldLegend>
         <StoryRow gap="md" wrap>
-          <FormItem className="flex-1">
-            <FormLabel htmlFor="emp-first">First name *</FormLabel>
-            <FormControl>
-              <Input id="emp-first" placeholder="Jane" />
-            </FormControl>
-          </FormItem>
-          <FormItem className="flex-1">
-            <FormLabel htmlFor="emp-last">Last name *</FormLabel>
-            <FormControl>
-              <Input id="emp-last" placeholder="Doe" />
-            </FormControl>
-          </FormItem>
+          <div className="flex-1">
+            <FormItem>
+              <FormLabel htmlFor="emp-first">First name *</FormLabel>
+              <FormControl>
+                <Input id="emp-first" placeholder="Jane" />
+              </FormControl>
+            </FormItem>
+          </div>
+          <div className="flex-1">
+            <FormItem>
+              <FormLabel htmlFor="emp-last">Last name *</FormLabel>
+              <FormControl>
+                <Input id="emp-last" placeholder="Doe" />
+              </FormControl>
+            </FormItem>
+          </div>
         </StoryRow>
         <FormItem>
           <FormLabel htmlFor="emp-email">Work email *</FormLabel>
@@ -544,18 +718,26 @@ export const InvoiceLineItemForm: Story = {
           </FormControl>
         </FormItem>
         <StoryRow gap="md" wrap>
-          <FormItem className="flex-1">
-            <FormLabel htmlFor="line-qty">Quantity</FormLabel>
-            <FormControl>
-              <Input id="line-qty" placeholder="1" type="number" />
-            </FormControl>
-          </FormItem>
-          <FormItem className="flex-1">
-            <FormLabel htmlFor="line-rate">Unit price</FormLabel>
-            <FormControl>
-              <Input id="line-rate" placeholder="150.00" type="number" />
-            </FormControl>
-          </FormItem>
+          <div className="flex-1">
+            <FormItem>
+              <FormLabel htmlFor="line-qty">Quantity</FormLabel>
+              <FormControl>
+                <div className="tabular-nums">
+                  <Input id="line-qty" placeholder="1" type="number" />
+                </div>
+              </FormControl>
+            </FormItem>
+          </div>
+          <div className="flex-1">
+            <FormItem>
+              <FormLabel htmlFor="line-rate">Unit price</FormLabel>
+              <FormControl>
+                <div className="tabular-nums">
+                  <Input id="line-rate" placeholder="150.00" type="number" />
+                </div>
+              </FormControl>
+            </FormItem>
+          </div>
         </StoryRow>
       </Form>
     </StoryFrame>
@@ -571,12 +753,14 @@ export const ExpenseReportValidation: Story = {
         <FormItem state="error">
           <FormLabel htmlFor="exp-amount">Amount *</FormLabel>
           <FormControl>
-            <Input
-              id="exp-amount"
-              placeholder="0.00"
-              state="error"
-              type="number"
-            />
+            <div className="tabular-nums">
+              <Input
+                id="exp-amount"
+                placeholder="0.00"
+                state="error"
+                type="number"
+              />
+            </div>
           </FormControl>
           <FormMessage
             errors={[{ message: "Amount must be greater than zero" }]}
@@ -627,18 +811,22 @@ export const AddressForm: Story = {
             </FormControl>
           </FormItem>
           <StoryRow gap="md" wrap>
-            <FormItem className="flex-1">
-              <FormLabel htmlFor="addr-city">City</FormLabel>
-              <FormControl>
-                <Input id="addr-city" placeholder="Melbourne" />
-              </FormControl>
-            </FormItem>
-            <FormItem className="flex-1">
-              <FormLabel htmlFor="addr-post">Postcode</FormLabel>
-              <FormControl>
-                <Input id="addr-post" placeholder="3000" />
-              </FormControl>
-            </FormItem>
+            <div className="flex-1">
+              <FormItem>
+                <FormLabel htmlFor="addr-city">City</FormLabel>
+                <FormControl>
+                  <Input id="addr-city" placeholder="Melbourne" />
+                </FormControl>
+              </FormItem>
+            </div>
+            <div className="flex-1">
+              <FormItem>
+                <FormLabel htmlFor="addr-post">Postcode</FormLabel>
+                <FormControl>
+                  <Input id="addr-post" placeholder="3000" />
+                </FormControl>
+              </FormItem>
+            </div>
           </StoryRow>
         </Form>
       </FieldSet>
@@ -791,38 +979,6 @@ export const JournalEntryForm: Story = {
           </FormControl>
         </FormItem>
       </Form>
-    </StoryFrame>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    layout: "padded",
-    docs: {
-      description: {
-        story:
-          '`FormLabel` pairs with control `id`. `FormMessage` renders `role="alert"`. `FormControl` wraps the interactive element for correct association.',
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="md">
-      <FormItem state="error">
-        <FormLabel htmlFor="a11y-email">Work email *</FormLabel>
-        <FormControl>
-          <Input
-            aria-invalid
-            id="a11y-email"
-            placeholder="name@company.com"
-            state="error"
-            type="email"
-          />
-        </FormControl>
-        <FormMessage
-          errors={[{ message: "Enter a valid company email address" }]}
-        />
-      </FormItem>
     </StoryFrame>
   ),
 };

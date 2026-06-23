@@ -312,8 +312,8 @@ function warn(rule: string, file: string, message: string): void {
     const cssFiles = collectFiles(join(root, "src"), [".css"], [/node_modules/]);
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
-      // Allow var() references, forbid definitions
-      const defPattern = /^\s*(--afenda-[a-z][^:]*)\s*:/gm;
+      // Allow var() references; forbid definitions (--name: value on the same line).
+      const defPattern = /^\s*(--afenda-[a-z][^\n:]*)\s*:/gm;
       const matches = [...content.matchAll(defPattern)];
       for (const match of matches) {
         fail("R6-afenda-token-authority", file,
@@ -426,6 +426,7 @@ function warn(rule: string, file: string, message: string): void {
     { re: /:\s*#[0-9a-fA-F]{3,8}(?!\w)/g, label: "hardcoded hex color" },
     { re: /:\s*rgba?\s*\(/g, label: "hardcoded rgb/rgba color" },
     { re: /:\s*hsl\s*\(/g, label: "hardcoded hsl color" },
+    { re: /:\s*oklch\s*\(/g, label: "hardcoded oklch color" },
   ];
 
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {

@@ -1,8 +1,8 @@
 "use client";
 
+import type { GovernedInputOtpProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
 import * as React from "react";
@@ -17,20 +17,33 @@ const INPUT_OTP_RECIPE_NAME = "form-control" as const;
  * branch when the spread is checked.  Omitting it means the spread never carries
  * the property, satisfying `render?: never` for the children variant.
  */
-interface InputOTPProps
+export interface InputOTPProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof OTPInput>,
-    "className" | "render"
-  > {
+      React.ComponentPropsWithoutRef<typeof OTPInput>,
+      "className" | "render" | "containerClassName" | "size"
+    >,
+    GovernedInputOtpProps {
   readonly className?: string;
   readonly containerClassName?: string;
 }
 
 const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
-  ({ className, containerClassName, ...props }, ref) => {
+  (
+    {
+      className,
+      containerClassName,
+      density = "standard",
+      size = "md",
+      state,
+      ...props
+    },
+    ref
+  ) => {
     const root = resolvePrimitiveGovernance({
       componentName: "InputOTP",
       recipeName: INPUT_OTP_RECIPE_NAME,
+      variant: { density, size },
+      state,
       slot: "root",
       className,
     });
@@ -46,10 +59,11 @@ const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
       <OTPInput
         ref={ref}
         spellCheck={false}
-        {...props}
-        {...root.dataAttributes}
-        className={cn(root.className)}
-        containerClassName={cn(container.className)}
+        containerClassName={container.className}
+        {...applyGovernedPresentation(props, root, {
+          "data-density": density,
+          "data-size": size,
+        })}
       />
     );
   }
@@ -57,7 +71,7 @@ const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
 
 InputOTP.displayName = "InputOTP";
 
-interface InputOTPGroupProps
+export interface InputOTPGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -77,7 +91,7 @@ const InputOTPGroup = React.forwardRef<HTMLDivElement, InputOTPGroupProps>(
 
 InputOTPGroup.displayName = "InputOTPGroup";
 
-interface InputOTPSlotProps
+export interface InputOTPSlotProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
   readonly index: number;
@@ -117,14 +131,8 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
       >
         {char}
         {hasFakeCaret ? (
-          <div
-            {...caretWrap.dataAttributes}
-            className={cn(caretWrap.className)}
-          >
-            <div
-              {...caretLine.dataAttributes}
-              className={cn(caretLine.className)}
-            />
+          <div {...applyGovernedPresentation({}, caretWrap)}>
+            <div {...applyGovernedPresentation({}, caretLine)} />
           </div>
         ) : null}
       </div>
@@ -134,7 +142,7 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
 
 InputOTPSlot.displayName = "InputOTPSlot";
 
-interface InputOTPSeparatorProps
+export interface InputOTPSeparatorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -155,7 +163,7 @@ const InputOTPSeparator = React.forwardRef<
       ref={ref}
       {...applyGovernedPresentation({ ...props, role: "separator" }, governed)}
     >
-      <MinusIcon />
+      <MinusIcon aria-hidden="true" />
     </div>
   );
 });

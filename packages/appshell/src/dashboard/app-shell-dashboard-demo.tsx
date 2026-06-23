@@ -3,8 +3,8 @@ import type { DashboardWidgetRenderContext } from "./dashboard-widget.contract";
 
 export interface ApplicationShellDashboardDemoProps {
   readonly dashboardLabel?: string;
-  readonly showReadonlyPreviewLabel?: boolean;
   readonly renderContext?: DashboardWidgetRenderContext;
+  readonly showReadonlyPreviewLabel?: boolean;
 }
 
 export function ApplicationShellDashboardDemo({

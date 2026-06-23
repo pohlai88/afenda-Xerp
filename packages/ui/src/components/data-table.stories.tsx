@@ -1,3 +1,5 @@
+import React from "react";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   type Column,
@@ -19,7 +21,7 @@ import {
   EyeIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
-import React, { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -42,6 +44,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
+import { StatusIndicator } from "./status-indicator";
 
 // ─── Types & sample data ───────────────────────────────────────────────────
 
@@ -504,6 +507,16 @@ function invoiceStatusLabel(status: InvoiceStatus) {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
+function StatusCell({
+  label,
+  tone,
+}: {
+  readonly label: string;
+  readonly tone: "success" | "warning" | "danger" | "info" | "neutral";
+}) {
+  return <StatusIndicator tone={tone}>{label}</StatusIndicator>;
+}
+
 function SortableHeader<TData>({
   column,
   label,
@@ -603,20 +616,21 @@ const invoiceColumnsBasic: ColumnDef<Invoice>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge
-        emphasis="soft"
-        size="sm"
+      <StatusCell
+        label={invoiceStatusLabel(row.original.status)}
         tone={invoiceStatusTone(row.original.status)}
-      >
-        {invoiceStatusLabel(row.original.status)}
-      </Badge>
+      />
     ),
   },
   {
     accessorKey: "amount",
     header: () => <span className="text-right">Amount</span>,
     cell: ({ row }) => (
-      <span className="font-medium">{formatCurrency(row.original.amount)}</span>
+      <StoryRow justify="end">
+        <span className="font-medium tabular-nums">
+          {formatCurrency(row.original.amount)}
+        </span>
+      </StoryRow>
     ),
   },
 ];
@@ -648,13 +662,10 @@ function buildInvoiceColumns(options?: {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <Badge
-          emphasis="soft"
-          size="sm"
+        <StatusCell
+          label={invoiceStatusLabel(row.original.status)}
           tone={invoiceStatusTone(row.original.status)}
-        >
-          {invoiceStatusLabel(row.original.status)}
-        </Badge>
+        />
       ),
     },
     {
@@ -704,20 +715,21 @@ function DataTableToolbar<TData>({
     <StoryRow align="center" justify="between" wrap>
       <StoryRow align="center" gap="sm" wrap>
         {filterColumnId ? (
-          <Input
-            className="max-w-sm"
-            onChange={(event) =>
-              table
-                .getColumn(filterColumnId)
-                ?.setFilterValue(event.target.value)
-            }
-            placeholder={filterPlaceholder}
-            size="sm"
-            value={
-              (table.getColumn(filterColumnId)?.getFilterValue() as string) ??
-              ""
-            }
-          />
+          <div className="max-w-sm">
+            <Input
+              onChange={(event) =>
+                table
+                  .getColumn(filterColumnId)
+                  ?.setFilterValue(event.target.value)
+              }
+              placeholder={filterPlaceholder}
+              size="sm"
+              value={
+                (table.getColumn(filterColumnId)?.getFilterValue() as string) ??
+                ""
+              }
+            />
+          </div>
         ) : null}
         {children}
       </StoryRow>
@@ -875,10 +887,93 @@ function SimpleDataTable<TData>({
   );
 }
 
+function DataTableStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  const table = useReactTable({
+    data: INVOICES.slice(0, 2),
+    columns: invoiceColumnsBasic,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <StoryFrame width="xl">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <DataTable state={state} table={table} />
+    </StoryFrame>
+  );
+}
+
+function GovernanceDataAuthorityDemo() {
+  const table = useReactTable({
+    data: INVOICES.slice(0, 2),
+    columns: invoiceColumnsBasic,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <DataTableShell width="xl">
+      <DataTable
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-data-table-root"
+        table={table}
+      />
+    </DataTableShell>
+  );
+}
+
+function GovernanceAccessibilityDemo() {
+  const columns = useMemo(() => buildInvoiceColumns({ sortable: true }), []);
+  const table = useDataTable({
+    columns,
+    data: [],
+    enableSorting: true,
+  });
+
+  return (
+    <DataTableShell width="xl">
+      <DataTable emptyMessage="No invoices match your filters." table={table} />
+    </DataTableShell>
+  );
+}
+
+function InvoicePlaygroundDemo({
+  density,
+  size,
+  state,
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly size?: (typeof SIZES)[number];
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  const table = useReactTable({
+    data: INVOICES.slice(0, 4),
+    columns: invoiceColumnsBasic,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <DataTableShell width="xl">
+      <DataTable
+        density={density}
+        size={size}
+        state={state}
+        table={table}
+      />
+    </DataTableShell>
+  );
+}
+
 // ─── DataTable ─────────────────────────────────────────────────────────────
 
 const meta = {
   title: "Primitives/DataTable",
+  component: DataTable,
   tags: ["autodocs"],
   parameters: {
     layout: "padded",
@@ -889,12 +984,43 @@ const meta = {
       },
     },
   },
-} satisfies Meta;
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    density: {
+      control: "select",
+      options: [...DENSITIES],
+      description: "Table density passed to governed Table primitive",
+    },
+    size: {
+      control: "select",
+      options: [...SIZES],
+      description: "Table size passed to governed Table primitive",
+    },
+  },
+  args: {
+    state: "ready",
+  },
+} satisfies Meta<typeof DataTable>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <InvoicePlaygroundDemo
+      density={args.density}
+      size={args.size}
+      state={args.state}
+    />
+  ),
+};
 
 export const Default: Story = {
   render: () => (
@@ -1033,6 +1159,77 @@ export const Paginated: Story = {
   },
 };
 
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-component="Override"` — governed values (`data-slot="data-table"`, `data-component="DataTable"`, `data-recipe="table"`) must win on the root wrapper.',
+      },
+    },
+  },
+  render: () => <GovernanceDataAuthorityDemo />,
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "DataTable owns `root → data-table` and empty placeholder `icon → data-table-empty-cell`. Row/cell slots come from the governed Table primitive (`table`, `table-cell`, etc.).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → data-table · icon → data-table-empty-cell · (delegated) table →
+          table · cell → table-cell
+        </p>
+        <SimpleDataTable
+          columns={invoiceColumnsBasic}
+          data={[]}
+          emptyMessage="Inspect empty-cell slot attributes"
+          width="md"
+        />
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <DataTableStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Native `<table>` semantics preserved via governed Table. Empty state uses `role=\"status\"` for screen reader announcement. Sortable headers use native `<button>` triggers.",
+      },
+    },
+  },
+  render: () => <GovernanceAccessibilityDemo />,
+};
+
 // ─── ERP composite patterns ───────────────────────────────────────────────
 
 export const InvoiceRegister: Story = {
@@ -1129,9 +1326,7 @@ export const PurchaseOrders: Story = {
                 ? "warning"
                 : "info";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.status}
-            </Badge>
+            <StatusCell label={row.original.status} tone={tone} />
           );
         },
       },
@@ -1165,9 +1360,7 @@ export const EmployeeDirectory: Story = {
                 ? "warning"
                 : "neutral";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.status}
-            </Badge>
+            <StatusCell label={row.original.status} tone={tone} />
           );
         },
       },
@@ -1193,11 +1386,7 @@ export const InventoryStock: Story = {
           return (
             <StoryRow align="center" gap="sm" justify="end">
               <span className="tabular-nums">{row.original.qty}</span>
-              {lowStock ? (
-                <Badge emphasis="soft" size="sm" tone="warning">
-                  Low
-                </Badge>
-              ) : null}
+              {lowStock ? <StatusCell label="Low" tone="warning" /> : null}
             </StoryRow>
           );
         },
@@ -1237,9 +1426,7 @@ export const VendorMaster: Story = {
                 ? "warning"
                 : "neutral";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.rating}
-            </Badge>
+            <StatusCell label={row.original.rating} tone={tone} />
           );
         },
       },
@@ -1323,9 +1510,7 @@ export const ExpenseClaims: Story = {
                 ? "danger"
                 : "warning";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.status}
-            </Badge>
+            <StatusCell label={row.original.status} tone={tone} />
           );
         },
       },
@@ -1426,9 +1611,7 @@ export const ShipmentTracking: Story = {
                   ? "danger"
                   : "warning";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.status}
-            </Badge>
+            <StatusCell label={row.original.status} tone={tone} />
           );
         },
       },
@@ -1474,9 +1657,7 @@ export const ApprovalQueue: Story = {
                 ? "info"
                 : "neutral";
           return (
-            <Badge emphasis="soft" size="sm" tone={tone}>
-              {row.original.priority}
-            </Badge>
+            <StatusCell label={row.original.priority} tone={tone} />
           );
         },
       },
@@ -1580,9 +1761,11 @@ export const PaginatedWithPageSize: Story = {
                 defaultValue="3"
                 onValueChange={(value) => table.setPageSize(Number(value))}
               >
-                <SelectTrigger className="w-20" size="sm">
-                  <SelectValue />
-                </SelectTrigger>
+                <div className="w-20">
+                  <SelectTrigger size="sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                </div>
                 <SelectContent>
                   <SelectItem value="3">3</SelectItem>
                   <SelectItem value="5">5</SelectItem>

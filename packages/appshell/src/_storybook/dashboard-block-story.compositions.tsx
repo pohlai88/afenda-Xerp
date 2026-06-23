@@ -1,3 +1,4 @@
+import React from "react";
 import type { ComponentType, ReactNode } from "react";
 
 import { AppShellDashboardInvoiceTable } from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table";

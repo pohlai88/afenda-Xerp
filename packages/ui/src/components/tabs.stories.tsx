@@ -1,4 +1,6 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import {
   ActivityIcon,
   Building2Icon,
@@ -14,8 +16,8 @@ import {
   TruckIcon,
   UserIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { useState } from "react";
+import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Separator } from "./separator";
@@ -149,6 +151,28 @@ function ControlledTabsComponent() {
   );
 }
 
+function TabsStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <StoryFrame width="md">
+        <Tabs defaultValue="overview" state={state}>
+          <TabsList aria-label={`Tabs state ${state}`}>
+            <TabsTrigger value="overview">Overview ({state})</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview">
+            <TabPlaceholder>Panel for {state}</TabPlaceholder>
+          </TabsContent>
+        </Tabs>
+      </StoryFrame>
+    </StoryRow>
+  );
+}
+
 // ─── Tabs ──────────────────────────────────────────────────────────────────
 
 const meta = {
@@ -170,14 +194,170 @@ const meta = {
       options: ["horizontal", "vertical"],
       table: { defaultValue: { summary: "horizontal" } },
     },
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+    },
   },
   args: {
     orientation: "horizontal",
+    state: "ready",
   },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ──────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <StoryFrame width="lg">
+      <Tabs {...args} defaultValue="overview">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="details">Details</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview">
+          <TabPlaceholder>Overview content</TabPlaceholder>
+        </TabsContent>
+        <TabsContent value="details">
+          <TabPlaceholder>Details content</TabPlaceholder>
+        </TabsContent>
+        <TabsContent value="history">
+          <TabPlaceholder>History content</TabPlaceholder>
+        </TabsContent>
+      </Tabs>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on root, list, trigger, and content — governed attributes must win. Canonical `orientation` and `state` win over consumer `data-orientation` / `data-state`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <Tabs
+        data-orientation="vertical"
+        data-slot="override"
+        data-state="fake"
+        defaultValue="summary"
+        orientation="horizontal"
+        state="ready"
+      >
+        <TabsList
+          aria-label="Invoice sections"
+          data-component="Override"
+          data-slot="override"
+          data-variant="line"
+          variant="default"
+        >
+          <TabsTrigger data-slot="override" value="summary">
+            Summary
+          </TabsTrigger>
+          <TabsTrigger data-slot="override" value="attachments">
+            Attachments
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent data-slot="override" value="summary">
+          <TabPlaceholder>Governed summary panel</TabPlaceholder>
+        </TabsContent>
+        <TabsContent data-slot="override" value="attachments">
+          <TabPlaceholder>Governed attachments panel</TabPlaceholder>
+        </TabsContent>
+      </Tabs>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal roles: root → tabs, header → tabs-list, control → tabs-trigger, content → tabs-content. slotKey map: list-default / list-line → tabs-list.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → tabs · header → tabs-list · control → tabs-trigger · content →
+          tabs-content · list-default / list-line → tabs-list
+        </p>
+        <Tabs defaultValue="overview">
+          <TabsList aria-label="Slot map probe">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview">
+            <TabPlaceholder>tabs-content slot</TabPlaceholder>
+          </TabsContent>
+        </Tabs>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <TabsStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Triggers are keyboard-focusable with roving tabindex. Pair icon-only labels with visible text or `aria-label`. Badge counts should remain in tab text for screen readers.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <Tabs defaultValue="summary">
+        <TabsList variant="line">
+          <TabsTrigger value="summary">Invoice summary</TabsTrigger>
+          <TabsTrigger value="attachments">
+            Attachments
+            <Badge emphasis="soft" size="sm" tone="neutral">
+              3
+            </Badge>
+          </TabsTrigger>
+        </TabsList>
+        <Separator />
+        <TabsContent value="summary">
+          <TabPlaceholder>
+            Accessible tab panel for INV-2026-0042
+          </TabPlaceholder>
+        </TabsContent>
+        <TabsContent value="attachments">
+          <TabPlaceholder>Three PDF attachments listed</TabPlaceholder>
+        </TabsContent>
+      </Tabs>
+    </StoryFrame>
+  ),
+};
 
 // ─── Basic variants ────────────────────────────────────────────────────────
 
@@ -263,12 +443,8 @@ export const VerticalOrientation: Story = {
   name: "Tabs — Vertical Settings Nav",
   render: () => (
     <StoryFrame width="xl">
-      <Tabs
-        className="flex gap-4"
-        defaultValue="general"
-        orientation="vertical"
-      >
-        <TabsList className="flex flex-col">
+      <Tabs defaultValue="general" orientation="vertical">
+        <TabsList aria-label="Settings sections">
           <TabsTrigger value="general">
             <SettingsIcon aria-hidden="true" className="size-4" />
             General
@@ -300,42 +476,6 @@ export const VerticalOrientation: Story = {
             <TabPlaceholder>Subscription and payment methods</TabPlaceholder>
           </TabsContent>
         </StoryStack>
-      </Tabs>
-    </StoryFrame>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Triggers are keyboard-focusable with roving tabindex. Pair icon-only labels with visible text or `aria-label`. Badge counts should remain in tab text for screen readers.",
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="lg">
-      <Tabs defaultValue="summary">
-        <TabsList variant="line">
-          <TabsTrigger value="summary">Invoice summary</TabsTrigger>
-          <TabsTrigger value="attachments">
-            Attachments
-            <Badge emphasis="soft" size="sm" tone="neutral">
-              3
-            </Badge>
-          </TabsTrigger>
-        </TabsList>
-        <Separator />
-        <TabsContent value="summary">
-          <TabPlaceholder>
-            Accessible tab panel for INV-2026-0042
-          </TabPlaceholder>
-        </TabsContent>
-        <TabsContent value="attachments">
-          <TabPlaceholder>Three PDF attachments listed</TabPlaceholder>
-        </TabsContent>
       </Tabs>
     </StoryFrame>
   ),
@@ -509,23 +649,35 @@ export const InvoiceRecordTabs: Story = {
               <TableHeader>
                 <TableRow>
                   <TableHead>Description</TableHead>
-                  <TableHead className="text-right">Qty</TableHead>
-                  <TableHead className="text-right">Unit</TableHead>
-                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead>
+                    <span className="block text-right">Qty</span>
+                  </TableHead>
+                  <TableHead>
+                    <span className="block text-right">Unit</span>
+                  </TableHead>
+                  <TableHead>
+                    <span className="block text-right">Total</span>
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {PO_LINE_ITEMS.map((row) => (
                   <TableRow key={row.line}>
                     <TableCell>{row.desc}</TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      {row.qty}
+                    <TableCell>
+                      <span className="block text-right tabular-nums">
+                        {row.qty}
+                      </span>
                     </TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      {formatCurrency(row.unit)}
+                    <TableCell>
+                      <span className="block text-right tabular-nums">
+                        {formatCurrency(row.unit)}
+                      </span>
                     </TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      {formatCurrency(row.qty * row.unit)}
+                    <TableCell>
+                      <span className="block text-right tabular-nums">
+                        {formatCurrency(row.qty * row.unit)}
+                      </span>
                     </TableCell>
                   </TableRow>
                 ))}

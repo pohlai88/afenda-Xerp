@@ -2,7 +2,7 @@
 description: >-
   TIP-004 rules for consuming @afenda/ui in appshell and app wiring. Prevents
   shadcn-studio className pollution on governed primitives.
-globs: "{packages/appshell/src/**/*.tsx,apps/erp/src/**/*.tsx}"
+globs: "{packages/appshell/src/**/*.tsx,packages/metadata-ui/src/**/*.tsx,apps/erp/src/**/*.tsx}"
 alwaysApply: false
 ---
 

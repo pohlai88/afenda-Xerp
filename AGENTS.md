@@ -155,7 +155,7 @@ Two layers — do not confuse them:
 
 **Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly (`mapStockButtonProps` at call sites). No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
 
-**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all four gates) or `pnpm ui:guard:scan` for a sub-2 s local check.
+**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all five gates) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
 
 **Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, Cursor preToolUse hook, stop hook appshell test gate.
 

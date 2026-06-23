@@ -5,7 +5,10 @@ import {
   DASHBOARD_BLOCK_STORY_COMPARISON_LABEL,
   defaultAppShellDashboardSparklineMetrics,
 } from "../../_storybook/dashboard-block-story.fixtures";
-import { compactDensityDecorator, renderDashboardBlockStory } from "../../_storybook/dashboard-block-story.compositions";
+import {
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "../../_storybook/dashboard-block-story.compositions";
 import {
   AppShellDashboardSparklineStat,
   type AppShellDashboardSparklineStatGovernedComponents,
@@ -14,6 +17,21 @@ import {
   createDashboardBlockMeta,
   dashboardBlockDarkThemeGlobals,
 } from "../../_storybook/dashboard-block-story.shared";
+import type { AppShellDashboardSparklineMetric } from "../data/app-shell.dashboard.types";
+import { asAppShellDashboardRowId } from "../data/app-shell.dashboard.types";
+
+function resolveSparklineMetric(
+  id: AppShellDashboardSparklineMetric["id"]
+): AppShellDashboardSparklineMetric {
+  const metric = defaultAppShellDashboardSparklineMetrics.find(
+    (entry) => entry.id === id
+  );
+  if (metric === undefined) {
+    throw new Error(`Missing sparkline metric fixture: ${String(id)}`);
+  }
+
+  return metric;
+}
 
 const defaultMetric = defaultAppShellDashboardSparklineMetrics[0];
 if (defaultMetric === undefined) {
@@ -29,7 +47,8 @@ const meta = {
       comparisonLabel: DASHBOARD_BLOCK_STORY_COMPARISON_LABEL,
     },
   }),
-  render: (args) => renderDashboardBlockStory(AppShellDashboardSparklineStat, args),
+  render: (args) =>
+    renderDashboardBlockStory(AppShellDashboardSparklineStat, args),
 } satisfies Meta<typeof AppShellDashboardSparklineStat>;
 
 export type SparklineStatStoriesGovernedComponents =
@@ -42,19 +61,45 @@ export const Default: Story = {};
 
 export const Revenue: Story = {
   args: {
-    ...defaultAppShellDashboardSparklineMetrics.find(
-      (metric) => metric.id === "sparkline-revenue"
-    ),
+    ...resolveSparklineMetric(asAppShellDashboardRowId("sparkline-revenue")),
     comparisonLabel: DASHBOARD_BLOCK_STORY_COMPARISON_LABEL,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Revenue sparkline with 15%→0% area fill and tabular-nums amount.",
+      },
+    },
   },
 };
 
 export const Expense: Story = {
   args: {
-    ...defaultAppShellDashboardSparklineMetrics.find(
-      (metric) => metric.id === "sparkline-expense"
-    ),
+    ...resolveSparklineMetric(asAppShellDashboardRowId("sparkline-expense")),
     comparisonLabel: DASHBOARD_BLOCK_STORY_COMPARISON_LABEL,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Expense metric uses alternate chart stroke token for contrast.",
+      },
+    },
+  },
+};
+
+export const EmptySeries: Story = {
+  args: {
+    ...resolveSparklineMetric(asAppShellDashboardRowId("sparkline-revenue")),
+    comparisonLabel: DASHBOARD_BLOCK_STORY_COMPARISON_LABEL,
+    data: [],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Empty series shows governed awaiting-points placeholder.",
+      },
+    },
   },
 };
 

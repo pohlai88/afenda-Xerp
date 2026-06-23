@@ -1,5 +1,6 @@
 "use client";
 
+import type { GovernedCollapsibleProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
@@ -7,14 +8,31 @@ import * as React from "react";
 
 const COLLAPSIBLE_RECIPE_NAME = "surface" as const;
 
+const COLLAPSIBLE_SLOT_ROLES = {
+  root: "root",
+  control: "control",
+  content: "content",
+} as const satisfies Record<string, SlotRole>;
+
+export interface CollapsibleProps
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root>,
+      "className"
+    >,
+    GovernedCollapsibleProps {
+  readonly className?: string;
+}
+
 const Collapsible = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root>
->((props, ref) => {
+  CollapsibleProps
+>(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Collapsible",
     recipeName: COLLAPSIBLE_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: COLLAPSIBLE_SLOT_ROLES.root,
+    className,
   });
 
   return (
@@ -27,14 +45,25 @@ const Collapsible = React.forwardRef<
 
 Collapsible.displayName = "Collapsible";
 
+export interface CollapsibleTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<
+      typeof CollapsiblePrimitive.CollapsibleTrigger
+    >,
+    "className"
+  > {
+  readonly className?: string;
+}
+
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.CollapsibleTrigger>,
-  React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.CollapsibleTrigger>
->((props, ref) => {
+  CollapsibleTriggerProps
+>(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Collapsible",
     recipeName: COLLAPSIBLE_RECIPE_NAME,
-    slot: "control",
+    slot: COLLAPSIBLE_SLOT_ROLES.control,
+    className,
   });
 
   return (
@@ -47,14 +76,25 @@ const CollapsibleTrigger = React.forwardRef<
 
 CollapsibleTrigger.displayName = "CollapsibleTrigger";
 
+export interface CollapsibleContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<
+      typeof CollapsiblePrimitive.CollapsibleContent
+    >,
+    "className"
+  > {
+  readonly className?: string;
+}
+
 const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.CollapsibleContent>,
-  React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.CollapsibleContent>
->((props, ref) => {
+  CollapsibleContentProps
+>(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Collapsible",
     recipeName: COLLAPSIBLE_RECIPE_NAME,
-    slot: "content",
+    slot: COLLAPSIBLE_SLOT_ROLES.content,
+    className,
   });
 
   return (

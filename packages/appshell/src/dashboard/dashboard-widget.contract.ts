@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 
-export type DashboardSparklineWidgetId = "sparkline-expense" | "sparkline-revenue";
+export type DashboardSparklineWidgetId =
+  | "sparkline-expense"
+  | "sparkline-revenue";
 
 export type DashboardKpiWidgetId =
   | "kpi-active-orders"
@@ -31,24 +33,24 @@ export type DashboardWidgetCategory =
   | "table";
 
 export interface DashboardWidgetRenderContext {
-  readonly permissions: ReadonlySet<string>;
   readonly capabilities: ReadonlySet<string>;
   readonly featureFlags: ReadonlySet<string>;
+  readonly permissions: ReadonlySet<string>;
 }
 
 export interface DashboardWidgetDefinition {
-  readonly id: DashboardWidgetId;
-  readonly title: string;
-  readonly description: string;
   readonly category: DashboardWidgetCategory;
-  readonly minW: number;
-  readonly minH: number;
-  readonly defaultW: number;
   readonly defaultH: number;
-  readonly requiredPermission?: string;
-  readonly requiredCapability?: string;
+  readonly defaultW: number;
+  readonly description: string;
   readonly featureFlag?: string;
+  readonly id: DashboardWidgetId;
+  readonly minH: number;
+  readonly minW: number;
   readonly render: (context: DashboardWidgetRenderContext) => ReactNode;
+  readonly requiredCapability?: string;
+  readonly requiredPermission?: string;
+  readonly title: string;
 }
 
 /** Finance permissions that unlock governed dashboard widgets. */
@@ -65,7 +67,8 @@ export const DASHBOARD_WIDGET_CAPABILITIES = [
 ] as const;
 
 /** Demo / Storybook permissions that unlock governed finance widgets. */
-export const DEMO_DASHBOARD_WIDGET_PERMISSIONS = DASHBOARD_WIDGET_FINANCE_PERMISSIONS;
+export const DEMO_DASHBOARD_WIDGET_PERMISSIONS =
+  DASHBOARD_WIDGET_FINANCE_PERMISSIONS;
 
 /** Demo / Storybook capabilities that unlock governed breakdown widgets. */
 export const DEMO_DASHBOARD_WIDGET_CAPABILITIES = DASHBOARD_WIDGET_CAPABILITIES;

@@ -1,3 +1,4 @@
+import React from "react";
 /**
  * Afenda ERP v2 enterprise design token catalog.
  *
@@ -13,7 +14,7 @@
  */
 import type { Meta, StoryObj } from "@storybook/react";
 import { SearchIcon } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {

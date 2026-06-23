@@ -1,8 +1,15 @@
+import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import { RefreshCwIcon, SaveIcon, SearchIcon } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { SearchIcon } from "lucide-react";
+import {
+  CenteredLoadingPanel,
+  LoadingStatusRow,
+  SimulatedRefreshPanel,
+  SimulatedSaveButton,
+  SPINNER_SIZE_DEMOS,
+} from "./_storybook/spinner-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -22,124 +29,6 @@ import {
   TableRow,
 } from "./table";
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-const SPINNER_SIZES = ["size-4", "size-5", "size-6", "size-8"] as const;
-
-function LoadingStatusRow({
-  detail,
-  label,
-  spinnerLabel,
-}: {
-  readonly detail?: string;
-  readonly label: string;
-  readonly spinnerLabel?: string;
-}) {
-  return (
-    <StoryRow align="center" gap="sm">
-      <Spinner {...(spinnerLabel ? { "aria-label": spinnerLabel } : {})} />
-      <StoryStack gap="xs">
-        <span className="font-medium text-sm">{label}</span>
-        {detail ? (
-          <span className="text-muted-foreground text-xs">{detail}</span>
-        ) : null}
-      </StoryStack>
-    </StoryRow>
-  );
-}
-
-function CenteredLoadingPanel({
-  description,
-  title,
-}: {
-  readonly description?: string;
-  readonly title: string;
-}) {
-  return (
-    <StoryStack className="items-center" gap="sm">
-      <Spinner aria-label={title} />
-      <span className="font-medium text-sm">{title}</span>
-      {description ? (
-        <span className="text-center text-muted-foreground text-xs">
-          {description}
-        </span>
-      ) : null}
-    </StoryStack>
-  );
-}
-
-function SimulatedSaveButton() {
-  const [saving, setSaving] = useState(false);
-
-  const handleSave = () => {
-    setSaving(true);
-    window.setTimeout(() => setSaving(false), 2200);
-  };
-
-  return (
-    <Button
-      disabled={saving}
-      emphasis="solid"
-      intent="primary"
-      onClick={handleSave}
-      {...(saving ? { state: "loading" as const } : {})}
-    >
-      {saving ? <Spinner aria-label="Saving changes" /> : <SaveIcon />}
-      {saving ? "Saving…" : "Save changes"}
-    </Button>
-  );
-}
-
-function SimulatedRefreshPanel() {
-  const [refreshing, setRefreshing] = useState(false);
-
-  const handleRefresh = () => {
-    setRefreshing(true);
-    window.setTimeout(() => setRefreshing(false), 2000);
-  };
-
-  return (
-    <StoryFrame width="md">
-      <StoryStack gap="md">
-        <StoryRow align="center" justify="between">
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">Open purchase orders</span>
-            <span className="text-muted-foreground text-xs">
-              {refreshing
-                ? "Refreshing from procurement service…"
-                : "Last synced 2 minutes ago"}
-            </span>
-          </StoryStack>
-          <Button
-            disabled={refreshing}
-            emphasis="outline"
-            intent="secondary"
-            onClick={handleRefresh}
-            size="sm"
-          >
-            {refreshing ? (
-              <Spinner aria-label="Refreshing purchase orders" />
-            ) : (
-              <RefreshCwIcon />
-            )}
-            {refreshing ? "Refreshing…" : "Refresh"}
-          </Button>
-        </StoryRow>
-        {refreshing ? (
-          <StoryRow align="center" gap="sm" justify="center" paddingY="md">
-            <Spinner aria-label="Loading purchase orders" />
-            <span className="text-muted-foreground text-sm">Loading rows…</span>
-          </StoryRow>
-        ) : (
-          <Badge emphasis="soft" tone="neutral">
-            42 open POs
-          </Badge>
-        )}
-      </StoryStack>
-    </StoryFrame>
-  );
-}
-
 // ─── Spinner ───────────────────────────────────────────────────────────────
 
 const meta = {
@@ -151,7 +40,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Governed indeterminate loading indicator for ERP async actions — save, sync, validate, search, and post operations. Exposes `role="status"` and `aria-label` by default. Use `Progress` when completion % is known; use `Skeleton` for layout placeholders; use Button `state="loading"` for submit affordances.',
+          'Governed indeterminate loading indicator for ERP async actions — save, sync, validate, search, and post operations. Exposes `role="status"`, `aria-busy="true"`, and `aria-label` by default. Use `Progress` when completion % is known; use `Skeleton` for layout placeholders; use Button `state="loading"` for submit affordances.',
       },
     },
   },
@@ -233,7 +122,7 @@ export const MutedInline: Story = {
   render: () => (
     <span className="text-muted-foreground text-xs">
       <StoryRow align="center" gap="xs">
-        <Spinner aria-label="Loading" className="size-3" />
+        <Spinner aria-label="Loading" size="xs" />
         Fetching exchange rates…
       </StoryRow>
     </span>
@@ -242,22 +131,42 @@ export const MutedInline: Story = {
 
 // ─── Governance ────────────────────────────────────────────────────────────
 
-export const GovernanceAllStates: Story = {
-  name: "Governance — All States",
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Spinner root attributes.",
+      },
+    },
+  },
+  render: () => (
+    <Spinner
+      aria-label="Posting payment batch"
+      data-component="Override"
+      data-recipe="override"
+      data-slot="override"
+      data-state="fake"
+      state="ready"
+    />
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — States",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="sm">
-          <StoryRow align="center" gap="sm">
-            <span className="font-mono text-muted-foreground text-xs">
-              state=&quot;{state}&quot;
-            </span>
+    <StoryFrame width="md">
+      <StoryStack gap="md">
+        {GOVERNED_STATES.map((state) => (
+          <StoryRow align="center" gap="md" key={state}>
+            <StoryCaption width="sm">{state}</StoryCaption>
             <Spinner aria-label={`Loading ${state}`} state={state} />
           </StoryRow>
-        </StoryFrame>
-      ))}
-    </StoryStack>
+        ))}
+      </StoryStack>
+    </StoryFrame>
   ),
 };
 
@@ -267,7 +176,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          'Default `aria-label="Loading"` is overridden with action-specific labels (`Posting payment`, `Syncing ledger`). Pair visible text with the spinner for sighted users; the label covers assistive tech.',
+          'Default `aria-label="Loading"` and `aria-busy="true"` are overridden with action-specific labels when needed. Pair visible text with the spinner for sighted users; the label covers assistive tech.',
       },
     },
   },
@@ -282,17 +191,15 @@ export const GovernanceAccessibility: Story = {
   ),
 };
 
-export const MatrixSizes: Story = {
-  name: "Matrix — Sizes (className)",
+export const GovernanceSizes: Story = {
+  name: "Governance — Sizes",
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow align="end" gap="md">
-      {SPINNER_SIZES.map((sizeClass) => (
-        <StoryStack className="items-center" gap="xs" key={sizeClass}>
-          <Spinner aria-label={`Size ${sizeClass}`} className={sizeClass} />
-          <span className="font-mono text-muted-foreground text-xs">
-            {sizeClass}
-          </span>
+      {SPINNER_SIZE_DEMOS.map(({ label, size }) => (
+        <StoryStack className="items-center" gap="xs" key={size}>
+          <Spinner aria-label={`Size ${size}`} size={size} />
+          <span className="font-mono text-muted-foreground text-xs">{label}</span>
         </StoryStack>
       ))}
     </StoryRow>
@@ -349,7 +256,7 @@ export const SearchingRecords: Story = {
   render: () => (
     <StoryRow align="center" gap="sm">
       <SearchIcon aria-hidden="true" className="size-4 text-muted-foreground" />
-      <Spinner aria-label="Searching vendors" className="size-4" />
+      <Spinner aria-label="Searching vendors" size="sm" />
       <span className="text-muted-foreground text-sm">
         Searching vendors matching &quot;acme&quot;…
       </span>
@@ -468,7 +375,7 @@ export const CardHeaderLoading: Story = {
       <Card>
         <CardHeader>
           <StoryRow align="center" gap="sm">
-            <Spinner aria-label="Loading KPI" className="size-4" />
+            <Spinner aria-label="Loading KPI" size="sm" />
             <StoryStack gap="xs">
               <CardTitle>Accounts receivable</CardTitle>
               <CardDescription>Fetching live balance…</CardDescription>
@@ -525,7 +432,7 @@ export const InlineFormValidation: Story = {
       <StoryStack gap="sm">
         <span className="font-medium text-sm">Tax ID verification</span>
         <StoryRow align="center" gap="sm">
-          <Spinner aria-label="Validating tax ID" className="size-4" />
+          <Spinner aria-label="Validating tax ID" size="sm" />
           <span className="text-muted-foreground text-sm">
             Validating EIN with IRS service…
           </span>

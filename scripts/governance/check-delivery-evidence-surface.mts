@@ -292,7 +292,7 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
     violations.push({
       rule: "overall-score-missing",
       file: deliveryDocPath,
-      message: "Delivery doc must include **Overall enterprise score** row in Scores table",
+      message: "Delivery doc must include **Overall enterprise score** row in Final score table",
     });
   } else if (overallScore < TIP_007_012_MINIMUM_OVERALL_SCORE) {
     violations.push({

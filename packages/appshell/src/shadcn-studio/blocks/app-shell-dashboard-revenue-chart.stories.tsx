@@ -1,7 +1,10 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { compactDensityDecorator, renderDashboardBlockStory } from "../../_storybook/dashboard-block-story.compositions";
+import {
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "../../_storybook/dashboard-block-story.compositions";
 import {
   AppShellDashboardRevenueChart,
   type AppShellDashboardRevenueChartGovernedComponents,
@@ -16,7 +19,8 @@ const meta = {
     title: "ERP/ApplicationShell/Blocks/Dashboard/RevenueChart",
     component: AppShellDashboardRevenueChart,
   }),
-  render: () => renderDashboardBlockStory(AppShellDashboardRevenueChart, {}),
+  render: (args) =>
+    renderDashboardBlockStory(AppShellDashboardRevenueChart, args),
 } satisfies Meta<typeof AppShellDashboardRevenueChart>;
 
 export type RevenueChartStoriesGovernedComponents =
@@ -25,7 +29,28 @@ export type RevenueChartStoriesGovernedComponents =
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "YoY stacked bars plus ascending growth area — fixture curve uses token-based 15%→0% fill.",
+      },
+    },
+  },
+};
+
+export const EmptyBarData: Story = {
+  args: { barData: [], growthData: [] },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Empty bar + growth panels with status copy — horizontal bar categorical chart.",
+      },
+    },
+  },
+};
 
 export const DarkTheme: Story = {
   globals: dashboardBlockDarkThemeGlobals,

@@ -89,6 +89,38 @@ describe("composite primitive governance", () => {
     expect(ref.current).toBe(screen.getByText("Title"));
   });
 
+  it("wires aria-labelledby and aria-describedby on AlertDialogContent", () => {
+    render(
+      <AlertDialog open>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete item</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    const content = screen.getByRole("alertdialog");
+    const title = screen.getByText("Delete item");
+    const description = screen.getByText("This action cannot be undone.");
+
+    expect(content).toHaveAttribute("aria-labelledby", title.id);
+    expect(content).toHaveAttribute("aria-describedby", description.id);
+  });
+
+  it("emits data-size on AlertDialogContent when size is sm", () => {
+    render(
+      <AlertDialog open>
+        <AlertDialogContent size="sm">Body</AlertDialogContent>
+      </AlertDialog>
+    );
+
+    expect(screen.getByRole("alertdialog")).toHaveAttribute("data-size", "sm");
+  });
+
   it("renders Avatar with governed slots", () => {
     render(
       <Avatar>

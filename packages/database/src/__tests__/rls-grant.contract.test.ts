@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEFAULT_RLS_GRANT_ELEVATION_FLAGS,
   membershipMatchesGrantScope,
+  resolveRlsGrantElevations,
   resolveRlsGrantScope,
   resolveRlsGrantScopeType,
   toRlsFilterContext,
@@ -144,5 +145,68 @@ describe("rls grant contract", () => {
     expect(resolved.grantScopeType).toBe("platform");
     expect(resolved.elevations.platformAdmin).toBe(true);
     expect(resolved.elevations.crossCompany).toBe(false);
+  });
+
+  it("sets consolidationView elevation only for explicit consolidation_view grant scope", () => {
+    expect(
+      resolveRlsGrantElevations({
+        grantScopeType: "consolidation_view",
+        roleScope: "tenant",
+      }).consolidationView
+    ).toBe(true);
+
+    expect(
+      resolveRlsGrantElevations({
+        grantScopeType: "company",
+        roleScope: "company",
+      }).consolidationView
+    ).toBe(false);
+  });
+
+  it("does not infer consolidation view from tenant-wide membership", () => {
+    const resolved = resolveRlsGrantScope({
+      roleScope: "tenant",
+      membership: {
+        scopeType: "tenant",
+        tenantId: TENANT_ID,
+        companyId: null,
+        organizationId: null,
+        membershipId: MEMBERSHIP_ID,
+        roleId: ROLE_ID,
+      },
+    });
+
+    expect(resolved.elevations.consolidationView).toBe(false);
+  });
+
+  it("does not infer minority-interest company elevation from company membership", () => {
+    const resolved = resolveRlsGrantScope({
+      roleScope: "company",
+      membership: {
+        scopeType: "company",
+        tenantId: TENANT_ID,
+        companyId: COMPANY_A,
+        organizationId: null,
+        membershipId: MEMBERSHIP_ID,
+        roleId: ROLE_ID,
+      },
+    });
+
+    expect(resolved.elevations.minorityInterestCompany).toBe(false);
+  });
+
+  it("denies minority-interest legal entity without explicit elevation grant", () => {
+    const companyMembership = {
+      scopeType: "company" as const,
+      companyId: COMPANY_A,
+      organizationId: null,
+    };
+
+    expect(
+      membershipMatchesGrantScope(companyMembership, {
+        companyId: COMPANY_B,
+        organizationId: null,
+      })
+    ).toBe(false);
   });
 });

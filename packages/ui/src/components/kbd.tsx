@@ -1,19 +1,23 @@
-import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import type { GovernedKbdProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
 
 const KBD_RECIPE_NAME = "form-control" as const;
 
+const KBD_SLOT_ROLES = {
+  root: "root",
+} as const satisfies Record<"root", SlotRole>;
+
 export interface KbdProps
   extends Omit<React.ComponentProps<"kbd">, "className">,
-    GovernedFormControlProps {
+    GovernedKbdProps {
   readonly className?: string;
 }
 
 export interface KbdGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
-    GovernedFormControlProps {
+    GovernedKbdProps {
   readonly className?: string;
 }
 
@@ -23,7 +27,7 @@ const Kbd = React.forwardRef<HTMLElement, KbdProps>(
       componentName: "Kbd",
       recipeName: KBD_RECIPE_NAME,
       state,
-      slot: "root",
+      slot: KBD_SLOT_ROLES.root,
       className,
     });
 

@@ -148,6 +148,94 @@ export const GovernanceAllStates: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Toggle` — governed values (`data-slot="toggle"`, `data-component="Toggle"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <Toggle
+        aria-label="Bold"
+        data-component="Override"
+        data-recipe="override"
+        data-size="lg"
+        data-slot="override"
+        data-state="fake"
+        data-variant="outline"
+        data-testid="governance-toggle"
+        size="sm"
+        state="ready"
+        variant="default"
+      >
+        <BoldIcon />
+      </Toggle>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Toggle is a single-root leaf: internal role `root` emits `data-slot="toggle"`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → toggle · recipe → form-control
+        </p>
+        <Toggle aria-label="Bold" data-testid="slot-map-toggle" variant="outline">
+          <BoldIcon />
+          Bold
+        </Toggle>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+    variant: { control: "radio", options: ["default", "outline"] },
+    size: { control: "radio", options: ["default", "sm", "lg"] },
+    pressed: { control: "boolean" },
+    disabled: { control: "boolean" },
+  },
+  args: {
+    state: "ready",
+    variant: "outline",
+    size: "default",
+    pressed: false,
+    disabled: false,
+  },
+  render: ({ state, variant, size, pressed, disabled }) => (
+    <Toggle
+      aria-label="Governance playground toggle"
+      disabled={disabled}
+      pressed={pressed}
+      size={size}
+      state={state}
+      variant={variant}
+    >
+      <BoldIcon />
+      Bold
+    </Toggle>
+  ),
+};
+
 export const GovernanceAccessibility: Story = {
   name: "Governance — Accessibility",
   parameters: {

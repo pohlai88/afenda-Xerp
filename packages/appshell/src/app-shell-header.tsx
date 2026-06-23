@@ -1,30 +1,27 @@
-import type { ReactNode } from "react";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@afenda/ui";
+import {
+  type GovernedUiComponentName,
+  mapStockButtonProps,
+} from "@afenda/ui/governance";
 import {
   ActivityIcon,
   BellIcon,
   LanguagesIcon,
   SearchIcon,
 } from "lucide-react";
+import type { ReactNode } from "react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-} from "@afenda/ui";
-import {
-  mapStockButtonProps,
-  type GovernedUiComponentName,
-} from "@afenda/ui/governance";
-
-import type { ApplicationShellResolvedChrome, ApplicationShellOperatingContext } from "./app-shell.types";
-import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
+import type {
+  ApplicationShellOperatingContext,
+  ApplicationShellResolvedChrome,
+} from "./app-shell.types";
 import { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 import { AppShellLanguageDropdown } from "./shadcn-studio/blocks/app-shell-language-dropdown";
 import { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigger";
 import { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-notification-dropdown";
 import { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
 import { AppShellSearchDialog } from "./shadcn-studio/blocks/app-shell-search-dialog";
+import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
 import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellHeaderGovernedComponents = Extract<
@@ -75,8 +72,8 @@ export function AppShellHeader({
             {operatingContext ? (
               <div className="app-shell-header-context-row">
                 <p
-                  className="app-shell-header-context"
                   aria-label="Current operating context"
+                  className="app-shell-header-context"
                 >
                   {[
                     operatingContext.tenantLabel,
@@ -123,24 +120,42 @@ export function AppShellHeader({
           <AppShellSearchDialog
             className="app-shell-search-dialog-mobile"
             trigger={
-              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <SearchIcon aria-hidden className="app-shell-header-action-icon" />
+              <Button
+                {...mapStockButtonProps("ghost", "icon-lg")}
+                type="button"
+              >
+                <SearchIcon
+                  aria-hidden
+                  className="app-shell-header-action-icon"
+                />
                 <span className="sr-only">Search</span>
               </Button>
             }
           />
           <AppShellLanguageDropdown
             trigger={
-              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <LanguagesIcon aria-hidden className="app-shell-header-action-icon" />
+              <Button
+                {...mapStockButtonProps("ghost", "icon-lg")}
+                type="button"
+              >
+                <LanguagesIcon
+                  aria-hidden
+                  className="app-shell-header-action-icon"
+                />
                 <span className="sr-only">Language</span>
               </Button>
             }
           />
           <AppShellActivityDialog
             trigger={
-              <Button {...mapStockButtonProps("ghost", "icon-lg")} type="button">
-                <ActivityIcon aria-hidden className="app-shell-header-action-icon" />
+              <Button
+                {...mapStockButtonProps("ghost", "icon-lg")}
+                type="button"
+              >
+                <ActivityIcon
+                  aria-hidden
+                  className="app-shell-header-action-icon"
+                />
                 <span className="sr-only">Activity</span>
               </Button>
             }
@@ -153,7 +168,10 @@ export function AppShellHeader({
                   aria-label={notificationTriggerLabel}
                   type="button"
                 >
-                  <BellIcon aria-hidden className="app-shell-header-action-icon" />
+                  <BellIcon
+                    aria-hidden
+                    className="app-shell-header-action-icon"
+                  />
                 </Button>
                 {unreadNotificationCount > 0 ? (
                   <span

@@ -20,8 +20,8 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(
       screen.getByRole("region", { name: DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL })
     ).toBeInTheDocument();
-    expect(screen.getByText("Total Revenue")).toBeInTheDocument();
-    expect(screen.getByText("Net Income")).toBeInTheDocument();
+    expect(screen.getByText("Total revenue")).toBeInTheDocument();
+    expect(screen.getByText("Net income")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE })
     ).toBeInTheDocument();
@@ -49,9 +49,9 @@ describe("ApplicationShellPlaceholderContent", () => {
   it("exposes sparkline charts as labelled images", () => {
     render(<ApplicationShellPlaceholderContent />);
 
-    expect(screen.getByRole("img", { name: "Total Revenue sparkline trend" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Total revenue sparkline trend" })).toBeInTheDocument();
     expect(
-      screen.getByRole("img", { name: "Operating Expenses sparkline trend" })
+      screen.getByRole("img", { name: "Operating expenses sparkline trend" })
     ).toBeInTheDocument();
   });
 
@@ -151,7 +151,7 @@ describe("ApplicationShellPlaceholderContent", () => {
     expect(periodCaption.closest("[data-slot='badge']")).toBeNull();
     expect(screen.getByText("Custom order line")).toBeInTheDocument();
     expect(screen.getByText("Custom Module")).toBeInTheDocument();
-    expect(screen.queryByText("Net Income")).not.toBeInTheDocument();
+    expect(screen.queryByText("Net income")).not.toBeInTheDocument();
   });
 
   it("mounts inside ApplicationShell when passed as explicit children", async () => {

@@ -10,7 +10,6 @@ import {
 } from "@/lib/context/context.constants";
 import {
   resolveTenantSlugFromHostname,
-  resolveTenantSlugFromRequest,
   resolveWorkspacePathRouting,
 } from "@/lib/context/tenant-domain";
 import { CORRELATION_ID_HEADER } from "@/lib/observability/correlation-header";
@@ -70,20 +69,6 @@ function resolveDevelopmentDefaultTenantSlug(): string | null {
 
   const configured = process.env["AFENDA_DEV_DEFAULT_TENANT_SLUG"]?.trim();
   return configured && configured.length > 0 ? configured : DEV_DEFAULT_TENANT_SLUG;
-}
-
-function resolveRequestTenantSlug(input: {
-  readonly hostname: string;
-  readonly pathname: string;
-}): string | null {
-  const baseDomain = resolveTenantBaseDomain();
-
-  return (
-    resolveTenantSlugFromRequest({
-      ...input,
-      baseDomain,
-    }) ?? resolveDevelopmentDefaultTenantSlug()
-  );
 }
 
 function applyTenantRoutingHeaders(input: {

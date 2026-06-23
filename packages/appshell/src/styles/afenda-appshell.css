@@ -78,15 +78,29 @@
   --app-shell-gap-xl: var(--afenda-spacing-6);
   --app-shell-gap-2xl: var(--afenda-spacing-8);
   --app-shell-padding-card: var(--afenda-spacing-5);
-  --app-shell-density-gap: var(--afenda-density-gap, var(--afenda-density-default-gap));
-  --app-shell-density-field-gap: var(--afenda-density-field-gap, var(--afenda-density-default-field-gap));
-  --app-shell-density-toolbar-gap: var(--afenda-density-toolbar-gap, var(--afenda-density-default-toolbar-gap));
-  --app-shell-section-gap: var(--afenda-density-section-gap, var(--afenda-density-default-section-gap));
+  --app-shell-density-gap: var(
+    --afenda-density-gap,
+    var(--afenda-density-default-gap)
+  );
+  --app-shell-density-field-gap: var(
+    --afenda-density-field-gap,
+    var(--afenda-density-default-field-gap)
+  );
+  --app-shell-density-toolbar-gap: var(
+    --afenda-density-toolbar-gap,
+    var(--afenda-density-default-toolbar-gap)
+  );
+  --app-shell-section-gap: var(
+    --afenda-density-section-gap,
+    var(--afenda-density-default-section-gap)
+  );
 
   /* Typography rhythm — afenda leading + label tracking */
   --app-shell-leading-tight: var(--leading-heading-sm);
   --app-shell-leading-display: var(--leading-heading-xl);
-  --app-shell-letter-spacing-label: var(--afenda-typography-letter-spacing-wider);
+  --app-shell-letter-spacing-label: var(
+    --afenda-typography-letter-spacing-wider
+  );
 
   /* Radii + elevation — afenda semantic surface tokens */
   --app-shell-radius-control: var(--afenda-semantic-radius-control);
@@ -120,29 +134,29 @@
    * Full shell layout: muted canvas, fixed primary header strip, isolation context.
    */
   .app-shell-root {
-    isolation: isolate;
     position: relative;
     display: flex;
-    min-height: 100dvh;
     width: 100%;
+    min-height: 100dvh;
     background-color: var(--background);
+    isolation: isolate;
   }
 
   .app-shell-root::before {
-    content: "";
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
+    z-index: 0;
     height: var(--app-shell-header-strip-height);
+    pointer-events: none;
+    content: "";
     background: linear-gradient(
       180deg,
       var(--primary) 0%,
       color-mix(in oklab, var(--primary) 38%, var(--background)) 62%,
       var(--background) 100%
     );
-    pointer-events: none;
-    z-index: 0;
   }
 
   /**
@@ -174,29 +188,29 @@
   }
 
   .app-shell-header-grid {
-    align-items: center;
     display: grid;
-    gap: var(--app-shell-gap-lg);
     grid-template-columns: minmax(0, 1fr) auto;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 80rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    gap: var(--app-shell-gap-lg);
+    align-items: center;
     width: 100%;
+    max-width: 80rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: auto;
+    margin-left: auto;
 
     @media (min-width: 640px) {
-      gap: var(--app-shell-gap-xl);
       grid-template-columns: auto minmax(0, 1fr) auto;
-      padding-left: var(--app-shell-gap-xl);
+      gap: var(--app-shell-gap-xl);
       padding-right: var(--app-shell-gap-xl);
+      padding-left: var(--app-shell-gap-xl);
     }
   }
 
   .app-shell-header-leading {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     min-width: 0;
   }
 
@@ -212,20 +226,20 @@
   }
 
   .app-shell-header-greeting-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: var(--app-shell-type-body-lg);
     font-weight: var(--font-weight-heading-sm);
     line-height: var(--leading-body-lg);
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .app-shell-header-greeting-subtitle {
-    color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
-    font-size: var(--app-shell-type-body-sm);
-    line-height: var(--leading-body-sm);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--leading-body-sm);
+    color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
     white-space: nowrap;
 
     @media (min-width: 768px) and (max-width: 1023px) {
@@ -234,27 +248,27 @@
   }
 
   .app-shell-header-context-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
     min-width: 0;
   }
 
   .app-shell-header-context {
-    color: color-mix(in oklab, var(--primary-foreground) 72%, transparent);
-    font-size: var(--app-shell-type-body-sm);
-    line-height: var(--leading-body-sm);
-    margin: 0;
     max-width: 100%;
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body-sm);
+    line-height: var(--leading-body-sm);
+    color: color-mix(in oklab, var(--primary-foreground) 72%, transparent);
     white-space: nowrap;
   }
 
   .app-shell-context-switcher-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-context-switcher-label {
@@ -262,22 +276,29 @@
     line-height: var(--leading-body-sm);
   }
 
+  .app-shell-context-switcher-dropdown {
+    width: 100%;
+  }
+
   .app-shell-context-switcher-menu-label {
-    font-size: var(--app-shell-type-body-sm);
-    font-weight: var(--font-weight-heading-sm);
-    line-height: var(--leading-body-sm);
+    padding: 0 0.25rem;
+    font-size: var(--app-shell-type-body-xs);
+    font-weight: 400;
+    color: var(--app-shell-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
   }
 
   .app-shell-header-actions {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
     justify-self: end;
   }
 
   .app-shell-header-action-icon {
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 
   .app-shell-search-dialog-desktop {
@@ -300,16 +321,17 @@
   }
 
   .app-shell-search-trigger-desktop {
-    align-items: center;
-    background-color: color-mix(in oklab, var(--secondary) 20%, transparent);
-    border-radius: var(--radius-md);
-    color: var(--muted);
-    cursor: pointer;
     display: flex;
     gap: var(--app-shell-gap-sm);
-    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
-    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    align-items: center;
     width: 100%;
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
+    color: var(--muted);
+    cursor: pointer;
+    background-color: color-mix(in oklab, var(--secondary) 20%, transparent);
+    border-radius: var(--radius-md);
+    transition: background-color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-search-trigger-desktop:hover {
@@ -318,14 +340,14 @@
 
   .app-shell-search-trigger-icon {
     flex-shrink: 0;
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-search-trigger-label {
-    font-size: var(--app-shell-type-body-sm);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body-sm);
     white-space: nowrap;
   }
 
@@ -334,26 +356,26 @@
   }
 
   .app-shell-notification-unread-dot {
+    position: absolute;
+    top: 14%;
+    right: 23%;
+    width: 0.5rem;
+    height: 0.5rem;
     background-color: var(--app-shell-text-trend-negative);
     border-radius: 9999px;
-    height: 0.5rem;
-    position: absolute;
-    right: 23%;
-    top: 14%;
-    width: 0.5rem;
   }
 
   .app-shell-content {
     flex: 1;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
     max-width: 80rem;
     padding: var(--app-shell-gap-xl) 1rem;
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
 
     @media (min-width: 640px) {
-      padding-left: var(--app-shell-gap-xl);
       padding-right: var(--app-shell-gap-xl);
+      padding-left: var(--app-shell-gap-xl);
     }
   }
 
@@ -362,21 +384,21 @@
   }
 
   .app-shell-footer-inner {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     justify-content: space-between;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 80rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     width: 100%;
+    max-width: 80rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: auto;
+    margin-left: auto;
 
     @media (min-width: 640px) {
       gap: var(--app-shell-gap-xl);
-      padding-left: var(--app-shell-gap-xl);
       padding-right: var(--app-shell-gap-xl);
+      padding-left: var(--app-shell-gap-xl);
     }
 
     @media (max-width: 639px) {
@@ -394,8 +416,8 @@
   }
 
   .app-shell-footer-brand-link {
-    color: var(--foreground);
     font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
   }
 
   .app-shell-footer-brand-link:hover {
@@ -403,14 +425,15 @@
   }
 
   .app-shell-footer-social {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-padding-card);
+    align-items: center;
   }
 
   .app-shell-footer-social-link {
     color: var(--app-shell-text-muted);
-    transition: color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    transition: color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-footer-social-link:hover {
@@ -418,8 +441,8 @@
   }
 
   .app-shell-footer-social-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   /**
@@ -438,14 +461,14 @@
   }
 
   .app-shell-brand-link {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-density-field-gap);
+    align-items: center;
   }
 
   .app-shell-brand-link > svg {
-    height: 2rem;
     width: 2rem;
+    height: 2rem;
   }
 
   .app-shell-brand-logo rect:first-child {
@@ -462,14 +485,15 @@
   }
 
   .app-shell-nav-trigger {
-    align-items: center;
     display: flex;
+    align-items: center;
     width: 100%;
   }
 
   .app-shell-nav-chevron {
     margin-left: auto;
-    transition: transform var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+    transition: transform var(--app-shell-duration-slow)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-nav-trigger[data-state="open"] .app-shell-nav-chevron {
@@ -477,39 +501,41 @@
   }
 
   .app-shell-nav-link {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-nav-sub-link {
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
   }
 
   .app-shell-team-link {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-recipient-avatar {
-    align-items: center;
     display: inline-flex;
     flex-shrink: 0;
-    height: 1.5rem;
+    align-items: center;
     justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
     overflow: hidden;
     border-radius: 9999px;
-    transition: height var(--app-shell-duration-slow) var(--app-shell-ease-standard), width var(--app-shell-duration-slow) var(--app-shell-ease-standard);
-    width: 1.5rem;
+    transition:
+      height var(--app-shell-duration-slow) var(--app-shell-ease-standard),
+      width var(--app-shell-duration-slow) var(--app-shell-ease-standard);
   }
 
   [data-state="collapsed"] .app-shell-recipient-avatar {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   /**
@@ -518,19 +544,46 @@
    */
   .app-shell-menu-trigger > button,
   .app-shell-menu-trigger > [data-slot="button"] {
-    border-color: var(--primary-foreground);
-    background-color: var(--primary-foreground);
     color: var(--primary);
+    background-color: var(--primary-foreground);
+    border-color: var(--primary-foreground);
     box-shadow: none;
   }
 
   /* ── Sheet / dialog width overrides for shell-05 panels ────────────────── */
 
   /**
+   * Shell-05 activity sheet body — flex column so the feed scrolls inside h-full panel.
+   */
+  .app-shell-activity-panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    min-height: 0;
+  }
+
+  /**
    * Scrollable activity feed body inside the shell-05 activity sheet.
    */
   .app-shell-activity-feed {
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
+  }
+
+  .app-shell-activity-feed-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .app-shell-activity-separator {
+    padding: 0 var(--app-shell-gap-lg);
+  }
+
+  .app-shell-activity-time {
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-activity-row {
@@ -542,85 +595,114 @@
   .app-shell-activity-row-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: var(--app-shell-density-field-gap);
-    min-width: 0;
+    align-items: flex-start;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-activity-summary {
-    color: var(--app-shell-text-muted);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-activity-actor-name {
-    color: var(--foreground);
     font-weight: var(--font-weight-heading-sm);
+    color: var(--foreground);
   }
 
   .app-shell-activity-mention {
-    background-color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
     padding: 0.625rem 1rem;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
   }
 
   .app-shell-activity-mention-quote {
+    margin: 0;
     font-size: var(--app-shell-type-body-sm);
     font-weight: var(--font-weight-label-sm);
-    margin: 0;
   }
 
   .app-shell-activity-reply-group {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
     align-items: center;
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
     background-color: var(--background);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    display: flex;
-    gap: var(--app-shell-gap-sm);
-    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
   }
 
   .app-shell-activity-reply-input {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--app-shell-type-body-sm);
+    outline: none;
     background: transparent;
     border: 0;
-    flex: 1;
-    font-size: var(--app-shell-type-body-sm);
-    min-width: 0;
-    outline: none;
+  }
+
+  .app-shell-activity-reply-input:focus-visible {
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
   .app-shell-activity-reply-input::placeholder {
     color: var(--app-shell-text-muted);
   }
 
-  .app-shell-activity-reply-icon {
-    color: var(--app-shell-text-muted);
+  .app-shell-activity-reply-attach {
+    display: inline-flex;
     flex-shrink: 0;
-    height: 1rem;
+    align-items: center;
+    padding: 0;
+    color: var(--app-shell-text-muted);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-activity-reply-attach:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-activity-reply-icon {
+    flex-shrink: 0;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-activity-file-inline {
-    align-items: center;
-    background-color: var(--muted);
-    border-radius: var(--radius-md);
-    color: inherit;
     display: flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
     padding: 0.25rem 0.375rem;
+    color: inherit;
     text-decoration: none;
-    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+    transition: background-color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-activity-file-inline:hover {
     background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
+  }
+
+  .app-shell-activity-file-inline:focus-visible {
+    outline: none;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
   .app-shell-activity-file-inline-thumb {
@@ -633,27 +715,33 @@
   }
 
   .app-shell-activity-file-card {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
     align-items: center;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    color: inherit;
+    text-decoration: none;
     background-color: var(--muted);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    color: inherit;
-    display: flex;
-    gap: var(--app-shell-gap-lg);
-    padding: 0.625rem 1rem;
-    text-decoration: none;
-    transition: background-color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
-    width: 100%;
+    transition: background-color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-activity-file-card:hover {
     background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
   }
 
+  .app-shell-activity-file-card:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
   .app-shell-activity-file-card-thumb {
-    border-radius: var(--radius-sm);
-    height: 2rem;
     width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-sm);
   }
 
   .app-shell-activity-file-card-name {
@@ -662,46 +750,36 @@
   }
 
   .app-shell-activity-tag-group {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-activity-empty {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     padding: var(--app-shell-gap-xl) 1rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-language-menu-label {
-    color: var(--app-shell-text-muted);
+    padding: 0 0.25rem;
     font-size: var(--app-shell-type-body-xs);
     font-weight: 400;
-    letter-spacing: var(--app-shell-letter-spacing-label);
-    padding: 0 0.25rem;
+    color: var(--app-shell-text-muted);
     text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
   }
 
   .app-shell-notification-empty {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     padding: var(--app-shell-gap-sm) var(--app-shell-gap-md) 1rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-menu-trigger-icon {
-    height: 1rem;
     width: 1rem;
-  }
-
-  /**
-   * Shell-05 activity sheet: max-w-112 (28rem) at sm breakpoint.
-   * Applied via [&>button] selector on SheetContent in AppShellActivityDialog.
-   */
-  .app-shell-activity-sheet {
-    @media (min-width: 640px) {
-      max-width: 28rem; /* 112 * 0.25rem */
-    }
+    height: 1rem;
   }
 
   /**
@@ -713,15 +791,15 @@
   }
 
   .app-shell-notification-dropdown [data-slot="dropdown-menu-item"] {
-    align-items: flex-start;
     gap: var(--app-shell-gap-md);
+    align-items: flex-start;
     padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
   }
 
   .app-shell-notification-dropdown [data-slot="dropdown-menu-label"] {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
     padding-top: 0.75rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
   }
 
   .app-shell-notification-dropdown [data-slot="tabs-content"] {
@@ -738,19 +816,19 @@
   .app-shell-notification-row-body {
     display: flex;
     flex: 1;
-    min-width: 0;
-    width: 100%;
+    gap: var(--app-shell-gap-md);
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--app-shell-gap-md);
+    width: 100%;
+    min-width: 0;
   }
 
   .app-shell-notification-row-copy {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 0;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-notification-row-title {
@@ -760,64 +838,64 @@
   }
 
   .app-shell-notification-row-meta {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-density-field-gap);
+    align-items: center;
   }
 
   .app-shell-notification-row-time {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-notification-row-category {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-notification-item-unread-dot {
+    flex-shrink: 0;
+    width: 0.375rem;
+    height: 0.375rem;
     background-color: color-mix(in oklab, var(--primary) 30%, transparent);
     border-radius: 9999px;
-    flex-shrink: 0;
-    height: 0.375rem;
-    width: 0.375rem;
   }
 
   .app-shell-notification-dismiss {
-    align-items: center;
     display: flex;
-    flex-direction: column;
     flex-shrink: 0;
+    flex-direction: column;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-notification-dismiss-icon {
-    color: var(--foreground);
-    height: 0.875rem;
     width: 0.875rem;
+    height: 0.875rem;
+    color: var(--foreground);
   }
 
   .app-shell-notification-dismiss-marker {
+    width: 0.375rem;
+    height: 0.375rem;
     background-color: var(--primary);
     border-radius: 9999px;
-    height: 0.375rem;
-    width: 0.375rem;
   }
 
   .app-shell-notification-approval-actions {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     margin-top: 0.75rem;
   }
 
   .app-shell-notification-attachment-link {
-    align-items: center;
     display: flex;
     gap: 0.375rem;
-    font-size: var(--app-shell-type-body-sm);
+    align-items: center;
     margin-top: 0.75rem;
+    font-size: var(--app-shell-type-body-sm);
   }
 
   .app-shell-notification-attachment-link:hover {
@@ -825,9 +903,9 @@
   }
 
   .app-shell-notification-attachment-icon {
-    color: var(--foreground);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--foreground);
   }
 
   .app-shell-notification-menu-header {
@@ -837,34 +915,35 @@
   }
 
   .app-shell-notification-menu-title-row {
-    align-items: center;
     display: flex;
-    justify-content: space-between;
     gap: var(--app-shell-gap-xl);
+    align-items: center;
+    justify-content: space-between;
     padding-bottom: 0.625rem;
   }
 
   .app-shell-notification-menu-title {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-weight: 400;
-    letter-spacing: var(--app-shell-letter-spacing-label);
+    color: var(--app-shell-text-muted);
     text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
   }
 
   .app-shell-notification-menu-tabs-row {
-    align-items: center;
     display: flex;
-    justify-content: space-between;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: -0.125rem;
   }
 
   .app-shell-notification-settings-link {
-    border-radius: var(--radius-sm);
-    color: var(--foreground);
     padding: 0.25rem;
-    transition: color var(--app-shell-duration-normal) var(--app-shell-ease-standard);
+    color: var(--foreground);
+    border-radius: var(--radius-sm);
+    transition: color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-notification-settings-link:hover {
@@ -872,8 +951,8 @@
   }
 
   .app-shell-notification-settings-icon {
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 
   .app-shell-profile-dropdown {
@@ -881,9 +960,9 @@
   }
 
   .app-shell-profile-dropdown-header {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     padding: 0.625rem 1rem;
   }
 
@@ -896,22 +975,22 @@
   }
 
   .app-shell-profile-dropdown-name {
-    color: var(--foreground);
-    font-size: var(--app-shell-type-body-lg);
-    font-weight: var(--font-weight-heading-sm);
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    color: var(--foreground);
     white-space: nowrap;
-    width: 100%;
   }
 
   .app-shell-profile-dropdown-email {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body);
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body);
+    color: var(--app-shell-text-muted);
     white-space: nowrap;
-    width: 100%;
   }
 
   .app-shell-sidebar-user-dropdown {
@@ -921,77 +1000,77 @@
   .app-shell-sidebar-user-meta {
     display: grid;
     flex: 1;
-    line-height: 1.25;
     min-width: 0;
+    line-height: 1.25;
     text-align: left;
   }
 
   .app-shell-sidebar-user-trigger-copy {
     display: grid;
     flex: 1;
-    line-height: 1.25;
     min-width: 0;
+    line-height: 1.25;
     text-align: left;
   }
 
   .app-shell-sidebar-user-name {
-    font-weight: var(--font-weight-label-sm);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: var(--font-weight-label-sm);
     white-space: nowrap;
   }
 
   .app-shell-sidebar-user-role {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-xs);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
     white-space: nowrap;
   }
 
   .app-shell-sidebar-user-menu-header {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     padding: 0.375rem 0.25rem;
     text-align: left;
   }
 
   .app-shell-sidebar-user-menu-name {
-    color: var(--popover-foreground);
-    font-weight: var(--font-weight-label-sm);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: var(--font-weight-label-sm);
+    color: var(--popover-foreground);
     white-space: nowrap;
   }
 
   .app-shell-sidebar-user-menu-item-icon {
-    color: var(--foreground);
     flex-shrink: 0;
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--foreground);
   }
 
   /**
    * Profile dropdown header: online presence dot on avatar.
    */
   .app-shell-profile-online-indicator {
-    background-color: var(--app-shell-text-trend-positive);
-    border-radius: 9999px;
-    bottom: 0;
-    box-shadow: 0 0 0 2px var(--card);
-    display: block;
-    height: 0.5rem;
     position: absolute;
     right: 0;
+    bottom: 0;
+    display: block;
     width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--app-shell-text-trend-positive);
+    border-radius: 9999px;
+    box-shadow: 0 0 0 2px var(--card);
   }
 
   .app-shell-profile-menu-item-icon {
-    color: var(--foreground);
     flex-shrink: 0;
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
+    color: var(--foreground);
   }
 
   /**
@@ -1003,25 +1082,25 @@
   }
 
   .app-shell-search-field {
-    align-items: center;
-    border-bottom: 1px solid var(--border);
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+    border-bottom: 1px solid var(--border);
   }
 
   .app-shell-search-field-icon {
     flex-shrink: 0;
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 
   .app-shell-search-input {
-    background: transparent;
-    border: 0;
     flex: 1;
     font-size: var(--app-shell-type-body);
     outline: none;
+    background: transparent;
+    border: 0;
   }
 
   .app-shell-search-input::placeholder {
@@ -1029,26 +1108,26 @@
   }
 
   .app-shell-search-section-label {
-    color: var(--app-shell-text-muted);
+    padding: 0.5rem 1rem 0;
     font-size: var(--app-shell-type-body-xs);
     font-weight: var(--font-weight-label-sm);
-    letter-spacing: var(--app-shell-letter-spacing-label);
-    padding: 0.5rem 1rem 0;
+    color: var(--app-shell-text-muted);
     text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
   }
 
   .app-shell-search-empty {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-search-result-copy {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 0;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-search-result-title {
@@ -1056,64 +1135,64 @@
   }
 
   .app-shell-search-result-subtitle {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-search-result-subtitle-light {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-weight: 300;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-search-result-more-icon {
-    color: var(--app-shell-text-muted);
     flex-shrink: 0;
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-search-keycap {
-    align-items: center;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
     display: flex;
-    height: 1.5rem;
+    align-items: center;
     justify-content: center;
     width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
   }
 
   .app-shell-search-keycap-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-search-footer-hint-row {
-    align-items: center;
     display: flex;
     flex: 1;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-search-footer-hint-group {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-search-list {
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .app-shell-search-result {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
+    width: 100%;
     padding: 0.5rem 1rem;
     text-align: left;
-    width: 100%;
   }
 
   .app-shell-search-result:hover {
@@ -1121,8 +1200,8 @@
   }
 
   .app-shell-search-suggestion-icon {
-    height: 1.125rem;
     width: 1.125rem;
+    height: 1.125rem;
   }
 
   .app-shell-search-results {
@@ -1131,17 +1210,17 @@
   }
 
   .app-shell-search-divider {
-    background-color: var(--border);
     height: 1px;
+    background-color: var(--border);
   }
 
   .app-shell-search-footer {
-    align-items: center;
-    color: var(--app-shell-text-muted);
     display: none;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     padding: 1rem;
+    color: var(--app-shell-text-muted);
 
     @media (min-width: 640px) {
       display: flex;
@@ -1152,10 +1231,11 @@
    * Sidebar footer user menu: chevron rotation when dropdown opens.
    */
   .app-shell-sidebar-user-chevron {
+    width: 1rem;
     height: 1rem;
     margin-left: auto;
-    transition: transform var(--app-shell-duration-slow) var(--app-shell-ease-standard);
-    width: 1rem;
+    transition: transform var(--app-shell-duration-slow)
+      var(--app-shell-ease-standard);
 
     @media (max-width: 1023px) {
       transform: rotate(270deg);
@@ -1235,14 +1315,14 @@
   }
 
   .app-shell-dashboard-grid {
-    min-width: 0;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-dashboard-grid .react-grid-item {
     display: flex;
-    min-height: 0;
     min-width: 0;
+    min-height: 0;
   }
 
   .app-shell-dashboard-grid .react-grid-item.react-grid-placeholder {
@@ -1252,22 +1332,24 @@
     opacity: 1;
   }
 
-  .app-shell-dashboard-canvas[data-edit-mode="true"] .react-grid-item > .react-resizable-handle::after {
+  .app-shell-dashboard-canvas[data-edit-mode="true"]
+    .react-grid-item
+    > .react-resizable-handle::after {
     border-color: color-mix(in oklab, var(--primary) 55%, transparent);
   }
 
   .app-shell-dashboard-grid-item {
-    background: var(--afenda-color-surface-card, var(--card));
-    border: 1px solid var(--afenda-color-border-subtle, var(--border));
-    border-radius: var(--afenda-radius-lg, var(--radius-lg));
     display: flex;
     flex: 1;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
     height: 100%;
     min-height: 0;
-    min-width: 0;
     overflow: hidden;
-    width: 100%;
+    background: var(--afenda-color-surface-card, var(--card));
+    border: 1px solid var(--afenda-color-border-subtle, var(--border));
+    border-radius: var(--afenda-radius-lg, var(--radius-lg));
   }
 
   .app-shell-dashboard-grid-item-body {
@@ -1275,37 +1357,46 @@
     flex: 1;
     flex-direction: column;
     min-height: 0;
-    overflow: hidden;
     padding: var(--app-shell-content-padding-inline);
+    overflow: hidden;
   }
 
   .app-shell-dashboard-drag-handle {
+    display: flex;
+    flex-shrink: 0;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.5rem;
+    cursor: grab;
     background: var(--afenda-color-surface-panel, var(--muted));
     border: 0;
     border-bottom: 1px solid var(--afenda-color-border-subtle, var(--border));
-    cursor: grab;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: center;
-    min-height: 2.5rem;
-    width: 100%;
   }
 
   .app-shell-dashboard-drag-handle::before {
+    width: 2rem;
+    height: 0.25rem;
+    content: "";
     background: var(--afenda-color-foreground-muted, var(--muted-foreground));
     border-radius: 9999px;
-    content: "";
-    height: 0.25rem;
-    width: 2rem;
+  }
+
+  .app-shell-dashboard-drag-handle:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-dashboard-drag-handle:active {
+    cursor: grabbing;
   }
 
   .app-shell-dashboard-edit-badge,
   .app-shell-dashboard-readonly-label {
     font-size: var(--afenda-font-size-xs, 0.75rem);
     font-weight: 600;
-    letter-spacing: 0.04em;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .app-shell-dashboard-edit-badge {
@@ -1323,28 +1414,28 @@
   }
 
   .app-shell-dashboard-empty-state-copy {
-    color: var(--afenda-color-foreground-muted, var(--muted-foreground));
     font-size: var(--afenda-font-size-sm, 0.875rem);
+    color: var(--afenda-color-foreground-muted, var(--muted-foreground));
     text-align: center;
   }
 
   .app-shell-dashboard-statistics-metrics {
-    min-width: 0;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-dashboard-statistics-line-trends {
-    min-width: 0;
     width: 100%;
+    min-width: 0;
   }
 
   .app-shell-dashboard-widget {
     display: flex;
     flex: 1;
     flex-direction: column;
+    min-width: 0;
     height: 100%;
     min-height: 0;
-    min-width: 0;
   }
 
   .app-shell-dashboard-widget > [data-component="Card"] {
@@ -1354,10 +1445,10 @@
   }
 
   .app-shell-dashboard-widget-header {
-    align-items: center;
     display: flex;
-    justify-content: space-between;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
+    justify-content: space-between;
     padding: var(--app-shell-padding-card) var(--app-shell-padding-card) 0;
   }
 
@@ -1379,8 +1470,8 @@
   }
 
   .app-shell-dashboard-widget-subtitle {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-widget-body {
@@ -1388,12 +1479,13 @@
     flex: 1;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
-    padding: var(--app-shell-gap-lg) var(--app-shell-padding-card) var(--app-shell-padding-card);
+    padding: var(--app-shell-gap-lg) var(--app-shell-padding-card)
+      var(--app-shell-padding-card);
   }
 
   .app-shell-dashboard-overflow-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-dashboard-overflow-menu {
@@ -1401,14 +1493,14 @@
   }
 
   .app-shell-dashboard-overflow-item {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-overflow-item-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-dashboard-overflow-label {
@@ -1420,9 +1512,26 @@
   }
 
   .app-shell-dashboard-kpi-widget > [data-component="Card"] {
+    height: 100%;
     border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
     box-shadow: var(--app-shell-shadow-raised);
-    height: 100%;
+  }
+
+  .app-shell-dashboard-kpi-widget[data-emphasis="primary"]
+    > [data-component="Card"] {
+    background-color: color-mix(in oklab, var(--primary) 6%, var(--card));
+    border-color: color-mix(in oklab, var(--primary) 28%, var(--border));
+  }
+
+  .app-shell-dashboard-kpi-widget[data-emphasis="primary"]
+    .app-shell-dashboard-kpi-icon-chip {
+    background-color: color-mix(in oklab, var(--primary) 12%, transparent);
+    border-color: color-mix(in oklab, var(--primary) 22%, transparent);
+  }
+
+  .app-shell-dashboard-kpi-widget[data-emphasis="primary"]
+    .app-shell-dashboard-kpi-icon {
+    color: var(--primary);
   }
 
   .app-shell-dashboard-kpi-metric {
@@ -1430,40 +1539,40 @@
   }
 
   .app-shell-dashboard-kpi-footnote {
-    align-items: baseline;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-sm);
+    align-items: baseline;
     margin: 0;
   }
 
   .app-shell-dashboard-kpi-change {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-kpi-comparison {
-    color: var(--app-shell-text-subtle);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-subtle);
   }
 
   .app-shell-dashboard-kpi-icon-chip {
+    display: flex;
+    flex-shrink: 0;
     align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
     background-color: color-mix(in oklab, var(--muted) 72%, transparent);
     border: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
     border-radius: var(--app-shell-radius-control);
-    display: flex;
-    flex-shrink: 0;
-    height: 2.25rem;
-    justify-content: center;
-    width: 2.25rem;
   }
 
   .app-shell-dashboard-kpi-icon {
-    color: var(--app-shell-text-muted);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-widget {
@@ -1471,35 +1580,35 @@
   }
 
   .app-shell-dashboard-sparkline-trend {
-    align-items: center;
     display: inline-flex;
+    align-items: center;
   }
 
   .app-shell-dashboard-sparkline-change {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-insights {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-empty-chart {
-    align-items: center;
-    color: var(--app-shell-text-muted);
     display: flex;
-    font-size: var(--app-shell-type-body-xs);
-    height: 100%;
+    align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-body {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     justify-content: space-between;
     padding: var(--app-shell-padding-card);
   }
@@ -1519,51 +1628,51 @@
   }
 
   .app-shell-dashboard-sparkline-label {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-amount {
     font-size: var(--app-shell-type-hero);
     font-weight: var(--font-weight-heading-sm);
     font-variant-numeric: tabular-nums;
-    letter-spacing: var(--afenda-typography-letter-spacing-tight);
     line-height: var(--app-shell-leading-display);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-sparkline-change-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-sparkline-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-sparkline-chart-frame {
     flex: 1;
-    max-height: 6.625rem;
+    width: 100%;
     max-width: 17.5rem;
     min-height: 6.625rem;
-    width: 100%;
+    max-height: 6.625rem;
   }
 
   .app-shell-dashboard-kpi-body {
     display: flex;
-    min-height: 8.5rem;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
     justify-content: space-between;
+    min-height: 8.5rem;
     padding: var(--app-shell-padding-card);
   }
 
   .app-shell-dashboard-kpi-header {
-    align-items: flex-start;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: flex-start;
     justify-content: space-between;
   }
 
@@ -1575,31 +1684,31 @@
   }
 
   .app-shell-dashboard-kpi-title {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-weight: var(--font-weight-label-sm);
-    letter-spacing: var(--app-shell-letter-spacing-label);
+    color: var(--app-shell-text-muted);
     text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
   }
 
   .app-shell-dashboard-kpi-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-kpi-value-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-kpi-value {
     font-size: var(--app-shell-type-kpi);
     font-weight: var(--font-weight-heading-sm);
     font-variant-numeric: tabular-nums;
-    letter-spacing: var(--afenda-typography-letter-spacing-tight);
     line-height: var(--app-shell-leading-tight);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-revenue-widget {
@@ -1608,8 +1717,8 @@
 
   .app-shell-dashboard-revenue-layout {
     display: grid;
-    gap: 0;
     grid-template-columns: minmax(0, 1fr);
+    gap: 0;
 
     @media (min-width: 1024px) {
       grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -1620,15 +1729,15 @@
     border-bottom: 1px solid var(--border);
 
     @media (min-width: 1024px) {
-      border-bottom: 0;
       border-right: 1px solid var(--border);
+      border-bottom: 0;
     }
   }
 
   .app-shell-dashboard-revenue-bar-frame {
+    width: 100%;
     min-height: 13.75rem;
     padding: 0 var(--app-shell-padding-card) var(--app-shell-gap-xl);
-    width: 100%;
 
     @media (min-width: 1024px) {
       min-height: 18.75rem;
@@ -1663,13 +1772,13 @@
   }
 
   .app-shell-dashboard-revenue-growth-headline-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-growth-chart-frame {
-    height: 10rem;
     width: 100%;
+    height: 10rem;
   }
 
   .app-shell-dashboard-revenue-growth-chart-frame-bars {
@@ -1677,16 +1786,16 @@
   }
 
   .app-shell-dashboard-revenue-growth-value {
-    color: var(--card-foreground);
     font-size: var(--app-shell-type-kpi);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--card-foreground);
     letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-revenue-growth-footnote {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-summary-row {
@@ -1697,9 +1806,9 @@
   }
 
   .app-shell-dashboard-revenue-summary-item {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     padding: 0.5rem;
   }
 
@@ -1710,18 +1819,18 @@
   }
 
   .app-shell-dashboard-revenue-summary-year {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-summary-amount {
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-label-sm);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-dashboard-revenue-icon {
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 
   .app-shell-dashboard-revenue-primary-body {
@@ -1739,29 +1848,29 @@
   }
 
   .app-shell-dashboard-revenue-hero-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-revenue-hero-amount {
     font-size: var(--app-shell-type-hero);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
-    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+    font-variant-numeric: tabular-nums;
     line-height: var(--app-shell-leading-display);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-revenue-yoy-change {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-legend {
@@ -1772,17 +1881,17 @@
   }
 
   .app-shell-dashboard-revenue-legend-item {
-    align-items: center;
-    color: var(--app-shell-text-muted);
     display: inline-flex;
-    font-size: var(--app-shell-type-body-sm);
     gap: var(--app-shell-gap-sm);
+    align-items: center;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-legend-swatch {
-    border-radius: 9999px;
-    height: 0.625rem;
     width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 9999px;
   }
 
   .app-shell-dashboard-revenue-legend-swatch-current {
@@ -1790,30 +1899,34 @@
   }
 
   .app-shell-dashboard-revenue-legend-swatch-prior {
-    background-color: color-mix(in oklab, var(--primary) 20%, var(--background));
+    background-color: color-mix(
+      in oklab,
+      var(--primary) 20%,
+      var(--background)
+    );
   }
 
   .app-shell-dashboard-revenue-empty {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     padding: 0 var(--app-shell-padding-card) var(--app-shell-padding-card);
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-select-label {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
-    left: -9999px;
     position: absolute;
+    left: -9999px;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-revenue-icon-frame {
-    align-items: center;
-    background-color: var(--muted);
-    border-radius: var(--radius-md);
     display: flex;
-    height: 2rem;
+    align-items: center;
     justify-content: center;
     width: 2rem;
+    height: 2rem;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
   }
 
   .app-shell-dashboard-revenue-growth-meta {
@@ -1823,20 +1936,25 @@
   }
 
   .app-shell-dashboard-revenue-growth-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-trend-icon-up {
-    color: var(--app-shell-text-trend-positive);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-trend-positive);
   }
 
   .app-shell-dashboard-trend-icon-down {
-    color: var(--app-shell-text-trend-negative);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-trend-indicator {
+    display: inline-flex;
+    align-items: center;
   }
 
   /**
@@ -1849,40 +1967,40 @@
   }
 
   .app-shell-dashboard-breakdown-total-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-breakdown-total {
     font-size: var(--app-shell-type-kpi);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
     letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-dashboard-breakdown-change-value {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-meta {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-insights-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
+    align-items: center;
   }
 
   .app-shell-dashboard-breakdown-insight {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-insight-divider {
@@ -1890,17 +2008,17 @@
   }
 
   .app-shell-dashboard-breakdown-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-list-header {
-    color: var(--app-shell-text-muted);
     display: flex;
-    font-size: var(--app-shell-type-body-xs);
     justify-content: space-between;
-    letter-spacing: var(--afenda-typography-letter-spacing-wide);
     padding: 0 0.25rem;
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
+    letter-spacing: var(--afenda-typography-letter-spacing-wide);
   }
 
   .app-shell-dashboard-breakdown-list {
@@ -1908,52 +2026,53 @@
     flex: 1;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .app-shell-dashboard-breakdown-row {
-    align-items: center;
     display: flex;
-    justify-content: space-between;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
+    justify-content: space-between;
   }
 
   .app-shell-dashboard-breakdown-row-leading {
-    border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
-    border-radius: var(--app-shell-radius-control);
     padding: var(--app-shell-gap-sm);
+    background-color: color-mix(in oklab, var(--primary) 5%, transparent);
+    border: 1px solid color-mix(in oklab, var(--primary) 22%, var(--border));
+    border-radius: var(--app-shell-radius-control);
   }
 
   .app-shell-dashboard-breakdown-row-main {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     min-width: 0;
   }
 
   .app-shell-dashboard-breakdown-rank {
-    color: var(--app-shell-text-muted);
     flex-shrink: 0;
+    width: 1rem;
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
     text-align: center;
-    width: 1rem;
   }
 
   .app-shell-dashboard-breakdown-icon-frame {
-    border-radius: 9999px;
     flex-shrink: 0;
+    width: 2.5rem;
     height: 2.5rem;
     overflow: hidden;
-    width: 2.5rem;
+    border-radius: 9999px;
   }
 
   .app-shell-dashboard-breakdown-icon-frame img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
-    width: 100%;
   }
 
   .app-shell-dashboard-breakdown-copy {
@@ -1964,65 +2083,65 @@
   }
 
   .app-shell-dashboard-breakdown-name {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-amount {
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-label-sm);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-dashboard-breakdown-detail {
-    color: var(--app-shell-text-subtle);
     font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-subtle);
   }
 
   .app-shell-dashboard-breakdown-share-frame {
-    margin-top: 0.25rem;
-    max-width: 8rem;
     width: 100%;
+    max-width: 8rem;
+    margin-top: 0.25rem;
   }
 
   .app-shell-dashboard-breakdown-metrics {
-    align-items: flex-end;
     display: flex;
-    flex-direction: column;
     flex-shrink: 0;
+    flex-direction: column;
     gap: var(--app-shell-gap-xs);
+    align-items: flex-end;
     min-width: 4.5rem;
   }
 
   .app-shell-dashboard-breakdown-change-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
   }
 
   .app-shell-dashboard-breakdown-trend {
-    align-items: center;
     display: inline-flex;
+    align-items: center;
   }
 
   .app-shell-dashboard-breakdown-share {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-empty {
-    align-items: center;
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     padding: var(--app-shell-gap-2xl) 0;
     text-align: center;
   }
 
   .app-shell-dashboard-breakdown-empty-icon {
-    color: var(--app-shell-text-muted);
-    height: 2rem;
     width: 2rem;
+    height: 2rem;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-breakdown-empty-title {
@@ -2030,31 +2149,31 @@
   }
 
   .app-shell-dashboard-breakdown-empty-copy {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     max-width: 20rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-transaction-list {
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
-    list-style: none;
-    margin: 0;
     padding: 0 var(--app-shell-padding-card) var(--app-shell-padding-card);
+    margin: 0;
+    list-style: none;
   }
 
   .app-shell-dashboard-transaction-row {
-    align-items: center;
     display: flex;
-    justify-content: space-between;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
+    justify-content: space-between;
   }
 
   .app-shell-dashboard-transaction-main {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
     min-width: 0;
   }
 
@@ -2070,32 +2189,32 @@
   }
 
   .app-shell-dashboard-transaction-subtitle {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-transaction-amount-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     font-size: var(--app-shell-type-body-sm);
   }
 
   .app-shell-dashboard-transaction-indicator {
-    align-items: center;
-    background-color: var(--muted);
-    border-radius: 9999px;
-    color: var(--primary);
     display: flex;
     flex-shrink: 0;
-    height: 1.5rem;
+    align-items: center;
     justify-content: center;
     width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+    background-color: var(--muted);
+    border-radius: 9999px;
   }
 
   .app-shell-dashboard-transaction-indicator-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-dashboard-transaction-indicator-icon-debit {
@@ -2107,8 +2226,8 @@
   }
 
   .app-shell-dashboard-transaction-icon {
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 
   .app-shell-dashboard-transaction-summary {
@@ -2118,28 +2237,28 @@
   }
 
   .app-shell-dashboard-transaction-total-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-transaction-total {
     font-size: var(--app-shell-type-kpi);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-dashboard-transaction-flow-row {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-transaction-flow-item {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-transaction-flow-divider {
@@ -2147,30 +2266,30 @@
   }
 
   .app-shell-dashboard-transaction-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-transaction-empty {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-transaction-list-header {
-    color: var(--app-shell-text-muted);
     display: flex;
-    font-size: var(--app-shell-type-body-xs);
     justify-content: space-between;
-    letter-spacing: var(--afenda-typography-letter-spacing-wide);
     padding: 0 var(--app-shell-padding-card);
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
+    letter-spacing: var(--afenda-typography-letter-spacing-wide);
   }
 
   .app-shell-dashboard-transaction-icon-frame {
-    align-items: center;
     display: flex;
-    height: 100%;
+    align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
   }
 
   .app-shell-dashboard-transaction-amount {
@@ -2187,28 +2306,34 @@
   }
 
   .app-shell-dashboard-transaction-postings {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-table-frame {
     padding: 0 0 0.5rem;
   }
 
+  .app-shell-dashboard-payment-table-frame
+    [data-slot="table-body"]
+    [data-slot="table-row"]:nth-child(even) {
+    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+  }
+
   .app-shell-dashboard-payment-card-cell {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-payment-brand-frame {
-    align-items: center;
-    background-color: var(--muted);
-    border-radius: var(--radius-sm);
     display: flex;
-    height: 2.625rem;
+    align-items: center;
     justify-content: center;
     width: 2.625rem;
+    height: 2.625rem;
+    background-color: var(--muted);
+    border-radius: var(--radius-sm);
   }
 
   .app-shell-dashboard-payment-card-copy {
@@ -2223,20 +2348,20 @@
   }
 
   .app-shell-dashboard-payment-card-type {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-date {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-spend-cell {
-    align-items: flex-end;
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
+    align-items: flex-end;
   }
 
   .app-shell-dashboard-payment-spend {
@@ -2244,8 +2369,8 @@
   }
 
   .app-shell-dashboard-payment-remaining {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-summary {
@@ -2255,44 +2380,44 @@
   }
 
   .app-shell-dashboard-payment-total-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-dashboard-payment-total {
     font-size: var(--app-shell-type-kpi);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
   }
 
   .app-shell-dashboard-payment-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-postings {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-utilization-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
   }
 
   .app-shell-dashboard-payment-utilization-indicator {
-    align-items: center;
     display: inline-flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
   }
 
   .app-shell-dashboard-payment-utilization-dot {
-    border-radius: 9999px;
     flex-shrink: 0;
-    height: 0.5rem;
     width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
   }
 
   .app-shell-dashboard-payment-utilization-dot--high {
@@ -2308,27 +2433,27 @@
   }
 
   .app-shell-dashboard-payment-utilization-label {
-    color: var(--foreground);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--foreground);
   }
 
   .app-shell-dashboard-payment-empty {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-payment-spend-row {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     justify-content: flex-end;
   }
 
   .app-shell-dashboard-payment-utilization-frame {
-    margin-top: 0.25rem;
     width: 100%;
     max-width: 8rem;
+    margin-top: 0.25rem;
   }
 
   .app-shell-dashboard-invoice-widget {
@@ -2336,9 +2461,9 @@
   }
 
   .app-shell-dashboard-invoice-header {
-    align-items: flex-start;
     display: flex;
     gap: var(--app-shell-gap-lg);
+    align-items: flex-start;
     justify-content: space-between;
     padding: var(--app-shell-padding-card) 1.5rem 0;
   }
@@ -2351,16 +2476,16 @@
   }
 
   .app-shell-dashboard-invoice-title {
+    margin: 0;
     font-size: var(--app-shell-type-body-lg);
     font-weight: var(--font-weight-heading-sm);
     line-height: 1.3;
-    margin: 0;
   }
 
   .app-shell-dashboard-invoice-subtitle {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-sm);
     margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-metrics {
@@ -2371,32 +2496,33 @@
   }
 
   .app-shell-dashboard-invoice-metric {
-    align-items: baseline;
-    color: var(--app-shell-text-muted);
     display: inline-flex;
-    font-size: var(--app-shell-type-body-sm);
     gap: 0.375rem;
+    align-items: baseline;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-metric-value {
-    color: var(--foreground);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-label-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--foreground);
   }
 
   .app-shell-dashboard-invoice-metric-value-danger {
+    font-variant-numeric: tabular-nums;
     color: var(--app-shell-text-trend-negative);
   }
 
   .app-shell-dashboard-invoice-bulk-bar {
-    align-items: center;
-    background-color: var(--muted);
-    border-bottom: 1px solid var(--border);
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1.5rem;
+    background-color: var(--muted);
+    border-bottom: 1px solid var(--border);
   }
 
   .app-shell-dashboard-invoice-bulk-copy {
@@ -2405,14 +2531,26 @@
   }
 
   .app-shell-dashboard-invoice-bulk-actions {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-invoice-table-scroll {
     overflow-x: auto;
+  }
+
+  .app-shell-dashboard-invoice-table-scroll
+    [data-slot="table-body"]
+    [data-slot="table-row"]:nth-child(even) {
+    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+  }
+
+  .app-shell-dashboard-invoice-table-scroll
+    [data-slot="table-body"]
+    [data-slot="table-row"]:only-child {
+    background-color: transparent;
   }
 
   .app-shell-dashboard-invoice-amount {
@@ -2420,21 +2558,48 @@
   }
 
   .app-shell-dashboard-invoice-amount-danger {
-    color: var(--app-shell-text-trend-negative);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-trend-negative);
   }
 
   .app-shell-dashboard-invoice-status-cell {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
+    padding: 0;
+    text-align: left;
+    cursor: default;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-dashboard-invoice-status-cell:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
   .app-shell-dashboard-invoice-status-dot {
-    border-radius: 9999px;
     flex-shrink: 0;
-    height: 0.5rem;
     width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .app-shell-dashboard-invoice-status-dot[data-status="paid"] {
+    background-color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-dashboard-invoice-status-dot[data-status="past_due"] {
+    background-color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-dashboard-invoice-status-dot[data-status="draft"] {
+    background-color: var(--warning);
+  }
+
+  .app-shell-dashboard-invoice-status-dot[data-status="downloaded"] {
+    background-color: var(--info);
   }
 
   .app-shell-dashboard-invoice-status-label {
@@ -2443,59 +2608,59 @@
   }
 
   .app-shell-dashboard-invoice-balance-settled {
-    color: var(--app-shell-text-muted);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-empty-icon {
-    color: var(--app-shell-text-muted);
+    width: 2rem;
     height: 2rem;
     margin: 0 auto 0.75rem;
-    width: 2rem;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-empty-title {
     display: block;
-    font-weight: var(--font-weight-label-sm);
     margin-bottom: 0.25rem;
+    font-weight: var(--font-weight-label-sm);
   }
 
   .app-shell-dashboard-invoice-empty-copy {
-    color: var(--app-shell-text-muted);
     display: block;
-    font-size: var(--app-shell-type-body-sm);
     margin-bottom: 1rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-shell {
+    overflow: hidden;
     background-color: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
-    overflow: hidden;
   }
 
   .app-shell-dashboard-invoice-toolbar {
-    align-items: center;
-    border-bottom: 1px solid var(--border);
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-xl);
+    align-items: center;
     justify-content: space-between;
     padding: var(--app-shell-gap-xl);
+    border-bottom: 1px solid var(--border);
   }
 
   .app-shell-dashboard-invoice-toolbar-primary,
   .app-shell-dashboard-invoice-toolbar-filters {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
   }
 
   .app-shell-dashboard-invoice-page-size {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-invoice-filter {
@@ -2506,31 +2671,38 @@
   }
 
   .app-shell-dashboard-invoice-sort-trigger {
-    align-items: center;
-    background: transparent;
-    border: 0;
-    color: inherit;
-    cursor: pointer;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     justify-content: space-between;
     width: 100%;
+    color: inherit;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-dashboard-invoice-sort-trigger:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
   .app-shell-dashboard-invoice-sort-icon {
+    width: 1rem;
     height: 1rem;
     opacity: 0.6;
-    width: 1rem;
   }
 
   .app-shell-dashboard-invoice-id {
+    font-variant-numeric: tabular-nums;
     color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-client-cell {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-dashboard-invoice-client-copy {
@@ -2548,35 +2720,24 @@
   }
 
   .app-shell-dashboard-invoice-date {
+    font-variant-numeric: tabular-nums;
     color: var(--app-shell-text-muted);
   }
 
+  .app-shell-dashboard-invoice-row-actions-menu {
+    width: 100%;
+  }
+
   .app-shell-dashboard-invoice-actions {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-xs);
+    align-items: center;
     justify-content: center;
   }
 
   .app-shell-dashboard-invoice-action-icon {
-    height: 1.125rem;
     width: 1.125rem;
-  }
-
-  .app-shell-dashboard-invoice-status-paid {
-    background-color: var(--app-shell-text-trend-positive);
-  }
-
-  .app-shell-dashboard-invoice-status-past-due {
-    background-color: var(--app-shell-text-trend-negative);
-  }
-
-  .app-shell-dashboard-invoice-status-draft {
-    background-color: var(--warning);
-  }
-
-  .app-shell-dashboard-invoice-status-downloaded {
-    background-color: var(--info);
+    height: 1.125rem;
   }
 
   .app-shell-dashboard-invoice-empty {
@@ -2586,27 +2747,28 @@
   }
 
   .app-shell-dashboard-invoice-footer {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     justify-content: space-between;
     padding: var(--app-shell-gap-lg) var(--app-shell-gap-xl);
   }
 
   .app-shell-dashboard-invoice-summary {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-dashboard-invoice-nav-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   .app-shell-dashboard-invoice-search-icon {
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
   }
 
   /* ── 6. Placeholder content (@layer components) ──────────────────────── */
@@ -2618,8 +2780,8 @@
   }
 
   .app-shell-placeholder-surface {
-    background-color: var(--card);
     color: var(--card-foreground);
+    background-color: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
   }
@@ -2627,11 +2789,11 @@
   .app-shell-placeholder-kpi-card {
     position: relative;
     display: flex;
-    min-height: 9rem;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden;
+    min-height: 9rem;
     padding: var(--app-shell-padding-card);
+    overflow: hidden;
   }
 
   .app-shell-placeholder-kpi-header {
@@ -2647,60 +2809,60 @@
   }
 
   .app-shell-placeholder-kpi-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-kpi-value-row {
     display: flex;
-    align-items: center;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-placeholder-kpi-value {
     font-size: var(--app-shell-type-kpi);
     font-weight: var(--font-weight-heading-sm);
     font-variant-numeric: tabular-nums;
-    letter-spacing: var(--afenda-typography-letter-spacing-tight);
     line-height: var(--leading-heading-lg);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-placeholder-kpi-watermark {
-    pointer-events: none;
     position: absolute;
     right: 0.5rem;
     bottom: 0;
+    pointer-events: none;
   }
 
   .app-shell-placeholder-kpi-watermark-icon {
-    height: 5rem;
     width: 5rem;
+    height: 5rem;
     opacity: 0.06;
   }
 
   .app-shell-placeholder-sparkline-card {
     display: flex;
-    min-height: 9rem;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
-    overflow: hidden;
+    min-height: 9rem;
     padding: var(--app-shell-padding-card);
+    overflow: hidden;
   }
 
   .app-shell-placeholder-sparkline-body {
     display: flex;
     flex: 1;
-    align-items: center;
     gap: var(--app-shell-gap-lg);
+    align-items: center;
   }
 
   .app-shell-placeholder-sparkline-meta {
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-    justify-content: space-between;
     gap: var(--app-shell-gap-md);
+    justify-content: space-between;
   }
 
   .app-shell-placeholder-sparkline-title-group {
@@ -2710,35 +2872,35 @@
   }
 
   .app-shell-placeholder-sparkline-title {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     line-height: 1.25;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-sparkline-amount {
     font-size: var(--app-shell-type-hero);
     font-weight: var(--font-weight-heading-sm);
     font-variant-numeric: tabular-nums;
-    letter-spacing: var(--afenda-typography-letter-spacing-tight);
     line-height: var(--app-shell-leading-display);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
   }
 
   .app-shell-placeholder-sparkline-change-row {
     display: flex;
-    align-items: center;
     gap: var(--app-shell-density-field-gap);
+    align-items: center;
   }
 
   .app-shell-placeholder-sparkline-change {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-sparkline-comparison {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     line-height: 1.25;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-sparkline-chart {
@@ -2761,9 +2923,9 @@
 
   .app-shell-placeholder-widget-header {
     display: flex;
+    gap: var(--app-shell-gap-md);
     align-items: center;
     justify-content: space-between;
-    gap: var(--app-shell-gap-md);
   }
 
   .app-shell-placeholder-widget-title {
@@ -2773,37 +2935,37 @@
   }
 
   .app-shell-placeholder-widget-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     line-height: 1.25;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-widget-period-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-order-list {
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .app-shell-placeholder-order-row {
     display: flex;
+    gap: var(--app-shell-gap-sm);
     align-items: center;
     justify-content: space-between;
-    gap: var(--app-shell-gap-sm);
   }
 
   .app-shell-placeholder-order-main {
     display: flex;
-    align-items: center;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     min-width: 0;
   }
 
@@ -2820,16 +2982,16 @@
   }
 
   .app-shell-placeholder-order-module {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     line-height: 1.25;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-placeholder-order-amount-row {
     display: flex;
     flex-shrink: 0;
-    align-items: center;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-placeholder-order-amount {
@@ -2840,17 +3002,17 @@
 
   .app-shell-placeholder-order-indicator {
     display: flex;
-    height: 1.5rem;
-    width: 1.5rem;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
+    width: 1.5rem;
+    height: 1.5rem;
     background-color: var(--muted);
+    border-radius: 9999px;
   }
 
   .app-shell-placeholder-order-indicator-icon {
-    height: 0.875rem;
     width: 0.875rem;
+    height: 0.875rem;
   }
 
   .app-shell-placeholder-order-indicator-icon-credit {
@@ -2865,36 +3027,36 @@
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-gap-lg);
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .app-shell-placeholder-module-row {
     display: flex;
-    align-items: center;
     gap: var(--app-shell-gap-md);
+    align-items: center;
   }
 
   .app-shell-placeholder-module-copy {
-    min-width: 0;
     flex: 1;
+    min-width: 0;
   }
 
   .app-shell-placeholder-module-header {
     display: flex;
+    gap: var(--app-shell-gap-sm);
     align-items: center;
     justify-content: space-between;
-    gap: var(--app-shell-gap-sm);
     margin-bottom: 0.375rem;
   }
 
   .app-shell-placeholder-module-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: var(--app-shell-type-body-sm);
     font-weight: var(--font-weight-label-sm);
     line-height: 1.25;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
@@ -2920,14 +3082,15 @@
   .app-shell-placeholder-progress-track {
     height: 0.375rem;
     overflow: hidden;
-    border-radius: 9999px;
     background-color: var(--muted);
+    border-radius: 9999px;
   }
 
   .app-shell-placeholder-progress-fill {
     height: 100%;
     border-radius: 9999px;
-    transition: width var(--app-shell-duration-slow) var(--app-shell-ease-standard);
+    transition: width var(--app-shell-duration-slow)
+      var(--app-shell-ease-standard);
   }
 
   .app-shell-placeholder-progress-fill-high {
@@ -2943,25 +3106,25 @@
   }
 
   .app-shell-placeholder-module-percent {
-    width: 2rem;
     flex-shrink: 0;
-    color: var(--app-shell-text-muted);
+    width: 2rem;
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
     line-height: 1.25;
+    color: var(--app-shell-text-muted);
     text-align: right;
   }
 
   .app-shell-placeholder-trend-icon-up {
-    color: var(--app-shell-text-trend-positive);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-trend-positive);
   }
 
   .app-shell-placeholder-trend-icon-down {
-    color: var(--app-shell-text-trend-negative);
-    height: 1rem;
     width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-trend-negative);
   }
 
   /* ── 7. Page layout (@layer components) ────────────────────────────────── */
@@ -2979,45 +3142,45 @@
   }
 
   .app-shell-page-title-row {
-    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-lg);
+    align-items: flex-start;
     justify-content: space-between;
     min-height: 2.25rem;
   }
 
   .app-shell-page-title-group {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     min-width: 0;
   }
 
   .app-shell-page-title {
     font-size: var(--app-shell-type-kpi);
     font-weight: var(--font-weight-heading-sm);
-    letter-spacing: -0.025em;
     line-height: 1.2;
+    letter-spacing: -0.025em;
   }
 
   .app-shell-page-description {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     line-height: 1.5;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-page-actions {
-    align-items: center;
     display: flex;
     flex-shrink: 0;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
   }
 
   .app-shell-page-badge {
-    align-items: center;
     display: inline-flex;
+    align-items: center;
   }
 
   .app-shell-page-body {
@@ -3027,11 +3190,20 @@
     min-width: 0;
   }
 
+  .app-shell-workspace-placeholder-copy {
+    background-color: var(--afenda-color-surface-panel, var(--muted));
+    border: 1px solid var(--afenda-color-border-subtle, var(--border));
+    border-radius: var(--afenda-radius-md, var(--radius-md));
+    color: var(--afenda-color-foreground-muted, var(--muted-foreground));
+    font-size: var(--afenda-font-size-sm, 0.875rem);
+    padding: var(--app-shell-gap-lg);
+  }
+
   /* Authority preview — Storybook recipe wiring demos */
   .app-shell-authority-preview-layout {
     display: flex;
-    min-height: 100vh;
     width: 100%;
+    min-height: 100vh;
   }
 
   .app-shell-authority-preview-sidebar-nav {
@@ -3049,9 +3221,9 @@
   }
 
   .app-shell-authority-preview-topbar-inner {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-md);
+    align-items: center;
     padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
   }
 
@@ -3071,8 +3243,8 @@
   }
 
   .app-shell-authority-preview-footer-copy {
-    font-size: var(--app-shell-type-body-xs);
     padding: 0.5rem 1rem;
+    font-size: var(--app-shell-type-body-xs);
   }
 
   .app-shell-authority-preview-compact-main {
@@ -3083,17 +3255,17 @@
    * statistics-component-21 — dual-series line trend metric cards
    */
   .app-shell-statistics-trend-section {
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
     max-width: 80rem;
     padding: var(--app-shell-gap-2xl) var(--app-shell-gap-xl);
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .app-shell-statistics-trend-grid {
     display: grid;
-    gap: var(--app-shell-density-gap);
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--app-shell-density-gap);
 
     @media (min-width: 640px) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3105,8 +3277,8 @@
   }
 
   .app-shell-statistics-trend-card {
-    height: 100%;
     min-width: 0;
+    height: 100%;
   }
 
   .app-shell-statistics-trend-card > [data-component="Card"] {
@@ -3123,10 +3295,10 @@
   }
 
   .app-shell-statistics-trend-layout {
-    align-items: center;
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-gap-xl);
+    align-items: center;
 
     @media (min-width: 640px) {
       flex-direction: row;
@@ -3147,18 +3319,18 @@
   }
 
   .app-shell-statistics-trend-metric {
-    align-items: center;
     display: flex;
     gap: var(--app-shell-gap-sm);
+    align-items: center;
     min-width: 0;
   }
 
   .app-shell-statistics-trend-swatch {
+    flex-shrink: 0;
+    width: 0.25rem;
+    height: 2.25rem;
     background-color: var(--series-swatch-color);
     border-radius: var(--app-shell-radius-control);
-    flex-shrink: 0;
-    height: 2.25rem;
-    width: 0.25rem;
   }
 
   .app-shell-statistics-trend-metric-copy {
@@ -3169,41 +3341,41 @@
   }
 
   .app-shell-statistics-trend-metric-label {
-    color: var(--app-shell-text-muted);
-    font-size: var(--app-shell-type-body-xs);
     margin: 0;
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-statistics-trend-metric-value {
-    font-size: var(--app-shell-type-title);
-    font-variant-numeric: tabular-nums;
-    font-weight: var(--font-weight-heading-sm);
-    line-height: var(--app-shell-leading-tight);
     margin: 0;
+    font-size: var(--app-shell-type-title);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--app-shell-leading-tight);
   }
 
   .app-shell-statistics-trend-chart {
     flex: 1;
-    height: 7rem;
-    min-width: 0;
     width: 100%;
+    min-width: 0;
+    height: 7rem;
   }
 
   /**
    * statistics-component-10 — revenue, leads, activity, profile traffic cards
    */
   .app-shell-statistics-metric-section {
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
     max-width: 80rem;
     padding: var(--app-shell-gap-2xl) var(--app-shell-gap-xl);
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .app-shell-statistics-metric-grid {
     display: grid;
-    gap: var(--app-shell-density-gap);
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--app-shell-density-gap);
 
     @media (min-width: 1024px) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3211,8 +3383,8 @@
   }
 
   .app-shell-statistics-metric-card {
-    height: 100%;
     min-width: 0;
+    height: 100%;
   }
 
   .app-shell-statistics-metric-card > [data-component="Card"] {
@@ -3228,9 +3400,9 @@
     padding-block: var(--app-shell-padding-card);
 
     @media (min-width: 640px) {
-      align-items: stretch;
       flex-direction: row;
       gap: var(--app-shell-gap-xl);
+      align-items: stretch;
     }
   }
 
@@ -3249,16 +3421,16 @@
   }
 
   .app-shell-statistics-metric-title {
-    color: var(--foreground);
     font-size: var(--app-shell-type-body);
     font-weight: var(--font-weight-heading-sm);
     line-height: var(--app-shell-leading-tight);
+    color: var(--foreground);
   }
 
   .app-shell-statistics-metric-caption {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-sm);
     line-height: var(--app-shell-leading-normal);
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-statistics-metric-heading-stack {
@@ -3275,8 +3447,8 @@
 
   .app-shell-statistics-metric-amount {
     font-size: var(--app-shell-type-title);
-    font-variant-numeric: tabular-nums;
     font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
     line-height: var(--app-shell-leading-tight);
   }
 
@@ -3286,17 +3458,17 @@
   }
 
   .app-shell-statistics-metric-change {
-    color: var(--app-shell-text-muted);
     font-size: var(--app-shell-type-body-xs);
     font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
   }
 
   .app-shell-statistics-metric-chart {
     flex: 1 1 auto;
-    min-height: 7rem;
-    min-width: 0;
-    overflow: hidden;
     width: 100%;
+    min-width: 0;
+    min-height: 7rem;
+    overflow: hidden;
   }
 
   .app-shell-statistics-metric-chart-bars {
@@ -3304,13 +3476,13 @@
   }
 
   .app-shell-statistics-metric-chart-bars-horizontal {
-    height: 8.5rem;
     max-width: 12rem;
+    height: 8.5rem;
 
     @media (min-width: 640px) {
       align-self: center;
-      margin-left: auto;
       max-width: 11rem;
+      margin-left: auto;
     }
   }
 
@@ -3319,16 +3491,19 @@
   }
 
   .app-shell-statistics-metric-chart [data-component="Chart"] {
-    aspect-ratio: auto;
+    width: 100%;
     height: 100%;
     min-height: 0;
-    width: 100%;
+    aspect-ratio: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .app-shell-search-trigger-desktop,
     .app-shell-sidebar-user-chevron,
-    .app-shell-placeholder-progress-fill {
+    .app-shell-placeholder-progress-fill,
+    .app-shell-activity-file-inline,
+    .app-shell-activity-file-card,
+    .app-shell-dashboard-grid .react-grid-item {
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
     }
@@ -3337,8 +3512,8 @@
 
 /* ── 8. Unlayered overrides — dropdown width !important, avatar sizing ─── */
 .app-shell-recipient-avatar > [data-slot="avatar"] {
-  height: 100%;
   width: 100%;
+  height: 100%;
 }
 
 /**
@@ -3361,6 +3536,30 @@
   width: auto !important;
   min-width: 16rem;
   max-width: min(18rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(.app-shell-context-switcher-dropdown) {
+  width: auto !important;
+  min-width: 16rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+}
+
+[data-slot="dropdown-menu-content"]:has(
+  .app-shell-dashboard-invoice-row-actions-menu
+) {
+  width: auto !important;
+  min-width: 14rem;
+  max-width: min(18rem, calc(100vw - 2rem));
+}
+
+/**
+ * Activity sheet panel — UNLAYERED so max-width beats SheetContent sm:max-w-sm.
+ * Marker class `.app-shell-activity-panel` lives in AppShellActivityDialog.
+ */
+@media (min-width: 640px) {
+  [data-slot="sheet-content"]:has(.app-shell-activity-panel) {
+    max-width: 28rem !important;
+  }
 }
 
 /* ── 9. Print (@media print) ─────────────────────────────────────────────── */

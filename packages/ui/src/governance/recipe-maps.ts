@@ -322,7 +322,7 @@ export const fieldSlotClassNames = {
 export const fieldSlotClassNamesByKey = {
   title:
     "flex w-fit items-center gap-2 text-sm font-medium group-data-[disabled=true]/field:opacity-50",
-  separatorLine: "absolute inset-0 top-1/2",
+  separatorLine: "absolute inset-0 top-1/2 flex w-full items-center",
   separatorContent:
     "relative mx-auto block w-fit bg-background px-2 text-muted-foreground",
   errorList: "ml-4 flex list-disc flex-col gap-1",
@@ -392,6 +392,11 @@ export const popoverSlotClassNames = {
   state: "text-muted-foreground",
 } as const;
 
+export const popoverSlotClassNamesByKey = {
+  "menu-root": "relative",
+  trigger: "select-none",
+} as const;
+
 /** Tooltip content and arrow slots. */
 export const tooltipSlotClassNames = {
   root: "z-50 inline-flex w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-background has-data-[slot=kbd]:pr-1.5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
@@ -400,6 +405,9 @@ export const tooltipSlotClassNames = {
 export const tooltipSlotClassNamesByKey = {
   arrow:
     "z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground",
+  provider: "contents",
+  "menu-root": "relative",
+  trigger: "select-none",
 } as const;
 
 /** Tabs list, trigger, and content slots. */
@@ -431,12 +439,14 @@ export const selectSlotClassNames = {
 } as const;
 
 export const selectSlotClassNamesByKey = {
+  "select-root": "relative",
+  "select-value": "contents",
   "content-popper":
     "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
   "trigger-size-sm":
     "data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)]",
   "trigger-size-md": "data-[size=default]:h-8",
-  viewport: "",
+  viewport: "w-full",
   "viewport-popper":
     "data-[position=popper]:h-(--radix-select-trigger-height) data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)",
   "item-indicator":
@@ -462,6 +472,8 @@ export const dropdownMenuSlotClassNames = {
 } as const;
 
 export const dropdownMenuSlotClassNamesByKey = {
+  "menu-root": "relative",
+  trigger: "select-none",
   "checkbox-item":
     "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   "radio-item":
@@ -593,6 +605,9 @@ export const toasterSlotClassNames = {
   root: "toaster group",
 } as const;
 
+/** Layout wrapper for governed toaster metadata without affecting Sonner layout. */
+export const toasterRootWrapperClassName = "contents" as const;
+
 export const toasterSlotClassNamesByKey = {
   loading: "size-4 animate-spin",
   success: "size-4",
@@ -600,6 +615,9 @@ export const toasterSlotClassNamesByKey = {
   warning: "size-4",
   error: "size-4",
 } as const;
+
+/** Sonner toast surface hook class — paired with governed toaster tokens. */
+export const toasterToastClassName = "cn-toast" as const;
 
 /** Sonner inline CSS variables — kept in recipe ownership to avoid semantic token strings in components. */
 export const toasterInlineStyleVariables = {
@@ -624,6 +642,7 @@ export const contextMenuSlotClassNames = {
 } as const;
 
 export const contextMenuSlotClassNamesByKey = {
+  "menu-root": "relative",
   trigger: "select-none",
   "checkbox-item":
     "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -810,7 +829,8 @@ export const toggleGroupSlotClassNames = {
 /** Progress root and indicator slots. */
 export const progressSlotClassNames = {
   root: "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
-  control: "size-full flex-1 bg-primary transition-all",
+  control:
+    "size-full flex-1 bg-primary transition-all [transform:translateX(calc(-100%+var(--progress-value,0)*1%))]",
 } as const;
 
 /** Slider root, track, range, and thumb slots. */
@@ -864,7 +884,15 @@ export const kbdSlotClassNamesByKey = {
 
 /** Spinner root presentation. */
 export const spinnerSlotClassNames = {
-  root: "size-4 animate-spin",
+  root: "animate-spin",
+} as const;
+
+export const spinnerSlotClassNamesByKey = {
+  xs: "size-3",
+  sm: "size-4",
+  md: "size-5",
+  lg: "size-6",
+  xl: "size-8",
 } as const;
 
 /** ERP table/cell status — dot color only; label stays secondary. */

@@ -19,23 +19,60 @@ import {
 describe("Card governance", () => {
   it("keeps governed data attributes authoritative on root", () => {
     render(
-      <Card data-component="Fake" data-recipe="fake" data-state="fake">
+      <Card
+        data-component="Fake"
+        data-density="compact"
+        data-radius="lg"
+        data-recipe="fake"
+        data-shadow="overlay"
+        data-size="lg"
+        data-state="fake"
+        density="standard"
+        radius="md"
+        shadow="raised"
+        size="sm"
+      >
         Content
       </Card>
     );
 
     const card = screen.getByText("Content");
 
+    expect(card).toHaveAttribute("data-density", "standard");
+    expect(card).toHaveAttribute("data-radius", "md");
+    expect(card).toHaveAttribute("data-shadow", "raised");
+    expect(card).toHaveAttribute("data-size", "sm");
     expectGovernedDataAuthority(card, {
       "data-component": "Card",
       "data-recipe": "card",
       "data-state": "ready",
     });
-    expect(card).toHaveAttribute("data-density", "standard");
-    expect(card).toHaveAttribute("data-radius", "md");
-    expect(card).toHaveAttribute("data-shadow", "raised");
-    expect(card).not.toHaveAttribute("data-size");
     expectGovernedPrimitive(card, { component: "Card", slot: "card" });
+  });
+
+  it("applies governed state to the card root", () => {
+    render(
+      <Card data-testid="card-root" state="loading">
+        <CardContent>Loading</CardContent>
+      </Card>
+    );
+
+    expect(screen.getByTestId("card-root")).toHaveAttribute(
+      "data-state",
+      "loading"
+    );
+  });
+
+  it("forwards ref to the card root element", () => {
+    const ref = createRef<HTMLDivElement>();
+
+    render(
+      <Card ref={ref}>
+        <CardContent>Body</CardContent>
+      </Card>
+    );
+
+    expect(ref.current).toBe(screen.getByText("Body").closest("[data-slot=card]"));
   });
 
   it("emits governed layout size through data-size on root", () => {

@@ -1,6 +1,3 @@
-import type { ReactNode } from "react";
-import { Fragment } from "react";
-
 import {
   Avatar,
   AvatarFallback,
@@ -14,16 +11,18 @@ import {
   DropdownMenuTrigger,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import type { ReactNode } from "react";
+import { Fragment } from "react";
 
 import {
+  type AppShellProfileMenuGroup,
+  type AppShellProfileMenuItem,
   DEFAULT_APP_SHELL_PROFILE_AVATAR_SRC,
   DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME,
   DEFAULT_APP_SHELL_PROFILE_EMAIL,
   DEFAULT_APP_SHELL_PROFILE_FALLBACK,
   defaultAppShellProfileLogoutAction,
   defaultAppShellProfileMenuGroups,
-  type AppShellProfileMenuGroup,
-  type AppShellProfileMenuItem,
 } from "../data/app-shell.profile.data";
 
 const PROFILE_MENU_LABEL_ID = "app-shell-profile-menu-label";
@@ -36,26 +35,21 @@ export type AppShellProfileDropdownGovernedComponents = Extract<
 >;
 
 export interface AppShellProfileDropdownProps {
-  readonly trigger: ReactNode;
-  readonly defaultOpen?: boolean;
   readonly align?: "start" | "center" | "end";
+  readonly avatarFallback?: string;
+  readonly avatarSrc?: string;
+  readonly defaultOpen?: boolean;
   readonly displayName?: string;
   readonly email?: string;
-  readonly avatarSrc?: string;
-  readonly avatarFallback?: string;
-  readonly menuGroups?: readonly AppShellProfileMenuGroup[];
   readonly logoutItem?: AppShellProfileMenuItem;
-  readonly showOnlineIndicator?: boolean;
+  readonly menuGroups?: readonly AppShellProfileMenuGroup[];
   readonly onlineStatusLabel?: string;
+  readonly showOnlineIndicator?: boolean;
+  readonly trigger: ReactNode;
 }
 
 function ProfileOnlineIndicator() {
-  return (
-    <span
-      aria-hidden
-      className="app-shell-profile-online-indicator"
-    />
-  );
+  return <span aria-hidden className="app-shell-profile-online-indicator" />;
 }
 
 function ProfileMenuHeader({
@@ -105,7 +99,11 @@ function ProfileMenuHeader({
   );
 }
 
-function ProfileMenuItemRow({ item }: { readonly item: AppShellProfileMenuItem }) {
+function ProfileMenuItemRow({
+  item,
+}: {
+  readonly item: AppShellProfileMenuItem;
+}) {
   return (
     <DropdownMenuItem
       {...(item.variant === undefined ? {} : { variant: item.variant })}
@@ -124,7 +122,7 @@ function ProfileMenuGroupSection({
   return (
     <DropdownMenuGroup aria-label={group.id}>
       {group.items.map((item) => (
-        <ProfileMenuItemRow key={item.id} item={item} />
+        <ProfileMenuItemRow item={item} key={item.id} />
       ))}
     </DropdownMenuGroup>
   );

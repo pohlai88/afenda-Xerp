@@ -157,10 +157,10 @@ export const comboboxSlotClassNames = {
 
 export const comboboxSlotClassNamesByKey = {
   positioner: "isolate z-50",
-  value: "",
-  clear: "",
-  group: "",
-  collection: "",
+  value: "contents",
+  clear: "contents",
+  group: "contents",
+  collection: "contents",
   "trigger-chevron": "pointer-events-none size-4 text-muted-foreground",
   "item-indicator":
     "pointer-events-none absolute right-2 flex size-4 items-center justify-center",
@@ -224,7 +224,7 @@ export const chartSlotClassNamesByKey = {
   "indicator-dashed-nested": "my-0.5",
   "legend-top": "pb-3",
   "legend-bottom": "pt-3",
-  "legend-swatch": "h-2 w-2 shrink-0 rounded-[2px]",
+  "legend-swatch": "h-2 w-2 shrink-0 rounded-[2px] bg-(--color-bg)",
 } as const;
 
 /** Resizable panel group, panel, and handle slots. */
@@ -334,7 +334,7 @@ export const sidebarSlotClassNamesByKey = {
   "menu-sub-item": "group/menu-sub-item relative",
   "menu-sub-button":
     "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden group-data-[collapsible=icon]:hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[size=md]:text-sm data-[size=sm]:text-xs data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-  trigger: "",
+  trigger: "inline-flex",
   "sr-only": "sr-only",
   ...Object.fromEntries(
     (

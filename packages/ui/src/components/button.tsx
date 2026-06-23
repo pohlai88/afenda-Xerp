@@ -1,9 +1,10 @@
 import type { GovernedButtonProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-
-import { cn } from "@afenda/ui/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
+
+const BUTTON_RECIPE_NAME = "button" as const;
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "className">,
@@ -31,6 +32,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       type,
       disabled,
       tabIndex,
+      "aria-busy": ariaBusy,
       "aria-disabled": ariaDisabled,
       ...props
     },
@@ -40,7 +42,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const governed = resolvePrimitiveGovernance({
       componentName: "Button",
-      recipeName: "button",
+      recipeName: BUTTON_RECIPE_NAME,
       variant: {
         intent,
         emphasis,
@@ -54,27 +56,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     });
 
     const resolvedType = asChild ? undefined : (type ?? "button");
-
     const resolvedAriaDisabled = asChild && disabled ? true : ariaDisabled;
-
     const resolvedTabIndex =
       asChild && disabled && tabIndex === undefined ? -1 : tabIndex;
+    const resolvedAriaBusy =
+      ariaBusy !== undefined ? ariaBusy : state === "loading" ? true : undefined;
 
     return (
       <Comp
         ref={ref}
-        {...props}
-        aria-disabled={resolvedAriaDisabled}
-        data-emphasis={emphasis}
-        data-intent={intent}
-        data-presentation={presentation}
-        data-size={size}
-        disabled={asChild ? undefined : disabled}
-        tabIndex={resolvedTabIndex}
-        type={resolvedType}
-        {...(density === undefined ? {} : { "data-density": density })}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(
+          {
+            ...props,
+            type: resolvedType,
+            disabled: asChild ? undefined : disabled,
+            "aria-busy": resolvedAriaBusy,
+            "aria-disabled": resolvedAriaDisabled,
+            tabIndex: resolvedTabIndex,
+          },
+          governed,
+          {
+            "data-density": density,
+            "data-emphasis": emphasis,
+            "data-intent": intent,
+            "data-presentation": presentation,
+            "data-size": size,
+          }
+        )}
       />
     );
   }

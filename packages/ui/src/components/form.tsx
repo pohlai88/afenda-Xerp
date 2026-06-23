@@ -2,13 +2,27 @@
 
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 
+const FORM_RECIPE_NAME = "form-control" as const;
+
+/** Static governance anchor for the Form alias registry entry. */
 void resolvePrimitiveGovernance({
   componentName: "Form",
-  recipeName: "form-control",
+  recipeName: FORM_RECIPE_NAME,
   slot: "root",
 });
 
-/** shadcn v4 base-nova form aliases — Field primitives with legacy Form naming. */
+/**
+ * shadcn v4 Form aliases — governed Field primitives with legacy naming.
+ *
+ * | Form alias      | Field source     | Emitted `data-slot` |
+ * |-----------------|------------------|---------------------|
+ * | `Form`          | `FieldGroup`     | `field-group`       |
+ * | `FormItem`      | `Field`          | `field`             |
+ * | `FormLabel`     | `FieldLabel`     | `field-label`       |
+ * | `FormControl`   | `FieldContent`   | `field-content`     |
+ * | `FormDescription` | `FieldDescription` | `field-description` |
+ * | `FormMessage`   | `FieldError`     | `field-error`       |
+ */
 export {
   Field,
   Field as FormItem,
@@ -26,4 +40,10 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
+} from "./field";
+
+export type {
+  FieldContentProps as FormControlProps,
+  FieldGroupProps as FormProps,
+  FieldProps as FormItemProps,
 } from "./field";

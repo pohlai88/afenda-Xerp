@@ -8,11 +8,10 @@ import {
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertTriangleIcon,
+  ArrowLeftIcon,
   ArrowRightIcon,
-  BellIcon,
   CheckIcon,
   ChevronRightIcon,
-  CopyIcon,
   DownloadIcon,
   EditIcon,
   EyeIcon,
@@ -33,10 +32,13 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  AsyncSubmitButton,
+  CopyRecordLinkButton,
+  NotificationBellButton,
+} from "./_storybook/button-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Badge } from "./badge";
 import { Button } from "./button";
 import { Spinner } from "./spinner";
 import {
@@ -45,68 +47,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function CopyRecordLinkButton() {
-  const [copied, setCopied] = useState(false);
-
-  return (
-    <Button
-      emphasis="outline"
-      intent="secondary"
-      onClick={() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }}
-      size="sm"
-    >
-      {copied ? <CheckIcon /> : <CopyIcon />}
-      {copied ? "Copied" : "Copy link"}
-    </Button>
-  );
-}
-
-function AsyncSubmitButton() {
-  const [phase, setPhase] = useState<"idle" | "loading" | "success">("idle");
-
-  const handleClick = () => {
-    if (phase !== "idle") {
-      return;
-    }
-    setPhase("loading");
-    setTimeout(() => setPhase("success"), 1500);
-    setTimeout(() => setPhase("idle"), 3500);
-  };
-
-  return (
-    <Button
-      disabled={phase === "loading"}
-      emphasis="solid"
-      intent="primary"
-      onClick={handleClick}
-      size="sm"
-      {...(phase === "loading" ? { state: "loading" as const } : {})}
-    >
-      {phase === "loading" ? (
-        <>
-          <Spinner />
-          Submitting…
-        </>
-      ) : phase === "success" ? (
-        <>
-          <CheckIcon />
-          Submitted
-        </>
-      ) : (
-        <>
-          <SendIcon />
-          Submit for approval
-        </>
-      )}
-    </Button>
-  );
-}
 
 const meta = {
   title: "Primitives/Button",
@@ -157,6 +97,7 @@ const meta = {
       table: { defaultValue: { summary: "default" } },
     },
     disabled: { control: "boolean" },
+    asChild: { control: "boolean" },
     children: { control: "text" },
   },
   args: {
@@ -222,7 +163,7 @@ export const Disabled: Story = {
 export const Loading: Story = {
   args: { state: "loading", disabled: true },
   render: (args) => (
-    <Button {...args}>
+    <Button {...args} aria-label="Saving changes">
       <Spinner />
       Saving…
     </Button>
@@ -410,9 +351,7 @@ export const GovernanceStates: Story = {
     <StoryStack gap="md">
       {GOVERNED_STATES.map((state) => (
         <StoryRow align="center" gap="md" key={state}>
-          <span className="w-24 font-mono text-muted-foreground text-xs">
-            {state}
-          </span>
+          <StoryCaption>{state}</StoryCaption>
           <Button emphasis="solid" intent="primary" size="sm" state={state}>
             Primary
           </Button>
@@ -478,24 +417,7 @@ export const AsyncSubmit: Story = {
 export const NotificationBell: Story = {
   name: "Button — Notification Bell",
   parameters: { layout: "padded" },
-  render: () => (
-    <div className="relative inline-flex">
-      <Button
-        aria-label="Notifications, 5 unread"
-        emphasis="ghost"
-        intent="quiet"
-        presentation="icon"
-        size="sm"
-      >
-        <BellIcon />
-      </Button>
-      <div className="absolute -top-1 -right-1">
-        <Badge emphasis="solid" size="sm" tone="danger">
-          5
-        </Badge>
-      </div>
-    </div>
-  ),
+  render: () => <NotificationBellButton />,
 };
 
 export const TooltipIconButton: Story = {
@@ -658,7 +580,13 @@ export const AsyncSave: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <StoryRow align="center" gap="sm">
-      <Button disabled emphasis="solid" intent="primary" state="loading">
+      <Button
+        aria-label="Saving changes"
+        disabled
+        emphasis="solid"
+        intent="primary"
+        state="loading"
+      >
         <Spinner />
         Saving…
       </Button>
@@ -840,7 +768,7 @@ export const WizardNavigation: Story = {
     <StoryFrame width="lg">
       <StoryRow align="center" justify="between">
         <Button emphasis="ghost" intent="secondary" size="sm">
-          <ArrowRightIcon className="rotate-180" />
+          <ArrowLeftIcon />
           Back
         </Button>
         <span className="text-muted-foreground text-sm">
@@ -963,7 +891,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          'Icon-only buttons require `aria-label`. Async buttons use `state="loading"` with `disabled`. Notification buttons expose unread count in the label.',
+          'Icon-only buttons require `aria-label`. Async buttons use `state="loading"` with `disabled` and inherit `aria-busy="true"`. Notification buttons expose unread count in the label.',
       },
     },
   },
@@ -988,6 +916,7 @@ export const GovernanceAccessibility: Story = {
         <Trash2Icon />
       </Button>
       <Button
+        aria-label="Processing request"
         disabled
         emphasis="solid"
         intent="primary"
@@ -1075,9 +1004,7 @@ export const AllDensities: Story = {
     <StoryStack gap="sm">
       {DENSITIES.map((density) => (
         <StoryRow align="center" gap="md" key={density}>
-          <span className="w-24 font-mono text-muted-foreground text-xs">
-            {density}
-          </span>
+          <StoryCaption>{density}</StoryCaption>
           <Button density={density} emphasis="solid" intent="primary" size="sm">
             Primary
           </Button>

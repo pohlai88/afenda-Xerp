@@ -1,5 +1,6 @@
 import {
   DENSITIES,
+  GOVERNED_CARD_LAYOUT_SIZES,
   GOVERNED_PANEL_RADII,
   GOVERNED_PANEL_SHADOWS,
   GOVERNED_STATES,
@@ -25,8 +26,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { GOVERNED_CARD_LAYOUT_SIZES } from "../governance/component-props";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { Avatar, AvatarFallback } from "./avatar";
@@ -110,7 +110,7 @@ function DismissibleActionCardComponent() {
 
   if (!visible) {
     return (
-      <p className="text-muted-foreground text-sm italic">
+      <p aria-live="polite" className="text-muted-foreground text-sm italic">
         Card dismissed — refresh story to reset.
       </p>
     );
@@ -302,7 +302,7 @@ export const FooterActions: Story = {
               <span className="text-muted-foreground text-sm">
                 Total amount
               </span>
-              <span className="font-semibold text-sm">
+              <span className="font-semibold text-sm tabular-nums">
                 {formatCurrency(4820)}
               </span>
             </StoryRow>
@@ -415,6 +415,38 @@ export const AllLayoutSizes: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Consumer passes `data-density=\"compact\"` and `data-shadow=\"flat\"` — governed props (`density=\"standard\"`, `shadow=\"raised\"`) must win on the card root.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Card
+        data-density="compact"
+        data-radius="lg"
+        data-shadow="flat"
+        density="standard"
+        radius="md"
+        shadow="raised"
+      >
+        <CardHeader>
+          <CardTitle>Governed Wins</CardTitle>
+          <CardDescription>
+            Inspect data-density, data-radius, and data-shadow on the root.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </StoryFrame>
+  ),
+};
+
 export const GovernanceStates: Story = {
   name: "Governance — All States",
   parameters: { layout: "padded" },
@@ -490,11 +522,15 @@ export const KpiMetricCard: Story = {
       <Card density="compact" size="sm">
         <CardHeader>
           <CardDescription>Monthly revenue</CardDescription>
-          <CardTitle>{formatCurrency(1_284_000)}</CardTitle>
+          <CardTitle>
+            <span className="tabular-nums tracking-tight">
+              {formatCurrency(1_284_000)}
+            </span>
+          </CardTitle>
           <CardAction>
             <Badge emphasis="soft" tone="success">
-              <ArrowUpIcon />
-              12.4%
+              <ArrowUpIcon aria-hidden="true" />
+              <span className="tabular-nums">12.4%</span>
             </Badge>
           </CardAction>
         </CardHeader>
@@ -503,7 +539,7 @@ export const KpiMetricCard: Story = {
             <span className="text-muted-foreground text-xs">
               vs. prior month
             </span>
-            <span className="font-medium text-success text-xs">
+            <span className="text-muted-foreground text-xs tabular-nums">
               +{formatCurrency(142_000)}
             </span>
           </StoryRow>
@@ -553,7 +589,9 @@ export const DashboardStatGrid: Story = {
             <Card density="compact" size="sm">
               <CardHeader>
                 <CardDescription>{label}</CardDescription>
-                <CardTitle>{value}</CardTitle>
+                <CardTitle>
+                  <span className="tabular-nums tracking-tight">{value}</span>
+                </CardTitle>
                 <CardAction>
                   <Icon
                     aria-hidden="true"
@@ -563,7 +601,7 @@ export const DashboardStatGrid: Story = {
               </CardHeader>
               <CardContent>
                 <Badge emphasis="soft" size="sm" tone={tone}>
-                  {delta} this week
+                  <span className="tabular-nums">{delta} this week</span>
                 </Badge>
               </CardContent>
             </Card>
@@ -582,7 +620,7 @@ export const InvoiceSummaryCard: Story = {
       <Card>
         <CardHeader>
           <StoryStack gap="xs">
-            <span className="font-mono text-muted-foreground text-xs">
+            <span className="font-mono text-muted-foreground text-xs tabular-nums">
               INV-2026-0042
             </span>
             <CardTitle>Acme Supplies Ltd.</CardTitle>
@@ -600,16 +638,20 @@ export const InvoiceSummaryCard: Story = {
               <span className="text-muted-foreground text-sm">
                 Invoice amount
               </span>
-              <span className="font-semibold">{formatCurrency(24_850)}</span>
+              <span className="font-semibold tabular-nums">
+                {formatCurrency(24_850)}
+              </span>
             </StoryRow>
             <StoryRow justify="between">
               <span className="text-muted-foreground text-sm">Amount paid</span>
-              <span>{formatCurrency(0)}</span>
+              <span className="tabular-nums">{formatCurrency(0)}</span>
             </StoryRow>
             <Separator />
             <StoryRow justify="between">
               <span className="font-medium text-sm">Balance due</span>
-              <span className="font-semibold">{formatCurrency(24_850)}</span>
+              <span className="font-semibold tabular-nums">
+                {formatCurrency(24_850)}
+              </span>
             </StoryRow>
           </StoryStack>
         </CardContent>
@@ -734,7 +776,7 @@ export const ApprovalWorkflowCard: Story = {
                 <span className="text-muted-foreground text-sm">
                   Overall progress
                 </span>
-                <span className="text-sm">60%</span>
+                <span className="text-sm tabular-nums">60%</span>
               </StoryRow>
               <Progress value={60} />
             </StoryStack>
@@ -1053,15 +1095,17 @@ export const OrderLineItemCard: Story = {
           <StoryRow gap="lg" wrap>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Quantity</span>
-              <span className="font-medium text-sm">500 units</span>
+              <span className="font-medium text-sm tabular-nums">500 units</span>
             </StoryStack>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Unit price</span>
-              <span className="font-medium text-sm">{formatCurrency(12)}</span>
+              <span className="font-medium text-sm tabular-nums">
+                {formatCurrency(12)}
+              </span>
             </StoryStack>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Line total</span>
-              <span className="font-medium text-sm">
+              <span className="font-medium text-sm tabular-nums">
                 {formatCurrency(6000)}
               </span>
             </StoryStack>
@@ -1120,7 +1164,7 @@ export const VendorContactCard: Story = {
                 aria-hidden="true"
                 className="size-4 text-muted-foreground"
               />
-              <span className="text-sm">+1 (614) 555-0192</span>
+              <span className="text-sm tabular-nums">+1 (614) 555-0192</span>
             </StoryRow>
             <StoryRow align="center" gap="sm">
               <Building2Icon

@@ -2,17 +2,16 @@ import { render, screen } from "@testing-library/react";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import {
+  Input,
+  Label,
   NativeSelect,
   NativeSelectOptGroup,
   NativeSelectOption,
   RadioGroup,
   RadioGroupItem,
   Slider,
-  Textarea,
-  Toggle,
-  ToggleGroup,
-  ToggleGroupItem,
 } from "../../index";
+import { expectGovernedDataAuthority } from "../helpers/governance-assertions";
 
 // Radix Slider requires ResizeObserver — polyfill for jsdom
 beforeAll(() => {
@@ -26,26 +25,58 @@ beforeAll(() => {
 });
 
 describe("form-leaf primitive governance", () => {
-  describe("Textarea", () => {
+  describe("Input", () => {
     it("renders with governed data-slot and data-recipe", () => {
-      render(<Textarea aria-label="Notes" />);
-      const el = screen.getByRole("textbox", { name: "Notes" });
-      expect(el).toHaveAttribute("data-slot", "textarea");
-      expect(el).toHaveAttribute("data-component", "Textarea");
+      render(<Input aria-label="Email" />);
+      const el = screen.getByRole("textbox", { name: "Email" });
+      expect(el).toHaveAttribute("data-slot", "input");
+      expect(el).toHaveAttribute("data-component", "Input");
       expect(el).toHaveAttribute("data-recipe", "form-control");
     });
 
     it("keeps governed data attributes authoritative", () => {
       render(
-        <Textarea
-          aria-label="Notes"
+        <Input
+          aria-label="Email"
           data-recipe="override"
           data-slot="override"
         />
       );
-      const el = screen.getByRole("textbox", { name: "Notes" });
-      expect(el).toHaveAttribute("data-slot", "textarea");
-      expect(el).toHaveAttribute("data-recipe", "form-control");
+      const el = screen.getByRole("textbox", { name: "Email" });
+      expectGovernedDataAuthority(el, {
+        "data-slot": "input",
+        "data-recipe": "form-control",
+        "data-component": "Input",
+      });
+    });
+
+    it("forwards aria-invalid for ERP validation states", () => {
+      render(<Input aria-invalid="true" aria-label="Amount" />);
+      const el = screen.getByRole("textbox", { name: "Amount" });
+      expect(el).toHaveAttribute("aria-invalid", "true");
+      expect(el.className).toContain("--afenda-form-field-invalid-border");
+    });
+  });
+
+  describe("Label", () => {
+    it("renders with governed data-slot and associates via htmlFor", () => {
+      render(
+        <>
+          <Label htmlFor="name">Name</Label>
+          <input id="name" />
+        </>
+      );
+      const el = screen.getByText("Name");
+      expect(el).toHaveAttribute("data-slot", "label");
+      expect(el).toHaveAttribute("data-component", "Label");
+      expect(el).toHaveAttribute("for", "name");
+    });
+
+    it("keeps governed data attributes authoritative", () => {
+      render(<Label data-slot="override">Name</Label>);
+      const el = screen.getByText("Name");
+      expect(el).toHaveAttribute("data-slot", "label");
+      expect(el).toHaveAttribute("data-component", "Label");
     });
   });
 
@@ -84,57 +115,6 @@ describe("form-leaf primitive governance", () => {
       const group = screen.getByRole("radiogroup", { name: "Options" });
       expect(group).toHaveAttribute("data-slot", "radio-group");
       expect(group).toHaveAttribute("data-component", "RadioGroup");
-    });
-  });
-
-  describe("Toggle", () => {
-    it("renders with governed data-slot", () => {
-      render(<Toggle aria-label="Bold">B</Toggle>);
-      const el = screen.getByRole("button", { name: "Bold" });
-      expect(el).toHaveAttribute("data-slot", "toggle");
-      expect(el).toHaveAttribute("data-component", "Toggle");
-      expect(el).toHaveAttribute("data-recipe", "form-control");
-    });
-
-    it("keeps governed data attributes authoritative", () => {
-      render(
-        <Toggle aria-label="Bold" data-slot="override">
-          B
-        </Toggle>
-      );
-      const el = screen.getByRole("button", { name: "Bold" });
-      expect(el).toHaveAttribute("data-slot", "toggle");
-    });
-  });
-
-  describe("ToggleGroup", () => {
-    it("renders root with governed data-slot", () => {
-      render(
-        <ToggleGroup aria-label="Text align" type="single">
-          <ToggleGroupItem aria-label="Left" value="left">
-            L
-          </ToggleGroupItem>
-          <ToggleGroupItem aria-label="Right" value="right">
-            R
-          </ToggleGroupItem>
-        </ToggleGroup>
-      );
-      // Radix ToggleGroup emits role="radiogroup" for type="single"
-      const group = screen.getByRole("radiogroup", { name: "Text align" });
-      expect(group).toHaveAttribute("data-slot", "toggle-group");
-      expect(group).toHaveAttribute("data-component", "ToggleGroup");
-    });
-
-    it("renders item with governed data-slot", () => {
-      render(
-        <ToggleGroup aria-label="Text align" type="single">
-          <ToggleGroupItem aria-label="Left" value="left">
-            L
-          </ToggleGroupItem>
-        </ToggleGroup>
-      );
-      const item = screen.getByRole("radio", { name: "Left" });
-      expect(item).toHaveAttribute("data-slot", "toggle-group-item");
     });
   });
 

@@ -1,6 +1,10 @@
 "use client";
 
-import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import type {
+  GovernedSheetProps,
+  GovernedSurfaceProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -22,11 +26,15 @@ function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
+Sheet.displayName = "Sheet";
+
 function SheetTrigger({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
+
+SheetTrigger.displayName = "SheetTrigger";
 
 function SheetClose({
   ...props
@@ -34,13 +42,17 @@ function SheetClose({
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
+SheetClose.displayName = "SheetClose";
+
 function SheetPortal({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-interface SheetOverlayProps
+SheetPortal.displayName = "SheetPortal";
+
+export interface SheetOverlayProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>,
     "className"
@@ -74,7 +86,8 @@ export interface SheetContentProps
       React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
       "className"
     >,
-    GovernedSurfaceProps {
+    GovernedSurfaceProps,
+    GovernedSheetProps {
   readonly className?: string;
   readonly showCloseButton?: boolean;
   readonly side?: "top" | "right" | "bottom" | "left";
@@ -93,6 +106,7 @@ const SheetContent = React.forwardRef<
       density = "standard",
       radius = "md",
       shadow = "overlay",
+      state,
       ...props
     },
     ref
@@ -101,6 +115,7 @@ const SheetContent = React.forwardRef<
       componentName: "Sheet",
       recipeName: SHEET_RECIPE_NAME,
       variant: { density, radius, shadow },
+      state,
       slot: "root",
       className,
     });
@@ -134,7 +149,7 @@ const SheetContent = React.forwardRef<
                   presentation="icon"
                   size="sm"
                 >
-                  <XIcon />
+                  <XIcon aria-hidden="true" />
                   <span {...applyGovernedPresentation({}, closeLabel)}>
                     Close
                   </span>
@@ -162,7 +177,7 @@ const SheetFooter = createGovernedDivSlot("SheetFooter", {
   slot: SHEET_SLOT_ROLES.footer,
 });
 
-interface SheetTitleProps
+export interface SheetTitleProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>,
     "className"
@@ -191,7 +206,7 @@ const SheetTitle = React.forwardRef<
 
 SheetTitle.displayName = "SheetTitle";
 
-interface SheetDescriptionProps
+export interface SheetDescriptionProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>,
     "className"
@@ -227,6 +242,8 @@ export {
   SheetDescription,
   SheetFooter,
   SheetHeader,
+  SheetOverlay,
+  SheetPortal,
   SheetTitle,
   SheetTrigger,
 };

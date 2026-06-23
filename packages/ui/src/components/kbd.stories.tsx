@@ -242,6 +242,62 @@ export const GovernanceAllStates: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Kbd` — governed values (`data-slot="kbd"`, `data-component="Kbd"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <Kbd
+      data-component="Override"
+      data-slot="override"
+      data-testid="governance-kbd"
+    >
+      K
+    </Kbd>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="sm">
+      <p className="font-mono text-muted-foreground text-xs">
+        root → kbd · group → kbd-group
+      </p>
+      <KbdGroup data-testid="slot-map-group">
+        <Kbd data-testid="slot-map-kbd">⌘</Kbd>
+        <Kbd>K</Kbd>
+      </KbdGroup>
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    state: "ready",
+  },
+  render: ({ state }) => (
+    <StoryRow align="center" gap="sm">
+      <Kbd state={state}>⌘</Kbd>
+      <Kbd state={state}>⇧</Kbd>
+      <Kbd state={state}>K</Kbd>
+    </StoryRow>
+  ),
+};
+
 export const DisabledShortcut: Story = {
   name: "State — Disabled Context",
   render: () => (

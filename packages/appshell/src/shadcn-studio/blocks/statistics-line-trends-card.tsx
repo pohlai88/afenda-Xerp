@@ -1,8 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -11,20 +8,23 @@ import {
   ChartTooltipContent,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import type { CSSProperties } from "react";
+import { useId } from "react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
-import { STATISTICS_LINE_TRENDS_CHART_MARGIN } from "../data/statistics-line-trends.data";
+import { STATISTICS_LINE_TRENDS_CHART_MARGIN, formatStatisticsLineTrendsChartLabel } from "../data/statistics-line-trends.data";
 
 export interface StatisticsTrendSeries {
+  readonly color: string;
   readonly key: string;
   readonly label: string;
   readonly value: number;
-  readonly color: string;
 }
 
 export interface StatisticsLineTrendsCardProps {
-  readonly title: string;
-  readonly series: readonly [StatisticsTrendSeries, StatisticsTrendSeries];
   readonly data: readonly Record<string, string | number>[];
+  readonly series: readonly [StatisticsTrendSeries, StatisticsTrendSeries];
+  readonly title: string;
 }
 
 export type StatisticsLineTrendsCardGovernedComponents = Extract<
@@ -37,45 +37,74 @@ const statisticsLineTrendsChartConfig = (
 ) =>
   Object.fromEntries(
     series.map((item) => [item.key, { label: item.label, color: item.color }])
-  ) satisfies Record<string, { readonly label: string; readonly color: string }>;
+  ) satisfies Record<
+    string,
+    { readonly label: string; readonly color: string }
+  >;
 
 export function StatisticsLineTrendsCard({
   title,
   series,
   data,
 }: StatisticsLineTrendsCardProps) {
+  const titleId = useId();
   const chartConfig = statisticsLineTrendsChartConfig(series);
   const chartData = [...data];
+  const chartLabel = formatStatisticsLineTrendsChartLabel(title, [
+    series[0].label,
+    series[1].label,
+  ]);
 
   return (
-    <article className="app-shell-statistics-trend-card">
+    <article
+      aria-labelledby={titleId}
+      className="app-shell-statistics-trend-card"
+    >
       <Card>
         <div className="app-shell-statistics-trend-header">
-          <span className="app-shell-statistics-trend-title">{title}</span>
+          <span className="app-shell-statistics-trend-title" id={titleId}>
+            {title}
+          </span>
         </div>
         <CardContent>
           <div className="app-shell-statistics-trend-layout">
             <div className="app-shell-statistics-trend-metrics">
-              {series.map((item) => (
-                <div className="app-shell-statistics-trend-metric" key={item.key}>
+              {series.map((item) => {
+                const metricLabelId = `${titleId}-${item.key}`;
+
+                return (
                   <div
-                    className="app-shell-statistics-trend-swatch"
-                    style={
-                      { "--series-swatch-color": item.color } as CSSProperties
-                    }
-                  />
-                  <div className="app-shell-statistics-trend-metric-copy">
-                    <span className="app-shell-statistics-trend-metric-label">{item.label}</span>
-                    <span className="app-shell-statistics-trend-metric-value">
-                      {item.value.toLocaleString()}
-                    </span>
+                    className="app-shell-statistics-trend-metric"
+                    key={item.key}
+                  >
+                    <div
+                      aria-hidden
+                      className="app-shell-statistics-trend-swatch"
+                      style={
+                        { "--series-swatch-color": item.color } as CSSProperties
+                      }
+                    />
+                    <div className="app-shell-statistics-trend-metric-copy">
+                      <span
+                        className="app-shell-statistics-trend-metric-label"
+                        id={metricLabelId}
+                      >
+                        {item.label}
+                      </span>
+                      <span
+                        aria-labelledby={metricLabelId}
+                        className="app-shell-statistics-trend-metric-value"
+                      >
+                        {item.value.toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div
-              aria-label={`${title} line trend`}
+              aria-label={chartLabel}
               className="app-shell-statistics-trend-chart"
               role="img"
             >

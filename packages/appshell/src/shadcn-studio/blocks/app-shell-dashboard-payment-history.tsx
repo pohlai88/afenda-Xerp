@@ -1,5 +1,3 @@
-import { useId } from "react";
-
 import {
   Card,
   Progress,
@@ -12,6 +10,7 @@ import {
   TableRow,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useId } from "react";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -36,11 +35,11 @@ export type AppShellDashboardPaymentHistoryGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardPaymentHistoryProps {
-  readonly title?: string;
-  readonly subtitle?: string;
   readonly comparisonText?: string;
-  readonly rows?: readonly AppShellDashboardPaymentHistoryRow[];
   readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
+  readonly rows?: readonly AppShellDashboardPaymentHistoryRow[];
+  readonly subtitle?: string;
+  readonly title?: string;
 }
 
 function computeUtilization(spend: string, remaining: string): number {
@@ -67,11 +66,20 @@ function resolveUtilizationDotClass(utilization: number): string {
   return "app-shell-dashboard-payment-utilization-dot app-shell-dashboard-payment-utilization-dot--low";
 }
 
-function computeTotalSpend(rows: readonly AppShellDashboardPaymentHistoryRow[]): number {
-  return rows.reduce((total, row) => total + parseDashboardAmount(row.spend), 0);
+function computeTotalSpend(
+  rows: readonly AppShellDashboardPaymentHistoryRow[]
+): number {
+  return rows.reduce(
+    (total, row) => total + parseDashboardAmount(row.spend),
+    0
+  );
 }
 
-function PaymentHistoryRow({ row }: { readonly row: AppShellDashboardPaymentHistoryRow }) {
+function PaymentHistoryRow({
+  row,
+}: {
+  readonly row: AppShellDashboardPaymentHistoryRow;
+}) {
   const utilization = computeUtilization(row.spend, row.remaining);
   const utilizationLabel = `${row.cardType} utilized ${utilization}% of limit`;
 
@@ -80,13 +88,20 @@ function PaymentHistoryRow({ row }: { readonly row: AppShellDashboardPaymentHist
       <TableCell>
         <div className="app-shell-dashboard-payment-card-cell">
           <div className="app-shell-dashboard-payment-brand-frame">
-            <img alt={row.brandIconAlt} height={28} src={row.brandIconSrc} width={28} />
+            <img
+              alt={row.brandIconAlt}
+              height={28}
+              src={row.brandIconSrc}
+              width={28}
+            />
           </div>
           <div className="app-shell-dashboard-payment-card-copy">
             <span className="app-shell-dashboard-payment-card-number">
               •••• {row.cardNumber}
             </span>
-            <span className="app-shell-dashboard-payment-card-type">{row.cardType}</span>
+            <span className="app-shell-dashboard-payment-card-type">
+              {row.cardType}
+            </span>
           </div>
         </div>
       </TableCell>
@@ -121,7 +136,8 @@ function PaymentHistoryRow({ row }: { readonly row: AppShellDashboardPaymentHist
             </div>
           </div>
           <span className="app-shell-dashboard-payment-remaining">
-            {formatDashboardCurrency(parseDashboardAmount(row.remaining))} remaining
+            {formatDashboardCurrency(parseDashboardAmount(row.remaining))}{" "}
+            remaining
           </span>
           <div className="app-shell-dashboard-payment-utilization-frame">
             <Progress aria-label={utilizationLabel} value={utilization} />
@@ -139,20 +155,26 @@ export function AppShellDashboardPaymentHistory({
   rows = defaultAppShellDashboardPaymentHistory,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardPaymentHistoryProps) {
+  const titleId = useId();
   const summaryId = useId();
   const totalSpend = computeTotalSpend(rows);
   const activeCardsLabel =
     rows.length === 1 ? "1 active card" : `${rows.length} active cards`;
 
   return (
-    <div className="app-shell-dashboard-widget">
+    <article aria-labelledby={titleId} className="app-shell-dashboard-widget">
       <Card>
         <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
           <div className="app-shell-dashboard-widget-heading">
-            <span className="app-shell-dashboard-widget-title">{title}</span>
-            <span className="app-shell-dashboard-widget-subtitle">{subtitle}</span>
+            <h2 className="app-shell-dashboard-widget-title" id={titleId}>
+              {title}
+            </h2>
+            <p className="app-shell-dashboard-widget-subtitle">{subtitle}</p>
           </div>
-          <AppShellDashboardOverflowMenu items={overflowItems} />
+          <AppShellDashboardOverflowMenu
+            items={overflowItems}
+            menuLabel="Corporate card spend actions"
+          />
         </div>
 
         <div className="app-shell-dashboard-widget-body">
@@ -161,20 +183,33 @@ export function AppShellDashboardPaymentHistory({
             className="app-shell-dashboard-payment-summary"
           >
             <div className="app-shell-dashboard-payment-total-row">
-              <span className="app-shell-dashboard-payment-total" id={summaryId}>
+              <span
+                className="app-shell-dashboard-payment-total"
+                id={summaryId}
+              >
                 {formatDashboardCurrency(totalSpend)}
               </span>
-              <span className="app-shell-dashboard-payment-postings">{activeCardsLabel}</span>
+              <span className="app-shell-dashboard-payment-postings">
+                {activeCardsLabel}
+              </span>
             </div>
-            <span className="app-shell-dashboard-payment-comparison">{comparisonText}</span>
+            <span className="app-shell-dashboard-payment-comparison">
+              {comparisonText}
+            </span>
           </section>
 
           <Separator />
 
           {rows.length === 0 ? (
-            <p className="app-shell-dashboard-payment-empty">No corporate card activity yet.</p>
+            <p className="app-shell-dashboard-payment-empty" role="status">
+              No corporate card activity yet.
+            </p>
           ) : (
-            <div className="app-shell-dashboard-payment-table-frame">
+            <div
+              aria-labelledby={titleId}
+              className="app-shell-dashboard-payment-table-frame"
+              role="region"
+            >
               <Table>
                 <caption className="sr-only">
                   Corporate card spend by program
@@ -196,6 +231,6 @@ export function AppShellDashboardPaymentHistory({
           )}
         </div>
       </Card>
-    </div>
+    </article>
   );
 }

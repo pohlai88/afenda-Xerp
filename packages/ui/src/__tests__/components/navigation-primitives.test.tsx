@@ -1,30 +1,35 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { createRef } from "react";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
   Command,
   CommandInput,
   CommandItem,
   CommandList,
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
   Pagination,
   PaginationContent,
   PaginationItem,
-  SidebarInput,
-  SidebarProvider,
-  SidebarTrigger,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
+  PaginationLink,
 } from "../../index";
 import {
   expectGovernedDataAuthority,
@@ -32,68 +37,6 @@ import {
 } from "../helpers/governance-assertions";
 
 describe("navigation primitive governance", () => {
-  describe("Tabs", () => {
-    it("renders root with governed data-slot", () => {
-      render(
-        <Tabs defaultValue="tab1">
-          <TabsList aria-label="My tabs">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">Content 1</TabsContent>
-        </Tabs>
-      );
-      const tabsRoot = screen
-        .getByRole("tablist", { name: "My tabs" })
-        .closest("[data-slot='tabs']");
-      expect(tabsRoot).toHaveAttribute("data-slot", "tabs");
-      expect(tabsRoot).toHaveAttribute("data-component", "Tabs");
-    });
-
-    it("renders tabs-list slot", () => {
-      render(
-        <Tabs defaultValue="tab1">
-          <TabsList aria-label="My tabs">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">Content 1</TabsContent>
-        </Tabs>
-      );
-      const list = screen.getByRole("tablist", { name: "My tabs" });
-      expect(list).toHaveAttribute("data-slot", "tabs-list");
-    });
-
-    it("renders tabs-trigger slot", () => {
-      render(
-        <Tabs defaultValue="tab1">
-          <TabsList aria-label="My tabs">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">Content 1</TabsContent>
-        </Tabs>
-      );
-      const trigger = screen.getByRole("tab", { name: "Tab 1" });
-      expect(trigger).toHaveAttribute("data-slot", "tabs-trigger");
-    });
-
-    it("keeps governed data attributes authoritative on tabs-list", () => {
-      render(
-        <Tabs defaultValue="tab1">
-          <TabsList
-            aria-label="My tabs"
-            data-component="Override"
-            data-slot="override"
-          >
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">Content 1</TabsContent>
-        </Tabs>
-      );
-      const list = screen.getByRole("tablist", { name: "My tabs" });
-      expect(list).toHaveAttribute("data-slot", "tabs-list");
-      expect(list).toHaveAttribute("data-component", "Tabs");
-    });
-  });
-
   describe("Breadcrumb", () => {
     it("renders root with governed data-slot", () => {
       render(
@@ -141,6 +84,155 @@ describe("navigation primitive governance", () => {
       expect(nav).toHaveAttribute("data-slot", "breadcrumb");
       expect(nav).toHaveAttribute("data-component", "Breadcrumb");
     });
+
+    it("applies governed state to root", () => {
+      render(
+        <Breadcrumb data-testid="breadcrumb-root" state="loading">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      expect(screen.getByTestId("breadcrumb-root")).toHaveAttribute(
+        "data-state",
+        "loading"
+      );
+    });
+
+    it("renders breadcrumb-link slot with data authority", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                data-component="Override"
+                data-slot="override"
+                href="/finance"
+              >
+                Finance
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      const link = screen.getByRole("link", { name: "Finance" });
+      expectGovernedPrimitive(link, {
+        component: "Breadcrumb",
+        slot: "breadcrumb-link",
+        recipe: "surface",
+      });
+    });
+
+    it("renders breadcrumb-page with current-page semantics", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Record</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      const page = screen.getByText("Current Record");
+      expect(page).toHaveAttribute("data-slot", "breadcrumb-page");
+      expect(page).toHaveAttribute("aria-current", "page");
+      expect(page).toHaveAttribute("aria-disabled", "true");
+    });
+
+    it("renders breadcrumb-separator slot", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator data-testid="breadcrumb-separator" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      const separator = screen.getByTestId("breadcrumb-separator");
+      expect(separator).toHaveAttribute("data-slot", "breadcrumb-separator");
+      expect(separator).toHaveAttribute("role", "presentation");
+      expect(separator).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("renders breadcrumb-ellipsis with screen-reader label", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis data-testid="breadcrumb-ellipsis" />
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      const ellipsis = screen.getByTestId("breadcrumb-ellipsis");
+      expect(ellipsis).toHaveAttribute("data-slot", "breadcrumb-ellipsis");
+      expect(screen.getByText("More")).toBeInTheDocument();
+    });
+
+    it("renders breadcrumb-item slot", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem data-testid="breadcrumb-item">
+              <BreadcrumbPage>Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+
+      expect(screen.getByTestId("breadcrumb-item")).toHaveAttribute(
+        "data-slot",
+        "breadcrumb-item"
+      );
+    });
+  });
+
+  describe("Menubar", () => {
+    it("applies governed state to root", () => {
+      render(
+        <Menubar data-testid="menubar-root" state="loading">
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+          </MenubarMenu>
+        </Menubar>
+      );
+
+      expect(screen.getByTestId("menubar-root")).toHaveAttribute(
+        "data-state",
+        "loading"
+      );
+    });
+  });
+
+  describe("NavigationMenu", () => {
+    it("applies governed state to root", () => {
+      render(
+        <NavigationMenu data-testid="navigation-menu-root" state="loading">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="#">Home</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      );
+
+      expect(screen.getByTestId("navigation-menu-root")).toHaveAttribute(
+        "data-state",
+        "loading"
+      );
+    });
   });
 
   describe("Pagination", () => {
@@ -168,6 +260,42 @@ describe("navigation primitive governance", () => {
       const nav = screen.getByRole("navigation", { name: "pagination" });
       expect(nav).toHaveAttribute("data-slot", "pagination");
       expect(nav).toHaveAttribute("data-component", "Pagination");
+    });
+
+    it("renders PaginationItem as intentional governance passthrough", () => {
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem data-testid="pagination-item" />
+          </PaginationContent>
+        </Pagination>
+      );
+
+      const item = screen.getByTestId("pagination-item");
+
+      expect(item).toHaveAttribute("data-slot", "pagination-item");
+      expect(item).not.toHaveAttribute("data-component");
+      expect(item).not.toHaveAttribute("data-recipe");
+    });
+
+    it("forwards ref and exposes displayName on PaginationLink", () => {
+      const ref = createRef<HTMLAnchorElement>();
+
+      render(
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink href="#" ref={ref}>
+                1
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      );
+
+      expect(PaginationLink.displayName).toBe("PaginationLink");
+      expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+      expect(ref.current).toHaveAttribute("data-slot", "pagination-link");
     });
   });
 
@@ -229,36 +357,6 @@ describe("navigation primitive governance", () => {
       const root = screen.getByTestId("acc");
       expect(root).toHaveAttribute("data-slot", "accordion");
       expect(root).toHaveAttribute("data-component", "Accordion");
-    });
-  });
-
-  describe("Sidebar", () => {
-    it("renders SidebarTrigger without layout className policy violations", () => {
-      render(
-        <SidebarProvider>
-          <SidebarTrigger />
-        </SidebarProvider>
-      );
-
-      const trigger = screen.getByRole("button", { name: "Toggle Sidebar" });
-
-      expect(trigger).toHaveAttribute("data-sidebar", "trigger");
-      expect(trigger).toHaveAttribute("data-slot", "button");
-      expect(trigger).toHaveAttribute("data-component", "Button");
-    });
-
-    it("renders SidebarInput without TIP-004 className policy violations", () => {
-      render(
-        <SidebarProvider>
-          <SidebarInput placeholder="Search modules" />
-        </SidebarProvider>
-      );
-
-      const input = screen.getByPlaceholderText("Search modules");
-
-      expect(input).toHaveAttribute("data-sidebar", "input");
-      expect(input).toHaveAttribute("data-slot", "input");
-      expect(input).toHaveAttribute("data-component", "Input");
     });
   });
 

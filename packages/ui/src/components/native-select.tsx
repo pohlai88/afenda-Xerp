@@ -1,33 +1,44 @@
+import type {
+  GovernedNativeSelectProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-
-import { cn } from "@afenda/ui/lib/utils";
 import { ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 
 const NATIVE_SELECT_RECIPE_NAME = "form-control" as const;
 
-type NativeSelectProps = Omit<
-  React.ComponentPropsWithoutRef<"select">,
-  "size"
-> & {
-  readonly size?: "sm" | "default";
+const NATIVE_SELECT_SLOT_ROLES = {
+  root: "root",
+  control: "control",
+  state: "state",
+} as const satisfies Record<"root" | "control" | "state", SlotRole>;
+
+export type NativeSelectSize = "sm" | "default";
+
+export interface NativeSelectProps
+  extends Omit<React.ComponentPropsWithoutRef<"select">, "size">,
+    GovernedNativeSelectProps {
+  readonly size?: NativeSelectSize;
   readonly className?: string;
-};
+}
 
 const NativeSelect = React.forwardRef<HTMLDivElement, NativeSelectProps>(
-  ({ className, size = "default", ...props }, ref) => {
+  ({ className, size = "default", state, ...props }, ref) => {
     const wrapper = resolvePrimitiveGovernance({
       componentName: "NativeSelect",
       recipeName: NATIVE_SELECT_RECIPE_NAME,
-      slot: "root",
+      slot: NATIVE_SELECT_SLOT_ROLES.root,
+      state,
       className,
     });
 
     const control = resolvePrimitiveGovernance({
       componentName: "NativeSelect",
       recipeName: NATIVE_SELECT_RECIPE_NAME,
-      slot: "control",
+      slot: NATIVE_SELECT_SLOT_ROLES.control,
+      state,
     });
 
     const icon = resolvePrimitiveGovernance({
@@ -45,9 +56,8 @@ const NativeSelect = React.forwardRef<HTMLDivElement, NativeSelectProps>(
           {...applyGovernedPresentation(props, control, { "data-size": size })}
         />
         <ChevronDownIcon
-          {...icon.dataAttributes}
           aria-hidden="true"
-          className={cn(icon.className)}
+          {...applyGovernedPresentation({}, icon)}
         />
       </div>
     );
@@ -56,7 +66,7 @@ const NativeSelect = React.forwardRef<HTMLDivElement, NativeSelectProps>(
 
 NativeSelect.displayName = "NativeSelect";
 
-interface NativeSelectOptionProps
+export interface NativeSelectOptionProps
   extends Omit<React.ComponentPropsWithoutRef<"option">, "className"> {
   readonly className?: string;
 }
@@ -68,7 +78,7 @@ const NativeSelectOption = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "NativeSelect",
     recipeName: NATIVE_SELECT_RECIPE_NAME,
-    slot: "state",
+    slot: NATIVE_SELECT_SLOT_ROLES.state,
     className,
   });
 
@@ -77,7 +87,7 @@ const NativeSelectOption = React.forwardRef<
 
 NativeSelectOption.displayName = "NativeSelectOption";
 
-interface NativeSelectOptGroupProps
+export interface NativeSelectOptGroupProps
   extends Omit<React.ComponentPropsWithoutRef<"optgroup">, "className"> {
   readonly className?: string;
 }

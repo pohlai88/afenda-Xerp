@@ -1,10 +1,13 @@
 "use client";
 
-import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import type {
+  GovernedDrawerProps,
+  GovernedSurfaceProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
@@ -23,11 +26,15 @@ function Drawer({
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
 }
 
+Drawer.displayName = "Drawer";
+
 function DrawerTrigger({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
 }
+
+DrawerTrigger.displayName = "DrawerTrigger";
 
 function DrawerPortal({
   ...props
@@ -35,13 +42,17 @@ function DrawerPortal({
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
 }
 
+DrawerPortal.displayName = "DrawerPortal";
+
 function DrawerClose({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
-interface DrawerOverlayProps
+DrawerClose.displayName = "DrawerClose";
+
+export interface DrawerOverlayProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>,
     "className"
@@ -75,7 +86,8 @@ export interface DrawerContentProps
       React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>,
       "className"
     >,
-    GovernedSurfaceProps {
+    GovernedSurfaceProps,
+    GovernedDrawerProps {
   readonly className?: string;
 }
 
@@ -90,6 +102,7 @@ const DrawerContent = React.forwardRef<
       density = "standard",
       radius = "md",
       shadow = "overlay",
+      state,
       ...props
     },
     ref
@@ -98,6 +111,7 @@ const DrawerContent = React.forwardRef<
       componentName: "Drawer",
       recipeName: DRAWER_RECIPE_NAME,
       variant: { density, radius, shadow },
+      state,
       slot: "root",
       className,
     });
@@ -109,13 +123,13 @@ const DrawerContent = React.forwardRef<
     });
 
     return (
-      <DrawerPortal data-slot="drawer-portal">
+      <DrawerPortal>
         <DrawerOverlay />
         <DrawerPrimitive.Content
           ref={ref}
           {...applyGovernedPresentation(props, governed)}
         >
-          <div {...handle.dataAttributes} className={cn(handle.className)} />
+          <div {...applyGovernedPresentation({}, handle)} />
           {children}
         </DrawerPrimitive.Content>
       </DrawerPortal>
@@ -137,7 +151,7 @@ const DrawerFooter = createGovernedDivSlot("DrawerFooter", {
   slot: DRAWER_SLOT_ROLES.footer,
 });
 
-interface DrawerTitleProps
+export interface DrawerTitleProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>,
     "className"
@@ -166,7 +180,7 @@ const DrawerTitle = React.forwardRef<
 
 DrawerTitle.displayName = "DrawerTitle";
 
-interface DrawerDescriptionProps
+export interface DrawerDescriptionProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>,
     "className"

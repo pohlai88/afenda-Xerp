@@ -370,12 +370,12 @@ const revenueBarSource = [
 ] as const satisfies readonly AppShellDashboardRevenueBarPoint[];
 
 const revenueGrowthSource = [
-  { date: "2026-01-30", revenue: 20 },
-  { date: "2026-02-12", revenue: 20 },
-  { date: "2026-03-20", revenue: 20 },
-  { date: "2026-04-12", revenue: 20 },
-  { date: "2026-05-12", revenue: 20 },
-  { date: "2026-06-01", revenue: 20 },
+  { date: "2026-01-30", revenue: 12 },
+  { date: "2026-02-12", revenue: 18 },
+  { date: "2026-03-20", revenue: 22 },
+  { date: "2026-04-12", revenue: 28 },
+  { date: "2026-05-12", revenue: 35 },
+  { date: "2026-06-01", revenue: 42 },
 ] as const satisfies readonly AppShellDashboardRevenueGrowthSlice[];
 
 const revenueYearSummariesSource = [

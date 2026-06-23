@@ -1,3 +1,4 @@
+import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -10,15 +11,13 @@ import {
   TruckIcon,
   UsersIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
 import { Label } from "./label";
-import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Separator } from "./separator";
-import { Switch } from "./switch";
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -404,13 +403,24 @@ const meta = {
     disabled: { control: "boolean" },
     checked: { control: "boolean" },
   },
-  args: {},
+  args: {
+    state: "ready",
+  },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic variants ────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <StoryRow align="center" gap="sm">
+      <Checkbox id="cb-playground" {...args} />
+      <Label htmlFor="cb-playground">Accept terms and conditions</Label>
+    </StoryRow>
+  ),
+};
 
 export const Default: Story = {
   render: (args) => (
@@ -482,7 +492,58 @@ export const WithDescription: Story = {
 
 // ─── Governance probes ─────────────────────────────────────────────────────
 
-export const GovernanceStates: Story = {
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-component="Override"` — governed values (`data-slot="checkbox"`, `data-component="Checkbox"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryRow align="center" gap="sm">
+      <Checkbox
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-checkbox-root"
+        defaultChecked
+        id="cb-data-authority"
+      />
+      <Label htmlFor="cb-data-authority">Inspect governed root attributes</Label>
+    </StoryRow>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Root → `checkbox`; indicator → `checkbox-indicator`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → checkbox · indicator → checkbox-indicator
+        </p>
+        <StoryRow align="center" gap="sm">
+          <Checkbox defaultChecked id="cb-slot-map" />
+          <Label htmlFor="cb-slot-map">Checked checkbox with indicator slot</Label>
+        </StoryRow>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
   name: "Governance — All States",
   parameters: { layout: "padded" },
   render: () => (
@@ -1056,249 +1117,5 @@ export const EmailDigestOptions: Story = {
         </StoryRow>
       </StoryStack>
     </StoryFrame>
-  ),
-};
-
-// ─── Radio Group ──────────────────────────────────────────────────────────
-
-export const RadioGroupDefault: Story = {
-  name: "RadioGroup — Default",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryFrame width="sm">
-      <RadioGroup className="flex flex-col gap-2" defaultValue="medium">
-        {(["Critical", "High", "Medium", "Low"] as const).map((level) => (
-          <StoryRow align="center" gap="sm" key={level}>
-            <RadioGroupItem id={`rg-${level}`} value={level.toLowerCase()} />
-            <Label htmlFor={`rg-${level}`}>{level}</Label>
-          </StoryRow>
-        ))}
-      </RadioGroup>
-    </StoryFrame>
-  ),
-};
-
-export const RadioGroupApproval: Story = {
-  name: "ERP — Approval Decision",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryFrame width="md">
-      <StoryStack gap="sm">
-        <span className="font-semibold text-sm">
-          <Label>Approval Decision</Label>
-        </span>
-        <RadioGroup className="flex flex-col gap-3" defaultValue="approve">
-          {[
-            {
-              value: "approve",
-              label: "Approve",
-              description: "Record passes review and proceeds to next stage",
-            },
-            {
-              value: "reject",
-              label: "Reject",
-              description: "Record is rejected and returned to submitter",
-            },
-            {
-              value: "hold",
-              label: "Place on Hold",
-              description: "Defer decision pending further information",
-            },
-          ].map(({ value, label, description }) => (
-            <StoryRow
-              align="start"
-              className="rounded-md border border-border has-[:checked]:border-primary"
-              gap="md"
-              key={value}
-              padding="sm"
-            >
-              <RadioGroupItem id={`radio-${value}`} value={value} />
-              <StoryStack gap="xs">
-                <span className="font-medium">
-                  <Label htmlFor={`radio-${value}`}>{label}</Label>
-                </span>
-                <span className="text-muted-foreground text-xs">
-                  {description}
-                </span>
-              </StoryStack>
-            </StoryRow>
-          ))}
-        </RadioGroup>
-      </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const RadioGroupHorizontal: Story = {
-  name: "ERP — Horizontal Priority Picker",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryFrame width="md">
-      <StoryStack gap="xs">
-        <span className="font-medium text-sm">
-          <Label>Priority</Label>
-        </span>
-        <RadioGroup className="flex gap-4" defaultValue="medium">
-          {["Low", "Medium", "High", "Critical"].map((p) => (
-            <StoryRow align="center" gap="xs" key={p}>
-              <RadioGroupItem id={`rh-${p}`} value={p.toLowerCase()} />
-              <Label htmlFor={`rh-${p}`}>{p}</Label>
-            </StoryRow>
-          ))}
-        </RadioGroup>
-      </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const RadioGroupDisabled: Story = {
-  name: "RadioGroup — Disabled",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryFrame width="sm">
-      <RadioGroup
-        className="flex flex-col gap-2"
-        defaultValue="medium"
-        disabled
-      >
-        {["Low", "Medium", "High"].map((p) => (
-          <StoryRow align="center" gap="sm" key={p}>
-            <RadioGroupItem id={`rd-${p}`} value={p.toLowerCase()} />
-            <Label htmlFor={`rd-${p}`}>{p}</Label>
-          </StoryRow>
-        ))}
-      </RadioGroup>
-    </StoryFrame>
-  ),
-};
-
-// ─── Switch ───────────────────────────────────────────────────────────────
-
-export const SwitchDefault: Story = {
-  name: "Switch — Default",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryRow align="center" gap="sm">
-      <Switch id="sw-default" />
-      <Label htmlFor="sw-default">Enable notifications</Label>
-    </StoryRow>
-  ),
-};
-
-export const SwitchChecked: Story = {
-  name: "Switch — Checked",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryRow align="center" gap="sm">
-      <Switch defaultChecked id="sw-checked" />
-      <Label htmlFor="sw-checked">Auto-save enabled</Label>
-    </StoryRow>
-  ),
-};
-
-export const SwitchSmall: Story = {
-  name: "Switch — Small",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryRow align="center" gap="sm">
-      <Switch id="sw-sm" size="sm" />
-      <Label htmlFor="sw-sm">Compact mode</Label>
-    </StoryRow>
-  ),
-};
-
-export const SwitchDisabled: Story = {
-  name: "Switch — Disabled",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="sm">
-      <StoryRow align="center" gap="sm">
-        <Switch disabled id="sw-dis" />
-        <Label htmlFor="sw-dis">Locked feature</Label>
-      </StoryRow>
-      <StoryRow align="center" gap="sm">
-        <Switch defaultChecked disabled id="sw-dis-on" />
-        <Label htmlFor="sw-dis-on">Mandatory policy (read-only)</Label>
-      </StoryRow>
-    </StoryStack>
-  ),
-};
-
-export const SwitchSettingsPanel: Story = {
-  name: "ERP — Settings Panel Switches",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryFrame width="lg">
-      <StoryStack gap="sm">
-        {[
-          {
-            id: "sw-email",
-            label: "Email Notifications",
-            description: "Receive alerts for approvals and rejections",
-            defaultChecked: true,
-          },
-          {
-            id: "sw-sms",
-            label: "SMS Alerts",
-            description: "Critical system alerts via SMS",
-            defaultChecked: false,
-          },
-          {
-            id: "sw-2fa",
-            label: "Two-Factor Authentication",
-            description: "Required for financial module access",
-            defaultChecked: true,
-          },
-          {
-            id: "sw-dark",
-            label: "Dark Mode",
-            description: "Switch interface to dark theme",
-            defaultChecked: false,
-          },
-          {
-            id: "sw-log",
-            label: "Audit Logging",
-            description: "Log all user actions for compliance",
-            defaultChecked: true,
-            disabled: true,
-          },
-        ].map(({ id, label, description, defaultChecked, disabled }) => (
-          <StoryRow
-            align="center"
-            className="rounded-md border border-border"
-            justify="between"
-            key={id}
-            padding="sm"
-          >
-            <StoryStack gap="xs">
-              <span className="font-medium text-sm">{label}</span>
-              <span className="text-muted-foreground text-xs">
-                {description}
-              </span>
-            </StoryStack>
-            <Switch
-              defaultChecked={defaultChecked}
-              disabled={disabled}
-              id={id}
-            />
-          </StoryRow>
-        ))}
-      </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const AllSwitchSizes: Story = {
-  name: "Matrix — Switch Sizes",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="sm">
-      {(["sm", "md"] as const).map((size) => (
-        <StoryRow align="center" gap="sm" key={size}>
-          <Switch defaultChecked id={`sw-sz-${size}`} size={size} />
-          <Label htmlFor={`sw-sz-${size}`}>Size: {size}</Label>
-        </StoryRow>
-      ))}
-    </StoryStack>
   ),
 };

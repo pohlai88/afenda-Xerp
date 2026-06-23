@@ -1,8 +1,14 @@
 "use client";
 
+import type { GovernedToasterProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { toasterInlineStyleVariables } from "@afenda/ui/governance/recipe-maps";
+import {
+  toasterInlineStyleVariables,
+  toasterRootWrapperClassName,
+  toasterToastClassName,
+} from "@afenda/ui/governance/recipe-maps";
+import { cn } from "@afenda/ui/lib/utils";
 import {
   CircleCheckIcon,
   InfoIcon,
@@ -11,62 +17,128 @@ import {
   TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import type * as React from "react";
-import { Toaster as Sonner, type ToasterProps } from "sonner";
+import * as React from "react";
+import { Toaster as Sonner, type ToasterProps as SonnerToasterProps } from "sonner";
 
 const TOASTER_RECIPE_NAME = "surface" as const;
+
+const TOASTER_SLOT_ROLES = {
+  root: "root",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
+
+const TOASTER_ICON_SLOT_KEYS = {
+  success: "success",
+  info: "info",
+  warning: "warning",
+  error: "error",
+  loading: "loading",
+} as const;
+
+type ToasterIconSlotKey = keyof typeof TOASTER_ICON_SLOT_KEYS;
 
 function ToasterIcon({
   slotKey,
   Icon,
 }: {
-  readonly slotKey: "success" | "info" | "warning" | "error" | "loading";
+  readonly slotKey: ToasterIconSlotKey;
   readonly Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }) {
   const governed = resolvePrimitiveGovernance({
     componentName: "Toaster",
     recipeName: TOASTER_RECIPE_NAME,
-    slot: "icon",
+    slot: TOASTER_SLOT_ROLES.icon,
     slotKey,
   });
 
-  return <Icon {...applyGovernedPresentation({}, governed)} />;
-}
-
-const Toaster = ({ className, ...props }: ToasterProps) => {
-  const { theme } = useTheme();
-  const resolvedTheme: NonNullable<ToasterProps["theme"]> =
-    theme === "light" || theme === "dark" || theme === "system"
-      ? theme
-      : "system";
-
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Toaster",
-    recipeName: TOASTER_RECIPE_NAME,
-    slot: "root",
-    className,
-  });
-
   return (
-    <Sonner
-      theme={resolvedTheme}
-      {...applyGovernedPresentation(props, governed)}
-      icons={{
-        success: <ToasterIcon Icon={CircleCheckIcon} slotKey="success" />,
-        info: <ToasterIcon Icon={InfoIcon} slotKey="info" />,
-        warning: <ToasterIcon Icon={TriangleAlertIcon} slotKey="warning" />,
-        error: <ToasterIcon Icon={OctagonXIcon} slotKey="error" />,
-        loading: <ToasterIcon Icon={Loader2Icon} slotKey="loading" />,
-      }}
-      style={toasterInlineStyleVariables as React.CSSProperties}
-      toastOptions={{
-        classNames: {
-          toast: "cn-toast",
-        },
-      }}
+    <Icon
+      aria-hidden="true"
+      {...applyGovernedPresentation({}, governed)}
     />
   );
-};
+}
+
+export interface ToasterProps
+  extends Omit<SonnerToasterProps, "className">,
+    GovernedToasterProps {
+  readonly className?: string;
+}
+
+const Toaster = React.forwardRef<HTMLDivElement, ToasterProps>(
+  ({ className, state, theme, ...props }, ref) => {
+    const { theme: activeTheme } = useTheme();
+    const resolvedTheme: NonNullable<SonnerToasterProps["theme"]> =
+      theme ??
+      (activeTheme === "light" ||
+      activeTheme === "dark" ||
+      activeTheme === "system"
+        ? activeTheme
+        : "system");
+
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Toaster",
+      recipeName: TOASTER_RECIPE_NAME,
+      state,
+      slot: TOASTER_SLOT_ROLES.root,
+      className,
+    });
+
+    return (
+      <div
+        ref={ref}
+        {...applyGovernedPresentation({}, {
+          ...governed,
+          className: toasterRootWrapperClassName,
+        })}
+      >
+        <Sonner
+          {...props}
+          theme={resolvedTheme}
+          icons={{
+            success: (
+              <ToasterIcon
+                Icon={CircleCheckIcon}
+                slotKey={TOASTER_ICON_SLOT_KEYS.success}
+              />
+            ),
+            info: (
+              <ToasterIcon
+                Icon={InfoIcon}
+                slotKey={TOASTER_ICON_SLOT_KEYS.info}
+              />
+            ),
+            warning: (
+              <ToasterIcon
+                Icon={TriangleAlertIcon}
+                slotKey={TOASTER_ICON_SLOT_KEYS.warning}
+              />
+            ),
+            error: (
+              <ToasterIcon
+                Icon={OctagonXIcon}
+                slotKey={TOASTER_ICON_SLOT_KEYS.error}
+              />
+            ),
+            loading: (
+              <ToasterIcon
+                Icon={Loader2Icon}
+                slotKey={TOASTER_ICON_SLOT_KEYS.loading}
+              />
+            ),
+          }}
+          style={toasterInlineStyleVariables as React.CSSProperties}
+          toastOptions={{
+            classNames: {
+              toast: toasterToastClassName,
+            },
+          }}
+          className={cn(governed.className)}
+        />
+      </div>
+    );
+  }
+);
 
 Toaster.displayName = "Toaster";
 

@@ -1,6 +1,7 @@
+import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -31,7 +32,10 @@ const TEXT_LINE_WIDTHS = ["100%", "92%", "78%", "64%"] as const;
 
 function SkeletonAvatar({ size = "2.5rem" }: { readonly size?: string }) {
   return (
-    <Skeleton style={{ height: size, width: size, borderRadius: "50%" }} />
+    <Skeleton
+      aria-hidden
+      style={{ height: size, width: size, borderRadius: "50%" }}
+    />
   );
 }
 
@@ -42,11 +46,11 @@ function SkeletonLine({
   readonly height?: string;
   readonly width?: string;
 }) {
-  return <Skeleton style={{ height, width }} />;
+  return <Skeleton aria-hidden style={{ height, width }} />;
 }
 
 function SkeletonButton({ width = "5rem" }: { readonly width?: string }) {
-  return <Skeleton style={{ height: "2rem", width }} />;
+  return <Skeleton aria-hidden style={{ height: "2rem", width }} />;
 }
 
 function SkeletonTextBlock({
@@ -215,7 +219,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <StoryFrame width="sm">
-      <Skeleton style={{ height: "1rem", width: "12rem" }} />
+      <Skeleton
+        aria-hidden
+        style={{ height: "1rem", width: "12rem" }}
+      />
     </StoryFrame>
   ),
 };
@@ -249,7 +256,7 @@ export const ButtonShape: Story = {
     <StoryRow gap="sm">
       <SkeletonButton />
       <SkeletonButton width="6.5rem" />
-      <Skeleton style={{ height: "2rem", width: "2rem" }} />
+      <Skeleton aria-hidden style={{ height: "2rem", width: "2rem" }} />
     </StoryRow>
   ),
 };
@@ -298,6 +305,7 @@ export const GovernanceAllStates: Story = {
               state=&quot;{state}&quot;
             </span>
             <Skeleton
+              aria-hidden
               state={state}
               style={{ height: "0.75rem", width: "12rem" }}
             />
@@ -305,6 +313,79 @@ export const GovernanceAllStates: Story = {
         </StoryFrame>
       ))}
     </StoryStack>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Skeleton` — governed values (`data-slot="skeleton"`, `data-component="Skeleton"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <Skeleton
+        aria-hidden
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-skeleton"
+        state="ready"
+        style={{ height: "0.75rem", width: "12rem" }}
+      />
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Skeleton is a single-root leaf: internal role `root` emits `data-slot=\"skeleton\"`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → skeleton · recipe → form-control
+        </p>
+        <Skeleton
+          aria-hidden
+          data-testid="slot-map-skeleton"
+          style={{ height: "0.75rem", width: "12rem" }}
+        />
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+    height: { control: "text" },
+    width: { control: "text" },
+  },
+  args: {
+    state: "ready",
+    height: "0.75rem",
+    width: "12rem",
+  },
+  render: ({ state, height, width }) => (
+    <StoryFrame width="sm">
+      <Skeleton
+        aria-hidden
+        state={state}
+        style={{ height, width }}
+      />
+    </StoryFrame>
   ),
 };
 
@@ -382,7 +463,7 @@ export const SelectableDataGrid: Story = {
           {Array.from({ length: 4 }, (_, index) => (
             <TableRow key={index}>
               <TableCell>
-                <Skeleton style={{ height: "1rem", width: "1rem" }} />
+                <Skeleton aria-hidden style={{ height: "1rem", width: "1rem" }} />
               </TableCell>
               <TableCell>
                 <StoryRow align="center" gap="sm">
@@ -397,10 +478,10 @@ export const SelectableDataGrid: Story = {
                 <SkeletonLine width="4rem" />
               </TableCell>
               <TableCell>
-                <Skeleton style={{ height: "1.25rem", width: "4.5rem" }} />
+                <Skeleton aria-hidden style={{ height: "1.25rem", width: "4.5rem" }} />
               </TableCell>
               <TableCell>
-                <Skeleton style={{ height: "1.75rem", width: "1.75rem" }} />
+                <Skeleton aria-hidden style={{ height: "1.75rem", width: "1.75rem" }} />
               </TableCell>
             </TableRow>
           ))}
@@ -434,7 +515,7 @@ export const FormFieldsLoading: Story = {
         {["Vendor name", "Payment terms", "Tax code", "Notes"].map((label) => (
           <StoryStack gap="xs" key={label}>
             <SkeletonLine height="0.625rem" width="30%" />
-            <Skeleton style={{ height: "2.25rem", width: "100%" }} />
+            <Skeleton aria-hidden style={{ height: "2.25rem", width: "100%" }} />
           </StoryStack>
         ))}
         <StoryRow gap="sm" justify="end">
@@ -487,14 +568,14 @@ export const SidebarNavigation: Story = {
         <SkeletonLine height="1rem" width="50%" />
         {Array.from({ length: 6 }, (_, index) => (
           <StoryRow align="center" gap="sm" key={index}>
-            <Skeleton style={{ height: "1.25rem", width: "1.25rem" }} />
+            <Skeleton aria-hidden style={{ height: "1.25rem", width: "1.25rem" }} />
             <SkeletonLine width="65%" />
           </StoryRow>
         ))}
         <SkeletonLine height="0.625rem" width="40%" />
         {Array.from({ length: 3 }, (_, index) => (
           <StoryRow align="center" gap="sm" key={`sub-${index}`}>
-            <Skeleton style={{ height: "1rem", width: "1rem" }} />
+            <Skeleton aria-hidden style={{ height: "1rem", width: "1rem" }} />
             <SkeletonLine width="55%" />
           </StoryRow>
         ))}
@@ -517,6 +598,7 @@ export const ChartPlaceholder: Story = {
         </CardHeader>
         <CardContent>
           <Skeleton
+            aria-hidden
             style={{ height: "12rem", width: "100%", borderRadius: "0.375rem" }}
           />
         </CardContent>
@@ -537,11 +619,12 @@ export const DocumentPreview: Story = {
             <SkeletonLine height="0.625rem" width="5rem" />
           </StoryStack>
           <StoryRow gap="sm">
-            <Skeleton style={{ height: "2rem", width: "2rem" }} />
-            <Skeleton style={{ height: "2rem", width: "2rem" }} />
+            <Skeleton aria-hidden style={{ height: "2rem", width: "2rem" }} />
+            <Skeleton aria-hidden style={{ height: "2rem", width: "2rem" }} />
           </StoryRow>
         </StoryRow>
         <Skeleton
+          aria-hidden
           style={{
             height: "16rem",
             width: "100%",
@@ -593,7 +676,7 @@ export const ApprovalQueueCards: Story = {
                   <SkeletonLine height="0.75rem" width="60%" />
                   <SkeletonLine height="0.625rem" width="40%" />
                 </StoryStack>
-                <Skeleton style={{ height: "1.25rem", width: "4rem" }} />
+                <Skeleton aria-hidden style={{ height: "1.25rem", width: "4rem" }} />
               </StoryRow>
             </CardHeader>
             <CardContent>
@@ -627,7 +710,7 @@ export const SettingsPanel: Story = {
                   <SkeletonLine height="0.75rem" width="8rem" />
                   <SkeletonLine height="0.625rem" width="12rem" />
                 </StoryStack>
-                <Skeleton style={{ height: "1.25rem", width: "2.25rem" }} />
+                <Skeleton aria-hidden style={{ height: "1.25rem", width: "2.25rem" }} />
               </StoryRow>
             ))}
           </StoryStack>
@@ -760,7 +843,7 @@ export const UserProfilePanel: Story = {
           <StoryStack gap="xs">
             <SkeletonLine height="1rem" width="8rem" />
             <SkeletonLine height="0.75rem" width="10rem" />
-            <Skeleton style={{ height: "1.25rem", width: "5rem" }} />
+            <Skeleton aria-hidden style={{ height: "1.25rem", width: "5rem" }} />
           </StoryStack>
         </StoryRow>
         <StoryStack gap="md">
@@ -896,6 +979,7 @@ export const SkeletonVsProgress: Story = {
             Layout placeholder (Skeleton)
           </span>
           <Skeleton
+            aria-hidden
             style={{ height: "6rem", width: "100%", borderRadius: "0.375rem" }}
           />
         </StoryStack>

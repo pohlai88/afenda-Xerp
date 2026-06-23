@@ -1,6 +1,13 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
+import { useState } from "react";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
   Pagination,
@@ -70,11 +77,11 @@ function RecordRangeSummary({
 }) {
   return (
     <StoryStack gap="xs">
-      <span className="text-muted-foreground text-xs">
+      <span className="tabular-nums text-muted-foreground text-xs">
         Showing {start.toLocaleString()}–{end.toLocaleString()} of{" "}
         {totalRecords.toLocaleString()} records
       </span>
-      <span className="text-muted-foreground text-xs">
+      <span className="tabular-nums text-muted-foreground text-xs">
         Page {page} · {perPage} rows per page
       </span>
     </StoryStack>
@@ -153,9 +160,11 @@ function PageSizeSelector({
     <StoryRow align="center" gap="sm">
       <span className="text-muted-foreground text-xs">Rows per page</span>
       <Select onValueChange={onChange} value={value}>
-        <SelectTrigger className="w-20" size="sm">
+      <div className="w-20">
+        <SelectTrigger size="sm">
           <SelectValue />
         </SelectTrigger>
+      </div>
         <SelectContent>
           {["10", "25", "50", "100"].map((size) => (
             <SelectItem key={size} value={size}>
@@ -211,8 +220,8 @@ function InteractiveInvoiceTableFooter() {
                     </Badge>
                   </TableCell>
                   <TableCell>${row.amount.toLocaleString()}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {row.date}
+                  <TableCell>
+                    <span className="text-muted-foreground">{row.date}</span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -253,10 +262,195 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
+  args: {
+    state: "ready",
+  },
 } satisfies Meta<typeof Pagination>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+function PaginationStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <Pagination state={state}>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              {state}
+            </PaginationLink>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </StoryRow>
+  );
+}
+
+export const Playground: Story = {
+  render: (args) => (
+    <Pagination state={args.state}>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious href="#" />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">1</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#" isActive>
+            2
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">3</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext href="#" />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on root and content — governed attributes must win.',
+      },
+    },
+  },
+  render: () => (
+    <Pagination
+      data-component="Override"
+      data-recipe="override"
+      data-slot="override"
+      data-state="fake"
+      state="ready"
+    >
+      <PaginationContent data-slot="override">
+        <PaginationItem>
+          <PaginationLink data-slot="override" href="#" isActive>
+            2
+          </PaginationLink>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal roles: root → pagination, body → pagination-content, icon → pagination-ellipsis. slotKey map: link-text / link-padding-* → pagination-link, ellipsis-label → pagination-ellipsis. PaginationItem is passthrough → pagination-item.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → pagination · body → pagination-content · icon →
+          pagination-ellipsis · link-text → pagination-link · ellipsis-label →
+          pagination-ellipsis · item passthrough → pagination-item
+        </p>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <PaginationStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Root renders `<nav aria-label="pagination">`. Active page uses `aria-current="page"`. Prev/next expose `aria-label`; disabled boundaries use `aria-disabled`. Ellipsis exposes sr-only "More pages" while the icon is `aria-hidden`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious aria-disabled href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+        <span className="text-muted-foreground text-xs">
+          Screen readers announce the navigation landmark, active page, and
+          ellipsis overflow.
+        </span>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -876,45 +1070,6 @@ export const ButtonGroupReference: Story = {
             See ERP — Pagination Controls in Primitives/ButtonGroup
           </span>
         </StoryStack>
-      </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Root renders `<nav aria-label="pagination">`. Active page uses `aria-current="page"`. Prev/next expose `aria-label`; disabled boundaries use `aria-disabled`.',
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="md">
-      <StoryStack gap="sm">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious aria-disabled href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-        <span className="text-muted-foreground text-xs">
-          Screen readers announce the navigation landmark and the active page.
-        </span>
       </StoryStack>
     </StoryFrame>
   ),

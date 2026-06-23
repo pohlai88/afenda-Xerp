@@ -38,7 +38,7 @@ describe("AppShellActivityFeed", () => {
 
     expect(screen.getByLabelText("Reply message")).toBeInTheDocument();
     expect(screen.getByRole("group", { name: "Reply to mention" })).toBeInTheDocument();
-    expect(screen.getByText("Attach image", { selector: ".sr-only" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Attach image" })).toBeInTheDocument();
   });
 
   it("renders ISO timestamps inside time elements", () => {
@@ -81,6 +81,15 @@ describe("AppShellActivityFeed", () => {
 
     const designLink = screen.getByRole("link", { name: /BOM-redesign-v3\.fig/i });
     expect(designLink).toHaveAttribute("href", "#");
+  });
+
+  it("uses semantic feed list markup without Tailwind list utilities", () => {
+    render(<AppShellActivityFeed />);
+
+    const feed = screen.getByRole("feed", { name: "Team activity feed" });
+    expect(feed).toHaveClass("app-shell-activity-feed-list");
+    expect(feed).toHaveAttribute("aria-live", "polite");
+    expect(feed.className).not.toContain("list-none");
   });
 
   it("accepts a custom activities feed", () => {

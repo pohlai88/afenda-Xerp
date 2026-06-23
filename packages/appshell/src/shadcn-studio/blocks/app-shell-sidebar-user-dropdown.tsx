@@ -1,7 +1,5 @@
 "use client";
 
-import { ChevronRightIcon } from "lucide-react";
-
 import {
   Avatar,
   AvatarFallback,
@@ -19,6 +17,7 @@ import {
   useSidebar,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { ChevronRightIcon } from "lucide-react";
 
 import type { AppShellProfileMenuItem } from "../data/app-shell.profile.data";
 import {
@@ -39,22 +38,29 @@ export type AppShellSidebarUserDropdownGovernedComponents = Extract<
 >;
 
 export interface AppShellSidebarUserDropdownProps {
-  readonly displayName?: string;
-  readonly roleLabel?: string;
-  readonly avatarSrc?: string;
   readonly avatarFallback?: string;
-  readonly menuLabel?: string;
+  readonly avatarSrc?: string;
   readonly defaultOpen?: boolean;
-  readonly menuItems?: readonly AppShellProfileMenuItem[];
+  readonly displayName?: string;
   readonly logoutItem?: AppShellProfileMenuItem;
+  readonly menuItems?: readonly AppShellProfileMenuItem[];
+  readonly menuLabel?: string;
+  readonly roleLabel?: string;
 }
 
-function SidebarUserMenuItemRow({ item }: { readonly item: AppShellProfileMenuItem }) {
+function SidebarUserMenuItemRow({
+  item,
+}: {
+  readonly item: AppShellProfileMenuItem;
+}) {
   return (
     <DropdownMenuItem
       {...(item.variant === undefined ? {} : { variant: item.variant })}
     >
-      <item.Icon aria-hidden className="app-shell-sidebar-user-menu-item-icon" />
+      <item.Icon
+        aria-hidden
+        className="app-shell-sidebar-user-menu-item-icon"
+      />
       <span>{item.label}</span>
     </DropdownMenuItem>
   );
@@ -116,7 +122,9 @@ export function AppShellSidebarUserDropdown({
                 <AvatarFallback>{avatarFallback}</AvatarFallback>
               </Avatar>
               <div className="app-shell-sidebar-user-trigger-copy">
-                <span className="app-shell-sidebar-user-name">{displayName}</span>
+                <span className="app-shell-sidebar-user-name">
+                  {displayName}
+                </span>
                 <span className="app-shell-sidebar-user-role">{roleLabel}</span>
               </div>
               <ChevronRightIcon
@@ -132,26 +140,26 @@ export function AppShellSidebarUserDropdown({
             sideOffset={isMobile ? 8 : 16}
           >
             <div className="app-shell-sidebar-user-dropdown">
-            <DropdownMenuGroup>
-              <SidebarUserMenuHeader
-                avatarFallback={avatarFallback}
-                avatarSrc={avatarSrc}
-                displayName={displayName}
-                roleLabel={roleLabel}
-              />
-            </DropdownMenuGroup>
+              <DropdownMenuGroup>
+                <SidebarUserMenuHeader
+                  avatarFallback={avatarFallback}
+                  avatarSrc={avatarSrc}
+                  displayName={displayName}
+                  roleLabel={roleLabel}
+                />
+              </DropdownMenuGroup>
 
-            <DropdownMenuSeparator />
+              <DropdownMenuSeparator />
 
-            <DropdownMenuGroup aria-label={menuLabel}>
-              {menuItems.map((item) => (
-                <SidebarUserMenuItemRow key={item.id} item={item} />
-              ))}
-            </DropdownMenuGroup>
+              <DropdownMenuGroup aria-label={menuLabel}>
+                {menuItems.map((item) => (
+                  <SidebarUserMenuItemRow item={item} key={item.id} />
+                ))}
+              </DropdownMenuGroup>
 
-            <DropdownMenuSeparator />
+              <DropdownMenuSeparator />
 
-            <SidebarUserMenuItemRow item={logoutItem} />
+              <SidebarUserMenuItemRow item={logoutItem} />
             </div>
           </DropdownMenuContent>
         </DropdownMenu>

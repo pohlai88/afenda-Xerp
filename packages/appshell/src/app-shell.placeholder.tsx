@@ -1,3 +1,5 @@
+import { Avatar, AvatarFallback } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -5,15 +7,17 @@ import {
   ChevronUpIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
-
 import {
   APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_SECTION_ID,
   APP_SHELL_PLACEHOLDER_RECENT_ORDERS_SECTION_ID,
+  type AppShellPlaceholderKpiCard,
+  type AppShellPlaceholderModuleRow,
+  type AppShellPlaceholderOrderRow,
+  type AppShellPlaceholderSparklineCard,
+  type AppShellPlaceholderTrendDirection,
   DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL,
-  DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERIOD_LABEL,
   DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE,
+  DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERIOD_LABEL,
   DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_CAPTION,
   DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE,
   DEFAULT_APP_SHELL_PLACEHOLDER_SPARKLINE_COMPARISON_LABEL,
@@ -21,11 +25,7 @@ import {
   defaultAppShellPlaceholderModules,
   defaultAppShellPlaceholderOrders,
   defaultAppShellPlaceholderSparklineCards,
-  type AppShellPlaceholderKpiCard,
-  type AppShellPlaceholderModuleRow,
-  type AppShellPlaceholderOrderRow,
-  type AppShellPlaceholderSparklineCard,
-  type AppShellPlaceholderTrendDirection,
+  formatPlaceholderSparklineChartLabel,
 } from "./shadcn-studio/data/app-shell.placeholder.data";
 
 export type ApplicationShellPlaceholderGovernedComponents = Extract<
@@ -35,18 +35,18 @@ export type ApplicationShellPlaceholderGovernedComponents = Extract<
 
 export interface ApplicationShellPlaceholderProps {
   readonly dashboardLabel?: string;
-  readonly recentOrdersTitle?: string;
-  readonly recentOrdersCaption?: string;
+  readonly kpiCards?: readonly AppShellPlaceholderKpiCard[];
+  readonly modulePerformance?: readonly AppShellPlaceholderModuleRow[];
   readonly modulePerformanceTitle?: string;
   readonly modulePeriodLabel?: string;
-  readonly sparklineComparisonLabel?: string;
-  readonly showSparklineSection?: boolean;
-  readonly showKpiSection?: boolean;
-  readonly showWidgetSection?: boolean;
-  readonly kpiCards?: readonly AppShellPlaceholderKpiCard[];
-  readonly sparklineCards?: readonly AppShellPlaceholderSparklineCard[];
   readonly recentOrders?: readonly AppShellPlaceholderOrderRow[];
-  readonly modulePerformance?: readonly AppShellPlaceholderModuleRow[];
+  readonly recentOrdersCaption?: string;
+  readonly recentOrdersTitle?: string;
+  readonly showKpiSection?: boolean;
+  readonly showSparklineSection?: boolean;
+  readonly showWidgetSection?: boolean;
+  readonly sparklineCards?: readonly AppShellPlaceholderSparklineCard[];
+  readonly sparklineComparisonLabel?: string;
 }
 
 function resolvePlaceholderModuleStatusClass(progress: number): string {
@@ -124,7 +124,11 @@ function SparklineSvg({
   );
 }
 
-function TrendIndicator({ trend }: { readonly trend: AppShellPlaceholderTrendDirection }) {
+function TrendIndicator({
+  trend,
+}: {
+  readonly trend: AppShellPlaceholderTrendDirection;
+}) {
   return (
     <span aria-hidden="true">
       {trend === "up" ? (
@@ -136,7 +140,13 @@ function TrendIndicator({ trend }: { readonly trend: AppShellPlaceholderTrendDir
   );
 }
 
-function KpiStatCard({ title, badge, value, trend, Icon }: AppShellPlaceholderKpiCard) {
+function KpiStatCard({
+  title,
+  badge,
+  value,
+  trend,
+  Icon,
+}: AppShellPlaceholderKpiCard) {
   return (
     <div className="app-shell-placeholder-surface app-shell-placeholder-kpi-card">
       <div className="app-shell-placeholder-kpi-header">
@@ -172,11 +182,17 @@ function SparklineStatCard({
       <div className="app-shell-placeholder-sparkline-body">
         <div className="app-shell-placeholder-sparkline-meta">
           <div className="app-shell-placeholder-sparkline-title-group">
-            <span className="app-shell-placeholder-sparkline-title">{title}</span>
-            <span className="app-shell-placeholder-sparkline-amount">{amount}</span>
+            <span className="app-shell-placeholder-sparkline-title">
+              {title}
+            </span>
+            <span className="app-shell-placeholder-sparkline-amount">
+              {amount}
+            </span>
           </div>
           <div className="app-shell-placeholder-sparkline-change-row">
-            <span className="app-shell-placeholder-sparkline-change">{change}</span>
+            <span className="app-shell-placeholder-sparkline-change">
+              {change}
+            </span>
             <span className="app-shell-placeholder-sparkline-comparison">
               {comparisonLabel}
             </span>
@@ -184,7 +200,7 @@ function SparklineStatCard({
         </div>
 
         <div
-          aria-label={`${title} sparkline trend`}
+          aria-label={formatPlaceholderSparklineChartLabel(title)}
           className="app-shell-placeholder-sparkline-chart"
           role="img"
         >
@@ -195,7 +211,11 @@ function SparklineStatCard({
   );
 }
 
-function OrderAmountIndicator({ type }: { readonly type: AppShellPlaceholderOrderRow["type"] }) {
+function OrderAmountIndicator({
+  type,
+}: {
+  readonly type: AppShellPlaceholderOrderRow["type"];
+}) {
   return (
     <div className="app-shell-placeholder-order-indicator">
       {type === "debit" ? (
@@ -230,7 +250,9 @@ function RecentOrdersWidget({
       className="app-shell-placeholder-surface app-shell-placeholder-widget"
     >
       <div className="app-shell-placeholder-widget-header">
-        <h2 className="app-shell-placeholder-widget-title" id={sectionId}>{title}</h2>
+        <h2 className="app-shell-placeholder-widget-title" id={sectionId}>
+          {title}
+        </h2>
         <span className="app-shell-placeholder-widget-caption">{caption}</span>
       </div>
 
@@ -244,14 +266,19 @@ function RecentOrdersWidget({
             <div className="app-shell-placeholder-order-main">
               <Avatar>
                 <AvatarFallback>
-                  <order.Icon aria-hidden className="app-shell-placeholder-order-indicator-icon" />
+                  <order.Icon
+                    aria-hidden
+                    className="app-shell-placeholder-order-indicator-icon"
+                  />
                 </AvatarFallback>
               </Avatar>
               <div className="app-shell-placeholder-order-copy">
                 <span className="app-shell-placeholder-order-description">
                   {order.description}
                 </span>
-                <span className="app-shell-placeholder-order-module">{order.module}</span>
+                <span className="app-shell-placeholder-order-module">
+                  {order.module}
+                </span>
               </div>
             </div>
 
@@ -286,8 +313,12 @@ function ModulePerformanceWidget({
       className="app-shell-placeholder-surface app-shell-placeholder-widget"
     >
       <div className="app-shell-placeholder-widget-header">
-        <h2 className="app-shell-placeholder-widget-title" id={sectionId}>{title}</h2>
-        <span className="app-shell-placeholder-widget-period-caption">{periodLabel}</span>
+        <h2 className="app-shell-placeholder-widget-title" id={sectionId}>
+          {title}
+        </h2>
+        <span className="app-shell-placeholder-widget-period-caption">
+          {periodLabel}
+        </span>
       </div>
 
       <ul className="app-shell-placeholder-module-list">
@@ -295,7 +326,9 @@ function ModulePerformanceWidget({
           <li className="app-shell-placeholder-module-row" key={module.id}>
             <div className="app-shell-placeholder-module-copy">
               <div className="app-shell-placeholder-module-header">
-                <span className="app-shell-placeholder-module-name">{module.name}</span>
+                <span className="app-shell-placeholder-module-name">
+                  {module.name}
+                </span>
                 <span
                   className={`app-shell-placeholder-module-status ${resolvePlaceholderModuleStatusClass(module.progress)}`}
                 >
@@ -314,7 +347,9 @@ function ModulePerformanceWidget({
                 />
               </div>
             </div>
-            <span className="app-shell-placeholder-module-percent">{module.progress}%</span>
+            <span className="app-shell-placeholder-module-percent">
+              {module.progress}%
+            </span>
           </li>
         ))}
       </ul>
@@ -347,8 +382,8 @@ export function ApplicationShellPlaceholderContent({
         <div className="app-shell-sparkline-grid">
           {sparklineCards.map((card) => (
             <SparklineStatCard
-              key={card.id}
               comparisonLabel={sparklineComparisonLabel}
+              key={card.id}
               {...card}
             />
           ))}

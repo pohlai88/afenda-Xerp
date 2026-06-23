@@ -62,7 +62,9 @@ function expandKpiStatsItem(
 
   return KPI_WIDGET_IDS.map((widgetId, index) => {
     const isLast = index === KPI_WIDGET_IDS.length - 1;
-    const width = isLast ? Math.max(3, item.w - segmentWidth * index) : segmentWidth;
+    const width = isLast
+      ? Math.max(3, item.w - segmentWidth * index)
+      : segmentWidth;
 
     return {
       i: widgetId,

@@ -59,8 +59,9 @@ export interface ResolveOperatingContextInput {
 }
 
 /**
- * Server-side operating context resolver.
+ * Server-side operating context resolver — Step 7 §561–571.
  * Client-provided slugs/IDs are selection hints only — always verified here.
+ * Registry: `operating-context-resolver-registry.ts`.
  */
 export async function resolveOperatingContext(
   input: ResolveOperatingContextInput

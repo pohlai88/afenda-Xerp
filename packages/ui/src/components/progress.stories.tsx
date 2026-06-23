@@ -1,104 +1,20 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useEffect, useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { CheckIcon } from "lucide-react";
+import {
+  FileUploadDemo,
+  LabeledProgress,
+  stepBadgeTone,
+} from "./_storybook/progress-story.compositions";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
-import { Button } from "./button";
 import { Progress } from "./progress";
 import { Spinner } from "./spinner";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function LabeledProgress({
-  detail,
-  label,
-  value,
-}: {
-  readonly detail?: string;
-  readonly label: string;
-  readonly value: number;
-}) {
-  return (
-    <StoryStack gap="xs">
-      <StoryRow justify="between">
-        <span className="font-medium text-sm">{label}</span>
-        <span className="text-muted-foreground text-xs">
-          {detail ?? `${value}%`}
-        </span>
-      </StoryRow>
-      <Progress value={value} />
-    </StoryStack>
-  );
-}
-
-function stepBadgeTone(pct: number): "success" | "warning" | "neutral" {
-  if (pct === 100) {
-    return "success";
-  }
-  if (pct > 0) {
-    return "warning";
-  }
-  return "neutral";
-}
-
-function FileUploadDemo() {
-  const [progress, setProgress] = useState(0);
-  const [running, setRunning] = useState(false);
-
-  const start = () => {
-    setProgress(0);
-    setRunning(true);
-  };
-
-  useEffect(() => {
-    if (!running) {
-      return;
-    }
-    if (progress >= 100) {
-      setRunning(false);
-      return;
-    }
-    const timer = setTimeout(
-      () => setProgress((current) => Math.min(current + 5, 100)),
-      100
-    );
-    return () => clearTimeout(timer);
-  }, [running, progress]);
-
-  return (
-    <StoryFrame width="lg">
-      <StoryStack
-        className="rounded-md border border-border"
-        gap="md"
-        padding="lg"
-      >
-        <StoryRow align="center" justify="between">
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">payroll_june_2026.xlsx</span>
-            <span className="text-muted-foreground text-xs">
-              {progress < 100 ? `Uploading… ${progress}%` : "Upload complete"}
-            </span>
-          </StoryStack>
-          {progress < 100 ? (
-            <Spinner />
-          ) : (
-            <Badge emphasis="soft" tone="success">
-              Done
-            </Badge>
-          )}
-        </StoryRow>
-        <Progress value={progress} />
-        <StoryRow justify="end">
-          <Button emphasis="ghost" intent="primary" onClick={start} size="sm">
-            {running ? "Uploading…" : "Restart demo"}
-          </Button>
-        </StoryRow>
-      </StoryStack>
-    </StoryFrame>
-  );
-}
-
-// ─── Progress ─────────────────────────────────────────────────────────────
 
 const meta = {
   title: "Primitives/Progress",
@@ -168,18 +84,42 @@ export const WithLabel: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Progress root or indicator attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Progress
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+        data-state="fake"
+        state="ready"
+        value={60}
+      />
+    </StoryFrame>
+  ),
+};
+
 export const GovernanceAllStates: Story = {
   name: "Governance — All States",
   parameters: { layout: "padded" },
   render: () => (
     <StoryStack gap="md">
       {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <Progress state={state} value={60} />
-        </StoryFrame>
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <StoryFrame width="md">
+            <Progress state={state} value={60} />
+          </StoryFrame>
+        </StoryRow>
       ))}
     </StoryStack>
   ),
@@ -193,12 +133,10 @@ export const MatrixProgressValues: Story = {
       <StoryStack gap="sm">
         {[0, 25, 50, 75, 100].map((value) => (
           <StoryRow align="center" gap="sm" key={value}>
-            <span className="w-8 text-right text-muted-foreground text-xs">
-              {value}%
-            </span>
-            <div className="min-w-0 flex-1">
+            <StoryCaption width="md">{value}%</StoryCaption>
+            <StoryStack className="min-w-0 flex-1" gap="xs">
               <Progress value={value} />
-            </div>
+            </StoryStack>
           </StoryRow>
         ))}
       </StoryStack>
@@ -255,7 +193,9 @@ export const ApprovalWorkflow: Story = {
             <StoryStack className="min-w-0 flex-1" gap="xs">
               <StoryRow justify="between">
                 <span className="text-sm">{stage}</span>
-                <span className="text-muted-foreground text-xs">{pct}%</span>
+                <span className="tabular-nums text-muted-foreground text-xs">
+                  {pct}%
+                </span>
               </StoryRow>
               <Progress value={pct} />
             </StoryStack>
@@ -387,9 +327,10 @@ export const OnboardingChecklist: Story = {
             "Equipment assigned",
             "Policy acknowledgements",
           ].map((task) => (
-            <span className="text-muted-foreground text-xs" key={task}>
-              ✓ {task}
-            </span>
+            <StoryRow align="center" gap="xs" key={task}>
+              <CheckIcon aria-hidden="true" className="size-3 text-muted-foreground" />
+              <span className="text-muted-foreground text-xs">{task}</span>
+            </StoryRow>
           ))}
         </StoryStack>
       </StoryStack>
@@ -537,11 +478,11 @@ export const LoadingVsProgress: Story = {
     <StoryFrame width="md">
       <StoryStack gap="lg">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Determinate (Progress)</span>
+          <StoryCaption width="md">Determinate (Progress)</StoryCaption>
           <LabeledProgress label="Exporting 284 invoices" value={42} />
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Indeterminate (Spinner)</span>
+          <StoryCaption width="md">Indeterminate (Spinner)</StoryCaption>
           <StoryRow align="center" gap="sm">
             <Spinner />
             <span className="text-muted-foreground text-sm">

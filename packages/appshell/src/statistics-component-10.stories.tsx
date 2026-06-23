@@ -39,7 +39,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Alias of Blocks/Dashboard/StatisticsMetrics — kept for sidebar continuity. */
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Four-card grid from `statistics-component-10.data` — Thursday revenue peak, weekday tick abbreviations.",
+      },
+    },
+  },
+};
 
 export const DarkTheme: Story = {
   globals: dashboardBlockDarkThemeGlobals,

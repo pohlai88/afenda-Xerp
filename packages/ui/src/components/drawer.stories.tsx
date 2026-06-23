@@ -1,3 +1,10 @@
+import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_PANEL_RADII,
+  GOVERNED_PANEL_SHADOWS,
+  GOVERNED_STATES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   BarcodeIcon,
@@ -14,7 +21,7 @@ import {
   UploadIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -73,6 +80,30 @@ function DrawerCancelButton() {
   );
 }
 
+function DrawerStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <Drawer defaultOpen>
+        <DrawerContent state={state}>
+          <DrawerHeader>
+            <DrawerTitle>Governed drawer probe</DrawerTitle>
+            <DrawerDescription>
+              Inspect `data-state` on drawer-content.
+            </DrawerDescription>
+          </DrawerHeader>
+        </DrawerContent>
+      </Drawer>
+    </StoryFrame>
+  );
+}
+
 function SnapPointsPeekComponent() {
   const [snap, setSnap] = useState<number | string | null>(SNAP_POINTS[0]);
 
@@ -102,7 +133,7 @@ function SnapPointsPeekComponent() {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
-            <span className="font-semibold text-sm">
+            <span className="font-semibold tabular-nums text-sm">
               {formatCurrency(24_850)}
             </span>
           </StoryRow>
@@ -153,7 +184,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed mobile-first bottom sheet (Vaul) for ERP peek panels, bulk actions, filters, and touch workflows. Supports `direction`, `snapPoints`, and governed `density` / `radius` / `shadow` on `DrawerContent`. Prefer `Sheet` for desktop side panels and `Dialog` for centered modals.",
+          "Governed mobile-first bottom sheet (Vaul) for ERP peek panels, bulk actions, filters, and touch workflows. Supports `direction`, `snapPoints`, and governed `density` / `radius` / `shadow` / `state` on `DrawerContent`. Prefer `Sheet` for desktop side panels and `Dialog` for centered modals.",
       },
     },
   },
@@ -213,7 +244,7 @@ export const OpenByDefault: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance</span>
-            <span className="font-semibold text-sm">
+            <span className="font-semibold tabular-nums text-sm">
               {formatCurrency(24_850)}
             </span>
           </StoryRow>
@@ -301,6 +332,123 @@ export const GovernanceSurfaceVariants: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `DrawerContent` — governed values (`data-slot="drawer-content"`, `data-component="Drawer"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <Drawer defaultOpen>
+      <DrawerContent
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-drawer-content"
+      >
+        <DrawerHeader>
+          <DrawerTitle>Data authority probe</DrawerTitle>
+          <DrawerDescription>
+            Inspect the content root — governed `data-*` attributes must override
+            consumer props.
+          </DrawerDescription>
+        </DrawerHeader>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`label`, `state`, `body`) emit `drawer-title`, `drawer-description`, `drawer-overlay`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → drawer-content · body → drawer-overlay · header → drawer-header
+          · footer → drawer-footer · label → drawer-title · state →
+          drawer-description · handle → drawer-handle
+        </p>
+        <Drawer defaultOpen>
+          <DrawerContent data-testid="slot-map-content">
+            <DrawerHeader>
+              <DrawerTitle>Inspect slot attributes</DrawerTitle>
+              <DrawerDescription>
+                Open DevTools and verify `data-component`, `data-recipe`, and
+                `data-slot` on each drawer part.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerCancelButton />
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <DrawerStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    density: { control: "select", options: [...DENSITIES] },
+    radius: { control: "select", options: [...GOVERNED_PANEL_RADII] },
+    shadow: { control: "select", options: [...GOVERNED_PANEL_SHADOWS] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    density: "standard",
+    radius: "md",
+    shadow: "overlay",
+    state: "ready",
+  },
+  render: ({ density, radius, shadow, state }) => (
+    <Drawer defaultOpen>
+      <DrawerContent
+        density={density}
+        radius={radius}
+        shadow={shadow}
+        state={state}
+      >
+        <DrawerHeader>
+          <DrawerTitle>Drawer playground</DrawerTitle>
+          <DrawerDescription>
+            Adjust density, radius, shadow, and governed state from controls.
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <DrawerCancelButton />
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
 export const AllDirections: Story = {
   name: "Matrix — All Directions",
   parameters: { layout: "padded" },
@@ -361,16 +509,16 @@ export const RecordDetailPeek: Story = {
             <span className="text-muted-foreground text-sm">
               Invoice amount
             </span>
-            <span className="text-sm">{formatCurrency(24_850)}</span>
+            <span className="text-sm tabular-nums">{formatCurrency(24_850)}</span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Amount paid</span>
-            <span className="text-sm">{formatCurrency(0)}</span>
+            <span className="text-sm tabular-nums">{formatCurrency(0)}</span>
           </StoryRow>
           <Separator />
           <StoryRow justify="between">
             <span className="font-medium text-sm">Balance due</span>
-            <span className="font-semibold">{formatCurrency(24_850)}</span>
+            <span className="font-semibold tabular-nums">{formatCurrency(24_850)}</span>
           </StoryRow>
         </StoryStack>
         <DrawerFooter>
@@ -499,8 +647,8 @@ export const MobileFilterPanel: Story = {
               { id: "dr-unread", label: "Unreviewed" },
             ].map(({ id, label }) => (
               <StoryRow justify="between" key={id}>
-                <Label className="font-normal text-sm" htmlFor={id}>
-                  {label}
+                <Label htmlFor={id}>
+                  <span className="font-normal text-sm">{label}</span>
                 </Label>
                 <Switch id={id} size="sm" />
               </StoryRow>
@@ -916,8 +1064,8 @@ export const ExportOptions: Story = {
               },
             ].map(({ id, label, checked }) => (
               <StoryRow justify="between" key={id}>
-                <Label className="font-normal text-sm" htmlFor={id}>
-                  {label}
+                <Label htmlFor={id}>
+                  <span className="font-normal text-sm">{label}</span>
                 </Label>
                 <Switch defaultChecked={checked} id={id} size="sm" />
               </StoryRow>

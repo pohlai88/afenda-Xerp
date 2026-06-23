@@ -1,14 +1,20 @@
 "use client";
 
+import {
+  Card,
+  CardContent,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
 import { Area, AreaChart, XAxis } from "recharts";
-
-import { Card, CardContent, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
   formatStatisticsWeekdayTick,
+  STATISTICS_ACTIVITY_CHART_ARIA_LABEL,
   STATISTICS_METRIC_CHART_MARGIN,
   statisticsActivitySalesData,
 } from "../data/statistics-component-10.data";
@@ -27,31 +33,51 @@ function sanitizeSvgId(value: string): string {
 }
 
 export function StatisticsActivityCard() {
+  const titleId = useId();
+  const footnoteId = useId();
   const rawGradientId = useId();
-  const gradientId = sanitizeSvgId(`app-shell-statistics-activity-${rawGradientId}`);
+  const gradientId = sanitizeSvgId(
+    `app-shell-statistics-activity-${rawGradientId}`
+  );
   const chartData = [...statisticsActivitySalesData];
 
   return (
-    <article className="app-shell-statistics-metric-card">
+    <article
+      aria-labelledby={titleId}
+      className="app-shell-statistics-metric-card"
+    >
       <Card>
         <CardContent>
           <div className="app-shell-statistics-metric-panel">
             <div className="app-shell-statistics-metric-copy">
               <div className="app-shell-statistics-metric-heading-stack">
-                <span className="app-shell-statistics-metric-title">Activity</span>
+                <span
+                  className="app-shell-statistics-metric-title"
+                  id={titleId}
+                >
+                  Activity
+                </span>
                 <span className="app-shell-statistics-metric-caption">
                   {DEFAULT_STATISTICS_METRIC_REPORT_CAPTION}
                 </span>
               </div>
               <div className="app-shell-statistics-metric-value-stack">
-                <span className="app-shell-statistics-metric-amount app-shell-statistics-metric-amount-hero">
+                <span
+                  aria-describedby={footnoteId}
+                  className="app-shell-statistics-metric-amount app-shell-statistics-metric-amount-hero"
+                >
                   82%
                 </span>
-                <span className="app-shell-statistics-metric-change">+38%</span>
+                <span
+                  className="app-shell-statistics-metric-change"
+                  id={footnoteId}
+                >
+                  +38%
+                </span>
               </div>
             </div>
             <div
-              aria-label="Activity sales area trend"
+              aria-label={STATISTICS_ACTIVITY_CHART_ARIA_LABEL}
               className="app-shell-statistics-metric-chart app-shell-statistics-metric-chart-area"
               role="img"
             >
@@ -63,8 +89,16 @@ export function StatisticsActivityCard() {
                 >
                   <defs>
                     <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="10%" stopColor="var(--primary)" stopOpacity={0.15} />
-                      <stop offset="90%" stopColor="var(--primary)" stopOpacity={0} />
+                      <stop
+                        offset="10%"
+                        stopColor="var(--primary)"
+                        stopOpacity={0.15}
+                      />
+                      <stop
+                        offset="90%"
+                        stopColor="var(--primary)"
+                        stopOpacity={0}
+                      />
                     </linearGradient>
                   </defs>
                   <XAxis

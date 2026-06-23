@@ -204,4 +204,24 @@ describe("overlay primitive governance", () => {
       recipe: "surface",
     });
   });
+
+  it("wires aria-labelledby and aria-describedby on DialogContent", () => {
+    render(
+      <Dialog open>
+        <DialogContent showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Confirm</DialogTitle>
+            <DialogDescription>Are you sure?</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    );
+
+    const content = screen.getByRole("dialog");
+    const title = screen.getByText("Confirm");
+    const description = screen.getByText("Are you sure?");
+
+    expect(content).toHaveAttribute("aria-labelledby", title.id);
+    expect(content).toHaveAttribute("aria-describedby", description.id);
+  });
 });

@@ -1,5 +1,8 @@
-import React from "react";
-import { GOVERNED_STATES } from "@afenda/ui/governance";
+import React, { useState } from "react";
+import {
+  GOVERNED_STATES,
+  type GovernedAlertDialogContentSize,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertCircleIcon,
@@ -66,6 +69,57 @@ function ConfirmTrigger({
   );
 }
 
+const ALERT_DIALOG_CONTENT_SIZES = [
+  "default",
+  "sm",
+] as const satisfies readonly GovernedAlertDialogContentSize[];
+
+function ControlledAlertDialogComponent() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <StoryStack gap="sm">
+      <StoryRow align="center" gap="sm">
+        <Button
+          emphasis="outline"
+          intent="secondary"
+          onClick={() => setOpen(true)}
+          size="sm"
+          type="button"
+        >
+          Open externally
+        </Button>
+        <span className="text-muted-foreground text-xs">
+          Open: {open ? "yes" : "no"}
+        </span>
+      </StoryRow>
+      <AlertDialog onOpenChange={setOpen} open={open}>
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Controlled alert dialog</AlertDialogTitle>
+            <AlertDialogDescription>
+              Parent state drives `open` for programmatic close after async
+              confirmation.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel emphasis="ghost" intent="secondary">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              emphasis="solid"
+              intent="destructive"
+              onClick={() => setOpen(false)}
+            >
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryStack>
+  );
+}
+
 // ─── AlertDialog ───────────────────────────────────────────────────────────
 
 const meta = {
@@ -90,30 +144,32 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <AlertDialog>
-      <ConfirmTrigger emphasis="solid" intent="destructive">
-        <Trash2Icon />
-        Delete Record
-      </ConfirmTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete record?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. The record and all associated data
-            will be permanently removed from the system.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel emphasis="ghost" intent="secondary">
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction emphasis="solid" intent="destructive">
-            <Trash2Icon />
-            Delete Permanently
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <StoryFrame width="md">
+      <AlertDialog>
+        <ConfirmTrigger emphasis="solid" intent="destructive">
+          <Trash2Icon />
+          Delete Record
+        </ConfirmTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete record?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. The record and all associated data
+              will be permanently removed from the system.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel emphasis="ghost" intent="secondary">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction emphasis="solid" intent="destructive">
+              <Trash2Icon />
+              Delete Permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
   ),
 };
 
@@ -359,6 +415,343 @@ export const MediaToneVariants: Story = {
         </AlertDialog>
       ))}
     </StoryRow>
+  ),
+};
+
+export const Uncontrolled: Story = {
+  name: "AlertDialog — Uncontrolled",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Default Radix open state — trigger toggles visibility without parent `open` prop.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <AlertDialog>
+        <ConfirmTrigger emphasis="outline" intent="secondary" size="sm">
+          Open confirmation
+        </ConfirmTrigger>
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Uncontrolled dialog</AlertDialogTitle>
+            <AlertDialogDescription>
+              Click the trigger to open; Cancel or Escape closes without external
+              state.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
+  ),
+};
+
+export const Controlled: Story = {
+  name: "AlertDialog — Controlled State",
+  render: () => (
+    <StoryFrame width="md">
+      <ControlledAlertDialogComponent />
+    </StoryFrame>
+  ),
+};
+
+export const SizeVariants: Story = {
+  name: "AlertDialog — Size Variants",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow align="start" gap="md" wrap>
+      {ALERT_DIALOG_CONTENT_SIZES.map((size) => (
+        <AlertDialog defaultOpen key={size}>
+          <AlertDialogContent size={size}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Size: {size === "default" ? "default" : "sm"}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                `AlertDialogContent` exposes governed `size` via `data-size`.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Confirm</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ))}
+    </StoryRow>
+  ),
+};
+
+export const ActionButtonSizes: Story = {
+  name: "AlertDialog — Action Button Sizes",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow align="start" gap="md" wrap>
+      {(["sm", "md"] as const).map((size) => (
+        <AlertDialog defaultOpen key={size}>
+          <AlertDialogContent size="sm">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Button size: {size}</AlertDialogTitle>
+              <AlertDialogDescription>
+                Footer actions inherit governed `size` from
+                `AlertDialogAction` / `AlertDialogCancel`.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel emphasis="outline" intent="secondary" size={size}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction emphasis="solid" intent="destructive" size={size}>
+                Confirm
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ))}
+    </StoryRow>
+  ),
+};
+
+export const DisabledTrigger: Story = {
+  name: "AlertDialog — Disabled Trigger",
+  render: () => (
+    <StoryFrame width="md">
+      <AlertDialog>
+        <ConfirmTrigger
+          disabled
+          emphasis="solid"
+          intent="destructive"
+          size="sm"
+        >
+          Delete (disabled)
+        </ConfirmTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Should not open</AlertDialogTitle>
+            <AlertDialogDescription>
+              Disabled triggers cannot open the alert dialog.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
+  ),
+};
+
+export const DisabledActions: Story = {
+  name: "AlertDialog — Disabled Actions",
+  render: () => (
+    <AlertDialog defaultOpen>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Pending server validation</AlertDialogTitle>
+          <AlertDialogDescription>
+            Footer actions are disabled until the confirmation request completes.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled emphasis="outline" intent="secondary">
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction disabled emphasis="solid" intent="destructive">
+            Confirm
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};
+
+export const KeyboardNavigation: Story = {
+  name: "AlertDialog — Keyboard Navigation",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Focus is trapped while open. Tab cycles between Cancel and Action; Shift+Tab reverses. Escape closes the dialog and returns focus to the trigger.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <AlertDialog defaultOpen>
+        <ConfirmTrigger emphasis="outline" intent="secondary" size="sm">
+          Reopen dialog
+        </ConfirmTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Keyboard navigation probe</AlertDialogTitle>
+            <AlertDialogDescription>
+              Use Tab and Shift+Tab to move between footer actions. Press Escape
+              to dismiss — focus should return to the page trigger when closed.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel emphasis="outline" intent="secondary">
+              Cancel (Tab target)
+            </AlertDialogCancel>
+            <AlertDialogAction emphasis="solid" intent="destructive">
+              Confirm (Tab target)
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
+  ),
+};
+
+export const ReducedMotion: Story = {
+  name: "Governance — Reduced Motion",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "AlertDialog registers `motion: instant` in `primitive-registry.ts` — overlay and panel appear without entrance animation. Enable `prefers-reduced-motion: reduce` in DevTools to verify no motion override leaks.",
+      },
+    },
+  },
+  render: () => (
+    <AlertDialog defaultOpen>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMediaIcon icon={AlertTriangleIcon} />
+          <AlertDialogTitle>Instant motion surface</AlertDialogTitle>
+          <AlertDialogDescription>
+            High-stakes confirmations should not animate distractingly. Panel
+            and overlay use instant presentation governed by the surface recipe.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction emphasis="solid" intent="primary">
+            Acknowledge
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};
+
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `AlertDialogContent` — governed values (`data-slot="alert-dialog-content"`, `data-component="AlertDialog"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <AlertDialog defaultOpen>
+      <AlertDialogContent
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-alert-dialog-content"
+      >
+        <AlertDialogHeader>
+          <AlertDialogTitle>Data authority probe</AlertDialogTitle>
+          <AlertDialogDescription>
+            Inspect the content root — governed `data-*` attributes must override
+            consumer props.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Confirm</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "`AlertDialogTitle` and `AlertDialogDescription` provide accessible names. Radix alert-dialog semantics trap focus and require explicit confirm/cancel. Verify `role=\"alertdialog\"` and labelled-by wiring in the DOM.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <AlertDialog defaultOpen>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Revoke access for EMP-00142?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Jane Doe will lose module access immediately. Active sessions will
+              be terminated.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel emphasis="ghost" intent="secondary">
+              Keep Access
+            </AlertDialogCancel>
+            <AlertDialogAction emphasis="solid" intent="destructive">
+              Revoke Access
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal slot roles (e.g. `label`, `state`) differ from emitted DOM values (e.g. `alert-dialog-title`, `alert-dialog-description`).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → alert-dialog-content · body → alert-dialog-overlay · header →
+          alert-dialog-header · footer → alert-dialog-footer · label →
+          alert-dialog-title · state → alert-dialog-description · media →
+          alert-dialog-media
+        </p>
+        <AlertDialog defaultOpen>
+          <AlertDialogContent data-testid="slot-map-content">
+            <AlertDialogHeader>
+              <AlertDialogMediaIcon icon={ShieldAlertIcon} />
+              <AlertDialogTitle>Inspect slot attributes</AlertDialogTitle>
+              <AlertDialogDescription>
+                Open DevTools and verify `data-component`, `data-recipe`,
+                `data-slot`, and `data-state` on each alert-dialog part.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Confirm</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </StoryStack>
+    </StoryFrame>
   ),
 };
 

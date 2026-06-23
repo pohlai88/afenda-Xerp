@@ -3,7 +3,6 @@
 import type { GovernedFormControlProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
 import * as React from "react";
 
@@ -79,13 +78,9 @@ const RadioGroupItem = React.forwardRef<
       {...applyGovernedPresentation(props, governed)}
     >
       <RadioGroupPrimitive.Indicator
-        {...indicator.dataAttributes}
-        className={cn(indicator.className)}
+        {...applyGovernedPresentation({}, indicator)}
       >
-        <span
-          {...indicatorDot.dataAttributes}
-          className={cn(indicatorDot.className)}
-        />
+        <span {...applyGovernedPresentation({}, indicatorDot)} />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );

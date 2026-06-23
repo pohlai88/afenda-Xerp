@@ -1,8 +1,9 @@
+import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ReactNode } from "react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { useState } from "react";
+import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
 import { Field, FieldDescription, FieldError, FieldLabel } from "./field";
 import { Label } from "./label";
 import { Textarea } from "./textarea";
@@ -103,6 +104,21 @@ function CharCountNotesField() {
   );
 }
 
+function TextareaStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <StoryFrame width="md">
+        <Textarea placeholder={`State: ${state}`} rows={2} state={state} />
+      </StoryFrame>
+    </StoryRow>
+  );
+}
+
 // ─── Textarea ──────────────────────────────────────────────────────────────
 
 const meta = {
@@ -142,6 +158,7 @@ const meta = {
     placeholder: "Enter notes…",
     size: "md",
     density: "standard",
+    state: "ready",
     rows: 3,
   },
 } satisfies Meta<typeof Textarea>;
@@ -149,31 +166,69 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// ─── Basic shapes ──────────────────────────────────────────────────────────
+// ─── Playground & governance probes ──────────────────────────────────────
 
-export const Default: Story = {};
+export const Playground: Story = {};
 
-export const Small: Story = {
-  args: { size: "sm", rows: 2 },
-};
-
-export const Large: Story = {
-  args: { size: "lg", rows: 5 },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    placeholder: "Read-only system note",
-    value: "Posted by system on Jun 21, 2026 — cannot edit.",
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Textarea` — governed values (`data-slot="textarea"`, `data-component="Textarea"`, `data-recipe="form-control"`) must win. Canonical `density`, `size`, and `state` win over consumer `data-*` overrides.',
+      },
+    },
   },
+  render: () => (
+    <StoryFrame width="md">
+      <Textarea
+        aria-label="Inspect governed attributes"
+        data-component="Override"
+        data-density="compact"
+        data-recipe="override"
+        data-size="lg"
+        data-slot="override"
+        data-state="fake"
+        data-testid="governance-textarea"
+        density="standard"
+        placeholder="Inspect governed attributes"
+        rows={3}
+        size="md"
+        state="ready"
+      />
+    </StoryFrame>
+  ),
 };
 
-export const Compact: Story = {
-  args: { density: "compact", placeholder: "Compact density notes", rows: 3 },
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal role: root → textarea (single-slot form-control leaf).",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → textarea (single-slot form-control leaf)
+        </p>
+        <Textarea
+          aria-label="Internal notes"
+          data-testid="slot-map-textarea"
+          placeholder="PO delivery instructions and budget reference…"
+          rows={3}
+        />
+      </StoryStack>
+    </StoryFrame>
+  ),
 };
-
-// ─── Governance matrices ───────────────────────────────────────────────────
 
 export const GovernanceAllStates: Story = {
   name: "Governance — All States",
@@ -181,19 +236,14 @@ export const GovernanceAllStates: Story = {
   render: () => (
     <StoryStack gap="md">
       {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <Textarea placeholder={`State: ${state}`} rows={2} state={state} />
-        </StoryFrame>
+        <TextareaStateProbe key={state} state={state} />
       ))}
     </StoryStack>
   ),
 };
 
 export const GovernanceAllSizes: Story = {
-  name: "Matrix — All Sizes",
+  name: "Governance — All Sizes",
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
@@ -212,7 +262,7 @@ export const GovernanceAllSizes: Story = {
 };
 
 export const GovernanceAllDensities: Story = {
-  name: "Matrix — All Densities",
+  name: "Governance — All Densities",
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
@@ -228,26 +278,6 @@ export const GovernanceAllDensities: Story = {
       </StoryStack>
     </StoryFrame>
   ),
-};
-
-export const ErrorState: Story = {
-  name: "State — Error",
-  args: { state: "error", placeholder: "Comment required before rejection" },
-};
-
-export const LoadingState: Story = {
-  name: "State — Loading",
-  args: { state: "loading", placeholder: "Loading template…" },
-};
-
-export const InvalidState: Story = {
-  name: "State — Invalid",
-  args: { state: "invalid", placeholder: "Fails schema validation" },
-};
-
-export const ForbiddenState: Story = {
-  name: "State — Forbidden",
-  args: { state: "forbidden", placeholder: "Insufficient permission" },
 };
 
 export const GovernanceAccessibility: Story = {
@@ -282,6 +312,52 @@ export const GovernanceAccessibility: Story = {
       </Field>
     </StoryFrame>
   ),
+};
+
+// ─── Basic shapes ──────────────────────────────────────────────────────────
+
+export const Default: Story = {
+  render: (args) => <Textarea {...args} />,
+};
+
+export const Small: Story = {
+  args: { size: "sm", rows: 2 },
+};
+
+export const Large: Story = {
+  args: { size: "lg", rows: 5 },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    placeholder: "Read-only system note",
+    value: "Posted by system on Jun 21, 2026 — cannot edit.",
+  },
+};
+
+export const Compact: Story = {
+  args: { density: "compact", placeholder: "Compact density notes", rows: 3 },
+};
+
+export const ErrorState: Story = {
+  name: "State — Error",
+  args: { state: "error", placeholder: "Comment required before rejection" },
+};
+
+export const LoadingState: Story = {
+  name: "State — Loading",
+  args: { state: "loading", placeholder: "Loading template…" },
+};
+
+export const InvalidState: Story = {
+  name: "State — Invalid",
+  args: { state: "invalid", placeholder: "Fails schema validation" },
+};
+
+export const ForbiddenState: Story = {
+  name: "State — Forbidden",
+  args: { state: "forbidden", placeholder: "Insufficient permission" },
 };
 
 // ─── ERP single fields ─────────────────────────────────────────────────────

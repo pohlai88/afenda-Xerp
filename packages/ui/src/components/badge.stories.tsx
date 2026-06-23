@@ -1,3 +1,4 @@
+import React from "react";
 import {
   DENSITIES,
   GOVERNED_STATES,
@@ -14,7 +15,7 @@ import {
   ShieldAlertIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -100,9 +101,9 @@ function DismissibleFilterChips() {
 
   if (filters.length === 0) {
     return (
-      <span className="text-muted-foreground text-sm italic">
+      <p aria-live="polite" className="text-muted-foreground text-sm italic">
         No active filters — refresh story to reset.
-      </span>
+      </p>
     );
   }
 
@@ -211,6 +212,45 @@ export const Loading: Story = {
   args: { state: "loading" },
 };
 
+export const AsChildLink: Story = {
+  name: "Governance — asChild Link",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Badge renders as `<a>` via `asChild` (Radix Slot). Governed tone and emphasis data attributes are applied to the anchor.",
+      },
+    },
+  },
+  render: () => (
+    <Badge asChild tone="info">
+      <a href="/records/pending">3 pending approvals</a>
+    </Badge>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer passes `data-tone=\"danger\"` and `data-emphasis=\"ghost\"` — governed props (`tone=\"success\"`, `emphasis=\"solid\"`) must win in the DOM.",
+      },
+    },
+  },
+  render: () => (
+    <Badge
+      data-emphasis="ghost"
+      data-tone="danger"
+      emphasis="solid"
+      tone="success"
+    >
+      Governed Wins
+    </Badge>
+  ),
+};
+
 export const SmallSize: Story = {
   name: "Size — Small",
   args: { size: "sm", tone: "success", children: "Active" },
@@ -281,6 +321,25 @@ export const AllSizes: Story = {
           </Badge>
           <span className="text-muted-foreground text-xs">
             size=&quot;{size}&quot;
+          </span>
+        </StoryStack>
+      ))}
+    </StoryRow>
+  ),
+};
+
+export const AllDensities: Story = {
+  name: "Matrix — All Densities",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryRow align="center" gap="md" wrap>
+      {DENSITIES.map((density) => (
+        <StoryStack className="items-center" gap="xs" key={density}>
+          <Badge density={density} emphasis="soft" size="sm" tone="info">
+            {density}
+          </Badge>
+          <span className="font-mono text-muted-foreground text-xs">
+            density=&quot;{density}&quot;
           </span>
         </StoryStack>
       ))}
@@ -361,19 +420,19 @@ export const CountBadge: Story = {
     <StoryRow align="center" gap="lg">
       <StoryStack className="items-center" gap="xs">
         <Badge emphasis="solid" size="sm" tone="danger">
-          3
+          <span className="tabular-nums">3</span>
         </Badge>
         <span className="text-muted-foreground text-xs">Unread</span>
       </StoryStack>
       <StoryStack className="items-center" gap="xs">
         <Badge emphasis="solid" size="sm" tone="warning">
-          12
+          <span className="tabular-nums">12</span>
         </Badge>
         <span className="text-muted-foreground text-xs">Pending reviews</span>
       </StoryStack>
       <StoryStack className="items-center" gap="xs">
         <Badge emphasis="outline" size="sm" tone="neutral">
-          99+
+          <span className="tabular-nums">99+</span>
         </Badge>
         <span className="text-muted-foreground text-xs">Overflow count</span>
       </StoryStack>
@@ -459,7 +518,7 @@ export const InventoryStockLevels: Story = {
           { sku: "SKU-0091", label: "Discontinued", tone: "neutral" as const },
         ].map(({ sku, label, tone }) => (
           <StoryRow align="center" justify="between" key={sku}>
-            <span className="font-mono text-sm">{sku}</span>
+            <span className="font-mono text-sm tabular-nums">{sku}</span>
             <StatusBadge label={label} tone={tone} />
           </StoryRow>
         ))}
@@ -591,7 +650,7 @@ export const TableStatusColumn: Story = {
           ].map(({ id, module, status, priority }) => (
             <TableRow key={id}>
               <TableCell>
-                <span className="font-mono text-sm">{id}</span>
+                <span className="font-mono text-sm tabular-nums">{id}</span>
               </TableCell>
               <TableCell>{module}</TableCell>
               <TableCell>
@@ -637,10 +696,10 @@ export const SLAIndicators: Story = {
       ].map(({ ticket, label, tone, due }) => (
         <StoryRow align="center" justify="between" key={ticket}>
           <StoryRow align="center" gap="md">
-            <span className="font-mono text-sm">{ticket}</span>
+            <span className="font-mono text-sm tabular-nums">{ticket}</span>
             <StatusBadge label={label} tone={tone} />
           </StoryRow>
-          <span className="text-muted-foreground text-xs">{due}</span>
+          <span className="text-muted-foreground text-xs tabular-nums">{due}</span>
         </StoryRow>
       ))}
     </StoryStack>
@@ -732,7 +791,7 @@ export const RecordDetailHeader: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <StoryRow align="center" gap="sm" wrap>
-          <span className="font-mono text-muted-foreground text-xs">
+          <span className="font-mono text-muted-foreground text-xs tabular-nums">
             PO-1042
           </span>
           <StatusBadge label="Pending Approval" tone="warning" />
@@ -743,7 +802,7 @@ export const RecordDetailHeader: Story = {
             Procurement
           </Badge>
         </StoryRow>
-        <span className="font-semibold text-lg">
+        <span className="font-semibold text-lg tracking-tight">
           Office supplies — Q2 restock
         </span>
         <span className="text-muted-foreground text-sm">
@@ -841,7 +900,7 @@ export const GovernanceAccessibility: Story = {
         size="sm"
         tone="warning"
       >
-        3
+        <span className="tabular-nums">3</span>
       </Badge>
     </StoryStack>
   ),

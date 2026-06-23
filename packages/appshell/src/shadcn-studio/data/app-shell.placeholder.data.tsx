@@ -21,6 +21,11 @@ export const APP_SHELL_PLACEHOLDER_RECENT_ORDERS_SECTION_ID =
 export const APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_SECTION_ID =
   "app-shell-placeholder-module-performance-title";
 
+/** Accessible sparkline chart label — pairs with `role="img"` in placeholder renderer. */
+export function formatPlaceholderSparklineChartLabel(title: string): string {
+  return `${title} sparkline trend`;
+}
+
 export type AppShellPlaceholderTrendDirection = "down" | "up";
 
 export interface AppShellPlaceholderKpiCard {
@@ -68,7 +73,7 @@ const revenueSparkline = [
 const placeholderKpiSource = [
   {
     id: "kpi-net-income",
-    title: "Net Income",
+    title: "Net income",
     badge: "Q2 FY2026",
     value: "$159,380",
     trend: "up",
@@ -76,7 +81,7 @@ const placeholderKpiSource = [
   },
   {
     id: "kpi-active-orders",
-    title: "Active Orders",
+    title: "Active orders",
     badge: "Live",
     value: "1,284",
     trend: "up",
@@ -92,7 +97,7 @@ const placeholderKpiSource = [
   },
   {
     id: "kpi-open-tasks",
-    title: "Open Tasks",
+    title: "Open tasks",
     badge: "This week",
     value: "38",
     trend: "down",
@@ -103,7 +108,7 @@ const placeholderKpiSource = [
 const placeholderSparklineSource = [
   {
     id: "sparkline-revenue",
-    title: "Total Revenue",
+    title: "Total revenue",
     amount: "$248,720",
     change: "+14.2%",
     trend: "up",
@@ -111,7 +116,7 @@ const placeholderSparklineSource = [
   },
   {
     id: "sparkline-expenses",
-    title: "Operating Expenses",
+    title: "Operating expenses",
     amount: "$89,340",
     change: "-8.6%",
     trend: "down",
@@ -163,10 +168,10 @@ const placeholderOrdersSource = [
 ] as const satisfies readonly AppShellPlaceholderOrderRow[];
 
 const placeholderModulesSource = [
-  { id: "module-finance", name: "Finance", status: "On Track", progress: 82 },
-  { id: "module-hr", name: "Human Resources", status: "On Track", progress: 74 },
-  { id: "module-inventory", name: "Inventory", status: "At Risk", progress: 55 },
-  { id: "module-sales", name: "Sales & CRM", status: "On Track", progress: 91 },
+  { id: "module-finance", name: "Finance", status: "On track", progress: 82 },
+  { id: "module-hr", name: "Human Resources", status: "On track", progress: 74 },
+  { id: "module-inventory", name: "Inventory", status: "At risk", progress: 55 },
+  { id: "module-sales", name: "Sales & CRM", status: "On track", progress: 91 },
   {
     id: "module-manufacturing",
     name: "Manufacturing",

@@ -1,3 +1,10 @@
+import type {
+  GovernedItemMediaVariant,
+  GovernedItemProps,
+  GovernedItemSize,
+  GovernedItemVariant,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Slot } from "radix-ui";
@@ -6,11 +13,24 @@ import { Separator } from "./separator";
 
 const ITEM_RECIPE_NAME = "surface" as const;
 
-export type ItemVariant = "default" | "outline" | "muted";
-export type ItemSize = "default" | "sm" | "xs";
-export type ItemMediaVariant = "default" | "icon" | "image";
+const ITEM_SLOT_ROLES = {
+  group: "body",
+  root: "root",
+  media: "control",
+  content: "content",
+  title: "label",
+  description: "state",
+  actions: "actions",
+  header: "header",
+  footer: "footer",
+  separator: "icon",
+} as const satisfies Record<string, SlotRole>;
 
-interface ItemGroupProps
+export type ItemVariant = GovernedItemVariant;
+export type ItemSize = GovernedItemSize;
+export type ItemMediaVariant = GovernedItemMediaVariant;
+
+export interface ItemGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -20,7 +40,7 @@ const ItemGroup = React.forwardRef<HTMLDivElement, ItemGroupProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "body",
+      slot: ITEM_SLOT_ROLES.group,
       className,
     });
 
@@ -35,41 +55,35 @@ const ItemGroup = React.forwardRef<HTMLDivElement, ItemGroupProps>(
 
 ItemGroup.displayName = "ItemGroup";
 
-interface ItemSeparatorProps
+export interface ItemSeparatorProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Separator>, "className"> {
   readonly className?: string;
 }
 
-const ItemSeparator = React.forwardRef<
-  React.ElementRef<typeof Separator>,
-  ItemSeparatorProps
->(({ className, ...props }, ref) => {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Item",
-    recipeName: ITEM_RECIPE_NAME,
-    slot: "icon",
-    className,
-  });
+const ItemSeparator = React.forwardRef<HTMLDivElement, ItemSeparatorProps>(
+  ({ className, orientation: _orientation, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Item",
+      recipeName: ITEM_RECIPE_NAME,
+      slot: ITEM_SLOT_ROLES.separator,
+      className,
+    });
 
-  return (
-    <Separator
-      ref={ref}
-      {...applyGovernedPresentation(
-        { ...props, orientation: "horizontal" },
-        governed
-      )}
-    />
-  );
-});
+    return (
+      <div ref={ref} {...applyGovernedPresentation(props, governed)}>
+        <Separator orientation="horizontal" />
+      </div>
+    );
+  }
+);
 
 ItemSeparator.displayName = "ItemSeparator";
 
-interface ItemProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+export interface ItemProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedItemProps {
   readonly asChild?: boolean;
   readonly className?: string;
-  readonly size?: ItemSize;
-  readonly variant?: ItemVariant;
 }
 
 const Item = React.forwardRef<HTMLDivElement, ItemProps>(
@@ -78,6 +92,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
       className,
       variant = "default",
       size = "default",
+      state,
       asChild = false,
       ...props
     },
@@ -86,8 +101,9 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "root",
+      slot: ITEM_SLOT_ROLES.root,
       slotKey: `${variant}-${size}`,
+      state,
       className,
     });
 
@@ -97,8 +113,8 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
       <Comp
         ref={ref}
         {...applyGovernedPresentation(props, governed, {
-          "data-variant": variant,
           "data-size": size,
+          "data-variant": variant,
         })}
       />
     );
@@ -107,7 +123,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
 
 Item.displayName = "Item";
 
-interface ItemMediaProps
+export interface ItemMediaProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
   readonly variant?: ItemMediaVariant;
@@ -118,7 +134,7 @@ const ItemMedia = React.forwardRef<HTMLDivElement, ItemMediaProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "control",
+      slot: ITEM_SLOT_ROLES.media,
       slotKey: `media-${variant}`,
       className,
     });
@@ -136,7 +152,7 @@ const ItemMedia = React.forwardRef<HTMLDivElement, ItemMediaProps>(
 
 ItemMedia.displayName = "ItemMedia";
 
-interface ItemContentProps
+export interface ItemContentProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -146,7 +162,7 @@ const ItemContent = React.forwardRef<HTMLDivElement, ItemContentProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "content",
+      slot: ITEM_SLOT_ROLES.content,
       className,
     });
 
@@ -156,7 +172,7 @@ const ItemContent = React.forwardRef<HTMLDivElement, ItemContentProps>(
 
 ItemContent.displayName = "ItemContent";
 
-interface ItemTitleProps
+export interface ItemTitleProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -166,7 +182,7 @@ const ItemTitle = React.forwardRef<HTMLDivElement, ItemTitleProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "label",
+      slot: ITEM_SLOT_ROLES.title,
       className,
     });
 
@@ -176,7 +192,7 @@ const ItemTitle = React.forwardRef<HTMLDivElement, ItemTitleProps>(
 
 ItemTitle.displayName = "ItemTitle";
 
-interface ItemDescriptionProps
+export interface ItemDescriptionProps
   extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "className"> {
   readonly className?: string;
 }
@@ -188,7 +204,7 @@ const ItemDescription = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Item",
     recipeName: ITEM_RECIPE_NAME,
-    slot: "state",
+    slot: ITEM_SLOT_ROLES.description,
     className,
   });
 
@@ -197,7 +213,7 @@ const ItemDescription = React.forwardRef<
 
 ItemDescription.displayName = "ItemDescription";
 
-interface ItemActionsProps
+export interface ItemActionsProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -207,7 +223,7 @@ const ItemActions = React.forwardRef<HTMLDivElement, ItemActionsProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "actions",
+      slot: ITEM_SLOT_ROLES.actions,
       className,
     });
 
@@ -217,7 +233,7 @@ const ItemActions = React.forwardRef<HTMLDivElement, ItemActionsProps>(
 
 ItemActions.displayName = "ItemActions";
 
-interface ItemHeaderProps
+export interface ItemHeaderProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -227,7 +243,7 @@ const ItemHeader = React.forwardRef<HTMLDivElement, ItemHeaderProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "header",
+      slot: ITEM_SLOT_ROLES.header,
       className,
     });
 
@@ -237,7 +253,7 @@ const ItemHeader = React.forwardRef<HTMLDivElement, ItemHeaderProps>(
 
 ItemHeader.displayName = "ItemHeader";
 
-interface ItemFooterProps
+export interface ItemFooterProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
@@ -247,7 +263,7 @@ const ItemFooter = React.forwardRef<HTMLDivElement, ItemFooterProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Item",
       recipeName: ITEM_RECIPE_NAME,
-      slot: "footer",
+      slot: ITEM_SLOT_ROLES.footer,
       className,
     });
 

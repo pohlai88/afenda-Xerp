@@ -21,7 +21,7 @@ export interface AvatarProps
 }
 
 const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
+  React.ComponentRef<typeof AvatarPrimitive.Root>,
   AvatarProps
 >(({ className, size = "default", state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
@@ -51,7 +51,7 @@ export interface AvatarImageProps
 }
 
 const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
+  React.ComponentRef<typeof AvatarPrimitive.Image>,
   AvatarImageProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
@@ -80,7 +80,7 @@ export interface AvatarFallbackProps
 }
 
 const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
+  React.ComponentRef<typeof AvatarPrimitive.Fallback>,
   AvatarFallbackProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({

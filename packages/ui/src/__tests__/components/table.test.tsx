@@ -11,13 +11,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../index";
+} from "../../components/table";
 import {
   expectGovernedDataAuthority,
   expectGovernedPrimitive,
 } from "../helpers/governance-assertions";
 
 describe("Table governance", () => {
+  it("exposes displayName on exported subcomponents", () => {
+    expect(Table.displayName).toBe("Table");
+    expect(TableHeader.displayName).toBe("TableHeader");
+    expect(TableBody.displayName).toBe("TableBody");
+    expect(TableFooter.displayName).toBe("TableFooter");
+    expect(TableRow.displayName).toBe("TableRow");
+    expect(TableHead.displayName).toBe("TableHead");
+    expect(TableCell.displayName).toBe("TableCell");
+    expect(TableCaption.displayName).toBe("TableCaption");
+  });
+
   it("applies className to table and containerClassName to wrapper", () => {
     render(
       <Table className="w-full" containerClassName="max-h-96">
@@ -83,7 +94,17 @@ describe("Table governance", () => {
 
   it("keeps governed data attributes authoritative on Table root", () => {
     render(
-      <Table data-component="Fake" data-recipe="fake" data-state="fake">
+      <Table
+        data-component="Fake"
+        data-density="compact"
+        data-recipe="fake"
+        data-size="lg"
+        data-slot="override"
+        data-state="fake"
+        density="standard"
+        size="sm"
+        state="ready"
+      >
         <TableBody>
           <TableRow>
             <TableCell>Data</TableCell>
@@ -97,11 +118,75 @@ describe("Table governance", () => {
     expectGovernedDataAuthority(table, {
       "data-component": "Table",
       "data-recipe": "table",
+      "data-slot": "table",
       "data-state": "ready",
     });
     expect(table).toHaveAttribute("data-density", "standard");
     expect(table).toHaveAttribute("data-size", "sm");
     expectGovernedPrimitive(table, { component: "Table", slot: "table" });
+  });
+
+  it("keeps governed container slot authoritative", () => {
+    render(
+      <Table
+        containerClassName="max-h-96"
+        data-component="Override"
+        data-slot="override"
+      >
+        <TableBody>
+          <TableRow>
+            <TableCell>Data</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    const wrapper = screen
+      .getByRole("table")
+      .closest("[data-slot='table-container']");
+
+    expect(wrapper).not.toBeNull();
+    expectGovernedDataAuthority(wrapper as HTMLElement, {
+      "data-component": "Table",
+      "data-recipe": "table",
+      "data-slot": "table-container",
+    });
+  });
+
+  it("applies governed state on root", () => {
+    render(
+      <Table state="loading">
+        <TableBody>
+          <TableRow>
+            <TableCell>Data</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    expect(screen.getByRole("table")).toHaveAttribute("data-state", "loading");
+  });
+
+  it("preserves column header scope for accessibility", () => {
+    render(
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead scope="col">Name</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Jane</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+
+    expect(screen.getByRole("columnheader", { name: "Name" })).toHaveAttribute(
+      "scope",
+      "col"
+    );
   });
 
   it("forwards ref to table cell", () => {

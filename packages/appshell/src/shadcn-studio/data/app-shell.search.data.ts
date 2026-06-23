@@ -1,7 +1,9 @@
 import type { ComponentType } from "react";
 import type { GovernedBadgeProps } from "@afenda/ui/governance";
 import {
+  BarChart3Icon,
   MonitorSmartphoneIcon,
+  ShoppingBagIcon,
   ShoppingCartIcon,
   UsersIcon,
 } from "lucide-react";
@@ -50,6 +52,18 @@ export const DEFAULT_APP_SHELL_SEARCH_SELECT_HINT = "To select";
 export const DEFAULT_APP_SHELL_SEARCH_NAVIGATE_HINT = "To navigate";
 export const DEFAULT_APP_SHELL_PARTICIPANT_OVERFLOW_LABEL = "+99";
 
+/** Screen-reader copy when filtered search results change (aria-live="polite"). */
+export function formatAppShellSearchResultsLiveMessage(
+  resultCount: number,
+  query: string
+): string {
+  const trimmed = query.trim();
+  if (trimmed.length === 0) {
+    return `${resultCount} search results available`;
+  }
+  return `${resultCount} results for "${trimmed}"`;
+}
+
 const suggestionSource = [
   {
     id: "finance",
@@ -69,12 +83,12 @@ const suggestionSource = [
   {
     id: "sales-crm",
     label: "Sales & CRM",
-    Icon: MonitorSmartphoneIcon,
+    Icon: ShoppingBagIcon,
   },
   {
     id: "reports",
     label: "Reports & analytics",
-    Icon: MonitorSmartphoneIcon,
+    Icon: BarChart3Icon,
   },
 ] satisfies readonly AppShellSearchSuggestion[];
 
@@ -92,8 +106,8 @@ const interactionSource = [
       },
       {
         src: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png",
-        alt: "Sam Chen",
-        fallback: "SC",
+        alt: "Jordan Rivera",
+        fallback: "JR",
       },
       {
         src: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-7.png",
@@ -104,7 +118,7 @@ const interactionSource = [
   },
   {
     id: "erp-phase2",
-    name: "ERP phase 2",
+    name: "ERP Phase 2",
     description: "Active project — Manufacturing",
     logoSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png",
     participants: [
@@ -146,7 +160,7 @@ const userSource = [
     id: "sam-chen",
     name: "Sam Chen",
     email: "sam.chen@afenda.com",
-    avatarSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png",
+    avatarSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-4.png",
     fallback: "SC",
     status: "Remote",
     statusTone: "info",

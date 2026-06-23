@@ -1,7 +1,10 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { compactDensityDecorator, renderDashboardBlockStory } from "../../_storybook/dashboard-block-story.compositions";
+import {
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "../../_storybook/dashboard-block-story.compositions";
 import {
   AppShellDashboardStatisticsMetrics,
   type AppShellDashboardStatisticsMetricsGovernedComponents,
@@ -16,7 +19,8 @@ const meta = {
     title: "ERP/ApplicationShell/Blocks/Dashboard/StatisticsMetrics",
     component: AppShellDashboardStatisticsMetrics,
   }),
-  render: () => renderDashboardBlockStory(AppShellDashboardStatisticsMetrics, {}),
+  render: () =>
+    renderDashboardBlockStory(AppShellDashboardStatisticsMetrics, {}),
 } satisfies Meta<typeof AppShellDashboardStatisticsMetrics>;
 
 export type StatisticsMetricsStoriesGovernedComponents =
@@ -25,7 +29,16 @@ export type StatisticsMetricsStoriesGovernedComponents =
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Four-card metric grid — primary revenue card accent, plain secondary change text, mini bar charts.",
+      },
+    },
+  },
+};
 
 export const DarkTheme: Story = {
   globals: dashboardBlockDarkThemeGlobals,

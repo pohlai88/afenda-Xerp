@@ -1,25 +1,37 @@
-import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import type { GovernedButtonGroupProps, SlotRole } from "@afenda/ui/governance";
+import {
+  applyGovernedPresentation,
+  mergeGovernedPresentation,
+} from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { Slot } from "radix-ui";
+import { Slot, Separator as SeparatorPrimitive } from "radix-ui";
 import * as React from "react";
-import { Separator } from "./separator";
 
 const BUTTON_GROUP_RECIPE_NAME = "surface" as const;
+const SEPARATOR_RECIPE_NAME = "form-control" as const;
+
+const BUTTON_GROUP_SLOT_ROLES = {
+  root: "root",
+  control: "control",
+  footer: "footer",
+} as const satisfies Record<string, SlotRole>;
 
 export type ButtonGroupOrientation = "horizontal" | "vertical";
 
 export interface ButtonGroupProps
-  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className">,
+    GovernedButtonGroupProps {
   readonly className?: string;
   readonly orientation?: ButtonGroupOrientation;
 }
 
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ className, orientation = "horizontal", ...props }, ref) => {
+  ({ className, orientation = "horizontal", state, ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "ButtonGroup",
       recipeName: BUTTON_GROUP_RECIPE_NAME,
-      slot: "root",
+      state,
+      slot: BUTTON_GROUP_SLOT_ROLES.root,
       slotKey: `orientation-${orientation}`,
       className,
     });
@@ -48,7 +60,7 @@ const ButtonGroupText = React.forwardRef<HTMLDivElement, ButtonGroupTextProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "ButtonGroup",
       recipeName: BUTTON_GROUP_RECIPE_NAME,
-      slot: "control",
+      slot: BUTTON_GROUP_SLOT_ROLES.control,
       className,
     });
 
@@ -61,22 +73,33 @@ const ButtonGroupText = React.forwardRef<HTMLDivElement, ButtonGroupTextProps>(
 ButtonGroupText.displayName = "ButtonGroupText";
 
 const ButtonGroupSeparator = React.forwardRef<
-  React.ComponentRef<typeof Separator>,
-  React.ComponentPropsWithoutRef<typeof Separator> & {
+  React.ComponentRef<typeof SeparatorPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> & {
     readonly className?: string;
   }
->(({ className, orientation = "vertical", ...props }, ref) => {
-  const governed = resolvePrimitiveGovernance({
+>(({ className, orientation = "vertical", decorative = true, ...props }, ref) => {
+  const groupGoverned = resolvePrimitiveGovernance({
     componentName: "ButtonGroup",
     recipeName: BUTTON_GROUP_RECIPE_NAME,
-    slot: "footer",
+    slot: BUTTON_GROUP_SLOT_ROLES.footer,
     className,
   });
 
+  const separatorGoverned = resolvePrimitiveGovernance({
+    componentName: "Separator",
+    recipeName: SEPARATOR_RECIPE_NAME,
+    slot: "root",
+  });
+
+  const merged = mergeGovernedPresentation(separatorGoverned, groupGoverned);
+
   return (
-    <Separator
+    <SeparatorPrimitive.Root
       ref={ref}
-      {...applyGovernedPresentation({ ...props, orientation }, governed)}
+      {...applyGovernedPresentation(
+        { ...props, decorative, orientation },
+        merged
+      )}
     />
   );
 });

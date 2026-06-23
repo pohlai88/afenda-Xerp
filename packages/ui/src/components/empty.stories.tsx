@@ -1,5 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import {
   AlertCircleIcon,
   BanIcon,
@@ -68,6 +69,57 @@ function EmptyActions({ children }: { readonly children: ReactNode }) {
 
 // ─── Empty ─────────────────────────────────────────────────────────────────
 
+function EmptyPlaygroundDemo({
+  state = "ready",
+}: {
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <Empty state={state}>
+        <EmptyHeader>
+          <EmptyStateIcon icon={InboxIcon} />
+        </EmptyHeader>
+        <EmptyContent>
+          <EmptyTitle>Empty playground</EmptyTitle>
+          <EmptyDescription>
+            Adjust governed `state` from Storybook controls.
+          </EmptyDescription>
+          <Button emphasis="solid" intent="primary" size="sm">
+            <PlusIcon />
+            Create record
+          </Button>
+        </EmptyContent>
+      </Empty>
+    </StoryFrame>
+  );
+}
+
+function EmptyStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <Empty state={state}>
+        <EmptyHeader>
+          <EmptyStateIcon icon={PackageIcon} variant="icon" />
+        </EmptyHeader>
+        <EmptyContent>
+          <EmptyTitle>Governed empty probe</EmptyTitle>
+          <EmptyDescription>
+            Inspect `data-state` on the empty root.
+          </EmptyDescription>
+        </EmptyContent>
+      </Empty>
+    </StoryFrame>
+  );
+}
+
 const meta = {
   title: "Primitives/Empty",
   component: Empty,
@@ -81,26 +133,105 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state on the empty root",
+      table: { defaultValue: { summary: "ready" } },
+    },
+  },
+  args: {
+    state: "ready",
+  },
 } satisfies Meta<typeof Empty>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// ─── Basic ─────────────────────────────────────────────────────────────────
+// ─── Playground & governance probes ────────────────────────────────────────
 
-export const Default: Story = {
+export const Playground: Story = {
+  render: (args) => <EmptyPlaygroundDemo state={args.state} />,
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Empty` — governed values (`data-slot="empty"`, `data-component="Empty"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
   render: () => (
     <StoryFrame width="md">
-      <Empty>
+      <Empty
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-empty-root"
+      >
         <EmptyHeader>
           <EmptyStateIcon icon={InboxIcon} />
         </EmptyHeader>
         <EmptyContent>
-          <EmptyTitle>No items</EmptyTitle>
-          <EmptyDescription>Nothing here yet.</EmptyDescription>
+          <EmptyTitle>Data authority probe</EmptyTitle>
+          <EmptyDescription>
+            Inspect the empty root — governed `data-*` attributes must override
+            consumer props.
+          </EmptyDescription>
         </EmptyContent>
       </Empty>
     </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`label`, `body`, `icon`) emit `empty-title`, `empty-description`, `empty-icon`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → empty · header → empty-header · icon → empty-icon · label →
+          empty-title · body → empty-description · content → empty-content
+        </p>
+        <Empty>
+          <EmptyHeader>
+            <EmptyStateIcon icon={PackageIcon} variant="icon" />
+          </EmptyHeader>
+          <EmptyContent>
+            <EmptyTitle>Inspect slot attributes</EmptyTitle>
+            <EmptyDescription>
+              Open DevTools and verify `data-component`, `data-recipe`, and
+              `data-slot` on each empty part.
+            </EmptyDescription>
+          </EmptyContent>
+        </Empty>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <EmptyStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
   ),
 };
 
@@ -110,7 +241,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "`EmptyTitle` provides the accessible name; `EmptyDescription` carries supporting context. Actions are regular buttons below the text block.",
+          "`Empty` defaults to `role=\"status\"` for live empty-state announcements. `EmptyTitle` provides the accessible name; `EmptyDescription` carries supporting context.",
       },
     },
   },
@@ -170,6 +301,24 @@ export const GovernanceMediaVariants: Story = {
         </StoryFrame>
       ))}
     </StoryStack>
+  ),
+};
+
+// ─── Basic ─────────────────────────────────────────────────────────────────
+
+export const Default: Story = {
+  render: () => (
+    <StoryFrame width="md">
+      <Empty>
+        <EmptyHeader>
+          <EmptyStateIcon icon={InboxIcon} />
+        </EmptyHeader>
+        <EmptyContent>
+          <EmptyTitle>No items</EmptyTitle>
+          <EmptyDescription>Nothing here yet.</EmptyDescription>
+        </EmptyContent>
+      </Empty>
+    </StoryFrame>
   ),
 };
 
@@ -668,7 +817,7 @@ export const EmptyKanbanColumn: Story = {
         <StoryRow align="center" justify="between">
           <span className="font-medium text-sm">In review</span>
           <Badge emphasis="soft" size="sm" tone="info">
-            0
+            <span className="tabular-nums">0</span>
           </Badge>
         </StoryRow>
         <Empty>
@@ -772,7 +921,7 @@ export const EmptyCardPanel: Story = {
               <EmptyDescription>
                 Upload receipts or supporting documents for audit compliance.
               </EmptyDescription>
-              <Button size="sm">
+              <Button emphasis="solid" intent="primary" size="sm">
                 <UploadIcon />
                 Upload files
               </Button>

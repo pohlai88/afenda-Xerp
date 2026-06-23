@@ -1,8 +1,10 @@
 "use client";
 
+import type { GovernedDataTableProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
+import * as React from "react";
 import {
   Table,
   TableBody,
@@ -14,33 +16,52 @@ import {
 
 const DATA_TABLE_RECIPE_NAME = "table" as const;
 
-interface DataTableProps<TData> {
-  className?: string;
-  emptyMessage?: string;
-  table: TanstackTable<TData>;
+const DATA_TABLE_SLOT_ROLES = {
+  root: "root",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
+
+export interface DataTableProps<TData>
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedDataTableProps {
+  readonly className?: string;
+  readonly emptyMessage?: string;
+  readonly table: TanstackTable<TData>;
 }
 
-function DataTable<TData>({
-  table,
-  className,
-  emptyMessage = "No results.",
-}: DataTableProps<TData>) {
+function DataTableInner<TData>(
+  {
+    table,
+    className,
+    density,
+    emptyMessage = "No results.",
+    size,
+    state,
+    ...props
+  }: DataTableProps<TData>,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
   const rootGoverned = resolvePrimitiveGovernance({
     componentName: "DataTable",
     recipeName: DATA_TABLE_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: DATA_TABLE_SLOT_ROLES.root,
     className,
   });
 
   const emptyCellGoverned = resolvePrimitiveGovernance({
     componentName: "DataTable",
     recipeName: DATA_TABLE_RECIPE_NAME,
-    slot: "icon",
+    slot: DATA_TABLE_SLOT_ROLES.icon,
   });
 
   return (
-    <div {...applyGovernedPresentation({}, rootGoverned)}>
-      <Table>
+    <div ref={ref} {...applyGovernedPresentation(props, rootGoverned)}>
+      <Table
+        {...(density === undefined ? {} : { density })}
+        {...(size === undefined ? {} : { size })}
+        {...(state === undefined ? {} : { state })}
+      >
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -73,11 +94,13 @@ function DataTable<TData>({
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={table.getAllColumns().length}
-                {...applyGovernedPresentation({}, emptyCellGoverned)}
-              >
-                {emptyMessage}
+              <TableCell colSpan={table.getAllColumns().length}>
+                <div
+                  role="status"
+                  {...applyGovernedPresentation({}, emptyCellGoverned)}
+                >
+                  {emptyMessage}
+                </div>
               </TableCell>
             </TableRow>
           )}
@@ -87,5 +110,10 @@ function DataTable<TData>({
   );
 }
 
-export type { DataTableProps };
+const DataTable = React.forwardRef(DataTableInner) as <TData>(
+  props: DataTableProps<TData> & React.RefAttributes<HTMLDivElement>
+) => React.ReactElement | null;
+
+Object.assign(DataTable, { displayName: "DataTable" });
+
 export { DataTable };

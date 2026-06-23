@@ -1,5 +1,9 @@
 "use client";
 
+import type {
+  GovernedNavigationMenuProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ChevronDownIcon } from "lucide-react";
@@ -8,19 +12,45 @@ import * as React from "react";
 
 const NAVIGATION_MENU_RECIPE_NAME = "surface" as const;
 
-const NavigationMenuList = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.List>,
-  Omit<
+const NAVIGATION_MENU_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  content: "content",
+  control: "control",
+  header: "header",
+  label: "label",
+  state: "state",
+  footer: "footer",
+  actions: "actions",
+} as const satisfies Record<
+  | "root"
+  | "body"
+  | "content"
+  | "control"
+  | "header"
+  | "label"
+  | "state"
+  | "footer"
+  | "actions",
+  SlotRole
+>;
+
+export interface NavigationMenuListProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuList = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.List>,
+  NavigationMenuListProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "body",
+    slot: NAVIGATION_MENU_SLOT_ROLES.body,
     className,
   });
 
@@ -34,19 +64,22 @@ const NavigationMenuList = React.forwardRef<
 
 NavigationMenuList.displayName = "NavigationMenuList";
 
-const NavigationMenuItem = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Item>,
-  Omit<
+export interface NavigationMenuItemProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Item>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuItem = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Item>,
+  NavigationMenuItemProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "content",
+    slot: NAVIGATION_MENU_SLOT_ROLES.content,
     className,
   });
 
@@ -60,19 +93,22 @@ const NavigationMenuItem = React.forwardRef<
 
 NavigationMenuItem.displayName = "NavigationMenuItem";
 
-const NavigationMenuTrigger = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Trigger>,
-  Omit<
+export interface NavigationMenuTriggerProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuTrigger = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Trigger>,
+  NavigationMenuTriggerProps
 >(({ className, children, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "control",
+    slot: NAVIGATION_MENU_SLOT_ROLES.control,
     slotKey: "trigger-style",
     className,
   });
@@ -90,7 +126,8 @@ const NavigationMenuTrigger = React.forwardRef<
     >
       {children}{" "}
       <ChevronDownIcon
-        {...applyGovernedPresentation({ "aria-hidden": true }, chevron)}
+        aria-hidden="true"
+        {...applyGovernedPresentation({}, chevron)}
       />
     </NavigationMenuPrimitive.Trigger>
   );
@@ -98,19 +135,22 @@ const NavigationMenuTrigger = React.forwardRef<
 
 NavigationMenuTrigger.displayName = "NavigationMenuTrigger";
 
-const NavigationMenuContent = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Content>,
-  Omit<
+export interface NavigationMenuContentProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuContent = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Content>,
+  NavigationMenuContentProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "header",
+    slot: NAVIGATION_MENU_SLOT_ROLES.header,
     className,
   });
 
@@ -124,25 +164,28 @@ const NavigationMenuContent = React.forwardRef<
 
 NavigationMenuContent.displayName = "NavigationMenuContent";
 
-const NavigationMenuViewport = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Viewport>,
-  Omit<
+export interface NavigationMenuViewportProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuViewport = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Viewport>,
+  NavigationMenuViewportProps
 >(({ className, ...props }, ref) => {
   const wrapper = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "footer",
+    slot: NAVIGATION_MENU_SLOT_ROLES.footer,
   });
 
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "actions",
+    slot: NAVIGATION_MENU_SLOT_ROLES.actions,
     className,
   });
 
@@ -158,19 +201,22 @@ const NavigationMenuViewport = React.forwardRef<
 
 NavigationMenuViewport.displayName = "NavigationMenuViewport";
 
-const NavigationMenuLink = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Link>,
-  Omit<
+export interface NavigationMenuLinkProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuLink = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Link>,
+  NavigationMenuLinkProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "label",
+    slot: NAVIGATION_MENU_SLOT_ROLES.label,
     className,
   });
 
@@ -184,19 +230,22 @@ const NavigationMenuLink = React.forwardRef<
 
 NavigationMenuLink.displayName = "NavigationMenuLink";
 
-const NavigationMenuIndicator = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Indicator>,
-  Omit<
+export interface NavigationMenuIndicatorProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const NavigationMenuIndicator = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Indicator>,
+  NavigationMenuIndicatorProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "state",
+    slot: NAVIGATION_MENU_SLOT_ROLES.state,
     className,
   });
 
@@ -218,16 +267,25 @@ const NavigationMenuIndicator = React.forwardRef<
 
 NavigationMenuIndicator.displayName = "NavigationMenuIndicator";
 
+export interface NavigationMenuProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>,
+    "className"
+  >,
+    GovernedNavigationMenuProps {
+  readonly viewport?: boolean;
+  readonly className?: string;
+}
+
 const NavigationMenu = React.forwardRef<
   React.ComponentRef<typeof NavigationMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root> & {
-    readonly viewport?: boolean;
-  }
->(({ className, children, viewport = true, ...props }, ref) => {
+  NavigationMenuProps
+>(({ className, children, state, viewport = true, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "NavigationMenu",
     recipeName: NAVIGATION_MENU_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: NAVIGATION_MENU_SLOT_ROLES.root,
     className,
   });
 

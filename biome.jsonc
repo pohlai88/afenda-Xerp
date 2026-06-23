@@ -135,6 +135,23 @@
           }
         }
       }
+    },
+    {
+      "includes": ["**/*.stories.tsx", "**/_storybook/**/*.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      }
     }
   ]
 }

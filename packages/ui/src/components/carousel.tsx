@@ -1,8 +1,8 @@
 "use client";
 
+import type { GovernedCarouselProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
@@ -12,14 +12,24 @@ import { Button } from "./button";
 
 const CAROUSEL_RECIPE_NAME = "surface" as const;
 
+const CAROUSEL_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  content: "content",
+  label: "label",
+  control: "control",
+} as const satisfies Record<string, SlotRole>;
+
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
+export type CarouselOrientation = "horizontal" | "vertical";
+
 interface CarouselProps {
   readonly opts?: CarouselOptions;
-  readonly orientation?: "horizontal" | "vertical";
+  readonly orientation?: CarouselOrientation;
   readonly plugins?: CarouselPlugin;
   readonly setApi?: (api: CarouselApi) => void;
 }
@@ -47,7 +57,8 @@ function useCarousel() {
 
 interface CarouselRootProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
-    CarouselProps {
+    CarouselProps,
+    GovernedCarouselProps {
   readonly className?: string;
 }
 
@@ -59,6 +70,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
       setApi,
       plugins,
       className,
+      state,
       children,
       ...props
     },
@@ -92,6 +104,17 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (orientation === "vertical") {
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            scrollPrev();
+          } else if (event.key === "ArrowDown") {
+            event.preventDefault();
+            scrollNext();
+          }
+          return;
+        }
+
         if (event.key === "ArrowLeft") {
           event.preventDefault();
           scrollPrev();
@@ -100,7 +123,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [orientation, scrollPrev, scrollNext]
     );
 
     React.useEffect(() => {
@@ -119,14 +142,16 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
       api.on("select", onSelect);
 
       return () => {
-        api?.off("select", onSelect);
+        api.off("reInit", onSelect);
+        api.off("select", onSelect);
       };
     }, [api, onSelect]);
 
     const governed = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "root",
+      state,
+      slot: CAROUSEL_SLOT_ROLES.root,
       className,
     });
 
@@ -136,8 +161,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
           carouselRef,
           api,
           opts,
-          orientation:
-            orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          orientation,
+          plugins,
           scrollPrev,
           scrollNext,
           canScrollPrev,
@@ -153,7 +178,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselRootProps>(
               "aria-roledescription": "carousel",
               ...props,
             },
-            governed
+            governed,
+            { "data-orientation": orientation }
           )}
         >
           {children}
@@ -177,13 +203,13 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
     const body = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "body",
+      slot: CAROUSEL_SLOT_ROLES.body,
     });
 
     const content = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "content",
+      slot: CAROUSEL_SLOT_ROLES.content,
       slotKey:
         orientation === "horizontal"
           ? "content-horizontal"
@@ -192,11 +218,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
     });
 
     return (
-      <div
-        ref={carouselRef}
-        {...body.dataAttributes}
-        className={cn(body.className)}
-      >
+      <div ref={carouselRef} {...applyGovernedPresentation({}, body)}>
         <div ref={ref} {...applyGovernedPresentation(props, content)} />
       </div>
     );
@@ -217,7 +239,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "label",
+      slot: CAROUSEL_SLOT_ROLES.label,
       slotKey:
         orientation === "horizontal" ? "item-horizontal" : "item-vertical",
       className,
@@ -237,9 +259,17 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
 
 CarouselItem.displayName = "CarouselItem";
 
+interface CarouselControlProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof Button>,
+    "className" | "onClick" | "disabled"
+  > {
+  readonly className?: string;
+}
+
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof Button>
+  CarouselControlProps
 >(
   (
     {
@@ -257,7 +287,7 @@ const CarouselPrevious = React.forwardRef<
     const governed = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "control",
+      slot: CAROUSEL_SLOT_ROLES.control,
       slotKey:
         orientation === "horizontal"
           ? "previous-horizontal"
@@ -272,36 +302,28 @@ const CarouselPrevious = React.forwardRef<
     });
 
     return (
-      <Button
-        ref={ref}
-        {...applyGovernedPresentation(
-          {
-            intent,
-            emphasis,
-            size,
-            presentation,
-            disabled: !canScrollPrev,
-            onClick: scrollPrev,
-            ...props,
-          },
-          governed
-        )}
-      >
-        <ChevronLeftIcon />
-        <span {...srOnly.dataAttributes} className={cn(srOnly.className)}>
-          Previous slide
-        </span>
-      </Button>
+      <div {...applyGovernedPresentation({}, governed)}>
+        <Button
+          ref={ref}
+          emphasis={emphasis}
+          intent={intent}
+          disabled={!canScrollPrev}
+          onClick={scrollPrev}
+          presentation={presentation}
+          size={size}
+          {...props}
+        >
+          <ChevronLeftIcon aria-hidden="true" />
+          <span {...applyGovernedPresentation({}, srOnly)}>Previous slide</span>
+        </Button>
+      </div>
     );
   }
 );
 
 CarouselPrevious.displayName = "CarouselPrevious";
 
-const CarouselNext = React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof Button>
->(
+const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselControlProps>(
   (
     {
       className,
@@ -318,7 +340,7 @@ const CarouselNext = React.forwardRef<
     const governed = resolvePrimitiveGovernance({
       componentName: "Carousel",
       recipeName: CAROUSEL_RECIPE_NAME,
-      slot: "control",
+      slot: CAROUSEL_SLOT_ROLES.control,
       slotKey:
         orientation === "horizontal" ? "next-horizontal" : "next-vertical",
       className,
@@ -331,26 +353,21 @@ const CarouselNext = React.forwardRef<
     });
 
     return (
-      <Button
-        ref={ref}
-        {...applyGovernedPresentation(
-          {
-            intent,
-            emphasis,
-            size,
-            presentation,
-            disabled: !canScrollNext,
-            onClick: scrollNext,
-            ...props,
-          },
-          governed
-        )}
-      >
-        <ChevronRightIcon />
-        <span {...srOnly.dataAttributes} className={cn(srOnly.className)}>
-          Next slide
-        </span>
-      </Button>
+      <div {...applyGovernedPresentation({}, governed)}>
+        <Button
+          ref={ref}
+          emphasis={emphasis}
+          intent={intent}
+          disabled={!canScrollNext}
+          onClick={scrollNext}
+          presentation={presentation}
+          size={size}
+          {...props}
+        >
+          <ChevronRightIcon aria-hidden="true" />
+          <span {...applyGovernedPresentation({}, srOnly)}>Next slide</span>
+        </Button>
+      </div>
     );
   }
 );

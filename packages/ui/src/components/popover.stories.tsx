@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import {
   CalendarIcon,
   CopyIcon,
@@ -9,8 +10,19 @@ import {
   SlidersHorizontalIcon,
   UserPlusIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { useState } from "react";
+import {
+  ControlledOpenPopoverDemo,
+  DatePickerPopoverField,
+  PopoverApplyFooter,
+  PopoverPanel,
+} from "./_storybook/popover-story.compositions";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -34,84 +46,6 @@ import {
 } from "./select";
 import { Separator } from "./separator";
 import { Textarea } from "./textarea";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function PopoverApplyFooter({
-  applyLabel = "Apply",
-  clearLabel = "Clear",
-  onApply,
-  onClear,
-}: {
-  readonly applyLabel?: string;
-  readonly clearLabel?: string;
-  readonly onApply?: () => void;
-  readonly onClear?: () => void;
-}) {
-  return (
-    <StoryRow gap="sm" justify="end">
-      <Button
-        emphasis="ghost"
-        intent="secondary"
-        onClick={onClear}
-        size="sm"
-        type="button"
-      >
-        {clearLabel}
-      </Button>
-      <Button
-        emphasis="solid"
-        intent="primary"
-        onClick={onApply}
-        size="sm"
-        type="button"
-      >
-        {applyLabel}
-      </Button>
-    </StoryRow>
-  );
-}
-
-function DatePickerPopoverField({
-  id,
-  label,
-  value,
-  onChange,
-}: {
-  readonly id: string;
-  readonly label: string;
-  readonly value: string;
-  readonly onChange: (value: string) => void;
-}) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <StoryStack gap="xs">
-      <Label htmlFor={id}>{label}</Label>
-      <Popover onOpenChange={setOpen} open={open}>
-        <PopoverTrigger asChild>
-          <Button emphasis="outline" id={id} intent="secondary">
-            <CalendarIcon />
-            {value || "Pick a date…"}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverHeader>
-            <PopoverTitle>{label}</PopoverTitle>
-          </PopoverHeader>
-          <Input
-            onChange={(event) => {
-              onChange(event.target.value);
-              setOpen(false);
-            }}
-            type="date"
-            value={value}
-          />
-        </PopoverContent>
-      </Popover>
-    </StoryStack>
-  );
-}
 
 // ─── Popover ───────────────────────────────────────────────────────────────
 
@@ -195,45 +129,9 @@ export const SideRight: Story = {
   ),
 };
 
-function ControlledOpenComponent() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <StoryStack gap="sm">
-      <StoryRow align="center" gap="sm">
-        <Button
-          emphasis="outline"
-          intent="secondary"
-          onClick={() => setOpen((value) => !value)}
-          size="sm"
-          type="button"
-        >
-          Toggle externally
-        </Button>
-        <span className="text-muted-foreground text-xs">
-          Open: {open ? "yes" : "no"}
-        </span>
-      </StoryRow>
-      <Popover onOpenChange={setOpen} open={open}>
-        <PopoverTrigger asChild>
-          <Button emphasis="outline" intent="secondary">
-            Controlled popover
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverTitle>Controlled state</PopoverTitle>
-          <PopoverDescription>
-            Parent state drives `open` for programmatic close after apply.
-          </PopoverDescription>
-        </PopoverContent>
-      </Popover>
-    </StoryStack>
-  );
-}
-
 export const ControlledOpen: Story = {
   name: "Popover — Controlled Open",
-  render: () => <ControlledOpenComponent />,
+  render: () => <ControlledOpenPopoverDemo />,
 };
 
 export const GovernanceSurfaceVariants: Story = {
@@ -269,6 +167,67 @@ export const GovernanceSurfaceVariants: Story = {
             </PopoverHeader>
           </PopoverContent>
         </Popover>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Popover root, trigger, or content attributes.",
+      },
+    },
+  },
+  render: () => (
+    <Popover
+      data-component="Override"
+      data-recipe="override"
+      data-slot="override"
+      data-state="fake"
+      open
+      state="ready"
+    >
+      <PopoverTrigger
+        data-component="Override"
+        data-slot="override"
+      >
+        Open popover
+      </PopoverTrigger>
+      <PopoverContent
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+      >
+        <PopoverTitle data-slot="override">Record summary</PopoverTitle>
+      </PopoverContent>
+    </Popover>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <Popover open state={state}>
+            <PopoverTrigger asChild>
+              <Button emphasis="outline" intent="secondary" size="sm">
+                Actions ({state})
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverTitle>State probe</PopoverTitle>
+              <PopoverDescription>state=&quot;{state}&quot;</PopoverDescription>
+            </PopoverContent>
+          </Popover>
+        </StoryRow>
       ))}
     </StoryStack>
   ),
@@ -321,11 +280,11 @@ export const QuickFilterPopover: Story = {
     <Popover>
       <PopoverTrigger asChild>
         <Button emphasis="outline" intent="secondary" size="sm">
-          <FilterIcon />
+          <FilterIcon aria-hidden="true" />
           Advanced filter
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>Filter by date range</PopoverTitle>
           <PopoverDescription>
@@ -343,7 +302,7 @@ export const QuickFilterPopover: Story = {
           </StoryStack>
           <PopoverApplyFooter />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -354,11 +313,11 @@ export const StatusFilterPopover: Story = {
     <Popover>
       <PopoverTrigger asChild>
         <Button emphasis="outline" intent="secondary" size="sm">
-          <SlidersHorizontalIcon />
+          <SlidersHorizontalIcon aria-hidden="true" />
           Status
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56">
+      <PopoverPanel width="w-56">
         <PopoverHeader>
           <PopoverTitle>Invoice status</PopoverTitle>
         </PopoverHeader>
@@ -376,7 +335,7 @@ export const StatusFilterPopover: Story = {
           </Select>
           <PopoverApplyFooter applyLabel="Apply filter" />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -390,7 +349,7 @@ export const ColumnVisibilityPopover: Story = {
           Columns
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56">
+      <PopoverPanel width="w-56">
         <PopoverHeader>
           <PopoverTitle>Show columns</PopoverTitle>
         </PopoverHeader>
@@ -408,7 +367,7 @@ export const ColumnVisibilityPopover: Story = {
           ))}
           <PopoverApplyFooter applyLabel="Save view" />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -422,7 +381,7 @@ export const ExportOptionsPopover: Story = {
           Export
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverPanel width="w-64">
         <PopoverHeader>
           <PopoverTitle>Export invoices</PopoverTitle>
           <PopoverDescription>
@@ -444,7 +403,7 @@ export const ExportOptionsPopover: Story = {
             Download export
           </Button>
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -455,11 +414,11 @@ export const AssignUserPopover: Story = {
     <Popover>
       <PopoverTrigger asChild>
         <Button emphasis="outline" intent="secondary" size="sm">
-          <UserPlusIcon />
+          <UserPlusIcon aria-hidden="true" />
           Assign
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverPanel width="w-64">
         <PopoverHeader>
           <PopoverTitle>Assign approver</PopoverTitle>
           <PopoverDescription>
@@ -486,7 +445,7 @@ export const AssignUserPopover: Story = {
             </Button>
           ))}
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -500,7 +459,7 @@ export const ApprovalCommentPopover: Story = {
           Add comment
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>Approval comment</PopoverTitle>
           <PopoverDescription>
@@ -511,7 +470,7 @@ export const ApprovalCommentPopover: Story = {
           <Textarea placeholder="Optional note for reviewers…" rows={3} />
           <PopoverApplyFooter applyLabel="Save comment" clearLabel="Cancel" />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -528,26 +487,26 @@ export const ShareLinkPopover: Story = {
           presentation="icon"
           size="sm"
         >
-          <ShareIcon />
+          <ShareIcon aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>Share invoice</PopoverTitle>
         </PopoverHeader>
         <StoryStack gap="sm">
           <StoryRow align="center" gap="xs">
-            <LinkIcon className="size-4 text-muted-foreground" />
+            <LinkIcon aria-hidden="true" className="size-4 text-muted-foreground" />
             <span className="text-muted-foreground text-xs">
               /finance/invoices/inv-2026-0042
             </span>
           </StoryRow>
           <Button emphasis="outline" intent="secondary" size="sm">
-            <CopyIcon />
+            <CopyIcon aria-hidden="true" />
             Copy link
           </Button>
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -564,10 +523,10 @@ export const RecordQuickActionsPopover: Story = {
           presentation="icon"
           size="sm"
         >
-          <MoreHorizontalIcon />
+          <MoreHorizontalIcon aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-48">
+      <PopoverPanel width="w-48">
         <PopoverHeader>
           <PopoverTitle>INV-2026-0042</PopoverTitle>
         </PopoverHeader>
@@ -586,7 +545,7 @@ export const RecordQuickActionsPopover: Story = {
             Void invoice
           </Button>
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -600,7 +559,7 @@ export const WorkspaceSwitcherPopover: Story = {
           Demo Company · APAC
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverPanel width="w-64">
         <PopoverHeader>
           <PopoverTitle>Switch workspace</PopoverTitle>
         </PopoverHeader>
@@ -620,7 +579,7 @@ export const WorkspaceSwitcherPopover: Story = {
             </Button>
           ))}
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -637,7 +596,7 @@ export const NotificationPopover: Story = {
           </Badge>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80">
+      <PopoverPanel width="w-80">
         <PopoverHeader>
           <PopoverTitle>Notifications</PopoverTitle>
           <PopoverDescription>3 items need attention</PopoverDescription>
@@ -658,7 +617,7 @@ export const NotificationPopover: Story = {
             </StoryStack>
           ))}
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -672,7 +631,7 @@ export const VendorLookupPopover: Story = {
           Select vendor
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>Vendor</PopoverTitle>
         </PopoverHeader>
@@ -688,7 +647,7 @@ export const VendorLookupPopover: Story = {
             )}
           </StoryStack>
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -702,7 +661,7 @@ export const GLAccountPickerPopover: Story = {
           6100 — Office Supplies
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>GL account</PopoverTitle>
         </PopoverHeader>
@@ -720,7 +679,7 @@ export const GLAccountPickerPopover: Story = {
             ))}
           </StoryStack>
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -734,7 +693,7 @@ export const AmountAdjustmentPopover: Story = {
           $4,850.00
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56">
+      <PopoverPanel width="w-56">
         <PopoverHeader>
           <PopoverTitle>Adjust amount</PopoverTitle>
         </PopoverHeader>
@@ -745,7 +704,7 @@ export const AmountAdjustmentPopover: Story = {
           </StoryStack>
           <PopoverApplyFooter applyLabel="Update" />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -759,7 +718,7 @@ export const InlineNotesPopover: Story = {
           Add note
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
+      <PopoverPanel width="w-72">
         <PopoverHeader>
           <PopoverTitle>Internal note</PopoverTitle>
           <PopoverDescription>Visible to finance team only.</PopoverDescription>
@@ -768,7 +727,7 @@ export const InlineNotesPopover: Story = {
           <Textarea placeholder="Buyer notes for PO-2026-1184…" rows={3} />
           <PopoverApplyFooter applyLabel="Save" />
         </StoryStack>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -787,21 +746,21 @@ export const PopoverVsDialog: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Popover — quick filter</span>
+          <StoryCaption width="md">Popover — quick filter</StoryCaption>
           <Popover>
             <PopoverTrigger asChild>
               <Button emphasis="outline" intent="secondary" size="sm">
                 Filter list
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-56">
+            <PopoverPanel width="w-56">
               <PopoverTitle>Quick filter</PopoverTitle>
               <PopoverDescription>Stays on the list view.</PopoverDescription>
-            </PopoverContent>
+            </PopoverPanel>
           </Popover>
         </StoryStack>
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Dialog — create record</span>
+          <StoryCaption width="md">Dialog — create record</StoryCaption>
           <span className="text-muted-foreground text-xs">
             See Primitives/Dialog for modal create/edit flows.
           </span>
@@ -828,12 +787,12 @@ export const PopoverVsHoverCard: Story = {
           Click for actions
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56">
+      <PopoverPanel width="w-56">
         <PopoverTitle>Interactive panel</PopoverTitle>
         <PopoverDescription>
           Popover supports buttons, inputs, and apply actions.
         </PopoverDescription>
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };
@@ -856,17 +815,17 @@ export const GovernanceAccessibility: Story = {
           emphasis="outline"
           intent="secondary"
         >
-          <CalendarIcon />
+          <CalendarIcon aria-hidden="true" />
           Jul 15, 2026
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverPanel width="w-64">
         <PopoverHeader>
           <PopoverTitle>Due date</PopoverTitle>
           <PopoverDescription>Invoice INV-2026-0042</PopoverDescription>
         </PopoverHeader>
         <Input aria-label="Due date" type="date" />
-      </PopoverContent>
+      </PopoverPanel>
     </Popover>
   ),
 };

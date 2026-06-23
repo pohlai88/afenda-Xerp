@@ -1,49 +1,78 @@
-import type { GovernedEmptyMediaVariant } from "@afenda/ui/governance";
+import type {
+  GovernedEmptyMediaVariant,
+  GovernedEmptyProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
 
 const EMPTY_RECIPE_NAME = "surface" as const;
 
+const EMPTY_SLOT_ROLES = {
+  root: "root",
+  header: "header",
+  icon: "icon",
+  title: "label",
+  description: "body",
+  content: "content",
+} as const satisfies Record<
+  "root" | "header" | "icon" | "title" | "description" | "content",
+  SlotRole
+>;
+
 export interface EmptyProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
+    GovernedEmptyProps {
   readonly className?: string;
 }
 
 const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, role = "status", state, ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Empty",
       recipeName: EMPTY_RECIPE_NAME,
-      slot: "root",
+      slot: EMPTY_SLOT_ROLES.root,
+      state,
       className,
     });
 
-    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+    return (
+      <div ref={ref} {...applyGovernedPresentation({ ...props, role }, governed)} />
+    );
   }
 );
 
 Empty.displayName = "Empty";
 
-interface EmptyHeaderProps
+interface EmptySlotProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   readonly className?: string;
 }
 
-const EmptyHeader = React.forwardRef<HTMLDivElement, EmptyHeaderProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Empty",
-      recipeName: EMPTY_RECIPE_NAME,
-      slot: "header",
-      className,
-    });
+function createEmptySlot(
+  displayName: string,
+  slotKey: Exclude<keyof typeof EMPTY_SLOT_ROLES, "root" | "icon">
+) {
+  const slot = EMPTY_SLOT_ROLES[slotKey];
 
-    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
-  }
-);
+  const EmptySlot = React.forwardRef<HTMLDivElement, EmptySlotProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolvePrimitiveGovernance({
+        componentName: "Empty",
+        recipeName: EMPTY_RECIPE_NAME,
+        slot,
+        className,
+      });
 
-EmptyHeader.displayName = "EmptyHeader";
+      return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
+    }
+  );
+
+  EmptySlot.displayName = displayName;
+
+  return EmptySlot;
+}
 
 export interface EmptyMediaProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
@@ -56,7 +85,7 @@ const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Empty",
       recipeName: EMPTY_RECIPE_NAME,
-      slot: "icon",
+      slot: EMPTY_SLOT_ROLES.icon,
       emptyMediaVariant: variant,
       className,
     });
@@ -74,26 +103,6 @@ const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(
 
 EmptyMedia.displayName = "EmptyMedia";
 
-interface EmptyTitleProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly className?: string;
-}
-
-const EmptyTitle = React.forwardRef<HTMLDivElement, EmptyTitleProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Empty",
-      recipeName: EMPTY_RECIPE_NAME,
-      slot: "label",
-      className,
-    });
-
-    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
-  }
-);
-
-EmptyTitle.displayName = "EmptyTitle";
-
 interface EmptyDescriptionProps
   extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "className"> {
   readonly className?: string;
@@ -106,7 +115,7 @@ const EmptyDescription = React.forwardRef<
   const governed = resolvePrimitiveGovernance({
     componentName: "Empty",
     recipeName: EMPTY_RECIPE_NAME,
-    slot: "body",
+    slot: EMPTY_SLOT_ROLES.description,
     className,
   });
 
@@ -115,25 +124,13 @@ const EmptyDescription = React.forwardRef<
 
 EmptyDescription.displayName = "EmptyDescription";
 
-interface EmptyContentProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly className?: string;
-}
+const EmptyHeader = createEmptySlot("EmptyHeader", "header");
+const EmptyTitle = createEmptySlot("EmptyTitle", "title");
+const EmptyContent = createEmptySlot("EmptyContent", "content");
 
-const EmptyContent = React.forwardRef<HTMLDivElement, EmptyContentProps>(
-  ({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Empty",
-      recipeName: EMPTY_RECIPE_NAME,
-      slot: "content",
-      className,
-    });
-
-    return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
-  }
-);
-
-EmptyContent.displayName = "EmptyContent";
+export type EmptyHeaderProps = EmptySlotProps;
+export type EmptyTitleProps = EmptySlotProps;
+export type EmptyContentProps = EmptySlotProps;
 
 export {
   Empty,

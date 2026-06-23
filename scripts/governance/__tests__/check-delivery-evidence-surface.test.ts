@@ -26,16 +26,23 @@ describe("delivery-evidence-surface-registry", () => {
     const checkScripts = MULTI_TENANCY_GOVERNANCE_GATES.map((gate) => gate.checkScript);
 
     expect(checkScripts).toContain("check:delivery-evidence-surface");
+    expect(checkScripts).toContain("check:multi-tenancy-existing-state-audit");
+    expect(checkScripts).toContain("check:multi-tenancy-authority-design");
+    expect(checkScripts).toContain("check:multi-tenancy-context-contracts");
+    expect(checkScripts).toContain("check:multi-tenancy-persistence-lookup");
+    expect(checkScripts).toContain("check:multi-tenancy-tenant-url-resolver");
+    expect(checkScripts).toContain("check:multi-tenancy-operating-context-resolver");
     expect(checkScripts).toContain("check:multi-tenancy-dos-prohibitions");
-    expect(checkScripts).toHaveLength(10);
+    expect(checkScripts).toContain("check:multi-tenancy-enterprise-acceptance");
+    expect(checkScripts).toHaveLength(23);
   });
 
-  it("requires twenty-one delivery doc sections", () => {
-    expect(TIP_007_012_REQUIRED_SECTIONS).toHaveLength(21);
+  it("requires twenty-five delivery doc sections", () => {
+    expect(TIP_007_012_REQUIRED_SECTIONS).toHaveLength(25);
   });
 
-  it("requires seventeen acceptance checklist items", () => {
-    expect(TIP_007_012_ACCEPTANCE_CHECKLIST).toHaveLength(17);
+  it("requires twenty-seven acceptance checklist items", () => {
+    expect(TIP_007_012_ACCEPTANCE_CHECKLIST).toHaveLength(29);
   });
 
   it("defines dist build script and governed packages", () => {

@@ -19,9 +19,13 @@ export const TIP_007_012_REQUIRED_SECTIONS = [
   "Executive summary",
   "Glossary added/updated",
   "Existing-state audit",
+  "Authority design",
+  "Context contracts",
+  "Persistence and lookup",
   "Enterprise feature requirements delivered",
   "Enterprise group hierarchy",
   "Tenant subdomain strategy",
+  "Operating context resolver",
   "Legal entity and ownership model",
   "RLS/grant scope model",
   "Accounting-consolidation readiness",
@@ -36,7 +40,7 @@ export const TIP_007_012_REQUIRED_SECTIONS = [
   "Rollback plan",
   "Remaining gaps",
   "Enterprise acceptance criteria checklist",
-  "Scores",
+  "Final score",
 ] as const;
 
 /** Governance gates that must be documented and wired in root `package.json`. */
@@ -90,10 +94,95 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
     sliceReference: "Dependency rules (multi-tenancy.md §432–445)",
   },
   {
+    checkScript: "check:multi-tenancy-glossary-first",
+    qualityScript: "quality:multi-tenancy-glossary-first",
+    gateFile: "scripts/governance/check-multi-tenancy-glossary-first.mts",
+    sliceReference: "Glossary first (multi-tenancy.md §484–500 Step 1)",
+  },
+  {
+    checkScript: "check:multi-tenancy-existing-state-audit",
+    qualityScript: "quality:multi-tenancy-existing-state-audit",
+    gateFile: "scripts/governance/check-multi-tenancy-existing-state-audit.mts",
+    sliceReference: "Existing-state audit (multi-tenancy.md §502–511 Step 2)",
+  },
+  {
+    checkScript: "check:multi-tenancy-authority-design",
+    qualityScript: "quality:multi-tenancy-authority-design",
+    gateFile: "scripts/governance/check-multi-tenancy-authority-design.mts",
+    sliceReference: "Authority design (multi-tenancy.md §503–509 Step 3)",
+  },
+  {
+    checkScript: "check:multi-tenancy-context-contracts",
+    qualityScript: "quality:multi-tenancy-context-contracts",
+    gateFile: "scripts/governance/check-multi-tenancy-context-contracts.mts",
+    sliceReference: "Context contracts (multi-tenancy.md §522–536 Step 4)",
+  },
+  {
+    checkScript: "check:multi-tenancy-persistence-lookup",
+    qualityScript: "quality:multi-tenancy-persistence-lookup",
+    gateFile: "scripts/governance/check-multi-tenancy-persistence-lookup.mts",
+    sliceReference: "Persistence and lookup (multi-tenancy.md §538–551 Step 5)",
+  },
+  {
+    checkScript: "check:multi-tenancy-tenant-url-resolver",
+    qualityScript: "quality:multi-tenancy-tenant-url-resolver",
+    gateFile: "scripts/governance/check-multi-tenancy-tenant-url-resolver.mts",
+    sliceReference: "Tenant URL resolver (multi-tenancy.md §553–559 Step 6)",
+  },
+  {
+    checkScript: "check:multi-tenancy-operating-context-resolver",
+    qualityScript: "quality:multi-tenancy-operating-context-resolver",
+    gateFile:
+      "scripts/governance/check-multi-tenancy-operating-context-resolver.mts",
+    sliceReference:
+      "Operating context resolver (multi-tenancy.md §561–571 Step 7)",
+  },
+  {
+    checkScript: "check:multi-tenancy-context-integration",
+    qualityScript: "quality:multi-tenancy-context-integration",
+    gateFile: "scripts/governance/check-multi-tenancy-context-integration.mts",
+    sliceReference:
+      "API/action/AppShell integration (multi-tenancy.md §572–579 Step 8)",
+  },
+  {
+    checkScript: "check:multi-tenancy-tests",
+    qualityScript: "quality:multi-tenancy-tests",
+    gateFile: "scripts/governance/check-multi-tenancy-tests.mts",
+    sliceReference: "Tests (multi-tenancy.md §580–599 Step 9)",
+  },
+  {
+    checkScript: "check:multi-tenancy-documentation-verification",
+    qualityScript: "quality:multi-tenancy-documentation-verification",
+    gateFile:
+      "scripts/governance/check-multi-tenancy-documentation-verification.mts",
+    sliceReference:
+      "Documentation and verification (multi-tenancy.md §601–611 Step 10)",
+  },
+  {
+    checkScript: "check:multi-tenancy-enterprise-acceptance",
+    qualityScript: "quality:multi-tenancy-enterprise-acceptance",
+    gateFile: "scripts/governance/check-multi-tenancy-enterprise-acceptance.mts",
+    sliceReference: "Enterprise acceptance criteria (multi-tenancy.md §612–666)",
+  },
+  {
+    checkScript: "check:multi-tenancy-testing-verification-acceptance",
+    qualityScript: "quality:multi-tenancy-testing-verification-acceptance",
+    gateFile:
+      "scripts/governance/check-multi-tenancy-testing-verification-acceptance.mts",
+    sliceReference:
+      "Testing and verification acceptance (multi-tenancy.md §667–685)",
+  },
+  {
     checkScript: "check:multi-tenancy-dos-prohibitions",
     qualityScript: "quality:multi-tenancy-dos-prohibitions",
     gateFile: "scripts/governance/check-multi-tenancy-dos-prohibitions.mts",
     sliceReference: "Do's and Prohibitions (multi-tenancy.md §447–480)",
+  },
+  {
+    checkScript: "check:multi-tenancy-final-output-format",
+    qualityScript: "quality:multi-tenancy-final-output-format",
+    gateFile: "scripts/governance/check-multi-tenancy-final-output-format.mts",
+    sliceReference: "Expected final output format (multi-tenancy.md §686–718)",
   },
   {
     checkScript: "check:delivery-evidence-surface",
@@ -118,10 +207,22 @@ export const TIP_007_012_ACCEPTANCE_CHECKLIST = [
   "Architecture authority registry aligned with docs and CI",
   "Multi-tenancy dependency rules enforced (§432–445)",
   "Multi-tenancy Do's and Prohibitions enforced (§447–480)",
+  "Step 2 existing-state audit tables documented and gated (§502–511)",
+  "Step 3 authority design tables documented and gated (§503–509)",
+  "Step 4 context contracts documented and gated (§522–536)",
+  "Step 5 persistence and lookup tables documented and gated (§538–551)",
+  "Step 6 tenant URL resolver documented and gated (§553–559)",
+  "Step 7 operating context resolver documented and gated (§561–571)",
+  "Step 8 API/action/AppShell integration documented and gated (§572–579)",
+  "Step 9 multi-tenancy tests documented and gated (§580–599)",
+  "Step 10 documentation and verification documented and gated (§601–611)",
+  "Enterprise acceptance criteria documented and gated (§612–666)",
+  "Testing and verification acceptance documented and gated (§667–685)",
+  "Expected final output format documented and gated (§686–718)",
   "Delivery evidence doc complete with verification chain",
   "No accounting / TIP-013 work in this slice",
   "Governance tests pass for all surface gates",
-  "Full pnpm quality passes locally",
+  "Multi-tenancy governance quality chain passes locally (§678–685)",
 ] as const;
 
 export const TIP_007_012_MINIMUM_OVERALL_SCORE = 9.5 as const;

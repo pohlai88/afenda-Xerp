@@ -1,7 +1,9 @@
 import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
+
+const INPUT_RECIPE_NAME = "form-control" as const;
 
 export interface InputProps
   extends Omit<
@@ -19,7 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Input",
-      recipeName: "form-control",
+      recipeName: INPUT_RECIPE_NAME,
       variant: {
         density,
         size,
@@ -32,12 +34,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         ref={ref}
-        {...props}
-        data-density={density}
-        data-size={size}
         type={type}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, {
+          "data-density": density,
+          "data-size": size,
+        })}
       />
     );
   }

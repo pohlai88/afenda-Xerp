@@ -1,12 +1,16 @@
 "use client";
 
-import type { GovernedToggleProps } from "@afenda/ui/governance";
+import type { GovernedToggleProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Toggle as TogglePrimitive } from "radix-ui";
 import * as React from "react";
 
 const TOGGLE_RECIPE_NAME = "form-control" as const;
+
+const TOGGLE_SLOT_ROLES = {
+  root: "root",
+} as const satisfies Record<string, SlotRole>;
 
 export interface ToggleProps
   extends Omit<React.ComponentProps<typeof TogglePrimitive.Root>, "className">,
@@ -26,7 +30,7 @@ const Toggle = React.forwardRef<
       componentName: "Toggle",
       recipeName: TOGGLE_RECIPE_NAME,
       state,
-      slot: "root",
+      slot: TOGGLE_SLOT_ROLES.root,
       toggleVariant: variant,
       toggleSize: size,
       className,

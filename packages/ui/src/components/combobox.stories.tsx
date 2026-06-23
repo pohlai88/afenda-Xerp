@@ -1,4 +1,4 @@
-import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
@@ -7,14 +7,34 @@ import {
   MapPinIcon,
   UserIcon,
 } from "lucide-react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import React from "react";
+import {
+  APPROVAL_ROUTES,
+  COST_CENTERS,
+  COUNTRIES,
+  EMPLOYEES,
+  EXPENSE_TAGS,
+  GROUPED_VENDORS,
+  type GroupedVendor,
+  type LabeledOption,
+  MultiChipCombobox,
+  PROJECT_CODES,
+  SingleCombobox,
+  SKUS,
+  type SkuOption,
+  TIMEZONES,
+  VENDORS,
+  CURRENCIES,
+  labeledEquality,
+  objectEquality,
+  type EmployeeOption,
+  type VendorOption,
+} from "./_storybook/combobox-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import {
   Combobox,
-  ComboboxChip,
-  ComboboxChips,
-  ComboboxChipsInput,
   ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
@@ -23,279 +43,9 @@ import {
   ComboboxItem,
   ComboboxLabel,
   ComboboxList,
-  ComboboxValue,
-  useComboboxAnchor,
 } from "./combobox";
 import { Label } from "./label";
 import { Separator } from "./separator";
-
-// ─── Types & data ────────────────────────────────────────────────────────────
-
-interface LabeledOption {
-  readonly label: string;
-  readonly value: string;
-}
-
-type VendorOption = LabeledOption & {
-  readonly code: string;
-  readonly region: string;
-};
-
-interface EmployeeOption {
-  readonly dept: string;
-  readonly id: string;
-  readonly initials: string;
-  readonly label: string;
-}
-
-interface SkuOption {
-  readonly id: string;
-  readonly label: string;
-  readonly sku: string;
-  readonly stock: number;
-}
-
-interface GroupedVendor {
-  readonly items: readonly VendorOption[];
-  readonly value: string;
-}
-
-const VENDORS: readonly VendorOption[] = [
-  {
-    value: "vnd-88421",
-    label: "Acme Supplies Ltd.",
-    code: "VND-88421",
-    region: "US",
-  },
-  {
-    value: "vnd-55210",
-    label: "Metro Logistics",
-    code: "VND-55210",
-    region: "US",
-  },
-  {
-    value: "vnd-33108",
-    label: "TechServe Inc.",
-    code: "VND-33108",
-    region: "US",
-  },
-  {
-    value: "vnd-90214",
-    label: "Global Parts Ltd.",
-    code: "VND-90214",
-    region: "UK",
-  },
-  {
-    value: "vnd-77103",
-    label: "Pacific Components",
-    code: "VND-77103",
-    region: "SG",
-  },
-  {
-    value: "vnd-64092",
-    label: "Nordic Industrial",
-    code: "VND-64092",
-    region: "EU",
-  },
-];
-
-const EMPLOYEES: readonly EmployeeOption[] = [
-  { id: "emp-1024", label: "Jane Doe", dept: "Finance", initials: "JD" },
-  { id: "emp-2048", label: "Alex Brown", dept: "Operations", initials: "AB" },
-  { id: "emp-3072", label: "Sam Chen", dept: "HR", initials: "SC" },
-  { id: "emp-4096", label: "Maria Kim", dept: "Executive", initials: "MK" },
-  { id: "emp-5120", label: "David Park", dept: "Engineering", initials: "DP" },
-];
-
-const COST_CENTERS: readonly LabeledOption[] = [
-  { value: "cc-100", label: "100 — Corporate overhead" },
-  { value: "cc-210", label: "210 — Manufacturing ops" },
-  { value: "cc-320", label: "320 — Sales & marketing" },
-  { value: "cc-430", label: "430 — R&D engineering" },
-  { value: "cc-540", label: "540 — Facilities management" },
-];
-
-const CURRENCIES: readonly LabeledOption[] = [
-  { value: "usd", label: "USD — US Dollar" },
-  { value: "eur", label: "EUR — Euro" },
-  { value: "gbp", label: "GBP — British Pound" },
-  { value: "jpy", label: "JPY — Japanese Yen" },
-  { value: "sgd", label: "SGD — Singapore Dollar" },
-];
-
-const COUNTRIES: readonly LabeledOption[] = [
-  { value: "us", label: "United States" },
-  { value: "ca", label: "Canada" },
-  { value: "gb", label: "United Kingdom" },
-  { value: "de", label: "Germany" },
-  { value: "jp", label: "Japan" },
-  { value: "sg", label: "Singapore" },
-  { value: "au", label: "Australia" },
-];
-
-const PROJECT_CODES: readonly LabeledOption[] = [
-  { value: "prj-erp-rollout", label: "PRJ-2026-01 — ERP rollout phase 2" },
-  { value: "prj-facility", label: "PRJ-2025-18 — East campus expansion" },
-  { value: "prj-compliance", label: "PRJ-2026-04 — SOX automation" },
-  { value: "prj-migration", label: "PRJ-2025-22 — Data center migration" },
-];
-
-const EXPENSE_TAGS = [
-  { id: "travel", value: "Travel" },
-  { id: "meals", value: "Meals & entertainment" },
-  { id: "software", value: "Software subscriptions" },
-  { id: "contractors", value: "Contractors" },
-  { id: "office", value: "Office supplies" },
-] as const;
-
-const APPROVAL_ROUTES = [
-  { id: "dept-head", value: "Department head" },
-  { id: "finance", value: "Finance reviewer" },
-  { id: "cfo", value: "CFO sign-off" },
-  { id: "legal", value: "Legal review" },
-] as const;
-
-const SKUS: readonly SkuOption[] = [
-  { id: "sku-1", label: "M8 bolt kit", sku: "FAST-M8-500", stock: 1240 },
-  { id: "sku-2", label: "Industrial lubricant", sku: "CHEM-LUB-20", stock: 86 },
-  { id: "sku-3", label: "Safety gloves (L)", sku: "SAFE-GLV-L", stock: 420 },
-  { id: "sku-4", label: "Server rack shelf", sku: "IT-RACK-42U", stock: 12 },
-  { id: "sku-5", label: "Label printer ribbon", sku: "OFF-LBL-RIB", stock: 0 },
-];
-
-function groupVendorsByRegion(
-  vendors: readonly VendorOption[]
-): GroupedVendor[] {
-  const buckets = new Map<string, VendorOption[]>();
-  for (const vendor of vendors) {
-    const list = buckets.get(vendor.region) ?? [];
-    list.push(vendor);
-    buckets.set(vendor.region, list);
-  }
-  return ["US", "UK", "SG", "EU"].map((region) => ({
-    value: region,
-    items: buckets.get(region) ?? [],
-  }));
-}
-
-const GROUPED_VENDORS = groupVendorsByRegion(VENDORS);
-
-const TIMEZONES = Intl.supportedValuesOf("timeZone").map((tz) => ({
-  value: tz,
-  label: tz.replaceAll("_", " "),
-}));
-
-function objectEquality(a: unknown, b: unknown): boolean {
-  if (
-    typeof a === "object" &&
-    a !== null &&
-    "id" in a &&
-    typeof b === "object" &&
-    b !== null &&
-    "id" in b
-  ) {
-    return (a as { id: string }).id === (b as { id: string }).id;
-  }
-  return false;
-}
-
-function labeledEquality(a: LabeledOption, b: LabeledOption): boolean {
-  return a.value === b.value;
-}
-
-// ─── Story helpers ───────────────────────────────────────────────────────────
-
-function SingleCombobox<T extends LabeledOption>({
-  items,
-  id,
-  placeholder,
-  emptyMessage = "No results found.",
-  defaultValue,
-  showClear = false,
-  disabled,
-}: {
-  readonly items: readonly T[];
-  readonly id?: string;
-  readonly placeholder: string;
-  readonly emptyMessage?: string;
-  readonly defaultValue?: T | null;
-  readonly showClear?: boolean;
-  readonly disabled?: boolean;
-}) {
-  return (
-    <Combobox
-      defaultValue={defaultValue ?? null}
-      disabled={disabled}
-      isItemEqualToValue={labeledEquality}
-      items={items}
-    >
-      <ComboboxInput id={id} placeholder={placeholder} showClear={showClear} />
-      <ComboboxContent>
-        <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
-        <ComboboxList>
-          {(item: T) => (
-            <ComboboxItem key={item.value} value={item}>
-              {item.label}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  );
-}
-
-function MultiChipCombobox<T extends { id: string; value: string }>({
-  items,
-  id,
-  placeholder,
-  emptyMessage = "No results found.",
-  defaultValue = [],
-}: {
-  readonly items: readonly T[];
-  readonly id?: string;
-  readonly placeholder: string;
-  readonly emptyMessage?: string;
-  readonly defaultValue?: readonly T[];
-}) {
-  const anchor = useComboboxAnchor();
-
-  return (
-    <Combobox
-      defaultValue={[...defaultValue]}
-      isItemEqualToValue={objectEquality}
-      items={items}
-      multiple
-    >
-      <ComboboxChips ref={anchor}>
-        <ComboboxValue>
-          {(selected: T[]) => (
-            <>
-              {selected.map((item) => (
-                <ComboboxChip key={item.id}>{item.value}</ComboboxChip>
-              ))}
-              <ComboboxChipsInput
-                id={id}
-                placeholder={selected.length > 0 ? "" : placeholder}
-              />
-            </>
-          )}
-        </ComboboxValue>
-      </ComboboxChips>
-      <ComboboxContent anchor={anchor}>
-        <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
-        <ComboboxList>
-          {(item: T) => (
-            <ComboboxItem key={item.id} value={item}>
-              {item.value}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  );
-}
-
-// ─── Combobox ────────────────────────────────────────────────────────────────
 
 const meta = {
   title: "Primitives/Combobox",
@@ -314,8 +64,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-// ─── Basic variants ────────────────────────────────────────────────────────
 
 export const Default: Story = {
   render: () => (
@@ -422,6 +170,62 @@ export const GroupedOptions: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed combobox item attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={VENDORS}>
+        <ComboboxInput placeholder="Search vendors…" showTrigger={false} />
+        <ComboboxContent>
+          <ComboboxEmpty>No vendors found.</ComboboxEmpty>
+          <ComboboxList>
+            {(item: LabeledOption) => (
+              <ComboboxItem
+                data-component="Override"
+                data-recipe="override"
+                data-slot="override"
+                key={item.value}
+                value={item}
+              >
+                {item.label}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <StoryFrame width="md">
+            <SingleCombobox
+              items={COST_CENTERS}
+              placeholder={`Cost center (${state})…`}
+              state={state}
+            />
+          </StoryFrame>
+        </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
 export const GovernanceAccessibility: Story = {
   name: "Governance — Accessibility",
   parameters: {
@@ -446,11 +250,8 @@ export const GovernanceAccessibility: Story = {
   ),
 };
 
-// ─── ERP composite patterns ────────────────────────────────────────────────
-
 export const VendorSelector: Story = {
   name: "ERP — Vendor Selector",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -471,7 +272,6 @@ export const VendorSelector: Story = {
 
 export const EmployeeAssigneePicker: Story = {
   name: "ERP — Employee Assignee Picker",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -512,7 +312,6 @@ export const EmployeeAssigneePicker: Story = {
 
 export const CustomerAccountPicker: Story = {
   name: "ERP — Customer Account Picker",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -548,7 +347,6 @@ export const CustomerAccountPicker: Story = {
 
 export const CostCenterPicker: Story = {
   name: "ERP — Cost Center Picker",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -565,7 +363,6 @@ export const CostCenterPicker: Story = {
 
 export const CurrencySelector: Story = {
   name: "ERP — Currency Selector",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
       <StoryStack gap="xs">
@@ -583,7 +380,6 @@ export const CurrencySelector: Story = {
 
 export const CountrySelector: Story = {
   name: "ERP — Country Selector",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
       <StoryStack gap="xs">
@@ -618,7 +414,6 @@ export const CountrySelector: Story = {
 
 export const ProjectCodeSearch: Story = {
   name: "ERP — Project Code Search",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="xs">
@@ -652,7 +447,6 @@ export const ProjectCodeSearch: Story = {
 
 export const InventorySkuSearch: Story = {
   name: "ERP — Inventory SKU Search",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="xs">
@@ -689,9 +483,11 @@ export const InventorySkuSearch: Story = {
                             : "success"
                       }
                     >
-                      {sku.stock === 0
-                        ? "Out of stock"
-                        : `${sku.stock} in stock`}
+                      {sku.stock === 0 ? (
+                        "Out of stock"
+                      ) : (
+                        <span className="tabular-nums">{sku.stock} in stock</span>
+                      )}
                     </Badge>
                   </StoryRow>
                 </ComboboxItem>
@@ -706,7 +502,6 @@ export const InventorySkuSearch: Story = {
 
 export const ExpenseTagMultiSelect: Story = {
   name: "ERP — Expense Tag Multi-Select",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -724,7 +519,6 @@ export const ExpenseTagMultiSelect: Story = {
 
 export const ApprovalRouteMultiSelect: Story = {
   name: "ERP — Approval Route Multi-Select",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -745,7 +539,6 @@ export const ApprovalRouteMultiSelect: Story = {
 
 export const TimezonePicker: Story = {
   name: "ERP — Timezone Picker",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">
@@ -755,7 +548,7 @@ export const TimezonePicker: Story = {
           items={TIMEZONES}
           placeholder="Search timezones…"
         />
-        <span className="text-muted-foreground text-xs">
+        <span className="tabular-nums text-muted-foreground text-xs">
           {TIMEZONES.length} zones — type to filter long lists
         </span>
       </StoryStack>
@@ -765,7 +558,6 @@ export const TimezonePicker: Story = {
 
 export const FilterBarComboboxRow: Story = {
   name: "ERP — Filter Bar Combobox Row",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="xl">
       <StoryRow gap="md" wrap>
@@ -814,7 +606,6 @@ export const FilterBarComboboxRow: Story = {
 
 export const RecordLinkingCombobox: Story = {
   name: "ERP — Record Linking Combobox",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="sm">
@@ -864,7 +655,6 @@ export const RecordLinkingCombobox: Story = {
 
 export const LocationSitePicker: Story = {
   name: "ERP — Location Site Picker",
-  parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="md">
       <StoryStack gap="xs">

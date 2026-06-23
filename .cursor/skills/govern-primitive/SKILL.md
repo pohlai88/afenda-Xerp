@@ -491,13 +491,13 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 ### Consumer verification
 
 ```bash
-# All four gates at once (fastest first):
+# All five gates at once (fastest first):
 pnpm ui:guard
 
 # Shorthand variants:
 pnpm ui:guard:scan          # Gate D only — in-process full-tree scan, < 2 s
 pnpm ui:guard:hints         # All gates + remediation hints per violation
-pnpm ui:guard --gate A      # Single gate (A = ui author, B = appshell, C = erp, D = scan)
+pnpm ui:guard --gate A      # Single gate (A–E: ui author, appshell, erp, scan, css)
 
 # Individual package checks:
 pnpm --filter @afenda/appshell test:run
@@ -511,7 +511,8 @@ What `pnpm ui:guard` runs:
 | A | `@afenda/ui` author layer | `pnpm --filter @afenda/ui check:governance` |
 | B | `@afenda/appshell` consumer | `pnpm --filter @afenda/appshell check:governance` |
 | C | `@afenda/erp` consumer | `pnpm --filter @afenda/erp test:run` (governed-ui subset) |
-| D | Full-tree in-process scan | `scripts/governance/governed-ui-consumption.mjs` (< 2 s) |
+| D | Full-tree in-process scan | `governed-ui-consumption.mjs` + anti-slop (< 2 s) |
+| E | CSS token authority | `pnpm quality:css` |
 
 When **only** changing primitive source (not consumer wiring), Gate A suffices.  
 When installing a shadcn-studio block, run `pnpm ui:guard:scan` first to catch leftover classNames, then the full `pnpm ui:guard`.

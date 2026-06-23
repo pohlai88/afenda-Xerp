@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_PANEL_RADII,
+  GOVERNED_PANEL_SHADOWS,
+  GOVERNED_STATES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Building2Icon,
@@ -57,7 +63,11 @@ function HoverCardPanel({
   readonly children: ReactNode;
   readonly width?: string;
 }) {
-  return <HoverCardContent className={width}>{children}</HoverCardContent>;
+  return (
+    <HoverCardContent>
+      <div className={width}>{children}</div>
+    </HoverCardContent>
+  );
 }
 
 function UserIdentity({
@@ -85,6 +95,30 @@ function UserIdentity({
   );
 }
 
+function HoverCardStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <HoverCard open>
+        <HoverCardTrigger asChild>
+          <Button emphasis="outline" intent="secondary" size="sm">
+            Governed state probe
+          </Button>
+        </HoverCardTrigger>
+        <HoverCardContent state={state}>
+          <span className="text-sm">Inspect `data-state` on hover-card-content.</span>
+        </HoverCardContent>
+      </HoverCard>
+    </StoryFrame>
+  );
+}
+
 // ─── HoverCard ─────────────────────────────────────────────────────────────
 
 const meta = {
@@ -96,7 +130,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed hover card for ERP record previews, user profiles, and contextual metadata on hover — without requiring a click. Use on table links, @mentions, assignee chips, and document references.",
+          "Governed hover card for ERP record previews, user profiles, and contextual metadata on hover — without requiring a click. Supports governed `density` / `radius` / `shadow` / `state` on `HoverCardContent`. Use on table links, @mentions, assignee chips, and document references.",
       },
     },
   },
@@ -106,6 +140,26 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
+
+export const OpenByDefault: Story = {
+  name: "HoverCard — Open (Canvas Preview)",
+  render: () => (
+    <HoverCard defaultOpen>
+      <HoverCardTrigger asChild>
+        <Button emphasis="ghost" intent="quiet" size="sm">
+          @jane.doe
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent>
+        <UserIdentity
+          initials="JD"
+          name="Jane Doe"
+          subtitle="Senior Engineer · Engineering"
+        />
+      </HoverCardContent>
+    </HoverCard>
+  ),
+};
 
 export const Default: Story = {
   render: () => (
@@ -251,7 +305,7 @@ export const LongContent: Story = {
           <FileTextIcon />
         </Button>
       </HoverCardTrigger>
-      <HoverCardContent className="max-w-xs">
+      <HoverCardPanel width="max-w-xs">
         <StoryStack gap="xs">
           <span className="font-semibold text-sm">GST-AU-10</span>
           <span className="text-muted-foreground text-xs">
@@ -259,7 +313,7 @@ export const LongContent: Story = {
             the transaction is zero-rated or input-taxed per ATO guidance.
           </span>
         </StoryStack>
-      </HoverCardContent>
+      </HoverCardPanel>
     </HoverCard>
   ),
 };
@@ -287,7 +341,7 @@ export const RecordPreviewInvoice: Story = {
           <StoryStack gap="xs">
             <MetaRow label="Vendor">Acme Software Ltd.</MetaRow>
             <MetaRow label="Amount">
-              <span className="font-medium">$4,850.00</span>
+              <span className="font-medium tabular-nums">$4,850.00</span>
             </MetaRow>
             <MetaRow label="Due">Jul 15, 2026</MetaRow>
             <MetaRow label="Submitted by">Jane Doe</MetaRow>
@@ -385,7 +439,9 @@ export const PurchaseOrderPreview: Story = {
           <Separator />
           <StoryStack gap="xs">
             <MetaRow label="Vendor">Global Parts Co.</MetaRow>
-            <MetaRow label="Total">$12,400.00</MetaRow>
+            <MetaRow label="Total">
+              <span className="tabular-nums">$12,400.00</span>
+            </MetaRow>
             <MetaRow label="Buyer">Alex Chen</MetaRow>
             <MetaRow label="Delivery">Aug 3, 2026</MetaRow>
           </StoryStack>
@@ -409,7 +465,9 @@ export const CustomerPreview: Story = {
           <StoryStack gap="xs">
             <MetaRow label="Segment">Enterprise</MetaRow>
             <MetaRow label="Terms">Net 30</MetaRow>
-            <MetaRow label="Open AR">$28,150.00</MetaRow>
+            <MetaRow label="Open AR">
+              <span className="tabular-nums">$28,150.00</span>
+            </MetaRow>
             <MetaRow label="Account owner">Sarah Kim</MetaRow>
           </StoryStack>
         </StoryStack>
@@ -434,9 +492,15 @@ export const ProductSkuPreview: Story = {
           <Separator />
           <StoryStack gap="xs">
             <MetaRow label="Category">Components</MetaRow>
-            <MetaRow label="On hand">1,240 units</MetaRow>
-            <MetaRow label="Reorder point">500</MetaRow>
-            <MetaRow label="Unit cost">$18.50</MetaRow>
+            <MetaRow label="On hand">
+              <span className="tabular-nums">1,240 units</span>
+            </MetaRow>
+            <MetaRow label="Reorder point">
+              <span className="tabular-nums">500</span>
+            </MetaRow>
+            <MetaRow label="Unit cost">
+              <span className="tabular-nums">$18.50</span>
+            </MetaRow>
           </StoryStack>
         </StoryStack>
       </HoverCardPanel>
@@ -458,7 +522,9 @@ export const GLAccountPreview: Story = {
           <StoryStack gap="xs">
             <MetaRow label="Type">Expense</MetaRow>
             <MetaRow label="Fiscal year">FY 2026</MetaRow>
-            <MetaRow label="YTD balance">$42,180.00</MetaRow>
+            <MetaRow label="YTD balance">
+              <span className="tabular-nums">$42,180.00</span>
+            </MetaRow>
             <MetaRow label="Status">
               <Badge emphasis="soft" size="sm" tone="success">
                 Active
@@ -487,8 +553,12 @@ export const WarehouseLocationPreview: Story = {
           <Separator />
           <StoryStack gap="xs">
             <MetaRow label="Zone">Pick face</MetaRow>
-            <MetaRow label="Capacity">82%</MetaRow>
-            <MetaRow label="SKUs stored">38</MetaRow>
+            <MetaRow label="Capacity">
+              <span className="tabular-nums">82%</span>
+            </MetaRow>
+            <MetaRow label="SKUs stored">
+              <span className="tabular-nums">38</span>
+            </MetaRow>
             <MetaRow label="Last count">Jun 10, 2026</MetaRow>
           </StoryStack>
         </StoryStack>
@@ -513,8 +583,12 @@ export const CostCentrePreview: Story = {
           <Separator />
           <StoryStack gap="xs">
             <MetaRow label="Manager">Jane Doe</MetaRow>
-            <MetaRow label="Budget YTD">$1.2M / $1.5M</MetaRow>
-            <MetaRow label="Open POs">4</MetaRow>
+            <MetaRow label="Budget YTD">
+              <span className="tabular-nums">$1.2M / $1.5M</span>
+            </MetaRow>
+            <MetaRow label="Open POs">
+              <span className="tabular-nums">4</span>
+            </MetaRow>
           </StoryStack>
         </StoryStack>
       </HoverCardPanel>
@@ -740,7 +814,9 @@ export const TableRowRecordLinks: Story = {
                 </HoverCard>
               </TableCell>
               <TableCell>{row.vendor}</TableCell>
-              <TableCell>{row.amount}</TableCell>
+              <TableCell>
+                <span className="tabular-nums">{row.amount}</span>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -804,6 +880,152 @@ export const StatusWithDetails: Story = {
           </StoryStack>
         </StoryStack>
       </HoverCardPanel>
+    </HoverCard>
+  ),
+};
+
+export const GovernanceSurfaceVariants: Story = {
+  name: "Governance — Surface Variants",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {(
+        [
+          { label: "standard / md", density: "standard", radius: "md" },
+          { label: "compact / sm", density: "compact", radius: "sm" },
+          { label: "standard / lg", density: "standard", radius: "lg" },
+        ] as const
+      ).map(({ label, density, radius }) => (
+        <HoverCard key={label} open>
+          <HoverCardTrigger asChild>
+            <Button emphasis="outline" intent="secondary" size="sm">
+              {label}
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent density={density} radius={radius} shadow="overlay">
+            <StoryStack gap="xs">
+              <span className="font-semibold text-sm">Surface probe</span>
+              <span className="text-muted-foreground text-xs">{label}</span>
+            </StoryStack>
+          </HoverCardContent>
+        </HoverCard>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `HoverCardContent` — governed values (`data-slot="hover-card-content"`, `data-component="HoverCard"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <HoverCard open>
+      <HoverCardTrigger asChild>
+        <Button emphasis="outline" intent="secondary" size="sm">
+          Data authority probe
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-hover-card-content"
+      >
+        <span className="text-sm">
+          Inspect the content root — governed `data-*` attributes must override
+          consumer props.
+        </span>
+      </HoverCardContent>
+    </HoverCard>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Root role emits `hover-card-content`; portal and trigger use slot keys.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → hover-card-content · trigger → hover-card-trigger · portal →
+          hover-card-portal
+        </p>
+        <HoverCard open>
+          <HoverCardTrigger asChild>
+            <Button emphasis="outline" intent="secondary" size="sm">
+              Inspect slots
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent data-testid="slot-map-content">
+            <span className="text-sm">
+              Open DevTools and verify `data-component`, `data-recipe`, and
+              `data-slot` on each hover card part.
+            </span>
+          </HoverCardContent>
+        </HoverCard>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <HoverCardStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    density: { control: "select", options: [...DENSITIES] },
+    radius: { control: "select", options: [...GOVERNED_PANEL_RADII] },
+    shadow: { control: "select", options: [...GOVERNED_PANEL_SHADOWS] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    density: "standard",
+    radius: "md",
+    shadow: "overlay",
+    state: "ready",
+  },
+  render: ({ density, radius, shadow, state }) => (
+    <HoverCard open>
+      <HoverCardTrigger asChild>
+        <Button emphasis="outline" intent="secondary" size="sm">
+          Hover card playground
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent
+        density={density}
+        radius={radius}
+        shadow={shadow}
+        state={state}
+      >
+        <span className="text-sm">
+          Adjust density, radius, shadow, and governed state from controls.
+        </span>
+      </HoverCardContent>
     </HoverCard>
   ),
 };

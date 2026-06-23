@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { createRef } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   AlertDialog,
@@ -11,7 +11,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogMedia,
+  AlertDialogOverlay,
+  AlertDialogPortal,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "../../index";
 import {
   expectGovernedDataAuthority,
@@ -163,5 +166,124 @@ describe("AlertDialog governance", () => {
     );
 
     expect(ref.current).toBe(screen.getByText("Title"));
+  });
+
+  it("keeps governed data attributes authoritative on AlertDialogOverlay", () => {
+    render(
+      <AlertDialog open>
+        <AlertDialogPortal>
+          <AlertDialogOverlay
+            data-component="Override"
+            data-recipe="override"
+            data-slot="override"
+            data-state="fake"
+            data-testid="alert-dialog-overlay"
+          />
+        </AlertDialogPortal>
+      </AlertDialog>
+    );
+
+    const overlay = screen.getByTestId("alert-dialog-overlay");
+
+    expectGovernedDataAuthority(overlay, {
+      "data-component": "AlertDialog",
+      "data-recipe": "surface",
+      "data-slot": "alert-dialog-overlay",
+      "data-state": "ready",
+    });
+    expectGovernedPrimitive(overlay, {
+      component: "AlertDialog",
+      slot: "alert-dialog-overlay",
+      recipe: "surface",
+      state: "ready",
+    });
+  });
+
+  it("forwards ref to AlertDialogOverlay", () => {
+    const ref = createRef<HTMLDivElement>();
+
+    render(
+      <AlertDialog open>
+        <AlertDialogPortal>
+          <AlertDialogOverlay ref={ref} />
+        </AlertDialogPortal>
+      </AlertDialog>
+    );
+
+    expect(ref.current).not.toBeNull();
+    expect(ref.current).toHaveAttribute("data-slot", "alert-dialog-overlay");
+  });
+
+  it("keeps structural data-slot authoritative on AlertDialogTrigger", () => {
+    render(
+      <AlertDialog>
+        <AlertDialogTrigger data-slot="override" data-testid="alert-dialog-trigger">
+          Open dialog
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogTitle>Confirm</AlertDialogTitle>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    expect(screen.getByTestId("alert-dialog-trigger")).toHaveAttribute(
+      "data-slot",
+      "alert-dialog-trigger"
+    );
+  });
+
+  it("passes defaultOpen through AlertDialog root", () => {
+    render(
+      <AlertDialog defaultOpen>
+        <AlertDialogContent>
+          <AlertDialogTitle>Opened by default</AlertDialogTitle>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    expect(
+      screen.getByRole("alertdialog", { name: "Opened by default" })
+    ).toBeInTheDocument();
+  });
+
+  it("passes onOpenChange through AlertDialog root", () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <AlertDialog onOpenChange={onOpenChange} open>
+        <AlertDialogContent>
+          <AlertDialogTitle>Confirm</AlertDialogTitle>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+  });
+
+  it("keeps governed data attributes authoritative on AlertDialogTitle", () => {
+    render(
+      <AlertDialog open>
+        <AlertDialogContent>
+          <AlertDialogTitle
+            data-component="Override"
+            data-recipe="override"
+            data-slot="override"
+            data-testid="alert-dialog-title"
+          >
+            Delete item
+          </AlertDialogTitle>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+
+    const title = screen.getByTestId("alert-dialog-title");
+
+    expectGovernedDataAuthority(title, {
+      "data-component": "AlertDialog",
+      "data-recipe": "surface",
+      "data-slot": "alert-dialog-title",
+      "data-state": "ready",
+    });
   });
 });

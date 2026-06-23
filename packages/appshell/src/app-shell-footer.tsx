@@ -1,4 +1,9 @@
-import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "@afenda/ui";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import type { ApplicationShellResolvedChrome } from "./app-shell.types";
@@ -30,14 +35,14 @@ export function AppShellFooter({ chrome }: AppShellFooterProps) {
       <div className="app-shell-footer-inner">
         <p className="app-shell-footer-copy">
           {`©${new Date().getFullYear()}`}{" "}
-          {chrome.footerBrand !== "" ? (
+          {chrome.footerBrand === "" ? null : (
             <a
               className="app-shell-footer-brand-link"
               href={chrome.footerBrandHref}
             >
               {chrome.footerBrand}
             </a>
-          ) : null}
+          )}
           . All rights reserved.
         </p>
         <div className="app-shell-footer-social">

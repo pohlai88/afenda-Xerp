@@ -1,6 +1,6 @@
 "use client";
 
-import type { GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import type { GovernedDialogProps, GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -24,11 +24,15 @@ function Dialog({
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
+Dialog.displayName = "Dialog";
+
 function DialogTrigger({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
+
+DialogTrigger.displayName = "DialogTrigger";
 
 function DialogPortal({
   ...props
@@ -36,11 +40,15 @@ function DialogPortal({
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
+DialogPortal.displayName = "DialogPortal";
+
 function DialogClose({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
+
+DialogClose.displayName = "DialogClose";
 
 interface DialogOverlayProps
   extends Omit<
@@ -76,7 +84,8 @@ export interface DialogContentProps
       React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
       "className"
     >,
-    GovernedSurfaceProps {
+    GovernedSurfaceProps,
+    GovernedDialogProps {
   readonly className?: string;
   readonly showCloseButton?: boolean;
 }
@@ -93,6 +102,7 @@ const DialogContent = React.forwardRef<
       density = "standard",
       radius = "md",
       shadow = "overlay",
+      state,
       ...props
     },
     ref
@@ -101,6 +111,7 @@ const DialogContent = React.forwardRef<
       componentName: "Dialog",
       recipeName: DIALOG_RECIPE_NAME,
       variant: { density, radius, shadow },
+      state,
       slot: "root",
       className,
     });
@@ -134,7 +145,7 @@ const DialogContent = React.forwardRef<
                   presentation="icon"
                   size="sm"
                 >
-                  <XIcon />
+                  <XIcon aria-hidden="true" />
                   <span {...applyGovernedPresentation({}, closeLabel)}>
                     Close
                   </span>

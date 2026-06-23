@@ -52,6 +52,33 @@ describe("layout and display primitive governance", () => {
       expect(root).toHaveAttribute("data-slot", "collapsible");
       expect(root).toHaveAttribute("data-component", "Collapsible");
     });
+
+    it("renders content with governed data-slot", () => {
+      render(
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+          <CollapsibleContent>Content</CollapsibleContent>
+        </Collapsible>
+      );
+
+      expect(
+        screen.getByText("Content").closest("[data-slot='collapsible-content']")
+      ).toBeTruthy();
+    });
+
+    it("applies governed state to root", () => {
+      render(
+        <Collapsible data-testid="collapsible-root" state="loading">
+          <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+          <CollapsibleContent>Content</CollapsibleContent>
+        </Collapsible>
+      );
+
+      expect(screen.getByTestId("collapsible-root")).toHaveAttribute(
+        "data-state",
+        "loading"
+      );
+    });
   });
 
   describe("ScrollArea", () => {
@@ -145,6 +172,16 @@ describe("layout and display primitive governance", () => {
       const root = screen.getByTestId("empty-root");
       expect(root).toHaveAttribute("data-slot", "empty");
       expect(root).toHaveAttribute("data-component", "Empty");
+    });
+
+    it("applies governed state on root", () => {
+      render(
+        <Empty data-testid="empty-root" state="loading">
+          No results
+        </Empty>
+      );
+      const root = screen.getByTestId("empty-root");
+      expect(root).toHaveAttribute("data-state", "loading");
     });
   });
 

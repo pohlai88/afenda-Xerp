@@ -5,10 +5,10 @@ import type { ReactNode } from "react";
 import type { DashboardWidgetId } from "./dashboard-widget.contract";
 
 export interface DashboardGridWidgetProps {
-  readonly widgetId: DashboardWidgetId;
-  readonly title: string;
-  readonly editMode: boolean;
   readonly children: ReactNode;
+  readonly editMode: boolean;
+  readonly title: string;
+  readonly widgetId: DashboardWidgetId;
 }
 
 /** One react-grid-layout cell wrapping a single dashboard widget instance. */

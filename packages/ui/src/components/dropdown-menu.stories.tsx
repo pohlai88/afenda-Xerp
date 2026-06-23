@@ -1,4 +1,4 @@
-import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ArchiveIcon,
@@ -21,7 +21,15 @@ import {
   UserIcon,
   UserPlusIcon,
 } from "lucide-react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import React from "react";
+import {
+  EXPORT_COLUMNS,
+  INVOICE_ROWS,
+  RecordActionsMenu,
+  RowActionsTrigger,
+  StandardRecordActions,
+} from "./_storybook/dropdown-menu-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -48,75 +56,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-
-// ─── Shared data ─────────────────────────────────────────────────────────────
-
-const INVOICE_ROWS = [
-  { id: "INV-001", status: "Active", tone: "success", amount: "$4,850" },
-  { id: "INV-002", status: "Pending", tone: "warning", amount: "$1,200" },
-  { id: "INV-003", status: "Overdue", tone: "danger", amount: "$8,750" },
-] as const;
-
-const EXPORT_COLUMNS = [
-  { id: "col-id", label: "Employee ID", checked: true },
-  { id: "col-name", label: "Full name", checked: true },
-  { id: "col-dept", label: "Department", checked: true },
-  { id: "col-email", label: "Email", checked: false },
-  { id: "col-phone", label: "Phone", checked: false },
-  { id: "col-status", label: "Status", checked: true },
-] as const;
-
-function RowActionsTrigger({
-  label = "Row actions",
-}: {
-  readonly label?: string;
-}) {
-  return (
-    <DropdownMenuTrigger asChild>
-      <Button
-        aria-label={label}
-        emphasis="ghost"
-        intent="quiet"
-        presentation="icon"
-        size="sm"
-      >
-        <MoreHorizontalIcon />
-      </Button>
-    </DropdownMenuTrigger>
-  );
-}
-
-function StandardRecordActions({ recordId }: { readonly recordId: string }) {
-  return (
-    <>
-      <DropdownMenuLabel>{recordId}</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem>
-        <EyeIcon />
-        View
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <EditIcon />
-        Edit
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <CopyIcon />
-        Duplicate
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <HistoryIcon />
-        Audit log
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem variant="destructive">
-        <Trash2Icon />
-        Delete
-      </DropdownMenuItem>
-    </>
-  );
-}
-
-// ─── DropdownMenu ──────────────────────────────────────────────────────────
 
 const meta = {
   title: "Primitives/DropdownMenu",
@@ -145,16 +84,16 @@ export const Default: Story = {
         <RowActionsTrigger />
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <EyeIcon />
+            <EyeIcon aria-hidden="true" />
             View details
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <EditIcon />
+            <EditIcon aria-hidden="true" />
             Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">
-            <Trash2Icon />
+            <Trash2Icon aria-hidden="true" />
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -357,6 +296,57 @@ export const WithShortcuts: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed dropdown menu item attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <DropdownMenu open>
+        <DropdownMenuTrigger>Row actions</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem
+            data-component="Override"
+            data-recipe="override"
+            data-slot="override"
+            data-state="fake"
+          >
+            View record
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryRow align="center" gap="md" key={state}>
+          <StoryCaption>{state}</StoryCaption>
+          <StoryFrame width="sm">
+            <DropdownMenu open state={state}>
+              <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>View ({state})</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </StoryFrame>
+        </StoryRow>
+      ))}
+    </StoryStack>
+  ),
+};
+
 export const GovernanceAccessibility: Story = {
   name: "Governance — Accessibility",
   parameters: {
@@ -373,11 +363,11 @@ export const GovernanceAccessibility: Story = {
         <RowActionsTrigger label="Accessible row actions" />
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <EyeIcon />
+            <EyeIcon aria-hidden="true" />
             View record
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive">
-            <Trash2Icon />
+            <Trash2Icon aria-hidden="true" />
             Delete record
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -426,10 +416,10 @@ export const TableRowActions: Story = {
             <span className="w-24 text-sm tabular-nums">{amount}</span>
             <span className="flex w-20 justify-end">
               <DropdownMenu>
-                <RowActionsTrigger label={`Actions for ${id}`} />
-                <DropdownMenuContent align="end">
-                  <StandardRecordActions recordId={id} />
-                </DropdownMenuContent>
+                <RecordActionsMenu
+                  label={`Actions for ${id}`}
+                  recordId={id}
+                />
               </DropdownMenu>
             </span>
           </StoryRow>
@@ -454,40 +444,44 @@ export const UserAccountMenu: Story = {
           </StoryRow>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="font-normal">
-          <StoryStack gap="xs">
-            <span className="font-medium text-sm">Jane Doe</span>
-            <span className="text-muted-foreground text-xs">
-              jane.doe@company.com
-            </span>
-            <Badge emphasis="soft" size="sm" tone="info">
-              Finance admin
-            </Badge>
-          </StoryStack>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+      <DropdownMenuContent align="end">
+        <div className="w-56">
+          <DropdownMenuLabel>
+            <div className="font-normal">
+              <StoryStack gap="xs">
+                <span className="font-medium text-sm">Jane Doe</span>
+                <span className="text-muted-foreground text-xs">
+                  jane.doe@company.com
+                </span>
+                <Badge emphasis="soft" size="sm" tone="info">
+                  Finance admin
+                </Badge>
+              </StoryStack>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <UserIcon />
+              Profile settings
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <SettingsIcon />
+              Workspace preferences
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <HistoryIcon />
+              Activity log
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <UserIcon />
-            Profile settings
+            <Building2Icon />
+            Switch organization
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <SettingsIcon />
-            Workspace preferences
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <HistoryIcon />
-            Activity log
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Building2Icon />
-          Switch organization
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   ),

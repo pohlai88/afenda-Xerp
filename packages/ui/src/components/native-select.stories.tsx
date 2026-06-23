@@ -1,7 +1,13 @@
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ChangeEvent, ReactNode } from "react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { useState } from "react";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Label } from "./label";
 import {
@@ -162,31 +168,33 @@ function DenseGridRow({
   return (
     <StoryRow align="center" gap="sm" wrap>
       <span className="font-mono text-sm">{recordId}</span>
-      <NativeSelect
-        aria-label={`Status for ${recordId}`}
-        className="w-36"
-        defaultValue={status}
-        id={id}
-        size="sm"
-      >
-        {RECORD_STATUSES.map((item) => (
-          <NativeSelectOption key={item} value={item.toLowerCase()}>
-            {item}
-          </NativeSelectOption>
-        ))}
-      </NativeSelect>
-      <NativeSelect
-        aria-label={`Priority for ${recordId}`}
-        className="w-36"
-        defaultValue="medium"
-        size="sm"
-      >
-        {PRIORITY_LEVELS.map((item) => (
-          <NativeSelectOption key={item} value={item.toLowerCase()}>
-            {item}
-          </NativeSelectOption>
-        ))}
-      </NativeSelect>
+      <div className="w-36">
+        <NativeSelect
+          aria-label={`Status for ${recordId}`}
+          defaultValue={status}
+          id={id}
+          size="sm"
+        >
+          {RECORD_STATUSES.map((item) => (
+            <NativeSelectOption key={item} value={item.toLowerCase()}>
+              {item}
+            </NativeSelectOption>
+          ))}
+        </NativeSelect>
+      </div>
+      <div className="w-36">
+        <NativeSelect
+          aria-label={`Priority for ${recordId}`}
+          defaultValue="medium"
+          size="sm"
+        >
+          {PRIORITY_LEVELS.map((item) => (
+            <NativeSelectOption key={item} value={item.toLowerCase()}>
+              {item}
+            </NativeSelectOption>
+          ))}
+        </NativeSelect>
+      </div>
     </StoryRow>
   );
 }
@@ -205,6 +213,24 @@ const meta = {
           "Governed native `<select>` wrapper for ERP surfaces where OS pickers, mobile keyboards, and compact grid cells matter. Use for short fixed lists in dense tables and field workflows. Prefer Radix `Select` for styled overlays; use `Combobox` for searchable long lists.",
       },
     },
+  },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    size: {
+      control: "select",
+      options: ["default", "sm"],
+      description: "Native select density axis",
+      table: { defaultValue: { summary: "default" } },
+    },
+  },
+  args: {
+    state: "ready",
+    size: "default",
   },
 } satisfies Meta<typeof NativeSelect>;
 
@@ -361,6 +387,163 @@ export const SizeComparison: Story = {
           <NativeSelectOption value="pending">Pending</NativeSelectOption>
           <NativeSelectOption value="active">Active</NativeSelectOption>
         </LabeledNativeSelect>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+function NativeSelectStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <StoryFrame width="sm">
+        <NativeSelect aria-label={`State ${state}`} size="sm" state={state}>
+          <NativeSelectOption value="pending">Pending ({state})</NativeSelectOption>
+          <NativeSelectOption value="active">Active</NativeSelectOption>
+        </NativeSelect>
+      </StoryFrame>
+    </StoryRow>
+  );
+}
+
+export const Playground: Story = {
+  render: (args) => (
+    <StoryFrame width="sm">
+      <NativeSelect
+        aria-label="Playground status"
+        size={args.size}
+        state={args.state}
+      >
+        <NativeSelectOption value="">Select status…</NativeSelectOption>
+        {RECORD_STATUSES.map((status) => (
+          <NativeSelectOption key={status} value={status.toLowerCase()}>
+            {status}
+          </NativeSelectOption>
+        ))}
+      </NativeSelect>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on the select and options — governed attributes must win.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <NativeSelect
+        aria-label="Country"
+        data-slot="override"
+        data-state="fake"
+        state="ready"
+      >
+        <NativeSelectOption data-slot="override" value="">
+          Select country…
+        </NativeSelectOption>
+        <NativeSelectOption data-slot="override" value="us">
+          United States
+        </NativeSelectOption>
+      </NativeSelect>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal role `state` emits `native-select-option`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → native-select-wrapper · control → native-select · state →
+          native-select-option · icon → native-select-icon · optgroup →
+          native-select-optgroup
+        </p>
+        <NativeSelect aria-label="GL account">
+          <NativeSelectOption value="">Select account…</NativeSelectOption>
+          <NativeSelectOptGroup label="Assets">
+            {GL_ASSET_ACCOUNTS.map(({ value, label }) => (
+              <NativeSelectOption key={value} value={value}>
+                {label}
+              </NativeSelectOption>
+            ))}
+          </NativeSelectOptGroup>
+        </NativeSelect>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <NativeSelectStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Associate labels with `htmlFor` + `id`. In grid cells without visible labels, provide `aria-label`. Pass `required` on the native select for form validation hints.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <StoryStack gap="md">
+        <LabeledNativeSelect id="a11y-dept" label="Department" required>
+          <NativeSelectOption value="">Select department…</NativeSelectOption>
+          {DEPARTMENTS.map((department) => (
+            <NativeSelectOption
+              key={department}
+              value={department.toLowerCase()}
+            >
+              {department}
+            </NativeSelectOption>
+          ))}
+        </LabeledNativeSelect>
+        <div className="w-36">
+          <NativeSelect
+            aria-label="Inline status for PO-1042"
+            defaultValue="pending"
+            size="sm"
+          >
+            {RECORD_STATUSES.map((status) => (
+              <NativeSelectOption key={status} value={status.toLowerCase()}>
+                {status}
+              </NativeSelectOption>
+            ))}
+          </NativeSelect>
+        </div>
       </StoryStack>
     </StoryFrame>
   ),
@@ -642,48 +825,51 @@ export const BulkEditToolbar: Story = {
           </Badge>
         </StoryRow>
         <StoryRow align="center" gap="sm" wrap>
-          <NativeSelect
-            aria-label="Bulk update status"
-            className="w-40"
-            defaultValue=""
-            size="sm"
-          >
-            <NativeSelectOption value="">Set status…</NativeSelectOption>
-            {RECORD_STATUSES.map((status) => (
-              <NativeSelectOption key={status} value={status.toLowerCase()}>
-                {status}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
-          <NativeSelect
-            aria-label="Bulk update department"
-            className="w-40"
-            defaultValue=""
-            size="sm"
-          >
-            <NativeSelectOption value="">Set department…</NativeSelectOption>
-            {DEPARTMENTS.map((department) => (
-              <NativeSelectOption
-                key={department}
-                value={department.toLowerCase()}
-              >
-                {department}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
-          <NativeSelect
-            aria-label="Bulk update priority"
-            className="w-40"
-            defaultValue=""
-            size="sm"
-          >
-            <NativeSelectOption value="">Set priority…</NativeSelectOption>
-            {PRIORITY_LEVELS.map((priority) => (
-              <NativeSelectOption key={priority} value={priority.toLowerCase()}>
-                {priority}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
+          <div className="w-40">
+            <NativeSelect
+              aria-label="Bulk update status"
+              defaultValue=""
+              size="sm"
+            >
+              <NativeSelectOption value="">Set status…</NativeSelectOption>
+              {RECORD_STATUSES.map((status) => (
+                <NativeSelectOption key={status} value={status.toLowerCase()}>
+                  {status}
+                </NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </div>
+          <div className="w-40">
+            <NativeSelect
+              aria-label="Bulk update department"
+              defaultValue=""
+              size="sm"
+            >
+              <NativeSelectOption value="">Set department…</NativeSelectOption>
+              {DEPARTMENTS.map((department) => (
+                <NativeSelectOption
+                  key={department}
+                  value={department.toLowerCase()}
+                >
+                  {department}
+                </NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </div>
+          <div className="w-40">
+            <NativeSelect
+              aria-label="Bulk update priority"
+              defaultValue=""
+              size="sm"
+            >
+              <NativeSelectOption value="">Set priority…</NativeSelectOption>
+              {PRIORITY_LEVELS.map((priority) => (
+                <NativeSelectOption key={priority} value={priority.toLowerCase()}>
+                  {priority}
+                </NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </div>
         </StoryRow>
       </StoryStack>
     </StoryFrame>
@@ -720,47 +906,6 @@ export const NativeSelectVsRadixSelect: Story = {
           See Primitives/Select for Radix overlay pickers with groups,
           separators, and custom item layouts.
         </span>
-      </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Associate labels with `htmlFor` + `id`. In grid cells without visible labels, provide `aria-label`. Pass `required` on the native select for form validation hints.",
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="sm">
-      <StoryStack gap="md">
-        <LabeledNativeSelect id="a11y-dept" label="Department" required>
-          <NativeSelectOption value="">Select department…</NativeSelectOption>
-          {DEPARTMENTS.map((department) => (
-            <NativeSelectOption
-              key={department}
-              value={department.toLowerCase()}
-            >
-              {department}
-            </NativeSelectOption>
-          ))}
-        </LabeledNativeSelect>
-        <NativeSelect
-          aria-label="Inline status for PO-1042"
-          className="w-36"
-          defaultValue="pending"
-          size="sm"
-        >
-          {RECORD_STATUSES.map((status) => (
-            <NativeSelectOption key={status} value={status.toLowerCase()}>
-              {status}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
       </StoryStack>
     </StoryFrame>
   ),

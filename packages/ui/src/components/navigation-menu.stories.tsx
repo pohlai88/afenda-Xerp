@@ -1,4 +1,4 @@
-import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   BarChart3Icon,
@@ -11,7 +11,12 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -124,6 +129,23 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    viewport: {
+      control: "boolean",
+      description: "Render shared NavigationMenu viewport",
+      table: { defaultValue: { summary: "true" } },
+    },
+  },
+  args: {
+    state: "ready",
+    viewport: true,
+  },
 } satisfies Meta<typeof NavigationMenu>;
 
 export default meta;
@@ -229,6 +251,180 @@ export const WithIndicator: Story = {
       </NavigationMenuList>
       <NavigationMenuIndicator />
     </NavigationMenu>
+  ),
+};
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+function NavigationMenuStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryRow align="center" gap="md">
+      <StoryCaption>{state}</StoryCaption>
+      <StoryFrame width="md">
+        <NavigationMenu state={state}>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="#">Home ({state})</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </StoryFrame>
+    </StoryRow>
+  );
+}
+
+export const Playground: Story = {
+  render: (args) => (
+    <NavigationMenu state={args.state} viewport={args.viewport}>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Modules</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <StoryFrame padding="md" width="sm">
+              <NavigationMenuLink href="#">Finance</NavigationMenuLink>
+            </StoryFrame>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#">Reports</NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on root, trigger, content, and links — governed attributes must win.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <NavigationMenu
+        data-slot="override"
+        data-state="fake"
+        state="ready"
+        value="finance"
+      >
+        <NavigationMenuList>
+          <NavigationMenuItem value="finance">
+            <NavigationMenuTrigger data-slot="override">Finance</NavigationMenuTrigger>
+            <NavigationMenuContent data-slot="override" forceMount>
+              <NavigationMenuLink data-slot="override" href="#">
+                Invoices
+              </NavigationMenuLink>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink data-slot="override" href="#">
+              Reports
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values from `primitive-registry.ts`. Internal roles (`body`, `content`, `header`, `label`) emit `navigation-menu-list`, `navigation-menu-item`, `navigation-menu-content`, `navigation-menu-link`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → navigation-menu · body → navigation-menu-list · content →
+          navigation-menu-item · control/trigger-style → navigation-menu-trigger
+          · header → navigation-menu-content · label → navigation-menu-link ·
+          state → navigation-menu-indicator · footer →
+          navigation-menu-viewport-wrapper · actions → navigation-menu-viewport
+          · trigger-chevron → navigation-menu-trigger-chevron ·
+          indicator-arrow → navigation-menu-indicator-arrow
+        </p>
+        <NavigationMenu value="inspect">
+          <NavigationMenuList>
+            <NavigationMenuItem value="inspect">
+              <NavigationMenuTrigger>Inspect</NavigationMenuTrigger>
+              <NavigationMenuContent forceMount>
+                <NavigationMenuLink href="#">Panel link</NavigationMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="#">Simple link</NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+          <NavigationMenuIndicator />
+        </NavigationMenu>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <NavigationMenuStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "NavigationMenu provides keyboard navigation between triggers and panel links. Use descriptive link labels; supplement icon-only entries with visible text or `aria-label` on the trigger.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <nav aria-label="ERP module navigation">
+        <ErpNavMenu>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Finance</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <StoryFrame padding="md" width="sm">
+                <StoryStack gap="xs">
+                  <NavigationMenuLink asChild>
+                    <a href="#">Invoices — accounts payable</a>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <a href="#">Journal entries — general ledger</a>
+                  </NavigationMenuLink>
+                </StoryStack>
+              </StoryFrame>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#">Approvals inbox</NavigationMenuLink>
+          </NavigationMenuItem>
+        </ErpNavMenu>
+      </nav>
+    </StoryFrame>
   ),
 };
 
@@ -767,7 +963,7 @@ export const ErpModuleIconsMenu: Story = {
                 <NavigationMenuLink asChild key={label}>
                   <a href={href}>
                     <StoryRow align="center" gap="xs">
-                      <Icon className="size-5 text-muted-foreground" />
+                      <Icon aria-hidden="true" className="size-5 text-muted-foreground" />
                       <span className="text-sm">{label}</span>
                     </StoryRow>
                   </a>
@@ -780,7 +976,7 @@ export const ErpModuleIconsMenu: Story = {
       <NavigationMenuItem>
         <NavigationMenuLink href="#">
           <StoryRow align="center" gap="xs">
-            <ShieldIcon className="size-4" />
+            <ShieldIcon aria-hidden="true" className="size-4" />
             <span>Admin</span>
           </StoryRow>
         </NavigationMenuLink>
@@ -788,7 +984,7 @@ export const ErpModuleIconsMenu: Story = {
       <NavigationMenuItem>
         <NavigationMenuLink href="#">
           <StoryRow align="center" gap="xs">
-            <SettingsIcon className="size-4" />
+            <SettingsIcon aria-hidden="true" className="size-4" />
             <span>Settings</span>
           </StoryRow>
         </NavigationMenuLink>
@@ -882,44 +1078,6 @@ export const NavigationMenuVsDropdown: Story = {
           </DropdownMenu>
         </StoryStack>
       </StoryStack>
-    </StoryFrame>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "NavigationMenu provides keyboard navigation between triggers and panel links. Use descriptive link labels; supplement icon-only entries with visible text or `aria-label` on the trigger.",
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="lg">
-      <nav aria-label="ERP module navigation">
-        <ErpNavMenu>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Finance</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <StoryFrame padding="md" width="sm">
-                <StoryStack gap="xs">
-                  <NavigationMenuLink asChild>
-                    <a href="#">Invoices — accounts payable</a>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <a href="#">Journal entries — general ledger</a>
-                  </NavigationMenuLink>
-                </StoryStack>
-              </StoryFrame>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink href="#">Approvals inbox</NavigationMenuLink>
-          </NavigationMenuItem>
-        </ErpNavMenu>
-      </nav>
     </StoryFrame>
   ),
 };

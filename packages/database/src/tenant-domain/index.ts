@@ -21,3 +21,11 @@ export {
   type DatabaseTenantDomainImplementationStatus,
   type DatabaseTenantDomainModule,
 } from "./tenant-domain-registry.js";
+export {
+  MULTI_TENANCY_FORBIDDEN_ACCOUNTING_SCHEMA_FILES,
+  MULTI_TENANCY_FOUNDATION_TABLES,
+  MULTI_TENANCY_LOOKUP_FUNCTIONS,
+  MULTI_TENANCY_REQUIRED_INDEXES,
+  type MultiTenancyFoundationTable,
+  type MultiTenancyRequiredIndexKey,
+} from "./persistence-lookup-registry.js";

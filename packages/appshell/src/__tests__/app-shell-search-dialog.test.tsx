@@ -84,7 +84,20 @@ describe("AppShellSearchDialog", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("accepts custom suggestion data", () => {
+  it("announces filtered result count via aria-live", async () => {
+    const user = setupUser();
+    renderSearchDialog({ defaultOpen: true });
+
+    const liveRegion = screen.getByText(/search results available/i);
+    expect(liveRegion).toHaveAttribute("aria-live", "polite");
+
+    await user.clear(screen.getByRole("searchbox"));
+    await user.type(screen.getByRole("searchbox"), "finance");
+
+    expect(screen.getByText(/results for "finance"/)).toBeInTheDocument();
+  });
+
+  it("allows custom suggestions override", () => {
     renderSearchDialog({
       defaultOpen: true,
       suggestions: [

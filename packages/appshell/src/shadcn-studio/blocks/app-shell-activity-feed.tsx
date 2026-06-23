@@ -1,13 +1,21 @@
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Separator,
+} from "@afenda/ui";
+import type {
+  GovernedBadgeProps,
+  GovernedUiComponentName,
+} from "@afenda/ui/governance";
 import { ImageIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, Separator } from "@afenda/ui";
-import type { GovernedBadgeProps, GovernedUiComponentName } from "@afenda/ui/governance";
-
 import {
-  defaultAppShellActivities,
   type AppShellActivityActor,
   type AppShellActivityItem,
   type AppShellActivityTagTone,
+  defaultAppShellActivities,
 } from "../data/app-shell.data";
 
 const ACTIVITY_SUMMARY_ID_PREFIX = "app-shell-activity";
@@ -24,10 +32,10 @@ type GovernedActivityTagTone = NonNullable<GovernedBadgeProps["tone"]>;
 export interface AppShellActivityFeedProps {
   /** Activity feed rows. Defaults to ERP demo data from `defaultAppShellActivities`. */
   readonly activities?: readonly AppShellActivityItem[];
-  /** Accessible name for the feed landmark. */
-  readonly feedLabel?: string;
   /** Optional layout class on the scroll container (plain HTML wrapper only). */
   readonly className?: string;
+  /** Accessible name for the feed landmark. */
+  readonly feedLabel?: string;
 }
 
 function activitySummaryId(activityId: string): string {
@@ -35,10 +43,16 @@ function activitySummaryId(activityId: string): string {
 }
 
 function joinClassNames(...values: readonly (string | undefined)[]): string {
-  return values.filter((value) => value !== undefined && value.length > 0).join(" ");
+  return values
+    .filter((value) => value !== undefined && value.length > 0)
+    .join(" ");
 }
 
-function ActivityActorAvatar({ actor }: { readonly actor: AppShellActivityActor }) {
+function ActivityActorAvatar({
+  actor,
+}: {
+  readonly actor: AppShellActivityActor;
+}) {
   return (
     <Avatar>
       <AvatarImage alt={actor.name} src={actor.avatarSrc} />
@@ -61,10 +75,13 @@ function ActivitySummary({
   return (
     <div className="app-shell-activity-summary">
       <p>
-        <span className="app-shell-activity-actor-name">{actorName}</span> {action}
+        <span className="app-shell-activity-actor-name">{actorName}</span>{" "}
+        {action}
       </p>
       <p>
-        <time dateTime={occurredAt}>{relativeTime}</time>
+        <time className="app-shell-activity-time" dateTime={occurredAt}>
+          {relativeTime}
+        </time>
       </p>
     </div>
   );
@@ -74,15 +91,24 @@ function ActivityMentionAttachment({ quote }: { readonly quote: string }) {
   return (
     <div className="app-shell-activity-mention">
       <p className="app-shell-activity-mention-quote">{quote}</p>
-      <div aria-label="Reply to mention" className="app-shell-activity-reply-group" role="group">
+      <div
+        aria-label="Reply to mention"
+        className="app-shell-activity-reply-group"
+        role="group"
+      >
         <input
           aria-label="Reply message"
           className="app-shell-activity-reply-input"
           placeholder="Reply"
           type="text"
         />
-        <ImageIcon aria-hidden className="app-shell-activity-reply-icon" />
-        <span className="sr-only">Attach image</span>
+        <button
+          aria-label="Attach image"
+          className="app-shell-activity-reply-attach"
+          type="button"
+        >
+          <ImageIcon aria-hidden className="app-shell-activity-reply-icon" />
+        </button>
       </div>
     </div>
   );
@@ -101,7 +127,11 @@ function ActivityFileInlineAttachment({
 }) {
   return (
     <a className="app-shell-activity-file-inline" href={fileHref}>
-      <img alt={thumbnailAlt} className="app-shell-activity-file-inline-thumb" src={thumbnailSrc} />
+      <img
+        alt={thumbnailAlt}
+        className="app-shell-activity-file-inline-thumb"
+        src={thumbnailSrc}
+      />
       <span className="app-shell-activity-file-inline-name">{fileName}</span>
     </a>
   );
@@ -120,7 +150,11 @@ function ActivityFileCardAttachment({
 }) {
   return (
     <a className="app-shell-activity-file-card" href={fileHref}>
-      <img alt={thumbnailAlt} className="app-shell-activity-file-card-thumb" src={thumbnailSrc} />
+      <img
+        alt={thumbnailAlt}
+        className="app-shell-activity-file-card-thumb"
+        src={thumbnailSrc}
+      />
       <span className="app-shell-activity-file-card-name">{fileName}</span>
     </a>
   );
@@ -138,8 +172,8 @@ function ActivityTagGroup({
     <div className="app-shell-activity-tag-group">
       {tags.map((tag) => (
         <Badge
-          key={tag.label}
           emphasis="soft"
+          key={tag.label}
           tone={tag.tone satisfies GovernedActivityTagTone}
         >
           {tag.label}
@@ -149,7 +183,11 @@ function ActivityTagGroup({
   );
 }
 
-function ActivityFeedAttachment({ item }: { readonly item: AppShellActivityItem }) {
+function ActivityFeedAttachment({
+  item,
+}: {
+  readonly item: AppShellActivityItem;
+}) {
   switch (item.kind) {
     case "mention":
       return <ActivityMentionAttachment quote={item.quote} />;
@@ -202,7 +240,8 @@ function ActivityFeedRow({ item }: { readonly item: AppShellActivityItem }) {
 function ActivityFeedEmptyState() {
   return (
     <p className="app-shell-activity-empty" role="status">
-      No team activity yet. Module updates, approvals, and shared documents will appear here.
+      No team activity yet. Module updates, approvals, and shared documents will
+      appear here.
     </p>
   );
 }
@@ -222,12 +261,17 @@ export function AppShellActivityFeed({
 
   return (
     <div className={joinClassNames("app-shell-activity-feed", className)}>
-      <ul aria-label={feedLabel} className="list-none" role="feed">
+      <ul
+        aria-label={feedLabel}
+        aria-live="polite"
+        className="app-shell-activity-feed-list"
+        role="feed"
+      >
         {activities.map((item, index) => (
           <li key={item.id}>
             <ActivityFeedRow item={item} />
             {index < activities.length - 1 ? (
-              <div role="presentation">
+              <div className="app-shell-activity-separator" role="presentation">
                 <Separator />
               </div>
             ) : null}

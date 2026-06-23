@@ -1,7 +1,6 @@
-import { useId } from "react";
-
 import { Avatar, AvatarFallback, Card, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useId } from "react";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -27,11 +26,11 @@ export type AppShellDashboardRecentTransactionsGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardRecentTransactionsProps {
-  readonly title?: string;
-  readonly subtitle?: string;
   readonly comparisonText?: string;
-  readonly transactions?: readonly AppShellDashboardTransactionRow[];
   readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
+  readonly subtitle?: string;
+  readonly title?: string;
+  readonly transactions?: readonly AppShellDashboardTransactionRow[];
 }
 
 interface TransactionTotals {
@@ -78,7 +77,11 @@ function computeTransactionTotals(
   );
 }
 
-function TransactionRow({ transaction }: { readonly transaction: AppShellDashboardTransactionRow }) {
+function TransactionRow({
+  transaction,
+}: {
+  readonly transaction: AppShellDashboardTransactionRow;
+}) {
   const rowLabel = `${transaction.paymentMethod}, ${transaction.module}, ${formatSignedAmount(transaction.direction, transaction.amount)}`;
 
   return (
@@ -87,7 +90,10 @@ function TransactionRow({ transaction }: { readonly transaction: AppShellDashboa
         <Avatar>
           <AvatarFallback>
             <div className="app-shell-dashboard-transaction-icon-frame">
-              <transaction.Icon aria-hidden className="app-shell-dashboard-transaction-icon" />
+              <transaction.Icon
+                aria-hidden
+                className="app-shell-dashboard-transaction-icon"
+              />
             </div>
           </AvatarFallback>
         </Avatar>
@@ -95,7 +101,9 @@ function TransactionRow({ transaction }: { readonly transaction: AppShellDashboa
           <span className="app-shell-dashboard-transaction-title">
             {transaction.paymentMethod}
           </span>
-          <span className="app-shell-dashboard-transaction-subtitle">{transaction.module}</span>
+          <span className="app-shell-dashboard-transaction-subtitle">
+            {transaction.module}
+          </span>
         </div>
       </div>
       <span
@@ -118,20 +126,27 @@ export function AppShellDashboardRecentTransactions({
   transactions = defaultAppShellDashboardTransactions,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardRecentTransactionsProps) {
+  const titleId = useId();
   const summaryId = useId();
+  const listLabelId = useId();
   const { credits, debits, net } = computeTransactionTotals(transactions);
   const postingsLabel =
     transactions.length === 1 ? "1 posting" : `${transactions.length} postings`;
 
   return (
-    <div className="app-shell-dashboard-widget">
+    <article aria-labelledby={titleId} className="app-shell-dashboard-widget">
       <Card>
         <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
           <div className="app-shell-dashboard-widget-heading">
-            <span className="app-shell-dashboard-widget-title">{title}</span>
-            <span className="app-shell-dashboard-widget-subtitle">{subtitle}</span>
+            <h2 className="app-shell-dashboard-widget-title" id={titleId}>
+              {title}
+            </h2>
+            <p className="app-shell-dashboard-widget-subtitle">{subtitle}</p>
           </div>
-          <AppShellDashboardOverflowMenu items={overflowItems} />
+          <AppShellDashboardOverflowMenu
+            items={overflowItems}
+            menuLabel="Recent transactions actions"
+          />
         </div>
 
         <div className="app-shell-dashboard-widget-body">
@@ -140,7 +155,10 @@ export function AppShellDashboardRecentTransactions({
             className="app-shell-dashboard-transaction-summary"
           >
             <div className="app-shell-dashboard-transaction-total-row">
-              <span className="app-shell-dashboard-transaction-total" id={summaryId}>
+              <span
+                className="app-shell-dashboard-transaction-total"
+                id={summaryId}
+              >
                 {formatNetFlow(net)}
               </span>
               <span className="app-shell-dashboard-transaction-postings">
@@ -151,20 +169,27 @@ export function AppShellDashboardRecentTransactions({
               <span className="app-shell-dashboard-transaction-flow-item">
                 In {formatDashboardCurrency(credits)}
               </span>
-              <span aria-hidden="true" className="app-shell-dashboard-transaction-flow-divider">
+              <span
+                aria-hidden="true"
+                className="app-shell-dashboard-transaction-flow-divider"
+              >
                 ·
               </span>
               <span className="app-shell-dashboard-transaction-flow-item">
                 Out {formatDashboardCurrency(debits)}
               </span>
             </div>
-            <span className="app-shell-dashboard-transaction-comparison">{comparisonText}</span>
+            <span className="app-shell-dashboard-transaction-comparison">
+              {comparisonText}
+            </span>
           </section>
 
           <Separator />
 
           {transactions.length === 0 ? (
-            <p className="app-shell-dashboard-transaction-empty">No ledger activity yet.</p>
+            <p className="app-shell-dashboard-transaction-empty" role="status">
+              No ledger activity yet.
+            </p>
           ) : (
             <>
               <div
@@ -174,18 +199,24 @@ export function AppShellDashboardRecentTransactions({
                 <span>Transaction</span>
                 <span>Amount</span>
               </div>
+              <span className="sr-only" id={listLabelId}>
+                Recent ledger postings
+              </span>
               <ul
-                aria-labelledby={summaryId}
+                aria-labelledby={`${summaryId} ${listLabelId}`}
                 className="app-shell-dashboard-transaction-list"
               >
                 {transactions.map((transaction) => (
-                  <TransactionRow key={transaction.id} transaction={transaction} />
+                  <TransactionRow
+                    key={transaction.id}
+                    transaction={transaction}
+                  />
                 ))}
               </ul>
             </>
           )}
         </div>
       </Card>
-    </div>
+    </article>
   );
 }

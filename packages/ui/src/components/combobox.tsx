@@ -1,8 +1,8 @@
 "use client";
 
+import type { GovernedComboboxProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 import * as React from "react";
@@ -16,7 +16,18 @@ import {
 
 const COMBOBOX_RECIPE_NAME = "surface" as const;
 
-const Combobox = ComboboxPrimitive.Root;
+const COMBOBOX_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  content: "content",
+  control: "control",
+  state: "state",
+  footer: "footer",
+  label: "label",
+  actions: "actions",
+  header: "header",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
 
 type ComboboxClassName = string | undefined;
 
@@ -42,6 +53,10 @@ function comboboxStringClassName(className: unknown): ComboboxClassName {
   return typeof className === "string" ? className : undefined;
 }
 
+const Combobox = Object.assign(ComboboxPrimitive.Root, {
+  displayName: "Combobox",
+});
+
 function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
   const governed = comboboxGovernance({
     slotKey: "value",
@@ -51,14 +66,14 @@ function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
     <ComboboxPrimitive.Value {...applyGovernedPresentation(props, governed)} />
   );
 }
+ComboboxValue.displayName = "ComboboxValue";
 
-function ComboboxTrigger({
-  className,
-  children,
-  ...props
-}: ComboboxPrimitive.Trigger.Props) {
+const ComboboxTrigger = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Trigger>,
+  ComboboxPrimitive.Trigger.Props
+>(({ className, children, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "root",
+    slot: COMBOBOX_SLOT_ROLES.root,
     className: comboboxStringClassName(className),
   });
 
@@ -67,17 +82,24 @@ function ComboboxTrigger({
   });
 
   return (
-    <ComboboxPrimitive.Trigger {...applyGovernedPresentation(props, governed)}>
+    <ComboboxPrimitive.Trigger
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    >
       {children}
       <ChevronDownIcon
-        {...chevron.dataAttributes}
-        className={cn(chevron.className)}
+        aria-hidden="true"
+        {...applyGovernedPresentation({}, chevron)}
       />
     </ComboboxPrimitive.Trigger>
   );
-}
+});
+ComboboxTrigger.displayName = "ComboboxTrigger";
 
-function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
+const ComboboxClear = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Clear>,
+  ComboboxPrimitive.Clear.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
     slotKey: "clear",
     className: comboboxStringClassName(className),
@@ -87,125 +109,154 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
 
   return (
     <ComboboxPrimitive.Clear
+      ref={ref}
       render={<InputGroupButton emphasis="ghost" size="icon-xs" />}
       {...applyGovernedPresentation(props, governed)}
     >
       <XIcon
-        {...clearIcon.dataAttributes}
-        className={cn(clearIcon.className)}
+        aria-hidden="true"
+        {...applyGovernedPresentation({}, clearIcon)}
       />
     </ComboboxPrimitive.Clear>
   );
-}
+});
+ComboboxClear.displayName = "ComboboxClear";
 
-function ComboboxInput({
-  className,
-  children,
-  disabled = false,
-  showTrigger = true,
-  showClear = false,
-  ...props
-}: ComboboxPrimitive.Input.Props & {
-  readonly showTrigger?: boolean;
-  readonly showClear?: boolean;
-}) {
-  const shell = comboboxGovernance({
-    slotKey: "input-group-shell",
-    className: comboboxStringClassName(className),
-  });
+const ComboboxInput = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Input>,
+  ComboboxPrimitive.Input.Props & {
+    readonly showTrigger?: boolean;
+    readonly showClear?: boolean;
+  }
+>(
+  (
+    {
+      className,
+      children,
+      disabled = false,
+      showTrigger = true,
+      showClear = false,
+      ...props
+    },
+    ref
+  ) => {
+    const shell = comboboxGovernance({
+      slotKey: "input-group-shell",
+      className: comboboxStringClassName(className),
+    });
 
-  const triggerButton = comboboxGovernance({
-    slotKey: "input-group-button",
-  });
+    const triggerButton = comboboxGovernance({
+      slotKey: "input-group-button",
+    });
 
-  return (
-    <InputGroup {...shell.dataAttributes} className={cn(shell.className)}>
-      <ComboboxPrimitive.Input
-        render={<InputGroupInput disabled={disabled} />}
-        {...props}
-      />
-      <InputGroupAddon align="inline-end">
-        {showTrigger ? (
-          <InputGroupButton
-            asChild
-            data-slot="input-group-button"
-            emphasis="ghost"
-            size="icon-xs"
-            {...triggerButton.dataAttributes}
-            className={cn(triggerButton.className)}
-            disabled={disabled}
-          >
-            <ComboboxTrigger />
-          </InputGroupButton>
-        ) : null}
-        {showClear ? <ComboboxClear disabled={disabled} /> : null}
-      </InputGroupAddon>
-      {children}
-    </InputGroup>
-  );
-}
-
-function ComboboxContent({
-  className,
-  side = "bottom",
-  sideOffset = 6,
-  align = "start",
-  alignOffset = 0,
-  anchor,
-  ...props
-}: ComboboxPrimitive.Popup.Props &
-  Pick<
-    ComboboxPrimitive.Positioner.Props,
-    "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
-  >) {
-  const positioner = comboboxGovernance({
-    slotKey: "positioner",
-  });
-
-  const governed = comboboxGovernance({
-    slot: "body",
-    className: comboboxStringClassName(className),
-  });
-
-  return (
-    <ComboboxPrimitive.Portal>
-      <ComboboxPrimitive.Positioner
-        align={align}
-        alignOffset={alignOffset}
-        anchor={anchor}
-        side={side}
-        sideOffset={sideOffset}
-        {...positioner.dataAttributes}
-        className={cn(positioner.className)}
-      >
-        <ComboboxPrimitive.Popup
-          {...applyGovernedPresentation(props, governed, {
-            "data-chips": !!anchor,
-          })}
+    return (
+      <InputGroup {...applyGovernedPresentation({}, shell)}>
+        <ComboboxPrimitive.Input
+          ref={ref}
+          render={<InputGroupInput disabled={disabled} />}
+          {...props}
         />
-      </ComboboxPrimitive.Positioner>
-    </ComboboxPrimitive.Portal>
-  );
-}
+        <InputGroupAddon align="inline-end">
+          {showTrigger ? (
+            <span {...applyGovernedPresentation({}, triggerButton)}>
+              <InputGroupButton
+                asChild
+                disabled={disabled}
+                emphasis="ghost"
+                size="icon-xs"
+              >
+                <ComboboxTrigger />
+              </InputGroupButton>
+            </span>
+          ) : null}
+          {showClear ? <ComboboxClear disabled={disabled} /> : null}
+        </InputGroupAddon>
+        {children}
+      </InputGroup>
+    );
+  }
+);
+ComboboxInput.displayName = "ComboboxInput";
 
-function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
+const ComboboxContent = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Popup>,
+  ComboboxPrimitive.Popup.Props &
+    GovernedComboboxProps &
+    Pick<
+      ComboboxPrimitive.Positioner.Props,
+      "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
+    >
+>(
+  (
+    {
+      className,
+      side = "bottom",
+      sideOffset = 6,
+      align = "start",
+      alignOffset = 0,
+      anchor,
+      state,
+      ...props
+    },
+    ref
+  ) => {
+    const positioner = comboboxGovernance({
+      slotKey: "positioner",
+    });
+
+    const governed = comboboxGovernance({
+      slot: COMBOBOX_SLOT_ROLES.body,
+      state,
+      className: comboboxStringClassName(className),
+    });
+
+    return (
+      <ComboboxPrimitive.Portal>
+        <ComboboxPrimitive.Positioner
+          align={align}
+          alignOffset={alignOffset}
+          anchor={anchor}
+          side={side}
+          sideOffset={sideOffset}
+          {...applyGovernedPresentation({}, positioner)}
+        >
+          <ComboboxPrimitive.Popup
+            ref={ref}
+            {...applyGovernedPresentation(props, governed, {
+              "data-chips": !!anchor,
+            })}
+          />
+        </ComboboxPrimitive.Positioner>
+      </ComboboxPrimitive.Portal>
+    );
+  }
+);
+ComboboxContent.displayName = "ComboboxContent";
+
+const ComboboxList = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.List>,
+  ComboboxPrimitive.List.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "content",
+    slot: COMBOBOX_SLOT_ROLES.content,
     className: comboboxStringClassName(className),
   });
 
   return (
-    <ComboboxPrimitive.List {...applyGovernedPresentation(props, governed)} />
+    <ComboboxPrimitive.List
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
   );
-}
+});
+ComboboxList.displayName = "ComboboxList";
 
-function ComboboxItem({
-  className,
-  children,
-  ...props
-}: ComboboxPrimitive.Item.Props) {
+const ComboboxItem = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Item>,
+  ComboboxPrimitive.Item.Props
+>(({ className, children, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "control",
+    slot: COMBOBOX_SLOT_ROLES.control,
     className: comboboxStringClassName(className),
   });
 
@@ -216,51 +267,61 @@ function ComboboxItem({
   const checkIcon = comboboxGovernance({ slotKey: "check-icon" });
 
   return (
-    <ComboboxPrimitive.Item {...applyGovernedPresentation(props, governed)}>
+    <ComboboxPrimitive.Item
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    >
       {children}
       <ComboboxPrimitive.ItemIndicator
         render={
-          <span
-            {...indicator.dataAttributes}
-            className={cn(indicator.className)}
-          />
+          <span {...applyGovernedPresentation({}, indicator)} />
         }
       >
         <CheckIcon
-          {...checkIcon.dataAttributes}
-          className={cn(checkIcon.className)}
+          aria-hidden="true"
+          {...applyGovernedPresentation({}, checkIcon)}
         />
       </ComboboxPrimitive.ItemIndicator>
     </ComboboxPrimitive.Item>
   );
-}
+});
+ComboboxItem.displayName = "ComboboxItem";
 
-function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
+const ComboboxGroup = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Group>,
+  ComboboxPrimitive.Group.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
     slotKey: "group",
     className: comboboxStringClassName(className),
   });
 
   return (
-    <ComboboxPrimitive.Group {...applyGovernedPresentation(props, governed)} />
+    <ComboboxPrimitive.Group
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
   );
-}
+});
+ComboboxGroup.displayName = "ComboboxGroup";
 
-function ComboboxLabel({
-  className,
-  ...props
-}: ComboboxPrimitive.GroupLabel.Props) {
+const ComboboxLabel = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.GroupLabel>,
+  ComboboxPrimitive.GroupLabel.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "state",
+    slot: COMBOBOX_SLOT_ROLES.state,
     className: comboboxStringClassName(className),
   });
 
   return (
     <ComboboxPrimitive.GroupLabel
+      ref={ref}
       {...applyGovernedPresentation(props, governed)}
     />
   );
-}
+});
+ComboboxLabel.displayName = "ComboboxLabel";
 
 function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
   const governed = comboboxGovernance({
@@ -273,59 +334,70 @@ function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
     />
   );
 }
+ComboboxCollection.displayName = "ComboboxCollection";
 
-function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
+const ComboboxEmpty = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Empty>,
+  ComboboxPrimitive.Empty.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "label",
+    slot: COMBOBOX_SLOT_ROLES.label,
     className: comboboxStringClassName(className),
   });
 
   return (
-    <ComboboxPrimitive.Empty {...applyGovernedPresentation(props, governed)} />
+    <ComboboxPrimitive.Empty
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
   );
-}
+});
+ComboboxEmpty.displayName = "ComboboxEmpty";
 
-function ComboboxSeparator({
-  className,
-  ...props
-}: ComboboxPrimitive.Separator.Props) {
+const ComboboxSeparator = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Separator>,
+  ComboboxPrimitive.Separator.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "footer",
+    slot: COMBOBOX_SLOT_ROLES.footer,
     className: comboboxStringClassName(className),
   });
 
   return (
     <ComboboxPrimitive.Separator
+      ref={ref}
       {...applyGovernedPresentation(props, governed)}
     />
   );
-}
+});
+ComboboxSeparator.displayName = "ComboboxSeparator";
 
-function ComboboxChips({
-  className,
-  ...props
-}: React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &
-  ComboboxPrimitive.Chips.Props) {
+const ComboboxChips = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Chips>,
+  ComboboxPrimitive.Chips.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "actions",
+    slot: COMBOBOX_SLOT_ROLES.actions,
     className: comboboxStringClassName(className),
   });
 
   return (
-    <ComboboxPrimitive.Chips {...applyGovernedPresentation(props, governed)} />
+    <ComboboxPrimitive.Chips
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
   );
-}
+});
+ComboboxChips.displayName = "ComboboxChips";
 
-function ComboboxChip({
-  className,
-  children,
-  showRemove = true,
-  ...props
-}: ComboboxPrimitive.Chip.Props & {
-  readonly showRemove?: boolean;
-}) {
+const ComboboxChip = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Chip>,
+  ComboboxPrimitive.Chip.Props & {
+    readonly showRemove?: boolean;
+  }
+>(({ className, children, showRemove = true, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "header",
+    slot: COMBOBOX_SLOT_ROLES.header,
     className: comboboxStringClassName(className),
   });
 
@@ -336,45 +408,53 @@ function ComboboxChip({
   const chipRemoveIcon = comboboxGovernance({ slotKey: "chip-remove-icon" });
 
   return (
-    <ComboboxPrimitive.Chip {...applyGovernedPresentation(props, governed)}>
+    <ComboboxPrimitive.Chip
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    >
       {children}
       {showRemove ? (
-        <ComboboxPrimitive.ChipRemove
-          render={
-            <Button
-              emphasis="ghost"
-              intent="quiet"
-              presentation="icon"
-              size="xs"
+        <span {...applyGovernedPresentation({}, remove)}>
+          <ComboboxPrimitive.ChipRemove
+            render={
+              <Button
+                aria-label="Remove"
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="xs"
+              />
+            }
+          >
+            <XIcon
+              aria-hidden="true"
+              {...applyGovernedPresentation({}, chipRemoveIcon)}
             />
-          }
-          {...remove.dataAttributes}
-          className={cn(remove.className)}
-          data-slot="combobox-chip-remove"
-        >
-          <XIcon
-            {...chipRemoveIcon.dataAttributes}
-            className={cn(chipRemoveIcon.className)}
-          />
-        </ComboboxPrimitive.ChipRemove>
+          </ComboboxPrimitive.ChipRemove>
+        </span>
       ) : null}
     </ComboboxPrimitive.Chip>
   );
-}
+});
+ComboboxChip.displayName = "ComboboxChip";
 
-function ComboboxChipsInput({
-  className,
-  ...props
-}: ComboboxPrimitive.Input.Props) {
+const ComboboxChipsInput = React.forwardRef<
+  React.ComponentRef<typeof ComboboxPrimitive.Input>,
+  ComboboxPrimitive.Input.Props
+>(({ className, ...props }, ref) => {
   const governed = comboboxGovernance({
-    slot: "icon",
+    slot: COMBOBOX_SLOT_ROLES.icon,
     className: comboboxStringClassName(className),
   });
 
   return (
-    <ComboboxPrimitive.Input {...applyGovernedPresentation(props, governed)} />
+    <ComboboxPrimitive.Input
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
   );
-}
+});
+ComboboxChipsInput.displayName = "ComboboxChipsInput";
 
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);

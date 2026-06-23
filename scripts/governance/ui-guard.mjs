@@ -3,17 +3,21 @@
 /**
  * ui:guard — TIP-004 UI Governance bundle
  *
- * Runs all four enforcement layers in dependency order:
+ * Runs all five enforcement layers in dependency order:
  *
- *   Gate A  @afenda/ui author layer   pnpm --filter @afenda/ui check:governance
- *   Gate B  appshell consumer layer   pnpm --filter @afenda/appshell check:governance
- *   Gate C  erp consumer layer        pnpm --filter @afenda/erp test:run (static subset)
- *   Gate D  in-process policy scan    scripts/governance/governed-ui-consumption.mjs
- *            on appshell, erp, and packages/ui story files (*.stories.tsx)
+ *   Gate A  @afenda/ui author layer        pnpm --filter @afenda/ui check:governance
+ *   Gate B  appshell consumer layer        pnpm --filter @afenda/appshell check:governance
+ *   Gate C  erp consumer layer             pnpm --filter @afenda/erp test:run (static subset)
+ *   Gate D  in-process policy scan         governed-ui-consumption + consumer anti-slop
+ *            on appshell, metadata-ui, erp, and packages/ui story files
+ *   Gate E  CSS token authority            pnpm quality:css (manifest + raw value bans)
+ *   Gate F  React ERP quality              react-erp-policy (recharts, forwardRef, hooks, a11y)
  *
  * Usage
- *   pnpm ui:guard                   # all gates
- *   pnpm ui:guard --gate A          # single gate by letter
+ *   pnpm ui:guard                   # all gates (Gate F in warning mode)
+ *   pnpm ui:guard --strict          # all gates with Gate F as hard failure
+ *   pnpm ui:guard --gate A          # single gate by letter (A–F)
+ *   pnpm ui:guard --gate F          # React ERP quality only
  *   pnpm ui:guard --scan-only       # Gate D only (fast, no subprocess)
  *   pnpm ui:guard --fix-hint        # show fix hints alongside violations
  *
@@ -33,8 +37,12 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const policyUrl = pathToFileURL(
   join(repoRoot, "scripts/governance/governed-ui-consumption.mjs")
 ).href;
+const reactErpPolicyUrl = pathToFileURL(
+  join(repoRoot, "scripts/governance/react-erp-policy.mjs")
+).href;
 
 const { checkGovernedUiConsumption } = await import(policyUrl);
+const { checkReactErpQuality, REACT_ERP_QUALITY_PATH } = await import(reactErpPolicyUrl);
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
@@ -156,14 +164,15 @@ function collectStoryFiles(dir) {
 function runScan() {
   // Consumer-layer app wiring + Storybook story composition files
   const searchRoots = [
-    join(repoRoot, "packages", "appshell", "src"),
-    join(repoRoot, "apps", "erp", "src"),
-    join(repoRoot, "packages", "ui", "src"),
+    { root: join(repoRoot, "packages", "appshell", "src"), mode: "tsx" },
+    { root: join(repoRoot, "packages", "metadata-ui", "src"), mode: "tsx" },
+    { root: join(repoRoot, "apps", "erp", "src"), mode: "tsx" },
+    { root: join(repoRoot, "packages", "ui", "src"), mode: "stories" },
   ];
 
-  const files = searchRoots.flatMap((root) => {
+  const files = searchRoots.flatMap(({ root, mode }) => {
     try {
-      if (root.endsWith(`${join("packages", "ui", "src")}`)) {
+      if (mode === "stories") {
         return collectStoryFiles(root);
       }
       return collectTsxFiles(root);
@@ -200,9 +209,49 @@ const FIX_HINTS = {
     "Use governed props instead: intent, emphasis, tone, size, variant",
     'For shell dot/badge: wrap Button in <div className="relative"> not className on Button',
   ],
+  "visual slop": [
+    "Move visual styling into semantic CSS classes in afenda-appshell.css / globals.css",
+    "Replace gradients with solid var(--primary) or var(--muted) surfaces",
+    "Replace arbitrary values with var(--afenda-radius-*) / var(--afenda-shadow-*) tokens",
+    "Replace raw palette scales (bg-red-500) with semantic tokens (bg-destructive, text-muted-foreground)",
+  ],
+  variant: [
+    'Spread mapStockButtonProps("ghost", "sm") from @afenda/ui/governance instead of variant="ghost"',
+    "Use governed props: intent, emphasis, size, presentation",
+  ],
+  'size="icon': [
+    'Spread mapStockButtonProps("ghost", "icon-lg") — stock size="icon*" is not governed API',
+  ],
   "Re-export barrel": [
     "Import directly: import { mapStockButtonVisualToGoverned } from '@afenda/ui/governance'",
     "Delete the local governance/index.ts re-export barrel",
+  ],
+  "stock-props": [
+    "Import mapStockButtonProps from @afenda/ui/governance at call sites — no local stock-props wrappers",
+  ],
+  "@/components/ui": [
+    "Import primitives from @afenda/ui and bridges from @afenda/ui/governance",
+  ],
+  recharts: [
+    'Use next/dynamic with ssr:false: const AreaChart = dynamic(() => import("recharts").then(m => ({ default: m.AreaChart })), { ssr: false })',
+    "Add loading state using aria-busy class: loading: () => <div className='afenda-chart-skeleton' aria-busy='true' />",
+  ],
+  forwardRef: [
+    "React 19: remove forwardRef() — pass ref as a plain prop: function MyComp({ ref, ...props }: Props & { ref?: React.Ref<T> })",
+  ],
+  "useEffect with single set": [
+    "Derive during render: const layout = resolvedInitialLayout; (no state needed if no local mutation)",
+    "Or use key-prop reset: <Component key={presetId} layout={layoutProp} /> (parent resets state by changing key)",
+  ],
+  "aria-hidden": [
+    'Wrap chart in <figure aria-label="…"> and add aria-hidden="true" to the chart element',
+    'Add <figcaption className="sr-only"> describing the data story for screenreaders',
+  ],
+  "<img>": [
+    'Replace <img> with <Image> from "next/image" — automatic size optimization + LCP improvement',
+  ],
+  "mutable let/var": [
+    "Use React.cache() for per-request server functions; use const at module scope",
   ],
 };
 
@@ -239,6 +288,12 @@ const SUBPROCESS_GATES = [
       "pnpm --filter @afenda/erp test:run --reporter=verbose src/__tests__/governed-ui-consumption.test.ts",
     ref: ".cursor/rules/governed-ui-consumption.mdc",
   },
+  {
+    id: "E",
+    label: "CSS token authority (manifest + raw visual value bans)",
+    command: "pnpm quality:css",
+    ref: ".cursor/skills/afenda-ui-quality/SKILL.md — Phase 3 token substitution",
+  },
 ];
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -250,7 +305,7 @@ console.log(
   `  ${C.dim}Policy:  scripts/governance/governed-ui-consumption.mjs${C.reset}`
 );
 console.log(
-  `  ${C.dim}Skill:   .cursor/skills/govern-primitive/SKILL.md${C.reset}`
+  `  ${C.dim}Skill:   .cursor/skills/afenda-ui-quality/SKILL.md${C.reset}`
 );
 console.log(
   `  ${C.dim}Rule:    .cursor/rules/governed-ui-consumption.mdc${C.reset}`
@@ -291,8 +346,8 @@ if (!scanOnly) {
 // ── Gate D — in-process full-tree scan ────────────────────────────────────────
 
 if (!gateFilter || gateFilter === "D") {
-  header("Gate D  In-process full-tree scan (multiline + barrel detection)");
-  info("scanning consumer-layer .tsx files…");
+  header("Gate D  In-process full-tree scan (className + anti-slop + imports)");
+  info("scanning appshell, metadata-ui, erp .tsx + ui stories…");
 
   const { files, allViolations } = runScan();
 
@@ -335,6 +390,93 @@ if (!gateFilter || gateFilter === "D") {
   }
 }
 
+// ── Gate F — React ERP quality in-process scan ───────────────────────────────
+// Gate F runs in warning mode by default: new violations fail CI but
+// pre-existing ones are surfaced without blocking pnpm ui:guard in dev.
+// Pass --strict to make Gate F a hard failure (for CI enforcement).
+
+const strictMode = argv.includes("--strict");
+
+if (!scanOnly && (!gateFilter || gateFilter === "F")) {
+  header("Gate F  React ERP quality (recharts dynamic, forwardRef, hooks, a11y)");
+  info("scanning appshell, metadata-ui, erp .tsx/.ts files…");
+
+  const reactErpRoots = [
+    join(repoRoot, "packages", "appshell", "src"),
+    join(repoRoot, "packages", "metadata-ui", "src"),
+    join(repoRoot, "apps", "erp", "src"),
+  ];
+
+  const reactErpFiles = reactErpRoots.flatMap((root) => {
+    try {
+      return collectTsxFiles(root);
+    } catch {
+      return [];
+    }
+  });
+
+  const reactErpViolations = [];
+
+  for (const file of reactErpFiles) {
+    const relPath = relative(repoRoot, file).replace(/\\/g, "/");
+    let content;
+    try {
+      content = readFileSync(file, "utf8");
+    } catch {
+      continue;
+    }
+
+    const violations = checkReactErpQuality(content, relPath);
+    if (violations.length > 0) {
+      reactErpViolations.push({ file: relPath, violations });
+    }
+  }
+
+  if (reactErpViolations.length === 0) {
+    pass(`${reactErpFiles.length} file(s) clean`);
+  } else {
+    const totalViolations = reactErpViolations.reduce(
+      (n, v) => n + v.violations.length,
+      0
+    );
+
+    // In non-strict mode: warn (yellow ⚠) but do not add to failures
+    const gateColor = strictMode ? C.red : C.yellow;
+    const gateSymbol = strictMode ? "✗" : "⚠";
+    console.log(
+      `  ${gateColor}${gateSymbol}${C.reset} ${totalViolations} violation(s) across ${reactErpViolations.length} file(s)${strictMode ? "" : " (warning — pass --strict to enforce)"}`
+    );
+
+    for (const { file, violations } of reactErpViolations) {
+      console.log(`\n    ${C.bold}${file}${C.reset}`);
+      for (const v of violations) {
+        console.log(`      ${gateColor}• ${v}${C.reset}`);
+        if (fixHint) {
+          printHints(v);
+        }
+      }
+    }
+
+    if (!fixHint) {
+      console.log(
+        `\n  ${C.dim}Re-run with --fix-hint for remediation guidance${C.reset}`
+      );
+    }
+
+    if (strictMode) {
+      failures.push({
+        id: "F",
+        label: "React ERP quality",
+        output: reactErpViolations
+          .flatMap(({ file, violations }) =>
+            violations.map((v) => `${file}: ${v}`)
+          )
+          .join("\n"),
+      });
+    }
+  }
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
 const elapsed = ((Date.now() - startMs) / 1000).toFixed(1);
@@ -353,13 +495,16 @@ if (failures.length === 0) {
   console.log();
   console.log("  Quick fixes:");
   console.log(
-    "    pnpm ui:guard --scan-only --fix-hint   # fast local scan + hints"
+    "    pnpm ui:guard --scan-only --fix-hint   # fast TIP-004 scan + hints"
+  );
+  console.log(
+    "    pnpm ui:guard --gate F --fix-hint      # React ERP quality + hints"
   );
   console.log(
     "    pnpm ui:guard --gate A                 # re-run single gate"
   );
   console.log(
-    "    See .cursor/skills/govern-primitive/SKILL.md — Consumer checklist"
+    "    See .cursor/skills/react-erp-quality/SKILL.md + afenda-ui-quality/SKILL.md"
   );
   console.log();
   process.exit(1);

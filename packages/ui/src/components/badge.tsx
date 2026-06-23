@@ -1,9 +1,10 @@
 import type { GovernedBadgeProps } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-
-import { cn } from "@afenda/ui/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
+
+const BADGE_RECIPE_NAME = "badge" as const;
 
 export interface BadgeProps
   extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className">,
@@ -35,7 +36,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 
     const governed = resolvePrimitiveGovernance({
       componentName: "Badge",
-      recipeName: "badge",
+      recipeName: BADGE_RECIPE_NAME,
       variant: {
         tone,
         emphasis,
@@ -50,13 +51,12 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <Comp
         ref={ref}
-        {...props}
-        data-emphasis={emphasis}
-        data-tone={tone}
-        {...(density === undefined ? {} : { "data-density": density })}
-        {...(size === undefined ? {} : { "data-size": size })}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, {
+          "data-emphasis": emphasis,
+          "data-tone": tone,
+          "data-density": density,
+          "data-size": size,
+        })}
       />
     );
   }

@@ -1,7 +1,8 @@
 "use client";
 
+import type { GovernedResizableProps, SlotRole } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
 import * as ResizablePrimitive from "react-resizable-panels";
 
@@ -25,64 +26,78 @@ export {
 
 const RESIZABLE_RECIPE_NAME = "surface" as const;
 
-// ResizablePanelGroup
-// Standard React ref → forwarded to the library's `elementRef` (HTMLDivElement).
+const RESIZABLE_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  control: "control",
+} as const satisfies Record<string, SlotRole>;
+
+export interface ResizablePanelGroupProps
+  extends Omit<ResizablePrimitive.GroupProps, "className">,
+    GovernedResizableProps {
+  readonly className?: string;
+}
+
+export interface ResizablePanelProps
+  extends Omit<ResizablePrimitive.PanelProps, "className"> {
+  readonly className?: string;
+}
+
+export interface ResizableHandleProps
+  extends Omit<ResizablePrimitive.SeparatorProps, "className"> {
+  readonly className?: string;
+  readonly withHandle?: boolean;
+}
+
 // Imperative layout control → useResizablePanelGroupRef (re-exported above).
 const ResizablePanelGroup = React.forwardRef<
   HTMLDivElement,
-  ResizablePrimitive.GroupProps
->(({ className, ...props }, ref) => {
+  ResizablePanelGroupProps
+>(({ className, state, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Resizable",
     recipeName: RESIZABLE_RECIPE_NAME,
-    slot: "root",
+    state,
+    slot: RESIZABLE_SLOT_ROLES.root,
     className,
   });
 
   return (
     <ResizablePrimitive.Group
       elementRef={ref}
-      {...props}
-      {...governed.dataAttributes}
-      className={cn(governed.className)}
+      {...applyGovernedPresentation(props, governed)}
     />
   );
 });
 ResizablePanelGroup.displayName = "ResizablePanelGroup";
 
-// ResizablePanel
-// Standard React ref → forwarded to the library's `elementRef` (HTMLDivElement).
 // Imperative panel control → useResizablePanelRef (re-exported above).
 const ResizablePanel = React.forwardRef<
   HTMLDivElement,
-  ResizablePrimitive.PanelProps
->(({ ...props }, ref) => {
+  ResizablePanelProps
+>(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Resizable",
     recipeName: RESIZABLE_RECIPE_NAME,
-    slot: "body",
+    slot: RESIZABLE_SLOT_ROLES.body,
+    className,
   });
 
   return (
     <ResizablePrimitive.Panel
       elementRef={ref}
-      {...props}
-      {...governed.dataAttributes}
+      {...applyGovernedPresentation(props, governed)}
     />
   );
 });
 ResizablePanel.displayName = "ResizablePanel";
-
-interface ResizableHandleProps extends ResizablePrimitive.SeparatorProps {
-  readonly withHandle?: boolean;
-}
 
 const ResizableHandle = React.forwardRef<HTMLDivElement, ResizableHandleProps>(
   ({ withHandle, className, ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Resizable",
       recipeName: RESIZABLE_RECIPE_NAME,
-      slot: "control",
+      slot: RESIZABLE_SLOT_ROLES.control,
       className,
     });
 
@@ -95,12 +110,10 @@ const ResizableHandle = React.forwardRef<HTMLDivElement, ResizableHandleProps>(
     return (
       <ResizablePrimitive.Separator
         elementRef={ref}
-        {...props}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed)}
       >
         {withHandle ? (
-          <div {...grip.dataAttributes} className={cn(grip.className)} />
+          <div {...applyGovernedPresentation({}, grip)} />
         ) : null}
       </ResizablePrimitive.Separator>
     );

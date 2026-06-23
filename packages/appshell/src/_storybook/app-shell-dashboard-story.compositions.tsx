@@ -1,3 +1,4 @@
+import React from "react";
 import type { ReactNode } from "react";
 
 import { ApplicationShell } from "../app-shell";
@@ -14,13 +15,19 @@ import {
 } from "./dashboard-block-story.compositions";
 
 /** Pads dashboard content the same way the shell main region does in Storybook. */
-export function DashboardStoryCanvas({ children }: { readonly children: ReactNode }) {
+export function DashboardStoryCanvas({
+  children,
+}: {
+  readonly children: ReactNode;
+}) {
   return <div className="app-shell-content">{children}</div>;
 }
 
 export { renderEmptyInvoicesBlockStory, renderEmptyRegionalSalesBlockStory };
 
-export function renderDashboardStory(args: ApplicationShellDashboardDemoProps = {}) {
+export function renderDashboardStory(
+  args: ApplicationShellDashboardDemoProps = {}
+) {
   return (
     <DashboardStoryCanvas>
       <ApplicationShellDashboardDemo {...args} />
@@ -39,7 +46,9 @@ export function renderDashboardInShellStory(
   );
 }
 
-export function renderDashboardDemoInShellStory(shellArgs: ApplicationShellProps) {
+export function renderDashboardDemoInShellStory(
+  shellArgs: ApplicationShellProps
+) {
   return (
     <ApplicationShell {...shellArgs}>
       <ApplicationShellDashboardDemo />

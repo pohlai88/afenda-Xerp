@@ -1,6 +1,3 @@
-import { Fragment } from "react";
-import { EllipsisVerticalIcon } from "lucide-react";
-
 import {
   Button,
   DropdownMenu,
@@ -13,9 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@afenda/ui";
 import {
-  mapStockButtonProps,
   type GovernedUiComponentName,
+  mapStockButtonProps,
 } from "@afenda/ui/governance";
+import { EllipsisVerticalIcon } from "lucide-react";
+import { Fragment } from "react";
 
 import type { AppShellDashboardOverflowMenuItem } from "../data/app-shell.dashboard.types";
 
@@ -25,13 +24,15 @@ export type AppShellDashboardOverflowMenuGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardOverflowMenuProps {
+  readonly align?: "center" | "end" | "start";
   readonly items: readonly AppShellDashboardOverflowMenuItem[];
   readonly menuLabel?: string;
-  readonly align?: "center" | "end" | "start";
   readonly onSelect?: (itemId: string) => void;
 }
 
-function partitionOverflowItems(items: readonly AppShellDashboardOverflowMenuItem[]) {
+function partitionOverflowItems(
+  items: readonly AppShellDashboardOverflowMenuItem[]
+) {
   const primary: AppShellDashboardOverflowMenuItem[] = [];
   const secondary: AppShellDashboardOverflowMenuItem[] = [];
 
@@ -61,10 +62,15 @@ function OverflowMenuItemRow({
       }}
     >
       <span className="app-shell-dashboard-overflow-item">
-        <item.Icon aria-hidden className="app-shell-dashboard-overflow-item-icon" />
+        <item.Icon
+          aria-hidden
+          className="app-shell-dashboard-overflow-item-icon"
+        />
         <span>{item.label}</span>
       </span>
-      {item.shortcut ? <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut> : null}
+      {item.shortcut ? (
+        <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>
+      ) : null}
     </DropdownMenuItem>
   );
 }
@@ -101,13 +107,21 @@ export function AppShellDashboardOverflowMenu({
     <div className="app-shell-dashboard-overflow-menu">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button {...mapStockButtonProps("ghost", "icon-sm")} aria-label={menuLabel}>
-            <EllipsisVerticalIcon aria-hidden className="app-shell-dashboard-overflow-icon" />
+          <Button
+            {...mapStockButtonProps("ghost", "icon-sm")}
+            aria-label={menuLabel}
+          >
+            <EllipsisVerticalIcon
+              aria-hidden
+              className="app-shell-dashboard-overflow-icon"
+            />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align={align}>
           <DropdownMenuLabel>
-            <span className="app-shell-dashboard-overflow-label">{menuLabel}</span>
+            <span className="app-shell-dashboard-overflow-label">
+              {menuLabel}
+            </span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {primary.length > 0 ? (

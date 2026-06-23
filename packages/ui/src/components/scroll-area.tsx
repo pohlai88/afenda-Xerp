@@ -1,6 +1,6 @@
 "use client";
 
-import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import type { GovernedScrollAreaProps, SlotRole } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
@@ -8,12 +8,27 @@ import * as React from "react";
 
 const SCROLL_AREA_RECIPE_NAME = "form-control" as const;
 
+const SCROLL_AREA_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  control: "control",
+  icon: "icon",
+} as const satisfies Record<string, SlotRole>;
+
 export interface ScrollAreaProps
   extends Omit<
       React.ComponentProps<typeof ScrollAreaPrimitive.Root>,
       "className"
     >,
-    GovernedFormControlProps {
+    GovernedScrollAreaProps {
+  readonly className?: string;
+}
+
+export interface ScrollBarProps
+  extends Omit<
+    React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+    "className"
+  > {
   readonly className?: string;
 }
 
@@ -25,14 +40,14 @@ const ScrollArea = React.forwardRef<
     componentName: "ScrollArea",
     recipeName: SCROLL_AREA_RECIPE_NAME,
     state,
-    slot: "root",
+    slot: SCROLL_AREA_SLOT_ROLES.root,
     className,
   });
 
   const viewportGoverned = resolvePrimitiveGovernance({
     componentName: "ScrollArea",
     recipeName: SCROLL_AREA_RECIPE_NAME,
-    slot: "body",
+    slot: SCROLL_AREA_SLOT_ROLES.body,
   });
 
   return (
@@ -53,14 +68,6 @@ const ScrollArea = React.forwardRef<
 
 ScrollArea.displayName = "ScrollArea";
 
-export interface ScrollBarProps
-  extends Omit<
-    React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
-    "className"
-  > {
-  readonly className?: string;
-}
-
 const ScrollBar = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ScrollBarProps
@@ -68,23 +75,23 @@ const ScrollBar = React.forwardRef<
   const scrollbarGoverned = resolvePrimitiveGovernance({
     componentName: "ScrollArea",
     recipeName: SCROLL_AREA_RECIPE_NAME,
-    slot: "control",
+    slot: SCROLL_AREA_SLOT_ROLES.control,
     className,
   });
 
   const thumbGoverned = resolvePrimitiveGovernance({
     componentName: "ScrollArea",
     recipeName: SCROLL_AREA_RECIPE_NAME,
-    slot: "icon",
+    slot: SCROLL_AREA_SLOT_ROLES.icon,
   });
 
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       ref={ref}
+      orientation={orientation}
       {...applyGovernedPresentation(props, scrollbarGoverned, {
         "data-orientation": orientation,
       })}
-      orientation={orientation}
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
         {...applyGovernedPresentation({}, thumbGoverned)}

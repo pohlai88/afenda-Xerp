@@ -1,24 +1,27 @@
 "use client";
 
-import type {
-  GovernedFormControlProps,
-  GovernedSize,
-} from "@afenda/ui/governance";
+import type { GovernedSwitchProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
+import type { SlotRole } from "@afenda/ui/governance/primitive-contract";
 import { Switch as SwitchPrimitive } from "radix-ui";
 import * as React from "react";
 
 const SWITCH_RECIPE_NAME = "form-control" as const;
+
+const SWITCH_SLOT_ROLES = {
+  root: "root",
+} as const satisfies Record<string, SlotRole>;
+
+const SWITCH_THUMB_SLOT_KEY = "thumb" as const;
 
 export interface SwitchProps
   extends Omit<
       React.ComponentProps<typeof SwitchPrimitive.Root>,
       "className" | "size"
     >,
-    GovernedFormControlProps {
+    GovernedSwitchProps {
   readonly className?: string;
-  readonly size?: Extract<GovernedSize, "sm" | "md">;
 }
 
 const Switch = React.forwardRef<
@@ -30,14 +33,14 @@ const Switch = React.forwardRef<
     recipeName: SWITCH_RECIPE_NAME,
     variant: { size },
     state,
-    slot: "root",
+    slot: SWITCH_SLOT_ROLES.root,
     className,
   });
 
   const thumb = resolvePrimitiveGovernance({
     componentName: "Switch",
     recipeName: SWITCH_RECIPE_NAME,
-    slotKey: "thumb",
+    slotKey: SWITCH_THUMB_SLOT_KEY,
   });
 
   return (

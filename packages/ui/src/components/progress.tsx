@@ -3,7 +3,6 @@
 import type { GovernedFormControlProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { Progress as ProgressPrimitive } from "radix-ui";
 import * as React from "react";
 
@@ -39,12 +38,17 @@ const Progress = React.forwardRef<
   return (
     <ProgressPrimitive.Root
       ref={ref}
-      {...applyGovernedPresentation(props, governed)}
+      {...applyGovernedPresentation({ ...props, value }, governed)}
     >
       <ProgressPrimitive.Indicator
-        {...indicator.dataAttributes}
-        className={cn(indicator.className)}
-        style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+        {...applyGovernedPresentation(
+          {
+            style: {
+              "--progress-value": value ?? 0,
+            } as React.CSSProperties,
+          },
+          indicator
+        )}
       />
     </ProgressPrimitive.Root>
   );

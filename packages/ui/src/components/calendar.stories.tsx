@@ -1,3 +1,4 @@
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -24,8 +25,8 @@ function CalendarFrame({
   children,
   width = "sm",
 }: {
-  children: ReactNode;
-  width?: "sm" | "md" | "lg" | "xl";
+  readonly children: ReactNode;
+  readonly width?: "sm" | "md" | "lg" | "xl";
 }) {
   return (
     <StoryFrame width={width}>
@@ -41,9 +42,9 @@ function FieldLabel({
   label,
   hint,
 }: {
-  htmlFor: string;
-  label: string;
-  hint?: string;
+  readonly htmlFor: string;
+  readonly label: string;
+  readonly hint?: string;
 }) {
   return (
     <StoryStack gap="xs">
@@ -60,11 +61,13 @@ function SingleDatePicker({
   disabled,
   captionLayout,
   showOutsideDays,
+  state,
 }: {
-  defaultMonth?: Date;
-  disabled?: ComponentProps<typeof Calendar>["disabled"];
-  captionLayout?: ComponentProps<typeof Calendar>["captionLayout"];
-  showOutsideDays?: boolean;
+  readonly defaultMonth?: Date;
+  readonly disabled?: ComponentProps<typeof Calendar>["disabled"];
+  readonly captionLayout?: ComponentProps<typeof Calendar>["captionLayout"];
+  readonly showOutsideDays?: boolean;
+  readonly state?: ComponentProps<typeof Calendar>["state"];
 }) {
   const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 21));
 
@@ -78,6 +81,7 @@ function SingleDatePicker({
         {...(captionLayout === undefined ? {} : { captionLayout })}
         {...(disabled === undefined ? {} : { disabled })}
         {...(showOutsideDays === undefined ? {} : { showOutsideDays })}
+        {...(state === undefined ? {} : { state })}
       />
     </CalendarFrame>
   );
@@ -87,8 +91,8 @@ function RangeDatePicker({
   numberOfMonths = 1,
   defaultMonth = STORY_MONTH,
 }: {
-  numberOfMonths?: number;
-  defaultMonth?: Date;
+  readonly numberOfMonths?: number;
+  readonly defaultMonth?: Date;
 }) {
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(2026, 5, 10),
@@ -108,12 +112,41 @@ function RangeDatePicker({
   );
 }
 
+function MultipleDatePicker() {
+  const [dates, setDates] = useState<Date[] | undefined>([
+    new Date(2026, 5, 12),
+    new Date(2026, 5, 16),
+    new Date(2026, 5, 19),
+  ]);
+
+  return (
+    <CalendarFrame>
+      <Calendar mode="multiple" onSelect={setDates} selected={dates} />
+    </CalendarFrame>
+  );
+}
+
+function WeekNumberPicker() {
+  const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 21));
+
+  return (
+    <CalendarFrame>
+      <Calendar
+        mode="single"
+        onSelect={setDate}
+        selected={date}
+        showWeekNumber
+      />
+    </CalendarFrame>
+  );
+}
+
 function CalendarPopoverPicker({
   label,
   placeholder = "Pick a date…",
 }: {
-  label: string;
-  placeholder?: string;
+  readonly label: string;
+  readonly placeholder?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
@@ -129,7 +162,7 @@ function CalendarPopoverPicker({
               id="calendar-popover-trigger"
               intent="secondary"
             >
-              <CalendarIcon />
+              <CalendarIcon aria-hidden="true" />
               {date ? format(date, "PPP") : placeholder}
             </Button>
           </PopoverTrigger>
@@ -167,12 +200,52 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed lifecycle state on the calendar root.",
+    },
+    buttonVariant: {
+      control: "select",
+      options: ["solid", "outline", "ghost", "soft"],
+      description: "Emphasis for previous/next month navigation buttons.",
+    },
+    mode: {
+      control: "select",
+      options: ["single", "range", "multiple"],
+    },
+    captionLayout: {
+      control: "select",
+      options: ["label", "dropdown", "dropdown-months", "dropdown-years"],
+    },
+  },
+  args: {
+    state: "ready",
+    buttonVariant: "ghost",
+    mode: "single",
+    captionLayout: "label",
+    showOutsideDays: true,
+  },
 } satisfies Meta<typeof Calendar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ─── Basic modes ───────────────────────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <CalendarFrame>
+      <Calendar
+        {...args}
+        defaultMonth={STORY_MONTH}
+        mode={args.mode ?? "single"}
+        selected={new Date(2026, 5, 21)}
+      />
+    </CalendarFrame>
+  ),
+};
 
 export const Default: Story = {
   render: () => <SingleDatePicker />,
@@ -195,37 +268,12 @@ export const TwoMonthRange: Story = {
 
 export const MultipleSelection: Story = {
   name: "Calendar — Multiple Dates",
-  render: () => {
-    const [dates, setDates] = useState<Date[] | undefined>([
-      new Date(2026, 5, 12),
-      new Date(2026, 5, 16),
-      new Date(2026, 5, 19),
-    ]);
-
-    return (
-      <CalendarFrame>
-        <Calendar mode="multiple" onSelect={setDates} selected={dates} />
-      </CalendarFrame>
-    );
-  },
+  render: () => <MultipleDatePicker />,
 };
 
 export const WeekNumbers: Story = {
   name: "Calendar — With Week Numbers",
-  render: () => {
-    const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 21));
-
-    return (
-      <CalendarFrame>
-        <Calendar
-          mode="single"
-          onSelect={setDate}
-          selected={date}
-          showWeekNumber
-        />
-      </CalendarFrame>
-    );
-  },
+  render: () => <WeekNumberPicker />,
 };
 
 export const DisabledWeekends: Story = {
@@ -247,6 +295,115 @@ export const DisabledPastDates: Story = {
 export const HideOutsideDays: Story = {
   name: "Calendar — Hide Outside Days",
   render: () => <SingleDatePicker showOutsideDays={false} />,
+};
+
+// ─── Governance probes ─────────────────────────────────────────────────────
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` and `data-component="Override"` — governed values (`data-slot="calendar"`, `data-component="Calendar"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <CalendarFrame>
+      <Calendar
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-calendar-root"
+        defaultMonth={STORY_MONTH}
+        mode="single"
+        selected={new Date(2026, 5, 21)}
+      />
+    </CalendarFrame>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Calendar root wraps react-day-picker with `data-slot=\"calendar\"`. Month grid uses `role=\"grid\"`. Day cells are native buttons with governed `day-button` slot. Navigation uses `Go to the Previous/Next Month` labels. Verify arrow-key traversal and focus ring on day buttons.",
+      },
+    },
+  },
+  render: () => <SingleDatePicker />,
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Calendar uses slotKey-driven class maps for DayPicker parts. Root emits `data-slot=\"calendar\"`; day and nav controls emit `data-slot=\"button\"` via `nav-button` and `day-button` slot keys.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → calendar · nav-button / day-button → button · all other slot
+          keys → calendar (class-only, no separate data-slot)
+        </p>
+        <CalendarFrame>
+          <Calendar
+            defaultMonth={STORY_MONTH}
+            mode="single"
+            selected={new Date(2026, 5, 21)}
+          />
+        </CalendarFrame>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="sm">
+          <p className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </p>
+          <CalendarFrame>
+            <Calendar
+              defaultMonth={STORY_MONTH}
+              mode="single"
+              selected={new Date(2026, 5, 21)}
+              state={state}
+            />
+          </CalendarFrame>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceKeyboardNavigation: Story = {
+  name: "Governance — Keyboard Navigation",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Tab to previous/next month buttons and day grid cells. Arrow keys move between days when the grid has focus. Focused day receives governed ring styles via `day-button` slot.",
+      },
+    },
+  },
+  render: () => <SingleDatePicker />,
 };
 
 // ─── ERP composite patterns ───────────────────────────────────────────────
@@ -278,7 +435,7 @@ export const InvoiceDueDate: Story = {
               <Badge emphasis="soft" size="sm" tone="info">
                 {format(date, "PPP")}
               </Badge>
-              <span className="text-muted-foreground text-xs">
+              <span className="text-muted-foreground text-xs tabular-nums">
                 INV-2026-0142
               </span>
             </StoryRow>
@@ -310,7 +467,7 @@ export const LeaveRequestRange: Story = {
             <Calendar mode="range" onSelect={setRange} selected={range} />
           </CalendarFrame>
           {range?.from && range.to ? (
-            <span className="text-muted-foreground text-sm">
+            <span className="text-muted-foreground text-sm tabular-nums">
               {format(range.from, "MMM d")} – {format(range.to, "MMM d, yyyy")}{" "}
               · 5 business days
             </span>
@@ -418,9 +575,7 @@ export const AccountingPeriodFilter: Story = {
       <StoryFrame width="md">
         <StoryStack gap="sm">
           <StoryRow align="center" justify="between" wrap>
-            <span className="font-medium text-sm">
-              General Ledger · Period Filter
-            </span>
+            <span className="font-medium text-sm">General Ledger · Period Filter</span>
             <Badge emphasis="soft" size="sm" tone="success">
               April 2026 Open
             </Badge>
@@ -485,7 +640,7 @@ export const AuditSchedulePicker: Story = {
           <CalendarFrame>
             <Calendar mode="multiple" onSelect={setDates} selected={dates} />
           </CalendarFrame>
-          <span className="text-muted-foreground text-xs">
+          <span aria-live="polite" className="text-muted-foreground text-xs tabular-nums">
             {dates?.length ?? 0} day(s) selected
           </span>
         </StoryStack>

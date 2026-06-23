@@ -1,3 +1,4 @@
+import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -10,10 +11,11 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
+import { StatusIndicator } from "./status-indicator";
 import { Button } from "./button";
 import { ButtonGroup } from "./button-group";
 import { Checkbox } from "./checkbox";
@@ -165,11 +167,7 @@ function StatusCell({
   readonly label: string;
   readonly tone: "success" | "warning" | "danger" | "info" | "neutral";
 }) {
-  return (
-    <Badge emphasis="soft" size="sm" tone={tone}>
-      {label}
-    </Badge>
-  );
+  return <StatusIndicator tone={tone}>{label}</StatusIndicator>;
 }
 
 function SortableHeader({
@@ -287,6 +285,64 @@ function SelectableInvoiceTableComponent() {
   );
 }
 
+function TablePlaygroundDemo({
+  density = "standard",
+  size = "sm",
+  state = "ready",
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly size?: (typeof SIZES)[number];
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="xl">
+      <Table density={density} size={size} state={state}>
+        <TableCaption>Table playground</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead scope="col">Record</TableHead>
+            <TableHead scope="col">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>INV-2026-0042</TableCell>
+            <TableCell>Probe row</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  );
+}
+
+function TableStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="xl">
+      <span className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </span>
+      <Table size="sm" state={state}>
+        <TableHeader>
+          <TableRow>
+            <TableHead scope="col">Record</TableHead>
+            <TableHead scope="col">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>INV-2026-0042</TableCell>
+            <TableCell>Probe row</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  );
+}
+
 // ─── Table ─────────────────────────────────────────────────────────────────
 
 const meta = {
@@ -298,7 +354,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed semantic table for ERP list views, rosters, and line-item grids. Supports `density`, `size`, and governed `state` on the root. Compose with `TableCaption` for accessible titles, numeric `tabular-nums` cells, status badges, row selection checkboxes, and pagination footers (see Primitives/Pagination).",
+          "Governed semantic table for ERP list views, rosters, and line-item grids. Supports `density`, `size`, and governed `state` on the root. Compose with `TableCaption` for accessible titles, numeric `tabular-nums` cells, `StatusIndicator` dot-plus-text status cells, row selection checkboxes, and pagination footers (see Primitives/Pagination).",
       },
     },
   },
@@ -322,11 +378,162 @@ const meta = {
   args: {
     density: "standard",
     size: "sm",
+    state: "ready",
   },
 } satisfies Meta<typeof Table>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <TablePlaygroundDemo
+      density={args.density}
+      size={args.size}
+      state={args.state}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Table` — governed values (`data-slot="table"`, `data-component="Table"`, `data-recipe="table"`) must win. Canonical `density` / `size` props win over consumer `data-density` / `data-size`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="xl">
+      <Table
+        data-component="Override"
+        data-density="compact"
+        data-recipe="override"
+        data-size="lg"
+        data-slot="override"
+        data-state="fake"
+        data-testid="governance-table"
+        density="standard"
+        size="sm"
+        state="ready"
+      >
+        <TableHeader>
+          <TableRow>
+            <TableHead scope="col">Record</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>INV-2026-0042</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal roles: root → table, header → table-header, content → table-body, footer → table-footer. slotKey map: container → table-container, row → table-row, head → table-head, cell → table-cell, caption → table-caption.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="xl">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          container → table-container · root → table · header → table-header ·
+          content → table-body · footer → table-footer · row → table-row · head →
+          table-head · cell → table-cell · caption → table-caption
+        </p>
+        <Table>
+          <TableCaption>Slot map probe</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead scope="col">Column</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Value</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell>Footer</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <TableStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Use `TableCaption` for table title, `scope="col"` on headers, and semantic `th`/`td`. Numeric cells use `tabular-nums`; status uses dot + text via `StatusIndicator`.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="xl">
+      <Table size="sm">
+        <TableCaption>Open invoices — sorted by due date</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead scope="col">Invoice</TableHead>
+            <TableHead scope="col">Vendor</TableHead>
+            <TableHead scope="col">
+              <div className="text-right">Amount</div>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {INVOICES.slice(0, 2).map((row) => (
+            <TableRow key={row.id}>
+              <TableCell>
+                <span className="font-mono text-sm">{row.id}</span>
+              </TableCell>
+              <TableCell>{row.vendor}</TableCell>
+              <TableCell>
+                <span className="text-right tabular-nums">
+                  {formatCurrency(row.amount)}
+                </span>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  ),
+};
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -418,83 +625,6 @@ export const Comfortable: Story = {
               <TableCell>{row.department}</TableCell>
               <TableCell>
                 <StatusCell label={row.status} tone={row.tone} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </StoryFrame>
-  ),
-};
-
-// ─── Governance ────────────────────────────────────────────────────────────
-
-export const GovernanceAllStates: Story = {
-  name: "Governance — All States",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="xl">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <Table size="sm" state={state}>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Record</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>INV-2026-0042</TableCell>
-                <TableCell>Probe row</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </StoryFrame>
-      ))}
-    </StoryStack>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Use `TableCaption` for table title, `scope="col"` on headers, and semantic `th`/`td`. Pair actions with `aria-label` on icon buttons.',
-      },
-    },
-  },
-  render: () => (
-    <StoryFrame width="xl">
-      <Table size="sm">
-        <TableCaption>Open invoices — sorted by due date</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead scope="col">Invoice</TableHead>
-            <TableHead scope="col">Vendor</TableHead>
-            <TableHead scope="col">
-              <div className="text-right">
-              Amount
-            </div>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {INVOICES.slice(0, 2).map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>
-                <span className="font-mono text-sm">{row.id}</span>
-              </TableCell>
-              <TableCell>{row.vendor}</TableCell>
-              <TableCell>
-                <span className="text-right tabular-nums">
-                {formatCurrency(row.amount)}
-              </span>
               </TableCell>
             </TableRow>
           ))}

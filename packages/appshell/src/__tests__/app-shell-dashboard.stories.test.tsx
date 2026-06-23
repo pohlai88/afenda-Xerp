@@ -33,7 +33,7 @@ describe("ApplicationShell dashboard stories (portable CSF)", () => {
     render(<EmptyInvoices />);
 
     expect(screen.getByText("Accounts receivable")).toBeInTheDocument();
-    expect(screen.getByText(/No invoices match your filters/i)).toBeInTheDocument();
+    expect(screen.getByText(/No invoices yet/i)).toBeInTheDocument();
   });
 
   it("EmptyRegionalSales renders the governed empty state", () => {

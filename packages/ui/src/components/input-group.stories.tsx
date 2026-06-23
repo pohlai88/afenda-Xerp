@@ -1,3 +1,9 @@
+import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_STATES,
+  SIZES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AtSignIcon,
@@ -21,7 +27,7 @@ import {
   XIcon,
 } from "lucide-react";
 import type { ComponentType } from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import {
   InputGroup,
@@ -122,7 +128,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed input group for ERP search bars, currency fields, prefixed IDs, and button addons (clear, reveal, copy). Composes `InputGroupInput`, `InputGroupTextarea`, `InputGroupAddon`, `InputGroupText`, and `InputGroupButton`. Addon `align` supports inline and block positions for textarea labels and footers.",
+          "Governed input group for ERP search bars, currency fields, prefixed IDs, and button addons (clear, reveal, copy). Root supports governed `density`, `size`, and `state`. Composes `InputGroupInput`, `InputGroupTextarea`, `InputGroupAddon`, `InputGroupText`, and `InputGroupButton`. Addon `align` supports inline and block positions for textarea labels and footers.",
       },
     },
   },
@@ -278,6 +284,145 @@ export const GovernanceAddonAligns: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `InputGroup` — governed values (`data-slot="input-group"`, `data-component="InputGroup"`, `data-recipe="form-control"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <InputGroup
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-input-group"
+      >
+        <InputGroupAddon align="inline-start">
+          <MutedIcon icon={SearchIcon} />
+        </InputGroupAddon>
+        <InputGroupInput placeholder="Inspect governed attributes" />
+      </InputGroup>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → input-group · control → input-group-addon · actions →
+          input-group-button (via combobox shell) · body → input-group-text ·
+          state → input-group-control
+        </p>
+        <InputGroup data-testid="slot-map-root">
+          <InputGroupAddon align="inline-start">
+            <InputGroupText>INV-</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput placeholder="2026-0042" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton aria-label="Clear field" size="icon-xs">
+              <XIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <StoryFrame key={state} width="md">
+          <span className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </span>
+          <InputGroup state={state}>
+            <InputGroupAddon align="inline-start">
+              <MutedIcon icon={SearchIcon} />
+            </InputGroupAddon>
+            <InputGroupInput placeholder={`State: ${state}`} />
+          </InputGroup>
+        </StoryFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAllSizes: Story = {
+  name: "Governance — All Sizes",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        {SIZES.map((size) => (
+          <InputGroup key={size} size={size}>
+            <InputGroupAddon align="inline-start">
+              <MutedIcon icon={HashIcon} />
+            </InputGroupAddon>
+            <InputGroupInput placeholder={`Size: ${size}`} />
+          </InputGroup>
+        ))}
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllDensities: Story = {
+  name: "Governance — All Densities",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        {DENSITIES.map((density) => (
+          <InputGroup density={density} key={density}>
+            <InputGroupAddon align="inline-start">
+              <MutedIcon icon={FilterIcon} />
+            </InputGroupAddon>
+            <InputGroupInput placeholder={`Density: ${density}`} />
+          </InputGroup>
+        ))}
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    density: { control: "select", options: [...DENSITIES] },
+    size: { control: "select", options: [...SIZES] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    density: "standard",
+    size: "md",
+    state: "ready",
+  },
+  render: ({ density, size, state }) => (
+    <StoryFrame width="md">
+      <InputGroup density={density} size={size} state={state}>
+        <InputGroupAddon align="inline-start">
+          <MutedIcon icon={SearchIcon} />
+        </InputGroupAddon>
+        <InputGroupInput placeholder="Adjust density, size, and state" />
+      </InputGroup>
+    </StoryFrame>
+  ),
+};
+
 // ─── Interactive addons ────────────────────────────────────────────────────
 
 export const SearchWithClear: Story = {
@@ -332,18 +477,22 @@ export const FilterBarSearch: Story = {
   render: () => (
     <StoryFrame width="lg">
       <StoryRow align="center" gap="sm" wrap>
-        <InputGroup className="max-w-xs">
-          <InputGroupAddon align="inline-start">
-            <MutedIcon icon={FilterIcon} />
-          </InputGroupAddon>
-          <InputGroupInput placeholder="Filter invoices…" />
-        </InputGroup>
-        <InputGroup className="max-w-40">
-          <InputGroupAddon align="inline-start">
-            <MutedIcon icon={CalendarIcon} />
-          </InputGroupAddon>
-          <InputGroupInput placeholder="Due date" type="date" />
-        </InputGroup>
+        <div className="max-w-xs">
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <MutedIcon icon={FilterIcon} />
+            </InputGroupAddon>
+            <InputGroupInput placeholder="Filter invoices…" />
+          </InputGroup>
+        </div>
+        <div className="max-w-40">
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <MutedIcon icon={CalendarIcon} />
+            </InputGroupAddon>
+            <InputGroupInput placeholder="Due date" type="date" />
+          </InputGroup>
+        </div>
       </StoryRow>
     </StoryFrame>
   ),
@@ -736,24 +885,32 @@ export const InlinePoLineRow: Story = {
   render: () => (
     <StoryFrame width="xl">
       <StoryRow align="center" gap="sm" wrap>
-        <InputGroup className="w-32">
-          <InputGroupAddon align="inline-start">
-            <InputGroupText>SKU</InputGroupText>
-          </InputGroupAddon>
-          <InputGroupInput placeholder="FAST-M8" />
-        </InputGroup>
-        <InputGroup className="min-w-48 flex-1">
-          <InputGroupInput placeholder="Description" />
-        </InputGroup>
-        <InputGroup className="w-24">
-          <InputGroupInput placeholder="Qty" type="number" />
-        </InputGroup>
-        <InputGroup className="w-28">
-          <InputGroupAddon align="inline-start">
-            <InputGroupText>$</InputGroupText>
-          </InputGroupAddon>
-          <InputGroupInput placeholder="0.00" type="number" />
-        </InputGroup>
+        <div className="w-32">
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>SKU</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput placeholder="FAST-M8" />
+          </InputGroup>
+        </div>
+        <div className="min-w-48 flex-1">
+          <InputGroup>
+            <InputGroupInput placeholder="Description" />
+          </InputGroup>
+        </div>
+        <div className="w-24">
+          <InputGroup>
+            <InputGroupInput placeholder="Qty" type="number" />
+          </InputGroup>
+        </div>
+        <div className="w-28">
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>$</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput placeholder="0.00" type="number" />
+          </InputGroup>
+        </div>
       </StoryRow>
     </StoryFrame>
   ),
@@ -846,19 +1003,21 @@ export const AllFormInputGroups: Story = {
             <span className="w-28 shrink-0 text-muted-foreground text-xs">
               {row.label}
             </span>
-            <InputGroup className="flex-1">
-              {"prefix" in row && row.prefix ? (
-                <InputGroupAddon align="inline-start">
-                  {row.prefix}
-                </InputGroupAddon>
-              ) : null}
-              <InputGroupInput placeholder={row.placeholder} />
-              {"suffix" in row && row.suffix ? (
-                <InputGroupAddon align="inline-end">
-                  {row.suffix}
-                </InputGroupAddon>
-              ) : null}
-            </InputGroup>
+            <div className="flex-1">
+              <InputGroup>
+                {"prefix" in row && row.prefix ? (
+                  <InputGroupAddon align="inline-start">
+                    {row.prefix}
+                  </InputGroupAddon>
+                ) : null}
+                <InputGroupInput placeholder={row.placeholder} />
+                {"suffix" in row && row.suffix ? (
+                  <InputGroupAddon align="inline-end">
+                    {row.suffix}
+                  </InputGroupAddon>
+                ) : null}
+              </InputGroup>
+            </div>
           </StoryRow>
         ))}
       </StoryStack>

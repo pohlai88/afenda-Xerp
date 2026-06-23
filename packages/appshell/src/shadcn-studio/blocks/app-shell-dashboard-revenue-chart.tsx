@@ -1,7 +1,5 @@
 "use client";
 
-import { useId, useMemo } from "react";
-
 import {
   Card,
   ChartContainer,
@@ -16,14 +14,8 @@ import {
   Separator,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { useId, useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -50,14 +42,14 @@ export type AppShellDashboardRevenueChartGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardRevenueChartProps {
-  readonly title?: string;
-  readonly subtitle?: string;
-  readonly comparisonText?: string;
-  readonly growthLabel?: string;
-  readonly growthCaption?: string;
-  readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
   readonly barData?: readonly AppShellDashboardRevenueBarPoint[];
+  readonly comparisonText?: string;
+  readonly growthCaption?: string;
   readonly growthData?: readonly AppShellDashboardRevenueGrowthSlice[];
+  readonly growthLabel?: string;
+  readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
+  readonly subtitle?: string;
+  readonly title?: string;
   readonly yearSummaries?: readonly AppShellDashboardRevenueYearSummary[];
 }
 
@@ -84,7 +76,10 @@ const REPORT_OPTIONS = [
   { value: "expenses", label: "Expenses" },
   { value: "profit", label: "Profit" },
   { value: "net-income", label: "Net income" },
-] as const satisfies readonly { readonly label: string; readonly value: string }[];
+] as const satisfies readonly {
+  readonly label: string;
+  readonly value: string;
+}[];
 
 function computeSignedBarDomain(
   data: readonly AppShellDashboardRevenueBarPoint[]
@@ -122,7 +117,8 @@ function computePrimaryYearAmount(
   summaries: readonly AppShellDashboardRevenueYearSummary[]
 ): string {
   const currentYear =
-    summaries.find((summary) => summary.year.startsWith("FY2026")) ?? summaries[0];
+    summaries.find((summary) => summary.year.startsWith("FY2026")) ??
+    summaries[0];
 
   return currentYear?.amount ?? "$0";
 }
@@ -130,7 +126,9 @@ function computePrimaryYearAmount(
 function computeYearOverYearChange(
   summaries: readonly AppShellDashboardRevenueYearSummary[]
 ): string {
-  const sorted = [...summaries].sort((left, right) => right.year.localeCompare(left.year));
+  const sorted = [...summaries].sort((left, right) =>
+    right.year.localeCompare(left.year)
+  );
 
   if (sorted.length < 2) {
     return "+0%";
@@ -197,11 +195,18 @@ function RevenueYearSummaryItem({
   return (
     <div className="app-shell-dashboard-revenue-summary-item">
       <div className="app-shell-dashboard-revenue-icon-frame">
-        <summary.Icon aria-hidden className="app-shell-dashboard-revenue-icon" />
+        <summary.Icon
+          aria-hidden
+          className="app-shell-dashboard-revenue-icon"
+        />
       </div>
       <div className="app-shell-dashboard-revenue-summary-copy">
-        <span className="app-shell-dashboard-revenue-summary-year">{summary.year}</span>
-        <span className="app-shell-dashboard-revenue-summary-amount">{summary.amount}</span>
+        <span className="app-shell-dashboard-revenue-summary-year">
+          {summary.year}
+        </span>
+        <span className="app-shell-dashboard-revenue-summary-amount">
+          {summary.amount}
+        </span>
       </div>
     </div>
   );
@@ -221,7 +226,10 @@ export function AppShellDashboardRevenueChart({
   const primarySectionId = useId();
   const growthSectionId = useId();
   const reportSelectId = useId();
-  const [yMin, yMax] = useMemo(() => computeSignedBarDomain(barData), [barData]);
+  const [yMin, yMax] = useMemo(
+    () => computeSignedBarDomain(barData),
+    [barData]
+  );
   const yAxisTicks = useMemo(() => buildYAxisTicks(yMin, yMax), [yMin, yMax]);
   const primaryYearAmount = useMemo(
     () => computePrimaryYearAmount(yearSummaries),
@@ -231,22 +239,30 @@ export function AppShellDashboardRevenueChart({
     () => computeYearOverYearChange(yearSummaries),
     [yearSummaries]
   );
-  const barChartLabel = useMemo(() => buildRevenueBarChartLabel(barData), [barData]);
+  const barChartLabel = useMemo(
+    () => buildRevenueBarChartLabel(barData),
+    [barData]
+  );
 
   return (
-    <div className="app-shell-dashboard-widget app-shell-dashboard-revenue-widget">
+    <article
+      aria-labelledby={primarySectionId}
+      className="app-shell-dashboard-widget app-shell-dashboard-revenue-widget"
+    >
       <Card>
         <div className="app-shell-dashboard-revenue-layout">
-          <section
-            aria-labelledby={primarySectionId}
-            className="app-shell-dashboard-revenue-primary"
-          >
+          <section className="app-shell-dashboard-revenue-primary">
             <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
               <div className="app-shell-dashboard-widget-heading">
-                <span className="app-shell-dashboard-widget-title" id={primarySectionId}>
+                <h2
+                  className="app-shell-dashboard-widget-title"
+                  id={primarySectionId}
+                >
                   {title}
-                </span>
-                <span className="app-shell-dashboard-widget-subtitle">{subtitle}</span>
+                </h2>
+                <p className="app-shell-dashboard-widget-subtitle">
+                  {subtitle}
+                </p>
               </div>
               <AppShellDashboardOverflowMenu
                 items={overflowItems}
@@ -264,10 +280,15 @@ export function AppShellDashboardRevenueChart({
                     {yearOverYearChange} YoY
                   </span>
                 </div>
-                <span className="app-shell-dashboard-revenue-comparison">{comparisonText}</span>
+                <span className="app-shell-dashboard-revenue-comparison">
+                  {comparisonText}
+                </span>
               </div>
 
-              <div aria-hidden="true" className="app-shell-dashboard-revenue-legend">
+              <div
+                aria-hidden="true"
+                className="app-shell-dashboard-revenue-legend"
+              >
                 <span className="app-shell-dashboard-revenue-legend-item">
                   <span className="app-shell-dashboard-revenue-legend-swatch app-shell-dashboard-revenue-legend-swatch-current" />
                   FY2026
@@ -279,7 +300,7 @@ export function AppShellDashboardRevenueChart({
               </div>
 
               {barData.length === 0 ? (
-                <p className="app-shell-dashboard-revenue-empty">
+                <p className="app-shell-dashboard-revenue-empty" role="status">
                   No revenue variance data available for this period.
                 </p>
               ) : (
@@ -318,7 +339,10 @@ export function AppShellDashboardRevenueChart({
                         tickMargin={8}
                         ticks={[...yAxisTicks]}
                       />
-                      <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+                      <ChartTooltip
+                        content={<ChartTooltipContent hideLabel />}
+                        cursor={false}
+                      />
                       <Bar
                         dataKey="currentYear"
                         fill="var(--color-currentYear)"
@@ -367,8 +391,12 @@ export function AppShellDashboardRevenueChart({
 
             <div className="app-shell-dashboard-revenue-growth-panel">
               <div className="app-shell-dashboard-revenue-growth-headline">
-                <span className="app-shell-dashboard-revenue-growth-value">{growthLabel}</span>
-                <span className="app-shell-dashboard-revenue-growth-headline-caption">Growth</span>
+                <span className="app-shell-dashboard-revenue-growth-value">
+                  {growthLabel}
+                </span>
+                <span className="app-shell-dashboard-revenue-growth-headline-caption">
+                  Growth
+                </span>
               </div>
 
               <div
@@ -377,7 +405,10 @@ export function AppShellDashboardRevenueChart({
                 role="img"
               >
                 {growthData.length === 0 ? (
-                  <p className="app-shell-dashboard-revenue-empty">
+                  <p
+                    className="app-shell-dashboard-revenue-empty"
+                    role="status"
+                  >
                     No growth mix data available for this period.
                   </p>
                 ) : (
@@ -399,7 +430,10 @@ export function AppShellDashboardRevenueChart({
                         type="category"
                         width={52}
                       />
-                      <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+                      <ChartTooltip
+                        content={<ChartTooltipContent hideLabel />}
+                        cursor={false}
+                      />
                       <Bar dataKey="revenue" radius={[0, 4, 4, 0]}>
                         {growthData.map((entry, index) => (
                           <Cell
@@ -418,8 +452,13 @@ export function AppShellDashboardRevenueChart({
               </div>
 
               <div className="app-shell-dashboard-revenue-growth-meta">
-                <span className="app-shell-dashboard-revenue-growth-caption">{growthCaption}</span>
-                <span className="app-shell-dashboard-revenue-growth-footnote" id={growthSectionId}>
+                <span className="app-shell-dashboard-revenue-growth-caption">
+                  {growthCaption}
+                </span>
+                <span
+                  className="app-shell-dashboard-revenue-growth-footnote"
+                  id={growthSectionId}
+                >
                   Portfolio growth index
                 </span>
               </div>
@@ -435,6 +474,6 @@ export function AppShellDashboardRevenueChart({
           </aside>
         </div>
       </Card>
-    </div>
+    </article>
   );
 }

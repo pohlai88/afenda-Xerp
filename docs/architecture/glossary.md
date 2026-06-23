@@ -40,7 +40,11 @@ An Entity Group is the corporate umbrella that ties related Legal Entities (comp
 
 **When no group structure is needed**, a Tenant may have only standalone Legal Entities without an Entity Group wrapper.
 
-**Schema status:** Authority stub — `entity_groups` table is planned for TIP-008 (Master Data Authority). Do not implement accounting consolidation logic yet; only prepare the authority model.
+**Must not be confused with Legal Entity.** An Entity Group is a corporate umbrella — not a statutory company with its own tax identity unless designated as the group parent (`parentEntityId`).
+
+**Must not be confused with Organization Unit.** Entity Groups sit above Legal Entities; branches and departments live inside companies.
+
+**Schema status:** Authority foundation — `entity_groups` table implemented (TIP-008). Do not implement consolidation accounting logic yet; only prepare the authority model.
 
 **Example corporate structures an Entity Group can represent:**
 - Holding company + subsidiaries
@@ -74,6 +78,8 @@ A Legal Entity (mapped to `companies` in the schema) is a real-world registered 
 
 **Must not be treated as a generic organization unit.** An Organization Unit (branch, department, warehouse) lives inside a Legal Entity — it is not a peer of it.
 
+**Must not be confused with Entity Group.** A Legal Entity exists independently of group membership; standalone companies may have no Entity Group.
+
 **Schema:** `companies` table — `packages/database/src/schema/company.schema.ts`
 
 ---
@@ -102,7 +108,11 @@ An Ownership Interest record links a parent (investor) Legal Entity to a child/i
 - Drives RLS grants — a group CFO sees all subsidiary books; a subsidiary accountant sees only their own
 - Required for intercompany elimination, minority interest disclosure, and equity method accounting
 
-**Schema status:** Authority stub — `legal_entity_ownership` table planned for TIP-008.
+**Must not be confused with Membership.** Ownership Interest links Legal Entities for control and economics — not user access grants.
+
+**Must not be confused with Organization Unit.** Ownership is between companies, not operational org tree nodes.
+
+**Schema status:** Authority foundation — `legal_entity_ownership` table implemented (TIP-008).
 Do not implement consolidation accounting logic in the current slice; only prepare the authority model.
 
 ---
@@ -170,6 +180,8 @@ A Project is a bounded initiative with its own budget, timeline, tasks, approval
 
 **Schema status:** Planned for TIP-030 (Project Management, Phase 3). Do not create `projects` table before TIP-030 is approved.
 
+**Must not be confused with Team or Organization Unit.** A Project is a bounded initiative with budget and lifecycle — not a permanent org structure or people roster.
+
 **RLS scope:** A user with a Project role (e.g., `project.manager`) may access all records tagged to that Project within the allowed Legal Entity boundary.
 
 ---
@@ -190,6 +202,8 @@ A Workspace is **not a database table** — it is a resolved context object asse
 
 **Does not own legal or security authority.** A Workspace simply reflects the user's currently active scope; it does not grant any permissions by itself.
 
+**Must not be confused with Tenant, Legal Entity, or Surface.** Workspace is assembled runtime context — not a persisted authority tier or UI module identifier.
+
 **Used for:** UI context (which company, branch, and project is the user currently operating within), breadcrumb and navigation state, default values on new records.
 
 ---
@@ -205,6 +219,10 @@ A Surface identifies which page or module section the user is viewing. It is use
 - Analytics and error reporting (correlate errors to a specific ERP screen)
 
 A Surface is **not a database entity** — it is a runtime string identifier (e.g., `"accounting.journal.list"`, `"inventory.warehouse.detail"`).
+
+**Must not be confused with Workspace.** A Surface identifies which UI module or screen is active; Workspace is the user's resolved operating context.
+
+**Must not be confused with Tenant or Legal Entity.** Surface is a metadata module identifier — not a security or statutory boundary.
 
 **Format:** `<domain>.<module>.<view>` — always lowercase, dot-separated.
 
@@ -241,6 +259,8 @@ An RLS Grant represents the specific set of records a user is authorized to read
 
 **Must fail closed:** If any required context is missing, unresolved, or suspended, access is denied — never assumed.
 
+**Must not be confused with Membership.** RLS Grant is the derived access outcome; Membership is the user-role-scope record that feeds grant resolution.
+
 ---
 
 ## Consolidation Scope
@@ -264,6 +284,8 @@ A Consolidation Scope defines which Legal Entities are included in a consolidate
 
 **Do not implement consolidation accounting logic in this slice.**
 
+**Must not be confused with Entity Group.** Consolidation Scope is a derived reporting boundary at a point in time — not the corporate group definition itself.
+
 ---
 
 ## Mapping to Implementation Status
@@ -271,16 +293,16 @@ A Consolidation Scope defines which Legal Entities are included in a consolidate
 | Concept | Schema table | Status |
 |---------|-------------|--------|
 | Tenant | `tenants` | Implemented |
-| Entity Group | `entity_groups` | **Planned — TIP-008** |
+| Entity Group | `entity_groups` | Authority foundation — schema + services (TIP-008) |
 | Legal Entity / Company | `companies` | Implemented |
-| Ownership Interest | `legal_entity_ownership` | **Planned — TIP-008** |
-| Organization Unit | `organizations` | Implemented (types: `branch`, `department`, `company_root`) |
+| Ownership Interest | `legal_entity_ownership` | Authority foundation — schema + services (TIP-008) |
+| Organization Unit | `organizations` | Implemented (types: `branch`, `department`, `company_root`, `team`) |
 | Team | `organizations` (`type = "team"`) | Partial — dedicated table planned TIP-030 |
 | Project | — | **Planned — TIP-030** |
 | Workspace | Runtime context only | N/A — derived |
 | Surface | Runtime string ID | N/A — metadata config |
 | RLS Grant | `memberships` + Supabase RLS | Implemented (application-level); DB-level in progress |
-| Consolidation Scope | `entity_groups` + `legal_entity_ownership` | **Planned — TIP-008** |
+| Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | Authority foundation — derivation stub only (TIP-008) |
 
 ---
 

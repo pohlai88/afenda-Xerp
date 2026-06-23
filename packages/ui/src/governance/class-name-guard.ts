@@ -22,6 +22,10 @@ const VISUAL_SLOP_PATTERNS = [
   /\bbg-\[/u,
   /\bbg-#/u,
   /\btext-#/u,
+  /\bblur-\[/u,
+  /\boutline-\[/u,
+  /\bstroke-\[/u,
+  /\bdrop-shadow-\[/u,
 ] as const;
 
 const CLASS_NAME_SEPARATOR_PATTERN = /\s+/u;

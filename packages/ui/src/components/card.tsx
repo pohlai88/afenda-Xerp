@@ -1,7 +1,9 @@
 import type { GovernedCardProps, SlotRole } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
+
+const CARD_RECIPE_NAME = "card" as const;
 
 export interface CardProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className">,
@@ -13,7 +15,7 @@ export interface CardProps
   readonly className?: string;
 }
 
-interface CardSlotProps
+export interface CardSlotProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "className"> {
   /**
    * Governed extension point only.
@@ -53,7 +55,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Card",
-      recipeName: "card",
+      recipeName: CARD_RECIPE_NAME,
       variant: { density, radius, shadow },
       layoutSize: size,
       state,
@@ -64,12 +66,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        {...props}
-        data-density={density}
-        data-radius={radius}
-        data-shadow={shadow}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, {
+          "data-density": density,
+          "data-radius": radius,
+          "data-shadow": shadow,
+          "data-size": size,
+        })}
       />
     );
   }
@@ -87,18 +89,13 @@ function createCardSlot(
     ({ className, ...props }, ref) => {
       const governed = resolvePrimitiveGovernance({
         componentName: "Card",
-        recipeName: "card",
+        recipeName: CARD_RECIPE_NAME,
         slot,
         className,
       });
 
       return (
-        <div
-          ref={ref}
-          {...props}
-          {...governed.dataAttributes}
-          className={cn(governed.className)}
-        />
+        <div ref={ref} {...applyGovernedPresentation(props, governed)} />
       );
     }
   );
@@ -114,6 +111,13 @@ const CardDescription = createCardSlot("CardDescription", "description");
 const CardAction = createCardSlot("CardAction", "action");
 const CardContent = createCardSlot("CardContent", "content");
 const CardFooter = createCardSlot("CardFooter", "footer");
+
+export type CardHeaderProps = CardSlotProps;
+export type CardTitleProps = CardSlotProps;
+export type CardDescriptionProps = CardSlotProps;
+export type CardActionProps = CardSlotProps;
+export type CardContentProps = CardSlotProps;
+export type CardFooterProps = CardSlotProps;
 
 export {
   Card,

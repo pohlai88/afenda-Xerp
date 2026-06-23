@@ -1,4 +1,5 @@
 import type { GovernedTableProps, SlotRole } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
@@ -99,7 +100,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     });
 
     return (
-      <div {...container.dataAttributes} className={cn(container.className)}>
+      <div {...applyGovernedPresentation({}, container)}>
         <table
           ref={ref}
           {...props}
@@ -121,25 +122,25 @@ type TableSectionProps = Omit<
 > &
   GovernedClassNameProps;
 
-type TableRowProps = Omit<
+export type TableRowProps = Omit<
   React.HTMLAttributes<HTMLTableRowElement>,
   "className"
 > &
   GovernedClassNameProps;
 
-type TableHeadProps = Omit<
+export type TableHeadProps = Omit<
   React.ThHTMLAttributes<HTMLTableCellElement>,
   "className"
 > &
   GovernedClassNameProps;
 
-type TableCellProps = Omit<
+export type TableCellProps = Omit<
   React.TdHTMLAttributes<HTMLTableCellElement>,
   "className"
 > &
   GovernedClassNameProps;
 
-type TableCaptionProps = Omit<
+export type TableCaptionProps = Omit<
   React.HTMLAttributes<HTMLTableCaptionElement>,
   "className"
 > &
@@ -269,3 +270,5 @@ export {
   TableHeader,
   TableRow,
 };
+
+export type { TableSectionProps };

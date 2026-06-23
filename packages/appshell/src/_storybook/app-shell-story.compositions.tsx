@@ -1,3 +1,4 @@
+import React from "react";
 import { Badge, Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
@@ -33,7 +34,7 @@ export function renderInventoryWorkspaceStory(args: ApplicationShellProps) {
         description="Real-time inventory across warehouses and distribution centres."
         title="Stock overview"
       >
-        <p className="rounded-md border border-border-subtle bg-surface-panel p-4 text-foreground-muted text-sm">
+        <p className="app-shell-workspace-placeholder-copy">
           Module workspace — replace with inventory routes and data tables in
           `apps/erp`. Layout classes stay on plain HTML; governed primitives
           receive props only.

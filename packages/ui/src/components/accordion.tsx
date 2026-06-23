@@ -3,7 +3,6 @@
 import type { GovernedAccordionProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 import * as React from "react";

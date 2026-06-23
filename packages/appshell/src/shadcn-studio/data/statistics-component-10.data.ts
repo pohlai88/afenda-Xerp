@@ -41,6 +41,13 @@ export const statisticsRevenueBarData = [
 /** Highlight day receives full primary fill; other bars use muted primary mix. */
 export const STATISTICS_REVENUE_HIGHLIGHT_DAY = "Thursday" as const;
 
+export const STATISTICS_ACTIVITY_CHART_ARIA_LABEL = "Activity sales area trend";
+export const STATISTICS_LEADS_CHART_ARIA_LABEL =
+  "Generated leads horizontal bar chart";
+export const STATISTICS_PROFILE_TRAFFIC_CHART_ARIA_LABEL =
+  "Average profile traffic bar chart";
+export const STATISTICS_REVENUE_CHART_ARIA_LABEL = "Revenue growth bar chart";
+
 const WEEKDAY_ABBREVIATIONS: Record<string, string> = {
   Friday: "Fr",
   Monday: "Mo",

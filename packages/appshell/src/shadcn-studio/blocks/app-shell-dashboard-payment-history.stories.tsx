@@ -2,7 +2,10 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { defaultAppShellDashboardPaymentHistory } from "../../_storybook/dashboard-block-story.fixtures";
-import { compactDensityDecorator, renderDashboardBlockStory } from "../../_storybook/dashboard-block-story.compositions";
+import {
+  compactDensityDecorator,
+  renderDashboardBlockStory,
+} from "../../_storybook/dashboard-block-story.compositions";
 import {
   AppShellDashboardPaymentHistory,
   type AppShellDashboardPaymentHistoryGovernedComponents,
@@ -20,7 +23,8 @@ const meta = {
       rows: defaultAppShellDashboardPaymentHistory,
     },
   }),
-  render: (args) => renderDashboardBlockStory(AppShellDashboardPaymentHistory, args),
+  render: (args) =>
+    renderDashboardBlockStory(AppShellDashboardPaymentHistory, args),
 } satisfies Meta<typeof AppShellDashboardPaymentHistory>;
 
 export type PaymentHistoryStoriesGovernedComponents =
@@ -31,8 +35,29 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const SingleCard: Story = {
+  args: {
+    rows: [defaultAppShellDashboardPaymentHistory[0]!],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Single card row with utilization dot, progress bar, tabular-nums spend.",
+      },
+    },
+  },
+};
+
 export const Empty: Story = {
   args: { rows: [] },
+  parameters: {
+    docs: {
+      description: {
+        story: "Source-empty card programs with status copy.",
+      },
+    },
+  },
 };
 
 export const DarkTheme: Story = {

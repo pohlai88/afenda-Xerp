@@ -1,13 +1,20 @@
 "use client";
 
-import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
-
-import { Card, CardContent, ChartContainer, ChartTooltip, ChartTooltipContent } from "@afenda/ui";
+import {
+  Card,
+  CardContent,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useId } from "react";
+import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
   formatStatisticsMonthTick,
+  STATISTICS_LEADS_CHART_ARIA_LABEL,
   STATISTICS_METRIC_CHART_MARGIN,
   statisticsLeadChartData,
 } from "../data/statistics-component-10.data";
@@ -43,27 +50,47 @@ function resolveLeadBarFill(month: string): string {
 }
 
 export function StatisticsLeadsCard() {
+  const titleId = useId();
+  const footnoteId = useId();
   const chartData = [...statisticsLeadChartData];
 
   return (
-    <article className="app-shell-statistics-metric-card">
+    <article
+      aria-labelledby={titleId}
+      className="app-shell-statistics-metric-card"
+    >
       <Card>
         <CardContent>
           <div className="app-shell-statistics-metric-panel">
             <div className="app-shell-statistics-metric-copy">
               <div className="app-shell-statistics-metric-heading-stack">
-                <span className="app-shell-statistics-metric-title">Generated leads</span>
+                <span
+                  className="app-shell-statistics-metric-title"
+                  id={titleId}
+                >
+                  Generated leads
+                </span>
                 <span className="app-shell-statistics-metric-caption">
                   {DEFAULT_STATISTICS_METRIC_REPORT_CAPTION}
                 </span>
               </div>
               <div className="app-shell-statistics-metric-value-stack">
-                <span className="app-shell-statistics-metric-amount">4,350</span>
-                <span className="app-shell-statistics-metric-change">+18.2%</span>
+                <span
+                  aria-describedby={footnoteId}
+                  className="app-shell-statistics-metric-amount"
+                >
+                  4,350
+                </span>
+                <span
+                  className="app-shell-statistics-metric-change"
+                  id={footnoteId}
+                >
+                  +18.2%
+                </span>
               </div>
             </div>
             <div
-              aria-label="Generated leads horizontal bar chart"
+              aria-label={STATISTICS_LEADS_CHART_ARIA_LABEL}
               className="app-shell-statistics-metric-chart app-shell-statistics-metric-chart-bars-horizontal"
               role="img"
             >
@@ -91,7 +118,10 @@ export function StatisticsLeadsCard() {
                   />
                   <Bar dataKey="sales" radius={[0, 6, 6, 0]}>
                     {chartData.map((entry) => (
-                      <Cell fill={resolveLeadBarFill(entry.month)} key={entry.month} />
+                      <Cell
+                        fill={resolveLeadBarFill(entry.month)}
+                        key={entry.month}
+                      />
                     ))}
                   </Bar>
                 </BarChart>

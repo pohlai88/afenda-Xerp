@@ -1,8 +1,11 @@
 "use client";
 
-import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
+import type { GovernedChartProps } from "@afenda/ui/governance";
+import {
+  applyGovernedPresentation,
+  mergeGovernedPresentation,
+} from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
 import type { TooltipValueType } from "recharts";
 import * as RechartsPrimitive from "recharts";
@@ -25,6 +28,31 @@ export type ChartConfig = Record<
   )
 >;
 
+type ChartTooltipIndicator = "line" | "dot" | "dashed";
+
+export type ChartTooltipContentProps = React.ComponentProps<
+  typeof RechartsPrimitive.Tooltip
+> &
+  React.ComponentProps<"div"> & {
+    readonly hideIndicator?: boolean;
+    readonly hideLabel?: boolean;
+    readonly indicator?: ChartTooltipIndicator;
+    readonly labelClassName?: string;
+    readonly nameKey?: string;
+    readonly labelKey?: string;
+  } & Omit<
+    RechartsPrimitive.DefaultTooltipContentProps<
+      TooltipValueType,
+      TooltipNameType
+    >,
+    "accessibilityLayer"
+  >;
+
+export type ChartLegendContentProps = React.ComponentProps<"div"> & {
+  readonly hideIcon?: boolean;
+  readonly nameKey?: string;
+} & RechartsPrimitive.DefaultLegendContentProps;
+
 interface ChartContextProps {
   readonly config: ChartConfig;
 }
@@ -44,14 +72,16 @@ function useChart() {
 function chartGovernance(
   slot: Parameters<typeof resolvePrimitiveGovernance>[0]["slot"],
   options?: {
-    readonly slotKey?: string;
     readonly className?: string | undefined;
+    readonly slotKey?: string;
+    readonly state?: GovernedChartProps["state"];
   }
 ) {
   return resolvePrimitiveGovernance({
     componentName: "Chart",
     recipeName: CHART_RECIPE_NAME,
     slot,
+    ...(options?.state === undefined ? {} : { state: options.state }),
     ...(options?.slotKey === undefined ? {} : { slotKey: options.slotKey }),
     ...(options?.className === undefined
       ? {}
@@ -59,8 +89,9 @@ function chartGovernance(
   });
 }
 
-interface ChartContainerProps
-  extends Omit<React.ComponentPropsWithoutRef<"div">, "className"> {
+export interface ChartContainerProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "className">,
+    GovernedChartProps {
   readonly children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
@@ -81,13 +112,14 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
       children,
       config,
       initialDimension = INITIAL_DIMENSION,
+      state,
       ...props
     },
     ref
   ) => {
     const uniqueId = React.useId();
     const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
-    const governed = chartGovernance("root", { className });
+    const governed = chartGovernance("root", { className, state });
 
     return (
       <ChartContext.Provider value={{ config }}>
@@ -152,34 +184,27 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
-function ChartTooltipContent({
-  active,
-  payload,
-  className,
-  indicator = "dot",
-  hideLabel = false,
-  hideIndicator = false,
-  label,
-  labelFormatter,
-  labelClassName,
-  formatter,
-  color,
-  nameKey,
-  labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<"div"> & {
-    readonly hideLabel?: boolean;
-    readonly hideIndicator?: boolean;
-    readonly indicator?: "line" | "dot" | "dashed";
-    readonly nameKey?: string;
-    readonly labelKey?: string;
-  } & Omit<
-    RechartsPrimitive.DefaultTooltipContentProps<
-      TooltipValueType,
-      TooltipNameType
-    >,
-    "accessibilityLayer"
-  >) {
+const ChartTooltipContent = React.forwardRef<
+  HTMLDivElement,
+  ChartTooltipContentProps
+>(function ChartTooltipContent(
+  {
+    active,
+    payload,
+    className,
+    indicator = "dot",
+    hideLabel = false,
+    hideIndicator = false,
+    label,
+    labelFormatter,
+    labelClassName,
+    formatter,
+    color,
+    nameKey,
+    labelKey,
+  },
+  ref
+) {
   const { config } = useChart();
 
   const labelClass = chartGovernance("label", { className: labelClassName });
@@ -199,10 +224,7 @@ function ChartTooltipContent({
 
     if (labelFormatter) {
       return (
-        <div
-          {...labelClass.dataAttributes}
-          className={cn(labelClass.className)}
-        >
+        <div {...applyGovernedPresentation({}, labelClass)}>
           {labelFormatter(value, payload)}
         </div>
       );
@@ -213,17 +235,14 @@ function ChartTooltipContent({
     }
 
     return (
-      <div {...labelClass.dataAttributes} className={cn(labelClass.className)}>
-        {value}
-      </div>
+      <div {...applyGovernedPresentation({}, labelClass)}>{value}</div>
     );
   }, [
     label,
     labelFormatter,
     payload,
     hideLabel,
-    labelClass.className,
-    labelClass.dataAttributes,
+    labelClass,
     config,
     labelKey,
   ]);
@@ -255,9 +274,9 @@ function ChartTooltipContent({
         : "indicator-dashed";
 
   return (
-    <div {...tooltipRoot.dataAttributes} className={cn(tooltipRoot.className)}>
+    <div ref={ref} {...applyGovernedPresentation({}, tooltipRoot)}>
       {nestLabel ? null : tooltipLabel}
-      <div {...list.dataAttributes} className={cn(list.className)}>
+      <div {...applyGovernedPresentation({}, list)}>
         {payload
           .filter((item) => item.type !== "none")
           .map((item, index) => {
@@ -273,13 +292,12 @@ function ChartTooltipContent({
                     slotKey: "indicator-dashed-nested",
                   })
                 : null;
+            const indicatorPresentation = dashedNested
+              ? mergeGovernedPresentation(indicatorClasses, dashedNested)
+              : indicatorClasses;
 
             return (
-              <div
-                key={index}
-                {...rowBase.dataAttributes}
-                className={cn(rowBase.className)}
-              >
+              <div key={index} {...applyGovernedPresentation({}, rowBase)}>
                 {formatter && item?.value !== undefined && item.name ? (
                   formatter(item.value, item.name, item, index, item.payload)
                 ) : (
@@ -289,11 +307,7 @@ function ChartTooltipContent({
                     ) : (
                       !hideIndicator && (
                         <div
-                          {...indicatorClasses.dataAttributes}
-                          className={cn(
-                            indicatorClasses.className,
-                            dashedNested?.className
-                          )}
+                          {...applyGovernedPresentation({}, indicatorPresentation)}
                           style={
                             {
                               "--color-bg": indicatorColor,
@@ -303,27 +317,15 @@ function ChartTooltipContent({
                         />
                       )
                     )}
-                    <div
-                      {...rowFooter.dataAttributes}
-                      className={cn(rowFooter.className)}
-                    >
-                      <div
-                        {...labelGrid.dataAttributes}
-                        className={cn(labelGrid.className)}
-                      >
+                    <div {...applyGovernedPresentation({}, rowFooter)}>
+                      <div {...applyGovernedPresentation({}, labelGrid)}>
                         {nestLabel ? tooltipLabel : null}
-                        <span
-                          {...itemLabel.dataAttributes}
-                          className={cn(itemLabel.className)}
-                        >
+                        <span {...applyGovernedPresentation({}, itemLabel)}>
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
                       {item.value != null && (
-                        <span
-                          {...itemValue.dataAttributes}
-                          className={cn(itemValue.className)}
-                        >
+                        <span {...applyGovernedPresentation({}, itemValue)}>
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
                             : String(item.value)}
@@ -338,20 +340,25 @@ function ChartTooltipContent({
       </div>
     </div>
   );
-}
+});
+
+ChartTooltipContent.displayName = "ChartTooltipContent";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
-function ChartLegendContent({
-  className,
-  hideIcon = false,
-  payload,
-  verticalAlign = "bottom",
-  nameKey,
-}: React.ComponentProps<"div"> & {
-  readonly hideIcon?: boolean;
-  readonly nameKey?: string;
-} & RechartsPrimitive.DefaultLegendContentProps) {
+const ChartLegendContent = React.forwardRef<
+  HTMLDivElement,
+  ChartLegendContentProps
+>(function ChartLegendContent(
+  {
+    className,
+    hideIcon = false,
+    payload,
+    verticalAlign = "bottom",
+    nameKey,
+  },
+  ref
+) {
   const { config } = useChart();
 
   if (!payload?.length) {
@@ -366,7 +373,7 @@ function ChartLegendContent({
   const swatch = chartGovernance("icon", { slotKey: "legend-swatch" });
 
   return (
-    <div {...legendRoot.dataAttributes} className={cn(legendRoot.className)}>
+    <div ref={ref} {...applyGovernedPresentation({}, legendRoot)}>
       {payload
         .filter((item) => item.type !== "none")
         .map((item, index) => {
@@ -374,20 +381,17 @@ function ChartLegendContent({
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
           return (
-            <div
-              key={index}
-              {...legendItem.dataAttributes}
-              className={cn(legendItem.className)}
-            >
+            <div key={index} {...applyGovernedPresentation({}, legendItem)}>
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />
               ) : (
                 <div
-                  {...swatch.dataAttributes}
-                  className={cn(swatch.className)}
-                  style={{
-                    backgroundColor: item.color,
-                  }}
+                  {...applyGovernedPresentation({}, swatch)}
+                  style={
+                    {
+                      "--color-bg": item.color,
+                    } as React.CSSProperties
+                  }
                 />
               )}
               {itemConfig?.label}
@@ -396,7 +400,9 @@ function ChartLegendContent({
         })}
     </div>
   );
-}
+});
+
+ChartLegendContent.displayName = "ChartLegendContent";
 
 function getPayloadConfigFromPayload(
   config: ChartConfig,

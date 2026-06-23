@@ -60,6 +60,7 @@ import {
   paginationSlotClassNames,
   paginationSlotClassNamesByKey,
   popoverSlotClassNames,
+  popoverSlotClassNamesByKey,
   progressSlotClassNames,
   radioGroupSlotClassNames,
   radioGroupSlotClassNamesByKey,
@@ -76,6 +77,7 @@ import {
   skeletonRootSlotClassName,
   sliderSlotClassNames,
   spinnerSlotClassNames,
+  spinnerSlotClassNamesByKey,
   statusIndicatorDotClassNamesByKey,
   statusIndicatorSlotClassNames,
   switchRootSlotClassName,
@@ -338,6 +340,11 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
       state: "popover-description",
     },
     slotClassNames: popoverSlotClassNames,
+    slotClassNamesByKey: popoverSlotClassNamesByKey,
+    dataSlotByKey: {
+      "menu-root": "popover",
+      trigger: "popover-trigger",
+    },
   },
   Tooltip: {
     componentName: "Tooltip",
@@ -352,7 +359,12 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     dataSlotByRole: { root: "tooltip-content" },
     slotClassNames: tooltipSlotClassNames,
     slotClassNamesByKey: tooltipSlotClassNamesByKey,
-    dataSlotByKey: { arrow: "tooltip-arrow" },
+    dataSlotByKey: {
+      arrow: "tooltip-arrow",
+      provider: "tooltip-provider",
+      "menu-root": "tooltip",
+      trigger: "tooltip-trigger",
+    },
   },
   Tabs: {
     componentName: "Tabs",
@@ -399,6 +411,8 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     slotClassNames: selectSlotClassNames,
     slotClassNamesByKey: selectSlotClassNamesByKey,
     dataSlotByKey: {
+      "select-root": "select",
+      "select-value": "select-value",
       "content-popper": "select-content",
       "trigger-size-sm": "select-trigger",
       "trigger-size-md": "select-trigger",
@@ -431,6 +445,8 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     slotClassNames: dropdownMenuSlotClassNames,
     slotClassNamesByKey: dropdownMenuSlotClassNamesByKey,
     dataSlotByKey: {
+      "menu-root": "dropdown-menu",
+      trigger: "dropdown-menu-trigger",
       "checkbox-item": "dropdown-menu-checkbox-item",
       "radio-item": "dropdown-menu-radio-item",
       "sub-trigger": "dropdown-menu-sub-trigger",
@@ -459,6 +475,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     slotClassNames: contextMenuSlotClassNames,
     slotClassNamesByKey: contextMenuSlotClassNamesByKey,
     dataSlotByKey: {
+      "menu-root": "context-menu",
       trigger: "context-menu-trigger",
       "checkbox-item": "context-menu-checkbox-item",
       "radio-item": "context-menu-radio-item",
@@ -602,6 +619,10 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     },
     slotClassNames: buttonGroupSlotClassNames,
     slotClassNamesByKey: buttonGroupSlotClassNamesByKey,
+    dataSlotByKey: {
+      "orientation-horizontal": "button-group",
+      "orientation-vertical": "button-group",
+    },
   },
   Item: {
     componentName: "Item",
@@ -638,6 +659,20 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     },
     slotClassNames: itemSlotClassNames,
     slotClassNamesByKey: itemSlotClassNamesByKey,
+    dataSlotByKey: {
+      "default-default": "item",
+      "default-sm": "item",
+      "default-xs": "item",
+      "outline-default": "item",
+      "outline-sm": "item",
+      "outline-xs": "item",
+      "muted-default": "item",
+      "muted-sm": "item",
+      "muted-xs": "item",
+      "media-default": "item-media",
+      "media-icon": "item-media",
+      "media-image": "item-media",
+    },
   },
   Sheet: {
     componentName: "Sheet",
@@ -985,6 +1020,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     controlPresentation: "leaf",
     dataSlotByRole: { root: "spinner" },
     slotClassNames: spinnerSlotClassNames,
+    slotClassNamesByKey: spinnerSlotClassNamesByKey,
   },
   StatusIndicator: {
     componentName: "StatusIndicator",
@@ -1372,7 +1408,7 @@ export const GOVERNED_PRIMITIVE_REGISTRY = {
     },
     slotClassNames: resizableSlotClassNames,
     slotClassNamesByKey: resizableSlotClassNamesByKey,
-    dataSlotByKey: { "handle-grip": "resizable-handle" },
+    dataSlotByKey: { "handle-grip": "resizable-handle-grip" },
   },
   Sidebar: {
     componentName: "Sidebar",

@@ -35,6 +35,21 @@ describe("Dashboard block stories (portable CSF)", () => {
     expect(screen.getByText("Revenue this month")).toBeInTheDocument();
   });
 
+  it("KpiStat OpenTasks renders declining change as plain secondary text", () => {
+    const OpenTasks = composePortableStory(kpiStatStories, "OpenTasks");
+    render(<OpenTasks />);
+    expect(screen.getByText("Open tasks")).toBeInTheDocument();
+    expect(screen.getByText("-4.5%")).toHaveClass("app-shell-dashboard-kpi-change");
+  });
+
+  it("KpiStat NetIncome renders primary accent emphasis", () => {
+    const NetIncome = composePortableStory(kpiStatStories, "NetIncome");
+    const { container } = render(<NetIncome />);
+    expect(
+      container.querySelector('.app-shell-dashboard-kpi-widget[data-emphasis="primary"]')
+    ).not.toBeNull();
+  });
+
   it("InvoiceTable Default renders without TIP-004 throw", () => {
     render(<InvoiceTableDefault />);
     expect(screen.getByText("Accounts receivable")).toBeInTheDocument();
@@ -43,6 +58,23 @@ describe("Dashboard block stories (portable CSF)", () => {
   it("ModuleEarnings Default renders without TIP-004 throw", () => {
     render(<ModuleEarningsDefault />);
     expect(screen.getByText("Module revenue")).toBeInTheDocument();
+  });
+
+  it("ModuleEarnings Empty renders governed empty copy", () => {
+    const Empty = composePortableStory(moduleEarningsStories, "Empty");
+    render(<Empty />);
+    expect(screen.getByText(/No module revenue yet/i)).toBeInTheDocument();
+  });
+
+  it("ModuleEarnings DecliningModule renders plain secondary change text", () => {
+    const DecliningModule = composePortableStory(moduleEarningsStories, "DecliningModule");
+    const { container } = render(<DecliningModule />);
+    expect(screen.getByText("Inventory")).toBeInTheDocument();
+    const rowChangeValues = container.querySelectorAll(
+      ".app-shell-dashboard-breakdown-metrics .app-shell-dashboard-breakdown-change-value"
+    );
+    expect(rowChangeValues).toHaveLength(1);
+    expect(rowChangeValues[0]).toHaveTextContent("-2.1%");
   });
 
   it("PaymentHistory Default renders without TIP-004 throw", () => {
@@ -72,13 +104,31 @@ describe("Dashboard block stories (portable CSF)", () => {
 
   it("StatisticsLineTrends Default renders without TIP-004 throw", () => {
     render(<StatisticsLineTrendsDefault />);
-    expect(screen.getByText("Orders")).toBeInTheDocument();
+    expect(screen.getByText("Daily orders")).toBeInTheDocument();
   });
 
   it("InvoiceTable Empty renders governed empty copy", () => {
     const Empty = composePortableStory(invoiceTableStories, "Empty");
     render(<Empty />);
-    expect(screen.getByText(/No invoices match your filters/i)).toBeInTheDocument();
+    expect(screen.getByText(/No invoices yet/i)).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: /Create invoice/i }).length
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("InvoiceTable PastDue renders overdue invoice status", () => {
+    const PastDue = composePortableStory(invoiceTableStories, "PastDue");
+    render(<PastDue />);
+    expect(screen.getByText("Northwind Traders")).toBeInTheDocument();
+    expect(
+      document.querySelector('.app-shell-dashboard-invoice-status-dot[data-status="past_due"]')
+    ).not.toBeNull();
+    expect(
+      document.querySelector(".app-shell-dashboard-invoice-amount-danger")
+    ).toHaveTextContent("$8,600.00");
+    expect(
+      screen.getByText(/Overdue balances requiring collections follow-up/)
+    ).toBeInTheDocument();
   });
 
   it("RegionalSales Empty renders governed empty copy", () => {

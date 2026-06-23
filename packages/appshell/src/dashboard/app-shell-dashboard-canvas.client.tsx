@@ -1,32 +1,32 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
 import { DashboardGridLayoutAdapter } from "./dashboard-grid-layout-adapter.client";
 import { DashboardGridWidget } from "./dashboard-grid-widget.client";
-import { DEFAULT_DASHBOARD_LAYOUT } from "./dashboard-layout.defaults";
 import type { DashboardLayoutPreset } from "./dashboard-layout.contract";
+import { DEFAULT_DASHBOARD_LAYOUT } from "./dashboard-layout.defaults";
 import { resolveDashboardLayoutPreset } from "./dashboard-layout.validation";
 import {
-  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
   type DashboardWidgetRenderContext,
+  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
 } from "./dashboard-widget.contract";
-import {
-  filterLayoutItemsByVisibleWidgets,
-  resolveDashboardWidgets,
-} from "./dashboard-widget-resolve";
 import {
   DASHBOARD_WIDGET_DEFINITIONS,
   getDashboardWidgetRegistry,
   isDashboardWidgetId,
 } from "./dashboard-widget-registry";
+import {
+  filterLayoutItemsByVisibleWidgets,
+  resolveDashboardWidgets,
+} from "./dashboard-widget-resolve";
 
 export interface ApplicationShellDashboardCanvasProps {
-  readonly layout?: DashboardLayoutPreset;
-  readonly editMode?: boolean;
-  readonly onLayoutChange?: (layout: DashboardLayoutPreset) => void;
   readonly dashboardLabel?: string;
+  readonly editMode?: boolean;
+  readonly layout?: DashboardLayoutPreset;
+  readonly onLayoutChange?: (layout: DashboardLayoutPreset) => void;
   readonly renderContext?: DashboardWidgetRenderContext;
   readonly showReadonlyPreviewLabel?: boolean;
 }
@@ -41,15 +41,21 @@ export function ApplicationShellDashboardCanvas({
 }: ApplicationShellDashboardCanvasProps) {
   const registry = getDashboardWidgetRegistry();
   const resolvedInitialLayout = useMemo(
-    () => resolveDashboardLayoutPreset(layoutProp, registry, DEFAULT_DASHBOARD_LAYOUT),
+    () =>
+      resolveDashboardLayoutPreset(
+        layoutProp,
+        registry,
+        DEFAULT_DASHBOARD_LAYOUT
+      ),
     [layoutProp, registry]
   );
 
-  const [layout, setLayout] = useState(resolvedInitialLayout);
-
-  useEffect(() => {
-    setLayout(resolvedInitialLayout);
-  }, [resolvedInitialLayout]);
+  // Store only user-initiated edits. Derived from resolvedInitialLayout during
+  // render — avoids the useEffect → setState derived-state anti-pattern.
+  const [localEdits, setLocalEdits] = useState<Partial<DashboardLayoutPreset>>(
+    {}
+  );
+  const layout = { ...resolvedInitialLayout, ...localEdits };
 
   const visibleWidgets = useMemo(
     () => resolveDashboardWidgets(DASHBOARD_WIDGET_DEFINITIONS, renderContext),
@@ -81,7 +87,7 @@ export function ApplicationShellDashboardCanvas({
         registry,
         DEFAULT_DASHBOARD_LAYOUT
       );
-      setLayout(validated);
+      setLocalEdits(validated);
       onLayoutChange?.(validated);
     },
     [onLayoutChange, registry]
@@ -89,36 +95,40 @@ export function ApplicationShellDashboardCanvas({
 
   if (visibleLayoutItems.length === 0) {
     return (
-      <div
+      <section
         aria-label={dashboardLabel}
+        aria-live="polite"
         className="app-shell-dashboard app-shell-dashboard-empty-state"
-        role="region"
       >
         {editMode ? (
           <p className="app-shell-dashboard-empty-state-copy">
-            No widgets available. Adjust capabilities or add widgets to the registry.
+            No widgets available. Adjust capabilities or add widgets to the
+            registry.
           </p>
         ) : (
           <p className="app-shell-dashboard-empty-state-copy">
             Dashboard preview is empty for the current context.
           </p>
         )}
-      </div>
+      </section>
     );
   }
 
   return (
-    <div
+    <section
       aria-label={dashboardLabel}
       className="app-shell-dashboard app-shell-dashboard-canvas"
       data-edit-mode={editMode ? "true" : "false"}
-      role="region"
     >
       {editMode ? (
-        <div className="app-shell-dashboard-edit-badge">Edit mode</div>
+        <div className="app-shell-dashboard-edit-badge" role="status">
+          Edit mode
+        </div>
       ) : null}
       {showReadonlyPreviewLabel && !editMode ? (
-        <div className="app-shell-dashboard-readonly-label">Readonly preview</div>
+        <div className="app-shell-dashboard-readonly-label" role="status">
+          Readonly preview
+        </div>
       ) : null}
 
       <DashboardGridLayoutAdapter
@@ -128,7 +138,9 @@ export function ApplicationShellDashboardCanvas({
         registry={registry}
       >
         {visibleLayoutItems.map((item) => {
-          const widget = isDashboardWidgetId(item.i) ? registry.get(item.i) : undefined;
+          const widget = isDashboardWidgetId(item.i)
+            ? registry.get(item.i)
+            : undefined;
           if (widget === undefined) {
             return null;
           }
@@ -145,6 +157,6 @@ export function ApplicationShellDashboardCanvas({
           );
         })}
       </DashboardGridLayoutAdapter>
-    </div>
+    </section>
   );
 }

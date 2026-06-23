@@ -1,8 +1,20 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { ReactNode } from "react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
-import { Badge } from "./badge";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
+import {
+  CURRENCIES,
+  ControlledSelectDemo,
+  DEPARTMENTS,
+  FILTER_OPTIONS,
+  type FilterLabel,
+  GL_ACCOUNTS,
+  LabeledSelect,
+  PAYMENT_TERMS,
+  PRIORITY_LEVELS,
+  RECORD_STATUSES,
+  SelectShell,
+} from "./_storybook/select-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Label } from "./label";
 import { NativeSelect, NativeSelectOption } from "./native-select";
 import {
@@ -15,148 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-
-// ─── Shared ERP option sets ────────────────────────────────────────────────
-
-const RECORD_STATUSES = [
-  "Active",
-  "Inactive",
-  "Pending",
-  "Suspended",
-  "Archived",
-] as const;
-
-const PRIORITY_LEVELS = ["Critical", "High", "Medium", "Low"] as const;
-
-const DEPARTMENTS = [
-  "Engineering",
-  "Finance",
-  "HR",
-  "Operations",
-  "Sales",
-  "Legal",
-] as const;
-
-const CURRENCIES = [
-  "USD — US Dollar",
-  "EUR — Euro",
-  "GBP — British Pound",
-  "AUD — Australian Dollar",
-  "SGD — Singapore Dollar",
-] as const;
-
-const PAYMENT_TERMS = [
-  "Net 15",
-  "Net 30",
-  "Net 45",
-  "Net 60",
-  "Due on receipt",
-] as const;
-
-const GL_ACCOUNTS = [
-  "6100 — Office Supplies",
-  "6200 — Travel & Entertainment",
-  "6300 — Professional Services",
-  "5200 — Accrued Expenses",
-  "1100 — Accounts Receivable",
-] as const;
-
-type FilterLabel = "Status" | "Department" | "Priority";
-
-const FILTER_OPTIONS: Record<FilterLabel, readonly string[]> = {
-  Status: RECORD_STATUSES,
-  Department: DEPARTMENTS,
-  Priority: PRIORITY_LEVELS,
-};
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function SelectShell({
-  children,
-  defaultValue,
-  id,
-  placeholder = "Select…",
-  size,
-}: {
-  readonly children: ReactNode;
-  readonly defaultValue?: string;
-  readonly id?: string;
-  readonly placeholder?: string;
-  readonly size?: "sm" | "md";
-}) {
-  return (
-    <Select {...(defaultValue ? { defaultValue } : {})}>
-      <SelectTrigger id={id} {...(size ? { size } : {})}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>{children}</SelectContent>
-    </Select>
-  );
-}
-
-function LabeledSelect({
-  children,
-  defaultValue,
-  id,
-  label,
-  placeholder,
-  required,
-  size,
-}: {
-  readonly children: ReactNode;
-  readonly defaultValue?: string;
-  readonly id: string;
-  readonly label: string;
-  readonly placeholder?: string;
-  readonly required?: boolean;
-  readonly size?: "sm" | "md";
-}) {
-  return (
-    <StoryStack gap="xs">
-      <Label htmlFor={id}>
-        {label}
-        {required ? (
-          <span aria-hidden="true" className="text-destructive">
-            {" "}
-            *
-          </span>
-        ) : null}
-      </Label>
-      <SelectShell
-        id={id}
-        {...(defaultValue ? { defaultValue } : {})}
-        {...(placeholder ? { placeholder } : {})}
-        {...(size ? { size } : {})}
-      >
-        {children}
-      </SelectShell>
-    </StoryStack>
-  );
-}
-
-function ControlledSelectDemo() {
-  const [value, setValue] = useState("pending");
-
-  return (
-    <StoryStack gap="sm">
-      <Select onValueChange={setValue} value={value}>
-        <SelectTrigger id="controlled-status">
-          <SelectValue placeholder="Select status…" />
-        </SelectTrigger>
-        <SelectContent>
-          {RECORD_STATUSES.map((status) => (
-            <SelectItem key={status} value={status.toLowerCase()}>
-              {status}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <span className="text-muted-foreground text-xs">
-        Selected value: <Badge emphasis="soft">{value}</Badge>
-      </span>
-    </StoryStack>
-  );
-}
 
 // ─── Select ────────────────────────────────────────────────────────────────
 
@@ -284,14 +154,14 @@ export const Controlled: Story = {
 };
 
 export const GovernanceAllSizes: Story = {
-  name: "Matrix — All Sizes",
+  name: "Governance — All Sizes",
   parameters: { layout: "padded" },
   render: () => (
     <StoryFrame width="sm">
       <StoryStack gap="sm">
         {(["sm", "md"] as const).map((size) => (
-          <StoryStack gap="xs" key={size}>
-            <Label>Size: {size}</Label>
+          <StoryRow align="start" gap="md" key={size}>
+            <StoryCaption width="sm">size={size}</StoryCaption>
             <SelectShell placeholder={`size="${size}"`} size={size}>
               {RECORD_STATUSES.map((status) => (
                 <SelectItem key={status} value={status.toLowerCase()}>
@@ -299,7 +169,7 @@ export const GovernanceAllSizes: Story = {
                 </SelectItem>
               ))}
             </SelectShell>
-          </StoryStack>
+          </StoryRow>
         ))}
       </StoryStack>
     </StoryFrame>
@@ -726,6 +596,67 @@ export const SelectVsCombobox: Story = {
           </SelectItem>
         ))}
       </LabeledSelect>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Select trigger attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="sm">
+      <Select state="ready">
+        <SelectTrigger
+          aria-label="Record status"
+          data-component="Override"
+          data-recipe="override"
+          data-slot="override"
+          data-state="fake"
+        >
+          <SelectValue placeholder="Choose status…" />
+        </SelectTrigger>
+        <SelectContent>
+          {RECORD_STATUSES.map((status) => (
+            <SelectItem key={status} value={status.toLowerCase()}>
+              {status}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — States",
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="md">
+        {GOVERNED_STATES.map((state) => (
+          <StoryRow align="start" gap="md" key={state}>
+            <StoryCaption width="sm">{state}</StoryCaption>
+            <LabeledSelect
+              id={`select-state-${state}`}
+              label="Department"
+              placeholder="Choose department…"
+              state={state}
+            >
+              {DEPARTMENTS.map((department) => (
+                <SelectItem key={department} value={department.toLowerCase()}>
+                  {department}
+                </SelectItem>
+              ))}
+            </LabeledSelect>
+          </StoryRow>
+        ))}
+      </StoryStack>
     </StoryFrame>
   ),
 };

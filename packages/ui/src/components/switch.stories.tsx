@@ -1,3 +1,4 @@
+import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -10,8 +11,11 @@ import {
   ShieldCheckIcon,
   TruckIcon,
 } from "lucide-react";
-import React, { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  ControlledAutoSavePanel,
+  SwitchSettingRow,
+} from "./_storybook/switch-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
   Field,
@@ -25,86 +29,6 @@ import {
 import { Label } from "./label";
 import { Separator } from "./separator";
 import { Switch } from "./switch";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-interface SwitchSettingRowProps {
-  readonly badge?: { text: string; tone: "success" | "warning" | "info" };
-  readonly defaultChecked?: boolean;
-  readonly description?: string;
-  readonly disabled?: boolean;
-  readonly id: string;
-  readonly label: string;
-  readonly size?: "sm" | "md";
-}
-
-function SwitchSettingRow({
-  id,
-  label,
-  description,
-  defaultChecked,
-  disabled,
-  badge,
-  size = "md",
-}: SwitchSettingRowProps) {
-  return (
-    <StoryRow
-      align="center"
-      className="rounded-md border border-border"
-      justify="between"
-      padding="sm"
-    >
-      <StoryStack gap="xs">
-        <StoryRow align="center" gap="sm">
-          <span className="font-medium text-sm">{label}</span>
-          {badge ? (
-            <Badge emphasis="soft" size="sm" tone={badge.tone}>
-              {badge.text}
-            </Badge>
-          ) : null}
-        </StoryRow>
-        {description ? (
-          <span className="text-muted-foreground text-xs">{description}</span>
-        ) : null}
-      </StoryStack>
-      <Switch
-        disabled={disabled}
-        id={id}
-        size={size}
-        {...(defaultChecked === undefined ? {} : { defaultChecked })}
-      />
-    </StoryRow>
-  );
-}
-
-function ControlledAutoSaveComponent() {
-  const [enabled, setEnabled] = useState(true);
-
-  return (
-    <StoryFrame width="md">
-      <StoryStack gap="md">
-        <StoryRow align="center" justify="between">
-          <StoryStack gap="xs">
-            <span className="font-medium">
-              <Label htmlFor="ctrl-autosave">Auto-save drafts</Label>
-            </span>
-            <span className="text-muted-foreground text-xs">
-              Saves open forms every 30 seconds
-            </span>
-          </StoryStack>
-          <Switch
-            checked={enabled}
-            id="ctrl-autosave"
-            onCheckedChange={setEnabled}
-          />
-        </StoryRow>
-        <span className="text-muted-foreground text-xs">
-          Status: {enabled ? "Enabled — drafts sync to server" : "Disabled"}
-        </span>
-      </StoryStack>
-    </StoryFrame>
-  );
-}
 
 // ─── Switch ────────────────────────────────────────────────────────────────
 
@@ -195,23 +119,48 @@ export const Disabled: Story = {
 
 // ─── Governance ────────────────────────────────────────────────────────────
 
-export const GovernanceAllStates: Story = {
-  name: "Governance — All States",
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Switch root attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryRow align="center" gap="sm">
+      <Switch
+        aria-label="Email notifications"
+        data-component="Override"
+        data-recipe="override"
+        data-slot="override"
+        data-state="fake"
+        defaultChecked
+        id="sw-governance"
+        state="ready"
+      />
+      <Label htmlFor="sw-governance">Governed switch</Label>
+    </StoryRow>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — States",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.map((state) => (
-        <StoryFrame key={state} width="md">
-          <span className="font-mono text-muted-foreground text-xs">
-            state=&quot;{state}&quot;
-          </span>
-          <StoryRow align="center" gap="sm">
+    <StoryFrame width="md">
+      <StoryStack gap="md">
+        {GOVERNED_STATES.map((state) => (
+          <StoryRow align="center" gap="md" key={state}>
+            <StoryCaption width="sm">{state}</StoryCaption>
             <Switch defaultChecked id={`sw-state-${state}`} state={state} />
             <Label htmlFor={`sw-state-${state}`}>State probe</Label>
           </StoryRow>
-        </StoryFrame>
-      ))}
-    </StoryStack>
+        ))}
+      </StoryStack>
+    </StoryFrame>
   ),
 };
 
@@ -240,18 +189,21 @@ export const GovernanceAccessibility: Story = {
   ),
 };
 
-export const AllSizes: Story = {
-  name: "Matrix — All Sizes",
+export const GovernanceSizes: Story = {
+  name: "Governance — Sizes",
   parameters: { layout: "padded" },
   render: () => (
-    <StoryStack gap="sm">
-      {(["sm", "md"] as const).map((size) => (
-        <StoryRow align="center" gap="sm" key={size}>
-          <Switch defaultChecked id={`sw-sz-${size}`} size={size} />
-          <Label htmlFor={`sw-sz-${size}`}>Size: {size}</Label>
-        </StoryRow>
-      ))}
-    </StoryStack>
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        {(["sm", "md"] as const).map((size) => (
+          <StoryRow align="center" gap="md" key={size}>
+            <StoryCaption width="sm">{size}</StoryCaption>
+            <Switch defaultChecked id={`sw-sz-${size}`} size={size} />
+            <Label htmlFor={`sw-sz-${size}`}>Size {size}</Label>
+          </StoryRow>
+        ))}
+      </StoryStack>
+    </StoryFrame>
   ),
 };
 
@@ -604,7 +556,7 @@ export const ShippingNotifications: Story = {
 export const ControlledInteractive: Story = {
   name: "ERP — Controlled (Interactive)",
   parameters: { layout: "padded" },
-  render: () => <ControlledAutoSaveComponent />,
+  render: () => <ControlledAutoSavePanel />,
 };
 
 export const FieldHorizontalLayout: Story = {

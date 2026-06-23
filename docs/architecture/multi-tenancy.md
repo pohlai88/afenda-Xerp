@@ -499,6 +499,7 @@ Step 1 — Glossary first
   * Consolidation Scope
 * Add “do not confuse” notes.
 
+
 Step 2 — Existing-state audit
 
 * Audit existing schemas for tenant/company/org/team/project.
@@ -508,6 +509,7 @@ Step 2 — Existing-state audit
 * Audit existing tenant subdomain/proxy/middleware.
 * Audit API/server actions using company/org IDs.
 * Output table before modifying.
+
 
 Step 3 — Authority design
 

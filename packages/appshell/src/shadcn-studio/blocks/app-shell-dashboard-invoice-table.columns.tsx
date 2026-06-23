@@ -1,13 +1,4 @@
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  EllipsisVerticalIcon,
-  EyeIcon,
-  Trash2Icon,
-} from "lucide-react";
-import type { ColumnDef } from "@tanstack/react-table";
-
-import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -24,11 +15,27 @@ import {
   TooltipTrigger,
 } from "@afenda/ui";
 import { mapStockButtonProps } from "@afenda/ui/governance";
+import type { ColumnDef } from "@tanstack/react-table";
+import { EllipsisVerticalIcon, EyeIcon, Trash2Icon } from "lucide-react";
 
 import type {
   AppShellDashboardInvoiceRow,
   AppShellInvoiceStatus,
 } from "../data/app-shell.dashboard.types";
+
+const INVOICE_STATUS_LABELS = {
+  downloaded: "Downloaded",
+  draft: "Draft",
+  paid: "Paid",
+  past_due: "Past due",
+} as const satisfies Record<AppShellInvoiceStatus["kind"], string>;
+
+const INVOICE_STATUS_DESCRIPTIONS = {
+  downloaded: "Invoice PDF downloaded by the client",
+  draft: "Draft invoice awaiting review and send",
+  paid: "Invoice settled in full",
+  past_due: "Payment overdue — follow up required",
+} as const satisfies Record<AppShellInvoiceStatus["kind"], string>;
 
 export function formatInvoiceCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -45,43 +52,12 @@ export function formatIssuedDate(date: Date): string {
   });
 }
 
-function resolveStatusDotClass(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "paid":
-      return "app-shell-dashboard-invoice-status-paid";
-    case "past_due":
-      return "app-shell-dashboard-invoice-status-past-due";
-    case "draft":
-      return "app-shell-dashboard-invoice-status-draft";
-    case "downloaded":
-      return "app-shell-dashboard-invoice-status-downloaded";
-  }
-}
-
 function resolveStatusLabel(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "downloaded":
-      return "Downloaded";
-    case "draft":
-      return "Draft";
-    case "paid":
-      return "Paid";
-    case "past_due":
-      return "Past due";
-  }
+  return INVOICE_STATUS_LABELS[status.kind];
 }
 
 function resolveStatusDescription(status: AppShellInvoiceStatus): string {
-  switch (status.kind) {
-    case "downloaded":
-      return "Invoice PDF downloaded by the client";
-    case "draft":
-      return "Draft invoice awaiting review and send";
-    case "paid":
-      return "Invoice settled in full";
-    case "past_due":
-      return "Payment overdue — follow up required";
-  }
+  return INVOICE_STATUS_DESCRIPTIONS[status.kind];
 }
 
 function InvoiceRowActions({
@@ -97,6 +73,7 @@ function InvoiceRowActions({
         <Button
           {...mapStockButtonProps("ghost", "icon-sm")}
           aria-label={`More actions for invoice ${invoiceId}`}
+          type="button"
         >
           <EllipsisVerticalIcon
             aria-hidden
@@ -105,20 +82,22 @@ function InvoiceRowActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Download PDF</DropdownMenuItem>
-          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-          {status.kind === "past_due" ? (
-            <DropdownMenuItem>Send payment reminder</DropdownMenuItem>
-          ) : null}
-          {status.kind === "draft" ? (
-            <DropdownMenuItem>Send to client</DropdownMenuItem>
-          ) : null}
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Archive</DropdownMenuItem>
-        </DropdownMenuGroup>
+        <div className="app-shell-dashboard-invoice-row-actions-menu">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Download PDF</DropdownMenuItem>
+            <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            {status.kind === "past_due" ? (
+              <DropdownMenuItem>Send payment reminder</DropdownMenuItem>
+            ) : null}
+            {status.kind === "draft" ? (
+              <DropdownMenuItem>Send to client</DropdownMenuItem>
+            ) : null}
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Archive</DropdownMenuItem>
+          </DropdownMenuGroup>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -136,7 +115,9 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() ? "indeterminate" : false)
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(value === true)}
+          onCheckedChange={(value) =>
+            table.toggleAllPageRowsSelected(value === true)
+          }
         />
       ),
       cell: ({ row }) => (
@@ -151,7 +132,9 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
     {
       accessorKey: "id",
       cell: ({ row }) => (
-        <span className="app-shell-dashboard-invoice-id">#{row.getValue("id")}</span>
+        <span className="app-shell-dashboard-invoice-id">
+          #{row.getValue("id")}
+        </span>
       ),
       enableSorting: true,
       header: "Invoice",
@@ -165,15 +148,20 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
         return (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="app-shell-dashboard-invoice-status-cell">
+              <button
+                aria-label={`${resolveStatusLabel(status)}. ${resolveStatusDescription(status)}`}
+                className="app-shell-dashboard-invoice-status-cell"
+                type="button"
+              >
                 <span
                   aria-hidden
-                  className={`app-shell-dashboard-invoice-status-dot ${resolveStatusDotClass(status)}`}
+                  className="app-shell-dashboard-invoice-status-dot"
+                  data-status={status.kind}
                 />
                 <span className="app-shell-dashboard-invoice-status-label">
                   {resolveStatusLabel(status)}
                 </span>
-              </div>
+              </button>
             </TooltipTrigger>
             <TooltipContent>
               <p>{resolveStatusDescription(status)}</p>
@@ -191,7 +179,10 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
       cell: ({ row }) => (
         <div className="app-shell-dashboard-invoice-client-cell">
           <Avatar size="sm">
-            <AvatarImage alt={row.getValue("client")} src={row.original.avatarSrc} />
+            <AvatarImage
+              alt={row.getValue("client")}
+              src={row.original.avatarSrc}
+            />
             <AvatarFallback>{row.original.avatarFallback}</AvatarFallback>
           </Avatar>
           <div className="app-shell-dashboard-invoice-client-copy">
@@ -226,7 +217,9 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
           return null;
         }
         return (
-          <span className="app-shell-dashboard-invoice-date">{formatIssuedDate(date)}</span>
+          <span className="app-shell-dashboard-invoice-date">
+            {formatIssuedDate(date)}
+          </span>
         );
       },
       enableSorting: true,
@@ -238,7 +231,9 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
       cell: ({ row }) => {
         if (row.original.balance === 0) {
           return (
-            <span className="app-shell-dashboard-invoice-balance-settled">Paid</span>
+            <span className="app-shell-dashboard-invoice-balance-settled">
+              Paid
+            </span>
           );
         }
 
@@ -266,8 +261,12 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
               <Button
                 {...mapStockButtonProps("ghost", "icon-sm")}
                 aria-label={`Delete invoice ${row.original.id}`}
+                type="button"
               >
-                <Trash2Icon aria-hidden className="app-shell-dashboard-invoice-action-icon" />
+                <Trash2Icon
+                  aria-hidden
+                  className="app-shell-dashboard-invoice-action-icon"
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -279,15 +278,22 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
               <Button
                 {...mapStockButtonProps("ghost", "icon-sm")}
                 aria-label={`View invoice ${row.original.id}`}
+                type="button"
               >
-                <EyeIcon aria-hidden className="app-shell-dashboard-invoice-action-icon" />
+                <EyeIcon
+                  aria-hidden
+                  className="app-shell-dashboard-invoice-action-icon"
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
               <p>View</p>
             </TooltipContent>
           </Tooltip>
-          <InvoiceRowActions invoiceId={row.original.id} status={row.original.status} />
+          <InvoiceRowActions
+            invoiceId={row.original.id}
+            status={row.original.status}
+          />
         </div>
       ),
       enableHiding: false,
@@ -299,17 +305,12 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
   ];
 }
 
-export function resolveInvoiceStatusLabelFromFilterValue(value: string): string {
-  switch (value) {
-    case "downloaded":
-      return "Downloaded";
-    case "draft":
-      return "Draft";
-    case "paid":
-      return "Paid";
-    case "past_due":
-      return "Past due";
-    default:
-      return value;
+export function resolveInvoiceStatusLabelFromFilterValue(
+  value: string
+): string {
+  if (value in INVOICE_STATUS_LABELS) {
+    return INVOICE_STATUS_LABELS[value as AppShellInvoiceStatus["kind"]];
   }
+
+  return value;
 }

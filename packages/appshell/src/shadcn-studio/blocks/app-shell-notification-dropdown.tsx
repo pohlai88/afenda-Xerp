@@ -1,6 +1,3 @@
-import type { ReactNode } from "react";
-import { LinkIcon, SettingsIcon, XIcon } from "lucide-react";
-
 import {
   Avatar,
   AvatarFallback,
@@ -19,23 +16,26 @@ import {
   TabsTrigger,
 } from "@afenda/ui";
 import {
-  mapStockButtonProps,
   type GovernedUiComponentName,
+  mapStockButtonProps,
 } from "@afenda/ui/governance";
+import { LinkIcon, SettingsIcon, XIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import {
-  countDefaultAppShellUnreadNotifications,
-  countUnreadAppShellNotifications,
-  defaultAppShellGeneralNotifications,
-  defaultAppShellInboxNotifications,
   type AppShellNotificationActor,
   type AppShellNotificationItem,
+  countUnreadAppShellNotifications,
+  DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_LIST_LABEL,
+  DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_TAB_LABEL,
+  DEFAULT_APP_SHELL_NOTIFICATION_INBOX_LIST_LABEL,
+  DEFAULT_APP_SHELL_NOTIFICATION_INBOX_TAB_LABEL,
+  DEFAULT_APP_SHELL_NOTIFICATION_MENU_LABEL,
+  DEFAULT_APP_SHELL_NOTIFICATION_SETTINGS_LABEL,
+  defaultAppShellGeneralNotifications,
+  defaultAppShellInboxNotifications,
 } from "../data/app-shell.notification.data";
 
-const DEFAULT_MENU_LABEL = "Notifications";
-const DEFAULT_SETTINGS_LABEL = "Notification settings";
-const DEFAULT_INBOX_TAB_LABEL = "Inbox";
-const DEFAULT_GENERAL_TAB_LABEL = "General";
 const DEFAULT_SETTINGS_HREF = "#";
 
 export type AppShellNotificationDropdownGovernedComponents = Extract<
@@ -44,21 +44,25 @@ export type AppShellNotificationDropdownGovernedComponents = Extract<
 >;
 
 export interface AppShellNotificationDropdownProps {
-  readonly trigger: ReactNode;
-  readonly defaultOpen?: boolean;
   readonly align?: "start" | "center" | "end";
-  readonly inboxItems?: readonly AppShellNotificationItem[];
+  readonly defaultOpen?: boolean;
+  readonly defaultTab?: "general" | "inbox";
   readonly generalItems?: readonly AppShellNotificationItem[];
-  readonly unreadCount?: number;
-  readonly menuLabel?: string;
-  readonly inboxTabLabel?: string;
   readonly generalTabLabel?: string;
+  readonly inboxItems?: readonly AppShellNotificationItem[];
+  readonly inboxTabLabel?: string;
+  readonly menuLabel?: string;
   readonly settingsHref?: string;
   readonly settingsLabel?: string;
-  readonly defaultTab?: "general" | "inbox";
+  readonly trigger: ReactNode;
+  readonly unreadCount?: number;
 }
 
-function NotificationActorAvatar({ actor }: { readonly actor: AppShellNotificationActor }) {
+function NotificationActorAvatar({
+  actor,
+}: {
+  readonly actor: AppShellNotificationActor;
+}) {
   return (
     <Avatar>
       <AvatarImage alt={actor.name} src={actor.avatarSrc} />
@@ -80,7 +84,11 @@ function NotificationUnreadDot({ visible }: { readonly visible: boolean }) {
   );
 }
 
-function NotificationDismissControl({ visible }: { readonly visible: boolean }) {
+function NotificationDismissControl({
+  visible,
+}: {
+  readonly visible: boolean;
+}) {
   if (!visible) {
     return null;
   }
@@ -114,27 +122,36 @@ function NotificationAttachmentLink({
   readonly label: string;
 }) {
   return (
-    <a
-      className="app-shell-notification-attachment-link"
-      href={href}
-    >
-      <LinkIcon aria-hidden className="app-shell-notification-attachment-icon" />
+    <a className="app-shell-notification-attachment-link" href={href}>
+      <LinkIcon
+        aria-hidden
+        className="app-shell-notification-attachment-icon"
+      />
       <span>{label}</span>
     </a>
   );
 }
 
-function NotificationRowContent({ item }: { readonly item: AppShellNotificationItem }) {
+function NotificationRowContent({
+  item,
+}: {
+  readonly item: AppShellNotificationItem;
+}) {
   return (
     <>
       <div className="app-shell-notification-row-copy">
         <span className="app-shell-notification-row-title">{item.title}</span>
         <div className="app-shell-notification-row-meta">
-          <time className="app-shell-notification-row-time" dateTime={item.occurredAt}>
+          <time
+            className="app-shell-notification-row-time"
+            dateTime={item.occurredAt}
+          >
             {item.relativeTime}
           </time>
           <NotificationUnreadDot visible={item.unread === true} />
-          <span className="app-shell-notification-row-category">{item.category}</span>
+          <span className="app-shell-notification-row-category">
+            {item.category}
+          </span>
         </div>
         {item.kind === "approval" ? <NotificationApprovalActions /> : null}
         {item.kind === "attachment" ? (
@@ -196,8 +213,7 @@ function NotificationMenuHeader({
   readonly settingsHref: string;
   readonly settingsLabel: string;
 }) {
-  const unreadBadgeLabel =
-    unreadCount === 1 ? "1 new" : `${unreadCount} new`;
+  const unreadBadgeLabel = unreadCount === 1 ? "1 new" : `${unreadCount} new`;
 
   return (
     <DropdownMenuLabel>
@@ -225,7 +241,10 @@ function NotificationMenuHeader({
             className="app-shell-notification-settings-link"
             href={settingsHref}
           >
-            <SettingsIcon aria-hidden className="app-shell-notification-settings-icon" />
+            <SettingsIcon
+              aria-hidden
+              className="app-shell-notification-settings-icon"
+            />
           </a>
         </div>
       </div>
@@ -240,11 +259,11 @@ export function AppShellNotificationDropdown({
   inboxItems = defaultAppShellInboxNotifications,
   generalItems = defaultAppShellGeneralNotifications,
   unreadCount,
-  menuLabel = DEFAULT_MENU_LABEL,
-  inboxTabLabel = DEFAULT_INBOX_TAB_LABEL,
-  generalTabLabel = DEFAULT_GENERAL_TAB_LABEL,
+  menuLabel = DEFAULT_APP_SHELL_NOTIFICATION_MENU_LABEL,
+  inboxTabLabel = DEFAULT_APP_SHELL_NOTIFICATION_INBOX_TAB_LABEL,
+  generalTabLabel = DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_TAB_LABEL,
   settingsHref = DEFAULT_SETTINGS_HREF,
-  settingsLabel = DEFAULT_SETTINGS_LABEL,
+  settingsLabel = DEFAULT_APP_SHELL_NOTIFICATION_SETTINGS_LABEL,
   defaultTab = "inbox",
 }: AppShellNotificationDropdownProps) {
   const resolvedUnreadCount =
@@ -270,13 +289,16 @@ export function AppShellNotificationDropdown({
             <DropdownMenuSeparator />
 
             <TabsContent value="inbox">
-              <NotificationList items={inboxItems} listLabel="Inbox notifications" />
+              <NotificationList
+                items={inboxItems}
+                listLabel={DEFAULT_APP_SHELL_NOTIFICATION_INBOX_LIST_LABEL}
+              />
             </TabsContent>
 
             <TabsContent value="general">
               <NotificationList
                 items={generalItems}
-                listLabel="General notifications"
+                listLabel={DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_LIST_LABEL}
               />
             </TabsContent>
           </Tabs>

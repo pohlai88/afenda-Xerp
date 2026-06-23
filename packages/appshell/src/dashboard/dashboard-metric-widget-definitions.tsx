@@ -27,7 +27,9 @@ const KPI_WIDGET_SIZING = {
   defaultH: 2,
 } as const;
 
-function isSparklineWidgetId(value: string): value is DashboardSparklineWidgetId {
+function isSparklineWidgetId(
+  value: string
+): value is DashboardSparklineWidgetId {
   return value === "sparkline-revenue" || value === "sparkline-expense";
 }
 
@@ -54,7 +56,7 @@ export function createSparklineMetricWidgetDefinitions(): DashboardWidgetDefinit
         description: `${metric.title} sparkline metric card.`,
         category: "kpi",
         ...SPARKLINE_WIDGET_SIZING,
-        render: () => (
+        render: (_context) => (
           <AppShellDashboardSparklineStat
             comparisonLabel={comparisonLabel}
             {...metric}
@@ -79,8 +81,12 @@ export function createKpiMetricWidgetDefinitions(): DashboardWidgetDefinition[] 
         description: `${metric.title} KPI card with period caption and trend footnote.`,
         category: "kpi",
         ...KPI_WIDGET_SIZING,
-        render: () => (
-          <AppShellDashboardKpiStat comparisonLabel={comparisonLabel} {...metric} />
+        render: (_context) => (
+          <AppShellDashboardKpiStat
+            comparisonLabel={comparisonLabel}
+            emphasis={widgetId === "kpi-net-income" ? "primary" : "default"}
+            {...metric}
+          />
         ),
       },
     ];

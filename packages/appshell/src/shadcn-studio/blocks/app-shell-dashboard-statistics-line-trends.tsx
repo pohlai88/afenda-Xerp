@@ -15,8 +15,8 @@ export type AppShellDashboardStatisticsLineTrendsGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardStatisticsLineTrendsProps {
-  readonly sectionLabel?: string;
   readonly cards?: readonly StatisticsLineTrendsCardProps[];
+  readonly sectionLabel?: string;
 }
 
 export function AppShellDashboardStatisticsLineTrends({

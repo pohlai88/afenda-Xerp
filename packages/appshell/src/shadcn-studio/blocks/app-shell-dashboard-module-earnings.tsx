@@ -1,8 +1,7 @@
-import { useId, useMemo } from "react";
-import { LayersIcon } from "lucide-react";
-
 import { Card, Progress, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { LayersIcon } from "lucide-react";
+import { useId, useMemo } from "react";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_COMPARISON,
@@ -19,10 +18,10 @@ import type {
 import {
   computeDashboardShare,
   computeWeightedDashboardTrend,
+  type DashboardBreakdownAggregateTrend,
   formatDashboardCurrency,
   parseDashboardAmount,
   TrendIndicator,
-  type DashboardBreakdownAggregateTrend,
 } from "./app-shell-dashboard-breakdown.utils";
 import { AppShellDashboardOverflowMenu } from "./app-shell-dashboard-overflow-menu";
 
@@ -32,32 +31,35 @@ export type AppShellDashboardModuleEarningsGovernedComponents = Extract<
 >;
 
 export interface AppShellDashboardModuleEarningsProps {
-  readonly title?: string;
-  readonly subtitle?: string;
-  readonly total?: number;
   readonly comparisonText?: string;
-  readonly rows?: readonly AppShellDashboardModuleEarningRow[];
   readonly overflowItems?: readonly AppShellDashboardOverflowMenuItem[];
+  readonly rows?: readonly AppShellDashboardModuleEarningRow[];
+  readonly subtitle?: string;
+  readonly title?: string;
+  readonly total?: number;
 }
 
 export interface RankedModuleEarningRow {
-  readonly row: AppShellDashboardModuleEarningRow;
   readonly rank: number;
+  readonly row: AppShellDashboardModuleEarningRow;
   readonly share: number;
 }
 
 export interface ModuleEarningsSummary {
-  readonly totalRevenue: number;
   readonly aggregateTrend: DashboardBreakdownAggregateTrend;
-  readonly topModule: { readonly name: string; readonly share: number } | null;
-  readonly growingCount: number;
   readonly decliningCount: number;
+  readonly growingCount: number;
+  readonly topModule: { readonly name: string; readonly share: number } | null;
+  readonly totalRevenue: number;
 }
 
 export function computeTotalModuleEarnings(
   rows: readonly AppShellDashboardModuleEarningRow[]
 ): number {
-  return rows.reduce((total, row) => total + parseDashboardAmount(row.amount), 0);
+  return rows.reduce(
+    (total, row) => total + parseDashboardAmount(row.amount),
+    0
+  );
 }
 
 export function buildRankedModuleEarningRows(
@@ -73,7 +75,8 @@ export function buildRankedModuleEarningRows(
     }))
     .sort((left, right) => {
       const amountDelta =
-        parseDashboardAmount(right.row.amount) - parseDashboardAmount(left.row.amount);
+        parseDashboardAmount(right.row.amount) -
+        parseDashboardAmount(left.row.amount);
       if (amountDelta !== 0) {
         return amountDelta;
       }
@@ -132,12 +135,24 @@ function ModuleEarningRow({
           {rank}
         </span>
         <div className="app-shell-dashboard-breakdown-icon-frame">
-          <img alt={row.iconAlt} height={40} loading="lazy" src={row.iconSrc} width={40} />
+          <img
+            alt={row.iconAlt}
+            height={40}
+            loading="lazy"
+            src={row.iconSrc}
+            width={40}
+          />
         </div>
         <div className="app-shell-dashboard-breakdown-copy">
-          <span className="app-shell-dashboard-breakdown-name">{row.module}</span>
-          <span className="app-shell-dashboard-breakdown-amount">{row.amount}</span>
-          <span className="app-shell-dashboard-breakdown-detail">{row.subtitle}</span>
+          <span className="app-shell-dashboard-breakdown-name">
+            {row.module}
+          </span>
+          <span className="app-shell-dashboard-breakdown-amount">
+            {row.amount}
+          </span>
+          <span className="app-shell-dashboard-breakdown-detail">
+            {row.subtitle}
+          </span>
           <div className="app-shell-dashboard-breakdown-share-frame">
             <Progress aria-label={shareLabel} value={share} />
           </div>
@@ -145,15 +160,16 @@ function ModuleEarningRow({
       </div>
       <div className="app-shell-dashboard-breakdown-metrics">
         <div className="app-shell-dashboard-breakdown-change-row">
-          <span className="app-shell-dashboard-breakdown-change-value">{row.changeLabel}</span>
+          <span className="app-shell-dashboard-breakdown-change-value">
+            {row.changeLabel}
+          </span>
           <span className="app-shell-dashboard-breakdown-trend">
             <TrendIndicator trend={row.trend} />
-            <span className="sr-only">
-              {row.trend === "up" ? "Trending up" : "Trending down"}
-            </span>
           </span>
         </div>
-        <span className="app-shell-dashboard-breakdown-share">{share}% mix</span>
+        <span className="app-shell-dashboard-breakdown-share">
+          {share}% mix
+        </span>
       </div>
     </li>
   );
@@ -167,8 +183,9 @@ export function AppShellDashboardModuleEarnings({
   rows = defaultAppShellDashboardModuleEarnings,
   overflowItems = DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
 }: AppShellDashboardModuleEarningsProps) {
+  const titleId = useId();
   const summaryId = useId();
-  const listId = useId();
+  const listLabelId = useId();
   const summary = useMemo(
     () => buildModuleEarningsSummary(rows, total),
     [rows, total]
@@ -182,11 +199,13 @@ export function AppShellDashboardModuleEarnings({
     : "No module mix available";
 
   return (
-    <div className="app-shell-dashboard-widget">
+    <article aria-labelledby={titleId} className="app-shell-dashboard-widget">
       <Card>
         <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
           <div className="app-shell-dashboard-widget-heading">
-            <h2 className="app-shell-dashboard-widget-title">{title}</h2>
+            <h2 className="app-shell-dashboard-widget-title" id={titleId}>
+              {title}
+            </h2>
             <p className="app-shell-dashboard-widget-subtitle">{subtitle}</p>
           </div>
           <AppShellDashboardOverflowMenu
@@ -201,54 +220,78 @@ export function AppShellDashboardModuleEarnings({
             className="app-shell-dashboard-breakdown-summary"
           >
             <div className="app-shell-dashboard-breakdown-total-row">
-              <span className="app-shell-dashboard-breakdown-total" id={summaryId}>
+              <span
+                className="app-shell-dashboard-breakdown-total"
+                id={summaryId}
+              >
                 {formatDashboardCurrency(summary.totalRevenue)}
               </span>
               <span className="app-shell-dashboard-breakdown-change-value">
                 {summary.aggregateTrend.label}
               </span>
-              <span className="app-shell-dashboard-breakdown-meta">{moduleCountLabel}</span>
+              <span className="app-shell-dashboard-breakdown-meta">
+                {moduleCountLabel}
+              </span>
             </div>
             <div className="app-shell-dashboard-breakdown-insights-row">
-              <span className="app-shell-dashboard-breakdown-insight">{insightsLabel}</span>
-              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
+              <span className="app-shell-dashboard-breakdown-insight">
+                {insightsLabel}
+              </span>
+              <span
+                aria-hidden
+                className="app-shell-dashboard-breakdown-insight-divider"
+              >
                 ·
               </span>
               <span className="app-shell-dashboard-breakdown-insight">
                 {summary.growingCount} growing
               </span>
-              <span aria-hidden className="app-shell-dashboard-breakdown-insight-divider">
+              <span
+                aria-hidden
+                className="app-shell-dashboard-breakdown-insight-divider"
+              >
                 ·
               </span>
               <span className="app-shell-dashboard-breakdown-insight">
                 {summary.decliningCount} declining
               </span>
             </div>
-            <span className="app-shell-dashboard-breakdown-comparison">{comparisonText}</span>
+            <span className="app-shell-dashboard-breakdown-comparison">
+              {comparisonText}
+            </span>
           </section>
 
           <Separator />
 
           {rows.length === 0 ? (
-            <div className="app-shell-dashboard-breakdown-empty">
-              <LayersIcon aria-hidden className="app-shell-dashboard-breakdown-empty-icon" />
+            <div className="app-shell-dashboard-breakdown-empty" role="status">
+              <LayersIcon
+                aria-hidden
+                className="app-shell-dashboard-breakdown-empty-icon"
+              />
               <span className="app-shell-dashboard-breakdown-empty-title">
                 No module revenue yet
               </span>
               <span className="app-shell-dashboard-breakdown-empty-copy">
-                Connect business units or import module rollups to populate this view.
+                Connect business units or import module rollups to populate this
+                view.
               </span>
             </div>
           ) : (
             <>
-              <div aria-hidden="true" className="app-shell-dashboard-breakdown-list-header">
+              <div
+                aria-hidden="true"
+                className="app-shell-dashboard-breakdown-list-header"
+              >
                 <span>Module · revenue mix</span>
                 <span>QoQ change</span>
               </div>
+              <span className="sr-only" id={listLabelId}>
+                Module revenue breakdown ranked by amount
+              </span>
               <ul
-                aria-labelledby={summaryId}
+                aria-labelledby={`${summaryId} ${listLabelId}`}
                 className="app-shell-dashboard-breakdown-list"
-                id={listId}
               >
                 {rankedRows.map((entry) => (
                   <ModuleEarningRow
@@ -264,6 +307,6 @@ export function AppShellDashboardModuleEarnings({
           )}
         </div>
       </Card>
-    </div>
+    </article>
   );
 }

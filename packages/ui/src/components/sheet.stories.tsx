@@ -1,3 +1,10 @@
+import React from "react";
+import {
+  DENSITIES,
+  GOVERNED_PANEL_RADII,
+  GOVERNED_PANEL_SHADOWS,
+  GOVERNED_STATES,
+} from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertCircleIcon,
@@ -17,7 +24,7 @@ import {
   UserPlusIcon,
   XIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -94,9 +101,9 @@ function ToggleRow({
 }) {
   return (
     <StoryRow justify="between">
-      <Label className="font-normal text-sm" htmlFor={id}>
-        {label}
-      </Label>
+      <span className="font-normal text-sm">
+        <Label htmlFor={id}>{label}</Label>
+      </span>
       <Switch
         id={id}
         {...(defaultChecked === undefined ? {} : { defaultChecked })}
@@ -187,6 +194,65 @@ function AsyncSaveSheetComponent() {
   );
 }
 
+function SheetPlaygroundDemo({
+  density = "standard",
+  radius = "md",
+  shadow = "overlay",
+  side = "right",
+  state = "ready",
+}: {
+  readonly density?: (typeof DENSITIES)[number];
+  readonly radius?: (typeof GOVERNED_PANEL_RADII)[number];
+  readonly shadow?: (typeof GOVERNED_PANEL_SHADOWS)[number];
+  readonly side?: "top" | "right" | "bottom" | "left";
+  readonly state?: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <Sheet defaultOpen>
+      <SheetContent
+        density={density}
+        radius={radius}
+        shadow={shadow}
+        side={side}
+        state={state}
+      >
+        <SheetHeader>
+          <SheetTitle>Sheet playground</SheetTitle>
+          <SheetDescription>
+            Adjust density, radius, shadow, side, and governed state from
+            controls.
+          </SheetDescription>
+        </SheetHeader>
+        <SheetFooter>
+          <SheetCancelButton />
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function SheetStateProbe({
+  state,
+}: {
+  readonly state: (typeof GOVERNED_STATES)[number];
+}) {
+  return (
+    <StoryFrame width="md">
+      <p className="font-mono text-muted-foreground text-xs">
+        state=&quot;{state}&quot;
+      </p>
+      <Sheet defaultOpen>
+        <SheetContent showCloseButton={false} state={state}>
+          <SheetHeader>
+            <SheetTitle>Governed sheet probe</SheetTitle>
+            <SheetDescription>Inspect `data-state` on sheet-content.</SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+    </StoryFrame>
+  );
+}
+
 // ─── Sheet ─────────────────────────────────────────────────────────────────
 
 const meta = {
@@ -202,10 +268,223 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    state: {
+      control: "select",
+      options: [...GOVERNED_STATES],
+      description: "Governed interaction state on SheetContent",
+      table: { defaultValue: { summary: "ready" } },
+    },
+    density: {
+      control: "select",
+      options: [...DENSITIES],
+      description: "Panel density on SheetContent",
+    },
+    radius: {
+      control: "select",
+      options: [...GOVERNED_PANEL_RADII],
+      description: "Panel radius on SheetContent",
+    },
+    shadow: {
+      control: "select",
+      options: [...GOVERNED_PANEL_SHADOWS],
+      description: "Panel shadow on SheetContent",
+    },
+    side: {
+      control: "select",
+      options: ["top", "right", "bottom", "left"],
+      description: "Edge the sheet slides in from",
+    },
+  },
+  args: {
+    state: "ready",
+    density: "standard",
+    radius: "md",
+    shadow: "overlay",
+    side: "right",
+  },
 } satisfies Meta<typeof Sheet>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ─── Playground & governance probes ────────────────────────────────────────
+
+export const Playground: Story = {
+  render: (args) => (
+    <SheetPlaygroundDemo
+      density={args.density}
+      radius={args.radius}
+      shadow={args.shadow}
+      side={args.side}
+      state={args.state}
+    />
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `SheetContent` — governed values must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <Sheet defaultOpen>
+      <SheetContent
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-sheet-content"
+        showCloseButton={false}
+        state="ready"
+      >
+        <SheetHeader>
+          <SheetTitle>Data authority probe</SheetTitle>
+          <SheetDescription>
+            Inspect the content root — governed `data-*` attributes must override
+            consumer props.
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Reference map of emitted `data-slot` values. Internal roles (`label`, `state`, `body`) emit `sheet-title`, `sheet-description`, `sheet-overlay`.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → sheet-content · body → sheet-overlay · header → sheet-header ·
+          footer → sheet-footer · label → sheet-title · state →
+          sheet-description · close-button → sheet-close-button · close-label →
+          sheet-close-label
+        </p>
+        <Sheet defaultOpen>
+          <SheetContent data-testid="slot-map-content" side="right">
+            <SheetHeader>
+              <SheetTitle>Inspect slot attributes</SheetTitle>
+              <SheetDescription>
+                Open DevTools and verify `data-component`, `data-recipe`, and
+                `data-slot` on each sheet part.
+              </SheetDescription>
+            </SheetHeader>
+            <SheetFooter>
+              <SheetCancelButton />
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <SheetStateProbe key={state} state={state} />
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "`SheetTitle` and `SheetDescription` wire `aria-labelledby` / `aria-describedby`. Header close includes sr-only label; icon is `aria-hidden`.",
+      },
+    },
+  },
+  render: () => (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button emphasis="outline" intent="secondary">
+          Accessible sheet
+        </Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Edit employee EMP-1024</SheetTitle>
+          <SheetDescription>
+            Changes apply to the active employee record only.
+          </SheetDescription>
+        </SheetHeader>
+        <StoryStack gap="xs" paddingX="md">
+          <Label htmlFor="sh-a11y-name">Full name</Label>
+          <Input defaultValue="Jane Doe" id="sh-a11y-name" />
+        </StoryStack>
+        <SheetFooter>
+          <SheetCancelButton />
+          <Button emphasis="solid" intent="primary">
+            Save
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  ),
+};
+
+export const GovernanceSurfaceVariants: Story = {
+  name: "Governance — Surface Variants",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {(
+        [
+          {
+            label: "standard / md / overlay",
+            density: "standard",
+            radius: "md",
+          },
+          { label: "compact / sm / overlay", density: "compact", radius: "sm" },
+          {
+            label: "standard / lg / overlay",
+            density: "standard",
+            radius: "lg",
+          },
+        ] as const
+      ).map(({ label, density, radius }) => (
+        <Sheet key={label}>
+          <SheetTrigger asChild>
+            <Button emphasis="outline" intent="secondary" size="sm">
+              {label}
+            </Button>
+          </SheetTrigger>
+          <SheetContent density={density} radius={radius} shadow="overlay">
+            <SheetHeader>
+              <SheetTitle>Surface probe</SheetTitle>
+              <SheetDescription>{label}</SheetDescription>
+            </SheetHeader>
+            <SheetFooter>
+              <SheetCancelButton />
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      ))}
+    </StoryStack>
+  ),
+};
 
 // ─── Basic directions ──────────────────────────────────────────────────────
 
@@ -392,86 +671,6 @@ export const FooterWithCloseButton: Story = {
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  ),
-};
-
-export const GovernanceAccessibility: Story = {
-  name: "Governance — Accessibility",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "`SheetTitle` and `SheetDescription` provide accessible names. Header close button includes a screen-reader label.",
-      },
-    },
-  },
-  render: () => (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button emphasis="outline" intent="secondary">
-          Accessible sheet
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit employee EMP-1024</SheetTitle>
-          <SheetDescription>
-            Changes apply to the active employee record only.
-          </SheetDescription>
-        </SheetHeader>
-        <StoryStack gap="xs" paddingX="md">
-          <Label htmlFor="sh-a11y-name">Full name</Label>
-          <Input defaultValue="Jane Doe" id="sh-a11y-name" />
-        </StoryStack>
-        <SheetFooter>
-          <SheetCancelButton />
-          <Button emphasis="solid" intent="primary">
-            Save
-          </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  ),
-};
-
-export const GovernanceSurfaceVariants: Story = {
-  name: "Governance — Surface Variants",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {(
-        [
-          {
-            label: "standard / md / overlay",
-            density: "standard",
-            radius: "md",
-          },
-          { label: "compact / sm / overlay", density: "compact", radius: "sm" },
-          {
-            label: "standard / lg / overlay",
-            density: "standard",
-            radius: "lg",
-          },
-        ] as const
-      ).map(({ label, density, radius }) => (
-        <Sheet key={label}>
-          <SheetTrigger asChild>
-            <Button emphasis="outline" intent="secondary" size="sm">
-              {label}
-            </Button>
-          </SheetTrigger>
-          <SheetContent density={density} radius={radius} shadow="overlay">
-            <SheetHeader>
-              <SheetTitle>Surface probe</SheetTitle>
-              <SheetDescription>{label}</SheetDescription>
-            </SheetHeader>
-            <SheetFooter>
-              <SheetCancelButton />
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      ))}
-    </StoryStack>
   ),
 };
 
@@ -868,9 +1067,9 @@ export const ExportOptionsPanel: Story = {
             ].map(({ id, label, checked }) => (
               <StoryRow align="center" gap="sm" key={id}>
                 <Checkbox defaultChecked={checked} id={id} />
-                <Label className="font-normal text-sm" htmlFor={id}>
-                  {label}
-                </Label>
+                <span className="font-normal text-sm">
+                  <Label htmlFor={id}>{label}</Label>
+                </span>
               </StoryRow>
             ))}
           </StoryStack>
@@ -912,9 +1111,9 @@ export const ColumnVisibilityPanel: Story = {
           ].map(({ id, label, checked }) => (
             <StoryRow align="center" gap="sm" key={id}>
               <Checkbox defaultChecked={checked} id={id} />
-              <Label className="font-normal text-sm" htmlFor={id}>
-                {label}
-              </Label>
+              <span className="font-normal text-sm">
+                <Label htmlFor={id}>{label}</Label>
+              </span>
             </StoryRow>
           ))}
         </StoryStack>

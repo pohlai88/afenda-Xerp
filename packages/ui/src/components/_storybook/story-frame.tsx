@@ -1,3 +1,4 @@
+import React from "react";
 /**
  * Storybook layout helpers for `@afenda/ui` primitive stories.
  *
@@ -281,3 +282,26 @@ export function StoryInset({
 }
 
 StoryInset.displayName = "StoryInset";
+
+export interface StoryCaptionProps {
+  readonly children: ReactNode;
+  readonly width?: "sm" | "md";
+}
+
+/** Monospace row label for variant matrix stories (intent, density, state, …). */
+export function StoryCaption({ children, width = "sm" }: StoryCaptionProps) {
+  const widthClass = width === "sm" ? "w-24" : "w-32";
+
+  return (
+    <span
+      className={cn(
+        widthClass,
+        "shrink-0 font-mono text-muted-foreground text-xs"
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+StoryCaption.displayName = "StoryCaption";

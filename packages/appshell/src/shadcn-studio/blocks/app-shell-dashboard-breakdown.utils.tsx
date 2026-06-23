@@ -7,8 +7,21 @@ export interface DashboardBreakdownAggregateTrend {
   readonly trend: AppShellTrendDirection;
 }
 
+export interface DashboardBreakdownTrendRow {
+  readonly amount: string;
+  readonly changeLabel: string;
+}
+
+const DASHBOARD_AMOUNT_PATTERN = /[$,]/g;
+const DASHBOARD_CHANGE_LABEL_PATTERN = /[%+]/g;
+
+function parseNumericToken(value: string): number {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function parseDashboardAmount(value: string): number {
-  return Number.parseFloat(value.replaceAll(/[$,]/g, ""));
+  return parseNumericToken(value.replaceAll(DASHBOARD_AMOUNT_PATTERN, ""));
 }
 
 export function formatDashboardCurrency(value: number): string {
@@ -28,11 +41,18 @@ export function computeDashboardShare(amount: string, total: number): number {
 }
 
 function parseChangeLabel(changeLabel: string): number {
-  return Number.parseFloat(changeLabel.replaceAll(/[%+]/g, ""));
+  return parseNumericToken(
+    changeLabel.replaceAll(DASHBOARD_CHANGE_LABEL_PATTERN, "")
+  );
+}
+
+function formatDashboardTrendLabel(value: number): string {
+  const prefix = value > 0 ? "+" : "";
+  return `${prefix}${value.toFixed(1)}%`;
 }
 
 export function computeWeightedDashboardTrend(
-  rows: readonly { readonly amount: string; readonly changeLabel: string }[]
+  rows: readonly DashboardBreakdownTrendRow[]
 ): DashboardBreakdownAggregateTrend {
   let weightedSum = 0;
   let totalWeight = 0;
@@ -44,22 +64,38 @@ export function computeWeightedDashboardTrend(
   }
 
   if (totalWeight <= 0) {
-    return { label: "0%", trend: "up" };
+    return { label: formatDashboardTrendLabel(0), trend: "up" };
   }
 
   const average = weightedSum / totalWeight;
-  const prefix = average > 0 ? "+" : "";
 
   return {
-    label: `${prefix}${average.toFixed(1)}%`,
+    label: formatDashboardTrendLabel(average),
     trend: average >= 0 ? "up" : "down",
   };
 }
 
-export function TrendIndicator({ trend }: { readonly trend: AppShellTrendDirection }) {
-  return trend === "up" ? (
-    <ChevronUpIcon aria-hidden className="app-shell-dashboard-trend-icon-up" />
-  ) : (
-    <ChevronDownIcon aria-hidden className="app-shell-dashboard-trend-icon-down" />
+export function TrendIndicator({
+  trend,
+}: {
+  readonly trend: AppShellTrendDirection;
+}) {
+  return (
+    <span className="app-shell-dashboard-trend-indicator">
+      {trend === "up" ? (
+        <ChevronUpIcon
+          aria-hidden
+          className="app-shell-dashboard-trend-icon-up"
+        />
+      ) : (
+        <ChevronDownIcon
+          aria-hidden
+          className="app-shell-dashboard-trend-icon-down"
+        />
+      )}
+      <span className="sr-only">
+        {trend === "up" ? "Trending up" : "Trending down"}
+      </span>
+    </span>
   );
 }

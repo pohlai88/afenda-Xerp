@@ -1,3 +1,5 @@
+import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AlertTriangleIcon,
@@ -13,7 +15,7 @@ import {
   UserIcon,
   WebhookIcon,
 } from "lucide-react";
-import React, { type ComponentType, Fragment, type ReactNode } from "react";
+import { type ComponentType, Fragment, type ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
@@ -343,6 +345,185 @@ export const Sizes: Story = {
   ),
 };
 
+const ITEM_VARIANTS = ["default", "outline", "muted"] as const satisfies readonly ItemVariant[];
+const ITEM_SIZES = ["default", "sm", "xs"] as const satisfies readonly ItemSize[];
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on `Item` — governed values (`data-slot="item"`, `data-component="Item"`, `data-recipe="surface"`) must win in the DOM.',
+      },
+    },
+  },
+  render: () => (
+    <ItemListFrame>
+      <Item
+        data-component="Override"
+        data-slot="override"
+        data-testid="governance-item"
+        variant="outline"
+      >
+        <ItemContent>
+          <ItemTitle>Inspect governed attributes</ItemTitle>
+        </ItemContent>
+      </Item>
+    </ItemListFrame>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: { layout: "padded" },
+  render: () => (
+    <ItemListFrame width="lg">
+      <StoryStack gap="sm">
+        <p className="font-mono text-muted-foreground text-xs">
+          root → item · body → item-group · control → item-media · content →
+          item-content · label → item-title · state → item-description ·
+          actions → item-actions · header → item-header · footer →
+          item-footer · icon → item-separator
+        </p>
+        <ItemGroup data-testid="slot-map-group">
+          <Item data-testid="slot-map-root" variant="outline">
+            <ItemMedia data-testid="slot-map-media" variant="icon">
+              <FileTextIcon aria-hidden="true" className="size-4" />
+            </ItemMedia>
+            <ItemContent data-testid="slot-map-content">
+              <ItemTitle>INV-2026-0042</ItemTitle>
+              <ItemDescription>Acme Software Ltd.</ItemDescription>
+            </ItemContent>
+            <ItemActions data-testid="slot-map-actions">
+              <ChevronRightIcon aria-hidden="true" className="size-4" />
+            </ItemActions>
+          </Item>
+          <ItemSeparator data-testid="slot-map-separator" />
+        </ItemGroup>
+      </StoryStack>
+    </ItemListFrame>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryStack gap="md">
+      {GOVERNED_STATES.map((state) => (
+        <ItemListFrame key={state}>
+          <span className="font-mono text-muted-foreground text-xs">
+            state=&quot;{state}&quot;
+          </span>
+          <Item state={state} variant="outline">
+            <ItemContent>
+              <ItemTitle>State: {state}</ItemTitle>
+            </ItemContent>
+          </Item>
+        </ItemListFrame>
+      ))}
+    </StoryStack>
+  ),
+};
+
+export const GovernanceAllVariants: Story = {
+  name: "Governance — All Variants",
+  parameters: { layout: "padded" },
+  render: () => (
+    <ItemListFrame>
+      <StoryStack gap="sm">
+        {ITEM_VARIANTS.map((variant) => (
+          <Item key={variant} variant={variant}>
+            <ItemContent>
+              <ItemTitle>Variant: {variant}</ItemTitle>
+            </ItemContent>
+          </Item>
+        ))}
+      </StoryStack>
+    </ItemListFrame>
+  ),
+};
+
+export const GovernanceAllSizes: Story = {
+  name: "Governance — All Sizes",
+  parameters: { layout: "padded" },
+  render: () => (
+    <ItemListFrame>
+      <StoryStack gap="sm">
+        {ITEM_SIZES.map((size) => (
+          <Item key={size} size={size} variant="outline">
+            <IconMedia icon={FileTextIcon} />
+            <ItemContent>
+              <ItemTitle>Size: {size}</ItemTitle>
+            </ItemContent>
+          </Item>
+        ))}
+      </StoryStack>
+    </ItemListFrame>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    variant: { control: "select", options: [...ITEM_VARIANTS] },
+    size: { control: "select", options: [...ITEM_SIZES] },
+    state: { control: "select", options: [...GOVERNED_STATES] },
+  },
+  args: {
+    variant: "outline",
+    size: "default",
+    state: "ready",
+  },
+  render: ({ variant, size, state }) => (
+    <ItemListFrame>
+      <Item size={size} state={state} variant={variant}>
+        <IconMedia icon={FileTextIcon} />
+        <ItemContent>
+          <ItemTitle>Adjust variant, size, and state</ItemTitle>
+          <ItemDescription>Governed surface list row</ItemDescription>
+        </ItemContent>
+      </Item>
+    </ItemListFrame>
+  ),
+};
+
+export const GovernanceAccessibility: Story = {
+  name: "Governance — Accessibility",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`ItemGroup` renders `role=\"list\"`. Use `asChild` with an anchor for navigable rows. Icon-only actions need `aria-label`.",
+      },
+    },
+  },
+  render: () => (
+    <ItemListFrame>
+      <ItemGroup aria-label="Pending invoices">
+        <Item asChild size="sm" variant="outline">
+          <a href="#invoice-detail">
+            <IconMedia icon={FileTextIcon} />
+            <ItemContent>
+              <ItemTitle>INV-2026-0042</ItemTitle>
+              <ItemDescription>Acme Software Ltd. · due Jul 15, 2026</ItemDescription>
+            </ItemContent>
+            <ItemActions>
+              <ChevronRightIcon
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
+            </ItemActions>
+          </a>
+        </Item>
+      </ItemGroup>
+    </ItemListFrame>
+  ),
+};
+
 export const IconMediaStory: Story = {
   name: "Item — Icon Media",
   render: () => (
@@ -612,7 +793,8 @@ export const ApprovalInboxItem: Story = {
                   </Badge>
                 </StoryRow>
                 <ItemDescription>
-                  {item.type} · {item.requester} · {item.amount}
+                  {item.type} · {item.requester} ·{" "}
+                  <span className="tabular-nums">{item.amount}</span>
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
@@ -649,7 +831,18 @@ export const NotificationItem: Story = {
                     {note.time}
                   </span>
                 </StoryRow>
-                <ItemDescription>{note.body}</ItemDescription>
+                <ItemDescription>
+                  {note.body.split("·").map((part, partIndex) => (
+                    <Fragment key={part}>
+                      {partIndex > 0 ? " · " : null}
+                      {part.includes("$") ? (
+                        <span className="tabular-nums">{part.trim()}</span>
+                      ) : (
+                        part.trim()
+                      )}
+                    </Fragment>
+                  ))}
+                </ItemDescription>
               </ItemContent>
               <ItemActions>
                 <Badge emphasis="soft" size="sm" tone={statusTone(note.tone)}>
@@ -701,7 +894,9 @@ export const InventoryAlertRow: Story = {
         <ItemContent>
           <ItemTitle>Low stock · SKU-8820</ItemTitle>
           <ItemDescription>
-            Stainless Steel Bolts M8 · 42 units remaining · reorder at 150
+            Stainless Steel Bolts M8 ·{" "}
+            <span className="tabular-nums">42</span> units remaining · reorder
+            at <span className="tabular-nums">150</span>
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -773,7 +968,8 @@ export const IntegrationStatusRow: Story = {
         <ItemContent>
           <ItemTitle>NetSuite connector</ItemTitle>
           <ItemDescription>
-            Last sync Jun 21, 2026 · 08:00 UTC · 142 records pushed
+            Last sync Jun 21, 2026 · 08:00 UTC ·{" "}
+            <span className="tabular-nums">142</span> records pushed
           </ItemDescription>
         </ItemContent>
         <ItemActions>

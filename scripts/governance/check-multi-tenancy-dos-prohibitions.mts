@@ -217,15 +217,80 @@ function collectPackageJsonViolations(
     /"quality":\s*"([^"]+)"/
   );
   const qualityChain = qualityChainMatch?.[1] ?? "";
+  const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+  const auditIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-existing-state-audit"
+  );
+  const authorityIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-authority-design"
+  );
+  const contextContractsIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-context-contracts"
+  );
+  const persistenceIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-persistence-lookup"
+  );
+  const tenantUrlIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-tenant-url-resolver"
+  );
+  const operatingResolverIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-operating-context-resolver"
+  );
+  const contextIntegrationIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-context-integration"
+  );
+  const testsIndex = qualityChain.indexOf("quality:multi-tenancy-tests");
+  const documentationVerificationIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-documentation-verification"
+  );
+  const enterpriseAcceptanceIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-enterprise-acceptance"
+  );
+  const testingVerificationAcceptanceIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-testing-verification-acceptance"
+  );
   const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+  const finalOutputIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-final-output-format"
+  );
   const deliveryIndex = qualityChain.indexOf("quality:delivery-evidence-surface");
 
-  if (dosIndex === -1 || deliveryIndex === -1 || dosIndex > deliveryIndex) {
+  if (
+    glossaryIndex === -1 ||
+    auditIndex === -1 ||
+    authorityIndex === -1 ||
+    contextContractsIndex === -1 ||
+    persistenceIndex === -1 ||
+    tenantUrlIndex === -1 ||
+    operatingResolverIndex === -1 ||
+    contextIntegrationIndex === -1 ||
+    testsIndex === -1 ||
+    documentationVerificationIndex === -1 ||
+    enterpriseAcceptanceIndex === -1 ||
+    testingVerificationAcceptanceIndex === -1 ||
+    dosIndex === -1 ||
+    finalOutputIndex === -1 ||
+    deliveryIndex === -1 ||
+    glossaryIndex > auditIndex ||
+    auditIndex > authorityIndex ||
+    authorityIndex > contextContractsIndex ||
+    contextContractsIndex > persistenceIndex ||
+    persistenceIndex > tenantUrlIndex ||
+    tenantUrlIndex > operatingResolverIndex ||
+    operatingResolverIndex > contextIntegrationIndex ||
+    contextIntegrationIndex > testsIndex ||
+    testsIndex > documentationVerificationIndex ||
+    documentationVerificationIndex > enterpriseAcceptanceIndex ||
+    enterpriseAcceptanceIndex > testingVerificationAcceptanceIndex ||
+    testingVerificationAcceptanceIndex > dosIndex ||
+    dosIndex > finalOutputIndex ||
+    finalOutputIndex > deliveryIndex
+  ) {
     violations.push({
       rule: "quality-chain-order",
       file: packageJsonPath,
       message:
-        "quality:multi-tenancy-dos-prohibitions must run before quality:delivery-evidence-surface",
+        "quality:multi-tenancy-glossary-first → … → testing-verification-acceptance → dos-prohibitions → final-output-format → delivery-evidence order required",
     });
   }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import type { GovernedDropdownMenuProps } from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -15,11 +16,72 @@ const DropdownMenuShortcut = createGovernedSpanSlot("DropdownMenuShortcut", {
   slot: "actions",
 });
 
-function DropdownMenu({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
-  return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
+export interface DropdownMenuProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>,
+    "className"
+  >,
+    GovernedDropdownMenuProps {
+  readonly className?: string;
 }
+
+function DropdownMenu({ className, state, ...props }: DropdownMenuProps) {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "DropdownMenu",
+    recipeName: DROPDOWN_MENU_RECIPE_NAME,
+    slotKey: "menu-root",
+    state,
+    className,
+  });
+
+  return (
+    <DropdownMenuPrimitive.Root
+      {...applyGovernedPresentation(props, governed)}
+    />
+  );
+}
+
+DropdownMenu.displayName = "DropdownMenu";
+
+export interface DropdownMenuTriggerProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>,
+    "className"
+  > {
+  readonly className?: string;
+}
+
+const DropdownMenuTrigger = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
+  DropdownMenuTriggerProps
+>(({ className, ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "DropdownMenu",
+    recipeName: DROPDOWN_MENU_RECIPE_NAME,
+    slotKey: "trigger",
+    slot: "control",
+    className,
+  });
+
+  return (
+    <DropdownMenuPrimitive.Trigger
+      ref={ref}
+      {...applyGovernedPresentation(props, governed)}
+    />
+  );
+});
+
+DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
+
+function DropdownMenuGroup({
+  ...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
+  return (
+    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
+  );
+}
+
+DropdownMenuGroup.displayName = "DropdownMenuGroup";
 
 function DropdownMenuPortal({
   ...props
@@ -29,25 +91,40 @@ function DropdownMenuPortal({
   );
 }
 
-function DropdownMenuTrigger({
+DropdownMenuPortal.displayName = "DropdownMenuPortal";
+
+function DropdownMenuSub({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+  return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
+}
+
+DropdownMenuSub.displayName = "DropdownMenuSub";
+
+function DropdownMenuRadioGroup({
+  ...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
   return (
-    <DropdownMenuPrimitive.Trigger
-      data-slot="dropdown-menu-trigger"
+    <DropdownMenuPrimitive.RadioGroup
+      data-slot="dropdown-menu-radio-group"
       {...props}
     />
   );
 }
 
-const DropdownMenuContent = React.forwardRef<
-  React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
-  Omit<
+DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
+
+export interface DropdownMenuContentProps
+  extends Omit<
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>,
     "className"
-  > & {
-    readonly className?: string;
-  }
+  > {
+  readonly className?: string;
+}
+
+const DropdownMenuContent = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
+  DropdownMenuContentProps
 >(({ className, align = "start", sideOffset = 4, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "DropdownMenu",
@@ -71,24 +148,19 @@ const DropdownMenuContent = React.forwardRef<
 
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
-function DropdownMenuGroup({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
-  return (
-    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
-  );
+export interface DropdownMenuItemProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>,
+    "className"
+  > {
+  readonly className?: string;
+  readonly inset?: boolean;
+  readonly variant?: "default" | "destructive";
 }
 
 const DropdownMenuItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Item>,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>,
-    "className"
-  > & {
-    readonly className?: string;
-    readonly inset?: boolean;
-    readonly variant?: "default" | "destructive";
-  }
+  DropdownMenuItemProps
 >(({ className, inset, variant = "default", ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "DropdownMenu",
@@ -124,6 +196,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     componentName: "DropdownMenu",
     recipeName: DROPDOWN_MENU_RECIPE_NAME,
     slotKey: "checkbox-item",
+    slot: "control",
     className,
   });
 
@@ -144,7 +217,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     >
       <span {...applyGovernedPresentation({}, indicator)}>
         <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon />
+          <CheckIcon aria-hidden="true" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -153,17 +226,6 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 });
 
 DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
-
-function DropdownMenuRadioGroup({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
-  return (
-    <DropdownMenuPrimitive.RadioGroup
-      data-slot="dropdown-menu-radio-group"
-      {...props}
-    />
-  );
-}
 
 const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -179,6 +241,7 @@ const DropdownMenuRadioItem = React.forwardRef<
     componentName: "DropdownMenu",
     recipeName: DROPDOWN_MENU_RECIPE_NAME,
     slotKey: "radio-item",
+    slot: "control",
     className,
   });
 
@@ -195,7 +258,7 @@ const DropdownMenuRadioItem = React.forwardRef<
     >
       <span {...applyGovernedPresentation({}, indicator)}>
         <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon />
+          <CheckIcon aria-hidden="true" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -258,12 +321,6 @@ const DropdownMenuSeparator = React.forwardRef<
 
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
 
-function DropdownMenuSub({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
-  return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
-}
-
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger>,
   Omit<
@@ -278,6 +335,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     componentName: "DropdownMenu",
     recipeName: DROPDOWN_MENU_RECIPE_NAME,
     slotKey: "sub-trigger",
+    slot: "control",
     className,
   });
 
@@ -293,7 +351,10 @@ const DropdownMenuSubTrigger = React.forwardRef<
       {...applyGovernedPresentation(props, governed, { "data-inset": inset })}
     >
       {children}
-      <ChevronRightIcon {...applyGovernedPresentation({}, chevron)} />
+      <ChevronRightIcon
+        aria-hidden="true"
+        {...applyGovernedPresentation({}, chevron)}
+      />
     </DropdownMenuPrimitive.SubTrigger>
   );
 });

@@ -6,8 +6,8 @@ import { AppShellDashboardRegionalSales } from "../shadcn-studio/blocks/app-shel
 import { AppShellDashboardRevenueChart } from "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart";
 import { AppShellDashboardStatisticsLineTrends } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
 import { AppShellDashboardStatisticsMetrics } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
-import { defaultAppShellDashboardInvoices } from "../shadcn-studio/data/app-shell.dashboard.data";
 import {
+  defaultAppShellDashboardInvoices,
   defaultAppShellDashboardModuleEarnings,
   defaultAppShellDashboardPaymentHistory,
   defaultAppShellDashboardRegionalSales,
@@ -29,11 +29,14 @@ import {
 
 const financeInvoicesReadPermission = DASHBOARD_WIDGET_FINANCE_PERMISSIONS[0];
 const financeCardsReadPermission = DASHBOARD_WIDGET_FINANCE_PERMISSIONS[1];
-const financeTransactionsReadPermission = DASHBOARD_WIDGET_FINANCE_PERMISSIONS[2];
+const financeTransactionsReadPermission =
+  DASHBOARD_WIDGET_FINANCE_PERMISSIONS[2];
 const dashboardModuleEarningsCapability = DASHBOARD_WIDGET_CAPABILITIES[0];
 const dashboardRegionalSalesCapability = DASHBOARD_WIDGET_CAPABILITIES[1];
 
-function hasFinanceInvoicesAccess(context: DashboardWidgetRenderContext): boolean {
+function hasFinanceInvoicesAccess(
+  context: DashboardWidgetRenderContext
+): boolean {
   return context.permissions.has(financeInvoicesReadPermission);
 }
 
@@ -166,7 +169,9 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     render: (context) => (
       <AppShellDashboardInvoiceTable
         rows={
-          hasFinanceInvoicesAccess(context) ? defaultAppShellDashboardInvoices : []
+          hasFinanceInvoicesAccess(context)
+            ? defaultAppShellDashboardInvoices
+            : []
         }
       />
     ),
@@ -195,6 +200,6 @@ export function getDashboardWidgetRegistry(): ReadonlyMap<
   return DASHBOARD_WIDGET_REGISTRY;
 }
 
-export type DashboardWidgetRegistryProps = {
+export interface DashboardWidgetRegistryProps {
   readonly renderContext?: DashboardWidgetRenderContext;
-};
+}

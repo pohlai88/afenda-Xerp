@@ -83,8 +83,8 @@ This is the most critical phase. Raw shadcn-studio blocks contain `className` pr
 ### 3.1 Identify violations fast
 
 ```bash
-pnpm ui:guard:scan          # in-process scan < 2 s — lists every className violation
-pnpm ui:guard               # all four gates (A = ui author, B = appshell, C = erp, D = scan)
+pnpm ui:guard:scan          # in-process scan < 2 s — Gate D only
+pnpm ui:guard               # all five gates (A = ui author, B = appshell, C = erp, D = scan, E = css)
 ```
 
 ### 3.2 Strip `className` from governed primitives
@@ -266,7 +266,7 @@ Run in order after completing all phases:
 # 1. Fast structural scan (< 2 s)
 pnpm ui:guard:scan
 
-# 2. Full four-gate guard
+# 2. Full five-gate guard
 pnpm ui:guard
 
 # 3. TypeScript correctness

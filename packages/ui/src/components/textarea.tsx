@@ -1,7 +1,13 @@
-import type { GovernedFormControlProps } from "@afenda/ui/governance";
+import type { GovernedFormControlProps, SlotRole } from "@afenda/ui/governance";
+import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { cn } from "@afenda/ui/lib/utils";
 import * as React from "react";
+
+const TEXTAREA_RECIPE_NAME = "form-control" as const;
+
+const TEXTAREA_SLOT_ROLES = {
+  root: "root",
+} as const satisfies Record<string, SlotRole>;
 
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "className">,
@@ -13,24 +19,23 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, state, density = "standard", size = "md", ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "Textarea",
-      recipeName: "form-control",
+      recipeName: TEXTAREA_RECIPE_NAME,
       variant: {
         density,
         size,
       },
       state,
-      slot: "root",
+      slot: TEXTAREA_SLOT_ROLES.root,
       className,
     });
 
     return (
       <textarea
         ref={ref}
-        {...props}
-        data-density={density}
-        data-size={size}
-        {...governed.dataAttributes}
-        className={cn(governed.className)}
+        {...applyGovernedPresentation(props, governed, {
+          "data-density": density,
+          "data-size": size,
+        })}
       />
     );
   }

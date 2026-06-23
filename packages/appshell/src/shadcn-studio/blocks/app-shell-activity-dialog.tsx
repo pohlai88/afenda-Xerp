@@ -1,7 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import {
   Sheet,
   SheetContent,
@@ -11,6 +9,7 @@ import {
   SheetTrigger,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import type { ReactNode } from "react";
 
 import type { AppShellActivityItem } from "../data/app-shell.data";
 import { AppShellActivityFeed } from "./app-shell-activity-feed";
@@ -20,33 +19,41 @@ export type AppShellActivityDialogGovernedComponents = Extract<
   "Avatar" | "Badge" | "Separator" | "Sheet"
 >;
 
+const DEFAULT_ACTIVITY_FEED_LABEL = "Team activity feed";
+
 export interface AppShellActivityDialogProps {
-  readonly trigger: ReactNode;
-  readonly defaultOpen?: boolean;
   /** Activity feed rows. Defaults to ERP demo data from `defaultAppShellActivities`. */
   readonly activities?: readonly AppShellActivityItem[];
+  readonly defaultOpen?: boolean;
+  /** Accessible name for the feed landmark inside the sheet. */
+  readonly feedLabel?: string;
+  readonly trigger: ReactNode;
 }
 
 export function AppShellActivityDialog({
   defaultOpen = false,
   trigger,
   activities,
+  feedLabel = DEFAULT_ACTIVITY_FEED_LABEL,
 }: AppShellActivityDialogProps) {
   return (
     <Sheet defaultOpen={defaultOpen}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent showCloseButton={false}>
-        <SheetHeader>
-          <SheetTitle>Activity</SheetTitle>
-          <SheetDescription>
-            Recent activity from your team across modules, approvals, and shared
-            documents.
-          </SheetDescription>
-        </SheetHeader>
+        <div className="app-shell-activity-panel">
+          <SheetHeader>
+            <SheetTitle>Activity</SheetTitle>
+            <SheetDescription>
+              Recent activity from your team across modules, approvals, and
+              shared documents.
+            </SheetDescription>
+          </SheetHeader>
 
-        <AppShellActivityFeed
-          {...(activities === undefined ? {} : { activities })}
-        />
+          <AppShellActivityFeed
+            {...(activities === undefined ? {} : { activities })}
+            feedLabel={feedLabel}
+          />
+        </div>
       </SheetContent>
     </Sheet>
   );

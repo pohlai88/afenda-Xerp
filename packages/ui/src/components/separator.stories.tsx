@@ -8,7 +8,13 @@ import {
   PackageIcon,
   UserIcon,
 } from "lucide-react";
-import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  ACTIVITY_FEED,
+  formatCurrency,
+  KeyValueRow,
+  SectionLabel,
+} from "./_storybook/separator-story.compositions";
+import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -21,43 +27,11 @@ import {
 import { Label } from "./label";
 import { Separator } from "./separator";
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-function SectionLabel({ children }: { readonly children: string }) {
-  return (
-    <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wide">
-      {children}
-    </span>
-  );
-}
-
-function KeyValueRow({
-  label,
-  value,
-}: {
-  readonly label: string;
-  readonly value: string;
-}) {
-  return (
-    <StoryRow justify="between">
-      <span className="text-muted-foreground text-sm">{label}</span>
-      <span className="text-sm">{value}</span>
-    </StoryRow>
-  );
-}
-
 // ─── Separator ─────────────────────────────────────────────────────────────
 
 const meta = {
   title: "Primitives/Separator",
+  component: Separator,
   tags: ["autodocs"],
   parameters: {
     layout: "padded",
@@ -108,6 +82,54 @@ export const Vertical: Story = {
   ),
 };
 
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Consumer `data-*` props cannot override governed Separator root attributes.",
+      },
+    },
+  },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="sm">
+        <span className="text-sm">Section above</span>
+        <Separator
+          data-component="Override"
+          data-recipe="override"
+          data-slot="override"
+          data-state="fake"
+          state="ready"
+        />
+        <span className="text-sm">Section below</span>
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
+export const GovernanceStates: Story = {
+  name: "Governance — States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <StoryFrame width="md">
+      <StoryStack gap="md">
+        {GOVERNED_STATES.map((state) => (
+          <StoryRow align="start" gap="md" key={state}>
+            <StoryCaption width="sm">{state}</StoryCaption>
+            <StoryStack className="min-w-0 flex-1" gap="sm">
+              <span className="text-sm">Line item subtotal</span>
+              <Separator state={state} />
+              <span className="text-sm">Tax and total</span>
+            </StoryStack>
+          </StoryRow>
+        ))}
+      </StoryStack>
+    </StoryFrame>
+  ),
+};
+
 export const GovernanceAccessibility: Story = {
   name: "Governance — Accessibility",
   parameters: {
@@ -139,29 +161,6 @@ export const GovernanceAccessibility: Story = {
         </StoryStack>
       </StoryStack>
     </StoryFrame>
-  ),
-};
-
-export const GovernanceValidationStates: Story = {
-  name: "Governance — Validation States",
-  parameters: { layout: "padded" },
-  render: () => (
-    <StoryStack gap="md">
-      {GOVERNED_STATES.filter((state) => state !== "loading").map((state) => (
-        <StoryFrame key={state} width="md">
-          <StoryStack gap="xs">
-            <span className="font-mono text-muted-foreground text-xs">
-              state=&quot;{state}&quot;
-            </span>
-            <StoryStack gap="sm">
-              <span className="text-sm">Line item subtotal</span>
-              <Separator state={state} />
-              <span className="text-sm">Tax and total</span>
-            </StoryStack>
-          </StoryStack>
-        </StoryFrame>
-      ))}
-    </StoryStack>
   ),
 };
 
@@ -343,23 +342,7 @@ export const ActivityFeedDividers: Story = {
   render: () => (
     <StoryFrame width="lg">
       <StoryStack gap="sm">
-        {[
-          {
-            actor: "Jane Doe",
-            action: "Approved PO-2026-1184",
-            time: "2 min ago",
-          },
-          {
-            actor: "Alex Brown",
-            action: "Added line item — fasteners (×500)",
-            time: "18 min ago",
-          },
-          {
-            actor: "System",
-            action: "Vendor quote attached",
-            time: "Yesterday",
-          },
-        ].map(({ actor, action, time }, index) => (
+        {ACTIVITY_FEED.map(({ actor, action, time }, index) => (
           <StoryStack gap="sm" key={action}>
             <StoryStack gap="xs">
               <StoryRow justify="between">
@@ -368,7 +351,7 @@ export const ActivityFeedDividers: Story = {
               </StoryRow>
               <span className="text-muted-foreground text-sm">{action}</span>
             </StoryStack>
-            {index < 2 ? <Separator /> : null}
+            {index < ACTIVITY_FEED.length - 1 ? <Separator /> : null}
           </StoryStack>
         ))}
       </StoryStack>
@@ -589,29 +572,29 @@ export const SeparatorVsBorder: Story = {
 };
 
 export const OrientationMatrix: Story = {
-  name: "Matrix — Orientations",
+  name: "Governance — Orientations",
   parameters: { layout: "padded" },
   render: () => (
     <StoryStack gap="lg">
       <StoryFrame width="md">
-        <StoryStack gap="xs">
-          <span className="text-muted-foreground text-xs">Horizontal</span>
-          <StoryStack gap="sm" paddingY="sm">
+        <StoryRow align="start" gap="md">
+          <StoryCaption width="sm">horizontal</StoryCaption>
+          <StoryStack className="min-w-0 flex-1" gap="sm" paddingY="sm">
             <span className="text-sm">Above</span>
             <Separator />
             <span className="text-sm">Below</span>
           </StoryStack>
-        </StoryStack>
+        </StoryRow>
       </StoryFrame>
       <StoryFrame width="md">
-        <StoryStack gap="xs">
-          <span className="text-muted-foreground text-xs">Vertical</span>
-          <StoryRow align="start" gap="md" paddingY="md">
+        <StoryRow align="start" gap="md">
+          <StoryCaption width="sm">vertical</StoryCaption>
+          <StoryRow align="start" className="min-w-0 flex-1" gap="md" paddingY="md">
             <span className="text-sm">Left column</span>
             <Separator orientation="vertical" />
             <span className="text-sm">Right column</span>
           </StoryRow>
-        </StoryStack>
+        </StoryRow>
       </StoryFrame>
     </StoryStack>
   ),

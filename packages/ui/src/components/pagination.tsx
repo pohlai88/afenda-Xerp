@@ -1,4 +1,8 @@
-import type { GovernedButtonProps } from "@afenda/ui/governance";
+import type {
+  GovernedButtonProps,
+  GovernedPaginationProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -12,6 +16,12 @@ import * as React from "react";
 import { Button } from "./button";
 
 const PAGINATION_RECIPE_NAME = "surface" as const;
+
+const PAGINATION_SLOT_ROLES = {
+  root: "root",
+  body: "body",
+  icon: "icon",
+} as const satisfies Record<"root" | "body" | "icon", SlotRole>;
 
 const PaginationLinkText = createGovernedSpanSlot("PaginationLinkText", {
   componentName: "Pagination",
@@ -28,43 +38,50 @@ const PaginationEllipsisLabel = createGovernedSpanSlot(
   }
 );
 
-const Pagination = React.forwardRef<
-  HTMLElement,
-  Omit<React.ComponentPropsWithoutRef<"nav">, "className"> & {
-    readonly className?: string;
-  }
->(({ className, ...props }, ref) => {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Pagination",
-    recipeName: PAGINATION_RECIPE_NAME,
-    slot: "root",
-    className,
-  });
+export interface PaginationProps
+  extends Omit<React.ComponentPropsWithoutRef<"nav">, "className">,
+    GovernedPaginationProps {
+  readonly className?: string;
+}
 
-  return (
-    <nav
-      ref={ref}
-      {...applyGovernedPresentation(
-        { ...props, role: "navigation" },
-        governed,
-        { "aria-label": "pagination" }
-      )}
-    />
-  );
-});
+const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
+  ({ className, state, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Pagination",
+      recipeName: PAGINATION_RECIPE_NAME,
+      slot: PAGINATION_SLOT_ROLES.root,
+      state,
+      className,
+    });
+
+    return (
+      <nav
+        ref={ref}
+        {...applyGovernedPresentation(
+          { ...props, role: "navigation" },
+          governed,
+          { "aria-label": "pagination" }
+        )}
+      />
+    );
+  }
+);
 
 Pagination.displayName = "Pagination";
 
+export interface PaginationContentProps
+  extends Omit<React.ComponentPropsWithoutRef<"ul">, "className"> {
+  readonly className?: string;
+}
+
 const PaginationContent = React.forwardRef<
   HTMLUListElement,
-  Omit<React.ComponentPropsWithoutRef<"ul">, "className"> & {
-    readonly className?: string;
-  }
+  PaginationContentProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Pagination",
     recipeName: PAGINATION_RECIPE_NAME,
-    slot: "body",
+    slot: PAGINATION_SLOT_ROLES.body,
     className,
   });
 
@@ -73,54 +90,74 @@ const PaginationContent = React.forwardRef<
 
 PaginationContent.displayName = "PaginationContent";
 
+/**
+ * Structural list-item wrapper — intentional governance passthrough.
+ * Emits `data-slot="pagination-item"` for composition hooks but does not use
+ * primitive governance; styling is delegated to PaginationLink/Button.
+ */
 const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<"li">
->((props, ref) => <li data-slot="pagination-item" ref={ref} {...props} />);
+>((props, ref) => <li ref={ref} {...props} data-slot="pagination-item" />);
 
 PaginationItem.displayName = "PaginationItem";
 
-type PaginationLinkProps = {
+export type PaginationLinkProps = {
+  readonly anchorClassName?: string;
   readonly isActive?: boolean;
 } & Pick<GovernedButtonProps, "intent" | "emphasis" | "size" | "presentation"> &
   React.ComponentProps<"a"> & {
     readonly className?: string;
   };
 
-function PaginationLink({
-  className,
-  isActive,
-  intent = "primary",
-  emphasis = isActive ? "outline" : "ghost",
-  size = "md",
-  presentation = "icon",
-  ...props
-}: PaginationLinkProps) {
-  return (
-    <Button
-      asChild
-      className={cn(className)}
-      emphasis={emphasis}
-      intent={intent}
-      presentation={presentation}
-      size={size}
-    >
-      <a
-        aria-current={isActive ? "page" : undefined}
-        data-active={isActive}
-        data-slot="pagination-link"
-        {...props}
-      />
-    </Button>
-  );
-}
+const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
+  (
+    {
+      anchorClassName,
+      className,
+      isActive,
+      intent = "primary",
+      emphasis = isActive ? "outline" : "ghost",
+      size = "md",
+      presentation = "icon",
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <Button
+        asChild
+        className={cn(className)}
+        emphasis={emphasis}
+        intent={intent}
+        presentation={presentation}
+        size={size}
+      >
+        <a
+          ref={ref}
+          {...props}
+          aria-current={isActive ? "page" : undefined}
+          className={cn(anchorClassName)}
+          data-active={isActive}
+          data-slot="pagination-link"
+        />
+      </Button>
+    );
+  }
+);
 
-function PaginationPrevious({
-  className,
-  text = "Previous",
-  presentation = "default",
-  ...props
-}: React.ComponentProps<typeof PaginationLink> & { readonly text?: string }) {
+PaginationLink.displayName = "PaginationLink";
+
+export type PaginationPreviousProps = React.ComponentProps<
+  typeof PaginationLink
+> & {
+  readonly text?: string;
+};
+
+const PaginationPrevious = React.forwardRef<
+  HTMLAnchorElement,
+  PaginationPreviousProps
+>(({ text = "Previous", presentation = "default", ...props }, ref) => {
   const padding = resolvePrimitiveGovernance({
     componentName: "Pagination",
     recipeName: PAGINATION_RECIPE_NAME,
@@ -129,23 +166,28 @@ function PaginationPrevious({
 
   return (
     <PaginationLink
+      ref={ref}
+      anchorClassName={padding.className}
       aria-label="Go to previous page"
-      className={cn(padding.className, className)}
       presentation={presentation}
       {...props}
     >
-      <ChevronLeftIcon data-icon="inline-start" />
+      <ChevronLeftIcon aria-hidden="true" data-icon="inline-start" />
       <PaginationLinkText>{text}</PaginationLinkText>
     </PaginationLink>
   );
-}
+});
 
-function PaginationNext({
-  className,
-  text = "Next",
-  presentation = "default",
-  ...props
-}: React.ComponentProps<typeof PaginationLink> & { readonly text?: string }) {
+PaginationPrevious.displayName = "PaginationPrevious";
+
+export type PaginationNextProps = React.ComponentProps<typeof PaginationLink> & {
+  readonly text?: string;
+};
+
+const PaginationNext = React.forwardRef<
+  HTMLAnchorElement,
+  PaginationNextProps
+>(({ text = "Next", presentation = "default", ...props }, ref) => {
   const padding = resolvePrimitiveGovernance({
     componentName: "Pagination",
     recipeName: PAGINATION_RECIPE_NAME,
@@ -154,39 +196,39 @@ function PaginationNext({
 
   return (
     <PaginationLink
+      ref={ref}
+      anchorClassName={padding.className}
       aria-label="Go to next page"
-      className={cn(padding.className, className)}
       presentation={presentation}
       {...props}
     >
       <PaginationLinkText>{text}</PaginationLinkText>
-      <ChevronRightIcon data-icon="inline-end" />
+      <ChevronRightIcon aria-hidden="true" data-icon="inline-end" />
     </PaginationLink>
   );
+});
+
+PaginationNext.displayName = "PaginationNext";
+
+export interface PaginationEllipsisProps
+  extends Omit<React.ComponentPropsWithoutRef<"span">, "className"> {
+  readonly className?: string;
 }
 
 const PaginationEllipsis = React.forwardRef<
   HTMLSpanElement,
-  Omit<React.ComponentPropsWithoutRef<"span">, "className"> & {
-    readonly className?: string;
-  }
+  PaginationEllipsisProps
 >(({ className, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Pagination",
     recipeName: PAGINATION_RECIPE_NAME,
-    slot: "icon",
+    slot: PAGINATION_SLOT_ROLES.icon,
     className,
   });
 
   return (
-    <span
-      ref={ref}
-      {...applyGovernedPresentation(
-        { ...props, "aria-hidden": true },
-        governed
-      )}
-    >
-      <MoreHorizontalIcon />
+    <span ref={ref} {...applyGovernedPresentation(props, governed)}>
+      <MoreHorizontalIcon aria-hidden="true" />
       <PaginationEllipsisLabel>More pages</PaginationEllipsisLabel>
     </span>
   );

@@ -1,5 +1,3 @@
-import { ChevronRightIcon } from "lucide-react";
-
 import {
   Avatar,
   AvatarFallback,
@@ -25,13 +23,14 @@ import {
   SidebarMenuSubItem,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { ChevronRightIcon } from "lucide-react";
 
 import type { ApplicationShellResolvedChrome } from "./app-shell.types";
+import { AppShellSidebarUserDropdown } from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
 import type {
   AppShellMenuItem,
   AppShellRecipientItem,
 } from "./shadcn-studio/data/app-shell.data";
-import { AppShellSidebarUserDropdown } from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
 import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellSidebarGovernedComponents = Extract<
@@ -65,7 +64,9 @@ export function AppShellSidebar({
               <SidebarMenuButton asChild size="lg">
                 <a className="app-shell-brand-link" href="#">
                   <Logo className="app-shell-brand-logo" />
-                  <span className="app-shell-brand-name">{chrome.brandName}</span>
+                  <span className="app-shell-brand-name">
+                    {chrome.brandName}
+                  </span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -107,11 +108,11 @@ export function AppShellSidebar({
                                     href={subItem.href}
                                   >
                                     {subItem.label}
-                                    {subItem.badge !== undefined ? (
+                                    {subItem.badge === undefined ? null : (
                                       <Badge emphasis="soft" tone="info">
                                         {subItem.badge}
                                       </Badge>
-                                    ) : null}
+                                    )}
                                   </a>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>

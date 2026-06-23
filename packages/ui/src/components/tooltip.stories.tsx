@@ -1,4 +1,5 @@
 import React from "react";
+import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   CalendarIcon,
@@ -80,6 +81,18 @@ function IconTooltipButton({
   );
 }
 
+function TooltipText({
+  children,
+}: {
+  readonly children: ReactNode;
+}) {
+  return (
+    <TooltipContent>
+      <div className="max-w-xs">{children}</div>
+    </TooltipContent>
+  );
+}
+
 function FieldHelpTooltip({
   id,
   label,
@@ -104,7 +117,7 @@ function FieldHelpTooltip({
             <HelpCircleIcon />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="max-w-xs">{help}</TooltipContent>
+        <TooltipText>{help}</TooltipText>
       </Tooltip>
     </StoryRow>
   );
@@ -238,9 +251,133 @@ export const LongContent: Story = {
             <InfoIcon />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="max-w-xs">
+        <TooltipText>
           This field accepts ISO 4217 currency codes. Invoices with non-standard
           codes are flagged for manual review by Finance.
+        </TooltipText>
+      </Tooltip>
+    </ErpTooltipProvider>
+  ),
+};
+
+export const GovernanceAllStates: Story = {
+  name: "Governance — All States",
+  parameters: { layout: "padded" },
+  render: () => (
+    <ErpTooltipProvider>
+      <StoryStack gap="md">
+        {GOVERNED_STATES.map((state) => (
+          <StoryFrame key={state} width="sm">
+            <span className="font-mono text-muted-foreground text-xs">
+              state=&quot;{state}&quot;
+            </span>
+            <Tooltip open state={state}>
+              <TooltipTrigger asChild>
+                <Button emphasis="outline" intent="secondary" size="sm">
+                  {state}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent state={state}>
+                Governed tooltip ({state})
+              </TooltipContent>
+            </Tooltip>
+          </StoryFrame>
+        ))}
+      </StoryStack>
+    </ErpTooltipProvider>
+  ),
+};
+
+export const GovernanceDataAuthority: Story = {
+  name: "Governance — Data Authority",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Consumer passes `data-slot="override"` on trigger and content — governed values must win (`tooltip-trigger`, `tooltip-content`).',
+      },
+    },
+  },
+  render: () => (
+    <ErpTooltipProvider>
+      <Tooltip open state="ready">
+        <TooltipTrigger
+          asChild
+          data-component="Override"
+          data-slot="override"
+        >
+          <Button emphasis="outline" intent="secondary" size="sm">
+            Help
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent
+          data-component="Override"
+          data-recipe="override"
+          data-slot="override"
+          data-state="fake"
+          state="ready"
+        >
+          Currency code must be ISO 4217
+        </TooltipContent>
+      </Tooltip>
+    </ErpTooltipProvider>
+  ),
+};
+
+export const GovernanceSlotMap: Story = {
+  name: "Governance — Slot Map",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "menu-root → tooltip · trigger → tooltip-trigger · root → tooltip-content · arrow → tooltip-arrow",
+      },
+    },
+  },
+  render: () => (
+    <ErpTooltipProvider>
+      <Tooltip open>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label="Slot map probe"
+            emphasis="ghost"
+            intent="quiet"
+            presentation="icon"
+            size="sm"
+          >
+            <InfoIcon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Slot map reference tooltip</TooltipContent>
+      </Tooltip>
+    </ErpTooltipProvider>
+  ),
+};
+
+export const GovernancePlayground: Story = {
+  name: "Governance — Playground",
+  parameters: { layout: "padded" },
+  argTypes: {
+    state: { control: "select", options: [...GOVERNED_STATES] },
+    side: {
+      control: "radio",
+      options: ["top", "right", "bottom", "left"],
+    },
+  },
+  args: {
+    state: "ready",
+    side: "top",
+  },
+  render: ({ state, side }) => (
+    <ErpTooltipProvider>
+      <Tooltip open state={state}>
+        <TooltipTrigger asChild>
+          <Button emphasis="outline" intent="secondary" size="sm">
+            Hover target
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side={side} state={state}>
+          Governed tooltip playground
         </TooltipContent>
       </Tooltip>
     </ErpTooltipProvider>
@@ -531,10 +668,10 @@ export const ApprovalQueueSlaHint: Story = {
               <InfoIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="max-w-xs">
+          <TooltipText>
             Manager approval required within 48 hours. Escalates to VP Finance
             if not actioned.
-          </TooltipContent>
+          </TooltipText>
         </Tooltip>
       </StoryRow>
     </ErpTooltipProvider>
@@ -612,10 +749,10 @@ export const ExportFormatHint: Story = {
               <HelpCircleIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="max-w-xs">
+          <TooltipText>
             CSV includes all visible columns. Salary column requires HR Admin
             and is omitted by default.
-          </TooltipContent>
+          </TooltipText>
         </Tooltip>
       </StoryRow>
     </ErpTooltipProvider>
@@ -645,10 +782,10 @@ export const ComplianceFieldHint: Story = {
               <InfoIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="max-w-xs">
+          <TooltipText>
             Vendor tax IDs are validated against IRS records before first
             payment. Mismatches block AP posting.
-          </TooltipContent>
+          </TooltipText>
         </Tooltip>
       </StoryRow>
     </ErpTooltipProvider>
@@ -768,9 +905,9 @@ export const TooltipVsPopover: Story = {
                   What is net 30?
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
+              <TooltipText>
                 Payment due 30 calendar days after invoice date.
-              </TooltipContent>
+              </TooltipText>
             </Tooltip>
           </StoryStack>
           <StoryStack gap="xs">

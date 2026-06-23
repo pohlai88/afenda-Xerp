@@ -1,11 +1,9 @@
 import type { ApplicationShellDashboardDemoProps } from "../dashboard";
+import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
 import {
   FINANCE_DENIED_BLOCK_STORY_RENDER_CONTEXT,
   PERMISSIVE_BLOCK_STORY_RENDER_CONTEXT,
 } from "./dashboard-block-story.fixtures";
-import {
-  DEFAULT_APP_SHELL_DASHBOARD_LABEL,
-} from "../shadcn-studio/data/app-shell.dashboard.data";
 
 export const DASHBOARD_STORY_BASE_ARGS = {
   dashboardLabel: DEFAULT_APP_SHELL_DASHBOARD_LABEL,

@@ -1,14 +1,5 @@
 "use client";
 
-import { useState, type ChangeEvent, type ReactNode } from "react";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  MoreVerticalIcon,
-  SearchIcon,
-  Undo2Icon,
-} from "lucide-react";
-
 import {
   Avatar,
   AvatarFallback,
@@ -23,8 +14,19 @@ import {
   Kbd,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  MoreVerticalIcon,
+  SearchIcon,
+  Undo2Icon,
+} from "lucide-react";
+import { type ChangeEvent, type ReactNode, useState } from "react";
 
 import {
+  type AppShellSearchInteraction,
+  type AppShellSearchSuggestion,
+  type AppShellSearchUser,
   DEFAULT_APP_SHELL_PARTICIPANT_OVERFLOW_LABEL,
   DEFAULT_APP_SHELL_SEARCH_CLOSE_HINT,
   DEFAULT_APP_SHELL_SEARCH_DIALOG_TITLE,
@@ -42,9 +44,7 @@ import {
   filterAppShellSearchInteractions,
   filterAppShellSearchSuggestions,
   filterAppShellSearchUsers,
-  type AppShellSearchInteraction,
-  type AppShellSearchSuggestion,
-  type AppShellSearchUser,
+  formatAppShellSearchResultsLiveMessage,
 } from "../data/app-shell.search.data";
 
 const SEARCH_INPUT_ID = "app-shell-search-input";
@@ -55,26 +55,26 @@ export type AppShellSearchDialogGovernedComponents = Extract<
 >;
 
 export interface AppShellSearchDialogProps {
-  readonly trigger: ReactNode;
-  readonly defaultOpen?: boolean;
   /** Layout wrapper for trigger placement (e.g. responsive visibility). */
   readonly className?: string;
-  readonly placeholder?: string;
-  readonly emptyMessage?: string;
-  readonly dialogTitle?: string;
-  readonly searchLabel?: string;
-  readonly resultsLabel?: string;
-  readonly suggestionsLabel?: string;
-  readonly interactionsLabel?: string;
-  readonly usersLabel?: string;
   readonly closeHint?: string;
-  readonly selectHint?: string;
-  readonly navigateHint?: string;
-  readonly participantOverflowLabel?: string;
-  readonly suggestions?: readonly AppShellSearchSuggestion[];
+  readonly defaultOpen?: boolean;
+  readonly dialogTitle?: string;
+  readonly emptyMessage?: string;
   readonly interactions?: readonly AppShellSearchInteraction[];
-  readonly users?: readonly AppShellSearchUser[];
+  readonly interactionsLabel?: string;
+  readonly navigateHint?: string;
   readonly onResultSelect?: (resultId: string) => void;
+  readonly participantOverflowLabel?: string;
+  readonly placeholder?: string;
+  readonly resultsLabel?: string;
+  readonly searchLabel?: string;
+  readonly selectHint?: string;
+  readonly suggestions?: readonly AppShellSearchSuggestion[];
+  readonly suggestionsLabel?: string;
+  readonly trigger: ReactNode;
+  readonly users?: readonly AppShellSearchUser[];
+  readonly usersLabel?: string;
 }
 
 function SearchSuggestionRow({
@@ -86,7 +86,11 @@ function SearchSuggestionRow({
 }) {
   return (
     <li>
-      <button className="app-shell-search-result" onClick={onSelect} type="button">
+      <button
+        className="app-shell-search-result"
+        onClick={onSelect}
+        type="button"
+      >
         <item.Icon aria-hidden className="app-shell-search-suggestion-icon" />
         <span>{item.label}</span>
       </button>
@@ -105,14 +109,20 @@ function SearchInteractionRow({
 }) {
   return (
     <li>
-      <button className="app-shell-search-result" onClick={onSelect} type="button">
+      <button
+        className="app-shell-search-result"
+        onClick={onSelect}
+        type="button"
+      >
         <Avatar>
           <AvatarImage alt={item.name} src={item.logoSrc} />
           <AvatarFallback>{item.name.slice(0, 1)}</AvatarFallback>
         </Avatar>
         <div className="app-shell-search-result-copy">
           <span className="app-shell-search-result-title">{item.name}</span>
-          <span className="app-shell-search-result-subtitle">{item.description}</span>
+          <span className="app-shell-search-result-subtitle">
+            {item.description}
+          </span>
         </div>
         <AvatarGroup>
           {item.participants.map((participant) => (
@@ -137,19 +147,28 @@ function SearchUserRow({
 }) {
   return (
     <li>
-      <button className="app-shell-search-result" onClick={onSelect} type="button">
+      <button
+        className="app-shell-search-result"
+        onClick={onSelect}
+        type="button"
+      >
         <Avatar>
           <AvatarImage alt={item.name} src={item.avatarSrc} />
           <AvatarFallback>{item.fallback}</AvatarFallback>
         </Avatar>
         <div className="app-shell-search-result-copy">
           <span className="app-shell-search-result-title">{item.name}</span>
-          <span className="app-shell-search-result-subtitle-light">{item.email}</span>
+          <span className="app-shell-search-result-subtitle-light">
+            {item.email}
+          </span>
         </div>
         <Badge emphasis="soft" tone={item.statusTone}>
           {item.status}
         </Badge>
-        <MoreVerticalIcon aria-hidden className="app-shell-search-result-more-icon" />
+        <MoreVerticalIcon
+          aria-hidden
+          className="app-shell-search-result-more-icon"
+        />
       </button>
     </li>
   );
@@ -226,13 +245,22 @@ export function AppShellSearchCommand({
 }) {
   const [search, setSearch] = useState("");
 
-  const filteredSuggestions = filterAppShellSearchSuggestions(suggestions, search);
-  const filteredInteractions = filterAppShellSearchInteractions(interactions, search);
+  const filteredSuggestions = filterAppShellSearchSuggestions(
+    suggestions,
+    search
+  );
+  const filteredInteractions = filterAppShellSearchInteractions(
+    interactions,
+    search
+  );
   const filteredUsers = filterAppShellSearchUsers(users, search);
-  const hasResults =
-    filteredSuggestions.length > 0 ||
-    filteredInteractions.length > 0 ||
-    filteredUsers.length > 0;
+  const resultCount =
+    filteredSuggestions.length + filteredInteractions.length + filteredUsers.length;
+  const hasResults = resultCount > 0;
+  const resultsLiveMessage = formatAppShellSearchResultsLiveMessage(
+    resultCount,
+    search
+  );
 
   const handleSelect = (resultId: string) => {
     onResultSelect?.(resultId);
@@ -268,9 +296,12 @@ export function AppShellSearchCommand({
         className="app-shell-search-results"
         role="region"
       >
-        {!hasResults ? (
+        <p aria-atomic="true" aria-live="polite" className="sr-only">
+          {resultsLiveMessage}
+        </p>
+        {hasResults ? null : (
           <p className="app-shell-search-empty">{emptyMessage}</p>
-        ) : null}
+        )}
 
         {filteredSuggestions.length > 0 ? (
           <section aria-labelledby={suggestionsHeadingId}>
@@ -281,8 +312,8 @@ export function AppShellSearchCommand({
             <ul className="app-shell-search-list">
               {filteredSuggestions.map((item) => (
                 <SearchSuggestionRow
-                  key={item.id}
                   item={item}
+                  key={item.id}
                   onSelect={() => handleSelect(item.id)}
                 />
               ))}
@@ -295,14 +326,16 @@ export function AppShellSearchCommand({
             <h2 className="sr-only" id={interactionsHeadingId}>
               {interactionsLabel}
             </h2>
-            <p className="app-shell-search-section-label">{interactionsLabel}</p>
+            <p className="app-shell-search-section-label">
+              {interactionsLabel}
+            </p>
             <ul className="app-shell-search-list">
               {filteredInteractions.map((item) => (
                 <SearchInteractionRow
-                  key={item.id}
                   item={item}
-                  overflowLabel={participantOverflowLabel}
+                  key={item.id}
                   onSelect={() => handleSelect(item.id)}
+                  overflowLabel={participantOverflowLabel}
                 />
               ))}
             </ul>
@@ -318,8 +351,8 @@ export function AppShellSearchCommand({
             <ul className="app-shell-search-list">
               {filteredUsers.map((item) => (
                 <SearchUserRow
-                  key={item.id}
                   item={item}
+                  key={item.id}
                   onSelect={() => handleSelect(item.id)}
                 />
               ))}
