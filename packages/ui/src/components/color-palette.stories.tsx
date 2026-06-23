@@ -17,11 +17,7 @@ import { SearchIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "./input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import { ScrollArea } from "./scroll-area";
 import { Separator } from "./separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
@@ -84,14 +80,16 @@ const PALETTE_STATUS_TONES = [
   "invalid",
 ] as const;
 
-const statusItems: readonly TokenItem[] = PALETTE_STATUS_TONES.flatMap((tone) => [
-  raw(`--afenda-status-tone-${tone}-surface`, `${tone} · surface`),
-  raw(`--afenda-status-tone-${tone}-foreground`, `${tone} · fg`),
-  raw(`--afenda-status-tone-${tone}-border`, `${tone} · border`),
-  raw(`--afenda-status-tone-${tone}-focus`, `${tone} · focus`),
-  raw(`--afenda-status-tone-${tone}-solid`, `${tone} · solid`),
-  raw(`--afenda-status-tone-${tone}-solid-foreground`, `${tone} · solid fg`),
-]);
+const statusItems: readonly TokenItem[] = PALETTE_STATUS_TONES.flatMap(
+  (tone) => [
+    raw(`--afenda-status-tone-${tone}-surface`, `${tone} · surface`),
+    raw(`--afenda-status-tone-${tone}-foreground`, `${tone} · fg`),
+    raw(`--afenda-status-tone-${tone}-border`, `${tone} · border`),
+    raw(`--afenda-status-tone-${tone}-focus`, `${tone} · focus`),
+    raw(`--afenda-status-tone-${tone}-solid`, `${tone} · solid`),
+    raw(`--afenda-status-tone-${tone}-solid-foreground`, `${tone} · solid fg`),
+  ]
+);
 
 const ALL_GROUPS: readonly TokenGroup[] = [
   {
@@ -516,7 +514,12 @@ function DnaStrip({ themeKey }: { readonly themeKey: string }) {
   return (
     <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
       {PALETTE_DNA.map(({ token, label }) => (
-        <DnaSwatch key={token} label={label} themeKey={themeKey} token={token} />
+        <DnaSwatch
+          key={token}
+          label={label}
+          themeKey={themeKey}
+          token={token}
+        />
       ))}
     </div>
   );
@@ -555,7 +558,9 @@ function DnaSwatch({
               boxShadow: "inset 0 0 0 1px rgb(0 0 0 / 0.06)",
             }}
           />
-          <span className="truncate text-muted-foreground text-xs">{label}</span>
+          <span className="truncate text-muted-foreground text-xs">
+            {label}
+          </span>
         </StoryStack>
       </TooltipTrigger>
       <TooltipContent side="bottom">
@@ -607,7 +612,7 @@ function Swatch({
               boxShadow: "inset 0 0 0 1px rgb(0 0 0 / 0.06)",
             }}
           >
-            <div className="absolute right-1 top-1">
+            <div className="absolute top-1 right-1">
               <Badge emphasis="solid" size="sm" tone="neutral">
                 {layerMeta.label}
               </Badge>
@@ -626,7 +631,9 @@ function Swatch({
       <TooltipContent side="bottom">
         <div className="max-w-xs">
           <StoryStack gap="xs">
-            <span className="font-mono font-semibold text-xs">{item.token}</span>
+            <span className="font-mono font-semibold text-xs">
+              {item.token}
+            </span>
             <Separator />
             <StoryRow align="center" gap="sm">
               <div
@@ -656,13 +663,21 @@ function RadiusSwatch({ item }: { readonly item: TokenItem }) {
       />
       <div className="text-center">
         <p className="font-medium text-foreground text-xs">{item.label}</p>
-        <code className="text-muted-foreground text-xs">{item.token.replace("--afenda-", "")}</code>
+        <code className="text-muted-foreground text-xs">
+          {item.token.replace("--afenda-", "")}
+        </code>
       </div>
     </div>
   );
 }
 
-function ShadowSwatch({ item, themeKey }: { readonly item: TokenItem; readonly themeKey: string }) {
+function ShadowSwatch({
+  item,
+  themeKey,
+}: {
+  readonly item: TokenItem;
+  readonly themeKey: string;
+}) {
   return (
     <div className="flex flex-col items-start gap-3" key={themeKey}>
       <div
@@ -671,7 +686,9 @@ function ShadowSwatch({ item, themeKey }: { readonly item: TokenItem; readonly t
       />
       <div>
         <p className="font-medium text-foreground text-xs">{item.label}</p>
-        <code className="text-muted-foreground text-xs">{item.token.replace("--afenda-", "")}</code>
+        <code className="text-muted-foreground text-xs">
+          {item.token.replace("--afenda-", "")}
+        </code>
       </div>
     </div>
   );
@@ -690,37 +707,39 @@ function GroupSection({
   return (
     <section>
       <StoryStack gap="md">
-      <StoryStack gap="xs">
-        <StoryRow align="center" gap="sm">
-          <h3 className="font-semibold text-foreground text-sm">{group.title}</h3>
-          <span className="text-muted-foreground text-xs">
-            {group.items.length} tokens
-          </span>
-        </StoryRow>
-        {group.note ? (
-          <p className="text-muted-foreground text-xs">{group.note}</p>
-        ) : null}
+        <StoryStack gap="xs">
+          <StoryRow align="center" gap="sm">
+            <h3 className="font-semibold text-foreground text-sm">
+              {group.title}
+            </h3>
+            <span className="text-muted-foreground text-xs">
+              {group.items.length} tokens
+            </span>
+          </StoryRow>
+          {group.note ? (
+            <p className="text-muted-foreground text-xs">{group.note}</p>
+          ) : null}
+        </StoryStack>
+        {isRadius ? (
+          <div className="flex flex-wrap gap-6">
+            {group.items.map((item) => (
+              <RadiusSwatch item={item} key={item.token} />
+            ))}
+          </div>
+        ) : isShadow ? (
+          <div className="flex flex-wrap gap-8">
+            {group.items.map((item) => (
+              <ShadowSwatch item={item} key={item.token} themeKey={themeKey} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
+            {group.items.map((item) => (
+              <Swatch item={item} key={item.token} themeKey={themeKey} />
+            ))}
+          </div>
+        )}
       </StoryStack>
-      {isRadius ? (
-        <div className="flex flex-wrap gap-6">
-          {group.items.map((item) => (
-            <RadiusSwatch item={item} key={item.token} />
-          ))}
-        </div>
-      ) : isShadow ? (
-        <div className="flex flex-wrap gap-8">
-          {group.items.map((item) => (
-            <ShadowSwatch item={item} key={item.token} themeKey={themeKey} />
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
-          {group.items.map((item) => (
-            <Swatch item={item} key={item.token} themeKey={themeKey} />
-          ))}
-        </div>
-      )}
-    </StoryStack>
     </section>
   );
 }
@@ -808,7 +827,7 @@ function PaletteView({
           value={activeTab}
         >
           <StoryStack
-            className="sticky top-0 z-10 shrink-0 border-b border-border bg-background/95 backdrop-blur"
+            className="sticky top-0 z-10 shrink-0 border-border border-b bg-background/95 backdrop-blur"
             gap="md"
             paddingX="lg"
             paddingY="md"
@@ -819,9 +838,9 @@ function PaletteView({
                   Afenda ERP v2 — Color Palette
                 </h2>
                 <p className="max-w-2xl text-muted-foreground text-xs">
-                  Deep Sapphire · Warm Canvas · Forest Green · Controlled Amber ·
-                  Royal Violet · Board-safe charts. Hover swatches for resolved
-                  OKLCH. Toggle Theme for dark mode.
+                  Deep Sapphire · Warm Canvas · Forest Green · Controlled Amber
+                  · Royal Violet · Board-safe charts. Hover swatches for
+                  resolved OKLCH. Toggle Theme for dark mode.
                 </p>
               </StoryStack>
               <Badge emphasis="outline" size="sm" tone="info">

@@ -1,16 +1,13 @@
 import type { LayoutType } from "@afenda/metadata";
 
-import type {
-  MetadataLayoutProps,
-  MetadataSpecificLayoutProps,
-} from "../contracts/layout.contract.js";
+import type { MetadataSpecificLayoutProps } from "../contracts/layout.contract.js";
 import { MetadataLayout } from "./metadata-layout.js";
 
-export { MetadataLayout } from "./metadata-layout.js";
 export type {
   MetadataLayoutProps,
   MetadataSpecificLayoutProps,
 } from "../contracts/layout.contract.js";
+export { MetadataLayout } from "./metadata-layout.js";
 
 const DASHBOARD_LAYOUT_TYPE = "dashboard" satisfies LayoutType;
 const GRID_LAYOUT_TYPE = "grid" satisfies LayoutType;

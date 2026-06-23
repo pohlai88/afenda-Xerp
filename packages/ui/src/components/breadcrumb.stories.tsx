@@ -352,7 +352,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Root is a `nav` landmark with `aria-label=\"breadcrumb\"`. Current page uses `aria-current=\"page\"`. Separators and ellipsis are `aria-hidden`. Verify keyboard focus on links and collapsed-menu trigger.",
+          'Root is a `nav` landmark with `aria-label="breadcrumb"`. Current page uses `aria-current="page"`. Separators and ellipsis are `aria-hidden`. Verify keyboard focus on links and collapsed-menu trigger.',
       },
     },
   },

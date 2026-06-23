@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
   // Next.js binds localhost — without this, Turbopack HMR is blocked and client
   // components never hydrate (dashboard layout fetch never runs).
   allowedDevOrigins: ["127.0.0.1"],
+  images: {
+    remotePatterns: [
+      {
+        hostname: "cdn.shadcnstudio.com",
+        pathname: "/ss-assets/**",
+        protocol: "https",
+      },
+    ],
+  },
   experimental: {
     sri: {
       algorithm: "sha256",

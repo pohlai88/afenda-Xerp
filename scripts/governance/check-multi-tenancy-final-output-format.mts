@@ -63,7 +63,9 @@ export function checkMultiTenancyFinalOutputFormat(): MultiTenancyFinalOutputFor
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  if (!registrySource.includes(MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE)) {
+  if (
+    !registrySource.includes(MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registryPath,
@@ -134,7 +136,9 @@ export function checkMultiTenancyFinalOutputFormat(): MultiTenancyFinalOutputFor
       file: deliveryDocPath,
       message: `Delivery evidence doc required: ${TIP_007_012_DELIVERY_DOC}`,
     });
-  } else if (!deliveryDoc.includes(MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE)) {
+  } else if (
+    !deliveryDoc.includes(MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "delivery-surface-rule-missing",
       file: deliveryDocPath,
@@ -150,29 +154,41 @@ export function checkMultiTenancyFinalOutputFormat(): MultiTenancyFinalOutputFor
       message: "root package.json is required",
     });
   } else {
-    if (!packageJsonContent.includes("check:multi-tenancy-final-output-format")) {
+    if (
+      !packageJsonContent.includes("check:multi-tenancy-final-output-format")
+    ) {
       violations.push({
         rule: "check-script-missing",
         file: packageJsonPath,
-        message: "package.json must define check:multi-tenancy-final-output-format",
+        message:
+          "package.json must define check:multi-tenancy-final-output-format",
       });
     }
 
-    if (!packageJsonContent.includes("quality:multi-tenancy-final-output-format")) {
+    if (
+      !packageJsonContent.includes("quality:multi-tenancy-final-output-format")
+    ) {
       violations.push({
         rule: "quality-script-missing",
         file: packageJsonPath,
-        message: "package.json must define quality:multi-tenancy-final-output-format",
+        message:
+          "package.json must define quality:multi-tenancy-final-output-format",
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
     const finalOutputIndex = qualityChain.indexOf(
       "quality:multi-tenancy-final-output-format"
     );
-    const deliveryIndex = qualityChain.indexOf("quality:delivery-evidence-surface");
+    const deliveryIndex = qualityChain.indexOf(
+      "quality:delivery-evidence-surface"
+    );
 
     if (dosIndex === -1 || finalOutputIndex === -1 || deliveryIndex === -1) {
       violations.push({

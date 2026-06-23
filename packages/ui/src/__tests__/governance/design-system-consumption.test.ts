@@ -4,9 +4,9 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  APP_SHELL_VARIANT_AXES,
   assertAllowedLayoutClassName,
   assertGovernedState,
-  APP_SHELL_VARIANT_AXES,
   FORM_CONTROL_VARIANT_AXES,
   GOVERNED_RECIPE_VARIANT_AXES,
   GOVERNED_STATES,

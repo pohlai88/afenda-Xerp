@@ -1,5 +1,5 @@
 /** @vitest-environment node */
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -38,7 +38,9 @@ describe("story files: TIP-004 governed UI consumption", () => {
   });
 
   for (const absPath of storyFiles) {
-    const rel = absPath.replace(`${packageRoot}\\`, "").replace(`${packageRoot}/`, "");
+    const rel = absPath
+      .replace(`${packageRoot}\\`, "")
+      .replace(`${packageRoot}/`, "");
 
     it(`${rel}: no className on governed @afenda/ui primitives`, () => {
       const source = readFileSync(absPath, "utf8");

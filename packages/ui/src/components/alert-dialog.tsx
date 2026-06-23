@@ -33,10 +33,7 @@ function AlertDialogTrigger({
   typeof AlertDialogPrimitive.Trigger
 >): React.ReactElement {
   return (
-    <AlertDialogPrimitive.Trigger
-      {...props}
-      data-slot="alert-dialog-trigger"
-    />
+    <AlertDialogPrimitive.Trigger {...props} data-slot="alert-dialog-trigger" />
   );
 }
 
@@ -213,20 +210,15 @@ type AlertDialogActionProps = Omit<
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   AlertDialogActionProps
->(
-  (
-    { intent = "primary", emphasis = "solid", size = "md", ...props },
-    ref
-  ) => (
-    <Button asChild emphasis={emphasis} intent={intent} size={size}>
-      <AlertDialogPrimitive.Action
-        ref={ref}
-        {...props}
-        data-slot="alert-dialog-action"
-      />
-    </Button>
-  )
-);
+>(({ intent = "primary", emphasis = "solid", size = "md", ...props }, ref) => (
+  <Button asChild emphasis={emphasis} intent={intent} size={size}>
+    <AlertDialogPrimitive.Action
+      ref={ref}
+      {...props}
+      data-slot="alert-dialog-action"
+    />
+  </Button>
+));
 
 AlertDialogAction.displayName = "AlertDialogAction";
 

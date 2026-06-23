@@ -76,7 +76,7 @@ export function detectConsumerClassNameViolation(token) {
     return { token, reason: "arbitrary utility value" };
   }
 
-  return undefined;
+  return;
 }
 
 /**
@@ -102,7 +102,8 @@ export function checkConsumerClassNameSlop(className) {
   return violations;
 }
 
-const STATIC_CLASS_STRING_RE = /className=(?:"([^"]+)"|'([^']+)'|\{\s*["']([^"']+)["']\s*\})/gu;
+const STATIC_CLASS_STRING_RE =
+  /className=(?:"([^"]+)"|'([^']+)'|\{\s*["']([^"']+)["']\s*\})/gu;
 
 /**
  * Extract static className string literals from TSX source.
@@ -138,8 +139,7 @@ export function findConsumerWrapperClassNameSlop(content, lines) {
       continue;
     }
 
-    const lineNumber =
-      content.slice(0, index).split("\n").length;
+    const lineNumber = content.slice(0, index).split("\n").length;
     const detail = slop
       .map((entry) => `${entry.token} (${entry.reason})`)
       .join(", ");

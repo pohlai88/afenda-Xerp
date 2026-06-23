@@ -44,7 +44,9 @@ describe("API envelope", () => {
 describe("API error taxonomy", () => {
   it("maps every error code to an HTTP status", () => {
     for (const code of API_ERROR_CODES) {
-      expect(API_ERROR_DEFINITIONS[code].httpStatus).toBeGreaterThanOrEqual(400);
+      expect(API_ERROR_DEFINITIONS[code].httpStatus).toBeGreaterThanOrEqual(
+        400
+      );
     }
   });
 

@@ -3,18 +3,9 @@
  *
  * Writes: `../entity-group/entity-group.service.ts`
  */
-import {
-  index,
-  pgTable,
-  uniqueIndex,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { index, pgTable, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { companyStatusEnum } from "../database.types.js";
-import {
-  parentLegalEntityIdRef,
-  primaryId,
-  tenantIdRef,
-} from "../ids.js";
+import { parentLegalEntityIdRef, primaryId, tenantIdRef } from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { companies } from "./company.schema.js";
 import { tenants } from "./tenant.schema.js";

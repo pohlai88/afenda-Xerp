@@ -95,26 +95,22 @@ describe("Badge governance", () => {
     expect(ref.current).toHaveTextContent("New");
   });
 
-  it(
-    "supports asChild without losing governed attributes",
-    () => {
-      render(
-        <Badge asChild tone="info">
-          <a href="/status">Status</a>
-        </Badge>
-      );
+  it("supports asChild without losing governed attributes", () => {
+    render(
+      <Badge asChild tone="info">
+        <a href="/status">Status</a>
+      </Badge>
+    );
 
-      const link = screen.getByRole("link", { name: "Status" });
+    const link = screen.getByRole("link", { name: "Status" });
 
-      expect(link).toHaveAttribute("data-tone", "info");
-      expectGovernedPrimitive(link, {
-        component: "Badge",
-        slot: "badge",
-        recipe: "badge",
-      });
-    },
-    30_000
-  );
+    expect(link).toHaveAttribute("data-tone", "info");
+    expectGovernedPrimitive(link, {
+      component: "Badge",
+      slot: "badge",
+      recipe: "badge",
+    });
+  }, 30_000);
 
   it("routes allowed layout className through governance", () => {
     render(<Badge className="w-full">Active</Badge>);

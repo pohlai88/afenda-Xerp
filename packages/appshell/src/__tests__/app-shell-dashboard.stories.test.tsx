@@ -1,9 +1,8 @@
 import { composeStories } from "@storybook/react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
-import * as canvasStories from "../app-shell-dashboard-canvas.stories";
 import * as dashboardStories from "../app-shell-dashboard.stories";
+import * as canvasStories from "../app-shell-dashboard-canvas.stories";
 
 const { Default, FinanceGated, EmptyInvoices, EmptyRegionalSales } =
   composeStories(dashboardStories);
@@ -18,8 +17,12 @@ describe("ApplicationShell dashboard stories (portable CSF)", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Revenue this month")).toBeInTheDocument();
     expect(screen.getByText("Net income")).toBeInTheDocument();
-    expect(container.querySelector(".app-shell-kpi-grid")).not.toBeInTheDocument();
-    expect(container.querySelector(".app-shell-sparkline-grid")).not.toBeInTheDocument();
+    expect(
+      container.querySelector(".app-shell-kpi-grid")
+    ).not.toBeInTheDocument();
+    expect(
+      container.querySelector(".app-shell-sparkline-grid")
+    ).not.toBeInTheDocument();
   });
 
   it("FinanceGated hides finance-gated widgets from the canvas", () => {
@@ -49,8 +52,8 @@ describe("ApplicationShell dashboard stories (portable CSF)", () => {
     expect(
       screen.getByRole("button", { name: "Drag Revenue this month" })
     ).toBeInTheDocument();
-    expect(container.querySelectorAll("[data-dashboard-widget]").length).toBeGreaterThan(
-      10
-    );
+    expect(
+      container.querySelectorAll("[data-dashboard-widget]").length
+    ).toBeGreaterThan(10);
   });
 });

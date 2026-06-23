@@ -1,6 +1,8 @@
 # UI Block Normalization — Deep Reference
 
 > Companion to [SKILL.md](SKILL.md). Read when you need token mappings, CSS patterns, or worked examples.
+>
+> **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
 
 ---
 
@@ -323,11 +325,20 @@ New blocks should use `afenda-` prefix, not `app-shell-` (legacy appshell block 
 
 ## governed-ui-consumption static gate reference
 
-`scripts/governance/governed-ui-consumption.mjs` checks every `*.tsx` file in `packages/appshell` and `apps/erp` for:
+`scripts/governance/governed-ui-consumption.mjs` checks every consumer `*.tsx` file in:
 
-1. `className` on any primitive in `GOVERNED_COMPONENTS_SET`
-2. Visual slop patterns (`from-*`, `bg-gradient-*`, `shadow-[*]`, `rounded-[*]`, `bg-#*`, `text-#*`)
-3. Missing `mapStockButtonProps` calls for stock shadcn Button variants
+- `packages/appshell/src`
+- `packages/metadata-ui/src`
+- `apps/erp/src`
+
+Gate D also scans `packages/ui/src/**/*.stories.tsx`.
+
+Checks:
+
+1. `className` on any tag in `GOVERNED_UI_TAGS` (zero tolerance in consumer code)
+2. Import discipline (`@afenda/ui/governance` required; no stock-props barrels)
+3. Stock shadcn `variant` / icon sizes on `<Button>` without `mapStockButtonProps`
+4. Visual slop on plain HTML wrapper `className` strings
 
 Run: `pnpm ui:guard:scan`
 

@@ -15,9 +15,9 @@ import {
 } from "../multi-tenancy-testing-verification-acceptance-registry.mts";
 
 export interface TestingVerificationAcceptanceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -139,7 +139,8 @@ export function collectTestingVerificationAcceptanceViolations(
     violations.push({
       rule: "pre-existing-blockers-missing",
       file: deliveryPath,
-      message: "Delivery doc missing ### Pre-existing blockers under Verification results",
+      message:
+        "Delivery doc missing ### Pre-existing blockers under Verification results",
     });
   } else {
     for (const marker of MULTI_TENANCY_PRE_EXISTING_BLOCKER_MARKERS) {
@@ -158,7 +159,8 @@ export function collectTestingVerificationAcceptanceViolations(
     violations.push({
       rule: "package-json-missing",
       file: packageJsonPath,
-      message: "root package.json is required for verification acceptance scripts",
+      message:
+        "root package.json is required for verification acceptance scripts",
     });
     return violations;
   }

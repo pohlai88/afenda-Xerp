@@ -57,7 +57,9 @@ describe("multi-tenancy-scan-utils", () => {
       export const ready = true;
     `;
 
-    expect(stripCommentsAndStringLiterals(source)).not.toContain("insertJournal");
+    expect(stripCommentsAndStringLiterals(source)).not.toContain(
+      "insertJournal"
+    );
     expect(sourceContainsCodePattern(source, /insertJournal/i)).toBe(false);
   });
 });

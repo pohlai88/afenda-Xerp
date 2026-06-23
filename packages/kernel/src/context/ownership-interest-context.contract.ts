@@ -7,8 +7,7 @@ export const OWNERSHIP_CONTROL_TYPES = [
   "passive_investment",
 ] as const;
 
-export type OwnershipControlType =
-  (typeof OWNERSHIP_CONTROL_TYPES)[number];
+export type OwnershipControlType = (typeof OWNERSHIP_CONTROL_TYPES)[number];
 
 export const CONSOLIDATION_TREATMENTS = [
   "full_consolidation",
@@ -18,8 +17,7 @@ export const CONSOLIDATION_TREATMENTS = [
   "excluded",
 ] as const;
 
-export type ConsolidationTreatment =
-  (typeof CONSOLIDATION_TREATMENTS)[number];
+export type ConsolidationTreatment = (typeof CONSOLIDATION_TREATMENTS)[number];
 
 /**
  * Parent/investee relationship authority stub (TIP-008).

@@ -113,10 +113,7 @@ const ComboboxClear = React.forwardRef<
       render={<InputGroupButton emphasis="ghost" size="icon-xs" />}
       {...applyGovernedPresentation(props, governed)}
     >
-      <XIcon
-        aria-hidden="true"
-        {...applyGovernedPresentation({}, clearIcon)}
-      />
+      <XIcon aria-hidden="true" {...applyGovernedPresentation({}, clearIcon)} />
     </ComboboxPrimitive.Clear>
   );
 });
@@ -273,9 +270,7 @@ const ComboboxItem = React.forwardRef<
     >
       {children}
       <ComboboxPrimitive.ItemIndicator
-        render={
-          <span {...applyGovernedPresentation({}, indicator)} />
-        }
+        render={<span {...applyGovernedPresentation({}, indicator)} />}
       >
         <CheckIcon
           aria-hidden="true"

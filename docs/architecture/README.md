@@ -2,6 +2,8 @@
 
 **Constitution entry point for TIP-001 — Architecture Authority.**
 
+Parent index: [`docs/README.md`](../README.md)
+
 Human-readable architecture governance for the Afenda ERP platform. These documents are the **approved source of truth** that precede the machine-readable `@afenda/architecture-authority` package.
 
 ---
@@ -86,7 +88,14 @@ Never: implementation first, documentation later. This principle is normative in
 
 | Document | Purpose |
 |----------|---------|
-| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v4.0.0** — Phase 1 Track A (governance) + Track B (UI: Tailwind v4, shadcn/ui, renderers, ERP surfaces). Narrative only; ADRs and registries win on conflict. |
+| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v5.0.0** — Strategic compass with runtime truth snapshot. Narrative only; ADRs and registries win on conflict. |
+| [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | **Delivery authority** (ADR-0013) — Foundation Phases 0–9 before Accounting Core. |
+| [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed status of all foundation areas (ADR-0009). |
+| [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-23 drift audit — master plan reconciliation. |
+| [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
+| [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
+
+**Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/delivery/tip-*.md`.
 
 ---
 

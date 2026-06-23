@@ -345,8 +345,16 @@ export const Sizes: Story = {
   ),
 };
 
-const ITEM_VARIANTS = ["default", "outline", "muted"] as const satisfies readonly ItemVariant[];
-const ITEM_SIZES = ["default", "sm", "xs"] as const satisfies readonly ItemSize[];
+const ITEM_VARIANTS = [
+  "default",
+  "outline",
+  "muted",
+] as const satisfies readonly ItemVariant[];
+const ITEM_SIZES = [
+  "default",
+  "sm",
+  "xs",
+] as const satisfies readonly ItemSize[];
 
 export const GovernanceDataAuthority: Story = {
   name: "Governance — Data Authority",
@@ -383,9 +391,9 @@ export const GovernanceSlotMap: Story = {
       <StoryStack gap="sm">
         <p className="font-mono text-muted-foreground text-xs">
           root → item · body → item-group · control → item-media · content →
-          item-content · label → item-title · state → item-description ·
-          actions → item-actions · header → item-header · footer →
-          item-footer · icon → item-separator
+          item-content · label → item-title · state → item-description · actions
+          → item-actions · header → item-header · footer → item-footer · icon →
+          item-separator
         </p>
         <ItemGroup data-testid="slot-map-group">
           <Item data-testid="slot-map-root" variant="outline">
@@ -497,7 +505,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "`ItemGroup` renders `role=\"list\"`. Use `asChild` with an anchor for navigable rows. Icon-only actions need `aria-label`.",
+          '`ItemGroup` renders `role="list"`. Use `asChild` with an anchor for navigable rows. Icon-only actions need `aria-label`.',
       },
     },
   },
@@ -509,7 +517,9 @@ export const GovernanceAccessibility: Story = {
             <IconMedia icon={FileTextIcon} />
             <ItemContent>
               <ItemTitle>INV-2026-0042</ItemTitle>
-              <ItemDescription>Acme Software Ltd. · due Jul 15, 2026</ItemDescription>
+              <ItemDescription>
+                Acme Software Ltd. · due Jul 15, 2026
+              </ItemDescription>
             </ItemContent>
             <ItemActions>
               <ChevronRightIcon
@@ -894,9 +904,9 @@ export const InventoryAlertRow: Story = {
         <ItemContent>
           <ItemTitle>Low stock · SKU-8820</ItemTitle>
           <ItemDescription>
-            Stainless Steel Bolts M8 ·{" "}
-            <span className="tabular-nums">42</span> units remaining · reorder
-            at <span className="tabular-nums">150</span>
+            Stainless Steel Bolts M8 · <span className="tabular-nums">42</span>{" "}
+            units remaining · reorder at{" "}
+            <span className="tabular-nums">150</span>
           </ItemDescription>
         </ItemContent>
         <ItemActions>

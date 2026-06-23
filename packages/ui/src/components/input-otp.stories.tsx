@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  DENSITIES,
-  GOVERNED_STATES,
-  SIZES,
-} from "@afenda/ui/governance";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import {
@@ -14,6 +10,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedInputStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Button } from "./button";
 import { Field, FieldDescription, FieldLabel } from "./field";
 import {
@@ -164,7 +164,7 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -261,8 +261,8 @@ export const GovernanceSlotMap: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="sm">
         <p className="font-mono text-muted-foreground text-xs">
-          root → input-otp · body → input-otp-group · control → input-otp-slot
-          · icon → input-otp-separator
+          root → input-otp · body → input-otp-group · control → input-otp-slot ·
+          icon → input-otp-separator
         </p>
         <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <InputOTPGroup data-testid="slot-map-group">
@@ -292,11 +292,7 @@ export const GovernanceAllStates: Story = {
           <span className="font-mono text-muted-foreground text-xs">
             state=&quot;{state}&quot;
           </span>
-          <InputOTP
-            maxLength={4}
-            pattern={REGEXP_ONLY_DIGITS}
-            state={state}
-          >
+          <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS} state={state}>
             <OtpSlots length={4} />
           </InputOTP>
         </StoryFrame>
@@ -312,7 +308,12 @@ export const GovernanceAllSizes: Story = {
     <StoryFrame width="sm">
       <StoryStack gap="sm">
         {SIZES.map((size) => (
-          <InputOTP key={size} maxLength={4} pattern={REGEXP_ONLY_DIGITS} size={size}>
+          <InputOTP
+            key={size}
+            maxLength={4}
+            pattern={REGEXP_ONLY_DIGITS}
+            size={size}
+          >
             <OtpSlots length={4} />
           </InputOTP>
         ))}
@@ -355,14 +356,12 @@ export const GovernancePlayground: Story = {
     size: "md",
     state: "ready",
   },
-  render: ({ density, size, state }) => (
+  render: (args) => (
     <StoryFrame width="sm">
       <InputOTP
-        density={density}
+        {...governedInputStoryProps(args)}
         maxLength={6}
         pattern={REGEXP_ONLY_DIGITS}
-        size={size}
-        state={state}
       >
         <OtpSlots length={6} separatorAt={3} />
       </InputOTP>

@@ -1,7 +1,5 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import { ApplicationShell } from "@afenda/appshell";
 import { createMetadataRuntimeContext } from "@afenda/metadata";
 import type { MetadataRenderableAction } from "@afenda/metadata-ui";
@@ -15,6 +13,7 @@ import {
 } from "@afenda/metadata-ui/server";
 import { Button } from "@afenda/ui";
 import { mapStockButtonProps } from "@afenda/ui/governance";
+import { useMemo, useState } from "react";
 
 const INTEGRATION_RUNTIME_INPUT = {
   actorId: "actor_integration_harness",
@@ -180,10 +179,7 @@ export function GovernanceIntegrationHarness() {
           content: <IntegrationSectionContent context={context} />,
           toolbar: (
             <div data-integration-toolbar="true">
-              <Button
-                {...mapStockButtonProps("secondary", "sm")}
-                type="button"
-              >
+              <Button {...mapStockButtonProps("secondary", "sm")} type="button">
                 Governed UI control
               </Button>
             </div>

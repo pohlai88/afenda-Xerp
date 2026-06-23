@@ -49,7 +49,9 @@ const meta = {
     brandName: {
       control: "text",
       description: "Sidebar brand label beside the logo.",
-      table: { defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.brandName } },
+      table: {
+        defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.brandName },
+      },
     },
     userName: {
       control: "text",
@@ -62,12 +64,16 @@ const meta = {
     },
     avatarSrc: {
       control: "text",
-      description: "User avatar image URL. Falls back to the default CDN avatar.",
+      description:
+        "User avatar image URL. Falls back to the default CDN avatar.",
     },
     footerBrand: {
       control: "text",
-      description: 'Footer company name. Pass an empty string to hide the link.',
-      table: { defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.footerBrand } },
+      description:
+        "Footer company name. Pass an empty string to hide the link.",
+      table: {
+        defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.footerBrand },
+      },
     },
     footerBrandHref: {
       control: "text",
@@ -77,13 +83,17 @@ const meta = {
       control: "text",
       description: "Sidebar primary section label.",
       table: {
-        defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.navigationLabel },
+        defaultValue: {
+          summary: DEFAULT_APPLICATION_SHELL_PROPS.navigationLabel,
+        },
       },
     },
     teamLabel: {
       control: "text",
       description: "Sidebar team section label.",
-      table: { defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.teamLabel } },
+      table: {
+        defaultValue: { summary: DEFAULT_APPLICATION_SHELL_PROPS.teamLabel },
+      },
     },
     roleLabel: {
       control: "text",
@@ -296,7 +306,8 @@ export const CustomBranding: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Customer-specific brand, footer, and section labels from props alone.",
+        story:
+          "Customer-specific brand, footer, and section labels from props alone.",
       },
     },
   },
@@ -311,7 +322,7 @@ export const MinimalFooter: Story = {
     docs: {
       description: {
         story:
-          "Pass `footerBrand=\"\"` to hide the footer brand link while keeping the copyright notice.",
+          'Pass `footerBrand=""` to hide the footer brand link while keeping the copyright notice.',
       },
     },
   },

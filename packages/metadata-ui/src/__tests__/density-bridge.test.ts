@@ -16,7 +16,9 @@ describe("metadata-ui density bridge", () => {
 
   it("maps compact and comfortable without local standard-to-default hardcoding", () => {
     expect(resolveMetadataUiDensityAttribute("compact")).toBe("compact");
-    expect(resolveMetadataUiDensityAttribute("comfortable")).toBe("comfortable");
+    expect(resolveMetadataUiDensityAttribute("comfortable")).toBe(
+      "comfortable"
+    );
   });
 
   it("uses densityToAttribute through wiring/governance.ts", () => {

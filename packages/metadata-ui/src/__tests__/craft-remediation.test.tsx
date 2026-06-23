@@ -1,10 +1,9 @@
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { MetadataActionBar } from "../client/metadata-action-renderer.client.js";
-import { MetadataState } from "../states/metadata-state.js";
 import {
   sampleDashboardLayoutFixture,
   sampleDashboardLayoutProps,
@@ -14,9 +13,13 @@ import {
   samplePageSurfaceProps,
 } from "../fixtures/sample-page-surface.fixture.js";
 import { sampleDiagnosticsRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
+import { MetadataState } from "../states/metadata-state.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
-const productionCss = readFileSync(join(packageRoot, "src/afenda-metadata-ui.css"), "utf8");
+const productionCss = readFileSync(
+  join(packageRoot, "src/afenda-metadata-ui.css"),
+  "utf8"
+);
 const fixturesCss = readFileSync(
   join(packageRoot, "src/fixtures/metadata-ui-fixtures.css"),
   "utf8"
@@ -71,9 +74,7 @@ describe("metadata-ui craft remediation", () => {
       />
     );
 
-    expect(
-      screen.getByText(/2 visible primary actions/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/2 visible primary actions/i)).toBeInTheDocument();
   });
 
   it("renders data-action-group from presentation.group", () => {
@@ -100,9 +101,10 @@ describe("metadata-ui craft remediation", () => {
     expect(
       document.querySelector('[data-action-key="create"]')
     ).toHaveAttribute("data-action-group", "primary");
-    expect(
-      document.querySelector('[data-action-key="help"]')
-    ).toHaveAttribute("data-action-group", "tertiary");
+    expect(document.querySelector('[data-action-key="help"]')).toHaveAttribute(
+      "data-action-group",
+      "tertiary"
+    );
   });
 
   it("does not apply line-through to readonly surfaces by default", () => {
@@ -141,7 +143,11 @@ describe("metadata-ui craft remediation", () => {
 
   it("omits state slots when not provided", () => {
     render(
-      <MetadataState message="Loading metadata surface." state="loading" title="Loading" />
+      <MetadataState
+        message="Loading metadata surface."
+        state="loading"
+        title="Loading"
+      />
     );
 
     expect(
@@ -181,7 +187,9 @@ describe("metadata-ui craft remediation", () => {
   it("page and dashboard fixtures use different structural rhythms", () => {
     expect(pageFixtureSource).toContain("metadata-fixture-page-master-detail");
     expect(pageFixtureSource).toContain("metadata-fixture-page-audit-evidence");
-    expect(pageFixtureSource).not.toContain("metadata-fixture-dashboard-kpi-grid");
+    expect(pageFixtureSource).not.toContain(
+      "metadata-fixture-dashboard-kpi-grid"
+    );
     expect(dashboardFixtureSource).not.toContain(
       "metadata-fixture-page-master-detail"
     );
@@ -214,6 +222,8 @@ describe("metadata-ui craft remediation", () => {
     ) as { exports?: Record<string, unknown> };
 
     expect(packageJson.exports?.["./afenda-metadata-ui.css"]).toBeDefined();
-    expect(existsSync(join(packageRoot, "src/afenda-metadata-ui.css"))).toBe(true);
+    expect(existsSync(join(packageRoot, "src/afenda-metadata-ui.css"))).toBe(
+      true
+    );
   });
 });

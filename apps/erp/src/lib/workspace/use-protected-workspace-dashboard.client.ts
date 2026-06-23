@@ -1,30 +1,26 @@
 "use client";
 
 import {
-  useDashboardWidgetRenderContext,
   type DashboardLayoutPreset,
+  useDashboardWidgetRenderContext,
 } from "@afenda/appshell";
 
 import { usePolicyGateHandler } from "@/lib/api/use-policy-gate-handler.client";
-import { useWorkspaceDashboardCapabilities } from "@/lib/workspace/workspace-dashboard-capabilities.context";
 import { useWorkspaceDashboardLayout } from "@/lib/workspace/use-workspace-dashboard-layout.client";
 import { useWorkspaceApiScope } from "@/lib/workspace/workspace-api-scope.context";
+import { useWorkspaceDashboardCapabilities } from "@/lib/workspace/workspace-dashboard-capabilities.context";
 
 export function useProtectedWorkspaceDashboard() {
   const workspaceScope = useWorkspaceApiScope();
   const renderContext = useDashboardWidgetRenderContext();
   const { canEditLayout } = useWorkspaceDashboardCapabilities();
   const { clearGate, gateState, handleApiError } = usePolicyGateHandler();
-  const {
-    errorMessage,
-    isLoading,
-    layout,
-    saveLayout,
-  } = useWorkspaceDashboardLayout({
-    clearGate,
-    handleApiError,
-    workspaceScope,
-  });
+  const { errorMessage, isLoading, layout, saveLayout } =
+    useWorkspaceDashboardLayout({
+      clearGate,
+      handleApiError,
+      workspaceScope,
+    });
 
   const handleLayoutChange = (nextLayout: DashboardLayoutPreset) => {
     if (!canEditLayout) {

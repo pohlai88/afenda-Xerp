@@ -2,13 +2,12 @@
 
 import {
   applyDashboardWidgetRenderContextPreview,
-  useDashboardWidgetRenderContext,
   type DashboardWidgetRenderContextPreviewMode,
+  useDashboardWidgetRenderContext,
 } from "@afenda/appshell";
-import { useMemo, useState } from "react";
-
 import { Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useMemo, useState } from "react";
 
 export type DashboardWidgetRbacPreviewControlsGovernedComponents = Extract<
   GovernedUiComponentName,
@@ -16,10 +15,10 @@ export type DashboardWidgetRbacPreviewControlsGovernedComponents = Extract<
 >;
 
 export interface DashboardWidgetRbacPreviewControlsProps {
-  readonly previewMode: DashboardWidgetRenderContextPreviewMode;
   readonly onPreviewModeChange: (
     mode: DashboardWidgetRenderContextPreviewMode
   ) => void;
+  readonly previewMode: DashboardWidgetRenderContextPreviewMode;
 }
 
 export function DashboardWidgetRbacPreviewControls({
@@ -76,8 +75,12 @@ export function useDashboardWidgetRenderContextPreview(
   showPreviewControls: boolean
 ): {
   readonly previewMode: DashboardWidgetRenderContextPreviewMode;
-  readonly renderContext: ReturnType<typeof applyDashboardWidgetRenderContextPreview>;
-  readonly setPreviewMode: (mode: DashboardWidgetRenderContextPreviewMode) => void;
+  readonly renderContext: ReturnType<
+    typeof applyDashboardWidgetRenderContextPreview
+  >;
+  readonly setPreviewMode: (
+    mode: DashboardWidgetRenderContextPreviewMode
+  ) => void;
 } {
   const serverContext = useDashboardWidgetRenderContext();
   const [previewMode, setPreviewMode] =

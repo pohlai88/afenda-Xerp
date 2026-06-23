@@ -38,9 +38,9 @@ const registryPath = join(
 );
 
 export interface DeliveryEvidenceSurfaceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function readText(path: string): string | null {
@@ -78,7 +78,10 @@ function extractChecklistSection(content: string): string {
 function checklistItemChecked(content: string, item: string): boolean {
   const checklistSection = extractChecklistSection(content);
   const normalizedItem = item.toLowerCase();
-  const matchPrefix = normalizedItem.slice(0, Math.min(48, normalizedItem.length));
+  const matchPrefix = normalizedItem.slice(
+    0,
+    Math.min(48, normalizedItem.length)
+  );
 
   let foundChecked = false;
   let foundUnchecked = false;
@@ -130,7 +133,7 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
     violations.push({
       rule: "surface-rule-missing",
       file: deliveryDocPath,
-      message: `Delivery doc must document DELIVERY_EVIDENCE_SURFACE_RULE`,
+      message: "Delivery doc must document DELIVERY_EVIDENCE_SURFACE_RULE",
     });
   }
 
@@ -194,8 +197,10 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
       }
 
       if (
-        !deliveryContent.includes(gate.checkScript) &&
-        !deliveryContent.includes(gate.qualityScript)
+        !(
+          deliveryContent.includes(gate.checkScript) ||
+          deliveryContent.includes(gate.qualityScript)
+        )
       ) {
         violations.push({
           rule: "gate-not-documented",
@@ -221,7 +226,8 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
       });
     }
 
-    const qualityChain = packageJsonContent.match(/"quality":\s*"([^"]+)"/)?.[1] ?? "";
+    const qualityChain =
+      packageJsonContent.match(/"quality":\s*"([^"]+)"/)?.[1] ?? "";
     if (!qualityChain.includes(GOVERNANCE_DIST_BUILD_SCRIPT)) {
       violations.push({
         rule: "governance-dist-not-in-quality",
@@ -277,8 +283,10 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
   }
 
   if (
-    !deliveryContent.includes(GOVERNANCE_DIST_BUILD_SCRIPT) &&
-    !deliveryContent.includes("tsc -b --force")
+    !(
+      deliveryContent.includes(GOVERNANCE_DIST_BUILD_SCRIPT) ||
+      deliveryContent.includes("tsc -b --force")
+    )
   ) {
     violations.push({
       rule: "dist-freshness-doc-missing",
@@ -292,7 +300,8 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
     violations.push({
       rule: "overall-score-missing",
       file: deliveryDocPath,
-      message: "Delivery doc must include **Overall enterprise score** row in Final score table",
+      message:
+        "Delivery doc must include **Overall enterprise score** row in Final score table",
     });
   } else if (overallScore < TIP_007_012_MINIMUM_OVERALL_SCORE) {
     violations.push({

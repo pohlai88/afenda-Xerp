@@ -3,25 +3,25 @@ import { describe, expect, it } from "vitest";
 
 import { METADATA_LAYOUT_REGIONS } from "../contracts/layout.contract.js";
 import {
-  sampleDashboardLayoutFixture,
   sampleDashboardDominantMetric,
+  sampleDashboardLayoutFixture,
   sampleDashboardLayoutProps,
 } from "../fixtures/sample-dashboard-layout.fixture.js";
-import { DashboardLayout, TabsLayout, WizardLayout } from "../layouts/index.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
+import { DashboardLayout, TabsLayout, WizardLayout } from "../layouts/index.js";
 
 describe("layout rendering", () => {
   it("renders asymmetric dashboard fixture regions and metrics", () => {
     render(sampleDashboardLayoutFixture.element);
 
-    expect(
-      screen.getByLabelText("Fulfillment operations")
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Fulfillment operations")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: sampleDashboardDominantMetric.label })
     ).toBeInTheDocument();
     expect(screen.getByText("96.2%")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Attention queue" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Attention queue" })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("table", { name: /latest fulfillment events/i })
     ).toBeInTheDocument();

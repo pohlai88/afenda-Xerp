@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  metadataUiContract,
   METADATA_UI_AUTHORITY,
   METADATA_UI_CONSUMES,
   METADATA_UI_CONTRACT_VERSION,
@@ -9,6 +8,7 @@ import {
   METADATA_UI_OWNS,
   METADATA_UI_PACKAGE_NAME,
   METADATA_UI_PROHIBITS,
+  metadataUiContract,
 } from "../contracts/metadata-ui.contract.js";
 
 function expectUniqueValues(values: readonly string[]): void {

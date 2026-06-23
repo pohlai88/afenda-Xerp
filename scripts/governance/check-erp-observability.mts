@@ -44,7 +44,10 @@ function validateErpAppVersion(): string[] {
     "utf8"
   );
 
-  if (typeof erpPackage.version !== "string" || erpPackage.version.length === 0) {
+  if (
+    typeof erpPackage.version !== "string" ||
+    erpPackage.version.length === 0
+  ) {
     return ["apps/erp/package.json must define a semver version string."];
   }
 
@@ -63,7 +66,10 @@ function main(): void {
   for (const filePath of collectSourceFiles(erpSrcRoot)) {
     const source = readFileSync(filePath, "utf8");
     const relativePath = relative(repoRoot, filePath).replaceAll("\\", "/");
-    const fileViolations = checkErpObservabilityGovernance(source, relativePath);
+    const fileViolations = checkErpObservabilityGovernance(
+      source,
+      relativePath
+    );
 
     for (const violation of fileViolations) {
       violations.push(`${relativePath}: ${violation}`);

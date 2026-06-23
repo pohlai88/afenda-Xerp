@@ -2,9 +2,8 @@
 
 import type { OperatingContextErrorCode } from "@afenda/kernel";
 import type { ReactNode } from "react";
-
-import type { WorkspaceApiScope } from "./workspace-api-scope.contract";
 import { WorkspaceApiScopeProvider } from "./workspace-api-scope.context";
+import type { WorkspaceApiScope } from "./workspace-api-scope.contract";
 import { WorkspaceScopeUnavailable } from "./workspace-scope-unavailable.client";
 
 export interface WorkspaceApiScopeBoundaryProps {
@@ -33,6 +32,8 @@ export function WorkspaceApiScopeBoundary({
   }
 
   return (
-    <WorkspaceApiScopeProvider scope={scope}>{children}</WorkspaceApiScopeProvider>
+    <WorkspaceApiScopeProvider scope={scope}>
+      {children}
+    </WorkspaceApiScopeProvider>
   );
 }

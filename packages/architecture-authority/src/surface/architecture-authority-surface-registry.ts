@@ -23,7 +23,11 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
   {
     path: "data/layer-registry.data.ts",
     role: "Layer assignments and cross-layer matrix",
-    primaryExports: ["layerContract", "getPackageLayer", "isLayerDependencyAllowed"],
+    primaryExports: [
+      "layerContract",
+      "getPackageLayer",
+      "isLayerDependencyAllowed",
+    ],
   },
   {
     path: "data/ownership-registry.data.ts",
@@ -114,9 +118,15 @@ export const MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE =
  */
 export const MULTI_TENANCY_AUTHORITY_OWNERS = [
   { owner: "@afenda/kernel", responsibility: "serializable context contracts" },
-  { owner: "@afenda/database", responsibility: "persistence and query adapters" },
+  {
+    owner: "@afenda/database",
+    responsibility: "persistence and query adapters",
+  },
   { owner: "apps/erp", responsibility: "Next.js request/context integration" },
-  { owner: "@afenda/permissions", responsibility: "permission and grant decisions" },
+  {
+    owner: "@afenda/permissions",
+    responsibility: "permission and grant decisions",
+  },
   { owner: "@afenda/observability", responsibility: "logging/audit evidence" },
   {
     owner: "@afenda/appshell",
@@ -138,7 +148,8 @@ export const MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES = [
   {
     from: "@afenda/erp",
     to: "@afenda/permissions",
-    reason: "ERP delegates grant decisions — must not duplicate permission engine",
+    reason:
+      "ERP delegates grant decisions — must not duplicate permission engine",
   },
   {
     from: "@afenda/permissions",
@@ -226,7 +237,8 @@ export const ERP_PERMISSION_ENGINE_ORCHESTRATION_RELATIVE_PATHS = [
 
 /** Gate ownership — dependency-rules gate is authoritative for §432–445 enforcement. */
 export const MULTI_TENANCY_GATE_OWNERSHIP = {
-  dependencyRules: "scripts/governance/check-multi-tenancy-dependency-rules.mts",
+  dependencyRules:
+    "scripts/governance/check-multi-tenancy-dependency-rules.mts",
   dosProhibitions:
     "scripts/governance/check-multi-tenancy-dos-prohibitions.mts",
   architectureAuthority:
@@ -256,7 +268,10 @@ export const ARCHITECTURE_AUTHORITY_CONSUMER_SCAN_ROOTS = [
 ] as const;
 
 /** Approved @afenda/architecture-authority import suffixes — root and surface barrel only. */
-export const ARCHITECTURE_AUTHORITY_APPROVED_IMPORT_SUFFIXES = ["", "/surface"] as const;
+export const ARCHITECTURE_AUTHORITY_APPROVED_IMPORT_SUFFIXES = [
+  "",
+  "/surface",
+] as const;
 
 /** Approved runtime dependency edges for architecture-authority (zero @afenda/* deps). */
 export const ARCHITECTURE_AUTHORITY_APPROVED_RUNTIME_DEPENDENCIES = [] as const;

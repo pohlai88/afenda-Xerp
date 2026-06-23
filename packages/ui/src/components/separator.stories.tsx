@@ -14,7 +14,12 @@ import {
   KeyValueRow,
   SectionLabel,
 } from "./_storybook/separator-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -589,7 +594,12 @@ export const OrientationMatrix: Story = {
       <StoryFrame width="md">
         <StoryRow align="start" gap="md">
           <StoryCaption width="sm">vertical</StoryCaption>
-          <StoryRow align="start" className="min-w-0 flex-1" gap="md" paddingY="md">
+          <StoryRow
+            align="start"
+            className="min-w-0 flex-1"
+            gap="md"
+            paddingY="md"
+          >
             <span className="text-sm">Left column</span>
             <Separator orientation="vertical" />
             <span className="text-sm">Right column</span>

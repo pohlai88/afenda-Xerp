@@ -17,11 +17,7 @@ export const METADATA_UI_RENDER_SOURCES = [
 export type MetadataUiRenderSource =
   (typeof METADATA_UI_RENDER_SOURCES)[number];
 
-export const METADATA_UI_HYDRATION_MODES = [
-  "none",
-  "partial",
-  "full",
-] as const;
+export const METADATA_UI_HYDRATION_MODES = ["none", "partial", "full"] as const;
 
 export type MetadataUiHydrationMode =
   (typeof METADATA_UI_HYDRATION_MODES)[number];
@@ -37,16 +33,9 @@ export type MetadataUiDiagnosticsLevel =
 
 export interface MetadataUiRenderPolicy {
   /**
-   * Whether renderer failures should throw instead of degrading.
-   *
-   * Recommended: true in tests and CI previews; false in production surfaces.
+   * Whether deprecated renderers may still be selected.
    */
-  readonly strict: boolean;
-
-  /**
-   * Diagnostics verbosity for render policy decisions.
-   */
-  readonly diagnosticsLevel: MetadataUiDiagnosticsLevel;
+  readonly allowDeprecatedRenderers: boolean;
 
   /**
    * Whether experimental renderers may be selected.
@@ -54,17 +43,18 @@ export interface MetadataUiRenderPolicy {
   readonly allowExperimentalRenderers: boolean;
 
   /**
-   * Whether deprecated renderers may still be selected.
+   * Diagnostics verbosity for render policy decisions.
    */
-  readonly allowDeprecatedRenderers: boolean;
+  readonly diagnosticsLevel: MetadataUiDiagnosticsLevel;
+  /**
+   * Whether renderer failures should throw instead of degrading.
+   *
+   * Recommended: true in tests and CI previews; false in production surfaces.
+   */
+  readonly strict: boolean;
 }
 
 export interface MetadataUiRenderEnvironment {
-  /**
-   * Where this render is produced.
-   */
-  readonly source: MetadataUiRenderSource;
-
   /**
    * Hydration expectation for the rendered output.
    */
@@ -74,6 +64,10 @@ export interface MetadataUiRenderEnvironment {
    * Whether this render is running inside an interactive browser client.
    */
   readonly interactive: boolean;
+  /**
+   * Where this render is produced.
+   */
+  readonly source: MetadataUiRenderSource;
 }
 
 export interface MetadataUiRenderDiagnostics {
@@ -97,11 +91,9 @@ export interface MetadataUiRenderDiagnostics {
 
 export interface MetadataUiRenderContext {
   /**
-   * Metadata authority runtime context.
-   *
-   * Consumed, not owned, by metadata-ui.
+   * Diagnostics render state.
    */
-  readonly runtime: MetadataRuntimeContext;
+  readonly diagnostics: MetadataUiRenderDiagnostics;
 
   /**
    * Render environment.
@@ -112,40 +104,24 @@ export interface MetadataUiRenderContext {
    * Render policy.
    */
   readonly policy: MetadataUiRenderPolicy;
-
   /**
-   * Diagnostics render state.
+   * Metadata authority runtime context.
+   *
+   * Consumed, not owned, by metadata-ui.
    */
-  readonly diagnostics: MetadataUiRenderDiagnostics;
+  readonly runtime: MetadataRuntimeContext;
 }
 
 export interface CreateMetadataUiRenderContextInput {
   /**
-   * Metadata runtime context from @afenda/metadata.
+   * Whether deprecated renderers may be used. Defaults to false.
    */
-  readonly runtime: MetadataRuntimeContext;
+  readonly allowDeprecatedRenderers?: boolean;
 
   /**
-   * Render source.
+   * Whether experimental renderers may be used. Defaults to false.
    */
-  readonly source: MetadataUiRenderSource;
-
-  /**
-   * Hydration expectation.
-   *
-   * Defaults based on source:
-   * - server: "none"
-   * - client: "full"
-   * - static-preview: "none"
-   */
-  readonly hydration?: MetadataUiHydrationMode;
-
-  /**
-   * Whether metadata-ui should throw on render contract failure.
-   *
-   * Defaults to false.
-   */
-  readonly strict?: boolean;
+  readonly allowExperimentalRenderers?: boolean;
 
   /**
    * Diagnostics verbosity. Defaults to "off".
@@ -158,15 +134,32 @@ export interface CreateMetadataUiRenderContextInput {
   readonly diagnosticsNamespace?: string;
 
   /**
-   * Whether experimental renderers may be used. Defaults to false.
+   * Hydration expectation.
+   *
+   * Defaults based on source:
+   * - server: "none"
+   * - client: "full"
+   * - static-preview: "none"
    */
-  readonly allowExperimentalRenderers?: boolean;
+  readonly hydration?: MetadataUiHydrationMode;
+  /**
+   * Metadata runtime context from @afenda/metadata.
+   */
+  readonly runtime: MetadataRuntimeContext;
 
   /**
-   * Whether deprecated renderers may be used. Defaults to false.
+   * Render source.
    */
-  readonly allowDeprecatedRenderers?: boolean;
+  readonly source: MetadataUiRenderSource;
+
+  /**
+   * Whether metadata-ui should throw on render contract failure.
+   *
+   * Defaults to false.
+   */
+  readonly strict?: boolean;
 }
 
 /** @deprecated Use CreateMetadataUiRenderContextInput */
-export type CreateMetadataRenderContextInput = CreateMetadataUiRenderContextInput;
+export type CreateMetadataRenderContextInput =
+  CreateMetadataUiRenderContextInput;

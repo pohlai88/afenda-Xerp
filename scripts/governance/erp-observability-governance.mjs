@@ -7,9 +7,7 @@
 export const ERP_SOURCE_PATH =
   /(?:^|[/\\])apps[/\\]erp[/\\]src[/\\].+\.(?:tsx?|jsx?)$/iu;
 
-export const ERP_EDGE_RUNTIME_PATHS = [
-  /apps[/\\]erp[/\\]src[/\\]proxy\.ts$/iu,
-];
+export const ERP_EDGE_RUNTIME_PATHS = [/apps[/\\]erp[/\\]src[/\\]proxy\.ts$/iu];
 
 export const ERP_PINO_FACTORY_ALLOWLIST = [
   /apps[/\\]erp[/\\]src[/\\]lib[/\\]observability[/\\]create-erp-logger\.ts$/iu,
@@ -65,7 +63,10 @@ export function checkErpObservabilityGovernance(content, relativePath = "") {
     }
   }
 
-  if (!isPinoFactoryAllowlisted(relativePath) && /\bcreatePinoLogger\b/u.test(content)) {
+  if (
+    !isPinoFactoryAllowlisted(relativePath) &&
+    /\bcreatePinoLogger\b/u.test(content)
+  ) {
     violations.push(
       "Use createErpLogger (or createRequestBoundErpLogger) instead of createPinoLogger outside lib/observability/create-erp-logger.ts."
     );

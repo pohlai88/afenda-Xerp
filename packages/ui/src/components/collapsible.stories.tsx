@@ -16,11 +16,7 @@ import {
   WebhookIcon,
 } from "lucide-react";
 import { type ComponentType, type ReactNode, useState } from "react";
-import {
-  StoryFrame,
-  StoryRow,
-  StoryStack,
-} from "./_storybook/story-frame";
+import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
@@ -141,7 +137,7 @@ function ChevronTrigger({
       </StoryRow>
       <ChevronDownIcon
         aria-hidden="true"
-        className={`size-4 shrink-0 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
+        className={`size-4 shrink-0 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
       />
     </StoryRow>
   );
@@ -284,7 +280,7 @@ function AdvancedFiltersDemo() {
                 Advanced Filters
                 <ChevronDownIcon
                   aria-hidden="true"
-                  className={`size-4 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
+                  className={`size-4 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
                 />
               </Button>
             </CollapsibleTrigger>
@@ -605,7 +601,9 @@ export const GovernanceAccessibility: Story = {
         </Collapsible>
         <Collapsible disabled>
           <CollapsibleTrigger>Disabled section</CollapsibleTrigger>
-          <CollapsibleContent>Content unavailable while disabled.</CollapsibleContent>
+          <CollapsibleContent>
+            Content unavailable while disabled.
+          </CollapsibleContent>
         </Collapsible>
       </StoryStack>
     </StoryFrame>
@@ -979,7 +977,7 @@ export const CommentReplies: Story = {
                 {open ? "Hide" : "Show"} {COMMENT_REPLIES.length} replies
                 <ChevronDownIcon
                   aria-hidden="true"
-                  className={`size-4 motion-reduce:transition-none transition-transform ${open ? "rotate-180" : ""}`}
+                  className={`size-4 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
                 />
               </Button>
             </CollapsibleTrigger>

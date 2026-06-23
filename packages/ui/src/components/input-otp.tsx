@@ -23,6 +23,7 @@ export interface InputOTPProps
       "className" | "render" | "containerClassName" | "size"
     >,
     GovernedInputOtpProps {
+  readonly children: React.ReactNode;
   readonly className?: string;
   readonly containerClassName?: string;
 }
@@ -35,6 +36,7 @@ const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
       density = "standard",
       size = "md",
       state,
+      children,
       ...props
     },
     ref
@@ -57,14 +59,16 @@ const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
 
     return (
       <OTPInput
+        containerClassName={container.className}
         ref={ref}
         spellCheck={false}
-        containerClassName={container.className}
         {...applyGovernedPresentation(props, root, {
           "data-density": density,
           "data-size": size,
         })}
-      />
+      >
+        {children}
+      </OTPInput>
     );
   }
 );

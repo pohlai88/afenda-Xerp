@@ -32,9 +32,7 @@ HoverCardTrigger.displayName = "HoverCardTrigger";
 function HoverCardPortal({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Portal>) {
-  return (
-    <HoverCardPrimitive.Portal data-slot="hover-card-portal" {...props} />
-  );
+  return <HoverCardPrimitive.Portal data-slot="hover-card-portal" {...props} />;
 }
 
 HoverCardPortal.displayName = "HoverCardPortal";
@@ -91,9 +89,4 @@ const HoverCardContent = React.forwardRef<
 
 HoverCardContent.displayName = "HoverCardContent";
 
-export {
-  HoverCard,
-  HoverCardContent,
-  HoverCardPortal,
-  HoverCardTrigger,
-};
+export { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger };

@@ -16,9 +16,9 @@ import {
 } from "../multi-tenancy-context-integration-registry.mts";
 
 export interface ContextIntegrationEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 /** Patterns that must not appear in integration boundary modules. */
@@ -169,7 +169,10 @@ function collectIntegrationModuleViolations(
     }
   }
 
-  const contextSwitchPath = join(erpSrc, "lib/context/context-switch.action.ts");
+  const contextSwitchPath = join(
+    erpSrc,
+    "lib/context/context-switch.action.ts"
+  );
   if (existsSync(contextSwitchPath)) {
     const contextSwitchSource = readFileSync(contextSwitchPath, "utf8");
     if (!contextSwitchSource.includes("operatingContextSelectionHintsSchema")) {
@@ -273,13 +276,7 @@ export function collectContextIntegrationViolations(
     repoRoot,
     "apps/erp/src/lib/context/context-integration-registry.ts"
   );
-  if (!existsSync(registryPath)) {
-    violations.push({
-      rule: "erp-registry-missing",
-      file: registryPath,
-      message: "context-integration-registry.ts is required in apps/erp",
-    });
-  } else {
+  if (existsSync(registryPath)) {
     const registrySource = readFileSync(registryPath, "utf8");
     for (const entry of CONTEXT_INTEGRATION_FUNCTIONS) {
       if (!registrySource.includes(entry.name)) {
@@ -299,6 +296,12 @@ export function collectContextIntegrationViolations(
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "erp-registry-missing",
+      file: registryPath,
+      message: "context-integration-registry.ts is required in apps/erp",
+    });
   }
 
   violations.push(...collectIntegrationModuleViolations(repoRoot));

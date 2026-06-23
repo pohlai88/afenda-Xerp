@@ -2,11 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import {
-  TrendIndicator,
   computeDashboardShare,
   computeWeightedDashboardTrend,
   formatDashboardCurrency,
   parseDashboardAmount,
+  TrendIndicator,
 } from "../shadcn-studio/blocks/app-shell-dashboard-breakdown.utils";
 
 describe("app-shell-dashboard-breakdown.utils", () => {
@@ -35,20 +35,31 @@ describe("app-shell-dashboard-breakdown.utils", () => {
     });
 
     expect(
-      computeWeightedDashboardTrend([{ amount: "$0", changeLabel: "+4%" }]).label
+      computeWeightedDashboardTrend([{ amount: "$0", changeLabel: "+4%" }])
+        .label
     ).toBe("0.0%");
   });
 
   it("renders an accessible trend indicator with semantic icon classes", () => {
     const { rerender } = render(<TrendIndicator trend="up" />);
 
-    expect(document.querySelector(".app-shell-dashboard-trend-indicator")).not.toBeNull();
-    expect(document.querySelector(".app-shell-dashboard-trend-icon-up")).not.toBeNull();
-    expect(screen.getByText("Trending up", { selector: ".sr-only" })).toBeInTheDocument();
+    expect(
+      document.querySelector(".app-shell-dashboard-trend-indicator")
+    ).not.toBeNull();
+    expect(
+      document.querySelector(".app-shell-dashboard-trend-icon-up")
+    ).not.toBeNull();
+    expect(
+      screen.getByText("Trending up", { selector: ".sr-only" })
+    ).toBeInTheDocument();
 
     rerender(<TrendIndicator trend="down" />);
 
-    expect(document.querySelector(".app-shell-dashboard-trend-icon-down")).not.toBeNull();
-    expect(screen.getByText("Trending down", { selector: ".sr-only" })).toBeInTheDocument();
+    expect(
+      document.querySelector(".app-shell-dashboard-trend-icon-down")
+    ).not.toBeNull();
+    expect(
+      screen.getByText("Trending down", { selector: ".sr-only" })
+    ).toBeInTheDocument();
   });
 });

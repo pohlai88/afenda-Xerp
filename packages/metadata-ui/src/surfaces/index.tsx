@@ -1,12 +1,8 @@
 import type { SurfaceType } from "@afenda/metadata";
 
-import type {
-  MetadataSpecificSurfaceProps,
-  MetadataSurfaceProps,
-} from "../contracts/surface.contract.js";
+import type { MetadataSpecificSurfaceProps } from "../contracts/surface.contract.js";
 import { MetadataSurface } from "./metadata-surface.js";
 
-export { MetadataSurface } from "./metadata-surface.js";
 export type {
   MetadataModuleSurfaceProps,
   MetadataPageSurfaceProps,
@@ -14,6 +10,7 @@ export type {
   MetadataSurfaceProps,
   MetadataWorkspaceSurfaceProps,
 } from "../contracts/surface.contract.js";
+export { MetadataSurface } from "./metadata-surface.js";
 
 const PAGE_SURFACE_TYPE = "page" satisfies SurfaceType;
 const WORKSPACE_SURFACE_TYPE = "workspace" satisfies SurfaceType;

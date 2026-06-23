@@ -20,6 +20,10 @@ import {
 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  sidebarChromeStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import {
@@ -288,46 +292,47 @@ function ProcurementNavWithChildren() {
               <SidebarMenuItem>
                 <div className="group/collapsible">
                   <Collapsible defaultOpen>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton isActive tooltip="Procurement">
-                      <PackageIcon
-                        aria-hidden="true"
-                        className="size-4 shrink-0"
-                      />
-                      <span className="flex-1 truncate">Procurement</span>
-                      <ChevronRightIcon
-                        className={cn(
-                          "size-4 shrink-0 transition-transform",
-                          "group-data-[state=open]/collapsible:rotate-90"
-                        )}
-                      />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {PROCUREMENT_CHILDREN.map((item) => {
-                        const { title, url } = item;
-                        const isActive = "active" in item && item.active;
-                        const badge = "badge" in item ? item.badge : undefined;
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton isActive tooltip="Procurement">
+                        <PackageIcon
+                          aria-hidden="true"
+                          className="size-4 shrink-0"
+                        />
+                        <span className="flex-1 truncate">Procurement</span>
+                        <ChevronRightIcon
+                          className={cn(
+                            "size-4 shrink-0 transition-transform",
+                            "group-data-[state=open]/collapsible:rotate-90"
+                          )}
+                        />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {PROCUREMENT_CHILDREN.map((item) => {
+                          const { title, url } = item;
+                          const isActive = "active" in item && item.active;
+                          const badge =
+                            "badge" in item ? item.badge : undefined;
 
-                        return (
-                          <SidebarMenuSubItem key={title}>
-                            <SidebarMenuSubButton
-                              asChild
-                              isActive={Boolean(isActive)}
-                            >
-                              <a href={url}>
-                                <span>{title}</span>
-                                {badge ? (
-                                  <SidebarMenuBadge>{badge}</SidebarMenuBadge>
-                                ) : null}
-                              </a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        );
-                      })}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
+                          return (
+                            <SidebarMenuSubItem key={title}>
+                              <SidebarMenuSubButton
+                                asChild
+                                isActive={Boolean(isActive)}
+                              >
+                                <a href={url}>
+                                  <span>{title}</span>
+                                  {badge ? (
+                                    <SidebarMenuBadge>{badge}</SidebarMenuBadge>
+                                  ) : null}
+                                </a>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          );
+                        })}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
                   </Collapsible>
                 </div>
               </SidebarMenuItem>
@@ -367,7 +372,7 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -999,7 +1004,9 @@ export const GovernanceSlotMap: Story = {
         <SidebarStoryFrame
           sidebar={
             <>
-              <SidebarHeader data-testid="slot-map-header">Afenda ERP</SidebarHeader>
+              <SidebarHeader data-testid="slot-map-header">
+                Afenda ERP
+              </SidebarHeader>
               <SidebarContent>
                 <SidebarGroup>
                   <SidebarGroupLabel>Modules</SidebarGroupLabel>
@@ -1058,7 +1065,7 @@ export const GovernancePlayground: Story = {
   },
   render: (args) => (
     <SidebarStoryFrame
-      {...args}
+      {...sidebarChromeStoryProps(args)}
       sidebar={<ApplicationNav activeTitle="Dashboard" />}
     />
   ),

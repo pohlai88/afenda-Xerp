@@ -46,6 +46,16 @@ export {
   resetAuthForTests,
 } from "./auth.server.js";
 export {
+  isAfendaAuthSessionLinked,
+  normalizeAfendaAuthSession,
+  toAfendaAuthIdentity,
+} from "./auth.session.js";
+export {
+  assertDevAuthBootstrapAllowed,
+  resolveDevLoginEmail,
+  resolveDevLoginPassword,
+} from "./bootstrap/dev-login.env.js";
+export {
   DEV_AUTH_CREDENTIAL_PROVIDER_ID,
   DEV_LOGIN_DISPLAY_NAME,
   DEV_LOGIN_EMAIL,
@@ -53,20 +63,10 @@ export {
   DEV_LOGIN_PASSWORD_ENV,
 } from "./bootstrap/dev-login.fixture.js";
 export {
-  assertDevAuthBootstrapAllowed,
-  resolveDevLoginEmail,
-  resolveDevLoginPassword,
-} from "./bootstrap/dev-login.env.js";
-export {
+  type EnsureDevAuthLoginResult,
   ensureDevAuthLogin,
   MissingPlatformUserError,
-  type EnsureDevAuthLoginResult,
 } from "./bootstrap/ensure-dev-auth-login.js";
-export {
-  isAfendaAuthSessionLinked,
-  normalizeAfendaAuthSession,
-  toAfendaAuthIdentity,
-} from "./auth.session.js";
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;

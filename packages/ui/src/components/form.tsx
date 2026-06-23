@@ -11,6 +11,11 @@ void resolvePrimitiveGovernance({
   slot: "root",
 });
 
+export type {
+  FieldContentProps as FormControlProps,
+  FieldGroupProps as FormProps,
+  FieldProps as FormItemProps,
+} from "./field";
 /**
  * shadcn v4 Form aliases — governed Field primitives with legacy naming.
  *
@@ -40,10 +45,4 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
-} from "./field";
-
-export type {
-  FieldContentProps as FormControlProps,
-  FieldGroupProps as FormProps,
-  FieldProps as FormItemProps,
 } from "./field";

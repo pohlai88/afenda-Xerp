@@ -14,9 +14,9 @@ export type MetadataListSectionFixtureProps = Omit<
 >;
 
 interface SampleListSectionOrderRow {
-  readonly key: string;
-  readonly id: string;
   readonly customer: string;
+  readonly id: string;
+  readonly key: string;
   readonly status: string;
   readonly total: string;
 }

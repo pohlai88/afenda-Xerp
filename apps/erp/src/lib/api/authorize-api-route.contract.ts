@@ -6,9 +6,8 @@ import type {
 } from "@afenda/permissions";
 
 import type { ApiErrorCode } from "@/server/api/contracts/api-error.contract";
-
-import type { ApiRoutePermissionRequirement } from "./api-route-permissions";
 import type { ApiRouteProtectionLevel } from "./api-route-context";
+import type { ApiRoutePermissionRequirement } from "./api-route-permissions";
 
 /** Serializable RBAC denial codes surfaced to API clients (via envelope). */
 export type ApiRouteAuthorizationDenialCode =

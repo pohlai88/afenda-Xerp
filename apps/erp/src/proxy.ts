@@ -25,8 +25,7 @@ function isDevelopmentRuntime(): boolean {
 
 function resolveTenantBaseDomain(): string {
   return (
-    process.env["NEXT_PUBLIC_BASE_DOMAIN"]?.trim() ||
-    DEFAULT_TENANT_BASE_DOMAIN
+    process.env["NEXT_PUBLIC_BASE_DOMAIN"]?.trim() || DEFAULT_TENANT_BASE_DOMAIN
   );
 }
 
@@ -68,7 +67,9 @@ function resolveDevelopmentDefaultTenantSlug(): string | null {
   }
 
   const configured = process.env["AFENDA_DEV_DEFAULT_TENANT_SLUG"]?.trim();
-  return configured && configured.length > 0 ? configured : DEV_DEFAULT_TENANT_SLUG;
+  return configured && configured.length > 0
+    ? configured
+    : DEV_DEFAULT_TENANT_SLUG;
 }
 
 function applyTenantRoutingHeaders(input: {

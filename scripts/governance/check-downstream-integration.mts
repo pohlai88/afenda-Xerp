@@ -7,7 +7,7 @@
  * metadata / metadata-ui / appshell → apps/erp.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -62,9 +62,9 @@ const IMPORT_PATTERN =
 const CSS_IMPORT_PATTERN = /@import\s+["']([^"']+)["']/g;
 
 export interface DownstreamViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function collectSourceFiles(
@@ -75,7 +75,9 @@ function collectSourceFiles(
   } = {}
 ): string[] {
   const extensions = options.extensions ?? [".ts", ".tsx", ".mts"];
-  const skipDirs = new Set(options.skipDirs ?? ["node_modules", "dist", ".next"]);
+  const skipDirs = new Set(
+    options.skipDirs ?? ["node_modules", "dist", ".next"]
+  );
 
   const files: string[] = [];
 
@@ -118,10 +120,7 @@ function readPackageJson(pkg: IntegrationPackage): {
   };
 }
 
-function packageImportsTarget(
-  content: string,
-  target: string
-): boolean {
+function packageImportsTarget(content: string, target: string): boolean {
   return (
     content.includes(`from "${target}"`) ||
     content.includes(`from '${target}'`) ||
@@ -160,7 +159,8 @@ function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
       violations.push({
         rule: "metadata-contract-only",
         file: rel(file),
-        message: "@afenda/metadata must not ship CSS or TSX implementation files",
+        message:
+          "@afenda/metadata must not ship CSS or TSX implementation files",
       });
     }
 
@@ -285,7 +285,9 @@ function checkDuplicateAuthority(
   }
 }
 
-function checkDownstreamTokenAuthority(violations: DownstreamViolation[]): void {
+function checkDownstreamTokenAuthority(
+  violations: DownstreamViolation[]
+): void {
   const downstream: IntegrationPackage[] = [
     "@afenda/ui",
     "@afenda/metadata-ui",
@@ -360,9 +362,7 @@ function checkErpGlobalsCss(violations: DownstreamViolation[]): void {
   );
 
   for (const value of packageImports) {
-    if (
-      !(APPROVED_ERP_CSS_IMPORTS as readonly string[]).includes(value)
-    ) {
+    if (!(APPROVED_ERP_CSS_IMPORTS as readonly string[]).includes(value)) {
       violations.push({
         rule: "erp-approved-css-imports",
         file: rel(ERP_GLOBALS),
@@ -403,26 +403,35 @@ function checkErpGlobalsCss(violations: DownstreamViolation[]): void {
 }
 
 function checkDependencyGraph(violations: DownstreamViolation[]): void {
-  checkPackageDependency(violations, "@afenda/design-system", [], [
-    "@afenda/ui",
-    "@afenda/metadata",
+  checkPackageDependency(
+    violations,
+    "@afenda/design-system",
+    [],
+    [
+      "@afenda/ui",
+      "@afenda/metadata",
+      "@afenda/metadata-ui",
+      "@afenda/appshell",
+    ]
+  );
+
+  checkPackageDependency(violations, "@afenda/ui", "@afenda/design-system", [
     "@afenda/metadata-ui",
     "@afenda/appshell",
+    "@afenda/metadata",
   ]);
 
   checkPackageDependency(
     violations,
-    "@afenda/ui",
-    "@afenda/design-system",
-    ["@afenda/metadata-ui", "@afenda/appshell", "@afenda/metadata"]
+    "@afenda/metadata",
+    [],
+    [
+      "@afenda/ui",
+      "@afenda/metadata-ui",
+      "@afenda/appshell",
+      "@afenda/design-system",
+    ]
   );
-
-  checkPackageDependency(violations, "@afenda/metadata", [], [
-    "@afenda/ui",
-    "@afenda/metadata-ui",
-    "@afenda/appshell",
-    "@afenda/design-system",
-  ]);
 
   checkPackageDependency(
     violations,
@@ -431,12 +440,10 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
     ["@afenda/appshell"]
   );
 
-  checkPackageDependency(
-    violations,
-    "@afenda/appshell",
-    "@afenda/ui",
-    ["@afenda/metadata-ui", "@afenda/metadata"]
-  );
+  checkPackageDependency(violations, "@afenda/appshell", "@afenda/ui", [
+    "@afenda/metadata-ui",
+    "@afenda/metadata",
+  ]);
 
   checkProductionImports(
     violations,
@@ -528,16 +535,19 @@ function extractCssImportPaths(content: string): string[] {
   const cssImports = [...content.matchAll(CSS_IMPORT_PATTERN)].map(
     (match) => match[1]
   );
-  const jsCssImports = [...content.matchAll(
-    /import\s+["'](@afenda\/[^"']+\.css)["']/g
-  )].map((match) => match[1]);
+  const jsCssImports = [
+    ...content.matchAll(/import\s+["'](@afenda\/[^"']+\.css)["']/g),
+  ].map((match) => match[1]);
 
   return [...cssImports, ...jsCssImports];
 }
 
 function checkStorybookComposedCss(violations: DownstreamViolation[]): void {
   const composedStoryPaths = [
-    join(repoRoot, "apps/storybook/stories/governance-integration-composed.stories.tsx"),
+    join(
+      repoRoot,
+      "apps/storybook/stories/governance-integration-composed.stories.tsx"
+    ),
     join(repoRoot, "apps/erp/src/stories/governance-integration.stories.tsx"),
   ];
 
@@ -557,7 +567,7 @@ function checkStorybookComposedCss(violations: DownstreamViolation[]): void {
       value.startsWith("@afenda/metadata-ui/")
     );
 
-    if (!uiImport || !appshellImport || !metadataUiImport) {
+    if (!(uiImport && appshellImport && metadataUiImport)) {
       violations.push({
         rule: "storybook-composed-css",
         file: rel(storyPath),
@@ -690,8 +700,10 @@ const isDirectRun = (() => {
     return false;
   }
   try {
-    return fileURLToPath(import.meta.url) === entry.replace(/\\/g, "/") ||
-      entry.endsWith("check-downstream-integration.mts");
+    return (
+      fileURLToPath(import.meta.url) === entry.replace(/\\/g, "/") ||
+      entry.endsWith("check-downstream-integration.mts")
+    );
   } catch {
     return false;
   }

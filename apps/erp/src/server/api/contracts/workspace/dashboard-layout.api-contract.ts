@@ -41,7 +41,9 @@ export const dashboardLayoutPresetSchema = z.object({
   version: z.literal(1),
 });
 
-export type DashboardLayoutPresetDto = z.infer<typeof dashboardLayoutPresetSchema>;
+export type DashboardLayoutPresetDto = z.infer<
+  typeof dashboardLayoutPresetSchema
+>;
 
 export const dashboardLayoutResponseSchema = z.object({
   layout: dashboardLayoutPresetSchema,

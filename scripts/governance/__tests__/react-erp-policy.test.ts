@@ -34,7 +34,7 @@ describe("checkStaticRechartsImport", () => {
 describe("checkForwardRef", () => {
   it("flags React.forwardRef()", () => {
     const violations = checkForwardRef(
-      `const Field = React.forwardRef<HTMLInputElement, FieldProps>((props, ref) => <input {...props} ref={ref} />);`
+      "const Field = React.forwardRef<HTMLInputElement, FieldProps>((props, ref) => <input {...props} ref={ref} />);"
     );
     expect(violations.length).toBe(1);
     expect(violations[0]).toMatch(/React 19/);
@@ -42,14 +42,16 @@ describe("checkForwardRef", () => {
 
   it("flags bare forwardRef()", () => {
     const violations = checkForwardRef(
-      `const Field = forwardRef((props, ref) => <input ref={ref} />);`
+      "const Field = forwardRef((props, ref) => <input ref={ref} />);"
     );
     expect(violations.length).toBe(1);
   });
 
   it("ignores files without forwardRef", () => {
     expect(
-      checkForwardRef(`export function Field({ ref, ...props }) { return <input {...props} ref={ref} />; }`)
+      checkForwardRef(
+        "export function Field({ ref, ...props }) { return <input {...props} ref={ref} />; }"
+      )
     ).toEqual([]);
   });
 });
@@ -85,9 +87,9 @@ describe("checkUseEffectDerivedState", () => {
   });
 
   it("ignores files without useEffect", () => {
-    expect(
-      checkUseEffectDerivedState(`const x = computed(a + b);`)
-    ).toEqual([]);
+    expect(checkUseEffectDerivedState("const x = computed(a + b);")).toEqual(
+      []
+    );
   });
 });
 
@@ -98,7 +100,7 @@ describe("checkChartA11y", () => {
     const violations = checkChartA11y(
       [
         `import { AreaChart } from "recharts";`,
-        `<AreaChart data={data} />`,
+        "<AreaChart data={data} />",
       ].join("\n")
     );
     expect(violations.some((v) => v.includes("AreaChart"))).toBe(true);
@@ -126,9 +128,7 @@ describe("checkChartA11y", () => {
   });
 
   it("ignores files without recharts import", () => {
-    expect(
-      checkChartA11y(`<AreaChart aria-hidden="true" />`)
-    ).toEqual([]);
+    expect(checkChartA11y(`<AreaChart aria-hidden="true" />`)).toEqual([]);
   });
 });
 
@@ -154,7 +154,9 @@ describe("checkRawImg", () => {
 
   it("ignores files without <img>", () => {
     expect(
-      checkRawImg(`<Image src="/logo.png" alt="Afenda" width={40} height={40} />`)
+      checkRawImg(
+        `<Image src="/logo.png" alt="Afenda" width={40} height={40} />`
+      )
     ).toEqual([]);
   });
 });
@@ -164,7 +166,7 @@ describe("checkRawImg", () => {
 describe("checkModuleMutableState", () => {
   it("flags let in a server-side file", () => {
     const violations = checkModuleMutableState(
-      `let cachedLayout = null;\n\nexport async function getLayout() { return cachedLayout; }`,
+      "let cachedLayout = null;\n\nexport async function getLayout() { return cachedLayout; }",
       "apps/erp/src/lib/workspace/layout-cache.ts"
     );
     expect(violations.length).toBe(1);
@@ -189,7 +191,7 @@ describe("checkModuleMutableState", () => {
 
   it("ignores test files", () => {
     const violations = checkModuleMutableState(
-      `let mockFn = vi.fn();`,
+      "let mockFn = vi.fn();",
       "apps/erp/src/__tests__/layout.test.ts"
     );
     expect(violations).toEqual([]);
@@ -202,11 +204,14 @@ describe("checkReactErpQuality", () => {
   it("accumulates violations from all rules", () => {
     const content = [
       `import { AreaChart } from "recharts";`,
-      `const Field = forwardRef((props, ref) => <input ref={ref} />);`,
-      `<AreaChart data={data} />`,
+      "const Field = forwardRef((props, ref) => <input ref={ref} />);",
+      "<AreaChart data={data} />",
     ].join("\n");
 
-    const violations = checkReactErpQuality(content, "packages/appshell/src/block.tsx");
+    const violations = checkReactErpQuality(
+      content,
+      "packages/appshell/src/block.tsx"
+    );
     expect(violations.some((v) => v.includes("recharts"))).toBe(true);
     expect(violations.some((v) => v.includes("forwardRef"))).toBe(true);
     expect(violations.some((v) => v.includes("AreaChart"))).toBe(true);
@@ -219,7 +224,10 @@ describe("checkReactErpQuality", () => {
       `export function Counter() { return <button type="button">+</button>; }`,
     ].join("\n");
 
-    const violations = checkReactErpQuality(content, "apps/erp/src/components/counter.tsx");
+    const violations = checkReactErpQuality(
+      content,
+      "apps/erp/src/components/counter.tsx"
+    );
     expect(violations).toEqual([]);
   });
 });

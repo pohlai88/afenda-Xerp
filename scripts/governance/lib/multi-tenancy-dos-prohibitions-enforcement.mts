@@ -22,9 +22,9 @@ import {
 } from "./multi-tenancy-scan-utils.mts";
 
 export interface DosProhibitionsEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 const ARCHITECTURE_SILENCE_PATTERNS = [
@@ -128,7 +128,12 @@ export function collectSessionTenantIdViolations(
 
     for (const filePath of listTypeScriptFiles(absoluteRoot, repoRoot)) {
       const source = readFileSync(filePath, "utf8");
-      if (sourceContainsCodePattern(source, MULTI_TENANCY_SESSION_TENANT_ID_PATTERN)) {
+      if (
+        sourceContainsCodePattern(
+          source,
+          MULTI_TENANCY_SESSION_TENANT_ID_PATTERN
+        )
+      ) {
         violations.push({
           rule: "session-tenant-id",
           file: filePath,

@@ -14,7 +14,11 @@ export const appShellCssManifest = [
     purpose: "shell-structural",
     productionSafe: true,
     requiresTailwindTheme: false,
-    allowedImporters: ["apps/*", "@afenda/appshell/storybook", "@afenda/storybook"],
+    allowedImporters: [
+      "apps/*",
+      "@afenda/appshell/storybook",
+      "@afenda/storybook",
+    ],
     prohibitedImporters: ["@afenda/metadata", "@afenda/metadata-ui"],
     classNamespace: "app-shell-",
     propertyNamespace: "--app-shell-",

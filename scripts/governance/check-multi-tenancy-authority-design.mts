@@ -9,7 +9,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
+import {
+  type AuthorityDesignEnforcementViolation,
+  collectAuthorityDesignViolations,
+} from "./lib/multi-tenancy-authority-design-enforcement.mts";
 import {
   MULTI_TENANCY_AUTHORITY_DESIGN_ENFORCEMENT_LIB,
   MULTI_TENANCY_AUTHORITY_DESIGN_GATE,
@@ -17,14 +24,6 @@ import {
   MULTI_TENANCY_DOC_AUTHORITY_DESIGN_MARKERS,
   TIP_007_012_AUTHORITY_DESIGN_SECTION,
 } from "./multi-tenancy-authority-design-registry.mts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
-} from "./delivery-evidence-surface-registry.mts";
-import {
-  collectAuthorityDesignViolations,
-  type AuthorityDesignEnforcementViolation,
-} from "./lib/multi-tenancy-authority-design-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -120,7 +119,9 @@ export function checkMultiTenancyAuthorityDesign(): MultiTenancyAuthorityDesignV
       message: `${TIP_007_012_DELIVERY_DOC} is required`,
     });
   } else {
-    if (!deliveryContent.includes(MULTI_TENANCY_AUTHORITY_DESIGN_SURFACE_RULE)) {
+    if (
+      !deliveryContent.includes(MULTI_TENANCY_AUTHORITY_DESIGN_SURFACE_RULE)
+    ) {
       violations.push({
         rule: "delivery-surface-rule-missing",
         file: deliveryDocPath,
@@ -151,7 +152,8 @@ export function checkMultiTenancyAuthorityDesign(): MultiTenancyAuthorityDesignV
       violations.push({
         rule: "check-script-missing",
         file: packageJsonPath,
-        message: "package.json must define check:multi-tenancy-authority-design",
+        message:
+          "package.json must define check:multi-tenancy-authority-design",
       });
     }
 
@@ -166,9 +168,13 @@ export function checkMultiTenancyAuthorityDesign(): MultiTenancyAuthorityDesignV
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -184,7 +190,9 @@ export function checkMultiTenancyAuthorityDesign(): MultiTenancyAuthorityDesignV
     const tenantUrlIndex = qualityChain.indexOf(
       "quality:multi-tenancy-tenant-url-resolver"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||

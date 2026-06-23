@@ -1,4 +1,4 @@
-import type { LogMetadata, Logger } from "@afenda/observability";
+import type { Logger, LogMetadata } from "@afenda/observability";
 
 import { createErpLogger } from "@/lib/observability/create-erp-logger";
 import { toErpCorrelationId } from "@/lib/observability/erp-correlation-id";
@@ -15,9 +15,7 @@ export interface ApiHandlerLogContext {
   readonly statusCode: number;
 }
 
-function buildApiRequestMetadata(
-  context: ApiHandlerLogContext
-): LogMetadata {
+function buildApiRequestMetadata(context: ApiHandlerLogContext): LogMetadata {
   return {
     contractId: context.contractId,
     correlationId: context.correlationId,
@@ -26,7 +24,9 @@ function buildApiRequestMetadata(
     path: context.path,
     requestId: context.requestId,
     statusCode: context.statusCode,
-    ...(context.errorCode === undefined ? {} : { errorCode: context.errorCode }),
+    ...(context.errorCode === undefined
+      ? {}
+      : { errorCode: context.errorCode }),
   };
 }
 

@@ -1,15 +1,15 @@
+import { randomUUID } from "node:crypto";
 import {
+  type AfendaDatabase,
   authAccount,
   authIdentityLinks,
   authUser,
   findPlatformUserIdByAuthUserId,
   insertAuthIdentityLink,
-  type AfendaDatabase,
   users,
 } from "@afenda/database";
 import { hashPassword } from "better-auth/crypto";
 import { and, eq } from "drizzle-orm";
-import { randomUUID } from "node:crypto";
 
 import {
   DEV_AUTH_CREDENTIAL_PROVIDER_ID,
@@ -17,18 +17,18 @@ import {
 } from "./dev-login.fixture.js";
 
 export interface EnsureDevAuthLoginInput {
+  readonly displayName?: string;
   readonly email: string;
   readonly password: string;
-  readonly displayName?: string;
 }
 
 export interface EnsureDevAuthLoginResult {
   readonly authUserId: string;
-  readonly platformUserId: string;
-  readonly createdAuthUser: boolean;
   readonly createdAuthAccount: boolean;
+  readonly createdAuthUser: boolean;
   readonly createdIdentityLink: boolean;
   readonly passwordUpdated: boolean;
+  readonly platformUserId: string;
 }
 
 export class MissingPlatformUserError extends Error {

@@ -20,8 +20,8 @@ export type NativeSelectSize = "sm" | "default";
 export interface NativeSelectProps
   extends Omit<React.ComponentPropsWithoutRef<"select">, "size">,
     GovernedNativeSelectProps {
-  readonly size?: NativeSelectSize;
   readonly className?: string;
+  readonly size?: NativeSelectSize;
 }
 
 const NativeSelect = React.forwardRef<HTMLDivElement, NativeSelectProps>(

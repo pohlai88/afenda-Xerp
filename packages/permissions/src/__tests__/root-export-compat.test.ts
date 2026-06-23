@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  PERMISSION_REGISTRY,
-  PERMISSIONS_SCOPE_GRANTS_MODULES,
   checkPermission,
   isMembershipActive,
+  type MembershipContract,
   membershipMatchesGrantScope,
+  PERMISSION_REGISTRY,
+  PERMISSIONS_SCOPE_GRANTS_MODULES,
+  type RoleScope,
   requirePermission,
   resolvePermissionScopeContext,
   resolveScopedMembership,
-  type MembershipContract,
-  type RoleScope,
 } from "../index.js";
 
 describe("@afenda/permissions root export backward compatibility", () => {
@@ -25,9 +25,9 @@ describe("@afenda/permissions root export backward compatibility", () => {
   });
 
   it("preserves scope/grants surface registry on root barrel", () => {
-    expect(PERMISSIONS_SCOPE_GRANTS_MODULES.map((module) => module.directory)).toEqual(
-      ["scope", "grants"]
-    );
+    expect(
+      PERMISSIONS_SCOPE_GRANTS_MODULES.map((module) => module.directory)
+    ).toEqual(["scope", "grants"]);
   });
 
   it("preserves serializable membership and role scope types", () => {

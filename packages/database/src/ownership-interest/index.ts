@@ -1,30 +1,30 @@
 export {
-  assertDistinctLegalEntities,
-  buildOwnershipInterestInsertRow,
-  OwnershipInterestCycleError,
-  OwnershipInterestValidationError,
-  resolveInvesteeLegalEntityId,
-  resolveNonControllingInterestApplicable,
-  toOwnershipInterestAuthorityRecord,
-  type OwnershipInterestAuthorityRecord,
-  type OwnershipInterestInsertRow,
-  type OwnershipInterestWriteInput,
-} from "./ownership-interest.contract.js";
-export {
   CONSOLIDATION_TREATMENTS,
+  type ConsolidationTreatment,
   consolidationMethodToTreatment,
   consolidationTreatmentToMethod,
   isConsolidationTreatment,
-  type ConsolidationTreatment,
 } from "./ownership-interest.consolidation-treatment.js";
 export {
-  findOwnershipInterestsByEntityGroup,
-  type FindOwnershipInterestsInput,
-} from "./ownership-interest-lookup.service.js";
+  assertDistinctLegalEntities,
+  buildOwnershipInterestInsertRow,
+  type OwnershipInterestAuthorityRecord,
+  OwnershipInterestCycleError,
+  type OwnershipInterestInsertRow,
+  OwnershipInterestValidationError,
+  type OwnershipInterestWriteInput,
+  resolveInvesteeLegalEntityId,
+  resolveNonControllingInterestApplicable,
+  toOwnershipInterestAuthorityRecord,
+} from "./ownership-interest.contract.js";
 export {
-  insertOwnershipInterest,
-  OwnershipInterestScopeMismatchError,
   type InsertOwnershipInterestInput,
+  insertOwnershipInterest,
   type OwnershipInterestAuditContext,
   type OwnershipInterestMutationResult,
+  OwnershipInterestScopeMismatchError,
 } from "./ownership-interest.service.js";
+export {
+  type FindOwnershipInterestsInput,
+  findOwnershipInterestsByEntityGroup,
+} from "./ownership-interest-lookup.service.js";

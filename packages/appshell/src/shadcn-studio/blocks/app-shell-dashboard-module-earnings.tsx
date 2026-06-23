@@ -3,6 +3,8 @@ import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { LayersIcon } from "lucide-react";
 import { useId, useMemo } from "react";
 
+import { AppShellOptimizedImage } from "../../components/appshell-optimized-image.client";
+
 import {
   DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_COMPARISON,
   DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_SUBTITLE,
@@ -135,10 +137,9 @@ function ModuleEarningRow({
           {rank}
         </span>
         <div className="app-shell-dashboard-breakdown-icon-frame">
-          <img
+          <AppShellOptimizedImage
             alt={row.iconAlt}
             height={40}
-            loading="lazy"
             src={row.iconSrc}
             width={40}
           />

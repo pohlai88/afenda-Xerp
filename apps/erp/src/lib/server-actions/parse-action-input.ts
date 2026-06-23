@@ -1,6 +1,6 @@
 import type { AppError, ValidationFieldError } from "@afenda/kernel";
 import { AppErrors } from "@afenda/kernel";
-import type { ZodType, ZodError } from "zod";
+import type { ZodError, ZodType } from "zod";
 
 function mapZodErrorToAppError(error: ZodError): AppError {
   const fields: ValidationFieldError[] = error.issues.map((issue) => ({

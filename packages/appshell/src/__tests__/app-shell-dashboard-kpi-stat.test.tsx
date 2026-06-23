@@ -51,7 +51,9 @@ describe("AppShellDashboardKpiStat", () => {
     );
 
     expect(
-      container.querySelector('.app-shell-dashboard-kpi-widget[data-emphasis="primary"]')
+      container.querySelector(
+        '.app-shell-dashboard-kpi-widget[data-emphasis="primary"]'
+      )
     ).not.toBeNull();
   });
 });

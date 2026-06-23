@@ -23,10 +23,10 @@ type ContentSecurityPolicyInput =
 
 interface SharedCspSources {
   readonly connectSrcExtras: readonly string[];
-  readonly imgSrcExtras: readonly string[];
-  readonly scriptSrcExtras: readonly string[];
   readonly fontSrcExtras: readonly string[];
   readonly frameSrcExtras: readonly string[];
+  readonly imgSrcExtras: readonly string[];
+  readonly scriptSrcExtras: readonly string[];
 }
 
 function normalizeCspPolicy(policy: string): string {
@@ -120,7 +120,10 @@ export function createContentSecurityPolicy(
     "default-src 'self'",
     scriptSrc,
     styleSrc,
-    appendAllowlistedSources("img-src 'self' blob: data:", sources.imgSrcExtras),
+    appendAllowlistedSources(
+      "img-src 'self' blob: data:",
+      sources.imgSrcExtras
+    ),
     appendAllowlistedSources("font-src 'self'", sources.fontSrcExtras),
     "object-src 'none'",
     "base-uri 'self'",
@@ -129,12 +132,7 @@ export function createContentSecurityPolicy(
     connectSrc,
     appendAllowlistedSources("worker-src 'self' blob:", []),
     ...(sources.frameSrcExtras.length > 0
-      ? [
-          appendAllowlistedSources(
-            "frame-src 'self'",
-            sources.frameSrcExtras
-          ),
-        ]
+      ? [appendAllowlistedSources("frame-src 'self'", sources.frameSrcExtras)]
       : []),
   ];
 
@@ -164,7 +162,7 @@ export function applyContentSecurityPolicy(
 ): ApplyContentSecurityPolicyResult {
   const sharedInput: ContentSecurityPolicySharedInput = {
     isDevelopment,
-    ...(env !== undefined ? { env } : {}),
+    ...(env === undefined ? {} : { env }),
   };
 
   if (mode === "sri") {

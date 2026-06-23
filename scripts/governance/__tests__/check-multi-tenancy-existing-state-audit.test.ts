@@ -41,7 +41,9 @@ describe("check-multi-tenancy-existing-state-audit script", () => {
   });
 
   it("requires schema and kernel baseline row markers", () => {
-    expect(MULTI_TENANCY_SCHEMA_AUDIT_ROW_MARKERS.length).toBeGreaterThanOrEqual(7);
+    expect(
+      MULTI_TENANCY_SCHEMA_AUDIT_ROW_MARKERS.length
+    ).toBeGreaterThanOrEqual(7);
     expect(MULTI_TENANCY_KERNEL_CONTEXT_AUDIT_ROW_MARKERS).toHaveLength(10);
   });
 

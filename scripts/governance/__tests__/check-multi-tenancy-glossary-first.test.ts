@@ -44,7 +44,9 @@ describe("check-multi-tenancy-glossary-first script", () => {
   });
 
   it("defines cross-term do-not-confuse phrases", () => {
-    expect(MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES.length).toBeGreaterThanOrEqual(7);
+    expect(
+      MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_REQUIRED_PHRASES.length
+    ).toBeGreaterThanOrEqual(7);
 
     const glossary = readFileSync(
       join(repoRoot, "docs/architecture/glossary.md"),

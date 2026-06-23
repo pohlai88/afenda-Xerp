@@ -1,7 +1,6 @@
+import { DEFAULT_DASHBOARD_LAYOUT } from "@afenda/appshell";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-
-import { DEFAULT_DASHBOARD_LAYOUT } from "@afenda/appshell";
 
 import {
   ApiClientRequestError,

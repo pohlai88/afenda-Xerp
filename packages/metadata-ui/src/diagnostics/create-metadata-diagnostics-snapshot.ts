@@ -16,15 +16,17 @@ function createMetadataDiagnosticsIdentitySnapshot(
   const { runtime } = context;
 
   const identity: MetadataDiagnosticsIdentitySnapshot = {
-    ...(runtime.actorId !== undefined ? { actorId: runtime.actorId } : {}),
-    ...(runtime.tenantId !== undefined ? { tenantId: runtime.tenantId } : {}),
-    ...(runtime.companyId !== undefined ? { companyId: runtime.companyId } : {}),
-    ...(runtime.organizationId !== undefined
-      ? { organizationId: runtime.organizationId }
-      : {}),
-    ...(runtime.workspaceId !== undefined
-      ? { workspaceId: runtime.workspaceId }
-      : {}),
+    ...(runtime.actorId === undefined ? {} : { actorId: runtime.actorId }),
+    ...(runtime.tenantId === undefined ? {} : { tenantId: runtime.tenantId }),
+    ...(runtime.companyId === undefined
+      ? {}
+      : { companyId: runtime.companyId }),
+    ...(runtime.organizationId === undefined
+      ? {}
+      : { organizationId: runtime.organizationId }),
+    ...(runtime.workspaceId === undefined
+      ? {}
+      : { workspaceId: runtime.workspaceId }),
 
     /**
      * Input identity intentionally wins.
@@ -47,9 +49,9 @@ function createMetadataDiagnosticsRuntimeSnapshot(
     runtimeState: runtime.state,
     readonlyMode: runtime.readonlyMode,
     diagnosticsEnabled: context.diagnostics.enabled,
-    ...(runtime.correlationId !== undefined
-      ? { correlationId: runtime.correlationId }
-      : {}),
+    ...(runtime.correlationId === undefined
+      ? {}
+      : { correlationId: runtime.correlationId }),
   };
 }
 
@@ -74,9 +76,9 @@ export function createMetadataDiagnosticsSnapshot(
   );
 
   return {
-    ...(identity !== undefined ? { identity } : {}),
-    ...(input.surface !== undefined ? { surface: input.surface } : {}),
-    ...(input.renderer !== undefined ? { renderer: input.renderer } : {}),
+    ...(identity === undefined ? {} : { identity }),
+    ...(input.surface === undefined ? {} : { surface: input.surface }),
+    ...(input.renderer === undefined ? {} : { renderer: input.renderer }),
     runtime: createMetadataDiagnosticsRuntimeSnapshot(context),
     presentation: createMetadataDiagnosticsPresentationSnapshot(context),
   };

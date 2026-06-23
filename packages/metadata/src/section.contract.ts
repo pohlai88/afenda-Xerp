@@ -34,7 +34,6 @@ export type SectionContractProhibition =
 
 export interface SectionContract {
   readonly authority: "section";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /**
    * Section contract owns metadata section vocabulary only.
@@ -46,14 +45,15 @@ export interface SectionContract {
   readonly owns: readonly SectionContractOwnership[];
 
   /**
-   * Governed section types supported by the metadata authority.
-   */
-  readonly types: readonly SectionType[];
-
-  /**
    * Responsibilities explicitly forbidden from the section contract.
    */
   readonly prohibits: readonly SectionContractProhibition[];
+
+  /**
+   * Governed section types supported by the metadata authority.
+   */
+  readonly types: readonly SectionType[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const sectionContract = {

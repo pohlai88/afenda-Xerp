@@ -3,10 +3,7 @@ import type { ZodType } from "zod";
 
 import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
 
-import {
-  parseActionInput,
-  type ParsedActionInput,
-} from "./parse-action-input";
+import { type ParsedActionInput, parseActionInput } from "./parse-action-input";
 
 export function parseProtectedActionInput<TValue>(
   schema: ZodType<TValue>,

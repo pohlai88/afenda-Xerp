@@ -14,9 +14,9 @@ import {
 } from "../multi-tenancy-glossary-first-registry.mts";
 
 export interface GlossaryFirstEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function splitGlossarySections(content: string): Map<string, string> {
@@ -39,7 +39,10 @@ function splitGlossarySections(content: string): Map<string, string> {
 
 function countDoNotConfuseNotes(content: string): number {
   const matches = content.match(
-    new RegExp(MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_SECTION_PATTERN.source, "gi")
+    new RegExp(
+      MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_SECTION_PATTERN.source,
+      "gi"
+    )
   );
   return matches?.length ?? 0;
 }
@@ -88,7 +91,9 @@ export function collectGlossaryFirstViolations(
       continue;
     }
 
-    if (!MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_SECTION_PATTERN.test(sectionBody)) {
+    if (
+      !MULTI_TENANCY_GLOSSARY_DO_NOT_CONFUSE_SECTION_PATTERN.test(sectionBody)
+    ) {
       violations.push({
         rule: "glossary-term-do-not-confuse",
         file: glossaryPath,

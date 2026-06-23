@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-
 import { ApplicationShell } from "@afenda/appshell";
+import type { Metadata } from "next";
 
 import { PolicyGateDemoHarness } from "@/components/policy-gate-demo-harness";
 
 export const metadata = {
   title: "Policy gate UX",
-  description: "Policy gate inline and dialog surfaces for governed API responses.",
+  description:
+    "Policy gate inline and dialog surfaces for governed API responses.",
   robots: {
     index: false,
     follow: false,

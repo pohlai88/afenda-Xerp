@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { METADATA_LIFECYCLES } from "../metadata.constants.js";
 import {
   METADATA_CONTRACT_GOVERNANCE_RULES,
   METADATA_CONTRACT_OWNERSHIPS,
   METADATA_CONTRACT_PROHIBITIONS,
   metadataContract,
 } from "../metadata.contract.js";
-import { METADATA_LIFECYCLES } from "../metadata.constants.js";
 import { METADATA_CONTRACT_VERSION } from "../metadata.version.js";
 
 function expectUniqueValues(values: readonly string[]): void {

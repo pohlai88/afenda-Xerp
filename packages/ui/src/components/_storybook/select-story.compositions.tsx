@@ -79,7 +79,10 @@ export function SelectShell({
   readonly state?: GovernedState;
 }) {
   return (
-    <Select {...(defaultValue ? { defaultValue } : {})} {...(state ? { state } : {})}>
+    <Select
+      {...(defaultValue ? { defaultValue } : {})}
+      {...(state ? { state } : {})}
+    >
       <SelectTrigger id={id} {...(size ? { size } : {})}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

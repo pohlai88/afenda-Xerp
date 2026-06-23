@@ -1,7 +1,7 @@
 import {
+  type AppError,
   AppErrors,
   findUntrustedClientAuthorityFields,
-  type AppError,
 } from "@afenda/kernel";
 
 const UNTRUSTED_AUTHORITY_FIELD_MESSAGE =

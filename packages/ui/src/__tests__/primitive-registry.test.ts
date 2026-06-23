@@ -1,19 +1,20 @@
-import { describe, expect, it } from "vitest";
 import { recipeRegistry } from "@afenda/design-system";
-
+import { describe, expect, it } from "vitest";
+import {
+  GOVERNED_PRIMITIVE_REGISTRY,
+  getPrimitiveDefinition,
+} from "../governance/primitive-registry";
 import {
   CORE_PRIMITIVE_NAMES,
   getPrimitiveRegistryEntry,
   PRIMITIVE_REGISTRY_ENTRIES,
 } from "../governance/primitive-registry-meta";
-import {
-  getPrimitiveDefinition,
-  GOVERNED_PRIMITIVE_REGISTRY,
-} from "../governance/primitive-registry";
 
 describe("primitive registry alignment", () => {
   it("registers all core primitives without duplicates", () => {
-    expect(new Set(CORE_PRIMITIVE_NAMES).size).toBe(CORE_PRIMITIVE_NAMES.length);
+    expect(new Set(CORE_PRIMITIVE_NAMES).size).toBe(
+      CORE_PRIMITIVE_NAMES.length
+    );
     for (const name of CORE_PRIMITIVE_NAMES) {
       expect(GOVERNED_PRIMITIVE_REGISTRY[name]).toBeDefined();
       expect(PRIMITIVE_REGISTRY_ENTRIES[name]).toBeDefined();

@@ -12,6 +12,7 @@ import {
 } from "../../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
 import { DATABASE_TENANT_DOMAIN_MODULES } from "../../../packages/database/src/tenant-domain/tenant-domain-registry.ts";
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_AUTHORITY_DESIGN_DIMENSIONS,
   MULTI_TENANCY_DATABASE_PERSISTENCE_ROW_MARKERS,
@@ -21,12 +22,11 @@ import {
   MULTI_TENANCY_PACKAGE_OWNERSHIP_ROW_MARKERS,
   TIP_007_012_AUTHORITY_DESIGN_SECTION,
 } from "../multi-tenancy-authority-design-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface AuthorityDesignEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -182,7 +182,11 @@ function collectRegistryOwnershipViolations(
 
   for (const edge of MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES) {
     const edgeLabel = `${edge.from} → ${edge.to}`;
-    if (!deliveryContent.includes(edge.from) || !deliveryContent.includes(edge.to)) {
+    if (
+      !(
+        deliveryContent.includes(edge.from) && deliveryContent.includes(edge.to)
+      )
+    ) {
       violations.push({
         rule: "approved-edge-undocumented",
         file: deliveryDocPath,
@@ -192,7 +196,11 @@ function collectRegistryOwnershipViolations(
   }
 
   for (const edge of MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES) {
-    if (!deliveryContent.includes(edge.from) || !deliveryContent.includes(edge.to)) {
+    if (
+      !(
+        deliveryContent.includes(edge.from) && deliveryContent.includes(edge.to)
+      )
+    ) {
       violations.push({
         rule: "forbidden-edge-undocumented",
         file: deliveryDocPath,
@@ -280,7 +288,9 @@ export function collectAuthorityDesignViolations(
     )
   );
 
-  violations.push(...collectRegistryOwnershipViolations(deliveryContent, deliveryDocPath));
+  violations.push(
+    ...collectRegistryOwnershipViolations(deliveryContent, deliveryDocPath)
+  );
   violations.push(...collectArtifactViolations(repoRoot));
   violations.push(...collectRegistryArtifactViolations(repoRoot));
   violations.push(...collectRegistryBaselineViolations(repoRoot));

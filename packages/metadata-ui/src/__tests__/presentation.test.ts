@@ -1,6 +1,13 @@
-import { createMetadataRuntimeContext, type MetadataRuntimeState } from "@afenda/metadata";
+import {
+  createMetadataRuntimeContext,
+  type MetadataRuntimeState,
+} from "@afenda/metadata";
 import { describe, expect, it } from "vitest";
-
+import {
+  sampleReadonlyRenderContext,
+  sampleRenderContext,
+  sampleRuntimeContextInput,
+} from "../fixtures/sample-runtime-context.fixture.js";
 import {
   METADATA_VISIBILITY_REASONS,
   METADATA_VISIBILITY_STATES,
@@ -11,11 +18,6 @@ import {
   resolveVisibility,
 } from "../presentation/index.js";
 import { createMetadataUiRenderContext } from "../runtime/index.js";
-import {
-  sampleReadonlyRenderContext,
-  sampleRenderContext,
-  sampleRuntimeContextInput,
-} from "../fixtures/sample-runtime-context.fixture.js";
 
 function createRenderContextWithState(state: MetadataRuntimeState) {
   return createMetadataUiRenderContext({

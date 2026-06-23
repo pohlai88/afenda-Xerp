@@ -1,11 +1,11 @@
-import type { ApiErrorCode } from "@/server/api/contracts/api-error.contract";
 import type { ApiEnvelope } from "@/server/api/contracts/api-envelope.contract";
+import type { ApiErrorCode } from "@/server/api/contracts/api-error.contract";
 
 import {
+  type ApiPolicyGateDecision,
   isApiSuccessEnvelope,
   readApiPolicyGateDecision,
   resolveApiEnvelopeErrorMessage,
-  type ApiPolicyGateDecision,
 } from "./api-envelope.client";
 
 export class ApiClientRequestError extends Error {

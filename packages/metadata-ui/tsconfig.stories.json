@@ -7,7 +7,9 @@
       "@afenda/metadata-ui": ["./src/index.ts"],
       "@afenda/metadata-ui/client": ["./src/client.ts"],
       "@afenda/metadata-ui/server": ["./src/server.ts"],
-      "@afenda/metadata-ui/afenda-metadata-ui.css": ["./src/afenda-metadata-ui.css"],
+      "@afenda/metadata-ui/afenda-metadata-ui.css": [
+        "./src/afenda-metadata-ui.css"
+      ],
       "@afenda/metadata-ui/fixtures.css": [
         "./src/fixtures/metadata-ui-fixtures.css"
       ],

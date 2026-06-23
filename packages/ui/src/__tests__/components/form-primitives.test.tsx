@@ -1,8 +1,7 @@
+import { setupUser } from "@afenda/testing/react";
 import { render, screen } from "@testing-library/react";
 import { createRef, useState } from "react";
 import { describe, expect, it } from "vitest";
-
-import { setupUser } from "@afenda/testing/react";
 
 import {
   Checkbox,
@@ -87,11 +86,17 @@ describe("Category 2 form primitive governance", () => {
 
     it("renders checkbox-indicator slot when checked", () => {
       render(
-        <Checkbox aria-label="Subscribe" defaultChecked id="checkbox-indicator" />
+        <Checkbox
+          aria-label="Subscribe"
+          defaultChecked
+          id="checkbox-indicator"
+        />
       );
 
       const checkbox = screen.getByRole("checkbox", { name: "Subscribe" });
-      const indicator = checkbox.querySelector('[data-slot="checkbox-indicator"]');
+      const indicator = checkbox.querySelector(
+        '[data-slot="checkbox-indicator"]'
+      );
 
       expect(indicator).toBeInTheDocument();
       expect(indicator).toHaveAttribute("data-component", "Checkbox");
@@ -121,10 +126,9 @@ describe("Category 2 form primitive governance", () => {
         />
       );
 
-      expect(screen.getByRole("checkbox", { name: "Partial selection" })).toHaveAttribute(
-        "aria-checked",
-        "mixed"
-      );
+      expect(
+        screen.getByRole("checkbox", { name: "Partial selection" })
+      ).toHaveAttribute("aria-checked", "mixed");
     });
 
     it("preserves invalid state semantics", () => {
@@ -137,7 +141,9 @@ describe("Category 2 form primitive governance", () => {
         />
       );
 
-      const checkbox = screen.getByRole("checkbox", { name: "Required consent" });
+      const checkbox = screen.getByRole("checkbox", {
+        name: "Required consent",
+      });
       expect(checkbox).toHaveAttribute("aria-invalid", "true");
       expect(checkbox).toHaveAttribute("data-state", "error");
     });
@@ -205,9 +211,7 @@ describe("Category 2 form primitive governance", () => {
     it("forwards ref and applies size data attribute", () => {
       const ref = createRef<HTMLButtonElement>();
 
-      render(
-        <Switch aria-label="Notifications" ref={ref} size="sm" />
-      );
+      render(<Switch aria-label="Notifications" ref={ref} size="sm" />);
 
       const switchControl = screen.getByRole("switch", {
         name: "Notifications",
@@ -223,11 +227,7 @@ describe("Category 2 form primitive governance", () => {
       render(
         <Field>
           <FieldLabel htmlFor="invoice-amount">Invoice amount</FieldLabel>
-          <Input
-            aria-invalid="true"
-            id="invoice-amount"
-            state="error"
-          />
+          <Input aria-invalid="true" id="invoice-amount" state="error" />
           <FieldError errors={[{ message: "Amount is required" }]} />
         </Field>
       );
@@ -241,5 +241,4 @@ describe("Category 2 form primitive governance", () => {
       expect(screen.getByRole("alert")).toHaveTextContent("Amount is required");
     });
   });
-
 });

@@ -1,16 +1,13 @@
 import type { SectionType } from "@afenda/metadata";
 
-import type {
-  MetadataSectionProps,
-  MetadataSpecificSectionProps,
-} from "../contracts/section.contract.js";
+import type { MetadataSpecificSectionProps } from "../contracts/section.contract.js";
 import { MetadataSection } from "./metadata-section.js";
 
-export { MetadataSection } from "./metadata-section.js";
 export type {
   MetadataSectionProps,
   MetadataSpecificSectionProps,
 } from "../contracts/section.contract.js";
+export { MetadataSection } from "./metadata-section.js";
 
 const LIST_SECTION_TYPE = "list" satisfies SectionType;
 const STAT_SECTION_TYPE = "stat" satisfies SectionType;

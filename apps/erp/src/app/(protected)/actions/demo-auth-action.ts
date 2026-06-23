@@ -7,8 +7,8 @@ import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-
 import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
 import { resolveActionOperatingContext } from "@/lib/server-actions/resolve-action-operating-context.server";
 import {
-  serverActionSuccess,
   type ServerActionResult,
+  serverActionSuccess,
 } from "@/lib/server-actions/server-action-result";
 
 const DEMO_PROTECTED_RECORD_ACTION = "demo.protected.record" as const;

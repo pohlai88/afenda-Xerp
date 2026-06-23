@@ -31,7 +31,9 @@ describe("dashboard widget render context serialization", () => {
       "finance-only"
     );
 
-    expect([...preview.permissions]).toEqual([...DASHBOARD_WIDGET_FINANCE_PERMISSIONS]);
+    expect([...preview.permissions]).toEqual([
+      ...DASHBOARD_WIDGET_FINANCE_PERMISSIONS,
+    ]);
     expect(preview.capabilities.size).toBe(0);
   });
 

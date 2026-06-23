@@ -11,6 +11,7 @@ import {
   MULTI_TENANCY_LOOKUP_FUNCTIONS,
   MULTI_TENANCY_REQUIRED_INDEXES,
 } from "../../../packages/database/src/tenant-domain/persistence-lookup-registry.ts";
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_ACCOUNTING_BOUNDARY_ROW_MARKERS,
   MULTI_TENANCY_FOUNDATION_TABLE_ROW_MARKERS,
@@ -19,12 +20,11 @@ import {
   MULTI_TENANCY_PERSISTENCE_LOOKUP_DIMENSIONS,
   TIP_007_012_PERSISTENCE_LOOKUP_SECTION,
 } from "../multi-tenancy-persistence-lookup-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface PersistenceLookupEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -186,9 +186,9 @@ function collectAccountingSchemaViolations(
 
   for (const entry of readdirSync(schemaDir)) {
     if (
-      (MULTI_TENANCY_FORBIDDEN_ACCOUNTING_SCHEMA_FILES as readonly string[]).includes(
-        entry
-      )
+      (
+        MULTI_TENANCY_FORBIDDEN_ACCOUNTING_SCHEMA_FILES as readonly string[]
+      ).includes(entry)
     ) {
       violations.push({
         rule: "forbidden-accounting-schema",

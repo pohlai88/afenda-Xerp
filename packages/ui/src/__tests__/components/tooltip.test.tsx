@@ -61,7 +61,7 @@ describe("Tooltip governance", () => {
       "data-slot": "override",
       "data-state": "fake",
       state: "loading",
-    });
+    } as ComponentProps<typeof TooltipContent>);
 
     const content = document.querySelector("[data-slot='tooltip-content']");
 
@@ -73,16 +73,15 @@ describe("Tooltip governance", () => {
     });
   });
 
-  it.each(getGovernedStates())(
-    "renders governed state %s on TooltipContent",
-    (state) => {
-      renderOpenTooltip({ state });
+  it.each(
+    getGovernedStates()
+  )("renders governed state %s on TooltipContent", (state) => {
+    renderOpenTooltip({ state });
 
-      expect(
-        document.querySelector("[data-slot='tooltip-content']")
-      ).toHaveAttribute("data-state", state);
-    }
-  );
+    expect(
+      document.querySelector("[data-slot='tooltip-content']")
+    ).toHaveAttribute("data-state", state);
+  });
 
   it("applies governed presentation on trigger and rejects consumer overrides", () => {
     render(

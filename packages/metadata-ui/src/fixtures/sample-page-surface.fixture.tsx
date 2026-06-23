@@ -11,22 +11,25 @@ import { sampleRenderContext } from "./sample-runtime-context.fixture.js";
 const PAGE_SURFACE_TYPE = "page" satisfies SurfaceType;
 const PAGE_SURFACE_DESCRIPTION_ID = "page-sample-orders-description";
 
-export type MetadataPageSurfaceFixtureProps = Omit<MetadataSurfaceProps, "type">;
+export type MetadataPageSurfaceFixtureProps = Omit<
+  MetadataSurfaceProps,
+  "type"
+>;
 
 interface SamplePageSurfaceOrderRow {
-  readonly key: string;
-  readonly id: string;
   readonly customer: string;
+  readonly id: string;
+  readonly key: string;
+  readonly selected?: boolean;
   readonly status: string;
   readonly total: string;
-  readonly selected?: boolean;
 }
 
 interface SamplePageSurfaceAuditEntry {
-  readonly key: string;
-  readonly at: string;
   readonly actor: string;
+  readonly at: string;
   readonly event: string;
+  readonly key: string;
   readonly reference: string;
 }
 
@@ -156,9 +159,15 @@ function SamplePageSurfaceFilterRow() {
       data-fixture-region="filters"
       role="group"
     >
-      <span className="metadata-fixture-page-filter-chip">Status: Processing</span>
-      <span className="metadata-fixture-page-filter-chip">Warehouse: WH-NE-04</span>
-      <span className="metadata-fixture-page-filter-chip">Ship-by: Next 48h</span>
+      <span className="metadata-fixture-page-filter-chip">
+        Status: Processing
+      </span>
+      <span className="metadata-fixture-page-filter-chip">
+        Warehouse: WH-NE-04
+      </span>
+      <span className="metadata-fixture-page-filter-chip">
+        Ship-by: Next 48h
+      </span>
     </div>
   );
 }
@@ -194,7 +203,9 @@ function SamplePageSurfaceAside() {
         </div>
         <div>
           <dt>Total</dt>
-          <dd className="metadata-numeric">{samplePageSurfaceSelectedOrder.total}</dd>
+          <dd className="metadata-numeric">
+            {samplePageSurfaceSelectedOrder.total}
+          </dd>
         </div>
         <div>
           <dt>Ship by</dt>
@@ -206,7 +217,9 @@ function SamplePageSurfaceAside() {
         </div>
         <div>
           <dt>Lines</dt>
-          <dd className="metadata-numeric">{samplePageSurfaceSelectedOrder.lines}</dd>
+          <dd className="metadata-numeric">
+            {samplePageSurfaceSelectedOrder.lines}
+          </dd>
         </div>
         <div>
           <dt>Owner</dt>
@@ -228,8 +241,8 @@ function SamplePageSurfaceContent() {
         className="metadata-fixture-page-description"
         id={PAGE_SURFACE_DESCRIPTION_ID}
       >
-        Review the fulfillment queue, inspect the selected order, and verify audit
-        evidence before releasing the next pick wave.
+        Review the fulfillment queue, inspect the selected order, and verify
+        audit evidence before releasing the next pick wave.
       </p>
 
       <SamplePageSurfaceFilterRow />
@@ -247,39 +260,40 @@ function SamplePageSurfaceContent() {
         </h2>
         <div className="metadata-fixture-page-table-section">
           <table className="metadata-fixture-page-table metadata-fixture-page-table-master">
-          <caption className="metadata-fixture-page-table-caption">
-            Orders awaiting fulfillment action in the selected warehouse
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Order</th>
-              <th scope="col">Customer</th>
-              <th scope="col">Status</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {samplePageSurfaceOrderRows.map((order) => {
-              const isSelected = "selected" in order && order.selected === true;
-
-              return (
-              <tr
-                aria-selected={isSelected ? true : undefined}
-                data-order-key={order.key}
-                data-selected={isSelected ? "true" : undefined}
-                key={order.key}
-              >
-                <td>
-                  <code>{order.id}</code>
-                </td>
-                <td>{order.customer}</td>
-                <td>{order.status}</td>
-                <td className="metadata-numeric">{order.total}</td>
+            <caption className="metadata-fixture-page-table-caption">
+              Orders awaiting fulfillment action in the selected warehouse
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Order</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total</th>
               </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {samplePageSurfaceOrderRows.map((order) => {
+                const isSelected =
+                  "selected" in order && order.selected === true;
+
+                return (
+                  <tr
+                    aria-selected={isSelected ? true : undefined}
+                    data-order-key={order.key}
+                    data-selected={isSelected ? "true" : undefined}
+                    key={order.key}
+                  >
+                    <td>
+                      <code>{order.id}</code>
+                    </td>
+                    <td>{order.customer}</td>
+                    <td>{order.status}</td>
+                    <td className="metadata-numeric">{order.total}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -295,31 +309,31 @@ function SamplePageSurfaceContent() {
           Audit evidence
         </h2>
         <div className="metadata-fixture-page-table-section">
-        <table className="metadata-fixture-page-table metadata-fixture-page-table-audit">
-          <caption className="metadata-fixture-page-table-caption">
-            Immutable events for the selected order
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">When</th>
-              <th scope="col">Actor</th>
-              <th scope="col">Event</th>
-              <th scope="col">Reference</th>
-            </tr>
-          </thead>
-          <tbody>
-            {samplePageSurfaceAuditEntries.map((entry) => (
-              <tr data-audit-key={entry.key} key={entry.key}>
-                <td>{entry.at}</td>
-                <td>{entry.actor}</td>
-                <td>{entry.event}</td>
-                <td>
-                  <code>{entry.reference}</code>
-                </td>
+          <table className="metadata-fixture-page-table metadata-fixture-page-table-audit">
+            <caption className="metadata-fixture-page-table-caption">
+              Immutable events for the selected order
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">When</th>
+                <th scope="col">Actor</th>
+                <th scope="col">Event</th>
+                <th scope="col">Reference</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {samplePageSurfaceAuditEntries.map((entry) => (
+                <tr data-audit-key={entry.key} key={entry.key}>
+                  <td>{entry.at}</td>
+                  <td>{entry.actor}</td>
+                  <td>{entry.event}</td>
+                  <td>
+                    <code>{entry.reference}</code>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
@@ -328,10 +342,7 @@ function SamplePageSurfaceContent() {
 
 function SamplePageSurfaceFooter() {
   return (
-    <div
-      className="metadata-fixture-page-footer"
-      data-fixture-region="footer"
-    >
+    <div className="metadata-fixture-page-footer" data-fixture-region="footer">
       <p>Preview fixture · master-detail order page</p>
     </div>
   );

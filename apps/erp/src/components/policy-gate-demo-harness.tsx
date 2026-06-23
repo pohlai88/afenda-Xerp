@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
 import { Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useState } from "react";
 
 import { PolicyGateSurface } from "@/components/policy-gate-surface.client";
 import type { ApiPolicyGateDecision } from "@/lib/api/api-envelope.client";
@@ -59,7 +58,7 @@ export function PolicyGateDemoHarness() {
         ))}
       </div>
 
-      {dialogDecision !== null ? (
+      {dialogDecision === null ? null : (
         <PolicyGateSurface
           correlationId="demo-corr-policy-gate"
           gateDecision={dialogDecision}
@@ -77,7 +76,7 @@ export function PolicyGateDemoHarness() {
           open
           variant="dialog"
         />
-      ) : null}
+      )}
     </div>
   );
 }

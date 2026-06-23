@@ -52,10 +52,7 @@ export type RegistryEntryVersion = string & {
 
 const REGISTRY_ENTRY_VERSION_PATTERN = /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/;
 
-function assertNonEmptyRegistryValue(
-  field: string,
-  value: string
-): string {
+function assertNonEmptyRegistryValue(field: string, value: string): string {
   const normalized = value.trim();
 
   if (normalized.length === 0) {
@@ -99,13 +96,13 @@ export function createRegistryEntryVersion(
 }
 
 export interface CreateRegistryEntryInput {
-  readonly id: string;
   readonly authority: MetadataAuthorityKey;
-  readonly ownerPackage: string;
-  readonly lifecycle: MetadataLifecycle;
-  readonly version: string;
   readonly deprecated?: boolean;
   readonly experimental?: boolean;
+  readonly id: string;
+  readonly lifecycle: MetadataLifecycle;
+  readonly ownerPackage: string;
+  readonly version: string;
 }
 
 /**
@@ -122,12 +119,10 @@ export function createRegistryEntry(
     ownerPackage: createRegistryOwnerPackage(input.ownerPackage),
     lifecycle: input.lifecycle,
     version: createRegistryEntryVersion(input.version),
-    ...(input.deprecated !== undefined
-      ? { deprecated: input.deprecated }
-      : {}),
-    ...(input.experimental !== undefined
-      ? { experimental: input.experimental }
-      : {}),
+    ...(input.deprecated === undefined ? {} : { deprecated: input.deprecated }),
+    ...(input.experimental === undefined
+      ? {}
+      : { experimental: input.experimental }),
   };
 }
 
@@ -139,37 +134,8 @@ export function createRegistryEntry(
  * access, business logic, or permission execution.
  */
 export interface RegistryEntry {
-  /**
-   * Stable registry identifier.
-   *
-   * Recommended format:
-   * - `surface.page`
-   * - `layout.dashboard`
-   * - `section.list`
-   * - `renderer.table.default`
-   */
-  readonly id: RegistryEntryId;
-
   /** Authority domain that owns this registry entry. */
   readonly authority: MetadataAuthorityKey;
-
-  /**
-   * Package responsible for the entry.
-   *
-   * Example: `@afenda/metadata`, `@afenda/metadata-ui`
-   */
-  readonly ownerPackage: RegistryOwnerPackage;
-
-  /** Lifecycle state of the registry entry. */
-  readonly lifecycle: MetadataLifecycle;
-
-  /**
-   * Entry-level semantic version.
-   *
-   * May differ from the metadata contract version when an entry evolves
-   * independently while remaining contract-compatible.
-   */
-  readonly version: RegistryEntryVersion;
 
   /** Marks an entry as deprecated while preserving compatibility. */
   readonly deprecated?: boolean;
@@ -181,17 +147,45 @@ export interface RegistryEntry {
    * explicitly enabled by governance or feature flags.
    */
   readonly experimental?: boolean;
+  /**
+   * Stable registry identifier.
+   *
+   * Recommended format:
+   * - `surface.page`
+   * - `layout.dashboard`
+   * - `section.list`
+   * - `renderer.table.default`
+   */
+  readonly id: RegistryEntryId;
+
+  /** Lifecycle state of the registry entry. */
+  readonly lifecycle: MetadataLifecycle;
+
+  /**
+   * Package responsible for the entry.
+   *
+   * Example: `@afenda/metadata`, `@afenda/metadata-ui`
+   */
+  readonly ownerPackage: RegistryOwnerPackage;
+
+  /**
+   * Entry-level semantic version.
+   *
+   * May differ from the metadata contract version when an entry evolves
+   * independently while remaining contract-compatible.
+   */
+  readonly version: RegistryEntryVersion;
 }
 
 export interface RegistryContract {
   readonly authority: "registry";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /** Registry contract owns registration lifecycle and registry governance only. */
   readonly owns: readonly RegistryContractOwnership[];
 
   /** Responsibilities explicitly forbidden from the registry contract. */
   readonly prohibits: readonly RegistryContractProhibition[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const registryContract = {

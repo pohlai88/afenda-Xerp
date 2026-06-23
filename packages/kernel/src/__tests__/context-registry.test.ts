@@ -4,16 +4,16 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  type AccountingReadinessContext,
+  type ConsolidationScopeContext,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   deriveConsolidationScopeContext,
+  type EntityGroupContext,
   isOwnershipInterestEffectiveAt,
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
   KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES,
-  OPERATING_CONTEXT_ERROR_CODES,
-  type AccountingReadinessContext,
-  type ConsolidationScopeContext,
-  type EntityGroupContext,
   type LegalEntityContext,
+  OPERATING_CONTEXT_ERROR_CODES,
   type OperatingContext,
   type OrganizationUnitContext,
   type OwnershipInterestContext,
@@ -60,7 +60,7 @@ describe("@afenda/kernel context registry", () => {
       "utf8"
     );
 
-    expect(accountingSource).not.toContain("from \"./index.js\"");
+    expect(accountingSource).not.toContain('from "./index.js"');
     expect(accountingSource).not.toContain("from './index.js'");
   });
 });

@@ -31,17 +31,17 @@
 }
 
 .metadata-fixture-dashboard-toolbar-actions button {
-  font-size: 1rem;
-  min-block-size: 2.75rem;
   min-inline-size: 2.75rem;
+  min-block-size: 2.75rem;
   padding: 0.5rem 1rem;
+  font-size: 1rem;
   touch-action: manipulation;
 }
 
 @container metadata-ui (min-width: 40rem) {
   .metadata-fixture-dashboard-toolbar {
-    align-items: center;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
   }
 }
@@ -49,9 +49,9 @@
 .metadata-fixture-page-filter-chip,
 .metadata-fixture-dashboard-filter-chip {
   display: inline-flex;
-  font-size: 0.875rem;
   min-block-size: 2.75rem;
   padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
   touch-action: manipulation;
 }
 
@@ -59,19 +59,19 @@
 
 .metadata-fixture-dashboard-composition {
   display: grid;
-  gap: clamp(0.75rem, 2cqi, 1.25rem);
   grid-template-columns: 1fr;
+  gap: clamp(0.75rem, 2cqi, 1.25rem);
 }
 
 @container metadata-ui (min-width: 40rem) {
   .metadata-fixture-dashboard-composition {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     grid-template-areas:
       "dominant dominant"
       "dominant dominant"
       "rail attention"
       "trend trend"
       "activity activity";
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 
   .metadata-fixture-dashboard-dominant-metric {
@@ -107,9 +107,9 @@
 }
 
 .metadata-fixture-dashboard-dominant-value {
+  margin: 0;
   font-size: clamp(1.75rem, 1.25rem + 2cqi, 2.5rem);
   line-height: 1.1;
-  margin: 0;
 }
 
 .metadata-fixture-dashboard-rail-list,
@@ -118,9 +118,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 .metadata-fixture-dashboard-rail-item,
@@ -145,11 +145,11 @@
 
 .metadata-fixture-dashboard-nav-link {
   display: inline-flex;
-  font-size: 1rem;
   min-block-size: 2.75rem;
   padding: 0.5rem 0.75rem;
-  touch-action: manipulation;
+  font-size: 1rem;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 @container metadata-ui (min-width: 48rem) {
@@ -172,8 +172,8 @@
 
 .metadata-fixture-dashboard-table,
 .metadata-fixture-page-table {
-  min-width: min(100%, 36rem);
   width: 100%;
+  min-width: min(100%, 36rem);
 }
 
 .metadata-fixture-dashboard-table-compact th,
@@ -230,9 +230,9 @@
 .metadata-fixture-dashboard-title,
 .metadata-fixture-dashboard-section-title,
 .metadata-fixture-page-section-title {
+  margin: 0;
   font-size: clamp(1.0625rem, 0.95rem + 0.75cqi, 1.375rem);
   line-height: 1.3;
-  margin: 0;
 }
 
 /* ── Fixture: reduced motion ─────────────────────────────────────────────── */

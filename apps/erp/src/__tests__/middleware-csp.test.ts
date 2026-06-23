@@ -4,8 +4,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   applyContentSecurityPolicy,
-  createCspNonce,
   CSP_NONCE_HEADER,
+  createCspNonce,
 } from "@/lib/security/csp";
 
 const appRoot = join(import.meta.dirname, "../..");
@@ -141,9 +141,7 @@ describe("next.config SRI build integration", () => {
 
 describe("createCspNonce runtime safety", () => {
   it("does not reuse values across calls", () => {
-    const values = new Set(
-      Array.from({ length: 20 }, () => createCspNonce())
-    );
+    const values = new Set(Array.from({ length: 20 }, () => createCspNonce()));
 
     expect(values.size).toBe(20);
   });

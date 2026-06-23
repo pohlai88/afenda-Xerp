@@ -93,7 +93,10 @@ export const MULTI_TENANCY_TESTING_ACCEPTANCE_REQUIREMENTS = [
       "apps/erp/src/__tests__/operating-context-integration.test.ts",
       "apps/erp/src/lib/context/__tests__/context-switch.action.test.ts",
     ],
-    coverageMarkers: ["rejectUntrustedAuthorityFields", "switchOperatingContextAction"],
+    coverageMarkers: [
+      "rejectUntrustedAuthorityFields",
+      "switchOperatingContextAction",
+    ],
   },
   {
     id: "appshell-context-switch-tests",
@@ -114,7 +117,11 @@ export const MULTI_TENANCY_TESTING_ACCEPTANCE_REQUIREMENTS = [
       "apps/erp/src/lib/api/__tests__/authorize-api-route.test.ts",
       "apps/erp/src/__tests__/correlation-middleware.test.ts",
     ],
-    coverageMarkers: ["Content-Security-Policy", "authorizeApiRoute", "x-correlation-id"],
+    coverageMarkers: [
+      "Content-Security-Policy",
+      "authorizeApiRoute",
+      "x-correlation-id",
+    ],
   },
   {
     id: "existing-tests-still-pass",

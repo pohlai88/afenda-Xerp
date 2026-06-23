@@ -127,10 +127,7 @@ describe("Sheet governance", () => {
       </Sheet>
     );
 
-    expect(screen.getByRole("dialog")).toHaveAttribute(
-      "data-state",
-      "loading"
-    );
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-state", "loading");
   });
 
   it("wires aria-labelledby and aria-describedby on SheetContent", () => {

@@ -2,6 +2,8 @@
  * Cross-tier workspace resolution adapters — read-only lookups, no authority grants.
  */
 export {
+  type CompanyLookupRow,
+  type EntityGroupLookupRow,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,
@@ -9,18 +11,10 @@ export {
   findOrganizationById,
   findTenantById,
   findTenantBySlug,
-  organizationLookupSelect,
-  type CompanyLookupRow,
-  type EntityGroupLookupRow,
   type OrganizationLookupRow,
+  organizationLookupSelect,
   type TenantLookupRow,
 } from "../workspace/workspace-lookup.service.js";
-export {
-  DATABASE_TENANT_DOMAIN_BARREL_DIRECTORIES,
-  DATABASE_TENANT_DOMAIN_MODULES,
-  type DatabaseTenantDomainImplementationStatus,
-  type DatabaseTenantDomainModule,
-} from "./tenant-domain-registry.js";
 export {
   MULTI_TENANCY_FORBIDDEN_ACCOUNTING_SCHEMA_FILES,
   MULTI_TENANCY_FOUNDATION_TABLES,
@@ -29,3 +23,9 @@ export {
   type MultiTenancyFoundationTable,
   type MultiTenancyRequiredIndexKey,
 } from "./persistence-lookup-registry.js";
+export {
+  DATABASE_TENANT_DOMAIN_BARREL_DIRECTORIES,
+  DATABASE_TENANT_DOMAIN_MODULES,
+  type DatabaseTenantDomainImplementationStatus,
+  type DatabaseTenantDomainModule,
+} from "./tenant-domain-registry.js";

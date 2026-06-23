@@ -112,10 +112,7 @@ describe("AlertDialog governance", () => {
       "data-slot",
       "alert-dialog-action"
     );
-    expect(screen.getByRole("alertdialog")).toHaveAttribute(
-      "data-size",
-      "sm"
-    );
+    expect(screen.getByRole("alertdialog")).toHaveAttribute("data-size", "sm");
   });
 
   it("applies governed state to AlertDialogContent", () => {
@@ -217,7 +214,10 @@ describe("AlertDialog governance", () => {
   it("keeps structural data-slot authoritative on AlertDialogTrigger", () => {
     render(
       <AlertDialog>
-        <AlertDialogTrigger data-slot="override" data-testid="alert-dialog-trigger">
+        <AlertDialogTrigger
+          data-slot="override"
+          data-testid="alert-dialog-trigger"
+        >
           Open dialog
         </AlertDialogTrigger>
         <AlertDialogContent>

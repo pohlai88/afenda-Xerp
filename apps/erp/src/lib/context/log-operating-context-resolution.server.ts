@@ -24,7 +24,7 @@ export function logOperatingContextResolution(
 
   if (input.outcome === "denied") {
     logger.warn("operating_context.denied", {
-      ...(input.errorCode !== undefined ? { code: input.errorCode } : {}),
+      ...(input.errorCode === undefined ? {} : { code: input.errorCode }),
       tenantSlug: input.tenantSlug,
     });
     return;

@@ -3,9 +3,7 @@ import { STATUS_TONES } from "../contracts/token.contract";
 import { AFENDA_TOKEN_REGISTRY } from "../registries/token.registry";
 
 describe("status tone completeness", () => {
-  const tokenNames = new Set(
-    AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
-  );
+  const tokenNames = new Set(AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name));
 
   it("includes workflow tones: neutral, info, success, warning, danger, critical, pending", () => {
     for (const tone of [

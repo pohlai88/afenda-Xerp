@@ -347,7 +347,7 @@ For every `.stories.tsx`:
 # 1. Fast scan — find all TIP-004 violations
 pnpm ui:guard:scan
 
-# 2. Full four-gate guard
+# 2. Full ui:guard (gates A–F — docs/governance/ui-guard.md)
 pnpm ui:guard
 
 # 3. TypeScript

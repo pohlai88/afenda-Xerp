@@ -404,7 +404,9 @@ function NativeSelectStateProbe({
       <StoryCaption>{state}</StoryCaption>
       <StoryFrame width="sm">
         <NativeSelect aria-label={`State ${state}`} size="sm" state={state}>
-          <NativeSelectOption value="pending">Pending ({state})</NativeSelectOption>
+          <NativeSelectOption value="pending">
+            Pending ({state})
+          </NativeSelectOption>
           <NativeSelectOption value="active">Active</NativeSelectOption>
         </NativeSelect>
       </StoryFrame>
@@ -864,7 +866,10 @@ export const BulkEditToolbar: Story = {
             >
               <NativeSelectOption value="">Set priority…</NativeSelectOption>
               {PRIORITY_LEVELS.map((priority) => (
-                <NativeSelectOption key={priority} value={priority.toLowerCase()}>
+                <NativeSelectOption
+                  key={priority}
+                  value={priority.toLowerCase()}
+                >
                   {priority}
                 </NativeSelectOption>
               ))}

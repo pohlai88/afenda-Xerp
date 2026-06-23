@@ -9,7 +9,13 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
-import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
+import {
+  LazyBar as Bar,
+  LazyBarChart as BarChart,
+  LazyCell as Cell,
+  LazyXAxis as XAxis,
+  LazyYAxis as YAxis,
+} from "../../charts/recharts-lazy.client";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
@@ -97,6 +103,7 @@ export function StatisticsLeadsCard() {
               <ChartContainer config={leadChartConfig}>
                 <BarChart
                   accessibilityLayer
+                  aria-hidden="true"
                   barSize={10}
                   data={chartData}
                   layout="vertical"

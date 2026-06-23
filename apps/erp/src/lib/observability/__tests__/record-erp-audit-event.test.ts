@@ -79,7 +79,9 @@ describe("recordErpAuditEvent", () => {
   });
 
   it("rethrows non-adapter audit failures", async () => {
-    vi.mocked(writeAuditEvent).mockRejectedValueOnce(new Error("db unavailable"));
+    vi.mocked(writeAuditEvent).mockRejectedValueOnce(
+      new Error("db unavailable")
+    );
 
     await expect(
       recordErpAuditEvent({

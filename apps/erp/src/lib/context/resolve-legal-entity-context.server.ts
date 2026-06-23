@@ -1,17 +1,17 @@
 import {
+  type AfendaDatabase,
+  type CompanyLookupRow,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,
-  type AfendaDatabase,
-  type CompanyLookupRow,
 } from "@afenda/database";
 import {
-  err,
-  ok,
   type EntityGroupContext,
+  err,
   type LegalEntityContext,
   type OperatingContextError,
   type OperatingContextSelection,
+  ok,
   type Result,
   type TenantContext,
 } from "@afenda/kernel";
@@ -88,14 +88,16 @@ async function resolveCompanyRow(input: {
   readonly db?: AfendaDatabase;
   readonly memberships: readonly MembershipContract[];
   readonly tenant: TenantContext;
-}): Promise<
-  Result<CompanyLookupRow, OperatingContextError>
-> {
+}): Promise<Result<CompanyLookupRow, OperatingContextError>> {
   const companySlug = input.companySlug?.trim() || null;
   const companyIdHint = input.companyIdHint?.trim() || null;
 
   let companyRow = companySlug
-    ? await findCompanyByTenantAndSlug(input.tenant.tenantId, companySlug, input.db)
+    ? await findCompanyByTenantAndSlug(
+        input.tenant.tenantId,
+        companySlug,
+        input.db
+      )
     : null;
 
   if (!companyRow && companyIdHint) {
@@ -154,7 +156,7 @@ export async function resolveLegalEntityContext(
     memberships: input.memberships,
     companySlug: input.selection.companySlug ?? null,
     companyIdHint: input.selection.companyId ?? null,
-    ...(input.db !== undefined ? { db: input.db } : {}),
+    ...(input.db === undefined ? {} : { db: input.db }),
   });
 
   if (!companyResult.ok) {

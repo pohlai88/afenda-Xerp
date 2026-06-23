@@ -69,25 +69,25 @@ export {
   CarouselPrevious,
   useCarousel,
 } from "./components/carousel";
+export type { ChartConfig } from "./components/chart";
 export {
   ChartContainer,
+  type ChartContainerProps,
   ChartLegend,
   ChartLegendContent,
+  type ChartLegendContentProps,
   ChartStyle,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartLegendContentProps,
   type ChartTooltipContentProps,
-  type ChartContainerProps,
 } from "./components/chart";
-export type { ChartConfig } from "./components/chart";
 export { Checkbox } from "./components/checkbox";
 export {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
   type CollapsibleContentProps,
   type CollapsibleProps,
+  CollapsibleTrigger,
   type CollapsibleTriggerProps,
 } from "./components/collapsible";
 export {
@@ -123,10 +123,13 @@ export {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  type ContextMenuContentProps,
   ContextMenuGroup,
   ContextMenuItem,
+  type ContextMenuItemProps,
   ContextMenuLabel,
   ContextMenuPortal,
+  type ContextMenuProps,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
   ContextMenuSeparator,
@@ -135,9 +138,6 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-  type ContextMenuContentProps,
-  type ContextMenuItemProps,
-  type ContextMenuProps,
   type ContextMenuTriggerProps,
 } from "./components/context-menu";
 export { DataTable, type DataTableProps } from "./components/data-table";
@@ -217,33 +217,33 @@ export {
 export {
   HoverCard,
   HoverCardContent,
+  type HoverCardContentProps,
   HoverCardPortal,
   HoverCardTrigger,
-  type HoverCardContentProps,
 } from "./components/hover-card";
 export { Input, type InputProps } from "./components/input";
 export {
   InputGroup,
   InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-  InputGroupText,
-  InputGroupTextarea,
   type InputGroupAddonProps,
+  InputGroupButton,
   type InputGroupButtonProps,
+  InputGroupInput,
   type InputGroupInputProps,
   type InputGroupProps,
-  type InputGroupTextProps,
+  InputGroupText,
+  InputGroupTextarea,
   type InputGroupTextareaProps,
+  type InputGroupTextProps,
 } from "./components/input-group";
 export {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
   type InputOTPGroupProps,
   type InputOTPProps,
+  InputOTPSeparator,
   type InputOTPSeparatorProps,
+  InputOTPSlot,
   type InputOTPSlotProps,
 } from "./components/input-otp";
 export {
@@ -271,7 +271,12 @@ export {
   type ItemTitleProps,
   type ItemVariant,
 } from "./components/item";
-export { Kbd, KbdGroup, type KbdGroupProps, type KbdProps } from "./components/kbd";
+export {
+  Kbd,
+  KbdGroup,
+  type KbdGroupProps,
+  type KbdProps,
+} from "./components/kbd";
 export { Label } from "./components/label";
 export {
   Menubar,
@@ -349,6 +354,7 @@ export type {
   ScrollBarProps,
 } from "./components/scroll-area";
 export { ScrollArea, ScrollBar } from "./components/scroll-area";
+export type { SelectProps, SelectTriggerProps } from "./components/select";
 export {
   Select,
   SelectContent,
@@ -361,7 +367,6 @@ export {
   SelectTrigger,
   SelectValue,
 } from "./components/select";
-export type { SelectProps, SelectTriggerProps } from "./components/select";
 export type { SeparatorProps } from "./components/separator";
 export { Separator } from "./components/separator";
 export {
@@ -377,53 +382,53 @@ export {
 export {
   Sidebar,
   SidebarContent,
+  type SidebarContentProps,
   SidebarFooter,
+  type SidebarFooterProps,
   SidebarGroup,
   SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInput,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSkeleton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarProvider,
-  SidebarRail,
-  SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
-  type SidebarContentProps,
-  type SidebarFooterProps,
   type SidebarGroupActionProps,
+  SidebarGroupContent,
   type SidebarGroupContentProps,
+  SidebarGroupLabel,
   type SidebarGroupLabelProps,
   type SidebarGroupProps,
+  SidebarHeader,
   type SidebarHeaderProps,
+  SidebarInput,
   type SidebarInputProps,
+  SidebarInset,
   type SidebarInsetProps,
+  SidebarMenu,
+  SidebarMenuAction,
   type SidebarMenuActionProps,
+  SidebarMenuBadge,
   type SidebarMenuBadgeProps,
+  SidebarMenuButton,
   type SidebarMenuButtonProps,
   type SidebarMenuButtonSize,
   type SidebarMenuButtonVariant,
+  SidebarMenuItem,
   type SidebarMenuItemProps,
   type SidebarMenuProps,
+  SidebarMenuSkeleton,
   type SidebarMenuSkeletonProps,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
   type SidebarMenuSubButtonProps,
+  SidebarMenuSubItem,
   type SidebarMenuSubItemProps,
   type SidebarMenuSubProps,
   type SidebarProps,
+  SidebarProvider,
   type SidebarProviderProps,
+  SidebarRail,
   type SidebarRailProps,
+  SidebarSeparator,
   type SidebarSeparatorProps,
+  SidebarTrigger,
   type SidebarTriggerProps,
+  useSidebar,
 } from "./components/sidebar";
 export { Skeleton, type SkeletonProps } from "./components/skeleton";
 export { Slider } from "./components/slider";
@@ -490,9 +495,9 @@ export type {
   VariantEmphasis,
   VariantIntent,
 } from "./governance";
-export { cn } from "./lib/utils";
 export { FacebookIcon } from "./icons/facebook-icon";
 export { InstagramIcon } from "./icons/instagram-icon";
 export { LinkedinIcon } from "./icons/linkedin-icon";
 export { Logo } from "./icons/logo";
 export { TwitterIcon } from "./icons/twitter-icon";
+export { cn } from "./lib/utils";

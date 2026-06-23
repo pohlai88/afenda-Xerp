@@ -51,7 +51,11 @@ describe("Dialog governance", () => {
   it("applies governed state to DialogContent", () => {
     render(
       <Dialog open>
-        <DialogContent data-testid="dialog-content" showCloseButton={false} state="loading">
+        <DialogContent
+          data-testid="dialog-content"
+          showCloseButton={false}
+          state="loading"
+        >
           Body
         </DialogContent>
       </Dialog>

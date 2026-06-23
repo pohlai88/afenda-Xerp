@@ -76,7 +76,8 @@ export const NarrowViewport: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Detail summary stacks above the master queue table on narrow viewports.",
+        story:
+          "Detail summary stacks above the master queue table on narrow viewports.",
       },
     },
   },
@@ -89,7 +90,8 @@ export const Tablet: Story = {
     ...metadataTabletViewport,
     docs: {
       description: {
-        story: "Tablet breakpoint — master-detail regions begin side-by-side where space allows.",
+        story:
+          "Tablet breakpoint — master-detail regions begin side-by-side where space allows.",
       },
     },
   },

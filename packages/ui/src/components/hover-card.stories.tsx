@@ -15,6 +15,10 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedPanelStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -112,7 +116,9 @@ function HoverCardStateProbe({
           </Button>
         </HoverCardTrigger>
         <HoverCardContent state={state}>
-          <span className="text-sm">Inspect `data-state` on hover-card-content.</span>
+          <span className="text-sm">
+            Inspect `data-state` on hover-card-content.
+          </span>
         </HoverCardContent>
       </HoverCard>
     </StoryFrame>
@@ -134,10 +140,10 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof HoverCard>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -1009,19 +1015,14 @@ export const GovernancePlayground: Story = {
     shadow: "overlay",
     state: "ready",
   },
-  render: ({ density, radius, shadow, state }) => (
+  render: (args) => (
     <HoverCard open>
       <HoverCardTrigger asChild>
         <Button emphasis="outline" intent="secondary" size="sm">
           Hover card playground
         </Button>
       </HoverCardTrigger>
-      <HoverCardContent
-        density={density}
-        radius={radius}
-        shadow={shadow}
-        state={state}
-      >
+      <HoverCardContent {...governedPanelStoryProps(args)}>
         <span className="text-sm">
           Adjust density, radius, shadow, and governed state from controls.
         </span>

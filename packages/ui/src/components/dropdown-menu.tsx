@@ -18,9 +18,9 @@ const DropdownMenuShortcut = createGovernedSpanSlot("DropdownMenuShortcut", {
 
 export interface DropdownMenuProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>,
+      "className"
+    >,
     GovernedDropdownMenuProps {
   readonly className?: string;
 }

@@ -8,9 +8,9 @@ import type {
   OwnershipRelationshipType,
 } from "../database.types.js";
 import {
+  type ConsolidationTreatment,
   consolidationMethodToTreatment,
   consolidationTreatmentToMethod,
-  type ConsolidationTreatment,
 } from "./ownership-interest.consolidation-treatment.js";
 
 export class OwnershipInterestValidationError extends Error {
@@ -113,7 +113,10 @@ export function resolveInvesteeLegalEntityId(
   const investeeLegalEntityId =
     input.investeeLegalEntityId ?? input.childLegalEntityId;
 
-  if (investeeLegalEntityId === undefined || investeeLegalEntityId.length === 0) {
+  if (
+    investeeLegalEntityId === undefined ||
+    investeeLegalEntityId.length === 0
+  ) {
     throw new OwnershipInterestValidationError(
       "investeeLegalEntityId (or childLegalEntityId) is required."
     );
@@ -183,9 +186,8 @@ export function buildOwnershipInterestInsertRow(
     consolidationMethod: consolidationTreatmentToMethod(
       input.consolidationTreatment
     ),
-    nonControllingInterestApplicable: resolveNonControllingInterestApplicable(
-      input
-    ),
+    nonControllingInterestApplicable:
+      resolveNonControllingInterestApplicable(input),
     effectiveFrom: input.effectiveFrom,
     effectiveTo,
     status: input.status ?? "active",

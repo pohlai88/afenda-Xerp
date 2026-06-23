@@ -37,18 +37,16 @@ export function ProtectedWorkspaceDashboard() {
           variant="inline"
         />
       ) : null}
-      {errorMessage !== null ? (
+      {errorMessage === null ? null : (
         <p className="app-shell-page-description" role="alert">
           {errorMessage}
         </p>
-      ) : null}
+      )}
       <ApplicationShellDashboardCanvas
         editMode={canEditLayout}
         layout={layout}
         renderContext={renderContext}
-        {...(canEditLayout
-          ? { onLayoutChange: handleLayoutChange }
-          : {})}
+        {...(canEditLayout ? { onLayoutChange: handleLayoutChange } : {})}
       />
       {gateState?.variant === "dialog" ? (
         <PolicyGateSurface

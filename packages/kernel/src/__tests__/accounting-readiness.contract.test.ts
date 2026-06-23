@@ -5,12 +5,12 @@ import {
   deriveConsolidationScopeContext,
   isCostCenterOrganizationUnit,
   isOwnershipInterestEffectiveAt,
-  resolveReportingCurrency,
-  toAccountingReadinessContext,
   type LegalEntityContext,
   type OperatingContext,
   type OrganizationUnitContext,
   type OwnershipInterestContext,
+  resolveReportingCurrency,
+  toAccountingReadinessContext,
 } from "../context/index.js";
 
 const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {

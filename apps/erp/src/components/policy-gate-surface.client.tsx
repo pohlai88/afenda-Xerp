@@ -19,15 +19,13 @@ import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import type { ApiPolicyGateDecision } from "@/lib/api/api-envelope.client";
 import {
-  resolvePolicyGateUxCopy,
   type PolicyGateSurfaceVariant,
+  resolvePolicyGateUxCopy,
 } from "@/lib/api/policy-gate-ux.contract";
 
 export type PolicyGateSurfaceGovernedComponents = Extract<
   GovernedUiComponentName,
-  | "Alert"
-  | "AlertDialog"
-  | "Button"
+  "Alert" | "AlertDialog" | "Button"
 >;
 
 export interface PolicyGateSurfaceProps {
@@ -35,8 +33,8 @@ export interface PolicyGateSurfaceProps {
   readonly gateDecision: ApiPolicyGateDecision;
   readonly message?: string;
   readonly onDismiss?: () => void;
-  readonly onPrimaryAction?: () => void;
   readonly onOpenChange?: (open: boolean) => void;
+  readonly onPrimaryAction?: () => void;
   readonly open?: boolean;
   readonly variant?: PolicyGateSurfaceVariant;
 }
@@ -56,13 +54,13 @@ function PolicyGateInlineSurface({
       <Alert role="alert" tone={copy.tone}>
         <AlertTitle>{copy.title}</AlertTitle>
         <AlertDescription>{detailMessage}</AlertDescription>
-        {correlationId !== undefined ? (
+        {correlationId === undefined ? null : (
           <AlertDescription>
             Reference: <code>{correlationId}</code>
           </AlertDescription>
-        ) : null}
+        )}
         <AlertAction>
-          {copy.primaryActionLabel !== null ? (
+          {copy.primaryActionLabel === null ? null : (
             <Button
               emphasis="solid"
               intent="primary"
@@ -71,8 +69,8 @@ function PolicyGateInlineSurface({
             >
               {copy.primaryActionLabel}
             </Button>
-          ) : null}
-          {onDismiss !== undefined ? (
+          )}
+          {onDismiss === undefined ? null : (
             <Button
               emphasis="outline"
               intent="secondary"
@@ -81,7 +79,7 @@ function PolicyGateInlineSurface({
             >
               Dismiss
             </Button>
-          ) : null}
+          )}
         </AlertAction>
       </Alert>
     </div>
@@ -114,23 +112,21 @@ function PolicyGateDialogSurface({
         <AlertDialogHeader>
           <AlertDialogTitle>{copy.title}</AlertDialogTitle>
           <AlertDialogDescription>{detailMessage}</AlertDialogDescription>
-          {correlationId !== undefined ? (
+          {correlationId === undefined ? null : (
             <AlertDialogDescription>
               Reference: <code>{correlationId}</code>
             </AlertDialogDescription>
-          ) : null}
+          )}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel emphasis="outline" intent="secondary">
             Close
           </AlertDialogCancel>
-          {copy.primaryActionLabel !== null ? (
-            <AlertDialogAction
-              onClick={onPrimaryAction}
-            >
+          {copy.primaryActionLabel === null ? null : (
+            <AlertDialogAction onClick={onPrimaryAction}>
               {copy.primaryActionLabel}
             </AlertDialogAction>
-          ) : null}
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

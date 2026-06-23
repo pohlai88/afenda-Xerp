@@ -1,9 +1,7 @@
-import type { ComponentType } from "react";
-import { composeStories } from "@storybook/react";
-
-import { setProjectAnnotations } from "@storybook/react";
-import type { Preview } from "@storybook/react";
 import { TooltipProvider } from "@afenda/ui";
+import type { Preview } from "@storybook/react";
+import { composeStories, setProjectAnnotations } from "@storybook/react";
+import type { ComponentType } from "react";
 
 const preview = {
   decorators: [
@@ -23,9 +21,10 @@ const preview = {
 setProjectAnnotations(preview);
 
 /** Storybook CSF modules vary under `exactOptionalPropertyTypes`; use for portable Vitest smoke tests. */
-export function composePortableStories(
-  module: Record<string, unknown>
-): { Default: ComponentType; [storyName: string]: ComponentType } {
+export function composePortableStories(module: Record<string, unknown>): {
+  Default: ComponentType;
+  [storyName: string]: ComponentType;
+} {
   return composeStories(module as never) as unknown as {
     Default: ComponentType;
     [storyName: string]: ComponentType;

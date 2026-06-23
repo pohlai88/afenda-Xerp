@@ -84,7 +84,9 @@ export function MetadataSection({
       aria-label={a11y?.ariaLabel}
       aria-labelledby={a11y?.ariaLabelledBy ?? titleId}
       className={rootClassName}
-      data-metadata-density={resolveMetadataUiDensityAttribute(context.runtime.density)}
+      data-metadata-density={resolveMetadataUiDensityAttribute(
+        context.runtime.density
+      )}
       data-metadata-hydration={context.environment.hydration}
       data-metadata-readonly={isReadonly ? "true" : "false"}
       data-metadata-runtime-state={context.runtime.state}

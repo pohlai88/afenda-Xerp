@@ -23,6 +23,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedPanelStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -133,7 +137,7 @@ function SnapPointsPeekComponent() {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance due</span>
-            <span className="font-semibold tabular-nums text-sm">
+            <span className="font-semibold text-sm tabular-nums">
               {formatCurrency(24_850)}
             </span>
           </StoryRow>
@@ -188,10 +192,10 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof Drawer>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic drawers ─────────────────────────────────────────────────────────
 
@@ -244,7 +248,7 @@ export const OpenByDefault: Story = {
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Balance</span>
-            <span className="font-semibold tabular-nums text-sm">
+            <span className="font-semibold text-sm tabular-nums">
               {formatCurrency(24_850)}
             </span>
           </StoryRow>
@@ -353,8 +357,8 @@ export const GovernanceDataAuthority: Story = {
         <DrawerHeader>
           <DrawerTitle>Data authority probe</DrawerTitle>
           <DrawerDescription>
-            Inspect the content root — governed `data-*` attributes must override
-            consumer props.
+            Inspect the content root — governed `data-*` attributes must
+            override consumer props.
           </DrawerDescription>
         </DrawerHeader>
       </DrawerContent>
@@ -427,14 +431,9 @@ export const GovernancePlayground: Story = {
     shadow: "overlay",
     state: "ready",
   },
-  render: ({ density, radius, shadow, state }) => (
+  render: (args) => (
     <Drawer defaultOpen>
-      <DrawerContent
-        density={density}
-        radius={radius}
-        shadow={shadow}
-        state={state}
-      >
+      <DrawerContent {...governedPanelStoryProps(args)}>
         <DrawerHeader>
           <DrawerTitle>Drawer playground</DrawerTitle>
           <DrawerDescription>
@@ -509,7 +508,9 @@ export const RecordDetailPeek: Story = {
             <span className="text-muted-foreground text-sm">
               Invoice amount
             </span>
-            <span className="text-sm tabular-nums">{formatCurrency(24_850)}</span>
+            <span className="text-sm tabular-nums">
+              {formatCurrency(24_850)}
+            </span>
           </StoryRow>
           <StoryRow justify="between">
             <span className="text-muted-foreground text-sm">Amount paid</span>
@@ -518,7 +519,9 @@ export const RecordDetailPeek: Story = {
           <Separator />
           <StoryRow justify="between">
             <span className="font-medium text-sm">Balance due</span>
-            <span className="font-semibold tabular-nums">{formatCurrency(24_850)}</span>
+            <span className="font-semibold tabular-nums">
+              {formatCurrency(24_850)}
+            </span>
           </StoryRow>
         </StoryStack>
         <DrawerFooter>

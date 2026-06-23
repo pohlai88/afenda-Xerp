@@ -1,14 +1,12 @@
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-
 import { Badge, Button } from "@afenda/ui";
 import { mapStockButtonProps } from "@afenda/ui/governance";
-
+import { render, screen, within } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { AppShellMain } from "../app-shell-main";
 import {
   DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL,
   DEFAULT_APP_SHELL_MAIN_TITLE_ID,
 } from "../shadcn-studio/data/app-shell.main.constants";
-import { AppShellMain } from "../app-shell-main";
 
 describe("AppShellMain", () => {
   it("renders title, description, and children on plain HTML wrappers", () => {
@@ -18,7 +16,9 @@ describe("AppShellMain", () => {
       </AppShellMain>
     );
 
-    const region = screen.getByRole("region", { name: DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL });
+    const region = screen.getByRole("region", {
+      name: DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL,
+    });
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" })
     ).toHaveAttribute("id", DEFAULT_APP_SHELL_MAIN_TITLE_ID);
@@ -38,7 +38,11 @@ describe("AppShellMain", () => {
             Export
           </Button>
         }
-        badge={<Badge emphasis="soft" tone="success">Live</Badge>}
+        badge={
+          <Badge emphasis="soft" tone="success">
+            Live
+          </Badge>
+        }
         title="Orders"
       >
         <p>Orders table</p>
@@ -46,13 +50,19 @@ describe("AppShellMain", () => {
     );
 
     expect(screen.getByRole("button", { name: "Export" })).toBeInTheDocument();
-    expect(screen.getByText("Live").closest("[data-slot='badge']")).not.toBeNull();
+    expect(
+      screen.getByText("Live").closest("[data-slot='badge']")
+    ).not.toBeNull();
   });
 
   it("omits description and body region when not provided", () => {
     render(<AppShellMain title="Settings" />);
 
-    expect(screen.queryByRole("region", { name: DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL })).toBeNull();
+    expect(
+      screen.queryByRole("region", {
+        name: DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL,
+      })
+    ).toBeNull();
     expect(screen.queryByText("Module overview")).not.toBeInTheDocument();
   });
 
@@ -71,7 +81,9 @@ describe("AppShellMain", () => {
       "id",
       "finance-page-title"
     );
-    expect(screen.getByRole("region", { name: "Workspace modules" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Workspace modules" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Finance" })).toHaveAttribute(
       "aria-labelledby",
       "finance-page-title"

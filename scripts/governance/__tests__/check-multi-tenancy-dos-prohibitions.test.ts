@@ -1,20 +1,19 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-
-import {
-  MULTI_TENANCY_DOC_DOS_MARKERS,
-  MULTI_TENANCY_DOC_PROHIBITIONS_MARKERS,
-  MULTI_TENANCY_DOS_DELEGATED_GATES,
-  MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE,
-  MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS,
-  MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS,
-  MULTI_TENANCY_PROHIBITION_ENFORCEMENT,
-} from "../multi-tenancy-dos-prohibitions-registry.mts";
 import {
   checkMultiTenancyDosProhibitions,
   formatMultiTenancyDosProhibitionsViolations,
 } from "../check-multi-tenancy-dos-prohibitions.mts";
+import {
+  MULTI_TENANCY_DOC_DOS_MARKERS,
+  MULTI_TENANCY_DOC_PROHIBITIONS_MARKERS,
+  MULTI_TENANCY_DOS_DELEGATED_GATES,
+  MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS,
+  MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE,
+  MULTI_TENANCY_GLOSSARY_REQUIRED_HEADINGS,
+  MULTI_TENANCY_PROHIBITION_ENFORCEMENT,
+} from "../multi-tenancy-dos-prohibitions-registry.mts";
 
 const repoRoot = join(import.meta.dirname, "../../..");
 
@@ -92,13 +91,15 @@ describe("check-multi-tenancy-dos-prohibitions script", () => {
       "utf8"
     );
 
-    expect(registrySource).toContain(MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE);
+    expect(registrySource).toContain(
+      MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE
+    );
   });
 
   it("documents risk mitigations with low residual ratings", () => {
-    expect(MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS.length).toBeGreaterThanOrEqual(
-      5
-    );
+    expect(
+      MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS.length
+    ).toBeGreaterThanOrEqual(5);
 
     for (const entry of MULTI_TENANCY_DOS_PROHIBITIONS_RISK_MITIGATIONS) {
       expect(entry.residual).toBe("low");

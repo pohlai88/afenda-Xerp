@@ -29,7 +29,6 @@ export type LayoutContractProhibition =
 
 export interface LayoutContract {
   readonly authority: "layout";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /**
    * Layout contract owns structural arrangement vocabulary only.
@@ -39,14 +38,15 @@ export interface LayoutContract {
   readonly owns: readonly LayoutContractOwnership[];
 
   /**
-   * Canonical layout types supported by the metadata authority.
-   */
-  readonly types: readonly LayoutType[];
-
-  /**
    * Responsibilities explicitly forbidden from the layout contract.
    */
   readonly prohibits: readonly LayoutContractProhibition[];
+
+  /**
+   * Canonical layout types supported by the metadata authority.
+   */
+  readonly types: readonly LayoutType[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const layoutContract = {

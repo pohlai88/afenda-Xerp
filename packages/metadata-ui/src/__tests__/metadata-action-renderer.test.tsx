@@ -109,7 +109,9 @@ describe("metadata action renderer", () => {
 
   it("opens a structural confirm dialog before invoking destructive handlers", async () => {
     const user = setupUser();
-    const onAction = vi.fn().mockResolvedValue({ ok: true, actionKey: "delete" });
+    const onAction = vi
+      .fn()
+      .mockResolvedValue({ ok: true, actionKey: "delete" });
 
     render(
       <MetadataActionButton
@@ -134,7 +136,9 @@ describe("metadata action renderer", () => {
     expect(
       document.querySelector('[data-slot="metadata-action-confirm-dialog"]')
     ).not.toBeNull();
-    expect(screen.getByRole("heading", { name: "Delete order?" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Delete order?" })
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Delete" }));
 

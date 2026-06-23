@@ -4,7 +4,7 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_DIMENSIONS,
   MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_FUNCTION_MARKERS,
@@ -14,12 +14,11 @@ import {
   OPERATING_CONTEXT_RESOLVER_PIPELINE,
   TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION,
 } from "../multi-tenancy-operating-context-resolver-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface OperatingContextResolverEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -127,7 +126,10 @@ function collectResolverFunctionViolations(
     }
   }
 
-  const grantScopePath = join(erpSrc, "lib/context/resolve-grant-scope.server.ts");
+  const grantScopePath = join(
+    erpSrc,
+    "lib/context/resolve-grant-scope.server.ts"
+  );
   if (existsSync(grantScopePath)) {
     const grantScopeSource = readFileSync(grantScopePath, "utf8");
     if (!grantScopeSource.includes("resolveScopedMembership")) {
@@ -171,7 +173,8 @@ function collectResolverFunctionViolations(
       violations.push({
         rule: "fail-closed-helper-missing",
         file: contextErrorsPath,
-        message: "context-errors.ts must export denyOperatingContext for fail-closed denials",
+        message:
+          "context-errors.ts must export denyOperatingContext for fail-closed denials",
       });
     }
   }
@@ -258,13 +261,7 @@ export function collectOperatingContextResolverViolations(
     repoRoot,
     "apps/erp/src/lib/context/operating-context-resolver-registry.ts"
   );
-  if (!existsSync(registryPath)) {
-    violations.push({
-      rule: "erp-registry-missing",
-      file: registryPath,
-      message: "operating-context-resolver-registry.ts is required in apps/erp",
-    });
-  } else {
+  if (existsSync(registryPath)) {
     const registrySource = readFileSync(registryPath, "utf8");
     for (const entry of OPERATING_CONTEXT_RESOLVER_FUNCTIONS) {
       if (!registrySource.includes(entry.name)) {
@@ -284,6 +281,12 @@ export function collectOperatingContextResolverViolations(
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "erp-registry-missing",
+      file: registryPath,
+      message: "operating-context-resolver-registry.ts is required in apps/erp",
+    });
   }
 
   violations.push(...collectResolverFunctionViolations(repoRoot));

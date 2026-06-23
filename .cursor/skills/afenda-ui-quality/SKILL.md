@@ -1,6 +1,6 @@
 ---
 name: afenda-ui-quality
-description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, TIP-004 governance normalization (strip className from @afenda/ui primitives, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and ui-craft visual quality gate (9.5/10 visualization). Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline. Enforces Tailwind v4 + @afenda/design-system token authority.
+description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, TIP-004 governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and ui-craft visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/tip-004-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
 disable-model-invocation: true
 ---
 
@@ -9,6 +9,8 @@ disable-model-invocation: true
 > Target: **9.5/10 enterprise code quality + 9.5/10 visual quality** on every block.
 >
 > Stack: Tailwind v4 · shadcn/Radix · `@afenda/ui` governed primitives · `@afenda/design-system` tokens · shadcn/studio MCP · ui-craft skill.
+>
+> **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
 
 ---
 
@@ -84,13 +86,15 @@ This is the most critical phase. Raw shadcn-studio blocks contain `className` pr
 
 ```bash
 pnpm ui:guard:scan          # in-process scan < 2 s — Gate D only
-pnpm ui:guard               # all five gates (A = ui author, B = appshell, C = erp, D = scan, E = css)
+pnpm ui:guard               # all six gates (A–F); see docs/governance/ui-guard.md
+pnpm ui:guard:erp           # Gate F only — React ERP quality
 ```
 
 ### 3.2 Strip `className` from governed primitives
 
-These components MUST NOT receive `className` in consumer code:
-`Button`, `Badge`, `Alert`, `Dialog*`, `Sheet*`, `DropdownMenu*`, `Sidebar*`, `Avatar`, `Tabs*`, `Combobox*`, `InputGroup*`, `Kbd`, `Card*`, `Table*`, `Field*`, `Progress`, `Separator`, `Tooltip`.
+In **consumer** code, governed primitives must receive **zero** `className` (not even layout utilities). Wrap with plain HTML when positioning is needed.
+
+Governed tag set (authoritative list): `GOVERNED_UI_TAGS` in `scripts/governance/governed-ui-consumption.mjs`. Representative tags: `Button`, `Badge`, `Alert`, `Dialog*`, `Sheet*`, `DropdownMenu*`, `Sidebar*`, `Avatar`, `Tabs*`, `Combobox*`, `InputGroup*`, `Kbd`, `Card*`, `Table*`, `Field*`, `Progress`, `Separator`, `Tooltip`, and all registered sub-slots.
 
 ```tsx
 // ❌ Raw MCP output — TIP-004 throw
@@ -266,7 +270,7 @@ Run in order after completing all phases:
 # 1. Fast structural scan (< 2 s)
 pnpm ui:guard:scan
 
-# 2. Full five-gate guard
+# 2. Full six-gate guard (see docs/governance/ui-guard.md)
 pnpm ui:guard
 
 # 3. TypeScript correctness
@@ -341,6 +345,8 @@ All gates must pass before merging.
 
 ## Additional resources
 
+- **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
+- **UI guard gates:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
 - **React quality gate (run after Phase 5):** [`.cursor/skills/react-erp-quality/SKILL.md`](../react-erp-quality/SKILL.md)
 - Govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)
 - Visual craft rules: [`.cursor/skills/ui-craft/SKILL.md`](../ui-craft/SKILL.md)

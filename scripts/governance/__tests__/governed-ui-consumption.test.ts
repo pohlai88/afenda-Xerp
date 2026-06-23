@@ -21,7 +21,11 @@ describe("consumer-class-name-policy", () => {
     );
     expect(violations.length).toBeGreaterThan(0);
     expect(violations.map((v) => v.token)).toEqual(
-      expect.arrayContaining(["bg-gradient-to-r", "from-purple-500", "backdrop-blur-md"])
+      expect.arrayContaining([
+        "bg-gradient-to-r",
+        "from-purple-500",
+        "backdrop-blur-md",
+      ])
     );
   });
 
@@ -43,7 +47,9 @@ describe("checkGovernedUiConsumption", () => {
         return <DropdownMenu />;
       }
     `);
-    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(true);
+    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(
+      true
+    );
   });
 
   it("rejects className on governed primitives (single-line)", () => {

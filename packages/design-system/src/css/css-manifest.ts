@@ -19,9 +19,26 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface CssEntrypointManifestItem {
-  readonly packageName: string;
+  readonly aliasOf?: string;
+  readonly allowedImporters: readonly string[];
+  readonly classNamespace:
+    | "data-attr-only"
+    | "none"
+    | "metadata-"
+    | "metadata-fixture-"
+    | "app-shell-";
   readonly exportPath: string;
-  readonly sourceFile: string;
+  readonly generated?: boolean;
+  readonly legacy?: boolean;
+  readonly packageName: string;
+  readonly productionSafe: boolean;
+  readonly prohibitedImporters: readonly string[];
+  readonly propertyNamespace:
+    | "--afenda-"
+    | "--app-shell-"
+    | "--metadata-"
+    | "none"
+    | readonly ("--afenda-" | "--app-shell-" | "--metadata-" | "none")[];
   readonly purpose:
     | "tokens"
     | "theme-bridge"
@@ -29,15 +46,8 @@ interface CssEntrypointManifestItem {
     | "renderer-structural"
     | "shell-structural"
     | "fixture";
-  readonly productionSafe: boolean;
   readonly requiresTailwindTheme: boolean;
-  readonly allowedImporters: readonly string[];
-  readonly prohibitedImporters: readonly string[];
-  readonly classNamespace: "data-attr-only" | "none" | "metadata-" | "metadata-fixture-" | "app-shell-";
-  readonly propertyNamespace: "--afenda-" | "--app-shell-" | "--metadata-" | "none" | readonly ("--afenda-" | "--app-shell-" | "--metadata-" | "none")[];
-  readonly generated?: boolean;
-  readonly aliasOf?: string;
-  readonly legacy?: boolean;
+  readonly sourceFile: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -66,7 +76,11 @@ export const designSystemCssManifest = [
     productionSafe: true,
     requiresTailwindTheme: true,
     allowedImporters: ["apps/*", "@afenda/ui"],
-    prohibitedImporters: ["@afenda/metadata", "@afenda/metadata-ui", "@afenda/appshell"],
+    prohibitedImporters: [
+      "@afenda/metadata",
+      "@afenda/metadata-ui",
+      "@afenda/appshell",
+    ],
     classNamespace: "none",
     propertyNamespace: "--afenda-",
     generated: true,

@@ -8,6 +8,25 @@ export {
   getRecipeAccessibilityDefinitions,
   hasComponentAccessibilityDefinition,
 } from "./accessibility";
+export {
+  APP_SHELL_RECIPE_SLOTS,
+  APP_SHELL_SLOT_CLASS_NAMES,
+  type AppShellRecipeSlot,
+  type AuthorityRecipeName,
+  isAppShellRecipeSlot,
+  isAuthorityRecipeName,
+  isMetadataUiRecipeSlot,
+  METADATA_UI_RECIPE_SLOTS,
+  METADATA_UI_SLOT_CLASS_NAMES,
+  type MetadataUiRecipeSlot,
+  resolveAppShellClassName,
+  resolveAppShellSlotClassName,
+  resolveAppShellVariant,
+  resolveAuthorityRecipeSlotClassName,
+  resolveMetadataUiClassName,
+  resolveMetadataUiSlotClassName,
+  resolveMetadataUiVariant,
+} from "./authority-recipe";
 // Runtime implementation helpers.
 export {
   assertAllowedLayoutClassName,
@@ -16,14 +35,18 @@ export {
   resolveLayoutClassName,
   validateLayoutClassName,
 } from "./class-name";
+export {
+  assertGuardedClassName,
+  guardClassName,
+} from "./class-name-guard";
 // Governed component prop surfaces.
 export type {
   AfendaBadgeProps,
   AfendaButtonProps,
   AfendaCardProps,
   GovernedAccordionProps,
-  GovernedAlertDialogProps,
   GovernedAlertDialogContentSize,
+  GovernedAlertDialogProps,
   GovernedAspectRatioProps,
   GovernedAvatarBadgeProps,
   GovernedAvatarProps,
@@ -35,54 +58,54 @@ export type {
   GovernedCalendarProps,
   GovernedCardLayoutSize,
   GovernedCardProps,
-  GovernedCarouselProps,
-  GovernedChartProps,
   GovernedCardRadius,
   GovernedCardShadow,
-  GovernedCommandProps,
+  GovernedCarouselProps,
+  GovernedChartProps,
   GovernedCollapsibleProps,
   GovernedComboboxProps,
+  GovernedCommandProps,
   GovernedContextMenuProps,
+  GovernedDataTableProps,
+  GovernedDialogProps,
+  GovernedDirectionProps,
+  GovernedDrawerProps,
   GovernedDropdownMenuProps,
   GovernedEmptyMediaVariant,
   GovernedEmptyProps,
   GovernedFormControlProps,
   GovernedHoverCardProps,
   GovernedInputGroupProps,
-  GovernedNativeSelectProps,
   GovernedInputOtpProps,
   GovernedItemMediaVariant,
   GovernedItemProps,
   GovernedItemSize,
   GovernedItemVariant,
   GovernedKbdProps,
-  GovernedPopoverProps,
-  GovernedResizableProps,
-  GovernedScrollAreaProps,
-  GovernedSidebarProps,
-  GovernedSkeletonProps,
-  GovernedSelectProps,
-  GovernedSeparatorProps,
-  GovernedSpinnerProps,
-  GovernedSpinnerSize,
-  GovernedSwitchProps,
-  GovernedSwitchSize,
-  GovernedToasterProps,
   GovernedMenubarProps,
+  GovernedNativeSelectProps,
   GovernedNavigationMenuProps,
   GovernedPaginationProps,
   GovernedPanelRadius,
   GovernedPanelShadow,
-  GovernedStatusProps,
+  GovernedPopoverProps,
+  GovernedResizableProps,
+  GovernedScrollAreaProps,
+  GovernedSelectProps,
+  GovernedSeparatorProps,
+  GovernedSheetProps,
+  GovernedSidebarProps,
+  GovernedSkeletonProps,
+  GovernedSpinnerProps,
+  GovernedSpinnerSize,
   GovernedStatusIndicatorProps,
+  GovernedStatusProps,
   GovernedSurfaceProps,
+  GovernedSwitchProps,
+  GovernedSwitchSize,
   GovernedTableProps,
   GovernedTabsProps,
-  GovernedDataTableProps,
-  GovernedDialogProps,
-  GovernedSheetProps,
-  GovernedDrawerProps,
-  GovernedDirectionProps,
+  GovernedToasterProps,
   GovernedToggleGroupProps,
   GovernedToggleProps,
   GovernedToggleSize,
@@ -96,8 +119,8 @@ export {
   GOVERNED_CARD_SHADOWS,
   GOVERNED_PANEL_RADII,
   GOVERNED_PANEL_SHADOWS,
-  isGovernedCardLayoutSize,
   isGovernedAvatarSize,
+  isGovernedCardLayoutSize,
   isGovernedCardRadius,
   isGovernedCardShadow,
   isGovernedPanelRadius,
@@ -107,6 +130,28 @@ export {
   createGovernedDivSlot,
   createGovernedSpanSlot,
 } from "./create-governed-slot";
+// CSS governance contract — shared across appshell, metadata-ui, and the governance script.
+export type {
+  CssClassNamespace,
+  CssEntrypointManifestItem,
+  CssEntrypointPurpose,
+  CssManifest,
+  CssManifestViolation,
+  CssPropertyNamespace,
+} from "./css-manifest";
+export {
+  assertFixtureEntriesNotProductionSafe,
+  assertManifestSourceFiles,
+  assertNoDuplicateExportPaths,
+  validateManifest,
+} from "./css-manifest";
+export {
+  densityAttributeSelector,
+  densityFromAttribute,
+  densityToAttribute,
+  isDensity,
+  isDensityAttribute,
+} from "./density";
 // Authority types — re-exported from the design-system bridge.
 export type {
   AccessibilityContract,
@@ -166,8 +211,8 @@ export {
   componentContract,
   DENSITIES,
   DENSITY_ATTRIBUTES,
-  densityContract,
   DESIGN_AUTHORITY_DOMAINS,
+  densityContract,
   designSystemAuthorityContract,
   exampleContract,
   exportContract,
@@ -194,32 +239,6 @@ export {
   VARIANT_INTENTS,
   variantContract,
 } from "./design-system";
-export {
-  resolveAppShellClassName,
-  resolveAppShellSlotClassName,
-  resolveAppShellVariant,
-  resolveAuthorityRecipeSlotClassName,
-  resolveMetadataUiClassName,
-  resolveMetadataUiSlotClassName,
-  resolveMetadataUiVariant,
-  APP_SHELL_RECIPE_SLOTS,
-  APP_SHELL_SLOT_CLASS_NAMES,
-  METADATA_UI_RECIPE_SLOTS,
-  METADATA_UI_SLOT_CLASS_NAMES,
-  type AppShellRecipeSlot,
-  type AuthorityRecipeName,
-  type MetadataUiRecipeSlot,
-  isAppShellRecipeSlot,
-  isAuthorityRecipeName,
-  isMetadataUiRecipeSlot,
-} from "./authority-recipe";
-export {
-  densityAttributeSelector,
-  densityFromAttribute,
-  densityToAttribute,
-  isDensity,
-  isDensityAttribute,
-} from "./density";
 export { applyGovernedPresentation } from "./governed-render";
 export {
   assertMotionPolicyCoverageStrict,
@@ -235,12 +254,6 @@ export type {
   PrimitiveGovernanceInput,
   PrimitiveGovernanceResult,
 } from "./primitive-contract";
-export { resolvePrimitiveGovernance } from "./primitive-governance";
-export { resolvePrimitiveGovernance as resolvePrimitiveGovernanceFromCanonical } from "./resolve-primitive-governance";
-export {
-  assertGuardedClassName,
-  guardClassName,
-} from "./class-name-guard";
 export {
   classNamePolicyError,
   invalidSlotError,
@@ -249,13 +262,7 @@ export {
   primitiveGovernanceError,
   unknownPrimitiveError,
 } from "./primitive-errors";
-export {
-  CORE_PRIMITIVE_NAMES,
-  getPrimitiveRegistryEntry,
-  PRIMITIVE_REGISTRY_ENTRIES,
-  type CorePrimitiveName,
-  type PrimitiveRegistryEntry,
-} from "./primitive-registry-meta";
+export { resolvePrimitiveGovernance } from "./primitive-governance";
 export type { StockShadcnPendingFile } from "./primitive-registry";
 export {
   assertComponentExportCoverage,
@@ -269,7 +276,13 @@ export {
   PRIMARY_UI_EXPORTS,
   STOCK_SHADCN_PENDING,
 } from "./primitive-registry";
-
+export {
+  CORE_PRIMITIVE_NAMES,
+  type CorePrimitiveName,
+  getPrimitiveRegistryEntry,
+  PRIMITIVE_REGISTRY_ENTRIES,
+  type PrimitiveRegistryEntry,
+} from "./primitive-registry-meta";
 export {
   resolveBadgeClassName,
   resolveButtonClassName,
@@ -284,18 +297,19 @@ export {
   resolveToggleClassName,
 } from "./recipe";
 export {
+  APP_SHELL_VARIANT_AXES,
   BADGE_VARIANT_AXES,
   BUTTON_VARIANT_AXES,
   CARD_VARIANT_AXES,
   FORM_CONTROL_VARIANT_AXES,
   GOVERNED_RECIPE_VARIANT_AXES,
-  APP_SHELL_VARIANT_AXES,
-  METADATA_UI_VARIANT_AXES,
   getRecipeVariantAxes,
+  METADATA_UI_VARIANT_AXES,
   STATUS_VARIANT_AXES,
   SURFACE_VARIANT_AXES,
   TABLE_VARIANT_AXES,
 } from "./recipe-coverage";
+export { resolvePrimitiveGovernance as resolvePrimitiveGovernanceFromCanonical } from "./resolve-primitive-governance";
 export {
   assertSlotContract,
   assertSlotRole,
@@ -319,21 +333,6 @@ export {
   type StockButtonSize,
   type StockButtonVisual,
 } from "./stock-shadcn-compat";
-// CSS governance contract — shared across appshell, metadata-ui, and the governance script.
-export type {
-  CssClassNamespace,
-  CssEntrypointManifestItem,
-  CssEntrypointPurpose,
-  CssManifest,
-  CssManifestViolation,
-  CssPropertyNamespace,
-} from "./css-manifest";
-export {
-  assertFixtureEntriesNotProductionSafe,
-  assertManifestSourceFiles,
-  assertNoDuplicateExportPaths,
-  validateManifest,
-} from "./css-manifest";
 // Governed UI vocabulary.
 export type {
   ClassNamePolicyResult,

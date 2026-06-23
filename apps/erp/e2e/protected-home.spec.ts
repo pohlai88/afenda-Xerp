@@ -46,7 +46,8 @@ test.describe("protected home dashboard", () => {
     );
     testInfo.annotations.push({
       type: "fixture",
-      description: "Requires pnpm db:bootstrap:local && pnpm auth:bootstrap:dev",
+      description:
+        "Requires pnpm db:bootstrap:local && pnpm auth:bootstrap:dev",
     });
   });
 
@@ -67,7 +68,9 @@ test.describe("protected home dashboard", () => {
     await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible({
       timeout: 30_000,
     });
-    await expect(page.getByRole("heading", { name: "Workspace home" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Workspace home" })
+    ).toBeVisible();
     await expect(
       page.getByRole("region", { name: "Workspace dashboard" })
     ).toBeVisible();
@@ -81,19 +84,25 @@ test.describe("public dev harness", () => {
   test("appshell demo redirects to the canvas harness", async ({ page }) => {
     await page.goto("/appshell-demo");
     await expect(page).toHaveURL(/\/appshell-canvas(?:\?.*)?$/);
-    await expect(page.getByRole("heading", { name: "Dashboard canvas" })).toBeVisible({
+    await expect(
+      page.getByRole("heading", { name: "Dashboard canvas" })
+    ).toBeVisible({
       timeout: 30_000,
     });
   });
 
-  test("unsigned appshell canvas falls back to default layout", async ({ page }) => {
+  test("unsigned appshell canvas falls back to default layout", async ({
+    page,
+  }) => {
     const layoutResponsePromise = waitForDashboardLayoutGet(page);
     await page.goto("/appshell-canvas", { waitUntil: "domcontentloaded" });
     const layoutResponse = await layoutResponsePromise;
 
     expect(layoutResponse.status()).toBe(401);
 
-    await expect(page.getByRole("heading", { name: "Dashboard canvas" })).toBeVisible({
+    await expect(
+      page.getByRole("heading", { name: "Dashboard canvas" })
+    ).toBeVisible({
       timeout: 30_000,
     });
     await expect(

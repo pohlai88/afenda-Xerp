@@ -130,8 +130,7 @@ export const toneEmphasisClasses: Record<
   critical: {
     solid:
       "border-(--afenda-status-tone-critical-border) bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground) focus-visible:ring-(--afenda-status-tone-critical-focus)/35",
-    soft:
-      "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground)",
+    soft: "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground)",
     outline:
       "border-(--afenda-status-tone-critical-border) text-(--afenda-status-tone-critical-foreground)",
     ghost: "text-(--afenda-status-tone-critical-foreground)",
@@ -139,8 +138,7 @@ export const toneEmphasisClasses: Record<
   pending: {
     solid:
       "border-(--afenda-status-tone-pending-border) bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground) focus-visible:ring-(--afenda-status-tone-pending-focus)/35",
-    soft:
-      "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground)",
+    soft: "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground)",
     outline:
       "border-(--afenda-status-tone-pending-border) text-(--afenda-status-tone-pending-foreground)",
     ghost: "text-(--afenda-status-tone-pending-foreground)",
@@ -198,8 +196,7 @@ export const badgeToneEmphasis: Record<
   critical: {
     solid:
       "border-(--afenda-status-tone-critical-border) bg-(--afenda-status-tone-critical-solid) text-(--afenda-status-tone-critical-solid-foreground) [a]:hover:opacity-90",
-    soft:
-      "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground) [a]:hover:opacity-90",
+    soft: "bg-(--afenda-status-tone-critical-surface) text-(--afenda-status-tone-critical-foreground) [a]:hover:opacity-90",
     outline:
       "border-(--afenda-status-tone-critical-border) text-(--afenda-status-tone-critical-foreground) [a]:hover:bg-(--afenda-status-tone-critical-surface)",
     ghost:
@@ -208,8 +205,7 @@ export const badgeToneEmphasis: Record<
   pending: {
     solid:
       "border-(--afenda-status-tone-pending-border) bg-(--afenda-status-tone-pending-solid) text-(--afenda-status-tone-pending-solid-foreground) [a]:hover:opacity-90",
-    soft:
-      "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground) [a]:hover:opacity-90",
+    soft: "bg-(--afenda-status-tone-pending-surface) text-(--afenda-status-tone-pending-foreground) [a]:hover:opacity-90",
     outline:
       "border-(--afenda-status-tone-pending-border) text-(--afenda-status-tone-pending-foreground) [a]:hover:bg-(--afenda-status-tone-pending-surface)",
     ghost:

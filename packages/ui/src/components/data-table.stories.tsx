@@ -23,6 +23,10 @@ import {
 } from "lucide-react";
 import { type ReactNode, useMemo, useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedTableStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
@@ -959,12 +963,7 @@ function InvoicePlaygroundDemo({
 
   return (
     <DataTableShell width="xl">
-      <DataTable
-        density={density}
-        size={size}
-        state={state}
-        table={table}
-      />
+      <DataTable density={density} size={size} state={state} table={table} />
     </DataTableShell>
   );
 }
@@ -1005,20 +1004,16 @@ const meta = {
   args: {
     state: "ready",
   },
-} satisfies Meta<typeof DataTable>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic patterns ────────────────────────────────────────────────────────
 
 export const Playground: Story = {
   render: (args) => (
-    <InvoicePlaygroundDemo
-      density={args.density}
-      size={args.size}
-      state={args.state}
-    />
+    <InvoicePlaygroundDemo {...governedTableStoryProps(args)} />
   ),
 };
 
@@ -1223,7 +1218,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Native `<table>` semantics preserved via governed Table. Empty state uses `role=\"status\"` for screen reader announcement. Sortable headers use native `<button>` triggers.",
+          'Native `<table>` semantics preserved via governed Table. Empty state uses `role="status"` for screen reader announcement. Sortable headers use native `<button>` triggers.',
       },
     },
   },
@@ -1325,9 +1320,7 @@ export const PurchaseOrders: Story = {
               : row.original.status === "open"
                 ? "warning"
                 : "info";
-          return (
-            <StatusCell label={row.original.status} tone={tone} />
-          );
+          return <StatusCell label={row.original.status} tone={tone} />;
         },
       },
       {
@@ -1359,9 +1352,7 @@ export const EmployeeDirectory: Story = {
               : row.original.status === "on-leave"
                 ? "warning"
                 : "neutral";
-          return (
-            <StatusCell label={row.original.status} tone={tone} />
-          );
+          return <StatusCell label={row.original.status} tone={tone} />;
         },
       },
     ];
@@ -1425,9 +1416,7 @@ export const VendorMaster: Story = {
               : row.original.rating === "review"
                 ? "warning"
                 : "neutral";
-          return (
-            <StatusCell label={row.original.rating} tone={tone} />
-          );
+          return <StatusCell label={row.original.rating} tone={tone} />;
         },
       },
     ];
@@ -1509,9 +1498,7 @@ export const ExpenseClaims: Story = {
               : row.original.status === "rejected"
                 ? "danger"
                 : "warning";
-          return (
-            <StatusCell label={row.original.status} tone={tone} />
-          );
+          return <StatusCell label={row.original.status} tone={tone} />;
         },
       },
     ];
@@ -1610,9 +1597,7 @@ export const ShipmentTracking: Story = {
                 : row.original.status === "exception"
                   ? "danger"
                   : "warning";
-          return (
-            <StatusCell label={row.original.status} tone={tone} />
-          );
+          return <StatusCell label={row.original.status} tone={tone} />;
         },
       },
       {
@@ -1656,9 +1641,7 @@ export const ApprovalQueue: Story = {
               : row.original.priority === "normal"
                 ? "info"
                 : "neutral";
-          return (
-            <StatusCell label={row.original.priority} tone={tone} />
-          );
+          return <StatusCell label={row.original.priority} tone={tone} />;
         },
       },
     ];

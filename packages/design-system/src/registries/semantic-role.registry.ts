@@ -7,7 +7,8 @@ export const TOKEN_LIFECYCLE = {
   experimental: "experimental",
 } as const;
 
-export type TokenLifecycle = (typeof TOKEN_LIFECYCLE)[keyof typeof TOKEN_LIFECYCLE];
+export type TokenLifecycle =
+  (typeof TOKEN_LIFECYCLE)[keyof typeof TOKEN_LIFECYCLE];
 
 export interface SemanticRoleEntry {
   readonly category: string;
@@ -31,7 +32,9 @@ function buildSemanticRoles(): readonly SemanticRoleEntry[] {
       description: token.description,
       cssVariable: token.cssVariable,
       value: token.value,
-      lifecycle: token.stable ? TOKEN_LIFECYCLE.stable : TOKEN_LIFECYCLE.experimental,
+      lifecycle: token.stable
+        ? TOKEN_LIFECYCLE.stable
+        : TOKEN_LIFECYCLE.experimental,
       owner: "@afenda/design-system" as const,
       token: token.name,
     }));

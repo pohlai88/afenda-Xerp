@@ -11,7 +11,21 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
+import {
+  collectArchitectureSilenceViolations,
+  collectForbiddenAccountingViolations,
+  collectForbiddenAnyViolations,
+  collectForbiddenBusinessModulePathViolations,
+  collectGlossaryViolations,
+  collectGovernanceTestPresenceViolations,
+  collectSessionTenantIdViolations,
+  collectTodoAsCompletionViolations,
+  type DosProhibitionsEnforcementViolation,
+} from "./lib/multi-tenancy-dos-prohibitions-enforcement.mts";
 import {
   MULTI_TENANCY_DOC_DOS_MARKERS,
   MULTI_TENANCY_DOC_PROHIBITIONS_MARKERS,
@@ -22,21 +36,6 @@ import {
   MULTI_TENANCY_PROHIBITION_ENFORCEMENT,
   TIP_007_012_DOS_PROHIBITIONS_SECTION,
 } from "./multi-tenancy-dos-prohibitions-registry.mts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
-} from "./delivery-evidence-surface-registry.mts";
-import {
-  collectArchitectureSilenceViolations,
-  collectForbiddenAccountingViolations,
-  collectForbiddenAnyViolations,
-  collectForbiddenBusinessModulePathViolations,
-  collectGovernanceTestPresenceViolations,
-  collectGlossaryViolations,
-  collectSessionTenantIdViolations,
-  collectTodoAsCompletionViolations,
-  type DosProhibitionsEnforcementViolation,
-} from "./lib/multi-tenancy-dos-prohibitions-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -213,11 +212,11 @@ function collectPackageJsonViolations(
     });
   }
 
-  const qualityChainMatch = packageJsonContent.match(
-    /"quality":\s*"([^"]+)"/
-  );
+  const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
   const qualityChain = qualityChainMatch?.[1] ?? "";
-  const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+  const glossaryIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-glossary-first"
+  );
   const auditIndex = qualityChain.indexOf(
     "quality:multi-tenancy-existing-state-audit"
   );
@@ -249,11 +248,15 @@ function collectPackageJsonViolations(
   const testingVerificationAcceptanceIndex = qualityChain.indexOf(
     "quality:multi-tenancy-testing-verification-acceptance"
   );
-  const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+  const dosIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-dos-prohibitions"
+  );
   const finalOutputIndex = qualityChain.indexOf(
     "quality:multi-tenancy-final-output-format"
   );
-  const deliveryIndex = qualityChain.indexOf("quality:delivery-evidence-surface");
+  const deliveryIndex = qualityChain.indexOf(
+    "quality:delivery-evidence-surface"
+  );
 
   if (
     glossaryIndex === -1 ||
@@ -299,7 +302,10 @@ function collectPackageJsonViolations(
 
 function collectEnforcementLibViolations(): MultiTenancyDosProhibitionsViolation[] {
   const violations: MultiTenancyDosProhibitionsViolation[] = [];
-  const enforcementLibPath = join(repoRoot, MULTI_TENANCY_DOS_PROHIBITIONS_ENFORCEMENT_LIB);
+  const enforcementLibPath = join(
+    repoRoot,
+    MULTI_TENANCY_DOS_PROHIBITIONS_ENFORCEMENT_LIB
+  );
   const gatePath = join(repoRoot, MULTI_TENANCY_DOS_PROHIBITIONS_GATE);
 
   if (!existsSync(enforcementLibPath)) {

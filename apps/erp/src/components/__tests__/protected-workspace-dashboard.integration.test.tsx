@@ -1,4 +1,3 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import {
   DashboardWidgetRenderContextProvider,
   DEFAULT_DASHBOARD_LAYOUT,
@@ -6,24 +5,24 @@ import {
   serializeDashboardWidgetRenderContext,
 } from "@afenda/appshell";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-
-import { ProtectedWorkspaceDashboard } from "../protected-workspace-dashboard.client";
-import { LayoutSaveTrigger } from "./layout-save-trigger.harness";
-import { ProtectedHomeLayoutHarness } from "./protected-home-layout.harness";
 import { ApiPolicyGateError } from "@/lib/api/api-policy-gate.error";
 import {
   fetchWorkspaceDashboardLayout,
   saveWorkspaceDashboardLayout,
 } from "@/lib/api/dashboard-layout.client";
-import { DEV_WORKSPACE_API_SCOPE } from "@/lib/workspace/dev-workspace-scope";
 import {
   createDashboardRbacOperatingContextFixture,
   seedDashboardRbacAuthorizationStore,
 } from "@/lib/workspace/__tests__/dashboard-rbac.fixture";
+import { DEV_WORKSPACE_API_SCOPE } from "@/lib/workspace/dev-workspace-scope";
 import { resolveWorkspaceDashboardCapabilitiesFromOperatingContext } from "@/lib/workspace/resolve-dashboard-widget-render-context.server";
 import { WorkspaceApiScopeProvider } from "@/lib/workspace/workspace-api-scope.context";
 import { WorkspaceDashboardCapabilitiesProvider } from "@/lib/workspace/workspace-dashboard-capabilities.context";
+import { ProtectedWorkspaceDashboard } from "../protected-workspace-dashboard.client";
+import { LayoutSaveTrigger } from "./layout-save-trigger.harness";
+import { ProtectedHomeLayoutHarness } from "./protected-home-layout.harness";
 
 vi.mock("@/lib/api/dashboard-layout.client", () => ({
   fetchWorkspaceDashboardLayout: vi.fn(async () => ({
@@ -156,8 +155,12 @@ describe("ProtectedWorkspaceDashboard integration", () => {
             PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT
           )}
         >
-          <WorkspaceDashboardCapabilitiesProvider value={{ canEditLayout: true }}>
-            <ProtectedHomeLayoutHarness nextLayoutForSave={ALT_DASHBOARD_LAYOUT} />
+          <WorkspaceDashboardCapabilitiesProvider
+            value={{ canEditLayout: true }}
+          >
+            <ProtectedHomeLayoutHarness
+              nextLayoutForSave={ALT_DASHBOARD_LAYOUT}
+            />
           </WorkspaceDashboardCapabilitiesProvider>
         </DashboardWidgetRenderContextProvider>
       </WorkspaceApiScopeProvider>
@@ -196,7 +199,9 @@ describe("ProtectedWorkspaceDashboard integration", () => {
             PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT
           )}
         >
-          <WorkspaceDashboardCapabilitiesProvider value={{ canEditLayout: true }}>
+          <WorkspaceDashboardCapabilitiesProvider
+            value={{ canEditLayout: true }}
+          >
             <ProtectedHomeLayoutHarness />
           </WorkspaceDashboardCapabilitiesProvider>
         </DashboardWidgetRenderContextProvider>

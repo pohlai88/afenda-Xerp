@@ -4,7 +4,7 @@ import type { GovernedDirectionProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Direction } from "radix-ui";
-import * as React from "react";
+import type * as React from "react";
 
 const DIRECTION_RECIPE_NAME = "surface" as const;
 
@@ -19,11 +19,13 @@ export interface DirectionProviderProps
     >,
     GovernedDirectionProps {
   readonly className?: string;
+  readonly dir?: React.ComponentProps<
+    typeof Direction.DirectionProvider
+  >["dir"];
   /** Canonical text direction — wins over `dir` when both are supplied. */
   readonly direction?: React.ComponentProps<
     typeof Direction.DirectionProvider
   >["dir"];
-  readonly dir?: React.ComponentProps<typeof Direction.DirectionProvider>["dir"];
 }
 
 function DirectionProvider({

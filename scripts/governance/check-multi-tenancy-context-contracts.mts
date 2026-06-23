@@ -8,7 +8,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
+import {
+  type ContextContractsEnforcementViolation,
+  collectContextContractsViolations,
+} from "./lib/multi-tenancy-context-contracts-enforcement.mts";
 import {
   MULTI_TENANCY_CONTEXT_CONTRACTS_ENFORCEMENT_LIB,
   MULTI_TENANCY_CONTEXT_CONTRACTS_GATE,
@@ -16,14 +23,6 @@ import {
   MULTI_TENANCY_DOC_CONTEXT_CONTRACTS_MARKERS,
   TIP_007_012_CONTEXT_CONTRACTS_SECTION,
 } from "./multi-tenancy-context-contracts-registry.mts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
-} from "./delivery-evidence-surface-registry.mts";
-import {
-  collectContextContractsViolations,
-  type ContextContractsEnforcementViolation,
-} from "./lib/multi-tenancy-context-contracts-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -119,7 +118,9 @@ export function checkMultiTenancyContextContracts(): MultiTenancyContextContract
       message: `${TIP_007_012_DELIVERY_DOC} is required`,
     });
   } else {
-    if (!deliveryContent.includes(MULTI_TENANCY_CONTEXT_CONTRACTS_SURFACE_RULE)) {
+    if (
+      !deliveryContent.includes(MULTI_TENANCY_CONTEXT_CONTRACTS_SURFACE_RULE)
+    ) {
       violations.push({
         rule: "delivery-surface-rule-missing",
         file: deliveryDocPath,
@@ -166,9 +167,13 @@ export function checkMultiTenancyContextContracts(): MultiTenancyContextContract
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -184,7 +189,9 @@ export function checkMultiTenancyContextContracts(): MultiTenancyContextContract
     const tenantUrlIndex = qualityChain.indexOf(
       "quality:multi-tenancy-tenant-url-resolver"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||

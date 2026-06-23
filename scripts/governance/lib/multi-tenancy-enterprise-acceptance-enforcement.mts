@@ -13,9 +13,9 @@ import {
 } from "../multi-tenancy-enterprise-acceptance-registry.mts";
 
 export interface EnterpriseAcceptanceEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -101,7 +101,10 @@ export function collectEnterpriseAcceptanceViolations(
       }
     }
 
-    if (criterion.testFiles === undefined || criterion.coverageMarkers === undefined) {
+    if (
+      criterion.testFiles === undefined ||
+      criterion.coverageMarkers === undefined
+    ) {
       continue;
     }
 

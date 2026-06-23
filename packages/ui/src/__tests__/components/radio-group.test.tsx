@@ -22,11 +22,14 @@ describe("RadioGroup governance", () => {
       </RadioGroup>
     );
 
-    expectGovernedPrimitive(screen.getByRole("radiogroup", { name: "Priority" }), {
-      component: "RadioGroup",
-      slot: "radio-group",
-      recipe: "form-control",
-    });
+    expectGovernedPrimitive(
+      screen.getByRole("radiogroup", { name: "Priority" }),
+      {
+        component: "RadioGroup",
+        slot: "radio-group",
+        recipe: "form-control",
+      }
+    );
     expect(screen.getByRole("radio", { name: "Medium" })).toHaveAttribute(
       "data-slot",
       "radio-group-item"
@@ -101,12 +104,15 @@ describe("RadioGroup governance", () => {
       </RadioGroup>
     );
 
-    expectGovernedPrimitive(screen.getByRole("radiogroup", { name: "Priority" }), {
-      component: "RadioGroup",
-      slot: "radio-group",
-      recipe: "form-control",
-      state: "loading",
-    });
+    expectGovernedPrimitive(
+      screen.getByRole("radiogroup", { name: "Priority" }),
+      {
+        component: "RadioGroup",
+        slot: "radio-group",
+        recipe: "form-control",
+        state: "loading",
+      }
+    );
   });
 
   it("forwards ref on RadioGroup root and RadioGroupItem", () => {
@@ -119,7 +125,9 @@ describe("RadioGroup governance", () => {
       </RadioGroup>
     );
 
-    expect(groupRef.current).toBe(screen.getByRole("radiogroup", { name: "Priority" }));
+    expect(groupRef.current).toBe(
+      screen.getByRole("radiogroup", { name: "Priority" })
+    );
     expect(itemRef.current).toBe(screen.getByRole("radio", { name: "Medium" }));
   });
 

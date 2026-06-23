@@ -34,24 +34,54 @@ export const defaultStatisticsLineTrendsCards = [
   {
     title: "Daily orders",
     series: [
-      { key: "ThisWeek", label: "This week", value: 574, color: "var(--chart-1)" },
-      { key: "LastWeek", label: "Last week", value: 455, color: "var(--chart-2)" },
+      {
+        key: "ThisWeek",
+        label: "This week",
+        value: 574,
+        color: "var(--chart-1)",
+      },
+      {
+        key: "LastWeek",
+        label: "Last week",
+        value: 455,
+        color: "var(--chart-2)",
+      },
     ],
     data: ordersTrendData,
   },
   {
     title: "Gross revenue",
     series: [
-      { key: "ThisWeek", label: "This week", value: 25_840, color: "var(--chart-3)" },
-      { key: "LastWeek", label: "Last week", value: 20_470, color: "var(--chart-4)" },
+      {
+        key: "ThisWeek",
+        label: "This week",
+        value: 25_840,
+        color: "var(--chart-3)",
+      },
+      {
+        key: "LastWeek",
+        label: "Last week",
+        value: 20_470,
+        color: "var(--chart-4)",
+      },
     ],
     data: revenueTrendData,
   },
   {
     title: "Inventory movement",
     series: [
-      { key: "Inbound", label: "Inbound", value: 1310, color: "var(--chart-2)" },
-      { key: "Outbound", label: "Outbound", value: 1190, color: "var(--chart-5)" },
+      {
+        key: "Inbound",
+        label: "Inbound",
+        value: 1310,
+        color: "var(--chart-2)",
+      },
+      {
+        key: "Outbound",
+        label: "Outbound",
+        value: 1190,
+        color: "var(--chart-5)",
+      },
     ],
     data: inventoryTrendData,
   },

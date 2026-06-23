@@ -91,19 +91,18 @@ function createBreadcrumbLiSlot(
   displayName: string,
   slot: typeof BREADCRUMB_SLOT_ROLES.item
 ) {
-  const BreadcrumbLiSlot = React.forwardRef<
-    HTMLLIElement,
-    BreadcrumbItemProps
-  >(({ className, ...props }, ref) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Breadcrumb",
-      recipeName: BREADCRUMB_RECIPE_NAME,
-      slot,
-      className,
-    });
+  const BreadcrumbLiSlot = React.forwardRef<HTMLLIElement, BreadcrumbItemProps>(
+    ({ className, ...props }, ref) => {
+      const governed = resolvePrimitiveGovernance({
+        componentName: "Breadcrumb",
+        recipeName: BREADCRUMB_RECIPE_NAME,
+        slot,
+        className,
+      });
 
-    return <li ref={ref} {...applyGovernedPresentation(props, governed)} />;
-  });
+      return <li ref={ref} {...applyGovernedPresentation(props, governed)} />;
+    }
+  );
 
   BreadcrumbLiSlot.displayName = displayName;
 

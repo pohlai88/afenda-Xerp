@@ -36,11 +36,7 @@ describe("form-leaf primitive governance", () => {
 
     it("keeps governed data attributes authoritative", () => {
       render(
-        <Input
-          aria-label="Email"
-          data-recipe="override"
-          data-slot="override"
-        />
+        <Input aria-label="Email" data-recipe="override" data-slot="override" />
       );
       const el = screen.getByRole("textbox", { name: "Email" });
       expectGovernedDataAuthority(el, {

@@ -24,37 +24,26 @@ export interface LabelProps
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   LabelProps
->(
-  (
-    {
-      className,
-      state,
-      density = "standard",
-      size = "md",
-      ...props
-    },
-    ref
-  ) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "Label",
-      recipeName: LABEL_RECIPE_NAME,
-      variant: { density, size },
-      state,
-      slot: LABEL_SLOT_ROLES.root,
-      className,
-    });
+>(({ className, state, density = "standard", size = "md", ...props }, ref) => {
+  const governed = resolvePrimitiveGovernance({
+    componentName: "Label",
+    recipeName: LABEL_RECIPE_NAME,
+    variant: { density, size },
+    state,
+    slot: LABEL_SLOT_ROLES.root,
+    className,
+  });
 
-    return (
-      <LabelPrimitive.Root
-        ref={ref}
-        {...applyGovernedPresentation(props, governed, {
-          "data-density": density,
-          "data-size": size,
-        })}
-      />
-    );
-  }
-);
+  return (
+    <LabelPrimitive.Root
+      ref={ref}
+      {...applyGovernedPresentation(props, governed, {
+        "data-density": density,
+        "data-size": size,
+      })}
+    />
+  );
+});
 
 Label.displayName = "Label";
 

@@ -106,7 +106,11 @@ export const VerticalOrientation: Story = {
   render: () => (
     <CarouselFrame width="sm">
       <StoryStack className="h-96">
-        <Carousel aria-label="Vertical numbered slides" className="h-full" orientation="vertical">
+        <Carousel
+          aria-label="Vertical numbered slides"
+          className="h-full"
+          orientation="vertical"
+        >
           <CarouselContent>
             {Array.from({ length: 5 }, (_, index) => (
               <NumberedSlideCard index={index} key={`v-slide-${index}`} />
@@ -261,7 +265,7 @@ export const KpiMetricsDashboard: Story = {
                               className="size-4 text-danger"
                             />
                           )}
-                          <span className="tabular-nums text-muted-foreground text-xs">
+                          <span className="text-muted-foreground text-xs tabular-nums">
                             {kpi.delta} vs last month
                           </span>
                         </StoryRow>

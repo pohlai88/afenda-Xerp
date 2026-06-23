@@ -6,16 +6,6 @@ export function getPackageName(): typeof PACKAGE_NAME {
 }
 
 export {
-  PERMISSIONS_BARREL_DEPENDENCY_RULE,
-  PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES,
-  PERMISSIONS_LEGACY_FLAT_MODULES,
-  PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES,
-  PERMISSIONS_SCOPE_GRANTS_BARREL_DIRECTORIES,
-  PERMISSIONS_SCOPE_GRANTS_MODULES,
-  type PermissionsImplementedMembershipScope,
-  type PermissionsScopeGrantsModule,
-} from "./permissions-scope-grants-registry.js";
-export {
   assertPermissionKey,
   createPermissionKey,
   InvalidPermissionKeyError,
@@ -66,9 +56,9 @@ export {
 } from "./database/database-policy-data-source.js";
 export {
   assertRegisteredPermissionKey,
+  checkPermission,
   extractPermissionAction,
   extractPermissionDomain,
-  checkPermission,
   InMemoryPermissionDataSource,
   isRegisteredPermissionKey,
   isRoleActive,
@@ -78,29 +68,23 @@ export {
   type PermissionDataSource,
   type PermissionTargetType,
   type RegisteredPermissionKey,
-  requirePermission,
-  resolveBoundaryPermissionKey,
   type RoleContract,
   type RolePermissionAssignment,
   type RoleScope,
   type RoleStatus,
+  requirePermission,
+  resolveBoundaryPermissionKey,
 } from "./grants/index.js";
 export {
-  isMembershipActive,
-  isDeniedScopedMembershipResolution,
-  isMatchedScopedMembershipResolution,
-  membershipMatchesCompany,
-  membershipMatchesGrantScope,
-  membershipMatchesOrganization,
-  resolvePermissionScopeContext,
-  resolveScopedMembership,
-  selectNarrowestMatchingMembership,
-  type MembershipContract,
-  type MembershipScopeType,
-  type MembershipStatus,
-  type ResolvePermissionScopeInput,
-  type ScopedMembershipResolution,
-} from "./scope/index.js";
+  PERMISSIONS_BARREL_DEPENDENCY_RULE,
+  PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES,
+  PERMISSIONS_LEGACY_FLAT_MODULES,
+  PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES,
+  PERMISSIONS_SCOPE_GRANTS_BARREL_DIRECTORIES,
+  PERMISSIONS_SCOPE_GRANTS_MODULES,
+  type PermissionsImplementedMembershipScope,
+  type PermissionsScopeGrantsModule,
+} from "./permissions-scope-grants-registry.js";
 export {
   isExecutablePolicyDecision,
   isPolicyActive,
@@ -134,6 +118,22 @@ export {
   productionPolicyEvaluationOptions,
   requirePolicyDecision,
 } from "./policy-engine.js";
+export {
+  isDeniedScopedMembershipResolution,
+  isMatchedScopedMembershipResolution,
+  isMembershipActive,
+  type MembershipContract,
+  type MembershipScopeType,
+  type MembershipStatus,
+  membershipMatchesCompany,
+  membershipMatchesGrantScope,
+  membershipMatchesOrganization,
+  type ResolvePermissionScopeInput,
+  resolvePermissionScopeContext,
+  resolveScopedMembership,
+  type ScopedMembershipResolution,
+  selectNarrowestMatchingMembership,
+} from "./scope/index.js";
 export {
   getTenantAccessBlockReason,
   isTenantOperational,

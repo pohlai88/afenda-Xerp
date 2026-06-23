@@ -83,11 +83,7 @@ function FormPlaygroundDemo({
         >
           <FormLabel htmlFor="form-playground">Purchase order total</FormLabel>
           <FormControl>
-            <Input
-              id="form-playground"
-              placeholder="12,450.00"
-              type="number"
-            />
+            <Input id="form-playground" placeholder="12,450.00" type="number" />
           </FormControl>
           <FormDescription>
             Adjust orientation, density, size, and governed state from controls.
@@ -235,7 +231,9 @@ export const GovernanceSlotMap: Story = {
         </p>
         <Form data-testid="slot-map-form">
           <FormItem data-testid="slot-map-item">
-            <FormLabel htmlFor="slot-map-email">Inspect slot attributes</FormLabel>
+            <FormLabel htmlFor="slot-map-email">
+              Inspect slot attributes
+            </FormLabel>
             <FormControl data-testid="slot-map-control">
               <Input id="slot-map-email" placeholder="name@company.com" />
             </FormControl>

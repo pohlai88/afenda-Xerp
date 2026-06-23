@@ -21,7 +21,9 @@ describe("primitive class-name policy", () => {
 
   it("rejects arbitrary visual values and gradient slop", () => {
     expect(guardClassName("w-[123px]").valid).toBe(false);
-    expect(guardClassName("bg-gradient-to-r from-purple-500").valid).toBe(false);
+    expect(guardClassName("bg-gradient-to-r from-purple-500").valid).toBe(
+      false
+    );
     expect(guardClassName("backdrop-blur-md").valid).toBe(false);
     expect(guardClassName("blur-[2px] outline-[3px]").valid).toBe(false);
   });

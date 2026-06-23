@@ -1,5 +1,12 @@
-import { AppShell, DashboardWidgetRenderContextProvider } from "@afenda/appshell";
-import { getAfendaAuthSession, isAfendaAuthSessionLinked, toAfendaAuthIdentity } from "@afenda/auth";
+import {
+  AppShell,
+  DashboardWidgetRenderContextProvider,
+} from "@afenda/appshell";
+import {
+  getAfendaAuthSession,
+  isAfendaAuthSessionLinked,
+  toAfendaAuthIdentity,
+} from "@afenda/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
@@ -12,15 +19,15 @@ import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operat
 import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-operating-context";
 import { internalErpMetadata } from "@/lib/metadata/site-metadata";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
-import { toWorkspaceApiScope } from "@/lib/workspace/to-workspace-api-scope";
 import {
   emptyDashboardWidgetRenderContext,
   resolveDashboardWidgetRenderContextFromOperatingContext,
   resolveWorkspaceDashboardCapabilitiesFromOperatingContext,
 } from "@/lib/workspace/resolve-dashboard-widget-render-context.server";
+import { toWorkspaceApiScope } from "@/lib/workspace/to-workspace-api-scope";
+import { WorkspaceApiScopeBoundary } from "@/lib/workspace/workspace-api-scope-boundary.client";
 import { WorkspaceDashboardCapabilitiesProvider } from "@/lib/workspace/workspace-dashboard-capabilities.context";
 import { READONLY_WORKSPACE_DASHBOARD_CAPABILITIES } from "@/lib/workspace/workspace-dashboard-capabilities.contract";
-import { WorkspaceApiScopeBoundary } from "@/lib/workspace/workspace-api-scope-boundary.client";
 
 export const metadata = internalErpMetadata;
 

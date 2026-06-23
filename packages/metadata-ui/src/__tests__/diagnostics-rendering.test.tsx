@@ -6,12 +6,12 @@ import {
   MetadataDiagnosticsPanel,
   MetadataRenderTrace,
 } from "../diagnostics/index.js";
-import { createMetadataUiRenderContext } from "../runtime/index.js";
 import {
   sampleDiagnosticsRenderContext,
   sampleDiagnosticsRuntimeContext,
   sampleRenderContext,
 } from "../fixtures/sample-runtime-context.fixture.js";
+import { createMetadataUiRenderContext } from "../runtime/index.js";
 
 describe("diagnostics rendering", () => {
   const snapshot = createMetadataDiagnosticsSnapshot(

@@ -55,9 +55,7 @@ export function normalizeAfendaAuthSession(
   };
 }
 
-export function isAfendaAuthSessionLinked(
-  session: AfendaAuthSession
-): boolean {
+export function isAfendaAuthSessionLinked(session: AfendaAuthSession): boolean {
   return session.user.linkStatus === "linked" && session.user.userId !== null;
 }
 

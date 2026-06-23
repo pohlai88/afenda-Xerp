@@ -9,7 +9,11 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
-import { Area, AreaChart, XAxis } from "recharts";
+import {
+  LazyArea as Area,
+  LazyAreaChart as AreaChart,
+  LazyXAxis as XAxis,
+} from "../../charts/recharts-lazy.client";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
@@ -84,6 +88,7 @@ export function StatisticsActivityCard() {
               <ChartContainer config={salesGrowthChartConfig}>
                 <AreaChart
                   accessibilityLayer
+                  aria-hidden="true"
                   data={chartData}
                   margin={STATISTICS_METRIC_CHART_MARGIN}
                 >

@@ -15,6 +15,7 @@ import {
   parseStdinJson,
   resolveRepoRoot,
   runShell,
+  scopeChanged,
   scopeChangedSinceLastPass,
   truncate,
 } from "./_hook-utils.mjs";
@@ -91,6 +92,53 @@ if (status !== "completed") {
 
 const repoRoot = resolveRepoRoot();
 const failures = [];
+
+// ─── §11 Completion Report guard ─────────────────────────────────────────────
+// Fires only when (a) Cursor exposes the assistant response text,
+// (b) code or meta files were changed this turn, and
+// (c) the response does not contain "## Completion Report".
+// Falls back silently when Cursor does not expose the response — no false positives.
+{
+  const assistantMessage =
+    input.message ?? input.response ?? input.last_message ?? "";
+
+  const CODING_SCOPES = [
+    "apps/erp/src",
+    "apps/storybook",
+    "packages",
+    ".cursor/skills",
+    ".cursor/rules",
+    ".cursor/hooks",
+  ];
+
+  const codeEdited =
+    assistantMessage.length > 0 &&
+    loopCount === 0 &&
+    CODING_SCOPES.some((scope) => scopeChanged(repoRoot, scope));
+
+  if (codeEdited && !assistantMessage.includes("## Completion Report")) {
+    failures.push({
+      label: "afenda-coding-session §11 — Completion Report missing",
+      command: "— session discipline (not a shell command)",
+      exitCode: 1,
+      output: [
+        "Files were edited but the response does not contain '## Completion Report'.",
+        "The afenda-coding-session standard (§11) requires this at the end of every",
+        "coding turn where files were changed — including skill and rule maintenance.",
+        "",
+        "Post the §11 report with:",
+        "  • Objective",
+        "  • Files changed (table)",
+        "  • Architecture authority followed",
+        "  • Drift prevention proof (pass/fail table)",
+        "  • Tests / gates run",
+        "  • Known gaps",
+        "",
+        "Reference: .cursor/skills/afenda-coding-session/SKILL.md §11",
+      ].join("\n"),
+    });
+  }
+}
 
 function gateScopeChanged(repoRoot, gate) {
   const key = gate.key;

@@ -11,6 +11,8 @@ import type {
 } from "@afenda/ui/governance";
 import { ImageIcon } from "lucide-react";
 
+import { AppShellOptimizedImage } from "../../components/appshell-optimized-image.client";
+
 import {
   type AppShellActivityActor,
   type AppShellActivityItem,
@@ -127,10 +129,12 @@ function ActivityFileInlineAttachment({
 }) {
   return (
     <a className="app-shell-activity-file-inline" href={fileHref}>
-      <img
+      <AppShellOptimizedImage
         alt={thumbnailAlt}
         className="app-shell-activity-file-inline-thumb"
+        height={20}
         src={thumbnailSrc}
+        width={20}
       />
       <span className="app-shell-activity-file-inline-name">{fileName}</span>
     </a>
@@ -150,10 +154,12 @@ function ActivityFileCardAttachment({
 }) {
   return (
     <a className="app-shell-activity-file-card" href={fileHref}>
-      <img
+      <AppShellOptimizedImage
         alt={thumbnailAlt}
         className="app-shell-activity-file-card-thumb"
+        height={32}
         src={thumbnailSrc}
+        width={32}
       />
       <span className="app-shell-activity-file-card-name">{fileName}</span>
     </a>

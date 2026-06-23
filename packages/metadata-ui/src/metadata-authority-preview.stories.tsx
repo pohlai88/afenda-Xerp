@@ -124,9 +124,7 @@ export const StateAndNumericSlots: Story = {
             >
               128,450.00
             </td>
-            <td
-              className={resolveMetadataUiSlotClassName("readonly")}
-            >
+            <td className={resolveMetadataUiSlotClassName("readonly")}>
               Read-only label
             </td>
             <td className={resolveMetadataUiSlotClassName("disabled")}>

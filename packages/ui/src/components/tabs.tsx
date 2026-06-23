@@ -44,8 +44,8 @@ const Tabs = React.forwardRef<
 
   return (
     <TabsPrimitive.Root
-      ref={ref}
       orientation={orientation}
+      ref={ref}
       {...applyGovernedPresentation(props, governed, {
         "data-orientation": orientation,
       })}

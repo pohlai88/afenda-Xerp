@@ -44,3 +44,8 @@ AI cannot hide errors.
 AI cannot create duplicate architecture.
 AI cannot touch ERP feature code during governance work.
 ```
+
+## Related
+
+- Documentation index: [`docs/README.md`](../README.md)
+- UI guard gates: [`docs/governance/ui-guard.md`](../governance/ui-guard.md)

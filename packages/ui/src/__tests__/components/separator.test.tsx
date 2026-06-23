@@ -71,9 +71,7 @@ describe("Separator governance", () => {
   });
 
   it("applies vertical orientation via Radix data attributes", () => {
-    render(
-      <Separator data-testid="separator" orientation="vertical" />
-    );
+    render(<Separator data-testid="separator" orientation="vertical" />);
 
     expect(screen.getByTestId("separator")).toHaveAttribute(
       "data-orientation",
@@ -98,7 +96,7 @@ describe("Separator governance", () => {
 
   it("throws on forbidden semantic className in development", () => {
     expect(() =>
-      render(<Separator className="bg-red-500 h-px" data-testid="separator" />)
+      render(<Separator className="h-px bg-red-500" data-testid="separator" />)
     ).toThrow(/className policy violation/);
   });
 });

@@ -1,9 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
-import {
-  DEFAULT_APP_SHELL_DASHBOARD_LABEL,
-} from "../shadcn-studio/data/app-shell.dashboard.data";
+import { ApplicationShellPlaceholderContent } from "../app-shell.placeholder";
+import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
 import {
   DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL,
   DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE,
@@ -11,22 +9,27 @@ import {
   defaultAppShellPlaceholderKpiCards,
   defaultAppShellPlaceholderOrders,
 } from "../shadcn-studio/data/app-shell.placeholder.data";
-import { ApplicationShellPlaceholderContent } from "../app-shell.placeholder";
 
 describe("ApplicationShellPlaceholderContent", () => {
   it("renders the ERP overview dashboard without TIP-004 consumer violations", () => {
     render(<ApplicationShellPlaceholderContent />);
 
     expect(
-      screen.getByRole("region", { name: DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL })
+      screen.getByRole("region", {
+        name: DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL,
+      })
     ).toBeInTheDocument();
     expect(screen.getByText("Total revenue")).toBeInTheDocument();
     expect(screen.getByText("Net income")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE })
+      screen.getByRole("heading", {
+        name: DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE,
+      })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE })
+      screen.getByRole("heading", {
+        name: DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE,
+      })
     ).toBeInTheDocument();
   });
 
@@ -49,7 +52,9 @@ describe("ApplicationShellPlaceholderContent", () => {
   it("exposes sparkline charts as labelled images", () => {
     render(<ApplicationShellPlaceholderContent />);
 
-    expect(screen.getByRole("img", { name: "Total revenue sparkline trend" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "Total revenue sparkline trend" })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("img", { name: "Operating expenses sparkline trend" })
     ).toBeInTheDocument();
@@ -62,7 +67,9 @@ describe("ApplicationShellPlaceholderContent", () => {
       name: "Finance progress: 82%",
     });
     expect(financeProgress).toHaveAttribute("aria-valuenow", "82");
-    expect(financeProgress.className).toContain("app-shell-placeholder-progress-fill-high");
+    expect(financeProgress.className).toContain(
+      "app-shell-placeholder-progress-fill-high"
+    );
   });
 
   it("renders recent orders as an accessible list", () => {
@@ -74,7 +81,9 @@ describe("ApplicationShellPlaceholderContent", () => {
     const ordersSection = ordersHeading.closest("section");
     expect(ordersSection).not.toBeNull();
 
-    const orderItems = within(ordersSection as HTMLElement).getAllByRole("listitem");
+    const orderItems = within(ordersSection as HTMLElement).getAllByRole(
+      "listitem"
+    );
     expect(orderItems).toHaveLength(defaultAppShellPlaceholderOrders.length);
     expect(
       within(ordersSection as HTMLElement).getByRole("listitem", {
@@ -139,15 +148,23 @@ describe("ApplicationShellPlaceholderContent", () => {
       />
     );
 
-    expect(screen.getByRole("region", { name: "Custom dashboard" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Custom dashboard" })
+    ).toBeInTheDocument();
     expect(screen.getByText("Custom KPI")).toBeInTheDocument();
     expect(screen.getByText("Custom Revenue")).toBeInTheDocument();
     expect(screen.getByText("vs prior quarter")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Custom orders" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Custom orders" })
+    ).toBeInTheDocument();
     expect(screen.getByText("Latest entries")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Custom modules" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Custom modules" })
+    ).toBeInTheDocument();
     const periodCaption = screen.getByText("Q3 demo");
-    expect(periodCaption).toHaveClass("app-shell-placeholder-widget-period-caption");
+    expect(periodCaption).toHaveClass(
+      "app-shell-placeholder-widget-period-caption"
+    );
     expect(periodCaption.closest("[data-slot='badge']")).toBeNull();
     expect(screen.getByText("Custom order line")).toBeInTheDocument();
     expect(screen.getByText("Custom Module")).toBeInTheDocument();
@@ -167,10 +184,14 @@ describe("ApplicationShellPlaceholderContent", () => {
     const dashboard = screen.getByRole("region", {
       name: DEFAULT_APP_SHELL_DASHBOARD_LABEL,
     });
-    expect(within(dashboard).getByText("Revenue this month")).toBeInTheDocument();
+    expect(
+      within(dashboard).getByText("Revenue this month")
+    ).toBeInTheDocument();
     expect(within(dashboard).getByText("Total revenue")).toBeInTheDocument();
     expect(
-      within(dashboard).getByRole("progressbar", { name: /Finance represents/i })
+      within(dashboard).getByRole("progressbar", {
+        name: /Finance represents/i,
+      })
     ).toBeInTheDocument();
   });
 });

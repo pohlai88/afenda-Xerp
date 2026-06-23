@@ -20,7 +20,9 @@ describe("erp-correlation-id", () => {
   });
 
   it("rejects empty correlation IDs", () => {
-    expect(() => toErpCorrelationId("   ")).toThrow(/correlationId is required/);
+    expect(() => toErpCorrelationId("   ")).toThrow(
+      /correlationId is required/
+    );
   });
 
   it("creates branded correlation IDs for background work", () => {

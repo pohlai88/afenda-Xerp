@@ -86,9 +86,7 @@ export function validateTokenRegistry(): ValidationResult[] {
   }
 
   // Semantic tokens must alias RAW via var() — never carry literals or darkValue
-  const cssVarSet = new Set<string>(
-    tokens.map((token) => token.cssVariable)
-  );
+  const cssVarSet = new Set<string>(tokens.map((token) => token.cssVariable));
   const semanticPrefixes = [
     "afenda.semantic.",
     "afenda.table.",

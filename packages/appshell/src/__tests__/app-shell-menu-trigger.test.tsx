@@ -1,12 +1,9 @@
-import { render, screen } from "@testing-library/react";
 import { setupUser } from "@afenda/testing/react";
-import { describe, expect, it } from "vitest";
-
 import { SidebarProvider } from "@afenda/ui";
-
-import { AppShellMenuTrigger } from "../shadcn-studio/blocks/app-shell-menu-trigger";
-
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import type { AppShellMenuTriggerProps } from "../shadcn-studio/blocks/app-shell-menu-trigger";
+import { AppShellMenuTrigger } from "../shadcn-studio/blocks/app-shell-menu-trigger";
 
 function renderMenuTrigger(props?: AppShellMenuTriggerProps) {
   return render(
@@ -41,7 +38,9 @@ describe("AppShellMenuTrigger", () => {
     const trigger = screen.getByRole("button", { name: "Collapse sidebar" });
     await user.click(trigger);
 
-    const expandedTrigger = screen.getByRole("button", { name: "Expand sidebar" });
+    const expandedTrigger = screen.getByRole("button", {
+      name: "Expand sidebar",
+    });
     expect(expandedTrigger).toHaveAttribute("aria-expanded", "false");
 
     await user.click(expandedTrigger);

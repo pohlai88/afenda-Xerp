@@ -11,10 +11,9 @@ import {
   users,
 } from "@afenda/database";
 import { and, eq } from "drizzle-orm";
-
-import type { MembershipContract } from "../scope/membership.contract.js";
 import type { PermissionDataSource } from "../grants/permission-checker.js";
 import type { RoleContract } from "../grants/role.contract.js";
+import type { MembershipContract } from "../scope/membership.contract.js";
 import type { TenantContract } from "../tenant.contract.js";
 import type { PlatformUserContract } from "../user.contract.js";
 import {

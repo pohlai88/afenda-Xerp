@@ -1,5 +1,8 @@
 import type { ApplicationShellOperatingContext } from "@afenda/appshell";
-import { formatWorkspaceDisplayLabel, type OperatingContext } from "@afenda/kernel";
+import {
+  formatWorkspaceDisplayLabel,
+  type OperatingContext,
+} from "@afenda/kernel";
 
 export function toApplicationShellOperatingContext(
   context: OperatingContext
@@ -16,8 +19,6 @@ export function toApplicationShellOperatingContext(
     ...(context.entityGroup?.displayName
       ? { entityGroupLabel: context.entityGroup.displayName }
       : {}),
-    ...(organizationUnitLabel
-      ? { organizationUnitLabel }
-      : {}),
+    ...(organizationUnitLabel ? { organizationUnitLabel } : {}),
   };
 }

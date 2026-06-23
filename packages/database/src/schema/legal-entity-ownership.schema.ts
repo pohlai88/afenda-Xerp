@@ -3,7 +3,14 @@
  *
  * Writes: `../ownership-interest/ownership-interest.service.ts`
  */
-import { boolean, date, index, numeric, pgTable, uniqueIndex } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  date,
+  index,
+  numeric,
+  pgTable,
+  uniqueIndex,
+} from "drizzle-orm/pg-core";
 import {
   companyStatusEnum,
   consolidationMethodEnum,
@@ -47,9 +54,8 @@ export const legalEntityOwnership = pgTable(
       scale: 2,
     }).notNull(),
     controlType: ownershipControlTypeEnum("control_type").notNull(),
-    relationshipType: ownershipRelationshipTypeEnum(
-      "relationship_type"
-    ).notNull(),
+    relationshipType:
+      ownershipRelationshipTypeEnum("relationship_type").notNull(),
     consolidationMethod: consolidationMethodEnum(
       "consolidation_method"
     ).notNull(),

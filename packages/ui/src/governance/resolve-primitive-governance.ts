@@ -3,8 +3,8 @@
  * @see primitive-governance.ts
  */
 export {
-  resolvePrimitiveGovernance,
   type FieldOrientation,
   type PrimitiveGovernanceInput,
   type PrimitiveGovernanceResult,
+  resolvePrimitiveGovernance,
 } from "./primitive-governance";

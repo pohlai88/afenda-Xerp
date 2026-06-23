@@ -167,8 +167,8 @@ export const GovernanceDataAuthority: Story = {
         data-size="lg"
         data-slot="override"
         data-state="fake"
-        data-variant="outline"
         data-testid="governance-toggle"
+        data-variant="outline"
         size="sm"
         state="ready"
         variant="default"
@@ -195,7 +195,11 @@ export const GovernanceSlotMap: Story = {
         <p className="font-mono text-muted-foreground text-xs">
           root → toggle · recipe → form-control
         </p>
-        <Toggle aria-label="Bold" data-testid="slot-map-toggle" variant="outline">
+        <Toggle
+          aria-label="Bold"
+          data-testid="slot-map-toggle"
+          variant="outline"
+        >
           <BoldIcon />
           Bold
         </Toggle>

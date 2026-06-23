@@ -65,9 +65,7 @@ const ISO_DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 export function assertLegalEntityCompanyType(
   value: string
 ): LegalEntityCompanyType {
-  if (
-    !(LEGAL_ENTITY_COMPANY_TYPES as readonly string[]).includes(value)
-  ) {
+  if (!(LEGAL_ENTITY_COMPANY_TYPES as readonly string[]).includes(value)) {
     throw new InvalidLegalEntityCompanyTypeError(
       `Invalid company type "${value}". Expected one of: ${LEGAL_ENTITY_COMPANY_TYPES.join(", ")}.`
     );

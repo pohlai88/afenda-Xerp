@@ -2,8 +2,8 @@
 
 import type { GovernedSwitchProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import type { SlotRole } from "@afenda/ui/governance/primitive-contract";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Switch as SwitchPrimitive } from "radix-ui";
 import * as React from "react";
 

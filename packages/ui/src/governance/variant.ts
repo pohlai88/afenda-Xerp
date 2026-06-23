@@ -17,10 +17,7 @@ import {
   type VariantIntent,
   type VariantSelection,
 } from "./design-system";
-import {
-  getGovernanceRuntimeMode,
-  isDevelopment,
-} from "./dev-env";
+import { getGovernanceRuntimeMode, isDevelopment } from "./dev-env";
 import {
   BADGE_VARIANT_AXES,
   BUTTON_VARIANT_AXES,

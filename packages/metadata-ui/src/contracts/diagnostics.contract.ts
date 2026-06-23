@@ -27,13 +27,6 @@ import type { MetadataUiRenderContext } from "./render-context.contract.js";
 
 export interface MetadataDiagnosticsSurfaceSnapshot {
   /**
-   * Surface type currently being rendered.
-   *
-   * Examples: "page", "workspace", "module"
-   */
-  readonly surfaceType?: SurfaceType;
-
-  /**
    * Layout type selected for the surface.
    *
    * Examples: "dashboard", "grid", "panel", "stack", "tabs", "wizard"
@@ -46,20 +39,25 @@ export interface MetadataDiagnosticsSurfaceSnapshot {
    * Examples: "list", "stat", "chart", "form", "detail", "audit", "action"
    */
   readonly sectionType?: SectionType;
+  /**
+   * Surface type currently being rendered.
+   *
+   * Examples: "page", "workspace", "module"
+   */
+  readonly surfaceType?: SurfaceType;
 }
 
 export interface MetadataDiagnosticsRendererSnapshot {
-  /**
-   * Renderer selected by the metadata renderer registry.
-   */
-  readonly rendererKey?: string;
-
   /**
    * Renderer capability used during resolution.
    *
    * Examples: "render-list", "render-stat", "render-form"
    */
   readonly rendererCapability?: RendererCapability;
+  /**
+   * Renderer selected by the metadata renderer registry.
+   */
+  readonly rendererKey?: string;
 
   /**
    * Optional renderer version.
@@ -69,14 +67,9 @@ export interface MetadataDiagnosticsRendererSnapshot {
 
 export interface MetadataDiagnosticsRuntimeSnapshot {
   /**
-   * Runtime state at the time diagnostics were captured.
+   * Correlation ID used for tracing render/runtime events.
    */
-  readonly runtimeState: MetadataRuntimeState;
-
-  /**
-   * Whether the current metadata surface is readonly.
-   */
-  readonly readonlyMode: boolean;
+  readonly correlationId?: MetadataRuntimeCorrelationId;
 
   /**
    * Whether diagnostics are allowed to be shown.
@@ -84,9 +77,13 @@ export interface MetadataDiagnosticsRuntimeSnapshot {
   readonly diagnosticsEnabled: boolean;
 
   /**
-   * Correlation ID used for tracing render/runtime events.
+   * Whether the current metadata surface is readonly.
    */
-  readonly correlationId?: MetadataRuntimeCorrelationId;
+  readonly readonlyMode: boolean;
+  /**
+   * Runtime state at the time diagnostics were captured.
+   */
+  readonly runtimeState: MetadataRuntimeState;
 }
 
 export interface MetadataDiagnosticsPresentationSnapshot {
@@ -103,9 +100,9 @@ export interface MetadataDiagnosticsPresentationSnapshot {
 
 export interface MetadataDiagnosticsIdentitySnapshot {
   /**
-   * Optional tenant currently in scope.
+   * Optional actor currently in scope.
    */
-  readonly tenantId?: MetadataRuntimeTenantId;
+  readonly actorId?: MetadataRuntimeActorId;
 
   /**
    * Optional company currently in scope.
@@ -116,24 +113,23 @@ export interface MetadataDiagnosticsIdentitySnapshot {
    * Optional organization currently in scope.
    */
   readonly organizationId?: MetadataRuntimeOrganizationId;
+  /**
+   * Optional tenant currently in scope.
+   */
+  readonly tenantId?: MetadataRuntimeTenantId;
 
   /**
    * Optional workspace currently in scope.
    */
   readonly workspaceId?: MetadataRuntimeWorkspaceId;
-
-  /**
-   * Optional actor currently in scope.
-   */
-  readonly actorId?: MetadataRuntimeActorId;
 }
 
 export interface MetadataDiagnosticsSnapshot {
   readonly identity?: MetadataDiagnosticsIdentitySnapshot;
-  readonly surface?: MetadataDiagnosticsSurfaceSnapshot;
+  readonly presentation: MetadataDiagnosticsPresentationSnapshot;
   readonly renderer?: MetadataDiagnosticsRendererSnapshot;
   readonly runtime: MetadataDiagnosticsRuntimeSnapshot;
-  readonly presentation: MetadataDiagnosticsPresentationSnapshot;
+  readonly surface?: MetadataDiagnosticsSurfaceSnapshot;
 }
 
 export interface MetadataDiagnosticsProps {
@@ -157,14 +153,14 @@ export interface CreateMetadataDiagnosticsSnapshotInput {
   readonly identity?: MetadataDiagnosticsIdentitySnapshot;
 
   /**
-   * Optional surface/layout/section snapshot.
-   */
-  readonly surface?: MetadataDiagnosticsSurfaceSnapshot;
-
-  /**
    * Optional renderer snapshot.
    */
   readonly renderer?: MetadataDiagnosticsRendererSnapshot;
+
+  /**
+   * Optional surface/layout/section snapshot.
+   */
+  readonly surface?: MetadataDiagnosticsSurfaceSnapshot;
 }
 
 export interface MetadataBoundaryWarningProps {

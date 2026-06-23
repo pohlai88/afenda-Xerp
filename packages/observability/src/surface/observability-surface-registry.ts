@@ -13,7 +13,11 @@ export const OBSERVABILITY_REQUIRED_MODULES = [
   {
     path: "contracts/correlation.contract.ts",
     role: "Correlation ID contract",
-    primaryExports: ["CorrelationContext", "createCorrelationId", "assertCorrelationId"],
+    primaryExports: [
+      "CorrelationContext",
+      "createCorrelationId",
+      "assertCorrelationId",
+    ],
   },
   {
     path: "contracts/diagnostic-context.contract.ts",

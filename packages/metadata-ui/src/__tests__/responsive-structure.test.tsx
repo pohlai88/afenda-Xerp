@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 
 import { sampleDashboardLayoutFixture } from "../fixtures/sample-dashboard-layout.fixture.js";
 import { samplePageSurfaceFixture } from "../fixtures/sample-page-surface.fixture.js";
+import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
 import { ListSection } from "../sections/index.js";
 import { MetadataLoadingState } from "../states/index.js";
-import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
 
 describe("metadata-ui responsive structure", () => {
   it("marks layout, surface, section, and state roots as container queries", () => {
@@ -16,7 +16,9 @@ describe("metadata-ui responsive structure", () => {
 
     render(samplePageSurfaceFixture.element);
     expect(
-      document.querySelector(".metadata-container[data-slot='metadata-surface']")
+      document.querySelector(
+        ".metadata-container[data-slot='metadata-surface']"
+      )
     ).not.toBeNull();
 
     render(
@@ -27,7 +29,9 @@ describe("metadata-ui responsive structure", () => {
       />
     );
     expect(
-      document.querySelector(".metadata-container[data-slot='metadata-section']")
+      document.querySelector(
+        ".metadata-container[data-slot='metadata-section']"
+      )
     ).not.toBeNull();
 
     render(

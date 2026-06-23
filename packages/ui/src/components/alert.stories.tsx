@@ -333,7 +333,7 @@ export const DeprecatedVariantBridge: Story = {
     docs: {
       description: {
         story:
-          "Stock `variant=\"destructive\"` maps to `tone=\"danger\"`. Canonical `tone` wins when both are set. No `data-variant` is emitted.",
+          'Stock `variant="destructive"` maps to `tone="danger"`. Canonical `tone` wins when both are set. No `data-variant` is emitted.',
       },
     },
   },
@@ -595,9 +595,9 @@ export const ApprovalPending: Story = {
         <AlertTriangleIcon aria-hidden="true" />
         <AlertTitle>Approval required — INV-2026-0042</AlertTitle>
         <AlertDescription>
-          This invoice (
-          <span className="tabular-nums">$4,850.00</span>) is awaiting VP
-          Finance approval. You will be notified once the review is complete.
+          This invoice (<span className="tabular-nums">$4,850.00</span>) is
+          awaiting VP Finance approval. You will be notified once the review is
+          complete.
         </AlertDescription>
         <AlertAction>
           <Button emphasis="outline" intent="secondary" size="sm">
@@ -654,8 +654,8 @@ export const PaymentOverdue: Story = {
         <AlertTitle>Payment overdue — INV-2026-0031</AlertTitle>
         <AlertDescription>
           Invoice for Acme Software Ltd. (
-          <span className="tabular-nums">$4,850.00</span>) was due Jul 15,
-          2026. Late fees may apply after 30 days.
+          <span className="tabular-nums">$4,850.00</span>) was due Jul 15, 2026.
+          Late fees may apply after 30 days.
         </AlertDescription>
         <AlertAction>
           <StoryRow gap="xs">
@@ -708,8 +708,8 @@ export const BulkOperationResult: Story = {
       <Alert tone="info">
         <UploadIcon aria-hidden="true" />
         <AlertTitle>
-          Bulk update complete —{" "}
-          <span className="tabular-nums">18 of 20</span> records
+          Bulk update complete — <span className="tabular-nums">18 of 20</span>{" "}
+          records
         </AlertTitle>
         <AlertDescription>
           18 invoice records were approved. 2 records failed due to missing

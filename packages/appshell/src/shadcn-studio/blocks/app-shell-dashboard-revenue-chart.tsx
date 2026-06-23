@@ -15,7 +15,14 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId, useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
+import {
+  LazyBar as Bar,
+  LazyBarChart as BarChart,
+  LazyCartesianGrid as CartesianGrid,
+  LazyCell as Cell,
+  LazyXAxis as XAxis,
+  LazyYAxis as YAxis,
+} from "../../charts/recharts-lazy.client";
 
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
@@ -312,6 +319,7 @@ export function AppShellDashboardRevenueChart({
                   <ChartContainer config={revenueBarChartConfig}>
                     <BarChart
                       accessibilityLayer
+                      aria-hidden="true"
                       barSize={12}
                       data={[...barData]}
                       margin={{ left: -25, right: 8, top: 8 }}
@@ -415,6 +423,7 @@ export function AppShellDashboardRevenueChart({
                   <ChartContainer config={revenueGrowthChartConfig}>
                     <BarChart
                       accessibilityLayer
+                      aria-hidden="true"
                       barSize={8}
                       data={[...growthData]}
                       layout="vertical"

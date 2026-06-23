@@ -25,6 +25,10 @@ export type MetadataLayoutRegion = (typeof METADATA_LAYOUT_REGIONS)[number];
 
 export interface MetadataLayoutIdentity {
   /**
+   * Optional description for diagnostics or development previews.
+   */
+  readonly description?: string;
+  /**
    * Stable layout instance ID.
    *
    * Examples: "user-management-list-layout", "invoice-detail-tabs-layout"
@@ -35,14 +39,13 @@ export interface MetadataLayoutIdentity {
    * Optional human-readable layout label for diagnostics, previews, and Storybook.
    */
   readonly label?: string;
-
-  /**
-   * Optional description for diagnostics or development previews.
-   */
-  readonly description?: string;
 }
 
 export interface MetadataLayoutA11y {
+  /**
+   * ID of an element that describes the layout.
+   */
+  readonly ariaDescribedBy?: string;
   /**
    * Accessible label for the layout region, usually applied to the root container.
    */
@@ -52,11 +55,6 @@ export interface MetadataLayoutA11y {
    * ID of an element that labels the layout.
    */
   readonly ariaLabelledBy?: string;
-
-  /**
-   * ID of an element that describes the layout.
-   */
-  readonly ariaDescribedBy?: string;
 }
 
 export interface MetadataLayoutPresentation {
@@ -68,11 +66,6 @@ export interface MetadataLayoutPresentation {
   readonly className?: string;
 
   /**
-   * Optional slot class names by layout region for controlled internal styling.
-   */
-  readonly regionClassNames?: Partial<Record<MetadataLayoutRegion, string>>;
-
-  /**
    * Whether the layout should visually constrain its content width.
    */
   readonly contained?: boolean;
@@ -81,9 +74,18 @@ export interface MetadataLayoutPresentation {
    * Whether the layout should render internal spacing.
    */
   readonly padded?: boolean;
+
+  /**
+   * Optional slot class names by layout region for controlled internal styling.
+   */
+  readonly regionClassNames?: Partial<Record<MetadataLayoutRegion, string>>;
 }
 
 export interface MetadataLayoutDiagnostics {
+  /**
+   * Optional note for diagnostics panels.
+   */
+  readonly note?: string;
   /**
    * Optional renderer key selected for this layout.
    */
@@ -93,24 +95,9 @@ export interface MetadataLayoutDiagnostics {
    * Optional renderer version.
    */
   readonly rendererVersion?: string;
-
-  /**
-   * Optional note for diagnostics panels.
-   */
-  readonly note?: string;
 }
 
 export interface MetadataLayoutSlots {
-  /**
-   * Optional layout header.
-   */
-  readonly header?: ReactNode;
-
-  /**
-   * Optional action or filter toolbar.
-   */
-  readonly toolbar?: ReactNode;
-
   /**
    * Optional side content.
    */
@@ -125,18 +112,22 @@ export interface MetadataLayoutSlots {
    * Optional layout footer.
    */
   readonly footer?: ReactNode;
+  /**
+   * Optional layout header.
+   */
+  readonly header?: ReactNode;
+
+  /**
+   * Optional action or filter toolbar.
+   */
+  readonly toolbar?: ReactNode;
 }
 
 export interface MetadataLayoutProps {
   /**
-   * Stable layout identity.
+   * Accessibility metadata.
    */
-  readonly identity: MetadataLayoutIdentity;
-
-  /**
-   * Governed layout type from @afenda/metadata.
-   */
-  readonly type: LayoutType;
+  readonly a11y?: MetadataLayoutA11y;
 
   /**
    * Current metadata-ui render context.
@@ -144,14 +135,13 @@ export interface MetadataLayoutProps {
   readonly context: MetadataUiRenderContext;
 
   /**
-   * Structured layout slots with clear region ownership.
+   * Optional diagnostics metadata.
    */
-  readonly slots: MetadataLayoutSlots;
-
+  readonly diagnostics?: MetadataLayoutDiagnostics;
   /**
-   * Accessibility metadata.
+   * Stable layout identity.
    */
-  readonly a11y?: MetadataLayoutA11y;
+  readonly identity: MetadataLayoutIdentity;
 
   /**
    * Presentation options owned by metadata-ui renderers.
@@ -159,9 +149,14 @@ export interface MetadataLayoutProps {
   readonly presentation?: MetadataLayoutPresentation;
 
   /**
-   * Optional diagnostics metadata.
+   * Structured layout slots with clear region ownership.
    */
-  readonly diagnostics?: MetadataLayoutDiagnostics;
+  readonly slots: MetadataLayoutSlots;
+
+  /**
+   * Governed layout type from @afenda/metadata.
+   */
+  readonly type: LayoutType;
 }
 
 export type MetadataSpecificLayoutProps = Omit<MetadataLayoutProps, "type">;

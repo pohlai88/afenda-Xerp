@@ -33,6 +33,10 @@ export type MetadataSectionChromeMode =
 
 export interface MetadataSectionIdentity {
   /**
+   * Optional description shown below title or used in diagnostics.
+   */
+  readonly description?: string;
+  /**
    * Stable section instance ID.
    *
    * Examples: "user-list-section", "invoice-summary-section"
@@ -43,14 +47,13 @@ export interface MetadataSectionIdentity {
    * Optional human-readable title.
    */
   readonly title?: string;
-
-  /**
-   * Optional description shown below title or used in diagnostics.
-   */
-  readonly description?: string;
 }
 
 export interface MetadataSectionA11y {
+  /**
+   * ID of the element that describes the section.
+   */
+  readonly ariaDescribedBy?: string;
   /**
    * Accessible label for the section region.
    */
@@ -60,11 +63,6 @@ export interface MetadataSectionA11y {
    * ID of the element that labels the section.
    */
   readonly ariaLabelledBy?: string;
-
-  /**
-   * ID of the element that describes the section.
-   */
-  readonly ariaDescribedBy?: string;
 }
 
 export interface MetadataSectionPresentation {
@@ -74,21 +72,21 @@ export interface MetadataSectionPresentation {
   readonly chrome?: MetadataSectionChromeMode;
 
   /**
-   * Whether the section should render internal spacing.
-   */
-  readonly padded?: boolean;
-
-  /**
    * Optional governed class name from metadata-ui renderer boundary.
    */
   readonly className?: string;
+
+  /**
+   * Whether the section should render internal spacing.
+   */
+  readonly padded?: boolean;
 }
 
 export interface MetadataSectionState {
   /**
-   * Section visibility state. Prefer this over separate hidden/disabled booleans.
+   * Whether this section is readonly even if the wider context is editable.
    */
-  readonly visibility: MetadataSectionVisibilityState;
+  readonly readonly?: boolean;
 
   /**
    * Reason shown in diagnostics or disabled/hidden UI.
@@ -96,14 +94,17 @@ export interface MetadataSectionState {
    * Required by convention when visibility is not "visible".
    */
   readonly reason?: string;
-
   /**
-   * Whether this section is readonly even if the wider context is editable.
+   * Section visibility state. Prefer this over separate hidden/disabled booleans.
    */
-  readonly readonly?: boolean;
+  readonly visibility: MetadataSectionVisibilityState;
 }
 
 export interface MetadataSectionDiagnostics {
+  /**
+   * Optional diagnostics note.
+   */
+  readonly note?: string;
   /**
    * Renderer selected for this section.
    */
@@ -113,19 +114,9 @@ export interface MetadataSectionDiagnostics {
    * Renderer version selected for this section.
    */
   readonly rendererVersion?: string;
-
-  /**
-   * Optional diagnostics note.
-   */
-  readonly note?: string;
 }
 
 export interface MetadataSectionSlots {
-  /**
-   * Optional section header override.
-   */
-  readonly header?: ReactNode;
-
   /**
    * Optional action area.
    */
@@ -140,23 +131,36 @@ export interface MetadataSectionSlots {
    * Optional footer content.
    */
   readonly footer?: ReactNode;
+  /**
+   * Optional section header override.
+   */
+  readonly header?: ReactNode;
 }
 
 export interface MetadataSectionProps {
+  /**
+   * Accessibility metadata.
+   */
+  readonly a11y?: MetadataSectionA11y;
+
+  /**
+   * Current metadata-ui render context.
+   */
+  readonly context: MetadataUiRenderContext;
+
+  /**
+   * Optional diagnostics metadata.
+   */
+  readonly diagnostics?: MetadataSectionDiagnostics;
   /**
    * Stable section identity.
    */
   readonly identity: MetadataSectionIdentity;
 
   /**
-   * Governed section type from @afenda/metadata.
+   * Presentation options owned by metadata-ui.
    */
-  readonly type: SectionType;
-
-  /**
-   * Current metadata-ui render context.
-   */
-  readonly context: MetadataUiRenderContext;
+  readonly presentation?: MetadataSectionPresentation;
 
   /**
    * Structured section slots with clear region ownership.
@@ -169,19 +173,9 @@ export interface MetadataSectionProps {
   readonly state?: MetadataSectionState;
 
   /**
-   * Accessibility metadata.
+   * Governed section type from @afenda/metadata.
    */
-  readonly a11y?: MetadataSectionA11y;
-
-  /**
-   * Presentation options owned by metadata-ui.
-   */
-  readonly presentation?: MetadataSectionPresentation;
-
-  /**
-   * Optional diagnostics metadata.
-   */
-  readonly diagnostics?: MetadataSectionDiagnostics;
+  readonly type: SectionType;
 }
 
 export type MetadataSpecificSectionProps = Omit<MetadataSectionProps, "type">;

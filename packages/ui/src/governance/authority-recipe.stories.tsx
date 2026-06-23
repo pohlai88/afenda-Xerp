@@ -33,9 +33,11 @@ function SlotPreview({
   readonly className: string;
 }) {
   return (
-    <div className="min-w-0 rounded-md border border-dashed border-border p-3">
+    <div className="min-w-0 rounded-md border border-border border-dashed p-3">
       <p className="mb-2 font-medium text-sm">{label}</p>
-      <div className={`min-h-16 rounded-sm border border-border/70 p-3 ${className}`}>
+      <div
+        className={`min-h-16 rounded-sm border border-border/70 p-3 ${className}`}
+      >
         <span className="text-xs opacity-80">Token-backed recipe slot</span>
       </div>
     </div>
@@ -90,7 +92,12 @@ export const AppShellSlots: Story = {
       <StoryStack gap="md">
         <p className="text-sm opacity-80">
           Root recipe:{" "}
-          <code>{resolveGovernedRecipe("app-shell", { density: "standard" }).className.slice(0, 48)}…</code>
+          <code>
+            {resolveGovernedRecipe("app-shell", {
+              density: "standard",
+            }).className.slice(0, 48)}
+            …
+          </code>
         </p>
         <div className="grid gap-4 md:grid-cols-2">
           {APP_SHELL_RECIPE_SLOTS.map((slot) => (
@@ -121,7 +128,10 @@ export const MetadataUiSlots: Story = {
         <p className="text-sm opacity-80">
           Container recipe:{" "}
           <code>
-            {resolveGovernedRecipe("metadata-ui", { density: "standard" }).className.slice(0, 48)}…
+            {resolveGovernedRecipe("metadata-ui", {
+              density: "standard",
+            }).className.slice(0, 48)}
+            …
           </code>
         </p>
         <div className="grid gap-4 md:grid-cols-2">
@@ -147,7 +157,10 @@ export const AuthoritySlotRouter: Story = {
         app-shell / topbar
       </div>
       <div
-        className={resolveAuthorityRecipeSlotClassName("metadata-ui", "diagnostics")}
+        className={resolveAuthorityRecipeSlotClassName(
+          "metadata-ui",
+          "diagnostics"
+        )}
       >
         metadata-ui / diagnostics
       </div>
@@ -170,11 +183,11 @@ export const DensityBridge: Story = {
         TS/API uses <code>standard</code>; DOM hooks use{" "}
         <code>data-afenda-density=&quot;default&quot;</code>. Round-trip:{" "}
         <code>
-          densityFromAttribute(&quot;{densityToAttribute("standard")}&quot;) → &quot;
+          densityFromAttribute(&quot;{densityToAttribute("standard")}&quot;) →
+          &quot;
           {densityFromAttribute("default")}&quot;
         </code>
-        . Selector helper:{" "}
-        <code>{densityAttributeSelector("compact")}</code>
+        . Selector helper: <code>{densityAttributeSelector("compact")}</code>
       </p>
       <StoryRow gap="md" wrap>
         {DENSITIES.map((density) => (

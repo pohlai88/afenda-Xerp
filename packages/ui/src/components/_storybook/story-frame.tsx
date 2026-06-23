@@ -58,13 +58,15 @@ const STORY_PADDING_Y_CLASS: Record<StorySpacing, string> = {
   lg: "py-4",
 };
 
-const STORY_FRAME_WIDTH_CLASS: Record<Exclude<StoryFrameWidth, "full">, string> =
-  {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-xl",
-  };
+const STORY_FRAME_WIDTH_CLASS: Record<
+  Exclude<StoryFrameWidth, "full">,
+  string
+> = {
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-xl",
+};
 
 const STORY_ROW_WIDTH_CLASS: Record<StoryRowWidth, string> = {
   auto: "w-auto",
@@ -84,17 +86,17 @@ function storyPaddingClasses(
   paddingY?: StorySpacing
 ): string {
   return cn(
-    padding !== undefined ? STORY_PADDING_CLASS[padding] : undefined,
-    paddingX !== undefined ? STORY_PADDING_X_CLASS[paddingX] : undefined,
-    paddingY !== undefined ? STORY_PADDING_Y_CLASS[paddingY] : undefined
+    padding === undefined ? undefined : STORY_PADDING_CLASS[padding],
+    paddingX === undefined ? undefined : STORY_PADDING_X_CLASS[paddingX],
+    paddingY === undefined ? undefined : STORY_PADDING_Y_CLASS[paddingY]
   );
 }
 
 export interface StoryFrameProps
   extends StoryLayoutProps,
     Omit<HTMLAttributes<HTMLDivElement>, "className"> {
-  readonly children: ReactNode;
   readonly align?: StoryAlign;
+  readonly children: ReactNode;
   readonly className?: string;
   readonly width?: StoryFrameWidth;
 }

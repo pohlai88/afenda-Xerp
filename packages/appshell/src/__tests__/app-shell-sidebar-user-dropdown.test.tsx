@@ -1,18 +1,16 @@
+import { SidebarProvider } from "@afenda/ui";
 import { render, screen, within } from "@testing-library/react";
 import { UserIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
-
-import { SidebarProvider } from "@afenda/ui";
-
+import {
+  AppShellSidebarUserDropdown,
+  type AppShellSidebarUserDropdownProps,
+} from "../shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
 import {
   DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME,
   DEFAULT_APP_SHELL_SIDEBAR_USER_ROLE_LABEL,
   defaultAppShellSidebarUserLogoutAction,
 } from "../shadcn-studio/data/app-shell.sidebar-user.data";
-import {
-  AppShellSidebarUserDropdown,
-  type AppShellSidebarUserDropdownProps,
-} from "../shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
 
 function renderSidebarUserDropdown(
   props: Partial<AppShellSidebarUserDropdownProps> = {}
@@ -28,8 +26,12 @@ describe("AppShellSidebarUserDropdown", () => {
   it("renders without TIP-004 consumer violations", () => {
     renderSidebarUserDropdown();
 
-    expect(screen.getByText(DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME)).toBeInTheDocument();
-    expect(screen.getByText(DEFAULT_APP_SHELL_SIDEBAR_USER_ROLE_LABEL)).toBeInTheDocument();
+    expect(
+      screen.getByText(DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(DEFAULT_APP_SHELL_SIDEBAR_USER_ROLE_LABEL)
+    ).toBeInTheDocument();
   });
 
   it("exposes an accessible trigger label for the sidebar account menu", () => {
@@ -54,10 +56,18 @@ describe("AppShellSidebarUserDropdown", () => {
   it("lists default ERP account menu actions when open", () => {
     renderSidebarUserDropdown({ defaultOpen: true });
 
-    expect(screen.getByRole("menuitem", { name: "My account" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Workspace settings" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Billing & plans" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Manage team" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "My account" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Workspace settings" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Billing & plans" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Manage team" })
+    ).toBeInTheDocument();
   });
 
   it("marks the sign-out action as destructive", () => {
@@ -76,9 +86,9 @@ describe("AppShellSidebarUserDropdown", () => {
       "aria-labelledby",
       "app-shell-sidebar-user-menu-label"
     );
-    expect(document.getElementById("app-shell-sidebar-user-menu-label")).toHaveTextContent(
-      DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME
-    );
+    expect(
+      document.getElementById("app-shell-sidebar-user-menu-label")
+    ).toHaveTextContent(DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME);
   });
 
   it("accepts custom identity and menu items", () => {
@@ -102,15 +112,18 @@ describe("AppShellSidebarUserDropdown", () => {
       },
     });
 
-    expect(document.getElementById("app-shell-sidebar-user-menu-label")).toHaveTextContent(
-      "Jane Ops"
-    );
-    expect(screen.getByRole("menuitem", { name: "Org settings" })).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: "My account" })).not.toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "End session" })).toHaveAttribute(
-      "data-variant",
-      "destructive"
-    );
+    expect(
+      document.getElementById("app-shell-sidebar-user-menu-label")
+    ).toHaveTextContent("Jane Ops");
+    expect(
+      screen.getByRole("menuitem", { name: "Org settings" })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("menuitem", { name: "My account" })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "End session" })
+    ).toHaveAttribute("data-variant", "destructive");
   });
 
   it("scopes account actions inside a labeled menu group", () => {

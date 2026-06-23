@@ -54,16 +54,8 @@ export interface MetadataRuntimeContext {
    * This contract does not authenticate, authorize, or load the actor.
    */
   readonly actorId?: MetadataRuntimeActorId;
-
-  /**
-   * Multi-tenant execution identity carriers.
-   *
-   * These fields describe context shape only. They do not perform data loading.
-   */
-  readonly tenantId?: MetadataRuntimeTenantId;
+  readonly capabilities?: readonly MetadataRuntimeCapabilityKey[];
   readonly companyId?: MetadataRuntimeCompanyId;
-  readonly organizationId?: MetadataRuntimeOrganizationId;
-  readonly workspaceId?: MetadataRuntimeWorkspaceId;
 
   /**
    * Request / action correlation identity carrier.
@@ -72,6 +64,12 @@ export interface MetadataRuntimeContext {
    */
   readonly correlationId?: MetadataRuntimeCorrelationId;
 
+  /** Metadata presentation intent. */
+  readonly density: MetadataDensityMode;
+  readonly diagnosticsEnabled: boolean;
+  readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
+  readonly organizationId?: MetadataRuntimeOrganizationId;
+
   /**
    * Permission, capability, and feature-flag carriers.
    *
@@ -79,16 +77,7 @@ export interface MetadataRuntimeContext {
    * It must not execute permission checks or feature-flag services.
    */
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
-  readonly capabilities?: readonly MetadataRuntimeCapabilityKey[];
-  readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
-
-  /** Metadata presentation intent. */
-  readonly density: MetadataDensityMode;
   readonly presentationMode: PresentationMode;
-
-  /** Runtime state and diagnostics intent. */
-  readonly state: MetadataRuntimeState;
-  readonly diagnosticsEnabled: boolean;
 
   /**
    * Metadata readonly intent.
@@ -96,28 +85,38 @@ export interface MetadataRuntimeContext {
    * Prefer `readonlyMode` over `readonly` for clearer property semantics.
    */
   readonly readonlyMode: boolean;
+
+  /** Runtime state and diagnostics intent. */
+  readonly state: MetadataRuntimeState;
+
+  /**
+   * Multi-tenant execution identity carriers.
+   *
+   * These fields describe context shape only. They do not perform data loading.
+   */
+  readonly tenantId?: MetadataRuntimeTenantId;
+  readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
 
 export interface CreateMetadataRuntimeContextInput {
   readonly actorId?: MetadataRuntimeActorId;
-  readonly tenantId?: MetadataRuntimeTenantId;
-  readonly companyId?: MetadataRuntimeCompanyId;
-  readonly organizationId?: MetadataRuntimeOrganizationId;
-  readonly workspaceId?: MetadataRuntimeWorkspaceId;
-  readonly correlationId?: MetadataRuntimeCorrelationId;
-  readonly permissions?: readonly MetadataRuntimePermissionKey[];
   readonly capabilities?: readonly MetadataRuntimeCapabilityKey[];
-  readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
+  readonly companyId?: MetadataRuntimeCompanyId;
+  readonly correlationId?: MetadataRuntimeCorrelationId;
   readonly density?: MetadataDensityMode;
-  readonly presentationMode?: PresentationMode;
-  readonly state?: MetadataRuntimeState;
   readonly diagnosticsEnabled?: boolean;
+  readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
+  readonly organizationId?: MetadataRuntimeOrganizationId;
+  readonly permissions?: readonly MetadataRuntimePermissionKey[];
+  readonly presentationMode?: PresentationMode;
   readonly readonlyMode?: boolean;
+  readonly state?: MetadataRuntimeState;
+  readonly tenantId?: MetadataRuntimeTenantId;
+  readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
 
 export interface RuntimeContract {
   readonly authority: "runtime";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /**
    * Runtime contract owns context shape only.
@@ -127,11 +126,12 @@ export interface RuntimeContract {
    */
   readonly owns: readonly RuntimeContractOwnership[];
 
-  /** Governed metadata runtime states. */
-  readonly states: readonly MetadataRuntimeState[];
-
   /** Responsibilities explicitly forbidden from the runtime contract. */
   readonly prohibits: readonly RuntimeContractProhibition[];
+
+  /** Governed metadata runtime states. */
+  readonly states: readonly MetadataRuntimeState[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const runtimeContract = {
@@ -149,27 +149,27 @@ export function createMetadataRuntimeContext(
   input: CreateMetadataRuntimeContextInput = {}
 ): MetadataRuntimeContext {
   return {
-    ...(input.actorId !== undefined ? { actorId: input.actorId } : {}),
-    ...(input.tenantId !== undefined ? { tenantId: input.tenantId } : {}),
-    ...(input.companyId !== undefined ? { companyId: input.companyId } : {}),
-    ...(input.organizationId !== undefined
-      ? { organizationId: input.organizationId }
-      : {}),
-    ...(input.workspaceId !== undefined
-      ? { workspaceId: input.workspaceId }
-      : {}),
-    ...(input.correlationId !== undefined
-      ? { correlationId: input.correlationId }
-      : {}),
-    ...(input.permissions !== undefined
-      ? { permissions: input.permissions }
-      : {}),
-    ...(input.capabilities !== undefined
-      ? { capabilities: input.capabilities }
-      : {}),
-    ...(input.featureFlags !== undefined
-      ? { featureFlags: input.featureFlags }
-      : {}),
+    ...(input.actorId === undefined ? {} : { actorId: input.actorId }),
+    ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
+    ...(input.companyId === undefined ? {} : { companyId: input.companyId }),
+    ...(input.organizationId === undefined
+      ? {}
+      : { organizationId: input.organizationId }),
+    ...(input.workspaceId === undefined
+      ? {}
+      : { workspaceId: input.workspaceId }),
+    ...(input.correlationId === undefined
+      ? {}
+      : { correlationId: input.correlationId }),
+    ...(input.permissions === undefined
+      ? {}
+      : { permissions: input.permissions }),
+    ...(input.capabilities === undefined
+      ? {}
+      : { capabilities: input.capabilities }),
+    ...(input.featureFlags === undefined
+      ? {}
+      : { featureFlags: input.featureFlags }),
     density: input.density ?? "default",
     presentationMode: input.presentationMode ?? "default",
     state: input.state ?? "ready",

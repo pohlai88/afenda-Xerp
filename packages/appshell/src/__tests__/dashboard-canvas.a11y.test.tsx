@@ -26,7 +26,9 @@ describe("ApplicationShell dashboard canvas accessibility", () => {
   it("does not render drag handles in readonly mode", () => {
     render(<ApplicationShellDashboardCanvas editMode={false} />);
 
-    expect(screen.queryByRole("button", { name: /^Drag / })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /^Drag / })
+    ).not.toBeInTheDocument();
   });
 
   it("does not expose edit chrome in readonly mode", () => {

@@ -1,12 +1,15 @@
 import type { Logger } from "@afenda/observability";
 
 import { createErpLogger, type ErpLoggerContext } from "./create-erp-logger";
-import { createErpCorrelationId, type ErpCorrelationId } from "./erp-correlation-id";
+import {
+  createErpCorrelationId,
+  type ErpCorrelationId,
+} from "./erp-correlation-id";
 
 export interface CreateErpBackgroundLoggerInput {
-  readonly module: string;
   readonly correlationId?: ErpCorrelationId;
   readonly correlationPrefix?: string;
+  readonly module: string;
 }
 
 /** Logger factory for cron jobs and other non-request Node.js work. */

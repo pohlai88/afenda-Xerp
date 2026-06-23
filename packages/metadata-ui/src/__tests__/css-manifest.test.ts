@@ -1,8 +1,11 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
 import { validateManifest } from "@afenda/ui/governance";
-import { metadataUiCssManifest, METADATA_UI_CSS_BUDGET } from "../styles/css-manifest.js";
+import { describe, expect, it } from "vitest";
+import {
+  METADATA_UI_CSS_BUDGET,
+  metadataUiCssManifest,
+} from "../styles/css-manifest.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
 const pkgJson = JSON.parse(
@@ -18,7 +21,9 @@ describe("@afenda/metadata-ui CSS manifest", () => {
   it("every manifest sourceFile exists on disk", () => {
     for (const entry of metadataUiCssManifest) {
       const abs = join(packageRoot, entry.sourceFile);
-      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(true);
+      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(
+        true
+      );
     }
   });
 
@@ -43,17 +48,25 @@ describe("@afenda/metadata-ui CSS manifest", () => {
   });
 
   it("renderer-structural entry has metadata- class namespace", () => {
-    const structural = metadataUiCssManifest.find((e) => e.purpose === "renderer-structural");
+    const structural = metadataUiCssManifest.find(
+      (e) => e.purpose === "renderer-structural"
+    );
     expect(structural?.classNamespace).toBe("metadata-");
   });
 
   it("afenda-metadata-ui.css contains no .metadata-fixture- selectors", () => {
-    const css = readFileSync(join(packageRoot, "src/afenda-metadata-ui.css"), "utf8");
+    const css = readFileSync(
+      join(packageRoot, "src/afenda-metadata-ui.css"),
+      "utf8"
+    );
     expect(css).not.toMatch(/\.metadata-fixture-/);
   });
 
   it("afenda-metadata-ui.css defines no --afenda-* token authority", () => {
-    const css = readFileSync(join(packageRoot, "src/afenda-metadata-ui.css"), "utf8");
+    const css = readFileSync(
+      join(packageRoot, "src/afenda-metadata-ui.css"),
+      "utf8"
+    );
     expect(css).not.toMatch(/--afenda-[a-z]/);
   });
 });
@@ -61,16 +74,22 @@ describe("@afenda/metadata-ui CSS manifest", () => {
 describe("@afenda/metadata-ui CSS budget", () => {
   it("has at most maxSourceFiles CSS files", () => {
     const allCss = collectCssFiles(join(packageRoot, "src"));
-    expect(allCss.length).toBeLessThanOrEqual(METADATA_UI_CSS_BUDGET.maxSourceFiles);
+    expect(allCss.length).toBeLessThanOrEqual(
+      METADATA_UI_CSS_BUDGET.maxSourceFiles
+    );
   });
 
   it("every CSS file is in the allowed list", () => {
     const allCss = collectCssFiles(join(packageRoot, "src"));
     for (const file of allCss) {
-      const rel = file.replace(packageRoot + "\\", "").replace(packageRoot + "/", "");
+      const rel = file
+        .replace(packageRoot + "\\", "")
+        .replace(packageRoot + "/", "");
       const normalised = rel.replace(/\\/g, "/");
       expect(
-        (METADATA_UI_CSS_BUDGET.allowedSourceFiles as readonly string[]).includes(normalised),
+        (
+          METADATA_UI_CSS_BUDGET.allowedSourceFiles as readonly string[]
+        ).includes(normalised),
         `Unregistered CSS file ${normalised} — add to METADATA_UI_CSS_BUDGET or remove`
       ).toBe(true);
     }
@@ -79,10 +98,14 @@ describe("@afenda/metadata-ui CSS budget", () => {
 
 function collectCssFiles(dir: string): string[] {
   const result: string[] = [];
-  if (!existsSync(dir)) return result;
+  if (!existsSync(dir)) {
+    return result;
+  }
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (["node_modules", "__tests__", "_storybook"].includes(entry.name)) continue;
+    if (["node_modules", "__tests__", "_storybook"].includes(entry.name)) {
+      continue;
+    }
     if (entry.isDirectory()) {
       result.push(...collectCssFiles(full));
     } else if (entry.name.endsWith(".css")) {

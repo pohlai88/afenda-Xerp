@@ -4,8 +4,8 @@ import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { organizations } from "../schema/organization.schema.js";
 import {
-  organizationLookupSelect,
   type OrganizationLookupRow,
+  organizationLookupSelect,
 } from "../workspace/workspace-lookup.service.js";
 import { TEAM_ORGANIZATION_UNIT_TYPE } from "./team.constants.js";
 

@@ -1,7 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
-
-import { resolveOperatingContext } from "@/lib/context/resolve-operating-context.server";
 import type { MembershipContract } from "@afenda/permissions";
+import { describe, expect, it, vi } from "vitest";
+import { resolveOperatingContext } from "@/lib/context/resolve-operating-context.server";
 
 const TENANT_ID = "tenant-001";
 const COMPANY_ID = "company-001";
@@ -201,7 +200,10 @@ describe("resolveOperatingContext", () => {
       expect(result.value.organizationUnit?.organizationUnitId).toBe(ORG_ID);
       expect(result.value.permissionScope.grantScopeType).toBe("organization");
       expect(logOperatingContextResolution).toHaveBeenCalledWith(
-        expect.objectContaining({ outcome: "resolved", tenantSlug: "dev-local" })
+        expect.objectContaining({
+          outcome: "resolved",
+          tenantSlug: "dev-local",
+        })
       );
     }
   });

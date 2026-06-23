@@ -93,9 +93,9 @@ describe("Avatar governance", () => {
       </Avatar>
     );
 
-    const badge = screen.getByText("JD").parentElement?.querySelector(
-      "[data-slot='avatar-badge']"
-    );
+    const badge = screen
+      .getByText("JD")
+      .parentElement?.querySelector("[data-slot='avatar-badge']");
 
     expect(badge).not.toBeNull();
     expectGovernedDataAuthority(badge as HTMLElement, {

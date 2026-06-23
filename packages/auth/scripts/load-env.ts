@@ -11,6 +11,9 @@ export const repoRoot = path.resolve(authPackageDir, "../..");
 export function loadAuthScriptEnv(): void {
   loadEnv({ path: path.join(repoRoot, ".env") });
   loadEnv({ path: path.join(repoRoot, ".env.local"), override: true });
-  loadEnv({ path: path.join(repoRoot, "packages/database/.env"), override: true });
+  loadEnv({
+    path: path.join(repoRoot, "packages/database/.env"),
+    override: true,
+  });
   loadEnv({ path: path.join(repoRoot, "apps/erp/.env.local"), override: true });
 }

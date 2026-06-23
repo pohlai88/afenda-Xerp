@@ -35,7 +35,9 @@ function assertMotionPolicyCoverage(): void {
   const missingIntents = getMissingMotionIntents();
 
   if (missingIntents.length > 0) {
-    reportGovernanceRuntimeViolation(formatMissingMotionIntents(missingIntents));
+    reportGovernanceRuntimeViolation(
+      formatMissingMotionIntents(missingIntents)
+    );
   }
 }
 

@@ -73,7 +73,7 @@ export function checkStaticRechartsImport(content) {
 
   return [
     'Static import from "recharts" — use next/dynamic with ssr:false so recharts (~200 KB) stays out of the initial bundle. ' +
-      'See .cursor/skills/react-erp-quality/SKILL.md Gate 5.1.',
+      "See .cursor/skills/react-erp-quality/SKILL.md Gate 5.1.",
   ];
 }
 
@@ -87,8 +87,8 @@ export function checkForwardRef(content) {
   }
 
   return [
-    'forwardRef() detected — React 19 passes ref as a plain prop; remove forwardRef() wrapper. ' +
-      'See .cursor/skills/react-erp-quality/SKILL.md Gate 4.4.',
+    "forwardRef() detected — React 19 passes ref as a plain prop; remove forwardRef() wrapper. " +
+      "See .cursor/skills/react-erp-quality/SKILL.md Gate 4.4.",
   ];
 }
 
@@ -110,8 +110,8 @@ export function checkUseEffectDerivedState(content) {
   const setter = match[1];
   return [
     `useEffect with single ${setter}() call detected — this syncs derived state from a prop. ` +
-      `Derive during render or use key-prop reset instead. ` +
-      `See .cursor/skills/react-erp-quality/SKILL.md Gate 2.1.`,
+      "Derive during render or use key-prop reset instead. " +
+      "See .cursor/skills/react-erp-quality/SKILL.md Gate 2.1.",
   ];
 }
 
@@ -143,7 +143,7 @@ export function checkChartA11y(content) {
       violations.push(
         `${chartEl} used ${missing}x without aria-hidden="true" — wrap in ` +
           `<figure aria-label="…"> and add aria-hidden="true" to the chart element. ` +
-          `See .cursor/skills/react-erp-quality/SKILL.md Gate 1.2.`
+          "See .cursor/skills/react-erp-quality/SKILL.md Gate 1.2."
       );
     }
   }
@@ -169,7 +169,7 @@ export function checkRawImg(content, filePath = "") {
 
   return [
     '<img> element detected — use Next.js <Image> from "next/image" for automatic optimization. ' +
-      'See .cursor/skills/react-erp-quality/SKILL.md Gate 5.5.',
+      "See .cursor/skills/react-erp-quality/SKILL.md Gate 5.5.",
   ];
 }
 

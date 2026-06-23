@@ -28,9 +28,9 @@ const SELECT_SLOT_ROLES = {
 
 export interface SelectProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>,
+      "className"
+    >,
     GovernedSelectProps {
   readonly className?: string;
 }

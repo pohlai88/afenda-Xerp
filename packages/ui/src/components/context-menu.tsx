@@ -18,9 +18,9 @@ const ContextMenuShortcut = createGovernedSpanSlot("ContextMenuShortcut", {
 
 export interface ContextMenuProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>,
+      "className"
+    >,
     GovernedContextMenuProps {
   readonly className?: string;
 }

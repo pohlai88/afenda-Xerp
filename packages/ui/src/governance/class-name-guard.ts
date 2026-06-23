@@ -44,11 +44,13 @@ function detectVisualSlop(token: string): ClassNamePolicyViolation | undefined {
     }
   }
 
-  return undefined;
+  return;
 }
 
 /** Extended class-name guard — layout policy + enterprise anti-slop patterns. */
-export function guardClassName(className: string | undefined): ClassNamePolicyResult {
+export function guardClassName(
+  className: string | undefined
+): ClassNamePolicyResult {
   const base = validateLayoutClassName(className);
 
   if (!className) {
@@ -94,6 +96,7 @@ export function assertGuardedClassName(className: string | undefined): void {
   }
 }
 
+export type { ClassNamePolicyResult, ClassNamePolicyViolation };
 export {
   assertAllowedLayoutClassName,
   assertAllowedLayoutClassNameStrict,
@@ -102,5 +105,3 @@ export {
   validateLayoutClassName,
   visualDriftPolicy,
 };
-
-export type { ClassNamePolicyResult, ClassNamePolicyViolation };

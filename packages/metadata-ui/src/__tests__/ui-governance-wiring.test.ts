@@ -33,10 +33,8 @@ describe("metadata-ui UI governance wiring", () => {
       "utf8"
     );
 
-    expect(wiringSource).toContain(
-      'resolveMetadataUiSlotClassName'
-    );
-    expect(wiringSource).toContain('@afenda/ui/governance');
+    expect(wiringSource).toContain("resolveMetadataUiSlotClassName");
+    expect(wiringSource).toContain("@afenda/ui/governance");
   });
 
   it("still imports metadata contracts from @afenda/metadata", () => {

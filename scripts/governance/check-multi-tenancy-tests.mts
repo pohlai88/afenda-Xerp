@@ -19,10 +19,10 @@ import {
 } from "./lib/multi-tenancy-tests-enforcement.mts";
 import {
   MULTI_TENANCY_DOC_TESTS_MARKERS,
+  MULTI_TENANCY_TEST_REQUIREMENTS,
   MULTI_TENANCY_TESTS_ENFORCEMENT_LIB,
   MULTI_TENANCY_TESTS_GATE,
   MULTI_TENANCY_TESTS_SURFACE_RULE,
-  MULTI_TENANCY_TEST_REQUIREMENTS,
   TIP_007_012_TESTS_SECTION,
 } from "./multi-tenancy-tests-registry.mts";
 
@@ -78,7 +78,10 @@ export function checkMultiTenancyTests(): MultiTenancyTestsViolation[] {
     });
   }
 
-  const enforcementLibPath = join(repoRoot, MULTI_TENANCY_TESTS_ENFORCEMENT_LIB);
+  const enforcementLibPath = join(
+    repoRoot,
+    MULTI_TENANCY_TESTS_ENFORCEMENT_LIB
+  );
   const gatePath = join(repoRoot, MULTI_TENANCY_TESTS_GATE);
 
   if (!existsSync(enforcementLibPath)) {
@@ -165,9 +168,13 @@ export function checkMultiTenancyTests(): MultiTenancyTestsViolation[] {
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );

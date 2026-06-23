@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import {
   BarChart3Icon,
   BriefcaseIcon,
@@ -8,13 +7,19 @@ import {
   TrendingUpIcon,
   UsersIcon,
 } from "lucide-react";
+import type { ComponentType } from "react";
 
-export const DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL = "ERP overview dashboard";
-export const DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE = "Recent orders";
-export const DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_CAPTION = "Last 5 entries";
-export const DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE = "Module performance";
+export const DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL =
+  "ERP overview dashboard";
+export const DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE =
+  "Recent orders";
+export const DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_CAPTION =
+  "Last 5 entries";
+export const DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE =
+  "Module performance";
 export const DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERIOD_LABEL = "FY2026 Q2";
-export const DEFAULT_APP_SHELL_PLACEHOLDER_SPARKLINE_COMPARISON_LABEL = "vs last month";
+export const DEFAULT_APP_SHELL_PLACEHOLDER_SPARKLINE_COMPARISON_LABEL =
+  "vs last month";
 
 export const APP_SHELL_PLACEHOLDER_RECENT_ORDERS_SECTION_ID =
   "app-shell-placeholder-recent-orders-title";
@@ -29,37 +34,37 @@ export function formatPlaceholderSparklineChartLabel(title: string): string {
 export type AppShellPlaceholderTrendDirection = "down" | "up";
 
 export interface AppShellPlaceholderKpiCard {
+  readonly badge: string;
+  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly title: string;
-  readonly badge: string;
-  readonly value: string;
   readonly trend: AppShellPlaceholderTrendDirection;
-  readonly Icon: ComponentType<{ readonly className?: string }>;
+  readonly value: string;
 }
 
 export interface AppShellPlaceholderSparklineCard {
-  readonly id: string;
-  readonly title: string;
   readonly amount: string;
   readonly change: string;
-  readonly trend: AppShellPlaceholderTrendDirection;
   readonly data: readonly number[];
+  readonly id: string;
+  readonly title: string;
+  readonly trend: AppShellPlaceholderTrendDirection;
 }
 
 export interface AppShellPlaceholderOrderRow {
+  readonly amount: string;
+  readonly description: string;
+  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly module: string;
-  readonly description: string;
-  readonly amount: string;
   readonly type: "credit" | "debit";
-  readonly Icon: ComponentType<{ readonly className?: string }>;
 }
 
 export interface AppShellPlaceholderModuleRow {
   readonly id: string;
   readonly name: string;
-  readonly status: string;
   readonly progress: number;
+  readonly status: string;
 }
 
 const expenseSparkline = [
@@ -169,8 +174,18 @@ const placeholderOrdersSource = [
 
 const placeholderModulesSource = [
   { id: "module-finance", name: "Finance", status: "On track", progress: 82 },
-  { id: "module-hr", name: "Human Resources", status: "On track", progress: 74 },
-  { id: "module-inventory", name: "Inventory", status: "At risk", progress: 55 },
+  {
+    id: "module-hr",
+    name: "Human Resources",
+    status: "On track",
+    progress: 74,
+  },
+  {
+    id: "module-inventory",
+    name: "Inventory",
+    status: "At risk",
+    progress: 55,
+  },
   { id: "module-sales", name: "Sales & CRM", status: "On track", progress: 91 },
   {
     id: "module-manufacturing",

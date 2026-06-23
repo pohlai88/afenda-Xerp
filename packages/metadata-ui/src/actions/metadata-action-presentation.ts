@@ -83,5 +83,5 @@ export function createMultiplePrimaryActionsWarning(
     return `Metadata action bar has ${primaryCount} visible primary actions; only one primary action is recommended per bar.`;
   }
 
-  return undefined;
+  return;
 }

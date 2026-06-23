@@ -3,9 +3,9 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+  CSP_NONCE_HEADER,
   createContentSecurityPolicy,
   createCspNonce,
-  CSP_NONCE_HEADER,
 } from "@/lib/security/csp";
 
 describe("createCspNonce", () => {
@@ -29,7 +29,9 @@ describe("createContentSecurityPolicy", () => {
       nonce,
     });
 
-    expect(policy).toContain(`script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`);
+    expect(policy).toContain(
+      `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`
+    );
     expect(policy).toContain(`style-src 'self' 'nonce-${nonce}'`);
     expect(policy).not.toContain("'unsafe-inline'");
     expect(policy).not.toContain("'unsafe-eval'");
@@ -89,7 +91,10 @@ describe("CSP constants", () => {
 
 describe("csp.ts Supabase wiring", () => {
   it("resolves platform origins via resolveSupabaseCspPlatformOrigins", () => {
-    const source = readFileSync(resolve(__dirname, "../csp.ts"), "utf8");
+    const source = readFileSync(
+      resolve(import.meta.dirname, "../csp.ts"),
+      "utf8"
+    );
 
     expect(source).toContain("resolveSupabaseCspPlatformOrigins");
     expect(source).not.toMatch(/\bresolveSupabaseConnectSrcOrigins\s*\(/);

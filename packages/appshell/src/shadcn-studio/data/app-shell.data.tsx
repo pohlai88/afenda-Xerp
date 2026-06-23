@@ -1,4 +1,3 @@
-import type { ReactElement } from "react";
 import {
   BarChart3Icon,
   BookOpenIcon,
@@ -11,11 +10,12 @@ import {
   ShoppingBagIcon,
   UsersIcon,
 } from "lucide-react";
+import type { ReactElement } from "react";
 
 export interface AppShellMenuSubItem {
-  readonly label: string;
-  readonly href: string;
   readonly badge?: string;
+  readonly href: string;
+  readonly label: string;
 }
 
 export type AppShellMenuItem = {
@@ -27,13 +27,17 @@ export type AppShellMenuItem = {
       readonly badge?: string;
       readonly items?: never;
     }
-  | { readonly href?: never; readonly badge?: never; readonly items: readonly AppShellMenuSubItem[] }
+  | {
+      readonly href?: never;
+      readonly badge?: never;
+      readonly items: readonly AppShellMenuSubItem[];
+    }
 );
 
 export interface AppShellRecipientItem {
-  readonly name: string;
   readonly avatarSrc: string;
   readonly href: string;
+  readonly name: string;
 }
 
 const erpNavSource = [
@@ -148,7 +152,8 @@ const erpTeamSource = [
   },
 ] satisfies readonly AppShellRecipientItem[];
 
-export const defaultAppShellRecipients: readonly AppShellRecipientItem[] = erpTeamSource;
+export const defaultAppShellRecipients: readonly AppShellRecipientItem[] =
+  erpTeamSource;
 
 // ── Serializable nav (RSC boundary safe) ──────────────────────────────────────
 // AppShellMenuItem uses ReactElement icons and cannot cross a server→client
@@ -192,14 +197,14 @@ export type AppShellNavItemSerializable = {
 const NAV_ICON_MAP = {
   "bar-chart-3": <BarChart3Icon aria-hidden />,
   "book-open": <BookOpenIcon aria-hidden />,
-  "boxes": <BoxesIcon aria-hidden />,
-  "building": <BuildingIcon aria-hidden />,
+  boxes: <BoxesIcon aria-hidden />,
+  building: <BuildingIcon aria-hidden />,
   "clipboard-list": <ClipboardListIcon aria-hidden />,
-  "dashboard": <HomeIcon aria-hidden />,
+  dashboard: <HomeIcon aria-hidden />,
   "folder-open": <FolderOpenIcon aria-hidden />,
-  "settings": <SettingsIcon aria-hidden />,
+  settings: <SettingsIcon aria-hidden />,
   "shopping-bag": <ShoppingBagIcon aria-hidden />,
-  "users": <UsersIcon aria-hidden />,
+  users: <UsersIcon aria-hidden />,
 } satisfies Record<AppShellNavIconId, ReactElement>;
 
 /** Resolves a serializable nav icon id to a `ReactElement` at the client boundary. */
@@ -215,19 +220,19 @@ export type AppShellActivityTagTone =
   | "warning";
 
 export interface AppShellActivityActor {
-  readonly name: string;
   readonly avatarSrc: string;
   readonly fallback: string;
+  readonly name: string;
 }
 
 interface AppShellActivityItemBase {
-  readonly id: string;
-  readonly actor: AppShellActivityActor;
   /** Sentence fragment after the actor name (e.g. "mentioned you in Q2 budget review"). */
   readonly action: string;
-  readonly relativeTime: string;
+  readonly actor: AppShellActivityActor;
+  readonly id: string;
   /** ISO-8601 instant for `<time>` semantics. */
   readonly occurredAt: string;
+  readonly relativeTime: string;
 }
 
 export interface AppShellActivitySimpleItem extends AppShellActivityItemBase {
@@ -239,22 +244,23 @@ export interface AppShellActivityMentionItem extends AppShellActivityItemBase {
   readonly quote: string;
 }
 
-export interface AppShellActivityFileInlineItem extends AppShellActivityItemBase {
-  readonly kind: "file-inline";
-  readonly fileName: string;
-  readonly thumbnailSrc: string;
-  readonly thumbnailAlt: string;
+export interface AppShellActivityFileInlineItem
+  extends AppShellActivityItemBase {
   /** Document link target. Defaults to `#` in the feed renderer when omitted. */
   readonly fileHref?: string;
+  readonly fileName: string;
+  readonly kind: "file-inline";
+  readonly thumbnailAlt: string;
+  readonly thumbnailSrc: string;
 }
 
 export interface AppShellActivityFileCardItem extends AppShellActivityItemBase {
-  readonly kind: "file-card";
-  readonly fileName: string;
-  readonly thumbnailSrc: string;
-  readonly thumbnailAlt: string;
   /** Document link target. Defaults to `#` in the feed renderer when omitted. */
   readonly fileHref?: string;
+  readonly fileName: string;
+  readonly kind: "file-card";
+  readonly thumbnailAlt: string;
+  readonly thumbnailSrc: string;
 }
 
 export interface AppShellActivityTag {

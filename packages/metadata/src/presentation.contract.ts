@@ -36,7 +36,11 @@ export type PresentationContractProhibition =
 
 export interface PresentationContract {
   readonly authority: "presentation";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
+
+  /**
+   * Governed metadata density modes.
+   */
+  readonly densityModes: readonly MetadataDensityMode[];
 
   /**
    * Presentation contract owns metadata display intent only.
@@ -53,14 +57,10 @@ export interface PresentationContract {
   readonly presentationModes: readonly PresentationMode[];
 
   /**
-   * Governed metadata density modes.
-   */
-  readonly densityModes: readonly MetadataDensityMode[];
-
-  /**
    * Responsibilities explicitly forbidden from the presentation contract.
    */
   readonly prohibits: readonly PresentationContractProhibition[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const presentationContract = {

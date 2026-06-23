@@ -10,9 +10,17 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type { CSSProperties } from "react";
 import { useId } from "react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import {
+  LazyCartesianGrid as CartesianGrid,
+  LazyLine as Line,
+  LazyLineChart as LineChart,
+  LazyXAxis as XAxis,
+} from "../../charts/recharts-lazy.client";
 
-import { STATISTICS_LINE_TRENDS_CHART_MARGIN, formatStatisticsLineTrendsChartLabel } from "../data/statistics-line-trends.data";
+import {
+  formatStatisticsLineTrendsChartLabel,
+  STATISTICS_LINE_TRENDS_CHART_MARGIN,
+} from "../data/statistics-line-trends.data";
 
 export interface StatisticsTrendSeries {
   readonly color: string;
@@ -111,6 +119,7 @@ export function StatisticsLineTrendsCard({
               <ChartContainer config={chartConfig}>
                 <LineChart
                   accessibilityLayer
+                  aria-hidden="true"
                   data={chartData}
                   margin={STATISTICS_LINE_TRENDS_CHART_MARGIN}
                 >

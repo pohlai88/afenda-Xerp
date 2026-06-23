@@ -45,9 +45,9 @@ const REQUIRED_DIST_EXPORTS = [
 ] as const;
 
 export interface KernelContextViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listSourceFiles(directory: string): string[] {
@@ -67,7 +67,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -91,7 +94,9 @@ function parseRegistryModuleFiles(source: string): {
     for (const fileMatch of requiredBlock[1].matchAll(/file:\s*"([^"]+)"/g)) {
       required.push(fileMatch[1] ?? "");
     }
-    for (const typeMatch of requiredBlock[1].matchAll(/primaryType:\s*"([^"]+)"/g)) {
+    for (const typeMatch of requiredBlock[1].matchAll(
+      /primaryType:\s*"([^"]+)"/g
+    )) {
       primaryTypes.push(typeMatch[1] ?? "");
     }
   }
@@ -187,7 +192,10 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  const accountingSource = join(contextRoot, "accounting-readiness.contract.ts");
+  const accountingSource = join(
+    contextRoot,
+    "accounting-readiness.contract.ts"
+  );
   if (existsSync(accountingSource)) {
     const accounting = readFileSync(accountingSource, "utf8");
     if (
@@ -197,7 +205,8 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
       violations.push({
         rule: "circular-import",
         file: accountingSource,
-        message: "accounting-readiness.contract.ts must not import context/index.js",
+        message:
+          "accounting-readiness.contract.ts must not import context/index.js",
       });
     }
   }

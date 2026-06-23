@@ -89,7 +89,8 @@ export const MobileWithSlots: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Slot layout at mobile width — detail uses `metadata-wrap-anywhere`.",
+        story:
+          "Slot layout at mobile width — detail uses `metadata-wrap-anywhere`.",
       },
     },
   },

@@ -42,7 +42,12 @@ export interface RendererCompatibilityRule {
 
 export interface RendererContract {
   readonly authority: "renderer";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
+
+  /** Governed renderer capabilities. */
+  readonly capabilities: readonly RendererCapability[];
+
+  /** Compatibility rules between renderer capabilities and section types. */
+  readonly compatibilityRules: readonly RendererCompatibilityRule[];
 
   /**
    * Renderer contract owns renderer identity, capability vocabulary,
@@ -53,14 +58,9 @@ export interface RendererContract {
    */
   readonly owns: readonly RendererContractOwnership[];
 
-  /** Governed renderer capabilities. */
-  readonly capabilities: readonly RendererCapability[];
-
-  /** Compatibility rules between renderer capabilities and section types. */
-  readonly compatibilityRules: readonly RendererCompatibilityRule[];
-
   /** Responsibilities explicitly forbidden from the renderer contract. */
   readonly prohibits: readonly RendererContractProhibition[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const RENDERER_COMPATIBILITY_RULES = [
@@ -95,7 +95,6 @@ export function isRendererCapabilityCompatibleWithSectionType(
   sectionType: SectionType
 ): boolean {
   return RENDERER_COMPATIBILITY_RULES.some(
-    (rule) =>
-      rule.capability === capability && rule.sectionType === sectionType
+    (rule) => rule.capability === capability && rule.sectionType === sectionType
   );
 }

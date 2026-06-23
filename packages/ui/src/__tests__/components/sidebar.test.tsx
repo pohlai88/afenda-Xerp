@@ -124,7 +124,9 @@ describe("Sidebar governance", () => {
     expect(wrapper).toHaveAttribute("data-slot", "sidebar-separator");
     expect(wrapper).toHaveAttribute("data-sidebar", "separator");
     expect(
-      wrapper.querySelector("[data-slot='separator'][data-component='Separator']")
+      wrapper.querySelector(
+        "[data-slot='separator'][data-component='Separator']"
+      )
     ).not.toBeNull();
   });
 

@@ -13,7 +13,9 @@ describe("default section renderers", () => {
     expect(listRenderer.identity.key).toBe("metadata-ui.renderer.list.default");
     expect(listRenderer.governance.capability).toBe("render-list");
     expect(listRenderer.governance.sectionTypes).toEqual(["list"]);
-    expect(listRenderer.diagnostics?.namespace).toBe("metadata-ui.renderer.list");
+    expect(listRenderer.diagnostics?.namespace).toBe(
+      "metadata-ui.renderer.list"
+    );
   });
 
   it("creates custom section renderers with governed capability lookup", () => {

@@ -227,7 +227,10 @@ export const Playground: Story = {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem value="dashboard">
-              <CommandItemRow icon={LayoutDashboardIcon} label="Go to dashboard" />
+              <CommandItemRow
+                icon={LayoutDashboardIcon}
+                label="Go to dashboard"
+              />
             </CommandItem>
             <CommandItem value="settings">
               <CommandItemRow icon={SettingsIcon} label="Open settings" />
@@ -355,7 +358,9 @@ export const GovernanceDataAuthority: Story = {
       >
         <CommandInput placeholder="Inspect root attributes…" />
         <CommandList>
-          <CommandItem value="probe">Governed root wins over consumer data-*</CommandItem>
+          <CommandItem value="probe">
+            Governed root wins over consumer data-*
+          </CommandItem>
         </CommandList>
       </Command>
     </InlineCommandShell>
@@ -378,9 +383,9 @@ export const GovernanceSlotMap: Story = {
       <StoryStack gap="sm">
         <p className="font-mono text-muted-foreground text-xs">
           root → command · body → command-input-wrapper · control →
-          command-input · content → command-list · state → command-empty ·
-          label → command-group · footer → command-separator · actions →
-          command-item · header → command-shortcut
+          command-input · content → command-list · state → command-empty · label
+          → command-group · footer → command-separator · actions → command-item
+          · header → command-shortcut
         </p>
         <InlineCommandShell>
           <Command>

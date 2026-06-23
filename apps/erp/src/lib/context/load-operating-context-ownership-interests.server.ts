@@ -1,6 +1,6 @@
 import {
-  findOwnershipInterestsByEntityGroup,
   type AfendaDatabase,
+  findOwnershipInterestsByEntityGroup,
 } from "@afenda/database";
 import type { OwnershipInterestContext } from "@afenda/kernel";
 

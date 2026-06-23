@@ -82,7 +82,7 @@ export const GovernanceDataAuthority: Story = {
     docs: {
       description: {
         story:
-          "Consumer passes `data-chart=\"override\"` and `data-state=\"fake\"` — governed `id` and `state` must win on the container root.",
+          'Consumer passes `data-chart="override"` and `data-state="fake"` — governed `id` and `state` must win on the container root.',
       },
     },
   },
@@ -163,9 +163,7 @@ export const Default: Story = {
             />
             <YAxis
               axisLine={false}
-              tickFormatter={(value: number) =>
-                `$${Math.round(value / 1000)}k`
-              }
+              tickFormatter={(value: number) => `$${Math.round(value / 1000)}k`}
               tickLine={false}
               tickMargin={8}
               width={48}
@@ -204,7 +202,12 @@ export const WithLegend: Story = {
               tickLine={false}
               tickMargin={8}
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={8} width={48} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              width={48}
+            />
             <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar dataKey="revenue" fill="var(--color-revenue)" radius={4} />
@@ -239,7 +242,11 @@ export const ErpKpiTrend: Story = {
             <AreaChart accessibilityLayer data={[...REVENUE_TREND]}>
               <ChartTooltip
                 content={
-                  <ChartTooltipContent hideLabel indicator="dot" nameKey="revenue" />
+                  <ChartTooltipContent
+                    hideLabel
+                    indicator="dot"
+                    nameKey="revenue"
+                  />
                 }
               />
               <Area
@@ -288,7 +295,9 @@ export const GovernanceAccessibility: Story = {
                 <ChartTooltipContent
                   formatter={(value) =>
                     typeof value === "number" ? (
-                      <span className="tabular-nums">{value.toLocaleString()}</span>
+                      <span className="tabular-nums">
+                        {value.toLocaleString()}
+                      </span>
                     ) : (
                       value
                     )
@@ -361,7 +370,9 @@ export const ReducedMotion: Story = {
           <ChartContainer className="h-64 w-full" config={revenueChartConfig}>
             <AreaChart accessibilityLayer data={[...REVENUE_TREND]}>
               <XAxis dataKey="month" hide />
-              <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+              <ChartTooltip
+                content={<ChartTooltipContent indicator="line" />}
+              />
               <Area
                 dataKey="revenue"
                 fill="var(--color-revenue)"

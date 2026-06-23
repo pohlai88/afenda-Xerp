@@ -422,7 +422,7 @@ export const GovernanceDataAuthority: Story = {
     docs: {
       description: {
         story:
-          "Consumer passes `data-density=\"compact\"` and `data-shadow=\"flat\"` — governed props (`density=\"standard\"`, `shadow=\"raised\"`) must win on the card root.",
+          'Consumer passes `data-density="compact"` and `data-shadow="flat"` — governed props (`density="standard"`, `shadow="raised"`) must win on the card root.',
       },
     },
   },
@@ -1095,7 +1095,9 @@ export const OrderLineItemCard: Story = {
           <StoryRow gap="lg" wrap>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Quantity</span>
-              <span className="font-medium text-sm tabular-nums">500 units</span>
+              <span className="font-medium text-sm tabular-nums">
+                500 units
+              </span>
             </StoryStack>
             <StoryStack gap="xs">
               <span className="text-muted-foreground text-xs">Unit price</span>

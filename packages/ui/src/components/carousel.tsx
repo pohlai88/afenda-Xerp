@@ -304,12 +304,12 @@ const CarouselPrevious = React.forwardRef<
     return (
       <div {...applyGovernedPresentation({}, governed)}>
         <Button
-          ref={ref}
+          disabled={!canScrollPrev}
           emphasis={emphasis}
           intent={intent}
-          disabled={!canScrollPrev}
           onClick={scrollPrev}
           presentation={presentation}
+          ref={ref}
           size={size}
           {...props}
         >
@@ -355,12 +355,12 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselControlProps>(
     return (
       <div {...applyGovernedPresentation({}, governed)}>
         <Button
-          ref={ref}
+          disabled={!canScrollNext}
           emphasis={emphasis}
           intent={intent}
-          disabled={!canScrollNext}
           onClick={scrollNext}
           presentation={presentation}
+          ref={ref}
           size={size}
           {...props}
         >

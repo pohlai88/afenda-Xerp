@@ -2,6 +2,8 @@
 
 Final integration gate for Afenda design authority flowing through ERP composition.
 
+Governance index: [`README.md`](README.md) · TIP-004 policy: [`tip-004-policy.md`](tip-004-policy.md) · UI guard gates: [`ui-guard.md`](ui-guard.md)
+
 ## Authority flow
 
 ```txt

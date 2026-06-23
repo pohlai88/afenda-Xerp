@@ -65,7 +65,9 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  if (!registrySource.includes(MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE)) {
+  if (
+    !registrySource.includes(MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registryPath,
@@ -85,7 +87,8 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
     violations.push({
       rule: "dimension-count",
       file: registryPath,
-      message: "Enterprise acceptance registry must define five category dimensions",
+      message:
+        "Enterprise acceptance registry must define five category dimensions",
     });
   }
 
@@ -138,7 +141,11 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       message: `${TIP_007_012_DELIVERY_DOC} is required`,
     });
   } else {
-    if (!deliveryContent.includes(MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE)) {
+    if (
+      !deliveryContent.includes(
+        MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE
+      )
+    ) {
       violations.push({
         rule: "delivery-surface-rule-missing",
         file: deliveryDocPath,
@@ -146,7 +153,11 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       });
     }
 
-    if (!deliveryContent.includes(`## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`)) {
+    if (
+      !deliveryContent.includes(
+        `## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`
+      )
+    ) {
       violations.push({
         rule: "delivery-section-missing",
         file: deliveryDocPath,
@@ -163,7 +174,9 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       message: "root package.json is required",
     });
   } else {
-    if (!packageJsonContent.includes("check:multi-tenancy-enterprise-acceptance")) {
+    if (
+      !packageJsonContent.includes("check:multi-tenancy-enterprise-acceptance")
+    ) {
       violations.push({
         rule: "check-script-missing",
         file: packageJsonPath,
@@ -172,7 +185,11 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       });
     }
 
-    if (!packageJsonContent.includes("quality:multi-tenancy-enterprise-acceptance")) {
+    if (
+      !packageJsonContent.includes(
+        "quality:multi-tenancy-enterprise-acceptance"
+      )
+    ) {
       violations.push({
         rule: "quality-script-missing",
         file: packageJsonPath,
@@ -181,9 +198,13 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -215,11 +236,15 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
     const testingVerificationAcceptanceIndex = qualityChain.indexOf(
       "quality:multi-tenancy-testing-verification-acceptance"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
     const finalOutputIndex = qualityChain.indexOf(
       "quality:multi-tenancy-final-output-format"
     );
-    const deliveryIndex = qualityChain.indexOf("quality:delivery-evidence-surface");
+    const deliveryIndex = qualityChain.indexOf(
+      "quality:delivery-evidence-surface"
+    );
 
     if (
       glossaryIndex === -1 ||

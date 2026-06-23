@@ -57,9 +57,9 @@ const REQUIRED_INDEX_EXPORTS = [
 ] as const;
 
 export interface PermissionsScopeGrantsViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listSourceFiles(directory: string): string[] {
@@ -79,7 +79,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -189,7 +192,8 @@ export function checkPermissionsScopeGrantsSurface(): PermissionsScopeGrantsViol
       violations.push({
         rule: "index-grants-barrel",
         file: indexSource,
-        message: "index.ts must re-export grants surface from ./grants/index.js",
+        message:
+          "index.ts must re-export grants surface from ./grants/index.js",
       });
     }
 
@@ -238,7 +242,10 @@ export function checkPermissionsScopeGrantsSurface(): PermissionsScopeGrantsViol
     });
   }
 
-  for (const scanRoot of [...CONSUMER_SCAN_ROOTS, ...PERMISSIONS_INTERNAL_SCAN_ROOTS]) {
+  for (const scanRoot of [
+    ...CONSUMER_SCAN_ROOTS,
+    ...PERMISSIONS_INTERNAL_SCAN_ROOTS,
+  ]) {
     for (const file of listSourceFiles(scanRoot)) {
       const source = readFileSync(file, "utf8");
 
@@ -253,7 +260,10 @@ export function checkPermissionsScopeGrantsSurface(): PermissionsScopeGrantsViol
         }
       }
 
-      if (isPermissionsNonBarrelSubdirFile(file) && hasLegacyFlatImport(source)) {
+      if (
+        isPermissionsNonBarrelSubdirFile(file) &&
+        hasLegacyFlatImport(source)
+      ) {
         violations.push({
           rule: "legacy-flat-import",
           file,
@@ -267,7 +277,10 @@ export function checkPermissionsScopeGrantsSurface(): PermissionsScopeGrantsViol
   const scopeRoot = join(permissionsSrcRoot, "scope");
   for (const file of listSourceFiles(scopeRoot)) {
     const source = readFileSync(file, "utf8");
-    if (source.includes("../grants/") || source.includes("@afenda/permissions/grants")) {
+    if (
+      source.includes("../grants/") ||
+      source.includes("@afenda/permissions/grants")
+    ) {
       violations.push({
         rule: "scope-imports-grants",
         file,

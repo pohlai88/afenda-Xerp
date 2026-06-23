@@ -117,9 +117,7 @@ export const MULTI_TENANCY_CONTEXT_INTEGRATION_DIMENSIONS = [
 ] as const;
 
 export const MULTI_TENANCY_CONTEXT_INTEGRATION_FUNCTION_MARKERS =
-  CONTEXT_INTEGRATION_FUNCTIONS.map(
-    (entry) => entry.name
-  ) as readonly [
+  CONTEXT_INTEGRATION_FUNCTIONS.map((entry) => entry.name) as readonly [
     "createApiHandler",
     "assertAuthorizedApiRoute",
     "resolveActionOperatingContext",
@@ -129,9 +127,7 @@ export const MULTI_TENANCY_CONTEXT_INTEGRATION_FUNCTION_MARKERS =
   ];
 
 export const MULTI_TENANCY_CONTEXT_INTEGRATION_WIRING_MARKERS =
-  CONTEXT_INTEGRATION_WIRING.map(
-    (entry) => entry.step
-  ) as readonly string[];
+  CONTEXT_INTEGRATION_WIRING.map((entry) => entry.step) as readonly string[];
 
 export const MULTI_TENANCY_CONTEXT_INTEGRATION_GATE =
   "scripts/governance/check-multi-tenancy-context-integration.mts" as const;

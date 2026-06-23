@@ -1,15 +1,15 @@
 import { vi } from "vitest";
 
 interface BoundingClientRectLike {
-  readonly width: number;
-  readonly height: number;
-  readonly top: number;
-  readonly left: number;
   readonly bottom: number;
+  readonly height: number;
+  readonly left: number;
   readonly right: number;
+  toJSON(): this;
+  readonly top: number;
+  readonly width: number;
   readonly x: number;
   readonly y: number;
-  toJSON(): this;
 }
 
 function createDefaultBoundingClientRect(): BoundingClientRectLike {
@@ -59,16 +59,16 @@ export function installJsdomPolyfills(): void {
       releasePointerCapture?: (pointerId: number) => void;
     };
 
-    elementPrototype.getBoundingClientRect = vi.fn(function getBoundingClientRect(
-      this: Element
-    ): DOMRect {
-      const rect = createDefaultBoundingClientRect();
-      return {
-        ...rect,
-        width: this.clientWidth || rect.width,
-        height: this.clientHeight || rect.height,
-      } as DOMRect;
-    });
+    elementPrototype.getBoundingClientRect = vi.fn(
+      function getBoundingClientRect(this: Element): DOMRect {
+        const rect = createDefaultBoundingClientRect();
+        return {
+          ...rect,
+          width: this.clientWidth || rect.width,
+          height: this.clientHeight || rect.height,
+        } as DOMRect;
+      }
+    );
 
     if (elementPrototype.hasPointerCapture === undefined) {
       elementPrototype.hasPointerCapture = () => false;

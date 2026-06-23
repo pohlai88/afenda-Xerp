@@ -12,6 +12,8 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
 
+import { AppShellOptimizedImage } from "../../components/appshell-optimized-image.client";
+
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
   DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_COMPARISON,
@@ -88,7 +90,7 @@ function PaymentHistoryRow({
       <TableCell>
         <div className="app-shell-dashboard-payment-card-cell">
           <div className="app-shell-dashboard-payment-brand-frame">
-            <img
+            <AppShellOptimizedImage
               alt={row.brandIconAlt}
               height={28}
               src={row.brandIconSrc}

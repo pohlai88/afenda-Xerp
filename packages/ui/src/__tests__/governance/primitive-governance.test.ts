@@ -286,7 +286,9 @@ describe("resolvePrimitiveGovernance", () => {
 
     expect(row.dataAttributes["data-slot"]).toBe("chart-tooltip-row");
     expect(row.className).toContain("items-center");
-    expect(indicator.dataAttributes["data-slot"]).toBe("chart-tooltip-indicator");
+    expect(indicator.dataAttributes["data-slot"]).toBe(
+      "chart-tooltip-indicator"
+    );
     expect(indicator.className).toContain("rounded-[2px]");
   });
 });

@@ -918,7 +918,7 @@ Canonical source: `docs/architecture/multi-tenancy.md` §678–684.
 
 | Command | Slice status | Notes |
 | --- | --- | --- |
-| `pnpm typecheck` | Blocked (pre-existing) | Monorepo root typecheck fails on `@afenda/ui` Storybook stories — see Pre-existing blockers |
+| `pnpm typecheck` | Pass | Monorepo root typecheck passes after `@afenda/ui` lib/governance fixes and storybook scope split |
 | `pnpm test:run` | Slice pass | Multi-tenancy contract tests + 22 governance gate suites pass when run for this slice |
 | `pnpm build` | Slice pass | `pnpm build:governance-dist` + `@afenda/erp` build succeed for slice packages |
 | `pnpm quality` | Slice pass | Multi-tenancy governance quality chain (gates #1–#22) passes after `build:governance-dist` |
@@ -930,8 +930,7 @@ and prove this slice's checks pass separately.
 
 | Blocker | Scope | Slice checks pass |
 | --- | --- | --- |
-| `@afenda/ui` Storybook story type errors (`*.stories.tsx` included in root `tsconfig`) | Root `pnpm typecheck` | `pnpm --filter @afenda/erp typecheck`; all 22 `check:multi-tenancy-*` gates; `pnpm build:governance-dist` |
-| Full monorepo `pnpm test:run` / `pnpm build` runtime | Outside TIP-007/012 slice | Targeted package tests listed under Package verification; governance Vitest suites |
+| Full monorepo `pnpm test:run` / `pnpm build` runtime | Outside TIP-007/012 slice | Targeted package tests listed under Package verification; governance Vitest suites; `pnpm --filter @afenda/ui typecheck:stories` |
 
 Slice checks pass when: `pnpm build:governance-dist && pnpm quality:multi-tenancy-glossary-first && … && pnpm quality:delivery-evidence-surface` completes without error.
 

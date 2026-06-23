@@ -1,9 +1,9 @@
 import { PROHIBITED_CLASSNAME_PATTERNS } from "./design-system";
-import type { GovernedRecipeName, GovernedUiComponentName } from "./types";
 import {
-  getPrimitiveDefinition,
   GOVERNED_PRIMITIVE_REGISTRY,
+  getPrimitiveDefinition,
 } from "./primitive-registry";
+import type { GovernedRecipeName, GovernedUiComponentName } from "./types";
 
 /** Core primitives required for AppShell / Metadata UI consumption. */
 export const CORE_PRIMITIVE_NAMES = [
@@ -27,17 +27,17 @@ export const CORE_PRIMITIVE_NAMES = [
 export type CorePrimitiveName = (typeof CORE_PRIMITIVE_NAMES)[number];
 
 export interface PrimitiveRegistryEntry {
-  readonly component: GovernedUiComponentName;
-  readonly recipe: GovernedRecipeName;
-  readonly ownerPackage: "@afenda/ui";
-  readonly lifecycle: "active" | "experimental" | "deprecated";
   readonly accessibility: {
     readonly keyboard: boolean;
     readonly focusVisible: boolean;
     readonly aria: boolean;
   };
   readonly allowedClassNamePassthrough: readonly string[];
+  readonly component: GovernedUiComponentName;
+  readonly lifecycle: "active" | "experimental" | "deprecated";
+  readonly ownerPackage: "@afenda/ui";
   readonly prohibitedClassNamePatterns: readonly string[];
+  readonly recipe: GovernedRecipeName;
 }
 
 const STRUCTURAL_PASSTHROUGH = [

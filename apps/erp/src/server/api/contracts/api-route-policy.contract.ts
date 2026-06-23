@@ -3,7 +3,12 @@ import type { ApiCachePolicy, ApiRouteContract } from "./api-contract";
 export function isMutationMethod(
   method: ApiRouteContract<unknown, unknown>["method"]
 ): boolean {
-  return method === "DELETE" || method === "PATCH" || method === "POST" || method === "PUT";
+  return (
+    method === "DELETE" ||
+    method === "PATCH" ||
+    method === "POST" ||
+    method === "PUT"
+  );
 }
 
 export function assertMutationCachePolicy(
@@ -41,5 +46,5 @@ export function resolveRevalidateSeconds(
     return cache.seconds;
   }
 
-  return undefined;
+  return;
 }

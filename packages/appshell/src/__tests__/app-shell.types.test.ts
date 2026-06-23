@@ -37,7 +37,9 @@ describe("ApplicationShell contracts", () => {
       },
     };
 
-    expectTypeOf(props.identity).toMatchTypeOf<ApplicationShellIdentity | undefined>();
+    expectTypeOf(props.identity).toMatchTypeOf<
+      ApplicationShellIdentity | undefined
+    >();
   });
 
   it("exposes satisfies-checked shell defaults", () => {

@@ -12,29 +12,26 @@ import type { MetadataUiRenderContext } from "../contracts/render-context.contra
 import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";
 
 export interface MetadataRendererRegistryResolveInput {
+  readonly capability: RendererCapability;
+  readonly context: MetadataUiRenderContext;
+  readonly input: unknown;
   readonly registry: MetadataRendererRegistry;
   readonly sectionType: SectionType;
-  readonly capability: RendererCapability;
-  readonly input: unknown;
-  readonly context: MetadataUiRenderContext;
 }
 
 export interface MetadataRendererRegistry {
-  register(
-    renderer: MetadataRendererDefinition
-  ): MetadataRendererRegistry;
+  entries(): readonly MetadataRendererDefinition[];
 
   get(key: string): MetadataRendererDefinition | undefined;
+
+  has(key: string): boolean;
+
+  keys(): readonly string[];
+  register(renderer: MetadataRendererDefinition): MetadataRendererRegistry;
 
   resolve(
     input: Omit<MetadataRendererRegistryResolveInput, "registry">
   ): MetadataRendererDefinition | undefined;
-
-  entries(): readonly MetadataRendererDefinition[];
-
-  keys(): readonly string[];
-
-  has(key: string): boolean;
 }
 
 /**

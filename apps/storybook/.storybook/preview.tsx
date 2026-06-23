@@ -1,8 +1,7 @@
-import type { Decorator, Preview } from "@storybook/react";
-import React, { useEffect } from "react";
-import type { ReactNode } from "react";
-
 import { TooltipProvider } from "@afenda/ui";
+import type { Decorator, Preview } from "@storybook/react";
+import type { ReactNode } from "react";
+import { useEffect } from "react";
 import "./preview.css";
 
 function StorybookThemeShell({

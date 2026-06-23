@@ -1,4 +1,8 @@
-import type { AppError, AppErrorCode, ValidationFieldError } from "@afenda/kernel";
+import type {
+  AppError,
+  AppErrorCode,
+  ValidationFieldError,
+} from "@afenda/kernel";
 
 export type ServerActionSuccess<TData> = {
   readonly ok: true;
@@ -22,9 +26,7 @@ export function serverActionSuccess<TData>(
   return { ok: true, data };
 }
 
-export function serverActionFailure(
-  error: AppError
-): ServerActionFailure {
+export function serverActionFailure(error: AppError): ServerActionFailure {
   if (error.code === "VALIDATION_ERROR") {
     return {
       ok: false,

@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import { sheetStoryProps, type RenderStory } from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
@@ -245,7 +246,9 @@ function SheetStateProbe({
         <SheetContent showCloseButton={false} state={state}>
           <SheetHeader>
             <SheetTitle>Governed sheet probe</SheetTitle>
-            <SheetDescription>Inspect `data-state` on sheet-content.</SheetDescription>
+            <SheetDescription>
+              Inspect `data-state` on sheet-content.
+            </SheetDescription>
           </SheetHeader>
         </SheetContent>
       </Sheet>
@@ -303,23 +306,15 @@ const meta = {
     shadow: "overlay",
     side: "right",
   },
-} satisfies Meta<typeof Sheet>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Playground & governance probes ────────────────────────────────────────
 
 export const Playground: Story = {
-  render: (args) => (
-    <SheetPlaygroundDemo
-      density={args.density}
-      radius={args.radius}
-      shadow={args.shadow}
-      side={args.side}
-      state={args.state}
-    />
-  ),
+  render: (args) => <SheetPlaygroundDemo {...sheetStoryProps(args)} />,
 };
 
 export const GovernanceDataAuthority: Story = {
@@ -345,8 +340,8 @@ export const GovernanceDataAuthority: Story = {
         <SheetHeader>
           <SheetTitle>Data authority probe</SheetTitle>
           <SheetDescription>
-            Inspect the content root — governed `data-*` attributes must override
-            consumer props.
+            Inspect the content root — governed `data-*` attributes must
+            override consumer props.
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

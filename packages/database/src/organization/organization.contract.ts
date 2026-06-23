@@ -246,10 +246,7 @@ export function buildOrganizationUpdatePatch(
     patch.effectiveTo = input.effectiveTo;
   }
 
-  if (
-    patch.effectiveFrom !== undefined ||
-    patch.effectiveTo !== undefined
-  ) {
+  if (patch.effectiveFrom !== undefined || patch.effectiveTo !== undefined) {
     assertEffectiveDateRange(
       patch.effectiveFrom ?? null,
       patch.effectiveTo ?? null

@@ -5,9 +5,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import {
-  KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
-} from "../../../packages/kernel/src/context/context-registry.ts";
+import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_CONTEXT_CONTRACT_ROW_MARKERS,
   MULTI_TENANCY_CONTEXT_CONTRACTS_DIMENSIONS,
@@ -16,12 +15,11 @@ import {
   MULTI_TENANCY_STEP4_PRIMARY_TYPES,
   TIP_007_012_CONTEXT_CONTRACTS_SECTION,
 } from "../multi-tenancy-context-contracts-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface ContextContractsEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -230,7 +228,8 @@ function collectExportMapViolations(
       violations.push({
         rule: "context-circular-import",
         file: accountingPath,
-        message: "accounting-readiness.contract.ts must not import context/index.js",
+        message:
+          "accounting-readiness.contract.ts must not import context/index.js",
       });
     }
   }

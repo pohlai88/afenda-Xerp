@@ -25,6 +25,11 @@
       "import": "./dist/mocks/next-link.js",
       "default": "./dist/mocks/next-link.js"
     },
+    "./mocks/next-image": {
+      "types": "./dist/mocks/next-image.d.ts",
+      "import": "./dist/mocks/next-image.js",
+      "default": "./dist/mocks/next-image.js"
+    },
     "./react": {
       "types": "./dist/react/index.d.ts",
       "import": "./dist/react/index.js",

@@ -10,7 +10,13 @@ import {
   ToastTriggerRow,
 } from "./_storybook/sonner-story.compositions";
 import type { ToasterProps } from "./sonner";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
+import { governedStateOnly, type RenderStory } from "./_storybook/story-types";
 import { Toaster } from "./sonner";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 
@@ -66,10 +72,10 @@ const meta = {
       );
     },
   ],
-} satisfies Meta<typeof Toaster>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -273,7 +279,7 @@ export const GovernanceDataAuthority: Story = {
       "data-slot": "override",
       "data-state": "fake",
       state: "ready",
-    } satisfies ToasterProps,
+    } as ToasterProps,
     docs: {
       description: {
         story:
@@ -321,16 +327,16 @@ export const GovernanceSlotMap: Story = {
     docs: {
       description: {
         story:
-          "Root role emits `data-slot=\"toaster\"`. Icon slots emit `toaster-{severity}-icon` via governed slot keys.",
+          'Root role emits `data-slot="toaster"`. Icon slots emit `toaster-{severity}-icon` via governed slot keys.',
       },
     },
   },
   render: () => (
     <StoryStack gap="sm">
       <p className="font-mono text-muted-foreground text-xs">
-        root → toaster · success → toaster-success-icon · info → toaster-info-icon
-        · warning → toaster-warning-icon · error → toaster-error-icon · loading →
-        toaster-loading-icon
+        root → toaster · success → toaster-success-icon · info →
+        toaster-info-icon · warning → toaster-warning-icon · error →
+        toaster-error-icon · loading → toaster-loading-icon
       </p>
       <ToastTriggerRow triggers={TOAST_TYPE_TRIGGERS} />
     </StoryStack>
@@ -346,15 +352,15 @@ export const GovernancePlayground: Story = {
   args: {
     state: "ready",
   },
-  render: ({ state }) => (
+  render: (args) => (
     <StoryFrame width="md">
       <ThemeProvider attribute="class" forcedTheme="light">
         <StoryStack gap="sm">
           <ToastTriggerButton
-            label={`Show toast (state=${state})`}
-            onClick={() => toast.info(`Governed state=${state}`)}
+            label={`Show toast (state=${args.state})`}
+            onClick={() => toast.info(`Governed state=${args.state}`)}
           />
-          <Toaster state={state} />
+          <Toaster {...governedStateOnly(args)} />
         </StoryStack>
       </ThemeProvider>
     </StoryFrame>

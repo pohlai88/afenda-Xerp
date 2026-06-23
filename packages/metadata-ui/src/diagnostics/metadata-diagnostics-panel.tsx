@@ -197,7 +197,9 @@ export function MetadataDiagnosticsPanel({
         density: context.runtime.density,
       })}
       data-diagnostics-level={context.diagnostics.level}
-      data-metadata-diagnostics-enabled={context.diagnostics.enabled ? "true" : "false"}
+      data-metadata-diagnostics-enabled={
+        context.diagnostics.enabled ? "true" : "false"
+      }
       data-metadata-hydration={context.environment.hydration}
       data-metadata-runtime-state={snapshot.runtime.runtimeState}
       data-metadata-source={context.environment.source}

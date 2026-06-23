@@ -1,32 +1,35 @@
 export interface AppShellNotificationActor {
-  readonly name: string;
   readonly avatarSrc: string;
   readonly fallback: string;
+  readonly name: string;
 }
 
 interface AppShellNotificationItemBase {
-  readonly id: string;
   readonly actor: AppShellNotificationActor;
-  readonly title: string;
-  readonly relativeTime: string;
-  readonly occurredAt: string;
   readonly category: string;
-  readonly unread?: boolean;
   readonly dismissible?: boolean;
+  readonly id: string;
+  readonly occurredAt: string;
+  readonly relativeTime: string;
+  readonly title: string;
+  readonly unread?: boolean;
 }
 
-export interface AppShellNotificationSimpleItem extends AppShellNotificationItemBase {
+export interface AppShellNotificationSimpleItem
+  extends AppShellNotificationItemBase {
   readonly kind: "simple";
 }
 
-export interface AppShellNotificationApprovalItem extends AppShellNotificationItemBase {
+export interface AppShellNotificationApprovalItem
+  extends AppShellNotificationItemBase {
   readonly kind: "approval";
 }
 
-export interface AppShellNotificationAttachmentItem extends AppShellNotificationItemBase {
-  readonly kind: "attachment";
-  readonly attachmentLabel: string;
+export interface AppShellNotificationAttachmentItem
+  extends AppShellNotificationItemBase {
   readonly attachmentHref?: string;
+  readonly attachmentLabel: string;
+  readonly kind: "attachment";
 }
 
 export type AppShellNotificationItem =
@@ -177,6 +180,9 @@ export function countDefaultAppShellUnreadNotifications(): number {
 export const DEFAULT_APP_SHELL_NOTIFICATION_MENU_LABEL = "Notifications";
 export const DEFAULT_APP_SHELL_NOTIFICATION_INBOX_TAB_LABEL = "Inbox";
 export const DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_TAB_LABEL = "General";
-export const DEFAULT_APP_SHELL_NOTIFICATION_INBOX_LIST_LABEL = "Inbox notifications";
-export const DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_LIST_LABEL = "General notifications";
-export const DEFAULT_APP_SHELL_NOTIFICATION_SETTINGS_LABEL = "Notification settings";
+export const DEFAULT_APP_SHELL_NOTIFICATION_INBOX_LIST_LABEL =
+  "Inbox notifications";
+export const DEFAULT_APP_SHELL_NOTIFICATION_GENERAL_LIST_LABEL =
+  "General notifications";
+export const DEFAULT_APP_SHELL_NOTIFICATION_SETTINGS_LABEL =
+  "Notification settings";

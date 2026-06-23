@@ -119,7 +119,9 @@ describe("check-multi-tenancy-dependency-rules script", () => {
       "utf8"
     );
 
-    expect(registrySource).toContain(MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE);
+    expect(registrySource).toContain(
+      MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE
+    );
   });
 
   it("reports violations with actionable rule ids", async () => {

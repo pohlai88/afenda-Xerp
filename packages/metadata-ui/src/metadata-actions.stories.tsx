@@ -128,7 +128,8 @@ export const DarkTheme: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Action hooks under dark Afenda tokens — shell owns accent styling.",
+        story:
+          "Action hooks under dark Afenda tokens — shell owns accent styling.",
       },
     },
   },

@@ -1,10 +1,10 @@
-import type { ReactElement } from "react";
 import {
-  render,
   type RenderOptions,
   type RenderResult,
+  render,
 } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
+import type { ReactElement } from "react";
 
 export const INTERACTION_TEST_TIMEOUT_MS = 15_000 as const;
 

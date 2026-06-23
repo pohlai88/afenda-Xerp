@@ -180,10 +180,9 @@ describe("Tabs governance", () => {
       </Tabs>
     );
 
-    expect(screen.getByRole("tablist", { name: "Workspace views" })).toHaveAttribute(
-      "data-variant",
-      "line"
-    );
+    expect(
+      screen.getByRole("tablist", { name: "Workspace views" })
+    ).toHaveAttribute("data-variant", "line");
   });
 
   it("forwards orientation to Radix root for keyboard navigation", () => {
@@ -234,7 +233,9 @@ describe("Tabs governance", () => {
   it("preserves tablist accessibility semantics", () => {
     renderBasicTabs();
 
-    expect(screen.getByRole("tablist", { name: "Workspace views" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("tablist", { name: "Workspace views" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Overview" })).toHaveAttribute(
       "aria-selected",
       "true"

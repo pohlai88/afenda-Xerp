@@ -1,5 +1,3 @@
-import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
-
 export const PROJECT_LIFECYCLE_STATUSES = [
   "draft",
   "active",

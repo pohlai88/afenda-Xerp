@@ -15,7 +15,12 @@ import {
   ControlledAutoSavePanel,
   SwitchSettingRow,
 } from "./_storybook/switch-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import {
   Field,

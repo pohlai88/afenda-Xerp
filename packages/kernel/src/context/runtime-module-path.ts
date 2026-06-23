@@ -4,8 +4,7 @@
  */
 export type RuntimeModulePath = string;
 
-const RUNTIME_MODULE_PATH_PATTERN =
-  /^[a-z][a-z0-9]*(?:[._][a-z0-9]+)*$/;
+const RUNTIME_MODULE_PATH_PATTERN = /^[a-z][a-z0-9]*(?:[._][a-z0-9]+)*$/;
 
 export function normalizeRuntimeModulePath(
   value: string | null | undefined
@@ -22,7 +21,7 @@ export function normalizeRuntimeModulePath(
     .replace(/\.+/g, ".")
     .replace(/^\.+|\.+$/g, "");
 
-  if (!normalized || !RUNTIME_MODULE_PATH_PATTERN.test(normalized)) {
+  if (!(normalized && RUNTIME_MODULE_PATH_PATTERN.test(normalized))) {
     return null;
   }
 

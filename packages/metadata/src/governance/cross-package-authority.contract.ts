@@ -68,15 +68,10 @@ export interface CrossPackageImportPolicy {
 }
 
 export interface CrossPackageAuthorityEntry {
-  readonly package: CrossPackageName;
-  readonly role: string;
-
   /**
-   * Canonical responsibilities owned by this package.
-   *
-   * A responsibility must appear as owned by one package only.
+   * Dependency-direction policy for architecture validation.
    */
-  readonly owns: readonly CrossPackageResponsibility[];
+  readonly importPolicy: CrossPackageImportPolicy;
 
   /**
    * Responsibilities this package is explicitly forbidden from owning.
@@ -87,18 +82,22 @@ export interface CrossPackageAuthorityEntry {
   readonly mayNotOwn: readonly CrossPackageResponsibility[];
 
   /**
-   * Dependency-direction policy for architecture validation.
+   * Canonical responsibilities owned by this package.
+   *
+   * A responsibility must appear as owned by one package only.
    */
-  readonly importPolicy: CrossPackageImportPolicy;
+  readonly owns: readonly CrossPackageResponsibility[];
+  readonly package: CrossPackageName;
+  readonly role: string;
 }
 
 export interface CrossPackageAuthority {
-  readonly version: "1.0.0";
-  readonly lifecycle: "active";
   readonly authority: "TIP-005";
-  readonly noOverlapRule: string;
+  readonly lifecycle: "active";
   readonly metadataUiIntegrationRule: string;
+  readonly noOverlapRule: string;
   readonly packages: readonly CrossPackageAuthorityEntry[];
+  readonly version: "1.0.0";
 }
 
 export const metadataUiIntegrationRule = [

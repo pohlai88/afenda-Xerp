@@ -19,7 +19,9 @@ export function MetadataLayout({
       "metadata-container",
       "metadata-layout",
       presentation?.className,
-      presentation?.contained === true ? "metadata-layout-contained" : undefined,
+      presentation?.contained === true
+        ? "metadata-layout-contained"
+        : undefined,
       presentation?.padded === true ? "metadata-layout-padded" : undefined,
     ],
     density: context.runtime.density,
@@ -68,7 +70,9 @@ export function MetadataLayout({
       aria-labelledby={a11y?.ariaLabelledBy}
       className={rootClassName}
       data-layout-id={identity.id}
-      data-metadata-density={resolveMetadataUiDensityAttribute(context.runtime.density)}
+      data-metadata-density={resolveMetadataUiDensityAttribute(
+        context.runtime.density
+      )}
       data-metadata-hydration={context.environment.hydration}
       data-metadata-layout={type}
       data-metadata-readonly={context.runtime.readonlyMode ? "true" : "false"}

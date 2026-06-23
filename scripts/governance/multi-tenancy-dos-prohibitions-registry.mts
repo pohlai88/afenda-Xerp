@@ -63,7 +63,8 @@ export const MULTI_TENANCY_DOS_DELEGATED_GATES = [
   },
   {
     id: "separate-tiers",
-    marker: "Do separate Tenant, Entity Group, Legal Entity, Organization Unit, Team, Project.",
+    marker:
+      "Do separate Tenant, Entity Group, Legal Entity, Organization Unit, Team, Project.",
     checkScript: "check:database-tenant-domain-surface",
   },
   {
@@ -157,7 +158,8 @@ export const MULTI_TENANCY_PROHIBITION_ENFORCEMENT = [
   },
   {
     id: "tenant-admin-not-all-company",
-    marker: "Do not treat tenant admin as automatic all-company access unless explicitly governed.",
+    marker:
+      "Do not treat tenant admin as automatic all-company access unless explicitly governed.",
     checkScript: "check:permissions-scope-grants-surface",
     scanRule: "delegated-gate",
   },
@@ -169,13 +171,15 @@ export const MULTI_TENANCY_PROHIBITION_ENFORCEMENT = [
   },
   {
     id: "no-trust-client-authority-ids",
-    marker: "Do not trust client-provided company/legalEntity/entityGroup/org IDs.",
+    marker:
+      "Do not trust client-provided company/legalEntity/entityGroup/org IDs.",
     checkScript: "check:erp-context-surface",
     scanRule: "delegated-gate",
   },
   {
     id: "no-accounting-implementation",
-    marker: "Do not implement accounting journals, ledgers, reports, or consolidation entries.",
+    marker:
+      "Do not implement accounting journals, ledgers, reports, or consolidation entries.",
     checkScript: "check:multi-tenancy-dos-prohibitions",
     scanRule: "forbidden-accounting-pattern",
   },

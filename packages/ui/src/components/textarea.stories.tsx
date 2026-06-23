@@ -3,7 +3,12 @@ import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+  StoryCaption,
+} from "./_storybook/story-frame";
 import { Field, FieldDescription, FieldError, FieldLabel } from "./field";
 import { Label } from "./label";
 import { Textarea } from "./textarea";

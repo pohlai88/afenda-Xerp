@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
 import { setupUser } from "@afenda/testing/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 describe("@afenda/testing/react", () => {
@@ -7,7 +7,7 @@ describe("@afenda/testing/react", () => {
     const user = setupUser();
 
     render(
-      <button type="button" onClick={() => undefined}>
+      <button onClick={() => undefined} type="button">
         Activate
       </button>
     );

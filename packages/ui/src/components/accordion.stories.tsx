@@ -655,9 +655,7 @@ export const SettingsAccordion: Story = {
                 <div className="flex items-center justify-between" key={id}>
                   <div className="flex flex-col gap-0.5">
                     <span className="text-sm">
-                      <Label htmlFor={id}>
-                        {label}
-                      </Label>
+                      <Label htmlFor={id}>{label}</Label>
                     </span>
                     <span className="text-muted-foreground text-xs">
                       {description}
@@ -1286,9 +1284,7 @@ export const ReportFilterGroups: Story = {
                 <div className="flex items-center gap-2" key={id}>
                   <Checkbox id={id} />
                   <span className="font-normal text-sm">
-                    <Label htmlFor={id}>
-                      {label}
-                    </Label>
+                    <Label htmlFor={id}>{label}</Label>
                   </span>
                 </div>
               ))}

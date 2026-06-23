@@ -6,7 +6,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
   CarouselPrevious,
 } from "../../index";
 import {
@@ -89,7 +88,7 @@ describe("Carousel governance", () => {
     const ref = createRef<HTMLDivElement>();
 
     render(
-      <Carousel ref={ref} aria-label="Slides">
+      <Carousel aria-label="Slides" ref={ref}>
         <CarouselContent>
           <CarouselItem>Slide</CarouselItem>
         </CarouselContent>
@@ -109,10 +108,9 @@ describe("Carousel governance", () => {
       </Carousel>
     );
 
-    expect(screen.getByRole("region", { name: "Vertical slides" })).toHaveAttribute(
-      "data-orientation",
-      "vertical"
-    );
+    expect(
+      screen.getByRole("region", { name: "Vertical slides" })
+    ).toHaveAttribute("data-orientation", "vertical");
   });
 
   it("emits governed loading state on root", () => {
@@ -124,10 +122,9 @@ describe("Carousel governance", () => {
       </Carousel>
     );
 
-    expect(screen.getByRole("region", { name: "Loading slides" })).toHaveAttribute(
-      "data-state",
-      "loading"
-    );
+    expect(
+      screen.getByRole("region", { name: "Loading slides" })
+    ).toHaveAttribute("data-state", "loading");
   });
 
   it("routes allowed layout className through governance on root", () => {
@@ -156,9 +153,8 @@ describe("Carousel governance", () => {
     const control = screen.getByTestId("carousel-previous").parentElement;
 
     expect(control).toHaveAttribute("data-slot", "carousel-previous");
-    expect(screen.getByRole("button", { name: "Previous slide" })).toHaveAttribute(
-      "data-slot",
-      "button"
-    );
+    expect(
+      screen.getByRole("button", { name: "Previous slide" })
+    ).toHaveAttribute("data-slot", "button");
   });
 });

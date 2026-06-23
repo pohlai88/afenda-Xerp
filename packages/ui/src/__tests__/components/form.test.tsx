@@ -11,10 +11,7 @@ import {
   FormMessage,
 } from "../../components/form";
 import { Input } from "../../components/input";
-import {
-  expectGovernedDataAuthority,
-  expectGovernedPrimitive,
-} from "../helpers/governance-assertions";
+import { expectGovernedDataAuthority } from "../helpers/governance-assertions";
 
 describe("Form alias governance", () => {
   it("keeps governed data attributes authoritative on FormItem", () => {

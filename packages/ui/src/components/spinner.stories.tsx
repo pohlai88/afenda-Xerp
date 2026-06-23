@@ -9,7 +9,12 @@ import {
   SimulatedSaveButton,
   SPINNER_SIZE_DEMOS,
 } from "./_storybook/spinner-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -199,7 +204,9 @@ export const GovernanceSizes: Story = {
       {SPINNER_SIZE_DEMOS.map(({ label, size }) => (
         <StoryStack className="items-center" gap="xs" key={size}>
           <Spinner aria-label={`Size ${size}`} size={size} />
-          <span className="font-mono text-muted-foreground text-xs">{label}</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            {label}
+          </span>
         </StoryStack>
       ))}
     </StoryRow>

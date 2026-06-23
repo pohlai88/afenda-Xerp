@@ -1,6 +1,7 @@
 export const DEFAULT_STATISTICS_METRIC_REPORT_CAPTION = "Weekly report";
 
-export const DEFAULT_STATISTICS_COMPONENT_10_LABEL = "Operations statistics overview";
+export const DEFAULT_STATISTICS_COMPONENT_10_LABEL =
+  "Operations statistics overview";
 
 export const statisticsActivitySalesData = [
   { day: "Monday", sales: 260 },

@@ -1,10 +1,10 @@
-import { render, screen } from "@testing-library/react";
 import {
   activateMenuOption,
   openDialog,
   openMenu,
   setupUser,
 } from "@afenda/testing/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 describe("@afenda/testing/react interaction helpers", () => {
@@ -14,7 +14,7 @@ describe("@afenda/testing/react interaction helpers", () => {
     render(
       <div>
         <button type="button">Open helper dialog</button>
-        <div role="dialog" aria-label="Helper dialog" hidden>
+        <div aria-label="Helper dialog" hidden role="dialog">
           Dialog body
         </div>
       </div>
@@ -36,9 +36,13 @@ describe("@afenda/testing/react interaction helpers", () => {
 
     render(
       <div>
-        <button type="button" aria-haspopup="menu">Open helper menu</button>
-        <div role="menu" hidden>
-          <button type="button" role="menuitem">First action</button>
+        <button aria-haspopup="menu" type="button">
+          Open helper menu
+        </button>
+        <div hidden role="menu">
+          <button role="menuitem" type="button">
+            First action
+          </button>
         </div>
       </div>
     );

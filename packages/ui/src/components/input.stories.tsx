@@ -861,7 +861,11 @@ export const GovernanceAccessibility: Story = {
             type="email"
           />
         </LabeledField>
-        <span className="text-destructive text-xs" id="a11y-email-hint" role="alert">
+        <span
+          className="text-destructive text-xs"
+          id="a11y-email-hint"
+          role="alert"
+        >
           Enter a valid company email address.
         </span>
       </StoryStack>

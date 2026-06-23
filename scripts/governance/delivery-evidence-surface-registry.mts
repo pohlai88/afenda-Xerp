@@ -161,8 +161,10 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
   {
     checkScript: "check:multi-tenancy-enterprise-acceptance",
     qualityScript: "quality:multi-tenancy-enterprise-acceptance",
-    gateFile: "scripts/governance/check-multi-tenancy-enterprise-acceptance.mts",
-    sliceReference: "Enterprise acceptance criteria (multi-tenancy.md §612–666)",
+    gateFile:
+      "scripts/governance/check-multi-tenancy-enterprise-acceptance.mts",
+    sliceReference:
+      "Enterprise acceptance criteria (multi-tenancy.md §612–666)",
   },
   {
     checkScript: "check:multi-tenancy-testing-verification-acceptance",

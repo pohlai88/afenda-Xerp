@@ -33,7 +33,9 @@ const meta = {
   tags: ["autodocs"],
   parameters: {
     ...metadataFullscreenLayout,
-    docs: { description: { component: metadataFixtureDashboardDocs.component } },
+    docs: {
+      description: { component: metadataFixtureDashboardDocs.component },
+    },
     a11y: metadataStoryA11y,
   },
   decorators: [withFixtureStoryCanvas],
@@ -78,7 +80,8 @@ export const NarrowViewport: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Validates asymmetric regions collapse cleanly on mobile warehouse tablets.",
+        story:
+          "Validates asymmetric regions collapse cleanly on mobile warehouse tablets.",
       },
     },
   },
@@ -91,7 +94,8 @@ export const Tablet: Story = {
     ...metadataTabletViewport,
     docs: {
       description: {
-        story: "Tablet breakpoint — rail and queue share a row before activity evidence.",
+        story:
+          "Tablet breakpoint — rail and queue share a row before activity evidence.",
       },
     },
   },

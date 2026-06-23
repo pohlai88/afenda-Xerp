@@ -29,7 +29,7 @@ function readExplicitGovernanceRuntimeMode():
   | GovernanceRuntimeMode
   | undefined {
   if (typeof process === "undefined") {
-    return undefined;
+    return;
   }
 
   const value = process.env["AFENDA_GOVERNANCE_RUNTIME"];
@@ -37,12 +37,15 @@ function readExplicitGovernanceRuntimeMode():
     return value;
   }
 
-  return undefined;
+  return;
 }
 
 function isStorybookVitestContext(): boolean {
   const viteEnv = (import.meta as ViteImportMeta).env;
-  if (viteEnv?.VITEST_STORYBOOK === true || viteEnv?.VITEST_STORYBOOK === "true") {
+  if (
+    viteEnv?.VITEST_STORYBOOK === true ||
+    viteEnv?.VITEST_STORYBOOK === "true"
+  ) {
     return true;
   }
 

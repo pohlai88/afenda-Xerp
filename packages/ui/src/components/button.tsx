@@ -60,7 +60,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const resolvedTabIndex =
       asChild && disabled && tabIndex === undefined ? -1 : tabIndex;
     const resolvedAriaBusy =
-      ariaBusy !== undefined ? ariaBusy : state === "loading" ? true : undefined;
+      ariaBusy === undefined
+        ? state === "loading"
+          ? true
+          : undefined
+        : ariaBusy;
 
     return (
       <Comp

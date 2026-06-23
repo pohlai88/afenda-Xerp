@@ -7,16 +7,16 @@ import { join } from "node:path";
 
 import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
+  MULTI_TENANCY_TEST_REQUIREMENT_MARKERS,
   MULTI_TENANCY_TEST_REQUIREMENTS,
   MULTI_TENANCY_TESTS_DIMENSIONS,
-  MULTI_TENANCY_TEST_REQUIREMENT_MARKERS,
   TIP_007_012_TESTS_SECTION,
 } from "../multi-tenancy-tests-registry.mts";
 
 export interface MultiTenancyTestsEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {

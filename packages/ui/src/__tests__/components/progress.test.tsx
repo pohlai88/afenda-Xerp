@@ -23,9 +23,7 @@ describe("Progress governance", () => {
       slot: "progress",
       recipe: "form-control",
     });
-    expect(
-      root.querySelector('[data-slot="progress-indicator"]')
-    ).toBeTruthy();
+    expect(root.querySelector('[data-slot="progress-indicator"]')).toBeTruthy();
   });
 
   it("keeps governed data attributes authoritative on root", () => {
@@ -65,9 +63,7 @@ describe("Progress governance", () => {
   });
 
   it("propagates loading state on root", () => {
-    render(
-      <Progress data-testid="progress-root" state="loading" value={30} />
-    );
+    render(<Progress data-testid="progress-root" state="loading" value={30} />);
 
     expectGovernedPrimitive(screen.getByTestId("progress-root"), {
       component: "Progress",

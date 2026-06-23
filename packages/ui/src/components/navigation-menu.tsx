@@ -269,12 +269,12 @@ NavigationMenuIndicator.displayName = "NavigationMenuIndicator";
 
 export interface NavigationMenuProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>,
+      "className"
+    >,
     GovernedNavigationMenuProps {
-  readonly viewport?: boolean;
   readonly className?: string;
+  readonly viewport?: boolean;
 }
 
 const NavigationMenu = React.forwardRef<

@@ -2,9 +2,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-
-import { parseActionInput } from "@/lib/server-actions/parse-action-input";
 import { z } from "zod";
+import { parseActionInput } from "@/lib/server-actions/parse-action-input";
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -47,9 +46,7 @@ describe("server-action-security — static contract", () => {
     expect(actionSource).toMatch(
       /export type ProtectedDemoActionData = \{[\s\S]*?readonly message: string;[\s\S]*?\};/
     );
-    expect(actionSource).not.toMatch(
-      /serverActionSuccess\(\{[\s\S]*userId/
-    );
+    expect(actionSource).not.toMatch(/serverActionSuccess\(\{[\s\S]*userId/);
   });
 });
 

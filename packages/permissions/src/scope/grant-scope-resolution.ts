@@ -40,11 +40,13 @@ export function selectNarrowestMatchingMembership(
     return null;
   }
 
-  return [...matching].sort(
-    (left, right) =>
-      MEMBERSHIP_SCOPE_NARROWNESS[right.scopeType] -
-      MEMBERSHIP_SCOPE_NARROWNESS[left.scopeType]
-  )[0] ?? null;
+  return (
+    [...matching].sort(
+      (left, right) =>
+        MEMBERSHIP_SCOPE_NARROWNESS[right.scopeType] -
+        MEMBERSHIP_SCOPE_NARROWNESS[left.scopeType]
+    )[0] ?? null
+  );
 }
 
 /** Maps a matched membership + role into kernel `PermissionScopeContext`. */

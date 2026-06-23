@@ -234,18 +234,8 @@ const ChartTooltipContent = React.forwardRef<
       return null;
     }
 
-    return (
-      <div {...applyGovernedPresentation({}, labelClass)}>{value}</div>
-    );
-  }, [
-    label,
-    labelFormatter,
-    payload,
-    hideLabel,
-    labelClass,
-    config,
-    labelKey,
-  ]);
+    return <div {...applyGovernedPresentation({}, labelClass)}>{value}</div>;
+  }, [label, labelFormatter, payload, hideLabel, labelClass, config, labelKey]);
 
   if (!(active && payload?.length)) {
     return null;
@@ -307,7 +297,10 @@ const ChartTooltipContent = React.forwardRef<
                     ) : (
                       !hideIndicator && (
                         <div
-                          {...applyGovernedPresentation({}, indicatorPresentation)}
+                          {...applyGovernedPresentation(
+                            {},
+                            indicatorPresentation
+                          )}
                           style={
                             {
                               "--color-bg": indicatorColor,
@@ -350,13 +343,7 @@ const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   ChartLegendContentProps
 >(function ChartLegendContent(
-  {
-    className,
-    hideIcon = false,
-    payload,
-    verticalAlign = "bottom",
-    nameKey,
-  },
+  { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
   ref
 ) {
   const { config } = useChart();

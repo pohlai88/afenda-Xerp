@@ -56,9 +56,9 @@ const REQUIRED_PUBLIC_EXPORTS = [
 ] as const;
 
 export interface DatabaseTenantDomainViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listSourceFiles(directory: string): string[] {
@@ -78,7 +78,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -109,13 +112,7 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
   }
 
   const projectContract = join(databaseSrcRoot, "project/project.contract.ts");
-  if (!existsSync(projectContract)) {
-    violations.push({
-      rule: "project-stub-missing",
-      file: projectContract,
-      message: "TIP-030 project authority stub is missing",
-    });
-  } else {
+  if (existsSync(projectContract)) {
     const projectSource = readFileSync(projectContract, "utf8");
     if (!projectSource.includes("PROJECT_DOMAIN_STATUS")) {
       violations.push({
@@ -124,6 +121,12 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
         message: "project.contract.ts must declare PROJECT_DOMAIN_STATUS",
       });
     }
+  } else {
+    violations.push({
+      rule: "project-stub-missing",
+      file: projectContract,
+      message: "TIP-030 project authority stub is missing",
+    });
   }
 
   const projectService = join(databaseSrcRoot, "project/project.service.ts");
@@ -131,7 +134,8 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
     violations.push({
       rule: "project-stub-no-service",
       file: projectService,
-      message: "TIP-030 project must remain stub-only — remove project.service.ts",
+      message:
+        "TIP-030 project must remain stub-only — remove project.service.ts",
     });
   }
 
@@ -253,7 +257,10 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
   const plannedModules = DATABASE_TENANT_DOMAIN_MODULES.filter(
     (module) => module.status === "planned"
   );
-  if (plannedModules.length !== 1 || plannedModules[0]?.directory !== "project") {
+  if (
+    plannedModules.length !== 1 ||
+    plannedModules[0]?.directory !== "project"
+  ) {
     violations.push({
       rule: "registry-planned-modules",
       file: join(databaseSrcRoot, "tenant-domain/tenant-domain-registry.ts"),

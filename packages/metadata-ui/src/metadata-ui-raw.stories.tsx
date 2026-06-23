@@ -107,7 +107,8 @@ export const Tablet: Story = {
     ...metadataTabletViewport,
     docs: {
       description: {
-        story: "Layout shell at tablet width — validates container-query region stacking.",
+        story:
+          "Layout shell at tablet width — validates container-query region stacking.",
       },
     },
   },
@@ -120,7 +121,8 @@ export const Mobile: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Page surface at mobile width — action bar and table remain structurally governed.",
+        story:
+          "Page surface at mobile width — action bar and table remain structurally governed.",
       },
     },
   },

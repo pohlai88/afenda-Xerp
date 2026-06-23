@@ -19,7 +19,16 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+  StoryCaption,
+} from "./_storybook/story-frame";
+import {
+  toggleGroupStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Separator } from "./separator";
 import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
@@ -108,7 +117,12 @@ function ToggleGroupStateProbe({
   return (
     <StoryRow align="center" gap="md">
       <StoryCaption>{state}</StoryCaption>
-      <ToggleGroup defaultValue="on" state={state} type="single" variant="outline">
+      <ToggleGroup
+        defaultValue="on"
+        state={state}
+        type="single"
+        variant="outline"
+      >
         <ToggleGroupItem value="on">On ({state})</ToggleGroupItem>
         <ToggleGroupItem value="off">Off</ToggleGroupItem>
       </ToggleGroup>
@@ -167,16 +181,16 @@ const meta = {
     orientation: "horizontal",
     state: "ready",
   },
-} satisfies Meta<typeof ToggleGroup>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Playground & governance probes ──────────────────────────────────────
 
 export const Playground: Story = {
   render: (args) => (
-    <ToggleGroup {...args} defaultValue="list">
+    <ToggleGroup {...toggleGroupStoryProps(args)} defaultValue="list">
       <ToggleGroupItem aria-label="List view" value="list">
         <ListIcon aria-hidden="true" />
       </ToggleGroupItem>
@@ -215,18 +229,10 @@ export const GovernanceDataAuthority: Story = {
       type="single"
       variant="default"
     >
-      <ToggleGroupItem
-        aria-label="List view"
-        data-slot="override"
-        value="list"
-      >
+      <ToggleGroupItem aria-label="List view" data-slot="override" value="list">
         List
       </ToggleGroupItem>
-      <ToggleGroupItem
-        aria-label="Grid view"
-        data-slot="override"
-        value="grid"
-      >
+      <ToggleGroupItem aria-label="Grid view" data-slot="override" value="grid">
         Grid
       </ToggleGroupItem>
     </ToggleGroup>
@@ -316,16 +322,11 @@ export const GovernancePlayground: Story = {
     orientation: "horizontal",
     spacing: 2,
   },
-  render: ({ state, variant, size, orientation, spacing }) => (
+  render: (args) => (
     <ToggleGroup
       aria-label="Governance playground"
       defaultValue="a"
-      orientation={orientation}
-      size={size}
-      spacing={spacing}
-      state={state}
-      type="single"
-      variant={variant}
+      {...toggleGroupStoryProps(args)}
     >
       <ToggleGroupItem value="a">Option A</ToggleGroupItem>
       <ToggleGroupItem value="b">Option B</ToggleGroupItem>
@@ -361,7 +362,7 @@ export const GovernanceAccessibility: Story = {
 
 export const Default: Story = {
   render: (args) => (
-    <ToggleGroup {...args} defaultValue="list">
+    <ToggleGroup {...toggleGroupStoryProps(args)} defaultValue="list">
       <ToggleGroupItem aria-label="List view" value="list">
         <ListIcon aria-hidden="true" />
       </ToggleGroupItem>
@@ -407,7 +408,7 @@ export const OutlineVariant: Story = {
   name: "ToggleGroup — Outline Variant",
   args: { variant: "outline" },
   render: (args) => (
-    <ToggleGroup {...args} defaultValue="list" type="single">
+    <ToggleGroup {...toggleGroupStoryProps(args)} defaultValue="list">
       <ToggleGroupItem size="sm" value="list">
         <ListIcon />
         List
@@ -424,7 +425,7 @@ export const SmallSize: Story = {
   name: "ToggleGroup — Small Size",
   args: { size: "sm", variant: "outline" },
   render: (args) => (
-    <ToggleGroup {...args} defaultValue="usd" type="single">
+    <ToggleGroup {...toggleGroupStoryProps(args)} defaultValue="usd">
       <ToggleGroupItem value="usd">USD</ToggleGroupItem>
       <ToggleGroupItem value="eur">EUR</ToggleGroupItem>
       <ToggleGroupItem value="local">Local</ToggleGroupItem>
@@ -746,8 +747,8 @@ export const ReportSectionToolbar: Story = {
           </ToggleGroupItem>
         </ToggleGroup>
         <div className="h-5">
-        <Separator orientation="vertical" />
-      </div>
+          <Separator orientation="vertical" />
+        </div>
         <ToggleGroup defaultValue="chart" type="single" variant="outline">
           <ToggleGroupItem aria-label="Table view" size="sm" value="table">
             <TableIcon />

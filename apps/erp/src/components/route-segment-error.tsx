@@ -34,11 +34,7 @@ export function RouteSegmentError({
       : "flex flex-col gap-4 p-6";
 
   return (
-    <div
-      aria-live="assertive"
-      className={containerClassName}
-      role="alert"
-    >
+    <div aria-live="assertive" className={containerClassName} role="alert">
       <h1
         className={
           variant === "page"

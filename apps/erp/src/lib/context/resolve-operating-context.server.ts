@@ -1,4 +1,5 @@
 import {
+  type AfendaDatabase,
   findOrganizationByCompanyAndSlug,
   findOrganizationById,
   findTeamById,
@@ -6,22 +7,24 @@ import {
   getTenantAccessBlockReason,
   isTeamOrganizationRow,
   isTenantOperational,
-  type AfendaDatabase,
 } from "@afenda/database";
 import {
   deriveConsolidationScopeContext,
-  ok,
-  toSurfaceContext,
-  toWorkflowContext,
   type OperatingContext,
   type OperatingContextResult,
   type OperatingContextSelection,
+  ok,
   type TeamContext,
+  toSurfaceContext,
+  toWorkflowContext,
   type WorkspaceContext,
 } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
 
-import { denyOperatingContext, ORGANIZATION_ACCESS_BLOCK_REASON } from "./context-errors";
+import {
+  denyOperatingContext,
+  ORGANIZATION_ACCESS_BLOCK_REASON,
+} from "./context-errors";
 import { loadOperatingContextOwnershipInterests } from "./load-operating-context-ownership-interests.server";
 import { logOperatingContextResolution } from "./log-operating-context-resolution.server";
 import {
@@ -30,19 +33,26 @@ import {
   toTenantContext,
 } from "./operating-context.mappers";
 import { verifyProjectSelection } from "./operating-context.resolution.contract";
-import { resolveGrantScope, loadActorMemberships } from "./resolve-grant-scope.server";
+import {
+  loadActorMemberships,
+  resolveGrantScope,
+} from "./resolve-grant-scope.server";
 import { resolveLegalEntityContext } from "./resolve-legal-entity-context.server";
 
 function resolveTeamContext(input: {
   readonly organizationRow: {
     readonly type: string;
   } | null;
-  readonly organizationUnit: ReturnType<typeof toOrganizationUnitContext> | null;
+  readonly organizationUnit: ReturnType<
+    typeof toOrganizationUnitContext
+  > | null;
 }): TeamContext | null {
   if (
-    !input.organizationUnit ||
-    !input.organizationRow ||
-    !isTeamOrganizationRow(input.organizationRow)
+    !(
+      input.organizationUnit &&
+      input.organizationRow &&
+      isTeamOrganizationRow(input.organizationRow)
+    )
   ) {
     return null;
   }
@@ -104,11 +114,13 @@ export async function resolveOperatingContext(
   }
 
   const tenant = toTenantContext(tenantRow);
-  const memberships = input.memberships ?? await loadActorMemberships({
-    actorUserId: input.actorUserId,
-    tenantId: tenant.tenantId,
-    ...(db !== undefined ? { db } : {}),
-  });
+  const memberships =
+    input.memberships ??
+    (await loadActorMemberships({
+      actorUserId: input.actorUserId,
+      tenantId: tenant.tenantId,
+      ...(db === undefined ? {} : { db }),
+    }));
 
   const legalEntityResult = await resolveLegalEntityContext({
     tenant,
@@ -117,7 +129,7 @@ export async function resolveOperatingContext(
       companySlug: input.selection.companySlug ?? null,
       companyId: input.selection.companyId ?? null,
     },
-    ...(db !== undefined ? { db } : {}),
+    ...(db === undefined ? {} : { db }),
   });
 
   if (!legalEntityResult.ok) {
@@ -291,7 +303,10 @@ export async function resolveOperatingContext(
   }
 
   const workflowSelection = input.selection.workflowId?.trim() || null;
-  if (workflowSelection && !toWorkflowContext({ workflowId: workflowSelection })) {
+  if (
+    workflowSelection &&
+    !toWorkflowContext({ workflowId: workflowSelection })
+  ) {
     return denyOperatingContext({
       correlationId: input.correlationId,
       tenantSlug,
@@ -318,7 +333,7 @@ export async function resolveOperatingContext(
     teamId: team?.teamId ?? null,
     projectId: workspace.projectId,
     memberships,
-    ...(db !== undefined ? { db } : {}),
+    ...(db === undefined ? {} : { db }),
   });
 
   if (!grantScopeResult.ok) {
@@ -336,7 +351,7 @@ export async function resolveOperatingContext(
     tenantId: tenant.tenantId,
     entityGroupId: entityGroup?.entityGroupId ?? null,
     effectiveOn: reportingDate,
-    ...(db !== undefined ? { db } : {}),
+    ...(db === undefined ? {} : { db }),
   });
 
   const consolidationScope = entityGroup

@@ -260,6 +260,7 @@ const TableCaption = React.forwardRef<
 
 TableCaption.displayName = "TableCaption";
 
+export type { TableSectionProps };
 export {
   Table,
   TableBody,
@@ -270,5 +271,3 @@ export {
   TableHeader,
   TableRow,
 };
-
-export type { TableSectionProps };

@@ -10,9 +10,7 @@ import { DENSITIES, DENSITY_ATTRIBUTES } from "../contracts/token.contract";
 import { AFENDA_TOKEN_REGISTRY } from "../registries/token.registry";
 
 describe("density mode completeness", () => {
-  const tokenNames = new Set(
-    AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
-  );
+  const tokenNames = new Set(AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name));
 
   it("defines compact, standard, and comfortable density modes", () => {
     expect(DENSITIES).toEqual(["compact", "standard", "comfortable"]);

@@ -9,15 +9,17 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
-import { Bar, BarChart, Cell, XAxis } from "recharts";
+import {
+  LazyBar as Bar,
+  LazyBarChart as BarChart,
+  LazyCell as Cell,
+  LazyXAxis as XAxis,
+} from "../../charts/recharts-lazy.client";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
   formatStatisticsWeekdayTick,
-  STATISTICS_ACTIVITY_CHART_ARIA_LABEL,
-  STATISTICS_LEADS_CHART_ARIA_LABEL,
   STATISTICS_METRIC_CHART_MARGIN,
-  STATISTICS_PROFILE_TRAFFIC_CHART_ARIA_LABEL,
   STATISTICS_REVENUE_CHART_ARIA_LABEL,
   STATISTICS_REVENUE_HIGHLIGHT_DAY,
   statisticsRevenueBarData,
@@ -86,6 +88,7 @@ export function StatisticsRevenueCard() {
               <ChartContainer config={revenueChartConfig}>
                 <BarChart
                   accessibilityLayer
+                  aria-hidden="true"
                   barSize={10}
                   data={chartData}
                   margin={STATISTICS_METRIC_CHART_MARGIN}

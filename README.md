@@ -175,8 +175,8 @@ pnpm architecture:report
 | TIP-003 | Design System Authority | Complete |
 | TIP-004 | Design System Contracts | Complete |
 | TIP-005 | Metadata Authority | Complete |
-| TIP-006 | AppShell Authority | Planned |
-| TIP-007 | ERP Platform Authority | Planned |
+| TIP-006 | AppShell Authority | In progress |
+| TIP-007 | ERP Platform Authority | In progress |
 | TIP-008 | Master Data Authority | Planned |
 | TIP-009 | Monorepo & Delivery Foundation | In progress |
 | TIP-010 | Identity & Authorization Foundation | In progress |
@@ -188,8 +188,14 @@ TIP-013 Accounting Core is the first business-domain TIP and requires TIP-001–
 ## What is intentionally deferred
 
 - ERP business domains (Accounting, Inventory, HRM, CRM, Procurement) — TIP-013+
-- Full AppShell implementation — pending TIP-006 authority
+- AppShell authority contract closeout — TIP-006 (implementation in `packages/appshell` is underway)
 - Complete ERP operating spine wiring — pending TIP-012
+
+## Documentation
+
+Full index: [`docs/README.md`](docs/README.md) — architecture registries, governance gates, delivery evidence, AI policy.
+
+UI guard (gates A–F): [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md)
 
 ## License
 

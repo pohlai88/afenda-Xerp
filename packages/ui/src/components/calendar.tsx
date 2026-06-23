@@ -95,10 +95,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
         className={calendarClass(
           "root",
           className,
-          cn(
-            calendarClass("root-rtl-previous"),
-            calendarClass("root-rtl-next")
-          )
+          cn(calendarClass("root-rtl-previous"), calendarClass("root-rtl-next"))
         )}
         classNames={{
           root: cn(calendarClass("picker-root"), defaultClassNames.root),
@@ -196,18 +193,30 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 
             if (orientation === "left") {
               return (
-                <ChevronLeftIcon aria-hidden="true" className={icon} {...chevronProps} />
+                <ChevronLeftIcon
+                  aria-hidden="true"
+                  className={icon}
+                  {...chevronProps}
+                />
               );
             }
 
             if (orientation === "right") {
               return (
-                <ChevronRightIcon aria-hidden="true" className={icon} {...chevronProps} />
+                <ChevronRightIcon
+                  aria-hidden="true"
+                  className={icon}
+                  {...chevronProps}
+                />
               );
             }
 
             return (
-              <ChevronDownIcon aria-hidden="true" className={icon} {...chevronProps} />
+              <ChevronDownIcon
+                aria-hidden="true"
+                className={icon}
+                {...chevronProps}
+              />
             );
           },
           DayButton: (dayButtonProps) => (
@@ -252,42 +261,47 @@ export interface CalendarDayButtonProps
 const CalendarDayButton = React.forwardRef<
   HTMLButtonElement,
   CalendarDayButtonProps
->(({ className: _dayPickerClassName, day, modifiers, locale, ...props }, ref) => {
-  React.useEffect(() => {
-    if (
-      modifiers["focused"] &&
-      ref &&
-      typeof ref !== "function" &&
-      ref.current
-    ) {
-      ref.current.focus();
-    }
-  }, [modifiers, ref]);
+>(
+  (
+    { className: _dayPickerClassName, day, modifiers, locale, ...props },
+    ref
+  ) => {
+    React.useEffect(() => {
+      if (
+        modifiers["focused"] &&
+        ref &&
+        typeof ref !== "function" &&
+        ref.current
+      ) {
+        ref.current.focus();
+      }
+    }, [modifiers, ref]);
 
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Calendar",
-    recipeName: CALENDAR_RECIPE_NAME,
-    slotKey: "day-button",
-  });
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Calendar",
+      recipeName: CALENDAR_RECIPE_NAME,
+      slotKey: "day-button",
+    });
 
-  return (
-    <button
-      ref={ref}
-      type="button"
-      {...applyGovernedPresentation(props, governed, {
-        "data-day": day.date.toLocaleDateString(locale?.code),
-        "data-selected-single":
-          modifiers["selected"] &&
-          !modifiers["range_start"] &&
-          !modifiers["range_end"] &&
-          !modifiers["range_middle"],
-        "data-range-start": modifiers["range_start"],
-        "data-range-end": modifiers["range_end"],
-        "data-range-middle": modifiers["range_middle"],
-      })}
-    />
-  );
-});
+    return (
+      <button
+        ref={ref}
+        type="button"
+        {...applyGovernedPresentation(props, governed, {
+          "data-day": day.date.toLocaleDateString(locale?.code),
+          "data-selected-single":
+            modifiers["selected"] &&
+            !modifiers["range_start"] &&
+            !modifiers["range_end"] &&
+            !modifiers["range_middle"],
+          "data-range-start": modifiers["range_start"],
+          "data-range-end": modifiers["range_end"],
+          "data-range-middle": modifiers["range_middle"],
+        })}
+      />
+    );
+  }
+);
 
 CalendarDayButton.displayName = "CalendarDayButton";
 

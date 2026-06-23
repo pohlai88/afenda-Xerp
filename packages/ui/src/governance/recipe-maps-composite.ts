@@ -415,10 +415,7 @@ export const calendarDataSlotByKey = Object.fromEntries(
     Object.keys(calendarSlotClassNamesByKey) as Array<
       keyof typeof calendarSlotClassNamesByKey
     >
-  ).map((key) => [
-    key,
-    calendarButtonSlotKeys.has(key) ? "button" : "calendar",
-  ])
+  ).map((key) => [key, calendarButtonSlotKeys.has(key) ? "button" : "calendar"])
 ) as {
   readonly [K in keyof typeof calendarSlotClassNamesByKey]: K extends
     | "nav-button"

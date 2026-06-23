@@ -63,7 +63,9 @@ export async function checkMultiTenancyDependencyRules(): Promise<
 > {
   const violations: MultiTenancyDependencyRulesViolation[] = [];
 
-  violations.push(...collectArchitectureAuthorityDistFreshnessViolations(repoRoot));
+  violations.push(
+    ...collectArchitectureAuthorityDistFreshnessViolations(repoRoot)
+  );
 
   if (!existsSync(registrySource)) {
     violations.push({
@@ -75,7 +77,9 @@ export async function checkMultiTenancyDependencyRules(): Promise<
   }
 
   const registrySourceText = readFileSync(registrySource, "utf8");
-  if (!registrySourceText.includes(MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE)) {
+  if (
+    !registrySourceText.includes(MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registrySource,
@@ -83,13 +87,7 @@ export async function checkMultiTenancyDependencyRules(): Promise<
     });
   }
 
-  if (!existsSync(multiTenancyDocPath)) {
-    violations.push({
-      rule: "multi-tenancy-doc-missing",
-      file: multiTenancyDocPath,
-      message: `Missing ${MULTI_TENANCY_DOC_REFERENCE}`,
-    });
-  } else {
+  if (existsSync(multiTenancyDocPath)) {
     const multiTenancyDoc = readFileSync(multiTenancyDocPath, "utf8");
     for (const marker of MULTI_TENANCY_DEPENDENCY_DOC_MARKERS) {
       if (!multiTenancyDoc.includes(marker)) {
@@ -100,15 +98,15 @@ export async function checkMultiTenancyDependencyRules(): Promise<
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "multi-tenancy-doc-missing",
+      file: multiTenancyDocPath,
+      message: `Missing ${MULTI_TENANCY_DOC_REFERENCE}`,
+    });
   }
 
-  if (!existsSync(deliveryDocPath)) {
-    violations.push({
-      rule: "delivery-doc-missing",
-      file: deliveryDocPath,
-      message: `Missing ${TIP_007_012_DELIVERY_DOC}`,
-    });
-  } else {
+  if (existsSync(deliveryDocPath)) {
     const deliveryDoc = readFileSync(deliveryDocPath, "utf8");
 
     if (!deliveryDoc.includes("## Dependency decisions")) {
@@ -148,6 +146,12 @@ export async function checkMultiTenancyDependencyRules(): Promise<
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "delivery-doc-missing",
+      file: deliveryDocPath,
+      message: `Missing ${TIP_007_012_DELIVERY_DOC}`,
+    });
   }
 
   for (const edge of MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES) {

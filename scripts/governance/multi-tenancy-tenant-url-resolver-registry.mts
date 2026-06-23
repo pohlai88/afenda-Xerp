@@ -62,8 +62,7 @@ export const MULTI_TENANCY_TENANT_URL_RESOLVER_DIMENSIONS = [
     id: "host-parsing",
     title: "Host parsing",
     tableMarker: "### Host parsing",
-    registryImport:
-      "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
+    registryImport: "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
     registryExport: "TENANT_URL_RESOLVER_FUNCTIONS",
   },
   {
@@ -77,24 +76,21 @@ export const MULTI_TENANCY_TENANT_URL_RESOLVER_DIMENSIONS = [
     id: "tenant-slug-resolution",
     title: "Tenant slug resolution",
     tableMarker: "### Tenant slug resolution",
-    registryImport:
-      "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
+    registryImport: "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
     registryExport: "TENANT_URL_RESOLVER_HEADER",
   },
   {
     id: "legal-entity-boundary",
     title: "Legal entity boundary",
     tableMarker: "### Legal entity boundary",
-    registryImport:
-      "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
+    registryImport: "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
     registryExport: "TENANT_URL_RESOLVER_FORBIDDEN_PATTERNS",
   },
   {
     id: "middleware-preservation",
     title: "Middleware preservation",
     tableMarker: "### Middleware preservation",
-    registryImport:
-      "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
+    registryImport: "apps/erp/src/lib/context/tenant-url-resolver-registry.ts",
     registryExport: "TENANT_URL_RESOLVER_PROXY_PRESERVATIONS",
   },
 ] as const;

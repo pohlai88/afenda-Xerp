@@ -11,6 +11,7 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
+    "exactOptionalPropertyTypes": false,
     "paths": {
       "@/*": ["./src/*"],
       "#/*": ["./src/*"],
@@ -36,9 +37,5 @@
     "src/components/_storybook/**/*.ts",
     "src/components/_storybook/**/*.tsx"
   ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "src/components/shadcn-studio/**"
-  ]
+  "exclude": ["dist", "node_modules", "src/components/shadcn-studio/**"]
 }

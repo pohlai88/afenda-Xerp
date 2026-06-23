@@ -326,11 +326,11 @@ ${buildFontWeightThemeBlock()}
   --ease-decelerate: var(--afenda-motion-easing-decelerate);
   --ease-accelerate: var(--afenda-motion-easing-accelerate);
 
-  /* Fonts */
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
+  /* Fonts — bridge to Part A stacks (never self-referential) */
+  --font-sans: var(--afenda-font-sans);
+  --font-mono: var(--afenda-font-mono);
+  --font-heading: var(--afenda-font-heading);
+  --font-body: var(--afenda-font-body);
 }
 
 /* ── Part D: Base styles ─────────────────────────────────────────────────── */
@@ -496,11 +496,17 @@ mkdirSync(dirname(srcTokensPath), { recursive: true });
 writeFileSync(srcTokensPath, tokensCss, "utf8");
 
 // 2. afenda-design-system.css — complete Tailwind v4 theme (Parts A–D, no tailwind import)
-const distDesignSystemPath = join(packageRoot, "dist/css/afenda-design-system.css");
+const distDesignSystemPath = join(
+  packageRoot,
+  "dist/css/afenda-design-system.css"
+);
 mkdirSync(dirname(distDesignSystemPath), { recursive: true });
 writeFileSync(distDesignSystemPath, designSystemCss, "utf8");
 
-const srcDesignSystemPath = join(packageRoot, "src/css/afenda-design-system.css");
+const srcDesignSystemPath = join(
+  packageRoot,
+  "src/css/afenda-design-system.css"
+);
 mkdirSync(dirname(srcDesignSystemPath), { recursive: true });
 writeFileSync(srcDesignSystemPath, designSystemCss, "utf8");
 

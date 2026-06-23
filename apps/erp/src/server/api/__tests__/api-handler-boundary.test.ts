@@ -4,10 +4,7 @@ import { describe, expect, it } from "vitest";
 
 const apiRoot = join(import.meta.dirname, "../../../app/api");
 
-const ROUTE_ALLOWLIST = [
-  "auth",
-  "integrations",
-] as const;
+const ROUTE_ALLOWLIST = ["auth", "integrations"] as const;
 
 function collectRouteFiles(directory: string): string[] {
   const entries = readdirSync(directory, { withFileTypes: true });

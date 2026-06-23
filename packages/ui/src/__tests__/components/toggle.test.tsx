@@ -64,10 +64,9 @@ describe("Toggle governance", () => {
       </Toggle>
     );
 
-    expect(screen.getByRole("button", { name: `State ${state}` })).toHaveAttribute(
-      "data-state",
-      state
-    );
+    expect(
+      screen.getByRole("button", { name: `State ${state}` })
+    ).toHaveAttribute("data-state", state);
   });
 
   it("forwards ref to the toggle element", () => {
@@ -103,7 +102,9 @@ describe("Toggle governance", () => {
       </Toggle>
     );
 
-    expect(screen.getByRole("button", { name: "Disabled bold" })).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Disabled bold" })
+    ).toBeDisabled();
   });
 
   it.each([
@@ -116,10 +117,9 @@ describe("Toggle governance", () => {
       </Toggle>
     );
 
-    expect(screen.getByRole("button", { name: `Variant ${variant}` })).toHaveAttribute(
-      "data-variant",
-      expected
-    );
+    expect(
+      screen.getByRole("button", { name: `Variant ${variant}` })
+    ).toHaveAttribute("data-variant", expected);
   });
 
   it.each([
@@ -133,9 +133,8 @@ describe("Toggle governance", () => {
       </Toggle>
     );
 
-    expect(screen.getByRole("button", { name: `Size ${size}` })).toHaveAttribute(
-      "data-size",
-      expected
-    );
+    expect(
+      screen.getByRole("button", { name: `Size ${size}` })
+    ).toHaveAttribute("data-size", expected);
   });
 });

@@ -27,6 +27,10 @@ export type MetadataRendererLifecycleState =
 
 export interface MetadataRendererIdentity {
   /**
+   * Optional renderer description.
+   */
+  readonly description?: string;
+  /**
    * Stable renderer key.
    *
    * Examples: "metadata-ui.renderer.list.default", "metadata-ui.renderer.stat.card"
@@ -34,36 +38,21 @@ export interface MetadataRendererIdentity {
   readonly key: string;
 
   /**
-   * Renderer version. Recommended format: "1.0.0"
-   */
-  readonly version: string;
-
-  /**
    * Optional human-readable label for diagnostics and Storybook.
    */
   readonly label?: string;
 
   /**
-   * Optional renderer description.
+   * Renderer version. Recommended format: "1.0.0"
    */
-  readonly description?: string;
+  readonly version: string;
 }
 
 export interface MetadataRendererGovernance {
   /**
-   * Registry entry from @afenda/metadata.
-   */
-  readonly registry: RegistryEntry;
-
-  /**
    * Capability this renderer provides.
    */
   readonly capability: RendererCapability;
-
-  /**
-   * Section types supported by this renderer.
-   */
-  readonly sectionTypes: readonly SectionType[];
 
   /**
    * Renderer lifecycle state for registry resolution.
@@ -74,23 +63,31 @@ export interface MetadataRendererGovernance {
    * Renderer selection priority. Higher number wins.
    */
   readonly priority: number;
+  /**
+   * Registry entry from @afenda/metadata.
+   */
+  readonly registry: RegistryEntry;
+
+  /**
+   * Section types supported by this renderer.
+   */
+  readonly sectionTypes: readonly SectionType[];
 }
 
 export interface MetadataRendererPolicy {
   /**
-   * Whether this renderer may run during server rendering.
+   * Whether this renderer requires hydration.
    */
-  readonly supportsServerRender: boolean;
+  readonly requiresHydration: boolean;
 
   /**
    * Whether this renderer may run in the browser client.
    */
   readonly supportsClientRender: boolean;
-
   /**
-   * Whether this renderer requires hydration.
+   * Whether this renderer may run during server rendering.
    */
-  readonly requiresHydration: boolean;
+  readonly supportsServerRender: boolean;
 
   /**
    * Whether this renderer can be used in static previews, docs, and fixtures.
@@ -111,35 +108,38 @@ export interface MetadataRendererDiagnostics {
 }
 
 export interface MetadataRendererSupportResult {
-  readonly supported: boolean;
-
   /**
    * Reason this renderer does or does not support the input.
    */
   readonly reason?: string;
+  readonly supported: boolean;
 }
 
 export interface MetadataRendererExecutionDiagnostics {
+  readonly capability: RendererCapability;
   readonly rendererKey: string;
   readonly rendererVersion: string;
-  readonly capability: RendererCapability;
   readonly sectionTypes: readonly SectionType[];
 }
 
 export interface MetadataRendererResult {
-  readonly node: ReactNode;
-
   /**
    * Optional diagnostics metadata from render execution.
    */
   readonly diagnostics?: MetadataRendererExecutionDiagnostics;
+  readonly node: ReactNode;
 }
 
 export interface MetadataRendererDefinition<TInput = unknown> {
-  readonly identity: MetadataRendererIdentity;
-  readonly governance: MetadataRendererGovernance;
-  readonly policy: MetadataRendererPolicy;
   readonly diagnostics?: MetadataRendererDiagnostics;
+  readonly governance: MetadataRendererGovernance;
+  readonly identity: MetadataRendererIdentity;
+  readonly policy: MetadataRendererPolicy;
+
+  readonly render: (
+    input: TInput,
+    context: MetadataUiRenderContext
+  ) => MetadataRendererResult;
 
   /**
    * Determines whether this renderer supports the input/context pair.
@@ -150,26 +150,20 @@ export interface MetadataRendererDefinition<TInput = unknown> {
     input: TInput,
     context: MetadataUiRenderContext
   ) => MetadataRendererSupportResult;
-
-  readonly render: (
-    input: TInput,
-    context: MetadataUiRenderContext
-  ) => MetadataRendererResult;
 }
 
-export type AnyMetadataRendererDefinition =
-  MetadataRendererDefinition<unknown>;
+export type AnyMetadataRendererDefinition = MetadataRendererDefinition<unknown>;
 
 export interface MetadataRendererResolveInput<TInput = unknown> {
-  readonly input: TInput;
-  readonly sectionType: SectionType;
   readonly capability?: RendererCapability;
   readonly context: MetadataUiRenderContext;
+  readonly input: TInput;
+  readonly sectionType: SectionType;
 }
 
 export interface MetadataRendererResolveResult<TInput = unknown> {
-  readonly renderer: MetadataRendererDefinition<TInput>;
   readonly reason: string;
+  readonly renderer: MetadataRendererDefinition<TInput>;
 }
 
 export const METADATA_RENDERER_RESOLVE_FAILURE_REASONS = [
@@ -187,7 +181,7 @@ export type MetadataRendererResolveFailureReason =
   (typeof METADATA_RENDERER_RESOLVE_FAILURE_REASONS)[number];
 
 export interface MetadataRendererResolveFailure {
-  readonly reason: MetadataRendererResolveFailureReason;
-  readonly message: string;
   readonly attemptedRendererKeys: readonly string[];
+  readonly message: string;
+  readonly reason: MetadataRendererResolveFailureReason;
 }

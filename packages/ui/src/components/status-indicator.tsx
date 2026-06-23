@@ -3,8 +3,8 @@ import type {
   StatusTone,
 } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import type { SlotRole } from "@afenda/ui/governance/primitive-contract";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import * as React from "react";
 
 const STATUS_INDICATOR_RECIPE_NAME = "status" as const;
@@ -27,15 +27,7 @@ function resolveStatusIndicatorDotSlotKey(tone: StatusTone): string {
 
 const StatusIndicator = React.forwardRef<HTMLSpanElement, StatusIndicatorProps>(
   (
-    {
-      className,
-      children,
-      state,
-      tone = "neutral",
-      density,
-      radius,
-      ...props
-    },
+    { className, children, state, tone = "neutral", density, radius, ...props },
     ref
   ) => {
     const governed = resolvePrimitiveGovernance({

@@ -4,15 +4,15 @@ import { DEFAULT_DASHBOARD_LAYOUT } from "../dashboard/dashboard-layout.defaults
 import { parseDashboardLayoutPreset } from "../dashboard/dashboard-layout.schema";
 import { validateDashboardLayoutPreset } from "../dashboard/dashboard-layout.validation";
 import {
+  type DashboardWidgetId,
+  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
+} from "../dashboard/dashboard-widget.contract";
+import {
   DASHBOARD_WIDGET_DEFINITIONS,
   getDashboardWidgetRegistry,
   isDashboardWidgetId,
 } from "../dashboard/dashboard-widget-registry";
 import { resolveDashboardWidgets } from "../dashboard/dashboard-widget-resolve";
-import {
-  PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
-  type DashboardWidgetId,
-} from "../dashboard/dashboard-widget.contract";
 
 describe("dashboard widget registry ids", () => {
   it("derives isDashboardWidgetId from registry keys", () => {
@@ -37,7 +37,10 @@ describe("dashboard layout validation", () => {
   const registry = getDashboardWidgetRegistry();
 
   it("accepts the default dashboard layout preset", () => {
-    const result = validateDashboardLayoutPreset(DEFAULT_DASHBOARD_LAYOUT, registry);
+    const result = validateDashboardLayoutPreset(
+      DEFAULT_DASHBOARD_LAYOUT,
+      registry
+    );
     expect(result).toEqual({ valid: true, reason: null });
   });
 
@@ -171,7 +174,10 @@ describe("resolveDashboardWidgets permissive demo context", () => {
     const registry = getDashboardWidgetRegistry();
     const visible = resolveDashboardWidgets([...registry.values()], {
       permissions: new Set<string>(),
-      capabilities: new Set<string>(["dashboard.module_earnings", "dashboard.regional_sales"]),
+      capabilities: new Set<string>([
+        "dashboard.module_earnings",
+        "dashboard.regional_sales",
+      ]),
       featureFlags: new Set<string>(),
     });
 

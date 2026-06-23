@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  GOVERNED_STATES,
-  STATUS_TONES,
-} from "@afenda/ui/governance";
+import { GOVERNED_STATES, STATUS_TONES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ERP_STATUS_SAMPLES,
@@ -10,7 +7,12 @@ import {
   LiveRegionStatusPanel,
   SyncJobsTable,
 } from "./_storybook/status-indicator-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { StatusIndicator } from "./status-indicator";
 
 // ─── StatusIndicator ───────────────────────────────────────────────────────
@@ -130,7 +132,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Dot is `aria-hidden`; label text carries meaning. Add `role=\"status\"` and `aria-live` when the value updates dynamically (sync progress, batch jobs).",
+          'Dot is `aria-hidden`; label text carries meaning. Add `role="status"` and `aria-live` when the value updates dynamically (sync progress, batch jobs).',
       },
     },
   },
@@ -163,15 +165,21 @@ export const ApprovalQueue: Story = {
     <StoryFrame width="md">
       <StoryStack gap="sm">
         <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">PO-1042 · FastCo Industrial</span>
+          <span className="font-medium text-sm">
+            PO-1042 · FastCo Industrial
+          </span>
           <StatusIndicator tone="pending">Awaiting VP Finance</StatusIndicator>
         </StoryRow>
         <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">EXP-882 · Travel reimbursement</span>
+          <span className="font-medium text-sm">
+            EXP-882 · Travel reimbursement
+          </span>
           <StatusIndicator tone="warning">Manager review</StatusIndicator>
         </StoryRow>
         <StoryRow align="center" justify="between">
-          <span className="font-medium text-sm">JE-20481 · Period close accrual</span>
+          <span className="font-medium text-sm">
+            JE-20481 · Period close accrual
+          </span>
           <StatusIndicator tone="success">Approved</StatusIndicator>
         </StoryRow>
       </StoryStack>
@@ -232,7 +240,9 @@ export const StatusVsBadge: Story = {
     <StoryFrame width="md">
       <StoryStack gap="md">
         <StoryStack gap="xs">
-          <span className="font-medium text-sm">Table cell — StatusIndicator</span>
+          <span className="font-medium text-sm">
+            Table cell — StatusIndicator
+          </span>
           <StatusIndicator tone="warning">Pending review</StatusIndicator>
         </StoryStack>
         <StoryStack gap="xs">

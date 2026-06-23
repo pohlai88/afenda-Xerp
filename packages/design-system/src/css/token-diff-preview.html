@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Afenda CSS Token Diff — afenda-tokens.css vs afenda-style.css</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Afenda CSS Token Diff — afenda-tokens.css vs afenda-style.css</title>
+    <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
     :root {
       --ui-bg: #0f1117;
@@ -22,14 +26,15 @@
       --ui-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
     }
 
-    html, body {
-      margin: 0;
+    html,
+    body {
       min-height: 100%;
-      background: var(--ui-bg);
-      color: var(--ui-text);
+      margin: 0;
       font-family: var(--ui-font);
       font-size: 14px;
       line-height: 1.5;
+      color: var(--ui-text);
+      background: var(--ui-bg);
     }
 
     header {
@@ -38,11 +43,11 @@
       z-index: 10;
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       gap: 12px 20px;
+      align-items: center;
       padding: 14px 20px;
-      border-bottom: 1px solid var(--ui-border);
       background: color-mix(in srgb, var(--ui-bg) 92%, transparent);
+      border-bottom: 1px solid var(--ui-border);
       backdrop-filter: blur(8px);
     }
 
@@ -54,10 +59,10 @@
     }
 
     header p {
-      margin: 0;
-      color: var(--ui-muted);
-      font-size: 0.82rem;
       flex: 1 1 280px;
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--ui-muted);
     }
 
     .toolbar {
@@ -67,38 +72,54 @@
       align-items: center;
     }
 
-    button, select, input[type="search"] {
-      font: inherit;
-      border: 1px solid var(--ui-border);
-      background: var(--ui-surface);
-      color: var(--ui-text);
-      border-radius: 8px;
+    button,
+    select,
+    input[type="search"] {
       padding: 6px 12px;
+      font: inherit;
+      color: var(--ui-text);
+      background: var(--ui-surface);
+      border: 1px solid var(--ui-border);
+      border-radius: 8px;
     }
 
-    button { cursor: pointer; }
-    button:hover { border-color: var(--ui-accent); }
-    button.active { background: var(--ui-accent); border-color: var(--ui-accent); color: #fff; }
+    button {
+      cursor: pointer;
+    }
+    button:hover {
+      border-color: var(--ui-accent);
+    }
+    button.active {
+      color: #fff;
+      background: var(--ui-accent);
+      border-color: var(--ui-accent);
+    }
 
-    input[type="search"] { min-width: 220px; }
+    input[type="search"] {
+      min-width: 220px;
+    }
 
     .stats {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
       font-size: 0.78rem;
     }
 
     .stat {
       padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--ui-border);
       background: var(--ui-surface);
+      border: 1px solid var(--ui-border);
+      border-radius: 999px;
     }
 
-    .stat b { font-weight: 650; }
+    .stat b {
+      font-weight: 650;
+    }
 
-    main { padding: 16px 20px 40px; }
+    main {
+      padding: 16px 20px 40px;
+    }
 
     .tabs {
       display: flex;
@@ -106,8 +127,12 @@
       margin-bottom: 16px;
     }
 
-    .panel { display: none; }
-    .panel.active { display: block; }
+    .panel {
+      display: none;
+    }
+    .panel.active {
+      display: block;
+    }
 
     /* ── Visual compare ── */
     .visual-grid {
@@ -117,14 +142,16 @@
     }
 
     @media (max-width: 960px) {
-      .visual-grid { grid-template-columns: 1fr; }
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .theme-panel {
-      border: 1px solid var(--ui-border);
-      border-radius: 12px;
       overflow: hidden;
       background: var(--ui-surface);
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
     }
 
     .theme-panel header {
@@ -147,17 +174,17 @@
     }
 
     .theme-canvas {
-      padding: 16px;
       min-height: 420px;
+      padding: 16px;
       transition: background 0.2s;
     }
 
     .mock-app {
-      border-radius: var(--mock-radius, 0.5rem);
       overflow: hidden;
-      border: 1px solid var(--mock-border, #ccc);
       font-family: var(--mock-font-body, system-ui, sans-serif);
-      box-shadow: var(--mock-shadow-md, 0 4px 12px rgba(0,0,0,.08));
+      border: 1px solid var(--mock-border, #ccc);
+      border-radius: var(--mock-radius, 0.5rem);
+      box-shadow: var(--mock-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));
     }
 
     .mock-header {
@@ -165,12 +192,14 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 14px;
+      color: var(--mock-text, #111);
       background: var(--mock-header-bg, #fafafa);
       border-bottom: 1px solid var(--mock-border, #ddd);
-      color: var(--mock-text, #111);
     }
 
-    .mock-header strong { font-size: 0.9rem; }
+    .mock-header strong {
+      font-size: 0.9rem;
+    }
 
     .mock-body {
       display: grid;
@@ -179,67 +208,67 @@
     }
 
     .mock-sidebar {
+      padding: 12px 10px;
+      font-size: 0.78rem;
+      color: var(--mock-sidebar-fg, #333);
       background: var(--mock-sidebar-bg, #f4f4f5);
       border-right: 1px solid var(--mock-border, #ddd);
-      padding: 12px 10px;
-      color: var(--mock-sidebar-fg, #333);
-      font-size: 0.78rem;
     }
 
     .mock-sidebar div {
       padding: 6px 8px;
-      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
       margin-bottom: 4px;
+      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
     }
 
     .mock-sidebar .active-item {
-      background: var(--mock-sidebar-accent, #e8f0fe);
       color: var(--mock-sidebar-accent-fg, #1a3a6b);
+      background: var(--mock-sidebar-accent, #e8f0fe);
     }
 
     .mock-content {
       padding: 14px;
-      background: var(--mock-bg, #fff);
       color: var(--mock-text, #111);
+      background: var(--mock-bg, #fff);
     }
 
     .mock-card {
+      padding: 14px;
+      margin-bottom: 12px;
       background: var(--mock-card, #fff);
       border: 1px solid var(--mock-border, #ddd);
       border-radius: var(--mock-radius, 0.5rem);
-      padding: 14px;
-      margin-bottom: 12px;
     }
 
     .mock-row {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
       margin-top: 10px;
     }
 
     .mock-btn {
       padding: 6px 12px;
-      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
-      border: none;
       font-size: 0.78rem;
       font-weight: 600;
       cursor: default;
+      border: none;
+      border-radius: calc(var(--mock-radius, 0.5rem) * 0.6);
     }
 
     .mock-btn.primary {
-      background: var(--mock-primary, #2563eb);
       color: var(--mock-primary-fg, #fff);
+      background: var(--mock-primary, #2563eb);
     }
 
     .mock-btn.secondary {
-      background: var(--mock-secondary, #e5e7eb);
       color: var(--mock-secondary-fg, #111);
+      background: var(--mock-secondary, #e5e7eb);
     }
 
     .mock-btn.destructive {
-      background: var(--mock-destructive, #dc2626);
       color: var(--mock-destructive-fg, #fff);
+      background: var(--mock-destructive, #dc2626);
     }
 
     .mock-badges {
@@ -250,21 +279,23 @@
     }
 
     .mock-badge {
-      font-size: 0.7rem;
       padding: 3px 8px;
-      border-radius: 999px;
+      font-size: 0.7rem;
       border: 1px solid transparent;
+      border-radius: 999px;
     }
 
     /* ── Swatches ── */
-    .swatch-section { margin-top: 14px; }
+    .swatch-section {
+      margin-top: 14px;
+    }
 
     .swatch-section h3 {
       margin: 0 0 8px;
       font-size: 0.75rem;
+      color: var(--ui-muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--ui-muted);
     }
 
     .swatch-grid {
@@ -274,10 +305,10 @@
     }
 
     .swatch {
-      border-radius: 8px;
       overflow: hidden;
-      border: 1px solid var(--ui-border);
       font-size: 0.62rem;
+      border: 1px solid var(--ui-border);
+      border-radius: 8px;
     }
 
     .swatch-color {
@@ -286,46 +317,49 @@
 
     .swatch-label {
       padding: 4px 5px;
-      background: #12151c;
+      line-height: 1.2;
       color: var(--ui-muted);
       word-break: break-all;
-      line-height: 1.2;
+      background: #12151c;
     }
 
     /* ── Diff table ── */
     .table-wrap {
+      max-height: calc(100vh - 200px);
+      overflow: auto;
+      background: var(--ui-surface);
       border: 1px solid var(--ui-border);
       border-radius: 12px;
-      overflow: auto;
-      max-height: calc(100vh - 200px);
-      background: var(--ui-surface);
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
       font-size: 0.8rem;
+      border-collapse: collapse;
     }
 
-    th, td {
+    th,
+    td {
       padding: 8px 10px;
-      border-bottom: 1px solid var(--ui-border);
       vertical-align: top;
       text-align: left;
+      border-bottom: 1px solid var(--ui-border);
     }
 
     th {
       position: sticky;
       top: 0;
-      background: #12151c;
       z-index: 1;
       font-size: 0.72rem;
+      color: var(--ui-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: var(--ui-muted);
+      background: #12151c;
     }
 
-    tr:hover td { background: rgba(255,255,255,0.02); }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
 
     td code {
       font-family: var(--ui-mono);
@@ -333,117 +367,158 @@
       word-break: break-all;
     }
 
-    .row-same td:first-child { border-left: 3px solid #334155; }
-    .row-changed td:first-child { border-left: 3px solid #eab308; }
-    .row-tokens-only td:first-child { border-left: 3px solid #22c55e; }
-    .row-style-only td:first-child { border-left: 3px solid #ef4444; }
+    .row-same td:first-child {
+      border-left: 3px solid #334155;
+    }
+    .row-changed td:first-child {
+      border-left: 3px solid #eab308;
+    }
+    .row-tokens-only td:first-child {
+      border-left: 3px solid #22c55e;
+    }
+    .row-style-only td:first-child {
+      border-left: 3px solid #ef4444;
+    }
 
     .badge {
       display: inline-block;
       padding: 2px 7px;
-      border-radius: 999px;
       font-size: 0.68rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      border-radius: 999px;
     }
 
-    .badge.same { background: var(--ui-same); color: #94a3b8; }
-    .badge.changed { background: var(--ui-changed); color: #fde68a; }
-    .badge.tokens-only { background: var(--ui-added); color: #bbf7d0; }
-    .badge.style-only { background: var(--ui-removed); color: #fecaca; }
+    .badge.same {
+      color: #94a3b8;
+      background: var(--ui-same);
+    }
+    .badge.changed {
+      color: #fde68a;
+      background: var(--ui-changed);
+    }
+    .badge.tokens-only {
+      color: #bbf7d0;
+      background: var(--ui-added);
+    }
+    .badge.style-only {
+      color: #fecaca;
+      background: var(--ui-removed);
+    }
 
-    .loading, .error {
+    .loading,
+    .error {
       padding: 24px;
-      text-align: center;
       color: var(--ui-muted);
+      text-align: center;
     }
 
-    .error { color: #fca5a5; }
+    .error {
+      color: #fca5a5;
+    }
 
     .hint {
-      margin-top: 12px;
       padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px dashed var(--ui-border);
-      color: var(--ui-muted);
+      margin-top: 12px;
       font-size: 0.82rem;
+      color: var(--ui-muted);
+      border: 1px dashed var(--ui-border);
+      border-radius: 10px;
     }
 
-    .hint code { font-family: var(--ui-mono); font-size: 0.78rem; }
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <h1>Afenda CSS Token Diff</h1>
-      <p>
-        <code>afenda-tokens.css</code> (hand-authored authority) vs
-        <code>afenda-style.css</code> (generated from registry)
-      </p>
-    </div>
-    <div class="toolbar">
-      <button type="button" id="mode-light" class="active">Light</button>
-      <button type="button" id="mode-dark">Dark</button>
-      <select id="filter-status" aria-label="Filter by status">
-        <option value="all">All tokens</option>
-        <option value="changed">Changed only</option>
-        <option value="tokens-only">Tokens.css only</option>
-        <option value="style-only">Style.css only</option>
-        <option value="same">Unchanged</option>
-      </select>
-      <input type="search" id="search" placeholder="Search token name…" />
-    </div>
-    <div class="stats" id="stats"></div>
-  </header>
-
-  <main>
-    <div class="tabs">
-      <button type="button" class="tab active" data-tab="visual">Visual compare</button>
-      <button type="button" class="tab" data-tab="swatches">Color swatches</button>
-      <button type="button" class="tab" data-tab="diff">Token diff table</button>
-    </div>
-
-    <div id="panel-visual" class="panel active">
-      <div class="visual-grid" id="visual-grid">
-        <div class="loading">Loading CSS files…</div>
+    .hint code {
+      font-family: var(--ui-mono);
+      font-size: 0.78rem;
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Afenda CSS Token Diff</h1>
+        <p>
+          <code>afenda-tokens.css</code>
+          (hand-authored authority) vs
+          <code>afenda-style.css</code>
+          (generated from registry)
+        </p>
       </div>
-    </div>
-
-    <div id="panel-swatches" class="panel">
-      <div class="visual-grid" id="swatch-grid"></div>
-    </div>
-
-    <div id="panel-diff" class="panel">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Token</th>
-              <th>Status</th>
-              <th>afenda-tokens.css</th>
-              <th>afenda-style.css</th>
-            </tr>
-          </thead>
-          <tbody id="diff-body"></tbody>
-        </table>
+      <div class="toolbar">
+        <button type="button" id="mode-light" class="active">Light</button>
+        <button type="button" id="mode-dark">Dark</button>
+        <select id="filter-status" aria-label="Filter by status">
+          <option value="all">All tokens</option>
+          <option value="changed">Changed only</option>
+          <option value="tokens-only">Tokens.css only</option>
+          <option value="style-only">Style.css only</option>
+          <option value="same">Unchanged</option>
+        </select>
+        <input type="search" id="search" placeholder="Search token name…">
       </div>
-    </div>
+      <div class="stats" id="stats"></div>
+    </header>
 
-    <div class="hint" id="serve-hint" hidden>
-      Could not fetch CSS (browser blocked local file access).
-      Run a static server from <code>packages/</code>, then open this page:
-      <br /><br />
-      <code>pnpm dlx serve packages -p 8765</code>
-      → <code>http://localhost:8765/design-system/src/css/token-diff-preview.html</code>
-      <br /><br />
-      Alternative (repo root):
-      <code>pnpm dlx serve . -p 8765</code>
-      → <code>http://localhost:8765/packages/design-system/src/css/token-diff-preview.html</code>
-    </div>
-  </main>
+    <main>
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="visual">
+          Visual compare
+        </button>
+        <button type="button" class="tab" data-tab="swatches">
+          Color swatches
+        </button>
+        <button type="button" class="tab" data-tab="diff">
+          Token diff table
+        </button>
+      </div>
 
-  <script>
+      <div id="panel-visual" class="panel active">
+        <div class="visual-grid" id="visual-grid">
+          <div class="loading">Loading CSS files…</div>
+        </div>
+      </div>
+
+      <div id="panel-swatches" class="panel">
+        <div class="visual-grid" id="swatch-grid"></div>
+      </div>
+
+      <div id="panel-diff" class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Status</th>
+                <th>afenda-tokens.css</th>
+                <th>afenda-style.css</th>
+              </tr>
+            </thead>
+            <tbody id="diff-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="hint" id="serve-hint" hidden>
+        Could not fetch CSS (browser blocked local file access). Run a static
+        server from <code>packages/</code>, then open this page:
+        <br><br>
+        <code>pnpm dlx serve packages -p 8765</code>
+        →
+        <code
+          >http://localhost:8765/design-system/src/css/token-diff-preview.html</code
+        >
+        <br><br>
+        Alternative (repo root):
+        <code>pnpm dlx serve . -p 8765</code>
+        →
+        <code
+          >http://localhost:8765/packages/design-system/src/css/token-diff-preview.html</code
+        >
+      </div>
+    </main>
+
+    <script>
+    "use strict";
     const FILE_CANDIDATES = {
       tokens: [
         "afenda-tokens.css",
@@ -458,13 +533,16 @@
     };
 
     let mode = "light";
-    let parsed = { tokens: {}, style: {} };
+    const parsed = { tokens: {}, style: {} };
     let diffRows = [];
 
-    const COLOR_KEY_RE = /color|surface|text|primary|secondary|accent|destructive|border|input|ring|chart|sidebar|status|tone|trend|state|tenant|success|warning|danger|forbidden|invalid|info|muted|background|foreground|overlay|hover|selected|link|placeholder|subtle|inverse|solid|skeleton|readonly|disabled|degraded|maintenance|offline/i;
+    const COLOR_KEY_RE =
+      /color|surface|text|primary|secondary|accent|destructive|border|input|ring|chart|sidebar|status|tone|trend|state|tenant|success|warning|danger|forbidden|invalid|info|muted|background|foreground|overlay|hover|selected|link|placeholder|subtle|inverse|solid|skeleton|readonly|disabled|degraded|maintenance|offline/i;
 
     function normalizeValue(v) {
-      if (v == null) return "";
+      if (v == null) {
+        return "";
+      }
       return String(v)
         .replace(/\/\*[\s\S]*?\*\//g, "")
         .replace(/\s+/g, " ")
@@ -485,9 +563,13 @@
 
         while (i < cleaned.length && depth > 0) {
           const ch = cleaned[i++];
-          if (ch === "{") depth++;
-          else if (ch === "}") depth--;
-          else if (depth === 1) body += ch;
+          if (ch === "{") {
+            depth++;
+          } else if (ch === "}") {
+            depth--;
+          } else if (depth === 1) {
+            body += ch;
+          }
         }
 
         const declRe = /(--[a-zA-Z0-9-]+)\s*:\s*([^;]+);/g;
@@ -528,19 +610,28 @@
       const rows = [];
 
       for (const name of [...allNames].sort()) {
-        const tVal = mode === "dark"
-          ? (tDark[name] ?? tLight[name] ?? null)
-          : (tLight[name] ?? null);
-        const sVal = mode === "dark"
-          ? (sDark[name] ?? sLight[name] ?? null)
-          : (sLight[name] ?? null);
+        const tVal =
+          mode === "dark"
+            ? (tDark[name] ?? tLight[name] ?? null)
+            : (tLight[name] ?? null);
+        const sVal =
+          mode === "dark"
+            ? (sDark[name] ?? sLight[name] ?? null)
+            : (sLight[name] ?? null);
 
         let status;
-        if (tVal == null && sVal == null) continue;
-        if (tVal == null && sVal != null) status = "style-only";
-        else if (tVal != null && sVal == null) status = "tokens-only";
-        else if (normalizeValue(tVal) === normalizeValue(sVal)) status = "same";
-        else status = "changed";
+        if (tVal == null && sVal == null) {
+          continue;
+        }
+        if (tVal == null && sVal != null) {
+          status = "style-only";
+        } else if (tVal != null && sVal == null) {
+          status = "tokens-only";
+        } else if (normalizeValue(tVal) === normalizeValue(sVal)) {
+          status = "same";
+        } else {
+          status = "changed";
+        }
 
         rows.push({ name, tVal, sVal, status });
       }
@@ -550,61 +641,118 @@
 
     function applyMockTheme(root, vars) {
       const g = (k, fb) => vars[k] ?? fb;
-      root.style.setProperty("--mock-bg", g("--afenda-color-surface-canvas", "#fafafa"));
-      root.style.setProperty("--mock-card", g("--afenda-color-surface-card", "#fff"));
-      root.style.setProperty("--mock-header-bg", g("--afenda-color-surface-header", g("--afenda-color-surface-canvas", "#fafafa")));
-      root.style.setProperty("--mock-text", g("--afenda-color-text-default", "#111"));
-      root.style.setProperty("--mock-border", g("--afenda-color-border-default", "#ddd"));
-      root.style.setProperty("--mock-primary", g("--afenda-color-primary", "#2563eb"));
-      root.style.setProperty("--mock-primary-fg", g("--afenda-color-primary-foreground", "#fff"));
-      root.style.setProperty("--mock-secondary", g("--afenda-color-secondary", "#e5e7eb"));
-      root.style.setProperty("--mock-secondary-fg", g("--afenda-color-secondary-foreground", "#111"));
-      root.style.setProperty("--mock-destructive", g("--afenda-color-destructive", "#dc2626"));
-      root.style.setProperty("--mock-destructive-fg", g("--afenda-color-destructive-foreground", "#fff"));
-      root.style.setProperty("--mock-sidebar-bg", g("--afenda-color-sidebar-background", "#f4f4f5"));
-      root.style.setProperty("--mock-sidebar-fg", g("--afenda-color-sidebar-foreground", "#333"));
-      root.style.setProperty("--mock-sidebar-accent", g("--afenda-color-sidebar-accent", "#e8f0fe"));
-      root.style.setProperty("--mock-sidebar-accent-fg", g("--afenda-color-sidebar-accent-foreground", "#1a3a6b"));
-      root.style.setProperty("--mock-radius", g("--afenda-radius-base", "0.5rem"));
-      root.style.setProperty("--mock-shadow-md", g("--afenda-shadow-md", "0 4px 12px rgba(0,0,0,.08)"));
-      root.style.setProperty("--mock-font-body", g("--afenda-font-body", "system-ui, sans-serif"));
+      root.style.setProperty(
+        "--mock-bg",
+        g("--afenda-color-surface-canvas", "#fafafa")
+      );
+      root.style.setProperty(
+        "--mock-card",
+        g("--afenda-color-surface-card", "#fff")
+      );
+      root.style.setProperty(
+        "--mock-header-bg",
+        g(
+          "--afenda-color-surface-header",
+          g("--afenda-color-surface-canvas", "#fafafa")
+        )
+      );
+      root.style.setProperty(
+        "--mock-text",
+        g("--afenda-color-text-default", "#111")
+      );
+      root.style.setProperty(
+        "--mock-border",
+        g("--afenda-color-border-default", "#ddd")
+      );
+      root.style.setProperty(
+        "--mock-primary",
+        g("--afenda-color-primary", "#2563eb")
+      );
+      root.style.setProperty(
+        "--mock-primary-fg",
+        g("--afenda-color-primary-foreground", "#fff")
+      );
+      root.style.setProperty(
+        "--mock-secondary",
+        g("--afenda-color-secondary", "#e5e7eb")
+      );
+      root.style.setProperty(
+        "--mock-secondary-fg",
+        g("--afenda-color-secondary-foreground", "#111")
+      );
+      root.style.setProperty(
+        "--mock-destructive",
+        g("--afenda-color-destructive", "#dc2626")
+      );
+      root.style.setProperty(
+        "--mock-destructive-fg",
+        g("--afenda-color-destructive-foreground", "#fff")
+      );
+      root.style.setProperty(
+        "--mock-sidebar-bg",
+        g("--afenda-color-sidebar-background", "#f4f4f5")
+      );
+      root.style.setProperty(
+        "--mock-sidebar-fg",
+        g("--afenda-color-sidebar-foreground", "#333")
+      );
+      root.style.setProperty(
+        "--mock-sidebar-accent",
+        g("--afenda-color-sidebar-accent", "#e8f0fe")
+      );
+      root.style.setProperty(
+        "--mock-sidebar-accent-fg",
+        g("--afenda-color-sidebar-accent-foreground", "#1a3a6b")
+      );
+      root.style.setProperty(
+        "--mock-radius",
+        g("--afenda-radius-base", "0.5rem")
+      );
+      root.style.setProperty(
+        "--mock-shadow-md",
+        g("--afenda-shadow-md", "0 4px 12px rgba(0,0,0,.08)")
+      );
+      root.style.setProperty(
+        "--mock-font-body",
+        g("--afenda-font-body", "system-ui, sans-serif")
+      );
 
       root.style.background = g("--afenda-color-surface-canvas", "#eee");
     }
 
     function mockAppHtml() {
       return `
-        <div class="mock-app">
-          <div class="mock-header">
-            <strong>Afenda ERP</strong>
-            <span style="font-size:0.75rem;opacity:.7">Dashboard</span>
-          </div>
-          <div class="mock-body">
-            <nav class="mock-sidebar">
-              <div class="active-item">Overview</div>
-              <div>Inventory</div>
-              <div>Orders</div>
-              <div>Reports</div>
-            </nav>
-            <div class="mock-content">
-              <div class="mock-card">
-                <div style="font-weight:650;margin-bottom:4px">Revenue summary</div>
-                <div style="font-size:0.78rem;opacity:.75">Primary surfaces, text, and chrome</div>
-                <div class="mock-row">
-                  <button type="button" class="mock-btn primary">Primary</button>
-                  <button type="button" class="mock-btn secondary">Secondary</button>
-                  <button type="button" class="mock-btn destructive">Destructive</button>
-                </div>
-                <div class="mock-badges">
-                  <span class="mock-badge" style="background:var(--badge-success-bg,#dcfce7);color:var(--badge-success-fg,#166534);border-color:var(--badge-success-border,#86efac)">Success</span>
-                  <span class="mock-badge" style="background:var(--badge-warning-bg,#fef3c7);color:var(--badge-warning-fg,#92400e);border-color:var(--badge-warning-border,#fcd34d)">Warning</span>
-                  <span class="mock-badge" style="background:var(--badge-danger-bg,#fee2e2);color:var(--badge-danger-fg,#991b1b);border-color:var(--badge-danger-border,#fca5a5)">Danger</span>
-                  <span class="mock-badge" style="background:var(--badge-info-bg,#dbeafe);color:var(--badge-info-fg,#1e40af);border-color:var(--badge-info-border,#93c5fd)">Info</span>
+            <div class="mock-app">
+              <div class="mock-header">
+                <strong>Afenda ERP</strong>
+                <span style="font-size:0.75rem;opacity:.7">Dashboard</span>
+              </div>
+              <div class="mock-body">
+                <nav class="mock-sidebar">
+                  <div class="active-item">Overview</div>
+                  <div>Inventory</div>
+                  <div>Orders</div>
+                  <div>Reports</div>
+                </nav>
+                <div class="mock-content">
+                  <div class="mock-card">
+                    <div style="font-weight:650;margin-bottom:4px">Revenue summary</div>
+                    <div style="font-size:0.78rem;opacity:.75">Primary surfaces, text, and chrome</div>
+                    <div class="mock-row">
+                      <button type="button" class="mock-btn primary">Primary</button>
+                      <button type="button" class="mock-btn secondary">Secondary</button>
+                      <button type="button" class="mock-btn destructive">Destructive</button>
+                    </div>
+                    <div class="mock-badges">
+                      <span class="mock-badge" style="background:var(--badge-success-bg,#dcfce7);color:var(--badge-success-fg,#166534);border-color:var(--badge-success-border,#86efac)">Success</span>
+                      <span class="mock-badge" style="background:var(--badge-warning-bg,#fef3c7);color:var(--badge-warning-fg,#92400e);border-color:var(--badge-warning-border,#fcd34d)">Warning</span>
+                      <span class="mock-badge" style="background:var(--badge-danger-bg,#fee2e2);color:var(--badge-danger-fg,#991b1b);border-color:var(--badge-danger-border,#fca5a5)">Danger</span>
+                      <span class="mock-badge" style="background:var(--badge-info-bg,#dbeafe);color:var(--badge-info-fg,#1e40af);border-color:var(--badge-info-border,#93c5fd)">Info</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>`;
+            </div>`;
     }
 
     function setBadgeVars(root, vars) {
@@ -615,9 +763,18 @@
         ["info", "--afenda-status-tone-info"],
       ];
       for (const [key, prefix] of map) {
-        root.style.setProperty(`--badge-${key}-bg`, vars[`${prefix}-surface`] ?? "#eee");
-        root.style.setProperty(`--badge-${key}-fg`, vars[`${prefix}-foreground`] ?? "#111");
-        root.style.setProperty(`--badge-${key}-border`, vars[`${prefix}-border`] ?? "#ccc");
+        root.style.setProperty(
+          `--badge-${key}-bg`,
+          vars[`${prefix}-surface`] ?? "#eee"
+        );
+        root.style.setProperty(
+          `--badge-${key}-fg`,
+          vars[`${prefix}-foreground`] ?? "#111"
+        );
+        root.style.setProperty(
+          `--badge-${key}-border`,
+          vars[`${prefix}-border`] ?? "#ccc"
+        );
       }
     }
 
@@ -627,14 +784,14 @@
       const sVars = getModeTokens(parsed.style);
 
       grid.innerHTML = `
-        <article class="theme-panel">
-          <header><h2>afenda-tokens.css</h2><code>packages/design-system/src/css/</code></header>
-          <div class="theme-canvas" id="canvas-tokens">${mockAppHtml()}</div>
-        </article>
-        <article class="theme-panel">
-          <header><h2>afenda-style.css</h2><code>packages/ui/src/styles/</code></header>
-          <div class="theme-canvas" id="canvas-style">${mockAppHtml()}</div>
-        </article>`;
+            <article class="theme-panel">
+              <header><h2>afenda-tokens.css</h2><code>packages/design-system/src/css/</code></header>
+              <div class="theme-canvas" id="canvas-tokens">${mockAppHtml()}</div>
+            </article>
+            <article class="theme-panel">
+              <header><h2>afenda-style.css</h2><code>packages/ui/src/styles/</code></header>
+              <div class="theme-canvas" id="canvas-style">${mockAppHtml()}</div>
+            </article>`;
 
       const cTokens = document.getElementById("canvas-tokens");
       const cStyle = document.getElementById("canvas-style");
@@ -649,9 +806,13 @@
     }
 
     function resolveColor(value, vars, depth = 0) {
-      if (!value || depth > 6) return value;
+      if (!value || depth > 6) {
+        return value;
+      }
       const trimmed = value.trim();
-      if (/^(oklch|rgb|hsl|#)/i.test(trimmed)) return trimmed;
+      if (/^(oklch|rgb|hsl|#)/i.test(trimmed)) {
+        return trimmed;
+      }
       const varMatch = trimmed.match(/^var\(\s*(--[^,)]+)/);
       if (varMatch && vars[varMatch[1]]) {
         return resolveColor(vars[varMatch[1]], vars, depth + 1);
@@ -669,39 +830,53 @@
       const all = [...new Set([...tColors, ...sColors])].sort();
 
       function swatchBlock(title, vars, names) {
-        const items = names.map((name) => {
-          const raw = vars[name];
-          if (!raw) return "";
-          const color = resolveColor(raw, vars);
-          const short = name.replace(/^--afenda-/, "");
-          return `<div class="swatch" title="${name}: ${raw}">
-            <div class="swatch-color" style="background:${color}"></div>
-            <div class="swatch-label">${short}</div>
-          </div>`;
-        }).join("");
+        const items = names
+          .map((name) => {
+            const raw = vars[name];
+            if (!raw) {
+              return "";
+            }
+            const color = resolveColor(raw, vars);
+            const short = name.replace(/^--afenda-/, "");
+            return `<div class="swatch" title="${name}: ${raw}">
+                <div class="swatch-color" style="background:${color}"></div>
+                <div class="swatch-label">${short}</div>
+              </div>`;
+          })
+          .join("");
 
         return `<article class="theme-panel">
-          <header><h2>${title}</h2></header>
-          <div style="padding:14px">
-            <div class="swatch-grid">${items || "<p class='loading'>No color tokens</p>"}</div>
-          </div>
-        </article>`;
+              <header><h2>${title}</h2></header>
+              <div style="padding:14px">
+                <div class="swatch-grid">${items || "<p class='loading'>No color tokens</p>"}</div>
+              </div>
+            </article>`;
       }
 
       grid.innerHTML =
-        swatchBlock("afenda-tokens.css", tVars, all.filter((n) => tVars[n])) +
-        swatchBlock("afenda-style.css", sVars, all.filter((n) => sVars[n]));
+        swatchBlock(
+          "afenda-tokens.css",
+          tVars,
+          all.filter((n) => tVars[n])
+        ) +
+        swatchBlock(
+          "afenda-style.css",
+          sVars,
+          all.filter((n) => sVars[n])
+        );
     }
 
     function renderStats() {
       const counts = { same: 0, changed: 0, "tokens-only": 0, "style-only": 0 };
-      for (const r of diffRows) counts[r.status]++;
+      for (const r of diffRows) {
+        counts[r.status]++;
+      }
       document.getElementById("stats").innerHTML = `
-        <span class="stat"><b>${diffRows.length}</b> tokens</span>
-        <span class="stat" style="border-color:#eab308"><b>${counts.changed}</b> changed</span>
-        <span class="stat" style="border-color:#22c55e"><b>${counts["tokens-only"]}</b> tokens only</span>
-        <span class="stat" style="border-color:#ef4444"><b>${counts["style-only"]}</b> style only</span>
-        <span class="stat"><b>${counts.same}</b> same</span>`;
+            <span class="stat"><b>${diffRows.length}</b> tokens</span>
+            <span class="stat" style="border-color:#eab308"><b>${counts.changed}</b> changed</span>
+            <span class="stat" style="border-color:#22c55e"><b>${counts["tokens-only"]}</b> tokens only</span>
+            <span class="stat" style="border-color:#ef4444"><b>${counts["style-only"]}</b> style only</span>
+            <span class="stat"><b>${counts.same}</b> same</span>`;
     }
 
     function renderDiff() {
@@ -710,18 +885,26 @@
       const tbody = document.getElementById("diff-body");
 
       const rows = diffRows.filter((r) => {
-        if (filter !== "all" && r.status !== filter) return false;
-        if (q && !r.name.toLowerCase().includes(q)) return false;
+        if (filter !== "all" && r.status !== filter) {
+          return false;
+        }
+        if (q && !r.name.toLowerCase().includes(q)) {
+          return false;
+        }
         return true;
       });
 
-      tbody.innerHTML = rows.map((r) => `
-        <tr class="row-${r.status}">
-          <td><code>${r.name}</code></td>
-          <td><span class="badge ${r.status}">${r.status.replace("-", " ")}</span></td>
-          <td><code>${r.tVal ?? "—"}</code></td>
-          <td><code>${r.sVal ?? "—"}</code></td>
-        </tr>`).join("");
+      tbody.innerHTML = rows
+        .map(
+          (r) => `
+            <tr class="row-${r.status}">
+              <td><code>${r.name}</code></td>
+              <td><span class="badge ${r.status}">${r.status.replace("-", " ")}</span></td>
+              <td><code>${r.tVal ?? "—"}</code></td>
+              <td><code>${r.sVal ?? "—"}</code></td>
+            </tr>`
+        )
+        .join("");
     }
 
     function renderAll() {
@@ -736,7 +919,9 @@
       for (const path of paths) {
         try {
           const r = await fetch(path);
-          if (r.ok) return r.text();
+          if (r.ok) {
+            return r.text();
+          }
         } catch {
           /* try next candidate */
         }
@@ -777,17 +962,25 @@
 
     document.querySelectorAll(".tab").forEach((btn) => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
-        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".tab")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll(".panel")
+          .forEach((p) => p.classList.remove("active"));
         btn.classList.add("active");
-        document.getElementById(`panel-${btn.dataset.tab}`).classList.add("active");
+        document
+          .getElementById(`panel-${btn.dataset.tab}`)
+          .classList.add("active");
       });
     });
 
     document.getElementById("search").addEventListener("input", renderDiff);
-    document.getElementById("filter-status").addEventListener("change", renderDiff);
+    document
+      .getElementById("filter-status")
+      .addEventListener("change", renderDiff);
 
     load();
-  </script>
-</body>
+    </script>
+  </body>
 </html>

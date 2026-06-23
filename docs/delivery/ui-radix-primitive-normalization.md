@@ -1,11 +1,11 @@
 # UI Radix Primitive Normalization
 
 Status: **Complete**  
-Related: TIP-UI-02 (component library foundation), TIP-004 (governed consumption)
+Related: TIP-UI-02 (component library foundation), [TIP-004 policy](../governance/tip-004-policy.md) (governed consumption)
 
 ## 1. Executive summary
 
-`@afenda/ui` already operated at enterprise governance maturity before this pass: **58 governed primitives**, **1,497 static source governance checks**, **1,870 Vitest assertions**, and a four-gate `pnpm ui:guard` pipeline. This delivery **audited the full primitive surface**, **documented the normalized API contract**, and **closed the last target-category gap** by adding `StatusIndicator` — the ERP dot-plus-text status cell primitive.
+`@afenda/ui` already operated at enterprise governance maturity before this pass: **58 governed primitives**, **1,497 static source governance checks**, **1,870 Vitest assertions**, and a six-gate `pnpm ui:guard` pipeline (see [`docs/governance/ui-guard.md`](../governance/ui-guard.md)). This delivery **audited the full primitive surface**, **documented the normalized API contract**, and **closed the last target-category gap** by adding `StatusIndicator` — the ERP dot-plus-text status cell primitive.
 
 No breaking API changes were required. All existing primitives already use `resolvePrimitiveGovernance()`, registered slots, design-system recipe vocabulary, and Radix-preserving composition.
 
@@ -350,6 +350,6 @@ No database or ERP migration required — primitive-only change.
 Governance verification at consumer layer:
 
 ```bash
-pnpm ui:guard:scan   # < 2 s className violation scan
-pnpm ui:guard        # four-gate full check
+pnpm ui:guard:scan   # < 2 s className violation scan (Gate D)
+pnpm ui:guard        # six-gate full check — docs/governance/ui-guard.md
 ```

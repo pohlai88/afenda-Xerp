@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   AFENDA_SEMANTIC_ROLE_REGISTRY,
   appShellRecipe,
-  designTokenPolicy,
   DENSITY_ATTRIBUTES,
+  designTokenPolicy,
   metadataUiRecipe,
   publicExportContract,
   visualDriftPolicy,

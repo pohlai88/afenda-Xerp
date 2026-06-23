@@ -42,7 +42,9 @@ const reactErpPolicyUrl = pathToFileURL(
 ).href;
 
 const { checkGovernedUiConsumption } = await import(policyUrl);
-const { checkReactErpQuality, REACT_ERP_QUALITY_PATH } = await import(reactErpPolicyUrl);
+const { checkReactErpQuality, REACT_ERP_QUALITY_PATH } = await import(
+  reactErpPolicyUrl
+);
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
@@ -398,7 +400,9 @@ if (!gateFilter || gateFilter === "D") {
 const strictMode = argv.includes("--strict");
 
 if (!scanOnly && (!gateFilter || gateFilter === "F")) {
-  header("Gate F  React ERP quality (recharts dynamic, forwardRef, hooks, a11y)");
+  header(
+    "Gate F  React ERP quality (recharts dynamic, forwardRef, hooks, a11y)"
+  );
   info("scanning appshell, metadata-ui, erp .tsx/.ts files…");
 
   const reactErpRoots = [

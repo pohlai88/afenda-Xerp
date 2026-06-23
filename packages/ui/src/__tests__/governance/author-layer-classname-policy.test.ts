@@ -26,7 +26,9 @@ describe("author-layer className policy audit", () => {
   it("documents semantic slot classes that fail layout-only className policy", () => {
     for (const [name, className] of Object.entries(violations)) {
       const result = validateLayoutClassName(className);
-      expect(result.valid, `${name} should fail layout-only policy`).toBe(false);
+      expect(result.valid, `${name} should fail layout-only policy`).toBe(
+        false
+      );
     }
   });
 

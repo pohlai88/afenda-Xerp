@@ -1,10 +1,10 @@
 import {
-  AuditAdapterMissingError,
-  writeAuditEvent,
   type AuditActorType,
+  AuditAdapterMissingError,
   type AuditResult,
   type AuditSource,
   type LogMetadata,
+  writeAuditEvent,
 } from "@afenda/observability";
 import { headers } from "next/headers";
 
@@ -29,8 +29,7 @@ export async function recordErpAuditEvent(
   input: RecordErpAuditInput
 ): Promise<void> {
   const correlationId =
-    input.correlationId ??
-    resolveCorrelationIdFromHeaders(await headers());
+    input.correlationId ?? resolveCorrelationIdFromHeaders(await headers());
 
   try {
     await writeAuditEvent({

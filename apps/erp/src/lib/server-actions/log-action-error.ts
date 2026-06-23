@@ -23,10 +23,15 @@ function buildActionErrorMetadata(
 export async function logServerActionError(
   input: LogServerActionErrorInput
 ): Promise<void> {
-  const logger = await createRequestBoundErpLogger(ERP_LOGGER_MODULES.serverAction);
+  const logger = await createRequestBoundErpLogger(
+    ERP_LOGGER_MODULES.serverAction
+  );
   const metadata = buildActionErrorMetadata(input);
 
-  if (input.error.code === "INTERNAL_ERROR" && input.error.cause !== undefined) {
+  if (
+    input.error.code === "INTERNAL_ERROR" &&
+    input.error.cause !== undefined
+  ) {
     logger.error("server-action.failed", {
       ...metadata,
       reason:

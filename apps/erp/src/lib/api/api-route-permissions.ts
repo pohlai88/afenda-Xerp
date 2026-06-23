@@ -1,8 +1,7 @@
 import type { RegisteredPermissionKey } from "@afenda/permissions";
 import { assertRegisteredPermissionKey } from "@afenda/permissions";
-
-import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 import type { ApiRouteContract } from "@/server/api/contracts/api-contract";
+import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 
 import type { ApiRouteProtectionLevel } from "./api-route-context";
 

@@ -4,25 +4,24 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
-  TENANT_URL_RESOLVER_FORBIDDEN_PATTERNS,
-  TENANT_URL_RESOLVER_FUNCTIONS,
-  TENANT_URL_RESOLVER_HEADER,
-  TENANT_URL_RESOLVER_PROXY_PRESERVATIONS,
   MULTI_TENANCY_LEGAL_ENTITY_BOUNDARY_MARKERS,
   MULTI_TENANCY_MIDDLEWARE_PRESERVATION_MARKERS,
   MULTI_TENANCY_RESERVED_SUBDOMAIN_MARKERS,
   MULTI_TENANCY_TENANT_URL_RESOLVER_DIMENSIONS,
   MULTI_TENANCY_TENANT_URL_RESOLVER_FUNCTION_MARKERS,
+  TENANT_URL_RESOLVER_FORBIDDEN_PATTERNS,
+  TENANT_URL_RESOLVER_FUNCTIONS,
+  TENANT_URL_RESOLVER_HEADER,
+  TENANT_URL_RESOLVER_PROXY_PRESERVATIONS,
   TIP_007_012_TENANT_URL_RESOLVER_SECTION,
 } from "../multi-tenancy-tenant-url-resolver-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface TenantUrlResolverEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {
@@ -116,7 +115,8 @@ function collectProxyViolations(
     violations.push({
       rule: "proxy-missing",
       file: proxyPath,
-      message: "apps/erp/src/proxy.ts is required for Step 6 tenant URL routing",
+      message:
+        "apps/erp/src/proxy.ts is required for Step 6 tenant URL routing",
     });
     return violations;
   }
@@ -124,8 +124,10 @@ function collectProxyViolations(
   const proxySource = readFileSync(proxyPath, "utf8");
 
   if (
-    !proxySource.includes(TENANT_URL_RESOLVER_HEADER) &&
-    !proxySource.includes("TENANT_SLUG_HEADER")
+    !(
+      proxySource.includes(TENANT_URL_RESOLVER_HEADER) ||
+      proxySource.includes("TENANT_SLUG_HEADER")
+    )
   ) {
     violations.push({
       rule: "proxy-tenant-header-missing",
@@ -206,7 +208,8 @@ function collectReservedSubdomainViolations(
     violations.push({
       rule: "reserved-subdomains-constant-missing",
       file: constantsPath,
-      message: "RESERVED_TENANT_SUBDOMAINS must be exported from context.constants.ts",
+      message:
+        "RESERVED_TENANT_SUBDOMAINS must be exported from context.constants.ts",
     });
   }
 
@@ -214,7 +217,8 @@ function collectReservedSubdomainViolations(
     violations.push({
       rule: "reserved-subdomain-helper-missing",
       file: constantsPath,
-      message: "isReservedTenantSubdomain must be exported from context.constants.ts",
+      message:
+        "isReservedTenantSubdomain must be exported from context.constants.ts",
     });
   }
 

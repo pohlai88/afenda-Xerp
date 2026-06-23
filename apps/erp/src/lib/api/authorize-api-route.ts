@@ -5,7 +5,14 @@ import {
   type OperatingContext,
   type TenantId,
 } from "@afenda/kernel";
-import type { PermissionDataSource } from "@afenda/permissions";
+import type {
+  AuthorizationContextInput,
+  AuthorizationDecision,
+  AuthorizationDenialCode,
+  PermissionDataSource,
+  PolicyDataSource,
+  PolicyEvaluationOptions,
+} from "@afenda/permissions";
 import {
   checkPermission,
   createProductionAuthorizationDataSources,
@@ -16,15 +23,6 @@ import {
   productionPolicyEvaluationOptions,
   resolveAuthorizationContext,
   resolveBoundaryPermissionKey,
-} from "@afenda/permissions";
-import type {
-  AuthorizationContextInput,
-  AuthorizationDecision,
-  AuthorizationDenialCode,
-} from "@afenda/permissions";
-import type {
-  PolicyDataSource,
-  PolicyEvaluationOptions,
 } from "@afenda/permissions";
 
 import { createErpLogger } from "@/lib/observability/create-erp-logger";
@@ -37,18 +35,18 @@ import {
   mapAuthorizationDenialToApiErrorCode,
   resolveSafeAuthorizationMessage,
 } from "./api-error-response";
-import { resolveVerifiedApiRouteOperatingContext } from "./resolve-api-route-operating-context";
+import {
+  type ApiRouteProtectionLevel,
+  readScopeCandidateFromHeaders,
+  toAuthorizationContextInput,
+} from "./api-route-context";
 import type {
   ApiRouteAuthorizationFailure,
   ApiRouteAuthorizationInput,
   ApiRouteAuthorizationResult,
   ApiRouteAuthorizationSuccess,
 } from "./authorize-api-route.contract";
-import {
-  type ApiRouteProtectionLevel,
-  readScopeCandidateFromHeaders,
-  toAuthorizationContextInput,
-} from "./api-route-context";
+import { resolveVerifiedApiRouteOperatingContext } from "./resolve-api-route-operating-context";
 
 export type {
   ApiRouteAuthorizationFailure,
@@ -305,10 +303,7 @@ function buildAuthorizationFailureFromEvaluation(input: {
     apiCode,
     correlationId: input.correlationId,
     denialCode: input.code,
-    message: resolveSafeAuthorizationMessage(
-      input.code,
-      input.decision.reason
-    ),
+    message: resolveSafeAuthorizationMessage(input.code, input.decision.reason),
     details:
       input.code === "policy_gated"
         ? { gateDecision: input.decision.result }

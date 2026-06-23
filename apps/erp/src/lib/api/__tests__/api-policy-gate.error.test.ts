@@ -24,10 +24,7 @@ describe("createApiClientErrorFromEnvelope", () => {
       },
     };
 
-    const error = createApiClientErrorFromEnvelope(
-      envelope,
-      "Request failed."
-    );
+    const error = createApiClientErrorFromEnvelope(envelope, "Request failed.");
 
     expect(error).toBeInstanceOf(ApiPolicyGateError);
     expect(isApiPolicyGateError(error)).toBe(true);
@@ -54,10 +51,7 @@ describe("createApiClientErrorFromEnvelope", () => {
       },
     };
 
-    const error = createApiClientErrorFromEnvelope(
-      envelope,
-      "Request failed."
-    );
+    const error = createApiClientErrorFromEnvelope(envelope, "Request failed.");
 
     expect(isApiPolicyGateError(error)).toBe(false);
     expect(error.code).toBe("forbidden");
@@ -98,8 +92,8 @@ describe("assertApiSuccessEnvelope", () => {
       },
     };
 
-    expect(() =>
-      assertApiSuccessEnvelope(envelope, "Request failed.")
-    ).toThrow(ApiPolicyGateError);
+    expect(() => assertApiSuccessEnvelope(envelope, "Request failed.")).toThrow(
+      ApiPolicyGateError
+    );
   });
 });

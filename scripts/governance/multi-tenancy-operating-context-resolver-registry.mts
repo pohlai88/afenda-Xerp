@@ -135,9 +135,7 @@ export const MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_DIMENSIONS = [
 
 /** Required resolver function row markers in delivery doc. */
 export const MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_FUNCTION_MARKERS =
-  OPERATING_CONTEXT_RESOLVER_FUNCTIONS.map(
-    (entry) => entry.name
-  ) as readonly [
+  OPERATING_CONTEXT_RESOLVER_FUNCTIONS.map((entry) => entry.name) as readonly [
     "resolveOperatingContext",
     "resolveOperatingContextFromHeaders",
     "resolveLegalEntityContext",

@@ -217,7 +217,9 @@ export function NumberedSlideCard({ index }: { readonly index: number }) {
         <Card>
           <CardContent>
             <div className="flex aspect-square items-center justify-center">
-              <span className="font-semibold text-4xl tabular-nums">{index + 1}</span>
+              <span className="font-semibold text-4xl tabular-nums">
+                {index + 1}
+              </span>
             </div>
           </CardContent>
         </Card>

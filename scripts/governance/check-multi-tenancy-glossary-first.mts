@@ -9,7 +9,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
+import {
+  collectGlossaryFirstViolations,
+  type GlossaryFirstEnforcementViolation,
+} from "./lib/multi-tenancy-glossary-first-enforcement.mts";
 import {
   MULTI_TENANCY_DOC_GLOSSARY_FIRST_MARKERS,
   MULTI_TENANCY_GLOSSARY_FIRST_ENFORCEMENT_LIB,
@@ -19,14 +26,6 @@ import {
   MULTI_TENANCY_GLOSSARY_PATH,
   TIP_007_012_GLOSSARY_FIRST_SECTION,
 } from "./multi-tenancy-glossary-first-registry.mts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
-} from "./delivery-evidence-surface-registry.mts";
-import {
-  collectGlossaryFirstViolations,
-  type GlossaryFirstEnforcementViolation,
-} from "./lib/multi-tenancy-glossary-first-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -74,7 +73,10 @@ export function checkMultiTenancyGlossaryFirst(): MultiTenancyGlossaryFirstViola
     });
   }
 
-  const enforcementLibPath = join(repoRoot, MULTI_TENANCY_GLOSSARY_FIRST_ENFORCEMENT_LIB);
+  const enforcementLibPath = join(
+    repoRoot,
+    MULTI_TENANCY_GLOSSARY_FIRST_ENFORCEMENT_LIB
+  );
   const gatePath = join(repoRoot, MULTI_TENANCY_GLOSSARY_FIRST_GATE);
 
   if (!existsSync(enforcementLibPath)) {
@@ -172,13 +174,17 @@ export function checkMultiTenancyGlossaryFirst(): MultiTenancyGlossaryFirstViola
       file: packageJsonPath,
       message: "root package.json is required",
     });
-  } else if (!packageJsonContent.includes("check:multi-tenancy-glossary-first")) {
+  } else if (
+    !packageJsonContent.includes("check:multi-tenancy-glossary-first")
+  ) {
     violations.push({
       rule: "check-script-missing",
       file: packageJsonPath,
       message: "package.json must define check:multi-tenancy-glossary-first",
     });
-  } else if (!packageJsonContent.includes("quality:multi-tenancy-glossary-first")) {
+  } else if (
+    !packageJsonContent.includes("quality:multi-tenancy-glossary-first")
+  ) {
     violations.push({
       rule: "quality-script-missing",
       file: packageJsonPath,
@@ -188,7 +194,9 @@ export function checkMultiTenancyGlossaryFirst(): MultiTenancyGlossaryFirstViola
 
   const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
   const qualityChain = qualityChainMatch?.[1] ?? "";
-  const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+  const glossaryIndex = qualityChain.indexOf(
+    "quality:multi-tenancy-glossary-first"
+  );
   const auditIndex = qualityChain.indexOf(
     "quality:multi-tenancy-existing-state-audit"
   );

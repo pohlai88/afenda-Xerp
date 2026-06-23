@@ -18,7 +18,10 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import * as React from "react";
-import { Toaster as Sonner, type ToasterProps as SonnerToasterProps } from "sonner";
+import {
+  Toaster as Sonner,
+  type ToasterProps as SonnerToasterProps,
+} from "sonner";
 
 const TOASTER_RECIPE_NAME = "surface" as const;
 
@@ -52,10 +55,7 @@ function ToasterIcon({
   });
 
   return (
-    <Icon
-      aria-hidden="true"
-      {...applyGovernedPresentation({}, governed)}
-    />
+    <Icon aria-hidden="true" {...applyGovernedPresentation({}, governed)} />
   );
 }
 
@@ -87,14 +87,17 @@ const Toaster = React.forwardRef<HTMLDivElement, ToasterProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation({}, {
-          ...governed,
-          className: toasterRootWrapperClassName,
-        })}
+        {...applyGovernedPresentation(
+          {},
+          {
+            ...governed,
+            className: toasterRootWrapperClassName,
+          }
+        )}
       >
         <Sonner
           {...props}
-          theme={resolvedTheme}
+          className={cn(governed.className)}
           icons={{
             success: (
               <ToasterIcon
@@ -128,12 +131,12 @@ const Toaster = React.forwardRef<HTMLDivElement, ToasterProps>(
             ),
           }}
           style={toasterInlineStyleVariables as React.CSSProperties}
+          theme={resolvedTheme}
           toastOptions={{
             classNames: {
               toast: toasterToastClassName,
             },
           }}
-          className={cn(governed.className)}
         />
       </div>
     );

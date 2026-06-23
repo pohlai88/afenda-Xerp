@@ -1,8 +1,7 @@
 import type { AuthorizationDenialCode } from "@afenda/permissions";
-
+import type { ApiClientErrorBody } from "@/server/api/contracts/api-envelope.contract";
 import type { ApiErrorCode } from "@/server/api/contracts/api-error.contract";
 import { getApiErrorDefinition } from "@/server/api/contracts/api-error.contract";
-import type { ApiClientErrorBody } from "@/server/api/contracts/api-envelope.contract";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
 import type { ApiRouteAuthorizationFailure } from "./authorize-api-route.contract";
@@ -70,11 +69,7 @@ export function toApiClientErrorBody(
 export function createApiRouteErrorFromAuthorizationFailure(
   failure: ApiRouteAuthorizationFailure
 ): ApiRouteError {
-  return new ApiRouteError(
-    failure.apiCode,
-    failure.message,
-    failure.details
-  );
+  return new ApiRouteError(failure.apiCode, failure.message, failure.details);
 }
 
 export function toApiRouteErrorFromClientBody(

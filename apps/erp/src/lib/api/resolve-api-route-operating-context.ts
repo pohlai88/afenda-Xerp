@@ -2,8 +2,8 @@ import type { OperatingContext, OperatingContextResult } from "@afenda/kernel";
 
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
 import {
-  resolveOperatingContext,
   type ResolveOperatingContextInput,
+  resolveOperatingContext,
 } from "@/lib/context/resolve-operating-context.server";
 
 import {
@@ -33,7 +33,10 @@ export type ResolveOperatingContextFn = (
   input: ResolveOperatingContextInput
 ) => Promise<OperatingContextResult>;
 
-function readOptionalHeader(request: Request, headerName: string): string | null {
+function readOptionalHeader(
+  request: Request,
+  headerName: string
+): string | null {
   const value = request.headers.get(headerName)?.trim();
   return value && value.length > 0 ? value : null;
 }
@@ -99,7 +102,10 @@ export async function resolveVerifiedApiRouteOperatingContext(input: {
     correlationId: input.correlationId,
     selection: {
       tenantSlug,
-      companySlug: readOptionalHeader(input.request, AFENDA_COMPANY_SLUG_HEADER),
+      companySlug: readOptionalHeader(
+        input.request,
+        AFENDA_COMPANY_SLUG_HEADER
+      ),
       companyId: readOptionalHeader(input.request, AFENDA_COMPANY_ID_HEADER),
       organizationSlug: readOptionalHeader(
         input.request,

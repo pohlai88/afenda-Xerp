@@ -19,9 +19,10 @@ const repoRoot = join(import.meta.dirname, "../../..");
 describe("check-architecture-authority-surface script", () => {
   it("passes on the current repository state", async () => {
     const violations = await checkArchitectureAuthoritySurface();
-    expect(violations, formatArchitectureAuthoritySurfaceViolations(violations)).toEqual(
-      []
-    );
+    expect(
+      violations,
+      formatArchitectureAuthoritySurfaceViolations(violations)
+    ).toEqual([]);
   });
 
   it("documents multi-tenancy forbidden edges for appshell authority boundary", () => {
@@ -35,14 +36,19 @@ describe("check-architecture-authority-surface script", () => {
 
   it("delegates §432–445 runtime enforcement to dependency-rules gate", () => {
     const architectureGate = readFileSync(
-      join(repoRoot, "scripts/governance/check-architecture-authority-surface.mts"),
+      join(
+        repoRoot,
+        "scripts/governance/check-architecture-authority-surface.mts"
+      ),
       "utf8"
     );
 
     expect(architectureGate).toContain(
       "check-multi-tenancy-dependency-rules.mts"
     );
-    expect(architectureGate).not.toContain("MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES");
+    expect(architectureGate).not.toContain(
+      "MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES"
+    );
   });
 
   it("documents permissions→kernel as an approved registry edge (TIP-007)", () => {
@@ -63,8 +69,9 @@ describe("check-architecture-authority-surface script", () => {
       "utf8"
     );
 
-    for (const label of LAYER_DOC_DISPLAY_OVERRIDES["@afenda/typescript-config"] ??
-      []) {
+    for (const label of LAYER_DOC_DISPLAY_OVERRIDES[
+      "@afenda/typescript-config"
+    ] ?? []) {
       expect(layerDoc).toContain(`| \`@afenda/typescript-config\` | ${label}`);
     }
   });
@@ -78,7 +85,9 @@ describe("check-architecture-authority-surface script", () => {
     expect(authorizeRoute).toContain("evaluatePermissionAndPolicy");
     for (const symbol of ERP_FORBIDDEN_PERMISSION_ENGINE_SYMBOLS) {
       if (symbol === "export const PERMISSION_REGISTRY") {
-        expect(authorizeRoute).not.toMatch(/export\s+const\s+PERMISSION_REGISTRY\b/);
+        expect(authorizeRoute).not.toMatch(
+          /export\s+const\s+PERMISSION_REGISTRY\b/
+        );
       }
     }
   });

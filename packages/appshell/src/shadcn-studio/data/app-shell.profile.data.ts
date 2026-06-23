@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import {
   CirclePlusIcon,
   CreditCardIcon,
@@ -8,11 +7,12 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
+import type { ComponentType } from "react";
 
 export interface AppShellProfileMenuItem {
+  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly label: string;
-  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly variant?: "destructive";
 }
 
@@ -76,7 +76,8 @@ export const defaultAppShellProfileLogoutAction: AppShellProfileMenuItem = {
   variant: "destructive",
 };
 
-export const defaultAppShellProfileMenuGroups: readonly AppShellProfileMenuGroup[] = [
-  { id: "account", items: defaultAppShellProfileAccountActions },
-  { id: "admin", items: defaultAppShellProfileAdminActions },
-];
+export const defaultAppShellProfileMenuGroups: readonly AppShellProfileMenuGroup[] =
+  [
+    { id: "account", items: defaultAppShellProfileAccountActions },
+    { id: "admin", items: defaultAppShellProfileAdminActions },
+  ];

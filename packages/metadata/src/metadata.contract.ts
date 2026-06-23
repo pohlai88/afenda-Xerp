@@ -45,7 +45,16 @@ export type MetadataContractProhibition =
 
 export interface MetadataContract {
   readonly authority: "metadata";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
+
+  /**
+   * Machine-readable governance rules for CI and package-boundary checks.
+   */
+  readonly governance: readonly MetadataContractGovernanceRule[];
+
+  /**
+   * Governed lifecycle vocabulary exposed by the metadata authority.
+   */
+  readonly lifecycle: readonly MetadataLifecycle[];
 
   /**
    * Canonical ownership scope of the metadata authority.
@@ -56,19 +65,10 @@ export interface MetadataContract {
   readonly owns: readonly MetadataContractOwnership[];
 
   /**
-   * Governed lifecycle vocabulary exposed by the metadata authority.
-   */
-  readonly lifecycle: readonly MetadataLifecycle[];
-
-  /**
-   * Machine-readable governance rules for CI and package-boundary checks.
-   */
-  readonly governance: readonly MetadataContractGovernanceRule[];
-
-  /**
    * Explicitly forbidden responsibilities for @afenda/metadata.
    */
   readonly prohibits: readonly MetadataContractProhibition[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const metadataContract = {

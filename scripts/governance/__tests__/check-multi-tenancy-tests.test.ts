@@ -8,9 +8,9 @@ import {
 } from "../check-multi-tenancy-tests.mts";
 import {
   MULTI_TENANCY_DOC_TESTS_MARKERS,
+  MULTI_TENANCY_TEST_REQUIREMENTS,
   MULTI_TENANCY_TESTS_DIMENSIONS,
   MULTI_TENANCY_TESTS_SURFACE_RULE,
-  MULTI_TENANCY_TEST_REQUIREMENTS,
 } from "../multi-tenancy-tests-registry.mts";
 
 const repoRoot = join(import.meta.dirname, "../../..");
@@ -18,10 +18,9 @@ const repoRoot = join(import.meta.dirname, "../../..");
 describe("check-multi-tenancy-tests script", () => {
   it("passes on the current repository state", () => {
     const violations = checkMultiTenancyTests();
-    expect(
-      violations,
-      formatMultiTenancyTestsViolations(violations)
-    ).toEqual([]);
+    expect(violations, formatMultiTenancyTestsViolations(violations)).toEqual(
+      []
+    );
   });
 
   it("documents Step 9 markers from multi-tenancy.md §580–599", () => {

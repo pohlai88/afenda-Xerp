@@ -79,9 +79,10 @@ export const MULTI_TENANCY_STEP4_PRIMARY_TYPES = [
 
 /** Required contract row markers in delivery doc. */
 export const MULTI_TENANCY_CONTEXT_CONTRACT_ROW_MARKERS =
-  MULTI_TENANCY_STEP4_PRIMARY_TYPES.map(
-    (type) => `| ${type} |`
-  ) as readonly [`| ${string} |`, ...Array<`| ${string} |`>];
+  MULTI_TENANCY_STEP4_PRIMARY_TYPES.map((type) => `| ${type} |`) as readonly [
+    `| ${string} |`,
+    ...Array<`| ${string} |`>,
+  ];
 
 /** Required root re-export markers. */
 export const MULTI_TENANCY_ROOT_EXPORT_MARKERS = [

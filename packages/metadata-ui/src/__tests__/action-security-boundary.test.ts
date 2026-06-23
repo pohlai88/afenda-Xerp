@@ -1,12 +1,9 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { destructiveActionMissingConfirm } from "../actions/metadata-action-handler.js";
-import {
-  METADATA_ACTION_ERROR_CODES,
-  metadataUiContract,
-} from "../index.js";
+import { METADATA_ACTION_ERROR_CODES, metadataUiContract } from "../index.js";
 import { METADATA_UI_FORBIDDEN_PACKAGE_IMPORTS } from "../runtime/runtime.contract.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
@@ -40,7 +37,10 @@ describe("metadata-ui server-action security boundary", () => {
 
     for (const filePath of collectSourceFiles(srcRoot)) {
       const content = readFileSync(filePath, "utf8");
-      if (content.includes('"use server"') || content.includes("'use server'")) {
+      if (
+        content.includes('"use server"') ||
+        content.includes("'use server'")
+      ) {
         violations.push(filePath);
       }
     }

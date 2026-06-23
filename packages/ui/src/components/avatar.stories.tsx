@@ -14,7 +14,12 @@ import {
   PhoneIcon,
   UserIcon,
 } from "lucide-react";
-import { StoryFrame, StoryInset, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryInset,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import {
   Avatar,
   AvatarBadge,
@@ -343,7 +348,9 @@ export const BadgeToneMatrix: Story = {
             <AvatarFallback>{tone.slice(0, 2).toUpperCase()}</AvatarFallback>
             <AvatarBadge aria-hidden="true" tone={tone} />
           </Avatar>
-          <span className="font-mono text-muted-foreground text-xs">{tone}</span>
+          <span className="font-mono text-muted-foreground text-xs">
+            {tone}
+          </span>
         </StoryStack>
       ))}
     </StoryRow>
@@ -670,7 +677,9 @@ export const RecordOwnerHeader: Story = {
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <StoryStack gap="xs">
-              <span className="text-muted-foreground text-xs">Record owner</span>
+              <span className="text-muted-foreground text-xs">
+                Record owner
+              </span>
               <span className="font-medium text-sm">Jane Doe</span>
             </StoryStack>
           </StoryRow>
@@ -980,7 +989,9 @@ export const EmployeeProfileHeader: Story = {
         </Avatar>
         <StoryStack gap="xs">
           <StoryRow align="center" gap="sm">
-            <span className="font-semibold text-xl tracking-tight">Jane Doe</span>
+            <span className="font-semibold text-xl tracking-tight">
+              Jane Doe
+            </span>
             <Badge emphasis="soft" size="sm" tone="success">
               Active
             </Badge>

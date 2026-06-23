@@ -120,9 +120,7 @@ export const MULTI_TENANCY_TEST_REQUIREMENTS = [
     requirement:
       "tenant admin does not automatically grant all-company access unless explicitly governed",
     testFiles: ["packages/permissions/src/__tests__/authorization.test.ts"],
-    coverageMarkers: [
-      "denies tenant-scoped grant for legal entity context",
-    ],
+    coverageMarkers: ["denies tenant-scoped grant for legal entity context"],
   },
   {
     id: "consolidation-view-explicit-grant",

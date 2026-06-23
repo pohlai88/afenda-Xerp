@@ -1,6 +1,10 @@
 "use client";
 
-import type { GovernedDialogProps, GovernedSurfaceProps, SlotRole } from "@afenda/ui/governance";
+import type {
+  GovernedDialogProps,
+  GovernedSurfaceProps,
+  SlotRole,
+} from "@afenda/ui/governance";
 import { createGovernedDivSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";

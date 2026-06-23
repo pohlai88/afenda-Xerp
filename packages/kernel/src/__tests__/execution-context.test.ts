@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   assertExecutionContext,
+  type CorrelationId,
   createExecutionContext,
   createExecutionId,
-  type CorrelationId,
 } from "../index.js";
 
 const ISO_TIMESTAMP_PREFIX = /^\d{4}-\d{2}-\d{2}T/;

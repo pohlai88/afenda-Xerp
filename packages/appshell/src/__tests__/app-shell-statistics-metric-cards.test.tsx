@@ -10,15 +10,27 @@ import { defaultStatisticsLineTrendsCards } from "../shadcn-studio/data/statisti
 
 describe("statistics metric cards accessibility", () => {
   it.each([
-    { Component: StatisticsRevenueCard, title: "Revenue growth", change: "+15%" },
-    { Component: StatisticsLeadsCard, title: "Generated leads", change: "+18.2%" },
+    {
+      Component: StatisticsRevenueCard,
+      title: "Revenue growth",
+      change: "+15%",
+    },
+    {
+      Component: StatisticsLeadsCard,
+      title: "Generated leads",
+      change: "+18.2%",
+    },
     { Component: StatisticsActivityCard, title: "Activity", change: "+38%" },
     {
       Component: StatisticsProfileTrafficCard,
       title: "Average profile traffic",
       change: "+15%",
     },
-  ])("$title links amount to change footnote", ({ Component, title, change }) => {
+  ])("$title links amount to change footnote", ({
+    Component,
+    title,
+    change,
+  }) => {
     render(<Component />);
 
     expect(screen.getByRole("article", { name: title })).toBeInTheDocument();
@@ -40,7 +52,9 @@ describe("statistics metric cards accessibility", () => {
 
     render(<StatisticsLineTrendsCard {...card} />);
 
-    expect(screen.getByRole("article", { name: "Daily orders" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("article", { name: "Daily orders" })
+    ).toBeInTheDocument();
     expect(screen.getByText("This week")).toHaveAttribute("id");
     expect(screen.getByText("574")).toHaveAttribute("aria-labelledby");
   });

@@ -4,9 +4,15 @@ import {
 } from "./auth.actor-resolution.js";
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 import type { AfendaAuthSession } from "./auth.contract.js";
-import { UnauthenticatedError, UnlinkedPlatformUserError } from "./auth.errors.js";
+import {
+  UnauthenticatedError,
+  UnlinkedPlatformUserError,
+} from "./auth.errors.js";
 import { readAuthConfigFingerprint } from "./auth.runtime.js";
-import { isAfendaAuthSessionLinked, normalizeAfendaAuthSession } from "./auth.session.js";
+import {
+  isAfendaAuthSessionLinked,
+  normalizeAfendaAuthSession,
+} from "./auth.session.js";
 
 let authSingleton: AfendaAuth | undefined;
 let authEnvFingerprint: string | undefined;

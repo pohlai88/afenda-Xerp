@@ -23,7 +23,9 @@ describe("delivery-evidence-surface-registry", () => {
   });
 
   it("lists all multi-tenancy governance gates including delivery evidence", () => {
-    const checkScripts = MULTI_TENANCY_GOVERNANCE_GATES.map((gate) => gate.checkScript);
+    const checkScripts = MULTI_TENANCY_GOVERNANCE_GATES.map(
+      (gate) => gate.checkScript
+    );
 
     expect(checkScripts).toContain("check:delivery-evidence-surface");
     expect(checkScripts).toContain("check:multi-tenancy-existing-state-audit");
@@ -31,7 +33,9 @@ describe("delivery-evidence-surface-registry", () => {
     expect(checkScripts).toContain("check:multi-tenancy-context-contracts");
     expect(checkScripts).toContain("check:multi-tenancy-persistence-lookup");
     expect(checkScripts).toContain("check:multi-tenancy-tenant-url-resolver");
-    expect(checkScripts).toContain("check:multi-tenancy-operating-context-resolver");
+    expect(checkScripts).toContain(
+      "check:multi-tenancy-operating-context-resolver"
+    );
     expect(checkScripts).toContain("check:multi-tenancy-dos-prohibitions");
     expect(checkScripts).toContain("check:multi-tenancy-enterprise-acceptance");
     expect(checkScripts).toHaveLength(23);
@@ -52,7 +56,9 @@ describe("delivery-evidence-surface-registry", () => {
 
   it("defines scope disclaimers and overclaim guards", () => {
     expect(TIP_007_012_REQUIRED_DISCLAIMERS.length).toBeGreaterThanOrEqual(3);
-    expect(TIP_007_012_FORBIDDEN_OVERCLAIM_PATTERNS.length).toBeGreaterThanOrEqual(4);
+    expect(
+      TIP_007_012_FORBIDDEN_OVERCLAIM_PATTERNS.length
+    ).toBeGreaterThanOrEqual(4);
   });
 });
 
@@ -60,6 +66,8 @@ describe("check-delivery-evidence-surface", () => {
   it("passes on the current repository state", () => {
     const violations = checkDeliveryEvidenceSurface();
 
-    expect(violations, formatDeliveryEvidenceViolations(violations)).toEqual([]);
+    expect(violations, formatDeliveryEvidenceViolations(violations)).toEqual(
+      []
+    );
   });
 });

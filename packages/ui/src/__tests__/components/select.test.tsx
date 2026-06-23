@@ -110,9 +110,9 @@ describe("Select governance", () => {
       "select-item"
     );
     expect(
-      screen.getByRole("option", { name: "Engineering" }).querySelector(
-        '[data-slot="select-item-indicator"]'
-      )
+      screen
+        .getByRole("option", { name: "Engineering" })
+        .querySelector('[data-slot="select-item-indicator"]')
     ).toBeTruthy();
   });
 
@@ -142,7 +142,9 @@ describe("Select governance", () => {
       </Select>
     );
 
-    expect(ref.current).toBe(screen.getByRole("combobox", { name: "Currency" }));
+    expect(ref.current).toBe(
+      screen.getByRole("combobox", { name: "Currency" })
+    );
   });
 
   it("marks trigger chevron icons as decorative", () => {

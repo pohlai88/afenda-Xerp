@@ -177,7 +177,9 @@ describe("Pagination governance", () => {
     expect(
       screen.getByRole("link", { name: "Go to previous page" })
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Go to next page" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Go to next page" })
+    ).toBeInTheDocument();
 
     const icons = document.querySelectorAll("svg");
     for (const icon of icons) {
@@ -203,7 +205,10 @@ describe("Pagination governance", () => {
       "data-slot",
       "pagination-ellipsis"
     );
-    expect(ellipsis.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+    expect(ellipsis.querySelector("svg")).toHaveAttribute(
+      "aria-hidden",
+      "true"
+    );
   });
 
   it("applies governed state on root", () => {

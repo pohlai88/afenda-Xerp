@@ -15,8 +15,8 @@ import {
   readScopeCandidateFromHeaders,
 } from "../api-route-context";
 import {
-  authorizeApiRoute,
   assertAuthorizedApiRoute,
+  authorizeApiRoute,
 } from "../authorize-api-route";
 
 const TENANT_ID = "tenant-001";
@@ -132,10 +132,13 @@ function createAuthorizedDataSource() {
 }
 
 function createRequest(headers: Record<string, string> = {}): Request {
-  return new Request("https://erp.local/api/internal/v1/workspace/dashboard-layout", {
-    headers,
-    method: "GET",
-  });
+  return new Request(
+    "https://erp.local/api/internal/v1/workspace/dashboard-layout",
+    {
+      headers,
+      method: "GET",
+    }
+  );
 }
 
 describe("authorizeApiRoute", () => {

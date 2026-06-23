@@ -1,5 +1,9 @@
 import type { AfendaAuthSession } from "@afenda/auth";
-import type { AppError, OperatingContext, OperatingContextSelection } from "@afenda/kernel";
+import type {
+  AppError,
+  OperatingContext,
+  OperatingContextSelection,
+} from "@afenda/kernel";
 import { AppErrors } from "@afenda/kernel";
 
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";

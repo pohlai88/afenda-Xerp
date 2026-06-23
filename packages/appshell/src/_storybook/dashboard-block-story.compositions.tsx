@@ -1,5 +1,6 @@
 import React from "react";
 import type { ComponentType, ReactNode } from "react";
+import { densityToAttribute } from "@afenda/ui/governance";
 
 import { AppShellDashboardInvoiceTable } from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table";
 import { AppShellDashboardRegionalSales } from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales";
@@ -10,7 +11,14 @@ export function DashboardBlockStoryCanvas({
 }: {
   readonly children: ReactNode;
 }) {
-  return <div className="app-shell-content">{children}</div>;
+  return (
+    <div
+      className="app-shell-root"
+      data-afenda-density={densityToAttribute("standard")}
+    >
+      <div className="app-shell-content">{children}</div>
+    </div>
+  );
 }
 
 export function renderDashboardBlockStory<P extends object>(
@@ -22,7 +30,10 @@ export function renderDashboardBlockStory<P extends object>(
 
 export function compactDensityDecorator(Story: ComponentType) {
   return (
-    <div data-density="compact">
+    <div
+      className="contents"
+      data-afenda-density={densityToAttribute("compact")}
+    >
       <Story />
     </div>
   );

@@ -193,7 +193,7 @@ export const ApprovalWorkflow: Story = {
             <StoryStack className="min-w-0 flex-1" gap="xs">
               <StoryRow justify="between">
                 <span className="text-sm">{stage}</span>
-                <span className="tabular-nums text-muted-foreground text-xs">
+                <span className="text-muted-foreground text-xs tabular-nums">
                   {pct}%
                 </span>
               </StoryRow>
@@ -328,7 +328,10 @@ export const OnboardingChecklist: Story = {
             "Policy acknowledgements",
           ].map((task) => (
             <StoryRow align="center" gap="xs" key={task}>
-              <CheckIcon aria-hidden="true" className="size-3 text-muted-foreground" />
+              <CheckIcon
+                aria-hidden="true"
+                className="size-3 text-muted-foreground"
+              />
               <span className="text-muted-foreground text-xs">{task}</span>
             </StoryRow>
           ))}

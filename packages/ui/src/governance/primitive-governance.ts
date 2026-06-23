@@ -1,11 +1,14 @@
 import { cn } from "../lib/utils";
 
 import { getComponentAccessibilityRequirement } from "./accessibility";
-import { assertAllowedLayoutClassName, resolveLayoutClassName } from "./class-name";
+import {
+  assertAllowedLayoutClassName,
+  resolveLayoutClassName,
+} from "./class-name";
 import { guardClassName } from "./class-name-guard";
 import { isGovernedCardLayoutSize } from "./component-props";
-import { enforceGovernance, enforceGovernanceOr } from "./dev-env";
 import type { MotionContract, SlotRole } from "./design-system";
+import { enforceGovernance, enforceGovernanceOr } from "./dev-env";
 import { resolveMotionIntent } from "./motion";
 import type {
   FieldOrientation,

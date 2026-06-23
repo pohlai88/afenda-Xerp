@@ -1,7 +1,7 @@
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";
 import {
-  METADATA_VISIBILITY_REASONS,
   type LegacyMetadataVisibilityInput,
+  METADATA_VISIBILITY_REASONS,
   type MetadataVisibilityInput,
   type MetadataVisibilityResult,
   type MetadataVisibilityState,
@@ -42,7 +42,7 @@ function createVisibilityResult(
     visibility,
     visible: visibility !== "hidden",
     disabled: visibility === "disabled" || visibility === "readonly",
-    ...(reason !== undefined ? { reason } : {}),
+    ...(reason === undefined ? {} : { reason }),
   };
 }
 
@@ -50,10 +50,10 @@ function pickLegacyFields(
   input: LegacyMetadataVisibilityInput
 ): Pick<MetadataVisibilityInput, "reason" | "requiredPermission"> {
   return {
-    ...(input.reason !== undefined ? { reason: input.reason } : {}),
-    ...(input.requiredPermission !== undefined
-      ? { requiredPermission: input.requiredPermission }
-      : {}),
+    ...(input.reason === undefined ? {} : { reason: input.reason }),
+    ...(input.requiredPermission === undefined
+      ? {}
+      : { requiredPermission: input.requiredPermission }),
   };
 }
 
@@ -116,9 +116,7 @@ export function resolveVisibility(
     );
   }
 
-  if (
-    !hasRuntimeValue(context.runtime.permissions, input.requiredPermission)
-  ) {
+  if (!hasRuntimeValue(context.runtime.permissions, input.requiredPermission)) {
     return createVisibilityResult(
       "disabled",
       input.reason ?? METADATA_VISIBILITY_REASONS.permissionRequired

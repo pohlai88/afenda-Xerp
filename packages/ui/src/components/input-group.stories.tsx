@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  DENSITIES,
-  GOVERNED_STATES,
-  SIZES,
-} from "@afenda/ui/governance";
+import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   AtSignIcon,
@@ -859,10 +855,7 @@ export const ValidationStates: Story = {
             <InputGroupAddon align="inline-start">
               <InputGroupText>EMP-</InputGroupText>
             </InputGroupAddon>
-            <InputGroupInput
-              aria-invalid
-              placeholder="Invalid employee ID"
-            />
+            <InputGroupInput aria-invalid placeholder="Invalid employee ID" />
           </InputGroup>
         </StoryStack>
         <StoryStack gap="xs">

@@ -50,7 +50,7 @@ export const INVOICE_AGING_ROWS = [
   {
     id: "INV-2048",
     customer: "Northwind Traders",
-    amount: 12450,
+    amount: 12_450,
     tone: "success" as const,
     status: "Paid",
   },
@@ -127,7 +127,9 @@ export function InvoiceAgingTable() {
               </TableCell>
               <TableCell>{row.customer}</TableCell>
               <TableCell>
-                <span className="tabular-nums">{formatCurrency(row.amount)}</span>
+                <span className="tabular-nums">
+                  {formatCurrency(row.amount)}
+                </span>
               </TableCell>
               <TableCell>
                 <StatusIndicator tone={row.tone}>{row.status}</StatusIndicator>

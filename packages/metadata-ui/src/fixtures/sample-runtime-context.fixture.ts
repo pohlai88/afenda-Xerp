@@ -1,6 +1,6 @@
 import {
-  createMetadataRuntimeContext,
   type CreateMetadataRuntimeContextInput,
+  createMetadataRuntimeContext,
 } from "@afenda/metadata";
 
 import type {

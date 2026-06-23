@@ -23,6 +23,11 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0006](ADR-0006-package-lifecycle-governance.md) | Package Lifecycle Governance | Accepted |
 | [ADR-0007](ADR-0007-ai-development-governance.md) | AI Development Governance | Accepted |
 | [ADR-0008](ADR-0008-react19-ref-as-prop-ui-author-layer.md) | React 19 Ref-as-Prop in `@afenda/ui` Author Layer | Proposed |
+| [ADR-0009](ADR-0009-runtime-truth-before-roadmap.md) | Runtime Truth Before Roadmap | Proposed |
+| [ADR-0010](ADR-0010-no-accounting-before-foundation-gate.md) | No Accounting Coding Before Pre-accounting Foundation Gate | Proposed |
+| [ADR-0011](ADR-0011-multi-level-company-model-foundational.md) | Multi-level Company / Holding / Subsidiary / Minor Interest Model Is Foundational | Proposed |
+| [ADR-0012](ADR-0012-documentation-evidence-backed.md) | Documentation Must Be Evidence-backed by Runtime | Proposed |
+| [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority | Proposed |
 
 ## Process
 
@@ -42,4 +47,5 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 ## Related
 
 - Baseline: [`docs/architecture/architecture-authority-baseline.md`](../architecture/architecture-authority-baseline.md)
+- Documentation index: [`docs/README.md`](../README.md)
 - Fingerprint: `ARCH-BASELINE-2026-06-20-v1`

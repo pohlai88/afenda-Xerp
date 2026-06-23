@@ -17,7 +17,9 @@ describe("metadata renderer registry", () => {
 
   it("throws on duplicate renderer keys", () => {
     const registry = createMetadataRendererRegistry([listRenderer]);
-    expect(() => registry.register(listRenderer)).toThrow(/Duplicate renderer key/);
+    expect(() => registry.register(listRenderer)).toThrow(
+      /Duplicate renderer key/
+    );
   });
 
   it("returns readonly entries without mutating input arrays", () => {

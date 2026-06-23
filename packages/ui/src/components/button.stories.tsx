@@ -37,7 +37,12 @@ import {
   CopyRecordLinkButton,
   NotificationBellButton,
 } from "./_storybook/button-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Button } from "./button";
 import { Spinner } from "./spinner";

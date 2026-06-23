@@ -8,13 +8,16 @@ import {
   sampleRenderContext,
 } from "../index.js";
 import { createMetadataRendererDefinition } from "../registry/index.js";
-import { ListSection } from "../sections/index.js";
 import { listRenderer } from "../renderers/index.js";
+import { ListSection } from "../sections/index.js";
 
 function createListRendererVariant(options: {
   readonly key: string;
   readonly priority: number;
-  readonly supports?: () => { readonly supported: false; readonly reason: string };
+  readonly supports?: () => {
+    readonly supported: false;
+    readonly reason: string;
+  };
 }) {
   return createMetadataRendererDefinition({
     identity: {
@@ -32,7 +35,7 @@ function createListRendererVariant(options: {
     capability: "render-list",
     sectionTypes: ["list"],
     priority: options.priority,
-    ...(options.supports !== undefined ? { supports: options.supports } : {}),
+    ...(options.supports === undefined ? {} : { supports: options.supports }),
     render(_input, context) {
       return (
         <ListSection
@@ -73,7 +76,10 @@ describe("resolveMetadataRenderer", () => {
       priority: 200,
       supports: () => ({ supported: false, reason: "Unsupported input." }),
     });
-    const registry = createMetadataRendererRegistry([unsupported, listRenderer]);
+    const registry = createMetadataRendererRegistry([
+      unsupported,
+      listRenderer,
+    ]);
 
     const resolved = resolveMetadataRenderer({
       registry,

@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import { UnauthenticatedError, UnlinkedPlatformUserError } from "../auth.errors.js";
+import {
+  UnauthenticatedError,
+  UnlinkedPlatformUserError,
+} from "../auth.errors.js";
 import { readAuthConfigFingerprint } from "../auth.runtime.js";
 import {
   getAfendaAuthSession,

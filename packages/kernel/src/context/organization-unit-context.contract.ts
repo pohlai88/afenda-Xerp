@@ -15,8 +15,7 @@ export const ORGANIZATION_UNIT_TYPES = [
   "team",
 ] as const;
 
-export type OrganizationUnitType =
-  (typeof ORGANIZATION_UNIT_TYPES)[number];
+export type OrganizationUnitType = (typeof ORGANIZATION_UNIT_TYPES)[number];
 
 /** Operational subdivision inside a legal entity. */
 export interface OrganizationUnitContext {

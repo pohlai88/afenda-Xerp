@@ -1,5 +1,5 @@
-import { render, screen, within } from "@testing-library/react";
 import { openMenu, setupUser } from "@afenda/testing/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { AppShellContextSwitcher } from "../shadcn-studio/blocks/app-shell-context-switcher";
@@ -42,13 +42,18 @@ describe("AppShellContextSwitcher", () => {
 
   it("renders a switch trigger when multiple targets are available", () => {
     render(
-      <AppShellContextSwitcher allowedOptions={multiTargetOptions} onSelect={vi.fn()} />
+      <AppShellContextSwitcher
+        allowedOptions={multiTargetOptions}
+        onSelect={vi.fn()}
+      />
     );
 
     expect(
       screen.getByRole("button", { name: "Switch workspace context" })
     ).toBeInTheDocument();
-    expect(document.querySelector(".app-shell-context-switcher-dropdown")).toBeNull();
+    expect(
+      document.querySelector(".app-shell-context-switcher-dropdown")
+    ).toBeNull();
   });
 
   it("marks the trigger busy while a context switch is pending", () => {
@@ -60,7 +65,9 @@ describe("AppShellContextSwitcher", () => {
       />
     );
 
-    const trigger = screen.getByRole("button", { name: "Switch workspace context" });
+    const trigger = screen.getByRole("button", {
+      name: "Switch workspace context",
+    });
     expect(trigger).toHaveAttribute("aria-busy", "true");
     expect(trigger).toBeDisabled();
   });
@@ -70,7 +77,10 @@ describe("AppShellContextSwitcher", () => {
     const onSelect = vi.fn();
 
     render(
-      <AppShellContextSwitcher allowedOptions={multiTargetOptions} onSelect={onSelect} />
+      <AppShellContextSwitcher
+        allowedOptions={multiTargetOptions}
+        onSelect={onSelect}
+      />
     );
 
     const menu = await openMenu(user, "Switch workspace context");

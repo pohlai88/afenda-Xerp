@@ -109,7 +109,10 @@ export async function insertOwnershipInterest(
   const [inserted] = await db
     .insert(legalEntityOwnership)
     .values(row)
-    .returning({ id: legalEntityOwnership.id, tenantId: legalEntityOwnership.tenantId });
+    .returning({
+      id: legalEntityOwnership.id,
+      tenantId: legalEntityOwnership.tenantId,
+    });
 
   if (!inserted) {
     throw new Error("Ownership interest insert did not return a row id.");

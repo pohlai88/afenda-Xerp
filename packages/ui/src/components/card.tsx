@@ -94,9 +94,7 @@ function createCardSlot(
         className,
       });
 
-      return (
-        <div ref={ref} {...applyGovernedPresentation(props, governed)} />
-      );
+      return <div ref={ref} {...applyGovernedPresentation(props, governed)} />;
     }
   );
 

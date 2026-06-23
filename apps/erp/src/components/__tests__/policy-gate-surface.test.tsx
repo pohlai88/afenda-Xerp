@@ -22,12 +22,12 @@ describe("PolicyGateSurface", () => {
   });
 
   it("renders readonly gate without primary action", () => {
-    render(
-      <PolicyGateSurface gateDecision="readonly" variant="inline" />
-    );
+    render(<PolicyGateSurface gateDecision="readonly" variant="inline" />);
 
     expect(screen.getByText("Read-only access")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Request approval" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "Request approval" })
+    ).toBeNull();
   });
 
   it("renders dialog gate when open", () => {

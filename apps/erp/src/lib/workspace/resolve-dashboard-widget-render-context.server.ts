@@ -1,11 +1,11 @@
-import type { OperatingContext } from "@afenda/kernel";
 import {
   DASHBOARD_WIDGET_CAPABILITIES,
   DASHBOARD_WIDGET_FINANCE_PERMISSIONS,
   PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
-  serializeDashboardWidgetRenderContext,
   type SerializableDashboardWidgetRenderContext,
+  serializeDashboardWidgetRenderContext,
 } from "@afenda/appshell";
+import type { OperatingContext } from "@afenda/kernel";
 import {
   checkPermission,
   createProductionAuthorizationDataSources,
@@ -22,8 +22,10 @@ const EMPTY_SERIALIZED_DASHBOARD_WIDGET_RENDER_CONTEXT = {
 } satisfies SerializableDashboardWidgetRenderContext;
 
 const FINANCE_PERMISSION_REGISTRY_KEYS = {
-  [DASHBOARD_WIDGET_FINANCE_PERMISSIONS[0]]: PERMISSION_REGISTRY.finance.invoices.read,
-  [DASHBOARD_WIDGET_FINANCE_PERMISSIONS[1]]: PERMISSION_REGISTRY.finance.cards.read,
+  [DASHBOARD_WIDGET_FINANCE_PERMISSIONS[0]]:
+    PERMISSION_REGISTRY.finance.invoices.read,
+  [DASHBOARD_WIDGET_FINANCE_PERMISSIONS[1]]:
+    PERMISSION_REGISTRY.finance.cards.read,
   [DASHBOARD_WIDGET_FINANCE_PERMISSIONS[2]]:
     PERMISSION_REGISTRY.finance.transactions.read,
 } as const satisfies Record<
@@ -32,9 +34,14 @@ const FINANCE_PERMISSION_REGISTRY_KEYS = {
 >;
 
 const CAPABILITY_PERMISSION_REGISTRY_KEYS = {
-  [DASHBOARD_WIDGET_CAPABILITIES[0]]: PERMISSION_REGISTRY.dashboard.moduleEarnings,
-  [DASHBOARD_WIDGET_CAPABILITIES[1]]: PERMISSION_REGISTRY.dashboard.regionalSales,
-} as const satisfies Record<(typeof DASHBOARD_WIDGET_CAPABILITIES)[number], string>;
+  [DASHBOARD_WIDGET_CAPABILITIES[0]]:
+    PERMISSION_REGISTRY.dashboard.moduleEarnings,
+  [DASHBOARD_WIDGET_CAPABILITIES[1]]:
+    PERMISSION_REGISTRY.dashboard.regionalSales,
+} as const satisfies Record<
+  (typeof DASHBOARD_WIDGET_CAPABILITIES)[number],
+  string
+>;
 
 function toAuthorizationContextFromOperatingContext(
   operatingContext: OperatingContext
@@ -73,9 +80,8 @@ export async function resolveDashboardWidgetRenderContextFromOperatingContext(
   permissionDataSource: PermissionDataSource = createProductionAuthorizationDataSources()
     .permission
 ): Promise<SerializableDashboardWidgetRenderContext> {
-  const authorizationContext = toAuthorizationContextFromOperatingContext(
-    operatingContext
-  );
+  const authorizationContext =
+    toAuthorizationContextFromOperatingContext(operatingContext);
   const permissionRequest = {
     actor: { actorId: operatingContext.actor.userId },
     context: authorizationContext,

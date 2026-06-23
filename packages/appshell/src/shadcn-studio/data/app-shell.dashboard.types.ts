@@ -1,4 +1,4 @@
-import { brandRequiredId, type Brand } from "@afenda/kernel";
+import { type Brand, brandRequiredId } from "@afenda/kernel";
 import type { ComponentType } from "react";
 
 /** Branded invoice identifier — brand at the data boundary only. */
@@ -13,7 +13,9 @@ export function asAppShellInvoiceId(value: string): AppShellInvoiceId {
 }
 
 /** Brand a trusted dashboard row id at the data boundary (fixtures, API mappers). */
-export function asAppShellDashboardRowId(value: string): AppShellDashboardRowId {
+export function asAppShellDashboardRowId(
+  value: string
+): AppShellDashboardRowId {
   return brandRequiredId(value, "AppShellDashboardRowId");
 }
 
@@ -22,11 +24,11 @@ export type AppShellTrendDirection = "down" | "up";
 export type AppShellDashboardOverflowMenuSection = "primary" | "secondary";
 
 export interface AppShellDashboardOverflowMenuItem {
+  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly label: string;
-  readonly Icon: ComponentType<{ readonly className?: string }>;
-  readonly shortcut?: string;
   readonly section?: AppShellDashboardOverflowMenuSection;
+  readonly shortcut?: string;
   readonly variant?: "destructive";
 }
 
@@ -44,86 +46,86 @@ export interface AppShellDashboardSparklinePoint {
 }
 
 export interface AppShellDashboardSparklineMetric {
+  readonly amount: string;
+  readonly changeLabel: string;
+  readonly data: readonly AppShellDashboardSparklinePoint[];
   readonly id: AppShellDashboardRowId;
   readonly metricKey: "expense" | "revenue";
   readonly title: string;
-  readonly amount: string;
-  readonly changeLabel: string;
   readonly trend: AppShellTrendDirection;
-  readonly data: readonly AppShellDashboardSparklinePoint[];
 }
 
 export interface AppShellDashboardKpiMetric {
-  readonly id: AppShellDashboardRowId;
-  readonly title: string;
   readonly badge: string;
-  readonly value: string;
   readonly changePercentage: number;
   readonly Icon: ComponentType<{ readonly className?: string }>;
+  readonly id: AppShellDashboardRowId;
+  readonly title: string;
+  readonly value: string;
 }
 
 export interface AppShellDashboardModuleEarningRow {
+  readonly amount: string;
+  readonly changeLabel: string;
+  readonly iconAlt: string;
+  readonly iconSrc: string;
   readonly id: AppShellDashboardRowId;
   readonly module: string;
-  readonly subtitle: string;
-  readonly amount: string;
   readonly progress: number;
-  readonly changeLabel: string;
+  readonly subtitle: string;
   readonly trend: AppShellTrendDirection;
-  readonly iconSrc: string;
-  readonly iconAlt: string;
 }
 
 export interface AppShellDashboardTransactionRow {
-  readonly id: AppShellDashboardRowId;
-  readonly paymentMethod: string;
-  readonly module: string;
   readonly amount: string;
   readonly direction: AppShellTransactionDirection;
   readonly Icon: ComponentType<{ readonly className?: string }>;
+  readonly id: AppShellDashboardRowId;
+  readonly module: string;
+  readonly paymentMethod: string;
 }
 
 export interface AppShellDashboardRegionalSalesRow {
-  readonly id: AppShellDashboardRowId;
-  readonly region: string;
   readonly amount: string;
   readonly changeLabel: string;
-  readonly trend: AppShellTrendDirection;
-  readonly flagSrc: string;
   readonly flagAlt: string;
+  readonly flagSrc: string;
+  readonly id: AppShellDashboardRowId;
+  readonly region: string;
+  readonly trend: AppShellTrendDirection;
 }
 
 export interface AppShellDashboardPaymentHistoryRow {
-  readonly id: AppShellDashboardRowId;
+  readonly brandIconAlt: string;
+  readonly brandIconSrc: string;
   readonly cardNumber: string;
   readonly cardType: string;
   readonly date: string;
-  readonly spend: string;
+  readonly id: AppShellDashboardRowId;
   readonly remaining: string;
-  readonly brandIconSrc: string;
-  readonly brandIconAlt: string;
+  readonly spend: string;
 }
 
 export interface AppShellDashboardInvoiceRow {
-  readonly id: AppShellInvoiceId;
-  readonly status: AppShellInvoiceStatus;
-  readonly avatarSrc: string;
   readonly avatarFallback: string;
+  readonly avatarSrc: string;
+  readonly balance: number;
   readonly client: string;
   readonly field: string;
-  readonly total: number;
+  readonly id: AppShellInvoiceId;
   /**
    * Client-side date for sorting and display. Wire/API boundaries should use
    * ISO 8601 strings and map to `Date` before passing rows to the table.
    */
   readonly issuedDate: Date;
-  readonly balance: number;
+  readonly status: AppShellInvoiceStatus;
+  readonly total: number;
 }
 
 export interface AppShellDashboardRevenueBarPoint {
+  readonly currentYear: number;
   readonly name: string;
   readonly priorYear: number;
-  readonly currentYear: number;
 }
 
 export interface AppShellDashboardRevenueGrowthSlice {
@@ -132,8 +134,8 @@ export interface AppShellDashboardRevenueGrowthSlice {
 }
 
 export interface AppShellDashboardRevenueYearSummary {
-  readonly id: AppShellDashboardRowId;
-  readonly year: string;
   readonly amount: string;
   readonly Icon: ComponentType<{ readonly className?: string }>;
+  readonly id: AppShellDashboardRowId;
+  readonly year: string;
 }

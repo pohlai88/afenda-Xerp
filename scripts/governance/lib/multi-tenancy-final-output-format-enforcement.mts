@@ -13,9 +13,9 @@ import {
 } from "../multi-tenancy-final-output-format-registry.mts";
 
 export interface FinalOutputFormatViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function hasSection(content: string, sectionTitle: string): boolean {

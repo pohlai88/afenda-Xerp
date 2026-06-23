@@ -1,12 +1,10 @@
 import { brandUserId } from "@afenda/kernel";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-
 import { HomeIcon } from "lucide-react";
-
-import { countDefaultAppShellUnreadNotifications } from "../shadcn-studio/data/app-shell.notification.data";
+import { describe, expect, it } from "vitest";
 import { ApplicationShell } from "../app-shell";
 import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
+import { countDefaultAppShellUnreadNotifications } from "../shadcn-studio/data/app-shell.notification.data";
 
 function testUserId(value: string) {
   const userId = brandUserId(value);
@@ -143,7 +141,9 @@ describe("ApplicationShell", () => {
   it("suppresses the footer brand link when footerBrand is empty", () => {
     render(<ApplicationShell footerBrand="" />);
 
-    expect(screen.queryByRole("link", { name: "Afenda" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Afenda" })
+    ).not.toBeInTheDocument();
     expect(screen.getByText(/All rights reserved\./)).toBeInTheDocument();
   });
 

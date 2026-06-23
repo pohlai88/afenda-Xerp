@@ -40,14 +40,17 @@ describe("Textarea governance", () => {
       />
     );
 
-    expectGovernedDataAuthority(screen.getByRole("textbox", { name: "Notes" }), {
-      "data-component": "Textarea",
-      "data-density": "standard",
-      "data-recipe": "form-control",
-      "data-size": "md",
-      "data-slot": "textarea",
-      "data-state": "ready",
-    });
+    expectGovernedDataAuthority(
+      screen.getByRole("textbox", { name: "Notes" }),
+      {
+        "data-component": "Textarea",
+        "data-density": "standard",
+        "data-recipe": "form-control",
+        "data-size": "md",
+        "data-slot": "textarea",
+        "data-state": "ready",
+      }
+    );
   });
 
   it("applies governed state and form-control axes on Textarea root", () => {
@@ -77,9 +80,7 @@ describe("Textarea governance", () => {
   });
 
   it("forwards aria-invalid for ERP error states", () => {
-    render(
-      <Textarea aria-invalid="true" aria-label="Notes" state="error" />
-    );
+    render(<Textarea aria-invalid="true" aria-label="Notes" state="error" />);
 
     const textarea = screen.getByRole("textbox", { name: "Notes" });
 

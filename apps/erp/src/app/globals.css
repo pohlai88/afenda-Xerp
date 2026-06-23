@@ -61,16 +61,16 @@
   }
 
   .erp-integration-harness-banner {
-    align-items: center;
-    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
-    border-radius: var(--afenda-radius-lg);
-    color: var(--foreground);
     display: flex;
     flex-wrap: wrap;
-    font-size: 0.875rem;
     gap: var(--afenda-spacing-3);
+    align-items: center;
     justify-content: space-between;
-    margin-block-end: var(--afenda-spacing-4);
     padding: var(--afenda-spacing-3) var(--afenda-spacing-4);
+    margin-block-end: var(--afenda-spacing-4);
+    font-size: 0.875rem;
+    color: var(--foreground);
+    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+    border-radius: var(--afenda-radius-lg);
   }
 }

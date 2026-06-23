@@ -21,7 +21,9 @@ import {
   StoryRow,
   StoryStack,
 } from "./_storybook/story-frame";
-import { Field, FieldLabel } from "./field";
+import type { RenderStory } from "./_storybook/story-types";
+import { Button } from "./button";
+import { Field, FieldDescription, FieldLabel } from "./field";
 import { Label } from "./label";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Separator } from "./separator";
@@ -42,7 +44,7 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 

@@ -29,7 +29,12 @@ import {
   RowActionsTrigger,
   StandardRecordActions,
 } from "./_storybook/dropdown-menu-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -416,10 +421,7 @@ export const TableRowActions: Story = {
             <span className="w-24 text-sm tabular-nums">{amount}</span>
             <span className="flex w-20 justify-end">
               <DropdownMenu>
-                <RecordActionsMenu
-                  label={`Actions for ${id}`}
-                  recordId={id}
-                />
+                <RecordActionsMenu label={`Actions for ${id}`} recordId={id} />
               </DropdownMenu>
             </span>
           </StoryRow>

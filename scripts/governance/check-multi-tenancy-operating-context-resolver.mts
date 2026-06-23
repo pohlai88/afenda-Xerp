@@ -9,14 +9,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  MULTI_TENANCY_DOC_OPERATING_CONTEXT_RESOLVER_MARKERS,
-  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_ENFORCEMENT_LIB,
-  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_GATE,
-  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE,
-  TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION,
-} from "./multi-tenancy-operating-context-resolver-registry.mts";
 import {
   MULTI_TENANCY_DOC_REFERENCE,
   TIP_007_012_DELIVERY_DOC,
@@ -25,6 +17,13 @@ import {
   collectOperatingContextResolverViolations,
   type OperatingContextResolverEnforcementViolation,
 } from "./lib/multi-tenancy-operating-context-resolver-enforcement.mts";
+import {
+  MULTI_TENANCY_DOC_OPERATING_CONTEXT_RESOLVER_MARKERS,
+  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_ENFORCEMENT_LIB,
+  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_GATE,
+  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE,
+  TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION,
+} from "./multi-tenancy-operating-context-resolver-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -57,13 +56,18 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     violations.push({
       rule: "registry-missing",
       file: registryPath,
-      message: "multi-tenancy-operating-context-resolver-registry.mts is required",
+      message:
+        "multi-tenancy-operating-context-resolver-registry.mts is required",
     });
     return violations;
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  if (!registrySource.includes(MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE)) {
+  if (
+    !registrySource.includes(
+      MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE
+    )
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registryPath,
@@ -75,7 +79,10 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     repoRoot,
     MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_ENFORCEMENT_LIB
   );
-  const gatePath = join(repoRoot, MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_GATE);
+  const gatePath = join(
+    repoRoot,
+    MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_GATE
+  );
 
   if (!existsSync(enforcementLibPath)) {
     violations.push({
@@ -121,7 +128,9 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     });
   } else {
     if (
-      !deliveryContent.includes(MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE)
+      !deliveryContent.includes(
+        MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SURFACE_RULE
+      )
     ) {
       violations.push({
         rule: "delivery-surface-rule-missing",
@@ -131,7 +140,9 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     }
 
     if (
-      !deliveryContent.includes(`## ${TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION}`)
+      !deliveryContent.includes(
+        `## ${TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION}`
+      )
     ) {
       violations.push({
         rule: "delivery-section-missing",
@@ -150,7 +161,9 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     });
   } else {
     if (
-      !packageJsonContent.includes("check:multi-tenancy-operating-context-resolver")
+      !packageJsonContent.includes(
+        "check:multi-tenancy-operating-context-resolver"
+      )
     ) {
       violations.push({
         rule: "check-script-missing",
@@ -161,7 +174,9 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     }
 
     if (
-      !packageJsonContent.includes("quality:multi-tenancy-operating-context-resolver")
+      !packageJsonContent.includes(
+        "quality:multi-tenancy-operating-context-resolver"
+      )
     ) {
       violations.push({
         rule: "quality-script-missing",
@@ -171,9 +186,13 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -195,7 +214,9 @@ export function checkMultiTenancyOperatingContextResolver(): MultiTenancyOperati
     const contextIntegrationIndex = qualityChain.indexOf(
       "quality:multi-tenancy-context-integration"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||
@@ -245,7 +266,9 @@ export function formatMultiTenancyOperatingContextResolverViolations(
 function main(): void {
   const violations = checkMultiTenancyOperatingContextResolver();
   if (violations.length > 0) {
-    console.error(formatMultiTenancyOperatingContextResolverViolations(violations));
+    console.error(
+      formatMultiTenancyOperatingContextResolverViolations(violations)
+    );
     process.exit(1);
   }
 

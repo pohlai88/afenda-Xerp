@@ -32,9 +32,7 @@ describe("token registry completeness", () => {
   });
 
   it("covers all status tones with surface, foreground, border, and focus", () => {
-    const tokenNames = new Set(
-      AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name)
-    );
+    const tokenNames = new Set(AFENDA_TOKEN_REGISTRY.tokens.map((t) => t.name));
     for (const tone of STATUS_TONES) {
       for (const variant of ["surface", "foreground", "border", "focus"]) {
         expect(tokenNames.has(`afenda.status-tone.${tone}.${variant}`)).toBe(

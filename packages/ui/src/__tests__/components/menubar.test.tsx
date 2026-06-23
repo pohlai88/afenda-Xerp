@@ -145,12 +145,15 @@ describe("Menubar governance", () => {
       </OpenMenubar>
     );
 
-    expectGovernedDataAuthority(screen.getByRole("menuitem", { name: "View" }), {
-      "data-component": "Menubar",
-      "data-recipe": "surface",
-      "data-slot": "menubar-item",
-      "data-state": "ready",
-    });
+    expectGovernedDataAuthority(
+      screen.getByRole("menuitem", { name: "View" }),
+      {
+        "data-component": "Menubar",
+        "data-recipe": "surface",
+        "data-slot": "menubar-item",
+        "data-state": "ready",
+      }
+    );
   });
 
   it("emits destructive variant as semantic data attribute on items", () => {
@@ -250,9 +253,7 @@ describe("Menubar governance", () => {
       </OpenMenubar>
     );
 
-    const indicator = screen
-      .getByRole("menuitemcheckbox")
-      .querySelector("svg");
+    const indicator = screen.getByRole("menuitemcheckbox").querySelector("svg");
 
     expect(indicator).toHaveAttribute("aria-hidden", "true");
   });

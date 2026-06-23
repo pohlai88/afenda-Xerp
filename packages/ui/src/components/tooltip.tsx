@@ -59,7 +59,10 @@ function Tooltip({ className, state, ...props }: TooltipProps) {
 Tooltip.displayName = "Tooltip";
 
 export interface TooltipTriggerProps
-  extends Omit<React.ComponentProps<typeof TooltipPrimitive.Trigger>, "className"> {
+  extends Omit<
+    React.ComponentProps<typeof TooltipPrimitive.Trigger>,
+    "className"
+  > {
   readonly className?: string;
 }
 
@@ -86,9 +89,9 @@ TooltipTrigger.displayName = "TooltipTrigger";
 
 export interface TooltipContentProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
+      "className"
+    >,
     GovernedTooltipProps {
   readonly className?: string;
 }

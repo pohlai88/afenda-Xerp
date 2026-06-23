@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
+import { SearchIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
-
 import {
   Badge,
   Checkbox,
@@ -13,7 +13,6 @@ import {
   Skeleton,
   Switch,
 } from "../../index";
-import { SearchIcon } from "lucide-react";
 
 describe("shell primitive governance", () => {
   it("renders Input with governed data attributes", () => {
@@ -34,7 +33,9 @@ describe("shell primitive governance", () => {
     expect(input.className).toContain("--afenda-form-field-border");
     expect(input.className).toContain("--afenda-form-field-placeholder");
     expect(input.className).toContain("--afenda-form-field-border-focus");
-    expect(input.className).toContain("--afenda-form-field-disabled-background");
+    expect(input.className).toContain(
+      "--afenda-form-field-disabled-background"
+    );
     expect(input.className).toContain("--afenda-form-field-invalid-border");
   });
 

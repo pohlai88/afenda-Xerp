@@ -20,6 +20,11 @@ import {
 } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedStateOnly,
+  tooltipStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Kbd } from "./kbd";
@@ -81,11 +86,7 @@ function IconTooltipButton({
   );
 }
 
-function TooltipText({
-  children,
-}: {
-  readonly children: ReactNode;
-}) {
+function TooltipText({ children }: { readonly children: ReactNode }) {
   return (
     <TooltipContent>
       <div className="max-w-xs">{children}</div>
@@ -145,10 +146,10 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof Tooltip>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
@@ -301,11 +302,7 @@ export const GovernanceDataAuthority: Story = {
   render: () => (
     <ErpTooltipProvider>
       <Tooltip open state="ready">
-        <TooltipTrigger
-          asChild
-          data-component="Override"
-          data-slot="override"
-        >
+        <TooltipTrigger asChild data-component="Override" data-slot="override">
           <Button emphasis="outline" intent="secondary" size="sm">
             Help
           </Button>
@@ -368,15 +365,15 @@ export const GovernancePlayground: Story = {
     state: "ready",
     side: "top",
   },
-  render: ({ state, side }) => (
+  render: (args) => (
     <ErpTooltipProvider>
-      <Tooltip open state={state}>
+      <Tooltip open {...governedStateOnly(args)}>
         <TooltipTrigger asChild>
           <Button emphasis="outline" intent="secondary" size="sm">
             Hover target
           </Button>
         </TooltipTrigger>
-        <TooltipContent side={side} state={state}>
+        <TooltipContent {...tooltipStoryProps(args)}>
           Governed tooltip playground
         </TooltipContent>
       </Tooltip>

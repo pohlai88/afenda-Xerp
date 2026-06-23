@@ -160,9 +160,7 @@ export const RENDERER_CAPABILITIES = [
 
 export type RendererCapability = (typeof RENDERER_CAPABILITIES)[number];
 
-export const RENDERER_CAPABILITY_SET = createReadonlySet(
-  RENDERER_CAPABILITIES
-);
+export const RENDERER_CAPABILITY_SET = createReadonlySet(RENDERER_CAPABILITIES);
 
 export function isRendererCapability(
   value: string

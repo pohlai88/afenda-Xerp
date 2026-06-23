@@ -9,7 +9,6 @@ export function isRendererCapabilityCompatible(
   sectionType: SectionType
 ): boolean {
   return RENDERER_COMPATIBILITY_RULES.some(
-    (rule) =>
-      rule.capability === capability && rule.sectionType === sectionType
+    (rule) => rule.capability === capability && rule.sectionType === sectionType
   );
 }

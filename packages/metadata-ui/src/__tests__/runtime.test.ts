@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest";
-
+import { sampleRuntimeContext } from "../fixtures/sample-runtime-context.fixture.js";
 import {
-  METADATA_UI_FORBIDDEN_PACKAGE_IMPORTS,
-  MetadataUiError,
   assertMetadataUiBoundary,
   createMetadataUiRenderContext,
   getDefaultMetadataUiHydrationMode,
   isMetadataUiError,
+  METADATA_UI_FORBIDDEN_PACKAGE_IMPORTS,
+  MetadataUiError,
   resolveMetadataRenderState,
 } from "../runtime/index.js";
-import { sampleRuntimeContext } from "../fixtures/sample-runtime-context.fixture.js";
 
 describe("runtime boundary contracts", () => {
   it("defines governed forbidden package imports without duplicates", () => {

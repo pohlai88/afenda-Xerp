@@ -102,7 +102,9 @@ describe("Command governance", () => {
       </Command>
     );
 
-    expect(screen.getByRole("option", { name: "Dashboard" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: "Dashboard" })
+    ).toBeInTheDocument();
   });
 
   it("exposes displayName on command parts", () => {

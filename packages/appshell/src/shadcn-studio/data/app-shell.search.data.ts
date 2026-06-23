@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import type { GovernedBadgeProps } from "@afenda/ui/governance";
 import {
   BarChart3Icon,
@@ -7,40 +6,44 @@ import {
   ShoppingCartIcon,
   UsersIcon,
 } from "lucide-react";
+import type { ComponentType } from "react";
 
-export type AppShellSearchUserStatusTone = NonNullable<GovernedBadgeProps["tone"]>;
+export type AppShellSearchUserStatusTone = NonNullable<
+  GovernedBadgeProps["tone"]
+>;
 
 export interface AppShellSearchSuggestion {
+  readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly label: string;
-  readonly Icon: ComponentType<{ readonly className?: string }>;
 }
 
 export interface AppShellSearchParticipant {
-  readonly src: string;
   readonly alt: string;
   readonly fallback: string;
+  readonly src: string;
 }
 
 export interface AppShellSearchInteraction {
-  readonly id: string;
-  readonly name: string;
   readonly description: string;
+  readonly id: string;
   readonly logoSrc: string;
+  readonly name: string;
   readonly participants: readonly AppShellSearchParticipant[];
 }
 
 export interface AppShellSearchUser {
+  readonly avatarSrc: string;
+  readonly email: string;
+  readonly fallback: string;
   readonly id: string;
   readonly name: string;
-  readonly email: string;
-  readonly avatarSrc: string;
-  readonly fallback: string;
   readonly status: string;
   readonly statusTone: AppShellSearchUserStatusTone;
 }
 
-export const DEFAULT_APP_SHELL_SEARCH_PLACEHOLDER = "Search modules, records, and people…";
+export const DEFAULT_APP_SHELL_SEARCH_PLACEHOLDER =
+  "Search modules, records, and people…";
 export const DEFAULT_APP_SHELL_SEARCH_EMPTY_MESSAGE = "No results found.";
 export const DEFAULT_APP_SHELL_SEARCH_DIALOG_TITLE = "Search";
 export const DEFAULT_APP_SHELL_SEARCH_RESULTS_LABEL = "Search results";
@@ -182,7 +185,8 @@ export const defaultAppShellSearchSuggestions: readonly AppShellSearchSuggestion
 export const defaultAppShellSearchInteractions: readonly AppShellSearchInteraction[] =
   interactionSource;
 
-export const defaultAppShellSearchUsers: readonly AppShellSearchUser[] = userSource;
+export const defaultAppShellSearchUsers: readonly AppShellSearchUser[] =
+  userSource;
 
 export function filterAppShellSearchSuggestions(
   suggestions: readonly AppShellSearchSuggestion[],

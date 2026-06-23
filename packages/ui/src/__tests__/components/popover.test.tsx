@@ -10,9 +10,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "../../components/popover";
-import {
-  expectGovernedDataAuthority,
-} from "../helpers/governance-assertions";
+import { expectGovernedDataAuthority } from "../helpers/governance-assertions";
 
 describe("Popover governance", () => {
   it("exposes displayName on exported subcomponents", () => {
@@ -38,8 +36,9 @@ describe("Popover governance", () => {
       "data-component": "Popover",
       "data-slot": "popover-trigger",
     });
-    expect(screen.getByText("Title").closest('[data-slot="popover-content"]'))
-      .toBeTruthy();
+    expect(
+      screen.getByText("Title").closest('[data-slot="popover-content"]')
+    ).toBeTruthy();
   });
 
   it("rejects consumer data-slot override on Popover root props via trigger/content", () => {

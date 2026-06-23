@@ -184,7 +184,10 @@ const requiredTypeExports = [
 describe("public API", () => {
   it("exports all required public symbols from index", () => {
     for (const symbol of requiredValueExports) {
-      expect(metadataPublicApi[symbol], `missing export: ${symbol}`).toBeDefined();
+      expect(
+        metadataPublicApi[symbol],
+        `missing export: ${symbol}`
+      ).toBeDefined();
     }
   });
 

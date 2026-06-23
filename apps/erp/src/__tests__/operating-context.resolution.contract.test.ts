@@ -99,9 +99,7 @@ describe("operating-context.resolution.contract", () => {
     });
 
     it("rejects project hints until TIP-030 persistence exists", () => {
-      expect(
-        verifyProjectSelection({ projectId: "project-001" })
-      ).toEqual({
+      expect(verifyProjectSelection({ projectId: "project-001" })).toEqual({
         code: "PROJECT_SCOPE_MISMATCH",
         userMessage: "Project scope is not available in this workspace yet.",
       });

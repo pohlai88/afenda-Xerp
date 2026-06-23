@@ -25,13 +25,17 @@ describe("state rendering", () => {
     expect(screen.getByRole("alert", { name: /error/i })).toBeInTheDocument();
 
     const { unmount } = render(<MetadataForbiddenState />);
-    expect(screen.getByRole("alert", { name: /forbidden/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("alert", { name: /forbidden/i })
+    ).toBeInTheDocument();
     unmount();
   });
 
   it("uses status semantics for non-blocking runtime states", () => {
     render(<MetadataLoadingState />);
-    expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("status", { name: /loading/i })
+    ).toBeInTheDocument();
   });
 
   it("renders governed runtime diagnostics attributes", () => {
@@ -43,9 +47,7 @@ describe("state rendering", () => {
     expect(
       document.querySelector('[data-metadata-state="loading"]')
     ).not.toBeNull();
-    expect(
-      document.querySelector(".metadata-state-loading")
-    ).not.toBeNull();
+    expect(document.querySelector(".metadata-state-loading")).not.toBeNull();
   });
 
   it("renders enterprise loading state fixture regions and diagnostics", () => {
@@ -72,7 +74,9 @@ describe("state rendering", () => {
   it("exposes governed sample state catalog without duplicates", () => {
     expect(sampleStateCatalog).toHaveLength(9);
     expect(new Set(sampleStateCatalog.map((entry) => entry.key)).size).toBe(9);
-    expect(new Set(sampleStateCatalog.map((entry) => entry.state)).size).toBe(9);
+    expect(new Set(sampleStateCatalog.map((entry) => entry.state)).size).toBe(
+      9
+    );
 
     for (const key of sampleStateCatalog.map((entry) => entry.key)) {
       expect(sampleStateFixtures[key].key).toBe(key);

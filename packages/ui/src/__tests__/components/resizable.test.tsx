@@ -50,9 +50,7 @@ describe("Resizable governance", () => {
     expect(
       group.querySelectorAll('[data-slot="resizable-panel"]')
     ).toHaveLength(2);
-    expect(
-      group.querySelector('[data-slot="resizable-handle"]')
-    ).toBeTruthy();
+    expect(group.querySelector('[data-slot="resizable-handle"]')).toBeTruthy();
   });
 
   it("keeps governed data attributes authoritative on panel group", () => {
@@ -89,7 +87,9 @@ describe("Resizable governance", () => {
       </ResizablePanelGroup>
     );
 
-    const panel = screen.getByText("Content").closest('[data-slot="resizable-panel"]');
+    const panel = screen
+      .getByText("Content")
+      .closest('[data-slot="resizable-panel"]');
 
     expect(panel).not.toBeNull();
     expectGovernedDataAuthority(panel as HTMLElement, {

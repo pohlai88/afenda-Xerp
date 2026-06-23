@@ -125,7 +125,9 @@ function CommandDialog({
     <Dialog {...props}>
       <DialogPortal>
         <DialogOverlay />
-        <DialogPrimitive.Content {...applyGovernedPresentation({}, mergedPanel)}>
+        <DialogPrimitive.Content
+          {...applyGovernedPresentation({}, mergedPanel)}
+        >
           <div {...applyGovernedPresentation({}, dialogHeaderSr)}>
             <DialogHeader>
               <DialogTitle>{title}</DialogTitle>
@@ -143,7 +145,9 @@ function CommandDialog({
                   size="sm"
                 >
                   <XIcon aria-hidden="true" />
-                  <span {...applyGovernedPresentation({}, closeLabel)}>Close</span>
+                  <span {...applyGovernedPresentation({}, closeLabel)}>
+                    Close
+                  </span>
                 </Button>
               </DialogPrimitive.Close>
             </div>
@@ -196,7 +200,10 @@ const CommandInput = React.forwardRef<
           {...applyGovernedPresentation(props, governed)}
         />
         <InputGroupAddon>
-          <SearchIcon aria-hidden="true" {...applyGovernedPresentation({}, icon)} />
+          <SearchIcon
+            aria-hidden="true"
+            {...applyGovernedPresentation({}, icon)}
+          />
         </InputGroupAddon>
       </InputGroup>
     </div>

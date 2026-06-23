@@ -41,9 +41,7 @@ describe("NavigationMenu governance", () => {
     expect(NavigationMenuTrigger.displayName).toBe("NavigationMenuTrigger");
     expect(NavigationMenuContent.displayName).toBe("NavigationMenuContent");
     expect(NavigationMenuLink.displayName).toBe("NavigationMenuLink");
-    expect(NavigationMenuIndicator.displayName).toBe(
-      "NavigationMenuIndicator"
-    );
+    expect(NavigationMenuIndicator.displayName).toBe("NavigationMenuIndicator");
   });
 
   it("keeps governed data attributes authoritative on root", () => {

@@ -255,7 +255,9 @@ export function AppShellSearchCommand({
   );
   const filteredUsers = filterAppShellSearchUsers(users, search);
   const resultCount =
-    filteredSuggestions.length + filteredInteractions.length + filteredUsers.length;
+    filteredSuggestions.length +
+    filteredInteractions.length +
+    filteredUsers.length;
   const hasResults = resultCount > 0;
   const resultsLiveMessage = formatAppShellSearchResultsLiveMessage(
     resultCount,

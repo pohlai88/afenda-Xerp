@@ -31,31 +31,11 @@ export type MetadataVisibilityReason =
 
 export interface MetadataVisibilityInput {
   /**
-   * Requested visibility from the metadata contract.
+   * Whether maintenance runtime state should disable this target.
    *
-   * Defaults to "visible".
+   * Defaults to true.
    */
-  readonly visibility?: MetadataVisibilityState;
-
-  /**
-   * Optional human-readable reason supplied by the caller.
-   */
-  readonly reason?: string;
-
-  /**
-   * Permission required to render/enable the target.
-   */
-  readonly requiredPermission?: string;
-
-  /**
-   * Capability required to render/enable the target.
-   */
-  readonly requiredCapability?: string;
-
-  /**
-   * Feature flag required to render/enable the target.
-   */
-  readonly requiredFeatureFlag?: string;
+  readonly disableWhenMaintenance?: boolean;
 
   /**
    * Whether readonly mode should disable this target.
@@ -72,26 +52,45 @@ export interface MetadataVisibilityInput {
   readonly hideWhenForbidden?: boolean;
 
   /**
-   * Whether maintenance runtime state should disable this target.
-   *
-   * Defaults to true.
+   * Optional human-readable reason supplied by the caller.
    */
-  readonly disableWhenMaintenance?: boolean;
+  readonly reason?: string;
+
+  /**
+   * Capability required to render/enable the target.
+   */
+  readonly requiredCapability?: string;
+
+  /**
+   * Feature flag required to render/enable the target.
+   */
+  readonly requiredFeatureFlag?: string;
+
+  /**
+   * Permission required to render/enable the target.
+   */
+  readonly requiredPermission?: string;
+  /**
+   * Requested visibility from the metadata contract.
+   *
+   * Defaults to "visible".
+   */
+  readonly visibility?: MetadataVisibilityState;
 }
 
 export interface MetadataVisibilityResult {
-  readonly visibility: MetadataVisibilityState;
-  readonly visible: boolean;
   readonly disabled: boolean;
   readonly reason?: string;
+  readonly visibility: MetadataVisibilityState;
+  readonly visible: boolean;
 }
 
 /**
  * @deprecated Use `MetadataVisibilityInput.visibility` during migration only.
  */
 export interface LegacyMetadataVisibilityInput {
-  readonly hidden?: boolean;
   readonly disabled?: boolean;
+  readonly hidden?: boolean;
   readonly reason?: string;
   readonly requiredPermission?: string;
 }

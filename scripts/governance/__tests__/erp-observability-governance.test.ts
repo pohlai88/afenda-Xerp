@@ -71,7 +71,10 @@ describe("checkErpObservabilityGovernance", () => {
     `;
 
     expect(
-      checkErpObservabilityGovernance(source, "apps/erp/src/server/api/runtime/api-handler-logging.ts")
+      checkErpObservabilityGovernance(
+        source,
+        "apps/erp/src/server/api/runtime/api-handler-logging.ts"
+      )
     ).toEqual([]);
   });
 });

@@ -1,7 +1,7 @@
 import {
+  type Brand,
   brandOptionalId,
   brandRequiredId,
-  type Brand,
   unbrand,
 } from "./brand.contract.js";
 
@@ -64,7 +64,9 @@ export function brandUserId(
   return brandOptionalId(value, "userId") as UserId | null;
 }
 
-export function brandRoleId(value: string | RoleId | null | undefined): RoleId | null {
+export function brandRoleId(
+  value: string | RoleId | null | undefined
+): RoleId | null {
   return brandOptionalId(value, "roleId") as RoleId | null;
 }
 

@@ -4,11 +4,11 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-
+import { APPSHELL_CONTEXT_CONSUMPTION_MODULES } from "../../../packages/appshell/src/context/appshell-context-surface-registry.ts";
 import { DATABASE_TENANT_DOMAIN_MODULES } from "../../../packages/database/src/tenant-domain/tenant-domain-registry.ts";
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
-import { APPSHELL_CONTEXT_CONSUMPTION_MODULES } from "../../../packages/appshell/src/context/appshell-context-surface-registry.ts";
 import { PERMISSIONS_SCOPE_GRANTS_MODULES } from "../../../packages/permissions/src/permissions-scope-grants-registry.ts";
+import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_API_ACTIONS_AUDIT_ROW_MARKERS,
   MULTI_TENANCY_APPSHELL_CONTEXT_AUDIT_ROW_MARKERS,
@@ -20,12 +20,11 @@ import {
   MULTI_TENANCY_TENANT_SUBDOMAIN_AUDIT_ROW_MARKERS,
   TIP_007_012_EXISTING_STATE_AUDIT_SECTION,
 } from "../multi-tenancy-existing-state-audit-registry.mts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 
 export interface ExistingStateAuditEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function sectionIncludesStatusValue(section: string): boolean {

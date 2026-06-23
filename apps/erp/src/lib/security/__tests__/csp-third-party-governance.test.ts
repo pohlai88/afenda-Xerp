@@ -1,11 +1,10 @@
 import { describe, expect, it } from "vitest";
-
+import { createContentSecurityPolicy } from "@/lib/security/csp";
 import {
   assertAllowlistedOrigin,
   CSP_THIRD_PARTY_ALLOWLIST,
   validateCspThirdPartyAllowlist,
 } from "@/lib/security/csp-allowlist";
-import { createContentSecurityPolicy } from "@/lib/security/csp";
 
 describe("csp-allowlist", () => {
   it("validates the committed allowlist", () => {

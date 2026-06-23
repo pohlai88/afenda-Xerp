@@ -1,9 +1,3 @@
-/**
- * Canonical enterprise acceptance criteria registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§612–666).
- */
-import { TIP_007_012_DELIVERY_DOC } from "./delivery-evidence-surface-registry.mts";
-
 export const MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE =
   "multi-tenancy-enterprise-acceptance-is-canonical-slice-completion-matrix" as const;
 
@@ -15,13 +9,13 @@ export type EnterpriseAcceptanceCategory =
   | "architecture";
 
 export interface EnterpriseAcceptanceCriterion {
-  readonly id: string;
   readonly category: EnterpriseAcceptanceCategory;
-  readonly requirement: string;
+  readonly coverageMarkers?: readonly string[];
   readonly delegatedGates: readonly string[];
   readonly deliveryMarker: string;
+  readonly id: string;
+  readonly requirement: string;
   readonly testFiles?: readonly string[];
-  readonly coverageMarkers?: readonly string[];
 }
 
 /** Markers that must appear in multi-tenancy.md (§612–666). */
@@ -195,7 +189,9 @@ export const MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_CRITERIA = [
     requirement: "Context switch is validated server-side",
     delegatedGates: ["check:multi-tenancy-context-integration"],
     deliveryMarker: "Context switch is validated server-side",
-    testFiles: ["apps/erp/src/lib/context/__tests__/context-switch.action.test.ts"],
+    testFiles: [
+      "apps/erp/src/lib/context/__tests__/context-switch.action.test.ts",
+    ],
     coverageMarkers: ["switchOperatingContextAction"],
   },
   {

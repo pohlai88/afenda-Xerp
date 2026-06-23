@@ -130,7 +130,9 @@ export function MetadataSurface({
       aria-label={ariaLabel}
       aria-labelledby={labelledBy}
       className={rootClassName}
-      data-metadata-density={resolveMetadataUiDensityAttribute(context.runtime.density)}
+      data-metadata-density={resolveMetadataUiDensityAttribute(
+        context.runtime.density
+      )}
       data-metadata-hydration={context.environment.hydration}
       data-metadata-readonly={isReadonly ? "true" : "false"}
       data-metadata-runtime-state={context.runtime.state}

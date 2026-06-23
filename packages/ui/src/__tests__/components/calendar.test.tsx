@@ -92,9 +92,9 @@ describe("Calendar governance", () => {
 
     render(
       <Calendar
-        ref={ref}
         defaultMonth={STORY_MONTH}
         mode="single"
+        ref={ref}
         selected={STORY_SELECTED}
       />
     );

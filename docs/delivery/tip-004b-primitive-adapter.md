@@ -113,6 +113,7 @@ Do **not** run `shadcn add --all -o` on governed files without re-applying the a
 
 - [TIP-004 — UI Consumption](./tip-004-ui-consumption.md)
 - [TIP-004 — Design System Contracts](./tip-004-design-system-contracts.md)
+- [TIP-004 Policy (canonical)](../governance/tip-004-policy.md)
 
 ## Next phases
 

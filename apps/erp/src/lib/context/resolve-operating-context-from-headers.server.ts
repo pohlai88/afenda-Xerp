@@ -6,15 +6,12 @@ import { err } from "@afenda/kernel";
 import { headers } from "next/headers";
 
 import { resolveCorrelationIdFromHeaders } from "@/lib/observability/resolve-correlation-id";
-
-import { buildOperatingContextSelectionFromRequest } from "./tenant-domain.server";
 import { resolveOperatingContext } from "./resolve-operating-context.server";
+import { buildOperatingContextSelectionFromRequest } from "./tenant-domain.server";
 
 export async function resolveOperatingContextFromHeaders(input: {
   readonly actorUserId: string;
-  readonly selection?: Partial<
-    Omit<OperatingContextSelection, "tenantSlug">
-  >;
+  readonly selection?: Partial<Omit<OperatingContextSelection, "tenantSlug">>;
 }): Promise<OperatingContextResult> {
   const built = await buildOperatingContextSelectionFromRequest(input);
 

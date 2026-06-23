@@ -48,7 +48,9 @@ describe("governed UI consumption (TIP-004)", () => {
         return <DropdownMenu />;
       }
     `);
-    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(true);
+    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(
+      true
+    );
   });
 
   it("policy: rejects local stock-props wrapper imports", () => {
@@ -60,7 +62,9 @@ describe("governed UI consumption (TIP-004)", () => {
       }
     `);
     expect(violations.some((v) => v.includes("stock-props"))).toBe(true);
-    expect(violations.some((v) => v.includes("resolveStockButtonProps"))).toBe(true);
+    expect(violations.some((v) => v.includes("resolveStockButtonProps"))).toBe(
+      true
+    );
   });
 
   it("policy: requires direct @afenda/ui/governance import for mapStockButtonProps", () => {
@@ -70,7 +74,9 @@ describe("governed UI consumption (TIP-004)", () => {
         return <Button {...mapStockButtonProps("ghost", "icon-lg")} />;
       }
     `);
-    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(true);
+    expect(violations.some((v) => v.includes("@afenda/ui/governance"))).toBe(
+      true
+    );
   });
 
   it("policy: accepts mapStockButtonProps with direct governance import", () => {

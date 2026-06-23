@@ -24,8 +24,8 @@ export function WorkspaceScopeUnavailable({
           </p>
         ) : (
           <p className="app-shell-page-description">
-            A tenant workspace could not be resolved for this request. Sign in on
-            a tenant subdomain (for example{" "}
+            A tenant workspace could not be resolved for this request. Sign in
+            on a tenant subdomain (for example{" "}
             <code>{DEV_DEFAULT_TENANT_SLUG}.localhost</code>) or use the path
             prefix <code>/t/{DEV_DEFAULT_TENANT_SLUG}</code>.
           </p>

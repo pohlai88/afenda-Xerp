@@ -1,8 +1,8 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { validateManifest } from "../governance/css-manifest.js";
-import { uiCssManifest, UI_CSS_BUDGET } from "../styles/css-manifest.js";
+import { UI_CSS_BUDGET, uiCssManifest } from "../styles/css-manifest.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
 const pkgJson = JSON.parse(
@@ -18,7 +18,9 @@ describe("@afenda/ui CSS manifest", () => {
   it("every manifest sourceFile exists on disk", () => {
     for (const entry of uiCssManifest) {
       const abs = join(packageRoot, entry.sourceFile);
-      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(true);
+      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(
+        true
+      );
     }
   });
 
@@ -100,10 +102,14 @@ describe("@afenda/ui CSS budget", () => {
 
 function collectCssFilesRecursive(dir: string): string[] {
   const result: string[] = [];
-  if (!existsSync(dir)) return result;
+  if (!existsSync(dir)) {
+    return result;
+  }
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (["node_modules", "__tests__", "components"].includes(entry.name)) continue;
+    if (["node_modules", "__tests__", "components"].includes(entry.name)) {
+      continue;
+    }
     if (entry.isDirectory()) {
       result.push(...collectCssFilesRecursive(full));
     } else if (entry.name.endsWith(".css")) {

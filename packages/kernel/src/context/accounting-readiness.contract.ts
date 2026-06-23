@@ -1,10 +1,10 @@
 import type { ConsolidationScopeContext } from "./consolidation-scope-context.contract.js";
+import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.stub.js";
 import type { EntityGroupContext } from "./entity-group-context.contract.js";
 import type { LegalEntityContext } from "./legal-entity-context.contract.js";
 import type { OperatingContext } from "./operating-context.contract.js";
 import type { OrganizationUnitContext } from "./organization-unit-context.contract.js";
 import type { OwnershipInterestContext } from "./ownership-interest-context.contract.js";
-import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.stub.js";
 
 /**
  * Serializable accounting-readiness slice — authority fields only.

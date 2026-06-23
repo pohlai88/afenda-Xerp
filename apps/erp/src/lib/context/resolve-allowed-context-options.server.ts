@@ -1,9 +1,9 @@
 import {
+  type AfendaDatabase,
   findCompanyById,
   findOrganizationById,
   getDb,
   withRlsSessionContext,
-  type AfendaDatabase,
 } from "@afenda/database";
 import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
 import {
@@ -57,10 +57,7 @@ function collectMembershipScopeIds(
       companyIds.add(membership.companyId);
     }
 
-    if (
-      membership.scopeType === "organization" &&
-      membership.organizationId
-    ) {
+    if (membership.scopeType === "organization" && membership.organizationId) {
       organizationIds.add(membership.organizationId);
     }
   }
@@ -110,7 +107,9 @@ export async function resolveAllowedContextOptions(input: {
 
   const companySlugById = new Map(
     companyRows
-      .filter((company): company is NonNullable<typeof company> => company !== null)
+      .filter(
+        (company): company is NonNullable<typeof company> => company !== null
+      )
       .map((company) => [company.id, company.slug] as const)
   );
 

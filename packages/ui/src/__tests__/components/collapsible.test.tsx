@@ -47,10 +47,7 @@ describe("Collapsible governance", () => {
   it("keeps governed data attributes authoritative on trigger", () => {
     render(
       <Collapsible>
-        <CollapsibleTrigger
-          data-component="Override"
-          data-slot="override"
-        >
+        <CollapsibleTrigger data-component="Override" data-slot="override">
           Toggle
         </CollapsibleTrigger>
         <CollapsibleContent>Content</CollapsibleContent>
@@ -140,10 +137,9 @@ describe("Collapsible governance", () => {
       </Collapsible>
     );
 
-    expect(screen.getByRole("button", { name: "Order details" })).toHaveAttribute(
-      "aria-expanded",
-      "false"
-    );
+    expect(
+      screen.getByRole("button", { name: "Order details" })
+    ).toHaveAttribute("aria-expanded", "false");
   });
 
   it("exposes displayName on collapsible parts", () => {

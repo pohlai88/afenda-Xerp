@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { AFENDA_RECIPE_REGISTRY } from "../registries/recipe.registry";
 import { visualDriftPolicy } from "../policies/visual-drift-policy";
+import { AFENDA_RECIPE_REGISTRY } from "../registries/recipe.registry";
 import { validateRecipeRegistry } from "../validation/recipe.validation";
 
 const RAW_VALUE_PATTERN =

@@ -1,7 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
-
-import { resolveLegalEntityContext } from "@/lib/context/resolve-legal-entity-context.server";
 import type { MembershipContract } from "@afenda/permissions";
+import { describe, expect, it, vi } from "vitest";
+import { resolveLegalEntityContext } from "@/lib/context/resolve-legal-entity-context.server";
 
 const TENANT_ID = "tenant-001";
 const COMPANY_ID = "company-001";

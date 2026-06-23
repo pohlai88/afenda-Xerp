@@ -8,7 +8,10 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId, useMemo } from "react";
-import { Area, AreaChart } from "recharts";
+import {
+  LazyArea as Area,
+  LazyAreaChart as AreaChart,
+} from "../../charts/recharts-lazy.client";
 
 import { APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN } from "../data/app-shell.dashboard.data";
 import type {
@@ -207,6 +210,7 @@ export function AppShellDashboardSparklineStat({
               <ChartContainer config={chartConfig}>
                 <AreaChart
                   accessibilityLayer
+                  aria-hidden="true"
                   data={chartData}
                   margin={APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN}
                 >

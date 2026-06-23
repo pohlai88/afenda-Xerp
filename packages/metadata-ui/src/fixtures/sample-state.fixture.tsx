@@ -12,20 +12,20 @@ const LOADING_STATE = "loading" satisfies MetadataRuntimeState;
 export type MetadataStateFixtureProps = MetadataSpecificStateProps;
 
 interface SampleStateDefinition {
+  readonly diagnosticsKey: `metadata-ui.state.${string}`;
   readonly key: string;
+  readonly message: string;
   readonly state: MetadataRuntimeState;
   readonly title: string;
-  readonly message: string;
-  readonly diagnosticsKey: `metadata-ui.state.${string}`;
 }
 
 export interface SampleStateFixture {
-  readonly state: MetadataRuntimeState;
-  readonly key: string;
   readonly diagnosticsKey: SampleStateDefinition["diagnosticsKey"];
+  readonly element: ReactNode;
+  readonly key: string;
   readonly props: MetadataStateProps;
   readonly renderProps: MetadataStateFixtureProps;
-  readonly element: ReactNode;
+  readonly state: MetadataRuntimeState;
 }
 
 export const sampleStateCatalog = [

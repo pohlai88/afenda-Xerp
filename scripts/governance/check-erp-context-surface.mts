@@ -50,10 +50,14 @@ const AUTHORITY_GUARD_FILES = [
     message: "reject-untrusted-authority-fields.ts is required",
   },
   {
-    path: join(erpSrcRoot, "lib/server-actions/parse-protected-action-input.ts"),
+    path: join(
+      erpSrcRoot,
+      "lib/server-actions/parse-protected-action-input.ts"
+    ),
     rule: "authority-guard-actions",
     needle: "rejectUntrustedAuthorityFields",
-    message: "parse-protected-action-input.ts must reject untrusted authority fields",
+    message:
+      "parse-protected-action-input.ts must reject untrusted authority fields",
   },
   {
     path: join(erpSrcRoot, "server/api/runtime/api-validation.ts"),
@@ -64,9 +68,9 @@ const AUTHORITY_GUARD_FILES = [
 ] as const;
 
 export interface ErpContextSurfaceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listSourceFiles(directory: string): string[] {
@@ -86,7 +90,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -104,7 +111,8 @@ export function checkErpContextSurface(): ErpContextSurfaceViolation[] {
     violations.push({
       rule: "proxy-missing",
       file: proxyPath,
-      message: "apps/erp/src/proxy.ts is required for tenant routing (Next.js 16+)",
+      message:
+        "apps/erp/src/proxy.ts is required for tenant routing (Next.js 16+)",
     });
   }
 
@@ -162,19 +170,24 @@ export function checkErpContextSurface(): ErpContextSurfaceViolation[] {
       violations.push({
         rule: "grant-scope-delegation",
         file: grantScopePath,
-        message: "resolve-grant-scope.server.ts must delegate to @afenda/permissions",
+        message:
+          "resolve-grant-scope.server.ts must delegate to @afenda/permissions",
       });
     }
   }
 
-  const legalEntityPath = join(contextRoot, "resolve-legal-entity-context.server.ts");
+  const legalEntityPath = join(
+    contextRoot,
+    "resolve-legal-entity-context.server.ts"
+  );
   if (existsSync(legalEntityPath)) {
     const legalEntitySource = readFileSync(legalEntityPath, "utf8");
     if (!legalEntitySource.includes("toLegalEntityContext")) {
       violations.push({
         rule: "legal-entity-mapper",
         file: legalEntityPath,
-        message: "resolve-legal-entity-context.server.ts must map company rows to LegalEntityContext",
+        message:
+          "resolve-legal-entity-context.server.ts must map company rows to LegalEntityContext",
       });
     }
   }
@@ -207,7 +220,9 @@ export function checkErpContextSurface(): ErpContextSurfaceViolation[] {
   );
   if (existsSync(fromHeadersPath)) {
     const fromHeadersSource = readFileSync(fromHeadersPath, "utf8");
-    if (!fromHeadersSource.includes("buildOperatingContextSelectionFromRequest")) {
+    if (
+      !fromHeadersSource.includes("buildOperatingContextSelectionFromRequest")
+    ) {
       violations.push({
         rule: "from-headers-wiring",
         file: fromHeadersPath,

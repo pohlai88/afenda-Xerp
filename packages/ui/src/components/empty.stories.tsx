@@ -241,7 +241,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "`Empty` defaults to `role=\"status\"` for live empty-state announcements. `EmptyTitle` provides the accessible name; `EmptyDescription` carries supporting context.",
+          '`Empty` defaults to `role="status"` for live empty-state announcements. `EmptyTitle` provides the accessible name; `EmptyDescription` carries supporting context.',
       },
     },
   },

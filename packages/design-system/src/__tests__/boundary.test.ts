@@ -32,9 +32,7 @@ function walk(dir: string): string[] {
 describe("design-system boundary", () => {
   it("has no .tsx implementation files outside __tests__", () => {
     const tsxFiles = walk(srcDir).filter(
-      (f) =>
-        extname(f) === ".tsx" &&
-        !relative(srcDir, f).includes("__tests__")
+      (f) => extname(f) === ".tsx" && !relative(srcDir, f).includes("__tests__")
     );
     expect(tsxFiles).toEqual([]);
   });

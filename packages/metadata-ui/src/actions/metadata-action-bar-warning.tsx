@@ -1,5 +1,5 @@
-import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";
 import type { MetadataRenderableAction } from "../contracts/action.contract.js";
+import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";
 import { MetadataBoundaryWarning } from "../diagnostics/metadata-diagnostics-panel.js";
 import { createMultiplePrimaryActionsWarning } from "./metadata-action-presentation.js";
 

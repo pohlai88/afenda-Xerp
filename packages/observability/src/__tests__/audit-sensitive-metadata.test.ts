@@ -5,9 +5,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   AuditValidationError,
-  FORBIDDEN_AUDIT_METADATA_KEYS,
   assertAuditMetadata,
   buildAuditEventRow,
+  FORBIDDEN_AUDIT_METADATA_KEYS,
 } from "../index.js";
 
 const packageRoot = fileURLToPath(new URL("../..", import.meta.url));
@@ -15,9 +15,9 @@ const packageRoot = fileURLToPath(new URL("../..", import.meta.url));
 describe("sensitive audit metadata policy", () => {
   it("blocks every FORBIDDEN_AUDIT_METADATA_KEYS entry case-insensitively", () => {
     for (const key of FORBIDDEN_AUDIT_METADATA_KEYS) {
-      expect(() =>
-        assertAuditMetadata({ [key]: "blocked-value" })
-      ).toThrow(AuditValidationError);
+      expect(() => assertAuditMetadata({ [key]: "blocked-value" })).toThrow(
+        AuditValidationError
+      );
 
       expect(() =>
         assertAuditMetadata({ [key.toUpperCase()]: "blocked-value" })

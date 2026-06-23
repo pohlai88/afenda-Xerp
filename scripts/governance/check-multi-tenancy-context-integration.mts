@@ -9,7 +9,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
+import {
+  type ContextIntegrationEnforcementViolation,
+  collectContextIntegrationViolations,
+} from "./lib/multi-tenancy-context-integration-enforcement.mts";
 import {
   MULTI_TENANCY_CONTEXT_INTEGRATION_ENFORCEMENT_LIB,
   MULTI_TENANCY_CONTEXT_INTEGRATION_GATE,
@@ -17,14 +24,6 @@ import {
   MULTI_TENANCY_DOC_CONTEXT_INTEGRATION_MARKERS,
   TIP_007_012_CONTEXT_INTEGRATION_SECTION,
 } from "./multi-tenancy-context-integration-registry.mts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
-} from "./delivery-evidence-surface-registry.mts";
-import {
-  collectContextIntegrationViolations,
-  type ContextIntegrationEnforcementViolation,
-} from "./lib/multi-tenancy-context-integration-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -63,7 +62,9 @@ export function checkMultiTenancyContextIntegration(): MultiTenancyContextIntegr
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  if (!registrySource.includes(MULTI_TENANCY_CONTEXT_INTEGRATION_SURFACE_RULE)) {
+  if (
+    !registrySource.includes(MULTI_TENANCY_CONTEXT_INTEGRATION_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registryPath,
@@ -149,7 +150,9 @@ export function checkMultiTenancyContextIntegration(): MultiTenancyContextIntegr
       message: "root package.json is required",
     });
   } else {
-    if (!packageJsonContent.includes("check:multi-tenancy-context-integration")) {
+    if (
+      !packageJsonContent.includes("check:multi-tenancy-context-integration")
+    ) {
       violations.push({
         rule: "check-script-missing",
         file: packageJsonPath,
@@ -169,9 +172,13 @@ export function checkMultiTenancyContextIntegration(): MultiTenancyContextIntegr
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -194,7 +201,9 @@ export function checkMultiTenancyContextIntegration(): MultiTenancyContextIntegr
       "quality:multi-tenancy-context-integration"
     );
     const testsIndex = qualityChain.indexOf("quality:multi-tenancy-tests");
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||

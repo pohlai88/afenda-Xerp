@@ -54,12 +54,7 @@ describe("Item governance", () => {
 
   it("applies governed state and item axes on Item root", () => {
     render(
-      <Item
-        data-testid="item-root"
-        size="sm"
-        state="loading"
-        variant="muted"
-      >
+      <Item data-testid="item-root" size="sm" state="loading" variant="muted">
         <ItemContent>
           <ItemTitle>Row</ItemTitle>
         </ItemContent>

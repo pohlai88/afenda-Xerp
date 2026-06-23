@@ -47,9 +47,9 @@ describe("csp-strategy", () => {
   });
 
   it("uses nonce everywhere when strategy is nonce", () => {
-    expect(resolveCspPolicyMode("/sign-in", { ERP_CSP_STRATEGY: "nonce" })).toBe(
-      "nonce"
-    );
+    expect(
+      resolveCspPolicyMode("/sign-in", { ERP_CSP_STRATEGY: "nonce" })
+    ).toBe("nonce");
   });
 
   it("uses SRI everywhere in production when strategy is sri", () => {
@@ -74,26 +74,26 @@ describe("csp-strategy", () => {
 
   it("requires request-bound rendering only for nonce-protected routes", () => {
     expect(
-      shouldOptIntoRequestBoundRendering(
-        "/sign-in",
-        { ERP_CSP_STRATEGY: "hybrid", NODE_ENV: "production" }
-      )
+      shouldOptIntoRequestBoundRendering("/sign-in", {
+        ERP_CSP_STRATEGY: "hybrid",
+        NODE_ENV: "production",
+      })
     ).toBe(false);
     expect(
-      shouldOptIntoRequestBoundRendering(
-        "/dashboard",
-        { ERP_CSP_STRATEGY: "hybrid", NODE_ENV: "production" }
-      )
+      shouldOptIntoRequestBoundRendering("/dashboard", {
+        ERP_CSP_STRATEGY: "hybrid",
+        NODE_ENV: "production",
+      })
     ).toBe(true);
   });
 
   it("requires protected layout connection unless strategy is full sri", () => {
-    expect(requiresProtectedLayoutConnection({ ERP_CSP_STRATEGY: "hybrid" })).toBe(
-      true
-    );
-    expect(requiresProtectedLayoutConnection({ ERP_CSP_STRATEGY: "nonce" })).toBe(
-      true
-    );
+    expect(
+      requiresProtectedLayoutConnection({ ERP_CSP_STRATEGY: "hybrid" })
+    ).toBe(true);
+    expect(
+      requiresProtectedLayoutConnection({ ERP_CSP_STRATEGY: "nonce" })
+    ).toBe(true);
     expect(requiresProtectedLayoutConnection({ ERP_CSP_STRATEGY: "sri" })).toBe(
       false
     );

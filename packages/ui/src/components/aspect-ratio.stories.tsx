@@ -9,7 +9,12 @@ import {
   UserIcon,
 } from "lucide-react";
 import type { ComponentType } from "react";
-import { StoryFrame, StoryInset, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryInset,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { AspectRatio } from "./aspect-ratio";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -33,7 +38,13 @@ function RatioPlaceholder({
   );
 }
 
-function MediaImage({ alt, src }: { readonly alt: string; readonly src: string }) {
+function MediaImage({
+  alt,
+  src,
+}: {
+  readonly alt: string;
+  readonly src: string;
+}) {
   return (
     <img
       alt={alt}
@@ -210,7 +221,7 @@ export const ProductCatalogCard: Story = {
             Ergonomic Office Chair — Black
           </span>
           <StoryRow align="center" justify="between">
-            <span className="font-semibold tabular-nums text-sm">$189.00</span>
+            <span className="font-semibold text-sm tabular-nums">$189.00</span>
             <Button emphasis="outline" intent="secondary" size="sm">
               View
             </Button>
@@ -230,7 +241,9 @@ export const InvoiceAttachmentPreview: Story = {
         <StoryStack gap="sm">
           <StoryRow align="center" justify="between">
             <StoryStack gap="xs">
-              <span className="font-medium text-sm">INV-2026-0142_scan.pdf</span>
+              <span className="font-medium text-sm">
+                INV-2026-0142_scan.pdf
+              </span>
               <span className="text-muted-foreground text-xs">
                 Uploaded Jun 21, 2026 ·{" "}
                 <span className="tabular-nums">1.2 MB</span>
@@ -278,8 +291,7 @@ export const WarehouseItemPhoto: Story = {
         </AspectRatio>
         <StoryRow align="center" justify="between">
           <span className="text-muted-foreground text-xs">
-            Warehouse A · Bay 12 · Qty{" "}
-            <span className="tabular-nums">6</span>
+            Warehouse A · Bay 12 · Qty <span className="tabular-nums">6</span>
           </span>
           <Badge emphasis="soft" size="sm" tone="neutral">
             Received
@@ -452,8 +464,7 @@ export const AssetRegisterPhoto: Story = {
           </AspectRatio>
           <StoryRow align="center" justify="between">
             <span className="text-muted-foreground text-xs">
-              Book value:{" "}
-              <span className="tabular-nums">$18,400.00</span>
+              Book value: <span className="tabular-nums">$18,400.00</span>
             </span>
             <Button emphasis="ghost" intent="secondary" size="sm">
               View Asset

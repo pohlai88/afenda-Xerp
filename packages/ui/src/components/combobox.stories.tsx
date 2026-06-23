@@ -30,7 +30,12 @@ import {
   type EmployeeOption,
   type VendorOption,
 } from "./_storybook/combobox-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Avatar, AvatarFallback } from "./avatar";
 import { Badge } from "./badge";
 import {
@@ -182,7 +187,11 @@ export const GovernanceDataAuthority: Story = {
   },
   render: () => (
     <StoryFrame width="md">
-      <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={VENDORS}>
+      <Combobox
+        defaultOpen
+        isItemEqualToValue={labeledEquality}
+        items={VENDORS}
+      >
         <ComboboxInput placeholder="Search vendors…" showTrigger={false} />
         <ComboboxContent>
           <ComboboxEmpty>No vendors found.</ComboboxEmpty>
@@ -486,7 +495,9 @@ export const InventorySkuSearch: Story = {
                       {sku.stock === 0 ? (
                         "Out of stock"
                       ) : (
-                        <span className="tabular-nums">{sku.stock} in stock</span>
+                        <span className="tabular-nums">
+                          {sku.stock} in stock
+                        </span>
                       )}
                     </Badge>
                   </StoryRow>
@@ -548,7 +559,7 @@ export const TimezonePicker: Story = {
           items={TIMEZONES}
           placeholder="Search timezones…"
         />
-        <span className="tabular-nums text-muted-foreground text-xs">
+        <span className="text-muted-foreground text-xs tabular-nums">
           {TIMEZONES.length} zones — type to filter long lists
         </span>
       </StoryStack>

@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { METADATA_CONTRACT_VERSION } from "../metadata.version.js";
 import {
   ACTION_CONTRACT_OWNERSHIPS,
   ACTION_CONTRACT_PROHIBITIONS,
@@ -8,6 +7,7 @@ import {
   METADATA_ACTION_TARGETS,
   METADATA_ACTION_VISIBILITY_STATES,
 } from "../action.contract.js";
+import { METADATA_CONTRACT_VERSION } from "../metadata.version.js";
 
 function expectUniqueValues(values: readonly string[]): void {
   expect(new Set(values).size).toBe(values.length);

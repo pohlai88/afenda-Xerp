@@ -1,7 +1,10 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { designSystemCssManifest, DESIGN_SYSTEM_CSS_BUDGET } from "../css/css-manifest.js";
+import {
+  DESIGN_SYSTEM_CSS_BUDGET,
+  designSystemCssManifest,
+} from "../css/css-manifest.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
 const pkgJson = JSON.parse(
@@ -12,10 +15,14 @@ describe("@afenda/design-system CSS manifest", () => {
   it("every manifest sourceFile exists on disk", () => {
     const seen = new Set<string>();
     for (const entry of designSystemCssManifest) {
-      if (seen.has(entry.sourceFile)) continue;
+      if (seen.has(entry.sourceFile)) {
+        continue;
+      }
       seen.add(entry.sourceFile);
       const abs = join(packageRoot, entry.sourceFile);
-      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(true);
+      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(
+        true
+      );
     }
   });
 
@@ -49,7 +56,10 @@ describe("@afenda/design-system CSS manifest", () => {
 
   it("all entries are generated (design-system CSS is never handwritten)", () => {
     for (const entry of designSystemCssManifest) {
-      expect(entry.generated, `${entry.exportPath} must be marked generated`).toBe(true);
+      expect(
+        entry.generated,
+        `${entry.exportPath} must be marked generated`
+      ).toBe(true);
     }
   });
 
@@ -62,13 +72,17 @@ describe("@afenda/design-system CSS manifest", () => {
   });
 
   it("requiresTailwindTheme is false for tokens entries", () => {
-    for (const entry of designSystemCssManifest.filter((e) => e.purpose === "tokens")) {
+    for (const entry of designSystemCssManifest.filter(
+      (e) => e.purpose === "tokens"
+    )) {
       expect(entry.requiresTailwindTheme).toBe(false);
     }
   });
 
   it("requiresTailwindTheme is true for theme-bridge entries", () => {
-    for (const entry of designSystemCssManifest.filter((e) => e.purpose === "theme-bridge")) {
+    for (const entry of designSystemCssManifest.filter(
+      (e) => e.purpose === "theme-bridge"
+    )) {
       expect(entry.requiresTailwindTheme).toBe(true);
     }
   });
@@ -77,14 +91,20 @@ describe("@afenda/design-system CSS manifest", () => {
 describe("@afenda/design-system CSS budget", () => {
   it("src/css/ contains at most maxSourceFiles CSS files", () => {
     const cssDir = join(packageRoot, "src/css");
-    if (!existsSync(cssDir)) return;
+    if (!existsSync(cssDir)) {
+      return;
+    }
     const cssFiles = readdirSync(cssDir).filter((f) => f.endsWith(".css"));
-    expect(cssFiles.length).toBeLessThanOrEqual(DESIGN_SYSTEM_CSS_BUDGET.maxSourceFiles);
+    expect(cssFiles.length).toBeLessThanOrEqual(
+      DESIGN_SYSTEM_CSS_BUDGET.maxSourceFiles
+    );
   });
 
   it("every CSS file in src/css/ is in the allowed list", () => {
     const cssDir = join(packageRoot, "src/css");
-    if (!existsSync(cssDir)) return;
+    if (!existsSync(cssDir)) {
+      return;
+    }
     const cssFiles = readdirSync(cssDir).filter((f) => f.endsWith(".css"));
     const allowedBasenames = DESIGN_SYSTEM_CSS_BUDGET.allowedSourceFiles.map(
       (p) => p.split("/").pop()!
@@ -111,10 +131,14 @@ describe("@afenda/design-system CSS budget", () => {
 
 function collectCssFiles(dir: string): string[] {
   const result: string[] = [];
-  if (!existsSync(dir)) return result;
+  if (!existsSync(dir)) {
+    return result;
+  }
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (entry.name === "node_modules" || entry.name === "__tests__") continue;
+    if (entry.name === "node_modules" || entry.name === "__tests__") {
+      continue;
+    }
     if (entry.isDirectory()) {
       result.push(...collectCssFiles(full));
     } else if (entry.name.endsWith(".css")) {

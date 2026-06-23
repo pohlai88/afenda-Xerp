@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-
+import {
+  consolidationMethodToTreatment,
+  consolidationTreatmentToMethod,
+} from "../ownership-interest/ownership-interest.consolidation-treatment.js";
 import {
   assertDistinctLegalEntities,
   buildOwnershipInterestInsertRow,
@@ -9,18 +12,14 @@ import {
   resolveNonControllingInterestApplicable,
   toOwnershipInterestAuthorityRecord,
 } from "../ownership-interest/ownership-interest.contract.js";
-import {
-  consolidationMethodToTreatment,
-  consolidationTreatmentToMethod,
-} from "../ownership-interest/ownership-interest.consolidation-treatment.js";
 
 describe("ownership interest consolidation treatment", () => {
   it("maps domain treatments to storage methods", () => {
     expect(consolidationTreatmentToMethod("full_consolidation")).toBe("full");
     expect(consolidationTreatmentToMethod("equity_method")).toBe("equity");
-    expect(
-      consolidationTreatmentToMethod("proportionate_consolidation")
-    ).toBe("proportional");
+    expect(consolidationTreatmentToMethod("proportionate_consolidation")).toBe(
+      "proportional"
+    );
     expect(consolidationTreatmentToMethod("fair_value_or_cost")).toBe("cost");
     expect(consolidationTreatmentToMethod("excluded")).toBe("none");
   });
@@ -42,9 +41,9 @@ describe("ownership interest consolidation treatment", () => {
 
 describe("ownership interest contract", () => {
   it("rejects parent and investee being the same legal entity", () => {
-    expect(() =>
-      assertDistinctLegalEntities("company-a", "company-a")
-    ).toThrow(OwnershipInterestCycleError);
+    expect(() => assertDistinctLegalEntities("company-a", "company-a")).toThrow(
+      OwnershipInterestCycleError
+    );
   });
 
   it("accepts investeeLegalEntityId alias", () => {

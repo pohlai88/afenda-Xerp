@@ -21,7 +21,8 @@ const meta = {
     title: "ERP/ApplicationShell/Statistics/Line Trends",
     component: AppShellDashboardStatisticsLineTrends,
   }),
-  render: () => renderDashboardBlockStory(AppShellDashboardStatisticsLineTrends, {}),
+  render: () =>
+    renderDashboardBlockStory(AppShellDashboardStatisticsLineTrends, {}),
   parameters: {
     ...dashboardBlockStoryParameters,
     docs: {

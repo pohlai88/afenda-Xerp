@@ -6,12 +6,12 @@ import type {
 } from "../contracts/state.contract.js";
 import { MetadataState } from "./metadata-state.js";
 
-export { MetadataState } from "./metadata-state.js";
 export type {
   MetadataSpecificStateProps,
   MetadataStateCopy,
   MetadataStateProps,
 } from "../contracts/state.contract.js";
+export { MetadataState } from "./metadata-state.js";
 
 const LOADING_STATE = "loading" satisfies MetadataRuntimeState;
 const EMPTY_STATE = "empty" satisfies MetadataRuntimeState;

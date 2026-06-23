@@ -3,9 +3,9 @@ import type { ApiPolicyGateDecision } from "./api-envelope.client";
 export type PolicyGateSurfaceVariant = "inline" | "dialog";
 
 export interface PolicyGateUxCopy {
-  readonly title: string;
   readonly description: string;
   readonly primaryActionLabel: string | null;
+  readonly title: string;
   readonly tone: "neutral" | "warning";
 }
 
@@ -21,15 +21,13 @@ export const POLICY_GATE_UX_COPY: Readonly<
   },
   require_evidence: {
     title: "Evidence required",
-    description:
-      "Attach supporting evidence before this action can proceed.",
+    description: "Attach supporting evidence before this action can proceed.",
     primaryActionLabel: "Attach evidence",
     tone: "warning",
   },
   require_step_up: {
     title: "Verification required",
-    description:
-      "Complete step-up verification to continue with this action.",
+    description: "Complete step-up verification to continue with this action.",
     primaryActionLabel: "Verify identity",
     tone: "warning",
   },

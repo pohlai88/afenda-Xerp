@@ -1,13 +1,13 @@
-import type { StatusTone, VariantSelection } from "./design-system";
-import { STATUS_TONES } from "./design-system";
 import {
   APP_SHELL_RECIPE_SLOTS,
   APP_SHELL_SLOT_CLASS_NAMES,
+  type AppShellRecipeSlot,
   METADATA_UI_RECIPE_SLOTS,
   METADATA_UI_SLOT_CLASS_NAMES,
-  type AppShellRecipeSlot,
   type MetadataUiRecipeSlot,
 } from "./authority-recipe-maps";
+import type { StatusTone, VariantSelection } from "./design-system";
+import { STATUS_TONES } from "./design-system";
 import type { GovernedRecipeName } from "./types";
 
 export type AuthorityRecipeName = Extract<
@@ -18,9 +18,9 @@ export type AuthorityRecipeName = Extract<
 export {
   APP_SHELL_RECIPE_SLOTS,
   APP_SHELL_SLOT_CLASS_NAMES,
+  type AppShellRecipeSlot,
   METADATA_UI_RECIPE_SLOTS,
   METADATA_UI_SLOT_CLASS_NAMES,
-  type AppShellRecipeSlot,
   type MetadataUiRecipeSlot,
 };
 
@@ -123,7 +123,9 @@ export function isAuthorityRecipeName(
   return value === "app-shell" || value === "metadata-ui";
 }
 
-export function isAppShellRecipeSlot(value: string): value is AppShellRecipeSlot {
+export function isAppShellRecipeSlot(
+  value: string
+): value is AppShellRecipeSlot {
   return isAppShellSlot(value);
 }
 

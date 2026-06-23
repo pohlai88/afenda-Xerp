@@ -3,14 +3,13 @@ import {
   isAuthorizationDeniedError,
   isMissingAuthorizationContextError,
 } from "@afenda/permissions";
-
-import type { ApiErrorCode } from "../contracts/api-error.contract";
-import { getApiErrorDefinition } from "../contracts/api-error.contract";
-import { isApiRouteError } from "./api-validation";
 import {
   mapAuthorizationDenialToApiErrorCode,
   resolveSafeAuthorizationMessage,
 } from "@/lib/api/api-error-response";
+import type { ApiErrorCode } from "../contracts/api-error.contract";
+import { getApiErrorDefinition } from "../contracts/api-error.contract";
+import { isApiRouteError } from "./api-validation";
 
 export function mapUnknownErrorToApiCode(error: unknown): ApiErrorCode {
   if (isApiRouteError(error)) {
@@ -56,7 +55,7 @@ export function resolveErrorDetails(error: unknown): unknown {
     return error.details;
   }
 
-  return undefined;
+  return;
 }
 
 export function resolveErrorLogLevel(code: ApiErrorCode) {

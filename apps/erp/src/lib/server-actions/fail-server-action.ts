@@ -2,8 +2,8 @@ import type { AppError } from "@afenda/kernel";
 
 import { logServerActionError } from "./log-action-error";
 import {
-  serverActionFailure,
   type ServerActionFailure,
+  serverActionFailure,
 } from "./server-action-result";
 
 interface FailServerActionInput {

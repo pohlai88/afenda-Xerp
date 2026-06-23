@@ -225,7 +225,9 @@ function DirectionStateProbe({
           padding="lg"
         >
           <StoryRow align="center" justify="between">
-            <span className="font-medium text-sm">Governed direction probe</span>
+            <span className="font-medium text-sm">
+              Governed direction probe
+            </span>
             <DirectionReadout />
           </StoryRow>
           <span className="text-muted-foreground text-xs">
@@ -316,8 +318,8 @@ export const GovernanceDataAuthority: Story = {
           <DirectionReadout />
         </StoryRow>
         <span className="text-muted-foreground text-xs">
-          Inspect the direction root — governed `data-*` attributes must override
-          consumer props.
+          Inspect the direction root — governed `data-*` attributes must
+          override consumer props.
         </span>
       </StoryStack>
     </DirectionProvider>
@@ -348,7 +350,9 @@ export const GovernanceSlotMap: Story = {
             padding="lg"
           >
             <StoryRow align="center" justify="between">
-              <span className="font-medium text-sm">Inspect slot attributes</span>
+              <span className="font-medium text-sm">
+                Inspect slot attributes
+              </span>
               <DirectionReadout />
             </StoryRow>
             <span className="text-muted-foreground text-xs">

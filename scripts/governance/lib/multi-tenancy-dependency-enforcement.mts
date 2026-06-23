@@ -26,16 +26,16 @@ import { GOVERNANCE_DIST_BUILD_SCRIPT } from "../delivery-evidence-surface-regis
 const DEPENDENCY_REGISTRY_PATH = ARCHITECTURE_REGISTRY_DRIFT_SOURCES.dependency;
 
 export interface DependencyEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 export function isDistNewerOrEqual(
   sourcePath: string,
   distPath: string
 ): boolean {
-  if (!existsSync(distPath) || !existsSync(sourcePath)) {
+  if (!(existsSync(distPath) && existsSync(sourcePath))) {
     return false;
   }
 
@@ -60,7 +60,10 @@ export function collectArchitectureAuthorityDistFreshnessViolations(
     return violations;
   }
 
-  if (existsSync(indexSource) && !isDistNewerOrEqual(indexSource, distIndexJs)) {
+  if (
+    existsSync(indexSource) &&
+    !isDistNewerOrEqual(indexSource, distIndexJs)
+  ) {
     violations.push({
       rule: "stale-dist",
       file: distIndexJs,

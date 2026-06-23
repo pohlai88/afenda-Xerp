@@ -112,11 +112,7 @@ export function resolveScopedMembership(
   });
 
   if (!membership) {
-    return createScopeMismatchDenial(
-      activeMemberships,
-      context,
-      createDenial
-    );
+    return createScopeMismatchDenial(activeMemberships, context, createDenial);
   }
 
   if (
@@ -125,11 +121,7 @@ export function resolveScopedMembership(
       organizationId: context.organizationId ?? null,
     })
   ) {
-    return createScopeMismatchDenial(
-      activeMemberships,
-      context,
-      createDenial
-    );
+    return createScopeMismatchDenial(activeMemberships, context, createDenial);
   }
 
   return { outcome: "matched", membership };

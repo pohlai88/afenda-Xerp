@@ -8,7 +8,7 @@ import {
 
 describe("sparkline view model", () => {
   it("formats currency and dates for tooltips", () => {
-    expect(formatSparklineCurrency(248720)).toBe("$248,720");
+    expect(formatSparklineCurrency(248_720)).toBe("$248,720");
     expect(formatSparklineDateLabel("2026-05-29")).toBe("May 29");
   });
 

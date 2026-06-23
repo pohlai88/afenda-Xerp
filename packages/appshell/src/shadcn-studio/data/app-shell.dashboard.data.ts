@@ -16,12 +16,10 @@ import {
 } from "lucide-react";
 
 import {
-  asAppShellDashboardRowId,
-  asAppShellInvoiceId,
   type AppShellDashboardInvoiceRow,
   type AppShellDashboardKpiMetric,
-  type AppShellDashboardOverflowMenuItem,
   type AppShellDashboardModuleEarningRow,
+  type AppShellDashboardOverflowMenuItem,
   type AppShellDashboardPaymentHistoryRow,
   type AppShellDashboardRegionalSalesRow,
   type AppShellDashboardRevenueBarPoint,
@@ -29,27 +27,32 @@ import {
   type AppShellDashboardRevenueYearSummary,
   type AppShellDashboardSparklineMetric,
   type AppShellDashboardTransactionRow,
-  type AppShellTrendDirection,
+  asAppShellDashboardRowId,
+  asAppShellInvoiceId,
 } from "./app-shell.dashboard.types";
 
 export const DEFAULT_APP_SHELL_DASHBOARD_LABEL = "ERP overview dashboard";
 export const DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL = "vs last month";
-export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TITLE = "Module revenue";
+export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TITLE =
+  "Module revenue";
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_SUBTITLE =
   "FY2026 Q2 · consolidated by business unit";
 export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_COMPARISON =
   "Compared to Q1 FY2026";
-export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_TITLE = "Recent transactions";
+export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_TITLE =
+  "Recent transactions";
 export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_SUBTITLE =
   "Jun 2026 · cross-module ledger activity";
 export const DEFAULT_APP_SHELL_DASHBOARD_TRANSACTIONS_COMPARISON =
   "Net flow across AP, AR, payroll, and inventory";
-export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_TITLE = "Revenue by region";
+export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_TITLE =
+  "Revenue by region";
 export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_SUBTITLE =
   "FY2026 Q2 · consolidated";
 export const DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_COMPARISON =
   "Weighted change vs Q1 FY2026";
-export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_TITLE = "Corporate card spend";
+export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_TITLE =
+  "Corporate card spend";
 export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_SUBTITLE =
   "FY2026 Q2 · corporate card programs";
 export const DEFAULT_APP_SHELL_DASHBOARD_PAYMENT_HISTORY_COMPARISON =
@@ -89,7 +92,8 @@ export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_SUBTITLE =
 export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_COMPARISON =
   "Stacked bars compare current fiscal year against prior-year baseline";
 export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_LABEL = "78%";
-export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_CAPTION = "62% company growth";
+export const DEFAULT_APP_SHELL_DASHBOARD_REVENUE_GROWTH_CAPTION =
+  "62% company growth";
 
 const dashboardOverflowItemsSource = [
   {
@@ -401,7 +405,7 @@ const invoiceRowsSource = [
     avatarFallback: "AC",
     client: "Acme Manufacturing",
     field: "Net 30 · PO #8821",
-    total: 12400,
+    total: 12_400,
     issuedDate: new Date("2026-06-01T00:00:00.000Z"),
     balance: 0,
   },
@@ -423,9 +427,9 @@ const invoiceRowsSource = [
     avatarFallback: "GL",
     client: "Globex Logistics",
     field: "Milestone billing",
-    total: 42000,
+    total: 42_000,
     issuedDate: new Date("2026-06-10T00:00:00.000Z"),
-    balance: 42000,
+    balance: 42_000,
   },
   {
     id: asAppShellInvoiceId("5095"),
@@ -434,9 +438,9 @@ const invoiceRowsSource = [
     avatarFallback: "ST",
     client: "Stark Industries",
     field: "Annual support",
-    total: 24500,
+    total: 24_500,
     issuedDate: new Date("2026-06-08T00:00:00.000Z"),
-    balance: 24500,
+    balance: 24_500,
   },
   {
     id: asAppShellInvoiceId("5096"),
@@ -456,9 +460,9 @@ const invoiceRowsSource = [
     avatarFallback: "UM",
     client: "Umbrella Corp",
     field: "Phase 2 rollout",
-    total: 67200,
+    total: 67_200,
     issuedDate: new Date("2026-06-12T00:00:00.000Z"),
-    balance: 67200,
+    balance: 67_200,
   },
 ] as const satisfies readonly AppShellDashboardInvoiceRow[];
 
@@ -492,7 +496,7 @@ export const defaultAppShellDashboardRevenueYearSummaries: readonly AppShellDash
 export const defaultAppShellDashboardInvoices: readonly AppShellDashboardInvoiceRow[] =
   invoiceRowsSource;
 
-export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TOTAL = 188640;
+export const DEFAULT_APP_SHELL_DASHBOARD_MODULE_EARNINGS_TOTAL = 188_640;
 
 /** Shared chart margins for dashboard sparkline stat cards. */
 export const APP_SHELL_DASHBOARD_SPARKLINE_CHART_MARGIN = {

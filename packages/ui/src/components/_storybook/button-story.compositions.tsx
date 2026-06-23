@@ -1,9 +1,4 @@
-import {
-  BellIcon,
-  CheckIcon,
-  CopyIcon,
-  SendIcon,
-} from "lucide-react";
+import { BellIcon, CheckIcon, CopyIcon, SendIcon } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "../badge";
 import { Button } from "../button";

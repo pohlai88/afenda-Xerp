@@ -1,12 +1,11 @@
 import { describe, expect, it } from "vitest";
-
+import { ApiRouteError } from "@/server/api/runtime/api-validation";
 import {
   createApiRouteErrorFromAuthorizationFailure,
   mapAuthorizationDenialToApiErrorCode,
   toApiClientErrorBody,
   toApiRouteErrorFromClientBody,
 } from "../api-error-response";
-import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
 describe("api-error-response", () => {
   it("maps authorization denial codes to governed API error codes", () => {

@@ -1,11 +1,13 @@
 ---
 name: govern-primitive
-description: Audits and upgrades @afenda/ui primitive components (author layer) and consumer packages (appshell, erp wiring) to 9.5 enterprise governance quality. Covers resolvePrimitiveGovernance(), forwardRef, slot factories, GovernedXxxProps, TIP-004 className policy, shadcn-studio block integration, and static checker verification. Use when reviewing packages/ui/src/components OR when composing @afenda/ui in packages/appshell or apps/erp.
+description: Audits and upgrades @afenda/ui primitive components (author layer) and consumer packages (appshell, metadata-ui, erp wiring) to 9.5 enterprise governance quality. Covers resolvePrimitiveGovernance(), forwardRef, slot factories, GovernedXxxProps, TIP-004 className policy, shadcn-studio block integration, and static checker verification. Use when reviewing packages/ui/src/components OR when composing @afenda/ui in packages/appshell, packages/metadata-ui, or apps/erp.
 ---
 
 # govern-primitive
 
 Applies the enterprise governance pattern established for Button / Badge / Card / Alert / Field / Table to any `@afenda/ui` primitive.
+
+**Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
 
 ## Audit checklist (score one point per ✅, target 9.5/10)
 
@@ -459,9 +461,9 @@ See [PATTERNS.md](PATTERNS.md) for reference implementations of every pattern.
 
 ---
 
-## Consumer layer — `@afenda/ui` in appshell / app wiring
+## Consumer layer — `@afenda/ui` in appshell / metadata-ui / erp
 
-**Scope:** `packages/appshell/**`, `apps/erp/**` (composition only — not primitive source).
+**Scope:** `packages/appshell/**`, `packages/metadata-ui/**`, `apps/erp/**` (composition only — not primitive source).
 
 This is the gap that caused shadcn-studio debugging hell: blocks paste `className` onto governed primitives; runtime throws TIP-004 in Vitest.
 
@@ -470,7 +472,7 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 ```
 [ ] 1.  Import @afenda/ui and @afenda/ui/governance directly — no local re-export barrels
 [ ] 2.  No CSS modules for shell chrome when globals.css already @source's the package
-[ ] 3.  Governed primitives use props only — zero className on Button, Dialog*, Sheet*, Dropdown*, Sidebar*, Avatar, Badge, Tabs*, Combobox*, InputGroup*, Kbd, etc.
+[ ] 3.  Governed primitives use props only — zero className on any tag in GOVERNED_UI_TAGS (see scripts/governance/governed-ui-consumption.mjs)
 [ ] 4.  Shell layout / studio chrome on plain HTML wrappers (div, span, header) only
 [ ] 5.  shadcn-studio blocks live under packages/appshell/src/shadcn-studio/blocks/
 [ ] 6.  Stock shadcn variants mapped via mapStockButtonProps from @afenda/ui/governance — no stock-props.ts, no raw variant strings
@@ -491,20 +493,22 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 ### Consumer verification
 
 ```bash
-# All five gates at once (fastest first):
+# All six gates at once (fastest first):
 pnpm ui:guard
 
 # Shorthand variants:
 pnpm ui:guard:scan          # Gate D only — in-process full-tree scan, < 2 s
 pnpm ui:guard:hints         # All gates + remediation hints per violation
-pnpm ui:guard --gate A      # Single gate (A–E: ui author, appshell, erp, scan, css)
+pnpm ui:guard:erp           # Gate F only — React ERP quality + hints
+pnpm ui:guard:strict        # Gate F as hard failure (CI mode)
+pnpm ui:guard --gate A      # Single gate (A–F)
 
 # Individual package checks:
 pnpm --filter @afenda/appshell test:run
 pnpm --filter @afenda/ui check:governance
 ```
 
-What `pnpm ui:guard` runs:
+What `pnpm ui:guard` runs (canonical: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md), policy: [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)):
 
 | Gate | Target | Command |
 |------|--------|---------|
@@ -513,6 +517,7 @@ What `pnpm ui:guard` runs:
 | C | `@afenda/erp` consumer | `pnpm --filter @afenda/erp test:run` (governed-ui subset) |
 | D | Full-tree in-process scan | `governed-ui-consumption.mjs` + anti-slop (< 2 s) |
 | E | CSS token authority | `pnpm quality:css` |
+| F | React ERP quality | `react-erp-policy.mjs` (warning in dev; `--strict` to enforce) |
 
 When **only** changing primitive source (not consumer wiring), Gate A suffices.  
 When installing a shadcn-studio block, run `pnpm ui:guard:scan` first to catch leftover classNames, then the full `pnpm ui:guard`.
@@ -522,5 +527,5 @@ When installing a shadcn-studio block, run `pnpm ui:guard:scan` first to catch l
 | Task | Checklist |
 |------|-----------|
 | Edit `packages/ui/src/components/*.tsx` | Author checklist (16 items) |
-| Edit appshell / erp composition | Consumer checklist (8 items) |
+| Edit appshell / metadata-ui / erp composition | Consumer checklist (8 items) |
 | shadcn-studio block install | Consumer checklist first, then strip classNames |

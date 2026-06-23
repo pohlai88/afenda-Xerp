@@ -64,7 +64,8 @@ export const DashboardTablet: Story = {
     ...metadataTabletViewport,
     docs: {
       description: {
-        story: "Dashboard composition at tablet width — rail and queue stack before activity table.",
+        story:
+          "Dashboard composition at tablet width — rail and queue stack before activity table.",
       },
     },
   },
@@ -77,7 +78,8 @@ export const DashboardMobile: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Dashboard composition at mobile width — dominant metric leads, attention queue follows.",
+        story:
+          "Dashboard composition at mobile width — dominant metric leads, attention queue follows.",
       },
     },
   },
@@ -90,7 +92,8 @@ export const PageMobile: Story = {
     ...metadataMobileViewport,
     docs: {
       description: {
-        story: "Master-detail page stacks detail panel above the fulfillment queue on narrow viewports.",
+        story:
+          "Master-detail page stacks detail panel above the fulfillment queue on narrow viewports.",
       },
     },
   },

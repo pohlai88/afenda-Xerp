@@ -1,7 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
-
-import { resolveGrantScope } from "@/lib/context/resolve-grant-scope.server";
 import type { MembershipContract } from "@afenda/permissions";
+import { describe, expect, it, vi } from "vitest";
+import { resolveGrantScope } from "@/lib/context/resolve-grant-scope.server";
 
 const TENANT_ID = "tenant-001";
 const COMPANY_ID = "company-001";

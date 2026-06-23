@@ -60,14 +60,17 @@ export const METADATA_UI_PROHIBITS = [
 ] as const;
 
 export interface MetadataUiContract {
-  readonly packageName: typeof METADATA_UI_PACKAGE_NAME;
   readonly authority: typeof METADATA_UI_AUTHORITY;
-  readonly version: typeof METADATA_UI_CONTRACT_VERSION;
 
   /**
    * Upstream governance packages consumed by metadata-ui.
    */
   readonly consumes: typeof METADATA_UI_CONSUMES;
+
+  /**
+   * Responsibilities explicitly not owned by @afenda/metadata-ui.
+   */
+  readonly doesNotOwn: typeof METADATA_UI_DOES_NOT_OWN;
 
   /**
    * Version of the upstream metadata authority contract this package expects.
@@ -78,16 +81,13 @@ export interface MetadataUiContract {
    * Responsibilities owned by @afenda/metadata-ui.
    */
   readonly owns: typeof METADATA_UI_OWNS;
-
-  /**
-   * Responsibilities explicitly not owned by @afenda/metadata-ui.
-   */
-  readonly doesNotOwn: typeof METADATA_UI_DOES_NOT_OWN;
+  readonly packageName: typeof METADATA_UI_PACKAGE_NAME;
 
   /**
    * Hard boundary prohibitions.
    */
   readonly prohibits: typeof METADATA_UI_PROHIBITS;
+  readonly version: typeof METADATA_UI_CONTRACT_VERSION;
 }
 
 export const metadataUiContract = {

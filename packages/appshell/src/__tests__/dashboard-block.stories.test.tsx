@@ -1,7 +1,5 @@
-import { composePortableStories, composePortableStory } from "./setup/portable-stories";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
 import * as invoiceTableStories from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table.stories";
 import * as kpiStatStories from "../shadcn-studio/blocks/app-shell-dashboard-kpi-stat.stories";
 import * as moduleEarningsStories from "../shadcn-studio/blocks/app-shell-dashboard-module-earnings.stories";
@@ -12,17 +10,35 @@ import * as revenueChartStories from "../shadcn-studio/blocks/app-shell-dashboar
 import * as sparklineStatStories from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat.stories";
 import * as statisticsLineTrendsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends.stories";
 import * as statisticsMetricsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-metrics.stories";
+import {
+  composePortableStories,
+  composePortableStory,
+} from "./setup/portable-stories";
 
 const { Default: KpiStatDefault } = composePortableStories(kpiStatStories);
-const { Default: SparklineStatDefault } = composePortableStories(sparklineStatStories);
-const { Default: InvoiceTableDefault } = composePortableStories(invoiceTableStories);
-const { Default: ModuleEarningsDefault } = composePortableStories(moduleEarningsStories);
-const { Default: PaymentHistoryDefault } = composePortableStories(paymentHistoryStories);
-const { Default: RecentTransactionsDefault } = composePortableStories(recentTransactionsStories);
-const { Default: RegionalSalesDefault } = composePortableStories(regionalSalesStories);
-const { Default: RevenueChartDefault } = composePortableStories(revenueChartStories);
-const { Default: StatisticsMetricsDefault } = composePortableStories(statisticsMetricsStories);
-const { Default: StatisticsLineTrendsDefault } = composePortableStories(statisticsLineTrendsStories);
+const { Default: SparklineStatDefault } =
+  composePortableStories(sparklineStatStories);
+const { Default: InvoiceTableDefault } =
+  composePortableStories(invoiceTableStories);
+const { Default: ModuleEarningsDefault } = composePortableStories(
+  moduleEarningsStories
+);
+const { Default: PaymentHistoryDefault } = composePortableStories(
+  paymentHistoryStories
+);
+const { Default: RecentTransactionsDefault } = composePortableStories(
+  recentTransactionsStories
+);
+const { Default: RegionalSalesDefault } =
+  composePortableStories(regionalSalesStories);
+const { Default: RevenueChartDefault } =
+  composePortableStories(revenueChartStories);
+const { Default: StatisticsMetricsDefault } = composePortableStories(
+  statisticsMetricsStories
+);
+const { Default: StatisticsLineTrendsDefault } = composePortableStories(
+  statisticsLineTrendsStories
+);
 
 describe("Dashboard block stories (portable CSF)", () => {
   it("KpiStat Default renders without TIP-004 throw", () => {
@@ -39,14 +55,18 @@ describe("Dashboard block stories (portable CSF)", () => {
     const OpenTasks = composePortableStory(kpiStatStories, "OpenTasks");
     render(<OpenTasks />);
     expect(screen.getByText("Open tasks")).toBeInTheDocument();
-    expect(screen.getByText("-4.5%")).toHaveClass("app-shell-dashboard-kpi-change");
+    expect(screen.getByText("-4.5%")).toHaveClass(
+      "app-shell-dashboard-kpi-change"
+    );
   });
 
   it("KpiStat NetIncome renders primary accent emphasis", () => {
     const NetIncome = composePortableStory(kpiStatStories, "NetIncome");
     const { container } = render(<NetIncome />);
     expect(
-      container.querySelector('.app-shell-dashboard-kpi-widget[data-emphasis="primary"]')
+      container.querySelector(
+        '.app-shell-dashboard-kpi-widget[data-emphasis="primary"]'
+      )
     ).not.toBeNull();
   });
 
@@ -67,7 +87,10 @@ describe("Dashboard block stories (portable CSF)", () => {
   });
 
   it("ModuleEarnings DecliningModule renders plain secondary change text", () => {
-    const DecliningModule = composePortableStory(moduleEarningsStories, "DecliningModule");
+    const DecliningModule = composePortableStory(
+      moduleEarningsStories,
+      "DecliningModule"
+    );
     const { container } = render(<DecliningModule />);
     expect(screen.getByText("Inventory")).toBeInTheDocument();
     const rowChangeValues = container.querySelectorAll(
@@ -121,7 +144,9 @@ describe("Dashboard block stories (portable CSF)", () => {
     render(<PastDue />);
     expect(screen.getByText("Northwind Traders")).toBeInTheDocument();
     expect(
-      document.querySelector('.app-shell-dashboard-invoice-status-dot[data-status="past_due"]')
+      document.querySelector(
+        '.app-shell-dashboard-invoice-status-dot[data-status="past_due"]'
+      )
     ).not.toBeNull();
     expect(
       document.querySelector(".app-shell-dashboard-invoice-amount-danger")

@@ -126,7 +126,13 @@ describe("ButtonGroup governance", () => {
   it("emits governed loading state on root", () => {
     render(
       <ButtonGroup data-testid="button-group" state="loading">
-        <Button disabled emphasis="solid" intent="primary" size="sm" state="loading">
+        <Button
+          disabled
+          emphasis="solid"
+          intent="primary"
+          size="sm"
+          state="loading"
+        >
           Saving
         </Button>
       </ButtonGroup>

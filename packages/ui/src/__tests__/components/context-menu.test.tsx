@@ -15,10 +15,7 @@ describe("ContextMenu governance", () => {
   it("applies governed presentation on trigger and rejects consumer overrides", () => {
     render(
       <ContextMenu>
-        <ContextMenuTrigger
-          data-component="Override"
-          data-slot="override"
-        >
+        <ContextMenuTrigger data-component="Override" data-slot="override">
           Row actions
         </ContextMenuTrigger>
         <ContextMenuContent>

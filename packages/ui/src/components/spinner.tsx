@@ -1,7 +1,7 @@
 import type { GovernedSpinnerProps } from "@afenda/ui/governance";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
-import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import type { SlotRole } from "@afenda/ui/governance/primitive-contract";
+import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 
@@ -12,7 +12,7 @@ const SPINNER_SLOT_ROLES = {
 } as const satisfies Record<string, SlotRole>;
 
 export interface SpinnerProps
-  extends Omit<React.ComponentProps<typeof Loader2Icon>, "className">,
+  extends Omit<React.ComponentProps<typeof Loader2Icon>, "className" | "size">,
     GovernedSpinnerProps {
   readonly className?: string;
 }
@@ -33,9 +33,9 @@ const Spinner = React.forwardRef<SVGSVGElement, SpinnerProps>(
     const governed = resolvePrimitiveGovernance({
       componentName: "Spinner",
       recipeName: SPINNER_RECIPE_NAME,
-      variant: { size },
       state,
       slot: SPINNER_SLOT_ROLES.root,
+      variant: { size },
       className,
     });
 

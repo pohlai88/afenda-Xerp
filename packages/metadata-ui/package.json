@@ -35,7 +35,9 @@
       "default": "./dist/fixtures/metadata-ui-fixtures.css"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -b && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/fixtures', { recursive: true }); copyFileSync('src/afenda-metadata-ui.css', 'dist/afenda-metadata-ui.css'); copyFileSync('src/fixtures/metadata-ui-fixtures.css', 'dist/fixtures/metadata-ui-fixtures.css');\"",
     "dev": "tsc -b --watch",

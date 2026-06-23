@@ -14,9 +14,9 @@ import {
 } from "../multi-tenancy-documentation-verification-registry.mts";
 
 export interface DocumentationVerificationEnforcementViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function extractSection(content: string, heading: string): string | null {

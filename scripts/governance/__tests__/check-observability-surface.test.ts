@@ -15,7 +15,9 @@ describe("check-observability-surface script", () => {
     const formatted = formatObservabilitySurfaceViolations(violations);
 
     if (violations.length > 0) {
-      expect(formatted).toMatch(/\[(required-module-missing|forbidden-deep-import|erp-audit-bootstrap|audit-policy-wiring|registry-export-drift)\]/);
+      expect(formatted).toMatch(
+        /\[(required-module-missing|forbidden-deep-import|erp-audit-bootstrap|audit-policy-wiring|registry-export-drift)\]/
+      );
     }
   });
 });

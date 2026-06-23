@@ -14,7 +14,9 @@ describe("appshell-context-surface-registry", () => {
   });
 
   it("lists context consumption modules", () => {
-    expect(APPSHELL_CONTEXT_CONSUMPTION_MODULES.length).toBeGreaterThanOrEqual(4);
+    expect(APPSHELL_CONTEXT_CONSUMPTION_MODULES.length).toBeGreaterThanOrEqual(
+      4
+    );
     expect(
       APPSHELL_CONTEXT_CONSUMPTION_MODULES.some(
         (module) => module.path === "app-shell.types.ts"
@@ -23,7 +25,9 @@ describe("appshell-context-surface-registry", () => {
   });
 
   it("forbids authority packages", () => {
-    expect(APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES).toContain("@afenda/database");
+    expect(APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES).toContain(
+      "@afenda/database"
+    );
     expect(APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES).toContain(
       "@afenda/permissions"
     );

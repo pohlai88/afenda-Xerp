@@ -18,7 +18,7 @@ export function LabeledProgress({
     <StoryStack gap="xs">
       <StoryRow justify="between">
         <span className="font-medium text-sm">{label}</span>
-        <span className="tabular-nums text-muted-foreground text-xs">
+        <span className="text-muted-foreground text-xs tabular-nums">
           {detail ?? `${value}%`}
         </span>
       </StoryRow>
@@ -71,7 +71,7 @@ export function FileUploadDemo() {
         <StoryRow align="center" justify="between">
           <StoryStack gap="xs">
             <span className="font-medium text-sm">payroll_june_2026.xlsx</span>
-            <span className="tabular-nums text-muted-foreground text-xs">
+            <span className="text-muted-foreground text-xs tabular-nums">
               {progress < 100 ? `Uploading… ${progress}%` : "Upload complete"}
             </span>
           </StoryStack>

@@ -43,10 +43,12 @@ export function assertAllowlistedOrigin(origin: string): void {
   }
 
   if (
-    !normalized.startsWith("https://") &&
-    !normalized.startsWith("wss://") &&
-    !normalized.startsWith("http://127.0.0.1:") &&
-    !normalized.startsWith("http://localhost:")
+    !(
+      normalized.startsWith("https://") ||
+      normalized.startsWith("wss://") ||
+      normalized.startsWith("http://127.0.0.1:") ||
+      normalized.startsWith("http://localhost:")
+    )
   ) {
     throw new Error(
       `CSP allowlist origin "${normalized}" must start with https://, wss://, or a localhost dev origin.`

@@ -15,9 +15,9 @@ describe("permissions-scope-grants-registry", () => {
       "grants",
     ]);
     expect(PERMISSIONS_SCOPE_GRANTS_MODULES).toHaveLength(2);
-    expect(PERMISSIONS_SCOPE_GRANTS_MODULES.map((module) => module.directory)).toEqual(
-      ["scope", "grants"]
-    );
+    expect(
+      PERMISSIONS_SCOPE_GRANTS_MODULES.map((module) => module.directory)
+    ).toEqual(["scope", "grants"]);
   });
 
   it("documents implemented and planned membership scopes", () => {
@@ -26,9 +26,9 @@ describe("permissions-scope-grants-registry", () => {
       "company",
       "organization",
     ]);
-    expect(PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES.map((entry) => entry.scopeType)).toEqual(
-      ["entity_group", "project"]
-    );
+    expect(
+      PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES.map((entry) => entry.scopeType)
+    ).toEqual(["entity_group", "project"]);
   });
 
   it("enforces one-way barrel dependency", () => {

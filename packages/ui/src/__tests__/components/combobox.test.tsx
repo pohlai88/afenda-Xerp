@@ -58,7 +58,11 @@ describe("Combobox governance", () => {
 
   it("renders list items with governed combobox-item slot", () => {
     render(
-      <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={TEST_ITEMS}>
+      <Combobox
+        defaultOpen
+        isItemEqualToValue={labeledEquality}
+        items={TEST_ITEMS}
+      >
         <ComboboxContent>
           <ComboboxList>
             {(item: TestOption) => (
@@ -71,17 +75,24 @@ describe("Combobox governance", () => {
       </Combobox>
     );
 
-    expectGovernedPrimitive(screen.getByRole("option", { name: "Alpha vendor" }), {
-      component: "Combobox",
-      slot: "combobox-item",
-      recipe: "surface",
-      state: "ready",
-    });
+    expectGovernedPrimitive(
+      screen.getByRole("option", { name: "Alpha vendor" }),
+      {
+        component: "Combobox",
+        slot: "combobox-item",
+        recipe: "surface",
+        state: "ready",
+      }
+    );
   });
 
   it("does not allow consumer data attributes to override governed item attributes", () => {
     render(
-      <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={TEST_ITEMS}>
+      <Combobox
+        defaultOpen
+        isItemEqualToValue={labeledEquality}
+        items={TEST_ITEMS}
+      >
         <ComboboxContent>
           <ComboboxList>
             {(item: TestOption) => (
@@ -113,7 +124,11 @@ describe("Combobox governance", () => {
 
   it("emits governed loading state on combobox content popup", () => {
     render(
-      <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={TEST_ITEMS}>
+      <Combobox
+        defaultOpen
+        isItemEqualToValue={labeledEquality}
+        items={TEST_ITEMS}
+      >
         <ComboboxContent data-testid="combobox-popup" state="loading">
           <ComboboxList>
             {(item: TestOption) => (
@@ -136,10 +151,7 @@ describe("Combobox governance", () => {
     render(
       <Combobox defaultOpen isItemEqualToValue={labeledEquality} items={[]}>
         <ComboboxContent>
-          <ComboboxEmpty
-            data-component="Override"
-            data-slot="override"
-          >
+          <ComboboxEmpty data-component="Override" data-slot="override">
             No results
           </ComboboxEmpty>
         </ComboboxContent>

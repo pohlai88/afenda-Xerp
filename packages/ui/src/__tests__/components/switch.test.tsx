@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
 import { setupUser } from "@afenda/testing/react";
+import { render, screen } from "@testing-library/react";
 import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
@@ -51,7 +51,9 @@ describe("Switch governance", () => {
 
     render(<Switch aria-label="Notifications" ref={ref} />);
 
-    expect(ref.current).toBe(screen.getByRole("switch", { name: "Notifications" }));
+    expect(ref.current).toBe(
+      screen.getByRole("switch", { name: "Notifications" })
+    );
     expect(ref.current).toHaveAttribute("data-slot", "switch");
   });
 
@@ -73,10 +75,9 @@ describe("Switch governance", () => {
   it("maps size sm to data-size=sm on root", () => {
     render(<Switch aria-label="Compact tables" size="sm" />);
 
-    expect(screen.getByRole("switch", { name: "Compact tables" })).toHaveAttribute(
-      "data-size",
-      "sm"
-    );
+    expect(
+      screen.getByRole("switch", { name: "Compact tables" })
+    ).toHaveAttribute("data-size", "sm");
   });
 
   it("maps size md to data-size=default on root", () => {
@@ -89,11 +90,7 @@ describe("Switch governance", () => {
 
   it("reflects governed loading state on root", () => {
     render(
-      <Switch
-        aria-label="Syncing"
-        data-testid="switch-root"
-        state="loading"
-      />
+      <Switch aria-label="Syncing" data-testid="switch-root" state="loading" />
     );
 
     expect(screen.getByTestId("switch-root")).toHaveAttribute(

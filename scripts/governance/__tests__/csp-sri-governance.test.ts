@@ -10,19 +10,16 @@ import {
 } from "../csp-sri-governance.mjs";
 
 const repoRoot = join(import.meta.dirname, "../../..");
-const signInHtmlPath = join(
-  repoRoot,
-  "apps/erp/.next/server/app/sign-in.html"
-);
+const signInHtmlPath = join(repoRoot, "apps/erp/.next/server/app/sign-in.html");
 
 describe("csp-sri-governance", () => {
   it("detects auth route trees as SRI surfaces", () => {
     expect(
       isCspSriSurfacePath("apps/erp/src/app/(auth)/sign-in/page.tsx")
     ).toBe(true);
-    expect(
-      isCspSriSurfacePath("apps/erp/src/app/(protected)/page.tsx")
-    ).toBe(false);
+    expect(isCspSriSurfacePath("apps/erp/src/app/(protected)/page.tsx")).toBe(
+      false
+    );
   });
 
   it("forbids next/script on SRI surfaces", () => {
@@ -53,7 +50,10 @@ describe("csp-sri-governance", () => {
     `;
 
     expect(
-      checkCspSriSurfaceGovernance(source, "apps/erp/src/app/(protected)/page.tsx")
+      checkCspSriSurfaceGovernance(
+        source,
+        "apps/erp/src/app/(protected)/page.tsx"
+      )
     ).toEqual([]);
   });
 
@@ -71,9 +71,9 @@ describe("csp-sri-governance", () => {
     expect(stats.integrityCount).toBeGreaterThan(0);
     expect(stats.staticScriptCount).toBe(4);
     expect(stats.staticScriptWithIntegrityCount).toBe(1);
-    expect(checkCspSriBuildHtml(html, { minStaticScriptCoverage: 0.25 })).toEqual(
-      []
-    );
+    expect(
+      checkCspSriBuildHtml(html, { minStaticScriptCoverage: 0.25 })
+    ).toEqual([]);
     expect(
       checkCspSriBuildHtml(html, { minStaticScriptCoverage: 0.5 }).length
     ).toBeGreaterThan(0);

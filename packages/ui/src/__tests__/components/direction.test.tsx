@@ -1,10 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import {
-  DirectionProvider,
-  useDirection,
-} from "../../components/direction";
+import { DirectionProvider, useDirection } from "../../components/direction";
 import {
   expectGovernedDataAuthority,
   expectGovernedPrimitive,
@@ -52,9 +49,10 @@ describe("Direction governance", () => {
       </DirectionProvider>
     );
 
-    expect(
-      container.querySelector('[data-slot="direction"]')
-    ).toHaveAttribute("data-state", "loading");
+    expect(container.querySelector('[data-slot="direction"]')).toHaveAttribute(
+      "data-state",
+      "loading"
+    );
   });
 
   it("prefers direction over dir when both are supplied", () => {

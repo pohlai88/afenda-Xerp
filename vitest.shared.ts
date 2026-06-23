@@ -19,6 +19,10 @@ const NEXT_LINK_MOCK = resolve(
   MONOREPO_ROOT,
   "packages/testing/src/mocks/next-link.tsx"
 );
+const NEXT_IMAGE_MOCK = resolve(
+  MONOREPO_ROOT,
+  "packages/testing/src/mocks/next-image.tsx"
+);
 
 const WORKSPACE_DEPS = {
   inline: [/@afenda\//] as const,
@@ -129,6 +133,7 @@ export function createUiProject(importMetaUrl: string, name: string) {
         { find: "@", replacement: srcRoot },
         { find: "#", replacement: srcRoot },
         { find: "next/link", replacement: NEXT_LINK_MOCK },
+        { find: "next/image", replacement: NEXT_IMAGE_MOCK },
       ],
     },
     server: {
@@ -159,6 +164,7 @@ export function createReactProject(
     resolve: {
       alias: {
         "next/link": NEXT_LINK_MOCK,
+        "next/image": NEXT_IMAGE_MOCK,
         ...options.alias,
       },
     },

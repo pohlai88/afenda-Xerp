@@ -144,20 +144,34 @@ Most formatting and common issues are automatically fixed by Biome. Run `pnpm fo
 
 ---
 
+## Coding session contract
+
+Every coding turn in this repo follows `.cursor/rules/afenda-coding-session.mdc`:
+
+1. **Announce** — "I'm using afenda-coding-session — stating the execution contract before edits."
+2. **Phase 0** — state objective, allowed layer, files, prohibited paths, authority, gates **before** any edit.
+3. **Phase 2** — end with the Completion Report from `.cursor/skills/afenda-coding-session/SKILL.md` §11.
+
+Invoke `/afenda-coding-session` for the full implementation standard (TypeScript, React, Drizzle, tests, gates).
+
+---
+
 ## Governed UI (TIP-004)
+
+Canonical policy: [`docs/governance/tip-004-policy.md`](docs/governance/tip-004-policy.md). Gates: [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md).
 
 Two layers — do not confuse them:
 
 | Layer | Path | className rule |
 |-------|------|----------------|
-| **Author** | `packages/ui/src/components/` | Only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
-| **Consumer** | `packages/appshell/`, `apps/erp/` | No `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
+| **Author** | `packages/ui/src/components/` | Layout-only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
+| **Consumer** | `packages/appshell/`, `packages/metadata-ui/`, `apps/erp/` | **Zero** `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
 
 **Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly (`mapStockButtonProps` at call sites). No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
 
-**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (all five gates) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
+**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (gates A–F) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
 
-**Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, Cursor preToolUse hook, stop hook appshell test gate.
+**Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, `scripts/governance/react-erp-policy.mjs` (Gate F), Cursor preToolUse hook, stop hook appshell test gate.
 
 ---
 

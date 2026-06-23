@@ -1,27 +1,27 @@
 import {
+  type AfendaDatabase,
   getDb,
   withRlsSessionContext,
-  type AfendaDatabase,
 } from "@afenda/database";
 import {
   err,
-  ok,
   type OperatingContextError,
+  ok,
   type PermissionScopeContext,
   type Result,
 } from "@afenda/kernel";
 import {
+  type AuthorizationDenialCode,
+  type AuthorizationResult,
   createProductionAuthorizationDataSources,
   isDeniedScopedMembershipResolution,
   isMatchedScopedMembershipResolution,
   isRoleActive,
+  type MembershipContract,
   PERMISSION_REGISTRY,
+  type RoleScope,
   resolvePermissionScopeContext,
   resolveScopedMembership,
-  type AuthorizationDenialCode,
-  type AuthorizationResult,
-  type MembershipContract,
-  type RoleScope,
 } from "@afenda/permissions";
 
 export interface ResolvedGrantScope {
@@ -136,9 +136,7 @@ export async function resolveGrantScope(
 
   const db = input.db;
   const { permission } = createProductionAuthorizationDataSources(db);
-  const role = await permission.getRole(
-    membershipResolution.membership.roleId
-  );
+  const role = await permission.getRole(membershipResolution.membership.roleId);
 
   if (!(role && isRoleActive(role))) {
     return err(membershipDeniedError());

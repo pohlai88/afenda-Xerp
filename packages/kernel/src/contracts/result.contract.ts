@@ -11,8 +11,8 @@ export interface ResultSuccess<TValue> {
 }
 
 export interface ResultFailure<E = Error> {
-  readonly ok: false;
   readonly error: E;
+  readonly ok: false;
 }
 
 export type Result<TValue, E = Error> =

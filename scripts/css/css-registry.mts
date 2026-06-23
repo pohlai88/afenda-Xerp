@@ -16,37 +16,36 @@
 // generatedOnly: if true, no hand-authored CSS is permitted
 
 export interface CssBudget {
-  readonly maxFiles: number;
   readonly generatedOnly: boolean;
+  readonly maxFiles: number;
 }
 
 export const CSS_BUDGETS: Record<string, CssBudget> = {
   "@afenda/design-system": { maxFiles: 2, generatedOnly: true },
-  "@afenda/ui":            { maxFiles: 1, generatedOnly: false },
-  "@afenda/metadata-ui":   { maxFiles: 2, generatedOnly: false },
-  "@afenda/appshell":      { maxFiles: 1, generatedOnly: false },
-  "@afenda/metadata":      { maxFiles: 0, generatedOnly: true },
+  "@afenda/ui": { maxFiles: 1, generatedOnly: false },
+  "@afenda/metadata-ui": { maxFiles: 2, generatedOnly: false },
+  "@afenda/appshell": { maxFiles: 1, generatedOnly: false },
+  "@afenda/metadata": { maxFiles: 0, generatedOnly: true },
 };
 
 // ── Complete file inventory ──────────────────────────────────────────────────
 // Every CSS source file that is allowed to exist, its owning package, and role.
 
 export interface CssFileEntry {
+  /** Package.json export path this file backs (if exported) */
+  readonly exportPath?: string;
+  /** If true, this file is produced by a build script — never edit manually */
+  readonly generated: boolean;
   /** Package that owns this file */
   readonly package: string;
   /** Path relative to package root */
   readonly path: string;
   /** Why this file exists */
   readonly role:
-    | "generated-tokens"     // output of generate-tokens-css.ts (raw --afenda-* tokens)
-    | "generated-theme"      // output of generate-tokens-css.ts (Tailwind @theme bridge)
-    | "authored-structural"  // hand-authored structural CSS
-    | "authored-fixture"     // storybook/demo only
-    ;
-  /** If true, this file is produced by a build script — never edit manually */
-  readonly generated: boolean;
-  /** Package.json export path this file backs (if exported) */
-  readonly exportPath?: string;
+    | "generated-tokens" // output of generate-tokens-css.ts (raw --afenda-* tokens)
+    | "generated-theme" // output of generate-tokens-css.ts (Tailwind @theme bridge)
+    | "authored-structural" // hand-authored structural CSS
+    | "authored-fixture"; // storybook/demo only
 }
 
 export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [

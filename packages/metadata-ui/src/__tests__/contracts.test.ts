@@ -1,22 +1,21 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-
+import { METADATA_LAYOUT_REGIONS } from "../contracts/layout.contract.js";
+import { METADATA_LAYOUT_REGIONS as legacyLayoutRegions } from "../contracts/layout-renderer.contract.js";
 import {
   METADATA_SECTION_CHROME_MODES,
   METADATA_SECTION_VISIBILITY_STATES,
 } from "../contracts/section.contract.js";
-import { METADATA_LAYOUT_REGIONS } from "../contracts/layout.contract.js";
+import {
+  METADATA_SECTION_CHROME_MODES as legacySectionChromeModes,
+  METADATA_SECTION_VISIBILITY_STATES as legacySectionVisibilityStates,
+} from "../contracts/section-renderer.contract.js";
 import {
   METADATA_SURFACE_CHROME_MODES,
   METADATA_SURFACE_VISIBILITY_STATES,
   METADATA_SURFACE_WIDTH_MODES,
 } from "../contracts/surface.contract.js";
-import {
-  METADATA_SECTION_CHROME_MODES as legacySectionChromeModes,
-  METADATA_SECTION_VISIBILITY_STATES as legacySectionVisibilityStates,
-} from "../contracts/section-renderer.contract.js";
-import { METADATA_LAYOUT_REGIONS as legacyLayoutRegions } from "../contracts/layout-renderer.contract.js";
 import {
   METADATA_SURFACE_CHROME_MODES as legacySurfaceChromeModes,
   METADATA_SURFACE_VISIBILITY_STATES as legacySurfaceVisibilityStates,
@@ -102,10 +101,14 @@ describe("metadata-ui contracts", () => {
   });
 
   it("preserves deprecated renderer contract shims as re-export aliases", () => {
-    expect(legacySectionVisibilityStates).toBe(METADATA_SECTION_VISIBILITY_STATES);
+    expect(legacySectionVisibilityStates).toBe(
+      METADATA_SECTION_VISIBILITY_STATES
+    );
     expect(legacySectionChromeModes).toBe(METADATA_SECTION_CHROME_MODES);
     expect(legacyLayoutRegions).toBe(METADATA_LAYOUT_REGIONS);
-    expect(legacySurfaceVisibilityStates).toBe(METADATA_SURFACE_VISIBILITY_STATES);
+    expect(legacySurfaceVisibilityStates).toBe(
+      METADATA_SURFACE_VISIBILITY_STATES
+    );
     expect(legacySurfaceChromeModes).toBe(METADATA_SURFACE_CHROME_MODES);
     expect(legacySurfaceWidthModes).toBe(METADATA_SURFACE_WIDTH_MODES);
   });

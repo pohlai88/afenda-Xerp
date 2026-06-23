@@ -25,7 +25,11 @@ export type AppError =
     }
   | { readonly code: "UNAUTHORIZED"; readonly userMessage: string }
   | { readonly code: "FORBIDDEN"; readonly userMessage: string }
-  | { readonly code: "NOT_FOUND"; readonly userMessage: string; readonly resource?: string }
+  | {
+      readonly code: "NOT_FOUND";
+      readonly userMessage: string;
+      readonly resource?: string;
+    }
   | {
       readonly code: "CONFLICT";
       readonly userMessage: string;
@@ -38,17 +42,13 @@ export type AppError =
     };
 
 export const AppErrors = {
-  validation: (
-    fields?: readonly ValidationFieldError[]
-  ): AppError => ({
+  validation: (fields?: readonly ValidationFieldError[]): AppError => ({
     code: "VALIDATION_ERROR",
     userMessage: "Please check the highlighted fields.",
     ...(fields === undefined ? {} : { fields }),
   }),
 
-  unauthorized: (
-    userMessage = "Sign in to continue."
-  ): AppError => ({
+  unauthorized: (userMessage = "Sign in to continue."): AppError => ({
     code: "UNAUTHORIZED",
     userMessage,
   }),

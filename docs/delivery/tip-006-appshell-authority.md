@@ -1,6 +1,6 @@
 # TIP-006 — AppShell Authority
 
-Status: **Pending**
+Status: **In progress** (authority contracts pending; `packages/appshell` implementation underway)
 
 ## Purpose
 

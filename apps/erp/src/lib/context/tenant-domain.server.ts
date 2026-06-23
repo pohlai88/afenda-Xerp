@@ -1,4 +1,7 @@
-import type { OperatingContextError, OperatingContextSelection } from "@afenda/kernel";
+import type {
+  OperatingContextError,
+  OperatingContextSelection,
+} from "@afenda/kernel";
 import { headers } from "next/headers";
 
 import {

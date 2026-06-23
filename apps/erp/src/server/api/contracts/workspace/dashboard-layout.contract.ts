@@ -1,15 +1,14 @@
-import { z } from "zod";
-
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
+import { z } from "zod";
 
 import type { ApiRouteContract } from "../api-contract";
 import {
-  dashboardLayoutDeleteResponseSchema,
-  dashboardLayoutPutRequestSchema,
-  dashboardLayoutResponseSchema,
   type DashboardLayoutDeleteResponseDto,
   type DashboardLayoutPutRequestDto,
   type DashboardLayoutResponseDto,
+  dashboardLayoutDeleteResponseSchema,
+  dashboardLayoutPutRequestSchema,
+  dashboardLayoutResponseSchema,
 } from "./dashboard-layout.api-contract";
 
 const emptyRequestSchema = z.undefined();

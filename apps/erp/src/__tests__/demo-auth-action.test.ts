@@ -81,7 +81,9 @@ describe("recordProtectedDemoAction — server action security", () => {
       operatingContext: sampleOperatingContext,
     });
 
-    await expect(recordProtectedDemoAction({ message: "   " })).resolves.toEqual({
+    await expect(
+      recordProtectedDemoAction({ message: "   " })
+    ).resolves.toEqual({
       ok: false,
       code: "VALIDATION_ERROR",
       userMessage: "Please check the highlighted fields.",

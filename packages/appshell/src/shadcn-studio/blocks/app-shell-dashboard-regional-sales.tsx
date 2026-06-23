@@ -3,6 +3,8 @@ import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { Globe2Icon } from "lucide-react";
 import { useId, useMemo } from "react";
 
+import { AppShellOptimizedImage } from "../../components/appshell-optimized-image.client";
+
 import {
   DEFAULT_APP_SHELL_DASHBOARD_OVERFLOW_ITEMS,
   DEFAULT_APP_SHELL_DASHBOARD_REGIONAL_SALES_COMPARISON,
@@ -131,10 +133,9 @@ function RegionalSalesRow({
           {rank}
         </span>
         <div className="app-shell-dashboard-breakdown-icon-frame">
-          <img
+          <AppShellOptimizedImage
             alt={row.flagAlt}
             height={40}
-            loading="lazy"
             src={row.flagSrc}
             width={40}
           />

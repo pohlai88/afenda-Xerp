@@ -7,8 +7,8 @@ import {
   samplePageSurfaceProps,
   samplePageSurfaceRenderProps,
 } from "../fixtures/sample-page-surface.fixture.js";
-import { MetadataModuleSurface } from "../surfaces/index.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
+import { MetadataModuleSurface } from "../surfaces/index.js";
 
 describe("surface rendering", () => {
   it("renders master-detail page surface fixture regions and actions", () => {
@@ -21,19 +21,33 @@ describe("surface rendering", () => {
       screen.getByRole("heading", { name: "Order fulfillment queue" })
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Sales" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Refresh queue" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Create order" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Fulfillment guide" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Fulfillment queue" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Audit evidence" })).toBeInTheDocument();
-    expect(screen.getAllByText("Sample Trading Co.").length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByRole("button", { name: "Refresh queue" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Create order" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Fulfillment guide" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Fulfillment queue" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Audit evidence" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Sample Trading Co.").length
+    ).toBeGreaterThanOrEqual(1);
     expect(
       screen.getByRole("table", {
         name: /orders awaiting fulfillment action in the selected warehouse/i,
       })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("table", { name: /immutable events for the selected order/i })
+      screen.getByRole("table", {
+        name: /immutable events for the selected order/i,
+      })
     ).toBeInTheDocument();
     expect(
       document.querySelector('[data-fixture-composition="master-detail"]')
@@ -60,7 +74,9 @@ describe("surface rendering", () => {
       document.querySelector('[data-fixture-region="content"]')
     ).not.toBeNull();
     expect(
-      document.querySelector('[data-surface-renderer-key="metadata.surface.page"]')
+      document.querySelector(
+        '[data-surface-renderer-key="metadata.surface.page"]'
+      )
     ).not.toBeNull();
   });
 
@@ -102,7 +118,9 @@ describe("surface rendering", () => {
 
     expect(screen.getByText("Module body")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Refresh" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Inventory" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Inventory" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Inventory" })).toBeInTheDocument();
     expect(
       document.querySelector('[data-metadata-surface="module"]')

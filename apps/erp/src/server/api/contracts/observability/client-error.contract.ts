@@ -1,9 +1,9 @@
 import type { ApiRouteContract } from "../api-contract";
 import {
-  clientErrorPostRequestSchema,
-  clientErrorPostResponseSchema,
   type ClientErrorPostRequestDto,
   type ClientErrorPostResponseDto,
+  clientErrorPostRequestSchema,
+  clientErrorPostResponseSchema,
 } from "./client-error.api-contract";
 
 export const clientErrorPostContract = {

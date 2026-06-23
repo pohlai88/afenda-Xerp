@@ -18,7 +18,7 @@ import type {
   GovernedUiComponentName,
 } from "./types";
 
-/** Field layout orientation — structural, not a design-system variant axis. */
+export type { SlotRole } from "./design-system";
 export type FieldOrientation = "vertical" | "horizontal" | "responsive";
 
 /** Button presentation mode passed to the button recipe runtime. */

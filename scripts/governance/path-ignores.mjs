@@ -5,7 +5,8 @@
  * @afenda/ui public API. Governed copies live in `packages/appshell/src/shadcn-studio`.
  */
 
-export const UI_SHADCN_STUDIO_INSTALL_REL = "packages/ui/src/components/shadcn-studio";
+export const UI_SHADCN_STUDIO_INSTALL_REL =
+  "packages/ui/src/components/shadcn-studio";
 
 function normalizePath(path) {
   return path.replace(/\\/g, "/");

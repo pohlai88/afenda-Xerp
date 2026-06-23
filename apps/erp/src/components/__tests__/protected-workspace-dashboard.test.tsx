@@ -16,15 +16,17 @@ vi.mock("@/lib/workspace/workspace-api-scope.context", () => ({
 }));
 
 vi.mock("@afenda/appshell", async () => {
-  const actual = await vi.importActual<typeof import("@afenda/appshell")>(
-    "@afenda/appshell"
-  );
+  const actual =
+    await vi.importActual<typeof import("@afenda/appshell")>(
+      "@afenda/appshell"
+    );
 
   return {
     ...actual,
-    useDashboardWidgetRenderContext: () => actual.PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
+    useDashboardWidgetRenderContext: () =>
+      actual.PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
     ApplicationShellDashboardCanvas: () => (
-      <div role="region" aria-label="ERP overview dashboard">
+      <div aria-label="ERP overview dashboard" role="region">
         Workspace dashboard canvas
       </div>
     ),

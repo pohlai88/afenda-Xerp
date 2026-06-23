@@ -13,19 +13,19 @@ describe("app-shell dropdown presentation drift guards", () => {
     const css = readFileSync(presentationCssPath, "utf8");
 
     expect(css).toContain(
-      "[data-slot=\"dropdown-menu-content\"]:has(.app-shell-notification-dropdown)"
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-notification-dropdown)'
     );
     expect(css).toContain(
-      "[data-slot=\"dropdown-menu-content\"]:has(.app-shell-profile-dropdown)"
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-profile-dropdown)'
     );
     expect(css).toContain(
-      "[data-slot=\"dropdown-menu-content\"]:has(.app-shell-sidebar-user-dropdown)"
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-sidebar-user-dropdown)'
     );
     expect(css).toContain(
-      "[data-slot=\"dropdown-menu-content\"]:has(.app-shell-context-switcher-dropdown)"
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-context-switcher-dropdown)'
     );
     expect(css).toContain(
-      "[data-slot=\"dropdown-menu-content\"]:has(.app-shell-dashboard-invoice-row-actions-menu)"
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-dashboard-invoice-row-actions-menu)'
     );
     expect(css).toContain("width: auto !important");
     expect(css).toContain("UNLAYERED so width beats Tailwind utilities");
@@ -45,7 +45,7 @@ describe("app-shell dropdown presentation drift guards", () => {
   it("sizes sidebar team avatars inside fixed presentation wrappers", () => {
     const css = readFileSync(presentationCssPath, "utf8");
 
-    expect(css).toContain(".app-shell-recipient-avatar > [data-slot=\"avatar\"]");
+    expect(css).toContain('.app-shell-recipient-avatar > [data-slot="avatar"]');
     expect(css).toContain("flex-shrink: 0");
     expect(css).not.toContain(".app-shell-profile-trigger-avatar");
   });

@@ -1,13 +1,10 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
 import { recipeRegistry } from "@afenda/design-system";
+import { describe, expect, it } from "vitest";
 
-import {
-  GOVERNED_UI_RECIPES,
-  resolveGovernedRecipe,
-} from "../governance";
+import { GOVERNED_UI_RECIPES, resolveGovernedRecipe } from "../governance";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 

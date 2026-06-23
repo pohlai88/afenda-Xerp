@@ -10,9 +10,7 @@ import { RUNTIME_CONTRACT_OWNERSHIPS } from "../runtime.contract.js";
 import { SECTION_CONTRACT_OWNERSHIPS } from "../section.contract.js";
 import { SURFACE_CONTRACT_OWNERSHIPS } from "../surface.contract.js";
 
-export const METADATA_AUTHORITY_CONSUMERS = [
-  "@afenda/metadata-ui",
-] as const;
+export const METADATA_AUTHORITY_CONSUMERS = ["@afenda/metadata-ui"] as const;
 
 export type MetadataAuthorityConsumer =
   (typeof METADATA_AUTHORITY_CONSUMERS)[number];
@@ -80,12 +78,9 @@ export interface MetadataAuthorityEntry {
   readonly authority: MetadataAuthorityKey;
 
   /**
-   * Canonical responsibilities owned by this authority.
-   *
-   * These are machine-readable governance keys.
-   * Human explanation belongs in documentation, not in this contract.
+   * Required governance process when this authority changes.
    */
-  readonly owns: readonly MetadataAuthorityOwnership[];
+  readonly changeRule: MetadataAuthorityChangeRule;
 
   /**
    * Responsibilities this authority is explicitly forbidden from owning.
@@ -98,9 +93,12 @@ export interface MetadataAuthorityEntry {
   readonly downstreamConsumer: MetadataAuthorityConsumer;
 
   /**
-   * Required governance process when this authority changes.
+   * Canonical responsibilities owned by this authority.
+   *
+   * These are machine-readable governance keys.
+   * Human explanation belongs in documentation, not in this contract.
    */
-  readonly changeRule: MetadataAuthorityChangeRule;
+  readonly owns: readonly MetadataAuthorityOwnership[];
 }
 
 export type MetadataAuthorityMap = {
@@ -272,10 +270,10 @@ export type MetadataAiGovernanceMust =
   (typeof METADATA_AI_GOVERNANCE_MUST)[number];
 
 export interface MetadataAiGovernanceRules {
-  readonly version: typeof METADATA_CONTRACT_VERSION;
   readonly may: readonly MetadataAiGovernanceMay[];
   readonly mayNot: readonly MetadataAiGovernanceMayNot[];
   readonly must: readonly MetadataAiGovernanceMust[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const metadataAiGovernanceRules = {

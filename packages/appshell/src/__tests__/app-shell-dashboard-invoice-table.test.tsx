@@ -24,7 +24,11 @@ describe("AppShellDashboardInvoiceTable", () => {
   it("labels pagination page buttons for screen readers", () => {
     render(<AppShellDashboardInvoiceTable />);
 
-    expect(screen.getByRole("button", { name: "Go to page 1" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Go to page 2" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 1" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 2" })
+    ).toBeInTheDocument();
   });
 });

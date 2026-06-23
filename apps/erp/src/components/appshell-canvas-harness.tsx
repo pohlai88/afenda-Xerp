@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
-
 import {
   ApplicationShellDashboardCanvas,
   type DashboardLayoutPreset,
 } from "@afenda/appshell";
 import { Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useMemo } from "react";
 
 import {
   DashboardWidgetRbacPreviewControls,
@@ -113,20 +112,20 @@ export function AppShellCanvasHarness({
             variant="inline"
           />
         ) : null}
-        {errorMessage !== null ? (
+        {errorMessage === null ? null : (
           <p className="app-shell-page-description" role="alert">
             {errorMessage}
           </p>
-        ) : null}
+        )}
       </header>
-      {!isLoading ? (
+      {isLoading ? null : (
         <ApplicationShellDashboardCanvas
           editMode
           layout={layout}
           onLayoutChange={handleLayoutChange}
           renderContext={renderContext}
         />
-      ) : null}
+      )}
       {gateState?.variant === "dialog" ? (
         <PolicyGateSurface
           correlationId={gateState.correlationId}

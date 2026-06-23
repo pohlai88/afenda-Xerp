@@ -29,36 +29,39 @@
  *  21. No duplicate CSS content across files within a package.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface ManifestItem {
-  readonly packageName: string;
-  readonly exportPath: string;
-  readonly sourceFile: string;
-  readonly purpose: string;
-  readonly productionSafe: boolean;
-  readonly requiresTailwindTheme: boolean;
   readonly allowedImporters: readonly string[];
-  readonly prohibitedImporters: readonly string[];
   readonly classNamespace: string;
-  readonly propertyNamespace: string | readonly string[];
+  readonly exportPath: string;
   readonly legacy?: boolean;
+  readonly packageName: string;
+  readonly productionSafe: boolean;
+  readonly prohibitedImporters: readonly string[];
+  readonly propertyNamespace: string | readonly string[];
+  readonly purpose: string;
+  readonly requiresTailwindTheme: boolean;
+  readonly sourceFile: string;
 }
 
 interface Violation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
   readonly severity: "error" | "warning";
 }
 
 // ── Roots ────────────────────────────────────────────────────────────────────
 
-const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(/[/\\]$/, "");
+const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
+  /[/\\]$/,
+  ""
+);
 
 const PACKAGE_ROOTS: Record<string, string> = {
   "@afenda/design-system": join(repoRoot, "packages/design-system"),
@@ -74,7 +77,9 @@ const APP_ROOTS = [join(repoRoot, "apps/erp"), join(repoRoot, "apps/docs")];
 
 function loadManifest(pkgName: string): readonly ManifestItem[] {
   const root = PACKAGE_ROOTS[pkgName];
-  if (!root) return [];
+  if (!root) {
+    return [];
+  }
 
   const candidates = [
     join(root, "src/css/css-manifest.ts"),
@@ -88,13 +93,18 @@ function loadManifest(pkgName: string): readonly ManifestItem[] {
       // Instead we read the package.json exports and cross-ref with manifest source content.
       // Full type-safe consumption is done in per-package tests; here we use regex extraction.
       const items = extractManifestItems(content, pkgName);
-      if (items.length > 0) return items;
+      if (items.length > 0) {
+        return items;
+      }
     }
   }
   return [];
 }
 
-function extractManifestItems(source: string, packageName: string): ManifestItem[] {
+function extractManifestItems(
+  source: string,
+  packageName: string
+): ManifestItem[] {
   const items: ManifestItem[] = [];
   // Match exportPath: "..." and purpose: "..." from manifest const arrays
   const exportPathRe = /exportPath:\s*["']([^"']+)["']/g;
@@ -106,13 +116,25 @@ function extractManifestItems(source: string, packageName: string): ManifestItem
   const propNsRe = /propertyNamespace:\s*["']([^"']+)["']/g;
   const legacyRe = /legacy:\s*(true)/g;
 
-  const exportPaths = [...source.matchAll(exportPathRe)].map((m) => m[1] as string);
+  const exportPaths = [...source.matchAll(exportPathRe)].map(
+    (m) => m[1] as string
+  );
   const purposes = [...source.matchAll(purposeRe)].map((m) => m[1] as string);
-  const productionSafes = [...source.matchAll(productionSafeRe)].map((m) => m[1] === "true");
-  const requiresTailwinds = [...source.matchAll(requiresTailwindRe)].map((m) => m[1] === "true");
-  const sourceFiles = [...source.matchAll(sourceFileRe)].map((m) => m[1] as string);
-  const classNamespaces = [...source.matchAll(classNsRe)].map((m) => m[1] as string);
-  const propNamespaces = [...source.matchAll(propNsRe)].map((m) => m[1] as string);
+  const productionSafes = [...source.matchAll(productionSafeRe)].map(
+    (m) => m[1] === "true"
+  );
+  const requiresTailwinds = [...source.matchAll(requiresTailwindRe)].map(
+    (m) => m[1] === "true"
+  );
+  const sourceFiles = [...source.matchAll(sourceFileRe)].map(
+    (m) => m[1] as string
+  );
+  const classNamespaces = [...source.matchAll(classNsRe)].map(
+    (m) => m[1] as string
+  );
+  const propNamespaces = [...source.matchAll(propNsRe)].map(
+    (m) => m[1] as string
+  );
   const legacyFlags = [...source.matchAll(legacyRe)].map(() => true);
 
   for (let i = 0; i < exportPaths.length; i++) {
@@ -135,18 +157,28 @@ function extractManifestItems(source: string, packageName: string): ManifestItem
 
 function loadPackageJson(pkgRoot: string): Record<string, unknown> {
   const path = join(pkgRoot, "package.json");
-  if (!existsSync(path)) return {};
+  if (!existsSync(path)) {
+    return {};
+  }
   return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
 }
 
 // ── File collection ───────────────────────────────────────────────────────────
 
-function collectFiles(dir: string, exts: string[], skip: RegExp[] = []): string[] {
+function collectFiles(
+  dir: string,
+  exts: string[],
+  skip: RegExp[] = []
+): string[] {
   const result: string[] = [];
-  if (!existsSync(dir)) return result;
+  if (!existsSync(dir)) {
+    return result;
+  }
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
-    if (skip.some((re) => re.test(full))) continue;
+    if (skip.some((re) => re.test(full))) {
+      continue;
+    }
     const stat = statSync(full);
     if (stat.isDirectory()) {
       result.push(...collectFiles(full, exts, skip));
@@ -200,20 +232,36 @@ function warn(rule: string, file: string, message: string): void {
 {
   const metaRoot = PACKAGE_ROOTS["@afenda/metadata"];
   if (metaRoot) {
-    const tsFiles = collectFiles(join(metaRoot, "src"), [".ts", ".tsx"], [/node_modules/]);
+    const tsFiles = collectFiles(
+      join(metaRoot, "src"),
+      [".ts", ".tsx"],
+      [/node_modules/]
+    );
     for (const file of tsFiles) {
       const content = readFileSync(file, "utf8");
       const imports = extractTsImports(content);
       for (const imp of imports) {
         if (imp.endsWith(".css")) {
-          fail("R1-metadata-no-css", file, `@afenda/metadata imports CSS: "${imp}"`);
+          fail(
+            "R1-metadata-no-css",
+            file,
+            `@afenda/metadata imports CSS: "${imp}"`
+          );
         }
       }
     }
-    const cssFiles = collectFiles(join(metaRoot, "src"), [".css"], [/node_modules/]);
+    const cssFiles = collectFiles(
+      join(metaRoot, "src"),
+      [".css"],
+      [/node_modules/]
+    );
     if (cssFiles.length > 0) {
       for (const f of cssFiles) {
-        fail("R1-metadata-no-css", f, "@afenda/metadata must not own CSS files");
+        fail(
+          "R1-metadata-no-css",
+          f,
+          "@afenda/metadata must not own CSS files"
+        );
       }
     }
   }
@@ -248,8 +296,14 @@ function warn(rule: string, file: string, message: string): void {
 
   for (const { pkg, forbiddenImports, rule } of pkgChecks) {
     const root = PACKAGE_ROOTS[pkg];
-    if (!root) continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [/node_modules/, /\.storybook/, /stories/]);
+    if (!root) {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/, /\.storybook/, /stories/]
+    );
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
       const imports = extractCssImports(content);
@@ -266,7 +320,8 @@ function warn(rule: string, file: string, message: string): void {
 
 // ─── Rule 2 (app globals + story files): no fixture CSS in production ─────────
 {
-  const fixturePattern = /\/fixtures\.css|metadata-ui-fixtures\.css|appshell-fixtures\.css/;
+  const fixturePattern =
+    /\/fixtures\.css|metadata-ui-fixtures\.css|appshell-fixtures\.css/;
 
   // App globals
   for (const appRoot of APP_ROOTS) {
@@ -276,7 +331,11 @@ function warn(rule: string, file: string, message: string): void {
         const imports = extractCssImports(readFileSync(file, "utf8"));
         for (const imp of imports) {
           if (fixturePattern.test(imp)) {
-            fail("R2-no-fixture-in-production", file, `Production app global imports fixture CSS: "${imp}"`);
+            fail(
+              "R2-no-fixture-in-production",
+              file,
+              `Production app global imports fixture CSS: "${imp}"`
+            );
           }
         }
       }
@@ -285,19 +344,31 @@ function warn(rule: string, file: string, message: string): void {
 
   // Production source ts/tsx — check for fixture CSS imports
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/metadata-ui" || pkg === "@afenda/appshell" || pkg === "@afenda/ui") {
-      const srcFiles = collectFiles(join(root, "src"), [".ts", ".tsx"], [
-        /node_modules/,
-        /\.stories\./,
-        /_storybook/,
-        /\.storybook/,
-        /__tests__/,
-      ]);
+    if (
+      pkg === "@afenda/metadata-ui" ||
+      pkg === "@afenda/appshell" ||
+      pkg === "@afenda/ui"
+    ) {
+      const srcFiles = collectFiles(
+        join(root, "src"),
+        [".ts", ".tsx"],
+        [
+          /node_modules/,
+          /\.stories\./,
+          /_storybook/,
+          /\.storybook/,
+          /__tests__/,
+        ]
+      );
       for (const file of srcFiles) {
         const imports = extractTsImports(readFileSync(file, "utf8"));
         for (const imp of imports) {
           if (fixturePattern.test(imp)) {
-            fail("R2-no-fixture-in-production", file, `Production source imports fixture CSS: "${imp}"`);
+            fail(
+              "R2-no-fixture-in-production",
+              file,
+              `Production source imports fixture CSS: "${imp}"`
+            );
           }
         }
       }
@@ -308,16 +379,25 @@ function warn(rule: string, file: string, message: string): void {
 // ─── Rule 6: Only design-system defines --afenda-* variables ─────────────────
 {
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [/node_modules/]);
+    if (pkg === "@afenda/design-system") {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/]
+    );
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
       // Allow var() references; forbid definitions (--name: value on the same line).
       const defPattern = /^\s*(--afenda-[a-z][^\n:]*)\s*:/gm;
       const matches = [...content.matchAll(defPattern)];
       for (const match of matches) {
-        fail("R6-afenda-token-authority", file,
-          `${pkg} defines --afenda-* token "${match[1]?.trim()}" — only @afenda/design-system may define these`);
+        fail(
+          "R6-afenda-token-authority",
+          file,
+          `${pkg} defines --afenda-* token "${match[1]?.trim()}" — only @afenda/design-system may define these`
+        );
       }
     }
   }
@@ -326,16 +406,25 @@ function warn(rule: string, file: string, message: string): void {
 // ─── Rule 7: Only design-system defines @theme (downstream allowed only if bridge) ─
 {
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [/node_modules/]);
+    if (pkg === "@afenda/design-system") {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/]
+    );
     for (const file of cssFiles) {
       const raw = readFileSync(file, "utf8");
       // Strip comments so doc-block examples don't trigger this rule
       const content = stripCssComments(raw);
       if (content.includes("@theme")) {
-        fail("R7-theme-authority", file,
+        fail(
+          "R7-theme-authority",
+          file,
           `${pkg} contains @theme — only @afenda/design-system may define @theme. ` +
-          `Consumers @import "@afenda/design-system/css/afenda-design-system.css" instead.`);
+            `Consumers @import "@afenda/design-system/css/afenda-design-system.css" instead.`
+        );
       }
     }
   }
@@ -343,35 +432,56 @@ function warn(rule: string, file: string, message: string): void {
 
 // ─── Rule 8: ui/afenda-ui.css defines no :root token authority ───────────────
 {
-  const uiCssPath = join(PACKAGE_ROOTS["@afenda/ui"] ?? "", "src/styles/afenda-ui.css");
+  const uiCssPath = join(
+    PACKAGE_ROOTS["@afenda/ui"] ?? "",
+    "src/styles/afenda-ui.css"
+  );
   const uiCss = readCss(uiCssPath);
   if (/^:root\s*\{/m.test(uiCss)) {
-    fail("R8-ui-no-root-tokens", uiCssPath,
-      "afenda-ui.css must not define :root token authority — @import design-system instead");
+    fail(
+      "R8-ui-no-root-tokens",
+      uiCssPath,
+      "afenda-ui.css must not define :root token authority — @import design-system instead"
+    );
   }
   if (/^\s*--afenda-[a-z][^)]*:/m.test(uiCss)) {
-    fail("R8-ui-no-root-tokens", uiCssPath,
-      "afenda-ui.css defines --afenda-* token values — only design-system may do this");
+    fail(
+      "R8-ui-no-root-tokens",
+      uiCssPath,
+      "afenda-ui.css defines --afenda-* token values — only design-system may do this"
+    );
   }
 }
 
 // ─── Rule 9: metadata-ui structural CSS has no .metadata-fixture-* selectors ──
 {
-  const muiPath = join(PACKAGE_ROOTS["@afenda/metadata-ui"] ?? "", "src/afenda-metadata-ui.css");
+  const muiPath = join(
+    PACKAGE_ROOTS["@afenda/metadata-ui"] ?? "",
+    "src/afenda-metadata-ui.css"
+  );
   const muiStyles = readCss(muiPath);
   if (/\.metadata-fixture-/.test(muiStyles)) {
-    fail("R9-no-fixture-selector-in-structural", muiPath,
-      "afenda-metadata-ui.css must not contain .metadata-fixture-* selectors");
+    fail(
+      "R9-no-fixture-selector-in-structural",
+      muiPath,
+      "afenda-metadata-ui.css must not contain .metadata-fixture-* selectors"
+    );
   }
 }
 
 // ─── Rule 10: appshell structural CSS has no .app-shell-fixture-* selectors ───
 {
-  const shellPath = join(PACKAGE_ROOTS["@afenda/appshell"] ?? "", "src/styles/afenda-appshell.css");
+  const shellPath = join(
+    PACKAGE_ROOTS["@afenda/appshell"] ?? "",
+    "src/styles/afenda-appshell.css"
+  );
   const shellStyles = readCss(shellPath);
   if (/\.app-shell-fixture-/.test(shellStyles)) {
-    fail("R10-no-fixture-selector-in-structural", shellPath,
-      "afenda-appshell.css must not contain .app-shell-fixture-* selectors");
+    fail(
+      "R10-no-fixture-selector-in-structural",
+      shellPath,
+      "afenda-appshell.css must not contain .app-shell-fixture-* selectors"
+    );
   }
 }
 
@@ -391,8 +501,11 @@ function warn(rule: string, file: string, message: string): void {
     for (const exportKey of cssExports) {
       // Rule 14: no duplicates
       if (seen.has(exportKey)) {
-        fail("R14-no-duplicate-export-paths", join(root, "package.json"),
-          `${pkg} has duplicate CSS export path: "${exportKey}"`);
+        fail(
+          "R14-no-duplicate-export-paths",
+          join(root, "package.json"),
+          `${pkg} has duplicate CSS export path: "${exportKey}"`
+        );
       }
       seen.add(exportKey);
 
@@ -400,18 +513,34 @@ function warn(rule: string, file: string, message: string): void {
       const manifest = loadManifest(pkg);
       const hasEntry = manifest.some((e) => e.exportPath === exportKey);
       if (!hasEntry && manifest.length > 0) {
-        fail("R11-exports-match-manifest", join(root, "package.json"),
-          `${pkg} exports "${exportKey}" but no manifest entry found`);
+        fail(
+          "R11-exports-match-manifest",
+          join(root, "package.json"),
+          `${pkg} exports "${exportKey}" but no manifest entry found`
+        );
       }
 
       // Rule 12: sideEffects must include the dist path
       const exportValue = exports[exportKey];
-      const distPath = typeof exportValue === "object" && exportValue !== null
-        ? ((exportValue as Record<string, string>).default ?? (exportValue as Record<string, string>).import ?? "")
-        : typeof exportValue === "string" ? exportValue : "";
-      if (distPath && !sideEffects.some((se) => se === distPath || distPath.includes(se.replace("./", "")))) {
-        warn("R12-sideeffects-include-css", join(root, "package.json"),
-          `${pkg} exports "${exportKey}" → "${distPath}" but sideEffects may not cover it`);
+      const distPath =
+        typeof exportValue === "object" && exportValue !== null
+          ? ((exportValue as Record<string, string>).default ??
+            (exportValue as Record<string, string>).import ??
+            "")
+          : typeof exportValue === "string"
+            ? exportValue
+            : "";
+      if (
+        distPath &&
+        !sideEffects.some(
+          (se) => se === distPath || distPath.includes(se.replace("./", ""))
+        )
+      ) {
+        warn(
+          "R12-sideeffects-include-css",
+          join(root, "package.json"),
+          `${pkg} exports "${exportKey}" → "${distPath}" but sideEffects may not cover it`
+        );
       }
     }
   }
@@ -430,16 +559,23 @@ function warn(rule: string, file: string, message: string): void {
   ];
 
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [
-      /node_modules/,
-    ]);
+    if (pkg === "@afenda/design-system") {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/]
+    );
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
       for (const { re, label } of FORBIDDEN_PATTERNS) {
         if (re.test(content)) {
-          warn("R15-no-raw-visual-values", file,
-            `${pkg} CSS contains ${label} — use var(--afenda-*) tokens instead`);
+          warn(
+            "R15-no-raw-visual-values",
+            file,
+            `${pkg} CSS contains ${label} — use var(--afenda-*) tokens instead`
+          );
         }
       }
     }
@@ -448,30 +584,59 @@ function warn(rule: string, file: string, message: string): void {
 
 // ─── Rule 16: Class-prefix namespace per package ──────────────────────────────
 {
-  const namespaceRules: Array<{ pkg: string; allowedPrefix: string | null; ruleId: string }> = [
-    { pkg: "@afenda/metadata-ui", allowedPrefix: "metadata-", ruleId: "R16-class-namespace" },
-    { pkg: "@afenda/appshell", allowedPrefix: "app-shell-", ruleId: "R16-class-namespace" },
+  const namespaceRules: Array<{
+    pkg: string;
+    allowedPrefix: string | null;
+    ruleId: string;
+  }> = [
+    {
+      pkg: "@afenda/metadata-ui",
+      allowedPrefix: "metadata-",
+      ruleId: "R16-class-namespace",
+    },
+    {
+      pkg: "@afenda/appshell",
+      allowedPrefix: "app-shell-",
+      ruleId: "R16-class-namespace",
+    },
     { pkg: "@afenda/ui", allowedPrefix: null, ruleId: "R16-class-namespace" }, // data-attr only
   ];
 
   for (const { pkg, allowedPrefix, ruleId } of namespaceRules) {
     const root = PACKAGE_ROOTS[pkg];
-    if (!root) continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [
-      /node_modules/,
-      /fixtures/,
-    ]);
+    if (!root) {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/, /fixtures/]
+    );
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
-      const classSelectors = [...content.matchAll(/^\.([\w-]+)/gm)].map((m) => m[1]);
+      const classSelectors = [...content.matchAll(/^\.([\w-]+)/gm)].map(
+        (m) => m[1]
+      );
       for (const sel of classSelectors) {
-        if (!sel) continue;
+        if (!sel) {
+          continue;
+        }
         if (allowedPrefix === null) {
-          warn(ruleId, file, `${pkg} CSS contains class selector ".${sel}" — should use data-attribute hooks only`);
+          warn(
+            ruleId,
+            file,
+            `${pkg} CSS contains class selector ".${sel}" — should use data-attribute hooks only`
+          );
         } else if (!sel.startsWith(allowedPrefix)) {
-          const isFixturePkg = pkg === "@afenda/metadata-ui" && sel.startsWith("metadata-fixture-");
+          const isFixturePkg =
+            pkg === "@afenda/metadata-ui" &&
+            sel.startsWith("metadata-fixture-");
           if (!isFixturePkg) {
-            warn(ruleId, file, `${pkg} CSS class ".${sel}" does not match namespace "${allowedPrefix}*"`);
+            warn(
+              ruleId,
+              file,
+              `${pkg} CSS class ".${sel}" does not match namespace "${allowedPrefix}*"`
+            );
           }
         }
       }
@@ -481,24 +646,43 @@ function warn(rule: string, file: string, message: string): void {
 
 // ─── Rule 17: Custom-property namespace per package ───────────────────────────
 {
-  const propNamespaceRules: Array<{ pkg: string; allowedPrefix: string; ruleId: string }> = [
-    { pkg: "@afenda/appshell", allowedPrefix: "--app-shell-", ruleId: "R17-prop-namespace" },
-    { pkg: "@afenda/metadata-ui", allowedPrefix: "--metadata-", ruleId: "R17-prop-namespace" },
+  const propNamespaceRules: Array<{
+    pkg: string;
+    allowedPrefix: string;
+    ruleId: string;
+  }> = [
+    {
+      pkg: "@afenda/appshell",
+      allowedPrefix: "--app-shell-",
+      ruleId: "R17-prop-namespace",
+    },
+    {
+      pkg: "@afenda/metadata-ui",
+      allowedPrefix: "--metadata-",
+      ruleId: "R17-prop-namespace",
+    },
   ];
   const FORBIDDEN_GENERIC = /^\s*--(color|spacing|font|radius|shadow)-/m;
 
   for (const { pkg, allowedPrefix, ruleId } of propNamespaceRules) {
     const root = PACKAGE_ROOTS[pkg];
-    if (!root) continue;
-    const cssFiles = collectFiles(join(root, "src"), [".css"], [
-      /node_modules/,
-    ]);
+    if (!root) {
+      continue;
+    }
+    const cssFiles = collectFiles(
+      join(root, "src"),
+      [".css"],
+      [/node_modules/]
+    );
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
       // Check for generic namespace squatting
       if (FORBIDDEN_GENERIC.test(content)) {
-        fail(ruleId, file,
-          `${pkg} defines generic custom property (--color-*, --spacing-*, --font-*, --radius-*, --shadow-*) — use "${allowedPrefix}*" instead`);
+        fail(
+          ruleId,
+          file,
+          `${pkg} defines generic custom property (--color-*, --spacing-*, --font-*, --radius-*, --shadow-*) — use "${allowedPrefix}*" instead`
+        );
       }
     }
   }
@@ -506,13 +690,20 @@ function warn(rule: string, file: string, message: string): void {
 
 // ─── Rule 18: afenda-ui.css declares Tailwind v4 native @layer order ─────────
 {
-  const uiEntryPath = join(PACKAGE_ROOTS["@afenda/ui"] ?? "", "src/styles/afenda-ui.css");
+  const uiEntryPath = join(
+    PACKAGE_ROOTS["@afenda/ui"] ?? "",
+    "src/styles/afenda-ui.css"
+  );
   const fullCss = readCss(uiEntryPath);
   const requiredLayers = ["theme", "base", "components", "utilities"];
-  const layerOrder = /@layer\s+theme\s*,\s*base\s*,\s*components\s*,\s*utilities\s*;/;
+  const layerOrder =
+    /@layer\s+theme\s*,\s*base\s*,\s*components\s*,\s*utilities\s*;/;
   if (!layerOrder.test(fullCss)) {
-    fail("R18-layer-order-declared", uiEntryPath,
-      `afenda-ui.css must declare Tailwind v4 native @layer order: @layer ${requiredLayers.join(", ")};`);
+    fail(
+      "R18-layer-order-declared",
+      uiEntryPath,
+      `afenda-ui.css must declare Tailwind v4 native @layer order: @layer ${requiredLayers.join(", ")};`
+    );
   }
 }
 
@@ -520,7 +711,11 @@ function warn(rule: string, file: string, message: string): void {
 // Single source of truth: CSS_FILE_REGISTRY + CSS_BUDGETS.
 // No hardcoded paths/budgets here — change the registry to change policy.
 
-import { CSS_BUDGETS, CSS_FILE_REGISTRY, getAllowedPaths, getBudget } from "./css-registry.mjs";
+import {
+  CSS_FILE_REGISTRY,
+  getAllowedPaths,
+  getBudget,
+} from "./css-registry.mjs";
 
 {
   const SCAN_SKIP = [
@@ -534,31 +729,44 @@ import { CSS_BUDGETS, CSS_FILE_REGISTRY, getAllowedPaths, getBudget } from "./cs
 
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
     const budget = getBudget(pkg);
-    const allowedPaths = new Set(getAllowedPaths(pkg).map((p) => join(root, p)));
+    const allowedPaths = new Set(
+      getAllowedPaths(pkg).map((p) => join(root, p))
+    );
     const allCssOnDisk = collectFiles(join(root, "src"), [".css"], SCAN_SKIP);
 
     // ─── R19: Every CSS file must be in the registry ───────────────────────
     for (const file of allCssOnDisk) {
       if (!allowedPaths.has(file)) {
-        fail("R19-unregistered-css", file,
-          `${pkg} has CSS file not in css-registry.ts — register it or delete it`);
+        fail(
+          "R19-unregistered-css",
+          file,
+          `${pkg} has CSS file not in css-registry.ts — register it or delete it`
+        );
       }
     }
 
     // ─── R20: Per-package CSS budget ───────────────────────────────────────
     if (allCssOnDisk.length > budget.maxFiles) {
-      fail("R20-css-budget", join(root, "src"),
+      fail(
+        "R20-css-budget",
+        join(root, "src"),
         `${pkg} has ${allCssOnDisk.length} CSS files (budget: ${budget.maxFiles}). ` +
-        `Remove files or increase budget in scripts/css/css-registry.ts with justification.`);
+          "Remove files or increase budget in scripts/css/css-registry.ts with justification."
+      );
     }
 
     // ─── R20b: generatedOnly packages must not have hand-authored CSS ──────
     if (budget.generatedOnly) {
-      const registryEntries = CSS_FILE_REGISTRY.filter((e) => e.package === pkg);
+      const registryEntries = CSS_FILE_REGISTRY.filter(
+        (e) => e.package === pkg
+      );
       for (const entry of registryEntries) {
         if (!entry.generated) {
-          fail("R20-generated-only", join(root, entry.path),
-            `${pkg} is generatedOnly but registry entry "${entry.path}" is not marked generated`);
+          fail(
+            "R20-generated-only",
+            join(root, entry.path),
+            `${pkg} is generatedOnly but registry entry "${entry.path}" is not marked generated`
+          );
         }
       }
     }
@@ -567,12 +775,16 @@ import { CSS_BUDGETS, CSS_FILE_REGISTRY, getAllowedPaths, getBudget } from "./cs
   // ─── R21: No duplicate CSS content across files within a package ─────────
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
     const allCss = collectFiles(join(root, "src"), [".css"], SCAN_SKIP);
-    if (allCss.length < 2) continue;
+    if (allCss.length < 2) {
+      continue;
+    }
 
     const contentMap = new Map<string, string[]>();
     for (const file of allCss) {
       const content = readFileSync(file, "utf8").trim();
-      if (content.length === 0) continue;
+      if (content.length === 0) {
+        continue;
+      }
       const existing = contentMap.get(content);
       if (existing) {
         existing.push(rel(file));
@@ -583,8 +795,11 @@ import { CSS_BUDGETS, CSS_FILE_REGISTRY, getAllowedPaths, getBudget } from "./cs
 
     for (const [, files] of contentMap) {
       if (files.length > 1) {
-        fail("R21-duplicate-css-content", files[0]!,
-          `${pkg} has duplicate CSS content across files: ${files.join(", ")} — consolidate into one file`);
+        fail(
+          "R21-duplicate-css-content",
+          files[0]!,
+          `${pkg} has duplicate CSS content across files: ${files.join(", ")} — consolidate into one file`
+        );
       }
     }
   }
@@ -607,7 +822,9 @@ if (errors.length > 0) {
   for (const v of errors) {
     console.error(`  [${v.rule}] ${v.file}\n    ${v.message}`);
   }
-  console.error(`\n${errors.length} error(s), ${warnings.length} warning(s). Fix errors before merging.`);
+  console.error(
+    `\n${errors.length} error(s), ${warnings.length} warning(s). Fix errors before merging.`
+  );
   process.exit(1);
 }
 

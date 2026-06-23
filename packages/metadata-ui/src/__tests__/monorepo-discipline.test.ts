@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -39,10 +39,7 @@ function collectSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (
-      /\.(ts|tsx)$/.test(entry.name) &&
-      !/\.stories\.tsx$/.test(entry.name)
-    ) {
+    if (/\.(ts|tsx)$/.test(entry.name) && !/\.stories\.tsx$/.test(entry.name)) {
       files.push(absolutePath);
     }
   }

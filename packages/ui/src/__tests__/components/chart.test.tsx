@@ -88,9 +88,9 @@ describe("Chart governance", () => {
             {
               color: "var(--primary)",
               dataKey: "revenue",
+              graphicalItemId: "revenue",
               name: "revenue",
               payload: {},
-              type: undefined,
               value: 420_000,
             },
           ]}
@@ -119,9 +119,9 @@ describe("Chart governance", () => {
             {
               color: "var(--primary)",
               dataKey: "revenue",
+              graphicalItemId: "revenue",
               name: "revenue",
               payload: {},
-              type: undefined,
               value: 420_000,
             },
           ]}
@@ -140,7 +140,6 @@ describe("Chart governance", () => {
             {
               color: "var(--primary)",
               dataKey: "revenue",
-              type: undefined,
               value: "revenue",
             },
           ]}

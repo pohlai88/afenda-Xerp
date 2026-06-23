@@ -4,7 +4,7 @@ import {
   mergeGovernedPresentation,
 } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
-import { Slot, Separator as SeparatorPrimitive } from "radix-ui";
+import { Separator as SeparatorPrimitive, Slot } from "radix-ui";
 import * as React from "react";
 
 const BUTTON_GROUP_RECIPE_NAME = "surface" as const;
@@ -77,32 +77,37 @@ const ButtonGroupSeparator = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> & {
     readonly className?: string;
   }
->(({ className, orientation = "vertical", decorative = true, ...props }, ref) => {
-  const groupGoverned = resolvePrimitiveGovernance({
-    componentName: "ButtonGroup",
-    recipeName: BUTTON_GROUP_RECIPE_NAME,
-    slot: BUTTON_GROUP_SLOT_ROLES.footer,
-    className,
-  });
+>(
+  (
+    { className, orientation = "vertical", decorative = true, ...props },
+    ref
+  ) => {
+    const groupGoverned = resolvePrimitiveGovernance({
+      componentName: "ButtonGroup",
+      recipeName: BUTTON_GROUP_RECIPE_NAME,
+      slot: BUTTON_GROUP_SLOT_ROLES.footer,
+      className,
+    });
 
-  const separatorGoverned = resolvePrimitiveGovernance({
-    componentName: "Separator",
-    recipeName: SEPARATOR_RECIPE_NAME,
-    slot: "root",
-  });
+    const separatorGoverned = resolvePrimitiveGovernance({
+      componentName: "Separator",
+      recipeName: SEPARATOR_RECIPE_NAME,
+      slot: "root",
+    });
 
-  const merged = mergeGovernedPresentation(separatorGoverned, groupGoverned);
+    const merged = mergeGovernedPresentation(separatorGoverned, groupGoverned);
 
-  return (
-    <SeparatorPrimitive.Root
-      ref={ref}
-      {...applyGovernedPresentation(
-        { ...props, decorative, orientation },
-        merged
-      )}
-    />
-  );
-});
+    return (
+      <SeparatorPrimitive.Root
+        ref={ref}
+        {...applyGovernedPresentation(
+          { ...props, decorative, orientation },
+          merged
+        )}
+      />
+    );
+  }
+);
 
 ButtonGroupSeparator.displayName = "ButtonGroupSeparator";
 

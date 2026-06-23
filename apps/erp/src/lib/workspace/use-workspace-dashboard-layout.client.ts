@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-
 import {
+  type DashboardLayoutPreset,
   DEFAULT_DASHBOARD_LAYOUT,
   parseDashboardLayoutPreset,
-  type DashboardLayoutPreset,
 } from "@afenda/appshell";
-
+import { useCallback, useEffect, useRef, useState } from "react";
+import { resolveLayoutLoadFallback } from "@/lib/api/api-unauthenticated.error";
 import {
   fetchWorkspaceDashboardLayout,
   resetWorkspaceDashboardLayoutApi,
@@ -15,10 +14,8 @@ import {
 } from "@/lib/api/dashboard-layout.client";
 import type { WorkspaceApiScope } from "@/lib/workspace/workspace-api-scope.contract";
 import type { WorkspaceDashboardLayoutLoadFallback } from "@/lib/workspace/workspace-dashboard-layout.contract";
-import { resolveLayoutLoadFallback } from "@/lib/api/api-unauthenticated.error";
 
 export interface UseWorkspaceDashboardLayoutOptions {
-  readonly workspaceScope: WorkspaceApiScope;
   readonly clearGate?: () => void;
   readonly handleApiError?: (
     error: unknown,
@@ -26,17 +23,18 @@ export interface UseWorkspaceDashboardLayoutOptions {
   ) => boolean;
   /** Dev harness: use default layout when GET returns 401 instead of surfacing an error. */
   readonly useDefaultLayoutOnUnauthenticated?: boolean;
+  readonly workspaceScope: WorkspaceApiScope;
 }
 
 export interface UseWorkspaceDashboardLayoutResult {
-  readonly layout: DashboardLayoutPreset;
-  readonly updatedAt: string | null;
-  readonly isLoading: boolean;
-  readonly errorMessage: string | null;
   readonly canPersistLayout: boolean;
+  readonly errorMessage: string | null;
+  readonly isLoading: boolean;
+  readonly layout: DashboardLayoutPreset;
   readonly layoutLoadFallback: WorkspaceDashboardLayoutLoadFallback | null;
-  readonly saveLayout: (nextLayout: DashboardLayoutPreset) => Promise<void>;
   readonly resetLayout: () => Promise<void>;
+  readonly saveLayout: (nextLayout: DashboardLayoutPreset) => Promise<void>;
+  readonly updatedAt: string | null;
 }
 
 export function useWorkspaceDashboardLayout({
@@ -200,7 +198,9 @@ export function useWorkspaceDashboardLayout({
       }
 
       setErrorMessage(
-        error instanceof Error ? error.message : "Failed to reset dashboard layout."
+        error instanceof Error
+          ? error.message
+          : "Failed to reset dashboard layout."
       );
     }
   }, [clearGate, handleApiError, workspaceScope]);

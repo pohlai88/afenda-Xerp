@@ -28,10 +28,7 @@ function isRendererLifecycleAllowed(
     return false;
   }
 
-  if (
-    lifecycle === "deprecated" &&
-    !context.policy.allowDeprecatedRenderers
-  ) {
+  if (lifecycle === "deprecated" && !context.policy.allowDeprecatedRenderers) {
     return false;
   }
 
@@ -66,7 +63,7 @@ export function resolveMetadataRenderer(
   const { registry, sectionType, capability, context } = input;
 
   if (!isRendererCapabilityCompatible(capability, sectionType)) {
-    return undefined;
+    return;
   }
 
   const candidates = registry
@@ -80,8 +77,7 @@ export function resolveMetadataRenderer(
     .filter((renderer) => isRendererEnvironmentAllowed(renderer, context))
     .filter((renderer) => isRendererSupported(renderer, input))
     .sort(
-      (left, right) =>
-        right.governance.priority - left.governance.priority
+      (left, right) => right.governance.priority - left.governance.priority
     );
 
   return candidates[0];

@@ -14,10 +14,10 @@ export interface ResolveTenantSlugOptions {
 }
 
 export interface WorkspacePathRoutingResult {
-  /** Rewritten pathname with tenant/org prefixes removed for Next.js routing. */
-  readonly pathname: string;
   /** Organization selection hint from `/o/{slug}` — not tenant authority. */
   readonly organizationSlugHint: string | null;
+  /** Rewritten pathname with tenant/org prefixes removed for Next.js routing. */
+  readonly pathname: string;
   /** Tenant slug from `/t/{slug}` path prefix when hostname carries no tenant. */
   readonly tenantSlugFromPath: string | null;
 }
@@ -134,7 +134,9 @@ export function resolveTenantSlugFromRequest(input: {
 
   return (
     resolveTenantSlugFromHostname(input.hostname, {
-      ...(input.baseDomain === undefined ? {} : { baseDomain: input.baseDomain }),
+      ...(input.baseDomain === undefined
+        ? {}
+        : { baseDomain: input.baseDomain }),
     }) ??
     pathRouting.tenantSlugFromPath ??
     resolveTenantSlugFromPathname(input.pathname)

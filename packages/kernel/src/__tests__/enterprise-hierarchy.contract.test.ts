@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  ENTERPRISE_HIERARCHY_TIERS,
   compareEnterpriseHierarchyTierOrder,
+  ENTERPRISE_HIERARCHY_TIERS,
   isEnterpriseHierarchyTier,
   parseSurfaceId,
   parseWorkflowId,

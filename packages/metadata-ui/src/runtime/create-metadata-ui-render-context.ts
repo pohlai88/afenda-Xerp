@@ -4,8 +4,8 @@ import type {
   MetadataUiRenderContext,
   MetadataUiRenderSource,
 } from "../contracts/render-context.contract.js";
-import { DEFAULT_METADATA_UI_HYDRATION_BY_SOURCE } from "./runtime.contract.js";
 import { MetadataUiError } from "./metadata-ui-error.js";
+import { DEFAULT_METADATA_UI_HYDRATION_BY_SOURCE } from "./runtime.contract.js";
 
 export function getDefaultMetadataUiHydrationMode(
   source: MetadataUiRenderSource
@@ -40,9 +40,9 @@ export function createMetadataUiRenderContext(
     diagnostics: {
       enabled: diagnosticsLevel !== "off",
       level: diagnosticsLevel,
-      ...(input.diagnosticsNamespace !== undefined
-        ? { namespace: input.diagnosticsNamespace }
-        : {}),
+      ...(input.diagnosticsNamespace === undefined
+        ? {}
+        : { namespace: input.diagnosticsNamespace }),
     },
   };
 }

@@ -6,13 +6,13 @@ import {
   METADATA_UI_RENDER_SOURCES,
 } from "../contracts/render-context.contract.js";
 import {
-  createMetadataUiRenderContext,
-  getDefaultMetadataUiHydrationMode,
-} from "../runtime/index.js";
-import {
   sampleRuntimeContext,
   sampleRuntimeContextFixture,
 } from "../fixtures/sample-runtime-context.fixture.js";
+import {
+  createMetadataUiRenderContext,
+  getDefaultMetadataUiHydrationMode,
+} from "../runtime/index.js";
 
 function expectUniqueValues(values: readonly string[]): void {
   expect(new Set(values).size).toBe(values.length);
@@ -108,7 +108,9 @@ describe("sample runtime context fixture", () => {
     expect(sampleRuntimeContextFixture.runtime.context.workspaceId).toBe(
       "workspace_fixture_sample"
     );
-    expect(sampleRuntimeContextFixture.runtime.input.density).toBe("comfortable");
+    expect(sampleRuntimeContextFixture.runtime.input.density).toBe(
+      "comfortable"
+    );
     expect(sampleRuntimeContextFixture.runtime.input.presentationMode).toBe(
       "compact"
     );
@@ -123,7 +125,9 @@ describe("sample runtime context fixture", () => {
       sampleRuntimeContextFixture.verboseDiagnosticsRender.context.diagnostics
         .level
     ).toBe("verbose");
-    expect(sampleRuntimeContextFixture.clientRender.context.environment).toEqual({
+    expect(
+      sampleRuntimeContextFixture.clientRender.context.environment
+    ).toEqual({
       source: "client",
       hydration: "full",
       interactive: true,

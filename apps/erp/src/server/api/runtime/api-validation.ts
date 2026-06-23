@@ -33,26 +33,22 @@ export async function readJsonBody(request: Request): Promise<unknown> {
   try {
     return await request.json();
   } catch {
-    throw new ApiRouteError("validation_failed", "Request body must be valid JSON.");
+    throw new ApiRouteError(
+      "validation_failed",
+      "Request body must be valid JSON."
+    );
   }
 }
 
-export function parseRequestBody<T>(
-  schema: ZodType<T>,
-  value: unknown
-): T {
+export function parseRequestBody<T>(schema: ZodType<T>, value: unknown): T {
   const authorityError = rejectUntrustedAuthorityFields(value);
   if (authorityError) {
-    throw new ApiRouteError(
-      "validation_failed",
-      authorityError.userMessage,
-      {
-        issues:
-          authorityError.code === "VALIDATION_ERROR"
-            ? (authorityError.fields ?? [])
-            : [],
-      }
-    );
+    throw new ApiRouteError("validation_failed", authorityError.userMessage, {
+      issues:
+        authorityError.code === "VALIDATION_ERROR"
+          ? (authorityError.fields ?? [])
+          : [],
+    });
   }
 
   const result = schema.safeParse(value);

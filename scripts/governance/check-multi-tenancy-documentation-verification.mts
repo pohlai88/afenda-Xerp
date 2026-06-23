@@ -65,7 +65,9 @@ export function checkMultiTenancyDocumentationVerification(): MultiTenancyDocume
 
   const registrySource = readFileSync(registryPath, "utf8");
   if (
-    !registrySource.includes(MULTI_TENANCY_DOCUMENTATION_VERIFICATION_SURFACE_RULE)
+    !registrySource.includes(
+      MULTI_TENANCY_DOCUMENTATION_VERIFICATION_SURFACE_RULE
+    )
   ) {
     violations.push({
       rule: "registry-surface-rule-missing",
@@ -78,7 +80,8 @@ export function checkMultiTenancyDocumentationVerification(): MultiTenancyDocume
     violations.push({
       rule: "verification-command-count",
       file: registryPath,
-      message: "Step 10 registry must define exactly four verification commands",
+      message:
+        "Step 10 registry must define exactly four verification commands",
     });
   }
 
@@ -86,7 +89,10 @@ export function checkMultiTenancyDocumentationVerification(): MultiTenancyDocume
     repoRoot,
     MULTI_TENANCY_DOCUMENTATION_VERIFICATION_ENFORCEMENT_LIB
   );
-  const gatePath = join(repoRoot, MULTI_TENANCY_DOCUMENTATION_VERIFICATION_GATE);
+  const gatePath = join(
+    repoRoot,
+    MULTI_TENANCY_DOCUMENTATION_VERIFICATION_GATE
+  );
 
   if (!existsSync(enforcementLibPath)) {
     violations.push({
@@ -186,9 +192,13 @@ export function checkMultiTenancyDocumentationVerification(): MultiTenancyDocume
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -214,7 +224,9 @@ export function checkMultiTenancyDocumentationVerification(): MultiTenancyDocume
     const documentationVerificationIndex = qualityChain.indexOf(
       "quality:multi-tenancy-documentation-verification"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||

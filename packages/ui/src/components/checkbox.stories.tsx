@@ -368,7 +368,9 @@ function TaskChecklistComponent() {
               onCheckedChange={() => toggleTask(id)}
             />
             <span
-              className={done ? "text-muted-foreground line-through" : undefined}
+              className={
+                done ? "text-muted-foreground line-through" : undefined
+              }
             >
               <Label htmlFor={id}>{label}</Label>
             </span>
@@ -512,7 +514,9 @@ export const GovernanceDataAuthority: Story = {
         defaultChecked
         id="cb-data-authority"
       />
-      <Label htmlFor="cb-data-authority">Inspect governed root attributes</Label>
+      <Label htmlFor="cb-data-authority">
+        Inspect governed root attributes
+      </Label>
     </StoryRow>
   ),
 };
@@ -536,7 +540,9 @@ export const GovernanceSlotMap: Story = {
         </p>
         <StoryRow align="center" gap="sm">
           <Checkbox defaultChecked id="cb-slot-map" />
-          <Label htmlFor="cb-slot-map">Checked checkbox with indicator slot</Label>
+          <Label htmlFor="cb-slot-map">
+            Checked checkbox with indicator slot
+          </Label>
         </StoryRow>
       </StoryStack>
     </StoryFrame>

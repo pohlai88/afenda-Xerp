@@ -21,6 +21,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  governedPanelStoryProps,
+  type RenderStory,
+} from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import {
@@ -176,7 +180,12 @@ function DialogPlaygroundDemo({
 }) {
   return (
     <Dialog defaultOpen>
-      <DialogContent density={density} radius={radius} shadow={shadow} state={state}>
+      <DialogContent
+        density={density}
+        radius={radius}
+        shadow={shadow}
+        state={state}
+      >
         <DialogHeader>
           <DialogTitle>Dialog playground</DialogTitle>
           <DialogDescription>
@@ -203,7 +212,9 @@ function DialogStateProbe({
         <DialogContent showCloseButton={false} state={state}>
           <DialogHeader>
             <DialogTitle>Governed dialog probe</DialogTitle>
-            <DialogDescription>Inspect `data-state` on dialog-content.</DialogDescription>
+            <DialogDescription>
+              Inspect `data-state` on dialog-content.
+            </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
@@ -255,22 +266,15 @@ const meta = {
     radius: "md",
     shadow: "overlay",
   },
-} satisfies Meta<typeof Dialog>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic dialogs ─────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: (args) => (
-    <DialogPlaygroundDemo
-      density={args.density}
-      radius={args.radius}
-      shadow={args.shadow}
-      state={args.state}
-    />
-  ),
+  render: (args) => <DialogPlaygroundDemo {...governedPanelStoryProps(args)} />,
 };
 
 export const Default: Story = {
@@ -409,8 +413,8 @@ export const GovernanceDataAuthority: Story = {
         <DialogHeader>
           <DialogTitle>Data authority probe</DialogTitle>
           <DialogDescription>
-            Inspect the content root — governed `data-*` attributes must override
-            consumer props.
+            Inspect the content root — governed `data-*` attributes must
+            override consumer props.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -433,10 +437,10 @@ export const GovernanceSlotMap: Story = {
     <StoryFrame width="lg">
       <StoryStack gap="sm">
         <p className="font-mono text-muted-foreground text-xs">
-          root → dialog-content · body → dialog-overlay · header →
-          dialog-header · footer → dialog-footer · label → dialog-title · state
-          → dialog-description · close-button → dialog-close-button ·
-          close-label → dialog-close-label
+          root → dialog-content · body → dialog-overlay · header → dialog-header
+          · footer → dialog-footer · label → dialog-title · state →
+          dialog-description · close-button → dialog-close-button · close-label
+          → dialog-close-label
         </p>
         <Dialog defaultOpen>
           <DialogContent data-testid="slot-map-content">

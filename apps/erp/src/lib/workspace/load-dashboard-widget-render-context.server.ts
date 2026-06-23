@@ -1,9 +1,9 @@
+import type { SerializableDashboardWidgetRenderContext } from "@afenda/appshell";
 import {
   getAfendaAuthSession,
   isAfendaAuthSessionLinked,
   toAfendaAuthIdentity,
 } from "@afenda/auth";
-import type { SerializableDashboardWidgetRenderContext } from "@afenda/appshell";
 import { headers } from "next/headers";
 
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";

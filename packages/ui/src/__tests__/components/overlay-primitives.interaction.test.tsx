@@ -1,8 +1,5 @@
+import { INTERACTION_TEST_TIMEOUT_MS, setupUser } from "@afenda/testing/react";
 import { render, screen, waitFor } from "@testing-library/react";
-import {
-  INTERACTION_TEST_TIMEOUT_MS,
-  setupUser,
-} from "@afenda/testing/react";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -195,7 +192,9 @@ describe("overlay primitive interactions", () => {
         <DialogContent showCloseButton={false}>
           <DialogHeader>
             <DialogTitle>Focus trap</DialogTitle>
-            <DialogDescription>Tab should stay inside the dialog.</DialogDescription>
+            <DialogDescription>
+              Tab should stay inside the dialog.
+            </DialogDescription>
           </DialogHeader>
           <button type="button">First action</button>
           <button type="button">Second action</button>

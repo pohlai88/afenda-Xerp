@@ -45,7 +45,9 @@ export const ShellChromeWithRecipeSlots: Story = {
           <div className={resolveAppShellSlotClassName("navigation-item")}>
             Dashboard
           </div>
-          <div className={resolveAppShellSlotClassName("active-item")}>Finance</div>
+          <div className={resolveAppShellSlotClassName("active-item")}>
+            Finance
+          </div>
           <div className={resolveAppShellSlotClassName("attention-item")}>
             3 approvals pending
           </div>
@@ -59,7 +61,9 @@ export const ShellChromeWithRecipeSlots: Story = {
           )}
         >
           <div className="app-shell-authority-preview-topbar-inner">
-            <span className="app-shell-authority-preview-topbar-title">Afenda ERP</span>
+            <span className="app-shell-authority-preview-topbar-title">
+              Afenda ERP
+            </span>
             <div className={resolveAppShellSlotClassName("command-center")}>
               Search…
             </div>
@@ -89,7 +93,7 @@ export const CompactDensity: Story = {
     docs: {
       description: {
         story:
-          "Compact density on shell root — spacing tokens follow `[data-afenda-density=\"compact\"]`.",
+          'Compact density on shell root — spacing tokens follow `[data-afenda-density="compact"]`.',
       },
     },
   },

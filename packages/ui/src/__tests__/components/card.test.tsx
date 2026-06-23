@@ -72,7 +72,9 @@ describe("Card governance", () => {
       </Card>
     );
 
-    expect(ref.current).toBe(screen.getByText("Body").closest("[data-slot=card]"));
+    expect(ref.current).toBe(
+      screen.getByText("Body").closest("[data-slot=card]")
+    );
   });
 
   it("emits governed layout size through data-size on root", () => {

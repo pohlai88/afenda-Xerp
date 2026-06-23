@@ -57,9 +57,9 @@ const FORBIDDEN_DEEP_IMPORT_PATTERN =
   /@afenda\/architecture-authority\/(?!surface["'])[^"']+/;
 
 export interface ArchitectureAuthoritySurfaceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listSourceFiles(directory: string): string[] {
@@ -79,7 +79,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts|mjs)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts|mjs)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -136,7 +139,10 @@ function verifyDocRegistryAlignment(
     }
   }
 
-  const packageDocPath = join(repoRoot, "docs/architecture/package-registry.md");
+  const packageDocPath = join(
+    repoRoot,
+    "docs/architecture/package-registry.md"
+  );
   if (existsSync(packageDocPath)) {
     const packageDoc = readFileSync(packageDocPath, "utf8");
     const activePackages = packageContract.packages.filter(
@@ -144,7 +150,9 @@ function verifyDocRegistryAlignment(
     );
 
     if (
-      !packageDoc.includes(`| **Active workspaces** | ${activePackages.length} |`)
+      !packageDoc.includes(
+        `| **Active workspaces** | ${activePackages.length} |`
+      )
     ) {
       violations.push({
         rule: "doc-package-count-drift",
@@ -220,7 +228,9 @@ function verifyDocRegistryAlignment(
       });
     }
 
-    for (const [packageName, layer] of Object.entries(layerContract.assignments)) {
+    for (const [packageName, layer] of Object.entries(
+      layerContract.assignments
+    )) {
       if (!layerDoc.includes(`\`${packageName}\``)) {
         violations.push({
           rule: "doc-layer-drift",
@@ -276,20 +286,18 @@ export async function checkArchitectureAuthoritySurface(): Promise<
     violations.push({
       rule: "surface-barrel-missing",
       file: surfaceIndexSource,
-      message: "packages/architecture-authority/src/surface/index.ts is required",
+      message:
+        "packages/architecture-authority/src/surface/index.ts is required",
     });
   }
 
   verifyDocRegistryAlignment(violations);
 
-  const snapshotPath = join(repoRoot, ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT);
-  if (!existsSync(snapshotPath)) {
-    violations.push({
-      rule: "dependency-snapshot-missing",
-      file: snapshotPath,
-      message: `Run ${ARCHITECTURE_DOC_SYNC_COMMANDS.dependencySnapshot} to generate ${ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT}`,
-    });
-  } else {
+  const snapshotPath = join(
+    repoRoot,
+    ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT
+  );
+  if (existsSync(snapshotPath)) {
     const snapshot = JSON.parse(readFileSync(snapshotPath, "utf8")) as {
       fingerprint?: string;
       runtimeEdges?: Array<{ from: string; to: string }>;
@@ -312,6 +320,12 @@ export async function checkArchitectureAuthoritySurface(): Promise<
         message: `dependency-snapshot.json has ${snapshotEdgeCount} edges; registry declares ${expectedEdgeCount}. Run ${ARCHITECTURE_DOC_SYNC_COMMANDS.dependencySnapshot}.`,
       });
     }
+  } else {
+    violations.push({
+      rule: "dependency-snapshot-missing",
+      file: snapshotPath,
+      message: `Run ${ARCHITECTURE_DOC_SYNC_COMMANDS.dependencySnapshot} to generate ${ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT}`,
+    });
   }
 
   if (existsSync(authorityPackageJson)) {
@@ -350,7 +364,8 @@ export async function checkArchitectureAuthoritySurface(): Promise<
       violations.push({
         rule: "index-surface-barrel",
         file: indexSource,
-        message: "index.ts must export surface registry from ./surface/index.js",
+        message:
+          "index.ts must export surface registry from ./surface/index.js",
       });
     }
 
@@ -365,13 +380,7 @@ export async function checkArchitectureAuthoritySurface(): Promise<
     }
   }
 
-  if (!existsSync(registrySource)) {
-    violations.push({
-      rule: "registry-missing",
-      file: registrySource,
-      message: "architecture-authority-surface-registry.ts is required",
-    });
-  } else {
+  if (existsSync(registrySource)) {
     const registryText = readFileSync(registrySource, "utf8");
     if (!registryText.includes("ARCHITECTURE_AUTHORITY_SURFACE_RULE")) {
       violations.push({
@@ -381,6 +390,12 @@ export async function checkArchitectureAuthoritySurface(): Promise<
           "architecture-authority-surface-registry.ts must declare ARCHITECTURE_AUTHORITY_SURFACE_RULE",
       });
     }
+  } else {
+    violations.push({
+      rule: "registry-missing",
+      file: registrySource,
+      message: "architecture-authority-surface-registry.ts is required",
+    });
   }
 
   for (const scanRoot of CONSUMER_SCAN_ROOTS) {

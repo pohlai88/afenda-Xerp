@@ -49,15 +49,14 @@ export type MetadataActionGroup = (typeof METADATA_ACTION_GROUPS)[number];
 
 export interface MetadataActionPresentation {
   /**
-   * Icon key resolved by the renderer.
-   */
-  readonly icon?: string;
-
-  /**
    * Visual hierarchy group exposed as data-action-group.
    * Legacy string values (e.g. "help") map to tertiary.
    */
   readonly group?: MetadataActionGroup | string;
+  /**
+   * Icon key resolved by the renderer.
+   */
+  readonly icon?: string;
 
   /**
    * Stable ordering value. Lower numbers render first.
@@ -89,20 +88,20 @@ export interface MetadataActionContext {
 }
 
 export interface MetadataActionSuccessResult {
-  readonly ok: true;
   readonly actionKey: string;
   readonly message?: string;
+  readonly ok: true;
 }
 
 export interface MetadataActionFailureResult {
-  readonly ok: false;
   readonly actionKey: string;
   readonly code: MetadataActionErrorCode;
-  readonly userMessage: string;
+  readonly ok: false;
   /**
    * Optional internal detail for logs — never render raw DB or stack data in UI.
    */
   readonly reason?: string;
+  readonly userMessage: string;
 }
 
 export type MetadataActionResult =

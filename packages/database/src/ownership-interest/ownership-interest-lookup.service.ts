@@ -4,8 +4,8 @@ import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { legalEntityOwnership } from "../schema/legal-entity-ownership.schema.js";
 import {
-  toOwnershipInterestAuthorityRecord,
   type OwnershipInterestAuthorityRecord,
+  toOwnershipInterestAuthorityRecord,
 } from "./ownership-interest.contract.js";
 
 export interface FindOwnershipInterestsInput {

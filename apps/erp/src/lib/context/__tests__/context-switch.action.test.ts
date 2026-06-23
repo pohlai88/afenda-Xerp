@@ -1,9 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import {
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   type OperatingContext,
 } from "@afenda/kernel";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const {
   resolveActionOperatingContextMock,

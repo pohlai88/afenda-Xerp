@@ -235,7 +235,7 @@ export const GovernanceDataAuthority: Story = {
     docs: {
       description: {
         story:
-          "Consumer passes `data-tone=\"danger\"` and `data-emphasis=\"ghost\"` — governed props (`tone=\"success\"`, `emphasis=\"solid\"`) must win in the DOM.",
+          'Consumer passes `data-tone="danger"` and `data-emphasis="ghost"` — governed props (`tone="success"`, `emphasis="solid"`) must win in the DOM.',
       },
     },
   },
@@ -699,7 +699,9 @@ export const SLAIndicators: Story = {
             <span className="font-mono text-sm tabular-nums">{ticket}</span>
             <StatusBadge label={label} tone={tone} />
           </StoryRow>
-          <span className="text-muted-foreground text-xs tabular-nums">{due}</span>
+          <span className="text-muted-foreground text-xs tabular-nums">
+            {due}
+          </span>
         </StoryRow>
       ))}
     </StoryStack>
@@ -845,30 +847,60 @@ export const StatusBridgeTones: Story = {
   render: () => (
     <StoryStack gap="lg">
       <StoryStack gap="sm">
-        <span className="font-medium text-foreground text-xs">Solid (filled background)</span>
+        <span className="font-medium text-foreground text-xs">
+          Solid (filled background)
+        </span>
         <StoryRow gap="sm" wrap>
-          <Badge emphasis="solid" tone="success">Success</Badge>
-          <Badge emphasis="solid" tone="warning">Warning</Badge>
-          <Badge emphasis="solid" tone="info">Info</Badge>
-          <Badge emphasis="solid" tone="danger">Danger</Badge>
+          <Badge emphasis="solid" tone="success">
+            Success
+          </Badge>
+          <Badge emphasis="solid" tone="warning">
+            Warning
+          </Badge>
+          <Badge emphasis="solid" tone="info">
+            Info
+          </Badge>
+          <Badge emphasis="solid" tone="danger">
+            Danger
+          </Badge>
         </StoryRow>
       </StoryStack>
       <StoryStack gap="sm">
-        <span className="font-medium text-foreground text-xs">Soft (10 % alpha surface)</span>
+        <span className="font-medium text-foreground text-xs">
+          Soft (10 % alpha surface)
+        </span>
         <StoryRow gap="sm" wrap>
-          <Badge emphasis="soft" tone="success">Success</Badge>
-          <Badge emphasis="soft" tone="warning">Warning</Badge>
-          <Badge emphasis="soft" tone="info">Info</Badge>
-          <Badge emphasis="soft" tone="danger">Danger</Badge>
+          <Badge emphasis="soft" tone="success">
+            Success
+          </Badge>
+          <Badge emphasis="soft" tone="warning">
+            Warning
+          </Badge>
+          <Badge emphasis="soft" tone="info">
+            Info
+          </Badge>
+          <Badge emphasis="soft" tone="danger">
+            Danger
+          </Badge>
         </StoryRow>
       </StoryStack>
       <StoryStack gap="sm">
-        <span className="font-medium text-foreground text-xs">Outline (border only)</span>
+        <span className="font-medium text-foreground text-xs">
+          Outline (border only)
+        </span>
         <StoryRow gap="sm" wrap>
-          <Badge emphasis="outline" tone="success">Success</Badge>
-          <Badge emphasis="outline" tone="warning">Warning</Badge>
-          <Badge emphasis="outline" tone="info">Info</Badge>
-          <Badge emphasis="outline" tone="danger">Danger</Badge>
+          <Badge emphasis="outline" tone="success">
+            Success
+          </Badge>
+          <Badge emphasis="outline" tone="warning">
+            Warning
+          </Badge>
+          <Badge emphasis="outline" tone="info">
+            Info
+          </Badge>
+          <Badge emphasis="outline" tone="danger">
+            Danger
+          </Badge>
         </StoryRow>
       </StoryStack>
     </StoryStack>

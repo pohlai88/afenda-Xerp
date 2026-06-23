@@ -1,9 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import {
-  Building2Icon,
-  FileTextIcon,
-  HistoryIcon,
-} from "lucide-react";
+import { Building2Icon, FileTextIcon, HistoryIcon } from "lucide-react";
 import {
   APPROVAL_QUEUE,
   AUDIT_EVENTS,

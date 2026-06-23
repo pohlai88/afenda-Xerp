@@ -38,9 +38,9 @@ const REQUIRED_INDEX_EXPORTS = [
 ] as const;
 
 export interface AppshellContextSurfaceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listProductionSourceFiles(directory: string): string[] {
@@ -190,7 +190,8 @@ export function checkAppshellContextSurface(): AppshellContextSurfaceViolation[]
       violations.push({
         rule: "registry-missing",
         file: registrySource,
-        message: "appshell-context-surface-registry.ts must declare APPSHELL_CONTEXT_SURFACE_RULE",
+        message:
+          "appshell-context-surface-registry.ts must declare APPSHELL_CONTEXT_SURFACE_RULE",
       });
     }
   } else {
@@ -208,7 +209,8 @@ export function checkAppshellContextSurface(): AppshellContextSurfaceViolation[]
       violations.push({
         rule: "operating-context-type",
         file: appShellTypesPath,
-        message: "ApplicationShellOperatingContext display contract is required",
+        message:
+          "ApplicationShellOperatingContext display contract is required",
       });
     }
   }
@@ -248,7 +250,8 @@ export function checkAppshellContextSurface(): AppshellContextSurfaceViolation[]
       violations.push({
         rule: "forbidden-next-headers",
         file,
-        message: "AppShell must not read Next.js request headers — host app resolves context",
+        message:
+          "AppShell must not read Next.js request headers — host app resolves context",
       });
     }
   }
@@ -258,7 +261,8 @@ export function checkAppshellContextSurface(): AppshellContextSurfaceViolation[]
     violations.push({
       rule: "context-dist-missing",
       file: contextDist,
-      message: "Missing dist/context/index.d.ts — run pnpm --filter @afenda/appshell build",
+      message:
+        "Missing dist/context/index.d.ts — run pnpm --filter @afenda/appshell build",
     });
   } else if (
     existsSync(contextIndexSource) &&

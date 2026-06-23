@@ -35,7 +35,6 @@ export type SurfaceContractProhibition =
 
 export interface SurfaceContract {
   readonly authority: "surface";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /**
    * Surface contract owns metadata surface vocabulary only.
@@ -51,14 +50,15 @@ export interface SurfaceContract {
   readonly owns: readonly SurfaceContractOwnership[];
 
   /**
-   * Governed surface types supported by the metadata authority.
-   */
-  readonly types: readonly SurfaceType[];
-
-  /**
    * Responsibilities explicitly forbidden from the surface contract.
    */
   readonly prohibits: readonly SurfaceContractProhibition[];
+
+  /**
+   * Governed surface types supported by the metadata authority.
+   */
+  readonly types: readonly SurfaceType[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 }
 
 export const surfaceContract = {

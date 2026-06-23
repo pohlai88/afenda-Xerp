@@ -65,7 +65,9 @@ describe("client-error reporting — static hygiene", () => {
   });
 
   it("reports digest and segment only from the client reporter", () => {
-    const source = readSource("lib/observability/report-client-error.client.ts");
+    const source = readSource(
+      "lib/observability/report-client-error.client.ts"
+    );
     expect(source).toContain("digest");
     expect(source).toContain("segment");
     expect(source).not.toContain("error.message");

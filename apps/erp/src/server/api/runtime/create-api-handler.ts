@@ -3,17 +3,8 @@ import { brandUserId, createExecutionContext } from "@afenda/kernel";
 import { headers } from "next/headers";
 
 import type { ApiRouteContract } from "../contracts/api-contract";
-import {
-  assertRoutePermission,
-  createApiRequestContext,
-  type ApiRequestContext,
-} from "./api-request-context";
 import { isMutationMethod } from "../contracts/api-route-policy.contract";
-import { emitApiAuditEvidence, emitApiDeniedAuditEvidence } from "./api-handler-audit";
-import {
-  createApiHandlerLogger,
-  logApiRequest,
-} from "./api-handler-logging";
+import { createRequestId, resolveCorrelationId } from "./api-correlation";
 import {
   mapUnknownErrorToApiCode,
   resolveErrorDetails,
@@ -21,15 +12,17 @@ import {
   resolvePublicErrorMessage,
 } from "./api-error";
 import {
-  createRequestId,
-  resolveCorrelationId,
-} from "./api-correlation";
+  emitApiAuditEvidence,
+  emitApiDeniedAuditEvidence,
+} from "./api-handler-audit";
+import { createApiHandlerLogger, logApiRequest } from "./api-handler-logging";
 import {
-  jsonErrorResponse,
-  jsonSuccessResponse,
-} from "./api-response";
+  type ApiRequestContext,
+  assertRoutePermission,
+  createApiRequestContext,
+} from "./api-request-context";
+import { jsonErrorResponse, jsonSuccessResponse } from "./api-response";
 import {
-  ApiRouteError,
   isApiRouteError,
   parseRequestBody,
   parseResponseData,
@@ -84,7 +77,10 @@ export function createApiHandler<TRequest, TResponse>(config: {
         config.contract.method === "GET" ||
         config.contract.method === "DELETE"
       ) {
-        requestBody = parseRequestBody(config.contract.requestSchema, undefined);
+        requestBody = parseRequestBody(
+          config.contract.requestSchema,
+          undefined
+        );
       } else {
         const rawBody = await readJsonBody(request);
         requestBody = parseRequestBody(config.contract.requestSchema, rawBody);
@@ -108,10 +104,10 @@ export function createApiHandler<TRequest, TResponse>(config: {
         userId,
       });
 
-      context = await assertRoutePermission(
+      context = (await assertRoutePermission(
         context,
         config.contract.permission
-      ) as ApiRequestContext<TRequest>;
+      )) as ApiRequestContext<TRequest>;
 
       const result = await config.handler(context);
       const dto = parseResponseData(config.contract.responseSchema, result);
@@ -175,8 +171,7 @@ export function createApiHandler<TRequest, TResponse>(config: {
       if (resolveErrorLogLevel(code) === "error" && !isApiRouteError(error)) {
         logger.error("api.request.unexpected", {
           contractId: config.contract.id,
-          reason:
-            error instanceof Error ? error.message : "unknown",
+          reason: error instanceof Error ? error.message : "unknown",
           requestId,
         });
       }

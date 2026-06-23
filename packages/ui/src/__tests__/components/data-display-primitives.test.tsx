@@ -1,10 +1,10 @@
-import { render, screen } from "@testing-library/react";
 import {
   type ColumnDef,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { createRef, forwardRef, type ComponentProps } from "react";
+import { render, screen } from "@testing-library/react";
+import { type ComponentProps, createRef, forwardRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -253,7 +253,9 @@ describe("data display primitive governance", () => {
         />
       );
 
-      const root = screen.getByRole("table").closest('[data-slot="data-table"]');
+      const root = screen
+        .getByRole("table")
+        .closest('[data-slot="data-table"]');
       expect(root).toBeTruthy();
       expect(screen.getByText("Alpha").closest("td")).toHaveAttribute(
         "data-slot",
@@ -262,25 +264,21 @@ describe("data display primitive governance", () => {
     });
 
     it("renders empty state with governed empty-cell slot", () => {
-      render(
-        <SampleDataTable data={[]} emptyMessage="No matching records." />
-      );
+      render(<SampleDataTable data={[]} emptyMessage="No matching records." />);
 
       const emptyCell = screen.getByText("No matching records.");
       expect(emptyCell).toHaveAttribute("data-slot", "data-table-empty-cell");
       expect(emptyCell).toHaveAttribute("role", "status");
-      expect(emptyCell.closest("td")).toHaveAttribute("data-slot", "table-cell");
+      expect(emptyCell.closest("td")).toHaveAttribute(
+        "data-slot",
+        "table-cell"
+      );
     });
 
     it("forwards ref to DataTable root wrapper", () => {
       const ref = createRef<HTMLDivElement>();
 
-      render(
-        <SampleDataTable
-          data={[{ id: "1", name: "Alpha" }]}
-          ref={ref}
-        />
-      );
+      render(<SampleDataTable data={[{ id: "1", name: "Alpha" }]} ref={ref} />);
 
       expect(ref.current).toHaveAttribute("data-slot", "data-table");
     });
@@ -295,7 +293,9 @@ describe("data display primitive governance", () => {
         />
       );
 
-      const root = screen.getByRole("table").closest('[data-slot="data-table"]');
+      const root = screen
+        .getByRole("table")
+        .closest('[data-slot="data-table"]');
       expect(root).toBeTruthy();
       expectGovernedDataAuthority(root as HTMLElement, {
         "data-component": "DataTable",

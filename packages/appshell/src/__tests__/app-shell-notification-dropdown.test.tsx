@@ -1,12 +1,10 @@
 import { render, screen, within } from "@testing-library/react";
-import React from "react";
 import { describe, expect, it } from "vitest";
-
+import { AppShellNotificationDropdown } from "../shadcn-studio/blocks/app-shell-notification-dropdown";
 import {
   countDefaultAppShellUnreadNotifications,
   defaultAppShellInboxNotifications,
 } from "../shadcn-studio/data/app-shell.notification.data";
-import { AppShellNotificationDropdown } from "../shadcn-studio/blocks/app-shell-notification-dropdown";
 
 describe("AppShellNotificationDropdown", () => {
   it("renders the trigger without TIP-004 consumer violations", () => {
@@ -30,7 +28,9 @@ describe("AppShellNotificationDropdown", () => {
     );
 
     expect(screen.getByText("Notifications")).toBeInTheDocument();
-    expect(screen.getByText("AP invoice batch requires your approval")).toBeInTheDocument();
+    expect(
+      screen.getByText("AP invoice batch requires your approval")
+    ).toBeInTheDocument();
     expect(screen.getByText("q2-close-workbook.xlsx")).toBeInTheDocument();
     expect(
       screen.getByRole("list", { name: "Inbox notifications" })
@@ -45,7 +45,9 @@ describe("AppShellNotificationDropdown", () => {
       />
     );
 
-    const unreadBadge = screen.getByText(`${countDefaultAppShellUnreadNotifications()} new`);
+    const unreadBadge = screen.getByText(
+      `${countDefaultAppShellUnreadNotifications()} new`
+    );
     expect(unreadBadge).toHaveAttribute("data-slot", "badge");
   });
 
@@ -58,8 +60,12 @@ describe("AppShellNotificationDropdown", () => {
     );
 
     const inboxList = screen.getByRole("list", { name: "Inbox notifications" });
-    const acceptButton = within(inboxList).getAllByRole("button", { name: "Accept" })[0];
-    const declineButton = within(inboxList).getAllByRole("button", { name: "Decline" })[0];
+    const acceptButton = within(inboxList).getAllByRole("button", {
+      name: "Accept",
+    })[0];
+    const declineButton = within(inboxList).getAllByRole("button", {
+      name: "Decline",
+    })[0];
 
     expect(acceptButton).toHaveAttribute("data-slot", "button");
     expect(declineButton).toHaveAttribute("data-slot", "button");
@@ -86,9 +92,9 @@ describe("AppShellNotificationDropdown", () => {
       />
     );
 
-    const content = document.querySelector(
-      ".app-shell-notification-dropdown"
-    )?.closest("[data-slot='dropdown-menu-content']");
+    const content = document
+      .querySelector(".app-shell-notification-dropdown")
+      ?.closest("[data-slot='dropdown-menu-content']");
     expect(content).not.toBeNull();
     expect(screen.getByRole("tab", { name: "General" })).toBeInTheDocument();
   });
@@ -104,7 +110,8 @@ describe("AppShellNotificationDropdown", () => {
             kind: "simple",
             actor: {
               name: "Test Operator",
-              avatarSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
+              avatarSrc:
+                "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
               fallback: "TO",
             },
             title: "Custom ERP alert",
@@ -122,7 +129,9 @@ describe("AppShellNotificationDropdown", () => {
     expect(screen.getByText("Alerts")).toBeInTheDocument();
     expect(screen.getByText("Custom ERP alert")).toBeInTheDocument();
     expect(screen.getByText("1 new")).toBeInTheDocument();
-    expect(screen.queryByText("AP invoice batch requires your approval")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("AP invoice batch requires your approval")
+    ).not.toBeInTheDocument();
   });
 
   it("renders ISO timestamps inside time elements", () => {
@@ -154,6 +163,8 @@ describe("AppShellNotificationDropdown", () => {
     expect(
       screen.getByRole("list", { name: "General notifications" })
     ).toBeInTheDocument();
-    expect(screen.getByText("Scheduled maintenance window this Saturday")).toBeInTheDocument();
+    expect(
+      screen.getByText("Scheduled maintenance window this Saturday")
+    ).toBeInTheDocument();
   });
 });

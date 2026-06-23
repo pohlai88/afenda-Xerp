@@ -29,9 +29,14 @@ describe("api-route-permissions", () => {
   it("includes every protected contract exactly once", () => {
     const matrix = buildRoutePermissionMatrix();
     const protectedContracts = API_CONTRACTS.filter(
-      (contract): contract is (typeof API_CONTRACTS)[number] & {
+      (
+        contract
+      ): contract is (typeof API_CONTRACTS)[number] & {
         permission: NonNullable<
-          Extract<(typeof API_CONTRACTS)[number], { permission?: unknown }>["permission"]
+          Extract<
+            (typeof API_CONTRACTS)[number],
+            { permission?: unknown }
+          >["permission"]
         >;
       } => "permission" in contract && contract.permission !== undefined
     );

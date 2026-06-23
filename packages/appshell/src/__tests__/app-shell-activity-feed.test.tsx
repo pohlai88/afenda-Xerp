@@ -1,8 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
-import { defaultAppShellActivities } from "../shadcn-studio/data/app-shell.data";
 import { AppShellActivityFeed } from "../shadcn-studio/blocks/app-shell-activity-feed";
+import { defaultAppShellActivities } from "../shadcn-studio/data/app-shell.data";
 
 describe("AppShellActivityFeed", () => {
   it("renders the ERP activity feed with accessible list semantics", () => {
@@ -15,7 +14,9 @@ describe("AppShellActivityFeed", () => {
     expect(screen.getByText(/Q2 budget review/)).toBeInTheDocument();
     expect(screen.getByText("ap-invoices-june.pdf")).toBeInTheDocument();
     expect(screen.getByText("Manufacturing")).toBeInTheDocument();
-    expect(screen.getAllByRole("article")).toHaveLength(defaultAppShellActivities.length);
+    expect(screen.getAllByRole("article")).toHaveLength(
+      defaultAppShellActivities.length
+    );
   });
 
   it("supports a custom feed label", () => {
@@ -29,7 +30,9 @@ describe("AppShellActivityFeed", () => {
   it("renders an empty-state status when there are no activities", () => {
     render(<AppShellActivityFeed activities={[]} />);
 
-    expect(screen.getByRole("status")).toHaveTextContent(/No team activity yet/);
+    expect(screen.getByRole("status")).toHaveTextContent(
+      /No team activity yet/
+    );
     expect(screen.queryByRole("feed")).not.toBeInTheDocument();
   });
 
@@ -37,8 +40,12 @@ describe("AppShellActivityFeed", () => {
     render(<AppShellActivityFeed />);
 
     expect(screen.getByLabelText("Reply message")).toBeInTheDocument();
-    expect(screen.getByRole("group", { name: "Reply to mention" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Attach image" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("group", { name: "Reply to mention" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Attach image" })
+    ).toBeInTheDocument();
   });
 
   it("renders ISO timestamps inside time elements", () => {
@@ -51,7 +58,10 @@ describe("AppShellActivityFeed", () => {
 
     const timeElement = screen.getByText(mentionActivity?.relativeTime ?? "");
     expect(timeElement.tagName).toBe("TIME");
-    expect(timeElement).toHaveAttribute("dateTime", mentionActivity?.occurredAt);
+    expect(timeElement).toHaveAttribute(
+      "dateTime",
+      mentionActivity?.occurredAt
+    );
   });
 
   it("renders actor avatars with governed data-slot values", () => {
@@ -61,7 +71,9 @@ describe("AppShellActivityFeed", () => {
     const avatars = within(feed).getAllByText("AM");
 
     expect(avatars[0]?.closest('[data-slot="avatar"]')).not.toBeNull();
-    expect(within(feed).getByText("JR").closest('[data-slot="avatar-fallback"]')).not.toBeNull();
+    expect(
+      within(feed).getByText("JR").closest('[data-slot="avatar-fallback"]')
+    ).not.toBeNull();
   });
 
   it("renders governed badges with the canonical data-slot value", () => {
@@ -76,10 +88,14 @@ describe("AppShellActivityFeed", () => {
   it("renders file attachments as navigable links", () => {
     render(<AppShellActivityFeed />);
 
-    const invoiceLink = screen.getByRole("link", { name: /ap-invoices-june\.pdf/i });
+    const invoiceLink = screen.getByRole("link", {
+      name: /ap-invoices-june\.pdf/i,
+    });
     expect(invoiceLink).toHaveAttribute("href", "#");
 
-    const designLink = screen.getByRole("link", { name: /BOM-redesign-v3\.fig/i });
+    const designLink = screen.getByRole("link", {
+      name: /BOM-redesign-v3\.fig/i,
+    });
     expect(designLink).toHaveAttribute("href", "#");
   });
 
@@ -101,7 +117,8 @@ describe("AppShellActivityFeed", () => {
             kind: "simple",
             actor: {
               name: "Test Operator",
-              avatarSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
+              avatarSrc:
+                "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
               fallback: "TO",
             },
             action: "approved your purchase order",
@@ -113,7 +130,9 @@ describe("AppShellActivityFeed", () => {
     );
 
     expect(screen.getByText("Test Operator")).toBeInTheDocument();
-    expect(screen.getByText(/approved your purchase order/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/approved your purchase order/)
+    ).toBeInTheDocument();
     expect(screen.queryByText("Alex Morgan")).not.toBeInTheDocument();
   });
 });

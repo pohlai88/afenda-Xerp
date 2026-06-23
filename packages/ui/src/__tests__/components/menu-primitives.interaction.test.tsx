@@ -1,4 +1,3 @@
-import { render, screen, waitFor } from "@testing-library/react";
 import {
   activateMenuOption,
   INTERACTION_TEST_TIMEOUT_MS,
@@ -8,6 +7,7 @@ import {
   setupUser,
   waitForMenuToClose,
 } from "@afenda/testing/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -130,7 +130,9 @@ describe("menu primitive interactions", () => {
 
     render(<ControlledPopover />);
 
-    await user.click(screen.getByRole("button", { name: "Controlled popover" }));
+    await user.click(
+      screen.getByRole("button", { name: "Controlled popover" })
+    );
     expect(await screen.findByText("Controlled panel")).toBeInTheDocument();
     expect(onOpenChange).toHaveBeenLastCalledWith(true);
 

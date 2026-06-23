@@ -1,15 +1,12 @@
 import type { ApiCachePolicy } from "../contracts/api-contract";
-import type { ApiErrorCode } from "../contracts/api-error.contract";
-import { getApiErrorDefinition } from "../contracts/api-error.contract";
 import type {
   ApiErrorEnvelope,
   ApiResponseMeta,
   ApiSuccessEnvelope,
 } from "../contracts/api-envelope.contract";
-import {
-  CORRELATION_ID_HEADER,
-  REQUEST_ID_HEADER,
-} from "./api-correlation";
+import type { ApiErrorCode } from "../contracts/api-error.contract";
+import { getApiErrorDefinition } from "../contracts/api-error.contract";
+import { CORRELATION_ID_HEADER, REQUEST_ID_HEADER } from "./api-correlation";
 
 function buildResponseMeta(meta: ApiResponseMeta): ApiResponseMeta {
   return meta;

@@ -93,8 +93,14 @@ describe("InputGroup governance", () => {
       "data-slot",
       "input-group-addon"
     );
-    expect(screen.getByTestId("addon")).toHaveAttribute("data-align", "inline-start");
-    expect(screen.getByText("PO-")).toHaveAttribute("data-slot", "input-group-text");
+    expect(screen.getByTestId("addon")).toHaveAttribute(
+      "data-align",
+      "inline-start"
+    );
+    expect(screen.getByText("PO-")).toHaveAttribute(
+      "data-slot",
+      "input-group-text"
+    );
 
     const button = screen.getByRole("button", { name: "Clear" });
     expect(button).toHaveAttribute("data-slot", "button");

@@ -14,7 +14,11 @@ export const metadataUiCssManifest = [
     purpose: "renderer-structural",
     productionSafe: true,
     requiresTailwindTheme: false,
-    allowedImporters: ["apps/*", "@afenda/metadata-ui/storybook", "@afenda/storybook"],
+    allowedImporters: [
+      "apps/*",
+      "@afenda/metadata-ui/storybook",
+      "@afenda/storybook",
+    ],
     prohibitedImporters: ["@afenda/metadata", "@afenda/appshell"],
     classNamespace: "metadata-",
     propertyNamespace: "none",

@@ -29,76 +29,114 @@ const ToggleGroupContext = React.createContext<
   orientation: "horizontal",
 });
 
-export interface ToggleGroupProps
-  extends Omit<
-      React.ComponentProps<typeof ToggleGroupPrimitive.Root>,
-      "className"
-    >,
-    GovernedToggleGroupProps {
+type SharedToggleGroupProps = GovernedToggleGroupProps & {
   readonly className?: string;
   readonly orientation?: "horizontal" | "vertical";
   readonly size?: GovernedToggleProps["size"];
   readonly spacing?: number;
   readonly variant?: GovernedToggleProps["variant"];
-}
+  readonly children?: React.ReactNode;
+  readonly style?: React.CSSProperties;
+};
+
+export type ToggleGroupSingleProps = SharedToggleGroupProps &
+  Omit<
+    Extract<
+      React.ComponentProps<typeof ToggleGroupPrimitive.Root>,
+      { type?: "single" }
+    >,
+    keyof SharedToggleGroupProps
+  >;
+
+export type ToggleGroupMultipleProps = SharedToggleGroupProps &
+  Omit<
+    Extract<
+      React.ComponentProps<typeof ToggleGroupPrimitive.Root>,
+      { type: "multiple" }
+    >,
+    keyof SharedToggleGroupProps
+  >;
+
+export type ToggleGroupProps =
+  | ToggleGroupSingleProps
+  | ToggleGroupMultipleProps;
 
 const ToggleGroup = React.forwardRef<
   React.ComponentRef<typeof ToggleGroupPrimitive.Root>,
   ToggleGroupProps
->(
-  (
-    {
-      className,
-      variant,
-      size,
-      spacing = 2,
-      orientation = "horizontal",
-      state,
-      children,
-      style,
-      ...props
-    },
-    ref
-  ) => {
-    const governed = resolvePrimitiveGovernance({
-      componentName: "ToggleGroup",
-      recipeName: TOGGLE_GROUP_RECIPE_NAME,
-      slot: TOGGLE_GROUP_SLOT_ROLES.root,
-      state,
-      className,
-    });
+>((props, ref) => {
+  const {
+    className,
+    variant,
+    size,
+    spacing = 2,
+    orientation = "horizontal",
+    state,
+    children,
+    style,
+    ...radixProps
+  } = props;
 
+  const governed = resolvePrimitiveGovernance({
+    componentName: "ToggleGroup",
+    recipeName: TOGGLE_GROUP_RECIPE_NAME,
+    slot: TOGGLE_GROUP_SLOT_ROLES.root,
+    state,
+    className,
+  });
+
+  const presentationBase = {
+    ref,
+    orientation,
+    style: {
+      "--gap": spacing,
+      ...(style ?? {}),
+    } as React.CSSProperties,
+  };
+
+  const content = (
+    <ToggleGroupContext.Provider
+      value={{
+        ...(variant === undefined ? {} : { variant }),
+        ...(size === undefined ? {} : { size }),
+        spacing,
+        orientation,
+      }}
+    >
+      {children}
+    </ToggleGroupContext.Provider>
+  );
+
+  if (radixProps.type === "multiple") {
     return (
       <ToggleGroupPrimitive.Root
-        ref={ref}
-        orientation={orientation}
-        style={
-          {
-            "--gap": spacing,
-            ...(style ?? {}),
-          } as React.CSSProperties
-        }
-        {...applyGovernedPresentation(props, governed, {
+        {...presentationBase}
+        {...applyGovernedPresentation(radixProps, governed, {
           "data-orientation": orientation,
           "data-size": size,
           "data-spacing": spacing,
           "data-variant": variant,
         })}
       >
-        <ToggleGroupContext.Provider
-          value={{
-            ...(variant === undefined ? {} : { variant }),
-            ...(size === undefined ? {} : { size }),
-            spacing,
-            orientation,
-          }}
-        >
-          {children}
-        </ToggleGroupContext.Provider>
+        {content}
       </ToggleGroupPrimitive.Root>
     );
   }
-);
+
+  return (
+    <ToggleGroupPrimitive.Root
+      {...presentationBase}
+      {...applyGovernedPresentation(radixProps, governed, {
+        "data-orientation": orientation,
+        "data-size": size,
+        "data-spacing": spacing,
+        "data-variant": variant,
+      })}
+    >
+      {content}
+    </ToggleGroupPrimitive.Root>
+  );
+});
 
 ToggleGroup.displayName = "ToggleGroup";
 

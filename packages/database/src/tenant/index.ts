@@ -12,12 +12,12 @@ export {
   type TenantWriteInput,
 } from "../tenant/tenant.contract.js";
 export {
-  archiveTenant,
-  insertTenant,
-  updateTenant,
   type ArchiveTenantInput,
+  archiveTenant,
   type InsertTenantInput,
+  insertTenant,
   type TenantAuditContext,
   type TenantMutationResult,
   type UpdateTenantInput,
+  updateTenant,
 } from "../tenant/tenant.service.js";

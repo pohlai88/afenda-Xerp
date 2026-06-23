@@ -35,11 +35,12 @@ describe("AppShellProfileDropdown", () => {
   it("shows profile header with default ERP identity when opened", () => {
     renderProfileDropdown({ defaultOpen: true });
 
-    expect(screen.getByText(DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME)).toHaveAttribute(
-      "id",
-      "app-shell-profile-menu-label"
-    );
-    expect(screen.getByText(DEFAULT_APP_SHELL_PROFILE_EMAIL)).toBeInTheDocument();
+    expect(
+      screen.getByText(DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME)
+    ).toHaveAttribute("id", "app-shell-profile-menu-label");
+    expect(
+      screen.getByText(DEFAULT_APP_SHELL_PROFILE_EMAIL)
+    ).toBeInTheDocument();
     expect(screen.getByText("Online")).toHaveClass("sr-only");
   });
 
@@ -47,8 +48,12 @@ describe("AppShellProfileDropdown", () => {
     renderProfileDropdown({ defaultOpen: true });
 
     const wrapper = document.querySelector(".app-shell-profile-dropdown");
-    expect(wrapper?.closest("[data-slot='dropdown-menu-content']")).not.toBeNull();
-    expect(screen.getByText(DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME)).toBeVisible();
+    expect(
+      wrapper?.closest("[data-slot='dropdown-menu-content']")
+    ).not.toBeNull();
+    expect(
+      screen.getByText(DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME)
+    ).toBeVisible();
     expect(screen.getByText(DEFAULT_APP_SHELL_PROFILE_EMAIL)).toBeVisible();
   });
 
@@ -57,24 +62,40 @@ describe("AppShellProfileDropdown", () => {
 
     const avatars = screen.getAllByText("AM");
     expect(avatars.length).toBeGreaterThan(0);
-    expect(screen.getAllByText("AM")[0]?.closest("[data-slot='avatar']")).not.toBeNull();
+    expect(
+      screen.getAllByText("AM")[0]?.closest("[data-slot='avatar']")
+    ).not.toBeNull();
   });
 
   it("lists default account and admin menu actions", () => {
     renderProfileDropdown({ defaultOpen: true });
 
-    expect(screen.getByRole("menuitem", { name: "My profile" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Preferences" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Company plan" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "ERP users" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Appearance" })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "Add user" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "My profile" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Preferences" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Company plan" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "ERP users" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Appearance" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "Add user" })
+    ).toBeInTheDocument();
   });
 
   it("marks the sign-out action as destructive", () => {
     renderProfileDropdown({ defaultOpen: true });
 
-    const signOut = screen.getByRole("menuitem", { name: defaultAppShellProfileLogoutAction.label });
+    const signOut = screen.getByRole("menuitem", {
+      name: defaultAppShellProfileLogoutAction.label,
+    });
     expect(signOut).toHaveAttribute("data-variant", "destructive");
   });
 
@@ -111,11 +132,12 @@ describe("AppShellProfileDropdown", () => {
     expect(
       screen.getByRole("menuitem", { name: "Workspace settings" })
     ).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: "My profile" })).not.toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: "End session" })).toHaveAttribute(
-      "data-variant",
-      "destructive"
-    );
+    expect(
+      screen.queryByRole("menuitem", { name: "My profile" })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("menuitem", { name: "End session" })
+    ).toHaveAttribute("data-variant", "destructive");
   });
 
   it("scopes menu groups with aria-label", () => {

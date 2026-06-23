@@ -82,6 +82,8 @@ describe("AspectRatio governance", () => {
       </AspectRatio>
     );
 
-    expect(screen.getByRole("img", { name: "Warehouse item" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "Warehouse item" })
+    ).toBeInTheDocument();
   });
 });

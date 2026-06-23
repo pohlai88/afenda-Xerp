@@ -32,6 +32,29 @@ export {
   metadataUiIntegrationRule,
 } from "./governance/cross-package-authority.contract.js";
 export type {
+  MetadataAiGovernanceMay,
+  MetadataAiGovernanceMayNot,
+  MetadataAiGovernanceMust,
+  MetadataAiGovernanceRules,
+  MetadataAuthorityChangeRule,
+  MetadataAuthorityConsumer,
+  MetadataAuthorityEntry,
+  MetadataAuthorityMap,
+  MetadataAuthorityOwnership,
+  MetadataAuthorityProhibition,
+} from "./governance/metadata-authority-map.contract.js";
+export {
+  METADATA_AI_GOVERNANCE_MAY,
+  METADATA_AI_GOVERNANCE_MAY_NOT,
+  METADATA_AI_GOVERNANCE_MUST,
+  METADATA_AUTHORITY_CHANGE_RULES,
+  METADATA_AUTHORITY_CONSUMERS,
+  METADATA_AUTHORITY_OWNERSHIPS,
+  METADATA_AUTHORITY_PROHIBITIONS,
+  metadataAiGovernanceRules,
+  metadataAuthorityMap,
+} from "./governance/metadata-authority-map.contract.js";
+export type {
   LayoutContract,
   LayoutContractOwnership,
   LayoutContractProhibition,
@@ -42,15 +65,6 @@ export {
   layoutContract,
 } from "./layout.contract.js";
 export {
-  LAYOUT_TYPES,
-  METADATA_AUTHORITY_KEYS,
-  METADATA_DENSITY_MODES,
-  METADATA_LIFECYCLES,
-  METADATA_RUNTIME_STATES,
-  PRESENTATION_MODES,
-  RENDERER_CAPABILITIES,
-  SECTION_TYPES,
-  SURFACE_TYPES,
   isLayoutType,
   isMetadataAuthorityKey,
   isMetadataDensityMode,
@@ -60,6 +74,15 @@ export {
   isRendererCapability,
   isSectionType,
   isSurfaceType,
+  LAYOUT_TYPES,
+  METADATA_AUTHORITY_KEYS,
+  METADATA_DENSITY_MODES,
+  METADATA_LIFECYCLES,
+  METADATA_RUNTIME_STATES,
+  PRESENTATION_MODES,
+  RENDERER_CAPABILITIES,
+  SECTION_TYPES,
+  SURFACE_TYPES,
 } from "./metadata.constants.js";
 export type {
   MetadataContract,
@@ -104,29 +127,6 @@ export {
   METADATA_PACKAGE_VERSION,
 } from "./metadata.version.js";
 export type {
-  MetadataAiGovernanceMay,
-  MetadataAiGovernanceMayNot,
-  MetadataAiGovernanceMust,
-  MetadataAiGovernanceRules,
-  MetadataAuthorityChangeRule,
-  MetadataAuthorityConsumer,
-  MetadataAuthorityEntry,
-  MetadataAuthorityMap,
-  MetadataAuthorityOwnership,
-  MetadataAuthorityProhibition,
-} from "./governance/metadata-authority-map.contract.js";
-export {
-  METADATA_AI_GOVERNANCE_MAY,
-  METADATA_AI_GOVERNANCE_MAY_NOT,
-  METADATA_AI_GOVERNANCE_MUST,
-  METADATA_AUTHORITY_CHANGE_RULES,
-  METADATA_AUTHORITY_CONSUMERS,
-  METADATA_AUTHORITY_OWNERSHIPS,
-  METADATA_AUTHORITY_PROHIBITIONS,
-  metadataAiGovernanceRules,
-  metadataAuthorityMap,
-} from "./governance/metadata-authority-map.contract.js";
-export type {
   PresentationContract,
   PresentationContractOwnership,
   PresentationContractProhibition,
@@ -137,10 +137,10 @@ export {
   presentationContract,
 } from "./presentation.contract.js";
 export type {
+  CreateRegistryEntryInput,
   RegistryContract,
   RegistryContractOwnership,
   RegistryContractProhibition,
-  CreateRegistryEntryInput,
   RegistryEntry,
   RegistryEntryId,
   RegistryEntryVersion,

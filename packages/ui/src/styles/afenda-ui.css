@@ -34,7 +34,8 @@
 
   [data-component="Input"][data-slot="input"][type="number"],
   [data-component="Input"][data-slot="input"][inputmode="numeric"],
-  [data-component="InputGroup"] [data-slot="input-group-control"][type="number"],
+  [data-component="InputGroup"]
+    [data-slot="input-group-control"][type="number"],
   [data-component="InputGroup"]
     [data-slot="input-group-control"][inputmode="numeric"] {
     font-variant-numeric: tabular-nums;

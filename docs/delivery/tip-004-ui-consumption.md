@@ -1,10 +1,12 @@
 # TIP-004 — UI Consumption
 
-Status: **Complete**
+Status: **Complete** (superseded for operational policy by [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md))
 
 ## Purpose
 
 Adopt `@afenda/design-system` as the single design authority inside `@afenda/ui`. Governed React components consume contracts, recipes, variants, tokens, state policy, motion policy, accessibility policy, and className policy through a centralized adapter — they do not invent parallel design vocabulary.
+
+> **Operational policy:** author vs consumer `className` rules, import discipline, anti-slop, and verification gates are maintained in [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md). This delivery doc records the original TIP scope and acceptance evidence.
 
 ## Dependency direction
 
@@ -13,7 +15,7 @@ flowchart TD
   DS["@afenda/design-system\n(governance-only)"]
   Gov["packages/ui/src/governance/*"]
   UI["packages/ui/src/components/*"]
-  Apps["apps / appshell / metadata-ui"]
+  Apps["appshell / metadata-ui / erp"]
 
   DS -->|"public API"| Gov
   Gov --> UI
@@ -24,7 +26,7 @@ flowchart TD
 | --- | --- |
 | `@afenda/design-system` | Tokens, variants, recipes (metadata), states, motion, accessibility, className policy, export surface |
 | `@afenda/ui` | React/Base UI implementation, recipe projection to className, component behavior |
-| Apps | Page wiring only (out of scope for this TIP) |
+| Consumer packages | Page/shell wiring only — see [TIP-004 policy](../governance/tip-004-policy.md) |
 
 **Prohibited:** `@afenda/design-system` must never depend on or import `@afenda/ui`.
 
@@ -35,30 +37,25 @@ All design-system imports flow through [`packages/ui/src/governance/`](../../pac
 | Module | Responsibility |
 | --- | --- |
 | `design-system.ts` | Sole re-export surface from `@afenda/design-system` |
+| `primitive-governance.ts` | `resolvePrimitiveGovernance()` — see [TIP-004B](./tip-004b-primitive-adapter.md) |
 | `variant.ts` | `resolveGovernedVariant(selection)` |
-| `recipe.ts` | `resolveGovernedRecipe(name, selection)`, CVA projections for button/badge/card |
-| `class-name.ts` | `assertAllowedLayoutClassName(className)` |
+| `recipe.ts` | `resolveGovernedRecipe(name, selection)`, CVA projections |
+| `class-name.ts` | `assertAllowedLayoutClassName(className)` (author layer) |
+| `class-name-guard.ts` | `guardClassName()` — layout + anti-slop |
 | `state.ts` | `assertGovernedState(state)` |
 | `accessibility.ts` | `getComponentAccessibilityRequirement(componentName)` |
 | `motion.ts` | `getMotionIntent(intent)` |
 
 Components import `@afenda/ui/governance` — never deep-import design-system internals.
 
-## Reference implementations
+## className policy (summary)
 
-| Component | Governed props | Recipe |
-| --- | --- | --- |
-| `Button` | `intent`, `emphasis`, `size`, `density?`, `presentation?` | `button` |
-| `Badge` | `tone`, `emphasis?`, `density?`, `size?` | `badge` |
-| `Card` | `density`, `radius`, `shadow` | `card` |
+| Layer | Rule |
+| --- | --- |
+| **Author** (`packages/ui/src/components/`) | Layout-only `className` through `resolvePrimitiveGovernance()` |
+| **Consumer** (`appshell`, `metadata-ui`, `erp`) | **Zero** `className` on governed primitives — props only |
 
-Recipe metadata lives in design-system; className projection lives in `governance/recipe.ts` using semantic token classes (`bg-primary`, `bg-card`, `statusTone.*` surfaces) — never raw palette utilities (`bg-blue-600`).
-
-## className policy
-
-- **Allowed:** layout utilities (`flex`, `grid`, `w-*`, `h-*`, `overflow-*`, etc.)
-- **Prohibited:** semantic color, radius, shadow, motion, typography overrides on governed components
-- Enforced at runtime in development via `assertAllowedLayoutClassName`
+Full rules: [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md)
 
 ## Prohibited drift examples
 
@@ -69,85 +66,53 @@ const STATUS_TONES = ["info", "warn"];
 // ❌ Deep import
 import { tokenRegistry } from "@afenda/design-system/src/tokens/registry";
 
-// ❌ Raw palette on governed components
+// ❌ Raw palette on governed components (author)
 <Button className="bg-blue-600" />
 
-// ❌ shadcn variant strings on governed Button
+// ❌ Any className on governed components (consumer)
+<Button className="w-full" />
+
+// ❌ shadcn variant strings on governed Button (consumer)
 <Button variant="ghost" />
 ```
 
 ```tsx
-// ✅ Governed consumption
+// ✅ Author — layout-only className
 <Button intent="primary" emphasis="solid" size="md" className="w-full" />
-<Badge tone="success" emphasis="soft" />
-<Card density="comfortable" radius="md" shadow="raised" className="max-w-lg" />
+
+// ✅ Consumer — governed props, wrap for layout
+<div className="w-full">
+  <Button intent="primary" emphasis="solid" size="md" />
+</div>
 ```
 
 ## shadcn overwrite recovery
 
-Running `pnpm dlx shadcn@latest add --all -c packages/ui -y --overwrite` reverts Button/Badge/Card to shadcn inline CVA. Re-apply governed implementations or exclude those files from bulk overwrite.
-
-## Files created
-
-- `packages/ui/src/governance/design-system.ts`
-- `packages/ui/src/governance/variant.ts`
-- `packages/ui/src/governance/recipe.ts`
-- `packages/ui/src/governance/class-name.ts`
-- `packages/ui/src/governance/state.ts`
-- `packages/ui/src/governance/accessibility.ts`
-- `packages/ui/src/governance/motion.ts`
-- `packages/ui/src/governance/index.ts`
-- `packages/ui/scripts/check-design-system-consumption.ts`
-- `packages/ui/src/__tests__/governance/design-system-consumption.test.ts`
-- `docs/delivery/tip-004-ui-consumption.md`
-
-## Files modified
-
-- `packages/ui/package.json` — `check:governance`, `check:design-system`, `tsx`, `./governance` export
-- `packages/ui/src/components/button.tsx`
-- `packages/ui/src/components/badge.tsx`
-- `packages/ui/src/components/card.tsx`
-- `packages/ui/src/lib/afenda-contracts.ts`
-- `packages/ui/src/index.ts`
-- Intra-package Button consumers: `dialog`, `alert-dialog`, `sheet`, `combobox`, `calendar`, `carousel`, `pagination`, `input-group`, `sidebar`
-- `packages/ui/src/__tests__/components.render.test.tsx`
-
-## Files removed
-
-- `packages/ui/src/lib/afenda-variants.ts` (logic moved to `governance/recipe.ts`)
+Running `pnpm dlx shadcn@latest add --all -c packages/ui -y --overwrite` reverts governed components to shadcn inline CVA. Re-apply governed implementations or exclude those files from bulk overwrite.
 
 ## Acceptance criteria
 
 - [x] `@afenda/ui` depends on `@afenda/design-system`
 - [x] `@afenda/design-system` has no runtime dependency on `@afenda/ui`
-- [x] Button, Badge, Card are governed reference implementations
 - [x] Governance adapter centralizes design-system imports
 - [x] Anti-drift tests and static checker pass
-- [x] className overrides validated as layout-only in development
 - [x] Public exports remain stable (types re-exported via governance)
+- [x] TIP-004B complete — all primary exports governed ([`tip-004b-primitive-adapter.md`](./tip-004b-primitive-adapter.md))
 
 ## Test evidence
 
 ```bash
-pnpm --filter @afenda/ui typecheck          # pass
-pnpm --filter @afenda/ui test:run           # 23 tests pass
-pnpm --filter @afenda/ui build              # pass
-pnpm --filter @afenda/ui check:governance   # pass
-
-pnpm --filter @afenda/design-system typecheck
-pnpm --filter @afenda/design-system test:run
-pnpm --filter @afenda/design-system build
-pnpm --filter @afenda/design-system check:governance
+pnpm --filter @afenda/ui typecheck
+pnpm --filter @afenda/ui test:run
+pnpm --filter @afenda/ui build
+pnpm --filter @afenda/ui check:governance
+pnpm ui:guard
 ```
-
-## Known gaps
-
-- Only **Button**, **Badge**, and **Card** are governed; ~50 other shadcn components remain un migrated
-- Recipe projection is UI-owned until design-system ships CSS recipe output
-- `Alert` still uses shadcn `variant` (not in this TIP scope)
-- Bulk shadcn `--overwrite` will revert governed components unless re-applied
 
 ## Related
 
+- [TIP-004 Policy (canonical)](../governance/tip-004-policy.md)
 - [TIP-004 Design System Contracts](./tip-004-design-system-contracts.md)
+- [TIP-004B — Primitive Adapter](./tip-004b-primitive-adapter.md)
+- [UI Guard](../governance/ui-guard.md)
 - [TIP-UI-02 Component Library](./tip-ui-02-component-library.md)

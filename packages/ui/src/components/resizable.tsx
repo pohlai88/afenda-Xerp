@@ -72,24 +72,23 @@ const ResizablePanelGroup = React.forwardRef<
 ResizablePanelGroup.displayName = "ResizablePanelGroup";
 
 // Imperative panel control → useResizablePanelRef (re-exported above).
-const ResizablePanel = React.forwardRef<
-  HTMLDivElement,
-  ResizablePanelProps
->(({ className, ...props }, ref) => {
-  const governed = resolvePrimitiveGovernance({
-    componentName: "Resizable",
-    recipeName: RESIZABLE_RECIPE_NAME,
-    slot: RESIZABLE_SLOT_ROLES.body,
-    className,
-  });
+const ResizablePanel = React.forwardRef<HTMLDivElement, ResizablePanelProps>(
+  ({ className, ...props }, ref) => {
+    const governed = resolvePrimitiveGovernance({
+      componentName: "Resizable",
+      recipeName: RESIZABLE_RECIPE_NAME,
+      slot: RESIZABLE_SLOT_ROLES.body,
+      className,
+    });
 
-  return (
-    <ResizablePrimitive.Panel
-      elementRef={ref}
-      {...applyGovernedPresentation(props, governed)}
-    />
-  );
-});
+    return (
+      <ResizablePrimitive.Panel
+        elementRef={ref}
+        {...applyGovernedPresentation(props, governed)}
+      />
+    );
+  }
+);
 ResizablePanel.displayName = "ResizablePanel";
 
 const ResizableHandle = React.forwardRef<HTMLDivElement, ResizableHandleProps>(
@@ -112,9 +111,7 @@ const ResizableHandle = React.forwardRef<HTMLDivElement, ResizableHandleProps>(
         elementRef={ref}
         {...applyGovernedPresentation(props, governed)}
       >
-        {withHandle ? (
-          <div {...applyGovernedPresentation({}, grip)} />
-        ) : null}
+        {withHandle ? <div {...applyGovernedPresentation({}, grip)} /> : null}
       </ResizablePrimitive.Separator>
     );
   }

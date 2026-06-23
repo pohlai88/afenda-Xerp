@@ -1,20 +1,25 @@
 import type { AfendaAuthSession } from "@afenda/auth";
-import type { ExecutionContext, OperatingContext, UserId } from "@afenda/kernel";
+import type {
+  ExecutionContext,
+  OperatingContext,
+  UserId,
+} from "@afenda/kernel";
 import type {
   AuthorizationDecision,
   ResolvedAuthorizationContext,
 } from "@afenda/permissions";
-
-import {
-  assertAuthorizedApiRoute,
-  resolveActorIdFromSession,
-} from "@/lib/api/authorize-api-route";
 import {
   resolveRoutePermissionRequirement,
   resolveRouteProtectionLevel,
 } from "@/lib/api/api-route-permissions";
-import type { ApiRouteContract } from "../contracts/api-contract";
-import type { ApiRoutePermissionPolicy } from "../contracts/api-contract";
+import {
+  assertAuthorizedApiRoute,
+  resolveActorIdFromSession,
+} from "@/lib/api/authorize-api-route";
+import type {
+  ApiRouteContract,
+  ApiRoutePermissionPolicy,
+} from "../contracts/api-contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRequestContext<TRequest = undefined> {

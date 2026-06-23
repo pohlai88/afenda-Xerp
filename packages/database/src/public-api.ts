@@ -104,12 +104,10 @@ export {
   type AuditActorType,
   type AuditResult,
   COMMERCIAL_PLAN_TEMPLATE_IDS,
-  type CommercialPlanTemplateId,
   CONSOLIDATION_METHODS,
-  type ConsolidationMethod,
+  type CommercialPlanTemplateId,
   type CompanyStatus,
-  LEGAL_ENTITY_COMPANY_TYPES,
-  type LegalEntityCompanyType,
+  type ConsolidationMethod,
   ENTITLEMENT_SCOPES,
   ENTITLEMENT_TYPES,
   type EntitlementScope,
@@ -118,12 +116,14 @@ export {
   type FeatureFlagRollout,
   KILL_SWITCH_SEVERITIES,
   type KillSwitchSeverity,
+  LEGAL_ENTITY_COMPANY_TYPES,
+  type LegalEntityCompanyType,
   MEMBERSHIP_SCOPE_TYPES,
   type MembershipScopeType,
   type MembershipStatus,
+  ORGANIZATION_UNIT_TYPES,
   type OrganizationStatus,
   type OrganizationType,
-  ORGANIZATION_UNIT_TYPES,
   type OrganizationUnitType,
   OWNERSHIP_CONTROL_TYPES,
   OWNERSHIP_RELATIONSHIP_TYPES,
@@ -189,6 +189,25 @@ export {
   type SyncPlatformRolloutResult,
   syncPlatformRolloutCatalog,
 } from "./entitlement/rollout-sync.service.js";
+export {
+  assertEntityGroupSlug,
+  buildEntityGroupInsertRow,
+  buildEntityGroupUpdatePatch,
+  type EntityGroupInsertRow,
+  type EntityGroupUpdatePatch,
+  type EntityGroupWriteInput,
+  InvalidEntityGroupSlugError,
+  normalizeEntityGroupSlug,
+} from "./entity-group/entity-group.contract.js";
+export {
+  type EntityGroupAuditContext,
+  type EntityGroupMutationResult,
+  EntityGroupScopeMismatchError,
+  type InsertEntityGroupInput,
+  insertEntityGroup,
+  type UpdateEntityGroupInput,
+  updateEntityGroup,
+} from "./entity-group/entity-group.service.js";
 export {
   buildSupabaseDatabaseUrl,
   DATABASE_CONFIG_ISSUES,
@@ -285,9 +304,9 @@ export {
   type OrganizationInsertRow,
   OrganizationParentNotFoundError,
   OrganizationScopeMismatchError,
-  OrganizationValidationError,
   type OrganizationUnitAuthorityRecord,
   type OrganizationUpdatePatch,
+  OrganizationValidationError,
   type OrganizationWriteInput,
   resolveLegalEntityId,
   resolveOrganizationUnitType,
@@ -304,6 +323,36 @@ export {
   type UpdateOrganizationInput,
   updateOrganization,
 } from "./organization/organization.service.js";
+export {
+  CONSOLIDATION_TREATMENTS,
+  type ConsolidationTreatment,
+  consolidationMethodToTreatment,
+  consolidationTreatmentToMethod,
+  isConsolidationTreatment,
+} from "./ownership-interest/ownership-interest.consolidation-treatment.js";
+export {
+  assertDistinctLegalEntities,
+  buildOwnershipInterestInsertRow,
+  type OwnershipInterestAuthorityRecord,
+  OwnershipInterestCycleError,
+  type OwnershipInterestInsertRow,
+  OwnershipInterestValidationError,
+  type OwnershipInterestWriteInput,
+  resolveInvesteeLegalEntityId,
+  resolveNonControllingInterestApplicable,
+  toOwnershipInterestAuthorityRecord,
+} from "./ownership-interest/ownership-interest.contract.js";
+export {
+  type InsertOwnershipInterestInput,
+  insertOwnershipInterest,
+  type OwnershipInterestAuditContext,
+  type OwnershipInterestMutationResult,
+  OwnershipInterestScopeMismatchError,
+} from "./ownership-interest/ownership-interest.service.js";
+export {
+  type FindOwnershipInterestsInput,
+  findOwnershipInterestsByEntityGroup,
+} from "./ownership-interest/ownership-interest-lookup.service.js";
 export {
   buildPermissionInsertRow,
   buildPermissionUpdatePatch,
@@ -374,6 +423,39 @@ export {
   policyConditionMatches,
 } from "./policy/policy.validation.js";
 export { createPgPool, DEFAULT_POOL_CONFIG } from "./pool.js";
+export {
+  PROJECT_DOMAIN_STATUS,
+  PROJECT_LIFECYCLE_STATUSES,
+  type ProjectAuthorityRecord,
+  type ProjectDomainStatus,
+  type ProjectLifecycleStatus,
+} from "./project/project.contract.js";
+export {
+  assertRlsTenantFilter,
+  DEFAULT_RLS_GRANT_ELEVATION_FLAGS,
+  type MembershipScopeMatchInput,
+  membershipMatchesGrantScope,
+  PERSISTED_MEMBERSHIP_SCOPE_TYPES,
+  PLANNED_MEMBERSHIP_SCOPE_TYPES,
+  type ResolvedRlsGrantScope,
+  type ResolveRlsGrantScopeInput,
+  RLS_GRANT_ELEVATION_KINDS,
+  RLS_GRANT_SCOPE_TYPES,
+  type RlsFilterContext,
+  type RlsGrantElevationFlags,
+  type RlsGrantElevationKind,
+  type RlsGrantScopeType,
+  RlsGrantScopeValidationError,
+  resolveRlsGrantElevations,
+  resolveRlsGrantScope,
+  resolveRlsGrantScopeType,
+  toRlsFilterContext,
+} from "./rls/rls-grant.contract.js";
+export {
+  RLS_SESSION_KEYS,
+  type RlsSessionContext,
+} from "./rls/rls-session-context.contract.js";
+export { withRlsSessionContext } from "./rls/with-rls-session-context.js";
 export {
   assertRoleKey,
   assertRoleScopeMatchesTenant,
@@ -479,6 +561,13 @@ export type {
   SeedVerificationResult,
 } from "./seeds/seed-types.js";
 export { verifyPlatformSeed } from "./seeds/seed-verify.js";
+export { TEAM_ORGANIZATION_UNIT_TYPE } from "./team/team.constants.js";
+export {
+  findTeamByCompanyAndSlug,
+  findTeamById,
+  isTeamOrganizationRow,
+  type TeamLookupRow,
+} from "./team/team-lookup.service.js";
 export {
   assertTenantSlug,
   buildTenantInsertRow,
@@ -502,6 +591,12 @@ export {
   type UpdateTenantInput,
   updateTenant,
 } from "./tenant/tenant.service.js";
+export {
+  DATABASE_TENANT_DOMAIN_BARREL_DIRECTORIES,
+  DATABASE_TENANT_DOMAIN_MODULES,
+  type DatabaseTenantDomainImplementationStatus,
+  type DatabaseTenantDomainModule,
+} from "./tenant-domain/tenant-domain-registry.js";
 export {
   type CreatedAtColumn,
   createdAtColumn,
@@ -529,7 +624,13 @@ export {
   type UserMutationResult,
   updateUser,
 } from "./user/user.service.js";
+export type {
+  CompanyLookupRow as LegalEntityLookupRow,
+  OrganizationLookupRow as OrganizationUnitLookupRow,
+} from "./workspace/workspace-lookup.service.js";
 export {
+  type CompanyLookupRow,
+  type EntityGroupLookupRow,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,
@@ -537,105 +638,6 @@ export {
   findOrganizationById,
   findTenantById,
   findTenantBySlug,
-  type CompanyLookupRow,
-  type EntityGroupLookupRow,
   type OrganizationLookupRow,
   type TenantLookupRow,
 } from "./workspace/workspace-lookup.service.js";
-export {
-  findTeamByCompanyAndSlug,
-  findTeamById,
-  isTeamOrganizationRow,
-  type TeamLookupRow,
-} from "./team/team-lookup.service.js";
-export { TEAM_ORGANIZATION_UNIT_TYPE } from "./team/team.constants.js";
-export {
-  RLS_SESSION_KEYS,
-  type RlsSessionContext,
-} from "./rls/rls-session-context.contract.js";
-export {
-  DEFAULT_RLS_GRANT_ELEVATION_FLAGS,
-  membershipMatchesGrantScope,
-  PLANNED_MEMBERSHIP_SCOPE_TYPES,
-  PERSISTED_MEMBERSHIP_SCOPE_TYPES,
-  resolveRlsGrantScope,
-  resolveRlsGrantScopeType,
-  resolveRlsGrantElevations,
-  RLS_GRANT_ELEVATION_KINDS,
-  RLS_GRANT_SCOPE_TYPES,
-  RlsGrantScopeValidationError,
-  type MembershipScopeMatchInput,
-  type ResolvedRlsGrantScope,
-  type RlsFilterContext,
-  type RlsGrantElevationFlags,
-  type RlsGrantElevationKind,
-  type RlsGrantScopeType,
-  type ResolveRlsGrantScopeInput,
-  toRlsFilterContext,
-  assertRlsTenantFilter,
-} from "./rls/rls-grant.contract.js";
-export { withRlsSessionContext } from "./rls/with-rls-session-context.js";
-export {
-  assertEntityGroupSlug,
-  buildEntityGroupInsertRow,
-  buildEntityGroupUpdatePatch,
-  type EntityGroupInsertRow,
-  type EntityGroupUpdatePatch,
-  type EntityGroupWriteInput,
-  InvalidEntityGroupSlugError,
-  normalizeEntityGroupSlug,
-} from "./entity-group/entity-group.contract.js";
-export {
-  type EntityGroupAuditContext,
-  EntityGroupScopeMismatchError,
-  type EntityGroupMutationResult,
-  type InsertEntityGroupInput,
-  insertEntityGroup,
-  type UpdateEntityGroupInput,
-  updateEntityGroup,
-} from "./entity-group/entity-group.service.js";
-export {
-  assertDistinctLegalEntities,
-  buildOwnershipInterestInsertRow,
-  type OwnershipInterestAuthorityRecord,
-  type OwnershipInterestInsertRow,
-  type OwnershipInterestWriteInput,
-  OwnershipInterestCycleError,
-  OwnershipInterestValidationError,
-  resolveInvesteeLegalEntityId,
-  resolveNonControllingInterestApplicable,
-  toOwnershipInterestAuthorityRecord,
-} from "./ownership-interest/ownership-interest.contract.js";
-export {
-  CONSOLIDATION_TREATMENTS,
-  consolidationMethodToTreatment,
-  consolidationTreatmentToMethod,
-  isConsolidationTreatment,
-  type ConsolidationTreatment,
-} from "./ownership-interest/ownership-interest.consolidation-treatment.js";
-export {
-  type InsertOwnershipInterestInput,
-  insertOwnershipInterest,
-  type OwnershipInterestAuditContext,
-  OwnershipInterestScopeMismatchError,
-  type OwnershipInterestMutationResult,
-} from "./ownership-interest/ownership-interest.service.js";
-export {
-  findOwnershipInterestsByEntityGroup,
-  type FindOwnershipInterestsInput,
-} from "./ownership-interest/ownership-interest-lookup.service.js";
-export {
-  DATABASE_TENANT_DOMAIN_BARREL_DIRECTORIES,
-  DATABASE_TENANT_DOMAIN_MODULES,
-  type DatabaseTenantDomainImplementationStatus,
-  type DatabaseTenantDomainModule,
-} from "./tenant-domain/tenant-domain-registry.js";
-export {
-  PROJECT_DOMAIN_STATUS,
-  PROJECT_LIFECYCLE_STATUSES,
-  type ProjectAuthorityRecord,
-  type ProjectDomainStatus,
-  type ProjectLifecycleStatus,
-} from "./project/project.contract.js";
-export type { CompanyLookupRow as LegalEntityLookupRow } from "./workspace/workspace-lookup.service.js";
-export type { OrganizationLookupRow as OrganizationUnitLookupRow } from "./workspace/workspace-lookup.service.js";

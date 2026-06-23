@@ -46,7 +46,8 @@ const meta = {
     },
     showReadonlyPreviewLabel: {
       control: "boolean",
-      description: "When true, shows the readonly preview badge above the canvas.",
+      description:
+        "When true, shows the readonly preview badge above the canvas.",
     },
     renderContext: { control: false },
   },
@@ -106,7 +107,8 @@ export const Modern: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Recommended production layout on the readonly dashboard canvas.",
+        story:
+          "Recommended production layout on the readonly dashboard canvas.",
       },
     },
   },

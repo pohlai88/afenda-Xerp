@@ -20,8 +20,7 @@ export const MULTI_TENANCY_DOC_AUTHORITY_DESIGN_MARKERS = [
 ] as const;
 
 /** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_AUTHORITY_DESIGN_SECTION =
-  "Authority design" as const;
+export const TIP_007_012_AUTHORITY_DESIGN_SECTION = "Authority design" as const;
 
 /** Step 3 authority dimensions — one table per bullet in §505–509. */
 export const MULTI_TENANCY_AUTHORITY_DESIGN_DIMENSIONS = [

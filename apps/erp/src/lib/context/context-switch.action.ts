@@ -7,8 +7,8 @@ import { failServerAction } from "@/lib/server-actions/fail-server-action";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
 import { resolveActionOperatingContext } from "@/lib/server-actions/resolve-action-operating-context.server";
 import {
-  serverActionSuccess,
   type ServerActionResult,
+  serverActionSuccess,
 } from "@/lib/server-actions/server-action-result";
 
 export type SwitchOperatingContextInput = {
@@ -17,7 +17,9 @@ export type SwitchOperatingContextInput = {
 };
 
 export type SwitchOperatingContextData = {
-  readonly operatingContext: ReturnType<typeof toApplicationShellOperatingContext>;
+  readonly operatingContext: ReturnType<
+    typeof toApplicationShellOperatingContext
+  >;
   readonly workspace: {
     readonly companyId: string;
     readonly organizationId: string | null;

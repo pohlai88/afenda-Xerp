@@ -9,6 +9,8 @@ disable-model-invocation: true
 > Companion gate to **afenda-ui-quality Phase 5**. Run this checklist after TIP-004 normalization is clean.
 >
 > Stack: React 19 · Next.js App Router · `@afenda/ui` Radix primitives · recharts · `"use client"` boundary discipline.
+>
+> **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md) · **Gate F reference:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
 
 ---
 
@@ -461,6 +463,8 @@ Checklist:
 
 ## Automated guard — Gate F
 
+Canonical gate reference: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md) · TIP-004 policy: [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md).
+
 `pnpm ui:guard` runs **Gate F** (React ERP quality) automatically as part of the full governance
 sweep. Gate F is a **warning gate** in dev — violations are printed in yellow but don't break the
 run. Pass `--strict` to make it a hard failure (for CI enforcement).
@@ -517,6 +521,7 @@ pnpm --filter app test:a11y   # if configured
 
 ## Additional resources
 
+- **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
 - afenda-ui-quality (runs first): [`.cursor/skills/afenda-ui-quality/SKILL.md`](../afenda-ui-quality/SKILL.md)
 - govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)
 - Detailed hook patterns: [`reference.md`](reference.md)

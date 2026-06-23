@@ -77,11 +77,11 @@ function RecordRangeSummary({
 }) {
   return (
     <StoryStack gap="xs">
-      <span className="tabular-nums text-muted-foreground text-xs">
+      <span className="text-muted-foreground text-xs tabular-nums">
         Showing {start.toLocaleString()}–{end.toLocaleString()} of{" "}
         {totalRecords.toLocaleString()} records
       </span>
-      <span className="tabular-nums text-muted-foreground text-xs">
+      <span className="text-muted-foreground text-xs tabular-nums">
         Page {page} · {perPage} rows per page
       </span>
     </StoryStack>
@@ -160,11 +160,11 @@ function PageSizeSelector({
     <StoryRow align="center" gap="sm">
       <span className="text-muted-foreground text-xs">Rows per page</span>
       <Select onValueChange={onChange} value={value}>
-      <div className="w-20">
-        <SelectTrigger size="sm">
-          <SelectValue />
-        </SelectTrigger>
-      </div>
+        <div className="w-20">
+          <SelectTrigger size="sm">
+            <SelectValue />
+          </SelectTrigger>
+        </div>
         <SelectContent>
           {["10", "25", "50", "100"].map((size) => (
             <SelectItem key={size} value={size}>

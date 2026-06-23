@@ -17,7 +17,13 @@ import {
   UserIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { StoryFrame, StoryRow, StoryStack, StoryCaption } from "./_storybook/story-frame";
+import {
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+  StoryCaption,
+} from "./_storybook/story-frame";
+import { tabsStoryProps, type RenderStory } from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Separator } from "./separator";
@@ -165,7 +171,7 @@ function TabsStateProbe({
             <TabsTrigger value="overview">Overview ({state})</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <TabPlaceholder>Panel for {state}</TabPlaceholder>
+            <TabPlaceholder>{`Panel for ${state}`}</TabPlaceholder>
           </TabsContent>
         </Tabs>
       </StoryFrame>
@@ -207,14 +213,14 @@ const meta = {
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Playground & governance probes ──────────────────────────────────────
 
 export const Playground: Story = {
   render: (args) => (
     <StoryFrame width="lg">
-      <Tabs {...args} defaultValue="overview">
+      <Tabs {...tabsStoryProps(args)} defaultValue="overview">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
@@ -364,7 +370,7 @@ export const GovernanceAccessibility: Story = {
 export const Default: Story = {
   render: (args) => (
     <StoryFrame width="lg">
-      <Tabs {...args} defaultValue="overview">
+      <Tabs {...tabsStoryProps(args)} defaultValue="overview">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
@@ -388,7 +394,7 @@ export const LineVariant: Story = {
   name: "Tabs — Line Variant",
   render: (args) => (
     <StoryFrame width="lg">
-      <Tabs {...args} defaultValue="overview">
+      <Tabs {...tabsStoryProps(args)} defaultValue="overview">
         <TabsList variant="line">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
@@ -417,7 +423,7 @@ export const DisabledTab: Story = {
   name: "Tabs — With Disabled Tab",
   render: (args) => (
     <StoryFrame width="lg">
-      <Tabs {...args} defaultValue="overview">
+      <Tabs {...tabsStoryProps(args)} defaultValue="overview">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
@@ -520,7 +526,7 @@ export const EmployeeRecord: Story = {
   parameters: { layout: "padded" },
   render: (args) => (
     <StoryFrame width="xl">
-      <Tabs {...args} defaultValue="info">
+      <Tabs {...tabsStoryProps(args)} defaultValue="info">
         <TabsList variant="line">
           <TabsTrigger value="info">
             <UserIcon aria-hidden="true" className="size-4" />
@@ -598,7 +604,7 @@ export const InvoiceRecordTabs: Story = {
   parameters: { layout: "padded" },
   render: (args) => (
     <StoryFrame width="xl">
-      <Tabs {...args} defaultValue="summary">
+      <Tabs {...tabsStoryProps(args)} defaultValue="summary">
         <TabsList>
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="line-items">
@@ -951,7 +957,7 @@ export const ViewToggleTabs: Story = {
   name: "ERP — View Toggle (List / Grid)",
   parameters: { layout: "padded" },
   render: (args) => (
-    <Tabs {...args} defaultValue="list">
+    <Tabs {...tabsStoryProps(args)} defaultValue="list">
       <TabsList>
         <TabsTrigger value="list">
           <ListIcon aria-hidden="true" className="size-4" />
@@ -979,7 +985,11 @@ export const SettingsTabs: Story = {
   parameters: { layout: "padded" },
   render: (args) => (
     <StoryFrame width="xl">
-      <Tabs {...args} defaultValue="general" orientation="horizontal">
+      <Tabs
+        {...tabsStoryProps(args)}
+        defaultValue="general"
+        orientation="horizontal"
+      >
         <TabsList variant="line">
           <TabsTrigger value="general">
             <SettingsIcon aria-hidden="true" className="size-4" />

@@ -18,7 +18,11 @@ describe("ApplicationShellDashboardDemo", () => {
     expect(screen.getByText("Daily orders")).toBeInTheDocument();
     expect(screen.getByText("Gross revenue")).toBeInTheDocument();
     expect(screen.getByText("Total revenue")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Create invoice" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Accounts receivable" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Create invoice" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Accounts receivable" })
+    ).toBeInTheDocument();
   });
 });

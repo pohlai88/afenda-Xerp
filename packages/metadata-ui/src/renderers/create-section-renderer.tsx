@@ -6,12 +6,14 @@ import {
 import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { MetadataUiError } from "../runtime/metadata-ui-error.js";
 import {
+  type CreateSectionRendererInput,
   DEFAULT_SECTION_RENDERER_OWNER_PACKAGE,
   DEFAULT_SECTION_RENDERER_VERSION,
-  type CreateSectionRendererInput,
 } from "./section-renderer.contract.js";
 
-function createDefaultRendererKey(sectionType: CreateSectionRendererInput["sectionType"]) {
+function createDefaultRendererKey(
+  sectionType: CreateSectionRendererInput["sectionType"]
+) {
   return `metadata-ui.renderer.${sectionType}.default`;
 }
 

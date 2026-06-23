@@ -26,16 +26,7 @@ export interface InputGroupProps
 }
 
 const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
-  (
-    {
-      className,
-      density = "standard",
-      size = "md",
-      state,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, density = "standard", size = "md", state, ...props }, ref) => {
     const governed = resolvePrimitiveGovernance({
       componentName: "InputGroup",
       recipeName: INPUT_GROUP_RECIPE_NAME,
@@ -48,11 +39,10 @@ const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
     return (
       <div
         ref={ref}
-        {...applyGovernedPresentation(
-          { ...props, role: "group" },
-          governed,
-          { "data-density": density, "data-size": size }
-        )}
+        {...applyGovernedPresentation({ ...props, role: "group" }, governed, {
+          "data-density": density,
+          "data-size": size,
+        })}
       />
     );
   }
@@ -232,9 +222,7 @@ const InputGroupInput = React.forwardRef<
     className,
   });
 
-  return (
-    <input ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <input ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 InputGroupInput.displayName = "InputGroupInput";
@@ -256,9 +244,7 @@ const InputGroupTextarea = React.forwardRef<
     className,
   });
 
-  return (
-    <textarea ref={ref} {...applyGovernedPresentation(props, governed)} />
-  );
+  return <textarea ref={ref} {...applyGovernedPresentation(props, governed)} />;
 });
 
 InputGroupTextarea.displayName = "InputGroupTextarea";

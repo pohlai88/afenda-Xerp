@@ -1,10 +1,6 @@
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
-import {
-  BellIcon,
-  HistoryIcon,
-  PaperclipIcon,
-} from "lucide-react";
+import { BellIcon, HistoryIcon, PaperclipIcon } from "lucide-react";
 import {
   ATTACHMENTS,
   AUDIT_EVENTS,

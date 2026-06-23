@@ -48,7 +48,8 @@
   "scripts": {
     "build": "tsc -b tsconfig.lib.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/styles', { recursive: true }); copyFileSync('src/styles/afenda-ui.css', 'dist/styles/afenda-ui.css');\"",
     "dev": "tsc -b tsconfig.lib.json --watch",
-    "typecheck": "tsc -b tsconfig.lib.json --pretty false && tsc -p tsconfig.stories.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b tsconfig.lib.json --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck:stories": "tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "test:interaction": "vitest run --config vitest.config.ts .interaction.test",

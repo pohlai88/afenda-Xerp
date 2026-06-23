@@ -5,6 +5,7 @@ import { CalendarIcon } from "lucide-react";
 import React, { type ComponentProps, type ReactNode, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import type { RenderStory } from "./_storybook/story-types";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
@@ -230,17 +231,16 @@ const meta = {
 } satisfies Meta<typeof Calendar>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = RenderStory<typeof meta>;
 
 // ─── Basic modes ───────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: (args) => (
+  render: () => (
     <CalendarFrame>
       <Calendar
-        {...args}
         defaultMonth={STORY_MONTH}
-        mode={args.mode ?? "single"}
+        mode="single"
         selected={new Date(2026, 5, 21)}
       />
     </CalendarFrame>
@@ -331,7 +331,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "Calendar root wraps react-day-picker with `data-slot=\"calendar\"`. Month grid uses `role=\"grid\"`. Day cells are native buttons with governed `day-button` slot. Navigation uses `Go to the Previous/Next Month` labels. Verify arrow-key traversal and focus ring on day buttons.",
+          'Calendar root wraps react-day-picker with `data-slot="calendar"`. Month grid uses `role="grid"`. Day cells are native buttons with governed `day-button` slot. Navigation uses `Go to the Previous/Next Month` labels. Verify arrow-key traversal and focus ring on day buttons.',
       },
     },
   },
@@ -345,7 +345,7 @@ export const GovernanceSlotMap: Story = {
     docs: {
       description: {
         story:
-          "Calendar uses slotKey-driven class maps for DayPicker parts. Root emits `data-slot=\"calendar\"`; day and nav controls emit `data-slot=\"button\"` via `nav-button` and `day-button` slot keys.",
+          'Calendar uses slotKey-driven class maps for DayPicker parts. Root emits `data-slot="calendar"`; day and nav controls emit `data-slot="button"` via `nav-button` and `day-button` slot keys.',
       },
     },
   },
@@ -575,7 +575,9 @@ export const AccountingPeriodFilter: Story = {
       <StoryFrame width="md">
         <StoryStack gap="sm">
           <StoryRow align="center" justify="between" wrap>
-            <span className="font-medium text-sm">General Ledger · Period Filter</span>
+            <span className="font-medium text-sm">
+              General Ledger · Period Filter
+            </span>
             <Badge emphasis="soft" size="sm" tone="success">
               April 2026 Open
             </Badge>
@@ -640,7 +642,10 @@ export const AuditSchedulePicker: Story = {
           <CalendarFrame>
             <Calendar mode="multiple" onSelect={setDates} selected={dates} />
           </CalendarFrame>
-          <span aria-live="polite" className="text-muted-foreground text-xs tabular-nums">
+          <span
+            aria-live="polite"
+            className="text-muted-foreground text-xs tabular-nums"
+          >
             {dates?.length ?? 0} day(s) selected
           </span>
         </StoryStack>

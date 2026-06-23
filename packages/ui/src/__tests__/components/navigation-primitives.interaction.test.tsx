@@ -1,8 +1,5 @@
+import { INTERACTION_TEST_TIMEOUT_MS, setupUser } from "@afenda/testing/react";
 import { render, screen } from "@testing-library/react";
-import {
-  INTERACTION_TEST_TIMEOUT_MS,
-  setupUser,
-} from "@afenda/testing/react";
 import { describe, expect, it, vi } from "vitest";
 
 import {

@@ -1,9 +1,6 @@
 "use client";
 
-import type {
-  GovernedMenubarProps,
-  SlotRole,
-} from "@afenda/ui/governance";
+import type { GovernedMenubarProps, SlotRole } from "@afenda/ui/governance";
 import { createGovernedSpanSlot } from "@afenda/ui/governance/create-governed-slot";
 import { applyGovernedPresentation } from "@afenda/ui/governance/governed-render";
 import { resolvePrimitiveGovernance } from "@afenda/ui/governance/primitive-governance";
@@ -33,9 +30,9 @@ const MenubarShortcut = createGovernedSpanSlot("MenubarShortcut", {
 
 export interface MenubarProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>,
-    "className"
-  >,
+      React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>,
+      "className"
+    >,
     GovernedMenubarProps {
   readonly className?: string;
 }

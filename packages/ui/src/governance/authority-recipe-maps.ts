@@ -1,7 +1,4 @@
-import {
-  tokenNameToCssVariable,
-  type AfendaTokenName,
-} from "./design-system";
+import { type AfendaTokenName, tokenNameToCssVariable } from "./design-system";
 
 function cssVar(token: AfendaTokenName): string {
   return `var(${tokenNameToCssVariable(token)})`;

@@ -48,20 +48,18 @@ export function ProtectedHomeLayoutHarness({
           variant="inline"
         />
       ) : null}
-      {errorMessage !== null ? (
+      {errorMessage === null ? null : (
         <p className="app-shell-page-description" role="alert">
           {errorMessage}
         </p>
-      ) : null}
+      )}
       <ApplicationShellDashboardCanvas
         editMode={canEditLayout}
         layout={layout}
         renderContext={renderContext}
-        {...(canEditLayout
-          ? { onLayoutChange: handleLayoutChange }
-          : {})}
+        {...(canEditLayout ? { onLayoutChange: handleLayoutChange } : {})}
       />
-      {nextLayoutForSave !== undefined ? (
+      {nextLayoutForSave === undefined ? null : (
         <button
           onClick={() => {
             void saveLayout(nextLayoutForSave);
@@ -70,7 +68,7 @@ export function ProtectedHomeLayoutHarness({
         >
           Trigger protected layout save
         </button>
-      ) : null}
+      )}
       {gateState?.variant === "dialog" ? (
         <PolicyGateSurface
           correlationId={gateState.correlationId}

@@ -21,13 +21,13 @@ export type MetadataSectionRendererComponent = ComponentType<
 >;
 
 export interface CreateSectionRendererInput {
-  readonly sectionType: SectionType;
-  readonly label: string;
   readonly defaultIdentity: {
     readonly id: string;
     readonly title: string;
   };
+  readonly label: string;
   readonly SectionComponent: MetadataSectionRendererComponent;
+  readonly sectionType: SectionType;
 }
 
 export interface SectionRendererSpec extends CreateSectionRendererInput {

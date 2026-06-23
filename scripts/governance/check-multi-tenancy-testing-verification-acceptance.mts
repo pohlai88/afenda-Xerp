@@ -110,7 +110,10 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
     });
   }
 
-  const gatePath = join(repoRoot, MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_GATE);
+  const gatePath = join(
+    repoRoot,
+    MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_GATE
+  );
   if (!existsSync(gatePath)) {
     violations.push({
       rule: "gate-script-missing",
@@ -146,7 +149,11 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
       message: `Delivery evidence doc required: ${TIP_007_012_DELIVERY_DOC}`,
     });
   } else {
-    if (!deliveryDoc.includes(MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_SURFACE_RULE)) {
+    if (
+      !deliveryDoc.includes(
+        MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_SURFACE_RULE
+      )
+    ) {
       violations.push({
         rule: "delivery-surface-rule-missing",
         file: deliveryDocPath,
@@ -154,7 +161,9 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
       });
     }
 
-    if (!deliveryDoc.includes(`## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`)) {
+    if (
+      !deliveryDoc.includes(`## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`)
+    ) {
       violations.push({
         rule: "delivery-verification-section-missing",
         file: deliveryDocPath,
@@ -207,9 +216,13 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -241,11 +254,15 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
     const testingVerificationAcceptanceIndex = qualityChain.indexOf(
       "quality:multi-tenancy-testing-verification-acceptance"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
     const finalOutputIndex = qualityChain.indexOf(
       "quality:multi-tenancy-final-output-format"
     );
-    const deliveryIndex = qualityChain.indexOf("quality:delivery-evidence-surface");
+    const deliveryIndex = qualityChain.indexOf(
+      "quality:delivery-evidence-surface"
+    );
 
     if (
       glossaryIndex === -1 ||

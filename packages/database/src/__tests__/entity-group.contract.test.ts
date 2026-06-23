@@ -1,9 +1,8 @@
-import { describe, expect, it } from "vitest";
-
 import {
   assertEntityGroupSlug,
   buildEntityGroupInsertRow,
 } from "@afenda/database";
+import { describe, expect, it } from "vitest";
 
 describe("entity group contract", () => {
   it("normalizes and validates entity group slugs", () => {

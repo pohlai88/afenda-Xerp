@@ -238,12 +238,12 @@ function SelectableInvoiceTableComponent() {
               <TableRow>
                 <TableHead>
                   <div className="w-10">
-                  <Checkbox
-                    aria-label="Select all invoices"
-                    checked={someSelected ? "indeterminate" : allSelected}
-                    onCheckedChange={toggleAll}
-                  />
-                </div>
+                    <Checkbox
+                      aria-label="Select all invoices"
+                      checked={someSelected ? "indeterminate" : allSelected}
+                      onCheckedChange={toggleAll}
+                    />
+                  </div>
                 </TableHead>
                 <TableHead>Invoice</TableHead>
                 <TableHead>Vendor</TableHead>
@@ -269,8 +269,8 @@ function SelectableInvoiceTableComponent() {
                   <TableCell>{row.vendor}</TableCell>
                   <TableCell>
                     <span className="text-right tabular-nums">
-                    {formatCurrency(row.amount)}
-                  </span>
+                      {formatCurrency(row.amount)}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <StatusCell label={row.status} tone={row.tone} />
@@ -453,8 +453,8 @@ export const GovernanceSlotMap: Story = {
       <StoryStack gap="sm">
         <p className="font-mono text-muted-foreground text-xs">
           container → table-container · root → table · header → table-header ·
-          content → table-body · footer → table-footer · row → table-row · head →
-          table-head · cell → table-cell · caption → table-caption
+          content → table-body · footer → table-footer · row → table-row · head
+          → table-head · cell → table-cell · caption → table-caption
         </p>
         <Table>
           <TableCaption>Slot map probe</TableCaption>
@@ -593,9 +593,7 @@ export const Compact: Story = {
               </TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>
-                <span className="text-right tabular-nums">
-                {row.onHand}
-              </span>
+                <span className="text-right tabular-nums">{row.onHand}</span>
               </TableCell>
             </TableRow>
           ))}
@@ -687,9 +685,7 @@ export const AllSizes: Story = {
               <TableRow>
                 <TableCell>INV-0042</TableCell>
                 <TableCell>
-                  <span className="tabular-nums">
-                  {formatCurrency(24_850)}
-                </span>
+                  <span className="tabular-nums">{formatCurrency(24_850)}</span>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -721,8 +717,8 @@ export const InvoiceList: Story = {
               </TableHead>
               <TableHead>
                 <div className="text-right">
-                <SortableHeader label="Amount" sort="desc" />
-              </div>
+                  <SortableHeader label="Amount" sort="desc" />
+                </div>
               </TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
@@ -736,13 +732,13 @@ export const InvoiceList: Story = {
                 <TableCell>{row.vendor}</TableCell>
                 <TableCell>
                   <span className="text-muted-foreground text-sm">
-                  {row.due}
-                </span>
+                    {row.due}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <span className="text-right font-medium tabular-nums">
-                  {formatCurrency(row.amount)}
-                </span>
+                    {formatCurrency(row.amount)}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -755,10 +751,10 @@ export const InvoiceList: Story = {
               <TableCell colSpan={3}>4 invoices shown</TableCell>
               <TableCell>
                 <span className="text-right font-semibold tabular-nums">
-                {formatCurrency(
-                  INVOICES.reduce((sum, row) => sum + row.amount, 0)
-                )}
-              </span>
+                  {formatCurrency(
+                    INVOICES.reduce((sum, row) => sum + row.amount, 0)
+                  )}
+                </span>
               </TableCell>
               <TableCell />
             </TableRow>
@@ -807,8 +803,8 @@ export const EmployeeRoster: Story = {
                 <TableCell>{row.department}</TableCell>
                 <TableCell>
                   <span className="text-muted-foreground text-sm">
-                  {row.email}
-                </span>
+                    {row.email}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -855,8 +851,8 @@ export const PurchaseOrderList: Story = {
                 <TableCell>{row.vendor}</TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {formatCurrency(row.amount)}
-                </span>
+                    {formatCurrency(row.amount)}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <StatusCell label={row.status} tone={row.tone} />
@@ -899,13 +895,11 @@ export const InventoryStockLevels: Story = {
                 <TableCell>{row.name}</TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {row.onHand.toLocaleString()}
-                </span>
+                    {row.onHand.toLocaleString()}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-right tabular-nums">
-                  {row.reorder}
-                </span>
+                  <span className="text-right tabular-nums">{row.reorder}</span>
                 </TableCell>
                 <TableCell>
                   <StatusCell
@@ -981,8 +975,8 @@ export const ApprovalQueue: Story = {
                 <TableCell>{row.submitter}</TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {formatCurrency(row.amount)}
-                </span>
+                    {formatCurrency(row.amount)}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <Badge emphasis="outline" size="sm" tone={row.tone}>
@@ -1033,46 +1027,46 @@ export const RowActionsColumn: Story = {
                 </TableCell>
                 <TableCell>
                   <div className="text-right">
-                  <StoryRow gap="xs" justify="end">
-                    <ButtonGroup>
+                    <StoryRow gap="xs" justify="end">
+                      <ButtonGroup>
+                        <Button
+                          aria-label={`View ${row.id}`}
+                          emphasis="ghost"
+                          intent="quiet"
+                          presentation="icon"
+                          size="sm"
+                        >
+                          <EyeIcon />
+                        </Button>
+                        <Button
+                          aria-label={`Edit ${row.id}`}
+                          emphasis="ghost"
+                          intent="quiet"
+                          presentation="icon"
+                          size="sm"
+                        >
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          aria-label={`Delete ${row.id}`}
+                          emphasis="ghost"
+                          intent="destructive"
+                          presentation="icon"
+                          size="sm"
+                        >
+                          <Trash2Icon />
+                        </Button>
+                      </ButtonGroup>
                       <Button
-                        aria-label={`View ${row.id}`}
+                        aria-label={`More actions for ${row.id}`}
                         emphasis="ghost"
                         intent="quiet"
                         presentation="icon"
                         size="sm"
                       >
-                        <EyeIcon />
+                        <MoreHorizontalIcon />
                       </Button>
-                      <Button
-                        aria-label={`Edit ${row.id}`}
-                        emphasis="ghost"
-                        intent="quiet"
-                        presentation="icon"
-                        size="sm"
-                      >
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        aria-label={`Delete ${row.id}`}
-                        emphasis="ghost"
-                        intent="destructive"
-                        presentation="icon"
-                        size="sm"
-                      >
-                        <Trash2Icon />
-                      </Button>
-                    </ButtonGroup>
-                    <Button
-                      aria-label={`More actions for ${row.id}`}
-                      emphasis="ghost"
-                      intent="quiet"
-                      presentation="icon"
-                      size="sm"
-                    >
-                      <MoreHorizontalIcon />
-                    </Button>
-                  </StoryRow>
+                    </StoryRow>
                   </div>
                 </TableCell>
               </TableRow>
@@ -1119,19 +1113,17 @@ export const LineItemsGrid: Story = {
                 </TableCell>
                 <TableCell>{row.desc}</TableCell>
                 <TableCell>
-                  <span className="text-right tabular-nums">
-                  {row.qty}
-                </span>
+                  <span className="text-right tabular-nums">{row.qty}</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {formatCurrency(row.unit)}
-                </span>
+                    {formatCurrency(row.unit)}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <span className="text-right font-medium tabular-nums">
-                  {formatCurrency(row.qty * row.unit)}
-                </span>
+                    {formatCurrency(row.qty * row.unit)}
+                  </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -1141,8 +1133,8 @@ export const LineItemsGrid: Story = {
               <TableCell colSpan={4}>Subtotal</TableCell>
               <TableCell>
                 <span className="text-right font-semibold tabular-nums">
-                {formatCurrency(500 * 12 + 200 * 9 + 80 * 4.5)}
-              </span>
+                  {formatCurrency(500 * 12 + 200 * 9 + 80 * 4.5)}
+                </span>
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -1193,8 +1185,8 @@ export const ExpenseReportLines: Story = {
               <TableRow key={row.desc}>
                 <TableCell>
                   <span className="text-muted-foreground text-sm">
-                  {row.date}
-                </span>
+                    {row.date}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <Badge emphasis="outline" size="sm" tone="neutral">
@@ -1204,8 +1196,8 @@ export const ExpenseReportLines: Story = {
                 <TableCell>{row.desc}</TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {formatCurrency(row.amount)}
-                </span>
+                    {formatCurrency(row.amount)}
+                  </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -1215,8 +1207,8 @@ export const ExpenseReportLines: Story = {
               <TableCell colSpan={3}>Total reimbursement</TableCell>
               <TableCell>
                 <span className="text-right font-semibold tabular-nums">
-                {formatCurrency(1180)}
-              </span>
+                  {formatCurrency(1180)}
+                </span>
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -1265,8 +1257,8 @@ export const AuditTrailTable: Story = {
               <TableRow key={row.time}>
                 <TableCell>
                   <span className="text-muted-foreground text-sm">
-                  {row.time}
-                </span>
+                    {row.time}
+                  </span>
                 </TableCell>
                 <TableCell>{row.actor}</TableCell>
                 <TableCell>
@@ -1328,26 +1320,24 @@ export const TimesheetEntries: Story = {
             ].map((row) => (
               <TableRow key={`${row.project}-${row.task}`}>
                 <TableCell>
-                  <span className="font-mono text-sm">
-                  {row.project}
-                </span>
+                  <span className="font-mono text-sm">{row.project}</span>
                 </TableCell>
                 <TableCell>{row.task}</TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {row.hours.toFixed(1)}
-                </span>
+                    {row.hours.toFixed(1)}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div className="text-right">
-                  <Badge
-                    emphasis="soft"
-                    size="sm"
-                    tone={row.billable ? "success" : "neutral"}
-                  >
-                    {row.billable ? "Yes" : "No"}
-                  </Badge>
-                </div>
+                    <Badge
+                      emphasis="soft"
+                      size="sm"
+                      tone={row.billable ? "success" : "neutral"}
+                    >
+                      {row.billable ? "Yes" : "No"}
+                    </Badge>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -1357,8 +1347,8 @@ export const TimesheetEntries: Story = {
               <TableCell colSpan={2}>Week total</TableCell>
               <TableCell>
                 <span className="text-right font-semibold tabular-nums">
-                10.0
-              </span>
+                  10.0
+                </span>
               </TableCell>
               <TableCell />
             </TableRow>
@@ -1415,14 +1405,12 @@ export const MultiCurrencyColumns: Story = {
                 </TableCell>
                 <TableCell>{row.currency}</TableCell>
                 <TableCell>
-                  <span className="text-right tabular-nums">
-                  {row.amount}
-                </span>
+                  <span className="text-right tabular-nums">{row.amount}</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-right tabular-nums">
-                  {formatCurrency(row.usd)}
-                </span>
+                    {formatCurrency(row.usd)}
+                  </span>
                 </TableCell>
               </TableRow>
             ))}
@@ -1453,7 +1441,8 @@ export const EmptyResults: Story = {
               <TableCell colSpan={3}>
                 <div className="text-center text-muted-foreground text-sm">
                   <StoryStack padding="lg">
-                    No records match your filters. Adjust filters or clear search.
+                    No records match your filters. Adjust filters or clear
+                    search.
                   </StoryStack>
                 </div>
               </TableCell>
@@ -1491,8 +1480,8 @@ export const LoadingState: Story = {
                   <TableCell>{row.vendor}</TableCell>
                   <TableCell>
                     <span className="text-right tabular-nums">
-                    {formatCurrency(row.amount)}
-                  </span>
+                      {formatCurrency(row.amount)}
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -1544,8 +1533,8 @@ export const PaginationIntegration: Story = {
                   </TableCell>
                   <TableCell>
                     <span className="text-right tabular-nums">
-                    {formatCurrency(row.amount)}
-                  </span>
+                      {formatCurrency(row.amount)}
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -1623,7 +1612,9 @@ export const SemanticRowStates: Story = {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={2}>Footer — header background token</TableCell>
+              <TableCell colSpan={2}>
+                Footer — header background token
+              </TableCell>
               <TableCell>3 rows</TableCell>
             </TableRow>
           </TableFooter>

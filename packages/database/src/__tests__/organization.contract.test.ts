@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import { ORGANIZATION_UNIT_TYPES } from "../database.types.js";
 import {
   assertNoOrganizationCycle,
   assertOrganizationSlug,
@@ -11,7 +11,6 @@ import {
   resolveOrganizationUnitType,
   toOrganizationUnitAuthorityRecord,
 } from "../organization/organization.contract.js";
-import { ORGANIZATION_UNIT_TYPES } from "../database.types.js";
 
 describe("organization unit types", () => {
   it("includes multi-tenancy authority types", () => {

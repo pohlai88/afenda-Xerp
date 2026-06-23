@@ -7,12 +7,12 @@
  * - Does not own permissions, routing, or server actions.
  */
 
+import { METADATA_CONTRACT_VERSION } from "./metadata.version.js";
 import type {
   MetadataRuntimeCapabilityKey,
   MetadataRuntimeFeatureFlagKey,
   MetadataRuntimePermissionKey,
 } from "./runtime.contract.js";
-import { METADATA_CONTRACT_VERSION } from "./metadata.version.js";
 
 export const METADATA_ACTION_KINDS = [
   "button",
@@ -68,14 +68,9 @@ export type ActionContractProhibition =
 
 export interface MetadataActionConfirm {
   /**
-   * Dialog title shown before executing a sensitive action.
+   * Optional cancel label. Defaults are handled by the renderer.
    */
-  readonly title: string;
-
-  /**
-   * Human-readable explanation of what will happen.
-   */
-  readonly description: string;
+  readonly cancelLabel?: string;
 
   /**
    * Label for the confirmation button.
@@ -85,22 +80,16 @@ export interface MetadataActionConfirm {
   readonly confirmLabel: string;
 
   /**
-   * Optional cancel label. Defaults are handled by the renderer.
+   * Human-readable explanation of what will happen.
    */
-  readonly cancelLabel?: string;
+  readonly description: string;
+  /**
+   * Dialog title shown before executing a sensitive action.
+   */
+  readonly title: string;
 }
 
 export interface MetadataActionAccess {
-  /**
-   * Permission required to render or execute this action.
-   *
-   * Uses the runtime permission key vocabulary.
-   * The execution layer is responsible for enforcement — this is declarative.
-   *
-   * Example: "system_admin.users.manage"
-   */
-  readonly permission?: MetadataRuntimePermissionKey;
-
   /**
    * Capability required to render or execute this action.
    *
@@ -114,6 +103,15 @@ export interface MetadataActionAccess {
    * Example: "feature.bulk-invite"
    */
   readonly featureFlag?: MetadataRuntimeFeatureFlagKey;
+  /**
+   * Permission required to render or execute this action.
+   *
+   * Uses the runtime permission key vocabulary.
+   * The execution layer is responsible for enforcement — this is declarative.
+   *
+   * Example: "system_admin.users.manage"
+   */
+  readonly permission?: MetadataRuntimePermissionKey;
 }
 
 export interface MetadataActionAudit {
@@ -127,74 +125,19 @@ export interface MetadataActionAudit {
   readonly action: string;
 
   /**
+   * Optional target identifier. Usually supplied by the runtime layer.
+   */
+  readonly targetId?: string;
+
+  /**
    * Target type affected by the action.
    *
    * Examples: "user", "record", "surface"
    */
   readonly targetType?: string;
-
-  /**
-   * Optional target identifier. Usually supplied by the runtime layer.
-   */
-  readonly targetId?: string;
 }
 
 export interface MetadataAction {
-  /**
-   * Stable action key. Must be unique within the owning surface or section.
-   *
-   * Examples: "create-user", "archive-record", "open-detail"
-   */
-  readonly key: string;
-
-  /**
-   * Human-readable label.
-   */
-  readonly label: string;
-
-  /**
-   * Optional helper text shown in menus, tooltips, or command palettes.
-   */
-  readonly description?: string;
-
-  /**
-   * Action rendering and behavior kind.
-   */
-  readonly kind: MetadataActionKind;
-
-  /**
-   * URL for link actions.
-   *
-   * Required when kind === "link". Omit for command-style actions.
-   */
-  readonly href?: string;
-
-  /**
-   * Link target. Only meaningful when href is provided.
-   */
-  readonly target?: MetadataActionTarget;
-
-  /**
-   * Current visibility state.
-   *
-   * Single source of truth — prefer this over separate disabled/hidden booleans.
-   */
-  readonly visibility?: MetadataActionVisibilityState;
-
-  /**
-   * Human-readable reason explaining why the action is hidden or disabled.
-   *
-   * Required by convention when visibility is "hidden" or "disabled".
-   */
-  readonly reason?: string;
-
-  /**
-   * Confirmation contract for sensitive actions.
-   *
-   * Required by convention for destructive actions.
-   */
-  readonly confirm?: MetadataActionConfirm;
-
   /**
    * Permission, capability, or feature-flag guard.
    *
@@ -209,11 +152,69 @@ export interface MetadataAction {
    * Declarative only. Actual audit writing belongs to the execution layer.
    */
   readonly audit?: MetadataActionAudit;
+
+  /**
+   * Confirmation contract for sensitive actions.
+   *
+   * Required by convention for destructive actions.
+   */
+  readonly confirm?: MetadataActionConfirm;
+
+  /**
+   * Optional helper text shown in menus, tooltips, or command palettes.
+   */
+  readonly description?: string;
+
+  /**
+   * URL for link actions.
+   *
+   * Required when kind === "link". Omit for command-style actions.
+   */
+  readonly href?: string;
+  /**
+   * Stable action key. Must be unique within the owning surface or section.
+   *
+   * Examples: "create-user", "archive-record", "open-detail"
+   */
+  readonly key: string;
+
+  /**
+   * Action rendering and behavior kind.
+   */
+  readonly kind: MetadataActionKind;
+
+  /**
+   * Human-readable label.
+   */
+  readonly label: string;
+
+  /**
+   * Human-readable reason explaining why the action is hidden or disabled.
+   *
+   * Required by convention when visibility is "hidden" or "disabled".
+   */
+  readonly reason?: string;
+
+  /**
+   * Link target. Only meaningful when href is provided.
+   */
+  readonly target?: MetadataActionTarget;
+
+  /**
+   * Current visibility state.
+   *
+   * Single source of truth — prefer this over separate disabled/hidden booleans.
+   */
+  readonly visibility?: MetadataActionVisibilityState;
 }
 
 export interface ActionContract {
   readonly authority: "action";
-  readonly version: typeof METADATA_CONTRACT_VERSION;
+
+  /**
+   * Governed action kinds.
+   */
+  readonly kinds: readonly MetadataActionKind[];
 
   /**
    * Action contract owns action vocabulary only.
@@ -226,24 +227,20 @@ export interface ActionContract {
   readonly owns: readonly ActionContractOwnership[];
 
   /**
-   * Governed action kinds.
+   * Responsibilities explicitly forbidden from the action contract.
    */
-  readonly kinds: readonly MetadataActionKind[];
-
-  /**
-   * Governed visibility states.
-   */
-  readonly visibilityStates: readonly MetadataActionVisibilityState[];
+  readonly prohibits: readonly ActionContractProhibition[];
 
   /**
    * Governed link targets.
    */
   readonly targets: readonly MetadataActionTarget[];
+  readonly version: typeof METADATA_CONTRACT_VERSION;
 
   /**
-   * Responsibilities explicitly forbidden from the action contract.
+   * Governed visibility states.
    */
-  readonly prohibits: readonly ActionContractProhibition[];
+  readonly visibilityStates: readonly MetadataActionVisibilityState[];
 }
 
 export const actionContract = {

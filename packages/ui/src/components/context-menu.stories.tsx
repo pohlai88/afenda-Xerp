@@ -330,13 +330,10 @@ export const GovernanceDataAuthority: Story = {
   },
   render: () => (
     <StoryFrame width="md">
-      <ContextMenu
-        data-slot="override"
-        data-state="fake"
-        open
-        state="ready"
-      >
-        <ContextMenuTrigger data-slot="override">Record surface</ContextMenuTrigger>
+      <ContextMenu data-slot="override" data-state="fake" open state="ready">
+        <ContextMenuTrigger data-slot="override">
+          Record surface
+        </ContextMenuTrigger>
         <ContextMenuContent data-slot="override">
           <ContextMenuItem data-slot="override">View</ContextMenuItem>
           <ContextMenuItem variant="destructive">Delete</ContextMenuItem>

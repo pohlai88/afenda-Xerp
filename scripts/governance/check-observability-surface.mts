@@ -45,8 +45,8 @@ const REQUIRED_INDEX_EXPORTS = [
   "createLogger",
 ] as const;
 
-const CONSUMER_SCAN_ROOTS = OBSERVABILITY_CONSUMER_SCAN_ROOTS.map((relativePath) =>
-  join(repoRoot, relativePath)
+const CONSUMER_SCAN_ROOTS = OBSERVABILITY_CONSUMER_SCAN_ROOTS.map(
+  (relativePath) => join(repoRoot, relativePath)
 );
 
 /** Root package import only — barrels `./contracts` and `./surface` are allowed. */
@@ -54,9 +54,9 @@ const FORBIDDEN_DEEP_IMPORT_PATTERN =
   /@afenda\/observability\/(?!contracts["']|surface["'])[^"']+/;
 
 export interface ObservabilitySurfaceViolation {
-  readonly rule: string;
   readonly file: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function listProductionSourceFiles(directory: string): string[] {
@@ -108,7 +108,10 @@ function listSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx|mts)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
+    if (
+      /\.(ts|tsx|mts)$/.test(entry.name) &&
+      !/\.(test|spec)\./.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -189,17 +192,18 @@ export function checkObservabilitySurface(): ObservabilitySurfaceViolation[] {
     }
   }
 
-  const erpInstrumentationPath = join(repoRoot, OBSERVABILITY_ERP_INSTRUMENTATION_MODULE);
-  if (!existsSync(erpInstrumentationPath)) {
-    violations.push({
-      rule: "erp-instrumentation-missing",
-      file: erpInstrumentationPath,
-      message: `${OBSERVABILITY_ERP_INSTRUMENTATION_MODULE} is required for audit bootstrap`,
-    });
-  } else {
+  const erpInstrumentationPath = join(
+    repoRoot,
+    OBSERVABILITY_ERP_INSTRUMENTATION_MODULE
+  );
+  if (existsSync(erpInstrumentationPath)) {
     const instrumentationSource = readFileSync(erpInstrumentationPath, "utf8");
 
-    if (!instrumentationSource.includes('process.env["NEXT_RUNTIME"] === "nodejs"')) {
+    if (
+      !instrumentationSource.includes(
+        'process.env["NEXT_RUNTIME"] === "nodejs"'
+      )
+    ) {
       violations.push({
         rule: "erp-audit-bootstrap-runtime",
         file: erpInstrumentationPath,
@@ -216,6 +220,12 @@ export function checkObservabilitySurface(): ObservabilitySurfaceViolation[] {
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "erp-instrumentation-missing",
+      file: erpInstrumentationPath,
+      message: `${OBSERVABILITY_ERP_INSTRUMENTATION_MODULE} is required for audit bootstrap`,
+    });
   }
 
   const contractsBarrel = join(
@@ -257,7 +267,9 @@ export function checkObservabilitySurface(): ObservabilitySurfaceViolation[] {
       }
     }
 
-    const approved = new Set<string>(OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES);
+    const approved = new Set<string>(
+      OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES
+    );
     for (const dependency of Object.keys(packageJson.dependencies ?? {})) {
       if (dependency.startsWith("@afenda/") && !approved.has(dependency)) {
         violations.push({
@@ -286,7 +298,8 @@ export function checkObservabilitySurface(): ObservabilitySurfaceViolation[] {
       violations.push({
         rule: "index-surface-barrel",
         file: indexSource,
-        message: "index.ts must export surface registry from ./surface/index.js",
+        message:
+          "index.ts must export surface registry from ./surface/index.js",
       });
     }
 

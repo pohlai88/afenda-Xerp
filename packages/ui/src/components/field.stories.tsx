@@ -856,21 +856,19 @@ export const FormFieldTokenStates: Story = {
       <StoryStack gap="md">
         <Field>
           <FieldLabel htmlFor="ff-default">Default</FieldLabel>
-          <Input
-            id="ff-default"
-            placeholder="Placeholder text"
-          />
-          <FieldDescription>Border: --afenda-form-field-border · Placeholder: --afenda-form-field-placeholder</FieldDescription>
+          <Input id="ff-default" placeholder="Placeholder text" />
+          <FieldDescription>
+            Border: --afenda-form-field-border · Placeholder:
+            --afenda-form-field-placeholder
+          </FieldDescription>
         </Field>
 
         <Field>
           <FieldLabel htmlFor="ff-disabled">Disabled</FieldLabel>
-          <Input
-            disabled
-            id="ff-disabled"
-            placeholder="Not editable"
-          />
-          <FieldDescription>Background: --afenda-form-field-disabled-background</FieldDescription>
+          <Input disabled id="ff-disabled" placeholder="Not editable" />
+          <FieldDescription>
+            Background: --afenda-form-field-disabled-background
+          </FieldDescription>
         </Field>
 
         <Field state="error">
@@ -881,7 +879,9 @@ export const FormFieldTokenStates: Story = {
             placeholder="Error state"
             state="error"
           />
-          <FieldError errors={[{ message: "Border: --afenda-form-field-invalid-border" }]} />
+          <FieldError
+            errors={[{ message: "Border: --afenda-form-field-invalid-border" }]}
+          />
         </Field>
 
         <Field>

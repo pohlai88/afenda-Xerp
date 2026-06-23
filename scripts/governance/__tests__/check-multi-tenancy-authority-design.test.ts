@@ -41,7 +41,9 @@ describe("check-multi-tenancy-authority-design script", () => {
   });
 
   it("requires package ownership and kernel contract row markers", () => {
-    expect(MULTI_TENANCY_PACKAGE_OWNERSHIP_ROW_MARKERS.length).toBeGreaterThanOrEqual(6);
+    expect(
+      MULTI_TENANCY_PACKAGE_OWNERSHIP_ROW_MARKERS.length
+    ).toBeGreaterThanOrEqual(6);
     expect(MULTI_TENANCY_KERNEL_CONTRACT_ROW_MARKERS).toHaveLength(10);
   });
 

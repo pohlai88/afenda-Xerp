@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  RENDERER_CAPABILITIES,
-  SECTION_TYPES,
-} from "../metadata.constants.js";
+import { RENDERER_CAPABILITIES, SECTION_TYPES } from "../metadata.constants.js";
 import { METADATA_CONTRACT_VERSION } from "../metadata.version.js";
 import {
   getRendererCapabilityForSectionType,

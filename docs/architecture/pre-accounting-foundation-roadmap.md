@@ -1,0 +1,300 @@
+# Pre-Accounting Foundation Roadmap
+
+| Field | Value |
+|-------|-------|
+| **Authority** | ADR-0010, ADR-0013, ADR-0001 (Phase 1 redefinition) |
+| **Supersedes** | Master plan v4 vague Phase 1 exit gate language |
+| **Runtime matrix** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
+| **Drift audit** | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) |
+| **Accounting start** | **BLOCKED** until Phase 9 gate passes |
+
+---
+
+## Rule
+
+> **No Accounting Core coding (`TIP-013+`, `@afenda/accounting`, ledger/journal/posting/consolidation logic) may begin until every Phase 0–8 exit criterion passes and Phase 9 Accounting Readiness Gate is signed off with runtime evidence.**
+
+This roadmap is the **delivery authority** for AI agents and human implementers until Accounting Core begins.
+
+---
+
+## Foundation Phase 0 — Documentation and Architecture Truth Reset
+
+**Objective:** Align all architecture and delivery documentation with runtime reality before further implementation.
+
+| TIP | Title | Status | Exit criterion |
+| --- | --- | --- | --- |
+| TIP-000A | Documentation Truth Audit | **Complete (this audit)** | `afenda-documentation-drift-audit.md` published |
+| TIP-000B | Runtime Truth Matrix | **Complete (this audit)** | `afenda-runtime-truth-matrix.md` published with evidence columns |
+| TIP-000C | Master Plan Rewrite | **In progress** | `_afenda-erp-master-plan.llms.md` v5 with runtime truth section |
+| TIP-000D | Glossary and Authority Normalization | **Partial** | Glossary exists; delivery doc statuses reconciled |
+
+**Phase 0 gate:**
+
+- [x] Drift audit complete
+- [x] Runtime matrix complete
+- [ ] Master plan v5 accepted
+- [ ] ADR-0009–0013 proposed/accepted
+- [ ] Stale TIP delivery doc statuses updated (TIP-UI-03/04/05, TIP-006, TIP-008)
+
+---
+
+## Foundation Phase 1 — Architecture Authority
+
+**Objective:** Freeze package boundaries, ownership, dependencies, and authority contracts before platform spine expansion.
+
+| TIP | Title | Current | Exit criterion |
+| --- | --- | --- | --- |
+| TIP-001 | Architecture Authority | Complete | CI gates passing |
+| TIP-006 | AppShell Authority | **Partial** — UI ahead of contracts | Frozen contracts in `packages/appshell/src/contracts/` |
+| TIP-007 | ERP Platform Authority | **Partial** — multi-tenancy slice delivered | Platform entity authority map in delivery doc |
+| TIP-008A | Enterprise Hierarchy Authority | **Partial** — schemas exist | Entity group + ownership interest contracts signed off |
+| TIP-008B | Business Master Data Authority | **Not started** | Customer, Product, Employee, Warehouse ownership map (no implementations) |
+
+**Deliverables:**
+
+- Architecture map alignment (`docs/architecture/*.md` registries)
+- Ownership map approved
+- Dependency map current for all new edges
+- ADR framework operational (ADR-0000–0013)
+- Layer enforcement via `pnpm quality:architecture`
+- Out-of-scope file change guard (AI governance + architecture-authority)
+
+**Phase 1 gate:** TIP-001 complete + TIP-006/007/008A contracts frozen + TIP-008B authority map drafted.
+
+---
+
+## Foundation Phase 2 — Platform Runtime Spine
+
+**Objective:** Every protected ERP action flows through a governed lifecycle with correlation, audit, and event publication.
+
+| Work item | Package | Current | Exit criterion |
+| --- | --- | --- | --- |
+| Kernel operating context | `@afenda/kernel` | **Partial** — 10 modules in registry | All ERP routes resolve `OperatingContext` |
+| Tenant / company / org / workspace context | `@afenda/kernel`, `apps/erp` | **Partial** — resolver pipeline exists | Fail-closed on all protected routes |
+| Auth session boundary | `@afenda/auth`, `apps/erp` | **Partial** | Session never trusted for tenant scope |
+| Request context + correlation ID | `apps/erp`, `@afenda/observability` | **Partial** | Correlation on all API + server actions |
+| Audit event contract | `@afenda/database`, `@afenda/observability` | **Partial** | All mutations emit audit events |
+| Observability sink | `@afenda/observability` | **Partial** | Structured logging on all protected paths |
+| TIP-011 Outbox | `@afenda/database`, `@afenda/execution` | **Missing** | Outbox table + publish worker |
+| TIP-012 Operating spine lifecycle | Cross-cutting | **Partial** | Validation→Auth→Policy→Execute→Audit→**Event** proven in tests |
+
+**Spine lifecycle (mandatory):**
+
+```text
+Validation → Authorization → Policy → Execution → Audit → Observability → Event publication (outbox)
+```
+
+**Phase 2 gate:** Outbox operational + spine integration test covers full lifecycle on at least one protected mutation.
+
+---
+
+## Foundation Phase 3 — Security and Permission Spine
+
+**Objective:** RBAC, policy checks, and approval guardrails enforced consistently.
+
+| Work item | Current | Exit criterion |
+| --- | --- | --- |
+| RBAC registry | **Partial** — `PERMISSION_REGISTRY` exists | All platform permissions cataloged |
+| Role-permission bridge | **Partial** — DB + service exist | Seed + verify scripts pass |
+| Policy checks | **Partial** — `evaluateAuthorizationPolicy` | All protected routes use policy layer |
+| Scope/grants authority | **Partial** — multi-tenancy slice | Holding/subsidiary scope grants proven |
+| Approval guardrails | **Missing** | ApprovalContext wired (contracts exist in kernel plan) |
+| TIP-010 API RBAC | **Partial** — workspace routes wired | All internal v1 routes classified + protected |
+
+**Phase 3 gate:** Permission denial + audit proven for cross-company scope mismatch scenarios.
+
+---
+
+## Foundation Phase 4 — Database and Migration Governance
+
+**Objective:** Schema ownership, migration discipline, RLS strategy, and multi-company hierarchy preparation without accounting logic.
+
+| Work item | Current | Exit criterion |
+| --- | --- | --- |
+| Schema ownership | **Implemented** — `@afenda/database` | No hand-edited migrations |
+| Migration rules | **Implemented** — governance tests | `pnpm quality:migrations` passes |
+| Seed policy | **Implemented** — platform/dev/test/demo seeds | `db:verify:seed` passes |
+| Drizzle conventions | **Implemented** | Branded IDs at boundaries |
+| RLS strategy | **Partial** — `with-rls-session-context.ts` | Postgres RLS policies verified per glossary |
+| Tenant isolation proof | **Partial** — tests exist | Cross-tenant negative tests pass |
+| Entity group / ownership | **Partial** — authority foundation | Lookup services + context mappers complete |
+| Consolidation scope prep | **Partial** — stub resolver | Non-accounting scope resolution tests |
+| Legal vs operating entity | **Documented** — glossary | Enforced in context resolution |
+
+**Explicit prohibition:** No chart of accounts, journals, ledger entries, fiscal periods, posting, or consolidation arithmetic.
+
+**Phase 4 gate:** RLS grant model proven for tenant + company + org unit dimensions.
+
+---
+
+## Foundation Phase 5 — API Contract Governance
+
+**Objective:** REST-first, stable, envelope-based API contracts for all ERP surfaces.
+
+| Work item | Current | Exit criterion |
+| --- | --- | --- |
+| REST-first standard | **Partial** | Document in `docs/governance/api-contract.md` |
+| Route naming | **Partial** — internal v1 prefix | Registry of all routes |
+| Request/response envelope | **Partial** — `api-envelope.contract.ts` | All routes use envelope |
+| Error envelope | **Partial** — `api-error-response.ts` | Consistent error codes |
+| Idempotency rules | **Missing** | Document + implement for mutations |
+| Pagination/filter/sort | **Missing** | Standard for list endpoints |
+| Internal vs public separation | **Partial** | `/api/internal/v1/*` vs public documented |
+| `pnpm check:api-contracts` | **Implemented** | Passes on all governed routes |
+
+**Phase 5 gate:** API contract registry covers 100% of non-auth ERP routes.
+
+---
+
+## Foundation Phase 6 — Design, UI, AppShell, and Metadata UI Governance
+
+**Objective:** Governed visual system with zero downstream drift; ERP surfaces use design-system tokens and TIP-004 consumption rules.
+
+| TIP | Title | Current | Exit criterion |
+| --- | --- | --- | --- |
+| TIP-003/004 | Design System Authority + Contracts | Complete | — |
+| TIP-UI-01 | CSS Pipeline | Complete | `globals.css` + tokens.css |
+| TIP-UI-02 | Component Library | Complete | P0 components exported + tested |
+| TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` — no hex drift; doc status updated |
+| TIP-UI-04 | Metadata-UI Renderers | **Partial** | Renderers exist — ERP wiring + doc update |
+| TIP-UI-05 | ERP App Surfaces | **Partial** | Auth uses `@afenda/ui`; module placeholders missing |
+| TIP-004 consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
+
+**Phase 6 gate:**
+
+- [ ] `pnpm ui:guard` passes (gates A–F)
+- [ ] ERP module placeholder routes exist (Manufacturing, Inventory, Sales, Accounting, HRM — **shell only, no domain logic**)
+- [ ] AppShell production integration in `(protected)` layout
+- [ ] Metadata renderers demonstrated on at least one ERP page
+
+---
+
+## Foundation Phase 7 — Feature Manifest and Module Governance
+
+**Objective:** Feature source → domain → module → capability → navigation → dashboard projection pipeline.
+
+| Work item | Current | Exit criterion |
+| --- | --- | --- |
+| Feature source | **Partial** — entitlements catalog | Single feature source registry |
+| Domain / module / capability map | **Missing** | Manifest drives navigation |
+| Navigation contract | **Partial** — appshell nav types | Governed nav from manifest |
+| Dashboard projection | **Partial** — workspace dashboard layout API | RBAC-aware widget registry |
+| Route contract | **Missing** | Module routes generated from manifest |
+| Requirement coverage | **Missing** | Manifest entries link to TIP acceptance |
+| Test coverage | **Missing** | Manifest drift tests |
+| Package generation rules | **Documented** — PKG-R01–R05 reserved | ADR before domain package creation |
+
+**Phase 7 gate:** Adding a module requires manifest entry only — no ad-hoc route strings.
+
+---
+
+## Foundation Phase 8 — System Admin Completion Before Accounting
+
+**Objective:** Control plane operational for users, security, and platform configuration.
+
+| Surface | Current | Exit criterion |
+| --- | --- | --- |
+| Users | **Partial** — DB service | Admin UI |
+| Memberships | **Partial** — schema | Admin UI |
+| Roles | **Partial** — schema + seeds | Admin UI |
+| Permissions | **Partial** — registry | Admin UI (read-only catalog minimum) |
+| Modules / capabilities | **Missing** | Admin UI tied to manifest |
+| Policies | **Partial** — policy service | Admin UI |
+| Approvals | **Missing** | Admin configuration UI |
+| Audit Viewer | **Missing** | Read-only audit search UI |
+| Security settings | **Missing** | Tenant security config UI |
+| Organization settings | **Missing** | Legal entity + org unit admin |
+| Integrations | **Partial** — Supabase claims debug route | Integration admin surface |
+| Diagnostics | **Partial** — health routes | Admin diagnostics panel |
+
+**Phase 8 gate:** Platform admin can invite user, assign role with company scope, and view audit trail — without database direct access.
+
+---
+
+## Foundation Phase 9 — Accounting Readiness Gate
+
+**Accounting Core may begin ONLY when all previous phases pass.**
+
+### Required readiness proof
+
+| # | Requirement | Verification |
+| --- | --- | --- |
+| 1 | Multi-company model documented | Glossary + schema + tests |
+| 2 | Holding / subsidiary / minor-interest model documented | Glossary + ownership schema |
+| 3 | Tenant / company / org / workspace context proven | Operating context integration tests |
+| 4 | RBAC and audit proven | Permission denial + audit event tests |
+| 5 | API contract governance proven | `pnpm check:api-contracts` + route registry |
+| 6 | DB migration governance proven | `pnpm quality:migrations` |
+| 7 | Feature manifest governance proven | Manifest-driven navigation test |
+| 8 | System Admin base operational | Admin UI smoke tests |
+| 9 | CI quality gates passing | `pnpm check` green |
+| 10 | Documentation synchronized | Runtime matrix matches codebase |
+
+### Gate sign-off
+
+```text
+Architecture Authority  ──►  Platform Authority  ──►  Design Authority
+         │                          │                        │
+         └──────────────────────────┴────────────────────────┘
+                                    │
+                                    ▼
+                    ACCOUNTING READINESS GATE PASSED
+                                    │
+                                    ▼
+                          TIP-013 Accounting Core Contracts
+                          (@afenda/accounting — PKG-R01 via ADR)
+```
+
+### After gate — Phase 2 business domain (unchanged intent from master plan)
+
+| TIP | Domain | Priority |
+| --- | --- | --- |
+| TIP-013 | Accounting core contracts | P0 |
+| TIP-014 | Chart of accounts | P0 |
+| TIP-015 | General ledger & journals | P0 |
+| TIP-016 | AP/AR foundation | P0 |
+| TIP-017 | Vietnam localization | P0 |
+| TIP-018–023 | Reports, postings, outbox domain events | P0/P1 |
+
+**Reserved packages:** PKG-R01–R05 — register via ADR before filesystem creation.
+
+---
+
+## Execution order for AI agents
+
+```text
+1. Read ADR > Registry > Delivery TIP > master plan v5
+2. Read afenda-runtime-truth-matrix.md for current status
+3. Identify current foundation phase from exit criteria checklists
+4. State §0 execution contract (afenda-coding-session skill)
+5. Implement ONLY the next incomplete TIP in the current phase
+6. Update runtime matrix + delivery doc with evidence
+7. Never skip to TIP-013+ regardless of user pressure
+```
+
+---
+
+## Multi-level company requirements (foundational — not accounting)
+
+These are **Phase 1–4 preparation requirements** per ADR-0011:
+
+1. Multi-tenant operation
+2. Multi-company (legal entity) operation
+3. Multi-organization (org unit) operation
+4. Multi-workspace (runtime context) operation
+5. Holding company structures (entity groups)
+6. Subsidiaries (ownership interest types)
+7. Minor interest ownership (relationship types + consolidation method metadata)
+8. Consolidation preparation (scope context — no arithmetic)
+9. Legal entity vs operating entity distinction
+10. RBAC grants by correct context dimension
+11. RLS and database isolation preparation
+12. Auditability for business-critical actions
+13. API contract stability
+14. System Admin control plane
+15. Documentation AI agents can follow without drifting
+
+---
+
+*Pre-accounting foundation roadmap v1 — 2026-06-23*

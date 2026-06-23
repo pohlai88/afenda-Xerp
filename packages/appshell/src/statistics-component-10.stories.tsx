@@ -20,7 +20,8 @@ const meta = {
     title: "ERP/ApplicationShell/Statistics/Component 10",
     component: AppShellDashboardStatisticsMetrics,
   }),
-  render: () => renderDashboardBlockStory(AppShellDashboardStatisticsMetrics, {}),
+  render: () =>
+    renderDashboardBlockStory(AppShellDashboardStatisticsMetrics, {}),
   parameters: {
     ...dashboardBlockStoryParameters,
     docs: {

@@ -18,17 +18,19 @@ const ROLE_ID = "role-001";
 
 describe("rls grant contract", () => {
   it("defines all multi-tenancy.md grant scope tiers", () => {
-    expect(resolveRlsGrantScopeType({
-      roleScope: "platform",
-      membership: {
-        scopeType: "tenant",
-        companyId: null,
-        organizationId: null,
-        tenantId: TENANT_ID,
-        membershipId: MEMBERSHIP_ID,
-        roleId: ROLE_ID,
-      },
-    })).toBe("platform");
+    expect(
+      resolveRlsGrantScopeType({
+        roleScope: "platform",
+        membership: {
+          scopeType: "tenant",
+          companyId: null,
+          organizationId: null,
+          tenantId: TENANT_ID,
+          membershipId: MEMBERSHIP_ID,
+          roleId: ROLE_ID,
+        },
+      })
+    ).toBe("platform");
   });
 
   it("fail closed: tenant grant does not cover company or organization context", () => {

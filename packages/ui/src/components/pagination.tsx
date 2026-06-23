@@ -123,27 +123,25 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
       ...props
     },
     ref
-  ) => {
-    return (
-      <Button
-        asChild
-        className={cn(className)}
-        emphasis={emphasis}
-        intent={intent}
-        presentation={presentation}
-        size={size}
-      >
-        <a
-          ref={ref}
-          {...props}
-          aria-current={isActive ? "page" : undefined}
-          className={cn(anchorClassName)}
-          data-active={isActive}
-          data-slot="pagination-link"
-        />
-      </Button>
-    );
-  }
+  ) => (
+    <Button
+      asChild
+      className={cn(className)}
+      emphasis={emphasis}
+      intent={intent}
+      presentation={presentation}
+      size={size}
+    >
+      <a
+        ref={ref}
+        {...props}
+        aria-current={isActive ? "page" : undefined}
+        className={cn(anchorClassName)}
+        data-active={isActive}
+        data-slot="pagination-link"
+      />
+    </Button>
+  )
 );
 
 PaginationLink.displayName = "PaginationLink";
@@ -166,10 +164,10 @@ const PaginationPrevious = React.forwardRef<
 
   return (
     <PaginationLink
-      ref={ref}
       anchorClassName={padding.className}
       aria-label="Go to previous page"
       presentation={presentation}
+      ref={ref}
       {...props}
     >
       <ChevronLeftIcon aria-hidden="true" data-icon="inline-start" />
@@ -180,33 +178,34 @@ const PaginationPrevious = React.forwardRef<
 
 PaginationPrevious.displayName = "PaginationPrevious";
 
-export type PaginationNextProps = React.ComponentProps<typeof PaginationLink> & {
+export type PaginationNextProps = React.ComponentProps<
+  typeof PaginationLink
+> & {
   readonly text?: string;
 };
 
-const PaginationNext = React.forwardRef<
-  HTMLAnchorElement,
-  PaginationNextProps
->(({ text = "Next", presentation = "default", ...props }, ref) => {
-  const padding = resolvePrimitiveGovernance({
-    componentName: "Pagination",
-    recipeName: PAGINATION_RECIPE_NAME,
-    slotKey: "link-padding-end",
-  });
+const PaginationNext = React.forwardRef<HTMLAnchorElement, PaginationNextProps>(
+  ({ text = "Next", presentation = "default", ...props }, ref) => {
+    const padding = resolvePrimitiveGovernance({
+      componentName: "Pagination",
+      recipeName: PAGINATION_RECIPE_NAME,
+      slotKey: "link-padding-end",
+    });
 
-  return (
-    <PaginationLink
-      ref={ref}
-      anchorClassName={padding.className}
-      aria-label="Go to next page"
-      presentation={presentation}
-      {...props}
-    >
-      <PaginationLinkText>{text}</PaginationLinkText>
-      <ChevronRightIcon aria-hidden="true" data-icon="inline-end" />
-    </PaginationLink>
-  );
-});
+    return (
+      <PaginationLink
+        anchorClassName={padding.className}
+        aria-label="Go to next page"
+        presentation={presentation}
+        ref={ref}
+        {...props}
+      >
+        <PaginationLinkText>{text}</PaginationLinkText>
+        <ChevronRightIcon aria-hidden="true" data-icon="inline-end" />
+      </PaginationLink>
+    );
+  }
+);
 
 PaginationNext.displayName = "PaginationNext";
 

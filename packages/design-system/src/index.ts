@@ -97,9 +97,9 @@ export type {
 } from "./contracts/variant.contract";
 export type { AiGenerationRuleSet } from "./policies/ai-generation-policy";
 export type { ClassNamePolicyResult } from "./policies/class-name-policy";
+export type { DesignTokenPolicy } from "./policies/design-token-policy";
 export type { GovernanceValidationResult } from "./policies/drift-validation";
 export type { TokenNameValidationResult } from "./policies/token-name-policy";
-export type { DesignTokenPolicy } from "./policies/design-token-policy";
 export type { VisualDriftPolicy } from "./policies/visual-drift-policy";
 export type { AfendaAccessibilityRegistry } from "./registries/accessibility.registry";
 export type { AfendaSemanticRoleRegistry } from "./registries/semantic-role.registry";
@@ -117,6 +117,14 @@ export {
   PROHIBITED_CLASSNAME_PATTERNS,
 } from "./contracts/class-name-policy.contract";
 export { componentContract } from "./contracts/component.contract";
+export {
+  densityAttributeSelector,
+  densityContract,
+  densityFromAttribute,
+  densityToAttribute,
+  isDensity,
+  isDensityAttribute,
+} from "./contracts/density.contract";
 export {
   DESIGN_AUTHORITY_DOMAINS,
   designSystemAuthorityContract,
@@ -143,14 +151,6 @@ export {
   tokenNameToCssVariable,
 } from "./contracts/token.contract";
 export {
-  densityAttributeSelector,
-  densityContract,
-  densityFromAttribute,
-  densityToAttribute,
-  isDensity,
-  isDensityAttribute,
-} from "./contracts/density.contract";
-export {
   VARIANT_AXES,
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
@@ -175,9 +175,7 @@ export {
   AFENDA_RECIPE_REGISTRY,
   recipeRegistry,
 } from "./registries/recipe.registry";
-export {
-  AFENDA_SEMANTIC_ROLE_REGISTRY,
-} from "./registries/semantic-role.registry";
+export { AFENDA_SEMANTIC_ROLE_REGISTRY } from "./registries/semantic-role.registry";
 export {
   AFENDA_STATE_NAMES,
   AFENDA_STATE_REGISTRY,
@@ -213,7 +211,6 @@ export {
   driftPreventionChecklist,
   validateDesignSystemGovernance,
 } from "./policies/drift-validation";
-export { visualDriftPolicy } from "./policies/visual-drift-policy";
 export {
   isPublicDesignSystemImport,
   publicExportContract,
@@ -225,6 +222,7 @@ export {
   tokenNamePolicy,
   validateTokenName,
 } from "./policies/token-name-policy";
+export { visualDriftPolicy } from "./policies/visual-drift-policy";
 
 // ─── Validation layer ─────────────────────────────────────────────────────────
 

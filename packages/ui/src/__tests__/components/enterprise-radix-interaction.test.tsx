@@ -1,8 +1,7 @@
+import { setupUser } from "@afenda/testing/react";
 import { render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
-
-import { setupUser } from "@afenda/testing/react";
 
 import { Checkbox, Input, Switch } from "../../index";
 

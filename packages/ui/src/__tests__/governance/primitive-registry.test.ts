@@ -73,7 +73,9 @@ function collectComponentSlotKeys(
 
   for (const helper of GOVERNANCE_HELPERS[componentName] ?? []) {
     if (helper === "calendarClass") {
-      for (const match of source.matchAll(/calendarClass\(\s*["']([^"']+)["']/gu)) {
+      for (const match of source.matchAll(
+        /calendarClass\(\s*["']([^"']+)["']/gu
+      )) {
         const key = match[1];
         if (key !== undefined) {
           keys.add(key);

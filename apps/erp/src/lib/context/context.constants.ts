@@ -5,7 +5,8 @@ export const TENANT_SLUG_HEADER = "x-tenant-slug";
  * Organization slug from `/o/{organizationSlug}` path prefix only.
  * Selection hint — does not grant tenant authority or bypass membership checks.
  */
-export const ORGANIZATION_SLUG_PATH_HINT_HEADER = "x-organization-slug-path-hint";
+export const ORGANIZATION_SLUG_PATH_HINT_HEADER =
+  "x-organization-slug-path-hint";
 
 export const DEFAULT_TENANT_BASE_DOMAIN = "afenda.app";
 

@@ -1,24 +1,23 @@
 export {
   cleanup,
+  type RenderOptions,
+  type RenderResult,
   render,
   screen,
   waitFor,
   within,
-  type RenderOptions,
-  type RenderResult,
 } from "@testing-library/react";
-
-export { default as userEvent } from "@testing-library/user-event";
 export type { UserEvent } from "@testing-library/user-event";
+export { default as userEvent } from "@testing-library/user-event";
 
 export {
   INTERACTION_TEST_TIMEOUT_MS,
-  renderWithUser,
-  setupInteractionTest,
-  setupUser,
   type InteractionTestContext,
   type RenderWithUserOptions,
   type RenderWithUserResult,
+  renderWithUser,
+  setupInteractionTest,
+  setupUser,
 } from "./interaction.js";
 
 export {

@@ -45,9 +45,7 @@ describe("Skeleton governance", () => {
   });
 
   it("applies governed state on Skeleton root", () => {
-    render(
-      <Skeleton aria-hidden data-testid="skeleton" state="loading" />
-    );
+    render(<Skeleton aria-hidden data-testid="skeleton" state="loading" />);
 
     expect(screen.getByTestId("skeleton")).toHaveAttribute(
       "data-state",

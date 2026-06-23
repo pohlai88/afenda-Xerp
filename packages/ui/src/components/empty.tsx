@@ -38,7 +38,10 @@ const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
     });
 
     return (
-      <div ref={ref} {...applyGovernedPresentation({ ...props, role }, governed)} />
+      <div
+        ref={ref}
+        {...applyGovernedPresentation({ ...props, role }, governed)}
+      />
     );
   }
 );

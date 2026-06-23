@@ -16,8 +16,11 @@ export type MetadataGovernanceErrorCode =
   (typeof METADATA_GOVERNANCE_ERROR_CODES)[number];
 
 export interface MetadataGovernanceErrorDetails {
+  /**
+   * Native error cause.
+   */
+  readonly cause?: unknown;
   readonly code: MetadataGovernanceErrorCode;
-  readonly message: string;
 
   /**
    * Optional machine-readable context for diagnostics.
@@ -26,18 +29,14 @@ export interface MetadataGovernanceErrorDetails {
    * React elements, database clients, or request objects here.
    */
   readonly context?: Readonly<Record<string, unknown>>;
-
-  /**
-   * Native error cause.
-   */
-  readonly cause?: unknown;
+  readonly message: string;
 }
 
 export interface SerializedMetadataGovernanceError {
-  readonly name: "MetadataGovernanceError";
   readonly code: MetadataGovernanceErrorCode;
-  readonly message: string;
   readonly context?: Readonly<Record<string, unknown>>;
+  readonly message: string;
+  readonly name: "MetadataGovernanceError";
 }
 
 /** Typed governance error for metadata contract violations. */

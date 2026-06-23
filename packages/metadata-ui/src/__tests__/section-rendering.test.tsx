@@ -8,8 +8,8 @@ import {
   sampleListSectionProps,
   sampleListSectionRenderProps,
 } from "../fixtures/sample-list-section.fixture.js";
-import { ListSection } from "../sections/index.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
+import { ListSection } from "../sections/index.js";
 
 describe("section rendering", () => {
   it("renders enterprise list section fixture regions and sample rows", () => {
@@ -84,12 +84,12 @@ describe("section rendering", () => {
           id: "section.orders.actions",
           title: "Orders",
         }}
+        presentation={{ chrome: "card", padded: true }}
         slots={{
           actions: <button type="button">Export</button>,
           content: <p>Orders table</p>,
           footer: <p>Updated just now</p>,
         }}
-        presentation={{ chrome: "card", padded: true }}
       />
     );
 

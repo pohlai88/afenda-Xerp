@@ -9,7 +9,10 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId } from "react";
-import { Bar, BarChart } from "recharts";
+import {
+  LazyBar as Bar,
+  LazyBarChart as BarChart,
+} from "../../charts/recharts-lazy.client";
 
 import {
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
@@ -75,6 +78,7 @@ export function StatisticsProfileTrafficCard() {
               <ChartContainer config={profileTrafficChartConfig}>
                 <BarChart
                   accessibilityLayer
+                  aria-hidden="true"
                   barSize={10}
                   data={chartData}
                   margin={STATISTICS_METRIC_CHART_MARGIN}

@@ -44,7 +44,11 @@
     },
     "test:run": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.config.ts", "$TURBO_ROOT$/vitest.shared.ts"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/vitest.config.ts",
+        "$TURBO_ROOT$/vitest.shared.ts"
+      ],
       "outputs": ["coverage/**"]
     },
     "dev": {

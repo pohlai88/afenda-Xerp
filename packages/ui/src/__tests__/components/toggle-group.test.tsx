@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import type { ComponentProps } from "react";
 import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
 import {
   ToggleGroup,
   ToggleGroupItem,
+  type ToggleGroupSingleProps,
 } from "../../components/toggle-group";
 import { getGovernedStates } from "../../governance/state";
 import {
@@ -14,7 +14,7 @@ import {
 } from "../helpers/governance-assertions";
 
 function renderSingleToggleGroup(
-  rootProps: ComponentProps<typeof ToggleGroup> = {}
+  rootProps: Partial<ToggleGroupSingleProps> = {}
 ) {
   return render(
     <ToggleGroup aria-label="View mode" type="single" {...rootProps}>
@@ -88,11 +88,14 @@ describe("ToggleGroup governance", () => {
       </ToggleGroup>
     );
 
-    expectGovernedDataAuthority(screen.getByRole("radio", { name: "List view" }), {
-      "data-component": "ToggleGroup",
-      "data-recipe": "form-control",
-      "data-slot": "toggle-group-item",
-    });
+    expectGovernedDataAuthority(
+      screen.getByRole("radio", { name: "List view" }),
+      {
+        "data-component": "ToggleGroup",
+        "data-recipe": "form-control",
+        "data-slot": "toggle-group-item",
+      }
+    );
   });
 
   it("renders governed slot map on root and items", () => {
@@ -115,41 +118,35 @@ describe("ToggleGroup governance", () => {
   it("applies governed state on root", () => {
     renderSingleToggleGroup({ state: "loading" });
 
-    expect(screen.getByRole("radiogroup", { name: "View mode" })).toHaveAttribute(
-      "data-state",
-      "loading"
-    );
+    expect(
+      screen.getByRole("radiogroup", { name: "View mode" })
+    ).toHaveAttribute("data-state", "loading");
   });
 
-  it.each(getGovernedStates())(
-    "renders governed state %s on root",
-    (state) => {
-      renderSingleToggleGroup({ state });
+  it.each(getGovernedStates())("renders governed state %s on root", (state) => {
+    renderSingleToggleGroup({ state });
 
-      expect(screen.getByRole("radiogroup", { name: "View mode" })).toHaveAttribute(
-        "data-state",
-        state
-      );
-    }
-  );
+    expect(
+      screen.getByRole("radiogroup", { name: "View mode" })
+    ).toHaveAttribute("data-state", state);
+  });
 
-  it.each(getGovernedStates())(
-    "renders governed state %s on items",
-    (state) => {
-      render(
-        <ToggleGroup aria-label="View mode" defaultValue="list" type="single">
-          <ToggleGroupItem aria-label="List view" state={state} value="list">
-            List
-          </ToggleGroupItem>
-        </ToggleGroup>
-      );
+  it.each(
+    getGovernedStates()
+  )("renders governed state %s on items", (state) => {
+    render(
+      <ToggleGroup aria-label="View mode" defaultValue="list" type="single">
+        <ToggleGroupItem aria-label="List view" state={state} value="list">
+          List
+        </ToggleGroupItem>
+      </ToggleGroup>
+    );
 
-      expect(screen.getByRole("radio", { name: "List view" })).toHaveAttribute(
-        "data-state",
-        state
-      );
-    }
-  );
+    expect(screen.getByRole("radio", { name: "List view" })).toHaveAttribute(
+      "data-state",
+      state
+    );
+  });
 
   it("inherits variant and size from root context on items", () => {
     render(
@@ -195,11 +192,7 @@ describe("ToggleGroup governance", () => {
     const itemRef = createRef<HTMLButtonElement>();
 
     render(
-      <ToggleGroup
-        aria-label="View mode"
-        ref={rootRef}
-        type="single"
-      >
+      <ToggleGroup aria-label="View mode" ref={rootRef} type="single">
         <ToggleGroupItem aria-label="List view" ref={itemRef} value="list">
           List
         </ToggleGroupItem>
@@ -225,7 +218,11 @@ describe("ToggleGroup governance", () => {
 
   it("preserves multiple-select group accessibility semantics", () => {
     render(
-      <ToggleGroup aria-label="Formatting" defaultValue={["bold"]} type="multiple">
+      <ToggleGroup
+        aria-label="Formatting"
+        defaultValue={["bold"]}
+        type="multiple"
+      >
         <ToggleGroupItem aria-label="Bold" value="bold">
           Bold
         </ToggleGroupItem>
@@ -235,7 +232,9 @@ describe("ToggleGroup governance", () => {
       </ToggleGroup>
     );
 
-    expect(screen.getByRole("toolbar", { name: "Formatting" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("toolbar", { name: "Formatting" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Bold" })).toHaveAttribute(
       "aria-pressed",
       "true"

@@ -191,10 +191,7 @@ export const GovernanceDataAuthority: Story = {
       open
       state="ready"
     >
-      <PopoverTrigger
-        data-component="Override"
-        data-slot="override"
-      >
+      <PopoverTrigger data-component="Override" data-slot="override">
         Open popover
       </PopoverTrigger>
       <PopoverContent
@@ -496,7 +493,10 @@ export const ShareLinkPopover: Story = {
         </PopoverHeader>
         <StoryStack gap="sm">
           <StoryRow align="center" gap="xs">
-            <LinkIcon aria-hidden="true" className="size-4 text-muted-foreground" />
+            <LinkIcon
+              aria-hidden="true"
+              className="size-4 text-muted-foreground"
+            />
             <span className="text-muted-foreground text-xs">
               /finance/invoices/inv-2026-0042
             </span>

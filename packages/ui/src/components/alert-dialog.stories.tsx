@@ -58,10 +58,7 @@ function AlertDialogMediaIcon({
   );
 }
 
-function ConfirmTrigger({
-  children,
-  ...props
-}: ComponentProps<typeof Button>) {
+function ConfirmTrigger({ children, ...props }: ComponentProps<typeof Button>) {
   return (
     <AlertDialogTrigger asChild>
       <Button {...props}>{children}</Button>
@@ -438,8 +435,8 @@ export const Uncontrolled: Story = {
           <AlertDialogHeader>
             <AlertDialogTitle>Uncontrolled dialog</AlertDialogTitle>
             <AlertDialogDescription>
-              Click the trigger to open; Cancel or Escape closes without external
-              state.
+              Click the trigger to open; Cancel or Escape closes without
+              external state.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -499,15 +496,23 @@ export const ActionButtonSizes: Story = {
             <AlertDialogHeader>
               <AlertDialogTitle>Button size: {size}</AlertDialogTitle>
               <AlertDialogDescription>
-                Footer actions inherit governed `size` from
-                `AlertDialogAction` / `AlertDialogCancel`.
+                Footer actions inherit governed `size` from `AlertDialogAction`
+                / `AlertDialogCancel`.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel emphasis="outline" intent="secondary" size={size}>
+              <AlertDialogCancel
+                emphasis="outline"
+                intent="secondary"
+                size={size}
+              >
                 Cancel
               </AlertDialogCancel>
-              <AlertDialogAction emphasis="solid" intent="destructive" size={size}>
+              <AlertDialogAction
+                emphasis="solid"
+                intent="destructive"
+                size={size}
+              >
                 Confirm
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -556,7 +561,8 @@ export const DisabledActions: Story = {
         <AlertDialogHeader>
           <AlertDialogTitle>Pending server validation</AlertDialogTitle>
           <AlertDialogDescription>
-            Footer actions are disabled until the confirmation request completes.
+            Footer actions are disabled until the confirmation request
+            completes.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -665,8 +671,8 @@ export const GovernanceDataAuthority: Story = {
         <AlertDialogHeader>
           <AlertDialogTitle>Data authority probe</AlertDialogTitle>
           <AlertDialogDescription>
-            Inspect the content root — governed `data-*` attributes must override
-            consumer props.
+            Inspect the content root — governed `data-*` attributes must
+            override consumer props.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -685,7 +691,7 @@ export const GovernanceAccessibility: Story = {
     docs: {
       description: {
         story:
-          "`AlertDialogTitle` and `AlertDialogDescription` provide accessible names. Radix alert-dialog semantics trap focus and require explicit confirm/cancel. Verify `role=\"alertdialog\"` and labelled-by wiring in the DOM.",
+          '`AlertDialogTitle` and `AlertDialogDescription` provide accessible names. Radix alert-dialog semantics trap focus and require explicit confirm/cancel. Verify `role="alertdialog"` and labelled-by wiring in the DOM.',
       },
     },
   },
@@ -895,10 +901,9 @@ export const CancelPurchaseOrder: Story = {
           <AlertDialogMediaIcon icon={BanIcon} />
           <AlertDialogTitle>Cancel purchase order PO-8821?</AlertDialogTitle>
           <AlertDialogDescription>
-            PO-8821 (
-            <span className="tabular-nums">$5,949.00</span> · 3 line items) will
-            be cancelled. The supplier will be notified and any partial receipts
-            must be reversed before cancellation completes.
+            PO-8821 (<span className="tabular-nums">$5,949.00</span> · 3 line
+            items) will be cancelled. The supplier will be notified and any
+            partial receipts must be reversed before cancellation completes.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -927,8 +932,9 @@ export const PostJournalEntry: Story = {
           <AlertDialogTitle>Post journal entry JE-2026-0312?</AlertDialogTitle>
           <AlertDialogDescription>
             Posting is final for period March 2026. Debits and credits totalling{" "}
-            <strong className="tabular-nums">$142,800.00</strong> will be written
-            to the general ledger. Only a reversing entry can undo this action.
+            <strong className="tabular-nums">$142,800.00</strong> will be
+            written to the general ledger. Only a reversing entry can undo this
+            action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

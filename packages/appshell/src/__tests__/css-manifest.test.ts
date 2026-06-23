@@ -1,8 +1,11 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
 import { validateManifest } from "@afenda/ui/governance";
-import { appShellCssManifest, APPSHELL_CSS_BUDGET } from "../styles/css-manifest.js";
+import { describe, expect, it } from "vitest";
+import {
+  APPSHELL_CSS_BUDGET,
+  appShellCssManifest,
+} from "../styles/css-manifest.js";
 
 const packageRoot = join(import.meta.dirname, "../..");
 const cssPath = join(packageRoot, "src/styles/afenda-appshell.css");
@@ -19,7 +22,9 @@ describe("@afenda/appshell CSS manifest", () => {
   it("every manifest sourceFile exists on disk", () => {
     for (const entry of appShellCssManifest) {
       const abs = join(packageRoot, entry.sourceFile);
-      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(true);
+      expect(existsSync(abs), `sourceFile missing: ${entry.sourceFile}`).toBe(
+        true
+      );
     }
   });
 
@@ -39,12 +44,16 @@ describe("@afenda/appshell CSS manifest", () => {
   });
 
   it("shell-structural entry uses app-shell- class namespace", () => {
-    const entry = appShellCssManifest.find((e) => e.purpose === "shell-structural");
+    const entry = appShellCssManifest.find(
+      (e) => e.purpose === "shell-structural"
+    );
     expect(entry?.classNamespace).toBe("app-shell-");
   });
 
   it("shell-structural entry uses --app-shell- property namespace", () => {
-    const entry = appShellCssManifest.find((e) => e.purpose === "shell-structural");
+    const entry = appShellCssManifest.find(
+      (e) => e.purpose === "shell-structural"
+    );
     expect(entry?.propertyNamespace).toBe("--app-shell-");
   });
 
@@ -90,7 +99,9 @@ describe("@afenda/appshell CSS budget", () => {
         .replace(packageRoot + "/", "")
         .replace(/\\/g, "/");
       expect(
-        (APPSHELL_CSS_BUDGET.allowedSourceFiles as readonly string[]).includes(normalised),
+        (APPSHELL_CSS_BUDGET.allowedSourceFiles as readonly string[]).includes(
+          normalised
+        ),
         `Unregistered CSS file ${normalised} — add to APPSHELL_CSS_BUDGET or remove`
       ).toBe(true);
     }
@@ -99,10 +110,14 @@ describe("@afenda/appshell CSS budget", () => {
 
 function collectCssFiles(dir: string): string[] {
   const result: string[] = [];
-  if (!existsSync(dir)) return result;
+  if (!existsSync(dir)) {
+    return result;
+  }
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (["node_modules", "__tests__", "_storybook"].includes(entry.name)) continue;
+    if (["node_modules", "__tests__", "_storybook"].includes(entry.name)) {
+      continue;
+    }
     if (entry.isDirectory()) {
       result.push(...collectCssFiles(full));
     } else if (entry.name.endsWith(".css")) {

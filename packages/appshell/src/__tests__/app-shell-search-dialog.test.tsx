@@ -1,16 +1,13 @@
-import { render, screen, within } from "@testing-library/react";
 import { setupUser } from "@afenda/testing/react";
+import { render, screen, within } from "@testing-library/react";
 import { UserIcon } from "lucide-react";
 import { describe, expect, it, vi } from "vitest";
-
-import {
-  defaultAppShellSearchSuggestions,
-} from "../shadcn-studio/data/app-shell.search.data";
 import {
   AppShellSearchCommand,
   AppShellSearchDialog,
   type AppShellSearchDialogProps,
 } from "../shadcn-studio/blocks/app-shell-search-dialog";
+import { defaultAppShellSearchSuggestions } from "../shadcn-studio/data/app-shell.search.data";
 
 function renderSearchDialog(props: Partial<AppShellSearchDialogProps> = {}) {
   return render(
@@ -38,9 +35,15 @@ describe("AppShellSearchDialog", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("search")).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Search results" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Finance module" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Human resources" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Search results" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Finance module" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Human resources" })
+    ).toBeInTheDocument();
   });
 
   it("filters suggestions when typing in the plain search field", async () => {
@@ -50,7 +53,9 @@ describe("AppShellSearchDialog", () => {
     await user.clear(screen.getByRole("searchbox"));
     await user.type(screen.getByRole("searchbox"), "finance");
 
-    expect(screen.getByRole("button", { name: "Finance module" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Finance module" })
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "Human resources" })
     ).not.toBeInTheDocument();
@@ -135,9 +140,11 @@ describe("AppShellSearchCommand", () => {
     await user.clear(screen.getByRole("searchbox"));
     await user.type(screen.getByRole("searchbox"), "inventory");
 
-    expect(screen.getByRole("button", { name: "Inventory & procurement" })).toBeInTheDocument();
-    expect(defaultAppShellSearchSuggestions.some((item) => item.id === "inventory")).toBe(
-      true
-    );
+    expect(
+      screen.getByRole("button", { name: "Inventory & procurement" })
+    ).toBeInTheDocument();
+    expect(
+      defaultAppShellSearchSuggestions.some((item) => item.id === "inventory")
+    ).toBe(true);
   });
 });

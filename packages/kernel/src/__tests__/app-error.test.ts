@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { AppErrors, type AppErrorCode } from "../contracts/app-error.contract.js";
+import {
+  type AppErrorCode,
+  AppErrors,
+} from "../contracts/app-error.contract.js";
 
 describe("AppError contract", () => {
   it("creates validation errors with optional fields", () => {

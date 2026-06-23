@@ -318,7 +318,9 @@ export const GovernanceDataAuthority: Story = {
       >
         <NavigationMenuList>
           <NavigationMenuItem value="finance">
-            <NavigationMenuTrigger data-slot="override">Finance</NavigationMenuTrigger>
+            <NavigationMenuTrigger data-slot="override">
+              Finance
+            </NavigationMenuTrigger>
             <NavigationMenuContent data-slot="override" forceMount>
               <NavigationMenuLink data-slot="override" href="#">
                 Invoices
@@ -356,8 +358,8 @@ export const GovernanceSlotMap: Story = {
           · header → navigation-menu-content · label → navigation-menu-link ·
           state → navigation-menu-indicator · footer →
           navigation-menu-viewport-wrapper · actions → navigation-menu-viewport
-          · trigger-chevron → navigation-menu-trigger-chevron ·
-          indicator-arrow → navigation-menu-indicator-arrow
+          · trigger-chevron → navigation-menu-trigger-chevron · indicator-arrow
+          → navigation-menu-indicator-arrow
         </p>
         <NavigationMenu value="inspect">
           <NavigationMenuList>
@@ -963,7 +965,10 @@ export const ErpModuleIconsMenu: Story = {
                 <NavigationMenuLink asChild key={label}>
                   <a href={href}>
                     <StoryRow align="center" gap="xs">
-                      <Icon aria-hidden="true" className="size-5 text-muted-foreground" />
+                      <Icon
+                        aria-hidden="true"
+                        className="size-5 text-muted-foreground"
+                      />
                       <span className="text-sm">{label}</span>
                     </StoryRow>
                   </a>

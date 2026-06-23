@@ -87,8 +87,8 @@ const ScrollBar = React.forwardRef<
 
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
-      ref={ref}
       orientation={orientation}
+      ref={ref}
       {...applyGovernedPresentation(props, scrollbarGoverned, {
         "data-orientation": orientation,
       })}

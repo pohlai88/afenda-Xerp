@@ -201,3 +201,10 @@ pnpm --filter @afenda/design-system test       →  25/25 passed
 **PASS — Enterprise 9.5+/10**
 
 TIP-004 is complete. All 11 design-system contracts are implemented, exported, tested, documented, and proven to prevent ownership overlap and AI visual drift. The TypeScript quality pass tightened type soundness (`imitationOnly: true` required), improved return-type explicitness on `mapOptions`, and brought regex literals to Biome compliance.
+
+## Related
+
+- [TIP-004 Policy (canonical operational rules)](../governance/tip-004-policy.md)
+- [TIP-004 — UI Consumption](./tip-004-ui-consumption.md)
+- [TIP-004B — Primitive Adapter](./tip-004b-primitive-adapter.md)
+- [UI Guard](../governance/ui-guard.md)

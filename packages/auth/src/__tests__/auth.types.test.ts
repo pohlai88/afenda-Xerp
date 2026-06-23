@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   isUnauthenticatedError,
+  isUnlinkedPlatformUserError,
   UnauthenticatedError,
   UnlinkedPlatformUserError,
-  isUnlinkedPlatformUserError,
 } from "../auth.errors.js";
 import {
   normalizeAfendaAuthSession,

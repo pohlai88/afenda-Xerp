@@ -14,7 +14,12 @@ import {
   RECORD_STATUSES,
   SelectShell,
 } from "./_storybook/select-story.compositions";
-import { StoryCaption, StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
+import {
+  StoryCaption,
+  StoryFrame,
+  StoryRow,
+  StoryStack,
+} from "./_storybook/story-frame";
 import { Label } from "./label";
 import { NativeSelect, NativeSelectOption } from "./native-select";
 import {

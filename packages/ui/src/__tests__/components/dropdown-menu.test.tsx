@@ -98,12 +98,15 @@ describe("DropdownMenu governance", () => {
       </DropdownMenu>
     );
 
-    expectGovernedDataAuthority(screen.getByRole("menuitem", { name: "View" }), {
-      "data-component": "DropdownMenu",
-      "data-recipe": "surface",
-      "data-slot": "dropdown-menu-item",
-      "data-state": "ready",
-    });
+    expectGovernedDataAuthority(
+      screen.getByRole("menuitem", { name: "View" }),
+      {
+        "data-component": "DropdownMenu",
+        "data-recipe": "surface",
+        "data-slot": "dropdown-menu-item",
+        "data-state": "ready",
+      }
+    );
   });
 
   it("emits destructive variant as semantic data attribute on items", () => {
@@ -163,7 +166,9 @@ describe("DropdownMenu governance", () => {
       <DropdownMenu open>
         <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuCheckboxItem checked>Employee ID</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked>
+            Employee ID
+          </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

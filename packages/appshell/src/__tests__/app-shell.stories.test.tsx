@@ -18,7 +18,9 @@ describe("ApplicationShell stories (portable CSF)", () => {
     render(<Default />);
 
     expect(screen.getByText("Hey, Alex Morgan")).toBeInTheDocument();
-    expect(screen.getByText("Good morning — Finance module")).toBeInTheDocument();
+    expect(
+      screen.getByText("Good morning — Finance module")
+    ).toBeInTheDocument();
     expect(screen.getByText("Afenda ERP")).toBeInTheDocument();
   });
 
@@ -35,13 +37,17 @@ describe("ApplicationShell stories (portable CSF)", () => {
     render(<AuthenticatedSession />);
 
     expect(screen.getByText("Hey, Jordan Rivera")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Sign out" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Sign out" })
+    ).toBeInTheDocument();
   });
 
   it("InventoryWorkspace renders AppShellMain workspace from story composition", () => {
     render(<InventoryWorkspace />);
 
-    expect(screen.getByRole("heading", { name: "Stock overview" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Stock overview" })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "New transfer" })
     ).toBeInTheDocument();
@@ -51,7 +57,9 @@ describe("ApplicationShell stories (portable CSF)", () => {
   it("MinimalFooter hides the footer brand link from story args", () => {
     render(<MinimalFooter />);
 
-    expect(screen.queryByRole("link", { name: "Afenda" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Afenda" })
+    ).not.toBeInTheDocument();
     expect(screen.getByText(/All rights reserved\./)).toBeInTheDocument();
   });
 

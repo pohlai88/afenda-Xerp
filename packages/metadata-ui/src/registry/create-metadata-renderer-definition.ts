@@ -23,22 +23,22 @@ const DEFAULT_RENDERER_POLICY: MetadataRendererPolicy = {
 };
 
 export interface CreateMetadataRendererDefinitionInput<TInput> {
-  readonly identity: MetadataRendererIdentity;
-  readonly registry: RegistryEntry;
   readonly capability: RendererCapability;
-  readonly sectionTypes: readonly SectionType[];
-  readonly lifecycle?: MetadataRendererLifecycleState;
-  readonly priority?: number;
-  readonly policy?: Partial<MetadataRendererPolicy>;
   readonly diagnostics?: MetadataRendererDiagnostics;
-  readonly supports?: (
-    input: TInput,
-    context: MetadataUiRenderContext
-  ) => MetadataRendererSupportResult | boolean;
+  readonly identity: MetadataRendererIdentity;
+  readonly lifecycle?: MetadataRendererLifecycleState;
+  readonly policy?: Partial<MetadataRendererPolicy>;
+  readonly priority?: number;
+  readonly registry: RegistryEntry;
   readonly render: (
     input: TInput,
     context: MetadataUiRenderContext
   ) => ReactNode;
+  readonly sectionTypes: readonly SectionType[];
+  readonly supports?: (
+    input: TInput,
+    context: MetadataUiRenderContext
+  ) => MetadataRendererSupportResult | boolean;
 }
 
 export function createMetadataRendererDefinition<TInput>(
@@ -60,9 +60,12 @@ export function createMetadataRendererDefinition<TInput>(
       ...DEFAULT_RENDERER_POLICY,
       ...input.policy,
     },
-    ...(input.diagnostics !== undefined ? { diagnostics: input.diagnostics } : {}),
-    ...(input.supports !== undefined
-      ? {
+    ...(input.diagnostics === undefined
+      ? {}
+      : { diagnostics: input.diagnostics }),
+    ...(input.supports === undefined
+      ? {}
+      : {
           supports: (value, context) => {
             const result = input.supports?.(value, context);
 
@@ -72,8 +75,7 @@ export function createMetadataRendererDefinition<TInput>(
 
             return result ?? { supported: false };
           },
-        }
-      : {}),
+        }),
     render: (value, context) => ({
       node: input.render(value, context),
       diagnostics: {

@@ -29,7 +29,10 @@ function listProductionSourceFiles(directory: string): string[] {
       continue;
     }
 
-    if (/\.(ts|tsx)$/.test(entry.name) && !/\.(test|spec)\.tsx?$/.test(entry.name)) {
+    if (
+      /\.(ts|tsx)$/.test(entry.name) &&
+      !/\.(test|spec)\.tsx?$/.test(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -46,7 +49,9 @@ describe("observability-surface-registry", () => {
 
   it("forbids authority packages", () => {
     expect(OBSERVABILITY_FORBIDDEN_DEPENDENCIES).toContain("@afenda/database");
-    expect(OBSERVABILITY_FORBIDDEN_DEPENDENCIES).toContain("@afenda/permissions");
+    expect(OBSERVABILITY_FORBIDDEN_DEPENDENCIES).toContain(
+      "@afenda/permissions"
+    );
   });
 
   it("lists required modules that exist on disk with declared exports", () => {
@@ -56,7 +61,9 @@ describe("observability-surface-registry", () => {
 
       const source = readFileSync(modulePath, "utf8");
       for (const exportName of module.primaryExports) {
-        expect(source, `${module.path} exports ${exportName}`).toContain(exportName);
+        expect(source, `${module.path} exports ${exportName}`).toContain(
+          exportName
+        );
       }
     }
   });
@@ -79,7 +86,10 @@ describe("observability-surface-registry", () => {
   });
 
   it("requires ERP instrumentation audit bootstrap symbols", () => {
-    const instrumentationPath = join(repoRoot, OBSERVABILITY_ERP_INSTRUMENTATION_MODULE);
+    const instrumentationPath = join(
+      repoRoot,
+      OBSERVABILITY_ERP_INSTRUMENTATION_MODULE
+    );
     const source = readFileSync(instrumentationPath, "utf8");
 
     for (const symbol of OBSERVABILITY_ERP_AUDIT_BOOTSTRAP_SYMBOLS) {

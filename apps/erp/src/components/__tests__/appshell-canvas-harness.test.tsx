@@ -1,16 +1,14 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-
 import {
   DashboardWidgetRenderContextProvider,
   DEFAULT_DASHBOARD_LAYOUT,
   PERMISSIVE_DASHBOARD_WIDGET_RENDER_CONTEXT,
   serializeDashboardWidgetRenderContext,
 } from "@afenda/appshell";
-
-import { AppShellCanvasHarness } from "../appshell-canvas-harness";
+import { render, screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { ApiClientRequestError } from "@/lib/api/api-policy-gate.error";
 import { fetchWorkspaceDashboardLayout } from "@/lib/api/dashboard-layout.client";
+import { AppShellCanvasHarness } from "../appshell-canvas-harness";
 
 vi.mock("@/lib/api/dashboard-layout.client", () => ({
   fetchWorkspaceDashboardLayout: vi.fn(async () => ({

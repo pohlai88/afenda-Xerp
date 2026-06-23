@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -87,8 +87,8 @@ describe("primitive package boundary", () => {
     };
 
     expect(packageJson.exports?.["./afenda-ui.css"]).toBeDefined();
-    expect(packageJson.sideEffects?.some((entry) => entry.includes(".css"))).toBe(
-      true
-    );
+    expect(
+      packageJson.sideEffects?.some((entry) => entry.includes(".css"))
+    ).toBe(true);
   });
 });

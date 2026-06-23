@@ -1,15 +1,14 @@
 import type { UserId } from "@afenda/kernel";
 import type { Density } from "@afenda/ui/governance";
 import type { ReactNode } from "react";
-
-import type {
-  AppShellMenuItem,
-  AppShellRecipientItem,
-} from "./shadcn-studio/data/app-shell.data";
 import {
   DEFAULT_APPLICATION_SHELL_ROLE_LABEL,
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
 } from "./shadcn-studio/data/app-shell.chrome.constants";
+import type {
+  AppShellMenuItem,
+  AppShellRecipientItem,
+} from "./shadcn-studio/data/app-shell.data";
 
 /** Serializable operating context labels for shell chrome — display only, no authority. */
 export interface ApplicationShellOperatingContext {
@@ -36,8 +35,7 @@ export const DEFAULT_APPLICATION_SHELL_PROPS = {
   navigationLabel: "Navigation",
   teamLabel: "Team",
   userName: "User",
-  avatarSrc:
-    "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
+  avatarSrc: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
 } as const satisfies Required<
   Pick<
     ApplicationShellProps,
@@ -54,22 +52,18 @@ export const DEFAULT_APPLICATION_SHELL_PROPS = {
 };
 
 export interface ApplicationShellProps {
-  readonly children?: ReactNode;
-  /** Sidebar brand label beside the logo. Defaults to {@link DEFAULT_APPLICATION_SHELL_PROPS.brandName}. */
-  readonly brandName?: string;
-  /** Header greeting name. Prefer `identity.displayName` when omitted. */
-  readonly userName?: string;
-  /** Secondary header greeting line. */
-  readonly welcomeMessage?: string;
-  /** Serializable auth identity — wires displayName, email, avatar fallback. */
-  readonly identity?: ApplicationShellIdentity;
-  /** Optional auth chrome (e.g. sign-out) rendered after the profile button. */
-  readonly identityAccessory?: ReactNode;
   /**
    * URL to the current user's avatar image. Falls back to the default CDN avatar
    * when omitted so the profile button is never blank.
    */
   readonly avatarSrc?: string;
+  /** Sidebar brand label beside the logo. Defaults to {@link DEFAULT_APPLICATION_SHELL_PROPS.brandName}. */
+  readonly brandName?: string;
+  readonly children?: ReactNode;
+  /** Optional workspace context switcher slot — wired by the host app via server action. */
+  readonly contextSwitcher?: ReactNode;
+  /** Governed shell density — defaults to `standard` (DOM: `default`). */
+  readonly density?: Density;
   /**
    * Footer company / product name. Defaults to {@link DEFAULT_APPLICATION_SHELL_PROPS.footerBrand}.
    * Pass an empty string to suppress the footer brand link.
@@ -77,30 +71,31 @@ export interface ApplicationShellProps {
   readonly footerBrand?: string;
   /** Href for the footer brand link. Defaults to {@link DEFAULT_APPLICATION_SHELL_PROPS.footerBrandHref}. */
   readonly footerBrandHref?: string;
+  /** Serializable auth identity — wires displayName, email, avatar fallback. */
+  readonly identity?: ApplicationShellIdentity;
+  /** Optional auth chrome (e.g. sign-out) rendered after the profile button. */
+  readonly identityAccessory?: ReactNode;
   /** Sidebar primary navigation section label. */
   readonly navigationLabel?: string;
-  /** Sidebar secondary section label (team / contacts). */
-  readonly teamLabel?: string;
   /** Sidebar primary navigation items. Defaults to ERP nav from {@link defaultAppShellPages}. */
   readonly navigationPages?: readonly AppShellMenuItem[];
-  /** Sidebar team / contact recipients. Defaults to {@link defaultAppShellRecipients}. */
-  readonly teamRecipients?: readonly AppShellRecipientItem[];
-  /** Compact label on the desktop header search trigger. */
-  readonly searchTriggerLabel?: string;
-  /** Role line under the sidebar user name. */
-  readonly roleLabel?: string;
-  /** Governed shell density — defaults to `standard` (DOM: `default`). */
-  readonly density?: Density;
   /** Server-resolved workspace labels — shell displays only, does not authorize. */
   readonly operatingContext?: ApplicationShellOperatingContext;
-  /** Optional workspace context switcher slot — wired by the host app via server action. */
-  readonly contextSwitcher?: ReactNode;
+  /** Role line under the sidebar user name. */
+  readonly roleLabel?: string;
+  /** Compact label on the desktop header search trigger. */
+  readonly searchTriggerLabel?: string;
+  /** Sidebar secondary section label (team / contacts). */
+  readonly teamLabel?: string;
+  /** Sidebar team / contact recipients. Defaults to {@link defaultAppShellRecipients}. */
+  readonly teamRecipients?: readonly AppShellRecipientItem[];
+  /** Header greeting name. Prefer `identity.displayName` when omitted. */
+  readonly userName?: string;
+  /** Secondary header greeting line. */
+  readonly welcomeMessage?: string;
 }
 
 export interface AppShellMainProps {
-  readonly children?: ReactNode;
-  readonly title: string;
-  readonly description?: string;
   /**
    * Page-level actions rendered to the right of the title row.
    * Use for primary CTAs: "New order", "Export", etc.
@@ -111,12 +106,15 @@ export interface AppShellMainProps {
    * Compose with governed `@afenda/ui` Badge — no `className` on primitives (TIP-004).
    */
   readonly badge?: ReactNode;
-  /** Accessible label for the main body region when `children` are provided. */
-  readonly contentLabel?: string;
-  /** Override the default heading id used by `aria-labelledby` on the page region. */
-  readonly titleId?: string;
+  readonly children?: ReactNode;
   /** Optional layout class on the root `<section>` (plain HTML only). */
   readonly className?: string;
+  /** Accessible label for the main body region when `children` are provided. */
+  readonly contentLabel?: string;
+  readonly description?: string;
+  readonly title: string;
+  /** Override the default heading id used by `aria-labelledby` on the page region. */
+  readonly titleId?: string;
 }
 
 export type ApplicationShellResolvedChrome = Required<
@@ -152,7 +150,8 @@ export function resolveApplicationShellChrome(
     brandName: props.brandName ?? DEFAULT_APPLICATION_SHELL_PROPS.brandName,
     welcomeMessage:
       props.welcomeMessage ?? DEFAULT_APPLICATION_SHELL_PROPS.welcomeMessage,
-    footerBrand: props.footerBrand ?? DEFAULT_APPLICATION_SHELL_PROPS.footerBrand,
+    footerBrand:
+      props.footerBrand ?? DEFAULT_APPLICATION_SHELL_PROPS.footerBrand,
     footerBrandHref:
       props.footerBrandHref ?? DEFAULT_APPLICATION_SHELL_PROPS.footerBrandHref,
     navigationLabel:
@@ -171,7 +170,9 @@ export function resolveApplicationShellChrome(
 }
 
 /** Initials fallback for avatar when image is unavailable. */
-export function resolveApplicationShellAvatarFallback(displayName: string): string {
+export function resolveApplicationShellAvatarFallback(
+  displayName: string
+): string {
   return displayName
     .split(" ")
     .map((part) => part[0] ?? "")

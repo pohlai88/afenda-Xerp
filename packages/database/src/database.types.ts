@@ -152,8 +152,7 @@ export type LegalEntityCompanyType =
   (typeof legalEntityCompanyTypeEnum.enumValues)[number];
 export type OrganizationStatus =
   (typeof organizationStatusEnum.enumValues)[number];
-export type OrganizationType =
-  (typeof organizationTypeEnum.enumValues)[number];
+export type OrganizationType = (typeof organizationTypeEnum.enumValues)[number];
 
 /** Domain alias aligned with multi-tenancy.md organization unit terminology. */
 export type OrganizationUnitType = OrganizationType;

@@ -44,6 +44,10 @@ export type MetadataSurfaceWidthMode =
 
 export interface MetadataSurfaceIdentity {
   /**
+   * Optional description shown in page headers or diagnostics.
+   */
+  readonly description?: string;
+  /**
    * Stable surface instance ID.
    *
    * Examples: "system-admin-users", "invoice-detail", "hr-employee-profile"
@@ -54,14 +58,13 @@ export interface MetadataSurfaceIdentity {
    * Human-readable surface title.
    */
   readonly title: string;
-
-  /**
-   * Optional description shown in page headers or diagnostics.
-   */
-  readonly description?: string;
 }
 
 export interface MetadataSurfaceBreadcrumb {
+  /**
+   * Optional href.
+   */
+  readonly href?: string;
   /**
    * Stable breadcrumb key.
    */
@@ -71,14 +74,13 @@ export interface MetadataSurfaceBreadcrumb {
    * Human-readable breadcrumb label.
    */
   readonly label: string;
-
-  /**
-   * Optional href.
-   */
-  readonly href?: string;
 }
 
 export interface MetadataSurfaceA11y {
+  /**
+   * ID of the element that describes the surface.
+   */
+  readonly ariaDescribedBy?: string;
   /**
    * Accessible label for the surface region.
    */
@@ -88,29 +90,9 @@ export interface MetadataSurfaceA11y {
    * ID of the element that labels the surface.
    */
   readonly ariaLabelledBy?: string;
-
-  /**
-   * ID of the element that describes the surface.
-   */
-  readonly ariaDescribedBy?: string;
 }
 
 export interface MetadataSurfaceState {
-  /**
-   * Surface visibility or interaction state.
-   */
-  readonly visibility: MetadataSurfaceVisibilityState;
-
-  /**
-   * Human-readable reason when visibility is not "visible".
-   */
-  readonly reason?: string;
-
-  /**
-   * Whether the surface is loading.
-   */
-  readonly loading?: boolean;
-
   /**
    * Whether the surface has no renderable content.
    */
@@ -120,6 +102,20 @@ export interface MetadataSurfaceState {
    * Optional error message safe for UI presentation.
    */
   readonly errorMessage?: string;
+
+  /**
+   * Whether the surface is loading.
+   */
+  readonly loading?: boolean;
+
+  /**
+   * Human-readable reason when visibility is not "visible".
+   */
+  readonly reason?: string;
+  /**
+   * Surface visibility or interaction state.
+   */
+  readonly visibility: MetadataSurfaceVisibilityState;
 }
 
 export interface MetadataSurfacePresentation {
@@ -129,9 +125,9 @@ export interface MetadataSurfacePresentation {
   readonly chrome?: MetadataSurfaceChromeMode;
 
   /**
-   * Surface width behavior.
+   * Optional governed class name from metadata-ui boundary.
    */
-  readonly width?: MetadataSurfaceWidthMode;
+  readonly className?: string;
 
   /**
    * Whether the surface should render internal spacing.
@@ -139,9 +135,9 @@ export interface MetadataSurfacePresentation {
   readonly padded?: boolean;
 
   /**
-   * Optional governed class name from metadata-ui boundary.
+   * Surface width behavior.
    */
-  readonly className?: string;
+  readonly width?: MetadataSurfaceWidthMode;
 }
 
 export interface MetadataSurfaceDiagnostics {
@@ -151,17 +147,31 @@ export interface MetadataSurfaceDiagnostics {
   readonly layoutRendererKey?: string;
 
   /**
-   * Optional surface renderer selected for this surface.
-   */
-  readonly surfaceRendererKey?: string;
-
-  /**
    * Optional diagnostics note.
    */
   readonly note?: string;
+
+  /**
+   * Optional surface renderer selected for this surface.
+   */
+  readonly surfaceRendererKey?: string;
 }
 
 export interface MetadataSurfaceSlots {
+  /**
+   * Optional right-side or supporting panel.
+   */
+  readonly aside?: ReactNode;
+
+  /**
+   * Main surface content.
+   */
+  readonly content: ReactNode;
+
+  /**
+   * Optional footer.
+   */
+  readonly footer?: ReactNode;
   /**
    * Optional surface header override.
    */
@@ -171,48 +181,13 @@ export interface MetadataSurfaceSlots {
    * Optional toolbar, filters, or command row.
    */
   readonly toolbar?: ReactNode;
-
-  /**
-   * Main surface content.
-   */
-  readonly content: ReactNode;
-
-  /**
-   * Optional right-side or supporting panel.
-   */
-  readonly aside?: ReactNode;
-
-  /**
-   * Optional footer.
-   */
-  readonly footer?: ReactNode;
 }
 
 export interface MetadataSurfaceProps {
   /**
-   * Stable surface identity.
+   * Accessibility metadata.
    */
-  readonly identity: MetadataSurfaceIdentity;
-
-  /**
-   * Governed surface type from @afenda/metadata.
-   */
-  readonly type: SurfaceType;
-
-  /**
-   * Current metadata-ui render context.
-   */
-  readonly context: MetadataUiRenderContext;
-
-  /**
-   * Structured surface slots with clear region ownership.
-   */
-  readonly slots: MetadataSurfaceSlots;
-
-  /**
-   * Optional breadcrumbs for surface heading/navigation context.
-   */
-  readonly breadcrumbs?: readonly MetadataSurfaceBreadcrumb[];
+  readonly a11y?: MetadataSurfaceA11y;
 
   /**
    * Surface-level actions with optional presentation metadata for rendering.
@@ -220,14 +195,23 @@ export interface MetadataSurfaceProps {
   readonly actions?: readonly MetadataRenderableAction[];
 
   /**
-   * Surface runtime state.
+   * Optional breadcrumbs for surface heading/navigation context.
    */
-  readonly state?: MetadataSurfaceState;
+  readonly breadcrumbs?: readonly MetadataSurfaceBreadcrumb[];
 
   /**
-   * Accessibility metadata.
+   * Current metadata-ui render context.
    */
-  readonly a11y?: MetadataSurfaceA11y;
+  readonly context: MetadataUiRenderContext;
+
+  /**
+   * Optional diagnostics metadata.
+   */
+  readonly diagnostics?: MetadataSurfaceDiagnostics;
+  /**
+   * Stable surface identity.
+   */
+  readonly identity: MetadataSurfaceIdentity;
 
   /**
    * Presentation options owned by metadata-ui.
@@ -235,9 +219,19 @@ export interface MetadataSurfaceProps {
   readonly presentation?: MetadataSurfacePresentation;
 
   /**
-   * Optional diagnostics metadata.
+   * Structured surface slots with clear region ownership.
    */
-  readonly diagnostics?: MetadataSurfaceDiagnostics;
+  readonly slots: MetadataSurfaceSlots;
+
+  /**
+   * Surface runtime state.
+   */
+  readonly state?: MetadataSurfaceState;
+
+  /**
+   * Governed surface type from @afenda/metadata.
+   */
+  readonly type: SurfaceType;
 }
 
 export type MetadataSpecificSurfaceProps = Omit<MetadataSurfaceProps, "type">;

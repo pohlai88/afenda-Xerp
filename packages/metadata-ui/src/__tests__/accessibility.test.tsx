@@ -1,14 +1,12 @@
-import { setupUser } from "@afenda/testing/react";
-import { render, screen, within } from "@testing-library/react";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { setupUser } from "@afenda/testing/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
 import { MetadataActionButton } from "../client/metadata-action-renderer.client.js";
 import { samplePageSurfaceFixture } from "../fixtures/sample-page-surface.fixture.js";
-import { MetadataModuleSurface } from "../surfaces/index.js";
 import { sampleRenderContext } from "../fixtures/sample-runtime-context.fixture.js";
-import React from "react";
+import { MetadataModuleSurface } from "../surfaces/index.js";
 
 const productionCss = readFileSync(
   join(import.meta.dirname, "../afenda-metadata-ui.css"),
@@ -106,7 +104,9 @@ describe("metadata-ui accessibility", () => {
   it("metadata action bar uses fieldset group semantics", () => {
     render(samplePageSurfaceFixture.element);
 
-    const actionBar = document.querySelector('[data-slot="metadata-action-bar"]');
+    const actionBar = document.querySelector(
+      '[data-slot="metadata-action-bar"]'
+    );
     expect(actionBar).not.toBeNull();
     expect(actionBar?.tagName).toBe("FIELDSET");
     expect(actionBar).toHaveAttribute("aria-label");

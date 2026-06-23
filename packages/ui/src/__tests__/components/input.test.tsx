@@ -42,12 +42,7 @@ describe("Input governance", () => {
 
   it("applies governed state and form-control axes on Input root", () => {
     render(
-      <Input
-        aria-label="Amount"
-        density="compact"
-        size="sm"
-        state="loading"
-      />
+      <Input aria-label="Amount" density="compact" size="sm" state="loading" />
     );
 
     const input = screen.getByRole("textbox", { name: "Amount" });

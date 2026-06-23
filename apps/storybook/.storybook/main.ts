@@ -8,7 +8,10 @@ function getAbsolutePath(value: string): string {
 
 const NODE_MODULES_PATTERN = /node_modules/;
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const shadcnTailwindCss = join(appRoot, "node_modules/shadcn/dist/tailwind.css");
+const shadcnTailwindCss = join(
+  appRoot,
+  "node_modules/shadcn/dist/tailwind.css"
+);
 const uiRoot = join(appRoot, "../../packages/ui");
 const uiSrcRoot = join(uiRoot, "src");
 const appshellRoot = join(appRoot, "../../packages/appshell");
@@ -17,6 +20,7 @@ const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const metadataRoot = join(appRoot, "../../packages/metadata");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
+const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
 const governanceRoot = join(uiSrcRoot, "governance");
 
 const config: StorybookConfig = {
@@ -30,7 +34,7 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-docs"),
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-vitest"),
-    getAbsolutePath("@storybook/addon-mcp")
+    getAbsolutePath("@storybook/addon-mcp"),
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
@@ -91,7 +95,10 @@ const config: StorybookConfig = {
       },
       {
         find: "@afenda/metadata-ui/fixtures.css",
-        replacement: join(metadataUiRoot, "src/fixtures/metadata-ui-fixtures.css"),
+        replacement: join(
+          metadataUiRoot,
+          "src/fixtures/metadata-ui-fixtures.css"
+        ),
       },
       {
         find: "@afenda/metadata-ui/server",
@@ -106,6 +113,7 @@ const config: StorybookConfig = {
         replacement: join(metadataRoot, "src/index.ts"),
       },
       { find: "next/link", replacement: nextLinkMock },
+      { find: "next/image", replacement: nextImageMock },
       { find: "@", replacement: uiSrcRoot },
       { find: "#", replacement: uiSrcRoot },
     ];
@@ -146,6 +154,7 @@ const config: StorybookConfig = {
       ...(viteConfig.optimizeDeps.exclude ?? []),
       "next",
       "next/link",
+      "next/image",
       "@afenda/appshell",
     ];
     viteConfig.optimizeDeps.esbuildOptions ??= {};
@@ -157,6 +166,7 @@ const config: StorybookConfig = {
       "@": uiSrcRoot,
       "#": uiSrcRoot,
       "next/link": nextLinkMock,
+      "next/image": nextImageMock,
     };
     viteConfig.optimizeDeps.include = [
       ...(viteConfig.optimizeDeps.include ?? []).filter(

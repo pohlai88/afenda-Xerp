@@ -23,9 +23,8 @@ export async function readWorkspaceSelectionCookies(): Promise<WorkspaceSelectio
     cookieStore.get(AFENDA_WORKSPACE_COMPANY_SLUG_COOKIE)?.value?.trim() ??
     null;
   const organizationSlug =
-    cookieStore
-      .get(AFENDA_WORKSPACE_ORGANIZATION_SLUG_COOKIE)
-      ?.value?.trim() ?? null;
+    cookieStore.get(AFENDA_WORKSPACE_ORGANIZATION_SLUG_COOKIE)?.value?.trim() ??
+    null;
 
   return {
     companySlug: companySlug && companySlug.length > 0 ? companySlug : null,

@@ -1,8 +1,8 @@
-import { assertAllowlistedOrigin } from "./csp-allowlist";
 import {
   getSupabasePublicUrl,
   hasSupabasePublicConfig,
 } from "@/lib/supabase/env";
+import { assertAllowlistedOrigin } from "./csp-allowlist";
 
 export interface SupabaseCspPlatformOrigins {
   readonly connectSrc: readonly string[];

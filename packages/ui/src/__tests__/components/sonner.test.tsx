@@ -92,7 +92,9 @@ describe("Toaster governance", () => {
     expect(root).toHaveAttribute("data-state", "loading");
   });
 
-  it.each(getGovernedStates())("renders governed state %s on root", async (state) => {
+  it.each(
+    getGovernedStates()
+  )("renders governed state %s on root", async (state) => {
     render(<Toaster state={state} />);
 
     const root = await findToasterRoot();
@@ -157,24 +159,29 @@ describe("Toaster governance", () => {
 
   it.each([
     ["info", "toaster-info-icon", () => toast.info("Maintenance scheduled")],
-    ["warning", "toaster-warning-icon", () => toast.warning("Duplicate rows skipped")],
-    ["error", "toaster-error-icon", () => toast.error("Payment gateway unreachable")],
-  ] as const)(
-    "renders governed %s icon slot when toast is shown",
-    async (_severity, slot, trigger) => {
-      render(<Toaster />);
+    [
+      "warning",
+      "toaster-warning-icon",
+      () => toast.warning("Duplicate rows skipped"),
+    ],
+    [
+      "error",
+      "toaster-error-icon",
+      () => toast.error("Payment gateway unreachable"),
+    ],
+  ] as const)("renders governed %s icon slot when toast is shown", async (_severity, slot, trigger) => {
+    render(<Toaster />);
 
-      trigger();
+    trigger();
 
-      await waitFor(() => {
-        expect(document.querySelector(`[data-slot="${slot}"]`)).toBeTruthy();
-      });
+    await waitFor(() => {
+      expect(document.querySelector(`[data-slot="${slot}"]`)).toBeTruthy();
+    });
 
-      const icon = document.querySelector(`[data-slot="${slot}"]`);
+    const icon = document.querySelector(`[data-slot="${slot}"]`);
 
-      expect(icon).toHaveAttribute("aria-hidden", "true");
-      expect(icon).toHaveAttribute("data-component", "Toaster");
-      expect(icon).toHaveAttribute("data-recipe", "surface");
-    }
-  );
+    expect(icon).toHaveAttribute("aria-hidden", "true");
+    expect(icon).toHaveAttribute("data-component", "Toaster");
+    expect(icon).toHaveAttribute("data-recipe", "surface");
+  });
 });

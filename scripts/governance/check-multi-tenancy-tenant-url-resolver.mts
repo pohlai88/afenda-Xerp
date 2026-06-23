@@ -9,14 +9,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  MULTI_TENANCY_DOC_TENANT_URL_RESOLVER_MARKERS,
-  MULTI_TENANCY_TENANT_URL_RESOLVER_ENFORCEMENT_LIB,
-  MULTI_TENANCY_TENANT_URL_RESOLVER_GATE,
-  MULTI_TENANCY_TENANT_URL_RESOLVER_SURFACE_RULE,
-  TIP_007_012_TENANT_URL_RESOLVER_SECTION,
-} from "./multi-tenancy-tenant-url-resolver-registry.mts";
 import {
   MULTI_TENANCY_DOC_REFERENCE,
   TIP_007_012_DELIVERY_DOC,
@@ -25,6 +17,13 @@ import {
   collectTenantUrlResolverViolations,
   type TenantUrlResolverEnforcementViolation,
 } from "./lib/multi-tenancy-tenant-url-resolver-enforcement.mts";
+import {
+  MULTI_TENANCY_DOC_TENANT_URL_RESOLVER_MARKERS,
+  MULTI_TENANCY_TENANT_URL_RESOLVER_ENFORCEMENT_LIB,
+  MULTI_TENANCY_TENANT_URL_RESOLVER_GATE,
+  MULTI_TENANCY_TENANT_URL_RESOLVER_SURFACE_RULE,
+  TIP_007_012_TENANT_URL_RESOLVER_SECTION,
+} from "./multi-tenancy-tenant-url-resolver-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -63,7 +62,9 @@ export function checkMultiTenancyTenantUrlResolver(): MultiTenancyTenantUrlResol
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  if (!registrySource.includes(MULTI_TENANCY_TENANT_URL_RESOLVER_SURFACE_RULE)) {
+  if (
+    !registrySource.includes(MULTI_TENANCY_TENANT_URL_RESOLVER_SURFACE_RULE)
+  ) {
     violations.push({
       rule: "registry-surface-rule-missing",
       file: registryPath,
@@ -171,9 +172,13 @@ export function checkMultiTenancyTenantUrlResolver(): MultiTenancyTenantUrlResol
       });
     }
 
-    const qualityChainMatch = packageJsonContent.match(/"quality":\s*"([^"]+)"/);
+    const qualityChainMatch = packageJsonContent.match(
+      /"quality":\s*"([^"]+)"/
+    );
     const qualityChain = qualityChainMatch?.[1] ?? "";
-    const glossaryIndex = qualityChain.indexOf("quality:multi-tenancy-glossary-first");
+    const glossaryIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-glossary-first"
+    );
     const auditIndex = qualityChain.indexOf(
       "quality:multi-tenancy-existing-state-audit"
     );
@@ -192,7 +197,9 @@ export function checkMultiTenancyTenantUrlResolver(): MultiTenancyTenantUrlResol
     const operatingResolverIndex = qualityChain.indexOf(
       "quality:multi-tenancy-operating-context-resolver"
     );
-    const dosIndex = qualityChain.indexOf("quality:multi-tenancy-dos-prohibitions");
+    const dosIndex = qualityChain.indexOf(
+      "quality:multi-tenancy-dos-prohibitions"
+    );
 
     if (
       glossaryIndex === -1 ||

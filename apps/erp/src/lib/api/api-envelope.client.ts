@@ -4,14 +4,12 @@ import type {
   ApiSuccessEnvelope,
 } from "@/server/api/contracts/api-envelope.contract";
 
-export type { ApiEnvelope, ApiErrorEnvelope, ApiSuccessEnvelope };
-
 export type { ApiClientErrorBody } from "@/server/api/contracts/api-envelope.contract";
-
 export {
   isApiErrorEnvelope,
   isApiSuccessEnvelope,
 } from "@/server/api/contracts/api-envelope.contract";
+export type { ApiEnvelope, ApiErrorEnvelope, ApiSuccessEnvelope };
 
 const POLICY_GATE_DECISIONS = [
   "require_approval",

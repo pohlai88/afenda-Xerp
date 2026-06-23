@@ -13,8 +13,8 @@ describe("ERP governance integration harness", () => {
     expect(
       screen.getByRole("heading", { name: "Governance integration surface" })
     ).toBeInTheDocument();
-    expect(container.querySelector('[data-afenda-density]')).not.toBeNull();
-    expect(container.querySelector('[data-metadata-density]')).not.toBeNull();
+    expect(container.querySelector("[data-afenda-density]")).not.toBeNull();
+    expect(container.querySelector("[data-metadata-density]")).not.toBeNull();
   });
 
   it("exposes required metadata and action hierarchy hooks", () => {

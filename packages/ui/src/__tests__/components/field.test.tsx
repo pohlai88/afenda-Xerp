@@ -65,7 +65,11 @@ describe("Field governance", () => {
   it("keeps governed data attributes authoritative on FieldLabel", () => {
     render(
       <Field>
-        <FieldLabel data-component="Override" data-slot="override" htmlFor="email">
+        <FieldLabel
+          data-component="Override"
+          data-slot="override"
+          htmlFor="email"
+        >
           Email
         </FieldLabel>
       </Field>
@@ -95,9 +99,12 @@ describe("Field governance", () => {
       "data-slot",
       "field-description"
     );
-    expect(screen.getByText("Helper text").closest("[data-slot=field-content]"))
-      .toBeTruthy();
-    expect(screen.getByText("Section").closest("[data-slot=field-group]")).toBeTruthy();
+    expect(
+      screen.getByText("Helper text").closest("[data-slot=field-content]")
+    ).toBeTruthy();
+    expect(
+      screen.getByText("Section").closest("[data-slot=field-group]")
+    ).toBeTruthy();
   });
 
   it("governs FieldSeparator line without raw Tailwind in Field", () => {

@@ -41,8 +41,7 @@ export async function emitApiAuditEvidence(
   await recordErpAuditEvent({
     action: audit.action,
     actorType: context.userId === null ? "system" : "user",
-    actorUserId:
-      context.userId === null ? null : unbrand(context.userId),
+    actorUserId: context.userId === null ? null : unbrand(context.userId),
     correlationId: context.correlationId,
     fallbackMetadata: { requestId: context.requestId },
     module: "@afenda/erp",

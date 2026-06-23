@@ -8,24 +8,24 @@ const DASHBOARD_LAYOUT_TYPE = "dashboard" satisfies LayoutType;
 const DASHBOARD_LAYOUT_DESCRIPTION_ID = "dashboard-main-description";
 
 interface SampleDashboardRailMetric {
+  readonly context: string;
   readonly key: string;
   readonly label: string;
   readonly value: string;
-  readonly context: string;
 }
 
 interface SampleDashboardAttentionItem {
-  readonly key: string;
-  readonly title: string;
   readonly detail: string;
+  readonly key: string;
   readonly severity: "critical" | "warning" | "info";
+  readonly title: string;
 }
 
 interface SampleDashboardActivityRow {
-  readonly key: string;
-  readonly id: string;
-  readonly event: string;
   readonly actor: string;
+  readonly event: string;
+  readonly id: string;
+  readonly key: string;
   readonly when: string;
 }
 
@@ -89,12 +89,7 @@ export const sampleDashboardAttentionQueue = [
 export const sampleDashboardTrendEvidence = {
   label: "Fulfillment trend",
   summary: "Throughput recovered after Tuesday maintenance window",
-  points: [
-    "Mon 94.1%",
-    "Tue 91.8%",
-    "Wed 95.4%",
-    "Thu 96.2%",
-  ],
+  points: ["Mon 94.1%", "Tue 91.8%", "Wed 95.4%", "Thu 96.2%"],
 } as const;
 
 export const sampleDashboardActivityRows = [

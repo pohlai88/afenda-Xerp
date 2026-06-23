@@ -133,6 +133,8 @@ describe("observability-usage — ERP source hygiene", () => {
 
     expect(instrumentationSource).toContain("configureAuditEventPersistence");
     expect(instrumentationSource).toContain("createDatabaseAuditAdapter");
-    expect(instrumentationSource).toContain('process.env["NEXT_RUNTIME"] === "nodejs"');
+    expect(instrumentationSource).toContain(
+      'process.env["NEXT_RUNTIME"] === "nodejs"'
+    );
   });
 });

@@ -118,7 +118,8 @@ export const permissionId = (): PrimaryIdColumn => primaryId("permission_id");
 export const policyId = (): PrimaryIdColumn => primaryId("policy_id");
 
 /** Governed primary key for entity group entities. */
-export const entityGroupId = (): PrimaryIdColumn => primaryId("entity_group_id");
+export const entityGroupId = (): PrimaryIdColumn =>
+  primaryId("entity_group_id");
 
 /** Governed primary key for ownership interest entities. */
 export const ownershipInterestId = (): PrimaryIdColumn =>
