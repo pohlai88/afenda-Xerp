@@ -5,6 +5,7 @@ import { SystemAdminReadinessGatePanel } from "@/components/system-admin/system-
 import {
   ACCOUNTING_READINESS_GATE_OVERALL_LABELS,
   ACCOUNTING_READINESS_GATE_PANEL_TITLE,
+  ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_BODY,
   ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_TITLE,
   ACCOUNTING_READINESS_GATE_STATUS_LABELS,
 } from "@/lib/system-admin/accounting-readiness-gate.copy.contract";
@@ -98,7 +99,7 @@ describe("SystemAdminReadinessGatePanel", () => {
       screen.getByRole("button", { name: "Run full delegated gate check" })
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Architecture Authority manual Phase 9 sign-off/)
+      screen.getByText(ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_BODY)
     ).toBeInTheDocument();
   });
 });

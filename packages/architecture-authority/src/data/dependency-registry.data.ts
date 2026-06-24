@@ -13,6 +13,7 @@ const RUNTIME_EDGES = [
   ["@afenda/erp", "@afenda/design-system"],
   ["@afenda/erp", "@afenda/entitlements"],
   ["@afenda/erp", "@afenda/execution"],
+  ["@afenda/erp", "@afenda/feature-flags"],
   ["@afenda/erp", "@afenda/metadata"],
   ["@afenda/erp", "@afenda/metadata-ui"],
   ["@afenda/erp", "@afenda/kernel"],
@@ -35,6 +36,7 @@ const RUNTIME_EDGES = [
   ["@afenda/permissions", "@afenda/kernel"],
   ["@afenda/ui", "@afenda/design-system"],
   ["@afenda/ai-governance", "@afenda/architecture-authority"],
+  ["@afenda/accounting", "@afenda/kernel"],
 ] as const;
 
 export const dependencyContract: DependencyContract = {
@@ -57,6 +59,7 @@ export const dependencyContract: DependencyContract = {
       "@afenda/design-system",
       "@afenda/entitlements",
       "@afenda/execution",
+      "@afenda/feature-flags",
       "@afenda/kernel",
       "@afenda/metadata",
       "@afenda/metadata-ui",
@@ -88,6 +91,7 @@ export const dependencyContract: DependencyContract = {
     "@afenda/ui": ["@afenda/design-system"],
     "@afenda/architecture-authority": [],
     "@afenda/ai-governance": ["@afenda/architecture-authority"],
+    "@afenda/accounting": ["@afenda/kernel"],
   },
   devOnlyExempt: [
     {

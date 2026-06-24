@@ -20,6 +20,15 @@ export const DRIFT_AUDIT =
 
 export const TIP_STATUS_INDEX = "docs/delivery/tip-status-index.md";
 
+export const FDR_STATUS_INDEX = "docs/delivery/fdr-status-index.md";
+
+/** Canonical FDR delivery doc directory (ADR-0016). */
+export const FDR_DELIVERY_DIR = "docs/delivery/FDR" as const;
+
+export const FDR_STATUS_INDEX_BASENAME = "fdr-status-index.md" as const;
+
+export const FDR_DELIVERY_FDR_PATH_MARKER = "docs/delivery/FDR/" as const;
+
 /** Canonical TIP delivery doc directory (ADR-0013 / tip-status-index). */
 export const TIP_DELIVERY_TIPS_DIR = "docs/delivery/tips" as const;
 
@@ -67,6 +76,8 @@ export const REQUIRED_ACCEPTED_ADRS = [
   "docs/adr/ADR-0011-multi-level-company-model-foundational.md",
   "docs/adr/ADR-0012-documentation-evidence-backed.md",
   "docs/adr/ADR-0013-tip-roadmap-delivery-authority.md",
+  "docs/adr/ADR-0014-foundation-disposition-registry.md",
+  "docs/adr/ADR-0016-fdr-delivery-authority.md",
 ] as const;
 
 /** Markers that must NOT appear — evidence of stale delivery doc. */

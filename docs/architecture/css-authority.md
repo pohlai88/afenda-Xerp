@@ -102,6 +102,40 @@ Generic Tailwind/shared namespaces (`--color-*`, `--spacing-*`, `--font-*`, `--r
 
 ---
 
+## 3-layer CSS token chain (shadcn/studio bridge)
+
+Studio blocks never consume `--afenda-*` directly. The chain cascades automatically:
+
+```txt
+@afenda/design-system (Part A)    --afenda-* tokens (source)
+         ↓ Part B
+         --card, --primary, --border  (shadcn shorthand)
+         ↓ appshell
+         --app-shell-text-*, --app-shell-radius-*  (shell geometry)
+         ↓ appshell-studio
+         --app-shell-studio-*  (studio block bridge)
+         ↓ class CSS
+         .app-shell-studio-metric-*, .app-shell-studio-sparkline-*, etc.
+```
+
+**What flows automatically** (no manual per-utility mapping):
+
+| Category | Mechanism |
+|----------|-----------|
+| shadcn utilities (`bg-primary`, `text-muted-foreground`, `border-border`) | Part C `@theme inline` → Part B shadcn vars → `--afenda-*` |
+| Semantic tones (`text-success`, `text-warning`, `text-info`, `text-destructive`) | Part B bridge |
+| `shadow-*`, `z-*`, `radius-*` aliases | Part C motion/z/radius |
+| All `--app-shell-studio-*` variables | `afenda-appshell-studio.css` transitive wiring |
+
+MCP block normalization uses the **3-question decision filter** before adding new studio CSS.
+Agent operational authority: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
+Variable tables: [css-bridge-reference.md](../../.cursor/skills/afenda-shadcn-components/css-bridge-reference.md).
+
+**Superseded:** Manual per-utility CSS mapping tables for every Tailwind class; reference-template-specific
+layout patterns (6-column grid, density attribute mapping, base-vega vs new-york).
+
+---
+
 ## Entrypoint decision tree
 
 ### Which CSS to import?
@@ -177,6 +211,7 @@ implementation detail loaded by `afenda-appshell.css` via `@import "./afenda-app
 - **Reusable patterns** shared across ≥2 blocks land in `afenda-appshell-studio.css`
 
 Pattern map and migration notes: `packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`.
+Normalization workflow: **3-question decision filter** in [afenda-shadcn-components SKILL §2](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
 
 ### Manifest `internalOnly`
 

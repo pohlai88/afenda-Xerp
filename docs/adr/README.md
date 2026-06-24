@@ -27,7 +27,11 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0010](ADR-0010-no-accounting-before-foundation-gate.md) | No Accounting Coding Before Pre-accounting Foundation Gate | Accepted |
 | [ADR-0011](ADR-0011-multi-level-company-model-foundational.md) | Multi-level Company / Holding / Subsidiary / Minor Interest Model Is Foundational | Accepted |
 | [ADR-0012](ADR-0012-documentation-evidence-backed.md) | Documentation Must Be Evidence-backed by Runtime | Accepted |
-| [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority | Accepted |
+| [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority (phase narrative; handoffs superseded by ADR-0014) | Accepted |
+| [ADR-0014](ADR-0014-foundation-disposition-registry.md) | Foundation Disposition Registry (FDR) | Accepted |
+| [ADR-0015](ADR-0015-accounting-domain-contracts-only-activation.md) | Accounting Domain Contracts-Only Activation (PKG-R01) | Accepted |
+| [ADR-0016](ADR-0016-fdr-delivery-authority.md) | FDR Delivery Authority (write-fdr, fdr-status-index, parallel subagents) | Accepted |
+| [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | shadcn/studio UI Delivery Acceleration | Proposed |
 
 ## Process
 
@@ -45,6 +49,9 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 - No exception may exist without expiry.
 
 ## Related
+
+- [FDR workflow](../architecture/foundation-delivery-authority.md)
+- [Foundation disposition view](../architecture/foundation-disposition.md)
 
 - Baseline: [`docs/architecture/architecture-authority-baseline.md`](../architecture/architecture-authority-baseline.md)
 - Documentation index: [`docs/README.md`](../README.md)

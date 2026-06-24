@@ -20,6 +20,11 @@ vi.mock("@/lib/observability/create-request-bound-logger", () => ({
   createRequestBoundErpLogger: vi.fn(async () => mockCreatePinoLogger()),
 }));
 
+vi.mock("@/lib/server-actions/record-action-audit", () => ({
+  recordActionAudit: vi.fn(async () => undefined),
+}));
+
+import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
 import { SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE } from "@/lib/system-admin/system-admin-settings.copy.contract";
 import { UPDATE_SYSTEM_ADMIN_SETTINGS_INTENT } from "@/lib/system-admin/system-admin-settings.schema";
 import { updateSystemAdminSettingsAction } from "@/lib/system-admin/update-system-admin-settings.action";
@@ -98,7 +103,7 @@ describe("updateSystemAdminSettingsAction", () => {
     });
   });
 
-  it("returns scaffold FORBIDDEN without persisting settings when context resolves", async () => {
+  it("returns scaffold FORBIDDEN with denied audit when context resolves", async () => {
     mockResolveActionOperatingContext.mockResolvedValueOnce({
       ok: true,
       session: sampleSession,
@@ -122,5 +127,15 @@ describe("updateSystemAdminSettingsAction", () => {
       code: "FORBIDDEN",
       userMessage: SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE,
     });
+
+    expect(recordActionAudit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "system_admin.settings.update",
+        actorUserId: "user_1",
+        module: "system_admin",
+        result: "denied",
+        targetType: "system_admin_settings",
+      })
+    );
   });
 });

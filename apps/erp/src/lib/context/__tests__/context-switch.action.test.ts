@@ -28,7 +28,28 @@ vi.mock("@/lib/server-actions/log-action-error", () => ({
   logServerActionError: vi.fn(async () => undefined),
 }));
 
+vi.mock("@/lib/server-actions/record-action-audit", () => ({
+  recordActionAudit: vi.fn(async () => undefined),
+}));
+
 import { switchOperatingContextAction } from "../context-switch.action";
+
+const sampleSession = {
+  sessionId: "sess-switch-test",
+  user: {
+    userId: "user-001",
+    email: "user@example.com",
+    name: "Test User",
+    emailVerified: true,
+  },
+  metadata: {
+    image: null,
+    issuedAt: "2026-06-20T00:00:00.000Z",
+    expiresAt: "2026-06-27T00:00:00.000Z",
+    ipAddress: null,
+    userAgent: null,
+  },
+} as const;
 
 const TENANT_ID = "tenant-001";
 const COMPANY_ID = "company-001";
@@ -140,6 +161,7 @@ describe("switchOperatingContextAction", () => {
   it("persists slug hints only after successful server-side resolution", async () => {
     resolveActionOperatingContextMock.mockResolvedValue({
       ok: true,
+      session: sampleSession,
       operatingContext: createMockOperatingContext(),
     });
 

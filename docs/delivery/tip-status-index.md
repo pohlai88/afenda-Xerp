@@ -1,36 +1,62 @@
-# Delivery TIP Status Index
+# Delivery TIP Archive Index
+
+> **FDR is implementation authority (ADR-0014).** New foundation and package work uses the [Foundation Disposition Registry](../architecture/foundation-disposition.md) and [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md) — **not** new TIP docs.
+>
+> This index is an **archive** of delivered TIPs. Read it for audit trail and historical handoffs only.
 
 | Field | Value |
 | --- | --- |
 | **As-of** | 2026-06-24 |
-| **Authority** | ADR-0012, ADR-0013 |
-| **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
-| **Delivery sequence** | [`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md) |
-| **TIP location** | [`tips/`](tips/) — filenames prefixed with `[status]` for targeting |
-| **Enforcement** | `pnpm check:documentation-drift` |
+| **Implementation authority** | [FDR](../architecture/foundation-delivery-authority.md) (ADR-0014) |
+| **Archive authority** | ADR-0012 (evidence vocabulary for completed TIPs) |
+| **Status source (runtime)** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
+| **Phase narrative (complete)** | [`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md) |
+| **TIP location** | [`tips/`](tips/) — filenames prefixed with `[status]` for historical targeting |
+| **Enforcement** | `pnpm check:documentation-drift` · `pnpm check:foundation-disposition`
 
-> **AI agents:** Read this index before any individual TIP delivery doc under [`tips/`](tips/).  
-> If a delivery doc status conflicts with this index or the runtime matrix, **runtime matrix wins**.  
-> **Filename prefix** mirrors status here — when status changes, rename the file prefix in the same PR.  
-> **Layout rule:** TIP delivery docs live **only** under `tips/[status] tip-*.md`. Unprefixed `docs/delivery/tip-*.md` (except this index) is legacy — drift guard fails CI.
-
----
-
-## Implementation authority rule
-
-A TIP may be implemented **only when all five** are true:
-
-1. It exists as a standalone file under `docs/delivery/tips/[status] tip-*.md` (not a draft inside a proposal doc).
-2. It has a **§Handoff to implementation** section with a paste-ready slice block.
-3. It appears in **§Canonical delivery TIPs** below — not under §Proposed foundation slices.
-4. [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) references it.
-5. `/afenda-coding-session` Phase 0 receives **exactly one** handoff block from that doc.
-
-**Do not paste handoffs from** [`foundation-phase-delivery-tip-proposal.md`](../architecture/foundation-phase-delivery-tip-proposal.md) — that file is not implementation authority.
+> **AI agents:** Read [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md) before any foundation or package work.  
+> Open this index only when retrieving **completed TIP evidence** or verifying archive status.  
+> If a TIP delivery doc conflicts with FDR or the runtime matrix, **FDR + matrix win**.
 
 ---
 
-## Implementation workflow (write-tip → handoff → coding session)
+## Implementation authority rule (superseded — archive only)
+
+> **Stopped 2026-06-24 (ADR-0014).** The five-rule TIP implementation gate below applied during Phases 0–9. Foundation delivery is now FDR-governed. Retained for audit context only.
+
+A TIP may be referenced for **historical evidence** when all five were true at delivery time:
+
+1. Standalone file under `docs/delivery/tips/[status] tip-*.md`
+2. §Handoff to implementation with slice block
+3. Listed in §Canonical delivery TIPs below
+4. Referenced in runtime matrix
+5. `/afenda-coding-session` Phase 0 used the handoff block
+
+**New work:** use [FDR workflow](../architecture/foundation-delivery-authority.md) — do not author new TIP delivery docs for foundation packages.
+
+**Do not paste handoffs from** [`foundation-phase-delivery-tip-proposal.md`](../architecture/foundation-phase-delivery-tip-proposal.md) — obsolete proposal.
+
+---
+
+## FDR implementation workflow (active)
+
+```text
+1. Read foundation-delivery-authority.md + foundation-disposition.registry.ts
+2. Read afenda-runtime-truth-matrix.md for the target package/domain
+3. Read package-registry.md for PKG-* identity
+4. Read governing ADR(s) on the FDR entry
+5. State afenda-coding-session §0 from FDR fields (lane, prohibited, gates, runtimeOwner)
+6. Implement one bounded change; respect allowedAgents
+7. Post §11 Completion Report; update runtime matrix
+8. Registry lane/gap changes → foundation-registry-owner + sync foundation-disposition.md
+9. pnpm check:foundation-disposition && pnpm check:documentation-drift
+```
+
+**Current priority:** Phases 0–9 and TIP-014 **Complete**. Next accounting runtime (COA/posting) = **ADR + FDR update** for `PKGR01_ACCOUNTING` — not TIP-015 markdown.
+
+---
+
+## Historical TIP workflow (archive — Phases 0–9)
 
 ```text
 1. Read this index + afenda-runtime-truth-matrix.md
@@ -44,7 +70,7 @@ A TIP may be implemented **only when all five** are true:
 9. pnpm check:documentation-drift
 ```
 
-**Current runtime priority:** Foundation Phases 1–8 materially advanced; **TIP-013A Slice 1–2 delivered** — Phase 9 gate orchestrator + TIP-009 CI wiring. **Next:** Architecture Authority Phase 9 sign-off before TIP-014+. **TIP-008 Complete** (008A runtime + 008B authority-only). Accounting Core remains blocked (ADR-0010).
+**Current runtime priority:** Foundation Phases 0–9 **Complete**. TIP-014 **Complete (authority only)**. **Next:** FDR-governed accounting runtime — ADR + `PKGR01_ACCOUNTING` gap closure (not new TIP docs).
 
 ---
 
@@ -125,10 +151,24 @@ A TIP may be implemented **only when all five** are true:
 
 | Step | TIP | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| **→ 32** | **TIP-013A** | **1** | Gate orchestrator + kernel contracts + ERP diagnostics | Steps 1–31 (TIP-013 Complete) | [§Slice 1](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md#slice-1--gate-automation--typescript-boundary--diagnostics-ui) — **delivered** |
-| **→ 33** | **TIP-013A** | **2** | TIP-009 CI wiring + registry parity | Step 32 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md#slice-2--tip-009-ci-wiring--registry-parity--handoff-repair) — **delivered** |
+| **→ 32** | **TIP-013A** | **1** | Gate orchestrator + kernel contracts + ERP diagnostics | Steps 1–31 (TIP-013 Complete) | [§Slice 1](tips/%5BComplete%5D%20tip-013a-accounting-readiness-gate.md#slice-1--gate-automation--typescript-boundary--diagnostics-ui) — **delivered** |
+| **→ 33** | **TIP-013A** | **2** | TIP-009 CI wiring + registry parity | Step 32 | [§Slice 2](tips/%5BComplete%5D%20tip-013a-accounting-readiness-gate.md#slice-2--tip-009-ci-wiring--registry-parity--handoff-repair) — **delivered** |
+| 34 | **TIP-013A** | **3–4** | Live diagnostics + risk-hardened UX | Steps 32–33 | [§Slice 3–4](tips/%5BComplete%5D%20tip-013a-accounting-readiness-gate.md) — **delivered** |
+| 35 | **TIP-013A** | **5** | Phase 9 sign-off + foundation disposition closure | Step 34 | [§Slice 5](tips/%5BComplete%5D%20tip-013a-accounting-readiness-gate.md#slice-5--phase-9-sign-off--foundation-disposition-closure) — **delivered** |
 
-**Blocks TIP-014+ Accounting Core.** One slice per coding session.
+**Phase 9 gate passed 2026-06-24.** TIP-014 **Complete (authority only)**; ledger/posting remains prohibited until TIP-015+ ADR.
+
+### Track F — Accounting Core Contracts (post Phase 9)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| **→ 36** | **TIP-014** | **1** | ADR-0015 + PKG-R01 registry promotion | Step 35 (TIP-013A Complete) | [§Slice 1](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md#slice-1--adr-0015-acceptance--pkg-r01-registry-promotion) — **delivered** |
+| **→ 37** | **TIP-014** | **2** | `@afenda/accounting` package scaffold | Step 36 | [§Slice 2](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md#slice-2--package-scaffold--authority-contract-barrel) — **delivered** |
+| **→ 38** | **TIP-014** | **3** | Domain vocabulary + kernel bridge | Step 37 | [§Slice 3](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md#slice-3--domain-vocabulary--branded-ids--kernel-bridge) — **delivered** |
+| **→ 39** | **TIP-014** | **4** | Permission + audit vocabulary | Step 38 | [§Slice 4](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md#slice-4--permission-vocabulary--audit-actions) — **delivered** |
+| 40 | **TIP-014** | **5** | Governance gate + disposition + docs | Step 39 | [§Slice 5](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md#slice-5--governance-gate--foundation-disposition--documentation-closeout) — **delivered** |
+
+**One slice per coding session.** No Drizzle schemas until TIP-015.
 
 ### Track D — Parallel non-blocking (master plan Phase 3)
 
@@ -155,12 +195,14 @@ A TIP may be implemented **only when all five** are true:
 | TIP-UI-04 | Complete | — (Step 20 delivered) | TIP-UI-05; TIP-022 |
 | TIP-UI-05 | Complete | — (Steps 19–30 delivered; DoD #1–24 closed) | — |
 | TIP-032 | Complete | Steps **29–31** (Slices 5–6, 5.1) | — (parallel track) |
+| TIP-013A | Complete | — (Steps 32–35 delivered; Phase 9 signed off 2026-06-24) | — |
+| TIP-014 | Complete (authority only) | — (Track F Steps 36–40 delivered) | TIP-015+ (schemas/posting) |
 
 ### Do not start yet
 
 | Target | Reason |
 | --- | --- |
-| **TIP-014+ Accounting** | ADR-0010 — Phase 9 gate not passed |
+| **TIP-015+ ledger/posting** | ADR-0010 + ADR-0015 — COA/journal Drizzle/posting requires **new ADR** + FDR `PKGR01_ACCOUNTING` update; not a TIP doc |
 | **TIP-UI-06** | Blocked on ADR-0008 |
 
 ---
@@ -221,7 +263,8 @@ All paths relative to `docs/delivery/`.
 | TIP-011† | [tips/[Superseded] tip-012-execution-foundation.md](tips/%5BSuperseded%5D%20tip-012-execution-foundation.md) | Superseded | Trigger.dev slice evidence | Misnumbered — see TIP-011 |
 | TIP-012 | [tips/[Complete] tip-012-erp-operating-spine.md](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md) | Complete | Spine helper + lifecycle test + outbox on dashboard PUT; Trigger.dev deploy closed via TIP-011 Slice 4 | — |
 | TIP-013 | [tips/[Complete] tip-013-system-admin-control-plane.md](tips/%5BComplete%5D%20tip-013-system-admin-control-plane.md) | Complete | `system-admin` layout + pages + governed API contracts; integration tests | Audit pagination; settings/org mutations |
-| TIP-013A | [tips/[Partially Implemented] tip-013a-accounting-readiness-gate.md](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md) | Partially Implemented | Gate orchestrator + diagnostics UI (Slice 1); CI wiring (Slice 2) | Architecture Authority Phase 9 sign-off |
+| TIP-013A | [tips/[Complete] tip-013a-accounting-readiness-gate.md](tips/%5BComplete%5D%20tip-013a-accounting-readiness-gate.md) | Complete | Slices 1–5 delivered; Phase 9 signed off 2026-06-24; foundation disposition zero red-lane | — |
+| TIP-014 | [tips/[Complete (authority only)] tip-014-accounting-core-contracts.md](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md) | Complete (authority only) | `@afenda/accounting` contracts-only authority; all slices delivered | TIP-015+ runtime |
 
 † Misnumbered evidence — audit trail only.
 
@@ -246,12 +289,13 @@ All paths relative to `docs/delivery/`.
 
 Architecture baseline: [`docs-app-architecture.md`](../architecture/docs-app-architecture.md)
 
-### Blocked — Accounting Core (ADR-0010)
+### Accounting Core — Phase 9 passed (ADR-0010)
 
-| TIP | Status | Reason |
-| --- | --- | --- |
-| TIP-014+ | Blocked | Phase 9 Accounting Readiness Gate not passed |
-| `@afenda/accounting` | Blocked | PKG-R01 not activated |
+| TIP | Doc | Status | Reason |
+| --- | --- | --- | --- |
+| TIP-014 | [tips/[Complete (authority only)] tip-014-accounting-core-contracts.md](tips/%5BComplete%20(authority%20only)%5D%20tip-014-accounting-core-contracts.md) | Complete (authority only) | **Delivered** — contracts-only authority; Track F complete |
+| TIP-015+ | — | Blocked | COA schemas, journal posting, ledger runtime after TIP-014 Complete (authority only) |
+| `@afenda/accounting` | PKG-R01 | Active | Filesystem at `packages/accounting/` (Slice 2) |
 
 > **TIP numbering (2026-06-23):** TIP-013 = Phase 8 System Admin (foundation). Accounting Core begins at **TIP-014+** (supersedes master plan v5 TIP-013 = accounting). ADR amendment tracked separately.
 
@@ -291,9 +335,9 @@ Platform and security evidence lives in [`support/`](support/) — not TIP deliv
 
 Update this index when:
 
-1. A canonical TIP changes status (same PR as implementation or matrix update) — **rename `[status]` file prefix**
+1. A **completed** TIP archive entry changes status prefix (same PR as closeout) — **no new TIP entries after 2026-06-24**
 2. Runtime matrix is refreshed
 3. `pnpm check:documentation-drift` fails
-4. Architecture Authority accepts or rejects a proposed slice ID
+4. FDR entries change — sync via [`foundation-disposition.md`](../architecture/foundation-disposition.md), not this index
 
-*Delivery folder restructure — TIPs isolated under `tips/` with `[status]` prefixes — 2026-06-23*
+*2026-06-24 — TIP delivery reclassified to archive-lane; FDR is implementation authority (ADR-0014)*

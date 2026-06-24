@@ -6,7 +6,7 @@
 | **Date** | 2026-06-23 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | Master plan v4 informal execution order (Section 8) |
-| **Superseded by** | — |
+| **Superseded in part by** | [ADR-0014](ADR-0014-foundation-disposition-registry.md) — foundation/package **implementation handoffs** (FDR replaces TIP §Handoff for new work) |
 
 ---
 
@@ -31,14 +31,15 @@ Missing directories (recorded, not created):
 ## Decision
 
 1. **[`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md)** is the **delivery authority** for Foundation Phases 0–9.
-2. **Authority hierarchy for delivery scope:**
+2. **Authority hierarchy for delivery scope (phase narrative):**
    ```text
-   ADR > Registry > pre-accounting-foundation-roadmap > docs/delivery/tips/[status] tip-*.md > master plan narrative
+   ADR > pre-accounting-foundation-roadmap > runtime matrix > master plan narrative
    ```
-3. Individual TIP delivery docs remain **evidence artifacts** for their slice — not the ordering authority when they conflict with the foundation roadmap.
-4. New foundation TIPs use `TIP-000A`–`TIP-000D` prefix for documentation reset; business domain TIPs remain `TIP-013+`.
-5. UI implementation TIPs (`TIP-UI-01`–`TIP-UI-06`) remain valid but are **nested under Foundation Phase 6** in the pre-accounting roadmap.
-6. Phase gate checklists in the foundation roadmap are **mandatory** before advancing phases.
+3. **Implementation handoffs (foundation packages):** superseded by [ADR-0014](ADR-0014-foundation-disposition-registry.md). Use [FDR workflow](../architecture/foundation-delivery-authority.md) — not new TIP docs.
+4. Individual TIP delivery docs are **archive-lane evidence** for completed slices — not ordering or package authority when they conflict with FDR or the runtime matrix.
+5. New foundation work does **not** receive new TIP IDs. Domain runtime (e.g. accounting COA) requires ADR + FDR entry update.
+6. UI implementation TIPs (`TIP-UI-01`–`TIP-UI-06`) remain valid **archive evidence** for Foundation Phase 6 — no new TIP-UI IDs for foundation packages.
+7. Phase gate checklists in the foundation roadmap are **mandatory** historical record — Phases 0–9 are complete.
 
 ---
 

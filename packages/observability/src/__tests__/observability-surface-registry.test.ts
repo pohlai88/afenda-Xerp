@@ -8,6 +8,7 @@ import {
   OBSERVABILITY_ERP_AUDIT_BOOTSTRAP_SYMBOLS,
   OBSERVABILITY_ERP_INSTRUMENTATION_MODULE,
   OBSERVABILITY_FORBIDDEN_DEPENDENCIES,
+  OBSERVABILITY_GOVERNED_DIAGNOSTIC_LOGGING_REGISTRY_MODULE,
   OBSERVABILITY_REQUIRED_MODULES,
   OBSERVABILITY_SENSITIVE_AUDIT_POLICY_MODULES,
   OBSERVABILITY_SURFACE_RULE,
@@ -45,6 +46,20 @@ describe("observability-surface-registry", () => {
     expect(OBSERVABILITY_SURFACE_RULE).toBe(
       "logging-and-audit-evidence-authority; persistence-via-injected-adapters-only"
     );
+  });
+
+  it("declares governed diagnostic logging registry module on disk", () => {
+    const registryPath = join(
+      packageRoot,
+      "src",
+      OBSERVABILITY_GOVERNED_DIAGNOSTIC_LOGGING_REGISTRY_MODULE
+    );
+    expect(existsSync(registryPath)).toBe(true);
+
+    const source = readFileSync(registryPath, "utf8");
+    expect(source).toContain("GOVERNED_DIAGNOSTIC_LOGGING_EMISSION_SYMBOLS");
+    expect(source).toContain("GOVERNED_DIAGNOSTIC_API_MODULES");
+    expect(source).toContain("GOVERNED_DIAGNOSTIC_SERVER_ACTION_MODULES");
   });
 
   it("forbids authority packages", () => {

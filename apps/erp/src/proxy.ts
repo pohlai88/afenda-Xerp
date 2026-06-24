@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { isPublicRoute } from "@/lib/auth/public-routes";
 import {
+  ACTIVE_ROUTE_PATH_HEADER,
   DEFAULT_TENANT_BASE_DOMAIN,
   DEV_DEFAULT_TENANT_SLUG,
   ORGANIZATION_SLUG_PATH_HINT_HEADER,
@@ -97,6 +98,8 @@ function applyTenantRoutingHeaders(input: {
       pathRouting.organizationSlugHint
     );
   }
+
+  input.requestHeaders.set(ACTIVE_ROUTE_PATH_HEADER, pathRouting.pathname);
 
   return {
     pathname: pathRouting.pathname,

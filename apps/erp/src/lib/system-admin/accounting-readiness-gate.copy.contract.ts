@@ -5,10 +5,10 @@ export const ACCOUNTING_READINESS_GATE_PANEL_DESCRIPTION =
   "Phase 9 foundation checklist with live structural and delegated gate status from the governance orchestrator. Automated pass does not replace Architecture Authority sign-off.";
 
 export const ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_TITLE =
-  "Phase 9 not approved";
+  "Phase 9 signed off";
 
 export const ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_BODY =
-  "Automated diagnostics are evidence only. Architecture Authority manual sign-off is still required before TIP-014 Accounting Core or PKG-R01 activation under ADR-0010.";
+  "Architecture Authority Phase 9 Accounting Readiness Gate passed on 2026-06-24. TIP-014 Accounting Core Contracts may begin. Ledger posting, journal arithmetic, and @afenda/accounting runtime remain prohibited until TIP-014 contract ADR is accepted.";
 
 export const ACCOUNTING_READINESS_GATE_STATUS_LABELS = {
   pass: "Passing",
@@ -18,8 +18,7 @@ export const ACCOUNTING_READINESS_GATE_STATUS_LABELS = {
 
 export const ACCOUNTING_READINESS_GATE_OVERALL_LABELS = {
   "automated-fail": "Automated delegated checks failing",
-  "automated-pass":
-    "Automated delegated checks passing — sign-off still required",
+  "automated-pass": "Automated delegated checks passing — Phase 9 signed off",
   "evidence-fail": "Evidence checks failing",
   "evidence-pass":
     "Evidence checks passing — delegated gates not run on this page load",
@@ -40,7 +39,7 @@ export const ACCOUNTING_READINESS_GATE_REFRESH_FAILURE_MESSAGE =
   "Unable to run the full delegated gate check. Retry or run pnpm check:accounting-readiness-gate in CI.";
 
 export const ACCOUNTING_READINESS_GATE_FOOTNOTE_LABEL =
-  "Architecture Authority manual Phase 9 sign-off remains required before TIP-014 Accounting Core — automated gates alone do not unblock ADR-0010.";
+  "Phase 9 signed off 2026-06-24 — see docs/architecture/phase-9-accounting-readiness-sign-off.md. TIP-014 contracts only; no ledger posting without separate ADR acceptance.";
 
 export type AccountingReadinessGateRequirementId =
   | "multi-company-model"
@@ -144,7 +143,10 @@ export const ACCOUNTING_READINESS_GATE_REQUIREMENT_COPY = [
     number: 10,
     id: "documentation-synchronized",
     requirement: "Documentation synchronized",
-    delegatedGates: ["check:documentation-drift"],
+    delegatedGates: [
+      "check:documentation-drift",
+      "check:foundation-disposition",
+    ],
     testFiles: [],
   },
 ] as const satisfies readonly AccountingReadinessGateRequirementCopy[];

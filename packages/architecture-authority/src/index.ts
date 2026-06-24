@@ -11,6 +11,12 @@ export type {
   ArchitectureException,
   ExceptionContract,
 } from "./contracts/exception.contract.js";
+export type {
+  FoundationDispositionEntry,
+  FoundationDispositionRegistry,
+  FoundationLane,
+} from "./contracts/foundation-disposition.contract.js";
+export { FOUNDATION_LANES } from "./contracts/foundation-disposition.contract.js";
 export type { LayerContract } from "./contracts/layer.contract.js";
 export type {
   LifecycleContract,
@@ -40,6 +46,13 @@ export type {
 } from "./contracts/workspace.contract.js";
 export { dependencyContract } from "./data/dependency-registry.data.js";
 export { exceptionContract } from "./data/exception-registry.data.js";
+export {
+  FOUNDATION_DISPOSITION_FINGERPRINT,
+  FOUNDATION_DISPOSITION_REGISTRY,
+  foundationDispositionRegistry,
+  getFoundationDispositionEntriesByLane,
+  getFoundationDispositionEntry,
+} from "./data/foundation-disposition.registry.js";
 export {
   getPackageLayer,
   isLayerDependencyAllowed,
@@ -76,6 +89,7 @@ export {
   validateExceptions,
 } from "./validators/validate-exceptions.js";
 export { validateForbiddenDependencies } from "./validators/validate-forbidden-dependencies.js";
+export { validateFoundationDisposition } from "./validators/validate-foundation-disposition.js";
 export { validateLayers } from "./validators/validate-layers.js";
 export {
   findMissingOwnershipViolations,

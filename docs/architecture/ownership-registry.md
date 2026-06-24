@@ -134,10 +134,11 @@ Without escalation, ownership conflicts cannot be resolved. All disputes are log
 
 ---
 
-## Active Ownership Map (18)
+## Active Ownership Map (19)
 
 | Package | Owner domain | Authority level |
 |---------|--------------|-----------------|
+| `@afenda/accounting` | Accounting Authority | `domain` |
 | `@afenda/architecture-authority` | Architecture Authority | `architecture` |
 | `@afenda/ai-governance` | Architecture Authority | `architecture` |
 | `@afenda/appshell` | ERP Spine Authority | `erp-spine` |

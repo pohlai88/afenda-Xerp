@@ -246,3 +246,32 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 | `apps/docs` | Reviewed — monorepo map, dev-setup, contributing accurate; contributing callout TIP-014+ |
 
 *Refresh by documentation-drift agent — evidence-backed, 2026-06-24*
+
+## 15. shadcn/studio agent workflow sync (2026-06-25)
+
+**Trigger:** Pipeline Scalability Cleanup — `.cursor/skills/afenda-shadcn-components/` finalized as agent operational authority.
+
+| Action | Result |
+| --- | --- |
+| 3-layer CSS token chain documented | `css-authority.md`, ADR-0017 §3–4, `app-ui-component-adaptation-guide.md` §2.1 |
+| 3-question decision filter canonicalized | ADR-0017 §4, `ui-guard.md`, `tip-004-policy.md`, `STUDIO-PATTERN-MAP.md` header |
+| "What flows automatically" principle | Part C `@theme inline` + Part B tones — no manual per-utility mapping |
+| Stale guidance quarantined | Reference-template layout patterns, manual mapping tables, old normalization.md primary ref |
+| Agent skill cross-links | `AGENTS.md`, governance docs → `afenda-shadcn-components/SKILL.md` |
+| Runtime matrix row | ADR-0017 shadcn/studio integration row added |
+
+*Refresh by documentation-drift agent — evidence-backed, 2026-06-25*
+
+## 16. FDR orchestrator — shadcn/studio track normalization (2026-06-25)
+
+**Trigger:** User request via `fdr-orchestrator` — remove unnecessary bulk implementation; maintain recorded decisions; agent authority = `afenda-shadcn-components`.
+
+| Action | Result |
+| --- | --- |
+| Runtime matrix shadcn row normalized | Renamed; gaps limited to ADR acceptance + MCP cwd; explicit **no bulk migration FDR** |
+| Matrix §shadcn/studio agent workflow added | Per-block skill pipeline; bulk migration marked not scheduled |
+| FDR-001 studio normalization | Gap closed — bulk migration superseded by skill + waiver permanent |
+| fdr-status-index | §shadcn/studio not an FDR upgrade track; PKG-001 note updated |
+| ADR-0017 consequences | Bulk backlog language removed; per-block normalization only |
+
+*Refresh by fdr-orchestrator evidence-sync — 2026-06-25*

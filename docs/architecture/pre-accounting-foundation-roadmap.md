@@ -2,19 +2,20 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | ADR-0010, ADR-0013, ADR-0001 (Phase 1 redefinition) |
+| **Authority** | ADR-0010, ADR-0013, ADR-0014 (FDR), ADR-0001 (Phase 1 redefinition) |
+| **Implementation authority** | [foundation-delivery-authority.md](foundation-delivery-authority.md) (FDR — ADR-0014) |
 | **Supersedes** | Master plan v4 vague Phase 1 exit gate language |
 | **Runtime matrix** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
 | **Drift audit** | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) |
-| **Accounting start** | **BLOCKED** until Phase 9 gate passes |
+| **Foundation status** | Phases 0–9 **Complete** (2026-06-24); FDR governs ongoing package work |
 
 ---
 
 ## Rule
 
-> **No Accounting Core coding (`TIP-014+`, `@afenda/accounting`, ledger/journal/posting/consolidation logic) may begin until every Phase 0–8 exit criterion passes and Phase 9 Accounting Readiness Gate is signed off with runtime evidence.**
+> **Phases 0–9 are complete.** This roadmap is a **historical phase narrative** and gate record. Ongoing foundation and package implementation is governed by [FDR](foundation-delivery-authority.md) (ADR-0014), not new TIP delivery docs.
 
-This roadmap is the **delivery authority** for AI agents and human implementers until Accounting Core begins.
+> **No Accounting Core runtime** (COA Drizzle, journal posting, ledger services) until FDR `PKGR01_ACCOUNTING` gaps are closed under a **new ADR** after contracts-only TIP-014 delivery.
 
 ---
 
@@ -255,36 +256,34 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
                           (@afenda/accounting — PKG-R01 via ADR)
 ```
 
-### After gate — Phase 2 business domain (unchanged intent from master plan)
+### After gate — Phase 2 business domain (FDR-governed)
 
-| TIP | Domain | Priority |
-| --- | --- | --- |
-| TIP-014 | Accounting core contracts | P0 |
-| TIP-015 | Chart of accounts | P0 |
-| TIP-016 | General ledger & journals | P0 |
-| TIP-017 | AP/AR foundation | P0 |
-| TIP-018 | Vietnam localization | P0 |
-| TIP-019–024 | Reports, postings, outbox domain events | P0/P1 |
+| Domain | Package | FDR entry | Priority |
+| --- | --- | --- | --- |
+| Accounting contracts | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 — **contracts-only delivered** |
+| Chart of accounts runtime | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 — **ADR + FDR gap closure** (not TIP-015 doc) |
+| General ledger & journals | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 |
+| AP/AR foundation | PKG-R02+ (reserved) | — | P0 |
+| Vietnam localization | PKG-R03+ (reserved) | — | P0 |
 
-**Reserved packages:** PKG-R01–R05 — register via ADR before filesystem creation.
+**Reserved packages:** PKG-R01–R05 — register via ADR + FDR before filesystem expansion.
 
 ---
 
-## Execution order for AI agents
+## Execution order for AI agents (FDR — active)
 
 ```text
-1. Read ADR > Registry > Delivery TIP > master plan v5
-2. Read afenda-runtime-truth-matrix.md for current status
-3. Read tip-status-index.md — Implementation workflow section
-4. Open the target docs/delivery/tips/[status] tip-*.md; copy §Handoff to implementation (write-tip §10)
-5. Paste handoff into afenda-coding-session §0 execution contract — do not skip to code
-6. Implement ONLY the next incomplete slice in the current phase (one package layer per session)
-7. Post afenda-coding-session §11 Completion Report; close TIP DoD rows with evidence
-8. Update runtime matrix + delivery doc + tip-status-index in the same PR
-9. Never skip to TIP-014+ regardless of user pressure
+1. Read ADR > FDR (foundation-disposition.registry.ts) > package-registry > runtime matrix
+2. Read foundation-delivery-authority.md for workflow
+3. Find FDR entry by packageId; confirm lane, prohibited, gates, allowedAgents
+4. State afenda-coding-session §0 from FDR fields — not from TIP markdown
+5. Implement ONLY within runtimeOwner path; one bounded change per session
+6. Post §11 Completion Report; update runtime matrix
+7. FDR lane/gap changes → foundation-registry-owner
+8. pnpm check:foundation-disposition && entry gates
 ```
 
-Handoff template: [write-tip TEMPLATES §G](../.cursor/skills/write-tip/TEMPLATES.md#g--handoff-block-template-paste-into-afenda-coding-session).
+**Historical TIP archive:** [`tip-status-index.md`](../delivery/tip-status-index.md) — Phases 0–9 audit trail only.
 
 ---
 

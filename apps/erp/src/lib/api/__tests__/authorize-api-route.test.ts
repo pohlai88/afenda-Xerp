@@ -164,6 +164,7 @@ describe("authorizeApiRoute", () => {
       {
         permission: createAuthorizedDataSource(),
         resolveOperatingContext: createOperatingContextResolver(),
+        session: null,
       }
     );
 
@@ -174,6 +175,53 @@ describe("authorizeApiRoute", () => {
 
     expect(result.apiCode).toBe("unauthenticated");
     expect(result.denialCode).toBe("missing_session");
+  });
+
+  it("returns forbidden when session exists but platform user is unlinked", async () => {
+    const result = await authorizeApiRoute(
+      {
+        actorId: null,
+        correlationId: CORRELATION_ID,
+        method: "GET",
+        path: "/api/internal/v1/workspace/dashboard-layout",
+        permission: {
+          permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+        },
+        protectionLevel: "tenant-protected",
+        request: createRequest(),
+      },
+      {
+        permission: createAuthorizedDataSource(),
+        resolveOperatingContext: createOperatingContextResolver(),
+        session: {
+          sessionId: "sess_unlinked",
+          user: {
+            authUserId: "auth_user_unlinked",
+            email: "unlinked@example.com",
+            name: "Unlinked User",
+            emailVerified: true,
+            linkStatus: "unlinked",
+            userId: null,
+          },
+          metadata: {
+            image: null,
+            issuedAt: "2026-06-20T00:00:00.000Z",
+            expiresAt: "2026-06-27T00:00:00.000Z",
+            ipAddress: null,
+            userAgent: null,
+          },
+        },
+      }
+    );
+
+    expect(result.kind).toBe("failure");
+    if (result.kind !== "failure") {
+      return;
+    }
+
+    expect(result.apiCode).toBe("forbidden");
+    expect(result.denialCode).toBe("missing_session");
+    expect(result.message).toContain("Platform user link");
   });
 
   it("returns forbidden when workspace context is missing", async () => {
@@ -862,17 +910,20 @@ describe("authorizeApiRoute", () => {
 
   it("throws ApiRouteError from assertAuthorizedApiRoute on denial", async () => {
     await expect(
-      assertAuthorizedApiRoute({
-        actorId: null,
-        correlationId: CORRELATION_ID,
-        method: "PUT",
-        path: "/api/internal/v1/workspace/dashboard-layout",
-        permission: {
-          permissionKey: PERMISSION_REGISTRY.workspace.dashboard.write,
+      assertAuthorizedApiRoute(
+        {
+          actorId: null,
+          correlationId: CORRELATION_ID,
+          method: "PUT",
+          path: "/api/internal/v1/workspace/dashboard-layout",
+          permission: {
+            permissionKey: PERMISSION_REGISTRY.workspace.dashboard.write,
+          },
+          protectionLevel: "tenant-protected",
+          request: createRequest(),
         },
-        protectionLevel: "tenant-protected",
-        request: createRequest(),
-      })
+        { session: null }
+      )
     ).rejects.toMatchObject({
       code: "unauthenticated",
     });

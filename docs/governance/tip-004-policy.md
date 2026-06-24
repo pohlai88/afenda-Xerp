@@ -153,12 +153,18 @@ Apps import **`@afenda/appshell/afenda-appshell.css` only** — never `afenda-ap
 ### shadcn-studio workflow
 
 1. Install cwd: `packages/ui` (`components.json` lives there)
-2. Move blocks to `packages/appshell/src/shadcn-studio/blocks/` (never leave in `packages/ui/src/components/shadcn-studio/`)
-3. Strip **every** `className` from `@afenda/ui` components
-4. Move semantic layout to semantic CSS classes in the package CSS file (`afenda-*` prefix, `var(--afenda-*)` tokens)
-5. Run `pnpm ui:guard:scan` then `pnpm ui:guard` then `pnpm ui:guard:proof`
+2. Stage raw MCP output in `packages/ui/src/components/shadcn-studio/` (never ship from here)
+3. **Normalize:** apply the **3-question decision filter** (Q1 governed primitive → Q2 visual/semantic → Q3 layout/structural)
+4. Consult [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md); add reusable patterns to `afenda-appshell-studio.css` only when ≥2 blocks need them
+5. Move to `packages/appshell/src/shadcn-studio/blocks/`
+6. Run `pnpm ui:guard:scan` → `pnpm ui:guard` → `pnpm ui:guard:proof`
 
-Normalization deep reference: [`.cursor/skills/afenda-ui-quality/normalization.md`](../../.cursor/skills/afenda-ui-quality/normalization.md)
+Apps import **`@afenda/appshell/afenda-appshell.css` only** — never `afenda-appshell-studio.css` directly.
+
+Agent operational authority: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) (token chain, decision filter, pipeline).
+MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md).
+
+**Superseded:** Manual per-utility CSS mapping tables; moving all semantic layout to `afenda-*`-prefixed package CSS regardless of the decision filter.
 
 ---
 
@@ -193,11 +199,11 @@ Full gate reference: [`ui-guard.md`](ui-guard.md)
 
 | Task | Skill / rule |
 |------|--------------|
-| Block install → normalize → verify | [afenda-ui-quality](../../.cursor/skills/afenda-ui-quality/SKILL.md) |
+| Block install → normalize → verify | [afenda-shadcn-components](../../.cursor/skills/afenda-shadcn-components/SKILL.md) |
 | Primitive author audit | [govern-primitive](../../.cursor/skills/govern-primitive/SKILL.md) |
 | Accessibility, hooks, RSC, bundle (after TIP-004 clean) | [react-erp-quality](../../.cursor/skills/react-erp-quality/SKILL.md) |
 | Consumer Cursor rule | [governed-ui-consumption.mdc](../../.cursor/rules/governed-ui-consumption.mdc) |
-| shadcn-studio MCP workflow | [shadcn-studio](../../.cursor/skills/shadcn-studio/SKILL.md) |
+| shadcn-studio MCP wiring | [shadcn-studio](../../.cursor/skills/shadcn-studio/SKILL.md) |
 
 ---
 

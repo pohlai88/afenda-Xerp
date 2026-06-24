@@ -56,7 +56,12 @@ export function normalizeAfendaAuthSession(
 }
 
 export function isAfendaAuthSessionLinked(session: AfendaAuthSession): boolean {
-  return session.user.linkStatus === "linked" && session.user.userId !== null;
+  const userId = session.user.userId?.trim();
+  return (
+    session.user.linkStatus === "linked" &&
+    userId !== undefined &&
+    userId.length > 0
+  );
 }
 
 /** Maps a governed session into UI-safe identity fields (no session tokens). */

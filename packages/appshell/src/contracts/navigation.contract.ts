@@ -60,19 +60,21 @@ export type AppShellNavItemSerializable = {
   readonly label: string;
 } & (
   | {
-      readonly href: string;
+      readonly active?: boolean;
       readonly badge?: string;
+      readonly href: string;
       readonly items?: never;
     }
   | {
-      readonly href?: never;
       readonly badge?: never;
+      readonly href?: never;
       readonly items: readonly AppShellNavSubItemSerializable[];
     }
 );
 
 /** Host-injected manifest row — permission key evaluated outside AppShell. */
 export interface ManifestNavModuleEntry {
+  readonly badge?: string;
   readonly label: string;
   readonly moduleId: ManifestModuleId;
   readonly permissionKey: string;
@@ -81,6 +83,7 @@ export interface ManifestNavModuleEntry {
 
 /** Input for manifest→nav projection (RBAC filter applied by host before or during build). */
 export interface ManifestNavProjectionInput {
+  readonly activeRoutePath?: string;
   readonly grantedPermissionKeys: ReadonlySet<string>;
   readonly modules: readonly ManifestNavModuleEntry[];
 }

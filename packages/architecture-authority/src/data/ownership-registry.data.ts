@@ -10,6 +10,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "erp-spine",
   },
   {
+    packageName: "@afenda/accounting",
+    ownerDomain: "Accounting Authority",
+    authorityLevel: "domain",
+  },
+  {
     packageName: "@afenda/auth",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",
@@ -126,6 +131,9 @@ function auditApprover(authorityLevel: string): string {
   }
   if (authorityLevel === "application") {
     return "Application";
+  }
+  if (authorityLevel === "domain") {
+    return "Domain";
   }
   return "Platform";
 }

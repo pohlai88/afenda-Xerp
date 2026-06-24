@@ -56,7 +56,7 @@ describe("filterVisibleSystemAdminSections (TIP-013 nav filtering)", () => {
     expect(visible.length).toBeLessThan(SYSTEM_ADMIN_SECTIONS.length);
   });
 
-  it("includes audit when audit.read is granted", async () => {
+  it("includes audit and diagnostics when audit.read is granted", async () => {
     const visible = await filterVisibleSystemAdminSections({
       operatingContext: createModuleRouteOperatingContext({
         correlationId: CORRELATION_ID,
@@ -66,7 +66,10 @@ describe("filterVisibleSystemAdminSections (TIP-013 nav filtering)", () => {
       ]),
     });
 
-    expect(visible.map((section) => section.sectionId)).toEqual(["audit"]);
+    expect(visible.map((section) => section.sectionId)).toEqual([
+      "audit",
+      "diagnostics",
+    ]);
   });
 
   it("includes settings when modules.manage is granted", async () => {

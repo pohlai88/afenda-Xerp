@@ -75,9 +75,9 @@ describe("resolveAccountingReadinessDiagnosticsOverall", () => {
     ).toBe("automated-pass");
   });
 
-  it("keeps Phase 9 approval status pending by contract", () => {
+  it("records Phase 9 approval status after Architecture Authority sign-off", () => {
     expect(ACCOUNTING_READINESS_PHASE_9_APPROVAL_STATUS).toBe(
-      "pending-architecture-authority-sign-off"
+      "architecture-authority-signed-off-2026-06-24"
     );
   });
 });

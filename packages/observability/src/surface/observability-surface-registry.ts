@@ -8,6 +8,15 @@
 export const OBSERVABILITY_SURFACE_RULE =
   "logging-and-audit-evidence-authority; persistence-via-injected-adapters-only" as const;
 
+export const OBSERVABILITY_GOVERNED_MUTATION_AUDIT_REGISTRY_MODULE =
+  "surface/governed-mutation-audit-registry.ts" as const;
+
+export const OBSERVABILITY_GOVERNED_DIAGNOSTIC_LOGGING_REGISTRY_MODULE =
+  "surface/governed-diagnostic-logging-registry.ts" as const;
+
+export const OBSERVABILITY_GOVERNED_MUTATION_AUDIT_ENFORCEMENT_MODULE =
+  "scripts/governance/lib/governed-mutation-audit-enforcement.mts" as const;
+
 /** Serializable contract and runtime modules that form the public surface. */
 export const OBSERVABILITY_REQUIRED_MODULES = [
   {
@@ -53,6 +62,21 @@ export const OBSERVABILITY_REQUIRED_MODULES = [
     path: "logger.ts",
     role: "Structured logger factory",
     primaryExports: ["createLogger"],
+  },
+  {
+    path: "create-pino-logger.ts",
+    role: "Node.js Pino logger factory",
+    primaryExports: ["createPinoLogger"],
+  },
+  {
+    path: "pino.sink.ts",
+    role: "Pino sink with production config guards",
+    primaryExports: ["createPinoSink", "PinoProductionConfigError"],
+  },
+  {
+    path: "pino.redact.ts",
+    role: "Sensitive field redaction paths for Pino",
+    primaryExports: ["PINO_REDACT_PATHS", "PINO_REDACT_CENSOR"],
   },
 ] as const;
 

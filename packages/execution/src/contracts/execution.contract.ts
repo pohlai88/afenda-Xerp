@@ -38,6 +38,13 @@ export const EXECUTION_AUDIT_ACTIONS = {
 export type ExecutionAuditAction =
   (typeof EXECUTION_AUDIT_ACTIONS)[keyof typeof EXECUTION_AUDIT_ACTIONS];
 
+export const OUTBOX_AUDIT_ACTIONS = {
+  OUTBOX_BATCH_COMPLETED: "outbox.batch.completed",
+} as const;
+
+export type OutboxAuditAction =
+  (typeof OUTBOX_AUDIT_ACTIONS)[keyof typeof OUTBOX_AUDIT_ACTIONS];
+
 /** Outbox-compatible envelope for future TIP-023 consumers. */
 export interface ExecutionOutboxEnvelope {
   readonly correlationId: string;

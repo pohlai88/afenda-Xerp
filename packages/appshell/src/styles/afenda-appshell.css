@@ -526,6 +526,10 @@
     align-items: center;
   }
 
+  .app-shell-nav-link[aria-current="page"] {
+    font-weight: var(--font-weight-label-sm);
+  }
+
   .app-shell-nav-sub-link {
     display: flex;
     align-items: center;
@@ -2673,6 +2677,132 @@
     height: 100%;
     min-height: 0;
     aspect-ratio: auto;
+  }
+
+  /**
+   * Module workspace chrome — §I
+   * Consistent header surface for manifest-driven ERP module pages.
+   * Created: Track 2 FDR-001 studio improvement.
+   */
+  .app-shell-module-workspace-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-xl) var(--app-shell-padding-card);
+    padding-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-shell-module-workspace-title-row {
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+    min-width: 0;
+  }
+
+  .app-shell-module-workspace-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-module-workspace-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .app-shell-module-workspace-heading {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    margin: 0;
+    font-size: var(--app-shell-type-title);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: var(--app-shell-leading-tight);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-shell-module-workspace-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+  }
+
+  .app-shell-module-breadcrumb {
+    padding-bottom: var(--app-shell-gap-md);
+  }
+
+  .app-shell-module-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .app-shell-module-breadcrumb li {
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    align-items: center;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-module-breadcrumb li:not(:last-child)::after {
+    content: "/";
+    color: var(--app-shell-text-subtle);
+  }
+
+  .app-shell-module-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .app-shell-module-breadcrumb a:hover {
+    color: var(--foreground);
+    text-decoration: underline;
+  }
+
+  .app-shell-module-tab-bar {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .app-shell-module-tab-item {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--app-shell-text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .app-shell-module-tab-item:hover {
+    color: var(--foreground);
+  }
+
+  .app-shell-module-tab-item[aria-current="page"],
+  .app-shell-module-tab-item[data-active="true"] {
+    color: var(--foreground);
+    border-bottom-color: var(--primary);
+  }
+
+  .app-shell-module-workspace-body {
+    min-width: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {

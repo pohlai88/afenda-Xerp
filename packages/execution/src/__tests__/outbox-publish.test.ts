@@ -1,3 +1,7 @@
+import type {
+  AuditEventInsertRow,
+  WriteAuditEventResult,
+} from "@afenda/observability";
 import { describe, expect, it, vi } from "vitest";
 import type {
   ClaimOutboxEventsInput,
@@ -20,10 +24,20 @@ import {
   createOutboxPublishService,
   createPublishOutboxEventsScheduleDefinition,
   isExecutionPayload,
+  OUTBOX_AUDIT_ACTIONS,
   PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
   registerPublishOutboxEventsWorkflow,
   runPublishOutboxEventsJob,
 } from "../index.js";
+
+function createAuditAdapter(writtenRows: AuditEventInsertRow[]) {
+  return {
+    write(row: AuditEventInsertRow): Promise<WriteAuditEventResult> {
+      writtenRows.push(row);
+      return Promise.resolve({ id: `audit-${writtenRows.length}` });
+    },
+  };
+}
 
 function createPendingRecord(
   overrides: Partial<OutboxEventRecord> = {}
@@ -332,6 +346,61 @@ describe("outbox publish service", () => {
 
     expect(result.value.deadLetter).toBe(1);
     expect(persistence.records.get("row-001")?.status).toBe("dead_letter");
+  });
+
+  it("emits batch-completion audit evidence when auditAdapter is wired", async () => {
+    const writtenRows: AuditEventInsertRow[] = [];
+    const persistence = createInMemoryOutboxPersistence([
+      createPendingRecord(),
+    ]);
+    const dispatch = vi.fn(async () => ({ ok: true as const }));
+
+    const service = createOutboxPublishService({
+      auditAdapter: createAuditAdapter(writtenRows),
+      dispatcher: { dispatch },
+      nowIso: () => "2026-06-23T01:00:00.000Z",
+      persistence,
+    });
+
+    const result = await service.publishBatch({
+      lockedBy: PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
+      tenantId: "tenant-a",
+    });
+
+    expect(result.status).toBe("success");
+    expect(writtenRows).toHaveLength(1);
+    expect(writtenRows[0]?.action).toBe(
+      OUTBOX_AUDIT_ACTIONS.OUTBOX_BATCH_COMPLETED
+    );
+    expect(writtenRows[0]?.module).toBe("execution");
+    expect(writtenRows[0]?.targetType).toBe("outbox_batch");
+    expect(writtenRows[0]?.metadata).toEqual({
+      claimed: 1,
+      deadLetter: 0,
+      failed: 0,
+      published: 1,
+      skipped: 0,
+    });
+  });
+
+  it("does not emit audit evidence when auditAdapter is omitted", async () => {
+    const persistence = createInMemoryOutboxPersistence([
+      createPendingRecord(),
+    ]);
+    const dispatch = vi.fn(async () => ({ ok: true as const }));
+
+    const service = createOutboxPublishService({
+      dispatcher: { dispatch },
+      nowIso: () => "2026-06-23T01:00:00.000Z",
+      persistence,
+    });
+
+    const result = await service.publishBatch({
+      lockedBy: "worker-a",
+      tenantId: "tenant-a",
+    });
+
+    expect(result.status).toBe("success");
   });
 });
 

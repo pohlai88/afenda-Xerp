@@ -4,6 +4,7 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { checkErpObservabilityGovernance } from "./erp-observability-governance.mjs";
+import { collectAllGovernedMutationAuditViolations } from "./lib/governed-mutation-audit-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -60,7 +61,7 @@ function validateErpAppVersion(): string[] {
   return [];
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const violations: string[] = [...validateErpAppVersion()];
 
   for (const filePath of collectSourceFiles(erpSrcRoot)) {
@@ -76,6 +77,13 @@ function main(): void {
     }
   }
 
+  const auditViolations =
+    await collectAllGovernedMutationAuditViolations(repoRoot);
+
+  for (const violation of auditViolations) {
+    violations.push(`${violation.file}: ${violation.message}`);
+  }
+
   if (violations.length > 0) {
     console.error("ERP observability governance failed:\n");
     for (const violation of violations) {
@@ -87,4 +95,8 @@ function main(): void {
   console.log("ERP observability governance passed");
 }
 
-main();
+main().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(message);
+  process.exit(1);
+});

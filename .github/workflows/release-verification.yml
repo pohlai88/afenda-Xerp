@@ -90,6 +90,9 @@ jobs:
       - name: Gate 8f · Phase 9 accounting readiness gate (full delegated)
         run: pnpm check:accounting-readiness-gate
 
+      - name: Gate 8g · accounting domain contracts-only (ADR-0015)
+        run: pnpm check:accounting-domain-contracts
+
       # Release gate meta-check (verifies TIP-009 governance structure itself)
       - name: Release gate self-check
         run: pnpm quality:release-gate

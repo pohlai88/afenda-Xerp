@@ -64,6 +64,14 @@ Rules:
 - Metadata UI CSS must not import AppShell CSS.
 - **Never** import `@afenda/metadata-ui/fixtures.css` or `@afenda/appshell/fixtures.css` in ERP globals.
 - **Never** define `--afenda-*` tokens in `apps/erp`.
+- **Never** import `afenda-appshell-studio.css` directly — it loads via `@afenda/appshell/afenda-appshell.css` only.
+
+### shadcn/studio CSS token chain
+
+Studio blocks use a 3-layer bridge (Part A/B design-system → `--app-shell-*` → `--app-shell-studio-*`).
+Most shadcn utilities and semantic tones flow automatically via Part C `@theme inline` — no manual mapping.
+Agent workflow: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
+CSS authority: [`css-authority.md`](../architecture/css-authority.md).
 
 ### Tailwind v4 vs non-theme-safe fallback
 

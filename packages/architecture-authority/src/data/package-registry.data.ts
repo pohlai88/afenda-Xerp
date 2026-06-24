@@ -236,20 +236,21 @@ const ACTIVE_PACKAGES = [
     layerDepExempt: false,
     filesystemRequired: true,
   },
-] as const satisfies readonly PackageDefinition[];
-
-const RESERVED_PACKAGES = [
   {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",
     layer: "Domain",
-    lifecycle: "planned",
-    purpose: "Accounting domain (reserved)",
+    lifecycle: "active",
+    purpose:
+      "Accounting domain contracts-only (ADR-0015); ledger/posting prohibited until TIP-015 ADR",
     publicApiOwner: "Accounting Authority",
     layerDepExempt: false,
-    filesystemRequired: false,
+    filesystemRequired: true,
   },
+] as const satisfies readonly PackageDefinition[];
+
+const RESERVED_PACKAGES = [
   {
     registryId: "PKG-R02",
     packageName: "@afenda/inventory",

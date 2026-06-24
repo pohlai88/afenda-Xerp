@@ -1,10 +1,10 @@
-# Delivery Evidence
+# Delivery Evidence (TIP Archive)
 
-TIP completion reports and implementation evidence.
+Historical TIP completion reports and implementation evidence. **Not implementation authority after 2026-06-24.**
 
-> **AI agents — read first:** [`tip-status-index.md`](tip-status-index.md) and [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).  
-> Individual TIP files live in [`tips/`](tips/) with **`[status]` filename prefixes** — use the prefix to pick your target.  
-> **Status authority** is the index + runtime matrix (ADR-0012, ADR-0013).
+> **AI agents — read first:** [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md) and [`foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts).  
+> Open this folder for **completed TIP audit trail** only.  
+> **Runtime status:** [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) · **FDR enforcement:** `pnpm check:foundation-disposition`
 
 ---
 
@@ -12,33 +12,25 @@ TIP completion reports and implementation evidence.
 
 | Path | Contents |
 | --- | --- |
-| [`tip-status-index.md`](tip-status-index.md) | **Canonical TIP statuses** — read before any TIP doc |
-| [`tips/`](tips/) | TIP delivery docs — `[Status] tip-NNN-title.md` |
-| [`support/`](support/) | Platform/security evidence (CSP, logging, hardening) — not TIP authority |
+| [`fdr-status-index.md`](fdr-status-index.md) | **Active FDR catalog** — upgrade sequence + parallel tracks |
+| [`FDR/`](FDR/) | FDR delivery docs — `[Status] fdr-NNN-title.md` |
+| [`tip-status-index.md`](tip-status-index.md) | **TIP archive index** — historical only |
+| [`tips/`](tips/) | TIP delivery docs — archive-lane |
+| [`support/`](support/) | Platform/security evidence (CSP, logging, hardening) — operational docs |
 
-When a TIP status changes, rename the file prefix in the same PR as the index update.
-
----
-
-## Quick target by status
-
-| Status | Open these |
-| --- | --- |
-| **Not started** | TIP-007A, TIP-010A, TIP-013 |
-| **Partially Implemented** | TIP-006, 007, 007/012, 008, 010, 011, 012, TIP-UI-03/04/05 |
-| **Complete** | TIP-001, 004-ui, 009, TIP-UI-01/02 |
-| **Blocked** | TIP-UI-06, TIP-014+ accounting |
-| **Superseded** | Misnumbered `tip-010-observability`, `tip-012-execution-foundation` |
-
-Full table: [`tip-status-index.md`](tip-status-index.md).
+When a **completed** TIP archive entry changes status prefix, rename the file in the same PR as the matrix update. **Do not create new TIP files** for foundation or package work.
 
 ---
 
-## Current runtime priority
+## Current priority (FDR)
 
-**Step 1 of §Runtime implementation sequence:** [TIP-011 Slice 1 — Outbox schema](tips/%5BPartially%20Implemented%5D%20tip-011-execution-foundation.md#slice-1--outbox-schema-afendadatabase)
+Foundation Phases 0–9 and TIP-014 contracts-only delivery are **Complete**. Next accounting runtime work:
 
-Full dependency order (not TIP number order): [`tip-status-index.md` §Runtime implementation sequence](tip-status-index.md#runtime-implementation-sequence)
+1. Architecture Authority ADR (e.g. COA schema activation)
+2. `foundation-registry-owner` updates `PKGR01_ACCOUNTING` in FDR
+3. Implement within ADR bounds; update runtime matrix
+
+Full workflow: [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md)
 
 ---
 
@@ -61,4 +53,5 @@ Full dependency order (not TIP number order): [`tip-status-index.md` §Runtime i
 
 UI guard gates: [`../governance/ui-guard.md`](../governance/ui-guard.md)  
 Downstream composition: [`../governance/downstream-ui-composition.md`](../governance/downstream-ui-composition.md)  
-Documentation drift guard: `pnpm check:documentation-drift`
+Documentation drift guard: `pnpm check:documentation-drift`  
+Foundation disposition: `pnpm check:foundation-disposition`

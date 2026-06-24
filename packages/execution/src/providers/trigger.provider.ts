@@ -104,6 +104,7 @@ export async function invokeConfiguredPublishOutboxEventsTask(): Promise<unknown
 }
 
 /** Static Trigger.dev task — scanned by `trigger.config.ts` for remote deployment. */
+// Task ID must stay aligned with PUBLISH_OUTBOX_EVENTS_* constants in this package's job module.
 export const publishOutboxEventsTriggerTask = task({
   id: PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
   run: invokeConfiguredPublishOutboxEventsTask,

@@ -117,7 +117,22 @@ CSS Bridge Negative Search — PASS
 - **Changed-files containment:** `git diff --name-only` summary — all paths within Phase 0 allowed scope
 - Collateral scan for staging imports and deleted class prefixes
 
-Authority: [`css-authority.md`](../architecture/css-authority.md) · [`afenda-ui-quality`](../../.cursor/skills/afenda-ui-quality/SKILL.md)
+Authority: [`css-authority.md`](../architecture/css-authority.md) · [`afenda-shadcn-components SKILL`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) · [`afenda-ui-quality`](../../.cursor/skills/afenda-ui-quality/SKILL.md)
+
+---
+
+## MCP block normalization — 3-question decision filter
+
+Before running Gate D on a new studio block, apply this filter to every MCP `className`:
+
+| Step | Question | Action |
+|------|----------|--------|
+| **Q1** | On an `@afenda/ui` governed primitive? | Strip `className`; use governed props |
+| **Q2** | Visual/semantic on plain HTML? | STUDIO-PATTERN-MAP → studio CSS (≥2 blocks) → Afenda semantic Tailwind |
+| **Q3** | Layout/structural on plain HTML wrapper? | Allowed as-is (`grid`, `flex`, `col-span`) |
+
+Canonical detail: [afenda-shadcn-components SKILL §2](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
+Promotion pipeline: [block-pipeline-reference.md](../../.cursor/skills/afenda-shadcn-components/block-pipeline-reference.md).
 
 ---
 

@@ -2,12 +2,12 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially Implemented |
+| **Status** | Complete |
 | **Authority status** | **Accepted** — ADR-0010 Phase 9 gate checklist binding |
-| **Runtime evidence** | Slice 1 delivered — gate orchestrator + kernel wire contracts + ERP diagnostics |
+| **Runtime evidence** | Slices 1–5 delivered — gate orchestrator, CI wiring, live diagnostics, sign-off record |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Foundation phase** | Phase 9 — Accounting Readiness Gate |
-| **Remaining gap** | Architecture Authority human sign-off; TIP-014+ blocked until manual sign-off (Slice 3 live diagnostics delivered) |
+| **Remaining gap** | None — Phase 9 signed off 2026-06-24; TIP-014 contracts may begin |
 
 ## Purpose
 
@@ -32,6 +32,8 @@ Surface rule: `accounting-readiness-gate-is-canonical-phase-9-matrix`
 - `@afenda/accounting`, PKG-R01, chart of accounts, journals, ledger, posting, consolidation arithmetic
 - Accounting Core admin UI (TIP-014+)
 - Manual Architecture Authority sign-off automation (human gate remains)
+
+**Sign-off record:** [`phase-9-accounting-readiness-sign-off.md`](../../architecture/phase-9-accounting-readiness-sign-off.md) (2026-06-24)
 
 ## Runtime evidence
 
@@ -123,6 +125,7 @@ Surface rule: `accounting-readiness-gate-is-canonical-phase-9-matrix`
 | 12 | ERP diagnostics copy matches CI registry | parity gate in `check:accounting-readiness-gate` | [x] |
 | 13 | Diagnostics UI shows live pass/fail/skipped gate status per requirement | ERP render test + `--json-status` gate | [x] |
 | 14 | Diagnostics risk mitigations (performance, sign-off clarity, ADR-0010 guard) | ERP presentation + prohibition tests | [x] |
+| 15 | Phase 9 Architecture Authority sign-off record + foundation disposition clear | `phase-9-accounting-readiness-sign-off.md` + `pnpm check:foundation-disposition` | [x] |
 
 ## Handoff to implementation
 
@@ -380,8 +383,24 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-013a-accounting-rea
 
 #### Known debt
 
-- Architecture Authority manual Phase 9 sign-off remains human-only — TIP-014+ still blocked by ADR-0010.
+- None for Phase 9 gate. TIP-014 requires its own ADR before `@afenda/accounting` filesystem creation.
+
+### Slice 5 — Phase 9 sign-off + foundation disposition closure
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slices 1–4 delivered; foundation disposition zero red-lane (`FOUNDATION-DISPOSITION-2026-06-24-v3`)
+
+#### Design (internal-guide)
+
+- Publish canonical sign-off at `docs/architecture/phase-9-accounting-readiness-sign-off.md` (not the deprecated `phase-9-architecture-authority-sign-off.md` path).
+- Wire `check:foundation-disposition` into Phase 9 requirement #10 delegated gates.
+- Update ERP diagnostics copy to reflect signed-off state; TIP-014 contracts still bounded (no ledger posting).
+- Mark TIP-013A Complete; unblock TIP-014 in tip-status-index.
+
+#### Known debt
+
+- None for Phase 9 gate. TIP-014 requires its own ADR before `@afenda/accounting` filesystem creation.
 
 ## Verdict
 
-**Partially Implemented** — Slices 1–4 delivered automated evidence, CI wiring, live diagnostics, and risk-hardened UX. Accounting Core remains blocked until Architecture Authority signs off Phase 9 gate pass.
+**Complete** — Phase 9 Accounting Readiness Gate signed off 2026-06-24. Automated evidence, foundation disposition, and sign-off record delivered. TIP-014 Accounting Core Contracts may begin; ledger posting remains prohibited until TIP-014 ADR acceptance.

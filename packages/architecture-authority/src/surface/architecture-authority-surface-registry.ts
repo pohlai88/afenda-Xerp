@@ -44,6 +44,15 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
     role: "Package lifecycle states",
     primaryExports: ["lifecycleContract"],
   },
+  {
+    path: "data/foundation-disposition.registry.ts",
+    role: "Foundation package disposition lanes for subagents (ADR-0014)",
+    primaryExports: [
+      "foundationDispositionRegistry",
+      "FOUNDATION_DISPOSITION_REGISTRY",
+      "getFoundationDispositionEntry",
+    ],
+  },
 ] as const;
 
 /** Validators consumed by CI architecture gates. */
@@ -68,6 +77,11 @@ export const ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES = [
     role: "Cross-layer dependency enforcement",
     primaryExports: ["validateForbiddenDependencies"],
   },
+  {
+    path: "validators/validate-foundation-disposition.ts",
+    role: "Foundation disposition registry integrity (ADR-0014)",
+    primaryExports: ["validateFoundationDisposition"],
+  },
 ] as const;
 
 /** Human-readable docs that must stay aligned with registry data. */
@@ -86,6 +100,11 @@ export const ARCHITECTURE_AUTHORITY_CANONICAL_DOCS = [
     path: "docs/architecture/layer-registry.md",
     fingerprintRequired: true,
     role: "Human layer registry",
+  },
+  {
+    path: "docs/architecture/foundation-disposition.md",
+    fingerprintRequired: false,
+    role: "Read-only foundation disposition view (ADR-0014)",
   },
 ] as const;
 

@@ -1,4 +1,5 @@
 import type { PermissionKey } from "@afenda/database";
+import { ok } from "@afenda/kernel";
 import type {
   MembershipContract,
   PlatformUserContract,
@@ -6,6 +7,8 @@ import type {
   TenantContract,
 } from "@afenda/permissions";
 import { InMemoryPermissionDataSource } from "@afenda/permissions";
+
+import type { ResolveOperatingContextInput } from "@/lib/context/resolve-operating-context.server";
 
 export const DASHBOARD_RBAC_ACTOR_ID = "user-dashboard-rbac";
 export const DASHBOARD_RBAC_TENANT_ID = "tenant-dashboard-rbac";
@@ -123,4 +126,9 @@ export function seedDashboardRbacAuthorizationStore(
     .seedMembership(membership);
 
   return dataSource;
+}
+
+export function createDashboardRbacOperatingContextResolver() {
+  return async (_input: ResolveOperatingContextInput) =>
+    ok(createDashboardRbacOperatingContextFixture());
 }

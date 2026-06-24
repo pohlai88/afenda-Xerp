@@ -29,6 +29,7 @@
       "!!**/packages/design-system/src/css/token-diff-preview.html",
       "!!**/packages/*/scripts/**/*.js",
       "!!**/temp-docx",
+      "!!**/_reference",
       "!!**/*.docx",
       "!!**/*.tsbuildinfo",
       // Soft-ignore: scanner can still index types, but linter skips these

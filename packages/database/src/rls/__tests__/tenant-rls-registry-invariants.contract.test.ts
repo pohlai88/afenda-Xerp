@@ -43,4 +43,22 @@ describe("tenant-rls-registry-invariants.contract", () => {
       )
     ).toBe(true);
   });
+
+  it("maps schema parity gaps to schema-parity-gap invariant violations", () => {
+    const incompleteRegistry = TENANT_RLS_ISOLATION_POLICIES.filter(
+      (row) => row.tableName !== "memberships"
+    );
+
+    const violations =
+      collectTenantRlsRegistryInvariantViolations(incompleteRegistry);
+
+    expect(violations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          rule: "schema-parity-gap",
+          tableName: "memberships",
+        }),
+      ])
+    );
+  });
 });

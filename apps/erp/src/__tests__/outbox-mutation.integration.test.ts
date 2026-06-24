@@ -1,25 +1,24 @@
 import { DEFAULT_DASHBOARD_LAYOUT } from "@afenda/appshell";
 import {
-  createExecutionContext,
   createOutboxPublishService,
   type OutboxEventEnvelope,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
-import { brandUserId } from "@afenda/kernel";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
-
 import {
-  createDashboardRbacOperatingContextFixture,
+  resolveRoutePermissionRequirement,
+  resolveRouteProtectionLevel,
+} from "@/lib/api/api-route-permissions";
+import { assertAuthorizedApiRoute } from "@/lib/api/authorize-api-route";
+import {
+  createDashboardRbacOperatingContextResolver,
   DASHBOARD_RBAC_ACTOR_ID,
   DASHBOARD_RBAC_COMPANY_ID,
   DASHBOARD_RBAC_TENANT_ID,
+  seedDashboardRbacAuthorizationStore,
 } from "@/lib/workspace/__tests__/dashboard-rbac.fixture";
 import { dashboardLayoutPutContract } from "@/server/api/contracts/workspace/dashboard-layout.contract";
-import {
-  assertRoutePermission,
-  createApiRequestContext,
-} from "@/server/api/runtime/api-request-context";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 import { clearWorkspaceDashboardLayoutStoreForTests } from "@/server/workspace/dashboard-layout.service";
 
@@ -189,36 +188,35 @@ describe("outbox mutation integration", () => {
 
   it("returns forbidden from createApiHandler permission gate without enqueueing outbox rows", async () => {
     const persistence = createInMemoryOutboxPersistence();
-    const operatingContext = createDashboardRbacOperatingContextFixture();
-    const execution = createExecutionContext({
-      actorId: DASHBOARD_RBAC_ACTOR_ID,
-      companyId: DASHBOARD_RBAC_COMPANY_ID,
-      correlationId: "corr-forbidden-outbox",
-      source: "api",
-      tenantId: DASHBOARD_RBAC_TENANT_ID,
-    });
 
-    const context = createApiRequestContext({
-      authorization: null,
-      authorizationDecision: null,
-      contract: dashboardLayoutPutContract,
-      correlationId: "corr-forbidden-outbox",
-      execution,
-      operatingContext,
-      request: new Request(
-        "http://localhost/api/internal/v1/workspace/dashboard-layout",
-        {
-          method: "PUT",
-        }
-      ),
-      requestBody: DEFAULT_DASHBOARD_LAYOUT,
-      requestId: "req-forbidden-outbox",
-      session: null,
-      userId: brandUserId(DASHBOARD_RBAC_ACTOR_ID),
-    });
+    const request = new Request(
+      "http://localhost/api/internal/v1/workspace/dashboard-layout",
+      {
+        method: "PUT",
+      }
+    );
 
     await expect(
-      assertRoutePermission(context, dashboardLayoutPutContract.permission)
+      assertAuthorizedApiRoute(
+        {
+          actorId: DASHBOARD_RBAC_ACTOR_ID,
+          correlationId: "corr-forbidden-outbox",
+          method: dashboardLayoutPutContract.method,
+          path: dashboardLayoutPutContract.path,
+          permission: resolveRoutePermissionRequirement(
+            PERMISSION_REGISTRY.workspace.dashboard.write
+          ),
+          protectionLevel: resolveRouteProtectionLevel(
+            dashboardLayoutPutContract
+          ),
+          request,
+        },
+        {
+          permission: seedDashboardRbacAuthorizationStore([]),
+          resolveOperatingContext:
+            createDashboardRbacOperatingContextResolver(),
+        }
+      )
     ).rejects.toBeInstanceOf(ApiRouteError);
 
     expect(persistence.records.size).toBe(0);

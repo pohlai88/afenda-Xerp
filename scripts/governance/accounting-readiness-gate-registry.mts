@@ -9,7 +9,7 @@ export const ACCOUNTING_READINESS_GATE_SURFACE_RULE =
   "accounting-readiness-gate-is-canonical-phase-9-matrix" as const;
 
 export const TIP_013A_DELIVERY_DOC =
-  "docs/delivery/tips/[Partially Implemented] tip-013a-accounting-readiness-gate.md" as const;
+  "docs/delivery/tips/[Complete] tip-013a-accounting-readiness-gate.md" as const;
 
 export const PHASE_9_ROADMAP_DOC =
   "docs/architecture/pre-accounting-foundation-roadmap.md" as const;
@@ -119,7 +119,10 @@ export const ACCOUNTING_READINESS_GATE_REQUIREMENTS = [
     id: "documentation-synchronized",
     requirement: "Documentation synchronized",
     roadmapMarker: "Documentation synchronized",
-    delegatedGates: ["check:documentation-drift"],
+    delegatedGates: [
+      "check:documentation-drift",
+      "check:foundation-disposition",
+    ],
   },
 ] as const satisfies readonly AccountingReadinessGateRequirement[];
 

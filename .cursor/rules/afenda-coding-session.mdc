@@ -26,6 +26,8 @@ Before claiming "no pending decision" or "no migration planned", search **`docs/
 
 If upstream contract is missing: **stop and report**. No local registries, tokens, permissions, or tenant resolvers.
 
+**FDR (ADR-0014):** For foundation/package work, read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from FDR entry fields — not from new TIP markdown.
+
 ## Phase 1 — implement
 
 Follow skill §3–§10. Hard stops (skill §0.1): consumer defining owned contracts, unauthorized cross-package imports, hand-edited migrations, mocking governance instead of canonical resolvers.

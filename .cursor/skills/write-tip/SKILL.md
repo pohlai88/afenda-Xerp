@@ -6,7 +6,9 @@ disable-model-invocation: true
 
 # write-tip — Afenda Delivery & Architecture Doc Authoring
 
-> Read this skill before writing any TIP, ADR, feature requirement, or DoD table.
+> **Archive only (2026-06-25):** Do **not** author new TIP delivery docs for foundation or package work. Use [`write-fdr`](../write-fdr/SKILL.md) + [FDR workflow](../../../docs/architecture/foundation-delivery-authority.md) + `foundation-disposition.registry.ts`. This skill remains valid for **repairing archive TIPs**, **ADRs** (or use write-fdr), runtime matrix updates, and historical delivery evidence.
+>
+> Read this skill before writing any ADR, feature requirement, or DoD table tied to FDR entries.
 > Full templates are in [TEMPLATES.md](TEMPLATES.md). Authority chain is in `docs/adr/`.
 
 ---

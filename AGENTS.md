@@ -156,21 +156,49 @@ Invoke `/afenda-coding-session` for the full implementation standard (TypeScript
 
 ---
 
-## Documentation authority (TIP-000D / ADR-0009–0013)
+## Documentation authority (TIP archive → FDR)
 
-Before foundation or delivery work, read in order:
+**Active (2026-06-24):** Foundation and package implementation is governed by the **Foundation Disposition Registry (FDR)** — not new TIP delivery docs.
 
-1. [`docs/architecture/pre-accounting-foundation-roadmap.md`](docs/architecture/pre-accounting-foundation-roadmap.md)
-2. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
-3. [`docs/delivery/tip-status-index.md`](docs/delivery/tip-status-index.md)
+Read in order:
 
-**Accounting Core (`TIP-013+`) is blocked until Phase 9 gate (ADR-0010).** Do not use master plan v4 Section 3 or stale delivery doc statuses.
+1. [`docs/architecture/foundation-delivery-authority.md`](docs/architecture/foundation-delivery-authority.md) — FDR workflow
+2. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
+3. [`docs/delivery/fdr-status-index.md`](docs/delivery/fdr-status-index.md) — FDR catalog + upgrade sequence
+4. [`docs/architecture/foundation-disposition.md`](docs/architecture/foundation-disposition.md) — lane vocabulary + entries (synced view)
+5. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
+6. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
+7. Target FDR under [`docs/delivery/FDR/`](docs/delivery/FDR/) — implementation handoffs
 
-Verify doc hygiene: `pnpm check:documentation-drift`
+**Authoring:** [`.cursor/skills/write-fdr/SKILL.md`](.cursor/skills/write-fdr/SKILL.md) · [`.cursor/skills/write-fdr-slice/SKILL.md`](.cursor/skills/write-fdr-slice/SKILL.md)
 
-When documentation status, roadmap authority, ADR acceptance, master plan version, TIP status, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
+**TIP archive:** [`docs/delivery/tip-status-index.md`](docs/delivery/tip-status-index.md) and `docs/delivery/tips/` — historical evidence only (`archive-lane`). Do not create new TIP docs for foundation packages.
 
-For **slice-by-slice TIP implementation** (explicit invoke only — one handoff slice, gates, §11 Completion Report), use [`.cursor/agents/tip-slice-implementer.md`](.cursor/agents/tip-slice-implementer.md). It does not bypass index sequence without Architecture Authority artifacts.
+**Accounting Core (`TIP-015+` runtime)** is blocked until ADR-0010 **and** a new ADR amends FDR `PKGR01_ACCOUNTING` prohibited rules. Gap detail: FDR `fdr-r01-accounting-contracts` §Remaining gaps.
+
+Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:foundation-disposition`
+
+When documentation status, roadmap authority, ADR acceptance, FDR lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
+
+| Task | Agent / skill |
+| --- | --- |
+| Author FDR | `write-fdr` |
+| Author slice handoff | `write-fdr-slice` |
+| Implement one slice | [`fdr-slice-implementer`](.cursor/agents/fdr-slice-implementer.md) |
+| Parallel FDR batch | [`fdr-orchestrator`](.cursor/agents/fdr-orchestrator.md) |
+| Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
+| Archive TIP replay only | [`tip-slice-implementer`](.cursor/agents/tip-slice-implementer.md) |
+| Ad-hoc governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
+
+---
+
+## shadcn/studio UI acceleration (ADR-0017)
+
+Constitutional authority: [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — approved sources, mandatory promotion pipeline, `_reference/` catalog (gitignored), MCP workflows, adapted blocks registry.
+
+**Agent operational authority:** [`.cursor/skills/afenda-shadcn-components/SKILL.md`](.cursor/skills/afenda-shadcn-components/SKILL.md) — 3-layer CSS token chain, 3-question MCP normalization filter, promotion pipeline, gates A–G.
+
+Operational guide: [`docs/architecture/app-ui-component-adaptation-guide.md`](docs/architecture/app-ui-component-adaptation-guide.md). MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md).
 
 ---
 
@@ -185,9 +213,9 @@ Two layers — do not confuse them:
 | **Author** | `packages/ui/src/components/` | Layout-only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
 | **Consumer** | `packages/appshell/`, `packages/metadata-ui/`, `apps/erp/` | **Zero** `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
 
-**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly (`mapStockButtonProps` at call sites). No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
+**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly. Use governed `intent`, `emphasis`, `size`, `presentation` props — **`mapStockButtonProps` is sunset**. No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
 
-**After shadcn-studio blocks:** strip all `className` from governed components before merge. Verify with `pnpm ui:guard` (gates A–F) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
+**After shadcn-studio blocks:** apply the 3-question decision filter (see `afenda-shadcn-components` skill §2); strip all `className` from governed primitives. Verify with `pnpm ui:guard` (gates A–G) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
 
 **Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, `scripts/governance/react-erp-policy.mjs` (Gate F), Cursor preToolUse hook, stop hook appshell test gate.
 

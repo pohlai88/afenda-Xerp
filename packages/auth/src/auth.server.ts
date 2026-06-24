@@ -80,6 +80,7 @@ export async function requireAfendaAuthSession(
     throw new UnauthenticatedError();
   }
 
+  // Fail closed before any RBAC or operating-context resolution proceeds.
   if (!isAfendaAuthSessionLinked(session)) {
     throw new UnlinkedPlatformUserError();
   }

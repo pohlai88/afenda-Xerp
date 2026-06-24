@@ -3,12 +3,14 @@
 > **This document is guidance for future implementation.**
 > It does not approve direct copy-paste from shadcn/studio into runtime code.
 > All implementation must pass Afenda UI governance and package-boundary gates.
+> **Constitutional authority:** [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (shadcn/studio delivery acceleration, inventory, pipeline).
 
 | Field | Value |
 |-------|-------|
-| **As-of** | 2026-06-24 |
+| **As-of** | 2026-06-25 |
 | **Author** | AI agent — UI Documentation Authoring pass |
-| **Authority** | ADR-0002 · TIP-004 · TIP-006 · TIP-UI-05 |
+| **Authority** | ADR-0017 · ADR-0002 · TIP-004 · TIP-006 · TIP-UI-05 |
+| **Operational authority (agents)** | [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
 | **Enforcement** | `pnpm ui:guard` · `pnpm quality:boundaries` · `pnpm check:documentation-drift` |
 
@@ -46,6 +48,74 @@ This guide enables future AI coding agents and engineers to:
 - No `className` on governed primitives in consumer packages (`apps/erp/`, `packages/appshell/`, `packages/metadata-ui/`).
 - New external libraries require a `dependency-registry.md` entry and ADR-0003 approval before use.
 - AppShell shell chrome patterns (`AppShell`, `AppShellMain`, sidebar, nav) are governed by TIP-006. No direct copy of raw shell blocks from shadcn/studio without governance adaptation.
+
+---
+
+## 2.1 CSS token chain (automatic flow)
+
+Studio blocks consume shadcn and shell intermediaries — **not** raw `--afenda-*` directly.
+The chain cascades automatically when tokens change; no manual per-utility mapping is required
+for items in the "flows automatically" table below.
+
+```txt
+@afenda/design-system (Part A)   → --afenda-*  (source tokens)
+@afenda/design-system (Part B)   → --card, --primary, --border, etc.  (shadcn shorthand)
+@afenda/appshell                 → --app-shell-*  (shell geometry + trend colors)
+@afenda/appshell-studio          → --app-shell-studio-*  (studio block bridge)
+```
+
+**Apps import `@afenda/appshell/afenda-appshell.css` ONLY** — never `afenda-appshell-studio.css` directly.
+Full variable reference: [css-bridge-reference.md](../../.cursor/skills/afenda-shadcn-components/css-bridge-reference.md).
+
+### What flows automatically (no manual mapping)
+
+| Category | Why it flows |
+|----------|-------------|
+| shadcn utility classes (`bg-primary`, `text-muted-foreground`, `border-border`) | Part C `@theme inline` → shadcn vars → `--afenda-*` chain |
+| `text-success`, `text-warning`, `text-info`, `text-destructive` | Defined in Part B bridge |
+| `shadow-sm/md/lg`, `z-sticky/modal/overlay`, `radius-sm/md/lg` | Part C motion/z/radius aliases |
+| All `--app-shell-studio-*` CSS variables | `afenda-appshell-studio.css` wires them transitively |
+
+Anything **not** in this table requires an explicit normalization decision (§2.2).
+
+**Superseded guidance:** Do not maintain manual per-utility CSS mapping tables for every Tailwind class,
+reference-template layout patterns (6-column grid, density attribute mapping, base-vega vs new-york),
+or template-specific TIP-004 violation tables — use §2.2 and [afenda-shadcn-components SKILL §3](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
+
+---
+
+## 2.2 MCP block normalization — 3-question decision filter
+
+For every `className` string in MCP-installed block TSX, ask in order (canonical workflow in
+[afenda-shadcn-components SKILL §2](../../.cursor/skills/afenda-shadcn-components/SKILL.md)):
+
+**Q1 — Is this class on an `@afenda/ui` governed primitive?**
+(`Button`, `Badge`, `Card`, `Input`, `Avatar`, `Sheet`, `Dialog`, etc.)
+→ Strip all `className`. Use governed props (`intent`, `emphasis`, `tone`, `size`, `state`).
+
+**Q2 — Is this a visual/semantic class on a plain HTML element?**
+(text colors, backgrounds, typography, borders, spacing, focus rings)
+→ Query [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md) first.
+→ No match + pattern used in ≥2 blocks: add to `afenda-appshell-studio.css`, then use the studio class.
+→ No match + 1 block only: use Afenda semantic Tailwind (`text-success` not `text-green-600`).
+
+**Q3 — Is this a layout/structural class on a plain HTML wrapper?**
+(`grid`, `flex`, `col-span`, `gap-6`, `items-center`, `justify-between`)
+→ Allowed as-is on plain HTML wrappers in block TSX and `apps/erp` page files.
+→ Never pass layout classes to `@afenda/ui` primitives (Q1 handles that).
+
+### Locked promotion pipeline
+
+```txt
+MCP install (packages/ui cwd)
+  → normalize (3-question decision filter above)
+  → STUDIO-PATTERN-MAP lookup
+  → afenda-appshell-studio.css (reusable patterns only, ≥2 blocks)
+  → move to packages/appshell/src/shadcn-studio/blocks/
+  → gates A–G (pnpm ui:guard:scan → ui:guard → ui:guard:proof)
+```
+
+Full checklist: [block-pipeline-reference.md](../../.cursor/skills/afenda-shadcn-components/block-pipeline-reference.md).
 
 ---
 
@@ -310,7 +380,8 @@ Target: **9.5 / 10 coding quality**. Every implementation task must satisfy:
 - Zero `className` on `@afenda/ui` primitives in consumer packages (`apps/erp/`, `packages/appshell/`, `packages/metadata-ui/`).
 - Shell chrome (`AppShell`, `AppShellMain`) receives no `className` overrides.
 - All new primitive variants go through `resolvePrimitiveGovernance()` in `packages/ui/src/governance/`.
-- `mapStockButtonProps` at call sites for any stock shadcn-compat wiring.
+- **`mapStockButtonProps` is sunset** — use governed `intent`, `emphasis`, `size`, `presentation` props directly.
+- MCP block normalization: apply the **3-question decision filter** (§2.2) before merge.
 - Run `pnpm ui:guard:scan` (Gate D) after any new component that uses `@afenda/ui` primitives.
 
 ### Security rules

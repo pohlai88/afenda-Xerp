@@ -138,6 +138,8 @@ export type {
   AppShellMenuTriggerProps,
 } from "./shadcn-studio/blocks/app-shell-menu-trigger";
 export { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigger";
+export type { AppShellModuleWorkspaceChromeProps } from "./shadcn-studio/blocks/app-shell-module-workspace-chrome";
+export { AppShellModuleWorkspaceChrome } from "./shadcn-studio/blocks/app-shell-module-workspace-chrome";
 export type {
   AppShellNotificationDropdownGovernedComponents,
   AppShellNotificationDropdownProps,

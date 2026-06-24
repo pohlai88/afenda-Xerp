@@ -1,4 +1,9 @@
 import {
+  type AfendaAuthSession,
+  getAfendaAuthSession,
+  isAfendaAuthSessionLinked,
+} from "@afenda/auth";
+import {
   brandTenantId,
   createExecutionContext,
   type ExecutionContext,
@@ -62,6 +67,24 @@ export interface AuthorizeApiRouteDependencies {
   readonly policy?: PolicyDataSource;
   readonly policyEvaluationOptions?: PolicyEvaluationOptions;
   readonly resolveOperatingContext?: ResolveOperatingContextFn;
+  /** Test override — production resolves from request headers when omitted. */
+  readonly session?: AfendaAuthSession | null;
+}
+
+async function resolveApiRouteAuthSession(input: {
+  readonly actorId: string | null;
+  readonly dependencies: AuthorizeApiRouteDependencies;
+  readonly request: Request;
+}): Promise<AfendaAuthSession | null | undefined> {
+  if (input.dependencies.session !== undefined) {
+    return input.dependencies.session;
+  }
+
+  if (input.actorId !== null) {
+    return;
+  }
+
+  return getAfendaAuthSession(input.request.headers);
 }
 
 function createAuthorizationFailure(
@@ -336,7 +359,46 @@ export async function authorizeApiRoute(
     );
   }
 
-  if (input.actorId === null) {
+  const session = await resolveApiRouteAuthSession({
+    actorId: input.actorId,
+    dependencies,
+    request: input.request,
+  });
+
+  if (
+    session !== undefined &&
+    session !== null &&
+    !isAfendaAuthSessionLinked(session)
+  ) {
+    const failure = createAuthorizationFailure({
+      apiCode: "forbidden",
+      correlationId: input.correlationId,
+      denialCode: "missing_session",
+      message: "Platform user link is required before authorization.",
+    });
+
+    logAuthorizationDenial({
+      actorId: null,
+      companyId: null,
+      correlationId: input.correlationId,
+      denialCode: failure.denialCode,
+      method: input.method,
+      organizationId: null,
+      path: input.path,
+      permissionKey: input.permission.permissionKey,
+      tenantId: null,
+    });
+
+    return failure;
+  }
+
+  const actorId =
+    input.actorId ??
+    (session !== undefined && session !== null
+      ? (session.user.userId?.trim() ?? null)
+      : null);
+
+  if (actorId === null) {
     const failure = createAuthorizationFailure({
       apiCode: "unauthenticated",
       correlationId: input.correlationId,
@@ -358,8 +420,6 @@ export async function authorizeApiRoute(
 
     return failure;
   }
-
-  const actorId = input.actorId;
   const permissionKey = resolveBoundaryPermissionKey(
     input.permission.permissionKey
   );

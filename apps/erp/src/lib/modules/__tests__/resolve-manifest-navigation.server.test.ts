@@ -29,4 +29,21 @@ describe("resolveManifestNavigationFromOperatingContext (TIP-007A acceptance)", 
 
     expect(navigation.some((item) => item.label === "HRM")).toBe(false);
   });
+
+  it("marks HRM active when activeRoutePath matches the manifest module route", async () => {
+    const navigation = await resolveManifestNavigationFromOperatingContext(
+      createModuleRouteOperatingContext(),
+      createModuleRoutePermissionDataSource([
+        PERMISSION_REGISTRY.hr.employee.read,
+        PERMISSION_REGISTRY.workspace.dashboard.read,
+      ]),
+      "/modules/hrm"
+    );
+
+    const hrmItem = navigation.find((item) => item.label === "HRM");
+    const workspaceItem = navigation.find((item) => item.label === "Workspace");
+
+    expect(hrmItem).toMatchObject({ active: true, href: "/modules/hrm" });
+    expect(workspaceItem).not.toMatchObject({ active: true });
+  });
 });

@@ -61,6 +61,41 @@ export const PLATFORM_PERMISSION_CATALOG = [
     description: "Post accounting journal entries.",
   },
   {
+    key: catalogKey("accounting", "coa_read"),
+    name: "Read chart of accounts",
+    description: "Read chart of accounts and ledger account metadata.",
+  },
+  {
+    key: catalogKey("accounting", "coa_manage"),
+    name: "Manage chart of accounts",
+    description: "Create and update chart of accounts structures.",
+  },
+  {
+    key: catalogKey("accounting", "fiscal_period_read"),
+    name: "Read fiscal periods",
+    description: "Read fiscal period status and calendar metadata.",
+  },
+  {
+    key: catalogKey("accounting", "fiscal_period_manage"),
+    name: "Manage fiscal periods",
+    description: "Create and configure fiscal periods.",
+  },
+  {
+    key: catalogKey("accounting", "fiscal_period_close"),
+    name: "Close fiscal periods",
+    description: "Close or lock fiscal periods for posting.",
+  },
+  {
+    key: catalogKey("accounting", "journal_approve"),
+    name: "Approve journals",
+    description: "Approve accounting journal entries before posting.",
+  },
+  {
+    key: catalogKey("accounting", "journal_reverse"),
+    name: "Reverse journals",
+    description: "Reverse posted accounting journal entries.",
+  },
+  {
     key: catalogKey("inventory", "stock_adjust"),
     name: "Adjust stock",
     description: "Adjust inventory stock levels.",

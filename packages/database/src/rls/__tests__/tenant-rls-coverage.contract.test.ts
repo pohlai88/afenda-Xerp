@@ -50,10 +50,56 @@ describe("tenant-rls-schema-parity.contract", () => {
   it("has no registry/schema drift for tenant-scoped tables", () => {
     expect(collectTenantRlsSchemaParityGaps()).toEqual([]);
   });
+
+  it("reports registry-missing-table when a tenant-scoped table lacks a registry row", () => {
+    const incompleteRegistry = TENANT_RLS_ISOLATION_POLICIES.filter(
+      (row) => row.tableName !== "audit_events"
+    );
+
+    expect(collectTenantRlsSchemaParityGaps(incompleteRegistry)).toEqual([
+      { kind: "registry-missing-table", tableName: "audit_events" },
+    ]);
+  });
+
+  it("reports schema-missing-table when the registry lists an unknown table", () => {
+    const orphanRegistry = [
+      ...TENANT_RLS_ISOLATION_POLICIES,
+      {
+        tableName: "synthetic_orphan_table",
+        policyName: "synthetic_orphan_table_tenant_isolation",
+        kind: "tenant_isolation" as const,
+        migrationTag: TENANT_RLS_COMPLETION_MIGRATION_TAG,
+      },
+    ];
+
+    expect(collectTenantRlsSchemaParityGaps(orphanRegistry)).toEqual([
+      { kind: "schema-missing-table", tableName: "synthetic_orphan_table" },
+    ]);
+  });
 });
 
 describe("tenant-rls-coverage.contract parity", () => {
   it("registry invariants pass via coverage gate contract", () => {
     expect(collectTenantRlsRegistryInvariantViolations()).toEqual([]);
+  });
+
+  it("surfaces schema-parity-gap when registry omits a tenant-scoped table", () => {
+    const incompleteRegistry = TENANT_RLS_ISOLATION_POLICIES.filter(
+      (row) => row.tableName !== "companies"
+    );
+
+    expect(
+      collectTenantRlsRegistryInvariantViolations(incompleteRegistry)
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          rule: "schema-parity-gap",
+          tableName: "companies",
+          message: expect.stringContaining(
+            "companies is missing from TENANT_RLS_ISOLATION_POLICIES"
+          ),
+        }),
+      ])
+    );
   });
 });

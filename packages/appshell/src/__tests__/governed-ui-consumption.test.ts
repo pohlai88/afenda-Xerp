@@ -16,7 +16,10 @@ const policyModuleUrl = pathToFileURL(
 ).href;
 
 const { checkGovernedUiConsumption } = (await import(policyModuleUrl)) as {
-  checkGovernedUiConsumption: (content: string) => string[];
+  checkGovernedUiConsumption: (
+    content: string,
+    normalizedFilePath?: string
+  ) => string[];
 };
 
 function collectTsxFiles(dir: string): string[] {
@@ -88,6 +91,22 @@ describe("governed UI consumption (TIP-004)", () => {
       }
     `);
     expect(violations).toEqual([]);
+  });
+
+  it("shell composition: AppShellModuleWorkspaceChrome passes TIP-004 (no @afenda/ui className)", () => {
+    const blockPath = join(
+      srcDir,
+      "shadcn-studio/blocks/app-shell-module-workspace-chrome.tsx"
+    );
+    const repoRelative = relative(
+      join(packageRoot, "../.."),
+      blockPath
+    ).replace(/\\/g, "/");
+    const violations = checkGovernedUiConsumption(
+      readFileSync(blockPath, "utf8"),
+      repoRelative
+    );
+    expect(violations, violations.join("\n")).toEqual([]);
   });
 
   for (const file of sourceFiles) {

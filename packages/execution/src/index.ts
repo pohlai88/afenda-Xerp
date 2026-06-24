@@ -20,6 +20,8 @@ export {
   type ExecutionStatus,
   type ExecutionStatusRecord,
   type GetStatusInput,
+  OUTBOX_AUDIT_ACTIONS,
+  type OutboxAuditAction,
   type RetryInput,
   type ScheduleInput,
 } from "./contracts/execution.contract.js";
@@ -74,6 +76,7 @@ export {
   type MarkOutboxPublishedInput,
   OUTBOX_EVENT_VERSION,
   OUTBOX_STATUSES,
+  type OutboxBatchAuditMetadata,
   type OutboxDispatchResult,
   type OutboxEventDispatcher,
   type OutboxEventEnvelope,

@@ -83,6 +83,20 @@ async function protectStorageCall<TValue>(
   }
 }
 
+/**
+ * Creates a tenant-scoped storage facade that delegates all operations to the
+ * injected {@link StorageProvider}.
+ *
+ * ERP and server hosts **must** call this factory with a live provider configured
+ * for their environment (for example `createR2StorageProvider` or
+ * `createBlobStorageProvider`). Do not add env-driven default wiring to the
+ * module singleton — injection keeps tenant bucket strategy explicit at the
+ * application boundary.
+ *
+ * @param provider - Live storage adapter; required for any mutating or signed-URL path.
+ * @returns A {@link StorageService} that normalizes thrown provider errors to
+ *   `provider_unavailable` results.
+ */
 export function createStorageService(
   provider: StorageProvider
 ): StorageService {
@@ -108,4 +122,11 @@ export function createStorageService(
   };
 }
 
+/**
+ * Default export stub — intentionally returns `provider_unavailable` on every
+ * operation until a host injects a live provider via {@link createStorageService}.
+ *
+ * Waiver: `storage-default-stub-export` (fdr-015-tenant-storage) — scaffold safety
+ * for unconsumed package state; production paths must not rely on this singleton.
+ */
 export const storageService = createStorageService(unavailableProvider);

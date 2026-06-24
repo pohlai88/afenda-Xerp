@@ -18,22 +18,69 @@ function readAppSource(relativePath: string): string {
   return readFileSync(join(appRoot, relativePath), "utf8");
 }
 
-function listProtectedActionFiles(): string[] {
-  const actionsDir = join(appRoot, "src/app/(protected)/actions");
-  return readdirSync(actionsDir)
-    .filter((file) => file.endsWith(".ts"))
-    .map((file) => `src/app/(protected)/actions/${file}`);
+function listSourceFiles(directory: string, prefix: string): string[] {
+  const files: string[] = [];
+
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const relativePath = `${prefix}/${entry.name}`;
+    const fullPath = join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...listSourceFiles(fullPath, relativePath));
+      continue;
+    }
+
+    if (
+      entry.isFile() &&
+      entry.name.endsWith(".ts") &&
+      !entry.name.includes(".test.")
+    ) {
+      files.push(relativePath);
+    }
+  }
+
+  return files;
+}
+
+function listProtectedServerActionFiles(): string[] {
+  const srcRoot = join(appRoot, "src");
+  return listSourceFiles(srcRoot, "src").filter((relativePath) => {
+    const source = readAppSource(relativePath);
+    return source.includes('"use server"');
+  });
 }
 
 describe("operating-context integration — protected server actions", () => {
-  for (const relativePath of listProtectedActionFiles()) {
-    it(`${relativePath} resolves operating context server-side`, () => {
+  const protectedServerActions = listProtectedServerActionFiles();
+
+  it("discovers every server action module under apps/erp/src", () => {
+    expect(protectedServerActions.length).toBeGreaterThanOrEqual(4);
+    expect(protectedServerActions).toEqual(
+      expect.arrayContaining([
+        "src/app/(protected)/actions/demo-auth-action.ts",
+        "src/lib/context/context-switch.action.ts",
+        "src/lib/system-admin/refresh-accounting-readiness-gate-full.action.ts",
+        "src/lib/system-admin/update-system-admin-settings.action.ts",
+      ])
+    );
+  });
+
+  for (const relativePath of protectedServerActions) {
+    it(`${relativePath} resolves operating context via resolveActionOperatingContext`, () => {
       const source = readAppSource(relativePath);
-      expect(source).toMatch(
-        /resolveActionOperatingContext|resolveOperatingContextFromHeaders/
-      );
+      expect(source).toContain("resolveActionOperatingContext");
     });
 
+    it(`${relativePath} does not trust session for tenant scope`, () => {
+      const source = readAppSource(relativePath);
+      expect(source).not.toMatch(/session\.user\.tenantId/);
+      expect(source).not.toMatch(/session\.user\.companyId/);
+    });
+  }
+
+  for (const relativePath of protectedServerActions.filter((path) =>
+    path.includes("/actions/")
+  )) {
     it(`${relativePath} uses protected action input parsing`, () => {
       const source = readAppSource(relativePath);
       expect(source).toContain("parseProtectedActionInput");
@@ -51,6 +98,7 @@ describe("operating-context integration — API handler boundary", () => {
   it("tenant-scoped API authorization resolves verified operating context", () => {
     const source = readAppSource("src/lib/api/authorize-api-route.ts");
     expect(source).toContain("resolveVerifiedApiRouteOperatingContext");
+    expect(source).toContain("isAfendaAuthSessionLinked");
     expect(source).toContain("operatingContext:");
   });
 

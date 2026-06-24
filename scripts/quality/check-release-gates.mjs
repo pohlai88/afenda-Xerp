@@ -39,7 +39,9 @@ const requiredCiCommands = [
   "pnpm quality:ai-governance",
   "pnpm check:csp-third-party",
   "pnpm check:erp-observability",
+  "pnpm check:system-admin-mutation-audit",
   "pnpm check:accounting-readiness-gate --structure-only",
+  "pnpm check:accounting-domain-contracts",
   "pnpm quality:release-gate",
   "pnpm quality:docs",
 ];
@@ -58,6 +60,7 @@ const requiredReleaseVerificationGates = [
   "pnpm check:csp-third-party",
   "pnpm check:erp-observability",
   "pnpm check:accounting-readiness-gate",
+  "pnpm check:accounting-domain-contracts",
   "pnpm quality:release-gate",
 ];
 
@@ -76,7 +79,10 @@ const requiredQualityScripts = [
   "check:csp-third-party",
   "quality:erp-observability",
   "check:erp-observability",
+  "check:system-admin-mutation-audit",
   "check:accounting-readiness-gate",
+  "check:accounting-domain-contracts",
+  "quality:accounting-domain-contracts",
   "check:docs",
   "ci:biome",
 ];

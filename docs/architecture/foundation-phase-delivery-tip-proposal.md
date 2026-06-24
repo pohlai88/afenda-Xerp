@@ -1,17 +1,14 @@
 # Foundation Phase Delivery TIP ID Proposal
 
-> **Architecture Authority proposal only.**  
-> **This file is not an executable delivery source of truth.**  
-> Draft TIP specs inside this file become authoritative **only after** promotion into `docs/delivery/tips/[status] tip-*.md`  
-> and after `tip-status-index.md` + `pre-accounting-foundation-roadmap.md` are updated under **§Canonical delivery TIPs**.
+> **Stopped.** New foundation and package work uses the [Foundation Disposition Registry (FDR)](foundation-delivery-authority.md) per ADR-0014. This proposal file is retained as historical context only.
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially superseded — TIP-010A, TIP-007A, **TIP-013** promoted; historical drafts archived below |
-| **Date** | 2026-06-23 |
+| **Status** | **Superseded by FDR (ADR-0014)** — proposal archive only; do not implement |
+| **Date** | 2026-06-23 (archived 2026-06-24) |
 | **Owner** | Architecture Authority |
-| **Authority** | ADR-0013 (delivery sequence), ADR-0012 (evidence-backed docs) |
-| **Canonical TIPs** | [`tip-status-index.md`](../delivery/tip-status-index.md) §Canonical delivery TIPs |
+| **Authority** | ADR-0013 (historical) · **Implementation:** [foundation-delivery-authority.md](foundation-delivery-authority.md) |
+| **Canonical TIP archive** | [`tip-status-index.md`](../delivery/tip-status-index.md) |
 
 ---
 

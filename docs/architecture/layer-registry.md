@@ -54,10 +54,11 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 21)
+## Package Layer Assignments (active — 22)
 
 | Package | Layer | Rank |
 |---------|-------|------|
+| `@afenda/accounting` | Domain | 5 |
 | `@afenda/architecture-authority` | Platform | 1 |
 | `@afenda/ai-governance` | Platform | 1 |
 | `@afenda/auth` | Platform | 1 |

@@ -124,7 +124,15 @@ export function AppShellSidebar({
                   ) : (
                     <SidebarMenuItem key={item.label}>
                       <SidebarMenuButton asChild>
-                        <a className="app-shell-nav-link" href={item.href}>
+                        <a
+                          aria-current={
+                            "href" in item && item.active === true
+                              ? "page"
+                              : undefined
+                          }
+                          className="app-shell-nav-link"
+                          href={item.href}
+                        >
                           {item.icon}
                           <span>{item.label}</span>
                         </a>

@@ -1,3 +1,6 @@
+import type { AuditEventPersistenceAdapter } from "@afenda/observability";
+import { withAuditEvidence } from "@afenda/observability";
+import { OUTBOX_AUDIT_ACTIONS } from "../contracts/execution.contract.js";
 import {
   createExecutionFailure,
   createExecutionSuccess,
@@ -20,6 +23,7 @@ import {
 } from "../contracts/retry-policy.contract.js";
 
 export interface OutboxPublishServiceDependencies {
+  readonly auditAdapter?: AuditEventPersistenceAdapter | null;
   readonly dispatcher: OutboxEventDispatcher;
   readonly nowIso?: () => string;
   readonly persistence?: OutboxPersistencePort | null;
@@ -136,10 +140,35 @@ async function publishSingleEvent(
   return "failed";
 }
 
+function buildOutboxBatchAuditEvidence(
+  input: PublishOutboxBatchInput,
+  batchResult: PublishOutboxBatchResult
+) {
+  return {
+    action: OUTBOX_AUDIT_ACTIONS.OUTBOX_BATCH_COMPLETED,
+    actorId: input.lockedBy,
+    actorType: "system" as const,
+    correlationId: input.lockedBy,
+    metadata: {
+      claimed: batchResult.claimed,
+      deadLetter: batchResult.deadLetter,
+      failed: batchResult.failed,
+      published: batchResult.published,
+      skipped: batchResult.skipped,
+    },
+    module: "execution",
+    source: "job" as const,
+    targetId: input.lockedBy,
+    targetType: "outbox_batch",
+    ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
+  };
+}
+
 export function createOutboxPublishService(
   dependencies: OutboxPublishServiceDependencies
 ): OutboxPublishService {
   const persistence = dependencies.persistence ?? null;
+  const auditAdapter = dependencies.auditAdapter ?? null;
   const nowIso = dependencies.nowIso ?? (() => new Date().toISOString());
 
   return {
@@ -197,13 +226,21 @@ export function createOutboxPublishService(
           }
         }
 
-        return createExecutionSuccess({
+        const batchResult: PublishOutboxBatchResult = {
           claimed: claimed.length,
           deadLetter,
           failed,
           published,
           skipped,
-        });
+        };
+
+        const { value } = await withAuditEvidence(
+          buildOutboxBatchAuditEvidence(input, batchResult),
+          async () => batchResult,
+          auditAdapter
+        );
+
+        return createExecutionSuccess(value);
       });
     },
   };

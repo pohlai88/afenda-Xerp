@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # write-tip-slice — TIP Slice Authoring
 
+> **Archive only (2026-06-25).** Use [`write-fdr-slice`](../write-fdr-slice/SKILL.md) for all new foundation/package slices. This skill applies only to **repairing or extending archive TIP handoffs** for already-delivered TIPs under `docs/delivery/tips/`.
+>
 > This skill produces **one slice block** that `tip-slice-implementer` can execute without modification.
 > Read `write-tip` first for TIP-level vocabulary, status rules, and boundary table.
 

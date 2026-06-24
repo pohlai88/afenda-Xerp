@@ -41,11 +41,23 @@ export function buildManifestNavigation(
     .filter((entry) =>
       hasManifestModuleAccess(entry.permissionKey, input.grantedPermissionKeys)
     )
-    .map((entry) => ({
-      icon: resolveManifestModuleNavIcon(entry.moduleId),
-      label: entry.label,
-      href: entry.routePath,
-    }));
+    .map((entry) => {
+      const base = {
+        icon: resolveManifestModuleNavIcon(entry.moduleId),
+        label: entry.label,
+        href: entry.routePath,
+      } as const;
+
+      const withBadge =
+        entry.badge === undefined ? base : { ...base, badge: entry.badge };
+
+      const withActive =
+        input.activeRoutePath === undefined
+          ? withBadge
+          : { ...withBadge, active: entry.routePath === input.activeRoutePath };
+
+      return withActive;
+    });
 }
 
 export function hydrateManifestNavigation(
@@ -64,6 +76,8 @@ export function hydrateManifestNavigation(
       icon: resolveAppShellNavIcon(item.icon),
       label: item.label,
       href: item.href,
+      ...(item.badge === undefined ? {} : { badge: item.badge }),
+      ...(item.active === true ? { active: true } : {}),
     };
   });
 }

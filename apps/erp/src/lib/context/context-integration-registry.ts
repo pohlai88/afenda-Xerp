@@ -75,6 +75,28 @@ export const CONTEXT_INTEGRATION_FUNCTIONS = [
   },
 ] as const;
 
+/** Auth-session bridge — linked platform user required before operating-context resolution. */
+export const AUTH_SESSION_BRIDGE_WIRING = [
+  {
+    id: "auth-session-layout",
+    step: "Validate linked auth session before AppShell context",
+    module: "app/(protected)/layout.tsx",
+    delegate: "isAfendaAuthSessionLinked",
+  },
+  {
+    id: "auth-session-api",
+    step: "Reject unlinked auth session before API operating context",
+    module: "lib/api/authorize-api-route.ts",
+    delegate: "isAfendaAuthSessionLinked",
+  },
+  {
+    id: "auth-session-actions",
+    step: "Reject unlinked auth session before server action context",
+    module: "lib/server-actions/resolve-action-session.ts",
+    delegate: "isAfendaAuthSessionLinked",
+  },
+] as const;
+
 export type ContextIntegrationWiringId =
   (typeof CONTEXT_INTEGRATION_WIRING)[number]["id"];
 

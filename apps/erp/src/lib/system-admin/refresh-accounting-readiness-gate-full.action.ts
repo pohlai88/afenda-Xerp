@@ -4,18 +4,21 @@ import { AppErrors } from "@afenda/kernel";
 import { revalidatePath } from "next/cache";
 
 import { failServerAction } from "@/lib/server-actions/fail-server-action";
+import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
+import { resolveActionOperatingContext } from "@/lib/server-actions/resolve-action-operating-context.server";
 import {
   type ServerActionResult,
   serverActionSuccess,
 } from "@/lib/server-actions/server-action-result";
 
 import { ACCOUNTING_READINESS_GATE_REFRESH_FAILURE_MESSAGE } from "./accounting-readiness-gate.copy.contract";
+import { guardSystemAdminSection } from "./guard-system-admin-section.server";
 import {
   primeAccountingReadinessGateLiveStatusCache,
   resetAccountingReadinessGateLiveStatusCache,
 } from "./resolve-accounting-readiness-gate-status.server";
-import { resolveSystemAdminSectionAccess } from "./resolve-system-admin-section-access.server";
 import { spawnAccountingReadinessGateLiveStatus } from "./spawn-accounting-readiness-gate-live-status.server";
+import { SYSTEM_ADMIN_MUTATION_AUDIT_MODULE } from "./system-admin-mutation-audit.registry";
 
 const REFRESH_ACCOUNTING_READINESS_GATE_ACTION =
   "system_admin.diagnostics.refresh_readiness_gate_full" as const;
@@ -32,9 +35,21 @@ export async function refreshAccountingReadinessGateFullAction(
   _prevState: RefreshAccountingReadinessGateFullActionState,
   _formData: FormData
 ): Promise<RefreshAccountingReadinessGateFullActionState> {
-  const access = await resolveSystemAdminSectionAccess("diagnostics");
+  const contextResult = await resolveActionOperatingContext();
+  if (!contextResult.ok) {
+    return failServerAction({
+      action: REFRESH_ACCOUNTING_READINESS_GATE_ACTION,
+      error: contextResult.error,
+    });
+  }
 
-  if (access.kind !== "allowed") {
+  const guardResult = await guardSystemAdminSection({
+    sectionId: "diagnostics",
+    operatingContext: contextResult.operatingContext,
+    correlationId: contextResult.operatingContext.correlationId,
+  });
+
+  if (guardResult.kind !== "allowed") {
     return failServerAction({
       action: REFRESH_ACCOUNTING_READINESS_GATE_ACTION,
       error: AppErrors.forbidden(
@@ -42,6 +57,8 @@ export async function refreshAccountingReadinessGateFullAction(
       ),
     });
   }
+
+  const actorUserId = contextResult.operatingContext.actor.userId;
 
   try {
     resetAccountingReadinessGateLiveStatusCache();
@@ -51,11 +68,28 @@ export async function refreshAccountingReadinessGateFullAction(
     primeAccountingReadinessGateLiveStatusCache(snapshot);
     revalidatePath("/system-admin/diagnostics");
 
+    await recordActionAudit({
+      action: REFRESH_ACCOUNTING_READINESS_GATE_ACTION,
+      actorUserId,
+      module: SYSTEM_ADMIN_MUTATION_AUDIT_MODULE,
+      result: "success",
+      targetId: snapshot.checkedAt,
+      targetType: "accounting_readiness_gate",
+    });
+
     return serverActionSuccess({
       checkedAt: snapshot.checkedAt,
       runMode: "full",
     });
   } catch {
+    await recordActionAudit({
+      action: REFRESH_ACCOUNTING_READINESS_GATE_ACTION,
+      actorUserId,
+      module: SYSTEM_ADMIN_MUTATION_AUDIT_MODULE,
+      result: "failure",
+      targetType: "accounting_readiness_gate",
+    });
+
     return failServerAction({
       action: REFRESH_ACCOUNTING_READINESS_GATE_ACTION,
       error: AppErrors.internal(

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ACTIVE_ROUTE_PATH_HEADER,
   ORGANIZATION_SLUG_PATH_HINT_HEADER,
   TENANT_SLUG_HEADER,
 } from "@/lib/context/context.constants";
@@ -12,6 +13,7 @@ describe("tenant path routing headers", () => {
     expect(ORGANIZATION_SLUG_PATH_HINT_HEADER).toBe(
       "x-organization-slug-path-hint"
     );
+    expect(ACTIVE_ROUTE_PATH_HEADER).toBe("x-active-route-path");
   });
 
   it("does not treat organization path as tenant authority", () => {

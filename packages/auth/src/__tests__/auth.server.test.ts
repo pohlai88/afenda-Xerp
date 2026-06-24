@@ -117,6 +117,31 @@ describe("auth.server session helpers", () => {
     );
   });
 
+  it("throws UnlinkedPlatformUserError when platform user id is whitespace only", async () => {
+    resetAuthForTests();
+    mockGetSession.mockResolvedValueOnce({
+      session: {
+        id: "sess_1",
+        createdAt: new Date("2026-06-20T00:00:00.000Z"),
+        expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+        ipAddress: null,
+        userAgent: null,
+      },
+      user: {
+        id: "auth_user_1",
+        email: "user@example.com",
+        name: "Test User",
+        emailVerified: true,
+        image: null,
+      },
+    });
+    mockResolvePlatformActorUserId.mockResolvedValueOnce("   ");
+
+    await expect(requireAfendaAuthSession(new Headers())).rejects.toThrow(
+      UnlinkedPlatformUserError
+    );
+  });
+
   it("throws UnauthenticatedError when requireAfendaAuthSession has no session", async () => {
     resetAuthForTests();
     mockGetSession.mockResolvedValueOnce(null);

@@ -62,7 +62,8 @@ async function resolveGrantedModulePermissionKeys(
 export async function resolveManifestNavigationFromOperatingContext(
   operatingContext: OperatingContext,
   permissionDataSource: PermissionDataSource = createProductionAuthorizationDataSources()
-    .permission
+    .permission,
+  activeRoutePath?: string
 ): Promise<readonly AppShellMenuItem[]> {
   const grantedPermissionKeys = await resolveGrantedModulePermissionKeys(
     operatingContext,
@@ -72,5 +73,6 @@ export async function resolveManifestNavigationFromOperatingContext(
   return buildHydratedManifestNavigation({
     modules: toManifestNavModules(),
     grantedPermissionKeys,
+    ...(activeRoutePath === undefined ? {} : { activeRoutePath }),
   });
 }

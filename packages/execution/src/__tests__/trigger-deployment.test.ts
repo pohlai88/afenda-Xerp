@@ -1,13 +1,32 @@
 import { describe, expect, it, vi } from "vitest";
 
 import {
+  PUBLISH_OUTBOX_EVENTS_CRON,
+  PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
+  PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
+  PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
   readAppReleaseIdentifier,
   readWorkerReleaseCheckRequired,
-} from "../lib/app-release-identifier.js";
+} from "../index.js";
 import { evaluateWorkerReleaseAlignment } from "../lib/worker-release-alignment.js";
 import { fetchLatestTriggerDeployment } from "../services/trigger-deployment.service.js";
 
 const WORKER_RELEASE_MISMATCH = /mismatch/i;
+
+describe("publish outbox events trigger registry", () => {
+  it("keeps workflow, task, schedule, and cron constants aligned", () => {
+    expect(PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID).toBe(
+      "foundation.publish-outbox-events"
+    );
+    expect(PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID).toBe(
+      PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID
+    );
+    expect(PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID).toBe(
+      "foundation.publish-outbox-events.poll"
+    );
+    expect(PUBLISH_OUTBOX_EVENTS_CRON).toBe("*/5 * * * *");
+  });
+});
 
 describe("app release identifier", () => {
   it("prefers explicit AFENDA_RELEASE_SHA", () => {

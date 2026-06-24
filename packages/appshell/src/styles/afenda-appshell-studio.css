@@ -18,6 +18,9 @@
  * E. Revenue      — Revenue chart pattern (.app-shell-studio-revenue-*)
  * F. Invoice      — Invoice table pattern (.app-shell-studio-invoice-*)
  *
+ * NOTE: Statistics metric (§G) and trend (§H) patterns are block-local geometry
+ * in afenda-appshell.css. Chart token bridge vars are defined in Section A below.
+ *
  * Rule: New studio patterns land here only when reusable across ≥2 blocks.
  * Block-local geometry stays in afenda-appshell.css.
  *
@@ -54,6 +57,15 @@
   /* Layout rhythm */
   --app-shell-studio-gap-section: var(--app-shell-section-gap);
   --app-shell-studio-padding-card: var(--app-shell-padding-card);
+
+  /* Chart token bridge — Recharts fill / stroke aliases (see STUDIO-PATTERN-MAP §Chart) */
+  --app-shell-studio-chart-primary: var(--primary);
+  --app-shell-studio-chart-primary-muted: color-mix(
+    in oklab,
+    var(--primary) 20%,
+    transparent
+  );
+  --app-shell-studio-border-grid: var(--border);
 }
 
 /* ── B. Metric card (@layer components) ──────────────────────────────────── */

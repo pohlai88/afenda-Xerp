@@ -88,30 +88,30 @@ Never: implementation first, documentation later. This principle is normative in
 
 **AI agents — read in this order:**
 
-1. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — delivery authority (ADR-0013)
-2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — status source (ADR-0009)
-3. [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) — TIP statuses + **Implementation workflow**
-4. Target `docs/delivery/tips/[status] tip-*.md` — copy **§Handoff to implementation** before coding ([write-tip §10](../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation))
-5. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5
-6. ADR-0009–0013 (Accepted)
+1. [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **FDR workflow** (ADR-0014) — foundation + package implementation
+2. [`foundation-disposition.md`](foundation-disposition.md) — FDR human view + lane vocabulary
+3. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — runtime evidence (ADR-0009)
+4. [`package-registry.md`](package-registry.md) — PKG-* inventory
+5. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — Phases 0–9 historical narrative (complete)
+6. [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) — **TIP archive index** (historical evidence only)
+7. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5 — narrative compass
+8. ADR-0009–0015 (Accepted)
 
 | Document | Purpose |
 |----------|---------|
-| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v5.0.0** — Strategic compass with runtime truth snapshot. Narrative only; ADRs and registries win on conflict. |
-| [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | **Delivery authority** (ADR-0013) — Foundation Phases 0–9 before Accounting Core. |
+| [`foundation-delivery-authority.md`](foundation-delivery-authority.md) | **Active implementation authority** — FDR workflow; supersedes new TIP handoffs for foundation/packages |
+| [`foundation-disposition.md`](foundation-disposition.md) | Read-only FDR view synced from registry |
+| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v5.0.0** — Strategic compass. Narrative only; ADRs and FDR win on conflict. |
+| [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | Phase 0–9 gate record (complete); maintain only |
 | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed status of all foundation areas (ADR-0009). |
 | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-24 drift audit — authority chain refresh. |
-| [`repo-housekeeping-inventory.md`](repo-housekeeping-inventory.md) | Governed housekeeping inventory — superseded artifacts, cleanup candidates (pre-TIP-011). |
-| [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before `docs/delivery/tips/[status] tip-*.md`; **Implementation workflow** links write-tip handoff → afenda-coding-session |
-| [`../delivery/tips/[Complete] tip-010a-api-contract-governance.md`](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) | TIP-010A — Phase 5 API contract closeout (canonical) |
-| [`../delivery/tips/[Complete] tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) | TIP-007A — Phase 7 manifest pipeline (canonical) |
-| [`../delivery/tips/[Complete] tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) | TIP-013 — Phase 8 System Admin control plane (canonical) |
-| [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Proposal archive only** — superseded drafts; not implementation authority |
+| [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | TIP **archive** — delivered evidence; not new work authority |
+| [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Obsolete** — do not implement |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
 | [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
 | [`docs-app-architecture.md`](docs-app-architecture.md) | **`@afenda/docs`** — Fumadocs app boundaries, content model, isolation from ERP runtime (TIP-032). |
 
-**Foundation ADRs (Accepted 2026-06-23):** ADR-0009 Runtime Truth · ADR-0010 No Accounting Before Gate · ADR-0011 Multi-level Company Model · ADR-0012 Evidence-backed Docs · ADR-0013 TIP Roadmap Authority
+**Foundation ADRs (Accepted):** ADR-0009 Runtime Truth · ADR-0010 No Accounting Before Gate · ADR-0011 Multi-level Company Model · ADR-0012 Evidence-backed Docs · ADR-0013 TIP Roadmap (phase narrative; handoffs superseded by ADR-0014) · **ADR-0014 FDR** · ADR-0015 Accounting Contracts-Only
 
 **Enforcement:** `pnpm check:documentation-drift` · `pnpm quality:documentation-drift` (in `pnpm quality`)
 
@@ -124,7 +124,9 @@ Never: implementation first, documentation later. This principle is normative in
 | Document | Purpose |
 |----------|---------|
 | [`architecture-authority-baseline.md`](architecture-authority-baseline.md) | **Architecture Baseline Report** — fingerprint `ARCH-BASELINE-2026-06-23-v2` |
-| [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–020, PKG-R01–R05) |
+| [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–020, PKG-R01–R05) — pairs with FDR entries |
+| [`foundation-disposition.md`](foundation-disposition.md) | FDR read-only view (ADR-0014) |
+| [`foundation-delivery-authority.md`](foundation-delivery-authority.md) | FDR implementation workflow |
 | [`ownership-registry.md`](ownership-registry.md) | Single owner, rights, escalation |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |
 | [`layer-registry.md`](layer-registry.md) | Layer assignments and cross-layer rules |

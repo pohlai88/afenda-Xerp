@@ -41,6 +41,8 @@ export function runPublishOutboxEventsJob(
   service: OutboxPublishService,
   input: RunPublishOutboxEventsJobInput = {}
 ): Promise<ExecutionResult<PublishOutboxBatchResult>> {
+  // Batch-completion audit evidence is emitted by OutboxPublishService when
+  // createOutboxPublishService({ auditAdapter, ... }) wires an adapter.
   return service.publishBatch({
     ...(input.limit === undefined ? {} : { limit: input.limit }),
     lockedBy: input.lockedBy ?? PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,

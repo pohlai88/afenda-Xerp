@@ -92,6 +92,15 @@ jobs:
       - name: Gate 3e · CSS bridge negative search (Gate G)
         run: pnpm ui:guard:proof
 
+      - name: Gate 3f · Foundation disposition registry (ADR-0014)
+        run: pnpm check:foundation-disposition
+
+      - name: Gate 3g · System-admin mutation audit coverage (PKG007_ADMIN)
+        run: pnpm check:system-admin-mutation-audit
+
+      - name: Gate 3h · Accounting domain contracts-only (PKG-R01 / ADR-0015)
+        run: pnpm check:accounting-domain-contracts
+
       # ── Gate 4 · Build Safety ─────────────────────────────────────────────
       - name: Gate 4 · build
         env:

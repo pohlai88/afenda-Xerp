@@ -27,10 +27,11 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (33 direct edges)
+## Runtime Dependency Edges (35 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
+| `@afenda/accounting` | `@afenda/kernel` | Approved | ADR-0015 | — |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
 | `@afenda/appshell` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
@@ -42,6 +43,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/execution` | Approved | TIP-011 | — |
+| `@afenda/erp` | `@afenda/feature-flags` | Approved | fdr-009-rollout-flags | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/erp` | `@afenda/entitlements` | Approved | TIP-007A | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
@@ -98,13 +100,14 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
+| `@afenda/accounting` | `@afenda/kernel` |
 | `@afenda/appshell` | `@afenda/kernel`, `@afenda/ui` |
 | `@afenda/auth` | `@afenda/database`, `@afenda/kernel` |
 | `@afenda/database` | `@afenda/observability` |
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
@@ -134,6 +137,7 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
   → @afenda/design-system
   → @afenda/entitlements → @afenda/database
   → @afenda/execution → @afenda/kernel
+  → @afenda/feature-flags → @afenda/entitlements → @afenda/database
   → @afenda/kernel
   → @afenda/metadata
   → @afenda/metadata-ui → @afenda/metadata

@@ -9,11 +9,15 @@
 >
 > **Workflow:**
 > 1. MCP install → `packages/ui/src/components/shadcn-studio/` (staging/reference)
-> 2. Inspect visual pattern from MCP output
-> 3. Map Tailwind class combinations → studio class (table below)
-> 4. If no match: add to studio CSS (reusable), or keep local in `afenda-appshell.css`
-> 5. Strip `className` from all `@afenda/ui` governed primitives
-> 6. Zero raw Tailwind in production TSX — only semantic `.app-shell-*` classes
+> 2. Apply the **3-question decision filter** to every `className`:
+>    - **Q1** — `@afenda/ui` governed primitive? → strip `className`; use governed props
+>    - **Q2** — visual/semantic on plain HTML? → map via table below (or add studio CSS if ≥2 blocks)
+>    - **Q3** — layout/structural on plain HTML wrapper? → allowed as-is (`grid`, `flex`, `col-span`)
+> 3. If Q2 and no match: add to studio CSS (reusable), or use Afenda semantic Tailwind (`text-success` not `green-600`)
+> 4. Strip `className` from all `@afenda/ui` governed primitives (Q1)
+> 5. Move to `packages/appshell/src/shadcn-studio/blocks/` — zero raw Tailwind in production block TSX
+>
+> Canonical agent authority: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../../../.cursor/skills/afenda-shadcn-components/SKILL.md)
 
 ---
 
@@ -138,6 +142,19 @@ Used by: KPI stat, any card with a contextual icon
 | `p-5` (card padding) | `var(--app-shell-studio-padding-card)` |
 | Section gap | `var(--app-shell-studio-gap-section)` |
 
+### Chart token substitutions
+
+Used by Recharts chart config props and axis tick fill values inside statistics blocks.
+Do **not** use raw design-system tokens (e.g. `var(--primary)`) in block-level chart config.
+
+| Raw token in Recharts prop | Bridge var |
+|---|---|
+| `var(--primary)` in bar/area fill (highlight day) | `var(--app-shell-studio-chart-primary)` |
+| `color-mix(in oklab, var(--primary) 20%, transparent)` (muted fill) | `var(--app-shell-studio-chart-primary-muted)` |
+| `var(--muted-foreground)` in `XAxis` tick fill | `var(--app-shell-studio-text-muted)` |
+| `var(--border)` in `CartesianGrid` stroke | `var(--app-shell-studio-border-grid)` |
+| `--series-swatch-color` (inline CSS var on `.app-shell-statistics-trend-swatch`) | Block-local — no global mapping; set via `style` prop on the element |
+
 ---
 
 ---
@@ -206,6 +223,82 @@ Legacy mapping:
 | Old deleted class prefix | New canonical prefix |
 |---|---|
 | `app-shell-activity-` | `app-shell-studio-activity-` |
+
+---
+
+## §G — Statistics metric card pattern
+
+Used by: `StatisticsRevenueCard`, `StatisticsActivityCard`, `StatisticsLeadsCard`, `StatisticsProfileTrafficCard`
+
+> **Namespace:** `app-shell-statistics-metric-*`
+> **CSS source:** `afenda-appshell.css` (statistics-component-10 block)
+> **Distinction from KPI metric cards:** KPI cards use `app-shell-studio-metric-*` (studio layer); statistics cards use this block-local namespace. The two co-exist without conflict.
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| `<section>` page wrapper | `.app-shell-statistics-metric-section` | Max-width centred container |
+| 2-col responsive grid | `.app-shell-statistics-metric-grid` | 1-col → 2-col at `lg` breakpoint |
+| `<article>` card root | `.app-shell-statistics-metric-card` | Full-height card wrapper |
+| Horizontal copy + chart layout | `.app-shell-statistics-metric-panel` | Column on mobile → row at `sm` |
+| Copy column (label, value) | `.app-shell-statistics-metric-copy` | Fixed-width left column |
+| Title + caption stack | `.app-shell-statistics-metric-heading-stack` | Column flex, `gap-xs` |
+| Metric label | `.app-shell-statistics-metric-title` | `body` size, `heading-sm` weight |
+| Period caption | `.app-shell-statistics-metric-caption` | `body-sm` muted |
+| Value + change stack | `.app-shell-statistics-metric-value-stack` | Column flex, `gap-xs` |
+| Metric value | `.app-shell-statistics-metric-amount` | `title` size, tabular-nums |
+| Hero-scale value modifier | `.app-shell-statistics-metric-amount-hero` | `display` size, line-height-display |
+| Delta percentage | `.app-shell-statistics-metric-change` | `body-xs` muted tabular-nums |
+| Chart container (base) | `.app-shell-statistics-metric-chart` | `flex: 1 1 auto`, min-height 7rem |
+| Vertical bar chart modifier | `.app-shell-statistics-metric-chart-bars` | Fixed height 8.5rem |
+| Horizontal bar chart modifier | `.app-shell-statistics-metric-chart-bars-horizontal` | `max-width: 12rem`, aligned centre at `sm` |
+| Area chart modifier | `.app-shell-statistics-metric-chart-area` | Fixed height 8.5rem |
+
+---
+
+## §H — Statistics trend card pattern
+
+Used by: `StatisticsLineTrendsCard`
+
+> **Namespace:** `app-shell-statistics-trend-*`
+> **CSS source:** `afenda-appshell.css` (statistics-component-21 block)
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| `<section>` page wrapper | `.app-shell-statistics-trend-section` | Max-width centred container |
+| 1/2/3-col responsive grid | `.app-shell-statistics-trend-grid` | 1 → 2 at `sm` → 3 at `lg` |
+| `<article>` card root | `.app-shell-statistics-trend-card` | Full-height card wrapper |
+| `<CardHeader>` padded row | `.app-shell-statistics-trend-header` | Top + sides padding only |
+| Card title text | `.app-shell-statistics-trend-title` | `body` size, `heading-sm` weight |
+| Column/row split layout | `.app-shell-statistics-trend-layout` | Column on mobile → row at `sm` |
+| Series legend container | `.app-shell-statistics-trend-metrics` | `justify-between` on mobile → column at `sm` |
+| Series legend entry | `.app-shell-statistics-trend-metric` | Swatch + copy in flex row |
+| Swatch indicator | `.app-shell-statistics-trend-swatch` | 4px × 36px bar; colour via `style="--series-swatch-color: …"` |
+| Legend copy column | `.app-shell-statistics-trend-metric-copy` | Column flex, `gap-xs` |
+| Legend label | `.app-shell-statistics-trend-metric-label` | `body-xs` muted |
+| Legend value | `.app-shell-statistics-trend-metric-value` | `title` size, tabular-nums |
+| Chart container | `.app-shell-statistics-trend-chart` | `flex: 1`, height 7rem |
+
+---
+
+## §I — Module workspace chrome
+
+Used by: `AppShellModuleWorkspaceChrome`
+
+> **Namespace:** `app-shell-module-workspace-*` / `app-shell-module-tab-*` / `app-shell-module-breadcrumb`
+> **CSS source:** `afenda-appshell.css` (module workspace chrome block)
+> **Integration:** consumes `ManifestModuleId` → `resolveManifestModuleNavIcon` → `resolveAppShellNavIcon` for icon
+
+| Element | Production class | Notes |
+|---|---|---|
+| `<header>` wrapper | `.app-shell-module-workspace-header` | Flex column; padded; bottom border |
+| Title row | `.app-shell-module-workspace-title-row` | Icon + heading + actions in flex row |
+| Module icon container | `.app-shell-module-workspace-icon` | 2rem square, muted colour |
+| `<h1>` heading | `.app-shell-module-workspace-heading` | `title` size, truncates on overflow |
+| Action slot | `.app-shell-module-workspace-actions` | Right-aligned flex row; render only when prop is set |
+| `<nav>` breadcrumb | `.app-shell-module-breadcrumb` | `aria-label="Breadcrumb"`; `<ol>` list with `/` separators |
+| `<nav>` tab bar | `.app-shell-module-tab-bar` | `aria-label="Module navigation"`; overflow-x scroll |
+| Tab link | `.app-shell-module-tab-item` | `aria-current="page"` + `data-active="true"` when active; underline indicator |
+| Content body | `.app-shell-module-workspace-body` | Slot for page content |
 
 ---
 

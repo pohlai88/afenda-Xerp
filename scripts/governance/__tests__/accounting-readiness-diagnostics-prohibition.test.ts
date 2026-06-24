@@ -21,7 +21,7 @@ describe("accounting readiness diagnostics — ADR-0010 prohibition", () => {
     }
   });
 
-  it("does not create Architecture Authority sign-off artifacts", () => {
+  it("does not create the deprecated Architecture Authority sign-off path", () => {
     expect(
       existsSync(
         join(
@@ -30,5 +30,16 @@ describe("accounting readiness diagnostics — ADR-0010 prohibition", () => {
         )
       )
     ).toBe(false);
+  });
+
+  it("requires the canonical Phase 9 accounting readiness sign-off record", () => {
+    expect(
+      existsSync(
+        join(
+          repoRoot,
+          "docs/architecture/phase-9-accounting-readiness-sign-off.md"
+        )
+      )
+    ).toBe(true);
   });
 });

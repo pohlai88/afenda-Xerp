@@ -50,6 +50,11 @@ function findLegacyClassNameViolations(filePath: string): string[] {
   return violations;
 }
 
+const MODULE_WORKSPACE_CHROME_PATH = join(
+  blocksRoot,
+  "app-shell-module-workspace-chrome.tsx"
+);
+
 describe("studio legacy class guard", () => {
   it("does not reference deleted KPI or Sparkline class prefixes in block className", () => {
     const violations = collectBlockSourceFiles(blocksRoot).flatMap(
@@ -57,5 +62,22 @@ describe("studio legacy class guard", () => {
     );
 
     expect(violations).toEqual([]);
+  });
+
+  it("reconfirms studio normalization waiver: module workspace chrome uses semantic CSS module classes", () => {
+    const content = readFileSync(MODULE_WORKSPACE_CHROME_PATH, "utf8");
+    const semanticClasses = [
+      "app-shell-module-workspace-header",
+      "app-shell-module-workspace-body",
+      "app-shell-module-tab-bar",
+    ];
+
+    for (const className of semanticClasses) {
+      expect(content).toContain(className);
+    }
+
+    expect(findLegacyClassNameViolations(MODULE_WORKSPACE_CHROME_PATH)).toEqual(
+      []
+    );
   });
 });

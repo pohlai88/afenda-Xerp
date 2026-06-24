@@ -19,6 +19,7 @@ import { resolveContextSwitchPresentation } from "@/lib/context/resolve-context-
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-operating-context";
 import { internalErpMetadata } from "@/lib/metadata/site-metadata";
+import { resolveActiveRoutePathFromHeaders } from "@/lib/modules/resolve-active-route-path-from-headers.server";
 import { resolveManifestNavigationFromOperatingContext } from "@/lib/modules/resolve-manifest-navigation.server";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
 import {
@@ -53,6 +54,8 @@ export default async function ProtectedLayout({
     redirect("/sign-in?error=unlinked");
   }
 
+  const requestHeaders = await headers();
+  const activeRoutePath = resolveActiveRoutePathFromHeaders(requestHeaders);
   const identity = toAfendaAuthIdentity(session);
   const operatingResult = await resolveOperatingContextFromHeaders({
     actorUserId: identity.userId,
@@ -91,7 +94,11 @@ export default async function ProtectedLayout({
       )
     : READONLY_WORKSPACE_DASHBOARD_CAPABILITIES;
   const navigationPages = operatingResult.ok
-    ? await resolveManifestNavigationFromOperatingContext(operatingResult.value)
+    ? await resolveManifestNavigationFromOperatingContext(
+        operatingResult.value,
+        undefined,
+        activeRoutePath
+      )
     : undefined;
 
   return (

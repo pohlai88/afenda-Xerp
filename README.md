@@ -2,7 +2,7 @@
 
 Monorepo for **Afenda ERP** — a Next.js-first, TypeScript-first, manufacturing-focused ERP platform.
 
-Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md): governance and platform authority before business domains. TIP-013 Accounting Core may not begin until TIP-001 through TIP-012 are complete.
+Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses the [Foundation Disposition Registry (FDR)](docs/architecture/foundation-delivery-authority.md) (ADR-0014). Accounting runtime requires ADR + FDR gap closure — not new TIP docs.
 
 ## Repository structure
 

@@ -139,4 +139,89 @@ describe("buildManifestNavigation", () => {
     expect(isManifestModuleId("hrm")).toBe(true);
     expect(isManifestModuleId("unknown-module")).toBe(false);
   });
+
+  it("propagates badge from ManifestNavModuleEntry to serializable nav item", () => {
+    const modules = [
+      {
+        moduleId: "workspace" as const,
+        label: "Workspace",
+        routePath: "/modules/workspace",
+        permissionKey: "workspace.dashboard_read",
+        badge: "New",
+      },
+    ] satisfies readonly ManifestNavModuleEntry[];
+
+    const navigation = buildManifestNavigation({
+      modules,
+      grantedPermissionKeys: new Set(["workspace.dashboard_read"]),
+    });
+
+    expect(navigation[0]).toMatchObject({ badge: "New" });
+  });
+
+  it("propagates badge through hydration into ApplicationShell menu items", () => {
+    const hydrated = hydrateManifestNavigation(
+      buildManifestNavigation({
+        modules: [
+          {
+            moduleId: "workspace",
+            label: "Workspace",
+            routePath: "/modules/workspace",
+            permissionKey: "workspace.dashboard_read",
+            badge: "New",
+          },
+        ],
+        grantedPermissionKeys: new Set(["workspace.dashboard_read"]),
+      })
+    );
+
+    expect(hydrated[0]).toMatchObject({ badge: "New", label: "Workspace" });
+  });
+
+  it("propagates active through hydration into ApplicationShell menu items", () => {
+    const hydrated = hydrateManifestNavigation(
+      buildManifestNavigation({
+        modules: manifestNavFixture,
+        grantedPermissionKeys: new Set([
+          "hr.employee_read",
+          "workspace.dashboard_read",
+        ]),
+        activeRoutePath: "/modules/hrm",
+      })
+    );
+
+    const hrmItem = hydrated.find((item) => item.label === "HRM");
+    const workspaceItem = hydrated.find((item) => item.label === "Workspace");
+
+    expect(hrmItem).toMatchObject({ active: true });
+    expect(workspaceItem).not.toMatchObject({ active: true });
+  });
+
+  it("marks the active route item when activeRoutePath matches", () => {
+    const navigation = buildManifestNavigation({
+      modules: manifestNavFixture,
+      grantedPermissionKeys: new Set([
+        "hr.employee_read",
+        "workspace.dashboard_read",
+      ]),
+      activeRoutePath: "/modules/hrm",
+    });
+
+    const hrmItem = navigation.find((item) => item.label === "HRM");
+    const workspaceItem = navigation.find((item) => item.label === "Workspace");
+
+    expect(hrmItem).toMatchObject({ active: true });
+    expect(workspaceItem).toMatchObject({ active: false });
+  });
+
+  it("does not set active when activeRoutePath is not provided", () => {
+    const navigation = buildManifestNavigation({
+      modules: manifestNavFixture,
+      grantedPermissionKeys: new Set(["hr.employee_read"]),
+    });
+
+    for (const item of navigation) {
+      expect(item).not.toHaveProperty("active");
+    }
+  });
 });

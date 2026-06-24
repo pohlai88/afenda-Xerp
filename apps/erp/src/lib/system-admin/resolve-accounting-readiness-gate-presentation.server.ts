@@ -10,7 +10,7 @@ export type AccountingReadinessDiagnosticsOverallKind =
   | "evidence-pass";
 
 export const ACCOUNTING_READINESS_PHASE_9_APPROVAL_STATUS =
-  "pending-architecture-authority-sign-off" as const;
+  "architecture-authority-signed-off-2026-06-24" as const;
 
 export type AccountingReadinessPhase9ApprovalStatus =
   typeof ACCOUNTING_READINESS_PHASE_9_APPROVAL_STATUS;

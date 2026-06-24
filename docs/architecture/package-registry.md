@@ -5,12 +5,13 @@
 | **Status** | Baseline — Pending Sign-off |
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001A — Architecture Baseline Discovery |
+| **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
+| **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
-| **Active workspaces** | 21 |
+| **Active workspaces** | 22 |
 | **Planned workspaces** | 0 |
 
-This registry freezes every workspace package in the Afenda monorepo as of the baseline date.
+This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry (FDR)](foundation-disposition.md) — not in TIP delivery docs.
 
 ```text
 Unlisted packages are prohibited once Architecture Authority enforcement is active (TIP-001E).
@@ -37,7 +38,7 @@ TIP-001D validators consume these values exactly — no human variants.
 
 ---
 
-## Active Registry (21)
+## Active Registry (22)
 
 Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 
@@ -64,6 +65,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-018 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
 | PKG-019 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
 | PKG-020 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
+| PKG-R01 | `@afenda/accounting` | `packages/accounting` | Domain | active | Accounting domain contracts-only (ADR-0015) | Accounting Authority | Yes | `active` |
 
 **`active-exempt`:** PKG-017 is exempt from layer-dependency enforcement only. It remains registered and owned.
 
@@ -77,11 +79,11 @@ No filesystem-planned packages. Reserved domain slots are listed under Domain La
 
 ## Domain Layer (reserved)
 
-No domain packages exist at baseline. Slots reserved for TIP-013+ — architecture intent without implementation debt.
+One domain package is registry-active (contracts-only); four remain planned.
 
-| ID | Planned package | Owner domain | Status |
-|----|-----------------|--------------|--------|
-| PKG-R01 | `@afenda/accounting` | Accounting Authority | `planned` |
+| ID | Package | Owner domain | Status |
+|----|---------|--------------|--------|
+| PKG-R01 | `@afenda/accounting` | Accounting Authority | `active` (contracts-only — ADR-0015; filesystem delivered TIP-014 Slice 2) |
 | PKG-R02 | `@afenda/inventory` | Inventory Authority | `planned` |
 | PKG-R03 | `@afenda/hrm` | HRM Authority | `planned` |
 | PKG-R04 | `@afenda/crm` | CRM Authority | `planned` |
@@ -111,6 +113,8 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-20 | Activated | PKG-011 | `@afenda/metadata` registered active (metadata authority) | TIP-005 |
 | 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
 | 2026-06-23 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-23-v2` — TIP-000D documentation authority closeout (ADR-0009–0013) | ADR-0012 |
+| 2026-06-24 | Activated (contracts-only) | PKG-R01 | `@afenda/accounting` promoted active; filesystem pending TIP-014 Slice 2 | ADR-0015 |
+| 2026-06-24 | Filesystem | PKG-R01 | `packages/accounting/` scaffold + kernel dependency edge | TIP-014 Slice 2 |
 
 ---
 

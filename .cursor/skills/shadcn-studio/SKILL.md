@@ -9,7 +9,7 @@ description: >-
 
 # shadcn/studio (Afenda ERP)
 
-Authority: `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflow discipline).
+Authority: [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (constitutional delivery acceleration) · `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflow discipline).
 
 ## Repo wiring
 

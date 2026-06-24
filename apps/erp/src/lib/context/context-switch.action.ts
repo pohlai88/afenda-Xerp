@@ -5,6 +5,7 @@ import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-opera
 import { persistWorkspaceSelectionCookies } from "@/lib/context/workspace-selection-cookies.server";
 import { failServerAction } from "@/lib/server-actions/fail-server-action";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
+import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
 import { resolveActionOperatingContext } from "@/lib/server-actions/resolve-action-operating-context.server";
 import {
   type ServerActionResult,
@@ -57,10 +58,20 @@ export async function switchOperatingContextAction(
   }
 
   const { operatingContext } = contextResult;
+  const actorUserId = contextResult.session.user.userId?.trim() ?? "";
 
   await persistWorkspaceSelectionCookies({
     companySlug: parsed.value.companySlug ?? null,
     organizationSlug: parsed.value.organizationSlug ?? null,
+  });
+
+  await recordActionAudit({
+    action: "workspace.context.switch",
+    actorUserId,
+    module: "erp.workspace",
+    result: "success",
+    targetId: operatingContext.workspace.companyId,
+    targetType: "operating_context",
   });
 
   return serverActionSuccess({

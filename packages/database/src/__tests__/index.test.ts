@@ -39,6 +39,8 @@ import {
   platformSchema,
   policies,
   projects,
+  RLS_GRANT_SCOPE_TYPES,
+  RLS_SESSION_KEYS,
   rolePermissions,
   roles,
   storageObjects,
@@ -47,6 +49,7 @@ import {
   tenants,
   usageLimitCounters,
   users,
+  withRlsSessionContext,
 } from "../index.js";
 
 const TEST_PROJECT_REF = "abcdefghijklmnopqrst";
@@ -126,6 +129,26 @@ describe("@afenda/database package", () => {
     expect(Object.keys(platformSchema).sort()).toEqual(
       Object.keys(PLATFORM_TABLES).sort()
     );
+  });
+
+  it("exports stable RLS session and grant-scope public surfaces", () => {
+    expect(typeof withRlsSessionContext).toBe("function");
+    expect(RLS_SESSION_KEYS).toEqual({
+      tenantId: "app.tenant_id",
+      platformUserId: "app.platform_user_id",
+      legalEntityId: "app.legal_entity_id",
+    });
+    expect(RLS_GRANT_SCOPE_TYPES).toEqual([
+      "platform",
+      "tenant",
+      "entity_group",
+      "company",
+      "organization",
+      "team",
+      "project",
+      "consolidation_view",
+      "cross_company",
+    ]);
   });
 
   it("supports audit event actor, scope, action, target, result, and correlation fields", () => {

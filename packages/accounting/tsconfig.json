@@ -1,0 +1,11 @@
+{
+  "extends": "@afenda/typescript-config/strict-node.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts"],
+  "references": [{ "path": "../kernel" }]
+}

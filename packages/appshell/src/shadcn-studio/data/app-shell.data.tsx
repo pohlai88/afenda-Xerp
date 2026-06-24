@@ -28,6 +28,7 @@ export type AppShellMenuItem = {
   readonly label: string;
 } & (
   | {
+      readonly active?: boolean;
       readonly href: string;
       readonly badge?: string;
       readonly items?: never;

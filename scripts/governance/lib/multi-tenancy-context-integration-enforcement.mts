@@ -2,7 +2,7 @@
  * Shared Step 8 API/action/AppShell integration enforcement (multi-tenancy.md §572–579).
  */
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
@@ -26,6 +26,71 @@ export const CONTEXT_INTEGRATION_FORBIDDEN_PATTERNS = [
   "session.user.tenantId",
   "session.user.companyId",
 ] as const;
+
+const USE_SERVER_DIRECTIVE = '"use server"';
+
+function listErpSourceFiles(directory: string): string[] {
+  if (!existsSync(directory)) {
+    return [];
+  }
+
+  const files: string[] = [];
+
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === "node_modules" || entry.name === "dist") {
+        continue;
+      }
+      files.push(...listErpSourceFiles(fullPath));
+      continue;
+    }
+
+    if (
+      entry.isFile() &&
+      entry.name.endsWith(".ts") &&
+      !entry.name.includes(".test.")
+    ) {
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
+
+function collectProtectedServerActionViolations(
+  erpSrc: string
+): ContextIntegrationEnforcementViolation[] {
+  const violations: ContextIntegrationEnforcementViolation[] = [];
+
+  for (const filePath of listErpSourceFiles(erpSrc)) {
+    const source = readFileSync(filePath, "utf8");
+    if (!source.includes(USE_SERVER_DIRECTIVE)) {
+      continue;
+    }
+
+    if (!source.includes("resolveActionOperatingContext")) {
+      violations.push({
+        rule: "protected-server-action-bridge-missing",
+        file: filePath,
+        message:
+          "Protected server actions must resolve operating context via resolveActionOperatingContext",
+      });
+    }
+
+    for (const forbidden of CONTEXT_INTEGRATION_FORBIDDEN_PATTERNS) {
+      if (source.includes(forbidden)) {
+        violations.push({
+          rule: "forbidden-session-context",
+          file: filePath,
+          message: `Server action must not read workspace from session: ${forbidden}`,
+        });
+      }
+    }
+  }
+
+  return violations;
+}
 
 function extractSection(content: string, heading: string): string | null {
   const headingIndex = content.indexOf(heading);
@@ -205,6 +270,8 @@ function collectIntegrationModuleViolations(
         "apps/erp/src/__tests__/operating-context-integration.test.ts is required",
     });
   }
+
+  violations.push(...collectProtectedServerActionViolations(erpSrc));
 
   return violations;
 }

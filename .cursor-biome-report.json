@@ -1,2 +1,0 @@
-[0m{"summary":{"changed":0,"unchanged":1885,"matches":0,"duration":6127580900,"errors":0,"warnings":0,"infos":0,"skipped":0,"suggestedFixesSkipped":0,"diagnosticsNotPrinted":0,"scannerDuration":8097337600},"diagnostics":[],"command":"ci"}[0m
-The --json option is unstable/experimental and its output might change between patches/minor releases.

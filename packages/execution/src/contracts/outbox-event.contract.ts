@@ -22,6 +22,15 @@ export const OUTBOX_STATUSES = [
 
 export type OutboxStatus = (typeof OUTBOX_STATUSES)[number];
 
+/** Metadata persisted on outbox batch-completion audit evidence rows. */
+export interface OutboxBatchAuditMetadata {
+  readonly claimed: number;
+  readonly deadLetter: number;
+  readonly failed: number;
+  readonly published: number;
+  readonly skipped: number;
+}
+
 export interface OutboxEventRecord {
   readonly actorId: string | null;
   readonly actorType: string | null;

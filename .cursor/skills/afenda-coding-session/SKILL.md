@@ -31,21 +31,36 @@ disable-model-invocation: true
 
 ---
 
-## 0.0 · Receiving handoff from write-tip
+## 0.0 · Receiving handoff — FDR (active) and TIP archive (historical)
 
-When the task implements a foundation TIP (`docs/delivery/tips/[status] tip-*.md`):
+### FDR — foundation and package work (ADR-0014, default after 2026-06-24)
 
-1. Read [`tip-status-index.md`](../../../docs/delivery/tip-status-index.md) — confirm TIP status, **§Runtime implementation sequence**, and blockers.
-2. Open the prefixed delivery doc under `docs/delivery/tips/` — scroll to **§Handoff to implementation**.
-3. Copy **one slice block only** (multi-package TIPs use numbered slices; see [write-tip §10](../../../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation)).
-4. Paste into Phase 0 below — the six lines **must match** the handoff block verbatim unless Architecture Authority approves a narrower slice.
-5. At session end, §11 Completion Report **closes the TIP DoD rows** the handoff referenced.
+When the task touches a foundation or domain package listed in [`foundation-disposition.registry.ts`](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts):
 
-**Do not start coding** if the delivery doc has no Handoff section — run `/write-tip` first or escalate.
+1. Read [`foundation-delivery-authority.md`](../../../docs/architecture/foundation-delivery-authority.md) — workflow and authority hierarchy.
+2. Read the FDR entry: `lane`, `gates`, `prohibited`, `allowedAgents`, `runtimeOwner` (registry `knownGaps` deprecated — use FDR §Remaining gaps).
+3. Read [`afenda-runtime-truth-matrix.md`](../../../docs/architecture/afenda-runtime-truth-matrix.md) for evidence status.
+4. Read target FDR under `docs/delivery/FDR/` when implementing — copy one §Handoff slice block into Phase 0.
+5. At session end, §11 Completion Report closes FDR §Remaining gaps + enterprise attestation (enterprise-erp-standards §9).
 
-**Priority chain (dependency order — not TIP number):** See [tip-status-index §Runtime implementation sequence](../../../docs/delivery/tip-status-index.md#runtime-implementation-sequence). Current spine: TIP-011 Slices 1–3 → TIP-012 Slices 1–2 → then TIP-010A / TIP-007A → TIP-013.
+**Do not author new TIP delivery docs** for foundation or package work. Registry edits → `foundation-registry-owner` only.
 
-**Subagent:** For slice-by-slice execution with prerequisite checks, use [tip-slice-implementer](../agents/tip-slice-implementer.md).
+### TIP archive — historical evidence only
+
+Completed TIPs under `docs/delivery/tips/[status] tip-*.md` are **archive-lane** evidence (Phases 0–9). Use only when:
+
+- Retrieving proof for a **already-delivered** slice, or
+- Explicitly invoked to re-run a numbered handoff (e.g. `tip-slice-implementer` on a closed TIP).
+
+For archived TIP handoffs:
+
+1. Read [`tip-status-index.md`](../../../docs/delivery/tip-status-index.md) — archive index, not implementation authority.
+2. Copy **one** §Handoff slice block if explicitly scoped to that historical TIP.
+3. Paste into Phase 0 — six lines must match the handoff block.
+
+**Do not start new foundation work** from TIP docs when FDR has an entry for the package.
+
+**Subagent:** For FDR slice execution use [fdr-slice-implementer](../agents/fdr-slice-implementer.md). For parallel batches use [fdr-orchestrator](../agents/fdr-orchestrator.md). For explicit historical TIP slice replay, use [tip-slice-implementer](../agents/tip-slice-implementer.md). For FDR-governed ad-hoc work, use [afenda-governed-implementer](../agents/afenda-governed-implementer.md).
 
 ---
 

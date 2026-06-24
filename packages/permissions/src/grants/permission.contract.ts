@@ -37,9 +37,20 @@ export const PERMISSION_REGISTRY = {
     },
   },
   accounting: {
+    coa: {
+      read: definePermissionKey("accounting", "coa_read"),
+      manage: definePermissionKey("accounting", "coa_manage"),
+    },
+    fiscalPeriod: {
+      read: definePermissionKey("accounting", "fiscal_period_read"),
+      manage: definePermissionKey("accounting", "fiscal_period_manage"),
+      close: definePermissionKey("accounting", "fiscal_period_close"),
+    },
     journal: {
       read: definePermissionKey("accounting", "journal_read"),
       post: definePermissionKey("accounting", "journal_post"),
+      approve: definePermissionKey("accounting", "journal_approve"),
+      reverse: definePermissionKey("accounting", "journal_reverse"),
     },
   },
   inventory: {
