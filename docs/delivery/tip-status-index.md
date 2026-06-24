@@ -44,7 +44,7 @@ A TIP may be implemented **only when all five** are true:
 9. pnpm check:documentation-drift
 ```
 
-**Current runtime priority:** Spine + Phase 5–8 foundation slices **delivered** (Steps 1–9). **Next:** [Partially implemented TIP sequence](#partially-implemented-tip-sequence) — Phase 1 authority closeout, then security/UI follow-on. Phase 9 Accounting Readiness Gate remains blocked (ADR-0010).
+**Current runtime priority:** Foundation Phases 1–8 materially advanced; **Phase 4 RLS proof** and **Phase 9 Accounting Readiness Gate** remain. **Next:** TIP-008B domain runtime (deferred) + TIP-032 Slice 6 deploy (parallel). Phase 9 gate remains blocked (ADR-0010).
 
 ---
 
@@ -105,18 +105,18 @@ A TIP may be implemented **only when all five** are true:
 
 | Step | TIP | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| **→ 19** | **TIP-UI-05** | **1** Loading + error boundaries | `@afenda/erp` | TIP-UI-02 ✅ | [§Slice 1](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-1--governed-loading-and-error-boundaries-afendaerp) |
+| **→ 19** | **TIP-UI-05** | **1** Loading + error boundaries | `@afenda/erp` | TIP-UI-02 ✅ | [§Slice 1](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-1--governed-loading-and-error-boundaries-afendaerp) — **delivered** |
 | **→ 20** | **TIP-UI-04** | **2** ERP metadata production page | `@afenda/erp` | Step 19 (parallel OK) | [§Slice 2](tips/%5BComplete%5D%20tip-ui-04-metadata-ui-renderers.md#slice-2--erp-production-page-wiring-afendaerp) — **delivered** |
-| 21 | **TIP-UI-05** | **2** ApplicationShell production polish | `@afenda/erp` | Steps 10–12, 19 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-2--applicationshell-production-polish-afendaerp) |
-| 22 | **TIP-UI-05** | **3** Metadata page + module placeholder UX | `@afenda/erp` | Step 20 | [§Slice 3](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-3--metadata-driven-page--module-placeholder-ux-afendaerp) — **delivered** |
-| **→ 23** | **TIP-UI-05** | **4** Empty-state + card-nav (shadcn/studio) | `@afenda/erp` | Slice 1 | [§Slice 4](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-4--shadcnstudio-empty-state--card-nav-afendaerp) — **delivered** |
-| **→ 24** | **TIP-UI-05** | **5** Form-layout + account-settings | `@afenda/erp` | Slice 4 | [§Slice 5](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-5--shadcnstudio-form-layout--account-settings-afendaerp) — **delivered** |
-| 25 | **TIP-UI-05** | **6** Registry + chart KPI blocks | `@afenda/appshell` | Slice 2 | [§Slice 6](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-6--dependency-registry--chart-kpi-blocks-afendaappshell) — **delivered** |
-| 26 | **TIP-UI-05** | **7** System Admin DataTable | `@afenda/erp` | Slice 6 | [§Slice 7](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-7--shadcnstudio-datatable-afendaerp) — **delivered** |
-| 27 | **TIP-UI-05** | **8** Invite wizard + admin dialog | `@afenda/erp` | Slice 5 | [§Slice 8](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-8--shadcnstudio-multi-step-invite--admin-dialog-afendaerp) — **delivered** |
-| **→ 28** | **TIP-UI-05** | **10** | UI Gate A stepper normalization | `@afenda/ui` | Slice 8 | [§Slice 10](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-10--ui-gate-a-stepper-storybook-normalization-afendaui) — **delivered** |
-| **→ 29** | **TIP-UI-05** | **11** | ERP test suite repair | `@afenda/erp` | Slices 7–8 | [§Slice 11](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-11--erp-test-suite-repair-afendaerp) — **delivered** |
-| **→ 30** | **TIP-UI-05** | **12** | Invite role radio a11y | `@afenda/erp` | Slice 8 | [§Slice 12](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-12--invite-wizard-role-radio-keyboard-association-afendaerp) — **delivered** |
+| 21 | **TIP-UI-05** | **2** ApplicationShell production polish | `@afenda/erp` | Steps 10–12, 19 | [§Slice 2](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-2--applicationshell-production-polish-afendaerp) — **delivered** |
+| 22 | **TIP-UI-05** | **3** Metadata page + module placeholder UX | `@afenda/erp` | Step 20 | [§Slice 3](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-3--metadata-driven-page--module-placeholder-ux-afendaerp) — **delivered** |
+| **→ 23** | **TIP-UI-05** | **4** Empty-state + card-nav (shadcn/studio) | `@afenda/erp` | Slice 1 | [§Slice 4](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-4--shadcnstudio-empty-state--card-nav-afendaerp) — **delivered** |
+| **→ 24** | **TIP-UI-05** | **5** Form-layout + account-settings | `@afenda/erp` | Slice 4 | [§Slice 5](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-5--shadcnstudio-form-layout--account-settings-afendaerp) — **delivered** |
+| 25 | **TIP-UI-05** | **6** Registry + chart KPI blocks | `@afenda/appshell` | Slice 2 | [§Slice 6](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-6--dependency-registry--chart-kpi-blocks-afendaappshell) — **delivered** |
+| 26 | **TIP-UI-05** | **7** System Admin DataTable | `@afenda/erp` | Slice 6 | [§Slice 7](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-7--shadcnstudio-datatable-afendaerp) — **delivered** |
+| 27 | **TIP-UI-05** | **8** Invite wizard + admin dialog | `@afenda/erp` | Slice 5 | [§Slice 8](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-8--shadcnstudio-multi-step-invite--admin-dialog-afendaerp) — **delivered** |
+| **→ 28** | **TIP-UI-05** | **10** | UI Gate A stepper normalization | `@afenda/ui` | Slice 8 | [§Slice 10](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-10--ui-gate-a-stepper-storybook-normalization-afendaui) — **delivered** |
+| **→ 29** | **TIP-UI-05** | **11** | ERP test suite repair | `@afenda/erp` | Slices 7–8 | [§Slice 11](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-11--erp-test-suite-repair-afendaerp) — **delivered** |
+| **→ 30** | **TIP-UI-05** | **12** | Invite role radio a11y | `@afenda/erp` | Slice 8 | [§Slice 12](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-12--invite-wizard-role-radio-keyboard-association-afendaerp) — **delivered** |
 | 31 | **TIP-UI-03** | **2** | Visual regression + ERP shell closeout | `@afenda/appshell` + `@afenda/erp` | Steps 12, 21–30 | [§Slice 2](tips/%5BComplete%5D%20tip-ui-03-appshell-token-migration.md#slice-2--visual-regression--erp-integration-closeout) ✅ |
 
 **Delivered in Track C (do not re-implement):** [TIP-UI-03](tips/%5BComplete%5D%20tip-ui-03-appshell-token-migration.md) Complete (Slices 1–3); [TIP-UI-04 §Slice 1–2](tips/%5BComplete%5D%20tip-ui-04-metadata-ui-renderers.md) package renderers + production `/metadata-workspace`; manifest module placeholders via [TIP-007A](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) at `/modules/[moduleId]`.
@@ -136,15 +136,15 @@ A TIP may be implemented **only when all five** are true:
 | --- | --- | --- | --- |
 | TIP-006 | Complete | — (Steps 10–12 delivered) | Phase 1 gate (with TIP-007/008) |
 | TIP-007 | Complete | — (Step 13 delivered) | Phase 1 gate (with TIP-008); TIP-008B vocabulary |
-| TIP-007/012 | Complete (foundation) | Slices **A–G** delivered; DoD #1–16 closed; Phase 4 RLS artifact + live gates complete | Cross-TIP UX polish (TIP-UI-05) only |
+| TIP-007/012 | Complete (foundation) | Slices **A–G** delivered; DoD #1–16 closed; Phase 4 RLS artifact + live gates complete | Maintain only — TIP-UI-05 Complete |
 | TIP-030 | Complete | Slices 1–2 delivered (`project` + `team` scope) | — |
 | TIP-008A | Complete | Slices 1–5 delivered; formal sign-off | Maintain only |
 | TIP-008B | Partially Implemented | Step **15** delivered (authority map) | Domain package runtime (PKG-R02–R05) |
 | TIP-010 | Complete | — (Step 17 delivered) | Phase 3 gate |
 | TIP-UI-03 | Complete | — (Steps 23, 28 delivered) | — |
 | TIP-UI-04 | Complete | — (Step 20 delivered) | TIP-UI-05; TIP-022 |
-| TIP-UI-05 | Partially Implemented | Step **19** (Slices **4–8** shadcn/studio adaptation authored) | Phase 6 gate |
-| TIP-032 | Partially Implemented | Step **24** (Slices 1–4 delivered) | — (parallel track) |
+| TIP-UI-05 | Complete | — (Steps 19–30 delivered; DoD #1–24 closed) | — |
+| TIP-032 | Partially Implemented | Step **29** (Slice 5 MDX blocks) | — (parallel track) |
 
 ### Do not start yet
 
@@ -222,7 +222,7 @@ All paths relative to `docs/delivery/`.
 | TIP-UI-02 | [tips/[Complete] tip-ui-02-component-library.md](tips/%5BComplete%5D%20tip-ui-02-component-library.md) | Complete | 58 components, 68+ tests | ADR-0008 batch deferred |
 | TIP-UI-03 | [tips/[Complete] tip-ui-03-appshell-token-migration.md](tips/%5BComplete%5D%20tip-ui-03-appshell-token-migration.md) | Complete | `afenda-appshell.css`; compile-time contract guards; ERP closeout test | — |
 | TIP-UI-04 | [tips/[Complete] tip-ui-04-metadata-ui-renderers.md](tips/%5BComplete%5D%20tip-ui-04-metadata-ui-renderers.md) | Complete | Renderers + tests (Slice 1); production `/metadata-workspace` route (Slice 2) | — |
-| TIP-UI-05 | [tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md) | Partially Implemented | Auth, globals, manifest placeholders (TIP-007A) | **Step 19** — boundaries; **21–22** — polish + metadata UX |
+| TIP-UI-05 | [tips/[Complete] tip-ui-05-erp-app-surfaces.md](tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md) | Complete | Slices 1–12 delivered; DoD #1–24 closed; Phase 6 gate evidence | — |
 | TIP-UI-06 | [tips/[Blocked] tip-ui-06-react19-ref-as-prop.md](tips/%5BBlocked%5D%20tip-ui-06-react19-ref-as-prop.md) | Blocked | ADR-0008 Proposed | Package-wide batch not started |
 
 ### Parallel track — non-blocking (master plan Phase 3)

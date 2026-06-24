@@ -99,7 +99,7 @@ ADR-0012 evidence rule: renderer delivery is proven by file, test, and export pa
 
 ## Blocks
 
-- [TIP-UI-05 ERP App Surfaces](./[Partially%20Implemented]%20tip-ui-05-erp-app-surfaces.md) — metadata-driven production pages and module placeholder closeout
+- [TIP-UI-05 ERP App Surfaces](./%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md) — metadata-driven production pages and module placeholder closeout
 - TIP-022 Dashboard v1 (Phase 2) — dashboard widget render path requires metadata renderers + ERP wiring
 - Foundation Phase 6 gate — "Metadata renderers demonstrated on at least one ERP page" ([`pre-accounting-foundation-roadmap.md`](../../architecture/pre-accounting-foundation-roadmap.md))
 

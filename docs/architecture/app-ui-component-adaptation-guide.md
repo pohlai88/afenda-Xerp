@@ -35,7 +35,7 @@ This guide enables future AI coding agents and engineers to:
 | [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md) | UI consumption policy — author vs consumer rules |
 | [`TIP-006`](../delivery/tips/%5BComplete%5D%20tip-006-appshell-authority.md) | AppShell authority — contracts frozen, public API fixed |
 | [`TIP-UI-02`](../delivery/tips/%5BComplete%5D%20tip-ui-02-component-library.md) | 58 UI primitives live in `@afenda/ui` — no new primitives without governance |
-| [`TIP-UI-05`](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md) | ERP app surface delivery — **active** (Steps 19–23 pending) |
+| [`TIP-UI-05`](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md) | ERP app surface delivery — **Complete** (Slices 1–12) |
 | [`tip-status-index.md`](../delivery/tip-status-index.md) | Delivery sequence authority — Track C UI surfaces |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |
 | [`layer-registry.md`](layer-registry.md) | Approved layer assignments |
@@ -366,11 +366,11 @@ Visual reference: Storybook — Afenda App Shell / [BLOCK_NAME]
 
 | Pattern | TIP-UI-05 slice | Storybook reference | Key constraint reminder |
 |---------|-----------------|---------------------|------------------------|
-| Empty State + card-nav | [§Slice 4](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-4--shadcnstudio-empty-state--card-nav-afendaerp) | n/a (ERP inline) | `pnpm ui:guard:scan`; zero `className` on primitives |
-| Form layout + account settings | [§Slice 5](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-5--shadcnstudio-form-layout--account-settings-afendaerp) | n/a (ERP only) | Server Action + Zod; govern-primitive consumer 8/8 |
-| Chart KPI (statistics/charts/widgets) | [§Slice 6](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-6--dependency-registry--chart-kpi-blocks-afendaappshell) | `AppShell / Dashboard KPI Stat` | `recharts` + registry first; `pnpm ui:guard` |
-| DataTable (users/audit list) | [§Slice 7](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-7--shadcnstudio-datatable-afendaerp) | n/a (ERP only) | `@tanstack/react-table` in registry first |
-| Multi-step invite + admin dialog | [§Slice 8](../delivery/tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-8--shadcnstudio-multi-step-invite--admin-dialog-afendaerp) | n/a | Discriminated union; no `AppShellActivityDialog` duplication |
+| Empty State + card-nav | [§Slice 4](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-4--shadcnstudio-empty-state--card-nav-afendaerp) | n/a (ERP inline) | `pnpm ui:guard:scan`; zero `className` on primitives |
+| Form layout + account settings | [§Slice 5](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-5--shadcnstudio-form-layout--account-settings-afendaerp) | n/a (ERP only) | Server Action + Zod; govern-primitive consumer 8/8 |
+| Chart KPI (statistics/charts/widgets) | [§Slice 6](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-6--dependency-registry--chart-kpi-blocks-afendaappshell) | `AppShell / Dashboard KPI Stat` | `recharts` + registry first; `pnpm ui:guard` |
+| DataTable (users/audit list) | [§Slice 7](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-7--shadcnstudio-datatable-afendaerp) | n/a (ERP only) | `@tanstack/react-table` in registry first |
+| Multi-step invite + admin dialog | [§Slice 8](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-8--shadcnstudio-multi-step-invite--admin-dialog-afendaerp) | n/a | Discriminated union; no `AppShellActivityDialog` duplication |
 | Rejected shell/marketing/eCommerce | §Rejected in TIP-UI-05 | — | **Do not implement** |
 | onboarding-feed | Reference only | — | Layout ideas only — no copy |
 

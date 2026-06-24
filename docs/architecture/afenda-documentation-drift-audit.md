@@ -114,22 +114,24 @@ Summary counts (2026-06-23):
 
 ## 7. Missing pre-accounting foundation areas
 
-These must complete before Accounting Core (`TIP-013+`):
+> **Historical (2026-06-23 initial audit).** Rows 2–11 below were open at first audit; **§13 and §14** record resolutions. Do not treat this table as current blockers.
 
-| # | Area | Current state | Required TIP phase |
+These must complete before Accounting Core (`TIP-014+`):
+
+| # | Area | Current state (2026-06-24) | Required TIP phase |
 | --- | --- | --- | --- |
-| 1 | Documentation truth reset | This audit | Phase 0 |
+| 1 | Documentation truth reset | **Complete** | Phase 0 |
 | 2 | Frozen AppShell authority contracts | **Complete** — `packages/appshell/src/contracts/` | Phase 1 / TIP-006 |
-| 3 | ERP platform authority map (TIP-007 closeout) | Partial — multi-tenancy delivered, platform map open | Phase 1 |
-| 4 | Master data authority (business entities) | Not started | Phase 1 / TIP-008B |
-| 5 | Database outbox pattern | Not implemented | Phase 2 / TIP-011 |
-| 6 | Full operating spine lifecycle | Validation→Auth→Policy→Execute→Audit exists partially; outbox/event publication missing | Phase 2 / TIP-012 |
-| 7 | API contract standard enforcement | Contracts exist; not all routes governed | Phase 5 |
-| 8 | Feature manifest → navigation pipeline | Contract only | Phase 7 |
-| 9 | System Admin control plane | No routes/UI | Phase 8 |
-| 10 | Consolidation scope resolution (non-accounting) | Stub only (`consolidation-scope-resolution.stub.ts`) | Phase 4 prep |
-| 11 | ERP module placeholder surfaces | Only protected dashboard + dev harnesses | Phase 6 / TIP-UI-05 |
-| 12 | Delivery doc status hygiene | Multiple stale statuses | Phase 0 |
+| 3 | ERP platform authority map (TIP-007 closeout) | **Complete** — platform entity barrel | Phase 1 |
+| 4 | Master data authority (business entities) | **Partial** — TIP-008B authority map only | Phase 1 / TIP-008B |
+| 5 | Database outbox pattern | **Complete** — TIP-011 | Phase 2 |
+| 6 | Full operating spine lifecycle | **Complete** — TIP-012 + outbox on dashboard PUT | Phase 2 |
+| 7 | API contract standard enforcement | **Complete** — TIP-010A | Phase 5 |
+| 8 | Feature manifest → navigation pipeline | **Complete** — TIP-007A | Phase 7 |
+| 9 | System Admin control plane | **Complete (MVP)** — TIP-013 | Phase 8 |
+| 10 | Consolidation scope resolution (non-accounting) | **Complete** — resolver + ERP wiring (TIP-008A) | Phase 4 prep |
+| 11 | ERP module placeholder surfaces | **Complete** — TIP-007A + TIP-UI-05 | Phase 6 |
+| 12 | Delivery doc status hygiene | **Complete** — TIP-000D + drift guard | Phase 0 |
 
 ---
 
@@ -227,6 +229,20 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 | Master plan v5 runtime table | Updated 2026-06-24; foundation TIP status table aligned with tip-status-index |
 | Drift guard | Duplicate TIP basename detection added |
 
-**Remaining documentation gaps (not typos):** TIP-UI-03/04/05 partial slices; TIP-007/012 RLS proof; TIP-032 deploy target; session→context on non-API surfaces.
+**Remaining documentation gaps (not typos):** TIP-008B domain runtime; TIP-032 deploy target (Slice 6); session→context on non-API surfaces; Phase 9 Accounting Readiness Gate.
+
+## 14. Housekeeping refresh (2026-06-24)
+
+**Trigger:** Comprehensive documentation-drift audit (`/documentation-audit` + `/documentation-drift`).
+
+| Action | Result |
+| --- | --- |
+| TIP-UI-05 promoted | `[Partially Implemented]` → `[Complete]` — all 12 slices + DoD #1–24 closed |
+| Phase 6 roadmap + master plan §5.2 | TIP-UI-03/04/05 marked Complete; gate checkboxes checked |
+| Phase 4 roadmap | Entity group + consolidation scope aligned to implemented resolver evidence |
+| Runtime matrix ERP row | `partially-implemented` → `implemented` |
+| Master plan runtime snapshot | metadata-ui, TIP-007/012, TIP-UI track corrected |
+| Drift audit §7 | Historical banner + 2026-06-24 resolution column |
+| `apps/docs` | Reviewed — monorepo map, dev-setup, contributing accurate; contributing callout TIP-014+ |
 
 *Refresh by documentation-drift agent — evidence-backed, 2026-06-24*

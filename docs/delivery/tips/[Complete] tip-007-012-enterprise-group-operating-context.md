@@ -1172,7 +1172,7 @@ pnpm quality
 | Business master data authority map | TIP-008B | [`tip-008-master-data-authority.md` §008B Slice 1](./%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md#slice-1--business-master-data-authority-map-008b) | Doc-only; parallel OK |
 | `project` / `team` tables + PM scope depth | TIP-030 | [`tip-030-project-membership-scope.md`](./%5BComplete%5D%20tip-030-project-membership-scope.md) | Scope tier delivered; PM logic follow-on |
 | Supabase RLS on all `tenant_id` tables | **Delivered — Slices F–G** | Artifact + live gates; DoD #16 | — |
-| Context switch UX polish | TIP-UI-05 | [`tip-ui-05-erp-app-surfaces.md` §Slice 2](./%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-2--applicationshell-production-polish-afendaerp) | After TIP-006 + Slice 1 boundaries |
+| Context switch UX polish | TIP-UI-05 | [`tip-ui-05-erp-app-surfaces.md` §Slice 2](./%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md#slice-2--applicationshell-production-polish-afendaerp) | After TIP-006 + Slice 1 boundaries |
 
 ## Enterprise acceptance criteria checklist
 

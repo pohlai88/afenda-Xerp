@@ -84,12 +84,12 @@ See: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.
 | --- | --- | --- | --- |
 | `@afenda/design-system` | 0 CSS | **Partial** — token/CSS pipeline | `generate-tokens-css.ts`, `dist/css/tokens.css` |
 | `@afenda/ui` | Placeholder | **Implemented** — 58 components | `packages/ui/src/components/*.tsx`, 68+ tests |
-| `@afenda/metadata-ui` | No renderers | **Partial** — renderers exist | `renderers/default-section-renderers.tsx`, 44 `.tsx` |
+| `@afenda/metadata-ui` | No renderers | **Implemented** — renderers + production `/metadata-workspace` | `renderers/default-section-renderers.tsx`, 44 `.tsx`, ERP route |
 | `@afenda/appshell` | Hardcoded hex only | **Implemented** — governed CSS + authority contracts | `afenda-appshell.css`, 93 `.tsx`, `src/contracts/` (TIP-006 Complete) |
-| `apps/erp` | Minimal inline auth | **Partial** — platform spine + System Admin MVP | 199+ TS/TSX, manifest routes, governed APIs |
+| `apps/erp` | Minimal inline auth | **Implemented** — platform spine + System Admin MVP + TIP-UI-05 surfaces | 199+ TS/TSX, manifest routes, governed APIs, Slices 1–12 |
 | TIP-UI-01/02 | Not started | **Complete** | Delivery docs + runtime |
-| TIP-UI-03/04/05 | Not started | **Partial** | Slice 1 delivered each; ERP polish open |
-| TIP-007/012 multi-tenancy | Not started | **Partial** | Slices A–B delivered; RLS proof pending |
+| TIP-UI-03/04/05 | Not started | **Complete** | Slices 1–12 delivered; Phase 6 gate evidence |
+| TIP-007/012 multi-tenancy | Not started | **Complete (foundation)** | Slices A–G delivered; tenant RLS artifact + live gates |
 | Kernel contexts | 6 missing | **Implemented (contracts)** | `context-registry.ts` — 10 required modules |
 | TIP-011 outbox | Missing | **Complete** | Outbox schema + publish worker + ERP proof |
 | TIP-012 spine | Partial | **Complete** | Lifecycle test + outbox on dashboard PUT |
@@ -157,7 +157,7 @@ Phase 2  Platform runtime spine (outbox, TIP-012)   ← Complete
 Phase 3  Security & permission spine (TIP-010)      ← API RBAC Complete
 Phase 4  Database & migration governance (RLS proof) ← CURRENT
 Phase 5  API contract governance                    ← Complete (TIP-010A)
-Phase 6  Design / UI / AppShell / Metadata UI       ← CURRENT (TIP-UI-03/04/05)
+Phase 6  Design / UI / AppShell / Metadata UI       ← Complete (TIP-UI-03/04/05)
 Phase 7  Feature manifest & module governance       ← Complete (TIP-007A)
 Phase 8  System Admin control plane                 ← MVP Complete (TIP-013)
 Phase 9  ACCOUNTING READINESS GATE ──► TIP-014+ only after pass
@@ -206,10 +206,10 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-014+ only after pass
 | --- | --- | --- | --- | --- |
 | TIP-UI-01 | CSS Pipeline | **Complete** | `globals.css`, tokens.css | — |
 | TIP-UI-02 | Component Library | **Complete** | 58 components, tests | ADR-0008 ref-as-prop deferred |
-| TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` (Slice 1) | ERP shell closeout (Slice 2) |
-| TIP-UI-04 | Metadata-UI Renderers | **Partial** | Section renderers exist (Slice 1) | ERP production wiring (Slice 2) |
-| TIP-UI-05 | ERP App Surfaces | **Partial** | `@afenda/ui` auth; manifest placeholders | Loading/error boundaries + polish |
-| TIP-UI-06 | React 19 ref-as-prop | **Proposed** | ADR-0008 | Not started (batch deferred) |
+| TIP-UI-03 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test | — |
+| TIP-UI-04 | Metadata-UI Renderers | **Complete** | Section renderers + `/metadata-workspace` | — |
+| TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12; DoD #1–24 closed | — |
+| TIP-UI-06 | React 19 ref-as-prop | **Blocked** | ADR-0008 Proposed | Package-wide batch not started |
 
 ### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-24)
 
@@ -225,7 +225,7 @@ Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Du
 | Component primitives | shadcn/ui in `packages/ui/src/components/` | **Live** |
 | Token → CSS bridge | `tokenRegistry` → `tokens.css` → `--token-*` | **Live** |
 | App styling entry | `apps/erp/src/app/globals.css` | **Live** |
-| AppShell styling | `afenda-appshell.css` + TIP-004 governed props | **Partial** |
+| AppShell styling | `afenda-appshell.css` + TIP-004 governed props | **Live** |
 | Consumer className rule | Zero `className` on `@afenda/ui` in consumers | **Enforced** — `pnpm ui:guard` |
 | Component styling | Governed props + author-layer governance | **Live** |
 
@@ -233,7 +233,7 @@ Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Du
 
 ## 7. Accounting Readiness Gate (Phase 9)
 
-Replaces v4 "Phase 1 exit gate" language. **All** must pass before `TIP-013`.
+Replaces v4 "Phase 1 exit gate" language. **All** must pass before **TIP-014+ Accounting Core**.
 
 | Category | Required |
 | --- | --- |

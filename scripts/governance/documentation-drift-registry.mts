@@ -77,7 +77,7 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-ui-03-stale-status",
   },
   {
-    file: "docs/delivery/tips/[Partially Implemented] tip-ui-04-metadata-ui-renderers.md",
+    file: "docs/delivery/tips/[Complete] tip-ui-04-metadata-ui-renderers.md",
     forbidden: [
       "Status: **Not started**",
       "zero React renderer implementations",
@@ -86,9 +86,10 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-ui-04-stale-status",
   },
   {
-    file: "docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md",
+    file: "docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md",
     forbidden: [
       "Status: **Not started**",
+      "Status: **Partially Implemented**",
       "No CSS import",
       "Inline styles, native inputs",
     ],

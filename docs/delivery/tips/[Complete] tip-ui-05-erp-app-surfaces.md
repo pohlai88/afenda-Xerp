@@ -2,12 +2,12 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially Implemented |
+| **Status** | Complete |
 | **Authority status** | **Accepted** — Foundation Phase 6 UI delivery TIP |
-| **Runtime evidence** | `apps/erp/src/app/globals.css`, `(auth)/sign-in/sign-in-form.tsx`, `(protected)/layout.tsx`, `(protected)/modules/[moduleId]/page.tsx` |
+| **Runtime evidence** | `apps/erp/src/app/globals.css`, `(auth)/sign-in/sign-in-form.tsx`, `(protected)/layout.tsx`, `(protected)/modules/[moduleId]/page.tsx`, `(protected)/metadata-workspace/`, System Admin surfaces |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Foundation phase** | Phase 6 — Design, UI, AppShell, and Metadata UI Governance |
-| **Remaining gap** | ApplicationShell production polish; metadata-driven ERP pages; per-module UX |
+| **Remaining gap** | None — Slices 1–12 delivered; DoD #1–24 closed (2026-06-24 documentation-drift closeout) |
 
 ## Purpose
 
@@ -81,11 +81,11 @@ ADR-0013 authority: Foundation Phase 6 gate — ERP surfaces use design-system t
 ## Depends on
 
 - TIP-UI-02 Component Library — **Complete**
-- TIP-UI-03 AppShell Token Migration — **Partial** (token CSS done; TIP-006 closeout open)
-- TIP-UI-04 Metadata-UI Renderers — **Partial** (renderers exist; ERP production wiring open)
+- TIP-UI-03 AppShell Token Migration — **Complete**
+- TIP-UI-04 Metadata-UI Renderers — **Complete**
 - TIP-007A Feature Manifest & Module Governance — **Complete**
-- TIP-010 Identity & Authorization (API RBAC) — **Partial**
-- TIP-006 AppShell Authority — **Partial** (contract freeze; non-blocking for surface polish)
+- TIP-010 Identity & Authorization — **Complete** (API RBAC)
+- TIP-006 AppShell Authority — **Complete**
 - TIP-013 System Admin Control Plane — **Complete** (admin surfaces evidence; not a TIP-UI-05 deliverable)
 
 ## Blocks
@@ -103,9 +103,9 @@ ADR-0013 authority: Foundation Phase 6 gate — ERP surfaces use design-system t
 | `apps/erp/src/app/layout.tsx` | `@afenda/erp` | Application | Existing | Implemented |
 | `apps/erp/src/app/(auth)/sign-in/sign-in-form.tsx` | `@afenda/erp` | Application | Existing | Implemented |
 | `apps/erp/src/app/(auth)/sign-in/page.tsx` | `@afenda/erp` | Application | Existing | Implemented |
-| `apps/erp/src/app/(protected)/layout.tsx` | `@afenda/erp` | Application | Modified (TIP-007A) | Partial — polish |
-| `apps/erp/src/app/(protected)/page.tsx` | `@afenda/erp` | Application | Existing | Partial |
-| `apps/erp/src/app/(protected)/modules/[moduleId]/page.tsx` | `@afenda/erp` | Application | New (TIP-007A) | Implemented — UX polish open |
+| `apps/erp/src/app/(protected)/layout.tsx` | `@afenda/erp` | Application | Modified (TIP-007A) | Implemented — Slice 2 |
+| `apps/erp/src/app/(protected)/page.tsx` | `@afenda/erp` | Application | Existing | Implemented |
+| `apps/erp/src/app/(protected)/modules/[moduleId]/page.tsx` | `@afenda/erp` | Application | New (TIP-007A) | Implemented — Slice 4 empty-state polish |
 | `apps/erp/src/components/protected-workspace-dashboard.client.tsx` | `@afenda/erp` | Application | Existing | Implemented — Skeleton loading |
 | `apps/erp/src/app/(protected)/loading.tsx` | `@afenda/erp` | Application | Modified | Implemented — Skeleton |
 | `apps/erp/src/app/(protected)/error.tsx` | `@afenda/erp` | Application | Modified | Implemented — Alert |
@@ -114,8 +114,8 @@ ADR-0013 authority: Foundation Phase 6 gate — ERP surfaces use design-system t
 | `apps/erp/src/app/error.tsx` | `@afenda/erp` | Application | Existing | Implemented — Alert |
 | `apps/erp/src/components/route-segment-error.tsx` | `@afenda/erp` | Application | Modified | Implemented — `@afenda/ui` Alert |
 | `apps/erp/src/__tests__/route-segment-error.test.tsx` | `@afenda/erp` | Application | New | Implemented |
-| Metadata-driven production page | `@afenda/erp` | Application | **New** | **Not started** |
-| Per-module placeholder UX components | `@afenda/erp` | Application | **New** | **Not started** |
+| Metadata-driven production page | `@afenda/erp` | Application | Existing | Implemented — `/metadata-workspace` (Slice 3) |
+| Per-module placeholder UX components | `@afenda/erp` | Application | Existing | Implemented — Slice 4 Card empty-state |
 | Governed empty-state + card-nav surfaces | `@afenda/erp` | Application | **New** | **Implemented** — Slice 4 |
 | System Admin form-layout + settings sections | `@afenda/erp` | Application | **New** | **Implemented** — Slice 5 |
 | Chart KPI blocks (statistics/charts/widgets) | `@afenda/appshell` | ERPSpine | **New** | **Implemented** — Slice 6 |
@@ -238,7 +238,7 @@ AND no ledger, journal, or posting UI is introduced
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Replace plain-text ERP loading/error boundaries with governed @afenda/ui Skeleton and Alert surfaces across protected and auth segments.
 2. Allowed layer— apps/erp/src/app/(protected)/, apps/erp/src/app/(auth)/, apps/erp/src/app/, apps/erp/src/components/route-segment-error.tsx
@@ -250,7 +250,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/components/route-segment-error.tsx (Modified)
                   apps/erp/src/components/protected-workspace-dashboard.client.tsx (Modified)
                   apps/erp/src/__tests__/route-segment-error.test.tsx (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
 4. Prohibited   — packages/ui edits, packages/appshell edits, manifest/registry changes, @afenda/accounting, ledger/journal/posting, className on @afenda/ui primitives
 5. Authority    — ADR-0013 Phase 6 — Application Authority (TIP-004 consumption)
 6. Gates        — pnpm --filter @afenda/erp typecheck
@@ -285,7 +285,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Polish production ApplicationShell integration: dashboard loading states, AppShellMain copy consistency, governed workspace home UX, and serializable status-copy contracts without changing manifest or RBAC pipelines.
 2. Allowed layer— apps/erp/src/app/(protected)/, apps/erp/src/components/, apps/erp/src/lib/workspace/
@@ -300,7 +300,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/components/__tests__/protected-workspace-dashboard.integration.test.tsx (Modified)
                   apps/erp/src/components/__tests__/appshell-canvas-harness.test.tsx (Modified)
                   apps/erp/src/lib/workspace/__tests__/resolve-workspace-dashboard-status-copy.test.ts (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
 4. Prohibited   — packages/appshell contract freeze work (TIP-006), packages/ui edits, manifest/registry edits, system-admin API mutations, @afenda/accounting, ledger/journal/posting, className on @afenda/ui primitives
 5. Authority    — ADR-0013 Phase 6 — Application Authority (TIP-004 consumption)
@@ -336,7 +336,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Close metadata production page DoD with consolidated tests on existing /metadata-workspace route and polish manifest module placeholders with governed empty-state component and serializable copy contracts.
 2. Allowed layer— apps/erp/src/app/(protected)/, apps/erp/src/components/, apps/erp/src/lib/modules/, apps/erp/src/lib/metadata/, apps/erp/src/app/globals.css
@@ -350,7 +350,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/components/__tests__/module-placeholder-empty-state.test.tsx (New)
                   apps/erp/src/__tests__/metadata-production-page.test.tsx (New)
                   apps/erp/src/__tests__/metadata-workspace-preview.test.tsx (Modified or Deleted — merge into metadata-production-page.test.tsx)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
                   docs/delivery/tip-status-index.md (Modified)
 4. Prohibited   — packages/metadata-ui renderer implementations (TIP-UI-04), packages/ui edits, manifest/registry edits, @afenda/accounting domain logic, ledger/journal/posting UI, hand-edited /manufacturing routes, className on @afenda/ui primitives
@@ -397,7 +397,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Adapt shadcn/studio empty-state-01/02 and card-nav patterns into governed ERP surfaces for module placeholders and System Admin scaffolds, upgrading Slice 3 HTML placeholder to Card-based empty state without className on @afenda/ui primitives.
 2. Allowed layer— apps/erp/src/app/(protected)/, apps/erp/src/components/, apps/erp/src/lib/modules/, apps/erp/src/lib/system-admin/, apps/erp/src/app/globals.css
@@ -414,7 +414,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/__tests__/erp-empty-state.test.tsx (New)
                   apps/erp/src/__tests__/erp-card-nav-grid.test.tsx (New)
                   apps/erp/src/lib/system-admin/__tests__/resolve-system-admin-card-nav.test.ts (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
                   docs/delivery/tip-status-index.md (Modified)
 4. Prohibited   — packages/ui primitive edits, packages/appshell edits, raw shadcn/studio MCP install without normalization, className on @afenda/ui primitives, @afenda/accounting, ledger/journal/posting, application-shell/dashboard-shell/dashboard-sidebar blocks (Rejected), deleting module-placeholder.copy.contract.ts
@@ -462,7 +462,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Adapt shadcn/studio form-layout and account-settings patterns into governed System Admin settings scaffold with serializable contracts, Zod-validated Server Action, and read-only field rows sourced from operating context.
 2. Allowed layer— apps/erp/src/app/(protected)/system-admin/, apps/erp/src/components/system-admin/, apps/erp/src/lib/system-admin/, apps/erp/src/lib/server-actions/, apps/erp/src/app/globals.css
@@ -477,7 +477,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/lib/system-admin/__tests__/resolve-system-admin-settings-form-values.test.ts (New)
                   apps/erp/src/lib/system-admin/__tests__/update-system-admin-settings.action.test.ts (New)
                   apps/erp/src/__tests__/system-admin-settings-form.test.tsx (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
                   docs/delivery/tip-status-index.md (Modified)
 4. Prohibited   — packages/ui edits, packages/metadata-ui renderer work, local permission constants, client-only tenant/context resolvers, className on @afenda/ui primitives, @afenda/accounting, ledger/journal/posting/COA settings fields, actual settings persistence or new API routes
@@ -521,7 +521,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Register recharts dependency, fix missing @afenda/erp→@afenda/entitlements registry edge, and adapt statistics/charts/widgets shadcn/studio patterns into governed AppShell dashboard blocks with Storybook proof.
 2. Allowed layer— packages/appshell/src/shadcn-studio/blocks/, packages/appshell/src/afenda-appshell.css, docs/architecture/dependency-registry.md, apps/erp/package.json (recharts dep if ERP-owned)
@@ -536,7 +536,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   packages/architecture-authority/src/data/dependency-registry.data.ts (Modified)
                   docs/architecture/dependency-snapshot.json (Modified)
                   packages/appshell/src/afenda-appshell.css (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
 4. Prohibited   — packages/ui primitive edits without govern-primitive author checklist, raw MCP className on Card/Badge, motion.dev imports, duplicate existing AppShellDashboardKpiStat without variant justification, @afenda/accounting
 5. Authority    — ADR-0003 Dependency Governance; ADR-0013 Phase 6; app-ui-component-adaptation-guide.md §4.1; TIP-004 + govern-primitive author layer for any Chart primitive touch
@@ -583,7 +583,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Adapt shadcn/studio datatable-component-06 into a governed System Admin audit list using @tanstack/react-table column defs, @afenda/ui DataTable, and serializable AdminAuditEventRow props — replacing the raw HTML audit table without export libs or className on primitives.
 2. Allowed layer— apps/erp/src/app/(protected)/system-admin/, apps/erp/src/components/system-admin/, apps/erp/src/lib/system-admin/, apps/erp/src/app/globals.css, docs/architecture/dependency-registry.md
@@ -595,7 +595,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/app/(protected)/system-admin/audit/page.tsx (Modified)
                   apps/erp/src/app/globals.css (Modified)
                   apps/erp/src/__tests__/system-admin-audit-table.test.tsx (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
                   docs/delivery/tip-status-index.md (Modified)
 4. Prohibited   — packages/ui edits, packages/appshell block duplication, generic reusable DataTable in packages/ui, papaparse/xlsx, local permission logic in JSX, className on @afenda/ui primitives, @afenda/accounting, ledger/journal/posting UI
@@ -639,7 +639,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Wire governed context-switch UX for entity_group-expanded operating context: serializable copy contracts, presentation resolver, and layout integration without changing AppShell authority contracts.
 2. Allowed layer— apps/erp/src/lib/context/, apps/erp/src/components/, apps/erp/src/app/(protected)/
@@ -648,7 +648,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/lib/context/__tests__/resolve-context-switch-presentation.test.ts (New)
                   apps/erp/src/components/workspace-context-switcher.client.tsx (Modified)
                   apps/erp/src/app/(protected)/layout.tsx (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
 4. Prohibited   — packages/ui edits, packages/appshell contract freeze work, manifest/registry edits, @afenda/accounting, ledger/journal/posting, className on @afenda/ui primitives
 5. Authority    — ADR-0013 Phase 6 — Application Authority (TIP-004 consumption); TIP-007/012 operating-context resolver
@@ -690,7 +690,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Adapt shadcn/studio multi-step-form and dashboard-dialog patterns into a governed System Admin user-invite wizard without duplicating AppShellActivityDialog or bypassing TIP-013 API contracts.
 2. Allowed layer— apps/erp/src/app/(protected)/system-admin/users/, apps/erp/src/components/system-admin/, apps/erp/src/app/globals.css
@@ -705,7 +705,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
                   apps/erp/src/lib/erp/erp-empty-state.contract.ts (Modified)
                   apps/erp/src/__tests__/system-admin-invite-wizard.test.tsx (New)
                   apps/erp/src/lib/system-admin/__tests__/system-admin-invite-wizard.types.test.ts (New)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
                   docs/delivery/tip-status-index.md (Modified)
 4. Prohibited   — packages/appshell AppShellActivityDialog duplication, packages/ui edits, boolean step flags, client-only permission checks, className on @afenda/ui primitives, @afenda/accounting
@@ -744,13 +744,13 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Unblock ui:guard Gate A by migrating stepper storybook demos from mapStockButtonProps to governed Button intent/emphasis props without touching consumer packages.
 2. Allowed layer— packages/ui/src/components/_storybook/stepper/
 3. Files        — packages/ui/src/components/_storybook/stepper/stepper-vertical-demo.tsx (Modified)
                   packages/ui/src/components/_storybook/stepper/stepper.stories.tsx (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
 4. Prohibited   — packages/appshell, apps/erp, STOCK_SHADCN_PENDING registry edits without Architecture approval, @afenda/accounting, className on governed primitives in consumers
 5. Authority    — TIP-004 UI Primitive Governance — author layer design-system consumption checker
 6. Gates        — pnpm --filter @afenda/ui check:governance
@@ -784,13 +784,13 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Restore full ERP vitest suite green by aligning server-action static contract test with interface export and stabilizing dashboard integration timeout under full-suite load.
 2. Allowed layer— apps/erp/src/__tests__/, apps/erp/src/components/__tests__/
 3. Files        — apps/erp/src/__tests__/server-action-security.test.ts (Modified)
                   apps/erp/src/components/__tests__/protected-workspace-dashboard.integration.test.tsx (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
 4. Prohibited   — packages/ui, packages/appshell, demo-auth-action behavior changes unless test proves defect, @afenda/accounting
 5. Authority    — ADR-0013 Phase 6 — Application Authority (server action security contract)
 6. Gates        — pnpm --filter @afenda/erp typecheck
@@ -825,12 +825,12 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md
+Handoff from: docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md
 
 1. Objective    — Prove invite wizard role selection is keyboard-accessible via label-associated RadioGroupItem controls without changing governed primitive source.
 2. Allowed layer— apps/erp/src/__tests__/
 3. Files        — apps/erp/src/__tests__/system-admin-invite-wizard.test.tsx (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md (Modified)
 4. Prohibited   — packages/ui, packages/appshell, className on @afenda/ui primitives, @afenda/accounting
 5. Authority    — TIP-004 consumption; afenda-ui-quality Phase 5 accessibility checklist
 6. Gates        — pnpm --filter @afenda/erp test:run
@@ -864,4 +864,4 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-ui-05-erp-app-surfa
 
 ## Verdict
 
-**Partially Implemented** — Slices 1–12 runtime-proven including chart KPI blocks (6), audit DataTable (7), invite wizard (8), context-switch UX (9), UI Gate A stepper fix (10), ERP test repair (11), and invite role a11y (12). TIP closeout pending final acceptance gate sweep.
+**Complete** — Slices 1–12 runtime-proven including chart KPI blocks (6), audit DataTable (7), invite wizard (8), context-switch UX (9), UI Gate A stepper fix (10), ERP test repair (11), and invite role a11y (12). DoD #1–24 closed; Phase 6 gate evidence satisfied (2026-06-24).

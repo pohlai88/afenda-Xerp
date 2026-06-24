@@ -121,8 +121,8 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | Drizzle conventions | **Implemented** | Branded IDs at boundaries |
 | RLS strategy | **Partial** — `with-rls-session-context.ts` | Postgres RLS policies verified per glossary |
 | Tenant isolation proof | **Partial** — tests exist | Cross-tenant negative tests pass |
-| Entity group / ownership | **Partial** — authority foundation | Lookup services + context mappers complete |
-| Consolidation scope prep | **Partial** — stub resolver | Non-accounting scope resolution tests |
+| Entity group / ownership | **Implemented** — schemas + services + contract tests (TIP-008A) | Lookup services + context mappers complete |
+| Consolidation scope prep | **Implemented** — `consolidation-scope-resolution.server.ts` + ERP resolver + tests | Non-accounting scope resolution tests |
 | Legal vs operating entity | **Documented** — glossary | Enforced in context resolution |
 
 **Explicit prohibition:** No chart of accounts, journals, ledger entries, fiscal periods, posting, or consolidation arithmetic.
@@ -161,17 +161,17 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | TIP-003/004 | Design System Authority + Contracts | Complete | — |
 | TIP-UI-01 | CSS Pipeline | Complete | `globals.css` + tokens.css |
 | TIP-UI-02 | Component Library | Complete | P0 components exported + tested |
-| TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` — no hex drift; doc status updated |
-| TIP-UI-04 | Metadata-UI Renderers | **Partial** | Renderers exist — ERP wiring + doc update |
-| TIP-UI-05 | ERP App Surfaces | **Partial** | Auth uses `@afenda/ui`; manifest module placeholders via TIP-007A |
+| TIP-UI-03 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test (TIP-UI-03 Slice 2) |
+| TIP-UI-04 | Metadata-UI Renderers | **Complete** | Renderers + production `/metadata-workspace` (Slices 1–2) |
+| TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12 delivered; DoD #1–24 closed ([`tip-ui-05`](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md)) |
 | TIP-004 consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
 
 **Phase 6 gate:**
 
 - [x] `pnpm ui:guard` passes (gates A–F)
 - [x] ERP module placeholder routes exist (manifest-driven `/modules/[moduleId]` — **shell only, no domain logic**)
-- [ ] AppShell production integration in `(protected)` layout
-- [ ] Metadata renderers demonstrated on at least one ERP page
+- [x] AppShell production integration in `(protected)` layout (TIP-UI-03 Slice 2 + TIP-UI-05 Slice 2)
+- [x] Metadata renderers demonstrated on at least one ERP page (`/metadata-workspace` — TIP-UI-04 Slice 2 + TIP-UI-05 Slice 3)
 
 ---
 
