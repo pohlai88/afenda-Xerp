@@ -22,7 +22,7 @@
 | **TIP-010A** | **Accepted** — slice under TIP-010 | [`tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) |
 | **TIP-007A** | **Accepted** — slice under TIP-007 | [`tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) |
 | **TIP-010B** | **Superseded by TIP-013** | Draft archived in §Draft — TIP-010B below |
-| **TIP-013** | **Accepted** — Phase 8 System Admin | [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) |
+| **TIP-013** | **Accepted** — Phase 8 System Admin | [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) |
 
 Do not implement System Admin from this proposal file. Use canonical TIP-013 delivery doc only.
 
@@ -50,7 +50,7 @@ Per write-tip rule §2 Step 2: **do not invent TIP numbers**. This note proposes
 | --- | --- | --- | --- | --- | --- |
 | **Phase 5** | **TIP-010A** | API Contract Governance Closeout | `@afenda/erp` (PKG-007) | TIP-010 | Extends identity/API surface; complements [`tip-010-api-rbac-wiring.md`](../delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md) with contract registry, envelope, idempotency, pagination |
 | **Phase 7** | **TIP-007A** | Feature Manifest & Module Governance | `@afenda/entitlements` (PKG-006), `@afenda/appshell` (PKG-001) | TIP-007 | ERP platform authority owns module/capability/navigation projection pipeline |
-| **Phase 8** | **TIP-013** (was TIP-010B proposal) | System Admin Control Plane | `@afenda/erp` (PKG-007) | TIP-010 | **Promoted** — [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) |
+| **Phase 8** | **TIP-013** (was TIP-010B proposal) | System Admin Control Plane | `@afenda/erp` (PKG-007) | TIP-010 | **Promoted** — [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) |
 
 ### Acceptance required before implementation
 
@@ -416,7 +416,7 @@ Gates per slice: `pnpm --filter <pkg> typecheck`, `pnpm --filter <pkg> test:run`
 
 ### Draft — TIP-010B — System Admin Control Plane (archived — superseded by TIP-013)
 
-> **Superseded.** Canonical spec: [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md).  
+> **Superseded.** Canonical spec: [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md).  
 > **Do not implement from this section.** Historical rationale only.
 
 # TIP-010B — System Admin Control Plane
@@ -559,7 +559,7 @@ AND   no chart of accounts or journal admin exists
 > **Blocked until Architecture Authority accepts TIP-010B.** Requires TIP-010A + TIP-012 partial.
 
 ```
-Handoff from: docs/delivery/tips/[Not started] tip-013-system-admin-control-plane.md (Slice 1 — routes; superseded TIP-010B draft)
+Handoff from: docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md (Slice 1 — routes; superseded TIP-010B draft)
 
 1. Objective    — Add system-admin layout and users/roles/audit placeholder pages with RBAC gates.
 2. Allowed layer— apps/erp/src/app/(protected)/system-admin/
@@ -587,7 +587,7 @@ Handoff from: docs/delivery/tips/[Not started] tip-013-system-admin-control-plan
 
 - [x] Accept TIP-010A — promoted to `docs/delivery/tips/[Not started] tip-010a-api-contract-governance.md`
 - [x] Accept TIP-007A — promoted to `docs/delivery/tips/[Not started] tip-007a-feature-manifest-governance.md`
-- [x] Accept TIP-013 — promoted to `docs/delivery/tips/[Not started] tip-013-system-admin-control-plane.md` (supersedes TIP-010B)
+- [x] Accept TIP-013 — promoted to `docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md` (supersedes TIP-010B)
 - [x] Supersede TIP-010B — historical draft only
 - [x] Reject `TIP-030-SA` permanently in favor of Phase 8 slice under review
 - [x] Add rows to `tip-status-index.md` under **Canonical delivery TIPs**

@@ -1,6 +1,6 @@
 ---
 name: afenda-ui-quality
-description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, TIP-004 governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and ui-craft visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/tip-004-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
+description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, TIP-004 governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/tip-004-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 > Target: **9.5/10 enterprise code quality + 9.5/10 visual quality** on every block.
 >
-> Stack: Tailwind v4 · shadcn/Radix · `@afenda/ui` governed primitives · `@afenda/design-system` tokens · shadcn/studio MCP · ui-craft skill.
+> Stack: Tailwind v4 · shadcn/Radix · `@afenda/ui` governed primitives · `@afenda/design-system` tokens · shadcn/studio MCP · afenda-ui-quality Phase 5 checklist.
 >
 > **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
 
@@ -21,7 +21,7 @@ Phase 1 → Discovery (token system, surface, density)
 Phase 2 → Generate  (shadcn-studio /cui /rui /iui)
 Phase 3 → Normalize (strip className → CSS classes → token vars)
 Phase 4 → Govern    (govern-primitive 9.5/10 checklist)
-Phase 5 → Visual QA (ui-craft anti-slop + accessibility)
+Phase 5 → Visual QA (anti-slop + accessibility)
 ```
 
 Run all five in order. Never skip Phase 3 after a shadcn-studio install.
@@ -201,9 +201,9 @@ Critical non-negotiables:
 
 ---
 
-## Phase 5 — Visual QA (ui-craft)
+## Phase 5 — Visual QA
 
-Load the `/ui-craft` skill for the full visual review. Repo-specific gate below.
+Use the repo-specific gate below (Phase 5 checklist in this skill).
 
 ### 5.1 Anti-slop mandatory checks
 
@@ -349,7 +349,6 @@ All gates must pass before merging.
 - **UI guard gates:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
 - **React quality gate (run after Phase 5):** [`.cursor/skills/react-erp-quality/SKILL.md`](../react-erp-quality/SKILL.md)
 - Govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)
-- Visual craft rules: [`.cursor/skills/ui-craft/SKILL.md`](../ui-craft/SKILL.md)
 - shadcn-studio workflow: [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md)
 - Token registry: `packages/design-system/src/registries/token.registry.ts`
 - Visual slop guard: `packages/ui/src/governance/class-name-guard.ts`

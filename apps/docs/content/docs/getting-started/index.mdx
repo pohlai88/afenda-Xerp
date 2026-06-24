@@ -1,0 +1,39 @@
+---
+title: Getting Started
+description: Clone, install, and run the Afenda ERP monorepo locally.
+---
+
+Onboard to the Afenda monorepo: install tooling, fetch dependencies, and start the docs or ERP dev servers. You do not need the ERP running to work on `@afenda/docs`.
+
+## Prerequisites
+
+- **Node.js** 20 or later
+- **pnpm** 10 (monorepo package manager)
+- **Git** for clone and contribution workflow
+- **Docker** (optional) — local Postgres when working on `@afenda/database` or ERP data paths
+
+## Quick start
+
+1. Clone the repository and install at the monorepo root:
+
+   ```bash
+   git clone https://github.com/afenda-bolt/afenda-Xerp.git
+   cd afenda-Xerp
+   pnpm install
+   ```
+
+2. Start the documentation site (port **3001**):
+
+   ```bash
+   pnpm --filter @afenda/docs dev
+   ```
+
+3. Open [http://localhost:3001/docs](http://localhost:3001/docs).
+
+For ERP work, continue with [Installation](/docs/getting-started/installation) and [Dev Setup](/docs/getting-started/dev-setup).
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info">
+  `@afenda/docs` has zero approved `@afenda/*` runtime dependencies. Docs development does not require ERP auth, database, or tenant context.
+</Callout>

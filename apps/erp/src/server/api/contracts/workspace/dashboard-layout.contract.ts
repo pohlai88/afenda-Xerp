@@ -37,6 +37,7 @@ export const dashboardLayoutPutContract = {
   },
   cache: { kind: "no-store" },
   id: "internal.v1.workspace.dashboard-layout.put",
+  idempotency: { mode: "required" },
   method: "PUT",
   path: "/api/internal/v1/workspace/dashboard-layout",
   permission: {

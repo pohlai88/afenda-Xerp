@@ -99,6 +99,10 @@ jobs:
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
         run: pnpm turbo run storybook:build ${{ steps.turbo_scope.outputs.affected }}
 
+      # ── Gate 4c · Fumadocs docs build (@afenda/docs — TIP-032) ───────────
+      - name: Gate 4c · docs build
+        run: pnpm quality:docs
+
       # ── Gate 5 · Boundary Safety ──────────────────────────────────────────
       - name: Gate 5 · package boundary check
         run: pnpm quality:boundaries

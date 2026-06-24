@@ -13,6 +13,13 @@ export const DEV_LOGIN_EMAIL_ENV = "AFENDA_DEV_LOGIN_EMAIL" as const;
 
 export const DEV_LOGIN_PASSWORD_ENV = "AFENDA_DEV_LOGIN_PASSWORD" as const;
 
+export const DEV_VIEWER_LOGIN_EMAIL = "dev-viewer@localhost.afenda" as const;
+
+export const DEV_VIEWER_LOGIN_DISPLAY_NAME = "Dev Workspace Viewer" as const;
+
+export const DEV_VIEWER_LOGIN_PASSWORD_ENV =
+  "AFENDA_E2E_VIEWER_LOGIN_PASSWORD" as const;
+
 export const DEV_AUTH_BOOTSTRAP_CONFIRM_ENV =
   "AFENDA_BOOTSTRAP_CONFIRM" as const;
 

@@ -105,10 +105,11 @@ Never: implementation first, documentation later. This principle is normative in
 | [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before `docs/delivery/tips/[status] tip-*.md`; **Implementation workflow** links write-tip handoff → afenda-coding-session |
 | [`../delivery/tips/[Not started] tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) | TIP-010A — Phase 5 API contract closeout (canonical) |
 | [`../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) | TIP-007A — Phase 7 manifest pipeline (canonical) |
-| [`../delivery/tips/[Not started] tip-013-system-admin-control-plane.md`](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) | TIP-013 — Phase 8 System Admin control plane (canonical) |
+| [`../delivery/tips/[Complete] tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) | TIP-013 — Phase 8 System Admin control plane (canonical) |
 | [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Proposal archive only** — superseded drafts; not implementation authority |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
 | [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
+| [`docs-app-architecture.md`](docs-app-architecture.md) | **`@afenda/docs`** — Fumadocs app boundaries, content model, isolation from ERP runtime (TIP-032). |
 
 **Foundation ADRs (Accepted 2026-06-23):** ADR-0009 Runtime Truth · ADR-0010 No Accounting Before Gate · ADR-0011 Multi-level Company Model · ADR-0012 Evidence-backed Docs · ADR-0013 TIP Roadmap Authority
 

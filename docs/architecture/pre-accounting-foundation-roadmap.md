@@ -198,7 +198,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Control plane operational for users, security, and platform configuration.
 
-**Delivery TIP:** [TIP-013](../delivery/tips/[Not started] tip-013-system-admin-control-plane.md) — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
+**Delivery TIP:** [TIP-013](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
 
 | Surface | Current | Exit criterion |
 | --- | --- | --- |

@@ -52,8 +52,10 @@ export {
 } from "./auth.session.js";
 export {
   assertDevAuthBootstrapAllowed,
+  hasDevViewerLoginCredentials,
   resolveDevLoginEmail,
   resolveDevLoginPassword,
+  resolveDevViewerLoginPassword,
 } from "./bootstrap/dev-login.env.js";
 export {
   DEV_AUTH_CREDENTIAL_PROVIDER_ID,
@@ -61,6 +63,9 @@ export {
   DEV_LOGIN_EMAIL,
   DEV_LOGIN_EMAIL_ENV,
   DEV_LOGIN_PASSWORD_ENV,
+  DEV_VIEWER_LOGIN_DISPLAY_NAME,
+  DEV_VIEWER_LOGIN_EMAIL,
+  DEV_VIEWER_LOGIN_PASSWORD_ENV,
 } from "./bootstrap/dev-login.fixture.js";
 export {
   type EnsureDevAuthLoginResult,

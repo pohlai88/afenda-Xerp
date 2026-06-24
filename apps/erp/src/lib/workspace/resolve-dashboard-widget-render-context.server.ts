@@ -15,6 +15,8 @@ import {
   type PermissionDataSource,
 } from "@afenda/permissions";
 
+import { toPermissionCheckContextFromOperatingContext } from "@/lib/permissions/to-permission-check-context.server";
+
 const EMPTY_SERIALIZED_DASHBOARD_WIDGET_RENDER_CONTEXT = {
   permissions: [],
   capabilities: [],
@@ -43,17 +45,6 @@ const CAPABILITY_PERMISSION_REGISTRY_KEYS = {
   string
 >;
 
-function toAuthorizationContextFromOperatingContext(
-  operatingContext: OperatingContext
-): PermissionCheckRequest["context"] {
-  return {
-    tenantId: operatingContext.permissionScope.tenantId,
-    companyId: operatingContext.permissionScope.companyId,
-    organizationId: operatingContext.permissionScope.organizationId,
-    workspaceId: null,
-  };
-}
-
 async function isPermissionGranted(
   request: Omit<PermissionCheckRequest, "permissionKey">,
   permissionKey: string,
@@ -80,11 +71,9 @@ export async function resolveDashboardWidgetRenderContextFromOperatingContext(
   permissionDataSource: PermissionDataSource = createProductionAuthorizationDataSources()
     .permission
 ): Promise<SerializableDashboardWidgetRenderContext> {
-  const authorizationContext =
-    toAuthorizationContextFromOperatingContext(operatingContext);
   const permissionRequest = {
     actor: { actorId: operatingContext.actor.userId },
-    context: authorizationContext,
+    context: toPermissionCheckContextFromOperatingContext(operatingContext),
   } satisfies Omit<PermissionCheckRequest, "permissionKey">;
 
   const grantedPermissions: string[] = [];
@@ -144,7 +133,7 @@ export async function resolveWorkspaceDashboardCapabilitiesFromOperatingContext(
 ): Promise<{ readonly canEditLayout: boolean }> {
   const permissionRequest = {
     actor: { actorId: operatingContext.actor.userId },
-    context: toAuthorizationContextFromOperatingContext(operatingContext),
+    context: toPermissionCheckContextFromOperatingContext(operatingContext),
   } satisfies Omit<PermissionCheckRequest, "permissionKey">;
 
   const canEditLayout = await isPermissionGranted(

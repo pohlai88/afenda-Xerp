@@ -1,54 +1,21 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
+
+import {
+  collectRouteFiles,
+  isAllowlistedRoute,
+  isGovernedRouteSource,
+  validateApiContractRegistryCoverage,
+} from "./governed-api-routes.mts";
 
 const repoRoot = join(import.meta.dirname, "../..");
 const apiRoot = join(repoRoot, "apps/erp/src/app/api");
+const DIRECT_RESPONSE_JSON_PATTERN = /Response\.json\s*\(/;
 
-const ROUTE_ALLOWLIST = ["auth", "integrations"] as const;
-
-function isGovernedRouteSource(source: string): boolean {
-  if (source.includes("createApiHandler")) {
-    return true;
-  }
-
-  return /export\s*\{[^}]*\}\s*from\s*["'][^"']*internal\/v1\/[^"']*["']/.test(
-    source
-  );
-}
-
-function collectRouteFiles(directory: string): string[] {
-  const entries = readdirSync(directory, { withFileTypes: true });
-  const files: string[] = [];
-
-  for (const entry of entries) {
-    const absolutePath = join(directory, entry.name);
-
-    if (entry.isDirectory()) {
-      if (entry.name === "docs") {
-        continue;
-      }
-      files.push(...collectRouteFiles(absolutePath));
-      continue;
-    }
-
-    if (entry.name === "route.ts") {
-      files.push(absolutePath);
-    }
-  }
-
-  return files;
-}
-
-function isAllowlistedRoute(filePath: string): boolean {
-  return ROUTE_ALLOWLIST.some((segment) =>
-    filePath.includes(join("app", "api", segment))
-  );
-}
-
-function main(): void {
+function collectRouteBoundaryViolations(apiRootPath: string): string[] {
   const violations: string[] = [];
 
-  for (const filePath of collectRouteFiles(apiRoot)) {
+  for (const filePath of collectRouteFiles(apiRootPath)) {
     if (isAllowlistedRoute(filePath)) {
       continue;
     }
@@ -59,10 +26,70 @@ function main(): void {
       violations.push(`${filePath}: missing createApiHandler`);
     }
 
-    if (/Response\.json\s*\(/.test(source)) {
+    if (DIRECT_RESPONSE_JSON_PATTERN.test(source)) {
       violations.push(`${filePath}: direct Response.json usage`);
     }
   }
+
+  return violations;
+}
+
+function collectContractPolicyViolations(
+  contracts: readonly { readonly id: string }[],
+  policies: {
+    readonly assertMethodPolicy: (contract: unknown) => void;
+    readonly assertIdempotencyPolicy: (contract: unknown) => void;
+  }
+): string[] {
+  const violations: string[] = [];
+
+  for (const contract of contracts) {
+    try {
+      policies.assertMethodPolicy(contract);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      violations.push(`method policy: ${contract.id}: ${message}`);
+    }
+
+    try {
+      policies.assertIdempotencyPolicy(contract);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      violations.push(`idempotency policy: ${contract.id}: ${message}`);
+    }
+  }
+
+  return violations;
+}
+
+async function main(): Promise<void> {
+  const violations = collectRouteBoundaryViolations(apiRoot);
+
+  const [apiContractRegistry, methodPolicy, idempotencyPolicy] =
+    await Promise.all([
+      import(
+        "../../apps/erp/src/server/api/contracts/api-contract-registry.ts"
+      ),
+      import(
+        "../../apps/erp/src/server/api/contracts/method-policy.contract.ts"
+      ),
+      import("../../apps/erp/src/server/api/contracts/idempotency.contract.ts"),
+    ]);
+
+  violations.push(
+    ...collectContractPolicyViolations(apiContractRegistry.API_CONTRACTS, {
+      assertIdempotencyPolicy: idempotencyPolicy.assertIdempotencyPolicy,
+      assertMethodPolicy: methodPolicy.assertMethodPolicy,
+    })
+  );
+
+  violations.push(
+    ...validateApiContractRegistryCoverage({
+      apiRoot,
+      contractExports: apiContractRegistry.GOVERNED_ROUTE_CONTRACT_EXPORTS,
+      registryContracts: apiContractRegistry.API_CONTRACTS,
+    })
+  );
 
   if (violations.length > 0) {
     console.error("API contract drift detected:\n");
@@ -75,4 +102,4 @@ function main(): void {
   console.log("API contract drift check passed");
 }
 
-main();
+await main();

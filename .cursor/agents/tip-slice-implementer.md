@@ -314,7 +314,7 @@ No code edits. Return:
 | 3 | Audit + settings | `audit/page.tsx`, `settings/page.tsx` | erp test:run, ui:guard:scan |
 | 4 | API contracts + integration tests | contracts dir, `permission.contract.ts`, integration test | api-contracts, tests, boundaries, drift |
 
-Canonical doc: [`docs/delivery/tips/[Not started] tip-013-system-admin-control-plane.md`](../../docs/delivery/tips/[Not%20started]%20tip-013-system-admin-control-plane.md)
+Canonical doc: [`docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md`](../../docs/delivery/tips/[Complete]%20tip-013-system-admin-control-plane.md)
 
 ---
 

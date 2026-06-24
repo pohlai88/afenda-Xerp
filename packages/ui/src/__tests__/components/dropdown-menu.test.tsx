@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 
+import { Button } from "../../components/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -14,6 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../components/dropdown-menu";
+import { mapStockButtonProps } from "../../governance/stock-shadcn-compat";
 import {
   expectGovernedDataAuthority,
   expectGovernedPrimitive,
@@ -139,6 +141,23 @@ describe("DropdownMenu governance", () => {
       "data-slot",
       "dropdown-menu-trigger"
     );
+  });
+
+  it("does not leak trigger layout classes onto Button when asChild", () => {
+    render(
+      <DropdownMenu open>
+        <DropdownMenuTrigger asChild>
+          <Button {...mapStockButtonProps("ghost", "icon-sm")} aria-label="Actions">
+            Open
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>View</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+
+    expect(screen.getByRole("button", { name: "Actions" })).toBeInTheDocument();
   });
 
   it("forwards ref to trigger", () => {

@@ -63,19 +63,32 @@ export interface TooltipTriggerProps
     React.ComponentProps<typeof TooltipPrimitive.Trigger>,
     "className"
   > {
+  readonly asChild?: boolean;
   readonly className?: string;
 }
 
 const TooltipTrigger = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Trigger>,
   TooltipTriggerProps
->(({ className, ...props }, ref) => {
+>(({ className, asChild = false, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "Tooltip",
     recipeName: TOOLTIP_RECIPE_NAME,
     slotKey: "trigger",
-    className,
+    className: asChild ? undefined : className,
   });
+
+  if (asChild) {
+    return (
+      <TooltipPrimitive.Trigger
+        ref={ref}
+        asChild
+        className={undefined}
+        {...props}
+        {...governed.dataAttributes}
+      />
+    );
+  }
 
   return (
     <TooltipPrimitive.Trigger

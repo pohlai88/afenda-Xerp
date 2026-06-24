@@ -157,16 +157,42 @@ export function createReactProject(
   options: ReactProjectOptions = {}
 ) {
   const root = dirname(fileURLToPath(importMetaUrl));
+  const uiSrcRoot = resolve(MONOREPO_ROOT, "packages/ui/src");
+  const uiGovernanceRoot = resolve(uiSrcRoot, "governance");
+  const appshellSrcRoot = resolve(MONOREPO_ROOT, "packages/appshell/src");
 
   return defineProject({
     root,
     plugins: [react()],
     resolve: {
-      alias: {
-        "next/link": NEXT_LINK_MOCK,
-        "next/image": NEXT_IMAGE_MOCK,
-        ...options.alias,
-      },
+      alias: [
+        {
+          find: /^@afenda\/ui\/governance\/(.+)$/,
+          replacement: `${uiGovernanceRoot}/$1`,
+        },
+        {
+          find: "@afenda/ui/governance",
+          replacement: resolve(uiGovernanceRoot, "index.ts"),
+        },
+        {
+          find: "@afenda/ui/lib/utils",
+          replacement: resolve(uiSrcRoot, "lib/utils.ts"),
+        },
+        {
+          find: "@afenda/ui",
+          replacement: resolve(uiSrcRoot, "index.ts"),
+        },
+        {
+          find: "@afenda/appshell",
+          replacement: resolve(appshellSrcRoot, "index.ts"),
+        },
+        { find: "next/link", replacement: NEXT_LINK_MOCK },
+        { find: "next/image", replacement: NEXT_IMAGE_MOCK },
+        ...Object.entries(options.alias ?? {}).map(([find, replacement]) => ({
+          find,
+          replacement,
+        })),
+      ],
     },
     server: {
       deps: WORKSPACE_DEPS,

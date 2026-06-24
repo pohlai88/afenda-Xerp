@@ -138,7 +138,7 @@ function resolveSlotClassName(
   if (input.slotKey !== undefined) {
     const slotClassName = definition.slotClassNamesByKey?.[input.slotKey];
 
-    if (!slotClassName) {
+    if (slotClassName === undefined) {
       return enforceGovernanceOr(
         `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
         definition.slotClassNames[slot] ?? ""
@@ -207,7 +207,7 @@ function resolveDataSlot(
   if (input.slotKey !== undefined) {
     const dataSlot = definition.dataSlotByKey?.[input.slotKey];
 
-    if (!dataSlot) {
+    if (dataSlot === undefined) {
       return enforceGovernanceOr(
         `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
         definition.componentName.toLowerCase()

@@ -1,0 +1,122 @@
+/**
+ * Afenda Docs Editorial Palette
+ *
+ * Light: porcelain editorial white — not beige parchment.
+ * Dark: graphite charcoal with rail / paper / canvas layering.
+ * Shell: quiet neutral material. Prose accent: Afenda blue (H254) only.
+ */
+
+:root {
+  --docs-editorial-canvas: oklch(0.985 0.003 95);
+  --docs-editorial-rail: oklch(0.972 0.004 95);
+  --docs-editorial-paper: oklch(0.998 0.001 95);
+  --docs-editorial-text: oklch(0.18 0.006 260);
+  --docs-editorial-text-muted: oklch(0.46 0.01 260);
+  --docs-editorial-text-subtle: oklch(0.58 0.008 260);
+  --docs-editorial-surface-muted: oklch(0.955 0.004 95);
+  --docs-editorial-surface-raised: oklch(1 0 0);
+  --docs-editorial-surface-hover: oklch(0.935 0.005 95);
+  --docs-editorial-surface-active: oklch(0.925 0.006 95);
+  --docs-editorial-border: oklch(0.88 0.006 95);
+  --docs-editorial-border-subtle: oklch(0.92 0.004 95);
+  --docs-editorial-ring: oklch(0.52 0.06 255);
+  --docs-editorial-overlay: oklch(0.16 0.006 260 / 0.42);
+  --docs-editorial-prose-accent: oklch(0.48 0.17 254);
+  --docs-editorial-prose-accent-hover: oklch(0.42 0.19 254);
+  --docs-editorial-code-surface: oklch(0.955 0.004 95);
+  --docs-editorial-search-surface: var(--docs-editorial-paper);
+  --docs-editorial-search-kbd-surface: var(--docs-editorial-surface-muted);
+  --docs-editorial-search-kbd-foreground: var(--docs-editorial-text);
+}
+
+.dark {
+  --docs-editorial-canvas: oklch(0.155 0.004 260);
+  --docs-editorial-rail: oklch(0.135 0.004 260);
+  --docs-editorial-paper: oklch(0.18 0.004 260);
+  --docs-editorial-text: oklch(0.93 0.004 95);
+  --docs-editorial-text-muted: oklch(0.68 0.006 260);
+  --docs-editorial-text-subtle: oklch(0.56 0.006 260);
+  --docs-editorial-surface-muted: oklch(0.205 0.005 260);
+  --docs-editorial-surface-raised: oklch(0.19 0.004 260);
+  --docs-editorial-surface-hover: oklch(0.235 0.006 260);
+  --docs-editorial-surface-active: oklch(0.255 0.007 260);
+  --docs-editorial-border: oklch(0.31 0.006 260);
+  --docs-editorial-border-subtle: oklch(0.25 0.005 260);
+  --docs-editorial-ring: oklch(0.72 0.055 255);
+  --docs-editorial-overlay: oklch(0.05 0.004 260 / 0.68);
+  --docs-editorial-prose-accent: oklch(0.72 0.14 254);
+  --docs-editorial-prose-accent-hover: oklch(0.8 0.13 254);
+  --docs-editorial-code-surface: oklch(0.205 0.005 260);
+  --docs-editorial-search-surface: var(--docs-editorial-paper);
+  --docs-editorial-search-kbd-surface: var(--docs-editorial-surface-muted);
+  --docs-editorial-search-kbd-foreground: var(--docs-editorial-text);
+}
+
+@theme inline {
+  --color-fd-background: var(--docs-editorial-canvas);
+  --color-fd-foreground: var(--docs-editorial-text);
+  --color-fd-muted: var(--docs-editorial-surface-muted);
+  --color-fd-muted-foreground: var(--docs-editorial-text-muted);
+  --color-fd-popover: var(--docs-editorial-paper);
+  --color-fd-popover-foreground: var(--docs-editorial-text);
+  --color-fd-card: var(--docs-editorial-paper);
+  --color-fd-card-foreground: var(--docs-editorial-text);
+  --color-fd-border: var(--docs-editorial-border);
+  --color-fd-primary: var(--docs-editorial-text);
+  --color-fd-primary-foreground: var(--docs-editorial-canvas);
+  --color-fd-secondary: var(--docs-editorial-surface-muted);
+  --color-fd-secondary-foreground: var(--docs-editorial-text);
+  --color-fd-accent: var(--docs-editorial-surface-hover);
+  --color-fd-accent-foreground: var(--docs-editorial-text);
+  --color-fd-ring: var(--docs-editorial-ring);
+  --color-fd-overlay: var(--docs-editorial-overlay);
+}
+
+:focus-visible {
+  outline-color: var(--docs-editorial-ring);
+}
+
+/* Sidebar rail — material depth; beats fumadocs neutral.css #nd-sidebar scoped hsl */
+#nd-sidebar {
+  --color-fd-muted: var(--docs-editorial-rail);
+  --color-fd-secondary: var(--docs-editorial-rail);
+  --color-fd-muted-foreground: var(--docs-editorial-text-muted);
+  background-color: var(--docs-editorial-rail);
+  border-color: var(--docs-editorial-border-subtle);
+}
+
+#nd-sidebar [data-active="true"] {
+  color: var(--docs-editorial-text);
+  background-color: var(--docs-editorial-surface-active);
+}
+
+button[data-search-full] {
+  color: var(--docs-editorial-text-muted);
+  background-color: var(--docs-editorial-search-surface);
+  border-color: var(--docs-editorial-border-subtle);
+  box-shadow: 0 1px 1px oklch(0 0 0 / 0.03);
+}
+
+.dark button[data-search-full] {
+  box-shadow: none;
+}
+
+button[data-search-full]:hover {
+  color: var(--docs-editorial-text);
+  background-color: var(--docs-editorial-surface-hover);
+  border-color: var(--docs-editorial-border);
+}
+
+button[data-search-full] kbd {
+  font-variant-numeric: tabular-nums;
+  color: var(--docs-editorial-search-kbd-foreground);
+  background-color: var(--docs-editorial-search-kbd-surface);
+  border-color: var(--docs-editorial-border-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button[data-search-full],
+  #nd-sidebar [data-active="true"] {
+    transition: none;
+  }
+}

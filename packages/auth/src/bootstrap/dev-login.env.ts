@@ -4,6 +4,7 @@ import {
   DEV_LOGIN_EMAIL,
   DEV_LOGIN_EMAIL_ENV,
   DEV_LOGIN_PASSWORD_ENV,
+  DEV_VIEWER_LOGIN_PASSWORD_ENV,
   MIN_DEV_LOGIN_PASSWORD_LENGTH,
 } from "./dev-login.fixture.js";
 
@@ -64,4 +65,44 @@ export function resolveDevLoginPassword(
   }
 
   return password;
+}
+
+function deriveDevViewerLoginPassword(adminPassword: string): string {
+  return `${adminPassword}-viewer`;
+}
+
+export function resolveDevViewerLoginPassword(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  const explicit = env[DEV_VIEWER_LOGIN_PASSWORD_ENV]?.trim();
+  if (explicit && explicit.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH) {
+    return explicit;
+  }
+
+  return deriveDevViewerLoginPassword(resolveDevLoginPassword(env));
+}
+
+export function hasDevViewerLoginCredentials(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
+  const explicit = env[DEV_VIEWER_LOGIN_PASSWORD_ENV]?.trim();
+  if (explicit && explicit.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH) {
+    return true;
+  }
+
+  const adminPassword = env[DEV_LOGIN_PASSWORD_ENV]?.trim();
+  return Boolean(
+    adminPassword && adminPassword.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH
+  );
+}
+
+/** @deprecated Use `resolveDevViewerLoginPassword` — viewer bootstrap is no longer optional. */
+export function resolveOptionalE2EViewerLoginPassword(
+  env: NodeJS.ProcessEnv = process.env
+): string | null {
+  if (!hasDevViewerLoginCredentials(env)) {
+    return null;
+  }
+
+  return resolveDevViewerLoginPassword(env);
 }

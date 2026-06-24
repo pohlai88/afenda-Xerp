@@ -1,0 +1,29 @@
+---
+title: Afenda Documentation
+description: Implementation guides for engineers working in the Afenda ERP monorepo.
+---
+
+Engineer-facing guides for the Afenda monorepo — onboarding, package map, and contribution workflow. Governance artifacts (ADRs, architecture registries, delivery TIPs) stay in the repository under `docs/` at the repo root; link to those sources instead of duplicating them here.
+
+## Start here
+
+| Guide | What you'll learn |
+| ----- | ----------------- |
+| [Getting Started](/docs/getting-started) | Clone, install dependencies, and run ERP + docs locally |
+| [Monorepo Map](/docs/monorepo-map) | Package layers, ports, and where to edit |
+| [Contributing](/docs/contributing) | Coding session contract, TIP handoffs, and quality gates |
+
+## Dev servers
+
+| App | Command | Port |
+| --- | ------- | ---- |
+| ERP | `pnpm --filter @afenda/erp dev` | 3000 |
+| Docs | `pnpm --filter @afenda/docs dev` | 3001 |
+
+## Governance (repo root)
+
+These sources are authoritative — cross-link, do not mirror verbatim in MDX:
+
+- [Delivery TIP index](https://github.com/afenda-bolt/afenda-Xerp/blob/main/docs/delivery/tip-status-index.md) — implementation sequence and status
+- [Runtime truth matrix](https://github.com/afenda-bolt/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) — what is actually implemented
+- [Package registry](https://github.com/afenda-bolt/afenda-Xerp/blob/main/docs/architecture/package-registry.md) — PKG codes and ownership

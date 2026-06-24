@@ -25,7 +25,6 @@ Read each file in full using the Read tool:
 | 1 | `.cursor/skills/afenda-ui-quality/SKILL.md` | Five-phase pipeline, TIP-004 normalization |
 | 2 | `.cursor/skills/govern-primitive/SKILL.md` | 16-point governance checklist, registry rules |
 | 3 | `.cursor/skills/react-erp-quality/SKILL.md` | React hooks, composition, bundle gate |
-| 4 | `.cursor/skills/ui-craft/SKILL.md` | Visual quality, anti-slop rules |
 
 ---
 

@@ -4,7 +4,12 @@ import {
   assertDevAuthBootstrapAllowed,
   resolveDevLoginEmail,
   resolveDevLoginPassword,
+  resolveDevViewerLoginPassword,
 } from "../src/bootstrap/dev-login.env.js";
+import {
+  DEV_VIEWER_LOGIN_DISPLAY_NAME,
+  DEV_VIEWER_LOGIN_EMAIL,
+} from "../src/bootstrap/dev-login.fixture.js";
 import { ensureDevAuthLogin } from "../src/bootstrap/ensure-dev-auth-login.js";
 import { loadAuthScriptEnv } from "./load-env.js";
 
@@ -24,6 +29,27 @@ try {
       {
         email,
         ...result,
+      },
+      null,
+      2
+    )
+  );
+
+  const viewerPassword = resolveDevViewerLoginPassword();
+  const viewerResult = await ensureDevAuthLogin(
+    {
+      email: DEV_VIEWER_LOGIN_EMAIL,
+      password: viewerPassword,
+      displayName: DEV_VIEWER_LOGIN_DISPLAY_NAME,
+    },
+    client.db
+  );
+
+  console.log(
+    JSON.stringify(
+      {
+        email: DEV_VIEWER_LOGIN_EMAIL,
+        ...viewerResult,
       },
       null,
       2

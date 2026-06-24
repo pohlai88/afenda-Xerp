@@ -20,11 +20,21 @@ export interface ApiAuditPolicy {
   readonly targetType: string;
 }
 
+export interface ApiIdempotencyPolicy {
+  readonly mode: "optional" | "required";
+}
+
+export interface ApiPaginationPolicy {
+  readonly mode: "cursor";
+}
+
 export interface ApiRouteContract<TRequest, TResponse> {
   readonly audit?: ApiAuditPolicy;
   readonly cache: ApiCachePolicy;
   readonly id: string;
+  readonly idempotency?: ApiIdempotencyPolicy;
   readonly method: ApiHttpMethod;
+  readonly pagination?: ApiPaginationPolicy;
   readonly path: string;
   readonly permission?: ApiRoutePermissionPolicy;
   readonly requestSchema: ZodType<TRequest>;

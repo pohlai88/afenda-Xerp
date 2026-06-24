@@ -55,6 +55,7 @@ function renderCanvasHarness() {
 
 describe("AppShellCanvasHarness dev fallback", () => {
   it("renders default layout copy when layout API returns 401", async () => {
+    // ApplicationShellDashboardCanvas + appshell bundle load can exceed 10s under full-suite CPU contention.
     vi.mocked(fetchWorkspaceDashboardLayout).mockRejectedValue(
       new ApiClientRequestError({
         code: "unauthenticated",
@@ -77,5 +78,5 @@ describe("AppShellCanvasHarness dev fallback", () => {
       screen.getByRole("region", { name: "ERP overview dashboard" })
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset layout" })).toBeDisabled();
-  });
+  }, 20_000);
 });

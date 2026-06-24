@@ -1,5 +1,6 @@
 import type { RoleScope } from "../database.types.js";
 import type { PermissionKey } from "../permission-key.contract.js";
+import { createPermissionKey } from "../permission-key.contract.js";
 import { listPlatformPermissionCatalogKeys } from "./platform-permissions.catalog.js";
 
 export interface PlatformRoleCatalogEntry {
@@ -45,5 +46,13 @@ export const DEV_TENANT_ROLE_CATALOG = [
     description: "Tenant-wide administration for development workspaces.",
     scope: "tenant",
     permissionKeys: ALL_PLATFORM_PERMISSIONS,
+  },
+  {
+    key: "tenant.workspace_reader",
+    name: "Workspace Reader",
+    description:
+      "Workspace dashboard access only — used for manifest RBAC E2E denial paths.",
+    scope: "tenant",
+    permissionKeys: [createPermissionKey("workspace", "dashboard_read")],
   },
 ] as const satisfies readonly TenantRoleCatalogEntry[];

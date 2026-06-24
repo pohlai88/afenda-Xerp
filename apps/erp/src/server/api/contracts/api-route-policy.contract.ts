@@ -1,29 +1,13 @@
-import type { ApiCachePolicy, ApiRouteContract } from "./api-contract";
+import type { ApiCachePolicy } from "./api-contract";
 
-export function isMutationMethod(
-  method: ApiRouteContract<unknown, unknown>["method"]
-): boolean {
-  return (
-    method === "DELETE" ||
-    method === "PATCH" ||
-    method === "POST" ||
-    method === "PUT"
-  );
-}
-
-export function assertMutationCachePolicy(
-  contract: ApiRouteContract<unknown, unknown>
-): void {
-  if (!isMutationMethod(contract.method)) {
-    return;
-  }
-
-  if (contract.cache.kind !== "no-store") {
-    throw new Error(
-      `Mutation contract ${contract.id} must use cache policy no-store.`
-    );
-  }
-}
+export {
+  assertMethodPolicy,
+  assertMutationCachePolicy,
+  isMutationMethod,
+  isReadMethod,
+  MUTATION_HTTP_METHODS,
+  READ_HTTP_METHODS,
+} from "./method-policy.contract";
 
 export function resolveNextDynamic(
   cache: ApiCachePolicy

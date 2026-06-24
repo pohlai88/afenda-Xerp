@@ -46,6 +46,11 @@ export const PLATFORM_PERMISSION_CATALOG = [
     description: "Enable and configure platform modules.",
   },
   {
+    key: catalogKey("system_admin", "audit_read"),
+    name: "Read audit events",
+    description: "View tenant-scoped audit events in system admin.",
+  },
+  {
     key: catalogKey("accounting", "journal_read"),
     name: "Read journals",
     description: "Read accounting journal entries.",

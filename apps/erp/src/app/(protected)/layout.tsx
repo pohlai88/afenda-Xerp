@@ -18,6 +18,7 @@ import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-cont
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-operating-context";
 import { internalErpMetadata } from "@/lib/metadata/site-metadata";
+import { resolveManifestNavigationFromOperatingContext } from "@/lib/modules/resolve-manifest-navigation.server";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
 import {
   emptyDashboardWidgetRenderContext,
@@ -83,6 +84,9 @@ export default async function ProtectedLayout({
         operatingResult.value
       )
     : READONLY_WORKSPACE_DASHBOARD_CAPABILITIES;
+  const navigationPages = operatingResult.ok
+    ? await resolveManifestNavigationFromOperatingContext(operatingResult.value)
+    : undefined;
 
   return (
     <AppShell
@@ -90,6 +94,7 @@ export default async function ProtectedLayout({
       identityAccessory={<SignOutButton />}
       {...(contextSwitcher ? { contextSwitcher } : {})}
       {...(operatingContext ? { operatingContext } : {})}
+      {...(navigationPages ? { navigationPages } : {})}
     >
       <WorkspaceApiScopeBoundary
         requireScope

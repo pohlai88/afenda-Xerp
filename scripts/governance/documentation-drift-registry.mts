@@ -24,8 +24,7 @@ export const TIP_STATUS_INDEX = "docs/delivery/tip-status-index.md";
 export const TIP_DELIVERY_TIPS_DIR = "docs/delivery/tips" as const;
 
 /** Index must reference tips/ paths — not legacy docs/delivery/tip-*.md root layout. */
-export const TIP_STATUS_INDEX_TIPS_PATH_MARKER =
-  "docs/delivery/tips/" as const;
+export const TIP_STATUS_INDEX_TIPS_PATH_MARKER = "docs/delivery/tips/" as const;
 
 /** Only this file may live at docs/delivery/tip-*.md root (not under tips/). */
 export const TIP_STATUS_INDEX_BASENAME = "tip-status-index.md" as const;

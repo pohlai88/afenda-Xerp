@@ -48,20 +48,32 @@ export interface DropdownMenuTriggerProps
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>,
     "className"
   > {
+  readonly asChild?: boolean;
   readonly className?: string;
 }
 
 const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
   DropdownMenuTriggerProps
->(({ className, ...props }, ref) => {
+>(({ className, asChild = false, ...props }, ref) => {
   const governed = resolvePrimitiveGovernance({
     componentName: "DropdownMenu",
     recipeName: DROPDOWN_MENU_RECIPE_NAME,
     slotKey: "trigger",
-    slot: "control",
-    className,
+    className: asChild ? undefined : className,
   });
+
+  if (asChild) {
+    return (
+      <DropdownMenuPrimitive.Trigger
+        asChild
+        className={undefined}
+        ref={ref}
+        {...props}
+        {...governed.dataAttributes}
+      />
+    );
+  }
 
   return (
     <DropdownMenuPrimitive.Trigger

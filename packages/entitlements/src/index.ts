@@ -97,6 +97,32 @@ export {
   featureManifests,
 } from "./evaluation/feature-manifest";
 export {
+  ERP_MODULE_IDS,
+  ERP_MODULE_MANIFEST,
+  type ErpModuleId,
+  type ErpModuleManifestEntry,
+  getErpModuleManifest,
+  isErpModuleId,
+  listErpModuleManifests,
+  type ModuleRoutePath,
+} from "./evaluation/feature-manifest.registry";
+export {
+  getModuleManifestCapabilityBinding,
+  listModuleManifestCapabilityBindings,
+  type ModuleManifestCapabilityBinding,
+  resolveModuleOptionalCapabilities,
+} from "./evaluation/module-manifest-capability-registry";
+export {
+  assertModuleRoutePath,
+  getModuleRoute,
+  getModuleRouteByPath,
+  isModuleRoutePath,
+  listModuleRoutes,
+  MODULE_ROUTE_MANIFEST,
+  type ModuleRouteManifestEntry,
+  moduleIdFromRoutePath,
+} from "./evaluation/module-route-manifest";
+export {
   governedBetaFlagsExample,
   governedEntitlementContextExample,
   governedEntitlementsExample,

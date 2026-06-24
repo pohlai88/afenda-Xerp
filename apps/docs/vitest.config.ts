@@ -7,5 +7,6 @@ const root = dirname(fileURLToPath(import.meta.url));
 export default createReactProject(import.meta.url, "@afenda/docs", {
   alias: {
     "@": resolve(root, "src"),
+    "collections/server": resolve(root, ".source/server.ts"),
   },
 });

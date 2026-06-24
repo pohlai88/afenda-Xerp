@@ -1,0 +1,32 @@
+import { PERMISSION_REGISTRY } from "@afenda/permissions";
+import { describe, expect, it } from "vitest";
+
+import { resolveManifestNavigationFromOperatingContext } from "../resolve-manifest-navigation.server";
+import {
+  createModuleRouteOperatingContext,
+  createModuleRoutePermissionDataSource,
+} from "./module-route-test-fixtures";
+
+describe("resolveManifestNavigationFromOperatingContext (TIP-007A acceptance)", () => {
+  it("includes HRM when RBAC grants module access", async () => {
+    const navigation = await resolveManifestNavigationFromOperatingContext(
+      createModuleRouteOperatingContext(),
+      createModuleRoutePermissionDataSource([
+        PERMISSION_REGISTRY.hr.employee.read,
+      ])
+    );
+
+    expect(navigation.some((item) => item.label === "HRM")).toBe(true);
+  });
+
+  it("hides HRM when RBAC permission is missing", async () => {
+    const navigation = await resolveManifestNavigationFromOperatingContext(
+      createModuleRouteOperatingContext(),
+      createModuleRoutePermissionDataSource([
+        PERMISSION_REGISTRY.workspace.dashboard.read,
+      ])
+    );
+
+    expect(navigation.some((item) => item.label === "HRM")).toBe(false);
+  });
+});

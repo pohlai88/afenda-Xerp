@@ -1,10 +1,20 @@
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 import {
+  API_CONTRACTS,
+  GOVERNED_ROUTE_CONTRACT_EXPORTS,
+} from "@/server/api/contracts/api-contract-registry";
+import { validateApiContractRegistryCoverage } from "@/server/api/contracts/api-route-coverage";
+import { assertIdempotencyPolicy } from "@/server/api/contracts/idempotency.contract";
+import {
+  assertMethodPolicy,
   assertMutationCachePolicy,
   isMutationMethod,
-} from "@/server/api/contracts/api-route-policy.contract";
+} from "@/server/api/contracts/method-policy.contract";
+import { paginationMetaSchema } from "@/server/api/contracts/pagination.contract";
+
+const apiRoot = join(import.meta.dirname, "../../../app/api");
 
 describe("API contract registry", () => {
   it("uses unique contract ids", () => {
@@ -59,5 +69,54 @@ describe("API contract registry", () => {
       expect(contract.tags.length).toBeGreaterThan(0);
       expect(contract.cache).toBeDefined();
     }
+  });
+
+  it("satisfies method policy for every registered contract", () => {
+    for (const contract of API_CONTRACTS) {
+      expect(() => assertMethodPolicy(contract)).not.toThrow();
+    }
+  });
+
+  it("satisfies idempotency policy for every registered contract", () => {
+    for (const contract of API_CONTRACTS) {
+      expect(() => assertIdempotencyPolicy(contract)).not.toThrow();
+    }
+  });
+
+  it("requires idempotency on dashboard layout PUT", () => {
+    const putContract = API_CONTRACTS.find(
+      (contract) => contract.id === "internal.v1.workspace.dashboard-layout.put"
+    );
+    expect(putContract?.idempotency).toEqual({ mode: "required" });
+  });
+
+  it("defines serializable pagination meta contract", () => {
+    expect(
+      paginationMetaSchema.parse({
+        hasMore: false,
+        limit: 20,
+        nextCursor: null,
+      })
+    ).toBeDefined();
+  });
+
+  it("registers every governed route handler contract", () => {
+    const violations = validateApiContractRegistryCoverage({
+      apiRoot,
+      contractExports: GOVERNED_ROUTE_CONTRACT_EXPORTS,
+      registryContracts: API_CONTRACTS,
+    });
+
+    expect(violations).toEqual([]);
+  });
+
+  it("keeps API_CONTRACTS aligned with GOVERNED_ROUTE_CONTRACT_EXPORTS", () => {
+    const exportIds = Object.values(GOVERNED_ROUTE_CONTRACT_EXPORTS).map(
+      (contract) => contract.id
+    );
+    const registryIds = API_CONTRACTS.map((contract) => contract.id);
+
+    expect(new Set(exportIds)).toEqual(new Set(registryIds));
+    expect(exportIds).toHaveLength(registryIds.length);
   });
 });

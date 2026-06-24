@@ -43,6 +43,39 @@ Protected internal v1 routes resolve workspace context from **`x-tenant-slug`** 
 
 Use `WorkspaceApiScope` + `WorkspaceApiScopeProvider` / `useWorkspaceApiScope()` for client fetch helpers.
 
+## Idempotency (mutation retries)
+
+Routes that declare `idempotency: { mode: "required" }` on their `ApiRouteContract` require the **`Idempotency-Key`** header on every mutation request.
+
+| Header | Rule |
+| --- | --- |
+| `Idempotency-Key` | 8–128 characters; scoped replay key |
+
+Replay behavior:
+
+- Same contract + tenant + user + key → same serialized `data` payload returned
+- Fresh envelope `meta` (`requestId`, `correlationId`, `timestamp`) on each response
+- No duplicate mutation side effects on retry
+
+Foundation store is in-process (`IdempotencyStore` interface). Durable persistence requires a future schema TIP — do not hand-edit migrations locally.
+
+## Pagination (collection routes)
+
+Collection/list endpoints use `pagination.contract.ts`:
+
+| Query | Rule |
+| --- | --- |
+| `cursor` | Opaque cursor from prior page |
+| `limit` | 1–100, default 20 |
+
+Success envelopes for paginated routes extend `meta` with:
+
+```json
+{ "pagination": { "limit": 20, "hasMore": false, "nextCursor": null } }
+```
+
+Wire `pagination: { mode: "cursor" }` on the contract when a list route lands.
+
 ## Verification
 
 ```bash

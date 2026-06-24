@@ -12,6 +12,9 @@ describe("@afenda/permissions package exports", () => {
     expect(PERMISSION_REGISTRY.systemAdmin.users.manage).toBe(
       "system_admin.users_manage"
     );
+    expect(PERMISSION_REGISTRY.systemAdmin.audit.read).toBe(
+      "system_admin.audit_read"
+    );
     expect(PERMISSION_REGISTRY.accounting.journal.post).toBe(
       "accounting.journal_post"
     );

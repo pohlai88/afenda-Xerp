@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "./docs-editorial-palette.css";
+
+:root {
+  --fd-layout-width: 1400px;
+  --font-sans:
+    var(--font-docs-body), "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:
+    var(--font-docs-display), "Source Serif 4", ui-serif, Georgia, serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--docs-editorial-text);
+  background-color: var(--docs-editorial-canvas);
+}
+
+/*
+ * Editorial prose — hierarchy without shell accent.
+ * Brand blue: links and blockquote rule only.
+ */
+.nd-page .prose {
+  max-width: 66ch;
+  font-feature-settings: "liga", "kern";
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.nd-page .prose :is(h1, h2, h3, h4) {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  color: var(--docs-editorial-text);
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.nd-page .prose h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 1.5rem + 1vw, 2.625rem);
+  line-height: 1.08;
+}
+
+.nd-page .prose h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  font-size: clamp(1.45rem, 1.2rem + 0.45vw, 1.875rem);
+  line-height: 1.18;
+}
+
+.nd-page .prose p {
+  color: var(--docs-editorial-text);
+}
+
+.nd-page .prose > p:first-of-type {
+  font-size: 1.075rem;
+  line-height: 1.65;
+  color: var(--docs-editorial-text-muted);
+}
+
+.nd-page .prose :not(pre) > code {
+  padding: 0.125rem 0.375rem;
+  background-color: var(--docs-editorial-code-surface);
+  border: 1px solid var(--docs-editorial-border-subtle);
+  border-radius: 0.25rem;
+}
+
+.nd-page .prose a {
+  color: var(--docs-editorial-prose-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color 120ms ease,
+    text-underline-offset 120ms ease;
+}
+
+.nd-page .prose a:hover {
+  color: var(--docs-editorial-prose-accent-hover);
+  text-underline-offset: 4px;
+}
+
+.nd-page .prose blockquote {
+  max-width: 55ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  border-inline-start: 3px solid var(--docs-editorial-prose-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nd-page .prose a {
+    transition: none;
+  }
+}

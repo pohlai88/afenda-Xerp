@@ -21,6 +21,10 @@ export const DEV_WORKSPACE_FIXTURE = {
     email: "dev-admin@localhost.afenda",
     displayName: "Dev Workspace Admin",
   },
+  viewer: {
+    email: "dev-viewer@localhost.afenda",
+    displayName: "Dev Workspace Viewer",
+  },
 } as const;
 
 /** Preview workspace fixture identifiers — isolated from dev-local. */
@@ -46,6 +50,10 @@ export const PREVIEW_WORKSPACE_FIXTURE = {
     email: "preview-admin@localhost.afenda",
     displayName: "Preview Workspace Admin",
   },
+  viewer: {
+    email: "preview-viewer@localhost.afenda",
+    displayName: "Preview Workspace Viewer",
+  },
 } as const;
 
 /** Demo workspace fixture — blocked in production by seed safety rules. */
@@ -70,6 +78,10 @@ export const DEMO_WORKSPACE_FIXTURE = {
   user: {
     email: "demo-admin@localhost.afenda",
     displayName: "Demo Workspace Admin",
+  },
+  viewer: {
+    email: "demo-viewer@localhost.afenda",
+    displayName: "Demo Workspace Viewer",
   },
 } as const;
 

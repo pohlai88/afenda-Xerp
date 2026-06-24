@@ -40,6 +40,7 @@ const requiredCiCommands = [
   "pnpm check:csp-third-party",
   "pnpm check:erp-observability",
   "pnpm quality:release-gate",
+  "pnpm quality:docs",
 ];
 
 const requiredReleaseVerificationGates = [
@@ -68,10 +69,12 @@ const requiredQualityScripts = [
   "quality:ai-governance",
   "quality:preview-policy",
   "quality:release-gate",
+  "quality:docs",
   "quality:csp-third-party",
   "check:csp-third-party",
   "quality:erp-observability",
   "check:erp-observability",
+  "check:docs",
   "ci:biome",
 ];
 

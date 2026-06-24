@@ -1,33 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-const DEV_LOGIN_EMAIL = "dev-admin@localhost.afenda";
-const DEV_LOGIN_EMAIL_ENV = "AFENDA_DEV_LOGIN_EMAIL";
-const DEV_LOGIN_PASSWORD_ENV = "AFENDA_DEV_LOGIN_PASSWORD";
-const MIN_DEV_LOGIN_PASSWORD_LENGTH = 8;
+import {
+  E2E_DEV_FIXTURE_ANNOTATION,
+  hasE2EDevLoginCredentials,
+  resolveE2EDevLoginCredentials,
+  signInWithEmailPassword,
+} from "./fixtures/dev-auth";
+
 const DASHBOARD_LAYOUT_API_PATH = "/api/internal/v1/workspace/dashboard-layout";
-
-function hasE2EDevLoginCredentials(): boolean {
-  const password = process.env[DEV_LOGIN_PASSWORD_ENV]?.trim();
-  return Boolean(password && password.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH);
-}
-
-function resolveE2EDevLoginCredentials(): {
-  readonly email: string;
-  readonly password: string;
-} {
-  const password = process.env[DEV_LOGIN_PASSWORD_ENV]?.trim();
-  if (!password || password.length < MIN_DEV_LOGIN_PASSWORD_LENGTH) {
-    throw new Error(
-      `${DEV_LOGIN_PASSWORD_ENV} is required (minimum ${MIN_DEV_LOGIN_PASSWORD_LENGTH} characters). Run pnpm auth:bootstrap:dev after setting it in .env.local.`
-    );
-  }
-
-  const configured = process.env[DEV_LOGIN_EMAIL_ENV]?.trim();
-  return {
-    email: configured && configured.length > 0 ? configured : DEV_LOGIN_EMAIL,
-    password,
-  };
-}
+const APPSHELL_CANVAS_URL_PATTERN = /\/appshell-canvas(?:\?.*)?$/;
 
 function waitForDashboardLayoutGet(page: import("@playwright/test").Page) {
   return page.waitForResponse(
@@ -39,25 +20,17 @@ function waitForDashboardLayoutGet(page: import("@playwright/test").Page) {
 }
 
 test.describe("protected home dashboard", () => {
-  test.beforeEach(({}, testInfo) => {
+  test.beforeEach((_context, testInfo) => {
+    // biome-ignore lint/suspicious/noSkippedTests: gated on local dev credentials
     test.skip(
       !hasE2EDevLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD (min 8 chars) and run pnpm auth:bootstrap:dev"
     );
-    testInfo.annotations.push({
-      type: "fixture",
-      description:
-        "Requires pnpm db:bootstrap:local && pnpm auth:bootstrap:dev",
-    });
+    testInfo.annotations.push(E2E_DEV_FIXTURE_ANNOTATION);
   });
 
   test("signs in and renders the protected dashboard", async ({ page }) => {
-    const { email, password } = resolveE2EDevLoginCredentials();
-
-    const signInResponse = await page.request.post("/api/auth/sign-in/email", {
-      data: { email, password },
-    });
-    expect(signInResponse.ok()).toBeTruthy();
+    await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
 
     const layoutResponsePromise = waitForDashboardLayoutGet(page);
     await page.goto("/", { waitUntil: "domcontentloaded" });
@@ -83,7 +56,7 @@ test.describe("protected home dashboard", () => {
 test.describe("public dev harness", () => {
   test("appshell demo redirects to the canvas harness", async ({ page }) => {
     await page.goto("/appshell-demo");
-    await expect(page).toHaveURL(/\/appshell-canvas(?:\?.*)?$/);
+    await expect(page).toHaveURL(APPSHELL_CANVAS_URL_PATTERN);
     await expect(
       page.getByRole("heading", { name: "Dashboard canvas" })
     ).toBeVisible({

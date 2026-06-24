@@ -198,7 +198,7 @@ var(--afenda-motion-ease-spring)
 }
 ```
 
-Note: The `Badge` with colored background was removed. Change values use plain `muted-foreground` text (ui-craft rule: "plain secondary text for comparisons").
+Note: The `Badge` with colored background was removed. Change values use plain `muted-foreground` text (plain secondary text for comparisons).
 
 ---
 

@@ -5,7 +5,7 @@
  * Detects obvious stale documentation markers and missing authority index files.
  */
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -157,7 +157,10 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
   }
 
   const tipStatusIndex = readText(TIP_STATUS_INDEX);
-  if (tipStatusIndex && !tipStatusIndex.includes(TIP_STATUS_INDEX_TIPS_PATH_MARKER)) {
+  if (
+    tipStatusIndex &&
+    !tipStatusIndex.includes(TIP_STATUS_INDEX_TIPS_PATH_MARKER)
+  ) {
     violations.push({
       file: TIP_STATUS_INDEX,
       message: `TIP status index must reference ${TIP_STATUS_INDEX_TIPS_PATH_MARKER} (tips/ layout with [status] prefixes)`,

@@ -69,6 +69,20 @@ export {
   validateDashboardLayoutPreset,
   writeStoredDashboardLayout,
 } from "./dashboard";
+export type {
+  BuildNavFromManifestInput,
+  ManifestModuleId,
+  ManifestNavModuleEntry,
+} from "./navigation/build-nav-from-manifest";
+export {
+  buildHydratedManifestNavigation,
+  buildManifestNavigation,
+  hasManifestModuleAccess,
+  hydrateManifestNavigation,
+  isManifestModuleId,
+  MANIFEST_MODULE_IDS,
+  resolveManifestModuleNavIcon,
+} from "./navigation/build-nav-from-manifest";
 export type { AppShellActivityDialogProps } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export type {

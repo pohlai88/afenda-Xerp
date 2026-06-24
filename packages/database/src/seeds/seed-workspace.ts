@@ -89,6 +89,14 @@ export async function seedDevWorkspace(
     throw new Error("Tenant admin role was not seeded.");
   }
 
+  const tenantWorkspaceReaderRole = tenantRoleResults.find(
+    (role) => role.key === "tenant.workspace_reader"
+  );
+
+  if (!tenantWorkspaceReaderRole) {
+    throw new Error("Tenant workspace reader role was not seeded.");
+  }
+
   for (const role of DEV_TENANT_ROLE_CATALOG) {
     const roleId =
       (await findRoleIdByKey({ key: role.key, tenantId: tenant.id }, db)) ??
@@ -138,6 +146,28 @@ export async function seedDevWorkspace(
     db
   );
 
+  const viewer = await ensureUser(
+    {
+      email: fixture.viewer.email,
+      displayName: fixture.viewer.displayName,
+    },
+    audit,
+    db
+  );
+
+  const viewerMembership = await ensureMembership(
+    {
+      tenantId: tenant.id,
+      companyId: company.id,
+      organizationId: null,
+      userId: viewer.id,
+      roleId: tenantWorkspaceReaderRole.id,
+      scopeType: "company",
+    },
+    audit,
+    db
+  );
+
   return {
     tenantId: tenant.id,
     companyId: company.id,
@@ -145,6 +175,8 @@ export async function seedDevWorkspace(
     tenantRoleId: tenantAdminRole.id,
     userId: user.id,
     membershipId: membership.id,
+    viewerMembershipId: viewerMembership.id,
+    viewerUserId: viewer.id,
   };
 }
 

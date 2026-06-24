@@ -22,6 +22,8 @@ export interface WorkspaceSeedResult {
   readonly tenantId: string;
   readonly tenantRoleId: string;
   readonly userId: string;
+  readonly viewerMembershipId: string;
+  readonly viewerUserId: string;
 }
 
 /** @deprecated Use `WorkspaceSeedResult`. */

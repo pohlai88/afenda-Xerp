@@ -1,19 +1,10 @@
+import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    "@afenda/appshell",
-    "@afenda/auth",
-    "@afenda/database",
-    "@afenda/design-system",
-    "@afenda/kernel",
-    "@afenda/metadata-ui",
-    "@afenda/observability",
-    "@afenda/permissions",
-    "@afenda/testing",
-    "@afenda/ui",
-  ],
 };
 
-export default nextConfig;
+const withMDX = createMDX();
+
+export default withMDX(nextConfig);

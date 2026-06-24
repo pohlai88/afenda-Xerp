@@ -18,9 +18,9 @@ export {
   type WorkspaceDisplayLabelInput,
 } from "./app-shell-context.contract.js";
 // ── 10. Consolidation scope ──────────────────────────────────────────────────
-export {
-  type ConsolidationEntityScope,
-  type ConsolidationScopeContext,
+export type {
+  ConsolidationEntityScope,
+  ConsolidationScopeContext,
 } from "./consolidation-scope-context.contract.js";
 // ── Consolidation scope derivation stub (TIP-008) ─────────────────────────────
 export {
@@ -45,7 +45,7 @@ export {
   isEnterpriseHierarchyTier,
 } from "./enterprise-hierarchy.contract.js";
 // ── 2. Entity group ──────────────────────────────────────────────────────────
-export { type EntityGroupContext } from "./entity-group-context.contract.js";
+export type { EntityGroupContext } from "./entity-group-context.contract.js";
 // ── 3. Legal entity / company ────────────────────────────────────────────────
 export {
   LEGAL_ENTITY_COMPANY_TYPES,
@@ -104,9 +104,9 @@ export {
   toSurfaceContext,
 } from "./surface-context.contract.js";
 // ── 6. Team ──────────────────────────────────────────────────────────────────
-export { type TeamContext } from "./team-context.contract.js";
+export type { TeamContext } from "./team-context.contract.js";
 // ── 1. Tenant ────────────────────────────────────────────────────────────────
-export { type TenantContext } from "./tenant-context.contract.js";
+export type { TenantContext } from "./tenant-context.contract.js";
 // ── Client authority guard ─────────────────────────────────────────────────────
 export {
   findUntrustedClientAuthorityFields,

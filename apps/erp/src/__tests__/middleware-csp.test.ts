@@ -31,7 +31,7 @@ describe("proxy CSP integration", () => {
     expect(proxySource).toContain("TENANT_SLUG_HEADER");
     expect(proxySource).toContain("ORGANIZATION_SLUG_PATH_HINT_HEADER");
     expect(proxySource).toContain("resolveWorkspacePathRouting");
-    expect(proxySource).toContain("resolveTenantSlugFromRequest");
+    expect(proxySource).toContain("resolveTenantSlugFromHostname");
     expect(proxySource).toContain("DEV_DEFAULT_TENANT_SLUG");
     expect(proxySource).toContain("resolveDevelopmentDefaultTenantSlug");
     expect(proxySource).toContain("NextResponse.rewrite");

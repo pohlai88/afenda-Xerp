@@ -32,6 +32,9 @@ export const PERMISSION_REGISTRY = {
     modules: {
       manage: definePermissionKey("system_admin", "modules_manage"),
     },
+    audit: {
+      read: definePermissionKey("system_admin", "audit_read"),
+    },
   },
   accounting: {
     journal: {
