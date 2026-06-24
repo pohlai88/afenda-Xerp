@@ -3,7 +3,7 @@
 import { Button, useSidebar } from "@afenda/ui";
 import {
   type GovernedUiComponentName,
-  mapStockButtonProps,
+  mapStockButtonVisualToGoverned,
   type StockButtonVisual,
 } from "@afenda/ui/governance";
 import { PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
@@ -45,10 +45,12 @@ export function AppShellMenuTrigger({
 
   const button = (
     <Button
-      {...mapStockButtonProps(variant, "icon-lg")}
+      {...mapStockButtonVisualToGoverned(variant, "lg")}
       aria-expanded={isOpen}
       data-sidebar="trigger"
       onClick={toggleSidebar}
+      presentation="icon"
+      size="lg"
       type="button"
     >
       {isOpen ? (

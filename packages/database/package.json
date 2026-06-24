@@ -15,6 +15,11 @@
       "import": "./dist/env.js",
       "default": "./dist/env.js"
     },
+    "./load-synced-env": {
+      "types": "./dist/load-synced-env.d.ts",
+      "import": "./dist/load-synced-env.js",
+      "default": "./dist/load-synced-env.js"
+    },
     "./schema": {
       "types": "./dist/schema/index.d.ts",
       "import": "./dist/schema/index.js",

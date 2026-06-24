@@ -21,6 +21,7 @@ const ERP_CARD_NAV_ICON_PROPS = {
 
 const ERP_CARD_NAV_ICON_TITLES = {
   audit: "Audit",
+  diagnostics: "Diagnostics",
   memberships: "Memberships",
   permissions: "Permissions",
   roles: "Roles",
@@ -48,6 +49,15 @@ function ErpCardNavAuditIcon(): ReactElement {
     <ErpCardNavDecorativeIcon iconKey="audit">
       <path d="M8 6h10M8 10h10M8 14h6M6 6h.01M6 10h.01M6 14h.01" />
       <path d="M4 4h16v16H4z" />
+    </ErpCardNavDecorativeIcon>
+  );
+}
+
+function ErpCardNavDiagnosticsIcon(): ReactElement {
+  return (
+    <ErpCardNavDecorativeIcon iconKey="diagnostics">
+      <path d="M12 8v4l3 3" />
+      <circle cx="12" cy="12" r="9" />
     </ErpCardNavDecorativeIcon>
   );
 }
@@ -99,6 +109,7 @@ function ErpCardNavUsersIcon(): ReactElement {
 
 const ERP_CARD_NAV_ICONS = {
   audit: ErpCardNavAuditIcon,
+  diagnostics: ErpCardNavDiagnosticsIcon,
   memberships: ErpCardNavMembershipsIcon,
   permissions: ErpCardNavPermissionsIcon,
   roles: ErpCardNavRolesIcon,

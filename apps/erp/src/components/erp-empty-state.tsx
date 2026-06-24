@@ -1,5 +1,4 @@
 import { Button, Card, CardContent } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import Link from "next/link";
 import type { ReactElement, ReactNode } from "react";
 
@@ -100,7 +99,13 @@ export function ErpEmptyState(props: ErpEmptyStateProps) {
             <p className="erp-empty-state__description">{props.description}</p>
             {isErpEmptyStateWithAction(props) ? (
               <div className="erp-empty-state__action">
-                <Button asChild {...mapStockButtonProps("outline", "default")}>
+                <Button
+                  asChild
+                  emphasis="outline"
+                  intent="primary"
+                  presentation="default"
+                  size="md"
+                >
                   <Link href={props.action.href}>{props.action.label}</Link>
                 </Button>
               </div>

@@ -75,7 +75,7 @@ function ProfileMenuHeader({
             {onlineStatusLabel}
           </span>
         ) : null}
-        <div className="relative">
+        <div className="app-shell-profile-avatar-frame">
           <Avatar size="lg">
             <AvatarImage alt={displayName} src={avatarSrc} />
             <AvatarFallback>{avatarFallback}</AvatarFallback>

@@ -6,7 +6,8 @@ description: Authoritative workflow for writing, fixing, and running Storybook s
 # Afenda Storybook Skill
 
 Stack: Storybook 10 · `@storybook/react-vite` · Vitest addon · `@storybook/addon-a11y` · `@storybook/addon-mcp`  
-Run: `pnpm storybook:ui` (from repo root) — served at `http://localhost:6006`  
+Run: `pnpm storybook` or `pnpm storybook dev` (from repo root) — codegen then served at `http://localhost:6006`  
+Codegen only: `pnpm storybook generate`  
 Test: `pnpm test:storybook`  
 MCP preview server: `project-0-afenda-Xerp-storybook`
 

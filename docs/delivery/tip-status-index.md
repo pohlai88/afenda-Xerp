@@ -44,7 +44,7 @@ A TIP may be implemented **only when all five** are true:
 9. pnpm check:documentation-drift
 ```
 
-**Current runtime priority:** Foundation Phases 1–8 materially advanced; **Phase 4 RLS proof** and **Phase 9 Accounting Readiness Gate** remain. **Next:** TIP-008B domain runtime (deferred) + TIP-032 Slice 6 deploy (parallel). Phase 9 gate remains blocked (ADR-0010).
+**Current runtime priority:** Foundation Phases 1–8 materially advanced; **TIP-013A Slice 1–2 delivered** — Phase 9 gate orchestrator + TIP-009 CI wiring. **Next:** Architecture Authority Phase 9 sign-off before TIP-014+. **TIP-008 Complete** (008A runtime + 008B authority-only). Accounting Core remains blocked (ADR-0010).
 
 ---
 
@@ -85,8 +85,8 @@ A TIP may be implemented **only when all five** are true:
 | 11 | **TIP-006** | **2** Contract tests | `@afenda/appshell` | Step 10 | [§Slice 2](tips/%5BComplete%5D%20tip-006-appshell-authority.md#slice-2--contract-tests-afendaappshell) — **delivered** |
 | 12 | **TIP-006** | **3** Public API alignment | `@afenda/appshell` | Step 11 | [§Slice 3](tips/%5BComplete%5D%20tip-006-appshell-authority.md#slice-3--public-api-alignment-afendaappshell) — **delivered** |
 | **→ 13** | **TIP-007** | **1** Platform contract barrel | `@afenda/kernel` | Step 10 (parallel OK) | [§Slice 1](tips/%5BComplete%5D%20tip-007-erp-platform-authority.md#slice-1--platform-contract-barrel-afendakernel) — **delivered** |
-| 14 | **TIP-008A** | **1–2** Consolidation scope resolver + hardening | `@afenda/database` → `@afenda/kernel` → `@afenda/erp` | Steps 10, 13 | [§008A Slice 1–2](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md#slice-1--consolidation-scope-resolver-008a) — **delivered** |
-| 15 | **TIP-008B** | **1** Business MD authority map (doc-only) | `docs/delivery/` | Step 13 | [§008B Slice 1](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md#slice-1--business-master-data-authority-map-008b) — **delivered** |
+| 14 | **TIP-008A** | **1–6** Consolidation scope + hierarchy hardening | `@afenda/database` → `@afenda/kernel` → `@afenda/erp` | Steps 10, 13 | [§008A Slice 1–6](tips/%5BComplete%5D%20tip-008-master-data-authority.md#slice-1--consolidation-scope-resolver-008a) — **delivered** |
+| 15 | **TIP-008B** | **1–7** Authority map + kernel contracts + governance guards | `@afenda/kernel` | Step 13 | [§008B Slice 1–7](tips/%5BComplete%5D%20tip-008-master-data-authority.md#slice-1--business-master-data-authority-map-008b) — **delivered** |
 
 **Phase 1 gate closes when:** Steps 10–12 + 13 + 14 + 15 complete ([roadmap Phase 1](../architecture/pre-accounting-foundation-roadmap.md#foundation-phase-1--architecture-authority)).
 
@@ -121,12 +121,22 @@ A TIP may be implemented **only when all five** are true:
 
 **Delivered in Track C (do not re-implement):** [TIP-UI-03](tips/%5BComplete%5D%20tip-ui-03-appshell-token-migration.md) Complete (Slices 1–3); [TIP-UI-04 §Slice 1–2](tips/%5BComplete%5D%20tip-ui-04-metadata-ui-renderers.md) package renderers + production `/metadata-workspace`; manifest module placeholders via [TIP-007A](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) at `/modules/[moduleId]`.
 
+### Track E — Phase 9 Accounting Readiness Gate (ADR-0010)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| **→ 32** | **TIP-013A** | **1** | Gate orchestrator + kernel contracts + ERP diagnostics | Steps 1–31 (TIP-013 Complete) | [§Slice 1](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md#slice-1--gate-automation--typescript-boundary--diagnostics-ui) — **delivered** |
+| **→ 33** | **TIP-013A** | **2** | TIP-009 CI wiring + registry parity | Step 32 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md#slice-2--tip-009-ci-wiring--registry-parity--handoff-repair) — **delivered** |
+
+**Blocks TIP-014+ Accounting Core.** One slice per coding session.
+
 ### Track D — Parallel non-blocking (master plan Phase 3)
 
 | Step | TIP | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| **→ 29** | **TIP-032** | **5** MDX component library | `@afenda/docs` | Slices 1–4 ✅ | [§Slice 5](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md#slice-5--mdx-component-library--editorial-blocks-afendadocs) |
-| 30 | **TIP-032** | **6** Deploy target | `@afenda/docs` | Step 29 | [§Slice 6](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md#slice-6--deploy-target-afendadocs) |
+| 29 | **TIP-032** | **5** MDX component library | `@afenda/ui` + Storybook | Slices 1–4 ✅ | [§Slice 5](tips/%5BComplete%5D%20tip-032-implementation-documentation.md#slice-5--afenda-docs-reference-blocks-packagesui--storybook) — **delivered** |
+| 30 | **TIP-032** | **6** Deploy target | `@afenda/docs` | Step 29 | [§Slice 6](tips/%5BComplete%5D%20tip-032-implementation-documentation.md#slice-6--deploy-target-afendadocs) — **delivered** |
+| 31 | **TIP-032** | **5.1** MDX blocks copy + domain doc | `@afenda/docs` | Step 30 | [§Slice 5.1](tips/%5BComplete%5D%20tip-032-implementation-documentation.md#slice-51--mdx-editorial-blocks-copy--production-domain-afendadocs) — **delivered** |
 
 **Does not gate Foundation Phases 0–9.** Safe alongside Tracks A–C.
 
@@ -138,13 +148,13 @@ A TIP may be implemented **only when all five** are true:
 | TIP-007 | Complete | — (Step 13 delivered) | Phase 1 gate (with TIP-008); TIP-008B vocabulary |
 | TIP-007/012 | Complete (foundation) | Slices **A–G** delivered; DoD #1–16 closed; Phase 4 RLS artifact + live gates complete | Maintain only — TIP-UI-05 Complete |
 | TIP-030 | Complete | Slices 1–2 delivered (`project` + `team` scope) | — |
-| TIP-008A | Complete | Slices 1–5 delivered; formal sign-off | Maintain only |
-| TIP-008B | Partially Implemented | Step **15** delivered (authority map) | Domain package runtime (PKG-R02–R05) |
+| TIP-008A | Complete | — (Steps 14 delivered) | Maintain only |
+| TIP-008B | Complete (authority only) | Steps **15** delivered (Slices 1–7) | Domain package schemas (PKG-R02–R05) |
 | TIP-010 | Complete | — (Step 17 delivered) | Phase 3 gate |
 | TIP-UI-03 | Complete | — (Steps 23, 28 delivered) | — |
 | TIP-UI-04 | Complete | — (Step 20 delivered) | TIP-UI-05; TIP-022 |
 | TIP-UI-05 | Complete | — (Steps 19–30 delivered; DoD #1–24 closed) | — |
-| TIP-032 | Partially Implemented | Step **29** (Slice 5 MDX blocks) | — (parallel track) |
+| TIP-032 | Complete | Steps **29–31** (Slices 5–6, 5.1) | — (parallel track) |
 
 ### Do not start yet
 
@@ -201,8 +211,8 @@ All paths relative to `docs/delivery/`.
 | TIP-007A | [tips/[Complete] tip-007a-feature-manifest-governance.md](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) | Complete | Manifest pipeline (Slices 1–3) | — |
 | TIP-007/012 | [tips/[Complete] tip-007-012-enterprise-group-operating-context.md](tips/%5BComplete%5D%20tip-007-012-enterprise-group-operating-context.md) | Complete (foundation) | Multi-tenancy foundation + 22 gates; Slices A–G delivered; DoD #1–16 closed; tenant RLS artifact + live gates | Cross-TIP UX polish (TIP-UI-05) |
 | TIP-030 | [tips/[Complete] tip-030-project-membership-scope.md](tips/%5BComplete%5D%20tip-030-project-membership-scope.md) | Complete | `projects` + `teams` tables; `project` + `team` membership scope | PM domain logic |
-| TIP-008A | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008A | Complete | Entity group + ownership schemas; consolidation resolver + dedup policy; ADR-0011 acceptance gate closed; API hierarchy RBAC boundary | Maintain only |
-| TIP-008B | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008B | Partially Implemented | Glossary + dependency registry authority map | Runtime contracts deferred to domain TIPs |
+| TIP-008A | [tips/[Complete] tip-008-master-data-authority.md](tips/%5BComplete%5D%20tip-008-master-data-authority.md) §008A | Complete | Entity group + ownership schemas; consolidation resolver + dedup policy; ADR-0011 acceptance gate closed; API hierarchy RBAC boundary | Maintain only |
+| TIP-008B | [tips/[Complete] tip-008-master-data-authority.md](tips/%5BComplete%5D%20tip-008-master-data-authority.md) §008B | Complete (authority only) | Kernel authority registry + wire reference contracts | Domain package schemas (PKG-R02–R05) |
 | TIP-009 | [tips/[Complete] tip-009-ci-cd-preview.md](tips/%5BComplete%5D%20tip-009-ci-cd-preview.md) | Complete | Turborepo, `pnpm quality` | — |
 | TIP-010 | [tips/[Complete] tip-010-api-rbac-wiring.md](tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md) | Complete | Full internal v1 route matrix; system-admin RBAC; cross-company denial | — |
 | TIP-010A | [tips/[Complete] tip-010a-api-contract-governance.md](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) | Complete | Registry, method policy, idempotency replay, pagination contract | — |
@@ -211,6 +221,7 @@ All paths relative to `docs/delivery/`.
 | TIP-011† | [tips/[Superseded] tip-012-execution-foundation.md](tips/%5BSuperseded%5D%20tip-012-execution-foundation.md) | Superseded | Trigger.dev slice evidence | Misnumbered — see TIP-011 |
 | TIP-012 | [tips/[Complete] tip-012-erp-operating-spine.md](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md) | Complete | Spine helper + lifecycle test + outbox on dashboard PUT; Trigger.dev deploy closed via TIP-011 Slice 4 | — |
 | TIP-013 | [tips/[Complete] tip-013-system-admin-control-plane.md](tips/%5BComplete%5D%20tip-013-system-admin-control-plane.md) | Complete | `system-admin` layout + pages + governed API contracts; integration tests | Audit pagination; settings/org mutations |
+| TIP-013A | [tips/[Partially Implemented] tip-013a-accounting-readiness-gate.md](tips/%5BPartially%20Implemented%5D%20tip-013a-accounting-readiness-gate.md) | Partially Implemented | Gate orchestrator + diagnostics UI (Slice 1); CI wiring (Slice 2) | Architecture Authority Phase 9 sign-off |
 
 † Misnumbered evidence — audit trail only.
 
@@ -231,7 +242,7 @@ All paths relative to `docs/delivery/`.
 
 | TIP | Doc | Status | Runtime evidence | Next step / gap |
 | --- | --- | --- | --- | --- |
-| TIP-032 | [tips/[Partially Implemented] tip-032-implementation-documentation.md](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md) | Partially Implemented | Fumadocs + CI + seed content (Slices 1–4 delivered) | **Step 29** — MDX blocks; **30** — deploy |
+| TIP-032 | [tips/[Complete] tip-032-implementation-documentation.md](tips/%5BComplete%5D%20tip-032-implementation-documentation.md) | Complete | Fumadocs + CI + seed content + deploy + MDX editorial blocks (Slices 1–6, 5.1) | Live DNS for `docs.afenda.app` (Vercel operator step) |
 
 Architecture baseline: [`docs-app-architecture.md`](../architecture/docs-app-architecture.md)
 

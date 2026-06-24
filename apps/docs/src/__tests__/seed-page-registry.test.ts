@@ -30,7 +30,7 @@ function slugToMdxPath(slug: readonly string[]): string {
   return `${slug.slice(0, -1).join("/")}/${slug.at(-1)}.mdx`;
 }
 
-describe("@afenda/docs seed page registry", () => {
+describe("@afenda/docs seed page registry (filesystem)", () => {
   it("resolves home title from index.mdx", () => {
     expect(readMdxTitle(slugToMdxPath(docsHomeSlug))).toBe(
       "Afenda Documentation"

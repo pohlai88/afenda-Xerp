@@ -23,10 +23,36 @@ export const appShellCssManifest = [
     classNamespace: "app-shell-",
     propertyNamespace: "--app-shell-",
   },
+  {
+    /**
+     * Canonical shadcn/studio reusable pattern layer.
+     * Consumed internally via @import in afenda-appshell.css — NOT a standalone export.
+     * Apps must continue to import only "./afenda-appshell.css".
+     */
+    packageName: "@afenda/appshell",
+    exportPath: "./afenda-appshell.css",
+    sourceFile: "src/styles/afenda-appshell-studio.css",
+    purpose: "studio-patterns",
+    productionSafe: true,
+    requiresTailwindTheme: false,
+    internalOnly: true,
+    allowedImporters: ["@afenda/appshell"],
+    prohibitedImporters: [
+      "apps/*",
+      "@afenda/metadata",
+      "@afenda/metadata-ui",
+      "@afenda/ui",
+    ],
+    classNamespace: "app-shell-",
+    propertyNamespace: "--app-shell-",
+  },
 ] as const satisfies CssManifest;
 
-/** CSS budget for @afenda/appshell — 1 file only. */
+/** CSS budget for @afenda/appshell. */
 export const APPSHELL_CSS_BUDGET = {
-  maxSourceFiles: 1,
-  allowedSourceFiles: ["src/styles/afenda-appshell.css"] as const,
+  maxSourceFiles: 2,
+  allowedSourceFiles: [
+    "src/styles/afenda-appshell.css",
+    "src/styles/afenda-appshell-studio.css",
+  ] as const,
 } as const;

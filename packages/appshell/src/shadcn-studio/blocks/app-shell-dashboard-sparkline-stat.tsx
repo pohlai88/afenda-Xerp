@@ -116,8 +116,8 @@ function resolveSparklineChartFrameClass(
   metricKey: AppShellDashboardSparklineMetric["metricKey"]
 ): string {
   return metricKey === "expense"
-    ? "app-shell-dashboard-sparkline-chart-frame app-shell-dashboard-sparkline-chart-frame-expense"
-    : "app-shell-dashboard-sparkline-chart-frame app-shell-dashboard-sparkline-chart-frame-revenue";
+    ? "app-shell-studio-sparkline__chart-frame app-shell-studio-sparkline__chart-frame--expense"
+    : "app-shell-studio-sparkline__chart-frame app-shell-studio-sparkline__chart-frame--revenue";
 }
 
 export function AppShellDashboardSparklineStat({
@@ -151,47 +151,44 @@ export function AppShellDashboardSparklineStat({
   return (
     <article
       aria-labelledby={titleId}
-      className="app-shell-dashboard-widget app-shell-dashboard-sparkline-widget"
+      className="app-shell-dashboard-widget app-shell-studio-sparkline-card"
     >
       <Card>
-        <div className="app-shell-dashboard-sparkline-body">
-          <div className="app-shell-dashboard-sparkline-copy">
-            <div className="app-shell-dashboard-sparkline-meta">
-              <span
-                className="app-shell-dashboard-sparkline-label"
-                id={titleId}
-              >
+        <div className="app-shell-studio-sparkline__body">
+          <div className="app-shell-studio-sparkline__copy">
+            <div className="app-shell-studio-sparkline__meta">
+              <span className="app-shell-studio-sparkline__label" id={titleId}>
                 {title}
               </span>
               <span
                 aria-describedby={footnoteId}
-                className="app-shell-dashboard-sparkline-amount"
+                className="app-shell-studio-sparkline__amount"
               >
                 {amount}
               </span>
             </div>
 
             <div
-              className="app-shell-dashboard-sparkline-change-row"
+              className="app-shell-studio-sparkline__change-row"
               id={footnoteId}
             >
-              <span className="app-shell-dashboard-sparkline-change">
+              <span className="app-shell-studio-sparkline__change">
                 {changeLabel}
               </span>
-              <span className="app-shell-dashboard-sparkline-trend">
+              <span className="app-shell-studio-sparkline__trend">
                 <TrendIndicator trend={trend} />
               </span>
-              <span className="app-shell-dashboard-sparkline-comparison">
+              <span className="app-shell-studio-sparkline__comparison">
                 {comparisonLabel}
               </span>
             </div>
 
             {insights === null ? (
-              <span className="app-shell-dashboard-sparkline-insights">
+              <span className="app-shell-studio-sparkline__insights">
                 No trend data available
               </span>
             ) : (
-              <span className="app-shell-dashboard-sparkline-insights">
+              <span className="app-shell-studio-sparkline__insights">
                 {insights}
               </span>
             )}
@@ -203,7 +200,7 @@ export function AppShellDashboardSparklineStat({
             role="img"
           >
             {chartData.length === 0 ? (
-              <div className="app-shell-dashboard-sparkline-empty-chart">
+              <div className="app-shell-studio-sparkline__empty-chart">
                 Awaiting metric points
               </div>
             ) : (

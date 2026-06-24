@@ -23,10 +23,7 @@ import {
   TableRow,
   TooltipProvider,
 } from "@afenda/ui";
-import {
-  type GovernedUiComponentName,
-  mapStockButtonProps,
-} from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type {
   Column,
   ColumnFiltersState,
@@ -192,28 +189,28 @@ export function AppShellDashboardInvoiceTable({
 
   return (
     <TooltipProvider>
-      <div className="app-shell-dashboard-widget app-shell-dashboard-invoice-widget">
-        <div className="app-shell-dashboard-invoice-shell">
-          <div className="app-shell-dashboard-invoice-header">
-            <div className="app-shell-dashboard-invoice-heading">
-              <h2 className="app-shell-dashboard-invoice-title" id={titleId}>
+      <div className="app-shell-dashboard-widget app-shell-studio-invoice-widget">
+        <div className="app-shell-studio-invoice-shell">
+          <div className="app-shell-studio-invoice-header">
+            <div className="app-shell-studio-invoice-heading">
+              <h2 className="app-shell-studio-invoice-title" id={titleId}>
                 {title}
               </h2>
-              <p className="app-shell-dashboard-invoice-subtitle">{subtitle}</p>
-              <div className="app-shell-dashboard-invoice-metrics">
-                <span className="app-shell-dashboard-invoice-metric">
+              <p className="app-shell-studio-invoice-subtitle">{subtitle}</p>
+              <div className="app-shell-studio-invoice-metrics">
+                <span className="app-shell-studio-invoice-metric">
                   <span>{sourceMetrics.totalCount} open</span>
                 </span>
-                <span className="app-shell-dashboard-invoice-metric">
+                <span className="app-shell-studio-invoice-metric">
                   Outstanding
-                  <span className="app-shell-dashboard-invoice-metric-value">
+                  <span className="app-shell-studio-invoice-metric-value">
                     {formatInvoiceCurrency(sourceMetrics.outstanding)}
                   </span>
                 </span>
                 {sourceMetrics.pastDueCount > 0 ? (
-                  <span className="app-shell-dashboard-invoice-metric">
+                  <span className="app-shell-studio-invoice-metric">
                     Past due
-                    <span className="app-shell-dashboard-invoice-metric-value app-shell-dashboard-invoice-metric-value-danger">
+                    <span className="app-shell-studio-invoice-metric-value app-shell-studio-invoice-metric-value-danger">
                       {sourceMetrics.pastDueCount}
                     </span>
                   </span>
@@ -227,20 +224,33 @@ export function AppShellDashboardInvoiceTable({
           </div>
 
           {selectedCount > 0 ? (
-            <div className="app-shell-dashboard-invoice-bulk-bar" role="status">
-              <span className="app-shell-dashboard-invoice-bulk-copy">
+            <div className="app-shell-studio-invoice-bulk-bar" role="status">
+              <span className="app-shell-studio-invoice-bulk-copy">
                 {selectedCount} invoice{selectedCount === 1 ? "" : "s"} selected
               </span>
-              <div className="app-shell-dashboard-invoice-bulk-actions">
-                <Button {...mapStockButtonProps("outline", "sm")}>
+              <div className="app-shell-studio-invoice-bulk-actions">
+                <Button
+                  emphasis="outline"
+                  intent="primary"
+                  presentation="default"
+                  size="sm"
+                >
                   Export selected
                 </Button>
-                <Button {...mapStockButtonProps("outline", "sm")}>
+                <Button
+                  emphasis="outline"
+                  intent="primary"
+                  presentation="default"
+                  size="sm"
+                >
                   Mark paid
                 </Button>
                 <Button
-                  {...mapStockButtonProps("ghost", "sm")}
+                  emphasis="ghost"
+                  intent="quiet"
                   onClick={() => table.resetRowSelection()}
+                  presentation="default"
+                  size="sm"
                 >
                   Clear selection
                 </Button>
@@ -248,9 +258,9 @@ export function AppShellDashboardInvoiceTable({
             </div>
           ) : null}
 
-          <div className="app-shell-dashboard-invoice-toolbar">
-            <div className="app-shell-dashboard-invoice-toolbar-primary">
-              <div className="app-shell-dashboard-invoice-page-size">
+          <div className="app-shell-studio-invoice-toolbar">
+            <div className="app-shell-studio-invoice-toolbar-primary">
+              <div className="app-shell-studio-invoice-page-size">
                 <Label htmlFor={pageSizeId}>Show</Label>
                 <Select
                   onValueChange={(value) => table.setPageSize(Number(value))}
@@ -268,11 +278,16 @@ export function AppShellDashboardInvoiceTable({
                   </SelectContent>
                 </Select>
               </div>
-              <Button {...mapStockButtonProps("default", "default")}>
+              <Button
+                emphasis="solid"
+                intent="primary"
+                presentation="default"
+                size="md"
+              >
                 Create invoice
               </Button>
             </div>
-            <div className="app-shell-dashboard-invoice-toolbar-filters">
+            <div className="app-shell-studio-invoice-toolbar-filters">
               {clientColumn === undefined ? null : (
                 <InvoiceColumnFilter column={clientColumn} />
               )}
@@ -284,7 +299,7 @@ export function AppShellDashboardInvoiceTable({
 
           <div
             aria-labelledby={titleId}
-            className="app-shell-dashboard-invoice-table-scroll"
+            className="app-shell-studio-invoice-table-scroll"
             role="region"
           >
             <Table>
@@ -300,7 +315,7 @@ export function AppShellDashboardInvoiceTable({
                         {header.isPlaceholder ? null : header.column.getCanSort() ? (
                           <button
                             aria-label={`Sort by ${String(header.column.columnDef.header ?? "column")}`}
-                            className="app-shell-dashboard-invoice-sort-trigger"
+                            className="app-shell-studio-invoice-sort-trigger"
                             onClick={header.column.getToggleSortingHandler()}
                             type="button"
                           >
@@ -311,13 +326,13 @@ export function AppShellDashboardInvoiceTable({
                             {header.column.getIsSorted() === "asc" ? (
                               <ChevronUpIcon
                                 aria-hidden
-                                className="app-shell-dashboard-invoice-sort-icon"
+                                className="app-shell-studio-invoice-sort-icon"
                               />
                             ) : null}
                             {header.column.getIsSorted() === "desc" ? (
                               <ChevronDownIcon
                                 aria-hidden
-                                className="app-shell-dashboard-invoice-sort-icon"
+                                className="app-shell-studio-invoice-sort-icon"
                               />
                             ) : null}
                           </button>
@@ -352,37 +367,45 @@ export function AppShellDashboardInvoiceTable({
                 ) : (
                   <TableRow>
                     <TableCell colSpan={columns.length}>
-                      <div className="app-shell-dashboard-invoice-empty">
+                      <div className="app-shell-studio-invoice-empty">
                         <FileSearchIcon
                           aria-hidden
-                          className="app-shell-dashboard-invoice-empty-icon"
+                          className="app-shell-studio-invoice-empty-icon"
                         />
                         {isSourceEmpty ? (
                           <>
-                            <span className="app-shell-dashboard-invoice-empty-title">
+                            <span className="app-shell-studio-invoice-empty-title">
                               No invoices yet
                             </span>
-                            <span className="app-shell-dashboard-invoice-empty-copy">
+                            <span className="app-shell-studio-invoice-empty-copy">
                               Create an invoice to start tracking receivables in
                               this workspace.
                             </span>
-                            <Button {...mapStockButtonProps("default", "sm")}>
+                            <Button
+                              emphasis="solid"
+                              intent="primary"
+                              presentation="default"
+                              size="sm"
+                            >
                               Create invoice
                             </Button>
                           </>
                         ) : (
                           <>
-                            <span className="app-shell-dashboard-invoice-empty-title">
+                            <span className="app-shell-studio-invoice-empty-title">
                               No invoices match your filters
                             </span>
-                            <span className="app-shell-dashboard-invoice-empty-copy">
+                            <span className="app-shell-studio-invoice-empty-copy">
                               Adjust client or status filters, or create a new
                               invoice to get started.
                             </span>
                             {hasActiveFilters ? (
                               <Button
-                                {...mapStockButtonProps("outline", "sm")}
+                                emphasis="outline"
+                                intent="primary"
                                 onClick={() => table.resetColumnFilters()}
+                                presentation="default"
+                                size="sm"
                               >
                                 Clear filters
                               </Button>
@@ -397,11 +420,8 @@ export function AppShellDashboardInvoiceTable({
             </Table>
           </div>
 
-          <div className="app-shell-dashboard-invoice-footer">
-            <p
-              aria-live="polite"
-              className="app-shell-dashboard-invoice-summary"
-            >
+          <div className="app-shell-studio-invoice-footer">
+            <p aria-live="polite" className="app-shell-studio-invoice-summary">
               {filteredCount === 0
                 ? "No entries to display"
                 : `Showing ${pageStart}–${pageEnd} of ${filteredCount} filtered (${sourceMetrics.totalCount} total)`}
@@ -410,14 +430,17 @@ export function AppShellDashboardInvoiceTable({
               <PaginationContent>
                 <PaginationItem>
                   <Button
-                    {...mapStockButtonProps("ghost", "default")}
                     aria-label="Go to previous page"
                     disabled={!table.getCanPreviousPage()}
+                    emphasis="ghost"
+                    intent="quiet"
                     onClick={() => table.previousPage()}
+                    presentation="default"
+                    size="md"
                   >
                     <ChevronLeftIcon
                       aria-hidden
-                      className="app-shell-dashboard-invoice-nav-icon"
+                      className="app-shell-studio-invoice-nav-icon"
                     />
                     Previous
                   </Button>
@@ -433,13 +456,13 @@ export function AppShellDashboardInvoiceTable({
                   return (
                     <PaginationItem key={page}>
                       <Button
-                        {...mapStockButtonProps(
-                          isActive ? "default" : "ghost",
-                          "icon-sm"
-                        )}
                         aria-current={isActive ? "page" : undefined}
                         aria-label={`Go to page ${page}`}
+                        emphasis={isActive ? "solid" : "ghost"}
+                        intent={isActive ? "primary" : "quiet"}
                         onClick={() => table.setPageIndex(page - 1)}
+                        presentation="icon"
+                        size="sm"
                       >
                         {page}
                       </Button>
@@ -453,15 +476,18 @@ export function AppShellDashboardInvoiceTable({
                 ) : null}
                 <PaginationItem>
                   <Button
-                    {...mapStockButtonProps("ghost", "default")}
                     aria-label="Go to next page"
                     disabled={!table.getCanNextPage()}
+                    emphasis="ghost"
+                    intent="quiet"
                     onClick={() => table.nextPage()}
+                    presentation="default"
+                    size="md"
                   >
                     Next
                     <ChevronRightIcon
                       aria-hidden
-                      className="app-shell-dashboard-invoice-nav-icon"
+                      className="app-shell-studio-invoice-nav-icon"
                     />
                   </Button>
                 </PaginationItem>
@@ -508,7 +534,7 @@ function InvoiceColumnFilter({
 
   if (filterVariant === "select") {
     return (
-      <div className="app-shell-dashboard-invoice-filter">
+      <div className="app-shell-studio-invoice-filter">
         <Label htmlFor={`${fieldId}-select`}>{columnHeader}</Label>
         <Select
           onValueChange={(value) => {
@@ -533,13 +559,13 @@ function InvoiceColumnFilter({
   }
 
   return (
-    <div className="app-shell-dashboard-invoice-filter">
+    <div className="app-shell-studio-invoice-filter">
       <Label htmlFor={`${fieldId}-input`}>{columnHeader}</Label>
       <InputGroup>
         <InputGroupAddon>
           <SearchIcon
             aria-hidden
-            className="app-shell-dashboard-invoice-search-icon"
+            className="app-shell-studio-invoice-search-icon"
           />
         </InputGroupAddon>
         <InputGroupInput

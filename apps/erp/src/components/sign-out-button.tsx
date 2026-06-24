@@ -2,9 +2,14 @@
 
 import { signOut } from "@afenda/auth/client";
 import { Button } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+export type SignOutButtonGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
 
 export function SignOutButton() {
   const router = useRouter();
@@ -20,9 +25,12 @@ export function SignOutButton() {
 
   return (
     <Button
-      {...mapStockButtonProps("outline", "sm")}
       disabled={isSubmitting}
+      emphasis="outline"
+      intent="primary"
       onClick={handleSignOut}
+      presentation="default"
+      size="sm"
       type="button"
     >
       {isSubmitting ? "Signing out…" : "Sign out"}

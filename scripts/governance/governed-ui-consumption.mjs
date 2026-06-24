@@ -10,9 +10,17 @@
  * Pass 2 — multiline: className split across lines before the closing `>` / `/>`.
  * Pass 3 — wrapper slop: static className strings with anti-slop violations
  *          (gradients, arbitrary values, raw palette scales).
- * Pass 4 — import policy: governance imports, stock-props bridges, stock Button props.
+ * Pass 4 — staging import ban: no #/components/shadcn-studio/primitives from consumers.
+ * Pass 5 — studio block className: only .app-shell-* / .app-shell-studio-* (+ sr-only).
+ * Pass 6 — Lucide-only icon imports in shadcn-studio/blocks production TSX.
+ * Pass 7 — mapStockButtonProps sunset: allowlisted files only (no new usages).
+ * Pass 8 — direct studio CSS import ban (TS-side mirror of Gate E R22).
  */
-import { findConsumerWrapperClassNameSlop } from "./consumer-class-name-policy.mjs";
+import {
+  extractStaticClassNames,
+  findConsumerWrapperClassNameSlop,
+  tokenizeClassName,
+} from "./consumer-class-name-policy.mjs";
 
 /** PascalCase tags exported from @afenda/ui that enforce TIP-004 className policy. */
 export const GOVERNED_UI_TAGS = new Set([
@@ -186,8 +194,58 @@ const RESOLVE_STOCK_BUTTON_PROPS_RE = /\bresolveStockButtonProps\b/;
 const SHADCN_ALIAS_IMPORT_RE =
   /\bfrom\s+["']@\/components\/ui(?:\/[^"']*)?["']/;
 
+const MAP_STOCK_BUTTON_PROPS_USAGE_RE = /\bmapStockButtonProps\b/;
+
 const GOVERNANCE_HELPER_USAGE_RE =
   /\b(?:mapStockButtonProps|mapStockButtonSize|mapStockButtonVisualToGoverned)\b/;
+
+/** Staging primitive / MCP install paths — must not import from consumer packages. */
+const STAGING_PRIMITIVE_IMPORT_RE =
+  /\bfrom\s+["']#\/components\/shadcn-studio(?:\/[^"']*)?["']/;
+
+const STAGING_PATH_IMPORT_RES = [
+  /\bfrom\s+["'][^"']*\/packages\/ui\/src\/components\/shadcn-studio[^"']*["']/,
+  /\bfrom\s+["']@afenda\/ui\/src\/components\/shadcn-studio[^"']*["']/,
+  /\bfrom\s+["'][^"']*\/shadcn-studio\/primitives[^"']*["']/,
+];
+
+const STUDIO_BLOCK_PRODUCTION_PATH =
+  /(?:^|[/\\])packages[/\\]appshell[/\\]src[/\\]shadcn-studio[/\\]blocks[/\\][^/\\]+\.tsx$/i;
+
+const CONSUMER_PACKAGE_PATH =
+  /(?:^|[/\\])(?:packages[/\\]appshell[/\\]src|packages[/\\]metadata-ui[/\\]src|apps[/\\]erp[/\\]src)[/\\]/i;
+
+/** Allowed utility tokens on studio block wrapper className (a11y). */
+const STUDIO_BLOCK_ALLOWED_UTILITY_TOKENS = new Set(["sr-only"]);
+
+/** Allowed class token prefix in studio block production TSX. */
+const STUDIO_BLOCK_CLASS_PREFIX_RE = /^app-shell-/;
+
+const BLOCK_FORBIDDEN_ICON_SOURCE_RES = [
+  /\bfrom\s+["']react-icons(?:\/[^"']*)?["']/,
+  /\bfrom\s+["']@radix-ui\/react-icons(?:\/[^"']*)?["']/,
+  /\bfrom\s+["']@heroicons(?:\/[^"']*)?["']/,
+  /\bfrom\s+["']@tabler\/icons-react["']/,
+];
+
+/** Direct studio CSS import strings — only afenda-appshell.css may reference these. */
+const STUDIO_CSS_FORBIDDEN_IMPORT_SUBSTRINGS = [
+  "afenda-appshell-studio.css",
+  "@afenda/appshell/afenda-appshell-studio",
+  "packages/appshell/src/styles/afenda-appshell-studio",
+];
+
+const SOLE_STUDIO_CSS_IMPORTER =
+  "packages/appshell/src/styles/afenda-appshell.css";
+
+/**
+ * Files grandfathered for mapStockButtonProps during sunset.
+ * New production files must use governed intent/emphasis/size props directly.
+ * @type {ReadonlySet<string>}
+ */
+export const MAP_STOCK_BUTTON_PROPS_ALLOWLIST = new Set([
+  // Empty after migration — Gate D fails any new mapStockButtonProps usage.
+]);
 
 const GOVERNANCE_DIRECT_IMPORT_RE =
   /\bimport\s+(?:type\s+)?(?:\{[^}]*\}|\*\s+as\s+\w+)\s+from\s+["']@afenda\/ui\/governance["']/;
@@ -233,14 +291,193 @@ function checkGovernanceImportPolicy(content) {
 
   if (BUTTON_RAW_VARIANT_RE.test(content)) {
     violations.push(
-      "<Button variant=…> — spread mapStockButtonProps(...) from @afenda/ui/governance instead of raw stock variant strings"
+      "<Button variant=…> — use governed Button props: intent, emphasis, size, presentation (not stock shadcn variant strings)"
     );
   }
 
   if (BUTTON_STOCK_SIZE_RE.test(content)) {
     violations.push(
-      '<Button size="icon|icon-*|default"> — spread mapStockButtonProps(...) instead of raw stock shadcn size strings'
+      '<Button size="icon|icon-*|default"> — use governed Button props: intent, emphasis, size, presentation (not stock shadcn size strings)'
     );
+  }
+
+  return violations;
+}
+
+/**
+ * @param {string} content
+ * @returns {string[]}
+ */
+function checkStagingImportPolicy(content) {
+  const violations = [];
+
+  if (STAGING_PRIMITIVE_IMPORT_RE.test(content)) {
+    violations.push(
+      "Staging primitive import (#/components/shadcn-studio/*) — govern and move to @afenda/appshell production blocks"
+    );
+  }
+
+  for (const pattern of STAGING_PATH_IMPORT_RES) {
+    if (pattern.test(content)) {
+      violations.push(
+        "Staging shadcn-studio path import — use @afenda/ui and @afenda/appshell production blocks only"
+      );
+      break;
+    }
+  }
+
+  return violations;
+}
+
+/**
+ * @param {string} content
+ * @returns {string[]}
+ */
+export function checkStudioBlockClassNamePolicy(content) {
+  const violations = [];
+
+  for (const { value, index } of extractStaticClassNames(content)) {
+    const lineNumber = content.slice(0, index).split("\n").length;
+
+    for (const token of tokenizeClassName(value)) {
+      if (
+        STUDIO_BLOCK_ALLOWED_UTILITY_TOKENS.has(token) ||
+        STUDIO_BLOCK_CLASS_PREFIX_RE.test(token)
+      ) {
+        continue;
+      }
+
+      violations.push(
+        `line ${lineNumber}: studio block className "${token}" — use .app-shell-* or .app-shell-studio-* semantic classes only (no raw Tailwind utilities)`
+      );
+    }
+  }
+
+  return violations;
+}
+
+/**
+ * @param {string} content
+ * @returns {string[]}
+ */
+export function checkStudioBlockIconImportPolicy(content) {
+  const violations = [];
+
+  for (const pattern of BLOCK_FORBIDDEN_ICON_SOURCE_RES) {
+    if (pattern.test(content)) {
+      violations.push(
+        "Non-Lucide icon import in studio block — use lucide-react icons only"
+      );
+      break;
+    }
+  }
+
+  return violations;
+}
+
+/**
+ * @param {string} content
+ * @param {string | undefined} normalizedFilePath
+ * @returns {string[]}
+ */
+function checkMapStockButtonPropsAllowlist(content, normalizedFilePath) {
+  if (!MAP_STOCK_BUTTON_PROPS_USAGE_RE.test(content)) {
+    return [];
+  }
+
+  if (
+    normalizedFilePath !== undefined &&
+    MAP_STOCK_BUTTON_PROPS_ALLOWLIST.has(normalizedFilePath)
+  ) {
+    return [];
+  }
+
+  return [
+    "mapStockButtonProps is sunset — use governed Button props (intent, emphasis, size, presentation) directly; allowlist only for grandfathered files",
+  ];
+}
+
+/**
+ * Gate D pass 8 — reject direct studio CSS imports outside afenda-appshell.css.
+ *
+ * @param {string} content
+ * @param {string | undefined} normalizedFilePath
+ * @returns {string[]}
+ */
+function checkDirectStudioCssImportPolicy(content, normalizedFilePath) {
+  if (normalizedFilePath === undefined) {
+    return [];
+  }
+  if (normalizedFilePath === SOLE_STUDIO_CSS_IMPORTER) {
+    return [];
+  }
+
+  const isConsumerRoot = CONSUMER_PACKAGE_PATH.test(normalizedFilePath);
+  const isUiProduction =
+    /^packages\/ui\/src\//.test(normalizedFilePath) &&
+    !normalizedFilePath.includes("/__tests__/") &&
+    !/\.(?:test|spec|stories)\.(?:ts|tsx)$/.test(normalizedFilePath);
+
+  if (!(isConsumerRoot || isUiProduction)) {
+    return [];
+  }
+
+  const importRe = /\b(?:import|from)\s+["']([^"']+)["']/g;
+  const violations = [];
+
+  for (const match of content.matchAll(importRe)) {
+    const imp = match[1] ?? "";
+    for (const forbidden of STUDIO_CSS_FORBIDDEN_IMPORT_SUBSTRINGS) {
+      if (imp.includes(forbidden)) {
+        violations.push(
+          `Direct studio CSS import forbidden ("${forbidden}") — import @afenda/appshell/afenda-appshell.css only`
+        );
+        return violations;
+      }
+    }
+  }
+
+  return violations;
+}
+
+/**
+ * @param {string} content
+ * @param {string | undefined} normalizedFilePath  Repo-relative path with forward slashes.
+ * @returns {string[]}
+ */
+export function checkConsumerGateDPolicies(content, normalizedFilePath) {
+  const violations = [];
+
+  if (normalizedFilePath === undefined) {
+    return violations;
+  }
+
+  if (CONSUMER_PACKAGE_PATH.test(normalizedFilePath)) {
+    violations.push(...checkStagingImportPolicy(content));
+    violations.push(
+      ...checkDirectStudioCssImportPolicy(content, normalizedFilePath)
+    );
+  }
+
+  if (
+    /^packages\/ui\/src\//.test(normalizedFilePath) &&
+    !normalizedFilePath.includes("/__tests__/") &&
+    !/\.(?:test|spec|stories)\.(?:ts|tsx)$/.test(normalizedFilePath)
+  ) {
+    violations.push(
+      ...checkDirectStudioCssImportPolicy(content, normalizedFilePath)
+    );
+  }
+
+  if (isProductionConsumerSource(normalizedFilePath)) {
+    violations.push(
+      ...checkMapStockButtonPropsAllowlist(content, normalizedFilePath)
+    );
+  }
+
+  if (STUDIO_BLOCK_PRODUCTION_PATH.test(normalizedFilePath)) {
+    violations.push(...checkStudioBlockClassNamePolicy(content));
+    violations.push(...checkStudioBlockIconImportPolicy(content));
   }
 
   return violations;
@@ -369,10 +606,13 @@ function findMultilineViolations(content, lines) {
 
 /**
  * @param {string} content
+ * @param {string | undefined} [normalizedFilePath]  Repo-relative path (forward slashes).
  * @returns {string[]}
  */
-export function checkGovernedUiConsumption(content) {
+export function checkGovernedUiConsumption(content, normalizedFilePath) {
   const violations = [];
+
+  violations.push(...checkConsumerGateDPolicies(content, normalizedFilePath));
 
   if (!IMPORTS_AFENDA_UI_RE.test(content)) {
     return violations;
@@ -434,3 +674,20 @@ export function checkGovernedUiConsumption(content) {
 /** Paths where consumer-layer policy applies. */
 export const GOVERNED_UI_CONSUMER_PATH =
   /(?:^|[/\\])(?:packages[/\\]appshell[/\\]src|packages[/\\]metadata-ui[/\\]src|apps[/\\]erp[/\\]src)[/\\].*\.tsx$/i;
+
+/**
+ * @param {string} normalizedFilePath
+ * @returns {boolean}
+ */
+function isProductionConsumerSource(normalizedFilePath) {
+  if (!CONSUMER_PACKAGE_PATH.test(normalizedFilePath)) {
+    return false;
+  }
+  if (normalizedFilePath.includes("/__tests__/")) {
+    return false;
+  }
+  if (/\.(?:test|interaction\.test)\.tsx$/.test(normalizedFilePath)) {
+    return false;
+  }
+  return true;
+}

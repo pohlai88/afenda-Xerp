@@ -40,7 +40,7 @@ Raw MCP output is **not** installed to `packages/appshell/` for docs delivery.
 
 1. Open Storybook → **Afenda Docs** → choose a variant.
 2. Copy component file(s) to `apps/docs/src/components/blocks/`.
-3. Copy CSS semantics from `_storybook/afenda-docs/afenda-docs-preview.css`; create or extend `apps/docs/src/app/docs-editorial-blocks.css` using `--docs-editorial-*` tokens from `docs-editorial-palette.css`.
+3. Run `pnpm storybook generate` (or start Storybook — codegen runs automatically) to sync CSS into `apps/docs/src/app/docs-editorial-blocks.css` using `--docs-editorial-*` tokens from `docs-editorial-palette.css`.
 4. Register components in `apps/docs/src/components/mdx.tsx` (or use upstream fumadocs-ui for MDX primitives).
 5. Verify `@afenda/docs` still has **zero** `@afenda/*` runtime deps: `pnpm quality:boundaries`.
 

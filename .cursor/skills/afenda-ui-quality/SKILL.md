@@ -158,16 +158,21 @@ Add them to the package's CSS file (never inline Tailwind on the wrapper if it h
 - `backdrop-blur`, `glass` effects
 - `shadow-[...]`, `rounded-[...]`, `text-[...]`, `bg-[...]` arbitrary values
 
-### 3.5 mapStockButtonProps for stock shadcn variants
+### 3.5 Governed Button props (stock shadcn sunset)
 
-When a block uses stock shadcn Button variants, bridge them at the call site:
+Production consumers must use governed Button props directly — **`mapStockButtonProps` is sunset** (Gate D pass 7 + Gate G NS4).
 
 ```tsx
-import { mapStockButtonProps } from "@afenda/ui/governance";
+// Stock block had: <Button variant="ghost" size="sm">Cancel</Button>
+// Governed:
+<Button intent="quiet" emphasis="ghost" size="sm">Cancel</Button>
 
 // Stock block had: <Button variant="destructive" size="sm">Delete</Button>
 // Governed:
-<Button {...mapStockButtonProps("destructive", "sm")}>Delete</Button>
+<Button intent="destructive" emphasis="solid" size="sm">Delete</Button>
+
+// Icon button (stock size="icon-lg"):
+<Button intent="quiet" emphasis="ghost" size="lg" presentation="icon" />
 ```
 
 ### 3.6 Globals.css layer integrity
@@ -339,7 +344,7 @@ All gates must pass before merging.
 | `shadow-[0px_4px_20px_rgba(0,0,0,0.3)]` | Use `var(--afenda-shadow-md)` or `var(--afenda-shadow-lg)` |
 | `rounded-[12px]` | Use `rounded-xl` → `var(--afenda-radius-xl)` |
 | `color: #1a2b3c` | Use `color: var(--foreground)` |
-| `variant="ghost" size="sm"` (stock shadcn) | `{...mapStockButtonProps("ghost", "sm")}` |
+| `variant="ghost" size="sm"` (stock shadcn) | `<Button intent="quiet" emphasis="ghost" size="sm" />` |
 
 ---
 

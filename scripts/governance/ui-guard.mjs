@@ -12,12 +12,13 @@
  *            on appshell, metadata-ui, erp, and packages/ui story files
  *   Gate E  CSS token authority            pnpm quality:css (manifest + raw value bans)
  *   Gate F  React ERP quality              react-erp-policy (recharts, forwardRef, hooks, a11y)
+ *   Gate G  CSS bridge negative search     check-css-bridge-negative-search.mjs (NS1–NS5)
  *
  * Usage
  *   pnpm ui:guard                   # all gates (Gate F in warning mode)
  *   pnpm ui:guard --strict          # all gates with Gate F as hard failure
- *   pnpm ui:guard --gate A          # single gate by letter (A–F)
- *   pnpm ui:guard --gate F          # React ERP quality only
+ *   pnpm ui:guard --gate A          # single gate by letter (A–G)
+ *   pnpm ui:guard --gate G          # CSS bridge negative-search proof only
  *   pnpm ui:guard --scan-only       # Gate D only (fast, no subprocess)
  *   pnpm ui:guard --fix-hint        # show fix hints alongside violations
  *
@@ -40,9 +41,15 @@ const policyUrl = pathToFileURL(
 const reactErpPolicyUrl = pathToFileURL(
   join(repoRoot, "scripts/governance/react-erp-policy.mjs")
 ).href;
+const cssBridgeNegativeSearchUrl = pathToFileURL(
+  join(repoRoot, "scripts/governance/check-css-bridge-negative-search.mjs")
+).href;
 
 const { checkGovernedUiConsumption } = await import(policyUrl);
 const { checkReactErpQuality } = await import(reactErpPolicyUrl);
+const { runCssBridgeNegativeSearchGate } = await import(
+  cssBridgeNegativeSearchUrl
+);
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
@@ -192,7 +199,7 @@ function runScan() {
       continue;
     }
 
-    const violations = checkGovernedUiConsumption(content);
+    const violations = checkGovernedUiConsumption(content, rel);
     if (violations.length > 0) {
       allViolations.push({ file: rel, violations });
     }
@@ -216,11 +223,11 @@ const FIX_HINTS = {
     "Replace raw palette scales (bg-red-500) with semantic tokens (bg-destructive, text-muted-foreground)",
   ],
   variant: [
-    'Spread mapStockButtonProps("ghost", "sm") from @afenda/ui/governance instead of variant="ghost"',
-    "Use governed props: intent, emphasis, size, presentation",
+    "Use governed Button props: intent, emphasis, size, presentation",
+    'Example: <Button intent="quiet" emphasis="ghost" size="sm" />',
   ],
   'size="icon': [
-    'Spread mapStockButtonProps("ghost", "icon-lg") — stock size="icon*" is not governed API',
+    'Use governed Button props: size="md" presentation="icon" (not stock size="icon*")',
   ],
   "Re-export barrel": [
     "Import directly: import { mapStockButtonVisualToGoverned } from '@afenda/ui/governance'",
@@ -476,6 +483,25 @@ if (!scanOnly && (!gateFilter || gateFilter === "F")) {
           .join("\n"),
       });
     }
+  }
+}
+
+// ── Gate G — CSS bridge negative search ─────────────────────────────────────
+
+if (!scanOnly && (!gateFilter || gateFilter === "G")) {
+  header("Gate G  CSS bridge negative search (NS1–NS5 attestation)");
+  info("scanning production packages for staging leaks and bridge drift…");
+
+  const gateResult = runCssBridgeNegativeSearchGate();
+
+  if (gateResult.ok) {
+    pass("negative-search proof attestation printed");
+  } else {
+    failures.push({
+      id: "G",
+      label: "CSS bridge negative search",
+      output: gateResult.result.violations.join("\n"),
+    });
   }
 }
 

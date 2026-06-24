@@ -2,7 +2,6 @@
 
 import { signIn } from "@afenda/auth/client";
 import { Button, Input, Label } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -75,8 +74,11 @@ export function SignInForm() {
           </p>
         ) : null}
         <Button
-          {...mapStockButtonProps("default", "default")}
           disabled={isSubmitting}
+          emphasis="solid"
+          intent="primary"
+          presentation="default"
+          size="md"
           type="submit"
         >
           {isSubmitting ? "Signing in…" : "Sign in"}

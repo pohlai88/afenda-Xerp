@@ -75,13 +75,15 @@ function ActivitySummary({
   readonly occurredAt: string;
 }) {
   return (
-    <div className="app-shell-activity-summary">
+    <div className="app-shell-studio-activity-summary">
       <p>
-        <span className="app-shell-activity-actor-name">{actorName}</span>{" "}
+        <span className="app-shell-studio-activity-actor-name">
+          {actorName}
+        </span>{" "}
         {action}
       </p>
       <p>
-        <time className="app-shell-activity-time" dateTime={occurredAt}>
+        <time className="app-shell-studio-activity-time" dateTime={occurredAt}>
           {relativeTime}
         </time>
       </p>
@@ -91,25 +93,28 @@ function ActivitySummary({
 
 function ActivityMentionAttachment({ quote }: { readonly quote: string }) {
   return (
-    <div className="app-shell-activity-mention">
-      <p className="app-shell-activity-mention-quote">{quote}</p>
+    <div className="app-shell-studio-activity-mention">
+      <p className="app-shell-studio-activity-mention-quote">{quote}</p>
       <div
         aria-label="Reply to mention"
-        className="app-shell-activity-reply-group"
+        className="app-shell-studio-activity-reply-group"
         role="group"
       >
         <input
           aria-label="Reply message"
-          className="app-shell-activity-reply-input"
+          className="app-shell-studio-activity-reply-input"
           placeholder="Reply"
           type="text"
         />
         <button
           aria-label="Attach image"
-          className="app-shell-activity-reply-attach"
+          className="app-shell-studio-activity-reply-attach"
           type="button"
         >
-          <ImageIcon aria-hidden className="app-shell-activity-reply-icon" />
+          <ImageIcon
+            aria-hidden
+            className="app-shell-studio-activity-reply-icon"
+          />
         </button>
       </div>
     </div>
@@ -128,15 +133,17 @@ function ActivityFileInlineAttachment({
   readonly thumbnailSrc: string;
 }) {
   return (
-    <a className="app-shell-activity-file-inline" href={fileHref}>
+    <a className="app-shell-studio-activity-file-inline" href={fileHref}>
       <AppShellOptimizedImage
         alt={thumbnailAlt}
-        className="app-shell-activity-file-inline-thumb"
+        className="app-shell-studio-activity-file-inline-thumb"
         height={20}
         src={thumbnailSrc}
         width={20}
       />
-      <span className="app-shell-activity-file-inline-name">{fileName}</span>
+      <span className="app-shell-studio-activity-file-inline-name">
+        {fileName}
+      </span>
     </a>
   );
 }
@@ -153,15 +160,17 @@ function ActivityFileCardAttachment({
   readonly thumbnailSrc: string;
 }) {
   return (
-    <a className="app-shell-activity-file-card" href={fileHref}>
+    <a className="app-shell-studio-activity-file-card" href={fileHref}>
       <AppShellOptimizedImage
         alt={thumbnailAlt}
-        className="app-shell-activity-file-card-thumb"
+        className="app-shell-studio-activity-file-card-thumb"
         height={32}
         src={thumbnailSrc}
         width={32}
       />
-      <span className="app-shell-activity-file-card-name">{fileName}</span>
+      <span className="app-shell-studio-activity-file-card-name">
+        {fileName}
+      </span>
     </a>
   );
 }
@@ -175,7 +184,7 @@ function ActivityTagGroup({
   }[];
 }) {
   return (
-    <div className="app-shell-activity-tag-group">
+    <div className="app-shell-studio-activity-tag-group">
       {tags.map((tag) => (
         <Badge
           emphasis="soft"
@@ -226,9 +235,12 @@ function ActivityFeedRow({ item }: { readonly item: AppShellActivityItem }) {
   const summaryId = activitySummaryId(item.id);
 
   return (
-    <article aria-labelledby={summaryId} className="app-shell-activity-row">
+    <article
+      aria-labelledby={summaryId}
+      className="app-shell-studio-activity-row"
+    >
       <ActivityActorAvatar actor={item.actor} />
-      <div className="app-shell-activity-row-body">
+      <div className="app-shell-studio-activity-row-body">
         <div id={summaryId}>
           <ActivitySummary
             action={item.action}
@@ -245,7 +257,7 @@ function ActivityFeedRow({ item }: { readonly item: AppShellActivityItem }) {
 
 function ActivityFeedEmptyState() {
   return (
-    <p className="app-shell-activity-empty" role="status">
+    <p className="app-shell-studio-activity-empty" role="status">
       No team activity yet. Module updates, approvals, and shared documents will
       appear here.
     </p>
@@ -259,25 +271,32 @@ export function AppShellActivityFeed({
 }: AppShellActivityFeedProps) {
   if (activities.length === 0) {
     return (
-      <div className={joinClassNames("app-shell-activity-feed", className)}>
+      <div
+        className={joinClassNames("app-shell-studio-activity-feed", className)}
+      >
         <ActivityFeedEmptyState />
       </div>
     );
   }
 
   return (
-    <div className={joinClassNames("app-shell-activity-feed", className)}>
+    <div
+      className={joinClassNames("app-shell-studio-activity-feed", className)}
+    >
       <ul
         aria-label={feedLabel}
         aria-live="polite"
-        className="app-shell-activity-feed-list"
+        className="app-shell-studio-activity-feed-list"
         role="feed"
       >
         {activities.map((item, index) => (
           <li key={item.id}>
             <ActivityFeedRow item={item} />
             {index < activities.length - 1 ? (
-              <div className="app-shell-activity-separator" role="presentation">
+              <div
+                className="app-shell-studio-activity-separator"
+                role="presentation"
+              >
                 <Separator />
               </div>
             ) : null}

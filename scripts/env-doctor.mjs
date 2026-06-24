@@ -10,6 +10,7 @@ import {
   LOCAL_SYNC_TARGETS,
   loadMergedEnv,
   parseEnvFile,
+  probeMigrationUrlFromMerged,
   readOptionalEnvFile,
   resolveRepoRoot,
   SOURCE_FILES,
@@ -107,6 +108,14 @@ function collectMergedEnvDiagnostics(merged, expectedContent) {
       `Empty env value(s): ${emptyKeys.slice(0, 12).join(", ")}${
         emptyKeys.length > 12 ? ` (+${emptyKeys.length - 12} more)` : ""
       }`
+    );
+  }
+
+  const migrationProbe = probeMigrationUrlFromMerged(merged.entries);
+
+  if (!migrationProbe.resolvable) {
+    warnings.push(
+      `Migration database URL not derivable from merged sources — ${migrationProbe.hint}. Live DB gates will skip until resolved.`
     );
   }
 

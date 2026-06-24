@@ -37,38 +37,35 @@ export function AppShellDashboardKpiStat({
   return (
     <article
       aria-labelledby={titleId}
-      className="app-shell-dashboard-widget app-shell-dashboard-kpi-widget"
+      className="app-shell-dashboard-widget app-shell-studio-metric-card"
       data-emphasis={emphasis}
     >
       <Card>
-        <div className="app-shell-dashboard-kpi-body">
-          <div className="app-shell-dashboard-kpi-header">
-            <div className="app-shell-dashboard-kpi-heading">
-              <span className="app-shell-dashboard-kpi-title" id={titleId}>
+        <div className="app-shell-studio-metric__body">
+          <div className="app-shell-studio-metric__header">
+            <div className="app-shell-studio-metric__heading">
+              <span className="app-shell-studio-metric__title" id={titleId}>
                 {title}
               </span>
-              <span className="app-shell-dashboard-kpi-caption">{badge}</span>
+              <span className="app-shell-studio-metric__caption">{badge}</span>
             </div>
-            <div
-              aria-hidden="true"
-              className="app-shell-dashboard-kpi-icon-chip"
-            >
-              <Icon className="app-shell-dashboard-kpi-icon" />
+            <div aria-hidden="true" className="app-shell-studio-icon-chip">
+              <Icon className="app-shell-studio-icon-chip__icon" />
             </div>
           </div>
 
           <p
             aria-describedby={footnoteId}
-            className="app-shell-dashboard-kpi-metric"
+            className="app-shell-studio-metric__value-group"
           >
-            <span className="app-shell-dashboard-kpi-value">{value}</span>
+            <span className="app-shell-studio-metric__value">{value}</span>
           </p>
 
-          <p className="app-shell-dashboard-kpi-footnote" id={footnoteId}>
-            <span className="app-shell-dashboard-kpi-change">
+          <p className="app-shell-studio-metric__footnote" id={footnoteId}>
+            <span className="app-shell-studio-metric__change">
               {changeLabel}
             </span>
-            <span className="app-shell-dashboard-kpi-comparison">
+            <span className="app-shell-studio-metric__comparison">
               {comparisonLabel}
             </span>
           </p>

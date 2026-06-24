@@ -1784,10 +1784,114 @@ Handoff from: docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operati
 | S3 | Follow-on slices A–G delivered | §Handoff to implementation | [x] |
 | S4 | Tenant RLS artifact parity (Slice F) | `pnpm check:database-tenant-rls-coverage` | [x] |
 | S5 | Tenant RLS live apply proof (Slice G) | `pnpm check:database-tenant-rls-live` | [x] |
-| S6 | Runtime matrix + tip-status-index synced | `pnpm check:documentation-drift` | [x] |
-| S7 | No accounting / TIP-013 domain logic in scope | `check:multi-tenancy-dos-prohibitions` | [x] |
+| S6 | Phase 4 unified registry + schema parity (Slice H) | `pnpm check:database-tenant-rls-coverage` | [x] |
+| S7 | RLS registry invariants + multi-migration live probes (Slice I) | `pnpm check:database-tenant-rls-live` | [x] |
+| S8 | Runtime matrix + tip-status-index synced | `pnpm check:documentation-drift` | [x] |
+| S9 | No accounting / TIP-013 domain logic in scope | `check:multi-tenancy-dos-prohibitions` | [x] |
 
 **TIP-007/012 sign-off:** **Complete (foundation)** (2026-06-24, Slice G). Cross-TIP UX polish (TIP-UI-05) does not block this closeout.
+
+### Slice H — Phase 4 RLS proof closeout (unified registry + schema parity)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice G delivered; `pnpm check:database-tenant-rls-coverage` passes for completion migration; `packages/database/src/rls/` = `implemented` in `afenda-runtime-truth-matrix.md`
+
+#### Design (internal-guide)
+
+- Unify foundation (`20260621110000`), completion (`20260624150000`), and gap-close (`20260624115705`) migrations under one canonical `TENANT_RLS_ISOLATION_POLICIES` registry with explicit `TenantRlsPolicyKind` (`tenant_isolation` | `actor_isolation`).
+- Add `tenant_commercial_plans` RLS via custom migration — last tenant-scoped table missing defense-in-depth.
+- `tenant-rls-schema-parity.contract.ts` lists every Drizzle `tenant_id` table; gate fails on registry/schema drift.
+- Live probe reuses expanded registry — no duplicate policy strings in gate scripts.
+- Remove stale `[Partially Implemented] tip-007-012` duplicate; sync Phase 4 roadmap + runtime matrix to **implemented**.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md
+
+1. Objective    — Close Phase 4 RLS proof by unifying tenant RLS registry across all migrations, adding tenant_commercial_plans RLS, schema parity gate, and documentation sync.
+2. Allowed layer— packages/database/src/rls/, packages/database/src/migrations/, scripts/governance/
+3. Files        — packages/database/src/migrations/20260624115705_tenant_commercial_plans_rls.sql (New)
+                  packages/database/src/migrations/migration-governance.contract.ts (Modified)
+                  packages/database/src/rls/tenant-rls-coverage.contract.ts (Modified)
+                  packages/database/src/rls/tenant-rls-schema-parity.contract.ts (New)
+                  packages/database/src/rls/__tests__/tenant-rls-coverage.contract.test.ts (Modified)
+                  scripts/governance/check-database-tenant-rls-coverage.mts (Modified)
+                  scripts/governance/__tests__/check-database-tenant-rls-coverage.test.ts (Modified)
+                  docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+                  docs/architecture/pre-accounting-foundation-roadmap.md (Modified)
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — hand-edited existing migration SQL, @afenda/accounting (ADR-0010), consolidation arithmetic, packages/ui, packages/appshell, shadcn-studio blocks
+5. Authority    — ADR-0001 Phase 4 — Database Authority (RLS defense-in-depth)
+6. Gates        — pnpm --filter @afenda/database typecheck
+                  pnpm --filter @afenda/database test:run
+                  pnpm check:database-tenant-rls-coverage
+                  pnpm quality:migrations
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 16 | Supabase RLS policies (all tenant_id tables) | `pnpm check:database-tenant-rls-coverage` |
+| — | Phase 4 roadmap gate | `pnpm check:documentation-drift` |
+
+#### Known debt
+
+- ~~Live Supabase apply for new migration requires environment with `DATABASE_URL`~~ — **closed by Slice I** (multi-migration live probes incl. `20260624115705`).
+
+### Slice I — RLS risk mitigation hardening (registry invariants + live migration probes)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice H delivered; `pnpm check:database-tenant-rls-coverage` passes
+
+#### Design (internal-guide)
+
+- `tenant-rls-registry-invariants.contract.ts` enforces schema parity, 1:1 table count, duplicate rejection, and `TenantRlsPolicyKind` rules (`memberships` = sole `actor_isolation`).
+- `tenant-rls-migration-live-probe.contract.ts` derives live SQL from `MIGRATION_GOVERNANCE_RULES.completeProbe` for all three RLS migration tags — including `tenant_commercial_plans`.
+- Live verifier runs per-policy probes plus per-migration governance probes (remote apply proof when `DATABASE_URL` available).
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md
+
+1. Objective    — Harden Phase 4 RLS risk mitigations: registry invariants (schema parity, actor isolation kind), and multi-migration live probes including tenant_commercial_plans.
+2. Allowed layer— packages/database/src/rls/, scripts/governance/
+3. Files        — packages/database/src/rls/tenant-rls-registry-invariants.contract.ts (New)
+                  packages/database/src/rls/tenant-rls-migration-live-probe.contract.ts (New)
+                  packages/database/src/rls/verify-tenant-rls-live.server.ts (Modified)
+                  packages/database/src/rls/__tests__/tenant-rls-registry-invariants.contract.test.ts (New)
+                  packages/database/src/rls/__tests__/tenant-rls-migration-live-probe.contract.test.ts (New)
+                  packages/database/src/rls/__tests__/verify-tenant-rls-live.server.test.ts (Modified)
+                  packages/database/src/rls/__tests__/tenant-rls-live-probe.contract.test.ts (Modified)
+                  packages/database/src/rls/__tests__/tenant-rls-coverage.contract.test.ts (Modified)
+                  scripts/governance/check-database-tenant-rls-coverage.mts (Modified)
+                  docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md (Modified)
+4. Prohibited   — hand-edited existing migration SQL, @afenda/accounting (ADR-0010), packages/ui, packages/appshell, shadcn-studio blocks
+5. Authority    — ADR-0001 Phase 4 — Database Authority (RLS defense-in-depth)
+6. Gates        — pnpm --filter @afenda/database typecheck
+                  pnpm --filter @afenda/database test:run
+                  pnpm check:database-tenant-rls-coverage
+                  pnpm check:database-tenant-rls-live
+                  pnpm quality:migrations
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 16 | Supabase RLS policies live apply proof (all migration tags) | `pnpm check:database-tenant-rls-live` |
+| — | Actor isolation + schema parity invariants | `pnpm check:database-tenant-rls-coverage` |
+
+#### Known debt
+
+- Live gate still skips when migration database URL unavailable — by design (environment-specific).
 
 ## Verdict
 

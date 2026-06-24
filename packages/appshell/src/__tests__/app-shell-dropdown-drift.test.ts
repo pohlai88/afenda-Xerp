@@ -41,7 +41,7 @@ describe("app-shell dropdown presentation drift guards", () => {
     );
     expectCssContains(
       css,
-      '[data-slot="dropdown-menu-content"]:has(.app-shell-dashboard-invoice-row-actions-menu)'
+      '[data-slot="dropdown-menu-content"]:has(.app-shell-studio-invoice-row-actions-menu)'
     );
     expect(css).toContain("width: auto !important");
     expect(css).toContain("UNLAYERED so width beats Tailwind utilities");
@@ -51,11 +51,11 @@ describe("app-shell dropdown presentation drift guards", () => {
     const css = readFileSync(presentationCssPath, "utf8");
 
     expect(css).toContain(
-      '[data-slot="sheet-content"]:has(.app-shell-activity-panel)'
+      '[data-slot="sheet-content"]:has(.app-shell-studio-activity-panel)'
     );
     expect(css).toContain("max-width: 28rem !important");
-    expect(css).toContain(".app-shell-activity-panel");
-    expect(css).not.toContain(".app-shell-activity-sheet");
+    expect(css).toContain(".app-shell-studio-activity-panel");
+    expect(css).not.toContain(".app-shell-studio-activity-sheet");
   });
 
   it("sizes sidebar team avatars inside fixed presentation wrappers", () => {

@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type { ColumnDef } from "@tanstack/react-table";
 import { EllipsisVerticalIcon, EyeIcon, Trash2Icon } from "lucide-react";
 
@@ -36,6 +36,11 @@ const INVOICE_STATUS_DESCRIPTIONS = {
   paid: "Invoice settled in full",
   past_due: "Payment overdue — follow up required",
 } as const satisfies Record<AppShellInvoiceStatus["kind"], string>;
+
+export type AppShellDashboardInvoiceTableColumnsGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Avatar" | "Button" | "Checkbox" | "DropdownMenu" | "Tooltip"
+>;
 
 export function formatInvoiceCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -71,18 +76,21 @@ function InvoiceRowActions({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          {...mapStockButtonProps("ghost", "icon-sm")}
           aria-label={`More actions for invoice ${invoiceId}`}
+          emphasis="ghost"
+          intent="quiet"
+          presentation="icon"
+          size="sm"
           type="button"
         >
           <EllipsisVerticalIcon
             aria-hidden
-            className="app-shell-dashboard-invoice-action-icon"
+            className="app-shell-studio-invoice-action-icon"
           />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <div className="app-shell-dashboard-invoice-row-actions-menu">
+        <div className="app-shell-studio-invoice-row-actions-menu">
           <DropdownMenuGroup>
             <DropdownMenuItem>Download PDF</DropdownMenuItem>
             <DropdownMenuItem>Duplicate</DropdownMenuItem>
@@ -132,7 +140,7 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
     {
       accessorKey: "id",
       cell: ({ row }) => (
-        <span className="app-shell-dashboard-invoice-id">
+        <span className="app-shell-studio-invoice-id">
           #{row.getValue("id")}
         </span>
       ),
@@ -150,15 +158,15 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
             <TooltipTrigger asChild>
               <button
                 aria-label={`${resolveStatusLabel(status)}. ${resolveStatusDescription(status)}`}
-                className="app-shell-dashboard-invoice-status-cell"
+                className="app-shell-studio-invoice-status-cell"
                 type="button"
               >
                 <span
                   aria-hidden
-                  className="app-shell-dashboard-invoice-status-dot"
+                  className="app-shell-studio-invoice-status-dot"
                   data-status={status.kind}
                 />
-                <span className="app-shell-dashboard-invoice-status-label">
+                <span className="app-shell-studio-invoice-status-label">
                   {resolveStatusLabel(status)}
                 </span>
               </button>
@@ -177,7 +185,7 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
     {
       accessorKey: "client",
       cell: ({ row }) => (
-        <div className="app-shell-dashboard-invoice-client-cell">
+        <div className="app-shell-studio-invoice-client-cell">
           <Avatar size="sm">
             <AvatarImage
               alt={row.getValue("client")}
@@ -185,11 +193,11 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
             />
             <AvatarFallback>{row.original.avatarFallback}</AvatarFallback>
           </Avatar>
-          <div className="app-shell-dashboard-invoice-client-copy">
-            <span className="app-shell-dashboard-invoice-client-name">
+          <div className="app-shell-studio-invoice-client-copy">
+            <span className="app-shell-studio-invoice-client-name">
               {row.getValue("client")}
             </span>
-            <span className="app-shell-dashboard-invoice-client-field">
+            <span className="app-shell-studio-invoice-client-field">
               {row.original.field}
             </span>
           </div>
@@ -202,7 +210,7 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
     {
       accessorKey: "total",
       cell: ({ row }) => (
-        <span className="app-shell-dashboard-invoice-amount">
+        <span className="app-shell-studio-invoice-amount">
           {formatInvoiceCurrency(Number(row.getValue("total")))}
         </span>
       ),
@@ -217,7 +225,7 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
           return null;
         }
         return (
-          <span className="app-shell-dashboard-invoice-date">
+          <span className="app-shell-studio-invoice-date">
             {formatIssuedDate(date)}
           </span>
         );
@@ -231,7 +239,7 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
       cell: ({ row }) => {
         if (row.original.balance === 0) {
           return (
-            <span className="app-shell-dashboard-invoice-balance-settled">
+            <span className="app-shell-studio-invoice-balance-settled">
               Paid
             </span>
           );
@@ -242,8 +250,8 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
           <span
             className={
               isPastDue
-                ? "app-shell-dashboard-invoice-amount-danger"
-                : "app-shell-dashboard-invoice-amount"
+                ? "app-shell-studio-invoice-amount-danger"
+                : "app-shell-studio-invoice-amount"
             }
           >
             {formatInvoiceCurrency(row.original.balance)}
@@ -255,17 +263,20 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
     },
     {
       cell: ({ row }) => (
-        <div className="app-shell-dashboard-invoice-actions">
+        <div className="app-shell-studio-invoice-actions">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                {...mapStockButtonProps("ghost", "icon-sm")}
                 aria-label={`Delete invoice ${row.original.id}`}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="sm"
                 type="button"
               >
                 <Trash2Icon
                   aria-hidden
-                  className="app-shell-dashboard-invoice-action-icon"
+                  className="app-shell-studio-invoice-action-icon"
                 />
               </Button>
             </TooltipTrigger>
@@ -276,13 +287,16 @@ export function createAppShellDashboardInvoiceColumns(): ColumnDef<AppShellDashb
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                {...mapStockButtonProps("ghost", "icon-sm")}
                 aria-label={`View invoice ${row.original.id}`}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="sm"
                 type="button"
               >
                 <EyeIcon
                   aria-hidden
-                  className="app-shell-dashboard-invoice-action-icon"
+                  className="app-shell-studio-invoice-action-icon"
                 />
               </Button>
             </TooltipTrigger>

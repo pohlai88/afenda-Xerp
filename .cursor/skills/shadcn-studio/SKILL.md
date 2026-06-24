@@ -1,13 +1,13 @@
 ---
 name: shadcn-studio
 description: >-
-  shadcn/studio MCP workflow for afenda-Xforge — /cui, /rui, /iui, /ftc block
+  shadcn/studio MCP workflow for Afenda ERP — /cui, /rui, /iui, /ftc block
   generation, toolbar visual editing, and design-system install paths. Use when
   using shadcn/studio MCP, generating blocks, refining UI from studio blocks,
   or running the shadcn/studio toolbar against Storybook or apps.
 ---
 
-# shadcn/studio (afenda-Xforge)
+# shadcn/studio (Afenda ERP)
 
 Authority: `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflow discipline).
 
@@ -92,18 +92,40 @@ If the workflow drifted: stop → identify last completed step → resume from t
 ## Repo compatibility
 
 - `AGENTS.md` and `.cursor/rules/*.mdc` still apply.
-- Layer order: `apps/app` → Storybook → `packages/ui` (`agent-discipline.mdc`).
+- Layer order: `apps/erp` → Storybook → `packages/ui` (`agent-discipline.mdc`).
 - Do not edit `packages/ui/src/components/` primitives for app-only polish — hook may block.
-- Add free shadcn components: `npx shadcn@latest add [component]` (cwd: `packages/ui`)
+- Add free shadcn components: `npx shadcn@latest add [component] -c packages/ui`
 - Add Pro ss-blocks: see **Pro block installation** section above.
 - Use `pnpm` for repo commands.
 
 ## Verification after generated UI lands
 
+Locked pipeline (mandatory for every new production block):
+
+```txt
+MCP install (packages/ui cwd)
+  → normalize block (semantic .app-shell-* classes, governed @afenda/ui props)
+  → promote patterns to afenda-appshell-studio.css via STUDIO-PATTERN-MAP
+  → move block to packages/appshell/src/shadcn-studio/blocks/
+  → apps import @afenda/appshell/afenda-appshell.css ONLY (never studio CSS directly)
+  → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof (Gate G NS1–NS5)
+```
+
+Post-install checklist:
+
+- [ ] Every `@afenda/ui` primitive: zero `className`; governed props only
+- [ ] Block TSX: semantic `.app-shell-*` / `.app-shell-studio-*` only (no raw Tailwind)
+- [ ] Icons: `lucide-react` only
+- [ ] STUDIO-PATTERN-MAP row added for new reusable CSS
+- [ ] `pnpm ui:guard` passes (Gates A–G)
+- [ ] `pnpm ui:guard:proof` prints Gate G attestation (all NS probes zero)
+
 ```bash
-pnpm --filter app typecheck          # if apps/app changed
-pnpm --filter @repo/design-system typecheck   # if design-system changed
-pnpm --filter storybook typecheck    # if stories changed
+pnpm --filter @afenda/erp typecheck          # if apps/erp changed
+pnpm --filter @afenda/design-system build    # if tokens changed
+pnpm --filter @afenda/storybook typecheck    # if stories changed
+pnpm ui:guard
+pnpm ui:guard:proof
 pnpm check
 ```
 

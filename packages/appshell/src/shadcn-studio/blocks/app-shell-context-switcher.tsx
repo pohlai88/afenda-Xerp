@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { Building2Icon } from "lucide-react";
 import { useId } from "react";
 import type { AppShellContextSwitchSelection } from "../../contracts/context.contract.js";
@@ -89,10 +88,13 @@ export function AppShellContextSwitcher({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          {...mapStockButtonProps("outline", "sm")}
           aria-busy={isPending}
           aria-label={triggerLabel}
           disabled={isPending}
+          emphasis="outline"
+          intent="primary"
+          presentation="default"
+          size="sm"
           type="button"
         >
           <Building2Icon

@@ -20,6 +20,11 @@ export type PermissionId = Brand<string, "PermissionId">;
 export type PolicyId = Brand<string, "PolicyId">;
 export type AuditEventId = Brand<string, "AuditEventId">;
 export type OwnershipInterestId = Brand<string, "OwnershipInterestId">;
+export type CustomerId = Brand<string, "CustomerId">;
+export type SupplierId = Brand<string, "SupplierId">;
+export type ProductId = Brand<string, "ProductId">;
+export type EmployeeId = Brand<string, "EmployeeId">;
+export type WarehouseId = Brand<string, "WarehouseId">;
 export type ExecutionId = Brand<string, "ExecutionId">;
 export type CorrelationId = Brand<string, "CorrelationId">;
 
@@ -104,6 +109,36 @@ export function brandOwnershipInterestId(
   ) as OwnershipInterestId | null;
 }
 
+export function brandCustomerId(
+  value: string | CustomerId | null | undefined
+): CustomerId | null {
+  return brandOptionalId(value, "customerId") as CustomerId | null;
+}
+
+export function brandSupplierId(
+  value: string | SupplierId | null | undefined
+): SupplierId | null {
+  return brandOptionalId(value, "supplierId") as SupplierId | null;
+}
+
+export function brandProductId(
+  value: string | ProductId | null | undefined
+): ProductId | null {
+  return brandOptionalId(value, "productId") as ProductId | null;
+}
+
+export function brandEmployeeId(
+  value: string | EmployeeId | null | undefined
+): EmployeeId | null {
+  return brandOptionalId(value, "employeeId") as EmployeeId | null;
+}
+
+export function brandWarehouseId(
+  value: string | WarehouseId | null | undefined
+): WarehouseId | null {
+  return brandOptionalId(value, "warehouseId") as WarehouseId | null;
+}
+
 export function brandExecutionId(value: string | ExecutionId): ExecutionId {
   return brandRequiredId(value, "executionId") as ExecutionId;
 }
@@ -127,6 +162,26 @@ export function toCompanyId(value: CompanyId): string {
 }
 
 export function toOwnershipInterestId(value: OwnershipInterestId): string {
+  return unbrand(value);
+}
+
+export function toCustomerId(value: CustomerId): string {
+  return unbrand(value);
+}
+
+export function toSupplierId(value: SupplierId): string {
+  return unbrand(value);
+}
+
+export function toProductId(value: ProductId): string {
+  return unbrand(value);
+}
+
+export function toEmployeeId(value: EmployeeId): string {
+  return unbrand(value);
+}
+
+export function toWarehouseId(value: WarehouseId): string {
   return unbrand(value);
 }
 

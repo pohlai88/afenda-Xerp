@@ -1,31 +1,28 @@
-import type { Graph } from "@/components/graph-view";
+import type { DocsGraph } from "@/lib/docs-graph.types";
+import type { DocsPage } from "@/lib/docs-page";
 import { source } from "@/lib/source";
 
-interface ExtractedReference {
-  readonly href: string;
+function readExtractedReferences(page: DocsPage): readonly { href: string }[] {
+  const references = page.data.extractedReferences;
+  if (!Array.isArray(references)) {
+    return [];
+  }
+  return references;
 }
 
-interface PageDataWithReferences {
-  readonly description?: string;
-  readonly extractedReferences?: readonly ExtractedReference[];
-  readonly title: string;
-}
-
-export function buildGraph(): Graph {
+export function buildGraph(): DocsGraph {
   const pages = source.getPages();
-  const graph: Graph = { links: [], nodes: [] };
+  const graph: DocsGraph = { links: [], nodes: [] };
 
   for (const page of pages) {
-    const data = page.data as PageDataWithReferences;
-
     graph.nodes.push({
       id: page.url,
       url: page.url,
-      text: data.title,
-      ...(data.description ? { description: data.description } : {}),
+      text: page.data.title,
+      ...(page.data.description ? { description: page.data.description } : {}),
     });
 
-    for (const ref of data.extractedReferences ?? []) {
+    for (const ref of readExtractedReferences(page)) {
       const refPage = source.getPageByHref(ref.href);
       if (!refPage) {
         continue;

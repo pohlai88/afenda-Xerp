@@ -9,7 +9,6 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useId, useState } from "react";
 
 import { SystemAdminFormSection } from "@/components/system-admin/system-admin-form-section";
@@ -273,9 +272,12 @@ export function SystemAdminInviteWizard({
       <div className="erp-system-admin-invite-wizard__actions">
         {wizardStep.step === "identity" ? null : (
           <Button
-            {...mapStockButtonProps("outline", "default")}
             disabled={isSubmitting}
+            emphasis="outline"
+            intent="primary"
             onClick={handleBack}
+            presentation="default"
+            size="md"
             type="button"
           >
             {SYSTEM_ADMIN_INVITE_NAV_LABELS.back}
@@ -283,11 +285,14 @@ export function SystemAdminInviteWizard({
         )}
         {wizardStep.step === "identity" ? (
           <Button
-            {...mapStockButtonProps("default", "default")}
             disabled={
               displayName.trim().length === 0 || email.trim().length === 0
             }
+            emphasis="solid"
+            intent="primary"
             onClick={handleIdentityContinue}
+            presentation="default"
+            size="md"
             type="button"
           >
             {SYSTEM_ADMIN_INVITE_NAV_LABELS.next}
@@ -295,9 +300,12 @@ export function SystemAdminInviteWizard({
         ) : null}
         {wizardStep.step === "role" ? (
           <Button
-            {...mapStockButtonProps("default", "default")}
             disabled={selectedRoleId.length === 0}
+            emphasis="solid"
+            intent="primary"
             onClick={handleRoleContinue}
+            presentation="default"
+            size="md"
             type="button"
           >
             {SYSTEM_ADMIN_INVITE_NAV_LABELS.next}
@@ -305,11 +313,14 @@ export function SystemAdminInviteWizard({
         ) : null}
         {wizardStep.step === "confirm" ? (
           <Button
-            {...mapStockButtonProps("default", "default")}
             disabled={isSubmitting}
+            emphasis="solid"
+            intent="primary"
             onClick={() => {
               void handleSubmit();
             }}
+            presentation="default"
+            size="md"
             type="button"
           >
             {isSubmitting

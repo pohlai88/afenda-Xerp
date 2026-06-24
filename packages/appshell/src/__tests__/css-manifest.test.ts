@@ -9,6 +9,7 @@ import {
 
 const packageRoot = join(import.meta.dirname, "../..");
 const cssPath = join(packageRoot, "src/styles/afenda-appshell.css");
+const studioPath = join(packageRoot, "src/styles/afenda-appshell-studio.css");
 const pkgJson = JSON.parse(
   readFileSync(join(packageRoot, "package.json"), "utf8")
 ) as { exports?: Record<string, unknown>; sideEffects?: unknown };
@@ -28,8 +29,9 @@ describe("@afenda/appshell CSS manifest", () => {
     }
   });
 
-  it("every manifest exportPath has a matching package.json export", () => {
+  it("every non-internal manifest exportPath has a matching package.json export", () => {
     for (const entry of appShellCssManifest) {
+      if ("internalOnly" in entry && entry.internalOnly) continue;
       expect(
         pkgJson.exports?.[entry.exportPath],
         `Missing export "${entry.exportPath}" in package.json`
@@ -57,6 +59,16 @@ describe("@afenda/appshell CSS manifest", () => {
     expect(entry?.propertyNamespace).toBe("--app-shell-");
   });
 
+  it("studio-patterns entry exists with correct purpose", () => {
+    const entry = appShellCssManifest.find(
+      (e) => e.purpose === "studio-patterns"
+    );
+    expect(entry).toBeDefined();
+    expect(entry?.sourceFile).toBe("src/styles/afenda-appshell-studio.css");
+    expect(entry?.classNamespace).toBe("app-shell-");
+    expect(entry?.propertyNamespace).toBe("--app-shell-");
+  });
+
   it("afenda-appshell.css contains no @theme inline block", () => {
     const css = readFileSync(cssPath, "utf8");
     expect(css).not.toContain("@theme inline");
@@ -79,6 +91,49 @@ describe("@afenda/appshell CSS manifest", () => {
     const css = readFileSync(cssPath, "utf8");
     expect(css).toContain("--app-shell-header-strip-height");
     expect(css).toContain("--app-shell-z-header");
+  });
+
+  it("afenda-appshell-studio.css contains no --afenda-* token definitions", () => {
+    const css = readFileSync(studioPath, "utf8");
+    expect(css).not.toMatch(/^\s*--afenda-[^\n:]+\s*:/m);
+  });
+
+  it("afenda-appshell-studio.css contains no @theme inline block", () => {
+    const css = readFileSync(studioPath, "utf8");
+    expect(css).not.toContain("@theme inline");
+  });
+
+  it("afenda-appshell.css @imports the studio layer", () => {
+    const css = readFileSync(cssPath, "utf8");
+    expect(css).toContain('@import "./afenda-appshell-studio.css"');
+  });
+
+  it("studio-patterns entry is internalOnly with appshell-only importers", () => {
+    const entry = appShellCssManifest.find(
+      (e) => e.purpose === "studio-patterns"
+    );
+    expect(entry).toBeDefined();
+    expect("internalOnly" in entry! && entry!.internalOnly).toBe(true);
+    expect(entry?.allowedImporters).toEqual(["@afenda/appshell"]);
+  });
+
+  it("package.json does not export afenda-appshell-studio.css", () => {
+    expect(pkgJson.exports?.["./afenda-appshell-studio.css"]).toBeUndefined();
+    const exportKeys = Object.keys(pkgJson.exports ?? {});
+    expect(
+      exportKeys.some((key) => key.includes("afenda-appshell-studio"))
+    ).toBe(false);
+  });
+
+  it("sideEffects does not list studio CSS as standalone export", () => {
+    const list = pkgJson.sideEffects;
+    expect(Array.isArray(list)).toBe(true);
+    expect(list).not.toContain("./dist/styles/afenda-appshell-studio.css");
+    expect(
+      (list as string[]).some((entry) =>
+        entry.includes("afenda-appshell-studio")
+      )
+    ).toBe(false);
   });
 });
 

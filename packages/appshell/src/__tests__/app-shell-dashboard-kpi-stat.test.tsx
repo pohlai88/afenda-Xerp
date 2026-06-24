@@ -52,7 +52,7 @@ describe("AppShellDashboardKpiStat", () => {
 
     expect(
       container.querySelector(
-        '.app-shell-dashboard-kpi-widget[data-emphasis="primary"]'
+        '.app-shell-studio-metric-card[data-emphasis="primary"]'
       )
     ).not.toBeNull();
   });

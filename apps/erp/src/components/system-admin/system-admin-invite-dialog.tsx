@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useState } from "react";
 
 import type { SystemAdminInviteRoleOption } from "@/lib/system-admin/list-system-admin-invite-role-options.server";
@@ -36,7 +35,13 @@ export function SystemAdminInviteDialog({
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button {...mapStockButtonProps("default", "default")} type="button">
+        <Button
+          emphasis="solid"
+          intent="primary"
+          presentation="default"
+          size="md"
+          type="button"
+        >
           {SYSTEM_ADMIN_INVITE_TRIGGER_LABEL}
         </Button>
       </DialogTrigger>

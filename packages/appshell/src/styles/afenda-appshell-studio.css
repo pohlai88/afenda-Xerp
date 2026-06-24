@@ -1,0 +1,1160 @@
+/**
+ * @afenda/appshell — Canonical shadcn/studio pattern layer.
+ *
+ * Purpose: Reusable visual patterns extracted from shadcn/studio MCP output.
+ * Apps MUST NOT import this file directly — it is an internal implementation
+ * detail of afenda-appshell.css, which @imports it.
+ *
+ * Public entry: @import "@afenda/appshell/afenda-appshell.css"  (unchanged)
+ *
+ * Namespace: .app-shell-studio-* (classes) | --app-shell-* (properties)
+ * Authority: UI Primitive Governance — TIP-004 / css-authority.md
+ *
+ * ═══ STRUCTURE ═══
+ * A. Bridge vars  — .app-shell-root extension (studio-specific aliases)
+ * B. Metric card  — KPI stat pattern (.app-shell-studio-metric-*)
+ * C. Sparkline    — Sparkline stat pattern (.app-shell-studio-sparkline-*)
+ * D. Activity     — Activity feed / sheet pattern (.app-shell-studio-activity-*)
+ * E. Revenue      — Revenue chart pattern (.app-shell-studio-revenue-*)
+ * F. Invoice      — Invoice table pattern (.app-shell-studio-invoice-*)
+ *
+ * Rule: New studio patterns land here only when reusable across ≥2 blocks.
+ * Block-local geometry stays in afenda-appshell.css.
+ *
+ * CSS governance: see packages/appshell/src/styles/css-manifest.ts
+ * Class namespace: .app-shell-studio-* (sub-namespace of .app-shell-)
+ * Custom property namespace: --app-shell-* (reads only, never defines --afenda-*)
+ */
+
+/* ── A. Studio bridge vars ───────────────────────────────────────────────── */
+/*
+ * Studio-semantic aliases that translate shadcn/studio Tailwind vocabulary into
+ * Afenda design-system tokens. Update only these bridge vars when upstream tokens
+ * change — studio pattern classes then update automatically.
+ *
+ * Do NOT define new --afenda-* variables here. Consume via var() fallback only.
+ */
+.app-shell-root {
+  /* Surface semantics */
+  --app-shell-studio-surface-card: var(--card);
+  --app-shell-studio-surface-muted: var(--muted);
+
+  /* Text semantics */
+  --app-shell-studio-text-muted: var(--app-shell-text-muted);
+  --app-shell-studio-text-subtle: var(--app-shell-text-subtle);
+
+  /* Trend colours */
+  --app-shell-studio-trend-up: var(--app-shell-text-trend-positive);
+  --app-shell-studio-trend-down: var(--app-shell-text-trend-negative);
+
+  /* Radii */
+  --app-shell-studio-radius-widget: var(--app-shell-radius-card);
+  --app-shell-studio-radius-control: var(--app-shell-radius-control);
+
+  /* Layout rhythm */
+  --app-shell-studio-gap-section: var(--app-shell-section-gap);
+  --app-shell-studio-padding-card: var(--app-shell-padding-card);
+}
+
+/* ── B. Metric card (@layer components) ──────────────────────────────────── */
+/*
+ * KPI stat pattern — used by AppShellDashboardKpiStat.
+ * Migrated from: .app-shell-dashboard-kpi-widget + .app-shell-dashboard-kpi-*
+ * Pattern trigger: card shell + labelled metric + icon chip + trend footnote
+ */
+@layer components {
+  /**
+   * .app-shell-studio-metric-card
+   * Root article wrapper for KPI metric cards. Sets full height and widget context.
+   * Replaces: .app-shell-dashboard-kpi-widget
+   */
+  .app-shell-studio-metric-card {
+    height: 100%;
+  }
+
+  .app-shell-studio-metric-card > [data-component="Card"] {
+    height: 100%;
+    border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+    box-shadow: var(--app-shell-shadow-raised);
+  }
+
+  /* Primary emphasis — tinted card surface */
+  .app-shell-studio-metric-card[data-emphasis="primary"]
+  > [data-component="Card"] {
+    background-color: color-mix(in oklab, var(--primary) 6%, var(--card));
+    border-color: color-mix(in oklab, var(--primary) 28%, var(--border));
+  }
+
+  .app-shell-studio-metric-card[data-emphasis="primary"]
+    .app-shell-studio-icon-chip {
+    background-color: color-mix(in oklab, var(--primary) 12%, transparent);
+    border-color: color-mix(in oklab, var(--primary) 22%, transparent);
+  }
+
+  .app-shell-studio-metric-card[data-emphasis="primary"]
+    .app-shell-studio-icon-chip__icon {
+    color: var(--primary);
+  }
+
+  /**
+   * .app-shell-studio-metric__body
+   * Inner content column — labels, value, footnote. Replaces: .app-shell-dashboard-kpi-body
+   */
+  .app-shell-studio-metric__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+    min-height: 8.5rem;
+    padding: var(--app-shell-studio-padding-card);
+  }
+
+  /**
+   * .app-shell-studio-metric__header
+   * Row: heading stack + icon chip. Replaces: .app-shell-dashboard-kpi-header
+   */
+  .app-shell-studio-metric__header {
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  /**
+   * .app-shell-studio-metric__heading
+   * Column: title + caption. Replaces: .app-shell-dashboard-kpi-heading
+   */
+  .app-shell-studio-metric__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-density-field-gap);
+    min-width: 0;
+  }
+
+  /**
+   * .app-shell-studio-metric__title
+   * Uppercase label above the KPI value. Replaces: .app-shell-dashboard-kpi-title
+   */
+  .app-shell-studio-metric__title {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--app-shell-studio-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--app-shell-letter-spacing-label);
+  }
+
+  /**
+   * .app-shell-studio-metric__caption
+   * Tabular-nums sub-label (period badge, etc.). Replaces: .app-shell-dashboard-kpi-caption
+   */
+  .app-shell-studio-metric__caption {
+    font-size: var(--app-shell-type-body-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-icon-chip
+   * Square icon container with muted tinted background.
+   * Replaces: .app-shell-dashboard-kpi-icon-chip
+   */
+  .app-shell-studio-icon-chip {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: color-mix(in oklab, var(--muted) 72%, transparent);
+    border: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+    border-radius: var(--app-shell-studio-radius-control);
+  }
+
+  /**
+   * .app-shell-studio-icon-chip__icon
+   * Icon inside the chip. Replaces: .app-shell-dashboard-kpi-icon
+   */
+  .app-shell-studio-icon-chip__icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-metric__value-group
+   * <p> wrapper around the main KPI number. Replaces: .app-shell-dashboard-kpi-metric
+   */
+  .app-shell-studio-metric__value-group {
+    margin: 0;
+  }
+
+  /**
+   * .app-shell-studio-metric__value-row
+   * Flex row when value shares space with a secondary chip.
+   * Replaces: .app-shell-dashboard-kpi-value-row
+   */
+  .app-shell-studio-metric__value-row {
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+  }
+
+  /**
+   * .app-shell-studio-metric__value
+   * The large KPI number. Replaces: .app-shell-dashboard-kpi-value
+   */
+  .app-shell-studio-metric__value {
+    font-size: var(--app-shell-type-kpi);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--app-shell-leading-tight);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+  }
+
+  /**
+   * .app-shell-studio-metric__footnote
+   * Row: change% + comparison label. Replaces: .app-shell-dashboard-kpi-footnote
+   */
+  .app-shell-studio-metric__footnote {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    align-items: baseline;
+    margin: 0;
+  }
+
+  /**
+   * .app-shell-studio-metric__change
+   * Tabular-nums delta (e.g. "+12.4%"). Replaces: .app-shell-dashboard-kpi-change
+   */
+  .app-shell-studio-metric__change {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-metric__comparison
+   * Comparison label (e.g. "vs last week"). Replaces: .app-shell-dashboard-kpi-comparison
+   */
+  .app-shell-studio-metric__comparison {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-subtle);
+  }
+}
+
+/* ── C. Sparkline card (@layer components) ───────────────────────────────── */
+/*
+ * Sparkline stat pattern — used by AppShellDashboardSparklineStat.
+ * Migrated from: .app-shell-dashboard-sparkline-widget + .app-shell-dashboard-sparkline-*
+ * Pattern trigger: hero amount + area chart + change row + trend indicator
+ */
+@layer components {
+  /**
+   * .app-shell-studio-sparkline-card
+   * Root article wrapper for sparkline metric cards.
+   * Replaces: .app-shell-dashboard-sparkline-widget
+   */
+  .app-shell-studio-sparkline-card {
+    height: 100%;
+  }
+
+  /**
+   * .app-shell-studio-sparkline__body
+   * Horizontal layout: copy left, chart right.
+   * Replaces: .app-shell-dashboard-sparkline-body
+   */
+  .app-shell-studio-sparkline__body {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--app-shell-studio-padding-card);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__copy
+   * Flex column holding meta + change row. Replaces: .app-shell-dashboard-sparkline-copy
+   */
+  .app-shell-studio-sparkline__copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xl);
+    min-width: 0;
+  }
+
+  /**
+   * .app-shell-studio-sparkline__meta
+   * Column: label + amount. Replaces: .app-shell-dashboard-sparkline-meta
+   */
+  .app-shell-studio-sparkline__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__label
+   * Muted title above the hero amount. Replaces: .app-shell-dashboard-sparkline-label
+   */
+  .app-shell-studio-sparkline__label {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__amount
+   * Hero currency amount. Replaces: .app-shell-dashboard-sparkline-amount
+   */
+  .app-shell-studio-sparkline__amount {
+    font-size: var(--app-shell-type-hero);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--app-shell-leading-display);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__change-row
+   * Wrapping flex row: delta + trend indicator + comparison.
+   * Replaces: .app-shell-dashboard-sparkline-change-row
+   */
+  .app-shell-studio-sparkline__change-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+  }
+
+  /**
+   * .app-shell-studio-sparkline__change
+   * Tabular-nums delta text. Replaces: .app-shell-dashboard-sparkline-change
+   */
+  .app-shell-studio-sparkline__change {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__trend
+   * Inline trend icon wrapper. Replaces: .app-shell-dashboard-sparkline-trend
+   */
+  .app-shell-studio-sparkline__trend {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /**
+   * .app-shell-studio-sparkline__comparison
+   * Period comparison label. Replaces: .app-shell-dashboard-sparkline-comparison
+   */
+  .app-shell-studio-sparkline__comparison {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__insights
+   * Tiny tabular data insight below the change row.
+   * Replaces: .app-shell-dashboard-sparkline-insights
+   */
+  .app-shell-studio-sparkline__insights {
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /**
+   * .app-shell-studio-sparkline__chart-frame
+   * Chart area container with fixed height. Replaces: .app-shell-dashboard-sparkline-chart-frame
+   * Modifier classes (no CSS rules, semantic hooks for per-block differentiation):
+   *   .app-shell-studio-sparkline__chart-frame--revenue
+   *   .app-shell-studio-sparkline__chart-frame--expense
+   */
+  .app-shell-studio-sparkline__chart-frame {
+    flex: 1;
+    width: 100%;
+    max-width: 17.5rem;
+    min-height: 6.625rem;
+    max-height: 6.625rem;
+  }
+
+  /**
+   * .app-shell-studio-sparkline__empty-chart
+   * Centered placeholder when no data points are available.
+   * Replaces: .app-shell-dashboard-sparkline-empty-chart
+   */
+  .app-shell-studio-sparkline__empty-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: var(--app-shell-type-body-xs);
+    color: var(--app-shell-studio-text-muted);
+  }
+}
+
+/* ── D. Activity feed (@layer components) ──────────────────────────────────── */
+@layer components {
+  /**
+   * Shell-05 activity sheet body — flex column so the feed scrolls inside h-full panel.
+   */
+  .app-shell-studio-activity-panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    min-height: 0;
+  }
+
+  /**
+   * Scrollable activity feed body inside the shell-05 activity sheet.
+   */
+  .app-shell-studio-activity-feed {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .app-shell-studio-activity-feed-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .app-shell-studio-activity-separator {
+    padding: 0 var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-activity-time {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-studio-activity-row {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-activity-row-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-density-field-gap);
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .app-shell-studio-activity-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-activity-actor-name {
+    font-weight: var(--font-weight-heading-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-activity-mention {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    padding: 0.625rem 1rem;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .app-shell-studio-activity-mention-quote {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-activity-reply-group {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+    padding: var(--app-shell-gap-sm) var(--app-shell-gap-md);
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .app-shell-studio-activity-reply-input {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--app-shell-type-body-sm);
+    outline: none;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-studio-activity-reply-input:focus-visible {
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-activity-reply-input::placeholder {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-activity-reply-attach {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 0;
+    color: var(--app-shell-text-muted);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-studio-activity-reply-attach:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-activity-reply-icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-activity-file-inline {
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    align-items: center;
+    padding: 0.25rem 0.375rem;
+    color: inherit;
+    text-decoration: none;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+    transition: background-color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
+  }
+
+  .app-shell-studio-activity-file-inline:hover {
+    background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
+  }
+
+  .app-shell-studio-activity-file-inline:focus-visible {
+    outline: none;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-activity-file-inline-thumb {
+    height: 1.25rem;
+  }
+
+  .app-shell-studio-activity-file-inline-name {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-activity-file-card {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    align-items: center;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    color: inherit;
+    text-decoration: none;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: background-color var(--app-shell-duration-normal)
+      var(--app-shell-ease-standard);
+  }
+
+  .app-shell-studio-activity-file-card:hover {
+    background-color: color-mix(in oklab, var(--muted) 80%, var(--foreground));
+  }
+
+  .app-shell-studio-activity-file-card:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-activity-file-card-thumb {
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .app-shell-studio-activity-file-card-name {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-activity-tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+  }
+
+  .app-shell-studio-activity-empty {
+    padding: var(--app-shell-gap-xl) 1rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+}
+
+/* ── E. Revenue chart (@layer components) ──────────────────────────────────── */
+@layer components {
+  .app-shell-studio-revenue-widget {
+    width: 100%;
+  }
+
+  .app-shell-studio-revenue-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+
+  .app-shell-studio-revenue-primary {
+    border-bottom: 1px solid var(--border);
+
+    @media (min-width: 1024px) {
+      border-right: 1px solid var(--border);
+      border-bottom: 0;
+    }
+  }
+
+  .app-shell-studio-revenue-bar-frame {
+    width: 100%;
+    min-height: 13.75rem;
+    padding: 0 var(--app-shell-padding-card) var(--app-shell-gap-xl);
+
+    @media (min-width: 1024px) {
+      min-height: 18.75rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .app-shell-studio-revenue-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-2xl);
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card);
+  }
+
+  .app-shell-studio-revenue-select-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-shell-studio-revenue-growth-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    text-align: center;
+  }
+
+  .app-shell-studio-revenue-growth-headline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-revenue-growth-headline-caption {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-growth-chart-frame {
+    width: 100%;
+    height: 10rem;
+  }
+
+  .app-shell-studio-revenue-growth-chart-frame-bars {
+    min-height: 10rem;
+  }
+
+  .app-shell-studio-revenue-growth-value {
+    font-size: var(--app-shell-type-kpi);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--card-foreground);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+  }
+
+  .app-shell-studio-revenue-growth-footnote {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    justify-content: space-between;
+  }
+
+  .app-shell-studio-revenue-summary-item {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  .app-shell-studio-revenue-summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-studio-revenue-summary-year {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-summary-amount {
+    font-weight: var(--font-weight-label-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-studio-revenue-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .app-shell-studio-revenue-primary-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+    padding-bottom: var(--app-shell-padding-card);
+  }
+
+  .app-shell-studio-revenue-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    padding: 0 var(--app-shell-padding-card);
+  }
+
+  .app-shell-studio-revenue-hero-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+  }
+
+  .app-shell-studio-revenue-hero-amount {
+    font-size: var(--app-shell-type-hero);
+    font-weight: var(--font-weight-heading-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--app-shell-leading-display);
+    letter-spacing: var(--afenda-typography-letter-spacing-tight);
+  }
+
+  .app-shell-studio-revenue-yoy-change {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-comparison {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    padding: 0 var(--app-shell-padding-card);
+  }
+
+  .app-shell-studio-revenue-legend-item {
+    display: inline-flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-legend-swatch {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 9999px;
+  }
+
+  .app-shell-studio-revenue-legend-swatch-current {
+    background-color: var(--primary);
+  }
+
+  .app-shell-studio-revenue-legend-swatch-prior {
+    background-color: color-mix(
+      in oklab,
+      var(--primary) 20%,
+      var(--background)
+    );
+  }
+
+  .app-shell-studio-revenue-empty {
+    padding: 0 var(--app-shell-padding-card) var(--app-shell-padding-card);
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-select-label {
+    position: absolute;
+    left: -9999px;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-revenue-icon-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+  }
+
+  .app-shell-studio-revenue-growth-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-revenue-growth-caption {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+}
+
+/* ── F. Invoice table (@layer components) ────────────────────────────────── */
+@layer components {
+  .app-shell-studio-invoice-widget {
+    width: 100%;
+  }
+
+  .app-shell-studio-invoice-header {
+    display: flex;
+    gap: var(--app-shell-gap-lg);
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--app-shell-padding-card) 1.5rem 0;
+  }
+
+  .app-shell-studio-invoice-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+  }
+
+  .app-shell-studio-invoice-title {
+    margin: 0;
+    font-size: var(--app-shell-type-body-lg);
+    font-weight: var(--font-weight-heading-sm);
+    line-height: 1.3;
+  }
+
+  .app-shell-studio-invoice-subtitle {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    margin-top: 0.25rem;
+  }
+
+  .app-shell-studio-invoice-metric {
+    display: inline-flex;
+    gap: 0.375rem;
+    align-items: baseline;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-metric-value {
+    font-weight: var(--font-weight-label-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-invoice-metric-value-danger {
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-studio-invoice-bulk-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-shell-studio-invoice-bulk-copy {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-invoice-bulk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+  }
+
+  .app-shell-studio-invoice-table-scroll {
+    overflow-x: auto;
+  }
+
+  .app-shell-studio-invoice-table-scroll
+    [data-slot="table-body"]
+    [data-slot="table-row"]:nth-child(even) {
+    background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+  }
+
+  .app-shell-studio-invoice-table-scroll
+    [data-slot="table-body"]
+    [data-slot="table-row"]:only-child {
+    background-color: transparent;
+  }
+
+  .app-shell-studio-invoice-amount {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app-shell-studio-invoice-amount-danger {
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-studio-invoice-status-cell {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+    padding: 0;
+    text-align: left;
+    cursor: default;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-studio-invoice-status-cell:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-invoice-status-dot {
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .app-shell-studio-invoice-status-dot[data-status="paid"] {
+    background-color: var(--app-shell-text-trend-positive);
+  }
+
+  .app-shell-studio-invoice-status-dot[data-status="past_due"] {
+    background-color: var(--app-shell-text-trend-negative);
+  }
+
+  .app-shell-studio-invoice-status-dot[data-status="draft"] {
+    background-color: var(--warning);
+  }
+
+  .app-shell-studio-invoice-status-dot[data-status="downloaded"] {
+    background-color: var(--info);
+  }
+
+  .app-shell-studio-invoice-status-label {
+    color: var(--foreground);
+    white-space: nowrap;
+  }
+
+  .app-shell-studio-invoice-balance-settled {
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-empty-icon {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 auto 0.75rem;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-empty-title {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-invoice-empty-copy {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-shell {
+    overflow: hidden;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+  }
+
+  .app-shell-studio-invoice-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-xl);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--app-shell-gap-xl);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-shell-studio-invoice-toolbar-primary,
+  .app-shell-studio-invoice-toolbar-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-lg);
+    align-items: center;
+  }
+
+  .app-shell-studio-invoice-page-size {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+  }
+
+  .app-shell-studio-invoice-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 12rem;
+  }
+
+  .app-shell-studio-invoice-sort-trigger {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: inherit;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+
+  .app-shell-studio-invoice-sort-trigger:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  .app-shell-studio-invoice-sort-icon {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.6;
+  }
+
+  .app-shell-studio-invoice-id {
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-client-cell {
+    display: flex;
+    gap: var(--app-shell-gap-sm);
+    align-items: center;
+  }
+
+  .app-shell-studio-invoice-client-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .app-shell-studio-invoice-client-name {
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-invoice-client-field {
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-date {
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-row-actions-menu {
+    width: 100%;
+  }
+
+  .app-shell-studio-invoice-actions {
+    display: flex;
+    gap: var(--app-shell-gap-xs);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .app-shell-studio-invoice-action-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .app-shell-studio-invoice-empty {
+    display: block;
+    padding: var(--app-shell-gap-xl);
+    text-align: center;
+  }
+
+  .app-shell-studio-invoice-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--app-shell-gap-lg) var(--app-shell-gap-xl);
+  }
+
+  .app-shell-studio-invoice-summary {
+    font-size: var(--app-shell-type-body-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--app-shell-text-muted);
+  }
+
+  .app-shell-studio-invoice-nav-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .app-shell-studio-invoice-search-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}

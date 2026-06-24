@@ -4,7 +4,10 @@ import {
   checkConsumerClassNameSlop,
   detectConsumerClassNameViolation,
 } from "../consumer-class-name-policy.mjs";
-import { checkGovernedUiConsumption } from "../governed-ui-consumption.mjs";
+import {
+  checkConsumerGateDPolicies,
+  checkGovernedUiConsumption,
+} from "../governed-ui-consumption.mjs";
 
 describe("consumer-class-name-policy", () => {
   it("allows semantic bridge utilities on wrappers", () => {
@@ -142,5 +145,67 @@ describe("checkGovernedUiConsumption", () => {
       }
     `);
     expect(violations).toEqual([]);
+  });
+});
+
+describe("checkConsumerGateDPolicies", () => {
+  it("rejects staging primitive imports from appshell production", () => {
+    const violations = checkConsumerGateDPolicies(
+      `import { Button } from "#/components/shadcn-studio/primitives/button.tsx";`,
+      "packages/appshell/src/foo.tsx"
+    );
+    expect(violations.some((v) => v.includes("Staging primitive"))).toBe(true);
+  });
+
+  it("allows staging imports outside consumer packages", () => {
+    const violations = checkConsumerGateDPolicies(
+      `import { Button } from "#/components/shadcn-studio/primitives/button.tsx";`,
+      "packages/ui/src/components/shadcn-studio/dialog/dialog-09.tsx"
+    );
+    expect(violations).toEqual([]);
+  });
+
+  it("rejects raw Tailwind utilities in studio block className", () => {
+    const violations = checkConsumerGateDPolicies(
+      `<div className="flex gap-4 app-shell-dashboard-widget">`,
+      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+    );
+    expect(violations.some((v) => v.includes("raw Tailwind"))).toBe(true);
+  });
+
+  it("allows app-shell semantic classes in studio blocks", () => {
+    const violations = checkConsumerGateDPolicies(
+      `<div className="app-shell-studio-metric-card"><span className="sr-only">Label</span></div>`,
+      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+    );
+    expect(violations).toEqual([]);
+  });
+
+  it("rejects non-Lucide icon imports in studio blocks", () => {
+    const violations = checkConsumerGateDPolicies(
+      `import { FaBeer } from "react-icons/fa";`,
+      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+    );
+    expect(violations.some((v) => v.includes("Non-Lucide"))).toBe(true);
+  });
+
+  it("rejects new mapStockButtonProps usages in production consumer files", () => {
+    const violations = checkConsumerGateDPolicies(
+      `import { mapStockButtonProps } from "@afenda/ui/governance";`,
+      "packages/appshell/src/new-feature.tsx"
+    );
+    expect(
+      violations.some((v) => v.includes("mapStockButtonProps is sunset"))
+    ).toBe(true);
+  });
+
+  it("skips mapStockButtonProps check in __tests__", () => {
+    const violations = checkConsumerGateDPolicies(
+      `import { mapStockButtonProps } from "@afenda/ui/governance";`,
+      "packages/appshell/src/__tests__/harness.tsx"
+    );
+    expect(
+      violations.some((v) => v.includes("mapStockButtonProps is sunset"))
+    ).toBe(false);
   });
 });

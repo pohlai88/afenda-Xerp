@@ -2,12 +2,12 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially Implemented |
+| **Status** | Complete |
 | **Authority status** | **Accepted** — Architecture Authority parallel-track delivery TIP (2026-06-24); promoted from master plan v5 §13 |
-| **Runtime evidence** | `apps/docs/source.config.ts`, `apps/docs/content/docs/index.mdx`, `apps/docs/src/app/docs/`, `apps/docs/src/lib/source.ts` |
+| **Runtime evidence** | `apps/docs/vercel.json`, `apps/docs/next.config.ts`, `docs/delivery/support/fumadocs-docs-app-deploy.md` |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Foundation phase** | Post-foundation parallel track (master plan Phase 3 — does **not** gate Phases 0–9) |
-| **Remaining gap** | Deploy target (Slice 6); optional manual copy of blocks into `apps/docs` (Slice 5.1) |
+| **Remaining gap** | Production docs domain DNS assignment in Vercel dashboard (operator step — see Slice 5.1 support doc) |
 | **Architecture** | [`docs-app-architecture.md`](../../architecture/docs-app-architecture.md) |
 
 ## Purpose
@@ -55,7 +55,8 @@ ADR-0001 / ADR-0013 authority: Application-layer delivery surfaces are owned by 
 | Editorial shell palette | `apps/docs/src/app/docs-editorial-palette.css`, `docs-editorial-palette.contract.ts` | Yes — Slice 3.5 / 3.6 / 3.8 |
 | Seed content sections | `apps/docs/content/docs/getting-started/`, `monorepo-map/`, `contributing/` | Yes — Slice 4 |
 | Afenda Docs reference blocks | `packages/ui/src/components/afenda-docs/` + Storybook **Afenda Docs** category | Yes — Slice 5 |
-| MDX blocks in docs app | `apps/docs/src/components/blocks/`, `mdx.tsx` registry | **Deferred** — manual copy (Slice 5.1) |
+| Deploy target | `apps/docs/vercel.json`, `docs/delivery/support/fumadocs-docs-app-deploy.md` | Yes — Slice 6 |
+| MDX blocks in docs app | `apps/docs/src/components/blocks/`, `mdx.tsx` registry | Yes — Slice 5.1 |
 
 ## Package ownership
 
@@ -158,6 +159,7 @@ AND   cross-links to repo paths are used instead of copy-paste mirrors
 | 12 | Drift guard passes | `pnpm check:documentation-drift` | [x] |
 | 13 | No accounting logic | ADR-0010 compliance | [x] |
 | 14 | Completion report posted | afenda-coding-session §11 | [x] |
+| 15 | Deploy target configured (isolated Vercel project) | `pnpm --filter @afenda/docs build` + `apps/docs/vercel.json` | [x] |
 
 ## Slices
 
@@ -697,32 +699,136 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-
 
 ### Slice 6 — Deploy target (`@afenda/docs`)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-24)  
 **Prerequisite:** Slice 5 runtime evidence — Afenda Docs reference blocks in Storybook (`packages/ui/src/components/afenda-docs/`).
 
-Document or configure separate Vercel/preview deploy for `@afenda/docs`. No shared ERP secrets.
+Separate Vercel project for `@afenda/docs`. No shared ERP secrets. TypeScript graph module cleanup and `source.getPage` loader tests included.
+
+#### Design (internal-guide)
+
+- **Isolated Vercel project** — Root Directory `apps/docs`; monorepo install/build via `vercel.json`
+- **`outputFileTracingRoot`** — monorepo root in `next.config.ts` for reliable workspace tracing on Vercel
+- **Graph types** — shared `docs-graph.types.ts`; `build-graph.ts` uses `InferPageType` via `DocsPage` (no cast)
+- **Optional PR preview** — `preview-docs.yml` + `VERCEL_PROJECT_ID_DOCS` (skips when unset)
+- **shadcn-studio N/A** — Slice 6 is deploy/typing only; MDX blocks remain Slice 5 / optional 5.1
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-032-implementation-documentation.md
+
+1. Objective    — Configure separate preview/production deploy for @afenda/docs with no ERP secret coupling; harden graph/source TypeScript contracts.
+2. Allowed layer— apps/docs/ + docs/delivery/support/
+3. Files        — apps/docs/vercel.json (New)
+                  apps/docs/.env.example (New)
+                  apps/docs/next.config.ts (Modified)
+                  apps/docs/src/lib/docs-graph.types.ts (New)
+                  apps/docs/src/lib/build-graph.ts (Modified)
+                  apps/docs/src/components/graph-view.tsx (Modified)
+                  apps/docs/src/components/mdx.tsx (Modified)
+                  apps/docs/src/components/site-graph-view.tsx (Deleted)
+                  apps/docs/src/__tests__/build-graph.test.ts (New)
+                  apps/docs/src/__tests__/docs-page.test.ts (Modified)
+                  apps/docs/src/__tests__/seed-page-registry.test.ts (Renamed from source.test.ts)
+                  .github/workflows/preview-docs.yml (New)
+                  docs/delivery/support/fumadocs-docs-app-deploy.md (New)
+                  docs/architecture/docs-app-architecture.md (Modified)
+                  docs/delivery/tips/[Complete] tip-032-implementation-documentation.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — Shared auth env with ERP; @afenda/database
+                  packages/ui, packages/appshell (Slice 5 scope)
+                  @afenda/accounting, Accounting Core (ADR-0010)
+5. Authority    — ADR-0001 Application Authority
+6. Gates        — pnpm --filter @afenda/docs typecheck
+                  pnpm --filter @afenda/docs test:run
+                  pnpm --filter @afenda/docs build
+                  pnpm quality:boundaries
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| 15 | Deploy target configured | `pnpm --filter @afenda/docs build` |
+
+#### Known debt
+
+- Production domain DNS — assign `docs.afenda.app` (or chosen hostname) in Vercel dashboard; canonical URL recorded in support doc (Slice 5.1).
+- `VERCEL_PROJECT_ID_DOCS` GitHub secret — optional until docs PR previews are required.
+
+### Slice 5.1 — MDX editorial blocks copy + production domain (`@afenda/docs`)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 6 runtime evidence — deploy config = `Yes — Slice 6` in TIP runtime evidence table; Afenda Docs reference blocks in `packages/ui/src/components/afenda-docs/` = `Yes — Slice 5`.
+
+#### Design (internal-guide)
+
+- **Boundary:** Copy Afenda Docs reference blocks into `apps/docs/src/components/blocks/` as **plain HTML + editorial CSS** — zero `@afenda/ui` imports; `@afenda/docs` keeps zero `@afenda/*` runtime workspace deps.
+- **CSS:** Derive `apps/docs/src/app/docs-editorial-blocks.css` from `_storybook/afenda-docs/afenda-docs-preview.css`; swap `--docs-preview-*` → `--docs-editorial-*` per `afenda-docs/README.md`.
+- **Interactive blocks:** Accordion and tabs use native HTML / local state — not `@afenda/ui` Accordion/Tabs (slot CSS differs).
+- **MDX registry:** Register copied blocks in `mdx.tsx` alongside upstream fumadocs-ui components.
+- **Production domain:** Document canonical URL (`https://docs.afenda.app`), Vercel custom-domain steps, and DNS checklist in `fumadocs-docs-app-deploy.md` — no ERP secret coupling.
+- **shadcn-studio N/A for copy** — reference blocks already delivered in Slice 5; this slice is adoption only.
 
 #### Handoff block
 
 ```
 Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md
 
-1. Objective    — Configure separate preview/production deploy for @afenda/docs with no ERP secret coupling.
-2. Allowed layer— apps/docs/ + docs/delivery/support/ (optional evidence doc)
-3. Files        — apps/docs/vercel.json or monorepo deploy config (New — as applicable)
-                  docs/delivery/support/fumadocs-docs-app-deploy.md (New — optional)
+1. Objective    — Copy Afenda Docs editorial blocks from packages/ui reference catalog into apps/docs with editorial token CSS and MDX registration; document production docs domain provisioning without adding @afenda/* runtime imports.
+2. Allowed layer— apps/docs/
+3. Files        — apps/docs/src/app/docs-editorial-blocks.css (New)
+                  apps/docs/src/app/globals.css (Modified)
+                  apps/docs/src/components/blocks/docs-block.types.ts (New)
+                  apps/docs/src/components/blocks/docs-guide-card-grid.tsx (New)
+                  apps/docs/src/components/blocks/docs-feature-strip.tsx (New)
+                  apps/docs/src/components/blocks/docs-steps-panel.tsx (New)
+                  apps/docs/src/components/blocks/docs-callout.tsx (New)
+                  apps/docs/src/components/blocks/docs-announcement-bar.tsx (New)
+                  apps/docs/src/components/blocks/docs-accordion-panel.tsx (New)
+                  apps/docs/src/components/blocks/docs-code-panel.tsx (New)
+                  apps/docs/src/components/blocks/docs-file-tree.tsx (New)
+                  apps/docs/src/components/blocks/docs-inline-toc.tsx (New)
+                  apps/docs/src/components/blocks/docs-tabbed-panel.tsx (New)
+                  apps/docs/src/components/blocks/docs-prop-table.tsx (New)
+                  apps/docs/src/components/blocks/index.ts (New)
+                  apps/docs/src/components/mdx.tsx (Modified)
+                  apps/docs/package.json (Modified — lucide-react only)
+                  apps/docs/src/__tests__/docs-editorial-blocks.test.tsx (New)
+                  docs/delivery/support/fumadocs-docs-app-deploy.md (Modified)
                   docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
-4. Prohibited   — Shared auth env with ERP; @afenda/database
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — Runtime import from apps/docs to @afenda/ui or dependency-registry change
+                  packages/ui, packages/appshell (Slice 5 reference scope)
+                  className on any @afenda/ui primitive (N/A — no ui imports)
+                  @afenda/erp, packages/database, shared ERP auth env
                   @afenda/accounting, Accounting Core (ADR-0010)
-5. Authority    — ADR-0001 Application Authority
-6. Gates        — pnpm --filter @afenda/docs build
+5. Authority    — ADR-0001 Application Authority / docs-app-architecture.md / docs-editorial-design token swap
+6. Gates        — pnpm --filter @afenda/docs typecheck
+                  pnpm --filter @afenda/docs test:run
+                  pnpm --filter @afenda/docs build
+                  pnpm quality:boundaries
+                  pnpm ci:biome
                   pnpm check:documentation-drift
 ```
 
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| — | MDX editorial blocks registered in docs app | `pnpm --filter @afenda/docs test:run` |
+| — | `@afenda/docs` boundary unchanged (zero runtime deps) | `pnpm quality:boundaries` |
+| — | Production domain documented | `pnpm check:documentation-drift` |
+
 #### Known debt
 
-- Production domain + env vars documented in deploy support doc.
+- Live DNS for `docs.afenda.app` requires Vercel dashboard operator action after deploy project exists.
+- `VERCEL_PROJECT_ID_DOCS` remains optional for PR previews.
+
 ---
 
 ## Handoff to implementation
@@ -753,6 +859,10 @@ See **§Slices → Slice 5** above. Storybook catalog in `packages/ui/src/compon
 
 See **§Slices → Slice 6** above for the canonical handoff block.
 
+### Slice 5.1 — MDX editorial blocks copy + production domain
+
+See **§Slices → Slice 5.1** above for the canonical handoff block.
+
 ## Verdict
 
-Slice 5 delivered — Afenda Docs reference catalog in Storybook. **Next action:** TIP-032 Slice 6 (deploy) or optional Slice 5.1 (copy chosen blocks into `apps/docs`).
+Slices 1–6 and 5.1 delivered. **TIP Complete.** Live DNS for `docs.afenda.app` remains Vercel dashboard operator debt.

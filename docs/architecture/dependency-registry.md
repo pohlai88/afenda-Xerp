@@ -192,20 +192,20 @@ Inbound dependencies on leaf packages (e.g. `observability` ← `database`) are 
 
 ## Business Master Data Authority (TIP-008B)
 
-Documentation-only ownership map — **no runtime packages or dependency edges** until domain TIPs activate PKG-R02–R05.
+Documentation-only ownership map through Slice 1; **kernel authority registry + wire reference contracts** from Slice 2–3 (`packages/kernel/src/contracts/business-master-data/`). **No domain package schemas** until PKG-R02–R05 domain TIPs.
 
 | Entity | Owning domain | Reserved package (PKG) | Identity scope | Runtime status |
 | --- | --- | --- | --- | --- |
-| Customer | CRM Authority | `@afenda/crm` (PKG-R04) | Tenant + company; customer code unique per company | `planned` — no filesystem package |
-| Supplier | Procurement Authority | `@afenda/procurement` (PKG-R05) | Tenant + company; vendor code unique per company | `planned` — no filesystem package |
-| Product | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant; SKU unique per tenant catalog | `planned` — no filesystem package |
-| Employee | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company | `planned` — no filesystem package |
-| Warehouse | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company | `planned` — no filesystem package |
+| Customer | CRM Authority | `@afenda/crm` (PKG-R04) | Tenant + company; customer code unique per company | `authority_only` — kernel wire contracts |
+| Supplier | Procurement Authority | `@afenda/procurement` (PKG-R05) | Tenant + company; vendor code unique per company | `authority_only` — kernel wire contracts |
+| Product | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant; SKU unique per tenant catalog | `authority_only` — kernel wire contracts |
+| Employee | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company | `authority_only` — kernel wire contracts |
+| Warehouse | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company | `authority_only` — kernel wire contracts |
 | Asset | Platform / TPM | TBD via ADR | — | Not assigned |
 | Document | Platform document service | TBD via ADR | — | Not assigned |
 | Project | PM domain | TIP-030 | — | Partial — membership scope only |
 
-**Authority:** [`tips/[Partially Implemented] tip-008-master-data-authority.md`](../delivery/tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
+**Authority:** [`tips/[Complete] tip-008-master-data-authority.md`](../delivery/tips/%5BComplete%5D%20tip-008-master-data-authority.md) §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
 
 ---
 

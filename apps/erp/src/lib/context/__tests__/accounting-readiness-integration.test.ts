@@ -59,6 +59,16 @@ describe("accounting-readiness integration — operating context resolver", () =
     expect(source).toContain("consolidationTreatment");
     expect(source).toContain("childLegalEntityId");
   });
+
+  it("exposes resolveAccountingReadinessContext at the ERP trust boundary", () => {
+    const source = readFileSync(
+      join(contextRoot, "resolve-accounting-readiness.server.ts"),
+      "utf8"
+    );
+
+    expect(source).toContain("toAccountingReadinessContext");
+    expect(source).not.toContain("@afenda/accounting");
+  });
 });
 
 describe("accounting-readiness integration — prohibited accounting work", () => {

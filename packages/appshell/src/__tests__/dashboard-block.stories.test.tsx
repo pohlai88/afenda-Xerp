@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import * as invoiceTableStories from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table.stories";
@@ -74,7 +76,7 @@ describe("Dashboard block stories (portable CSF)", () => {
     render(<OpenTasks />);
     expect(screen.getByText("Open tasks")).toBeInTheDocument();
     expect(screen.getByText("-4.5%")).toHaveClass(
-      "app-shell-dashboard-kpi-change"
+      "app-shell-studio-metric__change"
     );
   });
 
@@ -83,7 +85,7 @@ describe("Dashboard block stories (portable CSF)", () => {
     const { container } = render(<NetIncome />);
     expect(
       container.querySelector(
-        '.app-shell-dashboard-kpi-widget[data-emphasis="primary"]'
+        '.app-shell-studio-metric-card[data-emphasis="primary"]'
       )
     ).not.toBeNull();
   });
@@ -163,11 +165,11 @@ describe("Dashboard block stories (portable CSF)", () => {
     expect(screen.getByText("Northwind Traders")).toBeInTheDocument();
     expect(
       document.querySelector(
-        '.app-shell-dashboard-invoice-status-dot[data-status="past_due"]'
+        '.app-shell-studio-invoice-status-dot[data-status="past_due"]'
       )
     ).not.toBeNull();
     expect(
-      document.querySelector(".app-shell-dashboard-invoice-amount-danger")
+      document.querySelector(".app-shell-studio-invoice-amount-danger")
     ).toHaveTextContent("$8,600.00");
     expect(
       screen.getByText(/Overdue balances requiring collections follow-up/)
@@ -178,5 +180,52 @@ describe("Dashboard block stories (portable CSF)", () => {
     const Empty = composePortableStory(regionalSalesStories, "Empty");
     render(<Empty />);
     expect(screen.getByText(/No regional revenue yet/i)).toBeInTheDocument();
+  });
+
+  it("C2: KPI and sparkline numeric cells use studio tabular-nums classes", () => {
+    const { container: kpiContainer } = render(<KpiStatDefault />);
+    expect(
+      kpiContainer.querySelector(".app-shell-studio-metric__value")
+    ).toBeInTheDocument();
+    expect(
+      kpiContainer.querySelector(".app-shell-studio-metric__change")
+    ).toBeInTheDocument();
+
+    const { container: sparklineContainer } = render(<SparklineStatDefault />);
+    expect(
+      sparklineContainer.querySelector(".app-shell-studio-sparkline__amount")
+    ).toBeInTheDocument();
+    expect(
+      sparklineContainer.querySelector(".app-shell-studio-sparkline__change")
+    ).toBeInTheDocument();
+
+    render(<InvoiceTableDefault />);
+    expect(
+      document.querySelector(".app-shell-studio-invoice-amount")
+    ).not.toBeNull();
+  });
+
+  it("C5: dashboard block stories import Lucide icons only", () => {
+    const blockDir = join(import.meta.dirname, "../shadcn-studio/blocks");
+    const blockFiles = readdirSync(blockDir).filter(
+      (name) => name.endsWith(".tsx") && !name.endsWith(".stories.tsx")
+    );
+    const forbidden = /from\s+["'](?:react-icons|@heroicons)/;
+
+    for (const file of blockFiles) {
+      const source = readFileSync(join(blockDir, file), "utf8");
+      expect(forbidden.test(source), `${file} must use lucide-react only`).toBe(
+        false
+      );
+    }
+  });
+
+  it("C8: reference KPI and sparkline block stories exist and render", () => {
+    expect(kpiStatStories.Default).toBeDefined();
+    expect(sparklineStatStories.Default).toBeDefined();
+    render(<KpiStatDefault />);
+    render(<SparklineStatDefault />);
+    expect(screen.getByText("Net income")).toBeInTheDocument();
+    expect(screen.getByText("Revenue this month")).toBeInTheDocument();
   });
 });

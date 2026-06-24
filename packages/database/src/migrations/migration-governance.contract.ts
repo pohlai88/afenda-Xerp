@@ -326,4 +326,16 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260624115705_tenant_commercial_plans_rls": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_policies
+      WHERE schemaname = 'public'
+        AND tablename = 'tenant_commercial_plans'
+        AND policyname = 'tenant_commercial_plans_tenant_isolation'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

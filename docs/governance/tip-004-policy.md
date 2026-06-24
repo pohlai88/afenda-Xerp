@@ -99,7 +99,7 @@ Governed tag set (source of truth): `GOVERNED_UI_TAGS` in [`scripts/governance/g
 ```tsx
 // ✅ Consumer — shell chrome on plain wrapper
 <div className="relative">
-  <Button {...mapStockButtonProps("ghost", "icon-lg")} />
+  <Button intent="quiet" emphasis="ghost" size="lg" presentation="icon" />
 </div>
 
 // ✅ Consumer — governed props only
@@ -121,12 +121,12 @@ Policy source: [`scripts/governance/consumer-class-name-policy.mjs`](../../scrip
 
 ### Import discipline
 
-Every consumer file that imports `@afenda/ui` must also import from `@afenda/ui/governance` (types or `mapStockButtonProps`).
+Every consumer file that imports `@afenda/ui` must also import from `@afenda/ui/governance` (types or governed prop helpers where required by Gate D).
 
 | Rule | Detail |
 |------|--------|
 | Primitives | `@afenda/ui` |
-| Stock shadcn bridge | `mapStockButtonProps` from `@afenda/ui/governance` at call sites |
+| Button presentation | Governed props: `intent`, `emphasis`, `size`, `presentation` — **`mapStockButtonProps` is sunset** |
 | No local wrappers | No `stock-props.ts`, no `resolveStockButtonProps` |
 | No re-export barrels | No `packages/appshell/src/governance/index.ts` |
 | No shadcn alias | No `@/components/ui` — use `@afenda/ui` |
@@ -136,9 +136,19 @@ Every consumer file that imports `@afenda/ui` must also import from `@afenda/ui/
 // ❌ Stock shadcn on governed Button
 <Button variant="ghost" size="icon-lg" />
 
-// ✅ Bridge at call site
-<Button {...mapStockButtonProps("ghost", "icon-lg")} />
+// ✅ Governed props at call site
+<Button intent="quiet" emphasis="ghost" size="lg" presentation="icon" />
 ```
+
+### Studio block scaling gate
+
+**No new production AppShell studio block merges without:**
+
+1. Phase 3 normalization (semantic `.app-shell-*` classes; zero raw Tailwind in block TSX)
+2. `pnpm ui:guard` (Gates A–G; Gate F warns until debt cleared)
+3. `pnpm ui:guard:proof` — Gate G negative-search attestation (NS1–NS5 all zero)
+
+Apps import **`@afenda/appshell/afenda-appshell.css` only** — never `afenda-appshell-studio.css` directly (Gate E R22 + Gate D pass 8).
 
 ### shadcn-studio workflow
 
@@ -146,7 +156,7 @@ Every consumer file that imports `@afenda/ui` must also import from `@afenda/ui/
 2. Move blocks to `packages/appshell/src/shadcn-studio/blocks/` (never leave in `packages/ui/src/components/shadcn-studio/`)
 3. Strip **every** `className` from `@afenda/ui` components
 4. Move semantic layout to semantic CSS classes in the package CSS file (`afenda-*` prefix, `var(--afenda-*)` tokens)
-5. Run `pnpm ui:guard:scan` then `pnpm ui:guard`
+5. Run `pnpm ui:guard:scan` then `pnpm ui:guard` then `pnpm ui:guard:proof`
 
 Normalization deep reference: [`.cursor/skills/afenda-ui-quality/normalization.md`](../../.cursor/skills/afenda-ui-quality/normalization.md)
 
@@ -159,8 +169,9 @@ Full gate reference: [`ui-guard.md`](ui-guard.md)
 | Command | Gates | When |
 |---------|-------|------|
 | `pnpm ui:guard:scan` | D (+ hints) | After block install; fast local check (< 2 s) |
-| `pnpm ui:guard` | A–F (F warns) | Pre-merge confidence |
-| `pnpm ui:guard:strict` | A–F (F fails) | CI when Gate F debt is clean |
+| `pnpm ui:guard` | A–G (F warns) | Pre-merge confidence |
+| `pnpm ui:guard:proof` | G only | CSS bridge negative-search attestation (NS1–NS5) |
+| `pnpm ui:guard:strict` | A–G (F fails) | CI when Gate F debt is clean |
 | `pnpm ui:guard:erp` | F (+ hints) | Charts, hooks, a11y |
 | `pnpm ui:guard --gate A` | Single gate | Primitive-only edits |
 
@@ -172,6 +183,7 @@ Full gate reference: [`ui-guard.md`](ui-guard.md)
 | **D** | Consumer (all) + stories | `governed-ui-consumption.mjs` in-process scan — **primary gate for `metadata-ui`** |
 | **E** | CSS tokens | `pnpm quality:css` |
 | **F** | React ERP quality | `react-erp-policy.mjs` (companion: react-erp-quality skill) |
+| **G** | CSS bridge negative search | `check-css-bridge-negative-search.mjs` (NS1–NS5 attestation) |
 
 **Gate D scan roots:** `packages/appshell/src`, `packages/metadata-ui/src`, `apps/erp/src`, `packages/ui/src/**/*.stories.tsx`
 

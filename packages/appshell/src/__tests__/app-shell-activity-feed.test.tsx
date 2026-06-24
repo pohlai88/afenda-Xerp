@@ -103,7 +103,7 @@ describe("AppShellActivityFeed", () => {
     render(<AppShellActivityFeed />);
 
     const feed = screen.getByRole("feed", { name: "Team activity feed" });
-    expect(feed).toHaveClass("app-shell-activity-feed-list");
+    expect(feed).toHaveClass("app-shell-studio-activity-feed-list");
     expect(feed).toHaveAttribute("aria-live", "polite");
     expect(feed.className).not.toContain("list-none");
   });

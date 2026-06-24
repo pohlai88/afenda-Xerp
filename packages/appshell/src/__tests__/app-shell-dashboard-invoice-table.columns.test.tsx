@@ -69,7 +69,7 @@ describe("app-shell-dashboard-invoice-table.columns", () => {
     ).toBeInTheDocument();
     expect(
       document.querySelector(
-        '.app-shell-dashboard-invoice-status-dot[data-status="past_due"]'
+        '.app-shell-studio-invoice-status-dot[data-status="past_due"]'
       )
     ).not.toBeNull();
     expect(screen.getByText("Past due")).toBeInTheDocument();

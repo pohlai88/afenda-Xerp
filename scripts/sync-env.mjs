@@ -4,8 +4,11 @@ import { join } from "node:path";
 import {
   compareSyncedTargets,
   GENERATED_HEADER,
+  getVercelPushSkipReason,
+  isVercelEnvUpToDate,
   LOCAL_SYNC_TARGETS,
   loadMergedEnv,
+  mergeVercelEnvTargets,
   resolveRepoRoot,
   SOURCE_FILES,
   serializeEnvFile,
@@ -156,18 +159,7 @@ function buildVercelQuery(project) {
 }
 
 function shouldSkipVercelEnvKey(key, value) {
-  if (value === undefined || value === "") {
-    return true;
-  }
-
-  return key.startsWith("VERCEL_") && key !== "VERCEL_PROJECT_PRODUCTION_URL";
-}
-
-function isVercelEnvUpToDate(current, value, targets) {
-  return (
-    current.value === value &&
-    targets.every((target) => current.target?.includes(target))
-  );
+  return getVercelPushSkipReason(key, value) !== null;
 }
 
 async function listVercelEnvVars(project, token) {
@@ -258,7 +250,8 @@ async function syncVercelEnvEntry({
   }
 
   if (current) {
-    await patchVercelEnvVar(project, token, current, key, value, targets);
+    const mergedTargets = mergeVercelEnvTargets(current.target, targets);
+    await patchVercelEnvVar(project, token, current, key, value, mergedTargets);
     return "updated";
   }
 

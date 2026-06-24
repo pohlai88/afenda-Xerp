@@ -40,7 +40,7 @@ export function AppShellActivityDialog({
     <Sheet defaultOpen={defaultOpen}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent showCloseButton={false}>
-        <div className="app-shell-activity-panel">
+        <div className="app-shell-studio-activity-panel">
           <SheetHeader>
             <SheetTitle>Activity</SheetTitle>
             <SheetDescription>

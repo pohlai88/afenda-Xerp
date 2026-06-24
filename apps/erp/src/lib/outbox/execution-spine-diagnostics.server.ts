@@ -1,12 +1,18 @@
 import { getDb, outboxEvents } from "@afenda/database";
 import {
+  evaluateWorkerReleaseAlignment,
+  fetchLatestTriggerDeployment,
+  isExecutionSuccess,
   PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
+  probePublishOutboxScheduleRegistered,
+  readAppReleaseIdentifier,
   readWorkerReleaseCheckRequired,
 } from "@afenda/execution";
 import { count, eq, max, min } from "drizzle-orm";
 
 import {
   readExecutionSpinePolicy,
+  readTriggerSecretKeyConfigured,
   resolveTriggerProviderState,
 } from "@/lib/outbox/execution-spine-policy.server";
 import { getExecutionSpineRegistrationState } from "@/lib/outbox/execution-spine-state.server";
@@ -44,6 +50,21 @@ interface OutboxMetricsSnapshot {
   readonly lastSuccessfulPublishAt: string | null;
   readonly oldestPendingAvailableAt: string | null;
   readonly pendingOutboxCount: number;
+}
+
+interface LiveWorkerReleaseProbe {
+  readonly appReleaseSha: string | null;
+  readonly lastWorkerVersionCheckAt: string | null;
+  readonly lastWorkerVersionCheckError: string | null;
+  readonly triggerDeploymentVersion: string | null;
+  readonly triggerGitCommitSha: string | null;
+  readonly triggerWorkerVersion: string | null;
+  readonly workerReleaseAligned: boolean;
+}
+
+interface LiveScheduleProbe {
+  readonly lastScheduleRegistrationError: string | null;
+  readonly outboxScheduleRegistered: boolean;
 }
 
 function toIsoString(value: Date | string | null): string | null {
@@ -132,47 +153,158 @@ export function resolveExecutionSpineOperationalStatus(input: {
   return "healthy";
 }
 
+async function resolveLiveWorkerReleaseProbe(input: {
+  readonly workerReleaseCheckRequired: boolean;
+}): Promise<LiveWorkerReleaseProbe> {
+  const registration = getExecutionSpineRegistrationState();
+  const appReleaseSha = readAppReleaseIdentifier();
+  const checkedAt = new Date().toISOString();
+
+  if (!input.workerReleaseCheckRequired) {
+    return {
+      appReleaseSha,
+      lastWorkerVersionCheckAt: registration.lastWorkerVersionCheckAt,
+      lastWorkerVersionCheckError: null,
+      triggerDeploymentVersion: registration.triggerDeploymentVersion,
+      triggerGitCommitSha: registration.triggerGitCommitSha,
+      triggerWorkerVersion: registration.triggerWorkerVersion,
+      workerReleaseAligned: true,
+    };
+  }
+
+  if (!readTriggerSecretKeyConfigured()) {
+    return {
+      appReleaseSha,
+      lastWorkerVersionCheckAt: checkedAt,
+      lastWorkerVersionCheckError: "TRIGGER_SECRET_KEY is not configured.",
+      triggerDeploymentVersion: null,
+      triggerGitCommitSha: null,
+      triggerWorkerVersion: null,
+      workerReleaseAligned: false,
+    };
+  }
+
+  const deploymentResult = await fetchLatestTriggerDeployment();
+
+  if (!isExecutionSuccess(deploymentResult)) {
+    return {
+      appReleaseSha,
+      lastWorkerVersionCheckAt: checkedAt,
+      lastWorkerVersionCheckError: deploymentResult.error.message,
+      triggerDeploymentVersion: null,
+      triggerGitCommitSha: null,
+      triggerWorkerVersion: null,
+      workerReleaseAligned: false,
+    };
+  }
+
+  const alignment = evaluateWorkerReleaseAlignment({
+    appReleaseSha,
+    triggerGitCommitSha: deploymentResult.value.gitCommitSha,
+    workerReleaseCheckRequired: input.workerReleaseCheckRequired,
+  });
+
+  return {
+    appReleaseSha,
+    lastWorkerVersionCheckAt: deploymentResult.value.checkedAt,
+    lastWorkerVersionCheckError: alignment.errorMessage,
+    triggerDeploymentVersion: deploymentResult.value.deploymentVersion,
+    triggerGitCommitSha: deploymentResult.value.gitCommitSha,
+    triggerWorkerVersion: deploymentResult.value.workerVersion,
+    workerReleaseAligned: alignment.aligned,
+  };
+}
+
+async function resolveLiveScheduleProbe(input: {
+  readonly schedulerRequired: boolean;
+}): Promise<LiveScheduleProbe> {
+  const registration = getExecutionSpineRegistrationState();
+
+  if (registration.outboxScheduleRegistered) {
+    return {
+      lastScheduleRegistrationError: registration.lastScheduleRegistrationError,
+      outboxScheduleRegistered: true,
+    };
+  }
+
+  if (!input.schedulerRequired) {
+    return {
+      lastScheduleRegistrationError: null,
+      outboxScheduleRegistered: false,
+    };
+  }
+
+  if (!readTriggerSecretKeyConfigured()) {
+    return {
+      lastScheduleRegistrationError: "TRIGGER_SECRET_KEY is not configured.",
+      outboxScheduleRegistered: false,
+    };
+  }
+
+  const probeResult = await probePublishOutboxScheduleRegistered();
+
+  if (!isExecutionSuccess(probeResult)) {
+    return {
+      lastScheduleRegistrationError: probeResult.error.message,
+      outboxScheduleRegistered: false,
+    };
+  }
+
+  return {
+    lastScheduleRegistrationError: probeResult.value
+      ? null
+      : "Outbox schedule is not registered in Trigger.dev.",
+    outboxScheduleRegistered: probeResult.value,
+  };
+}
+
 export async function collectExecutionSpineDiagnostics(): Promise<ExecutionSpineDiagnostics> {
   const policy = readExecutionSpinePolicy();
   const registration = getExecutionSpineRegistrationState();
   const triggerProviderState = resolveTriggerProviderState();
   const workerReleaseCheckRequired = readWorkerReleaseCheckRequired();
   const metrics = await readOutboxMetricsSnapshot();
+  const [workerRelease, schedule] = await Promise.all([
+    resolveLiveWorkerReleaseProbe({ workerReleaseCheckRequired }),
+    resolveLiveScheduleProbe({ schedulerRequired: policy.schedulerRequired }),
+  ]);
 
   const operationalStatus = resolveExecutionSpineOperationalStatus({
     allowDegradedExecution: policy.allowDegradedExecution,
-    outboxScheduleRegistered: registration.outboxScheduleRegistered,
+    outboxScheduleRegistered: schedule.outboxScheduleRegistered,
     schedulerRequired: policy.schedulerRequired,
     triggerProviderState,
-    workerReleaseAligned: registration.workerReleaseAligned,
+    workerReleaseAligned: workerRelease.workerReleaseAligned,
     workerReleaseCheckRequired,
   });
 
   return {
     allowDegradedExecution: policy.allowDegradedExecution,
-    appReleaseSha: registration.appReleaseSha,
+    appReleaseSha: workerRelease.appReleaseSha,
     deadLetterCount: metrics?.deadLetterCount ?? null,
-    lastScheduleRegistrationAt: registration.lastScheduleRegistrationAt,
-    lastScheduleRegistrationError: registration.lastScheduleRegistrationError,
+    lastScheduleRegistrationAt:
+      registration.lastScheduleRegistrationAt ??
+      (schedule.outboxScheduleRegistered
+        ? workerRelease.lastWorkerVersionCheckAt
+        : null),
+    lastScheduleRegistrationError: schedule.lastScheduleRegistrationError,
     lastSuccessfulPublishAt: metrics?.lastSuccessfulPublishAt ?? null,
-    lastWorkerVersionCheckAt: registration.lastWorkerVersionCheckAt,
-    lastWorkerVersionCheckError: registration.lastWorkerVersionCheckError,
+    lastWorkerVersionCheckAt: workerRelease.lastWorkerVersionCheckAt,
+    lastWorkerVersionCheckError: workerRelease.lastWorkerVersionCheckError,
     oldestPendingOutboxAgeSeconds: resolveOldestPendingAgeSeconds(
       metrics?.oldestPendingAvailableAt ?? null
     ),
     operationalStatus,
     outboxScheduleId:
       registration.outboxScheduleId ?? PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
-    outboxScheduleRegistered: registration.outboxScheduleRegistered,
+    outboxScheduleRegistered: schedule.outboxScheduleRegistered,
     pendingOutboxCount: metrics?.pendingOutboxCount ?? null,
     schedulerRequired: policy.schedulerRequired,
-    triggerDeploymentVersion: registration.triggerDeploymentVersion,
-    triggerGitCommitSha: registration.triggerGitCommitSha,
+    triggerDeploymentVersion: workerRelease.triggerDeploymentVersion,
+    triggerGitCommitSha: workerRelease.triggerGitCommitSha,
     triggerProviderState,
-    triggerWorkerVersion: registration.triggerWorkerVersion,
-    workerReleaseAligned: workerReleaseCheckRequired
-      ? registration.workerReleaseAligned
-      : true,
+    triggerWorkerVersion: workerRelease.triggerWorkerVersion,
+    workerReleaseAligned: workerRelease.workerReleaseAligned,
     workerReleaseCheckRequired,
   };
 }

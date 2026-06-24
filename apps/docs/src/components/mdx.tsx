@@ -21,6 +21,19 @@ import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import { AutoTypeTable } from "@/components/auto-type-table";
+import {
+  DocsAccordionPanel,
+  DocsAnnouncementBar,
+  DocsCallout,
+  DocsCodePanel,
+  DocsFeatureStrip,
+  DocsFileTree,
+  DocsGuideCardGrid,
+  DocsInlineToc,
+  DocsPropTable,
+  DocsStepsPanel,
+  DocsTabbedPanel,
+} from "@/components/blocks";
 import { GraphView } from "@/components/graph-view";
 
 /**
@@ -30,8 +43,10 @@ import { GraphView } from "@/components/graph-view";
  * Accordion, Auto Type Table, Banner, Code Block, Code Block (Dynamic), Files,
  * GitHub Info, Graph View, Zoomable Image, Inline TOC, Steps, Tabs, Type Table.
  *
- * Graph View: pass `graph={buildGraph()}` from `@/lib/build-graph`, or use
- * `SiteGraphView` from `@/components/site-graph-view` in layouts.
+ * Graph View: pass `graph={buildGraph()}` from `@/lib/build-graph`.
+ *
+ * Afenda editorial blocks (Slice 5.1): copied from packages/ui reference catalog —
+ * zero @afenda/ui runtime imports; styled via docs-editorial-blocks.css.
  */
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
@@ -48,6 +63,17 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     CodeBlockTabs,
     CodeBlockTabsList,
     CodeBlockTabsTrigger,
+    DocsAccordionPanel,
+    DocsAnnouncementBar,
+    DocsCallout,
+    DocsCodePanel,
+    DocsFeatureStrip,
+    DocsFileTree,
+    DocsGuideCardGrid,
+    DocsInlineToc,
+    DocsPropTable,
+    DocsStepsPanel,
+    DocsTabbedPanel,
     DynamicCodeBlock,
     File,
     Files,

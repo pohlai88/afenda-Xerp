@@ -183,6 +183,13 @@
       "when": 1781982000000,
       "tag": "20260624150000_tenant_rls_completion",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1782302225118,
+      "tag": "20260624115705_tenant_commercial_plans_rls",
+      "breakpoints": true
     }
   ]
 }

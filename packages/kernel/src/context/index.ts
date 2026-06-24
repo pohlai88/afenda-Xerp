@@ -6,10 +6,22 @@
 // ── Accounting-readiness authority stub (no arithmetic) ───────────────────────
 export {
   type AccountingReadinessContext,
+  type AccountingReadinessWireContext,
+  type assertAccountingReadinessContextJsonSerializable,
   isCostCenterOrganizationUnit,
   resolveReportingCurrency,
   toAccountingReadinessContext,
 } from "./accounting-readiness.contract.js";
+export type {
+  AccountingReadinessDelegatedGateRunKind,
+  AccountingReadinessDelegatedGateRunResult,
+  AccountingReadinessGateLiveRunMode,
+  AccountingReadinessGateLiveSnapshot,
+  AccountingReadinessRequirementLiveKind,
+  AccountingReadinessRequirementLiveStatus,
+  assertAccountingReadinessGateLiveSnapshotJsonSerializable,
+} from "./accounting-readiness-gate-live-status.contract.js";
+export type { AccountingReadinessGateRequirementId } from "./accounting-readiness-gate-requirement-id.contract.js";
 // ── AppShell display contracts (no authority) ────────────────────────────────
 export {
   type ApplicationShellAllowedContextOptions,

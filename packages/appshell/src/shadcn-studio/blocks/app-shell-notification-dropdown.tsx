@@ -15,10 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@afenda/ui";
-import {
-  type GovernedUiComponentName,
-  mapStockButtonProps,
-} from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { LinkIcon, SettingsIcon, XIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -104,10 +101,22 @@ function NotificationDismissControl({
 function NotificationApprovalActions() {
   return (
     <div className="app-shell-notification-approval-actions">
-      <Button {...mapStockButtonProps("secondary", "sm")} type="button">
+      <Button
+        emphasis="solid"
+        intent="secondary"
+        presentation="default"
+        size="sm"
+        type="button"
+      >
         Decline
       </Button>
-      <Button {...mapStockButtonProps("default", "sm")} type="button">
+      <Button
+        emphasis="solid"
+        intent="primary"
+        presentation="default"
+        size="sm"
+        type="button"
+      >
         Accept
       </Button>
     </div>
@@ -182,7 +191,7 @@ function NotificationList({
   }
 
   return (
-    <ul aria-label={listLabel} className="list-none">
+    <ul aria-label={listLabel} className="app-shell-notification-list">
       {items.map((item, index) => (
         <li key={item.id}>
           <DropdownMenuItem aria-label={`${item.title} — ${item.category}`}>

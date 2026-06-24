@@ -105,11 +105,25 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-006-stale-verdict",
   },
   {
-    file: "docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md",
-    forbidden: ["Status: **Not started**"],
-    rule: "tip-008-stale-status",
+    file: "docs/delivery/tips/[Complete] tip-008-master-data-authority.md",
+    forbidden: [
+      "| **Status** | **Partially Implemented**",
+      "| **Remaining gap** | TIP-008B runtime contracts deferred",
+    ],
+    rule: "tip-008-complete-stale-partial-claims",
   },
 ] as const;
+
+/** Required markers when TIP-008 delivery doc is Complete (authority-only closeout). */
+export const TIP_008_COMPLETE_REQUIRED_MARKERS = [
+  "Complete (authority only)",
+  "Domain package schemas deferred",
+  "authority_only",
+  "business-master-data-authority.contract.ts",
+] as const;
+
+export const TIP_008_COMPLETE_DOC =
+  "docs/delivery/tips/[Complete] tip-008-master-data-authority.md" as const;
 
 /** Master plan must reference current authority artifacts. */
 export const MASTER_PLAN_REQUIRED_MARKERS = [

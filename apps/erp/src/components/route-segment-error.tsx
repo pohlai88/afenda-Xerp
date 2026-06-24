@@ -7,7 +7,6 @@ import {
   AlertTitle,
   Button,
 } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useEffect } from "react";
 
 import { reportClientError } from "@/lib/observability/report-client-error.client";
@@ -62,8 +61,11 @@ export function RouteSegmentError({
         <AlertDescription>{description}</AlertDescription>
         <AlertAction>
           <Button
-            {...mapStockButtonProps("outline", "default")}
+            emphasis="outline"
+            intent="primary"
             onClick={reset}
+            presentation="default"
+            size="md"
             type="button"
           >
             Try again

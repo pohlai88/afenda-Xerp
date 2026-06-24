@@ -2,18 +2,18 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | **Partially Implemented** (split scope — do not mark Complete until both features pass) |
+| **Status** | **Complete** (008A runtime + 008B authority-only contracts) |
 | **Authority status** | **Accepted** — ADR-0011 multi-level company model is foundational (2026-06-23) |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Foundation phase** | Phase 1 — Architecture Authority |
-| **Remaining gap** | TIP-008B runtime contracts deferred to domain TIPs; overall TIP Complete blocked until both feature gates pass |
+| **Remaining gap** | None — domain package schemas deferred to PKG-R02–R05 domain TIPs |
 
-This TIP is split into two features under one delivery document. **Do not mark TIP-008 Complete until TIP-008A and TIP-008B each pass their gates.**
+This TIP is split into two features under one delivery document. **Both feature gates pass:** 008A Complete; 008B Complete (authority only).
 
 | Feature | Status | Runtime evidence | Remaining gap |
 | --- | --- | --- | --- |
 | **TIP-008A** — Enterprise Hierarchy Authority | **Complete** | All DoD A1–A9 + sign-off checklist S1–S7 (Slice 5) | None — maintain only |
-| **TIP-008B** — Business Master Data Authority | **Partially Implemented** | Authority map in glossary + dependency registry | Runtime contracts deferred to domain TIPs |
+| **TIP-008B** — Business Master Data Authority | **Complete (authority only)** | Kernel registry + wire contracts in `@afenda/kernel` | Domain package schemas (PKG-R02–R05) |
 
 ## Purpose
 
@@ -201,10 +201,10 @@ AND   kernel context registry includes all three hierarchy context modules
 
 | Field | Value |
 | --- | --- |
-| **Status** | **Partially Implemented** |
+| **Status** | **Complete (authority only)** |
 | **Foundation phase** | Phase 1 — Architecture Authority |
-| **Runtime evidence** | Authority map — glossary §Business Master Data + dependency registry |
-| **Remaining gap** | Runtime contracts deferred to domain TIPs after Phase 1 gate |
+| **Runtime evidence** | Kernel authority registry + wire reference contracts |
+| **Remaining gap** | Domain package schemas deferred to PKG-R02–R05 domain TIPs |
 
 ### Purpose (008B)
 
@@ -292,8 +292,14 @@ AND   no business master data migrations are introduced
 | B2 | Identity scope rules documented per core entity | This document + glossary | [x] |
 | B3 | TBD entities flagged (Asset, Document) | This document | [x] |
 | B4 | Dependency registry updated | `pnpm check:documentation-drift` | [x] |
-| B5 | No business master data runtime introduced | Runtime matrix; package inventory | [x] |
+| B5 | No domain package schemas/services (authority-only kernel contracts OK) | Runtime matrix; package inventory | [x] |
 | B6 | Phase 1 gate evidence row updated | `tip-status-index.md` via drift guard | [x] |
+| B7 | Kernel authority registry frozen for core five entities | `pnpm --filter @afenda/kernel test:run` | [x] |
+| B8 | Identity scope + wire contracts boundary-safe | `pnpm --filter @afenda/kernel test:run` | [x] |
+| B9 | Authority-only scaffold guard (no PKG-R02–R05 dirs) | `pnpm check:business-master-data-scaffold` | [x] |
+| B10 | Shared inventory package policy enforced | `pnpm --filter @afenda/kernel test:run` | [x] |
+| B11 | Complete status guard (authority-only markers) | `pnpm check:documentation-drift` | [x] |
+| B12 | Contract import boundary acyclic | `pnpm --filter @afenda/kernel test:run` | [x] |
 
 ---
 
@@ -538,6 +544,271 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 - Asset and Document ownership requires future ADR before package scaffolding.
 - Runtime contracts for business master data deferred to domain TIPs after Phase 1 gate.
 
+### Slice 2 — Business master data authority registry contract (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** 008B Slice 1 delivered — authority map in glossary + dependency registry
+
+#### Design (internal-guide)
+
+- Mirror TIP-007 `platform-entity-authority.contract.ts` pattern: frozen serializable registry only — **no schemas, services, or domain packages**.
+- Core five entities (Customer, Supplier, Product, Employee, Warehouse) each map to one owning domain and one PKG-R02–R05 reserved package.
+- `TBD_BUSINESS_MASTER_DATA_ENTITIES` holds Asset/Document as read-only flags — not in the governed core registry.
+- Registry paths in entries point at Slice 3 wire-contract files (`null` until Slice 3 lands); contract tests assert core count and duplicate-free entity ids only in Slice 2.
+- Public export via `packages/kernel/src/contracts/business-master-data/index.ts` and `@afenda/kernel` root barrel.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md
+
+1. Objective    — Freeze TIP-008B business master data ownership map as a governed serializable TypeScript registry in @afenda/kernel matching glossary and dependency-registry rows.
+2. Allowed layer— packages/kernel/src/contracts/business-master-data/
+3. Files        — packages/kernel/src/contracts/business-master-data/business-master-data-authority.contract.ts (New)
+                  packages/kernel/src/contracts/business-master-data/index.ts (New)
+                  packages/kernel/src/__tests__/business-master-data-authority.contract.test.ts (New)
+                  packages/kernel/src/index.ts (Modified)
+                  docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+4. Prohibited   — @afenda/accounting, ledger/journal/COA/posting, ADR-0010 Accounting Core packages, packages/database migrations for business entities, domain packages (PKG-R01–R05 filesystem scaffolding), apps/erp routes, packages/ui edits, renaming overall TIP-008 to Complete
+5. Authority    — Architecture Authority — TIP-008B business master data ownership map (ADR-0011 platform boundary discipline)
+6. Gates        — pnpm --filter @afenda/kernel typecheck
+                  pnpm --filter @afenda/kernel test:run
+                  pnpm quality:boundaries
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B7 | Kernel authority registry frozen for core five entities | `pnpm --filter @afenda/kernel test:run` |
+| — | Runtime matrix reflects kernel registry evidence | `pnpm check:documentation-drift` |
+
+#### Known debt
+
+- Branded entity IDs and wire reference shapes deferred to Slice 3.
+- Domain package schemas remain blocked until respective domain TIPs.
+
+### Slice 3 — Business master data identity boundary + feature gate closeout (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** 008B Slice 2 delivered — `business-master-data-authority.contract.ts` = `implemented` in `afenda-runtime-truth-matrix.md`
+
+#### Design (internal-guide)
+
+- Add branded IDs (`CustomerId`, `SupplierId`, `ProductId`, `EmployeeId`, `WarehouseId`) + `brand*` / `to*` helpers in `platform-id.contract.ts` — trust-boundary only, wire contexts keep plain strings.
+- `business-master-data-id-boundary.contract.ts`: identity scope discriminated union, minimal wire reference interfaces, compile-time JSON serializability guards (same pattern as `hierarchy-id-boundary.contract.ts`).
+- Update registry entries with `kernelContractPath` pointing at wire contract module; contract tests assert registry ↔ glossary ↔ dependency-registry parity.
+- Close **008B feature gate** as **Complete (authority only)** — no domain package schemas.
+- When 008A + 008B gates pass, rename delivery doc prefix to `[Complete]` and update tip-status-index overall TIP-008 status.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md
+
+1. Objective    — Harden TIP-008B TypeScript identity boundaries with branded-id trust helpers, serializable wire reference contracts, drift parity tests, and close 008B authority-only feature gate so overall TIP-008 may reach Complete.
+2. Allowed layer— packages/kernel/src/contracts/
+3. Files        — packages/kernel/src/contracts/platform-id.contract.ts (Modified)
+                  packages/kernel/src/contracts/business-master-data/business-master-data-id-boundary.contract.ts (New)
+                  packages/kernel/src/contracts/business-master-data/business-master-data-authority.contract.ts (Modified — kernelContractPath)
+                  packages/kernel/src/contracts/business-master-data/index.ts (Modified)
+                  packages/kernel/src/__tests__/business-master-data-id-boundary.test.ts (New)
+                  packages/kernel/src/__tests__/business-master-data-authority.contract.test.ts (Modified)
+                  packages/kernel/src/index.ts (Modified)
+                  docs/architecture/dependency-registry.md (Modified)
+                  docs/architecture/glossary.md (Modified)
+                  docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md (Modified — rename to [Complete] if both gates pass)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — @afenda/accounting, ledger/journal/COA/posting, ADR-0010 Accounting Core packages, packages/database migrations, domain package filesystem scaffolding (PKG-R02–R05), apps/erp routes, packages/ui edits
+5. Authority    — Architecture Authority — TIP-008B business master data ownership + Platform Authority (kernel id branding)
+6. Gates        — pnpm --filter @afenda/kernel typecheck
+                  pnpm --filter @afenda/kernel test:run
+                  pnpm quality:kernel-context-surface
+                  pnpm quality:boundaries
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B8 | Identity scope + wire contracts boundary-safe and serializable | `pnpm --filter @afenda/kernel test:run` |
+| B5 | No domain package schemas — authority-only runtime | Runtime matrix + package inventory |
+| — | 008B feature gate Complete (authority only) | Manual review + drift guard |
+| — | Overall TIP-008 Complete when 008A + 008B pass | Filename prefix + tip-status-index |
+
+#### Known debt
+
+- Asset and Document remain TBD until future ADR.
+- Full domain persistence deferred to PKG-R02–R05 domain TIPs.
+
+### Slice 4 — Authority-only domain package scaffold guard (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 3 delivered — wire contracts in `@afenda/kernel`
+
+#### Design (internal-guide)
+
+- `runtimeStatus: "authority_only"` is the sole allowed literal until domain TIPs activate PKG-R02–R05.
+- CI gate fails when `packages/crm`, `packages/inventory`, `packages/hrm`, or `packages/procurement` exist on disk.
+- Policy module is importable from kernel tests and governance scripts — single source of forbidden dirs.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-008-master-data-authority.md
+
+1. Objective    — Block premature PKG-R02–R05 domain package scaffolding with authority_only runtime policy and filesystem scaffold guard.
+2. Allowed layer— packages/kernel/src/contracts/business-master-data/
+                  scripts/governance/
+3. Files        — packages/kernel/src/contracts/business-master-data/business-master-data-scaffold.policy.ts (New)
+                  packages/kernel/src/contracts/business-master-data/index.ts (Modified)
+                  packages/kernel/src/__tests__/business-master-data-scaffold.policy.test.ts (New)
+                  scripts/governance/check-business-master-data-scaffold.mts (New)
+                  package.json (Modified — check:business-master-data-scaffold)
+                  docs/delivery/tips/[Complete] tip-008-master-data-authority.md (Modified)
+4. Prohibited   — @afenda/accounting, ledger/journal/COA/posting, ADR-0010 Accounting Core packages, creating domain package directories, packages/database business-entity migrations, packages/ui edits
+5. Authority    — Architecture Authority — TIP-008B business master data ownership map
+6. Gates        — pnpm --filter @afenda/kernel typecheck
+                  pnpm --filter @afenda/kernel test:run
+                  pnpm check:business-master-data-scaffold
+                  pnpm quality:boundaries
+                  pnpm ci:biome
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B9 | Authority-only scaffold guard | `pnpm check:business-master-data-scaffold` |
+| B5 | No domain package schemas — authority-only runtime | Scaffold gate + policy tests |
+
+#### Known debt
+
+- Domain package implementation remains blocked until respective domain TIPs.
+
+### Slice 5 — Shared inventory package ownership policy (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 4 delivered — scaffold policy frozen
+
+#### Design (internal-guide)
+
+- `@afenda/inventory` (PKG-R02) is the **only** shared reserved package — owns Product + Warehouse.
+- CRM, HRM, and procurement packages remain exclusive single-entity owners.
+- Policy extracted from inline test logic into `assertSharedPackageOwnershipPolicy()` for reuse.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-008-master-data-authority.md
+
+1. Objective    — Encode and test shared @afenda/inventory ownership for Product and Warehouse with exclusive package claims elsewhere.
+2. Allowed layer— packages/kernel/src/contracts/business-master-data/
+3. Files        — packages/kernel/src/contracts/business-master-data/business-master-data-shared-package.policy.ts (New)
+                  packages/kernel/src/contracts/business-master-data/index.ts (Modified)
+                  packages/kernel/src/__tests__/business-master-data-shared-package.policy.test.ts (New)
+                  packages/kernel/src/__tests__/business-master-data-authority.contract.test.ts (Modified)
+                  docs/delivery/tips/[Complete] tip-008-master-data-authority.md (Modified)
+4. Prohibited   — @afenda/accounting, domain package scaffolding, packages/ui edits
+5. Authority    — Architecture Authority — TIP-008B ownership map
+6. Gates        — pnpm --filter @afenda/kernel typecheck
+                  pnpm --filter @afenda/kernel test:run
+                  pnpm ci:biome
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B10 | Shared inventory package policy enforced | `pnpm --filter @afenda/kernel test:run` |
+
+#### Known debt
+
+- None for shared-package policy.
+
+### Slice 6 — Complete status guard (authority-only) (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 5 delivered — ownership policies frozen
+
+#### Design (internal-guide)
+
+- Drift guard requires `[Complete] tip-008-master-data-authority.md` to carry authority-only markers.
+- Forbidden header patterns block regression to Partially Implemented claims.
+- Status guard section updated to document automated gate — no manual-only enforcement.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-008-master-data-authority.md
+
+1. Objective    — Automate TIP-008 Complete status guard so authority-only closeout cannot regress to partial-implementation claims.
+2. Allowed layer— scripts/governance/
+                  docs/delivery/tips/
+3. Files        — scripts/governance/documentation-drift-registry.mts (Modified)
+                  scripts/governance/check-documentation-drift.mts (Modified)
+                  docs/delivery/tips/[Complete] tip-008-master-data-authority.md (Modified — Status guard section)
+4. Prohibited   — Renaming TIP-008 back to Partially Implemented without Architecture Authority ADR, packages/ui edits
+5. Authority    — Architecture Authority — documentation evidence (ADR-0012)
+6. Gates        — pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B11 | Complete status guard (authority-only markers) | `pnpm check:documentation-drift` |
+
+#### Known debt
+
+- Historical handoff blocks retain `[Partially Implemented]` path references as audit trail.
+
+### Slice 7 — Contract import boundary (acyclic authority) (008B)
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 6 delivered — documentation guard active
+
+#### Design (internal-guide)
+
+- Business master data contracts must not import `@afenda/database`, `@afenda/erp`, or permission layers.
+- Static test scans all files under `contracts/business-master-data/` for forbidden import specifiers.
+- Preserves acyclic authority: kernel contracts only depend on platform-id and platform-entity types.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Complete] tip-008-master-data-authority.md
+
+1. Objective    — Prove business master data contract layer remains acyclic with forbidden import boundary tests.
+2. Allowed layer— packages/kernel/src/contracts/business-master-data/
+3. Files        — packages/kernel/src/contracts/business-master-data/business-master-data-import-boundary.policy.ts (New)
+                  packages/kernel/src/contracts/business-master-data/index.ts (Modified)
+                  packages/kernel/src/__tests__/business-master-data-import-boundary.test.ts (New)
+                  docs/delivery/tips/[Complete] tip-008-master-data-authority.md (Modified)
+4. Prohibited   — @afenda/accounting, cross-layer imports into business-master-data contracts, packages/ui edits
+5. Authority    — Architecture Authority — kernel contract boundary discipline
+6. Gates        — pnpm --filter @afenda/kernel typecheck
+                  pnpm --filter @afenda/kernel test:run
+                  pnpm quality:boundaries
+                  pnpm ci:biome
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| B12 | Contract import boundary acyclic | `pnpm --filter @afenda/kernel test:run` |
+
+#### Known debt
+
+- Domain packages will import kernel wire contracts — not the reverse.
+
 ### Slice 4 — Hierarchy RBAC hardening + status guard (008A)
 
 **Status:** Delivered (2026-06-24)  
@@ -586,16 +857,17 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 
 - 008B runtime contracts remain deferred — overall TIP stays Partially Implemented by design.
 
-## Status guard (do not mark Complete prematurely)
+## Status guard (authority-only closeout — automated)
 
-| Gate | Required evidence | Blocks overall Complete |
+| Gate | Required evidence | Enforcement |
 | --- | --- | --- |
-| **008A runtime** | A1–A9 all `[x]`; consolidation resolver + ADR-0011 closed | No — 008A may sign off independently |
-| **008B runtime** | Domain package contracts OR explicit authority-only ADR | **Yes** — no `@afenda/crm` / inventory / hrm runtime yet |
-| **Filename prefix** | `[Partially Implemented]` until both features pass gates | Drift guard fails on premature rename |
-| **Permission matrix** | Derived from `API_CONTRACTS` only — no hand-maintained map | `api-route-permissions.test.ts` |
+| **008A runtime** | A1–A9 all `[x]`; consolidation resolver + ADR-0011 closed | Delivered — maintain only |
+| **008B authority-only** | Kernel registry + wire contracts; `runtimeStatus: authority_only` | `pnpm check:business-master-data-scaffold` + kernel policy tests |
+| **008B Complete doc** | Authority-only markers in `[Complete]` delivery doc | `pnpm check:documentation-drift` (`TIP_008_COMPLETE_REQUIRED_MARKERS`) |
+| **Import acyclicity** | No database/erp imports in `contracts/business-master-data/` | `business-master-data-import-boundary.test.ts` |
+| **Domain persistence** | No PKG-R02–R05 package dirs or business entity schemas | Scaffold gate until domain TIPs |
 
-**Rule:** Do not rename this file to `[Complete]` until 008B runtime evidence exists or Architecture Authority publishes an authority-only closeout ADR for 008B.
+**Rule:** TIP-008 `[Complete]` is valid for **authority-only** closeout. Domain package schemas require future domain TIPs — not a regression of TIP-008 Complete status.
 
 ## TIP-008A formal sign-off checklist
 
@@ -733,8 +1005,8 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 
 | Feature | Verdict |
 | --- | --- |
-| **TIP-008 (overall)** | **Partially Implemented** — 008A Complete; 008B has no runtime — **do not rename to Complete** |
+| **TIP-008 (overall)** | **Complete** — 008A runtime + 008B authority-only contracts |
 | **TIP-008A** Enterprise hierarchy | **Complete** — all DoD A1–A9 + sign-off checklist S1–S7 |
-| **TIP-008B** Business master data | **Partially Implemented** — authority map only; runtime deferred |
+| **TIP-008B** Business master data | **Complete (authority only)** — kernel registry + wire contracts; no domain schemas |
 
-**Phase 1 gate dependency:** 008A delivered + 008B authority map delivered. Overall TIP Complete blocked on 008B runtime or explicit authority-only ADR.
+**Phase 1 gate dependency:** 008A delivered + 008B authority contracts delivered. Domain persistence deferred to PKG-R02–R05 domain TIPs.

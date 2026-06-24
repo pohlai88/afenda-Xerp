@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Field, FieldLabel, Input } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useActionState } from "react";
 
 import { SystemAdminFormSection } from "@/components/system-admin/system-admin-form-section";
@@ -64,8 +63,11 @@ export function SystemAdminSettingsForm({
       ) : null}
       <div className="erp-system-admin-settings-form__actions">
         <Button
-          {...mapStockButtonProps("default", "default")}
           disabled={isPending}
+          emphasis="solid"
+          intent="primary"
+          presentation="default"
+          size="md"
           type="submit"
         >
           {isPending ? "Saving…" : SYSTEM_ADMIN_SETTINGS_SCAFFOLD_SUBMIT_LABEL}

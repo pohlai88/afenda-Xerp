@@ -4,11 +4,11 @@ import {
 } from "../env.js";
 import { TENANT_RLS_ISOLATION_POLICIES } from "./tenant-rls-coverage.contract.js";
 import {
-  buildTenantRlsCompletionMigrationLiveProbe,
   buildTenantRlsPolicyLiveProbeSql,
   classifyTenantRlsPolicyProbeResult,
   type TenantRlsLivePolicyProbeRow,
 } from "./tenant-rls-live-probe.contract.js";
+import { TENANT_RLS_MIGRATION_LIVE_PROBES } from "./tenant-rls-migration-live-probe.contract.js";
 
 export interface PgQueryable {
   query<T extends Record<string, unknown>>(
@@ -61,7 +61,7 @@ function violationMessage(
     case "probe-empty":
       return `Live probe returned no rows for public.${tableName} / ${policyName}`;
     case "migration-probe-failed":
-      return `Tenant RLS completion migration probe failed for ${policyName} on public.${tableName}`;
+      return `Tenant RLS migration ${tableName} live probe failed for policy ${policyName}`;
     default: {
       const exhaustive: never = rule;
       return exhaustive;
@@ -110,19 +110,21 @@ export async function verifyTenantRlsLive(
     }
   }
 
-  const completionProbe = buildTenantRlsCompletionMigrationLiveProbe();
-  const completion = await pool.query<{ ok: boolean }>(completionProbe.text);
-  if (!completion.rows[0]?.ok) {
-    violations.push({
-      rule: "migration-probe-failed",
-      tableName: "projects",
-      policyName: "projects_tenant_isolation",
-      message: violationMessage(
-        "migration-probe-failed",
-        "projects",
-        "projects_tenant_isolation"
-      ),
-    });
+  for (const migrationProbe of TENANT_RLS_MIGRATION_LIVE_PROBES) {
+    const migration = await pool.query<{ ok: boolean }>(migrationProbe.text);
+    if (!migration.rows[0]?.ok) {
+      const { policyName } = migrationProbe.sentinelPolicy;
+      violations.push({
+        rule: "migration-probe-failed",
+        tableName: migrationProbe.migrationTag,
+        policyName,
+        message: violationMessage(
+          "migration-probe-failed",
+          migrationProbe.migrationTag,
+          policyName
+        ),
+      });
+    }
   }
 
   return violations;

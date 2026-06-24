@@ -9,10 +9,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@afenda/ui";
-import {
-  type GovernedUiComponentName,
-  mapStockButtonProps,
-} from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { EllipsisVerticalIcon } from "lucide-react";
 import { Fragment } from "react";
 
@@ -108,8 +105,11 @@ export function AppShellDashboardOverflowMenu({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            {...mapStockButtonProps("ghost", "icon-sm")}
             aria-label={menuLabel}
+            emphasis="ghost"
+            intent="quiet"
+            presentation="icon"
+            size="sm"
           >
             <EllipsisVerticalIcon
               aria-hidden

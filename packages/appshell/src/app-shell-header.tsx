@@ -1,8 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage, Button } from "@afenda/ui";
-import {
-  type GovernedUiComponentName,
-  mapStockButtonProps,
-} from "@afenda/ui/governance";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import {
   ActivityIcon,
   BellIcon,
@@ -121,7 +118,10 @@ export function AppShellHeader({
             className="app-shell-search-dialog-mobile"
             trigger={
               <Button
-                {...mapStockButtonProps("ghost", "icon-lg")}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="lg"
                 type="button"
               >
                 <SearchIcon
@@ -135,7 +135,10 @@ export function AppShellHeader({
           <AppShellLanguageDropdown
             trigger={
               <Button
-                {...mapStockButtonProps("ghost", "icon-lg")}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="lg"
                 type="button"
               >
                 <LanguagesIcon
@@ -149,7 +152,10 @@ export function AppShellHeader({
           <AppShellActivityDialog
             trigger={
               <Button
-                {...mapStockButtonProps("ghost", "icon-lg")}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="lg"
                 type="button"
               >
                 <ActivityIcon
@@ -164,8 +170,11 @@ export function AppShellHeader({
             trigger={
               <div className="app-shell-notification-trigger">
                 <Button
-                  {...mapStockButtonProps("ghost", "icon-lg")}
                   aria-label={notificationTriggerLabel}
+                  emphasis="ghost"
+                  intent="quiet"
+                  presentation="icon"
+                  size="lg"
                   type="button"
                 >
                   <BellIcon
@@ -189,8 +198,11 @@ export function AppShellHeader({
             {...(chrome.email === undefined ? {} : { email: chrome.email })}
             trigger={
               <Button
-                {...mapStockButtonProps("ghost", "icon-lg")}
                 aria-label={`Profile: ${chrome.userName}`}
+                emphasis="ghost"
+                intent="quiet"
+                presentation="icon"
+                size="lg"
                 type="button"
               >
                 <Avatar>

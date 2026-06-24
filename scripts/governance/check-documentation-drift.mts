@@ -25,6 +25,8 @@ import {
   REQUIRED_ACCEPTED_ADRS,
   RUNTIME_TRUTH_MATRIX,
   STALE_DELIVERY_MARKERS,
+  TIP_008_COMPLETE_DOC,
+  TIP_008_COMPLETE_REQUIRED_MARKERS,
   TIP_DELIVERY_TIPS_DIR,
   TIP_STATUS_INDEX,
   TIP_STATUS_INDEX_BASENAME,
@@ -246,6 +248,19 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
           file: entry.file,
           message: `Stale delivery marker still present: ${forbidden}`,
           rule: entry.rule,
+        });
+      }
+    }
+  }
+
+  const tip008Complete = readText(TIP_008_COMPLETE_DOC);
+  if (tip008Complete) {
+    for (const marker of TIP_008_COMPLETE_REQUIRED_MARKERS) {
+      if (!tip008Complete.includes(marker)) {
+        violations.push({
+          file: TIP_008_COMPLETE_DOC,
+          message: `TIP-008 Complete doc missing authority-only marker: ${marker}`,
+          rule: "tip-008-complete-authority-only-marker-missing",
         });
       }
     }

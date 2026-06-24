@@ -35,8 +35,10 @@ function assertNever(value: never, context: string): never {
 }
 
 /**
- * @deprecated Temporary bridge for STOCK_SHADCN_PENDING only.
- * Remove once all stock shadcn consumers are migrated to governed Button props.
+ * @deprecated Production consumers must use governed Button props
+ * (intent, emphasis, size, presentation) directly.
+ * Retained only for legacy policy tests until fixture cleanup.
+ * Gate D pass 7 fails all production usages.
  */
 export function mapStockButtonSize(
   size: StockButtonSize = "default"
@@ -62,8 +64,10 @@ export function mapStockButtonSize(
 }
 
 /**
- * @deprecated Temporary bridge for STOCK_SHADCN_PENDING only.
- * Remove once all stock shadcn consumers are migrated to governed Button props.
+ * @deprecated Production consumers must use governed Button props
+ * (intent, emphasis, size, presentation) directly.
+ * Retained only for legacy policy tests until fixture cleanup.
+ * Gate D pass 7 fails all production usages.
  */
 export function mapStockButtonVisualToGoverned(
   visual: StockButtonVisual = "default",
@@ -92,8 +96,10 @@ export function mapStockButtonVisualToGoverned(
 }
 
 /**
- * @deprecated Temporary bridge for STOCK_SHADCN_PENDING only.
- * Remove once all stock shadcn consumers are migrated to governed Button props.
+ * @deprecated Production consumers must use governed Button props
+ * (intent, emphasis, size, presentation) directly.
+ * Retained only for legacy policy tests until fixture cleanup.
+ * Gate D pass 7 fails all production usages.
  */
 export function mapStockButtonProps(
   visual: StockButtonVisual = "default",

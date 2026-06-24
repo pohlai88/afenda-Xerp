@@ -15,6 +15,7 @@ export interface ErpCardNavItem {
 
 const SYSTEM_ADMIN_SECTION_NAV_DESCRIPTIONS = {
   audit: "Review recent security and configuration audit events.",
+  diagnostics: "Review Phase 9 accounting readiness gate requirement metadata.",
   memberships: "Manage company and tenant membership assignments.",
   permissions: "Inspect permission registry entries and grants.",
   roles: "Configure role definitions and scoped assignments.",

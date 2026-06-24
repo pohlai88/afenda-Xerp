@@ -12,7 +12,6 @@ import {
   metadataRuntimeDensityToGovernedDensity,
 } from "@afenda/metadata-ui/server";
 import { Button } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useMemo, useState } from "react";
 
 const INTEGRATION_RUNTIME_INPUT = {
@@ -145,11 +144,14 @@ export function GovernanceIntegrationHarness() {
           AppShell + Metadata UI composition. Static fixtures only.
         </p>
         <Button
-          {...mapStockButtonProps("outline", "sm")}
           aria-pressed={readonlyMode}
+          emphasis="outline"
+          intent="primary"
           onClick={() => {
             setReadonlyMode((current) => !current);
           }}
+          presentation="default"
+          size="sm"
           type="button"
         >
           {readonlyMode ? "Exit readonly preview" : "Preview readonly mode"}
@@ -179,7 +181,13 @@ export function GovernanceIntegrationHarness() {
           content: <IntegrationSectionContent context={context} />,
           toolbar: (
             <div data-integration-toolbar="true">
-              <Button {...mapStockButtonProps("secondary", "sm")} type="button">
+              <Button
+                emphasis="solid"
+                intent="secondary"
+                presentation="default"
+                size="sm"
+                type="button"
+              >
                 Governed UI control
               </Button>
             </div>

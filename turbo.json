@@ -65,6 +65,10 @@
       "cache": false,
       "persistent": true
     },
+    "storybook:generate": {
+      "cache": false,
+      "outputs": ["apps/docs/src/app/docs-editorial-blocks.css"]
+    },
     "storybook:build": {
       "outputs": ["storybook-static/**"]
     },

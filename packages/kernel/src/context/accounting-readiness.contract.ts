@@ -32,6 +32,33 @@ export function isCostCenterOrganizationUnit(
   return organizationUnit.organizationUnitType === "cost_center";
 }
 
+/** Wire-format alias — plain string ids, JSON-serializable at rest. */
+export type AccountingReadinessWireContext = AccountingReadinessContext;
+
+type JsonPrimitive = string | number | boolean | null;
+
+type AssertJsonSerializable<T> = T extends JsonPrimitive
+  ? true
+  : T extends readonly (infer U)[]
+    ? AssertJsonSerializable<U>
+    : T extends object
+      ? {
+          [K in keyof T]: AssertJsonSerializable<T[K]>;
+        } extends Record<keyof T, true>
+        ? true
+        : false
+      : false;
+
+type _AccountingReadinessWireSerializable =
+  AssertJsonSerializable<AccountingReadinessWireContext>;
+
+/**
+ * Compile-time guard — accounting readiness wire context must remain JSON-serializable.
+ * No runtime overhead.
+ */
+export type assertAccountingReadinessContextJsonSerializable =
+  _AccountingReadinessWireSerializable extends true ? true : never;
+
 export function toAccountingReadinessContext(
   operatingContext: OperatingContext,
   options?: { readonly reportingDate?: string }

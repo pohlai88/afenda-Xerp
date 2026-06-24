@@ -66,7 +66,7 @@ export function envSyncReminder(relativePath) {
   }
 
   return (
-    "Env source edited. Run `pnpm env:sync` then `pnpm env:doctor` before finishing. " +
+    "Env source edited. Run `pnpm env:console refresh` (or `pnpm env:sync` then `pnpm env:doctor`) before finishing. " +
     "Do not edit generated targets (.env, .env.local, apps/*/ .env.local, packages/database/.env)."
   );
 }

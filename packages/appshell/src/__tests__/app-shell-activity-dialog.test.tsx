@@ -33,7 +33,9 @@ describe("AppShellActivityDialog", () => {
     expect(
       screen.getByRole("feed", { name: "Team activity feed" })
     ).toBeInTheDocument();
-    expect(document.querySelector(".app-shell-activity-panel")).not.toBeNull();
+    expect(
+      document.querySelector(".app-shell-studio-activity-panel")
+    ).not.toBeNull();
   });
 
   it("passes a custom feed label to the activity feed", () => {

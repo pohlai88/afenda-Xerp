@@ -156,11 +156,13 @@ ERP dev (`3000`) is **not** required for docs work.
 
 Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in scope.
 
-### Deploy (future — TIP-032 Slice 5)
+### Deploy (TIP-032 Slice 6)
 
-- Separate Vercel project or monorepo deploy target from `@afenda/erp`
+- Separate Vercel project from `@afenda/erp` — Root Directory `apps/docs`
 - No shared env secrets with ERP auth/database
-- **Assumption:** deploy URL and env vars documented in TIP-032 Slice 5 handoff
+- Config: `apps/docs/vercel.json`, `apps/docs/next.config.ts` (`outputFileTracingRoot`)
+- Support doc: [`docs/delivery/support/fumadocs-docs-app-deploy.md`](../delivery/support/fumadocs-docs-app-deploy.md)
+- Optional PR preview: `.github/workflows/preview-docs.yml` + `VERCEL_PROJECT_ID_DOCS`
 
 ---
 

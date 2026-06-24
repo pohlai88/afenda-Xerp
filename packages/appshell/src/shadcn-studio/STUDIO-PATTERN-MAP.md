@@ -1,0 +1,233 @@
+# Studio Pattern Map
+
+> **Purpose:** Translate raw shadcn/studio MCP Tailwind output into governed
+> `app-shell-studio-*` production classes. Use this lookup **before** inventing
+> a new CSS selector. If a pattern already exists here, map to it — only write
+> new CSS when a pattern is reusable across ≥2 blocks.
+>
+> **Canonical CSS file:** `packages/appshell/src/styles/afenda-appshell-studio.css`
+>
+> **Workflow:**
+> 1. MCP install → `packages/ui/src/components/shadcn-studio/` (staging/reference)
+> 2. Inspect visual pattern from MCP output
+> 3. Map Tailwind class combinations → studio class (table below)
+> 4. If no match: add to studio CSS (reusable), or keep local in `afenda-appshell.css`
+> 5. Strip `className` from all `@afenda/ui` governed primitives
+> 6. Zero raw Tailwind in production TSX — only semantic `.app-shell-*` classes
+
+---
+
+## Deprecated class prefixes (enforced)
+
+The following prefixes were removed from CSS during TIP-032 Slice 3.9 extraction.
+They must **not** appear in `className` on production block TSX under
+`packages/appshell/src/shadcn-studio/blocks/`:
+
+| Deprecated prefix | Replacement namespace |
+|---|---|
+| `app-shell-dashboard-kpi-` | `app-shell-studio-metric-*` / `app-shell-studio-icon-chip*` |
+| `app-shell-dashboard-sparkline-` | `app-shell-studio-sparkline-*` |
+| `app-shell-dashboard-revenue-` | `app-shell-studio-revenue-*` |
+| `app-shell-dashboard-invoice-` | `app-shell-studio-invoice-*` |
+| `app-shell-activity-` | `app-shell-studio-activity-*` |
+
+Enforced by: `packages/appshell/src/__tests__/studio-legacy-class-guard.test.ts`
+
+---
+
+## Metric card pattern (KPI stats)
+
+Used by: `AppShellDashboardKpiStat`, `SystemAdminReadinessGateMetrics`
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| `<article>` root with full height, card chrome | `.app-shell-studio-metric-card` | Root article wrapper |
+| `bg-primary/6 border-primary/28` emphasis tint | `data-emphasis="primary"` on root | Data attribute, CSS handles tinting |
+| `flex flex-col gap-4 justify-between min-h-[8.5rem] p-5` | `.app-shell-studio-metric__body` | Inner content column |
+| `flex gap-2 items-start justify-between` (header row) | `.app-shell-studio-metric__header` | Title + icon row |
+| `flex flex-col gap-[var(--density-field-gap)]` | `.app-shell-studio-metric__heading` | Title + caption stack |
+| `text-sm font-medium text-muted-foreground uppercase tracking-wider` | `.app-shell-studio-metric__title` | KPI label |
+| `text-xs tabular-nums text-muted-foreground` | `.app-shell-studio-metric__caption` | Period badge |
+| `flex shrink-0 items-center justify-center w-9 h-9 bg-muted/72 border border-border/55 rounded-md` | `.app-shell-studio-icon-chip` | Icon container |
+| Icon inside chip, `w-4 h-4 text-muted-foreground` | `.app-shell-studio-icon-chip__icon` | Pass as `className` prop on icon |
+| `<p>` wrapper around value (margin reset) | `.app-shell-studio-metric__value-group` | `margin: 0` wrapper |
+| `flex gap-2 items-center` (value + secondary) | `.app-shell-studio-metric__value-row` | Flex row for value + chip |
+| `text-2xl font-semibold tabular-nums leading-tight tracking-tight` | `.app-shell-studio-metric__value` | Large KPI number |
+| `flex flex-wrap gap-1 items-baseline` (footnote `<p>`) | `.app-shell-studio-metric__footnote` | Change% + comparison |
+| `text-sm tabular-nums text-muted-foreground` (delta) | `.app-shell-studio-metric__change` | "+12.4%", "-4.5%" |
+| `text-sm text-muted-foreground/70` (comparison) | `.app-shell-studio-metric__comparison` | "vs last week" |
+
+### Readiness gate metric variant
+
+Used by: `SystemAdminReadinessGateMetrics` (composes studio metric card + block-local readiness hooks)
+
+| Element | Production class | Notes |
+|---|---|---|
+| Root article | `.app-shell-dashboard-widget .app-shell-studio-metric-card .app-shell-readiness-gate-widget` | Shared widget chrome + studio metric + readiness hooks |
+| Live status | `data-live-status="pass" \| "fail" \| "skipped"` | Drives status dot colour in `afenda-appshell.css` |
+| Status value row | `.app-shell-readiness-gate-status-row` + `.app-shell-readiness-gate-status-dot` | Block-local; wraps `.app-shell-studio-metric__value` |
+| Footnote | `.app-shell-studio-metric__footnote` + `.app-shell-studio-metric__comparison` only | No `.app-shell-studio-metric__change` (no delta %) |
+
+Legacy mapping applied in Slice 3.9A:
+
+| Old deleted class | New canonical class |
+|---|---|
+| `app-shell-dashboard-kpi-widget` | `app-shell-studio-metric-card` |
+| `app-shell-dashboard-kpi-body` | `app-shell-studio-metric__body` |
+| `app-shell-dashboard-kpi-header` | `app-shell-studio-metric__header` |
+| `app-shell-dashboard-kpi-heading` | `app-shell-studio-metric__heading` |
+| `app-shell-dashboard-kpi-title` | `app-shell-studio-metric__title` |
+| `app-shell-dashboard-kpi-caption` | `app-shell-studio-metric__caption` |
+| `app-shell-dashboard-kpi-icon-chip` | `app-shell-studio-icon-chip` |
+| `app-shell-dashboard-kpi-icon` | `app-shell-studio-icon-chip__icon` |
+| `app-shell-dashboard-kpi-metric` | `app-shell-studio-metric__value-group` |
+| `app-shell-dashboard-kpi-value` | `app-shell-studio-metric__value` |
+| `app-shell-dashboard-kpi-footnote` | `app-shell-studio-metric__footnote` |
+| `app-shell-dashboard-kpi-comparison` | `app-shell-studio-metric__comparison` |
+
+---
+
+## Sparkline card pattern
+
+Used by: `AppShellDashboardSparklineStat`
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| `<article>` root, full height | `.app-shell-studio-sparkline-card` | Root article wrapper |
+| `flex gap-4 items-center justify-between p-5` | `.app-shell-studio-sparkline__body` | Horizontal copy + chart layout |
+| `flex flex-1 flex-col gap-6 min-w-0` | `.app-shell-studio-sparkline__copy` | Left column |
+| `flex flex-col gap-1` (label + amount) | `.app-shell-studio-sparkline__meta` | Meta column |
+| `text-sm text-muted-foreground` (title) | `.app-shell-studio-sparkline__label` | Metric title |
+| `text-3xl font-semibold tabular-nums leading-display tracking-tight` | `.app-shell-studio-sparkline__amount` | Hero currency number |
+| `flex flex-wrap gap-3 items-center` (change row) | `.app-shell-studio-sparkline__change-row` | Delta + trend + comparison |
+| `text-sm tabular-nums text-muted-foreground` (delta) | `.app-shell-studio-sparkline__change` | Period delta |
+| `inline-flex items-center` (trend icon) | `.app-shell-studio-sparkline__trend` | TrendIndicator wrapper |
+| `text-sm text-muted-foreground` (comparison) | `.app-shell-studio-sparkline__comparison` | "vs last month" |
+| `text-xs text-muted-foreground` (insights) | `.app-shell-studio-sparkline__insights` | "12 points · peak …" |
+| `flex-1 w-full max-w-[17.5rem] min-h-[6.625rem] max-h-[6.625rem]` (chart div) | `.app-shell-studio-sparkline__chart-frame` | Chart container |
+| `--revenue` modifier | `.app-shell-studio-sparkline__chart-frame--revenue` | Semantic hook, no CSS rules |
+| `--expense` modifier | `.app-shell-studio-sparkline__chart-frame--expense` | Semantic hook, no CSS rules |
+| `flex items-center justify-center w-full h-full text-xs text-muted` | `.app-shell-studio-sparkline__empty-chart` | No-data placeholder |
+
+---
+
+## Shared icon chip
+
+Used by: KPI stat, any card with a contextual icon
+
+| MCP Tailwind pattern | Production class |
+|---|---|
+| `flex shrink-0 items-center justify-center w-9 h-9 rounded-md bg-muted/72 border border-border/55` | `.app-shell-studio-icon-chip` |
+| Icon inside chip | `.app-shell-studio-icon-chip__icon` (pass as `className` on SVG) |
+| Primary tint (emphasis="primary" context) | Inherits from `.app-shell-studio-metric-card[data-emphasis="primary"] .app-shell-studio-icon-chip` |
+
+---
+
+## Common token substitutions
+
+| Raw Tailwind class | CSS variable to use in studio CSS |
+|---|---|
+| `text-muted-foreground` | `var(--app-shell-studio-text-muted)` |
+| `text-muted-foreground/70` | `var(--app-shell-studio-text-subtle)` |
+| `bg-card` | `var(--app-shell-studio-surface-card)` |
+| `bg-muted` | `var(--app-shell-studio-surface-muted)` |
+| `rounded-lg` | `var(--app-shell-studio-radius-widget)` |
+| `rounded-md` (control) | `var(--app-shell-studio-radius-control)` |
+| Trend positive color | `var(--app-shell-studio-trend-up)` |
+| Trend negative color | `var(--app-shell-studio-trend-down)` |
+| `p-5` (card padding) | `var(--app-shell-studio-padding-card)` |
+| Section gap | `var(--app-shell-studio-gap-section)` |
+
+---
+
+---
+
+## Revenue chart pattern
+
+Used by: `AppShellDashboardRevenueChart`
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| Root widget wrapper | `.app-shell-studio-revenue-widget` | Full-width chart card |
+| 3fr/2fr responsive grid | `.app-shell-studio-revenue-layout` | Primary + secondary columns |
+| Primary column chrome | `.app-shell-studio-revenue-primary` | Left bar chart column |
+| Bar chart frame | `.app-shell-studio-revenue-bar-frame` | Fixed min-height chart area |
+| Secondary column stack | `.app-shell-studio-revenue-secondary` | Growth panel + year summaries |
+| Hero amount row | `.app-shell-studio-revenue-hero-amount` | Tabular-nums hero value |
+| YoY delta | `.app-shell-studio-revenue-yoy-change` | Tabular-nums comparison |
+| Legend row | `.app-shell-studio-revenue-legend` | Current vs prior swatches |
+
+Legacy mapping (Slice CSS bridge hardening):
+
+| Old deleted class prefix | New canonical prefix |
+|---|---|
+| `app-shell-dashboard-revenue-` | `app-shell-studio-revenue-` |
+
+---
+
+## Invoice table pattern
+
+Used by: `AppShellDashboardInvoiceTable`, `app-shell-dashboard-invoice-table.columns`
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| Root widget | `.app-shell-studio-invoice-widget` | Full-width table card |
+| Header row | `.app-shell-studio-invoice-header` | Title + metrics |
+| Toolbar | `.app-shell-studio-invoice-toolbar` | Filters + search |
+| Table scroll region | `.app-shell-studio-invoice-table-scroll` | Horizontal overflow |
+| Amount cells | `.app-shell-studio-invoice-amount` | Tabular-nums currency |
+| Status dot | `.app-shell-studio-invoice-status-dot` | `[data-status]` driven |
+| Row actions | `.app-shell-studio-invoice-actions` | Icon button cluster |
+
+Legacy mapping:
+
+| Old deleted class prefix | New canonical prefix |
+|---|---|
+| `app-shell-dashboard-invoice-` | `app-shell-studio-invoice-` |
+
+---
+
+## Activity feed pattern
+
+Used by: `AppShellActivityFeed`, `AppShellActivityDialog`
+
+| MCP Tailwind pattern | Production class | Notes |
+|---|---|---|
+| Sheet panel root | `.app-shell-studio-activity-panel` | Scroll container in sheet |
+| Feed scroll body | `.app-shell-studio-activity-feed` | Overflow-y auto |
+| Feed list | `.app-shell-studio-activity-feed-list` | Unstyled list |
+| Row layout | `.app-shell-studio-activity-row` | Avatar + summary |
+| Timestamp | `.app-shell-studio-activity-time` | Tabular-nums |
+| Reply composer | `.app-shell-studio-activity-reply-group` | Input + attach |
+| File attachment card | `.app-shell-studio-activity-file-card` | Muted bordered link |
+
+Legacy mapping:
+
+| Old deleted class prefix | New canonical prefix |
+|---|---|
+| `app-shell-activity-` | `app-shell-studio-activity-` |
+
+---
+
+## Patterns NOT yet in the studio layer (block-local geometry)
+
+These stay in `afenda-appshell.css` until they appear in ≥2 blocks:
+
+| Pattern | Block owner | Reason still local |
+|---|---|---|
+| Module earnings ranked list | `app-shell-dashboard-module-earnings` | Unique row structure |
+| Regional sales chart combo | `app-shell-dashboard-regional-sales` | Unique |
+| Payment history utilization row | `app-shell-dashboard-payment-history` | Unique |
+| Recent transactions summary strip | `app-shell-dashboard-recent-transactions` | Unique |
+| Shell chrome (header/sidebar/footer) | Shell chrome | Non-studio patterns |
+
+---
+
+## Adding a new studio pattern
+
+1. Confirm the pattern appears in ≥2 blocks (or will).
+2. Add CSS class to `afenda-appshell-studio.css` under the correct section (B or C).
+3. Add a bridge var alias in Section A if a new token semantic is needed.
+4. Add a row to this document under the correct pattern family.
+5. Update any blocks that should use it.
+6. Run `pnpm check:css-governance` and `pnpm --filter @afenda/appshell test:run`.

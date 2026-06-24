@@ -124,8 +124,12 @@ function Stepper({
     [stepperSteps]
   );
 
+  const resolvedDefaultStep = defaultValue ?? steps[0]?.id;
+
   const stepper = stepperDefinition.useStepper({
-    defaultStep: defaultValue ?? steps[0]?.id,
+    ...(resolvedDefaultStep === undefined
+      ? {}
+      : { defaultStep: resolvedDefaultStep }),
     ...(value === undefined ? {} : { step: value }),
     onStepChange: (stepId) => {
       onValueChange?.(stepId);

@@ -24,7 +24,7 @@ export const CSS_BUDGETS: Record<string, CssBudget> = {
   "@afenda/design-system": { maxFiles: 2, generatedOnly: true },
   "@afenda/ui": { maxFiles: 1, generatedOnly: false },
   "@afenda/metadata-ui": { maxFiles: 2, generatedOnly: false },
-  "@afenda/appshell": { maxFiles: 1, generatedOnly: false },
+  "@afenda/appshell": { maxFiles: 2, generatedOnly: false },
   "@afenda/metadata": { maxFiles: 0, generatedOnly: true },
 };
 
@@ -45,6 +45,7 @@ export interface CssFileEntry {
     | "generated-tokens" // output of generate-tokens-css.ts (raw --afenda-* tokens)
     | "generated-theme" // output of generate-tokens-css.ts (Tailwind @theme bridge)
     | "authored-structural" // hand-authored structural CSS
+    | "authored-studio-patterns" // internal @import-only: reusable shadcn/studio patterns
     | "authored-fixture"; // storybook/demo only
 }
 
@@ -92,13 +93,24 @@ export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
     exportPath: "./fixtures.css",
   },
 
-  // ── @afenda/appshell (1 file) ──────────────────────────────────────────
+  // ── @afenda/appshell (2 files) ──────────────────────────────────────────
   {
     package: "@afenda/appshell",
     path: "src/styles/afenda-appshell.css",
     role: "authored-structural",
     generated: false,
     exportPath: "./afenda-appshell.css",
+  },
+  {
+    /**
+     * Internal @import-only layer — not a standalone package.json export.
+     * Consumed by afenda-appshell.css via `@import "./afenda-appshell-studio.css"`.
+     * Apps must NOT import this file directly.
+     */
+    package: "@afenda/appshell",
+    path: "src/styles/afenda-appshell-studio.css",
+    role: "authored-studio-patterns",
+    generated: false,
   },
 
   // ── @afenda/metadata (0 files — pure contract) ─────────────────────────

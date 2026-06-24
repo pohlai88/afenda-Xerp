@@ -175,6 +175,11 @@ export type { StatisticsProfileTrafficCardGovernedComponents } from "./shadcn-st
 export { StatisticsProfileTrafficCard } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
 export type { StatisticsRevenueCardGovernedComponents } from "./shadcn-studio/blocks/statistics-revenue-card";
 export { StatisticsRevenueCard } from "./shadcn-studio/blocks/statistics-revenue-card";
+export type {
+  SystemAdminReadinessGateMetric,
+  SystemAdminReadinessGateMetricsGovernedComponents,
+} from "./shadcn-studio/blocks/system-admin-readiness-gate-metrics";
+export { SystemAdminReadinessGateMetrics } from "./shadcn-studio/blocks/system-admin-readiness-gate-metrics";
 export {
   DEFAULT_APPLICATION_SHELL_ROLE_LABEL,
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,

@@ -337,7 +337,7 @@ Checks:
 
 1. `className` on any tag in `GOVERNED_UI_TAGS` (zero tolerance in consumer code)
 2. Import discipline (`@afenda/ui/governance` required; no stock-props barrels)
-3. Stock shadcn `variant` / icon sizes on `<Button>` without `mapStockButtonProps`
+3. Stock shadcn `variant` / icon sizes on `<Button>` — use governed `intent`, `emphasis`, `size`, `presentation` (not `mapStockButtonProps`)
 4. Visual slop on plain HTML wrapper `className` strings
 
 Run: `pnpm ui:guard:scan`

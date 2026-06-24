@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  type AccountingReadinessWireContext,
+  type assertAccountingReadinessContextJsonSerializable,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   deriveConsolidationScopeContext,
   isCostCenterOrganizationUnit,
@@ -148,6 +150,29 @@ describe("deriveConsolidationScopeContext", () => {
     });
 
     expect(scope.legalEntities).toEqual([]);
+  });
+});
+
+type _AccountingReadinessWireGuard =
+  assertAccountingReadinessContextJsonSerializable;
+type _AccountingReadinessWireGuardSatisfied =
+  _AccountingReadinessWireGuard extends true ? true : never;
+
+describe("AccountingReadinessWireContext — JSON serializability guard", () => {
+  it("satisfies compile-time AssertJsonSerializable guard", () => {
+    const guard: _AccountingReadinessWireGuardSatisfied = true;
+    const sample: AccountingReadinessWireContext = {
+      baseCurrency: "AUD",
+      consolidationScope: null,
+      entityGroup: null,
+      legalEntity: SAMPLE_LEGAL_ENTITY,
+      organizationUnit: null,
+      ownershipInterests: [],
+      reportingCurrency: "AUD",
+    };
+
+    expect(guard).toBe(true);
+    expect(sample.baseCurrency).toBe("AUD");
   });
 });
 

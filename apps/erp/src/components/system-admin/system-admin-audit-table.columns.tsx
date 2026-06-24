@@ -1,5 +1,8 @@
 import { Badge } from "@afenda/ui";
-import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import type {
+  GovernedUiComponentName,
+  StatusTone,
+} from "@afenda/ui/governance";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import type { AdminAuditEventRow } from "@/lib/system-admin/list-recent-audit-events.server";
@@ -12,7 +15,7 @@ export type SystemAdminAuditColumnsGovernedComponents = Extract<
 
 function resolveAuditResultTone(
   result: AdminAuditEventRow["result"]
-): AuditResultTone["tone"] {
+): StatusTone {
   switch (result) {
     case "success":
     case "approved":

@@ -2,11 +2,43 @@ import { describe, expect, it } from "vitest";
 
 import {
   getVercelPushSkipReason,
+  isVercelEnvUpToDate,
+  mergeVercelEnvTargets,
   planVercelPush,
   probeMigrationUrlFromMerged,
 } from "../../env-utils.mjs";
 
 describe("env-utils vercel push policy", () => {
+  it("merges Vercel env targets without clobbering production on preview push", () => {
+    expect(mergeVercelEnvTargets(["production"], ["preview"])).toEqual([
+      "production",
+      "preview",
+    ]);
+    expect(mergeVercelEnvTargets(["preview"], ["production"])).toEqual([
+      "production",
+      "preview",
+    ]);
+  });
+
+  it("detects up-to-date env when push targets are already assigned", () => {
+    expect(
+      isVercelEnvUpToDate(
+        { value: "tr_prod_x", target: ["production", "preview"] },
+        "tr_prod_x",
+        ["preview"]
+      )
+    ).toBe(true);
+  });
+
+  it("detects stale env when push target is missing", () => {
+    expect(
+      isVercelEnvUpToDate(
+        { value: "tr_prod_x", target: ["preview"] },
+        "tr_prod_x",
+        ["production"]
+      )
+    ).toBe(false);
+  });
   it("denies local-only and vercel-managed keys", () => {
     expect(getVercelPushSkipReason("TURBO_TOKEN", "secret")).toBe("local-only");
     expect(getVercelPushSkipReason("VERCEL_TOKEN", "token")).toBe("local-only");

@@ -64,6 +64,31 @@ export const VERCEL_PUSH_DENYLIST = [
 
 const VERCEL_MANAGED_PREFIX = "VERCEL_";
 const VERCEL_PUSH_ALLOWLIST = new Set(["VERCEL_PROJECT_PRODUCTION_URL"]);
+const VERCEL_ENV_TARGET_ORDER = ["production", "preview", "development"];
+
+/** Union existing Vercel env targets with targets from the current push (preview must not clobber production). */
+export function mergeVercelEnvTargets(existingTargets, pushTargets) {
+  const merged = new Set([
+    ...(Array.isArray(existingTargets) ? existingTargets : []),
+    ...(Array.isArray(pushTargets) ? pushTargets : []),
+  ]);
+
+  return VERCEL_ENV_TARGET_ORDER.filter((target) => merged.has(target));
+}
+
+/** True when value matches and every push target is already assigned on the Vercel env record. */
+export function isVercelEnvUpToDate(current, value, pushTargets) {
+  if (!current) {
+    return false;
+  }
+
+  const existingTargets = Array.isArray(current.target) ? current.target : [];
+
+  return (
+    current.value === value &&
+    pushTargets.every((target) => existingTargets.includes(target))
+  );
+}
 
 const TRAILING_SLASH_PATTERN = /\/$/;
 
@@ -217,6 +242,18 @@ export function applyDerivedEnv(entries, order) {
 
     if (!order.includes(key)) {
       order.push(key);
+    }
+  }
+
+  if (entries.get("NEXT_PUBLIC_STAGE")?.trim() === "production") {
+    const prodTriggerKey = entries.get("TRIGGER_SECRET_KEY_PROD")?.trim();
+
+    if (prodTriggerKey) {
+      entries.set("TRIGGER_SECRET_KEY", prodTriggerKey);
+
+      if (!order.includes("TRIGGER_SECRET_KEY")) {
+        order.push("TRIGGER_SECRET_KEY");
+      }
     }
   }
 }

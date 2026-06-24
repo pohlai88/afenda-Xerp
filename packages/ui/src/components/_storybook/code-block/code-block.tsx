@@ -213,15 +213,14 @@ export function StorybookCodeBlock({
     if (files !== undefined && files.length > 0) return [...files];
 
     if (code !== undefined) {
-      return [
-        {
-          filename: filename ? `${filename}.${language}` : `index.${language}`,
-          code,
-          language,
-          highlightLines,
-          showLineNumbers,
-        },
-      ];
+      const file: StorybookCodeBlockFile = {
+        filename: filename ? `${filename}.${language}` : `index.${language}`,
+        code,
+        language,
+        ...(highlightLines === undefined ? {} : { highlightLines }),
+        ...(showLineNumbers === undefined ? {} : { showLineNumbers }),
+      };
+      return [file];
     }
 
     return [];
@@ -286,10 +285,16 @@ export function StorybookCodeBlock({
       {activeFile ? (
         <StorybookCodeBlockPane
           code={activeFile.code}
-          highlightLines={activeFile.highlightLines}
           key={activeFile.filename}
-          language={activeFile.language}
-          showLineNumbers={activeFile.showLineNumbers}
+          {...(activeFile.highlightLines === undefined
+            ? {}
+            : { highlightLines: activeFile.highlightLines })}
+          {...(activeFile.language === undefined
+            ? {}
+            : { language: activeFile.language })}
+          {...(activeFile.showLineNumbers === undefined
+            ? {}
+            : { showLineNumbers: activeFile.showLineNumbers })}
         />
       ) : null}
     </div>

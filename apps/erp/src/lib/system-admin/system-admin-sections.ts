@@ -9,7 +9,8 @@ export type SystemAdminSectionId =
   | "roles"
   | "permissions"
   | "audit"
-  | "settings";
+  | "settings"
+  | "diagnostics";
 
 export interface SystemAdminSectionDefinition {
   readonly href: `/system-admin/${SystemAdminSectionId}`;
@@ -54,6 +55,12 @@ export const SYSTEM_ADMIN_SECTIONS: readonly SystemAdminSectionDefinition[] = [
     label: "Settings",
     href: "/system-admin/settings",
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.modules.manage,
+  },
+  {
+    sectionId: "diagnostics",
+    label: "Diagnostics",
+    href: "/system-admin/diagnostics",
+    readPermissionKey: PERMISSION_REGISTRY.systemAdmin.audit.read,
   },
 ] satisfies readonly SystemAdminSectionDefinition[];
 

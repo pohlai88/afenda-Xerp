@@ -23,9 +23,13 @@ Optional overlays: `.env.config.local` (local dev; gitignored), `.env.config.pro
 Hooks block direct edits. After changing sources:
 
 ```bash
-pnpm env:sync
-pnpm env:doctor
+pnpm env:console refresh
+# or: pnpm env:sync && pnpm env:doctor
 ```
+
+**Human workflow:** `pnpm env:console` (interactive) or `pnpm env:console refresh` after source edits.
+
+**Do not** run `vercel env pull .env.local` — generated targets are overwritten by `pnpm env:sync`. Push to Vercel via `pnpm env:console push production|preview`.
 
 ## Canonical Supabase keys (config)
 
@@ -55,4 +59,6 @@ Secrets (`.env.secret`): `SUPABASE_DB_PASSWORD`, `SUPABASE_SECRET_KEY`
 - Execution spine: `OUTBOX_SCHEDULER_REQUIRED` in `.env.config` — `false` local default (degraded); production values in committed `.env.config.production`; `WORKER_RELEASE_CHECK_REQUIRED` defaults to scheduler policy; `ALLOW_DEGRADED_EXECUTION=true` only for incident response
 - `NEXT_PUBLIC_*` must be browser-safe — no secrets, DB URLs, or signing keys
 
-Policy source of truth: `scripts/env-utils.mjs` (`DEPRECATED_*`, `applyDerivedEnv`).
+Policy source of truth: `scripts/env-utils.mjs` (`DEPRECATED_*`, `applyDerivedEnv`, `VERCEL_PUSH_DENYLIST`).
+
+Orchestrator: `scripts/env-console.mjs` (`pnpm env:console`).

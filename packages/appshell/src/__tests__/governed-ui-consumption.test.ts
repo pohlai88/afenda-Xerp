@@ -94,7 +94,14 @@ describe("governed UI consumption (TIP-004)", () => {
     const rel = relative(packageRoot, file).replace(/\\/g, "/");
 
     it(`${rel} passes TIP-004 consumer policy (className + governance imports)`, () => {
-      const violations = checkGovernedUiConsumption(readFileSync(file, "utf8"));
+      const repoRelative = relative(join(packageRoot, "../.."), file).replace(
+        /\\/g,
+        "/"
+      );
+      const violations = checkGovernedUiConsumption(
+        readFileSync(file, "utf8"),
+        repoRelative
+      );
       expect(violations, violations.join("\n")).toEqual([]);
     });
   }

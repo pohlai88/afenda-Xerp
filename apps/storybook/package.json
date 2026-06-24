@@ -5,6 +5,9 @@
   "description": "Application-layer Storybook for @afenda/ui, @afenda/appshell, and @afenda/metadata-ui",
   "type": "module",
   "scripts": {
+    "generate": "node ../../scripts/storybook/generate.mjs",
+    "prestorybook": "pnpm generate",
+    "prestorybook:build": "pnpm generate",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build -o storybook-static",
     "typecheck": "tsc -p tsconfig.storybook.json --noEmit",

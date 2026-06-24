@@ -29,7 +29,10 @@ import {
   shouldRetry,
 } from "../contracts/retry-policy.contract.js";
 import type { ScheduleHandle } from "../contracts/workflow.contract.js";
-import { PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID } from "../jobs/publish-outbox-events.job.js";
+import {
+  PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
+  PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
+} from "../jobs/publish-outbox-events.job.js";
 
 export interface TriggerExecutionProviderOptions {
   readonly nowIso?: () => string;
@@ -105,6 +108,40 @@ export const publishOutboxEventsTriggerTask = task({
   id: PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
   run: invokeConfiguredPublishOutboxEventsTask,
 });
+
+export async function probePublishOutboxScheduleRegistered(
+  options: TriggerExecutionProviderOptions = {}
+): Promise<ExecutionResult<boolean>> {
+  const secretKey =
+    options.secretKey === undefined
+      ? readTriggerSecretKey()
+      : options.secretKey;
+
+  if (!secretKey) {
+    return createExecutionFailure(
+      "provider_unavailable",
+      "TRIGGER_SECRET_KEY is not configured."
+    );
+  }
+
+  try {
+    const page = await schedules.list();
+    const registered = page.data.some(
+      (schedule) =>
+        schedule.deduplicationKey === PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID ||
+        schedule.task === PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID
+    );
+
+    return createExecutionSuccess(registered);
+  } catch (error: unknown) {
+    return createExecutionFailure(
+      "provider_error",
+      error instanceof Error
+        ? error.message
+        : "Trigger.dev schedule probe failed."
+    );
+  }
+}
 
 export function createTriggerExecutionProvider(
   options: TriggerExecutionProviderOptions = {}

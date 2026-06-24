@@ -9,6 +9,7 @@
 import { fileURLToPath } from "node:url";
 
 import { resolveMigrationDatabaseUrl } from "../../packages/database/src/env.ts";
+import { loadSyncedEnv } from "../../packages/database/src/load-synced-env.ts";
 import { createPgPool } from "../../packages/database/src/pool.ts";
 import {
   isLiveTenantRlsVerificationAvailable,
@@ -36,6 +37,8 @@ export type TenantRlsLiveCheckResult =
   | { readonly kind: "passed" };
 
 export async function checkDatabaseTenantRlsLive(): Promise<TenantRlsLiveCheckResult> {
+  loadSyncedEnv();
+
   const coverageViolations = checkDatabaseTenantRlsCoverage();
   if (coverageViolations.length > 0) {
     return { kind: "coverage-failed", violations: coverageViolations };

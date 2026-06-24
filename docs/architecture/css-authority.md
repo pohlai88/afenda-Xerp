@@ -29,8 +29,9 @@ for the app composition entry only — no package may use that name.**
   May import from: @afenda/design-system, @afenda/ui
 
 @afenda/appshell
-  Owns: AppShell structural CSS only
-  File: ./afenda-appshell.css
+  Owns: AppShell structural CSS + internal studio pattern layer
+  Files: ./afenda-appshell.css (public export)
+         ./afenda-appshell-studio.css (internal @import only — not a package export)
   May import from: @afenda/design-system, @afenda/ui
 
 apps/erp
@@ -65,7 +66,7 @@ cascade stays deterministic regardless of `@import` order changes.
 |---|---|---|
 | `theme` | Design tokens + `@theme` bridge (`--afenda-*`, utility map) | `@afenda/design-system` (via `afenda-ui.css`) |
 | `base` | Element/base styles (html, body, h1–h6, resets) | design-system + `shadcn/tailwind.css` |
-| `components` | `@afenda/ui` primitive hooks, `@afenda/appshell` `.app-shell-*`, `@afenda/metadata-ui` `.metadata-*` | ui / appshell / metadata-ui |
+| `components` | `@afenda/ui` primitive hooks, `@afenda/appshell` `.app-shell-*` (incl. `.app-shell-studio-*` via studio layer), `@afenda/metadata-ui` `.metadata-*` | ui / appshell / metadata-ui |
 | `utilities` | Tailwind utilities + app-level overrides (always win) | Tailwind / app |
 
 Packages place their rules in `components` either by declaring `@layer components { … }`
@@ -83,6 +84,7 @@ which is intentionally unlayered so it stays composable).
 | `@afenda/metadata-ui` | `.metadata-*` | Production |
 | `@afenda/metadata-ui` | `.metadata-fixture-*` | Fixture CSS only |
 | `@afenda/appshell` | `.app-shell-*` | Production only — no fixture classes |
+| `@afenda/appshell` (studio layer) | `.app-shell-studio-*` | Reusable shadcn/studio patterns — internal `@import` only |
 | State | `is-*` or `data-*` | Not ad-hoc class names |
 
 ---
@@ -152,6 +154,55 @@ Rendering metadata-ui fixtures or composed Storybook?
 
 **Do NOT** include `./fixtures.css` in app globals. Fixture CSS belongs inside story files only.
 
+**Do NOT** import `afenda-appshell-studio.css` directly. It is an internal
+implementation detail loaded by `afenda-appshell.css` via `@import "./afenda-appshell-studio.css"`.
+
+---
+
+## AppShell studio pattern layer
+
+`@afenda/appshell` owns **two** CSS source files (budget: `maxSourceFiles: 2`):
+
+| File | Role | Import rule |
+|---|---|---|
+| `afenda-appshell.css` | Shell structural chrome, block-local geometry, readiness-gate overrides | **Public** — `@import "@afenda/appshell/afenda-appshell.css"` |
+| `afenda-appshell-studio.css` | Reusable shadcn/studio visual patterns (metric cards, sparklines) | **Internal** — `@import` from `afenda-appshell.css` only |
+
+### Purpose and namespace
+
+- **Purpose manifest value:** `studio-patterns` (see `packages/ui/src/governance/css-manifest.ts`)
+- **Class sub-namespace:** `.app-shell-studio-*` (e.g. `.app-shell-studio-metric-card`, `.app-shell-studio-sparkline-card`)
+- **Property namespace:** `--app-shell-*` bridge vars only — studio layer reads tokens via `var()`, never defines `--afenda-*`
+- **Block-local geometry** (readiness gate status dots, dashboard grid placement) stays in `afenda-appshell.css`
+- **Reusable patterns** shared across ≥2 blocks land in `afenda-appshell-studio.css`
+
+Pattern map and migration notes: `packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`.
+
+### Manifest `internalOnly`
+
+Studio CSS is registered in `packages/appshell/src/styles/css-manifest.ts` with
+`internalOnly: true` because it shares the public `./afenda-appshell.css` export path.
+Governance duplicate-export checks skip `internalOnly` entries; the monorepo registry
+(`scripts/css/css-registry.mts`) lists it as `authored-studio-patterns`.
+
+```typescript
+{
+  packageName: "@afenda/appshell",
+  exportPath: "./afenda-appshell.css",
+  sourceFile: "src/styles/afenda-appshell-studio.css",
+  purpose: "studio-patterns",
+  internalOnly: true,          // not a standalone package.json export
+  productionSafe: true,
+  allowedImporters: ["@afenda/appshell"],
+  prohibitedImporters: ["apps/*", "@afenda/ui", "@afenda/metadata-ui"],
+  classNamespace: "app-shell-",
+  propertyNamespace: "--app-shell-",
+}
+```
+
+Apps, Storybook preview, and ERP `globals.css` continue to import **one** appshell
+entry — the studio layer cascades automatically.
+
 ---
 
 ## Storybook CSS rules
@@ -193,9 +244,10 @@ export const packageCssManifest = [
     packageName: "@afenda/example",
     exportPath: "./styles.css",         // matches package.json exports key
     sourceFile: "src/styles.css",       // relative to package root
-    purpose: "renderer-structural",     // SMACSS-aligned category
+    purpose: "renderer-structural",     // SMACSS-aligned category (or "studio-patterns" for internal @import layers)
     productionSafe: true,               // false for fixture CSS
     requiresTailwindTheme: false,       // true only for @theme bridge files
+    internalOnly: true,                 // optional — shares exportPath; skip duplicate-export check
     allowedImporters: ["apps/*"],
     prohibitedImporters: ["@afenda/metadata"],
     classNamespace: "metadata-",        // leading class prefix contract

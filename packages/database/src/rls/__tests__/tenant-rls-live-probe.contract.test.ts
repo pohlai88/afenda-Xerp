@@ -1,17 +1,22 @@
 import { describe, expect, it } from "vitest";
 
 import { MIGRATION_GOVERNANCE_RULES } from "../../migrations/migration-governance.contract.js";
-import { TENANT_RLS_COMPLETION_MIGRATION_TAG } from "../tenant-rls-coverage.contract.js";
 import {
-  buildTenantRlsCompletionMigrationLiveProbe,
+  TENANT_RLS_COMPLETION_MIGRATION_TAG,
+  TENANT_RLS_ISOLATION_POLICIES,
+} from "../tenant-rls-coverage.contract.js";
+import {
   buildTenantRlsPolicyLiveProbeSql,
   classifyTenantRlsPolicyProbeResult,
   TENANT_RLS_LIVE_POLICY_PROBES,
 } from "../tenant-rls-live-probe.contract.js";
+import { TENANT_RLS_MIGRATION_LIVE_PROBES } from "../tenant-rls-migration-live-probe.contract.js";
 
 describe("tenant-rls-live-probe.contract", () => {
   it("builds parameterized probes for every isolation policy", () => {
-    expect(TENANT_RLS_LIVE_POLICY_PROBES).toHaveLength(10);
+    expect(TENANT_RLS_LIVE_POLICY_PROBES).toHaveLength(
+      TENANT_RLS_ISOLATION_POLICIES.length
+    );
 
     for (const { policy, probe } of TENANT_RLS_LIVE_POLICY_PROBES) {
       expect(probe.values).toEqual([policy.tableName, policy.policyName]);
@@ -59,22 +64,23 @@ describe("tenant-rls-live-probe.contract", () => {
     ).toBe("policy-missing");
   });
 
-  it("aligns completion migration probe with governance contract", () => {
-    const liveProbe = buildTenantRlsCompletionMigrationLiveProbe();
-    const governanceProbe =
-      MIGRATION_GOVERNANCE_RULES[TENANT_RLS_COMPLETION_MIGRATION_TAG]
-        ?.completeProbe;
+  it("aligns all migration live probes with governance contract", () => {
+    for (const probe of TENANT_RLS_MIGRATION_LIVE_PROBES) {
+      const governanceProbe =
+        MIGRATION_GOVERNANCE_RULES[probe.migrationTag]?.completeProbe;
 
-    expect(liveProbe.migrationTag).toBe(TENANT_RLS_COMPLETION_MIGRATION_TAG);
-    expect(liveProbe.text.replace(/\s+/g, " ").trim()).toBe(
-      governanceProbe?.replace(/\s+/g, " ").trim()
-    );
+      expect(probe.text.replace(/\s+/g, " ").trim()).toBe(
+        governanceProbe?.replace(/\s+/g, " ").trim()
+      );
+    }
   });
 
   it("embeds only contract constants in SQL literals", () => {
     const probe = buildTenantRlsPolicyLiveProbeSql({
       tableName: "projects",
       policyName: "projects_tenant_isolation",
+      kind: "tenant_isolation",
+      migrationTag: TENANT_RLS_COMPLETION_MIGRATION_TAG,
     });
 
     expect(probe.text).toContain("public");

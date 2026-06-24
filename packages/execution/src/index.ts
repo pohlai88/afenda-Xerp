@@ -127,6 +127,7 @@ export {
 export {
   configurePublishOutboxEventsTask,
   createTriggerExecutionProvider,
+  probePublishOutboxScheduleRegistered,
 } from "./providers/trigger.provider.js";
 export {
   createExecutionRegistry,

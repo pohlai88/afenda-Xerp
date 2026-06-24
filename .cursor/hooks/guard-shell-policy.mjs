@@ -111,7 +111,7 @@ function isAllowedShellCommand(command) {
   const normalized = command.trim().replace(/\s+/g, " ");
 
   return (
-    /pnpm\s+(env:sync|env:doctor)\b/.test(normalized) ||
+    /pnpm\s+(env:console|env:sync|env:doctor)\b/.test(normalized) ||
     /sync-env\.mjs\b/.test(normalized)
   );
 }

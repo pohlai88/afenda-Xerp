@@ -308,7 +308,7 @@ Business master data entities are governed **party and catalog records** used by
 
 **Must not be confused with Legal Entity / Company.** A Customer is a business party; a Legal Entity is a registered statutory body. A Warehouse is a storage location inside a company; it is not an Organization Unit type unless explicitly mapped in domain TIPs.
 
-**Runtime status:** Authority map only — no `@afenda/crm`, `@afenda/inventory`, `@afenda/hrm`, or `@afenda/procurement` packages or schemas until domain TIPs after Phase 1 gate.
+**Runtime status:** **Complete (authority only)** — frozen kernel registry + wire reference contracts in `@afenda/kernel`; no `@afenda/crm`, `@afenda/inventory`, `@afenda/hrm`, or `@afenda/procurement` package schemas until domain TIPs.
 
 ---
 
@@ -327,11 +327,11 @@ Business master data entities are governed **party and catalog records** used by
 | Surface | Runtime string ID | N/A — metadata config |
 | RLS Grant | `memberships` + Supabase RLS | Implemented (application-level); DB-level in progress |
 | Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | **Implemented (scope metadata only)** — `consolidation-scope-resolution.server.ts` + ERP resolver (TIP-008A) |
-| Customer | — (PKG-R04 `@afenda/crm`) | **Authority map only** — TIP-008B; no runtime schema |
-| Supplier | — (PKG-R05 `@afenda/procurement`) | **Authority map only** — TIP-008B; no runtime schema |
-| Product | — (PKG-R02 `@afenda/inventory`) | **Authority map only** — TIP-008B; no runtime schema |
-| Employee | — (PKG-R03 `@afenda/hrm`) | **Authority map only** — TIP-008B; no runtime schema |
-| Warehouse | — (PKG-R02 `@afenda/inventory`) | **Authority map only** — TIP-008B; no runtime schema |
+| Customer | — (PKG-R04 `@afenda/crm`) | **Authority only** — kernel wire contracts (TIP-008B) |
+| Supplier | — (PKG-R05 `@afenda/procurement`) | **Authority only** — kernel wire contracts (TIP-008B) |
+| Product | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (TIP-008B) |
+| Employee | — (PKG-R03 `@afenda/hrm`) | **Authority only** — kernel wire contracts (TIP-008B) |
+| Warehouse | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (TIP-008B) |
 
 ---
 

@@ -119,8 +119,8 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | Migration rules | **Implemented** — governance tests | `pnpm quality:migrations` passes |
 | Seed policy | **Implemented** — platform/dev/test/demo seeds | `db:verify:seed` passes |
 | Drizzle conventions | **Implemented** | Branded IDs at boundaries |
-| RLS strategy | **Partial** — `with-rls-session-context.ts` | Postgres RLS policies verified per glossary |
-| Tenant isolation proof | **Partial** — tests exist | Cross-tenant negative tests pass |
+| RLS strategy | **Implemented** — foundation + completion + schema parity gates | Postgres RLS policies verified per glossary; `pnpm check:database-tenant-rls-coverage` |
+| Tenant isolation proof | **Implemented** — artifact + schema parity + live gate | Cross-tenant negative tests + full tenant-scoped table registry |
 | Entity group / ownership | **Implemented** — schemas + services + contract tests (TIP-008A) | Lookup services + context mappers complete |
 | Consolidation scope prep | **Implemented** — `consolidation-scope-resolution.server.ts` + ERP resolver + tests | Non-accounting scope resolution tests |
 | Legal vs operating entity | **Documented** — glossary | Enforced in context resolution |

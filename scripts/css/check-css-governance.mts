@@ -27,6 +27,7 @@
  *  19. Every CSS file in src/ must be registered in the manifest or explicitly exempted.
  *  20. Per-package CSS file budget — hard cap prevents proliferation.
  *  21. No duplicate CSS content across files within a package.
+ *  22. Direct afenda-appshell-studio.css imports banned outside afenda-appshell.css.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -800,6 +801,98 @@ import {
           files[0]!,
           `${pkg} has duplicate CSS content across files: ${files.join(", ")} — consolidate into one file`
         );
+      }
+    }
+  }
+}
+
+// ─── Rule 22: Direct studio CSS import ban ───────────────────────────────────
+// Only packages/appshell/src/styles/afenda-appshell.css may @import studio layer.
+{
+  const STUDIO_CSS_FORBIDDEN = [
+    "afenda-appshell-studio.css",
+    "@afenda/appshell/afenda-appshell-studio",
+    "packages/appshell/src/styles/afenda-appshell-studio",
+  ] as const;
+
+  const appshellRoot = PACKAGE_ROOTS["@afenda/appshell"] ?? "";
+  const soleAllowedImporter = join(
+    appshellRoot,
+    "src/styles/afenda-appshell.css"
+  );
+
+  const scanRoots: Array<{ root: string; cssMode: "globals-only" | "all" }> = [
+    { root: join(repoRoot, "apps/erp"), cssMode: "globals-only" },
+    { root: join(repoRoot, "apps/docs"), cssMode: "globals-only" },
+    { root: join(appshellRoot, "src"), cssMode: "all" },
+    {
+      root: join(PACKAGE_ROOTS["@afenda/metadata-ui"] ?? "", "src"),
+      cssMode: "all",
+    },
+    { root: join(PACKAGE_ROOTS["@afenda/ui"] ?? "", "src"), cssMode: "all" },
+  ];
+
+  const tsSkip = [
+    /node_modules/,
+    /\.stories\./,
+    /_storybook/,
+    /\.storybook/,
+    /__tests__/,
+  ];
+
+  function importsForbiddenStudioCss(imp: string): string | null {
+    for (const forbidden of STUDIO_CSS_FORBIDDEN) {
+      if (imp.includes(forbidden)) {
+        return forbidden;
+      }
+    }
+    return null;
+  }
+
+  for (const { root, cssMode } of scanRoots) {
+    if (!existsSync(root)) {
+      continue;
+    }
+
+    const cssFiles = collectFiles(root, [".css"], [/node_modules/]);
+    for (const file of cssFiles) {
+      if (file === soleAllowedImporter) {
+        continue;
+      }
+      if (cssMode === "globals-only") {
+        if (!(/globals\.css$/.test(file) || /layout\.css$/.test(file))) {
+          continue;
+        }
+      }
+
+      const imports = extractCssImports(readFileSync(file, "utf8"));
+      for (const imp of imports) {
+        const forbidden = importsForbiddenStudioCss(imp);
+        if (forbidden) {
+          fail(
+            "R22-direct-studio-css",
+            file,
+            `Direct studio CSS import forbidden ("${forbidden}"): "${imp}" — import @afenda/appshell/afenda-appshell.css only`
+          );
+        }
+      }
+    }
+
+    const tsFiles = collectFiles(root, [".ts", ".tsx"], tsSkip);
+    for (const file of tsFiles) {
+      if (file === soleAllowedImporter) {
+        continue;
+      }
+      const imports = extractTsImports(readFileSync(file, "utf8"));
+      for (const imp of imports) {
+        const forbidden = importsForbiddenStudioCss(imp);
+        if (forbidden) {
+          fail(
+            "R22-direct-studio-css",
+            file,
+            `Direct studio CSS import forbidden ("${forbidden}"): "${imp}" — import @afenda/appshell/afenda-appshell.css only`
+          );
+        }
       }
     }
   }

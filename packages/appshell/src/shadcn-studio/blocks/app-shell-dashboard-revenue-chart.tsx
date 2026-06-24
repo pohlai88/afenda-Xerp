@@ -200,18 +200,15 @@ function RevenueYearSummaryItem({
   readonly summary: AppShellDashboardRevenueYearSummary;
 }) {
   return (
-    <div className="app-shell-dashboard-revenue-summary-item">
-      <div className="app-shell-dashboard-revenue-icon-frame">
-        <summary.Icon
-          aria-hidden
-          className="app-shell-dashboard-revenue-icon"
-        />
+    <div className="app-shell-studio-revenue-summary-item">
+      <div className="app-shell-studio-revenue-icon-frame">
+        <summary.Icon aria-hidden className="app-shell-studio-revenue-icon" />
       </div>
-      <div className="app-shell-dashboard-revenue-summary-copy">
-        <span className="app-shell-dashboard-revenue-summary-year">
+      <div className="app-shell-studio-revenue-summary-copy">
+        <span className="app-shell-studio-revenue-summary-year">
           {summary.year}
         </span>
-        <span className="app-shell-dashboard-revenue-summary-amount">
+        <span className="app-shell-studio-revenue-summary-amount">
           {summary.amount}
         </span>
       </div>
@@ -254,11 +251,11 @@ export function AppShellDashboardRevenueChart({
   return (
     <article
       aria-labelledby={primarySectionId}
-      className="app-shell-dashboard-widget app-shell-dashboard-revenue-widget"
+      className="app-shell-dashboard-widget app-shell-studio-revenue-widget"
     >
       <Card>
-        <div className="app-shell-dashboard-revenue-layout">
-          <section className="app-shell-dashboard-revenue-primary">
+        <div className="app-shell-studio-revenue-layout">
+          <section className="app-shell-studio-revenue-primary">
             <div className="app-shell-dashboard-widget-header app-shell-dashboard-widget-header-stacked">
               <div className="app-shell-dashboard-widget-heading">
                 <h2
@@ -277,43 +274,43 @@ export function AppShellDashboardRevenueChart({
               />
             </div>
 
-            <div className="app-shell-dashboard-revenue-primary-body">
-              <div className="app-shell-dashboard-revenue-hero">
-                <div className="app-shell-dashboard-revenue-hero-row">
-                  <span className="app-shell-dashboard-revenue-hero-amount">
+            <div className="app-shell-studio-revenue-primary-body">
+              <div className="app-shell-studio-revenue-hero">
+                <div className="app-shell-studio-revenue-hero-row">
+                  <span className="app-shell-studio-revenue-hero-amount">
                     {primaryYearAmount}
                   </span>
-                  <span className="app-shell-dashboard-revenue-yoy-change">
+                  <span className="app-shell-studio-revenue-yoy-change">
                     {yearOverYearChange} YoY
                   </span>
                 </div>
-                <span className="app-shell-dashboard-revenue-comparison">
+                <span className="app-shell-studio-revenue-comparison">
                   {comparisonText}
                 </span>
               </div>
 
               <div
                 aria-hidden="true"
-                className="app-shell-dashboard-revenue-legend"
+                className="app-shell-studio-revenue-legend"
               >
-                <span className="app-shell-dashboard-revenue-legend-item">
-                  <span className="app-shell-dashboard-revenue-legend-swatch app-shell-dashboard-revenue-legend-swatch-current" />
+                <span className="app-shell-studio-revenue-legend-item">
+                  <span className="app-shell-studio-revenue-legend-swatch app-shell-studio-revenue-legend-swatch-current" />
                   FY2026
                 </span>
-                <span className="app-shell-dashboard-revenue-legend-item">
-                  <span className="app-shell-dashboard-revenue-legend-swatch app-shell-dashboard-revenue-legend-swatch-prior" />
+                <span className="app-shell-studio-revenue-legend-item">
+                  <span className="app-shell-studio-revenue-legend-swatch app-shell-studio-revenue-legend-swatch-prior" />
                   FY2025
                 </span>
               </div>
 
               {barData.length === 0 ? (
-                <p className="app-shell-dashboard-revenue-empty" role="status">
+                <p className="app-shell-studio-revenue-empty" role="status">
                   No revenue variance data available for this period.
                 </p>
               ) : (
                 <div
                   aria-label={barChartLabel}
-                  className="app-shell-dashboard-revenue-bar-frame"
+                  className="app-shell-studio-revenue-bar-frame"
                   role="img"
                 >
                   <ChartContainer config={revenueBarChartConfig}>
@@ -372,11 +369,11 @@ export function AppShellDashboardRevenueChart({
 
           <aside
             aria-labelledby={growthSectionId}
-            className="app-shell-dashboard-revenue-secondary"
+            className="app-shell-studio-revenue-secondary"
           >
-            <div className="app-shell-dashboard-revenue-select-row">
+            <div className="app-shell-studio-revenue-select-row">
               <label
-                className="app-shell-dashboard-revenue-select-label"
+                className="app-shell-studio-revenue-select-label"
                 htmlFor={reportSelectId}
               >
                 Report view
@@ -397,26 +394,23 @@ export function AppShellDashboardRevenueChart({
               </Select>
             </div>
 
-            <div className="app-shell-dashboard-revenue-growth-panel">
-              <div className="app-shell-dashboard-revenue-growth-headline">
-                <span className="app-shell-dashboard-revenue-growth-value">
+            <div className="app-shell-studio-revenue-growth-panel">
+              <div className="app-shell-studio-revenue-growth-headline">
+                <span className="app-shell-studio-revenue-growth-value">
                   {growthLabel}
                 </span>
-                <span className="app-shell-dashboard-revenue-growth-headline-caption">
+                <span className="app-shell-studio-revenue-growth-headline-caption">
                   Growth
                 </span>
               </div>
 
               <div
                 aria-label="Portfolio revenue mix by period"
-                className="app-shell-dashboard-revenue-growth-chart-frame app-shell-dashboard-revenue-growth-chart-frame-bars"
+                className="app-shell-studio-revenue-growth-chart-frame app-shell-studio-revenue-growth-chart-frame-bars"
                 role="img"
               >
                 {growthData.length === 0 ? (
-                  <p
-                    className="app-shell-dashboard-revenue-empty"
-                    role="status"
-                  >
+                  <p className="app-shell-studio-revenue-empty" role="status">
                     No growth mix data available for this period.
                   </p>
                 ) : (
@@ -460,12 +454,12 @@ export function AppShellDashboardRevenueChart({
                 )}
               </div>
 
-              <div className="app-shell-dashboard-revenue-growth-meta">
-                <span className="app-shell-dashboard-revenue-growth-caption">
+              <div className="app-shell-studio-revenue-growth-meta">
+                <span className="app-shell-studio-revenue-growth-caption">
                   {growthCaption}
                 </span>
                 <span
-                  className="app-shell-dashboard-revenue-growth-footnote"
+                  className="app-shell-studio-revenue-growth-footnote"
                   id={growthSectionId}
                 >
                   Portfolio growth index
@@ -475,7 +469,7 @@ export function AppShellDashboardRevenueChart({
 
             <Separator />
 
-            <div className="app-shell-dashboard-revenue-summary-row">
+            <div className="app-shell-studio-revenue-summary-row">
               {yearSummaries.map((summary) => (
                 <RevenueYearSummaryItem key={summary.id} summary={summary} />
               ))}
