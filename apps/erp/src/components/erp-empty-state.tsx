@@ -1,4 +1,5 @@
 import { Button, Card, CardContent } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import type { ReactElement, ReactNode } from "react";
 
@@ -7,6 +8,11 @@ import {
   type ErpEmptyStateProps,
   isErpEmptyStateWithAction,
 } from "@/lib/erp/erp-empty-state.contract";
+
+export type ErpEmptyStateGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button" | "Card" | "CardContent"
+>;
 
 const ERP_EMPTY_STATE_ICON_PROPS = {
   "aria-hidden": true,

@@ -12,7 +12,13 @@ import {
   metadataRuntimeDensityToGovernedDensity,
 } from "@afenda/metadata-ui/server";
 import { Button } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useMemo, useState } from "react";
+
+export type GovernanceIntegrationHarnessGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
 
 const INTEGRATION_RUNTIME_INPUT = {
   actorId: "actor_integration_harness",

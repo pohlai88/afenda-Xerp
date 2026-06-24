@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useActionState } from "react";
 
 import {
@@ -12,6 +13,11 @@ import {
   type RefreshAccountingReadinessGateFullActionState,
   refreshAccountingReadinessGateFullAction,
 } from "@/lib/system-admin/refresh-accounting-readiness-gate-full.action";
+
+export type SystemAdminReadinessGateRefreshGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
 
 export function SystemAdminReadinessGateRefreshForm() {
   const [actionState, formAction, isPending] = useActionState(

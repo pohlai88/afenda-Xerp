@@ -9,6 +9,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useId, useState } from "react";
 
 import { SystemAdminFormSection } from "@/components/system-admin/system-admin-form-section";
@@ -36,6 +37,17 @@ export interface SystemAdminInviteWizardProps {
   readonly apiScope: WorkspaceApiScope;
   readonly roleOptions: readonly SystemAdminInviteRoleOption[];
 }
+
+export type SystemAdminInviteWizardGovernedComponents = Extract<
+  GovernedUiComponentName,
+  | "Button"
+  | "Field"
+  | "FieldLabel"
+  | "Input"
+  | "Label"
+  | "RadioGroup"
+  | "RadioGroupItem"
+>;
 
 function resolveSelectedRoleName(
   roleOptions: readonly SystemAdminInviteRoleOption[],

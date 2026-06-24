@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Field, FieldLabel, Input } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useActionState } from "react";
 
 import { SystemAdminFormSection } from "@/components/system-admin/system-admin-form-section";
@@ -15,6 +16,11 @@ import {
 export interface SystemAdminSettingsFormProps {
   readonly formValues: SystemAdminSettingsFormValues;
 }
+
+export type SystemAdminSettingsFormGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button" | "Field" | "FieldLabel" | "Input"
+>;
 
 export function SystemAdminSettingsForm({
   formValues,

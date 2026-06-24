@@ -2,8 +2,14 @@
 
 import { signIn } from "@afenda/auth/client";
 import { Button, Input, Label } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+export type SignInFormGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button" | "Input" | "Label"
+>;
 
 export function SignInForm() {
   const router = useRouter();

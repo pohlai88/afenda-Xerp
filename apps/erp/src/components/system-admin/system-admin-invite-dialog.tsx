@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useState } from "react";
 
 import type { SystemAdminInviteRoleOption } from "@/lib/system-admin/list-system-admin-invite-role-options.server";
@@ -25,6 +26,17 @@ export interface SystemAdminInviteDialogProps {
   readonly apiScope: WorkspaceApiScope;
   readonly roleOptions: readonly SystemAdminInviteRoleOption[];
 }
+
+export type SystemAdminInviteDialogGovernedComponents = Extract<
+  GovernedUiComponentName,
+  | "Button"
+  | "Dialog"
+  | "DialogContent"
+  | "DialogDescription"
+  | "DialogHeader"
+  | "DialogTitle"
+  | "DialogTrigger"
+>;
 
 export function SystemAdminInviteDialog({
   apiScope,

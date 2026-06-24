@@ -7,6 +7,7 @@ import {
   AlertTitle,
   Button,
 } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useEffect } from "react";
 
 import { reportClientError } from "@/lib/observability/report-client-error.client";
@@ -18,6 +19,11 @@ type RouteSegmentErrorBaseProps = {
   readonly segment: string;
   readonly title: string;
 };
+
+export type RouteSegmentErrorGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Alert" | "AlertAction" | "AlertDescription" | "AlertTitle" | "Button"
+>;
 
 export type RouteSegmentErrorSectionProps = RouteSegmentErrorBaseProps & {
   readonly variant?: "section";
