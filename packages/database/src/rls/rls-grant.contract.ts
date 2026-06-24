@@ -24,16 +24,15 @@ export type RlsGrantScopeType = (typeof RLS_GRANT_SCOPE_TYPES)[number];
 /** Membership scopes stored in `memberships.scope_type` today. */
 export const PERSISTED_MEMBERSHIP_SCOPE_TYPES = [
   "tenant",
+  "entity_group",
   "company",
   "organization",
+  "project",
+  "team",
 ] as const satisfies readonly MembershipScopeType[];
 
-/** Planned membership scope extensions (TIP-008 / TIP-030) — require explicit grants. */
-export const PLANNED_MEMBERSHIP_SCOPE_TYPES = [
-  "entity_group",
-  "team",
-  "project",
-] as const;
+/** Planned membership scope extensions — require explicit grants when added. */
+export const PLANNED_MEMBERSHIP_SCOPE_TYPES = [] as const;
 
 /** Explicit elevation kinds — never inferred from hierarchy position. */
 export const RLS_GRANT_ELEVATION_KINDS = [
@@ -82,13 +81,17 @@ export interface ResolvedRlsGrantScope {
 }
 
 export interface ResolveRlsGrantScopeInput {
+  readonly contextLegalEntityId?: string | null;
   readonly entityGroupId?: string | null;
   readonly membership: Pick<
     ResolvedRlsGrantScope,
     "membershipId" | "roleId" | "tenantId"
   > & {
     readonly companyId: string | null;
+    readonly entityGroupId?: string | null;
     readonly organizationId: string | null;
+    readonly projectId?: string | null;
+    readonly teamId?: string | null;
     readonly scopeType: MembershipScopeType;
   };
   readonly organizationUnitId?: string | null;
@@ -99,7 +102,10 @@ export interface ResolveRlsGrantScopeInput {
 
 export interface MembershipScopeMatchInput {
   readonly companyId?: string | null;
+  readonly entityGroupId?: string | null;
   readonly organizationId?: string | null;
+  readonly projectId?: string | null;
+  readonly teamId?: string | null;
 }
 
 /**
@@ -109,15 +115,32 @@ export interface MembershipScopeMatchInput {
 export function membershipMatchesGrantScope(
   membership: Pick<
     ResolveRlsGrantScopeInput["membership"],
-    "companyId" | "organizationId" | "scopeType"
+    "companyId" | "entityGroupId" | "organizationId" | "projectId" | "teamId" | "scopeType"
   >,
   context: MembershipScopeMatchInput
 ): boolean {
   const companyId = context.companyId ?? null;
+  const entityGroupId = context.entityGroupId ?? null;
   const organizationId = context.organizationId ?? null;
+  const projectId = context.projectId ?? null;
+  const teamId = context.teamId ?? null;
 
   if (membership.scopeType === "tenant") {
-    if (companyId !== null || organizationId !== null) {
+    if (
+      companyId !== null ||
+      entityGroupId !== null ||
+      organizationId !== null ||
+      projectId !== null ||
+      teamId !== null
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  if (membership.scopeType === "entity_group") {
+    const membershipGroupId = membership.entityGroupId ?? null;
+    if (!membershipGroupId || membershipGroupId !== entityGroupId) {
       return false;
     }
     return true;
@@ -125,6 +148,22 @@ export function membershipMatchesGrantScope(
 
   if (membership.scopeType === "company") {
     if (!companyId || membership.companyId !== companyId) {
+      return false;
+    }
+    return true;
+  }
+
+  if (membership.scopeType === "project") {
+    const membershipProjectId = membership.projectId ?? null;
+    if (!membershipProjectId || membershipProjectId !== projectId) {
+      return false;
+    }
+    return true;
+  }
+
+  if (membership.scopeType === "team") {
+    const membershipTeamId = membership.teamId ?? null;
+    if (!membershipTeamId || membershipTeamId !== teamId) {
       return false;
     }
     return true;
@@ -162,10 +201,16 @@ export function resolveRlsGrantScopeType(
   switch (input.membership.scopeType) {
     case "tenant":
       return "tenant";
+    case "entity_group":
+      return "entity_group";
     case "company":
       return "company";
     case "organization":
       return "organization";
+    case "project":
+      return "project";
+    case "team":
+      return "team";
     default: {
       const exhaustive: never = input.membership.scopeType;
       throw new Error(`Unsupported membership scope type: ${exhaustive}`);
@@ -191,17 +236,18 @@ export function resolveRlsGrantScope(
 ): ResolvedRlsGrantScope {
   const organizationUnitId =
     input.organizationUnitId ?? input.membership.organizationId ?? null;
-  const legalEntityId = input.membership.companyId;
+  const legalEntityId =
+    input.membership.companyId ?? input.contextLegalEntityId ?? null;
   const grantScopeType = resolveRlsGrantScopeType(input);
 
   return {
     grantScopeType,
     tenantId: input.membership.tenantId,
-    entityGroupId: input.entityGroupId ?? null,
+    entityGroupId: input.entityGroupId ?? input.membership.entityGroupId ?? null,
     legalEntityId,
     organizationUnitId,
-    teamId: input.teamId ?? null,
-    projectId: input.projectId ?? null,
+    teamId: input.teamId ?? input.membership.teamId ?? null,
+    projectId: input.projectId ?? input.membership.projectId ?? null,
     membershipId: input.membership.membershipId,
     roleId: input.membership.roleId,
     elevations: resolveRlsGrantElevations({

@@ -119,7 +119,7 @@ These must complete before Accounting Core (`TIP-013+`):
 | # | Area | Current state | Required TIP phase |
 | --- | --- | --- | --- |
 | 1 | Documentation truth reset | This audit | Phase 0 |
-| 2 | Frozen AppShell authority contracts | Implementation without contracts | Phase 1 / TIP-006 |
+| 2 | Frozen AppShell authority contracts | **Complete** — `packages/appshell/src/contracts/` | Phase 1 / TIP-006 |
 | 3 | ERP platform authority map (TIP-007 closeout) | Partial — multi-tenancy delivered, platform map open | Phase 1 |
 | 4 | Master data authority (business entities) | Not started | Phase 1 / TIP-008B |
 | 5 | Database outbox pattern | Not implemented | Phase 2 / TIP-011 |
@@ -142,7 +142,7 @@ These must complete before Accounting Core (`TIP-013+`):
 | `tip-ui-03-appshell-token-migration.md` status | Says Not started; migration largely done via `afenda-appshell.css` | **Update status** to In progress / Partial |
 | `tip-ui-04-metadata-ui-renderers.md` status | Says no renderers | **Update status** to Partial |
 | `tip-ui-05-erp-app-surfaces.md` baseline table | Lists inline auth | **Update baseline** — auth migrated |
-| `tip-006-appshell-authority.md` verdict | Says Not started | **Update** — implementation ahead of contracts |
+| `tip-006-appshell-authority.md` verdict | **Complete** — contracts frozen under `src/contracts/` | **Resolved** — TIP-006 Complete (2026-06-24) |
 | `tip-008-master-data-authority.md` | Ignores entity group delivery | **Split** enterprise hierarchy vs business master data |
 | `tip-010-observability-audit.md` / `tip-012-execution-foundation.md` | Misnumbered per ADR-0001 | **Mark** evidence-only; rename in hygiene TIP-000D |
 | `docs/tip/` directory | Does not exist | **Not created** — delivery authority remains `docs/delivery/tips/[status] tip-*.md` |

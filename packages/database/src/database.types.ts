@@ -90,9 +90,25 @@ export const membershipStatusEnum = pgEnum("membership_status", [
 
 export const MEMBERSHIP_SCOPE_TYPES = [
   "tenant",
+  "entity_group",
   "company",
   "organization",
+  "project",
+  "team",
 ] as const;
+
+export const PROJECT_LIFECYCLE_STATUSES = [
+  "draft",
+  "active",
+  "on_hold",
+  "completed",
+  "cancelled",
+] as const;
+
+export const projectLifecycleStatusEnum = pgEnum(
+  "project_lifecycle_status",
+  PROJECT_LIFECYCLE_STATUSES
+);
 
 export const membershipScopeEnum = pgEnum(
   "membership_scope",
@@ -160,6 +176,8 @@ export type UserStatus = (typeof userStatusEnum.enumValues)[number];
 export type MembershipStatus = (typeof membershipStatusEnum.enumValues)[number];
 export type MembershipScopeType =
   (typeof membershipScopeEnum.enumValues)[number];
+export type ProjectLifecycleStatus =
+  (typeof projectLifecycleStatusEnum.enumValues)[number];
 export type RoleStatus = (typeof roleStatusEnum.enumValues)[number];
 export type RoleScope = (typeof roleScopeEnum.enumValues)[number];
 export type PolicyEffect = (typeof policyEffectEnum.enumValues)[number];

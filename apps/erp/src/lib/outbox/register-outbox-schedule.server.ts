@@ -12,7 +12,7 @@ import {
   recordScheduleRegistrationFailure,
   recordScheduleRegistrationSkipped,
   recordScheduleRegistrationSuccess,
-} from "./execution-spine-state.server.js";
+} from "@/lib/outbox/execution-spine-state.server";
 
 const outboxFoundationLogger = createApiHandlerLogger("outbox-foundation");
 

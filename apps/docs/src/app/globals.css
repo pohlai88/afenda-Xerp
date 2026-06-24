@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "fumadocs-ui/dist/components/image-zoom2.css";
 @import "./docs-editorial-palette.css";
+@import "./docs-fumadocs-components.css";
 
 :root {
   --fd-layout-width: 1400px;

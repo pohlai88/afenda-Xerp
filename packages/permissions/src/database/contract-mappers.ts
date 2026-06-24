@@ -11,8 +11,11 @@ import type { PlatformUserContract } from "../user.contract.js";
 
 interface MembershipRow {
   readonly companyId: string | null;
+  readonly entityGroupId: string | null;
   readonly id: string;
   readonly organizationId: string | null;
+  readonly projectId: string | null;
+  readonly teamId: string | null;
   readonly roleId: string;
   readonly scopeType: MembershipContract["scopeType"];
   readonly status: MembershipContract["status"];
@@ -62,7 +65,10 @@ export function toMembershipContract(row: MembershipRow): MembershipContract {
     id: row.id,
     tenantId: row.tenantId,
     companyId: row.companyId,
+    entityGroupId: row.entityGroupId,
     organizationId: row.organizationId,
+    projectId: row.projectId,
+    teamId: row.teamId,
     userId: row.userId,
     roleId: row.roleId,
     scopeType: row.scopeType,

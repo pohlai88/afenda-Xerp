@@ -35,7 +35,7 @@ const Spinner = React.forwardRef<SVGSVGElement, SpinnerProps>(
       recipeName: SPINNER_RECIPE_NAME,
       state,
       slot: SPINNER_SLOT_ROLES.root,
-      variant: { size },
+      slotKey: size,
       className,
     });
 

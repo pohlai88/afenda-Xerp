@@ -21,6 +21,7 @@ const metadataRoot = join(appRoot, "../../packages/metadata");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
+const nextDynamicMock = join(testingRoot, "src/mocks/next-dynamic.tsx");
 const governanceRoot = join(uiSrcRoot, "governance");
 
 const config: StorybookConfig = {
@@ -114,6 +115,7 @@ const config: StorybookConfig = {
       },
       { find: "next/link", replacement: nextLinkMock },
       { find: "next/image", replacement: nextImageMock },
+      { find: "next/dynamic", replacement: nextDynamicMock },
       { find: "@", replacement: uiSrcRoot },
       { find: "#", replacement: uiSrcRoot },
     ];
@@ -155,9 +157,12 @@ const config: StorybookConfig = {
       "next",
       "next/link",
       "next/image",
+      "next/dynamic",
       "@afenda/appshell",
     ];
     viteConfig.optimizeDeps.esbuildOptions ??= {};
+    viteConfig.optimizeDeps.esbuildOptions.jsx = "automatic";
+    viteConfig.optimizeDeps.esbuildOptions.jsxImportSource = "react";
     viteConfig.optimizeDeps.esbuildOptions.alias = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
       "@afenda/ui/governance": join(governanceRoot, "index.ts"),
@@ -167,12 +172,17 @@ const config: StorybookConfig = {
       "#": uiSrcRoot,
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
+      "next/dynamic": nextDynamicMock,
     };
     viteConfig.optimizeDeps.include = [
       ...(viteConfig.optimizeDeps.include ?? []).filter(
         (dep) => dep !== "@afenda/appshell" && dep !== "next/link"
       ),
       "@afenda/design-system",
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
     ];
 
     return viteConfig;

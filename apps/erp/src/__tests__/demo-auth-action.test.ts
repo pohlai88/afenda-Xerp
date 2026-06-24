@@ -52,6 +52,7 @@ const sampleOperatingContext = {
     companyId: "company-001",
     organizationId: null,
     projectId: null,
+    teamId: null,
   },
 } as const;
 

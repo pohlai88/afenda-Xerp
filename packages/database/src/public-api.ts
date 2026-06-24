@@ -426,10 +426,26 @@ export { createPgPool, DEFAULT_POOL_CONFIG } from "./pool.js";
 export {
   PROJECT_DOMAIN_STATUS,
   PROJECT_LIFECYCLE_STATUSES,
+  assertProjectSlug,
+  buildProjectInsertRow,
+  buildProjectUpdatePatch,
+  normalizeProjectSlug,
   type ProjectAuthorityRecord,
   type ProjectDomainStatus,
+  type ProjectInsertRow,
   type ProjectLifecycleStatus,
+  type ProjectUpdatePatch,
+  type ProjectWriteInput,
 } from "./project/project.contract.js";
+export {
+  type InsertProjectInput,
+  insertProject,
+  type ProjectAuditContext,
+  type ProjectMutationResult,
+  ProjectScopeMismatchError,
+  type UpdateProjectInput,
+  updateProject,
+} from "./project/project.service.js";
 export {
   assertRlsTenantFilter,
   DEFAULT_RLS_GRANT_ELEVATION_FLAGS,
@@ -541,12 +557,15 @@ export {
   policyEffectEnum,
   policyScopeEnum,
   policyStatusEnum,
+  projectLifecycleStatusEnum,
+  projects,
   rolePermissions,
   roleScopeEnum,
   roleStatusEnum,
   roles,
   storageObjects,
   storageProviderEnum,
+  teams,
   tenantCommercialPlans,
   tenantStatusEnum,
   tenants,
@@ -567,11 +586,30 @@ export type {
 export { verifyPlatformSeed } from "./seeds/seed-verify.js";
 export { TEAM_ORGANIZATION_UNIT_TYPE } from "./team/team.constants.js";
 export {
+  assertTeamSlug,
+  buildTeamInsertRow,
+  buildTeamUpdatePatch,
+  normalizeTeamSlug,
+  type TeamAuthorityRecord,
+  type TeamInsertRow,
+  type TeamUpdatePatch,
+  type TeamWriteInput,
+} from "./team/team.contract.js";
+export {
   findTeamByCompanyAndSlug,
   findTeamById,
   isTeamOrganizationRow,
   type TeamLookupRow,
 } from "./team/team-lookup.service.js";
+export {
+  type InsertTeamInput,
+  insertTeam,
+  type TeamAuditContext,
+  type TeamMutationResult,
+  TeamScopeMismatchError,
+  type UpdateTeamInput,
+  updateTeam,
+} from "./team/team.service.js";
 export {
   assertTenantSlug,
   buildTenantInsertRow,

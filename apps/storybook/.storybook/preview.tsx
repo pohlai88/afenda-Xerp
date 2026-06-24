@@ -1,8 +1,14 @@
 import { TooltipProvider } from "@afenda/ui";
 import type { Decorator, Preview } from "@storybook/react";
+import React from "react";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import "./preview.css";
+
+// Expose React globally so Storybook addons pre-bundled with the classic JSX
+// runtime (e.g. @storybook/addon-a11y withVisionSimulator) can find React even
+// when they don't import it explicitly.
+(globalThis as Record<string, unknown>)["React"] = React;
 
 function StorybookThemeShell({
   isDark,

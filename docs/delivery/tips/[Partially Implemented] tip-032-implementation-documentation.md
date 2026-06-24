@@ -7,7 +7,7 @@
 | **Runtime evidence** | `apps/docs/source.config.ts`, `apps/docs/content/docs/index.mdx`, `apps/docs/src/app/docs/`, `apps/docs/src/lib/source.ts` |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
 | **Foundation phase** | Post-foundation parallel track (master plan Phase 3 — does **not** gate Phases 0–9) |
-| **Remaining gap** | Seed content pages (Slice 4 deferred), deploy target |
+| **Remaining gap** | Deploy target (Slice 6); optional manual copy of blocks into `apps/docs` (Slice 5.1) |
 | **Architecture** | [`docs-app-architecture.md`](../../architecture/docs-app-architecture.md) |
 
 ## Purpose
@@ -24,6 +24,7 @@ ADR-0001 / ADR-0013 authority: Application-layer delivery surfaces are owned by 
 - Docs-local Tailwind v4 styling
 - `/docs` route tree with sidebar navigation
 - Seed MDX pages (getting started, monorepo map, contributing)
+- Fumadocs MDX component library — **reference blocks in `packages/ui` + Storybook**; copy into `apps/docs` manually (Slice 5, no import)
 - CI gates: `typecheck`, `test:run`, `build`
 - Remove unused `transpilePackages` entries until workspace deps are approved
 - Runtime matrix + tip-status-index sync when slices land
@@ -31,7 +32,8 @@ ADR-0001 / ADR-0013 authority: Application-layer delivery surfaces are owned by 
 **Out of scope**
 
 - Migrating governance markdown (`docs/architecture/`, `docs/adr/`, `docs/delivery/tips/`) into Fumadocs
-- `@afenda/ui` or `@afenda/appshell` consumption (deferred — Slice 3 optional theming uses design tokens only)
+- `@afenda/ui`, `@afenda/appshell`, or `@afenda/design-system` runtime imports in `@afenda/docs` (boundary stays zero workspace deps)
+- `@afenda/ui` or `@afenda/appshell` in Fumadocs **layout shell** (sidebar, search, TOC)
 - ERP auth, CSP nonce pipeline, multi-tenancy, RBAC, audit, or database access
 - Public OpenAPI reference generation (**TIP-031** — separate future TIP)
 - Accounting or System Admin documentation (**TIP-013+**, **TIP-014+**)
@@ -51,7 +53,9 @@ ADR-0001 / ADR-0013 authority: Application-layer delivery surfaces are owned by 
 | CI build gate in quality matrix | root `package.json` `quality:docs`, `.github/workflows/ci.yml` Gate 4c | Yes — Slice 2 |
 | Afenda token + editorial prose theme | `apps/docs/src/app/globals.css`, `src/lib/docs-fonts.ts` | Yes — Slice 3 |
 | Editorial shell palette | `apps/docs/src/app/docs-editorial-palette.css`, `docs-editorial-palette.contract.ts` | Yes — Slice 3.5 / 3.6 / 3.8 |
-| Seed content sections | `apps/docs/content/docs/getting-started/` etc. | **Deferred** — Slice 4 |
+| Seed content sections | `apps/docs/content/docs/getting-started/`, `monorepo-map/`, `contributing/` | Yes — Slice 4 |
+| Afenda Docs reference blocks | `packages/ui/src/components/afenda-docs/` + Storybook **Afenda Docs** category | Yes — Slice 5 |
+| MDX blocks in docs app | `apps/docs/src/components/blocks/`, `mdx.tsx` registry | **Deferred** — manual copy (Slice 5.1) |
 
 ## Package ownership
 
@@ -94,7 +98,8 @@ ADR-0001 / ADR-0013 authority: Application-layer delivery surfaces are owned by 
 | `apps/docs/src/app/page.tsx` | `@afenda/docs` | Application | **Delivered** (Slice 1) | Redirect to `/docs` |
 | Root quality script wiring | repo root | Platform | **Delivered** (Slice 2) | `quality:docs`, `check:docs`, CI Gate 4c |
 | Afenda token + editorial theme | `@afenda/docs` | Application | **Delivered** (Slice 3) | Prose typography + brand accent; Source Serif 4 + Source Sans 3 |
-| Editorial shell palette | `@afenda/docs` | Application | **Delivered** (Slice 3.5) | Warm ivory/charcoal chrome; search/hover/select neutrals |
+| Editorial shell palette | `@afenda/docs` | Application | **Delivered** (Slice 3.5) | Porcelain/graphite chrome; search/hover/select neutrals |
+| MDX component library | `packages/ui/src/components/afenda-docs/` + Storybook | **Delivered** (Slice 5) | Reference blocks + stories; copy to `apps/docs` — no `@afenda/docs` import |
 
 ## Acceptance gate
 
@@ -152,7 +157,7 @@ AND   cross-links to repo paths are used instead of copy-paste mirrors
 | 11 | TIP status index updated | `docs/delivery/tip-status-index.md` | [x] |
 | 12 | Drift guard passes | `pnpm check:documentation-drift` | [x] |
 | 13 | No accounting logic | ADR-0010 compliance | [x] |
-| 14 | Completion report posted | afenda-coding-session §11 | [ ] |
+| 14 | Completion report posted | afenda-coding-session §11 | [x] |
 
 ## Slices
 
@@ -515,7 +520,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-
 
 ### Slice 4 — Seed content + TypeScript hygiene (`@afenda/docs`)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-24)  
 **Prerequisite:** Slice 3.9 runtime evidence — porcelain/graphite editorial palette delivered in `afenda-runtime-truth-matrix.md` (`@afenda/docs` row = partially-implemented, Slices 1–3.9).
 
 #### Design (internal-guide)
@@ -573,16 +578,151 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-
 
 #### Known debt
 
-- Deploy target remains Slice 5.
+- Deploy target remains Slice 6.
 - OpenAPI reference integration deferred to TIP-031.
-- Magazine hero / drop caps deferred until richer content exists.
 
-### Slice 5 — Deploy target (`@afenda/docs`)
+### Slice 5 — Afenda Docs reference blocks (`packages/ui` + Storybook)
 
-**Status:** Not started
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** Slice 4 runtime evidence — seed content sections = `Yes — Slice 4` in TIP runtime evidence table.
+
+#### Design (internal-guide)
+
+**Simplest path — strict `@afenda/docs` boundary preserved.**
+
+`@afenda/docs` keeps **zero** `@afenda/*` runtime workspace dependencies. No dependency-registry change. No import from docs → ui.
+
+**Instead:** build a **reference catalog** in `@afenda/ui`, preview in Storybook, **copy source** into `apps/docs` when a block is chosen.
+
+```text
+packages/ui/src/components/afenda-docs/     ← reference blocks (compose governed primitives)
+├── README.md                               ← copy workflow + token swap guide
+├── afenda-docs-preview.css                 ← Storybook preview tokens (porcelain-like)
+├── docs-guide-card-grid.tsx
+├── docs-guide-card-grid.stories.tsx        ← Storybook title: Afenda Docs / …
+├── docs-feature-strip.tsx
+├── docs-feature-strip.stories.tsx
+├── docs-steps-panel.tsx
+└── docs-steps-panel.stories.tsx
+
+apps/docs/                                  ← NO import from @afenda/ui
+└── (manual) copy chosen block → src/components/blocks/ + swap CSS to --docs-editorial-*
+```
+
+**Why `packages/ui` (not `apps/docs` first)**
+
+| Benefit | Detail |
+| ------- | ------ |
+| Storybook preview | Pick blocks visually before copying |
+| govern-primitive | Compositions use `@afenda/ui` Card/Badge/etc. with zero `className` on primitives |
+| afenda-ui-quality | Full Phase 3–5 normalization in ui layer |
+| shadcn-studio `/cui` `/iui` `/rui` | Generate/adapt in `afenda-docs/` — **not** `packages/appshell/` |
+| Docs boundary | Copy-paste adoption — no runtime edge |
+
+**Export policy:** Do **not** add `afenda-docs/*` to the main `@afenda/ui` public barrel (`src/index.ts`). Reference-only folder. Storybook discovers co-located `*.stories.tsx`.
+
+**shadcn-studio workflow (docs category)**
+
+1. `/iui` or `/cui` — collect layout inspiration (card grid, feature strip, steps)
+2. Implement in `packages/ui/src/components/afenda-docs/` composing governed primitives
+3. `/rui` — refine in place before Storybook sign-off
+4. **Do not** move docs blocks to `packages/appshell/src/shadcn-studio/blocks/`
+
+**Quality gates (ui layer)**
+
+- **govern-primitive consumer rules** on compositions — zero `className` on governed primitives
+- **afenda-ui-quality** Phase 3–5 — semantic wrapper classes in `afenda-docs-preview.css`
+- `pnpm --filter @afenda/ui check:governance`
+- `pnpm ui:guard:scan`
+
+**Copy workflow (document in `afenda-docs/README.md`)**
+
+1. Open Storybook → **Afenda Docs** category → choose variant
+2. Copy component file(s) to `apps/docs/src/components/blocks/`
+3. Copy CSS semantics; replace preview vars with `--docs-editorial-*` in `docs-editorial-blocks.css`
+4. Register in `apps/docs/src/components/mdx.tsx` + Fumadocs upstream components (`Cards`, `Steps`, …)
+5. Verify `pnpm quality:boundaries` — `@afenda/docs` still has zero `@afenda/*` runtime deps
+
+**Slice 5 does not require** copying blocks into `apps/docs` — follow-up manual step (or optional Slice 5.1).
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md
+
+1. Objective    — Create Afenda Docs reference block catalog in packages/ui (Storybook Afenda Docs category) from shadcn-studio /cui /iui layouts; govern compositions; document copy-to-apps/docs workflow without adding @afenda/docs runtime imports.
+2. Allowed layer— packages/ui/src/components/afenda-docs/
+3. Files        — packages/ui/src/components/afenda-docs/README.md (New)
+                  packages/ui/src/components/afenda-docs/afenda-docs-preview.css (New)
+                  packages/ui/src/components/afenda-docs/docs-guide-card-grid.tsx (New)
+                  packages/ui/src/components/afenda-docs/docs-guide-card-grid.stories.tsx (New)
+                  packages/ui/src/components/afenda-docs/docs-feature-strip.tsx (New)
+                  packages/ui/src/components/afenda-docs/docs-feature-strip.stories.tsx (New)
+                  packages/ui/src/components/afenda-docs/docs-steps-panel.tsx (New)
+                  packages/ui/src/components/afenda-docs/docs-steps-panel.stories.tsx (New)
+                  packages/ui/src/__tests__/governance/afenda-docs-composition.test.ts (New)
+                  packages/ui/src/__tests__/primitive-boundary.test.ts (Modified — afenda-docs folder policy)
+                  docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+4. Prohibited   — Adding @afenda/docs → @afenda/ui to dependency-registry.md
+                  Runtime import from apps/docs to @afenda/ui
+                  Exporting afenda-docs from packages/ui/src/index.ts main barrel
+                  Installing docs blocks to packages/appshell/ for Fumadocs delivery
+                  className on governed primitives inside afenda-docs compositions
+                  @afenda/erp, packages/database changes
+                  @afenda/accounting, Accounting Core (ADR-0010)
+5. Authority    — ADR-0001 Design Authority / TIP-004 composition rules / docs-editorial-design (token swap on copy) / shadcn-studio + govern-primitive + afenda-ui-quality
+6. Gates        — pnpm --filter @afenda/ui typecheck
+                  pnpm --filter @afenda/ui test:run
+                  pnpm --filter @afenda/ui check:governance
+                  pnpm ui:guard:scan
+                  pnpm --filter @afenda/storybook typecheck
+                  pnpm quality:boundaries
+                  pnpm check:documentation-drift
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+|---|-----------|------|
+| — | Afenda Docs reference blocks visible in Storybook | `pnpm --filter @afenda/storybook typecheck` |
+| — | Compositions pass governance (no className on primitives) | `pnpm ui:guard:scan` |
+| — | `@afenda/docs` boundary unchanged (zero runtime deps) | `pnpm quality:boundaries` |
+
+#### Known debt
+
+- Blocks not copied into `apps/docs` until author picks variants (manual or future Slice 5.1).
+- shadcn-studio Pro `/iui` may need license env from `.env.secret` for MCP collection.
+- Deploy target deferred to Slice 6.
+
+### Slice 6 — Deploy target (`@afenda/docs`)
+
+**Status:** Not started  
+**Prerequisite:** Slice 5 runtime evidence — Afenda Docs reference blocks in Storybook (`packages/ui/src/components/afenda-docs/`).
 
 Document or configure separate Vercel/preview deploy for `@afenda/docs`. No shared ERP secrets.
 
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md
+
+1. Objective    — Configure separate preview/production deploy for @afenda/docs with no ERP secret coupling.
+2. Allowed layer— apps/docs/ + docs/delivery/support/ (optional evidence doc)
+3. Files        — apps/docs/vercel.json or monorepo deploy config (New — as applicable)
+                  docs/delivery/support/fumadocs-docs-app-deploy.md (New — optional)
+                  docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+4. Prohibited   — Shared auth env with ERP; @afenda/database
+                  @afenda/accounting, Accounting Core (ADR-0010)
+5. Authority    — ADR-0001 Application Authority
+6. Gates        — pnpm --filter @afenda/docs build
+                  pnpm check:documentation-drift
+```
+
+#### Known debt
+
+- Production domain + env vars documented in deploy support doc.
 ---
 
 ## Handoff to implementation
@@ -605,21 +745,14 @@ See **§Slices → Slice 3** above for the canonical handoff block.
 
 See **§Slices → Slice 4** above for the canonical handoff block (includes §9 documentation sync files).
 
-### Slice 5 — Deploy target
+### Slice 5 — Afenda Docs reference blocks (`packages/ui`)
 
-```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md (Slice 5)
+See **§Slices → Slice 5** above. Storybook catalog in `packages/ui/src/components/afenda-docs/`; copy to `apps/docs` manually — no import, no registry change.
 
-1. Objective    — Configure separate preview/production deploy for @afenda/docs with no ERP secret coupling.
-2. Allowed layer— apps/docs/ + docs/delivery/support/ (optional evidence doc)
-3. Files        — apps/docs/vercel.json or monorepo deploy config (New — as applicable)
-                  docs/delivery/support/fumadocs-docs-app-deploy.md (New — optional)
-4. Prohibited   — Shared auth env with ERP; @afenda/database
-5. Authority    — ADR-0001 Application Authority
-6. Gates        — pnpm --filter @afenda/docs build
-                  pnpm check:documentation-drift
-```
+### Slice 6 — Deploy target
+
+See **§Slices → Slice 6** above for the canonical handoff block.
 
 ## Verdict
 
-Slice 3.9 delivered — porcelain/graphite material palette. **Next action:** TIP-032 Slice 4 (seed content + TS hygiene) or Slice 5 (deploy).
+Slice 5 delivered — Afenda Docs reference catalog in Storybook. **Next action:** TIP-032 Slice 6 (deploy) or optional Slice 5.1 (copy chosen blocks into `apps/docs`).

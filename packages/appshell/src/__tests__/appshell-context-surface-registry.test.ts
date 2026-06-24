@@ -4,7 +4,7 @@ import {
   APPSHELL_CONTEXT_CONSUMPTION_MODULES,
   APPSHELL_CONTEXT_SURFACE_RULE,
   APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES,
-} from "../context/appshell-context-surface-registry.js";
+} from "../contracts/context.contract.js";
 
 describe("appshell-context-surface-registry", () => {
   it("declares consume-only context surface rule", () => {

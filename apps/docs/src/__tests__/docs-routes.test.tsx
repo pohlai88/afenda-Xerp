@@ -1,4 +1,10 @@
-import { describe, expect, it } from "vitest";
+import type { ReactNode } from "react";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("fumadocs-ui/components/image-zoom", () => ({
+  ImageZoom: ({ children }: { children: ReactNode }) => children,
+}));
+
 import { getMDXComponents } from "@/components/mdx";
 import { baseOptions } from "@/lib/layout.shared";
 

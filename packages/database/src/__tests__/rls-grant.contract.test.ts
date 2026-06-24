@@ -106,6 +106,100 @@ describe("rls grant contract", () => {
     ).toBe(false);
   });
 
+  it("entity group grant covers legal entities in the same group only", () => {
+    const entityGroupMembership = {
+      scopeType: "entity_group" as const,
+      companyId: null,
+      entityGroupId: "group-001",
+      organizationId: null,
+    };
+
+    expect(
+      membershipMatchesGrantScope(entityGroupMembership, {
+        entityGroupId: "group-001",
+        companyId: COMPANY_A,
+        organizationId: ORG_A,
+      })
+    ).toBe(true);
+
+    expect(
+      membershipMatchesGrantScope(entityGroupMembership, {
+        entityGroupId: "group-002",
+        companyId: COMPANY_B,
+        organizationId: null,
+      })
+    ).toBe(false);
+
+    expect(
+      membershipMatchesGrantScope(entityGroupMembership, {
+        entityGroupId: null,
+        companyId: null,
+        organizationId: null,
+      })
+    ).toBe(false);
+  });
+
+  it("project grant covers matching project only", () => {
+    const projectMembership = {
+      scopeType: "project" as const,
+      companyId: null,
+      entityGroupId: null,
+      organizationId: null,
+      projectId: "project-001",
+    };
+
+    expect(
+      membershipMatchesGrantScope(projectMembership, {
+        projectId: "project-001",
+        companyId: COMPANY_A,
+        organizationId: ORG_A,
+      })
+    ).toBe(true);
+
+    expect(
+      membershipMatchesGrantScope(projectMembership, {
+        projectId: "project-002",
+        companyId: COMPANY_A,
+        organizationId: null,
+      })
+    ).toBe(false);
+  });
+
+  it("resolves project grant scope type", () => {
+    expect(
+      resolveRlsGrantScopeType({
+        roleScope: "tenant",
+        membership: {
+          scopeType: "project",
+          companyId: null,
+          entityGroupId: null,
+          organizationId: null,
+          projectId: "project-001",
+          tenantId: TENANT_ID,
+          membershipId: MEMBERSHIP_ID,
+          roleId: ROLE_ID,
+        },
+      })
+    ).toBe("project");
+  });
+
+  it("resolves entity_group grant scope type", () => {
+    expect(
+      resolveRlsGrantScopeType({
+        roleScope: "tenant",
+        membership: {
+          scopeType: "entity_group",
+          companyId: null,
+          entityGroupId: "group-001",
+          organizationId: null,
+          tenantId: TENANT_ID,
+          membershipId: MEMBERSHIP_ID,
+          roleId: ROLE_ID,
+        },
+      })
+    ).toBe("entity_group");
+  });
+
   it("resolves grant scope for permission checks with RLS filter dimensions", () => {
     const resolved = resolveRlsGrantScope({
       roleScope: "company",

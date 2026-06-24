@@ -17,18 +17,22 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out', '.source']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
+    "d3-force": "^3.0.0",
     "fumadocs-core": "^16.10.5",
     "fumadocs-mdx": "^15.0.12",
+    "fumadocs-typescript": "^5.2.6",
     "fumadocs-ui": "^16.10.5",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-force-graph-2d": "^1.29.1"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.3.1",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
+    "@types/d3-force": "^3.0.10",
     "@types/mdx": "^2.0.14",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

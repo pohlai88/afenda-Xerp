@@ -50,8 +50,10 @@ export interface BridgePermissionRow {
 
 export interface BridgeMembershipRow {
   readonly companyId: string | null;
+  readonly entityGroupId: string | null;
   readonly id: string;
   readonly organizationId: string | null;
+  readonly projectId: string | null;
   readonly roleId: string;
   readonly scopeType: string;
   readonly status: string;

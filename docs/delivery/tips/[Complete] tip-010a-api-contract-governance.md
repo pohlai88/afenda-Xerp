@@ -46,7 +46,7 @@ Complements [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-r
 | Envelope contracts | `apps/erp/src/server/api/contracts/api-envelope.contract.ts` | Yes |
 | Contract registry + handler bindings | `apps/erp/src/server/api/contracts/api-contract-registry.ts` | **Yes** — Slice 1 |
 | Method policy contract | `apps/erp/src/server/api/contracts/method-policy.contract.ts` | **Yes** — Slice 1 |
-| Route coverage validation | `apps/erp/src/server/api/contracts/api-route-coverage.ts`, `scripts/api-contract/governed-api-routes.mts` | **Yes** — Slice 1 |
+| Route coverage validation | `apps/erp/src/server/api/contracts/api-route-coverage.ts` (canonical); `scripts/api-contract/check-api-contracts.mts` imports canonical module; `governed-api-routes.mts` re-exports for CI evidence path | **Yes** — Slice 1 + TIP-007/012 Slice B closeout |
 | createApiHandler | `apps/erp/src/server/api/runtime/create-api-handler.ts` | Yes |
 | API contract check | `scripts/api-contract/check-api-contracts.mts` | **Yes** — registry + method policy |
 | Registry tests | `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | **Yes** — Slice 1 |

@@ -238,4 +238,92 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
       `DROP TYPE IF EXISTS "public"."outbox_status"`,
     ],
   },
+  "20260624100000_entity_group_membership_scope": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'memberships'
+        AND column_name = 'entity_group_id'
+    ) AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_enum e
+      JOIN pg_type t ON e.enumtypid = t.oid
+      WHERE t.typname = 'membership_scope'
+        AND e.enumlabel = 'entity_group'
+    ) AS partial`,
+    partialCleanup: [
+      `DROP INDEX IF EXISTS "memberships_entity_group_scope_unique"`,
+      `DROP INDEX IF EXISTS "memberships_entity_group_id_idx"`,
+      `ALTER TABLE "memberships" DROP CONSTRAINT IF EXISTS "memberships_entity_group_id_entity_groups_id_fk"`,
+      `ALTER TABLE "memberships" DROP COLUMN IF EXISTS "entity_group_id"`,
+    ],
+  },
+  "20260624120000_project_team_foundation": {
+    completeProbe: `
+    SELECT (
+      to_regclass('public.projects') IS NOT NULL
+      AND to_regclass('public.teams') IS NOT NULL
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'memberships'
+          AND column_name = 'project_id'
+      )
+    ) AS ok`,
+    partialProbe: `
+    SELECT (
+      to_regtype('public.project_lifecycle_status') IS NOT NULL
+      OR to_regclass('public.projects') IS NOT NULL
+    ) AS partial`,
+    partialCleanup: [
+      `DROP INDEX IF EXISTS "memberships_project_scope_unique"`,
+      `DROP INDEX IF EXISTS "memberships_project_id_idx"`,
+      `ALTER TABLE "memberships" DROP CONSTRAINT IF EXISTS "memberships_project_id_projects_id_fk"`,
+      `ALTER TABLE "memberships" DROP COLUMN IF EXISTS "project_id"`,
+      `DROP TABLE IF EXISTS "teams" CASCADE`,
+      `DROP TABLE IF EXISTS "projects" CASCADE`,
+      `DROP TYPE IF EXISTS "public"."project_lifecycle_status"`,
+    ],
+  },
+  "20260624140000_team_membership_scope": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'memberships'
+        AND column_name = 'team_id'
+    ) AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_enum e
+      JOIN pg_type t ON e.enumtypid = t.oid
+      WHERE t.typname = 'membership_scope'
+        AND e.enumlabel = 'team'
+    ) AS partial`,
+    partialCleanup: [
+      `DROP INDEX IF EXISTS "memberships_team_scope_unique"`,
+      `DROP INDEX IF EXISTS "memberships_team_id_idx"`,
+      `ALTER TABLE "memberships" DROP CONSTRAINT IF EXISTS "memberships_team_id_teams_id_fk"`,
+      `ALTER TABLE "memberships" DROP COLUMN IF EXISTS "team_id"`,
+    ],
+  },
+  "20260624150000_tenant_rls_completion": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_policies
+      WHERE schemaname = 'public'
+        AND tablename = 'projects'
+        AND policyname = 'projects_tenant_isolation'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

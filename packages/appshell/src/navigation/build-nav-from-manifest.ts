@@ -1,62 +1,30 @@
 import type {
-  AppShellMenuItem,
   AppShellNavIconId,
   AppShellNavItemSerializable,
-} from "../shadcn-studio/data/app-shell.data";
+  ManifestModuleId,
+  ManifestNavProjectionInput,
+} from "../contracts/navigation.contract.js";
+import {
+  isManifestModuleId,
+  MANIFEST_MODULE_IDS,
+  MANIFEST_MODULE_NAV_ICON_MAP,
+} from "../contracts/navigation.contract.js";
+import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
 import { resolveAppShellNavIcon } from "../shadcn-studio/data/app-shell.data";
 
-/**
- * Governed ERP module identifiers — must stay aligned with
- * `@afenda/entitlements` `ErpModuleId` (validated in navigation tests).
- */
-export type ManifestModuleId =
-  | "accounting"
-  | "ai_copilot"
-  | "hrm"
-  | "inventory"
-  | "manufacturing"
-  | "mrp"
-  | "sales"
-  | "workspace";
+export type {
+  ManifestModuleId,
+  ManifestNavModuleEntry,
+} from "../contracts/navigation.contract.js";
 
-export interface ManifestNavModuleEntry {
-  readonly label: string;
-  readonly moduleId: ManifestModuleId;
-  readonly permissionKey: string;
-  readonly routePath: string;
-}
+export type BuildNavFromManifestInput = ManifestNavProjectionInput;
 
-export interface BuildNavFromManifestInput {
-  readonly grantedPermissionKeys: ReadonlySet<string>;
-  readonly modules: readonly ManifestNavModuleEntry[];
-}
-
-const MODULE_NAV_ICON = {
-  workspace: "dashboard",
-  accounting: "bar-chart-3",
-  hrm: "users",
-  inventory: "boxes",
-  manufacturing: "building",
-  mrp: "building",
-  sales: "shopping-bag",
-  ai_copilot: "book-open",
-} satisfies Record<ManifestModuleId, AppShellNavIconId>;
-
-const manifestModuleIdLookup = new Set<string>(Object.keys(MODULE_NAV_ICON));
-
-/** Governed module ids — keep aligned with `@afenda/entitlements` `ErpModuleId`. */
-export const MANIFEST_MODULE_IDS = Object.freeze(
-  Object.keys(MODULE_NAV_ICON) as ManifestModuleId[]
-);
-
-export function isManifestModuleId(value: string): value is ManifestModuleId {
-  return manifestModuleIdLookup.has(value);
-}
+export { isManifestModuleId, MANIFEST_MODULE_IDS };
 
 export function resolveManifestModuleNavIcon(
   moduleId: ManifestModuleId
 ): AppShellNavIconId {
-  return MODULE_NAV_ICON[moduleId];
+  return MANIFEST_MODULE_NAV_ICON_MAP[moduleId];
 }
 
 export function hasManifestModuleAccess(
@@ -67,7 +35,7 @@ export function hasManifestModuleAccess(
 }
 
 export function buildManifestNavigation(
-  input: BuildNavFromManifestInput
+  input: ManifestNavProjectionInput
 ): readonly AppShellNavItemSerializable[] {
   return input.modules
     .filter((entry) =>
@@ -101,7 +69,7 @@ export function hydrateManifestNavigation(
 }
 
 export function buildHydratedManifestNavigation(
-  input: BuildNavFromManifestInput
+  input: ManifestNavProjectionInput
 ): readonly AppShellMenuItem[] {
   return hydrateManifestNavigation(buildManifestNavigation(input));
 }

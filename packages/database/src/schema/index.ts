@@ -14,6 +14,7 @@ import { organizations } from "./organization.schema.js";
 import { outboxEvents } from "./outbox.schema.js";
 import { permissions } from "./permission.schema.js";
 import { policies } from "./policy.schema.js";
+import { projects } from "./project.schema.js";
 import { roles } from "./role.schema.js";
 import { rolePermissions } from "./role-permission.schema.js";
 import {
@@ -21,6 +22,7 @@ import {
   platformKillSwitches,
 } from "./rollout.schema.js";
 import { storageObjects } from "./storage.schema.js";
+import { teams } from "./team.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
@@ -40,9 +42,11 @@ export const platformSchema = {
   platformFeatureFlags,
   platformKillSwitches,
   policies,
+  projects,
   rolePermissions,
   roles,
   storageObjects,
+  teams,
   tenantCommercialPlans,
   tenants,
   usageLimitCounters,
@@ -73,6 +77,7 @@ export {
   policyEffectEnum,
   policyScopeEnum,
   policyStatusEnum,
+  projectLifecycleStatusEnum,
   roleScopeEnum,
   roleStatusEnum,
   storageProviderEnum,
@@ -110,6 +115,7 @@ export {
 } from "./outbox.schema.js";
 export { permissions } from "./permission.schema.js";
 export { policies } from "./policy.schema.js";
+export { projects } from "./project.schema.js";
 export { roles } from "./role.schema.js";
 export { rolePermissions } from "./role-permission.schema.js";
 export {
@@ -117,5 +123,6 @@ export {
   platformKillSwitches,
 } from "./rollout.schema.js";
 export { storageObjects } from "./storage.schema.js";
+export { teams } from "./team.schema.js";
 export { tenants } from "./tenant.schema.js";
 export { users } from "./user.schema.js";

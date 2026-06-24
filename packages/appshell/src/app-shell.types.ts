@@ -1,6 +1,9 @@
-import type { UserId } from "@afenda/kernel";
 import type { Density } from "@afenda/ui/governance";
 import type { ReactNode } from "react";
+import type {
+  ApplicationShellIdentity,
+  ApplicationShellOperatingContext,
+} from "./contracts/context.contract.js";
 import {
   DEFAULT_APPLICATION_SHELL_ROLE_LABEL,
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
@@ -10,21 +13,10 @@ import type {
   AppShellRecipientItem,
 } from "./shadcn-studio/data/app-shell.data";
 
-/** Serializable operating context labels for shell chrome — display only, no authority. */
-export interface ApplicationShellOperatingContext {
-  readonly entityGroupLabel?: string;
-  readonly legalEntityLabel: string;
-  readonly organizationUnitLabel?: string;
-  readonly tenantLabel: string;
-  readonly workspaceLabel: string;
-}
-
-/** Serializable identity surface for shell chrome — boundary-safe, no session fields. */
-export interface ApplicationShellIdentity {
-  readonly displayName: string;
-  readonly email: string;
-  readonly userId: UserId;
-}
+export type {
+  ApplicationShellIdentity,
+  ApplicationShellOperatingContext,
+} from "./contracts/context.contract.js";
 
 /** Default chrome labels and links — single source for shell + Storybook args. */
 export const DEFAULT_APPLICATION_SHELL_PROPS = {

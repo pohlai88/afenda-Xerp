@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { AppShellNavItemSerializable } from "../../shadcn-studio/data/app-shell.data";
-import type { ManifestNavModuleEntry } from "../build-nav-from-manifest";
+import type { AppShellNavItemSerializable } from "../../contracts/navigation.contract.js";
+import type { ManifestNavModuleEntry } from "../../contracts/navigation.contract.js";
 import {
   buildHydratedManifestNavigation,
   buildManifestNavigation,

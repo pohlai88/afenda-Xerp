@@ -95,8 +95,12 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "tip-ui-05-stale-status",
   },
   {
-    file: "docs/delivery/tips/[Partially Implemented] tip-006-appshell-authority.md",
-    forbidden: ["Verdict\n\nNot started — awaiting implementation PR"],
+    file: "docs/delivery/tips/[Complete] tip-006-appshell-authority.md",
+    forbidden: [
+      "**Status** | **Partially Implemented**",
+      "Authority contracts not frozen",
+      "Verdict\n\n**Partially Implemented**",
+    ],
     rule: "tip-006-stale-verdict",
   },
   {

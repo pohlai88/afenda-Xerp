@@ -20,13 +20,42 @@ export {
 } from "./app-shell.types";
 export type { AppShellMainGovernedComponents } from "./app-shell-main";
 export { AppShellMain } from "./app-shell-main";
+export type {
+  ApplicationShellRootGovernedComponentName,
+  AppShellChromeRegion,
+  AppShellCommandCenterSearchLabelKey,
+  AppShellCommandCenterSearchLabels,
+  AppShellContextSurfaceRule,
+  AppShellContextSwitchSelection,
+  AppShellHeaderCommandCenterSlot,
+  AppShellHeaderGovernedComponentName,
+  AppShellMainGovernedComponentName,
+  AppShellMainSlot,
+  AppShellSearchDialogGovernedComponentName,
+  AppShellSidebarSlot,
+  ManifestNavProjectionInput,
+} from "./contracts/index.js";
 export {
+  APPLICATION_SHELL_ROOT_GOVERNED_COMPONENT_NAMES,
   APPSHELL_APPROVED_RUNTIME_DEPENDENCIES,
+  APPSHELL_CHROME_REGIONS,
+  APPSHELL_COMMAND_CENTER_SEARCH_LABEL_KEYS,
   APPSHELL_CONTEXT_CONSUMPTION_MODULES,
   APPSHELL_CONTEXT_SURFACE_RULE,
   APPSHELL_FORBIDDEN_AUTHORITY_DEPENDENCIES,
   APPSHELL_FORBIDDEN_AUTHORITY_SYMBOLS,
-} from "./context/index.js";
+  APPSHELL_HEADER_COMMAND_CENTER_SLOTS,
+  APPSHELL_HEADER_GOVERNED_COMPONENT_NAMES,
+  APPSHELL_MAIN_GOVERNED_COMPONENT_NAMES,
+  APPSHELL_MAIN_SLOTS,
+  APPSHELL_NAV_ICON_IDS,
+  APPSHELL_SEARCH_DIALOG_GOVERNED_COMPONENT_NAMES,
+  APPSHELL_SIDEBAR_SLOTS,
+  isAppShellChromeRegion,
+  isAppShellHeaderCommandCenterSlot,
+  isAppShellNavIconId,
+  MANIFEST_MODULE_NAV_ICON_MAP,
+} from "./contracts/index.js";
 export type {
   ApplicationShellDashboardCanvasProps,
   ApplicationShellDashboardDemoProps,
@@ -94,7 +123,6 @@ export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-sh
 export {
   AppShellContextSwitcher,
   type AppShellContextSwitcherGovernedComponents,
-  type AppShellContextSwitchSelection,
 } from "./shadcn-studio/blocks/app-shell-context-switcher";
 export type { AppShellDashboardStatisticsLineTrendsGovernedComponents } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
 export {

@@ -8,7 +8,7 @@ import {
   type EnqueueOutboxEventInput,
   type EnqueueOutboxEventResult,
   enqueueOutboxEvent,
-} from "./enqueue-outbox-event.server.js";
+} from "@/lib/outbox/enqueue-outbox-event.server";
 
 export const WORKSPACE_DASHBOARD_LAYOUT_UPDATED_EVENT =
   "workspace.dashboard.layout.updated" as const;

@@ -40,7 +40,10 @@ export class MembershipRoleScopeError extends Error {
 
 export interface MembershipWriteInput {
   readonly companyId?: string | null;
+  readonly entityGroupId?: string | null;
   readonly organizationId?: string | null;
+  readonly projectId?: string | null;
+  readonly teamId?: string | null;
   readonly roleId: string;
   readonly scopeType: MembershipScopeType;
   readonly status?: MembershipStatus;
@@ -50,7 +53,10 @@ export interface MembershipWriteInput {
 
 export interface MembershipInsertRow {
   companyId: string | null;
+  entityGroupId: string | null;
   organizationId: string | null;
+  projectId: string | null;
+  teamId: string | null;
   roleId: string;
   scopeType: MembershipScopeType;
   status: MembershipStatus;
@@ -67,37 +73,105 @@ const ROLE_SCOPE_BY_MEMBERSHIP_SCOPE: Record<
   readonly RoleScope[]
 > = {
   tenant: ["tenant", "platform"],
+  entity_group: ["tenant", "platform"],
   company: ["company", "tenant", "platform"],
   organization: ["organization", "company", "tenant", "platform"],
+  project: ["tenant", "platform"],
+  team: ["tenant", "platform"],
 };
 
 /** Validates nullable scope columns match explicit scope type. */
 export function assertMembershipScopeShape(
   scopeType: MembershipScopeType,
   companyId: string | null,
-  organizationId: string | null
+  organizationId: string | null,
+  entityGroupId: string | null = null,
+  projectId: string | null = null,
+  teamId: string | null = null
 ): void {
   if (scopeType === "tenant") {
-    if (companyId !== null || organizationId !== null) {
+    if (
+      companyId !== null ||
+      organizationId !== null ||
+      entityGroupId !== null ||
+      projectId !== null ||
+      teamId !== null
+    ) {
       throw new MembershipScopeValidationError(
-        "Tenant-scoped memberships must not set companyId or organizationId."
+        "Tenant-scoped memberships must not set companyId, entityGroupId, organizationId, projectId, or teamId."
+      );
+    }
+    return;
+  }
+
+  if (scopeType === "entity_group") {
+    if (
+      !entityGroupId ||
+      companyId !== null ||
+      organizationId !== null ||
+      projectId !== null ||
+      teamId !== null
+    ) {
+      throw new MembershipScopeValidationError(
+        "Entity-group-scoped memberships require entityGroupId and must not set companyId, organizationId, projectId, or teamId."
       );
     }
     return;
   }
 
   if (scopeType === "company") {
-    if (!companyId || organizationId !== null) {
+    if (
+      !companyId ||
+      organizationId !== null ||
+      entityGroupId !== null ||
+      projectId !== null ||
+      teamId !== null
+    ) {
       throw new MembershipScopeValidationError(
-        "Company-scoped memberships require companyId and must not set organizationId."
+        "Company-scoped memberships require companyId and must not set entityGroupId, organizationId, projectId, or teamId."
       );
     }
     return;
   }
 
-  if (!(companyId && organizationId)) {
+  if (scopeType === "project") {
+    if (
+      !projectId ||
+      companyId !== null ||
+      organizationId !== null ||
+      entityGroupId !== null ||
+      teamId !== null
+    ) {
+      throw new MembershipScopeValidationError(
+        "Project-scoped memberships require projectId and must not set companyId, organizationId, entityGroupId, or teamId."
+      );
+    }
+    return;
+  }
+
+  if (scopeType === "team") {
+    if (
+      !teamId ||
+      companyId !== null ||
+      organizationId !== null ||
+      entityGroupId !== null ||
+      projectId !== null
+    ) {
+      throw new MembershipScopeValidationError(
+        "Team-scoped memberships require teamId and must not set companyId, organizationId, entityGroupId, or projectId."
+      );
+    }
+    return;
+  }
+
+  if (
+    !(companyId && organizationId) ||
+    entityGroupId !== null ||
+    projectId !== null ||
+    teamId !== null
+  ) {
     throw new MembershipScopeValidationError(
-      "Organization-scoped memberships require both companyId and organizationId."
+      "Organization-scoped memberships require both companyId and organizationId and must not set entityGroupId, projectId, or teamId."
     );
   }
 }
@@ -119,14 +193,27 @@ export function buildMembershipInsertRow(
   input: MembershipWriteInput
 ): MembershipInsertRow {
   const companyId = input.companyId ?? null;
+  const entityGroupId = input.entityGroupId ?? null;
   const organizationId = input.organizationId ?? null;
+  const projectId = input.projectId ?? null;
+  const teamId = input.teamId ?? null;
 
-  assertMembershipScopeShape(input.scopeType, companyId, organizationId);
+  assertMembershipScopeShape(
+    input.scopeType,
+    companyId,
+    organizationId,
+    entityGroupId,
+    projectId,
+    teamId
+  );
 
   return {
     tenantId: input.tenantId,
     companyId,
+    entityGroupId,
     organizationId,
+    projectId,
+    teamId,
     userId: input.userId,
     roleId: input.roleId,
     scopeType: input.scopeType,
@@ -155,7 +242,10 @@ export function buildMembershipScopeKey(
     | "userId"
     | "tenantId"
     | "companyId"
+    | "entityGroupId"
     | "organizationId"
+    | "projectId"
+    | "teamId"
     | "roleId"
     | "scopeType"
   >
@@ -165,7 +255,10 @@ export function buildMembershipScopeKey(
     membership.tenantId,
     membership.scopeType,
     membership.companyId ?? "",
+    membership.entityGroupId ?? "",
     membership.organizationId ?? "",
+    membership.projectId ?? "",
+    membership.teamId ?? "",
     membership.roleId,
   ].join(":");
 }

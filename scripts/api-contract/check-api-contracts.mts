@@ -1,28 +1,26 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import {
-  collectRouteFiles,
-  isAllowlistedRoute,
-  isGovernedRouteSource,
-  validateApiContractRegistryCoverage,
-} from "./governed-api-routes.mts";
+import type * as RouteCoverage from "../../apps/erp/src/server/api/contracts/api-route-coverage.ts";
 
 const repoRoot = join(import.meta.dirname, "../..");
 const apiRoot = join(repoRoot, "apps/erp/src/app/api");
 const DIRECT_RESPONSE_JSON_PATTERN = /Response\.json\s*\(/;
 
-function collectRouteBoundaryViolations(apiRootPath: string): string[] {
+function collectRouteBoundaryViolations(
+  apiRootPath: string,
+  routeCoverage: typeof RouteCoverage
+): string[] {
   const violations: string[] = [];
 
-  for (const filePath of collectRouteFiles(apiRootPath)) {
-    if (isAllowlistedRoute(filePath)) {
+  for (const filePath of routeCoverage.collectRouteFiles(apiRootPath)) {
+    if (routeCoverage.isAllowlistedRoute(filePath)) {
       continue;
     }
 
     const source = readFileSync(filePath, "utf8");
 
-    if (!isGovernedRouteSource(source)) {
+    if (!routeCoverage.isGovernedRouteSource(source)) {
       violations.push(`${filePath}: missing createApiHandler`);
     }
 
@@ -63,7 +61,11 @@ function collectContractPolicyViolations(
 }
 
 async function main(): Promise<void> {
-  const violations = collectRouteBoundaryViolations(apiRoot);
+  const routeCoverage = await import(
+    "../../apps/erp/src/server/api/contracts/api-route-coverage.ts"
+  );
+
+  const violations = collectRouteBoundaryViolations(apiRoot, routeCoverage);
 
   const [apiContractRegistry, methodPolicy, idempotencyPolicy] =
     await Promise.all([
@@ -84,7 +86,7 @@ async function main(): Promise<void> {
   );
 
   violations.push(
-    ...validateApiContractRegistryCoverage({
+    ...routeCoverage.validateApiContractRegistryCoverage({
       apiRoot,
       contractExports: apiContractRegistry.GOVERNED_ROUTE_CONTRACT_EXPORTS,
       registryContracts: apiContractRegistry.API_CONTRACTS,

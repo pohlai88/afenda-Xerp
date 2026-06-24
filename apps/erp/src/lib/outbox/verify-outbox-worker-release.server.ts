@@ -11,12 +11,12 @@ import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging
 import {
   assertWorkerReleaseStartupPolicy,
   type ExecutionSpinePolicy,
-} from "./execution-spine-policy.server.js";
+} from "@/lib/outbox/execution-spine-policy.server";
 import {
   recordWorkerReleaseCheckFailure,
   recordWorkerReleaseCheckSkipped,
   recordWorkerReleaseCheckSuccess,
-} from "./execution-spine-state.server.js";
+} from "@/lib/outbox/execution-spine-state.server";
 
 const workerReleaseLogger = createApiHandlerLogger("outbox-worker-release");
 

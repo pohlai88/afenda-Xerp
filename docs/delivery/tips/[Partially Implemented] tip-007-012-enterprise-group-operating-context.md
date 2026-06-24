@@ -1,5 +1,14 @@
 # TIP-007 / TIP-012 — Enterprise Group Operating Context
 
+| Field | Value |
+| --- | --- |
+| **Status** | Partially Implemented |
+| **Authority status** | **Accepted** — Architecture Authority multi-tenancy foundation (ADR-0001 Phase 1/2) |
+| **Runtime evidence** | `packages/kernel/src/context/`, `packages/database/src/tenant-domain/`, `apps/erp/src/lib/context/`, `apps/erp/src/proxy.ts` |
+| **Status source** | [`afenda-runtime-truth-matrix.md`](../../architecture/afenda-runtime-truth-matrix.md) |
+| **Foundation phase** | Phase 1 / Phase 2 — Multi-tenancy operating context |
+| **Remaining gap** | Consolidation computation depth (TIP-008A); org `type=team` migration to dedicated table |
+
 > Delivery evidence for the multi-tenancy operating-context foundation slice.
 > Canonical path referenced from `docs/architecture/multi-tenancy.md` (§428–430).
 > Surface rule: `tip-007-012-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation`
@@ -11,7 +20,93 @@
 > Enterprise acceptance rule: `multi-tenancy-enterprise-acceptance-is-canonical-slice-completion-matrix`
 > Testing/verification rule: `multi-tenancy-testing-verification-acceptance-is-canonical-slice-signoff-matrix`
 > Final output format rule: `multi-tenancy-final-output-format-is-canonical-delivery-doc-shape`
-> Revision: 2026-06-22
+> Revision: 2026-06-24
+
+## Purpose
+
+Deliver the Afenda ERP Enterprise Group Operating Context foundation: multi-tenancy, multi-level companies, holding structures, RLS grants, and accounting-readiness contracts without implementing accounting business logic.
+
+ADR-0001 authority: Phase 1 Foundation Redefinition — kernel contracts, database persistence, ERP request integration, permissions scope/grants, and AppShell display-only consumption are owned by their respective packages per [`multi-tenancy.md`](../../architecture/multi-tenancy.md).
+
+Master implementation guide: [`docs/architecture/multi-tenancy.md`](../../architecture/multi-tenancy.md) (Steps 1–10 + enterprise acceptance).
+
+## Scope
+
+**In scope**
+
+- 11-term glossary with do-not-confuse boundaries and CI gate
+- Serializable kernel operating-context contracts (`@afenda/kernel`)
+- Tenant-domain persistence, lookup adapters, and workspace resolution (`@afenda/database`)
+- Tenant subdomain / path slug resolution — tenant only (`apps/erp/src/proxy.ts`)
+- Fail-closed operating context resolver with membership verification
+- Permissions scope/grants barrels (`tenant | company | organization`)
+- API/action/AppShell integration with untrusted-field rejection
+- Entity group / ownership authority stubs (schema + contracts — no consolidation math)
+- Multi-tenancy governance quality chain (22 surface gates)
+- Delivery evidence doc (this file)
+
+**Out of scope**
+
+- Accounting journals, ledgers, consolidation posting logic, or TIP-013 domains (ADR-0010)
+- Active `entity_group` / `project` membership scope enforcement (TIP-008 / TIP-030)
+- 100% non-auth API route contract registry (TIP-010A follow-on)
+- Dedicated `teams` / `projects` tables (TIP-030)
+- Supabase RLS policy completion (defense-in-depth follow-on)
+
+## Runtime evidence (2026-06-24)
+
+| Artifact | Path | Proven |
+| --- | --- | --- |
+| Kernel context contracts | `packages/kernel/src/context/**` | Yes — Steps 3–4 |
+| Context registry + barrel | `packages/kernel/src/context/context-registry.ts`, `index.ts` | Yes |
+| Tenant-domain modules | `packages/database/src/tenant-domain/**` | Yes — Step 5 |
+| Workspace lookup | `packages/database/src/tenant-domain/workspace-lookup.service.ts` | Yes |
+| Permissions scope/grants | `packages/permissions/src/scope/**`, `src/grants/**` | Yes |
+| Tenant subdomain proxy | `apps/erp/src/proxy.ts` | Yes — Step 6 |
+| Operating context resolver | `apps/erp/src/lib/context/resolve-operating-context.server.ts` | Yes — Step 7 |
+| API/action integration | `apps/erp/src/server/api/runtime/create-api-handler.ts`, `context-switch.action.ts` | Yes — Step 8 |
+| AppShell display context | `packages/appshell/src/context/**`, `(protected)/layout.tsx` | Yes |
+| Governance gates | `scripts/governance/check-multi-tenancy-*.mts` | Yes — Steps 9–10 |
+| Multi-tenancy contract tests | `apps/erp/src/__tests__/operating-context*.test.ts`, `packages/database/src/__tests__/*.contract.test.ts` | Yes |
+
+## Package ownership
+
+| Package | Role |
+| --- | --- |
+| `@afenda/kernel` (PKG-010) | Serializable operating-context contracts |
+| `@afenda/database` (PKG-011) | Tenant-domain persistence and lookup adapters |
+| `@afenda/permissions` (PKG-014) | Scope resolution and grant decisions |
+| `@afenda/appshell` (PKG-001) | Display-only operating context consumption |
+| `@afenda/observability` (PKG-012) | Audit/logging adapter injection |
+| `@afenda/architecture-authority` | Registry alignment and dependency enforcement |
+| `@afenda/erp` (PKG-007) | Next.js request integration, proxy, resolvers, API wiring |
+
+## Depends on
+
+- TIP-006 AppShell Authority (Complete) — shell context display contracts
+- TIP-010 Identity & Authorization (partial) — `authorizeApiRoute`, RBAC wiring
+- ADR-0001 Phase 1 Foundation Redefinition
+
+## Blocks
+
+- Foundation Phase 1 / Phase 2 multi-tenancy gate
+- TIP-008 Entity Group consolidation scope (authority stubs delivered here)
+- TIP-010A API Contract Governance — operating context required on all governed routes
+- TIP-013 System Admin — tenant/company context resolution
+- Foundation Phase 9 Accounting Readiness Gate (ADR-0010) — identity model only
+
+## Deliverables
+
+| File / path | Package | Layer | Status | Boundary approval |
+| --- | --- | --- | --- | --- |
+| `packages/kernel/src/context/**` | `@afenda/kernel` | Kernel | **Delivered** | Kernel Authority |
+| `packages/database/src/tenant-domain/**` | `@afenda/database` | Persistence | **Delivered** | Database Authority |
+| `packages/permissions/src/scope/**`, `src/grants/**` | `@afenda/permissions` | Authorization | **Delivered** | Permission Authority |
+| `packages/appshell/src/context/**` | `@afenda/appshell` | ERPSpine | **Delivered** | ERP Spine (TIP-006) |
+| `apps/erp/src/proxy.ts`, `src/lib/context/**` | `@afenda/erp` | Application | **Delivered** | Application Authority |
+| `apps/erp/src/server/api/runtime/create-api-handler.ts` | `@afenda/erp` | Application | **Delivered** | Application Authority |
+| `scripts/governance/check-multi-tenancy-*.mts` | scripts | CI | **Delivered** | Architecture Authority |
+| `docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md` | docs | Delivery | **Delivered** | Architecture Authority |
 
 ## Executive summary
 
@@ -1054,14 +1149,17 @@ pnpm quality
 
 ## Remaining gaps
 
-| Gap | Target TIP | Notes |
+> **TIP-007/012 in-repo slices A–B are delivered.** Rows below are **deferred ownership** — implement only under the owning TIP, not as further slices here.
+
+| Gap | Target TIP | Status / notes |
 | --- | --- | --- |
-| Group-level membership scope enforcement | TIP-008 | Registry stub present |
-| Consolidation scope computation | TIP-008 | Authority only today |
-| Dedicated `teams` / `projects` tables | TIP-030 | Org `type=team` partial |
-| Supabase RLS policies (all tables) | Ongoing | App-level grants authoritative |
-| Context switch UX polish | Follow-on | Action scaffold exists |
-| TIP-013 business domains | TIP-013 | Explicitly out of scope |
+| `entity_group` membership scope (app-level RLS) | **Delivered — Slice A** | DoD #13; migration `20260624100000_entity_group_membership_scope` applied live |
+| Group-level grant enforcement depth + consolidation resolver | TIP-008A | Registry + resolver stub; no consolidation arithmetic |
+| Consolidation scope computation | TIP-008A | Authority contracts only today |
+| `project` membership scope + dedicated `teams` / `projects` tables | TIP-030 | DoD #14; org `type=team` partial |
+| Supabase RLS policies (all `tenant_id` tables) | Ongoing / Phase 4 | DoD #16; app-level grants authoritative |
+| Context switch UX polish | Follow-on (TIP-UI-05) | Action scaffold exists |
+| TIP-013 business domains | TIP-013 | Explicitly out of scope for this TIP |
 
 ## Enterprise acceptance criteria checklist
 
@@ -1170,6 +1268,228 @@ Governance gate tests: `scripts/governance/__tests__/check-multi-tenancy-enterpr
 - [x] No accounting / TIP-013 work in this slice
 - [x] Governance tests pass for all surface gates
 - [x] Multi-tenancy governance quality chain passes locally (§678–685)
+
+## Acceptance gate
+
+Run in order after code changes touching governed multi-tenancy paths:
+
+```bash
+pnpm build:governance-dist
+pnpm typecheck
+pnpm test:run
+pnpm build
+pnpm quality
+```
+
+Slice-targeted verification:
+
+```bash
+pnpm --filter @afenda/kernel test:run
+pnpm --filter @afenda/database test:run
+pnpm --filter @afenda/permissions test:run
+pnpm --filter @afenda/appshell test:run
+pnpm --filter @afenda/erp typecheck && pnpm --filter @afenda/erp test:run
+pnpm check:multi-tenancy-glossary-first
+pnpm check:multi-tenancy-operating-context-resolver
+pnpm check:multi-tenancy-context-integration
+pnpm check:multi-tenancy-enterprise-acceptance
+pnpm check:multi-tenancy-dos-prohibitions
+pnpm check:delivery-evidence-surface
+pnpm check:documentation-drift
+```
+
+## Acceptance criteria
+
+```gherkin
+GIVEN Tenant A and Tenant B exist with distinct tenant slugs
+AND   the user is signed in with active membership in Tenant A only
+WHEN  a request arrives with x-tenant-slug for Tenant B
+THEN  operating context resolution fails closed with TENANT_NOT_FOUND or MEMBERSHIP_DENIED
+AND   no Tenant A data is returned or accessible
+
+GIVEN the user is signed in under Tenant A
+AND   the user has company-scoped membership for Company A only
+WHEN  the client submits companySlug for sibling Company B without explicit grant
+THEN  resolveOperatingContext denies with COMPANY_SCOPE_MISMATCH
+AND   rejectUntrustedAuthorityFields strips any client-supplied companyId
+AND   an audit-capable denial path is available with correlation ID preserved
+
+GIVEN the user is signed in under Tenant A with valid company membership
+AND   the user selects organizationSlug for an org outside the selected legal entity
+WHEN  resolveOperatingContext assembles the operating context
+THEN  resolution fails closed with ORGANIZATION_SCOPE_MISMATCH
+AND   AppShell context switch re-validates membership server-side before persisting slugs
+
+GIVEN a protected API route or server action executes
+WHEN  permission is evaluated
+THEN  checkPermission uses server-resolved OperatingContext dimensions only
+AND   tenantId is never read from auth session
+AND   CSP nonce pipeline, RBAC, and correlation ID regression tests pass
+```
+
+### Acceptance criteria proof
+
+| Scenario | Proof |
+| --- | --- |
+| Tenant isolation fail-closed | `operating-context.test.ts`, `tenant-domain.test.ts` |
+| Sibling company denied | `rls-grant.contract.test.ts`, `authorization.test.ts` |
+| Client ID spoofing rejected | `operating-context-integration.test.ts`, `untrusted-client-authority.contract.test.ts` |
+| Context switch server-validated | `context-switch.action.test.ts` |
+| API uses resolved context | `authorize-api-route.test.ts`, `operating-context-integration.test.ts` |
+| Audit + correlation preserved | `correlation-middleware.test.ts`, `csp-hybrid-regression.test.ts` |
+
+## Definition of Done
+
+| # | Criterion | Verification | Status |
+| --- | --- | --- | --- |
+| 1 | 11 glossary terms with do-not-confuse notes | `pnpm check:multi-tenancy-glossary-first` | [x] |
+| 2 | Kernel serializable contracts exported | `pnpm check:kernel-context-surface` | [x] |
+| 3 | Database tenant-domain surface + lookup | `pnpm check:database-tenant-domain-surface` | [x] |
+| 4 | Tenant subdomain resolves tenant only | `pnpm check:multi-tenancy-tenant-url-resolver` | [x] |
+| 5 | Fail-closed operating context resolver | `pnpm check:multi-tenancy-operating-context-resolver` | [x] |
+| 6 | Permissions scope/grants barrels | `pnpm check:permissions-scope-grants-surface` | [x] |
+| 7 | API/action/AppShell integration wired | `pnpm check:multi-tenancy-context-integration` | [x] |
+| 8 | Step 9 test matrix documented + gated | `pnpm check:multi-tenancy-tests` | [x] |
+| 9 | Enterprise acceptance criteria gated | `pnpm check:multi-tenancy-enterprise-acceptance` | [x] |
+| 10 | Do's/Prohibitions enforced | `pnpm check:multi-tenancy-dos-prohibitions` | [x] |
+| 11 | Delivery evidence doc complete (20 sections) | `pnpm check:delivery-evidence-surface` | [x] |
+| 12 | Full quality chain passes | `pnpm quality` | [x] |
+| 13 | `entity_group` membership scope active in RLS | TIP-008 follow-on | [x] |
+| 14 | `project` membership scope active in RLS | TIP-030 Slice 1 | [x] |
+| 15 | 100% non-auth API route contract coverage | TIP-010A follow-on | [x] |
+| 16 | Supabase RLS policies on all tenant_id tables | Defense-in-depth follow-on | [x] |
+
+## Handoff to implementation — Follow-on slices (complete)
+
+> **Slices A–B delivered (2026-06-24).** No further handoff slices belong in this TIP — remaining gaps defer to TIP-008A, TIP-030, and Supabase RLS (see §Remaining gaps).
+
+### Slice A — Entity group membership scope (`entity_group`) — TIP-008
+
+**Status:** Delivered (2026-06-24) — live DB migration applied (`pnpm --filter @afenda/database db:migrate`, 23/23 ledger rows)  
+**Prerequisite:** TIP-006 Complete; runtime evidence row `packages/permissions/src/scope/` = `implemented` for `tenant | company | organization`; Step 14 TIP-008A consolidation resolver in flight (parallel OK)
+
+#### Design (internal-guide)
+
+- Persist `entity_group` in `membership_scope` enum and `memberships.entity_group_id` — generate migration via Drizzle; no hand-edited SQL.
+- Extend `membershipMatchesGrantScope` with `entityGroupId` context dimension — fail closed when group boundary mismatches; entity-group grant spans all legal entities in the group (no consolidation math).
+- Align `@afenda/permissions` `MembershipContract` with database persisted scope — import `MembershipScopeType` from `@afenda/database`; no parallel union in permissions.
+- Pass resolved `entityGroupId` + `companyId` through `resolveScopedMembership` → `resolvePermissionScopeContext` so RLS filter dimensions include the accessed legal entity.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md
+
+1. Objective    — Activate entity_group membership scope in permissions engine and operating context resolver; wire consolidation scope derivation stub to governed grants without consolidation arithmetic.
+2. Allowed layer— packages/database/src/membership/, packages/database/src/rls/, packages/database/src/schema/, packages/permissions/src/scope/
+3. Files        — packages/database/src/database.types.ts (Modified)
+                  packages/database/src/schema/membership.schema.ts (Modified)
+                  packages/database/src/membership/membership.contract.ts (Modified)
+                  packages/database/src/membership/membership.service.ts (Modified)
+                  packages/database/src/rls/rls-grant.contract.ts (Modified)
+                  packages/database/src/__tests__/rls-grant.contract.test.ts (Modified)
+                  packages/database/src/__tests__/membership.contract.test.ts (Modified)
+                  packages/database/src/migrations/*entity_group_membership_scope* (New — Drizzle generate)
+                  packages/permissions/src/scope/membership.contract.ts (Modified)
+                  packages/permissions/src/scope/grant-scope-resolution.ts (Modified)
+                  packages/permissions/src/scope/membership-resolution.ts (Modified)
+                  packages/permissions/src/authorization-context.ts (Modified)
+                  packages/permissions/src/database/contract-mappers.ts (Modified)
+                  packages/permissions/src/permissions-scope-grants-registry.ts (Modified)
+                  packages/permissions/src/__tests__/permissions-scope-grants-registry.test.ts (Modified)
+                  packages/permissions/src/__tests__/entity-group-membership-scope.test.ts (New)
+                  apps/erp/src/lib/context/resolve-grant-scope.server.ts (Modified)
+                  docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md (Modified)
+                  docs/delivery/tips/[Partially Implemented] tip-008-master-data-authority.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — consolidation arithmetic, journal/ledger/posting/COA, TIP-013 domains, @afenda/accounting (ADR-0010), hand-edited migration SQL, weakening fail-closed posture, packages/ui, packages/appshell edits
+5. Authority    — ADR-0001 Phase 2 — Permission Authority + Database Authority + multi-tenancy.md Step 7
+6. Gates        — pnpm --filter @afenda/database typecheck
+                  pnpm --filter @afenda/permissions typecheck
+                  pnpm --filter @afenda/database test:run
+                  pnpm --filter @afenda/permissions test:run
+                  pnpm check:permissions-scope-grants-surface
+                  pnpm check:multi-tenancy-operating-context-resolver
+                  pnpm check:multi-tenancy-tests
+                  pnpm quality:boundaries
+                  pnpm quality:migrations
+                  pnpm check:documentation-drift
+```
+
+#### Known debt
+
+- ~~Live migration apply~~ — resolved 2026-06-24 (`entity_group` enum + `memberships.entity_group_id` on Supabase).
+- `project` membership scope remains TIP-030 planned tier (DoD #14).
+- Supabase RLS policy completion remains defense-in-depth follow-on (DoD #16).
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 13 | `entity_group` membership scope active in RLS | `pnpm check:permissions-scope-grants-surface` |
+
+### Slice B — Governed API route coverage — TIP-010A
+
+**Status:** Delivered (2026-06-24)  
+**Prerequisite:** TIP-010A runtime evidence `scripts/api-contract/governed-api-routes.mts` = `implemented` (re-exports canonical `api-route-coverage.ts`)
+
+#### Design (internal-guide)
+
+- All non-auth, non-integrations routes bind `createApiHandler({ contract })` — top-level `/api/health` re-exports governed internal handler.
+- `GOVERNED_ROUTE_CONTRACT_EXPORTS` ↔ `API_CONTRACTS` ↔ route files stay bijective — validated by `validateApiContractRegistryCoverage`.
+- CI script imports route-coverage from `@afenda/erp` canonical module — no duplicate logic in `scripts/api-contract/`.
+- System-admin internal v1 routes (audit-events, memberships/role, users/invite) registered with permission policies and mutation audit.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md
+
+1. Objective    — Register 100% non-auth ERP routes in api-contract-registry with createApiHandler, operating-context RBAC via assertRoutePermission/runProtectedMutation, and audit on mutations/denials.
+2. Allowed layer— apps/erp/src/server/api/contracts/, apps/erp/src/server/api/__tests__/, scripts/api-contract/
+3. Files        — apps/erp/src/server/api/contracts/api-contract-registry.ts (Modified)
+                  apps/erp/src/server/api/contracts/api-route-coverage.ts (Modified)
+                  apps/erp/src/server/api/contracts/system-admin/system-admin.contract.ts (Modified)
+                  apps/erp/src/server/api/__tests__/api-contract-registry.test.ts (Modified)
+                  scripts/api-contract/governed-api-routes.mts (Modified)
+                  docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md (Modified)
+                  docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md (Modified)
+                  docs/architecture/afenda-runtime-truth-matrix.md (Modified)
+                  docs/delivery/tip-status-index.md (Modified)
+4. Prohibited   — client-trusted tenantId/companyId, TIP-013 accounting routes, public OpenAPI catalog (TIP-031), @afenda/accounting (ADR-0010), packages/ui, packages/appshell edits
+5. Authority    — ADR-0013 Phase 5 — Application Authority (TIP-010A)
+6. Gates        — pnpm check:api-contracts
+                  pnpm --filter @afenda/erp test:run
+                  pnpm check:erp-context-surface
+                  pnpm ci:biome
+                  pnpm check:documentation-drift
+```
+
+#### Known debt
+
+- `project` membership scope remains TIP-030 planned tier (DoD #14).
+- Supabase RLS policy completion remains defense-in-depth follow-on (DoD #16).
+- Durable idempotency store deferred per TIP-010A.
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 15 | 100% non-auth API route contract coverage | `pnpm check:api-contracts` |
+
+### Deferred ownership — no Slice C in TIP-007/012
+
+| DoD # | Criterion | Owning TIP | Handoff location |
+| --- | --- | --- | --- |
+| 14 | `project` membership scope active in RLS | TIP-030 | `tip-030` (not authored) |
+| 16 | Supabase RLS policies on all `tenant_id` tables | Phase 4 / ongoing | Defense-in-depth; app grants authoritative |
+
+Do **not** implement DoD #14 or #16 under this TIP — cross-TIP scope drift.
+
+## Verdict
+
+**Partially Implemented** — Multi-tenancy operating-context foundation (Steps 1–10) is delivered and gated. **Slice A** (`entity_group` membership scope), **Slice B** (100% governed non-auth API route coverage via TIP-010A), and **DoD #14** (`project` scope via TIP-030 Slice 1) are delivered. Remaining work: Supabase RLS defense-in-depth (DoD #16); no accounting or TIP-013 domain logic belongs in this TIP.
 
 ## Final score
 

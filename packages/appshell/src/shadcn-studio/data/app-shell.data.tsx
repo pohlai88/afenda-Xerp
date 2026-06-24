@@ -11,12 +11,17 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { ReactElement } from "react";
+import type {
+  AppShellNavIconId,
+  AppShellNavSubItemSerializable,
+} from "../../contracts/navigation.contract.js";
 
-export interface AppShellMenuSubItem {
-  readonly badge?: string;
-  readonly href: string;
-  readonly label: string;
-}
+export type {
+  AppShellNavIconId,
+  AppShellNavItemSerializable,
+} from "../../contracts/navigation.contract.js";
+
+export type AppShellMenuSubItem = AppShellNavSubItemSerializable;
 
 export type AppShellMenuItem = {
   readonly icon: ReactElement;
@@ -160,39 +165,6 @@ export const defaultAppShellRecipients: readonly AppShellRecipientItem[] =
 // boundary. The serializable variant identifies icons by stable string id,
 // letting server layouts pass navigation data through props without a JSX
 // payload. Call resolveAppShellNavIcon at the client boundary to hydrate.
-
-/** Stable icon identifiers for the built-in ERP navigation set. */
-export type AppShellNavIconId =
-  | "bar-chart-3"
-  | "book-open"
-  | "boxes"
-  | "building"
-  | "clipboard-list"
-  | "dashboard"
-  | "folder-open"
-  | "settings"
-  | "shopping-bag"
-  | "users";
-
-/**
- * Serializable navigation item — safe for server→client boundaries.
- * Mirrors `AppShellMenuItem` but replaces `ReactElement` icon with an id.
- */
-export type AppShellNavItemSerializable = {
-  readonly icon: AppShellNavIconId;
-  readonly label: string;
-} & (
-  | {
-      readonly href: string;
-      readonly badge?: string;
-      readonly items?: never;
-    }
-  | {
-      readonly href?: never;
-      readonly badge?: never;
-      readonly items: readonly AppShellMenuSubItem[];
-    }
-);
 
 const NAV_ICON_MAP = {
   "bar-chart-3": <BarChart3Icon aria-hidden />,

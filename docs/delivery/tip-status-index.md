@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| **As-of** | 2026-06-23 |
+| **As-of** | 2026-06-24 |
 | **Authority** | ADR-0012, ADR-0013 |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
 | **Delivery sequence** | [`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md) |
@@ -35,7 +35,7 @@ A TIP may be implemented **only when all five** are true:
 ```text
 1. Read this index + afenda-runtime-truth-matrix.md
 2. Open target docs/delivery/tips/[status] tip-*.md (canonical section only)
-3. Confirm status: Partially Implemented or Not started (not Blocked without escalation)
+3. Confirm status: Partially Implemented or Not started — use [§Partially implemented TIP sequence](#partially-implemented-tip-sequence) for order
 4. Copy ONE §Handoff slice block
 5. Paste into /afenda-coding-session Phase 0
 6. Implement ONE slice per session (database → platform → app)
@@ -44,46 +44,106 @@ A TIP may be implemented **only when all five** are true:
 9. pnpm check:documentation-drift
 ```
 
-**Current runtime priority:** Phase 9 Accounting Readiness Gate — TIP-013 **Complete**. See [Runtime implementation sequence](#runtime-implementation-sequence).
+**Current runtime priority:** Spine + Phase 5–8 foundation slices **delivered** (Steps 1–9). **Next:** [Partially implemented TIP sequence](#partially-implemented-tip-sequence) — Phase 1 authority closeout, then security/UI follow-on. Phase 9 Accounting Readiness Gate remains blocked (ADR-0010).
 
 ---
 
-## Runtime implementation sequence
+## Runtime implementation sequence (delivered)
 
-> **Order by dependency, not TIP number.** TIP-013 is accepted as canonical documentation but **not** the next runtime slice.  
-> Foundation phase order (Phase 5 → 7 → 8) applies **after** execution spine + operating spine proof.
+> **Order by dependency, not TIP number.** Steps 1–9 are **Complete** — retained as audit trail.  
+> Do not re-run unless regression or matrix drift requires it.
 
 | Step | Slice | Package / layer | Depends on | Document |
 | ---: | --- | --- | --- | --- |
-| **→ 1** | **Outbox schema** | `@afenda/database` | — | [TIP-011 §Slice 1](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-1--outbox-schema-afendadatabase) — **delivered** |
-| **→ 2** | **Outbox publish worker** | `@afenda/execution` | Step 1 | [TIP-011 §Slice 2](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-2--outbox-publish-worker-afendaexecution) — **delivered** |
-| **→ 3** | **ERP outbox integration proof** | `@afenda/erp` | Steps 1–2 | [TIP-011 §Slice 3](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-3--erp-integration-test-afendaerp) — **delivered** |
-| **→ 4** | Spine contract + helper | `@afenda/erp` | Steps 1–3 | [TIP-012 §Slice 1](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md#slice-1--spine-contract--helper-afendaerp) — **delivered** |
-| **→ 5** | Handler integration + lifecycle test | `@afenda/erp` | Steps 1–4 | [TIP-012 §Slice 2](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md#slice-2--handler-integration--lifecycle-test-afendaerp) — **delivered** |
-| **→ 6** | API contract governance — registry + method policy | `@afenda/erp` (Phase 5) | Step 5 | [TIP-010A §Slice 1](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) — **delivered** |
-| **→ 7** | API contract governance — idempotency + pagination | `@afenda/erp` (Phase 5) | Step 6 | [TIP-010A §Slice 2](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) — **delivered** |
-| **→ 8a** | Feature manifest — registry + route + capability bindings | `@afenda/entitlements` (Phase 7) | Step 7 | [TIP-007A §Slice 1](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-1--manifest--capability-registry-afendaentitlements) — **delivered** |
-| **→ 8b** | Feature manifest — AppShell nav from manifest | `@afenda/appshell` (Phase 7) | Step 8a | [TIP-007A §Slice 2](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-2--nav-from-manifest-afendaappshell) — **delivered** |
-| **→ 8c** | Feature manifest — ERP module routes + guard | `@afenda/erp` (Phase 7) | Steps 8a–8b | [TIP-007A §Slice 3](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-3--erp-module-routes--guard-afendaerp) — **delivered** |
+| 1 | Outbox schema | `@afenda/database` | — | [TIP-011 §Slice 1](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-1--outbox-schema-afendadatabase) — **delivered** |
+| 2 | Outbox publish worker | `@afenda/execution` | Step 1 | [TIP-011 §Slice 2](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-2--outbox-publish-worker-afendaexecution) — **delivered** |
+| 3 | ERP outbox integration proof | `@afenda/erp` | Steps 1–2 | [TIP-011 §Slice 3](tips/%5BComplete%5D%20tip-011-execution-foundation.md#slice-3--erp-integration-test-afendaerp) — **delivered** |
+| 4 | Spine contract + helper | `@afenda/erp` | Steps 1–3 | [TIP-012 §Slice 1](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md#slice-1--spine-contract--helper-afendaerp) — **delivered** |
+| 5 | Handler integration + lifecycle test | `@afenda/erp` | Steps 1–4 | [TIP-012 §Slice 2](tips/%5BComplete%5D%20tip-012-erp-operating-spine.md#slice-2--handler-integration--lifecycle-test-afendaerp) — **delivered** |
+| 6 | API contract governance — registry + method policy | `@afenda/erp` (Phase 5) | Step 5 | [TIP-010A §Slice 1](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) — **delivered** |
+| 7 | API contract governance — idempotency + pagination | `@afenda/erp` (Phase 5) | Step 6 | [TIP-010A §Slice 2](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) — **delivered** |
+| 8a | Feature manifest — registry + route + capability bindings | `@afenda/entitlements` (Phase 7) | Step 7 | [TIP-007A §Slice 1](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-1--manifest--capability-registry-afendaentitlements) — **delivered** |
+| 8b | Feature manifest — AppShell nav from manifest | `@afenda/appshell` (Phase 7) | Step 8a | [TIP-007A §Slice 2](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-2--nav-from-manifest-afendaappshell) — **delivered** |
+| 8c | Feature manifest — ERP module routes + guard | `@afenda/erp` (Phase 7) | Steps 8a–8b | [TIP-007A §Slice 3](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md#slice-3--erp-module-routes--guard-afendaerp) — **delivered** |
 | 9 | System Admin control plane | `@afenda/erp` (Phase 8) | Steps 7–8 | [TIP-013](tips/%5BComplete%5D%20tip-013-system-admin-control-plane.md) — **Complete** |
 
 **One slice per coding session.** After each slice: §11 Completion Report → update delivery doc → this index → runtime matrix → rename `[status]` prefix if status changed.
 
-### Do not start yet (runtime)
+---
+
+## Partially implemented TIP sequence
+
+> **Next coding sessions start here.** Order by dependency and foundation phase — not TIP number.  
+> Copy **one** §Handoff block from the linked delivery doc per session.  
+> **Parallel rule:** Tracks C and D may run alongside Track A once Step 10 is in flight; Track B Steps 14–16 should follow Track A Step 12 where noted.
+
+### Track A — Phase 1 platform authority (gates Phase 1 exit)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| 10 | **TIP-006** | **1** Authority contracts freeze | `@afenda/appshell` | Steps 1–9 | [§Slice 1](tips/%5BComplete%5D%20tip-006-appshell-authority.md#slice-1--authority-contracts-freeze-afendaappshell) — **delivered** |
+| 11 | **TIP-006** | **2** Contract tests | `@afenda/appshell` | Step 10 | [§Slice 2](tips/%5BComplete%5D%20tip-006-appshell-authority.md#slice-2--contract-tests-afendaappshell) — **delivered** |
+| 12 | **TIP-006** | **3** Public API alignment | `@afenda/appshell` | Step 11 | [§Slice 3](tips/%5BComplete%5D%20tip-006-appshell-authority.md#slice-3--public-api-alignment-afendaappshell) — **delivered** |
+| **→ 13** | **TIP-007** | **1** Platform contract barrel | `@afenda/kernel` | Step 10 (parallel OK) | [§Slice 1](tips/%5BPartially%20Implemented%5D%20tip-007-erp-platform-authority.md#slice-1--platform-contract-barrel-afendakernel) |
+| **→ 14** | **TIP-008A** | **1** Consolidation scope resolver | `@afenda/database` → `@afenda/kernel` → `@afenda/erp` | Steps 10, 13 | [§008A Slice 1](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md#slice-1--consolidation-scope-resolver-008a) |
+| 15 | **TIP-008B** | **1** Business MD authority map (doc-only) | `docs/delivery/` | Step 13 | [§008B Slice 1](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md#slice-1--business-master-data-authority-map-008b) |
+
+**Phase 1 gate closes when:** Steps 10–12 + 13 + 14 + 15 complete ([roadmap Phase 1](../architecture/pre-accounting-foundation-roadmap.md#foundation-phase-1--architecture-authority)).
+
+### Track B — Multi-tenancy + API security follow-on (Phases 2–3)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| **→ 16** | **TIP-007/012** | **A** `entity_group` membership scope | `@afenda/permissions` + `@afenda/database` | Step 14 | [§Slice A](tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md#slice-a--entity-group-membership-scope-entity_group--tip-008) — **delivered** |
+| **→ 17** | **TIP-010** | **2** Route matrix + system-admin RBAC | `@afenda/erp` | Steps 1–9 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-010-api-rbac-wiring.md#slice-2--route-matrix--system-admin-api-rbac-afendaerp) |
+| **→ 18** | **TIP-007/012** | **B** Governed API route coverage | `@afenda/erp` | Step 17 (parallel OK) | [§Slice B](tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md#slice-b--governed-api-route-coverage--tip-010a) — **delivered** |
+| **→ 19** | **TIP-030** | **1–2** Project/team tables + `project`/`team` membership scope + RLS | `@afenda/database` + `@afenda/permissions` | Step 18 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-030-project-membership-scope.md#slice-2--team-membership-scope) — **delivered** |
+
+**Delivered in Track B (do not re-implement):** [TIP-010 §Slice 1](tips/%5BPartially%20Implemented%5D%20tip-010-api-rbac-wiring.md#slice-1--workspace-api-rbac-afendaerp--afendapermissions) workspace dashboard API RBAC.
+
+### Track C — UI surfaces (Phase 4 / Phase 6 gate)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| **→ 19** | **TIP-UI-05** | **1** Loading + error boundaries | `@afenda/erp` | TIP-UI-02 ✅ | [§Slice 1](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-1--governed-loading-and-error-boundaries-afendaerp) |
+| **→ 20** | **TIP-UI-04** | **2** ERP metadata production page | `@afenda/erp` | Step 19 (parallel OK) | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-ui-04-metadata-ui-renderers.md#slice-2--erp-production-page-wiring-afendaerp) |
+| 21 | **TIP-UI-05** | **2** ApplicationShell production polish | `@afenda/erp` | Steps 10–12, 19 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-2--applicationshell-production-polish-afendaerp) |
+| 22 | **TIP-UI-05** | **3** Metadata page + module placeholder UX | `@afenda/erp` | Step 20 | [§Slice 3](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md#slice-3--metadata-driven-page--module-placeholder-ux-afendaerp) |
+| 23 | **TIP-UI-03** | **2** Visual regression + ERP shell closeout | `@afenda/appshell` + `@afenda/erp` | Steps 12, 21–22 | [§Slice 2](tips/%5BPartially%20Implemented%5D%20tip-ui-03-appshell-token-migration.md#slice-2--visual-regression--erp-integration-closeout) |
+
+**Delivered in Track C (do not re-implement):** [TIP-UI-03 §Slice 1](tips/%5BPartially%20Implemented%5D%20tip-ui-03-appshell-token-migration.md#slice-1--token-aligned-shell-css-afendaappshell) token CSS; [TIP-UI-04 §Slice 1](tips/%5BPartially%20Implemented%5D%20tip-ui-04-metadata-ui-renderers.md#slice-1--default-section-renderers-afendametadata-ui) package renderers; manifest module placeholders via [TIP-007A](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) at `/modules/[moduleId]`.
+
+### Track D — Parallel non-blocking (master plan Phase 3)
+
+| Step | TIP | Slice | Package / layer | Depends on | Handoff |
+| ---: | --- | --- | --- | --- | --- |
+| **→ 24** | **TIP-032** | **5** MDX component library | `@afenda/docs` | Slices 1–4 ✅ | [§Slice 5](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md#slice-5--mdx-component-library--editorial-blocks-afendadocs) |
+| 25 | **TIP-032** | **6** Deploy target | `@afenda/docs` | Step 24 | [§Slice 6](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md#slice-6--deploy-target-afendadocs) |
+
+**Does not gate Foundation Phases 0–9.** Safe alongside Tracks A–C.
+
+### Quick reference — partially implemented TIPs
+
+| TIP | Status | Next step | Blocks |
+| --- | --- | --- | --- |
+| TIP-006 | Complete | — (Steps 10–12 delivered) | Phase 1 gate (with TIP-007/008); TIP-UI-03 closeout |
+| TIP-007 | Partially Implemented | Step **13** | Phase 1 gate; TIP-008B vocabulary |
+| TIP-007/012 | Partially Implemented | Steps **16–19** delivered; DoD #16 remains | Supabase RLS |
+| TIP-030 | Complete | Slices 1–2 delivered (`project` + `team` scope) | — |
+| TIP-008A | Partially Implemented | Step **14** | Phase 1 gate; consolidation scope |
+| TIP-008B | Not started (within TIP-008 doc) | Step **15** | Domain packages (PKG-R01–R05) |
+| TIP-010 | Partially Implemented | Step **17** (Slice 1 delivered) | Phase 3 gate |
+| TIP-UI-03 | Partially Implemented | Step **23** (Slice 1 delivered) | TIP-UI-05 closeout |
+| TIP-UI-04 | Partially Implemented | Step **20** (Slice 1 delivered) | TIP-UI-05; TIP-022 |
+| TIP-UI-05 | Partially Implemented | Step **19** | Phase 6 gate |
+| TIP-032 | Partially Implemented | Step **24** (Slices 1–4 delivered) | — (parallel track) |
+
+### Do not start yet
 
 | Target | Reason |
 | --- | --- |
 | **TIP-014+ Accounting** | ADR-0010 — Phase 9 gate not passed |
 | **TIP-UI-06** | Blocked on ADR-0008 |
-
-### Parallel work (non-spine)
-
-These may continue **without blocking** Steps 1–5, but must not pull spine-critical packages off the sequence above:
-
-- TIP-006 / TIP-UI-03 AppShell authority gaps
-- TIP-007/012 multi-tenancy route coverage
-- TIP-008A consolidation resolver
-- TIP-010 RBAC wiring for remaining routes
 
 ---
 
@@ -119,7 +179,7 @@ All paths relative to `docs/delivery/`.
 
 ### Platform authority (TIP-001–012 + accepted slices)
 
-| TIP | Document | Status | Evidence | Remaining gap |
+| TIP | Document | Status | Evidence | Next step / gap |
 | --- | --- | --- | --- | --- |
 | TIP-001 | [tips/[Complete] tip-001-architecture-authority.md](tips/%5BComplete%5D%20tip-001-architecture-authority.md) | Complete | CI architecture gates | — |
 | TIP-003 | [tips/[Complete (authority only)] tip-003-design-system-authority.md](tips/%5BComplete%20(authority%20only)%5D%20tip-003-design-system-authority.md) | Complete (authority only) | Contracts, token registry | No runtime UI (by design) |
@@ -128,14 +188,15 @@ All paths relative to `docs/delivery/`.
 | TIP-004A | [tips/[Complete] tip-004a-token-authority.md](tips/%5BComplete%5D%20tip-004a-token-authority.md) | Complete | Token registry, `--afenda-*` CSS vars | — |
 | TIP-004B | [tips/[Complete] tip-004b-primitive-adapter.md](tips/%5BComplete%5D%20tip-004b-primitive-adapter.md) | Complete | `resolvePrimitiveGovernance()` | — |
 | TIP-005 | [tips/[Complete (authority only)] tip-005-metadata-authority.md](tips/%5BComplete%20(authority%20only)%5D%20tip-005-metadata-authority.md) | Complete (authority only) | `@afenda/metadata` | — |
-| TIP-006 | [tips/[Partially Implemented] tip-006-appshell-authority.md](tips/%5BPartially%20Implemented%5D%20tip-006-appshell-authority.md) | Partially Implemented | 92+ `.tsx`, `afenda-appshell.css` | Authority contracts missing |
-| TIP-007 | [tips/[Partially Implemented] tip-007-erp-platform-authority.md](tips/%5BPartially%20Implemented%5D%20tip-007-erp-platform-authority.md) | Partially Implemented | Schemas, kernel contexts | Platform authority map |
+| TIP-006 | [tips/[Complete] tip-006-appshell-authority.md](tips/%5BComplete%5D%20tip-006-appshell-authority.md) | Complete | 93 `.tsx`, `afenda-appshell.css`, **`src/contracts/` + public API** | — |
+| TIP-007 | [tips/[Partially Implemented] tip-007-erp-platform-authority.md](tips/%5BPartially%20Implemented%5D%20tip-007-erp-platform-authority.md) | Partially Implemented | Kernel contexts, platform entity map table | **Step 13** — `kernel/src/contracts/platform/` barrel |
 | TIP-007A | [tips/[Complete] tip-007a-feature-manifest-governance.md](tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) | Complete | Manifest pipeline (Slices 1–3) | — |
-| TIP-007/012 | [tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md](tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md) | Partially Implemented | Multi-tenancy slice + gates | Full route coverage |
-| TIP-008A | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008A | Partially Implemented | Entity group + ownership schemas | Consolidation resolver |
-| TIP-008B | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008B | Not started | — | Business master data map |
+| TIP-007/012 | [tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md](tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md) | Partially Implemented | Multi-tenancy foundation + 22 gates; Slices A–B delivered; DoD #14–16 closed | Consolidation computation (TIP-008A) |
+| TIP-030 | [tips/[Partially Implemented] tip-030-project-membership-scope.md](tips/%5BPartially%20Implemented%5D%20tip-030-project-membership-scope.md) | Complete | `projects` + `teams` tables; `project` + `team` membership scope | PM domain logic |
+| TIP-008A | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008A | Partially Implemented | Entity group + ownership schemas | **Step 14** — consolidation scope resolver |
+| TIP-008B | [tips/[Partially Implemented] tip-008-master-data-authority.md](tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008B | Not started | — | **Step 15** — business MD authority map (doc-only) |
 | TIP-009 | [tips/[Complete] tip-009-ci-cd-preview.md](tips/%5BComplete%5D%20tip-009-ci-cd-preview.md) | Complete | Turborepo, `pnpm quality` | — |
-| TIP-010 | [tips/[Partially Implemented] tip-010-api-rbac-wiring.md](tips/%5BPartially%20Implemented%5D%20tip-010-api-rbac-wiring.md) | Partially Implemented | `authorizeApiRoute`, workspace API | All routes gated |
+| TIP-010 | [tips/[Partially Implemented] tip-010-api-rbac-wiring.md](tips/%5BPartially%20Implemented%5D%20tip-010-api-rbac-wiring.md) | Partially Implemented | Workspace API RBAC (Slice 1 delivered) | **Step 17** — full internal v1 route matrix |
 | TIP-010A | [tips/[Complete] tip-010a-api-contract-governance.md](tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) | Complete | Registry, method policy, idempotency replay, pagination contract | — |
 | TIP-010† | [tips/[Superseded] tip-010-observability-audit.md](tips/%5BSuperseded%5D%20tip-010-observability-audit.md) | Superseded | TIP-011 observability evidence | Misnumbered — do not use as TIP-010 |
 | TIP-011 | [tips/[Complete] tip-011-execution-foundation.md](tips/%5BComplete%5D%20tip-011-execution-foundation.md) | Complete | `@afenda/execution`, Trigger.dev prod worker **20260623.1**, outbox schema + publish worker + ERP integration proof | — |
@@ -147,22 +208,22 @@ All paths relative to `docs/delivery/`.
 
 ### UI implementation (TIP-UI)
 
-| TIP | Document | Status | Evidence | Remaining gap |
+| TIP | Document | Status | Evidence | Next step / gap |
 | --- | --- | --- | --- | --- |
 | TIP-UI-01 | [tips/[Complete] tip-ui-01-css-pipeline.md](tips/%5BComplete%5D%20tip-ui-01-css-pipeline.md) | Complete | `globals.css`, tokens.css | — |
 | TIP-UI-02 | [tips/[Complete] tip-ui-02-component-library.md](tips/%5BComplete%5D%20tip-ui-02-component-library.md) | Complete | 58 components, 68+ tests | ADR-0008 batch deferred |
-| TIP-UI-03 | [tips/[Partially Implemented] tip-ui-03-appshell-token-migration.md](tips/%5BPartially%20Implemented%5D%20tip-ui-03-appshell-token-migration.md) | Partially Implemented | `afenda-appshell.css` | TIP-006 + ERP shell |
-| TIP-UI-04 | [tips/[Partially Implemented] tip-ui-04-metadata-ui-renderers.md](tips/%5BPartially%20Implemented%5D%20tip-ui-04-metadata-ui-renderers.md) | Partially Implemented | Section renderers, tests | ERP production wiring |
-| TIP-UI-05 | [tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md) | Partially Implemented | `@afenda/ui` auth, globals.css | Module placeholders |
+| TIP-UI-03 | [tips/[Partially Implemented] tip-ui-03-appshell-token-migration.md](tips/%5BPartially%20Implemented%5D%20tip-ui-03-appshell-token-migration.md) | Partially Implemented | `afenda-appshell.css` (Slice 1 delivered) | **Step 23** — ERP shell closeout (after TIP-006) |
+| TIP-UI-04 | [tips/[Partially Implemented] tip-ui-04-metadata-ui-renderers.md](tips/%5BPartially%20Implemented%5D%20tip-ui-04-metadata-ui-renderers.md) | Partially Implemented | Renderers + tests (Slice 1 delivered) | **Step 20** — ERP production wiring |
+| TIP-UI-05 | [tips/[Partially Implemented] tip-ui-05-erp-app-surfaces.md](tips/%5BPartially%20Implemented%5D%20tip-ui-05-erp-app-surfaces.md) | Partially Implemented | Auth, globals, manifest placeholders (TIP-007A) | **Step 19** — boundaries; **21–22** — polish + metadata UX |
 | TIP-UI-06 | [tips/[Blocked] tip-ui-06-react19-ref-as-prop.md](tips/%5BBlocked%5D%20tip-ui-06-react19-ref-as-prop.md) | Blocked | ADR-0008 Proposed | Package-wide batch not started |
 
 ### Parallel track — non-blocking (master plan Phase 3)
 
 > **Does not gate Foundation Phases 0–9.** Safe to implement alongside foundation slices.
 
-| TIP | Doc | Status | Runtime evidence | Remaining gap |
+| TIP | Doc | Status | Runtime evidence | Next step / gap |
 | --- | --- | --- | --- | --- |
-| TIP-032 | [tips/[Partially Implemented] tip-032-implementation-documentation.md](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md) | Partially Implemented | Fumadocs scaffold, `/docs` SSG, build/typecheck/test gates | CI automation, seed content, deploy, theming (Slices 2–5) |
+| TIP-032 | [tips/[Partially Implemented] tip-032-implementation-documentation.md](tips/%5BPartially%20Implemented%5D%20tip-032-implementation-documentation.md) | Partially Implemented | Fumadocs + CI + seed content (Slices 1–4 delivered) | **Step 24** — MDX blocks; **25** — deploy |
 
 Architecture baseline: [`docs-app-architecture.md`](../architecture/docs-app-architecture.md)
 

@@ -1,6 +1,6 @@
 /**
  * Serializable registry of TIP-032 seed navigation targets.
- * Used by content parity tests — keep aligned with `content/docs/**/meta.json`.
+ * Used by content parity tests — keep aligned with content/docs meta.json files.
  */
 export const docsSeedSections = [
   {
@@ -31,9 +31,11 @@ export type DocsSeedSectionId = (typeof docsSeedSections)[number]["id"];
 export type DocsNavSlug = readonly string[];
 
 /** Every seed page slug the build must resolve (section indexes + subpages). */
-export const docsSeedPageSlugs: readonly DocsNavSlug[] = docsSeedSections.flatMap(
-  (section) => [section.slug, ...section.subpages.map((page) => page.slug)],
-);
+export const docsSeedPageSlugs: readonly DocsNavSlug[] =
+  docsSeedSections.flatMap((section) => [
+    section.slug,
+    ...section.subpages.map((page) => page.slug),
+  ]);
 
 /** Root docs home — empty slug array in Fumadocs loader. */
 export const docsHomeSlug: DocsNavSlug = [];

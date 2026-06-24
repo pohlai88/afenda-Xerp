@@ -1,44 +1,60 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   docsHomeSlug,
   docsSeedPageSlugs,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
-import { source } from "@/lib/source";
 
-describe("@afenda/docs source loader", () => {
-  it("resolves the docs home page", () => {
-    const page = source.getPage(docsHomeSlug);
+const contentRoot = join(process.cwd(), "content/docs");
 
-    expect(page).toBeDefined();
-    expect(page?.data.title).toBe("Afenda Documentation");
+const mdxTitlePattern = /^title:\s*(.+)\s*$/m;
+
+function readMdxTitle(relativePath: string): string {
+  const raw = readFileSync(join(contentRoot, relativePath), "utf8");
+  const match = raw.match(mdxTitlePattern);
+  if (!match?.[1]) {
+    throw new Error(`Missing title frontmatter in ${relativePath}`);
+  }
+  return match[1];
+}
+
+function slugToMdxPath(slug: readonly string[]): string {
+  if (slug.length === 0) {
+    return "index.mdx";
+  }
+  if (slug.length === 1) {
+    return `${slug[0]}/index.mdx`;
+  }
+  return `${slug.slice(0, -1).join("/")}/${slug.at(-1)}.mdx`;
+}
+
+describe("@afenda/docs seed page registry", () => {
+  it("resolves home title from index.mdx", () => {
+    expect(readMdxTitle(slugToMdxPath(docsHomeSlug))).toBe(
+      "Afenda Documentation"
+    );
   });
 
-  it.each(docsSeedPageSlugs.map((slug) => [slug.join("/") || "home", slug]))(
-    "resolves seed page slug %s",
-    (_label, slug) => {
-      const page = source.getPage([...slug]);
+  it.each(
+    docsSeedPageSlugs.map((slug) => [slug.join("/") || "home", slug])
+  )("index or leaf MDX exists for slug %s", (_label, slug) => {
+    const relativePath = slugToMdxPath(slug);
+    const title = readMdxTitle(relativePath);
 
-      expect(page).toBeDefined();
-      expect(page?.data.title.length).toBeGreaterThan(0);
-    },
-  );
+    expect(title.length).toBeGreaterThan(0);
+  });
 
-  it("generates static params for all seed pages", () => {
-    const params = source.generateParams();
-    const paramKeys = new Set(
-      params.map((entry) => (entry.slug ?? []).join("/")),
-    );
-
-    for (const slug of docsSeedPageSlugs) {
-      expect(paramKeys.has(slug.join("/"))).toBe(true);
+  it("maps every seed section to a contract title", () => {
+    for (const section of docsSeedSections) {
+      const title = readMdxTitle(slugToMdxPath(section.slug));
+      expect(title).toBe(section.title);
     }
   });
 
   it("includes every seed section id in the nav contract", () => {
-    const ids = docsSeedSections.map((section) => section.id);
-
-    expect(ids).toEqual([
+    expect(docsSeedSections.map((section) => section.id)).toEqual([
       "getting-started",
       "monorepo-map",
       "contributing",

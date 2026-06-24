@@ -155,6 +155,34 @@
       "when": 1781967600000,
       "tag": "20260623100000_outbox_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1781971200000,
+      "tag": "20260624100000_entity_group_membership_scope",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1781974800000,
+      "tag": "20260624120000_project_team_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1781978400000,
+      "tag": "20260624140000_team_membership_scope",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1781982000000,
+      "tag": "20260624150000_tenant_rls_completion",
+      "breakpoints": true
     }
   ]
 }

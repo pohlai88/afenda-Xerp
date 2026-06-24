@@ -78,6 +78,21 @@ describe("primitive package boundary", () => {
     expect(css).not.toMatch(/^\s*--afenda-/mu);
   });
 
+  it("afenda-docs reference folder is not part of the public @afenda/ui barrel", () => {
+    const barrel = readFileSync(join(srcRoot, "index.ts"), "utf8");
+    expect(barrel).not.toContain("afenda-docs");
+  });
+
+  it("afenda-docs compositions avoid local visual authority patterns", () => {
+    const afendaDocsDir = join(srcRoot, "components", "afenda-docs");
+    for (const file of collectSourceFiles(afendaDocsDir)) {
+      const source = readFileSync(file, "utf8");
+      for (const pattern of FORBIDDEN_SOURCE_PATTERNS) {
+        expect(source, file).not.toMatch(pattern);
+      }
+    }
+  });
+
   it("package.json exports afenda-ui.css with sideEffects", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")

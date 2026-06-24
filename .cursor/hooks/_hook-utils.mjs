@@ -276,6 +276,6 @@ export function hasDrizzleWorkflow(repoRoot) {
   return (
     existsSync(join(databaseRoot, "drizzle.config.ts")) ||
     existsSync(join(databaseRoot, "drizzle.config.js")) ||
-    existsSync(join(databaseRoot, "drizzle"))
+    existsSync(join(databaseRoot, "src/migrations"))
   );
 }

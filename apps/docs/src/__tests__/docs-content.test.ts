@@ -2,8 +2,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
-  docsSeedSections,
   type DocsSeedSectionId,
+  docsSeedSections,
 } from "@/lib/docs-nav.contract";
 
 const contentRoot = join(process.cwd(), "content/docs");
@@ -21,7 +21,7 @@ function readRootMeta(): { pages: string[] } {
 describe("@afenda/docs content parity", () => {
   it("lists every seed section in root meta.json", () => {
     const rootPages = readRootMeta().pages.filter(
-      (entry) => entry !== "---" && entry !== "index",
+      (entry) => entry !== "---" && entry !== "index"
     );
     const contractIds = docsSeedSections.map((section) => section.id);
 
@@ -31,7 +31,7 @@ describe("@afenda/docs content parity", () => {
   });
 
   it.each(
-    docsSeedSections.map((section) => [section.id, section] as const),
+    docsSeedSections.map((section) => [section.id, section] as const)
   )("meta.json title matches contract for %s", (id, section) => {
     const meta = readMetaJson(id);
 
@@ -40,14 +40,17 @@ describe("@afenda/docs content parity", () => {
 
   it("registers getting-started subpages in section meta.json", () => {
     const meta = readMetaJson("getting-started");
-    const subpageIds = docsSeedSections.find(
-      (section): section is (typeof docsSeedSections)[0] =>
-        section.id === "getting-started",
-    )?.subpages.map((page) => page.id);
+    const gettingStarted = docsSeedSections.find(
+      (section) => section.id === "getting-started"
+    );
 
-    expect(subpageIds).toEqual(["installation", "dev-setup"]);
-    for (const pageId of subpageIds ?? []) {
-      expect(meta.pages).toContain(pageId);
+    expect(gettingStarted?.subpages.map((page) => page.id)).toEqual([
+      "installation",
+      "dev-setup",
+    ]);
+
+    for (const page of gettingStarted?.subpages ?? []) {
+      expect(meta.pages).toContain(page.id);
     }
   });
 

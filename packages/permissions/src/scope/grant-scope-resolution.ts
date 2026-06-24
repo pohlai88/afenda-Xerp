@@ -8,6 +8,7 @@ import type { MembershipContract } from "./membership.contract.js";
 import type { RoleScope } from "./role-scope.contract.js";
 
 export interface ResolvePermissionScopeInput {
+  readonly companyId?: string | null;
   readonly entityGroupId?: string | null;
   readonly membership: MembershipContract;
   readonly organizationId?: string | null;
@@ -21,15 +22,21 @@ const MEMBERSHIP_SCOPE_NARROWNESS: Record<
   number
 > = {
   tenant: 1,
-  company: 2,
-  organization: 3,
+  entity_group: 2,
+  company: 3,
+  organization: 4,
+  project: 5,
+  team: 6,
 };
 
 export function selectNarrowestMatchingMembership(
   memberships: readonly MembershipContract[],
   context: {
     readonly companyId?: string | null;
+    readonly entityGroupId?: string | null;
     readonly organizationId?: string | null;
+    readonly projectId?: string | null;
+    readonly teamId?: string | null;
   }
 ): MembershipContract | null {
   const matching = memberships.filter((membership) =>
@@ -56,6 +63,7 @@ export function resolvePermissionScopeContext(
   const resolved = resolveRlsGrantScope({
     roleScope: input.roleScope,
     entityGroupId: input.entityGroupId ?? null,
+    contextLegalEntityId: input.companyId ?? null,
     teamId: input.teamId ?? null,
     projectId: input.projectId ?? null,
     organizationUnitId: input.organizationId ?? input.membership.organizationId,
@@ -63,7 +71,10 @@ export function resolvePermissionScopeContext(
       scopeType: input.membership.scopeType,
       tenantId: input.membership.tenantId,
       companyId: input.membership.companyId,
+      entityGroupId: input.membership.entityGroupId,
       organizationId: input.membership.organizationId,
+      projectId: input.membership.projectId,
+      teamId: input.membership.teamId,
       membershipId: input.membership.id,
       roleId: input.membership.roleId,
     },

@@ -51,28 +51,18 @@ export const PERMISSIONS_LEGACY_FLAT_MODULES = [
  */
 export const PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES = [
   "tenant",
+  "entity_group",
   "company",
   "organization",
+  "project",
+  "team",
 ] as const;
 
 export type PermissionsImplementedMembershipScope =
   (typeof PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES)[number];
 
 /** Planned membership scope extensions — authority stubs only. */
-export const PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES = [
-  {
-    scopeType: "entity_group",
-    tip: "TIP-008",
-    status: "planned",
-    grantsAccessTo: "All Legal Entities in the Entity Group",
-  },
-  {
-    scopeType: "project",
-    tip: "TIP-030",
-    status: "planned",
-    grantsAccessTo: "Project-scoped records only",
-  },
-] as const;
+export const PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES = [] as const;
 
 /**
  * Allowed dependency direction between barrels.

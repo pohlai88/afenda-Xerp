@@ -184,7 +184,7 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 | TIP-003 | Design System Authority | **Complete (authority)** | Contracts, token registry | No runtime UI (by design) |
 | TIP-004 | Design System Contracts + UI consumption | **Complete** | TIP-004 policy, ui-guard | — |
 | TIP-005 | Metadata Authority | **Complete (authority)** | `@afenda/metadata` | — |
-| TIP-006 | AppShell Authority | **Partial** | 92 `.tsx`, CSS, blocks | Authority contracts not frozen |
+| TIP-006 | AppShell Authority | **Complete** | 93 `.tsx`, CSS, blocks, `src/contracts/` | — |
 | TIP-007 | ERP Platform Authority | **Partial** | Multi-tenancy slice delivered | Platform entity map open |
 | TIP-008A | Enterprise Hierarchy Authority | **Partial** | Entity group + ownership schemas | Consolidation resolver stub |
 | TIP-008B | Business Master Data Authority | **Not started** | — | Customer, Product, etc. |

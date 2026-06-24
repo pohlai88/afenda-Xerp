@@ -1,0 +1,32 @@
+---
+description: Drizzle migration governance for @afenda/database. Enforces the migration checklist, governance contract, and journal integrity whenever schema files are authored or migrations are generated.
+globs: packages/database/src/schema/**,packages/database/src/migrations/**,packages/database/drizzle.config.ts,packages/database/scripts/apply-pending-migrations.ts,packages/database/scripts/apply-sql-migrations-fallback.ts,drizzle.config.ts
+alwaysApply: false
+---
+
+# Drizzle Migration Governance
+
+Full skill: `.cursor/skills/afenda-drizzle-migration/SKILL.md` — read it before any schema or migration edit.
+
+## Hard rules (no exceptions)
+
+1. **Never edit `.sql` migration files** — only `drizzle-kit generate` may write them.
+2. **Never run `drizzle-kit push`** — this project uses `migrate` only.
+3. **Every new journal tag needs a governance rule** in `migration-governance.contract.ts` before the test suite passes.
+4. **`migrations.table`, `migrations.schema`, `schemaFilter`, `entities.roles`** in `drizzle.config.ts` are Architecture-governed — do not change without explicit authority.
+
+## Schema mutation workflow (run in order)
+
+```
+1. Edit schema file(s)          packages/database/src/schema/*.schema.ts
+2. Generate migration            pnpm db:generate
+3. Add governance rule           migration-governance.contract.ts
+4. Validate journal              pnpm --filter @afenda/database db:validate-journal
+5. Gates                         pnpm --filter @afenda/database typecheck && test:run
+```
+
+## When you see a schema file open
+
+- Remind the developer to follow the 5-step checklist above before committing.
+- Check `migration-governance.contract.ts` — every tag in `_journal.json` must have an entry.
+- Suggest appropriate `completeProbe` SQL based on what the migration does (see skill for patterns).

@@ -3,15 +3,25 @@ import { loadDatabaseEnv } from "./load-env.js";
 
 loadDatabaseEnv();
 
-const url = resolveMigrationDatabaseUrl();
-const parsed = new URL(url);
+let migrationUrlHost = null;
+let migrationUrlPort = null;
+let databaseConfigured = false;
+
+try {
+  const url = resolveMigrationDatabaseUrl();
+  const parsed = new URL(url);
+  migrationUrlHost = parsed.hostname;
+  migrationUrlPort = parsed.port || "5432";
+  databaseConfigured = true;
+} catch {
+  databaseConfigured = false;
+}
 
 console.log(
   JSON.stringify({
-    host: parsed.hostname,
-    port: parsed.port || "5432",
+    databaseConfigured,
     databaseUrlDirectSet: Boolean(process.env.DATABASE_URL_DIRECT?.trim()),
-    databaseUrlSet: Boolean(process.env.DATABASE_URL?.trim()),
+    databaseUrlExplicitSet: Boolean(process.env.DATABASE_URL?.trim()),
     directHost: process.env.DATABASE_URL_DIRECT?.trim()
       ? (() => {
           try {
@@ -21,6 +31,8 @@ console.log(
           }
         })()
       : null,
-    migrationUrlHost: parsed.hostname,
+    host: migrationUrlHost,
+    migrationUrlHost,
+    port: migrationUrlPort,
   })
 );

@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@afenda/appshell": "workspace:*",
+    "@afenda/design-system": "workspace:*",
     "@afenda/metadata": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
-    "@afenda/design-system": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^0.525.0",

@@ -47,7 +47,7 @@ This roadmap is the **delivery authority** for AI agents and human implementers 
 | TIP | Title | Current | Exit criterion |
 | --- | --- | --- | --- |
 | TIP-001 | Architecture Authority | Complete | CI gates passing |
-| TIP-006 | AppShell Authority | **Partial** — UI ahead of contracts | Frozen contracts in `packages/appshell/src/contracts/` |
+| TIP-006 | AppShell Authority | **Complete** | Frozen contracts in `packages/appshell/src/contracts/` + public API re-exports |
 | TIP-007 | ERP Platform Authority | **Partial** — multi-tenancy slice delivered | Platform entity authority map in delivery doc |
 | TIP-008A | Enterprise Hierarchy Authority | **Partial** — schemas exist | Entity group + ownership interest contracts signed off |
 | TIP-008B | Business Master Data Authority | **Not started** | Customer, Product, Employee, Warehouse ownership map (no implementations) |
@@ -62,6 +62,8 @@ This roadmap is the **delivery authority** for AI agents and human implementers 
 - Out-of-scope file change guard (AI governance + architecture-authority)
 
 **Phase 1 gate:** TIP-001 complete + TIP-006/007/008A contracts frozen + TIP-008B authority map drafted.
+
+> **Implementation sequence:** [tip-status-index §Partially implemented TIP sequence](../delivery/tip-status-index.md#partially-implemented-tip-sequence) — Steps **10–15** (Track A).
 
 ---
 

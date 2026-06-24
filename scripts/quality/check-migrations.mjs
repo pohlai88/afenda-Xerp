@@ -1,11 +1,23 @@
 import { spawnSync } from "node:child_process";
 
+import {
+  findMissingRequiredKeys,
+  loadMergedEnv,
+  resolveRepoRoot,
+} from "../env-utils.mjs";
+
 run("pnpm", ["--filter", "@afenda/database", "db:validate-journal"]);
 
-if (process.env.DATABASE_URL) {
+const repoRoot = resolveRepoRoot();
+const merged = loadMergedEnv(repoRoot);
+const missingDatabaseConfig = findMissingRequiredKeys(merged.entries);
+
+if (missingDatabaseConfig.length === 0) {
   run("pnpm", ["--filter", "@afenda/database", "db:repair-journal:check"]);
 } else {
-  console.log("migration live ledger check skipped: DATABASE_URL is not set");
+  console.log(
+    `migration live ledger check skipped: database not configured (${missingDatabaseConfig.join("; ")})`
+  );
 }
 
 function run(command, args) {

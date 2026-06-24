@@ -23,12 +23,13 @@ describe("permissions-scope-grants-registry", () => {
   it("documents implemented and planned membership scopes", () => {
     expect(PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES).toEqual([
       "tenant",
+      "entity_group",
       "company",
       "organization",
+      "project",
+      "team",
     ]);
-    expect(
-      PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES.map((entry) => entry.scopeType)
-    ).toEqual(["entity_group", "project"]);
+    expect(PERMISSIONS_PLANNED_MEMBERSHIP_SCOPES).toEqual([]);
   });
 
   it("enforces one-way barrel dependency", () => {

@@ -195,23 +195,21 @@ function checkBlockedMigration(command, repoRoot) {
     return null;
   }
 
+  const migrationSqlPath =
+    /packages[/\\]database[/\\]src[/\\]migrations[/\\][\w-]+\.sql/;
+
   const blocked =
     /\bdrizzle-kit\s+migrate\b/.test(normalized) ||
     /\bdrizzle-kit\s+push\b/.test(normalized) ||
     /\bapply-orbit-migrations\.mjs\b/.test(normalized) ||
-    /\bpsql\b[\s\S]*packages[/\\]database[/\\]drizzle[/\\][\w-]+\.sql/.test(
-      normalized
-    ) ||
-    /\bnode\b[\s\S]*packages[/\\]database[/\\]drizzle[/\\][\w-]+\.sql/.test(
-      normalized
-    ) ||
+    (/\bpsql\b/.test(normalized) && migrationSqlPath.test(normalized)) ||
+    (/\bnode\b/.test(normalized) && migrationSqlPath.test(normalized)) ||
     (/\bnode\b[\s\S]*packages[/\\]database[/\\]scripts[/\\][\w-]+\.mjs/.test(
       normalized
     ) &&
-      /packages[/\\]database[/\\]drizzle[/\\]00\d{2}_/.test(normalized)) ||
-    /\b(pool\.query|execute_sql|\.query\s*\()\b[\s\S]*packages[/\\]database[/\\]drizzle/.test(
-      normalized
-    );
+      migrationSqlPath.test(normalized)) ||
+    (/\b(pool\.query|execute_sql|\.query\s*\()\b/.test(normalized) &&
+      migrationSqlPath.test(normalized));
 
   if (!blocked) {
     return null;

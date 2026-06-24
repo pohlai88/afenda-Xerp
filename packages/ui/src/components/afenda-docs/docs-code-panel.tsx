@@ -1,0 +1,30 @@
+import type { ReactNode } from "react";
+
+export type DocsCodePanelVariant = "panel" | "inline";
+
+export interface DocsCodePanelProps {
+  readonly title?: string;
+  readonly code: string;
+  readonly language?: string;
+  readonly variant?: DocsCodePanelVariant;
+}
+
+export function DocsCodePanel({
+  title,
+  code,
+  language = "typescript",
+  variant = "panel",
+}: DocsCodePanelProps): ReactNode {
+  return (
+    <figure className="afenda-docs-code-panel" data-variant={variant}>
+      {title ? (
+        <figcaption className="afenda-docs-code-panel__title">
+          {title}
+        </figcaption>
+      ) : null}
+      <pre className="afenda-docs-code-panel__pre">
+        <code className={`language-${language}`}>{code}</code>
+      </pre>
+    </figure>
+  );
+}

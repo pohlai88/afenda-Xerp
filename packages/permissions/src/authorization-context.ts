@@ -9,7 +9,10 @@ export interface AuthorizationActor {
 
 export interface AuthorizationContextInput {
   readonly companyId?: string | null;
+  readonly entityGroupId?: string | null;
   readonly organizationId?: string | null;
+  readonly projectId?: string | null;
+  readonly teamId?: string | null;
   readonly tenantId?: string | null;
   readonly workspaceId?: string | null;
 }

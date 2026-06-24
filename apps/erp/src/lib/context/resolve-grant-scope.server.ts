@@ -122,7 +122,10 @@ export async function resolveGrantScope(
     {
       tenantId: input.tenantId,
       companyId: input.companyId,
+      entityGroupId: input.entityGroupId ?? null,
       organizationId,
+      projectId: input.projectId ?? null,
+      teamId: input.teamId ?? null,
     },
     createMembershipDenial
   );
@@ -143,6 +146,7 @@ export async function resolveGrantScope(
   }
 
   const permissionScope = resolvePermissionScopeContext({
+    companyId: input.companyId,
     entityGroupId: input.entityGroupId ?? null,
     membership: membershipResolution.membership,
     organizationId,

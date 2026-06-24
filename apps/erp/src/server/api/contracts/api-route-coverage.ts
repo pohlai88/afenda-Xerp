@@ -3,6 +3,8 @@ import { join } from "node:path";
 
 import type { ApiRouteContract } from "./api-contract";
 
+/** Canonical route-coverage utilities — re-exported by `scripts/api-contract/governed-api-routes.mts`. */
+
 export const GOVERNED_ROUTE_ALLOWLIST = ["auth", "integrations"] as const;
 
 const CONTRACT_EXPORT_PATTERN = /contract:\s*([A-Za-z0-9_]+)/g;

@@ -14,6 +14,7 @@ import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { mapStockButtonProps } from "@afenda/ui/governance";
 import { Building2Icon } from "lucide-react";
 import { useId } from "react";
+import type { AppShellContextSwitchSelection } from "../../contracts/context.contract.js";
 
 const DEFAULT_MENU_LABEL = "Switch workspace";
 const CONTEXT_SWITCH_TARGET_SEPARATOR = "::";
@@ -23,10 +24,7 @@ export type AppShellContextSwitcherGovernedComponents = Extract<
   "Button" | "DropdownMenu"
 >;
 
-export interface AppShellContextSwitchSelection {
-  readonly companySlug: string;
-  readonly organizationSlug?: string;
-}
+export type { AppShellContextSwitchSelection };
 
 export interface AppShellContextSwitcherProps {
   readonly align?: "start" | "center" | "end";

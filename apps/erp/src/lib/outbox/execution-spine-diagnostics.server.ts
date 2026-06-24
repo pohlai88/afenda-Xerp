@@ -8,8 +8,8 @@ import { count, eq, max, min } from "drizzle-orm";
 import {
   readExecutionSpinePolicy,
   resolveTriggerProviderState,
-} from "./execution-spine-policy.server.js";
-import { getExecutionSpineRegistrationState } from "./execution-spine-state.server.js";
+} from "@/lib/outbox/execution-spine-policy.server";
+import { getExecutionSpineRegistrationState } from "@/lib/outbox/execution-spine-state.server";
 
 export type ExecutionSpineOperationalStatus =
   | "healthy"

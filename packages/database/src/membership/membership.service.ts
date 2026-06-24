@@ -5,9 +5,12 @@ import type { AuditActorType, RoleScope } from "../database.types.js";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { companies } from "../schema/company.schema.js";
+import { entityGroups } from "../schema/entity-group.schema.js";
 import { memberships } from "../schema/membership.schema.js";
 import { organizations } from "../schema/organization.schema.js";
+import { projects } from "../schema/project.schema.js";
 import { roles } from "../schema/role.schema.js";
+import { teams } from "../schema/team.schema.js";
 import {
   assertRoleMatchesMembershipScope,
   buildMembershipInsertRow,
@@ -46,12 +49,63 @@ export interface MembershipMutationResult {
 async function assertMembershipScopeChain(
   row: Pick<
     MembershipWriteInput,
-    "tenantId" | "companyId" | "organizationId" | "scopeType"
+    | "tenantId"
+    | "companyId"
+    | "entityGroupId"
+    | "organizationId"
+    | "projectId"
+    | "teamId"
+    | "scopeType"
   >,
   db: AfendaDatabase
 ): Promise<void> {
   const companyId = row.companyId ?? null;
+  const entityGroupId = row.entityGroupId ?? null;
   const organizationId = row.organizationId ?? null;
+  const projectId = row.projectId ?? null;
+  const teamId = row.teamId ?? null;
+
+  if (entityGroupId) {
+    const [entityGroup] = await db
+      .select({ tenantId: entityGroups.tenantId })
+      .from(entityGroups)
+      .where(eq(entityGroups.id, entityGroupId))
+      .limit(1);
+
+    if (!entityGroup || entityGroup.tenantId !== row.tenantId) {
+      throw new MembershipScopeMismatchError(
+        "Membership entity group must belong to the membership tenant."
+      );
+    }
+  }
+
+  if (projectId) {
+    const [project] = await db
+      .select({ tenantId: projects.tenantId })
+      .from(projects)
+      .where(eq(projects.id, projectId))
+      .limit(1);
+
+    if (!project || project.tenantId !== row.tenantId) {
+      throw new MembershipScopeMismatchError(
+        "Membership project must belong to the membership tenant."
+      );
+    }
+  }
+
+  if (teamId) {
+    const [team] = await db
+      .select({ tenantId: teams.tenantId })
+      .from(teams)
+      .where(eq(teams.id, teamId))
+      .limit(1);
+
+    if (!team || team.tenantId !== row.tenantId) {
+      throw new MembershipScopeMismatchError(
+        "Membership team must belong to the membership tenant."
+      );
+    }
+  }
 
   if (companyId) {
     const [company] = await db

@@ -108,7 +108,10 @@ export function resolveScopedMembership(
 
   const membership = selectNarrowestMatchingMembership(activeMemberships, {
     companyId: context.companyId ?? null,
+    entityGroupId: context.entityGroupId ?? null,
     organizationId: context.organizationId ?? null,
+    projectId: context.projectId ?? null,
+    teamId: context.teamId ?? null,
   });
 
   if (!membership) {
@@ -118,7 +121,10 @@ export function resolveScopedMembership(
   if (
     !membershipMatchesGrantScope(membership, {
       companyId: context.companyId ?? null,
+      entityGroupId: context.entityGroupId ?? null,
       organizationId: context.organizationId ?? null,
+      projectId: context.projectId ?? null,
+      teamId: context.teamId ?? null,
     })
   ) {
     return createScopeMismatchDenial(activeMemberships, context, createDenial);

@@ -11,19 +11,19 @@ import {
 
 import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
 
-import { createDrizzleOutboxPersistenceAdapter } from "./drizzle-outbox-persistence.adapter.js";
+import { createDrizzleOutboxPersistenceAdapter } from "@/lib/outbox/drizzle-outbox-persistence.adapter";
 import {
   assertSchedulerStartupPolicy,
   readExecutionSpinePolicy,
   readTriggerSecretKeyConfigured,
-} from "./execution-spine-policy.server.js";
+} from "@/lib/outbox/execution-spine-policy.server";
 import {
   getExecutionSpineRegistrationState,
   markOutboxFoundationRegistered,
-} from "./execution-spine-state.server.js";
-import { createLoggingOutboxEventDispatcher } from "./logging-outbox-dispatcher.server.js";
-import { registerOutboxSchedule } from "./register-outbox-schedule.server.js";
-import { verifyOutboxWorkerRelease } from "./verify-outbox-worker-release.server.js";
+} from "@/lib/outbox/execution-spine-state.server";
+import { createLoggingOutboxEventDispatcher } from "@/lib/outbox/logging-outbox-dispatcher.server";
+import { registerOutboxSchedule } from "@/lib/outbox/register-outbox-schedule.server";
+import { verifyOutboxWorkerRelease } from "@/lib/outbox/verify-outbox-worker-release.server";
 
 const outboxFoundationLogger = createApiHandlerLogger("outbox-foundation");
 

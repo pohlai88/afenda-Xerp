@@ -73,6 +73,12 @@ export const parentOrganizationIdRef = (): EntityRefColumn =>
 export const entityGroupIdRef = (): EntityRefColumn =>
   entityRefId("entity_group_id");
 
+/** Governed foreign-key column for project references. */
+export const projectIdRef = (): EntityRefColumn => entityRefId("project_id");
+
+/** Governed foreign-key column for team references. */
+export const teamIdRef = (): EntityRefColumn => entityRefId("team_id");
+
 /** Governed foreign-key column for parent legal entity references. */
 export const parentLegalEntityIdRef = (): EntityRefColumn =>
   entityRefId("parent_legal_entity_id");
@@ -120,6 +126,12 @@ export const policyId = (): PrimaryIdColumn => primaryId("policy_id");
 /** Governed primary key for entity group entities. */
 export const entityGroupId = (): PrimaryIdColumn =>
   primaryId("entity_group_id");
+
+/** Governed primary key for project entities. */
+export const projectId = (): PrimaryIdColumn => primaryId("project_id");
+
+/** Governed primary key for team entities. */
+export const teamId = (): PrimaryIdColumn => primaryId("team_id");
 
 /** Governed primary key for ownership interest entities. */
 export const ownershipInterestId = (): PrimaryIdColumn =>

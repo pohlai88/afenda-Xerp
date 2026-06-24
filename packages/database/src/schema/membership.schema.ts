@@ -11,16 +11,22 @@ import {
 } from "../database.types.js";
 import {
   companyIdRef,
+  entityGroupIdRef,
   organizationIdRef,
   primaryId,
+  projectIdRef,
   roleIdRef,
+  teamIdRef,
   tenantIdRef,
   userIdRef,
 } from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { companies } from "./company.schema.js";
+import { entityGroups } from "./entity-group.schema.js";
 import { organizations } from "./organization.schema.js";
+import { projects } from "./project.schema.js";
 import { roles } from "./role.schema.js";
+import { teams } from "./team.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { users } from "./user.schema.js";
 
@@ -40,7 +46,16 @@ export const memberships = pgTable(
     companyId: companyIdRef().references(() => companies.id, {
       onDelete: "restrict",
     }),
+    entityGroupId: entityGroupIdRef().references(() => entityGroups.id, {
+      onDelete: "restrict",
+    }),
     organizationId: organizationIdRef().references(() => organizations.id, {
+      onDelete: "restrict",
+    }),
+    projectId: projectIdRef().references(() => projects.id, {
+      onDelete: "restrict",
+    }),
+    teamId: teamIdRef().references(() => teams.id, {
       onDelete: "restrict",
     }),
     userId: userIdRef()
@@ -61,12 +76,24 @@ export const memberships = pgTable(
     uniqueIndex("memberships_company_scope_unique")
       .on(table.userId, table.tenantId, table.companyId, table.roleId)
       .where(sql`${table.scopeType} = 'company'`),
+    uniqueIndex("memberships_entity_group_scope_unique")
+      .on(table.userId, table.tenantId, table.entityGroupId, table.roleId)
+      .where(sql`${table.scopeType} = 'entity_group'`),
     uniqueIndex("memberships_organization_scope_unique")
       .on(table.userId, table.tenantId, table.organizationId, table.roleId)
       .where(sql`${table.scopeType} = 'organization'`),
+    uniqueIndex("memberships_project_scope_unique")
+      .on(table.userId, table.tenantId, table.projectId, table.roleId)
+      .where(sql`${table.scopeType} = 'project'`),
+    uniqueIndex("memberships_team_scope_unique")
+      .on(table.userId, table.tenantId, table.teamId, table.roleId)
+      .where(sql`${table.scopeType} = 'team'`),
     index("memberships_tenant_id_idx").on(table.tenantId),
     index("memberships_company_id_idx").on(table.companyId),
+    index("memberships_entity_group_id_idx").on(table.entityGroupId),
     index("memberships_organization_id_idx").on(table.organizationId),
+    index("memberships_project_id_idx").on(table.projectId),
+    index("memberships_team_id_idx").on(table.teamId),
     index("memberships_user_id_idx").on(table.userId),
     index("memberships_role_id_idx").on(table.roleId),
     index("memberships_user_status_idx").on(table.userId, table.status),
