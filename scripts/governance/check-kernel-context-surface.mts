@@ -161,12 +161,12 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  if (!support.includes("consolidation-scope-resolution.stub.ts")) {
+  if (!support.includes("consolidation-scope-resolution.server.ts")) {
     violations.push({
-      rule: "consolidation-stub-registry",
+      rule: "consolidation-resolver-registry",
       file: contextRegistrySource,
       message:
-        "consolidation-scope-resolution.stub.ts must remain in KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES",
+        "consolidation-scope-resolution.server.ts must remain in KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES",
     });
   }
 

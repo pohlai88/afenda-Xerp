@@ -1,14 +1,12 @@
 import { DEFAULT_DASHBOARD_LAYOUT } from "@afenda/appshell";
 import type { ExecutionJsonObject, ExecutionPayload } from "@afenda/execution";
-
-import type { DashboardLayoutPresetDto } from "@/server/api/contracts/workspace/dashboard-layout.api-contract";
-import { saveWorkspaceDashboardLayout } from "@/server/workspace/dashboard-layout.service";
-
 import {
   type EnqueueOutboxEventInput,
   type EnqueueOutboxEventResult,
   enqueueOutboxEvent,
 } from "@/lib/outbox/enqueue-outbox-event.server";
+import type { DashboardLayoutPresetDto } from "@/server/api/contracts/workspace/dashboard-layout.api-contract";
+import { saveWorkspaceDashboardLayout } from "@/server/workspace/dashboard-layout.service";
 
 export const WORKSPACE_DASHBOARD_LAYOUT_UPDATED_EVENT =
   "workspace.dashboard.layout.updated" as const;

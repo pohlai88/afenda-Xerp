@@ -6,7 +6,6 @@ import {
 } from "@afenda/observability";
 import { z } from "zod";
 
-// biome-ignore lint/performance/noBarrelFile: compatibility shim; TIP-010 validation lives in @afenda/observability.
 export {
   AuditValidationError,
   assertAuditMetadata,

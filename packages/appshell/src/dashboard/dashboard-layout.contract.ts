@@ -10,6 +10,8 @@ export type DashboardLayoutWidgetKey =
 export interface DashboardWidgetLayoutItem {
   readonly h: number;
   readonly i: DashboardLayoutWidgetKey;
+  readonly maxH?: number;
+  readonly maxW?: number;
   readonly minH?: number;
   readonly minW?: number;
   readonly w: number;

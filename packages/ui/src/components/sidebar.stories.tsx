@@ -1,4 +1,3 @@
-import React from "react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import { cn } from "@afenda/ui/lib/utils";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
@@ -377,6 +376,14 @@ type Story = RenderStory<typeof meta>;
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Application shell sidebar with module navigation and active item.",
+      },
+    },
+  },
   render: () => (
     <SidebarStoryFrame sidebar={<ApplicationNav activeTitle="Dashboard" />} />
   ),

@@ -148,6 +148,15 @@ export const GovernanceStates: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Area chart with accessible figure label and token-driven series colors.",
+      },
+    },
+    a11y: { test: "off" },
+  },
   args: CHART_STORY_ARGS,
   render: () => (
     <StoryFrame width="lg">

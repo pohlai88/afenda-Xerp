@@ -1,6 +1,5 @@
 import type { CookieOptions } from "@supabase/ssr";
 import {
-  // biome-ignore lint/suspicious/noDeprecatedImports: getAll/setAll cookie methods are passed in createSupabaseBrowserClient
   createBrowserClient,
   parseCookieHeader,
   serializeCookieHeader,

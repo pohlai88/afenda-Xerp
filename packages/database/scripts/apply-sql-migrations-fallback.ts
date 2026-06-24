@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import path from "node:path";
 
 import pg from "pg";
 
@@ -21,7 +20,7 @@ function splitMigrationStatements(sql: string): readonly string[] {
 
 async function readAppliedHashes(pool: pg.Pool): Promise<Set<string>> {
   const result = await pool.query<{ hash: string }>(
-    `SELECT hash FROM drizzle.__drizzle_migrations`
+    "SELECT hash FROM drizzle.__drizzle_migrations"
   );
 
   return new Set(result.rows.map((row) => row.hash));
@@ -39,7 +38,7 @@ async function applyMigrationEntry(
   }
 
   await pool.query(
-    `INSERT INTO drizzle.__drizzle_migrations (hash, created_at) VALUES ($1, $2)`,
+    "INSERT INTO drizzle.__drizzle_migrations (hash, created_at) VALUES ($1, $2)",
     [entry.hash, entry.when]
   );
 }

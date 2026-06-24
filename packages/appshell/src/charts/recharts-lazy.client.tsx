@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { ComponentType } from "react";
 
 function ChartSkeleton() {
   return (
@@ -12,69 +13,67 @@ function ChartSkeleton() {
   );
 }
 
-const lazyChartOptions = {
-  loading: ChartSkeleton,
-  ssr: false,
-} as const;
+type RechartsModule = typeof import("recharts");
 
-type AreaChartComponent = typeof import("recharts")["AreaChart"];
-type AreaComponent = typeof import("recharts")["Area"];
-type BarChartComponent = typeof import("recharts")["BarChart"];
-type BarComponent = typeof import("recharts")["Bar"];
-type CartesianGridComponent = typeof import("recharts")["CartesianGrid"];
-type CellComponent = typeof import("recharts")["Cell"];
-type LineChartComponent = typeof import("recharts")["LineChart"];
-type LineComponent = typeof import("recharts")["Line"];
-type XAxisComponent = typeof import("recharts")["XAxis"];
-type YAxisComponent = typeof import("recharts")["YAxis"];
+type AreaChartComponent = RechartsModule["AreaChart"];
+type AreaComponent = RechartsModule["Area"];
+type BarChartComponent = RechartsModule["BarChart"];
+type BarComponent = RechartsModule["Bar"];
+type CartesianGridComponent = RechartsModule["CartesianGrid"];
+type CellComponent = RechartsModule["Cell"];
+type LineChartComponent = RechartsModule["LineChart"];
+type LineComponent = RechartsModule["Line"];
+type XAxisComponent = RechartsModule["XAxis"];
+type YAxisComponent = RechartsModule["YAxis"];
 
-export const LazyArea = dynamic(
-  () => import("recharts").then((module) => ({ default: module.Area })),
-  lazyChartOptions
-) as AreaComponent;
+function lazyRechartsComponent<T>(selector: (module: RechartsModule) => T): T {
+  const loader = () =>
+    import("recharts").then((module) => ({
+      default: selector(module) as ComponentType,
+    }));
 
-export const LazyAreaChart = dynamic(
-  () => import("recharts").then((module) => ({ default: module.AreaChart })),
-  lazyChartOptions
-) as AreaChartComponent;
+  return dynamic(loader, {
+    loading: ChartSkeleton,
+    ssr: false,
+  }) as unknown as T;
+}
 
-export const LazyBar = dynamic(
-  () => import("recharts").then((module) => ({ default: module.Bar })),
-  lazyChartOptions
-) as BarComponent;
+export const LazyArea = lazyRechartsComponent<AreaComponent>(
+  (module) => module.Area
+);
 
-export const LazyBarChart = dynamic(
-  () => import("recharts").then((module) => ({ default: module.BarChart })),
-  lazyChartOptions
-) as BarChartComponent;
+export const LazyAreaChart = lazyRechartsComponent<AreaChartComponent>(
+  (module) => module.AreaChart
+);
 
-export const LazyCartesianGrid = dynamic(
-  () =>
-    import("recharts").then((module) => ({ default: module.CartesianGrid })),
-  lazyChartOptions
-) as CartesianGridComponent;
+export const LazyBar = lazyRechartsComponent<BarComponent>(
+  (module) => module.Bar
+);
 
-export const LazyCell = dynamic(
-  () => import("recharts").then((module) => ({ default: module.Cell })),
-  lazyChartOptions
-) as CellComponent;
+export const LazyBarChart = lazyRechartsComponent<BarChartComponent>(
+  (module) => module.BarChart
+);
 
-export const LazyLine = dynamic(
-  () => import("recharts").then((module) => ({ default: module.Line })),
-  lazyChartOptions
-) as LineComponent;
+export const LazyCartesianGrid = lazyRechartsComponent<CartesianGridComponent>(
+  (module) => module.CartesianGrid
+);
 
-export const LazyLineChart = dynamic(
-  () => import("recharts").then((module) => ({ default: module.LineChart })),
-  lazyChartOptions
-) as LineChartComponent;
+export const LazyCell = lazyRechartsComponent<CellComponent>(
+  (module) => module.Cell
+);
 
-export const LazyXAxis = dynamic(
-  () => import("recharts").then((module) => ({ default: module.XAxis })),
-  lazyChartOptions
-) as XAxisComponent;
+export const LazyLine = lazyRechartsComponent<LineComponent>(
+  (module) => module.Line
+);
 
-export const LazyYAxis = dynamic(
-  () => import("recharts").then((module) => ({ default: module.YAxis })),
-  lazyChartOptions
-) as YAxisComponent;
+export const LazyLineChart = lazyRechartsComponent<LineChartComponent>(
+  (module) => module.LineChart
+);
+
+export const LazyXAxis = lazyRechartsComponent<XAxisComponent>(
+  (module) => module.XAxis
+);
+
+export const LazyYAxis = lazyRechartsComponent<YAxisComponent>(
+  (module) => module.YAxis
+);

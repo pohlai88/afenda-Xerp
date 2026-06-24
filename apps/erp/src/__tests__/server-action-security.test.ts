@@ -44,7 +44,7 @@ describe("server-action-security — static contract", () => {
   it("returns serializable shaped success data only", () => {
     expect(actionSource).toContain("ProtectedDemoActionData");
     expect(actionSource).toMatch(
-      /export type ProtectedDemoActionData = \{[\s\S]*?readonly message: string;[\s\S]*?\};/
+      /export (?:type|interface) ProtectedDemoActionData[\s\S]*?readonly message: string/
     );
     expect(actionSource).not.toMatch(/serverActionSuccess\(\{[\s\S]*userId/);
   });

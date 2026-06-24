@@ -1,9 +1,9 @@
 import {
   type ExecutionContext,
-  type UserId,
   toCompanyId,
   toTenantId,
   toUserId,
+  type UserId,
 } from "@afenda/kernel";
 
 import type { ApiRequestContext } from "@/server/api/runtime/api-request-context";
@@ -17,11 +17,13 @@ export interface CompanyScopedApiActor {
 }
 
 export function requireCompanyScopedApiActor(
-  context: {
-    readonly correlationId: string;
-    readonly execution: Pick<ExecutionContext, "companyId" | "tenantId">;
-    readonly userId: UserId | null;
-  } | Pick<ApiRequestContext<unknown>, "correlationId" | "execution" | "userId">
+  context:
+    | {
+        readonly correlationId: string;
+        readonly execution: Pick<ExecutionContext, "companyId" | "tenantId">;
+        readonly userId: UserId | null;
+      }
+    | Pick<ApiRequestContext<unknown>, "correlationId" | "execution" | "userId">
 ): CompanyScopedApiActor {
   if (context.userId === null) {
     throw new ApiRouteError("unauthenticated", "Authentication is required.");

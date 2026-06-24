@@ -56,7 +56,7 @@ Validation
 | Operating context resolver | `apps/erp/src/lib/context/resolve-operating-context.server.ts` | Partial |
 | Resolver pipeline registry | `apps/erp/src/lib/context/operating-context-resolver-registry.ts` | Partial |
 | API handler factory | `apps/erp/src/server/api/runtime/create-api-handler.ts` | Partial |
-| API RBAC wiring | `apps/erp/src/lib/api/authorize-api-route.ts`, [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-rbac-wiring.md) | Partial |
+| API RBAC wiring | `apps/erp/src/lib/api/authorize-api-route.ts`, [`tip-010-api-rbac-wiring.md`](%5BComplete%5D%20tip-010-api-rbac-wiring.md) | Complete |
 | Audit contracts + writer | `packages/database/src/audit/audit-event.contract.ts`, `audit.writer.ts` | Partial |
 | ERP audit recorder | `apps/erp/src/lib/observability/record-erp-audit-event.ts` | Partial |
 | Correlation ID | `apps/erp/src/lib/observability/erp-correlation-id.ts` | Partial |

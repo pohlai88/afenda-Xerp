@@ -1,4 +1,3 @@
-import React from "react";
 import type { ComponentType, ReactNode } from "react";
 import { densityToAttribute } from "@afenda/ui/governance";
 
@@ -16,7 +15,7 @@ export function DashboardBlockStoryCanvas({
       className="app-shell-root"
       data-afenda-density={densityToAttribute("standard")}
     >
-      <div className="app-shell-content">{children}</div>
+      <div className="app-shell-dashboard-block-story-frame">{children}</div>
     </div>
   );
 }

@@ -100,7 +100,6 @@ export const SelectionBoard: Story = {
 
         <DocsVariantSection label="feature strip · bordered">
           <DocsFeatureStrip
-            title="Catalog highlights"
             items={[
               {
                 title: "Porcelain material",
@@ -125,6 +124,7 @@ export const SelectionBoard: Story = {
                 icon: SparklesIcon,
               },
             ]}
+            title="Catalog highlights"
             variant="bordered"
           />
         </DocsVariantSection>
@@ -145,7 +145,10 @@ export const SelectionBoard: Story = {
         </DocsVariantSection>
 
         <DocsVariantSection label="accordion · separated">
-          <DocsAccordionPanel items={[...SAMPLE_FAQ_ITEMS]} variant="separated" />
+          <DocsAccordionPanel
+            items={[...SAMPLE_FAQ_ITEMS]}
+            variant="separated"
+          />
         </DocsVariantSection>
 
         <DocsVariantSection label="tabbed panel · line tabs">

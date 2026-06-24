@@ -83,4 +83,4 @@ pnpm --filter @afenda/erp typecheck test:run
 pnpm check:api-contracts
 ```
 
-See also: [nextjs-api-hardening.md](./nextjs-api-hardening.md), [TIP-010 delivery](../delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md)
+See also: [nextjs-api-hardening.md](./nextjs-api-hardening.md), [TIP-010 delivery](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md)

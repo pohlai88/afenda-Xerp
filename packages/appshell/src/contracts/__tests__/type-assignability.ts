@@ -1,4 +1,4 @@
-/** Compile-time assignability checks for contract ↔ runtime re-export alignment. */
+/** Minimal compile-time helpers for contract ↔ runtime alignment tests. */
 export type AssertMutuallyAssignable<A, B> = A extends B
   ? B extends A
     ? true

@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import { PERMISSION_REGISTRY } from "../grants/permission.contract.js";
 import {
-  resolvePermissionScopeContext,
-  selectNarrowestMatchingMembership,
   type MembershipContract,
+  resolvePermissionScopeContext,
+  resolveScopedMembership,
+  selectNarrowestMatchingMembership,
 } from "../scope/index.js";
 
 const TENANT_ID = "tenant-001";
@@ -14,9 +16,7 @@ const COMPANY_B = "company-b";
 const ORG_A = "org-a";
 const ROLE_ID = "role-001";
 
-function entityGroupMembership(
-  entityGroupId: string
-): MembershipContract {
+function entityGroupMembership(entityGroupId: string): MembershipContract {
   return {
     id: "membership-entity-group",
     tenantId: TENANT_ID,
@@ -71,7 +71,7 @@ describe("entity_group membership scope", () => {
       companyId: COMPANY_A,
       organizationId: ORG_A,
       projectId: null,
-    teamId: null,
+      teamId: null,
     };
 
     const selected = selectNarrowestMatchingMembership(
@@ -101,5 +101,43 @@ describe("entity_group membership scope", () => {
     expect(permissionScope.entityGroupId).toBe(GROUP_A);
     expect(permissionScope.companyId).toBe(COMPANY_A);
     expect(permissionScope.organizationId).toBe(ORG_A);
+  });
+
+  it("denies scoped membership resolution when entity group boundary mismatches", () => {
+    const resolution = resolveScopedMembership(
+      [entityGroupMembership(GROUP_A)],
+      {
+        tenantId: TENANT_ID,
+        entityGroupId: GROUP_B,
+        companyId: COMPANY_B,
+      },
+      (_code, partial) => ({
+        allowed: false as const,
+        code: "company_mismatch" as const,
+        decision: {
+          actorId: "user-1",
+          tenantId: TENANT_ID,
+          companyId: COMPANY_B,
+          entityGroupId: GROUP_B,
+          organizationId: null,
+          workspaceId: null,
+          membershipId: partial.membershipId,
+          roleId: partial.roleId,
+          permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+          action: "manage",
+          targetType: null,
+          targetId: null,
+          result: partial.result,
+          reason: partial.reason,
+          correlationId: "corr-001",
+          evaluatedAt: new Date().toISOString(),
+        },
+      })
+    );
+
+    expect(resolution.outcome).toBe("denied");
+    if (resolution.outcome === "denied") {
+      expect(resolution.result.decision.reason).toContain("entity group scope");
+    }
   });
 });

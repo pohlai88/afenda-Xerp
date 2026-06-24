@@ -1,13 +1,13 @@
 import {
   type MutationScope,
   resolveMutationScopeFromApiContext,
-} from "@/lib/outbox/resolve-mutation-scope.server.js";
+} from "@/lib/outbox/resolve-mutation-scope.server";
 import type { ApiRequestContext } from "@/server/api/runtime/api-request-context";
 
 import type {
   ProtectedMutationObservabilityEvent,
   ProtectedMutationSpineResult,
-} from "./protected-mutation-spine.contract.js";
+} from "./protected-mutation-spine.contract";
 
 export interface RunProtectedMutationInput<TRequest, TResult> {
   readonly context: ApiRequestContext<TRequest>;

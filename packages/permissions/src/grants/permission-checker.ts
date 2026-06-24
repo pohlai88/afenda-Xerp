@@ -172,6 +172,7 @@ export async function checkPermission(
       actorId: request.actor.actorId,
       tenantId,
       companyId: request.context.companyId ?? null,
+      entityGroupId: request.context.entityGroupId ?? null,
       organizationId: request.context.organizationId ?? null,
       workspaceId: request.context.workspaceId ?? null,
       membershipId: partial.membershipId,

@@ -1,4 +1,3 @@
-import React from "react";
 import type { Density } from "@afenda/ui/governance";
 import {
   APP_SHELL_RECIPE_SLOTS,

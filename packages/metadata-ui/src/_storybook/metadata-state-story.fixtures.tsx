@@ -1,4 +1,3 @@
-import React from "react";
 import type { MetadataStateProps } from "../contracts/state.contract.js";
 
 export const metadataStateWithShellSlotsArgs = {

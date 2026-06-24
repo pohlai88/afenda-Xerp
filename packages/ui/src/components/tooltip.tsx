@@ -81,9 +81,9 @@ const TooltipTrigger = React.forwardRef<
   if (asChild) {
     return (
       <TooltipPrimitive.Trigger
-        ref={ref}
         asChild
         className={undefined}
+        ref={ref}
         {...props}
         {...governed.dataAttributes}
       />

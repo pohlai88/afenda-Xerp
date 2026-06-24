@@ -20,7 +20,7 @@ describe("database contract mappers", () => {
         entityGroupId: null,
         organizationId: null,
         projectId: null,
-      teamId: null,
+        teamId: null,
         userId: "user-001",
         roleId: "role-001",
         scopeType: "company",

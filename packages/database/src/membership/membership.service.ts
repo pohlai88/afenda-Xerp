@@ -1,9 +1,10 @@
 import { and, eq } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
-import type { AuditActorType, RoleScope } from "../database.types.js";
+import type { AuditActorType } from "../database.types.js";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
+import { isRoleScope } from "../role/role.contract.js";
 import { companies } from "../schema/company.schema.js";
 import { entityGroups } from "../schema/entity-group.schema.js";
 import { memberships } from "../schema/membership.schema.js";
@@ -169,7 +170,13 @@ async function assertRoleGrantValid(
     );
   }
 
-  assertRoleMatchesMembershipScope(row.scopeType, role.scope as RoleScope);
+  if (!isRoleScope(role.scope)) {
+    throw new MembershipScopeMismatchError(
+      `Role "${row.roleId}" has an invalid scope "${role.scope}".`
+    );
+  }
+
+  assertRoleMatchesMembershipScope(row.scopeType, role.scope);
 
   if (role.scope !== "platform" && role.tenantId !== row.tenantId) {
     throw new MembershipScopeMismatchError(

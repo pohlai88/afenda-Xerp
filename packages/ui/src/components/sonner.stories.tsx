@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ThemeProvider } from "next-themes";
 import { toast } from "sonner";

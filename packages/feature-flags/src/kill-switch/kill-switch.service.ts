@@ -6,7 +6,6 @@ import {
 import type { KillSwitchContract } from "../contracts/kill-switch.contract";
 
 // Re-export the low-level resolver for consumers who need the full resolution object.
-// biome-ignore lint/performance/noBarrelFile: TIP-008 requires this compatibility service surface.
 export { resolveKillSwitch } from "@afenda/entitlements";
 
 /**

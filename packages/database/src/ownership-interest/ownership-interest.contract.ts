@@ -62,11 +62,15 @@ export interface OwnershipInterestInsertRow {
 
 /** Authority read model aligned with multi-tenancy.md ownership interest fields. */
 export interface OwnershipInterestAuthorityRecord {
+  readonly childLegalEntityId: string;
   readonly consolidationTreatment: ConsolidationTreatment;
   readonly controlType: OwnershipControlType;
   readonly effectiveFrom: string;
   readonly effectiveTo: string | null;
   readonly entityGroupId: string;
+  /**
+   * @deprecated Use `childLegalEntityId` — retained as a read alias with the same value.
+   */
   readonly investeeLegalEntityId: string;
   readonly nonControllingInterestApplicable: boolean;
   readonly ownershipInterestId: string;
@@ -214,6 +218,7 @@ export function toOwnershipInterestAuthorityRecord(input: {
     tenantId: input.tenantId,
     entityGroupId: input.entityGroupId,
     parentLegalEntityId: input.parentLegalEntityId,
+    childLegalEntityId: input.childLegalEntityId,
     investeeLegalEntityId: input.childLegalEntityId,
     ownershipPercentage: parsePercentage(input.ownershipPercentage),
     votingPercentage: parsePercentage(input.votingPercentage),

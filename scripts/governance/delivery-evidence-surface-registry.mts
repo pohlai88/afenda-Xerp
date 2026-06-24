@@ -9,7 +9,7 @@ export const DELIVERY_EVIDENCE_SURFACE_RULE =
   "tip-007-012-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation" as const;
 
 export const TIP_007_012_DELIVERY_DOC =
-  "docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md" as const;
+  "docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md" as const;
 
 export const MULTI_TENANCY_DOC_REFERENCE =
   "docs/architecture/multi-tenancy.md" as const;
@@ -56,6 +56,20 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
     qualityScript: "quality:database-tenant-domain-surface",
     gateFile: "scripts/governance/check-database-tenant-domain-surface.mts",
     sliceReference: "Database tenant domain (multi-tenancy.md §371–384)",
+  },
+  {
+    checkScript: "check:database-tenant-rls-coverage",
+    qualityScript: "quality:database-tenant-rls-coverage",
+    gateFile: "scripts/governance/check-database-tenant-rls-coverage.mts",
+    sliceReference:
+      "Tenant RLS defense-in-depth (TIP-007/012 DoD #16, Phase 4)",
+  },
+  {
+    checkScript: "check:database-tenant-rls-live",
+    qualityScript: "quality:database-tenant-rls-live",
+    gateFile: "scripts/governance/check-database-tenant-rls-live.mts",
+    sliceReference:
+      "Tenant RLS live apply proof (TIP-007/012 Slice G, environment-specific)",
   },
   {
     checkScript: "check:erp-context-surface",

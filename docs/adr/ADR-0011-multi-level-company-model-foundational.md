@@ -59,17 +59,17 @@ Runtime evidence (2026-06-23) shows **partial delivery** via TIP-007/012 slice: 
 
 ## Acceptance Gate
 
-- [ ] Glossary terms for all hierarchy levels accepted
-- [ ] Kernel operating-context registry includes entity group + ownership + consolidation scope
-- [ ] Database schemas for entity group + ownership interest with contract tests
-- [ ] ERP operating context resolver handles multi-company selection
-- [ ] Permission scope grants tested for subsidiary vs group role scenarios
-- [ ] `pnpm check:multi-tenancy-enterprise-acceptance` passes
+- [x] Glossary terms for all hierarchy levels accepted — [`glossary.md`](../architecture/glossary.md); Consolidation Scope + business master data map (TIP-008B)
+- [x] Kernel operating-context registry includes entity group + ownership + consolidation scope — `context-registry.ts`; `consolidation-scope-resolution.server.ts`
+- [x] Database schemas for entity group + ownership interest with contract tests — TIP-008A deliverables
+- [x] ERP operating context resolver handles multi-company selection — `resolve-operating-context.server.ts`; consolidation scope via `resolve-consolidation-scope.server.ts` (TIP-008A)
+- [x] Permission scope grants tested for subsidiary vs group role scenarios — [`entity-group-membership-scope.test.ts`](../../packages/permissions/src/__tests__/entity-group-membership-scope.test.ts); [`authorize-api-route.test.ts`](../../apps/erp/src/lib/api/__tests__/authorize-api-route.test.ts) (TIP-010 Slice 2)
+- [x] `pnpm check:multi-tenancy-enterprise-acceptance` passes
 
 ---
 
 ## References
 
 - [`docs/architecture/multi-tenancy.md`](../architecture/multi-tenancy.md)
-- [`tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md`](../delivery/tips/%5BPartially%20Implemented%5D%20tip-007-012-enterprise-group-operating-context.md)
+- [`tips/[Complete] tip-007-012-enterprise-group-operating-context.md`](../delivery/tips/%5BComplete%5D%20tip-007-012-enterprise-group-operating-context.md)
 - ADR-0010 Accounting Readiness Gate

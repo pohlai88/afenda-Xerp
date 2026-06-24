@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  type MembershipContract,
   resolvePermissionScopeContext,
   selectNarrowestMatchingMembership,
-  type MembershipContract,
 } from "../scope/index.js";
 
 const TENANT_ID = "tenant-001";
@@ -68,7 +68,7 @@ describe("project membership scope", () => {
       companyId: COMPANY_A,
       organizationId: ORG_A,
       projectId: null,
-    teamId: null,
+      teamId: null,
     };
 
     const selected = selectNarrowestMatchingMembership(

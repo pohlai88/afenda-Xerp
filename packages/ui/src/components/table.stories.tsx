@@ -1,4 +1,3 @@
-import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -538,6 +537,14 @@ export const GovernanceAccessibility: Story = {
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Semantic table with caption, header scope, and tabular body rows.",
+      },
+    },
+  },
   render: (args) => (
     <StoryFrame width="xl">
       <Table {...args}>

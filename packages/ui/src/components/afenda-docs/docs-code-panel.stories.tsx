@@ -42,3 +42,20 @@ export const VariantMatrix: Story = {
     </DocsPreview>
   ),
 };
+
+/**
+ * For Shiki syntax highlighting, multi-file tabs, and copy — see:
+ * Storybook / Code Block (Shiki) → VsDocsCodePanel
+ *
+ * http://localhost:6006/?path=/story/storybook-code-block-shiki--vs-docs-code-panel
+ */
+export const SeeShikiUpgrade: Story = {
+  render: () => (
+    <DocsPreview width="lg">
+      <DocsCodePanel
+        code={`// Legacy DocsCodePanel — plain pre/code, no Shiki.\n// Upgrade path: Storybook / Code Block (Shiki) → VsDocsCodePanel\n\n${SAMPLE_CODE}`}
+        title="See Storybook / Code Block (Shiki)"
+      />
+    </DocsPreview>
+  ),
+};

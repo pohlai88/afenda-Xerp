@@ -1,7 +1,7 @@
 ---
 title: Afenda ERP — LLM Development Master Plan
 version: 5.0.0
-date: 2026-06-23
+date: 2026-06-24
 role: strategic-compass-and-roadmap
 canonical: true
 supersedes:
@@ -73,26 +73,29 @@ See: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.
 
 ---
 
-## Runtime Truth as of Current Audit (2026-06-23)
+## Runtime Truth as of Current Audit (2026-06-24)
 
 > Full audit: [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md)
 > Matrix: [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md)
 
 **v4.0.0 Section 3 is superseded.** The 2026-06-20 audit incorrectly described the codebase as pre-implementation. Below is evidence-backed current state.
 
-| Area | v4 claim | Actual status (2026-06-23) | Evidence |
+| Area | v4 claim | Actual status (2026-06-24) | Evidence |
 | --- | --- | --- | --- |
 | `@afenda/design-system` | 0 CSS | **Partial** — token/CSS pipeline | `generate-tokens-css.ts`, `dist/css/tokens.css` |
 | `@afenda/ui` | Placeholder | **Implemented** — 58 components | `packages/ui/src/components/*.tsx`, 68+ tests |
 | `@afenda/metadata-ui` | No renderers | **Partial** — renderers exist | `renderers/default-section-renderers.tsx`, 44 `.tsx` |
-| `@afenda/appshell` | Hardcoded hex only | **Partial** — governed CSS + blocks | `afenda-appshell.css`, 92 `.tsx`, shadcn-studio blocks |
-| `apps/erp` | Minimal inline auth | **Partial** — platform spine | 199 TS/TSX, `globals.css`, context resolver, API RBAC |
+| `@afenda/appshell` | Hardcoded hex only | **Implemented** — governed CSS + authority contracts | `afenda-appshell.css`, 93 `.tsx`, `src/contracts/` (TIP-006 Complete) |
+| `apps/erp` | Minimal inline auth | **Partial** — platform spine + System Admin MVP | 199+ TS/TSX, manifest routes, governed APIs |
 | TIP-UI-01/02 | Not started | **Complete** | Delivery docs + runtime |
-| TIP-UI-03/04/05 | Not started | **Partial** | Runtime ahead of delivery doc status |
-| TIP-007/012 multi-tenancy | Not started | **Partial** | `tip-007-012-enterprise-group-operating-context.md` |
+| TIP-UI-03/04/05 | Not started | **Partial** | Slice 1 delivered each; ERP polish open |
+| TIP-007/012 multi-tenancy | Not started | **Partial** | Slices A–B delivered; RLS proof pending |
 | Kernel contexts | 6 missing | **Implemented (contracts)** | `context-registry.ts` — 10 required modules |
-| TIP-011 outbox | Missing | **Still missing** | No outbox schema in database |
-| System Admin | Implied in exit gate | **Missing** | No admin routes in `apps/erp` |
+| TIP-011 outbox | Missing | **Complete** | Outbox schema + publish worker + ERP proof |
+| TIP-012 spine | Partial | **Complete** | Lifecycle test + outbox on dashboard PUT |
+| TIP-010A API contracts | Missing | **Complete** | Registry, method policy, idempotency, pagination |
+| TIP-007A manifest | Missing | **Complete** | Entitlements → nav → ERP routes + guard |
+| System Admin | Missing | **Complete (MVP)** | `system-admin` layout + pages + governed APIs (TIP-013) |
 | Accounting Core | Blocked (correct) | **Blocked (correct)** | No `@afenda/accounting` package |
 
 **TypeScript baseline:** `pnpm typecheck` passes. Quality gap is **incomplete foundation gates**, not compile errors.
@@ -148,16 +151,16 @@ Afenda is a **Next.js-first, TypeScript-first, AI-governed, manufacturing-focuse
 **Delivery authority:** [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md)
 
 ```text
-Phase 0  Documentation truth reset (TIP-000A–D)     ← CURRENT
-Phase 1  Architecture authority (TIP-006, 007, 008)
-Phase 2  Platform runtime spine (outbox, TIP-012)
-Phase 3  Security & permission spine (TIP-010 closeout)
-Phase 4  Database & migration governance (RLS proof)
-Phase 5  API contract governance
-Phase 6  Design / UI / AppShell / Metadata UI (TIP-UI closeout)
-Phase 7  Feature manifest & module governance
-Phase 8  System Admin control plane
-Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
+Phase 0  Documentation truth reset (TIP-000A–D)     ← Complete
+Phase 1  Architecture authority (TIP-006, 007, 008) ← Track A closeout (008B map done)
+Phase 2  Platform runtime spine (outbox, TIP-012)   ← Complete
+Phase 3  Security & permission spine (TIP-010)      ← API RBAC Complete
+Phase 4  Database & migration governance (RLS proof) ← CURRENT
+Phase 5  API contract governance                    ← Complete (TIP-010A)
+Phase 6  Design / UI / AppShell / Metadata UI       ← CURRENT (TIP-UI-03/04/05)
+Phase 7  Feature manifest & module governance       ← Complete (TIP-007A)
+Phase 8  System Admin control plane                 ← MVP Complete (TIP-013)
+Phase 9  ACCOUNTING READINESS GATE ──► TIP-014+ only after pass
 ```
 
 ---
@@ -173,7 +176,7 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 
 ---
 
-## 5. Foundation TIP status (evidence-backed, 2026-06-23)
+## 5. Foundation TIP status (evidence-backed, 2026-06-24)
 
 ### 5.1 Track A — Governance & platform
 
@@ -185,13 +188,17 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 | TIP-004 | Design System Contracts + UI consumption | **Complete** | TIP-004 policy, ui-guard | — |
 | TIP-005 | Metadata Authority | **Complete (authority)** | `@afenda/metadata` | — |
 | TIP-006 | AppShell Authority | **Complete** | 93 `.tsx`, CSS, blocks, `src/contracts/` | — |
-| TIP-007 | ERP Platform Authority | **Partial** | Multi-tenancy slice delivered | Platform entity map open |
-| TIP-008A | Enterprise Hierarchy Authority | **Partial** | Entity group + ownership schemas | Consolidation resolver stub |
-| TIP-008B | Business Master Data Authority | **Not started** | — | Customer, Product, etc. |
+| TIP-007 | ERP Platform Authority | **Complete** | Platform entity barrel + drift tests | — |
+| TIP-007A | Feature Manifest Governance | **Complete** | Manifest → nav → ERP routes | — |
+| TIP-008A | Enterprise Hierarchy Authority | **Complete** | Entity group + ownership + consolidation resolver | Maintain only |
+| TIP-008B | Business Master Data Authority | **Partial** | Glossary + dependency registry map | Domain package runtime |
 | TIP-009 | Monorepo & CI/CD | **Complete** | Turborepo, `pnpm quality` | — |
-| TIP-010 | Identity & Authorization | **Partial** | API RBAC wiring doc | Not all routes; System Admin perms |
-| TIP-011 | Execution Foundation | **Partial** | Trigger.dev, execution package | **Outbox missing** |
-| TIP-012 | ERP Operating Spine | **Partial** | Context contracts + partial lifecycle | Event publication missing |
+| TIP-010 | Identity & Authorization | **Complete** | Full internal v1 route matrix + system-admin RBAC | Session→context on non-API surfaces |
+| TIP-010A | API Contract Governance | **Complete** | Registry, method policy, idempotency, pagination | Durable idempotency store |
+| TIP-011 | Execution Foundation | **Complete** | Outbox schema + publish worker + Trigger.dev **20260623.1** | — |
+| TIP-012 | ERP Operating Spine | **Complete** | Spine helper + lifecycle test + outbox on dashboard PUT | — |
+| TIP-013 | System Admin Control Plane | **Complete (MVP)** | Layout + pages + governed admin APIs | Audit pagination; settings mutations |
+| TIP-030 | Project Membership Scope | **Complete** | `projects` + `teams` + RLS scope | PM domain logic |
 
 ### 5.2 Track B — UI implementation
 
@@ -199,14 +206,14 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-013+ only after pass
 | --- | --- | --- | --- | --- |
 | TIP-UI-01 | CSS Pipeline | **Complete** | `globals.css`, tokens.css | — |
 | TIP-UI-02 | Component Library | **Complete** | 58 components, tests | ADR-0008 ref-as-prop deferred |
-| TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` | Delivery doc stale |
-| TIP-UI-04 | Metadata-UI Renderers | **Partial** | Section renderers exist | ERP production wiring |
-| TIP-UI-05 | ERP App Surfaces | **Partial** | `@afenda/ui` auth | Module placeholders missing |
+| TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` (Slice 1) | ERP shell closeout (Slice 2) |
+| TIP-UI-04 | Metadata-UI Renderers | **Partial** | Section renderers exist (Slice 1) | ERP production wiring (Slice 2) |
+| TIP-UI-05 | ERP App Surfaces | **Partial** | `@afenda/ui` auth; manifest placeholders | Loading/error boundaries + polish |
 | TIP-UI-06 | React 19 ref-as-prop | **Proposed** | ADR-0008 | Not started (batch deferred) |
 
-### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-23)
+### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-24)
 
-Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Misnumbered evidence retained with superseded banners.
+Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Duplicate `[status]` prefixes for the same TIP basename are removed — superseded copies retained only for misnumbered evidence (TIP-010†, TIP-011†).
 
 ---
 
@@ -254,7 +261,7 @@ Validation
   → Execution          (domain service)
   → Audit              (@afenda/database audit + @afenda/observability)
   → Observability      (pino + correlation ID)
-  → Event publication  (outbox → @afenda/execution)   ← NOT YET IMPLEMENTED
+  → Event publication  (outbox → @afenda/execution)   ← IMPLEMENTED (TIP-011 + TIP-012)
 ```
 
 **Kernel operating context (`@afenda/kernel`) — registry status:**
@@ -272,7 +279,7 @@ Validation
 | PermissionScopeContext | **Exists** | `permission-scope-context.contract.ts` |
 | ConsolidationScopeContext | **Exists** | `consolidation-scope-context.contract.ts` |
 | ExecutionContext | **Exists** | `execution-context.contract.ts` |
-| Consolidation resolution | **Stub** | `consolidation-scope-resolution.stub.ts` |
+| Consolidation resolution | **Implemented** | `consolidation-scope-resolution.server.ts` + ERP resolver |
 
 > v4 listed PermissionContext, AuditContext, ApprovalContext, MetadataContext, FeatureFlagContext, EntitlementContext, CorrelationContext as "Missing" — **superseded**. Audit/approval/metadata/feature/entitlement concerns are distributed across `@afenda/observability`, `@afenda/permissions`, `@afenda/metadata`, `@afenda/feature-flags`, `@afenda/entitlements`, and ERP runtime — not separate kernel context files.
 

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   GOVERNED_AVATAR_SIZES,
   GOVERNED_STATES,

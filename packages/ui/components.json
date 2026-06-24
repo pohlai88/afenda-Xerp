@@ -11,16 +11,23 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "#/components",
+    "components": "#/components/shadcn-studio/blocks",
     "utils": "#/lib/utils",
     "hooks": "#/hooks",
     "lib": "#/lib",
-    "ui": "#/components"
+    "ui": "#/components/shadcn-studio/primitives"
   },
   "registries": {
     "@shadcn-studio": "https://shadcnstudio.com/r/{style}/{name}.json",
     "@ss-blocks": {
       "url": "https://shadcnstudio.com/r/blocks/{style}/{name}.json",
+      "params": {
+        "email": "${EMAIL}",
+        "license_key": "${LICENSE_KEY}"
+      }
+    },
+    "@ss-components": {
+      "url": "https://shadcnstudio.com/r/components/{style}/{name}.json",
       "params": {
         "email": "${EMAIL}",
         "license_key": "${LICENSE_KEY}"

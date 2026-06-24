@@ -1,0 +1,30 @@
+/**
+ * TIP-007 — single import surface for platform entity authority contracts.
+ * Re-exports canonical kernel shapes; does not duplicate interface definitions.
+ */
+// biome-ignore-all lint/performance/noBarrelFile: TIP-007 requires a governed platform authority export surface.
+
+export type {
+  LegalEntityContext,
+  OrganizationUnitContext,
+  PermissionScopeContext,
+  TenantContext,
+  WorkspaceContext,
+} from "../../context/index.js";
+
+export type {
+  AuditEventId,
+  CorrelationId,
+  PermissionId,
+  UserId,
+} from "../platform-id.contract.js";
+
+export {
+  getPlatformEntityAuthority,
+  isPlatformEntityId,
+  PLATFORM_ENTITY_AUTHORITY_REGISTRY,
+  PLATFORM_ENTITY_IDS,
+  type PlatformEntityAuthorityEntry,
+  type PlatformEntityId,
+  type RepoRelativePath,
+} from "./platform-entity-authority.contract.js";

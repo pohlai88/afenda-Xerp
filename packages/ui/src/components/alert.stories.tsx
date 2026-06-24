@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DENSITIES,
   GOVERNED_PANEL_RADII,

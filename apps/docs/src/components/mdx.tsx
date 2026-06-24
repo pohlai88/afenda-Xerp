@@ -1,5 +1,3 @@
-import { AutoTypeTable } from "@/components/auto-type-table";
-import { GraphView } from "@/components/graph-view";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Banner } from "fumadocs-ui/components/banner";
 import { Callout } from "fumadocs-ui/components/callout";
@@ -22,6 +20,8 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
+import { AutoTypeTable } from "@/components/auto-type-table";
+import { GraphView } from "@/components/graph-view";
 
 /**
  * Global MDX component registry — full Fumadocs UI catalog.

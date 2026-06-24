@@ -21,6 +21,7 @@
     "@afenda/design-system": "workspace:*",
     "@afenda/entitlements": "workspace:*",
     "@afenda/execution": "workspace:*",
+    "@tanstack/react-table": "^8.21.3",
     "drizzle-orm": "^0.45.2",
     "@afenda/kernel": "workspace:*",
     "@afenda/metadata": "workspace:*",
@@ -38,6 +39,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "catalog:",

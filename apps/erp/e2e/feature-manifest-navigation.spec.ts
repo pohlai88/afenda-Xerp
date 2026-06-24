@@ -1,5 +1,3 @@
-import { expect, test } from "@playwright/test";
-
 import {
   E2E_DEV_FIXTURE_ANNOTATION,
   hasE2EDevLoginCredentials,
@@ -7,7 +5,8 @@ import {
   resolveE2EDevLoginCredentials,
   resolveE2EViewerLoginCredentials,
   signInWithEmailPassword,
-} from "./fixtures/dev-auth";
+} from "@afenda/testing/e2e/erp-credentials";
+import { expect, test } from "@playwright/test";
 
 const MANIFEST_PLACEHOLDER_COPY = /registered in the feature manifest/i;
 const SIGN_IN_PATH_PATTERN = /\/sign-in/;
@@ -15,7 +14,6 @@ const ACCOUNTING_CORE_TERMS = /ledger|journal|posting/i;
 
 test.describe("feature manifest navigation (tenant admin)", () => {
   test.beforeEach((_context, testInfo) => {
-    // biome-ignore lint/suspicious/noSkippedTests: gated on local dev credentials
     test.skip(
       !hasE2EDevLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD (min 8 chars) and run pnpm auth:bootstrap:dev"
@@ -82,7 +80,6 @@ test.describe("feature manifest navigation (tenant admin)", () => {
 
 test.describe("feature manifest RBAC denial (workspace reader)", () => {
   test.beforeEach((_context, testInfo) => {
-    // biome-ignore lint/suspicious/noSkippedTests: gated on local dev login credentials
     test.skip(
       !hasE2EViewerLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD (min 8 chars); viewer defaults to {password}-viewer after pnpm auth:bootstrap:dev"

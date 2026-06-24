@@ -43,10 +43,10 @@ export interface MembershipWriteInput {
   readonly entityGroupId?: string | null;
   readonly organizationId?: string | null;
   readonly projectId?: string | null;
-  readonly teamId?: string | null;
   readonly roleId: string;
   readonly scopeType: MembershipScopeType;
   readonly status?: MembershipStatus;
+  readonly teamId?: string | null;
   readonly tenantId: string;
   readonly userId: string;
 }
@@ -56,10 +56,10 @@ export interface MembershipInsertRow {
   entityGroupId: string | null;
   organizationId: string | null;
   projectId: string | null;
-  teamId: string | null;
   roleId: string;
   scopeType: MembershipScopeType;
   status: MembershipStatus;
+  teamId: string | null;
   tenantId: string;
   userId: string;
 }

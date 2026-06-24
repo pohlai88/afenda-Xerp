@@ -1,4 +1,3 @@
-import React from "react";
 /**
  * Storybook layout helpers for `@afenda/ui` primitive stories.
  *

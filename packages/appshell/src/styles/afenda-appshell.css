@@ -1324,10 +1324,26 @@
     display: flex;
     flex-direction: column;
     gap: var(--app-shell-section-gap);
+    overflow-x: hidden;
   }
 
   .app-shell-dashboard-canvas {
     position: relative;
+  }
+
+  /**
+   * Storybook-only story frame for individual dashboard block stories.
+   * Replaces `.app-shell-content` so widgets are not forced to full viewport width/height.
+   * `min-height` gives the `height: 100%` chain a finite anchor without
+   * expanding to the full viewport.
+   */
+  .app-shell-dashboard-block-story-frame {
+    padding: var(--app-shell-content-padding-inline);
+    min-height: 10rem;
+  }
+
+  .app-shell-dashboard-block-story-frame .app-shell-dashboard-widget {
+    min-height: 10rem;
   }
 
   .app-shell-dashboard-grid {
@@ -3566,7 +3582,9 @@
   max-width: min(24rem, calc(100vw - 2rem));
 }
 
-[data-slot="dropdown-menu-content"]:has(.app-shell-dashboard-invoice-row-actions-menu) {
+[data-slot="dropdown-menu-content"]:has(
+  .app-shell-dashboard-invoice-row-actions-menu
+) {
   width: auto !important;
   min-width: 14rem;
   max-width: min(18rem, calc(100vw - 2rem));

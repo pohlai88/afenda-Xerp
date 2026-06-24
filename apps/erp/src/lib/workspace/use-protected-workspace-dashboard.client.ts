@@ -15,12 +15,18 @@ export function useProtectedWorkspaceDashboard() {
   const renderContext = useDashboardWidgetRenderContext();
   const { canEditLayout } = useWorkspaceDashboardCapabilities();
   const { clearGate, gateState, handleApiError } = usePolicyGateHandler();
-  const { errorMessage, isLoading, layout, saveLayout } =
-    useWorkspaceDashboardLayout({
-      clearGate,
-      handleApiError,
-      workspaceScope,
-    });
+  const {
+    errorMessage,
+    isLoading,
+    layout,
+    layoutLoadFallback,
+    saveLayout,
+    updatedAt,
+  } = useWorkspaceDashboardLayout({
+    clearGate,
+    handleApiError,
+    workspaceScope,
+  });
 
   const handleLayoutChange = (nextLayout: DashboardLayoutPreset) => {
     if (!canEditLayout) {
@@ -38,7 +44,9 @@ export function useProtectedWorkspaceDashboard() {
     handleLayoutChange,
     isLoading,
     layout,
+    layoutLoadFallback,
     renderContext,
     saveLayout,
+    updatedAt,
   };
 }

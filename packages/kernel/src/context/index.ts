@@ -18,15 +18,22 @@ export {
   type WorkspaceDisplayLabelInput,
 } from "./app-shell-context.contract.js";
 // ── 10. Consolidation scope ──────────────────────────────────────────────────
-export type {
-  ConsolidationEntityScope,
-  ConsolidationScopeContext,
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type ConsolidationScopeContext` export substring
+export {
+  type ConsolidationEntityScope,
+  type ConsolidationScopeContext,
+  type ConsolidationScopeWireContext,
 } from "./consolidation-scope-context.contract.js";
-// ── Consolidation scope derivation stub (TIP-008) ─────────────────────────────
+// ── Consolidation scope resolver (TIP-008A — scope metadata only) ───────────────
+export {
+  CONSOLIDATION_SCOPE_INVESTEE_DEDUP_POLICY,
+  type ConsolidationScopeInvesteeDedupPolicy,
+  mergeInvesteeConsolidationScopeEntry,
+} from "./consolidation-scope-investee-merge.policy.js";
 export {
   type DeriveConsolidationScopeInput,
   deriveConsolidationScopeContext,
-} from "./consolidation-scope-resolution.stub.js";
+} from "./consolidation-scope-resolution.server.js";
 // ── Registry (governance) ─────────────────────────────────────────────────────
 export {
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
@@ -45,7 +52,20 @@ export {
   isEnterpriseHierarchyTier,
 } from "./enterprise-hierarchy.contract.js";
 // ── 2. Entity group ──────────────────────────────────────────────────────────
-export type { EntityGroupContext } from "./entity-group-context.contract.js";
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type EntityGroupContext` export substring
+export { type EntityGroupContext } from "./entity-group-context.contract.js";
+// ── Hierarchy id boundary (TIP-008A Slice 6) ───────────────────────────────────
+export {
+  type assertHierarchyContextJsonSerializable,
+  type BrandedOwnershipInterestContext,
+  brandDeriveConsolidationScopeTrustInput,
+  brandOwnershipInterestContext,
+  type DeriveConsolidationScopeTrustInput,
+  type DeriveConsolidationScopeWireInput,
+  normalizeEntityGroupIdForWire,
+  normalizeTenantIdForWire,
+  toOwnershipInterestWireContext,
+} from "./hierarchy-id-boundary.contract.js";
 // ── 3. Legal entity / company ────────────────────────────────────────────────
 export {
   LEGAL_ENTITY_COMPANY_TYPES,
@@ -81,6 +101,7 @@ export {
   OWNERSHIP_CONTROL_TYPES,
   type OwnershipControlType,
   type OwnershipInterestContext,
+  type OwnershipInterestWireContext,
 } from "./ownership-interest-context.contract.js";
 // ── 9. Permission scope ──────────────────────────────────────────────────────
 export {
@@ -104,9 +125,11 @@ export {
   toSurfaceContext,
 } from "./surface-context.contract.js";
 // ── 6. Team ──────────────────────────────────────────────────────────────────
-export type { TeamContext } from "./team-context.contract.js";
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TeamContext` export substring
+export { type TeamContext } from "./team-context.contract.js";
 // ── 1. Tenant ────────────────────────────────────────────────────────────────
-export type { TenantContext } from "./tenant-context.contract.js";
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TenantContext` export substring
+export { type TenantContext } from "./tenant-context.contract.js";
 // ── Client authority guard ─────────────────────────────────────────────────────
 export {
   findUntrustedClientAuthorityFields,

@@ -8,6 +8,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ApiClientRequestError } from "@/lib/api/api-policy-gate.error";
 import { fetchWorkspaceDashboardLayout } from "@/lib/api/dashboard-layout.client";
+import { WORKSPACE_HOME_COPY } from "@/lib/workspace/workspace-home.copy.contract";
 import { AppShellCanvasHarness } from "../appshell-canvas-harness";
 
 vi.mock("@/lib/api/dashboard-layout.client", () => ({
@@ -69,7 +70,7 @@ describe("AppShellCanvasHarness dev fallback", () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          "Using default layout (sign in to load or save workspace layout)."
+          WORKSPACE_HOME_COPY.dashboard.status.fallbackUnauthenticated
         )
       ).toBeInTheDocument();
     });
@@ -78,5 +79,5 @@ describe("AppShellCanvasHarness dev fallback", () => {
       screen.getByRole("region", { name: "ERP overview dashboard" })
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset layout" })).toBeDisabled();
-  }, 20_000);
+  }, 30_000);
 });

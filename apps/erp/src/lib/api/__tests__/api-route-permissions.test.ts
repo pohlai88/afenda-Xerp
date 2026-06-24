@@ -50,6 +50,35 @@ describe("api-route-permissions", () => {
     }
   });
 
+  it("has no orphan matrix entries outside API_CONTRACTS", () => {
+    const matrix = buildRoutePermissionMatrix();
+    const protectedContractIds = new Set(
+      API_CONTRACTS.filter(
+        (contract) =>
+          "permission" in contract && contract.permission !== undefined
+      ).map((contract) => contract.id)
+    );
+
+    expect(new Set(Object.keys(matrix))).toEqual(protectedContractIds);
+  });
+
+  it("includes system-admin contracts in the permission matrix", () => {
+    const matrix = buildRoutePermissionMatrix();
+
+    expect(matrix["internal.v1.system-admin.audit-events.get"]).toEqual({
+      level: "tenant-protected",
+      permissionKey: PERMISSION_REGISTRY.systemAdmin.audit.read,
+    });
+    expect(matrix["internal.v1.system-admin.users.invite.post"]).toEqual({
+      level: "tenant-protected",
+      permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+    });
+    expect(matrix["internal.v1.system-admin.memberships.role.post"]).toEqual({
+      level: "tenant-protected",
+      permissionKey: PERMISSION_REGISTRY.systemAdmin.roles.manage,
+    });
+  });
+
   it("classifies public contracts without permission requirements", () => {
     const healthContract = API_CONTRACTS.find(
       (contract) => contract.id === "internal.v1.health.get"

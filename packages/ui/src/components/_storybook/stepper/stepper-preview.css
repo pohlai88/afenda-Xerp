@@ -1,0 +1,148 @@
+/**
+ * Storybook-only stepper surfaces (stepper-09 pattern).
+ * Not exported from @afenda/ui public API.
+ */
+@layer components {
+  .afenda-storybook-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--afenda-spacing-10, 2.5rem);
+  }
+
+  @media (max-width: 1024px) {
+    .afenda-storybook-stepper [data-slot="stepper"] {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper-nav"] {
+    width: 15rem;
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper-item"] {
+    position: relative;
+    align-items: flex-start;
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper-trigger"] {
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding-bottom: 3.75rem;
+  }
+
+  .afenda-storybook-stepper
+    [data-slot="stepper-item"]:last-child
+    [data-slot="stepper-trigger"] {
+    padding-bottom: 0;
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper-separator"] {
+    position: absolute;
+    inset-block: 0;
+    top: calc(50% - 22px);
+    left: 0.5rem;
+    height: 3.75rem;
+  }
+
+  .afenda-storybook-stepper [data-slot="stepper-panel"] {
+    width: 100%;
+    max-width: 20rem;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 640px) {
+    .afenda-storybook-stepper [data-slot="stepper-panel"] {
+      max-width: 29rem;
+    }
+  }
+
+  .afenda-storybook-stepper__trigger-copy {
+    text-align: left;
+  }
+
+  .afenda-storybook-stepper__content-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--afenda-spacing-4, 1rem);
+    padding: var(--afenda-spacing-4, 1rem);
+    border: 2px dashed color-mix(in oklch, var(--primary) 15%, transparent);
+    border-radius: var(--afenda-radius-lg, 0.5rem);
+    background-color: var(--muted);
+  }
+
+  @media (min-width: 768px) {
+    .afenda-storybook-stepper__content-panel {
+      padding: var(--afenda-spacing-8, 2rem);
+    }
+  }
+
+  .afenda-storybook-stepper__content-intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2, 0.5rem);
+  }
+
+  .afenda-storybook-stepper__content-heading {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--muted-foreground);
+    text-wrap: balance;
+  }
+
+  .afenda-storybook-stepper__content-description {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+  }
+
+  .afenda-storybook-stepper__content-body {
+    width: 100%;
+  }
+
+  .afenda-storybook-stepper__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 9rem;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+  }
+
+  .afenda-storybook-stepper__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--afenda-spacing-6, 1.5rem);
+  }
+
+  .afenda-storybook-stepper__btn-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--afenda-spacing-2, 0.5rem);
+  }
+
+  .afenda-storybook-stepper__btn-inner svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .afenda-storybook-stepper [data-slot="stepper-indicator"],
+    .afenda-storybook-stepper [data-slot="stepper-separator"] {
+      transition: none;
+    }
+  }
+}

@@ -81,7 +81,7 @@ export const MULTI_TENANCY_STEP4_PRIMARY_TYPES = [
 export const MULTI_TENANCY_CONTEXT_CONTRACT_ROW_MARKERS =
   MULTI_TENANCY_STEP4_PRIMARY_TYPES.map((type) => `| ${type} |`) as readonly [
     `| ${string} |`,
-    ...Array<`| ${string} |`>,
+    ...`| ${string} |`[],
   ];
 
 /** Required root re-export markers. */

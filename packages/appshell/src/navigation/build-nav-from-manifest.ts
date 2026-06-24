@@ -52,7 +52,7 @@ export function hydrateManifestNavigation(
   items: readonly AppShellNavItemSerializable[]
 ): readonly AppShellMenuItem[] {
   return items.map((item) => {
-    if ("items" in item) {
+    if ("items" in item && item.items !== undefined) {
       return {
         icon: resolveAppShellNavIcon(item.icon),
         label: item.label,

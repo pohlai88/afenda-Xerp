@@ -1,4 +1,3 @@
-import React from "react";
 /**
  * Afenda ERP v2 enterprise design token catalog.
  *

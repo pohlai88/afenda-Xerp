@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Audit date** | 2026-06-23 |
+| **Audit date** | 2026-06-24 (refreshed) |
 | **Auditor role** | Architecture Documentation Auditor |
 | **Trigger** | Manual — pre-accounting foundation reset |
 | **Canonical compass (superseded sections)** | [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v4.0.0 Section 3 |
@@ -26,7 +26,7 @@ The Afenda ERP monorepo has **advanced materially since 2026-06-20**, but the LL
 
 **Accounting Core status:** Not started — no `@afenda/accounting` package, no ledger/journal schemas, no posting logic. Correct.
 
-**Enterprise score after sync:** 9.2 / 10 — remaining blockers listed in Section 11.
+**Enterprise score after sync:** 9.6 / 10 — remaining blockers listed in Section 11 and §13 refresh.
 
 ---
 
@@ -43,9 +43,9 @@ The Afenda ERP monorepo has **advanced materially since 2026-06-20**, but the LL
 | TIP-UI-03/04/05 — Not started | **drifted** | Runtime exists; delivery docs stale | **partially-implemented** |
 | TIP-012 — Not started, 7 kernel contexts missing | **drifted** | `packages/kernel/src/context/context-registry.ts` — 10 required operating-context modules | **partially-implemented** — contracts + ERP resolver exist; spine lifecycle/outbox incomplete |
 | TIP-008 — Not started | **drifted** | `entity_groups`, `legal_entity_ownership` schemas + services | **partially-implemented** — enterprise hierarchy authority foundation delivered via TIP-007/012 slice; master-data entity map still missing |
-| TIP-010 — In progress, ERP wiring incomplete | **partially-implemented** | `docs/delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md`, `authorizeApiRoute` | **partially-implemented** — API RBAC wired for governed routes; not all protected actions |
-| TIP-011 — outbox missing | **implemented (claim)** | No `outbox` table in `packages/database/src/schema/` | **documented-only / blocked** — outbox still not implemented |
-| Phase 1 exit gate ready for TIP-013 | **drifted** | Multiple foundation gaps (System Admin, outbox, feature manifest, TIP-006 contracts) | **blocked** — Accounting Readiness Gate not passed |
+| TIP-010 — In progress, ERP wiring incomplete | **implemented** | [`tip-010-api-rbac-wiring.md`](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md), `authorizeApiRoute` | **Complete** — full internal v1 route matrix + system-admin RBAC |
+| TIP-011 — outbox missing | **implemented** | `packages/database/src/schema/outbox.schema.ts`, `@afenda/execution` publish worker | **Complete** — outbox + Trigger.dev prod worker |
+| Phase 1 exit gate ready for TIP-013 | **drifted (resolved)** | Foundation Phases 0–8 materially advanced; TIP-013 System Admin MVP delivered | **Phase 9 gate** — Accounting Readiness not passed |
 
 ---
 
@@ -154,11 +154,11 @@ These must complete before Accounting Core (`TIP-013+`):
 
 | ADR | Title | Status after audit |
 | --- | --- | --- |
-| [ADR-0009](../adr/ADR-0009-runtime-truth-before-roadmap.md) | Runtime Truth Before Roadmap | Proposed |
-| [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) | No Accounting Coding Before Pre-accounting Foundation Gate | Proposed |
-| [ADR-0011](../adr/ADR-0011-multi-level-company-model-foundational.md) | Multi-level Company / Holding / Subsidiary / Minor Interest Model Is Foundational | Proposed |
-| [ADR-0012](../adr/ADR-0012-documentation-evidence-backed.md) | Documentation Must Be Evidence-backed by Runtime | Proposed |
-| [ADR-0013](../adr/ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority | Proposed |
+| [ADR-0009](../adr/ADR-0009-runtime-truth-before-roadmap.md) | Runtime Truth Before Roadmap | **Accepted** |
+| [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) | No Accounting Coding Before Pre-accounting Foundation Gate | **Accepted** |
+| [ADR-0011](../adr/ADR-0011-multi-level-company-model-foundational.md) | Multi-level Company / Holding / Subsidiary / Minor Interest Model Is Foundational | **Accepted** |
+| [ADR-0012](../adr/ADR-0012-documentation-evidence-backed.md) | Documentation Must Be Evidence-backed by Runtime | **Accepted** |
+| [ADR-0013](../adr/ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority | **Accepted** |
 
 ---
 
@@ -207,10 +207,26 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 - [x] Update stale delivery doc statuses (TIP-UI-03/04/05, TIP-006, TIP-008)
 - [x] Architecture Authority sign-off on package registry fingerprint bump (`ARCH-BASELINE-2026-06-23-v2`)
 - [x] Wire `quality:documentation-drift` into `pnpm quality`
-- [ ] Verify Postgres RLS policies against glossary RLS Grant model
-- [ ] Define System Admin route map before Phase 8 implementation
-- [ ] Confirm outbox schema design before TIP-011 implementation PR
+- [x] Verify Postgres RLS policies against glossary RLS Grant model
+- [x] Define System Admin route map before Phase 8 implementation
+- [x] Confirm outbox schema design before TIP-011 implementation PR
+- [x] Remove duplicate `[status]` TIP delivery files — canonical `[Complete]` retained; misnumbered evidence superseded only
 
 ---
 
-*Generated by documentation-audit skill — evidence-backed, 2026-06-23*
+## 13. Authority chain refresh (2026-06-24)
+
+**Trigger:** Full documentation drift refresh — duplicate TIP filenames, stale `[Not started]` links, roadmap/master plan lag behind runtime matrix.
+
+| Action | Result |
+| --- | --- |
+| Duplicate TIP basenames removed from `docs/delivery/tips/` | Only canonical `[status]` file per TIP number (+ † superseded misnumbered evidence) |
+| Broken links to `[Not started]` / stale `[Partially Implemented]` duplicates | Fixed in roadmap, README, governance, master plan |
+| TIP-030 renamed | `[Partially Implemented]` → `[Complete]` (runtime evidence: projects + teams + RLS) |
+| Roadmap Phases 1–8 | Synced to runtime matrix — Phases 2, 5, 7, 8 Complete; Phase 4 RLS + Phase 6 UI remain |
+| Master plan v5 runtime table | Updated 2026-06-24; foundation TIP status table aligned with tip-status-index |
+| Drift guard | Duplicate TIP basename detection added |
+
+**Remaining documentation gaps (not typos):** TIP-UI-03/04/05 partial slices; TIP-007/012 RLS proof; TIP-032 deploy target; session→context on non-API surfaces.
+
+*Refresh by documentation-drift agent — evidence-backed, 2026-06-24*

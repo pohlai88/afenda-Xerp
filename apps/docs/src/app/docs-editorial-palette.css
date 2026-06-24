@@ -1,29 +1,55 @@
 /**
  * Afenda Docs Editorial Palette
  *
- * Light: porcelain editorial white — not beige parchment.
- * Dark: graphite charcoal with rail / paper / canvas layering.
- * Shell: quiet neutral material. Prose accent: Afenda blue (H254) only.
+ * Two-layer model per docs-editorial-design skill §2:
+ *   Layer 1 — OKLCH literals assigned to --docs-editorial-* primitives
+ *   Layer 2 — @theme inline maps those to --color-fd-* (Tailwind + fumadocs bridge)
+ *
+ * Light: porcelain editorial white — not beige parchment. H95 (warm neutral)
+ * Dark:  graphite charcoal with rail / paper / canvas layering. H260 (cool neutral)
+ * Shell: quiet monochrome. Prose accent (H254, Afenda blue): links + blockquote rule ONLY.
+ *
+ * NEVER set --color-fd-* directly in :root or .dark — always via @theme inline.
+ * NEVER use brand accent outside .nd-page .prose a, .nd-page .prose blockquote.
  */
 
 :root {
+  /* ── Page material ──────────────────────────────────────────────────────── */
   --docs-editorial-canvas: oklch(0.985 0.003 95);
   --docs-editorial-rail: oklch(0.972 0.004 95);
   --docs-editorial-paper: oklch(0.998 0.001 95);
+
+  /* ── Text ───────────────────────────────────────────────────────────────── */
   --docs-editorial-text: oklch(0.18 0.006 260);
   --docs-editorial-text-muted: oklch(0.46 0.01 260);
   --docs-editorial-text-subtle: oklch(0.58 0.008 260);
+
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
   --docs-editorial-surface-muted: oklch(0.955 0.004 95);
   --docs-editorial-surface-raised: oklch(1 0 0);
   --docs-editorial-surface-hover: oklch(0.935 0.005 95);
   --docs-editorial-surface-active: oklch(0.925 0.006 95);
+
+  /* ── Lines ──────────────────────────────────────────────────────────────── */
   --docs-editorial-border: oklch(0.88 0.006 95);
   --docs-editorial-border-subtle: oklch(0.92 0.004 95);
+
+  /* ── Interaction ────────────────────────────────────────────────────────── */
   --docs-editorial-ring: oklch(0.52 0.06 255);
   --docs-editorial-overlay: oklch(0.16 0.006 260 / 0.42);
+
+  /* ── Prose-only accent (H254 Afenda blue — shell use FORBIDDEN) ─────────── */
   --docs-editorial-prose-accent: oklch(0.48 0.17 254);
   --docs-editorial-prose-accent-hover: oklch(0.42 0.19 254);
+
+  /* ── Code ───────────────────────────────────────────────────────────────── */
   --docs-editorial-code-surface: oklch(0.955 0.004 95);
+
+  /* ── Callout semantic colors (fd-info / fd-warning consumed by fumadocs) ── */
+  --docs-editorial-callout-info: oklch(0.48 0.17 254);
+  --docs-editorial-callout-warn: oklch(0.72 0.14 70);
+
+  /* ── Search surface aliases ─────────────────────────────────────────────── */
   --docs-editorial-search-surface: var(--docs-editorial-paper);
   --docs-editorial-search-kbd-surface: var(--docs-editorial-surface-muted);
   --docs-editorial-search-kbd-foreground: var(--docs-editorial-text);
@@ -47,11 +73,16 @@
   --docs-editorial-prose-accent: oklch(0.72 0.14 254);
   --docs-editorial-prose-accent-hover: oklch(0.8 0.13 254);
   --docs-editorial-code-surface: oklch(0.205 0.005 260);
-  --docs-editorial-search-surface: var(--docs-editorial-paper);
-  --docs-editorial-search-kbd-surface: var(--docs-editorial-surface-muted);
-  --docs-editorial-search-kbd-foreground: var(--docs-editorial-text);
+  --docs-editorial-callout-info: oklch(0.72 0.14 254);
+  --docs-editorial-callout-warn: oklch(0.78 0.13 68);
 }
 
+/* ── Fumadocs --color-fd-* bridge (must use @theme inline) ─────────────────
+   fd-primary = heaviest neutral text — NOT brand accent
+   fd-accent  = neutral hover surface — NOT brand accent
+   fd-info    = callout info color (Afenda blue prose accent)
+   fd-warning = callout warn color (amber)
+   ────────────────────────────────────────────────────────────────────────── */
 @theme inline {
   --color-fd-background: var(--docs-editorial-canvas);
   --color-fd-foreground: var(--docs-editorial-text);
@@ -70,14 +101,22 @@
   --color-fd-accent-foreground: var(--docs-editorial-text);
   --color-fd-ring: var(--docs-editorial-ring);
   --color-fd-overlay: var(--docs-editorial-overlay);
+  --color-fd-info: var(--docs-editorial-callout-info);
+  --color-fd-warning: var(--docs-editorial-callout-warn);
 }
 
+/* ── Focus ring ─────────────────────────────────────────────────────────────*/
 :focus-visible {
   outline-color: var(--docs-editorial-ring);
+  outline-offset: 2px;
 }
 
-/* Sidebar rail — material depth; beats fumadocs neutral.css #nd-sidebar scoped hsl */
+/* ── Sidebar rail (#nd-sidebar) ─────────────────────────────────────────────
+   fumadocs v16: sidebar uses bg-fd-card, links use fd-muted-foreground.
+   We scope --color-fd-muted to rail + override bg to rail for full material.
+   ────────────────────────────────────────────────────────────────────────── */
 #nd-sidebar {
+  --color-fd-card: var(--docs-editorial-rail);
   --color-fd-muted: var(--docs-editorial-rail);
   --color-fd-secondary: var(--docs-editorial-rail);
   --color-fd-muted-foreground: var(--docs-editorial-text-muted);
@@ -85,11 +124,50 @@
   border-color: var(--docs-editorial-border-subtle);
 }
 
+/* Active sidebar leaf — neutral primary/10 tint with editorial text */
 #nd-sidebar [data-active="true"] {
   color: var(--docs-editorial-text);
   background-color: var(--docs-editorial-surface-active);
 }
 
+/* Sidebar active indicator line — monochrome only */
+#nd-sidebar [data-active="true"]::before {
+  background-color: var(--docs-editorial-text-muted);
+}
+
+/* ── Right TOC (#nd-toc) ─────────────────────────────────────────────────────
+   Editorial chrome: quiet rail-level, accent-free. Active link = text weight.
+   ────────────────────────────────────────────────────────────────────────── */
+#nd-toc {
+  --color-fd-muted-foreground: var(--docs-editorial-text-subtle);
+  border-color: var(--docs-editorial-border-subtle);
+}
+
+#nd-toc a {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--docs-editorial-text-subtle);
+  text-decoration: none;
+  transition: color 100ms ease;
+}
+
+#nd-toc a:hover {
+  color: var(--docs-editorial-text-muted);
+}
+
+#nd-toc a[data-active="true"],
+#nd-toc a[aria-current="true"] {
+  font-weight: 500;
+  color: var(--docs-editorial-text);
+}
+
+/* ── Mobile subnav (#nd-subnav) ──────────────────────────────────────────────*/
+#nd-subnav {
+  background-color: var(--docs-editorial-canvas);
+  border-color: var(--docs-editorial-border-subtle);
+}
+
+/* ── Search button (sidebar + keyboard shortcut) ─────────────────────────── */
 button[data-search-full] {
   color: var(--docs-editorial-text-muted);
   background-color: var(--docs-editorial-search-surface);
@@ -114,9 +192,11 @@ button[data-search-full] kbd {
   border-color: var(--docs-editorial-border-subtle);
 }
 
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   button[data-search-full],
-  #nd-sidebar [data-active="true"] {
+  #nd-sidebar [data-active="true"],
+  #nd-toc a {
     transition: none;
   }
 }

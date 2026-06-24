@@ -1,0 +1,51 @@
+scripts\governance\check-downstream-integration.mts:59:7 lint/correctness/noUnusedVariables  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù This variable IMPORT_PATTERN is unused.
+  
+    57 Ôöé ] as const;
+    58 Ôöé 
+  > 59 Ôöé const IMPORT_PATTERN =
+       Ôöé       ^^^^^^^^^^^^^^
+    60 Ôöé   /\bfrom\s+["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/gu;
+    61 Ôöé 
+  
+  i Unused variables are often the result of typos, incomplete refactors, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend IMPORT_PATTERN with an underscore.
+  
+     57  57 Ôöé   ] as const;
+     58  58 Ôöé   
+     59     Ôöé - const┬ÀIMPORT_PATTERN┬À=
+         59 Ôöé + const┬À_IMPORT_PATTERN┬À=
+     60  60 Ôöé     /\bfrom\s+["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/gu;
+     61  61 Ôöé   
+  
+
+scripts\governance\multi-tenancy-context-contracts-registry.mts:84:8 lint/style/useConsistentArrayType  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Use shorthand T[] syntax instead of Array<T> syntax.
+  
+    82 Ôöé   MULTI_TENANCY_STEP4_PRIMARY_TYPES.map((type) => `| ${type} |`) as readonly [
+    83 Ôöé     `| ${string} |`,
+  > 84 Ôöé     ...Array<`| ${string} |`>,
+       Ôöé        ^^^^^^^^^^^^^^^^^^^^^^
+    85 Ôöé   ];
+    86 Ôöé 
+  
+  i Unsafe fix: Use shorthand T[] syntax to replace
+  
+     82  82 Ôöé     MULTI_TENANCY_STEP4_PRIMARY_TYPES.map((type) => `| ${type} |`) as readonly [
+     83  83 Ôöé       `| ${string} |`,
+     84     Ôöé - ┬À┬À┬À┬À...Array<`|┬À${string}┬À|`>,
+         84 Ôöé + ┬À┬À┬À┬À...`|┬À${string}┬À|`[],
+     85  85 Ôöé     ];
+     86  86 Ôöé   
+  
+
+[0m[36mChecked 120 files in 9[0m[0m[2m[36ms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m[0m
+[0m[0m[31mFound [0m[0m[31m2[0m[0m[31m errors.[0m
+ci ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

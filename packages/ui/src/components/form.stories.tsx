@@ -1,6 +1,6 @@
-import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, within } from "storybook/test";
 import { useState } from "react";
 import { StoryFrame, StoryRow, StoryStack } from "./_storybook/story-frame";
 import { Button } from "./button";
@@ -318,6 +318,20 @@ export const Default: Story = {
 
 export const WithError: Story = {
   name: "Form — With Error Message",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Validation errors render in a live `role="alert"` region associated with the field.',
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("alert")).toHaveTextContent(
+      "Password is required"
+    );
+  },
   render: (args) => (
     <StoryFrame width="md">
       <FormItem {...args} state="error">

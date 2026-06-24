@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 
 import type {
   CompanyStatus,
@@ -185,6 +185,25 @@ export async function findEntityGroupById(
     .limit(1);
 
   return row ?? null;
+}
+
+/** Active legal entities belonging to an entity group — ordered for deterministic default selection. */
+export async function findActiveCompaniesByEntityGroupId(
+  entityGroupId: string,
+  tenantId: string,
+  db: AfendaDatabase = getDb()
+): Promise<readonly CompanyLookupRow[]> {
+  return db
+    .select(companyLookupSelect)
+    .from(companies)
+    .where(
+      and(
+        eq(companies.entityGroupId, entityGroupId),
+        eq(companies.tenantId, tenantId),
+        eq(companies.status, "active")
+      )
+    )
+    .orderBy(asc(companies.displayName));
 }
 
 export async function findTenantById(

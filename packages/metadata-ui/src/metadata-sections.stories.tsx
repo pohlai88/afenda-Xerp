@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { withRawStoryCanvas } from "./_storybook/metadata-story.decorators";
 import {

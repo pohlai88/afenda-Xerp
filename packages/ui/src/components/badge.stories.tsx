@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DENSITIES,
   GOVERNED_STATES,
@@ -182,7 +181,15 @@ type Story = StoryObj<typeof meta>;
 
 // ─── Single variant playground ─────────────────────────────────────────────
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "Neutral soft badge — default governed tone and emphasis.",
+      },
+    },
+  },
+};
 
 export const Success: Story = {
   args: { tone: "success" },

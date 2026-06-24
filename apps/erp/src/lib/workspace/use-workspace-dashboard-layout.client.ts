@@ -77,7 +77,7 @@ export function useWorkspaceDashboardLayout({
     canPersistLayoutRef.current = canPersistLayout;
   }, [canPersistLayout]);
 
-  const workspaceScopeKey = [
+  const _workspaceScopeKey = [
     workspaceScope.tenantSlug,
     workspaceScope.companySlug ?? "",
     workspaceScope.companyId ?? "",
@@ -141,7 +141,7 @@ export function useWorkspaceDashboardLayout({
     }
 
     void loadLayout();
-  }, [workspaceScopeKey]);
+  }, []);
 
   const saveLayout = useCallback(
     async (nextLayout: DashboardLayoutPreset) => {

@@ -21,6 +21,9 @@ import {
 
 const TENANT_ID = "tenant-001";
 const COMPANY_ID = "company-a";
+const COMPANY_B = "company-b";
+const ENTITY_GROUP_A = "group-a";
+const ENTITY_GROUP_B = "group-b";
 const ACTOR_ID = "user-001";
 const ROLE_ID = "role-admin";
 const MEMBERSHIP_ID = "membership-001";
@@ -232,7 +235,7 @@ describe("authorizeApiRoute", () => {
         entityGroupId: null,
         organizationId: null,
         projectId: null,
-      teamId: null,
+        teamId: null,
         userId: ACTOR_ID,
         roleId: "role-readonly",
         scopeType: "company",
@@ -396,6 +399,428 @@ describe("authorizeApiRoute", () => {
 
     expect(result.denialCode).toBe("policy_gated");
     expect(result.details).toEqual({ gateDecision: "require_approval" });
+  });
+
+  it("rejects cross-company scope mismatch with forbidden and correlation id", async () => {
+    const dataSource = new InMemoryPermissionDataSource()
+      .seedTenant({
+        id: TENANT_ID,
+        slug: "acme",
+        name: "Acme",
+        status: "active",
+      })
+      .seedCompany(TENANT_ID, COMPANY_ID)
+      .seedCompany(TENANT_ID, COMPANY_B)
+      .seedPlatformUser({
+        id: ACTOR_ID,
+        email: "actor@example.com",
+        displayName: "Actor",
+        status: "active",
+      })
+      .seedRole(
+        {
+          id: ROLE_ID,
+          key: "company.admin",
+          name: "Company Admin",
+          description: null,
+          scope: "company",
+          status: "active",
+          tenantId: TENANT_ID,
+        },
+        [PERMISSION_REGISTRY.workspace.dashboard.read]
+      )
+      .seedMembership({
+        id: MEMBERSHIP_ID,
+        tenantId: TENANT_ID,
+        companyId: COMPANY_ID,
+        entityGroupId: null,
+        organizationId: null,
+        projectId: null,
+        teamId: null,
+        userId: ACTOR_ID,
+        roleId: ROLE_ID,
+        scopeType: "company",
+        status: "active",
+      });
+
+    const result = await authorizeApiRoute(
+      {
+        actorId: ACTOR_ID,
+        correlationId: CORRELATION_ID,
+        method: "GET",
+        path: "/api/internal/v1/workspace/dashboard-layout",
+        permission: {
+          permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+        },
+        protectionLevel: "tenant-protected",
+        request: createRequest({
+          [TENANT_SLUG_HEADER]: "acme",
+          "x-afenda-company-id": COMPANY_B,
+        }),
+      },
+      {
+        permission: dataSource,
+        resolveOperatingContext: createOperatingContextResolver(
+          createMockOperatingContext({
+            legalEntity: {
+              companyId: COMPANY_B,
+              tenantId: TENANT_ID,
+              entityGroupId: null,
+              slug: "acme-co-b",
+              legalName: "Acme Co B",
+              displayName: "Acme Co B",
+              registrationNumber: null,
+              taxRegistrationNumber: null,
+              countryCode: "AU",
+              baseCurrency: "AUD",
+              reportingCurrency: null,
+              companyType: "standalone",
+              fiscalCalendarId: null,
+              effectiveFrom: null,
+              effectiveTo: null,
+              status: "active",
+            },
+            workspace: {
+              tenantId: TENANT_ID,
+              companyId: COMPANY_B,
+              organizationId: null,
+              projectId: null,
+            },
+            permissionScope: {
+              grantScopeType: "company",
+              tenantId: TENANT_ID,
+              entityGroupId: null,
+              companyId: COMPANY_B,
+              organizationId: null,
+              teamId: null,
+              projectId: null,
+              membershipId: MEMBERSHIP_ID,
+              roleId: ROLE_ID,
+              elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+            },
+          })
+        ),
+      }
+    );
+
+    expect(result.kind).toBe("failure");
+    if (result.kind !== "failure") {
+      return;
+    }
+
+    expect(result.apiCode).toBe("forbidden");
+    expect(result.denialCode).toBe("company_mismatch");
+    expect(result.correlationId).toBe(CORRELATION_ID);
+  });
+
+  it("rejects subsidiary legal entity outside entity_group membership boundary", async () => {
+    const dataSource = new InMemoryPermissionDataSource()
+      .seedTenant({
+        id: TENANT_ID,
+        slug: "acme",
+        name: "Acme",
+        status: "active",
+      })
+      .seedCompany(TENANT_ID, COMPANY_ID)
+      .seedCompany(TENANT_ID, COMPANY_B)
+      .seedPlatformUser({
+        id: ACTOR_ID,
+        email: "group.cfo@example.com",
+        displayName: "Group CFO",
+        status: "active",
+      })
+      .seedRole(
+        {
+          id: ROLE_ID,
+          key: "group.cfo",
+          name: "Group CFO",
+          description: null,
+          scope: "tenant",
+          status: "active",
+          tenantId: TENANT_ID,
+        },
+        [PERMISSION_REGISTRY.workspace.dashboard.read]
+      )
+      .seedMembership({
+        id: MEMBERSHIP_ID,
+        tenantId: TENANT_ID,
+        companyId: null,
+        entityGroupId: ENTITY_GROUP_A,
+        organizationId: null,
+        projectId: null,
+        teamId: null,
+        userId: ACTOR_ID,
+        roleId: ROLE_ID,
+        scopeType: "entity_group",
+        status: "active",
+      });
+
+    const result = await authorizeApiRoute(
+      {
+        actorId: ACTOR_ID,
+        correlationId: CORRELATION_ID,
+        method: "GET",
+        path: "/api/internal/v1/workspace/dashboard-layout",
+        permission: {
+          permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+        },
+        protectionLevel: "tenant-protected",
+        request: createRequest({
+          [TENANT_SLUG_HEADER]: "acme",
+          "x-afenda-company-id": COMPANY_B,
+        }),
+      },
+      {
+        permission: dataSource,
+        resolveOperatingContext: createOperatingContextResolver(
+          createMockOperatingContext({
+            entityGroup: {
+              entityGroupId: ENTITY_GROUP_B,
+              tenantId: TENANT_ID,
+              slug: "acme-group-b",
+              displayName: "Acme Group B",
+              parentLegalEntityId: null,
+              status: "active",
+            },
+            legalEntity: {
+              companyId: COMPANY_B,
+              tenantId: TENANT_ID,
+              entityGroupId: ENTITY_GROUP_B,
+              slug: "acme-subsidiary-b",
+              legalName: "Acme Subsidiary B",
+              displayName: "Acme Subsidiary B",
+              registrationNumber: null,
+              taxRegistrationNumber: null,
+              countryCode: "AU",
+              baseCurrency: "AUD",
+              reportingCurrency: null,
+              companyType: "subsidiary",
+              fiscalCalendarId: null,
+              effectiveFrom: null,
+              effectiveTo: null,
+              status: "active",
+            },
+            workspace: {
+              tenantId: TENANT_ID,
+              companyId: COMPANY_B,
+              organizationId: null,
+              projectId: null,
+            },
+            permissionScope: {
+              grantScopeType: "entity_group",
+              tenantId: TENANT_ID,
+              entityGroupId: ENTITY_GROUP_B,
+              companyId: COMPANY_B,
+              organizationId: null,
+              teamId: null,
+              projectId: null,
+              membershipId: MEMBERSHIP_ID,
+              roleId: ROLE_ID,
+              elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+            },
+          })
+        ),
+      }
+    );
+
+    expect(result.kind).toBe("failure");
+    if (result.kind !== "failure") {
+      return;
+    }
+
+    expect(result.apiCode).toBe("forbidden");
+    expect(result.denialCode).toBe("company_mismatch");
+    expect(result.correlationId).toBe(CORRELATION_ID);
+  });
+
+  it("authorizes entity_group membership for subsidiary within the same group", async () => {
+    const dataSource = new InMemoryPermissionDataSource()
+      .seedTenant({
+        id: TENANT_ID,
+        slug: "acme",
+        name: "Acme",
+        status: "active",
+      })
+      .seedCompany(TENANT_ID, COMPANY_ID)
+      .seedPlatformUser({
+        id: ACTOR_ID,
+        email: "group.cfo@example.com",
+        displayName: "Group CFO",
+        status: "active",
+      })
+      .seedRole(
+        {
+          id: ROLE_ID,
+          key: "group.cfo",
+          name: "Group CFO",
+          description: null,
+          scope: "tenant",
+          status: "active",
+          tenantId: TENANT_ID,
+        },
+        [PERMISSION_REGISTRY.workspace.dashboard.read]
+      )
+      .seedMembership({
+        id: MEMBERSHIP_ID,
+        tenantId: TENANT_ID,
+        companyId: null,
+        entityGroupId: ENTITY_GROUP_A,
+        organizationId: null,
+        projectId: null,
+        teamId: null,
+        userId: ACTOR_ID,
+        roleId: ROLE_ID,
+        scopeType: "entity_group",
+        status: "active",
+      });
+
+    const result = await authorizeApiRoute(
+      {
+        actorId: ACTOR_ID,
+        correlationId: CORRELATION_ID,
+        method: "GET",
+        path: "/api/internal/v1/workspace/dashboard-layout",
+        permission: {
+          permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+        },
+        protectionLevel: "tenant-protected",
+        request: createRequest({
+          [TENANT_SLUG_HEADER]: "acme",
+          "x-afenda-company-id": COMPANY_ID,
+        }),
+      },
+      {
+        permission: dataSource,
+        resolveOperatingContext: createOperatingContextResolver(
+          createMockOperatingContext({
+            entityGroup: {
+              entityGroupId: ENTITY_GROUP_A,
+              tenantId: TENANT_ID,
+              slug: "acme-group",
+              displayName: "Acme Group",
+              parentLegalEntityId: null,
+              status: "active",
+            },
+            legalEntity: {
+              companyId: COMPANY_ID,
+              tenantId: TENANT_ID,
+              entityGroupId: ENTITY_GROUP_A,
+              slug: "acme-subsidiary",
+              legalName: "Acme Subsidiary",
+              displayName: "Acme Subsidiary",
+              registrationNumber: null,
+              taxRegistrationNumber: null,
+              countryCode: "AU",
+              baseCurrency: "AUD",
+              reportingCurrency: null,
+              companyType: "subsidiary",
+              fiscalCalendarId: null,
+              effectiveFrom: null,
+              effectiveTo: null,
+              status: "active",
+            },
+            workspace: {
+              tenantId: TENANT_ID,
+              companyId: COMPANY_ID,
+              organizationId: null,
+              projectId: null,
+            },
+            permissionScope: {
+              grantScopeType: "entity_group",
+              tenantId: TENANT_ID,
+              entityGroupId: ENTITY_GROUP_A,
+              companyId: COMPANY_ID,
+              organizationId: null,
+              teamId: null,
+              projectId: null,
+              membershipId: MEMBERSHIP_ID,
+              roleId: ROLE_ID,
+              elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+            },
+          })
+        ),
+      }
+    );
+
+    expect(result.kind).toBe("success");
+    if (result.kind !== "success") {
+      return;
+    }
+
+    expect(result.decision.result).toBe("allow");
+    expect(result.decision.entityGroupId).toBe(ENTITY_GROUP_A);
+    expect(result.decision.companyId).toBe(COMPANY_ID);
+  });
+
+  it("authorizes system-admin audit read when actor has system_admin.audit_read", async () => {
+    const dataSource = new InMemoryPermissionDataSource()
+      .seedTenant({
+        id: TENANT_ID,
+        slug: "acme",
+        name: "Acme",
+        status: "active",
+      })
+      .seedCompany(TENANT_ID, COMPANY_ID)
+      .seedPlatformUser({
+        id: ACTOR_ID,
+        email: "actor@example.com",
+        displayName: "Actor",
+        status: "active",
+      })
+      .seedRole(
+        {
+          id: ROLE_ID,
+          key: "system.admin",
+          name: "System Admin",
+          description: null,
+          scope: "company",
+          status: "active",
+          tenantId: TENANT_ID,
+        },
+        [PERMISSION_REGISTRY.systemAdmin.audit.read]
+      )
+      .seedMembership({
+        id: MEMBERSHIP_ID,
+        tenantId: TENANT_ID,
+        companyId: COMPANY_ID,
+        entityGroupId: null,
+        organizationId: null,
+        projectId: null,
+        teamId: null,
+        userId: ACTOR_ID,
+        roleId: ROLE_ID,
+        scopeType: "company",
+        status: "active",
+      });
+
+    const result = await authorizeApiRoute(
+      {
+        actorId: ACTOR_ID,
+        correlationId: CORRELATION_ID,
+        method: "GET",
+        path: "/api/internal/v1/system-admin/audit-events",
+        permission: {
+          permissionKey: PERMISSION_REGISTRY.systemAdmin.audit.read,
+        },
+        protectionLevel: "tenant-protected",
+        request: createRequest({
+          [TENANT_SLUG_HEADER]: "acme",
+        }),
+      },
+      {
+        permission: dataSource,
+        resolveOperatingContext: createOperatingContextResolver(),
+      }
+    );
+
+    expect(result.kind).toBe("success");
+    if (result.kind !== "success") {
+      return;
+    }
+
+    expect(result.decision.permissionKey).toBe(
+      PERMISSION_REGISTRY.systemAdmin.audit.read
+    );
   });
 
   it("rejects spoofed company selection at operating context boundary", async () => {

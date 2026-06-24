@@ -108,6 +108,7 @@ describe("ownership interest contract", () => {
       status: "active",
     });
 
+    expect(record.childLegalEntityId).toBe("child-1");
     expect(record.investeeLegalEntityId).toBe("child-1");
     expect(record.consolidationTreatment).toBe("full_consolidation");
     expect(record.nonControllingInterestApplicable).toBe(true);

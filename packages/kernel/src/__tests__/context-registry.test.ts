@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   type AccountingReadinessContext,
+  type assertHierarchyContextJsonSerializable,
   type ConsolidationScopeContext,
+  type ConsolidationScopeWireContext,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   deriveConsolidationScopeContext,
   type EntityGroupContext,
@@ -17,6 +19,7 @@ import {
   type OperatingContext,
   type OrganizationUnitContext,
   type OwnershipInterestContext,
+  type OwnershipInterestWireContext,
   type PermissionScopeContext,
   type ProjectContext,
   type TeamContext,
@@ -47,8 +50,12 @@ describe("@afenda/kernel context registry", () => {
     const indexSource = readFileSync(join(contextRoot, "index.ts"), "utf8");
 
     for (const module of KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES) {
+      const exportPattern = new RegExp(
+        `(export\\s+type\\s+\\{[^}]*\\b${module.primaryType}\\b|export\\s+type\\s+${module.primaryType}\\b|export\\s+\\{[^}]*\\btype\\s+${module.primaryType}\\b)`
+      );
+
       expect(
-        indexSource.includes(`type ${module.primaryType}`),
+        exportPattern.test(indexSource),
         `${module.primaryType} not exported from index`
       ).toBe(true);
     }
@@ -93,6 +100,19 @@ type _ConsolidationScopeContextSerializable =
 type _OperatingContextSerializable = AssertSerializable<OperatingContext>;
 type _AccountingReadinessContextSerializable =
   AssertSerializable<AccountingReadinessContext>;
+
+type _HierarchyWireSerializable = AssertSerializable<
+  OwnershipInterestWireContext | ConsolidationScopeWireContext
+>;
+
+type _HierarchyContextJsonGuard = assertHierarchyContextJsonSerializable;
+type _HierarchyGuardSatisfied = _HierarchyContextJsonGuard extends true
+  ? true
+  : false;
+type _HierarchyWireGuard = _HierarchyWireSerializable extends true
+  ? _HierarchyGuardSatisfied
+  : false;
+type _AssertHierarchyWireGuard = _HierarchyWireGuard;
 
 type AssertOperatingContextComposition = OperatingContext extends {
   readonly tenant: TenantContext;

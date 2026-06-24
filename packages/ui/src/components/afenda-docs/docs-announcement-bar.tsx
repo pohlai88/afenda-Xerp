@@ -7,9 +7,9 @@ import { Button } from "../button";
 export type DocsAnnouncementBarVariant = "accent" | "neutral" | "warn";
 
 export interface DocsAnnouncementBarProps {
-  readonly message: ReactNode;
-  readonly actionLabel?: string;
   readonly actionHref?: string;
+  readonly actionLabel?: string;
+  readonly message: ReactNode;
   readonly variant?: DocsAnnouncementBarVariant;
 }
 
@@ -34,10 +34,7 @@ export function DocsAnnouncementBar({
       <div className="afenda-docs-announcement-bar__content">
         <p className="afenda-docs-announcement-bar__message">{message}</p>
         {actionLabel && actionHref ? (
-          <a
-            className="afenda-docs-announcement-bar__action"
-            href={actionHref}
-          >
+          <a className="afenda-docs-announcement-bar__action" href={actionHref}>
             {actionLabel}
           </a>
         ) : null}

@@ -7,6 +7,10 @@ export { DashboardGridLayoutAdapter } from "./dashboard-grid-layout-adapter.clie
 export type { DashboardGridWidgetProps } from "./dashboard-grid-widget.client";
 export { DashboardGridWidget } from "./dashboard-grid-widget.client";
 export {
+  clampWidgetToPolicy,
+  normalizeDashboardLayout,
+} from "./dashboard-layout.clamp";
+export {
   DASHBOARD_GRID_BREAKPOINTS,
   DASHBOARD_GRID_MARGIN,
   type DashboardGridBreakpointKey,

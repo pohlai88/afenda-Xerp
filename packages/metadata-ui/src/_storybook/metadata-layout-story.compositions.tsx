@@ -1,4 +1,3 @@
-import React from "react";
 import type { ReactNode } from "react";
 
 import type { MetadataLayoutProps } from "../contracts/layout.contract.js";

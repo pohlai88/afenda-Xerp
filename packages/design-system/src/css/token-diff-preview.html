@@ -722,37 +722,37 @@
 
     function mockAppHtml() {
       return `
-                <div class="mock-app">
-                  <div class="mock-header">
-                    <strong>Afenda ERP</strong>
-                    <span style="font-size:0.75rem;opacity:.7">Dashboard</span>
-                  </div>
-                  <div class="mock-body">
-                    <nav class="mock-sidebar">
-                      <div class="active-item">Overview</div>
-                      <div>Inventory</div>
-                      <div>Orders</div>
-                      <div>Reports</div>
-                    </nav>
-                    <div class="mock-content">
-                      <div class="mock-card">
-                        <div style="font-weight:650;margin-bottom:4px">Revenue summary</div>
-                        <div style="font-size:0.78rem;opacity:.75">Primary surfaces, text, and chrome</div>
-                        <div class="mock-row">
-                          <button type="button" class="mock-btn primary">Primary</button>
-                          <button type="button" class="mock-btn secondary">Secondary</button>
-                          <button type="button" class="mock-btn destructive">Destructive</button>
-                        </div>
-                        <div class="mock-badges">
-                          <span class="mock-badge" style="background:var(--badge-success-bg,#dcfce7);color:var(--badge-success-fg,#166534);border-color:var(--badge-success-border,#86efac)">Success</span>
-                          <span class="mock-badge" style="background:var(--badge-warning-bg,#fef3c7);color:var(--badge-warning-fg,#92400e);border-color:var(--badge-warning-border,#fcd34d)">Warning</span>
-                          <span class="mock-badge" style="background:var(--badge-danger-bg,#fee2e2);color:var(--badge-danger-fg,#991b1b);border-color:var(--badge-danger-border,#fca5a5)">Danger</span>
-                          <span class="mock-badge" style="background:var(--badge-info-bg,#dbeafe);color:var(--badge-info-fg,#1e40af);border-color:var(--badge-info-border,#93c5fd)">Info</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>`;
+                                <div class="mock-app">
+                                  <div class="mock-header">
+                                    <strong>Afenda ERP</strong>
+                                    <span style="font-size:0.75rem;opacity:.7">Dashboard</span>
+                                  </div>
+                                  <div class="mock-body">
+                                    <nav class="mock-sidebar">
+                                      <div class="active-item">Overview</div>
+                                      <div>Inventory</div>
+                                      <div>Orders</div>
+                                      <div>Reports</div>
+                                    </nav>
+                                    <div class="mock-content">
+                                      <div class="mock-card">
+                                        <div style="font-weight:650;margin-bottom:4px">Revenue summary</div>
+                                        <div style="font-size:0.78rem;opacity:.75">Primary surfaces, text, and chrome</div>
+                                        <div class="mock-row">
+                                          <button type="button" class="mock-btn primary">Primary</button>
+                                          <button type="button" class="mock-btn secondary">Secondary</button>
+                                          <button type="button" class="mock-btn destructive">Destructive</button>
+                                        </div>
+                                        <div class="mock-badges">
+                                          <span class="mock-badge" style="background:var(--badge-success-bg,#dcfce7);color:var(--badge-success-fg,#166534);border-color:var(--badge-success-border,#86efac)">Success</span>
+                                          <span class="mock-badge" style="background:var(--badge-warning-bg,#fef3c7);color:var(--badge-warning-fg,#92400e);border-color:var(--badge-warning-border,#fcd34d)">Warning</span>
+                                          <span class="mock-badge" style="background:var(--badge-danger-bg,#fee2e2);color:var(--badge-danger-fg,#991b1b);border-color:var(--badge-danger-border,#fca5a5)">Danger</span>
+                                          <span class="mock-badge" style="background:var(--badge-info-bg,#dbeafe);color:var(--badge-info-fg,#1e40af);border-color:var(--badge-info-border,#93c5fd)">Info</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>`;
     }
 
     function setBadgeVars(root, vars) {
@@ -784,14 +784,14 @@
       const sVars = getModeTokens(parsed.style);
 
       grid.innerHTML = `
-                <article class="theme-panel">
-                  <header><h2>afenda-tokens.css</h2><code>packages/design-system/src/css/</code></header>
-                  <div class="theme-canvas" id="canvas-tokens">${mockAppHtml()}</div>
-                </article>
-                <article class="theme-panel">
-                  <header><h2>afenda-style.css</h2><code>packages/ui/src/styles/</code></header>
-                  <div class="theme-canvas" id="canvas-style">${mockAppHtml()}</div>
-                </article>`;
+                                <article class="theme-panel">
+                                  <header><h2>afenda-tokens.css</h2><code>packages/design-system/src/css/</code></header>
+                                  <div class="theme-canvas" id="canvas-tokens">${mockAppHtml()}</div>
+                                </article>
+                                <article class="theme-panel">
+                                  <header><h2>afenda-style.css</h2><code>packages/ui/src/styles/</code></header>
+                                  <div class="theme-canvas" id="canvas-style">${mockAppHtml()}</div>
+                                </article>`;
 
       const cTokens = document.getElementById("canvas-tokens");
       const cStyle = document.getElementById("canvas-style");
@@ -839,18 +839,18 @@
             const color = resolveColor(raw, vars);
             const short = name.replace(/^--afenda-/, "");
             return `<div class="swatch" title="${name}: ${raw}">
-                    <div class="swatch-color" style="background:${color}"></div>
-                    <div class="swatch-label">${short}</div>
-                  </div>`;
+                                    <div class="swatch-color" style="background:${color}"></div>
+                                    <div class="swatch-label">${short}</div>
+                                  </div>`;
           })
           .join("");
 
         return `<article class="theme-panel">
-                  <header><h2>${title}</h2></header>
-                  <div style="padding:14px">
-                    <div class="swatch-grid">${items || "<p class='loading'>No color tokens</p>"}</div>
-                  </div>
-                </article>`;
+                                  <header><h2>${title}</h2></header>
+                                  <div style="padding:14px">
+                                    <div class="swatch-grid">${items || "<p class='loading'>No color tokens</p>"}</div>
+                                  </div>
+                                </article>`;
       }
 
       grid.innerHTML =
@@ -872,11 +872,11 @@
         counts[r.status]++;
       }
       document.getElementById("stats").innerHTML = `
-                <span class="stat"><b>${diffRows.length}</b> tokens</span>
-                <span class="stat" style="border-color:#eab308"><b>${counts.changed}</b> changed</span>
-                <span class="stat" style="border-color:#22c55e"><b>${counts["tokens-only"]}</b> tokens only</span>
-                <span class="stat" style="border-color:#ef4444"><b>${counts["style-only"]}</b> style only</span>
-                <span class="stat"><b>${counts.same}</b> same</span>`;
+                                <span class="stat"><b>${diffRows.length}</b> tokens</span>
+                                <span class="stat" style="border-color:#eab308"><b>${counts.changed}</b> changed</span>
+                                <span class="stat" style="border-color:#22c55e"><b>${counts["tokens-only"]}</b> tokens only</span>
+                                <span class="stat" style="border-color:#ef4444"><b>${counts["style-only"]}</b> style only</span>
+                                <span class="stat"><b>${counts.same}</b> same</span>`;
     }
 
     function renderDiff() {
@@ -897,12 +897,12 @@
       tbody.innerHTML = rows
         .map(
           (r) => `
-                <tr class="row-${r.status}">
-                  <td><code>${r.name}</code></td>
-                  <td><span class="badge ${r.status}">${r.status.replace("-", " ")}</span></td>
-                  <td><code>${r.tVal ?? "—"}</code></td>
-                  <td><code>${r.sVal ?? "—"}</code></td>
-                </tr>`
+                                <tr class="row-${r.status}">
+                                  <td><code>${r.name}</code></td>
+                                  <td><span class="badge ${r.status}">${r.status.replace("-", " ")}</span></td>
+                                  <td><code>${r.tVal ?? "—"}</code></td>
+                                  <td><code>${r.sVal ?? "—"}</code></td>
+                                </tr>`
         )
         .join("");
     }

@@ -115,7 +115,12 @@ export interface MembershipScopeMatchInput {
 export function membershipMatchesGrantScope(
   membership: Pick<
     ResolveRlsGrantScopeInput["membership"],
-    "companyId" | "entityGroupId" | "organizationId" | "projectId" | "teamId" | "scopeType"
+    | "companyId"
+    | "entityGroupId"
+    | "organizationId"
+    | "projectId"
+    | "teamId"
+    | "scopeType"
   >,
   context: MembershipScopeMatchInput
 ): boolean {
@@ -243,7 +248,8 @@ export function resolveRlsGrantScope(
   return {
     grantScopeType,
     tenantId: input.membership.tenantId,
-    entityGroupId: input.entityGroupId ?? input.membership.entityGroupId ?? null,
+    entityGroupId:
+      input.entityGroupId ?? input.membership.entityGroupId ?? null,
     legalEntityId,
     organizationUnitId,
     teamId: input.teamId ?? input.membership.teamId ?? null,

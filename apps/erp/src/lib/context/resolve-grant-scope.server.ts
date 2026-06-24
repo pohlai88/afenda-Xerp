@@ -1,8 +1,4 @@
-import {
-  type AfendaDatabase,
-  getDb,
-  withRlsSessionContext,
-} from "@afenda/database";
+import type { AfendaDatabase } from "@afenda/database";
 import {
   err,
   type OperatingContextError,
@@ -50,6 +46,7 @@ function createMembershipDenial(
       actorId: "",
       tenantId: "",
       companyId: null,
+      entityGroupId: null,
       organizationId: null,
       workspaceId: null,
       membershipId: partial.membershipId,
@@ -73,28 +70,7 @@ function membershipDeniedError(): OperatingContextError {
   };
 }
 
-export async function loadActorMemberships(input: {
-  readonly actorUserId: string;
-  readonly db?: AfendaDatabase;
-  readonly tenantId: string;
-}): Promise<readonly MembershipContract[]> {
-  const db = input.db ?? getDb();
-
-  return withRlsSessionContext(
-    db,
-    {
-      tenantId: input.tenantId,
-      platformUserId: input.actorUserId,
-    },
-    async (tx) => {
-      const { permission } = createProductionAuthorizationDataSources(tx);
-      return permission.findMembershipsForActor({
-        actorId: input.actorUserId,
-        tenantId: input.tenantId,
-      });
-    }
-  );
-}
+export { loadActorMemberships } from "./load-actor-memberships.server.js";
 
 export interface ResolveGrantScopeInput {
   readonly actorUserId: string;

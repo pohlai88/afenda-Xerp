@@ -7,7 +7,6 @@ import {
   MapPinIcon,
   UserIcon,
 } from "lucide-react";
-import React from "react";
 import {
   APPROVAL_ROUTES,
   COST_CENTERS,

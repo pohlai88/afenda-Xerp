@@ -47,7 +47,7 @@ export const PERMISSIONS_LEGACY_FLAT_MODULES = [
 
 /**
  * Membership scope tiers implemented today (`memberships.scope_type`).
- * Planned tiers remain registry-only until TIP-008 / TIP-030 land.
+ * `entity_group` landed in TIP-007/012 Slice A; `project` and `team` in TIP-030.
  */
 export const PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES = [
   "tenant",

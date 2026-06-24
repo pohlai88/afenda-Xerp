@@ -11,6 +11,7 @@ export interface AuthorizationDecision {
   readonly actorId: string;
   readonly companyId: string | null;
   readonly correlationId: string;
+  readonly entityGroupId: string | null;
   readonly evaluatedAt: string;
   readonly membershipId: string | null;
   readonly organizationId: string | null;

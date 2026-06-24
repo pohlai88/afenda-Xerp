@@ -1,10 +1,10 @@
 export {
-  PROJECT_DOMAIN_STATUS,
-  PROJECT_LIFECYCLE_STATUSES,
   assertProjectSlug,
   buildProjectInsertRow,
   buildProjectUpdatePatch,
   normalizeProjectSlug,
+  PROJECT_DOMAIN_STATUS,
+  PROJECT_LIFECYCLE_STATUSES,
   type ProjectAuthorityRecord,
   type ProjectDomainStatus,
   type ProjectInsertRow,
@@ -13,11 +13,11 @@ export {
   type ProjectWriteInput,
 } from "./project.contract.js";
 export {
-  insertProject,
-  ProjectScopeMismatchError,
   type InsertProjectInput,
+  insertProject,
   type ProjectAuditContext,
   type ProjectMutationResult,
+  ProjectScopeMismatchError,
   type UpdateProjectInput,
   updateProject,
 } from "./project.service.js";

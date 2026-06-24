@@ -2,10 +2,7 @@ import { assertPermissionKey } from "@afenda/database";
 import { describe, expect, it } from "vitest";
 
 import { capabilities } from "../evaluation/capability-registry";
-import {
-  // biome-ignore lint/suspicious/noDeprecatedImports: backward-compat contract is under test
-  featureManifests,
-} from "../evaluation/feature-manifest";
+import { featureManifests } from "../evaluation/feature-manifest";
 import {
   ERP_MODULE_IDS,
   ERP_MODULE_MANIFEST,

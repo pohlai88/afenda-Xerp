@@ -10,6 +10,7 @@ export const docsBodyFont = Source_Sans_3({
 /** Must stay aligned with `docs-fonts.constants.ts` — see `docsFontVariableLiterals`. */
 export const docsDisplayFont = Source_Serif_4({
   subsets: ["latin"],
+  axes: ["opsz"],
   variable: "--font-docs-display",
   display: "swap",
 });

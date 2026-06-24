@@ -4,9 +4,16 @@ import {
   ApplicationShellDashboardCanvas,
   type DashboardLayoutPreset,
 } from "@afenda/appshell";
+import { Alert, AlertDescription, AlertTitle, Skeleton } from "@afenda/ui";
+import { useMemo } from "react";
 
 import { PolicyGateSurface } from "@/components/policy-gate-surface.client";
+import {
+  resolveWorkspaceDashboardLoadedStatusCopy,
+  resolveWorkspaceDashboardStatusCopy,
+} from "@/lib/workspace/resolve-workspace-dashboard-status-copy";
 import { useProtectedWorkspaceDashboard } from "@/lib/workspace/use-protected-workspace-dashboard.client";
+import { WORKSPACE_HOME_COPY } from "@/lib/workspace/workspace-home.copy.contract";
 
 interface ProtectedHomeLayoutHarnessProps {
   readonly nextLayoutForSave?: DashboardLayoutPreset;
@@ -24,15 +31,38 @@ export function ProtectedHomeLayoutHarness({
     handleLayoutChange,
     isLoading,
     layout,
+    layoutLoadFallback,
     renderContext,
     saveLayout,
+    updatedAt,
   } = useProtectedWorkspaceDashboard();
+
+  const statusCopy = useMemo(() => {
+    if (isLoading) {
+      return resolveWorkspaceDashboardStatusCopy({ kind: "loading" });
+    }
+
+    return resolveWorkspaceDashboardLoadedStatusCopy({
+      layoutLoadFallback,
+      updatedAt,
+    });
+  }, [isLoading, layoutLoadFallback, updatedAt]);
 
   if (isLoading) {
     return (
-      <p className="app-shell-page-description" role="status">
-        Loading dashboard…
-      </p>
+      <div
+        aria-busy="true"
+        aria-live="polite"
+        className="flex flex-col gap-4"
+        role="status"
+      >
+        {statusCopy.screenReader === undefined ? null : (
+          <span className="sr-only">{statusCopy.screenReader}</span>
+        )}
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </div>
     );
   }
 
@@ -48,10 +78,14 @@ export function ProtectedHomeLayoutHarness({
           variant="inline"
         />
       ) : null}
+      <p className="app-shell-page-description">{statusCopy.statusLine}</p>
       {errorMessage === null ? null : (
-        <p className="app-shell-page-description" role="alert">
-          {errorMessage}
-        </p>
+        <Alert role="alert" tone="danger">
+          <AlertTitle>
+            {WORKSPACE_HOME_COPY.dashboard.errorAlertTitle}
+          </AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
       )}
       <ApplicationShellDashboardCanvas
         editMode={canEditLayout}

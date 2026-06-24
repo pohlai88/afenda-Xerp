@@ -5,7 +5,6 @@ import {
 } from "@afenda/observability";
 import { pgEnum } from "drizzle-orm/pg-core";
 
-// biome-ignore lint/performance/noBarrelFile: preserves existing @afenda/database audit vocabulary exports.
 export {
   AUDIT_ACTOR_TYPES,
   AUDIT_RESULTS,

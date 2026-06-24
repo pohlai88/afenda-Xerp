@@ -5,14 +5,12 @@ import {
   isExecutionSuccess,
   PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
 } from "@afenda/execution";
-
-import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
-
 import {
   recordScheduleRegistrationFailure,
   recordScheduleRegistrationSkipped,
   recordScheduleRegistrationSuccess,
 } from "@/lib/outbox/execution-spine-state.server";
+import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
 
 const outboxFoundationLogger = createApiHandlerLogger("outbox-foundation");
 

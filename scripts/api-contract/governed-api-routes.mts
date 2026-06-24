@@ -4,10 +4,10 @@
  * `check-api-contracts.mts` dynamic-imports the canonical module (Node ESM static re-export limitation).
  */
 export {
-  GOVERNED_ROUTE_ALLOWLIST,
   collectGovernedRouteContractExportNames,
   collectRouteFiles,
   extractContractExportNames,
+  GOVERNED_ROUTE_ALLOWLIST,
   isAllowlistedRoute,
   isGovernedRouteSource,
   validateApiContractRegistryCoverage,

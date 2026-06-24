@@ -28,6 +28,8 @@ const WORKSPACE_DEPS = {
   inline: [/@afenda\//] as const,
 };
 
+const UI_GOVERNANCE_SUBPATH_ALIAS = /^@afenda\/ui\/governance\/(.+)$/;
+
 export interface ReactProjectOptions {
   alias?: Record<string, string>;
   setupFiles?: string[];
@@ -115,7 +117,7 @@ export function createUiProject(importMetaUrl: string, name: string) {
     resolve: {
       alias: [
         {
-          find: /^@afenda\/ui\/governance\/(.+)$/,
+          find: UI_GOVERNANCE_SUBPATH_ALIAS,
           replacement: `${governanceRoot}/$1`,
         },
         {
@@ -167,7 +169,7 @@ export function createReactProject(
     resolve: {
       alias: [
         {
-          find: /^@afenda\/ui\/governance\/(.+)$/,
+          find: UI_GOVERNANCE_SUBPATH_ALIAS,
           replacement: `${uiGovernanceRoot}/$1`,
         },
         {

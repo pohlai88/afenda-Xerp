@@ -23,7 +23,7 @@ const base = createReactProject(import.meta.url, "@afenda/docs", {
     "collections/server": resolve(root, ".source/server.ts"),
     "fumadocs-ui/dist/components/image-zoom2.css": resolve(
       root,
-      "src/__tests__/setup/empty-module.ts",
+      "src/__tests__/setup/empty-module.ts"
     ),
   },
 });

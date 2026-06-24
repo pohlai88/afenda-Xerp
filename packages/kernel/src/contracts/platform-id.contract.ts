@@ -19,6 +19,7 @@ export type MembershipId = Brand<string, "MembershipId">;
 export type PermissionId = Brand<string, "PermissionId">;
 export type PolicyId = Brand<string, "PolicyId">;
 export type AuditEventId = Brand<string, "AuditEventId">;
+export type OwnershipInterestId = Brand<string, "OwnershipInterestId">;
 export type ExecutionId = Brand<string, "ExecutionId">;
 export type CorrelationId = Brand<string, "CorrelationId">;
 
@@ -94,6 +95,15 @@ export function brandAuditEventId(
   return brandOptionalId(value, "auditEventId") as AuditEventId | null;
 }
 
+export function brandOwnershipInterestId(
+  value: string | OwnershipInterestId | null | undefined
+): OwnershipInterestId | null {
+  return brandOptionalId(
+    value,
+    "ownershipInterestId"
+  ) as OwnershipInterestId | null;
+}
+
 export function brandExecutionId(value: string | ExecutionId): ExecutionId {
   return brandRequiredId(value, "executionId") as ExecutionId;
 }
@@ -108,7 +118,15 @@ export function toTenantId(value: TenantId): string {
   return unbrand(value);
 }
 
+export function toEntityGroupId(value: EntityGroupId): string {
+  return unbrand(value);
+}
+
 export function toCompanyId(value: CompanyId): string {
+  return unbrand(value);
+}
+
+export function toOwnershipInterestId(value: OwnershipInterestId): string {
   return unbrand(value);
 }
 

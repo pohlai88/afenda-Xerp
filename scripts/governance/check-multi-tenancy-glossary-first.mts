@@ -36,7 +36,6 @@ const registryPath = join(
   repoRoot,
   "scripts/governance/multi-tenancy-glossary-first-registry.mts"
 );
-const glossaryPath = join(repoRoot, MULTI_TENANCY_GLOSSARY_PATH);
 const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
 const packageJsonPath = join(repoRoot, "package.json");

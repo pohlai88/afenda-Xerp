@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge, Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 

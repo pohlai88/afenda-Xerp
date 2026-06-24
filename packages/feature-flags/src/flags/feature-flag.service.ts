@@ -9,7 +9,6 @@ import type { KillSwitchContract } from "../contracts/kill-switch.contract";
 import { evaluateFlag as evaluateFlagInternal } from "../flag-evaluation";
 
 // Re-export the existing evaluation helpers for consumers of this service.
-// biome-ignore lint/performance/noBarrelFile: TIP-008 requires this compatibility service surface.
 export {
   evaluateAll,
   evaluateFlag,

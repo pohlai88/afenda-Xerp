@@ -56,9 +56,6 @@ const FORBIDDEN_ERP_GLOBALS_IMPORTS = [
   "appshell/fixtures",
 ] as const;
 
-const IMPORT_PATTERN =
-  /\bfrom\s+["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)|import\s+["']([^"']+)["']/gu;
-
 const CSS_IMPORT_PATTERN = /@import\s+["']([^"']+)["']/g;
 
 export interface DownstreamViolation {
@@ -128,17 +125,6 @@ function packageImportsTarget(content: string, target: string): boolean {
     content.includes(`import '${target}'`) ||
     content.includes(`import "${target}"`)
   );
-}
-
-function scanImports(content: string): string[] {
-  const imports: string[] = [];
-  for (const match of content.matchAll(IMPORT_PATTERN)) {
-    const value = match[1] ?? match[2] ?? match[3];
-    if (value) {
-      imports.push(value);
-    }
-  }
-  return imports;
 }
 
 function productionSourceFiles(pkg: IntegrationPackage): string[] {

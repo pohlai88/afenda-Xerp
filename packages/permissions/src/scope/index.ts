@@ -8,9 +8,7 @@ export {
   type MembershipContract,
   type MembershipScopeType,
   type MembershipStatus,
-  membershipMatchesCompany,
   membershipMatchesGrantScope,
-  membershipMatchesOrganization,
 } from "./membership.contract.js";
 export {
   isDeniedScopedMembershipResolution,

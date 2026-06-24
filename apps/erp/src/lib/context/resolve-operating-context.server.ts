@@ -9,7 +9,6 @@ import {
   isTenantOperational,
 } from "@afenda/database";
 import {
-  deriveConsolidationScopeContext,
   type OperatingContext,
   type OperatingContextResult,
   type OperatingContextSelection,
@@ -25,7 +24,6 @@ import {
   denyOperatingContext,
   ORGANIZATION_ACCESS_BLOCK_REASON,
 } from "./context-errors";
-import { loadOperatingContextOwnershipInterests } from "./load-operating-context-ownership-interests.server";
 import { logOperatingContextResolution } from "./log-operating-context-resolution.server";
 import {
   toOrganizationUnitContext,
@@ -33,6 +31,7 @@ import {
   toTenantContext,
 } from "./operating-context.mappers";
 import { verifyProjectSelection } from "./operating-context.resolution.contract";
+import { resolveConsolidationScope } from "./resolve-consolidation-scope.server";
 import {
   loadActorMemberships,
   resolveGrantScope,
@@ -347,21 +346,13 @@ export async function resolveOperatingContext(
   const { permissionScope } = grantScopeResult.value;
 
   const reportingDate = new Date().toISOString().slice(0, 10);
-  const ownershipInterests = await loadOperatingContextOwnershipInterests({
-    tenantId: tenant.tenantId,
-    entityGroupId: entityGroup?.entityGroupId ?? null,
-    effectiveOn: reportingDate,
-    ...(db === undefined ? {} : { db }),
-  });
-
-  const consolidationScope = entityGroup
-    ? deriveConsolidationScopeContext({
-        tenantId: tenant.tenantId,
-        entityGroupId: entityGroup.entityGroupId,
-        ownershipInterests,
-        reportingDate,
-      })
-    : null;
+  const { consolidationScope, ownershipInterests } =
+    await resolveConsolidationScope({
+      tenantId: tenant.tenantId,
+      entityGroup,
+      reportingDate,
+      ...(db === undefined ? {} : { db }),
+    });
 
   const operatingContext: OperatingContext = {
     actor: { userId: input.actorUserId },

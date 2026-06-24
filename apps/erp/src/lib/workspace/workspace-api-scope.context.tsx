@@ -15,17 +15,7 @@ export function WorkspaceApiScopeProvider({
   children,
   scope,
 }: WorkspaceApiScopeProviderProps) {
-  const value = useMemo(
-    () => scope,
-    [
-      scope.companyId,
-      scope.companySlug,
-      scope.organizationId,
-      scope.organizationSlug,
-      scope.tenantSlug,
-      scope.workspaceId,
-    ]
-  );
+  const value = useMemo(() => scope, [scope]);
 
   return (
     <WorkspaceApiScopeContext.Provider value={value}>

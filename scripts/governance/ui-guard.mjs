@@ -42,9 +42,7 @@ const reactErpPolicyUrl = pathToFileURL(
 ).href;
 
 const { checkGovernedUiConsumption } = await import(policyUrl);
-const { checkReactErpQuality, REACT_ERP_QUALITY_PATH } = await import(
-  reactErpPolicyUrl
-);
+const { checkReactErpQuality } = await import(reactErpPolicyUrl);
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 

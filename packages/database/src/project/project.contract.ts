@@ -68,7 +68,9 @@ export interface ProjectAuthorityRecord {
   readonly tenantId: string;
 }
 
-export function buildProjectInsertRow(input: ProjectWriteInput): ProjectInsertRow {
+export function buildProjectInsertRow(
+  input: ProjectWriteInput
+): ProjectInsertRow {
   return {
     tenantId: input.tenantId,
     companyId: input.companyId,

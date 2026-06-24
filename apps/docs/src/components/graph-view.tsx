@@ -26,9 +26,9 @@ export type Node = NodeObject<NodeType>;
 export type Link = LinkObject<NodeType, LinkType>;
 
 export interface NodeType {
-  text: string;
   description?: string;
   neighbors?: string[];
+  text: string;
   url: string;
 }
 
@@ -40,7 +40,7 @@ export interface GraphViewProps {
 }
 
 const ForceGraph2D = lazy(
-  () => import("react-force-graph-2d"),
+  () => import("react-force-graph-2d")
 ) as typeof import("react-force-graph-2d").default;
 
 export function GraphView({ graph, onNodeNavigate }: GraphViewProps) {
@@ -53,8 +53,8 @@ export function GraphView({ graph, onNodeNavigate }: GraphViewProps) {
 
   return (
     <div
-      ref={ref}
       className="relative h-[600px] overflow-hidden rounded-xl border bg-fd-background [&_canvas]:size-full"
+      ref={ref}
     >
       {mount ? (
         <ClientOnly
@@ -83,7 +83,9 @@ function ClientOnly({
 
   const handleNodeHover = (node: Node | null) => {
     const graphApi = graphRef.current;
-    if (!graphApi) return;
+    if (!graphApi) {
+      return;
+    }
     hoveredRef.current = node;
 
     if (node) {
@@ -103,7 +105,9 @@ function ClientOnly({
     LinkType
   >["nodeCanvasObject"] = (node, ctx) => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
     const style = getComputedStyle(container);
     const fontSize = 14;
     const radius = 5;
@@ -130,7 +134,9 @@ function ClientOnly({
 
   const linkColor = (link: Link) => {
     const container = containerRef.current;
-    if (!container) return "#999";
+    if (!container) {
+      return "#999";
+    }
     const style = getComputedStyle(container);
     const hoverNode = hoveredRef.current;
 
@@ -150,8 +156,12 @@ function ClientOnly({
     const { nodes, links } = structuredClone(graph);
     for (const node of nodes) {
       node.neighbors = links.flatMap((link) => {
-        if (link.source === node.id) return link.target as string;
-        if (link.target === node.id) return link.source as string;
+        if (link.source === node.id) {
+          return link.target as string;
+        }
+        if (link.target === node.id) {
+          return link.source as string;
+        }
         return [];
       });
     }
@@ -162,6 +172,20 @@ function ClientOnly({
   return (
     <>
       <ForceGraph2D<NodeType, LinkType>
+        enableNodeDrag
+        enableZoomInteraction
+        graphData={enrichedNodes}
+        linkColor={linkColor}
+        linkWidth={2}
+        nodeCanvasObject={nodeCanvasObject}
+        onNodeClick={(node: Node) => {
+          if (onNodeNavigate) {
+            onNodeNavigate(node.url);
+            return;
+          }
+          router.push(node.url);
+        }}
+        onNodeHover={handleNodeHover}
         ref={{
           get current() {
             return graphRef.current;
@@ -175,24 +199,10 @@ function ClientOnly({
             }
           },
         }}
-        graphData={enrichedNodes}
-        nodeCanvasObject={nodeCanvasObject}
-        linkColor={linkColor}
-        onNodeHover={handleNodeHover}
-        onNodeClick={(node: Node) => {
-          if (onNodeNavigate) {
-            onNodeNavigate(node.url);
-            return;
-          }
-          router.push(node.url);
-        }}
-        linkWidth={2}
-        enableNodeDrag
-        enableZoomInteraction
       />
       {tooltip ? (
         <div
-          className="absolute size-fit max-w-xs rounded-xl border bg-fd-popover p-2 text-sm text-fd-popover-foreground shadow-lg"
+          className="absolute size-fit max-w-xs rounded-xl border bg-fd-popover p-2 text-fd-popover-foreground text-sm shadow-lg"
           style={{ top: tooltip.y, left: tooltip.x }}
         >
           {tooltip.content}

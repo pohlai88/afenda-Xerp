@@ -19,8 +19,8 @@
 
 | Proposed ID | Decision | Canonical delivery doc |
 | --- | --- | --- |
-| **TIP-010A** | **Accepted** — slice under TIP-010 | [`tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) |
-| **TIP-007A** | **Accepted** — slice under TIP-007 | [`tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) |
+| **TIP-010A** | **Accepted** — slice under TIP-010 | [`tip-010a-api-contract-governance.md`](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) |
+| **TIP-007A** | **Accepted** — slice under TIP-007 | [`tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) |
 | **TIP-010B** | **Superseded by TIP-013** | Draft archived in §Draft — TIP-010B below |
 | **TIP-013** | **Accepted** — Phase 8 System Admin | [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) |
 
@@ -48,7 +48,7 @@ Per write-tip rule §2 Step 2: **do not invent TIP numbers**. This note proposes
 
 | Foundation phase | Proposed TIP ID | Title | Primary owner | Parent TIP | Rationale |
 | --- | --- | --- | --- | --- | --- |
-| **Phase 5** | **TIP-010A** | API Contract Governance Closeout | `@afenda/erp` (PKG-007) | TIP-010 | Extends identity/API surface; complements [`tip-010-api-rbac-wiring.md`](../delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md) with contract registry, envelope, idempotency, pagination |
+| **Phase 5** | **TIP-010A** | API Contract Governance Closeout | `@afenda/erp` (PKG-007) | TIP-010 | Extends identity/API surface; complements [`tip-010-api-rbac-wiring.md`](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md) with contract registry, envelope, idempotency, pagination |
 | **Phase 7** | **TIP-007A** | Feature Manifest & Module Governance | `@afenda/entitlements` (PKG-006), `@afenda/appshell` (PKG-001) | TIP-007 | ERP platform authority owns module/capability/navigation projection pipeline |
 | **Phase 8** | **TIP-013** (was TIP-010B proposal) | System Admin Control Plane | `@afenda/erp` (PKG-007) | TIP-010 | **Promoted** — [`tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) |
 
@@ -57,7 +57,7 @@ Per write-tip rule §2 Step 2: **do not invent TIP numbers**. This note proposes
 1. ~~Architecture Authority accepts TIP-010A, TIP-007A~~ — **Done (2026-06-23)**
 2. **TIP-010B** — scope accepted; **canonical ID + standalone delivery doc pending**
 3. Optional: amend ADR-0013 or add ADR-0014 registering foundation phase slice IDs
-4. ~~Promote TIP-010A/007A~~ — **Done** → [`tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md), [`tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md)
+4. ~~Promote TIP-010A/007A~~ — **Done** → [`tip-010a-api-contract-governance.md`](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md), [`tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md)
 5. ~~Update roadmap Phase 5/7~~ — **Done**; Phase 8 remains pending TIP ID
 
 ---
@@ -95,13 +95,13 @@ Add handoff pointers at top of draft sections for promoted TIPs:
 
 ### Draft — TIP-010A — PROMOTED
 
-> **Superseded.** Canonical spec: [`tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md). Do not implement from this section.
+> **Superseded.** Canonical spec: [`tip-010a-api-contract-governance.md`](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md). Do not implement from this section.
 
 ---
 
 ### Draft — TIP-007A — PROMOTED
 
-> **Superseded.** Canonical spec: [`tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md). Do not implement from this section.
+> **Superseded.** Canonical spec: [`tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md). Do not implement from this section.
 
 ---
 
@@ -167,7 +167,7 @@ ADR-0013 authority: Foundation Phase 5 exit criterion — API contract registry 
 
 ## Depends on
 
-- TIP-010 Identity & Authorization (partial) — [`tip-010-api-rbac-wiring.md`](../delivery/tips/[Partially Implemented] tip-010-api-rbac-wiring.md)
+- TIP-010 Identity & Authorization (partial) — [`tip-010-api-rbac-wiring.md`](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md)
 - TIP-012 ERP Operating Spine (partial) — createApiHandler spine
 
 ## Blocks
@@ -240,7 +240,7 @@ AND   an audit event records actor, company, action, target, correlation ID
 > **Blocked until Architecture Authority accepts TIP-010A.** Draft handoff for promotion.
 
 ```
-Handoff from: docs/delivery/tips/[Not started] tip-010a-api-contract-governance.md (Slice 1 — registry)
+Handoff from: docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md (Slice 1 — registry)
 
 1. Objective    — Register all non-auth ERP routes in api-contract-registry with Zod contracts.
 2. Allowed layer— apps/erp/src/server/api/contracts/ + apps/erp/src/app/api/
@@ -265,7 +265,7 @@ Handoff from: docs/delivery/tips/[Not started] tip-010a-api-contract-governance.
 
 ### Draft — TIP-007A — Feature Manifest & Module Governance (archived draft)
 
-> **Superseded.** Canonical spec: [`tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md). Do not implement from this section.
+> **Superseded.** Canonical spec: [`tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md). Do not implement from this section.
 
 # TIP-007A — Feature Manifest & Module Governance
 
@@ -585,8 +585,8 @@ Handoff from: docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.m
 
 ## Architecture Authority decision checklist
 
-- [x] Accept TIP-010A — promoted to `docs/delivery/tips/[Not started] tip-010a-api-contract-governance.md`
-- [x] Accept TIP-007A — promoted to `docs/delivery/tips/[Not started] tip-007a-feature-manifest-governance.md`
+- [x] Accept TIP-010A — promoted to `docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md`
+- [x] Accept TIP-007A — promoted to `docs/delivery/tips/[Complete] tip-007a-feature-manifest-governance.md`
 - [x] Accept TIP-013 — promoted to `docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md` (supersedes TIP-010B)
 - [x] Supersede TIP-010B — historical draft only
 - [x] Reject `TIP-030-SA` permanently in favor of Phase 8 slice under review

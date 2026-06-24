@@ -8,6 +8,8 @@ import * as recentTransactionsStories from "../shadcn-studio/blocks/app-shell-da
 import * as regionalSalesStories from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales.stories";
 import * as revenueChartStories from "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart.stories";
 import * as sparklineStatStories from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat.stories";
+import * as statisticsExpenseCardStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-expense-card.stories";
+import * as statisticsIncomeCardStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-income-card.stories";
 import * as statisticsLineTrendsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends.stories";
 import * as statisticsMetricsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-metrics.stories";
 import {
@@ -18,6 +20,12 @@ import {
 const { Default: KpiStatDefault } = composePortableStories(kpiStatStories);
 const { Default: SparklineStatDefault } =
   composePortableStories(sparklineStatStories);
+const { Default: StatisticsIncomeCardDefault } = composePortableStories(
+  statisticsIncomeCardStories
+);
+const { Default: StatisticsExpenseCardDefault } = composePortableStories(
+  statisticsExpenseCardStories
+);
 const { Default: InvoiceTableDefault } =
   composePortableStories(invoiceTableStories);
 const { Default: ModuleEarningsDefault } = composePortableStories(
@@ -49,6 +57,16 @@ describe("Dashboard block stories (portable CSF)", () => {
   it("SparklineStat Default renders without TIP-004 throw", () => {
     render(<SparklineStatDefault />);
     expect(screen.getByText("Revenue this month")).toBeInTheDocument();
+  });
+
+  it("StatisticsIncomeCard Default renders without TIP-004 throw", () => {
+    render(<StatisticsIncomeCardDefault />);
+    expect(screen.getByText("Revenue this month")).toBeInTheDocument();
+  });
+
+  it("StatisticsExpenseCard Default renders without TIP-004 throw", () => {
+    render(<StatisticsExpenseCardDefault />);
+    expect(screen.getByText("Operating expenses")).toBeInTheDocument();
   });
 
   it("KpiStat OpenTasks renders declining change as plain secondary text", () => {

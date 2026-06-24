@@ -1,270 +1,190 @@
 /**
- * Afenda Docs — fumadocs component editorial overrides
+ * Afenda Docs — fumadocs-ui v16 component overrides
  *
- * Tier 3 (MDX components layer) — augments fumadocs-ui defaults with
- * editorial palette tokens. Covers Callout, Card, Steps, Tabs, Files,
- * and TypeTable.
+ * ARCHITECTURE NOTE (fumadocs-ui v16+):
+ * Components no longer use nd-* class names. They render with Tailwind utility
+ * classes that consume --color-fd-* variables. The palette bridge in
+ * docs-editorial-palette.css (via @theme inline) handles all colour correctly.
+ *
+ * STABLE selectors: #nd-sidebar, #nd-toc, #nd-subnav, data-* attributes.
+ * Those live in docs-editorial-palette.css.
+ *
+ * This file covers:
+ *   1. Code blocks  — [data-rehype-pretty-code-figure] (rehype-pretty-code output)
+ *   2. Callout tint — --callout-color is set by fd-info/fd-warning (see palette)
+ *   3. Cards hover  — fd-* already handles bg; this adds box-shadow depth
+ *   4. Steps        — counter-reset/increment styling already native; we add color
+ *   5. TypeTable    — prose-positioned table chrome
+ *   6. InlineTOC    — sticky position, link hover transition
  *
  * Rules:
- *   - Only uses --docs-editorial-* and --color-fd-* CSS variables
- *   - No hex literals, no hardcoded OKLCH, no arbitrary Tailwind classes
- *   - Targets fumadocs internal class names (.nd-callout, .nd-card, etc.)
- *   - @media prefers-reduced-motion block at the bottom for animations
+ *   - Only --docs-editorial-* and --color-fd-* tokens; no raw OKLCH literals here
+ *   - @media prefers-reduced-motion at bottom
  */
 
-/* ─── Callout ──────────────────────────────────────────────────────────────── */
+/* ─── Code block (rehype-pretty-code output) ────────────────────────────────
+   fumadocs renders <figure data-rehype-pretty-code-figure> wrapping
+   <figcaption data-rehype-pretty-code-title> + <pre data-language="...">
+   ────────────────────────────────────────────────────────────────────────── */
 
-.nd-callout {
-  gap: 0.6rem;
-  padding: 0.875rem 1rem;
+[data-rehype-pretty-code-figure] {
+  margin-block: 1.5rem;
+  overflow: hidden;
+  background-color: var(--docs-editorial-code-surface);
+  border: 1px solid var(--docs-editorial-border-subtle);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px oklch(0 0 0 / 0.05);
+}
+
+.dark [data-rehype-pretty-code-figure] {
+  box-shadow: 0 1px 4px oklch(0 0 0 / 0.3);
+}
+
+[data-rehype-pretty-code-title] {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8125rem;
+  color: var(--docs-editorial-text-muted);
+  letter-spacing: 0;
+  user-select: none;
   background-color: var(--docs-editorial-surface-muted);
-  border-color: var(--docs-editorial-border);
-  border-radius: 0.375rem;
-  font-size: 0.9375rem;
+  border-bottom: 1px solid var(--docs-editorial-border-subtle);
+}
+
+[data-rehype-pretty-code-figure] pre {
+  padding: 1.125rem 1rem;
+  margin: 0;
+  overflow-x: auto;
+  font-size: 0.8125rem;
   line-height: 1.65;
+  background-color: var(--docs-editorial-code-surface);
 }
 
-/* "note" type — prose-accent left rule, otherwise neutral surface */
-.nd-callout[data-type="note"] {
-  border-left-color: var(--docs-editorial-prose-accent);
+[data-rehype-pretty-code-figure] pre code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  border: none;
+}
+
+/* Individual highlighted lines */
+[data-highlighted-line] {
+  padding-inline-start: calc(1rem - 2px);
+  padding-inline-end: 1rem;
+  margin-inline: -1rem;
   background-color: color-mix(
     in oklch,
-    var(--docs-editorial-prose-accent) 6%,
-    var(--docs-editorial-paper)
+    var(--docs-editorial-prose-accent) 8%,
+    var(--docs-editorial-code-surface)
   );
+  border-inline-start: 2px solid var(--docs-editorial-prose-accent);
 }
 
-/* "warn" type — amber tint */
-.nd-callout[data-type="warn"] {
-  border-left-color: oklch(0.72 0.14 70);
-  background-color: color-mix(
-    in oklch,
-    oklch(0.72 0.14 70) 7%,
-    var(--docs-editorial-paper)
-  );
+/* Copy button inside code block */
+[data-rehype-pretty-code-figure] button[aria-label="Copy code"] {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--docs-editorial-text-muted);
+  background-color: var(--docs-editorial-surface-muted);
+  border: 1px solid var(--docs-editorial-border-subtle);
+  border-radius: 0.25rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
 }
 
-.dark .nd-callout[data-type="warn"] {
-  border-left-color: oklch(0.78 0.13 68);
-  background-color: color-mix(
-    in oklch,
-    oklch(0.78 0.13 68) 9%,
-    var(--docs-editorial-canvas)
-  );
+[data-rehype-pretty-code-figure]:hover button[aria-label="Copy code"] {
+  opacity: 1;
 }
 
-/* "error" type — red tint */
-.nd-callout[data-type="error"] {
-  border-left-color: oklch(0.56 0.21 25);
-  background-color: color-mix(
-    in oklch,
-    oklch(0.56 0.21 25) 6%,
-    var(--docs-editorial-paper)
-  );
-}
+/* ─── Callout (fumadocs v16) ─────────────────────────────────────────────────
+   No nd-callout class in v16 — colours flow through --color-fd-info/fd-warning
+   in @theme inline → --callout-color resolved by fumadocs. Nothing to override.
+   ────────────────────────────────────────────────────────────────────────── */
 
-.dark .nd-callout[data-type="error"] {
-  border-left-color: oklch(0.64 0.19 22);
-  background-color: color-mix(
-    in oklch,
-    oklch(0.64 0.19 22) 9%,
-    var(--docs-editorial-canvas)
-  );
-}
-
-/* "note" dark mode */
-.dark .nd-callout[data-type="note"] {
-  border-left-color: var(--docs-editorial-prose-accent);
-  background-color: color-mix(
-    in oklch,
-    var(--docs-editorial-prose-accent) 10%,
-    var(--docs-editorial-canvas)
-  );
-}
-
-.nd-callout p,
-.nd-callout li {
-  color: var(--docs-editorial-text);
-}
-
-/* ─── Card ─────────────────────────────────────────────────────────────────── */
+/* ─── Cards hover depth (fd-card bg is already handled by bridge) ────────── */
 
 .nd-card {
-  padding: 1.125rem 1.25rem;
-  background-color: var(--docs-editorial-surface-raised);
-  border-color: var(--docs-editorial-border);
-  border-radius: 0.5rem;
-  box-shadow:
-    0 1px 2px oklch(0 0 0 / 0.04),
-    0 0 0 1px var(--docs-editorial-border-subtle);
-  transition: box-shadow 160ms ease;
+  transition: box-shadow 150ms ease;
 }
 
 .nd-card:hover {
   box-shadow:
-    0 2px 6px oklch(0 0 0 / 0.07),
+    0 2px 8px oklch(0 0 0 / 0.06),
     0 0 0 1px var(--docs-editorial-border);
-}
-
-.dark .nd-card {
-  background-color: var(--docs-editorial-paper);
-  box-shadow: 0 0 0 1px var(--docs-editorial-border-subtle);
 }
 
 .dark .nd-card:hover {
   box-shadow:
-    0 2px 6px oklch(0 0 0 / 0.2),
+    0 2px 8px oklch(0 0 0 / 0.25),
     0 0 0 1px var(--docs-editorial-border);
 }
 
-.nd-card .nd-card-title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--docs-editorial-text);
-  letter-spacing: -0.01em;
-}
-
-.nd-card .nd-card-description {
-  font-size: 0.875rem;
-  color: var(--docs-editorial-text-muted);
-  line-height: 1.6;
-}
-
-/* ─── Cards grid ───────────────────────────────────────────────────────────── */
-
-.nd-cards {
-  gap: 0.875rem;
-}
-
-/* ─── Steps ────────────────────────────────────────────────────────────────── */
+/* ─── Steps (retained for compatibility — nd-steps may appear in v16 prose) ─*/
 
 .nd-steps {
   border-color: var(--docs-editorial-border-subtle);
 }
 
-.nd-step-heading {
-  color: var(--docs-editorial-text);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-}
-
-/* Step counter bubble — uses prose-accent for editorial hierarchy */
 .nd-steps > li::before {
-  background-color: var(--docs-editorial-prose-accent);
-  color: var(--docs-editorial-paper);
   font-size: 0.75rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  color: var(--docs-editorial-paper);
+  background-color: var(--docs-editorial-prose-accent);
 }
 
 .dark .nd-steps > li::before {
-  background-color: var(--docs-editorial-prose-accent);
   color: var(--docs-editorial-canvas);
 }
 
-/* ─── Tabs ─────────────────────────────────────────────────────────────────── */
-
-.nd-tabs {
-  border-color: var(--docs-editorial-border-subtle);
-}
-
-.nd-tabs [role="tablist"] {
-  gap: 0;
-  background-color: var(--docs-editorial-surface-muted);
-  border-bottom: 1px solid var(--docs-editorial-border-subtle);
-}
-
-.nd-tabs [role="tab"] {
-  padding: 0.5rem 0.875rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--docs-editorial-text-muted);
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  transition:
-    color 120ms ease,
-    border-color 120ms ease;
-}
-
-.nd-tabs [role="tab"]:hover {
-  color: var(--docs-editorial-text);
-  background-color: var(--docs-editorial-surface-hover);
-}
-
-.nd-tabs [role="tab"][data-active="true"],
-.nd-tabs [role="tab"][aria-selected="true"] {
-  color: var(--docs-editorial-text);
-  border-bottom-color: var(--docs-editorial-prose-accent);
-  background-color: transparent;
-}
-
-.nd-tabs [role="tabpanel"] {
-  padding: 1.25rem 0 0.25rem;
-}
-
-/* ─── Files (file tree) ────────────────────────────────────────────────────── */
-
-.nd-files {
-  padding: 0.75rem 1rem;
-  background-color: var(--docs-editorial-surface-muted);
-  border-color: var(--docs-editorial-border-subtle);
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  line-height: 1.7;
-}
-
-.nd-file-icon {
-  color: var(--docs-editorial-text-muted);
-}
-
-.nd-folder > summary {
-  color: var(--docs-editorial-text);
-  font-weight: 500;
-}
-
-/* ─── TypeTable ────────────────────────────────────────────────────────────── */
+/* ─── TypeTable (keeps nd-type-table for compatibility) ─────────────────── */
 
 .nd-type-table {
   font-size: 0.875rem;
 }
 
 .nd-type-table thead th {
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--docs-editorial-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   background-color: var(--docs-editorial-surface-muted);
   border-color: var(--docs-editorial-border-subtle);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
 }
 
 .nd-type-table td {
-  border-color: var(--docs-editorial-border-subtle);
-  color: var(--docs-editorial-text);
-  vertical-align: top;
   padding: 0.625rem 0.875rem;
+  vertical-align: top;
+  color: var(--docs-editorial-text);
+  border-color: var(--docs-editorial-border-subtle);
 }
 
 .nd-type-table code {
+  padding: 0.1rem 0.3rem;
   font-size: 0.8125rem;
   color: var(--docs-editorial-prose-accent);
   background-color: var(--docs-editorial-code-surface);
-  padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
 }
 
-/* ─── InlineTOC ────────────────────────────────────────────────────────────── */
+/* ─── InlineTOC ──────────────────────────────────────────────────────────── */
 
 .nd-inline-toc {
-  border-color: var(--docs-editorial-border-subtle);
   background-color: var(--docs-editorial-surface-muted);
+  border-color: var(--docs-editorial-border-subtle);
   border-radius: 0.375rem;
 }
 
 .nd-inline-toc a {
-  color: var(--docs-editorial-text-muted);
   font-size: 0.875rem;
+  color: var(--docs-editorial-text-muted);
   transition: color 100ms ease;
 }
 
@@ -272,12 +192,61 @@
   color: var(--docs-editorial-prose-accent);
 }
 
-/* ─── Reduced motion ───────────────────────────────────────────────────────── */
+/* ─── Banner ─────────────────────────────────────────────────────────────── */
+
+[data-rehype-pretty-code-figure] [data-highlighted-chars] {
+  padding: 0.1rem 0.15rem;
+  background-color: color-mix(
+    in oklch,
+    var(--docs-editorial-prose-accent) 15%,
+    var(--docs-editorial-code-surface)
+  );
+  border-radius: 0.2rem;
+}
+
+/* ─── react-medium-image-zoom inlined (fumadocs ImageZoom component) ─────────
+   Source: fumadocs-ui/dist/components/image-zoom2.css
+   Inlined because the package exports this file without a "style" condition,
+   which Tailwind v4 PostCSS resolver requires.
+   ────────────────────────────────────────────────────────────────────────── */
+
+[data-rmiz] {
+  position: relative;
+  display: block;
+}
+
+[data-rmiz-ghost] {
+  position: absolute;
+  pointer-events: none;
+}
+
+[data-rmiz-btn-zoom],
+[data-rmiz-btn-unzoom] {
+  display: none;
+}
+
+[data-rmiz-content="found"] img {
+  cursor: zoom-in;
+}
+
+[data-rmiz-modal][open] {
+  position: fixed;
+  width: 100dvw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .nd-card,
-  .nd-tabs [role="tab"],
-  .nd-inline-toc a {
+  .nd-inline-toc a,
+  [data-rehype-pretty-code-figure] button[aria-label="Copy code"] {
     transition: none;
   }
 }

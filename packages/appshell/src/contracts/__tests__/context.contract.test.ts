@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import type {
   ApplicationShellIdentity as TypesIdentity,
   ApplicationShellOperatingContext as TypesOperatingContext,
@@ -22,15 +21,15 @@ import {
 } from "../context.contract.js";
 import type {
   AssertAssignableToContract,
-  AssertMutuallyAssignable,
-} from "./type-assignability.js";
+  AssertContractAligned,
+} from "./contract-type-assertions.js";
 
-type _OperatingContextAligned = AssertMutuallyAssignable<
+type _OperatingContextAligned = AssertContractAligned<
   TypesOperatingContext,
   ApplicationShellOperatingContext
 >;
 
-type _IdentityAligned = AssertMutuallyAssignable<
+type _IdentityAligned = AssertContractAligned<
   TypesIdentity,
   ApplicationShellIdentity
 >;

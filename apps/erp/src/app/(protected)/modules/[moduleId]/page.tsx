@@ -8,8 +8,10 @@ import { headers } from "next/headers";
 import { forbidden, notFound, redirect } from "next/navigation";
 import { connection } from "next/server";
 
+import { ModulePlaceholderEmptyState } from "@/components/module-placeholder-empty-state";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 import { guardModuleRoute } from "@/lib/modules/guard-module-route.server";
+import { resolveModulePlaceholderCopy } from "@/lib/modules/resolve-module-placeholder-copy";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
 
 interface ModulePlaceholderPageProps {
@@ -59,16 +61,21 @@ export default async function ModulePlaceholderPage({
     forbidden();
   }
 
+  const placeholderCopy = resolveModulePlaceholderCopy({
+    moduleId,
+    label: guardResult.route.label,
+  });
+
   return (
     <AppShellMain
       contentLabel={`${guardResult.route.label} module`}
-      description="Shell placeholder surface. Business domain logic arrives in a future delivery."
+      description={placeholderCopy.shellDescription}
       title={guardResult.route.label}
     >
-      <p>
-        This module workspace is registered in the feature manifest. Domain
-        capabilities will appear here after the module delivery TIP completes.
-      </p>
+      {/*
+        Shell placeholder surface. Domain capabilities will appear here via contract copy.
+      */}
+      <ModulePlaceholderEmptyState copy={placeholderCopy} />
     </AppShellMain>
   );
 }

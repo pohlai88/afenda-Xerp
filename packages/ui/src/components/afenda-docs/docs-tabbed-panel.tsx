@@ -1,30 +1,36 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, type TabsListVariant } from "../tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  type TabsListVariant,
+  TabsTrigger,
+} from "../tabs";
 
 export interface DocsTabbedPanelItem {
-  readonly value: string;
-  readonly label: string;
   readonly content: ReactNode;
+  readonly label: string;
+  readonly value: string;
 }
 
 export interface DocsTabbedPanelProps {
-  readonly items: readonly DocsTabbedPanelItem[];
   readonly defaultValue?: string;
+  readonly items: readonly DocsTabbedPanelItem[];
   readonly tabsVariant?: TabsListVariant;
 }
 
 export function DocsTabbedPanel({
   items,
   defaultValue,
-  tabsVariant = "default",
+  tabsVariant = "line",
 }: DocsTabbedPanelProps): ReactNode {
-  const initial = defaultValue ?? items[0]?.value;
+  const initial = defaultValue ?? items[0]?.value ?? "";
 
   return (
     <div className="afenda-docs-tabbed-panel" data-tabs-variant={tabsVariant}>
-      <Tabs defaultValue={initial}>
+      <Tabs {...(initial ? { defaultValue: initial } : {})}>
         <TabsList variant={tabsVariant}>
           {items.map((item) => (
             <TabsTrigger key={item.value} value={item.value}>

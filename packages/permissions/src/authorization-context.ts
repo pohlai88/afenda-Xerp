@@ -21,6 +21,7 @@ export interface AuthorizationContextInput {
 export interface AuthorizationContext {
   readonly actorId: string;
   readonly companyId: string | null;
+  readonly entityGroupId: string | null;
   readonly membershipId: string | null;
   readonly organizationId: string | null;
   readonly roleId: string | null;
@@ -76,6 +77,7 @@ export function resolveAuthorizationContext(
     actorId: actor.actorId,
     tenantId: input.tenantId,
     companyId: input.companyId ?? null,
+    entityGroupId: input.entityGroupId ?? null,
     organizationId: input.organizationId ?? null,
     workspaceId: input.workspaceId ?? null,
     membershipId: null,

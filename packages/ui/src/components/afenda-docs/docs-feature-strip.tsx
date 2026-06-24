@@ -3,26 +3,22 @@ import type { ReactNode } from "react";
 import { Badge } from "../badge";
 
 export interface DocsFeatureStripItem {
-  readonly title: string;
   readonly description: string;
   readonly icon: LucideIcon;
+  readonly title: string;
   readonly tone?: "neutral" | "info" | "success";
 }
 
 export type DocsFeatureStripVariant = "bordered" | "plain" | "dense";
 
 export interface DocsFeatureStripProps {
-  readonly title: string;
-  readonly subtitle?: string;
   readonly items: readonly DocsFeatureStripItem[];
+  readonly subtitle?: string;
+  readonly title: string;
   readonly variant?: DocsFeatureStripVariant;
 }
 
-function DocsFeatureIcon({
-  icon: Icon,
-}: {
-  readonly icon: LucideIcon;
-}) {
+function DocsFeatureIcon({ icon: Icon }: { readonly icon: LucideIcon }) {
   return (
     <span aria-hidden="true" className="afenda-docs-feature-strip__icon">
       <Icon size={16} strokeWidth={1.75} />
@@ -55,7 +51,7 @@ export function DocsFeatureStrip({
       </header>
       <ul className="afenda-docs-feature-strip__list">
         {items.map((item) => (
-          <li key={item.title} className="afenda-docs-feature-strip__item">
+          <li className="afenda-docs-feature-strip__item" key={item.title}>
             <div className="afenda-docs-feature-strip__item-head">
               <DocsFeatureIcon icon={item.icon} />
               <span className="afenda-docs-feature-strip__item-title">

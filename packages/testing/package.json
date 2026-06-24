@@ -44,10 +44,15 @@
       "types": "./dist/execution/mock-execution-provider.d.ts",
       "import": "./dist/execution/mock-execution-provider.js",
       "default": "./dist/execution/mock-execution-provider.js"
+    },
+    "./e2e/erp-credentials": {
+      "import": "./src/e2e/erp-credentials.mjs",
+      "default": "./src/e2e/erp-credentials.mjs"
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/e2e"
   ],
   "scripts": {
     "build": "tsc -b",

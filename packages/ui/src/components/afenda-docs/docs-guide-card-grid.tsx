@@ -4,11 +4,11 @@ import { Badge } from "../badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "../card";
 
 export interface DocsGuideCardItem {
-  readonly title: string;
+  readonly badge?: string;
   readonly description: string;
   readonly href: string;
-  readonly badge?: string;
   readonly icon?: LucideIcon;
+  readonly title: string;
 }
 
 export type DocsGuideCardGridVariant = "grid" | "compact" | "featured";
@@ -16,16 +16,12 @@ export type DocsGuideCardGridVariant = "grid" | "compact" | "featured";
 export interface DocsGuideCardGridProps {
   readonly eyebrow?: string;
   readonly heading?: string;
-  readonly lead?: string;
   readonly items: readonly DocsGuideCardItem[];
+  readonly lead?: string;
   readonly variant?: DocsGuideCardGridVariant;
 }
 
-function DocsGuideCardIcon({
-  icon: Icon,
-}: {
-  readonly icon: LucideIcon;
-}) {
+function DocsGuideCardIcon({ icon: Icon }: { readonly icon: LucideIcon }) {
   return (
     <span aria-hidden="true" className="afenda-docs-guide-grid__icon">
       <Icon size={18} strokeWidth={1.75} />
@@ -54,17 +50,16 @@ export function DocsGuideCardGrid({
           {heading ? (
             <h2 className="afenda-docs-guide-grid__title">{heading}</h2>
           ) : null}
-          {lead ? (
-            <p className="afenda-docs-guide-grid__lead">{lead}</p>
-          ) : null}
+          {lead ? <p className="afenda-docs-guide-grid__lead">{lead}</p> : null}
         </header>
       )}
       <div className="afenda-docs-guide-grid__cards">
         {items.map((item) => (
           <a
-            key={item.href}
             className="afenda-docs-guide-grid__link"
             href={item.href}
+            key={item.href}
+            rel="noopener noreferrer"
           >
             <Card radius="lg" shadow="raised">
               <CardHeader>

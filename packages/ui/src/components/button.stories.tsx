@@ -6,6 +6,7 @@ import {
   VARIANT_INTENTS,
 } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, fn, userEvent, within } from "storybook/test";
 import {
   AlertTriangleIcon,
   ArrowLeftIcon,
@@ -110,6 +111,7 @@ const meta = {
     intent: "primary",
     emphasis: "solid",
     size: "md",
+    onClick: fn(),
   },
 } satisfies Meta<typeof Button>;
 
@@ -118,7 +120,21 @@ type Story = StoryObj<typeof meta>;
 
 // ─── Single variant playground ────────────────────────────────────────────────
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Primary solid button — click invokes the Actions panel `onClick` spy.",
+      },
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Button" }));
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
 
 export const Secondary: Story = {
   args: { intent: "secondary" },
@@ -162,7 +178,20 @@ export const ExtraSmall: Story = {
 // ─── States ───────────────────────────────────────────────────────────────────
 
 export const Disabled: Story = {
-  args: { disabled: true },
+  args: { disabled: true, onClick: fn() },
+  parameters: {
+    docs: {
+      description: {
+        story: "Disabled buttons ignore pointer activation.",
+      },
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", { name: "Button" });
+    await expect(button).toBeDisabled();
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
 };
 
 export const Loading: Story = {

@@ -1,2 +1,2 @@
-/** Role authority tier — shared by scope resolution and grant enforcement. */
-export type RoleScope = "platform" | "tenant" | "company" | "organization";
+/** Role authority tier — database enum is canonical (Permission Authority). */
+export type { RoleScope } from "@afenda/database";

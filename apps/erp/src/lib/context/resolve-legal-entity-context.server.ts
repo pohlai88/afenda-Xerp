@@ -1,9 +1,11 @@
 import {
   type AfendaDatabase,
   type CompanyLookupRow,
+  findActiveCompaniesByEntityGroupId,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,
+  getDb,
 } from "@afenda/database";
 import {
   type EntityGroupContext,
@@ -34,10 +36,12 @@ export type ResolveLegalEntityContextResult = Result<
   OperatingContextError
 >;
 
-function resolveDefaultCompanyId(
-  memberships: readonly MembershipContract[]
-): string | null {
-  const companyMembership = memberships.find(
+async function resolveDefaultCompanyId(input: {
+  readonly db?: AfendaDatabase;
+  readonly memberships: readonly MembershipContract[];
+  readonly tenantId: string;
+}): Promise<string | null> {
+  const companyMembership = input.memberships.find(
     (membership) =>
       membership.scopeType === "company" && membership.companyId !== null
   );
@@ -45,12 +49,54 @@ function resolveDefaultCompanyId(
     return companyMembership.companyId;
   }
 
-  const organizationMembership = memberships.find(
+  const organizationMembership = input.memberships.find(
     (membership) =>
       membership.scopeType === "organization" && membership.companyId !== null
   );
+  if (organizationMembership?.companyId) {
+    return organizationMembership.companyId;
+  }
 
-  return organizationMembership?.companyId ?? null;
+  const entityGroupMembership = input.memberships.find(
+    (membership) =>
+      membership.scopeType === "entity_group" &&
+      membership.entityGroupId !== null
+  );
+  if (!entityGroupMembership?.entityGroupId) {
+    return null;
+  }
+
+  const db = input.db ?? getDb();
+
+  const entityGroup = await findEntityGroupById(
+    entityGroupMembership.entityGroupId,
+    db
+  );
+  if (
+    entityGroup &&
+    entityGroup.tenantId === input.tenantId &&
+    entityGroup.parentLegalEntityId
+  ) {
+    const parentCompany = await findCompanyById(
+      entityGroup.parentLegalEntityId,
+      db
+    );
+    if (
+      parentCompany &&
+      parentCompany.tenantId === input.tenantId &&
+      parentCompany.status === "active"
+    ) {
+      return parentCompany.id;
+    }
+  }
+
+  const activeCompanies = await findActiveCompaniesByEntityGroupId(
+    entityGroupMembership.entityGroupId,
+    input.tenantId,
+    db
+  );
+
+  return activeCompanies[0]?.id ?? null;
 }
 
 function companyScopeMismatchError(): OperatingContextError {
@@ -112,7 +158,11 @@ async function resolveCompanyRow(input: {
   }
 
   if (!companyRow) {
-    const defaultCompanyId = resolveDefaultCompanyId(input.memberships);
+    const defaultCompanyId = await resolveDefaultCompanyId({
+      ...(input.db === undefined ? {} : { db: input.db }),
+      memberships: input.memberships,
+      tenantId: input.tenant.tenantId,
+    });
     if (!defaultCompanyId) {
       return err(missingLegalEntitySelectionError());
     }

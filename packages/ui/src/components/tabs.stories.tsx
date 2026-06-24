@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { GOVERNED_STATES } from "@afenda/ui/governance";
 import {
@@ -16,6 +15,7 @@ import {
   TruckIcon,
   UserIcon,
 } from "lucide-react";
+import { expect, userEvent, within } from "storybook/test";
 import { useState } from "react";
 import {
   StoryFrame,
@@ -368,6 +368,22 @@ export const GovernanceAccessibility: Story = {
 // ─── Basic variants ────────────────────────────────────────────────────────
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Tab keyboard activation selects Details and reveals its panel content.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const detailsTab = canvas.getByRole("tab", { name: "Details" });
+    detailsTab.focus();
+    await userEvent.keyboard("{Enter}");
+    await expect(detailsTab).toHaveAttribute("aria-selected", "true");
+    await expect(canvas.getByText("Details content")).toBeVisible();
+  },
   render: (args) => (
     <StoryFrame width="lg">
       <Tabs {...tabsStoryProps(args)} defaultValue="overview">

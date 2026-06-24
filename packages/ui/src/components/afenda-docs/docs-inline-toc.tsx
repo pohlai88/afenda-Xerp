@@ -1,16 +1,16 @@
 import type { ReactNode } from "react";
 
 export interface DocsInlineTocItem {
+  readonly depth: number;
   readonly title: string;
   readonly url: string;
-  readonly depth: number;
 }
 
 export type DocsInlineTocVariant = "card" | "rail" | "minimal";
 
 export interface DocsInlineTocProps {
-  readonly title?: string;
   readonly items: readonly DocsInlineTocItem[];
+  readonly title?: string;
   readonly variant?: DocsInlineTocVariant;
 }
 
@@ -29,9 +29,9 @@ export function DocsInlineToc({
       <ul className="afenda-docs-inline-toc__list">
         {items.map((item) => (
           <li
-            key={item.url}
             className="afenda-docs-inline-toc__item"
             data-depth={item.depth}
+            key={item.url}
           >
             <a className="afenda-docs-inline-toc__link" href={item.url}>
               {item.title}

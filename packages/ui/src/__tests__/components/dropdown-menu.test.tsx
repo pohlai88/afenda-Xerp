@@ -147,7 +147,10 @@ describe("DropdownMenu governance", () => {
     render(
       <DropdownMenu open>
         <DropdownMenuTrigger asChild>
-          <Button {...mapStockButtonProps("ghost", "icon-sm")} aria-label="Actions">
+          <Button
+            {...mapStockButtonProps("ghost", "icon-sm")}
+            aria-label="Actions"
+          >
             Open
           </Button>
         </DropdownMenuTrigger>

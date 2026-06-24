@@ -1,4 +1,4 @@
-import type { MutationScope } from "@/lib/outbox/resolve-mutation-scope.server.js";
+import type { MutationScope } from "@/lib/outbox/resolve-mutation-scope.server";
 
 /**
  * Mandatory ERP operating-spine phases (ADR-0001 TIP-012).

@@ -8,9 +8,6 @@ import {
   registerPublishOutboxEventsWorkflow,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
-
-import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
-
 import { createDrizzleOutboxPersistenceAdapter } from "@/lib/outbox/drizzle-outbox-persistence.adapter";
 import {
   assertSchedulerStartupPolicy,
@@ -24,6 +21,7 @@ import {
 import { createLoggingOutboxEventDispatcher } from "@/lib/outbox/logging-outbox-dispatcher.server";
 import { registerOutboxSchedule } from "@/lib/outbox/register-outbox-schedule.server";
 import { verifyOutboxWorkerRelease } from "@/lib/outbox/verify-outbox-worker-release.server";
+import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
 
 const outboxFoundationLogger = createApiHandlerLogger("outbox-foundation");
 

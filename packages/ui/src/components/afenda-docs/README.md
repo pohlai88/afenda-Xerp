@@ -12,9 +12,9 @@ Category: **Afenda Docs / …** — stable editorial blocks with porcelain previ
 | Guide Card Grid | `docs-guide-card-grid` | grid · compact · featured | Card / Cards |
 | Feature Strip | `docs-feature-strip` | bordered · plain · dense | Features section |
 | Steps Panel | `docs-steps-panel` | numbered · timeline · compact | Steps |
-| Callout | `docs-callout` | rail · soft · banner | Banner / Callout |
+| Callout | `docs-callout` | rail · soft · banner · note / info / warn / success tones | Banner / Callout |
 | Announcement Bar | `docs-announcement-bar` | accent · neutral · warn | Announcement |
-| Accordion Panel | `docs-accordion-panel` | contained · separated · flush | Accordion |
+| Accordion Panel | `docs-accordion-panel` | contained · separated · flush · plus-minus / chevron icons | Accordion |
 | Code Panel | `docs-code-panel` | panel · inline | Code Block |
 | File Tree | `docs-file-tree` | default · compact | Files |
 | Inline TOC | `docs-inline-toc` | card · rail · minimal | Inline TOC |
@@ -40,7 +40,7 @@ Raw MCP output is **not** installed to `packages/appshell/` for docs delivery.
 
 1. Open Storybook → **Afenda Docs** → choose a variant.
 2. Copy component file(s) to `apps/docs/src/components/blocks/`.
-3. Copy CSS semantics from `afenda-docs-preview.css`; create or extend `apps/docs/src/app/docs-editorial-blocks.css` using `--docs-editorial-*` tokens from `docs-editorial-palette.css`.
+3. Copy CSS semantics from `_storybook/afenda-docs/afenda-docs-preview.css`; create or extend `apps/docs/src/app/docs-editorial-blocks.css` using `--docs-editorial-*` tokens from `docs-editorial-palette.css`.
 4. Register components in `apps/docs/src/components/mdx.tsx` (or use upstream fumadocs-ui for MDX primitives).
 5. Verify `@afenda/docs` still has **zero** `@afenda/*` runtime deps: `pnpm quality:boundaries`.
 
@@ -48,12 +48,12 @@ Raw MCP output is **not** installed to `packages/appshell/` for docs delivery.
 
 | Preview (Storybook) | Docs site |
 | ------------------- | --------- |
-| `--afenda-docs-preview-canvas` | `--docs-editorial-canvas` |
-| `--afenda-docs-preview-paper` | `--docs-editorial-paper` |
-| `--afenda-docs-preview-text` | `--docs-editorial-text` |
-| `--afenda-docs-preview-text-muted` | `--docs-editorial-text-muted` |
-| `--afenda-docs-preview-border` | `--docs-editorial-border` |
-| `--afenda-docs-preview-accent` | `--docs-editorial-prose-accent` (prose/blocks only) |
+| `--docs-preview-canvas` | `--docs-editorial-canvas` |
+| `--docs-preview-paper` | `--docs-editorial-paper` |
+| `--docs-preview-text` | `--docs-editorial-text` |
+| `--docs-preview-text-muted` | `--docs-editorial-text-muted` |
+| `--docs-preview-border` | `--docs-editorial-border` |
+| `--docs-preview-accent` | `--docs-editorial-prose-accent` (prose/blocks only) |
 
 ## Governance
 

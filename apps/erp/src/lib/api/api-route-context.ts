@@ -1,3 +1,4 @@
+import type { OperatingContext } from "@afenda/kernel";
 import type { AuthorizationContextInput } from "@afenda/permissions";
 
 export const AFENDA_TENANT_ID_HEADER = "x-afenda-tenant-id";
@@ -85,5 +86,30 @@ export function toAuthorizationContextInput(
     companyId: scope.companyId,
     organizationId: scope.organizationId,
     workspaceId: scope.workspaceId,
+  };
+}
+
+/** Maps verified operating context into permission-check scope — hierarchy ids from resolver, not headers. */
+export function toAuthorizationContextFromOperatingContext(input: {
+  readonly operatingContext: OperatingContext;
+  readonly request: Request;
+}): AuthorizationContextInput {
+  const { operatingContext } = input;
+  const headerScope = readScopeCandidateFromHeaders(input.request);
+
+  return {
+    tenantId: operatingContext.workspace.tenantId,
+    companyId: operatingContext.workspace.companyId,
+    organizationId: operatingContext.workspace.organizationId,
+    entityGroupId:
+      operatingContext.legalEntity.entityGroupId ??
+      operatingContext.entityGroup?.entityGroupId ??
+      null,
+    projectId:
+      operatingContext.workspace.projectId ??
+      operatingContext.project?.projectId ??
+      null,
+    teamId: operatingContext.team?.teamId ?? null,
+    workspaceId: headerScope?.workspaceId ?? null,
   };
 }

@@ -48,9 +48,9 @@ This roadmap is the **delivery authority** for AI agents and human implementers 
 | --- | --- | --- | --- |
 | TIP-001 | Architecture Authority | Complete | CI gates passing |
 | TIP-006 | AppShell Authority | **Complete** | Frozen contracts in `packages/appshell/src/contracts/` + public API re-exports |
-| TIP-007 | ERP Platform Authority | **Partial** — multi-tenancy slice delivered | Platform entity authority map in delivery doc |
-| TIP-008A | Enterprise Hierarchy Authority | **Partial** — schemas exist | Entity group + ownership interest contracts signed off |
-| TIP-008B | Business Master Data Authority | **Not started** | Customer, Product, Employee, Warehouse ownership map (no implementations) |
+| TIP-007 | ERP Platform Authority | **Complete** | Platform entity authority barrel + drift tests (`@afenda/kernel`) |
+| TIP-008A | Enterprise Hierarchy Authority | **Complete** | Entity group + ownership interest schemas; consolidation resolver; ADR-0011 gate closed |
+| TIP-008B | Business Master Data Authority | **Partial** — authority map delivered | Customer, Product, Employee, Warehouse ownership map (documentation); runtime deferred to domain TIPs |
 
 **Deliverables:**
 
@@ -79,8 +79,8 @@ This roadmap is the **delivery authority** for AI agents and human implementers 
 | Request context + correlation ID | `apps/erp`, `@afenda/observability` | **Partial** | Correlation on all API + server actions |
 | Audit event contract | `@afenda/database`, `@afenda/observability` | **Partial** | All mutations emit audit events |
 | Observability sink | `@afenda/observability` | **Partial** | Structured logging on all protected paths |
-| TIP-011 Outbox | `@afenda/database`, `@afenda/execution` | **Missing** | Outbox table + publish worker |
-| TIP-012 Operating spine lifecycle | Cross-cutting | **Partial** | Validation→Auth→Policy→Execute→Audit→**Event** proven in tests |
+| TIP-011 Outbox | `@afenda/database`, `@afenda/execution` | **Complete** | Outbox table + publish worker + ERP integration proof (Trigger.dev **20260623.1**) |
+| TIP-012 Operating spine lifecycle | Cross-cutting | **Complete** | Validation→Auth→Policy→Execute→Audit→**Event** proven on dashboard PUT |
 
 **Spine lifecycle (mandatory):**
 
@@ -103,7 +103,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | Policy checks | **Partial** — `evaluateAuthorizationPolicy` | All protected routes use policy layer |
 | Scope/grants authority | **Partial** — multi-tenancy slice | Holding/subsidiary scope grants proven |
 | Approval guardrails | **Missing** | ApprovalContext wired (contracts exist in kernel plan) |
-| TIP-010 API RBAC | **Partial** — workspace routes wired | All internal v1 routes classified + protected |
+| TIP-010 API RBAC | **Complete** — full internal v1 route matrix + system-admin RBAC | Session→context on all non-API surfaces |
 
 **Phase 3 gate:** Permission denial + audit proven for cross-company scope mismatch scenarios.
 
@@ -135,16 +135,16 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** REST-first, stable, envelope-based API contracts for all ERP surfaces.
 
-**Delivery TIP:** [TIP-010A](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) (accepted slice under TIP-010)
+**Delivery TIP:** [TIP-010A](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) (accepted slice under TIP-010) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
-| REST-first standard | **Partial** | Document in `docs/governance/api-contract.md` |
-| Route naming | **Partial** — internal v1 prefix | Registry of all routes |
-| Request/response envelope | **Partial** — `api-envelope.contract.ts` | All routes use envelope |
-| Error envelope | **Partial** — `api-error-response.ts` | Consistent error codes |
-| Idempotency rules | **Missing** | Document + implement for mutations |
-| Pagination/filter/sort | **Missing** | Standard for list endpoints |
+| REST-first standard | **Implemented** | Document in `docs/governance/api-contract.md` |
+| Route naming | **Implemented** — internal v1 prefix + route coverage registry | Registry of all routes |
+| Request/response envelope | **Implemented** — `api-envelope.contract.ts` | All routes use envelope |
+| Error envelope | **Implemented** — `api-error-response.ts` | Consistent error codes |
+| Idempotency rules | **Implemented** — replay contract + tests | Durable idempotency store deferred |
+| Pagination/filter/sort | **Implemented** — pagination contract | Wire on all list routes |
 | Internal vs public separation | **Partial** | `/api/internal/v1/*` vs public documented |
 | `pnpm check:api-contracts` | **Implemented** | Passes on all governed routes |
 
@@ -163,13 +163,13 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | TIP-UI-02 | Component Library | Complete | P0 components exported + tested |
 | TIP-UI-03 | AppShell Token Migration | **Partial** | `afenda-appshell.css` — no hex drift; doc status updated |
 | TIP-UI-04 | Metadata-UI Renderers | **Partial** | Renderers exist — ERP wiring + doc update |
-| TIP-UI-05 | ERP App Surfaces | **Partial** | Auth uses `@afenda/ui`; module placeholders missing |
+| TIP-UI-05 | ERP App Surfaces | **Partial** | Auth uses `@afenda/ui`; manifest module placeholders via TIP-007A |
 | TIP-004 consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
 
 **Phase 6 gate:**
 
-- [ ] `pnpm ui:guard` passes (gates A–F)
-- [ ] ERP module placeholder routes exist (Manufacturing, Inventory, Sales, Accounting, HRM — **shell only, no domain logic**)
+- [x] `pnpm ui:guard` passes (gates A–F)
+- [x] ERP module placeholder routes exist (manifest-driven `/modules/[moduleId]` — **shell only, no domain logic**)
 - [ ] AppShell production integration in `(protected)` layout
 - [ ] Metadata renderers demonstrated on at least one ERP page
 
@@ -179,17 +179,17 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Feature source → domain → module → capability → navigation → dashboard projection pipeline.
 
-**Delivery TIP:** [TIP-007A](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) (accepted slice under TIP-007)
+**Delivery TIP:** [TIP-007A](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) (accepted slice under TIP-007) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
-| Feature source | **Partial** — entitlements catalog | Single feature source registry |
-| Domain / module / capability map | **Missing** | Manifest drives navigation |
-| Navigation contract | **Partial** — appshell nav types | Governed nav from manifest |
+| Feature source | **Implemented** — entitlements catalog + manifest registry | Single feature source registry |
+| Domain / module / capability map | **Implemented** — manifest pipeline (TIP-007A Slices 1–3) | Manifest drives navigation |
+| Navigation contract | **Implemented** — appshell nav from manifest | Governed nav from manifest |
 | Dashboard projection | **Partial** — workspace dashboard layout API | RBAC-aware widget registry |
-| Route contract | **Missing** | Module routes generated from manifest |
-| Requirement coverage | **Missing** | Manifest entries link to TIP acceptance |
-| Test coverage | **Missing** | Manifest drift tests |
+| Route contract | **Implemented** — `generate-module-routes.ts` + RBAC guard | Module routes generated from manifest |
+| Requirement coverage | **Partial** | Manifest entries link to TIP acceptance |
+| Test coverage | **Implemented** — manifest + nav + route tests | Manifest drift tests |
 | Package generation rules | **Documented** — PKG-R01–R05 reserved | ADR before domain package creation |
 
 **Phase 7 gate:** Adding a module requires manifest entry only — no ad-hoc route strings.
@@ -204,16 +204,16 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 | Surface | Current | Exit criterion |
 | --- | --- | --- |
-| Users | **Partial** — DB service | Admin UI |
-| Memberships | **Partial** — schema | Admin UI |
-| Roles | **Partial** — schema + seeds | Admin UI |
-| Permissions | **Partial** — registry | Admin UI (read-only catalog minimum) |
-| Modules / capabilities | **Missing** | Admin UI tied to manifest |
+| Users | **Implemented** — admin page + invite API | Admin UI |
+| Memberships | **Implemented** — admin page + role assign API | Admin UI |
+| Roles | **Implemented** — admin page + permission catalog | Admin UI |
+| Permissions | **Implemented** — read-only catalog in admin | Admin UI (read-only catalog minimum) |
+| Modules / capabilities | **Partial** — manifest-driven module routes | Admin UI tied to manifest |
 | Policies | **Partial** — policy service | Admin UI |
 | Approvals | **Missing** | Admin configuration UI |
-| Audit Viewer | **Missing** | Read-only audit search UI |
-| Security settings | **Missing** | Tenant security config UI |
-| Organization settings | **Missing** | Legal entity + org unit admin |
+| Audit Viewer | **Implemented** — read-only audit list API + page | Read-only audit search UI |
+| Security settings | **Partial** — settings page scaffold | Tenant security config UI |
+| Organization settings | **Partial** — settings page scaffold | Legal entity + org unit admin |
 | Integrations | **Partial** — Supabase claims debug route | Integration admin surface |
 | Diagnostics | **Partial** — health routes | Admin diagnostics panel |
 

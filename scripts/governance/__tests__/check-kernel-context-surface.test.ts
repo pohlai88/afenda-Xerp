@@ -1,12 +1,9 @@
-import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
   checkKernelContextSurface,
   formatKernelContextViolations,
 } from "../check-kernel-context-surface.mts";
-
-const repoRoot = join(import.meta.dirname, "../../..");
 
 describe("check-kernel-context-surface", () => {
   it("passes on the current repository state", () => {

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 
 export interface DocsFileTreeNode {
-  readonly name: string;
+  readonly children?: readonly DocsFileTreeNode[];
   readonly kind: "file" | "folder";
   readonly muted?: boolean;
-  readonly children?: readonly DocsFileTreeNode[];
+  readonly name: string;
 }
 
 export type DocsFileTreeVariant = "default" | "compact";
@@ -23,10 +23,10 @@ function DocsFileTreeBranch({
     <ul className="afenda-docs-file-tree__branch">
       {nodes.map((node) => (
         <li
-          key={node.name}
           className="afenda-docs-file-tree__node"
           data-kind={node.kind}
           data-muted={node.muted ? "true" : undefined}
+          key={node.name}
         >
           <span className="afenda-docs-file-tree__label">{node.name}</span>
           {node.children && node.children.length > 0 ? (

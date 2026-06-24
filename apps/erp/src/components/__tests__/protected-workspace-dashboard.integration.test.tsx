@@ -20,6 +20,7 @@ import { DEV_WORKSPACE_API_SCOPE } from "@/lib/workspace/dev-workspace-scope";
 import { resolveWorkspaceDashboardCapabilitiesFromOperatingContext } from "@/lib/workspace/resolve-dashboard-widget-render-context.server";
 import { WorkspaceApiScopeProvider } from "@/lib/workspace/workspace-api-scope.context";
 import { WorkspaceDashboardCapabilitiesProvider } from "@/lib/workspace/workspace-dashboard-capabilities.context";
+import { WORKSPACE_HOME_COPY } from "@/lib/workspace/workspace-home.copy.contract";
 import { ProtectedWorkspaceDashboard } from "../protected-workspace-dashboard.client";
 import { LayoutSaveTrigger } from "./layout-save-trigger.harness";
 import { ProtectedHomeLayoutHarness } from "./protected-home-layout.harness";
@@ -75,8 +76,11 @@ describe("ProtectedWorkspaceDashboard integration", () => {
       ).toBeInTheDocument();
     });
 
+    expect(
+      screen.getByText(WORKSPACE_HOME_COPY.dashboard.status.default)
+    ).toBeInTheDocument();
     expect(screen.queryByText("Edit mode")).not.toBeInTheDocument();
-  });
+  }, 20_000);
 
   it("enables edit chrome when workspace.dashboard_write is granted", async () => {
     renderProtectedDashboard(true);

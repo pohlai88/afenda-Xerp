@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { MetadataActionBar } from "./client/metadata-action-renderer.client";

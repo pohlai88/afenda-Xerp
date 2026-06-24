@@ -186,6 +186,37 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     }
   }
 
+  const tipsDirPath = join(repoRoot, TIP_DELIVERY_TIPS_DIR);
+  if (existsSync(tipsDirPath)) {
+    const tipBasenameGroups = new Map<string, string[]>();
+
+    for (const name of readdirSync(tipsDirPath)) {
+      if (!name.endsWith(".md")) {
+        continue;
+      }
+
+      const basenameMatch = name.match(/(tip-[a-z0-9-]+\.md)$/i);
+      if (!basenameMatch) {
+        continue;
+      }
+
+      const basename = basenameMatch[1].toLowerCase();
+      const existing = tipBasenameGroups.get(basename) ?? [];
+      existing.push(name);
+      tipBasenameGroups.set(basename, existing);
+    }
+
+    for (const [basename, files] of tipBasenameGroups) {
+      if (files.length > 1) {
+        violations.push({
+          file: `${TIP_DELIVERY_TIPS_DIR}/${files[0]}`,
+          message: `Duplicate TIP delivery files for ${basename}: ${files.join(", ")} — retain one canonical [status] prefix; supersede or remove stale copy`,
+          rule: "duplicate-tip-delivery-basename",
+        });
+      }
+    }
+  }
+
   for (const scanPath of LEGACY_DELIVERY_PATH_SCAN_FILES) {
     const content = readText(scanPath);
     if (!content) {

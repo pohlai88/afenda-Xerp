@@ -1,8 +1,4 @@
-import {
-  type ExecutionContext,
-  type UserId,
-  toTenantId,
-} from "@afenda/kernel";
+import { type ExecutionContext, toTenantId, type UserId } from "@afenda/kernel";
 
 import type { ApiRequestContext } from "@/server/api/runtime/api-request-context";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";

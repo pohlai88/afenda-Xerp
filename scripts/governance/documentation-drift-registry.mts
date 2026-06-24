@@ -72,7 +72,7 @@ export const REQUIRED_ACCEPTED_ADRS = [
 /** Markers that must NOT appear — evidence of stale delivery doc. */
 export const STALE_DELIVERY_MARKERS = [
   {
-    file: "docs/delivery/tips/[Partially Implemented] tip-ui-03-appshell-token-migration.md",
+    file: "docs/delivery/tips/[Complete] tip-ui-03-appshell-token-migration.md",
     forbidden: ["Status: **Not started**"],
     rule: "tip-ui-03-stale-status",
   },

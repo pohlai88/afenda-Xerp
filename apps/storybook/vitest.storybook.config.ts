@@ -5,6 +5,10 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { defineConfig } from "vitest/config";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
+const storybookTestEntry = path.join(
+  dirname,
+  "node_modules/storybook/dist/test/index.js"
+);
 
 const storybookPlugins = await storybookTest({
   configDir: path.join(dirname, ".storybook"),
@@ -26,6 +30,11 @@ export default defineConfig({
     "import.meta.env.VITEST_STORYBOOK": JSON.stringify(true),
   },
   plugins: [...storybookPlugins],
+  resolve: {
+    alias: {
+      "storybook/test": storybookTestEntry,
+    },
+  },
   test: {
     name: "storybook",
     pool: "forks",
@@ -47,6 +56,13 @@ export default defineConfig({
       provider: "playwright",
       headless: true,
       instances: [{ browser: "chromium" }],
+      // Default 63315 sits in Windows Hyper-V excluded range 63267–63366 (EACCES).
+      // Pin IPv4 + a safe port so Storybook browser tests can bind locally.
+      api: {
+        host: "127.0.0.1",
+        port: 63_500,
+        strictPort: false,
+      },
     },
     setupFiles: [path.join(dirname, ".storybook/vitest.setup.ts")],
   },

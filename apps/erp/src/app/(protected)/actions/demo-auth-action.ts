@@ -17,9 +17,9 @@ const recordProtectedDemoMessageSchema = z.object({
   message: z.string().trim().min(1).max(500),
 });
 
-export type ProtectedDemoActionData = {
+export interface ProtectedDemoActionData {
   readonly message: string;
-};
+}
 
 export type ProtectedDemoActionResult =
   ServerActionResult<ProtectedDemoActionData>;

@@ -23,6 +23,10 @@ const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
 const nextDynamicMock = join(testingRoot, "src/mocks/next-dynamic.tsx");
 const governanceRoot = join(uiSrcRoot, "governance");
+const storybookTest = join(
+  appRoot,
+  "node_modules/storybook/dist/test/index.js"
+);
 
 const config: StorybookConfig = {
   stories: [
@@ -116,6 +120,7 @@ const config: StorybookConfig = {
       { find: "next/link", replacement: nextLinkMock },
       { find: "next/image", replacement: nextImageMock },
       { find: "next/dynamic", replacement: nextDynamicMock },
+      { find: "storybook/test", replacement: storybookTest },
       { find: "@", replacement: uiSrcRoot },
       { find: "#", replacement: uiSrcRoot },
     ];
@@ -173,6 +178,7 @@ const config: StorybookConfig = {
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
+      "storybook/test": storybookTest,
     };
     viteConfig.optimizeDeps.include = [
       ...(viteConfig.optimizeDeps.include ?? []).filter(

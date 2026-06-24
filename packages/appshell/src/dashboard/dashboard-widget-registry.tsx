@@ -52,6 +52,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 12,
     defaultH: 3,
+    maxW: 12,
+    maxH: 6,
     render: (_context) => <AppShellDashboardStatisticsMetrics />,
   },
   {
@@ -63,6 +65,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 12,
     defaultH: 3,
+    maxW: 12,
+    maxH: 6,
     render: (_context) => <AppShellDashboardStatisticsLineTrends />,
   },
   {
@@ -74,6 +78,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 12,
     defaultH: 4,
+    maxW: 12,
+    maxH: 8,
     render: (_context) => <AppShellDashboardRevenueChart />,
   },
   {
@@ -85,6 +91,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 6,
     defaultH: 4,
+    maxW: 12,
+    maxH: 8,
     requiredCapability: dashboardModuleEarningsCapability,
     render: (context) => (
       <AppShellDashboardModuleEarnings
@@ -105,6 +113,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 6,
     defaultH: 4,
+    maxW: 12,
+    maxH: 8,
     requiredCapability: dashboardRegionalSalesCapability,
     render: (context) => (
       <AppShellDashboardRegionalSales
@@ -125,6 +135,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 6,
     defaultH: 4,
+    maxW: 12,
+    maxH: 8,
     requiredPermission: financeTransactionsReadPermission,
     render: (context) => (
       <AppShellDashboardRecentTransactions
@@ -145,6 +157,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 3,
     defaultW: 6,
     defaultH: 4,
+    maxW: 12,
+    maxH: 8,
     requiredPermission: financeCardsReadPermission,
     render: (context) => (
       <AppShellDashboardPaymentHistory
@@ -165,6 +179,8 @@ export const DASHBOARD_WIDGET_DEFINITIONS = [
     minH: 4,
     defaultW: 12,
     defaultH: 5,
+    maxW: 12,
+    maxH: 10,
     requiredPermission: financeInvoicesReadPermission,
     render: (context) => (
       <AppShellDashboardInvoiceTable

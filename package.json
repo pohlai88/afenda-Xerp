@@ -32,6 +32,8 @@
     "check:erp-observability": "tsx scripts/governance/check-erp-observability.mts",
     "check:kernel-context-surface": "tsx scripts/governance/check-kernel-context-surface.mts",
     "check:database-tenant-domain-surface": "tsx scripts/governance/check-database-tenant-domain-surface.mts",
+    "check:database-tenant-rls-coverage": "tsx scripts/governance/check-database-tenant-rls-coverage.mts",
+    "check:database-tenant-rls-live": "tsx scripts/governance/check-database-tenant-rls-live.mts",
     "check:erp-context-surface": "tsx scripts/governance/check-erp-context-surface.mts",
     "check:permissions-scope-grants-surface": "tsx scripts/governance/check-permissions-scope-grants-surface.mts",
     "check:appshell-context-surface": "tsx scripts/governance/check-appshell-context-surface.mts",
@@ -61,6 +63,8 @@
     "quality:erp-observability": "tsx scripts/governance/check-erp-observability.mts",
     "quality:kernel-context-surface": "tsx scripts/governance/check-kernel-context-surface.mts",
     "quality:database-tenant-domain-surface": "tsx scripts/governance/check-database-tenant-domain-surface.mts",
+    "quality:database-tenant-rls-coverage": "tsx scripts/governance/check-database-tenant-rls-coverage.mts",
+    "quality:database-tenant-rls-live": "tsx scripts/governance/check-database-tenant-rls-live.mts",
     "quality:erp-context-surface": "tsx scripts/governance/check-erp-context-surface.mts",
     "quality:permissions-scope-grants-surface": "tsx scripts/governance/check-permissions-scope-grants-surface.mts",
     "quality:appshell-context-surface": "tsx scripts/governance/check-appshell-context-surface.mts",
@@ -99,6 +103,7 @@
     "architecture:cycles": "node scripts/architecture/cycles.mjs",
     "architecture:drift": "node scripts/architecture/drift.mjs",
     "fix": "ultracite fix",
+    "precommit": "lint-staged",
     "clean": "turbo run clean",
     "env:sync": "node scripts/sync-env.mjs",
     "env:doctor": "node scripts/env-doctor.mjs",
@@ -124,7 +129,8 @@
     "ui:guard:scan": "node scripts/governance/ui-guard.mjs --scan-only --fix-hint",
     "ui:guard:hints": "node scripts/governance/ui-guard.mjs --fix-hint",
     "ui:guard:strict": "node scripts/governance/ui-guard.mjs --strict",
-    "ui:guard:erp": "node scripts/governance/ui-guard.mjs --gate F --fix-hint"
+    "ui:guard:erp": "node scripts/governance/ui-guard.mjs --gate F --fix-hint",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.4.21",
@@ -134,10 +140,15 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "husky": "^9.1.7",
     "jsdom": "catalog:",
+    "lint-staged": "^17.0.8",
     "turbo": "^2.5.4",
     "typescript": "catalog:",
     "ultracite": "7.8.3",
     "vitest": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css,md,mdx}": "ultracite fix"
   }
 }

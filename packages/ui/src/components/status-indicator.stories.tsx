@@ -1,4 +1,3 @@
-import React from "react";
 import { GOVERNED_STATES, STATUS_TONES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {

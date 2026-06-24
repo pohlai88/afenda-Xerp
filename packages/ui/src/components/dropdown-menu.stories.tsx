@@ -21,7 +21,7 @@ import {
   UserIcon,
   UserPlusIcon,
 } from "lucide-react";
-import React from "react";
+import { expect, screen, userEvent, within } from "storybook/test";
 import {
   EXPORT_COLUMNS,
   INVOICE_ROWS,
@@ -83,6 +83,22 @@ type Story = StoryObj<typeof meta>;
 // ─── Basic shapes ──────────────────────────────────────────────────────────
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Row-actions trigger opens the menu; keyboard and pointer users can reach each item.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Row actions" }));
+    await expect(
+      screen.getByRole("menuitem", { name: /view details/i })
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("menuitem", { name: /edit/i }));
+  },
   render: () => (
     <StoryFrame width="sm">
       <DropdownMenu>

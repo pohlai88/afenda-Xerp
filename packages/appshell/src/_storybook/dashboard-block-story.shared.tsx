@@ -1,11 +1,10 @@
-import React from "react";
 import type { ComponentProps, ComponentType } from "react";
 import type { Decorator } from "@storybook/react";
 
 import { DashboardBlockStoryCanvas } from "./dashboard-block-story.compositions";
 
 export const dashboardBlockStoryParameters = {
-  layout: "fullscreen" as const,
+  layout: "padded" as const,
   docs: {
     description: {
       component:

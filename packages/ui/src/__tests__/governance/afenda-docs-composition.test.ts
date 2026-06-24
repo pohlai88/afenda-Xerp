@@ -43,11 +43,15 @@ describe("afenda-docs: TIP-004 composition policy", () => {
   });
 
   for (const absPath of compositionFiles) {
-    const rel = absPath.replace(`${packageRoot}\\`, "").replace(`${packageRoot}/`, "");
+    const rel = absPath
+      .replace(`${packageRoot}\\`, "")
+      .replace(`${packageRoot}/`, "");
 
     it(`${rel}: no className on governed primitives`, () => {
       const source = readFileSync(absPath, "utf8");
-      const violations = checkGovernedUiConsumption(`${GOVERNANCE_SCAN_PREFIX}${source}`);
+      const violations = checkGovernedUiConsumption(
+        `${GOVERNANCE_SCAN_PREFIX}${source}`
+      );
       expect(
         violations,
         violations.length > 0

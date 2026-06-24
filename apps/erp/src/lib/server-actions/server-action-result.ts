@@ -4,17 +4,17 @@ import type {
   ValidationFieldError,
 } from "@afenda/kernel";
 
-export type ServerActionSuccess<TData> = {
-  readonly ok: true;
+export interface ServerActionSuccess<TData> {
   readonly data: TData;
-};
+  readonly ok: true;
+}
 
-export type ServerActionFailure = {
-  readonly ok: false;
+export interface ServerActionFailure {
   readonly code: AppErrorCode;
-  readonly userMessage: string;
   readonly fields?: readonly ValidationFieldError[];
-};
+  readonly ok: false;
+  readonly userMessage: string;
+}
 
 export type ServerActionResult<TData> =
   | ServerActionSuccess<TData>

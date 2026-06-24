@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  type MembershipContract,
   resolvePermissionScopeContext,
   selectNarrowestMatchingMembership,
-  type MembershipContract,
 } from "../scope/index.js";
 
 const TENANT_ID = "tenant-001";
@@ -31,21 +31,27 @@ function teamMembership(teamId: string): MembershipContract {
 
 describe("team membership scope", () => {
   it("selects team membership when team boundary matches", () => {
-    const selected = selectNarrowestMatchingMembership([teamMembership(TEAM_A)], {
-      teamId: TEAM_A,
-      companyId: COMPANY_A,
-      organizationId: ORG_A,
-    });
+    const selected = selectNarrowestMatchingMembership(
+      [teamMembership(TEAM_A)],
+      {
+        teamId: TEAM_A,
+        companyId: COMPANY_A,
+        organizationId: ORG_A,
+      }
+    );
 
     expect(selected?.scopeType).toBe("team");
   });
 
   it("denies team membership when team boundary mismatches", () => {
-    const selected = selectNarrowestMatchingMembership([teamMembership(TEAM_A)], {
-      teamId: TEAM_B,
-      companyId: COMPANY_A,
-      organizationId: null,
-    });
+    const selected = selectNarrowestMatchingMembership(
+      [teamMembership(TEAM_A)],
+      {
+        teamId: TEAM_B,
+        companyId: COMPANY_A,
+        organizationId: null,
+      }
+    );
 
     expect(selected).toBeNull();
   });

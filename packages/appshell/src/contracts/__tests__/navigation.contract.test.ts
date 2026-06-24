@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
-
+import type { ManifestModuleId as RuntimeManifestModuleId } from "../../navigation/build-nav-from-manifest.js";
 import {
   MANIFEST_MODULE_IDS as RUNTIME_MANIFEST_MODULE_IDS,
   resolveManifestModuleNavIcon,
 } from "../../navigation/build-nav-from-manifest.js";
-import type { ManifestModuleId as RuntimeManifestModuleId } from "../../navigation/build-nav-from-manifest.js";
 import {
   APPSHELL_NAV_ICON_IDS,
   isAppShellNavIconId,

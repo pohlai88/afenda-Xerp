@@ -15,6 +15,7 @@ import type { ReactNode } from "react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { WorkspaceContextSwitcher } from "@/components/workspace-context-switcher.client";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
+import { resolveContextSwitchPresentation } from "@/lib/context/resolve-context-switch-presentation";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-operating-context";
 import { internalErpMetadata } from "@/lib/metadata/site-metadata";
@@ -32,6 +33,7 @@ import { READONLY_WORKSPACE_DASHBOARD_CAPABILITIES } from "@/lib/workspace/works
 
 export const metadata = internalErpMetadata;
 
+/** Production ApplicationShell layout — identity, context, manifest nav, and dashboard providers. */
 export default async function ProtectedLayout({
   children,
 }: {
@@ -67,10 +69,14 @@ export default async function ProtectedLayout({
         tenantId: operatingResult.value.tenant.tenantId,
       })
     : { targets: [] };
-  const contextSwitcher =
-    operatingResult.ok && allowedContextOptions.targets.length > 1 ? (
+  const contextSwitchPresentation = resolveContextSwitchPresentation(
+    allowedContextOptions
+  );
+  const contextSwitcher = operatingResult.ok ? (
+    contextSwitchPresentation.shouldRender ? (
       <WorkspaceContextSwitcher allowedOptions={allowedContextOptions} />
-    ) : undefined;
+    ) : undefined
+  ) : undefined;
   const workspaceScope = operatingResult.ok
     ? toWorkspaceApiScope(operatingResult.value)
     : null;

@@ -44,11 +44,29 @@ function createScopeMismatchDenial(
 ): ScopedMembershipResolution {
   const referenceMembership = activeMemberships[0];
   const hasCompanyContext = Boolean(context.companyId);
+  const hasEntityGroupContext = Boolean(context.entityGroupId);
   const hasOrganizationContext = Boolean(context.organizationId);
 
   const tenantOnlyMembership = activeMemberships.some(
     (membership) => membership.scopeType === "tenant"
   );
+
+  const entityGroupMembership = activeMemberships.some(
+    (membership) => membership.scopeType === "entity_group"
+  );
+
+  if (entityGroupMembership && hasEntityGroupContext) {
+    return {
+      outcome: "denied",
+      result: createDenial("company_mismatch", {
+        result: "deny",
+        reason:
+          "Membership entity group scope does not match the requested group.",
+        membershipId: referenceMembership?.id ?? null,
+        roleId: referenceMembership?.roleId ?? null,
+      }),
+    };
+  }
 
   if (tenantOnlyMembership && (hasCompanyContext || hasOrganizationContext)) {
     return {

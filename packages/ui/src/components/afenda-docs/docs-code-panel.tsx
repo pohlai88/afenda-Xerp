@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 export type DocsCodePanelVariant = "panel" | "inline";
 
 export interface DocsCodePanelProps {
-  readonly title?: string;
   readonly code: string;
   readonly language?: string;
+  readonly title?: string;
   readonly variant?: DocsCodePanelVariant;
 }
 

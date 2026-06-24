@@ -1,50 +1,32 @@
 import {
   type AfendaDatabase,
+  findActiveCompaniesByEntityGroupId,
   findCompanyById,
+  findEntityGroupById,
   findOrganizationById,
   getDb,
-  withRlsSessionContext,
 } from "@afenda/database";
 import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
 import {
-  createProductionAuthorizationDataSources,
   isMembershipActive,
   type MembershipContract,
 } from "@afenda/permissions";
 
 import { buildAllowedContextSwitchTargets } from "./build-allowed-context-switch-targets";
+import { loadActorMemberships } from "./load-actor-memberships.server.js";
 
-async function loadActorMemberships(input: {
-  readonly actorUserId: string;
+async function collectMembershipScopeIds(input: {
   readonly db: AfendaDatabase;
+  readonly memberships: readonly MembershipContract[];
   readonly tenantId: string;
-}): Promise<readonly MembershipContract[]> {
-  return withRlsSessionContext(
-    input.db,
-    {
-      tenantId: input.tenantId,
-      platformUserId: input.actorUserId,
-    },
-    async (tx) => {
-      const { permission } = createProductionAuthorizationDataSources(tx);
-      return permission.findMembershipsForActor({
-        actorId: input.actorUserId,
-        tenantId: input.tenantId,
-      });
-    }
-  );
-}
-
-function collectMembershipScopeIds(
-  memberships: readonly MembershipContract[]
-): {
+}): Promise<{
   readonly companyIds: ReadonlySet<string>;
   readonly organizationIds: ReadonlySet<string>;
-} {
+}> {
   const companyIds = new Set<string>();
   const organizationIds = new Set<string>();
 
-  for (const membership of memberships) {
+  for (const membership of input.memberships) {
     if (!isMembershipActive(membership)) {
       continue;
     }
@@ -59,6 +41,32 @@ function collectMembershipScopeIds(
 
     if (membership.scopeType === "organization" && membership.organizationId) {
       organizationIds.add(membership.organizationId);
+    }
+
+    if (
+      membership.scopeType === "entity_group" &&
+      membership.entityGroupId !== null
+    ) {
+      const entityGroup = await findEntityGroupById(
+        membership.entityGroupId,
+        input.db
+      );
+      if (
+        entityGroup &&
+        entityGroup.tenantId === input.tenantId &&
+        entityGroup.parentLegalEntityId
+      ) {
+        companyIds.add(entityGroup.parentLegalEntityId);
+      }
+
+      const activeCompanies = await findActiveCompaniesByEntityGroupId(
+        membership.entityGroupId,
+        input.tenantId,
+        input.db
+      );
+      for (const company of activeCompanies) {
+        companyIds.add(company.id);
+      }
     }
   }
 
@@ -82,8 +90,11 @@ export async function resolveAllowedContextOptions(input: {
       tenantId: input.tenantId,
     }));
 
-  const { companyIds, organizationIds } =
-    collectMembershipScopeIds(memberships);
+  const { companyIds, organizationIds } = await collectMembershipScopeIds({
+    db,
+    memberships,
+    tenantId: input.tenantId,
+  });
 
   const companyRows = await Promise.all(
     [...companyIds].map((companyId) => findCompanyById(companyId, db))

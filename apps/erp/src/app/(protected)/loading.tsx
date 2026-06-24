@@ -1,11 +1,21 @@
+import { Skeleton } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
+
+export type ErpProtectedLoadingGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Skeleton"
+>;
+
 export default function ProtectedLoading() {
   return (
     <div
       aria-busy="true"
       aria-live="polite"
-      className="flex min-h-[12rem] items-center justify-center p-6"
+      className="flex min-h-48 flex-col gap-4 p-6"
     >
-      <p className="text-foreground-muted text-sm">Loading workspace…</p>
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
     </div>
   );
 }

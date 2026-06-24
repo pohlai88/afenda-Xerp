@@ -45,6 +45,8 @@ export interface DashboardWidgetDefinition {
   readonly description: string;
   readonly featureFlag?: string;
   readonly id: DashboardWidgetId;
+  readonly maxH: number;
+  readonly maxW: number;
   readonly minH: number;
   readonly minW: number;
   readonly render: (context: DashboardWidgetRenderContext) => ReactNode;

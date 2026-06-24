@@ -27,7 +27,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (31 direct edges)
+## Runtime Dependency Edges (33 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
@@ -43,6 +43,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/execution` | Approved | TIP-011 | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
+| `@afenda/erp` | `@afenda/entitlements` | Approved | TIP-007A | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
@@ -80,6 +81,19 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
+## Approved third-party runtime dependencies (ADR-0003)
+
+| Package | Dependency | Version pin | Classification | ADR / TIP | Purpose |
+|---------|------------|-------------|----------------|-----------|---------|
+| `@afenda/appshell` | `recharts` | `3.8.0` | Approved | ADR-0003; TIP-UI-05 Slice 6 | Dashboard sparkline / statistics chart blocks via lazy client imports |
+| `@afenda/erp` | `@tanstack/react-table` | `^8.21.3` | Approved | ADR-0003; TIP-UI-05 Slice 7 | System Admin audit DataTable column defs + `useReactTable` client hook (types-only consumer — table chrome from `@afenda/ui` `DataTable`) |
+| `@afenda/ui` | `recharts` | `3.8.0` | Approved | ADR-0003 | Governed `Chart` primitive wrappers |
+| `@afenda/storybook` | `recharts` | `3.8.0` | Approved | ADR-0003 | Storybook chart block previews |
+
+Third-party npm packages are not validated by `pnpm quality:architecture` workspace-edge checks; they are documented here for ADR-0003 traceability.
+
+---
+
 ## Approved Runtime Dependencies (by package)
 
 | Package | Approved `@afenda/*` dependencies |
@@ -90,7 +104,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/execution`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
@@ -118,6 +132,8 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
   → @afenda/auth → @afenda/kernel
   → @afenda/database
   → @afenda/design-system
+  → @afenda/entitlements → @afenda/database
+  → @afenda/execution → @afenda/kernel
   → @afenda/kernel
   → @afenda/metadata
   → @afenda/metadata-ui → @afenda/metadata
@@ -171,6 +187,25 @@ The following cross-layer runtime dependency patterns are **Blocked** unless an 
 - Application → Application sibling without ADR
 
 Inbound dependencies on leaf packages (e.g. `observability` ← `database`) are permitted when the edge is **Approved** above.
+
+---
+
+## Business Master Data Authority (TIP-008B)
+
+Documentation-only ownership map — **no runtime packages or dependency edges** until domain TIPs activate PKG-R02–R05.
+
+| Entity | Owning domain | Reserved package (PKG) | Identity scope | Runtime status |
+| --- | --- | --- | --- | --- |
+| Customer | CRM Authority | `@afenda/crm` (PKG-R04) | Tenant + company; customer code unique per company | `planned` — no filesystem package |
+| Supplier | Procurement Authority | `@afenda/procurement` (PKG-R05) | Tenant + company; vendor code unique per company | `planned` — no filesystem package |
+| Product | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant; SKU unique per tenant catalog | `planned` — no filesystem package |
+| Employee | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company | `planned` — no filesystem package |
+| Warehouse | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company | `planned` — no filesystem package |
+| Asset | Platform / TPM | TBD via ADR | — | Not assigned |
+| Document | Platform document service | TBD via ADR | — | Not assigned |
+| Project | PM domain | TIP-030 | — | Partial — membership scope only |
+
+**Authority:** [`tips/[Partially Implemented] tip-008-master-data-authority.md`](../delivery/tips/%5BPartially%20Implemented%5D%20tip-008-master-data-authority.md) §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
 
 ---
 

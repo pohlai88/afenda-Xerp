@@ -11,12 +11,12 @@ import {
   serverActionSuccess,
 } from "@/lib/server-actions/server-action-result";
 
-export type SwitchOperatingContextInput = {
+export interface SwitchOperatingContextInput {
   readonly companySlug?: string;
   readonly organizationSlug?: string;
-};
+}
 
-export type SwitchOperatingContextData = {
+export interface SwitchOperatingContextData {
   readonly operatingContext: ReturnType<
     typeof toApplicationShellOperatingContext
   >;
@@ -26,7 +26,7 @@ export type SwitchOperatingContextData = {
     readonly projectId: string | null;
     readonly tenantId: string;
   };
-};
+}
 
 export async function switchOperatingContextAction(
   input: unknown

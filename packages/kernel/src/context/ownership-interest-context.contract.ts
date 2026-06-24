@@ -21,8 +21,12 @@ export type ConsolidationTreatment = (typeof CONSOLIDATION_TREATMENTS)[number];
 
 /**
  * Parent/investee relationship authority stub (TIP-008).
+ * Wire-format context — plain string ids for JSON serialization.
+ * Canonical investee field: `childLegalEntityId` (see hierarchy-id-boundary.contract.ts).
  * No consolidation arithmetic in this slice.
  */
+export type OwnershipInterestWireContext = OwnershipInterestContext;
+
 export interface OwnershipInterestContext {
   readonly childLegalEntityId: string;
   readonly consolidationTreatment: ConsolidationTreatment;

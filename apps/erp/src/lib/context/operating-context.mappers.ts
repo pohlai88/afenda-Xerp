@@ -4,14 +4,16 @@ import type {
   OrganizationLookupRow,
   TenantLookupRow,
 } from "@afenda/database";
-import type {
-  EntityGroupContext,
-  LegalEntityCompanyType,
-  LegalEntityContext,
-  OrganizationUnitContext,
-  OrganizationUnitType,
-  TeamContext,
-  TenantContext,
+import {
+  type EntityGroupContext,
+  LEGAL_ENTITY_COMPANY_TYPES,
+  type LegalEntityCompanyType,
+  type LegalEntityContext,
+  ORGANIZATION_UNIT_TYPES,
+  type OrganizationUnitContext,
+  type OrganizationUnitType,
+  type TeamContext,
+  type TenantContext,
 } from "@afenda/kernel";
 
 function formatIsoDateOnly(value: string | Date | null): string | null {
@@ -26,23 +28,14 @@ function formatIsoDateOnly(value: string | Date | null): string | null {
   return value.toISOString().slice(0, 10);
 }
 
+function isLegalEntityCompanyType(
+  value: string
+): value is LegalEntityCompanyType {
+  return (LEGAL_ENTITY_COMPANY_TYPES as readonly string[]).includes(value);
+}
+
 function toLegalEntityCompanyType(value: string): LegalEntityCompanyType {
-  const allowed: readonly LegalEntityCompanyType[] = [
-    "holding",
-    "parent",
-    "subsidiary",
-    "associate",
-    "joint_venture",
-    "minority_interest",
-    "branch_entity",
-    "standalone",
-  ];
-
-  if ((allowed as readonly string[]).includes(value)) {
-    return value as LegalEntityCompanyType;
-  }
-
-  return "standalone";
+  return isLegalEntityCompanyType(value) ? value : "standalone";
 }
 
 function toTenantContext(row: TenantLookupRow): TenantContext {
@@ -54,27 +47,12 @@ function toTenantContext(row: TenantLookupRow): TenantContext {
   };
 }
 
+function isOrganizationUnitType(value: string): value is OrganizationUnitType {
+  return (ORGANIZATION_UNIT_TYPES as readonly string[]).includes(value);
+}
+
 function toOrganizationUnitType(value: string): OrganizationUnitType {
-  const allowed: readonly OrganizationUnitType[] = [
-    "branch",
-    "department",
-    "site",
-    "farm",
-    "factory",
-    "warehouse",
-    "retail_outlet",
-    "cost_center",
-    "shared_service",
-    "operating_unit",
-    "company_root",
-    "team",
-  ];
-
-  if ((allowed as readonly string[]).includes(value)) {
-    return value as OrganizationUnitType;
-  }
-
-  return "department";
+  return isOrganizationUnitType(value) ? value : "department";
 }
 
 function toLegalEntityContext(row: CompanyLookupRow): LegalEntityContext {

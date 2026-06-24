@@ -427,7 +427,7 @@ Architecture authority:
 
 Delivery evidence:
 
-* `docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md`
+* `docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md`
 
 Dependency rules:
 
@@ -601,7 +601,7 @@ Add tests for:
 Step 10 — Documentation and verification
 
 * Create delivery doc:
-  `docs/delivery/tips/[Partially Implemented] tip-007-012-enterprise-group-operating-context.md`
+  `docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md`
 * Run:
 
   * `pnpm typecheck`

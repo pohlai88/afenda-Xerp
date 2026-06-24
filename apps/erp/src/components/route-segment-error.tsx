@@ -1,17 +1,41 @@
 "use client";
 
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+  Button,
+} from "@afenda/ui";
+import { mapStockButtonProps } from "@afenda/ui/governance";
 import { useEffect } from "react";
 
 import { reportClientError } from "@/lib/observability/report-client-error.client";
 
-export interface RouteSegmentErrorProps {
+type RouteSegmentErrorBaseProps = {
   readonly description: string;
   readonly error: Error & { digest?: string };
   readonly reset: () => void;
   readonly segment: string;
   readonly title: string;
-  readonly variant?: "page" | "section";
-}
+};
+
+export type RouteSegmentErrorSectionProps = RouteSegmentErrorBaseProps & {
+  readonly variant?: "section";
+};
+
+export type RouteSegmentErrorPageProps = RouteSegmentErrorBaseProps & {
+  readonly variant: "page";
+};
+
+export type RouteSegmentErrorProps =
+  | RouteSegmentErrorPageProps
+  | RouteSegmentErrorSectionProps;
+
+const PAGE_CONTAINER_CLASS =
+  "flex min-h-screen flex-col items-center justify-center gap-4 p-6" as const;
+
+const SECTION_CONTAINER_CLASS = "flex flex-col gap-4 p-6" as const;
 
 export function RouteSegmentError({
   description,
@@ -29,29 +53,23 @@ export function RouteSegmentError({
   }, [error.digest, segment]);
 
   const containerClassName =
-    variant === "page"
-      ? "flex min-h-screen flex-col items-center justify-center gap-4 p-6"
-      : "flex flex-col gap-4 p-6";
+    variant === "page" ? PAGE_CONTAINER_CLASS : SECTION_CONTAINER_CLASS;
 
   return (
-    <div aria-live="assertive" className={containerClassName} role="alert">
-      <h1
-        className={
-          variant === "page"
-            ? "font-semibold text-foreground text-xl"
-            : "font-semibold text-foreground text-lg"
-        }
-      >
-        {title}
-      </h1>
-      <p className="max-w-md text-foreground-muted text-sm">{description}</p>
-      <button
-        className="w-fit rounded-md border border-border px-4 py-2 text-sm"
-        onClick={reset}
-        type="button"
-      >
-        Try again
-      </button>
+    <div aria-live="assertive" className={containerClassName}>
+      <Alert role="alert" tone="danger">
+        <AlertTitle>{title}</AlertTitle>
+        <AlertDescription>{description}</AlertDescription>
+        <AlertAction>
+          <Button
+            {...mapStockButtonProps("outline", "default")}
+            onClick={reset}
+            type="button"
+          >
+            Try again
+          </Button>
+        </AlertAction>
+      </Alert>
     </div>
   );
 }

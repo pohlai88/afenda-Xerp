@@ -15,7 +15,7 @@ Close out REST-first, envelope-based API contract governance for all governed ER
 
 ADR-0013 authority: Foundation Phase 5 exit criterion — API contract registry covers 100% of non-auth ERP routes.
 
-Complements [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-rbac-wiring.md) (RBAC slice); this TIP owns contract registry completeness, idempotency, pagination, and method rules.
+Complements [`tip-010-api-rbac-wiring.md`](%5BComplete%5D%20tip-010-api-rbac-wiring.md) (RBAC slice); this TIP owns contract registry completeness, idempotency, pagination, and method rules.
 
 ## Scope
 
@@ -64,7 +64,7 @@ Complements [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-r
 
 ## Depends on
 
-- TIP-010 Identity & Authorization (partial) — [`tip-010-api-rbac-wiring.md`]([Partially Implemented] tip-010-api-rbac-wiring.md)
+- TIP-010 Identity & Authorization — [`tip-010-api-rbac-wiring.md`](%5BComplete%5D%20tip-010-api-rbac-wiring.md)
 - TIP-012 ERP Operating Spine (**Complete**) — `createApiHandler` lifecycle
 
 ## Blocks

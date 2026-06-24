@@ -4,12 +4,15 @@ import type { OwnershipInterestContext } from "@afenda/kernel";
 export function toOwnershipInterestContext(
   record: OwnershipInterestAuthorityRecord
 ): OwnershipInterestContext {
+  const childLegalEntityId =
+    record.childLegalEntityId ?? record.investeeLegalEntityId;
+
   return {
     ownershipInterestId: record.ownershipInterestId,
     tenantId: record.tenantId,
     entityGroupId: record.entityGroupId,
     parentLegalEntityId: record.parentLegalEntityId,
-    childLegalEntityId: record.investeeLegalEntityId,
+    childLegalEntityId,
     ownershipPercentage: record.ownershipPercentage,
     votingPercentage: record.votingPercentage,
     controlType: record.controlType,

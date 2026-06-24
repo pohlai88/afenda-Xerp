@@ -6,9 +6,7 @@ export type {
   EntitlementType,
 } from "./entitlement.contract";
 export type { EntitlementContextContract } from "./entitlement-context.contract";
-// biome-ignore lint/performance/noBarrelFile: aggregate TIP-008 contract surface for downstream consumers.
 export {
-  type EntitlementDecisionContract,
   type EntitlementDecisionResult,
   entitlementDecisionResults,
 } from "./entitlement-decision.contract";

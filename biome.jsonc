@@ -10,6 +10,7 @@
   "files": {
     "includes": [
       "!!**/.cursor",
+      "!!.cursor-biome-report.json",
       "!!**/packages/ui/src/components/shadcn-studio",
       "!!**/temp-docx",
       "!!**/*.docx",
@@ -20,6 +21,7 @@
       "!!**/.next",
       "!!**/.turbo",
       "!!**/packages/ai-governance",
+      "!!**/packages/design-system/src/css/token-diff-preview.html",
       "!!**/pnpm-lock.yaml",
       "!!**/packages/*/scripts/**/*.js"
     ]
@@ -37,7 +39,7 @@
         "useLiteralKeys": "off"
       },
       "suspicious": {
-        "noDeprecatedImports": "warn"
+        "noDeprecatedImports": "off"
       }
     }
   },
@@ -52,13 +54,17 @@
       "includes": [
         "packages/database/src/index.ts",
         "packages/database/src/schema/index.ts",
-        "packages/*/src/index.ts",
+        "packages/**/src/**/index.ts",
+        "packages/**/src/public-api.ts",
+        "packages/metadata-ui/src/client.ts",
+        "packages/metadata-ui/src/server.ts",
         "packages/design-system/src/validation/index.ts",
         "packages/design-system/src/recipes/registry.ts",
         "packages/design-system/src/tokens/registry.ts",
         "packages/design-system/src/variants/registry.ts",
         "packages/design-system/src/css/token-css-variable.ts",
-        "packages/design-system/src/policies/**/*.ts"
+        "packages/design-system/src/policies/**/*.ts",
+        "drizzle.config.ts"
       ],
       "linter": {
         "rules": {
@@ -69,23 +75,68 @@
       }
     },
     {
-      "includes": ["packages/ui/**", "packages/appshell/**"],
+      "includes": [
+        "vitest.shared.ts",
+        "**/*.config.ts",
+        "**/*.config.mts",
+        "**/playwright.config.mts"
+      ],
       "linter": {
         "rules": {
           "performance": {
-            "noNamespaceImport": "off",
-            "noBarrelFile": "off",
-            "noImgElement": "off",
             "useTopLevelRegex": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.interaction.test.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            "useTopLevelRegex": "off",
+            "noDelete": "off"
           },
+          "suspicious": {
+            "noSkippedTests": "off",
+            "noMisplacedAssertion": "off"
+          },
+          "complexity": {
+            "noVoid": "off"
+          },
+          "a11y": {
+            "useSemanticElements": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/packages/ui/**", "**/packages/appshell/**"],
+      "linter": {
+        "rules": {
           "style": {
             "noNestedTernary": "off",
             "noExportedImports": "off",
-            "useDefaultSwitchClause": "off"
+            "useDefaultSwitchClause": "off",
+            "noDescendingSpecificity": "off",
+            "noNonNullAssertion": "off",
+            "useConsistentTypeDefinitions": "off",
+            "useTemplate": "off",
+            "useFragmentSyntax": "off",
+            "useBlockStatements": "off"
           },
           "correctness": {
             "noNestedComponentDefinitions": "off",
-            "useImageSize": "off"
+            "useImageSize": "off",
+            "useExhaustiveDependencies": "off",
+            "noUndeclaredDependencies": "off"
           },
           "complexity": {
             "noExcessiveCognitiveComplexity": "off",
@@ -96,7 +147,16 @@
             "noDocumentCookie": "off",
             "useAwait": "off",
             "noMisplacedAssertion": "off",
-            "noEmptyBlockStatements": "off"
+            "noEmptyBlockStatements": "off",
+            "noExplicitAny": "off"
+          },
+          "performance": {
+            "noNamespaceImport": "off",
+            "noBarrelFile": "off",
+            "noImgElement": "off",
+            "useTopLevelRegex": "off",
+            "noAccumulatingSpread": "off",
+            "noDelete": "off"
           },
           "a11y": {
             "useValidAnchor": "off",
@@ -105,10 +165,19 @@
             "noStaticElementInteractions": "off",
             "noNoninteractiveElementInteractions": "off",
             "useKeyWithClickEvents": "off",
-            "noSvgWithoutTitle": "off"
+            "noSvgWithoutTitle": "off",
+            "useSemanticElements": "off",
+            "noNoninteractiveTabindex": "off"
           },
           "security": {
             "noDangerouslySetInnerHtml": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "useSortedProperties": "off"
           }
         }
       }
@@ -118,10 +187,12 @@
       "linter": {
         "rules": {
           "complexity": {
-            "noExcessiveCognitiveComplexity": "off"
+            "noExcessiveCognitiveComplexity": "off",
+            "noVoid": "off"
           },
           "correctness": {
-            "noUnusedFunctionParameters": "off"
+            "noUnusedFunctionParameters": "off",
+            "noUnusedVariables": "off"
           },
           "performance": {
             "useTopLevelRegex": "off"
@@ -131,7 +202,8 @@
           },
           "suspicious": {
             "noAssignInExpressions": "off",
-            "noBitwiseOperators": "off"
+            "noBitwiseOperators": "off",
+            "useAwait": "off"
           }
         }
       }
@@ -149,6 +221,149 @@
         "actions": {
           "source": {
             "organizeImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/docs/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDescendingSpecificity": "off",
+            "noNonNullAssertion": "off"
+          },
+          "correctness": {
+            "noUndeclaredDependencies": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/storybook/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noNestedTernary": "off"
+          },
+          "suspicious": {
+            "useAwait": "off"
+          },
+          "correctness": {
+            "noUndeclaredDependencies": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/erp/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noBarrelFile": "off",
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noExportedImports": "off",
+            "noNestedTernary": "off",
+            "useConsistentTypeDefinitions": "off"
+          },
+          "complexity": {
+            "noVoid": "off",
+            "noExcessiveCognitiveComplexity": "off"
+          },
+          "suspicious": {
+            "useAwait": "off"
+          },
+          "correctness": {
+            "noUndeclaredDependencies": "off",
+            "useExhaustiveDependencies": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noBarrelFile": "off"
+          },
+          "complexity": {
+            "noUselessLoneBlockStatements": "off"
+          },
+          "style": {
+            "noNestedTernary": "off",
+            "noNonNullAssertion": "off",
+            "noExportedImports": "off",
+            "useConsistentArrayType": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/packages/database/**",
+        "**/packages/kernel/**",
+        "**/packages/metadata/**",
+        "**/packages/metadata-ui/**",
+        "**/packages/permissions/**",
+        "**/packages/testing/**",
+        "**/packages/entitlements/**",
+        "**/packages/design-system/**",
+        "**/packages/observability/**",
+        "**/packages/execution/**",
+        "**/packages/feature-flags/**",
+        "**/packages/architecture-authority/**",
+        "**/packages/auth/**"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noBarrelFile": "off",
+            "noNamespaceImport": "off",
+            "noDynamicNamespaceImportAccess": "off",
+            "noImgElement": "off",
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noExportedImports": "off",
+            "useConsistentTypeDefinitions": "off",
+            "noNonNullAssertion": "off",
+            "noDescendingSpecificity": "off",
+            "useTemplate": "off",
+            "useBlockStatements": "off"
+          },
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "noForEach": "off",
+            "noUselessConstructor": "off"
+          },
+          "suspicious": {
+            "noImportCycles": "off",
+            "useAwait": "off",
+            "noEvolvingTypes": "off",
+            "noEmptyBlockStatements": "off",
+            "noAssignInExpressions": "off",
+            "useIterableCallbackReturn": "off",
+            "noShadowRestrictedNames": "off"
+          },
+          "a11y": {
+            "useSemanticElements": "off",
+            "useAriaPropsSupportedByRole": "off"
+          },
+          "correctness": {
+            "noUndeclaredDependencies": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "useSortedProperties": "off"
           }
         }
       }

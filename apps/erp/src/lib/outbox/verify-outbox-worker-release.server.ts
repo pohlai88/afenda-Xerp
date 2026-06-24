@@ -5,9 +5,6 @@ import {
   readAppReleaseIdentifier,
   readWorkerReleaseCheckRequired,
 } from "@afenda/execution";
-
-import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
-
 import {
   assertWorkerReleaseStartupPolicy,
   type ExecutionSpinePolicy,
@@ -17,6 +14,7 @@ import {
   recordWorkerReleaseCheckSkipped,
   recordWorkerReleaseCheckSuccess,
 } from "@/lib/outbox/execution-spine-state.server";
+import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
 
 const workerReleaseLogger = createApiHandlerLogger("outbox-worker-release");
 

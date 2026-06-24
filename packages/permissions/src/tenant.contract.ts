@@ -1,4 +1,12 @@
-export type PlatformTenantStatus = "active" | "archived" | "suspended";
+import type { TenantStatus } from "@afenda/database";
+
+export {
+  getTenantAccessBlockReason,
+  isTenantOperational,
+} from "@afenda/database";
+
+/** @deprecated Use `TenantStatus` from `@afenda/database` — alias retained for consumers. */
+export type PlatformTenantStatus = TenantStatus;
 
 /** Hard platform isolation boundary for authorization. */
 export interface TenantContract {
@@ -6,26 +14,4 @@ export interface TenantContract {
   readonly name: string;
   readonly slug: string;
   readonly status: PlatformTenantStatus;
-}
-
-/** Only active tenants allow normal workspace authorization. */
-export function isTenantOperational(
-  tenant: Pick<TenantContract, "status">
-): boolean {
-  return tenant.status === "active";
-}
-
-export function getTenantAccessBlockReason(
-  status: PlatformTenantStatus
-): string | null {
-  switch (status) {
-    case "active":
-      return null;
-    case "suspended":
-      return "Tenant is suspended and workspace access is blocked.";
-    case "archived":
-      return "Tenant is archived and workspace access is blocked.";
-    default:
-      return `Tenant status "${status}" cannot access the workspace.`;
-  }
 }

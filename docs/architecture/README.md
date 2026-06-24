@@ -100,11 +100,11 @@ Never: implementation first, documentation later. This principle is normative in
 | [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | **v5.0.0** — Strategic compass with runtime truth snapshot. Narrative only; ADRs and registries win on conflict. |
 | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | **Delivery authority** (ADR-0013) — Foundation Phases 0–9 before Accounting Core. |
 | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed status of all foundation areas (ADR-0009). |
-| [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-23 drift audit — master plan reconciliation. |
+| [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-24 drift audit — authority chain refresh. |
 | [`repo-housekeeping-inventory.md`](repo-housekeeping-inventory.md) | Governed housekeeping inventory — superseded artifacts, cleanup candidates (pre-TIP-011). |
 | [`../delivery/tip-status-index.md`](../delivery/tip-status-index.md) | Current TIP delivery statuses — read before `docs/delivery/tips/[status] tip-*.md`; **Implementation workflow** links write-tip handoff → afenda-coding-session |
-| [`../delivery/tips/[Not started] tip-010a-api-contract-governance.md`](../delivery/tips/[Not started] tip-010a-api-contract-governance.md) | TIP-010A — Phase 5 API contract closeout (canonical) |
-| [`../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md`](../delivery/tips/[Not started] tip-007a-feature-manifest-governance.md) | TIP-007A — Phase 7 manifest pipeline (canonical) |
+| [`../delivery/tips/[Complete] tip-010a-api-contract-governance.md`](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) | TIP-010A — Phase 5 API contract closeout (canonical) |
+| [`../delivery/tips/[Complete] tip-007a-feature-manifest-governance.md`](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) | TIP-007A — Phase 7 manifest pipeline (canonical) |
 | [`../delivery/tips/[Complete] tip-013-system-admin-control-plane.md`](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) | TIP-013 — Phase 8 System Admin control plane (canonical) |
 | [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Proposal archive only** — superseded drafts; not implementation authority |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |

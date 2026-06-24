@@ -47,6 +47,16 @@ function toGridLayoutItem(
     nextItem = { ...nextItem, minH };
   }
 
+  const maxW = item.maxW ?? widget?.maxW;
+  if (maxW !== undefined) {
+    nextItem = { ...nextItem, maxW };
+  }
+
+  const maxH = item.maxH ?? widget?.maxH;
+  if (maxH !== undefined) {
+    nextItem = { ...nextItem, maxH };
+  }
+
   return nextItem;
 }
 
@@ -88,6 +98,14 @@ function mapGridLayoutToItems(layout: Layout): DashboardWidgetLayoutItem[] {
 
     if (entry.minH !== undefined) {
       nextItem = { ...nextItem, minH: entry.minH };
+    }
+
+    if (entry.maxW !== undefined) {
+      nextItem = { ...nextItem, maxW: entry.maxW };
+    }
+
+    if (entry.maxH !== undefined) {
+      nextItem = { ...nextItem, maxH: entry.maxH };
     }
 
     items.push(nextItem);

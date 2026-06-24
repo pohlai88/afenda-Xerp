@@ -99,6 +99,15 @@ export {
   type ExecutionContextSource,
 } from "./contracts/execution-context.contract.js";
 export {
+  getPlatformEntityAuthority,
+  isPlatformEntityId,
+  PLATFORM_ENTITY_AUTHORITY_REGISTRY,
+  PLATFORM_ENTITY_IDS,
+  type PlatformEntityAuthorityEntry,
+  type PlatformEntityId,
+  type RepoRelativePath,
+} from "./contracts/platform/index.js";
+export {
   type AuditEventId,
   brandAuditEventId,
   brandCompanyId,

@@ -6,9 +6,9 @@ interface ExtractedReference {
 }
 
 interface PageDataWithReferences {
-  readonly title: string;
   readonly description?: string;
   readonly extractedReferences?: readonly ExtractedReference[];
+  readonly title: string;
 }
 
 export function buildGraph(): Graph {
@@ -27,7 +27,9 @@ export function buildGraph(): Graph {
 
     for (const ref of data.extractedReferences ?? []) {
       const refPage = source.getPageByHref(ref.href);
-      if (!refPage) continue;
+      if (!refPage) {
+        continue;
+      }
 
       graph.links.push({
         source: page.url,

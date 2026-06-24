@@ -284,7 +284,31 @@ A Consolidation Scope defines which Legal Entities are included in a consolidate
 
 **Do not implement consolidation accounting logic in this slice.**
 
+**Resolver status (TIP-008A Slice 1–2):** `deriveConsolidationScopeContext` in `packages/kernel/src/context/consolidation-scope-resolution.server.ts` derives scope metadata from effective-dated ownership interests. Duplicate investees use `CONSOLIDATION_SCOPE_INVESTEE_DEDUP_POLICY` (`last_wins_by_input_order`). ERP wiring: `apps/erp/src/lib/context/resolve-consolidation-scope.server.ts`.
+
 **Must not be confused with Entity Group.** Consolidation Scope is a derived reporting boundary at a point in time — not the corporate group definition itself.
+
+---
+
+## Business Master Data (TIP-008B)
+
+**Operational business records — distinct from enterprise hierarchy (Tenant, Entity Group, Legal Entity).**
+
+Business master data entities are governed **party and catalog records** used by domain packages. They reference Legal Entity / company scope where noted but are **not** statutory company definitions.
+
+| Term | Owning domain | Reserved package | Identity scope |
+| --- | --- | --- | --- |
+| **Customer** | CRM Authority | `@afenda/crm` (PKG-R04) | Tenant + company; external customer code unique per company |
+| **Supplier** | Procurement Authority | `@afenda/procurement` (PKG-R05) | Tenant + company; vendor code unique per company |
+| **Product** | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant; SKU unique per tenant catalog |
+| **Employee** | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company |
+| **Warehouse** | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company |
+
+**TBD (future ADR — do not scaffold packages):** Asset (Platform / TPM), Document (Platform document service). **Project** defers to TIP-030 PM domain.
+
+**Must not be confused with Legal Entity / Company.** A Customer is a business party; a Legal Entity is a registered statutory body. A Warehouse is a storage location inside a company; it is not an Organization Unit type unless explicitly mapped in domain TIPs.
+
+**Runtime status:** Authority map only — no `@afenda/crm`, `@afenda/inventory`, `@afenda/hrm`, or `@afenda/procurement` packages or schemas until domain TIPs after Phase 1 gate.
 
 ---
 
@@ -302,8 +326,13 @@ A Consolidation Scope defines which Legal Entities are included in a consolidate
 | Workspace | Runtime context only | N/A — derived |
 | Surface | Runtime string ID | N/A — metadata config |
 | RLS Grant | `memberships` + Supabase RLS | Implemented (application-level); DB-level in progress |
-| Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | Authority foundation — derivation stub only (TIP-008) |
+| Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | **Implemented (scope metadata only)** — `consolidation-scope-resolution.server.ts` + ERP resolver (TIP-008A) |
+| Customer | — (PKG-R04 `@afenda/crm`) | **Authority map only** — TIP-008B; no runtime schema |
+| Supplier | — (PKG-R05 `@afenda/procurement`) | **Authority map only** — TIP-008B; no runtime schema |
+| Product | — (PKG-R02 `@afenda/inventory`) | **Authority map only** — TIP-008B; no runtime schema |
+| Employee | — (PKG-R03 `@afenda/hrm`) | **Authority map only** — TIP-008B; no runtime schema |
+| Warehouse | — (PKG-R02 `@afenda/inventory`) | **Authority map only** — TIP-008B; no runtime schema |
 
 ---
 
-*Last updated: 2026-06-22 — aligned with Afenda ERP Master Plan v4 and user-approved domain model.*
+*Last updated: 2026-06-24 — TIP-008A consolidation resolver + TIP-008B business master data authority map.*

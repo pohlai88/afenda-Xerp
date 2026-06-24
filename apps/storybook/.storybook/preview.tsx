@@ -1,8 +1,7 @@
 import { TooltipProvider } from "@afenda/ui";
 import type { Decorator, Preview } from "@storybook/react";
-import React from "react";
 import type { ReactNode } from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import "./preview.css";
 
 // Expose React globally so Storybook addons pre-bundled with the classic JSX
@@ -66,9 +65,6 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    actions: {
-      argTypesRegex: "^on[A-Z].*",
-    },
     layout: "centered",
     backgrounds: {
       disable: true,
@@ -80,7 +76,7 @@ const preview: Preview = {
           { id: "label", enabled: true },
         ],
       },
-      test: "todo",
+      test: "warn",
     },
     viewport: {
       defaultViewport: "responsive",

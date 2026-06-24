@@ -1,6 +1,6 @@
 import { unbrand } from "@afenda/kernel";
 
-import { commitWorkspaceDashboardMutation } from "@/lib/outbox/commit-workspace-dashboard-mutation.server.js";
+import { commitWorkspaceDashboardMutation } from "@/lib/outbox/commit-workspace-dashboard-mutation.server";
 import {
   dashboardLayoutDeleteContract,
   dashboardLayoutGetContract,

@@ -1,4 +1,3 @@
-import React from "react";
 import { DENSITIES, GOVERNED_STATES, SIZES } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
@@ -1018,6 +1017,14 @@ export const Playground: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Invoice list with sortable columns and row selection affordances.",
+      },
+    },
+  },
   render: () => (
     <SimpleDataTable
       columns={invoiceColumnsBasic}

@@ -73,4 +73,436 @@
     background-color: color-mix(in oklab, var(--muted) 30%, transparent);
     border-radius: var(--afenda-radius-lg);
   }
+
+  .erp-empty-state {
+    max-width: 42rem;
+  }
+
+  /* Slice 4: .erp-module-placeholder retired — replaced by .erp-empty-state */
+
+  .erp-empty-state__inner {
+    display: grid;
+    gap: var(--afenda-spacing-3);
+    padding: var(--afenda-spacing-6);
+    text-align: center;
+    border: 1px dashed var(--border);
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-empty-state__icon {
+    width: 3rem;
+    height: 3rem;
+    margin-inline: auto;
+    color: var(--muted-foreground);
+  }
+
+  .erp-empty-state__title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .erp-empty-state__description {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+
+  .erp-empty-state__action {
+    display: flex;
+    justify-content: center;
+    padding-block-start: var(--afenda-spacing-2);
+  }
+
+  .erp-card-nav-grid {
+    margin-block-start: var(--afenda-spacing-6);
+  }
+
+  .erp-card-nav-grid__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--afenda-spacing-4);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media (width >= 40rem) {
+    .erp-card-nav-grid__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .erp-card-nav-grid__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .erp-card-nav-grid__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    outline-offset: 2px;
+    border-radius: var(--afenda-radius-lg);
+    transition: transform 150ms ease;
+  }
+
+  .erp-card-nav-grid__link:hover {
+    transform: translateY(-1px);
+  }
+
+  .erp-card-nav-grid__link:focus-visible {
+    outline: 2px solid var(--ring);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .erp-card-nav-grid__link {
+      transition: none;
+    }
+
+    .erp-card-nav-grid__link:hover {
+      transform: none;
+    }
+  }
+
+  .erp-card-nav-grid__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-block-end: var(--afenda-spacing-2);
+    color: var(--muted-foreground);
+  }
+
+  .erp-card-nav-grid__label {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .erp-card-nav-grid__description {
+    margin: 0;
+    margin-block-start: var(--afenda-spacing-1);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-form-section {
+    padding: var(--afenda-spacing-4);
+    margin-block-end: var(--afenda-spacing-4);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-system-admin-form-section__header {
+    margin-block-end: var(--afenda-spacing-4);
+  }
+
+  .erp-system-admin-form-section__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .erp-system-admin-form-section__description {
+    margin: 0;
+    margin-block-start: var(--afenda-spacing-2);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-form-section__fields {
+    display: grid;
+    gap: var(--afenda-spacing-4);
+  }
+
+  @media (width >= 40rem) {
+    .erp-system-admin-form-section__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .erp-system-admin-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+    margin-block-end: var(--afenda-spacing-4);
+  }
+
+  .erp-system-admin-settings-form__message {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--destructive);
+  }
+
+  .erp-system-admin-settings-form__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .erp-system-admin-users {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+  }
+
+  .erp-system-admin-users__actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .erp-system-admin-invite-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+  }
+
+  .erp-system-admin-invite-wizard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+  }
+
+  .erp-system-admin-invite-wizard__steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--afenda-spacing-3);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .erp-system-admin-invite-wizard__step {
+    padding: var(--afenda-spacing-2) var(--afenda-spacing-3);
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-system-admin-invite-wizard__step[aria-current="step"] {
+    background-color: color-mix(in oklch, var(--primary) 12%, transparent);
+    border-color: var(--primary);
+  }
+
+  .erp-system-admin-invite-wizard__step-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .erp-system-admin-invite-wizard__role-fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .erp-system-admin-invite-wizard__role-legend {
+    margin-block-end: var(--afenda-spacing-3);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .erp-system-admin-invite-wizard__role-option {
+    display: flex;
+    gap: var(--afenda-spacing-3);
+    align-items: flex-start;
+    padding: var(--afenda-spacing-3);
+    margin-block-end: var(--afenda-spacing-2);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-system-admin-invite-wizard__role-option [data-slot="label"] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-1);
+    cursor: pointer;
+  }
+
+  .erp-system-admin-invite-wizard__role-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .erp-system-admin-invite-wizard__role-description {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-invite-wizard__summary {
+    display: grid;
+    gap: var(--afenda-spacing-3);
+    margin: 0;
+  }
+
+  .erp-system-admin-invite-wizard__summary-row {
+    display: grid;
+    gap: var(--afenda-spacing-1);
+  }
+
+  .erp-system-admin-invite-wizard__summary-row dt {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-invite-wizard__summary-row dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--foreground);
+  }
+
+  .erp-system-admin-invite-wizard__message {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-invite-wizard__actions {
+    display: flex;
+    gap: var(--afenda-spacing-3);
+    justify-content: flex-end;
+  }
+
+  /* Slice 7: System Admin audit DataTable */
+
+  .erp-system-admin-audit-table {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+  }
+
+  .erp-system-admin-audit-table__scroll {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-system-admin-audit-table__sort-trigger {
+    display: inline-flex;
+    gap: var(--afenda-spacing-1);
+    align-items: center;
+    padding: 0;
+    font: inherit;
+    font-weight: 500;
+    color: inherit;
+    cursor: pointer;
+    outline-offset: 2px;
+    background: none;
+    border: none;
+  }
+
+  .erp-system-admin-audit-table__sort-trigger:focus-visible {
+    outline: 2px solid var(--ring);
+    border-radius: var(--afenda-radius-sm);
+  }
+
+  .erp-system-admin-audit-table__sort-icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .erp-system-admin-audit-table__sort-icon--unsorted {
+    color: var(--muted-foreground);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .erp-system-admin-audit-table__sort-icon {
+      transition: opacity 120ms ease;
+    }
+  }
+
+  .erp-system-admin-audit-table__time {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .erp-system-admin-audit-table__target {
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-audit-table__correlation-id {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted-foreground);
+    word-break: break-all;
+  }
+
+  .erp-system-admin-audit-table__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--afenda-spacing-3);
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--afenda-spacing-2);
+  }
+
+  .erp-system-admin-audit-table__summary {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+
+  .erp-system-admin-audit-table__pagination {
+    display: flex;
+    gap: var(--afenda-spacing-2);
+    align-items: center;
+  }
+
+  .erp-system-admin-audit-table__page-btn {
+    padding: var(--afenda-spacing-1) var(--afenda-spacing-3);
+    font-size: 0.875rem;
+    color: var(--foreground);
+    cursor: pointer;
+    outline-offset: 2px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-sm);
+  }
+
+  .erp-system-admin-audit-table__page-btn:hover:not(:disabled) {
+    color: var(--accent-foreground);
+    background: var(--accent);
+  }
+
+  .erp-system-admin-audit-table__page-btn:focus-visible {
+    outline: 2px solid var(--ring);
+  }
+
+  .erp-system-admin-audit-table__page-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .erp-system-admin-audit-table__page-indicator {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted-foreground);
+  }
+
+  .erp-audit-result-badge {
+    display: inline-flex;
+  }
 }

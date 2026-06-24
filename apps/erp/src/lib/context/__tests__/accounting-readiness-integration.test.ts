@@ -45,8 +45,7 @@ describe("accounting-readiness integration — operating context resolver", () =
       "utf8"
     );
 
-    expect(source).toContain("loadOperatingContextOwnershipInterests");
-    expect(source).toContain("deriveConsolidationScopeContext");
+    expect(source).toContain("resolveConsolidationScope");
     expect(source).not.toContain("ownershipInterests: []");
     expect(source).not.toContain("consolidationScope: null,");
   });

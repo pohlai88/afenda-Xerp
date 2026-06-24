@@ -1,5 +1,6 @@
 /** Package public API surface — intentional aggregate export module. */
-// biome-ignore lint/performance/noBarrelFile: single curated export surface for @afenda/database
+
+export { AuditValidationError } from "@afenda/observability";
 export {
   createDatabaseAuditAdapter,
   type InsertAuditEventResult,
@@ -19,7 +20,6 @@ export {
   SENSITIVE_METADATA_KEY_PATTERN,
 } from "./audit/audit-event.contract.js";
 export {
-  AuditValidationError,
   assertAuditMetadata,
   auditActorTypeSchema,
   auditEventVersionSchema,
@@ -424,12 +424,12 @@ export {
 } from "./policy/policy.validation.js";
 export { createPgPool, DEFAULT_POOL_CONFIG } from "./pool.js";
 export {
-  PROJECT_DOMAIN_STATUS,
-  PROJECT_LIFECYCLE_STATUSES,
   assertProjectSlug,
   buildProjectInsertRow,
   buildProjectUpdatePatch,
   normalizeProjectSlug,
+  PROJECT_DOMAIN_STATUS,
+  PROJECT_LIFECYCLE_STATUSES,
   type ProjectAuthorityRecord,
   type ProjectDomainStatus,
   type ProjectInsertRow,
@@ -596,12 +596,6 @@ export {
   type TeamWriteInput,
 } from "./team/team.contract.js";
 export {
-  findTeamByCompanyAndSlug,
-  findTeamById,
-  isTeamOrganizationRow,
-  type TeamLookupRow,
-} from "./team/team-lookup.service.js";
-export {
   type InsertTeamInput,
   insertTeam,
   type TeamAuditContext,
@@ -610,6 +604,12 @@ export {
   type UpdateTeamInput,
   updateTeam,
 } from "./team/team.service.js";
+export {
+  findTeamByCompanyAndSlug,
+  findTeamById,
+  isTeamOrganizationRow,
+  type TeamLookupRow,
+} from "./team/team-lookup.service.js";
 export {
   assertTenantSlug,
   buildTenantInsertRow,
@@ -673,6 +673,7 @@ export type {
 export {
   type CompanyLookupRow,
   type EntityGroupLookupRow,
+  findActiveCompaniesByEntityGroupId,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,

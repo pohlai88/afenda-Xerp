@@ -15,10 +15,10 @@ interface MembershipRow {
   readonly id: string;
   readonly organizationId: string | null;
   readonly projectId: string | null;
-  readonly teamId: string | null;
   readonly roleId: string;
   readonly scopeType: MembershipContract["scopeType"];
   readonly status: MembershipContract["status"];
+  readonly teamId: string | null;
   readonly tenantId: string;
   readonly userId: string;
 }

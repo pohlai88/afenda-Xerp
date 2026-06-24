@@ -5,10 +5,10 @@ type Loader<P> = () => Promise<
 >;
 
 interface DynamicOptions<P> {
+  loader?: Loader<P>;
   loading?: React.ComponentType;
   ssr?: boolean;
   suspense?: boolean;
-  loader?: Loader<P>;
 }
 
 /**
@@ -25,7 +25,11 @@ export default function dynamic<P extends Record<string, unknown>>(
   const loader: Loader<P> =
     typeof loaderOrOptions === "function"
       ? loaderOrOptions
-      : (loaderOrOptions.loader ?? (() => Promise.resolve({ default: () => null as unknown as React.ReactElement })));
+      : (loaderOrOptions.loader ??
+        (() =>
+          Promise.resolve({
+            default: () => null as unknown as React.ReactElement,
+          })));
 
   const opts: DynamicOptions<P> =
     typeof loaderOrOptions === "function" ? (options ?? {}) : loaderOrOptions;

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 
 export interface DocsPropTableRow {
-  readonly name: string;
-  readonly type: string;
-  readonly description?: string;
-  readonly required?: boolean;
   readonly defaultValue?: string;
+  readonly description?: string;
+  readonly name: string;
+  readonly required?: boolean;
+  readonly type: string;
 }
 
 export type DocsPropTableVariant = "default" | "compact";

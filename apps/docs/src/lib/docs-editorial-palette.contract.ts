@@ -1,6 +1,13 @@
 /**
  * Docs editorial palette contract — mirrors `docs-editorial-palette.css`.
  * Porcelain editorial material model: canvas / rail / paper layering.
+ *
+ * TWO-LAYER MODEL:
+ *   Layer 1 — OKLCH literal primitives (listed in docsEditorialPrimitiveNames)
+ *   Layer 2 — @theme inline bridge (docsShellFdBridge) → --color-fd-* tokens
+ *
+ * Computed/alias tokens (search, callout colours) are NOT in primitiveNames;
+ * they reference other primitives and live in docsEditorialCssVariables only.
  */
 
 /** Every `--docs-editorial-*` OKLCH literal in CSS must map here. */
@@ -22,6 +29,8 @@ export const docsEditorialPrimitiveNames = [
   "prose-accent",
   "prose-accent-hover",
   "code-surface",
+  "callout-info",
+  "callout-warn",
 ] as const;
 
 export type DocsEditorialPrimitiveName =
@@ -45,6 +54,9 @@ export const docsEditorialCssVariables = {
   proseAccent: "--docs-editorial-prose-accent",
   proseAccentHover: "--docs-editorial-prose-accent-hover",
   codeSurface: "--docs-editorial-code-surface",
+  calloutInfo: "--docs-editorial-callout-info",
+  calloutWarn: "--docs-editorial-callout-warn",
+  /** Computed aliases — reference other primitives, not OKLCH literals */
   searchSurface: "--docs-editorial-search-surface",
   searchKbdSurface: "--docs-editorial-search-kbd-surface",
   searchKbdForeground: "--docs-editorial-search-kbd-foreground",
@@ -68,6 +80,8 @@ export const docsEditorialPrimitiveValues = {
     ring: "oklch(0.52 0.06 255)",
     overlay: "oklch(0.16 0.006 260 / 0.42)",
     codeSurface: "oklch(0.955 0.004 95)",
+    calloutInfo: "oklch(0.48 0.17 254)",
+    calloutWarn: "oklch(0.72 0.14 70)",
   },
   dark: {
     canvas: "oklch(0.155 0.004 260)",
@@ -85,6 +99,8 @@ export const docsEditorialPrimitiveValues = {
     ring: "oklch(0.72 0.055 255)",
     overlay: "oklch(0.05 0.004 260 / 0.68)",
     codeSurface: "oklch(0.205 0.005 260)",
+    calloutInfo: "oklch(0.72 0.14 254)",
+    calloutWarn: "oklch(0.78 0.13 68)",
   },
 } as const;
 
@@ -99,7 +115,13 @@ export const docsProseAccentValues = {
   },
 } as const;
 
-/** Fumadocs `--color-fd-*` bridge — must use `@theme inline` in palette CSS. */
+/**
+ * Fumadocs `--color-fd-*` bridge — must use `@theme inline` in palette CSS.
+ * fd-primary = heaviest neutral text — NOT brand accent.
+ * fd-accent  = neutral hover surface — NOT brand accent.
+ * fd-info    = callout info color (maps to docs-editorial-callout-info).
+ * fd-warning = callout warn color (maps to docs-editorial-callout-warn).
+ */
 export const docsShellFdBridge = {
   "--color-fd-background": docsEditorialCssVariables.canvas,
   "--color-fd-foreground": docsEditorialCssVariables.text,
@@ -118,14 +140,19 @@ export const docsShellFdBridge = {
   "--color-fd-accent-foreground": docsEditorialCssVariables.text,
   "--color-fd-ring": docsEditorialCssVariables.ring,
   "--color-fd-overlay": docsEditorialCssVariables.overlay,
+  "--color-fd-info": docsEditorialCssVariables.calloutInfo,
+  "--color-fd-warning": docsEditorialCssVariables.calloutWarn,
 } as const;
 
-/** Stable Fumadocs shell selectors — safe across minor upgrades. */
+/** Stable fumadocs shell selectors — safe across minor upgrades. */
 export const docsShellChromeSelectors = {
   searchFull: "button[data-search-full]",
   searchKbd: "button[data-search-full] kbd",
   sidebarRoot: "#nd-sidebar",
   sidebarActive: '#nd-sidebar [data-active="true"]',
+  tocRoot: "#nd-toc",
+  tocLink: "#nd-toc a",
+  mobileNav: "#nd-subnav",
 } as const;
 
 export const docsLayoutVariables = {

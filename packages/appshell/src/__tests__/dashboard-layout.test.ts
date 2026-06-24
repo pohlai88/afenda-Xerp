@@ -125,6 +125,8 @@ describe("resolveDashboardWidgets", () => {
         minH: 2,
         defaultW: 3,
         defaultH: 2,
+        maxW: 6,
+        maxH: 4,
         requiredPermission: "finance.read",
         render: () => null,
       },

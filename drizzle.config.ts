@@ -7,5 +7,4 @@
  * Apply pending migrations (from repo root):
  *   pnpm migrate
  */
-// biome-ignore lint/performance/noBarrelFile: monorepo drizzle entry delegates to @afenda/database
 export { default } from "./packages/database/drizzle.config.js";

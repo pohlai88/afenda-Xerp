@@ -1,5 +1,6 @@
 import { AppShellDashboardKpiStat } from "../shadcn-studio/blocks/app-shell-dashboard-kpi-stat";
-import { AppShellDashboardSparklineStat } from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat";
+import { AppShellDashboardStatisticsExpenseCard } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-expense-card";
+import { AppShellDashboardStatisticsIncomeCard } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-income-card";
 import {
   DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,
   defaultAppShellDashboardKpiMetrics,
@@ -18,6 +19,8 @@ const SPARKLINE_WIDGET_SIZING = {
   minH: 2,
   defaultW: 6,
   defaultH: 2,
+  maxW: 9,
+  maxH: 4,
 } as const;
 
 const KPI_WIDGET_SIZING = {
@@ -25,6 +28,8 @@ const KPI_WIDGET_SIZING = {
   minH: 2,
   defaultW: 3,
   defaultH: 2,
+  maxW: 6,
+  maxH: 4,
 } as const;
 
 function isSparklineWidgetId(
@@ -56,12 +61,16 @@ export function createSparklineMetricWidgetDefinitions(): DashboardWidgetDefinit
         description: `${metric.title} sparkline metric card.`,
         category: "kpi",
         ...SPARKLINE_WIDGET_SIZING,
-        render: (_context) => (
-          <AppShellDashboardSparklineStat
-            comparisonLabel={comparisonLabel}
-            {...metric}
-          />
-        ),
+        render: (_context) => {
+          const SparklineCard =
+            widgetId === "sparkline-revenue"
+              ? AppShellDashboardStatisticsIncomeCard
+              : AppShellDashboardStatisticsExpenseCard;
+
+          return (
+            <SparklineCard comparisonLabel={comparisonLabel} {...metric} />
+          );
+        },
       },
     ];
   });

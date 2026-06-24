@@ -4,7 +4,17 @@
  * Table: `schema/role.schema.ts`
  * Writes: `role.service.ts`
  */
-import type { RoleScope, RoleStatus } from "../database.types.js";
+import {
+  type RoleScope,
+  type RoleStatus,
+  roleScopeEnum,
+} from "../database.types.js";
+
+const ROLE_SCOPES = roleScopeEnum.enumValues;
+
+export function isRoleScope(value: string): value is RoleScope {
+  return (ROLE_SCOPES as readonly string[]).includes(value);
+}
 
 const ROLE_KEY_SEGMENT_PATTERN = /^[a-z][a-z0-9_]*$/u;
 const ROLE_KEY_PATTERN = /^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/u;

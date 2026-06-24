@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DENSITIES,
   GOVERNED_PANEL_RADII,
@@ -6,6 +5,7 @@ import {
   GOVERNED_STATES,
 } from "@afenda/ui/governance";
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, screen, userEvent, within } from "storybook/test";
 import {
   AlertCircleIcon,
   Building2Icon,
@@ -278,6 +278,22 @@ export const Playground: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Trigger opens a modal dialog with title, description, and footer close control.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: /open dialog/i }));
+    await expect(screen.getByRole("dialog")).toBeInTheDocument();
+    await expect(
+      screen.getByRole("heading", { name: /record details/i })
+    ).toBeInTheDocument();
+  },
   render: () => (
     <Dialog>
       <DialogTrigger asChild>

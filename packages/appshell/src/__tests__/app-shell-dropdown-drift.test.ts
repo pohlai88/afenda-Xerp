@@ -8,23 +8,39 @@ const presentationCssPath = join(
   "../styles/afenda-appshell.css"
 );
 
+/** Collapse all whitespace so :has() selectors stay stable under Biome wrap. */
+function normalizeCssForAssertion(source: string): string {
+  return source.replace(/\s+/g, "");
+}
+
+function expectCssContains(source: string, fragment: string): void {
+  expect(normalizeCssForAssertion(source)).toContain(
+    normalizeCssForAssertion(fragment)
+  );
+}
+
 describe("app-shell dropdown presentation drift guards", () => {
   it("overrides icon-trigger width on shell dropdown panels", () => {
     const css = readFileSync(presentationCssPath, "utf8");
 
-    expect(css).toContain(
+    expectCssContains(
+      css,
       '[data-slot="dropdown-menu-content"]:has(.app-shell-notification-dropdown)'
     );
-    expect(css).toContain(
+    expectCssContains(
+      css,
       '[data-slot="dropdown-menu-content"]:has(.app-shell-profile-dropdown)'
     );
-    expect(css).toContain(
+    expectCssContains(
+      css,
       '[data-slot="dropdown-menu-content"]:has(.app-shell-sidebar-user-dropdown)'
     );
-    expect(css).toContain(
+    expectCssContains(
+      css,
       '[data-slot="dropdown-menu-content"]:has(.app-shell-context-switcher-dropdown)'
     );
-    expect(css).toContain(
+    expectCssContains(
+      css,
       '[data-slot="dropdown-menu-content"]:has(.app-shell-dashboard-invoice-row-actions-menu)'
     );
     expect(css).toContain("width: auto !important");

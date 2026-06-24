@@ -351,7 +351,7 @@ Handoff from: docs/delivery/tips/[Complete] tip-006-appshell-authority.md
                   docs/architecture/pre-accounting-foundation-roadmap.md (Modified)
                   docs/architecture/_afenda-erp-master-plan.llms.md (Modified)
                   docs/architecture/afenda-documentation-drift-audit.md (Modified)
-                  docs/delivery/tips/[Partially Implemented] tip-ui-03-appshell-token-migration.md (Modified)
+                  docs/delivery/tips/[Complete] tip-ui-03-appshell-token-migration.md (Modified)
                   scripts/governance/documentation-drift-registry.mts (Modified)
 4. Prohibited   — packages/ui edits, apps/erp layout wiring, visual/CSS changes, @afenda/accounting, ledger/journal/COA/posting, ADR-0010 Accounting Core packages, new shell features
 5. Authority    — ADR-0001 Phase 1 — ERP Spine Authority (PKG-001)

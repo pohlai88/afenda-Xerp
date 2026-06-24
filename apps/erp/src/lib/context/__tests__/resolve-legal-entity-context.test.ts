@@ -49,6 +49,7 @@ vi.mock("@afenda/database", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@afenda/database")>();
   return {
     ...actual,
+    findActiveCompaniesByEntityGroupId: vi.fn(),
     findCompanyByTenantAndSlug: vi.fn(),
     findCompanyById: vi.fn(),
     findEntityGroupById: vi.fn(),
@@ -56,6 +57,7 @@ vi.mock("@afenda/database", async (importOriginal) => {
 });
 
 import {
+  findActiveCompaniesByEntityGroupId,
   findCompanyById,
   findCompanyByTenantAndSlug,
   findEntityGroupById,
@@ -125,6 +127,91 @@ describe("resolveLegalEntityContext", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error.code).toBe("ENTITY_GROUP_NOT_FOUND");
+    }
+  });
+
+  it("defaults to parent legal entity for entity_group-only membership", async () => {
+    const entityGroupMembership: MembershipContract = {
+      ...companyMembership,
+      id: "membership-group-001",
+      companyId: null,
+      entityGroupId: "group-001",
+      scopeType: "entity_group",
+    };
+    const mockDb = {} as import("@afenda/database").AfendaDatabase;
+
+    vi.mocked(findEntityGroupById).mockResolvedValueOnce({
+      id: "group-001",
+      tenantId: TENANT_ID,
+      slug: "dev-group",
+      displayName: "Dev Group",
+      parentLegalEntityId: COMPANY_ID,
+      status: "active",
+    });
+    vi.mocked(findCompanyById).mockImplementation(async (companyId) =>
+      companyId === COMPANY_ID ? companyRow : null
+    );
+
+    const result = await resolveLegalEntityContext({
+      db: mockDb,
+      tenant,
+      memberships: [entityGroupMembership],
+      selection: { companySlug: null, companyId: null },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(findEntityGroupById).toHaveBeenCalledWith("group-001", mockDb);
+    expect(findCompanyById).toHaveBeenCalledWith(COMPANY_ID, mockDb);
+  });
+
+  it("defaults to first active company in group when parent legal entity is absent", async () => {
+    const subsidiaryId = "company-002";
+    const entityGroupMembership: MembershipContract = {
+      ...companyMembership,
+      id: "membership-group-002",
+      companyId: null,
+      entityGroupId: "group-002",
+      scopeType: "entity_group",
+    };
+    const mockDb = {} as import("@afenda/database").AfendaDatabase;
+
+    vi.mocked(findEntityGroupById).mockResolvedValueOnce({
+      id: "group-002",
+      tenantId: TENANT_ID,
+      slug: "dev-group-2",
+      displayName: "Dev Group 2",
+      parentLegalEntityId: null,
+      status: "active",
+    });
+    vi.mocked(findActiveCompaniesByEntityGroupId).mockResolvedValueOnce([
+      {
+        ...companyRow,
+        id: subsidiaryId,
+        slug: "subsidiary-co",
+        displayName: "Subsidiary Co",
+      },
+    ]);
+    vi.mocked(findCompanyById).mockResolvedValueOnce({
+      ...companyRow,
+      id: subsidiaryId,
+      slug: "subsidiary-co",
+    });
+
+    const result = await resolveLegalEntityContext({
+      db: mockDb,
+      tenant,
+      memberships: [entityGroupMembership],
+      selection: { companySlug: null, companyId: null },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(findActiveCompaniesByEntityGroupId).toHaveBeenCalledWith(
+      "group-002",
+      TENANT_ID,
+      mockDb
+    );
+    if (result.ok) {
+      expect(result.value.legalEntity.companyId).toBe(subsidiaryId);
     }
   });
 });

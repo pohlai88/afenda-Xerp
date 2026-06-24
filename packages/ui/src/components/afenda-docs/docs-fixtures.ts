@@ -72,7 +72,7 @@ export const SAMPLE_COPY_WORKFLOW_STEPS = [
   {
     title: "Swap CSS tokens",
     description:
-      "Replace --afenda-docs-preview-* with --docs-editorial-* in docs-editorial-blocks.css.",
+      "Replace --docs-preview-* with --docs-editorial-* in docs-editorial-blocks.css.",
   },
   {
     title: "Register in mdx.tsx",
@@ -84,8 +84,7 @@ export const SAMPLE_COPY_WORKFLOW_STEPS = [
 export const SAMPLE_FAQ_ITEMS = [
   {
     title: "What is a collection?",
-    content:
-      "A typed group of MDX or meta files defined in source.config.ts.",
+    content: "A typed group of MDX or meta files defined in source.config.ts.",
   },
   {
     title: "Can docs import @afenda/ui?",

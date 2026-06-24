@@ -18,6 +18,10 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   outputDir: "e2e/test-results",
+  tsconfig: path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "tsconfig.playwright.json"
+  ),
   projects: [
     {
       name: "chromium",

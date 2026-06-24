@@ -1,5 +1,4 @@
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
-// biome-ignore lint/suspicious/noDeprecatedImports: object-form primaryKey is the supported Drizzle API; deprecated overload shares the export name
 import { primaryKey } from "drizzle-orm/pg-core";
 
 export function compositePrimaryKey<

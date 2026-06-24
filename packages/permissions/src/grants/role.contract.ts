@@ -1,7 +1,8 @@
-import type { PermissionKey } from "@afenda/database";
+import type { PermissionKey, RoleStatus } from "@afenda/database";
 
 import type { RoleScope } from "../scope/role-scope.contract.js";
 
+export type { RoleStatus } from "@afenda/database";
 export type { RoleScope } from "../scope/role-scope.contract.js";
 
 /** Normalized role contract — no raw database rows. */
@@ -14,8 +15,6 @@ export interface RoleContract {
   readonly status: RoleStatus;
   readonly tenantId: string | null;
 }
-
-export type RoleStatus = "active" | "archived" | "inactive";
 
 export interface RolePermissionAssignment {
   readonly permissionKey: PermissionKey;

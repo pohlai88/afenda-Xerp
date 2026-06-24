@@ -14,6 +14,7 @@ const missingDatabaseConfig = findMissingRequiredKeys(merged.entries);
 
 if (missingDatabaseConfig.length === 0) {
   run("pnpm", ["--filter", "@afenda/database", "db:repair-journal:check"]);
+  run("pnpm", ["check:database-tenant-rls-live"]);
 } else {
   console.log(
     `migration live ledger check skipped: database not configured (${missingDatabaseConfig.join("; ")})`

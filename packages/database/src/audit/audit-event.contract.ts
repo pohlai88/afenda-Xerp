@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: compatibility shim; TIP-010 contracts live in @afenda/observability.
 export {
   AUDIT_ACTOR_TYPES,
   AUDIT_EVENT_VERSION,

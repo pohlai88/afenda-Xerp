@@ -37,7 +37,7 @@ import {
 } from "./api-error-response";
 import {
   type ApiRouteProtectionLevel,
-  readScopeCandidateFromHeaders,
+  toAuthorizationContextFromOperatingContext,
   toAuthorizationContextInput,
 } from "./api-route-context";
 import type {
@@ -401,13 +401,11 @@ export async function authorizeApiRoute(
     }
 
     const { operatingContext } = operatingResolution;
-    const authorizationContextInput = {
-      tenantId: operatingContext.workspace.tenantId,
-      companyId: operatingContext.workspace.companyId,
-      organizationId: operatingContext.workspace.organizationId,
-      workspaceId:
-        readScopeCandidateFromHeaders(input.request)?.workspaceId ?? null,
-    };
+    const authorizationContextInput =
+      toAuthorizationContextFromOperatingContext({
+        operatingContext,
+        request: input.request,
+      });
 
     const dataSources = resolveAuthorizationDataSources(dependencies);
 
