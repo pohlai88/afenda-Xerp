@@ -3,7 +3,11 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 
-import { getBetterAuthSecret, getBetterAuthUrl } from "./auth.env.js";
+import {
+  getBetterAuthSecret,
+  resolveBetterAuthBaseUrl,
+  resolveBetterAuthTrustedOrigins,
+} from "./auth.env.js";
 import { createAfendaAuthAuditHooks } from "./auth.hooks.js";
 
 const SESSION_EXPIRES_IN_SECONDS = 60 * 60 * 24 * 7;
@@ -16,8 +20,9 @@ export interface CreateAuthOptions {
 export function createAuthConfig(options: CreateAuthOptions = {}) {
   const env = options.env ?? process.env;
   const db = getAuthDb();
-  const baseURL = getBetterAuthUrl(env);
+  const baseURL = resolveBetterAuthBaseUrl(env);
   const secret = getBetterAuthSecret(env);
+  const trustedOrigins = resolveBetterAuthTrustedOrigins(env);
 
   return betterAuth({
     appName: "Afenda ERP",
@@ -40,7 +45,7 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
     hooks: {
       after: createAfendaAuthAuditHooks(),
     },
-    trustedOrigins: [baseURL],
+    trustedOrigins: [...trustedOrigins],
   });
 }
 

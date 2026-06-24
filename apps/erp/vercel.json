@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm --filter @afenda/erp build",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "nexuscanon.com" }],
+      "destination": "https://www.nexuscanon.com/:path*",
+      "permanent": true
+    }
+  ]
+}

@@ -70,7 +70,7 @@ function membershipDeniedError(): OperatingContextError {
   };
 }
 
-export { loadActorMemberships } from "./load-actor-memberships.server.js";
+export { loadActorMemberships } from "./load-actor-memberships.server";
 
 export interface ResolveGrantScopeInput {
   readonly actorUserId: string;

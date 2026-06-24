@@ -49,6 +49,22 @@ export const DEPRECATED_SECRET_KEYS = [
   "STRIPE_PUBLISHABLE_KEY",
 ];
 
+/** Never push these keys to Vercel — local dev, CI, or push tooling only. */
+export const VERCEL_PUSH_DENYLIST = [
+  "AFENDA_DEV_LOGIN_PASSWORD",
+  "AFENDA_DEV_LOGIN_EMAIL",
+  "AFENDA_E2E_VIEWER_LOGIN_PASSWORD",
+  "GITHUB_TOKEN",
+  "SHADCN_STUDIO_LICENSE_KEY",
+  "SHADCN_STUDIO_ACCOUNT_EMAIL",
+  "TURBO_TEAM",
+  "TURBO_TOKEN",
+  "VERCEL_TOKEN",
+];
+
+const VERCEL_MANAGED_PREFIX = "VERCEL_";
+const VERCEL_PUSH_ALLOWLIST = new Set(["VERCEL_PROJECT_PRODUCTION_URL"]);
+
 const TRAILING_SLASH_PATTERN = /\/$/;
 
 export const REQUIRED_KEYS = ["DATABASE_URL"];
@@ -480,6 +496,94 @@ export function findSupabaseConfigIssues(entries) {
   }
 
   return issues;
+}
+
+/**
+ * Returns a skip reason when a key must not be pushed to Vercel, else null.
+ */
+export function getVercelPushSkipReason(key, value) {
+  if (value === undefined || value === "") {
+    return "empty";
+  }
+
+  if (VERCEL_PUSH_DENYLIST.includes(key)) {
+    return "local-only";
+  }
+
+  if (
+    key.startsWith(VERCEL_MANAGED_PREFIX) &&
+    !VERCEL_PUSH_ALLOWLIST.has(key)
+  ) {
+    return "vercel-managed";
+  }
+
+  return null;
+}
+
+/** Keys that would be pushed vs skipped for a Vercel env sync. */
+export function planVercelPush({ entries, order }) {
+  const push = [];
+  const skip = [];
+
+  for (const key of order) {
+    const value = entries.get(key);
+    const reason = getVercelPushSkipReason(key, value);
+
+    if (reason) {
+      skip.push({ key, reason });
+    } else {
+      push.push(key);
+    }
+  }
+
+  return { push, skip };
+}
+
+/**
+ * Artifact-level probe: can migration URL be resolved after env:sync?
+ * Does not connect to Postgres.
+ */
+export function probeMigrationUrlFromMerged(entries) {
+  for (const key of [
+    "DATABASE_URL_DIRECT",
+    "DATABASE_URL_DEDICATED",
+    "DATABASE_URL_SESSION",
+  ]) {
+    if (entries.get(key)?.trim()) {
+      return { resolvable: true, method: key };
+    }
+  }
+
+  const password = entries.get(SUPABASE_DB_PASSWORD_ENV)?.trim();
+  const region = entries.get(SUPABASE_DB_REGION_ENV)?.trim();
+  const hasProjectRef =
+    entries.get("SUPABASE_PROJECT_REF")?.trim() ||
+    entries.get("NEXT_PUBLIC_SUPABASE_URL")?.trim() ||
+    entries.get("SUPABASE_URL")?.trim();
+
+  if (password && region && hasProjectRef) {
+    return { resolvable: true, method: "supabase-derived" };
+  }
+
+  const missing = [];
+
+  if (!password) {
+    missing.push(SUPABASE_DB_PASSWORD_ENV);
+  }
+
+  if (!region) {
+    missing.push(SUPABASE_DB_REGION_ENV);
+  }
+
+  if (!hasProjectRef) {
+    missing.push("SUPABASE_PROJECT_REF (or NEXT_PUBLIC_SUPABASE_URL)");
+  }
+
+  return {
+    resolvable: false,
+    method: null,
+    hint: `Set ${missing.join(" + ")}, or an explicit DATABASE_URL_SESSION / DATABASE_URL_DIRECT`,
+  };
 }
 
 export function findEmptyTrackedKeys(entries, order) {

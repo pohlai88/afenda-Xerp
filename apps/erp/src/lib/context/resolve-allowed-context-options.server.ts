@@ -13,7 +13,7 @@ import {
 } from "@afenda/permissions";
 
 import { buildAllowedContextSwitchTargets } from "./build-allowed-context-switch-targets";
-import { loadActorMemberships } from "./load-actor-memberships.server.js";
+import { loadActorMemberships } from "./load-actor-memberships.server";
 
 async function collectMembershipScopeIds(input: {
   readonly db: AfendaDatabase;

@@ -4,6 +4,8 @@ import {
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
+  resolveBetterAuthBaseUrl,
+  resolveBetterAuthTrustedOrigins,
 } from "../auth.env.js";
 import {
   MissingBetterAuthSecretError,
@@ -29,6 +31,22 @@ describe("auth.env", () => {
     };
 
     expect(getBetterAuthUrl(env)).toBe("http://localhost:3000");
+  });
+
+  it("prefers VERCEL_URL for preview base URL and trusted origins", () => {
+    const env = {
+      BETTER_AUTH_SECRET: "x".repeat(32),
+      BETTER_AUTH_URL: "https://www.nexuscanon.com",
+      VERCEL_URL: "afenda-xforge-preview.vercel.app",
+    };
+
+    expect(resolveBetterAuthBaseUrl(env)).toBe(
+      "https://afenda-xforge-preview.vercel.app"
+    );
+    expect(resolveBetterAuthTrustedOrigins(env)).toEqual([
+      "https://www.nexuscanon.com",
+      "https://afenda-xforge-preview.vercel.app",
+    ]);
   });
 
   it("reports configuration readiness via hasBetterAuthConfig", () => {

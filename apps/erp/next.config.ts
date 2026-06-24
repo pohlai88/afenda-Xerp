@@ -1,4 +1,8 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
+
+const appDir = path.dirname(fileURLToPath(import.meta.url));
 
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
@@ -13,6 +17,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  outputFileTracingRoot: path.join(appDir, "../.."),
   // Playwright and other tooling often hit the dev server via 127.0.0.1 while
   // Next.js binds localhost — without this, Turbopack HMR is blocked and client
   // components never hydrate (dashboard layout fetch never runs).

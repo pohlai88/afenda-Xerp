@@ -142,6 +142,10 @@ jobs:
       - name: Gate 8e · ERP observability governance
         run: pnpm check:erp-observability
 
+      # ── Gate 8f · Phase 9 accounting readiness (structure + ERP parity) ─
+      - name: Gate 8f · Phase 9 accounting readiness gate
+        run: pnpm check:accounting-readiness-gate --structure-only
+
       # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check
         run: pnpm quality:release-gate
