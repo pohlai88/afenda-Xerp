@@ -9,21 +9,30 @@
   ],
   "files": {
     "includes": [
+      // ── Standard build / tool output (mirrors ultracite/biome/core) ─────────
+      // Re-stated here because consumer files.includes replaces the preset's.
+      "!!**/dist",
+      "!!**/build",
+      "!!**/out",
+      "!!**/.next",
+      "!!**/.turbo",
+      "!!**/.vercel",
+      "!!**/coverage",
+      "!!**/storybook-static",
+      "!!**/next-env.d.ts",
+      "!!**/pnpm-lock.yaml",
+      // ── Project-specific exclusions ──────────────────────────────────────────
       "!!**/.cursor",
       "!!.cursor-biome-report.json",
       "!!**/packages/ui/src/components/shadcn-studio",
-      "!!**/temp-docx",
-      "!!**/*.docx",
-      "!!**/Modern_Afenda_ERP_Master_Plan_Final_Clean.docx",
-      "!!**/*.tsbuildinfo",
-      "!**/packages/database/src/migrations/meta",
-      "!!**/dist",
-      "!!**/.next",
-      "!!**/.turbo",
       "!!**/packages/ai-governance",
       "!!**/packages/design-system/src/css/token-diff-preview.html",
-      "!!**/pnpm-lock.yaml",
-      "!!**/packages/*/scripts/**/*.js"
+      "!!**/packages/*/scripts/**/*.js",
+      "!!**/temp-docx",
+      "!!**/*.docx",
+      "!!**/*.tsbuildinfo",
+      // Soft-ignore: scanner can still index types, but linter skips these
+      "!**/packages/database/src/migrations/meta"
     ]
   },
   "formatter": {

@@ -859,10 +859,11 @@ import {
       if (file === soleAllowedImporter) {
         continue;
       }
-      if (cssMode === "globals-only") {
-        if (!(/globals\.css$/.test(file) || /layout\.css$/.test(file))) {
-          continue;
-        }
+      if (
+        cssMode === "globals-only" &&
+        !(/globals\.css$/.test(file) || /layout\.css$/.test(file))
+      ) {
+        continue;
       }
 
       const imports = extractCssImports(readFileSync(file, "utf8"));
