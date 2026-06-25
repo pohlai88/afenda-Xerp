@@ -21,6 +21,13 @@ function usesCallout(source: string): boolean {
   return source.includes("<Callout") || source.includes("DocsCallout");
 }
 
+/** Nav sections must not use markdown tables (charter: Cards/DocsGuideCardGrid only). */
+function usesNavMarkdownTable(source: string): boolean {
+  const navSectionPattern =
+    /## (Dev servers|When to read which chapter)[\s\S]*?\n\|[^\n]+\|\n\|[-:\s|]+\|/;
+  return navSectionPattern.test(source);
+}
+
 describe("@afenda/docs apps book components", () => {
   it.each([
     "index.mdx",
@@ -28,6 +35,19 @@ describe("@afenda/docs apps book components", () => {
   ] as const)("%s uses Cards or DocsGuideCardGrid for primary navigation", (relativePath) => {
     const source = readMdx(relativePath);
     expect(usesCardNavigation(source)).toBe(true);
+  });
+
+  it.each([
+    "index.mdx",
+    "apps/index.mdx",
+  ] as const)("%s does not use markdown tables for navigation sections", (relativePath) => {
+    const source = readMdx(relativePath);
+    expect(usesNavMarkdownTable(source)).toBe(false);
+  });
+
+  it("apps/index.mdx renders DocsSiteGraph for cross-link discovery", () => {
+    const source = readMdx("apps/index.mdx");
+    expect(source).toContain("<DocsSiteGraph");
   });
 
   it("apps/erp/index.mdx includes a status honesty warn callout", () => {
@@ -44,13 +64,6 @@ describe("@afenda/docs apps book components", () => {
     const source = readMdx("apps/storybook/index.mdx");
     expect(source).toMatch(/type="warn"/);
     expect(source).toMatch(/runner|Not started|storybook-test-runner/i);
-  });
-
-  it("does not use markdown table as sole navigation on home or apps index", () => {
-    for (const relativePath of ["index.mdx", "apps/index.mdx"] as const) {
-      const source = readMdx(relativePath);
-      expect(usesCardNavigation(source)).toBe(true);
-    }
   });
 
   it("registers all landing paths in appsBookLandingMdxPaths contract", () => {

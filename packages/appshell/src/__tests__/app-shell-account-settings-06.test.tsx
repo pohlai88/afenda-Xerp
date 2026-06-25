@@ -67,4 +67,38 @@ describe("AppShellAccountSettings06", () => {
     );
     expect(onRevokeSession).toHaveBeenCalledWith("sess_2");
   });
+
+  it("renders TOTP verification and backup code enrollment panels", () => {
+    render(
+      <AppShellAccountSettings06
+        backupCodes={["backup-code-1", "backup-code-2"]}
+        mfaEnrollPhase="verify-totp"
+        mfaPolicyRequired={false}
+        onCancelMfaEnroll={vi.fn()}
+        onMfaPolicyChange={vi.fn()}
+        onVerifyTotp={vi.fn()}
+        showSessions={false}
+        totpUri="otpauth://totp/Afenda:user@example.com?secret=TEST"
+        userMfaEnabled={false}
+      />
+    );
+
+    expect(screen.getByLabelText("Verification code")).toBeInTheDocument();
+    expect(screen.getByText(/Setup URI/)).toBeInTheDocument();
+
+    render(
+      <AppShellAccountSettings06
+        backupCodes={["backup-code-1", "backup-code-2"]}
+        mfaEnrollPhase="backup-codes"
+        mfaPolicyRequired={false}
+        onDismissBackupCodes={vi.fn()}
+        onMfaPolicyChange={vi.fn()}
+        showSessions={false}
+        userMfaEnabled
+      />
+    );
+
+    expect(screen.getByText("Save your backup codes")).toBeInTheDocument();
+    expect(screen.getByText("backup-code-1")).toBeInTheDocument();
+  });
 });

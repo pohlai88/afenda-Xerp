@@ -260,6 +260,27 @@ export {
   userIdRef,
 } from "./ids.js";
 export {
+  hashMemberInvitationToken,
+  type MemberInvitationRow,
+  verifyMemberInvitationToken,
+} from "./membership/member-invitation.contract.js";
+export {
+  consumeMemberInvitation,
+  findPendingMemberInvitationForEmail,
+  listPendingMemberInvitationsForTenant,
+  type MemberInvitationRecord,
+  MemberInvitationRejectedError,
+  type RegisterMemberInvitationInput,
+  registerMemberInvitation,
+  resendMemberInvitationById,
+  resetMemberInvitationsForTests,
+  revokeMemberInvitation,
+  revokeMemberInvitationById,
+  type ValidateMemberInvitationInput,
+  type ValidateMemberInvitationResult,
+  validateMemberInvitation,
+} from "./membership/member-invitation.service.js";
+export {
   assertMembershipScopeShape,
   assertRoleMatchesMembershipScope,
   buildMembershipInsertRow,
@@ -524,8 +545,10 @@ export {
   auditSourceEnum,
   authAccount,
   authIdentityLinks,
+  authPasskey,
   authSchema,
   authSession,
+  authSsoProvider,
   authTwoFactor,
   authUser,
   authVerification,
@@ -541,6 +564,7 @@ export {
   featureFlagRolloutEnum,
   killSwitchSeverityEnum,
   legalEntityOwnership,
+  memberInvitations,
   membershipScopeEnum,
   membershipStatusEnum,
   memberships,
@@ -573,6 +597,7 @@ export {
   teams,
   tenantCommercialPlans,
   tenantSettings,
+  tenantSsoProviders,
   tenantStatusEnum,
   tenants,
   usageLimitCounters,
@@ -591,6 +616,21 @@ export type {
   SeedVerificationResult,
 } from "./seeds/seed-types.js";
 export { verifyPlatformSeed } from "./seeds/seed-verify.js";
+export {
+  assertDatabaseConnectionConsumer,
+  DATABASE_CONNECTION_CONSUMERS,
+  DATABASE_CONNECTION_ROUTING,
+  type DatabaseConnectionConsumer,
+  InvalidDatabaseConnectionConsumerError,
+  isDatabaseConnectionConsumer,
+  resolveConnectionMethodForConsumer,
+  resolveDatabaseUrlForConsumer,
+} from "./supabase/connection-routing.contract.js";
+export {
+  isSupabaseExcludedProductionCapability,
+  SUPABASE_EXCLUDED_PRODUCTION_CAPABILITIES,
+  type SupabaseExcludedProductionCapability,
+} from "./supabase/excluded-production-capabilities.contract.js";
 export { TEAM_ORGANIZATION_UNIT_TYPE } from "./team/team.constants.js";
 export {
   assertTeamSlug,
@@ -669,6 +709,40 @@ export {
   type UpsertTenantSettingsSectionInput,
   upsertTenantSettingsSection,
 } from "./tenant-settings/tenant-settings.service.js";
+export {
+  type GetEnabledTenantSsoProviderForTenantDomainInput,
+  type GetTenantSsoProviderByIdInput,
+  type GetTenantSsoProviderByProviderIdInput,
+  getEnabledTenantSsoProviderForTenantDomainInputSchema,
+  getTenantSsoProviderByIdInputSchema,
+  getTenantSsoProviderByProviderIdInputSchema,
+  parseTenantSsoOidcMetadata,
+  parseTenantSsoProviderMetadata,
+  parseTenantSsoProviderSummary,
+  type SetTenantSsoProviderEnabledInput,
+  setTenantSsoProviderEnabledInputSchema,
+  TENANT_SSO_CLIENT_SECRET_ENV_KEY,
+  TENANT_SSO_PROTOCOLS,
+  type TenantSsoOidcMetadata,
+  type TenantSsoProtocol,
+  type TenantSsoProviderMetadata,
+  type TenantSsoProviderSummary,
+  tenantSsoProtocolSchema,
+  toTenantSsoProviderSummary,
+  type UpsertTenantSsoOidcProviderInput,
+  upsertTenantSsoOidcProviderInputSchema,
+} from "./tenant-sso/tenant-sso-provider.contract.js";
+export {
+  getEnabledTenantSsoProviderForTenantDomain,
+  getTenantSsoProviderById,
+  getTenantSsoProviderByProviderId,
+  listTenantSsoProvidersByTenantId,
+  resetTenantSsoProvidersForTests,
+  resolveTenantIdFromSsoEmailDomain,
+  setTenantSsoProviderEnabled,
+  TenantSsoProviderNotFoundError,
+  upsertTenantSsoOidcProvider,
+} from "./tenant-sso/tenant-sso-provider.service.js";
 export {
   type CreatedAtColumn,
   createdAtColumn,

@@ -16,6 +16,7 @@ import {
   serverActionSuccess,
 } from "@/lib/server-actions/server-action-result";
 
+import { parseFormDataJsonField } from "./parse-user-settings-form-payload";
 import {
   USER_SETTINGS_AUDIT_EVENTS,
   USER_SETTINGS_MUTATION_AUDIT_MODULE,
@@ -41,20 +42,9 @@ export type UpdateUserPreferencesSettingsActionState =
   ServerActionResult<UpdateUserPreferencesSettingsData> | null;
 
 function parsePreferencesActionInput(formData: FormData): unknown {
-  const payloadRaw = formData.get("payload");
-  let payload: unknown;
-
-  if (typeof payloadRaw === "string" && payloadRaw.length > 0) {
-    try {
-      payload = JSON.parse(payloadRaw) as unknown;
-    } catch {
-      payload = undefined;
-    }
-  }
-
   return {
     intent: formData.get("intent"),
-    payload,
+    payload: parseFormDataJsonField(formData, "payload"),
   };
 }
 

@@ -1,3 +1,4 @@
+import { passkeyClient } from "@better-auth/passkey/client";
 import {
   multiSessionClient,
   twoFactorClient,
@@ -10,11 +11,16 @@ export {
   parseAfendaAuthDeviceSessions,
   readAfendaAuthSessionTwoFactorEnabled,
 } from "./auth.client.contract.js";
+export { isAuthChangeEmailEnabled } from "./auth.env.js";
+export {
+  type PasskeyDisplayLabelInput,
+  resolvePasskeyDisplayLabel,
+} from "./auth.passkey-label.js";
 
 export function createAfendaAuthClient(baseURL?: string) {
   return createAuthClient({
     ...(baseURL === undefined ? {} : { baseURL }),
-    plugins: [twoFactorClient(), multiSessionClient()],
+    plugins: [twoFactorClient(), multiSessionClient(), passkeyClient()],
   });
 }
 
@@ -29,3 +35,4 @@ export const useSession: AfendaAuthClient["useSession"] = authClient.useSession;
 export const twoFactor: AfendaAuthClient["twoFactor"] = authClient.twoFactor;
 export const multiSession: AfendaAuthClient["multiSession"] =
   authClient.multiSession;
+export const passkey: AfendaAuthClient["passkey"] = authClient.passkey;

@@ -35,13 +35,15 @@
 | `AUTH` | Identity, mirror, MFA policy, admin auth surfaces | ARCH-AUTH-001 |
 | `ADMIN` | System Admin control plane (`/system-admin/**`) | ARCH-ADMIN-001 |
 | `USER` | Signed-in user self-service settings (`/settings/**`) | ARCH-USER-001 |
-| `APPS` | Runnable applications book (`/docs/apps/**`) | ARCH-APPS-001 |
+| `DOCS` | Fumadocs site — `/docs/apps/**` application guides | ARCH-DOCS-001 |
+| `SUPA` | Supabase platform — Postgres, poolers, env ops (not identity) | ARCH-SUPA-001 |
 
-### Legacy delivery ID (renamed 2026-06-25)
+### Legacy delivery IDs (renamed)
 
 | Retired ID | Canonical ID | Reason |
 | --- | --- | --- |
 | `ARCH-002` (delivery doc) | **ARCH-ADMIN-001** | Bare `ARCH-<NNN>` collided with layer invariant **ARCH-002**; normalized to `ARCH-<DOMAIN>-<NNN>` |
+| **ARCH-APPS-001** · `applications-book` slug | **ARCH-DOCS-001** · `fumadocs-site` | Domain `APPS` + "Book" label retired; aligned with AUTH/ADMIN/USER naming (2026-06-25) |
 
 ---
 
@@ -65,20 +67,21 @@
 
 | Step | ARCH | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| **→ 1** | **ARCH-USER-001** | **Peer review / AC closure** | Integration tests · DoD #14–20 | Slices 1–7 ✓ | [§DoD](%5BPartially%20Implemented%5D%20ARCH-USER-001-user-settings-self-service.md#11-definition-of-done) |
-| 2 | **ARCH-AUTH-001** | Waiver review | Auth completion | — | [ARCH-AUTH-001](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
-| 3 | **ARCH-ADMIN-001** | DoD #20 peer review | System admin | Slices 1–7 ✓ | [ARCH-ADMIN-001](%5BPartially%20Implemented%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) |
+| **→ 1** | **ARCH-AUTH-001** | **13a-debt** SSO hardening | DB · Auth · ERP | Slices 13a + 13b ✓ | [slice-13a-debt](slices/ARCH-AUTH-001/slice-13a-debt-tenant-sso-hardening.md) |
+| 2 | **ARCH-AUTH-001** | **13c** OAuth allowlist | Auth · ERP | 13a-debt or parallel | [slice-13c](slices/ARCH-AUTH-001/slice-13c-social-oauth-allowlist.md) |
+| 3 | **ARCH-AUTH-001** | **13d** Phase 3 evidence-sync | docs only | 13c ✓ | [slice-13d](slices/ARCH-AUTH-001/slice-13d-phase3-evidence-sync.md) |
 
-**Parallel rule:** ARCH-USER-001 **Slices 1–7 delivered** (2026-06-25). Remaining: peer review, integration AC rows (U01/U08/U11–U12), email change UI blocked on ARCH-AUTH-001.
+**Parallel rule:** ARCH-ADMIN-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–11 delivered · DoD #20 closed. ARCH-USER-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–12 delivered · DoD #20 closed. ARCH-SUPA-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–7 delivered · DoD #20 closed. ARCH-AUTH-001 Slice 14 (`changeEmail`) delivered 2026-06-25.
 
 ### Delivered slices (do not re-implement)
 
 | ARCH | Slices / phases | Evidence |
 | --- | --- | --- |
-| ARCH-AUTH-001 | 1–9 + FR-A05.2.1 + FR-A05.2 ERP | Better Auth baseline, mirror sync, MFA policy, invitation gate, Security + Members admin UI, integration tests (106/106), workspace session persistence + `resolveOperatingContext` hint merge + `AUTH_EVENT.workspaceContextSwitched` |
-| ARCH-ADMIN-001 | Phase A–D · Slices 1 + 1.5 + 2 + 3 + 4 + 5 + 6 + 7 | `tenant_settings` persistence · General tab · Members · Security MFA · settings audit waiver closed · evidence-sync · RLS · mutation audit |
-| ARCH-USER-001 | Slices 1–7 + 4A | `/settings/**` four tabs · `user_preferences` · admin/user split · notifications + preferences persistence · evidence-sync |
-| ARCH-APPS-001 | Slices 1–3 | ARCH authority · Fumadocs `/docs/apps/**` · nav contract · 8-test Apps Book suite · fdr-005 Slice 3 evidence-sync |
+| ARCH-AUTH-001 | 1–12 + 14 + 13a + 13b + FR-A05.2.1 + FR-A05.2 ERP | Better Auth baseline, mirror sync, MFA policy, durable invitations, invitation gate, Security + Members admin UI, MFA enroll UI, integration tests, workspace session persistence, `changeEmail`, enterprise SSO (13a), passkeys self-service (13b) · Phase 3 amendment accepted |
+| ARCH-ADMIN-001 | Phase A–D · Slices 1 + 1.5 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 | `tenant_settings` persistence · General tab · Members · Security MFA · settings audit waiver closed · TS action dedup · evidence-sync · RLS · mutation audit · **Complete** (29/30) |
+| ARCH-USER-001 | Slices 1–12 | `/settings/**` four tabs · `user_preferences` · admin/user split · integration AC closure · mutation audit · DoD #20 closed · **Complete** (29/30) |
+| ARCH-DOCS-001 | Slices 1–5 | **Complete — enterprise 9.5 accepted** (2026-06-25) · `/docs/apps/**` · 83 tests · fdr-005 `[Complete]` |
+| ARCH-SUPA-001 | Slices 1–9 | Connection routing · pool registry wiring · advisor governance gate · **Complete** (29/30) · DoD #20 closed 2026-06-25 |
 
 ---
 
@@ -86,10 +89,11 @@
 
 | ARCH ID | Document | PKG | Paired FDR | Status | Next step |
 | --- | --- | --- | --- | --- | --- |
-| **ARCH-AUTH-001** | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Partially Implemented | Waiver review · `changeEmail` for profile UI |
-| **ARCH-ADMIN-001** | [\[Partially Implemented\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BPartially%20Implemented%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) | Partially Implemented | DoD #20 peer review |
-| **ARCH-USER-001** | [\[Partially Implemented\] ARCH-USER-001-user-settings-self-service.md](%5BPartially%20Implemented%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 · `@afenda/erp` | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | Partially Implemented | Peer review · integration AC closure |
-| **ARCH-APPS-001** | [\[Partially Implemented\] ARCH-APPS-001-applications-book.md](%5BPartially%20Implemented%5D%20ARCH-APPS-001-applications-book.md) | PKG-005 · `@afenda/docs` | [fdr-005-docs-app](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) | Partially Implemented | DoD #20 peer review |
+| **ARCH-AUTH-001** | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Partially Implemented | **Slice 13a-debt** or **13c** · [amendment accepted](slices/ARCH-AUTH-001/slice-13-phase3-amendment-draft.md) |
+| **ARCH-ADMIN-001** | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) | **Complete** | — |
+| **ARCH-USER-001** | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 · `@afenda/erp` | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | **Complete** | — |
+| **ARCH-DOCS-001** | [\[Complete\] ARCH-DOCS-001-fumadocs-site.md](%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) | PKG-005 · `@afenda/docs` | [fdr-005-docs-app](../delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) | **Complete** | — |
+| **ARCH-SUPA-001** | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 · `@afenda/database` | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | **Complete** | — |
 
 ---
 
@@ -102,10 +106,11 @@ All paths relative to `docs/ARCH/`.
 
 | ARCH ID | Document | PKG | Domain | Status | Paired FDR | Evidence / gap |
 | --- | --- | --- | --- | --- | --- | --- |
-| ARCH-AUTH-001 | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | Partially Implemented | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–9 + FR-A05.2.1 + FR-A05.2 ERP ✓; waivers remain |
-| ARCH-ADMIN-001 | [\[Partially Implemented\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BPartially%20Implemented%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 | System Admin control plane | Partially Implemented | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) · [fdr-007-accounting-readiness](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-accounting-readiness.md) | Slices 1–7 ✓ (2026-06-25); DoD #20 peer review open |
-| ARCH-USER-001 | [\[Partially Implemented\] ARCH-USER-001-user-settings-self-service.md](%5BPartially%20Implemented%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 | User settings self-service | Partially Implemented | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | Slices 1–7 ✓ (2026-06-25); peer review + integration ACs open |
-| ARCH-APPS-001 | [\[Partially Implemented\] ARCH-APPS-001-applications-book.md](%5BPartially%20Implemented%5D%20ARCH-APPS-001-applications-book.md) | PKG-005 | Applications Book (Fumadocs) | Partially Implemented | [fdr-005-docs-app](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) | Slices 1–3 ✓ (2026-06-25); `/docs/apps/**` · 83 tests · DoD #20 peer review open |
+| ARCH-AUTH-001 | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | Partially Implemented | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–12 + 14 + 13a + 13b ✓; AUTH-PHASE3-001 **In progress** (13a-debt / 13c next) |
+| ARCH-ADMIN-001 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 | System Admin control plane | **Complete** | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) · [fdr-007-accounting-readiness](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-accounting-readiness.md) | Slices 1–11 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
+| ARCH-USER-001 | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 | User settings self-service | **Complete** | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | Slices 1–12 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
+| ARCH-DOCS-001 | [\[Complete\] ARCH-DOCS-001-fumadocs-site.md](%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) | PKG-005 | Fumadocs site (`/docs/apps/**`) | **Complete** | [fdr-005-docs-app](../delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) | Slices 1–5 ✓ · DoD #20 closed 2026-06-25 · 28/30 accepted |
+| ARCH-SUPA-001 | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 | Supabase platform (Postgres ops) | **Complete** | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | Slices 1–9 ✓ · DoD #20 closed · waiver Accepted · `check:supabase-advisors` |
 
 ### Templates and tooling
 
@@ -141,6 +146,7 @@ Closed set per ADR-0012 / FDR index. **Do not use runtime matrix vocabulary here
 | Duplicate auth ARCH | Use **ARCH-AUTH-001** only — withdraw duplicate ADRs (see ADR-0018) |
 | Email change on profile tab | Blocked on ARCH-AUTH-001 `changeEmail.enabled` |
 | Dual-surface demo without Slice 6 | **Slice 6 ✓** — safe for demo |
+| **ARCH-APPS-001** or "Applications Book" naming | Retired — use **ARCH-DOCS-001** only |
 
 ---
 

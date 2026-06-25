@@ -326,7 +326,7 @@ Priority matrix for delivery acceleration. Status reflects runtime evidence as o
 | System admin readiness gate | FDR-007 | Afenda-native | — | **Delivered** — readiness gate metrics |
 | System admin user table | FDR-007 | `/apps/users/list` | `datatable-component` | **Candidate** — dep registry for TanStack Table |
 | System admin settings / forms | FDR-007 | `/pages/user-settings`, `/forms/*` | `form-layout`, `multi-step-form` | **Candidate** — admin tabs under ARCH-ADMIN-001 |
-| User settings self-service | FDR-007 · ARCH-USER-001 | `/pages/user-settings` (split) | `account-settings-01/02`, block 06 user | **Partial** — `/settings/**` Slices 1–6 + 4A–5 ✓ (2026-06-25); email change blocked on ARCH-AUTH-001 |
+| User settings self-service | FDR-007 · ARCH-USER-001 | `/pages/user-settings` (split) | `account-settings-01/02`, block 06 user | **Delivered** — `/settings/**` Slices 1–12 ✓ · ARCH-USER-001 **Complete** (2026-06-25); email change UI deferred ARCH-AUTH-001 (§15 v2 gap) |
 | RBAC roles / permissions UI | FDR-014 | `/apps/roles`, `/apps/permissions` | `datatable-component` | **Candidate** |
 | Empty / zero-data states | FDR-007 / feature FDRs | `/pages/empty-state-v*` | `empty-state` | **Candidate** |
 | Module workspace chrome | FDR-001 | dashboard layout patterns | `widgets-component` | **Partial** — workspace chrome block |

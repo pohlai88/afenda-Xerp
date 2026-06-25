@@ -11,6 +11,12 @@ const multiSessionMocks = vi.hoisted(() => ({
   revoke: vi.fn(),
 }));
 
+const passkeyMocks = vi.hoisted(() => ({
+  addPasskey: vi.fn(),
+  deletePasskey: vi.fn(),
+  listUserPasskeys: vi.fn(),
+}));
+
 const twoFactorMocks = vi.hoisted(() => ({
   disable: vi.fn(),
   enable: vi.fn(),
@@ -25,6 +31,9 @@ vi.mock("@afenda/auth/client", () => ({
   multiSession: multiSessionMocks,
   parseAfendaAuthDeviceSessions: (value: unknown) =>
     Array.isArray(value) ? value : [],
+  passkey: passkeyMocks,
+  resolvePasskeyDisplayLabel: (record: { name?: string | null }) =>
+    record.name?.trim() || "Passkey",
   readAfendaAuthSessionTwoFactorEnabled: (value: unknown) => {
     if (
       typeof value === "object" &&
@@ -44,22 +53,43 @@ vi.mock("@afenda/auth/client", () => ({
 
 vi.mock("@afenda/appshell", () => ({
   AppShellAccountSettings06User: ({
+    onAddPasskey,
+    onDeletePasskey,
     onDisableUserMfa,
     onEnableUserMfa,
+    passkeys,
     userMfaEnabled,
   }: {
+    onAddPasskey?: () => void;
+    onDeletePasskey?: (passkeyId: string) => void;
     onDisableUserMfa?: () => void;
     onEnableUserMfa?: () => void;
+    passkeys: Array<{ id: string; label: string }>;
     userMfaEnabled: boolean;
   }) => (
     <div>
       <p>{userMfaEnabled ? "MFA enabled" : "MFA disabled"}</p>
+      <p>{passkeys.length === 0 ? "No passkeys" : passkeys[0]?.label}</p>
       <button onClick={onEnableUserMfa} type="button">
         Enable MFA
       </button>
       <button onClick={onDisableUserMfa} type="button">
         Disable MFA
       </button>
+      <button onClick={onAddPasskey} type="button">
+        Add passkey
+      </button>
+      {passkeys.map((passkeyRow) => (
+        <button
+          key={passkeyRow.id}
+          onClick={() => {
+            onDeletePasskey?.(passkeyRow.id);
+          }}
+          type="button"
+        >
+          Remove passkey {passkeyRow.label}
+        </button>
+      ))}
     </div>
   ),
 }));
@@ -75,6 +105,9 @@ describe("UserSecuritySettingsPanel", () => {
     authClientMocks.getSession.mockReset();
     multiSessionMocks.listDeviceSessions.mockReset();
     multiSessionMocks.revoke.mockReset();
+    passkeyMocks.addPasskey.mockReset();
+    passkeyMocks.deletePasskey.mockReset();
+    passkeyMocks.listUserPasskeys.mockReset();
     twoFactorMocks.disable.mockReset();
     twoFactorMocks.enable.mockReset();
     recordUserSessionRevokedActionMock.mockReset();
@@ -87,6 +120,7 @@ describe("UserSecuritySettingsPanel", () => {
       },
     });
     multiSessionMocks.listDeviceSessions.mockResolvedValue({ data: [] });
+    passkeyMocks.listUserPasskeys.mockResolvedValue({ data: [] });
   });
 
   it("renders personal MFA state without tenant policy controls", async () => {
@@ -105,6 +139,90 @@ describe("UserSecuritySettingsPanel", () => {
 
     await waitFor(() => {
       expect(screen.getByText("MFA disabled")).toBeInTheDocument();
+    });
+  });
+
+  it("loads passkeys on mount", async () => {
+    passkeyMocks.listUserPasskeys.mockResolvedValue({
+      data: [
+        {
+          id: "pk_1",
+          name: "Work laptop",
+          createdAt: "2026-01-01T00:00:00.000Z",
+        },
+      ],
+    });
+
+    render(
+      <UserSecuritySettingsPanel
+        initialSettings={{
+          userMfaEnabled: false,
+        }}
+      />
+    );
+
+    await waitFor(() => {
+      expect(passkeyMocks.listUserPasskeys).toHaveBeenCalledWith({});
+      expect(screen.getByText("Work laptop")).toBeInTheDocument();
+    });
+  });
+
+  it("registers a passkey from the security panel", async () => {
+    const user = setupUser();
+    passkeyMocks.addPasskey.mockResolvedValue({ data: { id: "pk_new" } });
+
+    render(
+      <UserSecuritySettingsPanel
+        initialSettings={{
+          userMfaEnabled: false,
+        }}
+      />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("No passkeys")).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole("button", { name: "Add passkey" }));
+
+    await waitFor(() => {
+      expect(passkeyMocks.addPasskey).toHaveBeenCalledWith({});
+      expect(passkeyMocks.listUserPasskeys).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  it("removes a passkey from the security panel", async () => {
+    const user = setupUser();
+    passkeyMocks.listUserPasskeys.mockResolvedValue({
+      data: [
+        {
+          id: "pk_1",
+          name: "Phone",
+          createdAt: "2026-01-01T00:00:00.000Z",
+        },
+      ],
+    });
+    passkeyMocks.deletePasskey.mockResolvedValue({ data: { id: "pk_1" } });
+
+    render(
+      <UserSecuritySettingsPanel
+        initialSettings={{
+          userMfaEnabled: false,
+        }}
+      />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Phone")).toBeInTheDocument();
+    });
+
+    await user.click(
+      screen.getByRole("button", { name: "Remove passkey Phone" })
+    );
+
+    await waitFor(() => {
+      expect(passkeyMocks.deletePasskey).toHaveBeenCalledWith({ id: "pk_1" });
+      expect(passkeyMocks.listUserPasskeys).toHaveBeenCalledTimes(2);
     });
   });
 

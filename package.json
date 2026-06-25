@@ -29,6 +29,7 @@
     "check:css-governance": "tsx scripts/css/check-css-governance.mts",
     "check:downstream-integration": "tsx scripts/governance/check-downstream-integration.mts",
     "check:csp-third-party": "tsx scripts/governance/check-csp-third-party.mts",
+    "check:supabase-advisors": "node scripts/governance/check-supabase-advisors.mjs",
     "check:erp-observability": "tsx scripts/governance/check-erp-observability.mts",
     "check:kernel-context-surface": "tsx scripts/governance/check-kernel-context-surface.mts",
     "check:database-tenant-domain-surface": "tsx scripts/governance/check-database-tenant-domain-surface.mts",

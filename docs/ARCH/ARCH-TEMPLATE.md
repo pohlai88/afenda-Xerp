@@ -150,7 +150,35 @@ Add project-specific prohibitions:
 - <prohibition 1>
 - <prohibition 2>
 - <prohibition 3>
+- use vague timeline language ("future", "defer", "optional later", "v2 maybe", "when needed", "TBD later") without P0/P1/P2/P3 classification
+- label production-critical gaps as "future" instead of P0 mandatory or P1 hardening
+- imply excluded capabilities will ship without a separate ARCH/FDR approval row
 ```
+
+---
+
+## 5.4 Production classification vocabulary (mandatory)
+
+Every capability, gap, slice, or platform service **must** use one of these buckets — not informal timeline words.
+
+| Bucket | Meaning | Can ship enterprise 9.5? |
+| --- | --- | ---: |
+| **P0 — Production mandatory** | Must be closed before enterprise production acceptance | No, if open |
+| **P1 — Production hardening** | Should be closed for 9.5 unless formally waived with expiry | Usually no |
+| **P2 — Excluded from current production release** | Not in this release; requires separate ARCH/FDR approval to implement | Yes |
+| **P3 — Enhancement backlog** | Post-9.5 only; not required for production correctness | Yes |
+
+**Prohibited vocabulary in ARCH/FDR/slice docs:** `future`, `defer`, `optional later`, `v2 maybe`, `when needed`, `TBD later`, `nice to have later`.
+
+**Required wording for P2 exclusions:**
+
+```text
+Not in current production release scope.
+Requires separate ARCH/FDR approval before implementation.
+No runtime code may be added under this capability in this work item.
+```
+
+**P1 waivers** must include: waiver ID, reason, approver, expiry/revisit event. No waiver may hide broken P0 runtime.
 
 ---
 

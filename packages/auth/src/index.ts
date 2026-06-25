@@ -4,6 +4,7 @@ export const PACKAGE_NAME = "@afenda/auth" as const;
 export {
   type AuthAuditInsertPayload,
   buildAuthAuditPayload,
+  persistAuthAuditEvent,
 } from "./auth.audit.js";
 export type { AfendaAuthDeviceSession } from "./auth.client.contract.js";
 export {
@@ -31,9 +32,12 @@ export {
   type AuthEventName,
 } from "./auth.contract.js";
 export {
+  AUTH_CHANGE_EMAIL_ENABLED,
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
+  isAuthChangeEmailEnabled,
+  isAuthEmailDeliveryEnabled,
 } from "./auth.env.js";
 export {
   BETTER_AUTH_SECRET_ENV,
@@ -52,7 +56,6 @@ export {
   handleAfendaAuthInvitationBeforeHook,
 } from "./auth.hooks.js";
 export {
-  AFENDA_AUTH_INVITATION_STORE_DEBT,
   type AuthInvitationRecord,
   AuthInvitationRejectedError,
   consumeAuthInvitation,
@@ -101,6 +104,21 @@ export {
   resolveActiveWorkspaceId,
   toAfendaAuthIdentity,
 } from "./auth.session.js";
+export {
+  AFENDA_AUTH_SSO_OIDC_CALLBACK_PREFIX,
+  AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX,
+  AuthSsoInvitationRejectedError,
+  assertSsoSignUpInvitationAllowed,
+  createAfendaSsoPluginOptions,
+  isAfendaAuthSsoCallbackPath,
+} from "./auth.sso-policy.js";
+export {
+  describeSyncTenantSsoProviderSkipReason,
+  type SyncTenantSsoProviderInput,
+  type SyncTenantSsoProviderResult,
+  type SyncTenantSsoProviderSkipReason,
+  syncTenantSsoProviderWithBetterAuth,
+} from "./auth.sso-sync.js";
 export {
   type PersistAuthSessionActiveWorkspaceIdInput,
   persistAuthSessionActiveWorkspaceId,

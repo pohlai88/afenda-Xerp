@@ -132,7 +132,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 4 | fdr-003-persistence | PKG-003 | `@afenda/database` | PKG003_DATABASE | green | Partially Implemented | [FDR/[Partially Implemented] fdr-003-persistence.md](FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) |
 | 5 | fdr-003-tenant-rls | PKG-003 | `@afenda/database` | PKG003_DATABASE | green | Complete | [FDR/[Complete] fdr-003-tenant-rls.md](FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) |
 | 6 | fdr-004-design-authority | PKG-004 | `@afenda/design-system` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-004-design-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-004-design-authority.md) |
-| 7 | fdr-005-docs-app | PKG-005 | `@afenda/docs` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-005-docs-app.md](FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) |
+| 7 | fdr-005-docs-app | PKG-005 | `@afenda/docs` | — | — | Complete — enterprise 9.5 accepted | [FDR/[Complete] fdr-005-docs-app.md](FDR/%5BComplete%5D%20fdr-005-docs-app.md) |
 | 8 | fdr-006-entitlements | PKG-006 | `@afenda/entitlements` | PKG006_ENTITLEMENTS | green | Partially Implemented | [FDR/[Partially Implemented] fdr-006-entitlements.md](FDR/%5BPartially%20Implemented%5D%20fdr-006-entitlements.md) |
 | 9 | fdr-006-feature-manifest | PKG-006 | `@afenda/entitlements` | PKG006_FEATURE_MANIFEST | green | Partially Implemented | [FDR/[Partially Implemented] fdr-006-feature-manifest.md](FDR/%5BPartially%20Implemented%5D%20fdr-006-feature-manifest.md) |
 | 10 | fdr-007-system-admin | PKG-007 | `@afenda/erp` | PKG007_ADMIN | green | Partially Implemented | [FDR/[Partially Implemented] fdr-007-system-admin.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) — **29/30 audit-adjusted · ARCH-ADMIN-001 Slices 1–6 delivered · settings observability waiver closed in ARCH · DoD #14 peer review pending** |
@@ -200,7 +200,7 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-005-docs-app | — | Partially Implemented | Fumadocs delivery surface |
+| fdr-005-docs-app | — | Complete — enterprise 9.5 accepted | Fumadocs delivery surface — DoD #14 closed 2026-06-25 |
 
 ### PKG-006 — `@afenda/entitlements`
 

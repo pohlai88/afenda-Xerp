@@ -56,6 +56,31 @@ export function resolveBetterAuthBaseUrl(
   return resolveVercelDeploymentOrigin(env) ?? getBetterAuthUrl(env);
 }
 
+/** WebAuthn origin for Better Auth passkey plugin — must not include a trailing slash. */
+export function resolveBetterAuthWebAuthnOrigin(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  return resolveBetterAuthBaseUrl(env);
+}
+
+/** WebAuthn RP ID derived from the Better Auth public origin hostname. */
+export function resolveBetterAuthWebAuthnRpId(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  try {
+    return new URL(resolveBetterAuthWebAuthnOrigin(env)).hostname;
+  } catch {
+    return "localhost";
+  }
+}
+
+/** Human-readable relying party name for WebAuthn ceremonies. */
+export const BETTER_AUTH_WEBAUTHN_RP_NAME = "Afenda ERP" as const;
+
+export function resolveBetterAuthWebAuthnRpName(): string {
+  return BETTER_AUTH_WEBAUTHN_RP_NAME;
+}
+
 /** Trusted browser origins for Better Auth CSRF — config URL + active Vercel preview. */
 export function resolveBetterAuthTrustedOrigins(
   env: NodeJS.ProcessEnv = process.env
@@ -101,4 +126,12 @@ export function isAuthEmailDeliveryEnabled(
   env: NodeJS.ProcessEnv = process.env
 ): boolean {
   return Boolean(readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV));
+}
+
+/** Runtime contract — mirrors `user.changeEmail.enabled` in `auth.config.ts`. */
+export const AUTH_CHANGE_EMAIL_ENABLED = true as const;
+
+/** Whether Better Auth change-email is enabled for ERP profile UI gating. */
+export function isAuthChangeEmailEnabled(): boolean {
+  return AUTH_CHANGE_EMAIL_ENABLED;
 }

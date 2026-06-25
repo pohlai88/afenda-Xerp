@@ -36,15 +36,26 @@ describe("system-admin-mutation-audit.registry", () => {
   });
 
   it("lists every governed server action with recordActionAudit wiring", () => {
+    const delegatedExecutorSource = readAppSource(
+      "src/lib/system-admin/execute-tenant-settings-section-update.server.ts"
+    );
+
     for (const entry of SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES) {
       const actionSource = readAppSource(
         entry.actionModule.replace("apps/erp/", "")
       );
 
       expect(actionSource).toContain('"use server"');
-      expect(actionSource).toContain("resolveActionOperatingContext");
-      expect(actionSource).toContain("recordActionAudit");
       expect(actionSource).toContain(`"${entry.id}"`);
+
+      const auditSource = actionSource.includes(
+        "executeTenantSettingsSectionUpdate"
+      )
+        ? delegatedExecutorSource
+        : actionSource;
+
+      expect(auditSource).toContain("resolveActionOperatingContext");
+      expect(auditSource).toContain("recordActionAudit");
     }
   });
 

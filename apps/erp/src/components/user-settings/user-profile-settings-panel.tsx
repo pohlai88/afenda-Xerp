@@ -4,7 +4,7 @@ import {
   AppShellAccountSettings01,
   AppShellAccountSettingsPanelSection,
 } from "@afenda/appshell";
-import { authClient } from "@afenda/auth/client";
+import { authClient, isAuthChangeEmailEnabled } from "@afenda/auth/client";
 import { Button, Field, FieldLabel, Input } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useActionState, useId, useState, useTransition } from "react";
@@ -87,13 +87,39 @@ function UserProfileEmailPasswordSection({
 }) {
   const sectionId = useId();
   const emailFieldId = `${sectionId}-email`;
+  const newEmailFieldId = `${sectionId}-new-email`;
   const currentPasswordFieldId = `${sectionId}-current-password`;
   const newPasswordFieldId = `${sectionId}-new-password`;
+  const changeEmailEnabled = isAuthChangeEmailEnabled();
+  const [currentEmail] = useState(email);
+  const [newEmail, setNewEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const handleChangeEmail = () => {
+    setMessage(null);
+    startTransition(async () => {
+      const result = await authClient.changeEmail({
+        newEmail,
+        callbackURL: "/settings/profile",
+      });
+
+      if (result.error) {
+        setIsError(true);
+        setMessage(result.error.message ?? "Unable to change email.");
+        return;
+      }
+
+      setIsError(false);
+      setMessage(
+        "Verification email sent — check your inbox to confirm the new address."
+      );
+      setNewEmail("");
+    });
+  };
 
   const handleChangePassword = () => {
     setMessage(null);
@@ -127,7 +153,7 @@ function UserProfileEmailPasswordSection({
         <div className="app-shell-studio-account-settings-01__field">
           <Field orientation="vertical">
             <FieldLabel htmlFor={emailFieldId}>Email</FieldLabel>
-            <Input disabled id={emailFieldId} readOnly value={email} />
+            <Input disabled id={emailFieldId} readOnly value={currentEmail} />
           </Field>
           <p className="erp-system-admin-settings-form__message">
             {emailVerified
@@ -135,7 +161,39 @@ function UserProfileEmailPasswordSection({
               : "Email verification pending — contact your administrator if this persists."}
           </p>
         </div>
+        {changeEmailEnabled ? (
+          <div className="app-shell-studio-account-settings-01__field">
+            <Field orientation="vertical">
+              <FieldLabel htmlFor={newEmailFieldId}>New email</FieldLabel>
+              <Input
+                autoComplete="email"
+                disabled={isPending}
+                id={newEmailFieldId}
+                onChange={(event) => {
+                  setNewEmail(event.target.value);
+                }}
+                type="email"
+                value={newEmail}
+              />
+            </Field>
+          </div>
+        ) : null}
       </div>
+      {changeEmailEnabled ? (
+        <div className="app-shell-studio-account-settings-01__actions">
+          <Button
+            disabled={isPending || newEmail.trim().length === 0}
+            emphasis="outline"
+            intent="secondary"
+            onClick={handleChangeEmail}
+            presentation="default"
+            size="md"
+            type="button"
+          >
+            {isPending ? "Sending…" : "Change email"}
+          </Button>
+        </div>
+      ) : null}
       <div className="app-shell-studio-account-settings-01__field-grid">
         <div className="app-shell-studio-account-settings-01__field">
           <Field orientation="vertical">

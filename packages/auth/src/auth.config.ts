@@ -1,4 +1,6 @@
 import { authSchema, getAuthDb } from "@afenda/database";
+import { passkey } from "@better-auth/passkey";
+import { sso } from "@better-auth/sso";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -9,14 +11,19 @@ import {
   createAuthVerificationEmailSender,
 } from "./auth.email.js";
 import {
+  AUTH_CHANGE_EMAIL_ENABLED,
   getBetterAuthSecret,
   resolveBetterAuthBaseUrl,
   resolveBetterAuthTrustedOrigins,
+  resolveBetterAuthWebAuthnOrigin,
+  resolveBetterAuthWebAuthnRpId,
+  resolveBetterAuthWebAuthnRpName,
 } from "./auth.env.js";
 import {
   createAfendaAuthAuditHooks,
   createAfendaAuthInvitationBeforeHook,
 } from "./auth.hooks.js";
+import { createAfendaSsoPluginOptions } from "./auth.sso-policy.js";
 
 const AUTH_RATE_LIMIT_WINDOW_SECONDS = 60;
 const AUTH_RATE_LIMIT_MAX_GLOBAL = 10;
@@ -55,6 +62,11 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
     emailVerification: {
       sendVerificationEmail: createAuthVerificationEmailSender(env),
     },
+    user: {
+      changeEmail: {
+        enabled: AUTH_CHANGE_EMAIL_ENABLED,
+      },
+    },
     rateLimit: {
       window: AUTH_RATE_LIMIT_WINDOW_SECONDS,
       max: AUTH_RATE_LIMIT_MAX_GLOBAL,
@@ -79,6 +91,15 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
         backupCodeOptions: { amount: 10 },
       }),
       multiSession(),
+      passkey({
+        origin: resolveBetterAuthWebAuthnOrigin(env),
+        rpID: resolveBetterAuthWebAuthnRpId(env),
+        rpName: resolveBetterAuthWebAuthnRpName(),
+        registration: {
+          requireSession: true,
+        },
+      }),
+      sso(createAfendaSsoPluginOptions(env)),
     ],
     hooks: {
       before: createAfendaAuthInvitationBeforeHook(env),

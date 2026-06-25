@@ -42,21 +42,21 @@ export interface AfendaAuthIdentity {
 
 /** Extension points — attested in `auth.integration.test.ts` (ARCH-AUTH-001 Slice 7). */
 export interface AfendaAuthExtensionPoints {
-  readonly enterpriseSso: "planned";
+  readonly enterpriseSso: "active" | "planned";
   /** Invite-only sign-up gate — integration-tested (Slice 7). */
   readonly invitation: "active";
   /** Better Auth twoFactor plugin + tenant MFA policy helpers — integration-tested (Slice 7). */
   readonly mfa: "active";
   readonly organization: "planned";
-  readonly passkey: "planned";
+  readonly passkey: "active" | "planned";
 }
 
 export const AFENDA_AUTH_EXTENSION_POINTS = {
-  enterpriseSso: "planned",
+  enterpriseSso: "active",
   invitation: "active",
   mfa: "active",
   organization: "planned",
-  passkey: "planned",
+  passkey: "active",
 } as const satisfies AfendaAuthExtensionPoints;
 
 /** Stable auth lifecycle event names for audit + observability. */
@@ -73,6 +73,10 @@ export const AUTH_EVENT = {
   mirrorSyncFailed: "auth.mirror.sync_failed",
   passwordResetCompleted: "auth.password_reset.completed",
   passwordResetRequested: "auth.password_reset.requested",
+  passkeyDeleted: "auth.passkey.deleted",
+  passkeyRegistered: "auth.passkey.registered",
+  passkeySignInFailed: "auth.passkey.sign_in.failed",
+  passkeySignInSucceeded: "auth.passkey.sign_in.succeeded",
   sessionCreated: "auth.session.created",
   sessionDeviceRevoked: "auth.session.device_revoked",
   sessionInvalidated: "auth.session.invalidated",
@@ -80,6 +84,9 @@ export const AUTH_EVENT = {
   signInFailed: "auth.sign_in.failed",
   signInSucceeded: "auth.sign_in.succeeded",
   signOut: "auth.sign_out",
+  ssoProviderConfigured: "auth.sso.provider_configured",
+  ssoSignInFailed: "auth.sso.sign_in.failed",
+  ssoSignInSucceeded: "auth.sso.sign_in.succeeded",
   workspaceContextSwitched: "auth.workspace.context_switched",
 } as const satisfies Record<
   | "emailVerificationSent"
@@ -94,6 +101,10 @@ export const AUTH_EVENT = {
   | "mirrorSyncFailed"
   | "passwordResetCompleted"
   | "passwordResetRequested"
+  | "passkeyDeleted"
+  | "passkeyRegistered"
+  | "passkeySignInFailed"
+  | "passkeySignInSucceeded"
   | "sessionCreated"
   | "sessionDeviceRevoked"
   | "sessionInvalidated"
@@ -101,6 +112,9 @@ export const AUTH_EVENT = {
   | "signInFailed"
   | "signInSucceeded"
   | "signOut"
+  | "ssoProviderConfigured"
+  | "ssoSignInFailed"
+  | "ssoSignInSucceeded"
   | "workspaceContextSwitched",
   string
 >;
@@ -117,10 +131,12 @@ export interface AuthEventContext {
   readonly invitationId?: string;
   readonly ipAddress?: string | null;
   readonly mfaRequired?: string;
+  readonly passkeyId?: string;
   /** Pre-resolved platform `users.id`; skips identity-link lookup when set. */
   readonly platformUserId?: string;
   readonly reason?: string;
   readonly sessionId?: string;
+  readonly ssoProviderId?: string;
   readonly tenantId?: string;
   readonly userAgent?: string | null;
 }

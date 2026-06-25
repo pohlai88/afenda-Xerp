@@ -63,6 +63,12 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
     targetType: "system_admin_settings",
   },
   {
+    id: "system_admin.settings.integrations.sso.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",
+    targetType: "system_admin_integrations_settings",
+  },
+  {
     id: "system_admin.settings.security.mfa_policy.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",

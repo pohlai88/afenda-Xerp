@@ -9,6 +9,7 @@ import { Badge, Button, Card, Separator } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import {
   CircleAlertIcon,
+  KeyRoundIcon,
   LogOutIcon,
   MonitorIcon,
   ShieldCheckIcon,
@@ -22,11 +23,23 @@ export type AppShellAccountSettings06UserGovernedComponents = Extract<
   "Badge" | "Button" | "Card" | "Separator"
 >;
 
+export interface AppShellAccountSettings06PasskeyRow {
+  readonly createdAtLabel: string;
+  readonly id: string;
+  readonly label: string;
+}
+
 export interface AppShellAccountSettings06UserProps {
+  readonly addPasskeyPending?: boolean;
+  readonly deletePasskeyPendingId?: string | null;
+  readonly onAddPasskey?: () => void;
+  readonly onDeletePasskey?: (passkeyId: string) => void;
   readonly onDisableUserMfa?: () => void;
   readonly onEnableUserMfa?: () => void;
   readonly onRevokeOtherSessions?: () => void;
   readonly onRevokeSession?: (sessionId: string) => void;
+  readonly passkeys: readonly AppShellAccountSettings06PasskeyRow[];
+  readonly passkeysPending?: boolean;
   readonly sessions: readonly AppShellAccountSettings06SessionRow[];
   readonly sessionsPending?: boolean;
   readonly userMfaEnabled: boolean;
@@ -34,15 +47,22 @@ export interface AppShellAccountSettings06UserProps {
 }
 
 export function AppShellAccountSettings06User({
+  addPasskeyPending = false,
+  deletePasskeyPendingId = null,
+  onAddPasskey,
+  onDeletePasskey,
   onDisableUserMfa,
   onEnableUserMfa,
   onRevokeOtherSessions,
   onRevokeSession,
+  passkeys,
+  passkeysPending = false,
   sessions,
   sessionsPending = false,
   userMfaEnabled,
   userMfaPending = false,
 }: AppShellAccountSettings06UserProps) {
+  const passkeysSectionId = useId();
   const sessionsSectionId = useId();
 
   return (
@@ -121,6 +141,96 @@ export function AppShellAccountSettings06User({
                 </div>
               </div>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      <section
+        aria-labelledby={passkeysSectionId}
+        className="app-shell-studio-account-settings-06__section"
+      >
+        <div className="app-shell-studio-account-settings-06__row">
+          <div className="app-shell-studio-account-settings-06__aside">
+            <h3
+              className="app-shell-studio-account-settings-06__title"
+              id={passkeysSectionId}
+            >
+              Passkeys
+            </h3>
+            <p className="app-shell-studio-account-settings-06__description">
+              Register device passkeys for passwordless sign-in on trusted
+              devices.
+            </p>
+          </div>
+          <div className="app-shell-studio-account-settings-06__content">
+            <div className="app-shell-studio-account-settings-06__sessions-toolbar">
+              <Button
+                aria-busy={addPasskeyPending}
+                disabled={addPasskeyPending || onAddPasskey === undefined}
+                emphasis="solid"
+                intent="primary"
+                onClick={onAddPasskey}
+                presentation="default"
+                size="sm"
+                type="button"
+              >
+                Add passkey
+              </Button>
+            </div>
+            <div
+              aria-busy={passkeysPending}
+              className="app-shell-studio-account-settings-06__sessions-list"
+              role="list"
+            >
+              {passkeys.length === 0 ? (
+                <p className="app-shell-studio-account-settings-06__description">
+                  No passkeys are registered for this account.
+                </p>
+              ) : (
+                passkeys.map((passkeyRow) => (
+                  <article
+                    className="app-shell-studio-account-settings-06__session-row"
+                    key={passkeyRow.id}
+                    role="listitem"
+                  >
+                    <KeyRoundIcon
+                      aria-hidden
+                      className="app-shell-studio-account-settings-06__session-icon"
+                    />
+                    <div className="app-shell-studio-account-settings-06__session-copy">
+                      <p className="app-shell-studio-account-settings-06__session-title">
+                        {passkeyRow.label}
+                      </p>
+                      <p className="app-shell-studio-account-settings-06__description">
+                        {passkeyRow.createdAtLabel}
+                      </p>
+                    </div>
+                    {onDeletePasskey ? (
+                      <Button
+                        aria-busy={deletePasskeyPendingId === passkeyRow.id}
+                        aria-label={`Remove passkey ${passkeyRow.label}`}
+                        disabled={
+                          passkeysPending ||
+                          deletePasskeyPendingId === passkeyRow.id
+                        }
+                        emphasis="outline"
+                        intent="destructive"
+                        onClick={() => {
+                          onDeletePasskey(passkeyRow.id);
+                        }}
+                        presentation="default"
+                        size="sm"
+                        type="button"
+                      >
+                        Remove
+                      </Button>
+                    ) : null}
+                  </article>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </section>

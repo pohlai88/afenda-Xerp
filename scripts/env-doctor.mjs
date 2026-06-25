@@ -7,6 +7,7 @@ import {
   findEmptyTrackedKeys,
   findMissingRequiredKeys,
   findSupabaseConfigIssues,
+  findSupabaseConnectionAdvisories,
   LOCAL_SYNC_TARGETS,
   loadMergedEnv,
   parseEnvFile,
@@ -202,6 +203,7 @@ async function main() {
   errors.push(...diagnostics.errors);
   warnings.push(...diagnostics.warnings);
   warnings.push(...(await collectUpstashWarnings(merged)));
+  warnings.push(...findSupabaseConnectionAdvisories(merged.entries));
   errors.push(
     ...(await collectStaleTargetErrors(repoRoot, expectedContent, options))
   );

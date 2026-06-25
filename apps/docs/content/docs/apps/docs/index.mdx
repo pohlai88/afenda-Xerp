@@ -3,7 +3,9 @@ title: Documentation Site
 description: "@afenda/docs — Fumadocs implementation documentation on port 3001, PKG-005."
 ---
 
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
+import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import { DocsFileTree } from "@/components/blocks/docs-file-tree";
 
 <Callout type="info" title="Authority">
@@ -11,6 +13,21 @@ import { DocsFileTree } from "@/components/blocks/docs-file-tree";
   [docs-app-architecture.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/docs-app-architecture.md)
   · [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md)
 </Callout>
+
+<InlineTOC
+  items={[
+    { title: "Identity", url: "#identity", depth: 2 },
+    { title: "Purpose", url: "#purpose", depth: 2 },
+    { title: "Run locally", url: "#run-locally", depth: 2 },
+    { title: "Boundary rules", url: "#boundary-rules", depth: 2 },
+    { title: "Content root", url: "#content-root", depth: 2 },
+    { title: "Quality gates", url: "#quality-gates", depth: 2 },
+    { title: "Status and known gaps", url: "#status-and-known-gaps", depth: 2 },
+    { title: "Authority links", url: "#authority-links", depth: 2 },
+  ]}
+>
+  On this page
+</InlineTOC>
 
 ## Identity
 
@@ -24,7 +41,7 @@ import { DocsFileTree } from "@/components/blocks/docs-file-tree";
 
 ## Purpose
 
-Fumadocs-powered engineer documentation — onboarding, monorepo map, Applications Book, and contributing workflow. **Zero** approved `@afenda/*` runtime workspace dependencies (dev-only `@afenda/typescript-config`).
+Fumadocs-powered engineer documentation — onboarding, monorepo map, Applications, and contributing workflow. **Zero** approved `@afenda/*` runtime workspace dependencies (dev-only `@afenda/typescript-config`).
 
 ## Run locally
 
@@ -50,7 +67,7 @@ Open [http://localhost:3001/docs](http://localhost:3001/docs). ERP does not need
       { name: "index.mdx" },
       { name: "getting-started/" },
       { name: "monorepo-map/" },
-      { name: "apps/ — Applications Book" },
+      { name: "apps/ — Applications" },
       { name: "contributing/" },
     ]},
     { name: "src/components/mdx.tsx — component registry" },
@@ -72,11 +89,17 @@ pnpm exec biome check apps/docs
 
 ## Status and known gaps
 
-- **Partially Implemented** per fdr-005 — Applications Book closes external beta content gap
+<Accordions type="single">
+<Accordion title="Delivery status (expand)" id="status-and-known-gaps">
+
+- **Partially Implemented** per fdr-005 — `/docs/apps` closes external beta content gap
 - Live DNS for `docs.afenda.app` — operator step (waiver `docs-live-dns`)
+
+</Accordion>
+</Accordions>
 
 ## Authority links
 
 - [docs-app-architecture.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/docs-app-architecture.md)
-- [ARCH-APPS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-APPS-001-applications-book.md)
+- [ARCH-DOCS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-DOCS-001-fumadocs-site.md)
 - [Contributing](/docs/contributing)

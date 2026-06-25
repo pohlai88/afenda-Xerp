@@ -5,8 +5,8 @@
 | Field | Value |
 | --- | --- |
 | **Document ID** | ARCH-AUTH-001 |
-| **Work ID** | `fdr-002-auth-disposition` + ARCH-AUTH-001 slices 1–9 |
-| **Status** | **Partially Implemented** — slices 1–9 delivered; FR-A05.2.1 persistence ✓; FR-A05.2 ERP wiring ✓ (waivers remain) |
+| **Work ID** | `fdr-002-auth-disposition` + ARCH-AUTH-001 slices 1–12 |
+| **Status** | **Partially Implemented** — slices 1–12 + 14 delivered; Phase 3 amendment accepted; AUTH-PHASE3-001 in progress (13a–13d) |
 | **Date** | 2026-06-25 |
 | **Owner** | Platform Authority (`@afenda/auth` + system-admin) |
 | **Package** | PKG-002 · `@afenda/auth` · `@afenda/database` · `@afenda/appshell` · `apps/erp` |
@@ -103,9 +103,10 @@ Read in this order before touching code:
 Afenda ERP must know WHO the actor is (users.id) independently of HOW they authenticate.
 Without a governed mirror model, auth provider coupling migrates business truth into auth tables,
 RBAC drifts to authUserId, and admin policy (MFA, invitations, sessions) lacks a single architecture.
-Remaining gaps: waivers `AUTH-INV-001` (in-memory invitations), `AUTH-MFA-UI-001`, `AUTH-PHASE3-001` (SSO/passkey/OAuth); ARCH Complete blocked until waiver review.
+Remaining gaps: waiver `AUTH-PHASE3-001` (SSO/passkey/OAuth) — **In progress** Phase 3 slices 13a–13d (amendment accepted 2026-06-25).
 documentation/matrix closeout — **Delivered** Slice 9 (2026-06-25);
-invitation persistence uses in-memory store until member_invitations table lands (AUTH-INV-001 waiver);
+durable `member_invitations` persistence — **Delivered** Slice 11 (2026-06-25);
+user MFA enroll UI — **Delivered** Slice 12 (2026-06-25);
 auth.integration.test.ts multiSession sign-in scenario — **Delivered** 2026-06-25 (102/102 pass).
 ```
 
@@ -137,7 +138,7 @@ auth.integration.test.ts multiSession sign-in scenario — **Delivered** 2026-06
 | RBAC / operating context | `@afenda/permissions` · `apps/erp` | `users.id` only — never `authUserId` |
 | Auth audit | `@afenda/observability` | `WriteAuditEventInput` via hooks |
 | Admin Members / Security UI | `@afenda/appshell` + `apps/erp` | system-admin settings routes |
-| User Settings UI (profile, personal security, prefs) | `@afenda/appshell` + `apps/erp` | `/settings/**` routes — [ARCH-USER-001](%5BNot%20started%5D%20ARCH-USER-001-user-settings-self-service.md) |
+| User Settings UI (profile, personal security, prefs) | `@afenda/appshell` + `apps/erp` | `/settings/**` routes — [ARCH-USER-001](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) |
 | Auth entry UI (sign-in, reset) | Better Auth + thin ERP routes | Not shadcn login/register blocks |
 | Tests | Same package as runtime | `**/__tests__/` |
 | Documentation | `docs/ARCH/` · FDR · matrix | Evidence-sync slices only |
@@ -253,7 +254,7 @@ The agent must not:
 - promote auth entry pages from _reference/ shadcn template
 - hand-edit Better Auth generated schema
 - create a second audit store for auth events
-- implement SSO / passkey / social OAuth without new ARCH amendment
+- implement Phase 3 SSO / passkey / social OAuth outside slices 13a–13d (amendment accepted 2026-06-25)
 - add className on @afenda/ui primitives in appshell/erp consumers (TIP-004)
 - edit foundation-disposition.registry.ts (delegate foundation-registry-owner)
 - mark Complete without gate exit codes and file evidence
@@ -334,6 +335,18 @@ All admin mutations: `resolveSystemAdminOperatingContext` → `checkPermission` 
 | FR-A05.3 | Workspace MFA override deferred | — |
 | FR-A05.4 | Aligns with ADR-0011 | 8 ✓ |
 
+### FR-A06 — Enterprise SSO / passkeys / OAuth (Phase 3)
+
+> **Amendment:** [`slice-13-phase3-amendment-draft.md`](slices/ARCH-AUTH-001/slice-13-phase3-amendment-draft.md) — **Accepted 2026-06-25**
+
+| ID | Requirement | Slice |
+| --- | --- | --- |
+| FR-A06.1 | Tenant-scoped IdP metadata (SAML/OIDC) persisted | 13a ✓ |
+| FR-A06.2 | Better Auth SSO plugin wired; invitation gate on SSO sign-up | 13a ✓ |
+| FR-A06.3 | Passkey enroll/authenticate user self-service | 13b ✓ |
+| FR-A06.4 | Social OAuth provider allowlist + tenant admin UI | 13c |
+| FR-A06.5 | Phase 3 evidence-sync; close AUTH-PHASE3-001 | 13d |
+
 ---
 
 ## 5.6 Audit trail (ISO / NIST / COBIT)
@@ -380,12 +393,12 @@ Auth events → platform `audit_events` via [`WriteAuditEventInput`](../../packa
 ## Out of scope
 
 ```text
-- SSO · passkey · social OAuth (Phase 3)
+- SSO · passkey · social OAuth — Phase 3 slices 13a–13d (amendment accepted 2026-06-25; not v1)
 - shadcn login-page / register production blocks
 - @afenda/accounting runtime
 - Better Auth plugin config duplication in ARCH (use skill)
 - packages/ui primitive edits for app-only polish
-- Durable member_invitations table until explicitly scheduled (debt: in-memory store)
+- Durable member_invitations table — **Delivered** Slice 11 (`member_invitations` + `@afenda/database` service)
 ```
 
 ## Implementation sequence
@@ -397,9 +410,13 @@ Phase 2 — Admin UI (Slices 5–6)                5 ✓ · 6 ✓ Delivered
 Phase 3 — Integration attestation (Slice 7)    ✓ Delivered 2026-06-25 (102/102 pass)
 Phase 4 — Workspace auth context (Slice 8)     ✓ Delivered 2026-06-25 (contract + normalizer)
 Closeout — Evidence sync (Slice 9)             ✓ Delivered 2026-06-25 (matrix/index sync)
+Phase 3 — Amendment (Slice 13)               ✓ Accepted 2026-06-25
+Phase 3 — SSO / passkey / OAuth (13a–13d)     13a **Delivered** 2026-06-25 · 13b **Delivered** 2026-06-25 · 13c–13d Not started
 ```
 
 ## Slice catalog
+
+> **Per-slice handoffs (one file per slice):** [`docs/ARCH/slices/ARCH-AUTH-001/slice-index.md`](slices/ARCH-AUTH-001/slice-index.md) — copy **one** handoff block per coding session.
 
 | Slice | Title | Status | Package |
 | --- | --- | --- | --- |
@@ -412,8 +429,17 @@ Closeout — Evidence sync (Slice 9)             ✓ Delivered 2026-06-25 (matri
 | 7 | Integration tests + extension attestation | **Delivered** 2026-06-25 | `@afenda/auth` |
 | 8 | Workspace auth context | **Delivered** 2026-06-25 (contract + normalizer) | `@afenda/auth` |
 | 9 | Evidence-sync + matrix closeout | **Delivered** 2026-06-25 | docs only |
+| 10 | Waiver review + promotion assessment | **Delivered** 2026-06-25 | docs only |
+| 11 | Durable member invitations (AUTH-INV-001) | **Delivered** 2026-06-25 | `@afenda/database` · `@afenda/auth` |
+| 12 | User MFA enroll UI (AUTH-MFA-UI-001) | **Delivered** 2026-06-25 | `@afenda/appshell` · `apps/erp` |
+| 13 | Phase 3 amendment (AUTH-PHASE3-001) | **Accepted** 2026-06-25 | docs only |
+| 13a | SSO IdP config + SAML/OIDC wiring | **Delivered** 2026-06-25 | `@afenda/database` · `@afenda/auth` · `apps/erp` |
+| 13b | Passkey enroll/authenticate UI | **Delivered** 2026-06-25 | `@afenda/auth` · `@afenda/appshell` · `apps/erp` |
+| 13c | Social OAuth allowlist + admin UI | **Not started** | `@afenda/auth` · `apps/erp` |
+| 13d | Phase 3 evidence-sync + Complete assessment | **Not started** | docs only |
+| 14 | `changeEmail` enabled + profile UI | **Delivered** 2026-06-25 | `@afenda/auth` · `apps/erp` |
 
-**Handoff blocks:** Appendix A (9-field FDR format). **Per-slice contract:** Appendix B.
+**Handoff blocks:** [`slices/ARCH-AUTH-001/`](slices/ARCH-AUTH-001/slice-index.md) (preferred) · Appendix A (archive). **Per-slice contract:** Appendix B.
 
 ## Expected files touched (by slice — summary)
 
@@ -514,11 +540,11 @@ Target on §8 weighted table: ≥95/100
 | Canonical identity discipline | 20 | 19 | FR-A01 ✓ |
 | Mirror sync reliability | 15 | 14 | FR-A02 ✓ |
 | Admin policy surfaces | 15 | 15 | Security ✓ · Members ✓ (Slice 6) |
-| MFA (tenant + user) | 15 | 13 | Policy ✓ · user enroll UI debt |
+| MFA (tenant + user) | 15 | 15 | Policy ✓ · user enroll UI ✓ (Slice 12) |
 | Audit (ISO/NIST/COBIT) | 15 | 15 | §5.6 ✓ |
 | Contract boundary safety | 10 | 10 | Session contract ✓ |
 | Documentation clarity | 10 | 10 | Slice 9 delivered — matrix/index/fdr-002 cross-ref sync |
-| **Total** | **100** | **≥95** | **96** — FR-A05.2 persistence deferred only |
+| **Total** | **100** | **≥95** | **98** — FR-A05.2 persistence deferred only |
 
 ---
 
@@ -613,7 +639,7 @@ Report format: `| Gate | Exit | Result |` — no Pass without exit code.
 | 4 | Admin Members: invite lifecycle | FR-A04 ✓ · Slice 6 ✓ |
 | 5 | AUTH_EVENT vocabulary Phase 2 | grep + typecheck ✓ |
 | 6 | Audit ISO/NIST fields | §5.6 ✓ |
-| 7 | No SSO/passkey/OAuth without amendment | review ✓ |
+| 7 | Phase 3 SSO/passkey/OAuth via amendment slices 13a–13d | amendment accepted 2026-06-25 · 13a ✓ · 13b ✓ · 13a-debt ✓ · 13c next |
 | 8 | Workspace session context | FR-A05.1 ✓ · FR-A05.2.1 ✓ · FR-A05.4 ✓ · `auth.session.test.ts` · FR-A05.2 ERP deferred |
 | 9 | ARCH synced in runtime matrix | **Delivered** Slice 9 |
 | 10 | Enterprise readiness ≥ 29/30 | **96/100** §8 weighted — ≥95 attested Slice 9 |
@@ -645,9 +671,9 @@ Waivers allowed only when: not relevant to slice · risk bounded · revisit docu
 
 | Waiver ID | Requirement waived | Reason | Revisit |
 | --- | --- | --- | --- |
-| AUTH-INV-001 | Durable `member_invitations` table | In-memory store in `auth.invitation.ts`; `AFENDA_AUTH_INVITATION_STORE_DEBT` | Slice 6+ or dedicated DB FDR |
-| AUTH-MFA-UI-001 | User MFA enable/disable in Security tab | Requires Better Auth TOTP dialog flow | Post–Slice 5 UX slice |
-| AUTH-PHASE3-001 | SSO · passkey · OAuth | Explicit ARCH §5.3 exclusion | Future ARCH amendment |
+| ~~AUTH-INV-001~~ | ~~Durable `member_invitations` table~~ | **Closed** Slice 11 — Postgres `member_invitations` + `@afenda/database` service | — |
+| ~~AUTH-MFA-UI-001~~ | ~~User MFA enable/disable in Security tab~~ | **Closed** Slice 12 — TOTP enroll/verify/disable on system-admin Security tab | — |
+| AUTH-PHASE3-001 | SSO · passkey · OAuth | Phase 3 amendment accepted 2026-06-25 | Slices 13a–13d — **In progress** (13a SSO ✓ · 13b passkey ✓ · 13a-debt SSO hardening ✓ · 13c next) |
 
 No waiver may claim a feature works without runtime evidence.
 
@@ -958,7 +984,7 @@ Handoff from: docs/ARCH/[Partially Implemented] ARCH-AUTH-001-enterprise-authent
 | `pnpm check:documentation-drift` | 0 | Pass |
 | `pnpm check:foundation-disposition` | 0 | Pass |
 
-**Remaining gaps (post–Slice 9):** waivers `AUTH-INV-001` (in-memory invitations), `AUTH-MFA-UI-001`, `AUTH-PHASE3-001` (SSO/passkey/OAuth). ARCH stays **Partially Implemented** — do not rename to `[Complete]` until waiver review.
+**Remaining gaps (post–Slice 14):** waiver `AUTH-PHASE3-001` — **In progress** (slices 13a–13d). ARCH stays **Partially Implemented** until Slice 13d evidence-sync.
 
 ---
 
@@ -1121,6 +1147,6 @@ Do not start the next slice · do not edit unrelated packages · do not promote 
 | --- | --- | --- |
 | Mirror drift | Medium | sync on canonical user update |
 | Auth engine swap | High | users + link table only coupling |
-| In-memory invitations | Medium | AUTH-INV-001 waiver · DB table FDR |
+| Durable member invitations | Closed | Slice 11 — `member_invitations` table + service |
 | authUserId in RBAC | Critical | type + grep + registry prohibited rule |
-| MFA user enroll UI gap | Low | AUTH-MFA-UI-001 waiver |
+| MFA user enroll UI gap | Closed | Slice 12 — `AppShellAccountSettings06` enroll flow + `SystemAdminSecuritySettingsPanel` |

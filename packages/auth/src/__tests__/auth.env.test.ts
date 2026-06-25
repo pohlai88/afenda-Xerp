@@ -4,9 +4,13 @@ import {
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
+  isAuthChangeEmailEnabled,
   isAuthEmailDeliveryEnabled,
   resolveBetterAuthBaseUrl,
   resolveBetterAuthTrustedOrigins,
+  resolveBetterAuthWebAuthnOrigin,
+  resolveBetterAuthWebAuthnRpId,
+  resolveBetterAuthWebAuthnRpName,
 } from "../auth.env.js";
 import {
   MissingBetterAuthSecretError,
@@ -67,5 +71,22 @@ describe("auth.env", () => {
         AFENDA_AUTH_EMAIL_API_KEY: "re_test_key",
       })
     ).toBe(true);
+  });
+
+  it("reports change-email readiness via isAuthChangeEmailEnabled", () => {
+    expect(isAuthChangeEmailEnabled()).toBe(true);
+  });
+
+  it("derives WebAuthn origin and rpID from Better Auth base URL", () => {
+    const env = {
+      BETTER_AUTH_SECRET: "x".repeat(32),
+      BETTER_AUTH_URL: "https://erp.example.com/",
+    };
+
+    expect(resolveBetterAuthWebAuthnOrigin(env)).toBe(
+      "https://erp.example.com"
+    );
+    expect(resolveBetterAuthWebAuthnRpId(env)).toBe("erp.example.com");
+    expect(resolveBetterAuthWebAuthnRpName()).toBe("Afenda ERP");
   });
 });

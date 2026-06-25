@@ -73,7 +73,7 @@ export async function revokeSystemAdminInviteAction(
   }
 
   const normalizedInviteId = inviteId.trim();
-  const revoked = revokeAuthInvitationById(normalizedInviteId);
+  const revoked = await revokeAuthInvitationById(normalizedInviteId);
 
   if (!revoked) {
     return failServerAction({

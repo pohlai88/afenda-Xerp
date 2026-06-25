@@ -1,13 +1,21 @@
-import { randomUUID } from "node:crypto";
+import {
+  consumeMemberInvitation,
+  listPendingMemberInvitationsForTenant,
+  MemberInvitationRejectedError,
+  registerMemberInvitation,
+  resendMemberInvitationById,
+  resetMemberInvitationsForTests,
+  revokeMemberInvitation,
+  revokeMemberInvitationById,
+  validateMemberInvitation,
+} from "@afenda/database";
 
 /**
- * ARCH-AUTH-001 Slice 4 — invitation gate (in-memory stub).
+ * ARCH-AUTH-001 Slice 11 — invitation gate backed by `member_invitations`.
  *
- * Debt: durable `member_invitations` table deferred to Slice 6 (Members tab).
- * This store is process-local and non-durable until platform persistence lands.
+ * Public API delegates to `@afenda/database` member-invitation service.
+ * Plain tokens are returned only at registration/resend; persistence stores hashes.
  */
-export const AFENDA_AUTH_INVITATION_STORE_DEBT =
-  "member_invitations table deferred to Slice 6; in-memory invitation store is non-durable." as const;
 
 export interface AuthInvitationRecord {
   readonly consumedAt?: number;
@@ -45,149 +53,75 @@ export class AuthInvitationRejectedError extends Error {
   }
 }
 
-const invitationStore = new Map<string, AuthInvitationRecord>();
-
-const DEFAULT_INVITATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
-
-export function resetAuthInvitationStoreForTests(): void {
-  invitationStore.clear();
+export async function resetAuthInvitationStoreForTests(): Promise<void> {
+  await resetMemberInvitationsForTests();
 }
 
-/** Test/admin helper — registers an invitation token for a normalized email. */
-export function registerAuthInvitation(
+/** Registers an invitation token for a normalized email. */
+export async function registerAuthInvitation(
   input: RegisterAuthInvitationInput
-): AuthInvitationRecord {
-  const email = input.email.trim().toLowerCase();
-  const token = input.token?.trim() || randomUUID();
-  const record: AuthInvitationRecord = {
-    email,
-    expiresAt:
-      input.expiresAt?.getTime() ?? Date.now() + DEFAULT_INVITATION_TTL_MS,
-    invitationId: input.invitationId ?? randomUUID(),
-    token,
+): Promise<AuthInvitationRecord> {
+  return registerMemberInvitation({
+    email: input.email,
+    ...(input.expiresAt === undefined ? {} : { expiresAt: input.expiresAt }),
+    ...(input.invitationId === undefined
+      ? {}
+      : { invitationId: input.invitationId }),
     ...(input.platformUserId === undefined
       ? {}
       : { platformUserId: input.platformUserId }),
     ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
-  };
-
-  invitationStore.set(token, record);
-  return record;
+    ...(input.token === undefined ? {} : { token: input.token }),
+  });
 }
 
-export function validateAuthInvitation(
+export async function validateAuthInvitation(
   input: ValidateAuthInvitationInput
-): ValidateAuthInvitationResult {
-  const email = input.email.trim().toLowerCase();
-  const token = input.token.trim();
-  const record = invitationStore.get(token);
+): Promise<ValidateAuthInvitationResult> {
+  try {
+    return await validateMemberInvitation(input);
+  } catch (error: unknown) {
+    if (
+      error instanceof MemberInvitationRejectedError ||
+      (error instanceof Error && error.name === "MemberInvitationRejectedError")
+    ) {
+      throw new AuthInvitationRejectedError(error.message);
+    }
 
-  if (!record) {
-    throw new AuthInvitationRejectedError("Invitation token is invalid.");
+    throw error;
   }
-
-  if (record.consumedAt !== undefined) {
-    throw new AuthInvitationRejectedError(
-      "Invitation token has already been used."
-    );
-  }
-
-  if (record.expiresAt < Date.now()) {
-    throw new AuthInvitationRejectedError("Invitation token has expired.");
-  }
-
-  if (record.email !== email) {
-    throw new AuthInvitationRejectedError(
-      "Invitation token does not match the sign-up email."
-    );
-  }
-
-  return { status: "valid", invitation: record };
 }
 
-export function consumeAuthInvitation(
+export async function consumeAuthInvitation(
   token: string
-): AuthInvitationRecord | null {
-  const record = invitationStore.get(token.trim());
-
-  if (!record || record.consumedAt !== undefined) {
-    return null;
-  }
-
-  const consumed: AuthInvitationRecord = {
-    ...record,
-    consumedAt: Date.now(),
-  };
-
-  invitationStore.set(token.trim(), consumed);
-  return consumed;
+): Promise<AuthInvitationRecord | null> {
+  return consumeMemberInvitation(token);
 }
 
-/** Lists unconsumed, unexpired invitations for a tenant (in-memory store). */
-export function listPendingAuthInvitationsForTenant(
+/** Lists unconsumed, unexpired invitations for a tenant. */
+export async function listPendingAuthInvitationsForTenant(
   tenantId: string
-): AuthInvitationRecord[] {
-  const now = Date.now();
-
-  return [...invitationStore.values()].filter(
-    (record) =>
-      record.tenantId === tenantId &&
-      record.consumedAt === undefined &&
-      record.expiresAt >= now
-  );
+): Promise<AuthInvitationRecord[]> {
+  return listPendingMemberInvitationsForTenant(tenantId);
 }
 
 /** Revokes a pending invitation by token. Returns false when not found or already consumed. */
-export function revokeAuthInvitation(token: string): boolean {
-  const trimmed = token.trim();
-  const record = invitationStore.get(trimmed);
-
-  if (!record || record.consumedAt !== undefined) {
-    return false;
-  }
-
-  invitationStore.delete(trimmed);
-  return true;
+export async function revokeAuthInvitation(token: string): Promise<boolean> {
+  return revokeMemberInvitation(token);
 }
 
 /** Revokes a pending invitation by invitation id. Returns false when not found or already consumed. */
-export function revokeAuthInvitationById(invitationId: string): boolean {
-  for (const [token, record] of invitationStore.entries()) {
-    if (
-      record.invitationId === invitationId &&
-      record.consumedAt === undefined
-    ) {
-      invitationStore.delete(token);
-      return true;
-    }
-  }
-
-  return false;
+export async function revokeAuthInvitationById(
+  invitationId: string
+): Promise<boolean> {
+  return revokeMemberInvitationById(invitationId);
 }
 
 /** Re-registers a pending invitation with a fresh token (same invitation id). */
-export function resendAuthInvitationById(
+export async function resendAuthInvitationById(
   invitationId: string
-): AuthInvitationRecord | null {
-  for (const [token, record] of invitationStore.entries()) {
-    if (
-      record.invitationId === invitationId &&
-      record.consumedAt === undefined
-    ) {
-      invitationStore.delete(token);
-
-      return registerAuthInvitation({
-        email: record.email,
-        invitationId: record.invitationId,
-        ...(record.platformUserId === undefined
-          ? {}
-          : { platformUserId: record.platformUserId }),
-        ...(record.tenantId === undefined ? {} : { tenantId: record.tenantId }),
-      });
-    }
-  }
-
-  return null;
+): Promise<AuthInvitationRecord | null> {
+  return resendMemberInvitationById(invitationId);
 }
 
 export function readInvitationTokenFromBody(body: unknown): string | undefined {

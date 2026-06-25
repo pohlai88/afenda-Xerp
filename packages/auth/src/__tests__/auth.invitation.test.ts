@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it } from "vitest";
-
+import { MemberInvitationRejectedError } from "@afenda/database";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   AuthInvitationRejectedError,
   consumeAuthInvitation,
@@ -12,72 +12,124 @@ import {
   validateAuthInvitation,
 } from "../auth.invitation.js";
 
+const registerMemberInvitation = vi.fn();
+const validateMemberInvitation = vi.fn();
+const consumeMemberInvitation = vi.fn();
+const listPendingMemberInvitationsForTenant = vi.fn();
+const revokeMemberInvitation = vi.fn();
+const revokeMemberInvitationById = vi.fn();
+const resendMemberInvitationById = vi.fn();
+const resetMemberInvitationsForTests = vi.fn();
+
+vi.mock("@afenda/database", () => ({
+  consumeMemberInvitation: (...args: unknown[]) =>
+    consumeMemberInvitation(...args),
+  listPendingMemberInvitationsForTenant: (...args: unknown[]) =>
+    listPendingMemberInvitationsForTenant(...args),
+  MemberInvitationRejectedError: class MemberInvitationRejectedError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "MemberInvitationRejectedError";
+    }
+  },
+  registerMemberInvitation: (...args: unknown[]) =>
+    registerMemberInvitation(...args),
+  resendMemberInvitationById: (...args: unknown[]) =>
+    resendMemberInvitationById(...args),
+  resetMemberInvitationsForTests: (...args: unknown[]) =>
+    resetMemberInvitationsForTests(...args),
+  revokeMemberInvitation: (...args: unknown[]) =>
+    revokeMemberInvitation(...args),
+  revokeMemberInvitationById: (...args: unknown[]) =>
+    revokeMemberInvitationById(...args),
+  validateMemberInvitation: (...args: unknown[]) =>
+    validateMemberInvitation(...args),
+}));
+
 describe("auth.invitation", () => {
   beforeEach(() => {
-    resetAuthInvitationStoreForTests();
+    vi.clearAllMocks();
+    resetMemberInvitationsForTests.mockResolvedValue(undefined);
   });
 
-  it("registers and validates a matching invitation token", () => {
-    const invitation = registerAuthInvitation({
-      email: "User@Example.com",
+  it("registers and validates a matching invitation token", async () => {
+    const invitation = {
+      email: "user@example.com",
+      expiresAt: Date.now() + 60_000,
+      invitationId: "invite_1",
       token: "invite_token_1",
+    };
+
+    registerMemberInvitation.mockResolvedValue(invitation);
+    validateMemberInvitation.mockResolvedValue({
+      status: "valid",
+      invitation,
     });
 
-    expect(
+    await expect(
+      registerAuthInvitation({
+        email: "User@Example.com",
+        token: "invite_token_1",
+      })
+    ).resolves.toEqual(invitation);
+
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "invite_token_1",
       })
-    ).toEqual({
+    ).resolves.toEqual({
       status: "valid",
       invitation,
     });
   });
 
-  it("rejects missing, expired, consumed, and email-mismatch tokens", () => {
-    registerAuthInvitation({
-      email: "user@example.com",
-      expiresAt: new Date(Date.now() - 1000),
-      token: "expired_token",
-    });
-    registerAuthInvitation({
-      email: "user@example.com",
-      token: "consumed_token",
-    });
-    consumeAuthInvitation("consumed_token");
+  it("rejects missing, expired, consumed, and email-mismatch tokens", async () => {
+    validateMemberInvitation
+      .mockRejectedValueOnce(
+        new MemberInvitationRejectedError("Invitation token is invalid.")
+      )
+      .mockRejectedValueOnce(
+        new MemberInvitationRejectedError("Invitation token has expired.")
+      )
+      .mockRejectedValueOnce(
+        new MemberInvitationRejectedError(
+          "Invitation token has already been used."
+        )
+      )
+      .mockRejectedValueOnce(
+        new MemberInvitationRejectedError(
+          "Invitation token does not match the sign-up email."
+        )
+      );
 
-    expect(() =>
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "missing_token",
       })
-    ).toThrow(AuthInvitationRejectedError);
+    ).rejects.toThrow(AuthInvitationRejectedError);
 
-    expect(() =>
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "expired_token",
       })
-    ).toThrow(/expired/i);
+    ).rejects.toThrow(/expired/i);
 
-    expect(() =>
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "consumed_token",
       })
-    ).toThrow(/already been used/i);
+    ).rejects.toThrow(/already been used/i);
 
-    registerAuthInvitation({
-      email: "other@example.com",
-      token: "other_email_token",
-    });
-
-    expect(() =>
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "other_email_token",
       })
-    ).toThrow(/does not match/i);
+    ).rejects.toThrow(/does not match/i);
   });
 
   it("reads invitationToken from sign-up request bodies", () => {
@@ -93,49 +145,73 @@ describe("auth.invitation", () => {
     ).toBeUndefined();
   });
 
-  it("lists pending invitations by tenant and revokes by token", () => {
-    registerAuthInvitation({
-      email: "a@example.com",
-      tenantId: "tenant-a",
-      token: "token-a",
-    });
-    registerAuthInvitation({
-      email: "b@example.com",
-      tenantId: "tenant-b",
-      token: "token-b",
-    });
+  it("lists pending invitations by tenant and revokes by token", async () => {
+    listPendingMemberInvitationsForTenant
+      .mockResolvedValueOnce([{ invitationId: "invite_1" }])
+      .mockResolvedValueOnce([]);
+    revokeMemberInvitation
+      .mockResolvedValueOnce(true)
+      .mockResolvedValueOnce(false);
 
-    expect(listPendingAuthInvitationsForTenant("tenant-a")).toHaveLength(1);
-    expect(revokeAuthInvitation("token-a")).toBe(true);
-    expect(listPendingAuthInvitationsForTenant("tenant-a")).toHaveLength(0);
-    expect(revokeAuthInvitation("token-a")).toBe(false);
+    await expect(
+      listPendingAuthInvitationsForTenant("tenant-a")
+    ).resolves.toHaveLength(1);
+    await expect(revokeAuthInvitation("token-a")).resolves.toBe(true);
+    await expect(
+      listPendingAuthInvitationsForTenant("tenant-a")
+    ).resolves.toHaveLength(0);
+    await expect(revokeAuthInvitation("token-a")).resolves.toBe(false);
   });
 
-  it("resends a pending invitation with a fresh token", () => {
-    const invitation = registerAuthInvitation({
+  it("resends a pending invitation with a fresh token", async () => {
+    const invitation = {
       email: "user@example.com",
+      expiresAt: Date.now() + 60_000,
       invitationId: "invite_1",
       tenantId: "tenant-a",
       token: "original_token",
-    });
+    };
+    const resent = {
+      ...invitation,
+      token: "fresh_token",
+    };
 
-    const resent = resendAuthInvitationById("invite_1");
+    registerMemberInvitation.mockResolvedValue(invitation);
+    resendMemberInvitationById.mockResolvedValue(resent);
+    validateMemberInvitation
+      .mockRejectedValueOnce(new MemberInvitationRejectedError("invalid"))
+      .mockResolvedValueOnce({ status: "valid", invitation: resent });
 
-    expect(resent).not.toBeNull();
-    expect(resent?.invitationId).toBe("invite_1");
-    expect(resent?.token).not.toBe("original_token");
-    expect(() =>
+    await expect(resendAuthInvitationById("invite_1")).resolves.toEqual(resent);
+
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
         token: "original_token",
       })
-    ).toThrow(AuthInvitationRejectedError);
-    expect(
+    ).rejects.toThrow(AuthInvitationRejectedError);
+
+    await expect(
       validateAuthInvitation({
         email: "user@example.com",
-        token: resent?.token ?? "",
-      }).status
-    ).toBe("valid");
-    expect(invitation.invitationId).toBe("invite_1");
+        token: "fresh_token",
+      })
+    ).resolves.toEqual({ status: "valid", invitation: resent });
+  });
+
+  it("delegates consume and reset helpers to the database service", async () => {
+    const consumed = {
+      email: "user@example.com",
+      expiresAt: Date.now() + 60_000,
+      invitationId: "invite_1",
+      token: "token",
+      consumedAt: Date.now(),
+    };
+
+    consumeMemberInvitation.mockResolvedValue(consumed);
+
+    await expect(consumeAuthInvitation("token")).resolves.toEqual(consumed);
+    await resetAuthInvitationStoreForTests();
+    expect(resetMemberInvitationsForTests).toHaveBeenCalledOnce();
   });
 });

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -6,6 +6,7 @@ import {
   docsSeedPageSlugs,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
+import { slugToMdxPath } from "./helpers/slug-to-mdx-path";
 
 const contentRoot = join(process.cwd(), "content/docs");
 
@@ -20,26 +21,9 @@ function readMdxTitle(relativePath: string): string {
   return match[1];
 }
 
-function slugToMdxPath(slug: readonly string[]): string {
-  if (slug.length === 0) {
-    return "index.mdx";
-  }
-
-  const indexPath = `${slug.join("/")}/index.mdx`;
-  if (existsSync(join(contentRoot, indexPath))) {
-    return indexPath;
-  }
-
-  if (slug.length === 1) {
-    return `${slug[0]}/index.mdx`;
-  }
-
-  return `${slug.slice(0, -1).join("/")}/${slug.at(-1)}.mdx`;
-}
-
 describe("@afenda/docs seed page registry (filesystem)", () => {
   it("resolves home title from index.mdx", () => {
-    expect(readMdxTitle(slugToMdxPath(docsHomeSlug))).toBe(
+    expect(readMdxTitle(slugToMdxPath(contentRoot, docsHomeSlug))).toBe(
       "Afenda Documentation"
     );
   });
@@ -47,7 +31,7 @@ describe("@afenda/docs seed page registry (filesystem)", () => {
   it.each(
     docsSeedPageSlugs.map((slug) => [slug.join("/") || "home", slug])
   )("index or leaf MDX exists for slug %s", (_label, slug) => {
-    const relativePath = slugToMdxPath(slug);
+    const relativePath = slugToMdxPath(contentRoot, slug);
     const title = readMdxTitle(relativePath);
 
     expect(title.length).toBeGreaterThan(0);
@@ -55,7 +39,7 @@ describe("@afenda/docs seed page registry (filesystem)", () => {
 
   it("maps every seed section to a contract title", () => {
     for (const section of docsSeedSections) {
-      const title = readMdxTitle(slugToMdxPath(section.slug));
+      const title = readMdxTitle(slugToMdxPath(contentRoot, section.slug));
       expect(title).toBe(section.title);
     }
   });

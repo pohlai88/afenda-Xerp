@@ -180,6 +180,7 @@ export {
 export {
   AppShellAccountSettings06,
   type AppShellAccountSettings06GovernedComponents,
+  type AppShellAccountSettings06MfaEnrollPhase,
   type AppShellAccountSettings06Props,
   type AppShellAccountSettings06SessionRow,
 } from "./shadcn-studio/blocks/app-shell-account-settings-06";
@@ -189,6 +190,7 @@ export {
   type AppShellAccountSettings06PolicyProps,
 } from "./shadcn-studio/blocks/app-shell-account-settings-06-policy";
 export {
+  type AppShellAccountSettings06PasskeyRow,
   AppShellAccountSettings06User,
   type AppShellAccountSettings06UserGovernedComponents,
   type AppShellAccountSettings06UserProps,

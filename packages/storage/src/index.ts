@@ -21,6 +21,12 @@ export type {
   StorageHealthCheck,
 } from "./contracts/storage.contract.js";
 export {
+  isStorageProductionProviderId,
+  STORAGE_ADDITIONAL_APPROVED_PROVIDERS,
+  STORAGE_PRODUCTION_PROVIDER_IDS,
+  type StorageAdditionalApprovedProvider,
+} from "./contracts/storage-additional-providers.contract.js";
+export {
   STORAGE_ERROR_CODES,
   type StorageError,
   type StorageErrorCode,

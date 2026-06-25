@@ -18,7 +18,10 @@ export type CreateAuthDbOptions = CreatePgClientOptions;
 export function createAuthDbClient(
   options: CreateAuthDbOptions = {}
 ): AfendaAuthDbClient {
-  const pool = createPgPool(options);
+  const pool = createPgPool({
+    ...options,
+    connectionConsumer: "auth-db-pool",
+  });
   const db = drizzle(pool, { schema: authSchema });
 
   return {

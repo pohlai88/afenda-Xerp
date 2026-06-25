@@ -44,7 +44,9 @@
   "dependencies": {
     "@afenda/database": "workspace:*",
     "@afenda/kernel": "workspace:*",
-    "better-auth": "^1.6.19",
+    "@better-auth/passkey": "^1.6.20",
+    "@better-auth/sso": "^1.6.20",
+    "better-auth": "^1.6.20",
     "drizzle-orm": "^0.45.2"
   }
 }

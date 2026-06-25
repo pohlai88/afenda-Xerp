@@ -1,9 +1,10 @@
 ---
 title: Afenda Documentation
 description: Implementation guides for engineers working in the Afenda ERP monorepo.
+full: true
 ---
 
-import { BookOpen, Layers, Map, Rocket } from "lucide-react";
+import { BookOpen, Layers, Map, Rocket, Server } from "lucide-react";
 import { Card, Cards } from "fumadocs-ui/components/card";
 
 Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, architecture registries, FDR delivery docs) stay under `docs/` at the repo root — cross-link to those sources instead of duplicating them here.
@@ -15,7 +16,7 @@ Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, arch
   <Card icon={<Map />} title="Monorepo Map" href="/docs/monorepo-map">
     Package layers, ports, and where to edit.
   </Card>
-  <Card icon={<Layers />} title="Applications Book" href="/docs/apps">
+  <Card icon={<Layers />} title="Applications" href="/docs/apps">
     ERP, Docs, and Storybook — ports, boundaries, and quality gates.
   </Card>
   <Card icon={<BookOpen />} title="Contributing" href="/docs/contributing">
@@ -23,13 +24,33 @@ Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, arch
   </Card>
 </Cards>
 
-## Dev servers
-
-| App | Command | Port |
-| --- | --- | ---: |
-| ERP | `pnpm --filter @afenda/erp dev` | 3000 |
-| Docs | `pnpm --filter @afenda/docs dev` | 3001 |
-| Storybook | `pnpm --filter @afenda/storybook dev` | 6006 |
+<DocsGuideCardGrid
+  heading="Dev servers"
+  lead="Run surfaces locally from the monorepo root after `pnpm install`."
+  items={[
+    {
+      title: "ERP",
+      description: "`pnpm --filter @afenda/erp dev`",
+      href: "/docs/apps/erp",
+      icon: Server,
+      badge: "3000",
+    },
+    {
+      title: "Docs",
+      description: "`pnpm --filter @afenda/docs dev`",
+      href: "/docs/apps/docs",
+      icon: BookOpen,
+      badge: "3001",
+    },
+    {
+      title: "Storybook",
+      description: "`pnpm --filter @afenda/storybook dev`",
+      href: "/docs/apps/storybook",
+      icon: Layers,
+      badge: "6006",
+    },
+  ]}
+/>
 
 ## Governance (repo root)
 

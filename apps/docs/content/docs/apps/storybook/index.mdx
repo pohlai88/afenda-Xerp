@@ -4,13 +4,16 @@ description: "@afenda/storybook — visual composition gate on port 6006, PKG-02
 ---
 
 import { LayersIcon, PaletteIcon, TerminalIcon } from "lucide-react";
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
+import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
 
 <Callout type="info" title="Authority">
   Storybook status and runner evidence:
   [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
-  · [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BNot%20started%5D%20fdr-021-storybook.md)
+  and
+  [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BNot%20started%5D%20fdr-021-storybook.md).
 </Callout>
 
 <Callout type="warn" title="Status honesty">
@@ -18,6 +21,20 @@ import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
   Test runner debt (`storybook-test-runner-red`) may remain — verify with
   `pnpm --filter @afenda/storybook test:storybook:run` before relying on visual regression gates.
 </Callout>
+
+<InlineTOC
+  items={[
+    { title: "Identity", url: "#identity", depth: 2 },
+    { title: "Purpose", url: "#purpose", depth: 2 },
+    { title: "Run locally", url: "#run-locally", depth: 2 },
+    { title: "Boundary rules", url: "#boundary-rules", depth: 2 },
+    { title: "Quality gates", url: "#quality-gates", depth: 2 },
+    { title: "Status and known gaps", url: "#status-and-known-gaps", depth: 2 },
+    { title: "Authority links", url: "#authority-links", depth: 2 },
+  ]}
+>
+  On this page
+</InlineTOC>
 
 ## Identity
 
@@ -78,9 +95,15 @@ Runner failures are a **known gap** until fdr-021 Slice 3 closes `storybook-test
 
 ## Status and known gaps
 
+<Accordions type="single">
+<Accordion title="Runner and FDR status (expand)" id="status-and-known-gaps">
+
 - FDR **Not started** — registry onboarding and runner green pending
 - ~400/1860 test runner failures reported in inventory (taxonomy in fdr-021 Research)
 - metadata-ui styles import and a11y debt tracked as blue-lane backlog
+
+</Accordion>
+</Accordions>
 
 ## Authority links
 

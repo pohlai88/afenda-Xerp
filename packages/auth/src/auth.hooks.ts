@@ -8,6 +8,7 @@ import {
   readInvitationTokenFromBody,
   validateAuthInvitation,
 } from "./auth.invitation.js";
+import { isAfendaAuthSsoCallbackPath } from "./auth.sso-policy.js";
 
 function createAuthCorrelationId(prefix = "auth"): string {
   return `${prefix}-${crypto.randomUUID()}`;
@@ -203,7 +204,7 @@ export async function handleAfendaAuthInvitationBeforeHook(
   }
 
   try {
-    validateAuthInvitation({ email, token: invitationToken });
+    await validateAuthInvitation({ email, token: invitationToken });
   } catch (error) {
     const reason =
       error instanceof Error ? error.message : "Invitation token is invalid.";
@@ -244,12 +245,135 @@ export function createAfendaAuthInvitationBeforeHook(
   });
 }
 
+function readSsoProviderIdFromPath(path: string): string | undefined {
+  if (!isAfendaAuthSsoCallbackPath(path)) {
+    return;
+  }
+
+  const segments = path.split("/").filter(Boolean);
+  return segments.at(-1);
+}
+
+function readPasskeyIdFromBody(ctx: { body?: unknown }): string | undefined {
+  if (typeof ctx.body !== "object" || !ctx.body || !("id" in ctx.body)) {
+    return;
+  }
+
+  const id = ctx.body.id;
+  return typeof id === "string" ? id : undefined;
+}
+
+function readRegisteredPasskeyFromReturned(returned: unknown):
+  | {
+      id: string;
+      userId: string;
+    }
+  | undefined {
+  if (
+    typeof returned !== "object" ||
+    !returned ||
+    !("id" in returned) ||
+    !("userId" in returned)
+  ) {
+    return;
+  }
+
+  const id = returned.id;
+  const userId = returned.userId;
+
+  if (typeof id !== "string" || typeof userId !== "string") {
+    return;
+  }
+
+  return { id, userId };
+}
+
+function isPasskeyAuthenticationSuccess(returned: unknown): returned is {
+  session: unknown;
+  user: unknown;
+} {
+  return (
+    typeof returned === "object" &&
+    returned !== null &&
+    "session" in returned &&
+    "user" in returned
+  );
+}
+
+function readPasskeyAuthUser(returned: unknown):
+  | {
+      id: string;
+      sessionId: string;
+    }
+  | undefined {
+  if (!isPasskeyAuthenticationSuccess(returned)) {
+    return;
+  }
+
+  const session = returned.session;
+  const user = returned.user;
+
+  if (
+    typeof session !== "object" ||
+    !session ||
+    !("id" in session) ||
+    typeof session.id !== "string"
+  ) {
+    return;
+  }
+
+  if (
+    typeof user !== "object" ||
+    !user ||
+    !("id" in user) ||
+    typeof user.id !== "string"
+  ) {
+    return;
+  }
+
+  return {
+    id: user.id,
+    sessionId: session.id,
+  };
+}
+
 export async function handleAfendaAuthAuditHook(
   ctx: AuthAuditHookContext,
   persist: PersistAuthAuditEvent = persistAuthAuditEvent
 ): Promise<void> {
   const meta = readAuthRequestMeta(ctx);
   const correlationId = createAuthCorrelationId();
+
+  if (isAfendaAuthSsoCallbackPath(ctx.path) && ctx.context.newSession) {
+    const { user, session } = ctx.context.newSession;
+    const ssoProviderId = readSsoProviderIdFromPath(ctx.path);
+    await persist({
+      event: AUTH_EVENT.ssoSignInSucceeded,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(ssoProviderId === undefined ? {} : { ssoProviderId }),
+      },
+    });
+    await persist({
+      event: AUTH_EVENT.sessionCreated,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
 
   if (ctx.path === "/sign-up/email") {
     const user = readAuthReturnedUser(ctx.context.returned);
@@ -262,7 +386,7 @@ export async function handleAfendaAuthAuditHook(
     const consumedInvitation =
       invitationToken === undefined
         ? null
-        : consumeAuthInvitation(invitationToken);
+        : await consumeAuthInvitation(invitationToken);
 
     await persist({
       event: AUTH_EVENT.invitationAccepted,
@@ -565,6 +689,95 @@ export async function handleAfendaAuthAuditHook(
           ? {}
           : { reason: `revokedSessionToken:${revokedSessionToken}` }),
       },
+    });
+    return;
+  }
+
+  if (ctx.path === "/passkey/verify-registration") {
+    const registeredPasskey = readRegisteredPasskeyFromReturned(
+      ctx.context.returned
+    );
+
+    if (!registeredPasskey) {
+      return;
+    }
+
+    await persist({
+      event: AUTH_EVENT.passkeyRegistered,
+      result: "success",
+      context: {
+        authUserId: registeredPasskey.userId,
+        passkeyId: registeredPasskey.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(ctx.context.session?.user.id === undefined
+          ? {}
+          : { sessionId: ctx.context.session.session.id }),
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/passkey/delete-passkey" &&
+    isAuthSuccessReturned(ctx.context.returned) &&
+    ctx.context.session
+  ) {
+    const { session, user } = ctx.context.session;
+    const passkeyId = readPasskeyIdFromBody(ctx);
+
+    await persist({
+      event: AUTH_EVENT.passkeyDeleted,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(passkeyId === undefined ? {} : { passkeyId }),
+      },
+    });
+    return;
+  }
+
+  if (ctx.path === "/passkey/verify-authentication") {
+    const passkeyAuthUser = readPasskeyAuthUser(ctx.context.returned);
+
+    if (passkeyAuthUser) {
+      const context = {
+        authUserId: passkeyAuthUser.id,
+        sessionId: passkeyAuthUser.sessionId,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      };
+
+      await Promise.all([
+        persist({
+          event: AUTH_EVENT.passkeySignInSucceeded,
+          result: "success",
+          context,
+        }),
+        persist({
+          event: AUTH_EVENT.sessionCreated,
+          result: "success",
+          context,
+        }),
+      ]);
+      return;
+    }
+
+    await persist({
+      event: AUTH_EVENT.passkeySignInFailed,
+      result: "failure",
+      context: {
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+      reason: "Passkey authentication failed.",
     });
   }
 }

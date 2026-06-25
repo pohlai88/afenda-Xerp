@@ -94,10 +94,20 @@ describe("operating-context integration — protected server actions", () => {
     );
   });
 
+  it("executeTenantSettingsSectionUpdate helper resolves operating context internally", () => {
+    const source = readAppSource(
+      "src/lib/system-admin/execute-tenant-settings-section-update.server.ts"
+    );
+    expect(source).toContain("resolveActionOperatingContext");
+  });
+
   for (const relativePath of protectedServerActions) {
     it(`${relativePath} resolves operating context via resolveActionOperatingContext`, () => {
       const source = readAppSource(relativePath);
-      expect(source).toContain("resolveActionOperatingContext");
+      const delegatesOperatingContext =
+        source.includes("resolveActionOperatingContext") ||
+        source.includes("executeTenantSettingsSectionUpdate");
+      expect(delegatesOperatingContext).toBe(true);
     });
 
     it(`${relativePath} does not trust session for tenant scope`, () => {

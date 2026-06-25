@@ -27,7 +27,7 @@ export async function resolveMembersSettings(input: {
       companyId: input.companyId,
       tenantId: input.tenantId,
     }),
-    Promise.resolve(listPendingAuthInvitationsForTenant(input.tenantId)),
+    listPendingAuthInvitationsForTenant(input.tenantId),
   ]);
 
   const pendingInvites = await Promise.all(

@@ -1,5 +1,5 @@
 import { isAPIError } from "better-auth/api";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AUTH_EVENT } from "../auth.contract.js";
 import {
   handleAfendaAuthAuditHook,
@@ -12,7 +12,103 @@ import {
   resetAuthInvitationStoreForTests,
 } from "../auth.invitation.js";
 
+const hookInvitationStore = new Map<
+  string,
+  {
+    consumedAt?: number;
+    email: string;
+    expiresAt: number;
+    invitationId: string;
+    platformUserId?: string;
+    tenantId?: string;
+    token: string;
+  }
+>();
+
+vi.mock("@afenda/database", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/database")>();
+  const { randomUUID } = await import("node:crypto");
+
+  return {
+    ...actual,
+    resetMemberInvitationsForTests: async () => {
+      hookInvitationStore.clear();
+    },
+    registerMemberInvitation: async (input: {
+      email: string;
+      expiresAt?: Date;
+      invitationId?: string;
+      platformUserId?: string;
+      tenantId?: string;
+      token?: string;
+    }) => {
+      const email = input.email.trim().toLowerCase();
+      const token = input.token?.trim() || randomUUID();
+      const record = {
+        email,
+        expiresAt:
+          input.expiresAt?.getTime() ?? Date.now() + 7 * 24 * 60 * 60 * 1000,
+        invitationId: input.invitationId ?? randomUUID(),
+        token,
+        ...(input.platformUserId === undefined
+          ? {}
+          : { platformUserId: input.platformUserId }),
+        ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
+      };
+      hookInvitationStore.set(token, record);
+      return record;
+    },
+    validateMemberInvitation: async (input: {
+      email: string;
+      token: string;
+    }) => {
+      const email = input.email.trim().toLowerCase();
+      const token = input.token.trim();
+      const record = hookInvitationStore.get(token);
+
+      if (!record) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token is invalid."
+        );
+      }
+
+      if (record.consumedAt !== undefined) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token has already been used."
+        );
+      }
+
+      if (record.expiresAt < Date.now()) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token has expired."
+        );
+      }
+
+      if (record.email !== email) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token does not match the sign-up email."
+        );
+      }
+
+      return { status: "valid" as const, invitation: record };
+    },
+    consumeMemberInvitation: async (token: string) => {
+      const record = hookInvitationStore.get(token.trim());
+      if (!record || record.consumedAt !== undefined) {
+        return null;
+      }
+
+      const consumed = { ...record, consumedAt: Date.now() };
+      hookInvitationStore.set(token.trim(), consumed);
+      return consumed;
+    },
+  };
+});
+
 describe("auth.hooks", () => {
+  beforeEach(async () => {
+    await resetAuthInvitationStoreForTests();
+  });
   it("reads request metadata from forwarded headers", () => {
     const headers = new Headers({
       "x-forwarded-for": "203.0.113.1, 10.0.0.1",
@@ -437,7 +533,7 @@ describe("auth.hooks", () => {
   });
 
   it("rejects sign-up without invitation token and audits auth.invitation.rejected", async () => {
-    resetAuthInvitationStoreForTests();
+    await resetAuthInvitationStoreForTests();
     const persist = vi.fn().mockResolvedValue(undefined);
 
     await expect(
@@ -465,8 +561,8 @@ describe("auth.hooks", () => {
   });
 
   it("allows sign-up when invitation token matches email", async () => {
-    resetAuthInvitationStoreForTests();
-    registerAuthInvitation({
+    await resetAuthInvitationStoreForTests();
+    await registerAuthInvitation({
       email: "user@example.com",
       token: "invite_ok",
     });
@@ -491,11 +587,10 @@ describe("auth.hooks", () => {
   });
 
   it("records invitation accepted audit on successful sign-up", async () => {
-    resetAuthInvitationStoreForTests();
-    const invitation = registerAuthInvitation({
+    await resetAuthInvitationStoreForTests();
+    const invitation = await registerAuthInvitation({
       email: "user@example.com",
       token: "invite_ok",
-      tenantId: "tenant_1",
     });
     const persist = vi.fn().mockResolvedValue(undefined);
 
@@ -525,7 +620,6 @@ describe("auth.hooks", () => {
         authUserId: "auth_user_1",
         email: "user@example.com",
         invitationId: invitation.invitationId,
-        tenantId: "tenant_1",
       }),
     });
   });

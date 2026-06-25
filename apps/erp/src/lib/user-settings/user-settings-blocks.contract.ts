@@ -98,7 +98,7 @@ export const USER_DND_WEEK_DAYS = [
   { value: "thursday", label: "T" },
   { value: "friday", label: "F" },
   { value: "saturday", label: "S" },
-] as const;
+] satisfies ReadonlyArray<{ readonly value: string; readonly label: string }>;
 
 export function buildDefaultUserNotificationsSettings(): UserNotificationsPreferences {
   return {

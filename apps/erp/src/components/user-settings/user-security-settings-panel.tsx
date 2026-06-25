@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  type AppShellAccountSettings06PasskeyRow,
   type AppShellAccountSettings06SessionRow,
   AppShellAccountSettings06User,
 } from "@afenda/appshell";
@@ -9,7 +10,9 @@ import {
   authClient,
   multiSession,
   parseAfendaAuthDeviceSessions,
+  passkey,
   readAfendaAuthSessionTwoFactorEnabled,
+  resolvePasskeyDisplayLabel,
   twoFactor,
 } from "@afenda/auth/client";
 import { Button, Field, FieldLabel, Input } from "@afenda/ui";
@@ -29,6 +32,13 @@ export type UserSecuritySettingsPanelGovernedComponents = Extract<
 
 type UserMfaReauthIntent = "disable" | "enable";
 
+interface PasskeyRecord {
+  readonly aaguid?: string | null;
+  readonly createdAt?: Date | string | null;
+  readonly id: string;
+  readonly name?: string | null;
+}
+
 function formatSessionIssuedAt(value: Date | string | undefined): string {
   if (value === undefined) {
     return "Unknown sign-in time";
@@ -41,6 +51,36 @@ function formatSessionIssuedAt(value: Date | string | undefined): string {
   }
 
   return `Signed in ${date.toLocaleString()}`;
+}
+
+function formatPasskeyCreatedAt(
+  value: Date | string | null | undefined
+): string {
+  if (value === undefined || value === null) {
+    return "Registered on an unknown date";
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Registered on an unknown date";
+  }
+
+  return `Registered ${date.toLocaleString()}`;
+}
+
+function resolvePasskeyLabel(record: PasskeyRecord): string {
+  return resolvePasskeyDisplayLabel(record);
+}
+
+function mapPasskeyRows(
+  items: readonly PasskeyRecord[]
+): AppShellAccountSettings06PasskeyRow[] {
+  return items.map((item) => ({
+    id: item.id,
+    label: resolvePasskeyLabel(item),
+    createdAtLabel: formatPasskeyCreatedAt(item.createdAt),
+  }));
 }
 
 function mapSessionRows(
@@ -63,8 +103,49 @@ function findDeviceSessionById(
   return items.find((item) => item.session.id === sessionId);
 }
 
+function parsePasskeyList(value: unknown): PasskeyRecord[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.flatMap((item) => {
+    if (typeof item !== "object" || item === null || !("id" in item)) {
+      return [];
+    }
+
+    const id = item.id;
+
+    if (typeof id !== "string") {
+      return [];
+    }
+
+    return [
+      {
+        id,
+        ...(typeof item === "object" &&
+        "name" in item &&
+        (typeof item.name === "string" || item.name === null)
+          ? { name: item.name }
+          : {}),
+        ...(typeof item === "object" &&
+        "aaguid" in item &&
+        (typeof item.aaguid === "string" || item.aaguid === null)
+          ? { aaguid: item.aaguid }
+          : {}),
+        ...(typeof item === "object" &&
+        "createdAt" in item &&
+        (item.createdAt instanceof Date ||
+          typeof item.createdAt === "string" ||
+          item.createdAt === null)
+          ? { createdAt: item.createdAt }
+          : {}),
+      },
+    ];
+  });
+}
+
 /**
- * User Security tab — personal MFA + sessions only (ARCH-USER-001 Slice 3).
+ * User Security tab — personal MFA, passkeys, and sessions (ARCH-USER-001 Slice 3 + ARCH-AUTH-001 Slice 13b).
  */
 export function UserSecuritySettingsPanel({
   initialSettings,
@@ -73,6 +154,14 @@ export function UserSecuritySettingsPanel({
   const [userMfaEnabled, setUserMfaEnabled] = useState(
     initialSettings.userMfaEnabled
   );
+  const [passkeys, setPasskeys] = useState<
+    AppShellAccountSettings06PasskeyRow[]
+  >([]);
+  const [passkeysPending, setPasskeysPending] = useState(true);
+  const [passkeyError, setPasskeyError] = useState<string | null>(null);
+  const [deletePasskeyPendingId, setDeletePasskeyPendingId] = useState<
+    string | null
+  >(null);
   const [sessions, setSessions] = useState<
     AppShellAccountSettings06SessionRow[]
   >([]);
@@ -82,6 +171,7 @@ export function UserSecuritySettingsPanel({
   const [reauthPassword, setReauthPassword] = useState("");
   const [userMfaError, setUserMfaError] = useState<string | null>(null);
   const [userMfaPending, startUserMfaTransition] = useTransition();
+  const [addPasskeyPending, startAddPasskeyTransition] = useTransition();
 
   const refreshUserMfaFromSession = useCallback(async () => {
     const sessionState = await authClient.getSession();
@@ -91,6 +181,17 @@ export function UserSecuritySettingsPanel({
 
     if (fromSession !== undefined) {
       setUserMfaEnabled(fromSession);
+    }
+  }, []);
+
+  const loadPasskeys = useCallback(async () => {
+    setPasskeysPending(true);
+
+    try {
+      const listResult = await passkey.listUserPasskeys({});
+      setPasskeys(mapPasskeyRows(parsePasskeyList(listResult.data)));
+    } finally {
+      setPasskeysPending(false);
     }
   }, []);
 
@@ -113,9 +214,64 @@ export function UserSecuritySettingsPanel({
     }
   }, [refreshUserMfaFromSession]);
 
+  const loadSecurityData = useCallback(async () => {
+    await Promise.all([loadPasskeys(), loadSessions()]);
+  }, [loadPasskeys, loadSessions]);
+
   useEffect(() => {
-    void loadSessions();
-  }, [loadSessions]);
+    void loadSecurityData();
+  }, [loadSecurityData]);
+
+  const handleAddPasskey = () => {
+    startAddPasskeyTransition(async () => {
+      setPasskeyError(null);
+
+      try {
+        const result = await passkey.addPasskey({});
+
+        if (result.error) {
+          setPasskeyError(
+            result.error.message ?? "Unable to register a passkey."
+          );
+          return;
+        }
+
+        await loadPasskeys();
+      } catch (error: unknown) {
+        setPasskeyError(
+          error instanceof Error
+            ? error.message
+            : "Passkey registration failed. Try again."
+        );
+      }
+    });
+  };
+
+  const handleDeletePasskey = (passkeyId: string) => {
+    void (async () => {
+      setDeletePasskeyPendingId(passkeyId);
+      setPasskeyError(null);
+
+      try {
+        const result = await passkey.deletePasskey({ id: passkeyId });
+
+        if (result.error) {
+          setPasskeyError(result.error.message ?? "Unable to remove passkey.");
+          return;
+        }
+
+        await loadPasskeys();
+      } catch (error: unknown) {
+        setPasskeyError(
+          error instanceof Error
+            ? error.message
+            : "Passkey removal failed. Try again."
+        );
+      } finally {
+        setDeletePasskeyPendingId(null);
+      }
+    })();
+  };
 
   const handleRevokeSession = (sessionId: string) => {
     void (async () => {
@@ -293,11 +449,23 @@ export function UserSecuritySettingsPanel({
         </section>
       )}
 
+      {passkeyError === null ? null : (
+        <p className="erp-system-admin-settings-form__message" role="alert">
+          {passkeyError}
+        </p>
+      )}
+
       <AppShellAccountSettings06User
+        addPasskeyPending={addPasskeyPending}
+        deletePasskeyPendingId={deletePasskeyPendingId}
+        onAddPasskey={handleAddPasskey}
+        onDeletePasskey={handleDeletePasskey}
         onDisableUserMfa={() => openUserMfaReauth("disable")}
         onEnableUserMfa={() => openUserMfaReauth("enable")}
         onRevokeOtherSessions={handleRevokeOtherSessions}
         onRevokeSession={handleRevokeSession}
+        passkeys={passkeys}
+        passkeysPending={passkeysPending}
         sessions={sessions}
         sessionsPending={sessionsPending}
         userMfaEnabled={userMfaEnabled}

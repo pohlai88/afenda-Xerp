@@ -20,6 +20,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
+import type { ComponentProps } from "react";
 import { AutoTypeTable } from "@/components/auto-type-table";
 import {
   DocsAccordionPanel,
@@ -34,6 +35,7 @@ import {
   DocsStepsPanel,
   DocsTabbedPanel,
 } from "@/components/blocks";
+import { DocsSiteGraph } from "@/components/docs-site-graph";
 import { GraphView } from "@/components/graph-view";
 
 /**
@@ -47,7 +49,24 @@ import { GraphView } from "@/components/graph-view";
  *
  * Afenda editorial blocks (Slice 5.1): copied from packages/ui reference catalog —
  * zero @afenda/ui runtime imports; styled via docs-editorial-blocks.css.
+ *
+ * Slice C: all markdown images use ImageZoom via the `img` slot.
  */
+function MdxImage(props: ComponentProps<"img">) {
+  const { src, alt, className } = props;
+  if (!src || typeof src !== "string") {
+    return null;
+  }
+
+  return (
+    <ImageZoom
+      alt={alt ?? ""}
+      src={src}
+      {...(className ? { className } : {})}
+    />
+  );
+}
+
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
@@ -74,6 +93,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     DocsPropTable,
     DocsStepsPanel,
     DocsTabbedPanel,
+    DocsSiteGraph,
     DynamicCodeBlock,
     File,
     Files,
@@ -82,6 +102,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     GraphView,
     ImageZoom,
     InlineTOC,
+    img: MdxImage as NonNullable<MDXComponents["img"]>,
     Pre,
     Step,
     Steps,
@@ -89,7 +110,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Tabs,
     TypeTable,
     ...components,
-  } satisfies MDXComponents;
+  } as MDXComponents;
 }
 
 declare global {

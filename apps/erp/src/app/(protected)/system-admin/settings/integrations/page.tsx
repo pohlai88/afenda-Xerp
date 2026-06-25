@@ -4,7 +4,7 @@ import { connection } from "next/server";
 import { SystemAdminIntegrationsSettingsPanel } from "@/components/system-admin/system-admin-integrations-settings-panel";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
 import { applySystemAdminSectionAccessNavigation } from "@/lib/system-admin/apply-system-admin-section-access-navigation";
-import { resolveIntegrationsSettings } from "@/lib/system-admin/resolve-integrations-settings.server";
+import { resolveIntegrationsSettingsPageData } from "@/lib/system-admin/resolve-integrations-settings.server";
 import { resolveSystemAdminSectionAccess } from "@/lib/system-admin/resolve-system-admin-section-access.server";
 
 export default async function SystemAdminSettingsIntegrationsPage() {
@@ -15,7 +15,7 @@ export default async function SystemAdminSettingsIntegrationsPage() {
   const access = await resolveSystemAdminSectionAccess("settings");
   applySystemAdminSectionAccessNavigation(access);
 
-  const initialSettings = await resolveIntegrationsSettings();
+  const pageData = await resolveIntegrationsSettingsPageData();
 
   return (
     <AppShellMain
@@ -23,7 +23,10 @@ export default async function SystemAdminSettingsIntegrationsPage() {
       description="Third-party service connections and API configuration."
       title="Integrations"
     >
-      <SystemAdminIntegrationsSettingsPanel initialSettings={initialSettings} />
+      <SystemAdminIntegrationsSettingsPanel
+        initialIntegrations={pageData.integrations}
+        initialSsoProviders={pageData.ssoProviders}
+      />
     </AppShellMain>
   );
 }

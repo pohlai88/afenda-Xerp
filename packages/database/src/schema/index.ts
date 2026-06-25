@@ -9,6 +9,7 @@ import {
 import { entityGroups } from "./entity-group.schema.js";
 import { executionRuns } from "./execution.schema.js";
 import { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
+import { memberInvitations } from "./member-invitation.schema.js";
 import { memberships } from "./membership.schema.js";
 import { organizations } from "./organization.schema.js";
 import { outboxEvents } from "./outbox.schema.js";
@@ -25,6 +26,7 @@ import { storageObjects } from "./storage.schema.js";
 import { teams } from "./team.schema.js";
 import { tenants } from "./tenant.schema.js";
 import { tenantSettings } from "./tenant-settings.schema.js";
+import { tenantSsoProviders } from "./tenant-sso-provider.schema.js";
 import { users } from "./user.schema.js";
 import { userPreferences } from "./user-preferences.schema.js";
 
@@ -37,6 +39,7 @@ export const platformSchema = {
   entitlementGrants,
   executionRuns,
   legalEntityOwnership,
+  memberInvitations,
   outboxEvents,
   memberships,
   organizations,
@@ -51,6 +54,7 @@ export const platformSchema = {
   teams,
   tenantCommercialPlans,
   tenantSettings,
+  tenantSsoProviders,
   tenants,
   usageLimitCounters,
   userPreferences,
@@ -94,8 +98,10 @@ export { auditEvents } from "./audit.schema.js";
 export {
   type AuthSchema,
   authAccount,
+  authPasskey,
   authSchema,
   authSession,
+  authSsoProvider,
   authTwoFactor,
   authUser,
   authVerification,
@@ -110,6 +116,7 @@ export {
 export { entityGroups } from "./entity-group.schema.js";
 export { executionRuns } from "./execution.schema.js";
 export { legalEntityOwnership } from "./legal-entity-ownership.schema.js";
+export { memberInvitations } from "./member-invitation.schema.js";
 export { memberships } from "./membership.schema.js";
 export { organizations } from "./organization.schema.js";
 export {
@@ -131,5 +138,6 @@ export { storageObjects } from "./storage.schema.js";
 export { teams } from "./team.schema.js";
 export { tenants } from "./tenant.schema.js";
 export { tenantSettings } from "./tenant-settings.schema.js";
+export { tenantSsoProviders } from "./tenant-sso-provider.schema.js";
 export { users } from "./user.schema.js";
 export { userPreferences } from "./user-preferences.schema.js";

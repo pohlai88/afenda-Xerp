@@ -239,6 +239,41 @@
       "when": 1782400000003,
       "tag": "20260625121713_user_preferences",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1782400000004,
+      "tag": "20260625131740_member_invitations",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1782400000005,
+      "tag": "20260625140000_member_invitations_user_id_rename",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1782400000006,
+      "tag": "20260625142325_tenant_sso_providers",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1782401279980,
+      "tag": "20260625152759_passkey",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1782403169275,
+      "tag": "20260625155929_bitter_tyger_tiger",
+      "breakpoints": true
     }
   ]
 }

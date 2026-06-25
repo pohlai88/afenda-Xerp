@@ -1,12 +1,4 @@
 {
   "title": "Documentation",
-  "pages": [
-    "index",
-    "---",
-    "getting-started",
-    "monorepo-map",
-    "apps",
-    "---",
-    "contributing"
-  ]
+  "pages": ["index", "(guides)", "apps"]
 }

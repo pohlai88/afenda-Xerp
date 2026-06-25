@@ -5,6 +5,19 @@ vi.mock("fumadocs-ui/components/image-zoom", () => ({
   ImageZoom: ({ children }: { children: ReactNode }) => children,
 }));
 
+vi.mock("@/components/docs-site-graph", () => ({
+  DocsSiteGraph: () => null,
+}));
+
+vi.mock("@/lib/source", () => ({
+  source: {
+    getPages: () => [],
+    getPage: () => undefined,
+    getPageByHref: () => undefined,
+    generateParams: () => [],
+  },
+}));
+
 import { getMDXComponents } from "@/components/mdx";
 import { baseOptions } from "@/lib/layout.shared";
 
@@ -27,5 +40,7 @@ describe("@afenda/docs routes", () => {
     expect(components.a).toBeDefined();
     expect(components["DocsCallout"]).toBeDefined();
     expect(components["DocsGuideCardGrid"]).toBeDefined();
+    expect(components["DocsSiteGraph"]).toBeDefined();
+    expect(components.img).toBeDefined();
   });
 });

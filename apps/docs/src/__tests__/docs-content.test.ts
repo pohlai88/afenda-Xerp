@@ -3,14 +3,23 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   type DocsSeedSectionId,
+  docsGuidesFolderGroup,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
 
 const contentRoot = join(process.cwd(), "content/docs");
 
-function readMetaJson(relativeDir: string): { pages: string[]; title: string } {
+function readMetaJson(relativeDir: string): {
+  pages: string[];
+  title: string;
+  root?: boolean;
+} {
   const raw = readFileSync(join(contentRoot, relativeDir, "meta.json"), "utf8");
-  return JSON.parse(raw) as { pages: string[]; title: string };
+  return JSON.parse(raw) as {
+    pages: string[];
+    title: string;
+    root?: boolean;
+  };
 }
 
 function readRootMeta(): { pages: string[] } {
@@ -18,28 +27,44 @@ function readRootMeta(): { pages: string[] } {
   return JSON.parse(raw) as { pages: string[] };
 }
 
+function guidesSectionMetaPath(sectionId: string): string {
+  return `${docsGuidesFolderGroup}/${sectionId}`;
+}
+
 describe("@afenda/docs content parity", () => {
-  it("lists every seed section in root meta.json", () => {
+  it("lists guides folder group and apps in root meta.json", () => {
     const rootPages = readRootMeta().pages.filter(
       (entry) => entry !== "---" && entry !== "index"
     );
-    const contractIds = docsSeedSections.map((section) => section.id);
 
-    for (const id of contractIds) {
-      expect(rootPages).toContain(id);
+    expect(rootPages).toEqual([docsGuidesFolderGroup, "apps"]);
+  });
+
+  it("registers guide sections under (guides) meta.json with root tab", () => {
+    const guidesMeta = readMetaJson(docsGuidesFolderGroup);
+    const guideSectionIds = docsSeedSections
+      .filter((section) => section.id !== "apps")
+      .map((section) => section.id);
+
+    expect(guidesMeta.root).toBe(true);
+    expect(guidesMeta.title).toBe("Guides");
+
+    for (const id of guideSectionIds) {
+      expect(guidesMeta.pages).toContain(id);
     }
   });
 
   it.each(
     docsSeedSections.map((section) => [section.id, section] as const)
   )("meta.json title matches contract for %s", (id, section) => {
-    const meta = readMetaJson(id);
+    const metaPath = id === "apps" ? "apps" : guidesSectionMetaPath(section.id);
+    const meta = readMetaJson(metaPath);
 
     expect(meta.title).toBe(section.title);
   });
 
   it("registers getting-started subpages in section meta.json", () => {
-    const meta = readMetaJson("getting-started");
+    const meta = readMetaJson(guidesSectionMetaPath("getting-started"));
     const gettingStarted = docsSeedSections.find(
       (section) => section.id === "getting-started"
     );
@@ -75,6 +100,21 @@ describe("@afenda/docs content parity", () => {
       if (page.slug.length === 3 && page.slug[1] === "erp") {
         expect(erpMeta.pages).toContain(page.id);
       }
+    }
+  });
+
+  it("registers monorepo-map subpages in section meta.json", () => {
+    const meta = readMetaJson(guidesSectionMetaPath("monorepo-map"));
+    const monorepoMap = docsSeedSections.find(
+      (section) => section.id === "monorepo-map"
+    );
+
+    expect(monorepoMap?.subpages.map((page) => page.id)).toEqual([
+      "docs-contracts",
+    ]);
+
+    for (const page of monorepoMap?.subpages ?? []) {
+      expect(meta.pages).toContain(page.id);
     }
   });
 

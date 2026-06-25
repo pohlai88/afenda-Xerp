@@ -73,7 +73,7 @@ export async function resendSystemAdminInviteAction(
   }
 
   const normalizedInviteId = inviteId.trim();
-  const resent = resendAuthInvitationById(normalizedInviteId);
+  const resent = await resendAuthInvitationById(normalizedInviteId);
 
   if (!resent) {
     return failServerAction({

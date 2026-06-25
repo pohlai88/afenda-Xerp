@@ -1,3 +1,4 @@
+import { passkey } from "@better-auth/passkey";
 import { betterAuth } from "better-auth";
 import { memoryAdapter } from "better-auth/adapters/memory";
 import { nextCookies } from "better-auth/next-js";
@@ -58,12 +59,98 @@ const mockAuthDb = {
   select: vi.fn(),
 };
 
+const integrationInvitationStore = new Map<
+  string,
+  {
+    consumedAt?: number;
+    email: string;
+    expiresAt: number;
+    invitationId: string;
+    platformUserId?: string;
+    tenantId?: string;
+    token: string;
+  }
+>();
+
 vi.mock("@afenda/database", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@afenda/database")>();
+  const { randomUUID } = await import("node:crypto");
+
   return {
     ...actual,
     getAuthDb: () => mockAuthDb,
     getDb: () => mockPlatformDb,
+    resetMemberInvitationsForTests: async () => {
+      integrationInvitationStore.clear();
+    },
+    registerMemberInvitation: async (input: {
+      email: string;
+      expiresAt?: Date;
+      invitationId?: string;
+      platformUserId?: string;
+      tenantId?: string;
+      token?: string;
+    }) => {
+      const email = input.email.trim().toLowerCase();
+      const token = input.token?.trim() || randomUUID();
+      const record = {
+        email,
+        expiresAt:
+          input.expiresAt?.getTime() ?? Date.now() + 7 * 24 * 60 * 60 * 1000,
+        invitationId: input.invitationId ?? randomUUID(),
+        token,
+        ...(input.platformUserId === undefined
+          ? {}
+          : { platformUserId: input.platformUserId }),
+        ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
+      };
+      integrationInvitationStore.set(token, record);
+      return record;
+    },
+    validateMemberInvitation: async (input: {
+      email: string;
+      token: string;
+    }) => {
+      const email = input.email.trim().toLowerCase();
+      const token = input.token.trim();
+      const record = integrationInvitationStore.get(token);
+
+      if (!record) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token is invalid."
+        );
+      }
+
+      if (record.consumedAt !== undefined) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token has already been used."
+        );
+      }
+
+      if (record.expiresAt < Date.now()) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token has expired."
+        );
+      }
+
+      if (record.email !== email) {
+        throw new actual.MemberInvitationRejectedError(
+          "Invitation token does not match the sign-up email."
+        );
+      }
+
+      return { status: "valid" as const, invitation: record };
+    },
+    consumeMemberInvitation: async (token: string) => {
+      const record = integrationInvitationStore.get(token.trim());
+      if (!record || record.consumedAt !== undefined) {
+        return null;
+      }
+
+      const consumed = { ...record, consumedAt: Date.now() };
+      integrationInvitationStore.set(token.trim(), consumed);
+      return consumed;
+    },
   };
 });
 
@@ -89,10 +176,14 @@ interface IntegrationFixture {
 }
 
 type PluginAwareAuthApi = IntegrationAuth["api"] & {
+  readonly deletePasskey?: (...args: never) => unknown;
   readonly disableTwoFactor?: (...args: never) => unknown;
   readonly enableTwoFactor?: (...args: never) => unknown;
+  readonly generatePasskeyRegistrationOptions?: (...args: never) => unknown;
   readonly listDeviceSessions?: (...args: never) => unknown;
+  readonly listPasskeys?: (...args: never) => unknown;
   readonly revokeDeviceSession?: (...args: never) => unknown;
+  readonly verifyPasskeyRegistration?: (...args: never) => unknown;
 };
 
 function createIntegrationTestAuth() {
@@ -127,6 +218,14 @@ function createIntegrationTestAuth() {
     plugins: [
       twoFactor({ backupCodeOptions: { amount: 10 } }),
       multiSession(),
+      passkey({
+        origin: INTEGRATION_TEST_ENV.BETTER_AUTH_URL,
+        rpID: "localhost",
+        rpName: "Afenda ERP",
+        registration: {
+          requireSession: true,
+        },
+      }),
       testUtils({ captureOTP: true }) as BetterAuthPlugin,
       nextCookies(),
     ],
@@ -177,10 +276,10 @@ function readSetCookie(response: Response): string {
 }
 
 describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     capturedAuditEvents.length = 0;
     capturedVerificationTokens.clear();
-    resetAuthInvitationStoreForTests();
+    await resetAuthInvitationStoreForTests();
     vi.clearAllMocks();
   });
 
@@ -199,7 +298,7 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
     });
   });
 
-  it("registers Better Auth twoFactor and multiSession plugin API surfaces", async () => {
+  it("registers Better Auth twoFactor, multiSession, and passkey plugin API surfaces", async () => {
     const { auth } = await createIntegrationFixture();
     const api = auth.api as PluginAwareAuthApi;
 
@@ -207,6 +306,10 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
     expect(typeof api.disableTwoFactor).toBe("function");
     expect(typeof api.listDeviceSessions).toBe("function");
     expect(typeof api.revokeDeviceSession).toBe("function");
+    expect(typeof api.listPasskeys).toBe("function");
+    expect(typeof api.deletePasskey).toBe("function");
+    expect(typeof api.generatePasskeyRegistrationOptions).toBe("function");
+    expect(typeof api.verifyPasskeyRegistration).toBe("function");
     expect(typeof auth.api.listSessions).toBe("function");
   });
 
@@ -233,10 +336,9 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
 
   it("accepts sign-up with a valid invitation token and audits auth.invitation.accepted", async () => {
     const { auth } = await createIntegrationFixture();
-    const invitation = registerAuthInvitation({
+    const invitation = await registerAuthInvitation({
       email: "invited@example.com",
       token: "invite_integration_ok",
-      tenantId: "tenant_integration",
     });
 
     const response = await postAuth(auth, "/sign-up/email", {
@@ -262,7 +364,6 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
           authUserId: payload.user?.id,
           email: "invited@example.com",
           invitationId: invitation.invitationId,
-          tenantId: "tenant_integration",
         }),
       })
     );
@@ -271,12 +372,14 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
   it("records email verification and password-reset lifecycle audit events via hooks", async () => {
     const { auth } = await createIntegrationFixture();
 
+    const lifecycleInvite = await registerAuthInvitation({
+      email: "lifecycle@example.com",
+      token: "lifecycle_invite",
+    });
+
     const signUpResponse = await postAuth(auth, "/sign-up/email", {
       email: "lifecycle@example.com",
-      invitationToken: registerAuthInvitation({
-        email: "lifecycle@example.com",
-        token: "lifecycle_invite",
-      }).token,
+      invitationToken: lifecycleInvite.token,
       password: INTEGRATION_TEST_PASSWORD,
       name: "Lifecycle User",
     });
@@ -321,7 +424,7 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
 
   it("lists multiple concurrent sessions after repeated sign-in (multiSession)", async () => {
     const { auth } = await createIntegrationFixture();
-    registerAuthInvitation({
+    await registerAuthInvitation({
       email: "multi@example.com",
       token: "multi_invite",
     });
@@ -422,11 +525,11 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
     );
   });
 
-  it("marks invitation and MFA extension points active only where integration-tested", () => {
+  it("marks invitation, MFA, SSO, and passkey extension points active only where integration-tested", () => {
     expect(AFENDA_AUTH_EXTENSION_POINTS.invitation).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.mfa).toBe("active");
-    expect(AFENDA_AUTH_EXTENSION_POINTS.enterpriseSso).toBe("planned");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.enterpriseSso).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.organization).toBe("planned");
-    expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("planned");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("active");
   });
 });

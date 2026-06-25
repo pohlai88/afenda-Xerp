@@ -52,7 +52,7 @@ flowchart TB
 | App | Path | Port | Primary functions |
 | --- | --- | ---: | --- |
 | **@afenda/erp** | [`apps/erp/`](../apps/erp/) | 3000 | Primary ERP — auth, multi-tenant context, workspace, system admin, user settings, module placeholders, internal APIs, CSP |
-| **@afenda/docs** | [`apps/docs/`](../apps/docs/) | 3001 | Fumadocs site — getting started, monorepo map, [Applications Book](/docs/apps) (`content/docs/apps/`), contributing ([`content/docs/`](../apps/docs/content/docs/)) |
+| **@afenda/docs** | [`apps/docs/`](../apps/docs/) | 3001 | Fumadocs site — getting started, monorepo map, [Applications](/docs/apps) (`content/docs/apps/`), contributing ([`content/docs/`](../apps/docs/content/docs/)) |
 | **@afenda/storybook** | [`apps/storybook/`](../apps/storybook/) | 6006 | Composed stories from `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui` |
 
 **Dev commands:** `pnpm dev` (all) · `pnpm --filter @afenda/erp dev` · `pnpm storybook`
@@ -140,8 +140,8 @@ Base path: [`apps/erp/src/app/`](../apps/erp/src/app/)
 | --- | --- | --- |
 | Profile | [`settings/profile/page.tsx`](../apps/erp/src/app/(protected)/settings/profile/page.tsx) | [`user-profile-settings-panel.tsx`](../apps/erp/src/components/user-settings/user-profile-settings-panel.tsx) |
 | Security | [`settings/security/page.tsx`](../apps/erp/src/app/(protected)/settings/security/page.tsx) | [`user-security-settings-panel.tsx`](../apps/erp/src/components/user-settings/user-security-settings-panel.tsx) |
-| Notifications | [`settings/notifications/page.tsx`](../apps/erp/src/app/(protected)/settings/notifications/page.tsx) | ARCH-USER-001 Slice 4B pending |
-| Preferences | [`settings/preferences/page.tsx`](../apps/erp/src/app/(protected)/settings/preferences/page.tsx) | ARCH-USER-001 Slice 5 pending — needs `user_preferences` table |
+| Notifications | [`settings/notifications/page.tsx`](../apps/erp/src/app/(protected)/settings/notifications/page.tsx) | [`user-notifications-settings-panel.tsx`](../apps/erp/src/components/user-settings/user-notifications-settings-panel.tsx) |
+| Preferences | [`settings/preferences/page.tsx`](../apps/erp/src/app/(protected)/settings/preferences/page.tsx) | [`user-preferences-settings-panel.tsx`](../apps/erp/src/components/user-settings/user-preferences-settings-panel.tsx) |
 | Tab nav + layout | [`settings/layout.tsx`](../apps/erp/src/app/(protected)/settings/layout.tsx) | [`src/lib/user-settings/`](../apps/erp/src/lib/user-settings/) |
 
 ### System admin control plane (`/system-admin/**`)
@@ -239,8 +239,8 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 | ARCH | Delivered | Next |
 | --- | --- | --- |
 | ARCH-AUTH-001 | Slices 1–9, workspace session | Waiver review only |
-| ARCH-ADMIN-001 | Slices 1, 1.5, 2, 3–4 | Slices 5–6 (audit waiver, evidence-sync) |
-| ARCH-USER-001 | Slices 1–3, 6 (admin/user split) | Slices 4A–5, 7 (`user_preferences`, notifications, preferences) |
+| ARCH-ADMIN-001 | Slices 1–11 **Complete** | — |
+| ARCH-USER-001 | Slices 1–12 **Complete** | — (profile email change UI → ARCH-AUTH-001 v2) |
 
 ---
 
@@ -254,8 +254,8 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 | **Domain packages PKG-R02–R05** | No Inventory, HRM, CRM, Procurement runtime | ADR + registry promotion before filesystem | No `packages/inventory` etc. on disk |
 | **In-memory invitations (`AUTH-INV-001`)** | Invites not durable across restarts | Durable `member_invitations` table + ARCH-AUTH waiver closeout | [`ARCH-AUTH-001`](../ARCH/[Partially%20Implemented]%20ARCH-AUTH-001-enterprise-authentication.md) §Remaining gaps |
 | **MFA enroll UI (`AUTH-MFA-UI-001`)** | Policy exists; user enrollment surface missing | ARCH-AUTH-001 waiver track | Same ARCH doc |
-| **`user_preferences` persistence** | User settings tabs 4–5 blocked | ARCH-USER-001 Slice 4A — new schema + resolver | No match in `packages/database/src/schema/` |
-| **System admin settings audit waiver** | Mutation audit incomplete for some settings blocks | ARCH-ADMIN-001 Slice 5 | `check:system-admin-mutation-audit` registry |
+| **Profile email change UI** | Email change deferred to auth v2 | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 v2 gap (not Complete blocker) | [`ARCH-USER-001`](../ARCH/[Complete]%20ARCH-USER-001-user-settings-self-service.md) §15 |
+| **System admin settings audit waiver** | ~~Mutation audit incomplete for some settings blocks~~ | ARCH-ADMIN-001 Slice 5 **closed** · **Complete** 2026-06-25 | `check:system-admin-mutation-audit` exit 0 |
 | **Storybook runner (400/1860 failures)** | Visual regression gate broken | `fdr-021-storybook` Slice 3 | Runtime matrix row — not re-run this pass |
 | **AI governance test failure** | `quality:ai-governance` not fully green | [`packages/ai-governance/`](../packages/ai-governance/) | **38/39 pass** — 1 failing boundary test (Appendix A.4) |
 
@@ -290,12 +290,13 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 ```text
 IMPLEMENTED (runtime exists)     PARTIAL                         NOT STARTED / BLOCKED
 ─────────────────────────────     ───────────────────────────     ─────────────────────────
-Multi-tenant operating context    User settings (tabs 4–5)        Accounting ledger
-Better Auth + session bridge      Feature flags (route gating)    PKG-R02–R05 domains
-RBAC + API governance             System admin (slices 5–6)       SSO / passkey
-App shell + module nav            Auth waivers (invites, MFA UI)  Master data schemas
-System admin control plane        FDR delivery attestation        Business module UIs
-Tenant settings persistence       Storybook test runner
+Multi-tenant operating context    Feature flags (route gating)    Accounting ledger
+Better Auth + session bridge      FDR delivery attestation        PKG-R02–R05 domains
+RBAC + API governance             Storybook test runner           SSO / passkey
+App shell + module nav            AI governance test (1 fail)     Master data schemas
+System admin control plane (Complete)                             Business module UIs
+User settings (Complete)
+Tenant settings persistence
 Outbox / Trigger.dev jobs         AI governance test (1 fail)
 Audit + observability spine
 Metadata preview
@@ -313,7 +314,7 @@ ERP unit tests (658/658 ✓)
 3. [`arch-status-index.md`](../ARCH/arch-status-index.md) — next UX/auth/admin slices
 4. [`foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane + prohibited rules
 
-**Next coding sessions (per ARCH index):** ARCH-ADMIN-001 Slice 5 → ARCH-USER-001 Slice 4A
+**Next coding sessions (per ARCH index):** ARCH-AUTH-001 `changeEmail` maintenance
 
 ---
 

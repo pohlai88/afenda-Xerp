@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "tenant_sso_providers_tenant_domain_uidx" ON "tenant_sso_providers" USING btree ("tenant_id","domain");

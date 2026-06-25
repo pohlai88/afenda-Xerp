@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  integer,
   pgTable,
   text,
   timestamp,
@@ -141,6 +142,56 @@ export const authVerification = pgTable(
   ]
 );
 
+/** Better Auth `@better-auth/sso` plugin — registered SSO providers (ARCH-AUTH-001 Slice 13a). */
+export const authSsoProvider = pgTable(
+  "sso_provider",
+  {
+    id: text("id").primaryKey(),
+    issuer: text("issuer").notNull(),
+    domain: text("domain").notNull(),
+    oidcConfig: text("oidc_config"),
+    samlConfig: text("saml_config"),
+    userId: text("user_id").references(() => authUser.id, {
+      onDelete: "cascade",
+    }),
+    providerId: text("provider_id").notNull().unique(),
+    organizationId: text("organization_id"),
+    domainVerified: boolean("domain_verified"),
+  },
+  (table) => [
+    index("sso_provider_user_id_idx").on(table.userId),
+    index("sso_provider_domain_idx").on(table.domain),
+    uniqueIndex("sso_provider_provider_id_uidx").on(table.providerId),
+  ]
+);
+
+/** Better Auth `@better-auth/passkey` plugin — WebAuthn credentials (ARCH-AUTH-001 Slice 13b). */
+export const authPasskey = pgTable(
+  "passkey",
+  {
+    id: text("id").primaryKey(),
+    name: text("name"),
+    publicKey: text("public_key").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => authUser.id, { onDelete: "cascade" }),
+    credentialID: text("credential_id").notNull(),
+    counter: integer("counter").notNull(),
+    deviceType: text("device_type").notNull(),
+    backedUp: boolean("backed_up").notNull(),
+    transports: text("transports"),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "date",
+    }),
+    aaguid: text("aaguid"),
+  },
+  (table) => [
+    index("passkey_user_id_idx").on(table.userId),
+    index("passkey_credential_id_idx").on(table.credentialID),
+  ]
+);
+
 /** Better Auth `twoFactor()` plugin — TOTP secrets and backup codes (ARCH-AUTH-001 Gap 3). */
 export const authTwoFactor = pgTable(
   "auth_two_factor",
@@ -168,7 +219,9 @@ export const authSchema = {
   session: authSession,
   account: authAccount,
   verification: authVerification,
+  passkey: authPasskey,
   twoFactor: authTwoFactor,
+  ssoProvider: authSsoProvider,
 } as const;
 
 export type AuthSchema = typeof authSchema;

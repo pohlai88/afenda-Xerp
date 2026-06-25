@@ -2,12 +2,25 @@ import type { DocsGraph } from "@/lib/docs-graph.types";
 import type { DocsPage } from "@/lib/docs-page";
 import { source } from "@/lib/source";
 
-function readExtractedReferences(page: DocsPage): readonly { href: string }[] {
+interface ExtractedReference {
+  readonly href: string;
+}
+
+function isExtractedReference(value: unknown): value is ExtractedReference {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  return "href" in value && typeof value.href === "string";
+}
+
+function readExtractedReferences(
+  page: DocsPage
+): readonly ExtractedReference[] {
   const references = page.data.extractedReferences;
   if (!Array.isArray(references)) {
     return [];
   }
-  return references;
+  return references.filter(isExtractedReference);
 }
 
 export function buildGraph(): DocsGraph {

@@ -63,10 +63,10 @@ describe("@afenda/auth package", () => {
     });
   });
 
-  it("marks MFA and invitation extension points active", () => {
+  it("marks MFA, invitation, and passkey extension points active", () => {
     expect(AFENDA_AUTH_EXTENSION_POINTS.mfa).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.invitation).toBe("active");
-    expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("planned");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("active");
   });
 
   it("builds auth audit payloads with stable module/action fields", () => {

@@ -535,6 +535,47 @@ export function findSupabaseConfigIssues(entries) {
   return issues;
 }
 
+/** Non-blocking P1 advisories for ARCH-SUPA-001 Slice 2. */
+export function findSupabaseConnectionAdvisories(entries) {
+  const advisories = [];
+
+  if (findSupabaseConfigIssues(entries).length > 0) {
+    return advisories;
+  }
+
+  const dbPassword = entries.get("SUPABASE_DB_PASSWORD")?.trim();
+  const publicUrl = entries.get("NEXT_PUBLIC_SUPABASE_URL")?.trim();
+
+  if (dbPassword && publicUrl) {
+    const derivedMethodKeys = [
+      "DATABASE_URL_DIRECT",
+      "DATABASE_URL_SESSION",
+      "DATABASE_URL_TRANSACTION",
+    ];
+    const missingDerived = derivedMethodKeys.filter(
+      (key) => !entries.get(key)?.trim()
+    );
+
+    if (missingDerived.length > 0) {
+      advisories.push(
+        `P1: Run \`pnpm env:sync\` — derived pooler URLs missing: ${missingDerived.join(", ")} (ARCH-SUPA-001 connection routing)`
+      );
+    }
+  }
+
+  if (entries.get("SUPABASE_ACCESS_TOKEN")?.trim()) {
+    advisories.push(
+      "P1: Before production 9.5 promotion, run pnpm check:supabase-advisors (or Dashboard/MCP get_advisors) and attach --report output to release evidence"
+    );
+  } else {
+    advisories.push(
+      "P1: Set SUPABASE_ACCESS_TOKEN in .env.secret for Supabase ops (preview branches, advisors)"
+    );
+  }
+
+  return advisories;
+}
+
 /**
  * Returns a skip reason when a key must not be pushed to Vercel, else null.
  */

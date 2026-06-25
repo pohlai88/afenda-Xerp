@@ -38,7 +38,12 @@ describe("governed-mutation-audit-enforcement", () => {
     const registeredSuccessPaths =
       GOVERNED_MUTATION_SERVER_ACTION_MODULES.filter(
         (module) => module.auditRequired
-      ).map((module) => module.path);
+      ).map((module) =>
+        "auditWiringPath" in module &&
+        typeof module.auditWiringPath === "string"
+          ? module.auditWiringPath
+          : module.path
+      );
 
     expect(discovered.sort()).toEqual(registeredSuccessPaths.sort());
   });

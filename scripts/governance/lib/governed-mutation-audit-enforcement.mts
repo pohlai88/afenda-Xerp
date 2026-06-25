@@ -75,6 +75,15 @@ function collectServerActionAuditViolations(
     }
 
     const source = readFileSync(absolutePath, "utf8");
+    const auditWiringPath =
+      "auditWiringPath" in module && typeof module.auditWiringPath === "string"
+        ? module.auditWiringPath
+        : undefined;
+    const auditSource =
+      auditWiringPath === undefined
+        ? source
+        : readFileSync(join(repoRoot, auditWiringPath), "utf8");
+    const successSource = auditWiringPath === undefined ? source : auditSource;
 
     if (!module.auditRequired) {
       if (
@@ -91,27 +100,27 @@ function collectServerActionAuditViolations(
     }
 
     if (
-      !sourceContainsAnySymbol(source, GOVERNED_MUTATION_AUDIT_EMISSION_SYMBOLS)
+      !sourceContainsAnySymbol(auditSource, GOVERNED_MUTATION_AUDIT_EMISSION_SYMBOLS)
     ) {
       violations.push({
         rule: "server-action-audit-missing",
-        file: module.path,
-        message: `${module.path} (${module.action}) must emit audit via recordActionAudit, recordErpAuditEvent, or withAuditEvidence before success`,
+        file: auditWiringPath ?? module.path,
+        message: `${auditWiringPath ?? module.path} (${module.action}) must emit audit via recordActionAudit, recordErpAuditEvent, or withAuditEvidence before success`,
       });
       continue;
     }
 
     for (const symbol of module.requiredSymbols) {
-      if (!source.includes(symbol)) {
+      if (!auditSource.includes(symbol)) {
         violations.push({
           rule: "server-action-audit-symbol-missing",
-          file: module.path,
-          message: `${module.path} must reference ${symbol} for governed mutation audit`,
+          file: auditWiringPath ?? module.path,
+          message: `${auditWiringPath ?? module.path} must reference ${symbol} for governed mutation audit`,
         });
       }
     }
 
-    const successIndex = source.indexOf("serverActionSuccess");
+    const successIndex = successSource.indexOf("serverActionSuccess");
     if (successIndex === -1) {
       violations.push({
         rule: "server-action-success-missing",
@@ -123,15 +132,15 @@ function collectServerActionAuditViolations(
 
     const auditIndex = Math.min(
       ...GOVERNED_MUTATION_AUDIT_EMISSION_SYMBOLS.map((symbol) =>
-        source.indexOf(symbol)
+        auditSource.indexOf(symbol)
       ).filter((index) => index >= 0)
     );
 
     if (auditIndex === Number.POSITIVE_INFINITY || auditIndex >= successIndex) {
       violations.push({
         rule: "server-action-audit-order",
-        file: module.path,
-        message: `${module.path} must emit audit evidence before serverActionSuccess`,
+        file: auditWiringPath ?? module.path,
+        message: `${auditWiringPath ?? module.path} must emit audit evidence before serverActionSuccess`,
       });
     }
   }

@@ -1,6 +1,7 @@
 ---
-title: Applications Book
+title: Applications
 description: Engineer-facing guides for ERP, Docs, and Storybook — ports, boundaries, routes, and quality gates.
+full: true
 ---
 
 import { BookOpen, Layers, Server } from "lucide-react";
@@ -13,7 +14,7 @@ import { Card, Cards } from "fumadocs-ui/components/card";
   and the relevant ARCH/FDR records.
 </Callout>
 
-The Applications Book summarizes Afenda's three runnable apps. It **guides and links** — it does not replace architecture registries or the runtime inventory.
+Guides for Afenda's three runnable apps. This section **links** to authority sources — it does not replace architecture registries or the runtime inventory.
 
 <Cards>
   <Card icon={<Server />} title="ERP Application" href="/docs/apps/erp">
@@ -27,15 +28,38 @@ The Applications Book summarizes Afenda's three runnable apps. It **guides and l
   </Card>
 </Cards>
 
-## When to read which chapter
+<DocsGuideCardGrid
+  heading="When to read which chapter"
+  variant="compact"
+  items={[
+    {
+      title: "ERP routes and dev",
+      description: "Where to run the ERP and what routes exist.",
+      href: "/docs/apps/erp",
+      icon: Server,
+    },
+    {
+      title: "Docs isolation",
+      description: "How `@afenda/docs` stays decoupled from ERP runtime.",
+      href: "/docs/apps/docs",
+      icon: BookOpen,
+    },
+    {
+      title: "Storybook",
+      description: "Run component stories and understand runner status.",
+      href: "/docs/apps/storybook",
+      icon: Layers,
+    },
+  ]}
+/>
 
-| Question | Start here |
-| --- | --- |
-| Where do I run the ERP and what routes exist? | [ERP Application](/docs/apps/erp) |
-| How is `@afenda/docs` isolated from ERP? | [Documentation Site](/docs/apps/docs) |
-| How do I run component stories? | [Storybook](/docs/apps/storybook) |
+## Docs link graph
+
+Cross-links between published pages (from MDX link extraction):
+
+<DocsSiteGraph />
 
 ## Architecture authority
 
-- [ARCH-APPS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-APPS-001-applications-book.md) — Applications Book delivery authority
-- [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) — docs app FDR
+- [ARCH-DOCS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) — Fumadocs site delivery authority
+- [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) — docs app FDR

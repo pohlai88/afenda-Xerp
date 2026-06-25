@@ -426,4 +426,62 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260625131740_member_invitations": {
+    completeProbe: `
+    SELECT to_regclass('public.member_invitations') IS NOT NULL AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625140000_member_invitations_user_id_rename": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'member_invitations'
+        AND column_name = 'user_id'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625142325_tenant_sso_providers": {
+    completeProbe: `
+    SELECT to_regclass('public.tenant_sso_providers') IS NOT NULL
+      AND to_regclass('public.sso_provider') IS NOT NULL AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625152759_passkey": {
+    completeProbe: `
+    SELECT to_regclass('public.passkey') IS NOT NULL AS ok`,
+    partialProbe: `
+    SELECT (
+      to_regclass('public.passkey') IS NOT NULL
+      AND NOT EXISTS (
+        SELECT 1
+        FROM information_schema.table_constraints
+        WHERE table_schema = 'public'
+          AND table_name = 'passkey'
+          AND constraint_name = 'passkey_user_id_auth_user_id_fk'
+      )
+    ) AS partial`,
+    partialCleanup: [
+      `DROP INDEX IF EXISTS "passkey_credential_id_idx"`,
+      `DROP INDEX IF EXISTS "passkey_user_id_idx"`,
+      `ALTER TABLE "passkey" DROP CONSTRAINT IF EXISTS "passkey_user_id_auth_user_id_fk"`,
+      `DROP TABLE IF EXISTS "passkey"`,
+    ],
+  },
+  "20260625155929_bitter_tyger_tiger": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_indexes
+      WHERE schemaname = 'public'
+        AND tablename = 'tenant_sso_providers'
+        AND indexname = 'tenant_sso_providers_tenant_domain_uidx'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

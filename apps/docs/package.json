@@ -26,7 +26,8 @@
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-force-graph-2d": "^1.29.1"
+    "react-force-graph-2d": "^1.29.1",
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

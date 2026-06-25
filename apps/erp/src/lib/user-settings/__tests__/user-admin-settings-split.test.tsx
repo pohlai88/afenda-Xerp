@@ -5,8 +5,8 @@ vi.mock("@afenda/appshell", () => ({
   AppShellAccountSettings06User: () => (
     <div data-testid="user-security-slice">User security slice</div>
   ),
-  AppShellAccountSettings06Policy: () => (
-    <div data-testid="admin-security-policy">Admin MFA policy</div>
+  AppShellAccountSettings06: () => (
+    <div data-testid="admin-security-panel">Admin security panel</div>
   ),
 }));
 
@@ -23,6 +23,12 @@ vi.mock("@afenda/auth/client", () => ({
     listDeviceSessions: vi.fn().mockResolvedValue({ data: [] }),
   },
   parseAfendaAuthDeviceSessions: () => [],
+  passkey: {
+    addPasskey: vi.fn(),
+    deletePasskey: vi.fn(),
+    listUserPasskeys: vi.fn().mockResolvedValue({ data: [] }),
+  },
+  resolvePasskeyDisplayLabel: () => "Passkey",
   readAfendaAuthSessionTwoFactorEnabled: () => undefined,
   twoFactor: { disable: vi.fn(), enable: vi.fn() },
 }));
@@ -50,7 +56,7 @@ describe("user/admin security surface split (AC-U13)", () => {
 
     expect(screen.getByTestId("user-security-slice")).toBeInTheDocument();
     expect(
-      screen.queryByTestId("admin-security-policy")
+      screen.queryByTestId("admin-security-panel")
     ).not.toBeInTheDocument();
     unmountUser();
 
@@ -58,11 +64,12 @@ describe("user/admin security surface split (AC-U13)", () => {
       <SystemAdminSecuritySettingsPanel
         initialSettings={{
           mfaPolicyRequired: false,
+          userMfaEnabled: false,
         }}
       />
     );
 
-    expect(screen.getByTestId("admin-security-policy")).toBeInTheDocument();
+    expect(screen.getByTestId("admin-security-panel")).toBeInTheDocument();
     expect(screen.queryByTestId("user-security-slice")).not.toBeInTheDocument();
   });
 });

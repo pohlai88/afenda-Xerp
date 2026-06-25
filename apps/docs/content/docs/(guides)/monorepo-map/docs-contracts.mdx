@@ -1,0 +1,33 @@
+---
+title: Docs app contracts
+description: Serializable TypeScript contracts owned by @afenda/docs — navigation registry and link graph types.
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info" title="Scope">
+  These types are **docs-app local** — they document `@afenda/docs` boundaries without importing ERP spine packages. For package ownership see [package-registry.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/package-registry.md).
+</Callout>
+
+## Navigation slug params
+
+Route params accepted by the docs App Router page:
+
+<AutoTypeTable path="./src/lib/docs-page.ts" name="DocsPageParams" />
+
+## Graph node payload
+
+Nodes rendered by `GraphView` on `/docs/apps`:
+
+<AutoTypeTable path="./src/lib/docs-graph.types.ts" name="DocsGraphNodeData" />
+
+## Graph container
+
+Link graph assembled by `buildGraph()` from MDX extracted references:
+
+<AutoTypeTable path="./src/lib/docs-graph.types.ts" name="DocsGraph" />
+
+## Related
+
+- [Monorepo map](/docs/monorepo-map) — workspace layout summary
+- [Documentation site chapter](/docs/apps/docs) — `@afenda/docs` isolation rules

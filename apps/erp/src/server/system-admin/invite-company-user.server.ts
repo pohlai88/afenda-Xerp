@@ -43,7 +43,7 @@ export async function inviteCompanyUser(input: {
     userId: user.id,
   });
 
-  registerAuthInvitation({
+  await registerAuthInvitation({
     email: input.email,
     invitationId: membership.id,
     platformUserId: user.id,

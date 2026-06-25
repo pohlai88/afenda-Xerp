@@ -59,6 +59,27 @@ export const MfaEnrolled: Story = {
   },
 };
 
+export const MfaEnrolling: Story = {
+  args: {
+    mfaEnrollPhase: "verify-totp",
+    totpUri:
+      "otpauth://totp/Afenda:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=Afenda",
+    totpCode: "",
+    onVerifyTotp: () => undefined,
+    onCancelMfaEnroll: () => undefined,
+    onTotpCodeChange: () => undefined,
+  },
+};
+
+export const MfaBackupCodes: Story = {
+  args: {
+    userMfaEnabled: true,
+    mfaEnrollPhase: "backup-codes",
+    backupCodes: ["abc123def4", "ghi567jkl8"],
+    onDismissBackupCodes: () => undefined,
+  },
+};
+
 export const PolicyOptional: Story = {
   args: {
     mfaPolicyRequired: false,

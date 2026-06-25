@@ -2,21 +2,39 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { docsEditorialPrimitiveNames } from "@/lib/docs-editorial-palette.contract";
-import { docsSeedSections } from "@/lib/docs-nav.contract";
+import {
+  docsGuidesFolderGroup,
+  docsSeedSections,
+} from "@/lib/docs-nav.contract";
+
+const contentRoot = join(process.cwd(), "content/docs");
 
 describe("@afenda/docs contract authority", () => {
   it("defines nav sections only in docs-nav.contract.ts", () => {
     const contractIds = docsSeedSections.map((section) => section.id);
     const meta = JSON.parse(
-      readFileSync(join(process.cwd(), "content/docs/meta.json"), "utf8")
+      readFileSync(join(contentRoot, "meta.json"), "utf8")
     ) as { pages: string[] };
 
     const rootSections = meta.pages.filter(
       (entry) => entry !== "---" && entry !== "index"
     );
 
+    expect(rootSections).toEqual([docsGuidesFolderGroup, "apps"]);
+
+    const guidesMeta = JSON.parse(
+      readFileSync(
+        join(contentRoot, docsGuidesFolderGroup, "meta.json"),
+        "utf8"
+      )
+    ) as { pages: string[] };
+
     for (const id of contractIds) {
-      expect(rootSections).toContain(id);
+      if (id === "apps") {
+        expect(rootSections).toContain("apps");
+      } else {
+        expect(guidesMeta.pages).toContain(id);
+      }
     }
   });
 
