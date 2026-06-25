@@ -120,18 +120,20 @@ Connection method per consumer was implicit in env.ts without a typed registry.
 | --- | --- |
 | Supabase Postgres 17 | Drizzle schema · [`fdr-003-persistence`](../delivery/FDR/[Partially%20Implemented]%20fdr-003-persistence.md) |
 | Supavisor session + transaction poolers | [`env.ts`](../../packages/database/src/env.ts) |
-| Direct migration connection | `resolveMigrationDatabaseUrl` |
+| Direct migration connection | `resolveMigrationDatabaseUrl` · `resolveDatabaseUrlForConsumer("drizzle-migrations")` |
 | Afenda tenant RLS | [`fdr-003-tenant-rls`](../delivery/FDR/[Complete]%20fdr-003-tenant-rls.md) Complete |
 | Connection routing registry | Slice 1 · [`connection-routing.contract.ts`](../../packages/database/src/supabase/connection-routing.contract.ts) |
 | R2 object storage | `@afenda/storage` |
 
-## P1 — Production hardening (Slices 2, 3, 6)
+## P1 — Production hardening (Slices 2, 3, 6, 8, 9)
 
 | Capability | Slice |
 | --- | --- |
 | Env doctor Supabase advisory | Slice 2 |
 | Preview branch ops discipline | Slice 3 |
 | Legacy GoTrue redirect ops boundary | Slice 6 |
+| Pool routing registry wiring | Slice 8 |
+| Supabase advisors governance gate (`pnpm check:supabase-advisors`) | Slice 9 |
 
 ## P2 — Excluded from current production release
 
@@ -155,7 +157,7 @@ Standard exclusion wording applies (see [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) �
 | `platform-db-pool` | transaction | `createPgPool` → `resolveDatabaseUrlForConsumer("platform-db-pool")` |
 | `auth-db-pool` | transaction | `createAuthDbClient` → `resolveDatabaseUrlForConsumer("auth-db-pool")` |
 | `execution-workers` | transaction | `@afenda/execution` env |
-| `rls-live-probe` | direct | live RLS gate |
+| `rls-live-probe` | direct | `createPgPool({ connectionConsumer: "rls-live-probe" })` · live RLS gate |
 
 Authority: [`DATABASE_CONNECTION_ROUTING`](../../packages/database/src/supabase/connection-routing.contract.ts).
 
@@ -229,6 +231,7 @@ pnpm check:foundation-disposition
 | # | Criterion | Status |
 | --- | --- | --- |
 | 1–6 | Slices 1–6 runtime/doc evidence | [x] Slices 1–6 delivered |
+| 8–9 | P1 hardening (pool wiring + advisors gate) | [x] Slices 8–9 delivered 2026-06-25 |
 | 7 | Complete promotion evidence-sync | [x] Slice 7 delivered 2026-06-25 |
 | 10 | Documentation drift | [x] Gate exit 0 |
 | 15 | Identity / exclusion boundary | [x] Slice 4 + 6 |
@@ -297,7 +300,7 @@ Install (optional): `npx skills add supabase/agent-skills@supabase-postgres-best
 Do not promote to **Complete — enterprise 9.5 accepted** unless all are true:
 
 ```text
-- Slices 1–6 runtime evidence delivered ✓
+- Slices 1–9 runtime evidence delivered ✓
 - Slice 7 Complete promotion exit 0 ✓
 - All §11 DoD rows checked including #20 peer review ✓
 - Enterprise score ≥ 29/30 ✓
@@ -327,6 +330,8 @@ Blocked
 | 3 | Env doctor P1 advisories | `scripts/env-utils.mjs` · `env-doctor.mjs` | governance vitest | 0 |
 | 4 | Preview branch + auth redirect ops | `scripts/ops/supabase-*.mjs` | governance vitest | 0 |
 | 5 | Storage additional-provider boundary | `storage-additional-providers.contract.ts` | `@afenda/storage` test:run | 0 |
+| 8 | Pool registry wiring | `pool.ts` · `auth-db.ts` | `@afenda/database` test:run | 0 |
+| 9 | Advisor governance gate | `check-supabase-advisors.mjs` | `pnpm check:supabase-advisors` | 0 |
 | 6 | Documentation authorities aligned | ARCH · matrix · index · slice-index | `pnpm check:documentation-drift` | 0 |
 | 7 | Waiver Accepted with runbook | §12 SUPA-P1-ADVISORS-001 | Architecture Authority sign-off | Approved |
 

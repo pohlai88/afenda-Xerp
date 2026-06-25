@@ -87,6 +87,12 @@ export const GOVERNED_MUTATION_SERVER_ACTION_MODULES = [
     requiredSymbols: ["recordActionAudit", "persistAuthAuditEvent"],
   },
   {
+    path: "apps/erp/src/lib/system-admin/update-oauth-provider-settings.action.ts",
+    action: "system_admin.settings.integrations.oauth.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit", "persistAuthAuditEvent"],
+  },
+  {
     path: "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",
     action: "system_admin.settings.security.mfa_policy.update",
     auditRequired: true,

@@ -12,6 +12,11 @@ export default defineConfig({
     hookTimeout: 10_000,
     reporters: isCI ? ["default", "github-actions", "junit"] : ["default"],
     outputFile: isCI ? { junit: "./test-results/junit.xml" } : undefined,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json-summary", "html"],
+      reportsDirectory: "./coverage",
+    },
     projects: [
       "packages/*/vitest.config.ts",
       "apps/*/vitest.config.ts",

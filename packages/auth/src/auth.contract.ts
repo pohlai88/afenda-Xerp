@@ -49,6 +49,8 @@ export interface AfendaAuthExtensionPoints {
   readonly mfa: "active";
   readonly organization: "planned";
   readonly passkey: "active" | "planned";
+  /** Better Auth socialProviders + tenant OAuth allowlist — integration-tested (Slice 13c). */
+  readonly socialOAuth: "active" | "planned";
 }
 
 export const AFENDA_AUTH_EXTENSION_POINTS = {
@@ -57,6 +59,7 @@ export const AFENDA_AUTH_EXTENSION_POINTS = {
   mfa: "active",
   organization: "planned",
   passkey: "active",
+  socialOAuth: "active",
 } as const satisfies AfendaAuthExtensionPoints;
 
 /** Stable auth lifecycle event names for audit + observability. */
@@ -71,6 +74,9 @@ export const AUTH_EVENT = {
   mfaPolicyUpdated: "auth.mfa.policy_updated",
   mfaVerified: "auth.mfa.verified",
   mirrorSyncFailed: "auth.mirror.sync_failed",
+  oauthProviderConfigured: "auth.oauth.provider_configured",
+  oauthSignInFailed: "auth.oauth.sign_in.failed",
+  oauthSignInSucceeded: "auth.oauth.sign_in.succeeded",
   passwordResetCompleted: "auth.password_reset.completed",
   passwordResetRequested: "auth.password_reset.requested",
   passkeyDeleted: "auth.passkey.deleted",
@@ -99,6 +105,9 @@ export const AUTH_EVENT = {
   | "mfaPolicyUpdated"
   | "mfaVerified"
   | "mirrorSyncFailed"
+  | "oauthProviderConfigured"
+  | "oauthSignInFailed"
+  | "oauthSignInSucceeded"
   | "passwordResetCompleted"
   | "passwordResetRequested"
   | "passkeyDeleted"
@@ -131,6 +140,7 @@ export interface AuthEventContext {
   readonly invitationId?: string;
   readonly ipAddress?: string | null;
   readonly mfaRequired?: string;
+  readonly oauthProviderId?: string;
   readonly passkeyId?: string;
   /** Pre-resolved platform `users.id`; skips identity-link lookup when set. */
   readonly platformUserId?: string;

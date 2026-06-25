@@ -1,0 +1,51 @@
+---
+title: Dev Setup
+description: Run ERP and docs dev servers, environment files, and common quality gates.
+---
+
+## Dev servers
+
+| Surface | Command | URL |
+| ------- | ------- | --- |
+| Documentation | `pnpm --filter @afenda/docs dev` | http://localhost:3001/docs |
+| ERP | `pnpm --filter @afenda/erp dev` | http://localhost:3000 |
+
+Docs work is isolated on port **3001** — no ERP proxy, CSP, or auth pipeline required.
+
+## Environment files
+
+ERP and platform packages may require `.env.local` files. Follow package README and delivery TIP handoffs for the slice you implement. **Do not commit secrets.**
+
+For docs-only changes, no environment variables are required beyond what Next.js provides locally.
+
+## Quality gates (pre-PR)
+
+Run the narrowest gate for your change, then the full docs bundle before merge:
+
+```bash
+# Docs slice
+pnpm --filter @afenda/docs typecheck
+pnpm --filter @afenda/docs test:run
+pnpm --filter @afenda/docs build
+pnpm quality:boundaries
+pnpm exec biome ci apps/docs
+pnpm check:documentation-drift
+```
+
+Root `pnpm quality:docs` runs the docs production build in CI (TIP-032 Slice 2).
+
+## Coding session contract
+
+Foundation and application slices use the **afenda-coding-session** contract:
+
+1. State Phase 0 (objective, layer, files, prohibited, authority, gates) before edits.
+2. Implement one TIP handoff slice per session.
+3. Post §11 Completion Report with gate evidence.
+
+See [Contributing](/docs/contributing) for TIP handoff workflow detail.
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="warn">
+  Accounting Core (`@afenda/accounting`, TIP-014+) remains blocked until Phase 9 gate (ADR-0010). Do not start ledger or COA work without Architecture Authority approval.
+</Callout>

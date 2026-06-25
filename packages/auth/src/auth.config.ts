@@ -14,6 +14,7 @@ import {
   AUTH_CHANGE_EMAIL_ENABLED,
   getBetterAuthSecret,
   resolveBetterAuthBaseUrl,
+  resolveBetterAuthSocialProviders,
   resolveBetterAuthTrustedOrigins,
   resolveBetterAuthWebAuthnOrigin,
   resolveBetterAuthWebAuthnRpId,
@@ -23,6 +24,7 @@ import {
   createAfendaAuthAuditHooks,
   createAfendaAuthInvitationBeforeHook,
 } from "./auth.hooks.js";
+import { createAfendaOAuthUserCreateBeforeHook } from "./auth.oauth-policy.js";
 import { createAfendaSsoPluginOptions } from "./auth.sso-policy.js";
 
 const AUTH_RATE_LIMIT_WINDOW_SECONDS = 60;
@@ -42,6 +44,7 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
   const baseURL = resolveBetterAuthBaseUrl(env);
   const secret = getBetterAuthSecret(env);
   const trustedOrigins = resolveBetterAuthTrustedOrigins(env);
+  const socialProviders = resolveBetterAuthSocialProviders(env);
 
   return betterAuth({
     appName: "Afenda ERP",
@@ -52,6 +55,14 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
       provider: "pg",
       schema: authSchema,
     }),
+    ...(socialProviders === undefined ? {} : { socialProviders }),
+    databaseHooks: {
+      user: {
+        create: {
+          before: createAfendaOAuthUserCreateBeforeHook(env),
+        },
+      },
+    },
     emailAndPassword: {
       enabled: true,
       disableSignUp: false,

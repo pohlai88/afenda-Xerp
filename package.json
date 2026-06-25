@@ -19,7 +19,7 @@
     "test:run:affected": "turbo run test:run --affected",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:interaction": "pnpm --filter @afenda/testing test:interaction && pnpm --filter @afenda/ui test:interaction && pnpm --filter @afenda/appshell test:interaction",
+    "test:interaction": "vitest run --project \"@afenda/testing\" --project \"@afenda/ui\" --project \"@afenda/appshell\" .interaction.test",
     "test:ui": "vitest --ui",
     "format": "ultracite fix",
     "format:check": "biome ci .",
@@ -157,12 +157,13 @@
     "husky": "^9.1.7",
     "jsdom": "catalog:",
     "lint-staged": "^17.0.8",
+    "prettier": "3.8.4",
     "turbo": "^2.5.4",
     "typescript": "catalog:",
     "ultracite": "7.8.3",
     "vitest": "catalog:"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css,md,mdx}": "ultracite fix"
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}": "ultracite fix"
   }
 }

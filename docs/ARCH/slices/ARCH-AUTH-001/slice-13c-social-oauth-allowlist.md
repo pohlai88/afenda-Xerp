@@ -6,7 +6,7 @@
 | **Amendment** | [`slice-13-phase3-amendment-draft.md`](./slice-13-phase3-amendment-draft.md) — **Accepted 2026-06-25** |
 | **Prerequisite** | Slice 13a ✓ · Slice 13b ✓ · Slice 13a-debt ✓ (recommended) |
 | **Slice** | 13c |
-| **Status** | **Not started** |
+| **Status** | **Delivered** 2026-06-25 |
 | **Type** | Implementation |
 | **Risk** | High · **Clean Core:** B |
 | **Closes** | FR-A06.4 · partial AUTH-PHASE3-001 (OAuth leg) |

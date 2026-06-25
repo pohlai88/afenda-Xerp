@@ -1,20 +1,27 @@
 import type { SearchLink } from "fumadocs-ui/contexts/search";
-import { docsSeedSections } from "@/lib/docs-nav.contract";
+import { docsHref, docsSeedSections } from "@/lib/docs-nav.contract";
+import { type DocsLocale, docsDefaultLocale } from "@/lib/i18n";
 
-const docsHrefPrefixPattern = /^\/docs\//;
+const docsHrefPrefixPattern = /^\/(?:en|zh)\/docs\//;
 
 /** Empty-state quick links for Fumadocs search dialog (RootProvider `search.links`). */
-export const docsSearchEmptyLinks: SearchLink[] = [
-  ["Getting Started", "/docs/getting-started"],
-  ["Monorepo Map", "/docs/monorepo-map"],
-  ["Applications", "/docs/apps"],
-  ["Contributing", "/docs/contributing"],
-];
+export function docsSearchEmptyLinks(
+  locale: DocsLocale = docsDefaultLocale
+): SearchLink[] {
+  return [
+    ["Getting Started", docsHref(locale, "/docs/getting-started")],
+    ["Monorepo Map", docsHref(locale, "/docs/monorepo-map")],
+    ["Applications", docsHref(locale, "/docs/apps")],
+    ["Contributing", docsHref(locale, "/docs/contributing")],
+  ];
+}
 
 /** Hrefs aligned with seed section slugs in docs-nav.contract.ts. */
-export const docsSearchEmptyLinkHrefs = docsSearchEmptyLinks.map(
-  (link) => link[1]
-);
+export function docsSearchEmptyLinkHrefs(
+  locale: DocsLocale = docsDefaultLocale
+): string[] {
+  return docsSearchEmptyLinks(locale).map((link) => link[1]);
+}
 
 const guideSectionIds = new Set(
   docsSeedSections
@@ -24,7 +31,7 @@ const guideSectionIds = new Set(
 
 /** Every quick link (except Applications) maps to a guides seed section slug path. */
 export function isDocsSearchLinkAlignedWithSeedSlug(href: string): boolean {
-  if (href === "/docs/apps") {
+  if (href.endsWith("/docs/apps")) {
     return true;
   }
 

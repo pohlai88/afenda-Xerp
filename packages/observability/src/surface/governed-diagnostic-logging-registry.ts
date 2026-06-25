@@ -2,8 +2,8 @@
  * Governed diagnostic logging registry — PKG013_LOGGING.
  *
  * Defines ERP surfaces that must emit correlated structured diagnostics on
- * protected paths and the wiring modules CI will validate once enforcement
- * consumes this inventory (deferred from Slice 2 — registry is package authority).
+ * protected paths and the wiring modules CI validates via
+ * `pnpm check:erp-diagnostic-logging`.
  *
  * Server-action paths byte-align with `GOVERNED_MUTATION_SERVER_ACTION_MODULES`
  * in `governed-mutation-audit-registry.ts`. Audit owns mutation audit symbols;
@@ -67,22 +67,42 @@ export const GOVERNED_DIAGNOSTIC_SERVER_ACTION_MODULES = [
     action: "system_admin.settings.notifications.update",
     loggingRequired: true,
     requiredSymbols: ["failServerAction"],
+    loggingWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     path: "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
     action: "system_admin.settings.workspace.update",
     loggingRequired: true,
     requiredSymbols: ["failServerAction"],
+    loggingWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     path: "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
     action: "system_admin.settings.billing.update",
     loggingRequired: true,
     requiredSymbols: ["failServerAction"],
+    loggingWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     path: "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
     action: "system_admin.settings.integrations.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+    loggingWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",
+    action: "system_admin.settings.integrations.sso.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-oauth-provider-settings.action.ts",
+    action: "system_admin.settings.integrations.oauth.update",
     loggingRequired: true,
     requiredSymbols: ["failServerAction"],
   },
@@ -111,9 +131,27 @@ export const GOVERNED_DIAGNOSTIC_SERVER_ACTION_MODULES = [
     requiredSymbols: ["failServerAction"],
   },
   {
+    path: "apps/erp/src/lib/user-settings/update-user-notifications-settings.action.ts",
+    action: "user.settings.notifications.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/user-settings/update-user-preferences-settings.action.ts",
+    action: "user.settings.preferences.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
     path: "apps/erp/src/lib/user-settings/record-user-session-revoked.action.ts",
     action: "user.settings.session.revoke.record",
     loggingRequired: true,
     requiredSymbols: ["failServerAction"],
   },
 ] as const;
+
+export const GOVERNED_DIAGNOSTIC_LOGGING_ENFORCEMENT_MODULE =
+  "scripts/governance/lib/governed-diagnostic-logging-enforcement.mts" as const;
+
+export const GOVERNED_DIAGNOSTIC_LOGGING_GATE_SCRIPT =
+  "scripts/governance/check-erp-diagnostic-logging.mts" as const;

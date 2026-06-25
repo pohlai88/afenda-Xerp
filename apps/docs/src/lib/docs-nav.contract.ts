@@ -1,8 +1,25 @@
+import type { DocsLocale } from "@/lib/i18n";
+
 /**
  * Fumadocs folder group for Guides sidebar tab — parentheses omit slug prefix.
  * @see https://fumadocs.dev/docs/page-conventions#folder-group
  */
 export const docsGuidesFolderGroup = "(guides)" as const;
+
+/** Locale-prefixed href for docs routes (e.g. `/en/docs/getting-started`). */
+export function docsHref(locale: DocsLocale, path: string): string {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+
+  if (normalized.startsWith(`/${locale}/`)) {
+    return normalized;
+  }
+
+  if (normalized === "/docs" || normalized.startsWith("/docs/")) {
+    return `/${locale}${normalized}`;
+  }
+
+  return `/${locale}/docs${normalized === "/" ? "" : normalized}`;
+}
 
 /**
  * Serializable registry of TIP-032 seed navigation targets.

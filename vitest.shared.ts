@@ -10,6 +10,19 @@ export const TEST_FILE_PATTERN = "src/**/__tests__/**/*.{test,spec}.{ts,tsx}";
 /** Convention for Radix / user-event interaction suites (subset of TEST_FILE_PATTERN). */
 export const INTERACTION_TEST_PATTERN = "**/*.interaction.test.{ts,tsx}";
 
+/** Convention for server/DB integration suites (subset of TEST_FILE_PATTERN). */
+export const INTEGRATION_TEST_PATTERN = "**/*.integration.test.{ts,tsx}";
+
+/** CLI path filter for interaction-only runs — matches filenames containing `.interaction.test`. */
+export const INTERACTION_CLI_PATH_FILTER = ".interaction.test";
+
+/** Vitest project names that host interaction suites. */
+export const INTERACTION_VITEST_PROJECTS = [
+  "@afenda/testing",
+  "@afenda/ui",
+  "@afenda/appshell",
+] as const;
+
 const NODE_SETUP = resolve(MONOREPO_ROOT, "packages/testing/src/setup/node.ts");
 const REACT_SETUP = resolve(
   MONOREPO_ROOT,

@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
+    "yzhang.markdown-all-in-one",
     "biomejs.biome",
     "vitest.explorer",
     "Themeselection.shadcn-studio-vscode-extension"

@@ -60,7 +60,7 @@
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
-    "test:interaction": "vitest run --config vitest.config.ts react-interaction",
+    "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "dependencies": {

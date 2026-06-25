@@ -8,7 +8,6 @@
 
 import { fileURLToPath } from "node:url";
 
-import { resolveMigrationDatabaseUrl } from "../../packages/database/src/env.ts";
 import { loadSyncedEnv } from "../../packages/database/src/load-synced-env.ts";
 import { createPgPool } from "../../packages/database/src/pool.ts";
 import {
@@ -52,7 +51,7 @@ export async function checkDatabaseTenantRlsLive(): Promise<TenantRlsLiveCheckRe
   }
 
   const pool = createPgPool({
-    connectionString: resolveMigrationDatabaseUrl(),
+    connectionConsumer: "rls-live-probe",
     poolConfig: {
       max: 1,
       ssl: { rejectUnauthorized: false },

@@ -43,29 +43,43 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
     actionModule:
       "apps/erp/src/lib/system-admin/update-notifications-settings.action.ts",
     targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     id: "system_admin.settings.workspace.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
     targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     id: "system_admin.settings.billing.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
     targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     id: "system_admin.settings.integrations.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
     targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
     id: "system_admin.settings.integrations.sso.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",
+    targetType: "system_admin_integrations_settings",
+  },
+  {
+    id: "system_admin.settings.integrations.oauth.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-oauth-provider-settings.action.ts",
     targetType: "system_admin_integrations_settings",
   },
   {

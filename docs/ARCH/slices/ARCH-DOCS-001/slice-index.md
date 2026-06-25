@@ -40,6 +40,7 @@
 | Slice | File | Title | Status | Runtime owner |
 | ---: | --- | --- | --- | --- |
 | **16** | [slice-16-ui-translations.md](./slice-16-ui-translations.md) | UI translations (singular) | **Delivered** 2026-06-25 | `apps/docs/src/` |
+| **17** | [slice-17-multilingual-i18n.md](./slice-17-multilingual-i18n.md) | Full multilingual i18n (en+zh) | **Delivered** 2026-06-25 | `apps/docs/` |
 
 ## Orchestration sequence
 
@@ -48,7 +49,8 @@ Phase 1 — Complete (DoD #20 closed 2026-06-25).
 Phase 2 — Slices 6–11 delivered 2026-06-25 (sequential; shared runtimeOwner serialized per slice).
 Slice 12 (C) — MDX adoption delivered 2026-06-25 (Accordion · ImageZoom · InlineTOC on long pages).
 Phase 3 — Slices 13–15 delivered 2026-06-25 (search links · Guides tab · evidence-sync). OpenAPI blocked.
-Slice 16 (2026-06-25) — UI translations (singular): defineTranslations + i18nProvider; full multilingual still blocked.
+Slice 16 (2026-06-25) — UI translations (singular): defineTranslations + i18nProvider.
+Slice 17 (2026-06-25) — Full multilingual i18n: defineI18n + middleware + app/[lang]/ + en/zh content dirs.
 ```
 
 **Gap audit:** [`docs/architecture/fumadocs-feature-gap-audit.md`](../../../architecture/fumadocs-feature-gap-audit.md)

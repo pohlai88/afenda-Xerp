@@ -321,44 +321,29 @@ export function getTransactionDatabaseUrl(
 }
 
 /**
- * Migration URL priority:
+ * Migration URL priority (ARCH-SUPA-001 · `drizzle-migrations` consumer = direct only):
  * 1. DATABASE_URL_DIRECT
- * 2. DATABASE_URL_DEDICATED
- * 3. DATABASE_URL_SESSION
- * 4. Generated session URL from Supabase config
- * 5. Generated dedicated URL from Supabase config
- * 6. Generated direct URL from Supabase config
+ * 2. Generated direct URL from Supabase config (`getDirectDatabaseUrl`)
  *
- * Fail-safe: no silent fallback to DATABASE_URL or local Postgres.
+ * Fail-safe: no silent fallback to DATABASE_URL, session pooler, or local Postgres.
  */
 export function resolveMigrationDatabaseUrl(
   env: NodeJS.ProcessEnv = process.env
 ): string {
-  const explicitUrls = [
-    readTrimmedEnv(env, DATABASE_URL_DIRECT_ENV),
-    readTrimmedEnv(env, DATABASE_URL_DEDICATED_ENV),
-    readTrimmedEnv(env, DATABASE_URL_SESSION_ENV),
-  ];
-
-  for (const url of explicitUrls) {
-    if (url) {
-      return url;
-    }
+  const directUrl = readTrimmedEnv(env, DATABASE_URL_DIRECT_ENV);
+  if (directUrl) {
+    return directUrl;
   }
 
-  for (const resolver of [
-    getSessionDatabaseUrl,
-    getDedicatedDatabaseUrl,
-    getDirectDatabaseUrl,
-  ]) {
-    try {
-      return resolver(env);
-    } catch {
-      // Try next governed resolver.
+  try {
+    return getDirectDatabaseUrl(env);
+  } catch (error) {
+    if (isMissingDatabaseConfigurationError(error)) {
+      throw new MissingMigrationDatabaseUrlError();
     }
-  }
 
-  throw new MissingMigrationDatabaseUrlError();
+    throw error;
+  }
 }
 
 function collectSupabasePasswordIssues(

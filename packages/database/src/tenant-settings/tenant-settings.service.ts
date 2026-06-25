@@ -6,6 +6,7 @@ import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { tenantSettings } from "../schema/tenant-settings.schema.js";
 import {
+  buildDefaultTenantOAuthSettings,
   parseTenantBillingSettings,
   parseTenantIntegrationsSettings,
   parseTenantNotificationsSettings,
@@ -13,6 +14,8 @@ import {
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
   type TenantNotificationsSettings,
+  type TenantOAuthProviderConfig,
+  type TenantOAuthProviderId,
   type TenantSettingsRecord,
   type TenantSettingsSectionKey,
   type TenantWorkspaceSettings,
@@ -21,6 +24,25 @@ import {
   tenantNotificationsSettingsSchema,
   tenantWorkspaceSettingsSchema,
 } from "./tenant-settings.contract.js";
+
+export interface GetTenantOAuthProviderConfigInput {
+  readonly providerId: TenantOAuthProviderId;
+  readonly tenantId: string;
+}
+
+export async function getTenantOAuthProviderConfig(
+  input: GetTenantOAuthProviderConfigInput,
+  db: AfendaDatabase = getDb()
+): Promise<TenantOAuthProviderConfig | null> {
+  const settings = await getTenantSettingsByTenantId(input.tenantId, db);
+  const provider = settings?.integrations?.oauth.providers[input.providerId];
+
+  if (!provider?.enabled) {
+    return null;
+  }
+
+  return provider;
+}
 
 export interface TenantSettingsAuditContext {
   readonly actorType: AuditActorType;
@@ -144,6 +166,96 @@ async function recordTenantSettingsAuditEvent(
   );
 }
 
+function normalizeTenantIntegrationsSettings(
+  value: TenantIntegrationsSettings | null
+): TenantIntegrationsSettings | null {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = tenantIntegrationsSettingsSchema.safeParse(value);
+  return parsed.success ? parsed.data : null;
+}
+
+export interface MergeTenantOAuthProviderSettingsInput {
+  readonly audit: TenantSettingsAuditContext;
+  readonly patch: Partial<TenantOAuthProviderConfig>;
+  readonly providerId: TenantOAuthProviderId;
+  readonly tenantId: string;
+}
+
+export async function mergeTenantOAuthProviderSettings(
+  input: MergeTenantOAuthProviderSettingsInput,
+  db: AfendaDatabase = getDb()
+): Promise<TenantOAuthProviderConfig> {
+  const existing = await getTenantSettingsByTenantId(input.tenantId, db);
+  const currentIntegrations =
+    normalizeTenantIntegrationsSettings(existing?.integrations ?? null) ??
+    ({
+      communication: { apps: [] },
+      oauth: buildDefaultTenantOAuthSettings(),
+      planning: { apps: [] },
+      tools: { apps: [] },
+    } satisfies TenantIntegrationsSettings);
+
+  const updatedProvider: TenantOAuthProviderConfig = {
+    ...currentIntegrations.oauth.providers[input.providerId],
+    ...input.patch,
+  };
+
+  await upsertTenantSettingsSection(
+    {
+      audit: input.audit,
+      section: "integrations",
+      tenantId: input.tenantId,
+      value: {
+        ...currentIntegrations,
+        oauth: {
+          providers: {
+            ...currentIntegrations.oauth.providers,
+            [input.providerId]: updatedProvider,
+          },
+        },
+      },
+    },
+    db
+  );
+
+  return updatedProvider;
+}
+
+export async function listTenantIdsWithEnabledOAuthProvider(
+  providerId: TenantOAuthProviderId,
+  db: AfendaDatabase = getDb()
+): Promise<string[]> {
+  const rows = await db
+    .select({
+      integrations: tenantSettings.integrations,
+      tenantId: tenantSettings.tenantId,
+    })
+    .from(tenantSettings);
+
+  const tenantIds: string[] = [];
+
+  for (const row of rows) {
+    const integrations = normalizeTenantIntegrationsSettings(
+      parseTenantIntegrationsSettings(row.integrations)
+    );
+
+    if (!integrations) {
+      continue;
+    }
+
+    const provider = integrations.oauth.providers[providerId];
+
+    if (provider?.enabled) {
+      tenantIds.push(row.tenantId);
+    }
+  }
+
+  return tenantIds;
+}
+
 export async function getTenantSettingsByTenantId(
   tenantId: string,
   db: AfendaDatabase = getDb()
@@ -171,7 +283,9 @@ export async function getTenantSettingsByTenantId(
     notifications: parseTenantNotificationsSettings(row.notifications),
     workspace: parseTenantWorkspaceSettings(row.workspace),
     billing: parseTenantBillingSettings(row.billing),
-    integrations: parseTenantIntegrationsSettings(row.integrations),
+    integrations: normalizeTenantIntegrationsSettings(
+      parseTenantIntegrationsSettings(row.integrations)
+    ),
   };
 }
 

@@ -6,9 +6,11 @@ import {
   docsSeedPageSlugs,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
+import { docsLocaleContentRoot } from "@/lib/docs-page-path";
+import { docsDefaultLocale } from "@/lib/i18n";
 import { slugToMdxPath } from "./helpers/slug-to-mdx-path";
 
-const contentRoot = join(process.cwd(), "content/docs");
+const contentRoot = docsLocaleContentRoot(docsDefaultLocale);
 
 const mdxTitlePattern = /^title:\s*(.+)\s*$/m;
 

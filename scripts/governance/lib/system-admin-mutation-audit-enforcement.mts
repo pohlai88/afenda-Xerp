@@ -10,6 +10,7 @@ import {
   SYSTEM_ADMIN_MUTATION_AUDIT_COVERAGE_TEST,
   SYSTEM_ADMIN_MUTATION_AUDIT_ERP_REGISTRY_MARKERS,
   SYSTEM_ADMIN_MUTATION_AUDIT_SURFACE_RULE,
+  SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ACTION_IDS,
   SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES,
   SYSTEM_ADMIN_SUPPLEMENTARY_MUTATION_AUDIT_ENTRIES,
 } from "../system-admin-mutation-audit-registry.mts";
@@ -103,6 +104,24 @@ function collectServerActionAuditViolations(
       continue;
     }
 
+    const auditWiringPath =
+      "auditWiringPath" in entry && typeof entry.auditWiringPath === "string"
+        ? entry.auditWiringPath
+        : undefined;
+    const auditSource =
+      auditWiringPath === undefined
+        ? source
+        : readRepoFile(repoRoot, auditWiringPath);
+
+    if (auditWiringPath !== undefined && auditSource === null) {
+      violations.push({
+        rule: "server-action-audit-wiring-missing",
+        file: join(repoRoot, auditWiringPath),
+        message: `${entry.actionModule} declares auditWiringPath ${auditWiringPath} but module is missing`,
+      });
+      continue;
+    }
+
     if (!source.includes('"use server"')) {
       violations.push({
         rule: "server-action-directive-missing",
@@ -111,18 +130,20 @@ function collectServerActionAuditViolations(
       });
     }
 
-    if (!source.includes("resolveActionOperatingContext")) {
+    const contextSource = auditSource ?? source;
+    if (!contextSource.includes("resolveActionOperatingContext")) {
       violations.push({
         rule: "server-action-context-missing",
-        file: join(repoRoot, entry.actionModule),
+        file: join(repoRoot, auditWiringPath ?? entry.actionModule),
         message: `${entry.actionModule} must resolve operating context before mutation`,
       });
     }
 
-    if (!source.includes("recordActionAudit")) {
+    const auditCheckSource = auditSource ?? source;
+    if (!auditCheckSource.includes("recordActionAudit")) {
       violations.push({
         rule: "server-action-audit-missing",
-        file: join(repoRoot, entry.actionModule),
+        file: join(repoRoot, auditWiringPath ?? entry.actionModule),
         message: `${entry.actionModule} must emit audit via recordActionAudit`,
       });
     }
@@ -212,6 +233,16 @@ export function collectSystemAdminMutationAuditViolations(
         rule: "erp-registry-marker-missing",
         file: erpRegistryPath,
         message: `ERP registry missing marker: ${marker}`,
+      });
+    }
+  }
+
+  for (const actionId of SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ACTION_IDS) {
+    if (!erpRegistrySource.includes(`"${actionId}"`)) {
+      violations.push({
+        rule: "erp-registry-action-id-missing",
+        file: erpRegistryPath,
+        message: `ERP registry must declare server action id ${actionId}`,
       });
     }
   }

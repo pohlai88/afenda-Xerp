@@ -1,10 +1,25 @@
 import { HomeLayout } from "fumadocs-ui/layouts/home";
 import Link from "next/link";
 import { docsHomeSections } from "@/lib/docs-home.constants";
+import { docsHref } from "@/lib/docs-nav.contract";
+import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import { baseOptions } from "@/lib/layout.shared";
 
-export default function DocsMarketingHomePage() {
-  const options = baseOptions();
+function isDocsLocale(value: string): value is DocsLocale {
+  return (docsLocales as readonly string[]).includes(value);
+}
+
+interface DocsMarketingHomePageProps {
+  readonly params: Promise<{ lang: string }>;
+}
+
+export default async function DocsMarketingHomePage({
+  params,
+}: DocsMarketingHomePageProps) {
+  const { lang: rawLang } = await params;
+  const lang = isDocsLocale(rawLang) ? rawLang : docsDefaultLocale;
+  const options = baseOptions(lang);
+  const sections = docsHomeSections(lang);
 
   return (
     <HomeLayout {...options}>
@@ -24,13 +39,13 @@ export default function DocsMarketingHomePage() {
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               className="inline-flex h-10 items-center rounded-md bg-fd-primary px-4 font-medium text-fd-primary-foreground text-sm transition-opacity hover:opacity-90"
-              href="/docs"
+              href={docsHref(lang, "/docs")}
             >
               Open documentation
             </Link>
             <Link
               className="inline-flex h-10 items-center rounded-md border border-fd-border px-4 font-medium text-fd-foreground text-sm transition-colors hover:bg-fd-accent"
-              href="/docs/getting-started"
+              href={docsHref(lang, "/docs/getting-started")}
             >
               Getting started
             </Link>
@@ -41,7 +56,7 @@ export default function DocsMarketingHomePage() {
           aria-label="Documentation sections"
           className="grid gap-4 sm:grid-cols-2"
         >
-          {docsHomeSections.map((section) => {
+          {sections.map((section) => {
             const Icon = section.icon;
             return (
               <Link
@@ -63,4 +78,8 @@ export default function DocsMarketingHomePage() {
       </main>
     </HomeLayout>
   );
+}
+
+export function generateStaticParams(): Array<{ lang: DocsLocale }> {
+  return docsLocales.map((lang) => ({ lang }));
 }

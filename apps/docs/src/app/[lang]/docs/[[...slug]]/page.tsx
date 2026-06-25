@@ -12,14 +12,20 @@ import { getMDXComponents } from "@/components/mdx";
 import { docsGithubRepository } from "@/lib/docs-github.constants";
 import { type DocsPageParams, resolveDocsPage } from "@/lib/docs-page";
 import { resolveDocsContentRelativePath } from "@/lib/docs-page-path";
+import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import { source } from "@/lib/source";
 
 interface DocsSlugPageProps {
   readonly params: Promise<DocsPageParams>;
 }
 
+function isDocsLocale(value: string): value is DocsLocale {
+  return (docsLocales as readonly string[]).includes(value);
+}
+
 async function resolveLastModified(
-  contentRelativePath: string
+  contentRelativePath: string,
+  lang: DocsLocale
 ): Promise<Date | undefined> {
   if (process.env.NODE_ENV === "development") {
     return;
@@ -29,7 +35,7 @@ async function resolveLastModified(
     const timestamp = await getGithubLastEdit({
       owner: docsGithubRepository.owner,
       repo: docsGithubRepository.repo,
-      path: `${docsGithubRepository.contentPathPrefix}/${contentRelativePath}`,
+      path: `${docsGithubRepository.contentPathPrefix}/${lang}/${contentRelativePath}`,
     });
     return timestamp ? new Date(timestamp) : undefined;
   } catch {
@@ -38,12 +44,13 @@ async function resolveLastModified(
 }
 
 export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
-  const { slug } = await params;
-  const page = resolveDocsPage(slug);
+  const { slug, lang: rawLang } = await params;
+  const lang = isDocsLocale(rawLang) ? rawLang : docsDefaultLocale;
+  const page = resolveDocsPage(slug, lang);
   const MDX = page.data.body;
-  const contentRelativePath = resolveDocsContentRelativePath(page);
-  const lastModified = await resolveLastModified(contentRelativePath);
-  const githubPath = `${docsGithubRepository.contentPathPrefix}/${contentRelativePath}`;
+  const contentRelativePath = resolveDocsContentRelativePath(page, lang);
+  const lastModified = await resolveLastModified(contentRelativePath, lang);
+  const githubPath = `${docsGithubRepository.contentPathPrefix}/${lang}/${contentRelativePath}`;
 
   const docsPageProps = {
     editOnGithub: {
@@ -84,8 +91,9 @@ export function generateStaticParams(): DocsPageParams[] {
 export async function generateMetadata({
   params,
 }: DocsSlugPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const page = resolveDocsPage(slug);
+  const { slug, lang: rawLang } = await params;
+  const lang = isDocsLocale(rawLang) ? rawLang : docsDefaultLocale;
+  const page = resolveDocsPage(slug, lang);
 
   return {
     title: page.data.title,

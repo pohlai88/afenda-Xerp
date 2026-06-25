@@ -25,7 +25,7 @@
 | **13a** | [slice-13a-sso-idp-config.md](./slice-13a-sso-idp-config.md) | SSO IdP config + SAML/OIDC wiring | **Delivered** | `packages/database` · `packages/auth` · `apps/erp` |
 | **13b** | [slice-13b-passkey-enroll-ui.md](./slice-13b-passkey-enroll-ui.md) | Passkey enroll/authenticate UI | **Delivered** 2026-06-25 | `packages/auth` · `packages/appshell` · `apps/erp` |
 | **13a-debt** | [slice-13a-debt-tenant-sso-hardening.md](./slice-13a-debt-tenant-sso-hardening.md) | SSO tenant boundary hardening | **Delivered** 2026-06-25 | `packages/database` · `packages/auth` · `apps/erp` |
-| **13c** | [slice-13c-social-oauth-allowlist.md](./slice-13c-social-oauth-allowlist.md) | Social OAuth allowlist + admin UI | **Not started** | `packages/auth` · `apps/erp` |
+| **13c** | [slice-13c-social-oauth-allowlist.md](./slice-13c-social-oauth-allowlist.md) | Social OAuth allowlist + admin UI | **Delivered** 2026-06-25 | `packages/auth` · `apps/erp` |
 | **13d** | [slice-13d-phase3-evidence-sync.md](./slice-13d-phase3-evidence-sync.md) | Phase 3 evidence-sync + waiver close | **Not started** | docs only |
 | **14** | [slice-14-change-email-enabled.md](./slice-14-change-email-enabled.md) | `changeEmail` enabled + profile UI wire | **Delivered** 2026-06-25 | `packages/auth` · `apps/erp` |
 
@@ -33,8 +33,8 @@
 
 ```text
 Phase A — Slices 1–12 ✓ · Slice 10 ✓ · Slice 14 ✓ · Amendment 13 ✓ (2026-06-25)
-Phase B — 13a (SSO) ✓ → 13b (passkeys) ✓ → 13a-debt (SSO hardening) ✓ → 13c (OAuth) → 13d (evidence-sync)
-Next session: Slice 13c (OAuth allowlist) or 13d (Phase 3 evidence-sync)
+Phase B — 13a (SSO) ✓ → 13b (passkeys) ✓ → 13a-debt (SSO hardening) ✓ → 13c (OAuth) ✓ → 13d (evidence-sync)
+Next session: Slice 13d (Phase 3 evidence-sync)
 ```
 
 **Waiver:** AUTH-PHASE3-001 — **In progress** (closes Slice 13d). Amendment **Accepted** 2026-06-25: [`slice-13-phase3-amendment-draft.md`](./slice-13-phase3-amendment-draft.md).

@@ -43,7 +43,7 @@ const { pageBySlug, seedSlugs } = vi.hoisted(() => {
 
 vi.mock("@/lib/source", () => ({
   source: {
-    getPage: vi.fn((slug?: string[]) => {
+    getPage: vi.fn((slug?: string[], _lang?: string) => {
       const key = !slug || slug.length === 0 ? "home" : slug.join("/");
       return pageBySlug.get(key);
     }),
@@ -54,7 +54,7 @@ import { resolveDocsPage } from "@/lib/docs-page";
 
 describe("@afenda/docs page resolution", () => {
   it("returns the resolved page when the slug exists", () => {
-    const page = resolveDocsPage([]);
+    const page = resolveDocsPage([], "en");
 
     expect(page.data.title).toBe("Afenda Documentation");
   });
@@ -64,12 +64,12 @@ describe("@afenda/docs page resolution", () => {
       .filter((slug) => slug.length > 0)
       .map((slug) => [slug.join("/"), slug] as const)
   )("resolves seed slug %s", (_label, slug) => {
-    const page = resolveDocsPage(slug);
+    const page = resolveDocsPage(slug, "en");
 
     expect(page.data.title.length).toBeGreaterThan(0);
   });
 
   it("calls notFound when the slug does not resolve", () => {
-    expect(() => resolveDocsPage(["missing-page"])).toThrow("NOT_FOUND");
+    expect(() => resolveDocsPage(["missing-page"], "en")).toThrow("NOT_FOUND");
   });
 });

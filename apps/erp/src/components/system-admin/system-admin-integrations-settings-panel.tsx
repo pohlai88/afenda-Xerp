@@ -6,6 +6,8 @@ import {
 } from "@afenda/appshell";
 import type {
   TenantIntegrationsSettings,
+  TenantOAuthProviderId,
+  TenantOAuthSettings,
   TenantSsoProviderSummary,
 } from "@afenda/database";
 import { TENANT_SSO_CLIENT_SECRET_ENV_KEY } from "@afenda/database";
@@ -26,6 +28,10 @@ import {
   updateIntegrationsSettingsAction,
 } from "@/lib/system-admin/update-integrations-settings.action";
 import {
+  type UpdateOauthProviderSettingsActionState,
+  updateOauthProviderSettingsAction,
+} from "@/lib/system-admin/update-oauth-provider-settings.action";
+import {
   type UpdateSsoProviderSettingsActionState,
   updateSsoProviderSettingsAction,
 } from "@/lib/system-admin/update-sso-provider-settings.action";
@@ -41,7 +47,9 @@ export type SystemAdminIntegrationsSettingsPanelGovernedComponents = Extract<
 >;
 
 type TenantIntegrationAppRow =
-  TenantIntegrationsSettings[keyof TenantIntegrationsSettings]["apps"][number];
+  TenantIntegrationsSettings["communication"]["apps"][number];
+
+type TenantIntegrationSectionKey = "communication" | "planning" | "tools";
 
 function toIntegrationApp(
   app: TenantIntegrationAppRow
@@ -69,8 +77,12 @@ export function SystemAdminIntegrationsSettingsPanel({
   initialSsoProviders,
 }: SystemAdminIntegrationsSettingsPanelProps) {
   const router = useRouter();
-  const pendingToggleRef = useRef<{
+  const pendingSsoToggleRef = useRef<{
     id: string;
+    previousEnabled: boolean;
+  } | null>(null);
+  const pendingOauthToggleRef = useRef<{
+    providerId: TenantOAuthProviderId;
     previousEnabled: boolean;
   } | null>(null);
 
@@ -82,6 +94,14 @@ export function SystemAdminIntegrationsSettingsPanel({
   );
   const [toolsApps, setToolsApps] = useState(() =>
     cloneApps(initialIntegrations.tools.apps)
+  );
+  const [oauthProviders, setOauthProviders] = useState<TenantOAuthSettings>(
+    () => ({
+      providers: {
+        google: { ...initialIntegrations.oauth.providers.google },
+        microsoft: { ...initialIntegrations.oauth.providers.microsoft },
+      },
+    })
   );
   const [ssoProviders, setSsoProviders] = useState(() => [
     ...initialSsoProviders,
@@ -103,6 +123,20 @@ export function SystemAdminIntegrationsSettingsPanel({
     null satisfies UpdateSsoProviderSettingsActionState
   );
 
+  const [oauthActionState, oauthFormAction, isOauthPending] = useActionState(
+    updateOauthProviderSettingsAction,
+    null satisfies UpdateOauthProviderSettingsActionState
+  );
+
+  useEffect(() => {
+    setOauthProviders({
+      providers: {
+        google: { ...initialIntegrations.oauth.providers.google },
+        microsoft: { ...initialIntegrations.oauth.providers.microsoft },
+      },
+    });
+  }, [initialIntegrations.oauth.providers]);
+
   useEffect(() => {
     setSsoProviders([...initialSsoProviders]);
   }, [initialSsoProviders]);
@@ -113,13 +147,13 @@ export function SystemAdminIntegrationsSettingsPanel({
     }
 
     if (ssoActionState?.ok) {
-      pendingToggleRef.current = null;
+      pendingSsoToggleRef.current = null;
       router.refresh();
       return;
     }
 
-    if (ssoActionState && !ssoActionState.ok && pendingToggleRef.current) {
-      const pending = pendingToggleRef.current;
+    if (ssoActionState && !ssoActionState.ok && pendingSsoToggleRef.current) {
+      const pending = pendingSsoToggleRef.current;
       setSsoProviders((current) =>
         current.map((row) =>
           row.id === pending.id
@@ -127,9 +161,39 @@ export function SystemAdminIntegrationsSettingsPanel({
             : row
         )
       );
-      pendingToggleRef.current = null;
+      pendingSsoToggleRef.current = null;
     }
   }, [isSsoPending, router, ssoActionState]);
+
+  useEffect(() => {
+    if (isOauthPending) {
+      return;
+    }
+
+    if (oauthActionState?.ok) {
+      pendingOauthToggleRef.current = null;
+      router.refresh();
+      return;
+    }
+
+    if (
+      oauthActionState &&
+      !oauthActionState.ok &&
+      pendingOauthToggleRef.current
+    ) {
+      const pending = pendingOauthToggleRef.current;
+      setOauthProviders((current) => ({
+        providers: {
+          ...current.providers,
+          [pending.providerId]: {
+            ...current.providers[pending.providerId],
+            enabled: pending.previousEnabled,
+          },
+        },
+      }));
+      pendingOauthToggleRef.current = null;
+    }
+  }, [isOauthPending, oauthActionState, router]);
 
   const persistSettings = useCallback(
     (next: TenantIntegrationsSettings) => {
@@ -142,12 +206,13 @@ export function SystemAdminIntegrationsSettingsPanel({
   );
 
   const handleConnectToggle = (
-    section: keyof TenantIntegrationsSettings,
+    section: TenantIntegrationSectionKey,
     appId: string,
     connected: boolean
   ) => {
     const nextSettings: TenantIntegrationsSettings = {
       communication: { apps: communicationApps },
+      oauth: oauthProviders,
       planning: { apps: planningApps },
       tools: { apps: toolsApps },
     };
@@ -174,11 +239,37 @@ export function SystemAdminIntegrationsSettingsPanel({
     persistSettings(nextSettings);
   };
 
+  const handleOAuthToggle = (
+    providerId: TenantOAuthProviderId,
+    enabled: boolean
+  ) => {
+    pendingOauthToggleRef.current = {
+      providerId,
+      previousEnabled: oauthProviders.providers[providerId].enabled,
+    };
+
+    const formData = new FormData();
+    formData.set("mode", "toggle");
+    formData.set("providerId", providerId);
+    formData.set("enabled", enabled ? "true" : "false");
+    oauthFormAction(formData);
+
+    setOauthProviders((current) => ({
+      providers: {
+        ...current.providers,
+        [providerId]: {
+          ...current.providers[providerId],
+          enabled,
+        },
+      },
+    }));
+  };
+
   const handleSsoToggle = (
     provider: TenantSsoProviderSummary,
     enabled: boolean
   ) => {
-    pendingToggleRef.current = {
+    pendingSsoToggleRef.current = {
       id: provider.id,
       previousEnabled: provider.enabled,
     };
@@ -206,10 +297,12 @@ export function SystemAdminIntegrationsSettingsPanel({
         domain,
         issuer,
         enabled: true,
-        metadata: { clientId },
-        ...(clientSecretEnvKey.trim()
-          ? { [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: clientSecretEnvKey.trim() }
-          : {}),
+        metadata: {
+          clientId,
+          ...(clientSecretEnvKey.trim()
+            ? { [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: clientSecretEnvKey.trim() }
+            : {}),
+        },
       })
     );
     ssoFormAction(formData);
@@ -217,6 +310,44 @@ export function SystemAdminIntegrationsSettingsPanel({
 
   return (
     <>
+      <section aria-labelledby="erp-oauth-providers-heading">
+        <h2 id="erp-oauth-providers-heading">Social OAuth</h2>
+        <p>
+          Allowlist Google and Microsoft sign-in per tenant. Client secrets load
+          from environment keys — never stored in settings or audit metadata.
+        </p>
+        <ul>
+          {(
+            Object.keys(oauthProviders.providers) as TenantOAuthProviderId[]
+          ).map((providerId) => {
+            const provider = oauthProviders.providers[providerId];
+            return (
+              <li key={providerId}>
+                <span>
+                  {provider.displayName} ({providerId})
+                </span>
+                <Switch
+                  checked={provider.enabled}
+                  disabled={isOauthPending}
+                  onCheckedChange={(checked) => {
+                    handleOAuthToggle(providerId, checked);
+                  }}
+                />
+              </li>
+            );
+          })}
+        </ul>
+        {oauthActionState && !oauthActionState.ok ? (
+          <p className="erp-system-admin-settings-form__message" role="alert">
+            {oauthActionState.userMessage}
+          </p>
+        ) : null}
+        {oauthActionState?.ok ? (
+          <p className="erp-system-admin-settings-form__message" role="status">
+            OAuth provider settings saved.
+          </p>
+        ) : null}
+      </section>
       <section aria-labelledby="erp-sso-providers-heading">
         <h2 id="erp-sso-providers-heading">Enterprise SSO</h2>
         <p>
@@ -327,7 +458,8 @@ export function SystemAdminIntegrationsSettingsPanel({
         ) : null}
         {ssoActionState?.ok ? (
           <p className="erp-system-admin-settings-form__message" role="status">
-            {ssoActionState.data.syncNotice ?? "SSO provider saved."}
+            {ssoActionState.data.syncNotice ??
+              "SSO provider saved and synced with Better Auth."}
           </p>
         ) : null}
       </section>

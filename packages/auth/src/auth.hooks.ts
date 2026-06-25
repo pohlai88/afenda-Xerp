@@ -8,6 +8,10 @@ import {
   readInvitationTokenFromBody,
   validateAuthInvitation,
 } from "./auth.invitation.js";
+import {
+  isAfendaAuthOAuthCallbackPath,
+  readOAuthProviderIdFromCallbackPath,
+} from "./auth.oauth-policy.js";
 import { isAfendaAuthSsoCallbackPath } from "./auth.sso-policy.js";
 
 function createAuthCorrelationId(prefix = "auth"): string {
@@ -344,6 +348,37 @@ export async function handleAfendaAuthAuditHook(
   const meta = readAuthRequestMeta(ctx);
   const correlationId = createAuthCorrelationId();
 
+  if (isAfendaAuthOAuthCallbackPath(ctx.path) && ctx.context.newSession) {
+    const { user, session } = ctx.context.newSession;
+    const oauthProviderId = readOAuthProviderIdFromCallbackPath(ctx.path);
+    await persist({
+      event: AUTH_EVENT.oauthSignInSucceeded,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(oauthProviderId === undefined ? {} : { oauthProviderId }),
+      },
+    });
+    await persist({
+      event: AUTH_EVENT.sessionCreated,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
   if (isAfendaAuthSsoCallbackPath(ctx.path) && ctx.context.newSession) {
     const { user, session } = ctx.context.newSession;
     const ssoProviderId = readSsoProviderIdFromPath(ctx.path);
@@ -371,6 +406,22 @@ export async function handleAfendaAuthAuditHook(
         userAgent: meta.userAgent,
         correlationId,
       },
+    });
+    return;
+  }
+
+  if (isAfendaAuthOAuthCallbackPath(ctx.path) && !ctx.context.newSession) {
+    const oauthProviderId = readOAuthProviderIdFromCallbackPath(ctx.path);
+    await persist({
+      event: AUTH_EVENT.oauthSignInFailed,
+      result: "failure",
+      context: {
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(oauthProviderId === undefined ? {} : { oauthProviderId }),
+      },
+      reason: "OAuth sign-in did not establish a session.",
     });
     return;
   }

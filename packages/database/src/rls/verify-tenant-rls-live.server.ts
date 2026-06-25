@@ -1,7 +1,5 @@
-import {
-  MissingMigrationDatabaseUrlError,
-  resolveMigrationDatabaseUrl,
-} from "../env.js";
+import { MissingMigrationDatabaseUrlError } from "../env.js";
+import { resolveDatabaseUrlForConsumer } from "../supabase/connection-routing.contract.js";
 import { TENANT_RLS_ISOLATION_POLICIES } from "./tenant-rls-coverage.contract.js";
 import {
   buildTenantRlsPolicyLiveProbeSql,
@@ -35,7 +33,7 @@ export function isLiveTenantRlsVerificationAvailable(
   env: NodeJS.ProcessEnv = process.env
 ): boolean {
   try {
-    resolveMigrationDatabaseUrl(env);
+    resolveDatabaseUrlForConsumer("rls-live-probe", env);
     return true;
   } catch (error) {
     if (error instanceof MissingMigrationDatabaseUrlError) {

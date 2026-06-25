@@ -17,10 +17,19 @@ export interface CspThirdPartyAllowlist {
 }
 
 export const CSP_THIRD_PARTY_ALLOWLIST = {
-  connectSrc: [],
+  connectSrc: [
+    "https://accounts.google.com",
+    "https://login.microsoftonline.com",
+    "https://graph.microsoft.com",
+    "https://oauth2.googleapis.com",
+    "https://www.googleapis.com",
+  ],
   fontSrc: [],
-  frameSrc: [],
-  imgSrc: [],
+  frameSrc: [
+    "https://accounts.google.com",
+    "https://login.microsoftonline.com",
+  ],
+  imgSrc: ["https://accounts.google.com", "https://login.microsoftonline.com"],
   scriptSrc: [],
 } as const satisfies CspThirdPartyAllowlist;
 

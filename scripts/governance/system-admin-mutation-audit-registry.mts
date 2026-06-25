@@ -2,6 +2,8 @@
  * System-admin mutation audit gate registry (PKG007_ADMIN / ADR-0014).
  *
  * Runtime checks live in `lib/system-admin-mutation-audit-enforcement.mts`.
+ * Keep `SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES` aligned with
+ * `apps/erp/src/lib/system-admin/system-admin-mutation-audit.registry.ts`.
  */
 export const SYSTEM_ADMIN_MUTATION_AUDIT_GATE =
   "scripts/governance/check-system-admin-mutation-audit.mts" as const;
@@ -42,6 +44,68 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
     targetType: "system_admin_settings",
   },
   {
+    id: "system_admin.settings.notifications.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-notifications-settings.action.ts",
+    targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
+  },
+  {
+    id: "system_admin.settings.workspace.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
+    targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
+  },
+  {
+    id: "system_admin.settings.billing.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
+    targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
+  },
+  {
+    id: "system_admin.settings.integrations.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
+    targetType: "system_admin_settings",
+    auditWiringPath:
+      "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
+  },
+  {
+    id: "system_admin.settings.integrations.sso.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",
+    targetType: "system_admin_integrations_settings",
+  },
+  {
+    id: "system_admin.settings.integrations.oauth.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-oauth-provider-settings.action.ts",
+    targetType: "system_admin_integrations_settings",
+  },
+  {
+    id: "system_admin.settings.security.mfa_policy.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.members.invite.resend",
+    actionModule:
+      "apps/erp/src/lib/system-admin/resend-system-admin-invite.action.ts",
+    targetType: "system_admin_members",
+  },
+  {
+    id: "system_admin.settings.members.invite.revoke",
+    actionModule:
+      "apps/erp/src/lib/system-admin/revoke-system-admin-invite.action.ts",
+    targetType: "system_admin_members",
+  },
+  {
     id: "system_admin.diagnostics.refresh_readiness_gate_full",
     actionModule:
       "apps/erp/src/lib/system-admin/refresh-accounting-readiness-gate-full.action.ts",
@@ -77,4 +141,9 @@ export const SYSTEM_ADMIN_MUTATION_AUDIT_ERP_REGISTRY_MARKERS = [
   "SYSTEM_ADMIN_API_MUTATION_AUDIT_ENTRIES",
   "SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES",
   "SYSTEM_ADMIN_SUPPLEMENTARY_MUTATION_AUDIT_ENTRIES",
+  "SYSTEM_ADMIN_OBSERVABILITY_REGISTRY_PARITY_TEST",
 ] as const;
+
+/** Every PKG007 server-action id must appear in the ERP registry (parity lock). */
+export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ACTION_IDS =
+  SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES.map((entry) => entry.id);

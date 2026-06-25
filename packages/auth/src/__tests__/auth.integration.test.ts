@@ -25,6 +25,10 @@ import {
   assertTenantMfaPolicySatisfied,
   isAuthUserMfaEnabled,
 } from "../auth.mfa-policy.js";
+import {
+  AFENDA_AUTH_OAUTH_CALLBACK_PREFIX,
+  AFENDA_OAUTH_PROVIDER_IDS,
+} from "../auth.oauth-policy.js";
 
 /** Mirrors `auth.config.ts` rate-limit constants (Slice 7 config attestation). */
 const AUTH_RATE_LIMIT_WINDOW_SECONDS = 60;
@@ -525,11 +529,14 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
     );
   });
 
-  it("marks invitation, MFA, SSO, and passkey extension points active only where integration-tested", () => {
+  it("marks invitation, MFA, SSO, OAuth, and passkey extension points active only where integration-tested", () => {
     expect(AFENDA_AUTH_EXTENSION_POINTS.invitation).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.mfa).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.enterpriseSso).toBe("active");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.socialOAuth).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.organization).toBe("planned");
     expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("active");
+    expect(AFENDA_AUTH_OAUTH_CALLBACK_PREFIX).toBe("/callback/");
+    expect(AFENDA_OAUTH_PROVIDER_IDS).toEqual(["google", "microsoft"]);
   });
 });

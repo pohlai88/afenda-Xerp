@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("CSP hybrid production audit", () => {
-  test("sign-in uses SRI policy without nonce when hybrid strategy is production", async ({
+  test("@smoke sign-in uses SRI policy without nonce when hybrid strategy is production", async ({
     request,
   }) => {
     test.skip(

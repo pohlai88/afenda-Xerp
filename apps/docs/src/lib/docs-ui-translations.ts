@@ -1,16 +1,27 @@
-import { defineTranslations } from "fumadocs-core/i18n";
-import { uiTranslations } from "fumadocs-ui/i18n";
+import { defineI18nUI } from "fumadocs-ui/i18n";
+import { i18n } from "@/lib/i18n";
 
-/** Afenda editorial overrides for Fumadocs UI labels (English singular mode). */
+/** Afenda editorial overrides for Fumadocs UI labels per locale. */
 export const docsUiTranslationOverrides = {
-  "Search(search trigger)": "Search documentation",
-  "Search(search dialog)": "Search documentation",
-} as const satisfies Record<string, string>;
+  en: {
+    displayName: "English",
+    "Search(search trigger)": "Search documentation",
+    "Search(search dialog)": "Search documentation",
+  },
+  zh: {
+    displayName: "中文",
+    "Search(search trigger)": "搜索文档",
+    "Search(search dialog)": "搜索文档",
+  },
+} as const;
 
 export const docsUiTranslationOverrideKeys = Object.keys(
-  docsUiTranslationOverrides
-) as (keyof typeof docsUiTranslationOverrides)[];
+  docsUiTranslationOverrides.en
+).filter((key) => key !== "displayName") as (keyof Omit<
+  (typeof docsUiTranslationOverrides)["en"],
+  "displayName"
+>)[];
 
-export const docsUiTranslations = defineTranslations()
-  .extend(uiTranslations())
-  .add(docsUiTranslationOverrides);
+const { provider } = defineI18nUI(i18n, docsUiTranslationOverrides);
+
+export const docsI18nProvider = provider;

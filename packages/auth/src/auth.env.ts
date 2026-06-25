@@ -131,6 +131,73 @@ export function isAuthEmailDeliveryEnabled(
 /** Runtime contract — mirrors `user.changeEmail.enabled` in `auth.config.ts`. */
 export const AUTH_CHANGE_EMAIL_ENABLED = true as const;
 
+/** Platform OAuth client ID env keys (ARCH-AUTH-001 Slice 13c). */
+export const AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV =
+  "AFENDA_OAUTH_GOOGLE_CLIENT_ID" as const;
+export const AFENDA_OAUTH_GOOGLE_CLIENT_SECRET_ENV =
+  "AFENDA_OAUTH_GOOGLE_CLIENT_SECRET" as const;
+export const AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV =
+  "AFENDA_OAUTH_MICROSOFT_CLIENT_ID" as const;
+export const AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV =
+  "AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET" as const;
+
+export function resolveOAuthClientSecretFromEnv(
+  env: NodeJS.ProcessEnv,
+  envKey: string
+): string | undefined {
+  return readTrimmedEnv(env, envKey);
+}
+
+export interface BetterAuthSocialProviderConfig {
+  readonly clientId: string;
+  readonly clientSecret: string;
+  readonly disableImplicitSignUp: true;
+}
+
+export type BetterAuthSocialProvidersConfig = Partial<
+  Record<"google" | "microsoft", BetterAuthSocialProviderConfig>
+>;
+
+/** Resolves Better Auth `socialProviders` from platform env (tenant secrets via env key). */
+export function resolveBetterAuthSocialProviders(
+  env: NodeJS.ProcessEnv = process.env
+): BetterAuthSocialProvidersConfig | undefined {
+  const providers: BetterAuthSocialProvidersConfig = {};
+
+  const googleClientId = readTrimmedEnv(env, AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV);
+  const googleClientSecret = readTrimmedEnv(
+    env,
+    AFENDA_OAUTH_GOOGLE_CLIENT_SECRET_ENV
+  );
+
+  if (googleClientId && googleClientSecret) {
+    providers.google = {
+      clientId: googleClientId,
+      clientSecret: googleClientSecret,
+      disableImplicitSignUp: true,
+    };
+  }
+
+  const microsoftClientId = readTrimmedEnv(
+    env,
+    AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV
+  );
+  const microsoftClientSecret = readTrimmedEnv(
+    env,
+    AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV
+  );
+
+  if (microsoftClientId && microsoftClientSecret) {
+    providers.microsoft = {
+      clientId: microsoftClientId,
+      clientSecret: microsoftClientSecret,
+      disableImplicitSignUp: true,
+    };
+  }
+
+  return Object.keys(providers).length > 0 ? providers : undefined;
+}
+
 /** Whether Better Auth change-email is enabled for ERP profile UI gating. */
 export function isAuthChangeEmailEnabled(): boolean {
   return AUTH_CHANGE_EMAIL_ENABLED;

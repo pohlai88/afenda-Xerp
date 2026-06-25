@@ -1,4 +1,5 @@
 import {
+  buildDefaultTenantOAuthSettings,
   getTenantSettingsByTenantId,
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
@@ -73,6 +74,7 @@ export function buildDefaultIntegrationsSettings(): TenantIntegrationsSettings {
     communication: {
       apps: buildCommunicationIntegrations().map((app) => ({ ...app })),
     },
+    oauth: buildDefaultTenantOAuthSettings(),
     planning: {
       apps: buildPlanningIntegrations().map((app) => ({ ...app })),
     },

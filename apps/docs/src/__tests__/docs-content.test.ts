@@ -6,8 +6,10 @@ import {
   docsGuidesFolderGroup,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
+import { docsLocaleContentRoot } from "@/lib/docs-page-path";
+import { docsDefaultLocale } from "@/lib/i18n";
 
-const contentRoot = join(process.cwd(), "content/docs");
+const contentRoot = docsLocaleContentRoot(docsDefaultLocale);
 
 function readMetaJson(relativeDir: string): {
   pages: string[];

@@ -63,9 +63,11 @@ describe("@afenda/auth package", () => {
     });
   });
 
-  it("marks MFA, invitation, and passkey extension points active", () => {
+  it("marks MFA, invitation, SSO, OAuth, and passkey extension points active", () => {
     expect(AFENDA_AUTH_EXTENSION_POINTS.mfa).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.invitation).toBe("active");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.enterpriseSso).toBe("active");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.socialOAuth).toBe("active");
     expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("active");
   });
 

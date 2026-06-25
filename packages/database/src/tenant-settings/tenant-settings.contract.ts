@@ -59,11 +59,58 @@ const tenantIntegrationAppSchema = z.object({
   pricingLabel: z.string().max(64).optional(),
 });
 
+/** MVP social OAuth providers allowlisted per tenant (ARCH-AUTH-001 Slice 13c). */
+export const TENANT_OAUTH_PROVIDER_IDS = ["google", "microsoft"] as const;
+
+export type TenantOAuthProviderId = (typeof TENANT_OAUTH_PROVIDER_IDS)[number];
+
+/** Metadata key for env-backed OAuth client secret — never persist secret values. */
+export const TENANT_OAUTH_CLIENT_SECRET_ENV_KEY = "clientSecretEnvKey" as const;
+
+export const tenantOAuthProviderConfigSchema = z.object({
+  clientId: z.string().max(255),
+  [TENANT_OAUTH_CLIENT_SECRET_ENV_KEY]: z.string().min(1).max(128).optional(),
+  displayName: z.string().min(1).max(255),
+  enabled: z.boolean(),
+});
+
+export const tenantOAuthSettingsSchema = z.object({
+  providers: z.object({
+    google: tenantOAuthProviderConfigSchema,
+    microsoft: tenantOAuthProviderConfigSchema,
+  }),
+});
+
+export type TenantOAuthProviderConfig = z.infer<
+  typeof tenantOAuthProviderConfigSchema
+>;
+export type TenantOAuthSettings = z.infer<typeof tenantOAuthSettingsSchema>;
+
+export function buildDefaultTenantOAuthProviderConfig(
+  displayName: string
+): TenantOAuthProviderConfig {
+  return {
+    clientId: "",
+    displayName,
+    enabled: false,
+  };
+}
+
+export function buildDefaultTenantOAuthSettings(): TenantOAuthSettings {
+  return {
+    providers: {
+      google: buildDefaultTenantOAuthProviderConfig("Google"),
+      microsoft: buildDefaultTenantOAuthProviderConfig("Microsoft"),
+    },
+  };
+}
+
 /** Serializable integrations settings persisted for tenant_settings.integrations. */
 export const tenantIntegrationsSettingsSchema = z.object({
   communication: z.object({
     apps: z.array(tenantIntegrationAppSchema),
   }),
+  oauth: tenantOAuthSettingsSchema.default(buildDefaultTenantOAuthSettings()),
   planning: z.object({
     apps: z.array(tenantIntegrationAppSchema),
   }),

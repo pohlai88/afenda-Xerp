@@ -69,7 +69,9 @@ test.describe("protected home dashboard", () => {
 });
 
 test.describe("public dev harness", () => {
-  test("appshell demo redirects to the canvas harness", async ({ page }) => {
+  test("@smoke appshell demo redirects to the canvas harness", async ({
+    page,
+  }) => {
     await page.goto("/appshell-demo");
     await expect(page).toHaveURL(APPSHELL_CANVAS_URL_PATTERN);
     await expect(
@@ -79,7 +81,7 @@ test.describe("public dev harness", () => {
     });
   });
 
-  test("unsigned appshell canvas falls back to default layout", async ({
+  test("@smoke unsigned appshell canvas falls back to default layout", async ({
     page,
   }) => {
     const [layoutResponse] = await Promise.all([

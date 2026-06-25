@@ -23,7 +23,7 @@ import { baseOptions } from "@/lib/layout.shared";
 
 describe("@afenda/docs routes", () => {
   it("exposes Afenda branding in shared layout options", () => {
-    const options = baseOptions();
+    const options = baseOptions("en");
 
     expect(options.nav?.title).toBe("Afenda Docs");
     expect(options.links?.length).toBeGreaterThanOrEqual(2);

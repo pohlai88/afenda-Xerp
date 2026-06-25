@@ -42,6 +42,8 @@ import {
   projects,
   RLS_GRANT_SCOPE_TYPES,
   RLS_SESSION_KEYS,
+  resolveDatabaseUrlForConsumer,
+  resolveMigrationDatabaseUrl,
   rolePermissions,
   roles,
   storageObjects,
@@ -307,6 +309,15 @@ describe("environment validation", () => {
     );
     expect(getDatabaseUrl(SUPABASE_ENV)).toBe(
       getTransactionDatabaseUrl(SUPABASE_ENV)
+    );
+  });
+
+  it("aligns migration URL with drizzle-migrations registry consumer (direct only)", () => {
+    expect(resolveMigrationDatabaseUrl(SUPABASE_ENV)).toBe(
+      resolveDatabaseUrlForConsumer("drizzle-migrations", SUPABASE_ENV)
+    );
+    expect(resolveMigrationDatabaseUrl(SUPABASE_ENV)).toBe(
+      getDirectDatabaseUrl(SUPABASE_ENV)
     );
   });
 });

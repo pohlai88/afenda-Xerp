@@ -91,13 +91,13 @@ pnpm --filter @afenda/docs dev
 
 ## Tooling
 
-| Tool | Role |
-|------|------|
-| **pnpm** | Workspace + dependency catalog (`pnpm-workspace.yaml`) |
-| **Turborepo** | Cached build/typecheck pipeline with global config deps |
+| Tool                  | Role                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| **pnpm**              | Workspace + dependency catalog (`pnpm-workspace.yaml`)                       |
+| **Turborepo**         | Cached build/typecheck pipeline with global config deps                      |
 | **Ultracite + Biome** | Local hygiene (`ultracite fix` / `ultracite check`); CI hygiene (`biome ci`) |
-| **TypeScript** | Full strict baseline via `@afenda/typescript-config` |
-| **Vitest** | Unit tests with optional coverage (`@vitest/coverage-v8`) |
+| **TypeScript**        | Full strict baseline via `@afenda/typescript-config`                         |
+| **Vitest**            | Unit tests with optional coverage (`@vitest/coverage-v8`)                    |
 
 Install the recommended editor extensions: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [Vitest](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) (see `.vscode/extensions.json`).
 
@@ -105,12 +105,12 @@ Install the recommended editor extensions: [Biome](https://marketplace.visualstu
 
 Shared presets live in `@afenda/typescript-config`. All workspaces extend one of the **strict** presets below.
 
-| Preset | Used by |
-|--------|---------|
-| `strict-node.json` | Node/library packages (kernel, auth, database, storage, …) |
+| Preset                      | Used by                                                               |
+| --------------------------- | --------------------------------------------------------------------- |
+| `strict-node.json`          | Node/library packages (kernel, auth, database, storage, …)            |
 | `strict-react-library.json` | React UI packages (design-system, ui, appshell, metadata-ui, testing) |
-| `nextjs.json` | Next.js apps (`apps/erp`, `apps/docs`) |
-| `test.json` | Vitest `tsconfig.vitest.json` overlays |
+| `nextjs.json`               | Next.js apps (`apps/erp`, `apps/docs`)                                |
+| `test.json`                 | Vitest `tsconfig.vitest.json` overlays                                |
 
 **Export rule:** build from `src/`, publish from `dist/`, import through package `exports` only — never consume another package's `src/`.
 
@@ -128,22 +128,22 @@ Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript p
 
 ## Testing (Vitest)
 
-| Layer | Config | Environment |
-|-------|--------|-------------|
-| Root | `vitest.config.ts` — shared pool, mock hygiene, CI reporters | orchestrates all projects |
-| Shared | `vitest.shared.ts` — `createNodeProject` / `createUiProject` / `createReactProject` / `createDatabaseProject` | node vs jsdom vs DB forks |
-| Package / app | `vitest.config.ts` | one project per workspace |
+| Layer         | Config                                                                                                        | Environment               |
+| ------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| Root          | `vitest.config.ts` — shared pool, mock hygiene, CI reporters                                                  | orchestrates all projects |
+| Shared        | `vitest.shared.ts` — `createNodeProject` / `createUiProject` / `createReactProject` / `createDatabaseProject` | node vs jsdom vs DB forks |
+| Package / app | `vitest.config.ts`                                                                                            | one project per workspace |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}`.
 
 **Quality stack (TIP-009):**
 
-| Tool | Role |
-|------|------|
-| Vitest | Unit + integration + contract tests |
-| TypeScript | Type correctness |
-| Biome | Lint/format |
-| Turbo | Build + typecheck orchestration |
+| Tool           | Role                                                         |
+| -------------- | ------------------------------------------------------------ |
+| Vitest         | Unit + integration + contract tests                          |
+| TypeScript     | Type correctness                                             |
+| Biome          | Lint/format                                                  |
+| Turbo          | Build + typecheck orchestration                              |
 | Custom scripts | Architecture, boundaries, migrations, exports, AI governance |
 
 ```bash
@@ -168,20 +168,20 @@ pnpm architecture:report
 
 ## Phase 1 critical path (ADR-0001)
 
-| TIP | Work item | Status |
-| --- | --- | --- |
-| TIP-001 | Architecture Authority | Complete |
-| TIP-002 | AI Development Governance | Complete |
-| TIP-003 | Design System Authority | Complete |
-| TIP-004 | Design System Contracts | Complete |
-| TIP-005 | Metadata Authority | Complete |
-| TIP-006 | AppShell Authority | In progress |
-| TIP-007 | ERP Platform Authority | In progress |
-| TIP-008 | Master Data Authority | Planned |
-| TIP-009 | Monorepo & Delivery Foundation | In progress |
+| TIP     | Work item                           | Status      |
+| ------- | ----------------------------------- | ----------- |
+| TIP-001 | Architecture Authority              | Complete    |
+| TIP-002 | AI Development Governance           | Complete    |
+| TIP-003 | Design System Authority             | Complete    |
+| TIP-004 | Design System Contracts             | Complete    |
+| TIP-005 | Metadata Authority                  | Complete    |
+| TIP-006 | AppShell Authority                  | In progress |
+| TIP-007 | ERP Platform Authority              | In progress |
+| TIP-008 | Master Data Authority               | Planned     |
+| TIP-009 | Monorepo & Delivery Foundation      | In progress |
 | TIP-010 | Identity & Authorization Foundation | In progress |
-| TIP-011 | Execution Foundation | In progress |
-| TIP-012 | ERP Operating Spine | In progress |
+| TIP-011 | Execution Foundation                | In progress |
+| TIP-012 | ERP Operating Spine                 | In progress |
 
 TIP-013 Accounting Core is the first business-domain TIP and requires TIP-001–012 complete.
 

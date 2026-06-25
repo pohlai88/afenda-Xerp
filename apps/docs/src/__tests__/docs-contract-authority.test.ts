@@ -6,8 +6,10 @@ import {
   docsGuidesFolderGroup,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
+import { docsLocaleContentRoot } from "@/lib/docs-page-path";
+import { docsDefaultLocale } from "@/lib/i18n";
 
-const contentRoot = join(process.cwd(), "content/docs");
+const contentRoot = docsLocaleContentRoot(docsDefaultLocale);
 
 describe("@afenda/docs contract authority", () => {
   it("defines nav sections only in docs-nav.contract.ts", () => {

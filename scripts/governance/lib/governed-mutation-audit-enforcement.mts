@@ -100,7 +100,10 @@ function collectServerActionAuditViolations(
     }
 
     if (
-      !sourceContainsAnySymbol(auditSource, GOVERNED_MUTATION_AUDIT_EMISSION_SYMBOLS)
+      !sourceContainsAnySymbol(
+        auditSource,
+        GOVERNED_MUTATION_AUDIT_EMISSION_SYMBOLS
+      )
     ) {
       violations.push({
         rule: "server-action-audit-missing",

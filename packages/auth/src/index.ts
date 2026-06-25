@@ -32,12 +32,20 @@ export {
   type AuthEventName,
 } from "./auth.contract.js";
 export {
+  AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV,
+  AFENDA_OAUTH_GOOGLE_CLIENT_SECRET_ENV,
+  AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV,
+  AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV,
   AUTH_CHANGE_EMAIL_ENABLED,
+  type BetterAuthSocialProviderConfig,
+  type BetterAuthSocialProvidersConfig,
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
   isAuthChangeEmailEnabled,
   isAuthEmailDeliveryEnabled,
+  resolveBetterAuthSocialProviders,
+  resolveOAuthClientSecretFromEnv,
 } from "./auth.env.js";
 export {
   BETTER_AUTH_SECRET_ENV,
@@ -90,6 +98,18 @@ export {
   type SyncAuthMirrorUserResult,
   syncAuthMirrorUser,
 } from "./auth.mirror-sync.js";
+export {
+  AFENDA_AUTH_OAUTH_CALLBACK_PREFIX,
+  AFENDA_OAUTH_PROVIDER_IDS,
+  AuthOAuthInvitationRejectedError,
+  assertOAuthSignUpInvitationAllowed,
+  createAfendaOAuthSocialProviderOptions,
+  createAfendaOAuthUserCreateBeforeHook,
+  handleAfendaOAuthUserCreateBeforeHook,
+  isAfendaAuthOAuthCallbackPath,
+  readOAuthProviderIdFromCallbackPath,
+  resolveTenantIdForOAuthInvitationGate,
+} from "./auth.oauth-policy.js";
 export {
   getAfendaAuthSession,
   getAuth,

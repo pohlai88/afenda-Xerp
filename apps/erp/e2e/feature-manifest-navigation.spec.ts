@@ -21,7 +21,9 @@ test.describe("feature manifest navigation (tenant admin)", () => {
     testInfo.annotations.push(E2E_DEV_FIXTURE_ANNOTATION);
   });
 
-  test("shows HRM in manifest-driven sidebar navigation", async ({ page }) => {
+  test("@smoke shows HRM in manifest-driven sidebar navigation", async ({
+    page,
+  }) => {
     await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
