@@ -84,7 +84,9 @@ describe("governed-diagnostic-logging-registry", () => {
       }
 
       expect(
-        module.loggingExemptionReason,
+        "loggingExemptionReason" in module
+          ? module.loggingExemptionReason
+          : undefined,
         `${module.path} must declare loggingExemptionReason`
       ).toBeTruthy();
     }

@@ -45,7 +45,9 @@ describe("governed-mutation-audit-registry", () => {
       }
 
       expect(
-        module.auditExemptionReason,
+        "auditExemptionReason" in module
+          ? module.auditExemptionReason
+          : undefined,
         `${module.path} must declare auditExemptionReason`
       ).toBeTruthy();
     }

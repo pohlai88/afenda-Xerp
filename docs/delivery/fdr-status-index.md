@@ -110,7 +110,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | ---: | --- | --- | --- | --- | --- |
 | **→ 1** | fdr-002-auth-disposition | PKG-002 | `@afenda/auth` | Phase 1 complete | **Complete — enterprise 9.5 accepted** (29/30) |
 | 2 | fdr-013-audit-coverage | PKG-013 | `@afenda/observability` | — | **Complete — enterprise 9.5 accepted** (29/30) |
-| 3 | fdr-013-logging-tracing | PKG-013 | `@afenda/observability` | Step 2 context | Evidence-sync Slice 3 ✓ — DoD #14 peer review |
+| 3 | fdr-013-logging-tracing | PKG-013 | `@afenda/observability` | Step 2 context | **Complete — enterprise 9.5 accepted** (29/30) |
 | 4 | fdr-009-rollout-flags | PKG-009 | `@afenda/feature-flags` | — | Evidence-sync Slice 3 ✓ — DoD #14 peer review |
 | 5 | fdr-015-tenant-storage | PKG-015 | `@afenda/storage` | — | Evidence-sync Slice 3 ✓ — DoD #14 peer review |
 | 6 | fdr-001-shell-composition | PKG-001 | `@afenda/appshell` | Steps 1–2 | Evidence-sync Slice 3 ✓ — DoD #14 peer review |
@@ -148,7 +148,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 20 | fdr-011-metadata-authority | PKG-011 | `@afenda/metadata` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-011-metadata-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-011-metadata-authority.md) |
 | 21 | fdr-012-metadata-renderers | PKG-012 | `@afenda/metadata-ui` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-012-metadata-renderers.md](FDR/%5BPartially%20Implemented%5D%20fdr-012-metadata-renderers.md) |
 | 22 | fdr-013-audit-coverage | PKG-013 | `@afenda/observability` | PKG013_AUDIT | green | Complete | [FDR/[Complete] fdr-013-audit-coverage.md](FDR/%5BComplete%5D%20fdr-013-audit-coverage.md) |
-| 23 | fdr-013-logging-tracing | PKG-013 | `@afenda/observability` | PKG013_LOGGING | green | Partially Implemented | [FDR/[Partially Implemented] fdr-013-logging-tracing.md](FDR/%5BPartially%20Implemented%5D%20fdr-013-logging-tracing.md) |
+| 23 | fdr-013-logging-tracing | PKG-013 | `@afenda/observability` | PKG013_LOGGING | green | Complete | [FDR/[Complete] fdr-013-logging-tracing.md](FDR/%5BComplete%5D%20fdr-013-logging-tracing.md) |
 | 24 | fdr-014-rbac | PKG-014 | `@afenda/permissions` | PKG014_PERMISSIONS | green | Complete | [FDR/[Complete] fdr-014-rbac.md](FDR/%5BComplete%5D%20fdr-014-rbac.md) |
 | 25 | fdr-015-tenant-storage | PKG-015 | `@afenda/storage` | PKG015_STORAGE | — | Partially Implemented | [FDR/[Partially Implemented] fdr-015-tenant-storage.md](FDR/%5BPartially%20Implemented%5D%20fdr-015-tenant-storage.md) |
 | 26 | fdr-016-test-utilities | PKG-016 | `@afenda/testing` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-016-test-utilities.md](FDR/%5BPartially%20Implemented%5D%20fdr-016-test-utilities.md) |
@@ -255,8 +255,8 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-013-audit-coverage | PKG013_AUDIT | Partially Implemented | Governed mutation audit registry — **29/30 audit-adjusted** · DoD #14 peer review pending |
-| fdr-013-logging-tracing | PKG013_LOGGING | Partially Implemented | Pino logging, correlation, spine lifecycle — **29/30 audit-adjusted** · DoD #14 peer review pending |
+| fdr-013-audit-coverage | PKG013_AUDIT | Complete | Governed mutation audit registry — **Complete — enterprise 9.5 accepted** (29/30) |
+| fdr-013-logging-tracing | PKG013_LOGGING | Complete | Pino logging, correlation, spine lifecycle — **Complete — enterprise 9.5 accepted** (29/30) |
 
 ### PKG-014 — `@afenda/permissions`
 

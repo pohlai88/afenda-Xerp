@@ -8,6 +8,7 @@ import {
   type MigrationLedgerDbRow,
 } from "../src/migrations/ledger.contract.js";
 import { MIGRATION_GOVERNANCE_RULES } from "../src/migrations/migration-governance.contract.js";
+import { connectPgPoolWithFallback } from "../src/supabase/pg-network-fallback.server.js";
 import { journalPath, loadDatabaseEnv, migrationsDir } from "./load-env.js";
 
 loadDatabaseEnv();
@@ -156,13 +157,22 @@ const detectDrift = (
   );
 
 const repairJournal = async () => {
-  const url = resolveMigrationDatabaseUrl();
   const entries = loadJournalEntries();
-  const pool = new pg.Pool({
-    connectionString: url,
-    max: 1,
-    ssl: { rejectUnauthorized: false },
-  });
+  const pool = checkOnly
+    ? await connectPgPoolWithFallback({
+        connectionConsumer: "drizzle-migrations",
+        fallbackOnNetworkError: true,
+        purpose: "ledger check",
+        poolConfig: {
+          max: 1,
+          ssl: { rejectUnauthorized: false },
+        },
+      })
+    : new pg.Pool({
+        connectionString: resolveMigrationDatabaseUrl(),
+        max: 1,
+        ssl: { rejectUnauthorized: false },
+      });
 
   try {
     const appliedThrough = await probeAppliedThroughIndex(pool, entries);

@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially Implemented |
+| **Status** | Complete — enterprise 9.5 accepted |
 | **FDR ID** | `fdr-013-logging-tracing` |
 | **Registry entry ID** | `PKG013_LOGGING` |
 | **Package** | `@afenda/observability` (PKG-013) |
@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | Medium |
 | **BRD reference** | internal — ERP diagnostic logging + correlation spine (Phase 9 prerequisite) |
-| **Enterprise readiness** | **29/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate blocked** (DoD #14 peer review pending; see §Enterprise benchmark qualification) |
+| **Enterprise readiness** | **29/30 — enterprise 9.5 accepted** (DoD #14 peer review closed 2026-06-24; §Waivers reconfirmed) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -542,22 +542,30 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-013-logging-tracing.
 
 ### Slice 4 — Evidence-sync (Complete — enterprise 9.5 accepted)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-24)  
 **Prerequisite:** Slice 3 Complete ✓  
 **Type:** Evidence-sync  
 **Risk class:** Low  
 
 **Purpose:** Record Architecture Authority peer review (DoD #14); reconfirm §Waivers (`logging-registry-interim`, `logging-apm-deferred`, `logging-spine-e2e`, `logging-sod-phase9`); promote to **Complete — enterprise 9.5 accepted**; sync index and runtime matrix Audit / Observability row; close `logging-fdr-peer-review`.
 
+**Outcomes (delivered 2026-06-24):**
+
+- Architecture Authority peer review **Approved** (Slice 2 diagnostic logging inventory + Slice 3 matrix/index sync)
+- §Waivers reconfirmed at promotion
+- Status promoted to **Complete — enterprise 9.5 accepted**
+- Gap `logging-fdr-peer-review` closed
+- Final gates: observability typecheck ✓; test:run 66 ✓; quality:erp-observability ✓; check:erp-diagnostic-logging ✓; documentation-drift ✓; foundation-disposition ✓
+
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-013-logging-tracing.md
+Handoff from: docs/delivery/FDR/[Complete] fdr-013-logging-tracing.md
 
 1. Objective    — Close DoD #14; promote fdr-013-logging-tracing to Complete — enterprise 9.5 accepted at 29/30.
 2. Allowed layer— docs-only
 3. Files        —
-   docs/delivery/FDR/[Partially Implemented] fdr-013-logging-tracing.md
+   docs/delivery/FDR/[Complete] fdr-013-logging-tracing.md
    docs/delivery/fdr-status-index.md
    docs/architecture/afenda-runtime-truth-matrix.md
 4. Prohibited   — packages/; apps/; foundation-disposition.registry.ts; do-not-create-accounting-package; do-not-import-pino-in-edge-runtime; do-not-use-console-in-erp-src
@@ -566,6 +574,7 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-013-logging-tracing.
    pnpm --filter @afenda/observability typecheck
    pnpm --filter @afenda/observability test:run
    pnpm quality:erp-observability
+   pnpm check:erp-diagnostic-logging
    pnpm check:documentation-drift
    pnpm check:foundation-disposition
 7. Closes       — Gap logging-fdr-peer-review; DoD #14; DoD #7; DoD #8 (index); DoD #19 (waiver reconfirmation)
@@ -587,8 +596,20 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-013-logging-tracing.
 - `logging-apm-deferred` — OpenTelemetry / third-party APM deferred until CSP allowlist + ADR
 - `logging-spine-e2e` — browser log capture waived per `logging-spine-e2e` until Phase 9 / external beta
 - `logging-sod-phase9` — SoD on diagnostic logging deferred per Phase 9 sign-off
+- Dual-registry PKG013/PKG007 — path parity required; full consolidation owned by `fdr-007-system-admin`
 - DoD #5 (`pnpm ci:biome`) — repo-wide; may close at Complete promotion PR
 - Governance fail-closed enforcement for unregistered diagnostic routes — deferred beyond registry precursor
+
+### Final acceptance gate log (Complete promotion — 2026-06-24)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/observability typecheck` | 0 | A |
+| `pnpm --filter @afenda/observability test:run` | 0 | A (66 tests; 9 files) |
+| `pnpm quality:erp-observability` | 0 | A |
+| `pnpm check:erp-diagnostic-logging` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
+| `pnpm check:foundation-disposition` | 0 | A |
 
 ## §Rollback strategy
 
@@ -639,27 +660,37 @@ SAP analog: transport rollback = git revert + gate re-run. Oracle analog: confir
 - Symptom: `PinoProductionConfigError` in production → remove `pretty: true` from logger options
 - Owner: `@afenda/observability` (PKG-013) via `observability-agent` + `erp-app-agent` for consumer wiring
 
+## §Peer review attestation
+
+| Field | Value |
+| --- | --- |
+| **Decision** | Approved |
+| **Date** | 2026-06-24 |
+| **Reviewer** | Architecture Authority |
+| **Scope** | Slice 2 governed diagnostic logging registry + PKG013↔PKG007 path parity; Slice 3 matrix/index sync; PKG013_LOGGING gate evidence including `check:erp-diagnostic-logging` |
+| **Finding** | ERP logging spine single authority proven; 66 observability tests + `quality:erp-observability` exit 0; Pino + correlation contracts stable; edge runtime excludes Pino; diagnostic logging registry matches audit inventory paths. |
+| **Boundary** | Acceptable — PKG013_LOGGING `runtimeOwner` only; no console in ERP src; no Pino in edge; no accounting runtime leakage; dual-registry PKG007 overlap documented with path parity tests. |
+| **Gate evidence** | `@afenda/observability typecheck` exit 0; `test:run` 66 pass; `quality:erp-observability` exit 0; `check:erp-diagnostic-logging` exit 0 |
+| **DoD #14** | `[x]` |
+
 ## §Enterprise benchmark qualification
 
-This FDR is **enterprise 9.5 candidate at 29/30 audit-adjusted**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open.
+This FDR is **Complete — enterprise 9.5 accepted** at **29/30** with DoD #14 peer review closed and §Waivers reconfirmed (2026-06-24).
 
-The **29/30 evidence-qualified ceiling** is accepted only under these bounded assumptions:
+Accepted score composition:
 
-1. **`PKG013_LOGGING` registered** — done (Wave C Step 3 registry-sync).
-2. Browser E2E is waived until Phase 9 / external beta (`logging-spine-e2e`).
-3. OpenTelemetry / third-party APM deferred (`logging-apm-deferred`).
-4. Spine lifecycle inventory closed Slice 2 (`logging-spine-coverage` closed).
-5. Matrix/index sync complete (`logging-matrix-fdr-sync` closed Slice 3).
-6. **Complete** status requires Architecture Authority peer review and waiver reconfirmation at PR merge.
+1. ~~Implementation Slice 2 closes `logging-spine-coverage`~~ — **done** (2026-06-25).
+2. ~~Evidence-sync Slice 3 updates matrix + index (closes `logging-matrix-fdr-sync`)~~ — **done** (2026-06-25).
+3. ~~Architecture Authority peer review approval (DoD #14)~~ — **done** (2026-06-24).
+4. §Waivers reconfirmed at promotion (`logging-registry-interim`, `logging-apm-deferred`, `logging-spine-e2e`, `logging-sod-phase9`).
+5. ~~FDR filename/status/index promotion to `[Complete]`~~ — **done** (Slice 4).
 
-**Matrix reconciliation:** Closed Slice 3 (2026-06-25) — runtime matrix + fdr-status-index aligned at 29/30 audit-adjusted.
+**Matrix drift gap:** Closed Slice 3 (2026-06-25) — runtime matrix + fdr-status-index aligned. Slice 4 promotes logging-tracing FDR to **Complete — enterprise 9.5 accepted**.
 
 **G0–G10 gate summary:** G0 PASS · G1 PASS · G2 PASS (Clean Core A) · G3 PASS · G4 PASS · G5 N/A · G6 PASS · G7 PASS · G8 PASS (66 tests + governance) · G9 PASS (spine inventory) · G10 PASS.
 
-Until DoD #14 is closed, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
-
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate at 29/30 audit-adjusted, pending Architecture Authority peer review (DoD #14).**
+**Complete — enterprise 9.5 accepted at 29/30 (2026-06-24).**
 
-Research Slice 1 complete (2026-06-25). Implementation Slice 2 complete — `governed-diagnostic-logging-registry.ts` closes `logging-spine-coverage`. Evidence-sync Slice 3 closed `logging-matrix-fdr-sync` — matrix + index aligned; readiness **29/30**. PKG-013 gates exit 0 (`test:run` 66 tests, `quality:erp-observability`). Registry **`PKG013_LOGGING`** onboarded. Complete promotion blocked on DoD #14 peer review only.
+Research Slice 1 **Complete** (2026-06-25). Implementation Slice 2 closed `logging-spine-coverage`. Evidence-sync Slice 3 closed `logging-matrix-fdr-sync` — matrix + index aligned; readiness **29/30**. Slice 4 Complete promotion — DoD #14 peer review approved; §Waivers reconfirmed; FDR prefix promoted to `[Complete]`. Sibling `fdr-013-audit-coverage` already **Complete — enterprise 9.5 accepted**.

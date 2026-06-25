@@ -9,7 +9,7 @@
 import { fileURLToPath } from "node:url";
 
 import { loadSyncedEnv } from "../../packages/database/src/load-synced-env.ts";
-import { createPgPool } from "../../packages/database/src/pool.ts";
+import { connectPgPoolWithFallback } from "../../packages/database/src/supabase/pg-network-fallback.server.ts";
 import {
   isLiveTenantRlsVerificationAvailable,
   type TenantRlsLiveViolation,
@@ -50,8 +50,10 @@ export async function checkDatabaseTenantRlsLive(): Promise<TenantRlsLiveCheckRe
     };
   }
 
-  const pool = createPgPool({
+  const pool = await connectPgPoolWithFallback({
     connectionConsumer: "rls-live-probe",
+    fallbackOnNetworkError: true,
+    purpose: "tenant RLS live probe",
     poolConfig: {
       max: 1,
       ssl: { rejectUnauthorized: false },
