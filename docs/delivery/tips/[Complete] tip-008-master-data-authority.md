@@ -855,7 +855,7 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 
 #### Known debt
 
-- 008B runtime contracts remain deferred — overall TIP stays Partially Implemented by design.
+- None at slice delivery — superseded by 008B authority-only closeout (Slices 2–7, 2026-06-25).
 
 ## Status guard (authority-only closeout — automated)
 
@@ -881,7 +881,26 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 | S6 | Entity_group subsidiary RBAC (deny + allow) | `authorize-api-route.test.ts` | [x] |
 | S7 | Route matrix anti-drift | `api-route-permissions.test.ts` | [x] |
 
-**008A sign-off:** **Complete** (2026-06-24, Slice 5). Does **not** imply overall TIP-008 Complete.
+**008A sign-off:** **Complete** (2026-06-24, Slice 5).
+
+## TIP-008B formal sign-off checklist
+
+| # | Criterion | Evidence | Status |
+|---|-----------|----------|--------|
+| B1 | Authority registry frozen | `business-master-data-authority.contract.ts` | [x] |
+| B2 | Wire reference + identity scope contracts | `business-master-data-id-boundary.contract.ts` | [x] |
+| B3 | Branded platform IDs (Customer, Supplier, Product, Employee, Warehouse) | `platform-id.contract.ts` | [x] |
+| B4 | Governed export surface | `business-master-data/index.ts` | [x] |
+| B5 | Kernel contract tests (authority + id boundary) | `business-master-data-*.test.ts` | [x] |
+| B6 | Documentation authority sync | `tip-status-index.md`, runtime matrix, glossary | [x] |
+| B7 | Authority registry DoD | Slice 2 gates | [x] |
+| B8 | Identity boundary DoD | Slice 3 gates | [x] |
+| B9 | Scaffold guard (no PKG-R02–R05 dirs) | `pnpm check:business-master-data-scaffold` | [x] |
+| B10 | Shared inventory package policy | `business-master-data-shared-package.policy.test.ts` | [x] |
+| B11 | Complete status guard (authority-only markers) | `pnpm check:documentation-drift` | [x] |
+| B12 | Contract import boundary acyclic | `business-master-data-import-boundary.test.ts` | [x] |
+
+**008B sign-off:** **Complete (authority only)** (2026-06-25, Slices 2–7 + acceptance hardening). Domain package schemas remain deferred to PKG-R02–R05 domain TIPs — not a regression of Complete status.
 
 ### Slice 5 — 008A formal sign-off + authorization context boundary (008A)
 
@@ -999,7 +1018,6 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 
 - Full branded-id migration for tenant/legal-entity context modules deferred to platform-wide batch (outside 008A).
 - `investeeLegalEntityId` deprecated alias remains until domain package TIPs scaffold CRM/inventory/HRM.
-- 008B runtime contracts remain deferred — overall TIP stays Partially Implemented by design.
 
 ## Verdict
 
@@ -1007,6 +1025,8 @@ Handoff from: docs/delivery/tips/[Partially Implemented] tip-008-master-data-aut
 | --- | --- |
 | **TIP-008 (overall)** | **Complete** — 008A runtime + 008B authority-only contracts |
 | **TIP-008A** Enterprise hierarchy | **Complete** — all DoD A1–A9 + sign-off checklist S1–S7 |
-| **TIP-008B** Business master data | **Complete (authority only)** — kernel registry + wire contracts; no domain schemas |
+| **TIP-008B** Business master data | **Complete (authority only)** — kernel registry + wire contracts + Slices 4–7 regression guards; no domain schemas |
+
+**Closeout date:** 2026-06-25 — acceptance hardening verified (17/17 Plan Compliance Matrix; all gates exit 0).
 
 **Phase 1 gate dependency:** 008A delivered + 008B authority contracts delivered. Domain persistence deferred to PKG-R02–R05 domain TIPs.
