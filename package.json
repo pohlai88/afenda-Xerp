@@ -22,6 +22,8 @@
     "test:interaction": "vitest run --project \"@afenda/testing\" --project \"@afenda/ui\" --project \"@afenda/appshell\" .interaction.test",
     "test:ui": "vitest --ui",
     "format": "ultracite fix",
+    "format:mdx": "prettier --write \"**/*.mdx\"",
+    "format:mdx:check": "prettier --check \"**/*.mdx\"",
     "format:check": "biome ci .",
     "ci:biome": "biome ci .",
     "check": "pnpm ci:biome && pnpm typecheck && pnpm test:run:all",
@@ -59,6 +61,7 @@
     "check:documentation-drift": "tsx scripts/governance/check-documentation-drift.mts",
     "check:foundation-disposition": "tsx scripts/governance/check-foundation-disposition.mts",
     "check:system-admin-mutation-audit": "tsx scripts/governance/check-system-admin-mutation-audit.mts",
+    "check:erp-diagnostic-logging": "tsx scripts/governance/check-erp-diagnostic-logging.mts",
     "check:business-master-data-scaffold": "tsx scripts/governance/check-business-master-data-scaffold.mts",
     "check:accounting-readiness-gate": "tsx scripts/governance/check-accounting-readiness-gate.mts",
     "check:accounting-domain-contracts": "tsx scripts/governance/check-accounting-domain-contracts.mts",
@@ -67,6 +70,7 @@
     "quality:css": "pnpm --filter @afenda/design-system build && tsx scripts/css/check-css-governance.mts",
     "quality:csp-third-party": "tsx scripts/governance/check-csp-third-party.mts",
     "quality:erp-observability": "tsx scripts/governance/check-erp-observability.mts",
+    "quality:erp-diagnostic-logging": "tsx scripts/governance/check-erp-diagnostic-logging.mts",
     "quality:kernel-context-surface": "tsx scripts/governance/check-kernel-context-surface.mts",
     "quality:database-tenant-domain-surface": "tsx scripts/governance/check-database-tenant-domain-surface.mts",
     "quality:database-tenant-rls-coverage": "tsx scripts/governance/check-database-tenant-rls-coverage.mts",
@@ -164,6 +168,7 @@
     "vitest": "catalog:"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}": "ultracite fix"
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}": "ultracite fix",
+    "*.mdx": "prettier --write"
   }
 }

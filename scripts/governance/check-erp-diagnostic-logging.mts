@@ -6,12 +6,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import { collectGovernedDiagnosticLoggingViolations } from "./lib/governed-diagnostic-logging-enforcement.mts";
 import {
   GOVERNED_DIAGNOSTIC_LOGGING_ENFORCEMENT_MODULE,
   GOVERNED_DIAGNOSTIC_LOGGING_GATE_SCRIPT,
 } from "../../packages/observability/src/surface/governed-diagnostic-logging-registry.ts";
+import { collectGovernedDiagnosticLoggingViolations } from "./lib/governed-diagnostic-logging-enforcement.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,

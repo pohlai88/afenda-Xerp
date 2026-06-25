@@ -1,0 +1,3 @@
+# Biome/Ultracite owns all supported code and config. Prettier is MDX-only.
+*
+!**/*.mdx

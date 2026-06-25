@@ -158,6 +158,10 @@ jobs:
       - name: Gate 8e · ERP observability governance
         run: pnpm check:erp-observability
 
+      # ── Gate 8e2 · ERP diagnostic logging governance (PKG013_LOGGING) ─
+      - name: Gate 8e2 · ERP diagnostic logging governance
+        run: pnpm check:erp-diagnostic-logging
+
       # ── Gate 8f · Phase 9 accounting readiness (structure + ERP parity) ─
       - name: Gate 8f · Phase 9 accounting readiness gate
         run: pnpm check:accounting-readiness-gate --structure-only

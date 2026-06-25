@@ -6,7 +6,7 @@ import type {
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-25-v9" as const;
+  "FOUNDATION-DISPOSITION-2026-06-26-v10" as const;
 
 const foundationDispositionEntries = [
   {
@@ -147,6 +147,9 @@ const foundationDispositionEntries = [
       "packages/observability/src/surface/observability-surface-registry.ts",
       "packages/observability/src/__tests__/pino.test.ts",
       "packages/observability/src/__tests__/correlation.test.ts",
+      "scripts/governance/lib/governed-diagnostic-logging-enforcement.mts",
+      "scripts/governance/check-erp-diagnostic-logging.mts",
+      "scripts/governance/__tests__/governed-diagnostic-logging-enforcement.test.ts",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -164,6 +167,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/observability typecheck",
       "pnpm --filter @afenda/observability test:run",
       "pnpm quality:erp-observability",
+      "pnpm check:erp-diagnostic-logging",
     ],
     legacyTipEvidence: [
       "docs/delivery/tips/[Complete] tip-012-erp-operating-spine.md",

@@ -49,7 +49,8 @@
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
   "[mdx]": {
-    "editor.formatOnSave": false
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
   },
   "[svelte]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -74,6 +75,9 @@
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
+  "prettier.requireConfig": true,
+  "prettier.configPath": "./prettier.config.mjs",
+  "prettier.documentSelectors": ["**/*.mdx"],
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
