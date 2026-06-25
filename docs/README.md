@@ -35,7 +35,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | API routes | [API contract](governance/api-contract.md) → [Next.js API hardening](governance/nextjs-api-hardening.md) |
 | Multi-tenancy | [multi-tenancy.md](architecture/multi-tenancy.md) |
 | Pre-accounting roadmap | [pre-accounting-foundation-roadmap.md](architecture/pre-accounting-foundation-roadmap.md) |
-| Runtime truth / drift audit | [afenda-runtime-truth-matrix.md](architecture/afenda-runtime-truth-matrix.md) · [afenda-documentation-drift-audit.md](architecture/afenda-documentation-drift-audit.md) |
+| Runtime truth / drift audit | [afenda-runtime-truth-matrix.md](architecture/afenda-runtime-truth-matrix.md) · [afenda-documentation-drift-audit.md](architecture/afenda-documentation-drift-audit.md) · [monorepo-feature-inventory.md](architecture/monorepo-feature-inventory.md) |
 | LLM master plan | [_afenda-erp-master-plan.llms.md](architecture/_afenda-erp-master-plan.llms.md) v5 |
 
 ---
@@ -46,6 +46,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 |-----------|---------|
 | [`adr/`](adr/README.md) | Architecture Decision Records (constitutional) |
 | [`architecture/`](architecture/README.md) | Registries, baselines, CSS authority, glossary |
+| [`ARCH/`](ARCH/README.md) | Domain architecture authorities — [`arch-status-index.md`](ARCH/arch-status-index.md) |
 | [`governance/`](governance/README.md) | Runtime policies — UI guard, API contracts, composition |
 | [`delivery/`](delivery/README.md) | TIP completion evidence and implementation reports |
 | [`ai/`](ai/README.md) | AI-assisted development policy (TIP-002) |

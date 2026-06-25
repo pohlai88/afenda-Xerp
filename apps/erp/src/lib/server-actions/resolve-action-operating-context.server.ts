@@ -38,6 +38,7 @@ export async function resolveActionOperatingContext(input?: {
 
   const operatingResult = await resolveOperatingContextFromHeaders({
     actorUserId,
+    activeWorkspaceId: sessionResult.session.metadata.activeWorkspaceId,
     ...(input?.selection === undefined ? {} : { selection: input.selection }),
   });
 

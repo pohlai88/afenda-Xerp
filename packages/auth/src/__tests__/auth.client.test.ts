@@ -2,9 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import {
   authClient,
+  isAfendaAuthDeviceSession,
+  multiSession,
+  parseAfendaAuthDeviceSessions,
   signIn,
   signOut,
   signUp,
+  twoFactor,
   useSession,
 } from "../auth.client.js";
 
@@ -14,6 +18,28 @@ describe("@afenda/auth/client", () => {
     expect(typeof signOut).toBe("function");
     expect(typeof signUp.email).toBe("function");
     expect(typeof useSession).toBe("function");
+    expect(authClient).toBeDefined();
+  });
+
+  it("exports twoFactor and multiSession plugin clients", () => {
+    expect(twoFactor).toBeDefined();
+    expect(typeof twoFactor.enable).toBe("function");
+    expect(typeof twoFactor.verifyTotp).toBe("function");
+    expect(multiSession).toBeDefined();
+    expect(typeof multiSession.listDeviceSessions).toBe("function");
+    expect(typeof multiSession.revoke).toBe("function");
+  });
+
+  it("exports canonical device session parsing helpers", () => {
+    expect(
+      isAfendaAuthDeviceSession({
+        session: {
+          id: "session-001",
+          token: "token-001",
+        },
+      })
+    ).toBe(true);
+    expect(parseAfendaAuthDeviceSessions([{ invalid: true }])).toEqual([]);
     expect(authClient).toBeDefined();
   });
 });

@@ -109,6 +109,7 @@ Never: implementation first, documentation later. This principle is normative in
 | [`foundation-phase-delivery-tip-proposal.md`](foundation-phase-delivery-tip-proposal.md) | **Obsolete** — do not implement |
 | [`glossary.md`](glossary.md) | Canonical vocabulary — tenant, company, entity group, ownership interest, workspace, etc. |
 | [`multi-tenancy.md`](multi-tenancy.md) | Multi-tenancy operating-context implementation guide. |
+| [`ARCH-AUTH-001-enterprise-authentication.md`](../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | **Enterprise auth architecture** — PKG-002 final feature requirements, AC, DoD, UI block map · index: [`arch-status-index.md`](../ARCH/arch-status-index.md) |
 | [`docs-app-architecture.md`](docs-app-architecture.md) | **`@afenda/docs`** — Fumadocs app boundaries, content model, isolation from ERP runtime (TIP-032). |
 
 **Foundation ADRs (Accepted):** ADR-0009 Runtime Truth · ADR-0010 No Accounting Before Gate · ADR-0011 Multi-level Company Model · ADR-0012 Evidence-backed Docs · ADR-0013 TIP Roadmap (phase narrative; handoffs superseded by ADR-0014) · **ADR-0014 FDR** · ADR-0015 Accounting Contracts-Only
@@ -125,12 +126,15 @@ Never: implementation first, documentation later. This principle is normative in
 |----------|---------|
 | [`architecture-authority-baseline.md`](architecture-authority-baseline.md) | **Architecture Baseline Report** — fingerprint `ARCH-BASELINE-2026-06-23-v2` |
 | [`package-registry.md`](package-registry.md) | Every workspace package (PKG-001–020, PKG-R01–R05) — pairs with FDR entries |
+| [`monorepo-feature-inventory.md`](monorepo-feature-inventory.md) | **Feature inventory + gap analysis** — apps, routes, packages, critical/essential gaps (validated against filesystem) |
 | [`foundation-disposition.md`](foundation-disposition.md) | FDR read-only view (ADR-0014) |
 | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) | FDR implementation workflow |
 | [`ownership-registry.md`](ownership-registry.md) | Single owner, rights, escalation |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |
 | [`layer-registry.md`](layer-registry.md) | Layer assignments and cross-layer rules |
 | [`package-lifecycle.md`](package-lifecycle.md) | Birth, merge, split, deprecate, retire, restore |
+
+Domain-specific architecture authorities live in [`../ARCH/`](../ARCH/README.md) (e.g. ARCH-AUTH-001 for `@afenda/auth`).
 
 ---
 

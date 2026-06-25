@@ -338,4 +338,92 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260624233736_auth_mfa_two_factor": {
+    completeProbe: `
+    SELECT to_regclass('public.auth_two_factor') IS NOT NULL AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'auth_user'
+        AND column_name = 'two_factor_enabled'
+    ) AND to_regclass('public.auth_two_factor') IS NULL AS partial`,
+    partialCleanup: [
+      `DROP INDEX IF EXISTS "auth_two_factor_secret_idx"`,
+      `DROP INDEX IF EXISTS "auth_two_factor_user_id_idx"`,
+      `ALTER TABLE "auth_two_factor" DROP CONSTRAINT IF EXISTS "auth_two_factor_user_id_auth_user_id_fk"`,
+      `DROP TABLE IF EXISTS "auth_two_factor"`,
+      `ALTER TABLE "auth_user" DROP COLUMN IF EXISTS "two_factor_enabled"`,
+    ],
+  },
+  "20260625070000_tenant_mfa_required": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'tenants'
+        AND column_name = 'mfa_required'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625005427_tenant_settings": {
+    completeProbe: `
+    SELECT to_regclass('public.tenant_settings') IS NOT NULL AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625005454_tenant_settings_rls": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM pg_policies
+      WHERE schemaname = 'public'
+        AND tablename = 'tenant_settings'
+        AND policyname = 'tenant_settings_tenant_isolation'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625041511_auth_session_active_workspace_id": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'auth_session'
+        AND column_name = 'active_workspace_id'
+    ) AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'auth_session'
+        AND column_name = 'active_workspace_id'
+    ) AS partial`,
+    partialCleanup: [
+      `ALTER TABLE "auth_session" DROP COLUMN IF EXISTS "active_workspace_id"`,
+    ],
+  },
+  "20260625045902_tenant_settings_integrations": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'tenant_settings'
+        AND column_name = 'integrations'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260625121713_user_preferences": {
+    completeProbe: `
+    SELECT to_regclass('public.user_preferences') IS NOT NULL AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

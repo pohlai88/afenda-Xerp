@@ -1,5 +1,8 @@
 "use server";
 
+import { AUTH_EVENT, persistAuthSessionActiveWorkspaceId } from "@afenda/auth";
+
+import { formatActiveWorkspaceId } from "@/lib/context/active-workspace-id.contract";
 import { operatingContextSelectionHintsSchema } from "@/lib/context/operating-context-selection.schema";
 import { toApplicationShellOperatingContext } from "@/lib/context/to-shell-operating-context";
 import { persistWorkspaceSelectionCookies } from "@/lib/context/workspace-selection-cookies.server";
@@ -57,16 +60,29 @@ export async function switchOperatingContextAction(
     });
   }
 
-  const { operatingContext } = contextResult;
-  const actorUserId = contextResult.session.user.userId?.trim() ?? "";
+  const { operatingContext, session } = contextResult;
+  const actorUserId = operatingContext.actor.userId.trim();
 
   await persistWorkspaceSelectionCookies({
     companySlug: parsed.value.companySlug ?? null,
     organizationSlug: parsed.value.organizationSlug ?? null,
   });
 
+  const organizationId =
+    operatingContext.organizationUnit?.organizationUnitId ??
+    operatingContext.workspace.organizationId;
+
+  await persistAuthSessionActiveWorkspaceId({
+    sessionId: session.sessionId,
+    activeWorkspaceId: formatActiveWorkspaceId({
+      tenantId: operatingContext.tenant.tenantId,
+      companyId: operatingContext.legalEntity.companyId,
+      organizationId,
+    }),
+  });
+
   await recordActionAudit({
-    action: "workspace.context.switch",
+    action: AUTH_EVENT.workspaceContextSwitched,
     actorUserId,
     module: "erp.workspace",
     result: "success",

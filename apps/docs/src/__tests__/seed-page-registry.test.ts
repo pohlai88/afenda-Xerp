@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -24,9 +24,16 @@ function slugToMdxPath(slug: readonly string[]): string {
   if (slug.length === 0) {
     return "index.mdx";
   }
+
+  const indexPath = `${slug.join("/")}/index.mdx`;
+  if (existsSync(join(contentRoot, indexPath))) {
+    return indexPath;
+  }
+
   if (slug.length === 1) {
     return `${slug[0]}/index.mdx`;
   }
+
   return `${slug.slice(0, -1).join("/")}/${slug.at(-1)}.mdx`;
 }
 
@@ -57,6 +64,7 @@ describe("@afenda/docs seed page registry (filesystem)", () => {
     expect(docsSeedSections.map((section) => section.id)).toEqual([
       "getting-started",
       "monorepo-map",
+      "apps",
       "contributing",
     ]);
   });

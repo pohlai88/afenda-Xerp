@@ -23,6 +23,7 @@ export const TENANT_SCOPED_TABLE_NAMES = [
   "storage_objects",
   "teams",
   "tenant_commercial_plans",
+  "tenant_settings",
   "usage_limit_counters",
 ] as const satisfies readonly string[];
 

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   advanceSystemAdminInviteWizardStep,
   retreatSystemAdminInviteWizardStep,
-} from "@/components/system-admin/system-admin-invite-wizard.types";
+} from "@/lib/system-admin/system-admin-invite-wizard.types";
 
 describe("system-admin invite wizard step union", () => {
   const identityDraft = {

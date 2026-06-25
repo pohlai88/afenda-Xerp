@@ -10,6 +10,7 @@ import {
 import type { ComponentType } from "react";
 
 export interface AppShellProfileMenuItem {
+  readonly href?: string;
   readonly Icon: ComponentType<{ readonly className?: string }>;
   readonly id: string;
   readonly label: string;

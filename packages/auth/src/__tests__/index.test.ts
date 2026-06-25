@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { getBetterAuthSecret, getBetterAuthUrl } from "../auth.env.js";
 import { resetAuthForTests } from "../auth.server.js";
 import {
+  AFENDA_AUTH_EXTENSION_POINTS,
   AUTH_EVENT,
   buildAuthAuditPayload,
   getPackageName,
@@ -52,6 +53,7 @@ describe("@afenda/auth package", () => {
         userId: "platform_user_1",
       },
       metadata: {
+        activeWorkspaceId: null,
         image: null,
         issuedAt: createdAt.toISOString(),
         expiresAt: expiresAt.toISOString(),
@@ -59,6 +61,12 @@ describe("@afenda/auth package", () => {
         userAgent: "vitest",
       },
     });
+  });
+
+  it("marks MFA and invitation extension points active", () => {
+    expect(AFENDA_AUTH_EXTENSION_POINTS.mfa).toBe("active");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.invitation).toBe("active");
+    expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("planned");
   });
 
   it("builds auth audit payloads with stable module/action fields", () => {

@@ -19,6 +19,7 @@ import { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-n
 import { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
 import { AppShellSearchDialog } from "./shadcn-studio/blocks/app-shell-search-dialog";
 import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
+import type { AppShellProfileMenuGroup } from "./shadcn-studio/data/app-shell.profile.data";
 import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellHeaderGovernedComponents = Extract<
@@ -31,6 +32,7 @@ interface AppShellHeaderProps {
   readonly contextSwitcher?: ReactNode;
   readonly identityAccessory?: ReactNode;
   readonly operatingContext?: ApplicationShellOperatingContext;
+  readonly profileMenuGroups?: readonly AppShellProfileMenuGroup[];
 }
 
 export function AppShellHeader({
@@ -38,6 +40,7 @@ export function AppShellHeader({
   contextSwitcher,
   identityAccessory,
   operatingContext,
+  profileMenuGroups,
 }: AppShellHeaderProps) {
   const unreadNotificationCount = countDefaultAppShellUnreadNotifications();
   const notificationTriggerLabel =
@@ -196,6 +199,9 @@ export function AppShellHeader({
             avatarSrc={chrome.avatarSrc}
             displayName={chrome.userName}
             {...(chrome.email === undefined ? {} : { email: chrome.email })}
+            {...(profileMenuGroups === undefined
+              ? {}
+              : { menuGroups: profileMenuGroups })}
             trigger={
               <Button
                 aria-label={`Profile: ${chrome.userName}`}

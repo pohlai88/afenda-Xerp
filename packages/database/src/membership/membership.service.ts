@@ -1,7 +1,11 @@
-import { and, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
-import type { AuditActorType } from "../database.types.js";
+import type {
+  AuditActorType,
+  MembershipStatus,
+  UserStatus,
+} from "../database.types.js";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { isRoleScope } from "../role/role.contract.js";
@@ -12,6 +16,7 @@ import { organizations } from "../schema/organization.schema.js";
 import { projects } from "../schema/project.schema.js";
 import { roles } from "../schema/role.schema.js";
 import { teams } from "../schema/team.schema.js";
+import { users } from "../schema/user.schema.js";
 import {
   assertRoleMatchesMembershipScope,
   buildMembershipInsertRow,
@@ -45,6 +50,26 @@ export interface DeactivateMembershipInput {
 
 export interface MembershipMutationResult {
   readonly id: string;
+}
+
+export interface CompanyMemberListRow {
+  readonly displayName: string;
+  readonly email: string;
+  readonly membershipId: string;
+  readonly membershipStatus: MembershipStatus;
+  readonly roleId: string;
+  readonly roleKey: string;
+  readonly roleName: string;
+  readonly userId: string;
+  readonly userStatus: UserStatus;
+}
+
+export interface MembershipLookupRow {
+  readonly companyId: string | null;
+  readonly id: string;
+  readonly roleId: string;
+  readonly tenantId: string;
+  readonly userId: string;
 }
 
 async function assertMembershipScopeChain(
@@ -378,4 +403,59 @@ export async function deactivateMembership(
   );
 
   return { id: updated.id };
+}
+
+/** Lists active company-scoped members with user and role display fields. */
+export async function listCompanyMembers(
+  input: {
+    readonly companyId: string;
+    readonly tenantId: string;
+  },
+  db: AfendaDatabase = getDb()
+): Promise<CompanyMemberListRow[]> {
+  return db
+    .select({
+      displayName: users.displayName,
+      email: users.email,
+      membershipId: memberships.id,
+      membershipStatus: memberships.status,
+      roleId: roles.id,
+      roleKey: roles.key,
+      roleName: roles.name,
+      userId: users.id,
+      userStatus: users.status,
+    })
+    .from(memberships)
+    .innerJoin(users, eq(memberships.userId, users.id))
+    .innerJoin(roles, eq(memberships.roleId, roles.id))
+    .where(
+      and(
+        eq(memberships.tenantId, input.tenantId),
+        eq(memberships.companyId, input.companyId),
+        eq(memberships.scopeType, "company"),
+        eq(memberships.status, "active"),
+        eq(users.status, "active")
+      )
+    )
+    .orderBy(asc(users.displayName), asc(users.email));
+}
+
+/** Read-only membership lookup for invite enrichment and admin actions. */
+export async function findMembershipById(
+  membershipId: string,
+  db: AfendaDatabase = getDb()
+): Promise<MembershipLookupRow | null> {
+  const [row] = await db
+    .select({
+      companyId: memberships.companyId,
+      id: memberships.id,
+      roleId: memberships.roleId,
+      tenantId: memberships.tenantId,
+      userId: memberships.userId,
+    })
+    .from(memberships)
+    .where(eq(memberships.id, membershipId))
+    .limit(1);
+
+  return row ?? null;
 }

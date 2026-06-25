@@ -112,6 +112,93 @@ export {
   MANIFEST_MODULE_IDS,
   resolveManifestModuleNavIcon,
 } from "./navigation/build-nav-from-manifest";
+export type {
+  AppShellAccountSettings02AllNotificationsProps,
+  AppShellAccountSettings02NotificationChannel,
+  AppShellAccountSettings02NotificationItem,
+  AppShellAccountSettings02NotificationSection,
+} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-all-notifications";
+export type {
+  AppShellAccountSettings02BrowserItem,
+  AppShellAccountSettings02BrowserNotificationProps,
+} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-browser-notification";
+export type {
+  AppShellAccountSettings02DndDay,
+  AppShellAccountSettings02DoNotDisturbProps,
+} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-do-not-disturb";
+export type {
+  AppShellAccountSettings02InboxItem,
+  AppShellAccountSettings02InboxPreferenceProps,
+} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-inbox-preference";
+export type { AppShellAccountSettings03DangerZoneProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-danger-zone";
+export type {
+  AppShellAccountSettings03ExportRow,
+  AppShellAccountSettings03WorkspaceDataProps,
+} from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-data";
+export type { AppShellAccountSettings03WorkspaceDetailProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-detail";
+export type {
+  AppShellAccountSettings03TimezoneOption,
+  AppShellAccountSettings03WorkspaceNameProps,
+} from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-name";
+export type { AppShellAccountSettings03WorkspaceOrganizationsProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-organizations";
+export type {
+  AppShellAccountSettings04IntegrationApp,
+  AppShellAccountSettings04IntegrationSectionProps,
+} from "./shadcn-studio/blocks/account-settings-04/content/app-shell-account-settings-04-integration-section";
+export type {
+  AppShellAccountSettings07AddOnRow,
+  AppShellAccountSettings07AddOnsProps,
+} from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-add-ons";
+export type { AppShellAccountSettings07AiGatewayProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-ai-gateway";
+export type {
+  AppShellAccountSettings07AllBillingProps,
+  AppShellAccountSettings07UsageRow,
+} from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-all-billing";
+export type { AppShellAccountSettings07PaymentMethodProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-payment-method";
+export type { AppShellAccountSettings07SpendManagementProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-spend-management";
+export type { AppShellAccountSettings01Props } from "./shadcn-studio/blocks/app-shell-account-settings-01";
+export { AppShellAccountSettings01 } from "./shadcn-studio/blocks/app-shell-account-settings-01";
+export {
+  AppShellAccountSettings02,
+  type AppShellAccountSettings02Props,
+} from "./shadcn-studio/blocks/app-shell-account-settings-02";
+export {
+  AppShellAccountSettings03,
+  type AppShellAccountSettings03Props,
+} from "./shadcn-studio/blocks/app-shell-account-settings-03";
+export {
+  AppShellAccountSettings04,
+  type AppShellAccountSettings04Props,
+} from "./shadcn-studio/blocks/app-shell-account-settings-04";
+export {
+  AppShellAccountSettings05,
+  type AppShellAccountSettings05MemberRow,
+  type AppShellAccountSettings05PendingInviteRow,
+  type AppShellAccountSettings05Props,
+  type AppShellAccountSettings05RoleOption,
+} from "./shadcn-studio/blocks/app-shell-account-settings-05";
+export {
+  AppShellAccountSettings06,
+  type AppShellAccountSettings06GovernedComponents,
+  type AppShellAccountSettings06Props,
+  type AppShellAccountSettings06SessionRow,
+} from "./shadcn-studio/blocks/app-shell-account-settings-06";
+export {
+  AppShellAccountSettings06Policy,
+  type AppShellAccountSettings06PolicyGovernedComponents,
+  type AppShellAccountSettings06PolicyProps,
+} from "./shadcn-studio/blocks/app-shell-account-settings-06-policy";
+export {
+  AppShellAccountSettings06User,
+  type AppShellAccountSettings06UserGovernedComponents,
+  type AppShellAccountSettings06UserProps,
+} from "./shadcn-studio/blocks/app-shell-account-settings-06-user";
+export {
+  AppShellAccountSettings07,
+  type AppShellAccountSettings07PlanAlert,
+  type AppShellAccountSettings07Props,
+} from "./shadcn-studio/blocks/app-shell-account-settings-07";
+export { AppShellAccountSettingsPanelSection } from "./shadcn-studio/blocks/app-shell-account-settings-panel-section";
 export type { AppShellActivityDialogProps } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
 export type {
@@ -119,6 +206,13 @@ export type {
   AppShellActivityFeedProps,
 } from "./shadcn-studio/blocks/app-shell-activity-feed";
 export { AppShellActivityFeed } from "./shadcn-studio/blocks/app-shell-activity-feed";
+export type {
+  AppShellApplicationShell02GovernedComponents,
+  AppShellApplicationShell02Section,
+  AppShellApplicationShell02SystemAdminChromeProps,
+  AppShellApplicationShell02UserProfile,
+} from "./shadcn-studio/blocks/app-shell-application-shell-02";
+export { AppShellApplicationShell02SystemAdminChrome } from "./shadcn-studio/blocks/app-shell-application-shell-02";
 export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-shell-context-switcher";
 export {
   AppShellContextSwitcher,

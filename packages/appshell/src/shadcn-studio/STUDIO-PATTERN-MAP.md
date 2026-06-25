@@ -302,6 +302,56 @@ Used by: `AppShellModuleWorkspaceChrome`
 
 ---
 
+## §J — Account settings pattern
+
+Used by: `AppShellAccountSettings01`–`07`
+
+> **Namespace:** `app-shell-studio-account-settings-*` / `app-shell-studio-account-settings-01__*`
+> **CSS source:** `afenda-appshell-studio.css` Section J
+
+| Element | Production class | Notes |
+|---|---|---|
+| Block root (02–07) | `.app-shell-studio-account-settings` | Column flex with section gap |
+| Section card | `.app-shell-studio-account-settings__section` | Card chrome for each settings group |
+| Lead copy | `.app-shell-studio-account-settings__lead` | Muted scaffold description |
+| Block root (01) | `.app-shell-studio-account-settings-01` | General tab variant |
+| Section (01) | `.app-shell-studio-account-settings-01__section` | Same card chrome |
+| Danger section (01) | `.app-shell-studio-account-settings-01__section--danger` | Destructive border tint |
+| Block root (06) | `.app-shell-studio-account-settings-06` | Security tab column layout |
+| Block root (05) | `.app-shell-studio-account-settings-05` | Members tab column layout |
+| Section row (06) | `.app-shell-studio-account-settings-06__row` | 1/3 + 2/3 responsive grid |
+| Session list (06) | `.app-shell-studio-account-settings-06__sessions-list` | Bordered session stack |
+| Block root (02 notifications) | `.app-shell-studio-account-settings-02` | Column stack + notification table |
+| Save row (02–07) | `.app-shell-studio-account-settings-02__save-row` | Right-aligned save actions |
+| Integration grid (04) | `.app-shell-studio-account-settings-04__grid` | Responsive integration cards |
+| Members header (05) | `.app-shell-studio-account-settings-05__header` | Title + invite slot row |
+| Members title (05) | `.app-shell-studio-account-settings-05__title` | Section heading |
+| Members copy (05) | `.app-shell-studio-account-settings-05__description` | Muted body / email line |
+| Member name (05) | `.app-shell-studio-account-settings-05__item-title` | Row primary label |
+| Billing usage row (07) | `.app-shell-studio-account-settings-07__usage-row` | Plan/usage line items |
+
+---
+
+## §K — application-shell-02 system-admin chrome
+
+Used by: `AppShellApplicationShell02SystemAdminChrome`
+
+> **Namespace:** `app-shell-studio-application-shell-02-*`
+> **CSS source:** `afenda-appshell-studio.css` Section K
+> **Authority:** Adapts shell-02 nav grouping; does not replace TIP-006 `AppShell`.
+
+| Element | Production class | Notes |
+|---|---|---|
+| Chrome root | `.app-shell-studio-application-shell-02-chrome` | Profile + nav column |
+| Profile row | `.app-shell-studio-application-shell-02-profile` | Avatar + identity copy |
+| Profile name | `.app-shell-studio-application-shell-02-profile-name` | Display name from identity |
+| Profile email | `.app-shell-studio-application-shell-02-profile-email` | Optional email line |
+| Workspace label | `.app-shell-studio-application-shell-02-profile-workspace` | From `OperatingContext` |
+| Nav list | `.app-shell-studio-application-shell-02-nav-list` | Horizontal flex wrap |
+| Nav link | `.app-shell-studio-application-shell-02-nav-link` | `data-active="true"` when current |
+
+---
+
 ## Patterns NOT yet in the studio layer (block-local geometry)
 
 These stay in `afenda-appshell.css` until they appear in ≥2 blocks:

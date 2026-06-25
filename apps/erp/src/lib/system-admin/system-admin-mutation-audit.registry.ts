@@ -28,17 +28,9 @@ export const SYSTEM_ADMIN_API_MUTATION_AUDIT_ENTRIES = [
 ] as const;
 
 /**
- * PKG013 waiver — settings action remains `auditRequired: false` in
- * `GOVERNED_MUTATION_SERVER_ACTION_MODULES` until org mutations (Slice 3).
+ * PKG013 — settings mutations emit audit evidence (ARCH-ADMIN-001 Slice 5).
  * Parity asserted in `system-admin-observability-registry-parity.test.ts`.
  */
-export const SYSTEM_ADMIN_SETTINGS_OBSERVABILITY_WAIVER_ID =
-  "system-admin-settings-observability-exempt" as const;
-
-export const SYSTEM_ADMIN_OBSERVABILITY_REGISTRY_PARITY_TEST =
-  "apps/erp/src/lib/system-admin/__tests__/system-admin-observability-registry-parity.test.ts" as const;
-
-/** Governed server actions under `apps/erp/src/lib/system-admin/*.action.ts`. */
 export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
   {
     id: "system_admin.settings.update",
@@ -47,12 +39,57 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
     targetType: "system_admin_settings",
   },
   {
+    id: "system_admin.settings.notifications.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-notifications-settings.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.workspace.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.billing.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.integrations.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.security.mfa_policy.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
+    id: "system_admin.settings.members.invite.resend",
+    actionModule:
+      "apps/erp/src/lib/system-admin/resend-system-admin-invite.action.ts",
+    targetType: "system_admin_members",
+  },
+  {
+    id: "system_admin.settings.members.invite.revoke",
+    actionModule:
+      "apps/erp/src/lib/system-admin/revoke-system-admin-invite.action.ts",
+    targetType: "system_admin_members",
+  },
+  {
     id: "system_admin.diagnostics.refresh_readiness_gate_full",
     actionModule:
       "apps/erp/src/lib/system-admin/refresh-accounting-readiness-gate-full.action.ts",
     targetType: "accounting_readiness_gate",
   },
 ] as const;
+
+export const SYSTEM_ADMIN_OBSERVABILITY_REGISTRY_PARITY_TEST =
+  "apps/erp/src/lib/system-admin/__tests__/system-admin-observability-registry-parity.test.ts" as const;
 
 /** Supplementary audit paths not covered by contract or action registries. */
 export const SYSTEM_ADMIN_SUPPLEMENTARY_MUTATION_AUDIT_ENTRIES = [

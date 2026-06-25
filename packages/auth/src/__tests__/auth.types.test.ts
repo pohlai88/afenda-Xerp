@@ -34,6 +34,7 @@ const sampleSession = normalizeAfendaAuthSession(
 describe("Afenda auth contracts", () => {
   it("round-trips AfendaAuthSession through JSON", () => {
     expect(JSON.parse(JSON.stringify(sampleSession))).toEqual(sampleSession);
+    expect(sampleSession.metadata.activeWorkspaceId).toBeNull();
   });
 
   it("maps session to UI-safe AfendaAuthIdentity without session fields", () => {

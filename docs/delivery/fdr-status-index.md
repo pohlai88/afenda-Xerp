@@ -135,7 +135,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 7 | fdr-005-docs-app | PKG-005 | `@afenda/docs` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-005-docs-app.md](FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) |
 | 8 | fdr-006-entitlements | PKG-006 | `@afenda/entitlements` | PKG006_ENTITLEMENTS | green | Partially Implemented | [FDR/[Partially Implemented] fdr-006-entitlements.md](FDR/%5BPartially%20Implemented%5D%20fdr-006-entitlements.md) |
 | 9 | fdr-006-feature-manifest | PKG-006 | `@afenda/entitlements` | PKG006_FEATURE_MANIFEST | green | Partially Implemented | [FDR/[Partially Implemented] fdr-006-feature-manifest.md](FDR/%5BPartially%20Implemented%5D%20fdr-006-feature-manifest.md) |
-| 10 | fdr-007-system-admin | PKG-007 | `@afenda/erp` | PKG007_ADMIN | green | Partially Implemented | [FDR/[Partially Implemented] fdr-007-system-admin.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) |
+| 10 | fdr-007-system-admin | PKG-007 | `@afenda/erp` | PKG007_ADMIN | green | Partially Implemented | [FDR/[Partially Implemented] fdr-007-system-admin.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) — **29/30 audit-adjusted · ARCH-ADMIN-001 Slices 1–6 delivered · settings observability waiver closed in ARCH · DoD #14 peer review pending** |
 | 11 | fdr-007-operating-context | PKG-007 | `@afenda/erp` | PKG007_CONTEXT | green | Partially Implemented | [FDR/[Partially Implemented] fdr-007-operating-context.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-operating-context.md) |
 | 12 | fdr-007-api-governance | PKG-007 | `@afenda/erp` | PKG007_CONTEXT | green | Partially Implemented | [FDR/[Partially Implemented] fdr-007-api-governance.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) |
 | 13 | fdr-007-ux-surfaces | PKG-007 | `@afenda/erp` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-007-ux-surfaces.md](FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) |
@@ -181,6 +181,8 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 | --- | --- | --- | --- |
 | fdr-002-auth-disposition | PKG002_AUTH | Complete | Identity, session, operating-context bridge — **enterprise 9.5 accepted** (29/30) |
 
+**ARCH extension ([ARCH-AUTH-001](../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md)):** Slices 1–8 delivered (admin Members/Security UI, integration attestation, workspace session contract); Slice 9 evidence-sync delivered 2026-06-25 (102 PKG tests exit 0; matrix/index sync). ARCH remains **Partially Implemented** — FR-A05.2 persistence wiring deferred; `AUTH-INV-001` in-memory invitations waiver.
+
 ### PKG-003 — `@afenda/database`
 
 | FDR ID | Registry | Status | Domain |
@@ -211,7 +213,7 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-007-system-admin | PKG007_ADMIN | Partially Implemented | System Admin control plane |
+| fdr-007-system-admin | PKG007_ADMIN | Partially Implemented | System Admin control plane — **29/30 audit-adjusted · ARCH-ADMIN-001 Slices 1–6 delivered · settings observability waiver closed in ARCH (FDR body may cite until separate FDR evidence-sync) · DoD #14 peer review pending** |
 | fdr-007-operating-context | PKG007_CONTEXT | Partially Implemented | Operating context resolver pipeline — **27/30 audit · 29/30 ceiling** |
 | fdr-007-api-governance | PKG007_CONTEXT | Partially Implemented | API contract registry + envelope — **27/30 audit · 29/30 ceiling** |
 | fdr-007-ux-surfaces | — | Partially Implemented | Governed ERP app surfaces (TIP-UI-05) — **26/30 audit · 28/30 ceiling** |

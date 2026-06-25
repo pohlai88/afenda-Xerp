@@ -4,6 +4,7 @@ import {
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
+  isAuthEmailDeliveryEnabled,
   resolveBetterAuthBaseUrl,
   resolveBetterAuthTrustedOrigins,
 } from "../auth.env.js";
@@ -55,6 +56,15 @@ describe("auth.env", () => {
       hasBetterAuthConfig({
         BETTER_AUTH_SECRET: "x".repeat(32),
         BETTER_AUTH_URL: "http://localhost:3000",
+      })
+    ).toBe(true);
+  });
+
+  it("reports auth email delivery readiness via isAuthEmailDeliveryEnabled", () => {
+    expect(isAuthEmailDeliveryEnabled({})).toBe(false);
+    expect(
+      isAuthEmailDeliveryEnabled({
+        AFENDA_AUTH_EMAIL_API_KEY: "re_test_key",
       })
     ).toBe(true);
   });

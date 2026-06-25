@@ -1,4 +1,10 @@
-import { index, pgTable, uniqueIndex, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  pgTable,
+  uniqueIndex,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { tenantStatusEnum } from "../database.types.js";
 import { primaryId } from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
@@ -19,6 +25,7 @@ export const tenants = pgTable(
     id: primaryId(),
     slug: varchar("slug", { length: 128 }).notNull(),
     name: varchar("name", { length: 255 }).notNull(),
+    mfaRequired: boolean("mfa_required").notNull().default(false),
     status: tenantStatusEnum("status").notNull().default("active"),
     createdAt: createdAtColumn(),
     updatedAt: updatedAtColumn(),

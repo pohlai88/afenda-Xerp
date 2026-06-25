@@ -148,4 +148,26 @@ describe("AppShellProfileDropdown", () => {
       within(accountGroup).getByRole("menuitem", { name: "My profile" })
     ).toBeInTheDocument();
   });
+
+  it("renders href menu items as links", () => {
+    renderProfileDropdown({
+      defaultOpen: true,
+      menuGroups: [
+        {
+          id: "account",
+          items: [
+            {
+              id: "profile-my-profile",
+              label: "My profile",
+              Icon: UserIcon,
+              href: "/settings/profile",
+            },
+          ],
+        },
+      ],
+    });
+
+    const profileLink = screen.getByRole("menuitem", { name: "My profile" });
+    expect(profileLink).toHaveAttribute("href", "/settings/profile");
+  });
 });

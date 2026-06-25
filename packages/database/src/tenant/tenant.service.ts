@@ -94,6 +94,7 @@ export async function insertTenant(
       slug: row.slug,
       name: row.name,
       status: row.status,
+      mfaRequired: String(row.mfaRequired),
     },
     db
   );
@@ -130,6 +131,8 @@ export async function updateTenant(
       slug: patch.slug ?? null,
       name: patch.name ?? null,
       status: patch.status ?? null,
+      mfaRequired:
+        patch.mfaRequired === undefined ? null : String(patch.mfaRequired),
     },
     db
   );

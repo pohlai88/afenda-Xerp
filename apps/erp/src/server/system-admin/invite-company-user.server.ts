@@ -1,3 +1,4 @@
+import { registerAuthInvitation, syncAuthMirrorUser } from "@afenda/auth";
 import { insertMembership, insertUser } from "@afenda/database";
 
 export async function inviteCompanyUser(input: {
@@ -34,6 +35,19 @@ export async function inviteCompanyUser(input: {
     scopeType: "company",
     tenantId: input.tenantId,
     userId: user.id,
+  });
+
+  await syncAuthMirrorUser({
+    displayName: input.displayName,
+    email: input.email,
+    userId: user.id,
+  });
+
+  registerAuthInvitation({
+    email: input.email,
+    invitationId: membership.id,
+    platformUserId: user.id,
+    tenantId: input.tenantId,
   });
 
   return {

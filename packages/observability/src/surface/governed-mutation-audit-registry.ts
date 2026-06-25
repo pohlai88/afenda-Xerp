@@ -45,8 +45,62 @@ export const GOVERNED_MUTATION_SERVER_ACTION_MODULES = [
   {
     path: "apps/erp/src/lib/system-admin/update-system-admin-settings.action.ts",
     action: "system_admin.settings.update",
-    auditRequired: false,
-    auditExemptionReason: "scaffold-failure-only-no-successful-mutation-path",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-notifications-settings.action.ts",
+    action: "system_admin.settings.notifications.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
+    action: "system_admin.settings.workspace.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
+    action: "system_admin.settings.billing.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
+    action: "system_admin.settings.integrations.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",
+    action: "system_admin.settings.security.mfa_policy.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/resend-system-admin-invite.action.ts",
+    action: "system_admin.settings.members.invite.resend",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/revoke-system-admin-invite.action.ts",
+    action: "system_admin.settings.members.invite.revoke",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/user-settings/update-user-profile-settings.action.ts",
+    action: "user.settings.profile.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
+    path: "apps/erp/src/lib/user-settings/record-user-session-revoked.action.ts",
+    action: "user.settings.session.revoke.record",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
   },
 ] as const;
 

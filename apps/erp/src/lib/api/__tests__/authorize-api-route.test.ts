@@ -209,6 +209,7 @@ describe("authorizeApiRoute", () => {
             expiresAt: "2026-06-27T00:00:00.000Z",
             ipAddress: null,
             userAgent: null,
+            activeWorkspaceId: null,
           },
         },
       }

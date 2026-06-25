@@ -18,14 +18,14 @@ export const FDR_REGISTER_VALID_STATUSES = [
 export type FdrRegisterStatus = (typeof FDR_REGISTER_VALID_STATUSES)[number];
 
 export interface FdrRegisterRow {
-  readonly rowNumber: number;
-  readonly fdrId: string;
-  readonly status: string;
   readonly documentFilename: string;
+  readonly fdrId: string;
+  readonly rowNumber: number;
+  readonly status: string;
 }
 
 const REGISTER_ROW_PATTERN =
-  /^\|\s*(\d+)\s*\|\s*(fdr-[^\|]+?)\s*\|(?:[^|]+\|){4}\s*([^|]+?)\s*\|\s*\[FDR\/(\[[^\]]+\]\s+fdr-[^\]]+\.md)\]/;
+  /^\|\s*(\d+)\s*\|\s*(fdr-[^|]+?)\s*\|(?:[^|]+\|){4}\s*([^|]+?)\s*\|\s*\[FDR\/(\[[^\]]+\]\s+fdr-[^\]]+\.md)\]/;
 
 export function statusPrefix(status: string): string {
   return `[${status}]`;
@@ -41,7 +41,11 @@ export function filenameStatusPrefix(filename: string): string | null {
 export function parseFdrRegister(index: string): FdrRegisterRow[] {
   const registerStart = index.indexOf(FDR_REGISTER_SECTION_START);
   const registerEnd = index.indexOf(FDR_REGISTER_SECTION_END);
-  if (registerStart === -1 || registerEnd === -1 || registerEnd <= registerStart) {
+  if (
+    registerStart === -1 ||
+    registerEnd === -1 ||
+    registerEnd <= registerStart
+  ) {
     return [];
   }
 

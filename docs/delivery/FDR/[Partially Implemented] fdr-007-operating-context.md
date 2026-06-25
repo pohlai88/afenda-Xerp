@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | High |
 | **BRD reference** | internal — Phase 9 operating context resolver pipeline |
-| **Enterprise readiness** | **27/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
+| **Enterprise readiness** | **28/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -147,7 +147,9 @@ Archive input (not implementation authority): [`tip-012-erp-operating-spine.md`]
 | Resolver pipeline registry | `apps/erp/src/lib/context/operating-context-resolver-registry.ts` | Yes — Grade B (registry + integration test cites pipeline) |
 | Server-action binding | `apps/erp/src/lib/server-actions/resolve-action-operating-context.server.ts` | Yes — Grade A (integration test — all protected actions) |
 | Integration gate | `apps/erp/src/__tests__/operating-context-integration.test.ts` | Yes — Grade A (18 tests exit 0) |
-| Context switch action | `apps/erp/src/lib/context/context-switch.action.ts` | Yes — Grade B (`context-switch.action.test.ts`) |
+| Context switch action | `apps/erp/src/lib/context/context-switch.action.ts` | Yes — Grade A (integration test + actor from resolved context) |
+| Protected surface registry | `apps/erp/src/lib/context/operating-context-protected-surface.registry.ts` | Yes — Grade A (RSC bridge integration test exit 0) |
+| RSC bridge integration | `apps/erp/src/__tests__/operating-context-rsc-bridge.integration.test.ts` | Yes — Grade A (static surface audit exit 0) |
 | Resolution logging | `apps/erp/src/lib/context/log-operating-context-resolution.server.ts` | Yes — Grade B (observability read path) |
 | Untrusted authority rejection | `apps/erp/src/lib/context/reject-untrusted-authority-fields.ts` | Yes — Grade A (integration test + kernel key parity) |
 | Context unit tests | `apps/erp/src/lib/context/__tests__/` (12 files) | Yes — Grade B (resolver delegate coverage) |
@@ -158,7 +160,7 @@ Archive input (not implementation authority): [`tip-012-erp-operating-spine.md`]
 
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
-| `ctx-session-bridge-surfaces` | Runtime matrix Auth row: session→operating-context bridge incomplete on some surfaces | green (gate-critical) | `erp-app-agent` | Slice 2 | Dedicated matrix row + surface audit; all RSC/API paths cite resolver |
+| `ctx-session-bridge-surfaces` | ~~Runtime matrix Auth row: session→operating-context bridge incomplete on some surfaces~~ **Closed Slice 2 (2026-06-25)** — `operating-context-protected-surface.registry.ts` + RSC bridge integration tests | green (gate-critical) | `erp-app-agent` | Slice 2 ✓ | Dedicated matrix row + surface audit; all RSC/API paths cite resolver |
 | `ctx-matrix-row-dedicated` | Runtime matrix uses **Multi-tenancy** row; no dedicated operating-context row | green | Architecture Authority | Evidence-sync | Matrix row cites FDR v2 dual scores |
 | `ctx-complete-status` | FDR at 27/30 audit-adjusted; Complete blocked on peer review + DoD #5 biome | green | Architecture Authority (PR) | Slice 3 | DoD #14 peer review `[x]`; §Waivers reconfirmed |
 
@@ -175,8 +177,8 @@ Archive input (not implementation authority): [`tip-012-erp-operating-spine.md`]
 | Observability + audit | 4/5 | `log-operating-context-resolution.server.ts` — Grade B | Waiver `ctx-observability-read-path` |
 | Security + RBAC + RLS | 5/5 | Prohibited rules enforced; integration denial tests; multi-tenancy gate exit 0 — Grade A | — |
 | Documentation + BRD traceability | 4/5 | FDR v2 + index + matrix Multi-tenancy row + `check:documentation-drift` exit 0 — Grade A | DoD #14 peer review still `[ ]` |
-| Maintainability + Clean Core | 4/5 | Registry gates exit 0; Clean Core B; resolver registry — Grade A | DoD #5 repo-wide `pnpm ci:biome` still `[ ]`; gap `ctx-session-bridge-surfaces` open |
-| **Total (audit-adjusted)** | **27/30** | **~9.0 / 10 equivalent** — honest gate-critical score today | |
+| Maintainability + Clean Core | 5/5 | Registry gates exit 0; Clean Core B; protected surface registry + RSC bridge audit — Grade A | DoD #5 repo-wide `pnpm ci:biome` still `[ ]` |
+| **Total (audit-adjusted)** | **28/30** | **~9.3 / 10 equivalent** — honest gate-critical score today | |
 | **Total (evidence-qualified ceiling)** | **29/30** | Upper bound if §Waivers accepted and peer review + biome pending only | Not final 9.5 until Complete |
 
 ## §Clean Core classification
@@ -320,7 +322,7 @@ Feature: ERP operating context resolver pipeline
 | 4 | TypeScript strict | `pnpm --filter @afenda/erp typecheck` | [x] |
 | 5 | Biome clean | `pnpm ci:biome` | [ ] |
 | 6 | Registry aligned | `pnpm check:foundation-disposition` | [x] |
-| 7 | Runtime matrix updated | dedicated operating-context row | [ ] |
+| 7 | Runtime matrix updated | dedicated operating-context row | [ ] (partial — Multi-tenancy residual gap cleared Slice 2; dedicated row deferred Slice 3) |
 | 8 | fdr-status-index updated | index row → Partially Implemented | [x] |
 | 9 | Drift green | `pnpm check:documentation-drift` | [x] |
 | 10 | §11 + enterprise attestation | afenda-coding-session §11 | [x] |
@@ -358,7 +360,7 @@ Feature: ERP operating context resolver pipeline
 
 ### Slice 2 — Implementation (session-bridge closeout)
 
-**Status:** Not started  
+**Status:** Complete (2026-06-25)  
 **Prerequisite:** Slice 1 Complete ✓  
 **Type:** Implementation  
 **Risk class:** High  
@@ -514,6 +516,6 @@ Until DoD #14 is closed, this FDR must not be represented as fully **Complete** 
 
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
+**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 28/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
 
-v2 audit refresh (2026-06-25): all PKG007_CONTEXT registry gates exit 0; 18 integration tests pass; matrix Multi-tenancy row reconciled. Complete promotion blocked on session-bridge surface audit (Slice 2), DoD #5 biome, and DoD #14 peer review.
+Slice 2 session-bridge closeout complete (2026-06-25): protected surface registry + RSC bridge integration tests; gap `ctx-session-bridge-surfaces` closed. Complete promotion blocked on Slice 3 Evidence-sync, DoD #5 biome, and DoD #14 peer review.

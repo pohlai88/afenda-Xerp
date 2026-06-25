@@ -19,12 +19,14 @@ export class InvalidTenantSlugError extends InvalidPlatformSlugError {
 }
 
 export interface TenantWriteInput {
+  readonly mfaRequired?: boolean;
   readonly name: string;
   readonly slug: string;
   readonly status?: TenantStatus;
 }
 
 export interface TenantInsertRow {
+  mfaRequired: boolean;
   name: string;
   slug: string;
   status: TenantStatus;
@@ -73,6 +75,7 @@ export function getTenantAccessBlockReason(
 
 export function buildTenantInsertRow(input: TenantWriteInput): TenantInsertRow {
   return {
+    mfaRequired: input.mfaRequired ?? false,
     slug: assertTenantSlug(input.slug),
     name: input.name.trim(),
     status: input.status ?? "active",
@@ -92,6 +95,9 @@ export function buildTenantUpdatePatch(
   }
   if (input.status !== undefined) {
     patch.status = input.status;
+  }
+  if (input.mfaRequired !== undefined) {
+    patch.mfaRequired = input.mfaRequired;
   }
 
   return patch;

@@ -8,11 +8,26 @@ import {
   UnauthenticatedError,
   UnlinkedPlatformUserError,
 } from "./auth.errors.js";
+import { resetAuthInvitationStoreForTests } from "./auth.invitation.js";
+import { assertTenantMfaPolicySatisfied } from "./auth.mfa-policy.js";
 import { readAuthConfigFingerprint } from "./auth.runtime.js";
 import {
+  type BetterAuthSessionLike,
   isAfendaAuthSessionLinked,
   normalizeAfendaAuthSession,
 } from "./auth.session.js";
+
+function readOptionalSessionString(value: unknown): string | null | undefined {
+  if (value === undefined || value === null) {
+    return value;
+  }
+
+  return typeof value === "string" ? value : undefined;
+}
+
+export interface RequireAfendaAuthSessionOptions {
+  readonly tenantId?: string;
+}
 
 let authSingleton: AfendaAuth | undefined;
 let authEnvFingerprint: string | undefined;
@@ -32,6 +47,7 @@ export function resetAuthForTests(): void {
   authSingleton = undefined;
   authEnvFingerprint = undefined;
   clearPlatformUserIdCacheForTests();
+  resetAuthInvitationStoreForTests();
 }
 
 export async function getAfendaAuthSession(
@@ -49,30 +65,36 @@ export async function getAfendaAuthSession(
     authUserId: result.user.id,
   });
 
-  return normalizeAfendaAuthSession(
-    {
-      session: {
-        id: result.session.id,
-        expiresAt: result.session.expiresAt,
-        createdAt: result.session.createdAt,
-        ipAddress: result.session.ipAddress ?? null,
-        userAgent: result.session.userAgent ?? null,
-      },
-      user: {
-        id: result.user.id,
-        email: result.user.email,
-        name: result.user.name,
-        emailVerified: result.user.emailVerified,
-        image: result.user.image ?? null,
-      },
+  const activeWorkspaceId =
+    readOptionalSessionString(
+      (result.session as { activeWorkspaceId?: unknown }).activeWorkspaceId
+    ) ?? null;
+
+  const sessionPayload: BetterAuthSessionLike = {
+    session: {
+      id: result.session.id,
+      expiresAt: result.session.expiresAt,
+      createdAt: result.session.createdAt,
+      activeWorkspaceId,
+      ipAddress: result.session.ipAddress ?? null,
+      userAgent: result.session.userAgent ?? null,
     },
-    platformUserId
-  );
+    user: {
+      id: result.user.id,
+      email: result.user.email,
+      name: result.user.name,
+      emailVerified: result.user.emailVerified,
+      image: result.user.image ?? null,
+    },
+  };
+
+  return normalizeAfendaAuthSession(sessionPayload, platformUserId);
 }
 
 export async function requireAfendaAuthSession(
   requestHeaders: Headers,
-  env: NodeJS.ProcessEnv = process.env
+  env: NodeJS.ProcessEnv = process.env,
+  options: RequireAfendaAuthSessionOptions = {}
 ): Promise<AfendaAuthSession> {
   const session = await getAfendaAuthSession(requestHeaders, env);
 
@@ -83,6 +105,13 @@ export async function requireAfendaAuthSession(
   // Fail closed before any RBAC or operating-context resolution proceeds.
   if (!isAfendaAuthSessionLinked(session)) {
     throw new UnlinkedPlatformUserError();
+  }
+
+  if (options.tenantId) {
+    await assertTenantMfaPolicySatisfied({
+      authUserId: session.user.authUserId,
+      tenantId: options.tenantId,
+    });
   }
 
   return session;

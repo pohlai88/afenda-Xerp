@@ -1,0 +1,95 @@
+---
+title: Routes and Surfaces
+description: Summary of ERP routes grouped by auth, workspace, settings, system admin, and APIs.
+---
+
+import { File, Files, Folder } from "fumadocs-ui/components/files";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info" title="Authority">
+  Route counts and paths are summarized here. Authoritative inventory:
+  [monorepo-feature-inventory.md §3](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+</Callout>
+
+Base path: `apps/erp/src/app/`. The inventory lists **28** `page.tsx` files and **9** API handlers as of 2026-06-25.
+
+<Tabs items={["Auth", "Workspace", "Settings", "System Admin", "APIs"]}>
+<Tab value="Auth">
+
+### Authentication
+
+- Sign-in — `(auth)/sign-in/`
+- Better Auth API — `api/auth/[...all]/`
+
+Governed by [ARCH-AUTH-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md).
+
+</Tab>
+<Tab value="Workspace">
+
+### Protected workspace
+
+- Dashboard — `(protected)/page.tsx`
+- Module placeholders — `(protected)/modules/[moduleId]/` (RBAC-gated manifest)
+- Metadata preview — `(protected)/metadata-workspace/`
+- Context switcher — shell + `context-switch.action.ts`
+
+</Tab>
+<Tab value="Settings">
+
+### User settings (`/settings/**`)
+
+Personal self-service — **ARCH-USER-001** (not tenant admin):
+
+- Profile · Security · Notifications · Preferences
+- Admin tenant settings live under `/system-admin/settings/**` only
+
+</Tab>
+<Tab value="System Admin">
+
+### System admin (`/system-admin/**`)
+
+Company-scoped control plane — **ARCH-ADMIN-001**:
+
+- Users · Memberships · Roles · Permissions · Audit · Diagnostics
+- Settings hub — General, Notifications, Workspace, Integrations, Members, Security, Billing, Appearance
+
+</Tab>
+<Tab value="APIs">
+
+### Internal API routes (summary)
+
+- Health — `api/health/`, `api/internal/v1/health/`
+- Workspace dashboard layout — `api/internal/v1/workspace/dashboard-layout/`
+- System admin — audit events, user invite, role assignment
+- API governance — `apps/erp/src/server/api/`
+
+</Tab>
+</Tabs>
+
+## Route tree (summary)
+
+<Files>
+  <Folder name="apps/erp/src/app" defaultOpen>
+    <Folder name="(auth)">
+      <File name="sign-in/" />
+    </Folder>
+    <Folder name="(protected)">
+      <File name="page.tsx — workspace" />
+      <Folder name="settings/**">
+        <File name="profile · security · notifications · preferences" />
+      </Folder>
+      <Folder name="system-admin/**">
+        <File name="users · audit · settings/*" />
+      </Folder>
+      <File name="modules/[moduleId]/" />
+    </Folder>
+    <Folder name="api">
+      <File name="auth/ · health/ · internal/v1/*" />
+    </Folder>
+  </Folder>
+</Files>
+
+## Cross-cutting lib modules
+
+Operating context (`lib/context/`), CSP (`lib/security/`), outbox/spine, server actions, rollout flags — see inventory §3 for paths.

@@ -41,6 +41,54 @@ export const CONTEXT_INTEGRATION_WIRING = [
     module: "lib/context/context-switch.action.ts",
     delegate: "switchOperatingContextAction",
   },
+  {
+    id: "session-workspace-hint",
+    step: "Merge auth session activeWorkspaceId into selection hints",
+    module: "lib/context/tenant-domain.server.ts",
+    delegate: "buildOperatingContextSelectionFromRequest",
+  },
+  {
+    id: "protected-rsc-layout",
+    step: "Resolve operating context for protected AppShell layout",
+    module: "app/(protected)/layout.tsx",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
+  {
+    id: "protected-rsc-module-page",
+    step: "Resolve operating context for module placeholder routes",
+    module: "app/(protected)/modules/[moduleId]/page.tsx",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
+  {
+    id: "protected-rsc-metadata-workspace",
+    step: "Resolve operating context for metadata workspace preview",
+    module: "app/(protected)/metadata-workspace/page.tsx",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
+  {
+    id: "system-admin-operating-context",
+    step: "Resolve operating context for system admin surfaces",
+    module: "lib/system-admin/resolve-system-admin-operating-context.server.ts",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
+  {
+    id: "user-settings-operating-context",
+    step: "Resolve operating context for user self-service settings",
+    module: "lib/user-settings/resolve-user-settings-context.server.ts",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
+  {
+    id: "user-settings-rsc-layout",
+    step: "Guard user settings layout with self-service context resolver",
+    module: "app/(protected)/settings/layout.tsx",
+    delegate: "resolveUserSettingsOperatingContext",
+  },
+  {
+    id: "dashboard-widget-render-loader",
+    step: "Load dashboard widget RBAC from verified operating context",
+    module: "lib/workspace/load-dashboard-widget-render-context.server.ts",
+    delegate: "resolveOperatingContextFromHeaders",
+  },
 ] as const;
 
 /** Primary integration entry points. */

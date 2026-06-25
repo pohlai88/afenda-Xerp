@@ -26,10 +26,21 @@ describe("tenant contract", () => {
     });
 
     expect(row).toEqual({
+      mfaRequired: false,
       slug: "my-tenant",
       name: "Acme Workspace",
       status: "active",
     });
+  });
+
+  it("persists explicit MFA policy on insert rows", () => {
+    const row = buildTenantInsertRow({
+      slug: "secure-tenant",
+      name: "Secure Tenant",
+      mfaRequired: true,
+    });
+
+    expect(row.mfaRequired).toBe(true);
   });
 
   it("controls workspace access by tenant status", () => {

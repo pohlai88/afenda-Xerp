@@ -1,0 +1,89 @@
+---
+title: Storybook
+description: "@afenda/storybook — visual composition gate on port 6006, PKG-021."
+---
+
+import { LayersIcon, PaletteIcon, TerminalIcon } from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
+
+<Callout type="info" title="Authority">
+  Storybook status and runner evidence:
+  [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+  · [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BNot%20started%5D%20fdr-021-storybook.md)
+</Callout>
+
+<Callout type="warn" title="Status honesty">
+  Storybook runtime exists (app + colocated stories), but FDR delivery is **Not started**.
+  Test runner debt (`storybook-test-runner-red`) may remain — verify with
+  `pnpm --filter @afenda/storybook test:storybook:run` before relying on visual regression gates.
+</Callout>
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Package | `@afenda/storybook` |
+| Path | `apps/storybook/` |
+| Port | **6006** |
+| PKG code | PKG-021 |
+| Owner | Application Authority |
+
+## Purpose
+
+Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui` — visual gate for governed primitives and shell blocks.
+
+<DocsFeatureStrip
+  title="Commands"
+  items={[
+    {
+      title: "Dev server",
+      description: "pnpm --filter @afenda/storybook dev — port 6006",
+      icon: TerminalIcon,
+    },
+    {
+      title: "Story inventory",
+      description: "Colocated under packages/ and apps/storybook/",
+      icon: LayersIcon,
+    },
+    {
+      title: "Visual gate",
+      description: "Runner status tracked in fdr-021 — may be red",
+      icon: PaletteIcon,
+    },
+  ]}
+/>
+
+## Run locally
+
+```bash
+pnpm --filter @afenda/storybook dev
+```
+
+Or from repo root: `pnpm storybook`
+
+## Boundary rules
+
+- Storybook **consumes** design-system and appshell stories — does not own ERP runtime
+- Promoted blocks pipeline: ADR-0017 · `@afenda/appshell` — not direct ERP imports from staging
+
+## Quality gates
+
+```bash
+pnpm --filter @afenda/storybook typecheck
+pnpm --filter @afenda/storybook test:storybook:run
+```
+
+Runner failures are a **known gap** until fdr-021 Slice 3 closes `storybook-test-runner-red`.
+
+## Status and known gaps
+
+- FDR **Not started** — registry onboarding and runner green pending
+- ~400/1860 test runner failures reported in inventory (taxonomy in fdr-021 Research)
+- metadata-ui styles import and a11y debt tracked as blue-lane backlog
+
+## Authority links
+
+- [Monorepo feature inventory](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+- [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BNot%20started%5D%20fdr-021-storybook.md)
+- [Monorepo Map](/docs/monorepo-map)

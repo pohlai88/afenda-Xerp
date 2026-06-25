@@ -275,3 +275,36 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 | ADR-0017 consequences | Bulk backlog language removed; per-block normalization only |
 
 *Refresh by fdr-orchestrator evidence-sync — 2026-06-25*
+
+## 17. ARCH-AUTH-001 documentation drift sync (2026-06-25)
+
+**Trigger:** User `/documentation-drift` on [`ARCH-AUTH-001`](../ARCH/[Partially%20Implemented]%20ARCH-AUTH-001-enterprise-authentication.md) after auth/system-admin implementation wave.
+
+| Drift found | Resolution |
+| --- | --- |
+| `arch-status-index.md` listed Slice 6 in progress; Slice 7 not started | Updated sequence: slices 1–6 delivered; slice 7 partial; 8–9 pending |
+| Runtime matrix Auth row cited 49 PKG tests exit 0 | Updated to 98 tests (97 pass); ARCH-AUTH-001 extension evidence; multiSession gap |
+| ARCH header vs slice catalog vs §8 benchmark contradictions | Header + catalog aligned: slices 1–6 delivered; slice 7 partial |
+| Slice 7 marked Delivered while `test:run` exit 1 | Downgraded to **Partial** with failing `multiSession` scenario evidence |
+| FR-A04.1/FR-A04.4 missing ✓ after Slice 6 delivery | Marked delivered |
+| ADR-0018 vs ARCH | No conflict — ADR-0018 correctly **Withdrawn** → ARCH-AUTH-001 |
+| FDR `fdr-002` Complete vs ARCH extensions | No demotion — FDR baseline Complete; ARCH tracks admin extension slices separately |
+
+*Refresh by documentation-drift agent — evidence-backed, 2026-06-25*
+
+## 17. ARCH-AUTH-001 authority chain sync (2026-06-25)
+
+**Trigger:** Documentation-drift audit after system-admin Members/Security + `@afenda/auth` extension work (mirror sync, MFA policy, invitation gate, integration tests).
+
+| Drift found | Resolution |
+| --- | --- |
+| ARCH header claimed slices 1–5 only; slice catalog had 1–7 mixed | Header + §4 + slice catalog aligned — slices 1–6 **Delivered**, slice 7 **Partial** (gate debt) |
+| `arch-status-index` sequence still pointed at Slice 6 in progress | Next steps: Slice 7 gate closeout → Slice 8 workspace context → Slice 9 evidence-sync |
+| Runtime matrix Auth row stale (49 tests, no ARCH cross-ref) | Updated to 98 tests (97 pass, 1 multiSession failure); ARCH-AUTH-001 slices 1–6 delivered, slice 7 partial; gaps for Slice 8/9 + AUTH-INV-001 |
+| Slice 6 Members UI delivered but index/register lagged | `account-settings-05`, members settings panel, resend/revoke actions evidenced |
+| ADR-0018 duplicate auth ARCH | Already **Withdrawn** — points to ARCH-AUTH-001 |
+| `fdr-002` Complete vs ARCH extension scope | Added `auth-arch-extension` gap row — fdr-002 foundation Complete; ARCH slices 8–9 remain |
+
+**Runtime gate debt (not doc-only):** `pnpm --filter @afenda/auth test:run` exit **1** — 2 failures in `auth.integration.test.ts` multiSession scenarios (~L337).
+
+*Refresh by documentation-drift agent — evidence-backed, 2026-06-25*

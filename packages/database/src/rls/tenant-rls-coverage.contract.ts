@@ -18,6 +18,9 @@ export const TENANT_RLS_COMPLETION_MIGRATION_TAG =
 export const TENANT_RLS_COMMERCIAL_PLANS_MIGRATION_TAG =
   "20260624115705_tenant_commercial_plans_rls" as const;
 
+export const TENANT_RLS_TENANT_SETTINGS_MIGRATION_TAG =
+  "20260625005454_tenant_settings_rls" as const;
+
 export const TENANT_RLS_FOUNDATION_POLICIES = [
   {
     tableName: "companies",
@@ -123,11 +126,21 @@ export const TENANT_RLS_COMMERCIAL_PLANS_POLICIES = [
   },
 ] as const satisfies readonly TenantRlsPolicyRow[];
 
+export const TENANT_RLS_TENANT_SETTINGS_POLICIES = [
+  {
+    tableName: "tenant_settings",
+    policyName: "tenant_settings_tenant_isolation",
+    kind: "tenant_isolation",
+    migrationTag: TENANT_RLS_TENANT_SETTINGS_MIGRATION_TAG,
+  },
+] as const satisfies readonly TenantRlsPolicyRow[];
+
 /** Full defense-in-depth registry — foundation, completion, and gap-close migrations. */
 export const TENANT_RLS_ISOLATION_POLICIES = [
   ...TENANT_RLS_FOUNDATION_POLICIES,
   ...TENANT_RLS_COMPLETION_POLICIES,
   ...TENANT_RLS_COMMERCIAL_PLANS_POLICIES,
+  ...TENANT_RLS_TENANT_SETTINGS_POLICIES,
 ] as const satisfies readonly TenantRlsPolicyRow[];
 
 export type TenantRlsIsolationPolicy = TenantRlsPolicyRow;
@@ -147,5 +160,9 @@ export const TENANT_RLS_MIGRATION_POLICY_GROUPS = [
   {
     migrationTag: TENANT_RLS_COMMERCIAL_PLANS_MIGRATION_TAG,
     policies: TENANT_RLS_COMMERCIAL_PLANS_POLICIES,
+  },
+  {
+    migrationTag: TENANT_RLS_TENANT_SETTINGS_MIGRATION_TAG,
+    policies: TENANT_RLS_TENANT_SETTINGS_POLICIES,
   },
 ] as const;

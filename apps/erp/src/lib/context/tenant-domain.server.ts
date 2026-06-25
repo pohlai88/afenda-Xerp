@@ -3,7 +3,7 @@ import type {
   OperatingContextSelection,
 } from "@afenda/kernel";
 import { headers } from "next/headers";
-
+import { parseActiveWorkspaceId } from "./active-workspace-id.contract";
 import {
   ORGANIZATION_SLUG_PATH_HINT_HEADER,
   TENANT_SLUG_HEADER,
@@ -38,7 +38,36 @@ export type BuildOperatingContextSelectionResult =
  * Assembles untrusted client selection hints from headers, cookies, and call-site overrides.
  * Authority is never granted here — only collected for server-side verification.
  */
+function mergeSessionWorkspaceIdHints(input: {
+  readonly activeWorkspaceId: string | null | undefined;
+  readonly companyId: string | null;
+  readonly companySlug: string | null;
+  readonly organizationId: string | null;
+  readonly organizationSlug: string | null;
+}): {
+  readonly companyId: string | null;
+  readonly organizationId: string | null;
+} {
+  const sessionHint = parseActiveWorkspaceId(input.activeWorkspaceId);
+  if (!sessionHint) {
+    return {
+      companyId: input.companyId,
+      organizationId: input.organizationId,
+    };
+  }
+
+  return {
+    companyId:
+      input.companyId ??
+      (input.companySlug === null ? sessionHint.companyId : null),
+    organizationId:
+      input.organizationId ??
+      (input.organizationSlug === null ? sessionHint.organizationId : null),
+  };
+}
+
 export async function buildOperatingContextSelectionFromRequest(input?: {
+  readonly activeWorkspaceId?: string | null;
   readonly selection?: Partial<Omit<OperatingContextSelection, "tenantSlug">>;
 }): Promise<BuildOperatingContextSelectionResult> {
   const { organizationSlugPathHint, tenantSlug } =
@@ -49,22 +78,31 @@ export async function buildOperatingContextSelectionFromRequest(input?: {
   }
 
   const cookieSelection = await readWorkspaceSelectionCookies();
+  const companySlug =
+    input?.selection?.companySlug ?? cookieSelection.companySlug ?? null;
+  const organizationSlug =
+    input?.selection?.organizationSlug ??
+    (organizationSlugPathHint && organizationSlugPathHint.length > 0
+      ? organizationSlugPathHint
+      : null) ??
+    cookieSelection.organizationSlug ??
+    null;
+  const mergedIds = mergeSessionWorkspaceIdHints({
+    activeWorkspaceId: input?.activeWorkspaceId,
+    companySlug,
+    companyId: input?.selection?.companyId ?? null,
+    organizationSlug,
+    organizationId: input?.selection?.organizationId ?? null,
+  });
 
   return {
     ok: true,
     selection: {
       tenantSlug,
-      companySlug:
-        input?.selection?.companySlug ?? cookieSelection.companySlug ?? null,
-      companyId: input?.selection?.companyId ?? null,
-      organizationSlug:
-        input?.selection?.organizationSlug ??
-        (organizationSlugPathHint && organizationSlugPathHint.length > 0
-          ? organizationSlugPathHint
-          : null) ??
-        cookieSelection.organizationSlug ??
-        null,
-      organizationId: input?.selection?.organizationId ?? null,
+      companySlug,
+      companyId: mergedIds.companyId,
+      organizationSlug,
+      organizationId: mergedIds.organizationId,
       projectId: input?.selection?.projectId ?? null,
       teamId: input?.selection?.teamId ?? null,
       surfaceId: input?.selection?.surfaceId ?? null,

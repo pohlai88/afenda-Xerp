@@ -13,6 +13,7 @@ export interface BetterAuthSessionLike {
     id: string;
     expiresAt: Date;
     createdAt: Date;
+    activeWorkspaceId?: string | null;
     ipAddress?: string | null;
     userAgent?: string | null;
   };
@@ -31,6 +32,17 @@ function resolveAuthActorLinkStatus(
   return platformUserId ? "linked" : "unlinked";
 }
 
+export function resolveActiveWorkspaceId(
+  activeWorkspaceId: string | null | undefined
+): string | null {
+  if (activeWorkspaceId === undefined || activeWorkspaceId === null) {
+    return null;
+  }
+
+  const trimmed = activeWorkspaceId.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 export function normalizeAfendaAuthSession(
   session: BetterAuthSessionLike,
   platformUserId: string | null = null
@@ -46,6 +58,9 @@ export function normalizeAfendaAuthSession(
       userId: platformUserId,
     },
     metadata: {
+      activeWorkspaceId: resolveActiveWorkspaceId(
+        session.session.activeWorkspaceId
+      ),
       image: session.user.image ?? null,
       issuedAt: session.session.createdAt.toISOString(),
       expiresAt: session.session.expiresAt.toISOString(),
@@ -56,11 +71,9 @@ export function normalizeAfendaAuthSession(
 }
 
 export function isAfendaAuthSessionLinked(session: AfendaAuthSession): boolean {
-  const userId = session.user.userId?.trim();
+  const userId = session.user.userId?.trim() ?? null;
   return (
-    session.user.linkStatus === "linked" &&
-    userId !== undefined &&
-    userId.length > 0
+    session.user.linkStatus === "linked" && userId !== null && userId.length > 0
   );
 }
 

@@ -13,6 +13,12 @@ const { pageBySlug, seedSlugs } = vi.hoisted(() => {
     ["getting-started", "installation"],
     ["getting-started", "dev-setup"],
     ["monorepo-map"],
+    ["apps"],
+    ["apps", "erp"],
+    ["apps", "erp", "routes-and-surfaces"],
+    ["apps", "erp", "development"],
+    ["apps", "docs"],
+    ["apps", "storybook"],
     ["contributing"],
   ] as const;
 

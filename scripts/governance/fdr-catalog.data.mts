@@ -11,6 +11,7 @@ export type FdrCatalogStatus =
   | "Maintain Only";
 
 export interface FdrCatalogEntry {
+  readonly archiveRuntimeHint: string;
   readonly cleanCore: "A" | "B" | "C" | "D";
   readonly domain: string;
   readonly evidence: readonly string[];
@@ -30,12 +31,12 @@ export interface FdrCatalogEntry {
   readonly sapControl: string;
   readonly scopeIn: readonly string[];
   readonly scopeOut: readonly string[];
-  readonly archiveRuntimeHint: string;
   readonly slug: string;
   readonly title: string;
 }
 
-export const FDR_SCAFFOLD_DELIVERY_STATUS = "Not started" as const satisfies FdrCatalogStatus;
+export const FDR_SCAFFOLD_DELIVERY_STATUS =
+  "Not started" as const satisfies FdrCatalogStatus;
 
 export const FDR_CATALOG_TOTAL = 33 as const;
 
@@ -44,7 +45,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-001-shell-composition",
     slug: "shell-composition",
     title: "Shell Composition",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
     pkg: "PKG-001",
     packageName: "@afenda/appshell",
     registryEntry: "PKG001_APPSHELL",
@@ -84,7 +86,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-001-manifest-nav",
     slug: "manifest-nav",
     title: "Manifest Navigation",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-001",
     packageName: "@afenda/appshell",
     registryEntry: "PKG001_APPSHELL",
@@ -111,7 +114,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-002-auth-disposition",
     slug: "auth-disposition",
     title: "Auth Disposition",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Not started)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Not started)",
     pkg: "PKG-002",
     packageName: "@afenda/auth",
     registryEntry: "_(pending PKG002_AUTH)_",
@@ -142,7 +146,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-003-persistence",
     slug: "persistence",
     title: "Persistence Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-003",
     packageName: "@afenda/database",
     registryEntry: "PKG003_DATABASE",
@@ -176,7 +181,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-003-tenant-rls",
     slug: "tenant-rls",
     title: "Tenant RLS",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-003",
     packageName: "@afenda/database",
     registryEntry: "PKG003_DATABASE",
@@ -209,7 +215,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-004-design-authority",
     slug: "design-authority",
     title: "Design Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
     pkg: "PKG-004",
     packageName: "@afenda/design-system",
     registryEntry: "—",
@@ -237,7 +244,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-005-docs-app",
     slug: "docs-app",
     title: "Docs Application",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-005",
     packageName: "@afenda/docs",
     registryEntry: "—",
@@ -270,7 +278,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-006-entitlements",
     slug: "entitlements",
     title: "Entitlements Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Not started)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Not started)",
     pkg: "PKG-006",
     packageName: "@afenda/entitlements",
     registryEntry: "PKG006_ENTITLEMENTS",
@@ -295,7 +304,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-006-feature-manifest",
     slug: "feature-manifest",
     title: "Feature Manifest",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-006",
     packageName: "@afenda/entitlements",
     registryEntry: "PKG006_FEATURE_MANIFEST",
@@ -325,7 +335,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-007-system-admin",
     slug: "system-admin",
     title: "System Admin Control Plane",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-007",
     packageName: "@afenda/erp",
     registryEntry: "PKG007_ADMIN",
@@ -364,7 +375,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-007-operating-context",
     slug: "operating-context",
     title: "Operating Context",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-007",
     packageName: "@afenda/erp",
     registryEntry: "PKG007_CONTEXT",
@@ -398,7 +410,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-007-api-governance",
     slug: "api-governance",
     title: "API Contract Governance",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-007",
     packageName: "@afenda/erp",
     registryEntry: "PKG007_CONTEXT",
@@ -431,7 +444,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-007-ux-surfaces",
     slug: "ux-surfaces",
     title: "ERP UX Surfaces",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-007",
     packageName: "@afenda/erp",
     registryEntry: "—",
@@ -456,7 +470,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-007-accounting-readiness",
     slug: "accounting-readiness",
     title: "Accounting Readiness Gate",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-007",
     packageName: "@afenda/erp",
     registryEntry: "—",
@@ -486,7 +501,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-008-outbox-jobs",
     slug: "outbox-jobs",
     title: "Outbox Jobs",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-008",
     packageName: "@afenda/execution",
     registryEntry: "PKG008_EXECUTION",
@@ -518,7 +534,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-009-rollout-flags",
     slug: "rollout-flags",
     title: "Rollout Flags",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
     pkg: "PKG-009",
     packageName: "@afenda/feature-flags",
     registryEntry: "PKG009_FEATURE_FLAGS",
@@ -549,7 +566,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-010-context-contracts",
     slug: "context-contracts",
     title: "Context Contracts",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-010",
     packageName: "@afenda/kernel",
     registryEntry: "PKG010_KERNEL",
@@ -582,7 +600,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-010-platform-authority",
     slug: "platform-authority",
     title: "Platform Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-010",
     packageName: "@afenda/kernel",
     registryEntry: "PKG010_KERNEL",
@@ -608,7 +627,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-010-master-data-authority",
     slug: "master-data-authority",
     title: "Master Data Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
     pkg: "PKG-010",
     packageName: "@afenda/kernel",
     registryEntry: "PKG010_KERNEL",
@@ -635,7 +655,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-011-metadata-authority",
     slug: "metadata-authority",
     title: "Metadata Authority",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
     pkg: "PKG-011",
     packageName: "@afenda/metadata",
     registryEntry: "—",
@@ -662,7 +683,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-012-metadata-renderers",
     slug: "metadata-renderers",
     title: "Metadata Renderers",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-012",
     packageName: "@afenda/metadata-ui",
     registryEntry: "—",
@@ -691,7 +713,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-013-audit-coverage",
     slug: "audit-coverage",
     title: "Audit Coverage",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
     pkg: "PKG-013",
     packageName: "@afenda/observability",
     registryEntry: "PKG013_AUDIT",
@@ -729,7 +752,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-013-logging-tracing",
     slug: "logging-tracing",
     title: "Logging and Tracing",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
     pkg: "PKG-013",
     packageName: "@afenda/observability",
     registryEntry: "_(pending PKG013_LOGGING)_",
@@ -765,7 +789,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-014-rbac",
     slug: "rbac",
     title: "RBAC",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-014",
     packageName: "@afenda/permissions",
     registryEntry: "PKG014_PERMISSIONS",
@@ -862,7 +887,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-016-test-utilities",
     slug: "test-utilities",
     title: "Test Utilities",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-016",
     packageName: "@afenda/testing",
     registryEntry: "—",
@@ -886,7 +912,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-017-ts-config",
     slug: "ts-config",
     title: "TypeScript Config",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-017",
     packageName: "@afenda/typescript-config",
     registryEntry: "—",
@@ -910,7 +937,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-018-governed-primitives",
     slug: "governed-primitives",
     title: "Governed Primitives",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Partially Implemented)",
     pkg: "PKG-018",
     packageName: "@afenda/ui",
     registryEntry: "PKG018_UI",
@@ -944,7 +972,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-018-ui-consumption",
     slug: "ui-consumption",
     title: "UI Consumption",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-018",
     packageName: "@afenda/ui",
     registryEntry: "PKG018_UI",
@@ -975,7 +1004,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-019-architecture-maps",
     slug: "architecture-maps",
     title: "Architecture Maps",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-019",
     packageName: "@afenda/architecture-authority",
     registryEntry: "—",
@@ -1002,7 +1032,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-020-ai-governance",
     slug: "ai-governance",
     title: "AI Governance",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete)",
     pkg: "PKG-020",
     packageName: "@afenda/ai-governance",
     registryEntry: "—",
@@ -1026,7 +1057,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-021-storybook",
     slug: "storybook",
     title: "Storybook",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Maintain Only)",
     pkg: "PKG-021",
     packageName: "@afenda/storybook",
     registryEntry: "—",
@@ -1050,7 +1082,8 @@ export const fdrCatalogEntries = [
     fdrId: "fdr-r01-accounting-contracts",
     slug: "accounting-contracts",
     title: "Accounting Contracts",
-    archiveRuntimeHint: "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
+    archiveRuntimeHint:
+      "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
     pkg: "PKG-R01",
     packageName: "@afenda/accounting",
     registryEntry: "PKGR01_ACCOUNTING",

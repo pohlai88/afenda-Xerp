@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { UNTRUSTED_CLIENT_AUTHORITY_FIELD_KEYS } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-
+import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
 import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
 import {
@@ -49,6 +49,35 @@ function listProtectedServerActionFiles(): string[] {
     return source.includes('"use server"');
   });
 }
+
+describe("operating-context integration — protected surface registry", () => {
+  it("registry cites server-action binding and context switch delegates", () => {
+    const actionSurfaces = OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY.filter(
+      (entry) => entry.kind === "action"
+    );
+
+    expect(actionSurfaces.map((entry) => entry.id)).toEqual(
+      expect.arrayContaining([
+        "protected-server-action-binding",
+        "context-switch-action",
+      ])
+    );
+    expect(
+      actionSurfaces.every(
+        (entry) => entry.delegate === "resolveActionOperatingContext"
+      )
+    ).toBe(true);
+  });
+
+  it("protected API authorization surface cites verified route resolver", () => {
+    const apiSurface = OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY.find(
+      (entry) => entry.id === "protected-api-authorization"
+    );
+    expect(apiSurface?.delegate).toBe(
+      "resolveVerifiedApiRouteOperatingContext"
+    );
+  });
+});
 
 describe("operating-context integration — protected server actions", () => {
   const protectedServerActions = listProtectedServerActionFiles();

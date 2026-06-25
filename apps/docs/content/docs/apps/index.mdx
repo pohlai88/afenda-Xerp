@@ -1,0 +1,41 @@
+---
+title: Applications Book
+description: Engineer-facing guides for ERP, Docs, and Storybook — ports, boundaries, routes, and quality gates.
+---
+
+import { BookOpen, Layers, Server } from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Card, Cards } from "fumadocs-ui/components/card";
+
+<Callout type="info" title="Authority">
+  This page is an engineer-facing guide. Runtime status comes from
+  [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+  and the relevant ARCH/FDR records.
+</Callout>
+
+The Applications Book summarizes Afenda's three runnable apps. It **guides and links** — it does not replace architecture registries or the runtime inventory.
+
+<Cards>
+  <Card icon={<Server />} title="ERP Application" href="/docs/apps/erp">
+    Primary delivery surface — port **3000**, PKG-007.
+  </Card>
+  <Card icon={<BookOpen />} title="Documentation Site" href="/docs/apps/docs">
+    This Fumadocs app — port **3001**, PKG-005.
+  </Card>
+  <Card icon={<Layers />} title="Storybook" href="/docs/apps/storybook">
+    Visual composition gate — port **6006**, PKG-021.
+  </Card>
+</Cards>
+
+## When to read which chapter
+
+| Question | Start here |
+| --- | --- |
+| Where do I run the ERP and what routes exist? | [ERP Application](/docs/apps/erp) |
+| How is `@afenda/docs` isolated from ERP? | [Documentation Site](/docs/apps/docs) |
+| How do I run component stories? | [Storybook](/docs/apps/storybook) |
+
+## Architecture authority
+
+- [ARCH-APPS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-APPS-001-applications-book.md) — Applications Book delivery authority
+- [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md) — docs app FDR

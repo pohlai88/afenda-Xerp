@@ -13,6 +13,12 @@ describe("@afenda/docs routes", () => {
     const options = baseOptions();
 
     expect(options.nav?.title).toBe("Afenda Docs");
+    expect(options.links?.length).toBeGreaterThanOrEqual(2);
+    expect(
+      options.links?.some(
+        (link) => "text" in link && link.text === "Applications"
+      )
+    ).toBe(true);
   });
 
   it("merges default MDX components without losing Fumadocs link primitive", () => {

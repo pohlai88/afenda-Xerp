@@ -165,7 +165,9 @@ function collectErpSourceFiles(directory: string): string[] {
 }
 
 function isGovernedServerActionMutationSource(source: string): boolean {
-  return source.includes('"use server"') && source.includes("serverActionSuccess");
+  return (
+    source.includes('"use server"') && source.includes("serverActionSuccess")
+  );
 }
 
 /** Discovered ERP server-action paths that perform governed success mutations. */
@@ -187,9 +189,7 @@ export function discoverGovernedServerActionMutationPaths(
       continue;
     }
 
-    discovered.push(
-      relative(repoRoot, absolutePath).replaceAll("\\", "/")
-    );
+    discovered.push(relative(repoRoot, absolutePath).replaceAll("\\", "/"));
   }
 
   return discovered.sort();

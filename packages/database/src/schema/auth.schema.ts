@@ -21,6 +21,7 @@ export const authUser = pgTable("auth_user", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull().default(false),
+  twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
   image: text("image"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
@@ -59,6 +60,7 @@ export const authSession = pgTable(
       .defaultNow(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
+    activeWorkspaceId: text("active_workspace_id"),
     userId: text("user_id")
       .notNull()
       .references(() => authUser.id, { onDelete: "cascade" }),
@@ -139,6 +141,24 @@ export const authVerification = pgTable(
   ]
 );
 
+/** Better Auth `twoFactor()` plugin — TOTP secrets and backup codes (ARCH-AUTH-001 Gap 3). */
+export const authTwoFactor = pgTable(
+  "auth_two_factor",
+  {
+    id: text("id").primaryKey(),
+    secret: text("secret").notNull(),
+    backupCodes: text("backup_codes").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => authUser.id, { onDelete: "cascade" }),
+    verified: boolean("verified").notNull().default(false),
+  },
+  (table) => [
+    index("auth_two_factor_user_id_idx").on(table.userId),
+    index("auth_two_factor_secret_idx").on(table.secret),
+  ]
+);
+
 /**
  * Better Auth Drizzle schema registry for adapter wiring.
  * Keys match Better Auth model names; SQL tables use the `auth_*` prefix.
@@ -148,6 +168,7 @@ export const authSchema = {
   session: authSession,
   account: authAccount,
   verification: authVerification,
+  twoFactor: authTwoFactor,
 } as const;
 
 export type AuthSchema = typeof authSchema;

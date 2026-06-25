@@ -25,7 +25,7 @@ function rememberPlatformUserId(
   platformUserCache.set(authUserId, platformUserId);
 }
 
-/** Resolves platform `users.id` from hook context, cache, or identity-link lookup. */
+/** Resolves canonical platform `users.id` (ARCH-AUTH-001) from context, cache, or identity link. */
 export async function resolvePlatformActorUserId(
   context?: AuthEventContext
 ): Promise<string | null> {

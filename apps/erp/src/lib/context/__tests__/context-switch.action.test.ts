@@ -7,10 +7,23 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const {
   resolveActionOperatingContextMock,
   persistWorkspaceSelectionCookiesMock,
+  persistAuthSessionActiveWorkspaceIdMock,
+  recordActionAuditMock,
 } = vi.hoisted(() => ({
   resolveActionOperatingContextMock: vi.fn(),
   persistWorkspaceSelectionCookiesMock: vi.fn(),
+  persistAuthSessionActiveWorkspaceIdMock: vi.fn(),
+  recordActionAuditMock: vi.fn(async () => undefined),
 }));
+
+vi.mock("@afenda/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/auth")>();
+  return {
+    ...actual,
+    persistAuthSessionActiveWorkspaceId:
+      persistAuthSessionActiveWorkspaceIdMock,
+  };
+});
 
 vi.mock("@/lib/server-actions/resolve-action-operating-context.server", () => ({
   resolveActionOperatingContext: resolveActionOperatingContextMock,
@@ -29,7 +42,7 @@ vi.mock("@/lib/server-actions/log-action-error", () => ({
 }));
 
 vi.mock("@/lib/server-actions/record-action-audit", () => ({
-  recordActionAudit: vi.fn(async () => undefined),
+  recordActionAudit: recordActionAuditMock,
 }));
 
 import { switchOperatingContextAction } from "../context-switch.action";
@@ -48,6 +61,7 @@ const sampleSession = {
     expiresAt: "2026-06-27T00:00:00.000Z",
     ipAddress: null,
     userAgent: null,
+    activeWorkspaceId: null,
   },
 } as const;
 
@@ -118,7 +132,10 @@ describe("switchOperatingContextAction", () => {
   beforeEach(() => {
     resolveActionOperatingContextMock.mockReset();
     persistWorkspaceSelectionCookiesMock.mockReset();
+    persistAuthSessionActiveWorkspaceIdMock.mockReset();
+    recordActionAuditMock.mockReset();
     persistWorkspaceSelectionCookiesMock.mockResolvedValue(undefined);
+    persistAuthSessionActiveWorkspaceIdMock.mockResolvedValue(undefined);
   });
 
   it("rejects client-provided legalEntityId before operating context resolution", async () => {
@@ -174,9 +191,40 @@ describe("switchOperatingContextAction", () => {
       companySlug: "dev-company",
       organizationSlug: null,
     });
+    expect(persistAuthSessionActiveWorkspaceIdMock).toHaveBeenCalledWith({
+      sessionId: "sess-switch-test",
+      activeWorkspaceId: "tenant-001:company-001:root",
+    });
     if (result.ok) {
       expect(result.data.operatingContext.legalEntityLabel).toBe("Dev Company");
       expect(result.data.workspace.companyId).toBe("company-001");
     }
+  });
+
+  it("records audit actor from resolved operating context, not session payload", async () => {
+    resolveActionOperatingContextMock.mockResolvedValue({
+      ok: true,
+      session: {
+        ...sampleSession,
+        user: {
+          ...sampleSession.user,
+          userId: "session-user-drift",
+        },
+      },
+      operatingContext: createMockOperatingContext({
+        actor: { userId: "user-001" },
+      }),
+    });
+
+    await switchOperatingContextAction({
+      companySlug: "dev-company",
+    });
+
+    expect(recordActionAuditMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "auth.workspace.context_switched",
+        actorUserId: "user-001",
+      })
+    );
   });
 });

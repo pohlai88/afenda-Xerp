@@ -22,6 +22,7 @@ import { internalErpMetadata } from "@/lib/metadata/site-metadata";
 import { resolveActiveRoutePathFromHeaders } from "@/lib/modules/resolve-active-route-path-from-headers.server";
 import { resolveManifestNavigationFromOperatingContext } from "@/lib/modules/resolve-manifest-navigation.server";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
+import { resolveAppShellProfileMenuGroups } from "@/lib/user-settings/resolve-app-shell-profile-menu-groups";
 import {
   emptyDashboardWidgetRenderContext,
   resolveDashboardWidgetRenderContextFromOperatingContext,
@@ -59,6 +60,7 @@ export default async function ProtectedLayout({
   const identity = toAfendaAuthIdentity(session);
   const operatingResult = await resolveOperatingContextFromHeaders({
     actorUserId: identity.userId,
+    activeWorkspaceId: session.metadata.activeWorkspaceId,
   });
   const operatingContext = operatingResult.ok
     ? toApplicationShellOperatingContext(operatingResult.value)
@@ -105,6 +107,7 @@ export default async function ProtectedLayout({
     <AppShell
       identity={identity}
       identityAccessory={<SignOutButton />}
+      profileMenuGroups={resolveAppShellProfileMenuGroups()}
       {...(contextSwitcher ? { contextSwitcher } : {})}
       {...(operatingContext ? { operatingContext } : {})}
       {...(navigationPages ? { navigationPages } : {})}

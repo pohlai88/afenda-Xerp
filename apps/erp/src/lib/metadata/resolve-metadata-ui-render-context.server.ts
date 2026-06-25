@@ -5,6 +5,8 @@ import {
   type MetadataUiRenderContext,
 } from "@afenda/metadata-ui/server";
 
+import { formatActiveWorkspaceId } from "@/lib/context/active-workspace-id.contract";
+
 export interface ResolveMetadataUiRenderContextInput {
   readonly capabilities?: readonly string[];
   readonly operatingContext: OperatingContext;
@@ -18,11 +20,11 @@ function resolveMetadataWorkspaceId(
     operatingContext.organizationUnit?.organizationUnitId ??
     operatingContext.workspace.organizationId;
 
-  return [
-    operatingContext.tenant.tenantId,
-    operatingContext.legalEntity.companyId,
-    organizationId ?? "root",
-  ].join(":");
+  return formatActiveWorkspaceId({
+    tenantId: operatingContext.tenant.tenantId,
+    companyId: operatingContext.legalEntity.companyId,
+    organizationId,
+  });
 }
 
 /** Builds a server-side metadata render context from verified ERP operating context. */

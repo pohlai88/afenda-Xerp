@@ -3,27 +3,38 @@ title: Afenda Documentation
 description: Implementation guides for engineers working in the Afenda ERP monorepo.
 ---
 
-Engineer-facing guides for the Afenda monorepo — onboarding, package map, and contribution workflow. Governance artifacts (ADRs, architecture registries, delivery TIPs) stay in the repository under `docs/` at the repo root; link to those sources instead of duplicating them here.
+import { BookOpen, Layers, Map, Rocket } from "lucide-react";
+import { Card, Cards } from "fumadocs-ui/components/card";
 
-## Start here
+Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, architecture registries, FDR delivery docs) stay under `docs/` at the repo root — cross-link to those sources instead of duplicating them here.
 
-| Guide | What you'll learn |
-| ----- | ----------------- |
-| [Getting Started](/docs/getting-started) | Clone, install dependencies, and run ERP + docs locally |
-| [Monorepo Map](/docs/monorepo-map) | Package layers, ports, and where to edit |
-| [Contributing](/docs/contributing) | Coding session contract, TIP handoffs, and quality gates |
+<Cards>
+  <Card icon={<Rocket />} title="Getting Started" href="/docs/getting-started">
+    Clone, install dependencies, and run ERP or docs locally.
+  </Card>
+  <Card icon={<Map />} title="Monorepo Map" href="/docs/monorepo-map">
+    Package layers, ports, and where to edit.
+  </Card>
+  <Card icon={<Layers />} title="Applications Book" href="/docs/apps">
+    ERP, Docs, and Storybook — ports, boundaries, and quality gates.
+  </Card>
+  <Card icon={<BookOpen />} title="Contributing" href="/docs/contributing">
+    Coding session contract, FDR handoffs, and drift guards.
+  </Card>
+</Cards>
 
 ## Dev servers
 
 | App | Command | Port |
-| --- | ------- | ---- |
+| --- | --- | ---: |
 | ERP | `pnpm --filter @afenda/erp dev` | 3000 |
 | Docs | `pnpm --filter @afenda/docs dev` | 3001 |
+| Storybook | `pnpm --filter @afenda/storybook dev` | 6006 |
 
 ## Governance (repo root)
 
-These sources are authoritative — cross-link, do not mirror verbatim in MDX:
+Authoritative sources — link, do not mirror verbatim in MDX:
 
-- [Delivery TIP index](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/tip-status-index.md) — implementation sequence and status
-- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) — what is actually implemented
-- [Package registry](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/package-registry.md) — PKG codes and ownership
+- [FDR status index](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/fdr-status-index.md)
+- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md)
+- [Monorepo feature inventory](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)

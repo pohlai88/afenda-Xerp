@@ -274,11 +274,15 @@ export {
   type MembershipWriteInput,
 } from "./membership/membership.contract.js";
 export {
+  type CompanyMemberListRow,
   type DeactivateMembershipInput,
   deactivateMembership,
+  findMembershipById,
   type InsertMembershipInput,
   insertMembership,
+  listCompanyMembers,
   type MembershipAuditContext,
+  type MembershipLookupRow,
   type MembershipMutationResult,
   type UpdateMembershipInput,
   updateMembership,
@@ -522,6 +526,7 @@ export {
   authIdentityLinks,
   authSchema,
   authSession,
+  authTwoFactor,
   authUser,
   authVerification,
   companies,
@@ -567,10 +572,12 @@ export {
   storageProviderEnum,
   teams,
   tenantCommercialPlans,
+  tenantSettings,
   tenantStatusEnum,
   tenants,
   usageLimitCounters,
   usageLimitPeriodEnum,
+  userPreferences,
   userStatusEnum,
   users,
 } from "./schema/index.js";
@@ -640,6 +647,29 @@ export {
   type DatabaseTenantDomainModule,
 } from "./tenant-domain/tenant-domain-registry.js";
 export {
+  parseTenantBillingSettings,
+  parseTenantIntegrationsSettings,
+  parseTenantNotificationsSettings,
+  parseTenantWorkspaceSettings,
+  type TenantBillingSettings,
+  type TenantIntegrationsSettings,
+  type TenantNotificationsSettings,
+  type TenantSettingsRecord,
+  type TenantSettingsSectionKey,
+  type TenantWorkspaceSettings,
+  tenantBillingSettingsSchema,
+  tenantIntegrationsSettingsSchema,
+  tenantNotificationsSettingsSchema,
+  tenantWorkspaceSettingsSchema,
+} from "./tenant-settings/tenant-settings.contract.js";
+export {
+  getTenantSettingsByTenantId,
+  type TenantSettingsAuditContext,
+  type TenantSettingsMutationResult,
+  type UpsertTenantSettingsSectionInput,
+  upsertTenantSettingsSection,
+} from "./tenant-settings/tenant-settings.service.js";
+export {
   type CreatedAtColumn,
   createdAtColumn,
   type UpdatedAtColumn,
@@ -666,6 +696,26 @@ export {
   type UserMutationResult,
   updateUser,
 } from "./user/user.service.js";
+export {
+  defaultUserDisplayPreferences,
+  parseUserDisplayPreferences,
+  parseUserNotificationsPreferences,
+  USER_DISPLAY_DENSITY_VALUES,
+  USER_DISPLAY_THEME_VALUES,
+  type UserDisplayPreferences,
+  type UserNotificationsPreferences,
+  type UserPreferencesRecord,
+  type UserPreferencesSectionKey,
+  userDisplayPreferencesSchema,
+  userNotificationsPreferencesSchema,
+} from "./user-preferences/user-preferences.contract.js";
+export {
+  getUserPreferencesByUserId,
+  type UpsertUserPreferencesSectionInput,
+  type UserPreferencesAuditContext,
+  type UserPreferencesMutationResult,
+  upsertUserPreferencesSection,
+} from "./user-preferences/user-preferences.service.js";
 export type {
   CompanyLookupRow as LegalEntityLookupRow,
   OrganizationLookupRow as OrganizationUnitLookupRow,

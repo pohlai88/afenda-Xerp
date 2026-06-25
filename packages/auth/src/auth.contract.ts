@@ -1,4 +1,7 @@
-/** Serializable auth boundary contracts (TIP-004). Types and constants only. */
+/**
+ * Serializable auth boundary contracts (TIP-004).
+ * ARCH-AUTH-001: Afenda `users.id` is canonical; Better Auth `authUserId` is login-only.
+ */
 
 import type { UserId } from "@afenda/kernel";
 
@@ -14,6 +17,8 @@ export interface AfendaAuthUser {
 }
 
 export interface AfendaAuthSessionMetadata {
+  /** Active workspace scope for operating context; null when unset (ARCH-AUTH-001 FR-A05). */
+  readonly activeWorkspaceId: string | null;
   readonly expiresAt: string;
   readonly image: string | null;
   readonly ipAddress: string | null;
@@ -35,31 +40,70 @@ export interface AfendaAuthIdentity {
   readonly userId: UserId;
 }
 
-/** Extension points reserved for future MFA, SSO, invitations (metadata only). */
+/** Extension points — attested in `auth.integration.test.ts` (ARCH-AUTH-001 Slice 7). */
 export interface AfendaAuthExtensionPoints {
   readonly enterpriseSso: "planned";
-  readonly invitation: "planned";
-  readonly mfa: "planned";
+  /** Invite-only sign-up gate — integration-tested (Slice 7). */
+  readonly invitation: "active";
+  /** Better Auth twoFactor plugin + tenant MFA policy helpers — integration-tested (Slice 7). */
+  readonly mfa: "active";
   readonly organization: "planned";
   readonly passkey: "planned";
 }
 
 export const AFENDA_AUTH_EXTENSION_POINTS = {
   enterpriseSso: "planned",
-  invitation: "planned",
-  mfa: "planned",
+  invitation: "active",
+  mfa: "active",
   organization: "planned",
   passkey: "planned",
 } as const satisfies AfendaAuthExtensionPoints;
 
 /** Stable auth lifecycle event names for audit + observability. */
 export const AUTH_EVENT = {
+  emailVerificationSent: "auth.email_verification.sent",
+  emailVerified: "auth.email.verified",
+  invitationAccepted: "auth.invitation.accepted",
+  invitationRejected: "auth.invitation.rejected",
+  mfaBypassBlocked: "auth.mfa.bypass_blocked",
+  mfaDisabled: "auth.mfa.disabled",
+  mfaEnrolled: "auth.mfa.enrolled",
+  mfaPolicyUpdated: "auth.mfa.policy_updated",
+  mfaVerified: "auth.mfa.verified",
+  mirrorSyncFailed: "auth.mirror.sync_failed",
+  passwordResetCompleted: "auth.password_reset.completed",
+  passwordResetRequested: "auth.password_reset.requested",
   sessionCreated: "auth.session.created",
+  sessionDeviceRevoked: "auth.session.device_revoked",
   sessionInvalidated: "auth.session.invalidated",
+  sessionRevokedAll: "auth.session.revoked_all",
   signInFailed: "auth.sign_in.failed",
   signInSucceeded: "auth.sign_in.succeeded",
   signOut: "auth.sign_out",
-} as const;
+  workspaceContextSwitched: "auth.workspace.context_switched",
+} as const satisfies Record<
+  | "emailVerificationSent"
+  | "emailVerified"
+  | "invitationAccepted"
+  | "invitationRejected"
+  | "mfaBypassBlocked"
+  | "mfaDisabled"
+  | "mfaEnrolled"
+  | "mfaPolicyUpdated"
+  | "mfaVerified"
+  | "mirrorSyncFailed"
+  | "passwordResetCompleted"
+  | "passwordResetRequested"
+  | "sessionCreated"
+  | "sessionDeviceRevoked"
+  | "sessionInvalidated"
+  | "sessionRevokedAll"
+  | "signInFailed"
+  | "signInSucceeded"
+  | "signOut"
+  | "workspaceContextSwitched",
+  string
+>;
 
 export type AuthEventName = (typeof AUTH_EVENT)[keyof typeof AUTH_EVENT];
 
@@ -70,11 +114,14 @@ export interface AuthEventContext {
   readonly authUserId?: string;
   readonly correlationId?: string;
   readonly email?: string;
+  readonly invitationId?: string;
   readonly ipAddress?: string | null;
+  readonly mfaRequired?: string;
   /** Pre-resolved platform `users.id`; skips identity-link lookup when set. */
   readonly platformUserId?: string;
   readonly reason?: string;
   readonly sessionId?: string;
+  readonly tenantId?: string;
   readonly userAgent?: string | null;
 }
 

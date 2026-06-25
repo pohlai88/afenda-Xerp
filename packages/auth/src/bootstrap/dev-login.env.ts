@@ -95,14 +95,3 @@ export function hasDevViewerLoginCredentials(
     adminPassword && adminPassword.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH
   );
 }
-
-/** @deprecated Use `resolveDevViewerLoginPassword` — viewer bootstrap is no longer optional. */
-export function resolveOptionalE2EViewerLoginPassword(
-  env: NodeJS.ProcessEnv = process.env
-): string | null {
-  if (!hasDevViewerLoginCredentials(env)) {
-    return null;
-  }
-
-  return resolveDevViewerLoginPassword(env);
-}

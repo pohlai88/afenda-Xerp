@@ -7,6 +7,7 @@ import {
   TENANT_RLS_FOUNDATION_MIGRATION_TAG,
   TENANT_RLS_ISOLATION_POLICIES,
   TENANT_RLS_MIGRATION_POLICY_GROUPS,
+  TENANT_RLS_TENANT_SETTINGS_MIGRATION_TAG,
 } from "../tenant-rls-coverage.contract";
 import { collectTenantRlsRegistryInvariantViolations } from "../tenant-rls-registry-invariants.contract";
 import { collectTenantRlsSchemaParityGaps } from "../tenant-rls-schema-parity.contract";
@@ -32,7 +33,7 @@ describe("tenant-rls-coverage.contract", () => {
     }
   });
 
-  it("covers foundation, completion, and commercial-plans migrations", () => {
+  it("covers foundation, completion, commercial-plans, and tenant-settings migrations", () => {
     const tags = new Set(
       TENANT_RLS_ISOLATION_POLICIES.map((row) => row.migrationTag)
     );
@@ -41,6 +42,7 @@ describe("tenant-rls-coverage.contract", () => {
         TENANT_RLS_FOUNDATION_MIGRATION_TAG,
         TENANT_RLS_COMPLETION_MIGRATION_TAG,
         TENANT_RLS_COMMERCIAL_PLANS_MIGRATION_TAG,
+        TENANT_RLS_TENANT_SETTINGS_MIGRATION_TAG,
       ])
     );
   });

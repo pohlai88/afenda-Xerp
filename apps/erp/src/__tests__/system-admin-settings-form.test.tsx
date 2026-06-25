@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { SystemAdminSettingsForm } from "@/components/system-admin/system-admin-settings-form";
 import { createModuleRouteOperatingContext } from "@/lib/modules/__tests__/module-route-test-fixtures";
 import { resolveSystemAdminSettingsFormValues } from "@/lib/system-admin/resolve-system-admin-settings-form-values";
-import { SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE } from "@/lib/system-admin/system-admin-settings.copy.contract";
+import { SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE } from "@/lib/system-admin/system-admin-settings.copy.contract";
 
 const mockUpdateSystemAdminSettingsAction = vi.fn();
 
@@ -41,11 +41,25 @@ describe("SystemAdminSettingsForm", () => {
     ).toBeInTheDocument();
   });
 
-  it("surfaces scaffold failure messages from the server action", async () => {
+  it("allows editing the tenant display name", () => {
+    const formValues = resolveSystemAdminSettingsFormValues(
+      createModuleRouteOperatingContext()
+    );
+
+    render(<SystemAdminSettingsForm formValues={formValues} />);
+
+    const displayNameInput = document.getElementById(
+      "system-admin-settings-tenant.displayName"
+    );
+    expect(displayNameInput).not.toHaveAttribute("readonly");
+    expect(displayNameInput).toHaveAttribute("name", "companyName");
+  });
+
+  it("surfaces permission denial messages from the server action", async () => {
     mockUpdateSystemAdminSettingsAction.mockResolvedValueOnce({
       ok: false,
       code: "FORBIDDEN",
-      userMessage: SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE,
+      userMessage: SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE,
     });
 
     const formValues = resolveSystemAdminSettingsFormValues(
@@ -58,7 +72,7 @@ describe("SystemAdminSettingsForm", () => {
     await user.click(screen.getByRole("button", { name: "Save settings" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE
+      SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE
     );
   });
 });

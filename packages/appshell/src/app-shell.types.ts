@@ -12,6 +12,7 @@ import type {
   AppShellMenuItem,
   AppShellRecipientItem,
 } from "./shadcn-studio/data/app-shell.data";
+import type { AppShellProfileMenuGroup } from "./shadcn-studio/data/app-shell.profile.data";
 
 export type {
   ApplicationShellIdentity,
@@ -73,6 +74,8 @@ export interface ApplicationShellProps {
   readonly navigationPages?: readonly AppShellMenuItem[];
   /** Server-resolved workspace labels — shell displays only, does not authorize. */
   readonly operatingContext?: ApplicationShellOperatingContext;
+  /** Profile dropdown menu groups — host app supplies href wiring. */
+  readonly profileMenuGroups?: readonly AppShellProfileMenuGroup[];
   /** Role line under the sidebar user name. */
   readonly roleLabel?: string;
   /** Compact label on the desktop header search trigger. */

@@ -53,6 +53,16 @@ const auditMocks = vi.hoisted(() => ({
     .mockResolvedValue(undefined),
 }));
 
+const authMocks = vi.hoisted(() => ({
+  registerAuthInvitation: vi.fn(),
+  syncAuthMirrorUser: vi.fn().mockResolvedValue({
+    authUserId: "auth-user-invited-001",
+    createdAuthUser: true,
+    createdIdentityLink: true,
+    updatedAuthUser: false,
+  }),
+}));
+
 vi.mock("@afenda/database", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@afenda/database")>();
   return {
@@ -71,6 +81,15 @@ vi.mock("@/lib/system-admin/list-recent-audit-events.server", () => ({
   listRecentAuditEvents: auditMocks.listRecentAuditEvents,
 }));
 
+vi.mock("@afenda/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/auth")>();
+  return {
+    ...actual,
+    registerAuthInvitation: authMocks.registerAuthInvitation,
+    syncAuthMirrorUser: authMocks.syncAuthMirrorUser,
+  };
+});
+
 describe("system admin API integration (TIP-013 Slice 4)", () => {
   beforeEach(() => {
     databaseMocks.insertMembership.mockClear();
@@ -78,6 +97,8 @@ describe("system admin API integration (TIP-013 Slice 4)", () => {
     databaseMocks.updateMembership.mockClear();
     auditMocks.listRecentAuditEvents.mockClear();
     auditMocks.recordErpAuditEvent.mockClear();
+    authMocks.registerAuthInvitation.mockClear();
+    authMocks.syncAuthMirrorUser.mockClear();
   });
 
   it("invites a user with company-scoped membership and governed database writes", async () => {
@@ -123,6 +144,19 @@ describe("system admin API integration (TIP-013 Slice 4)", () => {
         userId: "user-invited-001",
       })
     );
+
+    expect(authMocks.syncAuthMirrorUser).toHaveBeenCalledWith({
+      displayName: "Invited User",
+      email: "invited@example.com",
+      userId: "user-invited-001",
+    });
+
+    expect(authMocks.registerAuthInvitation).toHaveBeenCalledWith({
+      email: "invited@example.com",
+      invitationId: "membership-invited-001",
+      platformUserId: "user-invited-001",
+      tenantId: MODULE_ROUTE_TEST_TENANT_ID,
+    });
   });
 
   it("denies cross-company role assignment with audit evidence", async () => {

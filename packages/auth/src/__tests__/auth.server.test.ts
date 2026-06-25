@@ -43,6 +43,35 @@ describe("auth.server session helpers", () => {
     await expect(getAfendaAuthSession(new Headers())).resolves.toBeNull();
   });
 
+  it("passes through activeWorkspaceId from Better Auth session", async () => {
+    resetAuthForTests();
+    const createdAt = new Date("2026-06-20T00:00:00.000Z");
+    const expiresAt = new Date("2026-06-27T00:00:00.000Z");
+
+    mockGetSession.mockResolvedValueOnce({
+      session: {
+        id: "sess_workspace",
+        createdAt,
+        expiresAt,
+        activeWorkspaceId: "workspace_persisted",
+        ipAddress: null,
+        userAgent: null,
+      },
+      user: {
+        id: "auth_user_1",
+        email: "user@example.com",
+        name: "Test User",
+        emailVerified: true,
+        image: null,
+      },
+    });
+    mockResolvePlatformActorUserId.mockResolvedValueOnce("platform_user_1");
+
+    const session = await getAfendaAuthSession(new Headers());
+
+    expect(session?.metadata.activeWorkspaceId).toBe("workspace_persisted");
+  });
+
   it("returns normalized AfendaAuthSession when Better Auth has a session", async () => {
     resetAuthForTests();
     const createdAt = new Date("2026-06-20T00:00:00.000Z");

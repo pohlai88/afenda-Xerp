@@ -143,14 +143,24 @@ describe("TIP-013 acceptance criteria", () => {
       const modulePage = readAppSource(
         "app/(protected)/modules/[moduleId]/page.tsx"
       );
-      const settingsPage = readAppSource(
+      const settingsIndexPage = readAppSource(
         "app/(protected)/system-admin/settings/page.tsx"
+      );
+      const settingsGeneralPage = readAppSource(
+        "app/(protected)/system-admin/settings/general/page.tsx"
+      );
+      const settingsLayout = readAppSource(
+        "app/(protected)/system-admin/settings/layout.tsx"
       );
 
       expect(modulePage).toContain("Shell placeholder surface");
       expect(modulePage).not.toMatch(ACCOUNTING_ADMIN_SOURCE_PATTERN);
-      expect(settingsPage).not.toMatch(ACCOUNTING_ADMIN_SOURCE_PATTERN);
-      expect(settingsPage).toContain("No accounting settings");
+      expect(settingsIndexPage).not.toMatch(ACCOUNTING_ADMIN_SOURCE_PATTERN);
+      expect(settingsIndexPage).toContain(
+        'redirect("/system-admin/settings/general")'
+      );
+      expect(settingsGeneralPage).not.toMatch(ACCOUNTING_ADMIN_SOURCE_PATTERN);
+      expect(settingsLayout).not.toMatch(ACCOUNTING_ADMIN_SOURCE_PATTERN);
     });
 
     it("accounting manifest route remains placeholder-only (no COA/journal admin)", () => {

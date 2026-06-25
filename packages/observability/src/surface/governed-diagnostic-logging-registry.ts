@@ -59,7 +59,61 @@ export const GOVERNED_DIAGNOSTIC_SERVER_ACTION_MODULES = [
   {
     path: "apps/erp/src/lib/system-admin/update-system-admin-settings.action.ts",
     action: "system_admin.settings.update",
-    loggingRequired: false,
-    loggingExemptionReason: "scaffold-failure-only-no-successful-mutation-path",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-notifications-settings.action.ts",
+    action: "system_admin.settings.notifications.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-workspace-settings.action.ts",
+    action: "system_admin.settings.workspace.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-billing-settings.action.ts",
+    action: "system_admin.settings.billing.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-integrations-settings.action.ts",
+    action: "system_admin.settings.integrations.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/update-security-mfa-policy.action.ts",
+    action: "system_admin.settings.security.mfa_policy.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/resend-system-admin-invite.action.ts",
+    action: "system_admin.settings.members.invite.resend",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/system-admin/revoke-system-admin-invite.action.ts",
+    action: "system_admin.settings.members.invite.revoke",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/user-settings/update-user-profile-settings.action.ts",
+    action: "user.settings.profile.update",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
+  },
+  {
+    path: "apps/erp/src/lib/user-settings/record-user-session-revoked.action.ts",
+    action: "user.settings.session.revoke.record",
+    loggingRequired: true,
+    requiredSymbols: ["failServerAction"],
   },
 ] as const;

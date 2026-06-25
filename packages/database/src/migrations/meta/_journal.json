@@ -190,6 +190,55 @@
       "when": 1782302225118,
       "tag": "20260624115705_tenant_commercial_plans_rls",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1782344256531,
+      "tag": "20260624233736_auth_mfa_two_factor",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1782400000000,
+      "tag": "20260625070000_tenant_mfa_required",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1782348867112,
+      "tag": "20260625005427_tenant_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1782348894262,
+      "tag": "20260625005454_tenant_settings_rls",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1782400000001,
+      "tag": "20260625041511_auth_session_active_workspace_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1782400000002,
+      "tag": "20260625045902_tenant_settings_integrations",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1782400000003,
+      "tag": "20260625121713_user_preferences",
+      "breakpoints": true
     }
   ]
 }

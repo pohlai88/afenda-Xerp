@@ -19,6 +19,21 @@ export const docsSeedSections = [
     subpages: [],
   },
   {
+    id: "apps",
+    slug: ["apps"],
+    title: "Applications Book",
+    subpages: [
+      { slug: ["apps", "erp"], id: "erp" },
+      {
+        slug: ["apps", "erp", "routes-and-surfaces"],
+        id: "routes-and-surfaces",
+      },
+      { slug: ["apps", "erp", "development"], id: "development" },
+      { slug: ["apps", "docs"], id: "docs" },
+      { slug: ["apps", "storybook"], id: "storybook" },
+    ],
+  },
+  {
     id: "contributing",
     slug: ["contributing"],
     title: "Contributing",
@@ -39,3 +54,12 @@ export const docsSeedPageSlugs: readonly DocsNavSlug[] =
 
 /** Root docs home — empty slug array in Fumadocs loader. */
 export const docsHomeSlug: DocsNavSlug = [];
+
+/** Apps Book landing pages scanned for component usage (apps-book-components.test.ts). */
+export const appsBookLandingMdxPaths = [
+  "index.mdx",
+  "apps/index.mdx",
+  "apps/erp/index.mdx",
+  "apps/docs/index.mdx",
+  "apps/storybook/index.mdx",
+] as const;

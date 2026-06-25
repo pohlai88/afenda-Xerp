@@ -1169,4 +1169,754 @@
     width: 1rem;
     height: 1rem;
   }
+
+  /* ── J. Account settings pattern ─────────────────────────────────────────── */
+  /*
+   * Used by: AppShellAccountSettings01–07 system-admin settings scaffolds.
+   * Block-local geometry until ≥2 blocks share identical subsection layouts.
+   */
+  .app-shell-studio-account-settings-01 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-studio-gap-section);
+  }
+
+  .app-shell-studio-account-settings-01__section {
+    padding: var(--app-shell-gap-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--app-shell-studio-radius-widget);
+    background: var(--app-shell-studio-surface-card);
+  }
+
+  .app-shell-studio-account-settings-01__section--danger {
+    border-color: color-mix(in oklab, var(--destructive) 35%, var(--border));
+  }
+
+  .app-shell-studio-account-settings-01__field-grid {
+    display: grid;
+    gap: var(--app-shell-gap-md);
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+
+  .app-shell-studio-account-settings-01__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-account-settings-01__field-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-01__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-01__connected-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-shell-studio-account-settings-01__connected-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-01__danger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-studio-gap-section);
+  }
+
+  .app-shell-studio-account-settings__section {
+    padding: var(--app-shell-gap-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--app-shell-studio-radius-widget);
+    background: var(--app-shell-studio-surface-card);
+  }
+
+  .app-shell-studio-account-settings__lead {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-account-settings-06 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-studio-gap-section);
+  }
+
+  .app-shell-studio-account-settings-06__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-06__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  @media (min-width: 64rem) {
+    .app-shell-studio-account-settings-06__row {
+      grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr);
+      gap: var(--app-shell-gap-xl);
+    }
+  }
+
+  .app-shell-studio-account-settings-06__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-account-settings-06__title {
+    margin: 0;
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-06__description {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-account-settings-06__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-06__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-account-settings-06__policy-row,
+  .app-shell-studio-account-settings-06__status-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-06__policy-copy,
+  .app-shell-studio-account-settings-06__status-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-06__status-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-account-settings-06__status-title {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-06__actions,
+  .app-shell-studio-account-settings-06__sessions-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-06__sessions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--app-shell-studio-radius-widget);
+    background: var(--app-shell-studio-surface-card);
+    overflow: hidden;
+  }
+
+  .app-shell-studio-account-settings-06__session-row {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-shell-studio-account-settings-06__session-row:last-child {
+    border-bottom: none;
+  }
+
+  .app-shell-studio-account-settings-06__session-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-account-settings-06__session-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-06__session-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--app-shell-gap-sm);
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  /* account-settings-02 notifications (shares 06 panel geometry) */
+  .app-shell-studio-account-settings-02 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-studio-gap-section);
+  }
+
+  .app-shell-studio-account-settings-02__toggle-list,
+  .app-shell-studio-account-settings-02__checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__toggle-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__toggle-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-02__checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__sound-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__sound-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--app-shell-gap-xs);
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-02__help-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: help;
+  }
+
+  .app-shell-studio-account-settings-02__dnd-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-account-settings-02__dnd-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__dnd-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-02__dnd-days {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-02__save-row {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-02__table-heading {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-02__channel-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-02__section-label {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-02__item-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-02__item-title {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-02__channel-cell {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* account-settings-03 workspace */
+  .app-shell-studio-account-settings-03__form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-account-settings-03__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-03__upload-zone {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-03__upload-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--app-shell-studio-radius-widget);
+    overflow: hidden;
+  }
+
+  .app-shell-studio-account-settings-03__upload-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .app-shell-studio-account-settings-03__upload-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-03__org-row,
+  .app-shell-studio-account-settings-03__danger-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-03__org-copy {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-03__org-copy img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--app-shell-studio-radius-widget);
+    object-fit: cover;
+  }
+
+  .app-shell-studio-account-settings-03__data-toolbar {
+    margin-bottom: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-03__danger-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+  }
+
+  /* account-settings-04 integrations */
+  .app-shell-studio-account-settings-04__grid {
+    display: grid;
+    gap: var(--app-shell-gap-lg);
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  }
+
+  .app-shell-studio-account-settings-04__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-04__card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-04__dialog-header {
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    align-items: flex-start;
+    margin-bottom: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-04__feature-list {
+    margin: var(--app-shell-gap-md) 0;
+    padding-left: var(--app-shell-gap-lg);
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  /* account-settings-05 members */
+  .app-shell-studio-account-settings-05 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-studio-gap-section);
+  }
+
+  .app-shell-studio-account-settings-05__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+    margin-bottom: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-account-settings-05__title {
+    margin: 0;
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-05__description {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-account-settings-05__item-title {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-account-settings-05__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-05__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+    padding: var(--app-shell-gap-xs) 0;
+  }
+
+  .app-shell-studio-account-settings-05__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+    min-width: 0;
+  }
+
+  .app-shell-studio-account-settings-05__avatar-wrap {
+    position: relative;
+    width: fit-content;
+  }
+
+  .app-shell-studio-account-settings-05__verified-icon {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--app-shell-studio-chart-primary);
+  }
+
+  .app-shell-studio-account-settings-05__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-account-settings-05__pending {
+    margin-top: var(--app-shell-gap-xl);
+  }
+
+  /* account-settings-07 billing */
+  .app-shell-studio-account-settings-07__plan-row,
+  .app-shell-studio-account-settings-07__usage-row,
+  .app-shell-studio-account-settings-07__payment-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__usage-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-sm);
+    margin-top: var(--app-shell-gap-xs);
+  }
+
+  .app-shell-studio-account-settings-07__spend-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__spend-meter {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__spend-progress-wrap {
+    position: relative;
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .app-shell-studio-account-settings-07__spend-percent {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--app-shell-type-caption);
+    font-weight: var(--font-weight-label-sm);
+  }
+
+  .app-shell-studio-account-settings-07__spend-form,
+  .app-shell-studio-account-settings-07__auto-pay {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+    margin-top: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__auto-pay-fields {
+    display: grid;
+    gap: var(--app-shell-gap-md);
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+
+  .app-shell-studio-account-settings-07__credit-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    margin: var(--app-shell-gap-md) 0;
+  }
+
+  .app-shell-studio-account-settings-07__payment-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-07__payment-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-07__payment-brand img {
+    height: 1.5rem;
+    width: auto;
+  }
+
+  .app-shell-studio-account-settings-07__addon-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__addon-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--app-shell-gap-sm);
+  }
+
+  .app-shell-studio-account-settings-07__addon-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-md);
+  }
+
+  .app-shell-studio-account-settings-07__learn-more {
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--app-shell-studio-chart-primary);
+    text-decoration: none;
+  }
+
+  .app-shell-studio-account-settings-07__plan-alert {
+    margin-bottom: var(--app-shell-gap-md);
+  }
+
+  /* ── K. application-shell-02 system-admin chrome ─────────────────────────── */
+  /*
+   * Used by: AppShellApplicationShell02SystemAdminChrome
+   * Adapts shell-02 nav grouping for system-admin section rail (not full shell).
+   */
+  .app-shell-studio-application-shell-02-chrome {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-application-shell-02-profile {
+    display: flex;
+    gap: var(--app-shell-gap-md);
+    align-items: center;
+    padding: var(--app-shell-gap-md) var(--app-shell-gap-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--app-shell-studio-radius-widget);
+    background: var(--app-shell-studio-surface-card);
+  }
+
+  .app-shell-studio-application-shell-02-profile-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-xs);
+    min-width: 0;
+  }
+
+  .app-shell-studio-application-shell-02-profile-name {
+    font-size: var(--app-shell-type-body);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-application-shell-02-profile-email,
+  .app-shell-studio-application-shell-02-profile-workspace {
+    font-size: var(--app-shell-type-body-sm);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-application-shell-02-nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .app-shell-studio-application-shell-02-nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--app-shell-gap-xs) var(--app-shell-gap-md);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    color: var(--app-shell-studio-text-muted);
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: var(--app-shell-studio-radius-control);
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .app-shell-studio-application-shell-02-nav-link:hover {
+    color: var(--foreground);
+    background: var(--app-shell-studio-surface-muted);
+  }
+
+  .app-shell-studio-application-shell-02-nav-link[data-active="true"] {
+    color: var(--foreground);
+    border-color: var(--border);
+    background: var(--app-shell-studio-surface-card);
+  }
 }

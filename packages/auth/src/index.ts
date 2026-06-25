@@ -5,6 +5,12 @@ export {
   type AuthAuditInsertPayload,
   buildAuthAuditPayload,
 } from "./auth.audit.js";
+export type { AfendaAuthDeviceSession } from "./auth.client.contract.js";
+export {
+  isAfendaAuthDeviceSession,
+  parseAfendaAuthDeviceSessions,
+  readAfendaAuthSessionTwoFactorEnabled,
+} from "./auth.client.contract.js";
 export {
   type AfendaAuth,
   type CreateAuthOptions,
@@ -32,24 +38,73 @@ export {
 export {
   BETTER_AUTH_SECRET_ENV,
   BETTER_AUTH_URL_ENV,
+  isMfaPolicyBypassBlockedError,
   isUnauthenticatedError,
   isUnlinkedPlatformUserError,
+  MfaPolicyBypassBlockedError,
   MissingBetterAuthSecretError,
   MissingBetterAuthUrlError,
   UnauthenticatedError,
   UnlinkedPlatformUserError,
 } from "./auth.errors.js";
 export {
+  createAfendaAuthInvitationBeforeHook,
+  handleAfendaAuthInvitationBeforeHook,
+} from "./auth.hooks.js";
+export {
+  AFENDA_AUTH_INVITATION_STORE_DEBT,
+  type AuthInvitationRecord,
+  AuthInvitationRejectedError,
+  consumeAuthInvitation,
+  isAuthInvitationGateEnabled,
+  listPendingAuthInvitationsForTenant,
+  type RegisterAuthInvitationInput,
+  readInvitationTokenFromBody,
+  registerAuthInvitation,
+  resendAuthInvitationById,
+  resetAuthInvitationStoreForTests,
+  revokeAuthInvitation,
+  revokeAuthInvitationById,
+  type ValidateAuthInvitationInput,
+  type ValidateAuthInvitationResult,
+  validateAuthInvitation,
+} from "./auth.invitation.js";
+export {
+  type AssertTenantMfaPolicyInput,
+  assertTenantMfaPolicySatisfied,
+  getTenantMfaPolicy,
+  isAuthUserMfaEnabled,
+  type TenantMfaPolicy,
+  type TenantMfaPolicyDeps,
+  type UpdateTenantMfaPolicyInput,
+  updateTenantMfaPolicy,
+} from "./auth.mfa-policy.js";
+export {
+  AFENDA_PLATFORM_MIRROR_PROVIDER_ID,
+  AuthMirrorSyncConflictError,
+  type SyncAuthMirrorUserInput,
+  type SyncAuthMirrorUserOptions,
+  type SyncAuthMirrorUserResult,
+  syncAuthMirrorUser,
+} from "./auth.mirror-sync.js";
+export {
   getAfendaAuthSession,
   getAuth,
+  type RequireAfendaAuthSessionOptions,
   requireAfendaAuthSession,
   resetAuthForTests,
 } from "./auth.server.js";
 export {
+  type BetterAuthSessionLike,
   isAfendaAuthSessionLinked,
   normalizeAfendaAuthSession,
+  resolveActiveWorkspaceId,
   toAfendaAuthIdentity,
 } from "./auth.session.js";
+export {
+  type PersistAuthSessionActiveWorkspaceIdInput,
+  persistAuthSessionActiveWorkspaceId,
+} from "./auth.workspace-session.js";
 export {
   assertDevAuthBootstrapAllowed,
   hasDevViewerLoginCredentials,

@@ -45,6 +45,75 @@ function createSession(
   };
 }
 
+describe("normalizeAfendaAuthSession activeWorkspaceId", () => {
+  const baseSession = {
+    session: {
+      id: "sess_workspace",
+      createdAt: new Date("2026-06-20T00:00:00.000Z"),
+      expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+      ipAddress: null,
+      userAgent: null,
+    },
+    user: {
+      id: "auth_user_test",
+      email: "user@example.com",
+      name: "Test User",
+      emailVerified: true,
+      image: null,
+    },
+  };
+
+  it("defaults activeWorkspaceId to null when absent", () => {
+    const normalized = normalizeAfendaAuthSession(
+      baseSession,
+      "platform_user_1"
+    );
+    expect(normalized.metadata.activeWorkspaceId).toBeNull();
+  });
+
+  it("passes through activeWorkspaceId when set", () => {
+    const normalized = normalizeAfendaAuthSession(
+      {
+        ...baseSession,
+        session: {
+          ...baseSession.session,
+          activeWorkspaceId: "workspace_abc",
+        },
+      },
+      "platform_user_1"
+    );
+    expect(normalized.metadata.activeWorkspaceId).toBe("workspace_abc");
+  });
+
+  it("treats whitespace-only activeWorkspaceId as null", () => {
+    const normalized = normalizeAfendaAuthSession(
+      {
+        ...baseSession,
+        session: {
+          ...baseSession.session,
+          activeWorkspaceId: "   ",
+        },
+      },
+      "platform_user_1"
+    );
+    expect(normalized.metadata.activeWorkspaceId).toBeNull();
+  });
+
+  it("round-trips activeWorkspaceId through JSON", () => {
+    const normalized = normalizeAfendaAuthSession(
+      {
+        ...baseSession,
+        session: {
+          ...baseSession.session,
+          activeWorkspaceId: "workspace_json",
+        },
+      },
+      "platform_user_1"
+    );
+    expect(JSON.parse(JSON.stringify(normalized))).toEqual(normalized);
+  });
+});
+
 describe("isAfendaAuthSessionLinked", () => {
   it("returns true when linkStatus is linked and userId is non-empty", () => {
     expect(isAfendaAuthSessionLinked(createSession("platform_user_1"))).toBe(

@@ -25,13 +25,12 @@ import {
   SYSTEM_ADMIN_INVITE_STEP_LABELS,
   SYSTEM_ADMIN_INVITE_SUCCESS_MESSAGE,
 } from "@/lib/system-admin/system-admin-invite.copy.contract";
-import type { WorkspaceApiScope } from "@/lib/workspace/workspace-api-scope.contract";
-
 import {
   advanceSystemAdminInviteWizardStep,
   retreatSystemAdminInviteWizardStep,
   type SystemAdminInviteWizardStep,
-} from "./system-admin-invite-wizard.types";
+} from "@/lib/system-admin/system-admin-invite-wizard.types";
+import type { WorkspaceApiScope } from "@/lib/workspace/workspace-api-scope.contract";
 
 export interface SystemAdminInviteWizardProps {
   readonly apiScope: WorkspaceApiScope;

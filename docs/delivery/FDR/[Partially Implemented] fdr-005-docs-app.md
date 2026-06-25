@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | Low |
 | **BRD reference** | internal — Fumadocs delivery surface, developer documentation |
-| **Enterprise readiness** | **26/30 audit-adjusted** · **26/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (DoD #14 peer review open; external beta content in Slice 3) |
+| **Enterprise readiness** | **27/30 audit-adjusted** · **27/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (DoD #14 peer review open; Applications Book delivered per ARCH-APPS-001) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -54,12 +54,12 @@ Archive input (not implementation authority): [`tip-032-implementation-documenta
 
 **In scope**
 
-- `apps/docs/content/docs/` — MDX content tree (getting-started, monorepo-map, contributing)
+- `apps/docs/content/docs/` — MDX content tree (getting-started, monorepo-map, **apps/** Applications Book, contributing)
 - `apps/docs/src/app/docs/[[...slug]]/page.tsx` — Fumadocs doc routes
 - `apps/docs/src/components/blocks/` — editorial blocks (callout, steps, tabbed panel, etc.)
 - `apps/docs/src/lib/docs-nav.contract.ts`, `docs-editorial-palette.contract.ts` — governed contracts
 - `apps/docs/vercel.json` — deploy config
-- Tests under `apps/docs/src/__tests__/` (7 suites)
+- Tests under `apps/docs/src/__tests__/` (12 suites)
 - Root gate: `pnpm quality:docs` → `pnpm --filter @afenda/docs build`
 
 **Out of scope**
@@ -89,8 +89,8 @@ Archive input (not implementation authority): [`tip-032-implementation-documenta
 | Question | Answer | Evidence |
 | --- | --- | --- |
 | Does `pnpm quality:docs` exit 0? | **Yes** — Next.js build + SSG 9 routes | `pnpm quality:docs` exit 0 (2026-06-25) |
-| Are all 7 vitest suites green? | **Yes** — 50 tests pass | `pnpm --filter @afenda/docs test:run` exit 0 |
-| MDX content sufficient for external beta? | **Partial** — seed content exists; beta expansion in Slice 3 | 6 MDX pages + `docs-content.test.ts` |
+| Are all vitest suites green? | **Yes** — 83 tests pass | `pnpm --filter @afenda/docs test:run` exit 0 |
+| MDX content sufficient for external beta? | **Yes** — Applications Book at `/docs/apps/**` (ARCH-APPS-001 Slices 2–3) | 15 SSG routes + `apps-book-*` tests |
 | Registry row required? | **Yes** — `PKG005_DOCS` pending | No PKG-005 row in disposition registry |
 | Is `docs.afenda.app` DNS operator-only? | **Yes** — gap `docs-live-dns` remains operator step | `fumadocs-docs-app-deploy.md` |
 
@@ -98,9 +98,9 @@ Archive input (not implementation authority): [`tip-032-implementation-documenta
 
 | Gate | Exit | Grade |
 | --- | ---: | --- |
-| `pnpm quality:docs` | 0 | A (9 SSG routes) |
+| `pnpm quality:docs` | 0 | A (15 SSG routes) |
 | `pnpm --filter @afenda/docs typecheck` | 0 | A |
-| `pnpm --filter @afenda/docs test:run` | 0 | A (50 tests) |
+| `pnpm --filter @afenda/docs test:run` | 0 | A (83 tests) |
 | `pnpm exec biome check apps/docs` | 0 | A |
 | `pnpm check:documentation-drift` | 0 | A |
 | `pnpm check:foundation-disposition` | 0 | A |
@@ -122,15 +122,17 @@ Archive input (not implementation authority): [`tip-032-implementation-documenta
 | Artifact | Path | Proven |
 | --- | --- | --- |
 | Fumadocs app shell | `apps/docs/src/app/layout.tsx` | Yes — Grade A (`quality:docs` build exit 0) |
-| MDX content | `apps/docs/content/docs/` | Yes — Grade A (`docs-content.test.ts` 6 tests) |
+| MDX content | `apps/docs/content/docs/` | Yes — Grade A (`docs-content.test.ts`; Applications Book `apps/**`) |
 | Editorial blocks | `apps/docs/src/components/blocks/` | Yes — Grade A (`docs-editorial-blocks.test.tsx` 6 tests) |
 | Doc routes | `apps/docs/src/app/docs/[[...slug]]/page.tsx` | Yes — Grade A (`docs-routes.test.tsx`) |
 | Nav contract | `apps/docs/src/lib/docs-nav.contract.ts` | Yes — Grade B (`docs-page.test.ts`) |
 | Editorial palette | `apps/docs/src/lib/docs-editorial-palette.contract.ts` | Yes — Grade A (`docs-theme.test.ts` 19 tests) |
 | Build graph | `apps/docs/src/lib/build-graph.ts` | Yes — Grade A (`build-graph.test.ts`) |
 | Deploy config | `apps/docs/vercel.json` | Yes — Grade B (file exists; DNS operator gap) |
-| CI gate | `pnpm quality:docs` | Yes — Grade A (exit 0, 9 SSG routes) |
-| Test suites | `apps/docs/src/__tests__/` (7 files) | Yes — Grade A (50 tests exit 0) |
+| CI gate | `pnpm quality:docs` | Yes — Grade A (exit 0, 15 SSG routes) |
+| Test suites | `apps/docs/src/__tests__/` (12 files) | Yes — Grade A (83 tests exit 0) |
+| Apps Book security | `no-erp-runtime-coupling.test.ts`, `no-afenda-runtime-imports.test.ts` | Yes — Grade A (import-statement scan) |
+| Contract authority | `docs-contract-authority.test.ts` | Yes — Grade A (nav + palette sole authority) |
 
 ## §Remaining gaps
 
@@ -149,13 +151,13 @@ Archive input (not implementation authority): [`tip-032-implementation-documenta
 | Dimension | Score | Evidence | Audit note |
 | --- | ---: | --- | --- |
 | Contract stability | 5/5 | `typecheck` exit 0 + nav/palette contracts tested — Grade A | — |
-| Test coverage | 4/5 | `test:run` exit 0 (50 tests) + `quality:docs` build — Grade A | Live DNS E2E waived (`docs-live-dns`) |
+| Test coverage | 5/5 | `test:run` exit 0 (83 tests) + Apps Book component tests — Grade A | — |
 | Observability + audit | 2/5 | Static docs site — no governed mutations — Grade D | Waiver `docs-app-observability` |
-| Security + RBAC + RLS | 3/5 | No ERP tenant coupling by design — Grade C | Public docs surface |
-| Documentation + BRD traceability | 5/5 | FDR + tip-032 + registry row + drift exit 0 — Grade A | DoD #14 `[ ]` |
+| Security + RBAC + RLS | 4/5 | No ERP tenant coupling; import-statement scans — Grade B | Public docs surface |
+| Documentation + BRD traceability | 5/5 | FDR + ARCH-APPS-001 + registry row + drift exit 0 — Grade A | DoD #14 `[ ]` |
 | Maintainability + Clean Core | 5/5 | `quality:docs` + typecheck + test + PKG biome exit 0 — Grade A | — |
-| **Total (audit-adjusted)** | **26/30** | Registry row `PKG005_DOCS` onboarded (2026-06-25) | Enterprise 9.5 candidate |
-| **Total (evidence-qualified ceiling)** | **26/30** | Upper bound with peer review at Complete | External beta Slice 3 for 24/30 path |
+| **Total (audit-adjusted)** | **27/30** | Applications Book + security scans (2026-06-25) | Enterprise 9.5 candidate |
+| **Total (evidence-qualified ceiling)** | **27/30** | Upper bound with peer review at Complete | External beta path met |
 
 ## §Clean Core classification
 
@@ -281,18 +283,18 @@ Feature: Afenda docs application (Fumadocs)
 | 4 | TypeScript strict | `pnpm --filter @afenda/docs typecheck` | [x] |
 | 5 | Biome clean | `pnpm exec biome check apps/docs` | [x] |
 | 6 | Registry aligned | `pnpm check:foundation-disposition` | [x] |
-| 7 | Runtime matrix updated | matrix Docs row | [ ] |
+| 7 | Runtime matrix updated | matrix Docs row | [x] |
 | 8 | fdr-status-index updated | index row | [x] |
 | 9 | Drift green | `pnpm check:documentation-drift` | [x] |
-| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [ ] |
+| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [x] |
 | 11 | NFR baselines documented | §NFR section complete | [x] |
 | 12 | Impact analysis complete | §Impact analysis table filled | [x] |
 | 13 | Rollback plan present | §Rollback strategy filled | [x] |
 | 14 | Peer review | PR approved by Architecture Authority member | [ ] |
 | 15 | Clean Core level declared | metadata + §Clean Core aligned | [x] |
-| 16 | No duplicated constants / parallel authority | docs contracts sole authority | [ ] |
-| 17 | Security negative path tested | no ERP import scan in docs app | [ ] |
-| 18 | Public API compatibility verified | MDX content semver policy | [ ] |
+| 16 | No duplicated constants / parallel authority | docs contracts sole authority | [x] |
+| 17 | Security negative path tested | no ERP import scan in docs app | [x] |
+| 18 | Public API compatibility verified | MDX content semver policy | [x] |
 | 19 | E2E requirement satisfied or waived | §Waivers (`docs-live-dns`) | [x] |
 | 20 | Enterprise readiness score updated | §Enterprise readiness score | [x] |
 
@@ -367,17 +369,19 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-005-docs-app.md
 - Gap `docs-live-dns` — operator step; waived per §Waivers
 - DoD #14 deferred to Slice 4 Evidence-sync
 
-### Slice 3 — Implementation (external beta prep + security scans)
+### Slice 3 — Implementation (Applications Book + security scans)
 
-**Status:** Not started  
-**Prerequisite:** Slice 2 Complete  
+**Status:** Delivered (2026-06-25)  
+**Prerequisite:** Slice 2 Complete ✓  
 **Type:** Implementation  
 **Risk class:** Low  
 **Clean Core impact:** A→A
 
+**Outcomes:** Applications Book published at `apps/docs/content/docs/apps/**` per [ARCH-APPS-001](../../ARCH/[Partially%20Implemented]%20ARCH-APPS-001-applications-book.md) Slices 2–3; no-ERP-coupling and contract-authority tests added; nav contract extended; 83 vitest tests green; 15 SSG routes; DoD #7, #10, #16–18 closed; enterprise score **27/30 audit-adjusted**.
+
 #### Design (internal-guide)
 
-Close open DoD rows #16, #17, #18 in `apps/docs` only. Add no-ERP-coupling filesystem scan, docs contract sole-authority test, and external-beta seed MDX page aligned with `docs-nav.contract.ts`. Target external developer beta readiness path (24/30). No ERP imports; no tenant resolvers.
+Close DoD rows #16, #17, #18 in `apps/docs`. Add no-ERP-coupling filesystem scan (import-statement detection), docs contract sole-authority test, and Applications Book MDX aligned with `docs-nav.contract.ts`. External developer beta path met via `/docs/apps/**` (supersedes standalone `external-beta.mdx` seed). No ERP imports; no tenant resolvers.
 
 #### Handoff block
 
@@ -514,7 +518,7 @@ Handoff from: docs/delivery/FDR/[Complete] fdr-005-docs-app.md
 
 | Matrix row | Matrix status | FDR status (pre-audit) | FDR status (post-audit) | Gap nature | Required action |
 | --- | --- | --- | --- | --- | --- |
-| Docs application (`@afenda/docs`) | **implemented** | Not started | **Partially Implemented** | FDR delivery lag — runtime ahead of delivery authority | Slice 3 Implementation; Evidence-sync for Complete |
+| Docs application (`@afenda/docs`) | **implemented** | Not started | **Partially Implemented** | FDR delivery lag closed Slice 3 (2026-06-25) | Slice 4 peer review for Complete |
 
 **Verdict:** Matrix **implemented** vs FDR **Partially Implemented** is expected per ADR-0016 until registry row + DoD closeout.
 

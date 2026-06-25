@@ -46,8 +46,10 @@ import {
   storageObjects,
   teams,
   tenantCommercialPlans,
+  tenantSettings,
   tenants,
   usageLimitCounters,
+  userPreferences,
   users,
   withRlsSessionContext,
 } from "../index.js";
@@ -83,7 +85,9 @@ const PLATFORM_TABLES = {
   storageObjects,
   teams,
   tenantCommercialPlans,
+  tenantSettings,
   usageLimitCounters,
+  userPreferences,
 } as const;
 
 describe("@afenda/database package", () => {

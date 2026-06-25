@@ -65,6 +65,9 @@ export function ApplicationShell({
             {...(shellProps.operatingContext
               ? { operatingContext: shellProps.operatingContext }
               : {})}
+            {...(shellProps.profileMenuGroups
+              ? { profileMenuGroups: shellProps.profileMenuGroups }
+              : {})}
           />
           <main className="app-shell-content" data-app-shell-content="">
             {children}

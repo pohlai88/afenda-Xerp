@@ -46,3 +46,9 @@ export function isUnlinkedPlatformUserError(
 ): error is UnlinkedPlatformUserError {
   return error instanceof UnlinkedPlatformUserError;
 }
+
+export {
+  isMfaPolicyBypassBlockedError,
+  MfaPolicyBypassBlockedError,
+} from "./auth.mfa-policy.js";
+export { AuthMirrorSyncConflictError } from "./auth.mirror-sync.js";

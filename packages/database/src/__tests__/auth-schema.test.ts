@@ -6,6 +6,7 @@ import {
   authAccount,
   authIdentityLinks,
   authSession,
+  authTwoFactor,
   authUser,
   authVerification,
   toPublicAuthAccount,
@@ -17,11 +18,16 @@ describe("Better Auth schema boundary", () => {
     expect(getTableName(authSession)).toBe("auth_session");
     expect(getTableName(authAccount)).toBe("auth_account");
     expect(getTableName(authVerification)).toBe("auth_verification");
+    expect(getTableName(authTwoFactor)).toBe("auth_two_factor");
     expect(getTableName(authIdentityLinks)).toBe("auth_identity_links");
   });
 
   it("maps auth identity link platform user FK to user_id (migration column)", () => {
     expect(authIdentityLinks.userId.name).toBe("user_id");
+  });
+
+  it("maps auth session active workspace column to active_workspace_id", () => {
+    expect(authSession.activeWorkspaceId.name).toBe("active_workspace_id");
   });
 
   it("strips sensitive account credential fields from public projections", () => {

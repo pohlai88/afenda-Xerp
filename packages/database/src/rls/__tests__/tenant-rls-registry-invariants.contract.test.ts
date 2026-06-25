@@ -20,7 +20,7 @@ describe("tenant-rls-registry-invariants.contract", () => {
     expect(TENANT_RLS_ISOLATION_POLICIES.length).toBe(
       TENANT_SCOPED_TABLE_NAMES.length
     );
-    expect(TENANT_RLS_MIGRATION_POLICY_GROUPS.length).toBe(3);
+    expect(TENANT_RLS_MIGRATION_POLICY_GROUPS.length).toBe(4);
   });
 
   it("documents memberships as the sole actor-isolation table", () => {

@@ -309,7 +309,7 @@ async function removeStaleDeliveryDocs(
     if (file === "README.md") {
       continue;
     }
-    if (!file.endsWith(".md") || !file.startsWith("[")) {
+    if (!(file.endsWith(".md") && file.startsWith("["))) {
       continue;
     }
     if (!expectedFilenames.has(file)) {
@@ -330,7 +330,7 @@ async function updateIndexLinks(): Promise<void> {
       `(\\| \\d+ \\| ${escapedId} \\|[^\\n]*\\| )(?:${INDEX_STATUS_VALUES})( \\| \\[FDR/)`,
       "m"
     );
-    index = index.replace(registerLine, `$1Not started$2`);
+    index = index.replace(registerLine, "$1Not started$2");
 
     const registerLink = new RegExp(
       `(\\| \\d+ \\| ${escapedId} \\|[^\\n]*\\| Not started \\| )[^|]+( \\|)`,
@@ -342,13 +342,11 @@ async function updateIndexLinks(): Promise<void> {
       `(\\| ${escapedId} \\| [^|]+ \\| )(?:${INDEX_STATUS_VALUES})( \\|)`,
       "g"
     );
-    index = index.replace(groupedLine, `$1Not started$2`);
+    index = index.replace(groupedLine, "$1Not started$2");
   }
 
   index = index.replace(
-    new RegExp(
-      String.raw`\| FDR delivery files on disk \| \*\*\d+\*\* \|[^|]+\|`
-    ),
+    /\| FDR delivery files on disk \| \*\*\d+\*\* \|[^|]+\|/,
     `| FDR delivery files on disk | **${String(FDR_CATALOG_TOTAL)}** | All FDR register rows — Phase 2 scaffold complete |`
   );
 

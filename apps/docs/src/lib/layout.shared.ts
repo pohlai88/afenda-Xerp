@@ -5,5 +5,17 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: "Afenda Docs",
     },
+    links: [
+      {
+        text: "Applications",
+        url: "/docs/apps",
+        active: "nested-url",
+      },
+      {
+        text: "Contributing",
+        url: "/docs/contributing",
+        active: "nested-url",
+      },
+    ],
   };
 }

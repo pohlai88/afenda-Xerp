@@ -104,12 +104,28 @@ function ProfileMenuItemRow({
 }: {
   readonly item: AppShellProfileMenuItem;
 }) {
+  const icon = (
+    <item.Icon aria-hidden className="app-shell-profile-menu-item-icon" />
+  );
+  const label = <span>{item.label}</span>;
+  const variantProps =
+    item.variant === undefined ? {} : { variant: item.variant };
+
+  if (item.href) {
+    return (
+      <DropdownMenuItem asChild {...variantProps}>
+        <a href={item.href}>
+          {icon}
+          {label}
+        </a>
+      </DropdownMenuItem>
+    );
+  }
+
   return (
-    <DropdownMenuItem
-      {...(item.variant === undefined ? {} : { variant: item.variant })}
-    >
-      <item.Icon aria-hidden className="app-shell-profile-menu-item-icon" />
-      <span>{item.label}</span>
+    <DropdownMenuItem {...variantProps}>
+      {icon}
+      {label}
     </DropdownMenuItem>
   );
 }

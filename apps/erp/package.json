@@ -9,6 +9,7 @@
     "dev": "next dev --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
+    "pretest:run": "pnpm --filter @afenda/observability build",
     "test:run": "vitest run --config vitest.config.ts",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",

@@ -54,10 +54,35 @@ describe("@afenda/docs content parity", () => {
     }
   });
 
+  it("registers apps subpages in section meta.json files", () => {
+    const appsMeta = readMetaJson("apps");
+    const erpMeta = readMetaJson("apps/erp");
+    const appsSection = docsSeedSections.find(
+      (section) => section.id === "apps"
+    );
+
+    expect(appsMeta.pages).toEqual(
+      expect.arrayContaining(["erp", "docs", "storybook"])
+    );
+    expect(erpMeta.pages).toEqual(
+      expect.arrayContaining(["routes-and-surfaces", "development"])
+    );
+
+    for (const page of appsSection?.subpages ?? []) {
+      if (page.slug.length === 2) {
+        expect(appsMeta.pages).toContain(page.id);
+      }
+      if (page.slug.length === 3 && page.slug[1] === "erp") {
+        expect(erpMeta.pages).toContain(page.id);
+      }
+    }
+  });
+
   it("uses only known seed section ids in the contract", () => {
     const known: DocsSeedSectionId[] = [
       "getting-started",
       "monorepo-map",
+      "apps",
       "contributing",
     ];
 

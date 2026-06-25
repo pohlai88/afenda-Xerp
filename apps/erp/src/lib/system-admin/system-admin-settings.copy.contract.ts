@@ -18,7 +18,7 @@ export const SYSTEM_ADMIN_SETTINGS_SECTION_COPY = [
     sectionId: "tenant",
     title: "Tenant",
     description:
-      "SaaS isolation boundary for the current workspace. Organization, security, and module configuration mutations are deferred until admin API contracts land.",
+      "SaaS isolation boundary for the current workspace. Display name is editable; slug and tenant ID are read-only.",
   },
   {
     sectionId: "legal-entity",
@@ -78,8 +78,25 @@ export const SYSTEM_ADMIN_SETTINGS_SECTION_FIELD_IDS = {
   readonly SystemAdminSettingsFieldId[]
 >;
 
+export const EDITABLE_SYSTEM_ADMIN_SETTINGS_FIELD_IDS = [
+  "tenant.displayName",
+] as const satisfies readonly SystemAdminSettingsFieldId[];
+
+export type EditableSystemAdminSettingsFieldId =
+  (typeof EDITABLE_SYSTEM_ADMIN_SETTINGS_FIELD_IDS)[number];
+
+export const SYSTEM_ADMIN_SETTINGS_FIELD_FORM_NAMES = {
+  "tenant.displayName": "companyName",
+} as const satisfies Partial<
+  Record<EditableSystemAdminSettingsFieldId, string>
+>;
+
 export const SYSTEM_ADMIN_SETTINGS_SCAFFOLD_SUBMIT_LABEL =
   "Save settings" as const;
 
+export const SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE =
+  "You do not have permission to update organization settings." as const;
+
+/** @deprecated Use SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE */
 export const SYSTEM_ADMIN_SETTINGS_SCAFFOLD_FAILURE_MESSAGE =
-  "Settings changes are not available until admin API contracts land in a future slice." as const;
+  SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE;

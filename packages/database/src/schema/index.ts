@@ -24,7 +24,9 @@ import {
 import { storageObjects } from "./storage.schema.js";
 import { teams } from "./team.schema.js";
 import { tenants } from "./tenant.schema.js";
+import { tenantSettings } from "./tenant-settings.schema.js";
 import { users } from "./user.schema.js";
+import { userPreferences } from "./user-preferences.schema.js";
 
 /** Single schema registry for Drizzle client wiring and type inference. */
 export const platformSchema = {
@@ -48,8 +50,10 @@ export const platformSchema = {
   storageObjects,
   teams,
   tenantCommercialPlans,
+  tenantSettings,
   tenants,
   usageLimitCounters,
+  userPreferences,
   users,
 } as const;
 
@@ -92,6 +96,7 @@ export {
   authAccount,
   authSchema,
   authSession,
+  authTwoFactor,
   authUser,
   authVerification,
 } from "./auth.schema.js";
@@ -125,4 +130,6 @@ export {
 export { storageObjects } from "./storage.schema.js";
 export { teams } from "./team.schema.js";
 export { tenants } from "./tenant.schema.js";
+export { tenantSettings } from "./tenant-settings.schema.js";
 export { users } from "./user.schema.js";
+export { userPreferences } from "./user-preferences.schema.js";

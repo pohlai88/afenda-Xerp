@@ -92,3 +92,13 @@ export function hasBetterAuthConfig(
     return false;
   }
 }
+
+/** Env key for transactional auth email delivery (Resend/SES integration). */
+export const AFENDA_AUTH_EMAIL_API_KEY_ENV = "AFENDA_AUTH_EMAIL_API_KEY";
+
+/** True when a transactional email provider API key is configured. */
+export function isAuthEmailDeliveryEnabled(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
+  return Boolean(readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV));
+}

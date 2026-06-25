@@ -1,7 +1,13 @@
-import { createAuthMiddleware } from "better-auth/api";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
+import {
+  consumeAuthInvitation,
+  isAuthInvitationGateEnabled,
+  readInvitationTokenFromBody,
+  validateAuthInvitation,
+} from "./auth.invitation.js";
 
 function createAuthCorrelationId(prefix = "auth"): string {
   return `${prefix}-${crypto.randomUUID()}`;
@@ -26,7 +32,7 @@ export function readAuthRequestMeta(ctx: {
   };
 }
 
-export function readAuthSignInEmail(ctx: {
+export function readAuthEmailFromBody(ctx: {
   body?: unknown;
 }): string | undefined {
   if (typeof ctx.body !== "object" || !ctx.body || !("email" in ctx.body)) {
@@ -35,6 +41,89 @@ export function readAuthSignInEmail(ctx: {
 
   const email = ctx.body.email;
   return typeof email === "string" ? email : undefined;
+}
+
+function isAuthSuccessReturned(returned: unknown): boolean {
+  return (
+    typeof returned === "object" &&
+    returned !== null &&
+    "status" in returned &&
+    returned.status === true
+  );
+}
+
+function isTwoFactorVerifySuccess(returned: unknown): boolean {
+  if (
+    typeof returned !== "object" ||
+    returned === null ||
+    !("user" in returned)
+  ) {
+    return false;
+  }
+
+  const user = returned.user;
+  return typeof user === "object" && user !== null && "id" in user;
+}
+
+function readAuthSessionTokenFromBody(ctx: {
+  body?: unknown;
+}): string | undefined {
+  if (
+    typeof ctx.body !== "object" ||
+    !ctx.body ||
+    !("sessionToken" in ctx.body)
+  ) {
+    return;
+  }
+
+  const sessionToken = ctx.body.sessionToken;
+  return typeof sessionToken === "string" ? sessionToken : undefined;
+}
+
+function hasMultiSessionCookies(ctx: {
+  headers?: Headers;
+  request?: Request;
+}): boolean {
+  const headers = ctx.headers ?? ctx.request?.headers;
+
+  if (!headers) {
+    return false;
+  }
+
+  const cookieHeader = headers.get("cookie");
+
+  if (!cookieHeader) {
+    return false;
+  }
+
+  return cookieHeader.split(";").some((part) => part.includes("_multi-"));
+}
+
+function readAuthReturnedUser(returned: unknown):
+  | {
+      email: string;
+      id: string;
+    }
+  | undefined {
+  if (typeof returned !== "object" || !returned || !("user" in returned)) {
+    return;
+  }
+
+  const user = returned.user;
+
+  if (typeof user !== "object" || !user || user === null) {
+    return;
+  }
+
+  const id = "id" in user && typeof user.id === "string" ? user.id : undefined;
+  const email =
+    "email" in user && typeof user.email === "string" ? user.email : undefined;
+
+  if (!(id && email)) {
+    return;
+  }
+
+  return { id, email };
 }
 
 interface AuthAuditHookContext {
@@ -57,12 +146,148 @@ interface AuthAuditHookContext {
 
 type PersistAuthAuditEvent = typeof persistAuthAuditEvent;
 
+interface AuthInvitationHookContext {
+  body?: unknown;
+  headers?: Headers;
+  path: string;
+  request?: Request;
+}
+
+export async function handleAfendaAuthInvitationBeforeHook(
+  ctx: AuthInvitationHookContext,
+  persist: PersistAuthAuditEvent = persistAuthAuditEvent,
+  env: NodeJS.ProcessEnv = process.env
+): Promise<void> {
+  if (ctx.path !== "/sign-up/email" || !isAuthInvitationGateEnabled(env)) {
+    return;
+  }
+
+  const email = readAuthEmailFromBody(ctx);
+  const invitationToken = readInvitationTokenFromBody(ctx.body);
+  const meta = readAuthRequestMeta(ctx);
+  const correlationId = createAuthCorrelationId("auth-invite");
+
+  if (!email) {
+    await persist({
+      event: AUTH_EVENT.invitationRejected,
+      result: "denied",
+      reason: "Sign-up email is required for invitation validation.",
+      context: {
+        correlationId,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+      },
+    });
+    throw APIError.from("BAD_REQUEST", {
+      code: "INVITATION_EMAIL_REQUIRED",
+      message: "Sign-up email is required.",
+    });
+  }
+
+  if (!invitationToken) {
+    await persist({
+      event: AUTH_EVENT.invitationRejected,
+      result: "denied",
+      reason: "Invitation token is required for sign-up.",
+      context: {
+        email,
+        correlationId,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+      },
+    });
+    throw APIError.from("BAD_REQUEST", {
+      code: "INVITATION_TOKEN_REQUIRED",
+      message: "Invitation token is required for sign-up.",
+    });
+  }
+
+  try {
+    validateAuthInvitation({ email, token: invitationToken });
+  } catch (error) {
+    const reason =
+      error instanceof Error ? error.message : "Invitation token is invalid.";
+
+    await persist({
+      event: AUTH_EVENT.invitationRejected,
+      result: "denied",
+      reason,
+      context: {
+        email,
+        correlationId,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+      },
+    });
+    throw APIError.from("BAD_REQUEST", {
+      code: "INVITATION_REJECTED",
+      message: reason,
+    });
+  }
+}
+
+/** Better Auth before-hook — blocks /sign-up/email without a valid invitation token. */
+export function createAfendaAuthInvitationBeforeHook(
+  env: NodeJS.ProcessEnv = process.env
+) {
+  return createAuthMiddleware(async (ctx) => {
+    await handleAfendaAuthInvitationBeforeHook(
+      {
+        ...(ctx.body === undefined ? {} : { body: ctx.body }),
+        path: ctx.path,
+        ...(ctx.headers === undefined ? {} : { headers: ctx.headers }),
+        ...(ctx.request === undefined ? {} : { request: ctx.request }),
+      },
+      persistAuthAuditEvent,
+      env
+    );
+  });
+}
+
 export async function handleAfendaAuthAuditHook(
   ctx: AuthAuditHookContext,
   persist: PersistAuthAuditEvent = persistAuthAuditEvent
 ): Promise<void> {
   const meta = readAuthRequestMeta(ctx);
   const correlationId = createAuthCorrelationId();
+
+  if (ctx.path === "/sign-up/email") {
+    const user = readAuthReturnedUser(ctx.context.returned);
+
+    if (!user) {
+      return;
+    }
+
+    const invitationToken = readInvitationTokenFromBody(ctx.body);
+    const consumedInvitation =
+      invitationToken === undefined
+        ? null
+        : consumeAuthInvitation(invitationToken);
+
+    await persist({
+      event: AUTH_EVENT.invitationAccepted,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        correlationId,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        ...(consumedInvitation === null
+          ? {}
+          : {
+              invitationId: consumedInvitation.invitationId,
+              ...(consumedInvitation.platformUserId === undefined
+                ? {}
+                : { platformUserId: consumedInvitation.platformUserId }),
+              ...(consumedInvitation.tenantId === undefined
+                ? {}
+                : { tenantId: consumedInvitation.tenantId }),
+            }),
+      },
+    });
+    return;
+  }
 
   if (ctx.path === "/sign-in/email") {
     const returned = ctx.context.returned;
@@ -98,7 +323,7 @@ export async function handleAfendaAuthAuditHook(
       return;
     }
 
-    const signInEmail = readAuthSignInEmail(ctx);
+    const signInEmail = readAuthEmailFromBody(ctx);
 
     await persist({
       event: AUTH_EVENT.signInFailed,
@@ -124,7 +349,7 @@ export async function handleAfendaAuthAuditHook(
       correlationId,
     };
 
-    await Promise.all([
+    const auditWrites = [
       persist({
         event: AUTH_EVENT.signOut,
         result: "success",
@@ -135,7 +360,212 @@ export async function handleAfendaAuthAuditHook(
         result: "success",
         context,
       }),
-    ]);
+    ];
+
+    if (hasMultiSessionCookies(ctx)) {
+      auditWrites.push(
+        persist({
+          event: AUTH_EVENT.sessionRevokedAll,
+          result: "success",
+          context,
+        })
+      );
+    }
+
+    await Promise.all(auditWrites);
+    return;
+  }
+
+  if (
+    ctx.path === "/send-verification-email" &&
+    isAuthSuccessReturned(ctx.context.returned)
+  ) {
+    const email = readAuthEmailFromBody(ctx);
+
+    await persist({
+      event: AUTH_EVENT.emailVerificationSent,
+      result: "success",
+      context: {
+        ...(email === undefined ? {} : { email }),
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/verify-email" &&
+    isAuthSuccessReturned(ctx.context.returned)
+  ) {
+    const user = readAuthReturnedUser(ctx.context.returned);
+
+    if (!user) {
+      return;
+    }
+
+    await persist({
+      event: AUTH_EVENT.emailVerified,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/request-password-reset" &&
+    isAuthSuccessReturned(ctx.context.returned)
+  ) {
+    const email = readAuthEmailFromBody(ctx);
+
+    await persist({
+      event: AUTH_EVENT.passwordResetRequested,
+      result: "success",
+      context: {
+        ...(email === undefined ? {} : { email }),
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/reset-password" &&
+    isAuthSuccessReturned(ctx.context.returned)
+  ) {
+    await persist({
+      event: AUTH_EVENT.passwordResetCompleted,
+      result: "success",
+      context: {
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/two-factor/disable" &&
+    isAuthSuccessReturned(ctx.context.returned) &&
+    ctx.context.session
+  ) {
+    const { session, user } = ctx.context.session;
+
+    await persist({
+      event: AUTH_EVENT.mfaDisabled,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/two-factor/verify-totp" &&
+    isTwoFactorVerifySuccess(ctx.context.returned)
+  ) {
+    const user = readAuthReturnedUser(ctx.context.returned);
+
+    if (!user) {
+      return;
+    }
+
+    const context = {
+      authUserId: user.id,
+      email: user.email,
+      ipAddress: meta.ipAddress,
+      userAgent: meta.userAgent,
+      correlationId,
+      ...(ctx.context.session?.session.id === undefined
+        ? {}
+        : { sessionId: ctx.context.session.session.id }),
+    };
+
+    if (ctx.context.newSession) {
+      await persist({
+        event: AUTH_EVENT.mfaVerified,
+        result: "success",
+        context: {
+          ...context,
+          sessionId: ctx.context.newSession.session.id,
+        },
+      });
+      return;
+    }
+
+    if (ctx.context.session) {
+      await persist({
+        event: AUTH_EVENT.mfaEnrolled,
+        result: "success",
+        context,
+      });
+    }
+    return;
+  }
+
+  if (
+    ctx.path === "/two-factor/verify-backup-code" &&
+    isTwoFactorVerifySuccess(ctx.context.returned) &&
+    ctx.context.newSession
+  ) {
+    const user = readAuthReturnedUser(ctx.context.returned);
+
+    if (!user) {
+      return;
+    }
+
+    await persist({
+      event: AUTH_EVENT.mfaVerified,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        email: user.email,
+        sessionId: ctx.context.newSession.session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+      },
+    });
+    return;
+  }
+
+  if (
+    ctx.path === "/multi-session/revoke" &&
+    isAuthSuccessReturned(ctx.context.returned) &&
+    ctx.context.session
+  ) {
+    const { session, user } = ctx.context.session;
+    const revokedSessionToken = readAuthSessionTokenFromBody(ctx);
+
+    await persist({
+      event: AUTH_EVENT.sessionDeviceRevoked,
+      result: "success",
+      context: {
+        authUserId: user.id,
+        sessionId: session.id,
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        correlationId,
+        ...(revokedSessionToken === undefined
+          ? {}
+          : { reason: `revokedSessionToken:${revokedSessionToken}` }),
+      },
+    });
   }
 }
 

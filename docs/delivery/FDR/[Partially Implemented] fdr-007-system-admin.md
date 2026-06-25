@@ -12,7 +12,7 @@
 | **Change class** | Extension |
 | **Risk class** | Medium |
 | **BRD reference** | internal — system-admin control plane (Phase 9 prerequisite) |
-| **Enterprise readiness** | **27/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — Slice 2 observability parity complete (not final Complete; see §Enterprise benchmark qualification) |
+| **Enterprise readiness** | **29/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — Slice 4 Evidence-sync gate log attested (not final Complete; DoD #14 peer review open) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -100,7 +100,7 @@ Archive input (not implementation authority): [`tip-013-system-admin-control-pla
 | Does every governed mutation emit audit evidence? | **Yes** — dual registry + governance gate exit 0 | `pnpm check:system-admin-mutation-audit` exit 0 |
 | Are section denials audit-evidenced? | **Yes** — supplementary registry + guard tests | `guard-system-admin-section.server.test.ts` — Grade A |
 | Does runtime matrix **implemented** align with FDR **Not started**? | **Drift closed** — FDR promoted to **Partially Implemented**; matrix row sync deferred to Evidence-sync slice | Gap `matrix-fdr-drift` closed in Slice 1 |
-| Are `@afenda/observability` and PKG007 registries aligned? | **Yes (waiver-documented)** — PKG013 parity test asserts actionModule ↔ action id; settings `auditRequired: false` under waiver `system-admin-settings-observability-exempt`; refresh `auditRequired: true` | `system-admin-observability-registry-parity.test.ts` — Grade A |
+| Are `@afenda/observability` and PKG007 registries aligned? | **Yes** — PKG013 parity test asserts actionModule ↔ action id; all settings + invite actions `auditRequired: true` (waiver `system-admin-settings-observability-exempt` closed ARCH-ADMIN-001 Slice 5 / FDR Slice 7) | `system-admin-observability-registry-parity.test.ts` — Grade A |
 | Gate-critical minimum (26/30) achievable post-Research? | **Yes** — audit-adjusted **26/30**; no dimension below 4/5 | §Enterprise readiness score |
 
 ### Baseline gate log (Research Slice 1 — 2026-06-25)
@@ -172,10 +172,9 @@ Archive input (not implementation authority): [`tip-013-system-admin-control-pla
 
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
-| `system-admin-audit-pagination` | Audit list pagination enhancement (runtime matrix maintain backlog) | blue | `erp-app-agent` | Slice 3+ | Paginated audit query + test; matrix row updated |
-| `system-admin-org-mutations` | Settings/org mutations beyond scaffold (runtime matrix) | green | `erp-app-agent` | Slice 3 | Successful mutation path + audit; observability exemption removed |
-| `system-admin-29-closeout` | Target 29/30 for 9.5 Complete | green | Evidence-sync slice | Slice 4 | All §Acceptance gate commands exit 0; DoD 1–20 `[x]` |
-| `system-admin-matrix-row-sync` | Runtime matrix System Admin row still cites FDR **Not started (high drift)** | green | Evidence-sync slice | Slice 4 | Matrix row updated to **Partially Implemented**; index prefix synced |
+| `system-admin-audit-pagination` | Audit list pagination enhancement (runtime matrix maintain backlog) | blue | `erp-app-agent` | Slice 3+ | Paginated audit query + test — **deferred** (`system-admin-audit-pagination-defer`) |
+| `system-admin-org-mutations` | Settings/org mutations beyond scaffold (runtime matrix) | green | `erp-app-agent` | Slice 3 / ARCH Slice 3 | Successful mutation path + audit — **closed** (ARCH-ADMIN-001 Slice 3 + invite resend/revoke Slice 7) |
+| `system-admin-dod14-peer-review` | Architecture Authority peer review for Complete promotion | green | Architecture Authority | Post-Slice 4 | DoD #14 `[x]` at PR merge |
 
 ## §Enterprise readiness score
 
@@ -185,14 +184,14 @@ Archive input (not implementation authority): [`tip-013-system-admin-control-pla
 
 | Dimension | Score | Evidence | Audit note |
 | --- | ---: | --- | --- |
-| Contract stability | 5/5 | `typecheck` exit 0 + `system-admin-sections.ts` + API contracts + coverage test — Grade A | — |
-| Test coverage | 4/5 | 16+ test files under `__tests__/` incl. guard, audit coverage, PKG013 parity — Grade A/B | Full `test:run` exit 0 blocked by 4 pre-slice ERP failures (see Slice 2 Known debt) |
-| Observability + audit | 5/5 | Dual registry + parity test + `check:system-admin-mutation-audit` exit 0 — Grade A | Settings waiver `system-admin-settings-observability-exempt` documented until Slice 3 |
-| Security + RBAC + RLS | 5/5 | `guard-system-admin-section.server.test.ts` denial + audit; keys from `PERMISSION_REGISTRY` — Grade A | — |
-| Documentation + BRD traceability | 4/5 | FDR v2 + `check:documentation-drift` exit 0 — Grade A | DoD #14 peer review still `[ ]`; matrix row sync pending |
-| Maintainability + Clean Core | 4/5 | Slice 2 gates: typecheck, boundaries, foundation-disposition, documentation-drift exit 0 — Grade A | Repo-wide `ci:biome` and full `test:run` not exit 0 (pre-slice debt; Field 3 files clean) |
-| **Total (audit-adjusted)** | **27/30** | **~9.0 / 10 equivalent** — gate-critical floor met; observability alignment closed | |
-| **Total (evidence-qualified ceiling)** | **29/30** | Upper bound if §Waivers accepted and remaining DoD rows close | Not final 9.5 until Complete |
+| Contract stability | 5/5 | `typecheck` exit 0 + `system-admin-sections.ts` + API contracts + coverage test — Grade A | Slice 4 gate log |
+| Test coverage | 5/5 | `pnpm --filter @afenda/erp test:run` exit 0 — 572 tests — Grade A | Slice 4 post-hygiene gate log |
+| Observability + audit | 5/5 | Dual registry + parity test + `check:system-admin-mutation-audit` exit 0 — Grade A | Settings waiver closed Slice 5; invite resend/revoke registered Slice 7 |
+| Security + RBAC + RLS | 5/5 | `guard-system-admin-section.server.test.ts` denial + audit; keys from `PERMISSION_REGISTRY` — Grade A | via `test:run` exit 0 |
+| Documentation + BRD traceability | 5/5 | FDR v2 + matrix/index sync + `check:documentation-drift` exit 0 — Grade A | DoD #14 peer review still `[ ]` for **Complete** promotion |
+| Maintainability + Clean Core | 4/5 | typecheck, boundaries, foundation-disposition exit 0 — Grade A | `pnpm ci:biome` exit 1 (repo-wide import-order debt outside PKG007 scope) |
+| **Total (audit-adjusted)** | **29/30** | **~9.7 / 10 equivalent** — gate-critical floor exceeded | Slice 4 Evidence-sync 2026-06-25 |
+| **Total (evidence-qualified ceiling)** | **29/30** | Aligns with audit-adjusted; waivers reconfirmed | Not final 9.5 until DoD #14 + `[Complete]` status |
 
 Target at Complete: **29/30** per enterprise 9.5 benchmark ([ENTERPRISE-BENCHMARK.md §3](../../../.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md)).
 
@@ -357,24 +356,24 @@ Feature: System Admin control plane — RBAC, sections, and governed mutation au
 
 | # | Criterion | Gate | Status |
 | --- | --- | --- | --- |
-| 1 | Runtime evidence at stated paths | file exists + matrix System Admin row | [ ] |
-| 2 | Tests pass | `pnpm --filter @afenda/erp test:run` | [ ] |
+| 1 | Runtime evidence at stated paths | file exists + matrix System Admin row | [x] |
+| 2 | Tests pass | `pnpm --filter @afenda/erp test:run` | [x] |
 | 3 | Boundaries | `pnpm quality:boundaries` | [x] |
 | 4 | TypeScript strict | `pnpm --filter @afenda/erp typecheck` | [x] |
 | 5 | Biome clean | `pnpm ci:biome` | [ ] |
 | 6 | Registry aligned | `pnpm check:foundation-disposition` | [x] |
-| 7 | Runtime matrix updated | matrix System Admin row | [ ] |
+| 7 | Runtime matrix updated | matrix System Admin row | [x] |
 | 8 | fdr-status-index updated | index row | [x] |
 | 9 | Drift green | `pnpm check:documentation-drift` | [x] |
-| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [ ] |
+| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [x] |
 | 11 | NFR baselines documented | §NFR section complete | [x] |
 | 12 | Impact analysis complete | §Impact analysis table filled | [x] |
 | 13 | Rollback plan present | §Rollback strategy filled | [x] |
 | 14 | Peer review | PR approved by Architecture Authority member | [ ] |
 | 15 | Clean Core level declared | metadata + §Registry link aligned | [x] |
 | 16 | No duplicated constants / parallel authority | `pnpm check:foundation-disposition` | [x] |
-| 17 | Security negative path tested | `guard-system-admin-section.server.test.ts` | [ ] |
-| 18 | Public API compatibility verified | system-admin API contracts stable | [ ] |
+| 17 | Security negative path tested | `guard-system-admin-section.server.test.ts` | [x] |
+| 18 | Public API compatibility verified | system-admin API contracts stable | [x] |
 | 19 | E2E requirement satisfied or waived | §Waivers | [x] |
 | 20 | Enterprise readiness score updated | §Enterprise readiness score ≥26 gate-critical | [x] |
 
@@ -485,12 +484,72 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-007-system-admin.md
 
 ### Slice 4 — Evidence-sync (29/30 closeout)
 
-**Status:** Not started  
-**Prerequisite:** Slice 3 Complete (or Slice 3 waived for blue-lane items)  
+**Status:** Complete (2026-06-25)  
+**Prerequisite:** Slice 2 Complete ✓ · Slice 3 blue-lane items waived (`system-admin-audit-pagination-defer`)  
 **Type:** Evidence-sync  
 **Risk class:** Low  
 
-**Purpose:** Promote to **Complete**; recalculate readiness to 29/30; rename FDR prefix; final matrix + index sync (`system-admin-matrix-row-sync`).
+**Purpose:** Recalculate §Enterprise readiness to **29/30 audit-adjusted**; run full §Acceptance gate suite; sync runtime matrix System Admin row + fdr-status-index annotation; close `system-admin-29-closeout` and `system-admin-matrix-row-sync`. **Do not** promote FDR to `[Complete]` — DoD #14 peer review remains open.
+
+**Outcomes (delivered 2026-06-25):**
+
+- Closed gap `system-admin-29-closeout` — audit-adjusted **29/30** attested
+- Closed gap `system-admin-matrix-row-sync` — matrix row + index annotation synced
+- §Waivers reconfirmed (`system-admin-e2e`, `system-admin-sod-phase9`, `system-admin-audit-pagination-defer`); ~~`system-admin-settings-observability-exempt`~~ closed ARCH Slice 5 / FDR Slice 7
+- FDR remains **Partially Implemented** pending DoD #14 peer review
+- Post-hygiene gate log recorded below (6/7 exit 0; `ci:biome` exit 1 repo-wide debt)
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-007-system-admin.md
+
+1. Objective    — Run full §Acceptance gate suite; recalculate §Enterprise readiness to 29/30 audit-adjusted; sync runtime matrix System Admin row and fdr-status-index annotation; close Evidence-sync gaps without promoting FDR to [Complete] (DoD #14 peer review open).
+2. Allowed layer— docs-only
+3. Files        —
+   docs/delivery/FDR/[Partially Implemented] fdr-007-system-admin.md
+   docs/delivery/fdr-status-index.md
+   docs/architecture/afenda-runtime-truth-matrix.md
+4. Prohibited   — packages/**; apps/**; foundation-disposition.registry.ts; FDR rename to [Complete]; do-not-create-accounting-package; do-not-edit-ui-primitives; do-not-add-local-permission-constants
+5. Authority    — ADR-0014 · ADR-0016 · PKG007_ADMIN · ENTERPRISE-BENCHMARK §3.2
+6. Gates        —
+   pnpm --filter @afenda/erp typecheck
+   pnpm --filter @afenda/erp test:run
+   pnpm check:system-admin-mutation-audit
+   pnpm check:documentation-drift
+   pnpm check:foundation-disposition
+   pnpm quality:boundaries
+   pnpm ci:biome
+7. Closes       — Gap `system-admin-29-closeout`; Gap `system-admin-matrix-row-sync`; DoD #1; DoD #2; DoD #7; DoD #10; DoD #17; DoD #18; DoD #20
+8. Evidence     — Post-hygiene gate log in Slice 4 section; §Runtime evidence table; matrix System Admin row
+9. Attestation  — Documentation 5/5; Test coverage 5/5; Enterprise readiness 29/30 audit-adjusted
+```
+
+#### Post-hygiene gate log (Slice 4 — 2026-06-25)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/erp typecheck` | 0 | A |
+| `pnpm --filter @afenda/erp test:run` | 0 | A (572 tests) |
+| `pnpm check:system-admin-mutation-audit` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
+| `pnpm check:foundation-disposition` | 0 | A |
+| `pnpm quality:boundaries` | 0 | A |
+| `pnpm ci:biome` | 1 | B — repo-wide import-order/format debt (e.g. `operating-context-integration.test.ts`; outside Slice 4 Field 3) |
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 1 | Runtime evidence at stated paths | §Runtime evidence + matrix row |
+| 2 | Tests pass | `pnpm --filter @afenda/erp test:run` exit 0 |
+| 7 | Runtime matrix updated | System Admin row → **29/30 audit-adjusted** |
+| 10 | §11 + enterprise attestation | afenda-coding-session §11 Completion Report |
+| 17 | Security negative path tested | `guard-system-admin-section.server.test.ts` via test:run |
+| 18 | Public API compatibility verified | `system-admin-mutation-audit-coverage.test.ts` via test:run |
+| 20 | Enterprise readiness score updated | §Enterprise readiness score **29/30 audit-adjusted** |
+
+**Open after Slice 4:** DoD #5 (`ci:biome` exit 1); DoD #14 (Architecture Authority peer review); Slice 3 implementation gaps (`system-admin-org-mutations`).
 
 ## §Rollback strategy
 
@@ -507,7 +566,7 @@ SAP analog: transport rollback = git revert + gate re-run. Oracle analog: confir
 | Waiver ID | Requirement waived | Reason | Approver | Expiry / revisit |
 | --- | --- | --- | --- | --- |
 | `system-admin-sod-phase9` | Approver ≠ initiator on admin mutations | Phase 9 gate defers SoD to accounting readiness sign-off | Architecture Authority | [`phase-9-accounting-readiness-sign-off.md`](../../architecture/phase-9-accounting-readiness-sign-off.md) |
-| `system-admin-settings-observability-exempt` | PKG013 `auditRequired: false` on settings action | Scaffold-only failure path — no successful mutation yet | Architecture Authority | Close when `system-admin-org-mutations` gap closes |
+| ~~`system-admin-settings-observability-exempt`~~ | ~~PKG013 `auditRequired: false` on settings action~~ | **Closed** — ARCH-ADMIN-001 Slice 5 + FDR Slice 7 evidence-sync | Architecture Authority | Closed 2026-06-25 |
 | `system-admin-e2e` | Browser E2E for admin console | Unit + integration + governance gate prove control plane | Architecture Authority | External beta go-live |
 | `system-admin-audit-pagination-defer` | Paginated audit list in Slice 1 | Blue-lane maintain backlog per runtime matrix | Architecture Authority | Slice 3 or Maintain Only |
 
@@ -542,16 +601,16 @@ SAP analog: transport rollback = git revert + gate re-run. Oracle analog: confir
 
 ## §Enterprise benchmark qualification
 
-This FDR is **gate-critical Research attested / evidence-qualified**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open and several acceptance gates were not re-run in Research Slice 1.
+This FDR is **gate-critical Evidence-sync attested at 29/30 audit-adjusted**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open and `pnpm ci:biome` exit 1 (repo-wide hygiene debt).
 
 The **29/30 evidence-qualified ceiling** is accepted only under these bounded assumptions:
 
 1. Browser E2E is waived until external beta go-live (`system-admin-e2e`).
-2. Settings action PKG013 observability exemption remains until org mutations close (`system-admin-settings-observability-exempt`).
+2. ~~Settings action PKG013 observability exemption~~ — **closed** (ARCH-ADMIN-001 Slice 5; invite resend/revoke registered Slice 7).
 3. Phase 9 SoD deferral on admin mutations remains valid (`system-admin-sod-phase9`).
 4. **Complete** status requires Architecture Authority peer review, full acceptance gate suite, and matrix/index sync at PR merge.
 
-The **26/30 audit-adjusted** score is the honest gate-critical benchmark today (~8.7 / 10 equivalent): strong contract, security, and mutation-audit evidence from Research baseline gates; capped by waived E2E, partial observability alignment, open peer review, and not-yet-attested full acceptance suite.
+The **29/30 audit-adjusted** score is attested by Slice 4 post-hygiene gate log (6/7 exit 0): full ERP `test:run` (572 tests), mutation audit gate, matrix/index sync, and documentation drift green. Capped at 29/30 (not 30/30) by `ci:biome` exit 1 and open DoD #14 peer review.
 
 Until DoD #14 and Slice 4 closeout complete, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
 
@@ -564,8 +623,8 @@ Until DoD #14 and Slice 4 closeout complete, this FDR must not be represented as
 
 ## Verdict
 
-**Partially Implemented — gate-critical Slice 2 complete at 27/30 audit-adjusted (29/30 evidence-qualified ceiling), pending Slice 3–4 and Architecture Authority peer review.**
+**Partially Implemented — gate-critical Slice 4 Evidence-sync complete at 29/30 audit-adjusted, pending Architecture Authority peer review (DoD #14) and `ci:biome` repo hygiene before `[Complete]` promotion.**
 
-Research Slice 1 is complete (2026-06-25). Slice 2 closed PKG007↔PKG013 observability alignment with parity test + waiver documentation. Enterprise readiness **27/30 audit-adjusted** meets the gate-critical floor; **29/30 ceiling** assumes §Waivers hold and remaining DoD rows close in Slice 3/Evidence-sync slices.
+Research Slice 1 is complete (2026-06-25). Slice 2 closed PKG007↔PKG013 observability alignment. Slice 4 ran full §Acceptance gates (6/7 exit 0), recalculated enterprise readiness to **29/30 audit-adjusted**, and synced runtime matrix + fdr-status-index annotations.
 
-Do not represent this FDR as **enterprise 9.5 complete** until peer review closes, full acceptance gates pass, and status promotes to **Complete — enterprise 9.5 accepted**.
+Do not represent this FDR as **enterprise 9.5 complete** or rename to `[Complete]` until DoD #14 peer review closes and `pnpm ci:biome` exit 0.
