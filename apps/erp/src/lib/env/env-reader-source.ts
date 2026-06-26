@@ -1,5 +1,7 @@
-/**
- * Env bag accepted by config readers.
- * Tests may pass partial stubs — full `ProcessEnv` is not required.
- */
-export type EnvReaderSource = Record<string, string | undefined>;
+export type {
+  AuthEnvReaderInput as EnvReaderInput,
+  AuthEnvReaderSlice as EnvReaderSlice,
+  AuthEnvReaderSource as EnvReaderSource,
+} from "@afenda/auth";
+
+export { readAuthRuntimeEnv as readRuntimeEnvSource } from "@afenda/auth";

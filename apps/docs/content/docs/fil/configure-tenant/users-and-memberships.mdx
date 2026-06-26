@@ -1,0 +1,35 @@
+---
+title: Users and memberships
+description: Invite users and manage tenant memberships in System Admin.
+audience: tenant-admin
+relatedRoutes:
+  - /system-admin/users
+  - /system-admin/memberships
+catalogBindings:
+  - system-admin
+  - auth-routes
+---
+
+# Users and memberships
+
+Tenant administrators manage who can access the ERP through **Users** and **Memberships** in System Admin.
+
+## Invite a user
+
+1. Sign in with a role that includes `system_admin.users_manage`.
+2. Open **System Admin → Users** (`/system-admin/users`).
+3. Send an invite; the recipient completes acceptance at `/invite/accept`.
+
+## Manage memberships
+
+1. Open **System Admin → Memberships** (`/system-admin/memberships`).
+2. Assign the correct company or workspace scope for each member.
+3. Confirm the member can reach `/workspace/select` after sign-in.
+
+## System admin sections
+
+<GeneratedReference catalog="system-admin" />
+
+## Related auth routes
+
+<GeneratedReference catalog="auth-routes" />

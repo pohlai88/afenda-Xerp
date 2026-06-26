@@ -241,23 +241,21 @@ const ACTIVE_PACKAGES = [
     packageName: "@afenda/accounting",
     path: "packages/accounting",
     layer: "Domain",
-    lifecycle: "active",
+    lifecycle: "retired",
     purpose:
-      "Accounting domain contracts-only (ADR-0015); ledger/posting prohibited until TIP-015 ADR",
+      "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/accounting-domain",
     publicApiOwner: "Accounting Authority",
     layerDepExempt: false,
-    filesystemRequired: true,
+    filesystemRequired: false,
   },
-] as const satisfies readonly PackageDefinition[];
-
-const RESERVED_PACKAGES = [
   {
     registryId: "PKG-R02",
     packageName: "@afenda/inventory",
     path: "packages/inventory",
     layer: "Domain",
-    lifecycle: "planned",
-    purpose: "Inventory domain (reserved)",
+    lifecycle: "retired",
+    purpose:
+      "Retired per ADR-0020 — physical runtime in @afenda/database + apps/erp (PKGR02 packageName: @afenda/database)",
     publicApiOwner: "Inventory Authority",
     layerDepExempt: false,
     filesystemRequired: false,
@@ -299,7 +297,7 @@ const RESERVED_PACKAGES = [
 
 export const packageContract: PackageContract = {
   fingerprint: ARCHITECTURE_BASELINE_FINGERPRINT,
-  packages: [...ACTIVE_PACKAGES, ...RESERVED_PACKAGES],
+  packages: [...ACTIVE_PACKAGES],
 };
 
 export const packageByName = new Map(

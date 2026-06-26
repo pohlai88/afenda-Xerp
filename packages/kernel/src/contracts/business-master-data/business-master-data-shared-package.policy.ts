@@ -1,15 +1,15 @@
 /**
- * TIP-008B Slice 5 — shared reserved-package ownership policy.
- * @afenda/inventory may own Product + Warehouse; all other PKG-R02–R05 packages are exclusive.
+ * TIP-008B Slice 5 + ADR-0020 — persistence ownership policy.
+ * @afenda/database owns Product + Warehouse physical persistence; CRM/HRM/procurement remain exclusive.
  */
 import {
   BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY,
   type BusinessMasterDataEntityId,
 } from "./business-master-data-authority.contract.js";
 
-export const INVENTORY_SHARED_PACKAGE_ID = "@afenda/inventory" as const;
+export const INVENTORY_PERSISTENCE_PACKAGE_ID = "@afenda/database" as const;
 
-export const INVENTORY_SHARED_ENTITY_IDS = [
+export const INVENTORY_PERSISTENCE_ENTITY_IDS = [
   "product",
   "warehouse",
 ] as const satisfies readonly BusinessMasterDataEntityId[];
@@ -28,20 +28,20 @@ export function getEntitiesForReservedPackage(
 }
 
 export function assertSharedPackageOwnershipPolicy(): void {
-  const inventoryEntities = getEntitiesForReservedPackage(
-    INVENTORY_SHARED_PACKAGE_ID
+  const persistenceEntities = getEntitiesForReservedPackage(
+    INVENTORY_PERSISTENCE_PACKAGE_ID
   );
 
-  if (inventoryEntities.length !== INVENTORY_SHARED_ENTITY_IDS.length) {
+  if (persistenceEntities.length !== INVENTORY_PERSISTENCE_ENTITY_IDS.length) {
     throw new Error(
-      `@afenda/inventory must own exactly ${INVENTORY_SHARED_ENTITY_IDS.length} entities.`
+      `@afenda/database must own exactly ${INVENTORY_PERSISTENCE_ENTITY_IDS.length} inventory master data entities.`
     );
   }
 
-  for (const entityId of INVENTORY_SHARED_ENTITY_IDS) {
-    if (!inventoryEntities.includes(entityId)) {
+  for (const entityId of INVENTORY_PERSISTENCE_ENTITY_IDS) {
+    if (!persistenceEntities.includes(entityId)) {
       throw new Error(
-        `@afenda/inventory shared ownership missing entity: ${entityId}`
+        `@afenda/database persistence ownership missing entity: ${entityId}`
       );
     }
   }
@@ -49,7 +49,7 @@ export function assertSharedPackageOwnershipPolicy(): void {
   const exclusiveOwners = new Map<string, BusinessMasterDataEntityId>();
 
   for (const entry of BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY) {
-    if (entry.reservedPackageId === INVENTORY_SHARED_PACKAGE_ID) {
+    if (entry.reservedPackageId === INVENTORY_PERSISTENCE_PACKAGE_ID) {
       continue;
     }
 

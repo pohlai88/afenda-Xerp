@@ -37,6 +37,7 @@ import {
   DocsTabbedPanel,
 } from "@/components/blocks";
 import { DocsSiteGraph } from "@/components/docs-site-graph";
+import { GeneratedReference } from "@/components/generated-reference";
 import { GraphView } from "@/components/graph-view";
 
 /**
@@ -100,6 +101,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     DocsStepsPanel,
     DocsTabbedPanel,
     DocsSiteGraph,
+    GeneratedReference,
     DynamicCodeBlock,
     File,
     Files,

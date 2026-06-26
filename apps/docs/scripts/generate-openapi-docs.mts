@@ -128,7 +128,7 @@ function buildLocaleConfig(
 ): OpenApiLocaleConfig {
   return {
     ...OPENAPI_LOCALE_META[locale],
-    outputDir: join(contentDir, `${locale}/(guides)/api-reference`),
+    outputDir: join(contentDir, `${locale}/integrate/internal-v1`),
   };
 }
 

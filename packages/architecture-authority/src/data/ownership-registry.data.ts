@@ -10,11 +10,6 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "erp-spine",
   },
   {
-    packageName: "@afenda/accounting",
-    ownerDomain: "Accounting Authority",
-    authorityLevel: "domain",
-  },
-  {
     packageName: "@afenda/auth",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",

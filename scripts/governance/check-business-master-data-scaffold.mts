@@ -20,7 +20,7 @@ for (const relativeDir of BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS) {
   const absoluteDir = join(repoRoot, relativeDir);
   if (existsSync(absoluteDir)) {
     failures.push(
-      `${relativeDir} exists — PKG-R02–R05 domain packages are blocked until domain TIPs (TIP-008B authority_only).`
+      `${relativeDir} exists — domain packages are blocked until ADR + registry promotion (ADR-0020 retired packages/inventory).`
     );
   }
 }

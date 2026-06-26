@@ -91,6 +91,12 @@ export {
   resolveOAuthClientSecretFromEnv,
   resolveResendWebhookEndpoint,
 } from "./auth.env.js";
+export type {
+  AuthEnvReaderInput,
+  AuthEnvReaderSlice,
+  AuthEnvReaderSource,
+} from "./auth.env-reader.js";
+export { readAuthRuntimeEnv } from "./auth.env-reader.js";
 export {
   BETTER_AUTH_SECRET_ENV,
   BETTER_AUTH_URL_ENV,
@@ -227,7 +233,10 @@ export {
 } from "./auth.workspace-session.js";
 export {
   assertDevAuthBootstrapAllowed,
+  hasDevLoginCredentials,
   hasDevViewerLoginCredentials,
+  isDevLoginPanelEnabled,
+  isProductionLikeRuntime,
   resolveDevLoginEmail,
   resolveDevLoginPassword,
   resolveDevViewerLoginPassword,
@@ -237,6 +246,7 @@ export {
   DEV_LOGIN_DISPLAY_NAME,
   DEV_LOGIN_EMAIL,
   DEV_LOGIN_EMAIL_ENV,
+  DEV_LOGIN_PANEL_ENV,
   DEV_LOGIN_PASSWORD_ENV,
   DEV_VIEWER_LOGIN_DISPLAY_NAME,
   DEV_VIEWER_LOGIN_EMAIL,
@@ -247,6 +257,10 @@ export {
   ensureDevAuthLogin,
   MissingPlatformUserError,
 } from "./bootstrap/ensure-dev-auth-login.js";
+export {
+  DEV_BOOTSTRAP_TENANT_SLUG,
+  ensureDevTenantSignInPresentation,
+} from "./bootstrap/ensure-dev-tenant-sign-in-presentation.js";
 
 export function getPackageName(): typeof PACKAGE_NAME {
   return PACKAGE_NAME;

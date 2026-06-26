@@ -1,0 +1,146 @@
+{
+  "catalogId": "permissions",
+  "exportedAt": "2026-06-26T18:02:57.984Z",
+  "permissions": [
+    {
+      "key": "accounting.coa_manage",
+      "domain": "accounting",
+      "action": "coa_manage"
+    },
+    {
+      "key": "accounting.coa_read",
+      "domain": "accounting",
+      "action": "coa_read"
+    },
+    {
+      "key": "accounting.fiscal_period_close",
+      "domain": "accounting",
+      "action": "fiscal_period_close"
+    },
+    {
+      "key": "accounting.fiscal_period_manage",
+      "domain": "accounting",
+      "action": "fiscal_period_manage"
+    },
+    {
+      "key": "accounting.fiscal_period_read",
+      "domain": "accounting",
+      "action": "fiscal_period_read"
+    },
+    {
+      "key": "accounting.journal_approve",
+      "domain": "accounting",
+      "action": "journal_approve"
+    },
+    {
+      "key": "accounting.journal_post",
+      "domain": "accounting",
+      "action": "journal_post"
+    },
+    {
+      "key": "accounting.journal_read",
+      "domain": "accounting",
+      "action": "journal_read"
+    },
+    {
+      "key": "accounting.journal_reverse",
+      "domain": "accounting",
+      "action": "journal_reverse"
+    },
+    {
+      "key": "dashboard.module_earnings",
+      "domain": "dashboard",
+      "action": "module_earnings"
+    },
+    {
+      "key": "dashboard.regional_sales",
+      "domain": "dashboard",
+      "action": "regional_sales"
+    },
+    {
+      "key": "finance.cards_read",
+      "domain": "finance",
+      "action": "cards_read"
+    },
+    {
+      "key": "finance.invoices_read",
+      "domain": "finance",
+      "action": "invoices_read"
+    },
+    {
+      "key": "finance.transactions_read",
+      "domain": "finance",
+      "action": "transactions_read"
+    },
+    {
+      "key": "hr.employee_read",
+      "domain": "hr",
+      "action": "employee_read"
+    },
+    {
+      "key": "inventory.product_manage",
+      "domain": "inventory",
+      "action": "product_manage"
+    },
+    {
+      "key": "inventory.product_read",
+      "domain": "inventory",
+      "action": "product_read"
+    },
+    {
+      "key": "inventory.stock_adjust",
+      "domain": "inventory",
+      "action": "stock_adjust"
+    },
+    {
+      "key": "inventory.warehouse_manage",
+      "domain": "inventory",
+      "action": "warehouse_manage"
+    },
+    {
+      "key": "inventory.warehouse_read",
+      "domain": "inventory",
+      "action": "warehouse_read"
+    },
+    {
+      "key": "system_admin.audit_read",
+      "domain": "system_admin",
+      "action": "audit_read"
+    },
+    {
+      "key": "system_admin.modules_manage",
+      "domain": "system_admin",
+      "action": "modules_manage"
+    },
+    {
+      "key": "system_admin.permissions_manage",
+      "domain": "system_admin",
+      "action": "permissions_manage"
+    },
+    {
+      "key": "system_admin.roles_manage",
+      "domain": "system_admin",
+      "action": "roles_manage"
+    },
+    {
+      "key": "system_admin.users_manage",
+      "domain": "system_admin",
+      "action": "users_manage"
+    },
+    {
+      "key": "system_admin.users_read",
+      "domain": "system_admin",
+      "action": "users_read"
+    },
+    {
+      "key": "workspace.dashboard_read",
+      "domain": "workspace",
+      "action": "dashboard_read"
+    },
+    {
+      "key": "workspace.dashboard_write",
+      "domain": "workspace",
+      "action": "dashboard_write"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getPackageName, PACKAGE_NAME } from "../index";
+
+import { getPackageName, PACKAGE_NAME } from "../index.js";
 
 describe("@afenda/kernel", () => {
   it("exports the package name", () => {

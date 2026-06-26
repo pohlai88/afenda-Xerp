@@ -31,39 +31,43 @@ function usesNavMarkdownTable(source: string): boolean {
 }
 
 describe("@afenda/docs apps book components", () => {
-  it.each([
-    "index.mdx",
-    "apps/index.mdx",
-  ] as const)("%s uses Cards or DocsGuideCardGrid for primary navigation", (relativePath) => {
-    const source = readMdx(relativePath);
-    expect(usesCardNavigation(source)).toBe(true);
-  });
+  it.each(["index.mdx", ...appsBookLandingMdxPaths.filter((path) =>
+    path.endsWith("apps/index.mdx")
+  )] as const)(
+    "%s uses Cards or DocsGuideCardGrid for primary navigation",
+    (relativePath) => {
+      const source = readMdx(relativePath);
+      expect(usesCardNavigation(source)).toBe(true);
+    }
+  );
 
-  it.each([
-    "index.mdx",
-    "apps/index.mdx",
-  ] as const)("%s does not use markdown tables for navigation sections", (relativePath) => {
-    const source = readMdx(relativePath);
-    expect(usesNavMarkdownTable(source)).toBe(false);
-  });
+  it.each(["index.mdx", ...appsBookLandingMdxPaths.filter((path) =>
+    path.endsWith("apps/index.mdx")
+  )] as const)(
+    "%s does not use markdown tables for navigation sections",
+    (relativePath) => {
+      const source = readMdx(relativePath);
+      expect(usesNavMarkdownTable(source)).toBe(false);
+    }
+  );
 
-  it("apps/index.mdx renders DocsSiteGraph for cross-link discovery", () => {
-    const source = readMdx("apps/index.mdx");
+  it("build-afenda apps index renders DocsSiteGraph for cross-link discovery", () => {
+    const source = readMdx("build-afenda/apps/index.mdx");
     expect(source).toContain("<DocsSiteGraph");
   });
 
-  it("apps/erp/index.mdx includes a status honesty warn callout", () => {
-    const source = readMdx("apps/erp/index.mdx");
+  it("build-afenda apps erp index includes a status honesty warn callout", () => {
+    const source = readMdx("build-afenda/apps/erp/index.mdx");
     expect(source).toMatch(/type="warn"|title="Status honesty"/);
   });
 
-  it("apps/docs/index.mdx includes an authority callout", () => {
-    const source = readMdx("apps/docs/index.mdx");
+  it("build-afenda apps docs index includes an authority callout", () => {
+    const source = readMdx("build-afenda/apps/docs/index.mdx");
     expect(usesCallout(source)).toBe(true);
   });
 
-  it("apps/storybook/index.mdx includes warn callout and runner debt language", () => {
-    const source = readMdx("apps/storybook/index.mdx");
+  it("build-afenda apps storybook index includes warn callout and runner debt language", () => {
+    const source = readMdx("build-afenda/apps/storybook/index.mdx");
     expect(source).toMatch(/type="warn"/);
     expect(source).toMatch(/runner|Not started|storybook-test-runner/i);
   });

@@ -1,4 +1,5 @@
 import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
 import {
   getSupabasePublicUrl,
   hasSupabasePublicConfig,
@@ -20,7 +21,7 @@ export interface SupabaseCspPlatformOrigins {
  * Validated against Supabase MCP project `esxjzvcfqtaxmiwjntje` (2026-06-22).
  */
 export function resolveSupabaseCspPlatformOrigins(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): SupabaseCspPlatformOrigins {
   if (!hasSupabasePublicConfig(env)) {
     return { connectSrc: [], imgSrc: [] };
@@ -39,7 +40,7 @@ export function resolveSupabaseCspPlatformOrigins(
 }
 
 export function resolveSupabaseConnectSrcOrigins(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): readonly string[] {
   return resolveSupabaseCspPlatformOrigins(env).connectSrc;
 }

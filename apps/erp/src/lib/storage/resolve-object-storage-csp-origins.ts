@@ -1,9 +1,10 @@
 import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
 
 import { readObjectStorageEndpoint } from "./object-storage-env";
 
 export function resolveObjectStorageCspImgOrigins(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): readonly string[] {
   const endpoint = readObjectStorageEndpoint(env);
 

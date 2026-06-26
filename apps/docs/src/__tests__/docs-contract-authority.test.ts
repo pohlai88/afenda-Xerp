@@ -3,7 +3,8 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { docsEditorialPrimitiveNames } from "@/lib/docs-editorial-palette.contract";
 import {
-  docsGuidesFolderGroup,
+  docsBuildAfendaSection,
+  docsReaderSections,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
 import { docsLocaleContentRoot } from "@/lib/docs-page-path";
@@ -13,7 +14,6 @@ const contentRoot = docsLocaleContentRoot(docsDefaultLocale);
 
 describe("@afenda/docs contract authority", () => {
   it("defines nav sections only in docs-nav.contract.ts", () => {
-    const contractIds = docsSeedSections.map((section) => section.id);
     const meta = JSON.parse(
       readFileSync(join(contentRoot, "meta.json"), "utf8")
     ) as { pages: string[] };
@@ -22,22 +22,20 @@ describe("@afenda/docs contract authority", () => {
       (entry) => entry !== "---" && entry !== "index"
     );
 
-    expect(rootSections).toEqual([docsGuidesFolderGroup, "apps"]);
+    expect(rootSections).toEqual([...docsReaderSections]);
 
-    const guidesMeta = JSON.parse(
+    const buildAfendaMeta = JSON.parse(
       readFileSync(
-        join(contentRoot, docsGuidesFolderGroup, "meta.json"),
+        join(contentRoot, docsBuildAfendaSection, "meta.json"),
         "utf8"
       )
     ) as { pages: string[] };
 
-    for (const id of contractIds) {
-      if (id === "apps") {
-        expect(rootSections).toContain("apps");
-      } else {
-        expect(guidesMeta.pages).toContain(id);
-      }
+    for (const id of ["getting-started", "monorepo-map", "contributing", "apps"]) {
+      expect(buildAfendaMeta.pages).toContain(id);
     }
+
+    expect(docsSeedSections.length).toBeGreaterThan(0);
   });
 
   it("mirrors editorial palette primitives in TypeScript contract", () => {

@@ -60,7 +60,6 @@ export const layerContract: LayerContract = {
     "@afenda/typescript-config": "Platform",
     "@afenda/architecture-authority": "Platform",
     "@afenda/ai-governance": "Platform",
-    "@afenda/accounting": "Domain",
     "@afenda/kernel": "Platform",
     "@afenda/design-system": "Design",
     "@afenda/ui": "Design",

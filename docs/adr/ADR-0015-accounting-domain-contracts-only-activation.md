@@ -6,7 +6,7 @@
 | **Date** | 2026-06-24 |
 | **Owner** | Architecture Authority + Accounting Authority |
 | **Supersedes** | — |
-| **Superseded by** | — |
+| **Superseded by** | [ADR-0020](ADR-0020-master-data-authority-consolidation.md) — **Decision item 1 only** (PKG-R01 filesystem package activation at `packages/accounting/`). Contracts-only prohibitions, permission vocabulary, and governance tests remain valid until a future accounting runtime ADR. |
 
 ---
 

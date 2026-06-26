@@ -1,4 +1,7 @@
-import { MfaPolicyBypassBlockedError } from "@afenda/auth";
+import {
+  type AfendaAuthSession,
+  MfaPolicyBypassBlockedError,
+} from "@afenda/auth";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const authMocks = vi.hoisted(() => ({
@@ -26,6 +29,31 @@ vi.mock("@afenda/auth", async (importOriginal) => {
 });
 vi.mock("next/navigation", () => navigationMocks);
 
+function createTestSession(
+  overrides: Partial<AfendaAuthSession> = {}
+): AfendaAuthSession {
+  return {
+    metadata: {
+      activeWorkspaceId: null,
+      expiresAt: "2026-06-27T00:00:00.000Z",
+      image: null,
+      ipAddress: "127.0.0.1",
+      issuedAt: "2026-06-20T00:00:00.000Z",
+      userAgent: "vitest",
+    },
+    sessionId: "sess_1",
+    user: {
+      authUserId: "auth_user_1",
+      email: "user@example.com",
+      emailVerified: true,
+      linkStatus: "linked",
+      name: "User",
+      userId: "user_1",
+    },
+    ...overrides,
+  };
+}
+
 describe("gateTenantMfaPolicyBeforeProtectedAccess", () => {
   beforeEach(() => {
     authMocks.assertTenantMfaPolicySatisfied.mockReset();
@@ -40,18 +68,7 @@ describe("gateTenantMfaPolicyBeforeProtectedAccess", () => {
     await gateTenantMfaPolicyBeforeProtectedAccess({
       activeRoutePath: "/settings/security",
       companyId: "company_1",
-      session: {
-        metadata: { activeWorkspaceId: null },
-        sessionId: "sess_1",
-        user: {
-          authUserId: "auth_user_1",
-          email: "user@example.com",
-          emailVerified: true,
-          linkStatus: "linked",
-          name: "User",
-          userId: "user_1",
-        },
-      },
+      session: createTestSession(),
       tenantId: "tenant_1",
     });
 
@@ -71,18 +88,7 @@ describe("gateTenantMfaPolicyBeforeProtectedAccess", () => {
       gateTenantMfaPolicyBeforeProtectedAccess({
         activeRoutePath: "/dashboard",
         companyId: "company_1",
-        session: {
-          metadata: { activeWorkspaceId: null },
-          sessionId: "sess_1",
-          user: {
-            authUserId: "auth_user_1",
-            email: "user@example.com",
-            emailVerified: true,
-            linkStatus: "linked",
-            name: "User",
-            userId: "user_1",
-          },
-        },
+        session: createTestSession(),
         tenantId: "tenant_1",
       })
     ).rejects.toThrow(

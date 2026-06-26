@@ -121,6 +121,15 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | `pnpm check:foundation-disposition` | 0 | A |
 | `pnpm check:documentation-drift` | 0 | A |
 
+### Slice 2 Evidence-sync gate log (2026-06-27)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm check:api-contracts` | 0 | A |
+| `pnpm check:openapi-drift` | 0 | A |
+| `pnpm --filter @afenda/erp test:run -- api-contract-registry api-handler-boundary` | 0 | A (18 tests — 15 registry + 3 boundary) |
+| `pnpm check:documentation-drift` | 0 | A |
+
 ### Files inspected
 
 | Path | Why |
@@ -132,7 +141,7 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | `apps/erp/src/server/api/contracts/idempotency.contract.ts` | Mutation idempotency key policy |
 | `apps/erp/src/server/api/contracts/pagination.contract.ts` | Collection pagination contract |
 | `apps/erp/src/server/api/runtime/create-api-handler.ts` | Governed handler factory |
-| `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | Registry drift guards (11 tests) |
+| `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | Registry drift guards (15 tests) |
 | `apps/erp/src/server/api/__tests__/api-envelope.test.ts` | Envelope + error taxonomy (5 tests) |
 | `apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts` | Handler boundary (3 tests) |
 | `scripts/api-contract/check-api-contracts.mts` | Repo-level drift gate |
@@ -151,7 +160,7 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | Pagination contract | `apps/erp/src/server/api/contracts/pagination.contract.ts` | Yes — Grade B (dashboard layout contracts cite pagination) |
 | Handler factory | `apps/erp/src/server/api/runtime/create-api-handler.ts` | Yes — Grade B (`api-handler-boundary.test.ts`) |
 | Idempotency runtime | `apps/erp/src/server/api/runtime/idempotency.ts` | Yes — Grade A (Postgres default; memory for tests) |
-| Registry tests | `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | Yes — Grade A (11 tests exit 0) |
+| Registry tests | `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | Yes — Grade A (15 tests exit 0) |
 | Envelope tests | `apps/erp/src/server/api/__tests__/api-envelope.test.ts` | Yes — Grade A (5 tests exit 0) |
 | Handler boundary tests | `apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts` | Yes — Grade A (3 tests exit 0) |
 | Drift gate script | `scripts/api-contract/check-api-contracts.mts` | Yes — Grade A (exit 0) |
@@ -167,7 +176,7 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | `api-idempotency-store` | ~~Durable idempotency store~~ **Closed 2026-06-26** | green | `erp-app-agent` | Slice 6 | Postgres migration + ERP adapter |
 | `api-registry-gate-sync` | ~~`check:api-contracts` not in registry~~ **Closed 2026-06-26** | green | `foundation-registry-owner` | Registry-sync | Added `check:api-contracts` + `check:api-route-catalog` to `PKG007_CONTEXT` gates |
 | `api-matrix-row-sync` | ~~Runtime matrix row still **partial** while gate passes~~ **Closed** (v2 audit 2026-06-25) | green | Architecture Authority | — | Matrix row **implemented** |
-| `api-complete-status` | FDR at 27/30 audit-adjusted; Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; §Waivers reconfirmed |
+| `api-complete-status` | FDR at 27/30 audit-adjusted; Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; §Waivers reconfirmed. Slice 2 evidence reconciled (Evidence-sync); Complete blocked on DoD #14 peer review |
 
 ## §Enterprise readiness score
 
@@ -177,7 +186,7 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 
 | Dimension | Score | Evidence | Audit note |
 | --- | ---: | --- | --- |
-| Contract stability | 5/5 | `typecheck` exit 0 + `api-contract-registry.test.ts` (11 tests) + `check:api-contracts` exit 0 — Grade A | — |
+| Contract stability | 5/5 | `typecheck` exit 0 + `api-contract-registry.test.ts` (15 tests) + `check:api-contracts` exit 0 — Grade A | — |
 | Test coverage | 4/5 | 19 API unit tests + route coverage gate — Grade A | Waiver `api-e2e` for browser E2E |
 | Observability + audit | 4/5 | `api-handler-audit.ts` + `api-handler-logging.ts` — Grade B | Waiver `api-observability-live-traces` |
 | Security + RBAC + RLS | 5/5 | Every protected contract declares permission keys; operating context via handler — Grade A | — |
@@ -355,73 +364,66 @@ Feature: Governed ERP API contract registry
 - Readiness score: **27/30 audit-adjusted** (29/30 ceiling)
 - Slice 2 unblocked for contract registry hardening (v2 audit matrix row reconciled in §Research)
 
-### Slice 2 — Implementation (contract registry hardening)
+### Slice 2 — Contract registry hardening (Evidence-sync)
 
-**Status:** Not started  
+**Status:** Complete (Evidence-sync 2026-06-27)  
 **Prerequisite:** Slice 1 Complete ✓  
-**Type:** Implementation  
-**Risk class:** Medium  
+**Type:** Evidence-sync  
+**Risk class:** Low  
 **Clean Core impact:** B→B
+
+> **Reclassification (2026-06-27):** Original slice typed Implementation; live codebase already satisfies design intent (15 registry tests, 3 handler boundary tests, chained OpenAPI drift gate). See [`slice-02-contract-registry-hardening.md`](slices/fdr-007-api-governance/slice-02-contract-registry-hardening.md) §Reclassification notice. No source edits required.
 
 #### Design (internal-guide)
 
-Harden governed API contract registry against route drift — extend static coverage guards so any new `apps/erp/src/app/api/**/route.ts` must register in `API_CONTRACTS` and use `createApiHandler` before merge. Matrix row **implemented** status was reconciled in Research v2 audit; this slice closes remaining **runtime** contract-evidence gaps only.
-
-Bounded paths:
-
-1. **Route coverage invariants** — extend `api-route-coverage.ts` and `api-contract-registry.test.ts` with explicit contract-count and handler-export parity checks aligned to current eight registered contracts.
-2. **Policy regression guards** — add negative-path assertions in `api-handler-boundary.test.ts` for direct `Response.json` bypass and missing idempotency policy on mutation contracts.
-3. **Drift gate alignment** — ensure `check-api-contracts.mts` error messages name failing route file + missing registry entry (no gate logic duplication elsewhere).
-
-Durable idempotency store (`api-idempotency-store`) and registry gate registration (`api-registry-gate-sync`) remain out of scope — deferred Slice 4 Registry-sync + waiver.
+Prove Slice 2 contract-registry hardening is already delivered in runtime; sync FDR prose that still referenced 11 registry tests, Implementation type, and "Not started" status. Partially advance `api-complete-status` by recording Slice 2 evidence — **Complete** promotion remains blocked on DoD #14 (Architecture Authority peer review).
 
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-007-api-governance.md
+Handoff from: docs/delivery/FDR/slices/fdr-007-api-governance/slice-02-contract-registry-hardening.md
 
-1. Objective    — Harden API contract registry and route coverage static guards so governed ERP routes cannot merge without createApiHandler wiring and API_CONTRACTS registration; keep check:api-contracts green.
-2. Allowed layer— apps/erp/src/server/api/contracts/; apps/erp/src/server/api/__tests__/; scripts/api-contract/check-api-contracts.mts
+1. Objective    — Reconcile Slice 2 contract registry hardening as Evidence-sync: confirm live gates exit 0, update FDR §Slices/§Runtime evidence/slice index to reflect 15 registry tests + 3 handler boundary tests + chained OpenAPI drift gate, and partially close api-complete-status (evidence only; DoD #14 remains operator).
+2. Allowed layer— docs-only
 3. Files        —
-   apps/erp/src/server/api/contracts/api-contract-registry.ts
-   apps/erp/src/server/api/contracts/api-route-coverage.ts
-   apps/erp/src/server/api/__tests__/api-contract-registry.test.ts
-   apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts
-   scripts/api-contract/check-api-contracts.mts
+   docs/delivery/FDR/slices/fdr-007-api-governance/slice-02-contract-registry-hardening.md
+   docs/delivery/FDR/slices/fdr-007-api-governance/slice-index.md
    docs/delivery/FDR/[Partially Implemented] fdr-007-api-governance.md
-4. Prohibited   — foundation-disposition.registry.ts edits (delegate to foundation-registry-owner for api-registry-gate-sync); apps/erp/src/server/api/runtime/idempotency.ts durable store (api-idempotency-store waiver); @afenda/accounting API routes (ADR-0010); do-not-trust-session-for-tenant-scope; duplicate envelope shapes outside api-envelope.contract.ts
+4. Prohibited   — foundation-disposition.registry.ts edits; apps/erp/** source edits unless a verification gate fails; scripts/api-contract/** source edits unless gate failure; @afenda/accounting API routes (ADR-0010); do-not-trust-session-for-tenant-scope; duplicate envelope shapes outside api-envelope.contract.ts; FDR filename promotion to [Complete] (blocked on DoD #14)
 5. Authority    — ADR-0014 · ADR-0016 · PKG007_CONTEXT · tip-010a archive (reference only)
 6. Gates        —
    pnpm check:api-contracts
-   pnpm --filter @afenda/erp typecheck
-   pnpm --filter @afenda/erp test:run -- api-contract api-envelope api-handler-boundary
-   pnpm check:multi-tenancy-context-integration
-   pnpm quality:boundaries
-   pnpm check:foundation-disposition
+   pnpm check:openapi-drift
+   pnpm --filter @afenda/erp test:run -- api-contract-registry api-handler-boundary
    pnpm check:documentation-drift
-7. Closes       — Residual contract coverage hardening post-v2 audit; DoD #2 (tests pass); DoD #17 (handler boundary negative path); DoD #16 (single API_CONTRACTS authority)
+7. Closes       — api-complete-status (partial — evidence only; DoD #14 peer review remains operator); DoD #1 (runtime evidence paths confirmed); DoD #2 (registry + boundary tests pass); DoD #16 (single API_CONTRACTS authority); DoD #17 (handler boundary negative path)
 8. Evidence     —
-   apps/erp/src/server/api/contracts/api-route-coverage.ts
    apps/erp/src/server/api/__tests__/api-contract-registry.test.ts
    apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts
+   apps/erp/src/server/api/contracts/api-route-coverage.ts
    scripts/api-contract/check-api-contracts.mts
-9. Attestation  — Test coverage (+registry/coverage negative-path guards); Contract stability (contract IDs + envelope unchanged); Maintainability (check:api-contracts exit 0)
+   scripts/api-contract/check-openapi-drift.mts
+   docs/delivery/FDR/slices/fdr-007-api-governance/slice-02-contract-registry-hardening.md
+9. Attestation  — Documentation (FDR + slice index sync); Test coverage (15 + 3 unit tests verified); Contract stability (check:api-contracts + OpenAPI drift exit 0); Maintainability (no duplicate registry authority)
 ```
 
 #### DoD rows this slice closes
 
-| # | Criterion | Gate |
-| --- | --- | --- |
-| 2 | Tests pass | `pnpm --filter @afenda/erp test:run -- api-contract api-envelope api-handler-boundary` |
-| 17 | Security negative path tested | `api-handler-boundary.test.ts` |
-| 16 | No duplicated constants / parallel authority | `pnpm check:api-contracts` |
+| # | Criterion | Gate | Notes |
+| --- | --- | --- | --- |
+| 1 | Runtime evidence at stated paths | file exists + gate exit 0 | Confirm only — already `[x]` |
+| 2 | Tests pass | `pnpm --filter @afenda/erp test:run -- api-contract-registry api-handler-boundary` | 18 tests (15 + 3) |
+| 16 | No duplicated constants / parallel authority | `pnpm check:api-contracts` | Export/registry parity test proves alignment |
+| 17 | Security negative path tested | `api-handler-boundary.test.ts` | Direct `Response.json` scan |
+| 20 | Enterprise readiness score updated | §Enterprise readiness score | Sync test counts in evidence column only if changed |
+
+**Explicitly not closed by this slice:** DoD #14 (peer review) — operator / Architecture Authority at PR.
 
 #### Known debt
 
-- `api-idempotency-store` — durable store deferred until Accounting Core ADR amendment (waiver `api-idempotency-store`)
-- `api-registry-gate-sync` — **Closed 2026-06-26** (`PKG007_CONTEXT` gates include `check:api-contracts` + `check:api-route-catalog`)
-- `api-complete-status` — DoD #14 peer review blocks **Complete** promotion
-- Gap `api-matrix-row-sync` closed in Research v2 audit — matrix evidence not re-edited unless status changes
+- `api-complete-status` — **partial** after this slice; full close requires DoD #14 `[x]` and FDR `[Complete]` promotion.
+- Slice 3 (Implementation contract closeout) remains for any **future** route additions — not required for Slice 2 evidence reconciliation.
+- `api-idempotency-store` and `api-registry-gate-sync` — already closed (2026-06-26).
 
 ### Slice 3 — Implementation (contract closeout)
 
@@ -507,3 +509,5 @@ The **27/30 audit-adjusted** score is the honest green-lane benchmark today (~9.
 **Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
 
 v3 audit refresh (2026-06-26): ten registered contracts; Postgres idempotency + rate limits; ARCH-API-001 Complete (DoD #14); ARCH-API-002 OpenAPI internal v1 catalog; 49+ API unit tests exit 0. Kong/public v1 remain P2.
+
+Slice 2 Complete (Evidence-sync 2026-06-27) — registry hardening pre-delivered; no source diff; 15 registry + 3 handler boundary tests; `check:openapi-drift` chained exit 0.

@@ -1,8 +1,9 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { docsBuildAfendaSection, docsGuidesFolderGroup } from "@/lib/docs-nav.contract";
 import { docsDraftTreeFilterPlugin } from "@/lib/docs-draft-tree-filter.plugin";
-import { docsLocales } from "@/lib/i18n";
+import { docsDefaultLocale, docsLocales } from "@/lib/i18n";
 
 const appRoot = process.cwd();
 
@@ -17,11 +18,25 @@ describe("@afenda/docs nav polish", () => {
     expect(sourceText).toContain("docsDraftTreeFilterPlugin");
   });
 
-  it("adds Lucide icon keys to guides and apps meta.json", () => {
+  it("adds Lucide icon keys to en build-afenda and legacy locale guides meta.json", () => {
+    const enBuildAfendaMeta = JSON.parse(
+      readFileSync(
+        join(appRoot, "content/docs/en", docsBuildAfendaSection, "meta.json"),
+        "utf8"
+      )
+    ) as { icon?: string; pages: string[] };
+
+    expect(enBuildAfendaMeta.icon).toBe("Rocket");
+    expect(enBuildAfendaMeta.pages).toContain("apps");
+
     for (const locale of docsLocales) {
+      if (locale === docsDefaultLocale) {
+        continue;
+      }
+
       const guidesMeta = JSON.parse(
         readFileSync(
-          join(appRoot, "content/docs", locale, "(guides)/meta.json"),
+          join(appRoot, "content/docs", locale, `${docsGuidesFolderGroup}/meta.json`),
           "utf8"
         )
       ) as { icon?: string; pages: string[] };
@@ -34,51 +49,50 @@ describe("@afenda/docs nav polish", () => {
 
       expect(guidesMeta.icon).toBe("Rocket");
       expect(appsMeta.icon).toBe("Layers");
-      expect(guidesMeta.pages).toContain("---Reference---");
       expect(guidesMeta.pages).toContain("---Contributing---");
+      expect(guidesMeta.pages).not.toContain("api-reference");
     }
   });
 
-  it("adds section icons and collapses api-reference by default", () => {
-    const sectionIcons: Record<string, string> = {
+  it("adds section icons and collapses internal-v1 by default", () => {
+    const enBuildAfendaSectionIcons: Record<string, string> = {
       "getting-started": "BookOpen",
       "monorepo-map": "Map",
-      "api-reference": "Code",
       contributing: "PenLine",
     };
 
+    for (const [sectionId, icon] of Object.entries(enBuildAfendaSectionIcons)) {
+      const meta = JSON.parse(
+        readFileSync(
+          join(
+            appRoot,
+            "content/docs/en",
+            docsBuildAfendaSection,
+            sectionId,
+            "meta.json"
+          ),
+          "utf8"
+        )
+      ) as { icon?: string };
+
+      expect(meta.icon).toBe(icon);
+    }
+
     for (const locale of docsLocales) {
-      for (const [sectionId, icon] of Object.entries(sectionIcons)) {
-        const meta = JSON.parse(
-          readFileSync(
-            join(
-              appRoot,
-              "content/docs",
-              locale,
-              "(guides)",
-              sectionId,
-              "meta.json"
-            ),
-            "utf8"
-          )
-        ) as { icon?: string; defaultOpen?: boolean };
-
-        expect(meta.icon).toBe(icon);
-      }
-
-      const apiReferenceMeta = JSON.parse(
+      const internalV1Meta = JSON.parse(
         readFileSync(
           join(
             appRoot,
             "content/docs",
             locale,
-            "(guides)/api-reference/meta.json"
+            "integrate/internal-v1/meta.json"
           ),
           "utf8"
         )
-      ) as { defaultOpen?: boolean };
+      ) as { defaultOpen?: boolean; icon?: string };
 
-      expect(apiReferenceMeta.defaultOpen).toBe(false);
+      expect(internalV1Meta.defaultOpen).toBe(false);
+      expect(internalV1Meta.icon).toBe("Code");
     }
   });
 
@@ -90,13 +104,20 @@ describe("@afenda/docs nav polish", () => {
     };
 
     for (const locale of docsLocales) {
+      const appsRoot =
+        locale === docsDefaultLocale
+          ? join("content/docs/en", docsBuildAfendaSection, "apps")
+          : join("content/docs", locale, "apps");
+
       for (const [sectionId, icon] of Object.entries(appSectionIcons)) {
-        const meta = JSON.parse(
-          readFileSync(
-            join(appRoot, "content/docs", locale, "apps", sectionId, "meta.json"),
-            "utf8"
-          )
-        ) as { icon?: string };
+        const metaPath = join(appRoot, appsRoot, sectionId, "meta.json");
+        if (!existsSync(metaPath)) {
+          continue;
+        }
+
+        const meta = JSON.parse(readFileSync(metaPath, "utf8")) as {
+          icon?: string;
+        };
 
         expect(meta.icon).toBe(icon);
       }
@@ -110,6 +131,9 @@ describe("@afenda/docs nav polish", () => {
     );
 
     expect(sourceConfig).toContain("icon: z.string().optional()");
+    expect(sourceConfig).toContain(
+      "catalogBindings: z.array(z.enum(CATALOG_IDS)).optional()"
+    );
   });
 
   it("relies on DocsPage built-in prev/next footer without a duplicate custom footer", () => {

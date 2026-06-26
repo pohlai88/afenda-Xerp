@@ -4,11 +4,12 @@ import {
   mergeTenantOAuthProviderSettings,
   upsertTenantSettingsSection,
 } from "@afenda/database";
-
 import {
   AFENDA_OAUTH_GITHUB_CLIENT_ID_ENV,
   AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV,
 } from "../auth.env.js";
+import type { AuthEnvReaderInput } from "../auth.env-reader.js";
+import { readAuthRuntimeEnv } from "../auth.env-reader.js";
 
 /** Aligned with `packages/database/src/seeds/workspace-fixtures.ts`. */
 export const DEV_BOOTSTRAP_TENANT_SLUG = "dev-local" as const;
@@ -21,7 +22,7 @@ const DEV_BOOTSTRAP_AUDIT = {
 } as const;
 
 function isPlatformOAuthProviderConfigured(
-  env: NodeJS.ProcessEnv,
+  env: AuthEnvReaderInput,
   providerId: "google" | "github"
 ): boolean {
   const envKey =
@@ -35,7 +36,7 @@ function isPlatformOAuthProviderConfigured(
 /** Enables dev-local tenant OAuth + appearance so configured platform auth materializes on sign-in. */
 export async function ensureDevTenantSignInPresentation(
   db: AfendaDatabase,
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): Promise<{
   readonly tenantSlug: string;
   readonly oauthEnabled: readonly string[];

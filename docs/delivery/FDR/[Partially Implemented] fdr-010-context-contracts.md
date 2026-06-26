@@ -141,7 +141,7 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Untrusted client guard | `packages/kernel/src/context/untrusted-client-authority.contract.ts` | Yes — Grade A (`untrusted-client-authority.contract.test.ts` 4 tests) |
 | Hierarchy id boundary | `packages/kernel/src/context/hierarchy-id-boundary.contract.ts` | Yes — Grade A (`hierarchy-id-boundary.test.ts` 8 tests) |
 | Accounting readiness stub | `packages/kernel/src/context/accounting-readiness.contract.ts` | Yes — Grade A (`accounting-readiness.contract.test.ts` 11 tests) |
-| Surface governance gate | `scripts/governance/check-kernel-context-surface.mts` | Partial — Grade D (gate exits 1 — dist freshness) |
+| Surface governance gate | `scripts/governance/check-kernel-context-surface.mts` | Yes — Grade A (`quality:kernel-context-surface` exit 0; Slice 2 2026-06-26) |
 
 ## §Remaining gaps
 
@@ -149,8 +149,7 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
-| `kernel-context-dist-freshness` | `quality:kernel-context-surface` fails — `dist/` missing or older than `src/index.ts` | green | `kernel-context-agent` | Slice 2 | Gate exit 0 after `pnpm --filter @afenda/kernel build` + dist committed or CI build step |
-| `context-contracts-complete-status` | FDR at 27/30 audit-adjusted (29/30 ceiling); Complete blocked on dist gate + peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; dist gate green; rename to `[Complete]` |
+| `context-contracts-complete-status` | FDR at 28/30 audit-adjusted (29/30 ceiling); Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; rename to `[Complete]` |
 
 ## §Enterprise readiness score
 
@@ -165,8 +164,8 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Observability + audit | 4/5 | Contract read path; no audit on context projection — Grade B | Waiver `context-contracts-observability-read-path` |
 | Security + RBAC + RLS | 5/5 | `untrusted-client-authority.contract.test.ts` + `permission-scope-context` exports — Grade A | — |
 | Documentation + BRD traceability | 4/5 | FDR v2 + index + matrix + `check:documentation-drift` — Grade A | DoD #14 peer review still `[ ]` |
-| Maintainability + Clean Core | 4/5 | Clean Core A; context tests pass — Grade A | `quality:kernel-context-surface` exit 1 (stale `dist/`; gap `kernel-context-dist-freshness`) |
-| **Total (audit-adjusted)** | **27/30** | **~9.0 / 10 equivalent** — honest foundation-grade score today | |
+| Maintainability + Clean Core | 5/5 | Clean Core A; `quality:kernel-context-surface` exit 0 — Grade A | Slice 2 `ensureKernelDistFresh` (2026-06-26) |
+| **Total (audit-adjusted)** | **28/30** | **~9.3 / 10 equivalent** — dist gate closed; peer review pending | |
 | **Total (evidence-qualified ceiling)** | **29/30** | Upper bound if dist gate green, §Waivers accepted, peer review pending only | Not final 9.5 until Complete |
 
 Target at Complete: **29/30** per enterprise 9.5 benchmark ([ENTERPRISE-BENCHMARK.md §3](../../../.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md)).
@@ -342,11 +341,30 @@ Feature: Kernel operating-context contract surface
 
 ### Slice 2 — Implementation (dist freshness + surface gate)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-26)  
 **Prerequisite:** Slice 1 Complete ✓  
 **Type:** Implementation  
 **Risk class:** Low  
 **Clean Core impact:** A→A
+
+#### Outcomes
+
+- Closed gap `kernel-context-dist-freshness`
+- Added `ensureKernelDistFresh()` to `check-kernel-context-surface.mts` — runs `tsc -b` then `tsc -b --force` when incremental build leaves stale gitignored dist
+- `pnpm quality:kernel-context-surface` exit 0
+- Maintainability dimension 4/5 → 5/5; audit-adjusted total 27/30 → 28/30
+
+#### Gate log (Slice 2 — 2026-06-26)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/kernel build` | 0 | A |
+| `pnpm quality:kernel-context-surface` | 0 | A |
+| `pnpm --filter @afenda/kernel typecheck` | 0 | A |
+| `pnpm --filter @afenda/kernel test:run` | 0 | A |
+| `scripts/governance/__tests__/check-kernel-context-surface.test.ts` | 0 | A (3 tests) |
+| `pnpm check:foundation-disposition` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
 
 #### Design (internal-guide)
 
@@ -394,7 +412,7 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contract
 
 - `context-contracts-complete-status` — DoD #14 peer review still open; Complete promotion blocked until Architecture Authority PR approval
 - `packages/kernel/dist/` remains gitignored — consumers and CI rely on build-before-gate choreography, not committed dist artifacts
-- Sibling FDRs `fdr-010-platform-authority` and `fdr-010-master-data-authority` Slice 2 Evidence-sync blocked until this slice Delivered
+- Sibling FDRs `fdr-010-platform-authority` and `fdr-010-master-data-authority` Slice 2 Evidence-sync unblocked (Delivered 2026-06-26)
 
 ## §Rollback strategy
 

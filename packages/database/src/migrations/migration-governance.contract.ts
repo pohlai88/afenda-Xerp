@@ -515,4 +515,80 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260626165831_wandering_nitro": {
+    completeProbe: `
+    SELECT (
+      to_regclass('public.products') IS NOT NULL
+      AND to_regclass('public.warehouses') IS NOT NULL
+    ) AS ok`,
+    partialProbe: `
+    SELECT (
+      to_regtype('public.master_data_record_status') IS NOT NULL
+      OR to_regclass('public.products') IS NOT NULL
+    ) AS partial`,
+    partialCleanup: [
+      `DROP TABLE IF EXISTS "warehouses" CASCADE`,
+      `DROP TABLE IF EXISTS "products" CASCADE`,
+      `DROP TYPE IF EXISTS "public"."master_data_record_status"`,
+    ],
+  },
+  "20260626170000_inventory_master_data_rls": {
+    completeProbe: `
+    SELECT (
+      EXISTS (
+        SELECT 1
+        FROM pg_policies
+        WHERE schemaname = 'public'
+          AND tablename = 'products'
+          AND policyname = 'products_tenant_isolation'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_policies
+        WHERE schemaname = 'public'
+          AND tablename = 'warehouses'
+          AND policyname = 'warehouses_tenant_isolation'
+      )
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260626183108_amusing_liz_osborn": {
+    completeProbe: `
+    SELECT (
+      to_regclass('public.stock_levels') IS NOT NULL
+      AND to_regclass('public.stock_movements') IS NOT NULL
+    ) AS ok`,
+    partialProbe: `
+    SELECT (
+      to_regtype('public.stock_movement_type') IS NOT NULL
+      OR to_regclass('public.stock_levels') IS NOT NULL
+    ) AS partial`,
+    partialCleanup: [
+      `DROP TABLE IF EXISTS "stock_movements" CASCADE`,
+      `DROP TABLE IF EXISTS "stock_levels" CASCADE`,
+      `DROP TYPE IF EXISTS "public"."stock_movement_type"`,
+    ],
+  },
+  "20260626183200_inventory_stock_rls": {
+    completeProbe: `
+    SELECT (
+      EXISTS (
+        SELECT 1
+        FROM pg_policies
+        WHERE schemaname = 'public'
+          AND tablename = 'stock_levels'
+          AND policyname = 'stock_levels_tenant_isolation'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_policies
+        WHERE schemaname = 'public'
+          AND tablename = 'stock_movements'
+          AND policyname = 'stock_movements_tenant_isolation'
+      )
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

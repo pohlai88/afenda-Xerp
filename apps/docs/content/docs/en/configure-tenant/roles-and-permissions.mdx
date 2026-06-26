@@ -1,0 +1,35 @@
+---
+title: Roles and permissions
+description: Map RBAC roles to governed permission keys for tenant administrators.
+audience: tenant-admin
+relatedRoutes:
+  - /system-admin/roles
+  - /system-admin/permissions
+catalogBindings:
+  - permissions
+  - system-admin
+---
+
+# Roles and permissions
+
+Afenda RBAC uses **registered permission keys** from `@afenda/permissions` package registry. Roles bundle keys; memberships attach roles to users within tenant scope.
+
+## Configure roles
+
+1. Open **System Admin → Roles** (`/system-admin/roles`).
+2. Create or edit a role and attach the minimum permission keys required for the job function.
+3. Prefer read-only keys (`*_read`) until a workflow requires manage/post/approve actions.
+
+## Audit permission coverage
+
+1. Open **System Admin → Permissions** (`/system-admin/permissions`).
+2. Compare role assignments against the governed key catalog below.
+3. Remove unused keys from roles to reduce privilege surface.
+
+## Permission keys
+
+<GeneratedReference catalog="permissions" />
+
+## System admin sections
+
+<GeneratedReference catalog="system-admin" />

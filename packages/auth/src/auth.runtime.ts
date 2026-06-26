@@ -1,7 +1,8 @@
 import { getBetterAuthSecret, getBetterAuthUrl } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
 import { BETTER_AUTH_SECRET_ENV, BETTER_AUTH_URL_ENV } from "./auth.errors.js";
 
-function readAuthEnvSignature(env: NodeJS.ProcessEnv): string | undefined {
+function readAuthEnvSignature(env: AuthEnvReaderInput): string | undefined {
   try {
     const url = getBetterAuthUrl(env);
     const secret = getBetterAuthSecret(env);
@@ -11,7 +12,7 @@ function readAuthEnvSignature(env: NodeJS.ProcessEnv): string | undefined {
   }
 }
 
-export function readAuthConfigFingerprint(env: NodeJS.ProcessEnv): string {
+export function readAuthConfigFingerprint(env: AuthEnvReaderInput): string {
   const signature = readAuthEnvSignature(env);
 
   if (signature) {

@@ -10,16 +10,16 @@ import { Card, Cards } from "fumadocs-ui/components/card";
 Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, architecture registries, FDR delivery docs) stay under `docs/` at the repo root — cross-link to those sources instead of duplicating them here.
 
 <Cards>
-  <Card icon={<Rocket />} title="Getting Started" href="/docs/getting-started">
+  <Card icon={<Rocket />} title="Getting Started" href="/docs/build-afenda/getting-started">
     Clone, install dependencies, and run ERP or docs locally.
   </Card>
-  <Card icon={<Map />} title="Monorepo Map" href="/docs/monorepo-map">
+  <Card icon={<Map />} title="Monorepo Map" href="/docs/build-afenda/monorepo-map">
     Package layers, ports, and where to edit.
   </Card>
-  <Card icon={<Layers />} title="Applications" href="/docs/apps">
+  <Card icon={<Layers />} title="Applications" href="/docs/build-afenda/apps">
     ERP, Docs, and Storybook — ports, boundaries, and quality gates.
   </Card>
-  <Card icon={<BookOpen />} title="Contributing" href="/docs/contributing">
+  <Card icon={<BookOpen />} title="Contributing" href="/docs/build-afenda/contributing">
     Coding session contract, FDR handoffs, and drift guards.
   </Card>
 </Cards>
@@ -31,21 +31,21 @@ Engineer-facing guides for the Afenda monorepo. Governance artifacts (ADRs, arch
     {
       title: "ERP",
       description: "`pnpm --filter @afenda/erp dev`",
-      href: "/docs/apps/erp",
+      href: "/docs/build-afenda/apps/erp",
       icon: Server,
       badge: "3000",
     },
     {
       title: "Docs",
       description: "`pnpm --filter @afenda/docs dev`",
-      href: "/docs/apps/docs",
+      href: "/docs/build-afenda/apps/docs",
       icon: BookOpen,
       badge: "3001",
     },
     {
       title: "Storybook",
       description: "`pnpm --filter @afenda/storybook dev`",
-      href: "/docs/apps/storybook",
+      href: "/docs/build-afenda/apps/storybook",
       icon: Layers,
       badge: "6006",
     },

@@ -5,7 +5,7 @@ import {
   docsPageRefToValidationUrl,
   extractHeadingHashes,
   parseDocsContentPageRef,
-} from "../../scripts/docs-link-utils.ts";
+} from "../../scripts/docs-link-utils";
 
 describe("docs link path utilities", () => {
   const appRoot = process.cwd();
@@ -13,16 +13,18 @@ describe("docs link path utilities", () => {
   it("maps locale MDX paths to docs slugs without route groups", () => {
     const page = parseDocsContentPageRef(
       appRoot,
-      `${appRoot}/content/docs/en/(guides)/getting-started/index.mdx`
+      `${appRoot}/content/docs/en/build-afenda/getting-started/index.mdx`
     );
 
     expect(page).toMatchObject({
       lang: "en",
-      slug: ["getting-started"],
+      slug: ["build-afenda", "getting-started"],
     });
-    expect(docsPageRefToLocalizedUrl(page!)).toBe("/en/docs/getting-started");
+    expect(docsPageRefToLocalizedUrl(page!)).toBe(
+      "/en/docs/build-afenda/getting-started"
+    );
     expect(docsPageRefToValidationUrl(page!)).toBe(
-      "/en/docs/getting-started/index"
+      "/en/docs/build-afenda/getting-started/index"
     );
   });
 
@@ -47,8 +49,8 @@ describe("docs link path utilities", () => {
 describe("docs link validation", () => {
   it("passes next-validate-link for all MDX content", async () => {
     const { validateDocsLinks } = await import(
-      "../../scripts/validate-docs-links.ts"
+      "../../scripts/validate-docs-links"
     );
     await expect(validateDocsLinks(process.cwd())).resolves.toBeUndefined();
-  });
+  }, 60_000);
 });

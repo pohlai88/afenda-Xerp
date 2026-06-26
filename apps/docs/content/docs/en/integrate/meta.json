@@ -1,0 +1,9 @@
+{
+  "title": "Integrate",
+  "icon": "Plug",
+  "pages": [
+    "index",
+    "modules",
+    "internal-v1"
+  ]
+}

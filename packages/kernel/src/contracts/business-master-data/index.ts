@@ -57,7 +57,7 @@ export {
   assertSharedPackageOwnershipPolicy,
   type BusinessMasterDataPackageOwnershipSummary,
   getEntitiesForReservedPackage,
-  INVENTORY_SHARED_ENTITY_IDS,
-  INVENTORY_SHARED_PACKAGE_ID,
+  INVENTORY_PERSISTENCE_ENTITY_IDS,
+  INVENTORY_PERSISTENCE_PACKAGE_ID,
   summarizePackageOwnership,
 } from "./business-master-data-shared-package.policy.js";

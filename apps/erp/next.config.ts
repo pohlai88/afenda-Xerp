@@ -48,6 +48,7 @@ const nextConfig: NextConfig = {
     sri: {
       algorithm: "sha256",
     },
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
   },
   transpilePackages: [
     "@afenda/appshell",

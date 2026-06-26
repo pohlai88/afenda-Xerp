@@ -1,3 +1,5 @@
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   BETTER_AUTH_SECRET_ENV,
   BETTER_AUTH_URL_ENV,
@@ -11,7 +13,7 @@ import {
 import type { AfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
 function readTrimmedEnv(
-  env: NodeJS.ProcessEnv,
+  env: AuthEnvReaderInput,
   key: string
 ): string | undefined {
   const value = env[key]?.trim();
@@ -19,7 +21,7 @@ function readTrimmedEnv(
 }
 
 export function getBetterAuthSecret(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   const secret = readTrimmedEnv(env, BETTER_AUTH_SECRET_ENV);
 
@@ -32,7 +34,9 @@ export function getBetterAuthSecret(
 
 const TRAILING_SLASH_PATTERN = /\/$/;
 
-export function getBetterAuthUrl(env: NodeJS.ProcessEnv = process.env): string {
+export function getBetterAuthUrl(
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
+): string {
   const url = readTrimmedEnv(env, BETTER_AUTH_URL_ENV);
 
   if (!url) {
@@ -43,7 +47,7 @@ export function getBetterAuthUrl(env: NodeJS.ProcessEnv = process.env): string {
 }
 
 function resolveVercelDeploymentOrigin(
-  env: NodeJS.ProcessEnv
+  env: AuthEnvReaderInput
 ): string | undefined {
   const vercelUrl = readTrimmedEnv(env, "VERCEL_URL");
 
@@ -56,14 +60,14 @@ function resolveVercelDeploymentOrigin(
 
 /** Public ERP origin for Better Auth — prefers Vercel preview URL when injected. */
 export function resolveBetterAuthBaseUrl(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   return resolveVercelDeploymentOrigin(env) ?? getBetterAuthUrl(env);
 }
 
 /** Browser redirect after Better Auth email verification completes. */
 export function resolveBetterAuthEmailVerificationRedirectPath(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   const base = resolveBetterAuthBaseUrl(env);
   return `${base}/verify-email/success`;
@@ -71,14 +75,14 @@ export function resolveBetterAuthEmailVerificationRedirectPath(
 
 /** WebAuthn origin for Better Auth passkey plugin — must not include a trailing slash. */
 export function resolveBetterAuthWebAuthnOrigin(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   return resolveBetterAuthBaseUrl(env);
 }
 
 /** WebAuthn RP ID derived from the Better Auth public origin hostname. */
 export function resolveBetterAuthWebAuthnRpId(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   try {
     return new URL(resolveBetterAuthWebAuthnOrigin(env)).hostname;
@@ -96,7 +100,7 @@ export function resolveBetterAuthWebAuthnRpName(): string {
 
 /** Trusted browser origins for Better Auth CSRF — config URL + active Vercel preview. */
 export function resolveBetterAuthTrustedOrigins(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): readonly string[] {
   const origins = new Set<string>();
 
@@ -120,7 +124,7 @@ export function resolveBetterAuthTrustedOrigins(
 }
 
 export function hasBetterAuthConfig(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   try {
     getBetterAuthSecret(env);
@@ -142,25 +146,25 @@ export const AFENDA_RESEND_WEBHOOK_SECRET_ENV = "AFENDA_RESEND_WEBHOOK_SECRET";
 
 /** True when a transactional email provider API key is configured. */
 export function isAuthEmailDeliveryEnabled(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   return Boolean(readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV));
 }
 
 export function getAuthEmailApiKey(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string | undefined {
   return readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV);
 }
 
 export function getAuthEmailFromAddress(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string | undefined {
   return readTrimmedEnv(env, AFENDA_AUTH_EMAIL_FROM_ENV);
 }
 
 export function getResendWebhookSecret(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string | undefined {
   return readTrimmedEnv(env, AFENDA_RESEND_WEBHOOK_SECRET_ENV);
 }
@@ -169,7 +173,7 @@ const RESEND_WEBHOOK_PATH = "/api/webhooks/resend" as const;
 
 /** Public ERP ingress URL for Resend bounce/complaint webhooks (ARCH-EMAIL-001). */
 export function resolveResendWebhookEndpoint(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   return `${resolveBetterAuthBaseUrl(env)}${RESEND_WEBHOOK_PATH}`;
 }
@@ -190,7 +194,7 @@ export const AFENDA_OAUTH_GITHUB_CLIENT_SECRET_ENV =
   "AFENDA_OAUTH_GITHUB_CLIENT_SECRET" as const;
 
 export function resolveOAuthClientSecretFromEnv(
-  env: NodeJS.ProcessEnv,
+  env: AuthEnvReaderInput,
   envKey: string
 ): string | undefined {
   return readTrimmedEnv(env, envKey);
@@ -214,7 +218,7 @@ export type BetterAuthSocialProvidersConfig = Partial<
 
 /** Resolves Better Auth `socialProviders` from platform env (tenant secrets via env key). */
 export function resolveBetterAuthSocialProviders(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): BetterAuthSocialProvidersConfig | undefined {
   const providers: BetterAuthSocialProvidersConfig = {};
 

@@ -29,10 +29,9 @@ describe("@afenda/kernel business master data scaffold policy (TIP-008B Slice 4)
     );
   });
 
-  it("lists PKG-R02–R05 reserved packages without filesystem packages present", () => {
+  it("lists PKG-R03–R05 reserved package ids and blocks domain package directories", () => {
     expect(BUSINESS_MASTER_DATA_RESERVED_PACKAGES).toEqual([
       "@afenda/crm",
-      "@afenda/inventory",
       "@afenda/hrm",
       "@afenda/procurement",
     ]);
@@ -44,8 +43,12 @@ describe("@afenda/kernel business master data scaffold policy (TIP-008B Slice 4)
     for (const relativeDir of BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS) {
       expect(
         existsSync(join(repoRoot, relativeDir)),
-        `${relativeDir} must not exist until domain TIPs`
+        `${relativeDir} must not exist until ADR + registry promotion (ADR-0020 blocks packages/inventory)`
       ).toBe(false);
     }
+
+    expect(BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS).toContain(
+      "packages/inventory"
+    );
   });
 });

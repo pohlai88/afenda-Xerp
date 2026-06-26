@@ -1,0 +1,98 @@
+{
+  "catalogId": "auth-routes",
+  "exportedAt": "2026-06-26T18:02:48.343Z",
+  "lanes": [
+    "access",
+    "verify",
+    "recover",
+    "invite",
+    "workspace",
+    "security"
+  ],
+  "routes": [
+    {
+      "path": "/sign-in",
+      "lane": "access"
+    },
+    {
+      "path": "/sign-up",
+      "lane": "access"
+    },
+    {
+      "path": "/otp",
+      "lane": "access"
+    },
+    {
+      "path": "/mfa",
+      "lane": "security"
+    },
+    {
+      "path": "/mfa/recovery",
+      "lane": "security"
+    },
+    {
+      "path": "/verify-email",
+      "lane": "verify"
+    },
+    {
+      "path": "/verify-email/sent",
+      "lane": "verify"
+    },
+    {
+      "path": "/verify-email/expired",
+      "lane": "verify"
+    },
+    {
+      "path": "/verify-email/success",
+      "lane": "verify"
+    },
+    {
+      "path": "/forgot-password",
+      "lane": "recover"
+    },
+    {
+      "path": "/reset-password",
+      "lane": "recover"
+    },
+    {
+      "path": "/reset-password/success",
+      "lane": "recover"
+    },
+    {
+      "path": "/invite",
+      "lane": "invite"
+    },
+    {
+      "path": "/invite/accept",
+      "lane": "invite"
+    },
+    {
+      "path": "/invite/expired",
+      "lane": "invite"
+    },
+    {
+      "path": "/workspace/select",
+      "lane": "workspace"
+    },
+    {
+      "path": "/organization/select",
+      "lane": "workspace"
+    },
+    {
+      "path": "/session-expired",
+      "lane": "security"
+    },
+    {
+      "path": "/access-denied",
+      "lane": "security"
+    },
+    {
+      "path": "/security/review",
+      "lane": "security"
+    },
+    {
+      "path": "/error",
+      "lane": "security"
+    }
+  ]
+}

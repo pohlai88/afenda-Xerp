@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | Low |
 | **BRD reference** | internal — ADR-0001 platform entity ownership map |
-| **Enterprise readiness** | **27/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
+| **Enterprise readiness** | **28/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -156,8 +156,8 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Observability + audit | 4/5 | Registry cites `audit.schema.ts` audit owner — Grade B | Waiver `platform-authority-observability` |
 | Security + RBAC + RLS | 5/5 | Authorization consumer paths documented; permissions owns evaluation — Grade A | — |
 | Documentation + BRD traceability | 4/5 | FDR v2 + matrix + `check:documentation-drift` — Grade A | DoD #14 peer review still `[ ]` |
-| Maintainability + Clean Core | 4/5 | Clean Core A; drift tests guard path changes — Grade A | PKG010 shared `quality:kernel-context-surface` exit 1 (stale `dist/`) |
-| **Total (audit-adjusted)** | **27/30** | **~9.0 / 10 equivalent** — honest foundation-grade score today | |
+| Maintainability + Clean Core | 5/5 | Clean Core A; PKG010 `quality:kernel-context-surface` exit 0 (Slice 2) | Grade A |
+| **Total (audit-adjusted)** | **28/30** | **~9.3 / 10 equivalent** — foundation-grade with PKG010 gate green | |
 | **Total (evidence-qualified ceiling)** | **29/30** | Upper bound if §Waivers accepted, PKG010 dist gate green, peer review pending only | Not final 9.5 until Complete |
 
 Target at Complete: **29/30** per enterprise 9.5 benchmark ([ENTERPRISE-BENCHMARK.md §3](../../../.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md)).
@@ -325,11 +325,21 @@ Feature: Platform entity authority registry
 
 ### Slice 2 — Evidence-sync (PKG010 surface gate + readiness)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-26)  
 **Prerequisite:** `fdr-010-context-contracts` Slice 2 Delivered ✓ (`kernel-context-dist-freshness` closed)  
 **Type:** Evidence-sync  
 **Risk class:** Low  
 **Clean Core impact:** A→A
+
+#### Gate log (Slice 2 — 2026-06-26)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/kernel typecheck` | 0 | A |
+| `pnpm --filter @afenda/kernel test:run` | 0 | A (76 tests; platform subdomain 9) |
+| `pnpm quality:kernel-context-surface` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
+| `pnpm check:foundation-disposition` | 0 | A |
 
 #### Design (internal-guide)
 
@@ -420,19 +430,19 @@ The **29/30 evidence-qualified ceiling** is accepted only under these bounded as
 3. PKG010 dist freshness gap closes via `fdr-010-context-contracts` Slice 2 (`kernel-context-dist-freshness`).
 4. **Complete** status requires Architecture Authority peer review and waiver reconfirmation at PR merge.
 
-The **27/30 audit-adjusted** score is the honest foundation-grade benchmark today (~9.0 / 10 equivalent): strong contract, test, and security evidence from v2 audit gates; capped by open peer review, waived E2E, read-path observability, and PKG010 shared surface gate failure.
+The **28/30 audit-adjusted** score reflects strong contract, test, and security evidence with PKG010 dist gate green (Slice 2); capped by open peer review and waived E2E.
 
-Until DoD #14 closes and PKG010 dist gate is green, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
+Until DoD #14 closes, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
 
 **Promotion to Complete — enterprise 9.5 accepted requires:**
 
 1. Architecture Authority peer review approval (DoD #14).
-2. PKG010 `pnpm quality:kernel-context-surface` exit 0 (shared with context-contracts Slice 2).
+2. PKG010 `pnpm quality:kernel-context-surface` exit 0 ✓ (Slice 2 Delivered).
 3. Confirmation that §Waivers remain valid at merge time.
 4. FDR filename/status/index promotion to `[Complete]`.
 
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review and PKG010 dist gate closeout.**
+**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 28/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
 
 Research Slice 1 complete (2026-06-25). v2 audit attests `typecheck` and `test:run` exit 0 (platform subdomain 9 tests within 76 package-wide). Do not represent this FDR as **enterprise 9.5 complete** until peer review closes, PKG010 dist gate green, and status promotes to **Complete — enterprise 9.5 accepted**.

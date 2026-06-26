@@ -67,6 +67,18 @@
     {
       "name": "appearance",
       "description": "Tenant branding and appearance asset management."
+    },
+    {
+      "name": "inventory",
+      "description": "Inventory master data — products and warehouses."
+    },
+    {
+      "name": "products",
+      "description": "Product master data operations."
+    },
+    {
+      "name": "warehouses",
+      "description": "Warehouse master data operations."
     }
   ],
   "servers": [
@@ -2229,6 +2241,2921 @@
         }
       }
     },
+    "/inventory/products": {
+      "get": {
+        "operationId": "internalV1InventoryProductsGet",
+        "summary": "List products",
+        "description": "Returns product master records for the active tenant. Requires inventory product read permission.",
+        "tags": [
+          "inventory",
+          "products"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-required",
+        "x-afenda-contract-id": "internal.v1.inventory.products.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.product_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryProductsListResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "internalV1InventoryProductsPost",
+        "summary": "Create product",
+        "description": "Creates a tenant-scoped product master record. Requires inventory product manage permission.",
+        "tags": [
+          "inventory",
+          "products"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-required",
+        "x-afenda-contract-id": "internal.v1.inventory.products.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.product_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryProductCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryProductMutationResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "internalV1InventoryProductsPatch",
+        "summary": "Update product",
+        "description": "Updates a tenant-scoped product master record identified in the request body. Requires inventory product manage permission.",
+        "tags": [
+          "inventory",
+          "products"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-required",
+        "x-afenda-contract-id": "internal.v1.inventory.products.patch",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.product_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryProductUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryProductMutationResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/stock-levels": {
+      "get": {
+        "operationId": "internalV1InventoryStock-levelsGet",
+        "summary": "List stock levels",
+        "description": "Returns quantity-on-hand snapshots for the active company. Requires inventory product read permission.",
+        "tags": [
+          "inventory",
+          "stock"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-required",
+        "x-afenda-contract-id": "internal.v1.inventory.stock-levels.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.product_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryStockLevelsListResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/stock-movements": {
+      "post": {
+        "operationId": "internalV1InventoryStock-movementsPost",
+        "summary": "Record stock movement",
+        "description": "Records a stock movement and updates quantity on hand. Requires inventory stock adjust permission.",
+        "tags": [
+          "inventory",
+          "stock"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-required",
+        "x-afenda-contract-id": "internal.v1.inventory.stock-movements.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.stock_adjust",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryStockMovementCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryStockMovementMutationResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/warehouses": {
+      "get": {
+        "operationId": "internalV1InventoryWarehousesGet",
+        "summary": "List warehouses",
+        "description": "Returns warehouse master records for the active company. Requires inventory warehouse read permission.",
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-required",
+        "x-afenda-contract-id": "internal.v1.inventory.warehouses.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.warehouse_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryWarehousesListResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "internalV1InventoryWarehousesPost",
+        "summary": "Create warehouse",
+        "description": "Creates a company-scoped warehouse master record. Requires inventory warehouse manage permission.",
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-required",
+        "x-afenda-contract-id": "internal.v1.inventory.warehouses.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.warehouse_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryWarehouseCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryWarehouseMutationResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "internalV1InventoryWarehousesPatch",
+        "summary": "Update warehouse",
+        "description": "Updates a company-scoped warehouse master record identified in the request body. Requires inventory warehouse manage permission.",
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-required",
+        "x-afenda-contract-id": "internal.v1.inventory.warehouses.patch",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "inventory.warehouse_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryWarehouseUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InventoryWarehouseMutationResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/system-admin/users/invite": {
       "post": {
         "operationId": "internalV1System-adminUsersInvitePost",
@@ -4006,6 +6933,190 @@
         ],
         "description": "Single widget placement within the dashboard grid."
       },
+      "InventoryProductCreateRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable product name.",
+            "example": "Widget Pro"
+          },
+          "sku": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Tenant-unique stock keeping unit.",
+            "example": "SKU-001"
+          },
+          "status": {
+            "description": "Initial lifecycle status; defaults to draft.",
+            "example": "draft",
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
+          }
+        },
+        "required": [
+          "displayName",
+          "sku"
+        ],
+        "description": "Request body for creating a product master record."
+      },
+      "InventoryProductUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "description": "Updated human-readable product name.",
+            "example": "Widget Pro Plus",
+            "type": "string",
+            "minLength": 1
+          },
+          "productId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the product to update.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "sku": {
+            "description": "Updated tenant-unique stock keeping unit.",
+            "example": "SKU-001-A",
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "description": "Updated master data lifecycle status.",
+            "example": "active",
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
+          }
+        },
+        "required": [
+          "productId"
+        ],
+        "description": "Request body for updating a product master record."
+      },
+      "InventoryStockMovementCreateRequest": {
+        "type": "object",
+        "properties": {
+          "movementType": {
+            "type": "string",
+            "enum": [
+              "receipt",
+              "issue",
+              "adjustment"
+            ],
+            "description": "Stock movement classification.",
+            "example": "receipt"
+          },
+          "productId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the product master record.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "quantityDelta": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Signed decimal quantity change as a string.",
+            "example": "10.0000"
+          },
+          "reason": {
+            "description": "Optional human-readable reason for the movement.",
+            "example": "Cycle count adjustment",
+            "type": "string",
+            "minLength": 1
+          },
+          "warehouseId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the warehouse master record.",
+            "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
+          }
+        },
+        "required": [
+          "movementType",
+          "productId",
+          "quantityDelta",
+          "warehouseId"
+        ],
+        "description": "Request body for recording a stock movement."
+      },
+      "InventoryWarehouseCreateRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable warehouse name.",
+            "example": "Main Distribution Center"
+          },
+          "status": {
+            "description": "Initial lifecycle status; defaults to draft.",
+            "example": "draft",
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
+          },
+          "warehouseCode": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company-scoped warehouse code.",
+            "example": "WH-MAIN"
+          }
+        },
+        "required": [
+          "displayName",
+          "warehouseCode"
+        ],
+        "description": "Request body for creating a warehouse master record."
+      },
+      "InventoryWarehouseUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "description": "Updated human-readable warehouse name.",
+            "example": "Regional Distribution Center",
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "description": "Updated master data lifecycle status.",
+            "example": "active",
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
+          },
+          "warehouseCode": {
+            "description": "Updated company-scoped warehouse code.",
+            "example": "WH-REG-01",
+            "type": "string",
+            "minLength": 1
+          },
+          "warehouseId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the warehouse to update.",
+            "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
+          }
+        },
+        "required": [
+          "warehouseId"
+        ],
+        "description": "Request body for updating a warehouse master record."
+      },
       "SystemAdminUserInviteRequest": {
         "type": "object",
         "properties": {
@@ -4556,6 +7667,241 @@
         ],
         "additionalProperties": false,
         "description": "Acknowledgement that the stored dashboard layout was reset."
+      },
+      "InventoryProductsListResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryProductRecord"
+            },
+            "description": "Product master records for the active tenant."
+          }
+        },
+        "required": [
+          "products"
+        ],
+        "additionalProperties": false,
+        "description": "List of product master records within tenant scope."
+      },
+      "InventoryProductRecord": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "Human-readable product name.",
+            "example": "Widget Pro"
+          },
+          "productId": {
+            "type": "string",
+            "description": "UUID of the product master record.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "sku": {
+            "type": "string",
+            "description": "Tenant-unique stock keeping unit.",
+            "example": "SKU-001"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ],
+            "description": "Master data lifecycle status.",
+            "example": "draft"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "UUID of the owning tenant.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          }
+        },
+        "required": [
+          "displayName",
+          "productId",
+          "sku",
+          "status",
+          "tenantId"
+        ],
+        "additionalProperties": false,
+        "description": "Tenant-scoped product master data record."
+      },
+      "InventoryProductMutationResponse": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "UUID of the affected product master record.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          }
+        },
+        "required": [
+          "productId"
+        ],
+        "additionalProperties": false,
+        "description": "Identifier returned after a product create or update."
+      },
+      "InventoryStockLevelsListResponse": {
+        "type": "object",
+        "properties": {
+          "stockLevels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryStockLevelRecord"
+            },
+            "description": "Stock level snapshots for the active company."
+          }
+        },
+        "required": [
+          "stockLevels"
+        ],
+        "additionalProperties": false,
+        "description": "List of quantity-on-hand snapshots within company scope."
+      },
+      "InventoryStockLevelRecord": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "UUID of the owning company.",
+            "example": "2b3c4d5e-6f70-8192-a3b4-c5d6e7f8091a"
+          },
+          "productId": {
+            "type": "string",
+            "description": "UUID of the product master record.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "quantityOnHand": {
+            "type": "string",
+            "description": "Decimal quantity on hand as a string.",
+            "example": "42.0000"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "UUID of the owning tenant.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          },
+          "warehouseId": {
+            "type": "string",
+            "description": "UUID of the warehouse master record.",
+            "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
+          }
+        },
+        "required": [
+          "companyId",
+          "productId",
+          "quantityOnHand",
+          "tenantId",
+          "warehouseId"
+        ],
+        "additionalProperties": false,
+        "description": "Quantity-on-hand snapshot for a product at a warehouse."
+      },
+      "InventoryStockMovementMutationResponse": {
+        "type": "object",
+        "properties": {
+          "movementId": {
+            "type": "string",
+            "description": "UUID of the recorded stock movement.",
+            "example": "7c6b5a49-3e2f-1098-7654-3210fedcba98"
+          },
+          "quantityOnHand": {
+            "type": "string",
+            "description": "Resulting quantity on hand after the movement.",
+            "example": "52.0000"
+          }
+        },
+        "required": [
+          "movementId",
+          "quantityOnHand"
+        ],
+        "additionalProperties": false,
+        "description": "Result returned after recording a stock movement."
+      },
+      "InventoryWarehousesListResponse": {
+        "type": "object",
+        "properties": {
+          "warehouses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryWarehouseRecord"
+            },
+            "description": "Warehouse master records for the active company."
+          }
+        },
+        "required": [
+          "warehouses"
+        ],
+        "additionalProperties": false,
+        "description": "List of warehouse master records within company scope."
+      },
+      "InventoryWarehouseRecord": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "UUID of the owning company.",
+            "example": "2b3c4d5e-6f70-8192-a3b4-c5d6e7f8091a"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Human-readable warehouse name.",
+            "example": "Main Distribution Center"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ],
+            "description": "Master data lifecycle status.",
+            "example": "draft"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "UUID of the owning tenant.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          },
+          "warehouseCode": {
+            "type": "string",
+            "description": "Company-scoped warehouse code.",
+            "example": "WH-MAIN"
+          },
+          "warehouseId": {
+            "type": "string",
+            "description": "UUID of the warehouse master record.",
+            "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
+          }
+        },
+        "required": [
+          "companyId",
+          "displayName",
+          "status",
+          "tenantId",
+          "warehouseCode",
+          "warehouseId"
+        ],
+        "additionalProperties": false,
+        "description": "Company-scoped warehouse master data record."
+      },
+      "InventoryWarehouseMutationResponse": {
+        "type": "object",
+        "properties": {
+          "warehouseId": {
+            "type": "string",
+            "description": "UUID of the affected warehouse master record.",
+            "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
+          }
+        },
+        "required": [
+          "warehouseId"
+        ],
+        "additionalProperties": false,
+        "description": "Identifier returned after a warehouse create or update."
       },
       "SystemAdminUserInviteResponse": {
         "type": "object",

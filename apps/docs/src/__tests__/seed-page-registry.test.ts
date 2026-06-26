@@ -48,6 +48,10 @@ describe("@afenda/docs seed page registry (filesystem)", () => {
 
   it("includes every seed section id in the nav contract", () => {
     expect(docsSeedSections.map((section) => section.id)).toEqual([
+      "use-erp",
+      "configure-tenant",
+      "operate-tenant",
+      "integrate",
       "getting-started",
       "monorepo-map",
       "apps",

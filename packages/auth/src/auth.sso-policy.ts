@@ -4,9 +4,10 @@ import {
   getTenantSsoProviderByProviderId,
   resolveTenantIdFromSsoEmailDomain,
 } from "@afenda/database";
-
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import { isAuthInvitationGateEnabled } from "./auth.invitation.js";
 
 /** Better Auth SSO callback routes attested in integration tests (Slice 13a). */
@@ -23,7 +24,7 @@ export class AuthSsoInvitationRejectedError extends Error {
 
 export interface AssertSsoSignUpInvitationAllowedInput {
   readonly email: string;
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: AuthEnvReaderInput;
   readonly ssoProviderId?: string;
   readonly tenantId?: string;
 }
@@ -72,7 +73,7 @@ async function resolveInvitationTenantId(
 export async function assertSsoSignUpInvitationAllowed(
   input: AssertSsoSignUpInvitationAllowedInput
 ): Promise<void> {
-  const env = input.env ?? process.env;
+  const env = input.env ?? readAuthRuntimeEnv();
 
   if (!isAuthInvitationGateEnabled(env)) {
     return;
@@ -123,7 +124,7 @@ export function isAfendaAuthSsoCallbackPath(path: string): boolean {
 }
 
 export function createAfendaSsoPluginOptions(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ) {
   return {
     disableImplicitSignUp: true,

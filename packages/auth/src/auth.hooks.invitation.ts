@@ -1,7 +1,8 @@
 import { APIError, createAuthMiddleware } from "better-auth/api";
-
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   createAuthCorrelationId,
   readAuthEmailFromBody,
@@ -25,7 +26,7 @@ interface AuthInvitationHookContext {
 export async function handleAfendaAuthInvitationBeforeHook(
   ctx: AuthInvitationHookContext,
   persist: PersistAuthAuditEvent = persistAuthAuditEvent,
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): Promise<void> {
   if (ctx.path !== "/sign-up/email" || !isAuthInvitationGateEnabled(env)) {
     return;
@@ -97,7 +98,7 @@ export async function handleAfendaAuthInvitationBeforeHook(
 
 /** Better Auth before-hook — blocks /sign-up/email without a valid invitation token. */
 export function createAfendaAuthInvitationBeforeHook(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ) {
   return createAuthMiddleware(async (ctx) => {
     await handleAfendaAuthInvitationBeforeHook(

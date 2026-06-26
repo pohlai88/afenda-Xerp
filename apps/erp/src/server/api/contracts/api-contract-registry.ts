@@ -1,6 +1,16 @@
 import type { ApiRouteContract } from "./api-contract";
 import { authMembershipsGetContract } from "./auth/auth-memberships.contract";
 import { healthGetContract } from "./health.api-contract";
+import {
+  inventoryProductsGetContract,
+  inventoryProductsPatchContract,
+  inventoryProductsPostContract,
+  inventoryStockLevelsGetContract,
+  inventoryStockMovementsPostContract,
+  inventoryWarehousesGetContract,
+  inventoryWarehousesPatchContract,
+  inventoryWarehousesPostContract,
+} from "./inventory/inventory.contract";
 import { clientErrorPostContract } from "./observability/client-error.contract";
 import { tenantBrandLogoUploadPostContract } from "./storage/tenant-brand-logo.contract";
 import {
@@ -22,6 +32,14 @@ export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
   dashboardLayoutGetContract,
   dashboardLayoutPutContract,
   healthGetContract,
+  inventoryProductsGetContract,
+  inventoryProductsPatchContract,
+  inventoryProductsPostContract,
+  inventoryStockLevelsGetContract,
+  inventoryStockMovementsPostContract,
+  inventoryWarehousesGetContract,
+  inventoryWarehousesPatchContract,
+  inventoryWarehousesPostContract,
   systemAdminAuditEventsGetContract,
   systemAdminMembershipRolePostContract,
   systemAdminUserInvitePostContract,
@@ -35,6 +53,14 @@ export const API_CONTRACTS = [
   dashboardLayoutGetContract,
   dashboardLayoutPutContract,
   dashboardLayoutDeleteContract,
+  inventoryProductsGetContract,
+  inventoryProductsPostContract,
+  inventoryProductsPatchContract,
+  inventoryStockLevelsGetContract,
+  inventoryStockMovementsPostContract,
+  inventoryWarehousesGetContract,
+  inventoryWarehousesPostContract,
+  inventoryWarehousesPatchContract,
   systemAdminUserInvitePostContract,
   systemAdminMembershipRolePostContract,
   systemAdminAuditEventsGetContract,

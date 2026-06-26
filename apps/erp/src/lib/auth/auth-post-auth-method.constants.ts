@@ -1,3 +1,6 @@
+import type { EnvReaderInput } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
+
 export const AFENDA_POST_AUTH_SIGN_IN_METHOD_COOKIE =
   "afenda-post-auth-sign-in-method" as const;
 
@@ -23,6 +26,10 @@ export type PostAuthSignInMethod =
 export const AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS_ENV =
   "AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS" as const;
 
+export type SecurityReviewOnPasswordlessEnvSource = EnvReaderInput<
+  typeof AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS_ENV
+>;
+
 export function isPasswordlessPostAuthSignInMethod(
   method: string | null | undefined
 ): method is (typeof PASSWORDLESS_POST_AUTH_SIGN_IN_METHODS)[number] {
@@ -36,7 +43,7 @@ export function isPasswordlessPostAuthSignInMethod(
 }
 
 export function isSecurityReviewOnPasswordlessActive(
-  env: NodeJS.ProcessEnv = process.env
+  env: SecurityReviewOnPasswordlessEnvSource = readRuntimeEnvSource()
 ): boolean {
   return env[AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS_ENV] === "true";
 }

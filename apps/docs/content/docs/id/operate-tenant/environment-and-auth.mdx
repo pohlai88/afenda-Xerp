@@ -1,0 +1,31 @@
+---
+title: Environment and authentication
+description: Configure tenant auth, Supabase, and Better Auth environment variables.
+audience: tenant-devops
+relatedRoutes:
+  - /sign-in
+  - /system-admin/settings
+catalogBindings:
+  - env
+  - auth-routes
+---
+
+# Environment and authentication
+
+Tenant DevOps operators configure authentication and platform connectivity through governed environment variables. **Never commit secret values** to documentation or source control — use `.env.secret` and `pnpm env:sync`.
+
+## Auth-related variables
+
+Review Supabase public keys, Better Auth URL, and OAuth client IDs in `.env.config`. Pair secrets (signing keys, database passwords) from `.env.secret` only on deployment targets.
+
+## Validate auth routes
+
+After changing auth configuration, confirm sign-in, MFA, and invite flows against the synced route catalog:
+
+<GeneratedReference catalog="auth-routes" />
+
+## Environment variable names
+
+Names and descriptions only — values are never exported to docs.
+
+<GeneratedReference catalog="env" />

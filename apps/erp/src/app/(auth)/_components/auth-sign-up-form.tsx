@@ -11,10 +11,11 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import {
+  AUTH_SIGN_UP_COPY,
   INVITATION_HINT,
   INVITATION_LEAD,
   MISSING_INVITATION_HINT,
@@ -45,10 +46,12 @@ function SignUpInvitationProblemState() {
       />
 
       <AuthForm.Alternates>
-        <AuthForm.AlternateLabel>Already have access?</AuthForm.AlternateLabel>
+        <AuthForm.AlternateLabel>
+          {AUTH_SIGN_UP_COPY.alreadyHaveAccessLabel}
+        </AuthForm.AlternateLabel>
         <AuthForm.AlternateNotice>
           <Link className="erp-auth-form__link" href={AUTH_FORM_SIGN_IN_LINK}>
-            Return to sign in
+            {AUTH_SIGN_UP_COPY.returnToSignInLink}
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
@@ -67,9 +70,9 @@ export function AuthSignUpForm() {
   const [email, setEmail] = useState(prefilledEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
@@ -78,30 +81,28 @@ export function AuthSignUpForm() {
       return;
     }
 
-    setIsSubmitting(true);
+    startTransition(async () => {
+      const trimmedName = name.trim();
+      const displayName =
+        trimmedName.length > 0
+          ? trimmedName
+          : (email.trim().split("@")[0] ?? "User");
 
-    const trimmedName = name.trim();
-    const displayName =
-      trimmedName.length > 0
-        ? trimmedName
-        : (email.trim().split("@")[0] ?? "User");
+      const result = await submitInvitationSignUp({
+        email: email.trim(),
+        invitationToken,
+        name: displayName,
+        password,
+      });
 
-    const result = await submitInvitationSignUp({
-      email: email.trim(),
-      invitationToken,
-      name: displayName,
-      password,
+      if (result.error) {
+        setError(mapAuthClientError(result.error.message, "signUpFailed"));
+        return;
+      }
+
+      router.replace(resolveSignUpSuccessRedirect());
+      router.refresh();
     });
-
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "signUpFailed"));
-      return;
-    }
-
-    router.replace(resolveSignUpSuccessRedirect());
-    router.refresh();
   }
 
   if (!hasInvitation) {
@@ -121,20 +122,24 @@ export function AuthSignUpForm() {
 
       <AuthForm.Fields onSubmit={handleSubmit}>
         <Field>
-          <FieldLabel htmlFor="auth-sign-up-name">Full name</FieldLabel>
+          <FieldLabel htmlFor="auth-sign-up-name">
+            {AUTH_SIGN_UP_COPY.nameLabel}
+          </FieldLabel>
           <Input
             autoComplete="name"
             id="auth-sign-up-name"
             name="name"
             onChange={(event) => setName(event.target.value)}
-            placeholder="Your full name"
+            placeholder={AUTH_SIGN_UP_COPY.namePlaceholder}
             type="text"
             value={name}
           />
           <AuthForm.FieldHint>{SIGN_UP_NAME_HINT}</AuthForm.FieldHint>
         </Field>
         <Field>
-          <FieldLabel htmlFor="auth-sign-up-email">Email</FieldLabel>
+          <FieldLabel htmlFor="auth-sign-up-email">
+            {AUTH_SIGN_UP_COPY.emailLabel}
+          </FieldLabel>
           <Input
             aria-describedby={error ? "auth-sign-up-email-error" : undefined}
             aria-invalid={!!error}
@@ -142,7 +147,7 @@ export function AuthSignUpForm() {
             id="auth-sign-up-email"
             name="email"
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="name@company.com"
+            placeholder={AUTH_SIGN_UP_COPY.emailPlaceholder}
             readOnly={prefilledEmail.length > 0}
             required
             type="email"
@@ -154,14 +159,16 @@ export function AuthSignUpForm() {
           <AuthForm.FieldHint>{SIGN_UP_EMAIL_HINT}</AuthForm.FieldHint>
         </Field>
         <Field>
-          <FieldLabel htmlFor="auth-sign-up-password">Password</FieldLabel>
+          <FieldLabel htmlFor="auth-sign-up-password">
+            {AUTH_SIGN_UP_COPY.passwordLabel}
+          </FieldLabel>
           <Input
             aria-invalid={!!error}
             autoComplete="new-password"
             id="auth-sign-up-password"
             name="password"
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Create a strong password"
+            placeholder={AUTH_SIGN_UP_COPY.passwordPlaceholder}
             required
             type="password"
             value={password}
@@ -170,20 +177,21 @@ export function AuthSignUpForm() {
         </Field>
         <div className="erp-auth-form__submit-row">
           <Button
-            disabled={isSubmitting}
+            aria-busy={isPending ? "true" : undefined}
+            disabled={isPending}
             emphasis="solid"
             intent="primary"
             presentation="default"
             size="md"
             type="submit"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <Spinner aria-label="Creating account" size="sm" />
-                Creating account…
+                {AUTH_SIGN_UP_COPY.creatingAccount}
               </>
             ) : (
-              "Create account"
+              AUTH_SIGN_UP_COPY.createAccountButton
             )}
           </Button>
         </div>
@@ -191,11 +199,11 @@ export function AuthSignUpForm() {
 
       <AuthForm.Alternates>
         <AuthForm.AlternateLabel>
-          Already have an account?
+          {AUTH_SIGN_UP_COPY.alreadyHaveAccountLabel}
         </AuthForm.AlternateLabel>
         <AuthForm.AlternateNotice>
           <Link className="erp-auth-form__link" href={AUTH_FORM_SIGN_IN_LINK}>
-            Sign in
+            {AUTH_SIGN_UP_COPY.signInLink}
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>

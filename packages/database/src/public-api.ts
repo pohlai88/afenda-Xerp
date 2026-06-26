@@ -127,10 +127,13 @@ export {
   type EntitlementType,
   FEATURE_FLAG_ROLLOUTS,
   type FeatureFlagRollout,
+  isMasterDataRecordStatus,
   KILL_SWITCH_SEVERITIES,
   type KillSwitchSeverity,
   LEGAL_ENTITY_COMPANY_TYPES,
   type LegalEntityCompanyType,
+  MASTER_DATA_RECORD_STATUSES,
+  type MasterDataRecordStatus,
   MEMBERSHIP_SCOPE_TYPES,
   type MembershipScopeType,
   type MembershipStatus,
@@ -272,6 +275,11 @@ export {
   userId,
   userIdRef,
 } from "./ids.js";
+export {
+  assertMasterDataNaturalKey,
+  InvalidMasterDataNaturalKeyError,
+  MAX_MASTER_DATA_NATURAL_KEY_LENGTH,
+} from "./master-data/master-data-natural-key.js";
 export {
   hashMemberInvitationToken,
   type MemberInvitationRow,
@@ -462,6 +470,26 @@ export {
 } from "./policy/policy.validation.js";
 export { createPgPool, DEFAULT_POOL_CONFIG } from "./pool.js";
 export {
+  buildProductInsertRow,
+  buildProductUpdatePatch,
+  type ProductAuthorityRecord,
+  type ProductInsertRow,
+  type ProductUpdatePatch,
+  type ProductWriteInput,
+} from "./product/product.contract.js";
+export {
+  findProductById,
+  type InsertProductInput,
+  insertProduct,
+  listProductsByTenant,
+  type ProductAuditContext,
+  type ProductMutationResult,
+  ProductNotFoundError,
+  ProductSkuConflictError,
+  type UpdateProductInput,
+  updateProduct,
+} from "./product/product.service.js";
+export {
   assertProjectSlug,
   buildProjectInsertRow,
   buildProjectUpdatePatch,
@@ -553,6 +581,8 @@ export {
 export { resetRuntimeSingleton } from "./runtime-singleton.js";
 export {
   type AuthSchema,
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
   auditEvents,
   auditResultEnum,
   auditSourceEnum,
@@ -577,6 +607,7 @@ export {
   featureFlagRolloutEnum,
   killSwitchSeverityEnum,
   legalEntityOwnership,
+  masterDataRecordStatusEnum,
   memberInvitations,
   membershipScopeEnum,
   membershipStatusEnum,
@@ -599,12 +630,15 @@ export {
   policyEffectEnum,
   policyScopeEnum,
   policyStatusEnum,
+  products,
   projectLifecycleStatusEnum,
   projects,
   rolePermissions,
   roleScopeEnum,
   roleStatusEnum,
   roles,
+  stockLevels,
+  stockMovements,
   storageObjects,
   storageProviderEnum,
   teams,
@@ -618,6 +652,7 @@ export {
   userPreferences,
   userStatusEnum,
   users,
+  warehouses,
 } from "./schema/index.js";
 export { PLATFORM_PERMISSION_CATALOG } from "./seeds/platform-permissions.catalog.js";
 export {
@@ -629,6 +664,24 @@ export type {
   SeedVerificationResult,
 } from "./seeds/seed-types.js";
 export { verifyPlatformSeed } from "./seeds/seed-verify.js";
+export {
+  isStockMovementType,
+  STOCK_MOVEMENT_TYPES,
+  type StockLevelRecord,
+  type StockMovementType,
+  type StockMovementWriteInput,
+} from "./stock/stock.contract.js";
+export {
+  listStockLevelsByTenant,
+  type RecordStockMovementInput,
+  recordStockMovement,
+  type StockAuditContext,
+  StockInsufficientQuantityError,
+  type StockMovementMutationResult,
+  StockProductNotFoundError,
+  StockScopeMismatchError,
+  StockWarehouseNotFoundError,
+} from "./stock/stock.service.js";
 export {
   assertDatabaseConnectionConsumer,
   DATABASE_CONNECTION_CONSUMERS,
@@ -831,6 +884,27 @@ export {
   type UserPreferencesMutationResult,
   upsertUserPreferencesSection,
 } from "./user-preferences/user-preferences.service.js";
+export {
+  buildWarehouseInsertRow,
+  buildWarehouseUpdatePatch,
+  type WarehouseAuthorityRecord,
+  type WarehouseInsertRow,
+  type WarehouseUpdatePatch,
+  type WarehouseWriteInput,
+} from "./warehouse/warehouse.contract.js";
+export {
+  findWarehouseById,
+  type InsertWarehouseInput,
+  insertWarehouse,
+  listWarehousesByTenantCompany,
+  type UpdateWarehouseInput,
+  updateWarehouse,
+  type WarehouseAuditContext,
+  WarehouseCodeConflictError,
+  type WarehouseMutationResult,
+  WarehouseNotFoundError,
+  WarehouseScopeMismatchError,
+} from "./warehouse/warehouse.service.js";
 export type {
   CompanyLookupRow as LegalEntityLookupRow,
   OrganizationLookupRow as OrganizationUnitLookupRow,

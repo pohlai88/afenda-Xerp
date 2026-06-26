@@ -1,7 +1,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import type { ApiRouteContract } from "@/server/api/contracts/api-contract";
+import type {
+  ApiIdempotencyPolicy,
+  ApiRouteContract,
+} from "@/server/api/contracts/api-contract";
 import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 import { API_GOVERNANCE_DOCUMENTATION_PATH } from "@/server/api/contracts/api-governance.constants";
 import { isPublicAuthPolicy } from "@/server/api/contracts/auth-policy.contract";
@@ -32,6 +35,16 @@ function resolveExpectedOperationDescription(
     contract.description ??
     `Governed ${contract.method} ${contract.path} (${contract.stability}).`
   );
+}
+
+type ApiContractWithIdempotency = ApiRouteContract<unknown, unknown> & {
+  readonly idempotency: ApiIdempotencyPolicy;
+};
+
+function hasIdempotencyPolicy(
+  contract: ApiRouteContract<unknown, unknown>
+): contract is ApiContractWithIdempotency {
+  return contract.idempotency !== undefined;
 }
 
 describe("OpenAPI document generation", () => {
@@ -94,6 +107,12 @@ describe("OpenAPI document generation", () => {
         name: "appearance",
         description: "Tenant branding and appearance asset management.",
       },
+      {
+        name: "inventory",
+        description: "Inventory master data — products and warehouses.",
+      },
+      { name: "products", description: "Product master data operations." },
+      { name: "warehouses", description: "Warehouse master data operations." },
     ]);
   });
 
@@ -303,7 +322,11 @@ describe("OpenAPI document generation", () => {
 
   it("documents optional idempotency header when contract policy is optional", () => {
     for (const contract of API_CONTRACTS) {
-      if (contract.idempotency?.mode !== "optional") {
+      if (!hasIdempotencyPolicy(contract)) {
+        continue;
+      }
+
+      if (contract.idempotency.mode !== "optional") {
         continue;
       }
 

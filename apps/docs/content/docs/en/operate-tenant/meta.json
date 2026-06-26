@@ -1,0 +1,5 @@
+{
+  "title": "Operate Tenant",
+  "icon": "Server",
+  "pages": ["index", "environment-and-auth", "troubleshooting-login"]
+}

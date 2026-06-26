@@ -1,6 +1,8 @@
 import { getTableName } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
   auditEvents,
   authIdentityLinks,
   buildSupabaseDatabaseUrl,
@@ -39,6 +41,7 @@ import {
   platformKillSwitches,
   platformSchema,
   policies,
+  products,
   projects,
   RLS_GRANT_SCOPE_TYPES,
   RLS_SESSION_KEYS,
@@ -46,6 +49,8 @@ import {
   resolveMigrationDatabaseUrl,
   rolePermissions,
   roles,
+  stockLevels,
+  stockMovements,
   storageObjects,
   teams,
   tenantCommercialPlans,
@@ -55,6 +60,7 @@ import {
   usageLimitCounters,
   userPreferences,
   users,
+  warehouses,
   withRlsSessionContext,
 } from "../index.js";
 
@@ -67,6 +73,8 @@ const SUPABASE_ENV = {
 } as const;
 
 const PLATFORM_TABLES = {
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
   auditEvents,
   authIdentityLinks,
   tenants,
@@ -85,8 +93,11 @@ const PLATFORM_TABLES = {
   platformFeatureFlags,
   platformKillSwitches,
   policies,
+  products,
   projects,
   rolePermissions,
+  stockLevels,
+  stockMovements,
   storageObjects,
   teams,
   tenantCommercialPlans,
@@ -94,6 +105,7 @@ const PLATFORM_TABLES = {
   tenantSsoProviders,
   usageLimitCounters,
   userPreferences,
+  warehouses,
 } as const;
 
 describe("@afenda/database package", () => {

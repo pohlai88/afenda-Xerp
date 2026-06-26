@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-26-v11` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v13` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -49,7 +49,8 @@
 | PKG001_APPSHELL | `@afenda/appshell` | amber-lane | no | see fdr-001-shell-composition |
 | PKG002_AUTH | `@afenda/auth` | amber-lane | yes | see fdr-002-auth-disposition |
 | PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see fdr-009-rollout-flags |
-| PKGR01_ACCOUNTING | `@afenda/accounting` | green-lane | no | see fdr-r01-accounting-contracts |
+| PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see fdr-r01-accounting-contracts |
+| PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see fdr-r02-inventory-master-data |
 | TIP_ARCHIVE | `docs/delivery/tips` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in FDR `§Remaining gaps` under [`docs/delivery/FDR/`](../delivery/FDR/).

@@ -16,7 +16,7 @@ const INDEX_PATH = path.join(REPO_ROOT, "docs/delivery/fdr-status-index.md");
 describe("FDR catalog scaffold lock", () => {
   it("catalog data matches FDR_CATALOG_TOTAL", () => {
     expect(fdrCatalogEntries.length).toBe(FDR_CATALOG_TOTAL);
-    expect(FDR_CATALOG_TOTAL).toBe(33);
+    expect(FDR_CATALOG_TOTAL).toBe(34);
   });
 
   it("every register row has an index-linked delivery file on disk", () => {

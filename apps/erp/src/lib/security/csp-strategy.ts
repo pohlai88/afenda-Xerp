@@ -1,5 +1,6 @@
 import { isDevHarnessRoute, isPublicRoute } from "@/lib/auth/public-routes";
 import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
 
 export const ERP_CSP_STRATEGY_ENV = "ERP_CSP_STRATEGY" as const;
 
@@ -18,7 +19,7 @@ function isCspStrategy(value: string): value is CspStrategy {
 }
 
 export function getCspStrategy(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): CspStrategy {
   const raw = env[ERP_CSP_STRATEGY_ENV]?.trim().toLowerCase();
 
@@ -31,7 +32,7 @@ export function getCspStrategy(
 
 export function resolveCspPolicyMode(
   pathname: string,
-  env: EnvReaderSource = process.env,
+  env: EnvReaderSource = readRuntimeEnvSource(),
   isDevelopment = env["NODE_ENV"] === "development"
 ): CspPolicyMode {
   const strategy = getCspStrategy(env);
@@ -58,14 +59,14 @@ export function resolveCspPolicyMode(
 
 export function shouldOptIntoRequestBoundRendering(
   pathname: string,
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): boolean {
   return resolveCspPolicyMode(pathname, env) === "nonce";
 }
 
 /** Protected layouts always use nonce CSP unless the deployment opts into full SRI. */
 export function requiresProtectedLayoutConnection(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): boolean {
   return getCspStrategy(env) !== "sri";
 }

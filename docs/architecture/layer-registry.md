@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v2` |
 | **Invariant** | ARCH-002 — every package belongs to exactly one layer |
 
 Validation at baseline is against the **proposed model** pending ADR-0002 acceptance.
@@ -54,11 +54,10 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 22)
+## Package Layer Assignments (active — 21)
 
 | Package | Layer | Rank |
 |---------|-------|------|
-| `@afenda/accounting` | Domain | 5 |
 | `@afenda/architecture-authority` | Platform | 1 |
 | `@afenda/ai-governance` | Platform | 1 |
 | `@afenda/auth` | Platform | 1 |
@@ -138,10 +137,10 @@ No domain packages exist at baseline. The following structure is reserved for TI
 
 ```text
 Domain
-├─ Accounting      (@afenda/accounting)
+├─ Accounting      (kernel `@afenda/kernel/accounting-domain` — PKG-R01 retired ADR-0020)
 ├─ HRM             (@afenda/hrm)
 ├─ CRM             (@afenda/crm)
-├─ Inventory       (@afenda/inventory)
+├─ Inventory       (@afenda/inventory — retired ADR-0020; persistence @afenda/database)
 └─ Procurement     (@afenda/procurement)
 ```
 

@@ -295,6 +295,34 @@
       "when": 1782471841114,
       "tag": "20260626110401_polite_lucky_pierre",
       "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1782493111927,
+      "tag": "20260626165831_wandering_nitro",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1782493200000,
+      "tag": "20260626170000_inventory_master_data_rls",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1782498668991,
+      "tag": "20260626183108_amusing_liz_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1782498720000,
+      "tag": "20260626183200_inventory_stock_rls",
+      "breakpoints": true
     }
   ]
 }

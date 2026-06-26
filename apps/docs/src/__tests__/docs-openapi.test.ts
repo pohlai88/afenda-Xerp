@@ -9,18 +9,11 @@ import { OPENAPI_DOCUMENT_ID, shouldGenerateDocsOpenApiPage } from "@/lib/openap
 const appRoot = process.cwd();
 const openApiSpecPath = join(appRoot, "openapi/afenda-internal-v1.openapi.json");
 
-function apiReferenceDir(locale: DocsLocale): string {
-  return join(
-    docsLocaleContentRoot(locale),
-    `${docsGuidesFolderGroup}/api-reference`
-  );
+function internalV1Dir(locale: DocsLocale): string {
+  return join(docsLocaleContentRoot(locale), "integrate/internal-v1");
 }
 
-const enApiReferenceDir = apiReferenceDir(docsDefaultLocale);
-const guidesMetaPath = join(
-  docsLocaleContentRoot(docsDefaultLocale),
-  `${docsGuidesFolderGroup}/meta.json`
-);
+const enInternalV1Dir = internalV1Dir(docsDefaultLocale);
 
 function countSpecOperations(): number {
   const spec = JSON.parse(readFileSync(openApiSpecPath, "utf8")) as {
@@ -53,12 +46,32 @@ describe("@afenda/docs OpenAPI reference", () => {
     expect(spec.info?.title).toBeTruthy();
   });
 
-  it("registers api-reference in Guides seed navigation", () => {
-    const guidesMeta = JSON.parse(readFileSync(guidesMetaPath, "utf8")) as {
-      pages: string[];
-    };
+  it("registers internal-v1 in en integrate meta.json", () => {
+    const integrateMeta = JSON.parse(
+      readFileSync(
+        join(docsLocaleContentRoot(docsDefaultLocale), "integrate/meta.json"),
+        "utf8"
+      )
+    ) as { pages: string[] };
 
-    expect(guidesMeta.pages).toContain("api-reference");
+    expect(integrateMeta.pages).toContain("internal-v1");
+  });
+
+  it("registers internal-v1 in legacy guides locales via integrate section", () => {
+    for (const locale of docsLocales) {
+      if (locale === docsDefaultLocale) {
+        continue;
+      }
+
+      const integrateMeta = JSON.parse(
+        readFileSync(
+          join(docsLocaleContentRoot(locale), "integrate/meta.json"),
+          "utf8"
+        )
+      ) as { pages: string[] };
+
+      expect(integrateMeta.pages).toContain("internal-v1");
+    }
   });
 
   it("aligns OPENAPI_DOCUMENT_ID across server and generator script", () => {
@@ -74,6 +87,7 @@ describe("@afenda/docs OpenAPI reference", () => {
     expect(OPENAPI_DOCUMENT_ID).toBe("./openapi/afenda-internal-v1.openapi.json");
     expect(serverSource).toContain(OPENAPI_DOCUMENT_ID);
     expect(generatorSource).toContain(OPENAPI_DOCUMENT_ID);
+    expect(generatorSource).toContain("integrate/internal-v1");
   });
 
   it("wires fumadocs-openapi loader plugin and CSS preset", () => {
@@ -100,7 +114,7 @@ describe("@afenda/docs OpenAPI reference", () => {
 
   it("generates one MDX operation page per OpenAPI operation with _openapi frontmatter", () => {
     const operationCount = countSpecOperations();
-    const enMdxFiles = readdirSync(enApiReferenceDir).filter(
+    const enMdxFiles = readdirSync(enInternalV1Dir).filter(
       (entry) => entry.endsWith(".mdx") && entry !== "index.mdx"
     );
 
@@ -108,18 +122,18 @@ describe("@afenda/docs OpenAPI reference", () => {
     expect(enMdxFiles.length).toBe(operationCount);
 
     for (const fileName of enMdxFiles) {
-      const source = readFileSync(join(enApiReferenceDir, fileName), "utf8");
+      const source = readFileSync(join(enInternalV1Dir, fileName), "utf8");
       expect(source).toContain("_openapi:");
       expect(source).toContain(OPENAPI_DOCUMENT_ID);
       expect(source).toMatch(/<Comp document=/);
     }
   });
 
-  it("lists every operation slug in en api-reference meta.json", () => {
+  it("lists every operation slug in en internal-v1 meta.json", () => {
     const meta = JSON.parse(
-      readFileSync(join(enApiReferenceDir, "meta.json"), "utf8")
+      readFileSync(join(enInternalV1Dir, "meta.json"), "utf8")
     ) as { pages: string[] };
-    const operationSlugs = readdirSync(enApiReferenceDir)
+    const operationSlugs = readdirSync(enInternalV1Dir)
       .filter((entry) => entry.endsWith(".mdx") && entry !== "index.mdx")
       .map((entry) => entry.replace(/\.mdx$/, ""));
 
@@ -132,12 +146,12 @@ describe("@afenda/docs OpenAPI reference", () => {
 
   it("generates the same operation count for every locale as en", () => {
     const operationCount = countSpecOperations();
-    const enMdxFiles = readdirSync(enApiReferenceDir).filter(
+    const enMdxFiles = readdirSync(enInternalV1Dir).filter(
       (entry) => entry.endsWith(".mdx") && entry !== "index.mdx"
     );
 
     for (const locale of docsLocales) {
-      const localeDir = apiReferenceDir(locale);
+      const localeDir = internalV1Dir(locale);
       const localeMdxFiles = readdirSync(localeDir).filter(
         (entry) => entry.endsWith(".mdx") && entry !== "index.mdx"
       );
@@ -147,9 +161,9 @@ describe("@afenda/docs OpenAPI reference", () => {
     }
   });
 
-  it("lists every operation slug in each locale api-reference meta.json", () => {
+  it("lists every operation slug in each locale internal-v1 meta.json", () => {
     for (const locale of docsLocales) {
-      const localeDir = apiReferenceDir(locale);
+      const localeDir = internalV1Dir(locale);
       const meta = JSON.parse(
         readFileSync(join(localeDir, "meta.json"), "utf8")
       ) as { pages: string[] };
@@ -167,20 +181,20 @@ describe("@afenda/docs OpenAPI reference", () => {
 
   it("generates zh health-get with Chinese title", () => {
     const source = readFileSync(
-      join(apiReferenceDir("zh"), "health-get.mdx"),
+      join(internalV1Dir("zh"), "health-get.mdx"),
       "utf8"
     );
 
     expect(source).toContain('title: "获取 ERP 健康状态"');
   });
 
-  it("generates localized api-reference index titles for SEA locales", () => {
+  it("generates localized internal-v1 index titles for SEA locales", () => {
     const viIndex = readFileSync(
-      join(apiReferenceDir("vi"), "index.mdx"),
+      join(internalV1Dir("vi"), "index.mdx"),
       "utf8"
     );
     const msIndex = readFileSync(
-      join(apiReferenceDir("ms"), "index.mdx"),
+      join(internalV1Dir("ms"), "index.mdx"),
       "utf8"
     );
 
@@ -188,24 +202,74 @@ describe("@afenda/docs OpenAPI reference", () => {
     expect(msIndex).toContain("Rujukan API Dalaman");
   });
 
-  it("generates zh api-reference operation pages for SSG", () => {
+  it("generates zh internal-v1 operation pages for SSG", () => {
     expect(
       shouldGenerateDocsOpenApiPage({
         lang: "zh",
-        slug: ["api-reference", "health-get"],
+        slug: ["integrate", "internal-v1", "health-get"],
       })
     ).toBe(true);
     expect(
       shouldGenerateDocsOpenApiPage({
         lang: "zh",
-        slug: ["api-reference"],
+        slug: ["integrate", "internal-v1"],
       })
     ).toBe(true);
     expect(
       shouldGenerateDocsOpenApiPage({
         lang: "en",
-        slug: ["api-reference", "health-get"],
+        slug: ["integrate", "internal-v1", "health-get"],
       })
     ).toBe(true);
+  });
+
+  it("includes scaffolded reader IA in non-en SSG and excludes build-afenda", () => {
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "id",
+        slug: ["operate-tenant", "generated", "env"],
+      })
+    ).toBe(true);
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "en",
+        slug: ["operate-tenant", "generated", "env"],
+      })
+    ).toBe(true);
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "id",
+        slug: ["use-erp", "sign-in"],
+      })
+    ).toBe(true);
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "id",
+        slug: ["integrate", "internal-v1", "health-get"],
+      })
+    ).toBe(true);
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "id",
+        slug: ["build-afenda", "getting-started"],
+      })
+    ).toBe(false);
+    expect(
+      shouldGenerateDocsOpenApiPage({
+        lang: "en",
+        slug: ["build-afenda", "getting-started"],
+      })
+    ).toBe(true);
+  });
+
+  it("does not register api-reference under legacy guides meta for zh", () => {
+    const guidesMeta = JSON.parse(
+      readFileSync(
+        join(docsLocaleContentRoot("zh"), `${docsGuidesFolderGroup}/meta.json`),
+        "utf8"
+      )
+    ) as { pages: string[] };
+
+    expect(guidesMeta.pages).not.toContain("api-reference");
   });
 });

@@ -3,10 +3,11 @@ import {
   getTenantOAuthProviderConfig,
   type TenantOAuthProviderId,
 } from "@afenda/database";
-
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
 import type { BetterAuthSocialProviderConfig } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import { isAuthInvitationGateEnabled } from "./auth.invitation.js";
 import { isAfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
@@ -22,7 +23,7 @@ export class AuthOAuthInvitationRejectedError extends Error {
 
 export interface AssertOAuthSignUpInvitationAllowedInput {
   readonly email: string;
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: AuthEnvReaderInput;
   readonly providerId: TenantOAuthProviderId;
 }
 
@@ -74,7 +75,7 @@ export async function resolveTenantIdForOAuthInvitationGate(input: {
 export async function assertOAuthSignUpInvitationAllowed(
   input: AssertOAuthSignUpInvitationAllowedInput
 ): Promise<void> {
-  const env = input.env ?? process.env;
+  const env = input.env ?? readAuthRuntimeEnv();
 
   if (!isAuthInvitationGateEnabled(env)) {
     return;
@@ -199,7 +200,7 @@ export interface AfendaOAuthUserCreateHookContext {
 export async function handleAfendaOAuthUserCreateBeforeHook(input: {
   readonly ctx: AfendaOAuthUserCreateHookContext;
   readonly email: string;
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: AuthEnvReaderInput;
 }): Promise<void> {
   const providerId = readOAuthProviderIdFromCallbackPath(input.ctx.path ?? "");
 
@@ -215,7 +216,7 @@ export async function handleAfendaOAuthUserCreateBeforeHook(input: {
 }
 
 export function createAfendaOAuthUserCreateBeforeHook(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ) {
   return async (user: { email: string }, ctx: unknown) => {
     const path =

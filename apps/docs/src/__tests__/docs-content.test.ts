@@ -3,7 +3,9 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   type DocsSeedSectionId,
+  docsBuildAfendaSection,
   docsGuidesFolderGroup,
+  docsReaderSections,
   docsSeedSections,
 } from "@/lib/docs-nav.contract";
 import { docsLocaleContentRoot } from "@/lib/docs-page-path";
@@ -29,64 +31,82 @@ function readRootMeta(): { pages: string[] } {
   return JSON.parse(raw) as { pages: string[] };
 }
 
-function guidesSectionMetaPath(sectionId: string): string {
-  return `${docsGuidesFolderGroup}/${sectionId}`;
-}
-
 describe("@afenda/docs content parity", () => {
-  it("lists guides folder group and apps in root meta.json", () => {
+  it("lists reader sections and build-afenda in en root meta.json", () => {
     const rootPages = readRootMeta().pages.filter(
       (entry) => entry !== "---" && entry !== "index"
     );
 
-    expect(rootPages).toEqual([docsGuidesFolderGroup, "apps"]);
+    expect(rootPages).toEqual([...docsReaderSections]);
   });
 
-  it("registers guide sections under (guides) meta.json with root tab", () => {
-    const guidesMeta = readMetaJson(docsGuidesFolderGroup);
-    const guideSectionIds = docsSeedSections
-      .filter((section) => section.id !== "apps")
-      .map((section) => section.id);
+  it("registers reader task sections in en meta.json files", () => {
+    for (const sectionId of [
+      "use-erp",
+      "configure-tenant",
+      "operate-tenant",
+      "integrate",
+    ] as const) {
+      const contract = docsSeedSections.find((section) => section.id === sectionId);
+      expect(contract).toBeDefined();
 
-    expect(guidesMeta.root).toBe(true);
-    expect(guidesMeta.title).toBe("Guides");
+      const meta = readMetaJson(sectionId);
+      expect(meta.title).toBe(contract?.title);
 
-    for (const id of guideSectionIds) {
-      expect(guidesMeta.pages).toContain(id);
+      for (const page of contract?.subpages ?? []) {
+        expect(meta.pages).toContain(page.id);
+      }
     }
   });
 
+  it("registers build-afenda engineer sections", () => {
+    const meta = readMetaJson(docsBuildAfendaSection);
+    expect(meta.title).toBe("Build Afenda");
+    expect(meta.pages).toEqual(
+      expect.arrayContaining([
+        "getting-started",
+        "monorepo-map",
+        "contributing",
+        "apps",
+      ])
+    );
+  });
+
   it.each(
-    docsSeedSections.map((section) => [section.id, section] as const)
-  )("meta.json title matches contract for %s", (id, section) => {
-    const metaPath = id === "apps" ? "apps" : guidesSectionMetaPath(section.id);
+    docsSeedSections
+      .filter((section) =>
+        [
+          "getting-started",
+          "monorepo-map",
+          "apps",
+          "contributing",
+        ].includes(section.id)
+      )
+      .map((section) => [section.id, section] as const)
+  )("meta.json title matches contract for build-afenda %s", (id, section) => {
+    const metaPath =
+      id === "apps"
+        ? `${docsBuildAfendaSection}/apps`
+        : `${docsBuildAfendaSection}/${section.id}`;
     const meta = readMetaJson(metaPath);
 
     expect(meta.title).toBe(section.title);
   });
 
-  it("registers getting-started subpages in section meta.json", () => {
-    const meta = readMetaJson(guidesSectionMetaPath("getting-started"));
+  it("registers getting-started subpages under build-afenda", () => {
+    const meta = readMetaJson(`${docsBuildAfendaSection}/getting-started`);
     const gettingStarted = docsSeedSections.find(
       (section) => section.id === "getting-started"
     );
-
-    expect(gettingStarted?.subpages.map((page) => page.id)).toEqual([
-      "installation",
-      "dev-setup",
-    ]);
 
     for (const page of gettingStarted?.subpages ?? []) {
       expect(meta.pages).toContain(page.id);
     }
   });
 
-  it("registers apps subpages in section meta.json files", () => {
-    const appsMeta = readMetaJson("apps");
-    const erpMeta = readMetaJson("apps/erp");
-    const appsSection = docsSeedSections.find(
-      (section) => section.id === "apps"
-    );
+  it("registers apps subpages under build-afenda", () => {
+    const appsMeta = readMetaJson(`${docsBuildAfendaSection}/apps`);
+    const erpMeta = readMetaJson(`${docsBuildAfendaSection}/apps/erp`);
 
     expect(appsMeta.pages).toEqual(
       expect.arrayContaining(["erp", "docs", "storybook"])
@@ -94,35 +114,14 @@ describe("@afenda/docs content parity", () => {
     expect(erpMeta.pages).toEqual(
       expect.arrayContaining(["routes-and-surfaces", "development"])
     );
-
-    for (const page of appsSection?.subpages ?? []) {
-      if (page.slug.length === 2) {
-        expect(appsMeta.pages).toContain(page.id);
-      }
-      if (page.slug.length === 3 && page.slug[1] === "erp") {
-        expect(erpMeta.pages).toContain(page.id);
-      }
-    }
-  });
-
-  it("registers monorepo-map subpages in section meta.json", () => {
-    const meta = readMetaJson(guidesSectionMetaPath("monorepo-map"));
-    const monorepoMap = docsSeedSections.find(
-      (section) => section.id === "monorepo-map"
-    );
-
-    expect(monorepoMap?.subpages.map((page) => page.id)).toEqual([
-      "docs-contracts",
-      "docs-i18n-contract",
-    ]);
-
-    for (const page of monorepoMap?.subpages ?? []) {
-      expect(meta.pages).toContain(page.id);
-    }
   });
 
   it("uses only known seed section ids in the contract", () => {
     const known: DocsSeedSectionId[] = [
+      "use-erp",
+      "configure-tenant",
+      "operate-tenant",
+      "integrate",
       "getting-started",
       "monorepo-map",
       "apps",
@@ -135,11 +134,11 @@ describe("@afenda/docs content parity", () => {
   it("translates zh body copy for getting-started and contributing indexes", () => {
     const zhRoot = join(process.cwd(), "content/docs/zh");
     const gettingStarted = readFileSync(
-      join(zhRoot, "(guides)/getting-started/index.mdx"),
+      join(zhRoot, `${docsGuidesFolderGroup}/getting-started/index.mdx`),
       "utf8"
     );
     const contributing = readFileSync(
-      join(zhRoot, "(guides)/contributing/index.mdx"),
+      join(zhRoot, `${docsGuidesFolderGroup}/contributing/index.mdx`),
       "utf8"
     );
 

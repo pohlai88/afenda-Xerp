@@ -13,6 +13,9 @@ export const DEV_LOGIN_EMAIL_ENV = "AFENDA_DEV_LOGIN_EMAIL" as const;
 
 export const DEV_LOGIN_PASSWORD_ENV = "AFENDA_DEV_LOGIN_PASSWORD" as const;
 
+/** Set to `0` or `false` to hide the ERP dev login panel in non-production runtimes. */
+export const DEV_LOGIN_PANEL_ENV = "AFENDA_DEV_LOGIN_PANEL" as const;
+
 export const DEV_VIEWER_LOGIN_EMAIL = "dev-viewer@localhost.afenda" as const;
 
 export const DEV_VIEWER_LOGIN_DISPLAY_NAME = "Dev Workspace Viewer" as const;

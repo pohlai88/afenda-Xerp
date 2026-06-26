@@ -5,8 +5,6 @@
   "pages": [
     "getting-started",
     "monorepo-map",
-    "---Reference---",
-    "api-reference",
     "---Contributing---",
     "contributing"
   ]

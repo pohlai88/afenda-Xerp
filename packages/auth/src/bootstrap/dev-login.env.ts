@@ -1,8 +1,13 @@
 import {
+  type AuthEnvReaderInput,
+  readAuthRuntimeEnv,
+} from "../auth.env-reader.js";
+import {
   DEV_AUTH_BOOTSTRAP_CONFIRM_ENV,
   DEV_AUTH_BOOTSTRAP_CONFIRM_VALUE,
   DEV_LOGIN_EMAIL,
   DEV_LOGIN_EMAIL_ENV,
+  DEV_LOGIN_PANEL_ENV,
   DEV_LOGIN_PASSWORD_ENV,
   DEV_VIEWER_LOGIN_PASSWORD_ENV,
   MIN_DEV_LOGIN_PASSWORD_LENGTH,
@@ -16,7 +21,7 @@ export class DevAuthBootstrapError extends Error {
 }
 
 export function isProductionLikeRuntime(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   const nodeEnv = env["NODE_ENV"]?.trim().toLowerCase();
   const vercelEnv = env["VERCEL_ENV"]?.trim().toLowerCase();
@@ -30,7 +35,7 @@ export function isProductionLikeRuntime(
 }
 
 export function assertDevAuthBootstrapAllowed(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): void {
   if (!isProductionLikeRuntime(env)) {
     return;
@@ -46,19 +51,49 @@ export function assertDevAuthBootstrapAllowed(
   }
 }
 
+function readDevLoginPassword(env: AuthEnvReaderInput): string | null {
+  const password = env[DEV_LOGIN_PASSWORD_ENV]?.trim();
+  if (!password || password.length < MIN_DEV_LOGIN_PASSWORD_LENGTH) {
+    return null;
+  }
+
+  return password;
+}
+
+export function hasDevLoginCredentials(
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
+): boolean {
+  return readDevLoginPassword(env) !== null;
+}
+
+export function isDevLoginPanelEnabled(
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
+): boolean {
+  if (isProductionLikeRuntime(env)) {
+    return false;
+  }
+
+  const flag = env[DEV_LOGIN_PANEL_ENV]?.trim().toLowerCase();
+  if (flag === "0" || flag === "false") {
+    return false;
+  }
+
+  return true;
+}
+
 export function resolveDevLoginEmail(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   const configured = env[DEV_LOGIN_EMAIL_ENV]?.trim();
   return configured && configured.length > 0 ? configured : DEV_LOGIN_EMAIL;
 }
 
 export function resolveDevLoginPassword(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
-  const password = env[DEV_LOGIN_PASSWORD_ENV]?.trim();
+  const password = readDevLoginPassword(env);
 
-  if (!password || password.length < MIN_DEV_LOGIN_PASSWORD_LENGTH) {
+  if (password === null) {
     throw new DevAuthBootstrapError(
       `${DEV_LOGIN_PASSWORD_ENV} is required (minimum ${MIN_DEV_LOGIN_PASSWORD_LENGTH} characters). Add it to .env.secret and run pnpm env:sync.`
     );
@@ -72,7 +107,7 @@ function deriveDevViewerLoginPassword(adminPassword: string): string {
 }
 
 export function resolveDevViewerLoginPassword(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   const explicit = env[DEV_VIEWER_LOGIN_PASSWORD_ENV]?.trim();
   if (explicit && explicit.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH) {
@@ -83,15 +118,12 @@ export function resolveDevViewerLoginPassword(
 }
 
 export function hasDevViewerLoginCredentials(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   const explicit = env[DEV_VIEWER_LOGIN_PASSWORD_ENV]?.trim();
   if (explicit && explicit.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH) {
     return true;
   }
 
-  const adminPassword = env[DEV_LOGIN_PASSWORD_ENV]?.trim();
-  return Boolean(
-    adminPassword && adminPassword.length >= MIN_DEV_LOGIN_PASSWORD_LENGTH
-  );
+  return readDevLoginPassword(env) !== null;
 }

@@ -1,13 +1,21 @@
 "use client";
 
 import { twoFactor } from "@afenda/auth/client";
-import { Button, FieldLabel, Input, Spinner } from "@afenda/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter } from "next/navigation";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useState, useTransition } from "react";
 
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import {
+  AUTH_MFA_COPY,
   MFA_OTP_DELIVERY_HINT,
   MFA_OTP_DELIVERY_NOTICE,
 } from "@/lib/auth/auth-copy.registry";
@@ -29,16 +37,15 @@ export interface AuthSignInMfaStepProps {
 }
 
 const MFA_FIELD_HINTS: Record<AuthSignInMfaMode, string> = {
-  totp: "Open your authenticator app and enter the current 6-digit code.",
-  otp: "Check your inbox for a one-time sign-in code.",
-  "backup-code":
-    "Enter one of the backup codes you saved when you enabled two-factor authentication.",
+  totp: AUTH_MFA_COPY.fieldHintTotp,
+  otp: AUTH_MFA_COPY.fieldHintOtp,
+  "backup-code": AUTH_MFA_COPY.fieldHintBackupCode,
 };
 
 const MFA_INPUT_PLACEHOLDERS: Record<AuthSignInMfaMode, string> = {
-  totp: "000000",
-  otp: "000000",
-  "backup-code": "Backup code",
+  totp: AUTH_MFA_COPY.placeholderTotp,
+  otp: AUTH_MFA_COPY.placeholderOtp,
+  "backup-code": AUTH_MFA_COPY.placeholderBackupCode,
 };
 
 function resolveInitialMfaMode(
@@ -68,45 +75,16 @@ export function AuthSignInMfaStep({
   );
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, startSubmitTransition] = useTransition();
   const [otpDeliveryNotice, setOtpDeliveryNotice] = useState<string | null>(
     null
   );
-  const [isSendingOtp, setIsSendingOtp] = useState(false);
-  const otpRequestedRef = useRef(false);
+  const [isSendingOtp, startOtpTransition] = useTransition();
 
-  async function requestOtpDelivery() {
+  function requestOtpDelivery() {
     setError(null);
-    setIsSendingOtp(true);
-
-    const result = await twoFactor.sendOtp({ trustDevice: true });
-
-    setIsSendingOtp(false);
-
-    if (result.error) {
-      setError(
-        mapAuthClientError(result.error.message, "mfaVerificationFailed")
-      );
-      return;
-    }
-
-    setOtpDeliveryNotice(MFA_OTP_DELIVERY_NOTICE);
-  }
-
-  useEffect(() => {
-    if (mode !== "otp" || otpRequestedRef.current) {
-      return;
-    }
-
-    otpRequestedRef.current = true;
-
-    void (async () => {
-      setError(null);
-      setIsSendingOtp(true);
-
+    startOtpTransition(async () => {
       const result = await twoFactor.sendOtp({ trustDevice: true });
-
-      setIsSendingOtp(false);
 
       if (result.error) {
         setError(
@@ -116,10 +94,10 @@ export function AuthSignInMfaStep({
       }
 
       setOtpDeliveryNotice(MFA_OTP_DELIVERY_NOTICE);
-    })();
-  }, [mode]);
+    });
+  }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
@@ -129,25 +107,23 @@ export function AuthSignInMfaStep({
       return;
     }
 
-    setIsSubmitting(true);
+    startSubmitTransition(async () => {
+      const result = await verifyMfaCode(mode, trimmedCode);
 
-    const result = await verifyMfaCode(mode, trimmedCode);
+      if (result.error) {
+        setError(
+          mapAuthClientError(result.error.message, "mfaVerificationFailed")
+        );
+        return;
+      }
 
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(
-        mapAuthClientError(result.error.message, "mfaVerificationFailed")
+      await clearMfaChallengeAction();
+      const destination = await fetchPostAuthEntryPath(
+        nextPath.length > 0 ? nextPath : null
       );
-      return;
-    }
-
-    await clearMfaChallengeAction();
-    const destination = await fetchPostAuthEntryPath(
-      nextPath.length > 0 ? nextPath : null
-    );
-    router.replace(destination);
-    router.refresh();
+      router.replace(destination);
+      router.refresh();
+    });
   }
 
   function switchMode(nextMode: AuthSignInMfaMode) {
@@ -157,7 +133,7 @@ export function AuthSignInMfaStep({
     setOtpDeliveryNotice(null);
 
     if (nextMode === "otp") {
-      otpRequestedRef.current = false;
+      requestOtpDelivery();
     }
   }
 
@@ -189,13 +165,13 @@ export function AuthSignInMfaStep({
   return (
     <AuthForm.Root>
       <AuthForm.BackButton disabled={isSubmitting} onClick={onBack}>
-        Back to sign in
+        {AUTH_MFA_COPY.backToSignIn}
       </AuthForm.BackButton>
 
       <AuthForm.StepLead>{heading}</AuthForm.StepLead>
 
       {mode === "otp" && isSendingOtp && otpDeliveryNotice === null ? (
-        <AuthForm.OtpNotice>Sending sign-in code…</AuthForm.OtpNotice>
+        <AuthForm.OtpNotice>{AUTH_MFA_COPY.sendingOtp}</AuthForm.OtpNotice>
       ) : null}
 
       {otpDeliveryNotice ? (
@@ -205,10 +181,8 @@ export function AuthSignInMfaStep({
         />
       ) : null}
 
-      {error ? <AuthForm.FieldError>{error}</AuthForm.FieldError> : null}
-
       <AuthForm.Fields onSubmit={handleSubmit}>
-        <div className="erp-auth-form__field">
+        <Field>
           <div className="erp-auth-form__field-toolbar">
             <FieldLabel htmlFor={inputId}>{inputLabel}</FieldLabel>
             {fieldToolbarAction ? (
@@ -225,6 +199,8 @@ export function AuthSignInMfaStep({
             ) : null}
           </div>
           <Input
+            aria-describedby={error ? "auth-mfa-code-error" : undefined}
+            aria-invalid={!!error}
             autoComplete={inputAutoComplete}
             id={inputId}
             inputMode={mode === "backup-code" ? "text" : "numeric"}
@@ -235,10 +211,14 @@ export function AuthSignInMfaStep({
             type="text"
             value={code}
           />
+          {error ? (
+            <FieldError id="auth-mfa-code-error">{error}</FieldError>
+          ) : null}
           <AuthForm.FieldHint>{MFA_FIELD_HINTS[mode]}</AuthForm.FieldHint>
-        </div>
+        </Field>
         <div className="erp-auth-form__submit-row">
           <Button
+            aria-busy={isSubmitting ? "true" : undefined}
             disabled={isSubmitting || (mode === "otp" && isSendingOtp)}
             emphasis="solid"
             intent="primary"
@@ -249,10 +229,10 @@ export function AuthSignInMfaStep({
             {isSubmitting ? (
               <>
                 <Spinner aria-label="Verifying code" size="sm" />
-                Verifying…
+                {AUTH_MFA_COPY.verifying}
               </>
             ) : (
-              "Verify and continue"
+              AUTH_MFA_COPY.verifyAndContinue
             )}
           </Button>
         </div>
@@ -262,7 +242,7 @@ export function AuthSignInMfaStep({
         <AuthForm.Alternates>
           {showAlternatesLabel ? (
             <AuthForm.AlternateLabel>
-              Other verification options
+              {AUTH_MFA_COPY.otherVerificationOptions}
             </AuthForm.AlternateLabel>
           ) : null}
           {alternateLinks}
@@ -272,12 +252,11 @@ export function AuthSignInMfaStep({
                 className="erp-auth-form__text-action"
                 disabled={isSubmitting || isSendingOtp}
                 onClick={() => {
-                  otpRequestedRef.current = false;
-                  void requestOtpDelivery();
+                  requestOtpDelivery();
                 }}
                 type="button"
               >
-                Resend email code
+                {AUTH_MFA_COPY.resendEmailCode}
               </button>
             </AuthForm.AlternateNotice>
           ) : null}
@@ -290,39 +269,39 @@ export function AuthSignInMfaStep({
 function resolveEmptyCodeMessage(mode: AuthSignInMfaMode): string {
   switch (mode) {
     case "totp":
-      return "Enter the code from your authenticator app.";
+      return AUTH_MFA_COPY.emptyCodeTotp;
     case "otp":
-      return "Enter the code sent to your email.";
+      return AUTH_MFA_COPY.emptyCodeOtp;
     case "backup-code":
-      return "Enter a backup code.";
+      return AUTH_MFA_COPY.emptyCodeBackupCode;
     default:
-      return "Enter your verification code.";
+      return AUTH_MFA_COPY.emptyCodeDefault;
   }
 }
 
 function resolveMfaHeading(mode: AuthSignInMfaMode): string {
   switch (mode) {
     case "totp":
-      return "Enter your authenticator code";
+      return AUTH_MFA_COPY.headingTotp;
     case "otp":
-      return "Enter the code from your email";
+      return AUTH_MFA_COPY.headingOtp;
     case "backup-code":
-      return "Enter a backup code";
+      return AUTH_MFA_COPY.headingBackupCode;
     default:
-      return "Verify your identity";
+      return AUTH_MFA_COPY.headingDefault;
   }
 }
 
 function resolveMfaInputLabel(mode: AuthSignInMfaMode): string {
   switch (mode) {
     case "totp":
-      return "Authentication code";
+      return AUTH_MFA_COPY.inputLabelTotp;
     case "otp":
-      return "Email code";
+      return AUTH_MFA_COPY.inputLabelOtp;
     case "backup-code":
-      return "Backup code";
+      return AUTH_MFA_COPY.inputLabelBackupCode;
     default:
-      return "Verification code";
+      return AUTH_MFA_COPY.inputLabelDefault;
   }
 }
 
@@ -340,14 +319,14 @@ function resolveFieldToolbarAction({
   }
 
   if (mode === "totp" && supportsOtp) {
-    return { label: "Use email code instead", targetMode: "otp" };
+    return { label: AUTH_MFA_COPY.useEmailCodeLabel, targetMode: "otp" };
   }
 
   if (mode === "otp" && supportsTotp) {
-    return { label: "Use authenticator code instead", targetMode: "totp" };
+    return { label: AUTH_MFA_COPY.useAuthCodeLabel, targetMode: "totp" };
   }
 
-  return { label: "Use a backup code instead", targetMode: "backup-code" };
+  return { label: AUTH_MFA_COPY.useBackupCodeLabel, targetMode: "backup-code" };
 }
 
 async function verifyMfaCode(mode: AuthSignInMfaMode, code: string) {
@@ -389,7 +368,7 @@ function renderModeSwitchLinks({
           onClick={() => onSwitchMode("totp")}
           type="button"
         >
-          Use authenticator code instead
+          {AUTH_MFA_COPY.useAuthCodeLabel}
         </button>
       </AuthForm.AlternateNotice>
     );
@@ -404,7 +383,7 @@ function renderModeSwitchLinks({
           onClick={() => onSwitchMode("otp")}
           type="button"
         >
-          Use email code instead
+          {AUTH_MFA_COPY.useEmailCodeLabel}
         </button>
       </AuthForm.AlternateNotice>
     );
@@ -419,7 +398,7 @@ function renderModeSwitchLinks({
           onClick={() => onSwitchMode("backup-code")}
           type="button"
         >
-          Use a backup code instead
+          {AUTH_MFA_COPY.useBackupCodeLabel}
         </button>
       </AuthForm.AlternateNotice>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, type ReactNode, useContext } from "react";
+import { createContext, type ReactNode, use } from "react";
 
 import type { TenantAuthBrand } from "@/lib/auth/tenant-auth-brand.contract";
 
@@ -21,5 +21,5 @@ export function AuthBrandProvider({
 }
 
 export function useAuthBrand(): TenantAuthBrand | null {
-  return useContext(AuthBrandContext);
+  return use(AuthBrandContext);
 }

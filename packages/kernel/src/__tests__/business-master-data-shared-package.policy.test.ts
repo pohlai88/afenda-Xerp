@@ -3,18 +3,18 @@ import { describe, expect, it } from "vitest";
 import {
   assertSharedPackageOwnershipPolicy,
   getEntitiesForReservedPackage,
-  INVENTORY_SHARED_ENTITY_IDS,
-  INVENTORY_SHARED_PACKAGE_ID,
+  INVENTORY_PERSISTENCE_ENTITY_IDS,
+  INVENTORY_PERSISTENCE_PACKAGE_ID,
   summarizePackageOwnership,
 } from "../contracts/business-master-data/index.js";
 
-describe("@afenda/kernel business master data shared package policy (TIP-008B Slice 5)", () => {
-  it("allows @afenda/inventory to own product and warehouse only", () => {
-    const inventoryEntities = getEntitiesForReservedPackage(
-      INVENTORY_SHARED_PACKAGE_ID
+describe("@afenda/kernel business master data persistence ownership (ADR-0020)", () => {
+  it("assigns product and warehouse persistence to @afenda/database", () => {
+    const persistenceEntities = getEntitiesForReservedPackage(
+      INVENTORY_PERSISTENCE_PACKAGE_ID
     );
 
-    expect(inventoryEntities).toEqual([...INVENTORY_SHARED_ENTITY_IDS]);
+    expect(persistenceEntities).toEqual([...INVENTORY_PERSISTENCE_ENTITY_IDS]);
     expect(() => assertSharedPackageOwnershipPolicy()).not.toThrow();
   });
 
@@ -34,5 +34,10 @@ describe("@afenda/kernel business master data shared package policy (TIP-008B Sl
         (summary) => summary.reservedPackageId === "@afenda/procurement"
       )?.entityIds
     ).toEqual(["supplier"]);
+    expect(
+      summaries.find(
+        (summary) => summary.reservedPackageId === "@afenda/database"
+      )?.entityIds
+    ).toEqual(["product", "warehouse"]);
   });
 });

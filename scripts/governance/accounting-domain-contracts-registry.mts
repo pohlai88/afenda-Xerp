@@ -1,5 +1,5 @@
 /**
- * Accounting domain contracts-only gate registry (PKG-R01 / ADR-0015).
+ * Accounting domain contracts-only gate registry (PKG-R01 / ADR-0020).
  *
  * Runtime scans live in `check-accounting-domain-contracts.mts`.
  */
@@ -9,16 +9,16 @@ export const ACCOUNTING_DOMAIN_CONTRACTS_GATE =
 export const ACCOUNTING_DOMAIN_CONTRACTS_SURFACE_RULE =
   "accounting-domain-contracts-only-no-runtime-posting" as const;
 
-export const ACCOUNTING_PACKAGE_ROOT = "packages/accounting" as const;
+export const ACCOUNTING_CONTRACTS_ROOT =
+  "packages/kernel/src/contracts/accounting-domain" as const;
+
+/** Retired per ADR-0020 — must not reappear on disk. */
+export const ACCOUNTING_RETIRED_PACKAGE_ROOT = "packages/accounting" as const;
 
 export const ACCOUNTING_FORBIDDEN_RELATIVE_DIRS = [
-  "packages/accounting/src/schema",
-  "packages/accounting/src/services",
-  "packages/accounting/drizzle",
-] as const;
-
-export const ACCOUNTING_ALLOWED_RUNTIME_DEPENDENCIES = [
-  "@afenda/kernel",
+  "packages/kernel/src/contracts/accounting-domain/schema",
+  "packages/kernel/src/contracts/accounting-domain/services",
+  "packages/accounting",
 ] as const;
 
 export const ACCOUNTING_FORBIDDEN_DEPENDENCIES = [
@@ -60,8 +60,8 @@ export const ACCOUNTING_DOMAIN_CONTRACTS_PACKAGE_SCRIPTS = [
 ] as const;
 
 export const ACCOUNTING_DOMAIN_CONTRACTS_EVIDENCE = [
-  "packages/accounting/src/index.ts",
-  "packages/accounting/src/contracts/accounting-authority.contract.ts",
+  "packages/kernel/src/contracts/accounting-domain/index.ts",
+  "packages/kernel/src/contracts/accounting-domain/accounting-authority.contract.ts",
   "scripts/governance/accounting-domain-contracts-registry.mts",
   "scripts/governance/check-accounting-domain-contracts.mts",
 ] as const;

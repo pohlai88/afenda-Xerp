@@ -11,7 +11,7 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import {
@@ -76,9 +76,9 @@ export function AuthResetPasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
@@ -92,22 +92,22 @@ export function AuthResetPasswordForm() {
       return;
     }
 
-    setIsSubmitting(true);
+    startTransition(async () => {
+      const result = await submitPasswordReset({
+        newPassword: password,
+        token,
+      });
 
-    const result = await submitPasswordReset({
-      newPassword: password,
-      token,
+      if (result.error) {
+        setError(
+          mapAuthClientError(result.error.message, "passwordResetFailed")
+        );
+        return;
+      }
+
+      router.replace(resolvePasswordResetSuccessRedirect());
+      router.refresh();
     });
-
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "passwordResetFailed"));
-      return;
-    }
-
-    router.replace(resolvePasswordResetSuccessRedirect());
-    router.refresh();
   }
 
   if (resetError === "INVALID_TOKEN") {
@@ -175,14 +175,15 @@ export function AuthResetPasswordForm() {
         </Field>
         <div className="erp-auth-form__submit-row">
           <Button
-            disabled={isSubmitting}
+            aria-busy={isPending ? "true" : undefined}
+            disabled={isPending}
             emphasis="solid"
             intent="primary"
             presentation="default"
             size="md"
             type="submit"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <Spinner aria-label="Updating password" size="sm" />
                 Updating…

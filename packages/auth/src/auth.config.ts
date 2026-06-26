@@ -5,7 +5,6 @@ import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { haveIBeenPwned, multiSession, twoFactor } from "better-auth/plugins";
-
 import {
   createAuthPasswordResetEmailSender,
   createAuthTwoFactorOtpSender,
@@ -21,6 +20,8 @@ import {
   resolveBetterAuthWebAuthnRpId,
   resolveBetterAuthWebAuthnRpName,
 } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   createAfendaAuthAuditHooks,
   createAfendaAuthInvitationBeforeHook,
@@ -36,11 +37,11 @@ const SESSION_EXPIRES_IN_SECONDS = 60 * 60 * 24 * 7;
 const SESSION_UPDATE_AGE_SECONDS = 60 * 60 * 24;
 
 export interface CreateAuthOptions {
-  env?: NodeJS.ProcessEnv;
+  env?: AuthEnvReaderInput;
 }
 
 export function createAuthConfig(options: CreateAuthOptions = {}) {
-  const env = options.env ?? process.env;
+  const env = options.env ?? readAuthRuntimeEnv();
   const db = getAuthDb();
   const baseURL = resolveBetterAuthBaseUrl(env);
   const secret = getBetterAuthSecret(env);

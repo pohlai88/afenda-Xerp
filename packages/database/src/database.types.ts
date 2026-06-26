@@ -5,6 +5,8 @@ import {
 } from "@afenda/observability";
 import { pgEnum } from "drizzle-orm/pg-core";
 
+import { STOCK_MOVEMENT_TYPES } from "./stock/stock-movement-type.contract.js";
+
 export {
   AUDIT_ACTOR_TYPES,
   AUDIT_RESULTS,
@@ -107,6 +109,32 @@ export const PROJECT_LIFECYCLE_STATUSES = [
 export const projectLifecycleStatusEnum = pgEnum(
   "project_lifecycle_status",
   PROJECT_LIFECYCLE_STATUSES
+);
+
+/** Product and warehouse master data lifecycle — Inventory domain (ADR-0020). */
+export const MASTER_DATA_RECORD_STATUSES = [
+  "draft",
+  "active",
+  "inactive",
+] as const;
+
+export type MasterDataRecordStatus =
+  (typeof MASTER_DATA_RECORD_STATUSES)[number];
+
+export function isMasterDataRecordStatus(
+  value: string
+): value is MasterDataRecordStatus {
+  return (MASTER_DATA_RECORD_STATUSES as readonly string[]).includes(value);
+}
+
+export const masterDataRecordStatusEnum = pgEnum(
+  "master_data_record_status",
+  MASTER_DATA_RECORD_STATUSES
+);
+
+export const stockMovementTypeEnum = pgEnum(
+  "stock_movement_type",
+  STOCK_MOVEMENT_TYPES
 );
 
 export const membershipScopeEnum = pgEnum(

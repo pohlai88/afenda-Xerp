@@ -17,6 +17,8 @@ import {
   isAuthEmailDeliveryEnabled,
   resolveBetterAuthBaseUrl,
 } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   renderAuthInvitationEmailMessage,
   renderAuthPasswordResetEmailMessage,
@@ -47,7 +49,7 @@ export {
 
 export function buildAuthInvitationSignUpUrl(
   payload: Pick<AuthInvitationEmailPayload, "token" | "user">,
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): string {
   const baseUrl = resolveBetterAuthBaseUrl(env);
   const encodedEmail = encodeURIComponent(payload.user.email);
@@ -58,7 +60,7 @@ export function buildAuthInvitationSignUpUrl(
 
 export async function buildAuthInvitationEmailMessage(
   payload: AuthInvitationEmailPayload,
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): Promise<AuthTransactionalEmailMessage> {
   const url = buildAuthInvitationSignUpUrl(payload, env);
   const name = resolveAuthEmailDisplayName(
@@ -167,7 +169,7 @@ export async function buildAuthTwoFactorOtpEmailMessage(
 /** Env-gated Resend delivery — no-op when API key or from-address is unset (dev-safe). */
 export async function deliverAuthTransactionalEmail(
   message: AuthTransactionalEmailMessage,
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   deps: AuthEmailDeliveryDeps = {},
   metadata?: AuthTransactionalEmailDeliveryMetadata
 ): Promise<AuthEmailDeliveryResult> {
@@ -199,7 +201,7 @@ export async function deliverAuthTransactionalEmail(
 /** Delivers an invitation email with idempotency and correlation tags when audit context is present. */
 export async function deliverAuthInvitationEmail(
   invitation: AuthInvitationEmailDeliveryInput,
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   deps: AuthEmailDeliveryDeps = {},
   audit?: AuthEventContext
 ): Promise<AuthEmailDeliveryResult> {
@@ -228,7 +230,7 @@ export async function deliverAuthInvitationEmail(
 }
 
 export function createAuthVerificationEmailSender(
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   deps: AuthEmailDeliveryDeps = {}
 ) {
   return async (
@@ -257,7 +259,7 @@ export function createAuthVerificationEmailSender(
 }
 
 export function createAuthPasswordResetEmailSender(
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   deps: AuthEmailDeliveryDeps = {}
 ) {
   return async (
@@ -279,7 +281,7 @@ export function createAuthPasswordResetEmailSender(
 
 /** Better Auth twoFactor `otpOptions.sendOTP` — Resend-backed when email is configured. */
 export function createAuthTwoFactorOtpSender(
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   deps: AuthEmailDeliveryDeps = {}
 ) {
   return async (payload: AuthTwoFactorOtpEmailPayload): Promise<void> => {

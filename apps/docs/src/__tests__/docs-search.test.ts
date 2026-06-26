@@ -25,10 +25,10 @@ const searchRouteSource = readFileSync(
 describe("@afenda/docs search UX", () => {
   it("exports locale-prefixed empty-state quick links", () => {
     expect(docsSearchEmptyLinks(docsDefaultLocale)).toEqual([
-      ["Getting Started", "/en/docs/getting-started"],
-      ["Monorepo Map", "/en/docs/monorepo-map"],
-      ["Applications", "/en/docs/apps"],
-      ["Contributing", "/en/docs/contributing"],
+      ["Getting Started", "/en/docs/build-afenda/getting-started"],
+      ["Monorepo Map", "/en/docs/build-afenda/monorepo-map"],
+      ["Applications", "/en/docs/build-afenda/apps"],
+      ["Contributing", "/en/docs/build-afenda/contributing"],
     ]);
   });
 
@@ -41,12 +41,12 @@ describe("@afenda/docs search UX", () => {
 
     for (const href of docsSearchEmptyLinkHrefs(docsDefaultLocale)) {
       expect(isDocsSearchLinkAlignedWithSeedSlug(href)).toBe(true);
-      if (!href.endsWith("/docs/apps")) {
+      if (!href.endsWith("/docs/build-afenda/apps")) {
         expect(seedHrefSet.has(href)).toBe(true);
       }
     }
 
-    expect(seedHrefSet.has("/en/docs/apps")).toBe(true);
+    expect(seedHrefSet.has("/en/docs/build-afenda/apps")).toBe(true);
   });
 
   it("wires RootProvider search.links from docs-search.contract", () => {

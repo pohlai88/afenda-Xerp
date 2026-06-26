@@ -249,8 +249,8 @@ body {
   }
 }
 
-/* Fumadocs block feedback — CSS Highlight API selection styling */
-.docs-feedback-text ::highlight(fd-feedback-text) {
+/* Fumadocs block feedback — CSS Highlight API (not a descendant selector) */
+::highlight(fd-feedback-text) {
   background-color: var(--color-fd-primary, var(--docs-editorial-text));
   color: var(--color-fd-primary-foreground, var(--docs-editorial-canvas));
 }

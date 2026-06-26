@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v2` |
 | **Invariant** | ARCH-003 — every runtime `@afenda/*` dependency must be declared and approved |
 
 This registry documents **approved runtime workspace dependencies** (`dependencies` in `package.json`). Dev-only links are classified separately and do not require runtime registry declaration.
@@ -27,11 +27,10 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (35 direct edges)
+## Runtime Dependency Edges (34 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
-| `@afenda/accounting` | `@afenda/kernel` | Approved | ADR-0015 | — |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
 | `@afenda/appshell` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
@@ -100,7 +99,6 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
-| `@afenda/accounting` | `@afenda/kernel` |
 | `@afenda/appshell` | `@afenda/kernel`, `@afenda/ui` |
 | `@afenda/auth` | `@afenda/database`, `@afenda/kernel` |
 | `@afenda/database` | `@afenda/observability` |
@@ -198,13 +196,13 @@ Inbound dependencies on leaf packages (e.g. `observability` ← `database`) are 
 
 Documentation-only ownership map through Slice 1; **kernel authority registry + wire reference contracts** from Slice 2–3 (`packages/kernel/src/contracts/business-master-data/`). **No domain package schemas** until PKG-R02–R05 domain TIPs.
 
-| Entity | Owning domain | Reserved package (PKG) | Identity scope | Runtime status |
+| Entity | Owning domain | Persistence owner (PKG) | Identity scope | Runtime status |
 | --- | --- | --- | --- | --- |
 | Customer | CRM Authority | `@afenda/crm` (PKG-R04) | Tenant + company; customer code unique per company | `authority_only` — kernel wire contracts |
 | Supplier | Procurement Authority | `@afenda/procurement` (PKG-R05) | Tenant + company; vendor code unique per company | `authority_only` — kernel wire contracts |
-| Product | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant; SKU unique per tenant catalog | `authority_only` — kernel wire contracts |
+| Product | Inventory Authority | `@afenda/database` (PKG-R02 domain) | Tenant; SKU unique per tenant catalog | Implemented — database + ERP API (ADR-0020) |
 | Employee | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company | `authority_only` — kernel wire contracts |
-| Warehouse | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company | `authority_only` — kernel wire contracts |
+| Warehouse | Inventory Authority | `@afenda/database` (PKG-R02 domain) | Tenant + company; warehouse code unique per company | Implemented — database + ERP API (ADR-0020) |
 | Asset | Platform / TPM | TBD via ADR | — | Not assigned |
 | Document | Platform document service | TBD via ADR | — | Not assigned |
 | Project | PM domain | TIP-030 | — | Partial — membership scope only |

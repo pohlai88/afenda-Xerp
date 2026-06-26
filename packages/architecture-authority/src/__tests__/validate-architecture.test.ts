@@ -75,9 +75,6 @@ describe("validateArchitecture", () => {
       workspace("@afenda/typescript-config"),
       workspace("@afenda/ui", { "@afenda/design-system": "workspace:*" }),
       workspace("@afenda/architecture-authority"),
-      workspace("@afenda/accounting", {
-        "@afenda/kernel": "workspace:*",
-      }),
       workspace("@afenda/ai-governance", {
         "@afenda/architecture-authority": "workspace:*",
       }),

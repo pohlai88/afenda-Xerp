@@ -1,0 +1,48 @@
+{
+  "catalogId": "system-admin",
+  "exportedAt": "2026-06-26T18:02:50.542Z",
+  "sections": [
+    {
+      "sectionId": "users",
+      "label": "Users",
+      "href": "/system-admin/users",
+      "readPermissionKey": "system_admin.users_read"
+    },
+    {
+      "sectionId": "memberships",
+      "label": "Memberships",
+      "href": "/system-admin/memberships",
+      "readPermissionKey": "system_admin.users_read"
+    },
+    {
+      "sectionId": "roles",
+      "label": "Roles",
+      "href": "/system-admin/roles",
+      "readPermissionKey": "system_admin.roles_manage"
+    },
+    {
+      "sectionId": "permissions",
+      "label": "Permissions",
+      "href": "/system-admin/permissions",
+      "readPermissionKey": "system_admin.permissions_manage"
+    },
+    {
+      "sectionId": "audit",
+      "label": "Audit",
+      "href": "/system-admin/audit",
+      "readPermissionKey": "system_admin.audit_read"
+    },
+    {
+      "sectionId": "settings",
+      "label": "Settings",
+      "href": "/system-admin/settings",
+      "readPermissionKey": "system_admin.modules_manage"
+    },
+    {
+      "sectionId": "diagnostics",
+      "label": "Diagnostics",
+      "href": "/system-admin/diagnostics",
+      "readPermissionKey": "system_admin.audit_read"
+    }
+  ]
+}

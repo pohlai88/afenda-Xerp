@@ -19,6 +19,7 @@ import { organizations } from "./organization.schema.js";
 import { outboxEvents } from "./outbox.schema.js";
 import { permissions } from "./permission.schema.js";
 import { policies } from "./policy.schema.js";
+import { products } from "./product.schema.js";
 import { projects } from "./project.schema.js";
 import { roles } from "./role.schema.js";
 import { rolePermissions } from "./role-permission.schema.js";
@@ -26,6 +27,8 @@ import {
   platformFeatureFlags,
   platformKillSwitches,
 } from "./rollout.schema.js";
+import { stockLevels } from "./stock-level.schema.js";
+import { stockMovements } from "./stock-movement.schema.js";
 import { storageObjects } from "./storage.schema.js";
 import { teams } from "./team.schema.js";
 import { tenants } from "./tenant.schema.js";
@@ -33,6 +36,7 @@ import { tenantSettings } from "./tenant-settings.schema.js";
 import { tenantSsoProviders } from "./tenant-sso-provider.schema.js";
 import { users } from "./user.schema.js";
 import { userPreferences } from "./user-preferences.schema.js";
+import { warehouses } from "./warehouse.schema.js";
 
 /** Single schema registry for Drizzle client wiring and type inference. */
 export const platformSchema = {
@@ -53,9 +57,12 @@ export const platformSchema = {
   platformFeatureFlags,
   platformKillSwitches,
   policies,
+  products,
   projects,
   rolePermissions,
   roles,
+  stockLevels,
+  stockMovements,
   storageObjects,
   teams,
   tenantCommercialPlans,
@@ -65,6 +72,7 @@ export const platformSchema = {
   usageLimitCounters,
   userPreferences,
   users,
+  warehouses,
 } as const;
 
 export type PlatformSchema = typeof platformSchema;
@@ -82,6 +90,9 @@ export {
   killSwitchSeverityEnum,
   LEGAL_ENTITY_COMPANY_TYPES,
   legalEntityCompanyTypeEnum,
+  MASTER_DATA_RECORD_STATUSES,
+  type MasterDataRecordStatus,
+  masterDataRecordStatusEnum,
   membershipScopeEnum,
   membershipStatusEnum,
   organizationStatusEnum,
@@ -137,6 +148,7 @@ export {
 } from "./outbox.schema.js";
 export { permissions } from "./permission.schema.js";
 export { policies } from "./policy.schema.js";
+export { products } from "./product.schema.js";
 export { projects } from "./project.schema.js";
 export { roles } from "./role.schema.js";
 export { rolePermissions } from "./role-permission.schema.js";
@@ -144,6 +156,8 @@ export {
   platformFeatureFlags,
   platformKillSwitches,
 } from "./rollout.schema.js";
+export { stockLevels } from "./stock-level.schema.js";
+export { stockMovements } from "./stock-movement.schema.js";
 export { storageObjects } from "./storage.schema.js";
 export { teams } from "./team.schema.js";
 export { tenants } from "./tenant.schema.js";
@@ -151,3 +165,4 @@ export { tenantSettings } from "./tenant-settings.schema.js";
 export { tenantSsoProviders } from "./tenant-sso-provider.schema.js";
 export { users } from "./user.schema.js";
 export { userPreferences } from "./user-preferences.schema.js";
+export { warehouses } from "./warehouse.schema.js";

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
+import { AuthFormFallback } from "@/app/(auth)/_components/auth-form-fallback";
 import { AuthMfaForm } from "@/app/(auth)/_components/auth-mfa-form";
 import { readMfaChallengeCookie } from "@/lib/auth/auth-mfa-challenge.cookies.server";
 import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
@@ -13,7 +14,7 @@ export default async function AuthMfaPage() {
 
   return (
     <AuthEntryPage route="mfa">
-      <Suspense fallback={null}>
+      <Suspense fallback={<AuthFormFallback route="mfa" />}>
         <AuthMfaForm initialPayload={initialPayload} />
       </Suspense>
     </AuthEntryPage>

@@ -16,10 +16,8 @@ export type AuthMfaInitialPayload = {
 } | null;
 
 export function AuthMfaForm({
-  initialMode,
   initialPayload,
 }: {
-  readonly initialMode?: AuthSignInMfaMode;
   readonly initialPayload: AuthMfaInitialPayload;
 }) {
   const router = useRouter();
@@ -33,16 +31,8 @@ export function AuthMfaForm({
     resolveSafeInternalPath(searchParams.get("next")) ||
     initialPayload.nextPath;
 
-  const methods: readonly AuthSignInMfaMode[] =
-    initialMode === "backup-code"
-      ? ["backup-code"]
-      : initialMode === "otp" &&
-          initialPayload.challenge.methods.includes("otp")
-        ? ["otp"]
-        : initialMode === "totp" &&
-            initialPayload.challenge.methods.includes("totp")
-          ? ["totp"]
-          : (initialPayload.challenge.methods as readonly AuthSignInMfaMode[]);
+  const methods = initialPayload.challenge
+    .methods as readonly AuthSignInMfaMode[];
 
   return (
     <AuthSignInMfaStep

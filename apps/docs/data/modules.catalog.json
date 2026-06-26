@@ -1,0 +1,91 @@
+{
+  "catalogId": "modules",
+  "exportedAt": "2026-06-26T18:02:58.038Z",
+  "modules": [
+    {
+      "moduleId": "workspace",
+      "label": "Workspace",
+      "routePath": "/modules/workspace",
+      "permissionKey": "workspace.dashboard_read",
+      "requiredEntitlements": [],
+      "optionalCapabilities": []
+    },
+    {
+      "moduleId": "accounting",
+      "label": "Accounting",
+      "routePath": "/modules/accounting",
+      "permissionKey": "accounting.journal_read",
+      "requiredEntitlements": [
+        "module.accounting.enabled"
+      ],
+      "optionalCapabilities": [
+        "eInvoice",
+        "auditExport"
+      ]
+    },
+    {
+      "moduleId": "hrm",
+      "label": "HRM",
+      "routePath": "/modules/hrm",
+      "permissionKey": "hr.employee_read",
+      "requiredEntitlements": [],
+      "optionalCapabilities": []
+    },
+    {
+      "moduleId": "inventory",
+      "label": "Inventory",
+      "routePath": "/modules/inventory",
+      "permissionKey": "inventory.stock_adjust",
+      "requiredEntitlements": [],
+      "optionalCapabilities": [
+        "lotTracking"
+      ]
+    },
+    {
+      "moduleId": "manufacturing",
+      "label": "Manufacturing",
+      "routePath": "/modules/manufacturing",
+      "permissionKey": "inventory.stock_adjust",
+      "requiredEntitlements": [
+        "module.mrp.enabled"
+      ],
+      "optionalCapabilities": [
+        "lotTracking",
+        "forecasting"
+      ]
+    },
+    {
+      "moduleId": "mrp",
+      "label": "MRP",
+      "routePath": "/modules/mrp",
+      "permissionKey": "inventory.stock_adjust",
+      "requiredEntitlements": [
+        "module.mrp.enabled"
+      ],
+      "optionalCapabilities": [
+        "lotTracking",
+        "forecasting"
+      ]
+    },
+    {
+      "moduleId": "sales",
+      "label": "Sales",
+      "routePath": "/modules/sales",
+      "permissionKey": "finance.invoices_read",
+      "requiredEntitlements": [],
+      "optionalCapabilities": []
+    },
+    {
+      "moduleId": "ai_copilot",
+      "label": "AI Copilot",
+      "routePath": "/modules/ai_copilot",
+      "permissionKey": "workspace.dashboard_read",
+      "requiredEntitlements": [
+        "module.ai_copilot.enabled"
+      ],
+      "optionalCapabilities": [
+        "aiRecommendations"
+      ]
+    }
+  ]
+}

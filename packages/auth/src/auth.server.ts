@@ -4,6 +4,8 @@ import {
 } from "./auth.actor-resolution.js";
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
 import type { AfendaAuthSession } from "./auth.contract.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   UnauthenticatedError,
   UnlinkedPlatformUserError,
@@ -42,7 +44,9 @@ function readActiveWorkspaceIdFromBetterAuthSession(session: {
 let authSingleton: AfendaAuth | undefined;
 let authEnvFingerprint: string | undefined;
 
-export function getAuth(env: NodeJS.ProcessEnv = process.env): AfendaAuth {
+export function getAuth(
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
+): AfendaAuth {
   const fingerprint = readAuthConfigFingerprint(env);
 
   if (!authSingleton || authEnvFingerprint !== fingerprint) {
@@ -62,7 +66,7 @@ export function resetAuthForTests(): void {
 
 export async function getAfendaAuthSession(
   requestHeaders: Headers,
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): Promise<AfendaAuthSession | null> {
   const auth = getAuth(env);
   const result = await auth.api.getSession({ headers: requestHeaders });
@@ -102,7 +106,7 @@ export async function getAfendaAuthSession(
 
 export async function requireAfendaAuthSession(
   requestHeaders: Headers,
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnvReaderInput = readAuthRuntimeEnv(),
   options: RequireAfendaAuthSessionOptions = {}
 ): Promise<AfendaAuthSession> {
   const session = await getAfendaAuthSession(requestHeaders, env);

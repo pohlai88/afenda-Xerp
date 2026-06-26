@@ -54,8 +54,16 @@ export const PERMISSION_REGISTRY = {
     },
   },
   inventory: {
+    product: {
+      read: definePermissionKey("inventory", "product_read"),
+      manage: definePermissionKey("inventory", "product_manage"),
+    },
     stock: {
       adjust: definePermissionKey("inventory", "stock_adjust"),
+    },
+    warehouse: {
+      read: definePermissionKey("inventory", "warehouse_read"),
+      manage: definePermissionKey("inventory", "warehouse_manage"),
     },
   },
   hr: {

@@ -101,6 +101,28 @@ export const PLATFORM_PERMISSION_CATALOG = [
     description: "Adjust inventory stock levels.",
   },
   {
+    key: catalogKey("inventory", "product_read"),
+    name: "Read products",
+    description: "Read product master data within authorized tenant scope.",
+  },
+  {
+    key: catalogKey("inventory", "product_manage"),
+    name: "Manage products",
+    description:
+      "Create and update product master data within authorized tenant scope.",
+  },
+  {
+    key: catalogKey("inventory", "warehouse_read"),
+    name: "Read warehouses",
+    description: "Read warehouse master data within authorized company scope.",
+  },
+  {
+    key: catalogKey("inventory", "warehouse_manage"),
+    name: "Manage warehouses",
+    description:
+      "Create and update warehouse master data within authorized company scope.",
+  },
+  {
     key: catalogKey("hr", "employee_read"),
     name: "Read employees",
     description: "Read employee records.",

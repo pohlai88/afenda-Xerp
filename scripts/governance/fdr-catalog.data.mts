@@ -38,7 +38,7 @@ export interface FdrCatalogEntry {
 export const FDR_SCAFFOLD_DELIVERY_STATUS =
   "Not started" as const satisfies FdrCatalogStatus;
 
-export const FDR_CATALOG_TOTAL = 33 as const;
+export const FDR_CATALOG_TOTAL = 34 as const;
 
 export const fdrCatalogEntries = [
   {
@@ -1082,25 +1082,25 @@ export const fdrCatalogEntries = [
     archiveRuntimeHint:
       "TIP/runtime archive — verify in Research Slice 1 (historical label: Complete (authority only))",
     pkg: "PKG-R01",
-    packageName: "@afenda/accounting",
+    packageName: "@afenda/kernel",
     registryEntry: "PKGR01_ACCOUNTING",
     lane: "green-lane",
     domain: "accounting-contracts",
-    runtimeOwner: "packages/accounting",
+    runtimeOwner: "packages/kernel/src/contracts/accounting-domain",
     cleanCore: "A",
     riskClass: "High",
     purpose:
-      "Contracts-only accounting authority (ADR-0015) — no ledger/posting runtime.",
+      "Contracts-only accounting authority (ADR-0015/0020) — vocabulary in kernel; no ledger/posting runtime.",
     legacyTips: [
       "docs/delivery/tips/[Complete (authority only)] tip-014-accounting-core-contracts.md",
     ],
     evidence: [
-      "packages/accounting/src/contracts/accounting-authority.contract.ts",
+      "packages/kernel/src/contracts/accounting-domain/accounting-authority.contract.ts",
       "pnpm check:accounting-domain-contracts",
     ],
     gates: [
       "pnpm check:accounting-domain-contracts",
-      "pnpm --filter @afenda/accounting test:run",
+      "pnpm --filter @afenda/kernel test:run",
     ],
     scopeIn: [
       "Domain vocabulary",
@@ -1118,5 +1118,51 @@ export const fdrCatalogEntries = [
     sapControl: "FI config (design)",
     oracleControl: "Financials setup",
     primaryGate: "pnpm check:accounting-domain-contracts",
+  },
+  {
+    fdrId: "fdr-r02-inventory-master-data",
+    slug: "inventory-master-data",
+    title: "Inventory Master Data",
+    archiveRuntimeHint:
+      "ARCH-MD-001 P0 — product + warehouse in @afenda/database + ERP (ADR-0020)",
+    pkg: "PKG-R02",
+    packageName: "@afenda/database",
+    registryEntry: "PKGR02_INVENTORY",
+    lane: "green-lane",
+    domain: "inventory-master-data",
+    runtimeOwner: "packages/database",
+    cleanCore: "A",
+    riskClass: "Medium",
+    purpose:
+      "Product + warehouse + stock runtime — persistence in @afenda/database; API in apps/erp (ADR-0020).",
+    legacyTips: [],
+    evidence: [
+      "packages/database/src/schema/product.schema.ts",
+      "packages/database/src/schema/warehouse.schema.ts",
+      "packages/database/src/schema/stock-level.schema.ts",
+      "packages/database/src/stock/stock.service.ts",
+      "apps/erp/src/app/api/internal/v1/inventory/stock-movements/route.ts",
+    ],
+    gates: [
+      "pnpm --filter @afenda/database test:run",
+      "pnpm check:business-master-data-scaffold",
+      "pnpm check:api-contracts",
+    ],
+    scopeIn: [
+      "Product + warehouse + stock schemas and services",
+      "ERP internal v1 inventory API (8 contracts)",
+      "Kernel wire references (consume only)",
+    ],
+    scopeOut: ["packages/inventory ceremony package", "ERP inventory UI without API FDR"],
+    gaps: [
+      {
+        id: "inventory-erp-ui",
+        description: "ERP admin UI for product/warehouse/stock",
+        blocks: "fdr-r02 Slice 5+",
+      },
+    ],
+    sapControl: "MM master data",
+    oracleControl: "Inventory org setup",
+    primaryGate: "pnpm --filter @afenda/database test:run",
   },
 ] as const satisfies readonly FdrCatalogEntry[];

@@ -31,13 +31,13 @@
 
 | Metric | Count | Notes |
 | --- | ---: | --- |
-| Active workspace packages (`filesystemRequired`) | **22** | PKG-001–021 + PKG-R01 — [`package-registry.md`](../architecture/package-registry.md) |
-| Reserved domain packages (no filesystem) | **4** | PKG-R02–R05 — **no FDR until ADR + registry promotion** |
-| **Minimum FDR (1 × active PKG)** | **22** | Floor — every active package must appear in §FDR register |
+| Active workspace packages (`filesystemRequired`) | **23** | PKG-001–021 + PKG-R01–R02 — [`package-registry.md`](../architecture/package-registry.md) |
+| Reserved domain packages (no filesystem) | **3** | PKG-R03–R05 — ADR before filesystem |
+| **Minimum FDR (1 × active PKG)** | **23** | Floor — every active package must appear in §FDR register |
 | **Extra FDR (multi-domain packages)** | **+11** | See §Multi-FDR packages |
-| **Catalog FDR total** | **33** | §FDR register row count — must match this table after any edit |
-| Registry disposition entries (machine) | **12** | Subset with lane/gates — not 1:1 with FDR count |
-| FDR delivery files on disk | **33** | All FDR register rows — Phase 2 scaffold complete |
+| **Catalog FDR total** | **34** | §FDR register row count — must match this table after any edit |
+| Registry disposition entries (machine) | **13** | Subset with lane/gates — not 1:1 with FDR count |
+| FDR delivery files on disk | **34** | All FDR register rows — Phase 2 scaffold complete |
 
 ### Multi-FDR packages (+11 over minimum)
 
@@ -52,7 +52,7 @@
 | PKG-018 | `@afenda/ui` | 2 | governed-primitives, ui-consumption |
 
 All other active PKG rows carry **1 FDR** each (15 packages × 1 = 15).  
-**Check:** 7 multi-FDR packages (18 FDR rows) + 15 single-FDR packages = **33**.
+**Check:** 7 multi-FDR packages (18 FDR rows) + 16 single-FDR packages = **34**.
 
 ---
 
@@ -143,7 +143,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 15 | fdr-008-outbox-jobs | PKG-008 | `@afenda/execution` | PKG008_EXECUTION | green | Complete | [FDR/[Complete] fdr-008-outbox-jobs.md](FDR/%5BComplete%5D%20fdr-008-outbox-jobs.md) |
 | 16 | fdr-009-rollout-flags | PKG-009 | `@afenda/feature-flags` | PKG009_FEATURE_FLAGS | blue | Partially Implemented | [FDR/[Partially Implemented] fdr-009-rollout-flags.md](FDR/%5BPartially%20Implemented%5D%20fdr-009-rollout-flags.md) |
 | 17 | fdr-010-context-contracts | PKG-010 | `@afenda/kernel` | PKG010_KERNEL | green | Partially Implemented | [FDR/[Partially Implemented] fdr-010-context-contracts.md](FDR/%5BPartially%20Implemented%5D%20fdr-010-context-contracts.md) |
-| 18 | fdr-010-platform-authority | PKG-010 | `@afenda/kernel` | PKG010_KERNEL | green | Partially Implemented | [FDR/[Partially Implemented] fdr-010-platform-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-010-platform-authority.md) |
+| 18 | fdr-010-platform-authority | PKG-010 | `@afenda/kernel` | PKG010_KERNEL | green | Partially Implemented | [FDR/[Partially Implemented] fdr-010-platform-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-010-platform-authority.md) — **28/30 audit-adjusted** · Slice 2 ✓ |
 | 19 | fdr-010-master-data-authority | PKG-010 | `@afenda/kernel` | PKG010_KERNEL | green | Partially Implemented | [FDR/[Partially Implemented] fdr-010-master-data-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-010-master-data-authority.md) |
 | 20 | fdr-011-metadata-authority | PKG-011 | `@afenda/metadata` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-011-metadata-authority.md](FDR/%5BPartially%20Implemented%5D%20fdr-011-metadata-authority.md) |
 | 21 | fdr-012-metadata-renderers | PKG-012 | `@afenda/metadata-ui` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-012-metadata-renderers.md](FDR/%5BPartially%20Implemented%5D%20fdr-012-metadata-renderers.md) |
@@ -158,7 +158,13 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 30 | fdr-019-architecture-maps | PKG-019 | `@afenda/architecture-authority` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-019-architecture-maps.md](FDR/%5BPartially%20Implemented%5D%20fdr-019-architecture-maps.md) — **Research Slice 1 ✓ · 22/30 audit-adjusted** · Slice 2 registry-sync pending |
 | 31 | fdr-020-ai-governance | PKG-020 | `@afenda/ai-governance` | — | — | Not started | [FDR/[Not started] fdr-020-ai-governance.md](FDR/%5BNot%20started%5D%20fdr-020-ai-governance.md) — **22/30 audit-adjusted** · Research Slice 1 ✓ · Slice 2 registry onboard pending |
 | 32 | fdr-021-storybook | PKG-021 | `@afenda/storybook` | — | — | Not started | [FDR/[Not started] fdr-021-storybook.md](FDR/%5BNot%20started%5D%20fdr-021-storybook.md) — **Research Slice 1 ✓ · 18/30 audit-adjusted** · gates: `typecheck`, `test:storybook:run` |
-| 33 | fdr-r01-accounting-contracts | PKG-R01 | `@afenda/accounting` | PKGR01_ACCOUNTING | green | Complete (authority only) | [FDR/[Complete (authority only)] fdr-r01-accounting-contracts.md](FDR/%5BComplete%20(authority%20only)%5D%20fdr-r01-accounting-contracts.md) |
+| 33 | fdr-r01-accounting-contracts | PKG-R01 | `@afenda/kernel`² | PKGR01_ACCOUNTING | green | Complete (authority only) | [FDR/[Complete (authority only)] fdr-r01-accounting-contracts.md](FDR/%5BComplete%20(authority%20only)%5D%20fdr-r01-accounting-contracts.md) |
+| 34 | fdr-r02-inventory-master-data | PKG-R02 | `@afenda/database` + `apps/erp`¹ | PKGR02_INVENTORY | green | Partially Implemented | [FDR/[Partially Implemented] fdr-r02-inventory-master-data.md](FDR/%5BPartially%20Implemented%5D%20fdr-r02-inventory-master-data.md) — **29/30 audit-adjusted ceiling** · Slices 1–4 ✓ (2026-06-27) · 8 inventory API contracts |
+
+¹ Disposition `packageName` is `@afenda/database`; domain slot PKG-R02 in package-registry keeps retired npm id `@afenda/inventory`.  
+² Disposition `packageName` is `@afenda/kernel`; domain slot PKG-R01 in package-registry keeps retired npm id `@afenda/accounting`.
+
+| 35 | fdr-033-published-docs-ia | PKG-005 | `@afenda/docs` | PKG005_DOCS | blue | Complete — enterprise 9.5 accepted with non-code waivers | [FDR/[Complete] fdr-033-published-docs-ia.md](FDR/%5BComplete%5D%20fdr-033-published-docs-ia.md) — **29/30** · 879 SSG routes · 234 tests · engineering closed 2026-06-26 |
 
 **Legacy TIP evidence** (archive — map during stub authoring): see [`tip-status-index.md`](tip-status-index.md) §Canonical delivery TIPs; registry `legacyTipEvidence[]` on disposition entries.
 
@@ -166,7 +172,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 
 ## §FDR catalog by PKG
 
-Grouped view for package owners. Row counts per PKG must sum to **33**.
+Grouped view for package owners. Row counts per PKG must sum to **34**.
 
 ### PKG-001 — `@afenda/appshell`
 
@@ -202,6 +208,7 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
 | fdr-005-docs-app | — | Complete — enterprise 9.5 accepted | Fumadocs delivery surface — DoD #14 closed 2026-06-25 |
+| fdr-033-published-docs-ia | PKG005_DOCS | Complete — enterprise 9.5 accepted with non-code waivers | Reader IA + tenant ops catalog — engineering closed · P2 translation editorial only |
 
 ### PKG-006 — `@afenda/entitlements`
 
@@ -236,9 +243,9 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-010-context-contracts | PKG010_KERNEL | Partially Implemented | Operating-context contract barrel (27/30 audit · 29/30 ceiling) |
-| fdr-010-platform-authority | PKG010_KERNEL | Partially Implemented | Platform entity authority (TIP-007) (27/30 audit · 29/30 ceiling) |
-| fdr-010-master-data-authority | PKG010_KERNEL | Partially Implemented | Business master data wire contracts (TIP-008B) (27/30 audit · 29/30 ceiling) |
+| fdr-010-context-contracts | PKG010_KERNEL | Partially Implemented | Operating-context contract barrel (28/30 audit · 29/30 ceiling) |
+| fdr-010-platform-authority | PKG010_KERNEL | Partially Implemented | Platform entity authority (TIP-007) (28/30 audit · 29/30 ceiling) · Slice 2 ✓ |
+| fdr-010-master-data-authority | PKG010_KERNEL | Partially Implemented | Business master data wire contracts (TIP-008B) (28/30 audit · 29/30 ceiling) |
 
 ### PKG-011 — `@afenda/metadata`
 
@@ -314,13 +321,19 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 | --- | --- | --- | --- |
 | fdr-r01-accounting-contracts | PKGR01_ACCOUNTING | Complete (authority only) | Domain contracts — **29/30 audit-adjusted**; no ledger runtime |
 
+### PKG-R02 — `@afenda/database` + `apps/erp` (Inventory domain)
+
+| FDR ID | Registry | Status | Domain |
+| --- | --- | --- | --- |
+| fdr-r02-inventory-master-data | PKGR02_INVENTORY | Partially Implemented | Product + warehouse + stock runtime — **29/30 audit-adjusted ceiling**; Slices 1–4 ✓ (2026-06-27) · 8 governed inventory API contracts |
+
 ---
 
 ## §Do not start yet
 
 | Target | Reason |
 | --- | --- |
-| PKG-R02–R05 domain packages | ADR before filesystem — no FDR rows until registry promotion |
+| PKG-R03–R05 domain packages | ADR before filesystem — no FDR rows until registry promotion |
 | TIP-015+ ledger/posting | ADR-0010 — no Drizzle COA/journal until new ADR |
 | TIP-UI-06 ref-as-prop batch | Blocked on ADR-0008 |
 | New FDR IDs outside §FDR register | Add row here first — then author doc via `write-fdr` |

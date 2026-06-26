@@ -1,4 +1,11 @@
 {
   "title": "Documentation",
-  "pages": ["index", "(guides)", "apps"]
+  "pages": [
+    "index",
+    "use-erp",
+    "configure-tenant",
+    "operate-tenant",
+    "integrate",
+    "build-afenda"
+  ]
 }

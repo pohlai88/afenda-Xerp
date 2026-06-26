@@ -140,6 +140,66 @@ export const MFA_OTP_DELIVERY_NOTICE =
 export const MFA_OTP_DELIVERY_HINT =
   "The code expires after a short time. Check spam if you do not see it within a few minutes." as const;
 
+export const AUTH_SIGN_IN_COPY = {
+  emailLabel: "Work email",
+  emailPlaceholder: "name@company.com",
+  passwordLabel: "Password",
+  passwordPlaceholder: "••••••••",
+  forgotPasswordLink: "Forgot password?",
+  orContinueWithEmail: "Or continue with email",
+  submitLabel: "Sign in with email",
+  signingIn: "Signing in…",
+  noAccountPrompt: "No account?",
+  createAccountLink: "Create account",
+} as const;
+
+export const AUTH_SIGN_UP_COPY = {
+  nameLabel: "Full name",
+  namePlaceholder: "Your full name",
+  emailLabel: "Email",
+  emailPlaceholder: "name@company.com",
+  passwordLabel: "Password",
+  passwordPlaceholder: "Create a strong password",
+  createAccountButton: "Create account",
+  creatingAccount: "Creating account…",
+  alreadyHaveAccountLabel: "Already have an account?",
+  signInLink: "Sign in",
+  alreadyHaveAccessLabel: "Already have access?",
+  returnToSignInLink: "Return to sign in",
+} as const;
+
+export const AUTH_MFA_COPY = {
+  headingTotp: "Enter your authenticator code",
+  headingOtp: "Enter the code from your email",
+  headingBackupCode: "Enter a backup code",
+  headingDefault: "Verify your identity",
+  inputLabelTotp: "Authentication code",
+  inputLabelOtp: "Email code",
+  inputLabelBackupCode: "Backup code",
+  inputLabelDefault: "Verification code",
+  placeholderTotp: "000000",
+  placeholderOtp: "000000",
+  placeholderBackupCode: "Backup code",
+  fieldHintTotp:
+    "Open your authenticator app and enter the current 6-digit code.",
+  fieldHintOtp: "Check your inbox for a one-time sign-in code.",
+  fieldHintBackupCode:
+    "Enter one of the backup codes you saved when you enabled two-factor authentication.",
+  emptyCodeTotp: "Enter the code from your authenticator app.",
+  emptyCodeOtp: "Enter the code sent to your email.",
+  emptyCodeBackupCode: "Enter a backup code.",
+  emptyCodeDefault: "Enter your verification code.",
+  useEmailCodeLabel: "Use email code instead",
+  useAuthCodeLabel: "Use authenticator code instead",
+  useBackupCodeLabel: "Use a backup code instead",
+  backToSignIn: "Back to sign in",
+  sendingOtp: "Sending sign-in code…",
+  verifying: "Verifying…",
+  verifyAndContinue: "Verify and continue",
+  otherVerificationOptions: "Other verification options",
+  resendEmailCode: "Resend email code",
+} as const;
+
 /** Phrases that must not appear in user-facing auth copy (enumeration leaks). */
 export const AUTH_ENUMERATION_FORBIDDEN_PHRASES = [
   /email not found/i,

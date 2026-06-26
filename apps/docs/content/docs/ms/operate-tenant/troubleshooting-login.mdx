@@ -1,0 +1,34 @@
+---
+title: Troubleshooting login
+description: Diagnose sign-in, MFA, session, and workspace selection failures.
+audience: tenant-devops
+relatedRoutes:
+  - /sign-in
+  - /mfa
+  - /session-expired
+  - /access-denied
+catalogBindings:
+  - auth-routes
+---
+
+# Troubleshooting login
+
+Use this runbook when users cannot sign in, complete MFA, or reach their workspace.
+
+## Common checks
+
+1. **Credentials** — confirm the user account is active and email is verified (`/verify-email` lane).
+2. **MFA** — ensure device time is correct; use `/mfa/recovery` when authenticator access is lost.
+3. **Session** — expired sessions redirect to `/session-expired`; clear cookies and retry sign-in.
+4. **Access** — `/access-denied` indicates RBAC or tenant scope mismatch; review membership and roles.
+5. **Workspace** — users with multiple memberships must complete `/workspace/select`.
+
+## Auth route map
+
+Compare failing URLs against governed auth segments:
+
+<GeneratedReference catalog="auth-routes" />
+
+## Escalation
+
+If configuration looks correct but auth still fails, capture correlation IDs from observability tooling and review System Admin audit events before changing environment variables.

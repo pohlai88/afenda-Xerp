@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | Low |
 | **BRD reference** | internal — TIP-008B business master data wire references |
-| **Enterprise readiness** | **27/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
+| **Enterprise readiness** | **28/30 audit-adjusted** · **29/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (not final Complete; see §Enterprise benchmark qualification) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -147,7 +147,7 @@ Archive input (not implementation authority): [`tip-008-master-data-authority.md
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
 | `md-authority-domain-runtime` | Entities remain `authority_only` — PKG-R02–R05 schemas/services not started | green | Domain package FDRs | Post Phase 1 | Domain package runtime FDRs promote past `authority_only` |
-| `master-data-authority-complete-status` | FDR at 27/30 audit-adjusted (29/30 ceiling); Complete blocked on peer review + PKG010 dist gate | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]` |
+| `master-data-authority-complete-status` | FDR at 28/30 audit-adjusted (29/30 ceiling); Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]` |
 
 ## §Enterprise readiness score
 
@@ -162,8 +162,8 @@ Archive input (not implementation authority): [`tip-008-master-data-authority.md
 | Observability + audit | 4/5 | Authority-only wire contracts — Grade B | Waiver `md-authority-observability` |
 | Security + RBAC + RLS | 5/5 | Identity scope + import boundary policies tested — Grade A | — |
 | Documentation + BRD traceability | 4/5 | FDR v2 + matrix + dependency-registry check in tests — Grade A | DoD #14 peer review still `[ ]` |
-| Maintainability + Clean Core | 4/5 | Clean Core A; scaffold + shared-package policies — Grade A | PKG010 shared `quality:kernel-context-surface` exit 1 (stale `dist/`) |
-| **Total (audit-adjusted)** | **27/30** | **~9.0 / 10 equivalent** — honest foundation-grade score today | |
+| Maintainability + Clean Core | 5/5 | Clean Core A; scaffold + shared-package policies; PKG010 surface gate exit 0 — Grade A | Slice 2 evidence-sync 2026-06-26 |
+| **Total (audit-adjusted)** | **28/30** | **~9.3 / 10 equivalent** — PKG010 gate green; peer review pending | |
 | **Total (evidence-qualified ceiling)** | **29/30** | Upper bound if §Waivers accepted, PKG010 dist gate green, peer review pending only | Not final 9.5 until Complete |
 
 Target at Complete: **29/30** per enterprise 9.5 benchmark ([ENTERPRISE-BENCHMARK.md §3](../../../.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md)).
@@ -334,11 +334,29 @@ Feature: Business master data authority (TIP-008B)
 
 ### Slice 2 — Evidence-sync (PKG010 surface gate + readiness)
 
-**Status:** Not started  
-**Prerequisite:** `fdr-010-context-contracts` Slice 2 Delivered ✓ (`kernel-context-dist-freshness` closed)  
+**Status:** Delivered (2026-06-26)  
+**Prerequisite:** `fdr-010-context-contracts` Slice 2 Delivered ✓  
 **Type:** Evidence-sync  
 **Risk class:** Low  
 **Clean Core impact:** A→A
+
+#### Outcomes
+
+- Synced §Enterprise readiness score: Maintainability 4/5 → 5/5; audit-adjusted 27/30 → 28/30
+- Recorded gate log with `quality:kernel-context-surface` exit 0
+- Gap `md-authority-domain-runtime` remains open by design
+- DoD #14 peer review still open — not promoted to `[Complete]`
+
+#### Gate log (Slice 2 — 2026-06-26)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/kernel typecheck` | 0 | A |
+| `pnpm --filter @afenda/kernel test:run` | 0 | A (76 tests; MD subdomain 14) |
+| `pnpm quality:kernel-context-surface` | 0 | A |
+| `pnpm check:business-master-data-scaffold` | 0 | A |
+| `pnpm check:foundation-disposition` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
 
 #### Design (internal-guide)
 
@@ -447,6 +465,6 @@ Until DoD #14 closes and PKG010 dist gate is green, this FDR must not be represe
 
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review and PKG010 dist gate closeout.**
+**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 28/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
 
-Research Slice 1 complete (2026-06-25). v2 audit attests `typecheck` and `test:run` exit 0 (MD subdomain 14 tests within 76 package-wide). Domain runtime intentionally deferred (`authority_only`). Do not represent this FDR as **enterprise 9.5 complete** until peer review closes, PKG010 dist gate green, and status promotes to **Complete — enterprise 9.5 accepted**.
+Research Slice 1 complete (2026-06-25). Slice 2 evidence-sync complete (2026-06-26). PKG010 dist gate green. Domain runtime intentionally deferred (`authority_only`). Do not represent this FDR as **enterprise 9.5 complete** until peer review closes and status promotes to **Complete — enterprise 9.5 accepted**.

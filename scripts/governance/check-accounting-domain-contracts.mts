@@ -11,7 +11,7 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  ACCOUNTING_ALLOWED_RUNTIME_DEPENDENCIES,
+  ACCOUNTING_CONTRACTS_ROOT,
   ACCOUNTING_DOMAIN_CONTRACTS_GATE,
   ACCOUNTING_DOMAIN_CONTRACTS_PACKAGE_SCRIPTS,
   ACCOUNTING_DOMAIN_CONTRACTS_SURFACE_RULE,
@@ -19,12 +19,11 @@ import {
   ACCOUNTING_ERP_FORBIDDEN_ROUTE_DIRS,
   ACCOUNTING_ERP_SCAN_SKIP_DIR_NAMES,
   ACCOUNTING_ERP_SOURCE_ROOT,
-  ACCOUNTING_FORBIDDEN_DEPENDENCIES,
   ACCOUNTING_FORBIDDEN_RELATIVE_DIRS,
   ACCOUNTING_FORBIDDEN_SOURCE_PATTERNS,
-  ACCOUNTING_PACKAGE_ROOT,
   ACCOUNTING_POSTING_SERVICE_FILENAME_PATTERN,
   ACCOUNTING_POSTING_SOURCE_KEYWORDS,
+  ACCOUNTING_RETIRED_PACKAGE_ROOT,
 } from "./accounting-domain-contracts-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -204,8 +203,7 @@ export function checkErpAccountingSurfaceDrift(
 
 export function checkAccountingDomainContracts(): AccountingDomainContractsViolation[] {
   const violations: AccountingDomainContractsViolation[] = [];
-  const packageRoot = join(repoRoot, ACCOUNTING_PACKAGE_ROOT);
-  const packageJsonPath = join(packageRoot, "package.json");
+  const contractsRoot = join(repoRoot, ACCOUNTING_CONTRACTS_ROOT);
   const registryPath = join(
     repoRoot,
     "scripts/governance/accounting-domain-contracts-registry.mts"
@@ -213,11 +211,11 @@ export function checkAccountingDomainContracts(): AccountingDomainContractsViola
   const gatePath = join(repoRoot, ACCOUNTING_DOMAIN_CONTRACTS_GATE);
   const rootPackageJsonPath = join(repoRoot, "package.json");
 
-  if (!existsSync(packageRoot)) {
+  if (!existsSync(contractsRoot)) {
     violations.push({
-      rule: "package-missing",
-      file: packageRoot,
-      message: `${ACCOUNTING_PACKAGE_ROOT} must exist for PKG-R01 contracts-only lifecycle`,
+      rule: "contracts-root-missing",
+      file: contractsRoot,
+      message: `${ACCOUNTING_CONTRACTS_ROOT} must exist for PKG-R01 kernel contracts lifecycle`,
     });
     return violations;
   }
@@ -266,58 +264,15 @@ export function checkAccountingDomainContracts(): AccountingDomainContractsViola
       violations.push({
         rule: "forbidden-directory",
         file: absoluteDir,
-        message: `${relativeDir} is prohibited until TIP-015+ runtime ADR`,
+        message:
+          relativeDir === ACCOUNTING_RETIRED_PACKAGE_ROOT
+            ? `${relativeDir} is retired — contracts live in ${ACCOUNTING_CONTRACTS_ROOT} (ADR-0020)`
+            : `${relativeDir} is prohibited until TIP-015+ runtime ADR`,
       });
     }
   }
 
-  if (existsSync(packageJsonPath)) {
-    const packageJson = readJsonFile(packageJsonPath);
-    if (isRecord(packageJson)) {
-      const dependencies = isRecord(packageJson.dependencies)
-        ? packageJson.dependencies
-        : {};
-
-      for (const forbiddenDependency of ACCOUNTING_FORBIDDEN_DEPENDENCIES) {
-        if (forbiddenDependency in dependencies) {
-          violations.push({
-            rule: "forbidden-dependency",
-            file: packageJsonPath,
-            message: `${forbiddenDependency} is prohibited in @afenda/accounting dependencies until TIP-015+`,
-          });
-        }
-      }
-
-      for (const dependencyName of Object.keys(dependencies)) {
-        if (
-          dependencyName.startsWith("@afenda/") &&
-          !(
-            ACCOUNTING_ALLOWED_RUNTIME_DEPENDENCIES as readonly string[]
-          ).includes(dependencyName)
-        ) {
-          violations.push({
-            rule: "unexpected-runtime-dependency",
-            file: packageJsonPath,
-            message: `${dependencyName} is not an allowed runtime dependency for contracts-only @afenda/accounting`,
-          });
-        }
-      }
-    } else {
-      violations.push({
-        rule: "package-json-invalid",
-        file: packageJsonPath,
-        message: "packages/accounting/package.json must be a JSON object",
-      });
-    }
-  } else {
-    violations.push({
-      rule: "package-json-missing",
-      file: packageJsonPath,
-      message: "packages/accounting/package.json is required",
-    });
-  }
-
-  const sourceRoot = join(packageRoot, "src");
+  const sourceRoot = contractsRoot;
   for (const sourceFile of collectSourceFiles(sourceRoot)) {
     const relativePath = relative(repoRoot, sourceFile).replace(/\\/g, "/");
     const source = readFileSync(sourceFile, "utf8");
@@ -357,7 +312,7 @@ function main(): void {
   }
 
   console.log(
-    "Accounting domain contracts-only gate passed (PKG-R01 / ADR-0015)."
+    "Accounting domain contracts-only gate passed (PKG-R01 kernel / ADR-0020)."
   );
 }
 

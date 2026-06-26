@@ -30,21 +30,19 @@ describe("check-accounting-domain-contracts gate", () => {
     );
   });
 
-  it("lists PKG-R01 evidence paths including accounting package surface", () => {
+  it("lists PKG-R01 evidence paths including kernel accounting-domain surface", () => {
     expect(ACCOUNTING_DOMAIN_CONTRACTS_EVIDENCE).toContain(
-      "packages/accounting/src/index.ts"
+      "packages/kernel/src/contracts/accounting-domain/index.ts"
     );
     expect(ACCOUNTING_DOMAIN_CONTRACTS_EVIDENCE).toContain(
       "scripts/governance/check-accounting-domain-contracts.mts"
     );
   });
 
-  it("does not flag allowed contract directories as forbidden", () => {
-    expect(ACCOUNTING_FORBIDDEN_RELATIVE_DIRS).not.toContain(
-      "packages/accounting/src/contracts"
-    );
-    expect(ACCOUNTING_FORBIDDEN_RELATIVE_DIRS).not.toContain(
-      "packages/accounting/src/bridge"
+  it("flags retired packages/accounting and forbidden kernel runtime dirs", () => {
+    expect(ACCOUNTING_FORBIDDEN_RELATIVE_DIRS).toContain("packages/accounting");
+    expect(ACCOUNTING_FORBIDDEN_RELATIVE_DIRS).toContain(
+      "packages/kernel/src/contracts/accounting-domain/schema"
     );
   });
 

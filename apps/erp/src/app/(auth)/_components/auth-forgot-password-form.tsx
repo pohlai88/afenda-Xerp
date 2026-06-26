@@ -10,7 +10,7 @@ import {
 } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import {
@@ -59,26 +59,24 @@ export function AuthForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setNotice(null);
-    setIsSubmitting(true);
+    startTransition(async () => {
+      const result = await submitPasswordResetRequest({ email });
 
-    const result = await submitPasswordResetRequest({ email });
+      if (result.error) {
+        setError(
+          mapAuthClientError(result.error.message, "passwordResetRequestFailed")
+        );
+        return;
+      }
 
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(
-        mapAuthClientError(result.error.message, "passwordResetRequestFailed")
-      );
-      return;
-    }
-
-    setNotice(FORGOT_PASSWORD_SUCCESS_LEAD);
+      setNotice(FORGOT_PASSWORD_SUCCESS_LEAD);
+    });
   }
 
   if (notice !== null) {
@@ -117,14 +115,15 @@ export function AuthForgotPasswordForm() {
         </Field>
         <div className="erp-auth-form__submit-row">
           <Button
-            disabled={isSubmitting}
+            aria-busy={isPending ? "true" : undefined}
+            disabled={isPending}
             emphasis="solid"
             intent="primary"
             presentation="default"
             size="md"
             type="submit"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <Spinner aria-label="Sending reset link" size="sm" />
                 Sending…

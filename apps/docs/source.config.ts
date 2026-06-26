@@ -1,6 +1,10 @@
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
 import { remarkAutoTypeTable } from "fumadocs-typescript";
 import { z } from "zod";
+import {
+  CATALOG_IDS,
+  TASK_ARTICLE_AUDIENCES,
+} from "./src/lib/docs-product-catalog.contract";
 import { remarkBlockId } from "./src/lib/mdx-plugins/remark-block-id";
 import { docsTypeGenerator } from "./src/lib/docs-type-generator";
 
@@ -18,6 +22,9 @@ export const docs = defineDocs({
       full: z.boolean().optional(),
       status: z.enum(["draft", "published"]).optional(),
       noIndex: z.boolean().optional(),
+      audience: z.enum(TASK_ARTICLE_AUDIENCES).optional(),
+      relatedRoutes: z.array(z.string()).optional(),
+      catalogBindings: z.array(z.enum(CATALOG_IDS)).optional(),
       _openapi: z
         .object({
           preload: z.array(z.string()).optional(),

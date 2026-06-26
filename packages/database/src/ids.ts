@@ -79,6 +79,13 @@ export const projectIdRef = (): EntityRefColumn => entityRefId("project_id");
 /** Governed foreign-key column for team references. */
 export const teamIdRef = (): EntityRefColumn => entityRefId("team_id");
 
+/** Governed foreign-key column for product master data references. */
+export const productIdRef = (): EntityRefColumn => entityRefId("product_id");
+
+/** Governed foreign-key column for warehouse master data references. */
+export const warehouseIdRef = (): EntityRefColumn =>
+  entityRefId("warehouse_id");
+
 /** Governed foreign-key column for parent legal entity references. */
 export const parentLegalEntityIdRef = (): EntityRefColumn =>
   entityRefId("parent_legal_entity_id");
@@ -132,6 +139,12 @@ export const projectId = (): PrimaryIdColumn => primaryId("project_id");
 
 /** Governed primary key for team entities. */
 export const teamId = (): PrimaryIdColumn => primaryId("team_id");
+
+/** Governed primary key for product master data entities. */
+export const productId = (): PrimaryIdColumn => primaryId("product_id");
+
+/** Governed primary key for warehouse master data entities. */
+export const warehouseId = (): PrimaryIdColumn => primaryId("warehouse_id");
 
 /** Governed primary key for ownership interest entities. */
 export const ownershipInterestId = (): PrimaryIdColumn =>

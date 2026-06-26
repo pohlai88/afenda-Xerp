@@ -1,4 +1,5 @@
 import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
 
 export const SUPABASE_PUBLIC_URL_ENV = "NEXT_PUBLIC_SUPABASE_URL";
 export const SUPABASE_PUBLIC_PUBLISHABLE_KEY_ENV =
@@ -50,7 +51,7 @@ function readTrimmedEnv(env: EnvReaderSource, key: string): string | undefined {
 }
 
 export function getSupabasePublicUrl(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string {
   const url =
     readTrimmedEnv(env, SUPABASE_PUBLIC_URL_ENV) ??
@@ -64,7 +65,7 @@ export function getSupabasePublicUrl(
 }
 
 export function getSupabasePublicKey(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string {
   const key =
     readTrimmedEnv(env, SUPABASE_PUBLIC_PUBLISHABLE_KEY_ENV) ??
@@ -79,7 +80,7 @@ export function getSupabasePublicKey(
 }
 
 export function getSupabaseSecretKey(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string {
   const key =
     readTrimmedEnv(env, SUPABASE_SECRET_KEY_ENV) ??
@@ -93,7 +94,7 @@ export function getSupabaseSecretKey(
 }
 
 export function getSupabaseJwksUrl(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string | undefined {
   const explicitUrl = readTrimmedEnv(env, SUPABASE_JWKS_URL_ENV);
 
@@ -113,7 +114,7 @@ export function getSupabaseJwksUrl(
 }
 
 export function getSupabaseJwtKeyId(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string | undefined {
   return (
     readTrimmedEnv(env, SUPABASE_JWT_KID_ENV) ??
@@ -122,13 +123,13 @@ export function getSupabaseJwtKeyId(
 }
 
 export function hasSupabaseJwtConfig(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): boolean {
   return Boolean(getSupabaseJwksUrl(env) && getSupabaseJwtKeyId(env));
 }
 
 export function hasSupabasePublicConfig(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): boolean {
   try {
     getSupabasePublicUrl(env);
@@ -140,7 +141,7 @@ export function hasSupabasePublicConfig(
 }
 
 export function hasSupabaseSecretKey(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): boolean {
   return Boolean(
     readTrimmedEnv(env, SUPABASE_SECRET_KEY_ENV) ??

@@ -1,9 +1,38 @@
+"use client";
+
 import { Spinner } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
-import type { FormEventHandler, ReactNode } from "react";
+import {
+  createContext,
+  type FormEventHandler,
+  type ReactNode,
+  use,
+} from "react";
 
 import { AuthStatusSurface } from "@/app/(auth)/_components/auth-status-surface";
+import type { AuthFormContextValue } from "@/lib/auth/auth-form-state";
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
+
+const AuthFormContext = createContext<AuthFormContextValue | null>(null);
+
+function AuthFormProvider({
+  children,
+  value,
+}: {
+  readonly children: ReactNode;
+  readonly value: AuthFormContextValue;
+}) {
+  return <AuthFormContext value={value}>{children}</AuthFormContext>;
+}
+
+export function useAuthFormContext(): AuthFormContextValue {
+  const ctx = use(AuthFormContext);
+  if (!ctx) {
+    throw new Error("useAuthFormContext must be used within AuthForm.Provider");
+  }
+  return ctx;
+}
 
 function AuthFormRoot({ children }: { readonly children: ReactNode }) {
   return <div className="erp-auth-form">{children}</div>;
@@ -181,7 +210,13 @@ function AuthFormSkeleton({ label }: { readonly label: string }) {
   );
 }
 
+export type AuthFormCompoundGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Spinner"
+>;
+
 export const AuthForm = {
+  Provider: AuthFormProvider,
   Root: AuthFormRoot,
   BackToSignIn: AuthFormBackToSignIn,
   BackButton: AuthFormBackButton,

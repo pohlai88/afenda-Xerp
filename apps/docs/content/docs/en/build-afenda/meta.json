@@ -1,0 +1,12 @@
+{
+  "title": "Build Afenda",
+  "icon": "Rocket",
+  "pages": [
+    "index",
+    "getting-started",
+    "monorepo-map",
+    "---Contributing---",
+    "contributing",
+    "apps"
+  ]
+}

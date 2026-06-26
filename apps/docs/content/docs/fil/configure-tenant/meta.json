@@ -1,0 +1,5 @@
+{
+  "title": "Configure Tenant",
+  "icon": "Settings",
+  "pages": ["index", "users-and-memberships", "roles-and-permissions"]
+}

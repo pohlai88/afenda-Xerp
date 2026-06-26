@@ -51,19 +51,19 @@
   "searchLinks": [
     {
       "label": "Getting Started",
-      "docsPath": "/docs/getting-started"
+      "docsPath": "/docs/build-afenda/getting-started"
     },
     {
       "label": "Monorepo Map",
-      "docsPath": "/docs/monorepo-map"
+      "docsPath": "/docs/build-afenda/monorepo-map"
     },
     {
       "label": "Applications",
-      "docsPath": "/docs/apps"
+      "docsPath": "/docs/build-afenda/apps"
     },
     {
       "label": "Contributing",
-      "docsPath": "/docs/contributing"
+      "docsPath": "/docs/build-afenda/contributing"
     }
   ]
 }

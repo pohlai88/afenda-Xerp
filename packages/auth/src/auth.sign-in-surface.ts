@@ -1,4 +1,6 @@
 import { resolveBetterAuthSocialProviders } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import {
   type AfendaAuthSocialProviderId,
   isAfendaAuthSocialProviderId,
@@ -13,7 +15,7 @@ export interface SignInProviderSurface {
 
 /** Resolves which alternate sign-in methods the ERP sign-in page may offer. */
 export function resolveSignInProviderSurface(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): SignInProviderSurface {
   const socialProviders = resolveBetterAuthSocialProviders(env);
   const socialProviderIds: AfendaAuthSocialProviderId[] = [];

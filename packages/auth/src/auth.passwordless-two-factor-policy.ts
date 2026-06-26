@@ -1,3 +1,5 @@
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import { AFENDA_AUTH_OAUTH_CALLBACK_PREFIX } from "./auth.oauth-policy.js";
 import {
   AFENDA_AUTH_SSO_OIDC_CALLBACK_PREFIX,
@@ -40,7 +42,7 @@ export const AFENDA_AUTH_PASSKEY_SIGN_IN_PATH =
   "/passkey/verify-authentication" as const;
 
 export function resolveAfendaAuthPasswordlessTwoFactorMode(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): AfendaAuthPasswordlessTwoFactorMode {
   const raw = env[AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR_ENV]?.trim();
 
@@ -54,7 +56,7 @@ export function isAfendaAuthPasswordlessSignInPath(path: string): boolean {
 }
 
 export function isAfendaAuthPasswordlessTwoFactorEnforcementActive(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   return resolveAfendaAuthPasswordlessTwoFactorMode(env) === "enforce-all";
 }

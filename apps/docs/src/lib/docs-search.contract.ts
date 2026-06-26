@@ -1,5 +1,10 @@
 import type { SearchLink } from "fumadocs-ui/contexts/search";
-import { docsHref, docsSeedSections } from "@/lib/docs-nav.contract";
+import {
+  docsBuildAfendaSection,
+  docsHref,
+  docsReaderSections,
+  docsSeedSections,
+} from "@/lib/docs-nav.contract";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
 
@@ -24,21 +29,30 @@ export function docsSearchEmptyLinkHrefs(
   return docsSearchEmptyLinks(locale).map((link) => link[1]);
 }
 
-const guideSectionIds = new Set(
+const buildAfendaSectionIds = new Set<string>(
   docsSeedSections
-    .filter((section) => section.id !== "apps")
+    .filter((section) =>
+      ["getting-started", "monorepo-map", "contributing", "apps"].includes(
+        section.id
+      )
+    )
     .map((section) => section.id)
 );
 
-/** Every quick link (except Applications) maps to a guides seed section slug path. */
+const readerSectionIds = new Set<string>(docsReaderSections);
+
+/** Every quick link maps to a reader or build-afenda seed section slug path. */
 export function isDocsSearchLinkAlignedWithSeedSlug(href: string): boolean {
-  if (href.endsWith("/docs/apps")) {
+  const slugPath = href.replace(docsHrefPrefixPattern, "");
+  const [root, second] = slugPath.split("/");
+
+  if (root === docsBuildAfendaSection && second) {
+    return buildAfendaSectionIds.has(second);
+  }
+
+  if (root && readerSectionIds.has(root)) {
     return true;
   }
 
-  const slugPath = href.replace(docsHrefPrefixPattern, "");
-  const sectionId = slugPath.split("/")[0];
-  return guideSectionIds.has(
-    sectionId as "getting-started" | "monorepo-map" | "contributing"
-  );
+  return false;
 }

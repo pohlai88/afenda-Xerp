@@ -18,13 +18,17 @@ export const TENANT_SCOPED_TABLE_NAMES = [
   "organizations",
   "outbox_events",
   "policies",
+  "products",
   "projects",
   "roles",
+  "stock_levels",
+  "stock_movements",
   "storage_objects",
   "teams",
   "tenant_commercial_plans",
   "tenant_settings",
   "usage_limit_counters",
+  "warehouses",
 ] as const satisfies readonly string[];
 
 export type TenantScopedTableName = (typeof TENANT_SCOPED_TABLE_NAMES)[number];

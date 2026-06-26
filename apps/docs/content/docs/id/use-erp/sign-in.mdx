@@ -1,0 +1,28 @@
+---
+title: Sign in to Afenda ERP
+description: Sign-in paths, MFA, and workspace selection for end users.
+audience: end-user
+relatedRoutes:
+  - /sign-in
+  - /mfa
+  - /workspace/select
+catalogBindings:
+  - auth-routes
+---
+
+# Sign in to Afenda ERP
+
+Use your tenant URL and credentials to reach the ERP workspace. Afenda routes authentication through governed auth segments — each path maps to a lane (access, verify, security, workspace, and others).
+
+## Steps
+
+1. Open your tenant sign-in URL (typically `/sign-in` on your tenant host).
+2. Enter email and password, or use your organization's SSO provider when enabled.
+3. Complete MFA when prompted at `/mfa`.
+4. Select a workspace at `/workspace/select` if you belong to more than one.
+
+## Auth route reference
+
+The table below is synced from the ERP auth path registry at build time.
+
+<GeneratedReference catalog="auth-routes" />

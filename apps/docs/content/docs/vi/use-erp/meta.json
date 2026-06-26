@@ -1,0 +1,5 @@
+{
+  "title": "Use ERP",
+  "icon": "User",
+  "pages": ["index", "sign-in"]
+}

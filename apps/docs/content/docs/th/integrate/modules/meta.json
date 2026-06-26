@@ -1,0 +1,14 @@
+{
+  "title": "ERP Modules",
+  "pages": [
+    "index",
+    "workspace",
+    "accounting",
+    "hrm",
+    "inventory",
+    "manufacturing",
+    "mrp",
+    "sales",
+    "ai_copilot"
+  ]
+}

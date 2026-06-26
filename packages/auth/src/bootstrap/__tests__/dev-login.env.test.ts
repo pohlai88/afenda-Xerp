@@ -3,7 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   assertDevAuthBootstrapAllowed,
   DevAuthBootstrapError,
+  hasDevLoginCredentials,
   hasDevViewerLoginCredentials,
+  isDevLoginPanelEnabled,
   resolveDevLoginEmail,
   resolveDevLoginPassword,
   resolveDevViewerLoginPassword,
@@ -12,6 +14,7 @@ import {
   DEV_AUTH_BOOTSTRAP_CONFIRM_ENV,
   DEV_LOGIN_EMAIL,
   DEV_LOGIN_EMAIL_ENV,
+  DEV_LOGIN_PANEL_ENV,
   DEV_LOGIN_PASSWORD_ENV,
   DEV_VIEWER_LOGIN_PASSWORD_ENV,
 } from "../dev-login.fixture.js";
@@ -85,5 +88,34 @@ describe("dev auth bootstrap env", () => {
         [DEV_VIEWER_LOGIN_PASSWORD_ENV]: "ViewerOnly!99",
       })
     ).toBe(true);
+  });
+
+  it("detects configured dev login credentials without throwing", () => {
+    expect(hasDevLoginCredentials({})).toBe(false);
+    expect(hasDevLoginCredentials({ [DEV_LOGIN_PASSWORD_ENV]: "short" })).toBe(
+      false
+    );
+    expect(
+      hasDevLoginCredentials({
+        [DEV_LOGIN_PASSWORD_ENV]: "DevLocalLogin!23",
+      })
+    ).toBe(true);
+  });
+
+  it("enables the dev login panel outside production unless explicitly disabled", () => {
+    expect(isDevLoginPanelEnabled({ NODE_ENV: "production" })).toBe(false);
+    expect(isDevLoginPanelEnabled({ NODE_ENV: "development" })).toBe(true);
+    expect(
+      isDevLoginPanelEnabled({
+        NODE_ENV: "development",
+        [DEV_LOGIN_PANEL_ENV]: "false",
+      })
+    ).toBe(false);
+    expect(
+      isDevLoginPanelEnabled({
+        NODE_ENV: "development",
+        [DEV_LOGIN_PANEL_ENV]: "0",
+      })
+    ).toBe(false);
   });
 });

@@ -4,9 +4,10 @@ import {
   parseTenantSsoSamlMetadata,
   TENANT_SSO_CLIENT_SECRET_ENV_KEY,
 } from "@afenda/database";
-
 import type { AfendaAuth } from "./auth.config.js";
 import { getBetterAuthUrl } from "./auth.env.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 import { getAuth } from "./auth.server.js";
 import { AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX } from "./auth.sso-policy.js";
 
@@ -24,7 +25,7 @@ function readSsoRegistrationApi(auth: AfendaAuth): {
 }
 
 export interface SyncTenantSsoProviderInput {
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: AuthEnvReaderInput;
   readonly headers: Headers;
   readonly id: string;
   readonly tenantId: string;
@@ -46,7 +47,7 @@ export type SyncTenantSsoProviderResult =
 
 function readClientSecret(
   clientSecretEnvKey: string | null | undefined,
-  env: NodeJS.ProcessEnv
+  env: AuthEnvReaderInput
 ): string | undefined {
   if (!clientSecretEnvKey) {
     return;
@@ -59,7 +60,7 @@ function readClientSecret(
 export async function syncTenantSsoProviderWithBetterAuth(
   input: SyncTenantSsoProviderInput
 ): Promise<SyncTenantSsoProviderResult> {
-  const env = input.env ?? process.env;
+  const env = input.env ?? readAuthRuntimeEnv();
   const record = await getTenantSsoProviderById({
     id: input.id,
     tenantId: input.tenantId,

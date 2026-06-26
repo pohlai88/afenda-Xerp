@@ -60,6 +60,12 @@ const AFENDA_OPENAPI_DOCUMENT_TAGS = [
     name: "appearance",
     description: "Tenant branding and appearance asset management.",
   },
+  {
+    name: "inventory",
+    description: "Inventory master data — products and warehouses.",
+  },
+  { name: "products", description: "Product master data operations." },
+  { name: "warehouses", description: "Warehouse master data operations." },
 ] as const;
 
 function isContractDeprecated(

@@ -16,11 +16,12 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-
+import { useState, useTransition } from "react";
+import { AuthDevLoginPanel } from "@/app/(auth)/_components/auth-dev-login-panel";
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import { AuthSignInAltMethods } from "@/app/(auth)/_components/auth-sign-in-alt-methods";
 import { AuthSocialProviderIcon } from "@/app/(auth)/_components/auth-social-provider-icons";
+import { AUTH_SIGN_IN_COPY } from "@/lib/auth/auth-copy.registry";
 import {
   formatSignInMethodLabel,
   setLastUsedLoginMethod,
@@ -32,6 +33,7 @@ import {
   resolveMfaEntryRedirect,
   resolvePostAuthCompletePath,
 } from "@/lib/auth/auth-redirect.policy";
+import type { DevLoginPanelState } from "@/lib/auth/dev-login-panel.contract";
 import { fetchPostAuthEntryPath } from "@/lib/auth/fetch-post-auth-entry-path.client";
 import {
   readSignInTwoFactorChallenge,
@@ -81,8 +83,10 @@ function SocialSignInButtonContent({
 }
 
 export function AuthSignInForm({
+  devLoginPanel,
   surface,
 }: {
+  readonly devLoginPanel: DevLoginPanelState;
   readonly surface: SignInProviderSurface;
 }) {
   const router = useRouter();
@@ -95,107 +99,107 @@ export function AuthSignInForm({
   const [password, setPassword] = useState("");
   const [ssoEmail, setSsoEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   usePasskeyConditionalUi(surface.passkeyEnabled);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function performEmailSignIn(signInEmail: string, signInPassword: string) {
     setError(null);
-    setIsSubmitting(true);
+    startTransition(async () => {
+      let pendingMfaChallenge: SignInTwoFactorChallenge | null = null;
 
-    let pendingMfaChallenge: SignInTwoFactorChallenge | null = null;
-
-    const result = await signIn.email(
-      {
-        email,
-        password,
-      },
-      {
-        onSuccess(context) {
-          pendingMfaChallenge = readSignInTwoFactorChallenge(context.data);
+      const result = await signIn.email(
+        {
+          email: signInEmail,
+          password: signInPassword,
         },
+        {
+          onSuccess(context) {
+            pendingMfaChallenge = readSignInTwoFactorChallenge(context.data);
+          },
+        }
+      );
+
+      if (pendingMfaChallenge !== null) {
+        await persistMfaChallengeAction(pendingMfaChallenge, nextParam);
+        router.replace(resolveMfaEntryRedirect());
+        return;
       }
-    );
 
-    setIsSubmitting(false);
+      if (result.error) {
+        setError(mapAuthClientError(result.error.message, "signInFailed"));
+        return;
+      }
 
-    if (pendingMfaChallenge !== null) {
-      await persistMfaChallengeAction(pendingMfaChallenge, nextParam);
-      router.replace(resolveMfaEntryRedirect());
-      return;
-    }
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "signInFailed"));
-      return;
-    }
-
-    setLastUsedLoginMethod("email");
-    setPostAuthSignInMethod("email");
-    const destination = await fetchPostAuthEntryPath(nextParam);
-    router.replace(destination);
-    router.refresh();
-  }
-
-  async function handleSocialSignIn(provider: SignInSocialProviderId) {
-    setError(null);
-    setIsSubmitting(true);
-
-    const result = await signIn.social({
-      callbackURL: postAuthCompletePath,
-      provider,
+      setLastUsedLoginMethod("email");
+      setPostAuthSignInMethod("email");
+      const destination = await fetchPostAuthEntryPath(nextParam);
+      router.replace(destination);
+      router.refresh();
     });
-
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "socialSignInFailed"));
-      return;
-    }
-
-    setLastUsedLoginMethod(provider);
-    setPostAuthSignInMethod(provider);
   }
 
-  async function handlePasskeySignIn() {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    performEmailSignIn(email, password);
+  }
+
+  function handleSocialSignIn(provider: SignInSocialProviderId) {
     setError(null);
-    setIsSubmitting(true);
+    startTransition(async () => {
+      const result = await signIn.social({
+        callbackURL: postAuthCompletePath,
+        provider,
+      });
 
-    const result = await signIn.passkey();
+      if (result.error) {
+        setError(
+          mapAuthClientError(result.error.message, "socialSignInFailed")
+        );
+        return;
+      }
 
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "passkeySignInFailed"));
-      return;
-    }
-
-    setLastUsedLoginMethod("passkey");
-    setPostAuthSignInMethod("passkey");
-    router.replace(postAuthCompletePath);
-    router.refresh();
+      setLastUsedLoginMethod(provider);
+      setPostAuthSignInMethod(provider);
+    });
   }
 
-  async function handleSsoSignIn(event: React.FormEvent<HTMLFormElement>) {
+  function handlePasskeySignIn() {
+    setError(null);
+    startTransition(async () => {
+      const result = await signIn.passkey();
+
+      if (result.error) {
+        setError(
+          mapAuthClientError(result.error.message, "passkeySignInFailed")
+        );
+        return;
+      }
+
+      setLastUsedLoginMethod("passkey");
+      setPostAuthSignInMethod("passkey");
+      router.replace(postAuthCompletePath);
+      router.refresh();
+    });
+  }
+
+  function handleSsoSignIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    setIsSubmitting(true);
+    startTransition(async () => {
+      const result = await signIn.sso({
+        callbackURL: postAuthCompletePath,
+        email: ssoEmail.trim(),
+      });
 
-    const result = await signIn.sso({
-      callbackURL: postAuthCompletePath,
-      email: ssoEmail.trim(),
+      if (result.error) {
+        setError(mapAuthClientError(result.error.message, "ssoSignInFailed"));
+        return;
+      }
+
+      setLastUsedLoginMethod("sso");
+      setPostAuthSignInMethod("sso");
     });
-
-    setIsSubmitting(false);
-
-    if (result.error) {
-      setError(mapAuthClientError(result.error.message, "ssoSignInFailed"));
-      return;
-    }
-
-    setLastUsedLoginMethod("sso");
-    setPostAuthSignInMethod("sso");
   }
 
   const hasSocialProviders = surface.socialProviderIds.length > 0;
@@ -211,12 +215,12 @@ export function AuthSignInForm({
         <div className="erp-auth-form__social-actions">
           {surface.socialProviderIds.map((providerId) => (
             <Button
-              disabled={isSubmitting}
+              disabled={isPending}
               emphasis="outline"
               intent="secondary"
               key={providerId}
               onClick={() => {
-                void handleSocialSignIn(providerId);
+                handleSocialSignIn(providerId);
               }}
               presentation="default"
               size="md"
@@ -237,14 +241,16 @@ export function AuthSignInForm({
       {hasSocialProviders ? (
         <AuthForm.AlternateEntry>
           <span className="erp-auth-form__alternate-entry-label">
-            Or continue with email
+            {AUTH_SIGN_IN_COPY.orContinueWithEmail}
           </span>
         </AuthForm.AlternateEntry>
       ) : null}
 
       <AuthForm.Fields onSubmit={handleSubmit}>
         <Field>
-          <FieldLabel htmlFor="auth-email">Work email</FieldLabel>
+          <FieldLabel htmlFor="auth-email">
+            {AUTH_SIGN_IN_COPY.emailLabel}
+          </FieldLabel>
           <Input
             aria-describedby={error ? "auth-email-error" : undefined}
             aria-invalid={!!error}
@@ -252,7 +258,7 @@ export function AuthSignInForm({
             id="auth-email"
             name="email"
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="name@company.com"
+            placeholder={AUTH_SIGN_IN_COPY.emailPlaceholder}
             required
             type="email"
             value={email}
@@ -263,12 +269,14 @@ export function AuthSignInForm({
         </Field>
         <Field>
           <div className="erp-auth-form__field-toolbar">
-            <FieldLabel htmlFor="auth-password">Password</FieldLabel>
+            <FieldLabel htmlFor="auth-password">
+              {AUTH_SIGN_IN_COPY.passwordLabel}
+            </FieldLabel>
             <Link
               className="erp-auth-form__link erp-auth-form__field-toolbar-action"
               href={buildAuthPath("forgotPassword")}
             >
-              Forgot password?
+              {AUTH_SIGN_IN_COPY.forgotPasswordLink}
             </Link>
           </div>
           <Input
@@ -277,7 +285,7 @@ export function AuthSignInForm({
             id="auth-password"
             name="password"
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="••••••••"
+            placeholder={AUTH_SIGN_IN_COPY.passwordPlaceholder}
             required
             type="password"
             value={password}
@@ -285,20 +293,21 @@ export function AuthSignInForm({
         </Field>
         <div className="erp-auth-form__submit-row">
           <Button
-            disabled={isSubmitting}
+            aria-busy={isPending ? "true" : undefined}
+            disabled={isPending}
             emphasis="solid"
             intent="primary"
             presentation="default"
             size="md"
             type="submit"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <Spinner aria-label="Signing in" size="sm" />
-                Signing in…
+                {AUTH_SIGN_IN_COPY.signingIn}
               </>
             ) : (
-              formatSignInMethodLabel("Sign in with email", "email")
+              formatSignInMethodLabel(AUTH_SIGN_IN_COPY.submitLabel, "email")
             )}
           </Button>
         </div>
@@ -307,9 +316,9 @@ export function AuthSignInForm({
       {hasOtherMethods ? (
         <AuthSignInAltMethods
           defaultTab={hasPasskey ? "passkey" : "sso"}
-          isSubmitting={isSubmitting}
+          isSubmitting={isPending}
           onPasskeySignIn={() => {
-            void handlePasskeySignIn();
+            handlePasskeySignIn();
           }}
           onSsoEmailChange={setSsoEmail}
           onSsoSubmit={handleSsoSignIn}
@@ -319,10 +328,23 @@ export function AuthSignInForm({
         />
       ) : null}
 
+      {devLoginPanel.enabled ? (
+        <AuthDevLoginPanel
+          onFillCredentials={(account) => {
+            setEmail(account.email);
+            setPassword(account.password);
+          }}
+          onQuickSignIn={(account) => {
+            performEmailSignIn(account.email, account.password);
+          }}
+          panel={devLoginPanel}
+        />
+      ) : null}
+
       <AuthForm.SignUpPrompt>
-        No account?{" "}
+        {AUTH_SIGN_IN_COPY.noAccountPrompt}{" "}
         <Link className="erp-auth-form__link" href={buildAuthPath("signUp")}>
-          Create account
+          {AUTH_SIGN_IN_COPY.createAccountLink}
         </Link>
       </AuthForm.SignUpPrompt>
     </AuthForm.Root>

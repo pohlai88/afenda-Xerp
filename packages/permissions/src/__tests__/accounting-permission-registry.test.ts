@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { PERMISSION_REGISTRY } from "../grants/permission.contract.js";
 
 /**
- * Keep aligned with @afenda/accounting ACCOUNTING_PERMISSION_KEY_VOCABULARY.
- * No cross-package import — architecture boundary (permissions ↛ accounting).
+ * Keep aligned with kernel ACCOUNTING_PERMISSION_KEY_VOCABULARY
+ * (`@afenda/kernel/accounting-domain`). No cross-package import.
  */
 const EXPECTED_ACCOUNTING_PERMISSION_KEYS = [
   "accounting.coa_read",

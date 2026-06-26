@@ -9,13 +9,14 @@ import {
   revokeMemberInvitationById,
   validateMemberInvitation,
 } from "@afenda/database";
-
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT, type AuthEventContext } from "./auth.contract.js";
 import {
   type AuthEmailDeliveryDeps,
   deliverAuthInvitationEmail,
 } from "./auth.email.js";
+import type { AuthEnvReaderInput } from "./auth.env-reader.js";
+import { readAuthRuntimeEnv } from "./auth.env-reader.js";
 
 /**
  * ARCH-AUTH-001 Slice 11 — invitation gate backed by `member_invitations`.
@@ -36,7 +37,7 @@ export interface AuthInvitationRecord {
 
 export interface AuthInvitationDeps {
   readonly emailDeps?: AuthEmailDeliveryDeps;
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: AuthEnvReaderInput;
 }
 
 export interface RegisterAuthInvitationInput {
@@ -76,7 +77,7 @@ async function attemptAuthInvitationEmailDelivery(
   audit: AuthEventContext | undefined,
   deps: AuthInvitationDeps | undefined
 ): Promise<string | undefined> {
-  const env = deps?.env ?? process.env;
+  const env = deps?.env ?? readAuthRuntimeEnv();
   const emailDeps = deps?.emailDeps ?? {};
 
   try {
@@ -245,7 +246,7 @@ export function readInvitationTokenFromBody(body: unknown): string | undefined {
 }
 
 export function isAuthInvitationGateEnabled(
-  env: NodeJS.ProcessEnv = process.env
+  env: AuthEnvReaderInput = readAuthRuntimeEnv()
 ): boolean {
   return env["AFENDA_AUTH_INVITATION_GATE"] !== "disabled";
 }

@@ -29,7 +29,7 @@ const pageRegistry = new Map<string, MockPage>([
       url: "/docs/linked",
       data: {
         title: "Linked",
-        extractedReferences: [{ href: "/docs/getting-started" }],
+        extractedReferences: [{ href: "/docs/build-afenda/getting-started" }],
       },
     },
   ],
@@ -60,7 +60,7 @@ describe("@afenda/docs buildGraph", () => {
     const graph = buildGraph();
 
     expect(graph.links).toEqual([
-      { source: "/docs/linked", target: "/docs/getting-started" },
+      { source: "/docs/linked", target: "/docs/build-afenda/getting-started" },
     ]);
   });
 });

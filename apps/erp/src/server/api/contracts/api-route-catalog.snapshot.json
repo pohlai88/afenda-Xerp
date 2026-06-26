@@ -177,6 +177,238 @@
       "version": "v1"
     },
     {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.products.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/products",
+      "permission": "inventory.product_read",
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryProductsListResponseSchema",
+      "runtime": "nodejs",
+      "summary": "List products",
+      "description": "Returns product master records for the active tenant. Requires inventory product read permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "products"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "inventory.product.create",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.products.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/products",
+      "permission": "inventory.product_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryProductCreateRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryProductMutationResponseSchema",
+      "runtime": "nodejs",
+      "summary": "Create product",
+      "description": "Creates a tenant-scoped product master record. Requires inventory product manage permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "products"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "inventory.product.update",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.products.patch",
+      "lifecycle": "active",
+      "method": "PATCH",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/products",
+      "permission": "inventory.product_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryProductUpdateRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryProductMutationResponseSchema",
+      "runtime": "nodejs",
+      "summary": "Update product",
+      "description": "Updates a tenant-scoped product master record identified in the request body. Requires inventory product manage permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "products"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.stock-levels.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/stock-levels",
+      "permission": "inventory.product_read",
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryStockLevelsListResponseSchema",
+      "runtime": "nodejs",
+      "summary": "List stock levels",
+      "description": "Returns quantity-on-hand snapshots for the active company. Requires inventory product read permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "stock"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "inventory.stock.adjust",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.stock-movements.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/stock-movements",
+      "permission": "inventory.stock_adjust",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryStockMovementCreateRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryStockMovementMutationResponseSchema",
+      "runtime": "nodejs",
+      "summary": "Record stock movement",
+      "description": "Records a stock movement and updates quantity on hand. Requires inventory stock adjust permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "stock"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.warehouses.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/warehouses",
+      "permission": "inventory.warehouse_read",
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryWarehousesListResponseSchema",
+      "runtime": "nodejs",
+      "summary": "List warehouses",
+      "description": "Returns warehouse master records for the active company. Requires inventory warehouse read permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "warehouses"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "inventory.warehouse.create",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.warehouses.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/warehouses",
+      "permission": "inventory.warehouse_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryWarehouseCreateRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryWarehouseMutationResponseSchema",
+      "runtime": "nodejs",
+      "summary": "Create warehouse",
+      "description": "Creates a company-scoped warehouse master record. Requires inventory warehouse manage permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "warehouses"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "inventory.warehouse.update",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.inventory.warehouses.patch",
+      "lifecycle": "active",
+      "method": "PATCH",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/inventory/warehouses",
+      "permission": "inventory.warehouse_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryWarehouseUpdateRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/inventory/inventory.api-contract.ts#inventoryWarehouseMutationResponseSchema",
+      "runtime": "nodejs",
+      "summary": "Update warehouse",
+      "description": "Updates a company-scoped warehouse master record identified in the request body. Requires inventory warehouse manage permission.",
+      "stability": "internal-stable",
+      "tags": ["inventory", "warehouses"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
       "auditAction": "system_admin.user.invited",
       "authPolicy": "session-required",
       "cache": {

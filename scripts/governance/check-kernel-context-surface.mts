@@ -4,8 +4,13 @@
  *
  * Verifies required contract files, barrel exports, dist freshness, and
  * forbidden deep-import patterns across workspace consumers.
+ *
+ * Standalone invocations (`pnpm quality:kernel-context-surface`) run
+ * `pnpm --filter @afenda/kernel build` first via package.json choreography
+ * so gitignored dist/ is always fresh before stale-dist checks (fdr-010-context-contracts Slice 2).
  */
 
+import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -275,7 +280,57 @@ export function formatKernelContextViolations(
     .join("\n\n");
 }
 
+/** Build @afenda/kernel when dist is missing or older than src (test/direct callers). */
+export function ensureKernelDistFresh(): void {
+  const isDistStale = (): boolean => {
+    if (!(existsSync(distContextIndex) && existsSync(distRootIndex))) {
+      return true;
+    }
+
+    return !(
+      isNewerOrEqual(contextIndexSource, distContextIndex) &&
+      isNewerOrEqual(kernelRootIndexSource, distRootIndex)
+    );
+  };
+
+  if (!isDistStale()) {
+    return;
+  }
+
+  const runKernelBuild = (force: boolean): void => {
+    const args = ["--filter", "@afenda/kernel", "exec", "tsc", "-b"];
+    if (force) {
+      args.push("--force");
+    }
+
+    const result = spawnSync("pnpm", args, {
+      cwd: repoRoot,
+      stdio: "inherit",
+      shell: process.platform === "win32",
+    });
+
+    if (result.status !== 0) {
+      throw new Error(
+        `pnpm ${args.join(" ")} failed — cannot verify kernel context surface`
+      );
+    }
+  };
+
+  runKernelBuild(false);
+
+  if (isDistStale()) {
+    runKernelBuild(true);
+  }
+
+  if (isDistStale()) {
+    throw new Error(
+      "Kernel dist remains stale after build — run pnpm --filter @afenda/kernel clean && pnpm --filter @afenda/kernel build"
+    );
+  }
+}
+
 function main(): void {
+  ensureKernelDistFresh();
   const violations = checkKernelContextSurface();
   if (violations.length > 0) {
     console.error(formatKernelContextViolations(violations));

@@ -11,7 +11,7 @@ import {
   docsPageRefToNeutralUrl,
   docsPageRefToValidationUrl,
   extractHeadingHashes,
-} from "./docs-link-utils.ts";
+} from "./docs-link-utils";
 
 export async function validateDocsLinks(appRoot: string): Promise<void> {
   const pages = collectDocsContentPages(appRoot);

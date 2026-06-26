@@ -5,6 +5,7 @@ import {
 } from "@afenda/storage";
 
 import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { readRuntimeEnvSource } from "@/lib/env/env-reader-source";
 
 import {
   OBJECT_STORAGE_ACCESS_KEY_ID_ENV,
@@ -16,7 +17,7 @@ import {
 } from "./object-storage-env";
 
 export function resolveObjectStorageService(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): StorageService | null {
   const providerId = env[OBJECT_STORAGE_PROVIDER_ENV]?.trim() ?? "r2";
 
@@ -43,7 +44,7 @@ export function resolveObjectStorageService(
 }
 
 export function resolveObjectStorageBucketName(
-  env: EnvReaderSource = process.env
+  env: EnvReaderSource = readRuntimeEnvSource()
 ): string | null {
   return (
     readObjectStorageBucket(env) ??

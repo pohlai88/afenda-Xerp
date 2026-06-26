@@ -6,7 +6,7 @@ import type {
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-26-v11" as const;
+  "FOUNDATION-DISPOSITION-2026-06-27-v13" as const;
 
 const foundationDispositionEntries = [
   {
@@ -455,36 +455,83 @@ const foundationDispositionEntries = [
   {
     id: "PKGR01_ACCOUNTING",
     packageId: "PKG-R01",
-    packageName: "@afenda/accounting",
+    packageName: "@afenda/kernel",
     domain: "accounting-contracts",
     lane: "green-lane",
-    runtimeOwner: "packages/accounting",
-    authority: "ADR-0015",
+    runtimeOwner: "packages/kernel/src/contracts/accounting-domain",
+    authority: "ADR-0020",
     requiredBeforeAccounting: false,
     evidence: [
-      "packages/accounting/src/index.ts",
-      "packages/accounting/src/contracts/accounting-authority.contract.ts",
-      "packages/accounting/src/bridge/to-accounting-domain-context.ts",
+      "packages/kernel/src/contracts/accounting-domain/index.ts",
+      "packages/kernel/src/contracts/accounting-domain/accounting-authority.contract.ts",
+      "packages/kernel/src/contracts/accounting-domain/bridge/to-accounting-domain-context.ts",
       "scripts/governance/accounting-domain-contracts-registry.mts",
       "scripts/governance/check-accounting-domain-contracts.mts",
-      "scripts/governance/__tests__/check-accounting-domain-contracts.test.ts",
+      "docs/adr/ADR-0020-master-data-authority-consolidation.md",
     ],
     knownGaps: [],
     allowedAgents: ["accounting-agent", "foundation-registry-owner"],
     prohibited: [
+      "do-not-recreate-packages-accounting",
       "do-not-add-database-dependency",
       "do-not-add-drizzle-schema-without-tip-015-adr",
       "do-not-implement-posting-services",
       "do-not-add-ledger-runtime-in-contracts-only-phase",
     ],
     gates: [
-      "pnpm --filter @afenda/accounting typecheck",
-      "pnpm --filter @afenda/accounting test:run",
+      "pnpm --filter @afenda/kernel test:run",
       "pnpm check:accounting-domain-contracts",
       "pnpm quality:boundaries",
     ],
     legacyTipEvidence: [
       "docs/delivery/tips/[Complete (authority only)] tip-014-accounting-core-contracts.md",
+      "docs/adr/ADR-0015-accounting-domain-contracts-only-activation.md",
+    ],
+  },
+  {
+    id: "PKGR02_INVENTORY",
+    packageId: "PKG-R02",
+    packageName: "@afenda/database",
+    domain: "inventory-master-data",
+    lane: "green-lane",
+    runtimeOwner: "packages/database",
+    authority: "ADR-0020",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "packages/database/src/schema/product.schema.ts",
+      "packages/database/src/schema/warehouse.schema.ts",
+      "packages/database/src/schema/stock-level.schema.ts",
+      "packages/database/src/schema/stock-movement.schema.ts",
+      "packages/database/src/product/product.service.ts",
+      "packages/database/src/warehouse/warehouse.service.ts",
+      "packages/database/src/stock/stock.service.ts",
+      "packages/database/src/migrations/20260626183200_inventory_stock_rls.sql",
+      "apps/erp/src/app/api/internal/v1/inventory/products/route.ts",
+      "apps/erp/src/app/api/internal/v1/inventory/warehouses/route.ts",
+      "apps/erp/src/app/api/internal/v1/inventory/stock-levels/route.ts",
+      "apps/erp/src/app/api/internal/v1/inventory/stock-movements/route.ts",
+      "docs/adr/ADR-0020-master-data-authority-consolidation.md",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "inventory-agent",
+      "foundation-registry-owner",
+      "fdr-slice-implementer",
+    ],
+    prohibited: [
+      "do-not-recreate-packages-inventory",
+      "do-not-create-central-master-data-hub",
+      "do-not-implement-stock-movements-without-fdr-slice",
+      "do-not-import-inventory-from-kernel",
+    ],
+    gates: [
+      "pnpm --filter @afenda/database test:run",
+      "pnpm check:business-master-data-scaffold",
+      "pnpm check:api-contracts",
+      "pnpm quality:boundaries",
+    ],
+    legacyTipEvidence: [
+      "docs/adr/ADR-0019-inventory-domain-master-data-activation.md",
     ],
   },
   {
