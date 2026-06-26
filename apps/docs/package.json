@@ -5,8 +5,8 @@
   "description": "Afenda Fumadocs documentation site",
   "scripts": {
     "generate:source": "fumadocs-mdx",
-    "generate:openapi-docs": "tsx scripts/generate-openapi-docs.mts",
-    "lint:links": "tsx scripts/lint-links.mts",
+    "generate:openapi-docs": "pnpm exec tsx scripts/generate-openapi-docs.mts",
+    "lint:links": "pnpm exec tsx scripts/lint-links.mts",
     "prebuild": "pnpm generate:source && pnpm generate:openapi-docs",
     "predev": "pnpm generate:source",
     "pretypecheck": "pnpm generate:source",
@@ -70,6 +70,7 @@
     "fumadocs-openapi": "^11.0.5",
     "shiki": "^4.2.0",
     "tailwindcss": "^4.3.1",
+    "tsx": "^4.20.5",
     "unified": "^11.0.5",
     "vitest": "catalog:"
   }
