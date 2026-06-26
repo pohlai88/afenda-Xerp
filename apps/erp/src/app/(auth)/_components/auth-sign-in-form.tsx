@@ -5,7 +5,14 @@ import {
   type SignInSocialProviderId,
   signIn,
 } from "@afenda/auth/client";
-import { Button, Input, Label, Spinner } from "@afenda/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -200,8 +207,6 @@ export function AuthSignInForm({
     <AuthForm.Root>
       {entryNotice === null ? null : <SignInEntryNotice notice={entryNotice} />}
 
-      {error ? <AuthForm.FieldError>{error}</AuthForm.FieldError> : null}
-
       {hasSocialProviders ? (
         <div className="erp-auth-form__social-actions">
           {surface.socialProviderIds.map((providerId) => (
@@ -238,9 +243,11 @@ export function AuthSignInForm({
       ) : null}
 
       <AuthForm.Fields onSubmit={handleSubmit}>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-email">Work email</Label>
+        <Field>
+          <FieldLabel htmlFor="auth-email">Work email</FieldLabel>
           <Input
+            aria-describedby={error ? "auth-email-error" : undefined}
+            aria-invalid={!!error}
             autoComplete="username webauthn"
             id="auth-email"
             name="email"
@@ -250,10 +257,13 @@ export function AuthSignInForm({
             type="email"
             value={email}
           />
-        </div>
-        <div className="erp-auth-form__field">
+          {error ? (
+            <FieldError id="auth-email-error">{error}</FieldError>
+          ) : null}
+        </Field>
+        <Field>
           <div className="erp-auth-form__field-toolbar">
-            <Label htmlFor="auth-password">Password</Label>
+            <FieldLabel htmlFor="auth-password">Password</FieldLabel>
             <Link
               className="erp-auth-form__link erp-auth-form__field-toolbar-action"
               href={buildAuthPath("forgotPassword")}
@@ -262,6 +272,7 @@ export function AuthSignInForm({
             </Link>
           </div>
           <Input
+            aria-invalid={!!error}
             autoComplete="current-password webauthn"
             id="auth-password"
             name="password"
@@ -271,7 +282,7 @@ export function AuthSignInForm({
             type="password"
             value={password}
           />
-        </div>
+        </Field>
         <div className="erp-auth-form__submit-row">
           <Button
             disabled={isSubmitting}

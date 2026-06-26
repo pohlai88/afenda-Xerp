@@ -20,7 +20,7 @@ export default async function AuthPostAuthCompletePage({
   await gateSecurityReviewBeforePostAuth(params.next ?? null);
 
   return (
-    <AuthEntryPage route="signIn" showRouteLinks={false}>
+    <AuthEntryPage legalNotice={null} route="signIn">
       <Suspense fallback={<p role="status">Completing sign-in…</p>}>
         <AuthPostAuthCompleteClient signInPath={buildAuthPath("signIn")} />
       </Suspense>

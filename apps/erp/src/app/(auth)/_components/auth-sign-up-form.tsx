@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Input, Label, Spinner } from "@afenda/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,7 +31,7 @@ import { submitInvitationSignUp } from "@/lib/auth/submit-invitation-sign-up.cli
 
 export type AuthSignUpFormGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Button" | "Input" | "Label"
+  "Button" | "Field" | "FieldError" | "FieldLabel" | "Input"
 >;
 
 function SignUpInvitationProblemState() {
@@ -112,11 +119,9 @@ export function AuthSignUpForm() {
 
       <AuthForm.StepLead>{SIGN_UP_PROFILE_LEAD}</AuthForm.StepLead>
 
-      {error ? <AuthForm.FieldError>{error}</AuthForm.FieldError> : null}
-
       <AuthForm.Fields onSubmit={handleSubmit}>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-sign-up-name">Full name</Label>
+        <Field>
+          <FieldLabel htmlFor="auth-sign-up-name">Full name</FieldLabel>
           <Input
             autoComplete="name"
             id="auth-sign-up-name"
@@ -127,10 +132,12 @@ export function AuthSignUpForm() {
             value={name}
           />
           <AuthForm.FieldHint>{SIGN_UP_NAME_HINT}</AuthForm.FieldHint>
-        </div>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-sign-up-email">Email</Label>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="auth-sign-up-email">Email</FieldLabel>
           <Input
+            aria-describedby={error ? "auth-sign-up-email-error" : undefined}
+            aria-invalid={!!error}
             autoComplete="email"
             id="auth-sign-up-email"
             name="email"
@@ -141,11 +148,15 @@ export function AuthSignUpForm() {
             type="email"
             value={email}
           />
+          {error ? (
+            <FieldError id="auth-sign-up-email-error">{error}</FieldError>
+          ) : null}
           <AuthForm.FieldHint>{SIGN_UP_EMAIL_HINT}</AuthForm.FieldHint>
-        </div>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-sign-up-password">Password</Label>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="auth-sign-up-password">Password</FieldLabel>
           <Input
+            aria-invalid={!!error}
             autoComplete="new-password"
             id="auth-sign-up-password"
             name="password"
@@ -156,7 +167,7 @@ export function AuthSignUpForm() {
             value={password}
           />
           <AuthForm.FieldHint>{SIGN_UP_PASSWORD_HINT}</AuthForm.FieldHint>
-        </div>
+        </Field>
         <div className="erp-auth-form__submit-row">
           <Button
             disabled={isSubmitting}

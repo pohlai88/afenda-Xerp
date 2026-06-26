@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Input, Label, Spinner } from "@afenda/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useState } from "react";
@@ -82,12 +89,16 @@ export function AuthForgotPasswordForm() {
     <AuthForm.Root>
       <AuthForm.BackToSignIn />
 
-      {error ? <AuthForm.FieldError>{error}</AuthForm.FieldError> : null}
-
       <AuthForm.Fields onSubmit={handleSubmit}>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-forgot-password-email">Work email</Label>
+        <Field>
+          <FieldLabel htmlFor="auth-forgot-password-email">
+            Work email
+          </FieldLabel>
           <Input
+            aria-describedby={
+              error ? "auth-forgot-password-email-error" : undefined
+            }
+            aria-invalid={!!error}
             autoComplete="email"
             id="auth-forgot-password-email"
             name="email"
@@ -97,8 +108,13 @@ export function AuthForgotPasswordForm() {
             type="email"
             value={email}
           />
+          {error ? (
+            <FieldError id="auth-forgot-password-email-error">
+              {error}
+            </FieldError>
+          ) : null}
           <AuthForm.FieldHint>{AUTH_FORM_WORK_EMAIL_HINT}</AuthForm.FieldHint>
-        </div>
+        </Field>
         <div className="erp-auth-form__submit-row">
           <Button
             disabled={isSubmitting}

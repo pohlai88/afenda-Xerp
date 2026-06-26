@@ -21,8 +21,6 @@ export type AuthEntryPageProps = Pick<AuthShellEntryPageProps, "children"> & {
   readonly brand?: TenantAuthBrand | null;
   readonly legalNotice?: ReactNode;
   readonly route: AuthRouteId;
-  readonly showDefaultChrome?: boolean;
-  readonly showRouteLinks?: boolean;
 };
 
 function resolveBrandHeader(brand: TenantAuthBrand | null | undefined) {
@@ -48,18 +46,13 @@ export function AuthEntryPage({
   children,
   legalNotice,
   route,
-  showDefaultChrome = true,
-  showRouteLinks = true,
 }: AuthEntryPageProps) {
   const layoutBrand = useAuthBrand();
   const brand = brandOverride ?? layoutBrand;
   const { description, lane, title } = resolveAuthRouteCopy(route);
 
   const resolvedLegalNotice =
-    legalNotice ??
-    (showDefaultChrome ? (
-      <AuthPageFooter route={route} showRouteLinks={showRouteLinks} />
-    ) : null);
+    legalNotice === undefined ? <AuthPageFooter route={route} /> : legalNotice;
 
   const shellStyle = brand
     ? ({ "--primary": brand.primaryColor } as CSSProperties)

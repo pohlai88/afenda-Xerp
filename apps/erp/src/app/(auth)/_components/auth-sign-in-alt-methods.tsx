@@ -2,8 +2,9 @@
 
 import {
   Button,
+  Field,
+  FieldLabel,
   Input,
-  Label,
   Tabs,
   TabsContent,
   TabsList,
@@ -57,8 +58,8 @@ export function AuthSignInAltMethods({
 
   const ssoPanel = (
     <form className="erp-auth-form__alt-tab-panel" onSubmit={onSsoSubmit}>
-      <div className="erp-auth-form__field">
-        <Label htmlFor="auth-sso-email">Organization email</Label>
+      <Field>
+        <FieldLabel htmlFor="auth-sso-email">Organization email</FieldLabel>
         <Input
           autoComplete="email"
           id="auth-sso-email"
@@ -69,7 +70,7 @@ export function AuthSignInAltMethods({
           type="email"
           value={ssoEmail}
         />
-      </div>
+      </Field>
       <Button
         disabled={isSubmitting}
         emphasis="outline"

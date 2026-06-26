@@ -165,18 +165,6 @@
     gap: var(--erp-auth-gap-stack);
   }
 
-  .erp-auth-form__field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--erp-auth-gap-field);
-  }
-
-  .erp-auth-form__field [data-component="Label"] {
-    font-size: var(--erp-auth-type-body);
-    font-weight: 500;
-    color: var(--foreground);
-  }
-
   .erp-auth-form__field-toolbar {
     display: flex;
     gap: var(--afenda-spacing-2);

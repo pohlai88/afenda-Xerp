@@ -1,7 +1,7 @@
 "use client";
 
 import { twoFactor } from "@afenda/auth/client";
-import { Button, Input, Label, Spinner } from "@afenda/ui";
+import { Button, FieldLabel, Input, Spinner } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect, useRef, useState } from "react";
@@ -17,7 +17,7 @@ import { mapAuthClientError } from "@/lib/auth/resolve-auth-entry-error";
 
 export type AuthSignInMfaStepGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Button" | "Input" | "Label"
+  "Button" | "Field" | "FieldError" | "FieldLabel" | "Input"
 >;
 
 export type AuthSignInMfaMode = "backup-code" | "otp" | "totp";
@@ -210,7 +210,7 @@ export function AuthSignInMfaStep({
       <AuthForm.Fields onSubmit={handleSubmit}>
         <div className="erp-auth-form__field">
           <div className="erp-auth-form__field-toolbar">
-            <Label htmlFor={inputId}>{inputLabel}</Label>
+            <FieldLabel htmlFor={inputId}>{inputLabel}</FieldLabel>
             {fieldToolbarAction ? (
               <p className="erp-auth-form__field-toolbar-action">
                 <button

@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Input, Label, Spinner } from "@afenda/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -127,12 +134,12 @@ export function AuthResetPasswordForm() {
 
       <AuthForm.StepLead>{RESET_PASSWORD_REQUEST_LEAD}</AuthForm.StepLead>
 
-      {error ? <AuthForm.FieldError>{error}</AuthForm.FieldError> : null}
-
       <AuthForm.Fields onSubmit={handleSubmit}>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-reset-password">New password</Label>
+        <Field>
+          <FieldLabel htmlFor="auth-reset-password">New password</FieldLabel>
           <Input
+            aria-describedby={error ? "auth-reset-password-error" : undefined}
+            aria-invalid={!!error}
             autoComplete="new-password"
             id="auth-reset-password"
             name="password"
@@ -142,13 +149,19 @@ export function AuthResetPasswordForm() {
             type="password"
             value={password}
           />
+          {error ? (
+            <FieldError id="auth-reset-password-error">{error}</FieldError>
+          ) : null}
           <AuthForm.FieldHint>
             {RESET_PASSWORD_REQUIREMENTS_HINT}
           </AuthForm.FieldHint>
-        </div>
-        <div className="erp-auth-form__field">
-          <Label htmlFor="auth-reset-password-confirm">Confirm password</Label>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="auth-reset-password-confirm">
+            Confirm password
+          </FieldLabel>
           <Input
+            aria-invalid={!!error}
             autoComplete="new-password"
             id="auth-reset-password-confirm"
             name="confirmPassword"
@@ -159,7 +172,7 @@ export function AuthResetPasswordForm() {
             value={confirmPassword}
           />
           <AuthForm.FieldHint>{RESET_PASSWORD_CONFIRM_HINT}</AuthForm.FieldHint>
-        </div>
+        </Field>
         <div className="erp-auth-form__submit-row">
           <Button
             disabled={isSubmitting}
