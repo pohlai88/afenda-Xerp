@@ -113,6 +113,7 @@ describe("@afenda/docs content parity", () => {
 
     expect(monorepoMap?.subpages.map((page) => page.id)).toEqual([
       "docs-contracts",
+      "docs-i18n-contract",
     ]);
 
     for (const page of monorepoMap?.subpages ?? []) {
@@ -129,5 +130,22 @@ describe("@afenda/docs content parity", () => {
     ];
 
     expect(docsSeedSections.map((section) => section.id)).toEqual(known);
+  });
+
+  it("translates zh body copy for getting-started and contributing indexes", () => {
+    const zhRoot = join(process.cwd(), "content/docs/zh");
+    const gettingStarted = readFileSync(
+      join(zhRoot, "(guides)/getting-started/index.mdx"),
+      "utf8"
+    );
+    const contributing = readFileSync(
+      join(zhRoot, "(guides)/contributing/index.mdx"),
+      "utf8"
+    );
+
+    expect(gettingStarted).toContain("title: 快速开始");
+    expect(gettingStarted).toContain("环境要求");
+    expect(contributing).toContain("title: 贡献指南");
+    expect(contributing).toContain("编码前");
   });
 });

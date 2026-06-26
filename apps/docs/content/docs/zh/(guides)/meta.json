@@ -1,5 +1,13 @@
 {
   "title": "Guides",
   "root": true,
-  "pages": ["getting-started", "monorepo-map", "api-reference", "contributing"]
+  "icon": "Rocket",
+  "pages": [
+    "getting-started",
+    "monorepo-map",
+    "---Reference---",
+    "api-reference",
+    "---Contributing---",
+    "contributing"
+  ]
 }

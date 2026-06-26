@@ -1,0 +1,18 @@
+{
+  "title": "Referensi API Internal",
+  "icon": "Code",
+  "defaultOpen": false,
+  "pages": [
+    "index",
+    "auth-memberships-get",
+    "client-error-post",
+    "health-get",
+    "storage-tenant-brand-logo-post",
+    "system-admin-audit-events-get",
+    "system-admin-memberships-role-post",
+    "system-admin-users-invite-post",
+    "workspace-dashboard-layout-delete",
+    "workspace-dashboard-layout-get",
+    "workspace-dashboard-layout-put"
+  ]
+}

@@ -9,6 +9,9 @@ export const docsGithubRepository = {
   defaultBranch: "main",
 } as const;
 
+/** GitHub Discussions category for docs page/block feedback. */
+export const docsGithubFeedbackCategory = "DOCS FEEDBACK";
+
 export type DocsGithubRepository = typeof docsGithubRepository;
 
 export function buildGithubBlobUrl(contentRelativePath: string): string {

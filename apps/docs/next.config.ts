@@ -8,6 +8,14 @@ const appDir = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: path.join(appDir, "../.."),
+  async rewrites() {
+    return [
+      {
+        source: "/:lang/docs/:path*.mdx",
+        destination: "/llms.mdx/:lang/docs/:path*",
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX();

@@ -1,0 +1,99 @@
+---
+title: ERP Application
+description: "@afenda/erp — primary ERP delivery surface on port 3000, PKG-007."
+---
+
+import { BookOpenIcon, ShieldIcon, TerminalIcon } from "lucide-react";
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+import { Callout } from "fumadocs-ui/components/callout";
+import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
+
+<Callout type="info" title="Authority">
+  Engineer-facing guide only. Route inventory and feature status:
+  [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+  · [ARCH-ADMIN-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-ADMIN-001-system-admin-control-plane.md)
+  · [ARCH-USER-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md)
+</Callout>
+
+<Callout type="warn" title="Status honesty">
+  ERP is the primary delivery surface, but not every enterprise module is implemented.
+  Accounting ledger runtime remains **blocked** (ADR-0010). Domain packages PKG-R02–R05 are
+  **  not present** in the filesystem.
+</Callout>
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Package | `@afenda/erp` |
+| Path | `apps/erp/` |
+| Port | **3000** |
+| PKG code | PKG-007 |
+| Owner | Application Authority |
+
+## Purpose
+
+Primary multi-tenant ERP shell — auth, operating context, workspace, user settings, system admin, module placeholders, and internal APIs.
+
+<DocsFeatureStrip
+  title="Quick facts"
+  items={[
+    {
+      title: "Port 3000",
+      description: "Default dev server for product work.",
+      icon: TerminalIcon,
+    },
+    {
+      title: "Protected spine",
+      description: "Tenant context, CSP, permissions, and audit.",
+      icon: ShieldIcon,
+    },
+    {
+      title: "28 routes",
+      description: "See routes page — inventory is authoritative.",
+      icon: BookOpenIcon,
+    },
+  ]}
+/>
+
+## Run locally
+
+```bash
+pnpm --filter @afenda/erp dev
+```
+
+Open port **3000**. Database and auth env vars may be required — see [Dev Setup](/docs/getting-started/dev-setup).
+
+## Boundary rules
+
+**May depend on:** `packages/*` spine (appshell, database, auth, permissions, kernel, etc.)
+
+**Must not depend on:** `@afenda/docs` (leaf documentation app)
+
+## Quality gates
+
+```bash
+pnpm --filter @afenda/erp typecheck
+pnpm --filter @afenda/erp test:run
+pnpm quality:boundaries
+```
+
+## Status and known gaps
+
+<Accordions type="single">
+<Accordion title="Known gaps (expand)" id="status-and-known-gaps">
+
+- **Accounting ledger** — blocked until ADR-0010 + approved roadmap phase
+- **PKG-R02–R05** (inventory, HRM, CRM, procurement) — planned; no package on disk
+- **ARCH-USER-001** — Preferences tab pending (Slice 5)
+- **ARCH-AUTH-001** — waiver tracks may remain (see ARCH index)
+- **ARCH-ADMIN-001** — Partially Implemented; DoD #20 peer review open
+
+</Accordion>
+</Accordions>
+
+## Authority links
+
+- [Monorepo feature inventory §3](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+- [Routes and surfaces](/docs/apps/erp/routes-and-surfaces)
+- [Development workflow](/docs/apps/erp/development)

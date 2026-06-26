@@ -14,8 +14,8 @@ const layoutSource = readFileSync(
 );
 
 describe("@afenda/docs UI translations (multilingual)", () => {
-  it("defines en and zh locales with Afenda search label overrides", () => {
-    expect(docsLocales).toEqual(["en", "zh"]);
+  it("defines all locales with Afenda search label overrides", () => {
+    expect(docsLocales).toEqual(["en", "zh", "vi", "ms", "id", "th", "fil"]);
     expect(docsDefaultLocale).toBe("en");
 
     for (const locale of docsLocales) {
@@ -42,6 +42,11 @@ describe("@afenda/docs UI translations (multilingual)", () => {
   it("wires RootProvider i18n from docs-ui-translations contract", () => {
     expect(layoutSource).toContain("docsI18nProvider");
     expect(layoutSource).toMatch(/i18n=\{docsI18nProvider\(lang\)\}/);
+  });
+
+  it("disables fumadocs next-themes to avoid React 19 client script warnings", () => {
+    expect(layoutSource).toContain("theme={{ enabled: false }}");
+    expect(layoutSource).toContain("docsThemeInitScript");
   });
 
   it("keeps RootProvider search.links from docs-search.contract", () => {

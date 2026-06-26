@@ -1,0 +1,25 @@
+---
+title: 文档 i18n 契约
+description: "@afenda/docs 拥有的可序列化 locale 类型与 i18n 配置。"
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info" title="范围">
+  这些类型仅配置 `@afenda/docs` 的 Fumadocs 多语言路由。ERP locale 解析在 `apps/erp` — 不在此文档说明。
+</Callout>
+
+## 支持的 locale
+
+文档站提供 **en**、**zh**、**vi**（越南语）、**ms**（马来语）、**id**（印尼语）、**th**（泰语）和 **fil**（菲律宾语），内容按目录组织（`content/docs/{locale}/`）：
+
+<auto-type-table path="./src/lib/i18n.ts" name="DocsLocale" />
+
+## 默认 locale
+
+<auto-type-table path="./src/lib/i18n.ts" name="docsDefaultLocale" />
+
+## 相关
+
+- [Docs 应用契约](/docs/monorepo-map/docs-contracts) — 导航与图类型
+- [Monorepo 地图](/docs/monorepo-map) — 工作区布局摘要

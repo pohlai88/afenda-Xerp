@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { docsHref } from "@/lib/docs-nav.contract";
-import { type DocsLocale, docsDefaultLocale, i18n } from "@/lib/i18n";
+import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 
 export function baseOptions(
   locale: DocsLocale = docsDefaultLocale
@@ -9,7 +9,11 @@ export function baseOptions(
     nav: {
       title: "Afenda Docs",
     },
-    i18n,
+    i18n: {
+      defaultLanguage: docsDefaultLocale,
+      languages: [...docsLocales],
+      parser: "dir",
+    },
     links: [
       {
         text: "Applications",

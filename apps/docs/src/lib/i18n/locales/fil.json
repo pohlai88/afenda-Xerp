@@ -1,0 +1,69 @@
+{
+  "displayName": "Filipino",
+  "searchTrigger": "Maghanap ng dokumentasyon",
+  "searchDialog": "Maghanap ng dokumentasyon",
+  "inlineTocLabel": "Sa pahinang ito",
+  "feedback": {
+    "blockFeedbackLabel": "Feedback",
+    "close": "Isara",
+    "good": "Nakatulong",
+    "bad": "Kailangan ng pagpapabuti",
+    "pagePrompt": "Nakatulong ba ang gabay na ito?",
+    "placeholder": "Iwan ang iyong feedback...",
+    "submit": "Isumite",
+    "submitAgain": "Isumite muli",
+    "thankYou": "Salamat sa iyong feedback!",
+    "viewOnGitHub": "Tingnan sa GitHub"
+  },
+  "pageActions": {
+    "copyMarkdown": "Kopyahin ang Markdown",
+    "open": "Buksan",
+    "openInGitHub": "Buksan sa GitHub",
+    "viewAsMarkdown": "Tingnan bilang Markdown",
+    "openInScira": "Buksan sa Scira AI",
+    "openInChatGPT": "Buksan sa ChatGPT",
+    "openInClaude": "Buksan sa Claude",
+    "openInCursor": "Buksan sa Cursor",
+    "readPromptTemplate": "Basahin ang {url}, gusto kong magtanong tungkol dito."
+  },
+  "homeSections": [
+    {
+      "title": "Pagsisimula",
+      "description": "I-clone, i-install, at patakbuhin ang ERP o docs nang lokal.",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "Mapa ng Monorepo",
+      "description": "Mga layer ng package, port, at kung saan mag-edit.",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "Mga Application",
+      "description": "ERP, Docs, at Storybook — mga port at hangganan.",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "Pag-contribute",
+      "description": "Kontrata ng coding session at drift guards.",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "Pagsisimula",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "Mapa ng Monorepo",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "Mga Application",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "Pag-contribute",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+---
+title: Applications
+description: Engineer-facing guides for ERP, Docs, and Storybook — ports, boundaries, routes, and quality gates.
+full: true
+---
+
+import { BookOpen, Layers, Server } from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Card, Cards } from "fumadocs-ui/components/card";
+
+<Callout type="info" title="Authority">
+  This page is an engineer-facing guide. Runtime status comes from
+  [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
+  and the relevant ARCH/FDR records.
+</Callout>
+
+Guides for Afenda's three runnable apps. This section **links** to authority sources — it does not replace architecture registries or the runtime inventory.
+
+<Cards>
+  <Card icon={<Server />} title="ERP Application" href="/docs/apps/erp">
+    Primary delivery surface — port **3000**, PKG-007.
+  </Card>
+  <Card icon={<BookOpen />} title="Documentation Site" href="/docs/apps/docs">
+    This Fumadocs app — port **3001**, PKG-005.
+  </Card>
+  <Card icon={<Layers />} title="Storybook" href="/docs/apps/storybook">
+    Visual composition gate — port **6006**, PKG-021.
+  </Card>
+</Cards>
+
+<DocsGuideCardGrid
+  heading="When to read which chapter"
+  variant="compact"
+  items={[
+    {
+      title: "ERP routes and dev",
+      description: "Where to run the ERP and what routes exist.",
+      href: "/docs/apps/erp",
+      icon: Server,
+    },
+    {
+      title: "Docs isolation",
+      description: "How `@afenda/docs` stays decoupled from ERP runtime.",
+      href: "/docs/apps/docs",
+      icon: BookOpen,
+    },
+    {
+      title: "Storybook",
+      description: "Run component stories and understand runner status.",
+      href: "/docs/apps/storybook",
+      icon: Layers,
+    },
+  ]}
+/>
+
+## Docs link graph
+
+Cross-links between published pages (from MDX link extraction):
+
+<DocsSiteGraph />
+
+## Architecture authority
+
+- [ARCH-DOCS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) — Fumadocs site delivery authority
+- [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) — docs app FDR

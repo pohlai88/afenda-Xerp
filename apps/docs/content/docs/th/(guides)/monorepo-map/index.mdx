@@ -1,0 +1,72 @@
+---
+title: Monorepo Map
+description: Afenda workspace layout — applications, packages, layers, and where to edit.
+---
+
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+
+## Overview
+
+The Afenda monorepo uses **pnpm workspaces** under `apps/` (applications) and `packages/` (shared libraries). The canonical package registry lives at `docs/architecture/package-registry.md` — this page summarizes engineer navigation; do not treat it as a registry substitute.
+
+![Afenda monorepo layer overview](/docs/monorepo-layers.svg)
+
+## Package layers
+
+<Accordions type="multiple">
+<Accordion title="Applications" id="applications">
+
+| Package | Path | Port | Role |
+| ------- | ---- | ---- | ---- |
+| `@afenda/erp` | `apps/erp` | 3000 | Primary ERP delivery surface |
+| `@afenda/docs` | `apps/docs` | 3001 | Fumadocs implementation documentation (this site) |
+| `@afenda/storybook` | `apps/storybook` | — | Design-system and shell Storybook |
+
+**Boundary:** `@afenda/erp` must not depend on `@afenda/docs`. The docs app is a leaf application.
+
+</Accordion>
+<Accordion title="Platform spine (selected)" id="platform-spine">
+
+| Package | Path | Authority |
+| ------- | ---- | --------- |
+| `@afenda/database` | `packages/database` | Platform — schema and persistence |
+| `@afenda/kernel` | `packages/kernel` | Platform — IDs, Result, execution contracts |
+| `@afenda/permissions` | `packages/permissions` | Platform — authorization |
+| `@afenda/execution` | `packages/execution` | Platform — durable execution / outbox |
+| `@afenda/entitlements` | `packages/entitlements` | Integration — feature manifest |
+
+</Accordion>
+<Accordion title="Design and UI" id="design-and-ui">
+
+| Package | Path | Notes |
+| ------- | ---- | ----- |
+| `@afenda/ui` | `packages/ui` | Governed UI primitives (TIP-004) |
+| `@afenda/appshell` | `packages/appshell` | ERP shell chrome |
+| `@afenda/design-system` | `packages/design-system` | Tokens — **not** imported by `@afenda/docs` shell |
+
+</Accordion>
+</Accordions>
+
+## Layer discipline
+
+When changing UI or docs:
+
+1. **App wiring first** — `apps/erp/` or `apps/docs/` before shared packages.
+2. **Contract reference** — see [Docs app contracts](/docs/monorepo-map/docs-contracts) for `@afenda/docs` TypeScript surfaces.
+3. **Ask before editing** `packages/ui` primitives — governed by TIP-004.
+4. **One slice per session** — database → platform → app dependency order for foundation TIPs.
+5. **Governance docs** — ADRs and registries live under repo-root `docs/`; link, do not duplicate.
+
+## Dependency enforcement
+
+```bash
+pnpm quality:boundaries
+```
+
+Unapproved `@afenda/*` edges fail CI. `@afenda/docs` currently has **zero** approved runtime workspace dependencies (dev-only `@afenda/typescript-config`).
+
+## Where to read next
+
+- [Package registry (authoritative)](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/package-registry.md)
+- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md)
+- [Docs app architecture](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/docs-app-architecture.md)

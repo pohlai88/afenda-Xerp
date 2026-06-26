@@ -1,0 +1,69 @@
+{
+  "displayName": "中文",
+  "searchTrigger": "搜索文档",
+  "searchDialog": "搜索文档",
+  "inlineTocLabel": "本页目录",
+  "feedback": {
+    "blockFeedbackLabel": "反馈",
+    "close": "关闭",
+    "good": "有帮助",
+    "bad": "需改进",
+    "pagePrompt": "这篇指南对您有帮助吗？",
+    "placeholder": "留下您的反馈…",
+    "submit": "提交",
+    "submitAgain": "再次提交",
+    "thankYou": "感谢您的反馈！",
+    "viewOnGitHub": "在 GitHub 查看"
+  },
+  "pageActions": {
+    "copyMarkdown": "复制 Markdown",
+    "open": "打开",
+    "openInGitHub": "在 GitHub 中打开",
+    "viewAsMarkdown": "以 Markdown 查看",
+    "openInScira": "在 Scira AI 中打开",
+    "openInChatGPT": "在 ChatGPT 中打开",
+    "openInClaude": "在 Claude 中打开",
+    "openInCursor": "在 Cursor 中打开",
+    "readPromptTemplate": "阅读 {url}，我想就此提问。"
+  },
+  "homeSections": [
+    {
+      "title": "快速开始",
+      "description": "克隆、安装并在本地运行 ERP 或文档站。",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "Monorepo 地图",
+      "description": "包分层、端口与编辑位置。",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "应用程序",
+      "description": "ERP、Docs 与 Storybook — 端口与边界。",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "贡献指南",
+      "description": "编码会话契约与漂移防护。",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "快速开始",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "Monorepo 地图",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "应用程序",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "贡献指南",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

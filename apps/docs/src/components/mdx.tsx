@@ -46,6 +46,9 @@ import { GraphView } from "@/components/graph-view";
  * Accordion, Auto Type Table, Banner, Code Block, Code Block (Dynamic), Files,
  * GitHub Info, Graph View, Zoomable Image, Inline TOC, Steps, Tabs, Type Table.
  *
+ * TypeScript docgen: remark `<auto-type-table />` (build) + `AutoTypeTable` (RSC).
+ * Both require `TypeTable` for remark output; see docs-type-generator.ts.
+ *
  * Graph View: pass `graph={buildGraph()}` from `@/lib/build-graph`.
  *
  * Afenda editorial blocks (Slice 5.1): copied from packages/ui reference catalog —

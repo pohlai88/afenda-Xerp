@@ -1,0 +1,69 @@
+{
+  "displayName": "English",
+  "searchTrigger": "Search documentation",
+  "searchDialog": "Search documentation",
+  "inlineTocLabel": "On this page",
+  "feedback": {
+    "blockFeedbackLabel": "Feedback",
+    "close": "Close",
+    "good": "Good",
+    "bad": "Bad",
+    "pagePrompt": "How is this guide?",
+    "placeholder": "Leave your feedback...",
+    "submit": "Submit",
+    "submitAgain": "Submit Again",
+    "thankYou": "Thank you for your feedback!",
+    "viewOnGitHub": "View on GitHub"
+  },
+  "pageActions": {
+    "copyMarkdown": "Copy Markdown",
+    "open": "Open",
+    "openInGitHub": "Open in GitHub",
+    "viewAsMarkdown": "View as Markdown",
+    "openInScira": "Open in Scira AI",
+    "openInChatGPT": "Open in ChatGPT",
+    "openInClaude": "Open in Claude",
+    "openInCursor": "Open in Cursor",
+    "readPromptTemplate": "Read {url}, I want to ask questions about it."
+  },
+  "homeSections": [
+    {
+      "title": "Getting Started",
+      "description": "Clone, install, and run ERP or docs locally.",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "Monorepo Map",
+      "description": "Package layers, ports, and where to edit.",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "Applications",
+      "description": "ERP, Docs, and Storybook — ports and boundaries.",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "Contributing",
+      "description": "Coding session contract and drift guards.",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "Getting Started",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "Monorepo Map",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "Applications",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "Contributing",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

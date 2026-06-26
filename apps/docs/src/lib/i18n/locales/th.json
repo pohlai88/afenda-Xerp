@@ -1,0 +1,69 @@
+{
+  "displayName": "ไทย",
+  "searchTrigger": "ค้นหาเอกสาร",
+  "searchDialog": "ค้นหาเอกสาร",
+  "inlineTocLabel": "ในหน้านี้",
+  "feedback": {
+    "blockFeedbackLabel": "ความคิดเห็น",
+    "close": "ปิด",
+    "good": "มีประโยชน์",
+    "bad": "ควรปรับปรุง",
+    "pagePrompt": "คู่มือนี้มีประโยชน์หรือไม่",
+    "placeholder": "ฝากความคิดเห็นของคุณ...",
+    "submit": "ส่ง",
+    "submitAgain": "ส่งอีกครั้ง",
+    "thankYou": "ขอบคุณสำหรับความคิดเห็นของคุณ!",
+    "viewOnGitHub": "ดูบน GitHub"
+  },
+  "pageActions": {
+    "copyMarkdown": "คัดลอก Markdown",
+    "open": "เปิด",
+    "openInGitHub": "เปิดใน GitHub",
+    "viewAsMarkdown": "ดูเป็น Markdown",
+    "openInScira": "เปิดใน Scira AI",
+    "openInChatGPT": "เปิดใน ChatGPT",
+    "openInClaude": "เปิดใน Claude",
+    "openInCursor": "เปิดใน Cursor",
+    "readPromptTemplate": "อ่าน {url} ฉันต้องการถามคำถามเกี่ยวกับเนื้อหานี้"
+  },
+  "homeSections": [
+    {
+      "title": "เริ่มต้นใช้งาน",
+      "description": "โคลน ติดตั้ง และรัน ERP หรือ docs ในเครื่อง",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "แผนที่ Monorepo",
+      "description": "เลเยอร์แพ็กเกจ พอร์ต และตำแหน่งที่แก้ไข",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "แอปพลิเคชัน",
+      "description": "ERP, Docs และ Storybook — พอร์ตและขอบเขต",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "การมีส่วนร่วม",
+      "description": "สัญญา coding session และตัวป้องกัน drift",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "เริ่มต้นใช้งาน",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "แผนที่ Monorepo",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "แอปพลิเคชัน",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "การมีส่วนร่วม",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

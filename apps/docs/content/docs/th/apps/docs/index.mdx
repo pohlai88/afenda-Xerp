@@ -1,0 +1,89 @@
+---
+title: Documentation Site
+description: "@afenda/docs — Fumadocs implementation documentation on port 3001, PKG-005."
+---
+
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+import { Callout } from "fumadocs-ui/components/callout";
+import { DocsFileTree } from "@/components/blocks/docs-file-tree";
+
+<Callout type="info" title="Authority">
+  Docs app boundaries and content model:
+  [docs-app-architecture.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/docs-app-architecture.md)
+  · [fdr-005-docs-app](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/delivery/FDR/%5BPartially%20Implemented%5D%20fdr-005-docs-app.md)
+</Callout>
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Package | `@afenda/docs` |
+| Path | `apps/docs/` |
+| Port | **3001** |
+| PKG code | PKG-005 |
+| Owner | Application Authority |
+
+## Purpose
+
+Fumadocs-powered engineer documentation — onboarding, monorepo map, Applications, and contributing workflow. **Zero** approved `@afenda/*` runtime workspace dependencies (dev-only `@afenda/typescript-config`).
+
+## Run locally
+
+```bash
+pnpm --filter @afenda/docs dev
+```
+
+Open [http://localhost:3001/docs](http://localhost:3001/docs). ERP does not need to be running for docs work.
+
+## Boundary rules
+
+| Allowed | Prohibited |
+| --- | --- |
+| MDX under `content/docs/` | Import `@afenda/erp`, `@afenda/ui`, spine packages |
+| Docs-owned editorial palette | Copy full ARCH/FDR/inventory tables into MDX |
+| Fumadocs UI + editorial blocks | Brand accent in shell chrome |
+
+## Content root
+
+<DocsFileTree
+  nodes={[
+    { name: "content/docs/", children: [
+      { name: "index.mdx" },
+      { name: "getting-started/" },
+      { name: "monorepo-map/" },
+      { name: "apps/ — Applications" },
+      { name: "contributing/" },
+    ]},
+    { name: "src/components/mdx.tsx — component registry" },
+    { name: "src/lib/docs-nav.contract.ts — nav parity tests" },
+  ]}
+/>
+
+Governance markdown stays in repo-root `docs/` — cross-link only.
+
+## Quality gates
+
+```bash
+pnpm --filter @afenda/docs typecheck
+pnpm --filter @afenda/docs test:run
+pnpm quality:docs
+pnpm quality:boundaries
+pnpm exec biome check apps/docs
+```
+
+## Status and known gaps
+
+<Accordions type="single">
+<Accordion title="Delivery status (expand)" id="status-and-known-gaps">
+
+- **Partially Implemented** per fdr-005 — `/docs/apps` closes external beta content gap
+- Live DNS for `docs.afenda.app` — operator step (waiver `docs-live-dns`)
+
+</Accordion>
+</Accordions>
+
+## Authority links
+
+- [docs-app-architecture.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/docs-app-architecture.md)
+- [ARCH-DOCS-001](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/%5BPartially%20Implemented%5D%20ARCH-DOCS-001-fumadocs-site.md)
+- [Contributing](/docs/contributing)

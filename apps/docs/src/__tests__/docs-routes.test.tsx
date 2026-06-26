@@ -62,4 +62,14 @@ describe("@afenda/docs routes", () => {
       /a:\s*createRelativeLink\(source,\s*page\)/
     );
   });
+
+  it("preloads fumadocs-openapi when _openapi frontmatter is present", () => {
+    expect(docsSlugPageSource).toContain('from "fumadocs-openapi/server"');
+    expect(docsSlugPageSource).toContain("pageHasOpenApiFrontmatter");
+    expect(docsSlugPageSource).toContain("openapi.preloadOpenAPIPage(page)");
+    expect(docsSlugPageSource).toContain("OpenAPIPreloadProvider");
+    expect(docsSlugPageSource).toContain("preloaded={openApiPreload.preloaded}");
+    expect(docsSlugPageSource).toContain("shouldGenerateDocsOpenApiPage");
+    expect(docsSlugPageSource).toContain("assertDocsOpenApiPageAvailable");
+  });
 });

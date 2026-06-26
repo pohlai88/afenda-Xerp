@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildGithubBlobUrl,
+  docsGithubFeedbackCategory,
   docsGithubRepository,
 } from "@/lib/docs-github.constants";
 
@@ -19,5 +20,9 @@ describe("@afenda/docs GitHub constants", () => {
     expect(url).toBe(
       "https://github.com/pohlai88/afenda-Xerp/blob/main/apps/docs/content/docs/(guides)/getting-started/installation.mdx"
     );
+  });
+
+  it("names the GitHub Discussions category for docs feedback", () => {
+    expect(docsGithubFeedbackCategory).toBe("DOCS FEEDBACK");
   });
 });

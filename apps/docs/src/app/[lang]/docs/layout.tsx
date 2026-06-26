@@ -1,5 +1,6 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
+import { DocsAiSearchChrome } from "@/components/docs-ai-search-chrome.client";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import { baseOptions } from "@/lib/layout.shared";
 import { source } from "@/lib/source";
@@ -27,6 +28,7 @@ export default async function DocsRootLayout({
 
   return (
     <DocsLayout tree={pageTree} {...baseOptions(lang)}>
+      <DocsAiSearchChrome />
       {children}
     </DocsLayout>
   );

@@ -2,8 +2,14 @@ import type { LinkObject, NodeObject } from "react-force-graph-2d";
 
 export interface DocsGraphNodeData {
   description?: string;
+  /**
+   * @internal
+   */
   neighbors?: string[];
   text: string;
+  /**
+   * @remarks `page URL` Canonical docs route for graph nodes.
+   */
   url: string;
 }
 

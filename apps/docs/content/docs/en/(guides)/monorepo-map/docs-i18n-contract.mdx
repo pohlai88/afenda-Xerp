@@ -1,0 +1,27 @@
+---
+title: Docs i18n contract
+description: Serializable locale types and i18n configuration owned by @afenda/docs.
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info" title="Scope">
+  These types configure Fumadocs multilingual routing for `@afenda/docs` only. ERP locale resolution lives in `apps/erp` — not documented here.
+</Callout>
+
+## Supported locales
+
+Docs ships **en**, **zh**, **vi** (Vietnamese), **ms** (Malay — Malaysia), **id** (Indonesian), **th** (Thai), and **fil** (Filipino — Philippines) with directory-based content (`content/docs/{locale}/`).
+
+UI shell strings (search, feedback, home cards, etc.) live in JSON — one file per locale under `src/lib/i18n/locales/` (for example `vi.json`). Page body copy stays in MDX under `content/docs/{locale}/`.
+
+<auto-type-table path="./src/lib/i18n.ts" name="DocsLocale" />
+
+## Default locale
+
+<auto-type-table path="./src/lib/i18n.ts" name="docsDefaultLocale" />
+
+## Related
+
+- [Docs app contracts](/docs/monorepo-map/docs-contracts) — navigation and graph types
+- [Monorepo map](/docs/monorepo-map) — workspace layout summary

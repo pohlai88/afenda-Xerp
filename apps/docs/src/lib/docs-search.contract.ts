@@ -1,19 +1,20 @@
 import type { SearchLink } from "fumadocs-ui/contexts/search";
 import { docsHref, docsSeedSections } from "@/lib/docs-nav.contract";
-import { type DocsLocale, docsDefaultLocale } from "@/lib/i18n";
+import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
+import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
 
-const docsHrefPrefixPattern = /^\/(?:en|zh)\/docs\//;
+const docsHrefPrefixPattern = new RegExp(
+  `^/(?:${docsLocales.join("|")})/docs/`
+);
 
 /** Empty-state quick links for Fumadocs search dialog (RootProvider `search.links`). */
 export function docsSearchEmptyLinks(
   locale: DocsLocale = docsDefaultLocale
 ): SearchLink[] {
-  return [
-    ["Getting Started", docsHref(locale, "/docs/getting-started")],
-    ["Monorepo Map", docsHref(locale, "/docs/monorepo-map")],
-    ["Applications", docsHref(locale, "/docs/apps")],
-    ["Contributing", docsHref(locale, "/docs/contributing")],
-  ];
+  return resolveDocsUiLocaleCopy(locale).searchLinks.map((link) => [
+    link.label,
+    docsHref(locale, link.docsPath),
+  ]);
 }
 
 /** Hrefs aligned with seed section slugs in docs-nav.contract.ts. */

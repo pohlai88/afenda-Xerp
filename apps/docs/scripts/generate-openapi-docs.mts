@@ -1,19 +1,157 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { docsLocales } from "../src/lib/i18n.ts";
 
 const appDir = join(fileURLToPath(import.meta.url), "../..");
 const contentDir = join(appDir, "content/docs");
-const outputDir = join(contentDir, "en/(guides)/api-reference");
 const openApiSpecPath = join(appDir, "openapi/afenda-internal-v1.openapi.json");
+const openApiServerPath = join(appDir, "src/lib/openapi.server.ts");
 
 /** Must match `createOpenAPI({ input: [...] })` in openapi.server.ts */
 const OPENAPI_DOCUMENT_ID = "./openapi/afenda-internal-v1.openapi.json";
+
+const ZH_OPERATION_TITLE_BY_EN_SUMMARY: Record<string, string> = {
+  "Assign membership role": "分配成员角色",
+  "Get ERP health status": "获取 ERP 健康状态",
+  "Get dashboard layout": "获取仪表盘布局",
+  "Initiate tenant brand logo upload": "发起租户品牌 Logo 上传",
+  "Invite user": "邀请用户",
+  "List audit events": "列出审计事件",
+  "List session memberships": "列出会话成员关系",
+  "Report client-side error": "上报客户端错误",
+  "Reset dashboard layout": "重置仪表盘布局",
+  "Update dashboard layout": "更新仪表盘布局",
+};
 
 interface OpenApiOperation {
   readonly operationId?: string;
   readonly summary?: string;
   readonly tags?: readonly string[];
+}
+
+type OpenApiLocaleMeta = {
+  readonly indexTitle: string;
+  readonly indexDescription: string;
+  readonly indexHeading: string;
+  readonly indexIntro: string;
+  readonly metaTitle: string;
+  readonly resolveTitle: (operation: OpenApiOperation) => string;
+};
+
+const englishOperationTitle = (operation: OpenApiOperation): string =>
+  operation.summary ?? operation.operationId ?? "Operation";
+
+const OPENAPI_LOCALE_META = {
+  en: {
+    indexTitle: "Internal API Reference",
+    indexDescription:
+      "Governed Afenda ERP internal REST API under /api/internal/v1.",
+    indexHeading: "Internal API Reference",
+    indexIntro:
+      "Registry-driven OpenAPI 3.1 catalog for governed `/api/internal/v1/**` routes. Generated from `API_CONTRACTS` — do not edit operation pages by hand.",
+    metaTitle: "Internal API Reference",
+    resolveTitle: englishOperationTitle,
+  },
+  zh: {
+    indexTitle: "内部 API 参考",
+    indexDescription: "Afenda ERP 受治理的内部 REST API（/api/internal/v1）。",
+    indexHeading: "内部 API 参考",
+    indexIntro:
+      "由 `API_CONTRACTS` 生成的 OpenAPI 3.1 目录，涵盖受治理的 `/api/internal/v1/**` 路由。请勿手动编辑操作页面。",
+    metaTitle: "内部 API 参考",
+    resolveTitle: (operation: OpenApiOperation) => {
+      const englishSummary = operation.summary ?? operation.operationId ?? "";
+      return (
+        ZH_OPERATION_TITLE_BY_EN_SUMMARY[englishSummary] ?? englishSummary
+      );
+    },
+  },
+  vi: {
+    indexTitle: "Tài liệu tham chiếu API nội bộ",
+    indexDescription:
+      "REST API nội bộ Afenda ERP được quản trị theo /api/internal/v1.",
+    indexHeading: "Tài liệu tham chiếu API nội bộ",
+    indexIntro:
+      "Danh mục OpenAPI 3.1 được tạo từ `API_CONTRACTS` cho các route `/api/internal/v1/**` được quản trị. Không chỉnh sửa thủ công các trang thao tác.",
+    metaTitle: "Tài liệu tham chiếu API nội bộ",
+    resolveTitle: englishOperationTitle,
+  },
+  ms: {
+    indexTitle: "Rujukan API Dalaman",
+    indexDescription:
+      "REST API dalaman Afenda ERP yang ditadbir di bawah /api/internal/v1.",
+    indexHeading: "Rujukan API Dalaman",
+    indexIntro:
+      "Katalog OpenAPI 3.1 dipacu registri untuk laluan `/api/internal/v1/**` yang ditadbir. Dijana daripada `API_CONTRACTS` — jangan sunting halaman operasi secara manual.",
+    metaTitle: "Rujukan API Dalaman",
+    resolveTitle: englishOperationTitle,
+  },
+  id: {
+    indexTitle: "Referensi API Internal",
+    indexDescription:
+      "REST API internal Afenda ERP yang teregulasi di bawah /api/internal/v1.",
+    indexHeading: "Referensi API Internal",
+    indexIntro:
+      "Katalog OpenAPI 3.1 berbasis registri untuk rute `/api/internal/v1/**` yang teregulasi. Dihasilkan dari `API_CONTRACTS` — jangan edit halaman operasi secara manual.",
+    metaTitle: "Referensi API Internal",
+    resolveTitle: englishOperationTitle,
+  },
+  th: {
+    indexTitle: "เอกสารอ้างอิง API ภายใน",
+    indexDescription:
+      "REST API ภายในของ Afenda ERP ภายใต้ /api/internal/v1 ที่ได้รับการกำกับดูแล",
+    indexHeading: "เอกสารอ้างอิง API ภายใน",
+    indexIntro:
+      "แคตตาล็อก OpenAPI 3.1 ที่ขับเคลื่อนจาก registri สำหรับเส้นทาง `/api/internal/v1/**` ที่ได้รับการกำกับดูแล สร้างจาก `API_CONTRACTS` — อย่าแก้ไขหน้าปฏิบัติการด้วยตนเอง",
+    metaTitle: "เอกสารอ้างอิง API ภายใน",
+    resolveTitle: englishOperationTitle,
+  },
+  fil: {
+    indexTitle: "Sanggunian ng Panloob na API",
+    indexDescription:
+      "Pinamamahalaang panloob na REST API ng Afenda ERP sa ilalim ng /api/internal/v1.",
+    indexHeading: "Sanggunian ng Panloob na API",
+    indexIntro:
+      "Registry-driven na OpenAPI 3.1 catalog para sa pinamamahalaang `/api/internal/v1/**` routes. Binuo mula sa `API_CONTRACTS` — huwag i-edit nang manual ang mga pahina ng operasyon.",
+    metaTitle: "Sanggunian ng Panloob na API",
+    resolveTitle: englishOperationTitle,
+  },
+} as const satisfies Record<(typeof docsLocales)[number], OpenApiLocaleMeta>;
+
+type OpenApiLocaleConfig = OpenApiLocaleMeta & {
+  readonly outputDir: string;
+};
+
+function buildLocaleConfig(
+  locale: (typeof docsLocales)[number]
+): OpenApiLocaleConfig {
+  return {
+    ...OPENAPI_LOCALE_META[locale],
+    outputDir: join(contentDir, `${locale}/(guides)/api-reference`),
+  };
+}
+
+function fail(message: string): never {
+  console.error(`[generate:openapi-docs] ${message}`);
+  process.exit(1);
+}
+
+function assertOpenApiDocumentIdAligned(): void {
+  const serverSource = readFileSync(openApiServerPath, "utf8");
+  if (!serverSource.includes(OPENAPI_DOCUMENT_ID)) {
+    fail(
+      `OPENAPI_DOCUMENT_ID mismatch — update scripts/generate-openapi-docs.mts or src/lib/openapi.server.ts`
+    );
+  }
+}
+
+function assertSpecPresent(): void {
+  if (!existsSync(openApiSpecPath)) {
+    fail(
+      `OpenAPI spec missing at ${openApiSpecPath}. Run: pnpm export:openapi`
+    );
+  }
 }
 
 interface OpenApiPathItem {
@@ -48,19 +186,14 @@ function operationFileName(
 function buildOperationMdx(input: {
   readonly method: (typeof HTTP_METHODS)[number];
   readonly openApiPath: string;
-  readonly operation: OpenApiOperation;
+  readonly title: string;
 }): string {
-  const title =
-    input.operation.summary ??
-    input.operation.operationId ??
-    `${input.method.toUpperCase()} ${input.openApiPath}`;
-
   const operationsJson = JSON.stringify([
     { path: input.openApiPath, method: input.method },
   ]);
 
   return `---
-title: ${JSON.stringify(title)}
+title: ${JSON.stringify(input.title)}
 full: true
 _openapi:
   preload:
@@ -81,10 +214,15 @@ export default function Layout(props) {
 `;
 }
 
-function buildIndexMdx(
-  cards: readonly { readonly description: string; readonly href: string; readonly title: string }[]
-): string {
-  const cardLines = cards
+function buildIndexMdx(input: {
+  readonly cards: readonly {
+    readonly description: string;
+    readonly href: string;
+    readonly title: string;
+  }[];
+  readonly config: OpenApiLocaleConfig;
+}): string {
+  const cardLines = input.cards
     .map(
       (card) =>
         `  <Card title=${JSON.stringify(card.title)} href=${JSON.stringify(card.href)} description=${JSON.stringify(card.description)} />`
@@ -92,14 +230,14 @@ function buildIndexMdx(
     .join("\n");
 
   return `---
-title: Internal API Reference
-description: Governed Afenda ERP internal REST API under /api/internal/v1.
+title: ${JSON.stringify(input.config.indexTitle)}
+description: ${JSON.stringify(input.config.indexDescription)}
 full: true
 ---
 
-# Internal API Reference
+# ${input.config.indexHeading}
 
-Registry-driven OpenAPI 3.1 catalog for governed \`/api/internal/v1/**\` routes. Generated from \`API_CONTRACTS\` — do not edit operation pages by hand.
+${input.config.indexIntro}
 
 <Cards>
 ${cardLines}
@@ -107,44 +245,92 @@ ${cardLines}
 `;
 }
 
+function generateLocaleDocs(input: {
+  readonly config: OpenApiLocaleConfig;
+  readonly paths: Record<string, OpenApiPathItem>;
+}): number {
+  mkdirSync(input.config.outputDir, { recursive: true });
+
+  const cards: { description: string; href: string; title: string }[] = [];
+
+  for (const [openApiPath, pathItem] of Object.entries(input.paths)) {
+    for (const method of HTTP_METHODS) {
+      const operation = pathItem[method];
+      if (operation === undefined) {
+        continue;
+      }
+
+      const title = input.config.resolveTitle(operation);
+      const fileName = operationFileName(openApiPath, method);
+      const filePath = join(input.config.outputDir, fileName);
+      writeFileSync(
+        filePath,
+        buildOperationMdx({ openApiPath, method, title }),
+        "utf8"
+      );
+      console.log(`Generated: ${filePath}`);
+
+      cards.push({
+        title,
+        description: `${method.toUpperCase()} ${openApiPath}`,
+        href: `./${fileName.replace(/\.mdx$/, "")}`,
+      });
+    }
+  }
+
+  cards.sort((left, right) => left.title.localeCompare(right.title));
+
+  writeFileSync(
+    join(input.config.outputDir, "index.mdx"),
+    buildIndexMdx({ cards, config: input.config }),
+    "utf8"
+  );
+
+  const operationSlugs = cards
+    .map((card) => card.href.replace(/^\.\//, ""))
+    .sort((left, right) => left.localeCompare(right));
+
+  writeFileSync(
+    join(input.config.outputDir, "meta.json"),
+    `${JSON.stringify(
+      {
+        title: input.config.metaTitle,
+        icon: "Code",
+        defaultOpen: false,
+        pages: ["index", ...operationSlugs],
+      },
+      null,
+      2
+    )}\n`,
+    "utf8"
+  );
+
+  return cards.length;
+}
+
+assertSpecPresent();
+assertOpenApiDocumentIdAligned();
+
 const spec = JSON.parse(readFileSync(openApiSpecPath, "utf8")) as OpenApiDocument;
 const paths = spec.paths ?? {};
 
-mkdirSync(outputDir, { recursive: true });
+if (Object.keys(paths).length === 0) {
+  fail("OpenAPI spec has no paths — regenerate via pnpm export:openapi");
+}
 
-const cards: { description: string; href: string; title: string }[] = [];
+let totalOperations = 0;
 
-for (const [openApiPath, pathItem] of Object.entries(paths)) {
-  for (const method of HTTP_METHODS) {
-    const operation = pathItem[method];
-    if (operation === undefined) {
-      continue;
-    }
+for (const locale of docsLocales) {
+  const config = buildLocaleConfig(locale);
+  const operationCount = generateLocaleDocs({ config, paths });
+  totalOperations += operationCount;
+  console.log(
+    `Generated ${operationCount} operation pages under ${config.outputDir}`
+  );
 
-    const fileName = operationFileName(openApiPath, method);
-    const filePath = join(outputDir, fileName);
-    writeFileSync(filePath, buildOperationMdx({ openApiPath, method, operation }), "utf8");
-    console.log(`Generated: ${filePath}`);
-
-    cards.push({
-      title: operation.summary ?? operation.operationId ?? fileName,
-      description: `${method.toUpperCase()} ${openApiPath}`,
-      href: `./${fileName.replace(/\.mdx$/, "")}`,
-    });
+  if (operationCount === 0) {
+    fail(`No operations generated for ${config.outputDir}`);
   }
 }
 
-cards.sort((left, right) => left.title.localeCompare(right.title));
-
-writeFileSync(join(outputDir, "index.mdx"), buildIndexMdx(cards), "utf8");
-const operationSlugs = cards
-  .map((card) => card.href.replace(/^\.\//, ""))
-  .sort((left, right) => left.localeCompare(right));
-
-writeFileSync(
-  join(outputDir, "meta.json"),
-  `${JSON.stringify({ title: "Internal API Reference", pages: ["index", ...operationSlugs] }, null, 2)}\n`,
-  "utf8"
-);
-
-console.log(`Generated ${cards.length} operation pages under ${outputDir}`);
+console.log(`Generated ${totalOperations} total localized operation pages.`);

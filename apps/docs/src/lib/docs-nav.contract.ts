@@ -41,6 +41,7 @@ export const docsSeedSections = [
     title: "Monorepo Map",
     subpages: [
       { slug: ["monorepo-map", "docs-contracts"], id: "docs-contracts" },
+      { slug: ["monorepo-map", "docs-i18n-contract"], id: "docs-i18n-contract" },
     ],
   },
   {

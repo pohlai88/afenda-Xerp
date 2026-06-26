@@ -1,0 +1,52 @@
+---
+title: Installation
+description: Install Node, pnpm, and monorepo dependencies for Afenda development.
+---
+
+## Node.js
+
+Use Node.js **20 LTS** or newer. The monorepo pins the catalog via the root `package.json` `engines` field — verify with:
+
+```bash
+node --version
+```
+
+## pnpm
+
+Afenda uses **pnpm workspaces**. Install pnpm globally if needed:
+
+```bash
+corepack enable
+corepack prepare pnpm@10 --activate
+pnpm --version
+```
+
+## Repository install
+
+From the repository root:
+
+```bash
+pnpm install
+```
+
+This links all `apps/*` and `packages/*` workspaces. First install may take several minutes.
+
+## Verify docs app
+
+```bash
+pnpm --filter @afenda/docs typecheck
+pnpm --filter @afenda/docs test:run
+pnpm --filter @afenda/docs build
+```
+
+All three should pass before opening a docs PR.
+
+## Verify ERP app (optional)
+
+When working on `@afenda/erp`:
+
+```bash
+pnpm --filter @afenda/erp typecheck
+```
+
+Database and env configuration are covered in [Dev Setup](/docs/getting-started/dev-setup).

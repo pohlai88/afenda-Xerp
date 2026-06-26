@@ -1,4 +1,5 @@
 {
   "title": "Monorepo Map",
-  "pages": ["index", "docs-contracts"]
+  "icon": "Map",
+  "pages": ["index", "docs-contracts", "docs-i18n-contract"]
 }

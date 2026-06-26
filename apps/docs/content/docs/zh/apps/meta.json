@@ -1,5 +1,6 @@
 {
   "title": "Applications",
   "root": true,
+  "icon": "Layers",
   "pages": ["index", "erp", "docs", "storybook"]
 }

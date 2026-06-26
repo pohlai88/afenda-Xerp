@@ -1,0 +1,11 @@
+{
+  "extends": "@afenda/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "rootDir": ".",
+    "types": ["node", "@playwright/test"]
+  },
+  "include": ["e2e/**/*.ts", "playwright.config.mts"]
+}

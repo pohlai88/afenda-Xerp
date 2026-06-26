@@ -1,0 +1,75 @@
+---
+title: ERP Development
+description: Local workflow, environment, and quality gates for @afenda/erp.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<Callout type="info" title="Authority">
+  Environment and gate commands follow repo scripts. See
+  [getting-started/dev-setup](/docs/getting-started/dev-setup) for database configuration.
+</Callout>
+
+<Steps>
+
+<Step>
+
+### Install at monorepo root
+
+```bash
+git clone https://github.com/pohlai88/afenda-Xerp.git
+cd afenda-Xerp
+pnpm install
+```
+
+</Step>
+
+<Step>
+
+### Configure environment
+
+Copy env templates for ERP and database per dev-setup. Local Postgres (or Supabase) is required for data paths.
+
+</Step>
+
+<Step>
+
+### Start the ERP dev server
+
+```bash
+pnpm --filter @afenda/erp dev
+```
+
+Default port **3000**.
+
+</Step>
+
+<Step>
+
+### Run quality gates before PR
+
+```bash
+pnpm --filter @afenda/erp typecheck
+pnpm --filter @afenda/erp test:run
+pnpm quality:boundaries
+pnpm check:documentation-drift
+```
+
+</Step>
+
+</Steps>
+
+## Layer discipline
+
+When changing ERP UI:
+
+1. Edit `apps/erp/` first — not shared packages unless required
+2. Ask before editing `packages/ui` primitives (TIP-004)
+3. One bounded slice per session — follow [ARCH index](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/ARCH/arch-status-index.md)
+
+## Related guides
+
+- [ERP Application](/docs/apps/erp)
+- [Routes and surfaces](/docs/apps/erp/routes-and-surfaces)
+- [Contributing](/docs/contributing)

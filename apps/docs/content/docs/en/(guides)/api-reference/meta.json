@@ -1,5 +1,7 @@
 {
   "title": "Internal API Reference",
+  "icon": "Code",
+  "defaultOpen": false,
   "pages": [
     "index",
     "auth-memberships-get",

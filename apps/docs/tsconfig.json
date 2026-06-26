@@ -13,6 +13,7 @@
     "source.config.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.json",
     ".next/types/**/*.ts",
     ".source/**/*.ts"
   ],

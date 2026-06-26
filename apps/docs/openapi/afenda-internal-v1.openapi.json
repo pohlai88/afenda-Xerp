@@ -3,8 +3,72 @@
   "info": {
     "title": "Afenda ERP Internal API",
     "version": "v1",
-    "description": "Registry-driven OpenAPI document for governed /api/internal/v1 routes."
+    "description": "Registry-driven OpenAPI document for governed /api/internal/v1 routes.",
+    "contact": {
+      "name": "Afenda Platform"
+    },
+    "license": {
+      "name": "UNLICENSED"
+    }
   },
+  "externalDocs": {
+    "description": "Afenda REST API governance and contract standards.",
+    "url": "docs/architecture/afenda-rest-api-governance.md"
+  },
+  "tags": [
+    {
+      "name": "health",
+      "description": "Service health and diagnostics."
+    },
+    {
+      "name": "auth",
+      "description": "Session authentication and membership resolution."
+    },
+    {
+      "name": "workspace",
+      "description": "Workspace-scoped resources."
+    },
+    {
+      "name": "system-admin",
+      "description": "System administration — tenant management."
+    },
+    {
+      "name": "storage",
+      "description": "Binary asset storage operations."
+    },
+    {
+      "name": "observability",
+      "description": "Client-side telemetry and error ingestion."
+    },
+    {
+      "name": "public",
+      "description": "Routes callable without an authenticated session."
+    },
+    {
+      "name": "memberships",
+      "description": "Tenant membership resolution and post-auth entry paths."
+    },
+    {
+      "name": "dashboard",
+      "description": "Workspace dashboard layout preferences."
+    },
+    {
+      "name": "users",
+      "description": "System-admin user lifecycle operations."
+    },
+    {
+      "name": "audit",
+      "description": "System-admin audit event queries."
+    },
+    {
+      "name": "telemetry",
+      "description": "Client-side telemetry ingestion."
+    },
+    {
+      "name": "appearance",
+      "description": "Tenant branding and appearance asset management."
+    }
+  ],
   "servers": [
     {
       "url": "/api/internal/v1",
@@ -15,8 +79,8 @@
     "/health": {
       "get": {
         "operationId": "internalV1HealthGet",
-        "summary": "internal.v1.health.get",
-        "description": "Governed GET /api/internal/v1/health (internal-stable).",
+        "summary": "Get ERP health status",
+        "description": "Returns service health and execution spine diagnostics for load balancers and monitoring probes. Public route; no session required.",
         "tags": [
           "health",
           "public"
@@ -31,228 +95,33 @@
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "executionSpine": {
-                          "type": "object",
-                          "properties": {
-                            "allowDegradedExecution": {
-                              "type": "boolean"
-                            },
-                            "appReleaseSha": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "deadLetterCount": {
-                              "anyOf": [
-                                {
-                                  "type": "integer",
-                                  "minimum": 0,
-                                  "maximum": 9007199254740991
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "lastScheduleRegistrationAt": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "lastScheduleRegistrationError": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "lastSuccessfulPublishAt": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "lastWorkerVersionCheckAt": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "lastWorkerVersionCheckError": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "oldestPendingOutboxAgeSeconds": {
-                              "anyOf": [
-                                {
-                                  "type": "integer",
-                                  "minimum": 0,
-                                  "maximum": 9007199254740991
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "operationalStatus": {
-                              "type": "string",
-                              "enum": [
-                                "healthy",
-                                "degraded",
-                                "critical"
-                              ]
-                            },
-                            "outboxScheduleId": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "outboxScheduleRegistered": {
-                              "type": "boolean"
-                            },
-                            "pendingOutboxCount": {
-                              "anyOf": [
-                                {
-                                  "type": "integer",
-                                  "minimum": 0,
-                                  "maximum": 9007199254740991
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "schedulerRequired": {
-                              "type": "boolean"
-                            },
-                            "triggerDeploymentVersion": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "triggerGitCommitSha": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "triggerProviderState": {
-                              "type": "string",
-                              "enum": [
-                                "active",
-                                "degraded",
-                                "unavailable"
-                              ]
-                            },
-                            "triggerWorkerVersion": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "workerReleaseAligned": {
-                              "type": "boolean"
-                            },
-                            "workerReleaseCheckRequired": {
-                              "type": "boolean"
-                            }
-                          },
-                          "required": [
-                            "allowDegradedExecution",
-                            "appReleaseSha",
-                            "deadLetterCount",
-                            "lastScheduleRegistrationAt",
-                            "lastScheduleRegistrationError",
-                            "lastSuccessfulPublishAt",
-                            "lastWorkerVersionCheckAt",
-                            "lastWorkerVersionCheckError",
-                            "oldestPendingOutboxAgeSeconds",
-                            "operationalStatus",
-                            "outboxScheduleId",
-                            "outboxScheduleRegistered",
-                            "pendingOutboxCount",
-                            "schedulerRequired",
-                            "triggerDeploymentVersion",
-                            "triggerGitCommitSha",
-                            "triggerProviderState",
-                            "triggerWorkerVersion",
-                            "workerReleaseAligned",
-                            "workerReleaseCheckRequired"
-                          ],
-                          "additionalProperties": false
-                        },
-                        "service": {
-                          "type": "string",
-                          "const": "erp"
-                        },
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "ok",
-                            "degraded",
-                            "critical"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "executionSpine",
-                        "service",
-                        "status"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/HealthResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -274,6 +143,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -284,6 +173,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -294,6 +203,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -304,6 +233,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -314,6 +263,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -324,6 +293,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -334,6 +341,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -344,6 +371,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -358,8 +405,8 @@
     "/auth/memberships": {
       "get": {
         "operationId": "internalV1AuthMembershipsGet",
-        "summary": "internal.v1.auth.memberships.get",
-        "description": "Governed GET /api/internal/v1/auth/memberships (internal-stable).",
+        "summary": "List session memberships",
+        "description": "Returns tenant memberships available to the authenticated user for workspace and organization selection after sign-in.",
         "tags": [
           "auth",
           "memberships",
@@ -390,69 +437,33 @@
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "activeMembershipCount": {
-                          "type": "integer",
-                          "minimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "entryPath": {
-                          "type": "string"
-                        },
-                        "requiresOrganizationSelect": {
-                          "type": "boolean"
-                        },
-                        "requiresWorkspaceSelect": {
-                          "type": "boolean"
-                        },
-                        "targets": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "companySlug": {
-                                "type": "string"
-                              },
-                              "isSelected": {
-                                "type": "boolean"
-                              },
-                              "label": {
-                                "type": "string"
-                              },
-                              "organizationSlug": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "companySlug",
-                              "isSelected",
-                              "label"
-                            ],
-                            "additionalProperties": false
-                          }
-                        },
-                        "workspaceTargetCount": {
-                          "type": "integer",
-                          "minimum": 0,
-                          "maximum": 9007199254740991
-                        }
-                      },
-                      "required": [
-                        "activeMembershipCount",
-                        "entryPath",
-                        "requiresOrganizationSelect",
-                        "requiresWorkspaceSelect",
-                        "targets",
-                        "workspaceTargetCount"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/AuthMembershipsGetResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -474,6 +485,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -484,6 +515,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -494,6 +545,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -504,6 +575,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -514,6 +605,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -524,6 +635,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -534,6 +683,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -544,6 +713,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -558,8 +747,8 @@
     "/client-error": {
       "post": {
         "operationId": "internalV1Client-errorPost",
-        "summary": "internal.v1.client-error.post",
-        "description": "Governed POST /api/internal/v1/client-error (internal-stable).",
+        "summary": "Report client-side error",
+        "description": "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
         "tags": [
           "observability",
           "public",
@@ -577,49 +766,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "digest": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 128,
-                    "pattern": "^[\\w.-]+$"
-                  },
-                  "segment": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 64,
-                    "pattern": "^[\\w.-]+$"
-                  }
-                },
-                "required": [
-                  "digest",
-                  "segment"
-                ]
+                "$ref": "#/components/schemas/ClientErrorPostRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "accepted": {
-                          "type": "boolean",
-                          "const": true
-                        }
-                      },
-                      "required": [
-                        "accepted"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/ClientErrorPostResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -641,6 +822,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -651,6 +852,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -661,6 +882,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -671,6 +912,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -681,6 +942,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -691,6 +972,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -701,6 +1020,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -711,6 +1050,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -725,8 +1084,8 @@
     "/workspace/dashboard-layout": {
       "get": {
         "operationId": "internalV1WorkspaceDashboard-layoutGet",
-        "summary": "internal.v1.workspace.dashboard-layout.get",
-        "description": "Governed GET /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "summary": "Get dashboard layout",
+        "description": "Returns the persisted dashboard widget layout for the active tenant, company, and organization context.",
         "tags": [
           "workspace",
           "dashboard"
@@ -792,142 +1151,33 @@
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "layout": {
-                          "type": "object",
-                          "properties": {
-                            "columns": {
-                              "type": "number",
-                              "const": 12
-                            },
-                            "items": {
-                              "readOnly": true,
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "h": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "i": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "invoice-table",
-                                          "kpi-active-orders",
-                                          "kpi-headcount",
-                                          "kpi-net-income",
-                                          "kpi-open-tasks",
-                                          "module-earnings",
-                                          "payment-history",
-                                          "recent-transactions",
-                                          "regional-sales",
-                                          "revenue-chart",
-                                          "sparkline-expense",
-                                          "sparkline-revenue",
-                                          "statistics-line-trends",
-                                          "statistics-metrics"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "kpi-stats",
-                                          "sparkline-stats"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "minH": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "minW": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "w": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "x": {
-                                    "type": "integer",
-                                    "minimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "y": {
-                                    "type": "integer",
-                                    "minimum": 0,
-                                    "maximum": 9007199254740991
-                                  }
-                                },
-                                "required": [
-                                  "h",
-                                  "i",
-                                  "w",
-                                  "x",
-                                  "y"
-                                ],
-                                "additionalProperties": false
-                              }
-                            },
-                            "rowHeight": {
-                              "type": "integer",
-                              "exclusiveMinimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "version": {
-                              "type": "number",
-                              "const": 1
-                            }
-                          },
-                          "required": [
-                            "columns",
-                            "items",
-                            "rowHeight",
-                            "version"
-                          ],
-                          "additionalProperties": false
-                        },
-                        "source": {
-                          "type": "string",
-                          "enum": [
-                            "default",
-                            "stored"
-                          ]
-                        },
-                        "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time",
-                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        }
-                      },
-                      "required": [
-                        "layout",
-                        "source",
-                        "updatedAt"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/DashboardLayoutResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -949,6 +1199,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -959,6 +1229,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -969,6 +1259,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -979,6 +1289,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -989,6 +1319,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -999,6 +1349,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1009,6 +1397,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1019,6 +1427,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1031,8 +1459,8 @@
       },
       "put": {
         "operationId": "internalV1WorkspaceDashboard-layoutPut",
-        "summary": "internal.v1.workspace.dashboard-layout.put",
-        "description": "Governed PUT /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "summary": "Update dashboard layout",
+        "description": "Persists dashboard widget layout changes. Requires idempotency key and workspace dashboard write permission.",
         "tags": [
           "workspace",
           "dashboard"
@@ -1111,104 +1539,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "columns": {
-                    "type": "number",
-                    "const": 12
-                  },
-                  "items": {
-                    "readOnly": true,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "h": {
-                          "type": "integer",
-                          "exclusiveMinimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "i": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "enum": [
-                                "invoice-table",
-                                "kpi-active-orders",
-                                "kpi-headcount",
-                                "kpi-net-income",
-                                "kpi-open-tasks",
-                                "module-earnings",
-                                "payment-history",
-                                "recent-transactions",
-                                "regional-sales",
-                                "revenue-chart",
-                                "sparkline-expense",
-                                "sparkline-revenue",
-                                "statistics-line-trends",
-                                "statistics-metrics"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "enum": [
-                                "kpi-stats",
-                                "sparkline-stats"
-                              ]
-                            }
-                          ]
-                        },
-                        "minH": {
-                          "type": "integer",
-                          "exclusiveMinimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "minW": {
-                          "type": "integer",
-                          "exclusiveMinimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "w": {
-                          "type": "integer",
-                          "exclusiveMinimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "x": {
-                          "type": "integer",
-                          "minimum": 0,
-                          "maximum": 9007199254740991
-                        },
-                        "y": {
-                          "type": "integer",
-                          "minimum": 0,
-                          "maximum": 9007199254740991
-                        }
-                      },
-                      "required": [
-                        "h",
-                        "i",
-                        "w",
-                        "x",
-                        "y"
-                      ]
-                    }
-                  },
-                  "rowHeight": {
-                    "type": "integer",
-                    "exclusiveMinimum": 0,
-                    "maximum": 9007199254740991
-                  },
-                  "version": {
-                    "type": "number",
-                    "const": 1
-                  }
-                },
-                "required": [
-                  "columns",
-                  "items",
-                  "rowHeight",
-                  "version"
-                ]
+                "$ref": "#/components/schemas/DashboardLayoutPreset"
               }
             }
           }
@@ -1216,142 +1547,33 @@
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "layout": {
-                          "type": "object",
-                          "properties": {
-                            "columns": {
-                              "type": "number",
-                              "const": 12
-                            },
-                            "items": {
-                              "readOnly": true,
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "h": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "i": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "invoice-table",
-                                          "kpi-active-orders",
-                                          "kpi-headcount",
-                                          "kpi-net-income",
-                                          "kpi-open-tasks",
-                                          "module-earnings",
-                                          "payment-history",
-                                          "recent-transactions",
-                                          "regional-sales",
-                                          "revenue-chart",
-                                          "sparkline-expense",
-                                          "sparkline-revenue",
-                                          "statistics-line-trends",
-                                          "statistics-metrics"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "kpi-stats",
-                                          "sparkline-stats"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "minH": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "minW": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "w": {
-                                    "type": "integer",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "x": {
-                                    "type": "integer",
-                                    "minimum": 0,
-                                    "maximum": 9007199254740991
-                                  },
-                                  "y": {
-                                    "type": "integer",
-                                    "minimum": 0,
-                                    "maximum": 9007199254740991
-                                  }
-                                },
-                                "required": [
-                                  "h",
-                                  "i",
-                                  "w",
-                                  "x",
-                                  "y"
-                                ],
-                                "additionalProperties": false
-                              }
-                            },
-                            "rowHeight": {
-                              "type": "integer",
-                              "exclusiveMinimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            "version": {
-                              "type": "number",
-                              "const": 1
-                            }
-                          },
-                          "required": [
-                            "columns",
-                            "items",
-                            "rowHeight",
-                            "version"
-                          ],
-                          "additionalProperties": false
-                        },
-                        "source": {
-                          "type": "string",
-                          "enum": [
-                            "default",
-                            "stored"
-                          ]
-                        },
-                        "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time",
-                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        }
-                      },
-                      "required": [
-                        "layout",
-                        "source",
-                        "updatedAt"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/DashboardLayoutResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -1373,6 +1595,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1383,6 +1625,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1393,6 +1655,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1403,6 +1685,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1413,6 +1715,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1423,6 +1745,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1433,6 +1793,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1443,6 +1823,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1455,8 +1855,8 @@
       },
       "delete": {
         "operationId": "internalV1WorkspaceDashboard-layoutDelete",
-        "summary": "internal.v1.workspace.dashboard-layout.delete",
-        "description": "Governed DELETE /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "summary": "Reset dashboard layout",
+        "description": "Resets the dashboard layout to the default configuration for the active operating context.",
         "tags": [
           "workspace",
           "dashboard"
@@ -1522,23 +1922,33 @@
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "reset": {
-                          "type": "boolean",
-                          "const": true
-                        }
-                      },
-                      "required": [
-                        "reset"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/DashboardLayoutDeleteResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -1560,6 +1970,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1570,6 +2000,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1580,6 +2030,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1590,6 +2060,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1600,6 +2090,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1610,6 +2120,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1620,6 +2168,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1630,6 +2198,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1644,8 +2232,8 @@
     "/system-admin/users/invite": {
       "post": {
         "operationId": "internalV1System-adminUsersInvitePost",
-        "summary": "internal.v1.system-admin.users.invite.post",
-        "description": "Governed POST /api/internal/v1/system-admin/users/invite (internal-stable).",
+        "summary": "Invite user",
+        "description": "Invites a new user to the tenant with a specified role. Audited mutation requiring system admin user management permission.",
         "tags": [
           "system-admin",
           "users"
@@ -1706,6 +2294,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
           }
         ],
         "requestBody": {
@@ -1713,54 +2312,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "displayName": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
-                  },
-                  "roleId": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "required": [
-                  "displayName",
-                  "email",
-                  "roleId"
-                ]
+                "$ref": "#/components/schemas/SystemAdminUserInviteRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "membershipId": {
-                          "type": "string"
-                        },
-                        "userId": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "membershipId",
-                        "userId"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/SystemAdminUserInviteResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -1782,6 +2368,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1792,6 +2398,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1802,6 +2428,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1812,6 +2458,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1822,6 +2488,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1832,6 +2518,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1842,6 +2566,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1852,6 +2596,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -1866,8 +2630,8 @@
     "/system-admin/memberships/role": {
       "post": {
         "operationId": "internalV1System-adminMembershipsRolePost",
-        "summary": "internal.v1.system-admin.memberships.role.post",
-        "description": "Governed POST /api/internal/v1/system-admin/memberships/role (internal-stable).",
+        "summary": "Assign membership role",
+        "description": "Updates the role assigned to an existing membership within company scope. Audited mutation requiring system admin role management permission.",
         "tags": [
           "system-admin",
           "memberships"
@@ -1928,6 +2692,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
           }
         ],
         "requestBody": {
@@ -1935,53 +2710,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "companyId": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "membershipId": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "roleId": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "required": [
-                  "companyId",
-                  "membershipId",
-                  "roleId"
-                ]
+                "$ref": "#/components/schemas/SystemAdminMembershipRoleRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "membershipId": {
-                          "type": "string"
-                        },
-                        "roleId": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "membershipId",
-                        "roleId"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/SystemAdminMembershipRoleResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -2003,6 +2766,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2013,6 +2796,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2023,6 +2826,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2033,6 +2856,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2043,6 +2886,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2053,6 +2916,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2063,6 +2964,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2073,6 +2994,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2087,8 +3028,8 @@
     "/system-admin/audit-events": {
       "get": {
         "operationId": "internalV1System-adminAudit-eventsGet",
-        "summary": "internal.v1.system-admin.audit-events.get",
-        "description": "Governed GET /api/internal/v1/system-admin/audit-events (internal-stable).",
+        "summary": "List audit events",
+        "description": "Returns recent system administration audit events for the active tenant, company, and organization context.",
         "tags": [
           "system-admin",
           "audit"
@@ -2149,87 +3090,123 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Opaque cursor from the prior page meta.pagination.nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+            }
+          },
+          {
+            "description": "Maximum number of items to return (1-100).",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "example": 20
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
+                      "$ref": "#/components/schemas/SystemAdminAuditEventsResponse"
+                    },
+                    "meta": {
                       "type": "object",
                       "properties": {
-                        "events": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "action": {
-                                "type": "string"
-                              },
-                              "correlationId": {
-                                "type": "string"
-                              },
-                              "createdAt": {
-                                "type": "string"
-                              },
-                              "id": {
-                                "type": "string"
-                              },
-                              "module": {
-                                "type": "string"
-                              },
-                              "result": {
-                                "type": "string",
-                                "enum": [
-                                  "success",
-                                  "failure",
-                                  "blocked",
-                                  "denied",
-                                  "pending",
-                                  "approved",
-                                  "rejected",
-                                  "reversed"
-                                ]
-                              },
-                              "targetId": {
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ]
-                              },
-                              "targetType": {
-                                "type": "string"
-                              }
+                        "correlationId": {
+                          "type": "string",
+                          "description": "End-to-end correlation identifier propagated across services for this request.",
+                          "example": "corr_01HXYZABCDEF"
+                        },
+                        "requestId": {
+                          "type": "string",
+                          "description": "Unique identifier for this HTTP request within the ERP.",
+                          "example": "req_01HXYZABCDEF"
+                        },
+                        "timestamp": {
+                          "type": "string",
+                          "description": "ISO-8601 timestamp when the response was generated.",
+                          "example": "2026-06-26T12:00:00.000Z"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "hasMore": {
+                              "type": "boolean",
+                              "description": "Whether additional items exist beyond this page.",
+                              "example": true
                             },
-                            "required": [
-                              "action",
-                              "correlationId",
-                              "createdAt",
-                              "id",
-                              "module",
-                              "result",
-                              "targetId",
-                              "targetType"
-                            ],
-                            "additionalProperties": false
-                          }
+                            "limit": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991,
+                              "description": "Applied page size for this response.",
+                              "example": 20
+                            },
+                            "nextCursor": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Opaque cursor for the next page, or null when hasMore is false.",
+                              "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+                            }
+                          },
+                          "required": [
+                            "hasMore",
+                            "limit",
+                            "nextCursor"
+                          ],
+                          "additionalProperties": false
                         }
                       },
                       "required": [
-                        "events"
+                        "correlationId",
+                        "requestId",
+                        "timestamp",
+                        "pagination"
                       ],
                       "additionalProperties": false
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/ApiResponseMeta"
                     },
                     "ok": {
                       "type": "boolean",
@@ -2248,6 +3225,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2258,6 +3255,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2268,6 +3285,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2278,6 +3315,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2288,6 +3345,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2298,6 +3375,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2308,6 +3423,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2318,6 +3453,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2332,8 +3487,8 @@
     "/storage/tenant-brand-logo": {
       "post": {
         "operationId": "internalV1StorageTenant-brand-logoPost",
-        "summary": "internal.v1.storage.tenant-brand-logo.post",
-        "description": "Governed POST /api/internal/v1/storage/tenant-brand-logo (internal-stable).",
+        "summary": "Initiate tenant brand logo upload",
+        "description": "Returns a presigned upload URL and metadata for uploading a tenant brand logo. Request body specifies filename, MIME type, and size.",
         "tags": [
           "storage",
           "system-admin",
@@ -2359,6 +3514,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Optional key for safe mutation retries when the client supports idempotency.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
           }
         ],
         "requestBody": {
@@ -2366,88 +3532,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "filename": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
-                  },
-                  "mimeType": {
-                    "type": "string",
-                    "enum": [
-                      "image/jpeg",
-                      "image/png",
-                      "image/webp"
-                    ]
-                  },
-                  "size": {
-                    "type": "integer",
-                    "exclusiveMinimum": 0,
-                    "maximum": 524288
-                  }
-                },
-                "required": [
-                  "filename",
-                  "mimeType",
-                  "size"
-                ]
+                "$ref": "#/components/schemas/TenantBrandLogoUploadRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "expiresAt": {
-                          "type": "string",
-                          "format": "date-time",
-                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-                        },
-                        "headers": {
-                          "type": "object",
-                          "propertyNames": {
-                            "type": "string"
-                          },
-                          "additionalProperties": {
-                            "type": "string"
-                          }
-                        },
-                        "method": {
-                          "type": "string",
-                          "const": "PUT"
-                        },
-                        "objectId": {
-                          "type": "string",
-                          "format": "uuid",
-                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                        },
-                        "path": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "uploadUrl": {
-                          "type": "string",
-                          "format": "uri"
-                        }
-                      },
-                      "required": [
-                        "expiresAt",
-                        "headers",
-                        "method",
-                        "objectId",
-                        "path",
-                        "uploadUrl"
-                      ],
-                      "additionalProperties": false
+                      "$ref": "#/components/schemas/TenantBrandLogoUploadResponse"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMeta"
@@ -2469,6 +3588,26 @@
           },
           "400": {
             "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2479,6 +3618,26 @@
           },
           "401": {
             "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2489,6 +3648,26 @@
           },
           "403": {
             "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2499,6 +3678,26 @@
           },
           "404": {
             "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2509,6 +3708,26 @@
           },
           "409": {
             "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2519,6 +3738,44 @@
           },
           "429": {
             "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2529,6 +3786,26 @@
           },
           "500": {
             "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2539,6 +3816,26 @@
           },
           "503": {
             "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -2553,18 +3850,922 @@
   },
   "components": {
     "schemas": {
+      "ClientErrorPostRequest": {
+        "type": "object",
+        "properties": {
+          "digest": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[\\w.-]+$",
+            "description": "Error digest emitted by the client runtime.",
+            "example": "chunk-load-error.abc123"
+          },
+          "segment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[\\w.-]+$",
+            "description": "Application segment or route associated with the error.",
+            "example": "dashboard"
+          }
+        },
+        "required": [
+          "digest",
+          "segment"
+        ],
+        "description": "Client-reported error payload for observability ingestion (fire-and-forget)."
+      },
+      "DashboardLayoutPreset": {
+        "type": "object",
+        "properties": {
+          "columns": {
+            "type": "number",
+            "const": 12,
+            "description": "Fixed column count for the dashboard grid.",
+            "example": 12
+          },
+          "items": {
+            "readOnly": true,
+            "description": "Ordered widget layout items for the dashboard.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DashboardWidgetLayoutItem"
+            }
+          },
+          "rowHeight": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Base row height in pixels for grid row calculations.",
+            "example": 80
+          },
+          "version": {
+            "type": "number",
+            "const": 1,
+            "description": "Layout schema version for forward-compatible migrations.",
+            "example": 1
+          }
+        },
+        "required": [
+          "columns",
+          "items",
+          "rowHeight",
+          "version"
+        ],
+        "description": "Versioned dashboard widget grid preset."
+      },
+      "DashboardWidgetLayoutItem": {
+        "type": "object",
+        "properties": {
+          "h": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Grid row span (height in grid units).",
+            "example": 2
+          },
+          "i": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "invoice-table",
+                  "kpi-active-orders",
+                  "kpi-headcount",
+                  "kpi-net-income",
+                  "kpi-open-tasks",
+                  "module-earnings",
+                  "payment-history",
+                  "recent-transactions",
+                  "regional-sales",
+                  "revenue-chart",
+                  "sparkline-expense",
+                  "sparkline-revenue",
+                  "statistics-line-trends",
+                  "statistics-metrics"
+                ],
+                "description": "Canonical dashboard widget identifier.",
+                "example": "kpi-net-income"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "kpi-stats",
+                  "sparkline-stats"
+                ],
+                "description": "Legacy widget identifiers retained for stored layout migration.",
+                "example": "kpi-stats"
+              }
+            ],
+            "description": "Unique widget key within the layout grid.",
+            "example": "kpi-net-income"
+          },
+          "minH": {
+            "description": "Minimum row span enforced by the layout engine.",
+            "example": 1,
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "minW": {
+            "description": "Minimum column span enforced by the layout engine.",
+            "example": 2,
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "w": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Grid column span (width in grid units).",
+            "example": 4
+          },
+          "x": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Zero-based column position in the 12-column grid.",
+            "example": 0
+          },
+          "y": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Zero-based row position in the layout grid.",
+            "example": 0
+          }
+        },
+        "required": [
+          "h",
+          "i",
+          "w",
+          "x",
+          "y"
+        ],
+        "description": "Single widget placement within the dashboard grid."
+      },
+      "SystemAdminUserInviteRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name for the invited user.",
+            "example": "Jordan Lee"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "description": "Email address where the invitation will be sent.",
+            "example": "jordan.lee@example.com"
+          },
+          "roleId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Identifier of the role to assign upon invite acceptance.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          }
+        },
+        "required": [
+          "displayName",
+          "email",
+          "roleId"
+        ],
+        "description": "Request body for inviting a new user into the tenant."
+      },
+      "SystemAdminMembershipRoleRequest": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the company scope for the membership role change.",
+            "example": "2b3c4d5e-6f70-8192-a3b4-c5d6e7f8091a"
+          },
+          "membershipId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the membership whose role is being updated.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "roleId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "UUID of the new role to assign to the membership.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          }
+        },
+        "required": [
+          "companyId",
+          "membershipId",
+          "roleId"
+        ],
+        "description": "Request body for updating a membership role assignment."
+      },
+      "TenantBrandLogoUploadRequest": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "Original filename including extension.",
+            "example": "brand-logo.png"
+          },
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "description": "Content type of the file to upload.",
+            "example": "image/png"
+          },
+          "size": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 524288,
+            "description": "File size in bytes (maximum 512 KiB).",
+            "example": 48640
+          }
+        },
+        "required": [
+          "filename",
+          "mimeType",
+          "size"
+        ],
+        "description": "Metadata for requesting a presigned upload URL for a tenant brand logo."
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "executionSpine": {
+            "description": "Diagnostics for background job and outbox execution.",
+            "$ref": "#/components/schemas/ExecutionSpineDiagnostics"
+          },
+          "service": {
+            "type": "string",
+            "const": "erp",
+            "description": "Logical service identifier for this health probe.",
+            "example": "erp"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded",
+              "critical"
+            ],
+            "description": "Overall ERP health status derived from execution spine diagnostics.",
+            "example": "ok"
+          }
+        },
+        "required": [
+          "executionSpine",
+          "service",
+          "status"
+        ],
+        "additionalProperties": false,
+        "description": "Health probe payload for load balancers and monitoring integrations."
+      },
+      "ExecutionSpineOperationalStatus": {
+        "type": "string",
+        "enum": [
+          "healthy",
+          "degraded",
+          "critical"
+        ],
+        "description": "Aggregate health of the execution spine (outbox, scheduler, worker alignment).",
+        "example": "healthy"
+      },
+      "TriggerProviderState": {
+        "type": "string",
+        "enum": [
+          "active",
+          "degraded",
+          "unavailable"
+        ],
+        "description": "Operational state of the Trigger.dev provider integration.",
+        "example": "active"
+      },
+      "ExecutionSpineDiagnostics": {
+        "type": "object",
+        "properties": {
+          "allowDegradedExecution": {
+            "type": "boolean",
+            "description": "Whether the ERP may continue processing when the spine is degraded.",
+            "example": false
+          },
+          "appReleaseSha": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Git commit SHA of the deployed ERP application release.",
+            "example": "a1b2c3d4e5f6789012345678abcdef0123456789"
+          },
+          "deadLetterCount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Count of outbox messages in the dead-letter queue.",
+            "example": 0
+          },
+          "lastScheduleRegistrationAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ISO-8601 timestamp of the last successful outbox schedule registration.",
+            "example": "2026-06-26T12:00:00.000Z"
+          },
+          "lastScheduleRegistrationError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Last error message from outbox schedule registration, if any.",
+            "example": null
+          },
+          "lastSuccessfulPublishAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ISO-8601 timestamp of the last successful outbox message publish.",
+            "example": "2026-06-26T11:58:42.000Z"
+          },
+          "lastWorkerVersionCheckAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ISO-8601 timestamp of the last Trigger worker version alignment check.",
+            "example": "2026-06-26T11:55:00.000Z"
+          },
+          "lastWorkerVersionCheckError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Last error message from worker version alignment check, if any.",
+            "example": null
+          },
+          "oldestPendingOutboxAgeSeconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Age in seconds of the oldest unpublished outbox message.",
+            "example": 12
+          },
+          "operationalStatus": {
+            "description": "Derived operational status for the execution spine.",
+            "$ref": "#/components/schemas/ExecutionSpineOperationalStatus"
+          },
+          "outboxScheduleId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Trigger.dev schedule identifier for the outbox processor.",
+            "example": "sched_outbox_01HXYZ"
+          },
+          "outboxScheduleRegistered": {
+            "type": "boolean",
+            "description": "Whether the outbox processor schedule is registered.",
+            "example": true
+          },
+          "pendingOutboxCount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Number of outbox messages awaiting publish.",
+            "example": 3
+          },
+          "schedulerRequired": {
+            "type": "boolean",
+            "description": "Whether a scheduler must be running for correct ERP operation.",
+            "example": true
+          },
+          "triggerDeploymentVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Deployed Trigger.dev deployment version string.",
+            "example": "20260626.1"
+          },
+          "triggerGitCommitSha": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Git commit SHA reported by the Trigger.dev deployment.",
+            "example": "a1b2c3d4e5f6789012345678abcdef0123456789"
+          },
+          "triggerProviderState": {
+            "description": "Live connectivity state of the Trigger.dev provider.",
+            "$ref": "#/components/schemas/TriggerProviderState"
+          },
+          "triggerWorkerVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Semantic version of the Trigger worker runtime.",
+            "example": "3.2.1"
+          },
+          "workerReleaseAligned": {
+            "type": "boolean",
+            "description": "Whether the Trigger worker release matches the ERP deployment.",
+            "example": true
+          },
+          "workerReleaseCheckRequired": {
+            "type": "boolean",
+            "description": "Whether worker release alignment checks are enforced for this deployment.",
+            "example": true
+          }
+        },
+        "required": [
+          "allowDegradedExecution",
+          "appReleaseSha",
+          "deadLetterCount",
+          "lastScheduleRegistrationAt",
+          "lastScheduleRegistrationError",
+          "lastSuccessfulPublishAt",
+          "lastWorkerVersionCheckAt",
+          "lastWorkerVersionCheckError",
+          "oldestPendingOutboxAgeSeconds",
+          "operationalStatus",
+          "outboxScheduleId",
+          "outboxScheduleRegistered",
+          "pendingOutboxCount",
+          "schedulerRequired",
+          "triggerDeploymentVersion",
+          "triggerGitCommitSha",
+          "triggerProviderState",
+          "triggerWorkerVersion",
+          "workerReleaseAligned",
+          "workerReleaseCheckRequired"
+        ],
+        "additionalProperties": false,
+        "description": "Execution spine diagnostics covering outbox, scheduler, and Trigger worker alignment."
+      },
+      "ApiResponseMeta": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "End-to-end correlation identifier propagated across services for this request.",
+            "example": "corr_01HXYZABCDEF"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for this HTTP request within the ERP.",
+            "example": "req_01HXYZABCDEF"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "ISO-8601 timestamp when the response was generated.",
+            "example": "2026-06-26T12:00:00.000Z"
+          }
+        },
+        "required": [
+          "correlationId",
+          "requestId",
+          "timestamp"
+        ],
+        "additionalProperties": false,
+        "description": "Standard metadata envelope included on every API response."
+      },
+      "AuthMembershipsGetResponse": {
+        "type": "object",
+        "properties": {
+          "activeMembershipCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Total number of active memberships for the signed-in user.",
+            "example": 2
+          },
+          "entryPath": {
+            "type": "string",
+            "description": "Relative post-auth path the client should navigate to after membership resolution.",
+            "example": "/dashboard"
+          },
+          "requiresOrganizationSelect": {
+            "type": "boolean",
+            "description": "Whether the client must prompt the user to select an organization before continuing.",
+            "example": false
+          },
+          "requiresWorkspaceSelect": {
+            "type": "boolean",
+            "description": "Whether the client must prompt the user to select a workspace before continuing.",
+            "example": true
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthMembershipSwitchTarget"
+            },
+            "description": "Membership switch targets available to the signed-in user."
+          },
+          "workspaceTargetCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Number of workspace-level targets requiring selection when applicable.",
+            "example": 3
+          }
+        },
+        "required": [
+          "activeMembershipCount",
+          "entryPath",
+          "requiresOrganizationSelect",
+          "requiresWorkspaceSelect",
+          "targets",
+          "workspaceTargetCount"
+        ],
+        "additionalProperties": false,
+        "description": "Post-login membership resolution payload guiding client navigation and context selection."
+      },
+      "AuthMembershipSwitchTarget": {
+        "type": "object",
+        "properties": {
+          "companySlug": {
+            "type": "string",
+            "description": "URL-safe slug identifying the target company.",
+            "example": "acme-corp"
+          },
+          "isSelected": {
+            "type": "boolean",
+            "description": "Whether this target matches the caller's currently active membership context.",
+            "example": true
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable label for the membership switch target.",
+            "example": "Acme Corp — Finance"
+          },
+          "organizationSlug": {
+            "description": "Optional organization slug when the target is scoped below company level.",
+            "example": "finance",
+            "type": "string"
+          }
+        },
+        "required": [
+          "companySlug",
+          "isSelected",
+          "label"
+        ],
+        "additionalProperties": false,
+        "description": "A selectable company or organization membership the caller may switch into."
+      },
+      "ClientErrorPostResponse": {
+        "type": "object",
+        "properties": {
+          "accepted": {
+            "type": "boolean",
+            "const": true,
+            "description": "Acknowledgement that the error report was accepted for processing.",
+            "example": true
+          }
+        },
+        "required": [
+          "accepted"
+        ],
+        "additionalProperties": false,
+        "description": "Acknowledgement response for client error ingestion."
+      },
+      "DashboardLayoutResponse": {
+        "type": "object",
+        "properties": {
+          "layout": {
+            "description": "Resolved dashboard layout preset for the workspace.",
+            "$ref": "#/components/schemas/DashboardLayoutPreset"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "default",
+              "stored"
+            ],
+            "description": "Whether the layout was loaded from tenant defaults or persisted storage.",
+            "example": "stored"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ISO-8601 timestamp when the stored layout was last updated, or null for defaults.",
+            "example": "2026-06-26T10:30:00.000Z"
+          }
+        },
+        "required": [
+          "layout",
+          "source",
+          "updatedAt"
+        ],
+        "additionalProperties": false,
+        "description": "Workspace dashboard layout with provenance metadata."
+      },
+      "DashboardLayoutDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "reset": {
+            "type": "boolean",
+            "const": true,
+            "description": "Confirms the workspace layout was reset to the tenant default.",
+            "example": true
+          }
+        },
+        "required": [
+          "reset"
+        ],
+        "additionalProperties": false,
+        "description": "Acknowledgement that the stored dashboard layout was reset."
+      },
+      "SystemAdminUserInviteResponse": {
+        "type": "object",
+        "properties": {
+          "membershipId": {
+            "type": "string",
+            "description": "UUID of the created pending membership record.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "userId": {
+            "type": "string",
+            "description": "UUID of the invited or matched user record.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          }
+        },
+        "required": [
+          "membershipId",
+          "userId"
+        ],
+        "additionalProperties": false,
+        "description": "Identifiers for the invited user and pending membership."
+      },
+      "SystemAdminMembershipRoleResponse": {
+        "type": "object",
+        "properties": {
+          "membershipId": {
+            "type": "string",
+            "description": "UUID of the updated membership.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "roleId": {
+            "type": "string",
+            "description": "UUID of the role now assigned to the membership.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          }
+        },
+        "required": [
+          "membershipId",
+          "roleId"
+        ],
+        "additionalProperties": false,
+        "description": "Confirmation of the updated membership role assignment."
+      },
+      "SystemAdminAuditEventsResponse": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminAuditEventRow"
+            },
+            "description": "Page of audit events matching the query filters."
+          }
+        },
+        "required": [
+          "events"
+        ],
+        "additionalProperties": false,
+        "description": "Paginated list of system-admin audit events."
+      },
+      "SystemAdminAuditEventRow": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Audit action verb (e.g. user.invite, role.assign).",
+            "example": "user.invite"
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Request correlation identifier for traceability.",
+            "example": "req_01HXYZABCDEF"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO-8601 timestamp when the audit event was recorded.",
+            "example": "2026-06-26T14:22:00.000Z"
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID of the audit event row.",
+            "example": "9e8d7c6b-5a4f-3210-fedc-ba9876543210"
+          },
+          "module": {
+            "type": "string",
+            "description": "Logical module that emitted the audit event.",
+            "example": "system-admin"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "success",
+              "failure",
+              "blocked",
+              "denied",
+              "pending",
+              "approved",
+              "rejected",
+              "reversed"
+            ],
+            "description": "Outcome of the audited action.",
+            "example": "success"
+          },
+          "targetId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "UUID of the primary target entity, if applicable.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          },
+          "targetType": {
+            "type": "string",
+            "description": "Entity type of the audit target (e.g. user, membership).",
+            "example": "user"
+          }
+        },
+        "required": [
+          "action",
+          "correlationId",
+          "createdAt",
+          "id",
+          "module",
+          "result",
+          "targetId",
+          "targetType"
+        ],
+        "additionalProperties": false,
+        "description": "Single system-admin audit event row for list responses."
+      },
+      "TenantBrandLogoUploadResponse": {
+        "type": "object",
+        "properties": {
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "description": "ISO-8601 timestamp when the presigned upload URL expires.",
+            "example": "2026-06-26T15:00:00.000Z"
+          },
+          "headers": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Required HTTP headers the client must send with the presigned PUT request.",
+            "example": {
+              "Content-Type": "image/png"
+            }
+          },
+          "method": {
+            "type": "string",
+            "const": "PUT",
+            "description": "HTTP method to use against the presigned upload URL.",
+            "example": "PUT"
+          },
+          "objectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "UUID identifying the storage object once upload completes.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Storage object key path within the tenant bucket.",
+            "example": "tenants/acme/brand/logo.png"
+          },
+          "uploadUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Presigned URL for direct binary upload via HTTP PUT.",
+            "example": "https://storage.example.com/tenants/acme/brand/logo.png?X-Amz-Signature=abc123"
+          }
+        },
+        "required": [
+          "expiresAt",
+          "headers",
+          "method",
+          "objectId",
+          "path",
+          "uploadUrl"
+        ],
+        "additionalProperties": false,
+        "description": "Presigned upload instructions for a tenant brand logo binary object."
+      },
       "ApiErrorEnvelope": {
         "type": "object",
         "properties": {
           "error": {
+            "description": "Structured error details for failed requests.",
             "$ref": "#/components/schemas/ApiErrorBody"
           },
           "meta": {
+            "description": "Response metadata for the failed request.",
             "$ref": "#/components/schemas/ApiResponseMeta"
           },
           "ok": {
             "type": "boolean",
-            "const": false
+            "const": false,
+            "description": "Discriminator indicating an error response.",
+            "example": false
           }
         },
         "required": [
@@ -2572,7 +4773,8 @@
           "meta",
           "ok"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Standard error envelope for governed internal API routes."
       },
       "ApiErrorBody": {
         "type": "object",
@@ -2587,7 +4789,9 @@
               "conflict",
               "rate_limit",
               "internal"
-            ]
+            ],
+            "description": "High-level error category for client handling.",
+            "example": "validation"
           },
           "code": {
             "type": "string",
@@ -2602,17 +4806,27 @@
               "internal_error",
               "service_unavailable",
               "method_not_allowed"
-            ]
+            ],
+            "description": "Stable machine-readable error code.",
+            "example": "validation_failed"
           },
           "correlationId": {
-            "type": "string"
+            "type": "string",
+            "description": "Correlation identifier matching the request meta.",
+            "example": "corr_01HXYZABCDEF"
           },
-          "details": {},
+          "details": {
+            "description": "Optional structured validation or context details (shape varies by error code)."
+          },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable error message safe to display to operators.",
+            "example": "Request validation failed."
           },
           "retryable": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the client may safely retry the same request.",
+            "example": false
           }
         },
         "required": [
@@ -2622,27 +4836,8 @@
           "message",
           "retryable"
         ],
-        "additionalProperties": false
-      },
-      "ApiResponseMeta": {
-        "type": "object",
-        "properties": {
-          "correlationId": {
-            "type": "string"
-          },
-          "requestId": {
-            "type": "string"
-          },
-          "timestamp": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "correlationId",
-          "requestId",
-          "timestamp"
-        ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Governed error payload nested inside the error envelope."
       }
     },
     "securitySchemes": {

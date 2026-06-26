@@ -42,19 +42,35 @@
 | **16** | [slice-16-ui-translations.md](./slice-16-ui-translations.md) | UI translations (singular) | **Delivered** 2026-06-25 | `apps/docs/src/` |
 | **17** | [slice-17-multilingual-i18n.md](./slice-17-multilingual-i18n.md) | Full multilingual i18n (en+zh) | **Delivered** 2026-06-25 | `apps/docs/` |
 
+## Phase 5 — OpenAPI · LLM · corpus · polish (2026-06-26)
+
+| Slice | File | Title | Status | Runtime owner |
+| ---: | --- | --- | --- | --- |
+| **18** | [slice-18-openapi-reference.md](./slice-18-openapi-reference.md) | OpenAPI reference (ARCH-API-002) | **Delivered** 2026-06-26 | `apps/docs/` |
+| **19** | [slice-19-llm-markdown-export.md](./slice-19-llm-markdown-export.md) | LLM markdown export | **Delivered** 2026-06-26 | `apps/docs/` |
+| **20** | [slice-20-corpus-growth.md](./slice-20-corpus-growth.md) | zh body · AutoTypeTable corpus | **Delivered** 2026-06-26 | `apps/docs/content/` |
+| **21** | [slice-21-nav-polish.md](./slice-21-nav-polish.md) | Icons · prev/next · draft filter | **Delivered** 2026-06-26 | `apps/docs/src/` |
+| **22** | [slice-22-phase5-evidence-sync.md](./slice-22-phase5-evidence-sync.md) | Phase 5 evidence-sync · async deferral | **Delivered** 2026-06-26 | `docs/` |
+
 ## Orchestration sequence
 
 ```text
 Phase 1 — Complete (DoD #20 closed 2026-06-25).
 Phase 2 — Slices 6–11 delivered 2026-06-25 (sequential; shared runtimeOwner serialized per slice).
 Slice 12 (C) — MDX adoption delivered 2026-06-25 (Accordion · ImageZoom · InlineTOC on long pages).
-Phase 3 — Slices 13–15 delivered 2026-06-25 (search links · Guides tab · evidence-sync). OpenAPI blocked.
+Phase 3 — Slices 13–15 delivered 2026-06-25 (search links · Guides tab · evidence-sync).
 Slice 16 (2026-06-25) — UI translations (singular): defineTranslations + i18nProvider.
 Slice 17 (2026-06-25) — Full multilingual i18n: defineI18n + middleware + app/[lang]/ + en/zh content dirs.
+Phase 5 — Slice 18 delivered 2026-06-26 (OpenAPI). Slices 19–22 delivered 2026-06-26 (LLM · corpus · nav · evidence).
+Slice 18 (2026-06-26) — OpenAPI reference: fumadocs-openapi loader + interactive operation pages + generate:openapi-docs.
+Slice 19 (2026-06-26) — LLM export: includeProcessedMarkdown + llms.mdx route + markdownUrl + Accept negotiation.
+Slice 20 (2026-06-26) — Corpus: zh getting-started/contributing body + docs-i18n-contract AutoTypeTable page.
+Slice 21 (2026-06-26) — Nav polish: lucideIconsPlugin + findNeighbour footer + draft tree filter.
+Slice 22 (2026-06-26) — Evidence-sync: gap audit ~92% · async: true deferral documented (85 SSG routes; cold-start gate pending).
 ```
 
 **Gap audit:** [`docs/architecture/fumadocs-feature-gap-audit.md`](../../../architecture/fumadocs-feature-gap-audit.md)
 
 **Remaining operator debt:** `docs-live-dns` waiver — DNS at external beta go-live.
 
-**Out of scope:** fdr-005 regression · OpenAPI without TIP-031 · `@afenda/ui` in docs shell.
+**Out of scope:** fdr-005 regression · `@afenda/ui` in docs shell · `async: true` until ≥50 SSG routes (Slice 22 deferral).

@@ -4,11 +4,19 @@ import { describe, expect, it } from "vitest";
 import { docsDefaultLocale, docsLocales, i18n } from "@/lib/i18n";
 
 describe("@afenda/docs i18n charter", () => {
-  it("defines en and zh locales with dir parser", () => {
+  it("defines supported locales with dir parser", () => {
     expect(docsDefaultLocale).toBe("en");
-    expect(docsLocales).toEqual(["en", "zh"]);
+    expect(docsLocales).toEqual(["en", "zh", "vi", "ms", "id", "th", "fil"]);
     expect(i18n.defaultLanguage).toBe("en");
-    expect(i18n.languages).toEqual(["en", "zh"]);
+    expect(i18n.languages).toEqual([
+      "en",
+      "zh",
+      "vi",
+      "ms",
+      "id",
+      "th",
+      "fil",
+    ]);
     expect(i18n.parser).toBe("dir");
   });
 
@@ -48,7 +56,7 @@ describe("@afenda/docs i18n charter", () => {
     expect(docsPage).toContain("resolveDocsPage(slug, lang)");
   });
 
-  it("organizes content under content/docs/en and content/docs/zh", () => {
+  it("organizes content under content/docs/{locale}", () => {
     for (const locale of docsLocales) {
       const localeRoot = join(process.cwd(), "content/docs", locale);
       expect(existsSync(join(localeRoot, "meta.json"))).toBe(true);

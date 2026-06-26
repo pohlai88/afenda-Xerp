@@ -1,0 +1,69 @@
+{
+  "displayName": "Tiếng Việt",
+  "searchTrigger": "Tìm kiếm tài liệu",
+  "searchDialog": "Tìm kiếm tài liệu",
+  "inlineTocLabel": "Trên trang này",
+  "feedback": {
+    "blockFeedbackLabel": "Phản hồi",
+    "close": "Đóng",
+    "good": "Hữu ích",
+    "bad": "Cần cải thiện",
+    "pagePrompt": "Hướng dẫn này có hữu ích không?",
+    "placeholder": "Để lại phản hồi của bạn...",
+    "submit": "Gửi",
+    "submitAgain": "Gửi lại",
+    "thankYou": "Cảm ơn phản hồi của bạn!",
+    "viewOnGitHub": "Xem trên GitHub"
+  },
+  "pageActions": {
+    "copyMarkdown": "Sao chép Markdown",
+    "open": "Mở",
+    "openInGitHub": "Mở trên GitHub",
+    "viewAsMarkdown": "Xem dưới dạng Markdown",
+    "openInScira": "Mở trong Scira AI",
+    "openInChatGPT": "Mở trong ChatGPT",
+    "openInClaude": "Mở trong Claude",
+    "openInCursor": "Mở trong Cursor",
+    "readPromptTemplate": "Đọc {url}, tôi muốn đặt câu hỏi về nội dung này."
+  },
+  "homeSections": [
+    {
+      "title": "Bắt đầu",
+      "description": "Clone, cài đặt và chạy ERP hoặc docs cục bộ.",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "Bản đồ Monorepo",
+      "description": "Các lớp package, cổng và nơi chỉnh sửa.",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "Ứng dụng",
+      "description": "ERP, Docs và Storybook — cổng và ranh giới.",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "Đóng góp",
+      "description": "Hợp đồng phiên mã hóa và kiểm soát trôi dạt.",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "Bắt đầu",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "Bản đồ Monorepo",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "Ứng dụng",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "Đóng góp",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "displayName": "Bahasa Melayu",
+  "searchTrigger": "Cari dokumentasi",
+  "searchDialog": "Cari dokumentasi",
+  "inlineTocLabel": "Di halaman ini",
+  "feedback": {
+    "blockFeedbackLabel": "Maklum balas",
+    "close": "Tutup",
+    "good": "Membantu",
+    "bad": "Perlu penambahbaikan",
+    "pagePrompt": "Adakah panduan ini membantu?",
+    "placeholder": "Tinggalkan maklum balas anda...",
+    "submit": "Hantar",
+    "submitAgain": "Hantar semula",
+    "thankYou": "Terima kasih atas maklum balas anda!",
+    "viewOnGitHub": "Lihat di GitHub"
+  },
+  "pageActions": {
+    "copyMarkdown": "Salin Markdown",
+    "open": "Buka",
+    "openInGitHub": "Buka di GitHub",
+    "viewAsMarkdown": "Lihat sebagai Markdown",
+    "openInScira": "Buka dalam Scira AI",
+    "openInChatGPT": "Buka dalam ChatGPT",
+    "openInClaude": "Buka dalam Claude",
+    "openInCursor": "Buka dalam Cursor",
+    "readPromptTemplate": "Baca {url}, saya ingin bertanya tentangnya."
+  },
+  "homeSections": [
+    {
+      "title": "Permulaan",
+      "description": "Klon, pasang dan jalankan ERP atau docs secara tempatan.",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "title": "Peta Monorepo",
+      "description": "Lapisan pakej, port dan tempat untuk sunting.",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "title": "Aplikasi",
+      "description": "ERP, Docs dan Storybook — port dan sempadan.",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "title": "Menyumbang",
+      "description": "Kontrak sesi pengekodan dan pengawal drift.",
+      "docsPath": "/docs/contributing"
+    }
+  ],
+  "searchLinks": [
+    {
+      "label": "Permulaan",
+      "docsPath": "/docs/getting-started"
+    },
+    {
+      "label": "Peta Monorepo",
+      "docsPath": "/docs/monorepo-map"
+    },
+    {
+      "label": "Aplikasi",
+      "docsPath": "/docs/apps"
+    },
+    {
+      "label": "Menyumbang",
+      "docsPath": "/docs/contributing"
+    }
+  ]
+}

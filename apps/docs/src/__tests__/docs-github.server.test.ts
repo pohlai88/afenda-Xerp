@@ -1,0 +1,76 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe, expect, it, vi } from "vitest";
+
+const docsSlugPageSource = readFileSync(
+  join(process.cwd(), "src/app/[lang]/docs/[[...slug]]/page.tsx"),
+  "utf8"
+);
+
+const { getGithubLastEditMock } = vi.hoisted(() => ({
+  getGithubLastEditMock: vi.fn(),
+}));
+
+vi.mock("fumadocs-core/content/github", () => ({
+  getGithubLastEdit: getGithubLastEditMock,
+}));
+
+import { resolveDocsGithubLastModified } from "@/lib/docs-github.server";
+
+describe("@afenda/docs GitHub last edit", () => {
+  it("wires resolveDocsGithubLastModified and lastUpdate on the docs slug page", () => {
+    expect(docsSlugPageSource).toContain('from "@/lib/docs-github.server"');
+    expect(docsSlugPageSource).toContain("resolveDocsGithubLastModified");
+    expect(docsSlugPageSource).toMatch(/lastUpdate:\s*lastModified/);
+    expect(docsSlugPageSource).not.toContain("getGithubLastEdit");
+  });
+
+  it("returns undefined in development without calling GitHub", async () => {
+    getGithubLastEditMock.mockClear();
+
+    await expect(
+      resolveDocsGithubLastModified("getting-started/index.mdx", "en", {
+        NODE_ENV: "development",
+      })
+    ).resolves.toBeUndefined();
+
+    expect(getGithubLastEditMock).not.toHaveBeenCalled();
+  });
+
+  it("passes repository coordinates, branch, and token in production", async () => {
+    getGithubLastEditMock.mockResolvedValue(new Date("2026-06-01T00:00:00.000Z"));
+
+    const result = await resolveDocsGithubLastModified(
+      "getting-started/index.mdx",
+      "en",
+      {
+        NODE_ENV: "production",
+        DOCS_GITHUB_TOKEN: "ghp_example",
+      }
+    );
+
+    expect(result).toEqual(new Date("2026-06-01T00:00:00.000Z"));
+    expect(getGithubLastEditMock).toHaveBeenCalledWith({
+      owner: "pohlai88",
+      repo: "afenda-Xerp",
+      path: "apps/docs/content/docs/en/getting-started/index.mdx",
+      sha: "main",
+      token: "Bearer ghp_example",
+    });
+  });
+
+  it("passes custom GitHub Enterprise base URL when configured", async () => {
+    getGithubLastEditMock.mockResolvedValue(null);
+
+    await resolveDocsGithubLastModified("index.mdx", "zh", {
+      NODE_ENV: "production",
+      DOCS_GITHUB_API_BASE_URL: "https://api.octocorp.ghe.com",
+    });
+
+    expect(getGithubLastEditMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseUrl: "https://api.octocorp.ghe.com",
+      })
+    );
+  });
+});
