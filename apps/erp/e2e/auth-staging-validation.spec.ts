@@ -1,16 +1,69 @@
+import { execSync } from "node:child_process";
+import path from "node:path";
 import {
   E2E_DEV_FIXTURE_ANNOTATION,
   hasE2EDevLoginCredentials,
   hasE2EViewerLoginCredentials,
   resolveE2EDevLoginCredentials,
   resolveE2EViewerLoginCredentials,
+  signInWithEmailPassword,
 } from "@afenda/testing/e2e/erp-credentials";
 import { expect, test } from "@afenda/testing/e2e/playwright-base";
 
 const STAGING_BRAND_HEADLINE = "Staging Validation Org";
-const POST_AUTH_METHOD_COOKIE = "afenda-post-auth-sign-in-method";
+const repoRoot = path.resolve(process.cwd(), "../..");
 
-test.describe.configure({ mode: "serial" });
+function resetStagingAuthStateFromE2e(): void {
+  execSync("pnpm exec tsx scripts/reset-staging-e2e-auth-state.ts", {
+    cwd: path.join(repoRoot, "packages/database"),
+    stdio: "inherit",
+  });
+}
+
+async function ensureTenantMfaPolicyOptional(
+  page: import("@playwright/test").Page
+) {
+  await page.goto("/system-admin/settings/security", {
+    waitUntil: "domcontentloaded",
+  });
+
+  if (!page.url().includes("/system-admin/settings/security")) {
+    resetStagingAuthStateFromE2e();
+    await page.goto("/system-admin/settings/security", {
+      waitUntil: "domcontentloaded",
+    });
+  }
+
+  await expect(page).toHaveURL(/\/system-admin\/settings\/security/, {
+    timeout: 30_000,
+  });
+
+  const tenantSwitch = page.getByRole("switch").first();
+  await expect(tenantSwitch).toBeVisible({ timeout: 30_000 });
+
+  if (await tenantSwitch.isChecked()) {
+    await tenantSwitch.click();
+    await expect(page.getByText("Optional MFA")).toBeVisible({
+      timeout: 15_000,
+    });
+  }
+}
+
+async function expectPostAuthCompleteRedirect(
+  page: import("@playwright/test").Page,
+  locationPattern: RegExp
+) {
+  await page.goto("/sign-in", { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => {
+    // biome-ignore lint/suspicious/noDocumentCookie: e2e seeds post-auth bridge cookie in browser context
+    document.cookie = `afenda-post-auth-sign-in-method=${encodeURIComponent("google")}; Path=/; Max-Age=600; SameSite=Lax`;
+  });
+
+  await page.goto("/auth/complete", { waitUntil: "commit" });
+  await expect(page).toHaveURL(locationPattern, { timeout: 15_000 });
+}
+
+test.describe.configure({ mode: "serial", timeout: 120_000 });
 
 test.describe("auth staging validation @staging", () => {
   test.beforeEach((_fixtures, testInfo) => {
@@ -50,22 +103,10 @@ test.describe("auth staging validation @staging", () => {
 
       test.skip(
         sessionPayload.user?.twoFactorEnabled === true,
-        "MFA-enrolled users hit /v2/mfa before security review under enforce-all"
+        "MFA-enrolled users hit /mfa before security review under enforce-all"
       );
 
-      await context.addCookies([
-        {
-          domain: "localhost",
-          name: POST_AUTH_METHOD_COOKIE,
-          path: "/",
-          value: "google",
-        },
-      ]);
-
-      await page.goto("/v2/auth/complete", { waitUntil: "commit" });
-      await expect(page).toHaveURL(/\/v2\/security\/review/, {
-        timeout: 15_000,
-      });
+      await expectPostAuthCompleteRedirect(page, /\/security\/review/);
     } finally {
       await context.close();
     }
@@ -103,17 +144,7 @@ test.describe("auth staging validation @staging", () => {
         "Dev admin does not have MFA enrolled — enroll at /settings/security to validate step 1 live"
       );
 
-      await context.addCookies([
-        {
-          domain: "localhost",
-          name: POST_AUTH_METHOD_COOKIE,
-          path: "/",
-          value: "google",
-        },
-      ]);
-
-      await page.goto("/v2/auth/complete", { waitUntil: "commit" });
-      await expect(page).toHaveURL(/\/v2\/mfa/, { timeout: 15_000 });
+      await expectPostAuthCompleteRedirect(page, /\/mfa/);
     } finally {
       await context.close();
     }
@@ -125,17 +156,23 @@ test.describe("auth staging validation @staging", () => {
     await page.goto("/system-admin/settings/integrations", {
       waitUntil: "domcontentloaded",
     });
+    await expect(
+      page.getByRole("heading", { name: "Social OAuth" })
+    ).toBeVisible({ timeout: 30_000 });
 
-    const githubRow = page.getByRole("listitem").filter({ hasText: /GitHub/i });
+    const socialOAuthRegion = page.getByRole("region", {
+      name: "Social OAuth",
+    });
+    const githubRow = socialOAuthRegion
+      .getByRole("listitem")
+      .filter({ hasText: "GitHub (github)" });
     const githubSwitch = githubRow.getByRole("switch");
-    const wasEnabled = await githubSwitch.isChecked();
+    await expect(githubSwitch).toBeChecked({ timeout: 15_000 });
 
-    if (wasEnabled) {
-      await githubSwitch.click();
-      await expect(
-        page.getByText("OAuth provider settings saved.", { exact: false })
-      ).toBeVisible({ timeout: 15_000 });
-    }
+    await githubSwitch.click();
+    await expect(
+      page.getByText("OAuth provider settings saved.", { exact: false })
+    ).toBeVisible({ timeout: 15_000 });
 
     const browserInstance = page.context().browser();
     if (!browserInstance) {
@@ -148,45 +185,50 @@ test.describe("auth staging validation @staging", () => {
     const publicPage = await publicContext.newPage();
 
     try {
-      await publicPage.goto("/v2/sign-in", { waitUntil: "domcontentloaded" });
-      await expect(
-        publicPage.getByRole("button", { name: /^GitHub/i })
-      ).toHaveCount(0);
+      await expect
+        .poll(
+          async () => {
+            await publicPage.goto("/sign-in", {
+              waitUntil: "domcontentloaded",
+            });
+            return publicPage.getByRole("button", { name: /^GitHub/i }).count();
+          },
+          { timeout: 30_000 }
+        )
+        .toBe(0);
     } finally {
       await publicContext.close();
     }
 
-    if (wasEnabled) {
-      await githubSwitch.click();
-      await expect(
-        page.getByText("OAuth provider settings saved.", { exact: false })
-      ).toBeVisible({ timeout: 15_000 });
-    }
+    await githubSwitch.click();
+    await expect(
+      page.getByText("OAuth provider settings saved.", { exact: false })
+    ).toBeVisible({ timeout: 15_000 });
   });
 
   test("step 4 — tenant MFA policy redirects non-MFA users to enrollment", async ({
     browser,
+    page,
   }) => {
     test.skip(
       !hasE2EViewerLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD and run pnpm auth:bootstrap:dev for viewer account"
     );
 
-    const adminContext = await browser.newContext();
-    const adminPage = await adminContext.newPage();
-
-    await adminPage.goto("/system-admin/settings/security", {
+    await page.goto("/system-admin/settings/security", {
       waitUntil: "domcontentloaded",
     });
+    await expect(page).toHaveURL(/\/system-admin\/settings\/security/, {
+      timeout: 30_000,
+    });
 
-    const tenantSwitch = adminPage.getByRole("switch").first();
+    const tenantSwitch = page.getByRole("switch").first();
+    await expect(tenantSwitch).toBeVisible({ timeout: 15_000 });
     const wasRequired = await tenantSwitch.isChecked();
 
     if (!wasRequired) {
       await tenantSwitch.click();
-      await expect(adminPage.getByText("Enforcement active")).toBeVisible({
-        timeout: 15_000,
-      });
+      await expect(tenantSwitch).toBeChecked({ timeout: 15_000 });
     }
 
     const viewerContext = await browser.newContext({
@@ -196,44 +238,31 @@ test.describe("auth staging validation @staging", () => {
 
     try {
       const credentials = resolveE2EViewerLoginCredentials();
-      const signInResponse = await viewerPage.request.post(
-        "/api/auth/sign-in/email",
-        {
-          data: {
-            email: credentials.email,
-            password: credentials.password,
-          },
-        }
-      );
-      expect(signInResponse.ok()).toBeTruthy();
+      await viewerPage.goto("/sign-in", { waitUntil: "domcontentloaded" });
+      await signInWithEmailPassword(viewerPage, credentials);
 
-      await viewerPage.goto("/", { waitUntil: "commit" });
+      await viewerPage.goto("/", { waitUntil: "load" });
       await expect(viewerPage).toHaveURL(
         /\/settings\/security\?.*notice=mfa-required/,
         {
-          timeout: 20_000,
+          timeout: 30_000,
         }
       );
       await expect(
-        viewerPage.getByText(/requires two-factor authentication/i)
-      ).toBeVisible();
+        viewerPage.getByText(
+          /requires two-factor authentication before you can access/i
+        )
+      ).toBeVisible({ timeout: 30_000 });
     } finally {
       await viewerContext.close();
     }
-
-    if (!wasRequired) {
-      await tenantSwitch.click();
-      await expect(adminPage.getByText("Optional MFA")).toBeVisible({
-        timeout: 15_000,
-      });
-    }
-
-    await adminContext.close();
   });
 
   test("step 5 — company MFA override updates effective enforcement label", async ({
     page,
   }) => {
+    await ensureTenantMfaPolicyOptional(page);
+
     await page.goto("/system-admin/settings/security", {
       waitUntil: "domcontentloaded",
     });
@@ -241,27 +270,36 @@ test.describe("auth staging validation @staging", () => {
     const overrideSelect = page.locator("#company-mfa-override");
     await expect(overrideSelect).toBeVisible();
 
-    const previousValue = await overrideSelect.inputValue();
     await overrideSelect.selectOption("require");
+    await expect
+      .poll(async () => overrideSelect.inputValue(), { timeout: 30_000 })
+      .toBe("require");
 
     await expect(
-      page.getByText(/Effective enforcement for this workspace: required/i)
-    ).toBeVisible({ timeout: 15_000 });
-
-    await overrideSelect.selectOption(previousValue);
+      page.getByText("Effective enforcement for this workspace: required.")
+    ).toBeVisible({ timeout: 30_000 });
   });
 
-  test("step 6 — appearance branding renders on auth-v2 sign-in", async ({
+  test("step 6 — appearance branding renders on sign-in", async ({
     browser,
     page,
   }) => {
+    await ensureTenantMfaPolicyOptional(page);
+
     await page.goto("/system-admin/settings/appearance", {
       waitUntil: "domcontentloaded",
     });
+    await expect(page).toHaveURL(/\/system-admin\/settings\/appearance/, {
+      timeout: 30_000,
+    });
 
-    const enabledSwitch = page.getByRole("switch").first();
-    if (!(await enabledSwitch.isChecked())) {
-      await enabledSwitch.click();
+    const enabledCheckbox = page.getByRole("checkbox", {
+      name: /enable tenant auth branding/i,
+    });
+    await expect(enabledCheckbox).toBeVisible({ timeout: 15_000 });
+
+    if (!(await enabledCheckbox.isChecked())) {
+      await enabledCheckbox.check();
     }
 
     await page.getByLabel("Brand headline").fill(STAGING_BRAND_HEADLINE);
@@ -276,13 +314,22 @@ test.describe("auth staging validation @staging", () => {
     const publicPage = await publicContext.newPage();
 
     try {
-      await publicPage.goto("/v2/sign-in", { waitUntil: "domcontentloaded" });
-      await expect(
-        publicPage.getByRole("heading", {
-          level: 2,
-          name: STAGING_BRAND_HEADLINE,
-        })
-      ).toBeVisible({ timeout: 15_000 });
+      await expect
+        .poll(
+          async () => {
+            await publicPage.goto("/sign-in", {
+              waitUntil: "domcontentloaded",
+            });
+            return publicPage
+              .getByRole("heading", {
+                level: 2,
+                name: STAGING_BRAND_HEADLINE,
+              })
+              .count();
+          },
+          { timeout: 30_000 }
+        )
+        .toBeGreaterThan(0);
     } finally {
       await publicContext.close();
     }

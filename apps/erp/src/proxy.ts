@@ -1,7 +1,11 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 import { resolveUnauthenticatedRedirect } from "@/lib/auth/auth-redirect.policy";
-import { isAuthEntryRoute, isPublicRoute } from "@/lib/auth/public-routes";
+import {
+  isAuthEntryRoute,
+  isPublicRoute,
+  shouldRedirectAuthenticatedUserFromAuthEntry,
+} from "@/lib/auth/public-routes";
 import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
 import {
   ACTIVE_ROUTE_PATH_HEADER,
@@ -89,11 +93,14 @@ function applyTenantRoutingHeaders(input: {
 } {
   const baseDomain = resolveTenantBaseDomain();
   const pathRouting = resolveWorkspacePathRouting(input.pathname);
+  const allowDevelopmentDefaultTenant = !isAuthEntryRoute(input.pathname);
   const tenantSlug =
     resolveTenantSlugFromHostname(input.hostname, { baseDomain }) ??
     pathRouting.tenantSlugFromPath ??
-    resolveDevelopmentDefaultTenantSlug() ??
-    resolveE2eDefaultTenantSlug();
+    (allowDevelopmentDefaultTenant
+      ? resolveDevelopmentDefaultTenantSlug()
+      : null) ??
+    (allowDevelopmentDefaultTenant ? resolveE2eDefaultTenantSlug() : null);
 
   if (tenantSlug) {
     input.requestHeaders.set(TENANT_SLUG_HEADER, tenantSlug);
@@ -131,7 +138,10 @@ export function proxy(request: NextRequest) {
   if (isPublicRoute(pathname)) {
     const sessionCookie = getSessionCookie(request);
 
-    if (sessionCookie && isAuthEntryRoute(pathname)) {
+    if (
+      sessionCookie &&
+      shouldRedirectAuthenticatedUserFromAuthEntry(pathname)
+    ) {
       const nextParam = request.nextUrl.searchParams.get("next");
       const destination = resolveSafeInternalPath(nextParam);
       return finalizeProxyResponse(

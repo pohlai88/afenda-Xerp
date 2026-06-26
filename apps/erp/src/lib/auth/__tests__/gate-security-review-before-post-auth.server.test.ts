@@ -33,7 +33,7 @@ describe("gateSecurityReviewBeforePostAuth", () => {
 
     await expect(
       gateSecurityReviewBeforePostAuth("/dashboard")
-    ).rejects.toThrow("REDIRECT:/v2/security/review?next=%2Fdashboard");
+    ).rejects.toThrow("REDIRECT:/security/review?next=%2Fdashboard");
   });
 
   it("skips redirect after security review is acknowledged", async () => {

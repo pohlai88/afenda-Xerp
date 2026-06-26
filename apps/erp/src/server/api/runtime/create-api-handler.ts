@@ -7,6 +7,11 @@ import type { ApiContractId } from "../contracts/api-contract-registry";
 import { getApiContractById } from "../contracts/api-contract-registry";
 import { isMutationMethod } from "../contracts/api-route-policy.contract";
 import { acceptsIdempotencyKey } from "../contracts/idempotency.contract";
+import type { PaginationMeta } from "../contracts/pagination.contract";
+import {
+  mergePaginationIntoMeta,
+  parsePaginationQuery,
+} from "../contracts/pagination.contract";
 import { createRequestId, resolveCorrelationId } from "./api-correlation";
 import {
   mapUnknownErrorToApiCode,
@@ -37,6 +42,32 @@ import {
   recordIdempotentResponse,
   resolveRequestIdempotencyKey,
 } from "./idempotency";
+
+export interface PaginatedApiHandlerResult<TResponse> {
+  readonly data: TResponse;
+  readonly pagination: PaginationMeta;
+}
+
+function isPaginatedApiHandlerResult<TResponse>(
+  result: TResponse | PaginatedApiHandlerResult<TResponse>
+): result is PaginatedApiHandlerResult<TResponse> {
+  return (
+    typeof result === "object" &&
+    result !== null &&
+    "data" in result &&
+    "pagination" in result
+  );
+}
+
+function unwrapHandlerResponse<TResponse>(
+  result: TResponse | PaginatedApiHandlerResult<TResponse>
+): TResponse {
+  if (isPaginatedApiHandlerResult(result)) {
+    return result.data;
+  }
+
+  return result;
+}
 
 function resolveHandlerSuccessStatus<TResponse>(
   method: ApiRouteContract<unknown, TResponse>["method"],
@@ -119,7 +150,7 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     readonly contract: ApiRouteContract<TRequest, TResponse>;
     readonly handler: (
       context: ApiRequestContext<TRequest>
-    ) => Promise<TResponse>;
+    ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse>>;
     readonly resolveSuccessStatus?: (data: TResponse) => number;
   };
   readonly correlationId: string;
@@ -164,6 +195,13 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     contract: input.config.contract,
     correlationId: input.correlationId,
     execution: provisionalExecution,
+    ...(input.config.contract.pagination?.mode === "cursor"
+      ? {
+          paginationQuery: parsePaginationQuery(
+            new URL(input.request.url).searchParams
+          ),
+        }
+      : {}),
     request: input.request,
     requestBody,
     requestId: input.requestId,
@@ -237,7 +275,12 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
         })
       ).result
     : await input.config.handler(context);
-  const dto = parseResponseData(input.config.contract.responseSchema, result);
+
+  const paginatedResult = isPaginatedApiHandlerResult(result) ? result : null;
+  const dto = parseResponseData(
+    input.config.contract.responseSchema,
+    unwrapHandlerResponse(result)
+  );
   const successStatus = resolveHandlerSuccessStatus(
     input.config.contract.method,
     dto,
@@ -261,9 +304,14 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
 
   await emitApiAuditEvidence(input.config.contract.audit, context);
 
+  const responseMeta =
+    paginatedResult === null
+      ? input.meta
+      : mergePaginationIntoMeta(input.meta, paginatedResult.pagination);
+
   const response = jsonSuccessResponse(
     dto,
-    input.meta,
+    responseMeta,
     input.config.contract.cache,
     successStatus
   );
@@ -286,7 +334,7 @@ export function createApiHandler<TRequest, TResponse>(config: {
   readonly contract: ApiRouteContract<TRequest, TResponse>;
   readonly handler: (
     context: ApiRequestContext<TRequest>
-  ) => Promise<TResponse>;
+  ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse>>;
   readonly resolveSuccessStatus?: (data: TResponse) => number;
 }): (request: Request) => Promise<Response> {
   return async (request: Request): Promise<Response> => {
@@ -375,7 +423,9 @@ export function createApiHandler<TRequest, TResponse>(config: {
  */
 export function createApiHandlerById<TRequest, TResponse>(
   contractId: ApiContractId,
-  handler: (context: ApiRequestContext<TRequest>) => Promise<TResponse>
+  handler: (
+    context: ApiRequestContext<TRequest>
+  ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse>>
 ): (request: Request) => Promise<Response> {
   const contract = getApiContractById(
     contractId

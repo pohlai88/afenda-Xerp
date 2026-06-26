@@ -10,8 +10,8 @@ const databaseMocks = vi.hoisted(() => ({
   listTenantSsoProvidersByTenantId: vi.fn(),
 }));
 
-const tenantSlugMocks = vi.hoisted(() => ({
-  resolvePostAuthTenantSlug: vi.fn(),
+const tenantRoutingMocks = vi.hoisted(() => ({
+  readTenantRoutingHeaders: vi.fn(),
 }));
 
 vi.mock("@afenda/database", async (importOriginal) => {
@@ -26,19 +26,22 @@ vi.mock("@afenda/database", async (importOriginal) => {
   };
 });
 
-vi.mock("../resolve-post-auth-tenant-slug.server", () => tenantSlugMocks);
+vi.mock("@/lib/context/tenant-domain.server", () => tenantRoutingMocks);
 
 describe("resolveSignInSurface", () => {
   beforeEach(() => {
     databaseMocks.findTenantBySlug.mockReset();
     databaseMocks.getTenantSettingsByTenantId.mockReset();
     databaseMocks.listTenantSsoProvidersByTenantId.mockReset();
-    tenantSlugMocks.resolvePostAuthTenantSlug.mockReset();
+    tenantRoutingMocks.readTenantRoutingHeaders.mockReset();
     vi.resetModules();
   });
 
   it("returns platform surface on apex requests without tenant slug", async () => {
-    tenantSlugMocks.resolvePostAuthTenantSlug.mockResolvedValue(null);
+    tenantRoutingMocks.readTenantRoutingHeaders.mockResolvedValue({
+      organizationSlugPathHint: null,
+      tenantSlug: null,
+    });
 
     const { resolveSignInSurface } = await import(
       "../resolve-sign-in-surface.server"
@@ -50,7 +53,10 @@ describe("resolveSignInSurface", () => {
   });
 
   it("merges tenant OAuth and SSO toggles for tenant-scoped sign-in", async () => {
-    tenantSlugMocks.resolvePostAuthTenantSlug.mockResolvedValue("demo-org");
+    tenantRoutingMocks.readTenantRoutingHeaders.mockResolvedValue({
+      organizationSlugPathHint: null,
+      tenantSlug: "demo-org",
+    });
     databaseMocks.findTenantBySlug.mockResolvedValue({
       id: "tenant_1",
       status: "active",

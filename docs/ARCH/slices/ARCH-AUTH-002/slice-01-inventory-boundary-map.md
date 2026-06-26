@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 1 — Inventory and boundary map
 
+> **Historical slice handoff** — paths below describe parallel `(auth-v2)` delivery. **Superseded for coding** by consolidation (2026-06-26): `(auth)`, `@afenda/appshell/auth-shell`, canonical URLs.
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | ARCH-AUTH-001 Complete ✓ |
 | **Slice** | 1 |
 | **Status** | **Delivered** 2026-06-26 |
@@ -20,7 +22,7 @@ Handoff from: docs/ARCH/slices/ARCH-AUTH-002/slice-01-inventory-boundary-map.md
                   document boundary violations; recommend slice 2–6 modifications. No code edits.
 2. Allowed layer— docs/ARCH/** only
 3. Files        —
-                  docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md (§15 inventory)
+                  docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md (§15 inventory)
                   docs/ARCH/slices/ARCH-AUTH-002/slice-index.md
                   docs/ARCH/arch-status-index.md (register row)
 4. Prohibited   — packages/** · apps/** · runtime code changes

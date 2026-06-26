@@ -15,7 +15,7 @@ export default async function SystemAdminAuditPage() {
   applySystemAdminSectionAccessNavigation(access);
 
   const tenantId = access.operatingContext.permissionScope.tenantId;
-  const auditEvents = await listRecentAuditEvents({ tenantId });
+  const { events: auditEvents } = await listRecentAuditEvents({ tenantId });
 
   return (
     <AppShellMain

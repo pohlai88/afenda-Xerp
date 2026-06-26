@@ -61,38 +61,12 @@ export function resolveBetterAuthBaseUrl(
   return resolveVercelDeploymentOrigin(env) ?? getBetterAuthUrl(env);
 }
 
-const AUTH_SHELL_V2_DEFAULT_ENV = "AFENDA_AUTH_SHELL_V2_DEFAULT" as const;
-
-/**
- * When true (default), ERP auth presentation and Better Auth post-verify redirects
- * target `/v2/*` routes. Set `AFENDA_AUTH_SHELL_V2_DEFAULT=false` for legacy-only.
- */
-export function isAuthShellV2Default(
-  env: NodeJS.ProcessEnv = process.env
-): boolean {
-  const flag = readTrimmedEnv(env, AUTH_SHELL_V2_DEFAULT_ENV)?.toLowerCase();
-
-  if (flag === "false" || flag === "0") {
-    return false;
-  }
-
-  if (flag === "true" || flag === "1") {
-    return true;
-  }
-
-  return true;
-}
-
 /** Browser redirect after Better Auth email verification completes. */
 export function resolveBetterAuthEmailVerificationRedirectPath(
   env: NodeJS.ProcessEnv = process.env
 ): string {
   const base = resolveBetterAuthBaseUrl(env);
-  const successPath = isAuthShellV2Default(env)
-    ? "/v2/verify-email/success"
-    : "/verify-email/success";
-
-  return `${base}${successPath}`;
+  return `${base}/verify-email/success`;
 }
 
 /** WebAuthn origin for Better Auth passkey plugin — must not include a trailing slash. */

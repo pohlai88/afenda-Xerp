@@ -2,94 +2,90 @@
 
 Governed authentication presentation for Afenda ERP — routes, copy, redirects, shell chrome, and security UX.
 
-## Dual presentation tracks
+> **Consolidation (2026-06-26):** Legacy v1 auth shell and `(auth-v2)` parallel stack are **decommissioned**. A single auth presentation track owns all routes: `(auth)` route group, `@afenda/appshell/auth-shell`, `lib/auth/*` registries, canonical URLs without `/v2/` prefix. The `AFENDA_AUTH_SHELL_V2_DEFAULT` env toggle is removed.
 
-| Track | URL prefix | Shell package | App segment | Status |
-|-------|------------|---------------|-------------|--------|
-| **Production (legacy)** | `/sign-in`, `/mfa`, … | `@afenda/appshell/auth-shell` | `apps/erp/(auth)` | **Complete** — 20 routes, all lanes |
-| **ARCH-AUTH-002 (V2)** | `/v2/sign-in`, `/v2/mfa`, … | `@afenda/appshell/auth-shell-v2` | `apps/erp/(auth-v2)` | **Complete** — 16 routes, 4 lanes + security |
+## Single auth shell (canonical)
 
-V2 is **isolated**: no imports from `(auth)/_components`. Shared identity logic lives in `lib/auth/*` and `@afenda/auth` only.
+| Concern | Value |
+| --- | --- |
+| **URLs** | `/sign-in`, `/mfa`, `/verify-email/*`, … — no `/v2/` prefix |
+| **Shell package** | `@afenda/appshell/auth-shell` → `packages/appshell/src/auth-shell/` |
+| **App segment** | `apps/erp/src/app/(auth)/` |
+| **Path registry** | `apps/erp/src/lib/auth/auth-path.registry.ts` — `AUTH_PATHS` |
+| **Status** | **Complete** — ARCH-AUTH-002 + consolidation (2026-06-26) |
 
-> Do **not** create `apps/erp/src/features/auth/` — ownership is route-group adapters + `lib/auth*`.
+> Do **not** create `apps/erp/src/features/auth/` — ownership is route-group adapters + `lib/auth/*`.
 
-## Lane model (6 lanes — legacy)
+## Lane model
+
+App route registry (`AUTH_LANES`): `access` · `verify` · `recover` · `invite` · `workspace` · `security`.
+
+Shell visual lanes (`AuthShellLane`): `access` · `verify` · `recover` · `error` — invite/workspace/security status routes map to `error` or dedicated app states.
 
 | Lane | Routes | Purpose |
-|------|--------|---------|
-| Access | `/sign-in`, `/sign-up`, `/otp` | Credential and alternate sign-in entry |
+| --- | --- | --- |
+| Access | `/sign-in`, `/sign-up`, `/otp`, `/mfa`, `/mfa/recovery` | Credential and MFA entry |
 | Verify | `/verify-email`, `/verify-email/sent`, `/verify-email/expired`, `/verify-email/success` | Email verification journey |
 | Recover | `/forgot-password`, `/reset-password`, `/reset-password/success` | Password recovery |
 | Invite | `/invite`, `/invite/accept`, `/invite/expired` | Invitation landing and acceptance |
-| Workspace | `/workspace/select`, `/organization/select` | Post-auth context selection (stub) |
-| Security | `/mfa`, `/mfa/recovery`, `/session-expired`, `/access-denied`, `/security/review` | MFA, session, and access surfaces |
-
-## V2 lane model (4 lanes — ARCH-AUTH-002)
-
-| Lane | V2 routes | Maps from 6-lane model |
-|------|-----------|------------------------|
-| `access` | `/v2/sign-in`, `/sign-up`, `/otp`, `/mfa`, `/mfa/recovery` | Access + MFA entry |
-| `verify` | `/v2/verify-email/*` | Verify |
-| `recover` | `/v2/forgot-password`, `/reset-password/*` | Recover |
-| `error` | `/v2/session-expired`, `/access-denied`, `/security/review` | Security status |
-
-Invite and workspace selectors remain **legacy-only** until a future ARCH extends V2 scope.
+| Workspace | `/workspace/select`, `/organization/select` | Post-auth context selection |
+| Security | `/session-expired`, `/access-denied`, `/security/review` | MFA step-up surfaces, session, access |
 
 ## Layout model
 
-```
-Legacy:
-  @afenda/appshell/auth-shell     → split layout, brand artifact, form column
-  apps/erp/(auth)/_components     → AuthEntryPage, AuthForm, journey states
-
-V2:
-  @afenda/appshell/auth-shell-v2  → lane-aware shell, visual panel, status surface
-  apps/erp/(auth-v2)/_components  → AuthV2EntryPage, AuthV2Form, journey states
-  apps/erp/(auth-v2)/auth-v2.css  → form rhythm only (erp-auth-v2-*)
-  packages/appshell/.../auth-shell-v2.css → shell chrome (.af-auth-shell*)
+```text
+@afenda/appshell/auth-shell     → lane-aware shell, visual panel, status surface
+apps/erp/(auth)/_components     → AuthEntryPage, AuthForm, journey states
+apps/erp/(auth)/auth.css        → form rhythm only (erp-auth-*)
+packages/appshell/.../auth-shell.css → shell chrome (.af-auth-shell*)
 ```
 
 Visual language: **Quiet Interfaces, Loud Decisions** — warm operational canvas, constrained form width, enterprise green/graphite accents via design-system tokens. No AI gradients, no cartoon illustrations.
 
-## Route map (V2)
+## Route map
 
 | Route | Registry id | Form / state |
-|-------|-------------|--------------|
-| `/v2/sign-in` | `signIn` | `AuthV2SignInForm` |
-| `/v2/sign-up` | `signUp` | `AuthV2SignUpForm` |
-| `/v2/otp` | — | redirect → `/v2/mfa?method=otp` |
-| `/v2/mfa` | `mfa` | `AuthV2MfaForm` |
-| `/v2/mfa/recovery` | `mfaRecovery` | `AuthV2MfaForm` (backup code) |
-| `/v2/verify-email` | `verifyEmail` | `AuthV2VerifyEmailState` |
-| `/v2/verify-email/sent` | `verifyEmailSent` | `AuthV2VerifyEmailSentState` |
-| `/v2/verify-email/expired` | `verifyEmailExpired` | `AuthV2VerifyEmailExpiredState` |
-| `/v2/verify-email/success` | `verifyEmailSuccess` | `AuthV2VerifyEmailSuccessState` |
-| `/v2/forgot-password` | `forgotPassword` | `AuthV2ForgotPasswordForm` |
-| `/v2/reset-password` | `resetPassword` | `AuthV2ResetPasswordForm` |
-| `/v2/reset-password/success` | `resetPasswordSuccess` | `AuthV2ResetPasswordSuccessState` |
-| `/v2/session-expired` | `sessionExpired` | `AuthV2SessionExpiredState` |
-| `/v2/access-denied` | `accessDenied` | `AuthV2AccessDeniedState` |
-| `/v2/security/review` | `securityReview` | `AuthV2SecurityReviewStubState` |
-| `/v2/auth/complete` | `postAuthComplete` | `AuthPostAuthCompleteClient` (membership redirect) |
+| --- | --- | --- |
+| `/sign-in` | `signIn` | `AuthSignInForm` |
+| `/sign-up` | `signUp` | `AuthSignUpForm` |
+| `/otp` | — | redirect → `/mfa?method=otp` |
+| `/mfa` | `mfa` | `AuthMfaForm` |
+| `/mfa/recovery` | `mfaRecovery` | `AuthMfaForm` (backup code) |
+| `/verify-email` | `verifyEmail` | `AuthVerifyEmailState` |
+| `/verify-email/sent` | `verifyEmailSent` | verify-email sent state |
+| `/verify-email/expired` | `verifyEmailExpired` | verify-email expired state |
+| `/verify-email/success` | `verifyEmailSuccess` | verify-email success state |
+| `/forgot-password` | `forgotPassword` | `AuthForgotPasswordForm` |
+| `/reset-password` | `resetPassword` | `AuthResetPasswordForm` |
+| `/reset-password/success` | `resetPasswordSuccess` | reset success state |
+| `/invite` | `invite` | invite landing |
+| `/invite/accept` | `inviteAccept` | invite acceptance |
+| `/invite/expired` | `inviteExpired` | invite expired |
+| `/workspace/select` | `workspaceSelect` | workspace select panel |
+| `/organization/select` | `organizationSelect` | organization select |
+| `/session-expired` | `sessionExpired` | session expired state |
+| `/access-denied` | `accessDenied` | access denied state |
+| `/security/review` | `securityReview` | security review panel |
+| `/auth/complete` | `postAuthComplete` | `AuthPostAuthCompleteClient` (membership redirect) |
 
 ## Redirect policy
 
-| Event | Legacy | V2 |
-|-------|--------|-----|
-| Sign-in success | `resolveSignInSuccessRedirect` | `resolveAuthV2SignInSuccessRedirect` |
-| Sign-up success | `/verify-email/sent` | `/v2/verify-email/sent` |
-| MFA challenge | `/mfa` | `/v2/mfa` |
-| OTP alias | `/otp` → `/mfa?method=otp` | `/v2/otp` → `/v2/mfa?method=otp` |
-| Password reset success | `/reset-password/success` | `/v2/reset-password/success` |
-| Unauthenticated protected | `/v2/sign-in?next=` (when `AFENDA_AUTH_SHELL_V2_DEFAULT=true`) | same |
-| Unlinked session | `/access-denied?reason=unlinked` | `resolveAuthV2UnlinkedSessionRedirect` |
+| Event | Target |
+| --- | --- |
+| Sign-in success | `resolveSignInSuccessRedirect` |
+| Sign-up success | `/verify-email/sent` |
+| MFA challenge | `/mfa` |
+| OTP alias | `/otp` → `/mfa?method=otp` |
+| Password reset success | `/reset-password/success` |
+| Unauthenticated protected | `/sign-in?next=` |
+| Unlinked session | `/access-denied?reason=unlinked` |
 
 All `next` params pass through `resolveSafeInternalPath` — no open redirects.
 
 ## Security UX rules
 
 | Do | Do not |
-|----|--------|
+| --- | --- |
 | Use `AUTH_SAFE_ERRORS` for user-facing failures | Expose raw Better Auth/provider messages |
 | Use centralized path/copy/link registries | Hardcode routes or legal URLs per page |
 | Mark auth pages `noindex` via `internalErpMetadata` | Index functional auth surfaces |
@@ -99,13 +95,10 @@ All `next` params pass through `resolveSafeInternalPath` — no open redirects.
 ## File ownership
 
 | Path | Owns |
-|------|------|
-| `apps/erp/src/lib/auth/*` | Legacy canonical paths, copy, redirects, proxy public routes |
-| `apps/erp/src/lib/auth-v2/*` | V2 paths, route registry, redirect policy, public route helpers |
-| `apps/erp/(auth)/_components/*` | Legacy form compounds and journey states |
-| `apps/erp/(auth-v2)/_components/*` | V2 form compounds and journey states (no legacy imports) |
-| `packages/appshell/src/auth-shell/` | Legacy visual shell |
-| `packages/appshell/src/auth-shell-V2/` | V2 visual shell + Storybook fixtures |
+| --- | --- |
+| `apps/erp/src/lib/auth/*` | Canonical paths, copy, redirects, public routes, tenant brand resolver |
+| `apps/erp/(auth)/_components/*` | Form compounds and journey states |
+| `packages/appshell/src/auth-shell/` | Visual shell + Storybook fixtures |
 | `packages/auth/src/auth.config.ts` | Better Auth verification redirect |
 
 ## Test evidence
@@ -113,7 +106,7 @@ All `next` params pass through `resolveSafeInternalPath` — no open redirects.
 ```bash
 pnpm check:auth-shell-boundary
 pnpm ui:guard:scan
-pnpm vitest run "apps/erp/src/lib/auth-v2" "apps/erp/src/app/(auth-v2)" "packages/appshell/src/auth-shell-V2"
+pnpm vitest run "apps/erp/src/lib/auth" "apps/erp/src/app/(auth)" "packages/appshell/src/auth-shell"
 pnpm --filter @afenda/appshell test:run
 pnpm --filter @afenda/erp exec vitest run "src/lib/auth" "src/app/(auth)"
 ```
@@ -186,7 +179,7 @@ export const authSchema = {
 } as const;
 ```
 
-OAuth/SSO `callbackURL` points at `/auth/complete` or `/v2/auth/complete` (not `/` directly) so membership validation runs before ERP entry.
+OAuth/SSO `callbackURL` points at `/auth/complete` (not `/` directly) so membership validation runs before ERP entry.
 
 Provider redirect URIs (local): `http://localhost:3000/api/auth/callback/google` and `.../github`. Microsoft social OAuth is not supported — enterprise SSO may still use Microsoft IdP separately.
 
@@ -261,8 +254,8 @@ Afenda implements [Better Auth 2FA](https://better-auth.com/docs/plugins/2fa) en
 | TOTP issuer / `appName` | `appName: "Afenda ERP"` in `auth.config.ts` |
 | `twoFactorClient()` | `packages/auth/src/auth.client.ts` |
 | `twoFactorRedirect` + `twoFactorMethods` on sign-in | `readSignInTwoFactorChallenge()` in `apps/erp/src/lib/auth/is-sign-in-two-factor-redirect.ts` |
-| Redirect to 2FA page (`onTwoFactorRedirect` / `twoFactorPage`) | **Custom:** `signIn.email` `onSuccess` → `persistMfaChallengeAction` → `/mfa` or `/v2/mfa` (no full-page `twoFactorPage` reload) |
-| `twoFactor.verifyTotp` / `verifyOtp` / `verifyBackupCode` | `SignInMfaStep` in `(auth)` + `(auth-v2)` — all use `trustDevice: true` |
+| Redirect to 2FA page (`onTwoFactorRedirect` / `twoFactorPage`) | **Custom:** `signIn.email` `onSuccess` → `persistMfaChallengeAction` → `/mfa` (no full-page `twoFactorPage` reload) |
+| `twoFactor.verifyTotp` / `verifyOtp` / `verifyBackupCode` | `SignInMfaStep` in `(auth)` — all use `trustDevice: true` |
 | `twoFactor.sendOtp` | Auto-sent when OTP mode selected; Resend email via `createAuthTwoFactorOtpSender` |
 | Enable / disable 2FA | User settings → `twoFactor.enable` / `twoFactor.disable` (`user-security-settings-panel.tsx`) |
 | Schema: `user.twoFactorEnabled` + `twoFactor` table | `auth_user.two_factor_enabled` + `auth_two_factor` (`authSchema.twoFactor`) |
@@ -273,7 +266,7 @@ Afenda implements [Better Auth 2FA](https://better-auth.com/docs/plugins/2fa) en
 1. User submits email/password on sign-in form.
 2. Better Auth returns `twoFactorRedirect: true` and `twoFactorMethods` (e.g. `["totp","otp"]`) — no session until verification.
 3. ERP persists allowed methods in an HttpOnly signed cookie (`afenda-mfa-challenge`, 5 min).
-4. User lands on `/v2/mfa` (or legacy `/mfa`) → TOTP, email OTP, or backup code.
+4. User lands on `/mfa` → TOTP, email OTP, or backup code.
 5. On success → membership API → workspace/home.
 
 **2FA scope (Better Auth defaults + Afenda policy)**
@@ -330,9 +323,9 @@ Afenda implements [Better Auth Passkey](https://better-auth.com/docs/plugins/pas
 | `passkey.addPasskey` | User settings → `user-security-settings-panel.tsx` (`passkey.addPasskey({})`) |
 | `passkey.listUserPasskeys` / `deletePasskey` | Same panel — list + delete with `resolvePasskeyDisplayLabel()` (`auth.passkey-label.ts`, `getAuthenticatorName`) |
 | `passkey.updatePasskey` (rename) | **Not exposed in UI** — API available via Better Auth client if product adds rename later |
-| `signIn.passkey` | Legacy `(auth)` + `(auth-v2)` sign-in forms — button when `AFENDA_AUTH_PASSKEY !== "disabled"` |
-| Post-auth redirect | `router.replace(postAuthCompletePath)` → `/auth/complete` or `/v2/auth/complete` → membership API (same as OAuth/SSO) |
-| Conditional UI (`autoFill: true`, `autocomplete="… webauthn"`) | **Enabled** — `(auth)` + `(auth-v2)` sign-in forms preload passkeys when supported |
+| `signIn.passkey` | `(auth)` sign-in form — button when `AFENDA_AUTH_PASSKEY !== "disabled"` |
+| Post-auth redirect | `router.replace(postAuthCompletePath)` → `/auth/complete` → membership API (same as OAuth/SSO) |
+| Conditional UI (`autoFill: true`, `autocomplete="… webauthn"`) | **Enabled** — `(auth)` sign-in form preloads passkeys when supported |
 | Schema: `passkey` table | `authSchema.passkey` in `packages/database/src/schema/auth.schema.ts` — migration `20260625152759_passkey` |
 | `npx auth migrate` / `generate` | **`pnpm db:generate`** + Drizzle governance (same as other auth tables) |
 | Audit events | `auth.hooks.audit.ts` — `passkeyRegistered`, `passkeyDeleted`, `passkeySignInSucceeded` / `passkeySignInFailed` |
@@ -340,9 +333,9 @@ Afenda implements [Better Auth Passkey](https://better-auth.com/docs/plugins/pas
 
 **Sign-in flow (passkey)**
 
-1. User clicks “Sign in with passkey” on `/sign-in` or `/v2/sign-in` (when enabled).
+1. User clicks “Sign in with passkey” on `/sign-in` (when enabled).
 2. Browser WebAuthn ceremony via `signIn.passkey()` (no `autoFill` preload).
-3. On success → `/auth/complete` or `/v2/auth/complete` → workspace/home via membership API.
+3. On success → `/auth/complete` → workspace/home via membership API.
 
 **Enrollment flow (session required)**
 
@@ -395,7 +388,7 @@ Afenda does **not** use the [Better Auth Magic link plugin](https://better-auth.
 
 - **Sign-in:** email + password (`signIn.email`) with optional 2FA challenge
 - **Sign-up:** email + password with verification email (`requireEmailVerification: true`)
-- **Passwordless:** Google / GitHub OAuth, passkey, enterprise SSO — all land on `/auth/complete` or `/v2/auth/complete` for membership routing
+- **Passwordless:** Google / GitHub OAuth, passkey, enterprise SSO — all land on `/auth/complete` for membership routing
 - **Transactional email:** Resend for verification, password reset, 2FA OTP, and invitations — not magic-link login URLs
 
 **Why magic link is off:** Invitation-gated onboarding and tenant membership validation assume explicit credential or federated sign-in flows. Magic link auto-sign-up would bypass the invitation before-hook unless custom `disableSignUp` + hook wiring were added.
@@ -420,7 +413,7 @@ Afenda does **not** use the [Better Auth Email OTP plugin](https://better-auth.c
 | Email verification | **Link** via `emailVerification.sendVerificationEmail` (Resend) |
 | Password reset | **Link/token** via `emailAndPassword.sendResetPassword` (Resend) |
 | 2FA email code | **`twoFactor()` `otpOptions.sendOTP`** — sent only during MFA step after password sign-in (`twoFactor.sendOtp` / `verifyOtp`) |
-| `/otp` and `/v2/otp` routes | **Alias** → `/mfa?method=otp` (2FA entry), not passwordless Email OTP plugin |
+| `/otp` route | **Alias** → `/mfa?method=otp` (2FA entry), not passwordless Email OTP plugin |
 
 **Why Email OTP plugin is off:** Passwordless `signIn.emailOtp` auto-sign-up conflicts with invitation gate. Verification and reset already use link-based email flows; adding `emailOTP` would duplicate Resend delivery paths unless product replaces links with OTP codes.
 
@@ -431,7 +424,7 @@ Afenda does **not** use the [Better Auth Last login method plugin](https://bette
 | Concern | Afenda |
 |---------|--------|
 | Cookie | `afenda-last-used-login-method` (30 days) |
-| Set on success | `(auth)` + `(auth-v2)` via `setLastUsedLoginMethod()` |
+| Set on success | `(auth)` via `setLastUsedLoginMethod()` |
 | UI | `formatSignInMethodLabel()` appends `· Last used` on matching buttons |
 | Methods | `email`, `google`, `github`, `passkey`, `sso` |
 | Better Auth `lastLoginMethod()` plugin | **Not installed** — Afenda-native cookie only (no DB field) |
@@ -455,7 +448,7 @@ Afenda does **not** use the [Better Auth One-Time Token (OTT) plugin](https://be
 | Need | Mechanism |
 |------|-----------|
 | Same-origin session after sign-in | Better Auth session cookies + `nextCookies()` on `/api/auth/*` — ERP and auth share the app origin (`BETTER_AUTH_URL`) |
-| Post-auth routing | `/auth/complete` / `/v2/auth/complete` + membership API (OAuth, passkey, SSO, email) |
+| Post-auth routing | `/auth/complete` + membership API (OAuth, passkey, SSO, email) |
 | MFA step without full session | HttpOnly HMAC-signed `afenda-mfa-challenge` cookie (5 min) with optional Upstash Redis store — not an OTT |
 | Email verification / password reset | Better Auth **`auth_verification`** table + link tokens (`/verify-email`, reset flows) — not OTT |
 | Invitation-gated sign-up | `invitationToken` query param + `auth.hooks.invitation` before-hook — not OTT |
@@ -582,13 +575,13 @@ Afenda follows Better Auth guidance: [`testUtils()`](https://better-auth.com/doc
 
 ## Known gaps
 
-None for auth shell v2 post-login routing.
+None for auth shell post-login routing.
 
 ## Post-login membership
 
 `GET /api/internal/v1/auth/memberships` validates active platform memberships after sign-in and returns `entryPath` plus workspace switch targets.
 
-**All sign-in methods** (email, MFA, OAuth, SSO, passkey) land on `/v2/auth/complete` or `/auth/complete` when no explicit `next` path is set. That page calls the memberships API and redirects.
+**All sign-in methods** (email, MFA, OAuth, SSO, passkey) land on `/auth/complete` when no explicit `next` path is set. That page calls the memberships API and redirects.
 
 **MFA challenges** are stored in an HttpOnly signed cookie (`afenda-mfa-challenge`, 5-minute TTL) with optional **Upstash Redis** backing when `UPSTASH_REDIS_REST_*` is configured — not `sessionStorage`.
 
@@ -596,49 +589,38 @@ Workspace and organization select pages render real `ApplicationShellContextSwit
 
 ## Security review
 
-`/security/review` and `/v2/security/review` provide a checklist, support contact, sign-out, and an acknowledge action that audits `auth.security_review.acknowledged` before continuing through membership validation.
-
-## Presentation default
-
-`AFENDA_AUTH_SHELL_V2_DEFAULT` (default `true`) controls:
-
-- Proxy unauthenticated redirect → `/v2/sign-in`
-- Better Auth email verification redirect → `/v2/verify-email/success`
-- Invitation accept URLs → `/v2/invite/accept`
-- Post-auth multi-workspace hint → `/v2/workspace/select`
-
-Set `AFENDA_AUTH_SHELL_V2_DEFAULT=false` to keep legacy `/sign-in`, `/verify-email/success`, and `/invite/accept` paths.
+`/security/review` provides a checklist, support contact, sign-out, and an acknowledge action that audits `auth.security_review.acknowledged` before continuing through membership validation.
 
 ## Auth feature inventory (runtime)
 
 | Feature | Backend | Frontend | Admin settings | Status |
 | --- | --- | --- | --- | --- |
-| Email/password + verification | `@afenda/auth` | `(auth-v2)` + legacy sign-in | — | **Production** |
+| Email/password + verification | `@afenda/auth` | `(auth)` sign-in | — | **Production** |
 | OAuth (Google/GitHub) | Platform env → Better Auth | Sign-in social buttons | Integrations → OAuth allowlist | **Production** — tenant toggles gate sign-in on tenant host |
 | Enterprise SSO | `sso()` + tenant provider sync | SSO email form | Integrations → SSO providers | **Production** — SSO shown only when tenant has enabled provider |
 | Passkeys | `passkey()` plugin | Sign-in + `/settings/security` | Env `AFENDA_AUTH_PASSKEY` | **Production** |
-| MFA (TOTP/OTP/backup) | `twoFactor()` plugin | Sign-in MFA + `/v2/mfa` | User Security + admin Security policy | **Production** |
+| MFA (TOTP/OTP/backup) | `twoFactor()` plugin | Sign-in MFA + `/mfa` | User Security + admin Security policy | **Production** |
 | Tenant MFA policy | `assertTenantMfaPolicySatisfied` | Protected layout gate → `/settings/security?notice=mfa-required` | System Admin → Security | **Production** |
 | Passwordless 2FA (`enforce-all`) | `gatePasswordlessTwoFactorBeforePostAuth` | Post-auth complete → MFA step-up | Env `AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR` | **Production** — set `enforce-all` in staging to validate OAuth/passkey step-up |
 | Multi-session revoke | `multiSession()` | User Security panel | — | **Production** |
 | Post-auth membership routing | Memberships API | Complete page + workspace select | — | **Production** |
-| Tenant auth branding | `tenant_settings.appearance` + R2 | `(auth-v2)` layout brand panel | System Admin → Appearance | **Production** — legacy `(auth)` uses platform defaults by design |
+| Tenant auth branding | `tenant_settings.appearance` + R2 | `(auth)` layout brand panel | System Admin → Appearance | **Production** |
 | Last-used login method | Client cookie | Sign-in method labels | — | **Production** |
-| Passkey conditional UI | `usePasskeyConditionalUi` | Both sign-in surfaces | — | **Production** |
+| Passkey conditional UI | `usePasskeyConditionalUi` | Sign-in surface | — | **Production** |
 | MFA challenge store | Signed cookie + optional Upstash Redis | MFA step routes | — | **Production** |
-| Security review (passwordless) | Post-auth method cookie + ack cookie | `/v2/security/review` after OAuth/passkey/SSO | Env `AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS` | **Production** — enable on staging |
+| Security review (passwordless) | Post-auth method cookie + ack cookie | `/security/review` after OAuth/passkey/SSO | Env `AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS` | **Production** — enable on staging |
 | Company MFA override | `companies.mfa_required_override` | System Admin → Security company override | Same Security panel | **Production** |
 
 ### Staging validation checklist
 
 1. Set `AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR=enforce-all` on staging.
 2. Set `AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS=true` on staging (optional but recommended).
-3. Sign in with Google or passkey as a user with MFA enrolled → expect redirect to `/v2/mfa` before workspace entry.
-4. Complete MFA step-up → proceed to membership/workspace; with security review enabled, acknowledge `/v2/security/review` first.
+3. Sign in with Google or passkey as a user with MFA enrolled → expect redirect to `/mfa` before workspace entry.
+4. Complete MFA step-up → proceed to membership/workspace; with security review enabled, acknowledge `/security/review` first.
 5. Enable tenant OAuth/SSO in System Admin → Integrations → confirm sign-in surface on tenant host matches toggles.
 6. Enable **Require MFA** in System Admin → Security → confirm non-MFA users redirect to `/settings/security?notice=mfa-required`.
 7. Set company MFA override to **Require MFA for this company** → confirm effective enforcement updates without tenant toggle.
-8. Enable Appearance branding → confirm logo/headline on `/v2/sign-in` for tenant host (requires R2 storage env).
+8. Enable Appearance branding → confirm logo/headline on `/sign-in` for tenant host (requires R2 storage env).
 
 Automated contract coverage: `apps/erp/src/lib/auth/__tests__/auth-production-readiness.test.ts`.
 
@@ -650,7 +632,7 @@ Automated contract coverage: `apps/erp/src/lib/auth/__tests__/auth-production-re
 
 ## Related authority
 
-- [ARCH-AUTH-002](../ARCH/[Complete]%20ARCH-AUTH-002-auth-shell-v2.md) — V2 shell isolation
+- [ARCH-AUTH-002](../ARCH/[Complete]%20ARCH-AUTH-002-auth-shell.md) — auth shell (consolidated 2026-06-26)
 - [ARCH-AUTH-003](../ARCH/ARCH-AUTH-003-tenant-auth-branding.md) — tenant auth branding
 - [ARCH-AUTH-001](../ARCH/[Complete] ARCH-AUTH-001-enterprise-authentication.md) — identity, mirror sync
 - [FDR fdr-002-auth](../../delivery/FDR/[Complete] fdr-002-auth-disposition.md) — `PKG002_AUTH` boundaries

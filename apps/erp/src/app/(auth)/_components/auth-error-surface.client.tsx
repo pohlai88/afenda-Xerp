@@ -1,39 +1,72 @@
 "use client";
 
 import {
-  AuthShellErrorSurface,
-  type AuthShellErrorSurfaceProps,
+  AuthShellBrandHeader,
+  AuthShellErrorEntryPage,
+  type AuthShellErrorEntryPageProps,
 } from "@afenda/appshell/auth-shell";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties } from "react";
 
-import { AUTH_FORM_SIGN_IN_LINK } from "@/app/(auth)/_components/auth-form.copy";
+import { AUTH_PATHS } from "@/lib/auth/auth-path.registry";
+import type { TenantAuthBrand } from "@/lib/auth/tenant-auth-brand.contract";
 
-export type AuthErrorSurfaceProps = AuthShellErrorSurfaceProps & {
-  readonly children?: ReactNode;
+import { useAuthBrand } from "./auth-brand-context";
+
+export type AuthSegmentErrorShellProps = Omit<
+  AuthShellErrorEntryPageProps,
+  "visual" | "shellStyle"
+> & {
+  readonly brand?: TenantAuthBrand | null;
 };
 
-export function AuthErrorSurface({
-  children,
-  ...surfaceProps
-}: AuthErrorSurfaceProps) {
+function resolveBrandHeader(brand: TenantAuthBrand | null | undefined) {
+  if (!brand) {
+    return;
+  }
+
+  return (
+    <AuthShellBrandHeader
+      logoAlt={`${brand.productLabel} logo`}
+      {...(brand.logoUrl ? { logoUrl: brand.logoUrl } : {})}
+      productLabel={brand.productLabel}
+    />
+  );
+}
+
+export function AuthSegmentErrorShell({
+  brand: brandOverride,
+  escapeAction,
+  ...errorProps
+}: AuthSegmentErrorShellProps) {
+  const layoutBrand = useAuthBrand();
+  const brand = brandOverride ?? layoutBrand;
+
+  const shellStyle = brand
+    ? ({ "--primary": brand.primaryColor } as CSSProperties)
+    : undefined;
+
+  const resolvedEscape = escapeAction ?? <AuthSignInEscape />;
+  const brandHeader = resolveBrandHeader(brand);
+
   return (
     <div className="erp-auth-error-page">
-      <AuthShellErrorSurface {...surfaceProps} />
-      {children}
+      <AuthShellErrorEntryPage
+        {...errorProps}
+        escapeAction={resolvedEscape}
+        {...(shellStyle ? { shellStyle } : {})}
+        {...(brandHeader === undefined ? {} : { visual: brandHeader })}
+      />
     </div>
   );
 }
 
-export function AuthErrorSignInEscape() {
+export function AuthSignInEscape() {
   return (
-    <footer className="erp-auth-error-page__escape">
-      <p className="erp-auth-form__alternates-label">Need a different path?</p>
-      <p className="erp-auth-form__notice">
-        <Link className="erp-auth-form__link" href={AUTH_FORM_SIGN_IN_LINK}>
-          Return to sign in
-        </Link>
-      </p>
-    </footer>
+    <p className="erp-auth-error-page__escape-notice">
+      <Link className="erp-auth-form__link" href={AUTH_PATHS.signIn}>
+        Return to sign in
+      </Link>
+    </p>
   );
 }

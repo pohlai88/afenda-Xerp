@@ -109,6 +109,7 @@
     "db:seed:demo": "tsx scripts/seed-demo.ts",
     "db:bootstrap:local": "tsx scripts/bootstrap-local.ts",
     "db:bootstrap:preview": "tsx scripts/bootstrap-preview.ts",
+    "db:reset-staging-e2e-auth-state": "tsx scripts/reset-staging-e2e-auth-state.ts",
     "db:verify:seed": "tsx scripts/verify-seed.ts"
   },
   "sideEffects": false,

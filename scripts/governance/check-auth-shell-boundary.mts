@@ -1,9 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * ARCH-AUTH-002 Slice 5 — auth shell boundary guard (legacy + V2).
- *
- * Prevents consumer drift: app-owned shell CSS, deep package imports,
- * and forbidden provider imports inside @afenda/appshell auth modules.
+ * Auth shell boundary guard — prevents consumer drift in the canonical auth segment.
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -15,30 +12,17 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const APP_AUTH_SEGMENTS = [
-  join(repoRoot, "apps/erp/src/app/(auth)"),
-  join(repoRoot, "apps/erp/src/app/(auth-v2)"),
-] as const;
-
-const APPSHELL_AUTH_MODULES = [
-  join(repoRoot, "packages/appshell/src/auth-shell"),
-  join(repoRoot, "packages/appshell/src/auth-shell-V2"),
-] as const;
+const APP_AUTH_SEGMENT = join(repoRoot, "apps/erp/src/app/(auth)");
+const APPSHELL_AUTH_MODULE = join(repoRoot, "packages/appshell/src/auth-shell");
 
 const FORBIDDEN_APP_SHELL_CLASS_RE =
   /\.(?:login-|auth-wrapper|auth-card|auth-shell-)[\w-]*/;
 
 const FORBIDDEN_DEEP_APPSHELL_IMPORT_RE =
-  /@afenda\/appshell\/auth-shell(?:-v2)?\/src\//;
+  /@afenda\/appshell\/auth-shell\/src\//;
 
 const FORBIDDEN_PROVIDER_IMPORT_RE =
   /from\s+["'](?:better-auth|@supabase\/)/;
-
-const FORBIDDEN_LEGACY_CROSS_IMPORT_RE =
-  /from\s+["']@\/app\/\(auth\)\//;
-
-const FORBIDDEN_V2_CROSS_IMPORT_RE =
-  /from\s+["']@\/app\/\(auth-v2\)\//;
 
 export interface AuthShellBoundaryViolation {
   readonly file: string;
@@ -107,73 +91,24 @@ function scanFile(
   return violations;
 }
 
-function scanAuthV2AppImports(): AuthShellBoundaryViolation[] {
-  const authV2Root = join(repoRoot, "apps/erp/src/app/(auth-v2)");
-  const violations: AuthShellBoundaryViolation[] = [];
-
-  for (const file of listSourceFiles(authV2Root)) {
-    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
-      continue;
-    }
-
-    violations.push(
-      ...scanFile(file, [
-        {
-          rule: "v2-imports-legacy-auth-components",
-          pattern: FORBIDDEN_LEGACY_CROSS_IMPORT_RE,
-          message:
-            "(auth-v2) must not import from legacy (auth) app components.",
-        },
-      ])
-    );
-  }
-
-  return violations;
-}
-
-function scanLegacyAuthImports(): AuthShellBoundaryViolation[] {
-  const authRoot = join(repoRoot, "apps/erp/src/app/(auth)");
-  const violations: AuthShellBoundaryViolation[] = [];
-
-  for (const file of listSourceFiles(authRoot)) {
-    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
-      continue;
-    }
-
-    violations.push(
-      ...scanFile(file, [
-        {
-          rule: "legacy-imports-v2-auth-components",
-          pattern: FORBIDDEN_V2_CROSS_IMPORT_RE,
-          message: "Legacy (auth) must not import from (auth-v2) components.",
-        },
-      ])
-    );
-  }
-
-  return violations;
-}
-
 function scanAppShellCss(): AuthShellBoundaryViolation[] {
   const violations: AuthShellBoundaryViolation[] = [];
 
-  for (const segment of APP_AUTH_SEGMENTS) {
-    for (const file of listSourceFiles(segment)) {
-      if (!file.endsWith(".css")) {
-        continue;
-      }
-
-      violations.push(
-        ...scanFile(file, [
-          {
-            rule: "app-owned-shell-css-classes",
-            pattern: FORBIDDEN_APP_SHELL_CLASS_RE,
-            message:
-              "Auth app segments must not define shell-level CSS (.login-*, .auth-shell-*, etc.).",
-          },
-        ])
-      );
+  for (const file of listSourceFiles(APP_AUTH_SEGMENT)) {
+    if (!file.endsWith(".css")) {
+      continue;
     }
+
+    violations.push(
+      ...scanFile(file, [
+        {
+          rule: "app-owned-shell-css-classes",
+          pattern: FORBIDDEN_APP_SHELL_CLASS_RE,
+          message:
+            "Auth app segment must not define shell-level CSS (.login-*, .auth-shell-*, etc.).",
+        },
+      ])
+    );
   }
 
   return violations;
@@ -182,28 +117,26 @@ function scanAppShellCss(): AuthShellBoundaryViolation[] {
 function scanAppshellAuthModules(): AuthShellBoundaryViolation[] {
   const violations: AuthShellBoundaryViolation[] = [];
 
-  for (const moduleRoot of APPSHELL_AUTH_MODULES) {
-    for (const file of listSourceFiles(moduleRoot)) {
-      if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
-        continue;
-      }
-
-      violations.push(
-        ...scanFile(file, [
-          {
-            rule: "appshell-forbidden-provider-import",
-            pattern: FORBIDDEN_PROVIDER_IMPORT_RE,
-            message:
-              "Auth shell packages must not import better-auth or @supabase/*.",
-          },
-          {
-            rule: "appshell-imports-erp-app",
-            pattern: /from\s+["']@\/app\//,
-            message: "Auth shell packages must not import apps/erp paths.",
-          },
-        ])
-      );
+  for (const file of listSourceFiles(APPSHELL_AUTH_MODULE)) {
+    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
+      continue;
     }
+
+    violations.push(
+      ...scanFile(file, [
+        {
+          rule: "appshell-forbidden-provider-import",
+          pattern: FORBIDDEN_PROVIDER_IMPORT_RE,
+          message:
+            "Auth shell packages must not import better-auth or @supabase/*.",
+        },
+        {
+          rule: "appshell-imports-erp-app",
+          pattern: /from\s+["']@\/app\//,
+          message: "Auth shell packages must not import apps/erp paths.",
+        },
+      ])
+    );
   }
 
   return violations;
@@ -212,23 +145,21 @@ function scanAppshellAuthModules(): AuthShellBoundaryViolation[] {
 function scanConsumerDeepImports(): AuthShellBoundaryViolation[] {
   const violations: AuthShellBoundaryViolation[] = [];
 
-  for (const segment of APP_AUTH_SEGMENTS) {
-    for (const file of listSourceFiles(segment)) {
-      if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
-        continue;
-      }
-
-      violations.push(
-        ...scanFile(file, [
-          {
-            rule: "consumer-deep-appshell-import",
-            pattern: FORBIDDEN_DEEP_APPSHELL_IMPORT_RE,
-            message:
-              "Auth pages must import @afenda/appshell/auth-shell(-v2) public exports only.",
-          },
-        ])
-      );
+  for (const file of listSourceFiles(APP_AUTH_SEGMENT)) {
+    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
+      continue;
     }
+
+    violations.push(
+      ...scanFile(file, [
+        {
+          rule: "consumer-deep-appshell-import",
+          pattern: FORBIDDEN_DEEP_APPSHELL_IMPORT_RE,
+          message:
+            "Auth pages must import @afenda/appshell/auth-shell public exports only.",
+        },
+      ])
+    );
   }
 
   return violations;
@@ -239,8 +170,6 @@ export function collectAuthShellBoundaryViolations(): AuthShellBoundaryViolation
     ...scanAppShellCss(),
     ...scanAppshellAuthModules(),
     ...scanConsumerDeepImports(),
-    ...scanAuthV2AppImports(),
-    ...scanLegacyAuthImports(),
   ];
 }
 

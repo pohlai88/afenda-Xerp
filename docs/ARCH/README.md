@@ -8,7 +8,7 @@ Domain-specific architecture authorities that extend [`docs/architecture/`](../a
 | --- | --- | --- |
 | [`arch-status-index.md`](arch-status-index.md) | — | ARCH status index (adopted from delivery index pattern; FDR is implementation authority) |
 | [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) | — | Enterprise architecture requirement template for ARCH-* docs and slices |
-| [\[Complete\] ARCH-AUTH-002-auth-shell-v2.md](%5BComplete%5D%20ARCH-AUTH-002-auth-shell-v2.md) | PKG-001 · `@afenda/appshell` | Governed auth experience shell — lanes, surfaces, anti-drift — **Complete — 29/30** |
+| [\[Complete\] ARCH-AUTH-002-auth-shell.md](%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) | PKG-001 · `@afenda/appshell` | Governed auth experience shell — lanes, surfaces, anti-drift — **Complete — 29/30** · consolidated single `(auth)` + `@afenda/appshell/auth-shell` (2026-06-26) |
 | [\[Complete\] ARCH-EMAIL-001-resend-transactional-email.md](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 · `@afenda/auth` | Resend transactional email — transport, env, webhooks |
 | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | Enterprise auth — identity, MFA, admin policy |
 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | System Admin (`/system-admin/**`) — **Complete — enterprise 9.5 accepted** (29/30; DoD #20 closed 2026-06-25) |

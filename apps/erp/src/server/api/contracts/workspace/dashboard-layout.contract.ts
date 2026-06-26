@@ -23,6 +23,9 @@ export const dashboardLayoutGetContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.workspace.dashboard-layout.get",
+  summary: "Get dashboard layout",
+  description:
+    "Returns the persisted dashboard widget layout for the active tenant, company, and organization context.",
   lifecycle: "active",
   method: "GET",
   owner: API_ROUTE_OWNER,
@@ -56,6 +59,9 @@ export const dashboardLayoutPutContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.workspace.dashboard-layout.put",
+  summary: "Update dashboard layout",
+  description:
+    "Persists dashboard widget layout changes. Requires idempotency key and workspace dashboard write permission.",
   idempotency: { mode: "required" },
   lifecycle: "active",
   method: "PUT",
@@ -93,6 +99,9 @@ export const dashboardLayoutDeleteContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.workspace.dashboard-layout.delete",
+  summary: "Reset dashboard layout",
+  description:
+    "Resets the dashboard layout to the default configuration for the active operating context.",
   lifecycle: "active",
   method: "DELETE",
   owner: API_ROUTE_OWNER,

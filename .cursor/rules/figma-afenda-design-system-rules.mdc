@@ -40,7 +40,7 @@ Install missing primitives: `npx shadcn@latest add <name> -c packages/ui`
 
 - React 19 + Next.js App Router (`apps/erp`)
 - Tailwind v4 via `globals.css` — **not** for auth shell chrome
-- Auth shell chrome: BEM in `afenda-appshell-studio.css` §L (`.app-shell-studio-auth-login-page-04__*`)
+- Auth shell chrome: BEM in `packages/appshell/src/auth-shell/auth-shell.css` (`.af-auth-shell*`) and `afenda-appshell-studio.css` §L where studio patterns apply
 
 ## 4. Assets
 

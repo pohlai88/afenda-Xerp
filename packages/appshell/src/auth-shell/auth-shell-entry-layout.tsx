@@ -1,62 +1,96 @@
+import { AuthShellV2Compound } from "./auth-shell.compound.js";
+import { AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION } from "./auth-shell.constants.js";
 import {
-  AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION,
-  AUTH_SHELL_ENTRY_DEFAULT_FORM_EYEBROW,
-  AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING,
-  type AuthShellEntryPageProps,
-} from "./auth-shell.contract.js";
-import { AuthShellEntryBrandPanel } from "./auth-shell-brand-panel.js";
-import { AuthShellEntry } from "./auth-shell-entry.compound.js";
-
-export { AuthShellEntry } from "./auth-shell-entry.compound.js";
+  AuthShell,
+  AuthShellAlternateAction,
+  AuthShellEscapeAction,
+  AuthShellFormFrame,
+} from "./auth-shell.js";
+import type {
+  AuthShellEntryPageProps,
+  AuthShellErrorEntryPageProps,
+} from "./auth-shell.types.js";
+import { AuthShellErrorSurface } from "./auth-shell-error-surface.client.js";
 
 /**
- * Canonical authentication entry page shell.
- *
- * Ownership:
- * - Composes the two-plane auth layout.
- * - Provides the default Memory Gate brand panel.
- * - Provides the governed form column structure.
- *
- * Does not own:
- * - form mutation behavior
- * - auth provider calls
- * - session validation
- * - redirect policy
- * - provider error mapping
+ * Convenience wrapper for form pages (`access` | `verify` | `recover` lanes).
  */
 export function AuthShellEntryPage({
-  brandPanel,
+  lane,
+  title,
+  eyebrow: _eyebrow,
+  description = AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION,
   children,
-  formDescription = AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION,
-  formEyebrow = AUTH_SHELL_ENTRY_DEFAULT_FORM_EYEBROW,
-  formFooter,
-  formHeading = AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING,
+  alternateAction,
+  escapeAction,
+  legalNotice,
+  support,
+  shellStyle,
+  visual,
 }: AuthShellEntryPageProps) {
   return (
-    <AuthShellEntry.Root>
-      <AuthShellEntry.SkipLink />
+    <AuthShell
+      footer={legalNotice}
+      lane={lane}
+      {...(shellStyle ? { shellStyle } : {})}
+      support={support}
+      title={title}
+      {...(visual === undefined ? {} : { visual })}
+    >
+      <AuthShellV2Compound.FormColumn>
+        <AuthShellFormFrame>
+          <AuthShellV2Compound.FormHeader
+            description={description}
+            heading={title}
+          />
+          <AuthShellV2Compound.FormBody>
+            {children}
+          </AuthShellV2Compound.FormBody>
+          {alternateAction === undefined ? null : (
+            <AuthShellAlternateAction>
+              {alternateAction}
+            </AuthShellAlternateAction>
+          )}
+          {escapeAction === undefined ? null : (
+            <AuthShellEscapeAction>{escapeAction}</AuthShellEscapeAction>
+          )}
+        </AuthShellFormFrame>
+      </AuthShellV2Compound.FormColumn>
+    </AuthShell>
+  );
+}
 
-      <AuthShellEntry.Card>
-        {brandPanel ?? <AuthShellEntryBrandPanel />}
-
-        <AuthShellEntry.FormColumn>
-          <AuthShellEntry.FormInner>
-            <AuthShellEntry.FormHeader
-              description={formDescription}
-              eyebrow={formEyebrow}
-              heading={formHeading}
-            />
-
-            <AuthShellEntry.FormBody>{children}</AuthShellEntry.FormBody>
-
-            {formFooter ? (
-              <AuthShellEntry.FormFooter>
-                {formFooter}
-              </AuthShellEntry.FormFooter>
-            ) : null}
-          </AuthShellEntry.FormInner>
-        </AuthShellEntry.FormColumn>
-      </AuthShellEntry.Card>
-    </AuthShellEntry.Root>
+/**
+ * Split-layout error entry — brand visual + embedded error alert in form column.
+ */
+export function AuthShellErrorEntryPage({
+  escapeAction,
+  legalNotice,
+  shellStyle,
+  support,
+  visual,
+  embedded: _embedded,
+  ...errorProps
+}: AuthShellErrorEntryPageProps) {
+  return (
+    <AuthShell
+      footer={legalNotice}
+      lane="error"
+      {...(shellStyle ? { shellStyle } : {})}
+      support={support}
+      title={errorProps.title}
+      {...(visual === undefined ? {} : { visual })}
+    >
+      <AuthShellV2Compound.FormColumn>
+        <AuthShellFormFrame>
+          <AuthShellV2Compound.FormBody>
+            <AuthShellErrorSurface embedded {...errorProps} />
+          </AuthShellV2Compound.FormBody>
+          {escapeAction === undefined ? null : (
+            <AuthShellEscapeAction>{escapeAction}</AuthShellEscapeAction>
+          )}
+        </AuthShellFormFrame>
+      </AuthShellV2Compound.FormColumn>
+    </AuthShell>
   );
 }

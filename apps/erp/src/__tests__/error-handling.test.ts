@@ -55,7 +55,7 @@ describe("error-handling — route segment boundaries", () => {
     "src/app/global-error.tsx",
     "src/app/(protected)/error.tsx",
     "src/app/(auth)/error.tsx",
-    "src/app/(auth-v2)/error.tsx",
+    "src/app/(auth)/error.tsx",
     "src/app/(dev)/error.tsx",
   ];
 
@@ -63,7 +63,7 @@ describe("error-handling — route segment boundaries", () => {
     it(`${relativePath} uses RouteSegmentError or role=alert without stack traces`, () => {
       const source = readAppSource(relativePath);
       expect(source).toMatch(
-        /RouteSegmentError|role="alert"|AuthErrorSurface|AuthV2SegmentErrorShell/
+        /RouteSegmentError|role="alert"|AuthErrorSurface|AuthSegmentErrorShell/
       );
       expect(source).not.toContain("error.stack");
       expect(source).not.toContain("error.message");

@@ -32,6 +32,9 @@ export const systemAdminUserInvitePostContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.users.invite.post",
+  summary: "Invite user",
+  description:
+    "Invites a new user to the tenant with a specified role. Audited mutation requiring system admin user management permission.",
   idempotency: { mode: "optional" },
   lifecycle: "active",
   method: "POST",
@@ -69,6 +72,9 @@ export const systemAdminMembershipRolePostContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.memberships.role.post",
+  summary: "Assign membership role",
+  description:
+    "Updates the role assigned to an existing membership within company scope. Audited mutation requiring system admin role management permission.",
   idempotency: { mode: "optional" },
   lifecycle: "active",
   method: "POST",
@@ -101,9 +107,13 @@ export const systemAdminAuditEventsGetContract = {
   contextPolicy: "tenant-company-org-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.audit-events.get",
+  summary: "List audit events",
+  description:
+    "Returns recent system administration audit events for the active tenant, company, and organization context.",
   lifecycle: "active",
   method: "GET",
   owner: API_ROUTE_OWNER,
+  pagination: { mode: "cursor" },
   path: "/api/internal/v1/system-admin/audit-events",
   permission: {
     mode: "required",

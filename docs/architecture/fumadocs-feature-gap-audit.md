@@ -2,96 +2,116 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Evidence — Phase 4 (2026-06-25) |
-| **Authority** | ARCH-DOCS-001 Phase 4 · Slice 17 |
+| **Status** | Evidence — Phase 5 complete (2026-06-26) |
+| **Authority** | ARCH-DOCS-001 Phase 5 · Slices 18–22 |
 | **Package** | PKG-005 · `@afenda/docs` |
 
 ---
 
 ## Executive summary
 
-| Metric | Before Phase 2 | After Slice 12 | After Phase 3 (Slices 13–15) | After Slice 16 | After Slice 17 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| **Composite Fumadocs-ready** | ~35% | **~68%** | **~74%** | **~76%** | **~78%** |
-| **Official UI components adopted in MDX** | 7/14 | **13/14** | **13/14** | **13/14** | **13/14** |
-| **Platform extensions** | ~10% | **~35%** | **~38%** | **~40%** | **~45%** |
-| **SSG routes** | 15 | **16** | **16** | **16** | **34** (16 pages × en+zh + home) |
-| **Test suites** | 12 / 83 tests | **15 / 103 tests** | **16 / 107 tests** | **17 / 112 tests** | **18 / 117 tests** |
+| Metric | After Slice 18 | After Phase 5 (Slices 19–22) |
+| --- | ---: | ---: |
+| **Composite Fumadocs-ready** | **~88%** | **~92%** |
+| **Official UI components adopted in MDX** | **13/14** | **13/14** |
+| **Platform extensions** | **~55%** | **~68%** |
+| **SSG routes** | **43** | **85** (+2 corpus pages en/zh · +40 llms.mdx mirrors) |
+| **Test suites** | **21 / 137 tests** | **23 / 150 tests** |
 
-Phase 3 closes **search empty-state links** and **Guides + Applications dual sidebar tabs** without breaking seed URLs (Fumadocs `(guides)/` folder group). Slice 16 added **UI translations (singular)**. Slice 17 adopts **full multilingual i18n (en+zh)**: `defineI18n`, middleware, `app/[lang]/`, locale content dirs, language switcher. OpenAPI (TIP-031) and custom search API remain blocked/deferred. Legacy `/docs/**` redirects to `/en/docs/**` via middleware.
+Phase 5 closes **LLM markdown export** (Slice 19), **zh body translation (scoped)** + **AutoTypeTable corpus +1** (Slice 20), **nav polish** — Lucide icons, prev/next footer, draft tree filter (Slice 21), and **evidence-sync** (Slice 22). OpenAPI reference (Slice 18) remains adopted. **`async: true` deferred** — see §Remaining gaps.
 
 ---
 
 ## 1. Platform and framework
 
-| Feature | Before Phase 2 | After Slice 12 | After Phase 3 | After Slice 16 | After Slice 17 |
-| --- | --- | --- | --- | --- | --- |
-| MDX collections + SSG | Adopted | Adopted | Adopted | Adopted | Adopted |
-| Link reference extraction + GraphView | Wired, unused | **Adopted** | Adopted | Adopted | Adopted |
-| Custom frontmatter (`full`, `status`, `noIndex`) | Absent | **Adopted** | Adopted | Adopted | Adopted |
-| remarkAutoTypeTable | Absent | **Adopted** | Adopted | Adopted | Adopted |
-| Default Orama search | Partial | Partial (styled default) | **Adopted** (empty-state `search.links`) | Adopted | Adopted (locale-prefixed links) |
-| LLM / page actions | Absent | **Partial** | Partial | Partial | Partial |
-| OpenAPI | Deferred (TIP-031) | Deferred | **Blocked** (no TIP-031) | **Blocked** (no TIP-031) | **Blocked** (no TIP-031) |
-| i18n | Absent | Absent | Blocked | Partial — UI translations (singular) | **Adopted — partial multilingual (en+zh)**; fr/ko future |
-| Static export search index | Absent | Absent | Absent | Absent | Absent |
-| Custom search API route | — | — | Deferred (Orama sufficient) | Deferred (Orama sufficient) | Deferred (Orama sufficient) |
+| Feature | After Slice 18 | After Phase 5 |
+| --- | --- | --- |
+| MDX collections + SSG | Adopted | Adopted |
+| Link reference extraction + GraphView | Adopted | Adopted |
+| Custom frontmatter (`full`, `status`, `noIndex`) | Adopted | Adopted |
+| remarkAutoTypeTable | Adopted | Adopted (+1 docs-local page) |
+| Default Orama search | Adopted | Adopted |
+| LLM / page actions | Partial | **Adopted** (`includeProcessedMarkdown` · `llms.mdx` · `llms.txt` · `llms-full.txt` · `markdownUrl` · Accept negotiation · `LLMCopyButton`) |
+| Ask AI | Not enabled | **Adopted** (`/api/chat` · OpenRouter · flexsearch tool · AISearch panel) — requires `OPENROUTER_API_KEY` |
+| OpenAPI | Adopted (ARCH-API-002) | Adopted |
+| i18n | Adopted (en+zh) | Adopted — **partial zh body** (getting-started · contributing) |
+| Loader plugins | OpenAPI only | **+ lucideIcons · draft tree filter** |
+| `async: true` / dynamic MDX | Not enabled | **Deferred** (§Remaining gaps) |
+| Static export search index | Absent | Absent |
+| Custom search API route | Deferred | Deferred |
 
 ---
 
 ## 2. Layouts and navigation
 
-| Feature | Before Phase 2 | After Slice 12 | After Phase 3 | After Slice 17 |
-| --- | --- | --- | --- | --- |
-| DocsLayout + DocsPage | Adopted | Adopted + page actions | Adopted | Adopted (per-locale page tree) |
-| HomeLayout | Absent | **Adopted** | Adopted | Adopted (`/[lang]`) |
-| Sidebar tabs (`root: true`) | Absent | Partial (Applications only) | **Adopted** (Guides + Applications) | Adopted |
-| Full-width hub pages | Infrastructure only | **Adopted** | Adopted | Adopted |
-| Page actions (GitHub, copy) | Absent | **Adopted** | Adopted | Adopted (locale-aware GitHub paths) |
-| Language switcher | Absent | Absent | Absent | **Adopted** (`defineI18nUI` + `baseOptions i18n`) |
+| Feature | After Slice 17 | After Phase 5 |
+| --- | --- | --- |
+| DocsLayout + DocsPage | Adopted | Adopted |
+| HomeLayout | Adopted | Adopted |
+| Sidebar tabs (`root: true`) | Adopted | Adopted |
+| Sidebar Lucide icons | Absent | **Adopted** (Guides · Applications) |
+| Prev/next footer | Absent | **Adopted** (`findNeighbour` + `PageFooter`) |
+| Draft pages in nav | Visible | **Hidden** (nav-only; SSG unchanged) |
+| Page actions (GitHub, copy, markdown) | Partial | **Adopted** |
+| Language switcher | Adopted | Adopted |
 
 ---
 
 ## 3. MDX components (official)
 
-| Component | Before | After Slice 12 | After Phase 3 |
-| --- | --- | --- | --- |
-| Callout, Cards, Tabs, Files, Steps | Used | Used | Used |
-| GraphView | Registered only | **Used** | Used |
-| AutoTypeTable | Registered only | **Used** | Used |
-| Accordion, ImageZoom, InlineTOC | Unused | **Used** | Used |
-| Banner, DynamicCodeBlock, GithubInfo, TypeTable | Unused | Unused | Unused |
+| Component | After Slice 12 | After Phase 5 |
+| --- | --- | --- |
+| Callout, Cards, Tabs, Files, Steps | Used | Used |
+| GraphView | Used | Used |
+| AutoTypeTable | Used | Used (+ `docs-i18n-contract`) |
+| Accordion, ImageZoom, InlineTOC | Used | Used |
+| Banner, DynamicCodeBlock, GithubInfo, TypeTable | Unused | Unused |
 
 ---
 
 ## 4. Editorial blocks (Afenda)
 
-| Block | Before | After |
-| --- | --- | --- |
-| DocsFeatureStrip, DocsFileTree | Used | Used |
-| DocsGuideCardGrid | Unused | **Used** on home + apps nav |
-| Other editorial blocks | Unused | Unused |
+| Block | Status |
+| --- | --- |
+| DocsFeatureStrip, DocsFileTree | Used |
+| DocsGuideCardGrid | Used on home + apps nav |
+| Other editorial blocks | Unused |
 
 ---
 
-## 5. Remaining gaps (Phase 4+)
+## 5. Remaining gaps
 
-1. **OpenAPI** — **Blocked** until TIP-031 + `fumadocs-openapi` (+10% when unblocked)
-2. **i18n (fr/ko expansion)** — en+zh adopted; add locales + content dirs when product requires
-3. **zh MDX translation** — zh UI labels live; body content still English copy from en
-4. **Per-package `@afenda/*` AutoTypeTable pages** — needs export index outside docs app boundary
-5. **Custom search API** — optional; default Orama sufficient for current corpus
-6. **Unused MDX primitives** — Banner, DynamicCodeBlock, GithubInfo, TypeTable (lower ROI)
+1. **OpenAPI search indexing** — deferred (Orama text search sufficient)
+2. **zh OpenAPI operation pages** — zh index cards link to en ops; full zh ops incremental
+3. **i18n (fr/ko expansion)** — en+zh adopted; add locales when product requires
+4. **zh MDX translation** — getting-started + contributing translated; other pages incremental
+5. **Per-package `@afenda/*` AutoTypeTable pages** — blocked outside docs app boundary
+6. **Custom search API** — optional; Orama sufficient
+7. **Unused MDX primitives** — Banner, DynamicCodeBlock, GithubInfo, TypeTable (lower ROI)
+8. **`llms.txt` / `llms-full.txt` site indexes** — **Adopted** (2026-06-26 full LLM pass)
+9. **Ask AI runtime** — wire `OPENROUTER_API_KEY` on docs Vercel project for live chat
+10. **`async: true` (fumadocs-mdx dynamic MDX)** — **Deferred**
 
-**Target 80%+** requires OpenAPI reference + expanded MDX corpus (50+ pages).
+### `async: true` deferral criteria (Slice 22)
+
+| Trigger | Status | Action |
+| --- | --- | --- |
+| SSG route count ≥ 50 | **Met** (85 routes, 2026-06-26 build) | Do **not** enable without cold-start evidence + slice addendum |
+| `fumadocs-mdx` cold start consistently > 15s | **Not measured** | Profile on Vercel preview before adoption |
+| Operator approval | Pending | New ARCH-DOCS slice addendum required |
+
+**Rationale:** Route-count trigger alone is insufficient — enable `async: true` only when cold-start pain is evidenced or product requires lazy MDX beyond current 85-route SSG budget.
+
+**Target 80%+** achieved (~92%). Expanded corpus (50+ *content* pages without llms mirrors) remains for 90%+ headline.
 
 ---
 
 ## Evidence
 
-| Gate | Result (2026-06-25 Phase 4 / Slice 17) |
+| Gate | Result (2026-06-26 Phase 5) |
 | --- | --- |
 | `pnpm --filter @afenda/docs typecheck` | exit 0 |
-| `pnpm --filter @afenda/docs test:run` | 117/117 |
-| `pnpm quality:docs` | 34 SSG routes (`/en/docs/**` + `/zh/docs/**`; middleware redirects legacy `/docs/**`) |
-| `pnpm exec biome check apps/docs` | exit 0 |
+| `pnpm --filter @afenda/docs test:run` | 150/150 |
+| `pnpm quality:docs` | 85 SSG routes |
+| `pnpm check:documentation-drift` | exit 0 |
+| `pnpm check:openapi-drift` | exit 0 (Slice 18) |

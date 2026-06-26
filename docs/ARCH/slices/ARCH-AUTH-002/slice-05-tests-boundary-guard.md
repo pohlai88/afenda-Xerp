@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 5 — Tests and governance guard
 
+> **Historical slice handoff** — superseded for coding by consolidation (2026-06-26). Boundary guard enforces single `(auth)` segment only.
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | Slices 2–4 ✓ |
 | **Slice** | 5 |
 | **Status** | Not started |

@@ -1,35 +1,36 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AuthShellEntryBrandPanel } from "../auth-shell-brand-panel.js";
+import { AuthShellBrandPanel } from "../auth-shell-brand-panel.js";
 
-describe("AuthShellEntryBrandPanel adapter", () => {
-  it("maps legacy title and description aliases into the memory gate plane", () => {
+describe("AuthShellBrandPanel (v2)", () => {
+  it("renders tenant logo and copy when branded props are provided", () => {
     render(
-      <AuthShellEntryBrandPanel
-        description="Legacy supporting copy."
-        title="Legacy headline"
+      <AuthShellBrandPanel
+        brandColor="#112233"
+        headline="Tenant headline"
+        logoAlt="Acme logo"
+        logoUrl="https://storage.example/logo.png"
+        productLabel="Acme ERP"
+        supportingText="Tenant supporting copy"
       />
     );
 
     expect(
-      screen.getByRole("heading", { level: 2, name: /Legacy headline/i })
-    ).toBeInTheDocument();
-    expect(screen.getByText("Legacy supporting copy.")).toBeInTheDocument();
+      screen.getByRole("img", { name: "Acme logo" }).getAttribute("src")
+    ).toBe("https://storage.example/logo.png");
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+      "Tenant headline"
+    );
+    expect(screen.getByText("Tenant supporting copy")).toBeTruthy();
   });
 
-  it("forwards governed plane overrides from the adapter contract", () => {
+  it("falls back to product label mark when logoUrl is absent", () => {
     render(
-      <AuthShellEntryBrandPanel
-        footerCopy="Custom footer copy."
-        principles={[{ label: "Principle A", statement: "Custom principle." }]}
-        readinessLabel="Custom readiness"
-        readinessScore="8.8"
-      />
+      <AuthShellBrandPanel productLabel="Afenda ERP" supportingText="Default" />
     );
 
-    expect(screen.getByText("Custom footer copy.")).toBeInTheDocument();
-    expect(screen.getByText("Custom principle.")).toBeInTheDocument();
-    expect(screen.getByLabelText("Custom readiness: 8.8")).toBeInTheDocument();
+    expect(screen.queryByRole("img")).toBeNull();
+    expect(screen.getByText("Afenda ERP")).toBeTruthy();
   });
 });

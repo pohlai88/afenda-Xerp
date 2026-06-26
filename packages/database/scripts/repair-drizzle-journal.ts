@@ -72,24 +72,25 @@ const probeAppliedThroughIndex = async (
   pool: pg.Pool,
   entries: LoadedJournalEntry[]
 ): Promise<number> => {
-  for (let index = entries.length - 1; index >= 0; index -= 1) {
-    const entry = entries[index];
-    if (!entry) {
-      continue;
-    }
+  let appliedThrough = -1;
 
+  for (const entry of [...entries].sort(
+    (left, right) => left.idx - right.idx
+  )) {
     const rule = MIGRATION_GOVERNANCE_RULES[entry.tag];
     if (!rule) {
       continue;
     }
 
     const result = await pool.query<MigrationProbeQueryRow>(rule.completeProbe);
-    if (result.rows[0]?.ok) {
-      return entry.idx;
+    if (!result.rows[0]?.ok) {
+      break;
     }
+
+    appliedThrough = entry.idx;
   }
 
-  return -1;
+  return appliedThrough;
 };
 
 const normalizePartialMigrationArtifacts = async (

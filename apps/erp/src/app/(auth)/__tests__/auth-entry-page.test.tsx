@@ -1,52 +1,44 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { AuthBrandProvider } from "@/app/(auth)/_components/auth-brand-context";
 import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
-import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
 
 describe("AuthEntryPage", () => {
-  it("forwards route registry copy and form eyebrow to the auth shell", () => {
-    render(
+  it("composes auth-shell without legacy auth imports", () => {
+    const { container } = render(
       <AuthEntryPage route="signIn">
-        <p>Form body</p>
+        <p>V2 form slot</p>
       </AuthEntryPage>
     );
 
+    expect(container.querySelector("[data-lane='access']")).toBeTruthy();
     expect(
-      screen.getByText(AUTH_ROUTE_REGISTRY.signIn.formEyebrow)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(AUTH_ROUTE_REGISTRY.signIn.formHeading)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(AUTH_ROUTE_REGISTRY.signIn.formDescription)
-    ).toBeInTheDocument();
-    expect(screen.getByText("Form body")).toBeInTheDocument();
+      screen.getByRole("heading", { level: 1, name: "Sign in to Afenda ERP" })
+    ).toBeTruthy();
+    expect(screen.getByText("V2 form slot")).toBeTruthy();
   });
 
-  it("renders ReactNode security notes in default chrome", () => {
-    render(
-      <AuthEntryPage
-        route="forgotPassword"
-        securityNote={
-          <>
-            For security, we do not reveal whether an account exists.{" "}
-            <a href="/support">Contact support</a> if this continues.
-          </>
-        }
-        showSecurityNote
+  it("renders tenant brand header when brand context is present", () => {
+    const { container } = render(
+      <AuthBrandProvider
+        brand={{
+          headline: "Welcome back to Demo Org",
+          logoUrl: "https://cdn.example.com/logo.png",
+          primaryColor: "#0055AA",
+          productLabel: "Demo Org ERP",
+          supportingText: "Secure workspace access for your team.",
+        }}
       >
-        <p>Form body</p>
-      </AuthEntryPage>
+        <AuthEntryPage route="signIn">
+          <p>V2 form slot</p>
+        </AuthEntryPage>
+      </AuthBrandProvider>
     );
 
+    expect(screen.getByRole("img", { name: "Demo Org ERP logo" })).toBeTruthy();
     expect(
-      screen.getByText(
-        /for security, we do not reveal whether an account exists/i
-      )
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: "Contact support" })
-    ).toHaveAttribute("href", "/support");
+      container.querySelector(".af-auth-shell__brand-header")
+    ).toBeTruthy();
   });
 });

@@ -20,6 +20,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/health.api-contract.ts#request:none",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/health.api-contract.ts#healthResponseSchema",
       "runtime": "nodejs",
+      "summary": "Get ERP health status",
+      "description": "Returns service health and execution spine diagnostics for load balancers and monitoring probes. Public route; no session required.",
       "stability": "internal-stable",
       "tags": ["health", "public"],
       "testPaths": [
@@ -47,6 +49,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
       "runtime": "nodejs",
+      "summary": "List session memberships",
+      "description": "Returns tenant memberships available to the authenticated user for workspace and organization selection after sign-in.",
       "stability": "internal-stable",
       "tags": ["auth", "memberships", "public"],
       "testPaths": [
@@ -74,6 +78,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/observability/client-error.api-contract.ts#clientErrorPostRequestSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/observability/client-error.api-contract.ts#clientErrorPostResponseSchema",
       "runtime": "nodejs",
+      "summary": "Report client-side error",
+      "description": "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
       "stability": "internal-stable",
       "tags": ["observability", "public", "telemetry"],
       "testPaths": [
@@ -101,6 +107,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#request:none",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutResponseSchema",
       "runtime": "nodejs",
+      "summary": "Get dashboard layout",
+      "description": "Returns the persisted dashboard widget layout for the active tenant, company, and organization context.",
       "stability": "internal-stable",
       "tags": ["workspace", "dashboard"],
       "testPaths": [
@@ -128,6 +136,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutPutRequestSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutResponseSchema",
       "runtime": "nodejs",
+      "summary": "Update dashboard layout",
+      "description": "Persists dashboard widget layout changes. Requires idempotency key and workspace dashboard write permission.",
       "stability": "internal-stable",
       "tags": ["workspace", "dashboard"],
       "testPaths": [
@@ -155,6 +165,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#request:none",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutDeleteResponseSchema",
       "runtime": "nodejs",
+      "summary": "Reset dashboard layout",
+      "description": "Resets the dashboard layout to the default configuration for the active operating context.",
       "stability": "internal-stable",
       "tags": ["workspace", "dashboard"],
       "testPaths": [
@@ -182,6 +194,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteRequestSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteResponseSchema",
       "runtime": "nodejs",
+      "summary": "Invite user",
+      "description": "Invites a new user to the tenant with a specified role. Audited mutation requiring system admin user management permission.",
       "stability": "internal-stable",
       "tags": ["system-admin", "users"],
       "testPaths": [
@@ -209,6 +223,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleRequestSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleResponseSchema",
       "runtime": "nodejs",
+      "summary": "Assign membership role",
+      "description": "Updates the role assigned to an existing membership within company scope. Audited mutation requiring system admin role management permission.",
       "stability": "internal-stable",
       "tags": ["system-admin", "memberships"],
       "testPaths": [
@@ -236,6 +252,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminAuditEventsResponseSchema",
       "runtime": "nodejs",
+      "summary": "List audit events",
+      "description": "Returns recent system administration audit events for the active tenant, company, and organization context.",
       "stability": "internal-stable",
       "tags": ["system-admin", "audit"],
       "testPaths": [
@@ -263,6 +281,8 @@
       "requestSchemaRef": "apps/erp/src/server/api/contracts/storage/tenant-brand-logo.api-contract.ts#tenantBrandLogoUploadRequestSchema",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/storage/tenant-brand-logo.api-contract.ts#tenantBrandLogoUploadResponseSchema",
       "runtime": "nodejs",
+      "summary": "Initiate tenant brand logo upload",
+      "description": "Returns a presigned upload URL and metadata for uploading a tenant brand logo. Request body specifies filename, MIME type, and size.",
       "stability": "internal-stable",
       "tags": ["storage", "system-admin", "appearance"],
       "testPaths": [

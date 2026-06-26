@@ -1,63 +1,51 @@
-import {
-  AUTH_SHELL_BRAND_FOOTER_COPY,
-  AUTH_SHELL_BRAND_HEADLINE,
-  AUTH_SHELL_BRAND_HEADLINE_EMPHASIS,
-  AUTH_SHELL_BRAND_KICKER,
-  AUTH_SHELL_BRAND_PRINCIPLES,
-  AUTH_SHELL_BRAND_PRODUCT_LABEL,
-  AUTH_SHELL_BRAND_READINESS_LABEL,
-  AUTH_SHELL_BRAND_READINESS_SCORE,
-  AUTH_SHELL_BRAND_SECURITY_LABEL,
-  AUTH_SHELL_BRAND_SUPPORTING_TEXT,
-  type AuthShellEntryBrandPanelProps,
-} from "./auth-shell.contract.js";
-import { AuthShellBrandArtifactPlane } from "./auth-shell-brand-artifact-plane.client.js";
+import type { CSSProperties } from "react";
 
-export { AuthShellEntryBrand } from "./auth-shell-brand.compound.js";
+import {
+  AUTH_SHELL_BRAND_HEADLINE,
+  AUTH_SHELL_BRAND_PRODUCT_LABEL,
+  AUTH_SHELL_BRAND_SUPPORTING_TEXT,
+} from "./auth-shell.constants.js";
+import type { AuthShellBrandPanelProps } from "./auth-shell.types.js";
 
 /**
- * Compatibility adapter for the auth entry brand panel.
- *
- * Maps the older AuthShellEntryBrandPanelProps shape into the newer
- * Memory Gate brand artifact plane.
- *
- * Ownership:
- * - This component resolves legacy prop aliases.
- * - AuthShellBrandArtifactPlane owns the editorial visual composition.
- * - AuthShellEntryBrand owns the compound API export.
+ * V2 brand / trust panel — isolated from legacy AuthShellEntryBrandPanel.
  */
-export function AuthShellEntryBrandPanel({
-  artifactAlt,
-  artifactSrc,
-  description,
-  footerCopy = AUTH_SHELL_BRAND_FOOTER_COPY,
-  headline,
-  highlightedHeadline = AUTH_SHELL_BRAND_HEADLINE_EMPHASIS,
-  kicker = AUTH_SHELL_BRAND_KICKER,
-  principles = AUTH_SHELL_BRAND_PRINCIPLES,
+export function AuthShellBrandPanel({
+  brandColor,
+  headline = AUTH_SHELL_BRAND_HEADLINE,
+  logoAlt,
+  logoUrl,
+  supportingText = AUTH_SHELL_BRAND_SUPPORTING_TEXT,
   productLabel = AUTH_SHELL_BRAND_PRODUCT_LABEL,
-  readinessLabel = AUTH_SHELL_BRAND_READINESS_LABEL,
-  readinessScore = AUTH_SHELL_BRAND_READINESS_SCORE,
-  securityLabel = AUTH_SHELL_BRAND_SECURITY_LABEL,
-  supportingText,
-  title,
-}: AuthShellEntryBrandPanelProps = {}) {
+}: AuthShellBrandPanelProps) {
+  const resolvedLogoAlt =
+    logoAlt ??
+    (typeof productLabel === "string" ? `${productLabel} logo` : "Tenant logo");
+
   return (
-    <AuthShellBrandArtifactPlane
-      artifactAlt={artifactAlt}
-      artifactSrc={artifactSrc}
-      eyebrow={kicker}
-      footerCopy={footerCopy}
-      headline={headline ?? title ?? AUTH_SHELL_BRAND_HEADLINE}
-      highlightedHeadline={highlightedHeadline}
-      principles={principles}
-      productLabel={productLabel}
-      readinessLabel={readinessLabel}
-      readinessScore={readinessScore}
-      securityLabel={securityLabel}
-      supportingText={
-        supportingText ?? description ?? AUTH_SHELL_BRAND_SUPPORTING_TEXT
+    <aside
+      aria-label="Authentication brand"
+      className="af-auth-shell__brand"
+      style={
+        brandColor
+          ? ({ "--af-auth-brand": brandColor } as CSSProperties)
+          : undefined
       }
-    />
+    >
+      <div className="af-auth-shell__brand-mark">
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element -- package shell chrome; signed URL from server
+          <img
+            alt={resolvedLogoAlt}
+            className="af-auth-shell__brand-logo"
+            src={logoUrl}
+          />
+        ) : (
+          <span className="af-auth-shell__brand-product">{productLabel}</span>
+        )}
+      </div>
+      <h2 className="af-auth-shell__brand-headline">{headline}</h2>
+      <p className="af-auth-shell__brand-supporting">{supportingText}</p>
+    </aside>
   );
 }

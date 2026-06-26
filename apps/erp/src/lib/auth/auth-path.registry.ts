@@ -9,6 +9,8 @@ export const AUTH_LANES = [
 
 export type AuthLane = (typeof AUTH_LANES)[number];
 
+export type AuthShellFormLane = "access" | "verify" | "recover" | "error";
+
 export const AUTH_PATHS = {
   signIn: "/sign-in",
   signUp: "/sign-up",
@@ -37,6 +39,7 @@ export const AUTH_PATHS = {
   accessDenied: "/access-denied",
   securityReview: "/security/review",
   postAuthComplete: "/auth/complete",
+  error: "/error",
 } as const;
 
 export type AuthPathKey =
@@ -60,7 +63,8 @@ export type AuthPathKey =
   | "sessionExpired"
   | "accessDenied"
   | "securityReview"
-  | "postAuthComplete";
+  | "postAuthComplete"
+  | "error";
 
 /** Flat list of every auth-segment pathname for proxy and completeness tests. */
 export const AUTH_SEGMENT_PATHS = [
@@ -84,6 +88,7 @@ export const AUTH_SEGMENT_PATHS = [
   AUTH_PATHS.sessionExpired,
   AUTH_PATHS.accessDenied,
   AUTH_PATHS.securityReview,
+  AUTH_PATHS.error,
 ] as const;
 
 export const AUTH_PATH_LANE_MAP: Record<
@@ -110,7 +115,19 @@ export const AUTH_PATH_LANE_MAP: Record<
   [AUTH_PATHS.sessionExpired]: "security",
   [AUTH_PATHS.accessDenied]: "security",
   [AUTH_PATHS.securityReview]: "security",
+  [AUTH_PATHS.error]: "security",
 };
+
+export const AUTH_FORM_LANE_LABEL: Record<AuthShellFormLane, string> = {
+  access: "Access",
+  verify: "Verify",
+  recover: "Recovery",
+  error: "Error",
+};
+
+export function authFormEyebrow(lane: AuthShellFormLane, path: string): string {
+  return `${AUTH_FORM_LANE_LABEL[lane]} Lane · ${path}`;
+}
 
 export function buildAuthPath(
   key: AuthPathKey,
@@ -176,9 +193,23 @@ function resolveAuthPathString(key: AuthPathKey): string {
       return AUTH_PATHS.securityReview;
     case "postAuthComplete":
       return AUTH_PATHS.postAuthComplete;
+    case "error":
+      return AUTH_PATHS.error;
     default: {
       const _exhaustive: never = key;
       return _exhaustive;
     }
   }
 }
+
+export const AUTH_FORM_SIGN_IN_LINK = AUTH_PATHS.signIn;
+
+export const AUTH_FORM_SIGN_IN_PASSWORD_RESET_NOTICE_LINK = buildAuthPath(
+  "signIn",
+  { notice: "password-reset" }
+);
+
+export const AUTH_FORM_SIGN_IN_VERIFY_EMAIL_NOTICE_LINK = buildAuthPath(
+  "signIn",
+  { notice: "verify-email" }
+);

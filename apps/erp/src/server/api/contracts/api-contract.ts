@@ -39,6 +39,8 @@ export interface ApiRouteContract<TRequest, TResponse> {
   readonly authPolicy: ApiAuthPolicy;
   readonly cache: ApiCachePolicy;
   readonly contextPolicy: ApiContextPolicy;
+  /** Optional route narrative; generator falls back to a stability formula when omitted. */
+  readonly description?: string;
   readonly documentationPath: string;
   readonly id: string;
   readonly idempotency?: ApiIdempotencyPolicy;
@@ -55,6 +57,8 @@ export interface ApiRouteContract<TRequest, TResponse> {
   readonly responseSchemaRef: string;
   readonly runtime: ApiRuntime;
   readonly stability: ApiStabilityClassification;
+  /** Human-readable short title projected to OpenAPI operation summary. */
+  readonly summary: string;
   readonly tags: readonly string[];
   readonly testPaths: readonly string[];
   readonly version: "v1";

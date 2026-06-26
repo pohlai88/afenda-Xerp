@@ -161,8 +161,12 @@ export function SystemAdminIntegrationsSettingsPanel({
   );
 
   useEffect(() => {
+    if (isOauthPending) {
+      return;
+    }
+
     setOauthProviders(cloneTenantOAuthSettings(initialIntegrations));
-  }, [initialIntegrations]);
+  }, [initialIntegrations, isOauthPending]);
 
   useEffect(() => {
     setSsoProviders([...initialSsoProviders]);
@@ -199,7 +203,6 @@ export function SystemAdminIntegrationsSettingsPanel({
 
     if (oauthActionState?.ok) {
       pendingOauthToggleRef.current = null;
-      router.refresh();
       return;
     }
 

@@ -1,4 +1,6 @@
-# ARCH-AUTH-002 — Governed Authentication Experience Shell (AUTH-SHELL-V2)
+# ARCH-AUTH-002 — Governed Authentication Experience Shell
+
+> **Filename history:** Renamed from `ARCH-AUTH-002-auth-shell-v2.md` → `ARCH-AUTH-002-auth-shell.md` (2026-06-26 consolidation). **Current runtime:** single auth shell — `@afenda/appshell/auth-shell`, `(auth)`, canonical URLs.
 
 > **Template:** [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) · **Index:** [`arch-status-index.md`](arch-status-index.md) · **Slices:** [`slices/ARCH-AUTH-002/slice-index.md`](slices/ARCH-AUTH-002/slice-index.md)
 
@@ -6,12 +8,12 @@
 | --- | --- |
 | **Document ID** | ARCH-AUTH-002 |
 | **Work ID** | ARCH-AUTH-002 · paired [`fdr-001-shell-composition`](../delivery/FDR/[Partially%20Implemented]%20fdr-001-shell-composition.md) |
-| **Status** | **Complete — enterprise 9.5 accepted** (29/30) — Slices 1–6 delivered 2026-06-26 |
+| **Status** | **Complete — enterprise 9.5 accepted** (29/30) — Slices 1–6 delivered 2026-06-26 · **consolidated 2026-06-26** |
 | **Date** | 2026-06-26 |
 | **Owner** | Platform Authority (`@afenda/appshell` shell · `apps/erp` consumer) |
-| **Package** | PKG-001 · `@afenda/appshell/auth-shell-v2` · `apps/erp` `(auth-v2)` consumer only |
+| **Package** | PKG-001 · `@afenda/appshell/auth-shell` · `apps/erp` `(auth)` consumer |
 | **Registry entry ID** | `PKG001_APPSHELL` |
-| **Runtime owner** | `packages/appshell/src/auth-shell-V2` · `apps/erp/src/app/(auth-v2)` (composition) |
+| **Runtime owner** | `packages/appshell/src/auth-shell` · `apps/erp/src/app/(auth)` (composition) |
 | **Lane** | amber-lane |
 | **Risk class** | Medium (UX drift, accessibility, security copy leakage) |
 | **Change class** | Refactor + Extension |
@@ -20,8 +22,23 @@
 
 > **Scope:** Package-owned **authentication experience system** — viewport shell, lane contracts, form frame, error/status surfaces, dedicated visual system, anti-drift gates, Storybook fixtures.  
 > **Not in scope:** Better Auth plugin config, credential algorithms, session cookies, MFA policy, invitation persistence — [ARCH-AUTH-001](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) owns identity runtime.  
-> **Relationship:** ARCH-AUTH-001 delivers identity; ARCH-AUTH-002 delivers **how unauthenticated users experience auth routes** without app-level layout drift.  
-> **Isolation rule:** AUTH-SHELL-V2 is **explicit and separate** from legacy auth — package path `packages/appshell/src/auth-shell-V2`, export `@afenda/appshell/auth-shell-v2`, app route group `apps/erp/src/app/(auth-v2)` with `/v2/*` URL prefix. **No sharing** with legacy `src/auth-shell` or `(auth)`.
+> **Relationship:** ARCH-AUTH-001 delivers identity; ARCH-AUTH-002 delivers **how unauthenticated users experience auth routes** without app-level layout drift.
+
+> **Consolidation (2026-06-26):** Parallel delivery used `(auth-v2)`, `/v2/*` URLs, `@afenda/appshell/auth-shell-v2`, and `AFENDA_AUTH_SHELL_V2_DEFAULT`. **Legacy v1 shell decommissioned.** V2 implementation promoted to canonical naming: `@afenda/appshell/auth-shell`, `(auth)`, flat URLs. Slice handoffs below retain historical paths for audit — do **not** implement from them without reading this banner.
+
+---
+
+## Current runtime (authoritative for coding — 2026-06-26)
+
+| Concern | Owner | Path |
+| --- | --- | --- |
+| Shell export | `@afenda/appshell/auth-shell` | `packages/appshell/src/auth-shell/` |
+| App consumer | `apps/erp` | `apps/erp/src/app/(auth)/` |
+| Path/copy registries | `apps/erp` | `apps/erp/src/lib/auth/*` |
+| Form rhythm CSS | `apps/erp` | `apps/erp/src/app/(auth)/auth.css` |
+| Canonical URLs | — | `/sign-in`, `/mfa`, `/verify-email/*`, … (no `/v2/` prefix) |
+| Boundary guard | `scripts/governance` | `check:auth-shell-boundary.mts` — single `(auth)` segment only |
+| Tenant branding | `apps/erp` | `resolve-tenant-auth-brand.server.ts` in `lib/auth/` |
 
 ---
 
@@ -46,12 +63,12 @@ Every completion claim must map to file path, test path, command exit code, docu
 **Agent command (paste-ready):**
 
 ```text
-/auth-shell-v2 /afenda-ui-quality /react-erp-quality /nextjs /shadcn-studio
+/auth-shell /afenda-ui-quality /react-erp-quality /nextjs /shadcn-studio
 
 Execute ARCH-AUTH-002 slice <N> as one bounded enterprise architecture slice.
 Use the authority chain, architecture requirements, acceptance criteria, DoD, gates,
 owner paths, prohibitions, waiver policy, and output format defined in
-docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md.
+docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md.
 
 Do not expand scope. Do not start unrelated FDRs/TIPs.
 Do not mark Complete unless promotion rules (§16) are satisfied.
@@ -65,11 +82,11 @@ Stop after the slice completion report.
 | Field | Value |
 | --- | --- |
 | Work ID | ARCH-AUTH-002 |
-| Title | Governed authentication experience shell (AUTH-SHELL-V2) |
-| Status | Complete — enterprise 9.5 accepted |
+| Title | Governed authentication experience shell |
+| Status | Complete — enterprise 9.5 accepted · consolidated 2026-06-26 |
 | Package | `@afenda/appshell` (owner) · `apps/erp` (consumer) |
 | Registry entry ID | PKG001_APPSHELL |
-| Runtime owner | `packages/appshell/src/auth-shell` |
+| Runtime owner | `packages/appshell/src/auth-shell` · `apps/erp/src/app/(auth)` |
 | Lane | amber-lane |
 | Risk class | Medium |
 | Change class | Refactor + Extension |
@@ -91,7 +108,7 @@ Read in this order before touching code:
 4. docs/architecture/afenda-runtime-truth-matrix.md
 5. docs/delivery/FDR/[Partially Implemented] fdr-001-shell-composition.md
 6. docs/ARCH/[Complete] ARCH-AUTH-001-enterprise-authentication.md (identity — reference only)
-7. docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md (this document)
+7. docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell.md (this document)
 8. docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md
 9. docs/governance/tip-004-policy.md
 10. .cursor/rules/figma-afenda-design-system-rules.mdc
@@ -147,7 +164,9 @@ brand panel compounds, Storybook, contract tests) but:
 
 ## 5.1 Ownership
 
-| Concern | Owner | Allowed path |
+> **Historical — parallel V2 delivery phase.** Paths below used `(auth-v2)` / `auth-shell-v2` during slices 1–6. **Current paths:** see **Current runtime** table at document top (2026-06-26 consolidation).
+
+| Concern | Owner | Allowed path (historical) |
 | --- | --- | --- |
 | V2 shell contracts + lane types | `@afenda/appshell/auth-shell-v2` | `packages/appshell/src/auth-shell-V2/auth-shell-v2.types.ts` |
 | V2 shell components | `@afenda/appshell/auth-shell-v2` | `packages/appshell/src/auth-shell-V2/*.tsx` |
@@ -865,7 +884,7 @@ Execute ARCH-AUTH-002 Slice <N> as one bounded enterprise architecture slice.
 
 Use the authority chain, architecture requirements, acceptance criteria, DoD, gates,
 owner paths, prohibitions, waiver policy, and output format defined in
-docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md.
+docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell.md.
 
 Do not expand scope.
 Do not start unrelated FDRs/TIPs.

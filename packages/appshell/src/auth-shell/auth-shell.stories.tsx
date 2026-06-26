@@ -1,39 +1,33 @@
+import type { CSSProperties } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Button, Input, Label } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
 import {
-  AUTH_SHELL_BRAND_HEADLINE,
-  AUTH_SHELL_BRAND_KICKER,
-  AUTH_SHELL_BRAND_SUPPORTING_TEXT,
-  AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION,
-  AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING,
-} from "./auth-shell.contract.js";
-import { AuthShellEntryBrand } from "./auth-shell-brand-panel.js";
-import {
-  AuthShellEntryPage,
-  AuthShellEntry,
-} from "./auth-shell-entry-layout.js";
-import {
-  AuthShellErrorSurface,
-  AuthShellError,
-} from "./auth-shell-error-surface.client.js";
+  AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION,
+  AUTH_SHELL_ENTRY_DEFAULT_EYEBROW,
+  AUTH_SHELL_ENTRY_DEFAULT_HEADING,
+} from "./auth-shell.constants.js";
+import { AuthShellEntryPage } from "./auth-shell-entry-layout.js";
+import { AuthShellBrandPanel } from "./auth-shell-brand-panel.js";
+import { AuthShellErrorSurface } from "./auth-shell-error-surface.client.js";
+import { AuthShellStatusSurface, AuthShellVisualPanel } from "./auth-shell.js";
 
-type AuthShellStoryGovernedComponents = Extract<
+type AuthShellV2StoryGovernedComponents = Extract<
   GovernedUiComponentName,
   "Button" | "Input" | "Label"
 >;
 
 const meta = {
-  title: "ERP/AuthShell",
+  title: "ERP/AuthShellV2",
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
     docs: {
       description: {
         component:
-          "Public-route auth chrome for `(auth)` segment — separate from ApplicationShell. Form logic stays in apps/erp.",
+          "Isolated AUTH-SHELL-V2 chrome for `(auth)` /v2/* routes. Form logic stays in apps/erp.",
       },
     },
   },
@@ -70,29 +64,89 @@ function SampleAuthForm() {
   );
 }
 
-export const EntrySignIn: Story = {
+export const AccessSignIn: Story = {
   render: () => (
     <AuthShellEntryPage
-      formDescription={AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION}
-      formHeading={AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING}
+      description={AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION}
+      eyebrow={AUTH_SHELL_ENTRY_DEFAULT_EYEBROW}
+      lane="access"
+      title={AUTH_SHELL_ENTRY_DEFAULT_HEADING}
     >
       <SampleAuthForm />
     </AuthShellEntryPage>
   ),
 };
 
-export const EntryForgotPassword: Story = {
+export const TenantBrandedSignIn: Story = {
   render: () => (
     <AuthShellEntryPage
-      formDescription="Enter your work email and we will send a secure, time-limited link to restore access to Afenda ERP."
-      formHeading="Recover access"
+      description={AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION}
+      eyebrow={AUTH_SHELL_ENTRY_DEFAULT_EYEBROW}
+      lane="access"
+      shellStyle={{ "--af-auth-brand": "#1f4d36" } as CSSProperties}
+      title={AUTH_SHELL_ENTRY_DEFAULT_HEADING}
+      visual={
+        <AuthShellVisualPanel>
+          <AuthShellBrandPanel
+            brandColor="#1f4d36"
+            headline="Northwind access, remembered."
+            logoAlt="Northwind logo"
+            logoUrl="https://placehold.co/160x48/png?text=NW"
+            productLabel="Northwind ERP"
+            supportingText="Secure entry for your tenant workspace."
+          />
+        </AuthShellVisualPanel>
+      }
+    >
+      <SampleAuthForm />
+    </AuthShellEntryPage>
+  ),
+};
+
+export const AccessSignUp: Story = {
+  render: () => (
+    <AuthShellEntryPage
+      description="Complete your profile to join your organization workspace."
+      eyebrow="Access Lane · /v2/sign-up"
+      lane="access"
+      title="Create account"
+    >
+      <SampleAuthForm />
+    </AuthShellEntryPage>
+  ),
+};
+
+export const VerifyEmailSent: Story = {
+  render: () => (
+    <AuthShellEntryPage
+      description="We sent a verification link. Open it from the same device when you are ready."
+      eyebrow="Verify Lane · /v2/verify-email/sent"
+      lane="verify"
+      title="Check your inbox"
+    >
+      <AuthShellStatusSurface
+        description="If you do not see the email within a few minutes, check spam or promotions."
+        title="Verification email sent"
+        tone="positive"
+      />
+    </AuthShellEntryPage>
+  ),
+};
+
+export const RecoverForgotPassword: Story = {
+  render: () => (
+    <AuthShellEntryPage
+      description="Enter the email associated with your Afenda account."
+      eyebrow="Recovery Lane · /v2/forgot-password"
+      lane="recover"
+      title="Reset your password"
     >
       <form className="erp-auth-form">
         <div>
-          <Label htmlFor="story-forgot-email">Work email</Label>
+          <Label htmlFor="story-forgot-v2-email">Work email</Label>
           <Input
             autoComplete="email"
-            id="story-forgot-email"
+            id="story-forgot-v2-email"
             name="email"
             placeholder="name@company.com"
             type="email"
@@ -106,88 +160,79 @@ export const EntryForgotPassword: Story = {
   ),
 };
 
-export const EntryLoadingSkeleton: Story = {
-  render: () => (
-    <AuthShellEntryPage formDescription="Loading…">
-      <div aria-busy="true" aria-live="polite" role="status">
-        Loading authentication form…
-      </div>
-    </AuthShellEntryPage>
-  ),
-};
-
-export const ErrorWithRetry: Story = {
-  render: () => (
-    <AuthShellErrorSurface
-      description="The sign-in surface failed to load. Refresh the page or try again in a few minutes."
-      onRetry={() => undefined}
-      title="Something went wrong"
-    />
-  ),
-};
-
-export const ErrorWithoutRetry: Story = {
-  render: () => (
-    <AuthShellErrorSurface
-      description="Authentication is temporarily unavailable."
-      title="Service unavailable"
-    />
-  ),
-};
-
-export const EntryMemoryGate: Story = {
+export const RecoverResetPassword: Story = {
   render: () => (
     <AuthShellEntryPage
-      brandPanel={<AuthShellEntryBrand.ArtifactPlane />}
-      formDescription={AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION}
-      formHeading={AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING}
+      description="Create a strong password to restore access to your Afenda workspace."
+      eyebrow="Recovery Lane · /v2/reset-password"
+      lane="recover"
+      title="Choose a new password"
     >
       <SampleAuthForm />
     </AuthShellEntryPage>
   ),
 };
 
-export const EntryComposed: Story = {
+export const ErrorExpiredLink: Story = {
   render: () => (
-    <AuthShellEntry.Root>
-      <AuthShellEntry.SkipLink />
-      <AuthShellEntry.Card>
-        <AuthShellEntryBrand.ArtifactPlane
-          eyebrow={AUTH_SHELL_BRAND_KICKER}
-          headline={AUTH_SHELL_BRAND_HEADLINE}
-          supportingText={AUTH_SHELL_BRAND_SUPPORTING_TEXT}
-        />
-        <AuthShellEntry.FormColumn>
-          <AuthShellEntry.FormInner>
-            <AuthShellEntry.FormHeader
-              description={AUTH_SHELL_ENTRY_DEFAULT_FORM_DESCRIPTION}
-              heading={AUTH_SHELL_ENTRY_DEFAULT_FORM_HEADING}
-            />
-            <AuthShellEntry.FormBody>
-              <SampleAuthForm />
-            </AuthShellEntry.FormBody>
-          </AuthShellEntry.FormInner>
-        </AuthShellEntry.FormColumn>
-      </AuthShellEntry.Card>
-    </AuthShellEntry.Root>
+    <AuthShellEntryPage
+      description="This link is no longer valid."
+      eyebrow="Error Lane · /v2/verify-email/expired"
+      lane="error"
+      title="Link expired"
+    >
+      <AuthShellStatusSurface
+        description="Request a new verification email from your administrator or sign in again."
+        title="Verification link expired"
+        tone="warning"
+      />
+    </AuthShellEntryPage>
   ),
 };
 
-export const ErrorComposed: Story = {
+export const ErrorForbidden: Story = {
   render: () => (
-    <AuthShellError.Root>
-      <AuthShellError.Alert>
-        <AuthShellError.Illustration />
-        <AuthShellError.Copy>
-          <AuthShellError.Eyebrow>
-            Authentication unavailable
-          </AuthShellError.Eyebrow>
-          <AuthShellError.Title>Service unavailable</AuthShellError.Title>
-          <AuthShellError.Description>
-            Authentication is temporarily unavailable.
-          </AuthShellError.Description>
-        </AuthShellError.Copy>
-      </AuthShellError.Alert>
-    </AuthShellError.Root>
+    <AuthShellEntryPage
+      description="You do not have permission to access this workspace."
+      eyebrow="Error Lane · /v2/access-denied"
+      lane="error"
+      title="Access denied"
+    >
+      <AuthShellStatusSurface
+        description="Contact your organization administrator if you believe this is a mistake."
+        title="Access denied"
+        tone="warning"
+      />
+    </AuthShellEntryPage>
+  ),
+};
+
+export const MobileNarrowViewport: Story = {
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: () => (
+    <AuthShellEntryPage
+      description={AUTH_SHELL_ENTRY_DEFAULT_DESCRIPTION}
+      eyebrow={AUTH_SHELL_ENTRY_DEFAULT_EYEBROW}
+      lane="access"
+      title={AUTH_SHELL_ENTRY_DEFAULT_HEADING}
+    >
+      <SampleAuthForm />
+    </AuthShellEntryPage>
+  ),
+};
+
+export const ErrorSurfaceWithRetry: Story = {
+  render: () => (
+    <AuthShellErrorSurface
+      actions={
+        <Button emphasis="outline" intent="secondary" size="md" type="button">
+          Try again
+        </Button>
+      }
+      description="The sign-in surface failed to load. Refresh the page or try again in a few minutes."
+      title="Something went wrong"
+    />
   ),
 };

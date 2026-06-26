@@ -1,14 +1,14 @@
 import type { ApplicationShellContextSwitchTarget } from "@afenda/kernel";
 
-import { AuthWorkspaceSelectPanel } from "@/lib/auth/auth-workspace-select-panel";
+import { AuthWorkspaceSelectPanel as AuthWorkspaceSelectPanelCore } from "@/lib/auth/auth-workspace-select-panel";
 
-export function AuthWorkspaceSelectPanelLegacy({
+export function AuthWorkspaceSelectPanel({
   targets,
 }: {
   readonly targets: readonly ApplicationShellContextSwitchTarget[];
 }) {
   return (
-    <AuthWorkspaceSelectPanel
+    <AuthWorkspaceSelectPanelCore
       linkClassName="erp-auth-form__link"
       targets={targets}
     />

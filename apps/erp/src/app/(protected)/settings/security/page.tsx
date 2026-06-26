@@ -11,8 +11,32 @@ export default async function UserSettingsSecurityPage({
 }) {
   const params = await searchParams;
   const settingsResult = await resolveUserSecuritySettings();
+  const mfaRequiredNotice =
+    params.notice === "mfa-required" ? (
+      <p
+        aria-label="Organization requires two-factor authentication"
+        className="erp-system-admin-settings-form__message"
+        role="status"
+      >
+        Your organization requires two-factor authentication before you can
+        access workspace features. Enroll below, then return to your previous
+        task.
+      </p>
+    ) : null;
 
   if (settingsResult.kind !== "ready") {
+    if (params.notice === "mfa-required") {
+      return (
+        <AppShellMain
+          contentLabel="Security settings"
+          description="Personal MFA enrollment and active session management."
+          title="Security"
+        >
+          {mfaRequiredNotice}
+        </AppShellMain>
+      );
+    }
+
     notFound();
   }
 
@@ -22,13 +46,7 @@ export default async function UserSettingsSecurityPage({
       description="Personal MFA enrollment and active session management."
       title="Security"
     >
-      {params.notice === "mfa-required" ? (
-        <p className="erp-system-admin-settings-form__message" role="status">
-          Your organization requires two-factor authentication before you can
-          access workspace features. Enroll below, then return to your previous
-          task.
-        </p>
-      ) : null}
+      {mfaRequiredNotice}
       <UserSecuritySettingsPanel initialSettings={settingsResult.settings} />
     </AppShellMain>
   );

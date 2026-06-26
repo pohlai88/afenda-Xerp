@@ -5,14 +5,17 @@ import {
   getTenantSettingsByTenantId,
   listTenantSsoProvidersByTenantId,
 } from "@afenda/database";
+import { unstable_noStore as noStore } from "next/cache";
+
+import { readTenantRoutingHeaders } from "@/lib/context/tenant-domain.server";
 
 import { mergeTenantSignInSurface } from "./merge-tenant-sign-in-surface";
-import { resolvePostAuthTenantSlug } from "./resolve-post-auth-tenant-slug.server";
 
 /** Serializable sign-in provider flags for ERP auth entry pages. */
 export async function resolveSignInSurface(): Promise<SignInProviderSurface> {
+  noStore();
   const platform = resolveSignInProviderSurface();
-  const tenantSlug = await resolvePostAuthTenantSlug();
+  const { tenantSlug } = await readTenantRoutingHeaders();
 
   if (tenantSlug === null || tenantSlug.length === 0) {
     return platform;

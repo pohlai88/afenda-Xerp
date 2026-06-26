@@ -60,6 +60,12 @@ describe("API contract registry", () => {
     expect(validateApiRouteCatalogCompleteness(API_CONTRACTS)).toEqual([]);
   });
 
+  it("requires non-empty summary on every contract", () => {
+    for (const contract of API_CONTRACTS) {
+      expect(contract.summary.trim().length).toBeGreaterThan(0);
+    }
+  });
+
   it("requires authPolicy, contextPolicy, lifecycle, and stability on every contract", () => {
     for (const contract of API_CONTRACTS) {
       expect(contract.authPolicy.length).toBeGreaterThan(0);
@@ -115,6 +121,14 @@ describe("API contract registry", () => {
       (contract) => contract.id === "internal.v1.workspace.dashboard-layout.put"
     );
     expect(putContract?.idempotency).toEqual({ mode: "required" });
+  });
+
+  it("declares cursor pagination on audit events GET contract", () => {
+    const auditEventsContract = API_CONTRACTS.find(
+      (contract) => contract.id === "internal.v1.system-admin.audit-events.get"
+    );
+
+    expect(auditEventsContract?.pagination).toEqual({ mode: "cursor" });
   });
 
   it("defines serializable pagination meta contract", () => {

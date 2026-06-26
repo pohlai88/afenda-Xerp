@@ -202,6 +202,7 @@ export async function updateOauthProviderSettingsAction(
     });
 
     revalidatePath("/system-admin/settings/integrations");
+    revalidatePath("/sign-in");
 
     await recordActionAudit({
       action: UPDATE_OAUTH_PROVIDER_SETTINGS_ACTION,
@@ -243,6 +244,7 @@ export async function updateOauthProviderSettingsAction(
   });
 
   revalidatePath("/system-admin/settings/integrations");
+  revalidatePath("/sign-in");
 
   await recordActionAudit({
     action: UPDATE_OAUTH_PROVIDER_SETTINGS_ACTION,

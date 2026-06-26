@@ -66,7 +66,7 @@ describe("gatePasswordlessTwoFactorBeforePostAuth", () => {
 
     await expect(
       gatePasswordlessTwoFactorBeforePostAuth("/dashboard", (next) =>
-        next.length > 0 ? `/v2/mfa?next=${encodeURIComponent(next)}` : "/v2/mfa"
+        next.length > 0 ? `/v2/mfa?next=${encodeURIComponent(next)}` : "/mfa"
       )
     ).rejects.toThrow("REDIRECT:/v2/mfa?next=%2Fdashboard");
 

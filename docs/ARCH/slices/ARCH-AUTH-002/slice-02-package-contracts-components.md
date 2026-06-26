@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 2 — Package contracts and components
 
+> **Historical slice handoff** — superseded for coding by consolidation (2026-06-26). See parent ARCH **Current runtime** table.
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | Slice 1 ✓ |
 | **Slice** | 2 |
 | **Status** | Not started |

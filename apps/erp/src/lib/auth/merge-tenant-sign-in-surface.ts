@@ -11,10 +11,18 @@ export function mergeTenantSignInSurface(
   enabledSsoProviderCount: number
 ): SignInProviderSurface {
   const socialProviderIds = platform.socialProviderIds.filter((providerId) => {
-    const tenantProvider =
-      tenantOAuth?.providers[providerId as TenantOAuthProviderId];
+    if (tenantOAuth === null) {
+      return false;
+    }
 
-    return tenantProvider?.enabled === true;
+    if (tenantOAuth === undefined) {
+      return true;
+    }
+
+    const tenantProvider =
+      tenantOAuth.providers[providerId as TenantOAuthProviderId];
+
+    return tenantProvider.enabled === true;
   });
 
   return {

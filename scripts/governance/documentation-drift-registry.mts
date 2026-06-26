@@ -123,6 +123,21 @@ export const STALE_DELIVERY_MARKERS = [
     ],
     rule: "tip-008-complete-stale-partial-claims",
   },
+  {
+    file: "docs/architecture/authentication-ecosystem.md",
+    forbidden: [
+      "Dual presentation tracks",
+      "Set `AFENDA_AUTH_SHELL_V2_DEFAULT=false`",
+      "`@afenda/appshell/auth-shell-v2`",
+      "apps/erp/(auth-v2)",
+    ],
+    rule: "auth-ecosystem-stale-dual-stack",
+  },
+  {
+    file: "docs/architecture/afenda-runtime-truth-matrix.md",
+    forbidden: ["auth-shell-V2", "(auth-v2)"],
+    rule: "runtime-matrix-stale-auth-v2-paths",
+  },
 ] as const;
 
 /** Required markers when TIP-008 delivery doc is Complete (authority-only closeout). */

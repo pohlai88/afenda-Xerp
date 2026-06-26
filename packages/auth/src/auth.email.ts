@@ -15,7 +15,6 @@ import {
   getAuthEmailApiKey,
   getAuthEmailFromAddress,
   isAuthEmailDeliveryEnabled,
-  isAuthShellV2Default,
   resolveBetterAuthBaseUrl,
 } from "./auth.env.js";
 import {
@@ -52,9 +51,7 @@ export function buildAuthInvitationSignUpUrl(
 ): string {
   const baseUrl = resolveBetterAuthBaseUrl(env);
   const encodedEmail = encodeURIComponent(payload.user.email);
-  const acceptPath = isAuthShellV2Default(env)
-    ? "/v2/invite/accept"
-    : "/invite/accept";
+  const acceptPath = "/invite/accept";
 
   return `${baseUrl}${acceptPath}?invitationToken=${payload.token}&email=${encodedEmail}`;
 }
@@ -101,12 +98,8 @@ export function buildAuthInvitationEmailTags(
   return tags;
 }
 
-function resolveEmailVerificationCallbackPath(
-  env: NodeJS.ProcessEnv = process.env
-): string {
-  return isAuthShellV2Default(env)
-    ? "/v2/verify-email/success"
-    : "/verify-email/success";
+function resolveEmailVerificationCallbackPath(): string {
+  return "/verify-email/success";
 }
 
 function withEmailVerificationCallbackUrl(
@@ -244,7 +237,7 @@ export function createAuthVerificationEmailSender(
   ): Promise<void> => {
     const verificationUrl = withEmailVerificationCallbackUrl(
       payload.url,
-      resolveEmailVerificationCallbackPath(env)
+      resolveEmailVerificationCallbackPath()
     );
 
     await deliverAuthTransactionalEmail(

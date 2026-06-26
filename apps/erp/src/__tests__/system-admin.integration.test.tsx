@@ -212,26 +212,32 @@ describe("system admin API integration (TIP-013 Slice 4)", () => {
   });
 
   it("returns tenant-scoped audit events read-only", async () => {
-    auditMocks.listRecentAuditEvents.mockResolvedValue([
-      {
-        action: "user.create",
-        correlationId: SYSTEM_ADMIN_API_CORRELATION_ID,
-        createdAt: "2026-06-23T12:00:00.000Z",
-        id: "audit-001",
-        module: "platform",
-        result: "success",
-        targetId: "user-invited-001",
-        targetType: "user",
-      },
-    ]);
+    auditMocks.listRecentAuditEvents.mockResolvedValue({
+      events: [
+        {
+          action: "user.create",
+          correlationId: SYSTEM_ADMIN_API_CORRELATION_ID,
+          createdAt: "2026-06-23T12:00:00.000Z",
+          id: "audit-001",
+          module: "platform",
+          result: "success",
+          targetId: "user-invited-001",
+          targetType: "user",
+        },
+      ],
+      hasMore: false,
+      nextCursor: null,
+    });
 
     const result = await listSystemAdminAuditEvents({
+      limit: 20,
       tenantId: MODULE_ROUTE_TEST_TENANT_ID,
     });
 
     expect(result.events).toHaveLength(1);
     expect(result.events[0]?.action).toBe("user.create");
     expect(auditMocks.listRecentAuditEvents).toHaveBeenCalledWith({
+      limit: 20,
       tenantId: MODULE_ROUTE_TEST_TENANT_ID,
     });
   });

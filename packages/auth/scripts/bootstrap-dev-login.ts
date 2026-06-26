@@ -11,6 +11,7 @@ import {
   DEV_VIEWER_LOGIN_EMAIL,
 } from "../src/bootstrap/dev-login.fixture.js";
 import { ensureDevAuthLogin } from "../src/bootstrap/ensure-dev-auth-login.js";
+import { ensureDevTenantSignInPresentation } from "../src/bootstrap/ensure-dev-tenant-sign-in-presentation.js";
 import { loadAuthScriptEnv } from "./load-env.js";
 
 loadAuthScriptEnv();
@@ -21,6 +22,17 @@ const password = resolveDevLoginPassword();
 const client = createDbClient();
 
 try {
+  const presentation = await ensureDevTenantSignInPresentation(client.db);
+  console.log(
+    JSON.stringify(
+      {
+        tenantSignInPresentation: presentation,
+      },
+      null,
+      2
+    )
+  );
+
   const result = await ensureDevAuthLogin({ email, password }, client.db);
 
   console.log("auth:bootstrap:dev complete");

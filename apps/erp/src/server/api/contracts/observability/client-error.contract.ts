@@ -17,6 +17,9 @@ export const clientErrorPostContract = {
   contextPolicy: "none",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.client-error.post",
+  summary: "Report client-side error",
+  description:
+    "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
   lifecycle: "active",
   method: "POST",
   owner: API_ROUTE_OWNER,

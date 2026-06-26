@@ -10,6 +10,7 @@ export interface ApiRouteCatalogEntry {
   readonly authPolicy: ApiRouteContract<unknown, unknown>["authPolicy"];
   readonly cache: ApiRouteContract<unknown, unknown>["cache"];
   readonly contextPolicy: ApiRouteContract<unknown, unknown>["contextPolicy"];
+  readonly description: string | null;
   readonly documentationPath: string;
   readonly id: string;
   readonly lifecycle: ApiRouteContract<unknown, unknown>["lifecycle"];
@@ -25,6 +26,7 @@ export interface ApiRouteCatalogEntry {
   readonly responseSchemaRef: string;
   readonly runtime: ApiRouteContract<unknown, unknown>["runtime"];
   readonly stability: ApiRouteContract<unknown, unknown>["stability"];
+  readonly summary: string;
   readonly tags: readonly string[];
   readonly testPaths: readonly string[];
   readonly version: ApiRouteContract<unknown, unknown>["version"];
@@ -55,6 +57,8 @@ export function toApiRouteCatalogEntry(
     requestSchemaRef: contract.requestSchemaRef,
     responseSchemaRef: contract.responseSchemaRef,
     runtime: contract.runtime,
+    summary: contract.summary,
+    description: contract.description ?? null,
     stability: contract.stability,
     tags: contract.tags,
     testPaths: contract.testPaths,
@@ -95,6 +99,12 @@ export function assertRouteGovernancePolicy(
 
   if (contract.testPaths.length === 0) {
     throw new Error(`Contract ${contract.id} must declare testPaths.`);
+  }
+
+  if (contract.summary.trim().length === 0) {
+    throw new Error(
+      `Contract ${contract.id} must declare a non-empty summary.`
+    );
   }
 
   if (isPublicAuthPolicy(contract.authPolicy)) {

@@ -1,7 +1,7 @@
 import {
-  AUTH_SHELL_V2_BRAND_HEADLINE,
-  AUTH_SHELL_V2_BRAND_SUPPORTING_TEXT,
-} from "@afenda/appshell/auth-shell-v2";
+  AUTH_SHELL_BRAND_HEADLINE,
+  AUTH_SHELL_BRAND_SUPPORTING_TEXT,
+} from "@afenda/appshell/auth-shell";
 import {
   buildDefaultTenantAppearanceSettings,
   buildDefaultTenantOAuthSettings,
@@ -12,6 +12,8 @@ import {
   type TenantNotificationsSettings,
   type TenantWorkspaceSettings,
 } from "@afenda/database";
+import { unstable_noStore as noStore } from "next/cache";
+
 import { resolveSystemAdminSectionAccess } from "./resolve-system-admin-section-access.server";
 import {
   buildCommunicationIntegrations,
@@ -155,14 +157,15 @@ export function buildDefaultAppearanceSettings(input: {
     ...buildDefaultTenantAppearanceSettings({
       productLabel: input.productLabel,
     }),
-    headline: AUTH_SHELL_V2_BRAND_HEADLINE,
-    supportingText: AUTH_SHELL_V2_BRAND_SUPPORTING_TEXT,
+    headline: AUTH_SHELL_BRAND_HEADLINE,
+    supportingText: AUTH_SHELL_BRAND_SUPPORTING_TEXT,
   };
 }
 
 export async function resolveAppearanceSettings(input: {
   readonly fallbackProductLabel: string;
 }): Promise<TenantAppearanceSettings> {
+  noStore();
   const access = await resolveSystemAdminSectionAccess("settings");
   if (access.kind !== "allowed") {
     return buildDefaultAppearanceSettings({
@@ -184,6 +187,7 @@ export async function resolveAppearanceSettings(input: {
 }
 
 export async function resolveIntegrationsSettings(): Promise<TenantIntegrationsSettings> {
+  noStore();
   const access = await resolveSystemAdminSectionAccess("settings");
   if (access.kind !== "allowed") {
     return buildDefaultIntegrationsSettings();

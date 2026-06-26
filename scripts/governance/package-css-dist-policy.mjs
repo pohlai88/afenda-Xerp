@@ -37,8 +37,8 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
         dist: "packages/appshell/dist/styles/afenda-appshell-studio.css",
       },
       {
-        src: "packages/appshell/src/auth-shell-V2/auth-shell-v2.css",
-        dist: "packages/appshell/dist/styles/auth-shell-v2.css",
+        src: "packages/appshell/src/auth-shell/auth-shell.css",
+        dist: "packages/appshell/dist/styles/auth-shell.css",
       },
     ],
   },

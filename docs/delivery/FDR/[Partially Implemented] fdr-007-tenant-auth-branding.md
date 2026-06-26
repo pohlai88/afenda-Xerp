@@ -7,12 +7,14 @@
 | **ARCH pairing** | [`ARCH-AUTH-003`](../../ARCH/ARCH-AUTH-003-tenant-auth-branding.md) |
 | **Packages** | `@afenda/database` · `@afenda/storage` · `@afenda/appshell` · `apps/erp` |
 | **Lane** | amber-lane |
-| **Runtime owner** | `apps/erp/src/lib/auth-v2` · `packages/appshell/src/auth-shell-V2` |
+| **Runtime owner** | `apps/erp/src/lib/auth` · `packages/appshell/src/auth-shell` |
 | **Index** | [`fdr-status-index.md`](../fdr-status-index.md) |
 
 ## Purpose
 
-Deliver end-to-end per-tenant auth shell branding: admin configures logo (R2), copy, and colors; persisted in `tenant_settings.appearance`; resolved server-side from `x-tenant-slug`; rendered via auth-shell-V2 `visual` slot.
+Deliver end-to-end per-tenant auth shell branding: admin configures logo (R2), copy, and colors; persisted in `tenant_settings.appearance`; resolved server-side from `x-tenant-slug`; rendered via `@afenda/appshell/auth-shell` `visual` slot on `(auth)` routes.
+
+> **Consolidation (2026-06-26):** Branding applies to canonical `(auth)` layout. Legacy `(auth-v2)` / `/v2/*` paths decommissioned.
 
 ## Scope
 
@@ -22,7 +24,7 @@ Deliver end-to-end per-tenant auth shell branding: admin configures logo (R2), c
 - First ERP `@afenda/storage` consumer: signed upload at `/api/internal/v1/storage/tenant-brand-logo`
 - `resolveTenantAuthBrand.server.ts` with `cache()` + active-tenant checks
 - `AuthShellBrandPanel` extensions (`logoUrl`, `brandColor`, `AuthShellBrandCopy`)
-- Async `(auth-v2)/layout.tsx` + `AuthV2EntryPage` visual forwarding
+- Async `(auth)/layout.tsx` + `AuthEntryPage` visual forwarding
 - System Admin Appearance panel at `/system-admin/settings/appearance`
 - CSP `img-src` for R2 signed URL origin
 - Gates: database/appshell/erp tests, `check:auth-shell-boundary`, `ui:guard:scan`, `check:package-css-dist-sync`
@@ -69,9 +71,9 @@ Upload guards: system-admin permission, MIME allowlist (`image/png`, `image/jpeg
 
 ```bash
 pnpm --filter @afenda/database test:run
-pnpm --filter @afenda/appshell test:run -- auth-shell-v2
+pnpm --filter @afenda/appshell test:run -- auth-shell
 pnpm --filter @afenda/erp typecheck
-pnpm --filter @afenda/erp exec vitest run src/lib/auth-v2
+pnpm --filter @afenda/erp exec vitest run src/lib/auth
 pnpm check:auth-shell-boundary
 pnpm ui:guard:scan
 pnpm sync:package-css-dist -- --package @afenda/appshell

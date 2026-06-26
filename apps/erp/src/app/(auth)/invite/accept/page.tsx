@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
+import { AUTH_PATHS } from "@/lib/auth/auth-path.registry";
 import { resolveInviteAcceptRedirect } from "@/lib/auth/auth-redirect.policy";
 
-export default async function InviteAcceptPage({
+export default async function AuthInviteAcceptPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -12,7 +13,7 @@ export default async function InviteAcceptPage({
   const email = readParam(params["email"]);
 
   if (invitationToken === undefined) {
-    redirect("/invite/expired");
+    redirect(AUTH_PATHS.invite.expired);
   }
 
   redirect(resolveInviteAcceptRedirect(invitationToken, email));

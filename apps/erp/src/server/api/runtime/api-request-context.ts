@@ -20,6 +20,7 @@ import type {
   ApiRouteContract,
   ApiRoutePermissionPolicy,
 } from "../contracts/api-contract";
+import type { PaginationQuery } from "../contracts/pagination.contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRequestContext<TRequest = undefined> {
@@ -29,6 +30,7 @@ export interface ApiRequestContext<TRequest = undefined> {
   readonly correlationId: string;
   readonly execution: ExecutionContext;
   readonly operatingContext: OperatingContext | null;
+  readonly paginationQuery?: PaginationQuery;
   readonly request: Request;
   readonly requestBody: TRequest;
   readonly requestId: string;
@@ -48,6 +50,7 @@ export function createApiRequestContext<TRequest>(input: {
   readonly userId: UserId | null;
   readonly authorization?: ResolvedAuthorizationContext | null;
   readonly authorizationDecision?: AuthorizationDecision | null;
+  readonly paginationQuery?: PaginationQuery;
 }): ApiRequestContext<TRequest> {
   return {
     authorization: input.authorization ?? null,
@@ -56,6 +59,9 @@ export function createApiRequestContext<TRequest>(input: {
     correlationId: input.correlationId,
     execution: input.execution,
     operatingContext: input.operatingContext ?? null,
+    ...(input.paginationQuery === undefined
+      ? {}
+      : { paginationQuery: input.paginationQuery }),
     request: input.request,
     requestBody: input.requestBody,
     requestId: input.requestId,

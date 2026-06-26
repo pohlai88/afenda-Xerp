@@ -1,72 +1,81 @@
+"use client";
+
 import {
+  AuthShellBrandHeader,
   AuthShellEntryPage,
   type AuthShellEntryPageProps,
 } from "@afenda/appshell/auth-shell";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import {
-  type AuthEntryRouteId,
-  resolveAuthEntryRouteCopy,
+  type AuthRouteId,
+  resolveAuthRouteCopy,
 } from "@/lib/auth/auth-route.registry";
+import type { TenantAuthBrand } from "@/lib/auth/tenant-auth-brand.contract";
 
-import { AuthPageChrome } from "./auth-page-chrome";
+import { useAuthBrand } from "./auth-brand-context";
+import { AuthPageFooter } from "./auth-page-footer";
 
 export type AuthEntryPageProps = Pick<AuthShellEntryPageProps, "children"> & {
-  readonly brandPanel?: ReactNode;
-  readonly footer?: ReactNode;
-  readonly route: AuthEntryRouteId;
+  readonly alternateAction?: ReactNode;
+  readonly brand?: TenantAuthBrand | null;
+  readonly legalNotice?: ReactNode;
+  readonly route: AuthRouteId;
   readonly showDefaultChrome?: boolean;
   readonly showRouteLinks?: boolean;
-  readonly showSecurityNote?: boolean;
-  readonly securityNote?: ReactNode;
 };
 
+function resolveBrandHeader(brand: TenantAuthBrand | null | undefined) {
+  if (!brand) {
+    return;
+  }
+
+  return (
+    <AuthShellBrandHeader
+      logoAlt={`${brand.productLabel} logo`}
+      {...(brand.logoUrl ? { logoUrl: brand.logoUrl } : {})}
+      productLabel={brand.productLabel}
+    />
+  );
+}
+
 /**
- * Canonical app-level auth page adapter.
- *
- * Ownership:
- * - resolves route-specific auth copy from AUTH_ROUTE_REGISTRY
- * - composes the shared AppShell auth entry page
- * - attaches default auth chrome when enabled
- *
- * Does not own:
- * - form mutation
- * - auth provider calls
- * - session validation
- * - redirect policy
- * - raw provider error mapping
+ * App adapter — composes @afenda/appshell/auth-shell centered card layout.
  */
 export function AuthEntryPage({
-  brandPanel,
+  alternateAction,
+  brand: brandOverride,
   children,
-  footer,
+  legalNotice,
   route,
   showDefaultChrome = true,
   showRouteLinks = true,
-  showSecurityNote = false,
-  securityNote,
 }: AuthEntryPageProps) {
-  const { formDescription, formEyebrow, formHeading } =
-    resolveAuthEntryRouteCopy(route);
+  const layoutBrand = useAuthBrand();
+  const brand = brandOverride ?? layoutBrand;
+  const { description, lane, title } = resolveAuthRouteCopy(route);
 
-  const resolvedFooter =
-    footer ??
+  const resolvedLegalNotice =
+    legalNotice ??
     (showDefaultChrome ? (
-      <AuthPageChrome
-        route={route}
-        securityNote={securityNote}
-        showRouteLinks={showRouteLinks}
-        showSecurityNote={showSecurityNote}
-      />
+      <AuthPageFooter route={route} showRouteLinks={showRouteLinks} />
     ) : null);
+
+  const shellStyle = brand
+    ? ({ "--primary": brand.primaryColor } as CSSProperties)
+    : undefined;
+
+  const brandHeader = resolveBrandHeader(brand);
 
   return (
     <AuthShellEntryPage
-      brandPanel={brandPanel}
-      formDescription={formDescription}
-      formEyebrow={formEyebrow}
-      formFooter={resolvedFooter}
-      formHeading={formHeading}
+      alternateAction={alternateAction}
+      description={description}
+      lane={lane}
+      legalNotice={resolvedLegalNotice}
+      {...(shellStyle ? { shellStyle } : {})}
+      title={title}
+      {...(brandHeader === undefined ? {} : { visual: brandHeader })}
     >
       {children}
     </AuthShellEntryPage>

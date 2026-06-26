@@ -1,4 +1,5 @@
-import type { AuthEntryRouteId } from "@/lib/auth/auth-route.registry";
+import type { AuthRouteId } from "@/lib/auth/auth-route.registry";
+
 import { AuthLegalLinks } from "./auth-legal-links";
 import { AuthRouteLinks } from "./auth-route-links";
 
@@ -6,7 +7,7 @@ export function AuthPageFooter({
   route,
   showRouteLinks = true,
 }: {
-  readonly route: AuthEntryRouteId;
+  readonly route: AuthRouteId;
   readonly showRouteLinks?: boolean;
 }) {
   return (

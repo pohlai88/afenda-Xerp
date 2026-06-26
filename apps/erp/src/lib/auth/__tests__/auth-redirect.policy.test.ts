@@ -37,7 +37,7 @@ describe("auth-redirect.policy", () => {
 
   it("routes security and session flows safely", () => {
     expect(resolveUnauthenticatedRedirect("/invoices")).toBe(
-      "/v2/sign-in?next=%2Finvoices"
+      "/sign-in?next=%2Finvoices"
     );
     expect(resolveSessionExpiredRedirect("/invoices")).toBe(
       "/session-expired?next=%2Finvoices"
@@ -50,13 +50,13 @@ describe("auth-redirect.policy", () => {
 
   it("builds invite accept redirect to sign-up", () => {
     expect(resolveInviteAcceptRedirect("token-123", "user@example.com")).toBe(
-      "/v2/sign-up?invitationToken=token-123&email=user%40example.com"
+      "/sign-up?invitationToken=token-123&email=user%40example.com"
     );
   });
 
   it("stubs post-auth entry to workspace select when multiple workspaces", () => {
     expect(resolvePostAuthEntry(null, { workspaceCount: 2 })).toBe(
-      "/v2/workspace/select"
+      "/workspace/select"
     );
     expect(resolvePostAuthEntry(null, { workspaceCount: 1 })).toBe("/");
   });

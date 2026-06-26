@@ -100,7 +100,7 @@ contract review, and future SDK work despite a complete Zod registry.
 | --- | --- | --- |
 | OpenAPI generator + snapshot + drift gate | **P0 — production mandatory** | Delivered |
 | Fumadocs reference (en) | **P1 — production hardening** | Delivered |
-| zh operation page translation | **P3 — enhancement backlog** | Stub index only |
+| zh operation page translation | **P3 — delivered** | 10 zh MDX pages + `meta.json` (2026-06-26) |
 | Public `/api/public/v1` OpenAPI | **P2 — excluded** | Separate ARCH/FDR |
 
 ---
@@ -150,7 +150,7 @@ Feature: OpenAPI internal v1 catalog
 | Dimension | Target | Evidence |
 | --- | ---: | --- |
 | Contract stability | 5/5 | Generator reads `API_CONTRACTS`; drift gate |
-| Test coverage | 4/5 | 10 openapi-document tests |
+| Test coverage | 4/5 | 21+ openapi-document tests + docs-openapi |
 | Documentation | 5/5 | This ARCH + Fumadocs pages + governance doc |
 | Maintainability | 5/5 | No parallel schema authority |
 
@@ -162,8 +162,8 @@ Feature: OpenAPI internal v1 catalog
 
 ```bash
 pnpm sync:openapi
-pnpm check:openapi-drift
 pnpm check:api-contracts
+pnpm lint:openapi
 pnpm --filter @afenda/erp test:run -- openapi
 pnpm --filter @afenda/docs typecheck
 pnpm --filter @afenda/docs test:run

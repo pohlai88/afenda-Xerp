@@ -84,7 +84,6 @@ export {
   hasBetterAuthConfig,
   isAuthChangeEmailEnabled,
   isAuthEmailDeliveryEnabled,
-  isAuthShellV2Default,
   RESEND_WEBHOOK_PATH,
   resolveBetterAuthBaseUrl,
   resolveBetterAuthEmailVerificationRedirectPath,

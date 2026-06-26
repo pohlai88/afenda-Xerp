@@ -141,6 +141,7 @@ export async function updateAppearanceSettingsAction(
   });
 
   revalidatePath("/system-admin/settings/appearance");
+  revalidatePath("/sign-in");
 
   await recordActionAudit({
     action: UPDATE_APPEARANCE_SETTINGS_ACTION,

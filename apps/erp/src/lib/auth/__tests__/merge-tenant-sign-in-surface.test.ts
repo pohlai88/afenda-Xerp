@@ -34,7 +34,15 @@ describe("mergeTenantSignInSurface", () => {
     });
   });
 
-  it("returns empty tenant methods when oauth settings are absent", () => {
+  it("returns platform providers when oauth settings are absent", () => {
+    expect(mergeTenantSignInSurface(platformSurface, undefined, 0)).toEqual({
+      passkeyEnabled: true,
+      socialProviderIds: ["google", "github"],
+      ssoEnabled: false,
+    });
+  });
+
+  it("returns empty tenant methods when oauth settings are explicitly null", () => {
     expect(mergeTenantSignInSurface(platformSurface, null, 0)).toEqual({
       passkeyEnabled: true,
       socialProviderIds: [],

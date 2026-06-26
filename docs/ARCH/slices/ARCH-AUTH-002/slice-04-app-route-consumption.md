@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 4 — App route consumption
 
+> **Historical slice handoff** — `(auth-v2)` and `/v2/*` paths below are **decommissioned**. Current consumer: `apps/erp/src/app/(auth)/` with canonical URLs (`/sign-in`, …).
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | Slices 2–3 ✓ |
 | **Slice** | 4 |
 | **Status** | Not started |

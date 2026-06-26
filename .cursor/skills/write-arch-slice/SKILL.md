@@ -16,7 +16,7 @@ Authors production-ready ARCH delivery documents and per-slice handoff files fol
 4. docs/architecture/afenda-runtime-truth-matrix.md
 5. packages/architecture-authority/src/data/foundation-disposition.registry.ts
 6. Reference: docs/ARCH/[Complete] ARCH-AUTH-001-enterprise-authentication.md
-7. Reference: docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md
+7. Reference: docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md
 ```
 
 ---
@@ -188,7 +188,7 @@ Update `docs/ARCH/arch-status-index.md`:
 ## Key conventions from real examples
 
 **ARCH-AUTH-002 pattern (use as reference):**
-- `§1` includes a paste-ready agent command block with skill shortcuts (`/auth-shell-v2 /afenda-ui-quality …`)
+- `§1` includes a paste-ready agent command block with skill shortcuts (`/auth-shell /afenda-ui-quality …`)
 - `§2` repeats the target item table from the header for executor context
 - `§3` includes an ownership boundary comparison table (ARCH-X vs ARCH-Y) when related ARCHes exist
 - `§6` uses numbered subsections (`§6.1`, `§6.2`…) for large scope; includes code blocks for contract shapes
@@ -222,7 +222,7 @@ Update `docs/ARCH/arch-status-index.md`:
 ## Reference files
 
 - Template: `docs/ARCH/ARCH-TEMPLATE.md`
-- Real example (Partially Implemented): `docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md`
+- Real example (Complete): `docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md`
 - Real example (Complete): `docs/ARCH/[Complete] ARCH-AUTH-001-enterprise-authentication.md`
 - Slice example: `docs/ARCH/slices/ARCH-AUTH-002/slice-02-package-contracts-components.md`
 - Index: `docs/ARCH/arch-status-index.md`

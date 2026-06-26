@@ -6,7 +6,7 @@ import {
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { buildAuthV2Path } from "@/lib/auth-v2/auth-v2-path.registry";
+import { buildAuthPath } from "@/lib/auth/auth-path.registry";
 
 import {
   persistMfaChallengeCookie,
@@ -21,7 +21,7 @@ import { resolveSafeInternalPath } from "./resolve-safe-internal-path";
 export async function gatePasswordlessTwoFactorBeforePostAuth(
   nextParam: string | null | undefined,
   mfaPathBuilder: (next: string) => string = (next) =>
-    buildAuthV2Path("mfa", next.length > 0 ? { next } : undefined)
+    buildAuthPath("mfa", next.length > 0 ? { next } : undefined)
 ): Promise<void> {
   if (!isAfendaAuthPasswordlessTwoFactorEnforcementActive()) {
     return;

@@ -1,0 +1,336 @@
+/**
+ * AUTH-SHELL-V2 — premium centered card layout (login-page-01 DNA).
+ *
+ * Token-driven shell chrome. Form rhythm stays in apps/erp/(auth)/auth.css.
+ */
+
+@layer components {
+  .af-auth-shell {
+    --af-auth-shell-gap: var(--afenda-spacing-4);
+    --af-auth-shell-card-width: min(100%, 26rem);
+    --af-auth-shell-card-padding: var(--afenda-spacing-6);
+
+    display: block;
+    width: 100%;
+    min-height: 100dvh;
+    color: var(--foreground);
+    /* Premium layered background: subtle brand radial + base */
+    background:
+      radial-gradient(
+        ellipse 90% 55% at 50% -5%,
+        color-mix(in oklab, var(--primary) 7%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 80% 110%,
+        color-mix(in oklab, var(--primary) 4%, transparent),
+        transparent 70%
+      ),
+      var(--background);
+  }
+
+  .af-auth-shell__skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 100;
+    padding: var(--afenda-spacing-2) var(--afenda-spacing-3);
+    border-radius: var(--afenda-radius-sm);
+    background: var(--card);
+    color: var(--foreground);
+    text-decoration: none;
+  }
+
+  .af-auth-shell__skip-link:focus {
+    left: var(--afenda-spacing-4);
+    top: var(--afenda-spacing-4);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 35%, transparent);
+  }
+
+  .af-auth-shell__viewport {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: safe center;
+    width: 100%;
+    min-height: 100dvh;
+    padding: max(var(--afenda-spacing-3), env(safe-area-inset-top, 0px))
+      max(var(--afenda-spacing-4), env(safe-area-inset-inline, 0px))
+      max(var(--afenda-spacing-3), env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+  }
+
+  .af-auth-shell__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--af-auth-shell-gap);
+    width: var(--af-auth-shell-card-width);
+    padding: var(--af-auth-shell-card-padding);
+    /* Premium border: subtle brand tint at 12% */
+    border: 1px solid color-mix(in oklab, var(--border) 88%, var(--primary) 12%);
+    border-radius: var(--afenda-radius-xl);
+    /* Premium card: very light brand surface tint */
+    background: color-mix(in oklab, var(--card) 97%, var(--primary) 3%);
+    color: var(--card-foreground);
+    /* Premium shadow stack: ring + elevation + soft glow */
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--primary) 6%, transparent),
+      var(--afenda-shadow-md),
+      0 20px 40px -8px color-mix(in oklab, var(--primary) 10%, transparent);
+  }
+
+  .af-auth-shell__brand-header {
+    display: flex;
+    justify-content: center;
+    padding-block-end: var(--afenda-spacing-1);
+  }
+
+  .af-auth-shell__brand-header-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .af-auth-shell__brand-header-logo {
+    display: block;
+    max-height: 2.5rem;
+    max-width: 10rem;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .af-auth-shell__brand-header-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--foreground);
+    letter-spacing: -0.01em;
+  }
+
+  .af-auth-shell__visual {
+    display: none;
+  }
+
+  .af-auth-shell__frame {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+  }
+
+  .af-auth-shell__form-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+    width: 100%;
+  }
+
+  .af-auth-shell__form-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-1);
+    text-align: center;
+  }
+
+  .af-auth-shell__eyebrow {
+    display: none;
+  }
+
+  .af-auth-shell__title {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--foreground);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .af-auth-shell__description {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--muted-foreground);
+    text-wrap: pretty;
+  }
+
+  .af-auth-shell__form-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+  }
+
+  .af-auth-shell__footer,
+  .af-auth-shell__legal-notice,
+  .af-auth-shell__alternate-action,
+  .af-auth-shell__escape-action,
+  .af-auth-shell__support,
+  .af-auth-shell__shell-footer,
+  .af-auth-shell__card-footer {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  .af-auth-shell__card-footer {
+    padding-block-start: var(--afenda-spacing-3);
+    margin-block-start: var(--afenda-spacing-1);
+    border-block-start: 1px solid
+      color-mix(in oklab, var(--border) 80%, transparent);
+  }
+
+  .af-auth-shell__support {
+    position: fixed;
+    inset-block-end: max(
+      var(--afenda-spacing-4),
+      env(safe-area-inset-bottom, 0px)
+    );
+    inset-inline: 0;
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--afenda-spacing-4);
+    text-align: center;
+  }
+
+  .af-auth-shell__error {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    padding: var(--afenda-spacing-6);
+    background: var(--background);
+  }
+
+  .af-auth-shell__error-alert,
+  .af-auth-shell__status {
+    width: min(100%, 28rem);
+    padding: var(--afenda-spacing-8);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-xl);
+    background: var(--card);
+    box-shadow: var(--afenda-shadow-sm);
+  }
+
+  .af-auth-shell__error-alert[data-tone="warning"] {
+    border-color: color-mix(in oklab, var(--destructive) 35%, var(--border));
+  }
+
+  .af-auth-shell__error-alert[data-tone="critical"],
+  .af-auth-shell__error-alert[data-tone="forbidden"] {
+    border-color: color-mix(in oklab, var(--destructive) 45%, var(--border));
+  }
+
+  .af-auth-shell__error-alert[data-tone="expired"] {
+    border-color: color-mix(in oklab, var(--destructive) 28%, var(--border));
+  }
+
+  .af-auth-shell__status[data-tone="positive"] {
+    border-color: color-mix(in oklab, var(--primary) 28%, var(--border));
+  }
+
+  .af-auth-shell__status[data-tone="info"] {
+    border-color: color-mix(in oklab, var(--primary) 22%, var(--border));
+  }
+
+  .af-auth-shell__error-eyebrow {
+    margin: 0 0 var(--afenda-spacing-2);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+  }
+
+  .af-auth-shell__error-title,
+  .af-auth-shell__status-heading {
+    margin: 0 0 var(--afenda-spacing-3);
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--foreground);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .af-auth-shell__error-description,
+  .af-auth-shell__status-description {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+    text-wrap: pretty;
+  }
+
+  .af-auth-shell__error-reason {
+    margin: var(--afenda-spacing-3) 0 0;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+
+  .af-auth-shell__error-actions,
+  .af-auth-shell__status-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+    margin-top: var(--afenda-spacing-5);
+  }
+
+  .af-auth-shell__error-actions [data-component="Button"][data-slot="button"],
+  .af-auth-shell__status-actions [data-component="Button"][data-slot="button"] {
+    width: 100%;
+  }
+
+  /* Legacy brand panel — retained for Storybook / optional full-bleed modes */
+  .af-auth-shell__brand {
+    display: grid;
+    gap: var(--afenda-spacing-4);
+    max-width: 28rem;
+  }
+
+  .af-auth-shell__brand-mark {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+  }
+
+  .af-auth-shell__brand-logo {
+    display: block;
+    max-height: 2.75rem;
+    max-width: 12rem;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .af-auth-shell__brand-product {
+    display: inline-flex;
+    width: fit-content;
+    padding: var(--afenda-spacing-1) var(--afenda-spacing-3);
+    border: 1px solid var(--border);
+    border-radius: var(--afenda-radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .af-auth-shell__brand-headline {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .af-auth-shell__brand-supporting {
+    margin: 0;
+    max-width: 36ch;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .af-auth-shell,
+    .af-auth-shell * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 6 — Visual QA and Storybook
 
+> **Historical slice handoff** — Storybook fixtures at `packages/appshell/src/auth-shell/auth-shell.stories.tsx` (consolidated naming).
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | Slices 2–5 ✓ |
 | **Slice** | 6 |
 | **Status** | Not started |
@@ -26,7 +28,7 @@ Handoff from: docs/ARCH/slices/ARCH-AUTH-002/slice-06-storybook-visual-qa.md
                   docs/ARCH/slices/ARCH-AUTH-002/slice-index.md
                   docs/ARCH/arch-status-index.md (status promotion if gates pass)
                   docs/architecture/afenda-runtime-truth-matrix.md
-                  docs/ARCH/[Partially Implemented] ARCH-AUTH-002-auth-shell-v2.md (rename if promoted)
+                  docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md
 4. Prohibited   — real auth provider calls in stories · apps/erp form imports in stories
 5. Authority    — afenda-storybook skill · ARCH-AUTH-002 §6 · ADR-0017 promotion pipeline
 6. Gates        —

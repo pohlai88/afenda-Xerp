@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
-import { AuthStatePage } from "@/app/(auth)/_components/auth-state-page";
 import {
   AUTH_INVITE_COPY,
   AUTH_RECOVER_COPY,
@@ -21,36 +21,49 @@ import {
 } from "@/lib/auth/resolve-auth-entry-error";
 import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
 
-export function VerifyEmailSentState() {
+export function AuthVerifyEmailSentState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_VERIFY_COPY.sentHint, AUTH_VERIFY_COPY.spamHint]}
-      lead={AUTH_VERIFY_COPY.sentLead}
-      route="verifyEmailSent"
-      tone="positive"
-    />
+    <AuthForm.Root>
+      <AuthForm.NoticePositive
+        hints={[AUTH_VERIFY_COPY.sentHint, AUTH_VERIFY_COPY.spamHint]}
+        lead={AUTH_VERIFY_COPY.sentLead}
+      />
+      <AuthForm.Alternates>
+        <AuthForm.AlternateNotice>
+          <Link className="erp-auth-form__link" href={buildAuthPath("signIn")}>
+            Return to sign in
+          </Link>
+        </AuthForm.AlternateNotice>
+      </AuthForm.Alternates>
+    </AuthForm.Root>
   );
 }
 
-export function VerifyEmailExpiredState() {
+export function AuthVerifyEmailExpiredState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_VERIFY_COPY.expiredHint]}
-      lead={AUTH_VERIFY_COPY.expiredLead}
-      route="verifyEmailExpired"
-      tone="negative"
-    />
+    <AuthForm.Root>
+      <AuthForm.NoticeCaution
+        hints={[AUTH_VERIFY_COPY.expiredHint]}
+        lead={AUTH_VERIFY_COPY.expiredLead}
+      />
+      <AuthForm.Alternates>
+        <AuthForm.AlternateNotice>
+          <Link className="erp-auth-form__link" href={buildAuthPath("signIn")}>
+            Return to sign in
+          </Link>
+        </AuthForm.AlternateNotice>
+      </AuthForm.Alternates>
+    </AuthForm.Root>
   );
 }
 
-export function VerifyEmailSuccessState() {
+export function AuthVerifyEmailSuccessState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_VERIFY_COPY.successHint]}
-      lead={AUTH_VERIFY_COPY.successLead}
-      route="verifyEmailSuccess"
-      tone="positive"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticePositive
+        hints={[AUTH_VERIFY_COPY.successHint]}
+        lead={AUTH_VERIFY_COPY.successLead}
+      />
       <AuthForm.Alternates>
         <AuthForm.AlternateNotice>
           <Link className="erp-auth-form__link" href={buildAuthPath("signIn")}>
@@ -58,18 +71,17 @@ export function VerifyEmailSuccessState() {
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function ResetPasswordSuccessState() {
+export function AuthResetPasswordSuccessState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_RECOVER_COPY.resetSuccessHint]}
-      lead={AUTH_RECOVER_COPY.resetSuccessLead}
-      route="resetPasswordSuccess"
-      tone="positive"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticePositive
+        hints={[AUTH_RECOVER_COPY.resetSuccessHint]}
+        lead={AUTH_RECOVER_COPY.resetSuccessLead}
+      />
       <AuthForm.Alternates>
         <AuthForm.AlternateNotice>
           <Link
@@ -80,21 +92,20 @@ export function ResetPasswordSuccessState() {
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function SessionExpiredState() {
+export function AuthSessionExpiredState() {
   const searchParams = useSearchParams();
   const nextPath = resolveSafeInternalPath(searchParams.get("next"), "");
 
   return (
-    <AuthStatePage
-      hints={[AUTH_SECURITY_COPY.sessionExpiredHint]}
-      lead={AUTH_SECURITY_COPY.sessionExpiredLead}
-      route="sessionExpired"
-      tone="negative"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticeCaution
+        hints={[AUTH_SECURITY_COPY.sessionExpiredHint]}
+        lead={AUTH_SECURITY_COPY.sessionExpiredLead}
+      />
       <AuthForm.Alternates>
         <AuthForm.AlternateNotice>
           <Link
@@ -107,11 +118,11 @@ export function SessionExpiredState() {
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function AccessDeniedState() {
+export function AuthAccessDeniedState() {
   const searchParams = useSearchParams();
   const reason = resolveAuthEntryError(searchParams.get("reason"));
   const lead =
@@ -124,75 +135,43 @@ export function AccessDeniedState() {
       : AUTH_SECURITY_COPY.accessDeniedHint;
 
   return (
-    <AuthStatePage
-      hints={[hint]}
-      lead={lead}
-      route="accessDenied"
-      tone="negative"
-    />
-  );
-}
-
-export function WorkspaceSelectStubState() {
-  return (
-    <AuthStatePage
-      hints={[AUTH_WORKSPACE_STUB_COPY.workspaceSelectHint]}
-      lead={AUTH_WORKSPACE_STUB_COPY.workspaceSelectLead}
-      route="workspaceSelect"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticeCaution hints={[hint]} lead={lead} />
       <AuthForm.Alternates>
         <AuthForm.AlternateNotice>
-          <Link className="erp-auth-form__link" href="/">
-            Continue to workspace
+          <Link className="erp-auth-form__link" href={buildAuthPath("signIn")}>
+            Return to sign in
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function OrganizationSelectStubState() {
+export function AuthSecurityReviewState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_WORKSPACE_STUB_COPY.organizationSelectHint]}
-      lead={AUTH_WORKSPACE_STUB_COPY.organizationSelectLead}
-      route="organizationSelect"
-    >
-      <AuthForm.Alternates>
-        <AuthForm.AlternateNotice>
-          <Link className="erp-auth-form__link" href="/">
-            Continue to workspace
-          </Link>
-        </AuthForm.AlternateNotice>
-      </AuthForm.Alternates>
-    </AuthStatePage>
-  );
-}
-
-export function SecurityReviewState() {
-  return (
-    <AuthStatePage
-      hints={[AUTH_SECURITY_COPY.securityReviewHint]}
-      lead={AUTH_SECURITY_COPY.securityReviewLead}
-      route="securityReview"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticeNeutral
+        hints={[AUTH_SECURITY_COPY.securityReviewHint]}
+        lead={AUTH_SECURITY_COPY.securityReviewLead}
+      />
       <AuthSecurityReviewPanel
         formClassName="erp-auth-form__security-review"
         linkClassName="erp-auth-form__link"
         listClassName="erp-auth-form__security-review-steps"
         signInPath={buildAuthPath("signIn")}
       />
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function InviteLandingState() {
+export function AuthInviteLandingState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_INVITE_COPY.inviteLandingHint]}
-      lead={AUTH_INVITE_COPY.inviteLandingLead}
-      route="invite"
-    >
+    <AuthForm.Root>
+      <AuthForm.NoticePositive
+        hints={[AUTH_INVITE_COPY.inviteLandingHint]}
+        lead={AUTH_INVITE_COPY.inviteLandingLead}
+      />
       <AuthForm.Alternates>
         <AuthForm.AlternateNotice>
           <Link
@@ -203,17 +182,60 @@ export function InviteLandingState() {
           </Link>
         </AuthForm.AlternateNotice>
       </AuthForm.Alternates>
-    </AuthStatePage>
+    </AuthForm.Root>
   );
 }
 
-export function InviteExpiredState() {
+export function AuthInviteExpiredState() {
   return (
-    <AuthStatePage
-      hints={[AUTH_INVITE_COPY.inviteExpiredHint]}
-      lead={AUTH_INVITE_COPY.inviteExpiredLead}
-      route="inviteExpired"
-      tone="negative"
-    />
+    <AuthForm.Root>
+      <AuthForm.NoticeCaution
+        hints={[AUTH_INVITE_COPY.inviteExpiredHint]}
+        lead={AUTH_INVITE_COPY.inviteExpiredLead}
+      />
+      <AuthForm.Alternates>
+        <AuthForm.AlternateNotice>
+          <Link className="erp-auth-form__link" href={buildAuthPath("signIn")}>
+            Return to sign in
+          </Link>
+        </AuthForm.AlternateNotice>
+      </AuthForm.Alternates>
+    </AuthForm.Root>
+  );
+}
+
+export function AuthOrganizationSelectStubState() {
+  return (
+    <AuthForm.Root>
+      <AuthForm.NoticeNeutral
+        hints={[AUTH_WORKSPACE_STUB_COPY.organizationSelectHint]}
+        lead={AUTH_WORKSPACE_STUB_COPY.organizationSelectLead}
+      />
+      <AuthForm.Alternates>
+        <AuthForm.AlternateNotice>
+          <Link className="erp-auth-form__link" href="/">
+            Continue to workspace
+          </Link>
+        </AuthForm.AlternateNotice>
+      </AuthForm.Alternates>
+    </AuthForm.Root>
+  );
+}
+
+export function AuthWorkspaceSelectStubState() {
+  return (
+    <AuthForm.Root>
+      <AuthForm.NoticeNeutral
+        hints={[AUTH_WORKSPACE_STUB_COPY.workspaceSelectHint]}
+        lead={AUTH_WORKSPACE_STUB_COPY.workspaceSelectLead}
+      />
+      <AuthForm.Alternates>
+        <AuthForm.AlternateNotice>
+          <Link className="erp-auth-form__link" href="/">
+            Continue to workspace
+          </Link>
+        </AuthForm.AlternateNotice>
+      </AuthForm.Alternates>
+    </AuthForm.Root>
   );
 }

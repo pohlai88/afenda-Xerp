@@ -18,18 +18,23 @@ function toAuditEventDto(row: AdminAuditEventRow): SystemAdminAuditEventRowDto {
 }
 
 export async function listSystemAdminAuditEvents(input: {
-  readonly limit?: number;
+  readonly cursor?: string;
+  readonly limit: number;
   readonly tenantId: string;
-}): Promise<{ readonly events: readonly SystemAdminAuditEventRowDto[] }> {
-  const events =
-    input.limit === undefined
-      ? await listRecentAuditEvents({ tenantId: input.tenantId })
-      : await listRecentAuditEvents({
-          limit: input.limit,
-          tenantId: input.tenantId,
-        });
+}): Promise<{
+  readonly events: readonly SystemAdminAuditEventRowDto[];
+  readonly hasMore: boolean;
+  readonly nextCursor: string | null;
+}> {
+  const result = await listRecentAuditEvents({
+    limit: input.limit,
+    tenantId: input.tenantId,
+    ...(input.cursor === undefined ? {} : { cursor: input.cursor }),
+  });
 
   return {
-    events: events.map(toAuditEventDto),
+    events: result.events.map(toAuditEventDto),
+    hasMore: result.hasMore,
+    nextCursor: result.nextCursor,
   };
 }

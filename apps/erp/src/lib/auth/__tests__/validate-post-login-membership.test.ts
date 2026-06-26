@@ -57,7 +57,7 @@ describe("validatePostLoginMembership", () => {
       })
     ).resolves.toMatchObject({
       activeMembershipCount: 0,
-      entryPath: "/v2/access-denied?reason=unlinked",
+      entryPath: "/access-denied?reason=unlinked",
       requiresWorkspaceSelect: false,
     });
   });
@@ -92,7 +92,7 @@ describe("validatePostLoginMembership", () => {
       })
     ).resolves.toMatchObject({
       activeMembershipCount: 1,
-      entryPath: "/v2/workspace/select",
+      entryPath: "/workspace/select",
       requiresWorkspaceSelect: true,
       workspaceTargetCount: 2,
     });

@@ -1,18 +1,17 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
-import { ResetPasswordForm } from "@/app/(auth)/_components/reset-password-form";
-import { ResetPasswordFormFallback } from "@/app/(auth)/_components/reset-password-form-fallback";
+import { AuthResetPasswordForm } from "@/app/(auth)/_components/auth-reset-password-form";
+import { AuthResetPasswordFormFallback } from "@/app/(auth)/_components/auth-reset-password-form-fallback";
 import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
 
-export const metadata: Metadata = AUTH_ROUTE_REGISTRY.resetPassword.metadata;
+export const metadata = AUTH_ROUTE_REGISTRY.resetPassword.metadata;
 
-export default function ResetPasswordPage() {
+export default function AuthResetPasswordPage() {
   return (
     <AuthEntryPage route="resetPassword">
-      <Suspense fallback={<ResetPasswordFormFallback />}>
-        <ResetPasswordForm />
+      <Suspense fallback={<AuthResetPasswordFormFallback />}>
+        <AuthResetPasswordForm />
       </Suspense>
     </AuthEntryPage>
   );

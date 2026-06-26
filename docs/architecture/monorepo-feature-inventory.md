@@ -254,7 +254,7 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 | **Domain packages PKG-R02–R05** | No Inventory, HRM, CRM, Procurement runtime | ADR + registry promotion before filesystem | No `packages/inventory` etc. on disk |
 | **In-memory invitations (`AUTH-INV-001`)** | Invites not durable across restarts | Durable `member_invitations` table + ARCH-AUTH waiver closeout | [`ARCH-AUTH-001`](../ARCH/[Partially%20Implemented]%20ARCH-AUTH-001-enterprise-authentication.md) §Remaining gaps |
 | **MFA enroll UI (`AUTH-MFA-UI-001`)** | Policy exists; user enrollment surface missing | ARCH-AUTH-001 waiver track | Same ARCH doc |
-| **Profile email change UI** | Email change deferred to auth v2 | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 v2 gap (not Complete blocker) | [`ARCH-USER-001`](../ARCH/[Complete]%20ARCH-USER-001-user-settings-self-service.md) §15 |
+| **Profile email change UI** | Self-service email change not wired in settings | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 gap (not Complete blocker) | [`ARCH-USER-001`](../ARCH/[Complete]%20ARCH-USER-001-user-settings-self-service.md) §15 |
 | **System admin settings audit waiver** | ~~Mutation audit incomplete for some settings blocks~~ | ARCH-ADMIN-001 Slice 5 **closed** · **Complete** 2026-06-25 | `check:system-admin-mutation-audit` exit 0 |
 | **Storybook runner (400/1860 failures)** | Visual regression gate broken | `fdr-021-storybook` Slice 3 | Runtime matrix row — not re-run this pass |
 | **AI governance test failure** | `quality:ai-governance` not fully green | [`packages/ai-governance/`](../packages/ai-governance/) | **38/39 pass** — 1 failing boundary test (Appendix A.4) |

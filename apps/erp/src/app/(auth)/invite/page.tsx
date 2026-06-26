@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
-import { InviteLandingState } from "@/app/(auth)/_components/auth-journey-states";
+import { AuthInviteLandingState } from "@/app/(auth)/_components/auth-journey-states";
 import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
 
-export const metadata: Metadata = AUTH_ROUTE_REGISTRY.invite.metadata;
+export const metadata = AUTH_ROUTE_REGISTRY.invite.metadata;
 
-export default function InvitePage() {
+export default function AuthInvitePage() {
   return (
     <AuthEntryPage route="invite">
-      <InviteLandingState />
+      <AuthInviteLandingState />
     </AuthEntryPage>
   );
 }

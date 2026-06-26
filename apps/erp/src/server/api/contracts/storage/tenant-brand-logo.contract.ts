@@ -23,6 +23,9 @@ export const tenantBrandLogoUploadPostContract = {
   contextPolicy: "tenant-required",
   documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.storage.tenant-brand-logo.post",
+  summary: "Initiate tenant brand logo upload",
+  description:
+    "Returns a presigned upload URL and metadata for uploading a tenant brand logo. Request body specifies filename, MIME type, and size.",
   idempotency: { mode: "optional" },
   lifecycle: "active",
   method: "POST",

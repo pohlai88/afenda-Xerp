@@ -2,7 +2,7 @@
 
 import { RouteSegmentError } from "@/components/route-segment-error";
 
-import "../globals.css";
+import "./globals.css";
 
 interface GlobalErrorProps {
   readonly error: Error & { digest?: string };

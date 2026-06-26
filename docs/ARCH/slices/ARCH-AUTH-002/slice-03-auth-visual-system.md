@@ -1,8 +1,10 @@
 # ARCH-AUTH-002 · Slice 3 — Dedicated auth visual system (CSS)
 
+> **Historical slice handoff** — superseded for coding by consolidation (2026-06-26). Shell CSS lives at `packages/appshell/src/auth-shell/auth-shell.css`.
+
 | Field | Value |
 | --- | --- |
-| **Parent** | [`ARCH-AUTH-002`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
+| **Parent** | [`ARCH-AUTH-002`](../../%5BComplete%5D%20ARCH-AUTH-002-auth-shell.md) |
 | **Prerequisite** | Slice 2 ✓ |
 | **Slice** | 3 |
 | **Status** | Not started |

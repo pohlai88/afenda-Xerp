@@ -1,13 +1,9 @@
-import { isAuthShellV2Default } from "@afenda/auth";
 import { findTenantBySlug } from "@afenda/database";
 import { isMembershipActive } from "@afenda/permissions";
 
 import { loadActorMemberships } from "@/lib/context/load-actor-memberships.server";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
-import {
-  AUTH_V2_PATHS,
-  buildAuthV2Path,
-} from "../auth-v2/auth-v2-path.registry";
+
 import { AUTH_PATHS, buildAuthPath } from "./auth-path.registry";
 import { DEFAULT_SAFE_INTERNAL_PATH } from "./resolve-safe-internal-path";
 
@@ -18,43 +14,6 @@ export type PostLoginMembershipValidation = {
   readonly requiresWorkspaceSelect: boolean;
   readonly workspaceTargetCount: number;
 };
-
-function resolveUnlinkedEntryPath(): string {
-  return isAuthShellV2Default()
-    ? buildAuthV2Path("accessDenied", { reason: "unlinked" })
-    : buildAuthPath("accessDenied", { reason: "unlinked" });
-}
-
-function resolveMissingTenantEntryPath(): string {
-  return isAuthShellV2Default()
-    ? AUTH_V2_PATHS.accessDenied
-    : AUTH_PATHS.accessDenied;
-}
-
-function resolveWorkspaceSelectEntryPath(): string {
-  return isAuthShellV2Default()
-    ? AUTH_V2_PATHS.workspaceSelect
-    : AUTH_PATHS.workspaceSelect;
-}
-
-function resolveOrganizationSelectEntryPath(): string {
-  return isAuthShellV2Default()
-    ? AUTH_V2_PATHS.organizationSelect
-    : AUTH_PATHS.organizationSelect;
-}
-
-function countDistinctCompanySlugs(
-  targets: readonly { readonly companySlug: string }[]
-): number {
-  return new Set(targets.map((target) => target.companySlug)).size;
-}
-
-function countOrganizationTargets(
-  targets: readonly { readonly organizationSlug?: string }[]
-): number {
-  return targets.filter((target) => target.organizationSlug !== undefined)
-    .length;
-}
 
 /**
  * Validates platform memberships after authentication and resolves the post-login entry path.
@@ -69,7 +28,7 @@ export async function validatePostLoginMembership(input: {
   if (tenant === null) {
     return {
       activeMembershipCount: 0,
-      entryPath: resolveMissingTenantEntryPath(),
+      entryPath: AUTH_PATHS.accessDenied,
       requiresOrganizationSelect: false,
       requiresWorkspaceSelect: false,
       workspaceTargetCount: 0,
@@ -86,7 +45,7 @@ export async function validatePostLoginMembership(input: {
   if (activeMembershipCount === 0) {
     return {
       activeMembershipCount: 0,
-      entryPath: resolveUnlinkedEntryPath(),
+      entryPath: buildAuthPath("accessDenied", { reason: "unlinked" }),
       requiresOrganizationSelect: false,
       requiresWorkspaceSelect: false,
       workspaceTargetCount: 0,
@@ -113,15 +72,17 @@ export async function validatePostLoginMembership(input: {
     };
   }
 
-  const companyCount = countDistinctCompanySlugs(allowedOptions.targets);
-  const organizationTargetCount = countOrganizationTargets(
-    allowedOptions.targets
-  );
+  const companyCount = new Set(
+    allowedOptions.targets.map((target) => target.companySlug)
+  ).size;
+  const organizationTargetCount = allowedOptions.targets.filter(
+    (target) => target.organizationSlug !== undefined
+  ).length;
 
   if (companyCount === 1 && organizationTargetCount > 1) {
     return {
       activeMembershipCount,
-      entryPath: resolveOrganizationSelectEntryPath(),
+      entryPath: AUTH_PATHS.organizationSelect,
       requiresOrganizationSelect: true,
       requiresWorkspaceSelect: false,
       workspaceTargetCount,
@@ -130,7 +91,7 @@ export async function validatePostLoginMembership(input: {
 
   return {
     activeMembershipCount,
-    entryPath: resolveWorkspaceSelectEntryPath(),
+    entryPath: AUTH_PATHS.workspaceSelect,
     requiresOrganizationSelect: false,
     requiresWorkspaceSelect: true,
     workspaceTargetCount,

@@ -1,9 +1,12 @@
+import type {
+  AuthShellEntryLane,
+  AuthShellSerializableCopy,
+} from "@afenda/appshell/auth-shell";
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 
 import { internalErpMetadata } from "@/lib/metadata/site-metadata";
 
-import { AUTH_PATHS, type AuthLane } from "./auth-path.registry";
+import { AUTH_PATHS, authFormEyebrow } from "./auth-path.registry";
 
 function authRouteMetadata(title: string): Metadata {
   return {
@@ -12,294 +15,194 @@ function authRouteMetadata(title: string): Metadata {
   };
 }
 
-const AUTH_LANE_EYEBROW_LABEL: Record<AuthLane, string> = {
-  access: "Access",
-  verify: "Verify",
-  recover: "Recovery",
-  invite: "Invite",
-  workspace: "Workspace",
-  security: "Security",
-};
-
-function authFormEyebrow(lane: AuthLane, path: string): string {
-  return `${AUTH_LANE_EYEBROW_LABEL[lane]} Lane · ${path}`;
+/** Serializable route copy aligned with `@afenda/appshell/auth-shell` lane contracts. */
+export interface AuthRouteEntryCopy
+  extends Required<AuthShellSerializableCopy> {
+  readonly lane: AuthShellEntryLane;
 }
 
-export type AuthRouteStatusVariant = "form" | "status" | "error" | "success";
-
-export interface AuthRouteEntryCopy {
-  readonly formDescription: ReactNode;
-  readonly formEyebrow: ReactNode;
-  readonly formHeading: ReactNode;
-}
-
-type AuthRouteRegistryFormEntry = {
-  readonly formDescription: string;
-  readonly formEyebrow: string;
-  readonly formHeading: string;
+type AuthRouteFormEntry = AuthShellSerializableCopy & {
   readonly metadata: Metadata;
-  readonly lane: AuthLane;
-  readonly statusVariant: AuthRouteStatusVariant;
+  readonly lane: AuthShellEntryLane;
   readonly skeletonLabel: string;
-};
-
-type AuthRouteFormEntry = AuthRouteRegistryFormEntry;
-
-type AuthRouteSegmentErrorEntry = {
-  readonly eyebrow: string;
-  readonly title: string;
-  readonly description: string;
-  readonly retryLabel: string;
-  readonly metadata: Metadata;
-  readonly lane: "security";
-  readonly statusVariant: "error";
 };
 
 export const AUTH_ROUTE_REGISTRY = {
   signIn: {
-    formEyebrow: authFormEyebrow("access", AUTH_PATHS.signIn),
-    formHeading: "Sign in to Afenda ERP",
-    formDescription:
+    eyebrow: authFormEyebrow("access", AUTH_PATHS.signIn),
+    title: "Sign in to Afenda ERP",
+    description:
       "Authenticate with your organization credentials to enter your workspace.",
     metadata: authRouteMetadata("Sign in"),
-    skeletonLabel: "Loading sign-in…",
     lane: "access",
-    statusVariant: "form",
+    skeletonLabel: "Loading sign-in…",
   },
   signUp: {
-    formEyebrow: authFormEyebrow("access", AUTH_PATHS.signUp),
-    formHeading: "Create account",
-    formDescription:
-      "Your invitation is the key to this workspace. Complete your profile to join your organization.",
+    eyebrow: authFormEyebrow("access", AUTH_PATHS.signUp),
+    title: "Create account",
+    description: "Complete your profile to join your organization workspace.",
     metadata: authRouteMetadata("Create account"),
+    lane: "access",
     skeletonLabel: "Loading sign-up…",
-    lane: "access",
-    statusVariant: "form",
-  },
-  otp: {
-    formEyebrow: authFormEyebrow("access", AUTH_PATHS.otp),
-    formHeading: "One-time passcode",
-    formDescription: "Enter the sign-in code sent to your email.",
-    metadata: authRouteMetadata("One-time passcode"),
-    skeletonLabel: "Loading passcode…",
-    lane: "access",
-    statusVariant: "form",
-  },
-  mfa: {
-    formEyebrow: authFormEyebrow("security", AUTH_PATHS.mfa),
-    formHeading: "Verify your identity",
-    formDescription:
-      "Complete multi-factor verification to continue into your workspace.",
-    metadata: authRouteMetadata("Verify identity"),
-    skeletonLabel: "Loading verification…",
-    lane: "security",
-    statusVariant: "form",
-  },
-  mfaRecovery: {
-    formEyebrow: authFormEyebrow("security", AUTH_PATHS.mfaRecovery),
-    formHeading: "Recovery code",
-    formDescription: "Enter a backup recovery code to complete sign-in.",
-    metadata: authRouteMetadata("MFA recovery"),
-    skeletonLabel: "Loading recovery…",
-    lane: "security",
-    statusVariant: "form",
-  },
-  verifyEmail: {
-    formEyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.root),
-    formHeading: "Verify your email",
-    formDescription:
-      "One more step before you can enter your workspace. Open the verification link we sent to your inbox.",
-    metadata: authRouteMetadata("Verify your email"),
-    skeletonLabel: "Loading verification…",
-    lane: "verify",
-    statusVariant: "status",
   },
   verifyEmailSent: {
-    formEyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.sent),
-    formHeading: "Check your inbox",
-    formDescription:
-      "We sent a verification link to your email. Open it to activate your account.",
-    metadata: authRouteMetadata("Verification sent"),
-    skeletonLabel: "Loading…",
+    eyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.sent),
+    title: "Check your inbox",
+    description:
+      "We sent a verification link. Open it from the same device when you are ready.",
+    metadata: authRouteMetadata("Verify email sent"),
     lane: "verify",
-    statusVariant: "status",
-  },
-  verifyEmailExpired: {
-    formEyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.expired),
-    formHeading: "Link expired",
-    formDescription:
-      "This verification link is no longer valid. Request a new link or sign in if you have already verified.",
-    metadata: authRouteMetadata("Verification expired"),
     skeletonLabel: "Loading…",
-    lane: "verify",
-    statusVariant: "error",
-  },
-  verifyEmailSuccess: {
-    formEyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.success),
-    formHeading: "Email verified",
-    formDescription:
-      "Your email address is confirmed. Sign in to enter your Afenda ERP workspace.",
-    metadata: authRouteMetadata("Email verified"),
-    skeletonLabel: "Loading…",
-    lane: "verify",
-    statusVariant: "success",
   },
   forgotPassword: {
-    formEyebrow: authFormEyebrow("recover", AUTH_PATHS.forgotPassword),
-    formHeading: "Recover access",
-    formDescription:
-      "Enter your work email and we will send a secure, time-limited link to restore access.",
-    metadata: authRouteMetadata("Recover access"),
-    skeletonLabel: "Loading recovery…",
+    eyebrow: authFormEyebrow("recover", AUTH_PATHS.forgotPassword),
+    title: "Reset your password",
+    description: "Enter the email associated with your Afenda account.",
+    metadata: authRouteMetadata("Forgot password"),
     lane: "recover",
-    statusVariant: "form",
+    skeletonLabel: "Loading recovery…",
   },
   resetPassword: {
-    formEyebrow: authFormEyebrow("recover", AUTH_PATHS.resetPassword.root),
-    formHeading: "Choose a new password",
-    formDescription:
-      "You arrived here from a secure reset link. Choose a new password to restore access.",
-    metadata: authRouteMetadata("Choose a new password"),
-    skeletonLabel: "Loading reset form…",
+    eyebrow: authFormEyebrow("recover", AUTH_PATHS.resetPassword.root),
+    title: "Choose a new password",
+    description:
+      "Create a strong password to restore access to your Afenda workspace.",
+    metadata: authRouteMetadata("Reset password"),
     lane: "recover",
-    statusVariant: "form",
+    skeletonLabel: "Loading reset form…",
   },
   resetPasswordSuccess: {
-    formEyebrow: authFormEyebrow("recover", AUTH_PATHS.resetPassword.success),
-    formHeading: "Password updated",
-    formDescription:
-      "Your password has been changed. Sign in with your new credentials to continue.",
+    eyebrow: authFormEyebrow("recover", AUTH_PATHS.resetPassword.success),
+    title: "Password updated",
+    description: "Your password has been updated. You can sign in with it now.",
     metadata: authRouteMetadata("Password updated"),
-    skeletonLabel: "Loading…",
     lane: "recover",
-    statusVariant: "success",
-  },
-  invite: {
-    formEyebrow: authFormEyebrow("invite", AUTH_PATHS.invite.root),
-    formHeading: "Workspace invitation",
-    formDescription:
-      "You have been invited to join an Afenda ERP workspace. Accept the invitation to continue.",
-    metadata: authRouteMetadata("Invitation"),
-    skeletonLabel: "Loading invitation…",
-    lane: "invite",
-    statusVariant: "status",
-  },
-  inviteAccept: {
-    formEyebrow: authFormEyebrow("invite", AUTH_PATHS.invite.accept),
-    formHeading: "Accept invitation",
-    formDescription:
-      "Complete your account setup to join your organization on Afenda ERP.",
-    metadata: authRouteMetadata("Accept invitation"),
     skeletonLabel: "Loading…",
-    lane: "invite",
-    statusVariant: "form",
   },
-  inviteExpired: {
-    formEyebrow: authFormEyebrow("invite", AUTH_PATHS.invite.expired),
-    formHeading: "Invitation expired",
-    formDescription:
-      "This invitation link is no longer valid. Ask your administrator to send a new invitation.",
-    metadata: authRouteMetadata("Invitation expired"),
+  otp: {
+    eyebrow: authFormEyebrow("access", AUTH_PATHS.otp),
+    title: "One-time passcode",
+    description: "Enter the sign-in code sent to your email.",
+    metadata: authRouteMetadata("One-time passcode"),
+    lane: "access",
+    skeletonLabel: "Loading passcode…",
+  },
+  mfa: {
+    eyebrow: authFormEyebrow("access", AUTH_PATHS.mfa),
+    title: "Verify your identity",
+    description:
+      "Complete multi-factor verification to continue into your workspace.",
+    metadata: authRouteMetadata("Verify identity"),
+    lane: "access",
+    skeletonLabel: "Loading verification…",
+  },
+  mfaRecovery: {
+    eyebrow: authFormEyebrow("access", AUTH_PATHS.mfaRecovery),
+    title: "Recovery code",
+    description: "Enter a backup recovery code to complete sign-in.",
+    metadata: authRouteMetadata("MFA recovery"),
+    lane: "access",
+    skeletonLabel: "Loading recovery…",
+  },
+  verifyEmail: {
+    eyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.root),
+    title: "Verify your email",
+    description:
+      "One more step before you can enter your workspace. Open the verification link we sent to your inbox.",
+    metadata: authRouteMetadata("Verify your email"),
+    lane: "verify",
+    skeletonLabel: "Loading verification…",
+  },
+  verifyEmailExpired: {
+    eyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.expired),
+    title: "Link expired",
+    description:
+      "This verification link is no longer valid. Request a new link or sign in if you have already verified.",
+    metadata: authRouteMetadata("Verification expired"),
+    lane: "verify",
     skeletonLabel: "Loading…",
-    lane: "invite",
-    statusVariant: "error",
   },
-  workspaceSelect: {
-    formEyebrow: authFormEyebrow("workspace", AUTH_PATHS.workspaceSelect),
-    formHeading: "Choose workspace",
-    formDescription: "Select the workspace you want to enter.",
-    metadata: authRouteMetadata("Choose workspace"),
-    skeletonLabel: "Loading workspaces…",
-    lane: "workspace",
-    statusVariant: "status",
-  },
-  organizationSelect: {
-    formEyebrow: authFormEyebrow("workspace", AUTH_PATHS.organizationSelect),
-    formHeading: "Choose organization",
-    formDescription: "Select the organization you want to work in.",
-    metadata: authRouteMetadata("Choose organization"),
-    skeletonLabel: "Loading organizations…",
-    lane: "workspace",
-    statusVariant: "status",
+  verifyEmailSuccess: {
+    eyebrow: authFormEyebrow("verify", AUTH_PATHS.verifyEmail.success),
+    title: "Email verified",
+    description:
+      "Your email address is confirmed. Sign in to enter your Afenda ERP workspace.",
+    metadata: authRouteMetadata("Email verified"),
+    lane: "verify",
+    skeletonLabel: "Loading…",
   },
   sessionExpired: {
-    formEyebrow: authFormEyebrow("security", AUTH_PATHS.sessionExpired),
-    formHeading: "Session expired",
-    formDescription:
-      "Your session expired. Sign in again to continue securely.",
+    eyebrow: authFormEyebrow("error", AUTH_PATHS.sessionExpired),
+    title: "Session expired",
+    description: "Your session expired. Sign in again to continue securely.",
     metadata: authRouteMetadata("Session expired"),
+    lane: "error",
     skeletonLabel: "Loading…",
-    lane: "security",
-    statusVariant: "error",
   },
   accessDenied: {
-    formEyebrow: authFormEyebrow("security", AUTH_PATHS.accessDenied),
-    formHeading: "Access cannot be granted.",
-    formDescription:
+    eyebrow: authFormEyebrow("error", AUTH_PATHS.accessDenied),
+    title: "Access cannot be granted",
+    description:
       "Your identity is valid, but this workspace does not currently allow entry.",
     metadata: authRouteMetadata("Access denied"),
+    lane: "error",
     skeletonLabel: "Loading…",
-    lane: "security",
-    statusVariant: "error",
   },
   securityReview: {
-    formEyebrow: authFormEyebrow("security", AUTH_PATHS.securityReview),
-    formHeading: "Security review",
-    formDescription:
+    eyebrow: authFormEyebrow("error", AUTH_PATHS.securityReview),
+    title: "Security review",
+    description:
       "A security review is required before you can continue into Afenda ERP.",
     metadata: authRouteMetadata("Security review"),
+    lane: "error",
     skeletonLabel: "Loading…",
-    lane: "security",
-    statusVariant: "status",
   },
-  segmentError: {
-    eyebrow: "Sign-in interrupted",
-    title: "Could not load sign-in",
+  invite: {
+    eyebrow: `Invite · ${AUTH_PATHS.invite.root}`,
+    title: "Workspace invitation",
     description:
-      "The authentication surface failed before your session could start. This is usually temporary — reload the page or wait a moment, then try again.",
-    retryLabel: "Reload sign-in",
-    metadata: authRouteMetadata("Sign-in unavailable"),
-    lane: "security",
-    statusVariant: "error",
+      "You have been invited to join an Afenda ERP workspace. Accept the invitation to continue.",
+    metadata: authRouteMetadata("Invitation"),
+    lane: "access",
+    skeletonLabel: "Loading invitation…",
   },
-} as const satisfies Record<
-  string,
-  AuthRouteFormEntry | AuthRouteSegmentErrorEntry
->;
+  inviteExpired: {
+    eyebrow: `Invite · ${AUTH_PATHS.invite.expired}`,
+    title: "Invitation expired",
+    description:
+      "This invitation link is no longer valid. Ask your administrator to send a new invitation.",
+    metadata: authRouteMetadata("Invitation expired"),
+    lane: "access",
+    skeletonLabel: "Loading…",
+  },
+  workspaceSelect: {
+    eyebrow: `Workspace · ${AUTH_PATHS.workspaceSelect}`,
+    title: "Choose workspace",
+    description:
+      "Select the workspace you want to enter before continuing into Afenda ERP.",
+    metadata: authRouteMetadata("Workspace selection"),
+    lane: "access",
+    skeletonLabel: "Loading workspaces…",
+  },
+  organizationSelect: {
+    eyebrow: `Organization · ${AUTH_PATHS.organizationSelect}`,
+    title: "Choose organization",
+    description:
+      "Select the organization context you want to work in before entering your workspace.",
+    metadata: authRouteMetadata("Organization selection"),
+    lane: "access",
+    skeletonLabel: "Loading organizations…",
+  },
+} as const satisfies Record<string, AuthRouteFormEntry>;
 
 export type AuthRouteId = keyof typeof AUTH_ROUTE_REGISTRY;
 
-export type AuthEntryRouteId = Exclude<AuthRouteId, "segmentError">;
-
-type AuthRouteRegistryEntry = (typeof AUTH_ROUTE_REGISTRY)[AuthRouteId];
-
-type AuthRouteRegistryFormEntryFromUnion = Extract<
-  AuthRouteRegistryEntry,
-  { readonly formHeading: string }
->;
-
-export function isAuthRouteFormEntry(
-  entry: AuthRouteRegistryEntry
-): entry is AuthRouteRegistryFormEntryFromUnion {
-  return "formHeading" in entry;
-}
-
-export function resolveAuthEntryRouteCopy(
-  route: AuthEntryRouteId
-): AuthRouteEntryCopy {
-  const config = AUTH_ROUTE_REGISTRY[route];
-
-  if (!isAuthRouteFormEntry(config)) {
-    return {
-      formEyebrow: "Authentication Lane",
-      formHeading: "Continue authentication",
-      formDescription: "Complete the required step to access Afenda ERP.",
-    };
-  }
-
+export function resolveAuthRouteCopy(route: AuthRouteId): AuthRouteEntryCopy {
+  const entry = AUTH_ROUTE_REGISTRY[route];
   return {
-    formEyebrow: config.formEyebrow,
-    formHeading: config.formHeading,
-    formDescription: config.formDescription,
+    description: entry.description,
+    eyebrow: entry.eyebrow,
+    title: entry.title,
+    lane: entry.lane,
   };
 }

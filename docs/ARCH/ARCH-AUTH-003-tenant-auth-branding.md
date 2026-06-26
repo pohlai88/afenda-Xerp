@@ -15,8 +15,10 @@
 | **Change class** | Extension |
 | **Clean Core target** | B — auth shell presentation; persistence via tenant_settings |
 
-> **Scope:** Per-tenant **auth shell only** branding — logo, copy, primary color on `(auth-v2)` routes when tenant context is present and appearance is enabled.  
+> **Scope:** Per-tenant **auth shell only** branding — logo, copy, primary color on `(auth)` routes when tenant context is present and appearance is enabled.  
 > **Not in scope:** Protected `ApplicationShell` sidebar branding, auth URL prefix generation, email template branding, custom CSS injection.
+
+> **Consolidation (2026-06-26):** Runtime paths use canonical `(auth)` segment and flat URLs (`/sign-in`, …). Historical `(auth-v2)` and `/v2/*` references in slice evidence are superseded.
 
 ---
 
@@ -26,8 +28,8 @@
 | --- | --- |
 | Logo delivery | Full R2 upload via `@afenda/storage` signed upload |
 | Apex / no slug | Afenda package defaults only |
-| URL model | Flat `/v2/*`; tenant from `x-tenant-slug` proxy header |
-| Form copy | Route registry platform copy unchanged in v1; brand panel only |
+| URL model | Flat `/sign-in`, `/mfa`, …; tenant from `x-tenant-slug` proxy header |
+| Form copy | Route registry platform copy unchanged; brand panel only |
 
 ---
 
@@ -36,12 +38,12 @@
 ```text
 1. docs/ARCH/arch-status-index.md
 2. docs/delivery/fdr-status-index.md
-3. docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell-v2.md (consumer shell)
+3. docs/ARCH/[Complete] ARCH-AUTH-002-auth-shell.md (consumer shell)
 4. docs/ARCH/[Complete] ARCH-ADMIN-001 (Appearance settings scaffold)
 5. docs/delivery/FDR/[Partially Implemented] fdr-007-tenant-auth-branding.md
 6. docs/delivery/FDR/[Partially Implemented] fdr-015-tenant-storage.md
 7. packages/database/src/tenant-settings/tenant-settings.contract.ts
-8. apps/erp/src/lib/auth-v2/resolve-tenant-auth-brand.server.ts
+8. apps/erp/src/lib/auth/resolve-tenant-auth-brand.server.ts
 ```
 
 ---
@@ -50,10 +52,10 @@
 
 | Request context | Brand source |
 | --- | --- |
-| `{slug}.afenda.app/v2/*` | Tenant appearance when `enabled` + tenant `active` |
-| `/t/{slug}/v2/*` (rewritten) | Same |
+| `{slug}.afenda.app/sign-in` | Tenant appearance when `enabled` + tenant `active` |
+| `/t/{slug}/sign-in` (rewritten) | Same |
 | Dev default slug | Same |
-| Production apex, no slug | Package defaults (`AUTH_SHELL_V2_BRAND_*`) |
+| Production apex, no slug | Package defaults (`AUTH_SHELL_BRAND_*`) |
 | Unknown / suspended / archived slug | Afenda default — no tenant-not-found UI on auth |
 
 **Security:** Tenant name/logo on tenant subdomain is intentional white-labeling, not membership enumeration. Apex stays platform-branded.
@@ -68,11 +70,11 @@ See `tenantAppearanceSettingsSchema` in `@afenda/database`.
 
 ### Public read (ERP-owned)
 
-`TenantAuthBrand` in `apps/erp/src/lib/auth-v2/tenant-auth-brand.contract.ts` — server-resolved `logoUrl`, no raw `logoObjectId` at render boundary.
+`TenantAuthBrand` in `apps/erp/src/lib/auth/tenant-auth-brand.contract.ts` — server-resolved `logoUrl`, no raw `logoObjectId` at render boundary.
 
 ### Shell copy (`AuthShellBrandCopy`)
 
-String fields only in `@afenda/appshell/auth-shell-v2` — separate from `ReactNode` props.
+String fields only in `@afenda/appshell/auth-shell` — separate from `ReactNode` props.
 
 ---
 
@@ -84,7 +86,7 @@ String fields only in `@afenda/appshell/auth-shell-v2` — separate from `ReactN
 | 2 | ERP storage upload API + env wiring | Delivered |
 | 3 | `resolveTenantAuthBrand` + tests | Delivered |
 | 4 | `AuthShellBrandPanel` logo/color + CSS | Delivered |
-| 5 | Async `(auth-v2)/layout` + entry page visual | Delivered |
+| 5 | Async `(auth)/layout` + entry page visual | Delivered |
 | 6 | System Admin Appearance panel + save | Delivered |
 | 7 | Gates + runtime matrix sync | Delivered |
 
@@ -93,7 +95,7 @@ String fields only in `@afenda/appshell/auth-shell-v2` — separate from `ReactN
 ## 6. Explicit non-goals
 
 - ApplicationShell sidebar / protected app chrome branding
-- `buildAuthV2Path()` tenant-prefixed URLs
+- `buildAuthPath()` tenant-prefixed URLs
 - Auth shell i18n
 - Per-tenant custom CSS injection
 - Email template branding (ARCH-EMAIL-001 P2)

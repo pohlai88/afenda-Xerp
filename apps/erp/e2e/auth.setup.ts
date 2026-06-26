@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { ERP_ADMIN_AUTH_STORAGE_RELATIVE } from "@afenda/testing/e2e/auth-paths";
@@ -20,6 +21,11 @@ setup("authenticate dev admin for storageState", async ({ page }) => {
     );
     return;
   }
+
+  execSync("pnpm exec tsx scripts/reset-staging-e2e-auth-state.ts", {
+    cwd: path.resolve(process.cwd(), "../../packages/database"),
+    stdio: "inherit",
+  });
 
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());

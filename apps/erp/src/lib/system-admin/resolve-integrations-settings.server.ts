@@ -16,6 +16,34 @@ export interface IntegrationsSettingsPageData {
 
 export { resolveIntegrationsSettings };
 
+function isMissingDatabaseRelationError(error: unknown): boolean {
+  const candidate =
+    typeof error === "object" && error !== null && "cause" in error
+      ? error.cause
+      : error;
+
+  return (
+    typeof candidate === "object" &&
+    candidate !== null &&
+    "code" in candidate &&
+    candidate.code === "42P01"
+  );
+}
+
+async function listTenantSsoProvidersSafely(
+  tenantId: string
+): Promise<readonly TenantSsoProviderSummary[]> {
+  try {
+    return await listTenantSsoProvidersByTenantId(tenantId);
+  } catch (error) {
+    if (isMissingDatabaseRelationError(error)) {
+      return [];
+    }
+
+    throw error;
+  }
+}
+
 export async function resolveIntegrationsSettingsPageData(): Promise<IntegrationsSettingsPageData> {
   const access = await resolveSystemAdminSectionAccess("settings");
   if (access.kind !== "allowed") {
@@ -28,7 +56,7 @@ export async function resolveIntegrationsSettingsPageData(): Promise<Integration
   const tenantId = access.operatingContext.tenant.tenantId;
   const [integrations, ssoProviders] = await Promise.all([
     resolveIntegrationsSettings(),
-    listTenantSsoProvidersByTenantId(tenantId),
+    listTenantSsoProvidersSafely(tenantId),
   ]);
 
   return { integrations, ssoProviders };

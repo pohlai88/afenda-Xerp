@@ -113,6 +113,12 @@ Skills: [`afenda-fumadocs`](../../.cursor/skills/afenda-fumadocs/SKILL.md) · [`
 | **13 — Search UX** | RootProvider `search.links` empty-state | **Delivered** (2026-06-25) |
 | **14 — Guides tab** | `(guides)/` folder group dual tabs | **Delivered** (2026-06-25) |
 | **15 — Phase 3 sync** | Gap audit ~74% · blocked OpenAPI/i18n | **Delivered** (2026-06-25) |
+| **16–17 — i18n** | UI translations + en/zh multilingual | **Delivered** (2026-06-25) |
+| **18 — OpenAPI** | fumadocs-openapi · ARCH-API-002 | **Delivered** (2026-06-26) |
+| **19 — LLM export** | includeProcessedMarkdown · llms.mdx · markdownUrl | **Delivered** (2026-06-26) |
+| **20 — Corpus** | zh body (scoped) · docs-i18n-contract AutoTypeTable | **Delivered** (2026-06-26) |
+| **21 — Nav polish** | Lucide icons · prev/next · draft filter | **Delivered** (2026-06-26) |
+| **22 — Phase 5 sync** | Gap audit ~92% · async deferral criteria | **Delivered** (2026-06-26) |
 
 ---
 

@@ -1,22 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { Button } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { useEffect, useTransition } from "react";
 
-import {
-  AuthErrorSignInEscape,
-  AuthErrorSurface,
-} from "@/app/(auth)/_components/auth-error-surface.client";
-import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
+import { AuthSegmentErrorShell } from "@/app/(auth)/_components/auth-error-surface.client";
+import { AUTH_SEGMENT_ERROR_COPY } from "@/lib/auth/auth-segment-error.copy";
 import { reportClientError } from "@/lib/observability/report-client-error.client";
 
-interface AuthErrorProps {
+export type AuthErrorPageGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
+
+interface AuthErrorPageProps {
   readonly error: Error & { digest?: string };
   readonly reset: () => void;
 }
 
-const segmentError = AUTH_ROUTE_REGISTRY.segmentError;
+export default function AuthErrorPage({ error, reset }: AuthErrorPageProps) {
+  const [isRetrying, startRetryTransition] = useTransition();
 
-export default function AuthError({ error, reset }: AuthErrorProps) {
   useEffect(() => {
     reportClientError({
       digest: error.digest ?? "unknown",
@@ -24,15 +28,31 @@ export default function AuthError({ error, reset }: AuthErrorProps) {
     });
   }, [error.digest]);
 
+  const handleRetry = () => {
+    startRetryTransition(() => {
+      reset();
+    });
+  };
+
   return (
-    <AuthErrorSurface
-      description={segmentError.description}
-      eyebrow={segmentError.eyebrow}
-      onRetry={reset}
-      retryLabel={segmentError.retryLabel}
-      title={segmentError.title}
-    >
-      <AuthErrorSignInEscape />
-    </AuthErrorSurface>
+    <AuthSegmentErrorShell
+      actions={
+        <Button
+          aria-busy={isRetrying || undefined}
+          disabled={isRetrying}
+          emphasis="solid"
+          intent="primary"
+          onClick={handleRetry}
+          presentation="default"
+          size="md"
+          type="button"
+        >
+          {isRetrying ? "Reloading…" : AUTH_SEGMENT_ERROR_COPY.retryLabel}
+        </Button>
+      }
+      description={AUTH_SEGMENT_ERROR_COPY.description}
+      title={AUTH_SEGMENT_ERROR_COPY.title}
+      tone="warning"
+    />
   );
 }
