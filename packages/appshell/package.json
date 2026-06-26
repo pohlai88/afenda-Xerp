@@ -19,6 +19,11 @@
       "types": "./dist/context/index.d.ts",
       "import": "./dist/context/index.js",
       "default": "./dist/context/index.js"
+    },
+    "./auth-shell": {
+      "types": "./dist/auth-shell/index.d.ts",
+      "import": "./dist/auth-shell/index.js",
+      "default": "./dist/auth-shell/index.js"
     }
   },
   "sideEffects": [

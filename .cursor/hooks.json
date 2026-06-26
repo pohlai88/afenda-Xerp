@@ -4,7 +4,7 @@
     "sessionStart": [
       {
         "type": "prompt",
-        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/ (env: env-workflow.mdc; coding session: afenda-coding-session.mdc). Skills: .cursor/skills/ — invoke /afenda-coding-session for full coding standard. Every coding turn: announce skill, state Phase 0 contract before edits, end with Phase 2 Completion Report. Use pnpm only. Env: edit .env.config / .env.secret only, then pnpm env:sync && pnpm env:doctor. Hooks guard shell/MCP/env policy and run scoped stop quality gates. Prefer typecheck, pnpm check, and tests over starting dev servers."
+        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/ (env: env-workflow.mdc; package CSS dist: package-css-dist-sync.mdc; coding session: afenda-coding-session.mdc). Skills: .cursor/skills/ — invoke /afenda-coding-session for full coding standard; /package-css-dist-sync after package CSS edits. Every coding turn: announce skill, state Phase 0 contract before edits, end with Phase 2 Completion Report. Use pnpm only. Env: edit .env.config / .env.secret only, then pnpm env:sync && pnpm env:doctor. Package CSS: edit src only, then pnpm sync:package-css-dist (apps import dist/). Hooks guard shell/MCP/env/CSS policy and run scoped stop quality gates. Prefer typecheck, pnpm check, and tests over starting dev servers."
       }
     ],
     "preToolUse": [
@@ -17,6 +17,11 @@
     "postToolUse": [
       {
         "command": "node .cursor/hooks/post-env-source-edit.mjs",
+        "matcher": "Write|StrReplace|EditNotebook|ApplyPatch",
+        "timeout": 5
+      },
+      {
+        "command": "node .cursor/hooks/post-package-css-source-edit.mjs",
         "matcher": "Write|StrReplace|EditNotebook|ApplyPatch",
         "timeout": 5
       }

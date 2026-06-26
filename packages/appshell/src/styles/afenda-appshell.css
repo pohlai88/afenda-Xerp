@@ -45,7 +45,11 @@
  * (via afenda-ui.css → globals.css import order). Layout-only geometry
  * (header strip height) stays shell-local; everything else delegates upstream.
  */
-.app-shell-root {
+.app-shell-root,
+.app-shell-studio-auth-login-page-04,
+.app-shell-studio-auth-memory-gate,
+.app-shell-studio-auth-memory-gate__error-page,
+.app-shell-studio-auth-error-page-02 {
   /* Layout geometry — shell-specific, not in token registry */
   --app-shell-header-strip-height: 7.25rem;
 

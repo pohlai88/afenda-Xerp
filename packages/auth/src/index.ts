@@ -32,28 +32,69 @@ export {
   type AuthEventName,
 } from "./auth.contract.js";
 export {
+  type AuthEmailDeliveryDeps,
+  AuthEmailDeliveryError,
+  type AuthEmailDeliveryResult,
+  type AuthEmailResendClient,
+  type AuthEmailUser,
+  type AuthInvitationEmailDeliveryInput,
+  type AuthInvitationEmailPayload,
+  type AuthInvitationEmailUser,
+  type AuthPasswordResetEmailPayload,
+  type AuthTransactionalEmailDeliveryMetadata,
+  type AuthTransactionalEmailKind,
+  type AuthTransactionalEmailMessage,
+  type AuthVerificationEmailPayload,
+  buildAuthInvitationEmailMessage,
+  buildAuthInvitationEmailTags,
+  buildAuthInvitationSignUpUrl,
+  buildAuthPasswordResetEmailMessage,
+  buildAuthVerificationEmailMessage,
+  createAuthPasswordResetEmailSender,
+  createAuthVerificationEmailSender,
+  deliverAuthInvitationEmail,
+  deliverAuthTransactionalEmail,
+  isAuthEmailDeliveryError,
+} from "./auth.email.js";
+export {
+  handleResendWebhookEvent,
+  parseResendWebhookEvent,
+  type ResendEmailWebhookEventData,
+  type ResendWebhookEvent,
+  type ResendWebhookHeaders,
+  ResendWebhookVerificationError,
+  verifyResendWebhookSignature,
+} from "./auth.email.resend.webhook.js";
+export {
+  AFENDA_AUTH_EMAIL_API_KEY_ENV,
+  AFENDA_AUTH_EMAIL_FROM_ENV,
   AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV,
   AFENDA_OAUTH_GOOGLE_CLIENT_SECRET_ENV,
   AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV,
   AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV,
+  AFENDA_RESEND_WEBHOOK_SECRET_ENV,
   AUTH_CHANGE_EMAIL_ENABLED,
   type BetterAuthSocialProviderConfig,
   type BetterAuthSocialProvidersConfig,
+  getAuthEmailApiKey,
+  getAuthEmailFromAddress,
   getBetterAuthSecret,
   getBetterAuthUrl,
+  getResendWebhookSecret,
   hasBetterAuthConfig,
   isAuthChangeEmailEnabled,
   isAuthEmailDeliveryEnabled,
+  RESEND_WEBHOOK_PATH,
+  resolveBetterAuthBaseUrl,
   resolveBetterAuthSocialProviders,
   resolveOAuthClientSecretFromEnv,
+  resolveResendWebhookEndpoint,
 } from "./auth.env.js";
 export {
   BETTER_AUTH_SECRET_ENV,
   BETTER_AUTH_URL_ENV,
-  isMfaPolicyBypassBlockedError,
   isUnauthenticatedError,
   isUnlinkedPlatformUserError,
-  MfaPolicyBypassBlockedError,
   MissingBetterAuthSecretError,
   MissingBetterAuthUrlError,
   UnauthenticatedError,
@@ -64,6 +105,7 @@ export {
   handleAfendaAuthInvitationBeforeHook,
 } from "./auth.hooks.js";
 export {
+  type AuthInvitationDeps,
   type AuthInvitationRecord,
   AuthInvitationRejectedError,
   consumeAuthInvitation,
@@ -86,6 +128,8 @@ export {
   getEffectiveMfaPolicy,
   getTenantMfaPolicy,
   isAuthUserMfaEnabled,
+  isMfaPolicyBypassBlockedError,
+  MfaPolicyBypassBlockedError,
   parseCompanyIdFromActiveWorkspaceId,
   type RequireAfendaAuthSessionOptions,
   type TenantMfaPolicy,
@@ -103,7 +147,6 @@ export {
 } from "./auth.mirror-sync.js";
 export {
   AFENDA_AUTH_OAUTH_CALLBACK_PREFIX,
-  AFENDA_OAUTH_PROVIDER_IDS,
   AuthOAuthInvitationRejectedError,
   assertOAuthSignUpInvitationAllowed,
   createAfendaOAuthSocialProviderOptions,
@@ -113,6 +156,17 @@ export {
   readOAuthProviderIdFromCallbackPath,
   resolveTenantIdForOAuthInvitationGate,
 } from "./auth.oauth-policy.js";
+export {
+  AFENDA_AUTH_CREDENTIAL_TWO_FACTOR_ENFORCEMENT,
+  AFENDA_AUTH_PASSKEY_SIGN_IN_PATH,
+  AFENDA_AUTH_PASSWORDLESS_SIGN_IN_PATH_PREFIXES,
+  AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR_ENV,
+  type AfendaAuthCredentialTwoFactorEnforcement,
+  type AfendaAuthPasswordlessTwoFactorMode,
+  isAfendaAuthPasswordlessSignInPath,
+  isAfendaAuthPasswordlessTwoFactorEnforcementActive,
+  resolveAfendaAuthPasswordlessTwoFactorMode,
+} from "./auth.passwordless-two-factor-policy.js";
 export {
   getAfendaAuthSession,
   getAuth,
@@ -132,10 +186,16 @@ export {
 } from "./auth.session-revoke.js";
 export {
   resolveSignInProviderSurface,
-  SIGN_IN_SOCIAL_PROVIDER_IDS,
   type SignInProviderSurface,
-  type SignInSocialProviderId,
 } from "./auth.sign-in-surface.js";
+export {
+  AFENDA_AUTH_SOCIAL_PROVIDER_IDS,
+  AFENDA_OAUTH_PROVIDER_IDS,
+  type AfendaAuthSocialProviderId,
+  isAfendaAuthSocialProviderId,
+  SIGN_IN_SOCIAL_PROVIDER_IDS,
+  type SignInSocialProviderId,
+} from "./auth.social-providers.js";
 export {
   AFENDA_AUTH_SSO_OIDC_CALLBACK_PREFIX,
   AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX,

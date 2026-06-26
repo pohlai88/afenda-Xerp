@@ -23,6 +23,7 @@ const resendMemberInvitationById = vi.fn();
 const resetMemberInvitationsForTests = vi.fn();
 
 const persistAuthAuditEvent = vi.fn().mockResolvedValue(undefined);
+const deliverAuthInvitationEmail = vi.fn();
 
 vi.mock("@afenda/database", () => ({
   consumeMemberInvitation: (...args: unknown[]) =>
@@ -53,11 +54,24 @@ vi.mock("../auth.audit.js", () => ({
   persistAuthAuditEvent: (...args: unknown[]) => persistAuthAuditEvent(...args),
 }));
 
+vi.mock("../auth.email.js", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../auth.email.js")>();
+  return {
+    ...actual,
+    deliverAuthInvitationEmail: (...args: unknown[]) =>
+      deliverAuthInvitationEmail(...args),
+  };
+});
+
 describe("auth.invitation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetMemberInvitationsForTests.mockResolvedValue(undefined);
     persistAuthAuditEvent.mockResolvedValue(undefined);
+    deliverAuthInvitationEmail.mockResolvedValue({
+      delivered: false,
+      reason: "email_delivery_disabled",
+    });
   });
 
   it("emits auth.invitation.sent when register audit context is supplied", async () => {
@@ -69,6 +83,10 @@ describe("auth.invitation", () => {
     };
 
     registerMemberInvitation.mockResolvedValue(invitation);
+    deliverAuthInvitationEmail.mockResolvedValue({
+      delivered: true,
+      messageId: "msg_invite_1",
+    });
 
     await registerAuthInvitation({
       audit: {
@@ -80,17 +98,56 @@ describe("auth.invitation", () => {
       token: "invite_token_1",
     });
 
+    expect(deliverAuthInvitationEmail).toHaveBeenCalledWith(
+      {
+        email: "user@example.com",
+        invitationId: "invite_1",
+        token: "invite_token_1",
+      },
+      process.env,
+      {},
+      {
+        correlationId: "corr-1",
+        platformUserId: "actor-1",
+        tenantId: "tenant-a",
+      }
+    );
+
     expect(persistAuthAuditEvent).toHaveBeenCalledWith({
       context: {
         correlationId: "corr-1",
         email: "user@example.com",
         invitationId: "invite_1",
+        messageId: "msg_invite_1",
         platformUserId: "actor-1",
         tenantId: "tenant-a",
       },
       event: AUTH_EVENT.invitationSent,
       result: "success",
     });
+  });
+
+  it("still registers invitation when email delivery fails", async () => {
+    const invitation = {
+      email: "user@example.com",
+      expiresAt: Date.now() + 60_000,
+      invitationId: "invite_1",
+      token: "invite_token_1",
+    };
+
+    registerMemberInvitation.mockResolvedValue(invitation);
+    deliverAuthInvitationEmail.mockRejectedValue(
+      new Error("Resend API returned 500")
+    );
+
+    await expect(
+      registerAuthInvitation({
+        email: "user@example.com",
+        token: "invite_token_1",
+      })
+    ).resolves.toEqual(invitation);
+
+    expect(deliverAuthInvitationEmail).toHaveBeenCalledOnce();
   });
 
   it("registers and validates a matching invitation token", async () => {
@@ -219,11 +276,27 @@ describe("auth.invitation", () => {
 
     registerMemberInvitation.mockResolvedValue(invitation);
     resendMemberInvitationById.mockResolvedValue(resent);
+    deliverAuthInvitationEmail.mockResolvedValue({
+      delivered: true,
+      messageId: "msg_invite_resend",
+    });
     validateMemberInvitation
       .mockRejectedValueOnce(new MemberInvitationRejectedError("invalid"))
       .mockResolvedValueOnce({ status: "valid", invitation: resent });
 
     await expect(resendAuthInvitationById("invite_1")).resolves.toEqual(resent);
+
+    expect(deliverAuthInvitationEmail).toHaveBeenCalledWith(
+      {
+        email: "user@example.com",
+        invitationId: "invite_1",
+        tenantId: "tenant-a",
+        token: "fresh_token",
+      },
+      process.env,
+      {},
+      undefined
+    );
 
     await expect(
       resendAuthInvitationById("invite_1", {
@@ -238,6 +311,7 @@ describe("auth.invitation", () => {
         correlationId: "corr-resend",
         email: "user@example.com",
         invitationId: "invite_1",
+        messageId: "msg_invite_resend",
         platformUserId: "actor-1",
         tenantId: "tenant-a",
       },

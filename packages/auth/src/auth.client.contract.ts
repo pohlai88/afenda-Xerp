@@ -1,11 +1,40 @@
-/** Better Auth multi-session device row shape for ERP security settings. */
+/** Serializable device session row — `createdAt` is ISO-8601 when normalized. */
 export interface AfendaAuthDeviceSession {
   readonly session: {
-    readonly createdAt?: Date | string;
+    readonly createdAt?: string;
     readonly id: string;
     readonly ipAddress?: string | null;
     readonly token: string;
     readonly userAgent?: string | null;
+  };
+}
+
+function normalizeDeviceSessionCreatedAt(value: unknown): string | undefined {
+  if (value === undefined) {
+    return;
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return typeof value === "string" ? value : undefined;
+}
+
+function normalizeAfendaAuthDeviceSession(
+  value: AfendaAuthDeviceSession
+): AfendaAuthDeviceSession {
+  const createdAt = normalizeDeviceSessionCreatedAt(value.session.createdAt);
+
+  if (createdAt === undefined) {
+    return value;
+  }
+
+  return {
+    session: {
+      ...value.session,
+      createdAt,
+    },
   };
 }
 
@@ -47,7 +76,9 @@ export function parseAfendaAuthDeviceSessions(
     return [];
   }
 
-  return value.filter(isAfendaAuthDeviceSession);
+  return value
+    .filter(isAfendaAuthDeviceSession)
+    .map(normalizeAfendaAuthDeviceSession);
 }
 
 function readSessionTwoFactorEnabled(value: unknown): boolean | undefined {

@@ -21,6 +21,18 @@ export {
 export type { AppShellMainGovernedComponents } from "./app-shell-main";
 export { AppShellMain } from "./app-shell-main";
 export type {
+  AppShellAuthErrorPage02Props,
+  AppShellAuthLoginPage04Props,
+} from "./auth-shell/index.js";
+/**
+ * @deprecated Import auth chrome from `@afenda/appshell/auth-shell` instead.
+ * Root barrel aliases remain for backward compatibility only.
+ */
+export {
+  AppShellAuthErrorPage02,
+  AppShellAuthLoginPage04,
+} from "./auth-shell/index.js";
+export type {
   ApplicationShellRootGovernedComponentName,
   AppShellChromeRegion,
   AppShellCommandCenterSearchLabelKey,
@@ -215,13 +227,6 @@ export type {
   AppShellApplicationShell02UserProfile,
 } from "./shadcn-studio/blocks/app-shell-application-shell-02";
 export { AppShellApplicationShell02SystemAdminChrome } from "./shadcn-studio/blocks/app-shell-application-shell-02";
-export type {
-  AppShellAuthErrorPage02GovernedComponents,
-  AppShellAuthErrorPage02Props,
-} from "./shadcn-studio/blocks/app-shell-auth-error-page-02";
-export { AppShellAuthErrorPage02 } from "./shadcn-studio/blocks/app-shell-auth-error-page-02";
-export type { AppShellAuthLoginPage04Props } from "./shadcn-studio/blocks/app-shell-auth-login-page-04";
-export { AppShellAuthLoginPage04 } from "./shadcn-studio/blocks/app-shell-auth-login-page-04";
 export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-shell-context-switcher";
 export {
   AppShellContextSwitcher,

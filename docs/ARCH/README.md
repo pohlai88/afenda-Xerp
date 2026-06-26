@@ -8,6 +8,7 @@ Domain-specific architecture authorities that extend [`docs/architecture/`](../a
 | --- | --- | --- |
 | [`arch-status-index.md`](arch-status-index.md) | — | ARCH status index (adopted from delivery index pattern; FDR is implementation authority) |
 | [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) | — | Enterprise architecture requirement template for ARCH-* docs and slices |
+| [\[Partially Implemented\] ARCH-EMAIL-001-resend-transactional-email.md](%5BPartially%20Implemented%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 · `@afenda/auth` | Resend transactional email — transport, env, webhooks |
 | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | Enterprise auth — acceptance criteria, DoD, UI block map |
 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | System Admin (`/system-admin/**`) — **Complete — enterprise 9.5 accepted** (29/30; DoD #20 closed 2026-06-25) |
 | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 · `@afenda/erp` | User settings (`/settings/**`) — **Complete — enterprise 9.5 accepted** (29/30; DoD #20 closed 2026-06-25) |

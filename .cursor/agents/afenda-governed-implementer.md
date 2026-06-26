@@ -363,6 +363,7 @@ Use changed-files matrix from `VERIFICATION.md`:
 | --- | --- |
 | `packages/ui/src/components/**` | `pnpm --filter @afenda/ui check:governance` + test:run |
 | `packages/appshell/**` | `pnpm ui:guard:scan` + appshell test:run |
+| `packages/appshell/src/styles/**`, `packages/ui/src/styles/**`, `packages/metadata-ui/src/**/*.css` | `pnpm sync:package-css-dist` + `pnpm check:package-css-dist-sync` before ERP visual verification |
 | `apps/erp/src/**` | `pnpm --filter @afenda/erp typecheck` + test:run |
 | `packages/database/**` | database typecheck + test:run |
 | Any TypeScript | `pnpm typecheck` |
@@ -372,6 +373,8 @@ Use changed-files matrix from `VERIFICATION.md`:
 Common additional gates:
 
 ```bash
+pnpm sync:package-css-dist -- --package @afenda/appshell
+pnpm check:package-css-dist-sync
 pnpm --filter @afenda/appshell build
 pnpm check:css-governance
 pnpm check:api-contracts

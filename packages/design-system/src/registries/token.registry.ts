@@ -314,7 +314,7 @@ const tokens: readonly TokenDefinition[] = [
       "afenda.color.focus.ring",
       "oklch(0.500 0.178 254)",
       "oklch(0.638 0.180 254)",
-      "3px focus ring colour.",
+      "2px focus ring colour.",
     ],
   ]),
   ...section("color", "RAW · Charts · Categorical", [
@@ -2368,8 +2368,8 @@ const tokens: readonly TokenDefinition[] = [
     ],
     [
       "afenda.shadow.focus",
-      "0 0 0 3px oklch(0.500 0.178 254 / 0.35)",
-      "0 0 0 3px oklch(0.638 0.180 254 / 0.40)",
+      "0 0 0 2px oklch(0.500 0.178 254 / 0.28)",
+      "0 0 0 2px oklch(0.638 0.180 254 / 0.32)",
       "Focus ring shadow.",
     ],
     [

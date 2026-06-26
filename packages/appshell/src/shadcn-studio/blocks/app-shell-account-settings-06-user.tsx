@@ -18,6 +18,8 @@ import { useId } from "react";
 
 import type { AppShellAccountSettings06SessionRow } from "./app-shell-account-settings-06";
 
+export type { AppShellAccountSettings06SessionRow };
+
 export type AppShellAccountSettings06UserGovernedComponents = Extract<
   GovernedUiComponentName,
   "Badge" | "Button" | "Card" | "Separator"

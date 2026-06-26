@@ -12,6 +12,10 @@ import {
 
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT, type AuthEventContext } from "./auth.contract.js";
+import {
+  type AuthEmailDeliveryDeps,
+  deliverAuthInvitationEmail,
+} from "./auth.email.js";
 
 /**
  * ARCH-AUTH-001 Slice 11 — invitation gate backed by `member_invitations`.
@@ -30,8 +34,14 @@ export interface AuthInvitationRecord {
   readonly token: string;
 }
 
+export interface AuthInvitationDeps {
+  readonly emailDeps?: AuthEmailDeliveryDeps;
+  readonly env?: NodeJS.ProcessEnv;
+}
+
 export interface RegisterAuthInvitationInput {
   readonly audit?: AuthEventContext;
+  readonly deps?: AuthInvitationDeps;
   readonly email: string;
   readonly expiresAt?: Date;
   readonly invitationId?: string;
@@ -61,6 +71,39 @@ export async function resetAuthInvitationStoreForTests(): Promise<void> {
   await resetMemberInvitationsForTests();
 }
 
+async function attemptAuthInvitationEmailDelivery(
+  invitation: AuthInvitationRecord,
+  audit: AuthEventContext | undefined,
+  deps: AuthInvitationDeps | undefined
+): Promise<string | undefined> {
+  const env = deps?.env ?? process.env;
+  const emailDeps = deps?.emailDeps ?? {};
+
+  try {
+    const delivery = await deliverAuthInvitationEmail(
+      {
+        email: invitation.email,
+        invitationId: invitation.invitationId,
+        token: invitation.token,
+        ...(invitation.tenantId === undefined
+          ? {}
+          : { tenantId: invitation.tenantId }),
+      },
+      env,
+      emailDeps,
+      audit
+    );
+
+    if (delivery.delivered) {
+      return delivery.messageId;
+    }
+  } catch {
+    // Email delivery must not block invitation registration or resend.
+  }
+
+  return;
+}
+
 /** Registers an invitation token for a normalized email. */
 export async function registerAuthInvitation(
   input: RegisterAuthInvitationInput
@@ -78,6 +121,12 @@ export async function registerAuthInvitation(
     ...(input.token === undefined ? {} : { token: input.token }),
   });
 
+  const messageId = await attemptAuthInvitationEmailDelivery(
+    invitation,
+    input.audit,
+    input.deps
+  );
+
   if (input.audit) {
     const { tenantId: auditTenantId, ...auditRest } = input.audit;
     const resolvedTenantId = auditTenantId ?? input.tenantId;
@@ -89,6 +138,7 @@ export async function registerAuthInvitation(
         ...(resolvedTenantId === undefined
           ? {}
           : { tenantId: resolvedTenantId }),
+        ...(messageId === undefined ? {} : { messageId }),
       },
       event: AUTH_EVENT.invitationSent,
       result: "success",
@@ -143,11 +193,22 @@ export async function revokeAuthInvitationById(
 /** Re-registers a pending invitation with a fresh token (same invitation id). */
 export async function resendAuthInvitationById(
   invitationId: string,
-  audit?: AuthEventContext
+  audit?: AuthEventContext,
+  deps?: AuthInvitationDeps
 ): Promise<AuthInvitationRecord | null> {
   const invitation = await resendMemberInvitationById(invitationId);
 
-  if (invitation && audit) {
+  if (!invitation) {
+    return null;
+  }
+
+  const messageId = await attemptAuthInvitationEmailDelivery(
+    invitation,
+    audit,
+    deps
+  );
+
+  if (audit) {
     const { tenantId: auditTenantId, ...auditRest } = audit;
     const resolvedTenantId = auditTenantId ?? invitation.tenantId;
     await persistAuthAuditEvent({
@@ -158,6 +219,7 @@ export async function resendAuthInvitationById(
         ...(resolvedTenantId === undefined
           ? {}
           : { tenantId: resolvedTenantId }),
+        ...(messageId === undefined ? {} : { messageId }),
       },
       event: AUTH_EVENT.invitationSent,
       result: "success",

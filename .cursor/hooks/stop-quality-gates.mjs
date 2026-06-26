@@ -71,6 +71,16 @@ const GATES = [
     command: "pnpm --filter @afenda/appshell test:run",
     label: "@afenda/appshell tests (incl. TIP-004 consumption)",
   },
+  {
+    key: "package-css-dist-sync",
+    scopes: [
+      "packages/appshell/src/styles",
+      "packages/ui/src/styles",
+      "packages/metadata-ui/src",
+    ],
+    command: "pnpm check:package-css-dist-sync",
+    label: "package CSS dist sync (src → dist)",
+  },
 ];
 
 const input = parseStdinJson();

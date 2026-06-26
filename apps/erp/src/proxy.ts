@@ -1,7 +1,8 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { isPublicRoute } from "@/lib/auth/public-routes";
+import { isAuthEntryRoute, isPublicRoute } from "@/lib/auth/public-routes";
+import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
 import {
   ACTIVE_ROUTE_PATH_HEADER,
   DEFAULT_TENANT_BASE_DOMAIN,
@@ -128,6 +129,18 @@ export function proxy(request: NextRequest) {
       : routedPathname;
 
   if (isPublicRoute(pathname)) {
+    const sessionCookie = getSessionCookie(request);
+
+    if (sessionCookie && isAuthEntryRoute(pathname)) {
+      const nextParam = request.nextUrl.searchParams.get("next");
+      const destination = resolveSafeInternalPath(nextParam);
+      return finalizeProxyResponse(
+        request,
+        requestHeaders,
+        NextResponse.redirect(new URL(destination, request.url))
+      );
+    }
+
     if (routedPathname !== request.nextUrl.pathname) {
       const rewriteUrl = request.nextUrl.clone();
       rewriteUrl.pathname = routedPathname;

@@ -29,6 +29,16 @@ function readOptionalSessionString(value: unknown): string | null | undefined {
   return typeof value === "string" ? value : undefined;
 }
 
+function readActiveWorkspaceIdFromBetterAuthSession(session: {
+  readonly id: string;
+}): string | null {
+  if (!("activeWorkspaceId" in session)) {
+    return null;
+  }
+
+  return readOptionalSessionString(session.activeWorkspaceId) ?? null;
+}
+
 let authSingleton: AfendaAuth | undefined;
 let authEnvFingerprint: string | undefined;
 
@@ -65,10 +75,9 @@ export async function getAfendaAuthSession(
     authUserId: result.user.id,
   });
 
-  const activeWorkspaceId =
-    readOptionalSessionString(
-      (result.session as { activeWorkspaceId?: unknown }).activeWorkspaceId
-    ) ?? null;
+  const activeWorkspaceId = readActiveWorkspaceIdFromBetterAuthSession(
+    result.session
+  );
 
   const sessionPayload: BetterAuthSessionLike = {
     session: {

@@ -55,6 +55,9 @@ export const VERCEL_PUSH_DENYLIST = [
   "AFENDA_DEV_LOGIN_EMAIL",
   "AFENDA_E2E_VIEWER_LOGIN_PASSWORD",
   "GITHUB_TOKEN",
+  "RESEND_API_KEY",
+  "RESEND_FROM",
+  "RESEND_MCP_FROM",
   "SHADCN_STUDIO_LICENSE_KEY",
   "SHADCN_STUDIO_ACCOUNT_EMAIL",
   "TURBO_TEAM",
@@ -570,6 +573,61 @@ export function findSupabaseConnectionAdvisories(entries) {
   } else {
     advisories.push(
       "P1: Set SUPABASE_ACCESS_TOKEN in .env.secret for Supabase ops (preview branches, advisors)"
+    );
+  }
+
+  return advisories;
+}
+
+/** P1 advisories for Resend transactional email (ARCH-EMAIL-001). */
+export function resolveResendWebhookEndpointFromEntries(entries) {
+  const vercelUrl = entries.get("VERCEL_URL")?.trim();
+  const betterAuthUrl = entries.get("BETTER_AUTH_URL")?.trim();
+  const origin = vercelUrl
+    ? `https://${vercelUrl.replace(TRAILING_SLASH_PATTERN, "")}`
+    : betterAuthUrl?.replace(TRAILING_SLASH_PATTERN, "");
+
+  return origin ? `${origin}/api/webhooks/resend` : null;
+}
+
+export function findResendEmailAdvisories(entries) {
+  const advisories = [];
+  const apiKey = entries.get("AFENDA_AUTH_EMAIL_API_KEY")?.trim();
+  const fromAddress = entries.get("AFENDA_AUTH_EMAIL_FROM")?.trim();
+  const webhookSecret = entries.get("AFENDA_RESEND_WEBHOOK_SECRET")?.trim();
+  const webhookEndpoint = resolveResendWebhookEndpointFromEntries(entries);
+
+  if (!(apiKey || fromAddress)) {
+    advisories.push(
+      "P2: AFENDA_AUTH_EMAIL_API_KEY and AFENDA_AUTH_EMAIL_FROM unset — verify, reset, invite, and 2FA OTP emails no-op in local dev (ARCH-EMAIL-001)"
+    );
+  }
+
+  if (apiKey && !fromAddress) {
+    advisories.push(
+      "P1: AFENDA_AUTH_EMAIL_API_KEY is set but AFENDA_AUTH_EMAIL_FROM is missing — auth invitation/verification email delivery will no-op (ARCH-EMAIL-001)"
+    );
+  }
+
+  if (apiKey && fromAddress && !webhookSecret) {
+    const endpointHint =
+      webhookEndpoint ?? "https://{erp-origin}/api/webhooks/resend";
+    advisories.push(
+      `P1: Set AFENDA_RESEND_WEBHOOK_SECRET and register ${endpointHint} on Vercel (apps/erp) — pnpm resend:webhook:provision (ARCH-EMAIL-001)`
+    );
+  }
+
+  if (apiKey && fromAddress) {
+    advisories.push(
+      "P1: Verify sending domain in Resend dashboard (SPF/DKIM) and publish DMARC before production auth email (ARCH-EMAIL-001)"
+    );
+  }
+
+  const mcpApiKey = entries.get("RESEND_API_KEY")?.trim();
+
+  if (apiKey && !mcpApiKey) {
+    advisories.push(
+      "P2: Set RESEND_API_KEY in .env.secret for Cursor resend-dev MCP (developer tooling — separate from AFENDA_AUTH_EMAIL_* ERP runtime)"
     );
   }
 

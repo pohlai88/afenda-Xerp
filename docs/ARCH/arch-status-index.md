@@ -37,6 +37,7 @@
 | `USER` | Signed-in user self-service settings (`/settings/**`) | ARCH-USER-001 |
 | `DOCS` | Fumadocs site — `/docs/apps/**` application guides | ARCH-DOCS-001 |
 | `SUPA` | Supabase platform — Postgres, poolers, env ops (not identity) | ARCH-SUPA-001 |
+| `EMAIL` | Resend transactional email — auth + admin invite transport | ARCH-EMAIL-001 |
 | `TEST` | Monorepo test pyramid — Vitest workspace, Storybook browser, Playwright E2E | ARCH-TEST-001 · ARCH-TEST-002 |
 
 ### Legacy delivery IDs (renamed)
@@ -68,6 +69,7 @@
 
 | Step | ARCH | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
+| — | **ARCH-EMAIL-001** | **Complete** | `@afenda/auth` · `apps/erp` | ARCH-AUTH-001 ✓ | [handoff](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) |
 | — | **ARCH-AUTH-001** | **Complete** | `@afenda/auth` | Slices 1–17 ✓ | [handoff](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
 
 **ARCH-AUTH-001 Complete — enterprise 9.5 accepted** (Slice 17 · 2026-06-26). Optional backlog: Slice 18 IdP rotation UX.
@@ -83,6 +85,7 @@
 | ARCH-USER-001 | Slices 1–12 | `/settings/**` four tabs · `user_preferences` · admin/user split · integration AC closure · mutation audit · DoD #20 closed · **Complete** (29/30) |
 | ARCH-DOCS-001 | Slices 1–5 | **Complete — enterprise 9.5 accepted** (2026-06-25) · `/docs/apps/**` · 83 tests · fdr-005 `[Complete]` |
 | ARCH-SUPA-001 | Slices 1–9 | Connection routing · pool registry wiring · advisor governance gate · **Complete** (29/30) · DoD #20 closed 2026-06-25 |
+| ARCH-EMAIL-001 | Slices 1–15 | Resend transport · React Email · SDK adapter · Vercel webhook · `apps/email` preview · DoD #20 closed · **Complete** (29/30) |
 | ARCH-TEST-001 | Slices 1–5B | Vitest/Playwright pyramid · Gates 3i/3j/3cov · fdr-016 Complete · **Complete** (29/30) · DoD #20 closed 2026-06-26 |
 
 ---
@@ -91,6 +94,7 @@
 
 | ARCH ID | Document | PKG | Paired FDR | Status | Next step |
 | --- | --- | --- | --- | --- | --- |
+| **ARCH-EMAIL-001** | [\[Complete\] ARCH-EMAIL-001-resend-transactional-email.md](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 · `@afenda/auth` | [fdr-002-email-delivery](../delivery/FDR/%5BComplete%5D%20fdr-002-email-delivery.md) | **Complete** | — |
 | **ARCH-AUTH-001** | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | **Complete** | — |
 | **ARCH-ADMIN-001** | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) | **Complete** | — |
 | **ARCH-USER-001** | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 · `@afenda/erp` | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | **Complete** | — |
@@ -111,6 +115,7 @@ All paths relative to `docs/ARCH/`.
 | ARCH ID | Document | PKG | Domain | Status | Paired FDR | Evidence / gap |
 | --- | --- | --- | --- | --- | --- | --- |
 | ARCH-AUTH-001 | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | **Complete** | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–17 ✓ · DoD #15 closed · 97/100 enterprise score |
+| ARCH-EMAIL-001 | [\[Complete\] ARCH-EMAIL-001-resend-transactional-email.md](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 | Resend transactional email | **Complete** | [fdr-002-email-delivery](../delivery/FDR/%5BComplete%5D%20fdr-002-email-delivery.md) | Slices 1–14 ✓ · DoD #20 closed 2026-06-26 · 29/30 accepted |
 | ARCH-ADMIN-001 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 | System Admin control plane | **Complete** | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) · [fdr-007-accounting-readiness](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-accounting-readiness.md) | Slices 1–11 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
 | ARCH-USER-001 | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 | User settings self-service | **Complete** | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | Slices 1–12 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
 | ARCH-DOCS-001 | [\[Complete\] ARCH-DOCS-001-fumadocs-site.md](%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) | PKG-005 | Fumadocs site (`/docs/apps/**`) | **Complete** | [fdr-005-docs-app](../delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) | Slices 1–5 ✓ · DoD #20 closed 2026-06-25 · 28/30 accepted |

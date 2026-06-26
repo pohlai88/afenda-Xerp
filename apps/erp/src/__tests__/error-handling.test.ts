@@ -61,7 +61,7 @@ describe("error-handling — route segment boundaries", () => {
   for (const relativePath of boundaryFiles) {
     it(`${relativePath} uses RouteSegmentError or role=alert without stack traces`, () => {
       const source = readAppSource(relativePath);
-      expect(source).toMatch(/RouteSegmentError|role="alert"/);
+      expect(source).toMatch(/RouteSegmentError|role="alert"|AuthErrorSurface/);
       expect(source).not.toContain("error.stack");
       expect(source).not.toContain("error.message");
     });

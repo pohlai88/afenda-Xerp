@@ -33,7 +33,9 @@ Start the target dev server **before** the toolbar. Do not start long-running se
 | Server | Role |
 |--------|------|
 | `shadcn` (configured) | Registry search, `shadcn add`, audit checklist — `-c packages/ui` |
-| `shadcn-studio-mcp` (upstream) | `/cui`, `/rui`, `/iui`, `/ftc` block workflows — add from [shadcn/studio onboarding](https://shadcnstudio.com/mcp/onboarding) if not enabled |
+| `shadcn-studio` (configured) | `/cui`, `/rui`, `/iui`, `/ftc` block workflows via `.cursor/mcp/shadcn-studio.mjs` |
+| `figma` (configured) | Remote design context — authenticate in Cursor MCP settings |
+| `figma-desktop` (optional) | Local selection sync — requires Figma Desktop Dev Mode MCP |
 
 ## Pro block installation (shadcn/studio license)
 
@@ -84,6 +86,15 @@ When `shadcn/studio` MCP is active, follow its step-by-step workflow exactly.
 | `/rui` | Refine or edit an existing block |
 | `/iui` | Generate inspired UI (Pro) |
 | `/ftc` | Figma design → code (requires Figma MCP) |
+
+Full Figma MCP setup for this repo: [figma-mcp-afenda.md](figma-mcp-afenda.md)
+
+| MCP server | URL | Role |
+|------------|-----|------|
+| `figma` | `https://mcp.figma.com/mcp` | Remote — link-based design context (OAuth in Cursor MCP settings) |
+| `figma-desktop` | `http://127.0.0.1:3845/mcp` | Local — selection-based (Figma Desktop → Enable Dev Mode MCP Server) |
+
+Auth design file: `https://www.figma.com/design/2ZNqNOxyNb5TwCTBIaMVPD/loginauth`
 
 ### Recovery
 

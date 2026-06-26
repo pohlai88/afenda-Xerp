@@ -6,6 +6,7 @@ import {
   findDeprecatedSourceKeys,
   findEmptyTrackedKeys,
   findMissingRequiredKeys,
+  findResendEmailAdvisories,
   findSupabaseConfigIssues,
   findSupabaseConnectionAdvisories,
   LOCAL_SYNC_TARGETS,
@@ -204,6 +205,7 @@ async function main() {
   warnings.push(...diagnostics.warnings);
   warnings.push(...(await collectUpstashWarnings(merged)));
   warnings.push(...findSupabaseConnectionAdvisories(merged.entries));
+  warnings.push(...findResendEmailAdvisories(merged.entries));
   errors.push(
     ...(await collectStaleTargetErrors(repoRoot, expectedContent, options))
   );

@@ -1,0 +1,23 @@
+{
+  "name": "@afenda/email",
+  "version": "0.0.0",
+  "private": true,
+  "description": "React Email preview for @afenda/auth transactional templates (dev-only)",
+  "type": "module",
+  "scripts": {
+    "dev": "email dev --dir ../../packages/auth/src/emails/templates --port 3003",
+    "export": "email export --dir ../../packages/auth/src/emails/templates --outDir ./out",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('out', { recursive: true, force: true })\""
+  },
+  "devDependencies": {
+    "@afenda/typescript-config": "workspace:*",
+    "@react-email/components": "^1.0.12",
+    "@react-email/ui": "^6.6.5",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-email": "^6.6.5"
+  }
+}

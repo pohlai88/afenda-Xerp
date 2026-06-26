@@ -61,6 +61,23 @@ describe("auth.audit", () => {
     });
   });
 
+  it("includes Resend messageId in audit metadata when provided", () => {
+    const payload = buildAuthAuditPayload({
+      event: AUTH_EVENT.invitationSent,
+      result: "success",
+      context: {
+        correlationId: "corr-invite",
+        email: "user@example.com",
+        messageId: "msg_resend_1",
+      },
+    });
+
+    expect(payload.metadata).toMatchObject({
+      email: "user@example.com",
+      messageId: "msg_resend_1",
+    });
+  });
+
   it("generates correlation ids when context omits one", () => {
     const payload = buildAuthAuditPayload({
       event: AUTH_EVENT.signOut,

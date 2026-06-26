@@ -62,6 +62,7 @@ export function buildAuthAuditPayload(
       actorLinkStatus: resolveActorLinkStatus(record.context, actorUserId),
       authUserId: record.context?.authUserId ?? null,
       email: record.context?.email ?? null,
+      messageId: record.context?.messageId ?? null,
       platformUserId: actorUserId,
     },
   };

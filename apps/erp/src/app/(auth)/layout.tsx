@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { authMetadata } from "@/lib/metadata/site-metadata";
 
-export const metadata = authMetadata;
+import "./auth.css";
+
+export const metadata: Metadata = authMetadata;
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  return children;
+  return <div className="erp-auth-segment">{children}</div>;
 }

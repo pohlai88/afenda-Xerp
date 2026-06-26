@@ -1,0 +1,15 @@
+import type { Metadata } from "next";
+import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
+import { VerifyEmailSuccessState } from "@/app/(auth)/_components/auth-journey-states";
+import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
+
+export const metadata: Metadata =
+  AUTH_ROUTE_REGISTRY.verifyEmailSuccess.metadata;
+
+export default function VerifyEmailSuccessPage() {
+  return (
+    <AuthEntryPage route="verifyEmailSuccess">
+      <VerifyEmailSuccessState />
+    </AuthEntryPage>
+  );
+}

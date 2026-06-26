@@ -4,6 +4,7 @@ import {
   MissingBetterAuthSecretError,
   MissingBetterAuthUrlError,
 } from "./auth.errors.js";
+import type { AfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
 function readTrimmedEnv(
   env: NodeJS.ProcessEnv,
@@ -118,8 +119,14 @@ export function hasBetterAuthConfig(
   }
 }
 
-/** Env key for transactional auth email delivery (Resend/SES integration). */
+/** Env key for transactional auth email delivery (Resend HTTP API). */
 export const AFENDA_AUTH_EMAIL_API_KEY_ENV = "AFENDA_AUTH_EMAIL_API_KEY";
+
+/** Env key for the verified sender address (Resend `from`). */
+export const AFENDA_AUTH_EMAIL_FROM_ENV = "AFENDA_AUTH_EMAIL_FROM";
+
+/** Env key for Resend webhook signing secret (Svix `whsec_…`). */
+export const AFENDA_RESEND_WEBHOOK_SECRET_ENV = "AFENDA_RESEND_WEBHOOK_SECRET";
 
 /** True when a transactional email provider API key is configured. */
 export function isAuthEmailDeliveryEnabled(
@@ -127,6 +134,35 @@ export function isAuthEmailDeliveryEnabled(
 ): boolean {
   return Boolean(readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV));
 }
+
+export function getAuthEmailApiKey(
+  env: NodeJS.ProcessEnv = process.env
+): string | undefined {
+  return readTrimmedEnv(env, AFENDA_AUTH_EMAIL_API_KEY_ENV);
+}
+
+export function getAuthEmailFromAddress(
+  env: NodeJS.ProcessEnv = process.env
+): string | undefined {
+  return readTrimmedEnv(env, AFENDA_AUTH_EMAIL_FROM_ENV);
+}
+
+export function getResendWebhookSecret(
+  env: NodeJS.ProcessEnv = process.env
+): string | undefined {
+  return readTrimmedEnv(env, AFENDA_RESEND_WEBHOOK_SECRET_ENV);
+}
+
+const RESEND_WEBHOOK_PATH = "/api/webhooks/resend" as const;
+
+/** Public ERP ingress URL for Resend bounce/complaint webhooks (ARCH-EMAIL-001). */
+export function resolveResendWebhookEndpoint(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  return `${resolveBetterAuthBaseUrl(env)}${RESEND_WEBHOOK_PATH}`;
+}
+
+export { RESEND_WEBHOOK_PATH };
 
 /** Runtime contract — mirrors `user.changeEmail.enabled` in `auth.config.ts`. */
 export const AUTH_CHANGE_EMAIL_ENABLED = true as const;
@@ -155,7 +191,7 @@ export interface BetterAuthSocialProviderConfig {
 }
 
 export type BetterAuthSocialProvidersConfig = Partial<
-  Record<"google" | "microsoft", BetterAuthSocialProviderConfig>
+  Record<AfendaAuthSocialProviderId, BetterAuthSocialProviderConfig>
 >;
 
 /** Resolves Better Auth `socialProviders` from platform env (tenant secrets via env key). */

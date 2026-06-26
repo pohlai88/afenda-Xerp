@@ -452,11 +452,15 @@ Run the narrowest gate that covers your change. Full matrix → [VERIFICATION.md
 
 ```bash
 pnpm --filter <pkg> typecheck   # narrow gate first
+pnpm sync:package-css-dist      # after package CSS src edits (@afenda/appshell, ui, metadata-ui)
+pnpm check:package-css-dist-sync
 pnpm ui:guard:scan              # Gate D — fast (< 2 s), when touching ui/appshell/erp
 pnpm test:run                   # full vitest suite (or --filter <pkg>)
 pnpm ci:biome                   # Biome format + lint (CI mode)
 pnpm check                      # full pre-PR gate: biome + typecheck + tests
 ```
+
+Skill: `.cursor/skills/package-css-dist-sync/SKILL.md` — apps import CSS from package `dist/`, not `src/`.
 
 ---
 

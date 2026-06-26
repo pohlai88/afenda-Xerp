@@ -274,6 +274,7 @@ When Slice type = Evidence-sync:
 | write-fdr | `.cursor/skills/write-fdr/SKILL.md` | FDR structure, DoD, §Research rules |
 | ENTERPRISE-BENCHMARK | `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` | G0–G10, scoring, hard fails, evidence grades |
 | afenda-coding-session | `.cursor/skills/afenda-coding-session/SKILL.md` | Phase 0, §11 Completion Report |
+| package-css-dist-sync | `.cursor/skills/package-css-dist-sync/SKILL.md` | After `@afenda/appshell` / `@afenda/ui` / `@afenda/metadata-ui` CSS src edits — sync dist before ERP visual verification |
 | govern-primitive | `.cursor/skills/govern-primitive/SKILL.md` | Only when handoff allows `packages/ui/src/components/` |
 
 Domain skills (read when FDR metadata cites them): `better-auth-erp`, `multi-tenancy-erp`, `afenda-drizzle-migration`, etc.

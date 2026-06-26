@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getAuthEmailFromAddress,
   getBetterAuthSecret,
   getBetterAuthUrl,
   hasBetterAuthConfig,
@@ -11,6 +12,7 @@ import {
   resolveBetterAuthWebAuthnOrigin,
   resolveBetterAuthWebAuthnRpId,
   resolveBetterAuthWebAuthnRpName,
+  resolveResendWebhookEndpoint,
 } from "../auth.env.js";
 import {
   MissingBetterAuthSecretError,
@@ -73,6 +75,15 @@ describe("auth.env", () => {
     ).toBe(true);
   });
 
+  it("resolves auth email from-address when configured", () => {
+    expect(getAuthEmailFromAddress({})).toBeUndefined();
+    expect(
+      getAuthEmailFromAddress({
+        AFENDA_AUTH_EMAIL_FROM: "Afenda ERP <auth@example.com>",
+      })
+    ).toBe("Afenda ERP <auth@example.com>");
+  });
+
   it("reports change-email readiness via isAuthChangeEmailEnabled", () => {
     expect(isAuthChangeEmailEnabled()).toBe(true);
   });
@@ -88,5 +99,8 @@ describe("auth.env", () => {
     );
     expect(resolveBetterAuthWebAuthnRpId(env)).toBe("erp.example.com");
     expect(resolveBetterAuthWebAuthnRpName()).toBe("Afenda ERP");
+    expect(resolveResendWebhookEndpoint(env)).toBe(
+      "https://erp.example.com/api/webhooks/resend"
+    );
   });
 });

@@ -7,14 +7,10 @@ import {
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
 import { isAuthInvitationGateEnabled } from "./auth.invitation.js";
+import { isAfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
 /** Better Auth social OAuth callback routes attested in integration tests (Slice 13c). */
 export const AFENDA_AUTH_OAUTH_CALLBACK_PREFIX = "/callback/" as const;
-
-export const AFENDA_OAUTH_PROVIDER_IDS = [
-  "google",
-  "microsoft",
-] as const satisfies readonly TenantOAuthProviderId[];
 
 export class AuthOAuthInvitationRejectedError extends Error {
   constructor(message: string) {
@@ -48,7 +44,7 @@ export function readOAuthProviderIdFromCallbackPath(
   const segments = path.split("/").filter(Boolean);
   const providerId = segments.at(-1);
 
-  if (providerId === "google" || providerId === "microsoft") {
+  if (providerId !== undefined && isAfendaAuthSocialProviderId(providerId)) {
     return providerId;
   }
 

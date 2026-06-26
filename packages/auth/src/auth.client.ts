@@ -18,10 +18,13 @@ export {
   resolvePasskeyDisplayLabel,
 } from "./auth.passkey-label.js";
 export {
-  SIGN_IN_SOCIAL_PROVIDER_IDS,
+  resolveSignInProviderSurface,
   type SignInProviderSurface,
-  type SignInSocialProviderId,
 } from "./auth.sign-in-surface.js";
+export {
+  SIGN_IN_SOCIAL_PROVIDER_IDS,
+  type SignInSocialProviderId,
+} from "./auth.social-providers.js";
 
 export function createAfendaAuthClient(baseURL?: string) {
   return createAuthClient({

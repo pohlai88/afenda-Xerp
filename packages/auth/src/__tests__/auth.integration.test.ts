@@ -25,10 +25,8 @@ import {
   assertTenantMfaPolicySatisfied,
   isAuthUserMfaEnabled,
 } from "../auth.mfa-policy.js";
-import {
-  AFENDA_AUTH_OAUTH_CALLBACK_PREFIX,
-  AFENDA_OAUTH_PROVIDER_IDS,
-} from "../auth.oauth-policy.js";
+import { AFENDA_AUTH_OAUTH_CALLBACK_PREFIX } from "../auth.oauth-policy.js";
+import { AFENDA_OAUTH_PROVIDER_IDS } from "../auth.social-providers.js";
 
 /** Mirrors `auth.config.ts` rate-limit constants (Slice 7 config attestation). */
 const AUTH_RATE_LIMIT_WINDOW_SECONDS = 60;

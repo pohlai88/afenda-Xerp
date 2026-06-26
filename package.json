@@ -65,6 +65,8 @@
     "check:delivery-evidence-surface": "tsx scripts/governance/check-delivery-evidence-surface.mts",
     "check:documentation-drift": "tsx scripts/governance/check-documentation-drift.mts",
     "check:foundation-disposition": "tsx scripts/governance/check-foundation-disposition.mts",
+    "check:package-css-dist-sync": "node scripts/governance/check-package-css-dist-sync.mjs",
+    "sync:package-css-dist": "node scripts/governance/sync-package-css-dist.mjs",
     "check:system-admin-mutation-audit": "tsx scripts/governance/check-system-admin-mutation-audit.mts",
     "check:erp-diagnostic-logging": "tsx scripts/governance/check-erp-diagnostic-logging.mts",
     "check:business-master-data-scaffold": "tsx scripts/governance/check-business-master-data-scaffold.mts",
@@ -125,6 +127,9 @@
     "clean": "turbo run clean",
     "env:sync": "node scripts/sync-env.mjs",
     "env:doctor": "node scripts/env-doctor.mjs",
+    "resend:validate": "node .cursor/mcp/resend-validate.mjs",
+    "resend:webhook:provision": "node .cursor/mcp/resend-webhook-provision.mjs",
+    "resend:webhook:cleanup": "node .cursor/mcp/resend-webhook-cleanup.mjs",
     "env:console": "node scripts/env-console.mjs",
     "env:setup-github-vercel-secrets": "node scripts/setup-github-vercel-secrets.mjs",
     "migrate": "pnpm --filter @afenda/database db:migrate",
@@ -174,6 +179,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}": "ultracite fix",
+    "packages/appshell/src/styles/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
+    "packages/ui/src/styles/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
+    "packages/metadata-ui/src/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
     "*.mdx": "prettier --write"
   }
 }

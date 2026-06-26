@@ -11,6 +11,7 @@ import type { ReactNode } from "react";
 import { ErpApplicationShell } from "@/components/erp-application-shell.client";
 import { SignOutButton } from "@/components/sign-out-button";
 import { WorkspaceContextSwitcher } from "@/components/workspace-context-switcher.client";
+import { resolveUnlinkedSessionRedirect } from "@/lib/auth/auth-redirect.policy";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
 import { resolveContextSwitchPresentation } from "@/lib/context/resolve-context-switch-presentation";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
@@ -48,7 +49,7 @@ export default async function ProtectedLayout({
   }
 
   if (!isAfendaAuthSessionLinked(session)) {
-    redirect("/sign-in?error=unlinked");
+    redirect(resolveUnlinkedSessionRedirect());
   }
 
   const requestHeaders = await headers();

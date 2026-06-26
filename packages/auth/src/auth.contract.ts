@@ -68,6 +68,8 @@ export const AUTH_EVENT = {
   emailVerified: "auth.email.verified",
   invitationAccepted: "auth.invitation.accepted",
   invitationRejected: "auth.invitation.rejected",
+  emailDeliveryBounced: "auth.email.delivery_bounced",
+  emailDeliveryComplained: "auth.email.delivery_complained",
   invitationSent: "auth.invitation.sent",
   mfaBypassBlocked: "auth.mfa.bypass_blocked",
   mfaDisabled: "auth.mfa.disabled",
@@ -95,40 +97,7 @@ export const AUTH_EVENT = {
   ssoSignInFailed: "auth.sso.sign_in.failed",
   ssoSignInSucceeded: "auth.sso.sign_in.succeeded",
   workspaceContextSwitched: "auth.workspace.context_switched",
-} as const satisfies Record<
-  | "emailVerificationSent"
-  | "emailVerified"
-  | "invitationAccepted"
-  | "invitationRejected"
-  | "invitationSent"
-  | "mfaBypassBlocked"
-  | "mfaDisabled"
-  | "mfaEnrolled"
-  | "mfaPolicyUpdated"
-  | "mfaVerified"
-  | "mirrorSyncFailed"
-  | "oauthProviderConfigured"
-  | "oauthSignInFailed"
-  | "oauthSignInSucceeded"
-  | "passwordResetCompleted"
-  | "passwordResetRequested"
-  | "passkeyDeleted"
-  | "passkeyRegistered"
-  | "passkeySignInFailed"
-  | "passkeySignInSucceeded"
-  | "sessionCreated"
-  | "sessionDeviceRevoked"
-  | "sessionInvalidated"
-  | "sessionRevokedAll"
-  | "signInFailed"
-  | "signInSucceeded"
-  | "signOut"
-  | "ssoProviderConfigured"
-  | "ssoSignInFailed"
-  | "ssoSignInSucceeded"
-  | "workspaceContextSwitched",
-  string
->;
+} as const satisfies Record<string, `auth.${string}`>;
 
 export type AuthEventName = (typeof AUTH_EVENT)[keyof typeof AUTH_EVENT];
 
@@ -141,6 +110,8 @@ export interface AuthEventContext {
   readonly email?: string;
   readonly invitationId?: string;
   readonly ipAddress?: string | null;
+  /** Resend message id when transactional email delivery succeeded. */
+  readonly messageId?: string;
   readonly mfaRequired?: string;
   readonly oauthProviderId?: string;
   readonly passkeyId?: string;

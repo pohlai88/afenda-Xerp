@@ -36,6 +36,8 @@ describe("Next.js App Router hardening — proxy boundary", () => {
       /export (?:const CORRELATION_ID_HEADER|\{ CORRELATION_ID_HEADER \})/
     );
     expect(source).toContain("export function proxy");
+    expect(source).toContain("isAuthEntryRoute");
+    expect(source).toContain("resolveSafeInternalPath");
   });
 
   it("does not retain legacy middleware.ts entrypoint", () => {
@@ -46,7 +48,11 @@ describe("Next.js App Router hardening — proxy boundary", () => {
 describe("Next.js App Router hardening — UI surface rules", () => {
   const authAndShellSources = [
     "src/app/(auth)/layout.tsx",
-    "src/app/(auth)/sign-in/sign-in-form.tsx",
+    "src/app/(auth)/_components/sign-in-form.tsx",
+    "src/app/(auth)/_components/sign-in-mfa-step.tsx",
+    "src/app/(auth)/_components/sign-up-form.tsx",
+    "src/app/(auth)/_components/forgot-password-form.tsx",
+    "src/app/(auth)/_components/reset-password-form.tsx",
     "src/components/sign-out-button.tsx",
     "src/app/(protected)/page.tsx",
   ];
@@ -85,6 +91,7 @@ describe("Next.js App Router hardening — error boundaries", () => {
     "src/app/not-found.tsx",
     "src/app/global-error.tsx",
     "src/app/(protected)/loading.tsx",
+    "src/app/(auth)/loading.tsx",
     "src/app/(protected)/error.tsx",
     "src/app/(auth)/error.tsx",
     "src/app/(dev)/error.tsx",

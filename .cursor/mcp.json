@@ -29,6 +29,22 @@
     "better-auth": {
       "type": "http",
       "url": "https://mcp.better-auth.com/mcp"
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "figma-desktop": {
+      "type": "http",
+      "url": "http://127.0.0.1:3845/mcp"
+    },
+    "resend-dev": {
+      "command": "node",
+      "args": ["${workspaceFolder}/.cursor/mcp/resend-dev.mjs"]
+    },
+    "resend-docs": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://resend.com/docs/mcp"]
     }
   }
 }

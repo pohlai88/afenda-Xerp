@@ -48,4 +48,28 @@ describe("@afenda/auth/client", () => {
     expect(parseAfendaAuthDeviceSessions([{ invalid: true }])).toEqual([]);
     expect(authClient).toBeDefined();
   });
+
+  it("normalizes device session createdAt to ISO strings", () => {
+    const createdAt = new Date("2026-06-20T00:00:00.000Z");
+
+    expect(
+      parseAfendaAuthDeviceSessions([
+        {
+          session: {
+            id: "session-001",
+            token: "token-001",
+            createdAt,
+          },
+        },
+      ])
+    ).toEqual([
+      {
+        session: {
+          id: "session-001",
+          token: "token-001",
+          createdAt: createdAt.toISOString(),
+        },
+      },
+    ]);
+  });
 });

@@ -8,6 +8,7 @@ import { haveIBeenPwned, multiSession, twoFactor } from "better-auth/plugins";
 
 import {
   createAuthPasswordResetEmailSender,
+  createAuthTwoFactorOtpSender,
   createAuthVerificationEmailSender,
 } from "./auth.email.js";
 import {
@@ -72,6 +73,8 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
     },
     emailVerification: {
       sendVerificationEmail: createAuthVerificationEmailSender(env),
+      autoSignInAfterVerification: false,
+      redirectTo: `${resolveBetterAuthBaseUrl(env)}/verify-email/success`,
     },
     user: {
       changeEmail: {
@@ -99,7 +102,20 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
       nextCookies(),
       haveIBeenPwned(),
       twoFactor({
+        allowPasswordless: true,
         backupCodeOptions: { amount: 10 },
+        otpOptions: {
+          sendOTP: async ({ otp, user }) => {
+            await createAuthTwoFactorOtpSender(env)({
+              otp,
+              user: {
+                email: user.email,
+                id: user.id,
+                name: user.name ?? user.email,
+              },
+            });
+          },
+        },
       }),
       multiSession(),
       passkey({

@@ -42,6 +42,10 @@
 
 /* ── App source scanning ────────────────────────────────────────────────── */
 @source "../**/*.{ts,tsx}";
+@source "../../../../packages/design-system/src/**/*.{ts,tsx,css}";
+@source "../../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../../../../packages/appshell/src/**/*.{ts,tsx}";
+@source "../../../../packages/metadata-ui/src/**/*.{ts,tsx}";
 
 /* ── 6. App overrides ───────────────────────────────────────────────────── */
 @layer components {
@@ -302,84 +306,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-  }
-
-  .erp-sign-in-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-4);
-    width: 100%;
-  }
-
-  .erp-sign-in-form__social {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-2);
-  }
-
-  .erp-sign-in-form__divider {
-    display: flex;
-    gap: var(--afenda-spacing-3);
-    align-items: center;
-  }
-
-  .erp-sign-in-form__divider-label {
-    flex-shrink: 0;
-    font-size: 0.875rem;
-    color: var(--muted-foreground);
-  }
-
-  .erp-sign-in-form__fields {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-4);
-  }
-
-  .erp-sign-in-form__field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-1);
-  }
-
-  .erp-sign-in-form__error {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--destructive);
-  }
-
-  .erp-sign-in-form__loading {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--muted-foreground);
-    text-align: center;
-  }
-
-  .erp-sign-in-form__alternates {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-3);
-    padding-block-start: var(--afenda-spacing-4);
-    margin-block-start: var(--afenda-spacing-4);
-    border-block-start: 1px solid var(--border);
-  }
-
-  .erp-sign-in-form__alternates-label {
-    font-size: 0.875rem;
-    color: var(--muted-foreground);
-    text-align: center;
-  }
-
-  .erp-sign-in-form__alternates-actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-2);
-  }
-
-  .erp-sign-in-form__sso {
-    display: flex;
-    flex-direction: column;
-    gap: var(--afenda-spacing-2);
-    margin-block-start: var(--afenda-spacing-2);
   }
 
   .erp-system-admin-sso-form__full-width {

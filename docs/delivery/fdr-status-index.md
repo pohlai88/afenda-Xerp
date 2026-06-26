@@ -180,8 +180,9 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
 | fdr-002-auth-disposition | PKG002_AUTH | Complete | Identity, session, operating-context bridge — **enterprise 9.5 accepted** (29/30) |
+| fdr-002-email-delivery | PKG002_AUTH | Complete | Resend transactional email (ARCH-EMAIL-001) — **enterprise 9.5 accepted** (29/30) · slices 1–14 ✓ · DoD #20 closed 2026-06-26 |
 
-**ARCH extension ([ARCH-AUTH-001](../ARCH/%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md)):** Slices 1–17 delivered (134 PKG tests exit 0; DoD #15 RBAC gate Slice 16 · 2026-06-26). ARCH **Complete — enterprise 9.5 accepted** (Slice 17 · 2026-06-26).
+**ARCH extension ([ARCH-AUTH-001](../ARCH/%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md)):** Slices 1–17 delivered. **ARCH extension ([ARCH-EMAIL-001](../ARCH/%5BPartially%20Implemented%5D%20ARCH-EMAIL-001-resend-transactional-email.md)):** Slices 1–9 delivered (transport + Vercel webhook ops).
 
 ### PKG-003 — `@afenda/database`
 

@@ -1,28 +1,22 @@
-import { AppShellAuthLoginPage04 } from "@afenda/appshell";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { AuthEntryPage } from "@/app/(auth)/_components/auth-entry-page";
+import { SignInForm } from "@/app/(auth)/_components/sign-in-form";
+import { SignInFormFallback } from "@/app/(auth)/_components/sign-in-form-fallback";
+import { AUTH_ROUTE_REGISTRY } from "@/lib/auth/auth-route.registry";
 import { resolveSignInSurface } from "@/lib/auth/resolve-sign-in-surface.server";
 
-import { SignInForm } from "./sign-in-form";
+export const metadata: Metadata = AUTH_ROUTE_REGISTRY.signIn.metadata;
 
-function SignInLoadingFallback() {
-  return (
-    <AppShellAuthLoginPage04 formDescription="Loading sign-in options…">
-      <p className="erp-sign-in-form__loading" role="status">
-        Loading sign-in…
-      </p>
-    </AppShellAuthLoginPage04>
-  );
-}
-
-export default async function SignInPage() {
-  const surface = await resolveSignInSurface();
+export default function SignInPage() {
+  const surface = resolveSignInSurface();
 
   return (
-    <Suspense fallback={<SignInLoadingFallback />}>
-      <AppShellAuthLoginPage04>
+    <AuthEntryPage route="signIn">
+      <Suspense fallback={<SignInFormFallback />}>
         <SignInForm surface={surface} />
-      </AppShellAuthLoginPage04>
-    </Suspense>
+      </Suspense>
+    </AuthEntryPage>
   );
 }

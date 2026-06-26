@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const betterAuthState = vi.hoisted(() => ({
   lastOptions: null as Record<string, unknown> | null,
+  lastTwoFactorOptions: null as Record<string, unknown> | null,
 }));
 
 vi.mock("better-auth", () => ({
@@ -22,7 +23,10 @@ vi.mock("better-auth/next-js", () => ({
 vi.mock("better-auth/plugins", () => ({
   haveIBeenPwned: () => ({}),
   multiSession: () => ({}),
-  twoFactor: () => ({}),
+  twoFactor: (options: Record<string, unknown>) => {
+    betterAuthState.lastTwoFactorOptions = options;
+    return {};
+  },
 }));
 
 vi.mock("@better-auth/sso", () => ({
@@ -48,6 +52,7 @@ vi.mock("../auth.hooks.js", () => ({
 
 vi.mock("../auth.email.js", () => ({
   createAuthPasswordResetEmailSender: () => vi.fn(),
+  createAuthTwoFactorOtpSender: () => vi.fn(),
   createAuthVerificationEmailSender: () => vi.fn(),
 }));
 
@@ -59,6 +64,7 @@ const TEST_ENV = {
 describe("auth.config", () => {
   beforeEach(() => {
     betterAuthState.lastOptions = null;
+    betterAuthState.lastTwoFactorOptions = null;
   });
 
   it("enables user.changeEmail in Better Auth options", async () => {
@@ -78,6 +84,20 @@ describe("auth.config", () => {
 
     expect(betterAuthState.lastOptions?.["emailVerification"]).toMatchObject({
       sendVerificationEmail: expect.any(Function),
+      redirectTo: "http://localhost:3000/verify-email/success",
+    });
+  }, 30_000);
+
+  it("wires twoFactor otpOptions.sendOTP for email OTP sign-in", async () => {
+    const { createAuthConfig } = await import("../auth.config.js");
+
+    createAuthConfig({ env: TEST_ENV });
+
+    expect(betterAuthState.lastTwoFactorOptions).toMatchObject({
+      allowPasswordless: true,
+      otpOptions: {
+        sendOTP: expect.any(Function),
+      },
     });
   }, 30_000);
 });

@@ -29,6 +29,19 @@ const nextConfig: NextConfig = {
         pathname: "/ss-assets/**",
         protocol: "https",
       },
+      // Figma Desktop MCP image exports (Dev Mode MCP server on port 3845)
+      {
+        hostname: "127.0.0.1",
+        pathname: "/**",
+        port: "3845",
+        protocol: "http",
+      },
+      {
+        hostname: "localhost",
+        pathname: "/**",
+        port: "3845",
+        protocol: "http",
+      },
     ],
   },
   experimental: {

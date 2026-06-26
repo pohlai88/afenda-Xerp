@@ -221,6 +221,30 @@ Two layers — do not confuse them:
 
 ---
 
+## Package CSS dist sync
+
+Apps import foundation CSS from package **`dist/`** exports, not from `src/`. After editing `@afenda/appshell`, `@afenda/ui`, or `@afenda/metadata-ui` CSS sources, sync before ERP or Storybook visual verification.
+
+```bash
+pnpm sync:package-css-dist                              # fast CSS copy (all packages)
+pnpm sync:package-css-dist -- --package @afenda/appshell  # scoped
+pnpm check:package-css-dist-sync                        # verification gate
+pnpm --filter @afenda/appshell build                    # full TS + CSS build
+```
+
+| Layer | Enforcement |
+|-------|-------------|
+| **pre-commit** | `lint-staged` auto-copies staged `src/` CSS → `dist/` and re-stages output |
+| **Cursor postToolUse** | Reminder after agent edits package CSS sources |
+| **Cursor stop hook** | Runs `pnpm check:package-css-dist-sync` when scoped CSS sources changed |
+| **Agents** | Include sync + check in Phase 0 gates and Completion Report |
+
+**Rule:** `.cursor/rules/package-css-dist-sync.mdc`  
+**Skill:** `.cursor/skills/package-css-dist-sync/SKILL.md`  
+**Policy:** `scripts/governance/package-css-dist-policy.mjs`
+
+---
+
 ## CSP third-party scripts (ERP)
 
 Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scripts:

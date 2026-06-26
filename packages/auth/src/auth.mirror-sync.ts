@@ -41,14 +41,24 @@ export class AuthMirrorSyncConflictError extends Error {
   }
 }
 
-type AuthInternalAdapter = Awaited<
-  Awaited<ReturnType<typeof getAuth>>["$context"]
->["internalAdapter"];
+/** Minimal Better Auth internal adapter surface used by mirror sync. */
+interface AuthMirrorInternalAdapter {
+  createUser(input: {
+    email: string;
+    emailVerified: boolean;
+    name: string;
+  }): Promise<{ id: string } | null>;
+  findUserByEmail(email: string): Promise<{ user: { id: string } } | null>;
+  updateUser(
+    authUserId: string,
+    input: { email: string; name: string }
+  ): Promise<unknown>;
+}
 
-async function resolveAuthInternalAdapter(): Promise<AuthInternalAdapter> {
+async function resolveAuthInternalAdapter(): Promise<AuthMirrorInternalAdapter> {
   const auth = getAuth();
   const context = await auth.$context;
-  return context.internalAdapter;
+  return context.internalAdapter as AuthMirrorInternalAdapter;
 }
 
 async function findAuthUserIdByPlatformUserId(
@@ -85,7 +95,7 @@ async function hasMirrorIdentityLink(
 }
 
 async function upsertMirrorAuthUser(
-  adapter: AuthInternalAdapter,
+  adapter: AuthMirrorInternalAdapter,
   email: string,
   displayName: string,
   preferredAuthUserId: string | null
