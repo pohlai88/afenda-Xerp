@@ -1,5 +1,5 @@
 {
   "title": "Guides",
   "root": true,
-  "pages": ["getting-started", "monorepo-map", "contributing"]
+  "pages": ["getting-started", "monorepo-map", "api-reference", "contributing"]
 }

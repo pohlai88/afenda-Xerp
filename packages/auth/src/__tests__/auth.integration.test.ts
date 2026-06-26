@@ -535,6 +535,6 @@ describe("auth.integration (Better Auth testUtils + Afenda hooks)", () => {
     expect(AFENDA_AUTH_EXTENSION_POINTS.organization).toBe("planned");
     expect(AFENDA_AUTH_EXTENSION_POINTS.passkey).toBe("active");
     expect(AFENDA_AUTH_OAUTH_CALLBACK_PREFIX).toBe("/callback/");
-    expect(AFENDA_OAUTH_PROVIDER_IDS).toEqual(["google", "microsoft"]);
+    expect(AFENDA_OAUTH_PROVIDER_IDS).toEqual(["google", "github"]);
   });
 });

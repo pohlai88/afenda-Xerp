@@ -1,9 +1,9 @@
 import type { TenantOAuthProviderId } from "@afenda/database";
 
-/** Canonical Better Auth social OAuth provider ids (google, microsoft). */
+/** Canonical Better Auth social OAuth provider ids. */
 export const AFENDA_AUTH_SOCIAL_PROVIDER_IDS = [
   "google",
-  "microsoft",
+  "github",
 ] as const satisfies readonly TenantOAuthProviderId[];
 
 export type AfendaAuthSocialProviderId =

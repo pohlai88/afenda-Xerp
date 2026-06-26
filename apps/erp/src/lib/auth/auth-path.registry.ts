@@ -36,6 +36,7 @@ export const AUTH_PATHS = {
   sessionExpired: "/session-expired",
   accessDenied: "/access-denied",
   securityReview: "/security/review",
+  postAuthComplete: "/auth/complete",
 } as const;
 
 export type AuthPathKey =
@@ -58,7 +59,8 @@ export type AuthPathKey =
   | "organizationSelect"
   | "sessionExpired"
   | "accessDenied"
-  | "securityReview";
+  | "securityReview"
+  | "postAuthComplete";
 
 /** Flat list of every auth-segment pathname for proxy and completeness tests. */
 export const AUTH_SEGMENT_PATHS = [
@@ -172,6 +174,8 @@ function resolveAuthPathString(key: AuthPathKey): string {
       return AUTH_PATHS.accessDenied;
     case "securityReview":
       return AUTH_PATHS.securityReview;
+    case "postAuthComplete":
+      return AUTH_PATHS.postAuthComplete;
     default: {
       const _exhaustive: never = key;
       return _exhaustive;

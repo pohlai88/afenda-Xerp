@@ -5,7 +5,12 @@ import {
   API_CONTRACTS,
   GOVERNED_ROUTE_CONTRACT_EXPORTS,
 } from "@/server/api/contracts/api-contract-registry";
+import { validateApiRouteCatalogCompleteness } from "@/server/api/contracts/api-route-catalog";
 import { validateApiContractRegistryCoverage } from "@/server/api/contracts/api-route-coverage";
+import {
+  isPublicAuthPolicy,
+  requiresSessionAuth,
+} from "@/server/api/contracts/auth-policy.contract";
 import { assertIdempotencyPolicy } from "@/server/api/contracts/idempotency.contract";
 import {
   assertMethodPolicy,
@@ -31,9 +36,16 @@ describe("API contract registry", () => {
 
   it("requires permission on protected contracts", () => {
     for (const contract of API_CONTRACTS) {
-      const isPublic = contract.tags.some((tag) => tag === "public");
-      if (isPublic) {
+      if (isPublicAuthPolicy(contract.authPolicy)) {
         expect("permission" in contract).toBe(false);
+        continue;
+      }
+
+      if (
+        requiresSessionAuth(contract.authPolicy) &&
+        !("permission" in contract) &&
+        contract.id === "internal.v1.auth.memberships.get"
+      ) {
         continue;
       }
 
@@ -41,6 +53,21 @@ describe("API contract registry", () => {
       if ("permission" in contract) {
         expect(contract.permission.permission.length).toBeGreaterThan(0);
       }
+    }
+  });
+
+  it("requires governance metadata on every contract", () => {
+    expect(validateApiRouteCatalogCompleteness(API_CONTRACTS)).toEqual([]);
+  });
+
+  it("requires authPolicy, contextPolicy, lifecycle, and stability on every contract", () => {
+    for (const contract of API_CONTRACTS) {
+      expect(contract.authPolicy.length).toBeGreaterThan(0);
+      expect(contract.contextPolicy.length).toBeGreaterThan(0);
+      expect(contract.lifecycle).toBe("active");
+      expect(contract.stability).toBe("internal-stable");
+      expect(contract.rateLimitPolicy.length).toBeGreaterThan(0);
+      expect(contract.owner).toBe("apps/erp");
     }
   });
 

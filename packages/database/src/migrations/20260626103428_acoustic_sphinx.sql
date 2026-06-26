@@ -1,0 +1,1 @@
+ALTER TABLE "tenant_settings" ADD COLUMN "appearance" jsonb DEFAULT '{}'::jsonb NOT NULL;

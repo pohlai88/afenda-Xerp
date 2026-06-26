@@ -1,4 +1,4 @@
-import type { ApiErrorCode } from "./api-error.contract";
+import type { ApiErrorCategory, ApiErrorCode } from "./api-error.contract";
 
 export interface ApiResponseMeta {
   readonly correlationId: string;
@@ -13,10 +13,12 @@ export interface ApiSuccessEnvelope<TData> {
 }
 
 export interface ApiErrorBody<TCode extends ApiErrorCode = ApiErrorCode> {
+  readonly category: ApiErrorCategory;
   readonly code: TCode;
   readonly correlationId: string;
   readonly details?: unknown;
   readonly message: string;
+  readonly retryable: boolean;
 }
 
 /** Serializable error body nested under governed `{ ok: false, error, meta }` envelopes. */

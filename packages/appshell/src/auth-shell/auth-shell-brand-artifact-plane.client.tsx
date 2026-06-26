@@ -20,20 +20,24 @@ import { AuthShellBrandArtifactImage } from "./auth-shell-brand-artifact-image.c
 
 export type { AuthShellBrandPrinciple } from "./auth-shell.contract.js";
 
+import type { ReactNode } from "react";
+
 export interface AuthShellBrandArtifactPlaneProps {
-  readonly artifactAlt?: string;
-  readonly artifactSrc?: AuthShellEntryBrandPanelProps["artifactSrc"];
-  readonly eyebrow?: string;
-  readonly footerCopy?: string;
-  readonly headline?: string;
-  readonly highlightedHeadline?: string;
+  readonly artifactAlt?: string | undefined;
+  readonly artifactSrc?:
+    | AuthShellEntryBrandPanelProps["artifactSrc"]
+    | undefined;
+  readonly eyebrow?: ReactNode;
+  readonly footerCopy?: ReactNode;
+  readonly headline?: ReactNode;
+  readonly highlightedHeadline?: ReactNode;
   readonly principles?: readonly AuthShellBrandPrinciple[];
-  readonly priority?: boolean;
-  readonly productLabel?: string;
-  readonly readinessLabel?: string;
-  readonly readinessScore?: string;
-  readonly securityLabel?: string;
-  readonly supportingText?: string;
+  readonly priority?: boolean | undefined;
+  readonly productLabel?: ReactNode;
+  readonly readinessLabel?: ReactNode;
+  readonly readinessScore?: ReactNode;
+  readonly securityLabel?: ReactNode;
+  readonly supportingText?: ReactNode;
 }
 
 /**
@@ -160,8 +164,14 @@ function AuthShellBrandPrinciples({
 }) {
   return (
     <dl className="app-shell-studio-auth-memory-gate__principles">
-      {principles.map((principle) => (
-        <div key={principle.label}>
+      {principles.map((principle, index) => (
+        <div
+          key={
+            typeof principle.label === "string"
+              ? principle.label
+              : `auth-shell-principle-${index}`
+          }
+        >
           <dt>{principle.label}</dt>
           <dd>{principle.statement}</dd>
         </div>

@@ -38,6 +38,7 @@
 | `DOCS` | Fumadocs site — `/docs/apps/**` application guides | ARCH-DOCS-001 |
 | `SUPA` | Supabase platform — Postgres, poolers, env ops (not identity) | ARCH-SUPA-001 |
 | `EMAIL` | Resend transactional email — auth + admin invite transport | ARCH-EMAIL-001 |
+| `API` | Governed REST API — contract registry, envelope, internal v1 routes | ARCH-API-001 |
 | `TEST` | Monorepo test pyramid — Vitest workspace, Storybook browser, Playwright E2E | ARCH-TEST-001 · ARCH-TEST-002 |
 
 ### Legacy delivery IDs (renamed)
@@ -69,6 +70,8 @@
 
 | Step | ARCH | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
+| **1** | **ARCH-AUTH-003** | — | `@afenda/database` · `@afenda/storage` · `@afenda/appshell` · `apps/erp` | ARCH-AUTH-002 ✓ · ARCH-ADMIN-001 ✓ | [Complete](ARCH-AUTH-003-tenant-auth-branding.md) |
+| **2** | **ARCH-AUTH-002** | — | `@afenda/appshell` · `apps/erp` | ARCH-AUTH-001 ✓ · Slices 1–7 ✓ | [Complete](%5BComplete%5D%20ARCH-AUTH-002-auth-shell-v2.md) |
 | — | **ARCH-EMAIL-001** | **Complete** | `@afenda/auth` · `apps/erp` | ARCH-AUTH-001 ✓ | [handoff](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) |
 | — | **ARCH-AUTH-001** | **Complete** | `@afenda/auth` | Slices 1–17 ✓ | [handoff](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
 
@@ -94,6 +97,8 @@
 
 | ARCH ID | Document | PKG | Paired FDR | Status | Next step |
 | --- | --- | --- | --- | --- | --- |
+| **ARCH-AUTH-003** | [ARCH-AUTH-003-tenant-auth-branding.md](ARCH-AUTH-003-tenant-auth-branding.md) | PKG-003 · PKG-015 · PKG-001 · PKG-007 | [fdr-007-tenant-auth-branding](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-tenant-auth-branding.md) | **Complete — 29/30** | Tenant auth branding end-to-end delivery |
+| **ARCH-AUTH-002** | [\[Complete\] ARCH-AUTH-002-auth-shell-v2.md](%5BComplete%5D%20ARCH-AUTH-002-auth-shell-v2.md) | PKG-001 · `@afenda/appshell` | [fdr-001-shell-composition](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-001-shell-composition.md) | **Complete — 29/30** | — |
 | **ARCH-EMAIL-001** | [\[Complete\] ARCH-EMAIL-001-resend-transactional-email.md](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 · `@afenda/auth` | [fdr-002-email-delivery](../delivery/FDR/%5BComplete%5D%20fdr-002-email-delivery.md) | **Complete** | — |
 | **ARCH-AUTH-001** | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | **Complete** | — |
 | **ARCH-ADMIN-001** | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) | **Complete** | — |
@@ -102,6 +107,8 @@
 | **ARCH-SUPA-001** | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 · `@afenda/database` | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | **Complete** | — |
 | **ARCH-TEST-001** | [\[Complete\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 · `@afenda/testing` | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | **Complete** | — |
 | **ARCH-TEST-002** | [\[Complete\] ARCH-TEST-002-vitest-monorepo-workspace.md](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | PKG-016 · root `vitest.shared.ts` | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | **Complete** | — |
+| **ARCH-API-001** | [\[Complete\] ARCH-API-001-governed-rest-api.md](%5BComplete%5D%20ARCH-API-001-governed-rest-api.md) | PKG-007 · `@afenda/erp` | [fdr-007-api-governance](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) | **Complete — enterprise 9.5 accepted** | Kong · public OpenAPI (P2) |
+| **ARCH-API-002** | [ARCH-API-002-openapi-internal-v1-catalog.md](ARCH-API-002-openapi-internal-v1-catalog.md) | PKG-007 · PKG-005 | [fdr-007-api-governance](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) | **Complete — foundation acceptable** | zh API page body · public v1 (P2) |
 
 ---
 
@@ -114,6 +121,8 @@ All paths relative to `docs/ARCH/`.
 
 | ARCH ID | Document | PKG | Domain | Status | Paired FDR | Evidence / gap |
 | --- | --- | --- | --- | --- | --- | --- |
+| ARCH-AUTH-003 | [ARCH-AUTH-003-tenant-auth-branding.md](ARCH-AUTH-003-tenant-auth-branding.md) | PKG-003 · PKG-015 · PKG-001 · PKG-007 | Tenant auth shell branding | **Complete — 29/30** | [fdr-007-tenant-auth-branding](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-tenant-auth-branding.md) | `tenant_settings.appearance` · ERP storage upload · `resolveTenantAuthBrand` · admin Appearance panel · auth-shell-V2 logo/color |
+| ARCH-AUTH-002 | [\[Complete\] ARCH-AUTH-002-auth-shell-v2.md](%5BComplete%5D%20ARCH-AUTH-002-auth-shell-v2.md) | PKG-001 | Auth experience shell | **Complete — 29/30** | [fdr-001-shell-composition](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-001-shell-composition.md) | Slices 1–7 ✓ · `auth-shell-V2` package · `(auth-v2)` consumer · `check:auth-shell-boundary` exit 0 · ERP typecheck exit 0 |
 | ARCH-AUTH-001 | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | **Complete** | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–17 ✓ · DoD #15 closed · 97/100 enterprise score |
 | ARCH-EMAIL-001 | [\[Complete\] ARCH-EMAIL-001-resend-transactional-email.md](%5BComplete%5D%20ARCH-EMAIL-001-resend-transactional-email.md) | PKG-002 | Resend transactional email | **Complete** | [fdr-002-email-delivery](../delivery/FDR/%5BComplete%5D%20fdr-002-email-delivery.md) | Slices 1–14 ✓ · DoD #20 closed 2026-06-26 · 29/30 accepted |
 | ARCH-ADMIN-001 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 | System Admin control plane | **Complete** | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) · [fdr-007-accounting-readiness](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-accounting-readiness.md) | Slices 1–11 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
@@ -122,6 +131,8 @@ All paths relative to `docs/ARCH/`.
 | ARCH-SUPA-001 | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 | Supabase platform (Postgres ops) | **Complete** | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | Slices 1–9 ✓ · DoD #20 closed · waiver Accepted · `check:supabase-advisors` |
 | ARCH-TEST-001 | [\[Complete\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 | Monorepo test pyramid | **Complete** | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | Slices 1–5B ✓ · Gates 3i/3j/3cov · DoD #20 closed 2026-06-26 · 29/30 accepted |
 | ARCH-TEST-002 | [\[Complete\] ARCH-TEST-002-vitest-monorepo-workspace.md](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | PKG-016 | Vitest monorepo workspace | **Complete** | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | Four factories · jsdom UI · DB forks · Gate 3 `test:run` |
+| ARCH-API-001 | [\[Complete\] ARCH-API-001-governed-rest-api.md](%5BComplete%5D%20ARCH-API-001-governed-rest-api.md) | PKG-007 | Governed REST API foundation | **Complete — enterprise 9.5 accepted** | [fdr-007-api-governance](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) | 10 contracts · Postgres idempotency + rate limits · DoD #14 closed 2026-06-26 |
+| ARCH-API-002 | [ARCH-API-002-openapi-internal-v1-catalog.md](ARCH-API-002-openapi-internal-v1-catalog.md) | PKG-007 · PKG-005 | OpenAPI internal v1 catalog | **Complete — foundation acceptable** | [fdr-007-api-governance](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) | OpenAPI 3.1 generator · drift gate · Fumadocs en reference · 2026-06-26 |
 
 ### Templates and tooling
 
@@ -154,7 +165,7 @@ Closed set per ADR-0012 / FDR index. **Do not use runtime matrix vocabulary here
 | --- | --- |
 | New ARCH without index row | Add §ARCH register row first — then author via `ARCH-TEMPLATE.md` |
 | Accounting admin ARCH on PKG-R01 | ADR-0010 — ledger/posting blocked until new ADR + FDR `PKGR01_ACCOUNTING` update |
-| Duplicate auth ARCH | Use **ARCH-AUTH-001** only — withdraw duplicate ADRs (see ADR-0018) |
+| Duplicate identity auth ARCH | Use **ARCH-AUTH-001** only for identity — withdraw duplicate ADRs (see ADR-0018). **ARCH-AUTH-002** is auth *shell* UX only. |
 | Email change on profile tab | Blocked on ARCH-AUTH-001 `changeEmail.enabled` |
 | Dual-surface demo without Slice 6 | **Slice 6 ✓** — safe for demo |
 | **ARCH-APPS-001** or "Applications Book" naming | Retired — use **ARCH-DOCS-001** only |

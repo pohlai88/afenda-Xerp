@@ -21,7 +21,7 @@
 
 ## §Registry link
 
-> Read-only snapshot — authority is [`foundation-disposition.registry.ts`](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts). Registry `domain` is `operating-context`; this FDR scopes the **api-governance** subdomain on the same `PKG007_CONTEXT` entry. FDR acceptance gate `pnpm check:api-contracts` is repo-level (not yet listed in registry `gates[]` — see §Remaining gaps).
+> Read-only snapshot — authority is [`foundation-disposition.registry.ts`](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts). Registry `domain` is `operating-context`; this FDR scopes the **api-governance** subdomain on the same `PKG007_CONTEXT` entry. Acceptance gates `pnpm check:api-contracts` and `pnpm check:api-route-catalog` are listed in registry `gates[]` (synced 2026-06-26).
 
 | Field | Value |
 | --- | --- |
@@ -66,7 +66,8 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 
 - Public OpenAPI catalog (future product TIP)
 - Accounting domain API routes (ADR-0010)
-- Durable idempotency store (Redis/DB — deferred; in-memory replay only today)
+- Durable idempotency store — Postgres `api_idempotency_records` (migration `20260626110401_polite_lucky_pierre`)
+- Real rate-limit provider — Postgres `api_rate_limit_buckets`; wired in `createApiHandler`
 - Operating-context resolver pipeline internals (`fdr-007-operating-context`)
 - System Admin page delivery (`fdr-007-system-admin` — admin contracts are consumers of this FDR)
 
@@ -90,10 +91,11 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | Question | Answer | Evidence |
 | --- | --- | --- |
 | Does `pnpm check:api-contracts` exit 0? | **Yes** | Gate log below — "API contract drift check passed" |
-| Are all non-auth ERP routes registered in `API_CONTRACTS`? | **Yes** — 8 contracts; coverage validator passes | `api-contract-registry.ts`; `check-api-contracts.mts` |
+| Are all non-auth ERP routes registered in `API_CONTRACTS`? | **Yes** — 10 contracts; coverage validator passes | `api-contract-registry.ts`; `check-api-contracts.mts` |
 | Do governed routes use `createApiHandler` (no raw `Response.json`)? | **Yes** — route boundary scan passes | `api-route-coverage.ts`; `api-handler-boundary.test.ts` |
 | Are method + idempotency policies enforced on every contract? | **Yes** | `method-policy.contract.ts`; `idempotency.contract.ts`; gate policy loop |
-| Is durable idempotency store implemented? | **No** — in-memory replay only; documented deferral | `runtime/idempotency.ts`; gap `api-idempotency-store` |
+| Is durable idempotency store implemented? | **Yes** — Postgres-backed replay store | `packages/database/src/api-governance/` · `runtime/idempotency-postgres.ts` |
+| Is rate-limit enforcement active? | **Yes** — contract policy enforced in handler | `runtime/api-rate-limit.ts` · `api-rate-limit.test.ts` |
 | Does runtime matrix **partial** align with FDR promotion? | **No — reconciled** — matrix row **implemented** (2026-06-25 v2 audit); gate passes | §Remaining gaps `api-matrix-row-sync` closed |
 
 ### Baseline gate log (Research Slice 1 — 2026-06-25)
@@ -148,7 +150,7 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 | Idempotency policy | `apps/erp/src/server/api/contracts/idempotency.contract.ts` | Yes — Grade B (policy enforced; store in-memory only) |
 | Pagination contract | `apps/erp/src/server/api/contracts/pagination.contract.ts` | Yes — Grade B (dashboard layout contracts cite pagination) |
 | Handler factory | `apps/erp/src/server/api/runtime/create-api-handler.ts` | Yes — Grade B (`api-handler-boundary.test.ts`) |
-| Idempotency runtime | `apps/erp/src/server/api/runtime/idempotency.ts` | Yes — Grade C (in-memory; no durable store) |
+| Idempotency runtime | `apps/erp/src/server/api/runtime/idempotency.ts` | Yes — Grade A (Postgres default; memory for tests) |
 | Registry tests | `apps/erp/src/server/api/__tests__/api-contract-registry.test.ts` | Yes — Grade A (11 tests exit 0) |
 | Envelope tests | `apps/erp/src/server/api/__tests__/api-envelope.test.ts` | Yes — Grade A (5 tests exit 0) |
 | Handler boundary tests | `apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts` | Yes — Grade A (3 tests exit 0) |
@@ -162,8 +164,8 @@ Archive input (not implementation authority): [`tip-010a-api-contract-governance
 
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
-| `api-idempotency-store` | Durable idempotency store (Redis/DB) deferred — in-memory replay only | green | `erp-app-agent` | Slice 3+ | ADR + persistence slice; waiver until Accounting Core |
-| `api-registry-gate-sync` | `check:api-contracts` not listed in `PKG007_CONTEXT` registry `gates[]` | green | `foundation-registry-owner` | Registry-sync | Add gate to registry or sibling PKG entry |
+| `api-idempotency-store` | ~~Durable idempotency store~~ **Closed 2026-06-26** | green | `erp-app-agent` | Slice 6 | Postgres migration + ERP adapter |
+| `api-registry-gate-sync` | ~~`check:api-contracts` not in registry~~ **Closed 2026-06-26** | green | `foundation-registry-owner` | Registry-sync | Added `check:api-contracts` + `check:api-route-catalog` to `PKG007_CONTEXT` gates |
 | `api-matrix-row-sync` | ~~Runtime matrix row still **partial** while gate passes~~ **Closed** (v2 audit 2026-06-25) | green | Architecture Authority | — | Matrix row **implemented** |
 | `api-complete-status` | FDR at 27/30 audit-adjusted; Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; §Waivers reconfirmed |
 
@@ -417,7 +419,7 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-007-api-governance.m
 #### Known debt
 
 - `api-idempotency-store` — durable store deferred until Accounting Core ADR amendment (waiver `api-idempotency-store`)
-- `api-registry-gate-sync` — add `check:api-contracts` to PKG007_CONTEXT registry gates via Slice 4 Registry-sync
+- `api-registry-gate-sync` — **Closed 2026-06-26** (`PKG007_CONTEXT` gates include `check:api-contracts` + `check:api-route-catalog`)
 - `api-complete-status` — DoD #14 peer review blocks **Complete** promotion
 - Gap `api-matrix-row-sync` closed in Research v2 audit — matrix evidence not re-edited unless status changes
 
@@ -456,7 +458,7 @@ Oracle analog: confirm upgrade-safe — no handler bypass outside `createApiHand
 
 | Waiver ID | Requirement waived | Reason | Approver | Expiry / revisit |
 | --- | --- | --- | --- | --- |
-| `api-idempotency-store` | Durable idempotency persistence (DoD implicit) | In-memory replay sufficient for pre-Accounting Core; tip-010a documents deferral | Architecture Authority | Accounting Core ADR amendment |
+| `api-idempotency-store` | ~~Durable idempotency persistence~~ **Closed** | Postgres store delivered slice 6 | Architecture Authority | — |
 | `api-e2e` | Browser E2E for API routes | Unit + drift gate prove registry; matrix marks E2E optional | Architecture Authority | External beta go-live |
 | `api-observability-live-traces` | Live distributed trace on every API call (ISO observability 5/5) | Correlation ID + handler logging present; full trace deferred | Architecture Authority | `fdr-013-logging-tracing` |
 
@@ -487,7 +489,7 @@ This FDR is **enterprise 9.5 candidate / evidence-qualified**, not final **Compl
 
 The **29/30 evidence-qualified ceiling** is accepted only under these bounded assumptions:
 
-1. Durable idempotency store is deferred until Accounting Core ADR amendment (`api-idempotency-store`).
+1. Internal OpenAPI catalog delivered ([`ARCH-API-002`](../ARCH/ARCH-API-002-openapi-internal-v1-catalog.md)); Kong and public v1 remain P2.
 2. Browser E2E is waived until external beta go-live (`api-e2e`).
 3. Live distributed trace on every API call is deferred (`api-observability-live-traces`).
 4. **Complete** status requires Architecture Authority peer review and waiver reconfirmation at PR merge.
@@ -504,4 +506,4 @@ The **27/30 audit-adjusted** score is the honest green-lane benchmark today (~9.
 
 **Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review.**
 
-v2 audit refresh (2026-06-25): eight registered contracts; `pnpm check:api-contracts` and 19 API unit tests exit 0; matrix API Contract Governance row reconciled to **implemented**. Complete promotion blocked on DoD #14 peer review only. Durable idempotency store remains waived per §Waivers.
+v3 audit refresh (2026-06-26): ten registered contracts; Postgres idempotency + rate limits; ARCH-API-001 Complete (DoD #14); ARCH-API-002 OpenAPI internal v1 catalog; 49+ API unit tests exit 0. Kong/public v1 remain P2.

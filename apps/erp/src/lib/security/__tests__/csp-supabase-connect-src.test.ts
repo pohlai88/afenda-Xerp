@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
 
 import { createContentSecurityPolicy } from "@/lib/security/csp";
 import {
@@ -9,12 +10,12 @@ import {
 const SUPABASE_ENV = {
   NEXT_PUBLIC_SUPABASE_URL: "https://example-ref.supabase.co",
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_test",
-} as const satisfies NodeJS.ProcessEnv;
+} as const satisfies EnvReaderSource;
 
 const MCP_VERIFIED_PROJECT_ENV = {
   NEXT_PUBLIC_SUPABASE_URL: "https://esxjzvcfqtaxmiwjntje.supabase.co",
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_test",
-} as const satisfies NodeJS.ProcessEnv;
+} as const satisfies EnvReaderSource;
 
 describe("resolveSupabaseCspPlatformOrigins", () => {
   it("returns empty origins when public Supabase env is unset", () => {

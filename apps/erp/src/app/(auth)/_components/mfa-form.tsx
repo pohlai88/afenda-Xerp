@@ -2,60 +2,54 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
+import type { SignInMfaMode } from "@/app/(auth)/_components/sign-in-mfa-step";
 import { SignInMfaStep } from "@/app/(auth)/_components/sign-in-mfa-step";
-import {
-  clearPersistedMfaChallenge,
-  readPersistedMfaChallenge,
-} from "@/lib/auth/auth-mfa-challenge.storage";
+import { clearMfaChallengeAction } from "@/lib/auth/auth-mfa-challenge.action";
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
-import type { SignInTwoFactorMethod } from "@/lib/auth/is-sign-in-two-factor-redirect";
+import type { SignInTwoFactorChallenge } from "@/lib/auth/is-sign-in-two-factor-redirect";
 import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
+
+export type MfaInitialPayload = {
+  readonly challenge: SignInTwoFactorChallenge;
+  readonly nextPath: string;
+} | null;
 
 export function MfaForm({
   initialMode,
+  initialPayload,
 }: {
-  readonly initialMode?: SignInTwoFactorMethod;
+  readonly initialMode?: SignInMfaMode;
+  readonly initialPayload: MfaInitialPayload;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [ready, setReady] = useState(false);
-  const [payload, setPayload] =
-    useState<ReturnType<typeof readPersistedMfaChallenge>>(null);
 
-  useEffect(() => {
-    const persisted = readPersistedMfaChallenge();
-    if (persisted === null) {
-      router.replace(buildAuthPath("signIn"));
-      return;
-    }
-
-    setPayload(persisted);
-    setReady(true);
-  }, [router]);
-
-  if (!ready || payload === null) {
-    return null;
+  if (initialPayload === null) {
+    return <MfaMissingChallengeState />;
   }
 
   const nextPath =
-    resolveSafeInternalPath(searchParams.get("next")) || payload.nextPath;
+    resolveSafeInternalPath(searchParams.get("next")) ||
+    initialPayload.nextPath;
 
   const methods =
     initialMode === "backup-code"
       ? (["backup-code"] as const)
-      : initialMode === "otp" && payload.challenge.methods.includes("otp")
+      : initialMode === "otp" &&
+          initialPayload.challenge.methods.includes("otp")
         ? (["otp"] as const)
-        : payload.challenge.methods;
+        : initialPayload.challenge.methods;
 
   return (
     <SignInMfaStep
       methods={methods}
       nextPath={nextPath}
       onBack={() => {
-        clearPersistedMfaChallenge();
-        router.replace(buildAuthPath("signIn", { next: nextPath }));
+        void clearMfaChallengeAction().then(() => {
+          router.replace(buildAuthPath("signIn", { next: nextPath }));
+        });
       }}
     />
   );

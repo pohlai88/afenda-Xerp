@@ -1,6 +1,12 @@
 import {
+  AUTH_SHELL_V2_BRAND_HEADLINE,
+  AUTH_SHELL_V2_BRAND_SUPPORTING_TEXT,
+} from "@afenda/appshell/auth-shell-v2";
+import {
+  buildDefaultTenantAppearanceSettings,
   buildDefaultTenantOAuthSettings,
   getTenantSettingsByTenantId,
+  type TenantAppearanceSettings,
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
   type TenantNotificationsSettings,
@@ -140,6 +146,41 @@ export async function resolveBillingSettings(): Promise<TenantBillingSettings> {
   }
 
   return buildDefaultBillingSettings();
+}
+
+export function buildDefaultAppearanceSettings(input: {
+  readonly productLabel: string;
+}): TenantAppearanceSettings {
+  return {
+    ...buildDefaultTenantAppearanceSettings({
+      productLabel: input.productLabel,
+    }),
+    headline: AUTH_SHELL_V2_BRAND_HEADLINE,
+    supportingText: AUTH_SHELL_V2_BRAND_SUPPORTING_TEXT,
+  };
+}
+
+export async function resolveAppearanceSettings(input: {
+  readonly fallbackProductLabel: string;
+}): Promise<TenantAppearanceSettings> {
+  const access = await resolveSystemAdminSectionAccess("settings");
+  if (access.kind !== "allowed") {
+    return buildDefaultAppearanceSettings({
+      productLabel: input.fallbackProductLabel,
+    });
+  }
+
+  const persisted = await getTenantSettingsByTenantId(
+    access.operatingContext.tenant.tenantId
+  );
+  if (persisted?.appearance) {
+    return persisted.appearance;
+  }
+
+  return buildDefaultAppearanceSettings({
+    productLabel:
+      access.operatingContext.tenant.displayName || input.fallbackProductLabel,
+  });
 }
 
 export async function resolveIntegrationsSettings(): Promise<TenantIntegrationsSettings> {

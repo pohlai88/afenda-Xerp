@@ -6,7 +6,7 @@ import type {
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-26-v10" as const;
+  "FOUNDATION-DISPOSITION-2026-06-26-v11" as const;
 
 const foundationDispositionEntries = [
   {
@@ -65,6 +65,9 @@ const foundationDispositionEntries = [
       "apps/erp/src/lib/context/operating-context-resolver-registry.ts",
       "apps/erp/src/lib/server-actions/resolve-action-operating-context.server.ts",
       "apps/erp/src/__tests__/operating-context-integration.test.ts",
+      "apps/erp/src/server/api/contracts/api-contract-registry.ts",
+      "apps/erp/src/server/api/runtime/create-api-handler.ts",
+      "scripts/api-contract/check-api-contracts.mts",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -81,6 +84,8 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/erp typecheck",
       "pnpm quality:erp-context-surface",
       "pnpm check:multi-tenancy-context-integration",
+      "pnpm check:api-contracts",
+      "pnpm check:api-route-catalog",
       "pnpm check:documentation-drift",
     ],
     legacyTipEvidence: [

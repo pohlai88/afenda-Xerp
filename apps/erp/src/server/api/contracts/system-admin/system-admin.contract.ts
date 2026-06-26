@@ -1,7 +1,11 @@
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { z } from "zod";
-
 import type { ApiRouteContract } from "../api-contract";
+import {
+  API_GOVERNANCE_DOCUMENTATION_PATH,
+  API_ROUTE_OWNER,
+  DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+} from "../api-governance.constants";
 import {
   type SystemAdminAuditEventsResponseDto,
   type SystemAdminMembershipRoleRequestDto,
@@ -23,19 +27,31 @@ export const systemAdminUserInvitePostContract = {
     enabled: true,
     targetType: "user",
   },
+  authPolicy: "session-required",
   cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.users.invite.post",
   idempotency: { mode: "optional" },
+  lifecycle: "active",
   method: "POST",
+  owner: API_ROUTE_OWNER,
   path: "/api/internal/v1/system-admin/users/invite",
   permission: {
     mode: "required",
     permission: PERMISSION_REGISTRY.systemAdmin.users.manage,
   },
+  rateLimitPolicy: "authenticated-sensitive",
   requestSchema: systemAdminUserInviteRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteRequestSchema",
   responseSchema: systemAdminUserInviteResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteResponseSchema",
   runtime: "nodejs",
+  stability: "internal-stable",
   tags: ["system-admin", "users"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
   version: "v1",
 } as const satisfies ApiRouteContract<
   SystemAdminUserInviteRequestDto,
@@ -48,19 +64,31 @@ export const systemAdminMembershipRolePostContract = {
     enabled: true,
     targetType: "membership",
   },
+  authPolicy: "session-required",
   cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.memberships.role.post",
   idempotency: { mode: "optional" },
+  lifecycle: "active",
   method: "POST",
+  owner: API_ROUTE_OWNER,
   path: "/api/internal/v1/system-admin/memberships/role",
   permission: {
     mode: "required",
     permission: PERMISSION_REGISTRY.systemAdmin.roles.manage,
   },
+  rateLimitPolicy: "authenticated-sensitive",
   requestSchema: systemAdminMembershipRoleRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleRequestSchema",
   responseSchema: systemAdminMembershipRoleResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleResponseSchema",
   runtime: "nodejs",
+  stability: "internal-stable",
   tags: ["system-admin", "memberships"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
   version: "v1",
 } as const satisfies ApiRouteContract<
   SystemAdminMembershipRoleRequestDto,
@@ -68,18 +96,30 @@ export const systemAdminMembershipRolePostContract = {
 >;
 
 export const systemAdminAuditEventsGetContract = {
+  authPolicy: "session-required",
   cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.system-admin.audit-events.get",
+  lifecycle: "active",
   method: "GET",
+  owner: API_ROUTE_OWNER,
   path: "/api/internal/v1/system-admin/audit-events",
   permission: {
     mode: "required",
     permission: PERMISSION_REGISTRY.systemAdmin.audit.read,
   },
+  rateLimitPolicy: "authenticated-standard",
   requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
   responseSchema: systemAdminAuditEventsResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminAuditEventsResponseSchema",
   runtime: "nodejs",
+  stability: "internal-stable",
   tags: ["system-admin", "audit"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
   version: "v1",
 } as const satisfies ApiRouteContract<
   undefined,

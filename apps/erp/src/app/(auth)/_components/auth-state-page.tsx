@@ -13,15 +13,17 @@ function AuthStateNotice({
   readonly lead: string;
   readonly tone: "neutral" | "positive" | "negative";
 }) {
+  const hintProps = hints === undefined ? {} : { hints };
+
   if (tone === "positive") {
-    return <AuthForm.NoticePositive hints={hints} lead={lead} />;
+    return <AuthForm.NoticePositive {...hintProps} lead={lead} />;
   }
 
   if (tone === "negative") {
-    return <AuthForm.NoticeCaution hints={hints} lead={lead} />;
+    return <AuthForm.NoticeCaution {...hintProps} lead={lead} />;
   }
 
-  return <AuthForm.NoticeNeutral hints={hints} lead={lead} />;
+  return <AuthForm.NoticeNeutral {...hintProps} lead={lead} />;
 }
 
 export function AuthStatePage({
@@ -41,7 +43,11 @@ export function AuthStatePage({
     <AuthEntryPage route={route}>
       <AuthForm.Root>
         <AuthStatusMessage tone={tone}>
-          <AuthStateNotice hints={hints} lead={lead} tone={tone} />
+          <AuthStateNotice
+            {...(hints === undefined ? {} : { hints })}
+            lead={lead}
+            tone={tone}
+          />
         </AuthStatusMessage>
         {children}
       </AuthForm.Root>

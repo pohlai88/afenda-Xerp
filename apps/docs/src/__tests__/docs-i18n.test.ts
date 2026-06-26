@@ -19,7 +19,8 @@ describe("@afenda/docs i18n charter", () => {
     const sourceText = readFileSync(middlewarePath, "utf8");
     expect(sourceText).toContain("createI18nMiddleware");
     expect(sourceText).toContain("favicon.ico");
-    expect(sourceText).toContain("docs/.*\\.svg");
+    // Raw source uses `\\.` inside the matcher string literal (regex: docs/*.svg).
+    expect(sourceText).toMatch(/docs\/\.\*\\+\.svg/);
   });
 
   it("wires i18n into the Fumadocs source loader", () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
 
 import { getSupabaseServerEnv } from "../lib/supabase/server-env";
 
@@ -10,7 +11,7 @@ describe("getSupabaseServerEnv", () => {
       SUPABASE_SECRET_KEY: "sb_secret_test",
       SUPABASE_JWKS_URL:
         "https://example.supabase.co/auth/v1/.well-known/jwks.json",
-    };
+    } satisfies EnvReaderSource;
 
     expect(getSupabaseServerEnv(env)).toEqual({
       url: "https://example.supabase.co",
@@ -26,7 +27,7 @@ describe("getSupabaseServerEnv", () => {
     const env = {
       NEXT_PUBLIC_SUPABASE_URL: "https://example-ref.supabase.co",
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_browser",
-    };
+    } satisfies EnvReaderSource;
 
     const overrides = getSupabaseServerEnv(env);
 
@@ -43,7 +44,7 @@ describe("getSupabaseServerEnv", () => {
     const env = {
       NEXT_PUBLIC_SUPABASE_URL: "https://example-ref.supabase.co/",
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_browser",
-    };
+    } satisfies EnvReaderSource;
 
     expect(getSupabaseServerEnv(env).jwks).toEqual(
       new URL("https://example-ref.supabase.co/auth/v1/.well-known/jwks.json")

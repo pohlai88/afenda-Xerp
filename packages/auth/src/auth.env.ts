@@ -4,6 +4,10 @@ import {
   MissingBetterAuthSecretError,
   MissingBetterAuthUrlError,
 } from "./auth.errors.js";
+import {
+  createAfendaGithubSocialProviderConfig,
+  createAfendaGoogleSocialProviderConfig,
+} from "./auth.oauth-policy.js";
 import type { AfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
 function readTrimmedEnv(
@@ -55,6 +59,40 @@ export function resolveBetterAuthBaseUrl(
   env: NodeJS.ProcessEnv = process.env
 ): string {
   return resolveVercelDeploymentOrigin(env) ?? getBetterAuthUrl(env);
+}
+
+const AUTH_SHELL_V2_DEFAULT_ENV = "AFENDA_AUTH_SHELL_V2_DEFAULT" as const;
+
+/**
+ * When true (default), ERP auth presentation and Better Auth post-verify redirects
+ * target `/v2/*` routes. Set `AFENDA_AUTH_SHELL_V2_DEFAULT=false` for legacy-only.
+ */
+export function isAuthShellV2Default(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
+  const flag = readTrimmedEnv(env, AUTH_SHELL_V2_DEFAULT_ENV)?.toLowerCase();
+
+  if (flag === "false" || flag === "0") {
+    return false;
+  }
+
+  if (flag === "true" || flag === "1") {
+    return true;
+  }
+
+  return true;
+}
+
+/** Browser redirect after Better Auth email verification completes. */
+export function resolveBetterAuthEmailVerificationRedirectPath(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  const base = resolveBetterAuthBaseUrl(env);
+  const successPath = isAuthShellV2Default(env)
+    ? "/v2/verify-email/success"
+    : "/verify-email/success";
+
+  return `${base}${successPath}`;
 }
 
 /** WebAuthn origin for Better Auth passkey plugin — must not include a trailing slash. */
@@ -172,10 +210,10 @@ export const AFENDA_OAUTH_GOOGLE_CLIENT_ID_ENV =
   "AFENDA_OAUTH_GOOGLE_CLIENT_ID" as const;
 export const AFENDA_OAUTH_GOOGLE_CLIENT_SECRET_ENV =
   "AFENDA_OAUTH_GOOGLE_CLIENT_SECRET" as const;
-export const AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV =
-  "AFENDA_OAUTH_MICROSOFT_CLIENT_ID" as const;
-export const AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV =
-  "AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET" as const;
+export const AFENDA_OAUTH_GITHUB_CLIENT_ID_ENV =
+  "AFENDA_OAUTH_GITHUB_CLIENT_ID" as const;
+export const AFENDA_OAUTH_GITHUB_CLIENT_SECRET_ENV =
+  "AFENDA_OAUTH_GITHUB_CLIENT_SECRET" as const;
 
 export function resolveOAuthClientSecretFromEnv(
   env: NodeJS.ProcessEnv,
@@ -188,6 +226,12 @@ export interface BetterAuthSocialProviderConfig {
   readonly clientId: string;
   readonly clientSecret: string;
   readonly disableImplicitSignUp: true;
+  readonly mapProfileToUser?: (profile: {
+    email?: string | null;
+    id?: string | number;
+  }) => { email?: string };
+  readonly prompt?: string;
+  readonly scope?: string[];
 }
 
 export type BetterAuthSocialProvidersConfig = Partial<
@@ -207,28 +251,23 @@ export function resolveBetterAuthSocialProviders(
   );
 
   if (googleClientId && googleClientSecret) {
-    providers.google = {
+    providers.google = createAfendaGoogleSocialProviderConfig({
       clientId: googleClientId,
       clientSecret: googleClientSecret,
-      disableImplicitSignUp: true,
-    };
+    });
   }
 
-  const microsoftClientId = readTrimmedEnv(
+  const githubClientId = readTrimmedEnv(env, AFENDA_OAUTH_GITHUB_CLIENT_ID_ENV);
+  const githubClientSecret = readTrimmedEnv(
     env,
-    AFENDA_OAUTH_MICROSOFT_CLIENT_ID_ENV
-  );
-  const microsoftClientSecret = readTrimmedEnv(
-    env,
-    AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET_ENV
+    AFENDA_OAUTH_GITHUB_CLIENT_SECRET_ENV
   );
 
-  if (microsoftClientId && microsoftClientSecret) {
-    providers.microsoft = {
-      clientId: microsoftClientId,
-      clientSecret: microsoftClientSecret,
-      disableImplicitSignUp: true,
-    };
+  if (githubClientId && githubClientSecret) {
+    providers.github = createAfendaGithubSocialProviderConfig({
+      clientId: githubClientId,
+      clientSecret: githubClientSecret,
+    });
   }
 
   return Object.keys(providers).length > 0 ? providers : undefined;

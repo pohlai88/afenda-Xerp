@@ -35,6 +35,8 @@ describe("API envelope", () => {
 
     expect(envelope.ok).toBe(false);
     expect(envelope.error.code).toBe("validation_failed");
+    expect(envelope.error.category).toBe("validation");
+    expect(envelope.error.retryable).toBe(false);
     expect(envelope.error.correlationId).toBe(meta.correlationId);
     expect(envelope.meta).toEqual(meta);
     expect(Object.keys(envelope)).toEqual(["ok", "error", "meta"]);
@@ -52,6 +54,14 @@ describe("API error taxonomy", () => {
 
   it("maps validation failures to HTTP 400", () => {
     expect(API_ERROR_DEFINITIONS.validation_failed.httpStatus).toBe(400);
+  });
+
+  it("maps every error code to category and retryable metadata", () => {
+    for (const code of API_ERROR_CODES) {
+      const definition = API_ERROR_DEFINITIONS[code];
+      expect(definition.category.length).toBeGreaterThan(0);
+      expect(typeof definition.retryable).toBe("boolean");
+    }
   });
 
   it("maps unauthenticated to HTTP 401", () => {

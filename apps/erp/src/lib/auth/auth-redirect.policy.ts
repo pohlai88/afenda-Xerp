@@ -1,5 +1,10 @@
 import type { AfendaAuthSession } from "@afenda/auth";
 
+import { isAuthShellV2Default } from "@/lib/auth/is-auth-shell-v2-default";
+import {
+  AUTH_V2_PATHS,
+  buildAuthV2Path,
+} from "../auth-v2/auth-v2-path.registry";
 import { AUTH_PATHS, buildAuthPath } from "./auth-path.registry";
 import {
   DEFAULT_SAFE_INTERNAL_PATH,
@@ -20,7 +25,9 @@ export function resolvePostAuthEntry(
 ): string {
   const workspaceCount = hint?.workspaceCount;
   if (workspaceCount !== undefined && workspaceCount > 1) {
-    return AUTH_PATHS.workspaceSelect;
+    return isAuthShellV2Default()
+      ? AUTH_V2_PATHS.workspaceSelect
+      : AUTH_PATHS.workspaceSelect;
   }
 
   return DEFAULT_SAFE_INTERNAL_PATH;
@@ -56,6 +63,10 @@ export function resolveSignInAfterPasswordResetPath(): string {
 }
 
 export function resolveUnauthenticatedRedirect(returnPath: string): string {
+  if (isAuthShellV2Default()) {
+    return buildAuthV2Path("signIn", { next: returnPath });
+  }
+
   return buildAuthPath("signIn", { next: returnPath });
 }
 
@@ -82,10 +93,31 @@ export function resolveOtpEntryRedirect(): string {
   return buildAuthPath("mfa", { method: "otp" });
 }
 
+export function resolvePostAuthCompletePath(
+  nextParam: string | null | undefined
+): string {
+  if (isAuthShellV2Default()) {
+    return buildAuthV2Path("postAuthComplete", {
+      next: resolveSafeInternalPath(nextParam, "") || undefined,
+    });
+  }
+
+  return buildAuthPath("postAuthComplete", {
+    next: resolveSafeInternalPath(nextParam, "") || undefined,
+  });
+}
+
 export function resolveInviteAcceptRedirect(
   invitationToken: string,
   email?: string
 ): string {
+  if (isAuthShellV2Default()) {
+    return buildAuthV2Path("signUp", {
+      invitationToken,
+      email,
+    });
+  }
+
   return buildAuthPath("signUp", {
     invitationToken,
     email,

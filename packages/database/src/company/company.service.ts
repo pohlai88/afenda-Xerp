@@ -134,6 +134,15 @@ export async function updateCompany(
       countryCode: patch.countryCode ?? null,
       baseCurrency: patch.baseCurrency ?? null,
       status: patch.status ?? null,
+      mfaRequiredOverride: (() => {
+        if (patch.mfaRequiredOverride === undefined) {
+          return null;
+        }
+        if (patch.mfaRequiredOverride === null) {
+          return "inherit";
+        }
+        return String(patch.mfaRequiredOverride);
+      })(),
     },
     db
   );

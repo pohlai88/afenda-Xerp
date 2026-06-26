@@ -1,0 +1,2657 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Afenda ERP Internal API",
+    "version": "v1",
+    "description": "Registry-driven OpenAPI document for governed /api/internal/v1 routes."
+  },
+  "servers": [
+    {
+      "url": "/api/internal/v1",
+      "description": "ERP internal REST surface (relative to deployment origin)."
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "internalV1HealthGet",
+        "summary": "internal.v1.health.get",
+        "description": "Governed GET /api/internal/v1/health (internal-stable).",
+        "tags": [
+          "health",
+          "public"
+        ],
+        "security": [],
+        "x-afenda-auth-policy": "public",
+        "x-afenda-context-policy": "none",
+        "x-afenda-contract-id": "internal.v1.health.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": null,
+        "x-afenda-rate-limit-policy": "anonymous-low",
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "executionSpine": {
+                          "type": "object",
+                          "properties": {
+                            "allowDegradedExecution": {
+                              "type": "boolean"
+                            },
+                            "appReleaseSha": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "deadLetterCount": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "lastScheduleRegistrationAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "lastScheduleRegistrationError": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "lastSuccessfulPublishAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "lastWorkerVersionCheckAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "lastWorkerVersionCheckError": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "oldestPendingOutboxAgeSeconds": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "operationalStatus": {
+                              "type": "string",
+                              "enum": [
+                                "healthy",
+                                "degraded",
+                                "critical"
+                              ]
+                            },
+                            "outboxScheduleId": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "outboxScheduleRegistered": {
+                              "type": "boolean"
+                            },
+                            "pendingOutboxCount": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "schedulerRequired": {
+                              "type": "boolean"
+                            },
+                            "triggerDeploymentVersion": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "triggerGitCommitSha": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "triggerProviderState": {
+                              "type": "string",
+                              "enum": [
+                                "active",
+                                "degraded",
+                                "unavailable"
+                              ]
+                            },
+                            "triggerWorkerVersion": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "workerReleaseAligned": {
+                              "type": "boolean"
+                            },
+                            "workerReleaseCheckRequired": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "allowDegradedExecution",
+                            "appReleaseSha",
+                            "deadLetterCount",
+                            "lastScheduleRegistrationAt",
+                            "lastScheduleRegistrationError",
+                            "lastSuccessfulPublishAt",
+                            "lastWorkerVersionCheckAt",
+                            "lastWorkerVersionCheckError",
+                            "oldestPendingOutboxAgeSeconds",
+                            "operationalStatus",
+                            "outboxScheduleId",
+                            "outboxScheduleRegistered",
+                            "pendingOutboxCount",
+                            "schedulerRequired",
+                            "triggerDeploymentVersion",
+                            "triggerGitCommitSha",
+                            "triggerProviderState",
+                            "triggerWorkerVersion",
+                            "workerReleaseAligned",
+                            "workerReleaseCheckRequired"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "service": {
+                          "type": "string",
+                          "const": "erp"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "ok",
+                            "degraded",
+                            "critical"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "executionSpine",
+                        "service",
+                        "status"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/memberships": {
+      "get": {
+        "operationId": "internalV1AuthMembershipsGet",
+        "summary": "internal.v1.auth.memberships.get",
+        "description": "Governed GET /api/internal/v1/auth/memberships (internal-stable).",
+        "tags": [
+          "auth",
+          "memberships",
+          "public"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-required",
+        "x-afenda-contract-id": "internal.v1.auth.memberships.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": null,
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "activeMembershipCount": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "entryPath": {
+                          "type": "string"
+                        },
+                        "requiresOrganizationSelect": {
+                          "type": "boolean"
+                        },
+                        "requiresWorkspaceSelect": {
+                          "type": "boolean"
+                        },
+                        "targets": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "companySlug": {
+                                "type": "string"
+                              },
+                              "isSelected": {
+                                "type": "boolean"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "organizationSlug": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "companySlug",
+                              "isSelected",
+                              "label"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "workspaceTargetCount": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "activeMembershipCount",
+                        "entryPath",
+                        "requiresOrganizationSelect",
+                        "requiresWorkspaceSelect",
+                        "targets",
+                        "workspaceTargetCount"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client-error": {
+      "post": {
+        "operationId": "internalV1Client-errorPost",
+        "summary": "internal.v1.client-error.post",
+        "description": "Governed POST /api/internal/v1/client-error (internal-stable).",
+        "tags": [
+          "observability",
+          "public",
+          "telemetry"
+        ],
+        "security": [],
+        "x-afenda-auth-policy": "public",
+        "x-afenda-context-policy": "none",
+        "x-afenda-contract-id": "internal.v1.client-error.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": null,
+        "x-afenda-rate-limit-policy": "anonymous-low",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "digest": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128,
+                    "pattern": "^[\\w.-]+$"
+                  },
+                  "segment": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[\\w.-]+$"
+                  }
+                },
+                "required": [
+                  "digest",
+                  "segment"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accepted": {
+                          "type": "boolean",
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "accepted"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workspace/dashboard-layout": {
+      "get": {
+        "operationId": "internalV1WorkspaceDashboard-layoutGet",
+        "summary": "internal.v1.workspace.dashboard-layout.get",
+        "description": "Governed GET /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.workspace.dashboard-layout.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "workspace.dashboard_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "layout": {
+                          "type": "object",
+                          "properties": {
+                            "columns": {
+                              "type": "number",
+                              "const": 12
+                            },
+                            "items": {
+                              "readOnly": true,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "h": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "i": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "invoice-table",
+                                          "kpi-active-orders",
+                                          "kpi-headcount",
+                                          "kpi-net-income",
+                                          "kpi-open-tasks",
+                                          "module-earnings",
+                                          "payment-history",
+                                          "recent-transactions",
+                                          "regional-sales",
+                                          "revenue-chart",
+                                          "sparkline-expense",
+                                          "sparkline-revenue",
+                                          "statistics-line-trends",
+                                          "statistics-metrics"
+                                        ]
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "kpi-stats",
+                                          "sparkline-stats"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "minH": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "minW": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "w": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "x": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "y": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 9007199254740991
+                                  }
+                                },
+                                "required": [
+                                  "h",
+                                  "i",
+                                  "w",
+                                  "x",
+                                  "y"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "rowHeight": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "version": {
+                              "type": "number",
+                              "const": 1
+                            }
+                          },
+                          "required": [
+                            "columns",
+                            "items",
+                            "rowHeight",
+                            "version"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "source": {
+                          "type": "string",
+                          "enum": [
+                            "default",
+                            "stored"
+                          ]
+                        },
+                        "updatedAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "layout",
+                        "source",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "internalV1WorkspaceDashboard-layoutPut",
+        "summary": "internal.v1.workspace.dashboard-layout.put",
+        "description": "Governed PUT /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.workspace.dashboard-layout.put",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "workspace.dashboard_write",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique key for safe mutation retries.",
+            "in": "header",
+            "name": "idempotency-key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "columns": {
+                    "type": "number",
+                    "const": 12
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "h": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "i": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "invoice-table",
+                                "kpi-active-orders",
+                                "kpi-headcount",
+                                "kpi-net-income",
+                                "kpi-open-tasks",
+                                "module-earnings",
+                                "payment-history",
+                                "recent-transactions",
+                                "regional-sales",
+                                "revenue-chart",
+                                "sparkline-expense",
+                                "sparkline-revenue",
+                                "statistics-line-trends",
+                                "statistics-metrics"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "kpi-stats",
+                                "sparkline-stats"
+                              ]
+                            }
+                          ]
+                        },
+                        "minH": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "minW": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "w": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "x": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "y": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "h",
+                        "i",
+                        "w",
+                        "x",
+                        "y"
+                      ]
+                    }
+                  },
+                  "rowHeight": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "version": {
+                    "type": "number",
+                    "const": 1
+                  }
+                },
+                "required": [
+                  "columns",
+                  "items",
+                  "rowHeight",
+                  "version"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "layout": {
+                          "type": "object",
+                          "properties": {
+                            "columns": {
+                              "type": "number",
+                              "const": 12
+                            },
+                            "items": {
+                              "readOnly": true,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "h": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "i": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "invoice-table",
+                                          "kpi-active-orders",
+                                          "kpi-headcount",
+                                          "kpi-net-income",
+                                          "kpi-open-tasks",
+                                          "module-earnings",
+                                          "payment-history",
+                                          "recent-transactions",
+                                          "regional-sales",
+                                          "revenue-chart",
+                                          "sparkline-expense",
+                                          "sparkline-revenue",
+                                          "statistics-line-trends",
+                                          "statistics-metrics"
+                                        ]
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "kpi-stats",
+                                          "sparkline-stats"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "minH": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "minW": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "w": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "x": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  "y": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 9007199254740991
+                                  }
+                                },
+                                "required": [
+                                  "h",
+                                  "i",
+                                  "w",
+                                  "x",
+                                  "y"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "rowHeight": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "version": {
+                              "type": "number",
+                              "const": 1
+                            }
+                          },
+                          "required": [
+                            "columns",
+                            "items",
+                            "rowHeight",
+                            "version"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "source": {
+                          "type": "string",
+                          "enum": [
+                            "default",
+                            "stored"
+                          ]
+                        },
+                        "updatedAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "layout",
+                        "source",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "internalV1WorkspaceDashboard-layoutDelete",
+        "summary": "internal.v1.workspace.dashboard-layout.delete",
+        "description": "Governed DELETE /api/internal/v1/workspace/dashboard-layout (internal-stable).",
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.workspace.dashboard-layout.delete",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "workspace.dashboard_write",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reset": {
+                          "type": "boolean",
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "reset"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/users/invite": {
+      "post": {
+        "operationId": "internalV1System-adminUsersInvitePost",
+        "summary": "internal.v1.system-admin.users.invite.post",
+        "description": "Governed POST /api/internal/v1/system-admin/users/invite (internal-stable).",
+        "tags": [
+          "system-admin",
+          "users"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.users.invite.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.users_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  "roleId": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "displayName",
+                  "email",
+                  "roleId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "membershipId": {
+                          "type": "string"
+                        },
+                        "userId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "membershipId",
+                        "userId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/memberships/role": {
+      "post": {
+        "operationId": "internalV1System-adminMembershipsRolePost",
+        "summary": "internal.v1.system-admin.memberships.role.post",
+        "description": "Governed POST /api/internal/v1/system-admin/memberships/role (internal-stable).",
+        "tags": [
+          "system-admin",
+          "memberships"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.memberships.role.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.roles_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "membershipId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "roleId": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "companyId",
+                  "membershipId",
+                  "roleId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "membershipId": {
+                          "type": "string"
+                        },
+                        "roleId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "membershipId",
+                        "roleId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/audit-events": {
+      "get": {
+        "operationId": "internalV1System-adminAudit-eventsGet",
+        "summary": "internal.v1.system-admin.audit-events.get",
+        "description": "Governed GET /api/internal/v1/system-admin/audit-events (internal-stable).",
+        "tags": [
+          "system-admin",
+          "audit"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.audit-events.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.audit_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "events": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "action": {
+                                "type": "string"
+                              },
+                              "correlationId": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "module": {
+                                "type": "string"
+                              },
+                              "result": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "failure",
+                                  "blocked",
+                                  "denied",
+                                  "pending",
+                                  "approved",
+                                  "rejected",
+                                  "reversed"
+                                ]
+                              },
+                              "targetId": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "targetType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "action",
+                              "correlationId",
+                              "createdAt",
+                              "id",
+                              "module",
+                              "result",
+                              "targetId",
+                              "targetType"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "events"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/storage/tenant-brand-logo": {
+      "post": {
+        "operationId": "internalV1StorageTenant-brand-logoPost",
+        "summary": "internal.v1.storage.tenant-brand-logo.post",
+        "description": "Governed POST /api/internal/v1/storage/tenant-brand-logo (internal-stable).",
+        "tags": [
+          "storage",
+          "system-admin",
+          "appearance"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-required",
+        "x-afenda-contract-id": "internal.v1.storage.tenant-brand-logo.post",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.modules_manage",
+        "x-afenda-rate-limit-policy": "authenticated-sensitive",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "mimeType": {
+                    "type": "string",
+                    "enum": [
+                      "image/jpeg",
+                      "image/png",
+                      "image/webp"
+                    ]
+                  },
+                  "size": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 524288
+                  }
+                },
+                "required": [
+                  "filename",
+                  "mimeType",
+                  "size"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "expiresAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                        },
+                        "headers": {
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "method": {
+                          "type": "string",
+                          "const": "PUT"
+                        },
+                        "objectId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "uploadUrl": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "required": [
+                        "expiresAt",
+                        "headers",
+                        "method",
+                        "objectId",
+                        "path",
+                        "uploadUrl"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiErrorEnvelope": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ApiErrorBody"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiResponseMeta"
+          },
+          "ok": {
+            "type": "boolean",
+            "const": false
+          }
+        },
+        "required": [
+          "error",
+          "meta",
+          "ok"
+        ],
+        "additionalProperties": false
+      },
+      "ApiErrorBody": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "validation",
+              "authentication",
+              "authorization",
+              "not_found",
+              "conflict",
+              "rate_limit",
+              "internal"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "bad_request",
+              "unauthenticated",
+              "forbidden",
+              "not_found",
+              "conflict",
+              "validation_failed",
+              "rate_limited",
+              "internal_error",
+              "service_unavailable",
+              "method_not_allowed"
+            ]
+          },
+          "correlationId": {
+            "type": "string"
+          },
+          "details": {},
+          "message": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "category",
+          "code",
+          "correlationId",
+          "message",
+          "retryable"
+        ],
+        "additionalProperties": false
+      },
+      "ApiResponseMeta": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "correlationId",
+          "requestId",
+          "timestamp"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "AfendaSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "better-auth.session_token",
+        "description": "Better Auth session cookie (default prefix)."
+      }
+    }
+  }
+}

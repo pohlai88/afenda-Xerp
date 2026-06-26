@@ -21,6 +21,7 @@ import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import type { ComponentProps } from "react";
+import { OpenAPIPage } from "@/components/api-page.client";
 import { AutoTypeTable } from "@/components/auto-type-table";
 import {
   DocsAccordionPanel,
@@ -72,6 +73,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ...defaultMdxComponents,
     Accordion,
     Accordions,
+    OpenAPIPage,
+    APIPage: OpenAPIPage,
     AutoTypeTable,
     Banner,
     Callout,

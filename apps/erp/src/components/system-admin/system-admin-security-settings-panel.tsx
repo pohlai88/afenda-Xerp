@@ -12,12 +12,18 @@ import {
 import { useCallback, useState, useTransition } from "react";
 
 import type { SecuritySettingsViewModel } from "@/lib/system-admin/resolve-security-settings.server";
+import { updateCompanyMfaOverrideAction } from "@/lib/system-admin/update-company-mfa-override.action";
 import { updateSecurityMfaPolicyAction } from "@/lib/system-admin/update-security-mfa-policy.action";
 
 export interface SystemAdminSecuritySettingsPanelProps {
   readonly initialSettings: Pick<
     SecuritySettingsViewModel,
-    "mfaPolicyRequired" | "userMfaEnabled"
+    | "companyId"
+    | "companyLabel"
+    | "companyMfaOverride"
+    | "effectiveMfaRequired"
+    | "mfaPolicyRequired"
+    | "userMfaEnabled"
   >;
 }
 
@@ -51,6 +57,12 @@ export function SystemAdminSecuritySettingsPanel({
   const [mfaPolicyRequired, setMfaPolicyRequired] = useState(
     initialSettings.mfaPolicyRequired
   );
+  const [companyMfaOverride, setCompanyMfaOverride] = useState(
+    initialSettings.companyMfaOverride
+  );
+  const [effectiveMfaRequired, setEffectiveMfaRequired] = useState(
+    initialSettings.effectiveMfaRequired
+  );
   const [userMfaEnabled, setUserMfaEnabled] = useState(
     initialSettings.userMfaEnabled
   );
@@ -66,6 +78,8 @@ export function SystemAdminSecuritySettingsPanel({
   );
   const [mfaEnrollError, setMfaEnrollError] = useState<string | null>(null);
   const [policyPending, startPolicyTransition] = useTransition();
+  const [companyOverridePending, startCompanyOverrideTransition] =
+    useTransition();
   const [userMfaPending, startUserMfaTransition] = useTransition();
 
   const refreshUserMfaFromSession = useCallback(async () => {
@@ -97,6 +111,34 @@ export function SystemAdminSecuritySettingsPanel({
 
       if (result?.ok) {
         setMfaPolicyRequired(result.data.mfaRequired);
+        setEffectiveMfaRequired(
+          companyMfaOverride === "require"
+            ? true
+            : companyMfaOverride === "waive"
+              ? false
+              : result.data.mfaRequired
+        );
+      }
+    });
+  };
+
+  const handleCompanyMfaOverrideChange = (
+    override: SecuritySettingsViewModel["companyMfaOverride"]
+  ) => {
+    startCompanyOverrideTransition(async () => {
+      const formData = new FormData();
+      formData.set("override", override);
+      const result = await updateCompanyMfaOverrideAction(null, formData);
+
+      if (result?.ok) {
+        setCompanyMfaOverride(result.data.override);
+        setEffectiveMfaRequired(
+          result.data.override === "require"
+            ? true
+            : result.data.override === "waive"
+              ? false
+              : mfaPolicyRequired
+        );
       }
     });
   };
@@ -210,28 +252,57 @@ export function SystemAdminSecuritySettingsPanel({
       : "Confirm your password to start MFA enrollment.";
 
   return (
-    <AppShellAccountSettings06
-      backupCodes={backupCodes}
-      mfaEnrollError={mfaEnrollError}
-      mfaEnrollPhase={mfaEnrollPhase}
-      mfaPolicyPending={policyPending}
-      mfaPolicyRequired={mfaPolicyRequired}
-      onCancelMfaEnroll={resetMfaEnrollment}
-      onConfirmReauth={submitUserMfaReauth}
-      onDisableUserMfa={() => openUserMfaReauth("disable")}
-      onDismissBackupCodes={resetMfaEnrollment}
-      onEnableUserMfa={() => openUserMfaReauth("enable")}
-      onMfaPolicyChange={handleMfaPolicyChange}
-      onReauthPasswordChange={setReauthPassword}
-      onTotpCodeChange={setTotpCode}
-      onVerifyTotp={submitTotpVerification}
-      reauthPassword={reauthPassword}
-      reauthPrompt={mfaEnrollPhase === "reauth" ? reauthPrompt : null}
-      showSessions={false}
-      totpCode={totpCode}
-      totpUri={totpUri}
-      userMfaEnabled={userMfaEnabled}
-      userMfaPending={userMfaPending}
-    />
+    <>
+      <AppShellAccountSettings06
+        backupCodes={backupCodes}
+        mfaEnrollError={mfaEnrollError}
+        mfaEnrollPhase={mfaEnrollPhase}
+        mfaPolicyPending={policyPending || companyOverridePending}
+        mfaPolicyRequired={mfaPolicyRequired}
+        onCancelMfaEnroll={resetMfaEnrollment}
+        onConfirmReauth={submitUserMfaReauth}
+        onDisableUserMfa={() => openUserMfaReauth("disable")}
+        onDismissBackupCodes={resetMfaEnrollment}
+        onEnableUserMfa={() => openUserMfaReauth("enable")}
+        onMfaPolicyChange={handleMfaPolicyChange}
+        onReauthPasswordChange={setReauthPassword}
+        onTotpCodeChange={setTotpCode}
+        onVerifyTotp={submitTotpVerification}
+        reauthPassword={reauthPassword}
+        reauthPrompt={mfaEnrollPhase === "reauth" ? reauthPrompt : null}
+        showSessions={false}
+        totpCode={totpCode}
+        totpUri={totpUri}
+        userMfaEnabled={userMfaEnabled}
+        userMfaPending={userMfaPending}
+      />
+      <section
+        aria-label="Company MFA override"
+        className="erp-system-admin-settings-form"
+      >
+        <h2>Company MFA override</h2>
+        <p>
+          Override tenant MFA policy for {initialSettings.companyLabel}.
+          Effective enforcement for this workspace:{" "}
+          {effectiveMfaRequired ? "required" : "optional"}.
+        </p>
+        <label htmlFor="company-mfa-override">Override mode</label>
+        <select
+          disabled={companyOverridePending}
+          id="company-mfa-override"
+          onChange={(event) => {
+            handleCompanyMfaOverrideChange(
+              event.currentTarget
+                .value as SecuritySettingsViewModel["companyMfaOverride"]
+            );
+          }}
+          value={companyMfaOverride}
+        >
+          <option value="inherit">Inherit tenant policy</option>
+          <option value="require">Require MFA for this company</option>
+          <option value="waive">Do not require MFA for this company</option>
+        </select>
+      </section>
+    </>
   );
 }

@@ -37,6 +37,7 @@
 /* ── 0. Canonical studio pattern layer ───────────────────────────────────── */
 /* Reusable shadcn/studio visual patterns. Apps must NOT import this directly. */
 @import "./afenda-appshell-studio.css";
+@import "./auth-shell-v2.css";
 
 /* ── 1. Shell-scoped custom properties ──────────────────────────────────── */
 /*

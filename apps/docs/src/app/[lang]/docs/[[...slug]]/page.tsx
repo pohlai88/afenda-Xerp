@@ -1,4 +1,5 @@
 import { getGithubLastEdit } from "fumadocs-core/content/github";
+import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import {
   DocsBody,
   DocsDescription,
@@ -9,10 +10,16 @@ import { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { getMDXComponents } from "@/components/mdx";
+import { OpenAPIPage } from "@/components/api-page.client";
 import { docsGithubRepository } from "@/lib/docs-github.constants";
+import {
+  isDocsLongFormContentPath,
+  resolveDocsInlineTocLabel,
+} from "@/lib/docs-inline-toc.contract";
 import { type DocsPageParams, resolveDocsPage } from "@/lib/docs-page";
 import { resolveDocsContentRelativePath } from "@/lib/docs-page-path";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
+import { openapi } from "@/lib/openapi.server";
 import { source } from "@/lib/source";
 
 interface DocsSlugPageProps {
@@ -51,6 +58,14 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
   const contentRelativePath = resolveDocsContentRelativePath(page, lang);
   const lastModified = await resolveLastModified(contentRelativePath, lang);
   const githubPath = `${docsGithubRepository.contentPathPrefix}/${lang}/${contentRelativePath}`;
+  const showInlineToc =
+    isDocsLongFormContentPath(contentRelativePath) && page.data.toc.length > 0;
+
+  const pageData = page.data as typeof page.data & { _openapi?: unknown };
+  const openApiPreload =
+    pageData._openapi !== undefined
+      ? await openapi.preloadOpenAPIPage(page)
+      : undefined;
 
   const docsPageProps = {
     editOnGithub: {
@@ -74,9 +89,24 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
         />
       </div>
       <DocsBody>
+        {showInlineToc ? (
+          <InlineTOC defaultOpen items={page.data.toc}>
+            {resolveDocsInlineTocLabel(lang)}
+          </InlineTOC>
+        ) : null}
         <MDX
           components={getMDXComponents({
             a: createRelativeLink(source, page),
+            ...(openApiPreload
+              ? {
+                  OpenAPIPage: (props) => (
+                    <OpenAPIPage {...props} preloaded={openApiPreload.preloaded} />
+                  ),
+                  APIPage: (props) => (
+                    <OpenAPIPage {...props} preloaded={openApiPreload.preloaded} />
+                  ),
+                }
+              : {}),
           })}
         />
       </DocsBody>

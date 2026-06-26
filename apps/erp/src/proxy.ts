@@ -1,6 +1,6 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
-
+import { resolveUnauthenticatedRedirect } from "@/lib/auth/auth-redirect.policy";
 import { isAuthEntryRoute, isPublicRoute } from "@/lib/auth/public-routes";
 import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
 import {
@@ -159,8 +159,10 @@ export function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
 
   if (!sessionCookie) {
-    const signInUrl = new URL("/sign-in", request.url);
-    signInUrl.searchParams.set("next", pathname);
+    const signInUrl = new URL(
+      resolveUnauthenticatedRedirect(pathname),
+      request.url
+    );
     return finalizeProxyResponse(
       request,
       requestHeaders,

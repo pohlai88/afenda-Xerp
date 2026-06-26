@@ -18,12 +18,18 @@ import {
   SIGN_IN_PASSWORD_HINT,
   SIGN_IN_SOCIAL_LEAD,
 } from "@/app/(auth)/_components/auth-form.copy";
-import { persistMfaChallenge } from "@/lib/auth/auth-mfa-challenge.storage";
+import {
+  formatSignInMethodLabel,
+  setLastUsedLoginMethod,
+} from "@/lib/auth/auth-last-login-method.client";
+import { persistMfaChallengeAction } from "@/lib/auth/auth-mfa-challenge.action";
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
+import { setPostAuthSignInMethod } from "@/lib/auth/auth-post-auth-method.client";
 import {
   resolveMfaEntryRedirect,
-  resolveSignInSuccessRedirect,
+  resolvePostAuthCompletePath,
 } from "@/lib/auth/auth-redirect.policy";
+import { fetchPostAuthEntryPath } from "@/lib/auth/fetch-post-auth-entry-path.client";
 import {
   readSignInTwoFactorChallenge,
   type SignInTwoFactorChallenge,
@@ -35,6 +41,7 @@ import {
   type AuthEntryNotice,
   resolveAuthEntryNotice,
 } from "@/lib/auth/resolve-auth-entry-notice";
+import { usePasskeyConditionalUi } from "@/lib/auth/use-passkey-conditional-ui";
 
 export type SignInFormGovernedComponents = Extract<
   GovernedUiComponentName,
@@ -43,7 +50,7 @@ export type SignInFormGovernedComponents = Extract<
 
 const SOCIAL_PROVIDER_LABELS: Record<SignInSocialProviderId, string> = {
   google: "Google",
-  microsoft: "Microsoft",
+  github: "GitHub",
 };
 
 function SignInEntryNotice({ notice }: { readonly notice: AuthEntryNotice }) {
@@ -62,7 +69,8 @@ export function SignInForm({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const nextPath = resolveSignInSuccessRedirect(searchParams.get("next"));
+  const nextParam = searchParams.get("next");
+  const postAuthCompletePath = resolvePostAuthCompletePath(nextParam);
   const entryNotice = resolveAuthEntryNotice(searchParams.get("notice"));
 
   const [email, setEmail] = useState("");
@@ -70,6 +78,8 @@ export function SignInForm({
   const [ssoEmail, setSsoEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  usePasskeyConditionalUi(surface.passkeyEnabled);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -93,7 +103,7 @@ export function SignInForm({
     setIsSubmitting(false);
 
     if (pendingMfaChallenge !== null) {
-      persistMfaChallenge(pendingMfaChallenge, nextPath);
+      await persistMfaChallengeAction(pendingMfaChallenge, nextParam);
       router.replace(resolveMfaEntryRedirect());
       return;
     }
@@ -103,7 +113,10 @@ export function SignInForm({
       return;
     }
 
-    router.replace(nextPath);
+    setLastUsedLoginMethod("email");
+    setPostAuthSignInMethod("email");
+    const destination = await fetchPostAuthEntryPath(nextParam);
+    router.replace(destination);
     router.refresh();
   }
 
@@ -112,7 +125,7 @@ export function SignInForm({
     setIsSubmitting(true);
 
     const result = await signIn.social({
-      callbackURL: nextPath,
+      callbackURL: postAuthCompletePath,
       provider,
     });
 
@@ -120,7 +133,11 @@ export function SignInForm({
 
     if (result.error) {
       setError(mapAuthClientError(result.error.message, "socialSignInFailed"));
+      return;
     }
+
+    setLastUsedLoginMethod(provider);
+    setPostAuthSignInMethod(provider);
   }
 
   async function handlePasskeySignIn() {
@@ -136,7 +153,9 @@ export function SignInForm({
       return;
     }
 
-    router.replace(nextPath);
+    setLastUsedLoginMethod("passkey");
+    setPostAuthSignInMethod("passkey");
+    router.replace(postAuthCompletePath);
     router.refresh();
   }
 
@@ -146,7 +165,7 @@ export function SignInForm({
     setIsSubmitting(true);
 
     const result = await signIn.sso({
-      callbackURL: nextPath,
+      callbackURL: postAuthCompletePath,
       email: ssoEmail.trim(),
     });
 
@@ -154,7 +173,11 @@ export function SignInForm({
 
     if (result.error) {
       setError(mapAuthClientError(result.error.message, "ssoSignInFailed"));
+      return;
     }
+
+    setLastUsedLoginMethod("sso");
+    setPostAuthSignInMethod("sso");
   }
 
   const hasSocialProviders = surface.socialProviderIds.length > 0;
@@ -192,7 +215,10 @@ export function SignInForm({
               size="md"
               type="button"
             >
-              {SOCIAL_PROVIDER_LABELS[providerId]}
+              {formatSignInMethodLabel(
+                SOCIAL_PROVIDER_LABELS[providerId],
+                providerId
+              )}
             </Button>
           ))}
         </div>
@@ -210,7 +236,7 @@ export function SignInForm({
         <div className="erp-auth-form__field">
           <Label htmlFor="email">Work email</Label>
           <Input
-            autoComplete="email"
+            autoComplete="username webauthn"
             id="email"
             name="email"
             onChange={(event) => setEmail(event.target.value)}
@@ -226,7 +252,7 @@ export function SignInForm({
         <div className="erp-auth-form__field">
           <Label htmlFor="password">Password</Label>
           <Input
-            autoComplete="current-password"
+            autoComplete="current-password webauthn"
             id="password"
             name="password"
             onChange={(event) => setPassword(event.target.value)}
@@ -246,7 +272,9 @@ export function SignInForm({
             size="md"
             type="submit"
           >
-            {isSubmitting ? "Signing in…" : "Sign in with email"}
+            {isSubmitting
+              ? "Signing in…"
+              : formatSignInMethodLabel("Sign in with email", "email")}
           </Button>
           <p className="erp-auth-form__footer-link">
             <Link
@@ -280,7 +308,7 @@ export function SignInForm({
                   size="md"
                   type="button"
                 >
-                  Passkey
+                  {formatSignInMethodLabel("Passkey", "passkey")}
                 </Button>
               </div>
             ) : null}
@@ -317,7 +345,7 @@ export function SignInForm({
                     size="md"
                     type="submit"
                   >
-                    Continue with SSO
+                    {formatSignInMethodLabel("Continue with SSO", "sso")}
                   </Button>
                 </form>
               </div>

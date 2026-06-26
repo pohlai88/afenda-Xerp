@@ -6,6 +6,7 @@ import {
 
 import { persistAuthAuditEvent } from "./auth.audit.js";
 import { AUTH_EVENT } from "./auth.contract.js";
+import type { BetterAuthSocialProviderConfig } from "./auth.env.js";
 import { isAuthInvitationGateEnabled } from "./auth.invitation.js";
 import { isAfendaAuthSocialProviderId } from "./auth.social-providers.js";
 
@@ -127,6 +128,68 @@ export function createAfendaOAuthSocialProviderOptions() {
   return {
     disableImplicitSignUp: true,
   } as const;
+}
+
+export function createAfendaGoogleSocialProviderConfig(input: {
+  readonly clientId: string;
+  readonly clientSecret: string;
+}): BetterAuthSocialProviderConfig {
+  return {
+    clientId: input.clientId,
+    clientSecret: input.clientSecret,
+    disableImplicitSignUp: true,
+    prompt: "select_account",
+  };
+}
+
+/** Better Auth GitHub doc requires `user:email` — see /docs/authentication/github */
+export const AFENDA_GITHUB_OAUTH_SCOPES = ["read:user", "user:email"] as const;
+
+/** Reserved suffix for synthesized GitHub emails when profile.email is absent. */
+export const AFENDA_GITHUB_OAUTH_PLACEHOLDER_EMAIL_DOMAIN =
+  "github.oauth.afenda.invalid" as const;
+
+export interface AfendaGithubOAuthProfile {
+  readonly email?: string | null;
+  readonly id?: string | number;
+}
+
+/** Maps GitHub profile to Afenda user email per Better Auth OAuth guidance. */
+export function mapAfendaGithubProfileToUser(
+  profile: AfendaGithubOAuthProfile
+): { email: string } {
+  const normalizedEmail = profile.email?.trim().toLowerCase();
+
+  if (normalizedEmail) {
+    return { email: normalizedEmail };
+  }
+
+  const githubId = profile.id;
+
+  if (
+    githubId === undefined ||
+    githubId === null ||
+    String(githubId).length === 0
+  ) {
+    throw new Error("GitHub OAuth profile is missing email and user id.");
+  }
+
+  return {
+    email: `${String(githubId)}@${AFENDA_GITHUB_OAUTH_PLACEHOLDER_EMAIL_DOMAIN}`,
+  };
+}
+
+export function createAfendaGithubSocialProviderConfig(input: {
+  readonly clientId: string;
+  readonly clientSecret: string;
+}): BetterAuthSocialProviderConfig {
+  return {
+    clientId: input.clientId,
+    clientSecret: input.clientSecret,
+    disableImplicitSignUp: true,
+    mapProfileToUser: mapAfendaGithubProfileToUser,
+    scope: [...AFENDA_GITHUB_OAUTH_SCOPES],
+  };
 }
 
 export interface AfendaOAuthUserCreateHookContext {

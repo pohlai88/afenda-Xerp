@@ -19,7 +19,7 @@ export const AFENDA_AUTH_CREDENTIAL_TWO_FACTOR_ENFORCEMENT =
 export type AfendaAuthCredentialTwoFactorEnforcement =
   typeof AFENDA_AUTH_CREDENTIAL_TWO_FACTOR_ENFORCEMENT;
 
-/** Runtime mode for passwordless sign-in 2FA — `enforce-all` requires future hook slice. */
+/** Runtime mode for passwordless sign-in 2FA — `enforce-all` gates OAuth/passkey/SSO at post-auth complete. */
 export type AfendaAuthPasswordlessTwoFactorMode =
   | "credential-only"
   | "enforce-all";

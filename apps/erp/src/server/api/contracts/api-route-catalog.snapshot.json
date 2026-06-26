@@ -1,0 +1,277 @@
+{
+  "generatedFrom": "api-contract-registry",
+  "routes": [
+    {
+      "auditAction": null,
+      "authPolicy": "public",
+      "cache": {
+        "kind": "revalidate",
+        "seconds": 30
+      },
+      "contextPolicy": "none",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.health.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/health",
+      "permission": null,
+      "rateLimitPolicy": "anonymous-low",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/health.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/health.api-contract.ts#healthResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["health", "public"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.auth.memberships.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/auth/memberships",
+      "permission": null,
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["auth", "memberships", "public"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "public",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "none",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.client-error.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/client-error",
+      "permission": null,
+      "rateLimitPolicy": "anonymous-low",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/observability/client-error.api-contract.ts#clientErrorPostRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/observability/client-error.api-contract.ts#clientErrorPostResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["observability", "public", "telemetry"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.workspace.dashboard-layout.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/workspace/dashboard-layout",
+      "permission": "workspace.dashboard_read",
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["workspace", "dashboard"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "workspace.dashboard.layout.updated",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.workspace.dashboard-layout.put",
+      "lifecycle": "active",
+      "method": "PUT",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/workspace/dashboard-layout",
+      "permission": "workspace.dashboard_write",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutPutRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["workspace", "dashboard"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "workspace.dashboard.layout.reset",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.workspace.dashboard-layout.delete",
+      "lifecycle": "active",
+      "method": "DELETE",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/workspace/dashboard-layout",
+      "permission": "workspace.dashboard_write",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/workspace/dashboard-layout.api-contract.ts#dashboardLayoutDeleteResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["workspace", "dashboard"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "system_admin.user.invited",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.system-admin.users.invite.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/system-admin/users/invite",
+      "permission": "system_admin.users_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUserInviteResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["system-admin", "users"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "system_admin.membership.role.assigned",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.system-admin.memberships.role.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/system-admin/memberships/role",
+      "permission": "system_admin.roles_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipRoleResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["system-admin", "memberships"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": null,
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-company-org-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.system-admin.audit-events.get",
+      "lifecycle": "active",
+      "method": "GET",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/system-admin/audit-events",
+      "permission": "system_admin.audit_read",
+      "rateLimitPolicy": "authenticated-standard",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminAuditEventsResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["system-admin", "audit"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    },
+    {
+      "auditAction": "system_admin.appearance.logo.upload_initiated",
+      "authPolicy": "session-required",
+      "cache": {
+        "kind": "no-store"
+      },
+      "contextPolicy": "tenant-required",
+      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "id": "internal.v1.storage.tenant-brand-logo.post",
+      "lifecycle": "active",
+      "method": "POST",
+      "owner": "apps/erp",
+      "path": "/api/internal/v1/storage/tenant-brand-logo",
+      "permission": "system_admin.modules_manage",
+      "rateLimitPolicy": "authenticated-sensitive",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/storage/tenant-brand-logo.api-contract.ts#tenantBrandLogoUploadRequestSchema",
+      "responseSchemaRef": "apps/erp/src/server/api/contracts/storage/tenant-brand-logo.api-contract.ts#tenantBrandLogoUploadResponseSchema",
+      "runtime": "nodejs",
+      "stability": "internal-stable",
+      "tags": ["storage", "system-admin", "appearance"],
+      "testPaths": [
+        "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
+        "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+      ],
+      "version": "v1"
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

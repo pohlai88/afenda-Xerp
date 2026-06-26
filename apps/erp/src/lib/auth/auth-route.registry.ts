@@ -271,10 +271,17 @@ export type AuthRouteId = keyof typeof AUTH_ROUTE_REGISTRY;
 
 export type AuthEntryRouteId = Exclude<AuthRouteId, "segmentError">;
 
+type AuthRouteRegistryEntry = (typeof AUTH_ROUTE_REGISTRY)[AuthRouteId];
+
+type AuthRouteRegistryFormEntryFromUnion = Extract<
+  AuthRouteRegistryEntry,
+  { readonly formHeading: string }
+>;
+
 export function isAuthRouteFormEntry(
-  entry: (typeof AUTH_ROUTE_REGISTRY)[AuthRouteId]
-): entry is AuthRouteFormEntry {
-  return "formHeading" in entry && "skeletonLabel" in entry;
+  entry: AuthRouteRegistryEntry
+): entry is AuthRouteRegistryFormEntryFromUnion {
+  return "formHeading" in entry;
 }
 
 export function resolveAuthEntryRouteCopy(

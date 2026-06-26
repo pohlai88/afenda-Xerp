@@ -13,6 +13,11 @@ const twoFactorMocks = vi.hoisted(() => ({
 }));
 
 const updateSecurityMfaPolicyActionMock = vi.hoisted(() => vi.fn());
+const updateCompanyMfaOverrideActionMock = vi.hoisted(() => vi.fn());
+
+vi.mock("@/lib/system-admin/update-company-mfa-override.action", () => ({
+  updateCompanyMfaOverrideAction: updateCompanyMfaOverrideActionMock,
+}));
 
 vi.mock("@afenda/auth/client", () => ({
   authClient: {
@@ -86,12 +91,26 @@ vi.mock("@/lib/system-admin/update-security-mfa-policy.action", () => ({
 
 import { SystemAdminSecuritySettingsPanel } from "@/components/system-admin/system-admin-security-settings-panel";
 
+const DEFAULT_INITIAL_SETTINGS = {
+  companyId: "company_1",
+  companyLabel: "Dev Company",
+  companyMfaOverride: "inherit" as const,
+  effectiveMfaRequired: false,
+  mfaPolicyRequired: false,
+  userMfaEnabled: false,
+};
+
 describe("SystemAdminSecuritySettingsPanel", () => {
   beforeEach(() => {
     updateSecurityMfaPolicyActionMock.mockReset();
+    updateCompanyMfaOverrideActionMock.mockReset();
     updateSecurityMfaPolicyActionMock.mockResolvedValue({
       ok: true,
-      data: { mfaRequired: true },
+      data: { mfaRequired: true, tenantId: "tenant_1" },
+    });
+    updateCompanyMfaOverrideActionMock.mockResolvedValue({
+      ok: true,
+      data: { companyId: "company_1", override: "require" as const },
     });
     authClientMocks.getSession.mockReset();
     twoFactorMocks.disable.mockReset();
@@ -116,10 +135,7 @@ describe("SystemAdminSecuritySettingsPanel", () => {
   it("renders tenant MFA policy and personal MFA status", () => {
     render(
       <SystemAdminSecuritySettingsPanel
-        initialSettings={{
-          mfaPolicyRequired: false,
-          userMfaEnabled: false,
-        }}
+        initialSettings={DEFAULT_INITIAL_SETTINGS}
       />
     );
 
@@ -132,10 +148,7 @@ describe("SystemAdminSecuritySettingsPanel", () => {
 
     render(
       <SystemAdminSecuritySettingsPanel
-        initialSettings={{
-          mfaPolicyRequired: false,
-          userMfaEnabled: false,
-        }}
+        initialSettings={DEFAULT_INITIAL_SETTINGS}
       />
     );
 
@@ -157,10 +170,7 @@ describe("SystemAdminSecuritySettingsPanel", () => {
 
     render(
       <SystemAdminSecuritySettingsPanel
-        initialSettings={{
-          mfaPolicyRequired: false,
-          userMfaEnabled: false,
-        }}
+        initialSettings={DEFAULT_INITIAL_SETTINGS}
       />
     );
 

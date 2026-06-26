@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { createTestApiErrorEnvelope } from "@/server/api/__tests__/api-test-envelope";
 import {
   ApiPolicyGateError,
   assertApiSuccessEnvelope,
@@ -9,20 +10,15 @@ import {
 
 describe("createApiClientErrorFromEnvelope", () => {
   it("returns ApiPolicyGateError when forbidden envelope includes gateDecision", () => {
-    const envelope = {
-      ok: false as const,
-      error: {
-        code: "forbidden" as const,
+    const envelope = createTestApiErrorEnvelope(
+      {
+        code: "forbidden",
         correlationId: "corr-gate-1",
         message: "Policy requires approval.",
         details: { gateDecision: "require_approval" },
       },
-      meta: {
-        correlationId: "corr-gate-1",
-        requestId: "req-gate-1",
-        timestamp: "2026-01-01T00:00:00.000Z",
-      },
-    };
+      { requestId: "req-gate-1" }
+    );
 
     const error = createApiClientErrorFromEnvelope(envelope, "Request failed.");
 
@@ -36,20 +32,15 @@ describe("createApiClientErrorFromEnvelope", () => {
   });
 
   it("returns ApiClientRequestError for non-gated forbidden responses", () => {
-    const envelope = {
-      ok: false as const,
-      error: {
-        code: "forbidden" as const,
+    const envelope = createTestApiErrorEnvelope(
+      {
+        code: "forbidden",
         correlationId: "corr-deny-1",
         message: "Permission denied.",
         details: { denialCode: "permission_denied" },
       },
-      meta: {
-        correlationId: "corr-deny-1",
-        requestId: "req-deny-1",
-        timestamp: "2026-01-01T00:00:00.000Z",
-      },
-    };
+      { requestId: "req-deny-1" }
+    );
 
     const error = createApiClientErrorFromEnvelope(envelope, "Request failed.");
 
@@ -77,20 +68,15 @@ describe("assertApiSuccessEnvelope", () => {
   });
 
   it("throws ApiPolicyGateError for gated error envelopes", () => {
-    const envelope = {
-      ok: false as const,
-      error: {
-        code: "forbidden" as const,
+    const envelope = createTestApiErrorEnvelope(
+      {
+        code: "forbidden",
         correlationId: "corr-gate-2",
         message: "Step-up required.",
         details: { gateDecision: "require_step_up" },
       },
-      meta: {
-        correlationId: "corr-gate-2",
-        requestId: "req-gate-2",
-        timestamp: "2026-01-01T00:00:00.000Z",
-      },
-    };
+      { requestId: "req-gate-2" }
+    );
 
     expect(() => assertApiSuccessEnvelope(envelope, "Request failed.")).toThrow(
       ApiPolicyGateError

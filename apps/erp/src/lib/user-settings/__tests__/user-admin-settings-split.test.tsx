@@ -63,6 +63,10 @@ describe("user/admin security surface split (AC-U13)", () => {
     render(
       <SystemAdminSecuritySettingsPanel
         initialSettings={{
+          companyId: "company_1",
+          companyLabel: "Dev Company",
+          companyMfaOverride: "inherit",
+          effectiveMfaRequired: false,
           mfaPolicyRequired: false,
           userMfaEnabled: false,
         }}

@@ -44,6 +44,7 @@
     "check:erp-context-surface": "tsx scripts/governance/check-erp-context-surface.mts",
     "check:permissions-scope-grants-surface": "tsx scripts/governance/check-permissions-scope-grants-surface.mts",
     "check:auth-user-id-rbac-boundary": "tsx scripts/governance/check-auth-user-id-rbac-boundary.mts",
+    "check:auth-shell-boundary": "tsx scripts/governance/check-auth-shell-boundary.mts",
     "check:appshell-context-surface": "tsx scripts/governance/check-appshell-context-surface.mts",
     "check:observability-surface": "tsx scripts/governance/check-observability-surface.mts",
     "check:architecture-authority-surface": "tsx scripts/governance/check-architecture-authority-surface.mts",
@@ -74,6 +75,11 @@
     "check:accounting-domain-contracts": "tsx scripts/governance/check-accounting-domain-contracts.mts",
     "check:docs": "pnpm --filter @afenda/docs build",
     "check:api-contracts": "tsx scripts/api-contract/check-api-contracts.mts",
+    "check:api-route-catalog": "tsx scripts/api-contract/check-api-route-catalog.mts",
+    "export:api-route-catalog": "tsx scripts/api-contract/export-api-route-catalog.mts",
+    "export:openapi": "tsx scripts/api-contract/export-openapi.mts",
+    "check:openapi-drift": "tsx scripts/api-contract/check-openapi-drift.mts",
+    "sync:openapi": "pnpm export:openapi && pnpm --filter @afenda/docs generate:openapi-docs",
     "quality:css": "pnpm --filter @afenda/design-system build && tsx scripts/css/check-css-governance.mts",
     "quality:csp-third-party": "tsx scripts/governance/check-csp-third-party.mts",
     "quality:erp-observability": "tsx scripts/governance/check-erp-observability.mts",
@@ -179,7 +185,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}": "ultracite fix",
-    "packages/appshell/src/styles/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
+    "packages/appshell/src/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
     "packages/ui/src/styles/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
     "packages/metadata-ui/src/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
     "*.mdx": "prettier --write"

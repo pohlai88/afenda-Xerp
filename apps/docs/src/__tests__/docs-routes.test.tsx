@@ -1,5 +1,12 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
+
+const docsSlugPageSource = readFileSync(
+  join(process.cwd(), "src/app/[lang]/docs/[[...slug]]/page.tsx"),
+  "utf8"
+);
 
 vi.mock("fumadocs-ui/components/image-zoom", () => ({
   ImageZoom: ({ children }: { children: ReactNode }) => children,
@@ -7,6 +14,10 @@ vi.mock("fumadocs-ui/components/image-zoom", () => ({
 
 vi.mock("@/components/docs-site-graph", () => ({
   DocsSiteGraph: () => null,
+}));
+
+vi.mock("@/components/api-page.client", () => ({
+  OpenAPIPage: () => null,
 }));
 
 vi.mock("@/lib/source", () => ({
@@ -42,5 +53,13 @@ describe("@afenda/docs routes", () => {
     expect(components["DocsGuideCardGrid"]).toBeDefined();
     expect(components["DocsSiteGraph"]).toBeDefined();
     expect(components.img).toBeDefined();
+  });
+
+  it("wires createRelativeLink on the docs slug MDX anchor slot", () => {
+    expect(docsSlugPageSource).toContain('from "fumadocs-ui/mdx"');
+    expect(docsSlugPageSource).toContain("createRelativeLink");
+    expect(docsSlugPageSource).toMatch(
+      /a:\s*createRelativeLink\(source,\s*page\)/
+    );
   });
 });

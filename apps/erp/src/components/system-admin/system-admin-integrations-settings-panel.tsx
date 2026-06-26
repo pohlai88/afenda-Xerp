@@ -11,7 +11,10 @@ import type {
   TenantSsoProtocol,
   TenantSsoProviderSummary,
 } from "@afenda/database";
-import { TENANT_SSO_CLIENT_SECRET_ENV_KEY } from "@afenda/database";
+import {
+  TENANT_OAUTH_PROVIDER_IDS,
+  TENANT_SSO_CLIENT_SECRET_ENV_KEY,
+} from "@afenda/database";
 import {
   Button,
   Input,
@@ -87,6 +90,19 @@ function cloneApps(
   return apps.map(toIntegrationApp);
 }
 
+function cloneTenantOAuthSettings(
+  integrations: TenantIntegrationsSettings
+): TenantOAuthSettings {
+  return {
+    providers: Object.fromEntries(
+      TENANT_OAUTH_PROVIDER_IDS.map((providerId) => [
+        providerId,
+        { ...integrations.oauth.providers[providerId] },
+      ])
+    ) as TenantOAuthSettings["providers"],
+  };
+}
+
 export function SystemAdminIntegrationsSettingsPanel({
   initialIntegrations,
   initialSsoProviders,
@@ -111,12 +127,7 @@ export function SystemAdminIntegrationsSettingsPanel({
     cloneApps(initialIntegrations.tools.apps)
   );
   const [oauthProviders, setOauthProviders] = useState<TenantOAuthSettings>(
-    () => ({
-      providers: {
-        google: { ...initialIntegrations.oauth.providers.google },
-        microsoft: { ...initialIntegrations.oauth.providers.microsoft },
-      },
-    })
+    () => cloneTenantOAuthSettings(initialIntegrations)
   );
   const [ssoProviders, setSsoProviders] = useState(() => [
     ...initialSsoProviders,
@@ -150,13 +161,8 @@ export function SystemAdminIntegrationsSettingsPanel({
   );
 
   useEffect(() => {
-    setOauthProviders({
-      providers: {
-        google: { ...initialIntegrations.oauth.providers.google },
-        microsoft: { ...initialIntegrations.oauth.providers.microsoft },
-      },
-    });
-  }, [initialIntegrations.oauth.providers]);
+    setOauthProviders(cloneTenantOAuthSettings(initialIntegrations));
+  }, [initialIntegrations]);
 
   useEffect(() => {
     setSsoProviders([...initialSsoProviders]);
@@ -387,8 +393,10 @@ export function SystemAdminIntegrationsSettingsPanel({
       <section aria-labelledby="erp-oauth-providers-heading">
         <h2 id="erp-oauth-providers-heading">Social OAuth</h2>
         <p>
-          Allowlist Google and Microsoft sign-in per tenant. Client secrets load
-          from environment keys — never stored in settings or audit metadata.
+          Allowlist Google and GitHub sign-in per tenant. Enabled providers
+          appear on tenant-hosted sign-in when platform OAuth credentials are
+          configured. Client secrets load from environment keys — never stored
+          in settings or audit metadata.
         </p>
         <ul>
           {(

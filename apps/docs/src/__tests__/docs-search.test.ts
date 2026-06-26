@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { docsSeedPageSlugs } from "@/lib/docs-nav.contract";
@@ -11,6 +11,14 @@ import { docsDefaultLocale } from "@/lib/i18n";
 
 const layoutSource = readFileSync(
   join(process.cwd(), "src/app/[lang]/layout.tsx"),
+  "utf8"
+);
+const searchServerSource = readFileSync(
+  join(process.cwd(), "src/lib/docs-search.server.ts"),
+  "utf8"
+);
+const searchRouteSource = readFileSync(
+  join(process.cwd(), "src/app/api/search/route.ts"),
   "utf8"
 );
 
@@ -46,5 +54,22 @@ describe("@afenda/docs search UX", () => {
     expect(layoutSource).toMatch(
       /search=\{\{\s*links:\s*docsSearchEmptyLinks\(lang\)\s*\}\}/
     );
+  });
+
+  it("wires Orama search from source via docs-search.server", () => {
+    expect(existsSync(join(process.cwd(), "src/lib/docs-search.server.ts"))).toBe(
+      true
+    );
+    expect(searchServerSource).toContain("createFromSource");
+    expect(searchServerSource).toContain('from "@/lib/source"');
+    expect(searchServerSource).toContain("export const { GET }");
+  });
+
+  it("exposes GET at /api/search through route re-export", () => {
+    expect(existsSync(join(process.cwd(), "src/app/api/search/route.ts"))).toBe(
+      true
+    );
+    expect(searchRouteSource).toContain('from "@/lib/docs-search.server"');
+    expect(searchRouteSource).toContain("export { GET }");
   });
 });

@@ -29,12 +29,16 @@ export function createErrorEnvelope(
   meta: ApiResponseMeta,
   details?: unknown
 ): ApiErrorEnvelope {
+  const definition = getApiErrorDefinition(code);
+
   return {
     ok: false,
     error: {
+      category: definition.category,
       code,
       correlationId: meta.correlationId,
       message,
+      retryable: definition.retryable,
       ...(details === undefined ? {} : { details }),
     },
     meta: buildResponseMeta(meta),

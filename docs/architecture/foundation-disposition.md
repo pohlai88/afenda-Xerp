@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-26-v10` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-26-v11` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.

@@ -42,6 +42,10 @@ const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
         env: {
           PLAYWRIGHT_CSP_PRODUCTION_AUDIT: "false",
           AFENDA_E2E_DEFAULT_TENANT_SLUG: e2eDefaultTenantSlug,
+          AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR:
+            process.env["AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR"] ?? "enforce-all",
+          AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS:
+            process.env["AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS"] ?? "true",
         },
         reuseExistingServer: true,
         timeout: 120_000,
@@ -66,6 +70,15 @@ export default defineConfig({
       name: "chromium-smoke",
       dependencies: ["setup"],
       grep: /@smoke/,
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: authFile,
+      },
+    },
+    {
+      name: "chromium-staging",
+      dependencies: ["setup"],
+      grep: /@staging/,
       use: {
         ...devices["Desktop Chrome"],
         storageState: authFile,

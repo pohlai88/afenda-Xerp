@@ -1,5 +1,5 @@
 import { brandUserId } from "@afenda/kernel";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   assertIdempotencyPolicy,
   IDEMPOTENCY_KEY_HEADER,
@@ -98,6 +98,11 @@ describe("pagination contracts", () => {
 });
 
 describe("idempotency store", () => {
+  beforeEach(() => {
+    resetIdempotencyStoreForTests();
+    setIdempotencyStoreForTests(createInMemoryIdempotencyStore());
+  });
+
   it("scopes replay keys by contract, tenant, user, and idempotency key", () => {
     const keyA = buildIdempotencyScopeKey({
       contractId: "internal.v1.workspace.dashboard-layout.put",

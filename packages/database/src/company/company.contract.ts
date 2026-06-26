@@ -189,7 +189,8 @@ export interface CompanyInsertRow {
 }
 
 export type CompanyUpdatePatch = Partial<Omit<CompanyInsertRow, "tenantId">> & {
-  readonly tenantId?: never;
+  mfaRequiredOverride?: boolean | null;
+  tenantId?: never;
 };
 
 /** Normalizes governed company fields before DB write (no I/O). */
@@ -259,6 +260,9 @@ export function buildCompanyUpdatePatch(
   }
   if (input.status !== undefined) {
     patch.status = input.status;
+  }
+  if (input.mfaRequiredOverride !== undefined) {
+    patch.mfaRequiredOverride = input.mfaRequiredOverride;
   }
 
   return patch;

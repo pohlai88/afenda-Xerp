@@ -26,7 +26,7 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
     name: "@afenda/appshell",
     buildCommand: "pnpm --filter @afenda/appshell build",
     syncCommand: "pnpm sync:package-css-dist -- --package @afenda/appshell",
-    sourcePathPrefix: "packages/appshell/src/styles/",
+    sourcePathPrefix: "packages/appshell/src/",
     pairs: [
       {
         src: "packages/appshell/src/styles/afenda-appshell.css",
@@ -35,6 +35,10 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
       {
         src: "packages/appshell/src/styles/afenda-appshell-studio.css",
         dist: "packages/appshell/dist/styles/afenda-appshell-studio.css",
+      },
+      {
+        src: "packages/appshell/src/auth-shell-V2/auth-shell-v2.css",
+        dist: "packages/appshell/dist/styles/auth-shell-v2.css",
       },
     ],
   },

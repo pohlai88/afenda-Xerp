@@ -21,8 +21,8 @@ describe("auth.config OAuth wiring", () => {
         BETTER_AUTH_URL: "http://localhost:3000",
         AFENDA_OAUTH_GOOGLE_CLIENT_ID: "google-client-id",
         AFENDA_OAUTH_GOOGLE_CLIENT_SECRET: "google-client-secret",
-        AFENDA_OAUTH_MICROSOFT_CLIENT_ID: "microsoft-client-id",
-        AFENDA_OAUTH_MICROSOFT_CLIENT_SECRET: "microsoft-client-secret",
+        AFENDA_OAUTH_GITHUB_CLIENT_ID: "github-client-id",
+        AFENDA_OAUTH_GITHUB_CLIENT_SECRET: "github-client-secret",
       },
     });
 
@@ -30,12 +30,17 @@ describe("auth.config OAuth wiring", () => {
       clientId: "google-client-id",
       clientSecret: "google-client-secret",
       disableImplicitSignUp: true,
+      prompt: "select_account",
     });
-    expect(auth.options.socialProviders?.microsoft).toMatchObject({
-      clientId: "microsoft-client-id",
-      clientSecret: "microsoft-client-secret",
+    expect(auth.options.socialProviders?.github).toMatchObject({
+      clientId: "github-client-id",
+      clientSecret: "github-client-secret",
       disableImplicitSignUp: true,
+      scope: ["read:user", "user:email"],
     });
+    expect(auth.options.socialProviders?.github?.mapProfileToUser).toBeTypeOf(
+      "function"
+    );
     expect(auth.options.databaseHooks?.user?.create?.before).toBeDefined();
     expect(AFENDA_AUTH_OAUTH_CALLBACK_PREFIX).toBe("/callback/");
   });

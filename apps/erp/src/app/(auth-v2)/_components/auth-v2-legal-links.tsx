@@ -1,0 +1,39 @@
+import Link from "next/link";
+
+import {
+  AUTH_FOOTER_LINK_IDS,
+  getAuthSupportLink,
+} from "@/lib/auth/auth-link.registry";
+
+export function AuthV2LegalLinks() {
+  return (
+    <nav aria-label="Legal and support" className="erp-auth-v2-legal-links">
+      <ul className="erp-auth-v2-legal-links__list">
+        {AUTH_FOOTER_LINK_IDS.map((id) => {
+          const link = getAuthSupportLink(id);
+          return (
+            <li key={id}>
+              {link.external === true ? (
+                <a
+                  className="erp-auth-v2-legal-links__link"
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  className="erp-auth-v2-legal-links__link"
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}

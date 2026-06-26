@@ -1,3 +1,5 @@
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+import { resolveObjectStorageCspImgOrigins } from "@/lib/storage/resolve-object-storage-csp-origins";
 import {
   appendAllowlistedSources,
   CSP_THIRD_PARTY_ALLOWLIST,
@@ -9,7 +11,7 @@ import { resolveSupabaseCspPlatformOrigins } from "./csp-supabase-connect-src";
 export const CSP_NONCE_HEADER = "x-nonce" as const;
 
 interface ContentSecurityPolicyBaseInput {
-  readonly env?: NodeJS.ProcessEnv;
+  readonly env?: EnvReaderSource;
   readonly isDevelopment: boolean;
 }
 
@@ -34,14 +36,19 @@ function normalizeCspPolicy(policy: string): string {
 }
 
 function resolveSharedCspSources(
-  env: NodeJS.ProcessEnv | undefined
+  env: EnvReaderSource | undefined
 ): SharedCspSources {
   const allowlist = flattenThirdPartyAllowlist(CSP_THIRD_PARTY_ALLOWLIST);
   const supabaseOrigins = resolveSupabaseCspPlatformOrigins(env);
+  const storageImgOrigins = resolveObjectStorageCspImgOrigins(env);
 
   return {
     connectSrcExtras: [...allowlist.connectSrc, ...supabaseOrigins.connectSrc],
-    imgSrcExtras: [...allowlist.imgSrc, ...supabaseOrigins.imgSrc],
+    imgSrcExtras: [
+      ...allowlist.imgSrc,
+      ...supabaseOrigins.imgSrc,
+      ...storageImgOrigins,
+    ],
     scriptSrcExtras: allowlist.scriptSrc,
     fontSrcExtras: allowlist.fontSrc,
     frameSrcExtras: allowlist.frameSrc,
@@ -158,7 +165,7 @@ export function applyContentSecurityPolicy(
   responseHeaders: Headers,
   isDevelopment: boolean,
   mode: CspPolicyMode,
-  env?: NodeJS.ProcessEnv
+  env?: EnvReaderSource
 ): ApplyContentSecurityPolicyResult {
   const sharedInput: ContentSecurityPolicySharedInput = {
     isDevelopment,

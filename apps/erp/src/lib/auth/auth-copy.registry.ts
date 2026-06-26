@@ -36,6 +36,11 @@ export const AUTH_SECURITY_COPY = {
   securityReviewLead: "A security review is required before you can continue.",
   securityReviewHint:
     "Follow the steps below or contact your administrator for assistance.",
+  securityReviewSteps: [
+    "Confirm this sign-in attempt was you.",
+    "If you do not recognize this activity, contact support immediately.",
+    "Review your password and multi-factor settings after you continue.",
+  ] as const,
 } as const;
 
 export const AUTH_WORKSPACE_STUB_COPY = {
@@ -158,6 +163,13 @@ export function collectAuthCopyStrings(): string[] {
   const strings: string[] = [];
   for (const bucket of buckets) {
     for (const value of Object.values(bucket)) {
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          strings.push(item);
+        }
+        continue;
+      }
+
       strings.push(value);
     }
   }

@@ -281,6 +281,20 @@
       "when": 1782437011493,
       "tag": "20260626012331_volatile_doctor_faustus",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1782470068394,
+      "tag": "20260626103428_acoustic_sphinx",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1782471841114,
+      "tag": "20260626110401_polite_lucky_pierre",
+      "breakpoints": true
     }
   ]
 }

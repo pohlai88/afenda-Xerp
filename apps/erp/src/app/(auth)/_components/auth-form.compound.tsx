@@ -82,7 +82,13 @@ function AuthFormNoticePositive({
   readonly hints?: readonly string[];
   readonly lead: string;
 }) {
-  return <AuthFormNotice hints={hints} lead={lead} tone="positive" />;
+  return (
+    <AuthFormNotice
+      {...(hints === undefined ? {} : { hints })}
+      lead={lead}
+      tone="positive"
+    />
+  );
 }
 
 function AuthFormNoticeCaution({
@@ -93,7 +99,12 @@ function AuthFormNoticeCaution({
   readonly lead: string;
 }) {
   return (
-    <AuthFormNotice hints={hints} lead={lead} role="alert" tone="caution" />
+    <AuthFormNotice
+      {...(hints === undefined ? {} : { hints })}
+      lead={lead}
+      role="alert"
+      tone="caution"
+    />
   );
 }
 
@@ -104,7 +115,13 @@ function AuthFormNoticeNeutral({
   readonly hints?: readonly string[];
   readonly lead: string;
 }) {
-  return <AuthFormNotice hints={hints} lead={lead} tone="neutral" />;
+  return (
+    <AuthFormNotice
+      {...(hints === undefined ? {} : { hints })}
+      lead={lead}
+      tone="neutral"
+    />
+  );
 }
 
 /** @deprecated Use `AuthForm.NoticePositive` */

@@ -15,6 +15,7 @@ import {
   getAuthEmailApiKey,
   getAuthEmailFromAddress,
   isAuthEmailDeliveryEnabled,
+  isAuthShellV2Default,
   resolveBetterAuthBaseUrl,
 } from "./auth.env.js";
 import {
@@ -51,7 +52,11 @@ export function buildAuthInvitationSignUpUrl(
 ): string {
   const baseUrl = resolveBetterAuthBaseUrl(env);
   const encodedEmail = encodeURIComponent(payload.user.email);
-  return `${baseUrl}/invite/accept?invitationToken=${payload.token}&email=${encodedEmail}`;
+  const acceptPath = isAuthShellV2Default(env)
+    ? "/v2/invite/accept"
+    : "/invite/accept";
+
+  return `${baseUrl}${acceptPath}?invitationToken=${payload.token}&email=${encodedEmail}`;
 }
 
 export async function buildAuthInvitationEmailMessage(
@@ -94,6 +99,28 @@ export function buildAuthInvitationEmailTags(
   }
 
   return tags;
+}
+
+function resolveEmailVerificationCallbackPath(
+  env: NodeJS.ProcessEnv = process.env
+): string {
+  return isAuthShellV2Default(env)
+    ? "/v2/verify-email/success"
+    : "/verify-email/success";
+}
+
+function withEmailVerificationCallbackUrl(
+  verificationUrl: string,
+  callbackPath: string
+): string {
+  try {
+    const parsed = new URL(verificationUrl);
+    parsed.searchParams.set("callbackURL", callbackPath);
+    return parsed.toString();
+  } catch {
+    const separator = verificationUrl.includes("?") ? "&" : "?";
+    return `${verificationUrl}${separator}callbackURL=${encodeURIComponent(callbackPath)}`;
+  }
 }
 
 export async function buildAuthVerificationEmailMessage(
@@ -215,8 +242,16 @@ export function createAuthVerificationEmailSender(
     payload: AuthVerificationEmailPayload,
     _request?: Request
   ): Promise<void> => {
+    const verificationUrl = withEmailVerificationCallbackUrl(
+      payload.url,
+      resolveEmailVerificationCallbackPath(env)
+    );
+
     await deliverAuthTransactionalEmail(
-      await buildAuthVerificationEmailMessage(payload),
+      await buildAuthVerificationEmailMessage({
+        ...payload,
+        url: verificationUrl,
+      }),
       env,
       deps,
       {

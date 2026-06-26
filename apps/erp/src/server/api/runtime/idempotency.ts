@@ -11,6 +11,7 @@ import {
   requiresIdempotencyKey,
 } from "../contracts/idempotency.contract";
 import { ApiRouteError } from "./api-validation";
+import { createPostgresIdempotencyStore } from "./idempotency-postgres";
 
 export interface IdempotencyScope {
   readonly contractId: string;
@@ -47,9 +48,18 @@ export function createInMemoryIdempotencyStore(): IdempotencyStore {
   };
 }
 
-let activeIdempotencyStore: IdempotencyStore = createInMemoryIdempotencyStore();
+let activeIdempotencyStore: IdempotencyStore | undefined;
+
+function resolveDefaultIdempotencyStore(): IdempotencyStore {
+  if (process.env["API_IDEMPOTENCY_STORE"] === "memory") {
+    return createInMemoryIdempotencyStore();
+  }
+
+  return createPostgresIdempotencyStore();
+}
 
 export function getIdempotencyStore(): IdempotencyStore {
+  activeIdempotencyStore ??= resolveDefaultIdempotencyStore();
   return activeIdempotencyStore;
 }
 
@@ -58,7 +68,7 @@ export function setIdempotencyStoreForTests(store: IdempotencyStore): void {
 }
 
 export function resetIdempotencyStoreForTests(): void {
-  activeIdempotencyStore = createInMemoryIdempotencyStore();
+  activeIdempotencyStore = undefined;
 }
 
 export function readIdempotentResponse(

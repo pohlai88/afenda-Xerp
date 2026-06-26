@@ -1,4 +1,5 @@
 import {
+  tenantAppearanceSettingsSchema,
   tenantIntegrationsSettingsSchema,
   tenantNotificationsSettingsSchema,
 } from "@afenda/database";
@@ -12,6 +13,8 @@ export const UPDATE_WORKSPACE_SETTINGS_INTENT =
 export const UPDATE_BILLING_SETTINGS_INTENT = "save-billing-settings" as const;
 export const UPDATE_INTEGRATIONS_SETTINGS_INTENT =
   "save-integrations-settings" as const;
+export const UPDATE_APPEARANCE_SETTINGS_INTENT =
+  "save-appearance-settings" as const;
 
 export const updateSystemAdminSettingsInputSchema = z.object({
   intent: z.literal(UPDATE_SYSTEM_ADMIN_SETTINGS_INTENT),
@@ -61,6 +64,22 @@ export const updateIntegrationsSettingsInputSchema = z.object({
   payload: tenantIntegrationsSettingsSchema,
 });
 
+const tenantBrandLogoUploadMetaSchema = z.object({
+  mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]),
+  size: z
+    .number()
+    .int()
+    .positive()
+    .max(512 * 1024),
+});
+
+export const updateAppearanceSettingsInputSchema = z.object({
+  intent: z.literal(UPDATE_APPEARANCE_SETTINGS_INTENT),
+  payload: tenantAppearanceSettingsSchema.extend({
+    logoUploadMeta: tenantBrandLogoUploadMetaSchema.optional(),
+  }),
+});
+
 export type UpdateSystemAdminSettingsInput = z.infer<
   typeof updateSystemAdminSettingsInputSchema
 >;
@@ -75,4 +94,7 @@ export type UpdateBillingSettingsInput = z.infer<
 >;
 export type UpdateIntegrationsSettingsInput = z.infer<
   typeof updateIntegrationsSettingsInputSchema
+>;
+export type UpdateAppearanceSettingsInput = z.infer<
+  typeof updateAppearanceSettingsInputSchema
 >;

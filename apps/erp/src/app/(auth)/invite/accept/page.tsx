@@ -8,8 +8,8 @@ export default async function InviteAcceptPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const invitationToken = readParam(params.invitationToken);
-  const email = readParam(params.email);
+  const invitationToken = readParam(params["invitationToken"]);
+  const email = readParam(params["email"]);
 
   if (invitationToken === undefined) {
     redirect("/invite/expired");

@@ -16,12 +16,25 @@ const twoFactorMocks = vi.hoisted(() => ({
   verifyTotp: vi.fn(),
 }));
 
+const authFlowMocks = vi.hoisted(() => ({
+  clearMfaChallengeAction: vi.fn(),
+  fetchPostAuthEntryPath: vi.fn(),
+}));
+
 vi.mock("next/navigation", () => ({
   useRouter: () => routerMocks,
 }));
 
 vi.mock("@afenda/auth/client", () => ({
   twoFactor: twoFactorMocks,
+}));
+
+vi.mock("@/lib/auth/auth-mfa-challenge.action", () => ({
+  clearMfaChallengeAction: authFlowMocks.clearMfaChallengeAction,
+}));
+
+vi.mock("@/lib/auth/fetch-post-auth-entry-path.client", () => ({
+  fetchPostAuthEntryPath: authFlowMocks.fetchPostAuthEntryPath,
 }));
 
 describe("SignInMfaStep", () => {
@@ -32,6 +45,13 @@ describe("SignInMfaStep", () => {
     twoFactorMocks.verifyTotp.mockReset();
     twoFactorMocks.verifyOtp.mockReset();
     twoFactorMocks.verifyBackupCode.mockReset();
+    authFlowMocks.clearMfaChallengeAction.mockReset();
+    authFlowMocks.clearMfaChallengeAction.mockResolvedValue(undefined);
+    authFlowMocks.fetchPostAuthEntryPath.mockReset();
+    authFlowMocks.fetchPostAuthEntryPath.mockImplementation(
+      async (nextParam: string | null | undefined) =>
+        nextParam && nextParam.length > 0 ? nextParam : "/"
+    );
   });
 
   it("verifies TOTP and redirects on success", async () => {

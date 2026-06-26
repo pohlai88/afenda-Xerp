@@ -496,4 +496,23 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260626103428_acoustic_sphinx": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'tenant_settings'
+        AND column_name = 'appearance'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
+  "20260626110401_polite_lucky_pierre": {
+    completeProbe: `
+    SELECT to_regclass('public.api_idempotency_records') IS NOT NULL
+      AND to_regclass('public.api_rate_limit_buckets') IS NOT NULL AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

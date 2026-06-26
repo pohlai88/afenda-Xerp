@@ -81,6 +81,10 @@ Wire `pagination: { mode: "cursor" }` on the contract when a list route lands.
 ```bash
 pnpm --filter @afenda/erp typecheck test:run
 pnpm check:api-contracts
+pnpm check:api-route-catalog
+pnpm export:api-route-catalog   # refresh snapshot after registry changes
 ```
+
+Operational architecture reference: [`afenda-rest-api-governance.md`](../architecture/afenda-rest-api-governance.md) · Delivery authority: [`ARCH-API-001`](../ARCH/[Complete]%20ARCH-API-001-governed-rest-api.md)
 
 See also: [nextjs-api-hardening.md](./nextjs-api-hardening.md), [TIP-010 delivery](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md)

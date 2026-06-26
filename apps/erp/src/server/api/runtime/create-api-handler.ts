@@ -3,6 +3,8 @@ import { brandUserId, createExecutionContext } from "@afenda/kernel";
 import { headers } from "next/headers";
 import { runProtectedMutation } from "@/lib/spine/run-protected-mutation";
 import type { ApiRouteContract } from "../contracts/api-contract";
+import type { ApiContractId } from "../contracts/api-contract-registry";
+import { getApiContractById } from "../contracts/api-contract-registry";
 import { isMutationMethod } from "../contracts/api-route-policy.contract";
 import { acceptsIdempotencyKey } from "../contracts/idempotency.contract";
 import { createRequestId, resolveCorrelationId } from "./api-correlation";
@@ -17,6 +19,7 @@ import {
   emitApiDeniedAuditEvidence,
 } from "./api-handler-audit";
 import { createApiHandlerLogger, logApiRequest } from "./api-handler-logging";
+import { assertRateLimitAllowed } from "./api-rate-limit";
 import {
   type ApiRequestContext,
   assertRoutePermission,
@@ -172,6 +175,13 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     context,
     input.config.contract.permission
   )) as ApiRequestContext<TRequest>;
+
+  await assertRateLimitAllowed({
+    contractId: input.config.contract.id,
+    policy: input.config.contract.rateLimitPolicy,
+    requestId: input.requestId,
+    userId: context.userId?.toString() ?? null,
+  });
 
   const idempotencyKey = acceptsIdempotencyKey(
     input.config.contract.idempotency
@@ -357,4 +367,22 @@ export function createApiHandler<TRequest, TResponse>(config: {
       return response;
     }
   };
+}
+
+/**
+ * Registry-id handler factory. The contract id is validated at compile time;
+ * request/response types are caller-owned and must match the registered contract.
+ */
+export function createApiHandlerById<TRequest, TResponse>(
+  contractId: ApiContractId,
+  handler: (context: ApiRequestContext<TRequest>) => Promise<TResponse>
+): (request: Request) => Promise<Response> {
+  const contract = getApiContractById(
+    contractId
+  ) as unknown as ApiRouteContract<TRequest, TResponse>;
+
+  return createApiHandler({
+    contract,
+    handler,
+  });
 }

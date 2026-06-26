@@ -10,7 +10,7 @@ vi.mock("@afenda/auth", () => ({
 vi.mock("@afenda/database", () => ({
   mergeTenantOAuthProviderSettings: vi.fn(),
   TENANT_OAUTH_CLIENT_SECRET_ENV_KEY: "clientSecretEnvKey",
-  TENANT_OAUTH_PROVIDER_IDS: ["google", "microsoft"],
+  TENANT_OAUTH_PROVIDER_IDS: ["google", "github"],
 }));
 
 vi.mock("next/cache", () => ({

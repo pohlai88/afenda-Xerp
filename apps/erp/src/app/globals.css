@@ -574,4 +574,98 @@
   .erp-audit-result-badge {
     display: inline-flex;
   }
+
+  .erp-route-error-page,
+  .erp-route-error-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--afenda-spacing-6);
+  }
+
+  .erp-route-error-page {
+    min-height: 100dvh;
+    background: var(--background);
+  }
+
+  .erp-route-error-section {
+    gap: var(--afenda-spacing-4);
+  }
+
+  .erp-route-error__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+    align-items: center;
+    width: min(100%, 28rem);
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    text-align: center;
+    background: var(--card);
+    border: 1px solid color-mix(in oklab, var(--destructive) 18%, var(--border));
+    border-radius: var(--afenda-radius-xl);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent),
+      0 12px 32px color-mix(in oklab, var(--foreground) 6%, transparent);
+  }
+
+  .erp-route-error-section .erp-route-error__panel {
+    align-items: flex-start;
+    width: min(100%, 36rem);
+    padding: var(--afenda-spacing-5);
+    text-align: start;
+    border-radius: var(--afenda-radius-lg);
+    box-shadow: none;
+  }
+
+  .erp-route-error__icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    color: var(--destructive);
+    background: color-mix(in oklab, var(--destructive) 12%, transparent);
+    border-radius: var(--afenda-radius-full);
+  }
+
+  .erp-route-error-section .erp-route-error__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .erp-route-error__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+    font-weight: 650;
+    line-height: 1.25;
+    color: var(--foreground);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .erp-route-error__description {
+    max-width: 24rem;
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+    text-wrap: pretty;
+  }
+
+  .erp-route-error-section .erp-route-error__description {
+    max-width: none;
+  }
+
+  .erp-route-error__actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-block-start: var(--afenda-spacing-1);
+  }
+
+  .erp-route-error-section .erp-route-error__actions {
+    justify-content: flex-start;
+  }
 }

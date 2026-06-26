@@ -22,6 +22,9 @@
       "!!**/next-env.d.ts",
       "!!**/pnpm-lock.yaml",
       // ── Project-specific exclusions ──────────────────────────────────────────
+      // Documentation: markdown + docs tree — not Biome-owned (see .vscode/settings.json).
+      "!!**/docs",
+      "!!**/*.md",
       "!!**/.cursor",
       "!!.cursor-biome-report.json",
       "!!**/packages/ui/src/components/shadcn-studio",

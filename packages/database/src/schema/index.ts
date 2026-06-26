@@ -1,3 +1,7 @@
+import {
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
+} from "./api-governance.schema.js";
 import { auditEvents } from "./audit.schema.js";
 import { authIdentityLinks } from "./auth-identity-link.schema.js";
 import { companies } from "./company.schema.js";
@@ -32,6 +36,8 @@ import { userPreferences } from "./user-preferences.schema.js";
 
 /** Single schema registry for Drizzle client wiring and type inference. */
 export const platformSchema = {
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
   auditEvents,
   authIdentityLinks,
   companies,
@@ -94,6 +100,10 @@ export {
   userStatusEnum,
 } from "../database.types.js";
 
+export {
+  apiIdempotencyRecords,
+  apiRateLimitBuckets,
+} from "./api-governance.schema.js";
 export { auditEvents } from "./audit.schema.js";
 export {
   type AuthSchema,

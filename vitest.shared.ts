@@ -198,6 +198,10 @@ export function createReactProject(
           replacement: resolve(uiSrcRoot, "index.ts"),
         },
         {
+          find: "@afenda/appshell/auth-shell-v2",
+          replacement: resolve(appshellSrcRoot, "auth-shell-V2/index.ts"),
+        },
+        {
           find: "@afenda/appshell/auth-shell",
           replacement: resolve(appshellSrcRoot, "auth-shell/index.ts"),
         },

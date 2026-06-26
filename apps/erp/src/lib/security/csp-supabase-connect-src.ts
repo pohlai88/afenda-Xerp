@@ -1,3 +1,4 @@
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
 import {
   getSupabasePublicUrl,
   hasSupabasePublicConfig,
@@ -19,7 +20,7 @@ export interface SupabaseCspPlatformOrigins {
  * Validated against Supabase MCP project `esxjzvcfqtaxmiwjntje` (2026-06-22).
  */
 export function resolveSupabaseCspPlatformOrigins(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): SupabaseCspPlatformOrigins {
   if (!hasSupabasePublicConfig(env)) {
     return { connectSrc: [], imgSrc: [] };
@@ -38,7 +39,7 @@ export function resolveSupabaseCspPlatformOrigins(
 }
 
 export function resolveSupabaseConnectSrcOrigins(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): readonly string[] {
   return resolveSupabaseCspPlatformOrigins(env).connectSrc;
 }

@@ -20,6 +20,7 @@ export const tenantSettings = pgTable(
     notifications: jsonb("notifications").notNull().default({}),
     workspace: jsonb("workspace").notNull().default({}),
     billing: jsonb("billing").notNull().default({}),
+    appearance: jsonb("appearance").notNull().default({}),
     integrations: jsonb("integrations").notNull().default({}),
     createdAt: createdAtColumn(),
     updatedAt: updatedAtColumn(),

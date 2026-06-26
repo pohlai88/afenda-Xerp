@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
 
 import {
   applyContentSecurityPolicy,
@@ -9,7 +10,7 @@ import { resolveCspPolicyMode } from "@/lib/security/csp-strategy";
 
 const HYBRID_ENV = {
   ERP_CSP_STRATEGY: "hybrid",
-} as const satisfies NodeJS.ProcessEnv;
+} as const satisfies EnvReaderSource;
 
 describe("csp hybrid regression", () => {
   it("applies SRI CSP on public sign-in without nonce headers", () => {
@@ -78,7 +79,9 @@ describe("csp hybrid regression", () => {
 
   it("keeps nonce mode when ERP_CSP_STRATEGY=nonce", () => {
     expect(
-      resolveCspPolicyMode("/sign-in", { ERP_CSP_STRATEGY: "nonce" })
+      resolveCspPolicyMode("/sign-in", {
+        ERP_CSP_STRATEGY: "nonce",
+      } satisfies EnvReaderSource)
     ).toBe("nonce");
 
     const policy = createContentSecurityPolicy({
@@ -92,9 +95,13 @@ describe("csp hybrid regression", () => {
   });
 
   it("uses full SRI when ERP_CSP_STRATEGY=sri in production", () => {
-    expect(resolveCspPolicyMode("/", { ERP_CSP_STRATEGY: "sri" }, false)).toBe(
-      "sri"
-    );
+    expect(
+      resolveCspPolicyMode(
+        "/",
+        { ERP_CSP_STRATEGY: "sri" } satisfies EnvReaderSource,
+        false
+      )
+    ).toBe("sri");
 
     const policy = createContentSecurityPolicy({
       isDevelopment: false,

@@ -5,9 +5,23 @@ import {
   TENANT_SSO_CLIENT_SECRET_ENV_KEY,
 } from "@afenda/database";
 
+import type { AfendaAuth } from "./auth.config.js";
 import { getBetterAuthUrl } from "./auth.env.js";
 import { getAuth } from "./auth.server.js";
 import { AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX } from "./auth.sso-policy.js";
+
+type RegisterSsoProviderInput = {
+  readonly body: Record<string, unknown>;
+  readonly headers: Headers;
+};
+
+function readSsoRegistrationApi(auth: AfendaAuth): {
+  registerSSOProvider(input: RegisterSsoProviderInput): Promise<unknown>;
+} {
+  return auth.api as AfendaAuth["api"] & {
+    registerSSOProvider(input: RegisterSsoProviderInput): Promise<unknown>;
+  };
+}
 
 export interface SyncTenantSsoProviderInput {
   readonly env?: NodeJS.ProcessEnv;
@@ -62,12 +76,13 @@ export async function syncTenantSsoProviderWithBetterAuth(
   if (record.protocol === "saml") {
     const metadata = parseTenantSsoSamlMetadata(record.metadata);
     const auth = getAuth(env);
+    const ssoApi = readSsoRegistrationApi(auth);
     const callbackUrl =
       metadata.callbackUrl ??
       `${getBetterAuthUrl(env)}${AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX}${record.providerId}`;
 
     try {
-      await auth.api.registerSSOProvider({
+      await ssoApi.registerSSOProvider({
         body: {
           providerId: record.providerId,
           issuer: record.issuer,
@@ -108,9 +123,10 @@ export async function syncTenantSsoProviderWithBetterAuth(
   }
 
   const auth = getAuth(env);
+  const ssoApi = readSsoRegistrationApi(auth);
 
   try {
-    await auth.api.registerSSOProvider({
+    await ssoApi.registerSSOProvider({
       body: {
         providerId: record.providerId,
         issuer: record.issuer,

@@ -42,6 +42,16 @@ export const tenantNotificationsSettingsSchema = z.object({
   toTime: z.string().min(1).max(16),
 });
 
+/** Serializable auth branding settings persisted for tenant_settings.appearance. */
+export const tenantAppearanceSettingsSchema = z.object({
+  enabled: z.boolean(),
+  headline: z.string().min(1).max(255),
+  logoObjectId: z.string().uuid().nullable(),
+  primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  productLabel: z.string().min(1).max(128),
+  supportingText: z.string().max(1024),
+});
+
 /** Serializable workspace settings persisted for tenant_settings.workspace. */
 export const tenantWorkspaceSettingsSchema = z.object({
   description: z.string().max(1024),
@@ -59,8 +69,8 @@ const tenantIntegrationAppSchema = z.object({
   pricingLabel: z.string().max(64).optional(),
 });
 
-/** MVP social OAuth providers allowlisted per tenant (ARCH-AUTH-001 Slice 13c). */
-export const TENANT_OAUTH_PROVIDER_IDS = ["google", "microsoft"] as const;
+/** Social OAuth providers allowlisted per tenant (ARCH-AUTH-001 Slice 13c). */
+export const TENANT_OAUTH_PROVIDER_IDS = ["google", "github"] as const;
 
 export type TenantOAuthProviderId = (typeof TENANT_OAUTH_PROVIDER_IDS)[number];
 
@@ -77,7 +87,7 @@ export const tenantOAuthProviderConfigSchema = z.object({
 export const tenantOAuthSettingsSchema = z.object({
   providers: z.object({
     google: tenantOAuthProviderConfigSchema,
-    microsoft: tenantOAuthProviderConfigSchema,
+    github: tenantOAuthProviderConfigSchema,
   }),
 });
 
@@ -100,7 +110,56 @@ export function buildDefaultTenantOAuthSettings(): TenantOAuthSettings {
   return {
     providers: {
       google: buildDefaultTenantOAuthProviderConfig("Google"),
-      microsoft: buildDefaultTenantOAuthProviderConfig("Microsoft"),
+      github: buildDefaultTenantOAuthProviderConfig("GitHub"),
+    },
+  };
+}
+
+function withDefaultOAuthProviders(value: unknown): unknown {
+  if (typeof value !== "object" || value === null) {
+    return value;
+  }
+
+  const record = value as Record<string, unknown>;
+  const oauth = record["oauth"];
+
+  if (typeof oauth !== "object" || oauth === null) {
+    return value;
+  }
+
+  const oauthRecord = oauth as Record<string, unknown>;
+  const providers = oauthRecord["providers"];
+  const defaultProviders = buildDefaultTenantOAuthSettings().providers;
+
+  if (typeof providers !== "object" || providers === null) {
+    return {
+      ...record,
+      oauth: {
+        ...oauthRecord,
+        providers: defaultProviders,
+      },
+    };
+  }
+
+  const providerRecord = providers as Record<string, unknown>;
+  const mergedProviders = Object.fromEntries(
+    TENANT_OAUTH_PROVIDER_IDS.map((providerId) => [
+      providerId,
+      {
+        ...defaultProviders[providerId],
+        ...(typeof providerRecord[providerId] === "object" &&
+        providerRecord[providerId] !== null
+          ? providerRecord[providerId]
+          : {}),
+      },
+    ])
+  );
+
+  return {
+    ...record,
+    oauth: {
+      ...oauthRecord,
+      providers: mergedProviders,
     },
   };
 }
@@ -146,23 +205,42 @@ export type TenantWorkspaceSettings = z.infer<
   typeof tenantWorkspaceSettingsSchema
 >;
 export type TenantBillingSettings = z.infer<typeof tenantBillingSettingsSchema>;
+export type TenantAppearanceSettings = z.infer<
+  typeof tenantAppearanceSettingsSchema
+>;
 export type TenantIntegrationsSettings = z.infer<
   typeof tenantIntegrationsSettingsSchema
 >;
 
 export type TenantSettingsSectionKey =
+  | "appearance"
   | "billing"
   | "integrations"
   | "notifications"
   | "workspace";
 
 export interface TenantSettingsRecord {
+  readonly appearance: TenantAppearanceSettings | null;
   readonly billing: TenantBillingSettings | null;
   readonly id: string;
   readonly integrations: TenantIntegrationsSettings | null;
   readonly notifications: TenantNotificationsSettings | null;
   readonly tenantId: string;
   readonly workspace: TenantWorkspaceSettings | null;
+}
+
+export function buildDefaultTenantAppearanceSettings(input: {
+  readonly productLabel: string;
+}): TenantAppearanceSettings {
+  return {
+    enabled: false,
+    headline: "Access that feels remembered.",
+    logoObjectId: null,
+    primaryColor: "#324038",
+    productLabel: input.productLabel,
+    supportingText:
+      "The first controlled moment before every workspace, approval, and operating decision inside Afenda.",
+  };
 }
 
 export function parseTenantNotificationsSettings(
@@ -189,6 +267,15 @@ export function parseTenantBillingSettings(
 export function parseTenantIntegrationsSettings(
   value: unknown
 ): TenantIntegrationsSettings | null {
-  const parsed = tenantIntegrationsSettingsSchema.safeParse(value);
+  const parsed = tenantIntegrationsSettingsSchema.safeParse(
+    withDefaultOAuthProviders(value)
+  );
+  return parsed.success ? parsed.data : null;
+}
+
+export function parseTenantAppearanceSettings(
+  value: unknown
+): TenantAppearanceSettings | null {
+  const parsed = tenantAppearanceSettingsSchema.safeParse(value);
   return parsed.success ? parsed.data : null;
 }

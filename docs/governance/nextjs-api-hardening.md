@@ -20,6 +20,7 @@ These routes remain on legacy wrappers until migrated:
 
 - `app/api/auth/**`
 - `app/api/integrations/**`
+- `app/api/webhooks/**` (transport-specific handlers — Svix, Resend)
 
 ## Drift guardrails
 

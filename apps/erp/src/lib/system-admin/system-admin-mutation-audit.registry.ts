@@ -71,6 +71,12 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
       "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
+    id: "system_admin.settings.appearance.update",
+    actionModule:
+      "apps/erp/src/lib/system-admin/update-appearance-settings.action.ts",
+    targetType: "system_admin_settings",
+  },
+  {
     id: "system_admin.settings.integrations.sso.update",
     actionModule:
       "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",

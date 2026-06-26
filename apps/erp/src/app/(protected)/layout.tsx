@@ -59,6 +59,19 @@ export default async function ProtectedLayout({
     actorUserId: identity.userId,
     activeWorkspaceId: session.metadata.activeWorkspaceId,
   });
+
+  if (operatingResult.ok) {
+    const { gateTenantMfaPolicyFromHeaders } = await import(
+      "@/lib/auth/gate-tenant-mfa-policy.server"
+    );
+
+    await gateTenantMfaPolicyFromHeaders({
+      headerStore: requestHeaders,
+      operatingContext: operatingResult.value,
+      session,
+    });
+  }
+
   const operatingContext = operatingResult.ok
     ? toApplicationShellOperatingContext(operatingResult.value)
     : undefined;

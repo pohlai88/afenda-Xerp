@@ -1,5 +1,6 @@
 import type { SupabaseEnv } from "@supabase/server";
 
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
 import {
   getSupabaseJwksUrl,
   getSupabasePublicKey,
@@ -16,7 +17,7 @@ import {
  * `NEXT_PUBLIC_*` fallbacks so local dev works before `pnpm env:sync`.
  */
 export function getSupabaseServerEnv(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): Partial<SupabaseEnv> {
   const overrides: Partial<SupabaseEnv> = {};
 

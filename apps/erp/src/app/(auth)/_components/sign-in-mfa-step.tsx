@@ -11,8 +11,8 @@ import {
   MFA_OTP_DELIVERY_HINT,
   MFA_OTP_DELIVERY_NOTICE,
 } from "@/app/(auth)/_components/auth-form.copy";
-import { clearPersistedMfaChallenge } from "@/lib/auth/auth-mfa-challenge.storage";
-import type { SignInTwoFactorMethod } from "@/lib/auth/is-sign-in-two-factor-redirect";
+import { clearMfaChallengeAction } from "@/lib/auth/auth-mfa-challenge.action";
+import { fetchPostAuthEntryPath } from "@/lib/auth/fetch-post-auth-entry-path.client";
 import { mapAuthClientError } from "@/lib/auth/resolve-auth-entry-error";
 
 export type SignInMfaStepGovernedComponents = Extract<
@@ -23,7 +23,7 @@ export type SignInMfaStepGovernedComponents = Extract<
 export type SignInMfaMode = "backup-code" | "otp" | "totp";
 
 export interface SignInMfaStepProps {
-  readonly methods: readonly SignInTwoFactorMethod[];
+  readonly methods: readonly SignInMfaMode[];
   readonly nextPath: string;
   readonly onBack: () => void;
 }
@@ -42,7 +42,7 @@ const MFA_INPUT_PLACEHOLDERS: Record<SignInMfaMode, string> = {
 };
 
 function resolveInitialMfaMode(
-  methods: readonly SignInTwoFactorMethod[]
+  methods: readonly SignInMfaMode[]
 ): SignInMfaMode {
   if (methods.includes("totp")) {
     return "totp";
@@ -142,8 +142,11 @@ export function SignInMfaStep({
       return;
     }
 
-    clearPersistedMfaChallenge();
-    router.replace(nextPath);
+    await clearMfaChallengeAction();
+    const destination = await fetchPostAuthEntryPath(
+      nextPath.length > 0 ? nextPath : null
+    );
+    router.replace(destination);
     router.refresh();
   }
 

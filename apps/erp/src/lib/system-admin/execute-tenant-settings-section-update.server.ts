@@ -1,4 +1,5 @@
 import {
+  type TenantAppearanceSettings,
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
   type TenantNotificationsSettings,
@@ -33,6 +34,7 @@ export type TenantSettingsSectionUpdateState =
   ServerActionResult<TenantSettingsSectionUpdateData> | null;
 
 type TenantSettingsSectionValueMap = {
+  appearance: TenantAppearanceSettings;
   billing: TenantBillingSettings;
   integrations: TenantIntegrationsSettings;
   notifications: TenantNotificationsSettings;

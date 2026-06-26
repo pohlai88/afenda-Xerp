@@ -58,10 +58,14 @@ export function toApiClientErrorBody(
   correlationId: string,
   details?: unknown
 ): ApiClientErrorBody {
+  const definition = getApiErrorDefinition(code);
+
   return {
+    category: definition.category,
     code,
     correlationId,
     message,
+    retryable: definition.retryable,
     ...(details === undefined ? {} : { details }),
   };
 }

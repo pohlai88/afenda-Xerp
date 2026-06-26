@@ -8,6 +8,7 @@ import {
   assertOAuthSignUpInvitationAllowed,
   createAfendaOAuthSocialProviderOptions,
   isAfendaAuthOAuthCallbackPath,
+  mapAfendaGithubProfileToUser,
   readOAuthProviderIdFromCallbackPath,
 } from "../auth.oauth-policy.js";
 
@@ -50,7 +51,7 @@ describe("auth.oauth-policy", () => {
     ).toBe(true);
     expect(
       isAfendaAuthOAuthCallbackPath(
-        `${AFENDA_AUTH_OAUTH_CALLBACK_PREFIX}microsoft`
+        `${AFENDA_AUTH_OAUTH_CALLBACK_PREFIX}github`
       )
     ).toBe(true);
     expect(isAfendaAuthOAuthCallbackPath("/sign-in/email")).toBe(false);
@@ -62,6 +63,11 @@ describe("auth.oauth-policy", () => {
         `${AFENDA_AUTH_OAUTH_CALLBACK_PREFIX}google`
       )
     ).toBe("google");
+    expect(
+      readOAuthProviderIdFromCallbackPath(
+        `${AFENDA_AUTH_OAUTH_CALLBACK_PREFIX}github`
+      )
+    ).toBe("github");
     expect(
       readOAuthProviderIdFromCallbackPath(
         `${AFENDA_AUTH_OAUTH_CALLBACK_PREFIX}unknown`
@@ -113,7 +119,7 @@ describe("auth.oauth-policy", () => {
       assertOAuthSignUpInvitationAllowed({
         email: "user@acme.example",
         env: { AFENDA_AUTH_INVITATION_GATE: "enabled" },
-        providerId: "microsoft",
+        providerId: "github",
       })
     ).rejects.toBeInstanceOf(AuthOAuthInvitationRejectedError);
   });
@@ -153,6 +159,21 @@ describe("auth.oauth-policy", () => {
   it("sets disableImplicitSignUp on social provider options", () => {
     expect(createAfendaOAuthSocialProviderOptions()).toEqual({
       disableImplicitSignUp: true,
+    });
+  });
+
+  it("maps GitHub profile email when present", () => {
+    expect(
+      mapAfendaGithubProfileToUser({
+        email: " Dev@Example.com ",
+        id: 123,
+      })
+    ).toEqual({ email: "dev@example.com" });
+  });
+
+  it("synthesizes placeholder GitHub email when profile email is absent", () => {
+    expect(mapAfendaGithubProfileToUser({ id: 456_789 })).toEqual({
+      email: "456789@github.oauth.afenda.invalid",
     });
   });
 });

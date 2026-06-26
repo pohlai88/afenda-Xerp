@@ -266,6 +266,18 @@ describe("auth.email", () => {
     );
 
     expect(url).toBe(
+      "https://erp.example.com/v2/invite/accept?invitationToken=invite_token_1&email=user%40example.com"
+    );
+
+    const legacyUrl = buildAuthInvitationSignUpUrl(
+      {
+        token: "invite_token_1",
+        user: { email: "user@example.com" },
+      },
+      { ...env, AFENDA_AUTH_SHELL_V2_DEFAULT: "false" }
+    );
+
+    expect(legacyUrl).toBe(
       "https://erp.example.com/invite/accept?invitationToken=invite_token_1&email=user%40example.com"
     );
 

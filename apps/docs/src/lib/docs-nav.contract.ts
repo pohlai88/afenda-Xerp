@@ -89,7 +89,7 @@ export const appsBookLandingMdxPaths = [
   "apps/storybook/index.mdx",
 ] as const;
 
-/** Long-form pages that adopt InlineTOC + Accordion (mdx-adoption.test.ts). */
+/** Long-form pages that receive page-level InlineTOC from `page.data.toc`. */
 export const docsLongFormMdxPaths = [
   `${docsGuidesFolderGroup}/monorepo-map/index.mdx`,
   `${docsGuidesFolderGroup}/contributing/index.mdx`,

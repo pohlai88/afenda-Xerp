@@ -7,10 +7,12 @@ import { getDb } from "../db.js";
 import { tenantSettings } from "../schema/tenant-settings.schema.js";
 import {
   buildDefaultTenantOAuthSettings,
+  parseTenantAppearanceSettings,
   parseTenantBillingSettings,
   parseTenantIntegrationsSettings,
   parseTenantNotificationsSettings,
   parseTenantWorkspaceSettings,
+  type TenantAppearanceSettings,
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
   type TenantNotificationsSettings,
@@ -19,6 +21,7 @@ import {
   type TenantSettingsRecord,
   type TenantSettingsSectionKey,
   type TenantWorkspaceSettings,
+  tenantAppearanceSettingsSchema,
   tenantBillingSettingsSchema,
   tenantIntegrationsSettingsSchema,
   tenantNotificationsSettingsSchema,
@@ -58,6 +61,7 @@ export interface UpsertTenantSettingsSectionInput {
   readonly section: TenantSettingsSectionKey;
   readonly tenantId: string;
   readonly value:
+    | TenantAppearanceSettings
     | TenantBillingSettings
     | TenantIntegrationsSettings
     | TenantNotificationsSettings
@@ -71,6 +75,8 @@ export interface TenantSettingsMutationResult {
 
 function sectionSchemaForKey(section: TenantSettingsSectionKey) {
   switch (section) {
+    case "appearance":
+      return tenantAppearanceSettingsSchema;
     case "billing":
       return tenantBillingSettingsSchema;
     case "integrations":
@@ -89,11 +95,15 @@ function sectionSchemaForKey(section: TenantSettingsSectionKey) {
 function sectionPatchForUpdate(
   section: TenantSettingsSectionKey,
   data:
+    | TenantAppearanceSettings
     | TenantBillingSettings
     | TenantIntegrationsSettings
     | TenantNotificationsSettings
     | TenantWorkspaceSettings
 ) {
+  if (section === "appearance") {
+    return { appearance: data as TenantAppearanceSettings };
+  }
   if (section === "billing") {
     return { billing: data as TenantBillingSettings };
   }
@@ -109,6 +119,7 @@ function sectionPatchForUpdate(
 function sectionValuesForInsert(
   section: TenantSettingsSectionKey,
   data:
+    | TenantAppearanceSettings
     | TenantBillingSettings
     | TenantIntegrationsSettings
     | TenantNotificationsSettings
@@ -116,12 +127,16 @@ function sectionValuesForInsert(
 ) {
   const baseInsert = {
     tenantId: "",
+    appearance: {},
     notifications: {},
     workspace: {},
     billing: {},
     integrations: {},
   };
 
+  if (section === "appearance") {
+    return { ...baseInsert, appearance: data as TenantAppearanceSettings };
+  }
   if (section === "billing") {
     return { ...baseInsert, billing: data as TenantBillingSettings };
   }
@@ -262,6 +277,7 @@ export async function getTenantSettingsByTenantId(
 ): Promise<TenantSettingsRecord | null> {
   const [row] = await db
     .select({
+      appearance: tenantSettings.appearance,
       id: tenantSettings.id,
       tenantId: tenantSettings.tenantId,
       notifications: tenantSettings.notifications,
@@ -278,6 +294,7 @@ export async function getTenantSettingsByTenantId(
   }
 
   return {
+    appearance: parseTenantAppearanceSettings(row.appearance),
     id: row.id,
     tenantId: row.tenantId,
     notifications: parseTenantNotificationsSettings(row.notifications),

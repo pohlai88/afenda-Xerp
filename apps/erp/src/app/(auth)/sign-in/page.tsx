@@ -9,8 +9,8 @@ import { resolveSignInSurface } from "@/lib/auth/resolve-sign-in-surface.server"
 
 export const metadata: Metadata = AUTH_ROUTE_REGISTRY.signIn.metadata;
 
-export default function SignInPage() {
-  const surface = resolveSignInSurface();
+export default async function SignInPage() {
+  const surface = await resolveSignInSurface();
 
   return (
     <AuthEntryPage route="signIn">

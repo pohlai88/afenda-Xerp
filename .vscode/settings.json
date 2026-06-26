@@ -7,6 +7,8 @@
     "win32-arm64": "./node_modules/@biomejs/cli-win32-arm64/biome.exe",
     "win32-x64": "./node_modules/@biomejs/cli-win32-x64/biome.exe"
   },
+  "biome.lsp.watcher.kind": "none",
+  "biome.requireConfiguration": true,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
@@ -46,11 +48,22 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    "biome.enabled": false,
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never",
+      "source.organizeImports.biome": "never"
+    }
   },
   "[mdx]": {
+    "biome.enabled": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never",
+      "source.organizeImports.biome": "never"
+    }
   },
   "[svelte]": {
     "editor.defaultFormatter": "biomejs.biome"

@@ -426,16 +426,13 @@ export const fdrCatalogEntries = [
       "docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md",
     ],
     evidence: ["apps/erp/src/server/api/contracts/", "scripts/api-contract/"],
-    gates: ["pnpm check:api-contracts"],
-    scopeIn: ["Contract registry", "Route coverage"],
-    scopeOut: ["Durable idempotency store (deferred)"],
-    gaps: [
-      {
-        id: "api-idempotency-store",
-        description: "Durable idempotency store deferred",
-        blocks: "None — documented deferral",
-      },
+    gates: [
+      "pnpm check:api-contracts",
+      "pnpm check:api-route-catalog",
     ],
+    scopeIn: ["Contract registry", "Route coverage"],
+    scopeOut: ["OpenAPI catalog (P2 separate PR)", "Kong gateway (P2 deferred)"],
+    gaps: [],
     sapControl: "API governance",
     oracleControl: "Integration governance",
     primaryGate: "pnpm check:api-contracts",

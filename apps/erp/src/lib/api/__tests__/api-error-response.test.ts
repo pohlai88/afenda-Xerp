@@ -28,9 +28,11 @@ describe("api-error-response", () => {
     );
 
     expect(body).toEqual({
+      category: "authorization",
       code: "forbidden",
       correlationId: "corr-123",
       message: "You do not have permission to perform this action.",
+      retryable: false,
     });
   });
 
@@ -50,9 +52,11 @@ describe("api-error-response", () => {
 
   it("converts client error bodies into ApiRouteError", () => {
     const error = toApiRouteErrorFromClientBody({
+      category: "validation",
       code: "validation_failed",
       correlationId: "corr-meta",
       message: "Invalid payload.",
+      retryable: false,
       details: { field: "layout" },
     });
 

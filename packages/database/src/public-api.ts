@@ -2,6 +2,18 @@
 
 export { AuditValidationError } from "@afenda/observability";
 export {
+  type ApiIdempotencyStoredResponse,
+  readApiIdempotencyRecord,
+  type WriteApiIdempotencyRecordInput,
+  writeApiIdempotencyRecord,
+} from "./api-governance/api-idempotency-store.service.js";
+export {
+  type ApiRateLimitWindowConfig,
+  type ConsumeApiRateLimitInput,
+  type ConsumeApiRateLimitResult,
+  consumeApiRateLimitBucket,
+} from "./api-governance/api-rate-limit-store.service.js";
+export {
   createDatabaseAuditAdapter,
   type InsertAuditEventResult,
   insertAuditEvent,
@@ -688,14 +700,17 @@ export {
   type DatabaseTenantDomainModule,
 } from "./tenant-domain/tenant-domain-registry.js";
 export {
+  buildDefaultTenantAppearanceSettings,
   buildDefaultTenantOAuthProviderConfig,
   buildDefaultTenantOAuthSettings,
+  parseTenantAppearanceSettings,
   parseTenantBillingSettings,
   parseTenantIntegrationsSettings,
   parseTenantNotificationsSettings,
   parseTenantWorkspaceSettings,
   TENANT_OAUTH_CLIENT_SECRET_ENV_KEY,
   TENANT_OAUTH_PROVIDER_IDS,
+  type TenantAppearanceSettings,
   type TenantBillingSettings,
   type TenantIntegrationsSettings,
   type TenantNotificationsSettings,
@@ -705,6 +720,7 @@ export {
   type TenantSettingsRecord,
   type TenantSettingsSectionKey,
   type TenantWorkspaceSettings,
+  tenantAppearanceSettingsSchema,
   tenantBillingSettingsSchema,
   tenantIntegrationsSettingsSchema,
   tenantNotificationsSettingsSchema,

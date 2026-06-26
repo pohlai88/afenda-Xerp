@@ -1,0 +1,458 @@
+/**
+ * AUTH-V2 segment — form layout only (consumer layer).
+ * Block chrome lives in @afenda/appshell auth-shell-v2.
+ *
+ * Editorial form rhythm — typographic notices, parchment ink, no alert-card soup.
+ */
+@layer components {
+  .erp-auth-v2-segment {
+    --erp-auth-v2-gap-stack: var(--afenda-spacing-5);
+    --erp-auth-v2-gap-field: var(--afenda-spacing-2);
+    --erp-auth-v2-gap-tight: var(--afenda-spacing-1);
+    --erp-auth-v2-gap-section: var(--afenda-spacing-4);
+    --erp-auth-v2-type-body: 0.875rem;
+    --erp-auth-v2-type-lead: 0.9375rem;
+    --erp-auth-v2-type-hint: 0.8125rem;
+    --erp-auth-v2-line-body: 1.55;
+    --erp-auth-v2-focus-shadow: 0 0 0 3px oklch(0.52 0.06 155 / 0.28);
+    --erp-auth-v2-ring: var(--auth-editorial-ring, oklch(0.52 0.06 155));
+    --erp-auth-v2-parchment: var(
+      --auth-editorial-parchment,
+      oklch(0.989 0.005 88)
+    );
+    --erp-auth-v2-paper: var(--auth-editorial-paper, oklch(0.999 0.002 88));
+    --erp-auth-v2-ink: var(--auth-editorial-ink, oklch(0.16 0.008 260));
+    --erp-auth-v2-ink-muted: var(
+      --auth-editorial-ink-muted,
+      oklch(0.48 0.01 260)
+    );
+    --erp-auth-v2-border: var(--auth-editorial-border, oklch(0.88 0.006 88));
+    --erp-auth-v2-font-mono: var(
+      --auth-editorial-font-mono,
+      ui-monospace,
+      "Cascadia Code",
+      monospace
+    );
+    --erp-auth-v2-surface-muted: oklch(0.955 0.004 88);
+    display: contents;
+  }
+
+  .erp-auth-v2-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-auth-v2-gap-stack);
+    width: 100%;
+  }
+
+  .erp-auth-v2-form [data-component="Button"][data-slot="button"] {
+    width: 100%;
+  }
+
+  .erp-auth-v2-form__secondary-actions
+    [data-component="Button"][data-slot="button"] {
+    width: auto;
+    min-height: 2.75rem;
+  }
+
+  .erp-auth-v2-form__submit-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+  }
+
+  .erp-auth-v2-form__back-link {
+    display: inline-flex;
+    gap: var(--afenda-spacing-2);
+    align-items: center;
+    min-height: 2.75rem;
+    padding: var(--afenda-spacing-1) 0;
+    margin: 0 0 var(--erp-auth-v2-gap-section);
+    font: inherit;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .erp-auth-v2-form__back-link::before {
+    font-size: 1.125em;
+    line-height: 1;
+    content: "←";
+  }
+
+  .erp-auth-v2-form__back-link:hover {
+    color: var(--erp-auth-v2-ink);
+  }
+
+  .erp-auth-v2-form__back-link:focus-visible {
+    outline: none;
+    border-radius: var(--afenda-radius-sm);
+    box-shadow: var(--erp-auth-v2-focus-shadow);
+  }
+
+  .erp-auth-v2-form__back-link:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .erp-auth-v2-form__footer-link {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    text-align: center;
+  }
+
+  .erp-auth-v2-form__secondary-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--afenda-spacing-2);
+  }
+
+  @media (width < 30rem) {
+    .erp-auth-v2-form__secondary-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .erp-auth-v2-form__alternate-entry {
+    display: flex;
+    gap: var(--afenda-spacing-3);
+    align-items: center;
+    color: var(--erp-auth-v2-ink-muted);
+  }
+
+  .erp-auth-v2-form__alternate-entry::before,
+  .erp-auth-v2-form__alternate-entry::after {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 1px;
+    content: "";
+    background: var(--erp-auth-v2-border);
+  }
+
+  .erp-auth-v2-form__alternate-entry-label {
+    flex-shrink: 0;
+    font-family: var(--erp-auth-v2-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: var(--erp-auth-v2-line-body);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-wrap: balance;
+  }
+
+  .erp-auth-v2-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-auth-v2-gap-stack);
+  }
+
+  .erp-auth-v2-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-auth-v2-gap-field);
+  }
+
+  .erp-auth-v2-form__field [data-component="Label"] {
+    font-family: var(--erp-auth-v2-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  .erp-auth-v2-form__field-toolbar {
+    display: flex;
+    gap: var(--afenda-spacing-2);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .erp-auth-v2-form__field-toolbar-action {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+  }
+
+  .erp-auth-v2-form__error {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--destructive);
+  }
+
+  .erp-auth-v2-form__notice {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+    text-wrap: pretty;
+  }
+
+  .erp-auth-v2-form__step-lead {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-lead);
+    font-weight: 500;
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink);
+    text-wrap: pretty;
+  }
+
+  .erp-auth-v2-form__field-hint {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-hint);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+  }
+
+  .erp-auth-v2-form__link,
+  .erp-auth-v2-form__text-action {
+    font-weight: 500;
+    color: var(--erp-auth-v2-ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(
+      in oklab,
+      var(--erp-auth-v2-ink) 28%,
+      transparent
+    );
+    text-underline-offset: 0.2em;
+  }
+
+  .erp-auth-v2-form__link:hover,
+  .erp-auth-v2-form__text-action:hover:not(:disabled) {
+    text-decoration-color: var(--erp-auth-v2-ink);
+  }
+
+  .erp-auth-v2-form__link:focus-visible,
+  .erp-auth-v2-form__text-action:focus-visible {
+    outline: none;
+    border-radius: var(--afenda-radius-sm);
+    box-shadow: var(--erp-auth-v2-focus-shadow);
+  }
+
+  .erp-auth-v2-form__text-action {
+    padding: 0;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .erp-auth-v2-form__text-action:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  .erp-auth-v2-form__text-action:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .erp-auth-v2-form__loading {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+    text-align: center;
+  }
+
+  .erp-auth-v2-form__alternates {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+    padding-block-start: var(--erp-auth-v2-gap-section);
+    margin-block-start: var(--erp-auth-v2-gap-section);
+    border-block-start: 1px solid var(--erp-auth-v2-border);
+  }
+
+  .erp-auth-v2-form__alternates-label {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-hint);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+    text-align: center;
+  }
+
+  .erp-auth-v2-form__sso {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+  }
+
+  .erp-auth-v2-form__sso-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+  }
+
+  .erp-auth-v2-form-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-auth-v2-gap-stack);
+    width: 100%;
+  }
+
+  .erp-auth-v2-form-skeleton__bar {
+    block-size: 2.5rem;
+    background: color-mix(
+      in oklab,
+      var(--erp-auth-v2-ink) 8%,
+      var(--erp-auth-v2-parchment)
+    );
+    border-radius: var(--afenda-radius-md);
+  }
+
+  .erp-auth-v2-form-skeleton__bar--short {
+    inline-size: 60%;
+  }
+
+  .erp-auth-v2-page-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+  }
+
+  .erp-auth-v2-legal-links__list,
+  .erp-auth-v2-route-links__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--afenda-spacing-2) var(--afenda-spacing-4);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .erp-auth-v2-legal-links__link,
+  .erp-auth-v2-route-links__link {
+    font-family: var(--erp-auth-v2-font-mono);
+    font-size: 0.6875rem;
+    color: var(--erp-auth-v2-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .erp-auth-v2-legal-links__link:hover,
+  .erp-auth-v2-route-links__link:hover {
+    color: var(--erp-auth-v2-ink);
+    text-decoration: underline;
+  }
+
+  .erp-auth-v2-security-note {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-hint);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+  }
+
+  .erp-auth-v2-error-page {
+    display: contents;
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-alert {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-auth-v2-gap-field);
+    width: 100%;
+    max-width: none;
+    padding: var(--afenda-spacing-5);
+    padding-inline-start: calc(var(--afenda-spacing-5) + 0.125rem);
+    background: color-mix(
+      in oklab,
+      var(--erp-auth-v2-ink) 3%,
+      var(--erp-auth-v2-parchment)
+    );
+    border: 1px solid var(--erp-auth-v2-border);
+    border-inline-start: 3px solid var(--erp-auth-v2-ring);
+    border-radius: var(--afenda-radius-md);
+    box-shadow: none;
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-alert[data-tone="warning"] {
+    border-inline-start-color: color-mix(
+      in oklab,
+      var(--destructive) 72%,
+      var(--erp-auth-v2-ring)
+    );
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-alert[data-tone="critical"],
+  .erp-auth-v2-error-page .af-auth-shell__error-alert[data-tone="forbidden"] {
+    border-inline-start-color: color-mix(
+      in oklab,
+      var(--destructive) 85%,
+      var(--erp-auth-v2-ring)
+    );
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-eyebrow {
+    margin: 0;
+    font-family: var(--erp-auth-v2-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--erp-auth-v2-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-title {
+    margin: 0;
+    font-size: clamp(1.375rem, 2.8vw, 1.75rem);
+    font-weight: 650;
+    line-height: 1.2;
+    color: var(--erp-auth-v2-ink);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-description {
+    margin: 0;
+    font-size: var(--erp-auth-v2-type-body);
+    line-height: var(--erp-auth-v2-line-body);
+    color: var(--erp-auth-v2-ink-muted);
+    text-wrap: pretty;
+  }
+
+  .erp-auth-v2-error-page .af-auth-shell__error-actions {
+    gap: var(--afenda-spacing-3);
+    margin-top: var(--erp-auth-v2-gap-section);
+  }
+
+  .erp-auth-v2-error-page
+    .af-auth-shell__error-actions
+    [data-component="Button"][data-slot="button"] {
+    width: 100%;
+  }
+
+  .erp-auth-v2-error-page__escape-notice {
+    margin: 0;
+    text-align: center;
+  }
+
+  .erp-auth-v2-error-page__escape {
+    position: absolute;
+    inset-block-end: max(
+      var(--afenda-spacing-6),
+      env(safe-area-inset-bottom, 0px)
+    );
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+    align-items: center;
+    padding-inline: max(
+      var(--afenda-spacing-4),
+      env(safe-area-inset-inline, 0px)
+    );
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .erp-auth-v2-form-skeleton__bar {
+      opacity: 0.72;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { authSchema, getAuthDb } from "@afenda/database";
 import { passkey } from "@better-auth/passkey";
 import { sso } from "@better-auth/sso";
-import { betterAuth } from "better-auth";
+import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { haveIBeenPwned, multiSession, twoFactor } from "better-auth/plugins";
@@ -56,7 +56,12 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
       provider: "pg",
       schema: authSchema,
     }),
-    ...(socialProviders === undefined ? {} : { socialProviders }),
+    ...(socialProviders === undefined
+      ? {}
+      : {
+          socialProviders:
+            socialProviders as BetterAuthOptions["socialProviders"],
+        }),
     databaseHooks: {
       user: {
         create: {
@@ -74,7 +79,6 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
     emailVerification: {
       sendVerificationEmail: createAuthVerificationEmailSender(env),
       autoSignInAfterVerification: false,
-      redirectTo: `${resolveBetterAuthBaseUrl(env)}/verify-email/success`,
     },
     user: {
       changeEmail: {
@@ -99,7 +103,6 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
       },
     },
     plugins: [
-      nextCookies(),
       haveIBeenPwned(),
       twoFactor({
         allowPasswordless: true,
@@ -127,6 +130,7 @@ export function createAuthConfig(options: CreateAuthOptions = {}) {
         },
       }),
       sso(createAfendaSsoPluginOptions(env)),
+      nextCookies(),
     ],
     hooks: {
       before: createAfendaAuthInvitationBeforeHook(env),

@@ -1,6 +1,8 @@
 import type { ApiRouteContract } from "./api-contract";
+import { authMembershipsGetContract } from "./auth/auth-memberships.contract";
 import { healthGetContract } from "./health.api-contract";
 import { clientErrorPostContract } from "./observability/client-error.contract";
+import { tenantBrandLogoUploadPostContract } from "./storage/tenant-brand-logo.contract";
 import {
   systemAdminAuditEventsGetContract,
   systemAdminMembershipRolePostContract,
@@ -14,6 +16,7 @@ import {
 
 /** Export names referenced by createApiHandler in governed route files. */
 export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
+  authMembershipsGetContract,
   clientErrorPostContract,
   dashboardLayoutDeleteContract,
   dashboardLayoutGetContract,
@@ -22,10 +25,12 @@ export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
   systemAdminAuditEventsGetContract,
   systemAdminMembershipRolePostContract,
   systemAdminUserInvitePostContract,
+  tenantBrandLogoUploadPostContract,
 } as const satisfies Record<string, ApiRouteContract<unknown, unknown>>;
 
 export const API_CONTRACTS = [
   healthGetContract,
+  authMembershipsGetContract,
   clientErrorPostContract,
   dashboardLayoutGetContract,
   dashboardLayoutPutContract,
@@ -33,6 +38,7 @@ export const API_CONTRACTS = [
   systemAdminUserInvitePostContract,
   systemAdminMembershipRolePostContract,
   systemAdminAuditEventsGetContract,
+  tenantBrandLogoUploadPostContract,
 ] as const satisfies readonly ApiRouteContract<unknown, unknown>[];
 
 export type ApiContractId = (typeof API_CONTRACTS)[number]["id"];

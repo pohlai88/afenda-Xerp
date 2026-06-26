@@ -13,6 +13,7 @@ import {
 } from "@/lib/auth/auth-copy.registry";
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
 import { resolveSignInAfterPasswordResetPath } from "@/lib/auth/auth-redirect.policy";
+import { AuthSecurityReviewPanel } from "@/lib/auth/auth-security-review-panel";
 import {
   AUTH_ENTRY_ERROR_HINTS,
   AUTH_ENTRY_ERROR_MESSAGES,
@@ -168,13 +169,20 @@ export function OrganizationSelectStubState() {
   );
 }
 
-export function SecurityReviewStubState() {
+export function SecurityReviewState() {
   return (
     <AuthStatePage
       hints={[AUTH_SECURITY_COPY.securityReviewHint]}
       lead={AUTH_SECURITY_COPY.securityReviewLead}
       route="securityReview"
-    />
+    >
+      <AuthSecurityReviewPanel
+        formClassName="erp-auth-form__security-review"
+        linkClassName="erp-auth-form__link"
+        listClassName="erp-auth-form__security-review-steps"
+        signInPath={buildAuthPath("signIn")}
+      />
+    </AuthStatePage>
   );
 }
 

@@ -1,3 +1,5 @@
+import type { EnvReaderSource } from "@/lib/env/env-reader-source";
+
 export const SUPABASE_PUBLIC_URL_ENV = "NEXT_PUBLIC_SUPABASE_URL";
 export const SUPABASE_PUBLIC_PUBLISHABLE_KEY_ENV =
   "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY";
@@ -42,16 +44,13 @@ export class MissingSupabaseSecretKeyError extends Error {
   }
 }
 
-function readTrimmedEnv(
-  env: NodeJS.ProcessEnv,
-  key: string
-): string | undefined {
+function readTrimmedEnv(env: EnvReaderSource, key: string): string | undefined {
   const value = env[key]?.trim();
   return value ? value : undefined;
 }
 
 export function getSupabasePublicUrl(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): string {
   const url =
     readTrimmedEnv(env, SUPABASE_PUBLIC_URL_ENV) ??
@@ -65,7 +64,7 @@ export function getSupabasePublicUrl(
 }
 
 export function getSupabasePublicKey(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): string {
   const key =
     readTrimmedEnv(env, SUPABASE_PUBLIC_PUBLISHABLE_KEY_ENV) ??
@@ -80,7 +79,7 @@ export function getSupabasePublicKey(
 }
 
 export function getSupabaseSecretKey(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): string {
   const key =
     readTrimmedEnv(env, SUPABASE_SECRET_KEY_ENV) ??
@@ -94,7 +93,7 @@ export function getSupabaseSecretKey(
 }
 
 export function getSupabaseJwksUrl(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): string | undefined {
   const explicitUrl = readTrimmedEnv(env, SUPABASE_JWKS_URL_ENV);
 
@@ -114,7 +113,7 @@ export function getSupabaseJwksUrl(
 }
 
 export function getSupabaseJwtKeyId(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): string | undefined {
   return (
     readTrimmedEnv(env, SUPABASE_JWT_KID_ENV) ??
@@ -123,13 +122,13 @@ export function getSupabaseJwtKeyId(
 }
 
 export function hasSupabaseJwtConfig(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): boolean {
   return Boolean(getSupabaseJwksUrl(env) && getSupabaseJwtKeyId(env));
 }
 
 export function hasSupabasePublicConfig(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): boolean {
   try {
     getSupabasePublicUrl(env);
@@ -141,7 +140,7 @@ export function hasSupabasePublicConfig(
 }
 
 export function hasSupabaseSecretKey(
-  env: NodeJS.ProcessEnv = process.env
+  env: EnvReaderSource = process.env
 ): boolean {
   return Boolean(
     readTrimmedEnv(env, SUPABASE_SECRET_KEY_ENV) ??

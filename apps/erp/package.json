@@ -33,7 +33,9 @@
     "@afenda/metadata-ui": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/permissions": "workspace:*",
+    "@afenda/storage": "workspace:*",
     "@afenda/ui": "workspace:*",
+    "@upstash/redis": "^1.35.3",
     "@supabase/server": "^1.1.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
@@ -55,6 +57,7 @@
     "@types/react-dom": "catalog:",
     "shadcn": "^4.11.0",
     "tailwindcss": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zod-openapi": "^6.0.0"
   }
 }

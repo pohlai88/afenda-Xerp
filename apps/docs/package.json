@@ -5,6 +5,7 @@
   "description": "Afenda Fumadocs documentation site",
   "scripts": {
     "generate:source": "fumadocs-mdx",
+    "generate:openapi-docs": "tsx scripts/generate-openapi-docs.mts",
     "prebuild": "pnpm generate:source",
     "predev": "pnpm generate:source",
     "pretypecheck": "pnpm generate:source",
@@ -39,6 +40,8 @@
     "@types/mdx": "^2.0.14",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "fumadocs-openapi": "^11.0.5",
+    "shiki": "^4.2.0",
     "tailwindcss": "^4.3.1",
     "vitest": "catalog:"
   }

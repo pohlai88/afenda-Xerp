@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildDefaultTenantOAuthSettings,
+  parseTenantIntegrationsSettings,
   TENANT_OAUTH_CLIENT_SECRET_ENV_KEY,
   TENANT_OAUTH_PROVIDER_IDS,
   tenantIntegrationsSettingsSchema,
@@ -8,15 +9,15 @@ import {
 } from "../tenant-settings/tenant-settings.contract.js";
 
 describe("tenant OAuth settings contract", () => {
-  it("defines MVP provider ids google and microsoft", () => {
-    expect(TENANT_OAUTH_PROVIDER_IDS).toEqual(["google", "microsoft"]);
+  it("defines provider ids google and github", () => {
+    expect(TENANT_OAUTH_PROVIDER_IDS).toEqual(["google", "github"]);
   });
 
   it("accepts default OAuth settings with disabled providers", () => {
     const defaults = buildDefaultTenantOAuthSettings();
 
     expect(defaults.providers.google.enabled).toBe(false);
-    expect(defaults.providers.microsoft.enabled).toBe(false);
+    expect(defaults.providers.github.enabled).toBe(false);
     expect(
       tenantOAuthProviderConfigSchema.parse(defaults.providers.google)
     ).toEqual(defaults.providers.google);
@@ -34,9 +35,9 @@ describe("tenant OAuth settings contract", () => {
             [TENANT_OAUTH_CLIENT_SECRET_ENV_KEY]:
               "AFENDA_OAUTH_GOOGLE_CLIENT_SECRET",
           },
-          microsoft: {
+          github: {
             clientId: "",
-            displayName: "Microsoft",
+            displayName: "GitHub",
             enabled: false,
           },
         },
@@ -49,5 +50,26 @@ describe("tenant OAuth settings contract", () => {
     expect(
       parsed.oauth.providers.google[TENANT_OAUTH_CLIENT_SECRET_ENV_KEY]
     ).toBe("AFENDA_OAUTH_GOOGLE_CLIENT_SECRET");
+  });
+
+  it("merges missing github provider when parsing legacy integrations payload", () => {
+    const parsed = parseTenantIntegrationsSettings({
+      communication: { apps: [] },
+      oauth: {
+        providers: {
+          google: {
+            clientId: "",
+            displayName: "Google",
+            enabled: false,
+          },
+        },
+      },
+      planning: { apps: [] },
+      tools: { apps: [] },
+    });
+
+    expect(parsed?.oauth.providers.github).toEqual(
+      buildDefaultTenantOAuthSettings().providers.github
+    );
   });
 });

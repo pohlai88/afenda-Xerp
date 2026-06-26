@@ -16,11 +16,13 @@ const defaultProps = {
 } as const;
 
 describe("RouteSegmentError", () => {
-  it("renders governed Alert with accessible error semantics", () => {
+  it("renders accessible error panel with retry action", () => {
     render(<RouteSegmentError {...defaultProps} />);
 
     expect(screen.getByRole("alert")).toBeInTheDocument();
-    expect(screen.getByText("Workspace unavailable")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Workspace unavailable" })
+    ).toBeInTheDocument();
     expect(
       screen.getByText(
         "The workspace surface failed to render. Please try again."

@@ -1,6 +1,10 @@
 import { z } from "zod";
-
 import type { ApiRouteContract } from "./api-contract";
+import {
+  API_GOVERNANCE_DOCUMENTATION_PATH,
+  API_ROUTE_OWNER,
+  DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+} from "./api-governance.constants";
 
 export const triggerProviderStateSchema = z.enum([
   "active",
@@ -50,13 +54,25 @@ export const healthResponseSchema = z.object({
 export type HealthResponseDto = z.infer<typeof healthResponseSchema>;
 
 export const healthGetContract = {
+  authPolicy: "public",
   cache: { kind: "revalidate", seconds: 30 },
+  contextPolicy: "none",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
   id: "internal.v1.health.get",
+  lifecycle: "active",
   method: "GET",
+  owner: API_ROUTE_OWNER,
   path: "/api/internal/v1/health",
+  rateLimitPolicy: "anonymous-low",
   requestSchema: z.undefined(),
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/health.api-contract.ts#request:none",
   responseSchema: healthResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/health.api-contract.ts#healthResponseSchema",
   runtime: "nodejs",
+  stability: "internal-stable",
   tags: ["health", "public"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
   version: "v1",
 } as const satisfies ApiRouteContract<undefined, HealthResponseDto>;

@@ -18,6 +18,11 @@ const routerMocks = vi.hoisted(() => ({
   replace: vi.fn(),
 }));
 
+const authFlowMocks = vi.hoisted(() => ({
+  fetchPostAuthEntryPath: vi.fn(),
+  persistMfaChallengeAction: vi.fn(),
+}));
+
 let searchParams = new URLSearchParams();
 
 vi.mock("next/navigation", () => ({
@@ -29,6 +34,18 @@ vi.mock("@afenda/auth/client", () => ({
   signIn: signInMocks,
 }));
 
+vi.mock("@/lib/auth/auth-mfa-challenge.action", () => ({
+  persistMfaChallengeAction: authFlowMocks.persistMfaChallengeAction,
+}));
+
+vi.mock("@/lib/auth/fetch-post-auth-entry-path.client", () => ({
+  fetchPostAuthEntryPath: authFlowMocks.fetchPostAuthEntryPath,
+}));
+
+vi.mock("@/lib/auth/use-passkey-conditional-ui", () => ({
+  usePasskeyConditionalUi: vi.fn(),
+}));
+
 const emailOnlySurface: SignInProviderSurface = {
   passkeyEnabled: false,
   socialProviderIds: [],
@@ -37,7 +54,7 @@ const emailOnlySurface: SignInProviderSurface = {
 
 const fullSurface: SignInProviderSurface = {
   passkeyEnabled: true,
-  socialProviderIds: ["google", "microsoft"],
+  socialProviderIds: ["google", "github"],
   ssoEnabled: true,
 };
 
@@ -55,6 +72,12 @@ describe("SignInForm", () => {
     signInMocks.email.mockReset();
     routerMocks.replace.mockReset();
     routerMocks.refresh.mockReset();
+    authFlowMocks.persistMfaChallengeAction.mockReset();
+    authFlowMocks.persistMfaChallengeAction.mockResolvedValue(undefined);
+    authFlowMocks.fetchPostAuthEntryPath.mockReset();
+    authFlowMocks.fetchPostAuthEntryPath.mockResolvedValue("/");
+    // biome-ignore lint/suspicious/noDocumentCookie: test isolation for auth cookie helpers
+    document.cookie = "";
   });
 
   it("renders entry notice copy from query params", () => {
@@ -98,10 +121,14 @@ describe("SignInForm", () => {
     await user.type(screen.getByLabelText("Work email"), "user@example.com");
     await user.type(screen.getByLabelText("Password"), "secret");
     await user.click(
-      screen.getByRole("button", { name: "Sign in with email" })
+      screen.getByRole("button", { name: /sign in with email/i })
     );
 
     await waitFor(() => {
+      expect(authFlowMocks.persistMfaChallengeAction).toHaveBeenCalledWith(
+        { methods: ["totp"] },
+        null
+      );
       expect(routerMocks.replace).toHaveBeenCalledWith("/mfa");
     });
   });
@@ -114,10 +141,11 @@ describe("SignInForm", () => {
     await user.type(screen.getByLabelText("Work email"), "user@example.com");
     await user.type(screen.getByLabelText("Password"), "secret");
     await user.click(
-      screen.getByRole("button", { name: "Sign in with email" })
+      screen.getByRole("button", { name: /sign in with email/i })
     );
 
     await waitFor(() => {
+      expect(authFlowMocks.fetchPostAuthEntryPath).toHaveBeenCalledWith(null);
       expect(routerMocks.replace).toHaveBeenCalledWith("/");
     });
   });
@@ -131,7 +159,7 @@ describe("SignInForm", () => {
     expect(screen.getByLabelText("Work email")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Sign in with email" })
+      screen.getByRole("button", { name: /sign in with email/i })
     ).toBeInTheDocument();
     expect(
       screen.getAllByRole("link", { name: "Forgot password?" })[0]
@@ -144,9 +172,7 @@ describe("SignInForm", () => {
 
     expect(screen.getByText("Alternate entry")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Google" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Microsoft" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "GitHub" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Passkey" })).toBeInTheDocument();
     expect(screen.getByLabelText("Organization email")).toBeInTheDocument();
     expect(

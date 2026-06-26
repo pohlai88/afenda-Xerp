@@ -84,7 +84,7 @@ describe("auth.config", () => {
 
     expect(betterAuthState.lastOptions?.["emailVerification"]).toMatchObject({
       sendVerificationEmail: expect.any(Function),
-      redirectTo: "http://localhost:3000/verify-email/success",
+      autoSignInAfterVerification: false,
     });
   }, 30_000);
 
