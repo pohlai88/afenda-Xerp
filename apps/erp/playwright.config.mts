@@ -3,52 +3,99 @@ import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
 import { config as loadEnv } from "dotenv";
 
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../.."
-);
+import { resolveErpAdminAuthStoragePath } from "@afenda/testing/e2e/auth-paths";
+
+const erpRoot = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(erpRoot, "../..");
 loadEnv({ path: path.join(repoRoot, ".env") });
 loadEnv({ path: path.join(repoRoot, ".env.local"), override: true });
-loadEnv({ path: path.join(repoRoot, "apps/erp/.env.local"), override: true });
+loadEnv({ path: path.join(erpRoot, ".env.local"), override: true });
 
-const port = process.env.PLAYWRIGHT_PORT ?? "3000";
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${port}`;
+const port = process.env["PLAYWRIGHT_PORT"] ?? "3000";
+const baseURL =
+  process.env["PLAYWRIGHT_BASE_URL"] ?? `http://localhost:${port}`;
+const e2eDefaultTenantSlug =
+  process.env["AFENDA_E2E_DEFAULT_TENANT_SLUG"] ?? "dev-local";
+const authFile = resolveErpAdminAuthStoragePath(erpRoot);
+const isCI = Boolean(process.env["CI"]);
+const productionWebServer = isCI && !process.env["PLAYWRIGHT_SKIP_WEBSERVER"];
+const prebuiltProductionServer = process.env["PLAYWRIGHT_PREBUILT"] === "true";
+
+const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
+  ? null
+  : productionWebServer
+    ? {
+        command: prebuiltProductionServer
+          ? `pnpm next start --port ${port}`
+          : `pnpm build && pnpm next start --port ${port}`,
+        env: {
+          NODE_ENV: "production",
+          PLAYWRIGHT_CSP_PRODUCTION_AUDIT: "true",
+          AFENDA_E2E_DEFAULT_TENANT_SLUG: e2eDefaultTenantSlug,
+        },
+        reuseExistingServer: false,
+        timeout: 300_000,
+        url: baseURL,
+      }
+    : {
+        command: "pnpm dev",
+        env: {
+          PLAYWRIGHT_CSP_PRODUCTION_AUDIT: "false",
+          AFENDA_E2E_DEFAULT_TENANT_SLUG: e2eDefaultTenantSlug,
+        },
+        reuseExistingServer: true,
+        timeout: 120_000,
+        url: baseURL,
+      };
 
 export default defineConfig({
+  expect: {
+    timeout: 10_000,
+  },
   fullyParallel: true,
-  forbidOnly: Boolean(process.env.CI),
+  forbidOnly: isCI,
   outputDir: "e2e/test-results",
-  tsconfig: path.join(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "tsconfig.playwright.json"
-  ),
+  tsconfig: path.join(erpRoot, "tsconfig.playwright.json"),
+  ...(isCI ? { workers: 1 } : {}),
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: "setup",
+      testMatch: /auth\.setup\.ts/,
+    },
+    {
+      name: "chromium-smoke",
+      dependencies: ["setup"],
+      grep: /@smoke/,
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: authFile,
+      },
+    },
+    {
+      name: "chromium-full",
+      dependencies: ["setup"],
+      grepInvert: /@smoke/,
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: authFile,
+      },
     },
   ],
-  reporter: process.env.CI ? "github" : "list",
-  retries: process.env.CI ? 2 : 0,
+  reporter: isCI
+    ? [["blob"], ["github"]]
+    : [
+        ["list"],
+        ["html", { open: "on-failure", outputFolder: "e2e/playwright-report" }],
+      ],
+  retries: isCI ? 2 : 0,
   testDir: "./e2e",
   timeout: 60_000,
   use: {
     baseURL,
-    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    trace: isCI ? "retain-on-failure" : "on-first-retry",
+    video: "retain-on-failure",
+    viewport: { width: 1440, height: 900 },
   },
-  webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
-    ? undefined
-    : process.env.CI
-      ? {
-          command: `pnpm build && pnpm next start --port ${port}`,
-          reuseExistingServer: false,
-          timeout: 300_000,
-          url: baseURL,
-        }
-      : {
-          command: "pnpm dev",
-          reuseExistingServer: true,
-          timeout: 120_000,
-          url: baseURL,
-        },
+  ...(webServer ? { webServer } : {}),
 });

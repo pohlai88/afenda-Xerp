@@ -152,6 +152,13 @@ describe("system admin API integration (TIP-013 Slice 4)", () => {
     });
 
     expect(authMocks.registerAuthInvitation).toHaveBeenCalledWith({
+      audit: {
+        correlationId: SYSTEM_ADMIN_API_CORRELATION_ID,
+        email: "invited@example.com",
+        invitationId: "membership-invited-001",
+        platformUserId: MODULE_ROUTE_TEST_ACTOR_ID,
+        tenantId: MODULE_ROUTE_TEST_TENANT_ID,
+      },
       email: "invited@example.com",
       invitationId: "membership-invited-001",
       platformUserId: "user-invited-001",

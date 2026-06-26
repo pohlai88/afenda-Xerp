@@ -1,4 +1,5 @@
 import { passkeyClient } from "@better-auth/passkey/client";
+import { ssoClient } from "@better-auth/sso/client";
 import {
   multiSessionClient,
   twoFactorClient,
@@ -16,11 +17,21 @@ export {
   type PasskeyDisplayLabelInput,
   resolvePasskeyDisplayLabel,
 } from "./auth.passkey-label.js";
+export {
+  SIGN_IN_SOCIAL_PROVIDER_IDS,
+  type SignInProviderSurface,
+  type SignInSocialProviderId,
+} from "./auth.sign-in-surface.js";
 
 export function createAfendaAuthClient(baseURL?: string) {
   return createAuthClient({
     ...(baseURL === undefined ? {} : { baseURL }),
-    plugins: [twoFactorClient(), multiSessionClient(), passkeyClient()],
+    plugins: [
+      twoFactorClient(),
+      multiSessionClient(),
+      passkeyClient(),
+      ssoClient(),
+    ],
   });
 }
 

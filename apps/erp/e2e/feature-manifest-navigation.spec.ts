@@ -1,19 +1,17 @@
+import { ERP_VIEWER_AUTH_STORAGE_RELATIVE } from "@afenda/testing/e2e/auth-paths";
 import {
   E2E_DEV_FIXTURE_ANNOTATION,
   hasE2EDevLoginCredentials,
   hasE2EViewerLoginCredentials,
-  resolveE2EDevLoginCredentials,
-  resolveE2EViewerLoginCredentials,
-  signInWithEmailPassword,
 } from "@afenda/testing/e2e/erp-credentials";
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@afenda/testing/e2e/playwright-base";
 
 const MANIFEST_PLACEHOLDER_COPY = /registered in the feature manifest/i;
 const SIGN_IN_PATH_PATTERN = /\/sign-in/;
 const ACCOUNTING_CORE_TERMS = /ledger|journal|posting/i;
 
 test.describe("feature manifest navigation (tenant admin)", () => {
-  test.beforeEach((_context, testInfo) => {
+  test.beforeEach((_fixtures, testInfo) => {
     test.skip(
       !hasE2EDevLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD (min 8 chars) and run pnpm auth:bootstrap:dev"
@@ -21,24 +19,26 @@ test.describe("feature manifest navigation (tenant admin)", () => {
     testInfo.annotations.push(E2E_DEV_FIXTURE_ANNOTATION);
   });
 
-  test("@smoke shows HRM in manifest-driven sidebar navigation", async ({
+  test("@smoke @auth shows HRM in manifest-driven sidebar navigation", async ({
     page,
   }) => {
-    await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible({
       timeout: 30_000,
     });
-    await expect(page.getByRole("link", { name: "HRM" })).toBeVisible({
-      timeout: 30_000,
-    });
+
+    const hrmNavLink = page.locator(
+      'a.app-shell-nav-link[href="/modules/hrm"]'
+    );
+    await expect(hrmNavLink).toHaveCount(1);
+    await expect(hrmNavLink).toBeAttached();
+    await expect(hrmNavLink).toHaveAttribute("href", "/modules/hrm");
   });
 
-  test("renders the HRM module placeholder from the manifest route", async ({
+  test("@auth renders the HRM module placeholder from the manifest route", async ({
     page,
   }) => {
-    await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
     const response = await page.goto("/modules/hrm", {
       waitUntil: "domcontentloaded",
     });
@@ -50,10 +50,9 @@ test.describe("feature manifest navigation (tenant admin)", () => {
     await expect(page.getByText(MANIFEST_PLACEHOLDER_COPY)).toBeVisible();
   });
 
-  test("renders accounting as a shell placeholder without Accounting Core", async ({
+  test("@auth renders accounting as a shell placeholder without Accounting Core", async ({
     page,
   }) => {
-    await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
     const response = await page.goto("/modules/accounting", {
       waitUntil: "domcontentloaded",
     });
@@ -68,10 +67,9 @@ test.describe("feature manifest navigation (tenant admin)", () => {
     await expect(page.getByText(ACCOUNTING_CORE_TERMS)).toHaveCount(0);
   });
 
-  test("returns not found for unknown manifest module segments", async ({
+  test("@auth returns not found for unknown manifest module segments", async ({
     page,
   }) => {
-    await signInWithEmailPassword(page, resolveE2EDevLoginCredentials());
     const response = await page.goto("/modules/unknown-module", {
       waitUntil: "domcontentloaded",
     });
@@ -81,7 +79,11 @@ test.describe("feature manifest navigation (tenant admin)", () => {
 });
 
 test.describe("feature manifest RBAC denial (workspace reader)", () => {
-  test.beforeEach((_context, testInfo) => {
+  test.use({
+    storageState: ERP_VIEWER_AUTH_STORAGE_RELATIVE,
+  });
+
+  test.beforeEach((_fixtures, testInfo) => {
     test.skip(
       !hasE2EViewerLoginCredentials(),
       "Set AFENDA_DEV_LOGIN_PASSWORD (min 8 chars); viewer defaults to {password}-viewer after pnpm auth:bootstrap:dev"
@@ -89,8 +91,7 @@ test.describe("feature manifest RBAC denial (workspace reader)", () => {
     testInfo.annotations.push(E2E_DEV_FIXTURE_ANNOTATION);
   });
 
-  test("hides HRM when RBAC permission is missing", async ({ page }) => {
-    await signInWithEmailPassword(page, resolveE2EViewerLoginCredentials());
+  test("@auth hides HRM when RBAC permission is missing", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible({
@@ -99,8 +100,9 @@ test.describe("feature manifest RBAC denial (workspace reader)", () => {
     await expect(page.getByRole("link", { name: "HRM" })).toHaveCount(0);
   });
 
-  test("returns forbidden for direct HRM route access", async ({ page }) => {
-    await signInWithEmailPassword(page, resolveE2EViewerLoginCredentials());
+  test("@auth returns forbidden for direct HRM route access", async ({
+    page,
+  }) => {
     const response = await page.goto("/modules/hrm", {
       waitUntil: "domcontentloaded",
     });
@@ -110,7 +112,9 @@ test.describe("feature manifest RBAC denial (workspace reader)", () => {
 });
 
 test.describe("feature manifest route guard (unsigned)", () => {
-  test("redirects unsigned users to sign-in", async ({ page }) => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test("@smoke redirects unsigned users to sign-in", async ({ page }) => {
     await page.goto("/modules/hrm", { waitUntil: "domcontentloaded" });
     await expect(page).toHaveURL(SIGN_IN_PATH_PATTERN);
   });

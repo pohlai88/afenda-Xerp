@@ -15,6 +15,7 @@ vi.mock("@afenda/database", () => ({
   getTenantSsoProviderById: (...args: unknown[]) =>
     getTenantSsoProviderByIdMock(...args),
   parseTenantSsoOidcMetadata: (value: unknown) => value,
+  parseTenantSsoSamlMetadata: (value: unknown) => value,
 }));
 
 vi.mock("../auth.server.js", () => ({
@@ -87,6 +88,40 @@ describe("auth.sso-sync", () => {
 
     expect(result).toEqual({ kind: "synced", providerId: "okta-acme" });
     expect(registerSSOProviderMock).toHaveBeenCalled();
+  });
+
+  it("syncs enabled SAML provider with samlConfig", async () => {
+    const tenantId = randomUUID();
+    const id = randomUUID();
+
+    getTenantSsoProviderByIdMock.mockResolvedValue({
+      enabled: true,
+      protocol: "saml",
+      providerId: "okta-saml-acme",
+      issuer: "https://acme.okta.com",
+      domain: "acme.example",
+      metadata: {
+        entryPoint: "https://acme.okta.com/sso/saml",
+        cert: "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----",
+      },
+    });
+
+    const result = await syncTenantSsoProviderWithBetterAuth({
+      headers: new Headers(),
+      id,
+      tenantId,
+    });
+
+    expect(result).toEqual({ kind: "synced", providerId: "okta-saml-acme" });
+    expect(registerSSOProviderMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        body: expect.objectContaining({
+          samlConfig: expect.objectContaining({
+            entryPoint: "https://acme.okta.com/sso/saml",
+          }),
+        }),
+      })
+    );
   });
 
   it("describes missing client secret skip reason for admin surfaces", () => {

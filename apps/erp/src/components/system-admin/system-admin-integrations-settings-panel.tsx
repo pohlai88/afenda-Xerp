@@ -8,10 +8,19 @@ import type {
   TenantIntegrationsSettings,
   TenantOAuthProviderId,
   TenantOAuthSettings,
+  TenantSsoProtocol,
   TenantSsoProviderSummary,
 } from "@afenda/database";
 import { TENANT_SSO_CLIENT_SECRET_ENV_KEY } from "@afenda/database";
-import { Button, Input, Label, Switch } from "@afenda/ui";
+import {
+  Button,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Switch,
+  Textarea,
+} from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter } from "next/navigation";
 import {
@@ -43,7 +52,13 @@ export interface SystemAdminIntegrationsSettingsPanelProps {
 
 export type SystemAdminIntegrationsSettingsPanelGovernedComponents = Extract<
   GovernedUiComponentName,
-  "Button" | "Input" | "Label" | "Switch"
+  | "Button"
+  | "Input"
+  | "Label"
+  | "RadioGroup"
+  | "RadioGroupItem"
+  | "Switch"
+  | "Textarea"
 >;
 
 type TenantIntegrationAppRow =
@@ -106,12 +121,18 @@ export function SystemAdminIntegrationsSettingsPanel({
   const [ssoProviders, setSsoProviders] = useState(() => [
     ...initialSsoProviders,
   ]);
+  const [ssoProtocol, setSsoProtocol] = useState<TenantSsoProtocol>("oidc");
   const [providerId, setProviderId] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [domain, setDomain] = useState("");
   const [issuer, setIssuer] = useState("");
   const [clientId, setClientId] = useState("");
   const [clientSecretEnvKey, setClientSecretEnvKey] = useState("");
+  const [samlEntryPoint, setSamlEntryPoint] = useState("");
+  const [samlCert, setSamlCert] = useState("");
+  const [samlIdpMetadataXml, setSamlIdpMetadataXml] = useState("");
+  const [rotateOidcEnvKey, setRotateOidcEnvKey] = useState("");
+  const [rotateSamlCertValue, setRotateSamlCertValue] = useState("");
 
   const [actionState, formAction, isPending] = useActionState(
     updateIntegrationsSettingsAction,
@@ -289,22 +310,75 @@ export function SystemAdminIntegrationsSettingsPanel({
     event.preventDefault();
     const formData = new FormData();
     formData.set("mode", "upsert");
-    formData.set(
-      "payload",
-      JSON.stringify({
-        providerId,
-        displayName,
-        domain,
-        issuer,
-        enabled: true,
-        metadata: {
-          clientId,
-          ...(clientSecretEnvKey.trim()
-            ? { [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: clientSecretEnvKey.trim() }
-            : {}),
-        },
-      })
-    );
+
+    if (ssoProtocol === "saml") {
+      formData.set(
+        "payload",
+        JSON.stringify({
+          protocol: "saml",
+          providerId,
+          displayName,
+          domain,
+          issuer,
+          enabled: true,
+          metadata: {
+            entryPoint: samlEntryPoint,
+            cert: samlCert,
+            ...(samlIdpMetadataXml.trim()
+              ? { idpMetadataXml: samlIdpMetadataXml.trim() }
+              : {}),
+          },
+        })
+      );
+    } else {
+      formData.set(
+        "payload",
+        JSON.stringify({
+          protocol: "oidc",
+          providerId,
+          displayName,
+          domain,
+          issuer,
+          enabled: true,
+          metadata: {
+            clientId,
+            ...(clientSecretEnvKey.trim()
+              ? {
+                  [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: clientSecretEnvKey.trim(),
+                }
+              : {}),
+          },
+        })
+      );
+    }
+
+    ssoFormAction(formData);
+  };
+
+  const handleSsoRotate = (provider: TenantSsoProviderSummary) => {
+    const formData = new FormData();
+    formData.set("mode", "rotate");
+
+    if (provider.protocol === "oidc") {
+      formData.set(
+        "payload",
+        JSON.stringify({
+          protocol: "oidc",
+          id: provider.id,
+          clientSecretEnvKey: rotateOidcEnvKey.trim(),
+        })
+      );
+    } else {
+      formData.set(
+        "payload",
+        JSON.stringify({
+          protocol: "saml",
+          id: provider.id,
+          cert: rotateSamlCertValue.trim(),
+        })
+      );
+    }
+
     ssoFormAction(formData);
   };
 
@@ -348,19 +422,25 @@ export function SystemAdminIntegrationsSettingsPanel({
           </p>
         ) : null}
       </section>
-      <section aria-labelledby="erp-sso-providers-heading">
+      <section
+        aria-labelledby="erp-sso-providers-heading"
+        className="erp-system-admin-sso-form"
+      >
         <h2 id="erp-sso-providers-heading">Enterprise SSO</h2>
         <p>
-          Configure tenant-scoped OIDC identity providers. Client secrets are
-          loaded from environment keys — never stored in settings or audit
-          metadata.
+          Configure tenant-scoped OIDC or SAML identity providers. Client
+          secrets and private keys load from environment keys — never stored in
+          settings or audit metadata.
         </p>
-        <ul>
+        <ul className="erp-system-admin-sso-form__provider-list">
           {ssoProviders.map((provider) => (
             <li key={provider.id}>
               <span>
                 {provider.displayName} ({provider.providerId}) —{" "}
-                {provider.domain}
+                {provider.domain} ·{" "}
+                <span className="erp-system-admin-sso-form__protocol">
+                  {provider.protocol.toUpperCase()}
+                </span>
               </span>
               <Switch
                 checked={provider.enabled}
@@ -369,87 +449,210 @@ export function SystemAdminIntegrationsSettingsPanel({
                   handleSsoToggle(provider, checked);
                 }}
               />
+              <details className="erp-system-admin-sso-form__rotate">
+                <summary>Rotate credentials</summary>
+                {provider.protocol === "oidc" ? (
+                  <div className="erp-system-admin-form-section__fields">
+                    <Label htmlFor={`sso-rotate-env-${provider.id}`}>
+                      New client secret env key
+                    </Label>
+                    <Input
+                      id={`sso-rotate-env-${provider.id}`}
+                      onChange={(event) => {
+                        setRotateOidcEnvKey(event.target.value);
+                      }}
+                      value={rotateOidcEnvKey}
+                    />
+                  </div>
+                ) : (
+                  <div className="erp-system-admin-form-section__fields">
+                    <Label htmlFor={`sso-rotate-cert-${provider.id}`}>
+                      New IdP certificate (PEM)
+                    </Label>
+                    <Textarea
+                      id={`sso-rotate-cert-${provider.id}`}
+                      onChange={(event) => {
+                        setRotateSamlCertValue(event.target.value);
+                      }}
+                      value={rotateSamlCertValue}
+                    />
+                  </div>
+                )}
+                <Button
+                  disabled={isSsoPending}
+                  emphasis="solid"
+                  intent="primary"
+                  onClick={() => {
+                    handleSsoRotate(provider);
+                  }}
+                  presentation="default"
+                  size="md"
+                  type="button"
+                >
+                  Apply rotation
+                </Button>
+              </details>
             </li>
           ))}
         </ul>
-        <form onSubmit={handleSsoUpsert}>
-          <div>
-            <Label htmlFor="sso-provider-id">Provider ID</Label>
-            <Input
-              id="sso-provider-id"
-              name="providerId"
-              onChange={(event) => {
-                setProviderId(event.target.value);
+        <form
+          className="erp-system-admin-settings-form erp-system-admin-sso-form__fields"
+          onSubmit={handleSsoUpsert}
+        >
+          <fieldset className="erp-system-admin-form-section">
+            <legend>Protocol</legend>
+            <RadioGroup
+              onValueChange={(value) => {
+                setSsoProtocol(value as TenantSsoProtocol);
               }}
-              required
-              value={providerId}
-            />
+              value={ssoProtocol}
+            >
+              <div className="erp-system-admin-sso-form__protocol-option">
+                <RadioGroupItem id="sso-protocol-oidc" value="oidc" />
+                <Label htmlFor="sso-protocol-oidc">OIDC</Label>
+              </div>
+              <div className="erp-system-admin-sso-form__protocol-option">
+                <RadioGroupItem id="sso-protocol-saml" value="saml" />
+                <Label htmlFor="sso-protocol-saml">SAML 2.0</Label>
+              </div>
+            </RadioGroup>
+          </fieldset>
+          <div className="erp-system-admin-form-section__fields">
+            <div>
+              <Label htmlFor="sso-provider-id">Provider ID</Label>
+              <Input
+                id="sso-provider-id"
+                name="providerId"
+                onChange={(event) => {
+                  setProviderId(event.target.value);
+                }}
+                required
+                value={providerId}
+              />
+            </div>
+            <div>
+              <Label htmlFor="sso-display-name">Display name</Label>
+              <Input
+                id="sso-display-name"
+                name="displayName"
+                onChange={(event) => {
+                  setDisplayName(event.target.value);
+                }}
+                required
+                value={displayName}
+              />
+            </div>
+            <div>
+              <Label htmlFor="sso-domain">Email domain</Label>
+              <Input
+                id="sso-domain"
+                name="domain"
+                onChange={(event) => {
+                  setDomain(event.target.value);
+                }}
+                required
+                value={domain}
+              />
+            </div>
+            <div>
+              <Label htmlFor="sso-issuer">
+                {ssoProtocol === "saml"
+                  ? "IdP entity ID / issuer URL"
+                  : "Issuer URL"}
+              </Label>
+              <Input
+                id="sso-issuer"
+                name="issuer"
+                onChange={(event) => {
+                  setIssuer(event.target.value);
+                }}
+                required
+                type="url"
+                value={issuer}
+              />
+            </div>
+            {ssoProtocol === "oidc" ? (
+              <>
+                <div>
+                  <Label htmlFor="sso-client-id">OIDC client ID</Label>
+                  <Input
+                    id="sso-client-id"
+                    name="clientId"
+                    onChange={(event) => {
+                      setClientId(event.target.value);
+                    }}
+                    required
+                    value={clientId}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="sso-client-secret-env">
+                    Client secret env key (optional)
+                  </Label>
+                  <Input
+                    id="sso-client-secret-env"
+                    name="clientSecretEnvKey"
+                    onChange={(event) => {
+                      setClientSecretEnvKey(event.target.value);
+                    }}
+                    value={clientSecretEnvKey}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <Label htmlFor="sso-saml-entry-point">
+                    SAML entry point URL
+                  </Label>
+                  <Input
+                    id="sso-saml-entry-point"
+                    name="samlEntryPoint"
+                    onChange={(event) => {
+                      setSamlEntryPoint(event.target.value);
+                    }}
+                    required
+                    type="url"
+                    value={samlEntryPoint}
+                  />
+                </div>
+                <div className="erp-system-admin-sso-form__full-width">
+                  <Label htmlFor="sso-saml-cert">
+                    IdP signing certificate (PEM)
+                  </Label>
+                  <Textarea
+                    id="sso-saml-cert"
+                    name="samlCert"
+                    onChange={(event) => {
+                      setSamlCert(event.target.value);
+                    }}
+                    required
+                    rows={4}
+                    value={samlCert}
+                  />
+                </div>
+                <div className="erp-system-admin-sso-form__full-width">
+                  <Label htmlFor="sso-saml-idp-metadata">
+                    IdP metadata XML (optional)
+                  </Label>
+                  <Textarea
+                    id="sso-saml-idp-metadata"
+                    name="samlIdpMetadataXml"
+                    onChange={(event) => {
+                      setSamlIdpMetadataXml(event.target.value);
+                    }}
+                    rows={4}
+                    value={samlIdpMetadataXml}
+                  />
+                </div>
+              </>
+            )}
           </div>
-          <div>
-            <Label htmlFor="sso-display-name">Display name</Label>
-            <Input
-              id="sso-display-name"
-              name="displayName"
-              onChange={(event) => {
-                setDisplayName(event.target.value);
-              }}
-              required
-              value={displayName}
-            />
+          <div className="erp-system-admin-settings-form__actions">
+            <Button disabled={isSsoPending} intent="primary" type="submit">
+              Save SSO provider
+            </Button>
           </div>
-          <div>
-            <Label htmlFor="sso-domain">Email domain</Label>
-            <Input
-              id="sso-domain"
-              name="domain"
-              onChange={(event) => {
-                setDomain(event.target.value);
-              }}
-              required
-              value={domain}
-            />
-          </div>
-          <div>
-            <Label htmlFor="sso-issuer">Issuer URL</Label>
-            <Input
-              id="sso-issuer"
-              name="issuer"
-              onChange={(event) => {
-                setIssuer(event.target.value);
-              }}
-              required
-              type="url"
-              value={issuer}
-            />
-          </div>
-          <div>
-            <Label htmlFor="sso-client-id">OIDC client ID</Label>
-            <Input
-              id="sso-client-id"
-              name="clientId"
-              onChange={(event) => {
-                setClientId(event.target.value);
-              }}
-              required
-              value={clientId}
-            />
-          </div>
-          <div>
-            <Label htmlFor="sso-client-secret-env">
-              Client secret env key (optional)
-            </Label>
-            <Input
-              id="sso-client-secret-env"
-              name="clientSecretEnvKey"
-              onChange={(event) => {
-                setClientSecretEnvKey(event.target.value);
-              }}
-              value={clientSecretEnvKey}
-            />
-          </div>
-          <Button disabled={isSsoPending} intent="primary" type="submit">
-            Save SSO provider
-          </Button>
         </form>
         {ssoActionState && !ssoActionState.ok ? (
           <p className="erp-system-admin-settings-form__message" role="alert">

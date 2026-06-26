@@ -1,6 +1,6 @@
 # ARCH-AUTH-001 — Slice catalog
 
-> **Parent:** [`[Partially Implemented] ARCH-AUTH-001-enterprise-authentication.md`](../../%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md)  
+> **Parent:** [`[Complete] ARCH-AUTH-001-enterprise-authentication.md`](../../%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md)  
 > **Paired FDR:** [`fdr-002-auth-disposition`](../../../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md)  
 > **Executor:** `afenda-governed-implementer` or `fdr-slice-implementer` · one slice per session  
 > **Handoff format:** 9-field (write-fdr-slice / ARCH Appendix A)
@@ -26,15 +26,23 @@
 | **13b** | [slice-13b-passkey-enroll-ui.md](./slice-13b-passkey-enroll-ui.md) | Passkey enroll/authenticate UI | **Delivered** 2026-06-25 | `packages/auth` · `packages/appshell` · `apps/erp` |
 | **13a-debt** | [slice-13a-debt-tenant-sso-hardening.md](./slice-13a-debt-tenant-sso-hardening.md) | SSO tenant boundary hardening | **Delivered** 2026-06-25 | `packages/database` · `packages/auth` · `apps/erp` |
 | **13c** | [slice-13c-social-oauth-allowlist.md](./slice-13c-social-oauth-allowlist.md) | Social OAuth allowlist + admin UI | **Delivered** 2026-06-25 | `packages/auth` · `apps/erp` |
-| **13d** | [slice-13d-phase3-evidence-sync.md](./slice-13d-phase3-evidence-sync.md) | Phase 3 evidence-sync + waiver close | **Not started** | docs only |
+| **13d** | [slice-13d-phase3-evidence-sync.md](./slice-13d-phase3-evidence-sync.md) | Phase 3 evidence-sync + waiver close | **Delivered** 2026-06-26 | docs only |
 | **14** | [slice-14-change-email-enabled.md](./slice-14-change-email-enabled.md) | `changeEmail` enabled + profile UI wire | **Delivered** 2026-06-25 | `packages/auth` · `apps/erp` |
+| **15** | [slice-15-saml-admin-ui.md](./slice-15-saml-admin-ui.md) | SAML admin UI + upsert (FR-A06.1) | **Delivered** 2026-06-26 | `packages/database` · `packages/auth` · `apps/erp` |
+| **16** | [slice-16-dod15-rbac-attestation.md](./slice-16-dod15-rbac-attestation.md) | DoD #15 RBAC attestation + invitation.sent | **Delivered** 2026-06-26 | `packages/auth` · `scripts/governance` · `apps/erp` |
+| **17** | [slice-17-arch-promotion-evidence-sync.md](./slice-17-arch-promotion-evidence-sync.md) | §16 promotion evidence-sync | **Delivered** 2026-06-26 | docs only |
+| **18** | [slice-18-idp-secret-rotation-ux.md](./slice-18-idp-secret-rotation-ux.md) | IdP secret rotation UX | **Delivered** 2026-06-26 | `packages/database` · `apps/erp` |
+| **19** | [slice-19-sign-in-provider-polish.md](./slice-19-sign-in-provider-polish.md) | Sign-in OAuth / passkey / SSO polish | **Delivered** 2026-06-26 | `packages/auth` · `apps/erp` |
+| **20** | [slice-20-deactivate-session-revoke.md](./slice-20-deactivate-session-revoke.md) | FR-A01.4 deactivate → revoke sessions | **Delivered** 2026-06-26 | `packages/auth` · `packages/database` |
+| **21** | [slice-21-workspace-mfa-override.md](./slice-21-workspace-mfa-override.md) | FR-A05.3 workspace MFA override | **Delivered** 2026-06-26 | `packages/database` · `packages/auth` |
 
-## Orchestration sequence (remaining)
+## Orchestration sequence
 
 ```text
-Phase A — Slices 1–12 ✓ · Slice 10 ✓ · Slice 14 ✓ · Amendment 13 ✓ (2026-06-25)
-Phase B — 13a (SSO) ✓ → 13b (passkeys) ✓ → 13a-debt (SSO hardening) ✓ → 13c (OAuth) ✓ → 13d (evidence-sync)
-Next session: Slice 13d (Phase 3 evidence-sync)
+Phase A — Slices 1–21 ✓ (2026-06-26)
+ARCH-AUTH-001 — Complete — enterprise 9.5 accepted
+Backlog closed: Slices 18–21 (IdP rotation · sign-in polish · FR-A01.4 · FR-A05.3)
+Follow-up (non-blocking): company MFA override admin UI
 ```
 
-**Waiver:** AUTH-PHASE3-001 — **In progress** (closes Slice 13d). Amendment **Accepted** 2026-06-25: [`slice-13-phase3-amendment-draft.md`](./slice-13-phase3-amendment-draft.md).
+**Waiver:** ~~AUTH-PHASE3-001~~ — **Closed** Slice 13d (2026-06-26). Amendment **Accepted** 2026-06-25: [`slice-13-phase3-amendment-draft.md`](./slice-13-phase3-amendment-draft.md).

@@ -131,7 +131,7 @@ Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript p
 | Layer         | Config                                                                                                        | Environment               |
 | ------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | Root          | `vitest.config.ts` — shared pool, mock hygiene, CI reporters                                                  | orchestrates all projects |
-| Shared        | `vitest.shared.ts` — `createNodeProject` / `createUiProject` / `createReactProject` / `createDatabaseProject` | node vs jsdom vs DB forks |
+| Shared        | `vitest.shared.ts` — factories per [ARCH-TEST-002](docs/ARCH/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | node · jsdom · DB forks |
 | Package / app | `vitest.config.ts`                                                                                            | one project per workspace |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}`.

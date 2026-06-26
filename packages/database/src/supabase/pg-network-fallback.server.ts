@@ -36,7 +36,7 @@ export function buildPgConnectionCandidates(
     return candidates;
   }
 
-  const databaseUrl = process.env.DATABASE_URL?.trim();
+  const databaseUrl = process.env["DATABASE_URL"]?.trim();
   if (databaseUrl && databaseUrl !== primaryUrl) {
     candidates.push({ label: "DATABASE_URL", url: databaseUrl });
   }

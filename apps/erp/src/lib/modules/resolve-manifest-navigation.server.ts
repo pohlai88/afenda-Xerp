@@ -1,6 +1,6 @@
 import {
-  type AppShellMenuItem,
-  buildHydratedManifestNavigation,
+  type AppShellNavItemSerializable,
+  buildManifestNavigation,
   isManifestModuleId,
   type ManifestNavModuleEntry,
 } from "@afenda/appshell";
@@ -64,13 +64,13 @@ export async function resolveManifestNavigationFromOperatingContext(
   permissionDataSource: PermissionDataSource = createProductionAuthorizationDataSources()
     .permission,
   activeRoutePath?: string
-): Promise<readonly AppShellMenuItem[]> {
+): Promise<readonly AppShellNavItemSerializable[]> {
   const grantedPermissionKeys = await resolveGrantedModulePermissionKeys(
     operatingContext,
     permissionDataSource
   );
 
-  return buildHydratedManifestNavigation({
+  return buildManifestNavigation({
     modules: toManifestNavModules(),
     grantedPermissionKeys,
     ...(activeRoutePath === undefined ? {} : { activeRoutePath }),

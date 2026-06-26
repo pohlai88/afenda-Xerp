@@ -83,8 +83,11 @@ export {
 export {
   type AssertTenantMfaPolicyInput,
   assertTenantMfaPolicySatisfied,
+  getEffectiveMfaPolicy,
   getTenantMfaPolicy,
   isAuthUserMfaEnabled,
+  parseCompanyIdFromActiveWorkspaceId,
+  type RequireAfendaAuthSessionOptions,
   type TenantMfaPolicy,
   type TenantMfaPolicyDeps,
   type UpdateTenantMfaPolicyInput,
@@ -113,7 +116,6 @@ export {
 export {
   getAfendaAuthSession,
   getAuth,
-  type RequireAfendaAuthSessionOptions,
   requireAfendaAuthSession,
   resetAuthForTests,
 } from "./auth.server.js";
@@ -124,6 +126,16 @@ export {
   resolveActiveWorkspaceId,
   toAfendaAuthIdentity,
 } from "./auth.session.js";
+export {
+  type RevokeAuthSessionsForPlatformUserInput,
+  revokeAuthSessionsForPlatformUser,
+} from "./auth.session-revoke.js";
+export {
+  resolveSignInProviderSurface,
+  SIGN_IN_SOCIAL_PROVIDER_IDS,
+  type SignInProviderSurface,
+  type SignInSocialProviderId,
+} from "./auth.sign-in-surface.js";
 export {
   AFENDA_AUTH_SSO_OIDC_CALLBACK_PREFIX,
   AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX,
@@ -139,6 +151,10 @@ export {
   type SyncTenantSsoProviderSkipReason,
   syncTenantSsoProviderWithBetterAuth,
 } from "./auth.sso-sync.js";
+export {
+  deactivatePlatformUser,
+  deactivatePlatformUserWithSessionRevoke,
+} from "./auth.user-lifecycle.js";
 export {
   type PersistAuthSessionActiveWorkspaceIdInput,
   persistAuthSessionActiveWorkspaceId,

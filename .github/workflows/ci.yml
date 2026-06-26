@@ -3,8 +3,7 @@ name: CI
 # TIP-009 — Delivery Governance Spine
 #
 # Pull requests to main must pass all gates before merge.
-# Core gates: typecheck, biome, test, build, boundaries, migrations, exports,
-# architecture authority, UI governance, storybook build, CSP third-party, release-gate.
+# Test pyramid jobs run in parallel (ARCH-TEST-001 Gate 3i / Gate 3j).
 
 on:
   push:
@@ -20,10 +19,157 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+  test-vitest:
+    name: Gate 3 · Vitest
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Gate 3 · test (affected on PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm test:run:affected
+
+      - name: Gate 3 · test (full on main)
+        if: github.event_name != 'pull_request'
+        run: pnpm test:run
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-vitest
+          path: test-results/junit.xml
+          if-no-files-found: ignore
+
+  test-interaction:
+    name: Gate 3i · Interaction
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Gate 3i · interaction tests
+        run: pnpm test:interaction
+
+  test-storybook:
+    name: Gate 3a · Storybook browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Gate 3a · storybook browser tests
+        run: pnpm test:run:storybook
+
+  test-e2e-smoke:
+    name: Gate 3j · ERP E2E smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.0-noble
+
+    env:
+      CI: true
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      AFENDA_DEV_LOGIN_PASSWORD: ${{ secrets.AFENDA_DEV_LOGIN_PASSWORD }}
+      PLAYWRIGHT_PREBUILT: "true"
+      AFENDA_E2E_DEFAULT_TENANT_SLUG: "dev-local"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Bootstrap local database and dev auth
+        run: pnpm db:bootstrap:local && pnpm auth:bootstrap:dev
+
+      - name: Build ERP and dependencies
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm turbo run build --filter=@afenda/erp...
+
+      - name: Gate 3j · ERP Playwright smoke
+        working-directory: apps/erp
+        run: pnpm test:e2e:smoke
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-e2e
+          path: apps/erp/blob-report
+          if-no-files-found: ignore
+
+  quality-governance:
     name: Quality gates
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    needs: [test-vitest, test-interaction, test-storybook, test-e2e-smoke]
 
     steps:
       - name: Checkout
@@ -65,17 +211,11 @@ jobs:
       - name: Gate 2 · biome (format + lint + imports)
         run: pnpm ci:biome
 
-      # ── Gate 3 · Test Quality ─────────────────────────────────────────────
-      - name: Gate 3 · test (affected on PR)
-        if: github.event_name == 'pull_request'
-        run: pnpm test:run:affected
+      - name: Gate 3cov · phase-1 coverage
+        run: pnpm test:coverage:phase1
 
-      - name: Gate 3 · test (full on main)
-        if: github.event_name != 'pull_request'
-        run: pnpm test:run
-
-      - name: Gate 3a · storybook browser tests
-        run: pnpm test:run:storybook
+      - name: Gate 3cov · coverage summary
+        run: pnpm check:coverage-summary
 
       # ── Gate 3b · UI Governance (behavioral + static) ─────────────────────
       - name: Gate 3b · UI governance
@@ -169,15 +309,6 @@ jobs:
       # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check
         run: pnpm quality:release-gate
-
-      # ── Artefacts ─────────────────────────────────────────────────────────
-      - name: Upload JUnit report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-report
-          path: test-results/junit.xml
-          if-no-files-found: ignore
 
       - name: Summarise gate result
         if: always()

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   UnauthenticatedError,
   UnlinkedPlatformUserError,
@@ -14,6 +14,7 @@ import { normalizeAfendaAuthSession } from "../auth.session.js";
 
 const mockGetSession = vi.fn();
 const mockResolvePlatformActorUserId = vi.fn();
+const mockAssertTenantMfaPolicySatisfied = vi.fn().mockResolvedValue(undefined);
 const authConfigState = vi.hoisted(() => ({
   calls: [] as Array<{ env?: NodeJS.ProcessEnv } | undefined>,
 }));
@@ -35,7 +36,20 @@ vi.mock("../auth.actor-resolution.js", () => ({
     mockResolvePlatformActorUserId(...args),
 }));
 
+vi.mock("../auth.mfa-policy.js", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../auth.mfa-policy.js")>();
+  return {
+    ...actual,
+    assertTenantMfaPolicySatisfied: (...args: unknown[]) =>
+      mockAssertTenantMfaPolicySatisfied(...args),
+  };
+});
+
 describe("auth.server session helpers", () => {
+  beforeEach(() => {
+    mockAssertTenantMfaPolicySatisfied.mockResolvedValue(undefined);
+  });
+
   it("returns null when Better Auth has no session", async () => {
     resetAuthForTests();
     mockGetSession.mockResolvedValueOnce(null);
@@ -178,6 +192,38 @@ describe("auth.server session helpers", () => {
     await expect(requireAfendaAuthSession(new Headers())).rejects.toThrow(
       UnauthenticatedError
     );
+  });
+
+  it("asserts MFA policy with company id parsed from active workspace", async () => {
+    resetAuthForTests();
+    mockGetSession.mockResolvedValueOnce({
+      session: {
+        id: "sess_1",
+        createdAt: new Date("2026-06-20T00:00:00.000Z"),
+        expiresAt: new Date("2026-06-27T00:00:00.000Z"),
+        activeWorkspaceId: "tenant_1:company_1:workspace_1",
+        ipAddress: null,
+        userAgent: null,
+      },
+      user: {
+        id: "auth_user_1",
+        email: "user@example.com",
+        name: "Test User",
+        emailVerified: true,
+        image: null,
+      },
+    });
+    mockResolvePlatformActorUserId.mockResolvedValueOnce("platform_user_1");
+
+    await requireAfendaAuthSession(new Headers(), process.env, {
+      tenantId: "tenant_1",
+    });
+
+    expect(mockAssertTenantMfaPolicySatisfied).toHaveBeenCalledWith({
+      authUserId: "auth_user_1",
+      companyId: "company_1",
+      tenantId: "tenant_1",
+    });
   });
 
   it("recreates auth config when env fingerprint changes", () => {

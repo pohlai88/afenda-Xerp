@@ -10,6 +10,9 @@ import {
   validateMemberInvitation,
 } from "@afenda/database";
 
+import { persistAuthAuditEvent } from "./auth.audit.js";
+import { AUTH_EVENT, type AuthEventContext } from "./auth.contract.js";
+
 /**
  * ARCH-AUTH-001 Slice 11 — invitation gate backed by `member_invitations`.
  *
@@ -28,6 +31,7 @@ export interface AuthInvitationRecord {
 }
 
 export interface RegisterAuthInvitationInput {
+  readonly audit?: AuthEventContext;
   readonly email: string;
   readonly expiresAt?: Date;
   readonly invitationId?: string;
@@ -61,7 +65,7 @@ export async function resetAuthInvitationStoreForTests(): Promise<void> {
 export async function registerAuthInvitation(
   input: RegisterAuthInvitationInput
 ): Promise<AuthInvitationRecord> {
-  return registerMemberInvitation({
+  const invitation = await registerMemberInvitation({
     email: input.email,
     ...(input.expiresAt === undefined ? {} : { expiresAt: input.expiresAt }),
     ...(input.invitationId === undefined
@@ -73,6 +77,25 @@ export async function registerAuthInvitation(
     ...(input.tenantId === undefined ? {} : { tenantId: input.tenantId }),
     ...(input.token === undefined ? {} : { token: input.token }),
   });
+
+  if (input.audit) {
+    const { tenantId: auditTenantId, ...auditRest } = input.audit;
+    const resolvedTenantId = auditTenantId ?? input.tenantId;
+    await persistAuthAuditEvent({
+      context: {
+        ...auditRest,
+        email: input.audit.email ?? input.email,
+        invitationId: input.audit.invitationId ?? invitation.invitationId,
+        ...(resolvedTenantId === undefined
+          ? {}
+          : { tenantId: resolvedTenantId }),
+      },
+      event: AUTH_EVENT.invitationSent,
+      result: "success",
+    });
+  }
+
+  return invitation;
 }
 
 export async function validateAuthInvitation(
@@ -119,9 +142,29 @@ export async function revokeAuthInvitationById(
 
 /** Re-registers a pending invitation with a fresh token (same invitation id). */
 export async function resendAuthInvitationById(
-  invitationId: string
+  invitationId: string,
+  audit?: AuthEventContext
 ): Promise<AuthInvitationRecord | null> {
-  return resendMemberInvitationById(invitationId);
+  const invitation = await resendMemberInvitationById(invitationId);
+
+  if (invitation && audit) {
+    const { tenantId: auditTenantId, ...auditRest } = audit;
+    const resolvedTenantId = auditTenantId ?? invitation.tenantId;
+    await persistAuthAuditEvent({
+      context: {
+        ...auditRest,
+        email: audit.email ?? invitation.email,
+        invitationId: audit.invitationId ?? invitation.invitationId,
+        ...(resolvedTenantId === undefined
+          ? {}
+          : { tenantId: resolvedTenantId }),
+      },
+      event: AUTH_EVENT.invitationSent,
+      result: "success",
+    });
+  }
+
+  return invitation;
 }
 
 export function readInvitationTokenFromBody(body: unknown): string | undefined {

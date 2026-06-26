@@ -151,7 +151,7 @@ Bulk Tailwind migration and manual per-utility CSS mapping are **not** scheduled
 | 23 | fdr-013-logging-tracing | PKG-013 | `@afenda/observability` | PKG013_LOGGING | green | Complete | [FDR/[Complete] fdr-013-logging-tracing.md](FDR/%5BComplete%5D%20fdr-013-logging-tracing.md) |
 | 24 | fdr-014-rbac | PKG-014 | `@afenda/permissions` | PKG014_PERMISSIONS | green | Complete | [FDR/[Complete] fdr-014-rbac.md](FDR/%5BComplete%5D%20fdr-014-rbac.md) |
 | 25 | fdr-015-tenant-storage | PKG-015 | `@afenda/storage` | PKG015_STORAGE | — | Partially Implemented | [FDR/[Partially Implemented] fdr-015-tenant-storage.md](FDR/%5BPartially%20Implemented%5D%20fdr-015-tenant-storage.md) |
-| 26 | fdr-016-test-utilities | PKG-016 | `@afenda/testing` | — | — | Partially Implemented | [FDR/[Partially Implemented] fdr-016-test-utilities.md](FDR/%5BPartially%20Implemented%5D%20fdr-016-test-utilities.md) |
+| 26 | fdr-016-test-utilities | PKG-016 | `@afenda/testing` | PKG016_TESTING | blue | Complete | [FDR/[Complete] fdr-016-test-utilities.md](FDR/%5BComplete%5D%20fdr-016-test-utilities.md) — **26/30 audit-adjusted** |
 | 27 | fdr-017-ts-config | PKG-017 | `@afenda/typescript-config` | PKG017_TS_CONFIG | blue | Partially Implemented | [FDR/[Partially Implemented] fdr-017-ts-config.md](FDR/%5BPartially%20Implemented%5D%20fdr-017-ts-config.md) — **23/30 audit-adjusted** |
 | 28 | fdr-018-governed-primitives | PKG-018 | `@afenda/ui` | PKG018_UI | amber | Partially Implemented | [FDR/[Not started] fdr-018-governed-primitives.md](FDR/%5BNot%20started%5D%20fdr-018-governed-primitives.md) — **Research Slice 1 ✓ · 21/30 audit-adjusted** · Slice 2 test debt |
 | 29 | fdr-018-ui-consumption | PKG-018 | `@afenda/ui` | PKG018_UI | green | Not started | [FDR/[Not started] fdr-018-ui-consumption.md](FDR/%5BNot%20started%5D%20fdr-018-ui-consumption.md) |
@@ -181,7 +181,7 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 | --- | --- | --- | --- |
 | fdr-002-auth-disposition | PKG002_AUTH | Complete | Identity, session, operating-context bridge — **enterprise 9.5 accepted** (29/30) |
 
-**ARCH extension ([ARCH-AUTH-001](../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md)):** Slices 1–8 delivered (admin Members/Security UI, integration attestation, workspace session contract); Slice 9 evidence-sync delivered 2026-06-25 (102 PKG tests exit 0; matrix/index sync). ARCH remains **Partially Implemented** — FR-A05.2 persistence wiring deferred; `AUTH-INV-001` in-memory invitations waiver.
+**ARCH extension ([ARCH-AUTH-001](../ARCH/%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md)):** Slices 1–17 delivered (134 PKG tests exit 0; DoD #15 RBAC gate Slice 16 · 2026-06-26). ARCH **Complete — enterprise 9.5 accepted** (Slice 17 · 2026-06-26).
 
 ### PKG-003 — `@afenda/database`
 
@@ -274,7 +274,7 @@ Grouped view for package owners. Row counts per PKG must sum to **33**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-016-test-utilities | — | Partially Implemented | Shared test utilities |
+| fdr-016-test-utilities | PKG016_TESTING | Complete | Shared test utilities — **26/30** · pyramid CI attested via ARCH-TEST-001 |
 
 ### PKG-017 — `@afenda/typescript-config`
 

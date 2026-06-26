@@ -1,15 +1,15 @@
 # ARCH-TEST-001 — Vitest / Playwright Monorepo Testing Strategy
 
 > Architecture authority for monorepo test pyramid, Vitest workspace, Storybook browser tests, and ERP Playwright E2E.  
-> Template: [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) · Index: [`arch-status-index.md`](arch-status-index.md)
+> **Vitest workspace detail:** [ARCH-TEST-002](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) · Template: [`ARCH-TEMPLATE.md`](ARCH-TEMPLATE.md) · Index: [`arch-status-index.md`](arch-status-index.md)
 
 | Field | Value |
 | --- | --- |
 | **Document ID** | ARCH-TEST-001 |
-| **Work ID** | ARCH-TEST-001 · PKG-016 · [`fdr-016-test-utilities`](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-016-test-utilities.md) (paired FDR) |
+| **Work ID** | ARCH-TEST-001 · PKG-016 · [`fdr-016-test-utilities`](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) (paired FDR) |
 | **Title** | Vitest / Playwright monorepo testing strategy |
-| **Status** | **Partially Implemented — authority established; runtime gates pending** |
-| **Date** | 2026-06-25 |
+| **Status** | **Complete — enterprise 9.5 accepted** |
+| **Date** | 2026-06-25 (Complete attestation 2026-06-26) |
 | **Owner** | Architecture Authority · `@afenda/testing` runtime owner |
 | **Package** | PKG-016 · `@afenda/testing` + root `vitest.shared.ts` |
 | **Registry entry ID** | PKG016_TESTING |
@@ -37,7 +37,7 @@ Skills: [`.cursor/skills/test-coverage/SKILL.md`](../../.cursor/skills/test-cove
 | Field | Value |
 | --- | --- |
 | Work ID | ARCH-TEST-001 · `fdr-016-test-utilities` |
-| Status | Partially Implemented → Complete when Slices 2–5B close |
+| Status | **Complete** (Slices 1–5B delivered 2026-06-26) |
 | Package | `@afenda/testing` (PKG-016) + root vitest wiring |
 | Registry entry ID | PKG016_TESTING |
 | Runtime owner | `packages/testing/` · `vitest.shared.ts` · `apps/erp/e2e/` |
@@ -50,11 +50,13 @@ Skills: [`.cursor/skills/test-coverage/SKILL.md`](../../.cursor/skills/test-cove
 | Slice | Scope | Classification | Status |
 | --- | --- | --- | --- |
 | **1 — Authority** | This ARCH + index + matrix cross-link | P0 | **Delivered** (2026-06-25) |
-| **2 — Root Vitest** | `vitest.config.ts` · `vitest.shared.ts` · interaction file-pattern scripts | P0 | Pending |
-| **3 — CI tiering** | Gate 3i interaction · Gate 3e ERP `@smoke` E2E | P0 | Pending |
-| **5A — Governance** | Interaction-import scan · `packages/testing/README.md` | P0 | Pending |
-| **4 — Coverage** | Package thresholds · `check-coverage-summary.mjs` | P1 | Pending |
-| **5B — Evidence-sync** | fdr-016 Complete · ARCH promotion · matrix sync | P1 | Pending |
+| **2 — Root Vitest** | `vitest.config.ts` · `vitest.shared.ts` · interaction file-pattern scripts | P0 | **Delivered** — see [ARCH-TEST-002](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) |
+| **3A — Playwright smoke foundation** | Project deps · storageState · fixtures · `test:e2e:smoke` | P0 | **Delivered** (2026-06-26) |
+| **3B — CI tiering** | Gate 3i interaction · Gate 3j ERP `@smoke` E2E | P0 | **Delivered** (2026-06-26) |
+| **5A — Governance** | Interaction-import scan · `packages/testing/README.md` | P0 | **Delivered** (2026-06-26) |
+| **4 — Coverage** | Package thresholds · `check-coverage-summary.mjs` | P1 | **Delivered** (2026-06-26) |
+| **5B — Evidence-sync** | fdr-016 Complete · ARCH promotion · matrix sync | P1 | **Delivered** (2026-06-26) |
+| **6 — P2 E2E matrix** | Nightly full matrix · sharding · multi-browser | P2 | **Deferred** — [`e2e/full/README.md`](../../apps/erp/e2e/full/README.md) · [`e2e-nightly.yml`](../../.github/workflows/e2e-nightly.yml) (`workflow_dispatch`) |
 
 ---
 
@@ -77,10 +79,9 @@ Skills: [`.cursor/skills/test-coverage/SKILL.md`](../../.cursor/skills/test-cove
 ### Current risk / gap
 
 ```text
-Baseline Vitest workspace, shared factories, @afenda/testing, ERP Playwright, and Storybook browser mode
-are implemented (Grade A). Enforcement gaps remain: interaction tests and ERP E2E smoke are not CI gates;
-coverage thresholds are not enforced; interaction filter scripts are inconsistent; fdr-016 alone does not
-define pyramid policy or Vitest/Playwright division of responsibility.
+Baseline Vitest workspace, shared factories, @afenda/testing, ERP Playwright, Storybook browser mode,
+and P0/P1 CI gates (Vitest, interaction, Storybook browser, E2E smoke, phase-1 coverage summary)
+are implemented and attested (Grade A). P2 nightly full E2E matrix remains deferred pending separate FDR.
 ```
 
 ### Business / architecture impact
@@ -176,8 +177,8 @@ No threshold may be lowered solely to pass existing debt; debt must be fixed or 
 | Unit/component | `pnpm test:run:affected` / `pnpm test:run` | PR / main |
 | Interaction | `pnpm test:interaction` | Every PR |
 | Storybook browser | `pnpm test:run:storybook` | Every PR |
-| ERP E2E smoke | `pnpm --filter @afenda/erp test:e2e --grep @smoke` | PR + main |
-| Coverage | `pnpm test:coverage` + `pnpm check:coverage-summary` | After Slice 4 |
+| ERP E2E smoke | `pnpm test:e2e:smoke` | PR + main |
+| Coverage | `pnpm test:coverage:phase1` + `pnpm check:coverage-summary` | Gate 3cov ✓ |
 | Boundaries | `pnpm quality:boundaries` | Every PR |
 
 **E2E credential skip policy:**
@@ -237,7 +238,7 @@ Feature: Monorepo testing pyramid
 | Documentation + BRD traceability | 5/5 | ARCH + fdr-016 + matrix synced |
 | Maintainability + Clean Core | 5/5 | Single `@afenda/testing` surface; no duplicate helpers |
 
-**Slice 1 score:** ~24/30 audit-adjusted (authority only; runtime gates pending).
+**Slice 1 score:** ~29/30 audit-adjusted (P0/P1 CI gates + coverage summary delivered 2026-06-26).
 
 ---
 
@@ -261,7 +262,7 @@ Feature: Monorepo testing pyramid
 pnpm test:run
 pnpm test:interaction
 pnpm test:run:storybook
-pnpm --filter @afenda/erp test:e2e --grep @smoke
+pnpm test:e2e:smoke
 pnpm test:coverage
 pnpm check:coverage-summary
 pnpm quality:boundaries
@@ -273,9 +274,9 @@ pnpm check:documentation-drift
 | --- | --- | --- |
 | `pnpm check:documentation-drift` | 1 | Required |
 | `pnpm check:foundation-disposition` | 1 | Required |
-| `pnpm test:interaction` in CI | 3 | Pending |
-| `pnpm test:e2e --grep @smoke` in CI | 3 | Pending |
-| `pnpm check:coverage-summary` | 4 | Pending |
+| `pnpm test:interaction` in CI | 3B | **Delivered** — Gate 3i |
+| `pnpm test:e2e:smoke` in CI | 3B | **Delivered** — Gate 3j |
+| `pnpm check:coverage-summary` | 4 | **Delivered** — Gate 3cov |
 
 ---
 
@@ -284,25 +285,25 @@ pnpm check:documentation-drift
 | # | Criterion | Evidence | Status |
 | --- | --- | --- | --- |
 | 1 | Runtime evidence at stated paths | `vitest.shared.ts` · `packages/testing/` | [x] |
-| 2 | Acceptance criteria implemented | Gherkin §7 | [ ] |
+| 2 | Acceptance criteria implemented | Gherkin §7 | [x] |
 | 3 | Positive path tested | `pnpm test:run` exit 0 | [x] |
-| 4 | Negative path tested | boundaries + coverage fail paths | [ ] |
+| 4 | Negative path tested | boundaries + coverage fail paths | [x] |
 | 5 | TypeScript strict passes | `pnpm typecheck` | [x] |
-| 6 | Interaction CI gate | Gate 3i in ci.yml | [ ] |
-| 7 | E2E smoke CI gate | Gate 3e in ci.yml | [ ] |
+| 6 | Interaction CI gate | Gate 3i in ci.yml | [x] |
+| 7 | E2E smoke CI gate | Gate 3j in ci.yml | [x] |
 | 8 | ARCH authority registered | arch-status-index TEST domain | [x] |
-| 9 | Coverage summary gate | `check-coverage-summary.mjs` | [ ] |
-| 10 | Interaction import governance | governance test | [ ] |
-| 11 | Runtime matrix updated | Testing Infrastructure row | [ ] |
-| 12 | fdr-016 Complete | fdr-status-index | [ ] |
+| 9 | Coverage summary gate | `check-coverage-summary.mjs` | [x] |
+| 10 | Interaction import governance | `interaction-test-imports.test.ts` | [x] |
+| 11 | Runtime matrix updated | Testing Infrastructure row | [x] |
+| 12 | fdr-016 Complete | fdr-status-index | [x] |
 | 13 | Impact analysis completed | §12 below | [x] |
 | 14 | Rollback strategy documented | §14 below | [x] |
 | 15 | `@afenda/testing` boundary verified | `quality:boundaries` | [x] |
-| 16 | README runbook | `packages/testing/README.md` | [ ] |
+| 16 | README runbook | `packages/testing/README.md` | [x] |
 | 17 | Public API compatibility | exports map stable | [x] |
 | 18 | Clean Core level declared | A | [x] |
-| 19 | Waivers documented if any | §13 below | [ ] |
-| 20 | Peer review completed | DoD #14 | [ ] |
+| 19 | Waivers documented if any | §13 below | [x] |
+| 20 | Peer review completed | DoD #14 | [x] |
 
 ---
 
@@ -313,7 +314,7 @@ pnpm check:documentation-drift
 | All packages | `vitest.shared.ts` factories | No | Use `createNodeProject` / `createReactProject` |
 | `@afenda/ui` · `@afenda/appshell` | `@afenda/testing/react` | No | `*.interaction.test.tsx` naming |
 | `@afenda/erp` | Playwright E2E + Vitest integration | No | `@smoke` tags on smoke specs |
-| CI | New gates 3i · 3e · coverage | No | Workflow update Slice 3–4 |
+| CI | New gates 3i · 3j · coverage | No | Workflow update Slice 3B–4 |
 
 Breaking change: **No** · Migration required: **No** · Runtime risk: **Low** · Rollback safe: **Yes**
 
@@ -323,7 +324,9 @@ Breaking change: **No** · Migration required: **No** · Runtime risk: **Low** �
 
 | Waiver ID | Requirement waived | Reason | Approver | Expiry |
 | --- | --- | --- | --- | --- |
-| `e2e-auth-credentials-ci` | Auth-dependent E2E specs in CI | `AFENDA_DEV_LOGIN_PASSWORD` absent in CI | Architecture Authority | When CI secrets provisioned |
+| ~~`e2e-auth-credentials-ci`~~ | ~~Auth-dependent E2E specs in CI~~ | **Closed 2026-06-26** — `AFENDA_DEV_LOGIN_PASSWORD` wired in CI Gate 3j | Architecture Authority | — |
+| `auth-coverage-phase1-ratchet` | `@afenda/auth` Template B coverage | Phase-1 ratchet floor 73/78/83% until debt closed | Architecture Authority | Template B met or waiver renewed |
+| `database-coverage-phase1-ratchet` | `@afenda/database` Template B coverage | Phase-1 ratchet floor 61/73/52% until debt closed | Architecture Authority | Template B met or waiver renewed |
 
 No waiver may skip CSP or public-route smoke specs.
 
@@ -365,25 +368,50 @@ Handoff from: docs/ARCH/[Partially Implemented] ARCH-TEST-001-vitest-playwright-
 9. Attestation  — Maintainability (single pattern authority); Test coverage (interaction filter parity)
 ```
 
-### Slice 3 — CI tiering (P0)
+### Slice 3A — Playwright smoke foundation (P0)
 
 ```
 Handoff from: docs/ARCH/[Partially Implemented] ARCH-TEST-001-vitest-playwright-strategy.md
 
-1. Objective    — Add Gate 3i (pnpm test:interaction) and Gate 3e (ERP Playwright @smoke) to ci.yml; tag smoke E2E specs.
-2. Allowed layer— .github/workflows/ci.yml; apps/erp/e2e/
+1. Objective    — Production-grade ERP Playwright smoke: setup project, storageState, shared @afenda/testing/e2e exports, smoke tagging, CI-ready config. No full matrix / sharding / visual regression / coverage in this slice.
+2. Allowed layer— apps/erp/playwright.config.mts; apps/erp/e2e/**; packages/testing/src/e2e/**; packages/testing/package.json; package.json (root scripts)
+3. Files        —
+   apps/erp/playwright.config.mts
+   apps/erp/e2e/auth.setup.ts
+   apps/erp/e2e/*.spec.ts
+   packages/testing/src/e2e/playwright-base.ts
+   packages/testing/src/e2e/fixtures.ts
+   packages/testing/src/e2e/auth-paths.ts
+   packages/testing/package.json
+   packages/testing/README.md
+   package.json (test:e2e:smoke)
+4. Prohibited   — ci.yml (Slice 3B); full E2E matrix; sharding; visual regression; Radix flows in Playwright
+5. Authority    — ARCH-TEST-001 §6 · fdr-016 PKG016_TESTING
+6. Gates        —
+   pnpm test:e2e:smoke
+   pnpm test:interaction
+   pnpm quality:boundaries
+7. Closes       — Playwright project spine; DoD #16 partial (README)
+8. Evidence     — chromium-smoke project · auth.setup.ts · @smoke tags · test:e2e:smoke script
+9. Attestation  — Maintainability (shared playwright-base); Test coverage (smoke foundation)
+```
+
+### Slice 3B — CI tiering (P0)
+
+```
+Handoff from: docs/ARCH/[Partially Implemented] ARCH-TEST-001-vitest-playwright-strategy.md
+
+1. Objective    — Add Gate 3i (pnpm test:interaction) and Gate 3j (pnpm test:e2e:smoke) to ci.yml. Do not reuse Gate 3e (CSS bridge).
+2. Allowed layer— .github/workflows/ci.yml
 3. Files        —
    .github/workflows/ci.yml
-   apps/erp/e2e/protected-home.spec.ts
-   apps/erp/e2e/feature-manifest-navigation.spec.ts
-   apps/erp/e2e/csp-hybrid.spec.ts
 4. Prohibited   — Nightly full E2E matrix (P2); Vitest config changes
 5. Authority    — ARCH-TEST-001 §6 CI tier policy · E2E credential skip policy
 6. Gates        —
    pnpm test:interaction
-   pnpm --filter @afenda/erp test:e2e --grep @smoke
+   pnpm test:e2e:smoke
 7. Closes       — DoD #6 · DoD #7
-8. Evidence     — ci.yml Gate 3i/3e · @smoke tags in e2e specs
+8. Evidence     — ci.yml Gate 3i · Gate 3j
 9. Attestation  — Test coverage 5/5 (CI enforcement)
 ```
 
@@ -462,11 +490,14 @@ Handoff from: docs/ARCH/[Partially Implemented] ARCH-TEST-001-vitest-playwright-
 Do not promote to **Complete — enterprise 9.5 accepted** until:
 
 ```text
-- Slices 2, 3, 5A delivered (P0 CI gates live)
-- Slice 4 delivered or waived with expiry (P1 coverage)
-- Slice 5B evidence-sync + peer review (DoD #20)
-- All §10 gates exit 0
+- Slices 2, 3, 5A delivered (P0 CI gates live) ✓
+- Slice 4 delivered or waived with expiry (P1 coverage) ✓
+- Slice 5B evidence-sync + peer review (DoD #20) ✓
+- All §10 gates exit 0 ✓
+- P2 E2E matrix remains out of scope until separate FDR approval
 ```
+
+**Status (2026-06-26):** Promoted to Complete — enterprise 9.5 accepted.
 
 ---
 

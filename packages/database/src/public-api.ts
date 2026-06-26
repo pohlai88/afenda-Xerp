@@ -42,6 +42,7 @@ export {
   type InsertAuthIdentityLinkInput,
   type InsertAuthIdentityLinkResult,
   insertAuthIdentityLink,
+  listAuthUserIdsByPlatformUserId,
 } from "./auth/auth-identity.service.js";
 export {
   type AfendaAuthDatabase,
@@ -733,6 +734,11 @@ export {
   parseTenantSsoOidcMetadata,
   parseTenantSsoProviderMetadata,
   parseTenantSsoProviderSummary,
+  parseTenantSsoSamlMetadata,
+  type RotateTenantSsoOidcClientSecretEnvKeyInput,
+  type RotateTenantSsoSamlCertificateInput,
+  rotateTenantSsoOidcClientSecretEnvKeyInputSchema,
+  rotateTenantSsoSamlCertificateInputSchema,
   type SetTenantSsoProviderEnabledInput,
   setTenantSsoProviderEnabledInputSchema,
   TENANT_SSO_CLIENT_SECRET_ENV_KEY,
@@ -744,7 +750,9 @@ export {
   tenantSsoProtocolSchema,
   toTenantSsoProviderSummary,
   type UpsertTenantSsoOidcProviderInput,
+  type UpsertTenantSsoSamlProviderInput,
   upsertTenantSsoOidcProviderInputSchema,
+  upsertTenantSsoSamlProviderInputSchema,
 } from "./tenant-sso/tenant-sso-provider.contract.js";
 export {
   getEnabledTenantSsoProviderForTenantDomain,
@@ -753,9 +761,12 @@ export {
   listTenantSsoProvidersByTenantId,
   resetTenantSsoProvidersForTests,
   resolveTenantIdFromSsoEmailDomain,
+  rotateTenantSsoOidcClientSecretEnvKey,
+  rotateTenantSsoSamlCertificate,
   setTenantSsoProviderEnabled,
   TenantSsoProviderNotFoundError,
   upsertTenantSsoOidcProvider,
+  upsertTenantSsoSamlProvider,
 } from "./tenant-sso/tenant-sso-provider.service.js";
 export {
   type CreatedAtColumn,

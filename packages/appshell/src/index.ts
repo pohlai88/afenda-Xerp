@@ -215,6 +215,13 @@ export type {
   AppShellApplicationShell02UserProfile,
 } from "./shadcn-studio/blocks/app-shell-application-shell-02";
 export { AppShellApplicationShell02SystemAdminChrome } from "./shadcn-studio/blocks/app-shell-application-shell-02";
+export type {
+  AppShellAuthErrorPage02GovernedComponents,
+  AppShellAuthErrorPage02Props,
+} from "./shadcn-studio/blocks/app-shell-auth-error-page-02";
+export { AppShellAuthErrorPage02 } from "./shadcn-studio/blocks/app-shell-auth-error-page-02";
+export type { AppShellAuthLoginPage04Props } from "./shadcn-studio/blocks/app-shell-auth-login-page-04";
+export { AppShellAuthLoginPage04 } from "./shadcn-studio/blocks/app-shell-auth-login-page-04";
 export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-shell-context-switcher";
 export {
   AppShellContextSwitcher,

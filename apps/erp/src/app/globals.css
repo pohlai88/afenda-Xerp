@@ -249,6 +249,149 @@
     justify-content: flex-end;
   }
 
+  .erp-system-admin-sso-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+    margin-block-end: var(--afenda-spacing-6);
+  }
+
+  .erp-system-admin-sso-form__provider-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .erp-system-admin-sso-form__provider-list li {
+    display: flex;
+    gap: var(--afenda-spacing-3);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--afenda-spacing-3);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .erp-system-admin-sso-form__protocol {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    letter-spacing: 0.04em;
+  }
+
+  .erp-system-admin-sso-form__fields {
+    margin-block-end: 0;
+  }
+
+  .erp-system-admin-sso-form__protocol-option {
+    display: flex;
+    gap: var(--afenda-spacing-2);
+    align-items: center;
+  }
+
+  .erp-system-admin-sso-form__rotate {
+    width: 100%;
+    margin-block-start: var(--afenda-spacing-2);
+  }
+
+  .erp-system-admin-sso-form__rotate summary {
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .erp-sign-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+    width: 100%;
+  }
+
+  .erp-sign-in-form__social {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+  }
+
+  .erp-sign-in-form__divider {
+    display: flex;
+    gap: var(--afenda-spacing-3);
+    align-items: center;
+  }
+
+  .erp-sign-in-form__divider-label {
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+  }
+
+  .erp-sign-in-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-4);
+  }
+
+  .erp-sign-in-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-1);
+  }
+
+  .erp-sign-in-form__error {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--destructive);
+  }
+
+  .erp-sign-in-form__loading {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    text-align: center;
+  }
+
+  .erp-sign-in-form__alternates {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-3);
+    padding-block-start: var(--afenda-spacing-4);
+    margin-block-start: var(--afenda-spacing-4);
+    border-block-start: 1px solid var(--border);
+  }
+
+  .erp-sign-in-form__alternates-label {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    text-align: center;
+  }
+
+  .erp-sign-in-form__alternates-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+  }
+
+  .erp-sign-in-form__sso {
+    display: flex;
+    flex-direction: column;
+    gap: var(--afenda-spacing-2);
+    margin-block-start: var(--afenda-spacing-2);
+  }
+
+  .erp-system-admin-sso-form__full-width {
+    grid-column: 1 / -1;
+  }
+
+  @media (width >= 40rem) {
+    .erp-system-admin-sso-form__fields .erp-system-admin-form-section__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   .erp-system-admin-users {
     display: flex;
     flex-direction: column;

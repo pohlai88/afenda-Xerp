@@ -177,7 +177,7 @@ Archive input (not implementation authority): [`tip-010-api-rbac-wiring.md`](../
 | `auth-unlinked-denial-surfaces` | ~~Not all surfaces enforce link check~~ — **Closed Slice 2** (2026-06-25) | amber | `fdr-slice-implementer` | Slice 2 ✓ | `authorize-api-route.test.ts`; `resolve-action-session.test.ts`; `auth.session.test.ts` |
 | ~~`auth-complete-status`~~ | ~~Promotion to **Complete** blocked on DoD #14 peer review only~~ | amber | Architecture Authority | **Closed 2026-06-25** | Slice 4 Complete promotion |
 | `auth-mfa-sso-deferred` | MFA / SSO / passkey extension points planned only | blue | — | §Waivers | Enterprise beta requirement per ENTERPRISE-BENCHMARK §5 |
-| `auth-arch-extension` | ARCH-AUTH-001 admin + mirror extensions (slices 6–9) beyond fdr-002 foundation Complete — **Slices 7–9 delivered 2026-06-25** (102 PKG tests; integration attestation; matrix/index sync) | amber | `fdr-slice-implementer` | [ARCH-AUTH-001](../../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | **Remaining:** FR-A05.2 persistence wiring (`auth.config.ts` + DB column + `resolveOperatingContext`); in-memory invitations (`AUTH-INV-001`); SSO/passkey deferred — ARCH stays Partially Implemented until FR-A05.2 closes |
+| `auth-arch-extension` | ARCH-AUTH-001 admin + mirror + Phase 3 + SAML + RBAC extensions — **Slices 1–17 delivered** (134 PKG tests exit 0; DoD #15 gate Slice 16 · 2026-06-26) | amber | `fdr-slice-implementer` | [ARCH-AUTH-001](../../ARCH/%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | **Closed** — ARCH **Complete — enterprise 9.5 accepted** (Slice 17 · 2026-06-26). Optional backlog: Slice 18 IdP rotation UX |
 
 ## §Enterprise readiness score
 

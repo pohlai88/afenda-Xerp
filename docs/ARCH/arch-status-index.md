@@ -5,7 +5,7 @@
 
 | Field | Value |
 | --- | --- |
-| **As-of** | 2026-06-25 |
+| **As-of** | 2026-06-26 |
 | **Implementation authority** | [FDR](../delivery/fdr-status-index.md) (ADR-0014) |
 | **ARCH location** | [`docs/ARCH/`](./) — filenames prefixed with `[status]` for targeting |
 | **Status source (runtime)** | [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md) |
@@ -37,7 +37,7 @@
 | `USER` | Signed-in user self-service settings (`/settings/**`) | ARCH-USER-001 |
 | `DOCS` | Fumadocs site — `/docs/apps/**` application guides | ARCH-DOCS-001 |
 | `SUPA` | Supabase platform — Postgres, poolers, env ops (not identity) | ARCH-SUPA-001 |
-| `TEST` | Monorepo test pyramid — Vitest, Storybook browser, Playwright E2E | ARCH-TEST-001 |
+| `TEST` | Monorepo test pyramid — Vitest workspace, Storybook browser, Playwright E2E | ARCH-TEST-001 · ARCH-TEST-002 |
 
 ### Legacy delivery IDs (renamed)
 
@@ -68,8 +68,9 @@
 
 | Step | ARCH | Slice | Package / layer | Depends on | Handoff |
 | ---: | --- | --- | --- | --- | --- |
-| **→ 1** | **ARCH-AUTH-001** | **13c** OAuth allowlist | Auth · ERP | Slices 13a + 13b + 13a-debt ✓ | [slice-13c](slices/ARCH-AUTH-001/slice-13c-social-oauth-allowlist.md) |
-| 2 | **ARCH-AUTH-001** | **13d** Phase 3 evidence-sync | docs only | 13c ✓ | [slice-13d](slices/ARCH-AUTH-001/slice-13d-phase3-evidence-sync.md) |
+| — | **ARCH-AUTH-001** | **Complete** | `@afenda/auth` | Slices 1–17 ✓ | [handoff](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
+
+**ARCH-AUTH-001 Complete — enterprise 9.5 accepted** (Slice 17 · 2026-06-26). Optional backlog: Slice 18 IdP rotation UX.
 
 **Parallel rule:** ARCH-ADMIN-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–11 delivered · DoD #20 closed. ARCH-USER-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–12 delivered · DoD #20 closed. ARCH-SUPA-001 **Complete — enterprise 9.5 accepted** (2026-06-25) · Slices 1–7 delivered · DoD #20 closed. ARCH-AUTH-001 Slice 14 (`changeEmail`) delivered 2026-06-25.
 
@@ -77,11 +78,12 @@
 
 | ARCH | Slices / phases | Evidence |
 | --- | --- | --- |
-| ARCH-AUTH-001 | 1–12 + 14 + 13a + 13b + 13a-debt + FR-A05.2.1 + FR-A05.2 ERP | Better Auth baseline, mirror sync, MFA policy, durable invitations, invitation gate, Security + Members admin UI, MFA enroll UI, integration tests, workspace session persistence, `changeEmail`, enterprise SSO (13a), passkeys self-service (13b), SSO tenant boundary hardening (13a-debt) · Phase 3 amendment accepted |
+| ARCH-AUTH-001 | 1–17 + FR-A05.2.1 + FR-A05.2 ERP | … SAML admin UI (15) · DoD #15 RBAC gate (16) · **Complete** (17) |
 | ARCH-ADMIN-001 | Phase A–D · Slices 1 + 1.5 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 | `tenant_settings` persistence · General tab · Members · Security MFA · settings audit waiver closed · TS action dedup · evidence-sync · RLS · mutation audit · **Complete** (29/30) |
 | ARCH-USER-001 | Slices 1–12 | `/settings/**` four tabs · `user_preferences` · admin/user split · integration AC closure · mutation audit · DoD #20 closed · **Complete** (29/30) |
 | ARCH-DOCS-001 | Slices 1–5 | **Complete — enterprise 9.5 accepted** (2026-06-25) · `/docs/apps/**` · 83 tests · fdr-005 `[Complete]` |
 | ARCH-SUPA-001 | Slices 1–9 | Connection routing · pool registry wiring · advisor governance gate · **Complete** (29/30) · DoD #20 closed 2026-06-25 |
+| ARCH-TEST-001 | Slices 1–5B | Vitest/Playwright pyramid · Gates 3i/3j/3cov · fdr-016 Complete · **Complete** (29/30) · DoD #20 closed 2026-06-26 |
 
 ---
 
@@ -89,12 +91,13 @@
 
 | ARCH ID | Document | PKG | Paired FDR | Status | Next step |
 | --- | --- | --- | --- | --- | --- |
-| **ARCH-AUTH-001** | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Partially Implemented | **Slice 13c** · [amendment accepted](slices/ARCH-AUTH-001/slice-13-phase3-amendment-draft.md) |
+| **ARCH-AUTH-001** | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 · `@afenda/auth` | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | **Complete** | — |
 | **ARCH-ADMIN-001** | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 · `@afenda/erp` | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) | **Complete** | — |
 | **ARCH-USER-001** | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 · `@afenda/erp` | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | **Complete** | — |
 | **ARCH-DOCS-001** | [\[Complete\] ARCH-DOCS-001-fumadocs-site.md](%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) | PKG-005 · `@afenda/docs` | [fdr-005-docs-app](../delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) | **Complete** | — |
 | **ARCH-SUPA-001** | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 · `@afenda/database` | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | **Complete** | — |
-| **ARCH-TEST-001** | [\[Partially Implemented\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BPartially%20Implemented%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 · `@afenda/testing` | [fdr-016-test-utilities](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-016-test-utilities.md) | **Partially Implemented** | **Slice 2** root Vitest · [handoff](%5BPartially%20Implemented%5D%20ARCH-TEST-001-vitest-playwright-strategy.md#slice-2--root-vitest-optimization-p0) |
+| **ARCH-TEST-001** | [\[Complete\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 · `@afenda/testing` | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | **Complete** | — |
+| **ARCH-TEST-002** | [\[Complete\] ARCH-TEST-002-vitest-monorepo-workspace.md](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | PKG-016 · root `vitest.shared.ts` | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | **Complete** | — |
 
 ---
 
@@ -107,12 +110,13 @@ All paths relative to `docs/ARCH/`.
 
 | ARCH ID | Document | PKG | Domain | Status | Paired FDR | Evidence / gap |
 | --- | --- | --- | --- | --- | --- | --- |
-| ARCH-AUTH-001 | [\[Partially Implemented\] ARCH-AUTH-001-enterprise-authentication.md](%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | Partially Implemented | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–12 + 14 + 13a + 13b + 13a-debt ✓; AUTH-PHASE3-001 **In progress** (13c next) |
+| ARCH-AUTH-001 | [\[Complete\] ARCH-AUTH-001-enterprise-authentication.md](%5BComplete%5D%20ARCH-AUTH-001-enterprise-authentication.md) | PKG-002 | Enterprise authentication | **Complete** | [fdr-002-auth-disposition](../delivery/FDR/%5BComplete%5D%20fdr-002-auth-disposition.md) | Slices 1–17 ✓ · DoD #15 closed · 97/100 enterprise score |
 | ARCH-ADMIN-001 | [\[Complete\] ARCH-ADMIN-001-system-admin-control-plane.md](%5BComplete%5D%20ARCH-ADMIN-001-system-admin-control-plane.md) | PKG-007 | System Admin control plane | **Complete** | [fdr-007-system-admin](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-system-admin.md) · [fdr-007-accounting-readiness](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-accounting-readiness.md) | Slices 1–11 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
 | ARCH-USER-001 | [\[Complete\] ARCH-USER-001-user-settings-self-service.md](%5BComplete%5D%20ARCH-USER-001-user-settings-self-service.md) | PKG-007 | User settings self-service | **Complete** | [fdr-007-ux-surfaces](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-007-ux-surfaces.md) | Slices 1–12 ✓ · DoD #20 closed 2026-06-25 · 29/30 accepted |
 | ARCH-DOCS-001 | [\[Complete\] ARCH-DOCS-001-fumadocs-site.md](%5BComplete%5D%20ARCH-DOCS-001-fumadocs-site.md) | PKG-005 | Fumadocs site (`/docs/apps/**`) | **Complete** | [fdr-005-docs-app](../delivery/FDR/%5BComplete%5D%20fdr-005-docs-app.md) | Slices 1–5 ✓ · DoD #20 closed 2026-06-25 · 28/30 accepted |
 | ARCH-SUPA-001 | [\[Complete\] ARCH-SUPA-001-supabase-platform-architecture.md](%5BComplete%5D%20ARCH-SUPA-001-supabase-platform-architecture.md) | PKG-003 | Supabase platform (Postgres ops) | **Complete** | [fdr-003-persistence](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-003-persistence.md) · [fdr-003-tenant-rls](../delivery/FDR/%5BComplete%5D%20fdr-003-tenant-rls.md) | Slices 1–9 ✓ · DoD #20 closed · waiver Accepted · `check:supabase-advisors` |
-| ARCH-TEST-001 | [\[Partially Implemented\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BPartially%20Implemented%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 | Monorepo test pyramid | **Partially Implemented** | [fdr-016-test-utilities](../delivery/FDR/%5BPartially%20Implemented%5D%20fdr-016-test-utilities.md) | Slice 1 ✓ authority; Slices 2–5B pending CI + coverage gates |
+| ARCH-TEST-001 | [\[Complete\] ARCH-TEST-001-vitest-playwright-strategy.md](%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) | PKG-016 | Monorepo test pyramid | **Complete** | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | Slices 1–5B ✓ · Gates 3i/3j/3cov · DoD #20 closed 2026-06-26 · 29/30 accepted |
+| ARCH-TEST-002 | [\[Complete\] ARCH-TEST-002-vitest-monorepo-workspace.md](%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | PKG-016 | Vitest monorepo workspace | **Complete** | [fdr-016-test-utilities](../delivery/FDR/%5BComplete%5D%20fdr-016-test-utilities.md) | Four factories · jsdom UI · DB forks · Gate 3 `test:run` |
 
 ### Templates and tooling
 

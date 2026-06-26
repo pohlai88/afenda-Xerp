@@ -17,6 +17,10 @@ vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }));
 
+vi.mock("next/headers", () => ({
+  headers: vi.fn(async () => new Headers()),
+}));
+
 vi.mock("@/lib/server-actions/resolve-action-operating-context.server", () => ({
   resolveActionOperatingContext: vi.fn(),
 }));
@@ -54,7 +58,11 @@ describe("updateOauthProviderSettingsAction", () => {
         tenant: { tenantId: "tenant-1" },
       },
     } as never);
-    vi.mocked(guardSystemAdminSection).mockResolvedValue({ kind: "denied" });
+    vi.mocked(guardSystemAdminSection).mockResolvedValue({
+      kind: "forbidden",
+      sectionId: "settings",
+      permissionKey: "system_admin.settings.manage",
+    } as never);
 
     const formData = new FormData();
     formData.set("mode", "toggle");
@@ -81,7 +89,10 @@ describe("updateOauthProviderSettingsAction", () => {
         tenant: { tenantId: "tenant-1" },
       },
     } as never);
-    vi.mocked(guardSystemAdminSection).mockResolvedValue({ kind: "allowed" });
+    vi.mocked(guardSystemAdminSection).mockResolvedValue({
+      kind: "allowed",
+      section: { sectionId: "settings" },
+    } as never);
     vi.mocked(mergeTenantOAuthProviderSettings).mockResolvedValue({
       clientId: "",
       displayName: "Google",

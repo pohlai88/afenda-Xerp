@@ -30,6 +30,12 @@ describe("@afenda/auth/client", () => {
     expect(typeof multiSession.revoke).toBe("function");
   });
 
+  it("exports passkey and SSO sign-in client helpers", () => {
+    expect(typeof signIn.passkey).toBe("function");
+    expect(typeof signIn.social).toBe("function");
+    expect(typeof signIn.sso).toBe("function");
+  });
+
   it("exports canonical device session parsing helpers", () => {
     expect(
       isAfendaAuthDeviceSession({

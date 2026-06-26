@@ -1,7 +1,4 @@
-import {
-  AppShell,
-  DashboardWidgetRenderContextProvider,
-} from "@afenda/appshell";
+import { DashboardWidgetRenderContextProvider } from "@afenda/appshell";
 import {
   getAfendaAuthSession,
   isAfendaAuthSessionLinked,
@@ -11,7 +8,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import type { ReactNode } from "react";
-
+import { ErpApplicationShell } from "@/components/erp-application-shell.client";
 import { SignOutButton } from "@/components/sign-out-button";
 import { WorkspaceContextSwitcher } from "@/components/workspace-context-switcher.client";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
@@ -22,7 +19,6 @@ import { internalErpMetadata } from "@/lib/metadata/site-metadata";
 import { resolveActiveRoutePathFromHeaders } from "@/lib/modules/resolve-active-route-path-from-headers.server";
 import { resolveManifestNavigationFromOperatingContext } from "@/lib/modules/resolve-manifest-navigation.server";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
-import { resolveAppShellProfileMenuGroups } from "@/lib/user-settings/resolve-app-shell-profile-menu-groups";
 import {
   emptyDashboardWidgetRenderContext,
   resolveDashboardWidgetRenderContextFromOperatingContext,
@@ -95,7 +91,7 @@ export default async function ProtectedLayout({
         operatingResult.value
       )
     : READONLY_WORKSPACE_DASHBOARD_CAPABILITIES;
-  const navigationPages = operatingResult.ok
+  const manifestNavigation = operatingResult.ok
     ? await resolveManifestNavigationFromOperatingContext(
         operatingResult.value,
         undefined,
@@ -104,13 +100,12 @@ export default async function ProtectedLayout({
     : undefined;
 
   return (
-    <AppShell
+    <ErpApplicationShell
       identity={identity}
       identityAccessory={<SignOutButton />}
-      profileMenuGroups={resolveAppShellProfileMenuGroups()}
       {...(contextSwitcher ? { contextSwitcher } : {})}
       {...(operatingContext ? { operatingContext } : {})}
-      {...(navigationPages ? { navigationPages } : {})}
+      {...(operatingResult.ok ? { manifestNavigation } : {})}
     >
       <WorkspaceApiScopeBoundary
         requireScope
@@ -125,6 +120,6 @@ export default async function ProtectedLayout({
           </WorkspaceDashboardCapabilitiesProvider>
         </DashboardWidgetRenderContextProvider>
       </WorkspaceApiScopeBoundary>
-    </AppShell>
+    </ErpApplicationShell>
   );
 }

@@ -68,6 +68,7 @@ export const AUTH_EVENT = {
   emailVerified: "auth.email.verified",
   invitationAccepted: "auth.invitation.accepted",
   invitationRejected: "auth.invitation.rejected",
+  invitationSent: "auth.invitation.sent",
   mfaBypassBlocked: "auth.mfa.bypass_blocked",
   mfaDisabled: "auth.mfa.disabled",
   mfaEnrolled: "auth.mfa.enrolled",
@@ -99,6 +100,7 @@ export const AUTH_EVENT = {
   | "emailVerified"
   | "invitationAccepted"
   | "invitationRejected"
+  | "invitationSent"
   | "mfaBypassBlocked"
   | "mfaDisabled"
   | "mfaEnrolled"

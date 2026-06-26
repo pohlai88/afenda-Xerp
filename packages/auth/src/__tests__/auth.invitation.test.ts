@@ -1,5 +1,6 @@
 import { MemberInvitationRejectedError } from "@afenda/database";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { AUTH_EVENT } from "../auth.contract.js";
 import {
   AuthInvitationRejectedError,
   consumeAuthInvitation,
@@ -20,6 +21,8 @@ const revokeMemberInvitation = vi.fn();
 const revokeMemberInvitationById = vi.fn();
 const resendMemberInvitationById = vi.fn();
 const resetMemberInvitationsForTests = vi.fn();
+
+const persistAuthAuditEvent = vi.fn().mockResolvedValue(undefined);
 
 vi.mock("@afenda/database", () => ({
   consumeMemberInvitation: (...args: unknown[]) =>
@@ -46,10 +49,48 @@ vi.mock("@afenda/database", () => ({
     validateMemberInvitation(...args),
 }));
 
+vi.mock("../auth.audit.js", () => ({
+  persistAuthAuditEvent: (...args: unknown[]) => persistAuthAuditEvent(...args),
+}));
+
 describe("auth.invitation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetMemberInvitationsForTests.mockResolvedValue(undefined);
+    persistAuthAuditEvent.mockResolvedValue(undefined);
+  });
+
+  it("emits auth.invitation.sent when register audit context is supplied", async () => {
+    const invitation = {
+      email: "user@example.com",
+      expiresAt: Date.now() + 60_000,
+      invitationId: "invite_1",
+      token: "invite_token_1",
+    };
+
+    registerMemberInvitation.mockResolvedValue(invitation);
+
+    await registerAuthInvitation({
+      audit: {
+        correlationId: "corr-1",
+        platformUserId: "actor-1",
+        tenantId: "tenant-a",
+      },
+      email: "user@example.com",
+      token: "invite_token_1",
+    });
+
+    expect(persistAuthAuditEvent).toHaveBeenCalledWith({
+      context: {
+        correlationId: "corr-1",
+        email: "user@example.com",
+        invitationId: "invite_1",
+        platformUserId: "actor-1",
+        tenantId: "tenant-a",
+      },
+      event: AUTH_EVENT.invitationSent,
+      result: "success",
+    });
   });
 
   it("registers and validates a matching invitation token", async () => {
@@ -183,6 +224,26 @@ describe("auth.invitation", () => {
       .mockResolvedValueOnce({ status: "valid", invitation: resent });
 
     await expect(resendAuthInvitationById("invite_1")).resolves.toEqual(resent);
+
+    await expect(
+      resendAuthInvitationById("invite_1", {
+        correlationId: "corr-resend",
+        platformUserId: "actor-1",
+        tenantId: "tenant-a",
+      })
+    ).resolves.toEqual(resent);
+
+    expect(persistAuthAuditEvent).toHaveBeenCalledWith({
+      context: {
+        correlationId: "corr-resend",
+        email: "user@example.com",
+        invitationId: "invite_1",
+        platformUserId: "actor-1",
+        tenantId: "tenant-a",
+      },
+      event: AUTH_EVENT.invitationSent,
+      result: "success",
+    });
 
     await expect(
       validateAuthInvitation({

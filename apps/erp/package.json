@@ -11,7 +11,10 @@
     "test": "vitest --config vitest.config.ts",
     "pretest:run": "pnpm --filter @afenda/observability build",
     "test:run": "vitest run --config vitest.config.ts",
+    "pretest:e2e": "pnpm --filter @afenda/testing build",
     "test:e2e": "playwright test",
+    "pretest:e2e:smoke": "pnpm --filter @afenda/testing build",
+    "test:e2e:smoke": "playwright test --project chromium-smoke",
     "test:e2e:install": "playwright install chromium",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
@@ -43,7 +46,7 @@
   "devDependencies": {
     "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "catalog:",
     "dotenv": "^17.4.2",
     "@testing-library/jest-dom": "catalog:",

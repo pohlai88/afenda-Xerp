@@ -9,7 +9,11 @@ import {
   UnlinkedPlatformUserError,
 } from "./auth.errors.js";
 import { resetAuthInvitationStoreForTests } from "./auth.invitation.js";
-import { assertTenantMfaPolicySatisfied } from "./auth.mfa-policy.js";
+import {
+  assertTenantMfaPolicySatisfied,
+  parseCompanyIdFromActiveWorkspaceId,
+  type RequireAfendaAuthSessionOptions,
+} from "./auth.mfa-policy.js";
 import { readAuthConfigFingerprint } from "./auth.runtime.js";
 import {
   type BetterAuthSessionLike,
@@ -23,10 +27,6 @@ function readOptionalSessionString(value: unknown): string | null | undefined {
   }
 
   return typeof value === "string" ? value : undefined;
-}
-
-export interface RequireAfendaAuthSessionOptions {
-  readonly tenantId?: string;
 }
 
 let authSingleton: AfendaAuth | undefined;
@@ -108,9 +108,14 @@ export async function requireAfendaAuthSession(
   }
 
   if (options.tenantId) {
+    const companyId =
+      options.companyId ??
+      parseCompanyIdFromActiveWorkspaceId(session.metadata.activeWorkspaceId);
+
     await assertTenantMfaPolicySatisfied({
       authUserId: session.user.authUserId,
       tenantId: options.tenantId,
+      ...(companyId === undefined ? {} : { companyId }),
     });
   }
 

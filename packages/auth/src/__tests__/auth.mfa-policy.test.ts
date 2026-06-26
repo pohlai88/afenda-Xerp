@@ -3,9 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AUTH_EVENT } from "../auth.contract.js";
 import {
   assertTenantMfaPolicySatisfied,
+  getEffectiveMfaPolicy,
   getTenantMfaPolicy,
   isAuthUserMfaEnabled,
   MfaPolicyBypassBlockedError,
+  parseCompanyIdFromActiveWorkspaceId,
   updateTenantMfaPolicy,
 } from "../auth.mfa-policy.js";
 
@@ -35,6 +37,10 @@ vi.mock("@afenda/database", () => ({
     id: "id",
     mfaRequired: "mfaRequired",
     updatedAt: "updatedAt",
+  },
+  companies: {
+    id: "id",
+    mfaRequiredOverride: "mfaRequiredOverride",
   },
 }));
 
@@ -132,5 +138,52 @@ describe("auth.mfa-policy", () => {
         result: "success",
       })
     );
+  });
+
+  it("parses company id from active workspace id", () => {
+    expect(
+      parseCompanyIdFromActiveWorkspaceId("tenant:company_1:workspace_1")
+    ).toBe("company_1");
+    expect(parseCompanyIdFromActiveWorkspaceId("invalid")).toBeUndefined();
+    expect(parseCompanyIdFromActiveWorkspaceId(null)).toBeUndefined();
+  });
+
+  it("prefers company MFA override over tenant default", async () => {
+    chainSelect(mockPlatformDb, [{ mfaRequiredOverride: false }]);
+
+    await expect(
+      getEffectiveMfaPolicy(
+        { companyId: "company_1", tenantId: "tenant_1" },
+        mockPlatformDb as never
+      )
+    ).resolves.toEqual({ mfaRequired: false });
+  });
+
+  it("falls back to tenant MFA when company override is null", async () => {
+    chainSelect(mockPlatformDb, [{ mfaRequiredOverride: null }]);
+    chainSelect(mockPlatformDb, [{ mfaRequired: true }]);
+
+    await expect(
+      getEffectiveMfaPolicy(
+        { companyId: "company_1", tenantId: "tenant_1" },
+        mockPlatformDb as never
+      )
+    ).resolves.toEqual({ mfaRequired: true });
+  });
+
+  it("uses company override path in assertTenantMfaPolicySatisfied", async () => {
+    chainSelect(mockPlatformDb, [{ mfaRequiredOverride: true }]);
+    chainSelect(mockAuthDb, [{ twoFactorEnabled: true }]);
+
+    await expect(
+      assertTenantMfaPolicySatisfied(
+        {
+          authUserId: "auth_1",
+          companyId: "company_1",
+          tenantId: "tenant_1",
+        },
+        { authDb: mockAuthDb as never, platformDb: mockPlatformDb as never }
+      )
+    ).resolves.toBeUndefined();
   });
 });

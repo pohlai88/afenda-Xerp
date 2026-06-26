@@ -1,6 +1,9 @@
 "use client";
 
-import { RouteSegmentError } from "@/components/route-segment-error";
+import { AppShellAuthErrorPage02 } from "@afenda/appshell";
+import { useEffect } from "react";
+
+import { reportClientError } from "@/lib/observability/report-client-error.client";
 
 interface AuthErrorProps {
   readonly error: Error & { digest?: string };
@@ -8,14 +11,20 @@ interface AuthErrorProps {
 }
 
 export default function AuthError({ error, reset }: AuthErrorProps) {
+  useEffect(() => {
+    reportClientError({
+      digest: error.digest ?? "unknown",
+      segment: "auth",
+    });
+  }, [error.digest]);
+
   return (
-    <RouteSegmentError
-      description="The sign-in surface failed to load. Please try again."
-      error={error}
-      reset={reset}
-      segment="auth"
-      title="Authentication unavailable"
-      variant="page"
-    />
+    <div role="alert">
+      <AppShellAuthErrorPage02
+        description="The sign-in surface failed to load. Please try again."
+        onRetry={reset}
+        title="Something went wrong"
+      />
+    </div>
   );
 }

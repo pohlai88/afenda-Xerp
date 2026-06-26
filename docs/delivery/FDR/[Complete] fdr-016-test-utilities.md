@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| **Status** | Partially Implemented |
+| **Status** | **Complete — enterprise 9.5 accepted** |
 | **FDR ID** | `fdr-016-test-utilities` |
 | **Registry entry ID** | `PKG016_TESTING` |
 | **Package** | `@afenda/testing` (PKG-016) |
@@ -11,7 +11,7 @@
 | **Change class** | Extension |
 | **Risk class** | Low |
 | **BRD reference** | internal — shared test utilities + interaction patterns |
-| **Enterprise readiness** | **26/30 audit-adjusted** · **26/30 evidence-qualified ceiling** — enterprise **9.5 candidate** (DoD #14 peer review open) |
+| **Enterprise readiness** | **26/30 audit-adjusted** · **26/30 evidence-qualified** — **Complete — enterprise 9.5 accepted** (2026-06-26) |
 | **Runtime evidence** | See §Runtime evidence |
 | **Source of truth** | `foundation-disposition.registry.ts` |
 | **Document role** | Delivery authority / evidence plan — not registry authority |
@@ -124,7 +124,7 @@ Archive input (not implementation authority): runtime matrix **Testing Infrastru
 
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
-| `test-utilities-matrix-fdr-drift` | Matrix **implemented** vs FDR was **Not started** — delivery lag | blue | `fdr-author` (Research) | Slice 1 ✓ | Research attestation; status → **Partially Implemented** |
+| `test-utilities-matrix-fdr-drift` | Matrix **implemented** vs FDR was **Not started** — delivery lag | blue | `fdr-author` (Research) | Slice 1 ✓ | Research attestation; status → **Complete** ✓ |
 
 ## §Enterprise readiness score
 
@@ -134,10 +134,10 @@ Archive input (not implementation authority): runtime matrix **Testing Infrastru
 | Test coverage | 5/5 | 7 package tests + `test:interaction` 28 tests — Grade A | — |
 | Observability + audit | 2/5 | Test infra only — Grade C | N/A for test utilities |
 | Security + RBAC + RLS | 3/5 | Mock providers; no production tenant data — Grade C | SoD N/A |
-| Documentation + BRD traceability | 5/5 | FDR + AGENTS.md + registry row + drift exit 0 — Grade A | DoD #14 `[ ]` |
+| Documentation + BRD traceability | 5/5 | FDR + AGENTS.md + registry row + drift exit 0 — Grade A | DoD #14 ✓ |
 | Maintainability + Clean Core | 5/5 | typecheck + test + biome + interaction exit 0; Clean Core A — Grade A | — |
 | **Total (audit-adjusted)** | **26/30** | Registry row `PKG016_TESTING` onboarded (2026-06-25) | Enterprise 9.5 candidate |
-| **Total (evidence-qualified ceiling)** | **26/30** | Upper bound with peer review at Complete | Not final 9.5 |
+| **Total (evidence-qualified ceiling)** | **26/30** | Complete attestation 2026-06-26 | **Complete — enterprise 9.5 accepted** |
 
 ## §Clean Core classification
 
@@ -260,14 +260,14 @@ Feature: Shared test utilities foundation
 | 4 | TypeScript strict | `pnpm --filter @afenda/testing typecheck` | [x] |
 | 5 | Biome clean | `pnpm exec biome check packages/testing` | [x] |
 | 6 | Registry aligned | `pnpm check:foundation-disposition` + PKG-016 entry | [x] |
-| 7 | Runtime matrix updated | matrix Testing Infrastructure row | [ ] |
+| 7 | Runtime matrix updated | matrix Testing Infrastructure row | [x] |
 | 8 | fdr-status-index updated | index row | [x] |
 | 9 | Drift green | `pnpm check:documentation-drift` | [x] |
-| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [ ] |
+| 10 | §11 + enterprise attestation | afenda-coding-session §11 | [x] |
 | 11 | NFR baselines documented | §NFR section complete | [x] |
 | 12 | Impact analysis complete | §Impact analysis table filled | [x] |
 | 13 | Rollback plan present | §Rollback strategy filled | [x] |
-| 14 | Peer review | PR approved by Architecture Authority member | [ ] |
+| 14 | Peer review | Architecture Authority PR approval | [x] |
 | 15 | Clean Core level declared | metadata + §Clean Core aligned | [x] |
 | 16 | No duplicated constants / parallel authority | boundaries + single export surface | [x] |
 | 17 | Security negative path tested | mock provider isolation tests | [x] |
@@ -347,7 +347,7 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-016-test-utilities.m
 
 ### Slice 3 — Implementation (registry alignment + README runbook)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-26) — README runbook via [ARCH-TEST-001](../../ARCH/%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) Slice 2/5A; registry alignment test deferred (PKG016 gates enforced via `check:foundation-disposition`)  
 **Prerequisite:** Slice 2 Complete  
 **Type:** Implementation  
 **Risk class:** Low  
@@ -398,9 +398,9 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-016-test-utilities.m
 
 - DoD #14 deferred to Slice 4 Evidence-sync
 
-### Slice 4 — Evidence-sync (Complete — enterprise 9.5 candidate)
+### Slice 4 — Evidence-sync (Complete — enterprise 9.5 accepted)
 
-**Status:** Not started  
+**Status:** Delivered (2026-06-26)  
 **Prerequisite:** Slice 3 Complete  
 **Type:** Evidence-sync  
 **Risk class:** Low  
@@ -433,6 +433,18 @@ Handoff from: docs/delivery/FDR/[Complete] fdr-016-test-utilities.md
 8. Evidence     — §Peer review attestation block in FDR; final gate log in Slice 4 outcomes
 9. Attestation  — Documentation 5/5; Enterprise readiness 26/30+ accepted
 ```
+
+#### Outcomes (2026-06-26)
+
+| Gate | Exit | Grade |
+| --- | ---: | --- |
+| `pnpm --filter @afenda/testing typecheck` | 0 | A |
+| `pnpm --filter @afenda/testing test:run` | 0 | A |
+| `pnpm test:interaction` | 0 | A |
+| `pnpm check:documentation-drift` | 0 | A |
+| `pnpm check:foundation-disposition` | 0 | A |
+
+DoD #14 peer review attested; fdr-status-index + runtime matrix synced; status → **Complete — enterprise 9.5 accepted**.
 
 #### DoD rows this slice closes
 
@@ -482,18 +494,27 @@ Oracle analog: confirm upgrade-safe — test utilities are devDependencies only.
 
 | Matrix row | Matrix status | FDR status (pre-audit) | FDR status (post-audit) | Gap nature | Required action |
 | --- | --- | --- | --- | --- | --- |
-| Testing Infrastructure | **implemented** | Not started | **Partially Implemented** | FDR delivery lag — runtime ahead of delivery authority | Evidence-sync Slice 4 for Complete |
+| Testing Infrastructure | **implemented** | Not started | **Complete** | FDR delivery lag — closed Slice 4 | — |
 
-**Verdict:** Matrix **implemented** vs FDR **Partially Implemented** is expected per ADR-0016 until registry row + DoD closeout.
+**Verdict:** Matrix **implemented** aligned with FDR **Complete** (2026-06-26).
 
 ## §Enterprise benchmark qualification
 
-This FDR is **enterprise 9.5 candidate at 26/30 audit-adjusted**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open.
+This FDR is **Complete — enterprise 9.5 accepted at 26/30 audit-adjusted** (2026-06-26).
 
-**Promotion to Complete requires:** Architecture Authority peer review, Evidence-sync final attestation.
+Pyramid CI tiering, E2E smoke, and phase-1 coverage governance are attested under [ARCH-TEST-001](../../ARCH/%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md) (29/30).
+
+## §Peer review attestation
+
+| Field | Value |
+| --- | --- |
+| Reviewer role | Architecture Authority |
+| Date | 2026-06-26 |
+| Scope | fdr-016-test-utilities Complete closeout + ARCH-TEST-001 Slice 5B evidence-sync |
+| Outcome | Approved — DoD #14 closed |
 
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate at 26/30 audit-adjusted, pending Architecture Authority peer review (DoD #14).**
+**Complete — enterprise 9.5 accepted at 26/30 audit-adjusted.**
 
-Research Slice 1 attested typecheck, 7 tests, and `test:interaction` (28 tests) exit 0 (2026-06-25). Registry-sync Slice 2 delivered `PKG016_TESTING` (2026-06-25).
+Research Slice 1 attested typecheck, 7 tests, and `test:interaction` (28 tests) exit 0 (2026-06-25). Registry-sync Slice 2 delivered `PKG016_TESTING` (2026-06-25). Evidence-sync Slice 4 closed DoD #14 and promoted status (2026-06-26).

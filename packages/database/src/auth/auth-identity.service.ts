@@ -53,3 +53,16 @@ export async function findPlatformUserIdByAuthUserId(
 
   return link?.userId ?? null;
 }
+
+/** Lists Better Auth user ids linked to a platform `users.id` (FR-A01.4). */
+export async function listAuthUserIdsByPlatformUserId(
+  platformUserId: string,
+  db: AfendaDatabase = getDb()
+): Promise<string[]> {
+  const rows = await db
+    .select({ authUserId: authIdentityLinks.authUserId })
+    .from(authIdentityLinks)
+    .where(eq(authIdentityLinks.userId, platformUserId));
+
+  return rows.map((row) => row.authUserId);
+}

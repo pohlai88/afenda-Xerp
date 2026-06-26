@@ -3,13 +3,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { AfendaDatabase } from "../db.js";
 import { tenantSsoProviders } from "../schema/tenant-sso-provider.schema.js";
+import { TENANT_SSO_CLIENT_SECRET_ENV_KEY } from "../tenant-sso/tenant-sso-provider.contract.js";
 import {
   getEnabledTenantSsoProviderForTenantDomain,
   listTenantSsoProvidersByTenantId,
   resetTenantSsoProvidersForTests,
   resolveTenantIdFromSsoEmailDomain,
+  rotateTenantSsoOidcClientSecretEnvKey,
+  rotateTenantSsoSamlCertificate,
   setTenantSsoProviderEnabled,
+  TenantSsoProviderNotFoundError,
   upsertTenantSsoOidcProvider,
+  upsertTenantSsoSamlProvider,
 } from "../tenant-sso/tenant-sso-provider.service.js";
 
 interface StoredSsoProvider {
@@ -138,6 +143,33 @@ describe("tenant-sso-provider.service", () => {
     expect(listed[0]?.enabled).toBe(true);
   });
 
+  it("upserts tenant-scoped SAML providers", async () => {
+    const tenantId = randomUUID();
+    const { db } = createSsoProviderTestDb();
+
+    const saved = await upsertTenantSsoSamlProvider(
+      {
+        tenantId,
+        providerId: "okta-saml-acme",
+        displayName: "Okta SAML ACME",
+        domain: "acme.example",
+        issuer: "https://acme.okta.com",
+        enabled: true,
+        metadata: {
+          entryPoint: "https://acme.okta.com/sso/saml",
+          cert: "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----",
+        },
+      },
+      db
+    );
+
+    expect(saved.protocol).toBe("saml");
+    expect(saved.providerId).toBe("okta-saml-acme");
+    const listed = await listTenantSsoProvidersByTenantId(tenantId, db);
+    expect(listed).toHaveLength(1);
+    expect(listed[0]?.protocol).toBe("saml");
+  });
+
   it("updates provider enabled state", async () => {
     const tenantId = randomUUID();
     const id = randomUUID();
@@ -231,5 +263,110 @@ describe("tenant-sso-provider.service", () => {
     const { db } = createSsoProviderTestDb();
     await expect(resetTenantSsoProvidersForTests(db)).resolves.toBeUndefined();
     expect(db.delete).toHaveBeenCalledWith(tenantSsoProviders);
+  });
+
+  it("rotates OIDC client secret env key without storing secret values", async () => {
+    const tenantId = randomUUID();
+    const { db } = createSsoProviderTestDb();
+
+    const saved = await upsertTenantSsoOidcProvider(
+      {
+        tenantId,
+        providerId: "okta-acme",
+        displayName: "Okta ACME",
+        domain: "acme.example",
+        issuer: "https://acme.okta.com",
+        enabled: true,
+        metadata: { clientId: "client-123" },
+      },
+      db
+    );
+
+    const rotated = await rotateTenantSsoOidcClientSecretEnvKey(
+      {
+        id: saved.id,
+        tenantId,
+        clientSecretEnvKey: "ACME_OKTA_CLIENT_SECRET",
+      },
+      db
+    );
+
+    expect(rotated.id).toBe(saved.id);
+    const listed = await listTenantSsoProvidersByTenantId(tenantId, db);
+    expect(listed[0]?.metadata).toEqual({
+      clientId: "client-123",
+      [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: "ACME_OKTA_CLIENT_SECRET",
+    });
+  });
+
+  it("rotates SAML certificate metadata", async () => {
+    const tenantId = randomUUID();
+    const { db } = createSsoProviderTestDb();
+    const nextCert =
+      "-----BEGIN CERTIFICATE-----\nROTATED\n-----END CERTIFICATE-----";
+
+    const saved = await upsertTenantSsoSamlProvider(
+      {
+        tenantId,
+        providerId: "okta-saml-acme",
+        displayName: "Okta SAML ACME",
+        domain: "acme.example",
+        issuer: "https://acme.okta.com",
+        enabled: true,
+        metadata: {
+          entryPoint: "https://acme.okta.com/sso/saml",
+          cert: "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----",
+        },
+      },
+      db
+    );
+
+    const rotated = await rotateTenantSsoSamlCertificate(
+      {
+        id: saved.id,
+        tenantId,
+        cert: nextCert,
+      },
+      db
+    );
+
+    expect(rotated.protocol).toBe("saml");
+    const listed = await listTenantSsoProvidersByTenantId(tenantId, db);
+    expect(listed[0]?.metadata).toMatchObject({
+      entryPoint: "https://acme.okta.com/sso/saml",
+      cert: nextCert,
+    });
+  });
+
+  it("rejects OIDC rotation when provider protocol mismatches", async () => {
+    const tenantId = randomUUID();
+    const { db } = createSsoProviderTestDb();
+
+    const saved = await upsertTenantSsoSamlProvider(
+      {
+        tenantId,
+        providerId: "okta-saml-acme",
+        displayName: "Okta SAML ACME",
+        domain: "acme.example",
+        issuer: "https://acme.okta.com",
+        enabled: true,
+        metadata: {
+          entryPoint: "https://acme.okta.com/sso/saml",
+          cert: "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----",
+        },
+      },
+      db
+    );
+
+    await expect(
+      rotateTenantSsoOidcClientSecretEnvKey(
+        {
+          id: saved.id,
+          tenantId,
+          clientSecretEnvKey: "ACME_OKTA_CLIENT_SECRET",
+        },
+        db
+      )
+    ).rejects.toBeInstanceOf(TenantSsoProviderNotFoundError);
   });
 });

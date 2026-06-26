@@ -1,4 +1,7 @@
-import { MissingMigrationDatabaseUrlError } from "../env.js";
+import {
+  MissingMigrationDatabaseUrlError,
+  MissingSupabaseDbPasswordError,
+} from "../env.js";
 import { resolveDatabaseUrlForConsumer } from "../supabase/connection-routing.contract.js";
 import { TENANT_RLS_ISOLATION_POLICIES } from "./tenant-rls-coverage.contract.js";
 import {
@@ -36,7 +39,10 @@ export function isLiveTenantRlsVerificationAvailable(
     resolveDatabaseUrlForConsumer("rls-live-probe", env);
     return true;
   } catch (error) {
-    if (error instanceof MissingMigrationDatabaseUrlError) {
+    if (
+      error instanceof MissingMigrationDatabaseUrlError ||
+      error instanceof MissingSupabaseDbPasswordError
+    ) {
       return false;
     }
 

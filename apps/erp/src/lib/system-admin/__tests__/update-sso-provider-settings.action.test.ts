@@ -8,7 +8,10 @@ const persistAuthAuditEventMock = vi.hoisted(() => vi.fn());
 const syncTenantSsoProviderWithBetterAuthMock = vi.hoisted(() => vi.fn());
 const describeSyncTenantSsoProviderSkipReasonMock = vi.hoisted(() => vi.fn());
 const upsertTenantSsoOidcProviderMock = vi.hoisted(() => vi.fn());
+const upsertTenantSsoSamlProviderMock = vi.hoisted(() => vi.fn());
 const setTenantSsoProviderEnabledMock = vi.hoisted(() => vi.fn());
+const rotateTenantSsoOidcClientSecretEnvKeyMock = vi.hoisted(() => vi.fn());
+const rotateTenantSsoSamlCertificateMock = vi.hoisted(() => vi.fn());
 
 vi.mock("next/headers", () => ({
   headers: vi.fn(async () => new Headers()),
@@ -64,10 +67,32 @@ vi.mock("@afenda/database", async () => {
     tenantId: z.string().uuid(),
   });
 
+  const tenantSsoSamlMetadataSchema = z.object({
+    callbackUrl: z.string().url().optional(),
+    cert: z.string().min(1),
+    entryPoint: z.string().url(),
+    idpMetadataXml: z.string().max(65_536).optional(),
+  });
+
+  const upsertTenantSsoSamlProviderInputSchema = z.object({
+    displayName: z.string().min(1).max(255),
+    domain: z.string().min(1).max(255),
+    enabled: z.boolean().optional(),
+    issuer: z.string().url(),
+    metadata: tenantSsoSamlMetadataSchema,
+    providerId: z.string().min(1).max(128),
+    tenantId: z.string().uuid(),
+  });
+
   return {
     upsertTenantSsoOidcProviderInputSchema,
+    upsertTenantSsoSamlProviderInputSchema,
     setTenantSsoProviderEnabled: setTenantSsoProviderEnabledMock,
     upsertTenantSsoOidcProvider: upsertTenantSsoOidcProviderMock,
+    upsertTenantSsoSamlProvider: upsertTenantSsoSamlProviderMock,
+    rotateTenantSsoOidcClientSecretEnvKey:
+      rotateTenantSsoOidcClientSecretEnvKeyMock,
+    rotateTenantSsoSamlCertificate: rotateTenantSsoSamlCertificateMock,
   };
 });
 
@@ -139,6 +164,43 @@ describe("updateSsoProviderSettingsAction", () => {
     );
   });
 
+  it("upserts a SAML provider and syncs with Better Auth", async () => {
+    upsertTenantSsoSamlProviderMock.mockResolvedValue({
+      id: randomUUID(),
+      providerId: "okta-saml-acme",
+      enabled: true,
+    });
+    syncTenantSsoProviderWithBetterAuthMock.mockResolvedValue({
+      kind: "synced",
+      providerId: "okta-saml-acme",
+    });
+
+    const formData = new FormData();
+    formData.set("mode", "upsert");
+    formData.set(
+      "payload",
+      JSON.stringify({
+        protocol: "saml",
+        providerId: "okta-saml-acme",
+        displayName: "Okta SAML ACME",
+        domain: "acme.example",
+        issuer: "https://acme.okta.com",
+        enabled: true,
+        metadata: {
+          entryPoint: "https://acme.okta.com/sso/saml",
+          cert: "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----",
+        },
+      })
+    );
+
+    const result = await updateSsoProviderSettingsAction(null, formData);
+
+    expect(result?.ok).toBe(true);
+    expect(upsertTenantSsoSamlProviderMock).toHaveBeenCalled();
+    expect(upsertTenantSsoOidcProviderMock).not.toHaveBeenCalled();
+    expect(syncTenantSsoProviderWithBetterAuthMock).toHaveBeenCalled();
+  });
+
   it("surfaces sync skip reason when client secret env var is missing", async () => {
     upsertTenantSsoOidcProviderMock.mockResolvedValue({
       id: randomUUID(),
@@ -205,5 +267,71 @@ describe("updateSsoProviderSettingsAction", () => {
     const result = await updateSsoProviderSettingsAction(null, formData);
 
     expect(result?.ok).toBe(false);
+  });
+
+  it("rotates OIDC client secret env key and syncs when enabled", async () => {
+    const providerId = randomUUID();
+    rotateTenantSsoOidcClientSecretEnvKeyMock.mockResolvedValue({
+      id: providerId,
+      providerId: "okta-acme",
+      enabled: true,
+    });
+    syncTenantSsoProviderWithBetterAuthMock.mockResolvedValue({
+      kind: "synced",
+      providerId: "okta-acme",
+    });
+
+    const formData = new FormData();
+    formData.set("mode", "rotate");
+    formData.set(
+      "payload",
+      JSON.stringify({
+        protocol: "oidc",
+        id: providerId,
+        clientSecretEnvKey: "ACME_OKTA_CLIENT_SECRET",
+      })
+    );
+
+    const result = await updateSsoProviderSettingsAction(null, formData);
+
+    expect(result?.ok).toBe(true);
+    expect(rotateTenantSsoOidcClientSecretEnvKeyMock).toHaveBeenCalledWith({
+      clientSecretEnvKey: "ACME_OKTA_CLIENT_SECRET",
+      id: providerId,
+      tenantId,
+    });
+    expect(syncTenantSsoProviderWithBetterAuthMock).toHaveBeenCalled();
+    expect(persistAuthAuditEventMock).toHaveBeenCalled();
+  });
+
+  it("rotates SAML certificate metadata", async () => {
+    const providerId = randomUUID();
+    rotateTenantSsoSamlCertificateMock.mockResolvedValue({
+      id: providerId,
+      providerId: "okta-saml-acme",
+      enabled: false,
+    });
+
+    const formData = new FormData();
+    formData.set("mode", "rotate");
+    formData.set(
+      "payload",
+      JSON.stringify({
+        protocol: "saml",
+        id: providerId,
+        cert: "-----BEGIN CERTIFICATE-----\nROTATED\n-----END CERTIFICATE-----",
+      })
+    );
+
+    const result = await updateSsoProviderSettingsAction(null, formData);
+
+    expect(result?.ok).toBe(true);
+    expect(rotateTenantSsoSamlCertificateMock).toHaveBeenCalledWith({
+      cert: "-----BEGIN CERTIFICATE-----\nROTATED\n-----END CERTIFICATE-----",
+      id: providerId,
+      tenantId,
+    });
+    expect(rotateTenantSsoOidcClientSecretEnvKeyMock).not.toHaveBeenCalled();
+    expect(syncTenantSsoProviderWithBetterAuthMock).not.toHaveBeenCalled();
   });
 });

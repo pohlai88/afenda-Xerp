@@ -55,6 +55,13 @@ describe("inviteCompanyUser", () => {
       userId: "user-001",
     });
     expect(registerAuthInvitationMock).toHaveBeenCalledWith({
+      audit: {
+        correlationId: "corr-001",
+        email: "pending@example.com",
+        invitationId: "membership-001",
+        platformUserId: "actor-001",
+        tenantId: "tenant-001",
+      },
       email: "pending@example.com",
       invitationId: "membership-001",
       platformUserId: "user-001",

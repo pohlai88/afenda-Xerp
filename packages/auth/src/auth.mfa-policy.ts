@@ -4,6 +4,7 @@ import {
   type AfendaAuthDatabase,
   type AfendaDatabase,
   authUser,
+  companies,
   getAuthDb,
   getDb,
   tenants,
@@ -19,12 +20,14 @@ export interface TenantMfaPolicy {
 
 export interface AssertTenantMfaPolicyInput {
   readonly authUserId: string;
+  readonly companyId?: string;
   readonly correlationId?: string;
   readonly tenantId: string;
 }
 
 /** Optional tenant MFA gate for `requireAfendaAuthSession` (ARCH-AUTH-001 admin policy). */
 export interface RequireAfendaAuthSessionOptions {
+  readonly companyId?: string;
   readonly tenantId?: string;
 }
 
@@ -66,6 +69,44 @@ export async function getTenantMfaPolicy(
   return { mfaRequired: row.mfaRequired };
 }
 
+function parseCompanyIdFromActiveWorkspaceId(
+  activeWorkspaceId: string | null | undefined
+): string | undefined {
+  if (activeWorkspaceId === undefined || activeWorkspaceId === null) {
+    return;
+  }
+
+  const parts = activeWorkspaceId.trim().split(":");
+  if (parts.length !== 3) {
+    return;
+  }
+
+  const companyId = parts[1]?.trim();
+  return companyId && companyId.length > 0 ? companyId : undefined;
+}
+
+/** Resolves MFA policy with optional company workspace override (FR-A05.3). */
+export async function getEffectiveMfaPolicy(
+  input: { readonly companyId?: string; readonly tenantId: string },
+  platformDb: AfendaDatabase = getDb()
+): Promise<TenantMfaPolicy | null> {
+  if (input.companyId) {
+    const [companyRow] = await platformDb
+      .select({ mfaRequiredOverride: companies.mfaRequiredOverride })
+      .from(companies)
+      .where(eq(companies.id, input.companyId))
+      .limit(1);
+
+    if (companyRow && companyRow.mfaRequiredOverride !== null) {
+      return { mfaRequired: companyRow.mfaRequiredOverride };
+    }
+  }
+
+  return getTenantMfaPolicy(input.tenantId, platformDb);
+}
+
+export { parseCompanyIdFromActiveWorkspaceId };
+
 /** Returns whether Better Auth reports MFA enabled for the auth user. */
 export async function isAuthUserMfaEnabled(
   authUserId: string,
@@ -90,7 +131,13 @@ export async function assertTenantMfaPolicySatisfied(
 ): Promise<void> {
   const platformDb = deps.platformDb ?? getDb();
   const authDb = deps.authDb ?? getAuthDb();
-  const policy = await getTenantMfaPolicy(input.tenantId, platformDb);
+  const policy = await getEffectiveMfaPolicy(
+    {
+      tenantId: input.tenantId,
+      ...(input.companyId === undefined ? {} : { companyId: input.companyId }),
+    },
+    platformDb
+  );
 
   if (!policy?.mfaRequired) {
     return;

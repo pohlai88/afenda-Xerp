@@ -1,0 +1,1 @@
+ALTER TABLE "companies" ADD COLUMN "mfa_required_override" boolean;

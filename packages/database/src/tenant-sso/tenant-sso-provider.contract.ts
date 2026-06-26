@@ -126,6 +126,47 @@ export function parseTenantSsoOidcMetadata(
   return tenantSsoOidcMetadataSchema.parse(value);
 }
 
+export function parseTenantSsoSamlMetadata(
+  value: unknown
+): TenantSsoSamlMetadata {
+  return tenantSsoSamlMetadataSchema.parse(value);
+}
+
+export const upsertTenantSsoSamlProviderInputSchema = z.object({
+  displayName: z.string().min(1).max(255),
+  domain: z.string().min(1).max(255),
+  enabled: z.boolean().optional(),
+  issuer: z.string().url(),
+  metadata: tenantSsoSamlMetadataSchema,
+  providerId: z.string().min(1).max(128),
+  tenantId: z.string().uuid(),
+});
+
+export type UpsertTenantSsoSamlProviderInput = z.infer<
+  typeof upsertTenantSsoSamlProviderInputSchema
+>;
+
+export const rotateTenantSsoOidcClientSecretEnvKeyInputSchema = z.object({
+  clientSecretEnvKey: z.string().min(1).max(128),
+  id: z.string().uuid(),
+  tenantId: z.string().uuid(),
+});
+
+export type RotateTenantSsoOidcClientSecretEnvKeyInput = z.infer<
+  typeof rotateTenantSsoOidcClientSecretEnvKeyInputSchema
+>;
+
+export const rotateTenantSsoSamlCertificateInputSchema = z.object({
+  cert: z.string().min(1),
+  id: z.string().uuid(),
+  idpMetadataXml: z.string().max(65_536).optional(),
+  tenantId: z.string().uuid(),
+});
+
+export type RotateTenantSsoSamlCertificateInput = z.infer<
+  typeof rotateTenantSsoSamlCertificateInputSchema
+>;
+
 export function parseTenantSsoProviderSummary(
   value: unknown
 ): TenantSsoProviderSummary | null {

@@ -6,6 +6,7 @@
 import { sql } from "drizzle-orm";
 import {
   type AnyPgColumn,
+  boolean,
   char,
   date,
   index,
@@ -62,6 +63,8 @@ export const companies = pgTable(
     effectiveFrom: date("effective_from"),
     effectiveTo: date("effective_to"),
     status: companyStatusEnum("status").notNull().default("active"),
+    /** When set, overrides tenant MFA policy for this company workspace (FR-A05.3). */
+    mfaRequiredOverride: boolean("mfa_required_override"),
     createdAt: createdAtColumn(),
     updatedAt: updatedAtColumn(),
   },

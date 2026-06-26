@@ -48,6 +48,21 @@
     "./e2e/erp-credentials": {
       "import": "./src/e2e/erp-credentials.mjs",
       "default": "./src/e2e/erp-credentials.mjs"
+    },
+    "./e2e/playwright-base": {
+      "types": "./dist/e2e/playwright-base.d.ts",
+      "import": "./dist/e2e/playwright-base.js",
+      "default": "./dist/e2e/playwright-base.js"
+    },
+    "./e2e/fixtures": {
+      "types": "./dist/e2e/fixtures.d.ts",
+      "import": "./dist/e2e/fixtures.js",
+      "default": "./dist/e2e/fixtures.js"
+    },
+    "./e2e/auth-paths": {
+      "types": "./dist/e2e/auth-paths.d.ts",
+      "import": "./dist/e2e/auth-paths.js",
+      "default": "./dist/e2e/auth-paths.js"
     }
   },
   "files": [
@@ -64,6 +79,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "dependencies": {
+    "@playwright/test": "^1.61.0",
     "@testing-library/react": "catalog:",
     "@testing-library/user-event": "catalog:"
   },

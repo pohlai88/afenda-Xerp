@@ -10,13 +10,21 @@ import {
   getEnabledTenantSsoProviderForTenantDomainInputSchema,
   getTenantSsoProviderByIdInputSchema,
   getTenantSsoProviderByProviderIdInputSchema,
+  parseTenantSsoOidcMetadata,
+  parseTenantSsoSamlMetadata,
+  type RotateTenantSsoOidcClientSecretEnvKeyInput,
+  type RotateTenantSsoSamlCertificateInput,
+  rotateTenantSsoOidcClientSecretEnvKeyInputSchema,
+  rotateTenantSsoSamlCertificateInputSchema,
   type SetTenantSsoProviderEnabledInput,
   setTenantSsoProviderEnabledInputSchema,
   TENANT_SSO_CLIENT_SECRET_ENV_KEY,
   type TenantSsoProviderSummary,
   toTenantSsoProviderSummary,
   type UpsertTenantSsoOidcProviderInput,
+  type UpsertTenantSsoSamlProviderInput,
   upsertTenantSsoOidcProviderInputSchema,
+  upsertTenantSsoSamlProviderInputSchema,
 } from "./tenant-sso-provider.contract.js";
 
 export class TenantSsoProviderNotFoundError extends Error {
@@ -165,6 +173,67 @@ export async function upsertTenantSsoOidcProvider(
   return rowToSummary(inserted);
 }
 
+export async function upsertTenantSsoSamlProvider(
+  input: UpsertTenantSsoSamlProviderInput,
+  db: AfendaDatabase = getDb()
+): Promise<TenantSsoProviderSummary> {
+  const parsed = upsertTenantSsoSamlProviderInputSchema.parse(input);
+  const normalizedDomain = parsed.domain.trim().toLowerCase();
+
+  const [existing] = await db
+    .select({ id: tenantSsoProviders.id })
+    .from(tenantSsoProviders)
+    .where(
+      and(
+        eq(tenantSsoProviders.tenantId, parsed.tenantId),
+        eq(tenantSsoProviders.providerId, parsed.providerId)
+      )
+    )
+    .limit(1);
+
+  if (existing) {
+    const [updated] = await db
+      .update(tenantSsoProviders)
+      .set({
+        displayName: parsed.displayName,
+        domain: normalizedDomain,
+        enabled: parsed.enabled ?? true,
+        issuer: parsed.issuer,
+        metadata: parsed.metadata,
+        protocol: "saml",
+        updatedAt: new Date(),
+      })
+      .where(eq(tenantSsoProviders.id, existing.id))
+      .returning();
+
+    if (!updated) {
+      throw new TenantSsoProviderNotFoundError(existing.id);
+    }
+
+    return rowToSummary(updated);
+  }
+
+  const [inserted] = await db
+    .insert(tenantSsoProviders)
+    .values({
+      tenantId: parsed.tenantId,
+      providerId: parsed.providerId,
+      displayName: parsed.displayName,
+      protocol: "saml",
+      domain: normalizedDomain,
+      issuer: parsed.issuer,
+      metadata: parsed.metadata,
+      enabled: parsed.enabled ?? true,
+    })
+    .returning();
+
+  if (!inserted) {
+    throw new Error("Failed to create tenant SSO provider.");
+  }
+
+  return rowToSummary(inserted);
+}
+
 export async function setTenantSsoProviderEnabled(
   input: SetTenantSsoProviderEnabledInput,
   db: AfendaDatabase = getDb()
@@ -244,4 +313,89 @@ export async function resolveTenantIdFromSsoEmailDomain(
   );
 
   return validated ? row.tenantId : null;
+}
+
+export async function rotateTenantSsoOidcClientSecretEnvKey(
+  input: RotateTenantSsoOidcClientSecretEnvKeyInput,
+  db: AfendaDatabase = getDb()
+): Promise<TenantSsoProviderSummary> {
+  const parsed = rotateTenantSsoOidcClientSecretEnvKeyInputSchema.parse(input);
+  const existing = await getTenantSsoProviderById(
+    { id: parsed.id, tenantId: parsed.tenantId },
+    db
+  );
+
+  if (existing?.protocol !== "oidc") {
+    throw new TenantSsoProviderNotFoundError(parsed.id);
+  }
+
+  const metadata = parseTenantSsoOidcMetadata(existing.metadata);
+  const nextMetadata = {
+    ...metadata,
+    [TENANT_SSO_CLIENT_SECRET_ENV_KEY]: parsed.clientSecretEnvKey,
+  };
+
+  const [updated] = await db
+    .update(tenantSsoProviders)
+    .set({
+      metadata: nextMetadata,
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(tenantSsoProviders.id, parsed.id),
+        eq(tenantSsoProviders.tenantId, parsed.tenantId)
+      )
+    )
+    .returning();
+
+  if (!updated) {
+    throw new TenantSsoProviderNotFoundError(parsed.id);
+  }
+
+  return rowToSummary(updated);
+}
+
+export async function rotateTenantSsoSamlCertificate(
+  input: RotateTenantSsoSamlCertificateInput,
+  db: AfendaDatabase = getDb()
+): Promise<TenantSsoProviderSummary> {
+  const parsed = rotateTenantSsoSamlCertificateInputSchema.parse(input);
+  const existing = await getTenantSsoProviderById(
+    { id: parsed.id, tenantId: parsed.tenantId },
+    db
+  );
+
+  if (existing?.protocol !== "saml") {
+    throw new TenantSsoProviderNotFoundError(parsed.id);
+  }
+
+  const metadata = parseTenantSsoSamlMetadata(existing.metadata);
+  const nextMetadata = {
+    ...metadata,
+    cert: parsed.cert,
+    ...(parsed.idpMetadataXml === undefined
+      ? {}
+      : { idpMetadataXml: parsed.idpMetadataXml }),
+  };
+
+  const [updated] = await db
+    .update(tenantSsoProviders)
+    .set({
+      metadata: nextMetadata,
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(tenantSsoProviders.id, parsed.id),
+        eq(tenantSsoProviders.tenantId, parsed.tenantId)
+      )
+    )
+    .returning();
+
+  if (!updated) {
+    throw new TenantSsoProviderNotFoundError(parsed.id);
+  }
+
+  return rowToSummary(updated);
 }

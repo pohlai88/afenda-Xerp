@@ -17,6 +17,7 @@
  * D. Activity     — Activity feed / sheet pattern (.app-shell-studio-activity-*)
  * E. Revenue      — Revenue chart pattern (.app-shell-studio-revenue-*)
  * F. Invoice      — Invoice table pattern (.app-shell-studio-invoice-*)
+ * L. Auth         — login-page-04 + error-page-02 (.app-shell-studio-auth-*)
  *
  * NOTE: Statistics metric (§G) and trend (§H) patterns are block-local geometry
  * in afenda-appshell.css. Chart token bridge vars are defined in Section A below.
@@ -1918,5 +1919,189 @@
     color: var(--foreground);
     border-color: var(--border);
     background: var(--app-shell-studio-surface-card);
+  }
+
+  /* ── L. Auth login-page-04 + error-page-02 ─────────────────────────────── */
+  /*
+   * Used by: AppShellAuthLoginPage04, AppShellAuthErrorPage02
+   * Source: @ss-blocks/login-page-04, @ss-blocks/error-page-02 (ADR-0017)
+   */
+  .app-shell-studio-auth-login-page-04 {
+    display: grid;
+    min-height: 100dvh;
+    background: var(--background);
+  }
+
+  @media (width >= 64rem) {
+    .app-shell-studio-auth-login-page-04 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .app-shell-studio-auth-login-page-04__brand {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--app-shell-gap-xl);
+    padding: var(--app-shell-gap-xl);
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  @media (width >= 64rem) {
+    .app-shell-studio-auth-login-page-04__brand {
+      display: flex;
+      padding: var(--app-shell-gap-2xl);
+    }
+  }
+
+  .app-shell-studio-auth-login-page-04__brand-kicker {
+    margin: 0;
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .app-shell-studio-auth-login-page-04__brand-title {
+    margin: var(--app-shell-gap-sm) 0 0;
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    font-weight: var(--font-weight-label-lg);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .app-shell-studio-auth-login-page-04__brand-description {
+    margin: var(--app-shell-gap-md) 0 0;
+    max-width: 36rem;
+    font-size: var(--app-shell-type-body);
+    line-height: 1.5;
+    opacity: 0.92;
+  }
+
+  .app-shell-studio-auth-login-page-04__preview {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 18rem;
+    padding: var(--app-shell-gap-md);
+    border: 12px solid var(--card);
+    border-radius: var(--app-shell-studio-radius-widget);
+    background: var(--card);
+  }
+
+  .app-shell-studio-auth-login-page-04__preview-image {
+    width: 100%;
+    height: 100%;
+    border-radius: calc(var(--app-shell-studio-radius-widget) - 4px);
+    object-fit: contain;
+  }
+
+  .app-shell-studio-auth-login-page-04__capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--app-shell-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .app-shell-studio-auth-login-page-04__capability {
+    padding: var(--app-shell-gap-xs) var(--app-shell-gap-md);
+    font-size: var(--app-shell-type-body-sm);
+    border-radius: var(--radius-full, 9999px);
+    background: color-mix(in oklab, var(--primary-foreground) 18%, transparent);
+  }
+
+  .app-shell-studio-auth-login-page-04__form-column {
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--app-shell-gap-xl) var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-auth-login-page-04__form-inner {
+    display: flex;
+    width: 100%;
+    max-width: 28rem;
+    flex-direction: column;
+    gap: var(--app-shell-gap-lg);
+  }
+
+  .app-shell-studio-auth-login-page-04__form-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-shell-gap-sm);
+    text-align: center;
+  }
+
+  .app-shell-studio-auth-login-page-04__form-title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--font-weight-label-lg);
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-auth-login-page-04__form-description {
+    margin: 0;
+    font-size: var(--app-shell-type-body);
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-auth-error-page-02 {
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--app-shell-gap-2xl);
+    padding: var(--app-shell-gap-xl);
+    background: var(--background);
+  }
+
+  .app-shell-studio-auth-error-page-02__illustration {
+    width: min(100%, 40rem);
+    height: clamp(12rem, 40vh, 28rem);
+  }
+
+  .app-shell-studio-auth-error-page-02__copy {
+    max-width: 32rem;
+    text-align: center;
+  }
+
+  .app-shell-studio-auth-error-page-02__eyebrow {
+    margin: 0 0 var(--app-shell-gap-sm);
+    font-size: var(--app-shell-type-body-sm);
+    font-weight: var(--font-weight-label-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-auth-error-page-02__title {
+    margin: 0 0 var(--app-shell-gap-sm);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: var(--font-weight-label-lg);
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+  }
+
+  .app-shell-studio-auth-error-page-02__description {
+    margin: 0 0 var(--app-shell-gap-lg);
+    font-size: var(--app-shell-type-body);
+    line-height: 1.5;
+    color: var(--app-shell-studio-text-muted);
+  }
+
+  .app-shell-studio-auth-error-page-02__actions {
+    display: flex;
+    justify-content: center;
   }
 }

@@ -44,6 +44,13 @@ export async function inviteCompanyUser(input: {
   });
 
   await registerAuthInvitation({
+    audit: {
+      correlationId: input.correlationId,
+      email: input.email,
+      invitationId: membership.id,
+      platformUserId: input.actorUserId,
+      tenantId: input.tenantId,
+    },
     email: input.email,
     invitationId: membership.id,
     platformUserId: user.id,

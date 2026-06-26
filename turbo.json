@@ -79,6 +79,16 @@
       "cache": false,
       "outputs": ["coverage/**"]
     },
+    "test:e2e": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "outputs": ["blob-report/**", "e2e/test-results/**"]
+    },
+    "test:e2e:smoke": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "outputs": ["blob-report/**", "e2e/test-results/**"]
+    },
     "check:governance": {
       "dependsOn": ["^build"],
       "outputs": []

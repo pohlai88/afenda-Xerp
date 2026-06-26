@@ -34,6 +34,27 @@ describe("csp hybrid regression", () => {
     expect(policy).toContain("object-src 'none'");
   });
 
+  it("applies nonce CSP on dev harness routes that hydrate client dashboards", () => {
+    expect(resolveCspPolicyMode("/appshell-canvas", HYBRID_ENV, false)).toBe(
+      "nonce"
+    );
+
+    const requestHeaders = new Headers();
+    const responseHeaders = new Headers();
+
+    const result = applyContentSecurityPolicy(
+      requestHeaders,
+      responseHeaders,
+      false,
+      "nonce"
+    );
+    const policy = responseHeaders.get("Content-Security-Policy");
+
+    expect(result.mode).toBe("nonce");
+    expect(result.nonce).toBeTruthy();
+    expect(policy).toContain(`'nonce-${result.nonce}'`);
+  });
+
   it("applies nonce CSP on protected dashboard routes", () => {
     expect(resolveCspPolicyMode("/", HYBRID_ENV, false)).toBe("nonce");
 

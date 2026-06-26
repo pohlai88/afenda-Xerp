@@ -13,8 +13,10 @@ describe("TIP-UI-03 protected ApplicationShell token closeout", () => {
   it("composes AppShell with identity, context, and dashboard providers in production layout", () => {
     const layoutSource = readAppSource("src/app/(protected)/layout.tsx");
 
-    expect(layoutSource).toContain('from "@afenda/appshell"');
-    expect(layoutSource).toContain("<AppShell");
+    expect(layoutSource).toContain(
+      'from "@/components/erp-application-shell.client"'
+    );
+    expect(layoutSource).toContain("<ErpApplicationShell");
     expect(layoutSource).toContain("identity={identity}");
     expect(layoutSource).toContain("DashboardWidgetRenderContextProvider");
     expect(layoutSource).toContain("WorkspaceDashboardCapabilitiesProvider");

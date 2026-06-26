@@ -1,0 +1,66 @@
+name: ERP E2E nightly (P2 — manual)
+
+# ARCH-TEST-001 P2 — full Playwright matrix (not PR CI).
+# Run on demand until nightly schedule is approved.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-nightly-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e-full:
+    name: ERP Playwright full (chromium-full)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.0-noble
+
+    env:
+      CI: true
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      AFENDA_DEV_LOGIN_PASSWORD: ${{ secrets.AFENDA_DEV_LOGIN_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Bootstrap local database and dev auth
+        run: pnpm db:bootstrap:local && pnpm auth:bootstrap:dev
+
+      - name: Build ERP and dependencies
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm turbo run build --filter=@afenda/erp...
+
+      - name: Run full E2E (chromium-full)
+        working-directory: apps/erp
+        run: pnpm test:e2e --project chromium-full
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-e2e-full
+          path: apps/erp/blob-report
+          if-no-files-found: ignore

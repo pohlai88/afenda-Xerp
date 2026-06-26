@@ -62,6 +62,11 @@ function continueWithRequestHeaders(
   );
 }
 
+function resolveE2eDefaultTenantSlug(): string | null {
+  const configured = process.env["AFENDA_E2E_DEFAULT_TENANT_SLUG"]?.trim();
+  return configured && configured.length > 0 ? configured : null;
+}
+
 function resolveDevelopmentDefaultTenantSlug(): string | null {
   if (!isDevelopmentRuntime()) {
     return null;
@@ -86,7 +91,8 @@ function applyTenantRoutingHeaders(input: {
   const tenantSlug =
     resolveTenantSlugFromHostname(input.hostname, { baseDomain }) ??
     pathRouting.tenantSlugFromPath ??
-    resolveDevelopmentDefaultTenantSlug();
+    resolveDevelopmentDefaultTenantSlug() ??
+    resolveE2eDefaultTenantSlug();
 
   if (tenantSlug) {
     input.requestHeaders.set(TENANT_SLUG_HEADER, tenantSlug);

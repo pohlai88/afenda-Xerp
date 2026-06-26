@@ -8,9 +8,13 @@ import {
   syncTenantSsoProviderWithBetterAuth,
 } from "@afenda/auth";
 import {
+  rotateTenantSsoOidcClientSecretEnvKey,
+  rotateTenantSsoSamlCertificate,
   setTenantSsoProviderEnabled,
   upsertTenantSsoOidcProvider,
   upsertTenantSsoOidcProviderInputSchema,
+  upsertTenantSsoSamlProvider,
+  upsertTenantSsoSamlProviderInputSchema,
 } from "@afenda/database";
 import { AppErrors } from "@afenda/kernel";
 import { revalidatePath } from "next/cache";
@@ -32,8 +36,38 @@ import { SYSTEM_ADMIN_MUTATION_AUDIT_MODULE } from "./system-admin-mutation-audi
 const UPDATE_SSO_PROVIDER_SETTINGS_ACTION =
   "system_admin.settings.integrations.sso.update" as const;
 
-const upsertSsoProviderPayloadSchema =
-  upsertTenantSsoOidcProviderInputSchema.omit({ tenantId: true });
+const upsertSsoOidcProviderPayloadSchema =
+  upsertTenantSsoOidcProviderInputSchema.omit({ tenantId: true }).extend({
+    protocol: z.literal("oidc").optional(),
+  });
+
+const upsertSsoSamlProviderPayloadSchema =
+  upsertTenantSsoSamlProviderInputSchema.omit({ tenantId: true }).extend({
+    protocol: z.literal("saml"),
+  });
+
+const upsertSsoProviderPayloadSchema = z.union([
+  upsertSsoOidcProviderPayloadSchema,
+  upsertSsoSamlProviderPayloadSchema,
+]);
+
+const rotateSsoOidcProviderPayloadSchema = z.object({
+  clientSecretEnvKey: z.string().min(1).max(128),
+  id: z.string().uuid(),
+  protocol: z.literal("oidc"),
+});
+
+const rotateSsoSamlProviderPayloadSchema = z.object({
+  cert: z.string().min(1),
+  id: z.string().uuid(),
+  idpMetadataXml: z.string().max(65_536).optional(),
+  protocol: z.literal("saml"),
+});
+
+const rotateSsoProviderPayloadSchema = z.union([
+  rotateSsoOidcProviderPayloadSchema,
+  rotateSsoSamlProviderPayloadSchema,
+]);
 
 const updateSsoProviderSettingsInputSchema = z.discriminatedUnion("mode", [
   z.object({
@@ -44,6 +78,10 @@ const updateSsoProviderSettingsInputSchema = z.discriminatedUnion("mode", [
     mode: z.literal("toggle"),
     id: z.string().uuid(),
     enabled: z.boolean(),
+  }),
+  z.object({
+    mode: z.literal("rotate"),
+    payload: rotateSsoProviderPayloadSchema,
   }),
 ]);
 
@@ -80,12 +118,25 @@ function parseSsoProviderActionInput(formData: FormData): unknown {
 
   const payloadRaw = formData.get("payload");
   if (typeof payloadRaw !== "string") {
+    if (mode === "rotate") {
+      return { mode: "rotate", payload: {} };
+    }
+
     return { mode: "upsert", payload: {} };
+  }
+
+  const payload = parseJsonPayload(payloadRaw);
+
+  if (mode === "rotate") {
+    return {
+      mode: "rotate",
+      payload,
+    };
   }
 
   return {
     mode: "upsert",
-    payload: parseJsonPayload(payloadRaw),
+    payload,
   };
 }
 
@@ -189,6 +240,56 @@ export async function updateSsoProviderSettingsAction(
 
   const requestHeaders = await headers();
 
+  if (parsed.value.mode === "rotate") {
+    const rotatePayload = parsed.value.payload;
+    const saved =
+      rotatePayload.protocol === "saml"
+        ? await rotateTenantSsoSamlCertificate({
+            cert: rotatePayload.cert,
+            id: rotatePayload.id,
+            tenantId,
+            ...(rotatePayload.idpMetadataXml === undefined
+              ? {}
+              : { idpMetadataXml: rotatePayload.idpMetadataXml }),
+          })
+        : await rotateTenantSsoOidcClientSecretEnvKey({
+            clientSecretEnvKey: rotatePayload.clientSecretEnvKey,
+            id: rotatePayload.id,
+            tenantId,
+          });
+
+    const syncNotice = saved.enabled
+      ? await syncEnabledProvider({
+          headers: requestHeaders,
+          id: saved.id,
+          tenantId,
+        })
+      : undefined;
+
+    await emitSsoProviderConfiguredAudit({
+      actorUserId,
+      correlationId: operatingContext.correlationId,
+      providerId: saved.providerId,
+      tenantId,
+    });
+
+    revalidatePath("/system-admin/settings/integrations");
+
+    await recordActionAudit({
+      action: UPDATE_SSO_PROVIDER_SETTINGS_ACTION,
+      actorUserId,
+      module: SYSTEM_ADMIN_MUTATION_AUDIT_MODULE,
+      result: "success",
+      targetType: "system_admin_integrations_settings",
+    });
+
+    return serverActionSuccess({
+      providerId: saved.providerId,
+      tenantId,
+      ...(syncNotice === undefined ? {} : { syncNotice }),
+    });
+  }
+
   if (parsed.value.mode === "toggle") {
     const updated = await setTenantSsoProviderEnabled({
       id: parsed.value.id,
@@ -236,11 +337,27 @@ export async function updateSsoProviderSettingsAction(
     });
   }
 
-  const payload = upsertSsoProviderPayloadSchema.parse(parsed.value.payload);
-  const saved = await upsertTenantSsoOidcProvider({
-    ...payload,
-    tenantId,
-  });
+  const payload = parsed.value.payload;
+  const saved =
+    payload.protocol === "saml"
+      ? await upsertTenantSsoSamlProvider({
+          displayName: payload.displayName,
+          domain: payload.domain,
+          enabled: payload.enabled,
+          issuer: payload.issuer,
+          metadata: payload.metadata,
+          providerId: payload.providerId,
+          tenantId,
+        })
+      : await upsertTenantSsoOidcProvider({
+          displayName: payload.displayName,
+          domain: payload.domain,
+          enabled: payload.enabled,
+          issuer: payload.issuer,
+          metadata: payload.metadata,
+          providerId: payload.providerId,
+          tenantId,
+        });
 
   const syncNotice = saved.enabled
     ? await syncEnabledProvider({

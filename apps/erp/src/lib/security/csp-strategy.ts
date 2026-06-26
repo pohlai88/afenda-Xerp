@@ -1,4 +1,4 @@
-import { isPublicRoute } from "@/lib/auth/public-routes";
+import { isDevHarnessRoute, isPublicRoute } from "@/lib/auth/public-routes";
 
 export const ERP_CSP_STRATEGY_ENV = "ERP_CSP_STRATEGY" as const;
 
@@ -46,6 +46,10 @@ export function resolveCspPolicyMode(
 
   if (strategy === "sri") {
     return "sri";
+  }
+
+  if (isDevHarnessRoute(pathname)) {
+    return "nonce";
   }
 
   return isPublicRoute(pathname) ? "sri" : "nonce";

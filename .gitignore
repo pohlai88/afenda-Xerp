@@ -47,6 +47,9 @@ coverage/
 **/coverage/
 .nyc_output/
 test-results/
+apps/erp/e2e/.auth/
+apps/erp/e2e/playwright-report/
+apps/erp/blob-report/
 storybook-static/
 **/storybook-static/
 

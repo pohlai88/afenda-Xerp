@@ -1,10 +1,13 @@
 import {
   getTenantSsoProviderById,
   parseTenantSsoOidcMetadata,
+  parseTenantSsoSamlMetadata,
   TENANT_SSO_CLIENT_SECRET_ENV_KEY,
 } from "@afenda/database";
 
+import { getBetterAuthUrl } from "./auth.env.js";
 import { getAuth } from "./auth.server.js";
+import { AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX } from "./auth.sso-policy.js";
 
 export interface SyncTenantSsoProviderInput {
   readonly env?: NodeJS.ProcessEnv;
@@ -54,6 +57,40 @@ export async function syncTenantSsoProviderWithBetterAuth(
 
   if (!record.enabled) {
     return { kind: "skipped", reason: "provider_disabled" };
+  }
+
+  if (record.protocol === "saml") {
+    const metadata = parseTenantSsoSamlMetadata(record.metadata);
+    const auth = getAuth(env);
+    const callbackUrl =
+      metadata.callbackUrl ??
+      `${getBetterAuthUrl(env)}${AFENDA_AUTH_SSO_SAML_CALLBACK_PREFIX}${record.providerId}`;
+
+    try {
+      await auth.api.registerSSOProvider({
+        body: {
+          providerId: record.providerId,
+          issuer: record.issuer,
+          domain: record.domain,
+          samlConfig: {
+            entryPoint: metadata.entryPoint,
+            cert: metadata.cert,
+            callbackUrl,
+            spMetadata: metadata.spMetadata ?? {},
+            ...(metadata.idpMetadataXml === undefined
+              ? {}
+              : { idpMetadata: { metadata: metadata.idpMetadataXml } }),
+          },
+        },
+        headers: input.headers,
+      });
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "SSO provider sync failed.";
+      return { kind: "failed", message };
+    }
+
+    return { kind: "synced", providerId: record.providerId };
   }
 
   if (record.protocol !== "oidc") {
@@ -119,7 +156,7 @@ export function describeSyncTenantSsoProviderSkipReason(
     case "provider_not_found":
       return "SSO provider saved, but Better Auth sync was skipped because the provider record was not found.";
     case "unsupported_protocol":
-      return "SSO provider saved, but Better Auth sync was skipped because only OIDC providers can be synced.";
+      return "SSO provider saved, but Better Auth sync was skipped because the provider protocol is not supported.";
     default: {
       const exhaustive: never = reason;
       return exhaustive;

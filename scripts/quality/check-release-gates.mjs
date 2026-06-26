@@ -30,6 +30,8 @@ const requiredCiCommands = [
   "pnpm ci:biome",
   "pnpm typecheck",
   "pnpm test:run",
+  "pnpm test:interaction",
+  "pnpm test:e2e:smoke",
   "pnpm build",
   "pnpm quality:boundaries",
   "pnpm quality:exports",
@@ -98,6 +100,8 @@ function ciIncludesCommand(ciContents, command) {
     "pnpm typecheck": ["pnpm turbo run typecheck"],
     "pnpm build": ["pnpm turbo run build"],
     "pnpm test:run": ["pnpm test:run:affected"],
+    "pnpm test:interaction": ["Gate 3i · interaction tests"],
+    "pnpm test:e2e:smoke": ["Gate 3j · ERP Playwright smoke"],
   };
 
   return (turboAlternatives[command] ?? []).some((alternative) =>

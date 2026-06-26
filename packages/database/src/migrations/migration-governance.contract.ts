@@ -484,4 +484,16 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
   },
+  "20260626012331_volatile_doctor_faustus": {
+    completeProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'companies'
+        AND column_name = 'mfa_required_override'
+    ) AS ok`,
+    partialProbe: "SELECT false AS partial",
+    partialCleanup: [],
+  },
 };

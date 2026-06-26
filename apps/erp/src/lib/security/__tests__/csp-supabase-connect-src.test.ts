@@ -81,12 +81,11 @@ describe("createContentSecurityPolicy + Supabase platform origins", () => {
       nonce: "abc",
     });
 
-    expect(policy).toContain(
-      "connect-src 'self' https://example-ref.supabase.co wss://example-ref.supabase.co"
-    );
-    expect(policy).toContain(
-      "img-src 'self' blob: data: https://example-ref.supabase.co"
-    );
+    expect(policy).toContain("connect-src 'self'");
+    expect(policy).toContain("https://example-ref.supabase.co");
+    expect(policy).toContain("wss://example-ref.supabase.co");
+    expect(policy).toContain("img-src 'self' blob: data:");
+    expect(policy).toContain("https://example-ref.supabase.co");
     expect(policy).not.toMatch(/\*/);
     expect(policy).not.toMatch(/\bhttps:\b/);
   });

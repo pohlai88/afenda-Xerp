@@ -73,7 +73,11 @@ export async function resendSystemAdminInviteAction(
   }
 
   const normalizedInviteId = inviteId.trim();
-  const resent = await resendAuthInvitationById(normalizedInviteId);
+  const resent = await resendAuthInvitationById(normalizedInviteId, {
+    correlationId: operatingContext.correlationId,
+    platformUserId: actorUserId,
+    tenantId: operatingContext.tenant.tenantId,
+  });
 
   if (!resent) {
     return failServerAction({
