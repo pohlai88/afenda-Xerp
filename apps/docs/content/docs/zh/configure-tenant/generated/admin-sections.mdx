@@ -22,15 +22,15 @@ Use this map when onboarding a new tenant admin or verifying why a navigation it
 
 | Area | Route | Read permission | Summary |
 | --- | --- | --- | --- |
-| Audit | `/system-admin/audit` | `system_admin.audit_read` | System Admin area for audit — requires `system_admin.audit_read`. |
-| Diagnostics | `/system-admin/diagnostics` | `system_admin.audit_read` | System Admin area for diagnostics — requires `system_admin.audit_read`. |
-| Memberships | `/system-admin/memberships` | `system_admin.users_read` | System Admin area for memberships — requires `system_admin.users_read`. |
-| Permissions | `/system-admin/permissions` | `system_admin.permissions_manage` | System Admin area for permissions — requires `system_admin.permissions_manage`. |
-| Roles | `/system-admin/roles` | `system_admin.roles_manage` | System Admin area for roles — requires `system_admin.roles_manage`. |
-| Settings | `/system-admin/settings` | `system_admin.modules_manage` | System Admin area for settings — requires `system_admin.modules_manage`. |
-| Users | `/system-admin/users` | `system_admin.users_read` | System Admin area for users — requires `system_admin.users_read`. |
+| Audit | `/system-admin/audit` | `system_admin.audit_read` | 审计系统管理区域 — 需要 `system_admin.audit_read`。 |
+| Diagnostics | `/system-admin/diagnostics` | `system_admin.audit_read` | 诊断系统管理区域 — 需要 `system_admin.audit_read`。 |
+| Memberships | `/system-admin/memberships` | `system_admin.users_read` | 成员关系系统管理区域 — 需要 `system_admin.users_read`。 |
+| Permissions | `/system-admin/permissions` | `system_admin.permissions_manage` | 权限系统管理区域 — 需要 `system_admin.permissions_read`。 |
+| Roles | `/system-admin/roles` | `system_admin.roles_manage` | 角色系统管理区域 — 需要 `system_admin.roles_read`。 |
+| Settings | `/system-admin/settings` | `system_admin.modules_manage` | 设置系统管理区域 — 需要 `system_admin.settings_read`。 |
+| Users | `/system-admin/users` | `system_admin.users_read` | 用户系统管理区域 — 需要 `system_admin.users_read`。 |
 
-<Callout type="info" title="Need deeper reference?">
+<Callout type="info" title="租户管理员">
 
 For the full permission matrix, see [Permissions reference](/docs/configure-tenant/generated/permissions).
 

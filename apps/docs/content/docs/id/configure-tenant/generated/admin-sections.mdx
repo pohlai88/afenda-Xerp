@@ -22,15 +22,15 @@ Use this map when onboarding a new tenant admin or verifying why a navigation it
 
 | Area | Route | Read permission | Summary |
 | --- | --- | --- | --- |
-| Audit | `/system-admin/audit` | `system_admin.audit_read` | System Admin area for audit — requires `system_admin.audit_read`. |
-| Diagnostics | `/system-admin/diagnostics` | `system_admin.audit_read` | System Admin area for diagnostics — requires `system_admin.audit_read`. |
-| Memberships | `/system-admin/memberships` | `system_admin.users_read` | System Admin area for memberships — requires `system_admin.users_read`. |
-| Permissions | `/system-admin/permissions` | `system_admin.permissions_manage` | System Admin area for permissions — requires `system_admin.permissions_manage`. |
-| Roles | `/system-admin/roles` | `system_admin.roles_manage` | System Admin area for roles — requires `system_admin.roles_manage`. |
-| Settings | `/system-admin/settings` | `system_admin.modules_manage` | System Admin area for settings — requires `system_admin.modules_manage`. |
-| Users | `/system-admin/users` | `system_admin.users_read` | System Admin area for users — requires `system_admin.users_read`. |
+| Audit | `/system-admin/audit` | `system_admin.audit_read` | Area System Admin untuk audit — memerlukan `system_admin.audit_read`. |
+| Diagnostics | `/system-admin/diagnostics` | `system_admin.audit_read` | Area System Admin untuk diagnostik — memerlukan `system_admin.audit_read`. |
+| Memberships | `/system-admin/memberships` | `system_admin.users_read` | Area System Admin untuk keanggotaan — memerlukan `system_admin.users_read`. |
+| Permissions | `/system-admin/permissions` | `system_admin.permissions_manage` | Area System Admin untuk izin — memerlukan `system_admin.permissions_read`. |
+| Roles | `/system-admin/roles` | `system_admin.roles_manage` | Area System Admin untuk peran — memerlukan `system_admin.roles_read`. |
+| Settings | `/system-admin/settings` | `system_admin.modules_manage` | Area System Admin untuk pengaturan — memerlukan `system_admin.settings_read`. |
+| Users | `/system-admin/users` | `system_admin.users_read` | Area System Admin untuk pengguna — memerlukan `system_admin.users_read`. |
 
-<Callout type="info" title="Need deeper reference?">
+<Callout type="info" title="Administrator tenant">
 
 For the full permission matrix, see [Permissions reference](/docs/configure-tenant/generated/permissions).
 

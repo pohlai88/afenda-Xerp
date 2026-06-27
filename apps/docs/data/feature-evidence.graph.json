@@ -1,7 +1,7 @@
 {
   "generated": true,
-  "version": 2,
-  "exportedAt": "2026-06-27T09:43:50.674Z",
+  "version": 3,
+  "exportedAt": "2026-06-27T10:20:48.014Z",
   "manifests": [
     {
       "id": "accounting",
@@ -100,7 +100,7 @@
       "kind": "admin-section",
       "title": "Permissions",
       "audience": "tenant-admin",
-      "summary": "System Admin area for permissions — requires `system_admin.permissions_manage`.",
+      "summary": "System Admin area for permissions — requires `system_admin.permissions_read`.",
       "productRoutes": [
         "/system-admin/permissions"
       ],
@@ -118,7 +118,7 @@
       "kind": "admin-section",
       "title": "Roles",
       "audience": "tenant-admin",
-      "summary": "System Admin area for roles — requires `system_admin.roles_manage`.",
+      "summary": "System Admin area for roles — requires `system_admin.roles_read`.",
       "productRoutes": [
         "/system-admin/roles"
       ],
@@ -136,7 +136,7 @@
       "kind": "admin-section",
       "title": "Settings",
       "audience": "tenant-admin",
-      "summary": "System Admin area for settings — requires `system_admin.modules_manage`.",
+      "summary": "System Admin area for settings — requires `system_admin.settings_read`.",
       "productRoutes": [
         "/system-admin/settings"
       ],
@@ -180,7 +180,7 @@
       "kind": "module",
       "title": "AI Copilot",
       "audience": "end-user",
-      "summary": "Governed AI Copilot module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "summary": "Governed AI Copilot module when the tenant enables copilot entitlements.",
       "productRoutes": [
         "/modules/ai_copilot"
       ],
@@ -312,7 +312,7 @@
       "kind": "module",
       "title": "HRM",
       "audience": "end-user",
-      "summary": "Governed HRM module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "summary": "Human resources module when the tenant enables HRM entitlements.",
       "productRoutes": [
         "/modules/hrm"
       ],
@@ -407,7 +407,7 @@
       "kind": "module",
       "title": "Manufacturing",
       "audience": "end-user",
-      "summary": "Governed Manufacturing module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "summary": "Manufacturing module when the tenant enables production entitlements.",
       "productRoutes": [
         "/modules/manufacturing"
       ],
@@ -429,7 +429,7 @@
       "kind": "module",
       "title": "MRP",
       "audience": "end-user",
-      "summary": "Governed MRP module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "summary": "Material requirements planning when the tenant enables MRP entitlements.",
       "productRoutes": [
         "/modules/mrp"
       ],
@@ -539,7 +539,7 @@
       "kind": "module",
       "title": "Sales",
       "audience": "end-user",
-      "summary": "Governed Sales module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "summary": "Sales module when the tenant enables commercial entitlements.",
       "productRoutes": [
         "/modules/sales"
       ],
@@ -597,5 +597,108 @@
   "coverageErrors": [],
   "coverageScore": 1,
   "coverageThreshold": 0.8,
-  "openApiBindingWarnings": []
+  "openApiBindingWarnings": [],
+  "permissionParityWarnings": [],
+  "manifestApiOperationCounts": [
+    {
+      "id": "accounting",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "admin-audit",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "admin-diagnostics",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "admin-memberships",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "admin-permissions",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "admin-roles",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "admin-settings",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "admin-users",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "ai_copilot",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-access",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-invite",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-recover",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-security",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-verify",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "auth-lane-workspace",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "hrm",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "inventory",
+      "apiOperationCount": 8
+    },
+    {
+      "id": "manufacturing",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "mrp",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "platform-auth",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "platform-health",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "platform-observability",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "platform-storage",
+      "apiOperationCount": 1
+    },
+    {
+      "id": "sales",
+      "apiOperationCount": 0
+    },
+    {
+      "id": "workspace",
+      "apiOperationCount": 3
+    }
+  ]
 }
