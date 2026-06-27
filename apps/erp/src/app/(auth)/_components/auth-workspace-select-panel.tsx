@@ -1,4 +1,4 @@
-import type { ApplicationShellContextSwitchTarget } from "@afenda/kernel";
+import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
 
 import { AuthWorkspaceSelectPanel as AuthWorkspaceSelectPanelCore } from "@/lib/auth/auth-workspace-select-panel";
 

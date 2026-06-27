@@ -1,13 +1,14 @@
-import {
-  type AccountingReadinessContext,
-  DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-  type LegalEntityContext,
-  type OperatingContext,
-  toAccountingReadinessContext,
-} from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 
-import { toAccountingDomainContext } from "../index.js";
+import type {
+  AccountingReadinessContext,
+  LegalEntityContext,
+} from "../context/index.js";
+import { toAccountingDomainContext } from "../contracts/accounting-domain/bridge/to-accounting-domain-context.js";
+import {
+  brandRequiredCountryCode,
+  brandRequiredCurrencyCode,
+} from "../identity/index.js";
 
 const SAMPLE_LEGAL_ENTITY: LegalEntityContext = {
   companyId: "company-1",
@@ -18,8 +19,8 @@ const SAMPLE_LEGAL_ENTITY: LegalEntityContext = {
   displayName: "Acme Co",
   registrationNumber: null,
   taxRegistrationNumber: null,
-  countryCode: "AU",
-  baseCurrency: "AUD",
+  countryCode: brandRequiredCountryCode("AU"),
+  baseCurrency: brandRequiredCurrencyCode("AUD"),
   reportingCurrency: "USD",
   companyType: "standalone",
   fiscalCalendarId: "fc-2026",
@@ -28,15 +29,10 @@ const SAMPLE_LEGAL_ENTITY: LegalEntityContext = {
   status: "active",
 };
 
-const SAMPLE_OPERATING_CONTEXT = {
-  actor: { userId: "user-1" },
-  correlationId: "corr-1",
-  tenant: {
-    tenantId: "tenant-1",
-    slug: "acme",
-    displayName: "Acme",
-    status: "active",
-  },
+const SAMPLE_READINESS: AccountingReadinessContext = {
+  baseCurrency: "AUD",
+  reportingCurrency: "USD",
+  legalEntity: SAMPLE_LEGAL_ENTITY,
   entityGroup: {
     entityGroupId: "group-1",
     tenantId: "tenant-1",
@@ -45,7 +41,6 @@ const SAMPLE_OPERATING_CONTEXT = {
     parentLegalEntityId: null,
     status: "active",
   },
-  legalEntity: SAMPLE_LEGAL_ENTITY,
   organizationUnit: {
     organizationUnitId: "ou-cc-1",
     tenantId: "tenant-1",
@@ -59,37 +54,12 @@ const SAMPLE_OPERATING_CONTEXT = {
     effectiveTo: null,
   },
   ownershipInterests: [],
-  team: null,
-  project: null,
-  workspace: {
-    tenantId: "tenant-1",
-    companyId: "company-1",
-    organizationId: "ou-cc-1",
-    projectId: null,
-  },
-  permissionScope: {
-    grantScopeType: "organization",
-    tenantId: "tenant-1",
-    entityGroupId: "group-1",
-    companyId: "company-1",
-    organizationId: "ou-cc-1",
-    teamId: null,
-    projectId: null,
-    membershipId: "membership-1",
-    roleId: "role-1",
-    elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-  },
   consolidationScope: null,
-  surface: null,
-  workflow: null,
-} satisfies OperatingContext;
+};
 
 describe("toAccountingDomainContext", () => {
   it("maps kernel readiness to domain wire context with matching tenant and company ids", () => {
-    const readiness: AccountingReadinessContext = toAccountingReadinessContext(
-      SAMPLE_OPERATING_CONTEXT
-    );
-    const domain = toAccountingDomainContext(readiness);
+    const domain = toAccountingDomainContext(SAMPLE_READINESS);
 
     expect(domain.tenantId).toBe("tenant-1");
     expect(domain.companyId).toBe("company-1");
@@ -103,8 +73,7 @@ describe("toAccountingDomainContext", () => {
   });
 
   it("does not include journal lines, balances, or posting amounts", () => {
-    const readiness = toAccountingReadinessContext(SAMPLE_OPERATING_CONTEXT);
-    const domain = toAccountingDomainContext(readiness);
+    const domain = toAccountingDomainContext(SAMPLE_READINESS);
     const keys = Object.keys(domain).sort();
 
     expect(keys).toEqual([
@@ -121,19 +90,17 @@ describe("toAccountingDomainContext", () => {
   });
 
   it("produces JSON-serializable output at rest", () => {
-    const readiness = toAccountingReadinessContext(SAMPLE_OPERATING_CONTEXT);
-    const domain = toAccountingDomainContext(readiness);
+    const domain = toAccountingDomainContext(SAMPLE_READINESS);
 
     expect(JSON.parse(JSON.stringify(domain))).toEqual(domain);
   });
 
   it("nulls optional hierarchy refs when absent on readiness context", () => {
-    const readiness = toAccountingReadinessContext({
-      ...SAMPLE_OPERATING_CONTEXT,
+    const domain = toAccountingDomainContext({
+      ...SAMPLE_READINESS,
       entityGroup: null,
       organizationUnit: null,
     });
-    const domain = toAccountingDomainContext(readiness);
 
     expect(domain.entityGroupId).toBeNull();
     expect(domain.organizationUnitId).toBeNull();

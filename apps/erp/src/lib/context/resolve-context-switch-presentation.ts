@@ -1,4 +1,4 @@
-import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
+import type { ApplicationShellAllowedContextOptions } from "@afenda/appshell";
 
 import {
   CONTEXT_SWITCH_COPY,

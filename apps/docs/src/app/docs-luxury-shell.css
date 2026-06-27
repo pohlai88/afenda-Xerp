@@ -1,0 +1,145 @@
+/**
+ * Afenda Docs — luxury quiet shell palette.
+ * Warm ink + champagne neutrals on Fumadocs solar; desaturated semantics.
+ */
+
+@theme {
+  --color-fd-background: oklch(0.975 0.006 85);
+  --color-fd-foreground: oklch(0.32 0.014 265);
+  --color-fd-muted: oklch(0.955 0.008 85);
+  --color-fd-muted-foreground: oklch(0.52 0.018 265);
+  --color-fd-popover: oklch(0.985 0.005 85);
+  --color-fd-popover-foreground: oklch(0.28 0.018 265);
+  --color-fd-card: oklch(0.99 0.004 85);
+  --color-fd-card-foreground: oklch(0.24 0.018 265);
+  --color-fd-border: oklch(0.84 0.012 85 / 0.55);
+  --color-fd-primary: oklch(0.28 0.022 265);
+  --color-fd-primary-foreground: oklch(0.96 0.008 85);
+  --color-fd-secondary: oklch(0.94 0.01 85);
+  --color-fd-secondary-foreground: oklch(0.32 0.02 265);
+  --color-fd-accent: oklch(0.92 0.012 85 / 0.85);
+  --color-fd-accent-foreground: oklch(0.28 0.02 265);
+  --color-fd-ring: oklch(0.62 0.03 265);
+  --color-fd-article: oklch(0.992 0.004 85);
+  --color-fd-info: oklch(0.52 0.025 265);
+  --color-fd-warning: oklch(0.58 0.03 85);
+  --color-fd-error: oklch(0.52 0.04 25);
+  --color-fd-success: oklch(0.52 0.03 155);
+  --color-fd-idea: oklch(0.56 0.025 85);
+}
+
+.dark {
+  --color-fd-background: oklch(0.17 0.008 265);
+  --color-fd-foreground: oklch(0.72 0.006 85);
+  --color-fd-muted: oklch(0.205 0.008 265);
+  --color-fd-muted-foreground: oklch(0.58 0.01 85);
+  --color-fd-popover: oklch(0.18 0.008 265);
+  --color-fd-popover-foreground: oklch(0.7 0.006 85);
+  --color-fd-card: oklch(0.195 0.008 265);
+  --color-fd-card-foreground: oklch(0.68 0.006 85);
+  --color-fd-border: oklch(0.42 0.008 265 / 0.18);
+  --color-fd-primary: oklch(0.62 0.035 254);
+  --color-fd-primary-foreground: oklch(0.2 0.012 265);
+  --color-fd-secondary: oklch(0.21 0.008 265);
+  --color-fd-secondary-foreground: oklch(0.64 0.008 85);
+  --color-fd-accent: oklch(0.24 0.008 265 / 0.35);
+  --color-fd-accent-foreground: oklch(0.68 0.006 85);
+  --color-fd-ring: oklch(0.46 0.018 265);
+  --color-fd-article: oklch(0.185 0.008 265);
+  --color-fd-overlay: oklch(0.05 0.01 265 / 0.55);
+  --color-fd-info: oklch(0.58 0.018 265);
+  --color-fd-warning: oklch(0.62 0.02 85);
+  --color-fd-error: oklch(0.58 0.025 25);
+  --color-fd-success: oklch(0.6 0.018 155);
+  --color-fd-idea: oklch(0.62 0.015 85);
+}
+
+/* Solar article card — softer elevation */
+#nd-docs-layout #nd-page::before,
+#nd-notebook-layout #nd-page::before {
+  border-color: var(--color-fd-border);
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.04),
+    0 10px 36px oklch(0 0 0 / 0.05);
+}
+
+.dark #nd-docs-layout #nd-page::before,
+.dark #nd-notebook-layout #nd-page::before {
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.02) inset,
+    0 10px 32px oklch(0 0 0 / 0.22);
+}
+
+/* Top nav — quieter chrome */
+#nd-nav,
+.nd-nav {
+  border-color: var(--color-fd-border);
+}
+
+#nd-nav input,
+.nd-nav input {
+  background-color: color-mix(
+    in oklch,
+    var(--color-fd-muted) 88%,
+    var(--color-fd-background)
+  );
+  border-color: var(--color-fd-border);
+  box-shadow: none;
+}
+
+#nd-nav input:focus-visible,
+.nd-nav input:focus-visible {
+  outline: 2px solid color-mix(in oklch, var(--color-fd-ring) 55%, transparent);
+  outline-offset: 1px;
+}
+
+/* Fumadocs Callout — neutral surface; beats inline --callout-color: var(--color-fd-info) */
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card,
+#nd-page .prose .flex.rounded-xl.border.bg-fd-card {
+  --callout-color: var(--docs-callout-accent) !important;
+  background-color: var(--docs-callout-surface) !important;
+  border-color: var(--docs-divider) !important;
+  box-shadow: none !important;
+  color: var(--docs-text-body);
+}
+
+#nd-page .prose .flex.rounded-xl.border.bg-fd-card > :first-child[class*="w-0.5"] {
+  background-color: var(--docs-callout-rail) !important;
+  opacity: 1;
+}
+
+#nd-page .prose .flex.rounded-xl.border.bg-fd-card svg {
+  fill: color-mix(in oklch, var(--docs-callout-accent) 35%, transparent) !important;
+  color: var(--color-fd-muted-foreground) !important;
+  stroke: var(--color-fd-muted-foreground);
+}
+
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card :is(p, div) {
+  font-weight: 400;
+  line-height: var(--docs-leading-normal);
+  color: var(--docs-text-body);
+}
+
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card .font-medium,
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card strong {
+  font-weight: 500;
+  color: var(--docs-text-heading);
+}
+
+/* Sidebar + TOC — weight and colour, not bright primary */
+#nd-sidebar a,
+#nd-toc a {
+  font-weight: 400;
+  color: var(--color-fd-muted-foreground);
+}
+
+#nd-sidebar a[data-active="true"],
+#nd-toc a[data-active="true"] {
+  font-weight: 400;
+  color: var(--docs-text-heading);
+}
+
+#nd-sidebar button,
+#nd-nav a {
+  font-weight: 400;
+}

@@ -254,6 +254,11 @@ export {
   type SupabaseConnectionMethod,
 } from "./env.js";
 export {
+  createEnterpriseId,
+  type EnterpriseIdFamilyKey,
+  generateUlidBody,
+} from "./ids/index.js";
+export {
   actorUserIdRef,
   auditEventId,
   companyId,

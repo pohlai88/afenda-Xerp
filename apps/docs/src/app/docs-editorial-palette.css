@@ -1,202 +1,116 @@
 /**
- * Afenda Docs Editorial Palette
- *
- * Two-layer model per docs-editorial-design skill §2:
- *   Layer 1 — OKLCH literals assigned to --docs-editorial-* primitives
- *   Layer 2 — @theme inline maps those to --color-fd-* (Tailwind + fumadocs bridge)
- *
- * Light: porcelain editorial white — not beige parchment. H95 (warm neutral)
- * Dark:  graphite charcoal with rail / paper / canvas layering. H260 (cool neutral)
- * Shell: quiet monochrome. Prose accent (H254, Afenda blue): links + blockquote rule ONLY.
- *
- * NEVER set --color-fd-* directly in :root or .dark — always via @theme inline.
- * NEVER use brand accent outside .nd-page .prose a, .nd-page .prose blockquote.
+ * Afenda Docs — typography scale (UI-first).
+ * Content must not exceed shell chrome — 4 sizes only.
  */
 
 :root {
-  /* ── Page material ──────────────────────────────────────────────────────── */
-  --docs-editorial-canvas: oklch(0.985 0.003 95);
-  --docs-editorial-rail: oklch(0.972 0.004 95);
-  --docs-editorial-paper: oklch(0.998 0.001 95);
+  --fd-layout-width: 1400px;
 
-  /* ── Text ───────────────────────────────────────────────────────────────── */
-  --docs-editorial-text: oklch(0.18 0.006 260);
-  --docs-editorial-text-muted: oklch(0.46 0.01 260);
-  --docs-editorial-text-subtle: oklch(0.58 0.008 260);
+  --font-sans:
+    var(--font-docs-body), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:
+    var(--font-docs-display), "Newsreader", ui-serif, Georgia, serif;
 
-  /* ── Surfaces ───────────────────────────────────────────────────────────── */
-  --docs-editorial-surface-muted: oklch(0.955 0.004 95);
-  --docs-editorial-surface-raised: oklch(1 0 0);
-  --docs-editorial-surface-hover: oklch(0.935 0.005 95);
-  --docs-editorial-surface-active: oklch(0.925 0.006 95);
+  /* UI-first scale — body matches nav/sidebar (13px) */
+  --docs-text-meta: 0.75rem; /* 12px — summary, TOC label, captions */
+  --docs-text-ui: 0.8125rem; /* 13px — nav, body, lists, h3/h4 */
+  --docs-text-section: 0.875rem; /* 14px — h2 only */
+  --docs-text-title: 1rem; /* 16px — page title only; max content size */
 
-  /* ── Lines ──────────────────────────────────────────────────────────────── */
-  --docs-editorial-border: oklch(0.88 0.006 95);
-  --docs-editorial-border-subtle: oklch(0.92 0.004 95);
+  /* Legacy aliases → map to simplified scale */
+  --docs-text-xs: var(--docs-text-meta);
+  --docs-text-sm: var(--docs-text-ui);
+  --docs-text-base: var(--docs-text-ui);
+  --docs-text-lg: var(--docs-text-section);
+  --docs-text-xl: var(--docs-text-section);
+  --docs-text-2xl: var(--docs-text-section);
+  --docs-text-3xl: var(--docs-text-section);
+  --docs-text-4xl: var(--docs-text-title);
+  --docs-text-display: var(--docs-text-title);
 
-  /* ── Interaction ────────────────────────────────────────────────────────── */
-  --docs-editorial-ring: oklch(0.52 0.06 255);
-  --docs-editorial-overlay: oklch(0.16 0.006 260 / 0.42);
+  --docs-leading-title: 1.35;
+  --docs-leading-section: 1.45;
+  --docs-leading-normal: 1.65;
+  --docs-leading-ui: 1.55;
 
-  /* ── Prose-only accent (H254 Afenda blue — shell use FORBIDDEN) ─────────── */
-  --docs-editorial-prose-accent: oklch(0.48 0.17 254);
-  --docs-editorial-prose-accent-hover: oklch(0.42 0.19 254);
+  --docs-tracking-title: -0.008em;
+  --docs-tracking-section: -0.004em;
+  --docs-tracking-body: 0.002em;
+  --docs-tracking-overline: 0.04em;
+  --docs-prose-max-width: 66ch;
 
-  /* ── Code ───────────────────────────────────────────────────────────────── */
-  --docs-editorial-code-surface: oklch(0.955 0.004 95);
+  /* Spacing primitives — 8px enterprise grid */
+  --docs-space-1: 0.25rem; /* 4px micro */
+  --docs-space-2: 0.5rem; /* 8px tight */
+  --docs-space-3: 0.75rem; /* 12px inline */
+  --docs-space-4: 1.25rem; /* 20px block */
+  --docs-space-5: 2rem; /* 32px section */
+  --docs-space-6: 2.5rem; /* 40px page */
+  --docs-space-7: 3rem; /* 48px major break */
 
-  /* ── Callout semantic colors (fd-info / fd-warning consumed by fumadocs) ── */
-  --docs-editorial-callout-info: oklch(0.48 0.17 254);
-  --docs-editorial-callout-warn: oklch(0.72 0.14 70);
+  /*
+   * Semantic spacing — quiet palette uses space instead of heavy borders.
+   * Low-chroma ink (62–82% mix) needs air between blocks; borders are 18–55% opacity.
+   */
+  --docs-gap-chrome: var(--docs-space-4); /* title · description · actions */
+  --docs-gap-block: var(--docs-space-5); /* paragraphs · cards · callouts in stack */
+  --docs-gap-section: var(--docs-space-6); /* h2 breaks · footer · content entry */
+  --docs-gap-inline: var(--docs-space-3); /* icon+label · callout title+body · table cells */
+  --docs-inset-component: var(--docs-space-5); /* card padding */
+  --docs-inset-comfort: var(--docs-space-6); /* callout padding */
+  --docs-inset-page-inline: var(--docs-space-5);
+  --docs-inset-page-block: var(--docs-space-6);
+  --docs-divider: color-mix(in oklch, var(--color-fd-border) 45%, transparent);
 
-  /* ── Search surface aliases ─────────────────────────────────────────────── */
-  --docs-editorial-search-surface: var(--docs-editorial-paper);
-  --docs-editorial-search-kbd-surface: var(--docs-editorial-surface-muted);
-  --docs-editorial-search-kbd-foreground: var(--docs-editorial-text);
+  /* Callout — neutral harmony (no Fumadocs fd-info red/warm rail) */
+  --docs-callout-accent: color-mix(
+    in oklch,
+    var(--docs-prose-accent) 18%,
+    var(--color-fd-muted-foreground)
+  );
+  --docs-callout-surface: color-mix(
+    in oklch,
+    var(--color-fd-muted) 28%,
+    var(--color-fd-article)
+  );
+  --docs-callout-rail: color-mix(
+    in oklch,
+    var(--docs-prose-accent) 12%,
+    var(--color-fd-border)
+  );
+
+  --docs-text-body: color-mix(
+    in oklch,
+    var(--color-fd-foreground) 68%,
+    var(--color-fd-muted-foreground)
+  );
+  --docs-text-heading: color-mix(
+    in oklch,
+    var(--color-fd-foreground) 82%,
+    var(--color-fd-muted-foreground)
+  );
+
+  --docs-prose-accent: oklch(0.46 0.08 254);
+  --docs-prose-accent-hover: oklch(0.4 0.1 254);
+
+  --docs-noise-opacity: 0.028;
+  --docs-illustration-opacity: 0.045;
 }
 
 .dark {
-  --docs-editorial-canvas: oklch(0.155 0.004 260);
-  --docs-editorial-rail: oklch(0.135 0.004 260);
-  --docs-editorial-paper: oklch(0.18 0.004 260);
-  --docs-editorial-text: oklch(0.93 0.004 95);
-  --docs-editorial-text-muted: oklch(0.68 0.006 260);
-  --docs-editorial-text-subtle: oklch(0.56 0.006 260);
-  --docs-editorial-surface-muted: oklch(0.205 0.005 260);
-  --docs-editorial-surface-raised: oklch(0.19 0.004 260);
-  --docs-editorial-surface-hover: oklch(0.235 0.006 260);
-  --docs-editorial-surface-active: oklch(0.255 0.007 260);
-  --docs-editorial-border: oklch(0.31 0.006 260);
-  --docs-editorial-border-subtle: oklch(0.25 0.005 260);
-  --docs-editorial-ring: oklch(0.72 0.055 255);
-  --docs-editorial-overlay: oklch(0.05 0.004 260 / 0.68);
-  --docs-editorial-prose-accent: oklch(0.72 0.14 254);
-  --docs-editorial-prose-accent-hover: oklch(0.8 0.13 254);
-  --docs-editorial-code-surface: oklch(0.205 0.005 260);
-  --docs-editorial-callout-info: oklch(0.72 0.14 254);
-  --docs-editorial-callout-warn: oklch(0.78 0.13 68);
-}
+  --docs-prose-accent: oklch(0.62 0.035 254);
+  --docs-prose-accent-hover: oklch(0.68 0.03 254);
+  --docs-noise-opacity: 0.038;
+  --docs-illustration-opacity: 0.035;
 
-/* ── Fumadocs --color-fd-* bridge (must use @theme inline) ─────────────────
-   fd-primary = heaviest neutral text — NOT brand accent
-   fd-accent  = neutral hover surface — NOT brand accent
-   fd-info    = callout info color (Afenda blue prose accent)
-   fd-warning = callout warn color (amber)
-   ────────────────────────────────────────────────────────────────────────── */
-@theme inline {
-  --color-fd-background: var(--docs-editorial-canvas);
-  --color-fd-foreground: var(--docs-editorial-text);
-  --color-fd-muted: var(--docs-editorial-surface-muted);
-  --color-fd-muted-foreground: var(--docs-editorial-text-muted);
-  --color-fd-popover: var(--docs-editorial-paper);
-  --color-fd-popover-foreground: var(--docs-editorial-text);
-  --color-fd-card: var(--docs-editorial-paper);
-  --color-fd-card-foreground: var(--docs-editorial-text);
-  --color-fd-border: var(--docs-editorial-border);
-  --color-fd-primary: var(--docs-editorial-text);
-  --color-fd-primary-foreground: var(--docs-editorial-canvas);
-  --color-fd-secondary: var(--docs-editorial-surface-muted);
-  --color-fd-secondary-foreground: var(--docs-editorial-text);
-  --color-fd-accent: var(--docs-editorial-surface-hover);
-  --color-fd-accent-foreground: var(--docs-editorial-text);
-  --color-fd-ring: var(--docs-editorial-ring);
-  --color-fd-overlay: var(--docs-editorial-overlay);
-  --color-fd-info: var(--docs-editorial-callout-info);
-  --color-fd-warning: var(--docs-editorial-callout-warn);
-}
-
-/* ── Focus ring ─────────────────────────────────────────────────────────────*/
-:focus-visible {
-  outline-color: var(--docs-editorial-ring);
-  outline-offset: 2px;
-}
-
-/* ── Sidebar rail (#nd-sidebar) ─────────────────────────────────────────────
-   fumadocs v16: sidebar uses bg-fd-card, links use fd-muted-foreground.
-   We scope --color-fd-muted to rail + override bg to rail for full material.
-   ────────────────────────────────────────────────────────────────────────── */
-#nd-sidebar {
-  --color-fd-card: var(--docs-editorial-rail);
-  --color-fd-muted: var(--docs-editorial-rail);
-  --color-fd-secondary: var(--docs-editorial-rail);
-  --color-fd-muted-foreground: var(--docs-editorial-text-muted);
-  background-color: var(--docs-editorial-rail);
-  border-color: var(--docs-editorial-border-subtle);
-}
-
-/* Active sidebar leaf — neutral primary/10 tint with editorial text */
-#nd-sidebar [data-active="true"] {
-  color: var(--docs-editorial-text);
-  background-color: var(--docs-editorial-surface-active);
-}
-
-/* Sidebar active indicator line — monochrome only */
-#nd-sidebar [data-active="true"]::before {
-  background-color: var(--docs-editorial-text-muted);
-}
-
-/* ── Right TOC (#nd-toc) ─────────────────────────────────────────────────────
-   Editorial chrome: quiet rail-level, accent-free. Active link = text weight.
-   ────────────────────────────────────────────────────────────────────────── */
-#nd-toc {
-  --color-fd-muted-foreground: var(--docs-editorial-text-subtle);
-  border-color: var(--docs-editorial-border-subtle);
-}
-
-#nd-toc a {
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  color: var(--docs-editorial-text-subtle);
-  text-decoration: none;
-  transition: color 100ms ease;
-}
-
-#nd-toc a:hover {
-  color: var(--docs-editorial-text-muted);
-}
-
-#nd-toc a[data-active="true"],
-#nd-toc a[aria-current="true"] {
-  font-weight: 500;
-  color: var(--docs-editorial-text);
-}
-
-/* ── Mobile subnav (#nd-subnav) ──────────────────────────────────────────────*/
-#nd-subnav {
-  background-color: var(--docs-editorial-canvas);
-  border-color: var(--docs-editorial-border-subtle);
-}
-
-/* ── Search button (sidebar + keyboard shortcut) ─────────────────────────── */
-button[data-search-full] {
-  color: var(--docs-editorial-text-muted);
-  background-color: var(--docs-editorial-search-surface);
-  border-color: var(--docs-editorial-border-subtle);
-  box-shadow: 0 1px 1px oklch(0 0 0 / 0.03);
-}
-
-.dark button[data-search-full] {
-  box-shadow: none;
-}
-
-button[data-search-full]:hover {
-  color: var(--docs-editorial-text);
-  background-color: var(--docs-editorial-surface-hover);
-  border-color: var(--docs-editorial-border);
-}
-
-button[data-search-full] kbd {
-  font-variant-numeric: tabular-nums;
-  color: var(--docs-editorial-search-kbd-foreground);
-  background-color: var(--docs-editorial-search-kbd-surface);
-  border-color: var(--docs-editorial-border-subtle);
-}
-
-/* ── Reduced motion ──────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  button[data-search-full],
-  #nd-sidebar [data-active="true"],
-  #nd-toc a {
-    transition: none;
-  }
+  --docs-text-body: color-mix(
+    in oklch,
+    var(--color-fd-foreground) 62%,
+    var(--color-fd-muted-foreground)
+  );
+  --docs-text-heading: color-mix(
+    in oklch,
+    var(--color-fd-foreground) 78%,
+    var(--color-fd-muted-foreground)
+  );
 }

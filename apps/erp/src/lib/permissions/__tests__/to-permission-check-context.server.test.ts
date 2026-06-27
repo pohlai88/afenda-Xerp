@@ -2,7 +2,7 @@ import type { OperatingContext } from "@afenda/kernel";
 import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
 import type { PermissionCheckRequest } from "@afenda/permissions";
 import { describe, expect, it } from "vitest";
-
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { toPermissionCheckContextFromOperatingContext } from "../to-permission-check-context.server";
 
 function createOperatingContextFixture(): OperatingContext {
@@ -25,8 +25,7 @@ function createOperatingContextFixture(): OperatingContext {
       displayName: "Acme Co",
       registrationNumber: null,
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "standalone",
       fiscalCalendarId: null,

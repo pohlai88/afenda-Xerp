@@ -1,8 +1,9 @@
-import {
-  type AccountingReadinessContext,
-  type OperatingContext,
-  toAccountingReadinessContext,
+import type {
+  AccountingReadinessContext,
+  OperatingContext,
 } from "@afenda/kernel";
+
+import { toAccountingReadinessContext } from "./accounting-readiness.projection.js";
 
 /**
  * ERP trust boundary — maps resolved operating context to accounting-readiness

@@ -137,7 +137,7 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Context barrel | `packages/kernel/src/context/index.ts` | Yes — Grade B (barrel + import scan in surface gate) |
 | Root exports | `packages/kernel/src/index.ts` | Yes — Grade B (`index.test.ts`) |
 | Operating context | `packages/kernel/src/context/operating-context.contract.ts` | Yes — Grade B (registry + type exports) |
-| Consolidation resolver | `packages/kernel/src/context/consolidation-scope-resolution.server.ts` | Yes — Grade A (`consolidation-scope-resolution.test.ts` 5 tests) |
+| Consolidation resolver | `packages/kernel/src/context/consolidation-scope-resolution.ts` | Yes — Grade A (`consolidation-scope-resolution.test.ts` 5 tests) |
 | Untrusted client guard | `packages/kernel/src/context/untrusted-client-authority.contract.ts` | Yes — Grade A (`untrusted-client-authority.contract.test.ts` 4 tests) |
 | Hierarchy id boundary | `packages/kernel/src/context/hierarchy-id-boundary.contract.ts` | Yes — Grade A (`hierarchy-id-boundary.test.ts` 8 tests) |
 | Accounting readiness stub | `packages/kernel/src/context/accounting-readiness.contract.ts` | Yes — Grade A (`accounting-readiness.contract.test.ts` 11 tests) |
@@ -150,6 +150,7 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Gap ID | Description | Lane impact | Owner | Target slice | Close condition |
 | --- | --- | --- | --- | --- | --- |
 | `context-contracts-complete-status` | FDR at 28/30 audit-adjusted (29/30 ceiling); Complete blocked on peer review | green | Architecture Authority (PR) | Complete | DoD #14 peer review `[x]`; rename to `[Complete]` |
+| `pas-uomcode-primitive` | UomCode blocked on PAS approval | amber | Architecture Authority | 6 | Explicit approval + brand export |
 
 ## §Enterprise readiness score
 
@@ -160,7 +161,7 @@ Archive input (not implementation authority): [`tip-007-erp-platform-authority.m
 | Dimension | Score | Evidence | Audit note |
 | --- | ---: | --- | --- |
 | Contract stability | 5/5 | `typecheck` exit 0 — Grade A | — |
-| Test coverage | 5/5 | `test:run` exit 0 (76 tests) + context-focused suites ≥40 tests — Grade A | E2E browser waived (`context-contracts-e2e`) |
+| Test coverage | 5/5 | `test:run` exit 0 (106 tests) + context-focused suites — Grade A | E2E browser waived (`context-contracts-e2e`) |
 | Observability + audit | 4/5 | Contract read path; no audit on context projection — Grade B | Waiver `context-contracts-observability-read-path` |
 | Security + RBAC + RLS | 5/5 | `untrusted-client-authority.contract.test.ts` + `permission-scope-context` exports — Grade A | — |
 | Documentation + BRD traceability | 4/5 | FDR v2 + index + matrix + `check:documentation-drift` — Grade A | DoD #14 peer review still `[ ]` |
@@ -187,7 +188,7 @@ Target at Complete: **29/30** per enterprise 9.5 benchmark ([ENTERPRISE-BENCHMAR
 
 | Consumer package | Import surface | Breaking change? | Clean Core impact |
 | --- | --- | --- | --- |
-| `apps/erp` | `OperatingContext`, context types, `deriveConsolidationScopeContext` | No | A→A |
+| `apps/erp` | `OperatingContext`, context types, `deriveConsolidationScopeContext`, `toLegalEntityContext` brand at trust boundary | Compile-time only (Slice 13: `CurrencyCode`/`CountryCode` on `LegalEntityContext`; runtime JSON unchanged) | A→B (bounded — loader brands at boundary) |
 | `@afenda/appshell` | `ApplicationShellContextSwitchTarget`, display helpers | No | A→A |
 | `@afenda/permissions` | `PermissionScopeContext`, grant scope types | No | A→A |
 | `@afenda/auth` | Context types via kernel barrel (scan root) | No | A→A |
@@ -414,6 +415,465 @@ Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contract
 - `packages/kernel/dist/` remains gitignored — consumers and CI rely on build-before-gate choreography, not committed dist artifacts
 - Sibling FDRs `fdr-010-platform-authority` and `fdr-010-master-data-authority` Slice 2 Evidence-sync unblocked (Delivered 2026-06-26)
 
+### Slice 3 — PAS kernel-authority doc truth repair
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 2 Delivered ✓  
+**Type:** Evidence-sync  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Design (internal-guide)
+
+Repair doc drift between PAS-001, kernel-authority SKILL, and `reference/package-structure.md`. Split Current vs Target acceptance; add PAS §9 rules 11–13; clarify pure derivation allowed vs data-loading resolver prohibited. No `packages/kernel/src/` edits.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Rewrite package-structure.md Current vs Target trees; split SKILL acceptance Current vs Target; add contract rules 11–13 and pure-derivation clarification; align implementation sequence (UomCode → Slice 6).
+2. Allowed layer— docs-only: `.cursor/skills/kernel-authority/**`, optional PAS §11 sequence wording sync
+3. Files        —
+   .cursor/skills/kernel-authority/reference/package-structure.md
+   .cursor/skills/kernel-authority/SKILL.md
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — packages/kernel/src/**; package.json exports; @afenda/accounting (ADR-0010); foundation-disposition.registry.ts
+5. Authority    — PAS-001 §6 · §9 · §11 · PKG010_KERNEL · ADR-0014
+6. Gates        —
+   pnpm quality:kernel-context-surface
+   pnpm architecture:drift
+   pnpm check:documentation-drift
+7. Closes       — Gap `kernel-authority-doc-drift`; DoD #9
+8. Evidence     —
+   .cursor/skills/kernel-authority/reference/package-structure.md
+   .cursor/skills/kernel-authority/SKILL.md
+9. Attestation  — Documentation · Maintainability
+```
+
+#### DoD rows this slice closes
+
+| # | Criterion | Gate |
+| --- | --- | --- |
+| 9 | Drift green | `pnpm check:documentation-drift` |
+
+#### Known debt
+
+- Slice 4 (optional rename) deferred
+
+### Slice 4 — consolidation-scope file rename (optional)
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 3 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Design (internal-guide)
+
+Rename `consolidation-scope-resolution.server.ts` → `consolidation-scope-resolution.ts` (pure TS, no server runtime). Update barrel, tests, governance required-export strings. Backward-compat: re-export alias optional one release.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Rename consolidation-scope-resolution.server.ts to consolidation-scope-resolution.ts and update all imports, context-registry, tests, and check-kernel-context-surface references.
+2. Allowed layer— packages/kernel/src/context/**; packages/kernel/src/__tests__/**; scripts/governance/check-kernel-context-surface.mts
+3. Files        —
+   packages/kernel/src/context/consolidation-scope-resolution.ts
+   packages/kernel/src/context/index.ts
+   packages/kernel/src/context/context-registry.ts
+   packages/kernel/src/__tests__/consolidation-scope-resolution.test.ts
+   scripts/governance/check-kernel-context-surface.mts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — apps/erp/**; @afenda/accounting (ADR-0010); do-not-implement-resolver-in-kernel (data-loading only)
+5. Authority    — PAS-001 · PKG010_KERNEL · multi-tenancy.md
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:kernel-context-surface
+   pnpm check:documentation-drift
+7. Closes       — Gap `consolidation-scope-server-suffix-misleading`
+8. Evidence     —
+   packages/kernel/src/context/consolidation-scope-resolution.ts
+   packages/kernel/src/__tests__/consolidation-scope-resolution.test.ts
+9. Attestation  — Contract · Maintainability · Documentation
+```
+
+### Slice 5 — primitive brands + LocalizationContext
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 3 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Design (internal-guide)
+
+Add `LocaleCode`, `TimezoneId`, `DateFormat`, `NumberFormat`, `CurrencyCode`, `CountryCode`, `DocumentId`, `AssetId` to `platform-id.contract.ts`. Add `LocalizationContext` to `context/localization-context.contract.ts`. Export from root and context barrels. UomCode excluded (Slice 6).
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add eight primitive branded IDs, brand/to helpers, LocalizationContext contract, context-registry support entry, barrel exports, and JSON-serialization tests.
+2. Allowed layer— packages/kernel/src/contracts/platform-id.contract.ts; packages/kernel/src/context/localization-context.contract.ts; packages/kernel/src/context/index.ts; packages/kernel/src/context/context-registry.ts; packages/kernel/src/index.ts; packages/kernel/src/__tests__/platform-id.test.ts
+3. Files        —
+   packages/kernel/src/contracts/platform-id.contract.ts
+   packages/kernel/src/context/localization-context.contract.ts
+   packages/kernel/src/context/index.ts
+   packages/kernel/src/context/context-registry.ts
+   packages/kernel/src/index.ts
+   packages/kernel/src/__tests__/platform-id.test.ts
+   .cursor/skills/kernel-authority/reference/package-structure.md
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+   docs/architecture/afenda-runtime-truth-matrix.md
+4. Prohibited   — UomCode (Slice 6); locale/currency/fiscal resolvers; apps/erp/**; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.5 · §11 step 1–2 · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:kernel-context-surface
+   pnpm quality:boundaries
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-primitive-brands`; Gap `pas-localization-context`
+8. Evidence     —
+   packages/kernel/src/contracts/platform-id.contract.ts
+   packages/kernel/src/context/localization-context.contract.ts
+   packages/kernel/src/__tests__/platform-id.test.ts
+9. Attestation  — Contract · Test · TypeScript · Documentation
+```
+
+### Slice 6 — UomCode primitive (conditional)
+
+**Status:** Not started — blocked on explicit PAS Architecture Authority approval  
+**Prerequisite:** Slice 5 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Medium  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add UomCode branded primitive and brand/to helpers to platform-id.contract.ts only after PAS confirms kernel owns code identity vocabulary — not UOM master rows, conversions, dimensions, stock rules, or manufacturing logic.
+2. Allowed layer— packages/kernel/src/contracts/platform-id.contract.ts; packages/kernel/src/index.ts; packages/kernel/src/__tests__/platform-id.test.ts
+3. Files        — (same as allowed layer + FDR sync)
+4. Prohibited   — UOM master data; conversion logic; inventory/manufacturing packages; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.5 UomCode note · Architecture Authority approval required
+6. Gates        — pnpm --filter @afenda/kernel typecheck; pnpm --filter @afenda/kernel test:run; pnpm check:documentation-drift
+7. Closes       — Gap `pas-uomcode-primitive`
+8. Evidence     — packages/kernel/src/contracts/platform-id.contract.ts
+9. Attestation  — Contract · Documentation
+```
+
+### Slice 7 — ProblemDetail RFC 9457 wire contract
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 5 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add problem-detail.contract.ts with RFC 9457-aligned ProblemDetail interface; export from root barrel; preserve AppError discriminated union and AppErrors.* factories unchanged; no HTTP status mapping in kernel.
+2. Allowed layer— packages/kernel/src/contracts/**
+3. Files        —
+   packages/kernel/src/contracts/problem-detail.contract.ts
+   packages/kernel/src/index.ts
+   packages/kernel/src/__tests__/problem-detail.contract.test.ts
+   .cursor/skills/kernel-authority/reference/authority-surfaces.md
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — Modifying AppError union shape; HTTP status mapping; apps/erp/**; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.2 ProblemDetail · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-problem-detail-wire`
+8. Evidence     —
+   packages/kernel/src/contracts/problem-detail.contract.ts
+   packages/kernel/src/__tests__/problem-detail.contract.test.ts
+9. Attestation  — Contract · Test · Documentation
+```
+
+### Slice 8 — ExecutionContext traceId/spanId (kernel only)
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 7 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add optional readonly traceId and spanId (string | null) to ExecutionContext and ExecutionContextInput; update createExecutionContext; extend execution-context.test.ts — kernel only, no OpenTelemetry import, no apps/erp edits.
+2. Allowed layer— packages/kernel/src/contracts/execution-context.contract.ts; packages/kernel/src/__tests__/execution-context.test.ts
+3. Files        —
+   packages/kernel/src/contracts/execution-context.contract.ts
+   packages/kernel/src/__tests__/execution-context.test.ts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — @afenda/observability; OpenTelemetry; apps/erp/**; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.3 · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-execution-trace-fields`
+8. Evidence     —
+   packages/kernel/src/contracts/execution-context.contract.ts
+   packages/kernel/src/__tests__/execution-context.test.ts
+9. Attestation  — Contract · Test · Observability (vocabulary only)
+```
+
+### Slice 9 — policy vocabulary subpath
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 8 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add src/policy/ with PolicyDecisionKind and PolicyDenialReason vocabulary types; register ./policy export in package.json; tests prove JSON-serializable literals.
+2. Allowed layer— packages/kernel/src/policy/**; packages/kernel/package.json
+3. Files        —
+   packages/kernel/src/policy/policy-decision.contract.ts
+   packages/kernel/src/policy/policy-denial-reason.contract.ts
+   packages/kernel/src/policy/index.ts
+   packages/kernel/package.json
+   packages/kernel/src/__tests__/policy-vocabulary.test.ts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — Permission evaluation logic; @afenda/permissions edits; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §7 · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm quality:exports
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-policy-vocabulary`
+8. Evidence     —
+   packages/kernel/src/policy/index.ts
+   packages/kernel/package.json
+   packages/kernel/src/__tests__/policy-vocabulary.test.ts
+9. Attestation  — Contract · Test · Documentation
+```
+
+### Slice 10 — json-wire + domain event envelope
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 9 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Medium  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add json-wire.contract.ts (JsonPrimitive, JsonValue, JsonObject strict recursive); add src/events/domain-event.contract.ts with DomainEvent<TPayload extends JsonObject>; register ./events export; no event bus, outbox, or domain event name registry.
+2. Allowed layer— packages/kernel/src/contracts/json-wire.contract.ts; packages/kernel/src/events/**; packages/kernel/package.json
+3. Files        —
+   packages/kernel/src/contracts/json-wire.contract.ts
+   packages/kernel/src/events/domain-event.contract.ts
+   packages/kernel/src/events/index.ts
+   packages/kernel/package.json
+   packages/kernel/src/index.ts
+   packages/kernel/src/__tests__/json-wire.contract.test.ts
+   packages/kernel/src/__tests__/domain-event.contract.test.ts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — Event dispatch; outbox; @afenda/execution edits; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.8–§4.9 · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm quality:exports
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-json-wire-types`; Gap `pas-domain-event-envelope`
+8. Evidence     —
+   packages/kernel/src/contracts/json-wire.contract.ts
+   packages/kernel/src/events/domain-event.contract.ts
+   packages/kernel/src/__tests__/domain-event.contract.test.ts
+9. Attestation  — Contract · Test · Documentation
+```
+
+### Slice 11 — async context propagation
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 10 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Medium  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add src/propagation/ with KernelContextFrame contract and kernelContext (run/get/fork) using AsyncLocalStorage; register ./propagation export; test concurrent fork isolation; frame holds ExecutionContext + tenantId + correlationId only.
+2. Allowed layer— packages/kernel/src/propagation/**; packages/kernel/package.json
+3. Files        —
+   packages/kernel/src/propagation/kernel-context-frame.contract.ts
+   packages/kernel/src/propagation/kernel-context.ts
+   packages/kernel/src/propagation/index.ts
+   packages/kernel/package.json
+   packages/kernel/src/__tests__/kernel-context.test.ts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — DB/session/permission/domain objects in frame; React/Next in frame; @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §4.10 · kernel-authority SKILL · PKG010_KERNEL
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm quality:exports
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-async-propagation`
+8. Evidence     —
+   packages/kernel/src/propagation/kernel-context.ts
+   packages/kernel/src/__tests__/kernel-context.test.ts
+9. Attestation  — Contract · Test · Runtime safety · Maintainability
+```
+
+### Slice 12 — kernel enrichment governance scripts
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 11 Delivered ✓  
+**Type:** Implementation  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Add check-kernel-propagation-isolation.mts, check-kernel-events-wire-serializable.mts, check-kernel-zero-runtime-deps.mts under scripts/governance/; wire pnpm check:* and quality:* commands in root package.json.
+2. Allowed layer— scripts/governance/**; package.json (root)
+3. Files        —
+   scripts/governance/check-kernel-propagation-isolation.mts
+   scripts/governance/check-kernel-events-wire-serializable.mts
+   scripts/governance/check-kernel-zero-runtime-deps.mts
+   package.json
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+   .cursor/skills/kernel-authority/SKILL.md
+4. Prohibited   — packages/kernel/src/** (unless gate script references only); @afenda/accounting (ADR-0010)
+5. Authority    — PAS-001 §13 · PKG010_KERNEL gates
+6. Gates        —
+   pnpm check:kernel-propagation-isolation
+   pnpm check:kernel-events-wire-serializable
+   pnpm check:kernel-zero-runtime-deps
+   pnpm check:documentation-drift
+7. Closes       — Gap `pas-governance-scripts`
+8. Evidence     —
+   scripts/governance/check-kernel-propagation-isolation.mts
+   scripts/governance/check-kernel-events-wire-serializable.mts
+   scripts/governance/check-kernel-zero-runtime-deps.mts
+   package.json
+9. Attestation  — Maintainability · Documentation · Test (gate self-check)
+```
+
+### Slice 13 — LegalEntity currency/country brand migration (Integration)
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slice 5 Delivered ✓  
+**Type:** Integration  
+**Risk class:** Medium  
+**Clean Core impact:** A→B (consumer wire field typing — compile-time only; runtime JSON unchanged)
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Migrate LegalEntityContext baseCurrency and countryCode from raw string to CurrencyCode and CountryCode brands; update apps/erp context loaders and kernel tests; preserve JSON wire compatibility at runtime (brands are string at runtime).
+2. Allowed layer— packages/kernel/src/context/legal-entity-context.contract.ts; apps/erp/src/lib/context/** (loader mapping only)
+3. Files        —
+   packages/kernel/src/context/legal-entity-context.contract.ts
+   packages/kernel/src/contracts/platform-id.contract.ts
+   packages/kernel/src/index.ts
+   packages/kernel/src/__tests__/accounting-readiness.contract.test.ts
+   packages/kernel/src/__tests__/to-accounting-domain-context.test.ts
+   apps/erp/src/lib/context/operating-context.mappers.ts
+   apps/erp/src/lib/context/__tests__/legal-entity-test-fixtures.ts
+   apps/erp/src/lib/api/__tests__/api-route-context.test.ts
+   apps/erp/src/lib/api/__tests__/authorize-api-route.test.ts
+   apps/erp/src/lib/context/__tests__/context-switch.action.test.ts
+   apps/erp/src/lib/permissions/__tests__/to-permission-check-context.server.test.ts
+   apps/erp/src/lib/user-settings/__tests__/resolve-user-settings-context.test.ts
+   apps/erp/src/lib/workspace/__tests__/to-workspace-api-scope.test.ts
+   apps/erp/src/lib/modules/__tests__/module-route-test-fixtures.ts
+   apps/erp/src/lib/workspace/__tests__/dashboard-rbac.fixture.ts
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+4. Prohibited   — Accounting posting; @afenda/accounting runtime (ADR-0010); resolver logic moves to ERP
+5. Authority    — PAS-001 · PKG010_KERNEL · multi-tenancy.md
+6. Gates        —
+   pnpm --filter @afenda/kernel typecheck
+   pnpm --filter @afenda/erp typecheck
+   pnpm --filter @afenda/kernel test:run
+   pnpm quality:boundaries
+   pnpm check:documentation-drift
+7. Closes       — Gap `legal-entity-currency-country-raw-strings`
+8. Evidence     —
+   packages/kernel/src/context/legal-entity-context.contract.ts
+   apps/erp/src/lib/context/operating-context.mappers.ts
+   apps/erp/src/lib/context/__tests__/legal-entity-test-fixtures.ts
+9. Attestation  — Contract · TypeScript · Boundary
+```
+
+### Slice 14 — PAS enrichment evidence sync
+
+**Status:** Delivered (2026-06-27)  
+**Prerequisite:** Slices 3–13 Delivered ✓  
+**Type:** Evidence-sync  
+**Risk class:** Low  
+**Clean Core impact:** A→A
+
+#### Design (internal-guide)
+
+Close delivered gap rows in §Remaining gaps; refresh runtime matrix and FDR verdict to reflect PAS §11 enrichment (106 tests, dist gate green, six subpath exports). No source edits.
+
+#### Handoff block
+
+```
+Handoff from: docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+
+1. Objective    — Sync FDR §Remaining gaps, §Enterprise benchmark qualification, §Verdict, runtime matrix kernel row, and fdr-status-index after Slices 3–13 delivery.
+2. Allowed layer— docs-only
+3. Files        —
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+   docs/architecture/afenda-runtime-truth-matrix.md
+   docs/delivery/fdr-status-index.md
+4. Prohibited   — packages/**; apps/**; foundation-disposition.registry.ts
+5. Authority    — FDR evidence-sync · PKG010_KERNEL
+6. Gates        —
+   pnpm check:documentation-drift
+   pnpm check:foundation-disposition
+7. Closes       — Gap rows for Slices 3–5, 7–13 (delivered); stale verdict dist-gate text
+8. Evidence     —
+   docs/delivery/FDR/[Partially Implemented] fdr-010-context-contracts.md
+   docs/architecture/afenda-runtime-truth-matrix.md
+9. Attestation  — Documentation · Maintainability
+```
+
 ## §Rollback strategy
 
 | Slice | Rollback procedure | Upgrade path |
@@ -428,7 +888,7 @@ Oracle analog: confirm upgrade-safe — contract-only changes outside resolver p
 | Waiver ID | Requirement waived | Reason | Approver | Expiry / revisit |
 | --- | --- | --- | --- | --- |
 | `context-contracts-observability-read-path` | Audit event on context contract read | Serializable contracts only; audit at mutation surfaces | Architecture Authority (Research) | Phase 9 / observability FDR |
-| `context-contracts-e2e` | Browser E2E for context contracts | 76 unit tests + surface gate prove barrel; E2E belongs to ERP context switch FDR | Architecture Authority | External beta go-live |
+| `context-contracts-e2e` | Browser E2E for context contracts | 106 unit tests + surface gate prove barrel; E2E belongs to ERP context switch FDR | Architecture Authority | External beta go-live |
 | `context-contracts-dist-gate-research` | DoD blocked on `quality:kernel-context-surface` during Research | Research is docs-only; dist freshness assigned to Slice 2 | Architecture Authority | Slice 2 complete |
 
 ## §Knowledge transfer
@@ -437,7 +897,7 @@ Oracle analog: confirm upgrade-safe — contract-only changes outside resolver p
 
 - Context registry authority: `packages/kernel/src/context/context-registry.ts`
 - Public barrel: `packages/kernel/src/context/index.ts`
-- Consolidation derive: `packages/kernel/src/context/consolidation-scope-resolution.server.ts` — `deriveConsolidationScopeContext`
+- Consolidation derive: `packages/kernel/src/context/consolidation-scope-resolution.ts` — `deriveConsolidationScopeContext`
 - ERP resolver (consumer): `apps/erp/src/lib/context/` — not kernel
 
 ### Observability
@@ -453,28 +913,28 @@ Oracle analog: confirm upgrade-safe — contract-only changes outside resolver p
 
 ## §Enterprise benchmark qualification
 
-This FDR is **enterprise 9.5 candidate / evidence-qualified**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open and `quality:kernel-context-surface` exits 1 (stale `dist/`).
+This FDR is **enterprise 9.5 candidate / evidence-qualified**, not final **Complete — enterprise 9.5 accepted**, because DoD #14 peer review remains open.
 
 The **29/30 evidence-qualified ceiling** is accepted only under these bounded assumptions:
 
 1. Browser E2E is waived until external beta go-live (`context-contracts-e2e`).
 2. Context projection is a read path, so audit event emission on contract read is waived (`context-contracts-observability-read-path`).
-3. Dist freshness gap closes in Slice 2 (`kernel-context-dist-freshness`) — `pnpm --filter @afenda/kernel build` then gate re-run.
+3. Dist freshness closed — Slice 2 (2026-06-26) + Slice 14 build verification; `quality:kernel-context-surface` exit 0.
 4. **Complete** status requires Architecture Authority peer review and waiver reconfirmation at PR merge.
 
-The **27/30 audit-adjusted** score is the honest foundation-grade benchmark today (~9.0 / 10 equivalent): strong contract, test, and security evidence from v2 audit gates; capped by open peer review, waived E2E, read-path observability, and failing surface gate on stale `dist/`.
+The **28/30 audit-adjusted** score is the honest foundation-grade benchmark today (~9.3 / 10 equivalent): strong contract, test, and security evidence; PAS §11 enrichment Slices 3–13 delivered; capped by open peer review and waived E2E.
 
-Until DoD #14 and Slice 2 dist closeout complete, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
+Until DoD #14 completes, this FDR must not be represented as fully **Complete** or as final **enterprise 9.5 accepted**.
 
 **Promotion to Complete — enterprise 9.5 accepted requires:**
 
 1. Architecture Authority peer review approval (DoD #14).
-2. `pnpm quality:kernel-context-surface` exit 0 (fresh `packages/kernel/dist/`).
+2. `pnpm quality:kernel-context-surface` exit 0 (verified Slice 14 — 2026-06-27).
 3. Confirmation that §Waivers remain valid at merge time.
 4. FDR filename/status/index promotion to `[Complete]`.
 
 ## Verdict
 
-**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 27/30 audit-adjusted (29/30 ceiling), pending Slice 2 dist closeout and Architecture Authority peer review.**
+**Partially Implemented — enterprise 9.5 candidate / evidence-qualified at 28/30 audit-adjusted (29/30 ceiling), pending Architecture Authority peer review (DoD #14).**
 
-Research Slice 1 complete (2026-06-25). v2 audit attests `typecheck` and `test:run` exit 0 (76 tests); **`quality:kernel-context-surface` still exits 1** (stale `dist/index.d.ts`). Do not represent this FDR as **enterprise 9.5 complete** until dist gate green, peer review closes, and status promotes to **Complete — enterprise 9.5 accepted**.
+PAS §11 enrichment Slices 3–13 Delivered (2026-06-27). v2 audit attests `typecheck` and `test:run` exit 0 (106 tests); `quality:kernel-context-surface` exit 0. Slice 6 (`UomCode`) remains blocked on PAS Architecture approval. Do not represent this FDR as **enterprise 9.5 complete** until peer review closes and status promotes to **Complete — enterprise 9.5 accepted**.

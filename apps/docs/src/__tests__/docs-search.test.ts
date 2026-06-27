@@ -13,6 +13,10 @@ const layoutSource = readFileSync(
   join(process.cwd(), "src/app/[lang]/layout.tsx"),
   "utf8"
 );
+const layoutSharedSource = readFileSync(
+  join(process.cwd(), "src/lib/layout.shared.ts"),
+  "utf8"
+);
 const searchServerSource = readFileSync(
   join(process.cwd(), "src/lib/docs-search.server.ts"),
   "utf8"
@@ -54,6 +58,14 @@ describe("@afenda/docs search UX", () => {
     expect(layoutSource).toMatch(
       /search=\{\{\s*links:\s*docsSearchEmptyLinks\(lang\)\s*\}\}/
     );
+  });
+
+  it("uses Fumadocs SearchTrigger for nav search slots", () => {
+    expect(layoutSharedSource).toContain(
+      "fumadocs-ui/layouts/shared/slots/search-trigger"
+    );
+    expect(layoutSharedSource).toContain("SearchTrigger");
+    expect(layoutSharedSource).not.toContain("docs-search-triggers");
   });
 
   it("wires Orama search from source via docs-search.server", () => {

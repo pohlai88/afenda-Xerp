@@ -5,7 +5,7 @@ import { createModuleRouteOperatingContext } from "@/lib/modules/__tests__/modul
 import { resolveAccountingReadinessContext } from "../resolve-accounting-readiness.server";
 
 describe("resolveAccountingReadinessContext", () => {
-  it("delegates to kernel toAccountingReadinessContext at the ERP trust boundary", () => {
+  it("delegates to ERP accounting-readiness projection at the trust boundary", () => {
     const operatingContext = createModuleRouteOperatingContext();
     const readiness = resolveAccountingReadinessContext(operatingContext, {
       reportingDate: "2026-06-01",

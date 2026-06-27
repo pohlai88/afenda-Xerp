@@ -3,7 +3,6 @@ import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
 import { docsFontClassNames } from "@/lib/docs-fonts";
 import { docsSearchEmptyLinks } from "@/lib/docs-search.contract";
-import { docsThemeInitScript } from "@/lib/docs-theme-init.script";
 import { docsI18nProvider } from "@/lib/docs-ui-translations";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import "../globals.css";
@@ -32,14 +31,10 @@ export default async function LangLayout({
 
   return (
     <html className={docsFontClassNames} lang={lang} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: docsThemeInitScript }} />
-      </head>
       <body className="flex min-h-screen flex-col">
         <RootProvider
           i18n={docsI18nProvider(lang)}
           search={{ links: docsSearchEmptyLinks(lang) }}
-          theme={{ enabled: false }}
         >
           {children}
         </RootProvider>

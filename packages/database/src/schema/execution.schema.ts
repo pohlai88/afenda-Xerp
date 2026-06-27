@@ -10,13 +10,18 @@ import {
   jsonb,
   pgTable,
   timestamp,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
 import { executionStatusEnum } from "../database.types.js";
 import {
   companyIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
+  enterpriseIdUniqueIndexName,
   organizationIdRef,
   primaryId,
+  tenantForeignKeyIndexName,
   tenantIdRef,
 } from "../ids.js";
 import { createdAtColumn } from "../timestamps.js";
@@ -28,6 +33,7 @@ export const executionRuns = pgTable(
   "execution_runs",
   {
     executionId: primaryId("execution_id"),
+    enterpriseId: enterpriseIdColumn("execution"),
     workflowId: varchar("workflow_id", { length: 191 }).notNull(),
     triggerTaskId: varchar("trigger_task_id", { length: 191 }).notNull(),
     providerRunId: varchar("provider_run_id", { length: 191 }),
@@ -57,10 +63,14 @@ export const executionRuns = pgTable(
     createdAt: createdAtColumn(),
   },
   (table) => [
+    uniqueIndex(enterpriseIdUniqueIndexName("execution_runs")).on(
+      table.enterpriseId
+    ),
+    enterpriseIdFormatCheck(table.enterpriseId, "execution"),
     index("execution_runs_workflow_id_idx").on(table.workflowId),
     index("execution_runs_status_idx").on(table.status),
     index("execution_runs_correlation_id_idx").on(table.correlationId),
-    index("execution_runs_tenant_id_idx").on(table.tenantId),
+    index(tenantForeignKeyIndexName("execution_runs")).on(table.tenantId),
     index("execution_runs_provider_run_id_idx").on(table.providerRunId),
     index("execution_runs_started_at_idx").on(table.startedAt),
   ]

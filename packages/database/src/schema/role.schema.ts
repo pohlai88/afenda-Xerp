@@ -12,7 +12,12 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { roleScopeEnum, roleStatusEnum } from "../database.types.js";
-import { primaryId, tenantIdRef } from "../ids.js";
+import {
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { tenants } from "./tenant.schema.js";
 
@@ -29,6 +34,7 @@ export const roles = pgTable(
   "roles",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("role"),
     tenantId: tenantIdRef().references(() => tenants.id, {
       onDelete: "restrict",
     }),
@@ -41,6 +47,8 @@ export const roles = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("roles_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "role"),
     uniqueIndex("roles_platform_key_unique")
       .on(table.key)
       .where(sql`${table.tenantId} is null`),

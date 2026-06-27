@@ -3,10 +3,25 @@ title: Use ERP
 description: End-user guides for signing in, workspaces, and daily ERP tasks.
 ---
 
-# Use ERP
+## Overview
 
-Task-based guidance for Afenda ERP end users.
+Task-based guidance for **Afenda ERP end users** — people who sign in, select a workspace, and work in governed modules. These guides describe routes and flows as they appear in the product, not implementation details in the monorepo.
+
+Start with sign-in if you are new to a tenant. Tenant administrators and integrators should use **Configure Tenant** or **Integrate** instead.
 
 <Cards>
-  <Card title="Sign in to Afenda ERP" href="./sign-in" description="Sign-in paths, MFA, and workspace selection." />
+  <Card
+    title="Sign in to Afenda ERP"
+    href="./sign-in"
+    description="Tenant URL, credentials, MFA, workspace selection, and the synced auth route catalog."
+  />
 </Cards>
+
+## What belongs here
+
+| Topic | Covered here | Elsewhere |
+| --- | --- | --- |
+| Sign-in, MFA, workspace pick | Yes | — |
+| User invites, roles, permissions | No | Configure Tenant |
+| Environment variables, login failures | No | Operate Tenant |
+| REST APIs and module entitlements | No | Integrate |

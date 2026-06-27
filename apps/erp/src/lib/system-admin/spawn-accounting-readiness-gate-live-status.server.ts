@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 
-import type { AccountingReadinessGateLiveSnapshot } from "@afenda/kernel";
+import type { AccountingReadinessGateLiveSnapshot } from "./accounting-readiness-gate-live-status.contract.js";
 
 import { resolveMonorepoRoot } from "./resolve-monorepo-root.server";
 

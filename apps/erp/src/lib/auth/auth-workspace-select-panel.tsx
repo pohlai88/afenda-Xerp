@@ -1,6 +1,6 @@
 "use client";
 
-import type { ApplicationShellContextSwitchTarget } from "@afenda/kernel";
+import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
 import { Button } from "@afenda/ui";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

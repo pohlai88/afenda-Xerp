@@ -1,17 +1,13 @@
-import { brandUserId } from "@afenda/kernel";
 import { render, screen } from "@testing-library/react";
 import { HomeIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
+import { createAppShellTestUserId } from "../__tests__/app-shell-test-user-id.js";
 import { ApplicationShell } from "../app-shell";
 import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
 import { countDefaultAppShellUnreadNotifications } from "../shadcn-studio/data/app-shell.notification.data";
 
-function testUserId(value: string) {
-  const userId = brandUserId(value);
-  if (userId === null) {
-    throw new Error("userId is required.");
-  }
-  return userId;
+function testUserId(body?: string) {
+  return createAppShellTestUserId(body);
 }
 
 const customNavigationPages = [
@@ -51,7 +47,7 @@ describe("ApplicationShell", () => {
         identity={{
           displayName: "Identity Name",
           email: "identity@example.com",
-          userId: testUserId("user_identity"),
+          userId: testUserId("01ARZ3NDEKTSV4RRFFQ69G5F1D"),
         }}
         userName="Explicit Name"
       />
@@ -66,7 +62,7 @@ describe("ApplicationShell", () => {
         identity={{
           displayName: "Session User",
           email: "session@example.com",
-          userId: testUserId("user_session"),
+          userId: testUserId("01ARZ3NDEKTSV4RRFFQ69G5F2N"),
         }}
         identityAccessory={<button type="button">Sign out</button>}
       />

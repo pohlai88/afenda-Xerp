@@ -44,9 +44,9 @@ describe("@afenda/docs UI translations (multilingual)", () => {
     expect(layoutSource).toMatch(/i18n=\{docsI18nProvider\(lang\)\}/);
   });
 
-  it("disables fumadocs next-themes to avoid React 19 client script warnings", () => {
-    expect(layoutSource).toContain("theme={{ enabled: false }}");
-    expect(layoutSource).toContain("docsThemeInitScript");
+  it("enables fumadocs next-themes via RootProvider defaults", () => {
+    expect(layoutSource).not.toContain("theme={{ enabled: false }}");
+    expect(layoutSource).not.toContain("docsThemeInitScript");
   });
 
   it("keeps RootProvider search.links from docs-search.contract", () => {

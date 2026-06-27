@@ -33,6 +33,8 @@ export {
   AppShellAuthLoginPage04,
 } from "./auth-shell/index.js";
 export type {
+  ApplicationShellAllowedContextOptions,
+  ApplicationShellContextSwitchTarget,
   ApplicationShellRootGovernedComponentName,
   AppShellChromeRegion,
   AppShellCommandCenterSearchLabelKey,
@@ -46,6 +48,7 @@ export type {
   AppShellSearchDialogGovernedComponentName,
   AppShellSidebarSlot,
   ManifestNavProjectionInput,
+  WorkspaceDisplayLabelInput,
 } from "./contracts/index.js";
 export {
   APPLICATION_SHELL_ROOT_GOVERNED_COMPONENT_NAMES,
@@ -63,6 +66,7 @@ export {
   APPSHELL_NAV_ICON_IDS,
   APPSHELL_SEARCH_DIALOG_GOVERNED_COMPONENT_NAMES,
   APPSHELL_SIDEBAR_SLOTS,
+  formatWorkspaceDisplayLabel,
   isAppShellChromeRegion,
   isAppShellHeaderCommandCenterSlot,
   isAppShellNavIconId,

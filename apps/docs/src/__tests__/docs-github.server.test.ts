@@ -18,10 +18,11 @@ vi.mock("fumadocs-core/content/github", () => ({
 import { resolveDocsGithubLastModified } from "@/lib/docs-github.server";
 
 describe("@afenda/docs GitHub last edit", () => {
-  it("wires resolveDocsGithubLastModified and lastUpdate on the docs slug page", () => {
+  it("wires resolveDocsGithubLastModified and PageLastUpdate on the docs slug page", () => {
     expect(docsSlugPageSource).toContain('from "@/lib/docs-github.server"');
     expect(docsSlugPageSource).toContain("resolveDocsGithubLastModified");
-    expect(docsSlugPageSource).toMatch(/lastUpdate:\s*lastModified/);
+    expect(docsSlugPageSource).toContain("PageLastUpdate");
+    expect(docsSlugPageSource).toMatch(/date=\{lastModified\}/);
     expect(docsSlugPageSource).not.toContain("getGithubLastEdit");
   });
 

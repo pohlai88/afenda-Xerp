@@ -253,12 +253,20 @@ export function parseWriteAuditEventInput(
     );
   }
 
+  const tenantId = normalizeOptionalText(
+    input.tenantId,
+    "tenantId",
+    AUDIT_FIELD_LIMITS.scopeId
+  );
+  const targetId = normalizeOptionalText(
+    input.targetId,
+    "targetId",
+    AUDIT_FIELD_LIMITS.targetId
+  );
+  const metadata = assertAuditMetadata(input.metadata);
+
   return {
-    tenantId: normalizeOptionalText(
-      input.tenantId,
-      "tenantId",
-      AUDIT_FIELD_LIMITS.scopeId
-    ),
+    tenantId,
     companyId: normalizeOptionalText(
       input.companyId,
       "companyId",
@@ -291,11 +299,7 @@ export function parseWriteAuditEventInput(
       "targetType",
       AUDIT_FIELD_LIMITS.targetType
     ),
-    targetId: normalizeOptionalText(
-      input.targetId,
-      "targetId",
-      AUDIT_FIELD_LIMITS.targetId
-    ),
+    targetId,
     result: normalizeAuditResult(input.result),
     reason: normalizeOptionalText(
       input.reason,
@@ -329,7 +333,11 @@ export function parseWriteAuditEventInput(
       "userAgent",
       AUDIT_FIELD_LIMITS.userAgent
     ),
-    metadata: assertAuditMetadata(input.metadata),
+    metadata: {
+      ...metadata,
+      ...(targetId ? { entityPk: targetId } : {}),
+      ...(tenantId ? { tenantPk: tenantId } : {}),
+    },
   };
 }
 

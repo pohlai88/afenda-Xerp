@@ -20,6 +20,7 @@ describe("product.contract", () => {
       })
     ).toEqual({
       tenantId: "tenant-1",
+      enterpriseId: expect.stringMatching(/^prd_[0-9A-HJKMNP-TV-Z]{26}$/),
       sku: "SKU-001",
       displayName: "Widget",
       status: "draft",

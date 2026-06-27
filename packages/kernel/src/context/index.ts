@@ -3,32 +3,12 @@
  * Order follows multi-tenancy authority hierarchy (tenant → consolidation).
  */
 
-// ── Accounting-readiness authority stub (no arithmetic) ───────────────────────
-export {
-  type AccountingReadinessContext,
-  type AccountingReadinessWireContext,
-  type assertAccountingReadinessContextJsonSerializable,
-  isCostCenterOrganizationUnit,
-  resolveReportingCurrency,
-  toAccountingReadinessContext,
-} from "./accounting-readiness.contract.js";
+// ── Accounting-readiness vocabulary (shape only) ───────────────────────────────
 export type {
-  AccountingReadinessDelegatedGateRunKind,
-  AccountingReadinessDelegatedGateRunResult,
-  AccountingReadinessGateLiveRunMode,
-  AccountingReadinessGateLiveSnapshot,
-  AccountingReadinessRequirementLiveKind,
-  AccountingReadinessRequirementLiveStatus,
-  assertAccountingReadinessGateLiveSnapshotJsonSerializable,
-} from "./accounting-readiness-gate-live-status.contract.js";
-export type { AccountingReadinessGateRequirementId } from "./accounting-readiness-gate-requirement-id.contract.js";
-// ── AppShell display contracts (no authority) ────────────────────────────────
-export {
-  type ApplicationShellAllowedContextOptions,
-  type ApplicationShellContextSwitchTarget,
-  formatWorkspaceDisplayLabel,
-  type WorkspaceDisplayLabelInput,
-} from "./app-shell-context.contract.js";
+  AccountingReadinessContext,
+  AccountingReadinessWireContext,
+  assertAccountingReadinessContextJsonSerializable,
+} from "./accounting-readiness.contract.js";
 // ── 10. Consolidation scope ──────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type ConsolidationScopeContext` export substring
 export {
@@ -45,7 +25,7 @@ export {
 export {
   type DeriveConsolidationScopeInput,
   deriveConsolidationScopeContext,
-} from "./consolidation-scope-resolution.server.js";
+} from "./consolidation-scope-resolution.js";
 // ── Registry (governance) ─────────────────────────────────────────────────────
 export {
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
@@ -89,6 +69,9 @@ export {
   PLATFORM_LIFECYCLE_STATUSES,
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
+// ── Localization vocabulary (shape only) ───────────────────────────────────────
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires export substring
+export { type LocalizationContext } from "./localization-context.contract.js";
 // ── 8. Operating context (composed) ────────────────────────────────────────────
 export {
   OPERATING_CONTEXT_ERROR_CODES,
@@ -118,10 +101,15 @@ export {
 // ── 9. Permission scope ──────────────────────────────────────────────────────
 export {
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+  isPermissionGrantScopeType,
   PERMISSION_GRANT_SCOPE_TYPES,
   type PermissionGrantElevationFlags,
   type PermissionGrantScopeType,
-  type PermissionScopeContext,
+} from "./permission-grant-vocabulary.contract.js";
+export type {
+  assertPermissionScopeContextJsonSerializable,
+  PermissionScopeContext,
+  PermissionScopeWireContext,
 } from "./permission-scope-context.contract.js";
 // ── 7. Project ───────────────────────────────────────────────────────────────
 export {

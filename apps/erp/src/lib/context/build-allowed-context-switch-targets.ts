@@ -1,4 +1,4 @@
-import type { ApplicationShellContextSwitchTarget } from "@afenda/kernel";
+import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
 
 export interface AllowedContextCompanyRow {
   readonly label: string;

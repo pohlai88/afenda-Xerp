@@ -11,6 +11,8 @@ import {
 } from "../database.types.js";
 import {
   companyIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   entityGroupIdRef,
   organizationIdRef,
   primaryId,
@@ -40,6 +42,7 @@ export const memberships = pgTable(
   "memberships",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("membership"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -70,6 +73,8 @@ export const memberships = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("memberships_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "membership"),
     uniqueIndex("memberships_tenant_scope_unique")
       .on(table.userId, table.tenantId, table.roleId)
       .where(sql`${table.scopeType} = 'tenant'`),

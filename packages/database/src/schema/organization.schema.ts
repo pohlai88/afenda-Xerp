@@ -17,6 +17,8 @@ import {
 } from "../database.types.js";
 import {
   companyIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   parentOrganizationIdRef,
   primaryId,
   tenantIdRef,
@@ -35,6 +37,7 @@ export const organizations = pgTable(
   "organizations",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("organization"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -55,6 +58,8 @@ export const organizations = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("organizations_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "organization"),
     uniqueIndex("organizations_company_slug_unique").on(
       table.companyId,
       table.slug

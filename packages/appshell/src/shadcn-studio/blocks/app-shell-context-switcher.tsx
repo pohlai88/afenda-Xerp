@@ -1,6 +1,5 @@
 "use client";
 
-import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
 import {
   Button,
   DropdownMenu,
@@ -13,6 +12,7 @@ import {
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { Building2Icon } from "lucide-react";
 import { useId } from "react";
+import type { ApplicationShellAllowedContextOptions } from "../../contracts/app-shell-context-switch.contract.js";
 import type { AppShellContextSwitchSelection } from "../../contracts/context.contract.js";
 
 const DEFAULT_MENU_LABEL = "Switch workspace";

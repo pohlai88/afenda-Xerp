@@ -1,6 +1,4 @@
-import { brandUserId } from "@afenda/kernel";
 import { describe, expect, expectTypeOf, it } from "vitest";
-
 import type {
   ApplicationShellIdentity,
   ApplicationShellProps,
@@ -10,6 +8,7 @@ import {
   resolveApplicationShellAvatarFallback,
   resolveApplicationShellChrome,
 } from "../app-shell.types";
+import { createAppShellTestUserId } from "./app-shell-test-user-id.js";
 
 /** ERP passes `toAfendaAuthIdentity(session)` — keep shapes aligned without a runtime dep on auth. */
 type AfendaAuthIdentityBoundary = {
@@ -24,10 +23,7 @@ describe("ApplicationShell contracts", () => {
   });
 
   it("allows identity-driven shell props without session fields", () => {
-    const userId = brandUserId("user_123");
-    if (userId === null) {
-      throw new Error("userId is required.");
-    }
+    const userId = createAppShellTestUserId();
 
     const props: ApplicationShellProps = {
       identity: {
@@ -48,10 +44,7 @@ describe("ApplicationShell contracts", () => {
   });
 
   it("resolves chrome from identity when userName is omitted", () => {
-    const userId = brandUserId("user_123");
-    if (userId === null) {
-      throw new Error("userId is required.");
-    }
+    const userId = createAppShellTestUserId();
 
     const chrome = resolveApplicationShellChrome({
       identity: {

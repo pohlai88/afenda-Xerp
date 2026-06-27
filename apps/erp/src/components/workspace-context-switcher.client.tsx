@@ -1,10 +1,10 @@
 "use client";
 
+import type { ApplicationShellAllowedContextOptions } from "@afenda/appshell";
 import {
   AppShellContextSwitcher,
   type AppShellContextSwitchSelection,
 } from "@afenda/appshell";
-import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
 
 import { resolveContextSwitchPresentation } from "@/lib/context/resolve-context-switch-presentation";
 import { useSwitchOperatingContext } from "@/lib/workspace/use-switch-operating-context";

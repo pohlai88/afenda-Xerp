@@ -45,15 +45,6 @@ export {
   BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES,
 } from "./business-master-data-import-boundary.policy.js";
 export {
-  assertAuthorityOnlyRuntimeStatus,
-  BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS,
-  BUSINESS_MASTER_DATA_RESERVED_PACKAGES,
-  BUSINESS_MASTER_DATA_RUNTIME_STATUS,
-  type BusinessMasterDataReservedPackageId,
-  type BusinessMasterDataRuntimeStatus,
-  isBusinessMasterDataReservedPackage,
-} from "./business-master-data-scaffold.policy.js";
-export {
   assertSharedPackageOwnershipPolicy,
   type BusinessMasterDataPackageOwnershipSummary,
   getEntitiesForReservedPackage,

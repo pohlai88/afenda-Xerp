@@ -1,0 +1,136 @@
+/**
+ * Afenda Docs — enterprise quiet spacing.
+ * Semantic roles paired with low-contrast luxury palette (see docs-editorial-palette.css).
+ */
+
+/* ─── Page shell ─────────────────────────────────────────────────────────── */
+
+#nd-page {
+  gap: var(--docs-gap-chrome);
+  padding-inline: var(--docs-inset-page-inline);
+  padding-block: var(--docs-inset-page-block);
+}
+
+@media (min-width: 768px) {
+  #nd-page {
+    padding-inline: var(--docs-space-5);
+  }
+}
+
+@media (min-width: 1280px) {
+  #nd-page {
+    padding-inline: var(--docs-space-6);
+    padding-block-start: var(--docs-space-6);
+    padding-block-end: var(--docs-space-5);
+  }
+}
+
+#nd-page > :is(h1, p, div, footer) {
+  margin-block: 0;
+}
+
+#nd-page > .docs-page-actions {
+  gap: var(--docs-gap-inline);
+  padding-block-end: var(--docs-gap-block);
+  border-block-end: 1px solid var(--docs-divider);
+}
+
+#nd-page > .prose {
+  margin-block: 0;
+  padding-block-start: 0;
+}
+
+/* ─── Prose stack ────────────────────────────────────────────────────────── */
+
+#nd-page .prose .docs-feedback-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--docs-gap-block);
+}
+
+#nd-page .prose .docs-feedback-text > * {
+  margin-block: 0;
+}
+
+/* Beat Fumadocs utility margins on callouts, figures, etc. */
+#nd-page .prose .docs-feedback-text :is(.my-4, .my-6, .mb-4, .mt-4) {
+  margin-block: 0;
+}
+
+/* Section headings — one rhythm: flex gap + internal section pad (no triple stack) */
+#nd-page .prose .docs-feedback-text > h2:not(:first-child) {
+  padding-block-start: calc(var(--docs-gap-section) - var(--docs-gap-block));
+  border-block-start: 1px solid var(--docs-divider);
+}
+
+#nd-page .prose .docs-feedback-text > h3:not(:first-child) {
+  padding-block-start: calc(var(--docs-gap-inline));
+}
+
+/* ─── Surfaces (callout · card · tab) ────────────────────────────────────── */
+
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card {
+  margin-block: 0;
+  padding: var(--docs-inset-comfort);
+  gap: var(--docs-gap-inline);
+}
+
+#nd-page .prose .flex.gap-2.rounded-xl.border.bg-fd-card.shadow-md {
+  box-shadow: none;
+}
+
+#nd-page .prose .grid.grid-cols-2,
+#nd-page .prose .grid.grid-cols-1 {
+  gap: var(--docs-gap-block);
+  margin-block: 0;
+}
+
+#nd-page [role="tablist"] {
+  gap: var(--docs-gap-inline);
+  margin-block-end: var(--docs-gap-block);
+}
+
+#nd-page [role="tabpanel"] {
+  padding: var(--docs-inset-component);
+  margin-block: 0;
+}
+
+/* ─── Page footer chrome ─────────────────────────────────────────────────── */
+
+#nd-page > .grid.gap-4 {
+  gap: var(--docs-gap-block);
+  margin-block-start: var(--docs-gap-section);
+  padding-block-start: var(--docs-gap-section);
+  border-block-start: 1px solid var(--docs-divider);
+}
+
+#nd-page > .border-y {
+  padding-block: var(--docs-gap-block);
+  margin-block: 0;
+}
+
+#nd-page > .docs-page-footer,
+#nd-page > .not-prose.flex.flex-row.flex-wrap.items-center.justify-between {
+  gap: var(--docs-gap-block);
+  padding-block-start: var(--docs-gap-section);
+  margin-block: 0;
+}
+
+/* Inline TOC — align with block rhythm */
+#nd-page .prose .nd-inline-toc,
+#nd-page .prose [data-inline-toc] {
+  margin-block: 0;
+  padding: var(--docs-inset-component);
+}
+
+/* ─── Shell navigation ───────────────────────────────────────────────────── */
+
+#nd-sidebar,
+#nd-toc {
+  padding-inline: var(--docs-gap-inline);
+}
+
+#nd-sidebar a,
+#nd-toc a {
+  padding-block: var(--docs-space-1);
+}

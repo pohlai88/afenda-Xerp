@@ -1,8 +1,6 @@
 import type { ApplicationShellOperatingContext } from "@afenda/appshell";
-import {
-  formatWorkspaceDisplayLabel,
-  type OperatingContext,
-} from "@afenda/kernel";
+import { formatWorkspaceDisplayLabel } from "@afenda/appshell/context";
+import type { OperatingContext } from "@afenda/kernel";
 
 export function toApplicationShellOperatingContext(
   context: OperatingContext

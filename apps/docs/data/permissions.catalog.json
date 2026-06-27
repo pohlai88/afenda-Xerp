@@ -1,6 +1,6 @@
 {
   "catalogId": "permissions",
-  "exportedAt": "2026-06-26T18:02:57.984Z",
+  "exportedAt": "2026-06-26T23:01:05.250Z",
   "permissions": [
     {
       "key": "accounting.coa_manage",

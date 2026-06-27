@@ -1,5 +1,11 @@
 /** Schema probes and partial-artifact cleanup for migration repair/normalization. */
 
+import {
+  buildEnterpriseIdFormatChecksCompleteProbe,
+  buildEnterpriseIdFormatChecksPartialCleanup,
+  buildEnterpriseIdFormatChecksPartialProbe,
+} from "../ids/enterprise-id-check.registry.js";
+
 export interface MigrationGovernanceRule {
   /** SQL returning a single `ok` boolean when the migration is fully applied. */
   readonly completeProbe: string;
@@ -590,5 +596,168 @@ export const MIGRATION_GOVERNANCE_RULES: Record<
     ) AS ok`,
     partialProbe: "SELECT false AS partial",
     partialCleanup: [],
+  },
+  "20260627120000_canonical_enterprise_id_pilot": {
+    completeProbe: `
+    SELECT (
+      to_regprocedure('uuid_generate_v7()') IS NOT NULL
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'tenants'
+          AND column_name = 'enterprise_id'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'products'
+          AND column_name = 'enterprise_id'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE schemaname = 'public'
+          AND indexname = 'tenants_enterprise_id_unique'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE schemaname = 'public'
+          AND indexname = 'products_enterprise_id_unique'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE schemaname = 'public'
+          AND indexname = 'products_tenant_sku_unique'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE schemaname = 'public'
+          AND indexname = 'products_tenant_id_idx'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'tenants_enterprise_id_tenant_format'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'products_enterprise_id_product_format'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'tenants'
+          AND column_name = 'id'
+          AND column_default LIKE '%uuid_generate_v7%'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'products'
+          AND column_name = 'id'
+          AND column_default LIKE '%uuid_generate_v7%'
+      )
+    ) AS ok`,
+    partialProbe: `
+    SELECT (
+      EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'tenants'
+          AND column_name = 'enterprise_id'
+      )
+      OR to_regprocedure('uuid_generate_v7()') IS NOT NULL
+    ) AS partial`,
+    partialCleanup: [
+      `ALTER TABLE "products" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "tenants" DROP COLUMN IF EXISTS "enterprise_id"`,
+      "DROP FUNCTION IF EXISTS uuid_generate_v7()",
+    ],
+  },
+  "20260627120100_enterprise_id_platform_rollout": {
+    completeProbe: `
+    SELECT (
+      EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'companies'
+          AND column_name = 'enterprise_id'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'users'
+          AND column_name = 'enterprise_id'
+      )
+    ) AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'companies'
+        AND column_name = 'enterprise_id'
+    ) AS partial`,
+    partialCleanup: [
+      `ALTER TABLE "audit_events" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "legal_entity_ownership" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "warehouses" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "teams" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "projects" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "policies" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "permissions" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "memberships" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "roles" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "users" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "entity_groups" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "organizations" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `ALTER TABLE "companies" DROP COLUMN IF EXISTS "enterprise_id"`,
+    ],
+  },
+  "20260627005456_luxuriant_luke_cage": {
+    completeProbe: `
+    SELECT (
+      EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'execution_runs'
+          AND column_name = 'enterprise_id'
+      )
+      AND EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE schemaname = 'public'
+          AND indexname = 'warehouses_tenant_warehouse_code_unique'
+      )
+    ) AS ok`,
+    partialProbe: `
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'execution_runs'
+        AND column_name = 'enterprise_id'
+    ) AS partial`,
+    partialCleanup: [
+      `ALTER TABLE "execution_runs" DROP COLUMN IF EXISTS "enterprise_id"`,
+      `DROP INDEX IF EXISTS "warehouses_tenant_warehouse_code_unique"`,
+    ],
+  },
+  "20260627022317_enterprise_id_format_checks": {
+    completeProbe: buildEnterpriseIdFormatChecksCompleteProbe(),
+    partialProbe: buildEnterpriseIdFormatChecksPartialProbe(),
+    partialCleanup: buildEnterpriseIdFormatChecksPartialCleanup(),
   },
 };

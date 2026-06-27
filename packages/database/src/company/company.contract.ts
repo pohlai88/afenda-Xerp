@@ -9,6 +9,7 @@ import type {
   LegalEntityCompanyType,
 } from "../database.types.js";
 import { LEGAL_ENTITY_COMPANY_TYPES } from "../database.types.js";
+import { createEnterpriseId } from "../enterprise-id/index.js";
 import {
   assertPlatformSlug,
   InvalidPlatformSlugError,
@@ -178,6 +179,7 @@ export interface CompanyInsertRow {
   displayName: string;
   effectiveFrom: string | null;
   effectiveTo: string | null;
+  enterpriseId: string;
   entityGroupId: string | null;
   fiscalCalendarId: string | null;
   legalName: string;
@@ -199,6 +201,7 @@ export function buildCompanyInsertRow(
 ): CompanyInsertRow {
   return {
     tenantId: input.tenantId,
+    enterpriseId: createEnterpriseId("company"),
     entityGroupId: input.entityGroupId ?? null,
     slug: assertCompanySlug(input.slug),
     legalName: input.legalName.trim(),

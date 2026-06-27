@@ -1,10 +1,10 @@
+import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
 import {
   getAfendaAuthSession,
   isAfendaAuthSessionLinked,
   toAfendaAuthIdentity,
 } from "@afenda/auth";
 import { findTenantBySlug } from "@afenda/database";
-import type { ApplicationShellContextSwitchTarget } from "@afenda/kernel";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

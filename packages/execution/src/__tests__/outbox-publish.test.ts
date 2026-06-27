@@ -29,6 +29,17 @@ import {
   registerPublishOutboxEventsWorkflow,
   runPublishOutboxEventsJob,
 } from "../index.js";
+import {
+  EXECUTION_TEST_ACTOR_ID,
+  EXECUTION_TEST_COMPANY_ID,
+  EXECUTION_TEST_CORRELATION_ID,
+  EXECUTION_TEST_FIXTURE_GENERATOR,
+  EXECUTION_TEST_ORGANIZATION_ID,
+  EXECUTION_TEST_TENANT_B_ID,
+  EXECUTION_TEST_TENANT_ID,
+} from "./execution-test-fixtures.js";
+
+const fixtureCanonicalIdBodyGenerator = EXECUTION_TEST_FIXTURE_GENERATOR;
 
 function createAuditAdapter(writtenRows: AuditEventInsertRow[]) {
   return {
@@ -43,13 +54,13 @@ function createPendingRecord(
   overrides: Partial<OutboxEventRecord> = {}
 ): OutboxEventRecord {
   return {
-    actorId: "actor-1",
+    actorId: EXECUTION_TEST_ACTOR_ID,
     actorType: "system",
     attempts: 0,
     availableAt: "2026-06-23T00:00:00.000Z",
     causationId: null,
-    companyId: "company-a",
-    correlationId: "corr-outbox-001",
+    companyId: EXECUTION_TEST_COMPANY_ID,
+    correlationId: EXECUTION_TEST_CORRELATION_ID,
     eventId: "evt-001",
     eventType: "workspace.updated",
     eventVersion: OUTBOX_EVENT_VERSION,
@@ -59,12 +70,12 @@ function createPendingRecord(
     lockedBy: null,
     maxAttempts: 3,
     metadata: { source: "test" },
-    organizationId: "org-a",
+    organizationId: EXECUTION_TEST_ORGANIZATION_ID,
     payload: { label: "dashboard" },
     reason: null,
     status: "pending",
     summary: null,
-    tenantId: "tenant-a",
+    tenantId: EXECUTION_TEST_TENANT_ID,
     ...overrides,
   };
 }
@@ -211,17 +222,19 @@ describe("outbox event contract", () => {
 
   it("maps a persisted record to a serializable envelope", () => {
     const record = createPendingRecord();
-    const envelope = toOutboxEventEnvelope(record);
+    const envelope = toOutboxEventEnvelope(record, {
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
+    });
 
     expect(envelope.eventId).toBe("evt-001");
     expect(envelope.eventType).toBe("workspace.updated");
-    expect(envelope.executionContext.tenantId).toBe("tenant-a");
+    expect(envelope.executionContext.tenantId).toBe(EXECUTION_TEST_TENANT_ID);
     expect(isExecutionPayload(envelope.payload)).toBe(true);
 
     const serialized = JSON.stringify(envelope);
     const parsed = JSON.parse(serialized) as OutboxEventEnvelope;
 
-    expect(parsed.correlationId).toBe("corr-outbox-001");
+    expect(parsed.correlationId).toBe(EXECUTION_TEST_CORRELATION_ID);
   });
 });
 
@@ -232,6 +245,7 @@ describe("outbox publish service", () => {
     };
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher,
       persistence: null,
     });
@@ -252,6 +266,7 @@ describe("outbox publish service", () => {
     }));
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T01:00:00.000Z",
       persistence,
@@ -259,7 +274,7 @@ describe("outbox publish service", () => {
 
     const result = await service.publishBatch({
       lockedBy: "worker-a",
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");
@@ -285,16 +300,17 @@ describe("outbox publish service", () => {
 
   it("does not claim or dispatch rows outside the tenant scope", async () => {
     const persistence = createInMemoryOutboxPersistence([
-      createPendingRecord({ id: "row-a", tenantId: "tenant-a" }),
+      createPendingRecord({ id: "row-a", tenantId: EXECUTION_TEST_TENANT_ID }),
       createPendingRecord({
         eventId: "evt-b",
         id: "row-b",
-        tenantId: "tenant-b",
+        tenantId: EXECUTION_TEST_TENANT_B_ID,
       }),
     ]);
     const dispatch = vi.fn(async () => ({ ok: true as const }));
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T01:00:00.000Z",
       persistence,
@@ -303,7 +319,7 @@ describe("outbox publish service", () => {
     const result = await service.publishBatch({
       limit: 10,
       lockedBy: "worker-a",
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");
@@ -328,6 +344,7 @@ describe("outbox publish service", () => {
     }));
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T01:00:00.000Z",
       persistence,
@@ -335,7 +352,7 @@ describe("outbox publish service", () => {
 
     const result = await service.publishBatch({
       lockedBy: "worker-a",
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");
@@ -356,6 +373,7 @@ describe("outbox publish service", () => {
     const dispatch = vi.fn(async () => ({ ok: true as const }));
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       auditAdapter: createAuditAdapter(writtenRows),
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T01:00:00.000Z",
@@ -364,7 +382,7 @@ describe("outbox publish service", () => {
 
     const result = await service.publishBatch({
       lockedBy: PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");
@@ -374,13 +392,17 @@ describe("outbox publish service", () => {
     );
     expect(writtenRows[0]?.module).toBe("execution");
     expect(writtenRows[0]?.targetType).toBe("outbox_batch");
-    expect(writtenRows[0]?.metadata).toEqual({
-      claimed: 1,
-      deadLetter: 0,
-      failed: 0,
-      published: 1,
-      skipped: 0,
-    });
+    expect(writtenRows[0]?.metadata).toEqual(
+      expect.objectContaining({
+        claimed: 1,
+        deadLetter: 0,
+        entityPk: PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
+        failed: 0,
+        published: 1,
+        skipped: 0,
+        tenantPk: EXECUTION_TEST_TENANT_ID,
+      })
+    );
   });
 
   it("does not emit audit evidence when auditAdapter is omitted", async () => {
@@ -390,6 +412,7 @@ describe("outbox publish service", () => {
     const dispatch = vi.fn(async () => ({ ok: true as const }));
 
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T01:00:00.000Z",
       persistence,
@@ -397,7 +420,7 @@ describe("outbox publish service", () => {
 
     const result = await service.publishBatch({
       lockedBy: "worker-a",
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");
@@ -432,6 +455,7 @@ describe("publish outbox events job", () => {
       createPendingRecord(),
     ]);
     const service = createOutboxPublishService({
+      canonicalIdBodyGenerator: fixtureCanonicalIdBodyGenerator,
       dispatcher: {
         dispatch: vi.fn(async () => ({ ok: true as const })),
       },
@@ -440,7 +464,7 @@ describe("publish outbox events job", () => {
     });
 
     const result = await runPublishOutboxEventsJob(service, {
-      tenantId: "tenant-a",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     expect(result.status).toBe("success");

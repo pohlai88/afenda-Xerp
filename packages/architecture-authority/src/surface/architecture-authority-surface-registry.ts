@@ -53,6 +53,14 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
       "getFoundationDispositionEntry",
     ],
   },
+  {
+    path: "data/business-master-data-scaffold.policy.ts",
+    role: "ADR-0020 reserved domain package directory scaffold guard",
+    primaryExports: [
+      "BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS",
+      "assertAuthorityOnlyRuntimeStatus",
+    ],
+  },
 ] as const;
 
 /** Validators consumed by CI architecture gates. */

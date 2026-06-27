@@ -18,6 +18,7 @@ export type CssEntrypointPurpose =
   | "primitive-structural" // @afenda/ui data-attr hooks. No --afenda-* token definitions.
   | "renderer-structural" // @afenda/metadata-ui .metadata-* classes. No tokens.
   | "shell-structural" // @afenda/appshell .app-shell-* classes. No tokens.
+  | "auth-shell-structural" // @afenda/appshell .af-auth-shell* BEM layer. Internal @import only.
   | "studio-patterns" // @afenda/appshell reusable shadcn/studio patterns layer. Internal @import only.
   | "fixture"; // Storybook/demo composition only. Never in production app globals.
 
@@ -29,13 +30,15 @@ export type CssClassNamespace =
   | "none" // No class authority (design-system token CSS)
   | "metadata-" // @afenda/metadata-ui production classes
   | "metadata-fixture-" // @afenda/metadata-ui fixture classes
-  | "app-shell-"; // @afenda/appshell production classes
+  | "app-shell-" // @afenda/appshell production classes
+  | "af-auth-shell"; // @afenda/appshell auth BEM (.af-auth-shell*)
 
 /** Allowed custom-property prefix for a package. Downstream squatting generic
  *  Tailwind/shared namespaces (--color-*, --spacing-*, --font-*, --radius-*) is forbidden. */
 export type CssPropertyNamespace =
   | "--afenda-" // design-system authority only
   | "--app-shell-" // @afenda/appshell scoped props
+  | "--af-auth-shell-" // @afenda/appshell auth-shell scoped props
   | "--metadata-" // @afenda/metadata-ui scoped props
   | "none"; // file defines no custom properties
 

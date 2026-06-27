@@ -1,4 +1,4 @@
-import { brandUserId } from "@afenda/kernel";
+import { createTestEnterpriseId, parseUserId } from "@afenda/kernel";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   assertIdempotencyPolicy,
@@ -21,6 +21,7 @@ import {
   resetIdempotencyStoreForTests,
   setIdempotencyStoreForTests,
 } from "@/server/api/runtime/idempotency";
+import { API_TEST_ACTOR_ID, API_TEST_TENANT_ID } from "./api-id-test-fixtures";
 
 describe("idempotency contracts", () => {
   it("validates idempotency key length bounds", () => {
@@ -107,14 +108,14 @@ describe("idempotency store", () => {
     const keyA = buildIdempotencyScopeKey({
       contractId: "internal.v1.workspace.dashboard-layout.put",
       idempotencyKey: "retry-key-001",
-      tenantId: "tenant-a",
-      userId: brandUserId("user-a"),
+      tenantId: API_TEST_TENANT_ID,
+      userId: parseUserId(API_TEST_ACTOR_ID),
     });
     const keyB = buildIdempotencyScopeKey({
       contractId: "internal.v1.workspace.dashboard-layout.put",
       idempotencyKey: "retry-key-001",
-      tenantId: "tenant-b",
-      userId: brandUserId("user-a"),
+      tenantId: createTestEnterpriseId("tenant", "01ARZ3NDEKTSV4RRFFQ69G5FBV"),
+      userId: parseUserId(API_TEST_ACTOR_ID),
     });
 
     expect(keyA).not.toBe(keyB);
@@ -127,8 +128,8 @@ describe("idempotency store", () => {
     const scope = {
       contractId: dashboardLayoutPutContract.id,
       idempotencyKey: "retry-key-001",
-      tenantId: "tenant-a",
-      userId: brandUserId("user-a"),
+      tenantId: API_TEST_TENANT_ID,
+      userId: parseUserId(API_TEST_ACTOR_ID),
     };
 
     await recordIdempotentResponse(scope, {
@@ -150,7 +151,7 @@ describe("idempotency store", () => {
 
     const otherTenant = await readIdempotentResponse({
       ...scope,
-      tenantId: "tenant-b",
+      tenantId: createTestEnterpriseId("tenant", "01ARZ3NDEKTSV4RRFFQ69G5FBV"),
     });
     expect(otherTenant).toBeNull();
   });

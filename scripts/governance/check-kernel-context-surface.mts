@@ -42,6 +42,49 @@ const FORBIDDEN_IMPORT_PATTERNS = [
   /@afenda\/kernel\/context\/[^"']+/,
 ] as const;
 
+const RETIRED_CONTEXT_MODULES = [
+  "app-shell-context.contract.ts",
+  "accounting-readiness-gate-live-status.contract.ts",
+  "accounting-readiness-gate-requirement-id.contract.ts",
+] as const;
+
+const RETIRED_KERNEL_BUSINESS_MASTER_DATA_MODULES = [
+  "contracts/business-master-data/business-master-data-scaffold.policy.ts",
+] as const;
+
+const FORBIDDEN_KERNEL_SCAFFOLD_EXPORTS = [
+  "BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS",
+  "BUSINESS_MASTER_DATA_RESERVED_PACKAGES",
+  "BUSINESS_MASTER_DATA_RUNTIME_STATUS",
+  "assertAuthorityOnlyRuntimeStatus",
+  "isBusinessMasterDataReservedPackage",
+  "BusinessMasterDataRuntimeStatus",
+  "BusinessMasterDataReservedPackageId",
+] as const;
+
+const REQUIRED_PERMISSION_VOCABULARY_MODULE =
+  "permission-grant-vocabulary.contract.ts" as const;
+
+const REQUIRED_PERMISSION_SCOPE_MODULE =
+  "permission-scope-context.contract.ts" as const;
+
+const FORBIDDEN_KERNEL_ROOT_EXPORTS = [
+  "formatWorkspaceDisplayLabel",
+  "toAccountingReadinessContext",
+  "resolveReportingCurrency",
+  "ApplicationShellContextSwitchTarget",
+  "ApplicationShellAllowedContextOptions",
+  "AccountingReadinessGateLiveSnapshot",
+  "isCostCenterOrganizationUnit",
+] as const;
+
+const FORBIDDEN_ACCOUNTING_READINESS_PATTERNS = [
+  "export function resolveReportingCurrency",
+  "export function toAccountingReadinessContext",
+  "export function isCostCenterOrganizationUnit",
+  "new Date()",
+] as const;
+
 const REQUIRED_DIST_EXPORTS = [
   "OperatingContext",
   "deriveConsolidationScopeContext",
@@ -166,12 +209,12 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  if (!support.includes("consolidation-scope-resolution.server.ts")) {
+  if (!support.includes("consolidation-scope-resolution.ts")) {
     violations.push({
       rule: "consolidation-resolver-registry",
       file: contextRegistrySource,
       message:
-        "consolidation-scope-resolution.server.ts must remain in KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES",
+        "consolidation-scope-resolution.ts must remain in KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES",
     });
   }
 
@@ -212,6 +255,120 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
         file: accountingSource,
         message:
           "accounting-readiness.contract.ts must not import context/index.js",
+      });
+    }
+
+    for (const pattern of FORBIDDEN_ACCOUNTING_READINESS_PATTERNS) {
+      if (accounting.includes(pattern)) {
+        violations.push({
+          rule: "prohibited-accounting-readiness-behavior",
+          file: accountingSource,
+          message: `accounting-readiness.contract.ts must remain shape-only — remove ${pattern}`,
+        });
+      }
+    }
+  }
+
+  for (const retiredModule of RETIRED_CONTEXT_MODULES) {
+    const retiredPath = join(contextRoot, retiredModule);
+    if (existsSync(retiredPath)) {
+      violations.push({
+        rule: "retired-context-module",
+        file: retiredPath,
+        message: `${retiredModule} was moved out of kernel — delete the orphaned file`,
+      });
+    }
+  }
+
+  const kernelSrcRoot = join(kernelRoot, "src");
+  for (const retiredModule of RETIRED_KERNEL_BUSINESS_MASTER_DATA_MODULES) {
+    const retiredPath = join(kernelSrcRoot, retiredModule);
+    if (existsSync(retiredPath)) {
+      violations.push({
+        rule: "retired-business-master-data-scaffold-module",
+        file: retiredPath,
+        message: `${retiredModule} was moved to @afenda/architecture-authority — delete the orphaned file`,
+      });
+    }
+  }
+
+  const businessMasterDataIndexSource = join(
+    kernelSrcRoot,
+    "contracts/business-master-data/index.ts"
+  );
+  if (existsSync(businessMasterDataIndexSource)) {
+    const businessMasterDataIndex = readFileSync(
+      businessMasterDataIndexSource,
+      "utf8"
+    );
+    for (const symbol of FORBIDDEN_KERNEL_SCAFFOLD_EXPORTS) {
+      if (businessMasterDataIndex.includes(symbol)) {
+        violations.push({
+          rule: "prohibited-kernel-scaffold-export",
+          file: businessMasterDataIndexSource,
+          message: `${symbol} must not be exported from @afenda/kernel — use @afenda/architecture-authority (ADR-0020)`,
+        });
+      }
+    }
+  }
+
+  const permissionVocabularyPath = join(
+    contextRoot,
+    REQUIRED_PERMISSION_VOCABULARY_MODULE
+  );
+  const permissionScopePath = join(
+    contextRoot,
+    REQUIRED_PERMISSION_SCOPE_MODULE
+  );
+
+  if (!existsSync(permissionVocabularyPath)) {
+    violations.push({
+      rule: "permission-vocabulary-module-missing",
+      file: permissionVocabularyPath,
+      message: `${REQUIRED_PERMISSION_VOCABULARY_MODULE} must exist — grant vocabulary is split from resolved scope (Slice 8)`,
+    });
+  }
+
+  if (existsSync(permissionScopePath)) {
+    const permissionScopeSource = readFileSync(permissionScopePath, "utf8");
+    const inlineVocabularyPatterns = [
+      /export\s+const\s+PERMISSION_GRANT_SCOPE_TYPES\b/,
+      /export\s+interface\s+PermissionGrantElevationFlags\b/,
+      /export\s+type\s+PermissionGrantScopeType\b/,
+      /export\s+const\s+DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS\b/,
+      /export\s+function\s+isPermissionGrantScopeType\b/,
+    ] as const;
+
+    for (const pattern of inlineVocabularyPatterns) {
+      if (pattern.test(permissionScopeSource)) {
+        violations.push({
+          rule: "permission-vocabulary-inline",
+          file: permissionScopePath,
+          message: `Grant vocabulary definitions must live in ${REQUIRED_PERMISSION_VOCABULARY_MODULE}, not permission-scope-context.contract.ts`,
+        });
+        break;
+      }
+    }
+  }
+
+  for (const symbol of FORBIDDEN_KERNEL_ROOT_EXPORTS) {
+    if (rootIndexSource.includes(symbol)) {
+      violations.push({
+        rule: "prohibited-kernel-root-export",
+        file: kernelRootIndexSource,
+        message: `${symbol} must not be exported from @afenda/kernel — use appshell or ERP owner`,
+      });
+    }
+  }
+
+  for (const file of listSourceFiles(join(kernelRoot, "src"))) {
+    const source = readFileSync(file, "utf8");
+    if (/from\s+["']@afenda\/kernel["']/.test(source)) {
+      violations.push({
+        rule: "kernel-self-import",
+        file,
+        message:
+          "Kernel source must import from itself using relative paths — not @afenda/kernel",
       });
     }
   }

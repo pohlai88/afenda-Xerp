@@ -1,4 +1,4 @@
-import { brandUserId } from "@afenda/kernel";
+import { parseOptionalUserId } from "@afenda/kernel";
 
 import type {
   AfendaAuthIdentity,
@@ -81,7 +81,7 @@ export function isAfendaAuthSessionLinked(session: AfendaAuthSession): boolean {
 export function toAfendaAuthIdentity(
   session: AfendaAuthSession
 ): AfendaAuthIdentity {
-  const userId = brandUserId(session.user.userId);
+  const userId = parseOptionalUserId(session.user.userId);
   if (userId === null) {
     throw new UnlinkedPlatformUserError();
   }

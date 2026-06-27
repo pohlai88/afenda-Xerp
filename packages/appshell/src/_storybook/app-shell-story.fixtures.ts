@@ -1,4 +1,4 @@
-import { brandUserId } from "@afenda/kernel";
+import { createTestEnterpriseId, parseUserId } from "@afenda/kernel";
 
 import type {
   ApplicationShellIdentity,
@@ -6,19 +6,19 @@ import type {
 } from "../app-shell.types";
 import { DEFAULT_APPLICATION_SHELL_PROPS } from "../app-shell.types";
 
-/** Brands a story-only user id at the trust boundary — throws when invalid. */
+const STORY_FINANCE_USER_ID = parseUserId(
+  createTestEnterpriseId("user", "01ARZ3NDEKTSV4RRFFQ69G5F1N")
+);
+
+/** Validates a story-only canonical user id at the trust boundary. */
 export function requireStoryUserId(value: string) {
-  const userId = brandUserId(value);
-  if (userId === null) {
-    throw new Error(`Invalid story userId: ${value}`);
-  }
-  return userId;
+  return parseUserId(value);
 }
 
 export const ERP_STORY_SESSION_IDENTITY = {
   displayName: "Jordan Rivera",
   email: "jordan.rivera@afenda.example",
-  userId: requireStoryUserId("user_story_finance_controller"),
+  userId: STORY_FINANCE_USER_ID,
 } satisfies ApplicationShellIdentity;
 
 export const ERP_STORY_BASE_ARGS = {

@@ -1,12 +1,11 @@
-import type {
-  AccountingReadinessGateLiveSnapshot,
-  AccountingReadinessRequirementLiveStatus,
-} from "@afenda/kernel";
-
 import {
   ACCOUNTING_READINESS_GATE_REQUIREMENT_COPY,
   type AccountingReadinessGateRequirementCopy,
 } from "./accounting-readiness-gate.copy.contract";
+import type {
+  AccountingReadinessGateLiveSnapshot,
+  AccountingReadinessRequirementLiveStatus,
+} from "./accounting-readiness-gate-live-status.contract.js";
 import { spawnAccountingReadinessGateLiveStatus } from "./spawn-accounting-readiness-gate-live-status.server";
 
 export type AccountingReadinessGateLiveStatusKind = "pass" | "fail" | "skipped";

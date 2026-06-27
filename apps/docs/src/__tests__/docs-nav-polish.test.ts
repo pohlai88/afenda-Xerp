@@ -136,6 +136,17 @@ describe("@afenda/docs nav polish", () => {
     );
   });
 
+  it("uses notebook page primitives on the docs slug route", () => {
+    const slugPage = readFileSync(
+      join(appRoot, "src/app/[lang]/docs/[[...slug]]/page.tsx"),
+      "utf8"
+    );
+
+    expect(slugPage).toContain('from "fumadocs-ui/layouts/notebook/page"');
+    expect(slugPage).toContain("DocsPage");
+    expect(slugPage).not.toContain('from "fumadocs-ui/page"');
+  });
+
   it("relies on DocsPage built-in prev/next footer without a duplicate custom footer", () => {
     const slugPage = readFileSync(
       join(appRoot, "src/app/[lang]/docs/[[...slug]]/page.tsx"),

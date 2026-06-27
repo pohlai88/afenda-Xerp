@@ -9,9 +9,21 @@ import {
   type OwnershipInterestContext,
 } from "../context/index.js";
 import {
-  brandEntityGroupId,
-  brandTenantId,
-} from "../contracts/platform-id.contract.js";
+  createTestEnterpriseId,
+  parseEntityGroupId,
+  parseTenantId,
+} from "../identity/index.js";
+
+const TENANT = createTestEnterpriseId("tenant");
+const GROUP = createTestEnterpriseId("entityGroup");
+const OI1 = createTestEnterpriseId("ownershipInterest");
+const OI2 = createTestEnterpriseId(
+  "ownershipInterest",
+  "01ARZ3NDEKTSV4RRFFQ69G5FBV"
+);
+const PARENT = createTestEnterpriseId("company");
+const CHILD1 = createTestEnterpriseId("company", "01ARZ3NDEKTSV4RRFFQ69G5FCV");
+const CHILD2 = createTestEnterpriseId("company", "01ARZ3NDEKTSV4RRFFQ69G5FDV");
 
 const contextRoot = join(dirname(fileURLToPath(import.meta.url)), "../context");
 
@@ -27,17 +39,17 @@ const FORBIDDEN_ACCOUNTING_PATTERNS = [
 ] as const;
 
 const CONSOLIDATION_RESOLVER_FILES = [
-  "consolidation-scope-resolution.server.ts",
+  "consolidation-scope-resolution.ts",
   "consolidation-scope-investee-merge.policy.ts",
   "consolidation-scope-context.contract.ts",
 ] as const;
 
 const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
-  ownershipInterestId: "oi-1",
-  tenantId: "tenant-1",
-  entityGroupId: "group-1",
-  parentLegalEntityId: "parent-1",
-  childLegalEntityId: "child-1",
+  ownershipInterestId: OI1,
+  tenantId: TENANT,
+  entityGroupId: GROUP,
+  parentLegalEntityId: PARENT,
+  childLegalEntityId: CHILD1,
   ownershipPercentage: 100,
   votingPercentage: 100,
   controlType: "control",
@@ -48,18 +60,18 @@ const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
   status: "active",
 };
 
-describe("consolidation-scope-resolution.server", () => {
+describe("consolidation-scope-resolution", () => {
   it("maps investee legal entities to consolidation treatments without arithmetic", () => {
     const scope = deriveConsolidationScopeContext({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: TENANT,
+      entityGroupId: GROUP,
       reportingDate: "2026-06-01",
       ownershipInterests: [
         SAMPLE_OWNERSHIP_INTEREST,
         {
           ...SAMPLE_OWNERSHIP_INTEREST,
-          ownershipInterestId: "oi-2",
-          childLegalEntityId: "child-2",
+          ownershipInterestId: OI2,
+          childLegalEntityId: CHILD2,
           consolidationTreatment: "equity_method",
           ownershipPercentage: 30,
         },
@@ -67,17 +79,17 @@ describe("consolidation-scope-resolution.server", () => {
     });
 
     expect(scope).toEqual({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: TENANT,
+      entityGroupId: GROUP,
       reportingDate: "2026-06-01",
       legalEntities: [
         {
-          companyId: "child-1",
+          companyId: CHILD1,
           consolidationTreatment: "full_consolidation",
           ownershipPercentage: 100,
         },
         {
-          companyId: "child-2",
+          companyId: CHILD2,
           consolidationTreatment: "equity_method",
           ownershipPercentage: 30,
         },
@@ -87,8 +99,8 @@ describe("consolidation-scope-resolution.server", () => {
 
   it("excludes interests outside the reporting date window", () => {
     const scope = deriveConsolidationScopeContext({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: TENANT,
+      entityGroupId: GROUP,
       reportingDate: "2025-12-31",
       ownershipInterests: [SAMPLE_OWNERSHIP_INTEREST],
     });
@@ -98,19 +110,19 @@ describe("consolidation-scope-resolution.server", () => {
 
   it("accepts branded tenant and entity group ids without changing output", () => {
     const scope = deriveConsolidationScopeContext({
-      tenantId: brandTenantId("tenant-1")!,
-      entityGroupId: brandEntityGroupId("group-1")!,
+      tenantId: parseTenantId(TENANT),
+      entityGroupId: parseEntityGroupId(GROUP),
       reportingDate: "2026-06-01",
       ownershipInterests: [SAMPLE_OWNERSHIP_INTEREST],
     });
 
     expect(scope).toEqual({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: TENANT,
+      entityGroupId: GROUP,
       reportingDate: "2026-06-01",
       legalEntities: [
         {
-          companyId: "child-1",
+          companyId: CHILD1,
           consolidationTreatment: "full_consolidation",
           ownershipPercentage: 100,
         },
@@ -120,14 +132,17 @@ describe("consolidation-scope-resolution.server", () => {
 
   it("deduplicates investee legal entities by child company id (last-wins policy)", () => {
     const scope = deriveConsolidationScopeContext({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: TENANT,
+      entityGroupId: GROUP,
       reportingDate: "2026-06-01",
       ownershipInterests: [
         SAMPLE_OWNERSHIP_INTEREST,
         {
           ...SAMPLE_OWNERSHIP_INTEREST,
-          ownershipInterestId: "oi-duplicate",
+          ownershipInterestId: createTestEnterpriseId(
+            "ownershipInterest",
+            "01ARZ3NDEKTSV4RRFFQ69G5FEV"
+          ),
           ownershipPercentage: 51,
         },
       ],
@@ -138,7 +153,7 @@ describe("consolidation-scope-resolution.server", () => {
     );
     expect(scope.legalEntities).toEqual([
       {
-        companyId: "child-1",
+        companyId: CHILD1,
         consolidationTreatment: "full_consolidation",
         ownershipPercentage: 51,
       },

@@ -28,6 +28,7 @@ describe("user contract", () => {
 
     expect(row).toEqual({
       email: "jack@email.com",
+      enterpriseId: expect.stringMatching(/^usr_[0-9A-HJKMNP-TV-Z]{26}$/),
       displayName: "Jack",
       status: "active",
     });

@@ -1,7 +1,7 @@
 import type { OperatingContext } from "@afenda/kernel";
 import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
-
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { toWorkspaceApiScope } from "../to-workspace-api-scope";
 
 const BASE_OPERATING_CONTEXT = {
@@ -23,8 +23,7 @@ const BASE_OPERATING_CONTEXT = {
     displayName: "Acme Co",
     registrationNumber: null,
     taxRegistrationNumber: null,
-    countryCode: "AU",
-    baseCurrency: "AUD",
+    ...testLegalEntityCurrencyFields(),
     reportingCurrency: null,
     companyType: "standalone",
     fiscalCalendarId: null,

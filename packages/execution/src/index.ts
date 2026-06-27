@@ -84,6 +84,7 @@ export {
   type OutboxPersistencePort,
   type OutboxStatus,
   type ReleaseOutboxClaimInput,
+  type ToOutboxEventEnvelopeOptions,
   toOutboxEventEnvelope,
   validateOutboxPayload,
 } from "./contracts/outbox-event.contract.js";

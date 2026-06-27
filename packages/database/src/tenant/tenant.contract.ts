@@ -5,6 +5,7 @@
  * Writes: `tenant.service.ts`
  */
 import type { TenantStatus } from "../database.types.js";
+import { createEnterpriseId } from "../enterprise-id/index.js";
 import {
   assertPlatformSlug,
   InvalidPlatformSlugError,
@@ -26,6 +27,7 @@ export interface TenantWriteInput {
 }
 
 export interface TenantInsertRow {
+  enterpriseId: string;
   mfaRequired: boolean;
   name: string;
   slug: string;
@@ -75,6 +77,7 @@ export function getTenantAccessBlockReason(
 
 export function buildTenantInsertRow(input: TenantWriteInput): TenantInsertRow {
   return {
+    enterpriseId: createEnterpriseId("tenant"),
     mfaRequired: input.mfaRequired ?? false,
     slug: assertTenantSlug(input.slug),
     name: input.name.trim(),

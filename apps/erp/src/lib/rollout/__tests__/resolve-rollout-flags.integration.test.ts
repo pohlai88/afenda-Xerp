@@ -5,7 +5,11 @@ import { fileURLToPath } from "node:url";
 import type { PlatformRolloutBundle } from "@afenda/database";
 import { describe, expect, it, vi } from "vitest";
 
-import { createModuleRouteOperatingContext } from "@/lib/modules/__tests__/module-route-test-fixtures";
+import {
+  createModuleRouteOperatingContext,
+  MODULE_ROUTE_TEST_COMPANY_ID,
+  MODULE_ROUTE_TEST_TENANT_ID,
+} from "@/lib/modules/__tests__/module-route-test-fixtures";
 import {
   evaluateRolloutFlagFromResolved,
   resolveRolloutFlagsFromOperatingContext,
@@ -28,7 +32,7 @@ const testRolloutBundle: PlatformRolloutBundle = {
       enabled: true,
       rollout: "on",
       environments: ["development", "test", "production"],
-      tenantAllowlist: ["tenant-001"],
+      tenantAllowlist: [MODULE_ROUTE_TEST_TENANT_ID],
       companyAllowlist: [],
       killSwitchKey: "feature.e_invoice.kill_switch",
       metadata: {},
@@ -38,7 +42,7 @@ const testRolloutBundle: PlatformRolloutBundle = {
       enabled: true,
       rollout: "limited",
       environments: ["development", "test", "production"],
-      tenantAllowlist: ["tenant-other"],
+      tenantAllowlist: ["ten_01ARZ3NDEKTSV4RRFFQ69G5FBV"],
       companyAllowlist: [],
       killSwitchKey: "feature.forecasting.kill_switch",
       metadata: {},
@@ -99,8 +103,8 @@ describe("resolveRolloutFlagsFromOperatingContext integration", () => {
     expect(
       toFeatureFlagContextFromOperatingContext(operatingContext, "test")
     ).toEqual({
-      tenantId: "tenant-001",
-      companyId: "company-a",
+      tenantId: MODULE_ROUTE_TEST_TENANT_ID,
+      companyId: MODULE_ROUTE_TEST_COMPANY_ID,
       environment: "test",
     });
   });

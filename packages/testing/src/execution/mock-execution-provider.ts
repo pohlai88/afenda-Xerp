@@ -17,6 +17,16 @@ import {
   shouldRetry,
 } from "@afenda/execution";
 
+import {
+  MOCK_EXECUTION_TEST_ACTOR_ID,
+  MOCK_EXECUTION_TEST_COMPANY_ID,
+  MOCK_EXECUTION_TEST_CORRELATION_ID,
+  MOCK_EXECUTION_TEST_ORGANIZATION_ID,
+  MOCK_EXECUTION_TEST_TENANT_ID,
+  mockFixtureCanonicalIdBodyGenerator,
+} from "./execution-test-fixtures.js";
+import { validateMockExecutionContextOverrides } from "./validate-mock-execution-context-overrides.js";
+
 export interface MockExecutionProviderOptions {
   readonly failExecution?: boolean;
   readonly failRetryAfterAttempt?: number;
@@ -197,15 +207,26 @@ export function createMockExecutionProvider(
 export function createMockExecutionContext(
   overrides: Partial<ExecutionContextInput> = {}
 ) {
-  return createExecutionContext({
-    actorId: "actor-1",
-    companyId: "company-1",
-    correlationId: "corr-execution-001",
-    executionId: "exec-001",
-    organizationId: "organization-1",
+  const input: ExecutionContextInput = {
+    actorId: MOCK_EXECUTION_TEST_ACTOR_ID,
+    companyId: MOCK_EXECUTION_TEST_COMPANY_ID,
+    correlationId: MOCK_EXECUTION_TEST_CORRELATION_ID,
+    organizationId: MOCK_EXECUTION_TEST_ORGANIZATION_ID,
     source: "api",
     startedAt: defaultNowIso,
-    tenantId: "tenant-1",
+    tenantId: MOCK_EXECUTION_TEST_TENANT_ID,
     ...overrides,
+  };
+
+  if (input.executionId !== undefined) {
+    validateMockExecutionContextOverrides(input);
+    return createExecutionContext(input);
+  }
+
+  validateMockExecutionContextOverrides(input);
+
+  return createExecutionContext({
+    ...input,
+    canonicalIdBodyGenerator: mockFixtureCanonicalIdBodyGenerator,
   });
 }

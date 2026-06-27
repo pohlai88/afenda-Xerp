@@ -1,4 +1,4 @@
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import type { ReactNode } from "react";
 import { DocsAiSearchChrome } from "@/components/docs-ai-search-chrome.client";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
@@ -26,8 +26,14 @@ export default async function DocsRootLayout({
     throw new Error(`Missing page tree for locale: ${lang}`);
   }
 
+  const { nav, ...options } = baseOptions(lang);
+
   return (
-    <DocsLayout tree={pageTree} {...baseOptions(lang)}>
+    <DocsLayout
+      tree={pageTree}
+      {...options}
+      nav={{ ...nav, mode: "top" }}
+    >
       <DocsAiSearchChrome />
       {children}
     </DocsLayout>

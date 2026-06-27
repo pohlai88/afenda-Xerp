@@ -1,3 +1,4 @@
+import type { ApplicationShellAllowedContextOptions } from "@afenda/appshell";
 import {
   type AfendaDatabase,
   findActiveCompaniesByEntityGroupId,
@@ -6,7 +7,6 @@ import {
   findOrganizationById,
   getDb,
 } from "@afenda/database";
-import type { ApplicationShellAllowedContextOptions } from "@afenda/kernel";
 import {
   isMembershipActive,
   type MembershipContract,

@@ -1,6 +1,7 @@
 import { getAfendaAuthSession } from "@afenda/auth";
-import { brandUserId, createExecutionContext } from "@afenda/kernel";
+import { parseOptionalUserId } from "@afenda/kernel";
 import { headers } from "next/headers";
+import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
 import { runProtectedMutation } from "@/lib/spine/run-protected-mutation";
 import type { ApiRouteContract } from "../contracts/api-contract";
 import type { ApiContractId } from "../contracts/api-contract-registry";
@@ -184,8 +185,8 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     );
   }
 
-  const userId = brandUserId(session?.user.userId ?? null);
-  const provisionalExecution = createExecutionContext({
+  const userId = parseOptionalUserId(session?.user.userId ?? null);
+  const provisionalExecution = createServerExecutionContext({
     actorId: userId,
     correlationId: input.correlationId,
     source: "api",

@@ -1,3 +1,4 @@
+import type { CanonicalIdBodyGenerator } from "@afenda/kernel";
 import type { AuditEventPersistenceAdapter } from "@afenda/observability";
 import { withAuditEvidence } from "@afenda/observability";
 import { OUTBOX_AUDIT_ACTIONS } from "../contracts/execution.contract.js";
@@ -24,6 +25,7 @@ import {
 
 export interface OutboxPublishServiceDependencies {
   readonly auditAdapter?: AuditEventPersistenceAdapter | null;
+  readonly canonicalIdBodyGenerator: CanonicalIdBodyGenerator;
   readonly dispatcher: OutboxEventDispatcher;
   readonly nowIso?: () => string;
   readonly persistence?: OutboxPersistencePort | null;
@@ -72,13 +74,20 @@ async function protectPublishCall<TValue>(
 async function publishSingleEvent(
   record: OutboxEventRecord,
   dependencies: {
+    canonicalIdBodyGenerator: CanonicalIdBodyGenerator;
     dispatcher: OutboxEventDispatcher;
     nowIso: () => string;
     persistence: OutboxPersistencePort;
     tenantId: string | null | undefined;
   }
 ): Promise<"dead_letter" | "failed" | "published" | "skipped"> {
-  const { dispatcher, nowIso, persistence, tenantId } = dependencies;
+  const {
+    canonicalIdBodyGenerator,
+    dispatcher,
+    nowIso,
+    persistence,
+    tenantId,
+  } = dependencies;
 
   try {
     assertOutboxRecordTenantScope(record, tenantId);
@@ -103,7 +112,10 @@ async function publishSingleEvent(
     return "failed";
   }
 
-  const envelope = toOutboxEventEnvelope({ ...record, payload });
+  const envelope = toOutboxEventEnvelope(
+    { ...record, payload },
+    { canonicalIdBodyGenerator }
+  );
   const dispatchResult = await dispatcher.dispatch(envelope);
 
   if (dispatchResult.ok) {
@@ -197,6 +209,7 @@ export function createOutboxPublishService(
 
         for (const record of claimed) {
           const outcome = await publishSingleEvent(record, {
+            canonicalIdBodyGenerator: dependencies.canonicalIdBodyGenerator,
             dispatcher: dependencies.dispatcher,
             nowIso,
             persistence,
@@ -255,7 +268,10 @@ export const unavailableOutboxDispatcher: OutboxEventDispatcher = {
   },
 };
 
+import { createFixtureCanonicalIdBodyGenerator } from "@afenda/kernel";
+
 export const outboxPublishService = createOutboxPublishService({
+  canonicalIdBodyGenerator: createFixtureCanonicalIdBodyGenerator(),
   dispatcher: unavailableOutboxDispatcher,
   persistence: null,
 });

@@ -19,6 +19,8 @@ import {
 } from "../database.types.js";
 import {
   childLegalEntityIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   entityGroupIdRef,
   parentLegalEntityIdRef,
   primaryId,
@@ -33,6 +35,7 @@ export const legalEntityOwnership = pgTable(
   "legal_entity_ownership",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("ownershipInterest"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -71,6 +74,10 @@ export const legalEntityOwnership = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("legal_entity_ownership_enterprise_id_unique").on(
+      table.enterpriseId
+    ),
+    enterpriseIdFormatCheck(table.enterpriseId, "ownershipInterest"),
     uniqueIndex("legal_entity_ownership_parent_child_effective_unique").on(
       table.parentLegalEntityId,
       table.childLegalEntityId,

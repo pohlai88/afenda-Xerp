@@ -3,13 +3,44 @@ title: Build Afenda
 description: Engineer onboarding — monorepo map, contributing, and application guides.
 ---
 
-# Build Afenda
+## Overview
 
-Engineer-focused onboarding relocated from legacy `(guides)/` paths.
+Engineer-focused onboarding for the **Afenda Xerp monorepo** — installation, package boundaries, application surfaces, and the coding-session contract used for governed slices. Legacy `(guides)/` URLs redirect here; repo-root `docs/` remains the authority for ADRs, FDRs, and delivery artifacts **linked from** these pages, not duplicated inside them.
 
 <Cards>
-  <Card title="Getting Started" href="./getting-started" description="Install, dev setup, and first run." />
-  <Card title="Monorepo Map" href="./monorepo-map" description="Package boundaries and contracts." />
-  <Card title="Applications" href="./apps" description="ERP, Docs, and Storybook app guides." />
-  <Card title="Contributing" href="./contributing" description="Coding session discipline and gates." />
+  <Card
+    title="Getting Started"
+    href="./getting-started"
+    description="Node, pnpm, first install, docs/ERP dev servers, and pre-PR quality gates."
+  />
+  <Card
+    title="Monorepo Map"
+    href="./monorepo-map"
+    description="Package lanes, contracts, i18n boundaries, and where ERP vs docs vs Storybook live."
+  />
+  <Card
+    title="Applications"
+    href="./apps"
+    description="Per-app guides for @afenda/erp, @afenda/docs, and Storybook surfaces."
+  />
+  <Card
+    title="Contributing"
+    href="./contributing"
+    description="afenda-coding-session Phase 0, TIP/FDR handoffs, gates, and completion reports."
+  />
 </Cards>
+
+## Suggested reading order
+
+1. **Installation** — toolchain and `pnpm install`
+2. **Dev Setup** — ports 3000/3001, env files, narrow vs full gates
+3. **Monorepo Map** — before touching packages outside your slice
+4. **Contributing** — before opening a PR
+
+## What is not here
+
+| Topic | Authority |
+| --- | --- |
+| ADR / FDR acceptance | Repo-root `docs/adr/`, `docs/delivery/` |
+| Runtime ERP business modules | Package README + FDR slices |
+| End-user sign-in help | **Use ERP** reader section |

@@ -6,10 +6,9 @@ import {
   PERMISSION_REGISTRY,
 } from "@afenda/permissions";
 import { describe, expect, it } from "vitest";
-
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
 import type { ResolveOperatingContextInput } from "@/lib/context/resolve-operating-context.server";
-
 import {
   AFENDA_TENANT_ID_HEADER,
   readScopeCandidateFromHeaders,
@@ -19,15 +18,29 @@ import {
   authorizeApiRoute,
 } from "../authorize-api-route";
 
-const TENANT_ID = "tenant-001";
-const COMPANY_ID = "company-a";
-const COMPANY_B = "company-b";
-const ENTITY_GROUP_A = "group-a";
-const ENTITY_GROUP_B = "group-b";
-const ACTOR_ID = "user-001";
-const ROLE_ID = "role-admin";
-const MEMBERSHIP_ID = "membership-001";
-const CORRELATION_ID = "corr-authz-test";
+import {
+  API_TEST_ACTOR_ID,
+  API_TEST_COMPANY_B_ID,
+  API_TEST_COMPANY_ID,
+  API_TEST_COMPANY_UNKNOWN_ID,
+  API_TEST_CORRELATION_ID,
+  API_TEST_ENTITY_GROUP_A_ID,
+  API_TEST_ENTITY_GROUP_B_ID,
+  API_TEST_MEMBERSHIP_ID,
+  API_TEST_ROLE_ID,
+  API_TEST_ROLE_READONLY_ID,
+  API_TEST_TENANT_ID,
+} from "./api-id-test-fixtures";
+
+const TENANT_ID = API_TEST_TENANT_ID;
+const COMPANY_ID = API_TEST_COMPANY_ID;
+const COMPANY_B = API_TEST_COMPANY_B_ID;
+const ENTITY_GROUP_A = API_TEST_ENTITY_GROUP_A_ID;
+const ENTITY_GROUP_B = API_TEST_ENTITY_GROUP_B_ID;
+const ACTOR_ID = API_TEST_ACTOR_ID;
+const ROLE_ID = API_TEST_ROLE_ID;
+const MEMBERSHIP_ID = API_TEST_MEMBERSHIP_ID;
+const CORRELATION_ID = API_TEST_CORRELATION_ID;
 
 function createMockOperatingContext(
   overrides: Partial<OperatingContext> = {}
@@ -51,8 +64,7 @@ function createMockOperatingContext(
       displayName: "Acme Co",
       registrationNumber: null,
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "standalone",
       fiscalCalendarId: null,
@@ -267,7 +279,7 @@ describe("authorizeApiRoute", () => {
       })
       .seedRole(
         {
-          id: "role-readonly",
+          id: API_TEST_ROLE_READONLY_ID,
           key: "readonly",
           name: "Readonly",
           description: null,
@@ -286,7 +298,7 @@ describe("authorizeApiRoute", () => {
         projectId: null,
         teamId: null,
         userId: ACTOR_ID,
-        roleId: "role-readonly",
+        roleId: API_TEST_ROLE_READONLY_ID,
         scopeType: "company",
         status: "active",
       });
@@ -520,8 +532,7 @@ describe("authorizeApiRoute", () => {
               displayName: "Acme Co B",
               registrationNumber: null,
               taxRegistrationNumber: null,
-              countryCode: "AU",
-              baseCurrency: "AUD",
+              ...testLegalEntityCurrencyFields(),
               reportingCurrency: null,
               companyType: "standalone",
               fiscalCalendarId: null,
@@ -640,8 +651,7 @@ describe("authorizeApiRoute", () => {
               displayName: "Acme Subsidiary B",
               registrationNumber: null,
               taxRegistrationNumber: null,
-              countryCode: "AU",
-              baseCurrency: "AUD",
+              ...testLegalEntityCurrencyFields(),
               reportingCurrency: null,
               companyType: "subsidiary",
               fiscalCalendarId: null,
@@ -759,8 +769,7 @@ describe("authorizeApiRoute", () => {
               displayName: "Acme Subsidiary",
               registrationNumber: null,
               taxRegistrationNumber: null,
-              countryCode: "AU",
-              baseCurrency: "AUD",
+              ...testLegalEntityCurrencyFields(),
               reportingCurrency: null,
               companyType: "subsidiary",
               fiscalCalendarId: null,
@@ -885,7 +894,7 @@ describe("authorizeApiRoute", () => {
         protectionLevel: "tenant-protected",
         request: createRequest({
           [TENANT_SLUG_HEADER]: "acme",
-          "x-afenda-company-id": "company-unknown",
+          "x-afenda-company-id": API_TEST_COMPANY_UNKNOWN_ID,
         }),
       },
       {

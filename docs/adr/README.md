@@ -32,6 +32,13 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0015](ADR-0015-accounting-domain-contracts-only-activation.md) | Accounting Domain Contracts-Only Activation (PKG-R01) | Accepted |
 | [ADR-0016](ADR-0016-fdr-delivery-authority.md) | FDR Delivery Authority (write-fdr, fdr-status-index, parallel subagents) | Accepted |
 | [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | shadcn/studio UI Delivery Acceleration | Proposed |
+| [ADR-0018](ADR-0018-authentication-architecture.md) | Authentication Architecture | Accepted |
+| [ADR-0019](ADR-0019-inventory-domain-master-data-activation.md) | Inventory Domain Master Data Activation | Accepted |
+| [ADR-0020](ADR-0020-master-data-authority-consolidation.md) | Master Data Authority Consolidation | Accepted |
+| [ADR-0021](ADR-0021-canonical-enterprise-identity.md) | Canonical Enterprise ID Constitution | Accepted |
+| [ADR-0022](ADR-0022-postgres-split-id-persistence-model.md) | PostgreSQL Split-ID Persistence Model | Accepted |
+| [ADR-0023](ADR-0023-tenant-human-reference-numbering.md) | Tenant Human Reference Numbering | Accepted |
+| [ADR-0024](ADR-0024-canonical-id-body-generation.md) | Canonical ID Body Generation (Composition-Root Minting) | Accepted |
 
 ## Process
 

@@ -1,22 +1,49 @@
-import { type Brand, brandRequiredId } from "@afenda/kernel";
 import type { ComponentType } from "react";
 
+declare const appShellNominalBrandSymbol: unique symbol;
+
+/** App-shell local nominal brand — not for enterprise IDs (use @afenda/kernel parse*). */
+type AppShellNominalBrand<
+  TValue extends string,
+  TBrand extends string,
+> = TValue & { readonly [appShellNominalBrandSymbol]: TBrand };
+
 /** Branded invoice identifier — brand at the data boundary only. */
-export type AppShellInvoiceId = Brand<string, "AppShellInvoiceId">;
+export type AppShellInvoiceId = AppShellNominalBrand<
+  string,
+  "AppShellInvoiceId"
+>;
 
 /** Branded dashboard row identifier for list keys and aria labels. */
-export type AppShellDashboardRowId = Brand<string, "AppShellDashboardRowId">;
+export type AppShellDashboardRowId = AppShellNominalBrand<
+  string,
+  "AppShellDashboardRowId"
+>;
+
+function brandAppshellLocalId<T extends string>(
+  value: string,
+  label: string
+): AppShellNominalBrand<string, T> {
+  if (!value.trim()) {
+    throw new Error(`${label} is required.`);
+  }
+
+  return value as AppShellNominalBrand<string, T>;
+}
 
 /** Brand a trusted invoice id at the data boundary (fixtures, API mappers). */
 export function asAppShellInvoiceId(value: string): AppShellInvoiceId {
-  return brandRequiredId(value, "AppShellInvoiceId");
+  return brandAppshellLocalId<"AppShellInvoiceId">(value, "AppShellInvoiceId");
 }
 
 /** Brand a trusted dashboard row id at the data boundary (fixtures, API mappers). */
 export function asAppShellDashboardRowId(
   value: string
 ): AppShellDashboardRowId {
-  return brandRequiredId(value, "AppShellDashboardRowId");
+  return brandAppshellLocalId<"AppShellDashboardRowId">(
+    value,
+    "AppShellDashboardRowId"
+  );
 }
 
 export type AppShellTrendDirection = "down" | "up";

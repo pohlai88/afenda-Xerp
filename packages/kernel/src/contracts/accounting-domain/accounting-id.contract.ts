@@ -1,32 +1,58 @@
-/**
- * Branded accounting identifiers — brand at trust boundaries only.
- * Wire formats use plain strings for JSON serialization.
- */
-import { type Brand, brandRequiredId } from "@afenda/kernel";
+import type { Brand } from "../../identity/brand/brand.contract.js";
+import { unbrand } from "../../identity/brand/brand.contract.js";
+
+function brandTrimRequired<T extends string>(
+  value: string | Brand<string, T>,
+  label: string
+): Brand<string, T> {
+  const raw = typeof value === "string" ? value : (value as string);
+
+  if (!raw.trim()) {
+    throw new Error(`${label} is required.`);
+  }
+
+  return raw as Brand<string, T>;
+}
 
 export type AccountId = Brand<string, "AccountId">;
 export type JournalEntryId = Brand<string, "JournalEntryId">;
 export type FiscalPeriodId = Brand<string, "FiscalPeriodId">;
 export type LedgerAccountCode = Brand<string, "LedgerAccountCode">;
 
-export function toAccountId(value: string | AccountId): AccountId {
-  return brandRequiredId(value, "accountId") as AccountId;
+export function brandAccountId(value: string | AccountId): AccountId {
+  return brandTrimRequired(value, "accountId") as AccountId;
 }
 
-export function toJournalEntryId(
+export function brandJournalEntryId(
   value: string | JournalEntryId
 ): JournalEntryId {
-  return brandRequiredId(value, "journalEntryId") as JournalEntryId;
+  return brandTrimRequired(value, "journalEntryId") as JournalEntryId;
 }
 
-export function toFiscalPeriodId(
+export function brandFiscalPeriodId(
   value: string | FiscalPeriodId
 ): FiscalPeriodId {
-  return brandRequiredId(value, "fiscalPeriodId") as FiscalPeriodId;
+  return brandTrimRequired(value, "fiscalPeriodId") as FiscalPeriodId;
 }
 
-export function toLedgerAccountCode(
+export function brandLedgerAccountCode(
   value: string | LedgerAccountCode
 ): LedgerAccountCode {
-  return brandRequiredId(value, "ledgerAccountCode") as LedgerAccountCode;
+  return brandTrimRequired(value, "ledgerAccountCode") as LedgerAccountCode;
+}
+
+export function toAccountId(value: AccountId): string {
+  return unbrand(value);
+}
+
+export function toJournalEntryId(value: JournalEntryId): string {
+  return unbrand(value);
+}
+
+export function toFiscalPeriodId(value: FiscalPeriodId): string {
+  return unbrand(value);
+}
+
+export function toLedgerAccountCode(value: LedgerAccountCode): string {
+  return unbrand(value);
 }

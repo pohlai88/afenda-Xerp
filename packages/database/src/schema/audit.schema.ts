@@ -4,6 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
 import {
@@ -14,6 +15,8 @@ import {
 import {
   actorUserIdRef,
   companyIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   organizationIdRef,
   primaryId,
   tenantIdRef,
@@ -33,6 +36,7 @@ export const auditEvents = pgTable(
   "audit_events",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("auditEvent"),
     tenantId: tenantIdRef().references(() => tenants.id, {
       onDelete: "set null",
     }),
@@ -71,6 +75,8 @@ export const auditEvents = pgTable(
       .defaultNow(),
   },
   (table) => [
+    uniqueIndex("audit_events_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "auditEvent"),
     index("audit_events_tenant_id_idx").on(table.tenantId),
     index("audit_events_company_id_idx").on(table.companyId),
     index("audit_events_organization_id_idx").on(table.organizationId),

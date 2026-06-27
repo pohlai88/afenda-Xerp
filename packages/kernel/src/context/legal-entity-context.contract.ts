@@ -1,3 +1,4 @@
+import type { CountryCode, CurrencyCode } from "../identity/index.js";
 import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 
 export const LEGAL_ENTITY_COMPANY_TYPES = [
@@ -16,10 +17,10 @@ export type LegalEntityCompanyType =
 
 /** Statutory legal entity / company — owns books and tax identity. */
 export interface LegalEntityContext {
-  readonly baseCurrency: string;
+  readonly baseCurrency: CurrencyCode;
   readonly companyId: string;
   readonly companyType: LegalEntityCompanyType;
-  readonly countryCode: string;
+  readonly countryCode: CountryCode;
   readonly displayName: string;
   readonly effectiveFrom: string | null;
   readonly effectiveTo: string | null;

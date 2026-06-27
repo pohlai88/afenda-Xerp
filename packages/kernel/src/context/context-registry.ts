@@ -52,10 +52,11 @@ export const KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES = [
   "surface-context.contract.ts",
   "workflow-context.contract.ts",
   "untrusted-client-authority.contract.ts",
-  "app-shell-context.contract.ts",
   "accounting-readiness.contract.ts",
-  "consolidation-scope-resolution.server.ts",
+  "consolidation-scope-resolution.ts",
   "consolidation-scope-investee-merge.policy.ts",
+  "localization-context.contract.ts",
+  "permission-grant-vocabulary.contract.ts",
   "enterprise-hierarchy.contract.ts",
   "runtime-module-path.ts",
 ] as const;

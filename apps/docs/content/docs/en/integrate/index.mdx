@@ -3,11 +3,34 @@ title: Integrate
 description: Internal API reference and integration guides for Afenda ERP.
 ---
 
-# Integrate
+## Overview
 
-Machine-synced internal API documentation and module entitlements reference.
+**Integrators** connect external systems and automation to Afenda through governed **internal REST APIs** and the **module entitlement manifest**. Operation pages and module stubs are generated from repo contracts — edit `API_CONTRACTS` or catalog JSON, not the synced MDX bodies marked `DO NOT EDIT`.
 
 <Cards>
-  <Card title="Internal API v1" href="./internal-v1" description="OpenAPI catalog for /api/internal/v1 routes." />
-  <Card title="ERP modules" href="./modules" description="Auto-generated module stubs from the entitlement manifest." />
+  <Card
+    title="Internal API v1"
+    href="./internal-v1"
+    description="OpenAPI 3.1 catalog for /api/internal/v1 routes — auth, inventory, system-admin, workspace, and health."
+  />
+  <Card
+    title="ERP modules"
+    href="./modules"
+    description="Auto-generated module stubs with routes and permission keys from modules.catalog.json."
+  />
 </Cards>
+
+## Integration principles
+
+- Call **internal v1** routes with the same auth/session context as the ERP UI unless documented otherwise.
+- Permission keys in module stubs are enforced at runtime — do not bypass with ad-hoc service accounts.
+- Prefer idempotent POST patterns where the API contract exposes idempotency keys.
+- For public or partner-facing APIs, wait for explicit OpenAPI publication — internal v1 is not a public surface.
+
+## Audience
+
+| Reader | Start here |
+| --- | --- |
+| Backend engineer | Internal API v1 index + operation pages |
+| Solution architect | ERP modules manifest + permission keys |
+| Tenant admin | Configure Tenant (not Integrate) |

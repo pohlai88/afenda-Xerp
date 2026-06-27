@@ -2,6 +2,7 @@ import type { AuditEventPersistenceAdapter } from "@afenda/observability";
 import { writeAuditEvent } from "@afenda/observability";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
+import { createEnterpriseId } from "../enterprise-id/index.js";
 import { auditEvents } from "../schema/audit.schema.js";
 import type {
   AuditEventInsertRow,
@@ -18,7 +19,10 @@ async function persistAuditEventRow(
 ): Promise<InsertAuditEventResult> {
   const [inserted] = await db
     .insert(auditEvents)
-    .values(row)
+    .values({
+      ...row,
+      enterpriseId: createEnterpriseId("auditEvent"),
+    })
     .returning({ id: auditEvents.id });
 
   if (!inserted) {

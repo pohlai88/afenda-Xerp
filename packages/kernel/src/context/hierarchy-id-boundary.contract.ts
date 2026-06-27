@@ -2,22 +2,24 @@
  * Hierarchy context id branding and wire-format guards (TIP-008A Slice 6).
  *
  * Wire context interfaces keep plain string ids for JSON serialization.
- * Brand ids only at explicit trust boundaries via `brand*` helpers.
+ * Parse ids at explicit trust boundaries via `parse*` helpers.
  */
 import {
-  brandCompanyId,
-  brandEntityGroupId,
-  brandOwnershipInterestId,
-  brandTenantId,
   type CompanyId,
   type EntityGroupId,
+  normalizeEntityGroupIdForWire,
+  normalizeTenantIdForWire,
   type OwnershipInterestId,
+  parseOptionalCompanyId,
+  parseOptionalEntityGroupId,
+  parseOptionalOwnershipInterestId,
+  parseOptionalTenantId,
   type TenantId,
   toCompanyId,
   toEntityGroupId,
   toOwnershipInterestId,
   toTenantId,
-} from "../contracts/platform-id.contract.js";
+} from "../identity/index.js";
 import type { ConsolidationScopeContext } from "./consolidation-scope-context.contract.js";
 import type { EntityGroupContext } from "./entity-group-context.contract.js";
 import type { OwnershipInterestContext } from "./ownership-interest-context.contract.js";
@@ -95,21 +97,18 @@ export interface BrandedOwnershipInterestContext
   readonly tenantId: TenantId;
 }
 
-export function normalizeTenantIdForWire(value: string | TenantId): string {
-  return typeof value === "string" ? value : toTenantId(value);
-}
-
-export function normalizeEntityGroupIdForWire(
-  value: string | EntityGroupId
-): string {
-  return typeof value === "string" ? value : toEntityGroupId(value);
-}
+export {
+  normalizeEntityGroupIdForWire,
+  normalizeTenantIdForWire,
+} from "../identity/index.js";
 
 export function brandDeriveConsolidationScopeTrustInput(
   input: DeriveConsolidationScopeWireInput
 ): DeriveConsolidationScopeTrustInput {
-  const tenantId = brandTenantId(normalizeTenantIdForWire(input.tenantId));
-  const entityGroupId = brandEntityGroupId(
+  const tenantId = parseOptionalTenantId(
+    normalizeTenantIdForWire(input.tenantId)
+  );
+  const entityGroupId = parseOptionalEntityGroupId(
     normalizeEntityGroupIdForWire(input.entityGroupId)
   );
 
@@ -132,13 +131,13 @@ export function brandDeriveConsolidationScopeTrustInput(
 export function brandOwnershipInterestContext(
   wire: OwnershipInterestWireContext
 ): BrandedOwnershipInterestContext {
-  const tenantId = brandTenantId(wire.tenantId);
-  const entityGroupId = brandEntityGroupId(wire.entityGroupId);
-  const ownershipInterestId = brandOwnershipInterestId(
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const entityGroupId = parseOptionalEntityGroupId(wire.entityGroupId);
+  const ownershipInterestId = parseOptionalOwnershipInterestId(
     wire.ownershipInterestId
   );
-  const parentLegalEntityId = brandCompanyId(wire.parentLegalEntityId);
-  const childLegalEntityId = brandCompanyId(wire.childLegalEntityId);
+  const parentLegalEntityId = parseOptionalCompanyId(wire.parentLegalEntityId);
+  const childLegalEntityId = parseOptionalCompanyId(wire.childLegalEntityId);
 
   if (
     tenantId === null ||

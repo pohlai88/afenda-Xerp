@@ -1,16 +1,16 @@
-import {
-  MarkdownCopyButton,
-  ViewOptionsPopover,
-} from "@/components/ai/page-actions";
 import { Feedback, FeedbackText } from "@/components/feedback/client";
 import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import {
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
-} from "fumadocs-ui/layouts/docs/page";
+  EditOnGitHub,
+  MarkdownCopyButton,
+  PageLastUpdate,
+  ViewOptionsPopover,
+} from "fumadocs-ui/layouts/notebook/page";
 import { createRelativeLink } from "fumadocs-ui/mdx";
-import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { getMDXComponents } from "@/components/mdx";
 import {
@@ -66,6 +66,8 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
     lang
   );
   const githubPath = `${docsGithubRepository.contentPathPrefix}/${lang}/${contentRelativePath}`;
+  const githubUrl = `https://github.com/${docsGithubRepository.owner}/${docsGithubRepository.repo}/blob/${docsGithubRepository.defaultBranch}/${githubPath}`;
+  const markdownUrl = resolveDocsLlmMarkdownUrl(page.url);
   const showInlineToc =
     isDocsLongFormContentPath(contentRelativePath) && page.data.toc.length > 0;
 
@@ -73,28 +75,15 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
     ? await openapi.preloadOpenAPIPage(page)
     : undefined;
 
-  const docsPageProps = {
-    editOnGithub: {
-      owner: docsGithubRepository.owner,
-      path: githubPath,
-      repo: docsGithubRepository.repo,
-      sha: docsGithubRepository.defaultBranch,
-    },
-    full: page.data.full,
-    toc: page.data.toc,
-    ...(lastModified ? { lastUpdate: lastModified } : {}),
-  } as const;
-
   return (
-    <DocsPage {...docsPageProps}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="not-prose mb-4 flex flex-row flex-wrap items-center gap-2 border-fd-border border-b pb-4">
-        <MarkdownCopyButton markdownUrl={resolveDocsLlmMarkdownUrl(page.url)} />
-        <ViewOptionsPopover
-          githubUrl={`https://github.com/${docsGithubRepository.owner}/${docsGithubRepository.repo}/blob/${docsGithubRepository.defaultBranch}/${githubPath}`}
-          markdownUrl={resolveDocsLlmMarkdownUrl(page.url)}
-        />
+    <DocsPage full={page.data.full} toc={page.data.toc}>
+      <DocsTitle className="docs-type-display">{page.data.title}</DocsTitle>
+      <DocsDescription className="docs-type-summary">
+        {page.data.description}
+      </DocsDescription>
+      <div className="docs-page-actions not-prose flex flex-row flex-wrap items-center">
+        <MarkdownCopyButton markdownUrl={markdownUrl} />
+        <ViewOptionsPopover githubUrl={githubUrl} markdownUrl={markdownUrl} />
       </div>
       <DocsBody>
         <FeedbackText onSendAction={onBlockFeedbackAction}>
@@ -106,22 +95,32 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
           {openApiPreload ? (
             <OpenAPIPreloadProvider preloaded={openApiPreload.preloaded}>
               <MDX
-                components={getMDXComponents({
-                  a: createRelativeLink(source, page),
-                  OpenAPIPage: OpenAPIPageWithPreload,
-                  APIPage: OpenAPIPageWithPreload,
-                })}
+                components={getMDXComponents(
+                  {
+                    a: createRelativeLink(source, page),
+                    OpenAPIPage: OpenAPIPageWithPreload,
+                    APIPage: OpenAPIPageWithPreload,
+                  },
+                  { pageTitle: page.data.title }
+                )}
               />
             </OpenAPIPreloadProvider>
           ) : (
             <MDX
-              components={getMDXComponents({
-                a: createRelativeLink(source, page),
-              })}
+              components={getMDXComponents(
+                {
+                  a: createRelativeLink(source, page),
+                },
+                { pageTitle: page.data.title }
+              )}
             />
           )}
         </FeedbackText>
       </DocsBody>
+      <div className="docs-page-footer not-prose flex flex-row flex-wrap items-center justify-between empty:hidden">
+        <EditOnGitHub href={githubUrl} />
+        {lastModified ? <PageLastUpdate date={lastModified} /> : null}
+      </div>
       <Feedback onSendAction={onPageFeedbackAction} />
     </DocsPage>
   );

@@ -1,7 +1,9 @@
 import { HomeLayout } from "fumadocs-ui/layouts/home";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { docsHomeSections } from "@/lib/docs-home.constants";
 import { docsHref } from "@/lib/docs-nav.contract";
+import { cn } from "@/lib/cn";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import { baseOptions } from "@/lib/layout.shared";
 
@@ -25,26 +27,27 @@ export default async function DocsMarketingHomePage({
     <HomeLayout {...options}>
       <main className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16">
         <header className="flex flex-col gap-4">
-          <p className="font-medium text-fd-muted-foreground text-sm">
+          <p className="docs-type-overline">
             Afenda ERP · engineer documentation
           </p>
-          <h1 className="font-semibold text-4xl text-fd-foreground tracking-tight">
+          <h1 className="docs-type-display">
             Implementation guides for the monorepo
           </h1>
-          <p className="max-w-2xl text-fd-muted-foreground text-lg">
+          <p className="docs-type-deck">
             Fumadocs-powered onboarding for `@afenda/erp`, `@afenda/docs`, and
             `@afenda/storybook`. Governance artifacts stay in repo-root{" "}
-            <code className="text-sm">docs/</code> — this site links to them.
+            <code className="docs-type-caption">docs/</code> — this site links
+            to them.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
-              className="inline-flex h-10 items-center rounded-md bg-fd-primary px-4 font-medium text-fd-primary-foreground text-sm transition-opacity hover:opacity-90"
+              className={cn(buttonVariants({ color: "primary" }))}
               href={docsHref(lang, "/docs")}
             >
               Open documentation
             </Link>
             <Link
-              className="inline-flex h-10 items-center rounded-md border border-fd-border px-4 font-medium text-fd-foreground text-sm transition-colors hover:bg-fd-accent"
+              className={cn(buttonVariants({ color: "outline" }))}
               href={docsHref(lang, "/docs/getting-started")}
             >
               Getting started
@@ -60,17 +63,13 @@ export default async function DocsMarketingHomePage({
             const Icon = section.icon;
             return (
               <Link
-                className="flex flex-col gap-2 rounded-lg border border-fd-border bg-fd-card p-5 transition-colors hover:bg-fd-accent/40"
+                className="flex flex-col gap-2 rounded-lg border border-fd-border bg-fd-card p-5 shadow-sm transition-[background-color,box-shadow] hover:bg-fd-accent/30 hover:shadow-md"
                 href={section.href}
                 key={section.href}
               >
                 <Icon aria-hidden className="size-5 text-fd-muted-foreground" />
-                <span className="font-medium text-fd-foreground">
-                  {section.title}
-                </span>
-                <span className="text-fd-muted-foreground text-sm">
-                  {section.description}
-                </span>
+                <span className="docs-type-ui-strong">{section.title}</span>
+                <span className="docs-type-caption">{section.description}</span>
               </Link>
             );
           })}

@@ -1,4 +1,4 @@
-import type { AccountingReadinessGateLiveSnapshot } from "@afenda/kernel";
+import type { AccountingReadinessGateLiveSnapshot } from "./accounting-readiness-gate-live-status.contract.js";
 
 import type { AccountingReadinessGateRequirementStatus } from "./resolve-accounting-readiness-gate-status.server";
 

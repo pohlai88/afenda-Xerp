@@ -20,7 +20,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { OpenAPIPage } from "@/components/api-page.client";
 import { AutoTypeTable } from "@/components/auto-type-table";
 import {
@@ -57,6 +57,38 @@ import { GraphView } from "@/components/graph-view";
  *
  * Slice C: all markdown images use ImageZoom via the `img` slot.
  */
+function flattenMdxText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") {
+    return "";
+  }
+  if (typeof node === "string") {
+    return node;
+  }
+  if (typeof node === "number") {
+    return String(node);
+  }
+  if (Array.isArray(node)) {
+    return node.map(flattenMdxText).join("");
+  }
+  if (typeof node === "object" && "props" in node) {
+    const element = node as { props: { children?: ReactNode } };
+    return flattenMdxText(element.props.children ?? "");
+  }
+  return "";
+}
+
+function normalizePageTitle(value: string): string {
+  return value.trim().replace(/\s+/g, " ");
+}
+
+function pageTitlesMatch(left: string, right: string): boolean {
+  return (
+    normalizePageTitle(left).localeCompare(normalizePageTitle(right), undefined, {
+      sensitivity: "accent",
+    }) === 0
+  );
+}
+
 function MdxImage(props: ComponentProps<"img">) {
   const { src, alt, className } = props;
   if (!src || typeof src !== "string") {
@@ -72,8 +104,11 @@ function MdxImage(props: ComponentProps<"img">) {
   );
 }
 
-export function getMDXComponents(components?: MDXComponents): MDXComponents {
-  return {
+export function getMDXComponents(
+  components?: MDXComponents,
+  options?: { readonly pageTitle?: string }
+): MDXComponents {
+  const merged = {
     ...defaultMdxComponents,
     Accordion,
     Accordions,
@@ -119,6 +154,22 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     TypeTable,
     ...components,
   } as MDXComponents;
+
+  const pageTitle = options?.pageTitle;
+  if (pageTitle) {
+    const defaultH1 = merged.h1 ?? defaultMdxComponents.h1;
+    merged.h1 = (props) => {
+      if (pageTitlesMatch(flattenMdxText(props.children), pageTitle)) {
+        return null;
+      }
+      if (typeof defaultH1 === "function") {
+        return defaultH1(props);
+      }
+      return <h1 {...props} />;
+    };
+  }
+
+  return merged;
 }
 
 declare global {

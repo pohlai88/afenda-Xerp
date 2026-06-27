@@ -7,6 +7,7 @@ import {
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
 } from "../auth.session.js";
+import { AUTH_TEST_PLATFORM_USER_ID } from "./auth-id-test-fixtures.js";
 
 function createSession(
   platformUserId: string | null,
@@ -116,9 +117,9 @@ describe("normalizeAfendaAuthSession activeWorkspaceId", () => {
 
 describe("isAfendaAuthSessionLinked", () => {
   it("returns true when linkStatus is linked and userId is non-empty", () => {
-    expect(isAfendaAuthSessionLinked(createSession("platform_user_1"))).toBe(
-      true
-    );
+    expect(
+      isAfendaAuthSessionLinked(createSession(AUTH_TEST_PLATFORM_USER_ID))
+    ).toBe(true);
   });
 
   it("returns false when platform userId is null", () => {
@@ -131,7 +132,9 @@ describe("isAfendaAuthSessionLinked", () => {
 
   it("returns false when linkStatus is unlinked despite userId present", () => {
     expect(
-      isAfendaAuthSessionLinked(createSession("platform_user_1", "unlinked"))
+      isAfendaAuthSessionLinked(
+        createSession(AUTH_TEST_PLATFORM_USER_ID, "unlinked")
+      )
     ).toBe(false);
   });
 
@@ -150,8 +153,10 @@ describe("toAfendaAuthIdentity", () => {
   });
 
   it("returns branded userId for linked session", () => {
-    const identity = toAfendaAuthIdentity(createSession("platform_user_1"));
-    expect(identity.userId).toBe("platform_user_1");
+    const identity = toAfendaAuthIdentity(
+      createSession(AUTH_TEST_PLATFORM_USER_ID)
+    );
+    expect(identity.userId).toBe(AUTH_TEST_PLATFORM_USER_ID);
     expect(identity.email).toBe("user@example.com");
   });
 });

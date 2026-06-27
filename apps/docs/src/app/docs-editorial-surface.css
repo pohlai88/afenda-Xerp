@@ -1,0 +1,84 @@
+/**
+ * Editorial canvas — paper noise + corner illustration.
+ * Sits behind Fumadocs solar #nd-page article card.
+ */
+
+body {
+  position: relative;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: var(--docs-text-base);
+  line-height: var(--docs-leading-normal);
+  letter-spacing: -0.014em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Film grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: var(--docs-noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+}
+
+.dark body::before {
+  mix-blend-mode: soft-light;
+}
+
+/* Editorial corner illustration — abstract rule lines */
+body::after {
+  content: "";
+  position: fixed;
+  top: -8%;
+  right: -4%;
+  z-index: -1;
+  width: min(52vw, 640px);
+  height: min(52vw, 640px);
+  pointer-events: none;
+  opacity: var(--docs-illustration-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none'%3E%3Ccircle cx='320' cy='80' r='120' stroke='%236b6560' stroke-width='0.75'/%3E%3Ccircle cx='320' cy='80' r='72' stroke='%236b6560' stroke-width='0.5'/%3E%3Cpath d='M40 360 Q200 220 360 40' stroke='%236b6560' stroke-width='0.75'/%3E%3Cpath d='M80 380 Q220 260 380 100' stroke='%236b6560' stroke-width='0.5'/%3E%3Cpath d='M120 40 V360 M200 20 V380 M280 40 V360' stroke='%236b6560' stroke-width='0.35' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top right;
+}
+
+.dark body::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none'%3E%3Ccircle cx='320' cy='80' r='120' stroke='%238a8580' stroke-width='0.75'/%3E%3Ccircle cx='320' cy='80' r='72' stroke='%238a8580' stroke-width='0.5'/%3E%3Cpath d='M40 360 Q200 220 360 40' stroke='%238a8580' stroke-width='0.75'/%3E%3Cpath d='M80 380 Q220 260 380 100' stroke='%238a8580' stroke-width='0.5'/%3E%3Cpath d='M120 40 V360 M200 20 V380 M280 40 V360' stroke='%238a8580' stroke-width='0.35' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body::after {
+    animation: docs-editorial-drift 120s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes docs-editorial-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    transform: translate3d(-1.5%, 1%, 0) rotate(-1.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body::after {
+    width: 70vw;
+    height: 70vw;
+    opacity: calc(var(--docs-illustration-opacity) * 0.65);
+  }
+}

@@ -37,12 +37,14 @@ describe("@afenda/docs AI and LLM integration", () => {
     expect(chatRoute).toContain("resolveDocsOpenRouterApiKey");
   });
 
-  it("mounts AISearch chrome in docs layout", () => {
+  it("mounts AISearch chrome in notebook docs layout", () => {
     const layout = readFileSync(
       join(appRoot, "src/app/[lang]/docs/layout.tsx"),
       "utf8"
     );
 
+    expect(layout).toContain('from "fumadocs-ui/layouts/notebook"');
+    expect(layout).toContain('mode: "top"');
     expect(layout).toContain("DocsAiSearchChrome");
     expect(
       readFileSync(
@@ -52,15 +54,17 @@ describe("@afenda/docs AI and LLM integration", () => {
     ).toContain("AISearch");
   });
 
-  it("uses MarkdownCopyButton and enhanced ViewOptionsPopover on slug page", () => {
+  it("uses notebook DocsPage and Fumadocs page actions on slug page", () => {
     const slugPage = readFileSync(
       join(appRoot, "src/app/[lang]/docs/[[...slug]]/page.tsx"),
       "utf8"
     );
 
+    expect(slugPage).toContain('from "fumadocs-ui/layouts/notebook/page"');
     expect(slugPage).toContain("MarkdownCopyButton");
-    expect(slugPage).toContain('@/components/ai/page-actions');
     expect(slugPage).toContain("ViewOptionsPopover");
+    expect(slugPage).toContain("PageLastUpdate");
+    expect(slugPage).toContain("EditOnGitHub");
   });
 
   it("documents OPENROUTER env in apps/docs/.env.example", () => {

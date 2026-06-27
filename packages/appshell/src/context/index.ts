@@ -1,4 +1,10 @@
 export type {
+  ApplicationShellAllowedContextOptions,
+  ApplicationShellContextSwitchTarget,
+  WorkspaceDisplayLabelInput,
+} from "../contracts/app-shell-context-switch.contract.js";
+export { formatWorkspaceDisplayLabel } from "../contracts/app-shell-context-switch.contract.js";
+export type {
   ApplicationShellIdentity,
   ApplicationShellOperatingContext,
   AppShellContextSwitchSelection,

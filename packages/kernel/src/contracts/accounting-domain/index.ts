@@ -31,6 +31,10 @@ export type {
 } from "./accounting-domain-wire-context.contract.js";
 export {
   type AccountId,
+  brandAccountId,
+  brandFiscalPeriodId,
+  brandJournalEntryId,
+  brandLedgerAccountCode,
   type FiscalPeriodId,
   type JournalEntryId,
   type LedgerAccountCode,

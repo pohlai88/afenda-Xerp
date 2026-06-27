@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import {
   type AccountingReadinessContext,
   type assertHierarchyContextJsonSerializable,
+  type assertPermissionScopeContextJsonSerializable,
   type ConsolidationScopeContext,
   type ConsolidationScopeWireContext,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
@@ -95,6 +96,11 @@ type _TeamContextSerializable = AssertSerializable<TeamContext>;
 type _ProjectContextSerializable = AssertSerializable<ProjectContext>;
 type _PermissionScopeContextSerializable =
   AssertSerializable<PermissionScopeContext>;
+type _PermissionScopeJsonGuard = assertPermissionScopeContextJsonSerializable;
+type _AssertPermissionScopeJsonGuard = _PermissionScopeJsonGuard extends true
+  ? _PermissionScopeContextSerializable
+  : false;
+type _AssertPermissionScopeComposition = _AssertPermissionScopeJsonGuard;
 type _ConsolidationScopeContextSerializable =
   AssertSerializable<ConsolidationScopeContext>;
 type _OperatingContextSerializable = AssertSerializable<OperatingContext>;

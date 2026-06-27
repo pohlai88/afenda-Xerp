@@ -1,37 +1,17 @@
 /**
- * Afenda Docs — fumadocs-ui v16 component overrides
+ * Afenda Docs — component overrides on Fumadocs preset styles.
  *
- * ARCHITECTURE NOTE (fumadocs-ui v16+):
- * Components no longer use nd-* class names. They render with Tailwind utility
- * classes that consume --color-fd-* variables. The palette bridge in
- * docs-editorial-palette.css (via @theme inline) handles all colour correctly.
- *
- * STABLE selectors: #nd-sidebar, #nd-toc, #nd-subnav, data-* attributes.
- * Those live in docs-editorial-palette.css.
- *
- * This file covers:
- *   1. Code blocks  — [data-rehype-pretty-code-figure] (rehype-pretty-code output)
- *   2. Callout tint — --callout-color is set by fd-info/fd-warning (see palette)
- *   3. Cards hover  — fd-* already handles bg; this adds box-shadow depth
- *   4. Steps        — counter-reset/increment styling already native; we add color
- *   5. TypeTable    — prose-positioned table chrome
- *   6. InlineTOC    — sticky position, link hover transition
- *
- * Rules:
- *   - Only --docs-editorial-* and --color-fd-* tokens; no raw OKLCH literals here
- *   - @media prefers-reduced-motion at bottom
+ * Shell colours use --color-fd-* from fumadocs-ui/css/neutral.css.
+ * Prose accent uses --docs-prose-accent from docs-editorial-palette.css.
  */
 
-/* ─── Code block (rehype-pretty-code output) ────────────────────────────────
-   fumadocs renders <figure data-rehype-pretty-code-figure> wrapping
-   <figcaption data-rehype-pretty-code-title> + <pre data-language="...">
-   ────────────────────────────────────────────────────────────────────────── */
+/* ─── Code block (rehype-pretty-code output) ──────────────────────────────── */
 
 [data-rehype-pretty-code-figure] {
-  margin-block: 1.5rem;
+  margin-block: var(--docs-gap-block);
   overflow: hidden;
-  background-color: var(--docs-editorial-code-surface);
-  border: 1px solid var(--docs-editorial-border-subtle);
+  background-color: var(--color-fd-muted);
+  border: 1px solid var(--color-fd-border);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px oklch(0 0 0 / 0.05);
 }
@@ -42,25 +22,25 @@
 
 [data-rehype-pretty-code-title] {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--docs-gap-inline);
   align-items: center;
-  padding: 0.625rem 1rem;
+  padding: var(--docs-gap-inline) var(--docs-gap-block);
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 0.8125rem;
-  color: var(--docs-editorial-text-muted);
+  color: var(--color-fd-muted-foreground);
   letter-spacing: 0;
   user-select: none;
-  background-color: var(--docs-editorial-surface-muted);
-  border-bottom: 1px solid var(--docs-editorial-border-subtle);
+  background-color: var(--color-fd-secondary);
+  border-bottom: 1px solid var(--color-fd-border);
 }
 
 [data-rehype-pretty-code-figure] pre {
-  padding: 1.125rem 1rem;
+  padding: var(--docs-gap-block) var(--docs-gap-block);
   margin: 0;
   overflow-x: auto;
   font-size: 0.8125rem;
   line-height: 1.65;
-  background-color: var(--docs-editorial-code-surface);
+  background-color: var(--color-fd-muted);
 }
 
 [data-rehype-pretty-code-figure] pre code {
@@ -70,29 +50,27 @@
   border: none;
 }
 
-/* Individual highlighted lines */
 [data-highlighted-line] {
   padding-inline-start: calc(1rem - 2px);
   padding-inline-end: 1rem;
   margin-inline: -1rem;
   background-color: color-mix(
     in oklch,
-    var(--docs-editorial-prose-accent) 8%,
-    var(--docs-editorial-code-surface)
+    var(--docs-prose-accent) 8%,
+    var(--color-fd-muted)
   );
-  border-inline-start: 2px solid var(--docs-editorial-prose-accent);
+  border-inline-start: 2px solid var(--docs-prose-accent);
 }
 
-/* Copy button inside code block */
 [data-rehype-pretty-code-figure] button[aria-label="Copy code"] {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  color: var(--docs-editorial-text-muted);
-  background-color: var(--docs-editorial-surface-muted);
-  border: 1px solid var(--docs-editorial-border-subtle);
+  color: var(--color-fd-muted-foreground);
+  background-color: var(--color-fd-secondary);
+  border: 1px solid var(--color-fd-border);
   border-radius: 0.25rem;
   opacity: 0;
   transition: opacity 120ms ease;
@@ -102,12 +80,38 @@
   opacity: 1;
 }
 
-/* ─── Callout (fumadocs v16) ─────────────────────────────────────────────────
-   No nd-callout class in v16 — colours flow through --color-fd-info/fd-warning
-   in @theme inline → --callout-color resolved by fumadocs. Nothing to override.
-   ────────────────────────────────────────────────────────────────────────── */
+/* ─── Cards — soft surfaces for editorial density ───────────────────────── */
 
-/* ─── Cards hover depth (fd-card bg is already handled by bridge) ────────── */
+#nd-page .nd-card {
+  gap: var(--docs-gap-inline);
+  padding: var(--docs-inset-component);
+  background-color: color-mix(
+    in oklch,
+    var(--color-fd-card) 88%,
+    var(--color-fd-article)
+  );
+  border-color: color-mix(in oklch, var(--color-fd-border) 60%, transparent);
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+#nd-page .nd-card :is(h3, h4, .font-medium, .font-semibold) {
+  font-size: var(--docs-text-ui);
+  font-weight: 500;
+  line-height: var(--docs-leading-ui);
+  color: var(--docs-text-heading);
+}
+
+#nd-page .nd-card :is(p, .text-fd-muted-foreground, .text-fd-card-foreground) {
+  font-size: var(--docs-text-meta);
+  font-weight: 400;
+  line-height: var(--docs-leading-normal);
+  color: var(--docs-text-body);
+}
+
+#nd-page .nd-card :is(strong, b) {
+  font-weight: 400;
+  color: var(--docs-text-body);
+}
 
 .nd-card {
   transition: box-shadow 150ms ease;
@@ -115,35 +119,31 @@
 
 .nd-card:hover {
   box-shadow:
-    0 2px 8px oklch(0 0 0 / 0.06),
-    0 0 0 1px var(--docs-editorial-border);
+    0 2px 6px oklch(0 0 0 / 0.04),
+    0 0 0 1px var(--color-fd-border);
 }
 
 .dark .nd-card:hover {
   box-shadow:
-    0 2px 8px oklch(0 0 0 / 0.25),
-    0 0 0 1px var(--docs-editorial-border);
+    0 2px 6px oklch(0 0 0 / 0.18),
+    0 0 0 1px var(--color-fd-border);
 }
 
-/* ─── Steps (retained for compatibility — nd-steps may appear in v16 prose) ─*/
+/* ─── Steps ───────────────────────────────────────────────────────────────── */
 
 .nd-steps {
-  border-color: var(--docs-editorial-border-subtle);
+  border-color: var(--color-fd-border);
 }
 
 .nd-steps > li::before {
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
-  color: var(--docs-editorial-paper);
-  background-color: var(--docs-editorial-prose-accent);
+  color: var(--color-fd-primary-foreground);
+  background-color: var(--docs-prose-accent);
 }
 
-.dark .nd-steps > li::before {
-  color: var(--docs-editorial-canvas);
-}
-
-/* ─── TypeTable (keeps nd-type-table for compatibility) ─────────────────── */
+/* ─── TypeTable ───────────────────────────────────────────────────────────── */
 
 .nd-type-table {
   font-size: 0.875rem;
@@ -151,64 +151,58 @@
 
 .nd-type-table thead th {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--docs-editorial-text-muted);
+  font-weight: 500;
+  color: var(--color-fd-muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  background-color: var(--docs-editorial-surface-muted);
-  border-color: var(--docs-editorial-border-subtle);
+  background-color: var(--color-fd-muted);
+  border-color: var(--color-fd-border);
 }
 
 .nd-type-table td {
   padding: 0.625rem 0.875rem;
   vertical-align: top;
-  color: var(--docs-editorial-text);
-  border-color: var(--docs-editorial-border-subtle);
+  color: var(--color-fd-foreground);
+  border-color: var(--color-fd-border);
 }
 
 .nd-type-table code {
   padding: 0.1rem 0.3rem;
   font-size: 0.8125rem;
-  color: var(--docs-editorial-prose-accent);
-  background-color: var(--docs-editorial-code-surface);
+  color: var(--docs-prose-accent);
+  background-color: var(--color-fd-muted);
   border-radius: 0.25rem;
 }
 
-/* ─── InlineTOC ──────────────────────────────────────────────────────────── */
+/* ─── InlineTOC ───────────────────────────────────────────────────────────── */
 
 .nd-inline-toc {
-  background-color: var(--docs-editorial-surface-muted);
-  border-color: var(--docs-editorial-border-subtle);
+  background-color: var(--color-fd-muted);
+  border-color: var(--color-fd-border);
   border-radius: 0.375rem;
 }
 
 .nd-inline-toc a {
   font-size: 0.875rem;
-  color: var(--docs-editorial-text-muted);
+  color: var(--color-fd-muted-foreground);
   transition: color 100ms ease;
 }
 
 .nd-inline-toc a:hover {
-  color: var(--docs-editorial-prose-accent);
+  color: var(--docs-prose-accent);
 }
-
-/* ─── Banner ─────────────────────────────────────────────────────────────── */
 
 [data-rehype-pretty-code-figure] [data-highlighted-chars] {
   padding: 0.1rem 0.15rem;
   background-color: color-mix(
     in oklch,
-    var(--docs-editorial-prose-accent) 15%,
-    var(--docs-editorial-code-surface)
+    var(--docs-prose-accent) 15%,
+    var(--color-fd-muted)
   );
   border-radius: 0.2rem;
 }
 
-/* ─── react-medium-image-zoom inlined (fumadocs ImageZoom component) ─────────
-   Source: fumadocs-ui/dist/components/image-zoom2.css
-   Inlined because the package exports this file without a "style" condition,
-   which Tailwind v4 PostCSS resolver requires.
-   ────────────────────────────────────────────────────────────────────────── */
+/* ─── react-medium-image-zoom (fumadocs ImageZoom) ────────────────────────── */
 
 [data-rmiz] {
   position: relative;
@@ -240,8 +234,6 @@
   overflow: hidden;
   background-color: transparent;
 }
-
-/* ─── Reduced motion ─────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .nd-card,

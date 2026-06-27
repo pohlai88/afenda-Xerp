@@ -1,0 +1,12 @@
+# PAS/KAS 4.1 scaffold - Canonical Enterprise ID Constitution
+# Target slice: kernel identity constitution (ADR-0021)
+# Replace with implementation files listed below.
+
+# - assets.schema.ts
+# - customers.schema.ts
+# - documents.schema.ts
+# - employees.schema.ts
+# - products.schema.ts
+# - suppliers.schema.ts
+# - tenants.schema.ts
+# - warehouses.schema.ts

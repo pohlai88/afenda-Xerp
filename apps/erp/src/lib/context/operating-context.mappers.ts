@@ -5,6 +5,8 @@ import type {
   TenantLookupRow,
 } from "@afenda/database";
 import {
+  brandRequiredCountryCode,
+  brandRequiredCurrencyCode,
   type EntityGroupContext,
   LEGAL_ENTITY_COMPANY_TYPES,
   type LegalEntityCompanyType,
@@ -65,8 +67,8 @@ function toLegalEntityContext(row: CompanyLookupRow): LegalEntityContext {
     displayName: row.displayName,
     registrationNumber: row.registrationNumber,
     taxRegistrationNumber: row.taxId,
-    countryCode: row.countryCode,
-    baseCurrency: row.baseCurrency,
+    countryCode: brandRequiredCountryCode(row.countryCode),
+    baseCurrency: brandRequiredCurrencyCode(row.baseCurrency),
     reportingCurrency: null,
     companyType: toLegalEntityCompanyType(row.companyType),
     fiscalCalendarId: row.fiscalCalendarId,

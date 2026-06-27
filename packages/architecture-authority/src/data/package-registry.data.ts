@@ -94,6 +94,17 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-022",
+    packageName: "@afenda/email",
+    path: "apps/email",
+    layer: "Application",
+    lifecycle: "active",
+    purpose: "Dev-only React Email preview for auth transactional templates",
+    publicApiOwner: "Application Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
     registryId: "PKG-008",
     packageName: "@afenda/execution",
     path: "packages/execution",

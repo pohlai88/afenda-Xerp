@@ -8,6 +8,7 @@ import {
   registerPublishOutboxEventsWorkflow,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
+import { persistenceCanonicalIdBodyGenerator } from "@/lib/identity/persistence-canonical-id-body-generator.server";
 import { createDrizzleOutboxPersistenceAdapter } from "@/lib/outbox/drizzle-outbox-persistence.adapter";
 import {
   assertSchedulerStartupPolicy,
@@ -36,6 +37,7 @@ export async function registerOutboxFoundation(): Promise<void> {
   const triggerSecretKeyConfigured = readTriggerSecretKeyConfigured();
 
   const publishService = createOutboxPublishService({
+    canonicalIdBodyGenerator: persistenceCanonicalIdBodyGenerator,
     dispatcher: createLoggingOutboxEventDispatcher(),
     persistence: createDrizzleOutboxPersistenceAdapter(),
   });

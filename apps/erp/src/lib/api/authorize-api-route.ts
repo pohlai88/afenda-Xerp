@@ -4,10 +4,9 @@ import {
   isAfendaAuthSessionLinked,
 } from "@afenda/auth";
 import {
-  brandTenantId,
-  createExecutionContext,
   type ExecutionContext,
   type OperatingContext,
+  parseTenantId,
   type TenantId,
 } from "@afenda/kernel";
 import type {
@@ -30,6 +29,7 @@ import {
   resolveBoundaryPermissionKey,
 } from "@afenda/permissions";
 
+import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
 import { createErpLogger } from "@/lib/observability/create-erp-logger";
 import { toErpCorrelationId } from "@/lib/observability/erp-correlation-id";
 import { ERP_LOGGER_MODULES } from "@/lib/observability/erp-diagnostic-defaults";
@@ -129,7 +129,7 @@ function buildExecutionContext(input: {
   readonly organizationId: string | null;
   readonly tenantId: TenantId;
 }): ExecutionContext {
-  return createExecutionContext({
+  return createServerExecutionContext({
     actorId: input.actorId,
     companyId: input.companyId,
     correlationId: input.correlationId,
@@ -284,12 +284,20 @@ function buildAuthorizationSuccess(input: {
     );
   }
 
-  const tenantId = brandTenantId(input.decision.tenantId);
-
-  if (tenantId === null) {
+  if (input.decision.tenantId === null) {
     throw new ApiRouteError(
       "internal_error",
       "Authorization decision is missing tenant context."
+    );
+  }
+
+  let tenantId: TenantId;
+  try {
+    tenantId = parseTenantId(input.decision.tenantId);
+  } catch {
+    throw new ApiRouteError(
+      "internal_error",
+      "Authorization decision tenant id is invalid."
     );
   }
 

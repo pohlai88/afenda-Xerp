@@ -23,6 +23,7 @@ vi.mock("next/headers", () => ({
   headers: vi.fn(async () => new Headers()),
 }));
 
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { resolveUserSettingsOperatingContext } from "../resolve-user-settings-context.server";
 
 const linkedSession = {
@@ -64,8 +65,7 @@ const operatingContext = {
     displayName: "Dev Company",
     registrationNumber: null,
     taxRegistrationNumber: null,
-    baseCurrency: "AUD",
-    countryCode: "AU",
+    ...testLegalEntityCurrencyFields(),
     status: "active" as const,
   },
   organizationUnit: null,

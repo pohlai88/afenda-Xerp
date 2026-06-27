@@ -17,7 +17,7 @@ export type {
   CorrelationId,
   PermissionId,
   UserId,
-} from "../platform-id.contract.js";
+} from "../../identity/index.js";
 
 export {
   getPlatformEntityAuthority,

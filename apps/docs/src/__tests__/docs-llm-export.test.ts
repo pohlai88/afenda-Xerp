@@ -48,7 +48,10 @@ describe("@afenda/docs LLM markdown export", () => {
     );
 
     expect(slugPage).toContain("resolveDocsLlmMarkdownUrl");
-    expect(slugPage).toMatch(/markdownUrl=\{resolveDocsLlmMarkdownUrl\(page\.url\)\}/);
+    expect(slugPage).toContain(
+      "const markdownUrl = resolveDocsLlmMarkdownUrl(page.url)"
+    );
+    expect(slugPage).toContain("markdownUrl={markdownUrl}");
   });
 
   it("rewrites .mdx suffix docs URLs to the llms route", () => {

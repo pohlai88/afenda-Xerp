@@ -4,6 +4,7 @@ import {
   type OutboxEventEnvelope,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
+import { createFixtureCanonicalIdBodyGenerator } from "@afenda/kernel";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -25,6 +26,9 @@ import { clearWorkspaceDashboardLayoutStoreForTests } from "@/server/workspace/d
 import { commitWorkspaceDashboardMutation } from "../lib/outbox/commit-workspace-dashboard-mutation.server.js";
 import type { EnqueueOutboxEventInput } from "../lib/outbox/enqueue-outbox-event.server.js";
 import { createInMemoryOutboxPersistence } from "../lib/outbox/in-memory-outbox-persistence.js";
+
+const outboxTestCanonicalIdBodyGenerator =
+  createFixtureCanonicalIdBodyGenerator();
 
 const TENANT_B_ID = "tenant-outbox-b";
 const TENANT_B_COMPANY_ID = "company-outbox-b";
@@ -75,6 +79,7 @@ describe("outbox mutation integration", () => {
       ok: true as const,
     }));
     const publishService = createOutboxPublishService({
+      canonicalIdBodyGenerator: outboxTestCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T12:00:00.000Z",
       persistence,
@@ -160,6 +165,7 @@ describe("outbox mutation integration", () => {
 
     const dispatch = vi.fn(async () => ({ ok: true as const }));
     const publishService = createOutboxPublishService({
+      canonicalIdBodyGenerator: outboxTestCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T12:00:00.000Z",
       persistence,

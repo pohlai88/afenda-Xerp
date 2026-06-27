@@ -19,7 +19,12 @@ import {
   policyScopeEnum,
   policyStatusEnum,
 } from "../database.types.js";
-import { primaryId, tenantIdRef } from "../ids.js";
+import {
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { tenants } from "./tenant.schema.js";
 
@@ -36,6 +41,7 @@ export const policies = pgTable(
   "policies",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("policy"),
     tenantId: tenantIdRef().references(() => tenants.id, {
       onDelete: "restrict",
     }),
@@ -51,6 +57,8 @@ export const policies = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("policies_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "policy"),
     uniqueIndex("policies_platform_key_unique")
       .on(table.key)
       .where(sql`${table.tenantId} is null`),

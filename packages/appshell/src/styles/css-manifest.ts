@@ -46,13 +46,36 @@ export const appShellCssManifest = [
     classNamespace: "app-shell-",
     propertyNamespace: "--app-shell-",
   },
+  {
+    /**
+     * Auth shell BEM layer (.af-auth-shell*).
+     * Consumed internally via @import in afenda-appshell.css — NOT a standalone export.
+     */
+    packageName: "@afenda/appshell",
+    exportPath: "./afenda-appshell.css",
+    sourceFile: "src/auth-shell/auth-shell.css",
+    purpose: "auth-shell-structural",
+    productionSafe: true,
+    requiresTailwindTheme: false,
+    internalOnly: true,
+    allowedImporters: ["@afenda/appshell"],
+    prohibitedImporters: [
+      "apps/*",
+      "@afenda/metadata",
+      "@afenda/metadata-ui",
+      "@afenda/ui",
+    ],
+    classNamespace: "af-auth-shell",
+    propertyNamespace: "--af-auth-shell-",
+  },
 ] as const satisfies CssManifest;
 
 /** CSS budget for @afenda/appshell. */
 export const APPSHELL_CSS_BUDGET = {
-  maxSourceFiles: 2,
+  maxSourceFiles: 3,
   allowedSourceFiles: [
     "src/styles/afenda-appshell.css",
     "src/styles/afenda-appshell-studio.css",
+    "src/auth-shell/auth-shell.css",
   ] as const,
 } as const;

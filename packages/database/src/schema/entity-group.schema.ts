@@ -5,7 +5,13 @@
  */
 import { index, pgTable, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { companyStatusEnum } from "../database.types.js";
-import { parentLegalEntityIdRef, primaryId, tenantIdRef } from "../ids.js";
+import {
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
+  parentLegalEntityIdRef,
+  primaryId,
+  tenantIdRef,
+} from "../ids.js";
 import { createdAtColumn, updatedAtColumn } from "../timestamps.js";
 import { companies } from "./company.schema.js";
 import { tenants } from "./tenant.schema.js";
@@ -14,6 +20,7 @@ export const entityGroups = pgTable(
   "entity_groups",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("entityGroup"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -28,6 +35,8 @@ export const entityGroups = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("entity_groups_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "entityGroup"),
     uniqueIndex("entity_groups_tenant_slug_unique").on(
       table.tenantId,
       table.slug

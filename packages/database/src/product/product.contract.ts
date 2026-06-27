@@ -2,6 +2,7 @@
  * Product master data write governance — types and pure builders (no I/O).
  */
 import type { MasterDataRecordStatus } from "../database.types.js";
+import { createEnterpriseId } from "../enterprise-id/index.js";
 import { assertMasterDataNaturalKey } from "../master-data/master-data-natural-key.js";
 
 export interface ProductWriteInput {
@@ -13,6 +14,7 @@ export interface ProductWriteInput {
 
 export interface ProductInsertRow {
   displayName: string;
+  enterpriseId: string;
   sku: string;
   status: MasterDataRecordStatus;
   tenantId: string;
@@ -36,6 +38,7 @@ export function buildProductInsertRow(
 ): ProductInsertRow {
   return {
     tenantId: input.tenantId,
+    enterpriseId: createEnterpriseId("product"),
     sku: assertMasterDataNaturalKey(input.sku, "SKU"),
     displayName: input.displayName.trim(),
     status: input.status ?? "draft",

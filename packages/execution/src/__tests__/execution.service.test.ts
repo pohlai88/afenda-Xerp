@@ -11,6 +11,18 @@ import {
   createTriggerExecutionProvider,
   EXECUTION_AUDIT_ACTIONS,
 } from "../index.js";
+import {
+  EXECUTION_TEST_ACTOR_ID,
+  EXECUTION_TEST_COMPANY_ID,
+  EXECUTION_TEST_CORRELATION_AUDIT_ID,
+  EXECUTION_TEST_CORRELATION_FAIL_ID,
+  EXECUTION_TEST_CORRELATION_ID,
+  EXECUTION_TEST_EXECUTION_AUDIT_ID,
+  EXECUTION_TEST_EXECUTION_FAIL_ID,
+  EXECUTION_TEST_EXECUTION_SERVICE_ID,
+  EXECUTION_TEST_ORGANIZATION_ID,
+  EXECUTION_TEST_TENANT_ID,
+} from "./execution-test-fixtures.js";
 
 function createAuditAdapter(writtenRows: AuditEventInsertRow[]) {
   return {
@@ -23,14 +35,14 @@ function createAuditAdapter(writtenRows: AuditEventInsertRow[]) {
 
 describe("execution service", () => {
   const context = createExecutionContext({
-    actorId: "actor-1",
-    companyId: "company-1",
-    correlationId: "corr-exec-001",
-    executionId: "exec-service-001",
-    organizationId: "organization-1",
+    actorId: EXECUTION_TEST_ACTOR_ID,
+    companyId: EXECUTION_TEST_COMPANY_ID,
+    correlationId: EXECUTION_TEST_CORRELATION_ID,
+    executionId: EXECUTION_TEST_EXECUTION_SERVICE_ID,
+    organizationId: EXECUTION_TEST_ORGANIZATION_ID,
     source: "api",
     startedAt: "2026-06-20T00:00:00.000Z",
-    tenantId: "tenant-1",
+    tenantId: EXECUTION_TEST_TENANT_ID,
   });
 
   it("returns provider_unavailable before a provider is configured", async () => {
@@ -217,10 +229,10 @@ describe("execution service audit integration", () => {
     });
 
     const context = createExecutionContext({
-      correlationId: "corr-audit-001",
-      executionId: "exec-audit-001",
+      correlationId: EXECUTION_TEST_CORRELATION_AUDIT_ID,
+      executionId: EXECUTION_TEST_EXECUTION_AUDIT_ID,
       source: "manual",
-      tenantId: "tenant-1",
+      tenantId: EXECUTION_TEST_TENANT_ID,
     });
 
     await service.execute({
@@ -234,7 +246,9 @@ describe("execution service audit integration", () => {
     expect(actions).toContain(EXECUTION_AUDIT_ACTIONS.EXECUTION_STARTED);
     expect(writtenRows.every((row) => row.module === "execution")).toBe(true);
     expect(
-      writtenRows.every((row) => row.correlationId === "corr-audit-001")
+      writtenRows.every(
+        (row) => row.correlationId === EXECUTION_TEST_CORRELATION_AUDIT_ID
+      )
     ).toBe(true);
   });
 
@@ -269,8 +283,8 @@ describe("execution service audit integration", () => {
     });
 
     const context = createExecutionContext({
-      correlationId: "corr-audit-fail",
-      executionId: "exec-audit-fail",
+      correlationId: EXECUTION_TEST_CORRELATION_FAIL_ID,
+      executionId: EXECUTION_TEST_EXECUTION_FAIL_ID,
       source: "manual",
     });
 
@@ -294,14 +308,14 @@ describe("execution context propagation", () => {
         correlationId: "",
         source: "api",
       })
-    ).toThrow("correlationId");
+    ).toThrow(/CorrelationId/i);
 
     expect(() =>
       createExecutionContext({
-        correlationId: "corr-1",
+        correlationId: EXECUTION_TEST_CORRELATION_ID,
         executionId: "",
         source: "api",
       })
-    ).toThrow("executionId");
+    ).toThrow(/ExecutionId/i);
   });
 });

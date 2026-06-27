@@ -1,5 +1,5 @@
 import type { PermissionKey } from "@afenda/database";
-import { ok } from "@afenda/kernel";
+import { createTestEnterpriseId, ok } from "@afenda/kernel";
 import type {
   MembershipContract,
   PlatformUserContract,
@@ -7,20 +7,35 @@ import type {
   TenantContract,
 } from "@afenda/permissions";
 import { InMemoryPermissionDataSource } from "@afenda/permissions";
-
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import type { ResolveOperatingContextInput } from "@/lib/context/resolve-operating-context.server";
 
-export const DASHBOARD_RBAC_ACTOR_ID = "user-dashboard-rbac";
-export const DASHBOARD_RBAC_TENANT_ID = "tenant-dashboard-rbac";
-export const DASHBOARD_RBAC_COMPANY_ID = "company-dashboard-rbac";
-export const DASHBOARD_RBAC_ROLE_ID = "role-dashboard-rbac";
-export const DASHBOARD_RBAC_MEMBERSHIP_ID = "membership-dashboard-rbac";
+export const DASHBOARD_RBAC_ACTOR_ID = createTestEnterpriseId(
+  "user",
+  "01ARZ3NDEKTSV4RRFFQ69G5DAV"
+);
+export const DASHBOARD_RBAC_TENANT_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5TEN"
+);
+export const DASHBOARD_RBAC_COMPANY_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5CMP"
+);
+export const DASHBOARD_RBAC_ROLE_ID = createTestEnterpriseId(
+  "role",
+  "01ARZ3NDEKTSV4RRFFQ69G5ROL"
+);
+export const DASHBOARD_RBAC_MEMBERSHIP_ID = createTestEnterpriseId(
+  "membership",
+  "01ARZ3NDEKTSV4RRFFQ69G5MEM"
+);
 
 export function createDashboardRbacOperatingContextFixture() {
   return {
     actor: { userId: DASHBOARD_RBAC_ACTOR_ID },
     consolidationScope: null,
-    correlationId: "corr-dashboard-rbac",
+    correlationId: createTestEnterpriseId("correlation"),
     entityGroup: null,
     legalEntity: {
       companyId: DASHBOARD_RBAC_COMPANY_ID,
@@ -31,8 +46,7 @@ export function createDashboardRbacOperatingContextFixture() {
       displayName: "Dev Company",
       registrationNumber: "DEV-001",
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "standalone" as const,
       fiscalCalendarId: null,

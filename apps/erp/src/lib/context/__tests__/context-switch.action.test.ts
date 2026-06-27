@@ -45,6 +45,7 @@ vi.mock("@/lib/server-actions/record-action-audit", () => ({
   recordActionAudit: recordActionAuditMock,
 }));
 
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { switchOperatingContextAction } from "../context-switch.action";
 
 const sampleSession = {
@@ -90,8 +91,7 @@ function createMockOperatingContext(
       displayName: "Dev Company",
       registrationNumber: null,
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "standalone",
       fiscalCalendarId: null,

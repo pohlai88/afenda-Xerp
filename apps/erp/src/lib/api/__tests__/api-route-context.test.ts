@@ -1,26 +1,39 @@
 import type { OperatingContext } from "@afenda/kernel";
 import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
-
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import {
   AFENDA_TENANT_ID_HEADER,
   AFENDA_WORKSPACE_ID_HEADER,
   toAuthorizationContextFromOperatingContext,
 } from "../api-route-context";
 
-const TENANT_ID = "tenant-001";
-const COMPANY_ID = "company-a";
-const ENTITY_GROUP_ID = "group-a";
-const PROJECT_ID = "project-a";
-const TEAM_ID = "team-a";
-const ACTOR_ID = "user-001";
+import {
+  API_TEST_ACTOR_ID,
+  API_TEST_COMPANY_ID,
+  API_TEST_CORRELATION_ID,
+  API_TEST_ENTITY_GROUP_A_ID,
+  API_TEST_ENTITY_GROUP_FALLBACK_ID,
+  API_TEST_MEMBERSHIP_ID,
+  API_TEST_PROJECT_ID,
+  API_TEST_ROLE_ID,
+  API_TEST_TEAM_ID,
+  API_TEST_TENANT_ID,
+} from "./api-id-test-fixtures";
+
+const TENANT_ID = API_TEST_TENANT_ID;
+const COMPANY_ID = API_TEST_COMPANY_ID;
+const ENTITY_GROUP_ID = API_TEST_ENTITY_GROUP_A_ID;
+const PROJECT_ID = API_TEST_PROJECT_ID;
+const TEAM_ID = API_TEST_TEAM_ID;
+const ACTOR_ID = API_TEST_ACTOR_ID;
 
 function createOperatingContextFixture(
   overrides: Partial<OperatingContext> = {}
 ): OperatingContext {
   return {
     actor: { userId: ACTOR_ID },
-    correlationId: "corr-test",
+    correlationId: API_TEST_CORRELATION_ID,
     tenant: {
       tenantId: TENANT_ID,
       slug: "acme",
@@ -37,8 +50,7 @@ function createOperatingContextFixture(
       displayName: "Acme Co",
       registrationNumber: null,
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "subsidiary",
       fiscalCalendarId: null,
@@ -80,8 +92,8 @@ function createOperatingContextFixture(
       organizationId: null,
       teamId: TEAM_ID,
       projectId: PROJECT_ID,
-      membershipId: "membership-001",
-      roleId: "role-001",
+      membershipId: API_TEST_MEMBERSHIP_ID,
+      roleId: API_TEST_ROLE_ID,
       elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
     },
     consolidationScope: null,
@@ -127,7 +139,7 @@ describe("toAuthorizationContextFromOperatingContext", () => {
           entityGroupId: ENTITY_GROUP_ID,
         },
         entityGroup: {
-          entityGroupId: "group-fallback",
+          entityGroupId: API_TEST_ENTITY_GROUP_FALLBACK_ID,
           tenantId: TENANT_ID,
           slug: "fallback-group",
           displayName: "Fallback Group",

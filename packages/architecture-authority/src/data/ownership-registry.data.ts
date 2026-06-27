@@ -45,6 +45,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "application",
   },
   {
+    packageName: "@afenda/email",
+    ownerDomain: "Application Authority",
+    authorityLevel: "application",
+  },
+  {
     packageName: "@afenda/execution",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",

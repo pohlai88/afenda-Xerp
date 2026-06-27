@@ -1,32 +1,34 @@
 /** Editorial MDX blocks — derived from afenda-docs preview CSS. */
 @layer components {
-  :where(.nd-page) {
-    --docs-editorial-block-canvas: var(--docs-editorial-canvas);
-    --docs-editorial-block-paper: var(--docs-editorial-paper);
-    --docs-editorial-block-text: var(--docs-editorial-text);
-    --docs-editorial-block-text-muted: var(--docs-editorial-text-muted);
-    --docs-editorial-block-border: var(--docs-editorial-border);
-    --docs-editorial-block-border-subtle: var(--docs-editorial-border-subtle);
-    --docs-editorial-block-surface-muted: var(--docs-editorial-surface-muted);
-    --docs-editorial-block-surface-hover: var(--docs-editorial-surface-hover);
-    --docs-editorial-block-accent: var(--docs-editorial-prose-accent);
+  :where(#nd-page) {
+    --docs-editorial-block-canvas: var(--color-fd-background);
+    --docs-editorial-block-paper: var(--color-fd-card);
+    --docs-editorial-block-text: var(--color-fd-foreground);
+    --docs-editorial-block-text-muted: var(--color-fd-muted-foreground);
+    --docs-editorial-block-border: var(--color-fd-border);
+    --docs-editorial-block-border-subtle: var(--color-fd-border);
+    --docs-editorial-block-surface-muted: var(--color-fd-muted);
+    --docs-editorial-block-surface-hover: var(--color-fd-accent);
+    --docs-editorial-block-accent: var(--docs-prose-accent);
+    --docs-editorial-prose-accent: var(--docs-prose-accent);
+    --docs-editorial-callout-warn: var(--color-fd-warning);
     --docs-editorial-block-accent-muted: color-mix(
       in oklab,
-      var(--docs-editorial-prose-accent) 12%,
+      var(--docs-prose-accent) 12%,
       transparent
     );
     --docs-editorial-block-success-fg: oklch(0.45 0.12 145);
-    --docs-editorial-block-warning-fg: var(--docs-editorial-callout-warn);
-    --docs-editorial-block-ring: var(--docs-editorial-ring);
+    --docs-editorial-block-warning-fg: var(--color-fd-warning);
+    --docs-editorial-block-ring: var(--color-fd-ring);
     --docs-editorial-block-shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04);
     --docs-editorial-block-shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
     --docs-editorial-block-radius-lg: 0.5rem;
     --docs-editorial-block-radius-xl: 0.75rem;
-    --docs-editorial-block-space-2: 0.5rem;
-    --docs-editorial-block-space-3: 0.75rem;
-    --docs-editorial-block-space-4: 1rem;
-    --docs-editorial-block-space-6: 1.5rem;
-    --docs-editorial-block-space-8: 2rem;
+    --docs-editorial-block-space-2: var(--docs-space-2);
+    --docs-editorial-block-space-3: var(--docs-space-3);
+    --docs-editorial-block-space-4: var(--docs-space-4);
+    --docs-editorial-block-space-6: var(--docs-space-5);
+    --docs-editorial-block-space-8: var(--docs-space-6);
   }
 
   .afenda-docs-preview {
@@ -67,11 +69,11 @@
     );
     --docs-editorial-block-radius-lg: 0.5rem;
     --docs-editorial-block-radius-xl: 0.75rem;
-    --docs-editorial-block-space-2: 0.5rem;
-    --docs-editorial-block-space-3: 0.75rem;
-    --docs-editorial-block-space-4: 1rem;
-    --docs-editorial-block-space-6: 1.5rem;
-    --docs-editorial-block-space-8: 2rem;
+    --docs-editorial-block-space-2: var(--docs-space-2);
+    --docs-editorial-block-space-3: var(--docs-space-3);
+    --docs-editorial-block-space-4: var(--docs-space-4);
+    --docs-editorial-block-space-6: var(--docs-space-5);
+    --docs-editorial-block-space-8: var(--docs-space-6);
     color: var(--docs-editorial-block-text);
     background-color: var(--docs-editorial-block-canvas);
   }
@@ -98,15 +100,15 @@
   }
 
   .afenda-docs-guide-grid__title {
-    font-size: clamp(1.375rem, 2vw, 1.75rem);
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    font-size: var(--docs-text-title);
+    font-weight: 500;
+    line-height: var(--docs-leading-title);
+    letter-spacing: var(--docs-tracking-title);
     text-wrap: balance;
   }
 
   .afenda-docs-guide-grid__lead {
-    font-size: 1rem;
+    font-size: var(--docs-text-ui);
     line-height: 1.6;
     color: var(--docs-editorial-block-text-muted);
     text-wrap: pretty;
@@ -214,9 +216,9 @@
   }
 
   .afenda-docs-feature-strip__title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: var(--docs-text-section);
+    font-weight: 500;
+    letter-spacing: var(--docs-tracking-section);
   }
 
   .afenda-docs-feature-strip__subtitle {
@@ -283,9 +285,9 @@
   }
 
   .afenda-docs-steps-panel__title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: var(--docs-text-section);
+    font-weight: 500;
+    letter-spacing: var(--docs-tracking-section);
   }
 
   .afenda-docs-steps-panel__lead {
@@ -402,8 +404,9 @@
     padding: var(--docs-editorial-block-space-4);
     background-color: var(--docs-editorial-block-surface-muted);
     border: 1px solid var(--docs-editorial-block-border);
-    border-left-width: 4px;
+    border-left-width: 2px;
     border-radius: var(--docs-editorial-block-radius-lg);
+    box-shadow: none;
   }
 
   .afenda-docs-callout__icon {
@@ -434,35 +437,28 @@
   }
 
   .afenda-docs-callout[data-tone="warn"] {
-    background-color: color-mix(
-      in oklab,
-      var(--docs-editorial-callout-warn) 10%,
-      var(--docs-editorial-block-canvas)
-    );
-    border-left-color: var(--docs-editorial-callout-warn);
+    background-color: var(--docs-callout-surface);
+    border-left-color: var(--docs-callout-rail);
   }
 
   .afenda-docs-callout[data-tone="success"] {
-    background-color: color-mix(
-      in oklab,
-      var(--docs-editorial-block-success-fg) 10%,
-      var(--docs-editorial-block-canvas)
-    );
-    border-left-color: var(--docs-editorial-block-success-fg);
+    background-color: var(--docs-callout-surface);
+    border-left-color: var(--docs-callout-rail);
   }
 
   .afenda-docs-callout[data-tone="note"],
   .afenda-docs-callout[data-tone="info"] {
-    background-color: color-mix(
-      in oklab,
-      var(--docs-editorial-prose-accent) 10%,
-      var(--docs-editorial-block-canvas)
-    );
-    border-left-color: var(--docs-editorial-prose-accent);
+    background-color: var(--docs-callout-surface);
+    border-left-color: var(--docs-callout-rail);
+  }
+
+  .afenda-docs-callout[data-tone="warn"] .afenda-docs-callout__icon,
+  .afenda-docs-callout[data-tone="success"] .afenda-docs-callout__icon {
+    color: var(--color-fd-muted-foreground);
   }
 
   .afenda-docs-callout[data-tone="success"] .afenda-docs-callout__title {
-    color: var(--docs-editorial-block-success-fg);
+    color: var(--docs-text-heading);
   }
 
   .afenda-docs-callout__title {
@@ -946,15 +942,15 @@
 
   .afenda-docs-block-catalog__title {
     margin: 0;
-    font-size: 1.75rem;
-    font-weight: 650;
-    line-height: 1.2;
+    font-size: var(--docs-text-title);
+    font-weight: 500;
+    line-height: var(--docs-leading-title);
     color: var(--docs-editorial-block-text);
   }
 
   .afenda-docs-block-catalog__lead {
     margin: 0;
-    font-size: 0.9375rem;
+    font-size: var(--docs-text-ui);
     line-height: 1.6;
     color: var(--docs-editorial-block-text-muted);
   }

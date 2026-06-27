@@ -1,5 +1,7 @@
-import type { OperatingContext } from "@afenda/kernel";
+import { type OperatingContext, toTenantId } from "@afenda/kernel";
 import type { AuthorizationContextInput } from "@afenda/permissions";
+
+import { parseRouteTenantId } from "./parse-route-id";
 
 export const AFENDA_TENANT_ID_HEADER = "x-afenda-tenant-id";
 export const AFENDA_COMPANY_ID_HEADER = "x-afenda-company-id";
@@ -36,11 +38,13 @@ function readOptionalHeader(
 export function readScopeCandidateFromHeaders(
   request: Request
 ): Omit<ApiRouteScopeCandidate, "source"> | null {
-  const tenantId = readOptionalHeader(request, AFENDA_TENANT_ID_HEADER);
+  const tenantWire = readOptionalHeader(request, AFENDA_TENANT_ID_HEADER);
 
-  if (tenantId === null) {
+  if (tenantWire === null) {
     return null;
   }
+
+  const tenantId = toTenantId(parseRouteTenantId(tenantWire));
 
   return {
     tenantId,

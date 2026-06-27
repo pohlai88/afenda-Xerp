@@ -9,6 +9,8 @@
     "health-get",
     "inventory-products-get",
     "inventory-products-post",
+    "inventory-stock-levels-get",
+    "inventory-stock-movements-post",
     "inventory-warehouses-get",
     "inventory-warehouses-post",
     "storage-tenant-brand-logo-post",

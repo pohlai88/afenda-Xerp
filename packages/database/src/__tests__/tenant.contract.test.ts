@@ -26,6 +26,7 @@ describe("tenant contract", () => {
     });
 
     expect(row).toEqual({
+      enterpriseId: expect.stringMatching(/^ten_[0-9A-HJKMNP-TV-Z]{26}$/),
       mfaRequired: false,
       slug: "my-tenant",
       name: "Acme Workspace",

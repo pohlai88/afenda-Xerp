@@ -7,6 +7,8 @@ import { index, pgTable, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { companyStatusEnum } from "../database.types.js";
 import {
   companyIdRef,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   organizationIdRef,
   primaryId,
   tenantIdRef,
@@ -20,6 +22,7 @@ export const teams = pgTable(
   "teams",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("team"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -36,6 +39,8 @@ export const teams = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("teams_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "team"),
     uniqueIndex("teams_tenant_slug_unique").on(table.tenantId, table.slug),
     index("teams_tenant_id_idx").on(table.tenantId),
     index("teams_tenant_status_idx").on(table.tenantId, table.status),

@@ -8,6 +8,11 @@ import {
   isExecutionJsonValue,
   isExecutionPayload,
 } from "../index.js";
+import {
+  EXECUTION_TEST_CORRELATION_ID,
+  EXECUTION_TEST_FIXTURE_GENERATOR,
+  EXECUTION_TEST_TENANT_ID,
+} from "./execution-test-fixtures.js";
 
 describe("execution vocabulary governance", () => {
   it("defines required execution kinds", () => {
@@ -53,12 +58,13 @@ describe("serializable execution contracts", () => {
 
   it("supports outbox envelope round-trip", () => {
     const envelope: ExecutionOutboxEnvelope = {
-      correlationId: "corr-outbox-001",
+      correlationId: EXECUTION_TEST_CORRELATION_ID,
       eventType: "execution.requested",
       executionContext: createExecutionContext({
-        correlationId: "corr-outbox-001",
+        canonicalIdBodyGenerator: EXECUTION_TEST_FIXTURE_GENERATOR,
+        correlationId: EXECUTION_TEST_CORRELATION_ID,
         source: "outbox",
-        tenantId: "tenant-1",
+        tenantId: EXECUTION_TEST_TENANT_ID,
       }),
       payload: { workflowId: "foundation.health-check" },
     };
@@ -67,7 +73,9 @@ describe("serializable execution contracts", () => {
     const parsed = JSON.parse(serialized) as ExecutionOutboxEnvelope;
 
     expect(parsed.eventType).toBe("execution.requested");
-    expect(parsed.executionContext.correlationId).toBe("corr-outbox-001");
+    expect(parsed.executionContext.correlationId).toBe(
+      EXECUTION_TEST_CORRELATION_ID
+    );
     expect(isExecutionPayload(parsed.payload)).toBe(true);
   });
 });

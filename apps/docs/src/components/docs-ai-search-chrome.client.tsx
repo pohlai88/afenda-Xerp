@@ -15,10 +15,8 @@ export function DocsAiSearchChrome() {
       <AISearchPanel />
       <AISearchTrigger
         className={cn(
-          buttonVariants({
-            color: "secondary",
-            className: "gap-3 rounded-2xl text-fd-muted-foreground",
-          })
+          buttonVariants({ color: "secondary", size: "sm" }),
+          "fixed bottom-4 z-20 gap-2 rounded-full text-fd-muted-foreground shadow-md inset-e-[calc(--spacing(4)+var(--removed-body-scroll-bar-size,0px))]"
         )}
         position="float"
       >

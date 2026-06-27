@@ -19,6 +19,8 @@ import {
   legalEntityCompanyTypeEnum,
 } from "../database.types.js";
 import {
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
   entityGroupIdRef,
   fiscalCalendarIdRef,
   primaryId,
@@ -43,6 +45,7 @@ export const companies = pgTable(
   "companies",
   {
     id: primaryId(),
+    enterpriseId: enterpriseIdColumn("company"),
     tenantId: tenantIdRef()
       .notNull()
       .references(() => tenants.id, { onDelete: "restrict" }),
@@ -69,6 +72,8 @@ export const companies = pgTable(
     updatedAt: updatedAtColumn(),
   },
   (table) => [
+    uniqueIndex("companies_enterprise_id_unique").on(table.enterpriseId),
+    enterpriseIdFormatCheck(table.enterpriseId, "company"),
     uniqueIndex("companies_tenant_slug_unique").on(table.tenantId, table.slug),
     uniqueIndex("companies_tenant_country_registration_unique")
       .on(table.tenantId, table.countryCode, table.registrationNumber)

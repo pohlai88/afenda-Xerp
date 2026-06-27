@@ -1,35 +1,12 @@
-export const PERMISSION_GRANT_SCOPE_TYPES = [
-  "platform",
-  "tenant",
-  "entity_group",
-  "company",
-  "organization",
-  "team",
-  "project",
-  "consolidation_view",
-  "cross_company",
-] as const;
+/**
+ * Resolved permission scope dimensions passed to `requirePermission()`.
+ * Wire interfaces use plain string ids for JSON serialization (TIP-007).
+ */
+import type {
+  PermissionGrantElevationFlags,
+  PermissionGrantScopeType,
+} from "./permission-grant-vocabulary.contract.js";
 
-export type PermissionGrantScopeType =
-  (typeof PERMISSION_GRANT_SCOPE_TYPES)[number];
-
-/** Explicit elevation flags — cross-company and consolidation access require these. */
-export interface PermissionGrantElevationFlags {
-  readonly consolidationView: boolean;
-  readonly crossCompany: boolean;
-  readonly minorityInterestCompany: boolean;
-  readonly platformAdmin: boolean;
-}
-
-export const DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS: PermissionGrantElevationFlags =
-  {
-    consolidationView: false,
-    crossCompany: false,
-    minorityInterestCompany: false,
-    platformAdmin: false,
-  };
-
-/** Resolved grant dimensions passed to `requirePermission()`. */
 export interface PermissionScopeContext {
   readonly companyId: string | null;
   readonly elevations: PermissionGrantElevationFlags;
@@ -42,3 +19,30 @@ export interface PermissionScopeContext {
   readonly teamId: string | null;
   readonly tenantId: string;
 }
+
+/** Wire-format alias — plain string ids, JSON-serializable at rest. */
+export type PermissionScopeWireContext = PermissionScopeContext;
+
+type JsonPrimitive = string | number | boolean | null;
+
+type AssertJsonSerializable<T> = T extends JsonPrimitive
+  ? true
+  : T extends readonly (infer U)[]
+    ? AssertJsonSerializable<U>
+    : T extends object
+      ? {
+          [K in keyof T]: AssertJsonSerializable<T[K]>;
+        } extends Record<keyof T, true>
+        ? true
+        : false
+      : false;
+
+type _PermissionScopeWireSerializable =
+  AssertJsonSerializable<PermissionScopeWireContext>;
+
+/**
+ * Compile-time guard — permission scope wire context must remain JSON-serializable.
+ * No runtime overhead.
+ */
+export type assertPermissionScopeContextJsonSerializable =
+  _PermissionScopeWireSerializable extends true ? true : never;

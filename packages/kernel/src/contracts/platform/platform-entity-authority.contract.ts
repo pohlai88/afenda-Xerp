@@ -90,13 +90,14 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
       "packages/permissions/src/scope/membership.contract.ts",
     ],
     writeOwner: "ERP host (apps/erp/src/lib/context/)",
-    readOwner: "AppShell via app-shell-context.contract.ts",
+    readOwner: "@afenda/appshell via app-shell-context-switch.contract.ts",
     auditOwner: "Context resolution observability adapter",
   },
   {
     entityId: "user",
     displayName: "User",
-    kernelContractPath: "packages/kernel/src/contracts/platform-id.contract.ts",
+    kernelContractPath:
+      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
     kernelContractExport: "UserId",
     schemaPaths: ["packages/database/src/schema/user.schema.ts"],
     authorizationConsumerPaths: ["packages/permissions/src/user.contract.ts"],
@@ -137,7 +138,8 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
   {
     entityId: "permission",
     displayName: "Permission",
-    kernelContractPath: "packages/kernel/src/contracts/platform-id.contract.ts",
+    kernelContractPath:
+      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
     kernelContractExport: "PermissionId",
     schemaPaths: ["packages/database/src/schema/permission.schema.ts"],
     authorizationConsumerPaths: [
@@ -172,7 +174,8 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
   {
     entityId: "audit",
     displayName: "Audit Event",
-    kernelContractPath: "packages/kernel/src/contracts/platform-id.contract.ts",
+    kernelContractPath:
+      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
     kernelContractExport: "AuditEventId",
     schemaPaths: ["packages/database/src/schema/audit.schema.ts"],
     authorizationConsumerPaths: ["packages/permissions/src/policy-audit.ts"],

@@ -323,6 +323,34 @@
       "when": 1782498720000,
       "tag": "20260626183200_inventory_stock_rls",
       "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1782500000000,
+      "tag": "20260627120000_canonical_enterprise_id_pilot",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1782500100000,
+      "tag": "20260627120100_enterprise_id_platform_rollout",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1782521696392,
+      "tag": "20260627005456_luxuriant_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1782526997162,
+      "tag": "20260627022317_enterprise_id_format_checks",
+      "breakpoints": true
     }
   ]
 }

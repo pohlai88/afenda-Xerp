@@ -10,6 +10,7 @@ import {
   normalizeAfendaAuthSession,
   toAfendaAuthIdentity,
 } from "../auth.session.js";
+import { AUTH_TEST_PLATFORM_USER_ID } from "./auth-id-test-fixtures.js";
 
 const sampleSession = normalizeAfendaAuthSession(
   {
@@ -28,7 +29,7 @@ const sampleSession = normalizeAfendaAuthSession(
       image: null,
     },
   },
-  "platform_user_1"
+  AUTH_TEST_PLATFORM_USER_ID
 );
 
 describe("Afenda auth contracts", () => {
@@ -39,7 +40,7 @@ describe("Afenda auth contracts", () => {
 
   it("maps session to UI-safe AfendaAuthIdentity without session fields", () => {
     expect(toAfendaAuthIdentity(sampleSession)).toEqual({
-      userId: "platform_user_1",
+      userId: AUTH_TEST_PLATFORM_USER_ID,
       displayName: "Test User",
       email: "user@example.com",
     });

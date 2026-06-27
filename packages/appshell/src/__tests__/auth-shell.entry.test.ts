@@ -22,6 +22,7 @@ describe("@afenda/appshell/auth-shell", () => {
       "AppShellAuthLoginPage04",
       "AuthShell",
       "AuthShellAlternateAction",
+      "AuthShellBrandHeader",
       "AuthShellBrandPanel",
       "AuthShellEntryPage",
       "AuthShellErrorEntryPage",

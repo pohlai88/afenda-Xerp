@@ -1,3 +1,4 @@
+import type { CanonicalIdBodyGenerator } from "@afenda/kernel";
 import type { ExecutionOutboxEnvelope } from "./execution.contract.js";
 import {
   createExecutionContext,
@@ -120,20 +121,42 @@ export function isOutboxStatus(value: unknown): value is OutboxStatus {
   );
 }
 
+export interface ToOutboxEventEnvelopeOptions {
+  readonly canonicalIdBodyGenerator?: CanonicalIdBodyGenerator;
+}
+
 export function toOutboxEventEnvelope(
-  record: OutboxEventRecord
+  record: OutboxEventRecord,
+  options?: ToOutboxEventEnvelopeOptions
 ): OutboxEventEnvelope {
-  const executionContext: ExecutionContext = createExecutionContext({
-    actorId: record.actorId,
-    companyId: record.companyId,
-    correlationId: record.correlationId,
-    ...(record.executionRunId === null
-      ? {}
-      : { executionId: record.executionRunId }),
-    organizationId: record.organizationId,
-    source: "outbox",
-    tenantId: record.tenantId,
-  });
+  const executionContextInput =
+    record.executionRunId === null
+      ? {
+          actorId: record.actorId,
+          companyId: record.companyId,
+          correlationId: record.correlationId,
+          organizationId: record.organizationId,
+          source: "outbox" as const,
+          tenantId: record.tenantId,
+          ...(options?.canonicalIdBodyGenerator === undefined
+            ? {}
+            : {
+                canonicalIdBodyGenerator: options.canonicalIdBodyGenerator,
+              }),
+        }
+      : {
+          actorId: record.actorId,
+          companyId: record.companyId,
+          correlationId: record.correlationId,
+          executionId: record.executionRunId,
+          organizationId: record.organizationId,
+          source: "outbox" as const,
+          tenantId: record.tenantId,
+        };
+
+  const executionContext: ExecutionContext = createExecutionContext(
+    executionContextInput
+  );
 
   return {
     causationId: record.causationId,

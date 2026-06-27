@@ -11,6 +11,7 @@
  * Writes: `user.service.ts`
  */
 import type { UserStatus } from "../database.types.js";
+import { createEnterpriseId } from "../enterprise-id/index.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u;
 const MAX_EMAIL_LENGTH = 320;
@@ -66,6 +67,7 @@ export interface PlatformUserWriteInput {
 export interface PlatformUserRecord {
   displayName: string;
   email: string;
+  enterpriseId: string;
   status: UserStatus;
 }
 
@@ -77,6 +79,7 @@ export function buildUserInsertRow(
 ): PlatformUserRecord {
   return {
     email: assertEmail(input.email),
+    enterpriseId: createEnterpriseId("user"),
     displayName: input.displayName.trim(),
     status: input.status ?? "active",
   };

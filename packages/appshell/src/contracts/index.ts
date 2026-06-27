@@ -1,4 +1,10 @@
 export {
+  type ApplicationShellAllowedContextOptions,
+  type ApplicationShellContextSwitchTarget,
+  formatWorkspaceDisplayLabel,
+  type WorkspaceDisplayLabelInput,
+} from "./app-shell-context-switch.contract.js";
+export {
   APPLICATION_SHELL_ROOT_GOVERNED_COMPONENT_NAMES,
   APPSHELL_CHROME_REGIONS,
   APPSHELL_MAIN_GOVERNED_COMPONENT_NAMES,
@@ -28,7 +34,6 @@ export {
   type AppShellSearchUserStatusTone,
   isAppShellHeaderCommandCenterSlot,
 } from "./command-center.contract.js";
-
 export {
   APPSHELL_APPROVED_RUNTIME_DEPENDENCIES,
   APPSHELL_CONTEXT_CONSUMPTION_MODULES,

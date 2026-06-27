@@ -14,11 +14,13 @@ import {
   toCustomerWireReference,
   toProductWireReference,
 } from "../contracts/business-master-data/index.js";
-import type {
-  CustomerId,
-  ProductId,
-  TenantId,
-} from "../contracts/platform-id.contract.js";
+import type { CustomerId, ProductId, TenantId } from "../identity/index.js";
+import {
+  TEST_COMPANY_ID,
+  TEST_CUSTOMER_ID,
+  TEST_PRODUCT_ID,
+  TEST_TENANT_ID,
+} from "./fixtures/enterprise-id.fixtures.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 const boundaryContractPath = join(
@@ -75,9 +77,9 @@ describe("@afenda/kernel business master data id boundary (TIP-008B Slice 3)", (
 
   it("round-trips customer wire reference through branded trust boundary", () => {
     const wire: CustomerWireReference = {
-      tenantId: "tenant-1",
-      companyId: "company-1",
-      customerId: "customer-1",
+      tenantId: TEST_TENANT_ID,
+      companyId: TEST_COMPANY_ID,
+      customerId: TEST_CUSTOMER_ID,
       customerCode: "C-001",
     };
 
@@ -87,8 +89,8 @@ describe("@afenda/kernel business master data id boundary (TIP-008B Slice 3)", (
 
   it("round-trips product wire reference through branded trust boundary", () => {
     const wire: ProductWireReference = {
-      tenantId: "tenant-1",
-      productId: "product-1",
+      tenantId: TEST_TENANT_ID,
+      productId: TEST_PRODUCT_ID,
       sku: "SKU-001",
     };
 

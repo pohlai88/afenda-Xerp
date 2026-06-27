@@ -243,9 +243,10 @@ Grouped view for package owners. Row counts per PKG must sum to **34**.
 
 | FDR ID | Registry | Status | Domain |
 | --- | --- | --- | --- |
-| fdr-010-context-contracts | PKG010_KERNEL | Partially Implemented | Operating-context contract barrel (28/30 audit · 29/30 ceiling) |
+| fdr-010-context-contracts | PKG010_KERNEL | Partially Implemented | Operating-context + PAS §11 enrichment (28/30 audit · 29/30 ceiling) · Slices 3–13 ✓ |
 | fdr-010-platform-authority | PKG010_KERNEL | Partially Implemented | Platform entity authority (TIP-007) (28/30 audit · 29/30 ceiling) · Slice 2 ✓ |
 | fdr-010-master-data-authority | PKG010_KERNEL | Partially Implemented | Business master data wire contracts (TIP-008B) (28/30 audit · 29/30 ceiling) |
+| fdr-010-kernel-identity-constitution | PKG010_KERNEL | **Doc note only** | PAS §4.1 · Slice A ✓ · **Slice B ✓** (kernel identity module) — [fdr-010-kernel-identity-constitution.md](FDR/fdr-010-kernel-identity-constitution.md) |
 
 ### PKG-011 — `@afenda/metadata`
 

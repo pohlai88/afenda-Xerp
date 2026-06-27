@@ -6,19 +6,21 @@
  */
 
 import {
-  brandCompanyId,
-  brandCorrelationId,
-  brandExecutionId,
-  brandOrganizationId,
-  brandTenantId,
-  brandUserId,
+  type CanonicalIdBodyGenerator,
   type CompanyId,
   type CorrelationId,
+  createExecutionId,
   type ExecutionId,
   type OrganizationId,
+  parseCorrelationId,
+  parseExecutionId,
+  parseOptionalCompanyId,
+  parseOptionalOrganizationId,
+  parseOptionalTenantId,
+  parseOptionalUserId,
   type TenantId,
   type UserId,
-} from "./platform-id.contract.js";
+} from "../identity/index.js";
 
 export const EXECUTION_CONTEXT_SOURCES = [
   "api",
@@ -39,40 +41,59 @@ export interface ExecutionContext {
   readonly executionId: ExecutionId;
   readonly organizationId: OrganizationId | null;
   readonly source: ExecutionContextSource;
+  readonly spanId: string | null;
   readonly startedAt: string;
   readonly tenantId: TenantId | null;
+  readonly traceId: string | null;
 }
 
 export interface ExecutionContextInput {
   readonly actorId?: string | UserId | null;
+  readonly canonicalIdBodyGenerator?: CanonicalIdBodyGenerator;
   readonly companyId?: string | CompanyId | null;
   readonly correlationId: string | CorrelationId;
   readonly executionId?: string | ExecutionId;
   readonly organizationId?: string | OrganizationId | null;
   readonly source: ExecutionContextSource;
+  readonly spanId?: string | null;
   readonly startedAt?: string;
   readonly tenantId?: string | TenantId | null;
+  readonly traceId?: string | null;
 }
 
-export function createExecutionId(prefix = "exec"): ExecutionId {
-  return brandExecutionId(`${prefix}-${crypto.randomUUID()}`);
+function resolveExecutionId(input: ExecutionContextInput): ExecutionId {
+  if (input.executionId !== undefined) {
+    return typeof input.executionId === "string"
+      ? parseExecutionId(input.executionId)
+      : input.executionId;
+  }
+
+  if (input.canonicalIdBodyGenerator === undefined) {
+    throw new Error(
+      "ExecutionContextInput.executionId or canonicalIdBodyGenerator is required — kernel does not mint execution IDs without an injected generator."
+    );
+  }
+
+  return createExecutionId(input.canonicalIdBodyGenerator);
 }
 
 export function createExecutionContext(
   input: ExecutionContextInput
 ): ExecutionContext {
   return {
-    actorId: brandUserId(input.actorId),
-    companyId: brandCompanyId(input.companyId),
-    correlationId: brandCorrelationId(input.correlationId),
-    executionId:
-      input.executionId === undefined
-        ? createExecutionId()
-        : brandExecutionId(input.executionId),
-    organizationId: brandOrganizationId(input.organizationId),
+    actorId: parseOptionalUserId(input.actorId),
+    companyId: parseOptionalCompanyId(input.companyId),
+    correlationId:
+      typeof input.correlationId === "string"
+        ? parseCorrelationId(input.correlationId)
+        : input.correlationId,
+    executionId: resolveExecutionId(input),
+    organizationId: parseOptionalOrganizationId(input.organizationId),
     source: input.source,
+    spanId: input.spanId ?? null,
     startedAt: input.startedAt ?? new Date().toISOString(),
-    tenantId: brandTenantId(input.tenantId),
+    tenantId: parseOptionalTenantId(input.tenantId),
+    traceId: input.traceId ?? null,
   };
 }
 

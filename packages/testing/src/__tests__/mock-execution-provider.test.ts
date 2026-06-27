@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  MOCK_EXECUTION_TEST_CORRELATION_ALT_ID,
+  MOCK_EXECUTION_TEST_EXECUTION_ALT_ID,
+  MOCK_FIXTURE_CANONICAL_ID_BODY,
+} from "../execution/execution-test-fixtures.js";
+import {
   createMockExecutionContext,
   createMockExecutionProvider,
 } from "../execution/mock-execution-provider.js";
@@ -21,8 +26,8 @@ describe("mock execution provider", () => {
   it("tracks execution lifecycle for tests", async () => {
     const provider = createMockExecutionProvider();
     const context = createMockExecutionContext({
-      correlationId: "corr-mock-001",
-      executionId: "exec-mock-001",
+      correlationId: MOCK_EXECUTION_TEST_CORRELATION_ALT_ID,
+      executionId: MOCK_EXECUTION_TEST_EXECUTION_ALT_ID,
     });
 
     const started = await provider.execute({
@@ -36,11 +41,11 @@ describe("mock execution provider", () => {
 
     expect(started.status).toBe("success");
 
-    provider.markSuccess("exec-mock-001");
+    provider.markSuccess(context.executionId);
 
     const status = await provider.getStatus({
       context,
-      executionId: "exec-mock-001",
+      executionId: context.executionId,
     });
 
     expect(status.status).toBe("success");
@@ -50,5 +55,13 @@ describe("mock execution provider", () => {
     }
 
     expect(status.value.status).toBe("success");
+  });
+
+  it("mints a canonical execution id when executionId is omitted", () => {
+    const context = createMockExecutionContext();
+
+    expect(context.executionId).toBe(`exe_${MOCK_FIXTURE_CANONICAL_ID_BODY}`);
+    expect(context.correlationId).toMatch(/^cor_/);
+    expect(context.actorId).toMatch(/^usr_/);
   });
 });

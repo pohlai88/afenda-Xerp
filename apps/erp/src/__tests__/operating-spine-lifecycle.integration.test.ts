@@ -1,10 +1,13 @@
 import { DEFAULT_DASHBOARD_LAYOUT } from "@afenda/appshell";
 import {
-  createExecutionContext,
   createOutboxPublishService,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
-import { brandUserId, unbrand } from "@afenda/kernel";
+import {
+  createFixtureCanonicalIdBodyGenerator,
+  createTestEnterpriseId,
+  unbrand,
+} from "@afenda/kernel";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -12,6 +15,7 @@ import {
   resolveRouteProtectionLevel,
 } from "@/lib/api/api-route-permissions";
 import { assertAuthorizedApiRoute } from "@/lib/api/authorize-api-route";
+import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
 import { commitWorkspaceDashboardMutation } from "@/lib/outbox/commit-workspace-dashboard-mutation.server.js";
 import type { EnqueueOutboxEventInput } from "@/lib/outbox/enqueue-outbox-event.server.js";
 import { createInMemoryOutboxPersistence } from "@/lib/outbox/in-memory-outbox-persistence.js";
@@ -29,6 +33,9 @@ import { dashboardLayoutPutContract } from "@/server/api/contracts/workspace/das
 import { createApiRequestContext } from "@/server/api/runtime/api-request-context";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 import { clearWorkspaceDashboardLayoutStoreForTests } from "@/server/workspace/dashboard-layout.service";
+
+const outboxTestCanonicalIdBodyGenerator =
+  createFixtureCanonicalIdBodyGenerator();
 
 const OUTBOX_TEST_AVAILABLE_AT = "2026-06-23T00:00:00.000Z";
 
@@ -85,10 +92,10 @@ describe("operating spine lifecycle", () => {
 
     const persistence = createInMemoryOutboxPersistence();
     const enqueue = createInMemoryEnqueue(persistence);
-    const correlationId = "corr-spine-lifecycle-001";
+    const correlationId = createTestEnterpriseId("correlation");
 
     const operatingContext = createDashboardRbacOperatingContextFixture();
-    const execution = createExecutionContext({
+    const execution = createServerExecutionContext({
       actorId: DASHBOARD_RBAC_ACTOR_ID,
       companyId: DASHBOARD_RBAC_COMPANY_ID,
       correlationId,
@@ -110,7 +117,7 @@ describe("operating spine lifecycle", () => {
       requestBody: DEFAULT_DASHBOARD_LAYOUT,
       requestId: "req-spine-lifecycle-001",
       session: null,
-      userId: brandUserId(DASHBOARD_RBAC_ACTOR_ID),
+      userId: DASHBOARD_RBAC_ACTOR_ID,
     });
 
     const observability = vi.fn();
@@ -149,6 +156,7 @@ describe("operating spine lifecycle", () => {
 
     const dispatch = vi.fn(async () => ({ ok: true as const }));
     const publishService = createOutboxPublishService({
+      canonicalIdBodyGenerator: outboxTestCanonicalIdBodyGenerator,
       dispatcher: { dispatch },
       nowIso: () => "2026-06-23T12:00:00.000Z",
       persistence,

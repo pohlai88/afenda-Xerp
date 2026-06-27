@@ -44,6 +44,15 @@ export type {
   DiscoveredWorkspace,
   WorkspacePackageJson,
 } from "./contracts/workspace.contract.js";
+export {
+  assertAuthorityOnlyRuntimeStatus,
+  BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS,
+  BUSINESS_MASTER_DATA_RESERVED_PACKAGES,
+  BUSINESS_MASTER_DATA_RUNTIME_STATUS,
+  type BusinessMasterDataReservedPackageId,
+  type BusinessMasterDataRuntimeStatus,
+  isBusinessMasterDataReservedPackage,
+} from "./data/business-master-data-scaffold.policy.js";
 export { dependencyContract } from "./data/dependency-registry.data.js";
 export { exceptionContract } from "./data/exception-registry.data.js";
 export {

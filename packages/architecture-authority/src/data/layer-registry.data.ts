@@ -74,6 +74,7 @@ export const layerContract: LayerContract = {
     "@afenda/erp": "Application",
     "@afenda/docs": "Application",
     "@afenda/storybook": "Application",
+    "@afenda/email": "Application",
   },
   allowedTargets: {
     Application: [

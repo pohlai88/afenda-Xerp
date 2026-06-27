@@ -19,6 +19,21 @@
       "types": "./dist/contracts/accounting-domain/index.d.ts",
       "import": "./dist/contracts/accounting-domain/index.js",
       "default": "./dist/contracts/accounting-domain/index.js"
+    },
+    "./propagation": {
+      "types": "./dist/propagation/index.d.ts",
+      "import": "./dist/propagation/index.js",
+      "default": "./dist/propagation/index.js"
+    },
+    "./events": {
+      "types": "./dist/events/index.d.ts",
+      "import": "./dist/events/index.js",
+      "default": "./dist/events/index.js"
+    },
+    "./policy": {
+      "types": "./dist/policy/index.d.ts",
+      "import": "./dist/policy/index.js",
+      "default": "./dist/policy/index.js"
     }
   },
   "files": [

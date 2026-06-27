@@ -21,7 +21,7 @@ import type {
   CorrelationId,
   PermissionId,
   UserId,
-} from "../contracts/platform-id.contract.js";
+} from "../identity/index.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 const platformBarrelPath = join(

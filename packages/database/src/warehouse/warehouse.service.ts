@@ -7,7 +7,7 @@ import { getDb } from "../db.js";
 import { rethrowPostgresUniqueViolation } from "../postgres/postgres-error.contract.js";
 import { companies } from "../schema/company.schema.js";
 import {
-  WAREHOUSES_TENANT_COMPANY_CODE_UNIQUE_INDEX,
+  WAREHOUSES_TENANT_WAREHOUSE_CODE_UNIQUE_INDEX,
   warehouses,
 } from "../schema/warehouse.schema.js";
 import {
@@ -163,7 +163,7 @@ export async function insertWarehouse(
     inserted = result;
   } catch (error: unknown) {
     rethrowPostgresUniqueViolation(error, {
-      [WAREHOUSES_TENANT_COMPANY_CODE_UNIQUE_INDEX]: () =>
+      [WAREHOUSES_TENANT_WAREHOUSE_CODE_UNIQUE_INDEX]: () =>
         new WarehouseCodeConflictError(row.warehouseCode),
     });
   }
@@ -219,7 +219,7 @@ export async function updateWarehouse(
     }
 
     rethrowPostgresUniqueViolation(error, {
-      [WAREHOUSES_TENANT_COMPANY_CODE_UNIQUE_INDEX]: () =>
+      [WAREHOUSES_TENANT_WAREHOUSE_CODE_UNIQUE_INDEX]: () =>
         new WarehouseCodeConflictError(patch.warehouseCode ?? ""),
     });
   }

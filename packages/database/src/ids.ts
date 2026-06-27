@@ -1,154 +1,69 @@
-import { uuid } from "drizzle-orm/pg-core";
-
-function buildPrimaryId(columnName = "id") {
-  return uuid(columnName).primaryKey().defaultRandom();
-}
-
-function buildEntityRefId(columnName: string) {
-  return uuid(columnName);
-}
-
-/** Locked Drizzle column type for all platform primary keys. */
-export type PrimaryIdColumn = ReturnType<typeof buildPrimaryId>;
-
-/** Locked Drizzle column type for platform foreign-key UUID columns. */
-export type EntityRefColumn = ReturnType<typeof buildEntityRefId>;
-
-/**
- * Canonical Afenda platform primary key.
- *
- * Ownership:
- * - UUID primary key generation
- * - entity identity for all platform tables
- *
- * Rules:
- * - UUID v4
- * - database-generated via `defaultRandom()`
- * - immutable primary key
- * - used by all platform entities in `@afenda/database`
- *
- * Prohibited outside this module:
- * - serial / bigint identity columns
- * - application-generated UUID defaults
- * - custom primary key patterns
- * - ad hoc `uuid().notNull()` primary keys
- */
-export function primaryId(columnName = "id"): PrimaryIdColumn {
-  return buildPrimaryId(columnName);
-}
-
-/**
- * Canonical UUID foreign-key column (non-PK).
- * Use entity-specific helpers for governed column names.
- */
-export function entityRefId(columnName: string): EntityRefColumn {
-  return buildEntityRefId(columnName);
-}
-
-/** Governed foreign-key column for tenant references. */
-export const tenantIdRef = (): EntityRefColumn => entityRefId("tenant_id");
-
-/** Governed foreign-key column for company references. */
-export const companyIdRef = (): EntityRefColumn => entityRefId("company_id");
-
-/** Governed foreign-key column for organization references. */
-export const organizationIdRef = (): EntityRefColumn =>
-  entityRefId("organization_id");
-
-/** Governed foreign-key column for platform user references. */
-export const userIdRef = (): EntityRefColumn => entityRefId("user_id");
-
-/** Governed foreign-key column for role references. */
-export const roleIdRef = (): EntityRefColumn => entityRefId("role_id");
-
-/** Governed foreign-key column for permission references. */
-export const permissionIdRef = (): EntityRefColumn =>
-  entityRefId("permission_id");
-
-/** Governed foreign-key column for parent organization references. */
-export const parentOrganizationIdRef = (): EntityRefColumn =>
-  entityRefId("parent_organization_id");
-
-/** Governed foreign-key column for entity group references. */
-export const entityGroupIdRef = (): EntityRefColumn =>
-  entityRefId("entity_group_id");
-
-/** Governed foreign-key column for project references. */
-export const projectIdRef = (): EntityRefColumn => entityRefId("project_id");
-
-/** Governed foreign-key column for team references. */
-export const teamIdRef = (): EntityRefColumn => entityRefId("team_id");
-
-/** Governed foreign-key column for product master data references. */
-export const productIdRef = (): EntityRefColumn => entityRefId("product_id");
-
-/** Governed foreign-key column for warehouse master data references. */
-export const warehouseIdRef = (): EntityRefColumn =>
-  entityRefId("warehouse_id");
-
-/** Governed foreign-key column for parent legal entity references. */
-export const parentLegalEntityIdRef = (): EntityRefColumn =>
-  entityRefId("parent_legal_entity_id");
-
-/** Governed foreign-key column for child/investee legal entity references. */
-export const childLegalEntityIdRef = (): EntityRefColumn =>
-  entityRefId("child_legal_entity_id");
-
-/**
- * Placeholder reference for fiscal calendar (table planned).
- * No FK until fiscal calendar authority is implemented.
- */
-export const fiscalCalendarIdRef = (): EntityRefColumn =>
-  entityRefId("fiscal_calendar_id");
-
-/** Governed foreign-key column for audit actor user references. */
-export const actorUserIdRef = (): EntityRefColumn =>
-  entityRefId("actor_user_id");
-
-/** Governed primary key for tenant entities. */
-export const tenantId = (): PrimaryIdColumn => primaryId("tenant_id");
-
-/** Governed primary key for company entities. */
-export const companyId = (): PrimaryIdColumn => primaryId("company_id");
-
-/** Governed primary key for organization entities. */
-export const organizationId = (): PrimaryIdColumn =>
-  primaryId("organization_id");
-
-/** Governed primary key for platform user entities. */
-export const userId = (): PrimaryIdColumn => primaryId("user_id");
-
-/** Governed primary key for role entities. */
-export const roleId = (): PrimaryIdColumn => primaryId("role_id");
-
-/** Governed primary key for membership entities. */
-export const membershipId = (): PrimaryIdColumn => primaryId("membership_id");
-
-/** Governed primary key for permission entities. */
-export const permissionId = (): PrimaryIdColumn => primaryId("permission_id");
-
-/** Governed primary key for policy entities. */
-export const policyId = (): PrimaryIdColumn => primaryId("policy_id");
-
-/** Governed primary key for entity group entities. */
-export const entityGroupId = (): PrimaryIdColumn =>
-  primaryId("entity_group_id");
-
-/** Governed primary key for project entities. */
-export const projectId = (): PrimaryIdColumn => primaryId("project_id");
-
-/** Governed primary key for team entities. */
-export const teamId = (): PrimaryIdColumn => primaryId("team_id");
-
-/** Governed primary key for product master data entities. */
-export const productId = (): PrimaryIdColumn => primaryId("product_id");
-
-/** Governed primary key for warehouse master data entities. */
-export const warehouseId = (): PrimaryIdColumn => primaryId("warehouse_id");
-
-/** Governed primary key for ownership interest entities. */
-export const ownershipInterestId = (): PrimaryIdColumn =>
-  primaryId("ownership_interest_id");
-
-/** Governed primary key for audit event entities. */
-export const auditEventId = (): PrimaryIdColumn => primaryId("audit_event_id");
+/** Backward-compatible entry — prefer `./ids/index.js` for new imports. */
+export {
+  actorUserIdRef,
+  auditEventId,
+  buildEnterpriseIdCheckPattern,
+  CANONICAL_ID_BODY_PATTERN,
+  childLegalEntityIdRef,
+  companyId,
+  companyIdRef,
+  createEnterpriseId,
+  DEFERRED_PLATFORM_ENTITY_TABLES,
+  ENTERPRISE_ID_FAMILY_PREFIXES,
+  type EnterpriseIdColumn,
+  type EnterpriseIdFamilyKey,
+  type EntityRefColumn,
+  enterpriseIdCheckConstraint,
+  enterpriseIdColumn,
+  enterpriseIdFormatCheck,
+  enterpriseIdUniqueIndexName,
+  entityGroupId,
+  entityGroupIdRef,
+  entityRefId,
+  FORBIDDEN_ENTERPRISE_ID_BACKFILL_PATTERNS,
+  fiscalCalendarIdRef,
+  generateUlidBody,
+  ID_EXPLAIN_PROBES,
+  idRef,
+  LIVE_PLATFORM_ENTITY_TABLES,
+  LIVE_PLATFORM_SCHEMA_FILES,
+  LIVE_TENANT_HUMAN_REFERENCE_TABLES,
+  membershipId,
+  organizationId,
+  organizationIdRef,
+  ownershipInterestId,
+  PILOT_ENTERPRISE_ID_MIGRATION_TAG,
+  PILOT_ENTERPRISE_ID_TABLES,
+  PLATFORM_ENTERPRISE_ID_UNIQUE_INDEXES,
+  PLATFORM_ENTITY_TABLE_REGISTRY,
+  PLATFORM_ROLLOUT_MIGRATION_TAG,
+  PLATFORM_TENANT_FK_INDEXES,
+  type PrimaryIdColumn,
+  parentLegalEntityIdRef,
+  parentOrganizationIdRef,
+  permissionId,
+  permissionIdRef,
+  policyId,
+  primaryId,
+  productId,
+  productIdRef,
+  projectId,
+  projectIdRef,
+  roleId,
+  roleIdRef,
+  TENANT_HUMAN_REFERENCE_REGISTRY,
+  type TenantHumanReferenceColumnOptions,
+  type TenantHumanReferenceScope,
+  teamId,
+  teamIdRef,
+  tenantForeignKeyIndexName,
+  tenantHumanReferenceColumn,
+  tenantHumanReferenceUniqueIndexName,
+  tenantId,
+  tenantIdRef,
+  UUID_V7_DEFAULT,
+  userId,
+  userIdRef,
+  warehouseId,
+  warehouseIdRef,
+} from "./ids/index.js";

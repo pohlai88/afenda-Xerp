@@ -1,0 +1,10 @@
+# PAS/KAS 4.1 scaffold - Canonical Enterprise ID Constitution
+# Target slice: kernel identity constitution (ADR-0021)
+# Replace with implementation files listed below.
+
+# - add-enterprise-id-check.sql.ts
+# - add-enterprise-id-column.sql.ts
+# - add-enterprise-id-unique-index.sql.ts
+# - add-tenant-human-reference.sql.ts
+# - uuid-v7-default.sql.ts
+# - validate-enterprise-id-constraint.sql.ts

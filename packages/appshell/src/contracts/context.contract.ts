@@ -88,8 +88,11 @@ export const APPSHELL_CONTEXT_CONSUMPTION_MODULES = [
   {
     path: "shadcn-studio/blocks/app-shell-context-switcher.tsx",
     role: "Context switch UI (host wires server action)",
-    kernelTypes: ["ApplicationShellAllowedContextOptions"],
-    displayTypes: ["AppShellContextSwitchSelection"],
+    kernelTypes: [],
+    displayTypes: [
+      "ApplicationShellAllowedContextOptions",
+      "ApplicationShellContextSwitchTarget",
+    ],
   },
   {
     path: "dashboard/dashboard-widget-render-context.ts",

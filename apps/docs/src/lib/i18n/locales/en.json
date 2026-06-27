@@ -1,7 +1,7 @@
 {
   "displayName": "English",
-  "searchTrigger": "Search documentation",
-  "searchDialog": "Search documentation",
+  "searchTrigger": "Search",
+  "searchDialog": "Search docs",
   "inlineTocLabel": "On this page",
   "feedback": {
     "blockFeedbackLabel": "Feedback",

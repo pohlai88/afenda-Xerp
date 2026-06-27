@@ -1,0 +1,9 @@
+# PAS/KAS 4.1 scaffold - Canonical Enterprise ID Constitution
+# Target slice: kernel identity constitution (ADR-0021)
+# Replace with implementation files listed below.
+
+# - check-database-enterprise-id-contract.test.ts
+# - check-id-family-registry-parity.test.ts
+# - check-id-prefix-uniqueness.test.ts
+# - check-kernel-identity-surface.test.ts
+# - check-no-unsafe-id-casts.test.ts

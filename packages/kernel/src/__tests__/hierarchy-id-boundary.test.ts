@@ -11,22 +11,29 @@ import {
 } from "../context/hierarchy-id-boundary.contract.js";
 import type { OwnershipInterestContext } from "../context/ownership-interest-context.contract.js";
 import {
-  brandCompanyId,
-  brandEntityGroupId,
-  brandOwnershipInterestId,
-  brandTenantId,
+  createTestEnterpriseId,
+  parseCompanyId,
+  parseEntityGroupId,
+  parseOwnershipInterestId,
+  parseTenantId,
   toCompanyId,
   toEntityGroupId,
   toOwnershipInterestId,
   toTenantId,
-} from "../contracts/platform-id.contract.js";
+} from "../identity/index.js";
+
+const TENANT = createTestEnterpriseId("tenant");
+const ENTITY_GROUP = createTestEnterpriseId("entityGroup");
+const OWNERSHIP = createTestEnterpriseId("ownershipInterest");
+const PARENT = createTestEnterpriseId("company");
+const CHILD = createTestEnterpriseId("company", "01ARZ3NDEKTSV4RRFFQ69G5FBV");
 
 const SAMPLE_WIRE_INTEREST: OwnershipInterestContext = {
-  ownershipInterestId: "oi-1",
-  tenantId: "tenant-1",
-  entityGroupId: "group-1",
-  parentLegalEntityId: "parent-1",
-  childLegalEntityId: "child-1",
+  ownershipInterestId: OWNERSHIP,
+  tenantId: TENANT,
+  entityGroupId: ENTITY_GROUP,
+  parentLegalEntityId: PARENT,
+  childLegalEntityId: CHILD,
   ownershipPercentage: 100,
   votingPercentage: 100,
   controlType: "control",
@@ -37,15 +44,13 @@ const SAMPLE_WIRE_INTEREST: OwnershipInterestContext = {
   status: "active",
 };
 
-describe("platform-id.contract — hierarchy brands", () => {
+describe("identity — hierarchy parse", () => {
   it("round-trips OwnershipInterestId and EntityGroupId", () => {
-    const ownershipInterestId = brandOwnershipInterestId("oi-1");
-    const entityGroupId = brandEntityGroupId("group-1");
+    const ownershipInterestId = parseOwnershipInterestId(OWNERSHIP);
+    const entityGroupId = parseEntityGroupId(ENTITY_GROUP);
 
-    expect(ownershipInterestId).not.toBeNull();
-    expect(entityGroupId).not.toBeNull();
-    expect(toOwnershipInterestId(ownershipInterestId!)).toBe("oi-1");
-    expect(toEntityGroupId(entityGroupId!)).toBe("group-1");
+    expect(toOwnershipInterestId(ownershipInterestId)).toBe(OWNERSHIP);
+    expect(toEntityGroupId(entityGroupId)).toBe(ENTITY_GROUP);
   });
 });
 
@@ -57,23 +62,23 @@ describe("hierarchy-id-boundary.contract", () => {
   });
 
   it("normalizes branded ids to wire strings without changing values", () => {
-    const tenantId = brandTenantId("tenant-1")!;
-    const entityGroupId = brandEntityGroupId("group-1")!;
+    const tenantId = parseTenantId(TENANT);
+    const entityGroupId = parseEntityGroupId(ENTITY_GROUP);
 
-    expect(normalizeTenantIdForWire(tenantId)).toBe("tenant-1");
-    expect(normalizeTenantIdForWire("tenant-1")).toBe("tenant-1");
-    expect(normalizeEntityGroupIdForWire(entityGroupId)).toBe("group-1");
-    expect(normalizeEntityGroupIdForWire("group-1")).toBe("group-1");
+    expect(normalizeTenantIdForWire(tenantId)).toBe(TENANT);
+    expect(normalizeTenantIdForWire(TENANT)).toBe(TENANT);
+    expect(normalizeEntityGroupIdForWire(entityGroupId)).toBe(ENTITY_GROUP);
+    expect(normalizeEntityGroupIdForWire(ENTITY_GROUP)).toBe(ENTITY_GROUP);
   });
 
   it("brands ownership interest context at trust boundaries", () => {
     const branded = brandOwnershipInterestContext(SAMPLE_WIRE_INTEREST);
 
-    expect(toTenantId(branded.tenantId)).toBe("tenant-1");
-    expect(toEntityGroupId(branded.entityGroupId)).toBe("group-1");
-    expect(toOwnershipInterestId(branded.ownershipInterestId)).toBe("oi-1");
-    expect(toCompanyId(branded.parentLegalEntityId)).toBe("parent-1");
-    expect(toCompanyId(branded.childLegalEntityId)).toBe("child-1");
+    expect(toTenantId(branded.tenantId)).toBe(TENANT);
+    expect(toEntityGroupId(branded.entityGroupId)).toBe(ENTITY_GROUP);
+    expect(toOwnershipInterestId(branded.ownershipInterestId)).toBe(OWNERSHIP);
+    expect(toCompanyId(branded.parentLegalEntityId)).toBe(PARENT);
+    expect(toCompanyId(branded.childLegalEntityId)).toBe(CHILD);
   });
 
   it("round-trips branded ownership interest context to wire format", () => {
@@ -87,28 +92,28 @@ describe("hierarchy-id-boundary.contract", () => {
 
   it("brands consolidation scope resolver trust input", () => {
     const wireInput: DeriveConsolidationScopeWireInput = {
-      tenantId: brandTenantId("tenant-1")!,
-      entityGroupId: "group-1",
+      tenantId: parseTenantId(TENANT),
+      entityGroupId: ENTITY_GROUP,
       reportingDate: "2026-06-01",
       ownershipInterests: [SAMPLE_WIRE_INTEREST],
     };
 
     const trustInput = brandDeriveConsolidationScopeTrustInput(wireInput);
 
-    expect(toTenantId(trustInput.tenantId)).toBe("tenant-1");
-    expect(toEntityGroupId(trustInput.entityGroupId)).toBe("group-1");
+    expect(toTenantId(trustInput.tenantId)).toBe(TENANT);
+    expect(toEntityGroupId(trustInput.entityGroupId)).toBe(ENTITY_GROUP);
     expect(trustInput.ownershipInterests).toEqual([SAMPLE_WIRE_INTEREST]);
   });
 
-  it("rejects empty tenant id at explicit trust boundary", () => {
+  it("rejects invalid tenant id at explicit trust boundary", () => {
     expect(() =>
       brandDeriveConsolidationScopeTrustInput({
         tenantId: "   ",
-        entityGroupId: "group-1",
+        entityGroupId: ENTITY_GROUP,
         reportingDate: "2026-06-01",
         ownershipInterests: [],
       })
-    ).toThrow("tenantId is required.");
+    ).toThrow();
   });
 });
 
@@ -116,11 +121,11 @@ describe("hierarchy-id-boundary.contract — branded company ids", () => {
   it("accepts branded company ids for parent and child legal entities", () => {
     const branded = brandOwnershipInterestContext({
       ...SAMPLE_WIRE_INTEREST,
-      parentLegalEntityId: toCompanyId(brandCompanyId("parent-1")!),
-      childLegalEntityId: toCompanyId(brandCompanyId("child-1")!),
+      parentLegalEntityId: toCompanyId(parseCompanyId(PARENT)),
+      childLegalEntityId: toCompanyId(parseCompanyId(CHILD)),
     });
 
-    expect(toCompanyId(branded.parentLegalEntityId)).toBe("parent-1");
-    expect(toCompanyId(branded.childLegalEntityId)).toBe("child-1");
+    expect(toCompanyId(branded.parentLegalEntityId)).toBe(PARENT);
+    expect(toCompanyId(branded.childLegalEntityId)).toBe(CHILD);
   });
 });

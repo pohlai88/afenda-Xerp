@@ -1,0 +1,5 @@
+# PAS/KAS 4.1 scaffold - Canonical Enterprise ID Constitution
+# Target slice: kernel identity constitution (ADR-0021)
+# Replace with implementation files listed below.
+
+# - tenant-rls-policy.ts

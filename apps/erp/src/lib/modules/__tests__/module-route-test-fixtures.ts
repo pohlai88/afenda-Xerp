@@ -2,19 +2,28 @@ import type { PermissionKey } from "@afenda/database";
 import type { OperatingContext } from "@afenda/kernel";
 import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
 import { InMemoryPermissionDataSource } from "@afenda/permissions";
+import {
+  API_TEST_ACTOR_ID,
+  API_TEST_COMPANY_ID,
+  API_TEST_CORRELATION_ID,
+  API_TEST_MEMBERSHIP_ID,
+  API_TEST_ROLE_ID,
+  API_TEST_TENANT_ID,
+} from "@/lib/api/__tests__/api-id-test-fixtures";
+import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
 
-export const MODULE_ROUTE_TEST_TENANT_ID = "tenant-001";
-export const MODULE_ROUTE_TEST_COMPANY_ID = "company-a";
-export const MODULE_ROUTE_TEST_ACTOR_ID = "user-001";
-export const MODULE_ROUTE_TEST_ROLE_ID = "role-admin";
-export const MODULE_ROUTE_TEST_MEMBERSHIP_ID = "membership-001";
+export const MODULE_ROUTE_TEST_TENANT_ID = API_TEST_TENANT_ID;
+export const MODULE_ROUTE_TEST_COMPANY_ID = API_TEST_COMPANY_ID;
+export const MODULE_ROUTE_TEST_ACTOR_ID = API_TEST_ACTOR_ID;
+export const MODULE_ROUTE_TEST_ROLE_ID = API_TEST_ROLE_ID;
+export const MODULE_ROUTE_TEST_MEMBERSHIP_ID = API_TEST_MEMBERSHIP_ID;
 
 export function createModuleRouteOperatingContext(input?: {
   readonly correlationId?: string;
 }): OperatingContext {
   return {
     actor: { userId: MODULE_ROUTE_TEST_ACTOR_ID },
-    correlationId: input?.correlationId ?? "corr-module-route-test",
+    correlationId: input?.correlationId ?? API_TEST_CORRELATION_ID,
     tenant: {
       tenantId: MODULE_ROUTE_TEST_TENANT_ID,
       slug: "acme",
@@ -31,8 +40,7 @@ export function createModuleRouteOperatingContext(input?: {
       displayName: "Acme Co",
       registrationNumber: null,
       taxRegistrationNumber: null,
-      countryCode: "AU",
-      baseCurrency: "AUD",
+      ...testLegalEntityCurrencyFields(),
       reportingCurrency: null,
       companyType: "standalone",
       fiscalCalendarId: null,

@@ -24,13 +24,3 @@ export function resolveDocsUiLocaleCopy(locale: DocsLocale): DocsUiLocaleCopy {
 }
 
 export const docsUiLocaleCopyLocales = docsLocales;
-
-export function resolveDocsPageActionsReadPrompt(
-  locale: DocsLocale,
-  url: string
-): string {
-  return resolveDocsUiLocaleCopy(locale).pageActions.readPromptTemplate.replace(
-    "{url}",
-    url
-  );
-}

@@ -2,20 +2,20 @@
  * TIP-008B Slice 3 — business master data wire references and identity scope guards.
  *
  * Wire interfaces keep plain string ids for JSON serialization.
- * Brand ids only at explicit trust boundaries via `brand*` helpers in platform-id.contract.ts.
+ * Parse ids at explicit trust boundaries via `parse*` helpers in `identity/`.
  */
 import {
-  brandCompanyId,
-  brandCustomerId,
-  brandEmployeeId,
-  brandProductId,
-  brandSupplierId,
-  brandTenantId,
-  brandWarehouseId,
   type CompanyId,
   type CustomerId,
   type EmployeeId,
   type ProductId,
+  parseOptionalCompanyId,
+  parseOptionalCustomerId,
+  parseOptionalEmployeeId,
+  parseOptionalProductId,
+  parseOptionalSupplierId,
+  parseOptionalTenantId,
+  parseOptionalWarehouseId,
   type SupplierId,
   type TenantId,
   toCompanyId,
@@ -26,7 +26,7 @@ import {
   toTenantId,
   toWarehouseId,
   type WarehouseId,
-} from "../platform-id.contract.js";
+} from "../../identity/index.js";
 import type { BusinessMasterDataIdentityScope } from "./business-master-data-authority.contract.js";
 
 /** Discriminated identity scope — mirrors registry `identityScope` column. */
@@ -184,9 +184,9 @@ export function identityScopeRuleFromRegistry(
 export function brandCustomerWireReference(
   wire: CustomerWireReference
 ): BrandedCustomerReference {
-  const tenantId = brandTenantId(wire.tenantId);
-  const companyId = brandCompanyId(wire.companyId);
-  const customerId = brandCustomerId(wire.customerId);
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const customerId = parseOptionalCustomerId(wire.customerId);
 
   if (tenantId === null || companyId === null || customerId === null) {
     throw new Error("Customer wire reference ids are required.");
@@ -214,8 +214,8 @@ export function toCustomerWireReference(
 export function brandProductWireReference(
   wire: ProductWireReference
 ): BrandedProductReference {
-  const tenantId = brandTenantId(wire.tenantId);
-  const productId = brandProductId(wire.productId);
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const productId = parseOptionalProductId(wire.productId);
 
   if (tenantId === null || productId === null) {
     throw new Error("Product wire reference ids are required.");
@@ -241,9 +241,9 @@ export function toProductWireReference(
 export function brandSupplierWireReference(
   wire: SupplierWireReference
 ): BrandedSupplierReference {
-  const tenantId = brandTenantId(wire.tenantId);
-  const companyId = brandCompanyId(wire.companyId);
-  const supplierId = brandSupplierId(wire.supplierId);
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const supplierId = parseOptionalSupplierId(wire.supplierId);
 
   if (tenantId === null || companyId === null || supplierId === null) {
     throw new Error("Supplier wire reference ids are required.");
@@ -271,9 +271,9 @@ export function toSupplierWireReference(
 export function brandEmployeeWireReference(
   wire: EmployeeWireReference
 ): BrandedEmployeeReference {
-  const tenantId = brandTenantId(wire.tenantId);
-  const companyId = brandCompanyId(wire.companyId);
-  const employeeId = brandEmployeeId(wire.employeeId);
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const employeeId = parseOptionalEmployeeId(wire.employeeId);
 
   if (tenantId === null || companyId === null || employeeId === null) {
     throw new Error("Employee wire reference ids are required.");
@@ -301,9 +301,9 @@ export function toEmployeeWireReference(
 export function brandWarehouseWireReference(
   wire: WarehouseWireReference
 ): BrandedWarehouseReference {
-  const tenantId = brandTenantId(wire.tenantId);
-  const companyId = brandCompanyId(wire.companyId);
-  const warehouseId = brandWarehouseId(wire.warehouseId);
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const warehouseId = parseOptionalWarehouseId(wire.warehouseId);
 
   if (tenantId === null || companyId === null || warehouseId === null) {
     throw new Error("Warehouse wire reference ids are required.");

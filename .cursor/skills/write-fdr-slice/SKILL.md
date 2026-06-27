@@ -93,6 +93,18 @@ Fill this table before writing the slice. It is the audit record for the handoff
 - Registry-sync slices: delegate to `foundation-registry-owner`; list in handoff §4 Prohibited for implementer.
 - **Implementation slices touch only one runtimeOwner/package.** Cross-package work must be split unless the FDR explicitly classifies the slice as Integration and lists all affected package owners in §Impact analysis.
 
+### PAS §4.1.16 — enterprise ID promotion checklist (when slice adds/persists IDs)
+
+Include in Implementation slice DoD when touching Kernel identity or `enterprise_id` columns:
+
+1. ADR/PAS records family, prefix, and owner
+2. `ID_FAMILIES` registry entry with parse/create (if generated) and wire normalizer
+3. Kernel tests: valid, invalid, wrong-prefix, wrong-body, round-trip
+4. `pnpm check:kernel-identity-surface` green
+5. If persisted: `enterprise_id` + CHECK + UNIQUE; `pnpm check:enterprise-id-db-parity` green
+6. ERP/API ingress uses `parse*` — `pnpm check:erp-enterprise-id-casts` green
+7. Forbidden fiscal IDs remain off platform floor
+
 ---
 
 ## 3 · File list derivation
@@ -232,6 +244,30 @@ After `fdr-slice-implementer` completes:
 - [ ] Backward compatibility declared for any public API surface change
 - [ ] No other active slice owns the same registry entry, runtimeOwner, or deliverable files
 - [ ] If parallel execution planned, `fdr-orchestrator` assigned non-overlapping files
+
+---
+
+## 7 · PAS §4.1 promotion checklist (identity-bearing slices)
+
+When an FDR slice adds or promotes a platform entity table, tenant human reference column, or kernel ID family export, the handoff **must** include this checklist in §6 Gates or §Definition of Done:
+
+```markdown
+### PAS §4.1 promotion checklist
+
+- [ ] Kernel family registered in `packages/kernel/src/identity/id-family.registry.ts` (Architecture Authority approval for new prefix)
+- [ ] `parse*` / `create*` exports present; `check:kernel-identity-surface` pass
+- [ ] Drizzle schema uses `primaryId()`, `enterpriseIdColumn(family)`, `enterpriseIdFormatCheck`
+- [ ] Row registered in `packages/database/src/ids/platform-entity-table-registry.ts` (`live` or `deferred`)
+- [ ] Tenant human reference (if any) uses `tenantHumanReferenceColumn` + `unique (tenant_id, column)` in `tenant-human-reference-registry.ts`
+- [ ] Migration generated via `pnpm db:generate` — no SQL-concat backfill; entry in `migration-governance.contract.ts`
+- [ ] FK columns reference uuid PK only — `check:fk-uuid-only` pass
+- [ ] RLS uses uuid `tenant_id` only — `check:rls-uuid-tenant-only` pass
+- [ ] No fiscal IDs on platform floor — `check:forbidden-platform-ids` pass
+- [ ] ERP/API ingress parses at boundary — `check:no-unsafe-id-casts` pass
+- [ ] Full bundle: `pnpm check:kernel-identity-governance`
+```
+
+**Prohibited:** text PK rollout · FK to `enterprise_id` · unregistered ID family · fiscal IDs on platform floor · tenant human number as API canonical ID without explicit tenant context.
 
 ---
 

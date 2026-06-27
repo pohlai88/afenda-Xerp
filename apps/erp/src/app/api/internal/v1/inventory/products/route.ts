@@ -1,3 +1,6 @@
+import { toProductId } from "@afenda/kernel";
+
+import { parseRouteProductId } from "@/lib/api/parse-route-id";
 import {
   inventoryProductsGetContract,
   inventoryProductsPatchContract,
@@ -44,11 +47,17 @@ export const PATCH = createApiHandler({
   contract: inventoryProductsPatchContract,
   handler(context) {
     const actor = requireInventoryTenantMutationActor(context);
+    const productId = toProductId(
+      parseRouteProductId(context.requestBody.productId)
+    );
 
     return patchInventoryProduct({
       actorUserId: actor.actorUserId,
       correlationId: actor.correlationId,
-      request: context.requestBody,
+      request: {
+        ...context.requestBody,
+        productId,
+      },
       tenantId: actor.tenantId,
     });
   },

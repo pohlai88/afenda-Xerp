@@ -3,13 +3,18 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
-  docsEditorialCssVariables,
-  docsEditorialPrimitiveNames,
-  docsEditorialPrimitiveValues,
+  docsFumadocsThemeImports,
   docsLayoutVariables,
+  docsProseAccentCssVariables,
   docsProseAccentValues,
-  docsShellChromeSelectors,
-  docsShellFdBridge,
+  docsSpacingRoles,
+  docsSpacingScale,
+  docsSpacingStylesheet,
+  docsSurfaceVariables,
+  docsTypographyRoleClasses,
+  docsTypographyScale,
+  docsTypographyStylesheet,
+  docsTypographyVariables,
 } from "@/lib/docs-editorial-palette.contract";
 import {
   docsFontVariableLiterals,
@@ -19,17 +24,8 @@ import {
 const testDirectory = dirname(fileURLToPath(import.meta.url));
 const docsAppRoot = join(testDirectory, "../..");
 
-const rootFdHardcodePattern = /:root\s*\{[^}]*--color-fd-/;
-const darkFdHardcodePattern = /\.dark\s*\{[^}]*--color-fd-/;
-
 function readDocsFile(relativePath: string): string {
   return readFileSync(join(docsAppRoot, relativePath), "utf8");
-}
-
-function cssVarName(
-  primitive: (typeof docsEditorialPrimitiveNames)[number]
-): string {
-  return `--docs-editorial-${primitive}`;
 }
 
 describe("@afenda/docs theme", () => {
@@ -46,11 +42,11 @@ describe("@afenda/docs theme", () => {
     }
   });
 
-  it("references font variables from globals.css stacks", () => {
-    const globalsCss = readDocsFile("src/app/globals.css");
+  it("references font variables from editorial palette stacks", () => {
+    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
 
     for (const variable of docsFontVariableLiterals) {
-      expect(globalsCss).toContain(`var(${variable})`);
+      expect(paletteCss).toContain(`var(${variable})`);
     }
   });
 
@@ -61,178 +57,151 @@ describe("@afenda/docs theme", () => {
     expect(globalsCss).not.toContain("afenda-tokens.css");
   });
 
-  it("sets Fumadocs layout width and editorial prose max-width", () => {
+  it("imports Fumadocs solar theme CSS before Afenda overrides", () => {
     const globalsCss = readDocsFile("src/app/globals.css");
+    const paletteImport = globalsCss.indexOf("./docs-editorial-palette.css");
 
-    expect(globalsCss).toContain(
-      `${docsLayoutVariables.layoutWidth}: ${docsLayoutVariables.layoutWidthValue}`
-    );
-    expect(globalsCss).toContain(
-      `max-width: ${docsLayoutVariables.proseMaxWidth}`
-    );
-  });
-
-  it("wires Fumadocs fd tokens through @theme inline to editorial vars", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-
-    expect(paletteCss).toContain("@theme inline {");
-
-    for (const [fdToken, editorialVar] of Object.entries(docsShellFdBridge)) {
-      expect(paletteCss).toContain(`${fdToken}: var(${editorialVar})`);
+    for (const themeImport of docsFumadocsThemeImports) {
+      expect(globalsCss).toContain(themeImport);
+      expect(globalsCss.indexOf(themeImport)).toBeLessThan(paletteImport);
     }
   });
 
-  it("maps fd-primary to neutral shell text, not brand accent or search surface", () => {
+  it("sets Fumadocs layout width and UI-first prose typography", () => {
     const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
+    const globalsCss = readDocsFile("src/app/globals.css");
 
     expect(paletteCss).toContain(
-      `--color-fd-primary: var(${docsEditorialCssVariables.text})`
+      `${docsLayoutVariables.layoutWidth}: ${docsLayoutVariables.layoutWidthValue}`
     );
-    expect(paletteCss).not.toContain(
-      `--color-fd-primary: var(${docsEditorialCssVariables.proseAccent})`
+    for (const { variable, value } of Object.values(docsTypographyScale)) {
+      expect(paletteCss).toContain(`${variable}: ${value}`);
+    }
+    expect(paletteCss).toContain(
+      `${docsTypographyVariables.base}: ${docsTypographyVariables.baseValue}`
     );
-    expect(paletteCss).not.toContain(
-      `--color-fd-primary: var(${docsEditorialCssVariables.searchSurface})`
+    expect(paletteCss).toContain(
+      `${docsTypographyVariables.display}: ${docsTypographyVariables.displayValue}`
+    );
+    expect(globalsCss).toContain("#nd-page .prose");
+    expect(globalsCss).toContain(
+      `max-width: var(${docsTypographyVariables.proseMaxWidth})`
     );
   });
 
-  it("maps fd-card and fd-popover to paper material", () => {
+  it("caps tab panel headings so content never exceeds UI chrome", () => {
+    const globalsCss = readDocsFile("src/app/globals.css");
+
+    expect(globalsCss).toContain('[role="tabpanel"]');
+    expect(globalsCss).toContain("var(--docs-text-ui)");
+  });
+
+  it("normalizes page and prose spacing with enterprise quiet roles", () => {
+    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
+    const spacingCss = readDocsFile(`src/app/${docsSpacingStylesheet.slice(2)}`);
+    const globalsCss = readDocsFile("src/app/globals.css");
+
+    for (const { variable, value } of Object.values(docsSpacingScale)) {
+      expect(paletteCss).toContain(`${variable}: ${value}`);
+    }
+    for (const { variable, mapsTo } of Object.values(docsSpacingRoles)) {
+      if (mapsTo) {
+        expect(paletteCss).toContain(`${variable}: var(${mapsTo})`);
+      }
+    }
+    expect(paletteCss).toContain("--docs-divider:");
+    expect(paletteCss).toContain("--docs-callout-surface:");
+    expect(paletteCss).toContain("--docs-callout-accent:");
+    expect(globalsCss).toContain(docsSpacingStylesheet);
+    expect(spacingCss).toContain("gap: var(--docs-gap-chrome)");
+    expect(spacingCss).toContain("gap: var(--docs-gap-block)");
+    expect(spacingCss).toContain(".docs-page-actions");
+    expect(spacingCss).toContain(".docs-feedback-text");
+    expect(globalsCss).toContain("scroll-margin-top");
+  });
+
+  it("imports editorial typography roles after palette tokens", () => {
+    const globalsCss = readDocsFile("src/app/globals.css");
+    const typographyCss = readDocsFile(`src/app/${docsTypographyStylesheet.slice(2)}`);
+    const paletteImport = globalsCss.indexOf("./docs-editorial-palette.css");
+    const typographyImport = globalsCss.indexOf(docsTypographyStylesheet);
+
+    expect(typographyImport).toBeGreaterThan(paletteImport);
+    expect(globalsCss).toContain(docsTypographyStylesheet);
+    expect(typographyCss).toContain(`.${docsTypographyRoleClasses.display}`);
+    expect(typographyCss).toContain(`.${docsTypographyRoleClasses.summary}`);
+    expect(typographyCss).toContain(`.${docsTypographyRoleClasses.deck}`);
+  });
+
+  it("does not re-bridge the full fd token set in Afenda overrides", () => {
     const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
 
-    expect(paletteCss).toContain(
-      `--color-fd-card: var(${docsEditorialCssVariables.paper})`
-    );
-    expect(paletteCss).toContain(
-      `--color-fd-popover: var(${docsEditorialCssVariables.paper})`
-    );
+    expect(paletteCss).not.toContain("@theme inline");
+    expect(paletteCss).not.toContain("--color-fd-background:");
+    expect(paletteCss).not.toContain("--color-fd-primary:");
   });
 
   it("pins prose brand accent as docs-owned OKLCH without Afenda token aliases", () => {
     const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
 
     expect(paletteCss).toContain(
-      `--docs-editorial-prose-accent: ${docsProseAccentValues.light.default}`
+      `${docsProseAccentCssVariables.default}: ${docsProseAccentValues.light.default}`
     );
     expect(paletteCss).toContain(
-      `--docs-editorial-prose-accent-hover: ${docsProseAccentValues.light.hover}`
+      `${docsProseAccentCssVariables.hover}: ${docsProseAccentValues.light.hover}`
     );
     expect(paletteCss).not.toContain("--afenda-semantic-brand");
     expect(paletteCss).not.toContain("--afenda-color-primary");
   });
 
-  it("overrides prose accent in dark mode for readable H254 on graphite", () => {
+  it("overrides prose accent in dark mode for readable H254", () => {
     const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
     const darkBlock = paletteCss.slice(paletteCss.indexOf(".dark {"));
 
     expect(darkBlock).toContain(
-      `--docs-editorial-prose-accent: ${docsProseAccentValues.dark.default}`
+      `${docsProseAccentCssVariables.default}: ${docsProseAccentValues.dark.default}`
     );
     expect(darkBlock).toContain(
-      `--docs-editorial-prose-accent-hover: ${docsProseAccentValues.dark.hover}`
+      `${docsProseAccentCssVariables.hover}: ${docsProseAccentValues.dark.hover}`
     );
   });
 
-  it("keeps every docsEditorialPrimitiveNames entry present in palette CSS", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-
-    for (const primitive of docsEditorialPrimitiveNames) {
-      expect(paletteCss).toContain(cssVarName(primitive));
-    }
-  });
-
-  it("mirrors light and dark OKLCH literals in contract and CSS", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-
-    for (const [key, value] of Object.entries(
-      docsEditorialPrimitiveValues.light
-    )) {
-      const cssKey = key.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
-      expect(paletteCss).toContain(`--docs-editorial-${cssKey}: ${value}`);
-    }
-
-    for (const [key, value] of Object.entries(
-      docsEditorialPrimitiveValues.dark
-    )) {
-      const cssKey = key.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
-      const darkBlock = paletteCss.slice(paletteCss.indexOf(".dark {"));
-      expect(darkBlock).toContain(`--docs-editorial-${cssKey}: ${value}`);
-    }
-  });
-
-  it("styles FullSearchTrigger with paper surface and kbd contrast", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-
-    expect(paletteCss).toContain(docsShellChromeSelectors.searchFull);
-    expect(paletteCss).toContain(docsShellChromeSelectors.searchKbd);
-    expect(paletteCss).toContain(
-      `--docs-editorial-search-surface: var(${docsEditorialCssVariables.paper})`
-    );
-    expect(paletteCss).toContain(
-      `--docs-editorial-search-kbd-surface: var(${docsEditorialCssVariables.surfaceMuted})`
-    );
-    expect(paletteCss).toContain("font-variant-numeric: tabular-nums");
-    expect(paletteCss).toContain("button[data-search-full]:hover");
-  });
-
-  it("defines porcelain light and layered graphite dark material roles", () => {
-    expect(docsEditorialPrimitiveValues.light.canvas).toContain("95)");
-    expect(docsEditorialPrimitiveValues.dark.rail).not.toBe(
-      docsEditorialPrimitiveValues.dark.canvas
-    );
-    expect(docsEditorialPrimitiveValues.dark.paper).not.toBe(
-      docsEditorialPrimitiveValues.dark.rail
-    );
-  });
-
-  it("keeps brand accent out of sidebar active chrome", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-    const sidebarBlock = paletteCss.slice(
-      paletteCss.indexOf(docsShellChromeSelectors.sidebarActive)
-    );
-
-    expect(sidebarBlock).toContain(
-      `background-color: var(${docsEditorialCssVariables.surfaceActive})`
-    );
-    expect(sidebarBlock).not.toContain(docsEditorialCssVariables.proseAccent);
-  });
-
-  it("scopes brand accent to prose via editorial prose tokens in globals.css", () => {
+  it("scopes brand accent to prose links in globals.css", () => {
     const globalsCss = readDocsFile("src/app/globals.css");
 
-    expect(globalsCss).toContain("var(--docs-editorial-prose-accent)");
-    expect(globalsCss).toContain("var(--docs-editorial-prose-accent-hover)");
-    expect(globalsCss).toContain(".nd-page .prose a");
-    expect(globalsCss).toContain("var(--docs-editorial-code-surface)");
+    expect(globalsCss).toContain(`var(${docsProseAccentCssVariables.default})`);
+    expect(globalsCss).toContain(`var(${docsProseAccentCssVariables.hover})`);
+    expect(globalsCss).toContain("#nd-page .prose a");
   });
 
-  it("overrides Fumadocs sidebar scoped fd tokens with rail material", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-    const sidebarBlock = paletteCss.slice(
-      paletteCss.indexOf(`${docsShellChromeSelectors.sidebarRoot} {`)
-    );
+  it("ships editorial noise and illustration surface layers", () => {
+    const surfaceCss = readDocsFile("src/app/docs-editorial-surface.css");
+    const globalsCss = readDocsFile("src/app/globals.css");
 
-    expect(sidebarBlock).toContain(
-      `--color-fd-muted: var(${docsEditorialCssVariables.rail})`
-    );
-    expect(sidebarBlock).toContain(
-      `background-color: var(${docsEditorialCssVariables.rail})`
-    );
+    expect(globalsCss).toContain("./docs-editorial-surface.css");
+    expect(globalsCss).toContain("./docs-luxury-shell.css");
+    expect(surfaceCss).toContain("body::before");
+    expect(surfaceCss).toContain("body::after");
+    expect(surfaceCss).toContain(docsSurfaceVariables.noiseOpacity);
+    expect(surfaceCss).toContain(docsSurfaceVariables.illustrationOpacity);
+    expect(surfaceCss).toContain("feTurbulence");
   });
 
-  it("exposes ACPA focus-visible ring on shell interactive elements", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
+  it("uses fd tokens for block feedback highlight", () => {
+    const globalsCss = readDocsFile("src/app/globals.css");
 
-    expect(paletteCss).toContain(":focus-visible {");
-    expect(paletteCss).toContain(
-      `outline-color: var(${docsEditorialCssVariables.ring})`
-    );
+    expect(globalsCss).toContain("var(--color-fd-primary)");
+    expect(globalsCss).toContain("var(--color-fd-primary-foreground)");
   });
 
-  it("does not hardcode --color-fd-* in :root or .dark", () => {
-    const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-    const rootBlock = paletteCss.slice(0, paletteCss.indexOf("@theme inline"));
+  it("maps editorial blocks to fd tokens in docs-editorial-blocks.css", () => {
+    const blocksCss = readDocsFile("src/app/docs-editorial-blocks.css");
 
-    expect(rootBlock).not.toMatch(rootFdHardcodePattern);
-    expect(rootBlock).not.toMatch(darkFdHardcodePattern);
+    expect(blocksCss).toContain(
+      "--docs-editorial-block-canvas: var(--color-fd-background)"
+    );
+    expect(blocksCss).toContain(
+      "--docs-editorial-block-accent: var(--docs-prose-accent)"
+    );
   });
 });
