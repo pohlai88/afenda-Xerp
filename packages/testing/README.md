@@ -12,7 +12,7 @@ Shared test utilities for the Afenda monorepo.
 | `@afenda/testing/mocks/next-link` | `next/link` stand-in for Vitest |
 | `@afenda/testing/mocks/next-image` | `next/image` stand-in for Vitest |
 
-Authority: [ARCH-TEST-002](../../docs/ARCH/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md)
+Authority: [ARCH-TEST-002](../../docs/PAS/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md)
 
 ### Interaction tests (Vitest jsdom)
 
@@ -73,7 +73,7 @@ pnpm --filter @afenda/erp test:e2e:smoke
 pnpm --filter @afenda/erp test:e2e --grep @smoke --headed --debug
 ```
 
-Authority: [ARCH-TEST-001](../../docs/ARCH/%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md)
+Authority: [ARCH-TEST-001](../../docs/PAS/%5BComplete%5D%20ARCH-TEST-001-vitest-playwright-strategy.md)
 
 ## Boundaries
 

@@ -24,7 +24,10 @@ export {
   isPlatformEntityId,
   PLATFORM_ENTITY_AUTHORITY_REGISTRY,
   PLATFORM_ENTITY_IDS,
+  PLATFORM_ENTITY_POLICY,
+  PLATFORM_ENTITY_RUNTIME_STATUSES,
   type PlatformEntityAuthorityEntry,
   type PlatformEntityId,
+  type PlatformEntityRuntimeStatus,
   type RepoRelativePath,
 } from "./platform-entity-authority.contract.js";

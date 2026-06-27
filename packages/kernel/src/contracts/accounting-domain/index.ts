@@ -25,6 +25,27 @@ export {
   type AccountingPackageLifecyclePhase,
   isAccountingPackageLifecyclePhase,
 } from "./accounting-authority.contract.js";
+export {
+  ACCOUNTING_DOMAIN_PROHIBITED_RUNTIME_SURFACES,
+  ACCOUNTING_DOMAIN_VOCABULARY_POLICY,
+  type AccountingDomainProhibitedRuntimeSurface,
+} from "./accounting-domain-vocabulary.policy.js";
+export {
+  ACCOUNTING_DOMAIN_AUDIT_VOCABULARY,
+  ACCOUNTING_DOMAIN_AUTHORITY_METADATA,
+  ACCOUNTING_DOMAIN_BRANDED_ID_TYPE_NAMES,
+  ACCOUNTING_DOMAIN_BRANDED_IDS,
+  ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES,
+  ACCOUNTING_DOMAIN_FORBIDDEN_PLATFORM_FLOOR_BRANDED_IDS,
+  ACCOUNTING_DOMAIN_PERMISSION_VOCABULARY,
+  ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY,
+  ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID,
+  ACCOUNTING_DOMAIN_WIRE_CONTEXT,
+  type AccountingDomainBrandedIdEntry,
+  type AccountingDomainClosedVocabularyEntry,
+  type AccountingDomainVocabularyKind,
+  type assertAccountingDomainVocabularyRegistryIntegrity,
+} from "./accounting-domain-vocabulary.registry.js";
 export type {
   AccountingDomainWireContext,
   assertAccountingDomainWireContextJsonSerializable,
@@ -32,13 +53,16 @@ export type {
 export {
   type AccountId,
   brandAccountId,
+  brandFiscalCalendarId,
   brandFiscalPeriodId,
   brandJournalEntryId,
   brandLedgerAccountCode,
+  type FiscalCalendarId,
   type FiscalPeriodId,
   type JournalEntryId,
   type LedgerAccountCode,
   toAccountId,
+  toFiscalCalendarId,
   toFiscalPeriodId,
   toJournalEntryId,
   toLedgerAccountCode,
@@ -53,6 +77,11 @@ export {
   toAccountingPermissionKey,
 } from "./accounting-permission-vocabulary.contract.js";
 export { toAccountingDomainContext } from "./bridge/to-accounting-domain-context.js";
+export {
+  CONSOLIDATION_METHODS,
+  type ConsolidationMethod,
+  isConsolidationMethod,
+} from "./consolidation-method.contract.js";
 export {
   FISCAL_PERIOD_STATES,
   type FiscalPeriodState,

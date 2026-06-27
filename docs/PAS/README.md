@@ -48,6 +48,10 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Active |
 
+Package-local annotated tree: [`packages/kernel/PAS-001-KERNEL-TREE.md`](../../packages/kernel/PAS-001-KERNEL-TREE.md)
+
+Slice closure registry: [`pas-status-index.md`](pas-status-index.md)
+
 ---
 
 ## Agent skill entrypoints
@@ -63,7 +67,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 ## How to add a new PAS
 
 1. Assign the next `PAS-NNN` number from the index above.
-2. Copy the template from `.cursor/skills/kernel-authority/reference/pas-template.md`.
+2. Copy templates from `.cursor/skills/kernel-authority/reference/pas-template.md` (index) and the split files `pas-doc-template.md`, `pas-skill-template.md`, `pas-slice-template.md`, `pas-reference-templates.md`.
 3. Create `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
 4. Register it in the index table above.
 5. Create the corresponding Cursor skill under `.cursor/skills/<package-name>-authority/SKILL.md`.

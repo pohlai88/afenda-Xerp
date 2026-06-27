@@ -28,7 +28,7 @@ disable-model-invocation: true
 | User invokes `/afenda-fumadocs` | Explicit slash command |
 | User attaches skill manually | Composer skill picker |
 | Any work in `apps/docs/**` | Fumadocs layer governance |
-| TIP-032 slice implementation | `docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md` |
+| TIP-032 slice implementation | `docs/PAS/slice/[Partially Implemented] tip-032-implementation-documentation.md` |
 | MDX page authoring or editing | Content quality enforcement |
 | `source.config.ts` or `lib/source.ts` modification | Schema authority |
 
@@ -91,7 +91,7 @@ Stop immediately if any of the following are true:
 | **Content Authority** | `apps/docs/content/docs/` | Published MDX pages and `meta.json` | Mirror governance docs verbatim |
 | **Config Authority** | `apps/docs/source.config.ts` | Zod frontmatter schema, MDX compiler options | Define schemas that conflict with Fumadocs core |
 | **Dependency Registry** | `docs/architecture/dependency-registry.md` | Approved workspace deps for `@afenda/docs` | Add runtime deps without registry PR |
-| **Governance Authority** | `docs/architecture/`, `docs/adr/`, `docs/delivery/tips/` | ADRs, registries, TIPs | Be edited by docs app tooling |
+| **Governance Authority** | `docs/architecture/`, `docs/adr/`, `docs/PAS/slice/` | ADRs, registries, TIPs | Be edited by docs app tooling |
 | **Design Authority** (Slice 3+) | `apps/docs/src/app/docs-editorial-palette.css` | Docs-owned OKLCH + fd bridge | Import `@afenda/design-system` for shell chrome |
 
 ---
@@ -117,7 +117,7 @@ Stop immediately if any of the following are true:
 |---------|-------------|
 | Engineer guides, onboarding, how-tos | ADR content (keep in `docs/adr/`) |
 | Monorepo map, package descriptions | Architecture registries (keep in `docs/architecture/`) |
-| Contributing workflow, dev setup | Delivery TIP specs (keep in `docs/delivery/tips/`) |
+| Contributing workflow, dev setup | Delivery TIP specs (keep in `docs/PAS/slice/`) |
 | API how-to guides (post TIP-031) | Copy-paste governance text from `docs/` |
 | Component authoring guides | Operational runbooks duplicating existing docs |
 
@@ -530,7 +530,7 @@ Any `Fail` row in the boundary proof table must be resolved or escalated before 
 
 - Full gate matrix → [VERIFICATION.md](VERIFICATION.md)
 - MDX authoring patterns in depth → [CONTENT-PATTERNS.md](CONTENT-PATTERNS.md)
-- TIP-032 delivery authority → `docs/delivery/tips/[Partially Implemented] tip-032-implementation-documentation.md`
+- TIP-032 delivery authority → `docs/PAS/slice/[Partially Implemented] tip-032-implementation-documentation.md`
 - Docs app architecture boundary → `docs/architecture/docs-app-architecture.md`
 - Dependency registry → `docs/architecture/dependency-registry.md`
 - Fumadocs UI theme → `fumadocs-ui/css/neutral.css` + `fumadocs-ui/css/preset.css`

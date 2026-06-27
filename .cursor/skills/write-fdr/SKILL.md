@@ -1,6 +1,6 @@
 ---
 name: write-fdr
-description: Authors Afenda FDR delivery docs under docs/delivery/FDR/ with enterprise 9.5 sections — NFR (ISO 25010), BRD traceability, Clean Core levels, impact analysis, rollback strategy, knowledge transfer, and 15-row DoD tables with SAP/Oracle gate mapping. Use when drafting or updating an FDR, writing ADR-0016+ delivery authority, planning package upgrade slices, or creating enterprise acceptance criteria. Replaces write-tip for all foundation and package work after 2026-06-25. Invoke with /write-fdr or attach when producing FDR delivery documentation.
+description: Authors Afenda FDR delivery docs under docs/PAS/ with enterprise 9.5 sections — NFR (ISO 25010), BRD traceability, Clean Core levels, impact analysis, rollback strategy, knowledge transfer, and 15-row DoD tables with SAP/Oracle gate mapping. Use when drafting or updating an FDR, writing ADR-0016+ delivery authority, planning package upgrade slices, or creating enterprise acceptance criteria. Replaces write-tip for all foundation and package work after 2026-06-25. Invoke with /write-fdr or attach when producing FDR delivery documentation.
 disable-model-invocation: true
 ---
 
@@ -18,9 +18,9 @@ disable-model-invocation: true
 ADR
   → foundation-disposition.registry.ts
     → package-registry.data.ts
-      → docs/delivery/FDR/[status] fdr-*.md   ← you are authoring here
+      → docs/PAS/[status] fdr-*.md   ← you are authoring here
         → afenda-runtime-truth-matrix.md
-          → docs/delivery/tips/ (archive-lane evidence only)
+          → docs/PAS/slice/ (archive-lane evidence only)
 ```
 
 An FDR doc **never overrides** the typed registry or an ADR.
@@ -48,7 +48,7 @@ An FDR doc **never overrides** the typed registry or an ADR.
 3. Read package-registry.md — confirm PKG-NNN and package name
 4. Read enterprise-erp-standards/SKILL.md §2 + §8 — identify SAP/Oracle controls for this domain
 5. Read enterprise-erp-standards/SKILL.md §10–§13 — identify Clean Core level + NFR profile + SoD requirements
-6. Check docs/delivery/FDR/ for existing FDR; update don't recreate
+6. Check docs/PAS/ for existing FDR; update don't recreate
 7. Read fdr-status-index.md — confirm FDR appears in §FDR catalog
 ```
 
@@ -222,7 +222,7 @@ Research slice §3 Files: FDR doc, fdr-status-index, runtime matrix only. **Proh
 Paste into afenda-coding-session Phase 0:
 
 ```
-Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
+Handoff from: docs/PAS/[status] fdr-NNN-<slug>.md
 
 1. Objective    — <one sentence; close §Remaining gap or Research discovery>
 2. Allowed layer— <runtimeOwner from registry>
@@ -399,7 +399,7 @@ If evidence cannot be cited, the score for that item is 0 — not "assumed OK".
 
 - Registry: `packages/architecture-authority/src/data/foundation-disposition.registry.ts`
 - Workflow: `docs/architecture/foundation-delivery-authority.md`
-- Index: `docs/delivery/fdr-status-index.md`
+- Index: `docs/PAS/README.md`
 - Enterprise: `.cursor/skills/enterprise-erp-standards/SKILL.md`
 - Benchmark: [ENTERPRISE-BENCHMARK.md](ENTERPRISE-BENCHMARK.md) — 10 gates, 30-pt scoring, package targets
 - Slice authoring: `.cursor/skills/write-fdr-slice/SKILL.md`

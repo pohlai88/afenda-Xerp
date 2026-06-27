@@ -16,6 +16,8 @@ function brandTrimRequired<T extends string>(
 
 export type AccountId = Brand<string, "AccountId">;
 export type JournalEntryId = Brand<string, "JournalEntryId">;
+/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
+export type FiscalCalendarId = Brand<string, "FiscalCalendarId">;
 export type FiscalPeriodId = Brand<string, "FiscalPeriodId">;
 export type LedgerAccountCode = Brand<string, "LedgerAccountCode">;
 
@@ -27,6 +29,12 @@ export function brandJournalEntryId(
   value: string | JournalEntryId
 ): JournalEntryId {
   return brandTrimRequired(value, "journalEntryId") as JournalEntryId;
+}
+
+export function brandFiscalCalendarId(
+  value: string | FiscalCalendarId
+): FiscalCalendarId {
+  return brandTrimRequired(value, "fiscalCalendarId") as FiscalCalendarId;
 }
 
 export function brandFiscalPeriodId(
@@ -46,6 +54,10 @@ export function toAccountId(value: AccountId): string {
 }
 
 export function toJournalEntryId(value: JournalEntryId): string {
+  return unbrand(value);
+}
+
+export function toFiscalCalendarId(value: FiscalCalendarId): string {
   return unbrand(value);
 }
 

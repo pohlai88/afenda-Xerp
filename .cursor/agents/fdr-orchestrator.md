@@ -63,7 +63,7 @@ Provide exact Slot table before this agent can produce a batch manifest.
 
 ## Mandatory read order
 
-1. `docs/delivery/fdr-status-index.md` — §Parallel execution map, §Upgrade sequence, §Do not start yet
+1. `docs/PAS/README.md` — §Parallel execution map, §Upgrade sequence, §Do not start yet
 2. `foundation-disposition.registry.ts` — `allowedAgents`, `runtimeOwner`, `prohibited` per entry
 3. `.cursor/skills/enterprise-erp-standards/SKILL.md` — batch must not skip any controls
 4. `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` — §2 G0–G10, §5.1 lane overrides
@@ -95,7 +95,7 @@ Before invoking any implementer, produce a batch manifest in your response. **No
 
 | Slot | FDR | Slice | Type | Registry entry | Runtime owner | Field 3 files (summarized) | Gates | Conflict status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| A | `fdr-NNN` | N | Research | PKG-NNN_DOMAIN | docs-only | `docs/delivery/FDR/...` | `check:doc-drift` | PASS / FAIL |
+| A | `fdr-NNN` | N | Research | PKG-NNN_DOMAIN | docs-only | `docs/PAS/...` | `check:doc-drift` | PASS / FAIL |
 
 ---
 
@@ -103,8 +103,8 @@ Before invoking any implementer, produce a batch manifest in your response. **No
 
 Stop and output a Batch Repair Report if any condition is true:
 
-1. Any FDR is missing from `docs/delivery/FDR/`.
-2. Any FDR is missing from `docs/delivery/fdr-status-index.md`.
+1. Any FDR is missing from `docs/PAS/`.
+2. Any FDR is missing from `docs/PAS/README.md`.
 3. Any slice lacks a complete 9-field handoff block (`fdr-slice-author` must repair first).
 4. Any handoff Field 3 uses globs, directory-only paths, "related files", or "as needed".
 5. Any two slots touch the same file path.
@@ -161,7 +161,7 @@ Batch status: BLOCKED
 
 These files are batch-serialized. **Only one slot may own them per batch:**
 
-- `docs/delivery/fdr-status-index.md`
+- `docs/PAS/README.md`
 - `docs/architecture/afenda-runtime-truth-matrix.md`
 - `docs/architecture/foundation-disposition.md`
 - `packages/architecture-authority/src/data/foundation-disposition.registry.ts`

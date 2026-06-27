@@ -65,8 +65,8 @@ Do not author Slice N+1 while Slice N has a repair report outstanding.
 
 Before writing a single line of the handoff block, verify all 10 conditions:
 
-1. Target FDR does not exist in `docs/delivery/FDR/`.
-2. FDR is not listed in `docs/delivery/fdr-status-index.md`.
+1. Target FDR does not exist in `docs/PAS/`.
+2. FDR is not listed in `docs/PAS/README.md`.
 3. Registry entry ID in FDR does not exist in `foundation-disposition.registry.ts`.
 4. `runtimeOwner` missing from registry entry.
 5. FDR has no Deliverables table.
@@ -82,12 +82,12 @@ If any trigger, output the repair report format from §9. Do not proceed.
 
 ## Mandatory reads (in order, before writing anything)
 
-1. `docs/delivery/fdr-status-index.md` — confirm FDR in §FDR catalog
+1. `docs/PAS/README.md` — confirm FDR in §FDR catalog
 2. `foundation-disposition.registry.ts` — `runtimeOwner`, `gates`, `prohibited`, `allowedAgents`
 3. `.cursor/skills/enterprise-erp-standards/SKILL.md` §2+§8+§10–§13
 4. `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` — §3.1 hard fails, §3.2 evidence grades, §8 CEMLI
 5. `docs/architecture/afenda-runtime-truth-matrix.md` — upstream evidence state
-6. Target FDR `docs/delivery/FDR/[status] fdr-NNN-*.md` — Purpose, Scope, Deliverables, existing Slices, §Remaining gaps
+6. Target FDR `docs/PAS/[status] fdr-NNN-*.md` — Purpose, Scope, Deliverables, existing Slices, §Remaining gaps
 7. ADRs cited in FDR Purpose
 
 ---
@@ -96,7 +96,7 @@ If any trigger, output the repair report format from §9. Do not proceed.
 
 | Field | Value |
 | --- | --- |
-| FDR doc | `docs/delivery/FDR/[status] fdr-NNN-<slug>.md` |
+| FDR doc | `docs/PAS/[status] fdr-NNN-<slug>.md` |
 | FDR ID | `fdr-NNN-<slug>` |
 | Registry entry ID | `<PKGxxx_DOMAIN>` |
 | Slice number | N |
@@ -128,7 +128,7 @@ Slice 1 on `Not started` FDRs must be **Research** unless Architecture Authority
 ## Handoff block format (all 9 fields required — no omissions)
 
 ```
-Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
+Handoff from: docs/PAS/[status] fdr-NNN-<slug>.md
 
 1. Objective    — <one sentence; no vague language; scoped to this slice only>
 2. Allowed layer— <runtimeOwner path, or "docs-only" for Research/Evidence-sync>
@@ -145,9 +145,9 @@ Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
 - Every source file the implementer will write or modify — **exact paths only; no directories, no globs, no "related files"**.
 - Every test file.
 - Sync docs required when evidence/status/score/lane changes:
-  - `docs/delivery/FDR/[status] fdr-NNN-*.md` (always when FDR sections change)
+  - `docs/PAS/[status] fdr-NNN-*.md` (always when FDR sections change)
   - `docs/architecture/afenda-runtime-truth-matrix.md` when runtime evidence changes
-  - `docs/delivery/fdr-status-index.md` when FDR status changes
+  - `docs/PAS/README.md` when FDR status changes
   - `docs/architecture/foundation-disposition.md` when lane or disposition changes (registry is source of truth; this is a view only)
 
 **Field 3 — PASS vs FAIL examples:**
@@ -156,7 +156,7 @@ Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
 | --- | --- | --- |
 | `packages/observability/src/surface/governed-mutation-audit-registry.ts` | ✅ PASS | Exact file path |
 | `packages/observability/src/__tests__/governed-mutation-audit-registry.test.ts` | ✅ PASS | Exact test path |
-| `docs/delivery/FDR/[Not started] fdr-013-audit-coverage.md` | ✅ PASS | Exact doc path with status prefix |
+| `docs/PAS/[Not started] fdr-013-audit-coverage.md` | ✅ PASS | Exact doc path with status prefix |
 | `packages/observability/src/` | ❌ FAIL | Directory — not a file path |
 | `packages/observability/**/*.ts` | ❌ FAIL | Glob |
 | `related observability files` | ❌ FAIL | Prose — not a path |

@@ -174,7 +174,7 @@ This ADR is satisfied when:
 - MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
 - UI enforcement: [`docs/governance/ui-guard.md`](../governance/ui-guard.md) · [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md)
 - Pattern map: [`packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md)
-- FDR shell: [`docs/delivery/FDR/[Partially Implemented] fdr-001-shell-composition.md`](../delivery/FDR/[Partially%20Implemented]%20fdr-001-shell-composition.md)
+- FDR shell: [`docs/PAS/[Partially Implemented] fdr-001-shell-composition.md`](../delivery/FDR/[Partially%20Implemented]%20fdr-001-shell-composition.md)
 - Related ADRs: [ADR-0002](./ADR-0002-layer-governance.md) · [ADR-0003](./ADR-0003-dependency-governance.md) · [ADR-0007](./ADR-0007-ai-development-governance.md) · [ADR-0014](./ADR-0014-foundation-disposition-registry.md)
 - shadcn/studio docs: https://shadcnstudio.com/docs/getting-started/shadcn-studio-template-nextjs
 - MCP onboarding: https://shadcnstudio.com/mcp

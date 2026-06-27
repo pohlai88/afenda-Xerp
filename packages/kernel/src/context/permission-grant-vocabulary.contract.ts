@@ -1,7 +1,13 @@
 /**
- * Permission grant vocabulary — cross-package scope dimension words only (PAS-001 §8).
- * Resolved membership/role records belong in `@afenda/permissions`; kernel retains vocabulary
- * until OperatingContext composition migrates (TIP-007 transitional).
+ * Permission grant scope vocabulary — membership/RLS grant boundary words (TIP-007 transitional).
+ *
+ * Distinct from PAS §8 permission model scope vocabulary in
+ * `permission/permission-model-scope.contract.ts`: grant scope types (`company`, `organization`, …)
+ * serve resolved membership records and storage; model scope words (`legal_entity`,
+ * `organization_unit`, …) govern the `module × action × scope` pattern.
+ *
+ * Resolved membership/role records belong in `@afenda/permissions`; kernel retains grant vocabulary
+ * until OperatingContext composition migrates.
  */
 
 export const PERMISSION_GRANT_SCOPE_TYPES = [

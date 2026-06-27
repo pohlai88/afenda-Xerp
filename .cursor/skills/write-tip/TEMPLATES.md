@@ -6,7 +6,7 @@
 
 ## §A — TIP Delivery Doc Template
 
-File path: `docs/delivery/tips/[status] tip-NNN-short-title.md`  
+File path: `docs/PAS/slice/[status] tip-NNN-short-title.md`  
 When status changes, rename the `[status]` prefix in the same PR as `tip-status-index.md`.
 
 ```markdown
@@ -92,7 +92,7 @@ AND   <additional outcome — always include audit event for mutations>
 | 4 | TypeScript strict — no `any` | `pnpm --filter <pkg> typecheck` | [ ] |
 | 5 | Biome lint + format clean | `pnpm ci:biome` | [ ] |
 | 6 | Runtime truth matrix updated | `docs/architecture/afenda-runtime-truth-matrix.md` | [ ] |
-| 7 | TIP status index updated when status changes | `docs/delivery/tip-status-index.md` | [ ] |
+| 7 | TIP status index updated when status changes | `docs/PAS/README.md` | [ ] |
 | 8 | Delivery doc + matrix in sync | `pnpm check:documentation-drift` | [ ] |
 | 9 | Completion report posted | afenda-coding-session §11 | [ ] |
 | 10 | Handoff block present and matches Deliverables | §Handoff to implementation in this doc | [ ] |
@@ -103,7 +103,7 @@ AND   <additional outcome — always include audit event for mutations>
 > Maps TIP sections → afenda-coding-session §0 per [write-tip §10](../../.cursor/skills/write-tip/SKILL.md#10--handoff-to-implementation).
 
 ```
-Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
+Handoff from: docs/PAS/slice/[status] tip-NNN-<title>.md
 
 1. Objective    — <Purpose paragraph, one sentence>
 2. Allowed layer— <single owning package path from Package ownership table>
@@ -224,7 +224,7 @@ AND   an audit event records actor, action, target, correlation ID
 | Contract exported from package | `pnpm --filter <pkg> typecheck` | [ ] |
 | Test covers happy + error path | `pnpm --filter <pkg> test:run` | [ ] |
 | No boundary violations | `pnpm quality:boundaries` | [ ] |
-| TIP status index updated | `docs/delivery/tip-status-index.md` | [ ] |
+| TIP status index updated | `docs/PAS/README.md` | [ ] |
 | Runtime matrix updated | File edit + `pnpm check:documentation-drift` | [ ] |
 ```
 
@@ -334,7 +334,7 @@ Use after **Definition of Done**, before **Verdict**. One block per implementati
 ### Slice N — <short title> (`@afenda/<pkg>`)
 
 \`\`\`
-Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md (Slice N)
+Handoff from: docs/PAS/slice/[status] tip-NNN-<title>.md (Slice N)
 
 1. Objective    — <one sentence from Purpose, scoped to this slice>
 2. Allowed layer— <package path>
@@ -352,7 +352,7 @@ Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md (Slice N)
 ### Post-implementation doc updates
 
 1. This delivery doc — Runtime evidence + DoD checkboxes
-2. `docs/delivery/tip-status-index.md` — if status changes
+2. `docs/PAS/README.md` — if status changes
 3. `docs/architecture/afenda-runtime-truth-matrix.md` — evidence row
 4. `pnpm check:documentation-drift`
 ```

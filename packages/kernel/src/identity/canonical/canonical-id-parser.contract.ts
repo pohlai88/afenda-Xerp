@@ -24,18 +24,20 @@ export interface ParsedRegisteredCanonicalEnterpriseId<
 }
 
 export function isCanonicalEnterpriseId(value: string): boolean {
-  return CANONICAL_ID_PATTERN.test(value.trim());
+  return CANONICAL_ID_PATTERN.test(value);
 }
 
 /** Format tier + registry tier — prefix must exist in `ID_FAMILIES`. */
 export function isRegisteredCanonicalEnterpriseId(value: string): boolean {
-  const raw = value.trim();
-
-  if (!isCanonicalEnterpriseId(raw)) {
+  if (value !== value.trim()) {
     return false;
   }
 
-  const prefix = extractCanonicalEnterpriseIdPrefix(raw);
+  if (!isCanonicalEnterpriseId(value)) {
+    return false;
+  }
+
+  const prefix = extractCanonicalEnterpriseIdPrefix(value);
   return prefix !== null && isRegisteredEnterpriseIdPrefix(prefix);
 }
 
@@ -43,8 +45,12 @@ export function isCanonicalEnterpriseIdForFamily(
   value: string,
   family: EnterpriseIdFamily
 ): boolean {
+  if (value !== value.trim()) {
+    return false;
+  }
+
   return buildCanonicalEnterpriseIdRegex(ID_FAMILIES[family].prefix).test(
-    value.trim()
+    value
   );
 }
 
@@ -110,6 +116,9 @@ export function parseRegisteredCanonicalEnterpriseId<
 
   const family = resolveEnterpriseIdFamilyFromPrefix(prefix);
 
+  // Defensive: `resolveEnterpriseIdFamilyFromPrefix` may theoretically return null even
+  // after `isRegisteredEnterpriseIdPrefix` passes (e.g. registry mutation between calls).
+  // The check above already guards the common case; this guard prevents unsafe narrowing.
   if (family === null) {
     throw new InvalidCanonicalIdError(
       "Canonical enterprise ID prefix is not registered in ID_FAMILIES."
@@ -132,20 +141,34 @@ export function tryParseRegisteredCanonicalEnterpriseId<
   }
 }
 
+function assertCanonicalEnterpriseIdWireShape(
+  value: string,
+  typeName: string
+): string {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    throw new InvalidCanonicalIdError(`${typeName} is required.`);
+  }
+
+  if (value !== trimmed) {
+    throw new InvalidCanonicalIdError(
+      `${typeName} has invalid canonical ID format.`
+    );
+  }
+
+  return trimmed;
+}
+
 export function parseCanonicalId<TFamily extends EnterpriseIdFamily>(
   value: string,
   family: TFamily
 ): CanonicalEnterpriseId<TFamily> {
-  const raw = value.trim();
   const { typeName, prefix } = ID_FAMILIES[family];
+  const raw = assertCanonicalEnterpriseIdWireShape(value, typeName);
   const expectedPrefix = `${prefix}${CANONICAL_ID_SEPARATOR}`;
 
-  // 1. Non-empty
-  if (!raw) {
-    throw new InvalidCanonicalIdError(`${typeName} is required.`);
-  }
-
-  // 2. Generic canonical format (PAS-001 §4.1.3)
+  // 1. Generic canonical format (PAS-001 §4.1.3)
   if (!CANONICAL_ID_PATTERN.test(raw)) {
     throw new InvalidCanonicalIdError(
       `${typeName} has invalid canonical ID format.`
@@ -189,6 +212,9 @@ export function parseOptionalCanonicalId<TFamily extends EnterpriseIdFamily>(
     return null;
   }
 
+  // Compile-time branch: `CanonicalEnterpriseId<TFamily>` is `Brand<string, …>` which is
+  // always a `string` at runtime, so this branch is never reached in practice. It exists
+  // so the type-checker narrows `value` to `string` for the `parseCanonicalId` call below.
   if (typeof value !== "string") {
     return value;
   }

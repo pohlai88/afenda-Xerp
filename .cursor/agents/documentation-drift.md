@@ -61,7 +61,7 @@ Read in this order every session:
 
 1. [`docs/architecture/pre-accounting-foundation-roadmap.md`](../../docs/architecture/pre-accounting-foundation-roadmap.md) — delivery sequence authority (ADR-0013)
 2. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) — runtime evidence (ADR-0009, ADR-0012)
-3. [`docs/delivery/tip-status-index.md`](../../docs/delivery/tip-status-index.md) — canonical TIP statuses for AI agents
+3. [`docs/PAS/README.md`](../../docs/PAS/README.md) — canonical TIP statuses for AI agents
 4. [`docs/architecture/_afenda-erp-master-plan.llms.md`](../../docs/architecture/_afenda-erp-master-plan.llms.md) — v5+ only; v4 Section 3 is historical
 5. Relevant ADRs in [`docs/adr/`](../../docs/adr/) — especially ADR-0009–0013
 
@@ -110,7 +110,7 @@ Also scan for:
 - Master plan v4 markers (`version: 4.0.0`, "Implementation reality audit (2026-06-20)") without stale qualifier
 - Misnumbered TIPs (e.g. `tip-010-observability-audit.md`, `tip-012-execution-foundation.md`) used as current authority
 - Obsolete baseline fingerprint `ARCH-BASELINE-2026-06-20-v1` in fingerprint-required registries
-- Individual TIP docs contradicting [`tip-status-index.md`](../../docs/delivery/tip-status-index.md)
+- Individual TIP docs contradicting [`tip-status-index.md`](../../docs/PAS/README.md)
 
 Registry source of truth for enforced markers:
 

@@ -1,6 +1,6 @@
 # Governance docs
 
-> **Not delivery TIPs.** Operational policy lives here; evidence/history lives in [`docs/delivery/tips/`](../delivery/tips/) with `[status]` filename prefixes.
+> **Not delivery TIPs.** Operational policy lives here; evidence/history lives in [`docs/PAS/slice/`](../delivery/tips/) with `[status]` filename prefixes.
 
 | Doc | Purpose |
 |-----|---------|
@@ -10,4 +10,4 @@
 | [`api-contract.md`](api-contract.md) | API contract governance |
 | [`nextjs-api-hardening.md`](nextjs-api-hardening.md) | Next.js API hardening |
 
-Delivery history: [`docs/delivery/tips/`](../delivery/tips/) — TIP-004 contracts, UI consumption, TIP-004B adapter ([`tip-status-index.md`](../delivery/tip-status-index.md))
+Delivery history: [`docs/PAS/slice/`](../delivery/tips/) — TIP-004 contracts, UI consumption, TIP-004B adapter ([`tip-status-index.md`](../delivery/tip-status-index.md))

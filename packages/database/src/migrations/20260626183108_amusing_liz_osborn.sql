@@ -1,3 +1,4 @@
+CREATE TYPE "public"."stock_movement_type" AS ENUM('receipt', 'issue', 'adjustment');--> statement-breakpoint
 CREATE TABLE "stock_levels" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"tenant_id" uuid NOT NULL,

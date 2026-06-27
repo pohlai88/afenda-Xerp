@@ -1,6 +1,6 @@
 # TIP-004 — Governed UI Policy (canonical)
 
-Operational policy for `@afenda/ui` governance. Delivery history lives in [`docs/delivery/tips/`](../delivery/tips/); status authority is [`tip-status-index.md`](../delivery/tip-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
+Operational policy for `@afenda/ui` governance. Delivery history lives in [`docs/PAS/slice/`](../delivery/tips/); status authority is [`tip-status-index.md`](../delivery/tip-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
 
 Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downstream-ui-composition.md)
 

@@ -29,7 +29,7 @@ Do not implement System Admin from this proposal file. Use canonical TIP-013 del
 
 ## Context
 
-Foundation Phases 0–4 and 6 map to existing TIP IDs (TIP-000A–D, TIP-001–012, TIP-UI-01–05). Phases **5**, **7**, and **8** define work items and gates in [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) but lack executable `docs/delivery/tips/[status] tip-*.md` delivery specs with assigned TIP IDs.
+Foundation Phases 0–4 and 6 map to existing TIP IDs (TIP-000A–D, TIP-001–012, TIP-UI-01–05). Phases **5**, **7**, and **8** define work items and gates in [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) but lack executable `docs/PAS/slice/[status] tip-*.md` delivery specs with assigned TIP IDs.
 
 Per write-tip rule §2 Step 2: **do not invent TIP numbers**. This note proposes slice IDs following the established **TIP-008A/B** and **TIP-007/012** patterns until Architecture Authority accepts or amends ADR-0013.
 
@@ -66,7 +66,7 @@ Foundation delivery is a **closed loop**, not isolated docs:
 ```text
 tip-status-index.md          ← which TIP is next
         ↓
-docs/delivery/tips/[status] tip-*.md       ← spec + DoD + §Handoff to implementation
+docs/PAS/slice/[status] tip-*.md       ← spec + DoD + §Handoff to implementation
         ↓
 /afenda-coding-session §0    ← paste handoff block (six-line contract)
         ↓
@@ -237,7 +237,7 @@ AND   an audit event records actor, company, action, target, correlation ID
 > **Blocked until Architecture Authority accepts TIP-010A.** Draft handoff for promotion.
 
 ```
-Handoff from: docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md (Slice 1 — registry)
+Handoff from: docs/PAS/slice/[Complete] tip-010a-api-contract-governance.md (Slice 1 — registry)
 
 1. Objective    — Register all non-auth ERP routes in api-contract-registry with Zod contracts.
 2. Allowed layer— apps/erp/src/server/api/contracts/ + apps/erp/src/app/api/
@@ -556,7 +556,7 @@ AND   no chart of accounts or journal admin exists
 > **Blocked until Architecture Authority accepts TIP-010B.** Requires TIP-010A + TIP-012 partial.
 
 ```
-Handoff from: docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md (Slice 1 — routes; superseded TIP-010B draft)
+Handoff from: docs/PAS/slice/[Complete] tip-013-system-admin-control-plane.md (Slice 1 — routes; superseded TIP-010B draft)
 
 1. Objective    — Add system-admin layout and users/roles/audit placeholder pages with RBAC gates.
 2. Allowed layer— apps/erp/src/app/(protected)/system-admin/
@@ -582,9 +582,9 @@ Handoff from: docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.m
 
 ## Architecture Authority decision checklist
 
-- [x] Accept TIP-010A — promoted to `docs/delivery/tips/[Complete] tip-010a-api-contract-governance.md`
-- [x] Accept TIP-007A — promoted to `docs/delivery/tips/[Complete] tip-007a-feature-manifest-governance.md`
-- [x] Accept TIP-013 — promoted to `docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md` (supersedes TIP-010B)
+- [x] Accept TIP-010A — promoted to `docs/PAS/slice/[Complete] tip-010a-api-contract-governance.md`
+- [x] Accept TIP-007A — promoted to `docs/PAS/slice/[Complete] tip-007a-feature-manifest-governance.md`
+- [x] Accept TIP-013 — promoted to `docs/PAS/slice/[Complete] tip-013-system-admin-control-plane.md` (supersedes TIP-010B)
 - [x] Supersede TIP-010B — historical draft only
 - [x] Reject `TIP-030-SA` permanently in favor of Phase 8 slice under review
 - [x] Add rows to `tip-status-index.md` under **Canonical delivery TIPs**

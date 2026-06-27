@@ -427,7 +427,8 @@ Architecture authority:
 
 Delivery evidence:
 
-* `docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md`
+* `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
+* `docs/architecture/multi-tenancy.md`
 
 Dependency rules:
 
@@ -601,7 +602,7 @@ Add tests for:
 Step 10 — Documentation and verification
 
 * Create delivery doc:
-  `docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md`
+  `docs/PAS/slice/[Complete] tip-007-012-enterprise-group-operating-context.md`
 * Run:
 
   * `pnpm typecheck`

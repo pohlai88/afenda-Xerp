@@ -70,8 +70,13 @@ export {
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
 // ── Localization vocabulary (shape only) ───────────────────────────────────────
-// biome-ignore lint/style/useExportType: kernel-context-surface gate requires export substring
-export { type LocalizationContext } from "./localization-context.contract.js";
+export {
+  type assertLocalizationContextWireSerializable,
+  type LocalizationContext,
+  parseLocalizationContext,
+  serializeLocalizationContext,
+  type WireLocalizationContext,
+} from "./localization-context.contract.js";
 // ── 8. Operating context (composed) ────────────────────────────────────────────
 export {
   OPERATING_CONTEXT_ERROR_CODES,
@@ -82,6 +87,21 @@ export {
   type OperatingContextResult,
   type OperatingContextSelection,
 } from "./operating-context.contract.js";
+// ── Operating context hierarchy (PAS §4.4) ─────────────────────────────────────
+export {
+  compareOperatingContextLayerOrder,
+  getOperatingContextLayer,
+  isOperatingContextLayerId,
+  OPERATING_CONTEXT_LAYER_IDS,
+  OPERATING_CONTEXT_LAYERS,
+  OPERATING_CONTEXT_OWNERSHIP_SPLIT,
+  OPERATING_CONTEXT_POLICY,
+  type OperatingContextFieldMap,
+  type OperatingContextLayerDefinition,
+  type OperatingContextLayerId,
+  type OperatingContextLayerKind,
+  type OperatingContextProhibitedKernelBehavior,
+} from "./operating-context-hierarchy.contract.js";
 // ── 5. Organization unit ─────────────────────────────────────────────────────
 export {
   ORGANIZATION_UNIT_TYPES,

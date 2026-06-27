@@ -199,4 +199,4 @@ This package may only be changed by:
 ## Further reading
 
 - Implementation spec: `doc/TIP-005.md`
-- Delivery record: `docs/delivery/tips/[Complete (authority only)] tip-005-metadata-authority.md`
+- Delivery record: `docs/PAS/slice/[Complete (authority only)] tip-005-metadata-authority.md`

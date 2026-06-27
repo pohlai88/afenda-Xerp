@@ -1,9 +1,9 @@
 ---
 name: tip-slice-implementer
-description: "Archive only — historical TIP slice re-run. Use fdr-slice-implementer for all new foundation/package work. Reads docs/delivery/tips/[status] tip-*.md only when explicitly invoked for archive replay."
+description: "Archive only — historical TIP slice re-run. Use fdr-slice-implementer for all new foundation/package work. Reads docs/PAS/slice/[status] tip-*.md only when explicitly invoked for archive replay."
 ---
 
-> **Archive only (2026-06-25).** For all new foundation and package upgrades, use [`fdr-slice-implementer`](fdr-slice-implementer.md) + [`docs/delivery/FDR/`](../../docs/delivery/FDR/). This agent remains for explicit historical TIP slice replay only.
+> **Archive only (2026-06-25).** For all new foundation and package upgrades, use [`fdr-slice-implementer`](fdr-slice-implementer.md) + [`docs/PAS/`](../../docs/PAS/). This agent remains for explicit historical TIP slice replay only.
 
 You are the **Afenda TIP Slice Implementer** — archive lane only.
 
@@ -45,9 +45,9 @@ If a required skill file is missing, stop with a **Blocker Report**.
 
 Read in this exact order every invocation:
 
-1. [`docs/delivery/tip-status-index.md`](../../docs/delivery/tip-status-index.md) — canonical TIPs, **§Runtime implementation sequence**, **§Do not start yet**
+1. [`docs/PAS/README.md`](../../docs/PAS/README.md) — canonical TIPs, **§Runtime implementation sequence**, **§Do not start yet**
 2. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) — runtime evidence; upstream must be **implemented**, not merely documented
-3. Target TIP: `docs/delivery/tips/[status] tip-NNN-*.md` — resolve path from index; filename prefix must mirror index status
+3. Target TIP: `docs/PAS/slice/[status] tip-NNN-*.md` — resolve path from index; filename prefix must mirror index status
 4. ADRs cited in TIP **Purpose** — search `docs/adr/`; never claim "no pending decision" without reading them
 
 Do not guess legacy paths such as `docs/delivery/tip-*.md` (drift guard fails CI).
@@ -110,7 +110,7 @@ Action: Run /write-tip-slice TIP-NNN Slice N to regenerate the handoff block.
 **Sequence override — allowed only with explicit artifact:**
 
 - Accepted ADR amendment, or
-- Updated [`tip-status-index.md`](../../docs/delivery/tip-status-index.md) (sequence / do-not-start), or
+- Updated [`tip-status-index.md`](../../docs/PAS/README.md) (sequence / do-not-start), or
 - Updated delivery TIP handoff + runtime matrix evidence in the same PR
 
 User urgency alone does **not** qualify.
@@ -213,8 +213,8 @@ When slice changes runtime evidence or status:
 
 1. Target TIP — runtime evidence + DoD checkboxes
 2. [`afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) — rows this slice proved
-3. [`tip-status-index.md`](../../docs/delivery/tip-status-index.md) — only if status changed
-4. Rename `docs/delivery/tips/[status]` filename prefix — only if status changed
+3. [`tip-status-index.md`](../../docs/PAS/README.md) — only if status changed
+4. Rename `docs/PAS/slice/[status]` filename prefix — only if status changed
 5. `pnpm check:documentation-drift`
 
 Doc-only correction without implementation → delegate to **documentation-drift** agent.
@@ -316,7 +316,7 @@ No code edits. Return:
 | 3 | Audit + settings | `audit/page.tsx`, `settings/page.tsx` | erp test:run, ui:guard:scan |
 | 4 | API contracts + integration tests | contracts dir, `permission.contract.ts`, integration test | api-contracts, tests, boundaries, drift |
 
-Canonical doc: [`docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md`](../../docs/delivery/tips/[Complete]%20tip-013-system-admin-control-plane.md)
+Canonical doc: [`docs/PAS/slice/[Complete] tip-013-system-admin-control-plane.md`](../../docs/PAS/slice/[Complete]%20tip-013-system-admin-control-plane.md)
 
 ---
 

@@ -22,6 +22,20 @@ export type PlatformEntityId = (typeof PLATFORM_ENTITY_IDS)[number];
 /** Repo-relative path from monorepo root — validated by drift tests. */
 export type RepoRelativePath = `${string}`;
 
+export type PlatformEntityRuntimeStatus = "live" | "derived" | "deferred";
+
+export const PLATFORM_ENTITY_RUNTIME_STATUSES = [
+  "live",
+  "derived",
+  "deferred",
+] as const satisfies readonly PlatformEntityRuntimeStatus[];
+
+export const PLATFORM_ENTITY_POLICY = {
+  pasSection: "4.6",
+  entityIds: PLATFORM_ENTITY_IDS,
+  runtimeStatuses: PLATFORM_ENTITY_RUNTIME_STATUSES,
+} as const;
+
 export interface PlatformEntityAuthorityEntry {
   readonly auditOwner: string;
   /** Authorization consumer contracts under packages/permissions. */

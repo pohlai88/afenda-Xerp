@@ -156,39 +156,35 @@ Invoke `/afenda-coding-session` for the full implementation standard (TypeScript
 
 ---
 
-## Documentation authority (TIP archive → FDR)
+## Documentation authority (PAS)
 
-**Active (2026-06-24):** Foundation and package implementation is governed by the **Foundation Disposition Registry (FDR)** — not new TIP delivery docs.
+**Active (2026-06-27):** Foundation and package implementation is governed by **Package Authority Standards (PAS)** under `docs/PAS/` — not the retired ARCH or delivery roadmap trees.
 
 Read in order:
 
-1. [`docs/architecture/foundation-delivery-authority.md`](docs/architecture/foundation-delivery-authority.md) — FDR workflow
-2. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
-3. [`docs/delivery/fdr-status-index.md`](docs/delivery/fdr-status-index.md) — FDR catalog + upgrade sequence
+1. [`docs/PAS/README.md`](docs/PAS/README.md) — PAS index and canonical location rules
+2. [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — kernel boundary (first active PAS)
+3. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
 4. [`docs/architecture/foundation-disposition.md`](docs/architecture/foundation-disposition.md) — lane vocabulary + entries (synced view)
 5. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
 6. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
-7. Target FDR under [`docs/delivery/FDR/`](docs/delivery/FDR/) — implementation handoffs
+7. Target slice under [`docs/PAS/slice/`](docs/PAS/slice/) — copy one §Handoff block into Phase 0
 
-**Authoring:** [`.cursor/skills/write-fdr/SKILL.md`](.cursor/skills/write-fdr/SKILL.md) · [`.cursor/skills/write-fdr-slice/SKILL.md`](.cursor/skills/write-fdr-slice/SKILL.md)
+**Planning:** [`.cursor/skills/pas-slice-planner/SKILL.md`](.cursor/skills/pas-slice-planner/SKILL.md)
 
-**TIP archive:** [`docs/delivery/tip-status-index.md`](docs/delivery/tip-status-index.md) and `docs/delivery/tips/` — historical evidence only (`archive-lane`). Do not create new TIP docs for foundation packages.
+**Kernel enforcement:** [`.cursor/skills/kernel-authority/SKILL.md`](.cursor/skills/kernel-authority/SKILL.md)
 
-**Accounting Core (`TIP-015+` runtime)** is blocked until ADR-0010 **and** a new ADR amends FDR `PKGR01_ACCOUNTING` prohibited rules. Gap detail: FDR `fdr-r01-accounting-contracts` §Remaining gaps.
+**Accounting Core (`TIP-015+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 
 Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:foundation-disposition`
 
-When documentation status, roadmap authority, ADR acceptance, FDR lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
+When documentation status, PAS slices, ADR acceptance, registry lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
 
 | Task | Agent / skill |
 | --- | --- |
-| Author FDR | `write-fdr` |
-| Author slice handoff | `write-fdr-slice` |
-| Implement one slice | [`fdr-slice-implementer`](.cursor/agents/fdr-slice-implementer.md) |
-| Parallel FDR batch | [`fdr-orchestrator`](.cursor/agents/fdr-orchestrator.md) |
+| Plan PAS slice execution | `pas-slice-planner` |
+| Implement governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
 | Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
-| Archive TIP replay only | [`tip-slice-implementer`](.cursor/agents/tip-slice-implementer.md) |
-| Ad-hoc governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
 
 ---
 
@@ -258,4 +254,4 @@ Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scr
 
 **Skill:** `.cursor/skills/csp-third-party/SKILL.md`  
 **Rule:** `.cursor/rules/csp-third-party-scripts.mdc`  
-**Delivery:** `docs/delivery/support/nextjs-csp-nonce-pipeline.md`
+**Delivery:** `docs/governance/support/nextjs-csp-nonce-pipeline.md`

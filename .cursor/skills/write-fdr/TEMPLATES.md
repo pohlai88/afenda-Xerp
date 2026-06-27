@@ -2,13 +2,13 @@
 
 > Copy a template; fill every placeholder. Do not leave `<!-- ... -->` stubs in committed docs.
 >
-> **Folder casing is enforced:** use `docs/delivery/FDR/` only. Do not create `docs/delivery/fdr/`. Case-sensitive on Linux CI.
+> **Folder casing is enforced:** use `docs/PAS/` only. Do not create `docs/delivery/fdr/`. Case-sensitive on Linux CI.
 
 ---
 
 ## §A — FDR Delivery Doc Template
 
-File path: `docs/delivery/FDR/[status] fdr-NNN-short-title.md`  
+File path: `docs/PAS/[status] fdr-NNN-short-title.md`  
 When status changes, rename the `[status]` prefix in the same PR as `fdr-status-index.md`.
 
 ```markdown
@@ -239,12 +239,12 @@ Research-only slice. Updates §Remaining gaps and runtime evidence. No source ed
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/FDR/[Not started] fdr-NNN-<title>.md
+Handoff from: docs/PAS/[Not started] fdr-NNN-<title>.md
 
 1. Objective    — Complete Research discovery for <package>; document gaps in §Remaining gaps.
 2. Allowed layer— docs/delivery/FDR + docs/architecture/
-3. Files        — docs/delivery/FDR/[status] fdr-NNN-<title>.md (Modified)
-                  docs/delivery/fdr-status-index.md (Modified if status changes)
+3. Files        — docs/PAS/[status] fdr-NNN-<title>.md (Modified)
+                  docs/PAS/README.md (Modified if status changes)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified if evidence changes)
 4. Prohibited   — packages/ and apps/ source edits; registry edits; accounting runtime
 5. Authority    — ADR-0014 + ADR-0016

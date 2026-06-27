@@ -19,7 +19,7 @@ disable-model-invocation: true
 ADR-0000–0013
   → docs/architecture/*-registry.md
     → pre-accounting-foundation-roadmap.md
-      → docs/delivery/tips/[status] tip-*.md   ← you are authoring here
+      → docs/PAS/slice/[status] tip-*.md   ← you are authoring here
         → _afenda-erp-master-plan.llms.md (compass only)
 ```
 
@@ -31,7 +31,7 @@ A delivery doc **never overrides** an ADR. When they conflict, update the doc, n
 
 | Document | When | Trigger command |
 |----------|------|-----------------|
-| **TIP delivery doc** (`docs/delivery/tips/[status] tip-NNN-*.md`) | Scoping or updating a TIP implementation | `/write-tip TIP-NNN` |
+| **TIP delivery doc** (`docs/PAS/slice/[status] tip-NNN-*.md`) | Scoping or updating a TIP implementation | `/write-tip TIP-NNN` |
 | **ADR** (`docs/adr/ADR-NNNN-*.md`) | Recording a binding architectural decision | `/write-tip ADR` |
 | **Feature requirement** (section in delivery doc) | Defining scope, AC, DoD for a feature slice | part of TIP doc |
 | **Runtime truth update** (`docs/architecture/afenda-runtime-truth-matrix.md`) | After an implementation lands | `/write-tip runtime` |
@@ -228,7 +228,7 @@ Every TIP delivery doc needs an explicit DoD. Use this template:
 | 5 | TypeScript strict — no `any` | `pnpm --filter <pkg> typecheck` | [ ] |
 | 6 | Biome lint + format clean | `pnpm ci:biome` | [ ] |
 | 7 | Runtime truth matrix updated | `docs/architecture/afenda-runtime-truth-matrix.md` | [ ] |
-| 8 | TIP status index updated when status changes | `docs/delivery/tip-status-index.md` | [ ] |
+| 8 | TIP status index updated when status changes | `docs/PAS/README.md` | [ ] |
 | 9 | Delivery doc + matrix in sync | `pnpm check:documentation-drift` | [ ] |
 | 10 | No accounting logic introduced (pre-Phase 9) | ADR-0010 compliance | [ ] |
 | 11 | Completion Report posted (afenda-coding-session §11) | In PR / chat | [ ] |
@@ -322,15 +322,15 @@ The six required lines of the execution contract map directly from the TIP doc:
 ### Handoff format (paste this into afenda-coding-session before editing)
 
 ```
-Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
+Handoff from: docs/PAS/slice/[status] tip-NNN-<title>.md
 
 1. Objective    — <Purpose paragraph, compressed to one sentence for this slice only>
 2. Allowed layer— <Owning package path, e.g. packages/execution/src/>
 3. Files        — <Deliverables table rows, one per line>
                   <When slice changes runtime evidence, also include:>
-                  docs/delivery/tips/[status] tip-NNN-<title>.md (Modified)
+                  docs/PAS/slice/[status] tip-NNN-<title>.md (Modified)
                   docs/architecture/afenda-runtime-truth-matrix.md (Modified)
-                  docs/delivery/tip-status-index.md (Modified — only if overall status changes)
+                  docs/PAS/README.md (Modified — only if overall status changes)
 4. Prohibited   — <Out-of-scope items + blocked packages>
                   @afenda/accounting, ledger/journal/COA schemas (ADR-0010 — until Phase 9)
 5. Authority    — <ADR-NNNN — authority name>
@@ -343,7 +343,7 @@ Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
 ### Example using TIP-011
 
 ```
-Handoff from: docs/delivery/tips/[Partially Implemented] tip-011-execution-foundation.md
+Handoff from: docs/PAS/slice/[Partially Implemented] tip-011-execution-foundation.md
 
 1. Objective    — Implement database outbox schema, publish worker, and integration test
                   so every protected ERP mutation can enqueue an outbox event.
@@ -407,6 +407,6 @@ When writing a TIP doc, apply `technical-writing` prose rules (concise bullets, 
 - Package authority matrix → `.cursor/skills/afenda-coding-session/SKILL.md` §0.2
 - Pre-accounting delivery sequence → `docs/architecture/pre-accounting-foundation-roadmap.md`
 - Runtime truth matrix → `docs/architecture/afenda-runtime-truth-matrix.md`
-- TIP status index → `docs/delivery/tip-status-index.md`
+- TIP status index → `docs/PAS/README.md`
 - Status vocabulary authority → `docs/adr/ADR-0012-documentation-evidence-backed.md`
 - Delivery authority → `docs/adr/ADR-0013-tip-roadmap-delivery-authority.md`

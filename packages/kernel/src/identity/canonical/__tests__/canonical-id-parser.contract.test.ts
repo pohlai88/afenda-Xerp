@@ -51,11 +51,11 @@ describe("canonical-id-parser.contract (PAS-001 §4.1.3 / Action 4)", () => {
     });
   });
 
-  it("trims wire input before validation", () => {
-    expect(parseCanonicalId(`  ${VALID_PRODUCT}  `, "product")).toBe(
-      VALID_PRODUCT
+  it("rejects whitespace-padded wire values without silent trim", () => {
+    expect(() => parseCanonicalId(`  ${VALID_PRODUCT}  `, "product")).toThrow(
+      /ProductId has invalid canonical ID format\./
     );
-    expect(isCanonicalEnterpriseId(`  ${VALID_PRODUCT}  `)).toBe(true);
+    expect(isCanonicalEnterpriseId(`  ${VALID_PRODUCT}  `)).toBe(false);
   });
 
   it("accepts valid family-prefixed canonical ids", () => {

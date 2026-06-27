@@ -2,7 +2,7 @@
 
 Monorepo for **Afenda ERP** — a Next.js-first, TypeScript-first, manufacturing-focused ERP platform.
 
-Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses the [Foundation Disposition Registry (FDR)](docs/architecture/foundation-delivery-authority.md) (ADR-0014). Accounting runtime requires ADR + FDR gap closure — not new TIP docs.
+Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [Foundation Disposition Registry](docs/architecture/foundation-delivery-authority.md) (ADR-0014). Accounting runtime requires ADR + registry gap closure.
 
 ## Repository structure
 
@@ -32,9 +32,10 @@ afenda/
 │   └── typescript-config/      # Shared TypeScript presets
 ├── docs/
 │   ├── adr/                    # Architecture Decision Records
+│   ├── PAS/                    # Package Authority Standards (canonical)
 │   ├── architecture/           # Human-readable registries (source of truth)
-│   ├── ai/                     # AI development governance docs
-│   └── delivery/               # TIP completion reports
+│   ├── governance/             # Runtime policies + operational support docs
+│   └── ai/                     # AI development governance docs
 ├── biome.jsonc                 # Biome + Ultracite presets
 ├── turbo.json                  # Turborepo task pipeline
 └── vitest.config.ts            # Shared Vitest baseline
@@ -131,7 +132,7 @@ Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript p
 | Layer         | Config                                                                                                        | Environment               |
 | ------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | Root          | `vitest.config.ts` — shared pool, mock hygiene, CI reporters                                                  | orchestrates all projects |
-| Shared        | `vitest.shared.ts` — factories per [ARCH-TEST-002](docs/ARCH/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | node · jsdom · DB forks |
+| Shared        | `vitest.shared.ts` — factories per [ARCH-TEST-002](docs/PAS/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | node · jsdom · DB forks |
 | Package / app | `vitest.config.ts`                                                                                            | one project per workspace |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}`.

@@ -51,9 +51,9 @@ For TypeScript authoring (generics, conditional types, mapped types, utility typ
 2. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle benchmark gates for red/amber lanes
 3. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md)
 4. Relevant ADRs in `docs/adr/` — search before claiming "no pending decision"
-5. [`docs/delivery/fdr-status-index.md`](../../docs/delivery/fdr-status-index.md) — active FDR catalog + upgrade sequence
-6. Target FDR under `docs/delivery/FDR/` when handoff present — **not** new TIP docs
-7. [`docs/delivery/tip-status-index.md`](../../docs/delivery/tip-status-index.md) — **archive-lane evidence only**
+5. [`docs/PAS/README.md`](../../docs/PAS/README.md) — active FDR catalog + upgrade sequence
+6. Target FDR under `docs/PAS/` when handoff present — **not** new TIP docs
+7. [`docs/PAS/README.md`](../../docs/PAS/README.md) — **archive-lane evidence only**
 
 For numbered FDR handoff slices, prefer **fdr-slice-implementer** — do not duplicate handoff enforcement here.
 For archive TIP replay only, use **tip-slice-implementer**.

@@ -116,7 +116,7 @@ Never: implementation first, documentation later. This principle is normative in
 
 **Enforcement:** `pnpm check:documentation-drift` · `pnpm quality:documentation-drift` (in `pnpm quality`)
 
-**Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/delivery/tips/[status] tip-*.md`.
+**Missing directories (recorded):** `docs/tip/`, `docs/roadmap/` do not exist. TIPs live in `docs/PAS/slice/[status] tip-*.md`.
 
 ---
 

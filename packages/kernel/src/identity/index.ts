@@ -174,6 +174,21 @@ export {
   IDENTITY_BOUNDARY_PROHIBITED_PATTERNS,
 } from "./governance/identity-boundary-policy.contract.js";
 export {
+  getIdentityStackLayer,
+  IDENTITY_STACK_LAYER_IDS,
+  IDENTITY_STACK_LAYERS,
+  IDENTITY_STACK_POLICY,
+  type IdentityStackLayerDefinition,
+  type IdentityStackLayerId,
+  type IdentityStackProhibitedCrossLayerPattern,
+  isIdentityStackLayerId,
+} from "./governance/identity-stack.contract.js";
+export {
+  IDENTITY_TRUST_BOUNDARY_POLICY,
+  IDENTITY_TRUST_BOUNDARY_PROHIBITED_PATTERNS,
+  type IdentityTrustBoundaryProhibitedPattern,
+} from "./governance/identity-trust-boundary.policy.js";
+export {
   buildCanonicalEnterpriseIdCheckPattern,
   CANONICAL_ID_POSTGRES_CHECKS,
   getCanonicalIdPostgresCheckPattern,
@@ -318,9 +333,17 @@ export {
   type WarehouseCode,
 } from "./tenant-human-reference/index.js";
 export {
+  type AuditEntityIdentity,
+  type InternalEntityPk,
+  parseAuditEntityIdentity,
+  parseInternalEntityPk,
   parseWireCanonicalId,
   parseWireRegisteredCanonicalId,
+  serializeAuditEntityIdentity,
   serializeCanonicalId,
+  toInternalEntityPk,
+  type WireAuditEntityIdentity,
+  type WireCanonicalId,
 } from "./wire/index.js";
 
 import {

@@ -25,7 +25,7 @@ All other agents consume the registry read-only.
 | Add new registry entry | Yes — must align PKG-ID with package registry |
 | Edit `allowedAgents` / `prohibited` / `gates` | Yes |
 | Sync `docs/architecture/foundation-disposition.md` | Yes — read-only view only |
-| Sync `docs/delivery/fdr-status-index.md` | Yes — when FDR status or lane changes |
+| Sync `docs/PAS/README.md` | Yes — when FDR status or lane changes |
 | Rewrite TIP delivery docs | No — TIP is archive-lane only |
 | Create TIPE or package markdown authority | No |
 | Edit registry from another agent in same session | No |

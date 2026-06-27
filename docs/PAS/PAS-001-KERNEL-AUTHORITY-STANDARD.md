@@ -1,8 +1,40 @@
+---
+pas_id: PAS-001
+package: "@afenda/kernel"
+layer: Platform
+runtime_stance: contracts-first
+registry_lane: "@afenda/kernel (packages/kernel); PKGR01_ACCOUNTING (accounting-domain subpath)"
+skill: kernel-authority
+consumers:
+  - "@afenda/auth"
+  - "@afenda/permissions"
+  - "@afenda/execution"
+  - "@afenda/observability"
+  - "@afenda/appshell"
+  - apps/erp
+change_model: serialized-slices
+quality_target: "9.5"
+required_gates:
+  - pnpm --filter @afenda/kernel typecheck
+  - pnpm --filter @afenda/kernel test:run
+  - pnpm quality:kernel-context-surface
+  - pnpm check:accounting-domain-contracts
+  - pnpm check:foundation-disposition
+  - pnpm quality:boundaries
+  - pnpm architecture:cycles
+  - pnpm architecture:drift
+adr_prerequisites:
+  - ADR-0021
+  - ADR-0022
+  - ADR-0023
+slice_dir: docs/PAS/slice/
+---
+
 # PAS-001 — Kernel Authority Standard
 
 > **Agent skill entrypoint:** `.cursor/skills/kernel-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
-> **Package-local pointer:** `packages/kernel/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
+> **Package-local tree map:** `packages/kernel/PAS-001-KERNEL-TREE.md`
 
 | Field             | Value                                                                                                                                                |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -17,7 +49,28 @@
 
 ---
 
-# 1. Kernel Definition
+# 0. Agent Quick Path
+
+> Read this section first for IDE/agent work. Full detail in §1–§16. Execution adapter: `.cursor/skills/kernel-authority/SKILL.md`
+
+**Boundary:** The kernel defines **cross-package facts, branded vocabulary, wire-safe contracts, and execution context primitives**; it never implements **business behavior, persistence, transport, rendering, formatting, authorization evaluation, accounting logic, or external integration**. (§2)
+
+**Hard stops (summary):**
+
+- **Prohibited imports:** `@afenda/database`, `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, Drizzle, Better Auth, Next.js, React, Zod, HTTP/DB/cloud SDKs (§3.2)
+- **Must never own:** database schema/migrations/clients, auth sessions, permission evaluation, API routes, React/UI, domain workflows, cron/queues, accounting posting/ledger, domain operational workflows (§5)
+
+**Required gates:** see §14.1
+
+**Slice entrypoint:** `docs/PAS/slice/` (29 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+
+**Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting-domain vocabulary → `PKGR01_ACCOUNTING`
+
+**Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
+
+---
+
+# 1. Package Definition
 
 `@afenda/kernel` is the lowest shared Platform package in Afenda ERP.
 
@@ -43,7 +96,7 @@ The kernel defines **cross-package facts, branded vocabulary, wire-safe contract
 
 ---
 
-# 3. Kernel Must Remain Dependency-Free
+# 3. Dependency Rules
 
 ## 3.1 Allowed
 
@@ -88,7 +141,7 @@ If a kernel contract appears to need a database, HTTP, auth, permission, UI, obs
 
 ---
 
-# 4. Kernel Authority Surfaces
+# 4. Authority Surfaces
 
 The kernel owns the following authority surfaces.
 
@@ -645,6 +698,19 @@ Ownership split:
 
 Kernel owns the shape. It must not load, infer, resolve, persist, authorize, audit, or render the context.
 
+**ERP resolver modules (PAS §4.4 — not kernel):**
+
+```text
+apps/erp/src/lib/context/
+├── consolidation-scope-resolution.server.ts      # deriveConsolidationScopeContext
+├── consolidation-scope-investee-merge.policy.ts    # investee dedup policy
+├── runtime-module-path.server.ts                 # normalizeRuntimeModulePath
+├── surface-context.resolution.server.ts          # parseSurfaceId / toSurfaceContext
+└── workflow-context.resolution.server.ts         # parseWorkflowId / toWorkflowContext
+```
+
+**Completed kernel relocations (see `kernel-boundary-drift.registry.ts`):** untrusted-client authority, accounting-domain bridge projection, consolidation scope derivation, runtime surface/workflow parsers.
+
 ---
 
 ## 4.5 Localization and Global Format Vocabulary
@@ -975,7 +1041,7 @@ Implementation rule:
 
 ---
 
-# 5. What Kernel Must Never Own
+# 5. What This Package Must Never Own
 
 Kernel must never own:
 
@@ -1018,6 +1084,8 @@ Kernel must never own:
 * Country statutory rules
 * UOM conversion rules
 
+**Runtime authority:** `packages/kernel/src/governance/kernel-prohibited-ownership.contract.ts` — `KERNEL_PROHIBITED_OWNERSHIP_CONCERNS`, `KERNEL_PROHIBITED_OWNERSHIP_POLICY`. Gate: `pnpm check:kernel-prohibited-ownership`.
+
 ---
 
 # 6. Package Structure Standard
@@ -1026,10 +1094,15 @@ Kernel must never own:
 
 The current package structure is source truth. Do not rewrite it from greenfield examples.
 
+**Runtime authority:** `packages/kernel/src/contracts/kernel-package-layout.contract.ts` — `KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL`, `KERNEL_PACKAGE_LAYOUT_POLICY`. Gate: `pnpm check:kernel-package-structure`.
+
+**Detailed annotated tree:** `packages/kernel/PAS-001-KERNEL-TREE.md` (drift markers, §4.4 module list). **Drift registry:** `packages/kernel/src/governance/kernel-boundary-drift.registry.ts`.
+
 Current public areas include:
 
 ```text
 packages/kernel/
+├── PAS-001-KERNEL-TREE.md
 ├── package.json
 ├── tsconfig.json
 ├── tsconfig.vitest.json
@@ -1037,32 +1110,36 @@ packages/kernel/
 └── src/
     ├── index.ts
     ├── contracts/
-    │   ├── brand.contract.ts
     │   ├── result.contract.ts
     │   ├── app-error.contract.ts
-    │   ├── platform-id.contract.ts
+    │   ├── problem-detail.contract.ts
+    │   ├── json-wire.contract.ts
     │   ├── execution-context.contract.ts
+    │   ├── execution-context.policy.contract.ts
+    │   ├── kernel-package-layout.contract.ts
     │   ├── platform/
-    │   ├── business-master-data/
+    │   ├── business-reference-identity/
     │   └── accounting-domain/
     ├── context/
+    ├── governance/
+    ├── identity/
+    ├── permission/
+    ├── propagation/
+    ├── events/
+    ├── policy/
     └── __tests__/
 ```
 
 ## 6.2 Target package structure after approved slices
 
-Target additions must only appear after approved implementation slices:
+Delivered areas (`identity/`, `governance/`, `permission/`, `propagation/`, `events/`, `policy/`, `problem-detail.contract.ts`, `localization-context.contract.ts`) are **current** — do not list them as future targets.
+
+Target additions must only appear after a new approved implementation slice:
 
 ```text
 packages/kernel/
 └── src/
-    ├── contracts/
-    │   └── problem-detail.contract.ts          # target
-    ├── context/
-    │   └── localization-context.contract.ts    # target
-    ├── propagation/                            # target
-    ├── events/                                 # target
-    └── policy/                                 # target
+    └── (no pending PAS §6.2 folder additions — register new folders in kernel-package-layout.contract.ts after slice delivery)
 ```
 
 Do not add:
@@ -1078,7 +1155,7 @@ Fiscal calendar belongs to Finance / Accounting.
 
 ## 6.3 Current public exports
 
-Current exports:
+PAS §6.4 baseline (eight keys — root plus seven subpaths; delivered B3–B16):
 
 ```json
 {
@@ -1097,55 +1174,52 @@ Current exports:
       "types": "./dist/contracts/accounting-domain/index.d.ts",
       "import": "./dist/contracts/accounting-domain/index.js",
       "default": "./dist/contracts/accounting-domain/index.js"
-    }
-  }
-}
-```
-
-## 6.4 Target public exports after approved slices
-
-Target exports:
-
-```json
-{
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./context": {
-      "types": "./dist/context/index.d.ts",
-      "import": "./dist/context/index.js"
-    },
-    "./accounting-domain": {
-      "types": "./dist/contracts/accounting-domain/index.d.ts",
-      "import": "./dist/contracts/accounting-domain/index.js"
     },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",
-      "import": "./dist/propagation/index.js"
+      "import": "./dist/propagation/index.js",
+      "default": "./dist/propagation/index.js"
     },
     "./events": {
       "types": "./dist/events/index.d.ts",
-      "import": "./dist/events/index.js"
+      "import": "./dist/events/index.js",
+      "default": "./dist/events/index.js"
     },
     "./policy": {
       "types": "./dist/policy/index.d.ts",
-      "import": "./dist/policy/index.js"
+      "import": "./dist/policy/index.js",
+      "default": "./dist/policy/index.js"
+    },
+    "./permission": {
+      "types": "./dist/permission/index.d.ts",
+      "import": "./dist/permission/index.js",
+      "default": "./dist/permission/index.js"
+    },
+    "./governance": {
+      "types": "./dist/governance/index.d.ts",
+      "import": "./dist/governance/index.js",
+      "default": "./dist/governance/index.js"
     }
   }
 }
 ```
 
-Rules:
+Additional subpaths require a serialized slice and PAS §6.4 governance update before consumer import. `./permission` (B16-8) and `./governance` (B16-5) are part of the delivered baseline as of B18.
 
-* Root export is stable public vocabulary.
+## 6.4 Public export governance (delivered)
+
+PAS §6.4 subpaths are **delivered** for the eight-key baseline above. Runtime matched since B16 slice (`docs/PAS/slice/b16-6.2-package-structure.md`).
+
+Additive policy for future subpaths:
+
+* Root export (`.`) is stable public vocabulary.
 * Subpath exports group authority surfaces.
 * No deep imports from consumers.
-* Every new subpath requires tests.
-* Every new subpath requires package export registration.
-* Every new subpath requires boundary governance.
+* Every new subpath requires tests (`subpath-exports.test.ts` + boundary coverage).
+* Every new subpath requires package export registration and `kernel-package-layout.contract.ts` update before consumer import.
+* Every new subpath requires boundary governance (`pnpm quality:boundaries`).
 * Current exports must not be removed during additive slices.
+* Unified gate: `pnpm check:kernel-subpath-exports` validates the §6.4 eight-key baseline against `package.json` and layout contract.
 
 ---
 
@@ -1173,6 +1247,8 @@ Rules:
 | Is it country/UOM master-row ownership?                       | Reference-data/domain persistence               | No                 |
 | Is it a cross-package business record reference ID?           | Business reference identity                     | Yes, as ID only    |
 | Is it required by only one package?                           | Local concern                                   | No                 |
+
+**Runtime authority:** `packages/kernel/src/governance/kernel-decision-matrix.contract.ts` — `KERNEL_DECISION_MATRIX_ROWS`, `KERNEL_DECISION_MATRIX_POLICY`. Gate: `pnpm check:kernel-decision-matrix`.
 
 ---
 
@@ -1206,7 +1282,7 @@ Rules:
 
 ---
 
-# 9. Kernel Contract Rules
+# 9. Contract Rules
 
 Every kernel contract must satisfy:
 
@@ -1223,6 +1299,8 @@ Every kernel contract must satisfy:
 11. No duplicated current-source contract pattern.
 12. No greenfield replacement of existing brand or error helpers.
 13. No source-incompatible example stubs in canonical docs.
+
+**Runtime authority:** `packages/kernel/src/governance/kernel-contract-rules.policy.ts` — `KERNEL_CONTRACT_RULES`, `KERNEL_CONTRACT_RULES_POLICY`. Gate: `pnpm check:kernel-contract-rules`.
 
 ---
 
@@ -1245,6 +1323,8 @@ Async context propagation only.
 ```
 
 Everything else must remain contracts, pure helpers, or registries.
+
+**Runtime authority:** Registry: `packages/kernel/src/governance/kernel-runtime-rules.contract.ts` · Gate: `pnpm check:kernel-runtime-rules` · Approved primitive: `packages/kernel/src/propagation/` (`kernelContext.run`, `kernelContext.get`, `kernelContext.fork`).
 
 ---
 
@@ -1330,7 +1410,53 @@ A kernel change is accepted only when all criteria pass.
 
 ---
 
-# 13. Required Gates
+# 13. Slice Catalog
+
+Index of kernel implementation slices under `docs/PAS/slice/`. Handoff format: 9 fields — see [pas-slice-template.md](../../.cursor/skills/kernel-authority/reference/pas-slice-template.md).
+
+Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-prohibited.md` (example: [b5-prohibited.md](slice/b5-prohibited.md)).
+
+| Slice file | ID | PAS § | Status | Type | Prerequisite |
+| --- | --- | --- | --- | --- | --- |
+| [b2-4.1.2-module-location.md](slice/b2-4.1.2-module-location.md) | B2 | §4.1.2 | Delivered | Implementation | Constitutional baseline (§4.1.1) |
+| [b3-4.1.1-three-layer-stack.md](slice/b3-4.1.1-three-layer-stack.md) | B3 | §4.1.1 | Delivered | Implementation | None |
+| [b5.md](slice/b5.md) | B5 | §4.1.5 | Delivered | Implementation | B4 primitive references |
+| [b5a-4.1.6-forbidden-platform-floor.md](slice/b5a-4.1.6-forbidden-platform-floor.md) | B5a | §4.1.6 | Delivered | Implementation | B4 |
+| [b6-4.17.md](slice/b6-4.17.md) | B6 | §4.1.7 | Delivered | Implementation | B5 |
+| [b7-4.1.8.md](slice/b7-4.1.8.md) | B7 | §4.1.8 | Delivered | Implementation | B6 |
+| [b8-4.1.9-audit.md](slice/b8-4.1.9-audit.md) | B8 | §4.1.9 | Delivered | Implementation | B7 |
+| [b8a-4.1.9-consumer.md](slice/b8a-4.1.9-consumer.md) | B8a | §4.1.9 | Delivered | Implementation | B8 |
+| [b9-4.1.11-auth.md](slice/b9-4.1.11-auth.md) | B9 | §4.1.11 | Delivered | Implementation | B8 |
+| [b10-4.1.10-api-ingress.md](slice/b10-4.1.10-api-ingress.md) | B10 | §4.1.10 | Delivered | Implementation | B8 |
+| [b11-4.1.13-tenant-human-reference-policy.md](slice/b11-4.1.13-tenant-human-reference-policy.md) | B11 | §4.1.13 | Delivered | Implementation | B5 |
+| [b11-4.1.14-promotion-checklist.md](slice/b11-4.1.14-promotion-checklist.md) | B11 | §4.1.14 | Delivered | Implementation | B9 |
+| [b12-4.1.12-postgres-persistence.md](slice/b12-4.1.12-postgres-persistence.md) | B12 | §4.1.12 | Delivered | Implementation | B8 |
+| [b13-4.1.3-canonical-format-quality.md](slice/b13-4.1.3-canonical-format-quality.md) | B13 | §4.1.3 | Delivered | Implementation | B7 |
+| [b14-4.5-localization.md](slice/b14-4.5-localization.md) | B14 | §4.5 | Delivered | Implementation | B4 |
+| [b15-4.3-execution-context.md](slice/b15-4.3-execution-context.md) | B15 | §4.3 | Delivered | Implementation | B3 |
+| [b15-4.6-platform-entity-authority.md](slice/b15-4.6-platform-entity-authority.md) | B15 | §4.6 | Delivered | Implementation | B3 |
+| [b15-4.7-business-reference-identity.md](slice/b15-4.7-business-reference-identity.md) | B15 | §4.7 | Delivered | Implementation | B4 |
+| [b15-4.8-accounting-domain-vocabulary.md](slice/b15-4.8-accounting-domain-vocabulary.md) | B15 | §4.8 | Delivered | Implementation | B5a |
+| [b15-4.9-policy-decision-vocabulary.md](slice/b15-4.9-policy-decision-vocabulary.md) | B15 | §4.9 | Delivered | Implementation | B14 |
+| [b16-4.2-result-error-vocabulary-quality.md](slice/b16-4.2-result-error-vocabulary-quality.md) | B16 | §4.2 | Delivered | Implementation | B3 |
+| [b16-5-kernel-prohibited-ownership.md](slice/b16-5-kernel-prohibited-ownership.md) | B16 | §5 | Delivered | Implementation | B3 |
+| [b16-6.2-package-structure.md](slice/b16-6.2-package-structure.md) | B16 | §6.2 | Delivered | Implementation | B15-4.3 |
+| [b16-7-decision-matrix.md](slice/b16-7-decision-matrix.md) | B16-7 | §7 | Delivered | Implementation | B16-5 |
+| [b16-8-permission-model-standard.md](slice/b16-8-permission-model-standard.md) | B16-8 | §8 | Delivered | Implementation | B15-4.9 |
+| [b16-9-kernel-contract-rules.md](slice/b16-9-kernel-contract-rules.md) | B16 | §9 | Delivered | Implementation | B16-5 |
+| [b16-10-runtime-rules.md](slice/b16-10-runtime-rules.md) | B16 | §10 | Delivered | Implementation | Propagation runtime |
+| [b17-11-implementation-sequence.md](slice/b17-11-implementation-sequence.md) | B17 | §11 | Delivered | Implementation | B16-6.2 |
+| [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | B18 | §6.3 | Delivered | Evidence-sync | B16-6.2 |
+
+**Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
+
+**Kernel extension vs generic PAS template:** §8 Permission Model Standard is kernel-specific; generic PAS docs use §8 Contract Rules. Kernel §9–§12 map to template §8–§11.
+
+---
+
+# 14. Required Gates
+
+## 14.1 Required
 
 Run these before accepting any kernel package change:
 
@@ -1345,7 +1471,9 @@ pnpm architecture:cycles
 pnpm architecture:drift
 ```
 
-Recommended new gates after relevant slices exist:
+## 14.2 Recommended
+
+Recommended gates after relevant slices exist:
 
 ```bash
 pnpm check:kernel-propagation-isolation
@@ -1353,7 +1481,7 @@ pnpm check:kernel-events-wire-serializable
 pnpm check:kernel-zero-runtime-deps
 ```
 
-Gate rules:
+## 14.3 Promotion rules
 
 * Recommended gates must not be required in CI until implemented.
 * Once implemented, recommended gates become required for affected slices.
@@ -1361,15 +1489,17 @@ Gate rules:
 
 ---
 
-# 14. Reusable Package Guardrail Template
+# 15. Reusable Package Guardrail Template
 
 See [PAS README](README.md) for how to create a new PAS.
 
-Reusable template:
+Reusable template index:
 
 ```text
 .cursor/skills/kernel-authority/reference/pas-template.md
 ```
+
+Split copy blocks: `pas-doc-template.md`, `pas-skill-template.md`, `pas-slice-template.md`, `pas-reference-templates.md`.
 
 New PAS files should live under:
 
@@ -1386,7 +1516,7 @@ Each package authority standard should have:
 
 ---
 
-# 15. Final Kernel Doctrine
+# 16. Final Kernel Doctrine
 
 The kernel is not a dumping ground for shared code.
 

@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v13` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v14` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -51,9 +51,9 @@
 | PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see fdr-009-rollout-flags |
 | PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see fdr-r01-accounting-contracts |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see fdr-r02-inventory-master-data |
-| TIP_ARCHIVE | `docs/delivery/tips` | archive-lane | no | — |
+| PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
-> Registry `knownGaps` deprecated (always `[]`). Gap detail lives in FDR `§Remaining gaps` under [`docs/delivery/FDR/`](../delivery/FDR/).
+> Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).
 
 ---
 
@@ -69,8 +69,8 @@
 
 ---
 
-## TIP quarantine (archive-lane)
+## Legacy delivery quarantine
 
-TIP delivery docs under `docs/delivery/tips/` are **archive-lane** historical evidence only (`TIP_ARCHIVE`). They are **not** package authority and **must not** be used for new foundation or package implementation handoffs.
+Legacy ARCH, FDR, and TIP delivery trees were **retired 2026-06-27**. Do not recreate them.
 
-**New work:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — FDR delivery doc → registry entry → `afenda-coding-session` §0 → gates → runtime matrix. Index: [`fdr-status-index.md`](../delivery/fdr-status-index.md).
+**New work:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS parent standard → registry entry → `docs/PAS/slice/` handoff → `afenda-coding-session` §0 → gates → runtime matrix. Index: [`PAS/README.md`](../PAS/README.md).

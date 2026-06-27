@@ -34,6 +34,16 @@
       "types": "./dist/policy/index.d.ts",
       "import": "./dist/policy/index.js",
       "default": "./dist/policy/index.js"
+    },
+    "./permission": {
+      "types": "./dist/permission/index.d.ts",
+      "import": "./dist/permission/index.js",
+      "default": "./dist/permission/index.js"
+    },
+    "./governance": {
+      "types": "./dist/governance/index.d.ts",
+      "import": "./dist/governance/index.js",
+      "default": "./dist/governance/index.js"
     }
   },
   "files": [

@@ -80,7 +80,7 @@ This document defines how Afenda's **documentation delivery application** (`apps
 | Concern | Owner | Notes |
 |---------|-------|-------|
 | Architecture registries | `docs/architecture/` | Human truth; update via Architecture Authority |
-| Delivery TIP specs | `docs/delivery/tips/` | Evidence artifacts; not auto-synced to Fumadocs |
+| Delivery TIP specs | `docs/PAS/slice/` | Evidence artifacts; not auto-synced to Fumadocs |
 | ADRs | `docs/adr/` | Constitutional; never overridden by docs app content |
 | ERP product UI | `apps/erp/` | No imports from `@afenda/docs` |
 | Governed UI primitives | `packages/ui/` | Optional later slice; requires TIP-004 approval |
@@ -161,7 +161,7 @@ Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in sc
 - Separate Vercel project from `@afenda/erp` — Root Directory `apps/docs`
 - No shared env secrets with ERP auth/database
 - Config: `apps/docs/vercel.json`, `apps/docs/next.config.ts` (`outputFileTracingRoot`)
-- Support doc: [`docs/delivery/support/fumadocs-docs-app-deploy.md`](../delivery/support/fumadocs-docs-app-deploy.md)
+- Support doc: [`docs/governance/support/fumadocs-docs-app-deploy.md`](../delivery/support/fumadocs-docs-app-deploy.md)
 - Optional PR preview: `.github/workflows/preview-docs.yml` + `VERCEL_PROJECT_ID_DOCS`
 
 ---

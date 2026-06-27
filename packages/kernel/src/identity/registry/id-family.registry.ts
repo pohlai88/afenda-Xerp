@@ -732,9 +732,12 @@ export const IDENTITY_PROMOTION_REQUIREMENT_IDS = [
 export type IdentityPromotionRequirementId =
   (typeof IDENTITY_PROMOTION_REQUIREMENT_IDS)[number];
 
+export type IdentityPromotionPasChecklistStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
 export interface IdentityPromotionRequirementDefinition {
   readonly evidenceGate: string | null;
   readonly id: IdentityPromotionRequirementId;
+  readonly pasChecklistStep: IdentityPromotionPasChecklistStep;
   readonly summary: string;
 }
 
@@ -743,77 +746,136 @@ export const IDENTITY_PROMOTION_REQUIREMENTS = {
     id: "adr-or-pas-amendment",
     summary: "ADR or PAS amendment records family, prefix, and owner.",
     evidenceGate: null,
+    pasChecklistStep: 1,
   },
   "registry-row": {
     id: "registry-row",
     summary:
       "Registry row in ID_FAMILIES with prefix, typeName, owner, recordOwner, generates.",
     evidenceGate: "check:kernel-identity-surface",
+    pasChecklistStep: 2,
   },
   "unique-prefix": {
     id: "unique-prefix",
     summary: "Prefix is [a-z]{3} and does not collide with existing families.",
     evidenceGate: "check:id-prefix-uniqueness",
+    pasChecklistStep: 2,
   },
   "parser-validator": {
     id: "parser-validator",
     summary: "Family exports parse* and non-throwing validator coverage.",
     evidenceGate: "check:kernel-identity-surface",
+    pasChecklistStep: 2,
   },
   "generator-when-generates": {
     id: "generator-when-generates",
     summary: "generates: true families export create* with round-trip tests.",
     evidenceGate: "check:id-parser-generator-parity",
+    pasChecklistStep: 2,
   },
   "wire-normalizer": {
     id: "wire-normalizer",
     summary:
       "Wire normalizer registered on families/, primitives/, or identity/index.ts.",
     evidenceGate: "check:kernel-identity-surface",
-  },
-  "kernel-tests": {
-    id: "kernel-tests",
-    summary:
-      "Kernel tests cover valid, invalid, wrong-prefix, wrong-body, registry parity.",
-    evidenceGate: null,
-  },
-  "kernel-identity-surface-gate": {
-    id: "kernel-identity-surface-gate",
-    summary: "pnpm check:kernel-identity-surface exit 0.",
-    evidenceGate: "check:kernel-identity-surface",
-  },
-  "database-check-unique-when-persisted": {
-    id: "database-check-unique-when-persisted",
-    summary:
-      "Persisted families have enterprise_id CHECK + UNIQUE on entity tables.",
-    evidenceGate: "check:database-enterprise-id-contract",
-  },
-  "enterprise-id-db-parity-gate": {
-    id: "enterprise-id-db-parity-gate",
-    summary:
-      "Database CHECK patterns parity-validated against kernel registry.",
-    evidenceGate: "check:database-enterprise-id-contract",
+    pasChecklistStep: 2,
   },
   "json-serializable-wire": {
     id: "json-serializable-wire",
     summary:
       "Canonical IDs cross wire boundaries as plain strings; brands are compile-time only.",
     evidenceGate: null,
+    pasChecklistStep: 2,
+  },
+  "kernel-tests": {
+    id: "kernel-tests",
+    summary:
+      "Kernel tests cover valid, invalid, wrong-prefix, wrong-body, registry parity.",
+    evidenceGate: null,
+    pasChecklistStep: 3,
+  },
+  "kernel-identity-surface-gate": {
+    id: "kernel-identity-surface-gate",
+    summary: "pnpm check:kernel-identity-governance green.",
+    evidenceGate: KERNEL_IDENTITY_GOVERNANCE_BUNDLE,
+    pasChecklistStep: 4,
+  },
+  "database-check-unique-when-persisted": {
+    id: "database-check-unique-when-persisted",
+    summary:
+      "Persisted families have enterprise_id CHECK + UNIQUE on entity tables.",
+    evidenceGate: "check:database-enterprise-id-contract",
+    pasChecklistStep: 5,
+  },
+  "enterprise-id-db-parity-gate": {
+    id: "enterprise-id-db-parity-gate",
+    summary:
+      "Database CHECK patterns parity-validated against kernel registry.",
+    evidenceGate: "check:database-enterprise-id-contract",
+    pasChecklistStep: 5,
   },
   "erp-parse-at-boundary": {
     id: "erp-parse-at-boundary",
     summary: "ERP/API ingress uses parse* — no as FamilyId.",
-    evidenceGate: "check:identity-boundary",
+    evidenceGate: "check:no-unsafe-id-casts",
+    pasChecklistStep: 6,
   },
   "forbidden-fiscal-ids-off-floor": {
     id: "forbidden-fiscal-ids-off-floor",
     summary: "FiscalCalendarId / FiscalPeriodId remain off platform floor.",
     evidenceGate: "check:forbidden-platform-ids",
+    pasChecklistStep: 7,
   },
 } as const satisfies Record<
   IdentityPromotionRequirementId,
   IdentityPromotionRequirementDefinition
 >;
+
+export interface IdentityPromotionPasChecklistStepDefinition {
+  readonly requirementIds: readonly IdentityPromotionRequirementId[];
+  readonly step: IdentityPromotionPasChecklistStep;
+}
+
+export const IDENTITY_PROMOTION_PAS_CHECKLIST_STEPS = [
+  {
+    step: 1,
+    requirementIds: ["adr-or-pas-amendment"],
+  },
+  {
+    step: 2,
+    requirementIds: [
+      "registry-row",
+      "unique-prefix",
+      "parser-validator",
+      "generator-when-generates",
+      "wire-normalizer",
+      "json-serializable-wire",
+    ],
+  },
+  {
+    step: 3,
+    requirementIds: ["kernel-tests"],
+  },
+  {
+    step: 4,
+    requirementIds: ["kernel-identity-surface-gate"],
+  },
+  {
+    step: 5,
+    requirementIds: [
+      "database-check-unique-when-persisted",
+      "enterprise-id-db-parity-gate",
+    ],
+  },
+  {
+    step: 6,
+    requirementIds: ["erp-parse-at-boundary"],
+  },
+  {
+    step: 7,
+    requirementIds: ["forbidden-fiscal-ids-off-floor"],
+  },
+] as const satisfies readonly IdentityPromotionPasChecklistStepDefinition[];
 
 export const IDENTITY_GOVERNANCE_AUTHORITY = {
   pas: IDENTITY_AUTHORITY_PAS,
@@ -844,6 +906,30 @@ export function isIdentityPromotionRequirementId(
 ): value is IdentityPromotionRequirementId {
   return (IDENTITY_PROMOTION_REQUIREMENT_IDS as readonly string[]).includes(
     value
+  );
+}
+
+export function getIdentityPromotionRequirement(
+  id: IdentityPromotionRequirementId
+): IdentityPromotionRequirementDefinition {
+  const requirement = IDENTITY_PROMOTION_REQUIREMENTS[id];
+  if (requirement === undefined) {
+    throw new Error(`Unknown identity promotion requirement: ${id}`);
+  }
+  return requirement;
+}
+
+export function listIdentityPromotionRequirementsForPasStep(
+  step: IdentityPromotionPasChecklistStep
+): readonly IdentityPromotionRequirementDefinition[] {
+  const checklistStep = IDENTITY_PROMOTION_PAS_CHECKLIST_STEPS.find(
+    (entry) => entry.step === step
+  );
+  if (checklistStep === undefined) {
+    throw new Error(`Unknown identity promotion PAS checklist step: ${step}`);
+  }
+  return checklistStep.requirementIds.map(
+    (id) => IDENTITY_PROMOTION_REQUIREMENTS[id]
   );
 }
 

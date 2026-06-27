@@ -12,7 +12,7 @@ authority_order:
   - docs/adr/
   - docs/architecture/*-registry.md
   - docs/architecture/pre-accounting-foundation-roadmap.md
-  - docs/delivery/tips/[status] tip-*.md
+  - docs/PAS/slice/[status] tip-*.md
   - packages/architecture-authority
   - this file
 phase_1_authority: ADR-0001

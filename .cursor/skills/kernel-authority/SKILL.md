@@ -119,9 +119,10 @@ For new kernel slices, read in this order:
 
 1. This file (SKILL.md) — boundary, hard stops, Phase 0
 2. [authority-surfaces.md](reference/authority-surfaces.md) — TypeScript shapes, operating context hierarchy
-3. [package-structure.md](reference/package-structure.md) — folder tree, current exports, target exports
-4. [docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — canonical human standard (§1–§15)
-5. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/architecture/identity/canonical-enterprise-id-constitution.md)
+3. [package-structure.md](reference/package-structure.md) — folder tree summary, exports, gates
+4. [packages/kernel/PAS-001-KERNEL-TREE.md](../../../packages/kernel/PAS-001-KERNEL-TREE.md) — annotated package-local filesystem map (drift markers)
+5. [docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — canonical human standard (§0 Agent Quick Path; §1–§16)
+6. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/architecture/identity/canonical-enterprise-id-constitution.md)
 
 **Slice gate:** Kernel identity runtime work (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted**.
 

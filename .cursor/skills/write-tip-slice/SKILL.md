@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # write-tip-slice — TIP Slice Authoring
 
-> **Archive only (2026-06-25).** Use [`write-fdr-slice`](../write-fdr-slice/SKILL.md) for all new foundation/package slices. This skill applies only to **repairing or extending archive TIP handoffs** for already-delivered TIPs under `docs/delivery/tips/`.
+> **Archive only (2026-06-25).** Use [`write-fdr-slice`](../write-fdr-slice/SKILL.md) for all new foundation/package slices. This skill applies only to **repairing or extending archive TIP handoffs** for already-delivered TIPs under `docs/PAS/slice/`.
 >
 > This skill produces **one slice block** that `tip-slice-implementer` can execute without modification.
 > Read `write-tip` first for TIP-level vocabulary, status rules, and boundary table.
@@ -28,9 +28,9 @@ disable-model-invocation: true
 ## 1 · Pre-flight reads (mandatory, in order)
 
 ```
-1. docs/delivery/tip-status-index.md         — confirm TIP in §Canonical delivery TIPs; check §Runtime implementation sequence
+1. docs/PAS/README.md         — confirm TIP in §Canonical delivery TIPs; check §Runtime implementation sequence
 2. docs/architecture/afenda-runtime-truth-matrix.md — upstream evidence; row must show implemented, not partial
-3. docs/delivery/tips/[status] tip-NNN-*.md  — target TIP; read Purpose, Scope, Deliverables, Acceptance gate, existing slices
+3. docs/PAS/slice/[status] tip-NNN-*.md  — target TIP; read Purpose, Scope, Deliverables, Acceptance gate, existing slices
 4. ADRs cited in TIP Purpose                 — never claim "no pending decision" without reading
 5. docs/architecture/package-registry.md     — exact package names and PKG-NNN codes
 ```
@@ -67,9 +67,9 @@ Derive `§3 Files` from the TIP Deliverables table for this slice's rows only.
 **Always include §9 documentation sync files when the slice changes runtime evidence:**
 
 ```
-docs/delivery/tips/[status] tip-NNN-<title>.md   (Modified — DoD checkboxes, runtime evidence row, slice status)
+docs/PAS/slice/[status] tip-NNN-<title>.md   (Modified — DoD checkboxes, runtime evidence row, slice status)
 docs/architecture/afenda-runtime-truth-matrix.md (Modified — row for this slice's package)
-docs/delivery/tip-status-index.md                (Modified — only if TIP status changes)
+docs/PAS/README.md                (Modified — only if TIP status changes)
 ```
 
 **TIP filename rename** — include only if this slice changes overall TIP status (e.g. `Partially Implemented` → `Complete`).
@@ -93,7 +93,7 @@ docs/delivery/tip-status-index.md                (Modified — only if TIP statu
 Produce exactly this fenced block. Every field is required. Do not add fields. Do not omit fields.
 
 ```
-Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
+Handoff from: docs/PAS/slice/[status] tip-NNN-<title>.md
 
 1. Objective    — <TIP Purpose paragraph compressed to one sentence for this slice only>
 2. Allowed layer— <single package path, e.g. packages/execution/src/>
@@ -133,7 +133,7 @@ Add or update this section in the TIP doc under `## Handoff to implementation`:
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/tips/[status] tip-NNN-<title>.md
+Handoff from: docs/PAS/slice/[status] tip-NNN-<title>.md
 1. Objective    — ...
 2. Allowed layer— ...
 3. Files        — ...

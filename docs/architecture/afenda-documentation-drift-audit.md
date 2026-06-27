@@ -147,7 +147,7 @@ These must complete before Accounting Core (`TIP-014+`):
 | `tip-006-appshell-authority.md` verdict | **Complete** — contracts frozen under `src/contracts/` | **Resolved** — TIP-006 Complete (2026-06-24) |
 | `tip-008-master-data-authority.md` | Ignores entity group delivery | **Split** enterprise hierarchy vs business master data |
 | `tip-010-observability-audit.md` / `tip-012-execution-foundation.md` | Misnumbered per ADR-0001 | **Mark** evidence-only; rename in hygiene TIP-000D |
-| `docs/tip/` directory | Does not exist | **Not created** — delivery authority remains `docs/delivery/tips/[status] tip-*.md` |
+| `docs/tip/` directory | Does not exist | **Not created** — delivery authority remains `docs/PAS/slice/[status] tip-*.md` |
 | `docs/roadmap/` directory | Does not exist | **Replaced** by `pre-accounting-foundation-roadmap.md` |
 
 ---
@@ -222,7 +222,7 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 
 | Action | Result |
 | --- | --- |
-| Duplicate TIP basenames removed from `docs/delivery/tips/` | Only canonical `[status]` file per TIP number (+ † superseded misnumbered evidence) |
+| Duplicate TIP basenames removed from `docs/PAS/slice/` | Only canonical `[status]` file per TIP number (+ † superseded misnumbered evidence) |
 | Broken links to `[Not started]` / stale `[Partially Implemented]` duplicates | Fixed in roadmap, README, governance, master plan |
 | TIP-030 renamed | `[Partially Implemented]` → `[Complete]` (runtime evidence: projects + teams + RLS) |
 | Roadmap Phases 1–8 | Synced to runtime matrix — Phases 2, 5, 7, 8 Complete; Phase 4 RLS + Phase 6 UI remain |

@@ -405,7 +405,7 @@ PKG-R02–R05: **not in filesystem** (planned only) — matches [`package-regist
 | ERP unit tests | `pnpm --filter @afenda/erp test:run` | **658/658 pass** (124 files) |
 | AI governance | `pnpm --filter @afenda/ai-governance test:run` | **38/39 pass** — 1 boundary violation test fail |
 | `user_preferences` schema | grep `packages/database/src/schema/` | **Not found** |
-| Auth waivers | `docs/ARCH/ARCH-AUTH-001` | **AUTH-INV-001**, **AUTH-MFA-UI-001**, **AUTH-PHASE3-001** documented |
+| Auth waivers | `docs/PAS/ARCH-AUTH-001` | **AUTH-INV-001**, **AUTH-MFA-UI-001**, **AUTH-PHASE3-001** documented |
 
 ### A.5 Disposition registry sync status
 

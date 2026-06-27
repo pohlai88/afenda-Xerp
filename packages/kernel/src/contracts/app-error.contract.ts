@@ -45,7 +45,7 @@ export const AppErrors = {
   validation: (fields?: readonly ValidationFieldError[]): AppError => ({
     code: "VALIDATION_ERROR",
     userMessage: "Please check the highlighted fields.",
-    ...(fields === undefined ? {} : { fields }),
+    ...(fields !== undefined && { fields }),
   }),
 
   unauthorized: (userMessage = "Sign in to continue."): AppError => ({
@@ -75,6 +75,6 @@ export const AppErrors = {
   internal: (cause?: unknown): AppError => ({
     code: "INTERNAL_ERROR",
     userMessage: "Something went wrong. Please try again.",
-    ...(cause === undefined ? {} : { cause }),
+    ...(cause !== undefined && { cause }),
   }),
 } as const;

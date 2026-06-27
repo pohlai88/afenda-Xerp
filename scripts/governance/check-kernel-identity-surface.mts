@@ -9,14 +9,9 @@ import { fileURLToPath } from "node:url";
 
 import {
   ENTERPRISE_ID_FAMILIES,
-  ENTERPRISE_ID_FAMILY_KEYS,
   FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS,
   ID_FAMILIES,
-  ID_FAMILY_CATEGORIES,
-  ID_FAMILY_COUNT,
   PLATFORM_ID_FAMILY_REGISTRY,
-  PRIMITIVE_ID_FAMILY_COUNT,
-  REGISTRY_FAMILY_COUNT,
 } from "../../packages/kernel/src/identity/registry/id-family.registry.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -73,9 +68,25 @@ const identitySources = {
     repoRoot,
     "packages/kernel/src/identity/primitives/currency-code.contract.ts"
   ),
-  primitiveGlobal: join(
+  primitiveTimezone: join(
     repoRoot,
-    "packages/kernel/src/identity/primitives/global-code.contract.ts"
+    "packages/kernel/src/identity/primitives/timezone-id.contract.ts"
+  ),
+  primitiveDateFormat: join(
+    repoRoot,
+    "packages/kernel/src/identity/primitives/date-format.contract.ts"
+  ),
+  primitiveNumberFormat: join(
+    repoRoot,
+    "packages/kernel/src/identity/primitives/number-format.contract.ts"
+  ),
+  primitiveCountryCode: join(
+    repoRoot,
+    "packages/kernel/src/identity/primitives/country-code.contract.ts"
+  ),
+  primitiveUomCode: join(
+    repoRoot,
+    "packages/kernel/src/identity/primitives/uom-code.contract.ts"
   ),
   identityIndex: join(repoRoot, "packages/kernel/src/identity/index.ts"),
   familiesIndex: join(
@@ -139,12 +150,12 @@ const primitiveSourceByFamilyKey: Partial<
   Record<keyof typeof ID_FAMILIES, string>
 > = {
   localeCode: identitySources.primitiveLocale,
-  timezoneId: identitySources.primitiveGlobal,
-  dateFormat: identitySources.primitiveGlobal,
-  numberFormat: identitySources.primitiveGlobal,
+  timezoneId: identitySources.primitiveTimezone,
+  dateFormat: identitySources.primitiveDateFormat,
+  numberFormat: identitySources.primitiveNumberFormat,
   currencyCode: identitySources.primitiveCurrency,
-  countryCode: identitySources.primitiveGlobal,
-  uomCode: identitySources.primitiveGlobal,
+  countryCode: identitySources.primitiveCountryCode,
+  uomCode: identitySources.primitiveUomCode,
 };
 
 export interface IdentitySurfaceViolation {
@@ -221,10 +232,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
     }
   }
 
-  const hasExportedCallable = (
-    source: string,
-    functionName: string
-  ): boolean =>
+  const hasExportedCallable = (source: string, functionName: string): boolean =>
     source.includes(`export function ${functionName}`) ||
     source.includes(`export const ${functionName} =`) ||
     source.includes(`export { ${functionName}`) ||
@@ -267,7 +275,9 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
     }
   }
 
-  for (const familyKey of Object.keys(ID_FAMILIES) as (keyof typeof ID_FAMILIES)[]) {
+  for (const familyKey of Object.keys(
+    ID_FAMILIES
+  ) as (keyof typeof ID_FAMILIES)[]) {
     const family = ID_FAMILIES[familyKey];
     const sourcePath = family.prefix
       ? (enterpriseSourceByFamilyKey[familyKey] ??
@@ -330,9 +340,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
       });
     }
 
-    if (
-      !hasExportedCallable(identityIndex, family.normalizeForWireFunction)
-    ) {
+    if (!hasExportedCallable(identityIndex, family.normalizeForWireFunction)) {
       violations.push({
         rule: "missing-wire-normalizer",
         file: identitySources.identityIndex,
@@ -366,14 +374,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
   }
 
   const canonicalValidatorPath = identitySources.canonicalValidator;
-  if (!existsSync(canonicalValidatorPath)) {
-    violations.push({
-      rule: "missing-validator-module",
-      file: canonicalValidatorPath,
-      message:
-        "Missing canonical-id-validator.contract.ts — PAS §4.1.2 validation surface",
-    });
-  } else {
+  if (existsSync(canonicalValidatorPath)) {
     const canonicalValidatorSource = readFileSync(
       canonicalValidatorPath,
       "utf8"
@@ -387,9 +388,19 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
         message: "Missing isCanonicalEnterpriseId export",
       });
     }
+  } else {
+    violations.push({
+      rule: "missing-validator-module",
+      file: canonicalValidatorPath,
+      message:
+        "Missing canonical-id-validator.contract.ts — PAS §4.1.2 validation surface",
+    });
   }
 
-  const prefixRegistrySource = readFileSync(identitySources.prefixRegistry, "utf8");
+  const prefixRegistrySource = readFileSync(
+    identitySources.prefixRegistry,
+    "utf8"
+  );
 
   if (
     !hasExportedCallable(prefixRegistrySource, "isRegisteredEnterpriseIdPrefix")

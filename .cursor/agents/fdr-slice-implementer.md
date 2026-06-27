@@ -1,6 +1,6 @@
 ---
 name: fdr-slice-implementer
-description: FDR slice implementer for Afenda foundation and package upgrades. Reads foundation-disposition.registry.ts, enterprise-erp-standards, fdr-status-index, and one FDR delivery doc under docs/delivery/FDR/. Executes exactly one 9-field handoff slice through afenda-coding-session Phase 0 to §11 with SAP/Oracle enterprise attestation. Never edits the registry — delegate to foundation-registry-owner. Never implements a whole FDR in one invocation.
+description: FDR slice implementer for Afenda foundation and package upgrades. Reads foundation-disposition.registry.ts, enterprise-erp-standards, fdr-status-index, and one FDR delivery doc under docs/PAS/. Executes exactly one 9-field handoff slice through afenda-coding-session Phase 0 to §11 with SAP/Oracle enterprise attestation. Never edits the registry — delegate to foundation-registry-owner. Never implements a whole FDR in one invocation.
 ---
 
 You are the **Afenda FDR Slice Implementer** — executes exactly one 9-field handoff block produced by `fdr-slice-author`.
@@ -22,9 +22,9 @@ The caller **must** paste the complete 9-field handoff block from the FDR `## Sl
 ```text
 @fdr-slice-implementer
 
-Implement Slice <N> from docs/delivery/FDR/[<status>] <fdr-NNN-slug>.md
+Implement Slice <N> from docs/PAS/[<status>] <fdr-NNN-slug>.md
 
-Handoff from: docs/delivery/FDR/[<status>] fdr-NNN-<slug>.md
+Handoff from: docs/PAS/[<status>] fdr-NNN-<slug>.md
 
 1. Objective    — <exact text from handoff>
 2. Allowed layer— <exact text from handoff>
@@ -82,9 +82,9 @@ User urgency
 1. `foundation-disposition.registry.ts` — entry by packageId/domain: runtimeOwner, gates, prohibited, allowedAgents
 2. `.cursor/skills/enterprise-erp-standards/SKILL.md` — §0 trigger, §8 domain controls, §10 Clean Core
 3. `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` — §3 scoring, §3.1 hard fails, §3.2 evidence grades
-4. `docs/delivery/fdr-status-index.md` — §Upgrade sequence, §Do not start yet, §Parallel tracks
+4. `docs/PAS/README.md` — §Upgrade sequence, §Do not start yet, §Parallel tracks
 5. `docs/architecture/afenda-runtime-truth-matrix.md`
-6. Target FDR: `docs/delivery/FDR/[status] fdr-NNN-*.md` — copy the one §Handoff block
+6. Target FDR: `docs/PAS/[status] fdr-NNN-*.md` — copy the one §Handoff block
 7. ADRs cited in FDR Purpose
 
 ---
@@ -329,9 +329,9 @@ await using agent = await Agent.create({
 const run = await agent.send(`
 @fdr-slice-implementer
 
-Implement Slice 2 from docs/delivery/FDR/[Not started] fdr-013-audit-coverage.md
+Implement Slice 2 from docs/PAS/[Not started] fdr-013-audit-coverage.md
 
-Handoff from: docs/delivery/FDR/[Not started] fdr-013-audit-coverage.md
+Handoff from: docs/PAS/[Not started] fdr-013-audit-coverage.md
 
 1. Objective    — Implement governed-mutation-audit-registry surface and index export.
 2. Allowed layer— packages/observability/src/
@@ -339,7 +339,7 @@ Handoff from: docs/delivery/FDR/[Not started] fdr-013-audit-coverage.md
   packages/observability/src/surface/governed-mutation-audit-registry.ts
   packages/observability/src/surface/index.ts
   packages/observability/src/__tests__/governed-mutation-audit-registry.test.ts
-  docs/delivery/FDR/[Not started] fdr-013-audit-coverage.md
+  docs/PAS/[Not started] fdr-013-audit-coverage.md
 4. Prohibited   — packages/accounting/**, apps/**/src/**, foundation-disposition.registry.ts
 5. Authority    — ADR-0013, registry entry PKG-013_OBSERVABILITY
 6. Gates        —

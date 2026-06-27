@@ -24,7 +24,7 @@ This ADR establishes a **single machine-readable registry** as the subagent sour
 
 1. **Authority file:** `packages/architecture-authority/src/data/foundation-disposition.registry.ts` is the canonical package disposition registry.
 2. **Lane vocabulary:** Closed set — `red-lane`, `amber-lane`, `green-lane`, `blue-lane`, `black-lane`, `archive-lane`.
-3. **TIP role:** TIP delivery docs under `docs/delivery/tips/` are `archive-lane` historical evidence only. TIP is not package authority.
+3. **TIP role:** TIP delivery docs under `docs/PAS/slice/` are `archive-lane` historical evidence only. TIP is not package authority.
 4. **Registry owner:** Only the `foundation-registry-owner` subagent may edit the registry. All other agents consume it read-only.
 5. **Subagent contract:** Before touching foundation packages, agents must read the registry and respect `lane`, `prohibited`, and `allowedAgents`.
 6. **Generated view:** `docs/architecture/foundation-disposition.md` is a read-only report synced from the registry — not authority.

@@ -41,9 +41,23 @@ export function buildCanonicalEnterpriseIdPatternSource(
   return `^${prefix}${CANONICAL_ID_SEPARATOR}${CANONICAL_ID_BODY_PATTERN}$`;
 }
 
-/** Family-specific full-ID regex for a registered 3-char prefix. */
+const _regexCache = new Map<string, RegExp>();
+
+/**
+ * Family-specific full-ID regex for a registered 3-char prefix.
+ *
+ * Cached by prefix — callers (e.g. `parseCanonicalId`, `isCanonicalEnterpriseIdForFamily`)
+ * are on hot paths and the prefix vocabulary is bounded by `ID_FAMILIES` entries.
+ */
 export function buildCanonicalEnterpriseIdRegex(prefix: string): RegExp {
-  return new RegExp(buildCanonicalEnterpriseIdPatternSource(prefix));
+  let cached = _regexCache.get(prefix);
+
+  if (cached === undefined) {
+    cached = new RegExp(buildCanonicalEnterpriseIdPatternSource(prefix));
+    _regexCache.set(prefix, cached);
+  }
+
+  return cached;
 }
 
 /** Governance compatibility alias — prefer `CANONICAL_ID_PATTERN_SOURCE`. */

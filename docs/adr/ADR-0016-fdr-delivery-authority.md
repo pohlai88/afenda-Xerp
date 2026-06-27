@@ -25,8 +25,8 @@ TIP delivery docs remain archive-lane evidence. They are not retired.
 
 ## Decision
 
-1. **FDR delivery docs** live under `docs/delivery/FDR/[status] fdr-NNN-*.md`.
-2. **Canonical index:** `docs/delivery/fdr-status-index.md` — status and upgrade sequence (not runtime truth alone).
+1. **FDR delivery docs** live under `docs/PAS/[status] fdr-NNN-*.md`.
+2. **Canonical index:** `docs/PAS/README.md` — status and upgrade sequence (not runtime truth alone).
 3. **Authoring skills:** `write-fdr` and `write-fdr-slice` replace `write-tip` / `write-tip-slice` for all new foundation/package work.
 4. **Implementation agents:** `fdr-slice-implementer` (one slice) and `fdr-orchestrator` (parallel batches).
 5. **Gap tracking:** FDR `§Remaining gaps` and `§Research` sections — registry `knownGaps` deprecated (always `[]`).
@@ -41,7 +41,7 @@ ADR
   → foundation-disposition.registry.ts
     → fdr-status-index.md + FDR delivery docs
       → afenda-runtime-truth-matrix.md
-        → docs/delivery/tips/ (archive only)
+        → docs/PAS/slice/ (archive only)
 ```
 
 ---

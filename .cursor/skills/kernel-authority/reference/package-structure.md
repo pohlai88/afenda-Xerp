@@ -1,176 +1,88 @@
 # Package Structure Reference
 
-`@afenda/kernel` folder tree, current exports, and target exports.
+`@afenda/kernel` folder tree, current exports, and governance rules.
 
 ← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-001 §6](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md#6-package-structure-standard)
 
-**Rule:** Current tree reflects `packages/kernel/src/` as it exists today. Target tree lists approved slice additions only — not present until the named slice lands.
+**Source truth order:**
+
+1. Filesystem under `packages/kernel/src/` (wins over all prose)
+2. [`kernel-package-layout.contract.ts`](../../../../packages/kernel/src/contracts/kernel-package-layout.contract.ts) — top-level folders, subpath exports, prohibited paths
+3. [`context-registry.ts`](../../../../packages/kernel/src/context/context-registry.ts) — §4.4 required/support context modules
+4. [`kernel-boundary-drift.registry.ts`](../../../../packages/kernel/src/governance/kernel-boundary-drift.registry.ts) — scheduled refactors (⚠️ DRIFT)
+5. [`PAS-001-KERNEL-TREE.md`](../../../../packages/kernel/PAS-001-KERNEL-TREE.md) — annotated full tree (package-local)
+6. This reference — skill adapter summary
+
+**Rule:** Do not list slice targets as “future” when they are already on disk. B3–B18 delivered `identity/`, `governance/`, `permission/`, `propagation/`, `events/`, `policy/`, and the eight-key export baseline.
 
 ---
 
-## Current package structure (source truth)
+## Current package structure (summary)
+
+See [PAS-001-KERNEL-TREE.md](../../../../packages/kernel/PAS-001-KERNEL-TREE.md) for the full annotated map.
 
 ```text
 packages/kernel/
-├── package.json
-├── tsconfig.json
-├── tsconfig.vitest.json
-├── vitest.config.ts
+├── PAS-001-KERNEL-TREE.md
 └── src/
-    ├── index.ts
-    ├── contracts/
-    │   ├── brand.contract.ts                 ← re-exports identity/brand
-    │   ├── result.contract.ts
-    │   ├── app-error.contract.ts              ← AppError only
-    │   ├── problem-detail.contract.ts         ← RFC 9457 (Slice 7)
-    │   ├── json-wire.contract.ts              ← Slice 10
-    │   ├── execution-context.contract.ts
+    ├── index.ts                    # only file allowed at src root
+    ├── contracts/                  # result, app-error, problem-detail, json-wire, execution-context, layout
     │   ├── platform/
-    │   ├── business-master-data/
-    │   └── accounting-domain/
-    ├── context/
-    │   ├── index.ts
-    │   ├── context-registry.ts
-    │   ├── tenant-context.contract.ts
-    │   ├── entity-group-context.contract.ts
-    │   ├── legal-entity-context.contract.ts
-    │   ├── ownership-interest-context.contract.ts
-    │   ├── organization-unit-context.contract.ts
-    │   ├── team-context.contract.ts
-    │   ├── project-context.contract.ts
-    │   ├── operating-context.contract.ts
-    │   ├── permission-grant-vocabulary.contract.ts   ← Slice 8 (grant scope words)
-    │   ├── permission-scope-context.contract.ts      ← resolved scope shape (transitional)
-    │   ├── consolidation-scope-context.contract.ts
-    │   ├── consolidation-scope-resolution.ts   ← pure derivation (TIP-008A)
-    │   ├── accounting-readiness.contract.ts
-    │   ├── localization-context.contract.ts           ← Slice 5
-    │   └── … (support modules — see context-registry.ts)
-    ├── policy/                             ← Slice 9 (current)
-    ├── events/                             ← Slice 10 (current)
-    ├── propagation/                        ← Slice 11 (current)
-    ├── identity/                           ← PAS §4.1 / ADR-0021–0023 (nested — Slice B/B3/E)
-    │   ├── index.ts
-    │   ├── families/                           # PAS §4.1.4 category contracts
-    │   │   ├── index.ts
-    │   │   ├── define-enterprise-family.ts
-    │   │   ├── tenant-hierarchy-id.contract.ts
-    │   │   ├── identity-access-id.contract.ts
-    │   │   ├── audit-execution-id.contract.ts
-    │   │   ├── enterprise-hierarchy-id.contract.ts
-    │   │   └── business-reference-id.contract.ts
-    │   ├── primitives/
-    │   ├── tenant-human-reference/
-    │   ├── postgres/
-    │   ├── wire/
-    │   └── governance/
+    │   ├── business-reference-identity/   # §4.7 (not business-master-data)
+    │   └── accounting-domain/             # @afenda/kernel/accounting-domain
+    ├── context/                    # §4.4 operating-context shapes + context-registry.ts
+    ├── identity/                   # §4.1 nested module (brand, canonical, families, wire, …)
+    ├── governance/                 # §9 PAS self-governance (@afenda/kernel/governance)
+    ├── permission/                 # §8 vocabulary (@afenda/kernel/permission)
+    ├── policy/                     # policy decision vocabulary
+    ├── propagation/                # kernel context frame
+    ├── events/                     # domain event envelope
     └── __tests__/
 ```
 
-**Slice A (2026-06-27):** ADR-0021–0023 Accepted; PAS §4.1 constitution recorded; architecture docs under `docs/architecture/identity/`. No runtime exports added.
+**Top-level folders (gate-enforced):** `contracts`, `context`, `governance`, `identity`, `permission`, `propagation`, `events`, `policy`, `__tests__` — from `KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL`.
 
-**Slice B (2026-06-27):** Nested `packages/kernel/src/identity/` module — registry, parser, validator, generator, category family contracts, wire boundary. Legacy `contracts/platform-id*.ts` retired.
-
-**Slice B3 (2026-06-27):** Enterprise ID family registry hardening + five category contract files under `identity/families/` (PAS §4.1.4).
-
-**Slice C (ADR-gated):** Database `ids/` helpers + phased migrations per ADR-0022.
-
-**Do not add to current tree:**
-
-```text
-context/currency-context.contract.ts      ← Finance / Accounting domain
-context/fiscal-calendar-context.contract.ts
-context/locale-context.contract.ts      ← use localization-context.contract.ts (Slice 1)
-```
+**Brand surface:** canonical `identity/brand/brand.contract.ts` only. The retired `contracts/brand.contract.ts` shim was removed (drift entry `contracts-brand-shim`, status completed).
 
 ---
 
-## Target package structure (after approved slices)
+## Prohibited paths (PAS §6.2)
 
-Additions only — each folder/file appears after its slice is delivered:
+Do not add:
 
 ```text
-packages/kernel/src/
-├── identity/                               ← Slice B (ADR-0021–0023 Accepted)
-│   ├── brand/
-│   ├── canonical/
-│   ├── registry/
-│   ├── families/
-│   ├── primitives/
-│   ├── tenant-human-reference/
-│   ├── postgres/
-│   ├── wire/
-│   └── governance/
-├── contracts/
-│   ├── problem-detail.contract.ts          ← Slice 2
-│   └── json-wire.contract.ts               ← Slice 5
-├── context/
-│   └── localization-context.contract.ts    ← Slice 1 (delivered)
-├── propagation/                            ← Slice 6A
-│   ├── index.ts
-│   ├── kernel-context-frame.contract.ts
-│   └── kernel-context.ts
-├── events/                                 ← Slice 5
-│   ├── index.ts
-│   └── domain-event.contract.ts
-└── policy/                                 ← Slice 4
-    ├── index.ts
-    ├── policy-decision.contract.ts
-    └── policy-denial-reason.contract.ts
+context/currency-context.contract.ts
+context/fiscal-calendar-context.contract.ts
 ```
 
-**Deprecated after Slice B:** `contracts/platform-id*.ts` — migrate importers to `@afenda/kernel` identity barrel.
-
-**Database mirror (Slice C–E):** `packages/database/src/ids/` — registries, helpers, governance contract. See [ADR-0022](../../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md).
-
-**Governance gates (Slice E):** `scripts/governance/identity/` + `pnpm check:kernel-identity-governance` — drift prevention for prefix parity, unsafe casts, FK/RLS uuid discipline, tenant human reference scope.
+Currency code → branded primitive (`identity/primitives/currency-code.contract.ts`). Fiscal calendar → Finance / Accounting domain packages.
 
 ---
 
 ## Current exports (package.json)
 
+Eight keys — root plus seven subpaths (PAS §6.3 / §6.4, delivered B18):
+
 ```json
 {
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
-    "./context": {
-      "types": "./dist/context/index.d.ts",
-      "import": "./dist/context/index.js",
-      "default": "./dist/context/index.js"
-    },
-    "./accounting-domain": {
-      "types": "./dist/contracts/accounting-domain/index.d.ts",
-      "import": "./dist/contracts/accounting-domain/index.js",
-      "default": "./dist/contracts/accounting-domain/index.js"
-    },
-    "./propagation": {
-      "types": "./dist/propagation/index.d.ts",
-      "import": "./dist/propagation/index.js",
-      "default": "./dist/propagation/index.js"
-    },
-    "./events": {
-      "types": "./dist/events/index.d.ts",
-      "import": "./dist/events/index.js",
-      "default": "./dist/events/index.js"
-    },
-    "./policy": {
-      "types": "./dist/policy/index.d.ts",
-      "import": "./dist/policy/index.js",
-      "default": "./dist/policy/index.js"
-    }
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" },
+    "./context": { "types": "./dist/context/index.d.ts", "import": "./dist/context/index.js", "default": "./dist/context/index.js" },
+    "./accounting-domain": { "types": "./dist/contracts/accounting-domain/index.d.ts", "import": "./dist/contracts/accounting-domain/index.js", "default": "./dist/contracts/accounting-domain/index.js" },
+    "./propagation": { "types": "./dist/propagation/index.d.ts", "import": "./dist/propagation/index.js", "default": "./dist/propagation/index.js" },
+    "./events": { "types": "./dist/events/index.d.ts", "import": "./dist/events/index.js", "default": "./dist/events/index.js" },
+    "./policy": { "types": "./dist/policy/index.d.ts", "import": "./dist/policy/index.js", "default": "./dist/policy/index.js" },
+    "./permission": { "types": "./dist/permission/index.d.ts", "import": "./dist/permission/index.js", "default": "./dist/permission/index.js" },
+    "./governance": { "types": "./dist/governance/index.d.ts", "import": "./dist/governance/index.js", "default": "./dist/governance/index.js" }
   }
 }
 ```
 
----
+**Not exported:** `./identity` — import enterprise ID types from root `@afenda/kernel` or identity barrel via root re-exports. Adding `./identity` requires a new serialized slice and layout-contract update.
 
-## Target exports (after approved slices)
+**Additive policy:** new subpaths require slice delivery, `kernel-package-layout.contract.ts` update, `package.json` registration, tests, and `pnpm quality:boundaries`.
 
-All subpaths above are **current** as of PAS-001 kernel stabilization. Future additive exports require a new serialized slice and package.json registration before consumer import.
+**Gate:** `pnpm check:kernel-subpath-exports`
 
 ---
 
@@ -196,14 +108,14 @@ import { TenantId, ExecutionContext, AppError } from "@afenda/kernel";
 // Correct — subpath import (current)
 import { OperatingContext, LocalizationContext } from "@afenda/kernel/context";
 import { AccountType } from "@afenda/kernel/accounting-domain";
-
-// Correct — subpath import (target only, after slice lands)
 import { kernelContext } from "@afenda/kernel/propagation";
 import { DomainEvent } from "@afenda/kernel/events";
 import { PolicyDecisionKind } from "@afenda/kernel/policy";
+import { PermissionAction } from "@afenda/kernel/permission";
+import { KERNEL_PROHIBITED_OWNERSHIP_POLICY } from "@afenda/kernel/governance";
 
 // PROHIBITED — deep import
-import { TenantId } from "@afenda/kernel/src/contracts/platform-id.contract";
+import { TenantId } from "@afenda/kernel/src/identity/families/tenant-hierarchy-id.contract";
 ```
 
 ---
@@ -216,11 +128,21 @@ Kernel `package.json` must have zero runtime `dependencies` and zero `peerDepend
 
 ## Pure derivation vs prohibited resolver
 
-| Allowed in kernel | Prohibited in kernel (moved to owner) |
+| Allowed in kernel | Prohibited in kernel (owner elsewhere) |
 |---|---|
 | `deriveConsolidationScopeContext` — pure metadata from wire input | Loading tenant/company/org from database |
 | `AccountingReadinessContext` shape only | `toAccountingReadinessContext`, `resolveReportingCurrency` → `apps/erp/.../accounting-readiness.projection.ts` |
-| Brand/unbrand helpers | `formatWorkspaceDisplayLabel`, AppShell switch types → `@afenda/appshell` |
-| | Permission evaluation |
+| Brand/unbrand helpers in `identity/brand/` | AppShell switch types → `@afenda/appshell` |
+| Permission grant vocabulary | Permission evaluation → `@afenda/permissions` |
 
-FDR `PKG010_KERNEL` prohibits **data-loading resolvers** — not pure contract derivation from already-trusted input.
+See `kernel-boundary-drift.registry.ts` for the full refactor lock list.
+
+---
+
+## Slice delivery checklist (new folders or subpaths)
+
+1. Deliver implementation in a serialized PAS slice under `docs/PAS/slice/`
+2. Update `kernel-package-layout.contract.ts` (`CURRENT_SRC_TOP_LEVEL`, `TARGET_PATHS`, or `SUBPATH_EXPORTS`)
+3. Update `PAS-001-KERNEL-TREE.md` and PAS §6.1 summary if top-level layout changes
+4. Register `package.json` export + add tests
+5. Run `pnpm check:kernel-package-structure` · `pnpm check:kernel-subpath-exports` · `pnpm quality:boundaries`

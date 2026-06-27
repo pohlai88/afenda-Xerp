@@ -1,5 +1,5 @@
 /**
- * Documentation drift guard registry (TIP-000D / ADR-0009, ADR-0012).
+ * Documentation drift guard registry (ADR-0009, PAS authority).
  *
  * Lightweight stale-marker detection — not a full doc linter.
  */
@@ -18,30 +18,15 @@ export const MASTER_PLAN = "docs/architecture/_afenda-erp-master-plan.llms.md";
 export const DRIFT_AUDIT =
   "docs/architecture/afenda-documentation-drift-audit.md";
 
-export const TIP_STATUS_INDEX = "docs/delivery/tip-status-index.md";
+/** Canonical Package Authority Standards index (PAS). */
+export const PAS_README = "docs/PAS/README.md" as const;
 
-export const FDR_STATUS_INDEX = "docs/delivery/fdr-status-index.md";
+export const PAS_KERNEL_STANDARD =
+  "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md" as const;
 
-/** Canonical FDR delivery doc directory (ADR-0016). */
-export const FDR_DELIVERY_DIR = "docs/delivery/FDR" as const;
+export const PAS_SLICE_DIR = "docs/PAS/slice" as const;
 
-export const FDR_STATUS_INDEX_BASENAME = "fdr-status-index.md" as const;
-
-export const FDR_DELIVERY_FDR_PATH_MARKER = "docs/delivery/FDR/" as const;
-
-/** Canonical TIP delivery doc directory (ADR-0013 / tip-status-index). */
-export const TIP_DELIVERY_TIPS_DIR = "docs/delivery/tips" as const;
-
-/** Index must reference tips/ paths — not legacy docs/delivery/tip-*.md root layout. */
-export const TIP_STATUS_INDEX_TIPS_PATH_MARKER = "docs/delivery/tips/" as const;
-
-/** Only this file may live at docs/delivery/tip-*.md root (not under tips/). */
-export const TIP_STATUS_INDEX_BASENAME = "tip-status-index.md" as const;
-
-/**
- * Authority docs scanned for legacy delivery paths (`docs/delivery/tip-*.md` without `tips/`).
- * Catches stale links that look like drift after the tips/ restructure.
- */
+/** Authority docs scanned for references to removed legacy delivery paths. */
 export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
   "docs/architecture/afenda-runtime-truth-matrix.md",
   "docs/architecture/README.md",
@@ -49,11 +34,12 @@ export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
   "docs/governance/tip-004-policy.md",
   "docs/governance/README.md",
   "AGENTS.md",
+  "docs/README.md",
 ] as const;
 
-/** Regex: legacy root delivery path (excludes tip-status-index). */
+/** Patterns that must not appear in authority docs after legacy cleanup. */
 export const LEGACY_DELIVERY_PATH_PATTERN =
-  /(?:docs\/delivery|\.\.\/delivery)\/tip-(?!status-index)[a-z0-9-]+\.md/gi;
+  /docs\/(?:delivery|ARCH)\//gi;
 
 /** Canonical architecture baseline fingerprint (must match dependency-snapshot.json). */
 export const ARCHITECTURE_BASELINE_DOC =
@@ -69,7 +55,7 @@ export const FINGERPRINT_REQUIRED_DOCS = [
   "docs/architecture/layer-registry.md",
 ] as const;
 
-/** ADRs that must be Accepted after TIP-000D closeout. */
+/** ADRs that must be Accepted after foundation documentation closeout. */
 export const REQUIRED_ACCEPTED_ADRS = [
   "docs/adr/ADR-0009-runtime-truth-before-roadmap.md",
   "docs/adr/ADR-0010-no-accounting-before-foundation-gate.md",
@@ -80,49 +66,8 @@ export const REQUIRED_ACCEPTED_ADRS = [
   "docs/adr/ADR-0016-fdr-delivery-authority.md",
 ] as const;
 
-/** Markers that must NOT appear — evidence of stale delivery doc. */
+/** Markers that must NOT appear — evidence of stale documentation. */
 export const STALE_DELIVERY_MARKERS = [
-  {
-    file: "docs/delivery/tips/[Complete] tip-ui-03-appshell-token-migration.md",
-    forbidden: ["Status: **Not started**"],
-    rule: "tip-ui-03-stale-status",
-  },
-  {
-    file: "docs/delivery/tips/[Complete] tip-ui-04-metadata-ui-renderers.md",
-    forbidden: [
-      "Status: **Not started**",
-      "zero React renderer implementations",
-      "no UI. This TIP delivers",
-    ],
-    rule: "tip-ui-04-stale-status",
-  },
-  {
-    file: "docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md",
-    forbidden: [
-      "Status: **Not started**",
-      "Status: **Partially Implemented**",
-      "No CSS import",
-      "Inline styles, native inputs",
-    ],
-    rule: "tip-ui-05-stale-status",
-  },
-  {
-    file: "docs/delivery/tips/[Complete] tip-006-appshell-authority.md",
-    forbidden: [
-      "**Status** | **Partially Implemented**",
-      "Authority contracts not frozen",
-      "Verdict\n\n**Partially Implemented**",
-    ],
-    rule: "tip-006-stale-verdict",
-  },
-  {
-    file: "docs/delivery/tips/[Complete] tip-008-master-data-authority.md",
-    forbidden: [
-      "| **Status** | **Partially Implemented**",
-      "| **Remaining gap** | TIP-008B runtime contracts deferred",
-    ],
-    rule: "tip-008-complete-stale-partial-claims",
-  },
   {
     file: "docs/architecture/authentication-ecosystem.md",
     forbidden: [
@@ -139,17 +84,6 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "runtime-matrix-stale-auth-v2-paths",
   },
 ] as const;
-
-/** Required markers when TIP-008 delivery doc is Complete (authority-only closeout). */
-export const TIP_008_COMPLETE_REQUIRED_MARKERS = [
-  "Complete (authority only)",
-  "Domain package schemas deferred",
-  "authority_only",
-  "business-master-data-authority.contract.ts",
-] as const;
-
-export const TIP_008_COMPLETE_DOC =
-  "docs/delivery/tips/[Complete] tip-008-master-data-authority.md" as const;
 
 /** Master plan must reference current authority artifacts. */
 export const MASTER_PLAN_REQUIRED_MARKERS = [

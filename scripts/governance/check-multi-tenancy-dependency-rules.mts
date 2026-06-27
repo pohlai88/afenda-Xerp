@@ -20,7 +20,6 @@ import {
 } from "../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,
@@ -37,7 +36,6 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const authorityRoot = join(repoRoot, "packages/architecture-authority");
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
 const registrySource = join(
   authorityRoot,

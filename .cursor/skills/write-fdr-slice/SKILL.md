@@ -28,8 +28,8 @@ disable-model-invocation: true
 
 Stop immediately and return a **repair report** (see §9) if any of these are true:
 
-1. Target FDR does not exist in `docs/delivery/FDR/`.
-2. FDR is not listed in `docs/delivery/fdr-status-index.md`.
+1. Target FDR does not exist in `docs/PAS/`.
+2. FDR is not listed in `docs/PAS/README.md`.
 3. Registry entry ID in FDR does not exist in `foundation-disposition.registry.ts`.
 4. `runtimeOwner` is missing from the registry entry.
 5. FDR has no Deliverables table.
@@ -46,11 +46,11 @@ Do not invoke `fdr-slice-implementer` until all hard stops are resolved.
 ## 1 · Pre-flight reads (mandatory, in order)
 
 ```
-1. docs/delivery/fdr-status-index.md          — confirm FDR in §FDR catalog
+1. docs/PAS/README.md          — confirm FDR in §FDR catalog
 2. foundation-disposition.registry.ts          — registry entry: runtimeOwner, gates, prohibited, allowedAgents
 3. enterprise-erp-standards/SKILL.md §2+§8+§10–§13 — controls, Clean Core, NFR, SoD
 4. docs/architecture/afenda-runtime-truth-matrix.md — upstream evidence state
-5. docs/delivery/FDR/[status] fdr-NNN-*.md    — target FDR: Purpose, Scope, Deliverables, Slices
+5. docs/PAS/[status] fdr-NNN-*.md    — target FDR: Purpose, Scope, Deliverables, Slices
 6. ADRs cited in FDR Purpose
 7. docs/architecture/package-registry.md      — PKG-NNN codes
 ```
@@ -63,7 +63,7 @@ Fill this table before writing the slice. It is the audit record for the handoff
 
 | Field | Value |
 | --- | --- |
-| FDR doc | `docs/delivery/FDR/[status] fdr-NNN-<slug>.md` |
+| FDR doc | `docs/PAS/[status] fdr-NNN-<slug>.md` |
 | FDR ID | `fdr-NNN-<slug>` |
 | Registry entry ID | `<PKGxxx_DOMAIN>` from `foundation-disposition.registry.ts` |
 | Slice number | N |
@@ -112,9 +112,9 @@ Include in Implementation slice DoD when touching Kernel identity or `enterprise
 **Always include sync files when slice changes runtime evidence or status:**
 
 ```
-docs/delivery/FDR/[status] fdr-NNN-<title>.md    (Modified)
+docs/PAS/[status] fdr-NNN-<title>.md    (Modified)
 docs/architecture/afenda-runtime-truth-matrix.md  (Modified — if evidence changes)
-docs/delivery/fdr-status-index.md                 (Modified — if status changes)
+docs/PAS/README.md                 (Modified — if status changes)
 docs/architecture/foundation-disposition.md        (Modified — if lane changes; via registry-owner)
 ```
 
@@ -147,7 +147,7 @@ docs/architecture/foundation-disposition.md        (Modified — if lane changes
 ## 4 · Handoff block format (9 fields — all required)
 
 ```
-Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
+Handoff from: docs/PAS/[status] fdr-NNN-<slug>.md
 
 1. Objective    — <one sentence; no vague language>
 2. Allowed layer— <runtimeOwner path or "docs-only" for Research/Evidence-sync>
@@ -187,7 +187,7 @@ Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
 #### Handoff block
 
 ```
-Handoff from: docs/delivery/FDR/[status] fdr-NNN-<slug>.md
+Handoff from: docs/PAS/[status] fdr-NNN-<slug>.md
 
 1. Objective    — ...
 2. Allowed layer— ...

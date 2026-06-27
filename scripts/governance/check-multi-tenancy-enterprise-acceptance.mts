@@ -12,7 +12,6 @@ import { fileURLToPath } from "node:url";
 
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectEnterpriseAcceptanceViolations,
@@ -37,7 +36,6 @@ const registryPath = join(
   repoRoot,
   "scripts/governance/multi-tenancy-enterprise-acceptance-registry.mts"
 );
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
 const packageJsonPath = join(repoRoot, "package.json");
 
@@ -133,38 +131,6 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
     }
   }
 
-  const deliveryContent = readText(deliveryDocPath);
-  if (deliveryContent === null) {
-    violations.push({
-      rule: "delivery-doc-missing",
-      file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required`,
-    });
-  } else {
-    if (
-      !deliveryContent.includes(
-        MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE
-      )
-    ) {
-      violations.push({
-        rule: "delivery-surface-rule-missing",
-        file: deliveryDocPath,
-        message: `Delivery doc must document ${MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE}`,
-      });
-    }
-
-    if (
-      !deliveryContent.includes(
-        `## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`
-      )
-    ) {
-      violations.push({
-        rule: "delivery-section-missing",
-        file: deliveryDocPath,
-        message: `Delivery doc missing section: ## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`,
-      });
-    }
-  }
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

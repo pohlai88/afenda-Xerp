@@ -1,26 +1,49 @@
-import { type Brand, unbrand } from "../brand/brand.contract.js";
-import {
-  brandTrimOptional,
-  brandTrimRequired,
-  parsePrimitive,
-} from "./primitive-brand.helpers.js";
+import { unbrand } from "../brand/brand.contract.js";
+import type { PrimitiveReference } from "./primitive-brand.contract.js";
+import { rejectIfMisclassifiedId } from "./primitive-brand.helpers.js";
 
-export type CurrencyCode = Brand<string, "CurrencyCode">;
+export type CurrencyCode = PrimitiveReference<"CurrencyCode">;
+
+const CURRENCY_CODE_PATTERN = /^[A-Z]{3}$/;
 
 export function parseCurrencyCode(value: string): CurrencyCode {
-  return parsePrimitive<"CurrencyCode">(value, "currencyCode");
+  const trimmed = value.trim();
+
+  rejectIfMisclassifiedId(trimmed, "CurrencyCode");
+
+  const raw = trimmed.toUpperCase();
+
+  if (!CURRENCY_CODE_PATTERN.test(raw)) {
+    throw new Error(
+      "CurrencyCode must be a 3-letter uppercase ISO-style code."
+    );
+  }
+
+  return raw as CurrencyCode;
 }
 
 export function brandCurrencyCode(
   value: string | CurrencyCode | null | undefined
 ): CurrencyCode | null {
-  return brandTrimOptional(value, "currencyCode") as CurrencyCode | null;
+  if (value == null) {
+    return null;
+  }
+
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  return parseCurrencyCode(value);
 }
 
 export function brandRequiredCurrencyCode(
   value: string | CurrencyCode
 ): CurrencyCode {
-  return brandTrimRequired(value, "currencyCode") as CurrencyCode;
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  return parseCurrencyCode(value);
 }
 
 export function toCurrencyCode(value: CurrencyCode): string {
@@ -33,5 +56,6 @@ export function normalizeCurrencyCodeForWire(
   if (value == null) {
     return null;
   }
+
   return typeof value === "string" ? value : toCurrencyCode(value);
 }

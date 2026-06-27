@@ -7,6 +7,9 @@ import {
 } from "../canonical/canonical-id-parser.contract.js";
 import type { EnterpriseIdFamily } from "../registry/id-family.registry.js";
 
+/** Plain-string canonical enterprise ID at JSON wire boundaries (ingress unparsed). */
+export type WireCanonicalId = string;
+
 export function parseWireCanonicalId<TFamily extends EnterpriseIdFamily>(
   value: string,
   family: TFamily

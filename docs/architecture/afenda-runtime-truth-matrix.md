@@ -10,7 +10,7 @@
 
 **Status vocabulary:** `implemented` · `partially-implemented` · `documented-only` · `runtime-only` · `drifted` · `obsolete` · `blocked`
 
-**Matrix vs FDR delivery (ADR-0016):** This matrix describes **runtime truth** (files, tests, gates). FDR docs under [`docs/delivery/FDR/`](../delivery/FDR/) describe **delivery authority** (Research attestation, §Remaining gaps, enterprise readiness). A row may be **implemented** while its FDR is **Not started** or **Partially Implemented** — that gap is an **improvement opportunity**, not a contradiction. Close it via FDR Research + Evidence-sync slices; do not copy matrix labels into FDR Status without gate-backed attestation.
+**Matrix vs FDR delivery (ADR-0016):** This matrix describes **runtime truth** (files, tests, gates). FDR docs under [`docs/PAS/`](../delivery/FDR/) describe **delivery authority** (Research attestation, §Remaining gaps, enterprise readiness). A row may be **implemented** while its FDR is **Not started** or **Partially Implemented** — that gap is an **improvement opportunity**, not a contradiction. Close it via FDR Research + Evidence-sync slices; do not copy matrix labels into FDR Status without gate-backed attestation.
 
 ---
 
@@ -30,6 +30,7 @@
 | **Metadata UI** | `packages/metadata-ui/` | [`fdr-012-metadata-renderers`](../delivery/FDR/[Partially%20Implemented]%20fdr-012-metadata-renderers.md) — Partially Implemented | **implemented** | Renderers + ERP `/metadata-workspace` route; production proof tests | Registry row `PKG012_METADATA_UI` pending | Registry-sync Slice 2 |
 | **Metadata Authority** | `packages/metadata/` | [`fdr-011-metadata-authority`](../delivery/FDR/[Partially%20Implemented]%20fdr-011-metadata-authority.md) — Partially Implemented | **implemented** | Contracts, registries, validation tests (153 tests) | Registry row `PKG011_METADATA` pending | Registry-sync Slice 2 |
 | **Kernel Execution Context** | `packages/kernel/src/context/` · `propagation/` · `events/` · `policy/` | [`fdr-010-context-contracts`](../delivery/FDR/[Partially%20Implemented]%20fdr-010-context-contracts.md) Partially Implemented · Slices 3–13 ✓ (2026-06-27) | **implemented** | 10 required context modules; PAS §11 enrichment (primitive brands, LocalizationContext, ProblemDetail, ExecutionContext trace, policy/events/propagation subpaths, LegalEntity brand migration); 106 PKG tests; `quality:kernel-context-surface` + 3 kernel governance gates exit 0 | DoD #14 peer review; Slice 6 `UomCode` (PAS approval) | Architecture Authority peer review |
+| **Kernel PAS/package-tree sync (Slice B)** | `packages/kernel/PAS-001-KERNEL-TREE.md` · `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md` §6.1 · `kernel-package-layout.contract.ts` · `kernel-boundary-drift.registry.ts` | [`pas-status-index.md`](../PAS/pas-status-index.md) · PAS-001 §6.1 | **implemented** | PAS canonical doc, package-local tree, skill adapter synchronized; stale `src/PAS-001-Kernal-tree.md` paths blocked by `check:kernel-package-structure`; kernel tests + layout gate exit 0 | Public API/export closure (Slice B18-6.3) | Kernel export parity slice |
 | **Platform Authority (TIP-007)** | `packages/kernel/src/contracts/platform/` | [`fdr-010-platform-authority`](../delivery/FDR/[Partially%20Implemented]%20fdr-010-platform-authority.md) 29/30 candidate | **implemented** | 11 ADR-0001 entities; governed barrel + drift tests | DoD #14 peer review before Complete | PR peer review |
 | **Kernel Identity Constitution (PAS §4.1)** | `packages/kernel/src/identity/` · [`ADR-0021`](../adr/ADR-0021-canonical-enterprise-identity.md)–[`0023`](../adr/ADR-0023-tenant-human-reference-numbering.md) | [`fdr-010-kernel-identity-constitution`](../delivery/FDR/fdr-010-kernel-identity-constitution.md) Doc note · Slice A–E ✓ (2026-06-27) | **implemented** (production-ready) | 22 enterprise families; 17 live platform tables with `enterprise_id`; tenant human refs (sku, warehouse_code); 10 identity drift gates via `check:kernel-identity-governance` | Deferred entity tables (customer, supplier, employee, document, asset) | **Domain FDRs** — master-data entity schemas |
 | **Multi-tenancy** | `docs/architecture/multi-tenancy.md`, `apps/erp/src/lib/context/` | [`fdr-007-operating-context`](../delivery/FDR/[Partially%20Implemented]%20fdr-007-operating-context.md) **28/30 audit · 29/30 ceiling** | **implemented** | Resolver pipeline; protected surface registry; RSC bridge audit; context-switch UX + session workspace hint merge (FR-A05.2); governed API RBAC; Slice 2 gate refresh 2026-06-25 | Dedicated operating-context matrix row deferred Slice 3 | Slice 3 Evidence-sync; peer review |
@@ -105,7 +106,7 @@ Future studio blocks: agents follow `afenda-shadcn-components` — not a separat
 
 **Missing directories (recorded, not invented):**
 
-- `docs/tip/` — does not exist; TIPs live in `docs/delivery/tips/[status] tip-*.md`
+- `docs/tip/` — does not exist; TIPs live in `docs/PAS/slice/[status] tip-*.md`
 - `docs/roadmap/` — does not exist; replaced by `pre-accounting-foundation-roadmap.md`
 - `packages/features-*` — no feature packages exist
 

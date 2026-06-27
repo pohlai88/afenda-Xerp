@@ -6,7 +6,7 @@ import type {
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-27-v13" as const;
+  "FOUNDATION-DISPOSITION-2026-06-27-v14" as const;
 
 const foundationDispositionEntries = [
   {
@@ -46,9 +46,7 @@ const foundationDispositionEntries = [
       "pnpm check:documentation-drift",
       "pnpm check:system-admin-mutation-audit",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-013-system-admin-control-plane.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG007_CONTEXT",
@@ -88,10 +86,7 @@ const foundationDispositionEntries = [
       "pnpm check:api-route-catalog",
       "pnpm check:documentation-drift",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-012-erp-operating-spine.md",
-      "docs/delivery/tips/[Complete] tip-007-012-enterprise-group-operating-context.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG013_AUDIT",
@@ -128,9 +123,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/observability test:run",
       "pnpm quality:erp-observability",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Superseded] tip-010-observability-audit.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG013_LOGGING",
@@ -174,9 +167,7 @@ const foundationDispositionEntries = [
       "pnpm quality:erp-observability",
       "pnpm check:erp-diagnostic-logging",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-012-erp-operating-spine.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG003_DATABASE",
@@ -203,9 +194,7 @@ const foundationDispositionEntries = [
       "pnpm quality:migrations",
       "pnpm check:database-tenant-rls-coverage",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-011-execution-foundation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG010_KERNEL",
@@ -230,9 +219,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/kernel typecheck",
       "pnpm quality:kernel-context-surface",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-007-erp-platform-authority.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG014_PERMISSIONS",
@@ -257,9 +244,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/permissions typecheck",
       "pnpm quality:permissions-scope-grants-surface",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-010-api-rbac-wiring.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG015_STORAGE",
@@ -295,9 +280,7 @@ const foundationDispositionEntries = [
       "pnpm quality:boundaries",
       "pnpm check:database-tenant-rls-coverage",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-011-execution-foundation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG008_EXECUTION",
@@ -322,9 +305,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/execution typecheck",
       "pnpm --filter @afenda/execution test:run",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-011-execution-foundation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG018_UI",
@@ -350,10 +331,7 @@ const foundationDispositionEntries = [
       "do-not-migrate-forwardref-before-adr-0008-accepted",
     ],
     gates: ["pnpm --filter @afenda/ui typecheck", "pnpm ui:guard:scan"],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-004-ui-consumption.md",
-      "docs/delivery/tips/[Blocked] tip-ui-06-react19-ref-as-prop.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG001_APPSHELL",
@@ -382,10 +360,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/appshell typecheck",
       "pnpm --filter @afenda/appshell check:governance",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-006-appshell-authority.md",
-      "docs/delivery/tips/[Complete] tip-ui-05-erp-app-surfaces.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG002_AUTH",
@@ -424,9 +399,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/auth test:run",
       "pnpm check:multi-tenancy-context-integration",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-010-api-rbac-wiring.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG009_FEATURE_FLAGS",
@@ -483,10 +456,7 @@ const foundationDispositionEntries = [
       "pnpm check:accounting-domain-contracts",
       "pnpm quality:boundaries",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete (authority only)] tip-014-accounting-core-contracts.md",
-      "docs/adr/ADR-0015-accounting-domain-contracts-only-activation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKGR02_INVENTORY",
@@ -530,9 +500,7 @@ const foundationDispositionEntries = [
       "pnpm check:api-contracts",
       "pnpm quality:boundaries",
     ],
-    legacyTipEvidence: [
-      "docs/adr/ADR-0019-inventory-domain-master-data-activation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG005_DOCS",
@@ -567,9 +535,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/docs typecheck",
       "pnpm --filter @afenda/docs test:run",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-032-implementation-documentation.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG006_ENTITLEMENTS",
@@ -625,9 +591,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/entitlements typecheck",
       "pnpm --filter @afenda/entitlements test:run",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-007a-feature-manifest-governance.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG011_METADATA",
@@ -661,9 +625,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/metadata typecheck",
       "pnpm --filter @afenda/metadata test:run",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete (authority only)] tip-005-metadata-authority.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG012_METADATA_UI",
@@ -700,9 +662,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/metadata-ui test:run",
       "pnpm ui:guard:scan",
     ],
-    legacyTipEvidence: [
-      "docs/delivery/tips/[Complete] tip-ui-04-metadata-ui-renderers.md",
-    ],
+    legacyTipEvidence: [],
   },
   {
     id: "PKG016_TESTING",
@@ -770,24 +730,27 @@ const foundationDispositionEntries = [
     legacyTipEvidence: [],
   },
   {
-    id: "TIP_ARCHIVE",
-    packageId: "TIP-ARCHIVE",
-    packageName: "docs/delivery/tips",
-    domain: "delivery-archive",
+    id: "PAS_AUTHORITY",
+    packageId: "PAS-001",
+    packageName: "docs/PAS",
+    domain: "package-authority-standards",
     lane: "archive-lane",
-    runtimeOwner: "docs/delivery",
-    authority: "ADR-0014",
+    runtimeOwner: "docs/PAS",
+    authority: "PAS-001",
     requiredBeforeAccounting: false,
-    evidence: ["docs/delivery/tip-status-index.md"],
-    knownGaps: [],
-    allowedAgents: ["foundation-registry-owner"],
-    prohibited: [
-      "do-not-treat-tip-docs-as-package-authority",
-      "do-not-implement-from-tip-without-registry-handoff",
-      "do-not-add-new-tip-authority-without-adr",
+    evidence: [
+      "docs/PAS/README.md",
+      "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
     ],
-    gates: [],
-    legacyTipEvidence: ["docs/delivery/tips/"],
+    knownGaps: [],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
+    prohibited: [
+      "do-not-author-canonical-pas-outside-docs-pas",
+      "do-not-duplicate-pas-long-form-in-package-src",
+      "do-not-implement-without-pas-slice-handoff",
+    ],
+    gates: ["pnpm check:documentation-drift"],
+    legacyTipEvidence: [],
   },
 ] as const satisfies readonly FoundationDispositionEntry[];
 

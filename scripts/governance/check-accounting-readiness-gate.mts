@@ -200,7 +200,7 @@ export function checkAccountingReadinessGateStructure(): AccountingReadinessGate
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: "TIP-013A delivery doc is required",
+      message: "Phase 9 accounting readiness sign-off doc is required",
     });
   }
 

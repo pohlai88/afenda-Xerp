@@ -22,11 +22,11 @@ State all six lines. Do **not** edit code until done:
 5. **Authority** — Architecture · Design System · UI Governance · Metadata · Kernel · Database · Permission
 6. **Acceptance gates** — which `pnpm` commands will run
 
-Before claiming "no pending decision" or "no migration planned", search **`docs/adr/`** and **`docs/delivery/`** — not PRs alone.
+Before claiming "no pending decision" or "no migration planned", search **`docs/adr/`** and **`docs/PAS/`** — not PRs alone.
 
 If upstream contract is missing: **stop and report**. No local registries, tokens, permissions, or tenant resolvers.
 
-**FDR (ADR-0014):** For foundation/package work, read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from FDR entry fields — not from new TIP markdown.
+**PAS:** For foundation/package work, read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from registry + `docs/PAS/slice/` handoffs.
 
 ## Phase 1 — implement
 

@@ -16,7 +16,7 @@ Delivery work was tracked across multiple artifacts with conflicting status:
 
 - Master plan v4 two-track model (Track A governance + Track B UI)
 - ADR-0001 Phase 1 TIP definitions (TIP-001–012)
-- Individual `docs/delivery/tips/[status] tip-*.md` files with stale statuses
+- Individual `docs/PAS/slice/[status] tip-*.md` files with stale statuses
 - Merged delivery doc `tip-007-012-enterprise-group-operating-context.md`
 
 AI agents need a **single ordered delivery sequence** with explicit phase gates — especially for the pre-accounting foundation that must complete before Accounting Core.
@@ -64,7 +64,7 @@ Missing directories (recorded, not created):
 - [x] Master plan v5 references foundation roadmap as delivery authority
 - [x] ADR-0010 accounting prohibition linked from roadmap Phase 9
 - [x] `docs/architecture/README.md` indexes foundation roadmap
-- [x] `docs/delivery/tip-status-index.md` published
+- [x] `docs/PAS/README.md` published
 
 ---
 

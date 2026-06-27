@@ -40,11 +40,11 @@
 
 | Item | Classification | Evidence | Recommended action |
 | --- | --- | --- | --- |
-| `docs/delivery/tip-status-index.md` | `keep-active` | Canonical TIP status authority; drift guard enforced | Maintain after every TIP PR |
-| `docs/delivery/tips/[Superseded] tip-010-observability-audit.md` | `keep-superseded` | Misnumbered; index row TIP-010† Superseded; banner present | **Done:** status → Superseded |
-| `docs/delivery/tips/[Superseded] tip-012-execution-foundation.md` | `keep-superseded` | Misnumbered; index row TIP-011† Superseded | **Done:** status → Superseded |
+| `docs/PAS/README.md` | `keep-active` | Canonical TIP status authority; drift guard enforced | Maintain after every TIP PR |
+| `docs/PAS/slice/[Superseded] tip-010-observability-audit.md` | `keep-superseded` | Misnumbered; index row TIP-010† Superseded; banner present | **Done:** status → Superseded |
+| `docs/PAS/slice/[Superseded] tip-012-execution-foundation.md` | `keep-superseded` | Misnumbered; index row TIP-011† Superseded | **Done:** status → Superseded |
 | `docs/delivery/README.md` | `keep-active` | Routes agents to index + `tips/` layout | No change |
-| `docs/delivery/tips/` | `keep-active` | TIP delivery docs with `[status]` filename prefix | Rename prefix when status changes |
+| `docs/PAS/slice/` | `keep-active` | TIP delivery docs with `[status]` filename prefix | Rename prefix when status changes |
 | Master plan v5 | `keep-active` | `_afenda-erp-master-plan.llms.md` v5.0.0; drift guard forbids v4 markers as current | Do not rewrite; fix stale refs only |
 | Master plan v4 Section 3 | `keep-superseded` | Referenced only as historical in ADR-0010, AGENTS.md warnings | Never cite as current truth |
 | `ARCH-BASELINE-2026-06-20-v1` | `obsolete` | Only in `documentation-drift-registry.mts` as forbidden marker | Do not reintroduce in registries |
@@ -82,8 +82,8 @@
 
 | Candidate | Why listed | Blocker to deletion |
 | --- | --- | --- |
-| `docs/delivery/tips/[Superseded] tip-010-observability-audit.md` | Misnumbered | ADR-0012 audit trail; superseded banner sufficient |
-| `docs/delivery/tips/[Superseded] tip-012-execution-foundation.md` | Misnumbered | Same |
+| `docs/PAS/slice/[Superseded] tip-010-observability-audit.md` | Misnumbered | ADR-0012 audit trail; superseded banner sufficient |
+| `docs/PAS/slice/[Superseded] tip-012-execution-foundation.md` | Misnumbered | Same |
 | `check:downstream-integration` script | Not in quality aggregator | May be intentional manual gate; has tests |
 | Git loose objects | Performance | Requires user-approved maintenance window |
 

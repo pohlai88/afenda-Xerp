@@ -25,42 +25,27 @@ disable-model-invocation: true
 
 | Phase | Action | Skill sections |
 |-------|--------|----------------|
-| **0 · Contract** | State §0 six lines; **paste Handoff from TIP doc if present**; check §0.1 hard stops; search `docs/adr/` + `docs/delivery/` before claiming no pending decision | §0, §0.0, §0.1, §0.2, §1 |
+| **0 · Contract** | State §0 six lines; **paste Handoff from PAS slice if present**; check §0.1 hard stops; search `docs/adr/` + `docs/PAS/` before claiming no pending decision | §0, §0.0, §0.1, §0.2, §1 |
 | **1 · Implement** | Edit only allowed files; follow layer order and implementation rules | §2 – §10 |
 | **2 · Evidence** | Post §11 Completion Report with pass/fail drift table and gates run | §11 |
 
 ---
 
-## 0.0 · Receiving handoff — FDR (active) and TIP archive (historical)
-
-### FDR — foundation and package work (ADR-0014, default after 2026-06-24)
+## 0.0 · Receiving handoff — PAS (active)
 
 When the task touches a foundation or domain package listed in [`foundation-disposition.registry.ts`](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts):
 
-1. Read [`foundation-delivery-authority.md`](../../../docs/architecture/foundation-delivery-authority.md) — workflow and authority hierarchy.
-2. Read the FDR entry: `lane`, `gates`, `prohibited`, `allowedAgents`, `runtimeOwner` (registry `knownGaps` deprecated — use FDR §Remaining gaps).
+1. Read [`foundation-delivery-authority.md`](../../../docs/architecture/foundation-delivery-authority.md) — PAS workflow and authority hierarchy.
+2. Read the registry entry: `lane`, `gates`, `prohibited`, `allowedAgents`, `runtimeOwner`.
 3. Read [`afenda-runtime-truth-matrix.md`](../../../docs/architecture/afenda-runtime-truth-matrix.md) for evidence status.
-4. Read target FDR under `docs/delivery/FDR/` when implementing — copy one §Handoff slice block into Phase 0.
-5. At session end, §11 Completion Report closes FDR §Remaining gaps + enterprise attestation (enterprise-erp-standards §9).
+4. Read parent PAS under `docs/PAS/` and target slice under `docs/PAS/slice/` — copy one §Handoff block into Phase 0.
+5. At session end, §11 Completion Report closes slice gaps + enterprise attestation (enterprise-erp-standards §9).
 
-**Do not author new TIP delivery docs** for foundation or package work. Registry edits → `foundation-registry-owner` only.
+**Do not author canonical standards outside `docs/PAS/`.** Registry edits → `foundation-registry-owner` only.
 
-### TIP archive — historical evidence only
+**Planning:** [pas-slice-planner](../pas-slice-planner/SKILL.md) · **Kernel:** [kernel-authority](../kernel-authority/SKILL.md)
 
-Completed TIPs under `docs/delivery/tips/[status] tip-*.md` are **archive-lane** evidence (Phases 0–9). Use only when:
-
-- Retrieving proof for a **already-delivered** slice, or
-- Explicitly invoked to re-run a numbered handoff (e.g. `tip-slice-implementer` on a closed TIP).
-
-For archived TIP handoffs:
-
-1. Read [`tip-status-index.md`](../../../docs/delivery/tip-status-index.md) — archive index, not implementation authority.
-2. Copy **one** §Handoff slice block if explicitly scoped to that historical TIP.
-3. Paste into Phase 0 — six lines must match the handoff block.
-
-**Do not start new foundation work** from TIP docs when FDR has an entry for the package.
-
-**Subagent:** For FDR slice execution use [fdr-slice-implementer](../agents/fdr-slice-implementer.md). For parallel batches use [fdr-orchestrator](../agents/fdr-orchestrator.md). For explicit historical TIP slice replay, use [tip-slice-implementer](../agents/tip-slice-implementer.md). For FDR-governed ad-hoc work, use [afenda-governed-implementer](../agents/afenda-governed-implementer.md).
+**Subagent:** [afenda-governed-implementer](../agents/afenda-governed-implementer.md) for governed ad-hoc work.
 
 ---
 
@@ -95,7 +80,7 @@ For archived TIP handoffs:
 - A change requires database schema changes but no migration ownership is defined.
 - A test requires mocking governance instead of using the canonical resolver.
 - The implementation would duplicate an existing registry, contract, route, capability, or policy.
-- You would claim "no pending decision" without searching **`docs/adr/`** and **`docs/delivery/`** (PR-only search is insufficient).
+- You would claim "no pending decision" without searching **`docs/adr/`** and **`docs/PAS/`** (PR-only search is insufficient).
 
 Drifting "just to make it work" is never acceptable. A blocked task reported honestly
 ranks above a silently completed task that crossed an authority boundary.

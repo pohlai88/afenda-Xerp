@@ -5,7 +5,7 @@
 | **Status** | **Withdrawn** — superseded by ARCH-AUTH-001 |
 | **Date** | 2026-06-25 |
 | **Owner** | Architecture Authority |
-| **Superseded by** | [`docs/ARCH/[Partially Implemented] ARCH-AUTH-001-enterprise-authentication.md`](../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
+| **Superseded by** | [`docs/PAS/[Partially Implemented] ARCH-AUTH-001-enterprise-authentication.md`](../ARCH/%5BPartially%20Implemented%5D%20ARCH-AUTH-001-enterprise-authentication.md) |
 
 ---
 

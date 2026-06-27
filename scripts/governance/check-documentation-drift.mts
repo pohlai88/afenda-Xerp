@@ -1,11 +1,11 @@
 #!/usr/bin/env tsx
 /**
- * Documentation drift guard (TIP-000D / ADR-0009, ADR-0012).
+ * Documentation drift guard (ADR-0009, PAS authority).
  *
  * Detects obvious stale documentation markers and missing authority index files.
  */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -21,16 +21,13 @@ import {
   MASTER_PLAN_FORBIDDEN_MARKERS,
   MASTER_PLAN_REQUIRED_MARKERS,
   OBSOLETE_BASELINE_FINGERPRINT,
+  PAS_KERNEL_STANDARD,
+  PAS_README,
+  PAS_SLICE_DIR,
   PRE_ACCOUNTING_ROADMAP,
   REQUIRED_ACCEPTED_ADRS,
   RUNTIME_TRUTH_MATRIX,
   STALE_DELIVERY_MARKERS,
-  TIP_008_COMPLETE_DOC,
-  TIP_008_COMPLETE_REQUIRED_MARKERS,
-  TIP_DELIVERY_TIPS_DIR,
-  TIP_STATUS_INDEX,
-  TIP_STATUS_INDEX_BASENAME,
-  TIP_STATUS_INDEX_TIPS_PATH_MARKER,
 } from "./documentation-drift-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -65,8 +62,9 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     PRE_ACCOUNTING_ROADMAP,
     MASTER_PLAN,
     DRIFT_AUDIT,
-    TIP_STATUS_INDEX,
-    TIP_DELIVERY_TIPS_DIR,
+    PAS_README,
+    PAS_KERNEL_STANDARD,
+    PAS_SLICE_DIR,
   ]) {
     if (!existsSync(join(repoRoot, requiredPath))) {
       violations.push({
@@ -121,7 +119,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     if (!adrIsAccepted(content)) {
       violations.push({
         file: adrPath,
-        message: `${adrPath} must be Accepted after TIP-000D closeout`,
+        message: `${adrPath} must be Accepted after foundation documentation closeout`,
         rule: "adr-not-accepted",
       });
     }
@@ -158,67 +156,6 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     }
   }
 
-  const tipStatusIndex = readText(TIP_STATUS_INDEX);
-  if (
-    tipStatusIndex &&
-    !tipStatusIndex.includes(TIP_STATUS_INDEX_TIPS_PATH_MARKER)
-  ) {
-    violations.push({
-      file: TIP_STATUS_INDEX,
-      message: `TIP status index must reference ${TIP_STATUS_INDEX_TIPS_PATH_MARKER} (tips/ layout with [status] prefixes)`,
-      rule: "tip-status-index-missing-tips-path",
-    });
-  }
-
-  const deliveryRoot = join(repoRoot, "docs/delivery");
-  if (existsSync(deliveryRoot)) {
-    for (const name of readdirSync(deliveryRoot)) {
-      if (
-        name.startsWith("tip-") &&
-        name.endsWith(".md") &&
-        name !== TIP_STATUS_INDEX_BASENAME
-      ) {
-        violations.push({
-          file: `docs/delivery/${name}`,
-          message:
-            "Legacy unprefixed TIP at docs/delivery root — move to docs/delivery/tips/[status] tip-*.md",
-          rule: "legacy-delivery-tip-at-root",
-        });
-      }
-    }
-  }
-
-  const tipsDirPath = join(repoRoot, TIP_DELIVERY_TIPS_DIR);
-  if (existsSync(tipsDirPath)) {
-    const tipBasenameGroups = new Map<string, string[]>();
-
-    for (const name of readdirSync(tipsDirPath)) {
-      if (!name.endsWith(".md")) {
-        continue;
-      }
-
-      const basenameMatch = name.match(/(tip-[a-z0-9-]+\.md)$/i);
-      if (!basenameMatch) {
-        continue;
-      }
-
-      const basename = basenameMatch[1].toLowerCase();
-      const existing = tipBasenameGroups.get(basename) ?? [];
-      existing.push(name);
-      tipBasenameGroups.set(basename, existing);
-    }
-
-    for (const [basename, files] of tipBasenameGroups) {
-      if (files.length > 1) {
-        violations.push({
-          file: `${TIP_DELIVERY_TIPS_DIR}/${files[0]}`,
-          message: `Duplicate TIP delivery files for ${basename}: ${files.join(", ")} — retain one canonical [status] prefix; supersede or remove stale copy`,
-          rule: "duplicate-tip-delivery-basename",
-        });
-      }
-    }
-  }
-
   for (const scanPath of LEGACY_DELIVERY_PATH_SCAN_FILES) {
     const content = readText(scanPath);
     if (!content) {
@@ -230,7 +167,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
       const unique = [...new Set(matches)];
       violations.push({
         file: scanPath,
-        message: `Legacy delivery path(s) without tips/ prefix: ${unique.join(", ")}`,
+        message: `Legacy delivery/ARCH path reference(s): ${unique.join(", ")} — use docs/PAS/ or docs/architecture/`,
         rule: "legacy-delivery-path-reference",
       });
     }
@@ -248,19 +185,6 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
           file: entry.file,
           message: `Stale delivery marker still present: ${forbidden}`,
           rule: entry.rule,
-        });
-      }
-    }
-  }
-
-  const tip008Complete = readText(TIP_008_COMPLETE_DOC);
-  if (tip008Complete) {
-    for (const marker of TIP_008_COMPLETE_REQUIRED_MARKERS) {
-      if (!tip008Complete.includes(marker)) {
-        violations.push({
-          file: TIP_008_COMPLETE_DOC,
-          message: `TIP-008 Complete doc missing authority-only marker: ${marker}`,
-          rule: "tip-008-complete-authority-only-marker-missing",
         });
       }
     }
