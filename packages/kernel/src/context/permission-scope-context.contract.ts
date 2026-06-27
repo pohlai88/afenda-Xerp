@@ -1,15 +1,18 @@
 /**
- * Operating-context composition slot for resolved permission grant scope.
+ * Resolved permission grant scope on `OperatingContext` — wire shape only.
  *
- * Canonical resolved type: `@afenda/permissions` `PermissionScopeContext`.
- * Kernel retains this wire slot so `OperatingContext` does not import `@afenda/permissions`.
+ * Resolver output and `requirePermission()` typing: `@afenda/permissions` `PermissionScopeContext`.
+ * Kernel retains this slot so `OperatingContext` does not import `@afenda/permissions`.
  */
 import type {
   PermissionGrantElevationFlags,
   PermissionGrantScopeType,
 } from "./permission-grant-vocabulary.contract.js";
 
-export interface OperatingContextPermissionScope {
+/** Wire-format alias — plain string ids, JSON-serializable at rest. */
+export type PermissionScopeWireContext = PermissionScopeContext;
+
+export interface PermissionScopeContext {
   readonly companyId: string | null;
   readonly elevations: PermissionGrantElevationFlags;
   readonly entityGroupId: string | null;
@@ -21,12 +24,6 @@ export interface OperatingContextPermissionScope {
   readonly teamId: string | null;
   readonly tenantId: string;
 }
-
-/** @deprecated Import `PermissionScopeContext` from `@afenda/permissions`. */
-export type PermissionScopeContext = OperatingContextPermissionScope;
-
-/** @deprecated Import `PermissionScopeWireContext` from `@afenda/permissions`. */
-export type PermissionScopeWireContext = OperatingContextPermissionScope;
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -43,8 +40,10 @@ type AssertJsonSerializable<T> = T extends JsonPrimitive
       : false;
 
 type _PermissionScopeWireSerializable =
-  AssertJsonSerializable<OperatingContextPermissionScope>;
+  AssertJsonSerializable<PermissionScopeWireContext>;
 
-/** @deprecated Use `@afenda/permissions` `assertPermissionScopeContextJsonSerializable`. */
+/**
+ * Compile-time guard — permission scope wire context must remain JSON-serializable.
+ */
 export type assertPermissionScopeContextJsonSerializable =
   _PermissionScopeWireSerializable extends true ? true : never;
