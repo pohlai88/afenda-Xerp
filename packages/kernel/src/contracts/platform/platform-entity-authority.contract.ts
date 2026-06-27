@@ -123,8 +123,8 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     entityId: "membership",
     displayName: "Membership",
     kernelContractPath:
-      "packages/kernel/src/context/operating-context-permission-scope.contract.ts",
-    kernelContractExport: "OperatingContextPermissionScope",
+      "packages/kernel/src/context/permission-scope-context.contract.ts",
+    kernelContractExport: "PermissionScopeContext",
     schemaPaths: ["packages/database/src/schema/membership.schema.ts"],
     authorizationConsumerPaths: [
       "packages/permissions/src/scope/membership.contract.ts",

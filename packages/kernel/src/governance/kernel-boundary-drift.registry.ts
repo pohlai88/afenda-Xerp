@@ -172,7 +172,7 @@ export const KERNEL_BOUNDARY_DRIFT_ENTRIES = {
       "packages/kernel/src/context/permission-scope-context.contract.ts",
     disposition: "relocate",
     ownerTarget:
-      "packages/permissions/src/scope/permission-scope-context.contract.ts",
+      "packages/permissions/src/scope/permission-scope-context.contract.ts (resolver canonical); packages/kernel/src/context/permission-scope-context.contract.ts (OperatingContext slot)",
     pasSection: KERNEL_BOUNDARY_DRIFT_PAS_SECTIONS.prohibitedOwnership,
     rationale:
       "Resolved grant scope passed to requirePermission() is authorization runtime shape — kernel keeps grant vocabulary (permission-grant-vocabulary.contract.ts) per §8; evaluation owner is @afenda/permissions.",

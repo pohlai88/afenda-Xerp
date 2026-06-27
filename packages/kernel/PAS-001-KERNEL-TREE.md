@@ -36,7 +36,7 @@ packages/kernel/
     │   ├── team-context.contract.ts                # ✅ TeamContext  ← shape only, not team DB
     │   ├── project-context.contract.ts             # ✅ ProjectContext
     │   ├── operating-context.contract.ts           # ✅ OperatingContext + error codes + selection hints
-    │   ├── operating-context-permission-scope.contract.ts # ✅ composition slot (canonical type → @afenda/permissions)
+    │   ├── permission-scope-context.contract.ts      # ✅ scope slot (resolver → @afenda/permissions)
     │   ├── consolidation-scope-context.contract.ts # ✅ ConsolidationScopeContext
     │   │
     │   │── ── §4.4 SUPPORT shapes / metadata ───────────────────────────────

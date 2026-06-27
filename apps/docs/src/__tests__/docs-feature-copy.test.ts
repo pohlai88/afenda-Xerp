@@ -70,7 +70,7 @@ describe("@afenda/docs feature copy overlays", () => {
       { inventory: { whenToUse: "Localized when to use" } }
     );
 
-    expect(merged.inventory).toEqual({
+    expect(merged["inventory"]).toEqual({
       summary: "English summary",
       whenToUse: "Localized when to use",
     });
@@ -80,7 +80,7 @@ describe("@afenda/docs feature copy overlays", () => {
     const en = readFeatureCopyOverlayFile(dataDir, "en");
     const zh = readFeatureCopyOverlayFile(dataDir, "zh");
 
-    expect(en?.inventory?.summary).toContain("Track stock levels");
-    expect(zh?.inventory?.summary).toContain("库存");
+    expect(en?.["inventory"]?.summary).toContain("Track stock levels");
+    expect(zh?.["inventory"]?.summary).toContain("库存");
   });
 });

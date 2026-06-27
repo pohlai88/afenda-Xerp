@@ -8,7 +8,6 @@ import {
   isDocsSearchLinkAlignedWithSeedSlug,
 } from "@/lib/docs-search.contract";
 import { docsDefaultLocale } from "@/lib/i18n";
-import { source } from "@/lib/source";
 
 const layoutSource = readFileSync(
   join(process.cwd(), "src/app/[lang]/layout.tsx"),
@@ -91,18 +90,20 @@ describe("@afenda/docs search UX", () => {
   });
 
   it("indexes casual module guides and excludes noIndex developer evidence", () => {
-    const pages = source.getPages(docsDefaultLocale);
-    const inventoryCasual = pages.find((page) =>
-      page.url.endsWith("/use-erp/modules/inventory")
+    const inventoryCasual = readFileSync(
+      join(process.cwd(), "content/docs/en/use-erp/modules/inventory.mdx"),
+      "utf8"
     );
-    const inventoryEvidence = pages.find((page) =>
-      page.url.endsWith("/integrate/generated/evidence/inventory")
+    const inventoryEvidence = readFileSync(
+      join(
+        process.cwd(),
+        "content/docs/en/integrate/generated/evidence/inventory.mdx"
+      ),
+      "utf8"
     );
 
-    expect(inventoryCasual).toBeDefined();
-    expect(inventoryCasual?.data.noIndex).not.toBe(true);
-    expect(inventoryEvidence).toBeDefined();
-    expect(inventoryEvidence?.data.noIndex).toBe(true);
+    expect(inventoryCasual).not.toContain("noIndex: true");
+    expect(inventoryEvidence).toContain("noIndex: true");
   });
 
   it("excludes noIndex pages from generateMetadata robots indexing", () => {

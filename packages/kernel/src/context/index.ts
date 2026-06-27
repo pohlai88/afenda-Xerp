@@ -92,12 +92,6 @@ export {
   type OperatingContextLayerKind,
   type OperatingContextProhibitedKernelBehavior,
 } from "./operating-context-hierarchy.contract.js";
-export type {
-  assertPermissionScopeContextJsonSerializable,
-  OperatingContextPermissionScope,
-  PermissionScopeContext,
-  PermissionScopeWireContext,
-} from "./operating-context-permission-scope.contract.js";
 // ── 5. Organization unit ─────────────────────────────────────────────────────
 export {
   ORGANIZATION_UNIT_TYPES,
@@ -122,6 +116,11 @@ export {
   type PermissionGrantElevationFlags,
   type PermissionGrantScopeType,
 } from "./permission-grant-vocabulary.contract.js";
+export type {
+  assertPermissionScopeContextJsonSerializable,
+  PermissionScopeContext,
+  PermissionScopeWireContext,
+} from "./permission-scope-context.contract.js";
 // ── 7. Project ───────────────────────────────────────────────────────────────
 export {
   PROJECT_LIFECYCLE_STATUSES,

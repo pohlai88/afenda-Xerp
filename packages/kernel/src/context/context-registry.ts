@@ -3,11 +3,14 @@
  * `docs/architecture/multi-tenancy.md` (Step 4 §522–536, Kernel §354–369).
  *
  * Naming (PAS-001 §4.4):
- * - `{layer}-context.contract.ts` — serializable operating-context **shape** only
+ * - `{layer}-context.contract.ts` — structural operating-context **shape** only
+ * - `{scope}-scope-context.contract.ts` — grant/metadata scope slots on `OperatingContext`
+ * - `operating-context.contract.ts` — composed operating context root
  * - `lifecycle.contract.ts` — shared lifecycle vocabulary for context shapes
+ * - `permission-grant-vocabulary.contract.ts` — grant-scope words (not resolved scope records)
  * - `operating-context-hierarchy.contract.ts` / `enterprise-hierarchy.contract.ts` — layer metadata
  * - `hierarchy-id-boundary.contract.ts` — wire id parse/normalize at trust boundaries
- * - `*-resolution.ts` / `*.policy.ts` — derivation or merge **behavior** (owner: apps/erp)
+ * - `*-resolution.ts` / `*.policy.ts` — derivation or merge **behavior** (owner: apps/erp; must not live here)
  */
 export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
   {
@@ -43,8 +46,8 @@ export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
     primaryType: "OperatingContext",
   },
   {
-    file: "operating-context-permission-scope.contract.ts",
-    primaryType: "OperatingContextPermissionScope",
+    file: "permission-scope-context.contract.ts",
+    primaryType: "PermissionScopeContext",
   },
   {
     file: "consolidation-scope-context.contract.ts",
