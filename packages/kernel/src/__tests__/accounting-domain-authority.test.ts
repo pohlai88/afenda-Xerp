@@ -7,14 +7,14 @@ import {
   ACCOUNTING_PACKAGE_LIFECYCLE,
   ACCOUNTING_REGISTRY_ID,
   isAccountingPackageLifecyclePhase,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 
 describe("@afenda/kernel accounting-domain authority (ADR-0020)", () => {
   it("declares contracts-only authority metadata in kernel", () => {
     expect(ACCOUNTING_REGISTRY_ID).toBe("PKG-R01");
     expect(ACCOUNTING_AUTHORITY_ADR).toBe("ADR-0020");
     expect(ACCOUNTING_PACKAGE_LIFECYCLE).toBe("contracts-only");
-    expect(ACCOUNTING_CONTRACTS_OWNER).toContain("contracts/accounting-domain");
+    expect(ACCOUNTING_CONTRACTS_OWNER).toContain("erp-domain/accounting");
     expect(ACCOUNTING_AUTHORITY_FINGERPRINT).toBe(
       "ACCOUNTING-AUTHORITY-2026-06-27-v1"
     );

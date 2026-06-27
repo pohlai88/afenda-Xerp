@@ -18,15 +18,15 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 ---
 
-## Architecture Authority PAS-002 slice closure (B1–B11)
+## Architecture Authority PAS-002 slice closure (B1–B26)
 
 | Field | Value |
 | --- | --- |
 | **Status** | Complete |
 | **Authority** | PAS-002 §4–§6 · §14, `architecture-authority-package-layout.contract.ts`, `architecture-authority-surface-registry.ts` |
 | **Runtime evidence** | `packages/architecture-authority/src/`, `.cursor/skills/architecture-authority/` |
-| **Gates** | `pnpm --filter @afenda/architecture-authority test:run`, `pnpm check:architecture-authority-surface`, `pnpm quality:architecture`, `pnpm check:foundation-disposition` |
-| **Result** | PAS-002 §4.1–§4.12 runtime, §6 layout contract, agent skill chain, canonical doc sync, and slice handoffs B1–B11 are synchronized |
+| **Gates** | `pnpm --filter @afenda/architecture-authority test:run`, `pnpm check:architecture-authority-surface`, `pnpm quality:architecture`, `pnpm check:foundation-disposition`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
+| **Result** | PAS-002 §4.1–§4.12 runtime, §6 layout contract, 9 ValidationGate composite, ADR-0006 lifecycle enforcement (deterministic reference + span), agent skill chain, and slice handoffs B1–B27 are synchronized |
 
 | Slice | PAS § | Doc | Status |
 | --- | --- | --- | --- |
@@ -41,5 +41,19 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B9 | §6 Package structure | [`b9-6-package-structure-and-exports.md`](slice/b9-6-package-structure-and-exports.md) | Delivered |
 | B10 | §14 Agent skill | [`b10-architecture-authority-skill.md`](slice/b10-architecture-authority-skill.md) | Delivered |
 | B11 | §4.11 Canonical doc sync | [`b11-canonical-doc-registry-sync.md`](slice/b11-canonical-doc-registry-sync.md) | Delivered |
+| B12 | §4.6 Exception contract | [`b12-4.6-exception-contract-alignment.md`](slice/b12-4.6-exception-contract-alignment.md) | Delivered |
+| B13 | §4.7 Composite disposition | [`b13-4.7-composite-gate-foundation-disposition.md`](slice/b13-4.7-composite-gate-foundation-disposition.md) | Delivered |
+| B14 | §4.11 Validator surface | [`b14-4.11-validator-surface-parity.md`](slice/b14-4.11-validator-surface-parity.md) | Delivered |
+| B15 | §4.9 Lifecycle enforcement | [`b15-4.9-lifecycle-enforcement.md`](slice/b15-4.9-lifecycle-enforcement.md) | Delivered |
+| B18 | §0 Disposition row | [`b18-pkgr02-architecture-authority-disposition.md`](slice/b18-pkgr02-architecture-authority-disposition.md) | Delivered |
+| B19 | §4.3 Ownership parity | [`b19-4.3-ownership-registry-parity.md`](slice/b19-4.3-ownership-registry-parity.md) | Delivered |
+| B20 | §6.3 Map immutability | [`b20-registry-map-immutability.md`](slice/b20-registry-map-immutability.md) | Delivered |
+| B21 | §14 Doc/runtime parity | [`b21-14-doc-runtime-parity.md`](slice/b21-14-doc-runtime-parity.md) | Delivered |
+| B22 | §3.3 Import boundary | [`b22-3.3-governance-import-boundary.md`](slice/b22-3.3-governance-import-boundary.md) | Delivered |
+| B23 | §4.10 BMD comment sync | [`b23-4.10-bmd-authority-comment-sync.md`](slice/b23-4.10-bmd-authority-comment-sync.md) | Delivered |
+| B24 | §14 Skill/runtime parity | [`b24-14-skill-runtime-parity.md`](slice/b24-14-skill-runtime-parity.md) | Delivered |
+| B25 | §4.9 Lifecycle expiry metadata | [`b25-4.9-lifecycle-expiry-metadata.md`](slice/b25-4.9-lifecycle-expiry-metadata.md) | Delivered |
+| B26 | §4.9 Lifecycle determinism | [`b26-4.9-lifecycle-determinism.md`](slice/b26-4.9-lifecycle-determinism.md) | Delivered |
+| B27 | §4.4 Disposition coverage | [`b27-4.4-disposition-coverage-gap-closure.md`](slice/b27-4.4-disposition-coverage-gap-closure.md) | Delivered |
 
-**Notes:** §4.8 dependency registry, §4.9 lifecycle registry, §4.11 surface registry, and §4.12 workspace discovery are covered by the runtime-delivered row and B5/B7 evidence paths — no separate slice IDs in PAS-002 §12.
+**Notes:** §4.8 dependency registry and §4.12 workspace discovery remain covered by the runtime-delivered row and B5/B7 evidence paths.

@@ -86,7 +86,7 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_STEPS = [
       "Add generic lifecycle / approval / document-state vocabulary only if cross-package and non-domain-specific.",
     evidencePaths: [
       "packages/kernel/src/context/lifecycle.contract.ts",
-      "packages/kernel/src/contracts/accounting-domain/posting-status.contract.ts",
+      "packages/kernel/src/erp-domain/accounting/posting-status.contract.ts",
     ],
     gateScripts: [],
   },

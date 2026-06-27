@@ -75,16 +75,23 @@ export interface DocsFeatureEvidenceGraph {
   }[];
 }
 
-export type FeatureCopyOverlayEntry = Readonly<{
-  readonly summary?: string;
-  readonly title?: string;
-  readonly whenToUse?: string;
-  readonly adminCallout?: string;
-}>;
+export const featureCopyOverlayEntrySchema = z.object({
+  summary: z.string().min(1).optional(),
+  title: z.string().min(1).optional(),
+  whenToUse: z.string().min(1).optional(),
+  adminCallout: z.string().min(1).optional(),
+});
 
-export type FeatureCopyOverlay = Readonly<
-  Record<string, FeatureCopyOverlayEntry>
+export const featureCopyOverlaySchema = z.record(
+  z.string().min(1),
+  featureCopyOverlayEntrySchema
+);
+
+export type FeatureCopyOverlayEntry = z.infer<
+  typeof featureCopyOverlayEntrySchema
 >;
+
+export type FeatureCopyOverlay = z.infer<typeof featureCopyOverlaySchema>;
 
 export const featureManifestOverrideEntrySchema = z.object({
   extraProductRoutes: z.array(z.string().min(1)).optional(),

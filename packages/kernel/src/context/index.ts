@@ -3,12 +3,6 @@
  * Order follows multi-tenancy authority hierarchy (tenant → consolidation).
  */
 
-// ── Accounting-readiness vocabulary (shape only) ───────────────────────────────
-export type {
-  AccountingReadinessContext,
-  AccountingReadinessWireContext,
-  assertAccountingReadinessContextJsonSerializable,
-} from "./accounting-readiness-context.contract.js";
 // ── 10. Consolidation scope ──────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type ConsolidationScopeContext` export substring
 export {

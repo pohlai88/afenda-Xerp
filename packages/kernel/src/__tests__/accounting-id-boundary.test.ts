@@ -9,7 +9,7 @@ import {
   toFiscalPeriodId,
   toJournalEntryId,
   toLedgerAccountCode,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 
 describe("accounting id boundary branding", () => {
   it("brands required accounting identifiers", () => {

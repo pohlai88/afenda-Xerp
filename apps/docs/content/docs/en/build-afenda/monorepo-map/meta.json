@@ -5,6 +5,7 @@
     "index",
     "docs-contracts",
     "docs-i18n-contract",
-    "repo-inventory"
+    "repo-inventory",
+    "package-registry"
   ]
 }

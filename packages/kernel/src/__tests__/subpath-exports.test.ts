@@ -6,7 +6,7 @@ import {
 import {
   ACCOUNT_TYPES,
   isAccountType,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 import type { DomainEvent } from "../events/index.js";
 import {
   KERNEL_DECISION_MATRIX_POLICY,
@@ -32,7 +32,7 @@ import { kernelContext } from "../propagation/index.js";
 const PAS_64_REQUIRED_SUBPATH_KEYS = [
   ".",
   "./context",
-  "./accounting-domain",
+  "./erp-domain/accounting",
   "./propagation",
   "./events",
   "./policy",
@@ -46,7 +46,7 @@ describe("@afenda/kernel subpath exports", () => {
     expect(PAS_64_REQUIRED_SUBPATH_KEYS).toEqual([
       ".",
       "./context",
-      "./accounting-domain",
+      "./erp-domain/accounting",
       "./propagation",
       "./events",
       "./policy",
@@ -76,7 +76,7 @@ describe("@afenda/kernel subpath exports", () => {
     expect(smoke.correlationId).toBe("corr-smoke");
   });
 
-  it("exposes accounting-domain vocabulary from ./accounting-domain", () => {
+  it("exposes accounting ERP domain vocabulary from ./erp-domain/accounting", () => {
     expect(ACCOUNT_TYPES.length).toBeGreaterThan(0);
     expect(isAccountType("asset")).toBe(true);
     expect(isAccountType("not-an-account-type")).toBe(false);

@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v14` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v16` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -51,6 +51,11 @@
 | PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see fdr-009-rollout-flags |
 | PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see fdr-r01-accounting-contracts |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see fdr-r02-inventory-master-data |
+| PKG004_DESIGN | `@afenda/design-system` | amber-lane | no | see design authority |
+| PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
+| PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
+| PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
+| PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002 |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).

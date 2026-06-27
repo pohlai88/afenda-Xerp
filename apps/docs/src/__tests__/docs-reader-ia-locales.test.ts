@@ -35,6 +35,8 @@ describe("@afenda/docs reader IA locales", () => {
       }
 
       expect(meta.pages).not.toContain("build-afenda");
+      expect(meta.pages).not.toContain("(guides)");
+      expect(meta.pages).not.toContain("apps");
     });
 
     it(`${locale} reader section meta aligns with docsReaderSections contract`, () => {

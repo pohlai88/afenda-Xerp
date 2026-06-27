@@ -27,6 +27,18 @@ const LEGACY_REDIRECTS = [
     source: "/:lang/docs/api-reference/:path*",
     destination: "/:lang/docs/integrate/internal-v1/:path*",
   },
+  {
+    source: "/:lang/docs/(guides)/getting-started",
+    destination: "/:lang/docs/build-afenda/getting-started",
+  },
+  {
+    source: "/:lang/docs/(guides)/monorepo-map/:path*",
+    destination: "/:lang/docs/build-afenda/monorepo-map/:path*",
+  },
+  {
+    source: "/:lang/docs/(guides)/api-reference/:path*",
+    destination: "/:lang/docs/integrate/internal-v1/:path*",
+  },
 ] as const;
 
 describe("@afenda/docs legacy URL redirects", () => {

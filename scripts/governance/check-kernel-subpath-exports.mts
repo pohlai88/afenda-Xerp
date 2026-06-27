@@ -34,10 +34,10 @@ const PAS_64_SUBPATH_BARRELS = {
     distImport: "./dist/context/index.js",
     distTypes: "./dist/context/index.d.ts",
   },
-  "./accounting-domain": {
-    srcBarrel: "packages/kernel/src/contracts/accounting-domain/index.ts",
-    distImport: "./dist/contracts/accounting-domain/index.js",
-    distTypes: "./dist/contracts/accounting-domain/index.d.ts",
+  "./erp-domain/accounting": {
+    srcBarrel: "packages/kernel/src/erp-domain/accounting/index.ts",
+    distImport: "./dist/erp-domain/accounting/index.js",
+    distTypes: "./dist/erp-domain/accounting/index.d.ts",
   },
   "./propagation": {
     srcBarrel: "packages/kernel/src/propagation/index.ts",
@@ -70,7 +70,7 @@ const PAS_64_SUBPATH_BARRELS = {
 export const PAS_64_REQUIRED_SUBPATHS = {
   ".": PAS_64_SUBPATH_BARRELS["."],
   "./context": PAS_64_SUBPATH_BARRELS["./context"],
-  "./accounting-domain": PAS_64_SUBPATH_BARRELS["./accounting-domain"],
+  "./erp-domain/accounting": PAS_64_SUBPATH_BARRELS["./erp-domain/accounting"],
   "./propagation": PAS_64_SUBPATH_BARRELS["./propagation"],
   "./events": PAS_64_SUBPATH_BARRELS["./events"],
   "./policy": PAS_64_SUBPATH_BARRELS["./policy"],

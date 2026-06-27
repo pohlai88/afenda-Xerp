@@ -1,17 +1,16 @@
-import { describe, expect, it } from "vitest";
-
-import {
-  type AccountingReadinessContext,
-  type AccountingReadinessWireContext,
-  type assertAccountingReadinessContextJsonSerializable,
-  isOwnershipInterestEffectiveAt,
-  type LegalEntityContext,
-  type OwnershipInterestContext,
-} from "../context/index.js";
 import {
   brandRequiredCountryCode,
   brandRequiredCurrencyCode,
-} from "../identity/index.js";
+  type LegalEntityContext,
+  type OwnershipInterestContext,
+} from "@afenda/kernel";
+import { describe, expect, it } from "vitest";
+
+import type {
+  AccountingReadinessContext,
+  AccountingReadinessWireContext,
+  assertAccountingReadinessContextJsonSerializable,
+} from "../accounting-readiness-context.types.js";
 
 const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
   ownershipInterestId: "oi-1",
@@ -47,29 +46,6 @@ const SAMPLE_LEGAL_ENTITY: LegalEntityContext = {
   effectiveTo: null,
   status: "active",
 };
-
-describe("isOwnershipInterestEffectiveAt", () => {
-  it("returns true for active interests within the effective window", () => {
-    expect(
-      isOwnershipInterestEffectiveAt(SAMPLE_OWNERSHIP_INTEREST, "2026-06-01")
-    ).toBe(true);
-  });
-
-  it("returns false before effectiveFrom", () => {
-    expect(
-      isOwnershipInterestEffectiveAt(SAMPLE_OWNERSHIP_INTEREST, "2025-12-31")
-    ).toBe(false);
-  });
-
-  it("returns false after effectiveTo", () => {
-    expect(
-      isOwnershipInterestEffectiveAt(
-        { ...SAMPLE_OWNERSHIP_INTEREST, effectiveTo: "2026-05-31" },
-        "2026-06-01"
-      )
-    ).toBe(false);
-  });
-});
 
 type _AccountingReadinessWireGuard =
   assertAccountingReadinessContextJsonSerializable;

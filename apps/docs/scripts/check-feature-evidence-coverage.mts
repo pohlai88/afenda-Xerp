@@ -18,10 +18,8 @@ import type {
   PermissionsCatalog,
   SystemAdminCatalog,
 } from "../src/lib/docs-product-catalog.contract.ts";
-import type {
-  FeatureCopyOverlay,
-  FeatureManifestOverrides,
-} from "../src/lib/docs-feature-manifest.contract.ts";
+import { resolveDocsFeatureCopy } from "../src/lib/i18n/resolve-docs-locale-messages.ts";
+import type { FeatureManifestOverrides } from "../src/lib/docs-feature-manifest.contract.ts";
 import { bindOpenApiOperationsToManifests } from "../src/lib/docs-openapi-manifest-bindings.ts";
 import { mergeFeatureManifestsWithPlatformApi } from "../src/lib/docs-openapi-platform-manifests.ts";
 import {
@@ -41,15 +39,9 @@ function readJson<T>(fileName: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
-function readOptionalOverlay(): FeatureCopyOverlay | undefined {
-  const path = join(docsDataDir, "feature-copy.overlay.json");
-  if (!existsSync(path)) {
-    return undefined;
-  }
-  const payload = JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
-  return Object.fromEntries(
-    Object.entries(payload).filter(([key]) => !key.startsWith("_"))
-  ) as FeatureCopyOverlay;
+function readLocaleFeatureCopy() {
+  const featureCopy = resolveDocsFeatureCopy("en");
+  return Object.keys(featureCopy).length > 0 ? featureCopy : undefined;
 }
 
 function readManifestOverrides(): FeatureManifestOverrides | undefined {
@@ -69,7 +61,7 @@ function main(): void {
   const authRoutes = readJson<AuthRoutesCatalog>("auth-routes.catalog.json");
   const systemAdmin = readJson<SystemAdminCatalog>("system-admin.catalog.json");
   const permissions = readJson<PermissionsCatalog>("permissions.catalog.json");
-  const overlay = readOptionalOverlay();
+  const overlay = readLocaleFeatureCopy();
   const overrides = readManifestOverrides();
 
   const surfaces = discoverErpAppSurfaces(repoRoot);

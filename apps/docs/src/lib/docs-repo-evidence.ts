@@ -1,5 +1,15 @@
-import { globSync } from "node:fs";
+import { existsSync, globSync, readFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
+
+export interface PackageRegistryRow {
+  readonly id: string;
+  readonly packageName: string;
+  readonly path: string;
+  readonly layer: string;
+  readonly lifecycle: string;
+  readonly purpose: string;
+  readonly status: string;
+}
 
 export interface DocsAppSurface {
   readonly file: string;
@@ -152,6 +162,98 @@ ${errorItems || '    <File name="(none discovered)" />'}
 </Files>`;
 }
 
+export function parsePackageRegistryMarkdown(source: string): PackageRegistryRow[] {
+  const rows: PackageRegistryRow[] = [];
+  let inActiveSection = false;
+
+  for (const line of source.split("\n")) {
+    if (line.startsWith("## Active Registry")) {
+      inActiveSection = true;
+      continue;
+    }
+
+    if (inActiveSection && line.startsWith("## ")) {
+      break;
+    }
+
+    if (!inActiveSection || !line.startsWith("| PKG-")) {
+      continue;
+    }
+
+    const cells = line
+      .split("|")
+      .map((cell) => cell.trim())
+      .filter((cell) => cell.length > 0);
+
+    if (cells.length < 9) {
+      continue;
+    }
+
+    rows.push({
+      id: cells[0] ?? "",
+      packageName: cells[1] ?? "",
+      path: cells[2] ?? "",
+      layer: cells[3] ?? "",
+      lifecycle: cells[4] ?? "",
+      purpose: cells[5] ?? "",
+      status: cells[8] ?? "",
+    });
+  }
+
+  return rows;
+}
+
+export function readPackageRegistryRows(
+  root = resolveDocsRepoRoot()
+): PackageRegistryRow[] {
+  const registryPath = join(root, "docs/architecture/package-registry.md");
+
+  if (!existsSync(registryPath)) {
+    return [];
+  }
+
+  return parsePackageRegistryMarkdown(readFileSync(registryPath, "utf8"));
+}
+
+export function renderPackageRegistryBody(
+  rows: readonly PackageRegistryRow[],
+  options: { readonly fingerprint?: string; readonly activeCount?: number } = {}
+): string {
+  const tableRows = rows
+    .map(
+      (row) =>
+        `| ${row.id} | ${row.packageName} | ${row.path} | ${row.layer} | ${row.lifecycle} | ${row.status} | ${row.purpose} |`
+    )
+    .join("\n");
+
+  const fingerprint = options.fingerprint ?? "unknown";
+  const activeCount = options.activeCount ?? rows.length;
+
+  return `# Workspace package registry
+
+Machine-synced from [\`docs/architecture/package-registry.md\`](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/package-registry.md). Regenerate with \`pnpm sync:product-docs\`.
+
+| Field | Value |
+| --- | --- |
+| Active workspaces | ${activeCount} |
+| Baseline fingerprint | \`${fingerprint}\` |
+
+Full disposition lanes and prohibited rules live in [\`foundation-disposition.md\`](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/foundation-disposition.md) — this page is the workspace inventory only.
+
+## Active packages
+
+| ID | Package | Path | Layer | Lifecycle | Status | Purpose |
+| --- | --- | --- | --- | --- | --- | --- |
+${tableRows || "| — | — | — | — | — | — | — |"}
+
+## Related
+
+- [Monorepo runtime inventory](/docs/build-afenda/monorepo-map/repo-inventory) — ERP routes and catalog counts
+- [Monorepo map](/docs/build-afenda/monorepo-map) — engineer navigation summary
+- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) — evidence-backed status
+`;
+}
+
 export function renderRepoInventoryBody(graph: DocsRepoEvidenceGraph): string {
   const { erpAppSurfaces, catalogCounts } = graph;
   const pageCount = erpAppSurfaces.filter((surface) => surface.kind === "page").length;
@@ -181,6 +283,7 @@ ${renderRepoRouteTree(erpAppSurfaces)}
 - [ERP modules reference](/docs/integrate/generated/modules)
 - [Environment variables reference](/docs/operate-tenant/generated/env)
 - [Module feature evidence](/docs/integrate/generated/evidence)
+- [Workspace package registry](/docs/build-afenda/monorepo-map/package-registry)
 
 ## Source evidence
 

@@ -15,10 +15,10 @@
       "import": "./dist/context/index.js",
       "default": "./dist/context/index.js"
     },
-    "./accounting-domain": {
-      "types": "./dist/contracts/accounting-domain/index.d.ts",
-      "import": "./dist/contracts/accounting-domain/index.js",
-      "default": "./dist/contracts/accounting-domain/index.js"
+    "./erp-domain/accounting": {
+      "types": "./dist/erp-domain/accounting/index.d.ts",
+      "import": "./dist/erp-domain/accounting/index.js",
+      "default": "./dist/erp-domain/accounting/index.js"
     },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",

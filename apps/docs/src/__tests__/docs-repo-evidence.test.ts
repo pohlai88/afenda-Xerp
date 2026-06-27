@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildRepoEvidenceGraph,
   discoverErpAppSurfaces,
+  readPackageRegistryRows,
+  renderPackageRegistryBody,
 } from "@/lib/docs-repo-evidence";
 
 describe("docs repo evidence", () => {
@@ -40,5 +42,23 @@ describe("docs repo evidence", () => {
       modules: 3,
       envVariables: 4,
     });
+  });
+
+  it("parses active package rows from package-registry.md", () => {
+    const rows = readPackageRegistryRows();
+    expect(rows.length).toBeGreaterThan(20);
+    expect(rows.some((row) => row.packageName === "`@afenda/ai-governance`")).toBe(
+      true
+    );
+    expect(
+      rows.some((row) => row.packageName === "`@afenda/architecture-authority`")
+    ).toBe(true);
+  });
+
+  it("renders package registry body with ai-governance row", () => {
+    const rows = readPackageRegistryRows();
+    const body = renderPackageRegistryBody(rows, { fingerprint: "test-fp" });
+    expect(body).toContain("@afenda/ai-governance");
+    expect(body).toContain("test-fp");
   });
 });

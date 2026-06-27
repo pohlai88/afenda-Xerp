@@ -3,6 +3,7 @@ import type {
   PackageContract,
   PackageDefinition,
 } from "../contracts/package.contract.js";
+import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 
 const ACTIVE_PACKAGES = [
   {
@@ -254,7 +255,7 @@ const ACTIVE_PACKAGES = [
     layer: "Domain",
     lifecycle: "retired",
     purpose:
-      "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/accounting-domain",
+      "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/erp-domain/accounting",
     publicApiOwner: "Accounting Authority",
     layerDepExempt: false,
     filesystemRequired: false,
@@ -311,6 +312,7 @@ export const packageContract: PackageContract = {
   packages: [...ACTIVE_PACKAGES],
 };
 
-export const packageByName = new Map(
-  packageContract.packages.map((pkg) => [pkg.packageName, pkg])
-);
+export const packageByName: ReadonlyMap<string, PackageDefinition> =
+  createReadonlyLookupMap(
+    packageContract.packages.map((pkg) => [pkg.packageName, pkg] as const)
+  );

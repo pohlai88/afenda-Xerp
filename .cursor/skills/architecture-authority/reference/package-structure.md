@@ -91,6 +91,7 @@ Two keys — root plus surface subpath (PAS §6.2):
 | `dependency-registry.data.ts` | Approved runtime dependency edges |
 | `lifecycle-registry.data.ts` | Package lifecycle closed union |
 | `exception-registry.data.ts` | ADR architecture exceptions |
+| `create-readonly-lookup-map.ts` | Immutable registry lookup map factory (B20) |
 | `foundation-disposition.registry.ts` | FDR/TIP/PAS disposition lanes (ADR-0014) |
 | `business-master-data-authority.registry.ts` | ADR-0020 entity → domain package map |
 | `business-master-data-*.policy.ts` | Scaffold/import/shared-package guards |
@@ -110,6 +111,9 @@ Two keys — root plus surface subpath (PAS §6.2):
 | `validate-ownership.ts` | Ownership completeness |
 | `validate-exceptions.ts` | Exception registry integrity |
 | `validate-foundation-disposition.ts` | Foundation disposition integrity |
+| `validate-lifecycle.ts` | Lifecycle policy + inactive lifecycle rows (ADR-0006) |
+
+**Immutable lookups (B20):** `create-readonly-lookup-map.ts` wraps `packageByName`, `ownershipByPackage`, and internal disposition lookup maps.
 
 ---
 

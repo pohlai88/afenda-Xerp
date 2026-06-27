@@ -55,6 +55,46 @@ const nextConfig: NextConfig = {
         destination: "/:lang/docs/integrate/internal-v1/:path*",
         permanent: true,
       },
+      {
+        source: "/:lang/docs/(guides)/getting-started",
+        destination: "/:lang/docs/build-afenda/getting-started",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/getting-started/:path*",
+        destination: "/:lang/docs/build-afenda/getting-started/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/monorepo-map",
+        destination: "/:lang/docs/build-afenda/monorepo-map",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/monorepo-map/:path*",
+        destination: "/:lang/docs/build-afenda/monorepo-map/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/contributing",
+        destination: "/:lang/docs/build-afenda/contributing",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/contributing/:path*",
+        destination: "/:lang/docs/build-afenda/contributing/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/api-reference",
+        destination: "/:lang/docs/integrate/internal-v1",
+        permanent: true,
+      },
+      {
+        source: "/:lang/docs/(guides)/api-reference/:path*",
+        destination: "/:lang/docs/integrate/internal-v1/:path*",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

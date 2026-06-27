@@ -1,7 +1,7 @@
 ---
 pas_id: PAS-002
 package: "@afenda/architecture-authority"
-layer: Foundation
+layer: Platform
 runtime_stance: contracts-only
 registry_lane: PKGR02_ARCHITECTURE_AUTHORITY
 skill: architecture-authority
@@ -46,7 +46,7 @@ slice_dir: docs/PAS/slice/
 | Field             | Value                                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------------------ |
 | Package           | `@afenda/architecture-authority`                                                                             |
-| Layer             | Foundation                                                                                                   |
+| Layer             | Platform                                                                                                     |
 | Package role      | Defines package registry, layer authority, ownership, dependency rules, drift rules, and architecture gates. |
 | Runtime stance    | contracts-only                                                                                               |
 | Package owner     | Architecture Authority                                                                                       |
@@ -310,9 +310,7 @@ Approved runtime dependency edges between workspace packages. Consumed by `valid
 
 **Authority:** PAS-002 §4.9
 **Implementation:** `packages/architecture-authority/src/data/lifecycle-registry.data.ts`
-**Slice gate:** Delivered (runtime)
-
-Closed-union lifecycle states for registered packages (active, deprecated, blocked, planned). Consumed by registry and ownership validators.
+**Slice gate:** Delivered (runtime) — `validateLifecycle()` composite gate with ADR-0006 expiry metadata and deterministic reference (Slices B15, B25, B26)
 
 ## 4.10 Business Master Data Authority
 
@@ -379,9 +377,11 @@ packages/architecture-authority/
 │   ├── index.ts
 │   ├── contracts/
 │   │   ├── architecture-authority-version.ts
+│   │   ├── architecture-authority-package-layout.contract.ts
 │   │   ├── dependency.contract.ts
 │   │   ├── exception.contract.ts
 │   │   ├── foundation-disposition.contract.ts
+│   │   ├── iso8601-utc-timestamp.ts
 │   │   ├── layer.contract.ts
 │   │   ├── lifecycle.contract.ts
 │   │   ├── ownership.contract.ts
@@ -395,6 +395,7 @@ packages/architecture-authority/
 │   │   ├── dependency-registry.data.ts
 │   │   ├── lifecycle-registry.data.ts
 │   │   ├── exception-registry.data.ts
+│   │   ├── create-readonly-lookup-map.ts
 │   │   ├── foundation-disposition.registry.ts
 │   │   ├── business-master-data-authority.registry.ts
 │   │   ├── business-master-data-scaffold.policy.ts
@@ -409,7 +410,8 @@ packages/architecture-authority/
 │   │   ├── validate-cycles.ts
 │   │   ├── validate-ownership.ts
 │   │   ├── validate-exceptions.ts
-│   │   └── validate-foundation-disposition.ts
+│   │   ├── validate-foundation-disposition.ts
+│   │   └── validate-lifecycle.ts
 │   ├── surface/
 │   │   ├── index.ts
 │   │   └── architecture-authority-surface-registry.ts
@@ -660,6 +662,13 @@ Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §
 | `b12-4.6-exception-contract-alignment.md` | B12 | §4.6 | Delivered | Implementation | B6 |
 | `b19-4.3-ownership-registry-parity.md` | B19 | §4.3 | Delivered | Implementation | B13 |
 | `b21-14-doc-runtime-parity.md` | B21 | §14 | Delivered | Evidence-sync | B14 |
+| `b18-pkgr02-architecture-authority-disposition.md` | B18 | §0 | Delivered | Registry-sync | B21 |
+| `b20-registry-map-immutability.md` | B20 | §6.3 | Delivered | Implementation | B18 |
+| `b15-4.9-lifecycle-enforcement.md` | B15 | §4.9 | Delivered | Implementation | B7 |
+| `b24-14-skill-runtime-parity.md` | B24 | §14 | Delivered | Evidence-sync | B15,B20 |
+| `b25-4.9-lifecycle-expiry-metadata.md` | B25 | §4.9 | Delivered | Implementation | B15 |
+| `b26-4.9-lifecycle-determinism.md` | B26 | §4.9 | Delivered | Implementation | B25 |
+| `b27-4.4-disposition-coverage-gap-closure.md` | B27 | §4.4 | Delivered | Registry-sync | B18 |
 
 Slice naming: `b<N>-<pas-section>-<slug>.md`.
 

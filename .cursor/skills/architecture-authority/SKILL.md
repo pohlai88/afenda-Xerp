@@ -274,7 +274,7 @@ pnpm check:architecture-authority-surface
 | Governance | Canonical architecture doc + snapshot sync | Pass |
 | Runtime safety | No request-time side effects in package | Pass |
 | ERP readiness | New packages require registry + ownership + layer rows | Pass |
-| Documentation | PAS-002 slice handoffs B1–B11 | **Delivered** |
+| Documentation | PAS-002 slice handoffs B1–B25 | **Delivered** |
 | Documentation | Package-local tree `PAS-002-ARCHITECTURE-TREE.md` | **Delivered** |
 | Governance | Surface registry includes all BMD data modules | **Delivered** |
 | Agent | Skill + reference chain (this file) | **Delivered** |

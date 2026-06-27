@@ -66,4 +66,18 @@ describe("@afenda/docs i18n charter", () => {
     const flatMeta = join(process.cwd(), "content/docs/meta.json");
     expect(existsSync(flatMeta)).toBe(false);
   });
+
+  it("uses Fumadocs defineTranslations with language packs", () => {
+    const translationsSource = readFileSync(
+      join(process.cwd(), "src/lib/docs-ui-translations.ts"),
+      "utf8"
+    );
+
+    expect(translationsSource).toContain(".translations()");
+    expect(translationsSource).toContain("uiTranslations()");
+    expect(translationsSource).toContain("openapiTranslations()");
+    expect(translationsSource).toContain("@fumadocs/language/zh-cn");
+    expect(translationsSource).toContain("afendaFeedbackTranslations()");
+    expect(translationsSource).toContain("resolveAfendaFeedbackTranslationsByLocale()");
+  });
 });

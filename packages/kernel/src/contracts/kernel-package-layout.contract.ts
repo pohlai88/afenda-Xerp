@@ -10,6 +10,41 @@ export const KERNEL_PACKAGE_PAS_SECTIONS = {
   exports: "6.4",
 } as const;
 
+/**
+ * PAS folder boundary — why `context/` and `contracts/` both exist:
+ *
+ * - `context/` — §4.4 operating-context hierarchy shapes + scope slots on
+ *   `OperatingContext` (public `@afenda/kernel/context`). Shapes only — no resolvers.
+ * - `contracts/` — cross-cutting platform wire vocabulary (Result, AppError,
+ *   ExecutionContext, ProblemDetail). Not operating-context stack modules.
+ * - `erp-domain/` — §4.8 ERP domain vocabulary modules (`accounting/`, …).
+ *   Public subpath: `@afenda/kernel/erp-domain/{module}`.
+ */
+export const KERNEL_SRC_FOLDER_BOUNDARY = {
+  context: "operating-context-shapes",
+  contracts: "platform-wire-vocabulary",
+  erpDomain: "erp-domain-vocabulary",
+} as const;
+
+/** Repo-relative paths that must not reappear after relocation slices. */
+export const RETIRED_KERNEL_REPO_PATHS = [
+  "packages/kernel/src/context/consolidation-scope-resolution.ts",
+  "packages/kernel/src/context/consolidation-scope-investee-merge.policy.ts",
+  "packages/kernel/src/context/runtime-module-path.ts",
+  "packages/kernel/src/context/accounting-readiness-context.contract.ts",
+  "packages/kernel/src/context/accounting-readiness.contract.ts",
+  "packages/kernel/src/context/untrusted-client-authority.contract.ts",
+  "packages/kernel/src/contracts/business-master-data/business-master-data-authority.contract.ts",
+  "packages/kernel/src/contracts/business-master-data/business-master-data-id-boundary.contract.ts",
+  "packages/kernel/src/contracts/business-master-data/business-master-data-import-boundary.policy.ts",
+  "packages/kernel/src/contracts/business-master-data/business-master-data-shared-package.policy.ts",
+  "packages/kernel/src/contracts/business-master-data/index.ts",
+  "packages/kernel/src/contracts/accounting-domain/index.ts",
+  "packages/kernel/src/contracts/accounting-domain/bridge/to-accounting-domain-context.ts",
+] as const;
+
+export type RetiredKernelRepoPath = (typeof RETIRED_KERNEL_REPO_PATHS)[number];
+
 /** Only `index.ts` may live at `packages/kernel/src/` root. */
 export const KERNEL_PACKAGE_SRC_ROOT_BARREL = "index.ts" as const;
 
@@ -17,6 +52,7 @@ export const KERNEL_PACKAGE_SRC_ROOT_BARREL = "index.ts" as const;
 export const KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL = [
   "contracts",
   "context",
+  "erp-domain",
   "governance",
   "identity",
   "permission",
@@ -53,6 +89,8 @@ export const KERNEL_PACKAGE_TARGET_PATHS = [
   "packages/kernel/src/governance/kernel-contract-rules.policy.ts",
   "packages/kernel/src/governance/kernel-runtime-rules.contract.ts",
   "packages/kernel/src/governance/kernel-implementation-sequence.contract.ts",
+  "packages/kernel/src/erp-domain/erp-domain-layout.contract.ts",
+  "packages/kernel/src/erp-domain/accounting/index.ts",
 ] as const;
 
 export type KernelPackageTargetPath =
@@ -73,7 +111,7 @@ export type KernelPackageProhibitedPath =
 /** Registered package.json subpath exports (PAS §6.3 / §6.4). Root `.` is implicit. */
 export const KERNEL_PACKAGE_SUBPATH_EXPORTS = [
   "./context",
-  "./accounting-domain",
+  "./erp-domain/accounting",
   "./propagation",
   "./events",
   "./policy",
@@ -99,6 +137,8 @@ export type KernelPackageLayoutProhibitedPattern =
 
 export const KERNEL_PACKAGE_LAYOUT_POLICY = {
   pasSections: KERNEL_PACKAGE_PAS_SECTIONS,
+  folderBoundary: KERNEL_SRC_FOLDER_BOUNDARY,
+  retiredRepoPaths: RETIRED_KERNEL_REPO_PATHS,
   srcRootBarrel: KERNEL_PACKAGE_SRC_ROOT_BARREL,
   currentSrcTopLevel: KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL,
   targetPaths: KERNEL_PACKAGE_TARGET_PATHS,
@@ -107,6 +147,8 @@ export const KERNEL_PACKAGE_LAYOUT_POLICY = {
   prohibitedPatterns: KERNEL_PACKAGE_LAYOUT_PROHIBITED_PATTERNS,
 } as const satisfies {
   readonly pasSections: typeof KERNEL_PACKAGE_PAS_SECTIONS;
+  readonly folderBoundary: typeof KERNEL_SRC_FOLDER_BOUNDARY;
+  readonly retiredRepoPaths: readonly RetiredKernelRepoPath[];
   readonly srcRootBarrel: typeof KERNEL_PACKAGE_SRC_ROOT_BARREL;
   readonly currentSrcTopLevel: readonly KernelPackageCurrentSrcTopLevel[];
   readonly targetPaths: readonly KernelPackageTargetPath[];

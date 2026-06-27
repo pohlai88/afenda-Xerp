@@ -1,0 +1,32 @@
+/**
+ * Afenda Docs — editorial material tokens for MDX blocks.
+ * Maps PALETTE-REFERENCE primitives; consumed by docs-editorial-blocks.css.
+ */
+
+:root {
+  --docs-editorial-canvas: oklch(0.985 0.003 95);
+  --docs-editorial-paper: oklch(0.998 0.001 95);
+  --docs-editorial-text: oklch(0.18 0.006 260);
+  --docs-editorial-text-muted: oklch(0.46 0.01 260);
+  --docs-editorial-border: oklch(0.88 0.006 95);
+  --docs-editorial-border-subtle: oklch(0.92 0.004 95);
+  --docs-editorial-surface-muted: oklch(0.955 0.004 95);
+  --docs-editorial-surface-hover: oklch(0.935 0.005 95);
+  --docs-editorial-prose-accent: oklch(0.48 0.17 254);
+  --docs-editorial-callout-warn: oklch(0.52 0.12 75);
+  --docs-editorial-ring: oklch(0.52 0.06 255);
+}
+
+.dark {
+  --docs-editorial-canvas: oklch(0.155 0.004 260);
+  --docs-editorial-paper: oklch(0.18 0.004 260);
+  --docs-editorial-text: oklch(0.93 0.004 95);
+  --docs-editorial-text-muted: oklch(0.68 0.006 260);
+  --docs-editorial-border: oklch(0.31 0.006 260);
+  --docs-editorial-border-subtle: oklch(0.25 0.005 260);
+  --docs-editorial-surface-muted: oklch(0.205 0.005 260);
+  --docs-editorial-surface-hover: oklch(0.235 0.006 260);
+  --docs-editorial-prose-accent: oklch(0.72 0.14 254);
+  --docs-editorial-callout-warn: oklch(0.72 0.1 75);
+  --docs-editorial-ring: oklch(0.72 0.055 255);
+}

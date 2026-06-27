@@ -5,7 +5,7 @@ import {
   ACCOUNTING_PERMISSION_DOMAINS,
   ACCOUNTING_PERMISSION_KEY_VOCABULARY,
   toAccountingPermissionKey,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 
 describe("ACCOUNTING_PERMISSION vocabulary", () => {
   it("declares coa, fiscalPeriod, and journal domains", () => {

@@ -56,14 +56,21 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/entitlements", "entitlements", {
       "@afenda/database": "workspace:*",
     }),
+    workspace("@afenda/email", "email"),
     workspace("@afenda/erp", "erp", {
       "@afenda/appshell": "workspace:*",
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
       "@afenda/design-system": "workspace:*",
+      "@afenda/entitlements": "workspace:*",
+      "@afenda/execution": "workspace:*",
+      "@afenda/feature-flags": "workspace:*",
+      "@afenda/kernel": "workspace:*",
       "@afenda/metadata": "workspace:*",
       "@afenda/metadata-ui": "workspace:*",
       "@afenda/observability": "workspace:*",
+      "@afenda/permissions": "workspace:*",
+      "@afenda/storage": "workspace:*",
       "@afenda/ui": "workspace:*",
     }),
     workspace("@afenda/execution", "execution", {
@@ -83,6 +90,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/permissions", "permissions", {
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
+      "@afenda/kernel": "workspace:*",
     }),
     workspace("@afenda/storybook", "storybook", {
       "@afenda/appshell": "workspace:*",

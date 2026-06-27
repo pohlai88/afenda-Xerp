@@ -31,6 +31,15 @@ export const docsReaderSections = [
   docsBuildAfendaSection,
 ] as const;
 
+/** Non-English root `meta.json` pages — reader IA only (no build-afenda). */
+export const docsLocalizedReaderRootPages = [
+  "index",
+  "use-erp",
+  "configure-tenant",
+  "operate-tenant",
+  "integrate",
+] as const;
+
 export type DocsReaderSectionId = (typeof docsReaderSections)[number];
 
 /**
@@ -111,6 +120,7 @@ export const docsSeedSections = [
     title: "Integrate",
     subpages: [
       { slug: ["integrate", "internal-v1"], id: "internal-v1" },
+      { slug: ["integrate", "generated"], id: "generated" },
     ],
   },
   {
@@ -140,6 +150,14 @@ export const docsSeedSections = [
       {
         slug: [docsBuildAfendaSection, "monorepo-map", "docs-i18n-contract"],
         id: "docs-i18n-contract",
+      },
+      {
+        slug: [docsBuildAfendaSection, "monorepo-map", "repo-inventory"],
+        id: "repo-inventory",
+      },
+      {
+        slug: [docsBuildAfendaSection, "monorepo-map", "package-registry"],
+        id: "package-registry",
       },
     ],
   },

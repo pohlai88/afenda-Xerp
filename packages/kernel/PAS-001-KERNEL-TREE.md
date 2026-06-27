@@ -43,7 +43,6 @@ packages/kernel/
     │   ├── workspace-context.contract.ts           # ✅ WorkspaceContext
     │   ├── surface-context.contract.ts             # ✅ SurfaceContext (shape only)
     │   ├── workflow-context.contract.ts            # ✅ WorkflowContext (shape only)
-    │   ├── accounting-readiness-context.contract.ts # ✅ AccountingReadinessContext
     │   ├── localization-context.contract.ts        # ✅ §4.5 LocalizationContext + wire parse/serialize
     │   ├── lifecycle.contract.ts                   # ✅ Shared PlatformLifecycleStatus
     │   ├── enterprise-hierarchy.contract.ts        # ✅ Tier metadata (persisted vs derived)
@@ -124,20 +123,22 @@ packages/kernel/
     │   │   └── __tests__/
     │   └── __tests__/                    # 🧪 module-location, identity-boundary
     │
-    ├── contracts/                        # ✅ CANON — shared platform contracts
-    │   ├── result.contract.ts            # ✅ Result type
-    │   ├── app-error.contract.ts         # ✅ App error surface
+    ├── contracts/                        # ✅ CANON — platform wire vocabulary (not §4.4 context slots)
+    │   ├── result.contract.ts            # ✅ §4.2 Result type
+    │   ├── app-error.contract.ts         # ✅ §4.2 App error surface
     │   ├── problem-detail.contract.ts    # ✅ RFC 9457 problem detail
     │   ├── json-wire.contract.ts         # ✅ JsonValue wire types
-    │   ├── execution-context.contract.ts # ✅ execution context shape
+    │   ├── execution-context.contract.ts # ✅ §4.3 execution context shape
     │   ├── execution-context.policy.contract.ts
-    │   ├── kernel-package-layout.contract.ts  # 📋 §6.1 runtime layout authority
+    │   ├── kernel-package-layout.contract.ts  # 📋 §6.1 layout + context/contracts boundary
     │   │
-    │   ├── platform/
-    │   │   ├── platform-entity-authority.contract.ts  # ✅ §4.6 Platform entity map
-    │   │   └── index.ts
-    │   │
-    │   └── accounting-domain/            # ✅ §4.8 vocabulary subpath (@afenda/kernel/accounting-domain)
+    │   └── platform/
+    │       ├── platform-entity-authority.contract.ts  # ✅ §4.6 Platform entity map
+    │       └── index.ts
+    │
+    ├── erp-domain/                         # ✅ §4.8 ERP domain vocabulary modules
+    │   ├── erp-domain-layout.contract.ts   # 📋 module registry (accounting, future inventory, …)
+    │   └── accounting/                     # ✅ @afenda/kernel/erp-domain/accounting
     │       ├── accounting-authority.contract.ts
     │       ├── accounting-domain-vocabulary.registry.ts
     │       ├── accounting-domain-vocabulary.policy.ts
@@ -197,6 +198,7 @@ packages/kernel/
 ```text
 apps/erp/src/lib/context/
 ├── untrusted-client-authority.server.ts
+├── accounting-readiness-context.types.ts       # AccountingReadinessContext (gate layer shape)
 ├── accounting-readiness.projection.ts          # toAccountingReadinessContext / toAccountingDomainContext
 ├── consolidation-scope-resolution.server.ts    # deriveConsolidationScopeContext
 ├── consolidation-scope-investee-merge.policy.ts
@@ -214,4 +216,4 @@ apps/erp/src/lib/context/
 
 | Path | Target |
 |------|--------|
-| `contracts/accounting-domain/accounting-id.contract.ts` | ⛔ quarantine until Finance ADR |
+| `erp-domain/accounting/accounting-id.contract.ts` | ⛔ quarantine until Finance ADR |

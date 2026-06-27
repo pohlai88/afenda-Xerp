@@ -4,7 +4,7 @@ import {
   ACCOUNTING_AUDIT_ACTIONS,
   isAccountingAuditAction,
   parseAccountingAuditAction,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 
 describe("ACCOUNTING_AUDIT_ACTIONS vocabulary", () => {
   it("uses observability-compatible module.action dot notation", () => {

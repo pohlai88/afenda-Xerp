@@ -2,6 +2,7 @@ import type {
   OwnershipContract,
   PackageOwnership,
 } from "../contracts/ownership.contract.js";
+import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 
 const OWNERSHIP_ROWS = [
   {
@@ -152,6 +153,9 @@ export const ownershipContract: OwnershipContract = {
   }),
 };
 
-export const ownershipByPackage = new Map(
-  ownershipContract.packages.map((entry) => [entry.packageName, entry])
-);
+export const ownershipByPackage: ReadonlyMap<string, PackageOwnership> =
+  createReadonlyLookupMap(
+    ownershipContract.packages.map(
+      (entry) => [entry.packageName, entry] as const
+    )
+  );

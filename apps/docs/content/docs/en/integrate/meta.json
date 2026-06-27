@@ -4,6 +4,7 @@
   "pages": [
     "index",
     "modules",
-    "internal-v1"
+    "internal-v1",
+    "generated"
   ]
 }

@@ -10,6 +10,8 @@ export {
 export {
   ARCHITECTURE_AUTHORITY_VERSION,
   ARCHITECTURE_BASELINE_FINGERPRINT,
+  ARCHITECTURE_VALIDATION_REFERENCE_ISO,
+  resolveArchitectureValidationReferenceMs,
 } from "./contracts/architecture-authority-version.js";
 export type {
   DependencyClassification,
@@ -26,6 +28,7 @@ export type {
   FoundationLane,
 } from "./contracts/foundation-disposition.contract.js";
 export { FOUNDATION_LANES } from "./contracts/foundation-disposition.contract.js";
+export { parseIso8601UtcTimestamp } from "./contracts/iso8601-utc-timestamp.js";
 export type { LayerContract } from "./contracts/layer.contract.js";
 export type {
   LifecycleContract,
@@ -39,6 +42,7 @@ export type {
 } from "./contracts/ownership.contract.js";
 export type {
   ArchitectureLayer,
+  Iso8601UtcTimestamp,
   PackageContract,
   PackageDefinition,
   PackageRegistryStatus,
@@ -132,6 +136,10 @@ export {
 export { validateForbiddenDependencies } from "./validators/validate-forbidden-dependencies.js";
 export { validateFoundationDisposition } from "./validators/validate-foundation-disposition.js";
 export { validateLayers } from "./validators/validate-layers.js";
+export {
+  collectLifecycleViolations,
+  validateLifecycle,
+} from "./validators/validate-lifecycle.js";
 export {
   findMissingOwnershipViolations,
   validateOwnership,

@@ -134,6 +134,11 @@ export const ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES = [
     role: "Foundation disposition registry integrity (ADR-0014)",
     primaryExports: ["validateFoundationDisposition"],
   },
+  {
+    path: "validators/validate-lifecycle.ts",
+    role: "Lifecycle policy and registry status enforcement (ADR-0006)",
+    primaryExports: ["validateLifecycle"],
+  },
 ] as const;
 
 /** Human-readable docs that must stay aligned with registry data. */

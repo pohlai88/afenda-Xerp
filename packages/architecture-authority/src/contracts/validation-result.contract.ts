@@ -6,7 +6,8 @@ export type ValidationGate =
   | "forbidden-dependencies"
   | "cycles"
   | "exceptions"
-  | "foundation-disposition";
+  | "foundation-disposition"
+  | "lifecycle";
 
 export interface ArchitectureViolation {
   readonly gate: ValidationGate;

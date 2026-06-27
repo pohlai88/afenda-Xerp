@@ -1,15 +1,15 @@
-/**
- * PAS-001 §4.4 — accounting-readiness **operating-context shape** (serializable slice).
- *
- * Gate pass/fail, diagnostics, and projection live in `apps/erp` — kernel defines
- * cross-package fields only (same line as `team-context`, `tenant-context`, etc.).
- */
-import type { ConsolidationScopeContext } from "./consolidation-scope-context.contract.js";
-import type { EntityGroupContext } from "./entity-group-context.contract.js";
-import type { LegalEntityContext } from "./legal-entity-context.contract.js";
-import type { OrganizationUnitContext } from "./organization-unit-context.contract.js";
-import type { OwnershipInterestContext } from "./ownership-interest-context.contract.js";
+import type {
+  ConsolidationScopeContext,
+  EntityGroupContext,
+  LegalEntityContext,
+  OrganizationUnitContext,
+  OwnershipInterestContext,
+} from "@afenda/kernel";
 
+/**
+ * ERP accounting-readiness operating-context slice — projected from resolved
+ * `OperatingContext` at the trust boundary (PAS-001 §4.4 gate layer).
+ */
 export interface AccountingReadinessContext {
   readonly baseCurrency: string;
   readonly consolidationScope: ConsolidationScopeContext | null;

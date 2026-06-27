@@ -2,11 +2,12 @@ import type {
   FoundationDispositionEntry,
   FoundationDispositionRegistry,
 } from "../contracts/foundation-disposition.contract.js";
+import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-27-v14" as const;
+  "FOUNDATION-DISPOSITION-2026-06-27-v16" as const;
 
 const foundationDispositionEntries = [
   {
@@ -431,13 +432,13 @@ const foundationDispositionEntries = [
     packageName: "@afenda/kernel",
     domain: "accounting-contracts",
     lane: "green-lane",
-    runtimeOwner: "packages/kernel/src/contracts/accounting-domain",
+    runtimeOwner: "packages/kernel/src/erp-domain/accounting",
     authority: "ADR-0020",
     requiredBeforeAccounting: false,
     evidence: [
-      "packages/kernel/src/contracts/accounting-domain/index.ts",
-      "packages/kernel/src/contracts/accounting-domain/accounting-authority.contract.ts",
-      "packages/kernel/src/contracts/accounting-domain/bridge/to-accounting-domain-context.ts",
+      "packages/kernel/src/erp-domain/accounting/index.ts",
+      "packages/kernel/src/erp-domain/accounting/accounting-authority.contract.ts",
+      "apps/erp/src/lib/context/accounting-readiness.projection.ts",
       "scripts/governance/accounting-domain-contracts-registry.mts",
       "scripts/governance/check-accounting-domain-contracts.mts",
       "docs/adr/ADR-0020-master-data-authority-consolidation.md",
@@ -730,6 +731,168 @@ const foundationDispositionEntries = [
     legacyTipEvidence: [],
   },
   {
+    id: "PKG004_DESIGN",
+    packageId: "PKG-004",
+    packageName: "@afenda/design-system",
+    domain: "design-authority",
+    lane: "amber-lane",
+    runtimeOwner: "packages/design-system",
+    authority: "ADR-0014",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "packages/design-system/src/index.ts",
+      "packages/design-system/src/registries/token.registry.ts",
+      "packages/design-system/src/registries/recipe.registry.ts",
+      "packages/design-system/src/css/css-manifest.ts",
+      "packages/design-system/src/scripts/check-governance.ts",
+      "packages/design-system/src/__tests__/index.test.ts",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "foundation-registry-owner",
+      "fdr-slice-implementer",
+      "ui-primitive-agent",
+    ],
+    prohibited: [
+      "do-not-ship-runtime-ui-components",
+      "do-not-create-accounting-package",
+      "do-not-duplicate-token-authority-in-apps",
+    ],
+    gates: [
+      "pnpm --filter @afenda/design-system typecheck",
+      "pnpm --filter @afenda/design-system test:run",
+      "pnpm --filter @afenda/design-system check:governance",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKG020_AI_GOVERNANCE",
+    packageId: "PKG-020",
+    packageName: "@afenda/ai-governance",
+    domain: "ai-governance",
+    lane: "green-lane",
+    runtimeOwner: "packages/ai-governance",
+    authority: "ADR-0007",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "packages/ai-governance/src/index.ts",
+      "packages/ai-governance/src/validators/validate-ai-governance.ts",
+      "packages/ai-governance/src/policies/ai-boundary-policy.ts",
+      "packages/ai-governance/src/__tests__/validate-ai-governance.test.ts",
+      "docs/ai/README.md",
+      "docs/ai/ai-development-governance.md",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "foundation-registry-owner",
+      "fdr-slice-implementer",
+      "afenda-governed-implementer",
+    ],
+    prohibited: [
+      "do-not-import-runtime-authority-packages",
+      "do-not-create-accounting-package",
+      "do-not-bypass-architecture-authority-delegation",
+    ],
+    gates: [
+      "pnpm --filter @afenda/ai-governance typecheck",
+      "pnpm --filter @afenda/ai-governance test:run",
+      "pnpm quality:ai-governance",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKG021_STORYBOOK",
+    packageId: "PKG-021",
+    packageName: "@afenda/storybook",
+    domain: "storybook-app",
+    lane: "blue-lane",
+    runtimeOwner: "apps/storybook",
+    authority: "ADR-0014",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "apps/storybook/.storybook/main.ts",
+      "apps/storybook/.storybook/preview.tsx",
+      "apps/storybook/stories/governance-integration-composed.stories.tsx",
+      "apps/storybook/package.json",
+    ],
+    knownGaps: [],
+    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    prohibited: [
+      "do-not-couple-erp-runtime",
+      "do-not-create-accounting-package",
+      "do-not-ship-storybook-as-production-surface",
+    ],
+    gates: [
+      "pnpm --filter @afenda/storybook typecheck",
+      "pnpm --filter @afenda/storybook test:storybook:run",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKG022_EMAIL",
+    packageId: "PKG-022",
+    packageName: "@afenda/email",
+    domain: "email-preview",
+    lane: "blue-lane",
+    runtimeOwner: "apps/email",
+    authority: "ADR-0014",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "apps/email/package.json",
+      "packages/auth/src/emails/templates/",
+    ],
+    knownGaps: [],
+    allowedAgents: ["foundation-registry-owner", "auth-agent"],
+    prohibited: [
+      "do-not-ship-email-preview-as-production-mailer",
+      "do-not-create-accounting-package",
+      "do-not-embed-secrets-in-templates",
+    ],
+    gates: ["pnpm --filter @afenda/email typecheck"],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKGR02_ARCHITECTURE_AUTHORITY",
+    packageId: "PKG-019",
+    packageName: "@afenda/architecture-authority",
+    domain: "architecture-authority",
+    lane: "green-lane",
+    runtimeOwner: "packages/architecture-authority",
+    authority: "PAS-002",
+    requiredBeforeAccounting: true,
+    evidence: [
+      "packages/architecture-authority/src/index.ts",
+      "packages/architecture-authority/src/data/package-registry.data.ts",
+      "packages/architecture-authority/src/data/foundation-disposition.registry.ts",
+      "packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts",
+      "packages/architecture-authority/src/validators/validate-architecture.ts",
+      "docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md",
+      "scripts/governance/check-foundation-disposition.mts",
+      "scripts/quality/check-architecture.mjs",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "foundation-registry-owner",
+      "afenda-governed-implementer",
+      "fdr-slice-implementer",
+      "documentation-drift",
+    ],
+    prohibited: [
+      "do-not-import-runtime-authority-packages",
+      "do-not-duplicate-package-registry-constants",
+      "do-not-edit-registry-from-non-owner",
+      "do-not-create-accounting-package",
+    ],
+    gates: [
+      "pnpm --filter @afenda/architecture-authority typecheck",
+      "pnpm --filter @afenda/architecture-authority test:run",
+      "pnpm quality:architecture",
+      "pnpm check:foundation-disposition",
+      "pnpm check:architecture-authority-surface",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
     id: "PAS_AUTHORITY",
     packageId: "PAS-001",
     packageName: "docs/PAS",
@@ -762,8 +925,13 @@ export const foundationDispositionRegistry = {
 export const FOUNDATION_DISPOSITION_REGISTRY =
   foundationDispositionRegistry.entries;
 
-const foundationDispositionById = new Map<string, FoundationDispositionEntry>(
-  FOUNDATION_DISPOSITION_REGISTRY.map((entry) => [entry.id, entry])
+const foundationDispositionById = createReadonlyLookupMap<
+  string,
+  FoundationDispositionEntry
+>(
+  FOUNDATION_DISPOSITION_REGISTRY.map(
+    (entry): readonly [string, FoundationDispositionEntry] => [entry.id, entry]
+  )
 );
 
 export function getFoundationDispositionEntry(

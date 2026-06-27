@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   buildRepoEvidenceGraph,
+  readPackageRegistryRows,
+  renderPackageRegistryBody,
   renderRepoInventoryBody,
 } from "../src/lib/docs-repo-evidence.ts";
 import { docsLocales } from "../src/lib/i18n.ts";
@@ -64,7 +66,10 @@ ${body.trim()}
   console.log(`[generate-repo-evidence] wrote ${filePath}`);
 }
 
-function ensureMonorepoMapMetaIncludesInventory(contentRoot: string): void {
+function ensureMonorepoMapMetaPages(
+  contentRoot: string,
+  pageIds: readonly string[]
+): void {
   const metaPath = join(contentRoot, "build-afenda/monorepo-map/meta.json");
   try {
     const meta = JSON.parse(readFileSync(metaPath, "utf8")) as {
@@ -73,14 +78,34 @@ function ensureMonorepoMapMetaIncludesInventory(contentRoot: string): void {
       pages?: string[];
     };
     const pages = [...(meta.pages ?? [])];
-    if (pages.includes("repo-inventory")) {
+    let changed = false;
+
+    for (const pageId of pageIds) {
+      if (!pages.includes(pageId)) {
+        pages.push(pageId);
+        changed = true;
+      }
+    }
+
+    if (!changed) {
       return;
     }
-    pages.push("repo-inventory");
+
     writeFileSync(metaPath, `${JSON.stringify({ ...meta, pages }, null, 2)}\n`, "utf8");
     console.log(`[generate-repo-evidence] updated ${metaPath}`);
   } catch {
     // locale may not have monorepo-map yet
+  }
+}
+
+function readRegistryFingerprint(): string | undefined {
+  const registryPath = join(repoRoot, "docs/architecture/package-registry.md");
+  try {
+    const source = readFileSync(registryPath, "utf8");
+    const match = source.match(/\*\*Fingerprint\*\*\s*\|\s*`([^`]+)`/);
+    return match?.[1];
+  } catch {
+    return undefined;
   }
 }
 
@@ -95,6 +120,13 @@ function main(): void {
     repoRoot
   );
   const body = renderRepoInventoryBody(graph);
+  const packageRows = readPackageRegistryRows(repoRoot);
+  const packageBody = renderPackageRegistryBody(packageRows, {
+    fingerprint: readRegistryFingerprint(),
+    activeCount: packageRows.filter((row) =>
+      row.status.replace(/`/g, "").startsWith("active")
+    ).length,
+  });
 
   mkdirSync(docsDataDir, { recursive: true });
   writeFileSync(
@@ -111,7 +143,16 @@ function main(): void {
       "Monorepo runtime inventory",
       body
     );
-    ensureMonorepoMapMetaIncludesInventory(contentRoot);
+    writeGeneratedMdx(
+      contentRoot,
+      "build-afenda/monorepo-map/package-registry.mdx",
+      "Workspace package registry",
+      packageBody
+    );
+    ensureMonorepoMapMetaPages(contentRoot, [
+      "repo-inventory",
+      "package-registry",
+    ]);
   }
 
   console.log(

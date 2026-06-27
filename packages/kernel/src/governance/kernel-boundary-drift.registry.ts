@@ -157,12 +157,12 @@ export const KERNEL_BOUNDARY_DRIFT_ENTRIES = {
   "accounting-id-forbidden-floor-symbols": {
     id: "accounting-id-forbidden-floor-symbols",
     kernelPath:
-      "packages/kernel/src/contracts/accounting-domain/accounting-id.contract.ts",
+      "packages/kernel/src/erp-domain/accounting/accounting-id.contract.ts",
     disposition: "quarantine_subpath_only",
     ownerTarget: "@afenda/accounting (when ADR promotes fiscal domain IDs)",
     pasSection: KERNEL_BOUNDARY_DRIFT_PAS_SECTIONS.identityFloor,
     rationale:
-      "FiscalCalendarId / FiscalPeriodId are §4.1.6 forbidden platform-floor IDs. Quarantined on @afenda/kernel/accounting-domain until Finance ADR promotes — must never join ID_FAMILIES.",
+      "FiscalCalendarId / FiscalPeriodId are §4.1.6 forbidden platform-floor IDs. Quarantined on @afenda/kernel/erp-domain/accounting until Finance ADR promotes — must never join ID_FAMILIES.",
     refactorLock: true,
     refactorStatus: "pending",
   },

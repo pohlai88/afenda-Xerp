@@ -1,10 +1,11 @@
 import type {
   AccountingDomainWireContext,
-  AccountingReadinessContext,
   LegalEntityContext,
   OperatingContext,
   OrganizationUnitContext,
 } from "@afenda/kernel";
+
+import type { AccountingReadinessContext } from "./accounting-readiness-context.types.js";
 
 import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server.js";
 

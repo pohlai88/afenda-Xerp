@@ -215,25 +215,6 @@ function collectExportMapViolations(
     }
   }
 
-  const accountingPath = join(
-    repoRoot,
-    "packages/kernel/src/context/accounting-readiness-context.contract.ts"
-  );
-  if (existsSync(accountingPath)) {
-    const accountingSource = readFileSync(accountingPath, "utf8");
-    if (
-      accountingSource.includes('from "./index.js"') ||
-      accountingSource.includes("from './index.js'")
-    ) {
-      violations.push({
-        rule: "context-circular-import",
-        file: accountingPath,
-        message:
-          "accounting-readiness-context.contract.ts must not import context/index.js",
-      });
-    }
-  }
-
   return violations;
 }
 

@@ -155,8 +155,7 @@ export const OPERATING_CONTEXT_LAYERS = {
     id: "accounting-readiness",
     kind: "gate",
     operatingContextField: null,
-    owner:
-      "kernel (AccountingReadinessContext shape) · apps/erp (projection gate)",
+    owner: "apps/erp (AccountingReadinessContext + projection gate)",
     summary: "Gate signal — not accounting runtime",
   },
 } satisfies Record<OperatingContextLayerId, OperatingContextLayerDefinition>;

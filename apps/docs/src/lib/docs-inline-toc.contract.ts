@@ -1,14 +1,23 @@
 import { docsLongFormMdxPaths } from "@/lib/docs-nav.contract";
+import {
+  docsFumadocsInlineTocLabelKey,
+  docsI18nProvider,
+} from "@/lib/docs-ui-translations";
 import type { DocsLocale } from "@/lib/i18n";
 import { docsLocales } from "@/lib/i18n";
-import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
 
-/** Collapsible inline TOC trigger label per locale. */
+/** Collapsible inline TOC trigger label per locale (Fumadocs translation key). */
 export const docsInlineTocLabels = Object.fromEntries(
-  docsLocales.map((locale) => [
-    locale,
-    resolveDocsUiLocaleCopy(locale).inlineTocLabel,
-  ])
+  docsLocales.map((locale) => {
+    const translations = docsI18nProvider(locale).translations;
+    const label = translations?.[docsFumadocsInlineTocLabelKey];
+    return [
+      locale,
+      typeof label === "string" && label.length > 0
+        ? label
+        : docsFumadocsInlineTocLabelKey,
+    ];
+  })
 ) as Record<DocsLocale, string>;
 
 export function resolveDocsInlineTocLabel(locale: DocsLocale): string {

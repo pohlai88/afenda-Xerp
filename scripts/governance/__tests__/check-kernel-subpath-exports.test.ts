@@ -19,7 +19,7 @@ describe("check-kernel-subpath-exports", () => {
     expect(Object.keys(PAS_64_REQUIRED_SUBPATHS)).toEqual([
       ".",
       "./context",
-      "./accounting-domain",
+      "./erp-domain/accounting",
       "./propagation",
       "./events",
       "./policy",

@@ -8,7 +8,7 @@ import {
   brandFiscalPeriodId,
   toFiscalCalendarId,
   toFiscalPeriodId,
-} from "../../../contracts/accounting-domain/index.js";
+} from "../../../erp-domain/accounting/index.js";
 import {
   ENTERPRISE_ID_FAMILIES,
   FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS,

@@ -11,7 +11,7 @@
 
 Annotated filesystem map for `@afenda/architecture-authority`. Update after serialized slice delivery or registry mutations (`foundation-registry-owner` only for disposition).
 
-**Runtime parity snapshot:** fingerprint `ARCH-BASELINE-2026-06-27-v2` · `ValidationGate` union = 8 values · surface registry = 9 validator modules (1 composite + 8 leaf validators) · `src/__tests__/` = 10 files on disk.
+**Runtime parity snapshot:** fingerprint `ARCH-BASELINE-2026-06-27-v2` · `ValidationGate` union = 9 values · surface registry = 10 validator modules (1 composite + 9 leaf validators) · `src/__tests__/` = 12 files on disk.
 
 **Legend:** ✅ CANON · 📋 registry data · 🔒 validator · 🧪 tests · 🚫 forbidden path
 
@@ -45,13 +45,14 @@ packages/architecture-authority/
     │   ├── dependency-registry.data.ts               # §4.5 edges
     │   ├── lifecycle-registry.data.ts
     │   ├── exception-registry.data.ts                # §4.6
+    │   ├── create-readonly-lookup-map.ts             # B20 immutable lookup factory
     │   ├── foundation-disposition.registry.ts        # §4.4 (mutations → foundation-registry-owner)
     │   ├── business-master-data-authority.registry.ts    # §4.10 ADR-0020 (from kernel K2)
     │   ├── business-master-data-scaffold.policy.ts
     │   ├── business-master-data-import-boundary.policy.ts
     │   └── business-master-data-shared-package.policy.ts
     │
-    ├── validators/                                   # 🔒 pure validation (CI gates; 1 composite + 8 leaf validators)
+    ├── validators/                                   # 🔒 pure validation (CI gates; 1 composite + 9 leaf validators)
     │   ├── validate-architecture.ts                  # §4.7 composite
     │   ├── validate-registry.ts
     │   ├── validate-dependencies.ts
@@ -60,7 +61,8 @@ packages/architecture-authority/
     │   ├── validate-cycles.ts
     │   ├── validate-ownership.ts
     │   ├── validate-exceptions.ts
-    │   └── validate-foundation-disposition.ts
+    │   ├── validate-foundation-disposition.ts
+    │   └── validate-lifecycle.ts                     # §4.9 ADR-0006
     │
     ├── surface/                                      # ✅ @afenda/architecture-authority/surface
     │   ├── index.ts
@@ -74,7 +76,7 @@ packages/architecture-authority/
     │   ├── build-dependency-snapshot.ts
     │   └── build-ownership-audit.ts
     │
-    └── __tests__/                                    # 🧪 (9 files)
+    └── __tests__/                                    # 🧪 (12 files)
 ```
 
 ## Forbidden paths (PAS §6.3)
@@ -105,7 +107,13 @@ Consumer import suffixes: root and `/surface` only — no deep `@afenda/architec
 | B14 | §4.11 validator surface parity |
 | B19 | §4.3 active-package ownership parity |
 | B21 | §14 doc/runtime parity (README + tree) |
+| B18 | §0 PKGR02_ARCHITECTURE_AUTHORITY disposition row |
+| B20 | §6.3 registry lookup map immutability |
+| B15 | §4.9 lifecycle validator + composite gate |
+| B24 | §14 skill/reference runtime parity |
+| B25 | §4.9 ADR-0006 lifecycle expiry metadata |
 | B22 | §3.3 governance import boundary |
 | B23 | §4.10 BMD comment sync |
+| B27 | §4.4 disposition coverage (PKG-004/020/021/022) |
 
 See [`docs/PAS/pas-status-index.md`](../docs/PAS/pas-status-index.md).

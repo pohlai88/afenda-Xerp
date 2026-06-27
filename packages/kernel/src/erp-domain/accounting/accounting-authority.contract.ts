@@ -8,7 +8,7 @@ export const ACCOUNTING_AUTHORITY_ADR = "ADR-0020" as const;
 export const ACCOUNTING_REGISTRY_ID = "PKG-R01" as const;
 
 export const ACCOUNTING_CONTRACTS_OWNER =
-  "packages/kernel/src/contracts/accounting-domain" as const;
+  "packages/kernel/src/erp-domain/accounting" as const;
 
 export const ACCOUNTING_AUTHORITY_FINGERPRINT =
   "ACCOUNTING-AUTHORITY-2026-06-27-v1" as const;

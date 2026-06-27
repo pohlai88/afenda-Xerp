@@ -1,52 +1,19 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import type {
   DocsFeatureManifest,
   FeatureCopyOverlay,
   FeatureCopyOverlayEntry,
 } from "@/lib/docs-feature-manifest.contract";
+import { resolveDocsFeatureCopy } from "@/lib/i18n/resolve-docs-locale-messages";
 import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 
-export function resolveFeatureCopyOverlayFileName(locale: DocsLocale): string {
-  return locale === docsDefaultLocale
-    ? "feature-copy.overlay.json"
-    : `feature-copy.overlay.${locale}.json`;
-}
-
-export function resolveFeatureCopyOverlayPath(
-  dataDir: string,
-  locale: DocsLocale
-): string {
-  return join(dataDir, resolveFeatureCopyOverlayFileName(locale));
-}
-
-function filterOverlayPayload(
-  payload: Record<string, unknown>
-): FeatureCopyOverlay {
-  return Object.fromEntries(
-    Object.entries(payload).filter(([key]) => !key.startsWith("_"))
-  ) as FeatureCopyOverlay;
-}
-
-export function readFeatureCopyOverlayFile(
-  dataDir: string,
-  locale: DocsLocale
-): FeatureCopyOverlay | undefined {
-  const path = resolveFeatureCopyOverlayPath(dataDir, locale);
-  if (!existsSync(path)) {
-    return undefined;
-  }
-
-  const payload = JSON.parse(readFileSync(path, "utf8")) as Record<
-    string,
-    unknown
-  >;
-  const overlay = filterOverlayPayload(payload);
-  return Object.keys(overlay).length > 0 ? overlay : undefined;
-}
-
-export function listFeatureCopyOverlayLocales(): readonly DocsLocale[] {
+export function listFeatureCopyLocales(): readonly DocsLocale[] {
   return docsLocales;
+}
+
+export function resolveFeatureCopyForLocale(
+  locale: DocsLocale
+): FeatureCopyOverlay {
+  return resolveDocsFeatureCopy(locale);
 }
 
 export function resolveCasualManifestIdFromContentPath(
@@ -67,16 +34,13 @@ export function resolveCasualManifestIdFromContentPath(
 
 export function hasLocaleOverlaySummaryForCasualPage(input: {
   readonly locale: DocsLocale;
-  readonly dataDir: string;
   readonly contentRelativePath: string;
 }): boolean {
   if (input.locale === docsDefaultLocale) {
     return true;
   }
 
-  const enOverlay = readFeatureCopyOverlayFile(input.dataDir, docsDefaultLocale);
-  const localeOverlay = readFeatureCopyOverlayFile(input.dataDir, input.locale);
-  const merged = mergeFeatureCopyOverlays(enOverlay, localeOverlay);
+  const featureCopy = resolveFeatureCopyForLocale(input.locale);
   const manifestId = resolveCasualManifestIdFromContentPath(
     input.contentRelativePath
   );
@@ -86,12 +50,12 @@ export function hasLocaleOverlaySummaryForCasualPage(input: {
   }
 
   if (manifestId === "auth-lanes-page") {
-    return Object.keys(merged).some(
-      (id) => id.startsWith("auth-lane-") && Boolean(merged[id]?.summary)
+    return Object.keys(featureCopy).some(
+      (id) => id.startsWith("auth-lane-") && Boolean(featureCopy[id]?.summary)
     );
   }
 
-  return Boolean(merged[manifestId]?.summary);
+  return Boolean(featureCopy[manifestId]?.summary);
 }
 
 export function mergeFeatureCopyOverlays(

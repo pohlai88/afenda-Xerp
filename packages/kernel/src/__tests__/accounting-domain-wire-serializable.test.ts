@@ -7,7 +7,7 @@ import {
   FISCAL_PERIOD_STATES,
   JOURNAL_DOCUMENT_TYPES,
   POSTING_STATUSES,
-} from "../contracts/accounting-domain/index.js";
+} from "../erp-domain/accounting/index.js";
 
 describe("accounting domain wire serializability", () => {
   it("satisfies compile-time AssertJsonSerializable guard", () => {

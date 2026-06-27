@@ -65,7 +65,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 
 ```typescript
 import {
-  validateArchitecture,    // Runs all 8 ValidationGate values against discovered workspaces
+  validateArchitecture,    // Runs all 9 ValidationGate values against discovered workspaces
   validateRegistry,        // Every filesystem package is registered
   validateOwnership,       // Every package has a declared owner
   validateLayers,          // Layer assignments are consistent
@@ -74,11 +74,12 @@ import {
   validateCycles,          // No circular dependencies
   validateExceptions,      // Exception registry entries are justified
   validateFoundationDisposition, // Foundation disposition registry integrity
+  validateLifecycle,       // Lifecycle policy + inactive lifecycle rows
 } from "@afenda/architecture-authority";
 ```
 
-The surface registry currently publishes 9 validator modules: the
-`validateArchitecture` composite entry plus 8 leaf validators in
+The surface registry currently publishes 10 validator modules: the
+`validateArchitecture` composite entry plus 9 leaf validators in
 `ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES`.
 
 ### Data registries

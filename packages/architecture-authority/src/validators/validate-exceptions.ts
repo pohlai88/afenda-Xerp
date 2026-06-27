@@ -1,4 +1,6 @@
+import { resolveArchitectureValidationReferenceMs } from "../contracts/architecture-authority-version.js";
 import type { ArchitectureException } from "../contracts/exception.contract.js";
+import { parseIso8601UtcTimestamp } from "../contracts/iso8601-utc-timestamp.js";
 import type { ArchitectureViolation } from "../contracts/validation-result.contract.js";
 import { createValidationResult } from "../contracts/validation-result.contract.js";
 import { exceptionContract } from "../data/exception-registry.data.js";
@@ -13,7 +15,7 @@ function hasEvidence(entries: readonly string[]): boolean {
 
 export function validateExceptionEntries(
   exceptions: readonly ArchitectureException[],
-  referenceTime = Date.now()
+  referenceTime = resolveArchitectureValidationReferenceMs()
 ): ReturnType<typeof createValidationResult> {
   const violations: ArchitectureViolation[] = [];
 
@@ -56,9 +58,9 @@ export function validateExceptionEntries(
       });
     }
 
-    const expiresAt = Date.parse(exception.expiresAt);
+    const expiresAt = parseIso8601UtcTimestamp(exception.expiresAt);
 
-    if (Number.isNaN(expiresAt)) {
+    if (expiresAt === undefined) {
       violations.push({
         gate: "exceptions",
         packageName: exception.packageName,

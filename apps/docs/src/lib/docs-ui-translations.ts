@@ -1,37 +1,54 @@
-import { defineI18nUI } from "fumadocs-ui/i18n";
-import type { DocsLocale } from "@/lib/i18n";
-import { docsLocales, i18n } from "@/lib/i18n";
-import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
+import { zhCN } from "@fumadocs/language/zh-cn";
+import { openapiTranslations } from "fumadocs-openapi/i18n";
+import { i18nProvider, uiTranslations } from "fumadocs-ui/i18n";
+import {
+  afendaFeedbackTranslations,
+  resolveAfendaFeedbackTranslationsByLocale,
+} from "@/lib/i18n/afenda-feedback-i18n.extension";
+import {
+  afendaFumadocsRegionalLocales,
+  afendaFumadocsRegionalPack,
+} from "@/lib/i18n/afenda-fumadocs-packs";
+import { type DocsLocale, docsLocales, i18n } from "@/lib/i18n";
 
-function toFumadocsUiOverrides(locale: DocsLocale) {
-  const copy = resolveDocsUiLocaleCopy(locale);
+const docsFumadocsTranslationBuilder = i18n
+  .translations()
+  .extend(uiTranslations())
+  .extend(openapiTranslations())
+  .extend(afendaFeedbackTranslations())
+  .preset("zh", zhCN());
 
-  return {
-    displayName: copy.displayName,
-    "Search(search trigger)": copy.searchTrigger,
-    "Search(search dialog)": copy.searchDialog,
-  };
+const docsFumadocsTranslationsWithRegional =
+  afendaFumadocsRegionalLocales.reduce(
+    (builder, locale) => builder.preset(locale, afendaFumadocsRegionalPack(locale)),
+    docsFumadocsTranslationBuilder
+  );
+
+/** Fumadocs UI, OpenAPI, Afenda feedback — official + full regional presets. */
+export const docsFumadocsTranslations = docsFumadocsTranslationsWithRegional.add(
+  resolveAfendaFeedbackTranslationsByLocale()
+);
+
+export function docsI18nProvider(locale: DocsLocale) {
+  return i18nProvider(docsFumadocsTranslations, locale);
 }
 
-/** Afenda editorial overrides for Fumadocs UI labels per locale. */
-export const docsUiTranslationOverrides = Object.fromEntries(
-  docsLocales.map((locale) => [locale, toFumadocsUiOverrides(locale)])
-) as Record<
-  DocsLocale,
-  {
-    readonly displayName: string;
-    readonly "Search(search trigger)": string;
-    readonly "Search(search dialog)": string;
-  }
->;
+export const docsFumadocsInlineTocLabelKey =
+  "On this page(table of contents)" as const;
 
-export const docsUiTranslationOverrideKeys = Object.keys(
-  docsUiTranslationOverrides.en
-).filter((key) => key !== "displayName") as (keyof Omit<
-  (typeof docsUiTranslationOverrides)["en"],
-  "displayName"
->)[];
+export const docsFumadocsSpotCheckLabelKeys = [
+  "Search(search trigger)",
+  docsFumadocsInlineTocLabelKey,
+  "Copy Markdown(page actions)",
+  "Authorize(playground)",
+  "How is this guide?(feedback page prompt)",
+] as const;
 
-const { provider } = defineI18nUI(i18n, docsUiTranslationOverrides);
-
-export const docsI18nProvider = provider;
+export function resolveFumadocsUiTranslation(
+  locale: DocsLocale,
+  label: (typeof docsFumadocsSpotCheckLabelKeys)[number]
+): string {
+  const translations = docsI18nProvider(locale).translations;
+  const value = translations?.[label];
+  return typeof value === "string" && value.length > 0 ? value : label;
+}

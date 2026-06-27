@@ -1,6 +1,6 @@
 /**
- * ADR-0020 — accounting domain vocabulary (contracts-only until TIP-015+ runtime ADR).
- * Cross-domain accounting wire contracts live in kernel; no @afenda/accounting package.
+ * ADR-0020 — accounting ERP domain vocabulary (contracts-only until TIP-015+ runtime ADR).
+ * Public surface: `@afenda/kernel/erp-domain/accounting`. No `@afenda/accounting` package.
  */
 // biome-ignore-all lint/performance/noBarrelFile: governed accounting-domain export surface.
 

@@ -6,6 +6,9 @@ export const LIFECYCLE_STATES = [
   "retired",
 ] as const;
 
+/** Package registry extends lifecycle states with `active-exempt` (tooling/docs). */
+export const PACKAGE_REGISTRY_LIFECYCLE_EXTENSIONS = ["active-exempt"] as const;
+
 export type LifecycleState = (typeof LIFECYCLE_STATES)[number];
 
 export const FORBIDDEN_PACKAGE_NAME_PATTERNS = [

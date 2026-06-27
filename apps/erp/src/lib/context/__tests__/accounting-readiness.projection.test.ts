@@ -1,5 +1,4 @@
 import {
-  type AccountingReadinessContext,
   brandRequiredCountryCode,
   brandRequiredCurrencyCode,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
@@ -16,6 +15,7 @@ import {
   toAccountingDomainContext,
   toAccountingReadinessContext,
 } from "../accounting-readiness.projection.js";
+import type { AccountingReadinessContext } from "../accounting-readiness-context.types.js";
 import { deriveConsolidationScopeContext } from "../consolidation-scope-resolution.server.js";
 
 const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {

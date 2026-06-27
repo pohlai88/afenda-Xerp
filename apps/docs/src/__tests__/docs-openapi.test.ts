@@ -55,6 +55,7 @@ describe("@afenda/docs OpenAPI reference", () => {
     ) as { pages: string[] };
 
     expect(integrateMeta.pages).toContain("internal-v1");
+    expect(integrateMeta.pages).toContain("generated");
   });
 
   it("registers internal-v1 in legacy guides locales via integrate section", () => {

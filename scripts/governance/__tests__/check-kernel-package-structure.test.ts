@@ -18,7 +18,7 @@ describe("check-kernel-package-structure", () => {
   it("aligns layout contract subpath exports with PAS §6.4 registry", () => {
     expect(KERNEL_PACKAGE_SUBPATH_EXPORTS).toEqual([
       "./context",
-      "./accounting-domain",
+      "./erp-domain/accounting",
       "./propagation",
       "./events",
       "./policy",

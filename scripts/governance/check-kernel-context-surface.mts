@@ -14,6 +14,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { RETIRED_KERNEL_REPO_PATHS } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -44,6 +45,7 @@ const FORBIDDEN_IMPORT_PATTERNS = [
 
 const RETIRED_CONTEXT_MODULES = [
   "app-shell-context.contract.ts",
+  "accounting-readiness-context.contract.ts",
   "accounting-readiness-gate-live-status.contract.ts",
   "accounting-readiness-gate-requirement-id.contract.ts",
   "consolidation-scope-resolution.ts",
@@ -87,13 +89,6 @@ const FORBIDDEN_KERNEL_ROOT_EXPORTS = [
   "toWorkflowContext",
   "normalizeRuntimeModulePath",
   "mergeInvesteeConsolidationScopeEntry",
-] as const;
-
-const FORBIDDEN_ACCOUNTING_READINESS_PATTERNS = [
-  "export function resolveReportingCurrency",
-  "export function toAccountingReadinessContext",
-  "export function isCostCenterOrganizationUnit",
-  "new Date()",
 ] as const;
 
 const REQUIRED_DIST_EXPORTS = [
@@ -241,35 +236,6 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  const accountingSource = join(
-    contextRoot,
-    "accounting-readiness-context.contract.ts"
-  );
-  if (existsSync(accountingSource)) {
-    const accounting = readFileSync(accountingSource, "utf8");
-    if (
-      accounting.includes('from "./index.js"') ||
-      accounting.includes("from './index.js'")
-    ) {
-      violations.push({
-        rule: "circular-import",
-        file: accountingSource,
-        message:
-          "accounting-readiness-context.contract.ts must not import context/index.js",
-      });
-    }
-
-    for (const pattern of FORBIDDEN_ACCOUNTING_READINESS_PATTERNS) {
-      if (accounting.includes(pattern)) {
-        violations.push({
-          rule: "prohibited-accounting-readiness-behavior",
-          file: accountingSource,
-          message: `accounting-readiness-context.contract.ts must remain shape-only — remove ${pattern}`,
-        });
-      }
-    }
-  }
-
   for (const retiredModule of RETIRED_CONTEXT_MODULES) {
     const retiredPath = join(contextRoot, retiredModule);
     if (existsSync(retiredPath)) {
@@ -277,6 +243,17 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
         rule: "retired-context-module",
         file: retiredPath,
         message: `${retiredModule} was moved out of kernel — delete the orphaned file`,
+      });
+    }
+  }
+
+  for (const repoRelative of RETIRED_KERNEL_REPO_PATHS) {
+    const retiredPath = join(repoRoot, repoRelative);
+    if (existsSync(retiredPath)) {
+      violations.push({
+        rule: "retired-kernel-repo-path",
+        file: retiredPath,
+        message: `${repoRelative} was relocated — delete the orphaned file`,
       });
     }
   }

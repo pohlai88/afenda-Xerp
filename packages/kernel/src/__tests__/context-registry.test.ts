@@ -4,26 +4,11 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
-  type AccountingReadinessContext,
-  type assertHierarchyContextJsonSerializable,
-  type assertPermissionScopeContextJsonSerializable,
-  type ConsolidationScopeContext,
-  type ConsolidationScopeWireContext,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-  type EntityGroupContext,
   isOwnershipInterestEffectiveAt,
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
   KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES,
-  type LegalEntityContext,
   OPERATING_CONTEXT_ERROR_CODES,
-  type OperatingContext,
-  type OrganizationUnitContext,
-  type OwnershipInterestContext,
-  type OwnershipInterestWireContext,
-  type PermissionScopeContext,
-  type ProjectContext,
-  type TeamContext,
-  type TenantContext,
 } from "../context/index.js";
 
 const contextRoot = join(dirname(fileURLToPath(import.meta.url)), "../context");
@@ -60,80 +45,7 @@ describe("@afenda/kernel context registry", () => {
       ).toBe(true);
     }
   });
-
-  it("does not create circular imports through accounting-readiness", () => {
-    const accountingSource = readFileSync(
-      join(contextRoot, "accounting-readiness-context.contract.ts"),
-      "utf8"
-    );
-
-    expect(accountingSource).not.toContain('from "./index.js"');
-    expect(accountingSource).not.toContain("from './index.js'");
-  });
 });
-
-type AssertSerializable<T> = T extends string | number | boolean | null
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
-
-type _TenantContextSerializable = AssertSerializable<TenantContext>;
-type _EntityGroupContextSerializable = AssertSerializable<EntityGroupContext>;
-type _LegalEntityContextSerializable = AssertSerializable<LegalEntityContext>;
-type _OwnershipInterestContextSerializable =
-  AssertSerializable<OwnershipInterestContext>;
-type _OrganizationUnitContextSerializable =
-  AssertSerializable<OrganizationUnitContext>;
-type _TeamContextSerializable = AssertSerializable<TeamContext>;
-type _ProjectContextSerializable = AssertSerializable<ProjectContext>;
-type _PermissionScopeContextSerializable =
-  AssertSerializable<PermissionScopeContext>;
-type _PermissionScopeJsonGuard = assertPermissionScopeContextJsonSerializable;
-type _AssertPermissionScopeJsonGuard = _PermissionScopeJsonGuard extends true
-  ? _PermissionScopeContextSerializable
-  : false;
-type _AssertPermissionScopeComposition = _AssertPermissionScopeJsonGuard;
-type _ConsolidationScopeContextSerializable =
-  AssertSerializable<ConsolidationScopeContext>;
-type _OperatingContextSerializable = AssertSerializable<OperatingContext>;
-type _AccountingReadinessContextSerializable =
-  AssertSerializable<AccountingReadinessContext>;
-
-type _HierarchyWireSerializable = AssertSerializable<
-  OwnershipInterestWireContext | ConsolidationScopeWireContext
->;
-
-type _HierarchyContextJsonGuard = assertHierarchyContextJsonSerializable;
-type _HierarchyGuardSatisfied = _HierarchyContextJsonGuard extends true
-  ? true
-  : false;
-type _HierarchyWireGuard = _HierarchyWireSerializable extends true
-  ? _HierarchyGuardSatisfied
-  : false;
-type _AssertHierarchyWireGuard = _HierarchyWireGuard;
-
-type AssertOperatingContextComposition = OperatingContext extends {
-  readonly tenant: TenantContext;
-  readonly entityGroup: EntityGroupContext | null;
-  readonly legalEntity: LegalEntityContext;
-  readonly ownershipInterests: readonly OwnershipInterestContext[];
-  readonly organizationUnit: OrganizationUnitContext | null;
-  readonly team: TeamContext | null;
-  readonly project: ProjectContext | null;
-  readonly permissionScope: PermissionScopeContext;
-  readonly consolidationScope: ConsolidationScopeContext | null;
-}
-  ? true
-  : false;
-
-type _OperatingContextComposition = AssertOperatingContextComposition;
 
 describe("operating context contract surface", () => {
   it("exports stable lifecycle and scope vocabularies", () => {

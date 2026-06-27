@@ -32,7 +32,7 @@ import {
   isDocsLongFormContentPath,
   resolveDocsInlineTocLabel,
 } from "@/lib/docs-inline-toc.contract";
-import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
+import { resolveDocsAfendaLocaleCopy } from "@/lib/i18n/resolve-docs-locale-messages";
 import { resolveDocsLlmMarkdownUrl } from "@/lib/get-llm-text";
 import { type DocsPageParams, resolveDocsPage } from "@/lib/docs-page";
 import { resolveDocsContentRelativePath } from "@/lib/docs-page-path";
@@ -87,7 +87,7 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
     contentRelativePath,
   });
   const fallbackNotice = showFallbackNotice
-    ? resolveDocsUiLocaleCopy(lang).fallbackNotice
+    ? resolveDocsAfendaLocaleCopy(lang).fallbackNotice
     : null;
 
   return (

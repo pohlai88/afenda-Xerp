@@ -4,7 +4,7 @@ import { PERMISSION_REGISTRY } from "../grants/permission.contract.js";
 
 /**
  * Keep aligned with kernel ACCOUNTING_PERMISSION_KEY_VOCABULARY
- * (`@afenda/kernel/accounting-domain`). No cross-package import.
+ * (`@afenda/kernel/erp-domain/accounting`). No cross-package import.
  */
 const EXPECTED_ACCOUNTING_PERMISSION_KEYS = [
   "accounting.coa_read",

@@ -7,9 +7,8 @@ import {
   type BlockFeedback,
   type PageFeedback,
 } from "@/components/feedback/schema";
-import { resolveDocsFeedbackCopy } from "@/lib/docs-feedback.copy";
+import { useAfendaFeedbackCopy, type AfendaFeedbackCopy } from "@/lib/use-afenda-feedback-copy.client";
 import { cn } from "@/lib/cn";
-import { type DocsLocale, docsDefaultLocale, docsLocales } from "@/lib/i18n";
 import {
   autoUpdate,
   flip,
@@ -48,13 +47,6 @@ const rateButtonVariants = cva(
   }
 );
 
-function resolveLocaleFromPathname(pathname: string): DocsLocale {
-  const segment = pathname.split("/").filter(Boolean)[0];
-  return segment && (docsLocales as readonly string[]).includes(segment)
-    ? (segment as DocsLocale)
-    : docsDefaultLocale;
-}
-
 /** Page-level feedback UI — attach at the bottom of docs pages. */
 export function Feedback({
   onSendAction,
@@ -62,7 +54,7 @@ export function Feedback({
   onSendAction: (feedback: PageFeedback) => Promise<ActionResponse>;
 }) {
   const pathname = usePathname();
-  const t = resolveDocsFeedbackCopy(resolveLocaleFromPathname(pathname));
+  const t = useAfendaFeedbackCopy();
   const { previous, setPrevious } = useSubmissionStorage(pathname, (value) => {
     const result = pageFeedbackResult.safeParse(value);
     return result.success ? result.data : null;
@@ -191,7 +183,7 @@ export interface FeedbackTextProps {
 /** Block-level feedback — wrap page body; pair with `remarkBlockId`. */
 export function FeedbackText({ onSendAction, children }: FeedbackTextProps) {
   const pathname = usePathname();
-  const t = resolveDocsFeedbackCopy(resolveLocaleFromPathname(pathname));
+  const t = useAfendaFeedbackCopy();
   const [popup, setPopup] = useState<{
     mode: "tooltip" | "expanded";
     blockId: string;
@@ -400,7 +392,7 @@ function FeedbackTextForm({
   onClose: () => void;
   onSendAction: (feedback: BlockFeedback) => Promise<ActionResponse>;
   selection: string;
-  t: ReturnType<typeof resolveDocsFeedbackCopy>;
+  t: AfendaFeedbackCopy;
 }) {
   const pathname = usePathname();
   const { previous, setPrevious } = useSubmissionStorage(
@@ -511,7 +503,7 @@ function FeedbackThankYou({
 }: {
   githubUrl?: string;
   onSubmitAgain: () => void;
-  t: ReturnType<typeof resolveDocsFeedbackCopy>;
+  t: AfendaFeedbackCopy;
 }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl bg-fd-card px-3 py-6 text-center text-fd-muted-foreground text-sm">

@@ -9,6 +9,7 @@ import {
   KERNEL_PACKAGE_PROHIBITED_PATHS,
   KERNEL_PACKAGE_SRC_ROOT_BARREL,
   KERNEL_PACKAGE_TARGET_PATHS,
+  RETIRED_KERNEL_REPO_PATHS,
 } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
 import { RETIRED_KERNEL_PLATFORM_ID_PATHS } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
 import {
@@ -71,6 +72,12 @@ for (const repoRelative of KERNEL_PACKAGE_PROHIBITED_PATHS) {
 for (const repoRelative of RETIRED_KERNEL_PLATFORM_ID_PATHS) {
   if (existsSync(join(repoRoot, repoRelative))) {
     violations.push(`Retired platform-id path present: ${repoRelative}`);
+  }
+}
+
+for (const repoRelative of RETIRED_KERNEL_REPO_PATHS) {
+  if (existsSync(join(repoRoot, repoRelative))) {
+    violations.push(`Retired kernel path present: ${repoRelative}`);
   }
 }
 

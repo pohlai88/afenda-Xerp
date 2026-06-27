@@ -1,25 +1,17 @@
 import { cpSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { docsLocalizedReaderRootPages } from "../src/lib/docs-nav.contract.ts";
 import { docsDefaultLocale, docsLocales } from "../src/lib/i18n.ts";
 
-const appDir = join(fileURLToPath(import.meta.url), "..");
-const contentDir = join(appDir, "../content/docs");
+const appDir = join(fileURLToPath(new URL(".", import.meta.url)), "..");
+const contentDir = join(appDir, "content/docs");
 
 const READER_IA_SECTIONS = [
   "use-erp",
   "configure-tenant",
   "operate-tenant",
-] as const;
-
-const ROOT_META_PAGES = [
-  "index",
-  "use-erp",
-  "configure-tenant",
-  "operate-tenant",
   "integrate",
-  "(guides)",
-  "apps",
 ] as const;
 
 function copyReaderSectionFromEn(locale: string, section: string): void {
@@ -45,18 +37,9 @@ function updateRootMeta(locale: string): void {
       })
     : { title: "Documentation" };
 
-  const pages = [...ROOT_META_PAGES];
-
-  if (
-    existing.pages?.includes("integrate") &&
-    !pages.includes("integrate")
-  ) {
-    pages.splice(4, 0, "integrate");
-  }
-
   const meta = {
     ...existing,
-    pages,
+    pages: [...docsLocalizedReaderRootPages],
   };
 
   writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`, "utf8");

@@ -3,6 +3,7 @@ import { createValidationResult } from "../contracts/validation-result.contract.
 import type { DiscoveredWorkspace } from "../contracts/workspace.contract.js";
 import { validateArchitecture } from "../validators/validate-architecture.js";
 import * as validateFoundationDispositionModule from "../validators/validate-foundation-disposition.js";
+import * as validateLifecycleModule from "../validators/validate-lifecycle.js";
 
 function workspace(
   name: string,
@@ -164,6 +165,23 @@ describe("validateArchitecture", () => {
     expect(
       result.violations.some((v) => v.gate === "foundation-disposition")
     ).toBe(true);
+
+    vi.restoreAllMocks();
+  });
+
+  it("merges lifecycle failures into composite validation", () => {
+    vi.spyOn(validateLifecycleModule, "validateLifecycle").mockReturnValue(
+      createValidationResult([
+        {
+          gate: "lifecycle",
+          message: "TEST: lifecycle failure",
+        },
+      ])
+    );
+
+    const result = validateArchitecture([workspace("@afenda/kernel")]);
+    expect(result.ok).toBe(false);
+    expect(result.violations.some((v) => v.gate === "lifecycle")).toBe(true);
 
     vi.restoreAllMocks();
   });

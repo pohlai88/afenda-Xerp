@@ -12,6 +12,7 @@ import {
   KERNEL_PACKAGE_SRC_ROOT_BARREL,
   KERNEL_PACKAGE_SUBPATH_EXPORTS,
   KERNEL_PACKAGE_TARGET_PATHS,
+  RETIRED_KERNEL_REPO_PATHS,
 } from "../contracts/kernel-package-layout.contract.js";
 import { RETIRED_KERNEL_PLATFORM_ID_PATHS } from "../identity/governance/identity-module-layout.contract.js";
 
@@ -75,6 +76,14 @@ describe("kernel package structure (PAS-001 §6.1 / §6.2 / §6.4)", () => {
 
   it("keeps retired platform-id paths absent", () => {
     for (const repoRelative of RETIRED_KERNEL_PLATFORM_ID_PATHS) {
+      expect(existsSync(join(repoRoot, repoRelative)), repoRelative).toBe(
+        false
+      );
+    }
+  });
+
+  it("keeps relocated kernel paths absent (context vs contracts cleanup)", () => {
+    for (const repoRelative of RETIRED_KERNEL_REPO_PATHS) {
       expect(existsSync(join(repoRoot, repoRelative)), repoRelative).toBe(
         false
       );

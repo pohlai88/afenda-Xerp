@@ -1,6 +1,5 @@
 /**
- * Afenda Docs — typography scale (UI-first).
- * Content must not exceed shell chrome — 4 sizes only.
+ * Afenda Docs — artisan editorial scale + spacing (ACPA-auditable colors).
  */
 
 :root {
@@ -11,84 +10,73 @@
   --font-serif:
     var(--font-docs-display), "Newsreader", ui-serif, Georgia, serif;
 
-  /* UI-first scale — body matches nav/sidebar (13px) */
-  --docs-text-meta: 0.75rem; /* 12px — summary, TOC label, captions */
-  --docs-text-ui: 0.8125rem; /* 13px — nav, body, lists, h3/h4 */
-  --docs-text-section: 0.875rem; /* 14px — h2 only */
-  --docs-text-title: 1rem; /* 16px — page title only; max content size */
+  /* Type scale — caption through display */
+  --docs-text-caption: 0.6875rem; /* 11px */
+  --docs-text-meta: 0.75rem; /* 12px */
+  --docs-text-ui: 0.8125rem; /* 13px — nav, chrome */
+  --docs-text-body: 0.875rem; /* 14px — prose body */
+  --docs-text-label: 0.9375rem; /* 15px — h4, table labels */
+  --docs-text-heading: 1.0625rem; /* 17px — h3 */
+  --docs-text-section: 1.3125rem; /* 21px — h2 */
+  --docs-text-title: 1.75rem; /* 28px — h1 */
+  --docs-text-display: 2.5rem; /* 40px — homepage hero */
 
-  /* Legacy aliases → map to simplified scale */
+  --docs-text-base: var(--docs-text-body);
   --docs-text-xs: var(--docs-text-meta);
   --docs-text-sm: var(--docs-text-ui);
-  --docs-text-base: var(--docs-text-ui);
-  --docs-text-lg: var(--docs-text-section);
+  --docs-text-lg: var(--docs-text-label);
   --docs-text-xl: var(--docs-text-section);
   --docs-text-2xl: var(--docs-text-section);
-  --docs-text-3xl: var(--docs-text-section);
-  --docs-text-4xl: var(--docs-text-title);
-  --docs-text-display: var(--docs-text-title);
+  --docs-text-3xl: var(--docs-text-title);
+  --docs-text-4xl: var(--docs-text-display);
 
-  --docs-leading-title: 1.35;
-  --docs-leading-section: 1.45;
+  --docs-leading-display: 1.2;
+  --docs-leading-title: 1.3;
+  --docs-leading-section: 1.35;
+  --docs-leading-heading: 1.45;
   --docs-leading-normal: 1.65;
   --docs-leading-ui: 1.55;
 
-  --docs-tracking-title: -0.008em;
-  --docs-tracking-section: -0.004em;
+  --docs-tracking-display: -0.02em;
+  --docs-tracking-title: -0.015em;
+  --docs-tracking-section: -0.008em;
   --docs-tracking-body: 0.002em;
   --docs-tracking-overline: 0.04em;
   --docs-prose-max-width: 66ch;
 
-  /* Spacing primitives — 8px enterprise grid */
-  --docs-space-1: 0.25rem; /* 4px micro */
-  --docs-space-2: 0.5rem; /* 8px tight */
-  --docs-space-3: 0.75rem; /* 12px inline */
-  --docs-space-4: 1.25rem; /* 20px block */
-  --docs-space-5: 2rem; /* 32px section */
-  --docs-space-6: 2.5rem; /* 40px page */
-  --docs-space-7: 3rem; /* 48px major break */
+  /* Spacing — 4px base grid */
+  --docs-space-1: 0.25rem; /* 4px */
+  --docs-space-2: 0.5rem; /* 8px */
+  --docs-space-3: 0.75rem; /* 12px */
+  --docs-space-4: 1rem; /* 16px */
+  --docs-space-5: 1.5rem; /* 24px */
+  --docs-space-6: 2rem; /* 32px */
+  --docs-space-7: 3rem; /* 48px */
+  --docs-space-8: 4rem; /* 64px */
 
-  /*
-   * Semantic spacing — quiet palette uses space instead of heavy borders.
-   * Low-chroma ink (62–82% mix) needs air between blocks; borders are 18–55% opacity.
-   */
-  --docs-gap-chrome: var(--docs-space-4); /* title · description · actions */
-  --docs-gap-block: var(--docs-space-5); /* paragraphs · cards · callouts in stack */
-  --docs-gap-section: var(--docs-space-6); /* h2 breaks · footer · content entry */
-  --docs-gap-inline: var(--docs-space-3); /* icon+label · callout title+body · table cells */
-  --docs-inset-component: var(--docs-space-5); /* card padding */
-  --docs-inset-comfort: var(--docs-space-6); /* callout padding */
+  --docs-gap-chrome: var(--docs-space-4);
+  --docs-gap-block: var(--docs-space-5);
+  --docs-gap-section: var(--docs-space-7);
+  --docs-gap-inline: var(--docs-space-3);
+  --docs-inset-component: var(--docs-space-3);
+  --docs-inset-comfort: var(--docs-space-5);
   --docs-inset-page-inline: var(--docs-space-5);
   --docs-inset-page-block: var(--docs-space-6);
-  --docs-divider: color-mix(in oklch, var(--color-fd-border) 45%, transparent);
+  --docs-scroll-margin-top: calc(var(--docs-gap-section) + 3.5rem);
 
-  /* Callout — neutral harmony (no Fumadocs fd-info red/warm rail) */
-  --docs-callout-accent: color-mix(
-    in oklch,
-    var(--docs-prose-accent) 18%,
-    var(--color-fd-muted-foreground)
-  );
-  --docs-callout-surface: color-mix(
-    in oklch,
-    var(--color-fd-muted) 28%,
-    var(--color-fd-article)
-  );
-  --docs-callout-rail: color-mix(
-    in oklch,
-    var(--docs-prose-accent) 12%,
-    var(--color-fd-border)
-  );
+  --docs-divider: oklch(0.82 0.01 85 / 0.38);
+  --docs-divider-strong: oklch(0.72 0.012 85 / 0.55);
 
-  --docs-text-body: color-mix(
-    in oklch,
-    var(--color-fd-foreground) 68%,
-    var(--color-fd-muted-foreground)
-  );
-  --docs-text-heading: color-mix(
-    in oklch,
-    var(--color-fd-foreground) 82%,
-    var(--color-fd-muted-foreground)
-  );
+  /* ACPA — direct OKLCH text colors (no color-mix chains) */
+  --docs-color-body: oklch(0.18 0.006 260);
+  --docs-color-heading: oklch(0.15 0.008 260);
+  --docs-color-muted: oklch(0.46 0.01 260);
+
+  --docs-focus-ring: oklch(0.52 0.06 255);
+
+  --docs-callout-accent: oklch(0.48 0.06 254);
+  --docs-callout-surface: oklch(0.96 0.006 85);
+  --docs-callout-rail: oklch(0.82 0.02 254 / 0.35);
 
   --docs-prose-accent: oklch(0.46 0.08 254);
   --docs-prose-accent-hover: oklch(0.4 0.1 254);
@@ -98,19 +86,21 @@
 }
 
 .dark {
+  --docs-divider: oklch(0.52 0.008 265 / 0.28);
+  --docs-divider-strong: oklch(0.62 0.008 265 / 0.42);
+
+  --docs-color-body: oklch(0.93 0.004 95);
+  --docs-color-heading: oklch(0.96 0.003 95);
+  --docs-color-muted: oklch(0.68 0.006 260);
+
+  --docs-focus-ring: oklch(0.72 0.055 255);
+
+  --docs-callout-accent: oklch(0.62 0.04 254);
+  --docs-callout-surface: oklch(0.21 0.008 265);
+  --docs-callout-rail: oklch(0.55 0.04 254 / 0.4);
+
   --docs-prose-accent: oklch(0.62 0.035 254);
   --docs-prose-accent-hover: oklch(0.68 0.03 254);
   --docs-noise-opacity: 0.038;
   --docs-illustration-opacity: 0.035;
-
-  --docs-text-body: color-mix(
-    in oklch,
-    var(--color-fd-foreground) 62%,
-    var(--color-fd-muted-foreground)
-  );
-  --docs-text-heading: color-mix(
-    in oklch,
-    var(--color-fd-foreground) 78%,
-    var(--color-fd-muted-foreground)
-  );
 }

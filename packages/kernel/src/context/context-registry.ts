@@ -11,6 +11,9 @@
  * - `operating-context-hierarchy.contract.ts` / `enterprise-hierarchy.contract.ts` — layer metadata
  * - `hierarchy-id-boundary.contract.ts` — wire id parse/normalize at trust boundaries
  * - `*-resolution.ts` / `*.policy.ts` — derivation or merge **behavior** (owner: apps/erp; must not live here)
+ *
+ * Not `contracts/` — that folder holds platform wire vocabulary (Result, ExecutionContext,
+ * accounting-domain words). See `KERNEL_SRC_FOLDER_BOUNDARY` in kernel-package-layout.contract.ts.
  */
 export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
   {
@@ -61,7 +64,6 @@ export const KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES = [
   "workspace-context.contract.ts",
   "surface-context.contract.ts",
   "workflow-context.contract.ts",
-  "accounting-readiness-context.contract.ts",
   "hierarchy-id-boundary.contract.ts",
   "localization-context.contract.ts",
   "operating-context-hierarchy.contract.ts",

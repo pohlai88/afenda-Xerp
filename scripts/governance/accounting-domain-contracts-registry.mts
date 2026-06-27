@@ -10,14 +10,14 @@ export const ACCOUNTING_DOMAIN_CONTRACTS_SURFACE_RULE =
   "accounting-domain-contracts-only-no-runtime-posting" as const;
 
 export const ACCOUNTING_CONTRACTS_ROOT =
-  "packages/kernel/src/contracts/accounting-domain" as const;
+  "packages/kernel/src/erp-domain/accounting" as const;
 
 /** Retired per ADR-0020 — must not reappear on disk. */
 export const ACCOUNTING_RETIRED_PACKAGE_ROOT = "packages/accounting" as const;
 
 export const ACCOUNTING_FORBIDDEN_RELATIVE_DIRS = [
-  "packages/kernel/src/contracts/accounting-domain/schema",
-  "packages/kernel/src/contracts/accounting-domain/services",
+  "packages/kernel/src/erp-domain/accounting/schema",
+  "packages/kernel/src/erp-domain/accounting/services",
   "packages/accounting",
 ] as const;
 
@@ -60,8 +60,8 @@ export const ACCOUNTING_DOMAIN_CONTRACTS_PACKAGE_SCRIPTS = [
 ] as const;
 
 export const ACCOUNTING_DOMAIN_CONTRACTS_EVIDENCE = [
-  "packages/kernel/src/contracts/accounting-domain/index.ts",
-  "packages/kernel/src/contracts/accounting-domain/accounting-authority.contract.ts",
+  "packages/kernel/src/erp-domain/accounting/index.ts",
+  "packages/kernel/src/erp-domain/accounting/accounting-authority.contract.ts",
   "scripts/governance/accounting-domain-contracts-registry.mts",
   "scripts/governance/check-accounting-domain-contracts.mts",
 ] as const;

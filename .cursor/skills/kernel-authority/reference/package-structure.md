@@ -28,8 +28,10 @@ packages/kernel/
     ├── index.ts                    # only file allowed at src root
     ├── contracts/                  # result, app-error, problem-detail, json-wire, execution-context, layout
     │   ├── platform/
-    │   ├── business-reference-identity/   # §4.7 (not business-master-data)
-    │   └── accounting-domain/             # @afenda/kernel/accounting-domain
+    │   └── business-reference-identity/   # §4.7 (not business-master-data)
+    ├── erp-domain/                 # §4.8 ERP domain vocabulary modules
+    │   ├── erp-domain-layout.contract.ts
+    │   └── accounting/             # @afenda/kernel/erp-domain/accounting
     ├── context/                    # §4.4 operating-context shapes + context-registry.ts
     ├── identity/                   # §4.1 nested module (brand, canonical, families, wire, …)
     ├── governance/                 # §9 PAS self-governance (@afenda/kernel/governance)
@@ -40,7 +42,7 @@ packages/kernel/
     └── __tests__/
 ```
 
-**Top-level folders (gate-enforced):** `contracts`, `context`, `governance`, `identity`, `permission`, `propagation`, `events`, `policy`, `__tests__` — from `KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL`.
+**Top-level folders (gate-enforced):** `contracts`, `context`, `erp-domain`, `governance`, `identity`, `permission`, `propagation`, `events`, `policy`, `__tests__` — from `KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL`.
 
 **Brand surface:** canonical `identity/brand/brand.contract.ts` only. The retired `contracts/brand.contract.ts` shim was removed (drift entry `contracts-brand-shim`, status completed).
 
