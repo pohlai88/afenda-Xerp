@@ -31,8 +31,11 @@ I'm using afenda-coding-session — stating the execution contract before edits.
 
 ## 1. Skills — read before any file edit
 
+Read **`.cursor/skills/coding-consistency-bundle/SKILL.md`** first.
+
 | Skill | Path | Use for |
 | --- | --- | --- |
+| coding-consistency-bundle | `.cursor/skills/coding-consistency-bundle/SKILL.md` | Mandatory bundle — session, TS discipline, AGENTS.md |
 | write-tip | `.cursor/skills/write-tip/SKILL.md` | TIP structure, handoff format, DoD, status vocabulary |
 | afenda-coding-session | `.cursor/skills/afenda-coding-session/SKILL.md` | Phase 0 contract, §0.1 hard stops, §11 Completion Report |
 | govern-primitive | `.cursor/skills/govern-primitive/SKILL.md` | Only when handoff explicitly allows `packages/ui/src/components/` |

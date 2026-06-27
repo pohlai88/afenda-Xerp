@@ -63,7 +63,8 @@ Provide exact Slot table before this agent can produce a batch manifest.
 
 ## Mandatory read order
 
-1. `docs/PAS/README.md` — §Parallel execution map, §Upgrade sequence, §Do not start yet
+1. **`.cursor/skills/coding-consistency-bundle/SKILL.md`** — implementer agents must receive this bundle in every launch prompt.
+2. `docs/PAS/README.md` — §Parallel execution map, §Upgrade sequence, §Do not start yet
 2. `foundation-disposition.registry.ts` — `allowedAgents`, `runtimeOwner`, `prohibited` per entry
 3. `.cursor/skills/enterprise-erp-standards/SKILL.md` — batch must not skip any controls
 4. `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` — §2 G0–G10, §5.1 lane overrides
@@ -205,6 +206,7 @@ Verify all items before parallel launch:
 4. Verify launch eligibility checklist — all items must pass.
 5. For each eligible slot (in parallel for Implementation batches):
    - Invoke fdr-slice-implementer with ONE FDR + ONE slice + ONE 9-field handoff.
+   - **Paste the coding-consistency-bundle read list** from `.cursor/skills/coding-consistency-bundle/SKILL.md` into every implementer prompt (afenda-coding-session, architecture-authority when applicable, pas-slice-planner for PAS slices, PATTERNS.md + AGENTS.md).
 6. Wait for all implementers to complete.
 7. Run combined diff containment check.
 8. Merge §11 reports — produce Batch Completion Summary.

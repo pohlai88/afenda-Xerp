@@ -193,7 +193,7 @@ describe("docs openapi manifest bindings", () => {
             id: "mismatch",
             method: "get",
             path: "/inventory/products",
-            permission: "inventory.other_permission",
+            permission: "sales.order_read",
             docSlug: "inventory-products-get",
           },
         ],

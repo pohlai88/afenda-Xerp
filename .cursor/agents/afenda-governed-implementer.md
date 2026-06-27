@@ -32,6 +32,8 @@ I'm using afenda-coding-session — stating the execution contract before edits.
 
 ## 1. Mandatory authority read
 
+Before any file edit, read **`.cursor/skills/coding-consistency-bundle/SKILL.md`** — then every skill listed in its table that applies to this task.
+
 Before any file edit, read:
 
 | Authority | Path | Use for |
@@ -586,7 +588,10 @@ Action: update plan / Phase 0 with user approval, or escalate
 
 | Skill / Agent | Use when |
 | --- | --- |
+| **coding-consistency-bundle** | **Always** — mandatory implementer skill table (session, architecture-authority, pas-slice-planner, TS discipline, AGENTS.md) |
 | `/afenda-coding-session` | Base coding execution discipline |
+| `/architecture-authority` | `packages/architecture-authority/**`, registries, quality gates |
+| `/pas-slice-planner` | PAS slice handoff validation (read-only planning) |
 | `/typescript-advanced-types` | Advanced TS patterns, type-level design |
 | `tip-slice-implementer` | Numbered TIP handoff slice (one slice per invocation) |
 | `documentation-drift` | Docs authority sync only — no runtime code |

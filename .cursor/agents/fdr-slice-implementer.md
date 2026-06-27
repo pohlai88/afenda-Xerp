@@ -268,8 +268,11 @@ When Slice type = Evidence-sync:
 
 ## Skills — read before any file edit
 
+Read **`.cursor/skills/coding-consistency-bundle/SKILL.md`** first — then the table below.
+
 | Skill | Path | Use for |
-| --- | --- |  --- |
+| --- | --- | --- |
+| coding-consistency-bundle | `.cursor/skills/coding-consistency-bundle/SKILL.md` | Mandatory bundle — session, TS discipline, AGENTS.md, PAS handoff rules |
 | enterprise-erp-standards | `.cursor/skills/enterprise-erp-standards/SKILL.md` | SAP/Oracle controls — mandatory for red/amber lanes |
 | write-fdr | `.cursor/skills/write-fdr/SKILL.md` | FDR structure, DoD, §Research rules |
 | ENTERPRISE-BENCHMARK | `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` | G0–G10, scoring, hard fails, evidence grades |

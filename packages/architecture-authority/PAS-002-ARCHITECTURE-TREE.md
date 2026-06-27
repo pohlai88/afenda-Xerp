@@ -11,7 +11,7 @@
 
 Annotated filesystem map for `@afenda/architecture-authority`. Update after serialized slice delivery or registry mutations (`foundation-registry-owner` only for disposition).
 
-**Runtime parity snapshot:** fingerprint `ARCH-BASELINE-2026-06-27-v2` · `ValidationGate` union = 8 values · surface registry = 9 validator modules (1 composite + 8 leaf validators) · `src/__tests__/` = 9 files on disk.
+**Runtime parity snapshot:** fingerprint `ARCH-BASELINE-2026-06-27-v2` · `ValidationGate` union = 8 values · surface registry = 9 validator modules (1 composite + 8 leaf validators) · `src/__tests__/` = 10 files on disk.
 
 **Legend:** ✅ CANON · 📋 registry data · 🔒 validator · 🧪 tests · 🚫 forbidden path
 

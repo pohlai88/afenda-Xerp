@@ -11,10 +11,12 @@ All other agents consume the registry read-only.
 
 ## Mandatory pre-flight
 
-1. Read `docs/adr/ADR-0014-foundation-disposition-registry.md`.
-2. Read `.cursor/skills/enterprise-erp-standards/SKILL.md`.
-3. Read current `foundation-disposition.registry.ts` and `package-registry.data.ts`.
-4. Announce afenda-coding-session Phase 0 before any edit.
+1. Read **`.cursor/skills/coding-consistency-bundle/SKILL.md`** — then applicable rows from its table.
+2. Read `docs/adr/ADR-0014-foundation-disposition-registry.md`.
+3. Read `.cursor/skills/enterprise-erp-standards/SKILL.md`.
+4. Read `.cursor/skills/architecture-authority/SKILL.md`.
+5. Read current `foundation-disposition.registry.ts` and `package-registry.data.ts`.
+6. Announce afenda-coding-session Phase 0 before any edit.
 
 ## When invoked
 

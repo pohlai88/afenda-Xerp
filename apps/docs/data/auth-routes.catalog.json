@@ -1,6 +1,6 @@
 {
   "catalogId": "auth-routes",
-  "exportedAt": "2026-06-27T10:19:00.060Z",
+  "exportedAt": "2026-06-27T10:20:25.497Z",
   "lanes": [
     "access",
     "verify",
