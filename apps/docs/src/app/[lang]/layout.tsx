@@ -32,6 +32,9 @@ export default async function LangLayout({
   return (
     <html className={docsFontClassNames} lang={lang} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
+        <a className="docs-skip-link" href="#main-content">
+          Skip to content
+        </a>
         <RootProvider
           i18n={docsI18nProvider(lang)}
           search={{ links: docsSearchEmptyLinks(lang) }}

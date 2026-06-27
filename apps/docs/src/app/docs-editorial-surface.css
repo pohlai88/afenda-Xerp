@@ -9,8 +9,8 @@ body {
   font-family: var(--font-sans);
   font-size: var(--docs-text-base);
   line-height: var(--docs-leading-normal);
-  letter-spacing: -0.014em;
-  -webkit-font-smoothing: antialiased;
+  letter-spacing: var(--docs-tracking-body);
+  -webkit-font-smoothing: auto;
   text-rendering: optimizeLegibility;
 }
 

@@ -10,15 +10,15 @@
   --font-serif:
     var(--font-docs-display), "Newsreader", ui-serif, Georgia, serif;
 
-  /* Type scale — caption through display */
-  --docs-text-caption: 0.6875rem; /* 11px */
-  --docs-text-meta: 0.75rem; /* 12px */
-  --docs-text-ui: 0.8125rem; /* 13px — nav, chrome */
-  --docs-text-body: 0.875rem; /* 14px — prose body */
-  --docs-text-label: 0.9375rem; /* 15px — h4, table labels */
-  --docs-text-heading: 1.0625rem; /* 17px — h3 */
-  --docs-text-section: 1.3125rem; /* 21px — h2 */
-  --docs-text-title: 1.75rem; /* 28px — h1 */
+  /* Type scale — reading-first (16px body baseline) */
+  --docs-text-caption: 0.75rem; /* 12px */
+  --docs-text-meta: 0.8125rem; /* 13px */
+  --docs-text-ui: 0.875rem; /* 14px — nav, chrome */
+  --docs-text-body: 1rem; /* 16px — prose body */
+  --docs-text-label: 1.0625rem; /* 17px — h4 */
+  --docs-text-heading: 1.125rem; /* 18px — h3 */
+  --docs-text-section: 1.375rem; /* 22px — h2 */
+  --docs-text-title: 1.875rem; /* 30px — h1 */
   --docs-text-display: 2.5rem; /* 40px — homepage hero */
 
   --docs-text-base: var(--docs-text-body);
@@ -30,29 +30,29 @@
   --docs-text-3xl: var(--docs-text-title);
   --docs-text-4xl: var(--docs-text-display);
 
-  --docs-leading-display: 1.2;
-  --docs-leading-title: 1.3;
+  --docs-leading-display: 1.15;
+  --docs-leading-title: 1.25;
   --docs-leading-section: 1.35;
-  --docs-leading-heading: 1.45;
-  --docs-leading-normal: 1.65;
-  --docs-leading-ui: 1.55;
+  --docs-leading-heading: 1.4;
+  --docs-leading-normal: 1.7;
+  --docs-leading-ui: 1.5;
 
-  --docs-tracking-display: -0.02em;
-  --docs-tracking-title: -0.015em;
-  --docs-tracking-section: -0.008em;
-  --docs-tracking-body: 0.002em;
+  --docs-tracking-display: -0.015em;
+  --docs-tracking-title: -0.01em;
+  --docs-tracking-section: -0.006em;
+  --docs-tracking-body: 0.01em;
   --docs-tracking-overline: 0.04em;
   --docs-prose-max-width: 66ch;
 
   /* Spacing — 4px base grid */
-  --docs-space-1: 0.25rem; /* 4px */
-  --docs-space-2: 0.5rem; /* 8px */
-  --docs-space-3: 0.75rem; /* 12px */
-  --docs-space-4: 1rem; /* 16px */
-  --docs-space-5: 1.5rem; /* 24px */
-  --docs-space-6: 2rem; /* 32px */
-  --docs-space-7: 3rem; /* 48px */
-  --docs-space-8: 4rem; /* 64px */
+  --docs-space-1: 0.25rem;
+  --docs-space-2: 0.5rem;
+  --docs-space-3: 0.75rem;
+  --docs-space-4: 1rem;
+  --docs-space-5: 1.5rem;
+  --docs-space-6: 2rem;
+  --docs-space-7: 3rem;
+  --docs-space-8: 4rem;
 
   --docs-gap-chrome: var(--docs-space-4);
   --docs-gap-block: var(--docs-space-5);
@@ -64,43 +64,48 @@
   --docs-inset-page-block: var(--docs-space-6);
   --docs-scroll-margin-top: calc(var(--docs-gap-section) + 3.5rem);
 
-  --docs-divider: oklch(0.82 0.01 85 / 0.38);
-  --docs-divider-strong: oklch(0.72 0.012 85 / 0.55);
+  --docs-divider: oklch(0.86 0.01 85 / 0.45);
+  --docs-divider-strong: oklch(0.78 0.012 85 / 0.6);
 
-  /* ACPA — direct OKLCH text colors (no color-mix chains) */
-  --docs-color-body: oklch(0.18 0.006 260);
-  --docs-color-heading: oklch(0.15 0.008 260);
-  --docs-color-muted: oklch(0.46 0.01 260);
+  /*
+   * Text ink — alias Fumadocs foreground in each theme so dark mode never
+   * inherits light editorial literals (fixes invisible page titles).
+   */
+  --docs-color-body: oklch(0.36 0.014 265);
+  --docs-color-heading: oklch(0.28 0.018 265);
+  --docs-color-editorial: var(--color-fd-foreground);
+  --docs-color-muted: oklch(0.5 0.012 265);
 
   --docs-focus-ring: oklch(0.52 0.06 255);
 
   --docs-callout-accent: oklch(0.48 0.06 254);
-  --docs-callout-surface: oklch(0.96 0.006 85);
+  --docs-callout-surface: oklch(0.97 0.005 85);
   --docs-callout-rail: oklch(0.82 0.02 254 / 0.35);
 
   --docs-prose-accent: oklch(0.46 0.08 254);
   --docs-prose-accent-hover: oklch(0.4 0.1 254);
 
-  --docs-noise-opacity: 0.028;
-  --docs-illustration-opacity: 0.045;
+  --docs-noise-opacity: 0.018;
+  --docs-illustration-opacity: 0.032;
 }
 
-.dark {
-  --docs-divider: oklch(0.52 0.008 265 / 0.28);
-  --docs-divider-strong: oklch(0.62 0.008 265 / 0.42);
+:is(.dark, [data-theme="dark"]) {
+  --docs-divider: oklch(0.58 0.008 265 / 0.35);
+  --docs-divider-strong: oklch(0.68 0.008 265 / 0.48);
 
-  --docs-color-body: oklch(0.93 0.004 95);
-  --docs-color-heading: oklch(0.96 0.003 95);
-  --docs-color-muted: oklch(0.68 0.006 260);
+  --docs-color-body: oklch(0.88 0.006 95);
+  --docs-color-heading: oklch(0.95 0.004 95);
+  --docs-color-editorial: var(--color-fd-foreground);
+  --docs-color-muted: oklch(0.74 0.008 85);
 
   --docs-focus-ring: oklch(0.72 0.055 255);
 
   --docs-callout-accent: oklch(0.62 0.04 254);
-  --docs-callout-surface: oklch(0.21 0.008 265);
+  --docs-callout-surface: oklch(0.24 0.008 265);
   --docs-callout-rail: oklch(0.55 0.04 254 / 0.4);
 
-  --docs-prose-accent: oklch(0.62 0.035 254);
-  --docs-prose-accent-hover: oklch(0.68 0.03 254);
-  --docs-noise-opacity: 0.038;
-  --docs-illustration-opacity: 0.035;
+  --docs-prose-accent: oklch(0.72 0.06 254);
+  --docs-prose-accent-hover: oklch(0.78 0.05 254);
+  --docs-noise-opacity: 0.012;
+  --docs-illustration-opacity: 0.02;
 }

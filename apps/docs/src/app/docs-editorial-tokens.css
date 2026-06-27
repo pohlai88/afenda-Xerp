@@ -6,8 +6,8 @@
 :root {
   --docs-editorial-canvas: oklch(0.985 0.003 95);
   --docs-editorial-paper: oklch(0.998 0.001 95);
-  --docs-editorial-text: oklch(0.18 0.006 260);
-  --docs-editorial-text-muted: oklch(0.46 0.01 260);
+  --docs-editorial-text: oklch(0.34 0.014 265);
+  --docs-editorial-text-muted: oklch(0.52 0.012 265);
   --docs-editorial-border: oklch(0.88 0.006 95);
   --docs-editorial-border-subtle: oklch(0.92 0.004 95);
   --docs-editorial-surface-muted: oklch(0.955 0.004 95);
@@ -18,10 +18,10 @@
 }
 
 .dark {
-  --docs-editorial-canvas: oklch(0.155 0.004 260);
-  --docs-editorial-paper: oklch(0.18 0.004 260);
-  --docs-editorial-text: oklch(0.93 0.004 95);
-  --docs-editorial-text-muted: oklch(0.68 0.006 260);
+  --docs-editorial-canvas: oklch(0.2 0.008 265);
+  --docs-editorial-paper: oklch(0.24 0.008 265);
+  --docs-editorial-text: oklch(0.88 0.006 95);
+  --docs-editorial-text-muted: oklch(0.74 0.008 85);
   --docs-editorial-border: oklch(0.31 0.006 260);
   --docs-editorial-border-subtle: oklch(0.25 0.005 260);
   --docs-editorial-surface-muted: oklch(0.205 0.005 260);

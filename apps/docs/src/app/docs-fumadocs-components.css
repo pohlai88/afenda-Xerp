@@ -98,19 +98,19 @@
   font-size: var(--docs-text-ui);
   font-weight: 500;
   line-height: var(--docs-leading-ui);
-  color: var(--docs-text-heading);
+  color: var(--docs-color-heading);
 }
 
 #nd-page .nd-card :is(p, .text-fd-muted-foreground, .text-fd-card-foreground) {
   font-size: var(--docs-text-meta);
   font-weight: 400;
   line-height: var(--docs-leading-normal);
-  color: var(--docs-text-body);
+  color: var(--docs-color-body);
 }
 
 #nd-page .nd-card :is(strong, b) {
   font-weight: 400;
-  color: var(--docs-text-body);
+  color: var(--docs-color-body);
 }
 
 .nd-card {

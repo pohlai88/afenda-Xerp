@@ -56,7 +56,6 @@ export function AISearchPanelHeader({ className, ...props }: ComponentProps<'div
 
       <button
         aria-label="Close"
-        tabIndex={-1}
         className={cn(
           buttonVariants({
             size: 'icon-sm',
@@ -150,8 +149,7 @@ export function AISearchInput(props: ComponentProps<'form'>) {
     <form {...props} className={cn('flex items-start pe-2', props.className)} onSubmit={onStart}>
       <Input
         value={input}
-        placeholder={isLoading ? 'AI is answering...' : 'Ask a question'}
-        autoFocus
+        placeholder={isLoading ? "Answering…" : "Ask a question…"}
         className="p-3"
         disabled={status === 'streaming' || status === 'submitted'}
         onChange={(e) => {
@@ -171,7 +169,7 @@ export function AISearchInput(props: ComponentProps<'form'>) {
           className={cn(
             buttonVariants({
               color: 'secondary',
-              className: 'transition-all rounded-full mt-2 gap-2',
+              className: 'transition-colors rounded-full mt-2 gap-2',
             }),
           )}
           onClick={stop}
@@ -186,7 +184,7 @@ export function AISearchInput(props: ComponentProps<'form'>) {
           className={cn(
             buttonVariants({
               color: 'primary',
-              className: 'transition-all rounded-full mt-2',
+              className: 'transition-colors rounded-full mt-2',
             }),
           )}
           disabled={input.length === 0}
@@ -248,7 +246,7 @@ function Input(props: ComponentProps<'textarea'>) {
         id="nd-ai-input"
         {...props}
         className={cn(
-          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none',
+          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2 focus-visible:ring-offset-fd-background',
           shared,
         )}
       />

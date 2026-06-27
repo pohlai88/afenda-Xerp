@@ -91,6 +91,7 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
     : null;
 
   return (
+    <div id="main-content" className="contents">
     <DocsPage full={page.data.full} toc={page.data.toc}>
       <DocsTitle className="docs-type-display">{page.data.title}</DocsTitle>
       <DocsDescription className="docs-type-summary">
@@ -146,6 +147,7 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
       </div>
       <Feedback onSendAction={onPageFeedbackAction} />
     </DocsPage>
+    </div>
   );
 }
 

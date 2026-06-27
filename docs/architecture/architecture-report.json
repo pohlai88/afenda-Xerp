@@ -252,7 +252,7 @@
       "path": "packages/accounting",
       "layer": "Domain",
       "lifecycle": "retired",
-      "purpose": "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/accounting-domain",
+      "purpose": "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/erp-domain/accounting",
       "publicApiOwner": "Accounting Authority",
       "layerDepExempt": false,
       "filesystemRequired": false

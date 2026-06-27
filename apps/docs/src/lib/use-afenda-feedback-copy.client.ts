@@ -12,7 +12,7 @@ export function useAfendaFeedbackCopy() {
     good: t("Good", { note: "feedback rating" }),
     bad: t("Bad", { note: "feedback rating" }),
     pagePrompt: t("How is this guide?", { note: "feedback page prompt" }),
-    placeholder: t("Leave your feedback...", { note: "feedback placeholder" }),
+    placeholder: t("Leave your feedback…", { note: "feedback placeholder" }),
     submit: t("Submit", { note: "feedback form" }),
     submitAgain: t("Submit Again", { note: "feedback form" }),
     thankYou: t("Thank you for your feedback!", {

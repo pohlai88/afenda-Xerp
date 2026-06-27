@@ -66,7 +66,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-018 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
 | PKG-019 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
 | PKG-020 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
-| PKG-R01 | `@afenda/accounting` | *(retired — no path)* | Domain | retired | Accounting vocabulary in `@afenda/kernel` accounting-domain (ADR-0020) | Accounting Authority | No | `retired` |
+| PKG-R01 | `@afenda/accounting` | *(retired — no path)* | Domain | retired | Accounting vocabulary in `@afenda/kernel/erp-domain/accounting` (ADR-0020) | Accounting Authority | No | `retired` |
 
 **`active-exempt`:** PKG-017 is exempt from layer-dependency enforcement only. It remains registered and owned.
 
@@ -84,7 +84,7 @@ One domain package slot is retired (accounting vocabulary consolidated to kernel
 
 | ID | Package | Owner domain | Status |
 |----|---------|--------------|--------|
-| PKG-R01 | `@afenda/accounting` | Accounting Authority | `retired` (ADR-0020 — contracts in `@afenda/kernel/accounting-domain`; no filesystem package) |
+| PKG-R01 | `@afenda/accounting` | Accounting Authority | `retired` (ADR-0020 — vocabulary in `@afenda/kernel/erp-domain/accounting`; no filesystem package) |
 | PKG-R02 | `@afenda/inventory` | Inventory Authority | `retired` (ADR-0020 — persistence in `@afenda/database` + ERP; no filesystem package) |
 | PKG-R03 | `@afenda/hrm` | HRM Authority | `planned` |
 | PKG-R04 | `@afenda/crm` | CRM Authority | `planned` |
@@ -118,7 +118,7 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-24 | Filesystem | PKG-R01 | `packages/accounting/` scaffold + kernel dependency edge | TIP-014 Slice 2 |
 | 2026-06-26 | Activated (master-data-foundation) | PKG-R02 | `@afenda/inventory` promoted active; product + warehouse schemas | ADR-0019 |
 | 2026-06-27 | Retired (filesystem) | PKG-R02 | `@afenda/inventory` package removed; runtime in `@afenda/database` + ERP | ADR-0020 |
-| 2026-06-27 | Retired (filesystem) | PKG-R01 | `@afenda/accounting` package removed; vocabulary in `@afenda/kernel/accounting-domain` | ADR-0020 |
+| 2026-06-27 | Retired (filesystem) | PKG-R01 | `@afenda/accounting` package removed; vocabulary in `@afenda/kernel/erp-domain/accounting` | ADR-0020 |
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v1` — ADR-0020 inventory package retirement | ADR-0020 |
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v2` — ADR-0020 accounting consolidation + stock runtime Slice 3 | ADR-0020 |
 

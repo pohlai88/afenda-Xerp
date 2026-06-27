@@ -130,7 +130,7 @@ Read in this order:
    ```text
    @afenda/kernel
    @afenda/kernel/context
-   @afenda/kernel/accounting-domain
+   @afenda/kernel/erp-domain/accounting
    @afenda/kernel/policy
    @afenda/kernel/events
    @afenda/kernel/propagation
@@ -211,7 +211,7 @@ For kernel-like packages, output rows for:
 ```text
 .
 ./context
-./accounting-domain
+./erp-domain/accounting
 ./policy
 ./events
 ./propagation
@@ -236,7 +236,7 @@ OperatingContext
 LocalizationContext
 Platform entity authority
 Business reference identity authority
-Accounting-domain vocabulary
+Accounting vocabulary (`erp-domain/accounting`)
 Policy decision vocabulary
 Domain event envelope
 Async context propagation
@@ -368,7 +368,7 @@ Append a **Prohibited surface matrix** section to the output immediately before 
 |-----------|------|------|-----------|----------|--------------|
 | Presentation | `formatWorkspaceDisplayLabel()` | `app-shell-context.contract.ts` | Formatting — PAS §4.5 | WARN | `@afenda/appshell` |
 | Decision | `resolveReportingCurrency()` | `accounting-readiness.contract.ts` | Currency decision — PAS §4.5/§7 | WARN | Finance layer |
-| Forbidden ID | `FiscalPeriodId` | `accounting-domain/accounting-id.contract.ts` | PAS §4.1 "not approved" | BLOCK | `@afenda/accounting` |
+| Forbidden ID | `FiscalPeriodId` | `erp-domain/accounting/accounting-id.contract.ts` | PAS §4.1 "not approved" | BLOCK | `@afenda/accounting` |
 | Self-import | `from "@afenda/kernel"` | `accounting-id.contract.ts` | §3.3 — use relative path | BLOCK | Relative import |
 
 After the matrix, add a one-line **Blind-spot note**: which existing governance gates would NOT catch each item, and why.
@@ -384,7 +384,7 @@ Return a table like this:
 | §4.1 `TenantId`                 |             Yes | Implemented   | CURRENT | `packages/kernel/src/contracts/platform-id.contract.ts` | Stable            | None        |
 | §4.5 `LocalizationContext`      |             Yes | Missing       | TARGET  | —                                                       | Kernel-only first | Slice 1     |
 | §4.10 `DomainEvent`             |             Yes | Missing       | TARGET  | —                                                       | Execution later   | Slice 5     |
-| §6 `./accounting-domain` export |     Yes/current | Implemented   | CURRENT | `packages/kernel/package.json`                          | Stable            | None        |
+| §6 `./erp-domain/accounting` export |     Yes/current | Implemented   | CURRENT | `packages/kernel/package.json`                          | Stable            | None        |
 
 Rules:
 

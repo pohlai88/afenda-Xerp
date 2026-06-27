@@ -18,6 +18,47 @@ Implementation work flows through **slice handoffs** (`docs/PAS/slice/*.md`) wit
 
 ---
 
+## PAS maturity labels
+
+Every PAS carries a **maturity label** in YAML frontmatter (`maturity`) and in the document header. Maturity is part of authority — agents must not treat a lower label as enterprise truth.
+
+| Label | Meaning | Can be coded? | Can be treated as authority? |
+| --- | --- | ---: | ---: |
+| **Idea** | Directional concept only | No | No |
+| **MVP Authority** | Enough to reserve boundary and start package skeleton | Limited | Partial |
+| **Production Candidate** | Implementable with gates, tests, and known owners | Yes | Yes, after gates |
+| **Enterprise Accepted** | Fully implemented, gated, documented, and drift-protected | Yes | Yes |
+| **Deprecated / Superseded** | Replaced or retired | No new work | Historical only |
+
+**YAML `maturity` values** (machine-readable):
+
+| Label | `maturity` value |
+| --- | --- |
+| Idea | `idea` |
+| MVP Authority | `mvp_authority` |
+| Production Candidate | `production_candidate` |
+| Enterprise Accepted | `enterprise_accepted` |
+| Deprecated / Superseded | `deprecated` or `superseded` |
+
+**Companion frontmatter fields** (required when maturity is above Idea):
+
+```yaml
+maturity: mvp_authority | production_candidate | enterprise_accepted
+authority_status: <see pas-doc-template.md>
+implementation_status: not_started | partial | implemented
+evidence_level: concept | runtime_partial | runtime_proven
+```
+
+**Living examples:**
+
+| PAS | Label |
+| --- | --- |
+| PAS-001 | Enterprise Accepted |
+| PAS-002 | MVP Authority |
+| PAS-003 | Production Candidate |
+
+---
+
 ## How to use
 
 1. Assign the next `PAS-NNN` number from [docs/PAS/README.md](../../../../docs/PAS/README.md).
@@ -93,6 +134,7 @@ Do not duplicate long-form authority content in this file.
 Before merging a new PAS + skill:
 
 - [ ] YAML frontmatter complete; no placeholders in committed PAS doc
+- [ ] **Maturity label** set in YAML + §header block (see [PAS maturity labels](#pas-maturity-labels))
 - [ ] §0 Agent Quick Path present in PAS doc
 - [ ] §2 boundary ≤2 sentences
 - [ ] §7 decision matrix has ≥8 rows with explicit Yes/No answers

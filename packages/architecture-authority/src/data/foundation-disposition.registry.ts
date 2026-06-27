@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-27-v16" as const;
+  "FOUNDATION-DISPOSITION-2026-06-27-v18" as const;
 
 const foundationDispositionEntries = [
   {
@@ -893,6 +893,50 @@ const foundationDispositionEntries = [
     legacyTipEvidence: [],
   },
   {
+    id: "PKGR03_ACCOUNTING_STANDARDS",
+    packageId: "PKG-023",
+    packageName: "@afenda/accounting-standards",
+    domain: "accounting-standards-authority",
+    lane: "blue-lane",
+    runtimeOwner: "packages/accounting-standards",
+    authority: "PAS-003",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
+      "docs/PAS/README.md",
+      "packages/accounting-standards/package.json",
+      "packages/accounting-standards/src/index.ts",
+      "packages/accounting-standards/src/__tests__/architecture-boundary.test.ts",
+      ".cursor/skills/accounting-standards-authority/SKILL.md",
+      "packages/architecture-authority/src/data/package-registry.data.ts",
+      "packages/architecture-authority/src/data/layer-registry.data.ts",
+      "packages/architecture-authority/src/data/ownership-registry.data.ts",
+      "packages/architecture-authority/src/data/dependency-registry.data.ts",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "foundation-registry-owner",
+      "afenda-governed-implementer",
+      "fdr-slice-implementer",
+      "documentation-drift",
+    ],
+    prohibited: [
+      "do-not-create-journal-posting-runtime",
+      "do-not-absorb-ifrs-treatment-into-kernel",
+      "do-not-mark-pas-003-enterprise-accepted-without-consumer-proof",
+      "do-not-fake-package-local-evidence",
+      "do-not-create-accounting-consolidation-tax-ui-runtime-in-publish-slice",
+    ],
+    gates: [
+      "pnpm quality:architecture",
+      "pnpm architecture:cycles",
+      "pnpm architecture:drift",
+      "pnpm quality:boundaries",
+      "pnpm check:foundation-disposition",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
     id: "PAS_AUTHORITY",
     packageId: "PAS-001",
     packageName: "docs/PAS",
@@ -904,6 +948,7 @@ const foundationDispositionEntries = [
     evidence: [
       "docs/PAS/README.md",
       "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
+      "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
     ],
     knownGaps: [],
     allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],

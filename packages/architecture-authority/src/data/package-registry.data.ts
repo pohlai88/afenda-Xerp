@@ -249,6 +249,18 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-023",
+    packageName: "@afenda/accounting-standards",
+    path: "packages/accounting-standards",
+    layer: "Foundation",
+    lifecycle: "active",
+    purpose:
+      "Versioned accounting-standard authority metadata and standards-backed validation contracts (PAS-003)",
+    publicApiOwner: "Financial Reporting Standards Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",

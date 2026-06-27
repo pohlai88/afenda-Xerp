@@ -59,7 +59,7 @@
 | **CI / Quality Gates** | Root `package.json`, `scripts/governance/` | — (cross-cutting) | **implemented** | `pnpm check`, `pnpm quality` (30+ sub-gates) | `check:downstream-integration` not in aggregator | Optional wiring |
 | **Documentation synchronized** | docs + ADRs | [`foundation-disposition.md`](foundation-disposition.md) | **implemented** | ADR-0014/0016; PAS authority active 2026-06-27 | Matrix/disposition rows being closed | Maintain disposition + matrix sync |
 | **AI Governance** | `packages/ai-governance/`, `docs/ai/` | `PKG020_AI_GOVERNANCE` — green-lane (ADR-0007) | **implemented** | ADR-0007 Accepted; `quality:ai-governance` exit 0; baseline + scope validators; disposition row PKG020 | Peer review for enterprise 9.5 promotion | Maintain AI-001..AI-010 invariants |
-| **Accounting Core** | `packages/kernel/src/contracts/accounting-domain/` (PKG-R01 retired) | `fdr-r01-accounting-contracts`]%20fdr-r01-accounting-contracts.md) **29/30** | **partially-implemented** | Contracts-only in kernel; governance gate; no `packages/accounting/` | Ledger runtime prohibited until TIP-015+ ADR | Maintain contracts; new ADR for posting |
+| **Accounting Core** | `packages/kernel/src/erp-domain/accounting/` · `@afenda/kernel/erp-domain/accounting` (PKG-R01 retired) | `fdr-r01-accounting-contracts`]%20fdr-r01-accounting-contracts.md) **29/30** | **partially-implemented** | Contracts-only in kernel `erp-domain/accounting/`; `pnpm check:accounting-domain-contracts`; bridge `toAccountingDomainContext` in ERP projection; no `packages/accounting/` | Ledger runtime prohibited until TIP-015+ ADR | Maintain contracts; new ADR for posting |
 | **Pre-accounting foundation readiness** | Cross-cutting | `fdr-007-accounting-readiness` **28/30 audit · 29/30 ceiling** | **implemented** | Phase 9 signed off 2026-06-24; diagnostics UI + gate registry; v2 gate refresh 2026-06-25 | Peer review (DoD #14) | PR peer review |
 
 ---
@@ -91,7 +91,7 @@ Future studio blocks: agents follow `afenda-shadcn-components` — not a separat
 | `@afenda/entitlements` | `packages/entitlements` | Integration | Entitlement + feature manifest | Yes |
 | `@afenda/execution` | `packages/execution` | Foundation | 21 files, Trigger.dev | Yes |
 | `@afenda/feature-flags` | `packages/feature-flags` | Integration | Contracts | Yes |
-| `@afenda/kernel` | `packages/kernel` | Platform | 42+ files, context + platform authority contracts | Yes |
+| `@afenda/kernel` | `packages/kernel` | Platform | 42+ files; `context/` + `contracts/` + `erp-domain/accounting/` | Yes (`./erp-domain/accounting` subpath) |
 | `@afenda/metadata` | `packages/metadata` | Metadata | Authority contracts | Yes |
 | `@afenda/metadata-ui` | `packages/metadata-ui` | Metadata | 44+ `.tsx` renderers | Yes |
 | `@afenda/observability` | `packages/observability` | Platform | Logging/audit adapters | Yes |

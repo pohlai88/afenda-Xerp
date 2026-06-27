@@ -100,7 +100,7 @@ Example for @afenda/kernel:
 ```text
 - Fiscal calendar / fiscal period platform IDs:
   Prohibited as general platform IDs unless canonical PAS approves them.
-  If found inside approved accounting-domain contracts, classify as REVIEW and verify against PAS/FDR.
+  If found inside approved `erp-domain/accounting` contracts, classify as REVIEW and verify against PAS/FDR.
 
 - Locale/timezone/date/number selected values:
   Kernel may own vocabulary and LocalizationContext shape.
@@ -163,8 +163,8 @@ Red flags requiring verification:
 ```text
 - ID types the PAS "not approved" list names explicitly (FiscalCalendarId, FiscalPeriodId)
   → Prohibited as general platform-floor IDs
-  → If found inside an approved accounting-domain contract: classify REVIEW, not automatic BLOCK;
-    verify against canonical PAS/accounting-domain authority before escalating
+  → If found inside an approved `erp-domain/accounting` contract: classify REVIEW, not automatic BLOCK;
+    verify against canonical PAS/erp-domain accounting authority before escalating
 
 - Operational snapshot shapes (live run results, gate telemetry, diagnostic evidence)
   → REVIEW by default; WARN/BLOCK only when not listed as approved authority surfaces or
@@ -243,7 +243,7 @@ The standard boundary gate (`quality:boundaries`) only catches **prohibited impo
 |-----------|------------------------|-----------------|
 | Presentation helpers (format, label) | No import — logic is local | Dimension A function name scan |
 | Currency decision functions | No prohibited import needed | Dimension A behavior classification |
-| Fiscal IDs through accounting-domain sub-folder | Sub-folder is allowed; gate checks folder not contents | Dimension B ID family check |
+| Fiscal IDs through erp-domain/accounting module | Module is allowed; gate checks folder not contents | Dimension B ID family check |
 | Self-import via package name | Not a cross-package import | Dimension C grep |
 | Repo scaffold guards in source | Use only stdlib (`node:fs`) | Dimension D pattern scan |
 | Operational diagnostic types | No import — types are local | Dimension B snapshot pattern |
@@ -272,7 +272,7 @@ Output a table per Dimension with a row per finding:
 | D | `existsSync` in non-test source | `packages/*/src/**` | Repo governance logic in source | WARN | `scripts/governance/` or `architecture-authority` |
 | A | `format*Label()` | source file | Presentation helper; verify behavior | REVIEW | UI/appshell if user-facing |
 | A | `resolve*Currency()` | source file | Currency decision red flag; verify if pure projection | REVIEW | Finance/accounting authority if decision logic |
-| B | `FiscalCalendarId` general platform | source file | General platform fiscal ID not approved | BLOCK/REVIEW | Finance/accounting authority; REVIEW if inside approved accounting-domain |
+| B | `FiscalCalendarId` general platform | source file | General platform fiscal ID not approved | BLOCK/REVIEW | Finance/accounting authority; REVIEW if inside approved erp-domain/accounting |
 | B | Operational snapshot type | source file | Diagnostic contract; verify PAS approval | REVIEW | ERP/observability if runtime telemetry |
 | F | Duplicate vocabulary | two packages | Duplicate authority | WARN/BLOCK | Canonical PAS/FDR owner |
 
@@ -326,7 +326,7 @@ Quick lookup — common false-safe patterns in kernel and how to classify them:
 |---------|--------------|-----------|----------------------|
 | `resolveReporting*` | "pure derivation" | Currency decision red flag | Verify: pure projection or business fallback? |
 | `format*Label` | "pure string helper" | Presentation formatting red flag | Verify: user-facing display or wire-safe canonicalization? |
-| `FiscalPeriodId` inside `accounting-domain/` | "accounting vocabulary" | PAS §4.1 "not approved" as general platform ID | REVIEW if in approved accounting-domain contract; BLOCK if exposed as general platform ID |
+| `FiscalPeriodId` inside `erp-domain/accounting/` | "accounting vocabulary" | PAS §4.1 "not approved" as general platform ID | REVIEW if in approved erp-domain accounting contract; BLOCK if exposed as general platform ID |
 | `is*OrganizationUnit(type)` | "vocabulary guard" | Business classification rule | Verify: brand invariant or domain policy? |
 | Operational snapshot types | "contracts" | Diagnostic/telemetry output | REVIEW; WARN/BLOCK only if not in approved PAS authority surface |
 | `from "@afenda/kernel"` in kernel | "just an import" | Self-import via package name | BLOCK — no exceptions; always use relative path |

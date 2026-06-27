@@ -19,6 +19,22 @@ PAS documents are human-readable long-form standards. Each package that crosses 
 
 ---
 
+## PAS maturity labels
+
+Every PAS carries a **maturity label**. Maturity is part of authority — agents must not treat a lower label as enterprise truth.
+
+| Label | Meaning | Can be coded? | Can be treated as authority? |
+| --- | --- | ---: | ---: |
+| **Idea** | Directional concept only | No | No |
+| **MVP Authority** | Enough to reserve boundary and start package skeleton | Limited | Partial |
+| **Production Candidate** | Implementable with gates, tests, and known owners | Yes | Yes, after gates |
+| **Enterprise Accepted** | Fully implemented, gated, documented, and drift-protected | Yes | Yes |
+| **Deprecated / Superseded** | Replaced or retired | No new work | Historical only |
+
+Template source: [`.cursor/skills/kernel-authority/reference/pas-template.md`](../../.cursor/skills/kernel-authority/reference/pas-template.md)
+
+---
+
 ## Numbering convention
 
 | Format | Meaning |
@@ -44,10 +60,11 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 
 ## Index
 
-| Standard | Package | Layer | Status |
+| Standard | Package | Layer | Maturity |
 |---|---|---|---|
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Active |
-| [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Foundation | Active |
+| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
+| [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
+| [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
 
 Package-local annotated trees:
 
@@ -66,6 +83,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 |---|---|
 | PAS-001 | `.cursor/skills/kernel-authority/SKILL.md` |
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
+| PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
 
 ---
 

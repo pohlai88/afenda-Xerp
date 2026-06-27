@@ -492,6 +492,19 @@ importers:
         specifier: 'catalog:'
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
 
+  packages/accounting-standards:
+    dependencies:
+      '@afenda/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
   packages/ai-governance:
     dependencies:
       '@afenda/architecture-authority':
@@ -11814,7 +11827,7 @@ snapshots:
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
       express: 5.2.1(supports-color@10.2.2)
-      express-rate-limit: 8.5.2(express@5.2.1)
+      express-rate-limit: 8.5.2(express@5.2.1(supports-color@10.2.2))
       hono: 4.12.26
       jose: 6.2.3
       json-schema-typed: 8.0.2
@@ -15810,7 +15823,7 @@ snapshots:
 
   expect-type@1.3.0: {}
 
-  express-rate-limit@8.5.2(express@5.2.1):
+  express-rate-limit@8.5.2(express@5.2.1(supports-color@10.2.2)):
     dependencies:
       express: 5.2.1(supports-color@10.2.2)
       ip-address: 10.2.0

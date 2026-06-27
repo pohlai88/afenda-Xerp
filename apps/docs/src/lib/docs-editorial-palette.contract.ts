@@ -20,8 +20,8 @@ export const docsProseAccentValues = {
     hover: "oklch(0.4 0.1 254)",
   },
   dark: {
-    default: "oklch(0.62 0.035 254)",
-    hover: "oklch(0.68 0.03 254)",
+    default: "oklch(0.72 0.06 254)",
+    hover: "oklch(0.78 0.05 254)",
   },
 } as const;
 
@@ -33,14 +33,14 @@ export const docsLayoutVariables = {
 
 /** Artisan editorial type scale */
 export const docsTypographyScale = {
-  caption: { variable: "--docs-text-caption", value: "0.6875rem" },
-  meta: { variable: "--docs-text-meta", value: "0.75rem" },
-  ui: { variable: "--docs-text-ui", value: "0.8125rem" },
-  body: { variable: "--docs-text-body", value: "0.875rem" },
-  label: { variable: "--docs-text-label", value: "0.9375rem" },
-  heading: { variable: "--docs-text-heading", value: "1.0625rem" },
-  section: { variable: "--docs-text-section", value: "1.3125rem" },
-  title: { variable: "--docs-text-title", value: "1.75rem" },
+  caption: { variable: "--docs-text-caption", value: "0.75rem" },
+  meta: { variable: "--docs-text-meta", value: "0.8125rem" },
+  ui: { variable: "--docs-text-ui", value: "0.875rem" },
+  body: { variable: "--docs-text-body", value: "1rem" },
+  label: { variable: "--docs-text-label", value: "1.0625rem" },
+  heading: { variable: "--docs-text-heading", value: "1.125rem" },
+  section: { variable: "--docs-text-section", value: "1.375rem" },
+  title: { variable: "--docs-text-title", value: "1.875rem" },
   display: { variable: "--docs-text-display", value: "2.5rem" },
 } as const;
 
@@ -53,9 +53,9 @@ export const docsTypographyVariables = {
   headlineValue: "var(--docs-text-display)",
   proseMaxWidth: "--docs-prose-max-width",
   leadingNormal: "--docs-leading-normal",
-  leadingNormalValue: "1.65",
+  leadingNormalValue: "1.7",
   leadingTitle: "--docs-leading-title",
-  leadingTitleValue: "1.3",
+  leadingTitleValue: "1.25",
 } as const;
 
 /** Editorial role utility classes in docs-editorial-typography.css */

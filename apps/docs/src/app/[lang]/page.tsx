@@ -25,7 +25,10 @@ export default async function DocsMarketingHomePage({
 
   return (
     <HomeLayout {...options}>
-      <main className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16">
+      <main
+        className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16"
+        id="main-content"
+      >
         <header className="flex flex-col gap-4">
           <p className="docs-type-overline">
             Afenda ERP · engineer documentation
@@ -34,10 +37,21 @@ export default async function DocsMarketingHomePage({
             Implementation guides for the monorepo
           </h1>
           <p className="docs-type-deck">
-            Fumadocs-powered onboarding for `@afenda/erp`, `@afenda/docs`, and
-            `@afenda/storybook`. Governance artifacts stay in repo-root{" "}
-            <code className="docs-type-caption">docs/</code> — this site links
-            to them.
+            Fumadocs-powered onboarding for{" "}
+            <code className="docs-type-caption" translate="no">
+              @afenda/erp
+            </code>
+            ,{" "}
+            <code className="docs-type-caption" translate="no">
+              @afenda/docs
+            </code>
+            , and{" "}
+            <code className="docs-type-caption" translate="no">
+              @afenda/storybook
+            </code>
+            . Governance artifacts stay in repo-root{" "}
+            <code className="docs-type-caption" translate="no">docs/</code> —
+            this site links to them.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link

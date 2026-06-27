@@ -57,7 +57,7 @@ Future ADR may promote fiscal IDs into Kernel only if justified.
 - `packages/kernel/src/__tests__/kernel-identity-governance.contract.test.ts`
 - `packages/kernel/src/__tests__/kernel-identity.test.ts`
 
-**Accounting subpath:** `FiscalPeriodId` may exist on `@afenda/kernel/accounting-domain` as transitional accounting vocabulary. It is **not** on the main `@afenda/kernel` barrel and is **not** in `ID_FAMILIES`. The forbidden-platform-ids gate scopes platform-floor exports in `identity/families/*` and the main index.
+**Accounting subpath:** `FiscalPeriodId` may exist on `@afenda/kernel/erp-domain/accounting` as transitional accounting vocabulary. It is **not** on the main `@afenda/kernel` barrel and is **not** in `ID_FAMILIES`. The forbidden-platform-ids gate scopes platform-floor exports in `identity/families/*` and the main index.
 
 ---
 

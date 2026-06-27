@@ -138,7 +138,7 @@ No domain packages exist at baseline. The following structure is reserved for TI
 
 ```text
 Domain
-├─ Accounting      (kernel `@afenda/kernel/accounting-domain` — PKG-R01 retired ADR-0020)
+├─ Accounting      (kernel `@afenda/kernel/erp-domain/accounting` — PKG-R01 retired ADR-0020)
 ├─ HRM             (@afenda/hrm)
 ├─ CRM             (@afenda/crm)
 ├─ Inventory       (@afenda/inventory — retired ADR-0020; persistence @afenda/database)

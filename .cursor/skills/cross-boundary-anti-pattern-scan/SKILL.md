@@ -323,7 +323,7 @@ For `@afenda/kernel`, use PAS-001 as authority.
 | ----------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `format*Label`                            | REVIEW                 | Violation only if user-facing presentation behavior                                                        |
 | `resolve*Currency`                        | REVIEW                 | Violation if selecting/defaulting/converting currency; allowed only if pure projection explicitly approved |
-| `FiscalCalendarId`                        | REVIEW/BLOCK           | Block as general platform ID unless PAS/FDR approves; review if in approved accounting-domain vocabulary   |
+| `FiscalCalendarId`                        | REVIEW/BLOCK           | Block as general platform ID unless PAS/FDR approves; review if in approved erp-domain/accounting vocabulary   |
 | `AccountingReadinessGateLiveSnapshot`     | REVIEW                 | Allowed only if PAS/FDR defines it as stable gate contract                                                 |
 | `deriveConsolidationScopeContext`         | REVIEW                 | Allowed if pure derivation from trusted input; violation if it loads/queries                               |
 | `from "@afenda/kernel"` inside kernel     | BLOCK                  | Must use relative import                                                                                   |

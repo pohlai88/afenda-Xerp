@@ -86,6 +86,21 @@ export const STALE_DELIVERY_MARKERS = [
     forbidden: ["auth-shell-V2", "(auth-v2)"],
     rule: "runtime-matrix-stale-auth-v2-paths",
   },
+  {
+    file: "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
+    forbidden: [
+      "@afenda/kernel/accounting-domain",
+      "./accounting-domain",
+      "dist/contracts/accounting-domain",
+      "src/contracts/accounting-domain",
+    ],
+    rule: "pas-001-retired-accounting-domain-subpath",
+  },
+  {
+    file: ".cursor/skills/kernel-authority/SKILL.md",
+    forbidden: ["@afenda/kernel/accounting-domain", "contracts/accounting-domain/"],
+    rule: "kernel-authority-skill-retired-accounting-domain-path",
+  },
 ] as const;
 
 /** Master plan must reference current authority artifacts. */

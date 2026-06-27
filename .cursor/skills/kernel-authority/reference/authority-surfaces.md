@@ -448,7 +448,7 @@ Scope vocabulary: `tenant`, `entity_group`, `legal_entity`, `organization_unit`,
 
 ## Accounting Domain Vocabulary
 
-Status: Current (vocabulary only) — `packages/kernel/src/contracts/accounting-domain/`
+Status: Current (vocabulary only) — `packages/kernel/src/erp-domain/accounting/`
 
 Kernel currently owns these vocabulary contracts:
 

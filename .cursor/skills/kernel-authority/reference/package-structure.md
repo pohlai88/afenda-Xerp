@@ -70,7 +70,7 @@ Eight keys — root plus seven subpaths (PAS §6.3 / §6.4, delivered B18):
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" },
     "./context": { "types": "./dist/context/index.d.ts", "import": "./dist/context/index.js", "default": "./dist/context/index.js" },
-    "./accounting-domain": { "types": "./dist/contracts/accounting-domain/index.d.ts", "import": "./dist/contracts/accounting-domain/index.js", "default": "./dist/contracts/accounting-domain/index.js" },
+    "./erp-domain/accounting": { "types": "./dist/erp-domain/accounting/index.d.ts", "import": "./dist/erp-domain/accounting/index.js", "default": "./dist/erp-domain/accounting/index.js" },
     "./propagation": { "types": "./dist/propagation/index.d.ts", "import": "./dist/propagation/index.js", "default": "./dist/propagation/index.js" },
     "./events": { "types": "./dist/events/index.d.ts", "import": "./dist/events/index.js", "default": "./dist/events/index.js" },
     "./policy": { "types": "./dist/policy/index.d.ts", "import": "./dist/policy/index.js", "default": "./dist/policy/index.js" },
@@ -109,7 +109,7 @@ import { TenantId, ExecutionContext, AppError } from "@afenda/kernel";
 
 // Correct — subpath import (current)
 import { OperatingContext, LocalizationContext } from "@afenda/kernel/context";
-import { AccountType } from "@afenda/kernel/accounting-domain";
+import { AccountType } from "@afenda/kernel/erp-domain/accounting";
 import { kernelContext } from "@afenda/kernel/propagation";
 import { DomainEvent } from "@afenda/kernel/events";
 import { PolicyDecisionKind } from "@afenda/kernel/policy";

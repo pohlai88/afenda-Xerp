@@ -130,24 +130,27 @@ Does it have a business owner, lifecycle, workflow, validation, CRUD, or UI?
 
 7. **`packages/inventory` is a retirement candidate.** The Inventory **domain** does not disappear. The **package** retires because it duplicates kernel wire contracts and has **zero runtime consumers**. Unique content (`MasterDataRecordStatus` duplicate, lifecycle phase constants) consolidates into `@afenda/database` (near schema) or is deleted. Retirement is a separate implementation slice after this ADR.
 
-8. **`packages/accounting` is a consolidation candidate.** Cross-domain accounting vocabulary that is genuinely platform-wide may move to `packages/kernel/src/contracts/accounting-domain/` in a future slice. Purely accounting-runtime vocabulary stays deferred until TIP-015+ ADR. The mandatory separate filesystem package for contracts-only activation is superseded.
+8. **`packages/accounting` is a consolidation candidate.** Cross-domain accounting vocabulary that is genuinely platform-wide lives in `packages/kernel/src/erp-domain/accounting/` (public import `@afenda/kernel/erp-domain/accounting`). Purely accounting-runtime vocabulary stays deferred until TIP-015+ ADR. The mandatory separate filesystem package for contracts-only activation is superseded.
 
 9. **ADR-0019 partial supersession.** **Superseded:** Decision item 1 (activate `@afenda/inventory` filesystem package at `packages/inventory/`). **Remains valid:** Drizzle schemas for `products` and `warehouses`, tenant RLS, natural-key uniqueness at DB layer, registry promotion evidence, contract-test intent (relocated to kernel/database), stock-runtime prohibitions until separate ADR/FDR slice.
 
-10. **ADR-0015 partial supersession.** **Superseded:** Decision item 1 (activate `@afenda/accounting` filesystem package at `packages/accounting/`). **Remains valid:** Contracts-only phase prohibitions on ledger/posting runtime, permission vocabulary alignment, governance prohibition tests, bridge-rule intent (relocated to kernel accounting-domain folder when implemented).
+10. **ADR-0015 partial supersession.** **Superseded:** Decision item 1 (activate `@afenda/accounting` filesystem package at `packages/accounting/`). **Remains valid:** Contracts-only phase prohibitions on ledger/posting runtime, permission vocabulary alignment, governance prohibition tests, bridge-rule intent (ERP projection in `apps/erp/src/lib/context/accounting-readiness.projection.ts`; vocabulary in `erp-domain/accounting/`).
 
 11. **`packages/crm`, `packages/hrm`, `packages/procurement` remain blocked.** `BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS` and scaffold guards stay enforced. Future ADRs may grant **real reusable runtime ownership** — not filesystem packages created solely to hold wire contracts kernel already provides.
 
-12. **Kernel internal folder shape is by contract authority category, not ERP module.** Target layout (implementation slice — not this ADR):
+12. **Kernel internal folder shape is by contract authority category, not ERP module.** Target layout (delivered — see PAS-001 §6.1 three-way split):
 
     ```text
-    packages/kernel/src/contracts/
-      platform/                  (exists)
-      business-master-data/      (exists — wire refs, authority registry; rename optional)
-      accounting-domain/         (future — cross-domain accounting vocabulary only)
+    packages/kernel/src/
+      context/                   (operating-context shapes)
+      contracts/                 (platform wire only)
+        platform/
+        business-master-data/
+      erp-domain/                (ERP domain vocabulary modules)
+        accounting/              (@afenda/kernel/erp-domain/accounting)
     ```
 
-    No `features/inventory`, `features/crm`, or module-shaped subfolders inside kernel.
+    No `features/inventory`, `features/crm`, or module-shaped subfolders inside kernel. Retired: `contracts/accounting-domain/` — do not recreate.
 
 ---
 
@@ -174,7 +177,7 @@ Does it have a business owner, lifecycle, workflow, validation, CRUD, or UI?
 | --- | --- | --- |
 | **Slice A (this ADR)** | Accept ADR-0020; update ADR-0019/0015 headers | Architecture Authority |
 | **Slice B** | Retire `packages/inventory`; move `MasterDataRecordStatus` canonical home to `@afenda/database`; update kernel authority registry `reservedPackageId` for product/warehouse to reflect database persistence owner | `foundation-registry-owner` + implementer |
-| **Slice C** | Consolidate or retire `packages/accounting`; cross-domain vocab → `kernel/contracts/accounting-domain/` | Architecture + Accounting Authority |
+| **Slice C** | Consolidate or retire `packages/accounting`; cross-domain vocab → `kernel/erp-domain/accounting/` | Architecture + Accounting Authority |
 | **Slice D** | Amend ARCH-MD-001 §5.2 package-first rule; sync FDR evidence rows | documentation-drift |
 | **Slice E** | Optional kernel folder rename `business-master-data/` → clearer authority-category names | Kernel authority |
 

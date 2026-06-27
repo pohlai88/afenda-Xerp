@@ -1,0 +1,33 @@
+{
+  "name": "@afenda/accounting-standards",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Versioned accounting-standard authority metadata and standards-backed validation contracts (PAS-003)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "test": "vitest --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@afenda/kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "@afenda/typescript-config": "workspace:*",
+    "vitest": "catalog:"
+  }
+}

@@ -3,7 +3,7 @@ import { parseIso8601UtcTimestamp } from "./iso8601-utc-timestamp.js";
 export const ARCHITECTURE_AUTHORITY_VERSION = "1.0.0" as const;
 
 export const ARCHITECTURE_BASELINE_FINGERPRINT =
-  "ARCH-BASELINE-2026-06-27-v2" as const;
+  "ARCH-BASELINE-2026-06-27-v3" as const;
 
 /** Deterministic lifecycle/exception validation reference for CI gates (matches baseline date). */
 export const ARCHITECTURE_VALIDATION_REFERENCE_ISO =

@@ -3,8 +3,12 @@ pas_id: PAS-001
 package: "@afenda/kernel"
 layer: Platform
 runtime_stance: contracts-first
-registry_lane: "@afenda/kernel (packages/kernel); PKGR01_ACCOUNTING (accounting-domain subpath)"
+registry_lane: "@afenda/kernel (packages/kernel); PKGR01_ACCOUNTING (erp-domain/accounting subpath)"
 skill: kernel-authority
+maturity: enterprise_accepted
+authority_status: enterprise_accepted
+implementation_status: implemented
+evidence_level: runtime_proven
 consumers:
   - "@afenda/auth"
   - "@afenda/permissions"
@@ -32,6 +36,14 @@ slice_dir: docs/PAS/slice/
 
 # PAS-001 — Kernel Authority Standard
 
+> **PAS maturity:** `Enterprise Accepted`
+> **Authority status:** `enterprise_accepted`
+> **Implementation status:** `implemented`
+> **Evidence level:** `runtime_proven`
+>
+> **Maturity is part of authority.**
+> PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
+
 > **Agent skill entrypoint:** `.cursor/skills/kernel-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
 > **Package-local tree map:** `packages/kernel/PAS-001-KERNEL-TREE.md`
@@ -46,6 +58,7 @@ slice_dir: docs/PAS/slice/
 | Consumer packages | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | Change model      | Serialized kernel slices only                                                                                                                        |
 | Quality target    | Enterprise 9.5 / 10                                                                                                                                  |
+| PAS maturity      | `Enterprise Accepted`                                                                                                                                |
 
 ---
 
@@ -64,7 +77,7 @@ slice_dir: docs/PAS/slice/
 
 **Slice entrypoint:** `docs/PAS/slice/` (29 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
-**Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting-domain vocabulary → `PKGR01_ACCOUNTING`
+**Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
 
@@ -709,7 +722,7 @@ apps/erp/src/lib/context/
 └── workflow-context.resolution.server.ts         # parseWorkflowId / toWorkflowContext
 ```
 
-**Completed kernel relocations (see `kernel-boundary-drift.registry.ts`):** untrusted-client authority, accounting-domain bridge projection, consolidation scope derivation, runtime surface/workflow parsers.
+**Completed kernel relocations (see `kernel-boundary-drift.registry.ts`):** untrusted-client authority, accounting bridge projection (ERP `apps/erp/src/lib/context/accounting-readiness.projection.ts`), accounting vocabulary from `contracts/accounting-domain/` → `erp-domain/accounting/`, consolidation scope derivation, runtime surface/workflow parsers.
 
 ---
 
@@ -883,11 +896,11 @@ Allowed:
 
 * Account type vocabulary
 * Posting status vocabulary
-* Fiscal period state vocabulary if already part of the approved accounting-domain vocabulary
+* Fiscal period state vocabulary if already part of the approved erp-domain accounting vocabulary
 * Journal document type vocabulary
 * Accounting permission key vocabulary
 * Accounting wire context
-* Accounting branded IDs already approved in accounting-domain contracts
+* Accounting branded IDs already approved in `erp-domain/accounting/` contracts
 * Consolidation method vocabulary if contract-only
 * Chart-of-account structure vocabulary if contract-only
 
@@ -1117,10 +1130,11 @@ packages/kernel/
     │   ├── execution-context.contract.ts
     │   ├── execution-context.policy.contract.ts
     │   ├── kernel-package-layout.contract.ts
-    │   ├── platform/
-    │   ├── business-reference-identity/
-    │   └── accounting-domain/
-    ├── context/
+    │   └── platform/
+    ├── context/                          # operating-context shapes (§4.4)
+    ├── erp-domain/                       # ERP domain vocabulary modules (§4.8)
+    │   ├── erp-domain-layout.contract.ts
+    │   └── accounting/                   # @afenda/kernel/erp-domain/accounting
     ├── governance/
     ├── identity/
     ├── permission/
@@ -1129,6 +1143,8 @@ packages/kernel/
     ├── policy/
     └── __tests__/
 ```
+
+**Three-way kernel split:** `context/` = operating-context shapes (§4.4); `contracts/` = platform wire vocabulary only (result, execution context, platform entity map); `erp-domain/{module}/` = ERP domain vocabulary template (`accounting/` first — §4.8). Do not place ERP domain modules under `contracts/`.
 
 ## 6.2 Target package structure after approved slices
 
@@ -1170,10 +1186,10 @@ PAS §6.4 baseline (eight keys — root plus seven subpaths; delivered B3–B16)
       "import": "./dist/context/index.js",
       "default": "./dist/context/index.js"
     },
-    "./accounting-domain": {
-      "types": "./dist/contracts/accounting-domain/index.d.ts",
-      "import": "./dist/contracts/accounting-domain/index.js",
-      "default": "./dist/contracts/accounting-domain/index.js"
+    "./erp-domain/accounting": {
+      "types": "./dist/erp-domain/accounting/index.d.ts",
+      "import": "./dist/erp-domain/accounting/index.js",
+      "default": "./dist/erp-domain/accounting/index.js"
     },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",
@@ -1348,7 +1364,7 @@ Do not add in kernel:
 
 * `FiscalCalendarContext`
 * `CurrencyContext`
-* fiscal period state outside already-approved accounting-domain vocabulary
+* fiscal period state outside already-approved erp-domain accounting vocabulary
 * fiscal year start month
 * period open/close/lock runtime status
 * functional/base/reporting currency decisions

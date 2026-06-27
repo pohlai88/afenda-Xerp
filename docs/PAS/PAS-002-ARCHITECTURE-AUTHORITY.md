@@ -5,6 +5,10 @@ layer: Platform
 runtime_stance: contracts-only
 registry_lane: PKGR02_ARCHITECTURE_AUTHORITY
 skill: architecture-authority
+maturity: mvp_authority
+authority_status: accepted_for_boundary
+implementation_status: partial
+evidence_level: runtime_partial
 consumers:
   - "@afenda/kernel"
   - "@afenda/design-system"
@@ -36,6 +40,14 @@ slice_dir: docs/PAS/slice/
 
 # PAS-002 — Architecture Authority Standard
 
+> **PAS maturity:** `MVP Authority`
+> **Authority status:** `accepted_for_boundary`
+> **Implementation status:** `partial`
+> **Evidence level:** `runtime_partial`
+>
+> **Maturity is part of authority.**
+> PAS-002 reserves package/layer/ownership/dependency boundary and supports serialized implementation. Treat registry and gate contracts as **partial** authority until promoted to Enterprise Accepted.
+
 > **Agent skill entrypoint:** `.cursor/skills/architecture-authority/SKILL.md` *(Delivered — Slice B10)*
 > **Canonical location:** `docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY-STANDARD.md`
 > **Package-local tree:** [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
@@ -53,6 +65,7 @@ slice_dir: docs/PAS/slice/
 | Consumer packages | Kernel, platform packages, UI packages, apps/erp, delivery governance                                        |
 | Change model      | serialized slices                                                                                            |
 | Quality target    | Enterprise 9.5 / 10                                                                                          |
+| PAS maturity      | `MVP Authority`                                                                                              |
 
 ---
 

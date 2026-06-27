@@ -12,8 +12,8 @@
  * - `hierarchy-id-boundary.contract.ts` — wire id parse/normalize at trust boundaries
  * - `*-resolution.ts` / `*.policy.ts` — derivation or merge **behavior** (owner: apps/erp; must not live here)
  *
- * Not `contracts/` — that folder holds platform wire vocabulary (Result, ExecutionContext,
- * accounting-domain words). See `KERNEL_SRC_FOLDER_BOUNDARY` in kernel-package-layout.contract.ts.
+ * Not `contracts/` — that folder holds platform wire vocabulary (Result, ExecutionContext).
+ * ERP domain words live under `erp-domain/{module}/`. See `KERNEL_SRC_FOLDER_BOUNDARY`.
  */
 export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
   {

@@ -1,17 +1,17 @@
 /**
- * Afenda Docs — 4-level type roles (UI-first).
- * meta · ui · section · title
+ * Afenda Docs — editorial type roles (Newsreader display + Inter body).
  */
 
 @layer components {
   .docs-type-display {
-    font-family: var(--font-sans);
-    font-size: var(--docs-text-title);
-    font-weight: 500;
-    line-height: var(--docs-leading-title);
-    letter-spacing: var(--docs-tracking-title);
-    color: var(--docs-text-heading);
+    font-family: var(--font-serif);
+    font-size: var(--docs-text-display);
+    font-weight: 400;
+    line-height: var(--docs-leading-display);
+    letter-spacing: var(--docs-tracking-display);
+    color: var(--docs-color-editorial);
     text-wrap: balance;
+    font-optical-sizing: auto;
   }
 
   .docs-type-summary,
@@ -21,16 +21,16 @@
     font-weight: 400;
     line-height: var(--docs-leading-ui);
     letter-spacing: var(--docs-tracking-body);
-    color: var(--color-fd-muted-foreground);
+    color: var(--docs-color-muted);
   }
 
   .docs-type-deck {
     max-width: var(--docs-prose-max-width);
     font-family: var(--font-sans);
-    font-size: var(--docs-text-ui);
+    font-size: var(--docs-text-body);
     font-weight: 400;
     line-height: var(--docs-leading-normal);
-    color: var(--color-fd-muted-foreground);
+    color: var(--docs-color-body);
     text-wrap: pretty;
   }
 
@@ -39,7 +39,7 @@
     font-size: var(--docs-text-meta);
     font-weight: 500;
     line-height: var(--docs-leading-ui);
-    color: var(--color-fd-muted-foreground);
+    color: var(--docs-color-muted);
     text-transform: uppercase;
     letter-spacing: var(--docs-tracking-overline);
   }
@@ -51,27 +51,18 @@
     font-weight: 400;
     line-height: var(--docs-leading-ui);
     letter-spacing: var(--docs-tracking-body);
-    color: var(--docs-text-body);
+    color: var(--docs-color-body);
   }
 
   .docs-type-ui-strong {
-    color: var(--docs-text-heading);
-  }
-
-  #nd-page > h1.docs-type-display {
-    margin-block: 0;
-  }
-
-  #nd-page > p.docs-type-deck,
-  #nd-page > p.docs-type-summary {
-    margin-block: 0;
+    color: var(--docs-color-heading);
   }
 
   #toc-title {
     font-size: var(--docs-text-meta);
     font-weight: 500;
     line-height: var(--docs-leading-ui);
-    color: var(--color-fd-muted-foreground);
+    color: var(--docs-color-muted);
     text-transform: uppercase;
     letter-spacing: var(--docs-tracking-overline);
   }
@@ -86,29 +77,37 @@
   }
 }
 
-/* Unlayered — beat Fumadocs DocsTitle / typography utilities */
-#nd-page > h1.docs-type-display {
-  font-family: var(--font-sans);
+/* Unlayered — beat Fumadocs DocsTitle utilities (font-semibold, text-lg) */
+#nd-page {
+  color: var(--docs-color-body);
+}
+
+#nd-page h1.docs-type-display {
+  font-family: var(--font-serif);
   font-size: var(--docs-text-title);
-  font-weight: 500;
+  font-weight: 400;
   line-height: var(--docs-leading-title);
   letter-spacing: var(--docs-tracking-title);
-  color: var(--docs-text-heading);
+  color: var(--docs-color-editorial);
   margin-block: 0;
+  font-optical-sizing: auto;
+  text-wrap: balance;
 }
 
-#nd-page > p.docs-type-summary {
+#nd-page p.docs-type-summary {
   max-width: var(--docs-prose-max-width);
-  font-size: var(--docs-text-meta);
-  font-weight: 400;
-  line-height: var(--docs-leading-ui);
-  color: var(--color-fd-muted-foreground);
-}
-
-#nd-page > p.docs-type-deck {
-  max-width: var(--docs-prose-max-width);
-  font-size: var(--docs-text-ui);
+  margin-block: 0;
+  font-size: var(--docs-text-body);
   font-weight: 400;
   line-height: var(--docs-leading-normal);
-  color: var(--color-fd-muted-foreground);
+  color: var(--docs-color-muted);
+}
+
+#nd-page p.docs-type-deck {
+  max-width: var(--docs-prose-max-width);
+  margin-block: 0;
+  font-size: var(--docs-text-body);
+  font-weight: 400;
+  line-height: var(--docs-leading-normal);
+  color: var(--docs-color-body);
 }

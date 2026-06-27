@@ -4,6 +4,21 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 ---
 
+## PAS-003 Accounting Standards Authority — publish (Production Candidate)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Published — Production Candidate |
+| **Authority** | PAS-003 · `PKGR03_ACCOUNTING_STANDARDS` · PKG-023 |
+| **Maturity** | `production_candidate` · `accepted_for_implementation` · `not_started` · `concept` |
+| **Runtime evidence** | PAS-003 canonical doc, B0 package skeleton, agent skill, Architecture Authority registries |
+| **Gates** | `pnpm --filter @afenda/accounting-standards typecheck`, `pnpm --filter @afenda/accounting-standards test:run`, `pnpm quality:architecture`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
+| **Result** | PAS-003 optimized (YAML, Kernel boundary, Current vs Target §6); B0 skeleton + skill delivered; Enterprise Accepted **not** claimed |
+
+**Next sequence item:** Slice B1 — accounting standard family registry ([`slice/b1-4.1-accounting-standard-family-registry.md`](slice/b1-4.1-accounting-standard-family-registry.md)).
+
+---
+
 ## Kernel PAS/package-tree synchronization (Slice B — structure authority closure)
 
 | Field | Value |

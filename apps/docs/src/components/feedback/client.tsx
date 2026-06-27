@@ -36,7 +36,7 @@ import {
 } from "react";
 
 const rateButtonVariants = cva(
-  "inline-flex items-center gap-2 px-3 py-2 rounded-full font-medium border text-sm [&_svg]:size-4 disabled:cursor-not-allowed",
+  "inline-flex items-center gap-2 px-3 py-2 rounded-full font-medium border text-sm [&_svg]:size-4 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2 focus-visible:ring-offset-fd-background",
   {
     variants: {
       active: {
@@ -133,6 +133,7 @@ export function Feedback({
         </button>
       </div>
       <CollapsibleContent className="mt-3">
+        <div aria-live="polite">
         {previous ? (
           <FeedbackThankYou
             {...(previous.response?.githubUrl
@@ -146,9 +147,12 @@ export function Feedback({
           />
         ) : (
           <form className="flex flex-col gap-3" onSubmit={submit}>
+            <label className="sr-only" htmlFor="docs-page-feedback-message">
+              {t.placeholder}
+            </label>
             <textarea
-              autoFocus
-              className="resize-none rounded-lg border bg-fd-secondary p-3 text-fd-secondary-foreground placeholder:text-fd-muted-foreground focus-visible:outline-none"
+              id="docs-page-feedback-message"
+              className="resize-none rounded-lg border bg-fd-secondary p-3 text-fd-secondary-foreground placeholder:text-fd-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2 focus-visible:ring-offset-fd-background"
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
@@ -170,6 +174,7 @@ export function Feedback({
             </button>
           </form>
         )}
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );
@@ -453,9 +458,12 @@ function FeedbackTextForm({
       className={cn("flex flex-col gap-2", container.className)}
       onSubmit={submit}
     >
+      <label className="sr-only" htmlFor="docs-block-feedback-message">
+        {t.placeholder}
+      </label>
       <textarea
-        autoFocus
-        className="resize-none rounded-lg border bg-fd-secondary p-3 text-fd-secondary-foreground placeholder:text-fd-muted-foreground focus-visible:outline-none"
+        id="docs-block-feedback-message"
+        className="resize-none rounded-lg border bg-fd-secondary p-3 text-fd-secondary-foreground placeholder:text-fd-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2 focus-visible:ring-offset-fd-background"
         onChange={(e) => {
           setMessage(e.target.value);
         }}

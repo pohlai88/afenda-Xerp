@@ -8,6 +8,32 @@ Copy this file to `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
 
 ---
 
+## PAS maturity labels
+
+Copy this table into every new PAS header block (below the title) when `maturity` is set.
+
+| Label | Meaning | Can be coded? | Can be treated as authority? |
+| --- | --- | ---: | ---: |
+| **Idea** | Directional concept only | No | No |
+| **MVP Authority** | Enough to reserve boundary and start package skeleton | Limited | Partial |
+| **Production Candidate** | Implementable with gates, tests, and known owners | Yes | Yes, after gates |
+| **Enterprise Accepted** | Fully implemented, gated, documented, and drift-protected | Yes | Yes |
+| **Deprecated / Superseded** | Replaced or retired | No new work | Historical only |
+
+**Header block pattern** (adapt values per PAS):
+
+```markdown
+> **PAS maturity:** `<Label>`
+> **Authority status:** `<authority_status>`
+> **Implementation status:** `<implementation_status>`
+> **Evidence level:** `<evidence_level>`
+>
+> **Maturity is part of authority.**
+> <One sentence on what this label allows and what it forbids claiming.>
+```
+
+---
+
 ## Copy block — canonical PAS document
 
 ~~~markdown
@@ -18,6 +44,10 @@ layer: Platform | Foundation | Application | UI
 runtime_stance: contracts-only | runtime | composition | UI
 registry_lane: PKGRxx_<NAME>
 skill: <package-name>-authority
+maturity: idea | mvp_authority | production_candidate | enterprise_accepted
+authority_status: draft | accepted_for_boundary | accepted_for_implementation | enterprise_accepted
+implementation_status: not_started | partial | implemented
+evidence_level: concept | runtime_partial | runtime_proven
 consumers:
   - "@afenda/<consumer>"
   - apps/erp
@@ -31,6 +61,14 @@ slice_dir: docs/PAS/slice/
 ---
 
 # PAS-NNN — <Package Name> Authority Standard
+
+> **PAS maturity:** `<Idea | MVP Authority | Production Candidate | Enterprise Accepted | Deprecated / Superseded>`
+> **Authority status:** `<authority_status>`
+> **Implementation status:** `<implementation_status>`
+> **Evidence level:** `<evidence_level>`
+>
+> **Maturity is part of authority.**
+> <One sentence on what this label allows and what it forbids claiming.>
 
 > **Agent skill entrypoint:** `.cursor/skills/<package-name>-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`
@@ -46,6 +84,7 @@ slice_dir: docs/PAS/slice/
 | Consumer packages | `<list>`                                        |
 | Change model      | `<serialized slices / open>`                    |
 | Quality target    | Enterprise 9.5 / 10                             |
+| PAS maturity      | `<Idea | MVP Authority | Production Candidate | Enterprise Accepted>` |
 
 ---
 

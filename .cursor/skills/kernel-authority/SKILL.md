@@ -22,7 +22,7 @@ Apply this skill when touching:
 - `packages/kernel/src/identity/` — canonical enterprise ID constitution (PAS §4.1 / ADR-0021)
 - `ExecutionContext`, `OperatingContext`, `KernelContextFrame`
 - `identity/enterprise-id.contract.ts`, `app-error.contract.ts`, `execution-context.contract.ts`
-- `context-registry.ts`, `accounting-domain`, `propagation`, `events`, `policy`
+- `context-registry.ts`, `erp-domain/accounting`, `propagation`, `events`, `policy`
 - any cross-package branded ID question
 
 ---
@@ -187,7 +187,7 @@ The boundary gate blocks cross-package prohibited imports. It does **not** catch
 |---|---|---|---|
 | **Presentation helper** | `formatWorkspaceDisplayLabel()` | Formats UI label strings — PAS §4.5 no formatting | `@afenda/appshell` |
 | **Currency decision function** | `resolveReportingCurrency()` | Encodes `reportingCurrency ?? baseCurrency` fallback — PAS §4.5/§7 no currency decisions | Finance / `@afenda/accounting` |
-| **Forbidden ID through sub-domain** | `FiscalPeriodId` inside `accounting-domain/` | PAS §4.1 explicitly "not approved at this stage" | `@afenda/accounting` |
+| **Forbidden ID through sub-domain** | `FiscalPeriodId` inside `erp-domain/accounting/` | PAS §4.1 explicitly "not approved at this stage" | `@afenda/accounting` |
 | **Operational/diagnostic snapshot type** | `AccountingReadinessGateLiveSnapshot` | Gate telemetry is not cross-package vocabulary | ERP system-admin or `@afenda/observability` |
 | **Self-import via package name** | `from "@afenda/kernel"` inside `packages/kernel/src/**` | Hides intra-package dependency graph — always use relative path | `./brand.contract.js` |
 | **Repo governance in source** | `BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS` | Directory scaffold policy belongs in `scripts/governance/` | `scripts/governance/` or `packages/architecture-authority` |

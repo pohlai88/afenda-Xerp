@@ -1,7 +1,11 @@
 {
-  "fingerprint": "ARCH-BASELINE-2026-06-27-v2",
-  "generatedAt": "2026-06-27T11:09:14.766Z",
+  "fingerprint": "ARCH-BASELINE-2026-06-27-v3",
+  "generatedAt": "2026-06-27T12:27:41.755Z",
   "runtimeEdges": [
+    {
+      "from": "@afenda/accounting-standards",
+      "to": "@afenda/kernel"
+    },
     {
       "from": "@afenda/ai-governance",
       "to": "@afenda/architecture-authority"

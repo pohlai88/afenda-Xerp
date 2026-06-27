@@ -157,7 +157,9 @@ describe("@afenda/docs theme", () => {
 
   it("overrides prose accent in dark mode for readable H254", () => {
     const paletteCss = readDocsFile("src/app/docs-editorial-palette.css");
-    const darkBlock = paletteCss.slice(paletteCss.indexOf(".dark {"));
+    const darkBlock = paletteCss.slice(
+      paletteCss.indexOf(":is(.dark, [data-theme=\"dark\"])")
+    );
 
     expect(darkBlock).toContain(
       `${docsProseAccentCssVariables.default}: ${docsProseAccentValues.dark.default}`
