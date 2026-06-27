@@ -94,12 +94,8 @@ export {
 } from "./operating-context-hierarchy.contract.js";
 export type {
   assertPermissionScopeContextJsonSerializable,
-  assertPermissionScopeContextJsonSerializable,
-  OperatingContextPermissionScope,
   OperatingContextPermissionScope,
   PermissionScopeContext,
-  PermissionScopeContext,
-  PermissionScopeWireContext,
   PermissionScopeWireContext,
 } from "./operating-context-permission-scope.contract.js";
 // ── 5. Organization unit ─────────────────────────────────────────────────────

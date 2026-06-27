@@ -63,6 +63,24 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
   ];
 }
 
+function createArchitectureException(
+  overrides: Partial<ArchitectureException> = {}
+): ArchitectureException {
+  return {
+    id: "ARCH-EXC-TEST-001",
+    status: "active",
+    owner: "Architecture Authority",
+    evidence: ["docs/adr/ADR-0005-exception-governance.md"],
+    adr: "ADR-0005",
+    approvedBy: "Architecture Authority",
+    expiresAt: "2027-01-01T00:00:00.000Z",
+    packageName: "@afenda/example",
+    reason: "temporary layer exemption",
+    subject: "layer dependency",
+    ...overrides,
+  };
+}
+
 describe("architecture authority negative paths", () => {
   it("registry fails for unregistered workspace packages", () => {
     const result = validateRegistry([workspace("@afenda/not-registered")]);
@@ -137,14 +155,9 @@ describe("architecture authority negative paths", () => {
   });
 
   it("exceptions fails when an approved exception is past expiry", () => {
-    const expiredException: ArchitectureException = {
-      adr: "ADR-0005",
-      approvedBy: "Architecture Authority",
+    const expiredException = createArchitectureException({
       expiresAt: "2020-01-01T00:00:00.000Z",
-      packageName: "@afenda/example",
-      reason: "temporary layer exemption",
-      subject: "layer dependency",
-    };
+    });
 
     const result = validateExceptionEntries(
       [expiredException],
@@ -158,6 +171,40 @@ describe("architecture authority negative paths", () => {
           gate: "exceptions",
           packageName: "@afenda/example",
           message: expect.stringContaining("expired exception"),
+        }),
+      ])
+    );
+  });
+
+  it("exceptions fails when an active exception has blank evidence", () => {
+    const result = validateExceptionEntries([
+      createArchitectureException({ evidence: ["  "] }),
+    ]);
+
+    expect(result.ok).toBe(false);
+    expect(result.violations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          gate: "exceptions",
+          packageName: "@afenda/example",
+          message: expect.stringContaining("requires non-empty evidence"),
+        }),
+      ])
+    );
+  });
+
+  it("exceptions fails when an active exception has a blank id", () => {
+    const result = validateExceptionEntries([
+      createArchitectureException({ id: "   " }),
+    ]);
+
+    expect(result.ok).toBe(false);
+    expect(result.violations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          gate: "exceptions",
+          packageName: "@afenda/example",
+          message: expect.stringContaining("has invalid id"),
         }),
       ])
     );

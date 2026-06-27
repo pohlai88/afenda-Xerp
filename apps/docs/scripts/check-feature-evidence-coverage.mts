@@ -110,7 +110,7 @@ function main(): void {
   const permissionParity = validatePermissionOpenApiParity(openApiBinding.manifests);
   const permissionParityErrors = applyPermissionParityHardFail({
     warnings: permissionParity.warnings,
-    score: score.score,
+    score,
   });
 
   console.log(
@@ -129,8 +129,22 @@ function main(): void {
     }
   }
 
-  if (coverage.errors.length > 0 || openApiBindingErrors.length > 0) {
-    throw new Error([...coverage.errors, ...openApiBindingErrors].join("\n"));
+  if (permissionParity.warnings.length > 0) {
+    for (const warning of permissionParity.warnings) {
+      console.warn(`[check:feature-evidence-coverage] permission-parity: ${warning}`);
+    }
+  }
+
+  if (
+    coverage.errors.length > 0 ||
+    openApiBindingErrors.length > 0 ||
+    permissionParityErrors.length > 0
+  ) {
+    throw new Error(
+      [...coverage.errors, ...openApiBindingErrors, ...permissionParityErrors].join(
+        "\n"
+      )
+    );
   }
 
   const graph = buildDocsFeatureEvidenceGraph({
@@ -138,10 +152,11 @@ function main(): void {
     coverage,
     score,
     openApiBindingWarnings: openApiBinding.warnings,
+    permissionParityWarnings: permissionParity.warnings,
   });
 
-  if (graph.version !== 2) {
-    throw new Error("Expected feature evidence graph version 2.");
+  if (graph.version !== 3) {
+    throw new Error("Expected feature evidence graph version 3.");
   }
 
   console.log("[check:feature-evidence-coverage] pass");

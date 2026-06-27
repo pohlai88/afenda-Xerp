@@ -158,7 +158,7 @@ ${apiSection}## Traceability
 <Steps>
   <Step>Catalog source: \`modules.catalog.json\` via \`pnpm sync:product-docs\`.</Step>
   <Step>Casual guide: [${manifest.title}](/docs/use-erp/modules/${manifest.id}).</Step>
-  <Step>Integrator stub: [Module tabular reference](/docs/integrate/modules/${manifest.id}).</Step>
+  <Step>Tabular reference: [Module catalog table](/docs/integrate/modules/${manifest.id}) · [End-user guide](/docs/use-erp/modules/${manifest.id}).</Step>
   <Step>Regenerate with \`pnpm sync:product-docs\` after entitlement or route changes.</Step>
 </Steps>
 `;

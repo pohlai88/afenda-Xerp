@@ -1,4 +1,6 @@
 import type { DocsFeatureManifest } from "@/lib/docs-feature-manifest.contract";
+import type { DocsFeatureCoverageScore } from "@/lib/docs-feature-manifest.contract";
+import { DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD } from "@/lib/docs-feature-manifest.contract";
 
 const PERMISSION_PARITY_KINDS = new Set<DocsFeatureManifest["kind"]>(["module"]);
 

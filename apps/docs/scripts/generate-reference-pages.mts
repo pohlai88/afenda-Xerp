@@ -164,7 +164,12 @@ function renderModuleList(modules: readonly string[]): string {
 function renderModuleStubPage(module: ModuleCatalogEntry): string {
   return `# ${module.label}
 
-Machine-synced from \`modules.catalog.json\`. Editorial feature guides remain a P2 backlog.
+Machine-synced from \`modules.catalog.json\`. For narrative guides and API traceability, use the links below.
+
+| Guide | Link |
+| --- | --- |
+| End-user guide | [/docs/use-erp/modules/${module.moduleId}](/docs/use-erp/modules/${module.moduleId}) |
+| Developer evidence | [/docs/integrate/generated/evidence/${module.moduleId}](/docs/integrate/generated/evidence/${module.moduleId}) |
 
 | Field | Value |
 | --- | --- |
@@ -192,7 +197,7 @@ function renderModulesIndex(catalog: ModulesCatalog): string {
 
   return `# ERP modules
 
-Auto-generated module stubs from the entitlement manifest. See also the [tabular reference](../generated/modules).
+Auto-generated module stubs from the entitlement manifest. Each module links to the searchable [Use ERP module guides](/docs/use-erp/modules) and [developer evidence](/docs/integrate/generated/evidence/index).
 
 | Module | Route | Permission |
 | --- | --- | --- |

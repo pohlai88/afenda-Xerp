@@ -4,7 +4,7 @@
 **Lifecycle:** Active  
 **Registry ID:** PKG-019  
 **Version:** 1.0.0  
-**Fingerprint:** `ARCH-BASELINE-2026-06-23-v2`  
+**Fingerprint:** `ARCH-BASELINE-2026-06-27-v2`  
 **Dependencies:** none
 
 ## What this package is
@@ -28,7 +28,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 | 5 | Domain | Business truth | Metadata, Integration, Foundation, Design, Platform |
 | 6 | Application | Delivery surfaces | ERPSpine, Domain, and everything below |
 
-### Registered packages (20 active)
+### Registered workspace packages (22 filesystem-required rows)
 
 | Package | Layer | Authority |
 | --- | --- | --- |
@@ -51,6 +51,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 | `@afenda/appshell` | ERPSpine | ERP Spine Authority |
 | `@afenda/erp` | Application | Application Authority |
 | `@afenda/docs` | Application | Application Authority |
+| `@afenda/email` | Application | Application Authority |
 | `@afenda/storybook` | Application | Application Authority |
 | `@afenda/permissions` | Platform | Platform Authority |
 
@@ -64,7 +65,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 
 ```typescript
 import {
-  validateArchitecture,    // Runs all 7 gates against discovered workspaces
+  validateArchitecture,    // Runs all 8 ValidationGate values against discovered workspaces
   validateRegistry,        // Every filesystem package is registered
   validateOwnership,       // Every package has a declared owner
   validateLayers,          // Layer assignments are consistent
@@ -72,8 +73,13 @@ import {
   validateForbiddenDependencies, // No explicitly forbidden edges
   validateCycles,          // No circular dependencies
   validateExceptions,      // Exception registry entries are justified
+  validateFoundationDisposition, // Foundation disposition registry integrity
 } from "@afenda/architecture-authority";
 ```
+
+The surface registry currently publishes 9 validator modules: the
+`validateArchitecture` composite entry plus 8 leaf validators in
+`ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES`.
 
 ### Data registries
 
@@ -130,7 +136,7 @@ import type {
   LayerContract,         // Layer definitions and allowed targets
   ValidationResult,      // { ok, violations: ArchitectureViolation[] }
   ArchitectureViolation, // { gate, message, packageName? }
-  ValidationGate,        // "registry" | "ownership" | "layers" | "dependencies" | ...
+  ValidationGate,        // "registry" | "ownership" | "layers" | "dependencies" | "forbidden-dependencies" | "cycles" | "exceptions" | "foundation-disposition"
   AuthorityLevel,        // "platform" | "design" | "metadata" | "erp-spine" | ...
   LifecycleState,        // "active" | "deprecated" | "planned" | "retired"
 } from "@afenda/architecture-authority";
@@ -177,6 +183,6 @@ Adding a package, changing a layer assignment, or adding a dependency exception 
 1. An accepted ADR
 2. A version bump in `architecture-authority-version.ts`
 3. An updated fingerprint constant `ARCHITECTURE_BASELINE_FINGERPRINT`
-4. Updated tests that verify the new state passes all 7 validation gates
+4. Updated tests that verify the new state passes all 8 validation gates
 
 AI must not modify this package without a scope manifest referencing the governing ADR.

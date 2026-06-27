@@ -27,10 +27,12 @@ import {
   applyFeatureCoverageHardFail,
   applyFeatureManifestOverrides,
   applyOpenApiBindingHardFail,
+  applyPermissionParityHardFail,
   buildDocsFeatureEvidenceGraph,
   buildDocsFeatureManifests,
   computeFeatureCoverageScore,
   validateFeatureCoverage,
+  validatePermissionOpenApiParity,
 } from "../src/lib/docs-feature-manifest.ts";
 import type {
   FeatureCopyOverlay,
@@ -305,9 +307,26 @@ function main(): void {
     warnings: openApiBinding.warnings,
     score,
   });
+  const permissionParity = validatePermissionOpenApiParity(openApiBinding.manifests);
+  const permissionParityErrors = applyPermissionParityHardFail({
+    warnings: permissionParity.warnings,
+    score,
+  });
 
-  if (coverage.errors.length > 0 || openApiBindingErrors.length > 0) {
-    throw new Error([...coverage.errors, ...openApiBindingErrors].join("\n"));
+  for (const warning of permissionParity.warnings) {
+    console.warn(`[generate-feature-evidence] permission-parity: ${warning}`);
+  }
+
+  if (
+    coverage.errors.length > 0 ||
+    openApiBindingErrors.length > 0 ||
+    permissionParityErrors.length > 0
+  ) {
+    throw new Error(
+      [...coverage.errors, ...openApiBindingErrors, ...permissionParityErrors].join(
+        "\n"
+      )
+    );
   }
 
   for (const warning of coverage.warnings) {
@@ -320,6 +339,7 @@ function main(): void {
     coverage,
     score,
     openApiBindingWarnings: openApiBinding.warnings,
+    permissionParityWarnings: permissionParity.warnings,
   });
   writeFileSync(
     join(docsDataDir, "feature-evidence.graph.json"),
@@ -348,7 +368,7 @@ function main(): void {
     writeGeneratedMdx(
       contentRoot,
       "configure-tenant/generated/admin-sections.mdx",
-      renderCasualAdminSectionsMdx(manifests)
+      renderCasualAdminSectionsMdx(manifests, localeOverlay)
     );
 
     for (const moduleManifest of moduleManifests) {
