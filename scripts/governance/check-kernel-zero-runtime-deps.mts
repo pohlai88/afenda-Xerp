@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Kernel zero runtime dependencies gate (PAS-001 §13).
+ * Kernel zero runtime dependencies gate (PAS-001 §14.2).
  */
 
 import { readFileSync } from "node:fs";

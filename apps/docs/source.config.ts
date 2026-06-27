@@ -1,4 +1,9 @@
+import { remarkMdxMermaid } from "fumadocs-core/mdx-plugins";
+import { remarkMdxFiles } from "fumadocs-core/mdx-plugins/remark-mdx-files";
+import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import jsonSchema from "fumadocs-mdx/plugins/json-schema";
+import lastModified from "fumadocs-mdx/plugins/last-modified";
 import { remarkAutoTypeTable } from "fumadocs-typescript";
 import { z } from "zod";
 import {
@@ -15,13 +20,12 @@ const blockIdOptions = {
 export const docs = defineDocs({
   dir: "content/docs",
   docs: {
-    schema: z.object({
-      title: z.string(),
+    schema: pageSchema.extend({
       icon: z.string().optional(),
-      description: z.string().optional(),
       full: z.boolean().optional(),
       status: z.enum(["draft", "published"]).optional(),
       noIndex: z.boolean().optional(),
+      docsType: z.enum(["generated-evidence"]).optional(),
       audience: z.enum(TASK_ARTICLE_AUDIENCES).optional(),
       relatedRoutes: z.array(z.string()).optional(),
       catalogBindings: z.array(z.enum(CATALOG_IDS)).optional(),
@@ -39,11 +43,16 @@ export const docs = defineDocs({
       includeProcessedMarkdown: true,
     },
   },
+  meta: {
+    schema: metaSchema,
+  },
 });
 
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
+      remarkMdxMermaid,
+      remarkMdxFiles,
       [remarkBlockId, blockIdOptions],
       [
         remarkAutoTypeTable,
@@ -53,5 +62,17 @@ export default defineConfig({
         },
       ],
     ],
+    rehypeCodeOptions: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
   },
+  plugins: [
+    lastModified({
+      filter: (collection) => collection === "docs",
+    }),
+    jsonSchema({ insert: true }),
+  ],
 });

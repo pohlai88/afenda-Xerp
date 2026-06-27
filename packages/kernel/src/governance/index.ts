@@ -1,4 +1,21 @@
 export {
+  getKernelBoundaryDriftEntry,
+  isKernelBoundaryDriftEntryId,
+  isKernelBoundaryDriftPath,
+  KERNEL_BOUNDARY_CANONICAL_PRIMITIVE_PATHS,
+  KERNEL_BOUNDARY_DRIFT_DISPOSITIONS,
+  KERNEL_BOUNDARY_DRIFT_ENTRIES,
+  KERNEL_BOUNDARY_DRIFT_ENTRY_IDS,
+  KERNEL_BOUNDARY_DRIFT_PAS_SECTIONS,
+  KERNEL_BOUNDARY_DRIFT_POLICY,
+  KERNEL_BOUNDARY_DRIFT_REFACTOR_STATUSES,
+  type KernelBoundaryDriftDisposition,
+  type KernelBoundaryDriftEntry,
+  type KernelBoundaryDriftEntryId,
+  type KernelBoundaryDriftRefactorStatus,
+  listKernelBoundaryDriftEntries,
+} from "./kernel-boundary-drift.registry.js";
+export {
   getKernelContractRule,
   getKernelContractRuleByPasNumber,
   isKernelContractRuleId,

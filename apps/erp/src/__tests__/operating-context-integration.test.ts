@@ -1,11 +1,11 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { UNTRUSTED_CLIENT_AUTHORITY_FIELD_KEYS } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
 import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
+import { UNTRUSTED_CLIENT_AUTHORITY_FIELD_KEYS } from "@/lib/context/untrusted-client-authority.server";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
 import {
   ApiRouteError,

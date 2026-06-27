@@ -632,7 +632,7 @@ Automated contract coverage: `apps/erp/src/lib/auth/__tests__/auth-production-re
 
 ## Related authority
 
-- [ARCH-AUTH-002](../ARCH/[Complete]%20ARCH-AUTH-002-auth-shell.md) — auth shell (consolidated 2026-06-26)
-- [ARCH-AUTH-003](../ARCH/ARCH-AUTH-003-tenant-auth-branding.md) — tenant auth branding
-- [ARCH-AUTH-001](../ARCH/[Complete] ARCH-AUTH-001-enterprise-authentication.md) — identity, mirror sync
-- [FDR fdr-002-auth](../../delivery/FDR/[Complete] fdr-002-auth-disposition.md) — `PKG002_AUTH` boundaries
+- ARCH-AUTH-002 — auth shell (consolidated 2026-06-26)
+- ARCH-AUTH-003 — tenant auth branding
+- ARCH-AUTH-001 — identity, mirror sync
+- FDR fdr-002-auth — `PKG002_AUTH` boundaries

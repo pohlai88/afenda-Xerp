@@ -5,7 +5,7 @@
  * Validates the machine-readable package disposition registry consumed by subagents.
  */
 
-import { validateFoundationDisposition } from "../../packages/architecture-authority/src/validators/validate-foundation-disposition.ts";
+import { validateFoundationDisposition } from "../../packages/architecture-authority/src/index.ts";
 
 function parseArgs(argv: readonly string[]) {
   let agentId: string | undefined;

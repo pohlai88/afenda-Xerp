@@ -1,6 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { createValidationResult } from "../contracts/validation-result.contract.js";
 import type { DiscoveredWorkspace } from "../contracts/workspace.contract.js";
 import { validateArchitecture } from "../validators/validate-architecture.js";
+import * as validateFoundationDispositionModule from "../validators/validate-foundation-disposition.js";
 
 function workspace(
   name: string,
@@ -28,6 +30,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
       workspace("@afenda/design-system"),
       workspace("@afenda/docs"),
+      workspace("@afenda/email"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/erp", {
         "@afenda/appshell": "workspace:*",
@@ -42,6 +45,7 @@ describe("validateArchitecture", () => {
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
         "@afenda/permissions": "workspace:*",
+        "@afenda/storage": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/execution", {
@@ -101,6 +105,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
       workspace("@afenda/design-system"),
       workspace("@afenda/docs"),
+      workspace("@afenda/email"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/erp", {
         "@afenda/appshell": "workspace:*",
@@ -115,6 +120,7 @@ describe("validateArchitecture", () => {
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
         "@afenda/permissions": "workspace:*",
+        "@afenda/storage": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
@@ -138,5 +144,27 @@ describe("validateArchitecture", () => {
     ]);
     expect(result.ok).toBe(false);
     expect(result.violations.some((v) => v.gate === "cycles")).toBe(true);
+  });
+
+  it("merges foundation disposition failures into composite validation", () => {
+    vi.spyOn(
+      validateFoundationDispositionModule,
+      "validateFoundationDisposition"
+    ).mockReturnValue(
+      createValidationResult([
+        {
+          gate: "foundation-disposition",
+          message: "TEST: disposition failure",
+        },
+      ])
+    );
+
+    const result = validateArchitecture([workspace("@afenda/kernel")]);
+    expect(result.ok).toBe(false);
+    expect(
+      result.violations.some((v) => v.gate === "foundation-disposition")
+    ).toBe(true);
+
+    vi.restoreAllMocks();
   });
 });

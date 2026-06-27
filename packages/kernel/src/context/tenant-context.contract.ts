@@ -1,6 +1,6 @@
 import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 
-/** Serializable tenant authority slice — SaaS isolation boundary only. */
+/** PAS-001 §4.4 — tenant operating-context shape (serializable slice). SaaS isolation boundary only. */
 export interface TenantContext {
   readonly displayName: string;
   readonly slug: string;

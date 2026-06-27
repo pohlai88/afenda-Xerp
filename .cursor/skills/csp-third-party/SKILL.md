@@ -96,5 +96,5 @@ Implementation: `apps/erp/src/lib/security/csp-supabase-connect-src.ts`. Use `cr
 
 - Policy builder: `apps/erp/src/lib/security/csp.ts`
 - Supabase connect-src: `apps/erp/src/lib/security/csp-supabase-connect-src.ts`
-- Delivery evidence: `docs/delivery/nextjs-csp-nonce-pipeline.md`
+- Delivery evidence: `docs/governance/support/nextjs-csp-nonce-pipeline.md`
 - Cursor rule: `.cursor/rules/csp-third-party-scripts.mdc`

@@ -54,7 +54,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 21)
+## Package Layer Assignments (active — 22)
 
 | Package | Layer | Rank |
 |---------|-------|------|
@@ -78,6 +78,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 | `@afenda/appshell` | ERPSpine | 4 |
 | `@afenda/erp` | Application | 6 |
 | `@afenda/docs` | Application | 6 |
+| `@afenda/email` | Application | 6 |
 | `@afenda/storybook` | Application | 6 |
 
 ---

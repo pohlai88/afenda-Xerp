@@ -1,223 +1,123 @@
 # PAS Template — Package Authority Standard
 
-Reusable template for all future Package Authority Standards under `docs/PAS/`.
+Reusable **three-tier** templates for Package Authority Standards under `docs/PAS/`.
 
-← Back to [SKILL.md](../SKILL.md) | Index: [docs/PAS/README.md](../../../../docs/PAS/README.md)
-
----
-
-## How to use this template
-
-1. Assign the next `PAS-NNN` number from `docs/PAS/README.md`.
-2. Copy the markdown block below.
-3. Create `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
-4. Fill in all fields. Do not leave placeholders in a committed doc.
-5. Register the new PAS in the index table in `docs/PAS/README.md`.
-6. Create the corresponding Cursor skill: `.cursor/skills/<package-name>-authority/SKILL.md`.
-7. Add a tombstone pointer in `packages/<package-name>/` if the package exists in the monorepo.
+← Back to [SKILL.md](../SKILL.md) · Index: [docs/PAS/README.md](../../../../docs/PAS/README.md)
 
 ---
 
-## Template
+## Three-tier architecture
 
-```markdown
-# PAS-NNN — <Package Name> Authority Standard
+| Tier | Artifact | Purpose | Agent load |
+| --- | --- | --- | --- |
+| **1 — Canonical** | `docs/PAS/PAS-NNN-*.md` | Audit trail, ADR traceability, enterprise acceptance | High — read §0 only for routine edits |
+| **2 — Agent skill** | `.cursor/skills/<pkg>-authority/SKILL.md` | Default IDE entrypoint; Phase 0 + hard stops | Medium — target ≤350 lines |
+| **3 — Reference** | `.cursor/skills/<pkg>-authority/reference/*.md` | TS shapes, trees, ultra-light quick-ref | On demand |
 
-> **Agent skill entrypoint:** `.cursor/skills/<package-name>-authority/SKILL.md`
-> **Canonical location:** `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`
-> **Package-local pointer:** `packages/<package-name>/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`
-
-| Field             | Value                                           |
-| ----------------- | ----------------------------------------------- |
-| Package           | `<package-name>`                                |
-| Layer             | `<Platform / Foundation / Application / UI>`    |
-| Package role      | `<one sentence>`                                |
-| Runtime stance    | `<contracts-only / runtime / composition / UI>` |
-| Package owner     | `<Platform Authority / etc.>`                   |
-| Consumer packages | `<list>`                                        |
-| Change model      | `<serialized slices / open>`                    |
-| Quality target    | Enterprise 9.5 / 10                             |
+Implementation work flows through **slice handoffs** (`docs/PAS/slice/*.md`) with **9 fields** pasted into `/afenda-coding-session` Phase 0.
 
 ---
 
-# 1. Package Definition
+## How to use
 
-What this package is. One paragraph.
+1. Assign the next `PAS-NNN` number from [docs/PAS/README.md](../../../../docs/PAS/README.md).
+2. Copy from [pas-doc-template.md](pas-doc-template.md) → create `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
+3. Copy from [pas-skill-template.md](pas-skill-template.md) → create `.cursor/skills/<package-name>-authority/SKILL.md`.
+4. Copy reference scaffolds from [pas-reference-templates.md](pas-reference-templates.md).
+5. Copy from [pas-slice-template.md](pas-slice-template.md) when authoring the first implementation slice.
+6. Register the PAS in `docs/PAS/README.md`.
+7. Add a tombstone pointer in `packages/<package-name>/` (pointer-only — see below).
+8. Run the [publish validation checklist](#publish-validation-checklist).
 
----
-
-# 2. One-Sentence Boundary
-
-The shortest enforceable boundary sentence.
-
----
-
-# 3. Dependency Rules
-
-## Allowed
-
-What the package may import.
-
-## Prohibited
-
-What the package must not import.
+**Do not** leave `<placeholders>` in committed docs or skills.
 
 ---
 
-# 4. Authority Surfaces
+## Template files
 
-What this package owns. One section per surface.
+| File | Copy target |
+| --- | --- |
+| [pas-doc-template.md](pas-doc-template.md) | `docs/PAS/PAS-NNN-*.md` |
+| [pas-skill-template.md](pas-skill-template.md) | `.cursor/skills/<pkg>-authority/SKILL.md` |
+| [pas-slice-template.md](pas-slice-template.md) | `docs/PAS/slice/*.md` |
+| [pas-reference-templates.md](pas-reference-templates.md) | `reference/quick-ref.md`, `authority-surfaces.md`, `package-structure.md` |
 
-## 4.1 <Surface Name>
+**Living example:** [kernel-authority/SKILL.md](../SKILL.md) · [PAS-001](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
 
-Description. TypeScript shape if applicable.
-
----
-
-# 5. What This Package Must Never Own
-
-Bullet list of prohibited responsibilities.
-
----
-
-# 6. Package Structure Standard
-
-Folder tree and `package.json` exports block.
-
----
-
-# 7. Decision Matrix
-
-| Question | If yes | Belongs here? |
-|---|---|---|
-| ... | ... | Yes / No |
-
----
-
-# 8. Contract Rules
-
-Numbered list. Minimum: strict mode, readonly, branded IDs, JSON-serializable, no side effects on import.
-
----
-
-# 9. Runtime Rules
-
-When runtime code is allowed (if any).
-
----
-
-# 10. Implementation Sequence
-
-Recommended order for new additions.
-
----
-
-# 11. Enterprise Acceptance Criteria
-
-## Architecture
-## Type Safety
-## Governance
-## Runtime Safety
-## ERP Readiness (if applicable)
-
----
-
-# 12. Required Gates
-
-```bash
-pnpm --filter <package-name> typecheck
-pnpm --filter <package-name> test:run
-# + any package-specific gates
-```
-
----
-
-# 13. Change Workflow
-
-How future changes are proposed, implemented, reviewed, and accepted.
-
----
-
-# 14. Doctrine
-
-One paragraph. What this package is. What it is not.
-```
-
----
-
-## Skill template
-
-After creating the PAS doc, create the corresponding Cursor skill.
-
-Minimum SKILL.md structure:
-
-```markdown
----
-name: <package-name>-authority
-description: Enforces the <package-name> boundary: <one sentence>.
-disable-model-invocation: false
----
-
-# <Package Name> — Authority Skill (PAS-NNN)
-
-## Boundary
-
-<One sentence from §2 of PAS>
-
-## When to use this skill
-
-Apply when touching:
-- `packages/<package-name>/**`
-- `@afenda/<package-name>` imports
-- [key contracts/files]
-
-## Decision matrix
-
-[From PAS §7 — same table]
-
-## Hard stops
-
-[From PAS §3 + §5]
-
-## Phase 0 — <package-name> change contract
-
-[Six-line block]
-
-## Required read order
-
-1. This file
-2. reference/authority-surfaces.md
-3. reference/package-structure.md
-4. docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md
-
-## Authority surface summary
-
-[Table from PAS §4]
-
-## Contract rules
-
-[Checklist from PAS §8]
-
-## Required gates
-
-[Bash block from PAS §12]
-
-## Acceptance criteria
-
-[Pass/fail table from PAS §11]
-
-## Doctrine
-
-[From PAS §14]
-```
+**Legacy note:** PAS-001 includes §8 Permission Model (kernel extension), §13 Slice Catalog, and §14–§16 gates / guardrail / doctrine. Generic new PAS docs follow §8 Contract Rules through §15 Doctrine.
 
 ---
 
 ## Naming conventions
 
 | Artifact | Convention | Example |
-|---|---|---|
+| --- | --- | --- |
 | PAS doc | `PAS-NNN-<PACKAGE-NAME-UPPERCASE>-AUTHORITY-STANDARD.md` | `PAS-002-DATABASE-AUTHORITY-STANDARD.md` |
 | Skill directory | `<package-name>-authority/` | `database-authority/` |
-| Skill name in frontmatter | `<package-name>-authority` | `database-authority` |
+| Skill name (frontmatter) | `<package-name>-authority` | `database-authority` |
 | Tombstone file | Same filename as PAS doc | `PAS-002-DATABASE-AUTHORITY-STANDARD.md` |
+| Slice file | `b<N>-<pas-section>-<slug>.md` | `b16-10-runtime-rules.md` |
+| Prohibited companion | `<slice-base>-prohibited.md` | `b5-prohibited.md` |
+
+---
+
+## Tombstone pointer (packages/*)
+
+Canonical content lives only in `docs/PAS/`. Package-local files are **pointer-only**:
+
+~~~markdown
+# PAS-NNN — <Package Name> Authority Standard (pointer)
+
+Canonical: [docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md](../../docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md)
+
+Agent skill: [.cursor/skills/<package-name>-authority/SKILL.md](../../.cursor/skills/<package-name>-authority/SKILL.md)
+
+Do not duplicate long-form authority content in this file.
+~~~
+
+---
+
+## IDE vibe-coding rules
+
+1. **Agents load SKILL first**, not the full PAS — unless a slice handoff cites specific PAS sections.
+2. **Duplicate high-signal blocks** in SKILL (boundary, matrix, hard stops, Phase 0) — never `[From PAS §X]` placeholders in committed skills.
+3. **SKILL ≤350 lines** — move TypeScript shapes to `reference/authority-surfaces.md`.
+4. **YAML frontmatter** on new PAS docs — enables `pas-slice-planner` and registry cross-checks.
+5. **9-field handoffs** for every Implementation slice — identical field names to [write-fdr-slice/SKILL.md](../../../write-fdr-slice/SKILL.md) §4.
+6. **Status labels** on every reference surface: `Current` | `Target` | `Deprecated`.
+
+---
+
+## Publish validation checklist
+
+Before merging a new PAS + skill:
+
+- [ ] YAML frontmatter complete; no placeholders in committed PAS doc
+- [ ] §0 Agent Quick Path present in PAS doc
+- [ ] §2 boundary ≤2 sentences
+- [ ] §7 decision matrix has ≥8 rows with explicit Yes/No answers
+- [ ] §13 gates resolve to real `pnpm` scripts (or waiver documented in slice/FDR)
+- [ ] SKILL.md ≤350 lines; no `[From PAS §X]` placeholders remain
+- [ ] SKILL duplicates matrix + hard stops + Phase 0 (not link-only)
+- [ ] `reference/authority-surfaces.md` uses Status labels on every surface
+- [ ] Registered in [docs/PAS/README.md](../../../../docs/PAS/README.md) index
+- [ ] Registry lane noted in §0 and YAML (`registry_lane` or `pending` with owner)
+- [ ] Tombstone pointer in `packages/<pkg>/` is pointer-only (no canonical content)
+- [ ] First implementation slice has complete 9-field handoff per [pas-slice-template.md](pas-slice-template.md)
+
+---
+
+## Skill duplication checklist (PAS → SKILL)
+
+When authoring the skill from a completed PAS, verify these blocks are **copied verbatim**, not linked:
+
+| PAS section | SKILL section |
+| --- | --- |
+| §2 | Boundary |
+| §3.2 + §5 | Hard stops (fenced) |
+| §7 | Decision matrix (full table) |
+| §8 | Contract rules (checkboxes) |
+| §13.1 | Required gates |
+| §15 | Doctrine |
+| — | Phase 0 six-line block (package-specific paths) |
+| — | Surface anti-patterns table (from code review / §4 lessons) |

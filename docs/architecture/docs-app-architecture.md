@@ -6,7 +6,7 @@
 | **Date** | 2026-06-24 |
 | **Owner** | Application Authority |
 | **Package** | `@afenda/docs` (PKG-005) |
-| **Delivery TIP** | [TIP-032 — Implementation documentation](../delivery/tips/[Partially%20Implemented]%20tip-032-implementation-documentation.md) |
+| **Delivery TIP** | [`docs-app-architecture.md`](docs-app-architecture.md) (this doc) · deploy runbook [`fumadocs-docs-app-deploy.md`](../governance/support/fumadocs-docs-app-deploy.md) |
 | **Runtime matrix** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — `@afenda/docs` row |
 
 ---
@@ -161,7 +161,7 @@ Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in sc
 - Separate Vercel project from `@afenda/erp` — Root Directory `apps/docs`
 - No shared env secrets with ERP auth/database
 - Config: `apps/docs/vercel.json`, `apps/docs/next.config.ts` (`outputFileTracingRoot`)
-- Support doc: [`docs/governance/support/fumadocs-docs-app-deploy.md`](../delivery/support/fumadocs-docs-app-deploy.md)
+- Support doc: [`docs/governance/support/fumadocs-docs-app-deploy.md`](../governance/support/fumadocs-docs-app-deploy.md)
 - Optional PR preview: `.github/workflows/preview-docs.yml` + `VERCEL_PROJECT_ID_DOCS`
 
 ---
@@ -178,16 +178,16 @@ Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in sc
 
 ---
 
-## Relationship to delivery authority
+## Relationship to PAS / governance
 
 | Artifact | Role |
 |----------|------|
 | This document | Architecture boundary + content model (**structural truth**) |
-| [TIP-032](../delivery/tips/[Not%20started]%20tip-032-implementation-documentation.md) | Implementation slices, gates, DoD (**delivery authority**) |
-| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) §13 | Compass — TIP-032 listed as Phase 3 P1 |
-| [TIP-031](../delivery/tips/) (future) | Public API & OpenAPI — may extend docs app |
+| [`fumadocs-docs-app-deploy.md`](../governance/support/fumadocs-docs-app-deploy.md) | Deploy runbook |
+| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) §13 | Compass — docs app listed as Phase 3 P1 |
+| [`afenda-openapi` skill](../../.cursor/skills/afenda-openapi/SKILL.md) (future) | Public API & OpenAPI — may extend docs app |
 
-**Sequence:** TIP-032 runs as a **parallel non-blocking track**. It does not appear in Foundation Phases 0–9 exit criteria and does not delay TIP-013 or accounting gate work.
+**Sequence:** Docs app delivery runs as a **parallel non-blocking track**. It does not appear in Foundation Phases 0–9 exit criteria.
 
 ---
 

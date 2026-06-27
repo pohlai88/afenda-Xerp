@@ -3,11 +3,27 @@ title: Operate Tenant
 description: Tenant DevOps guides for environment, authentication, and troubleshooting.
 ---
 
-# Operate Tenant
+## Overview
 
-Configure and troubleshoot tenant authentication and platform connectivity.
+**Tenant DevOps** operators configure authentication, platform connectivity, and environment variables for a deployed tenant. These guides assume you can change deployment secrets and validate auth routes — they do not replace end-user sign-in help in **Use ERP**.
+
+Work through environment configuration first, then use the troubleshooting runbook when users report login or session failures.
 
 <Cards>
-  <Card title="Environment and authentication" href="./environment-and-auth" description="Auth-related environment variables and routes." />
-  <Card title="Troubleshooting login" href="./troubleshooting-login" description="Diagnose sign-in, MFA, and session failures." />
+  <Card
+    title="Environment and authentication"
+    href="./environment-and-auth"
+    description="Auth-related environment variable names, Supabase and Better Auth wiring, and the synced route catalog."
+  />
+  <Card
+    title="Troubleshooting login"
+    href="./troubleshooting-login"
+    description="Runbook for sign-in, MFA, session expiry, access denied, and workspace selection failures."
+  />
 </Cards>
+
+## Safety
+
+- Store secrets in `.env.secret` or your deployment vault — never in MDX, tickets, or git.
+- After auth changes, validate `/sign-in`, `/mfa`, and `/invite/accept` before announcing completion.
+- Capture correlation IDs and audit events before rolling back configuration.

@@ -4,6 +4,33 @@ export {
   serializeAuditEntityIdentity,
   type WireAuditEntityIdentity,
 } from "./audit-event-identity.contract.js";
+export type { assertBusinessMasterDataWireJsonSerializable } from "./business-reference-wire.contract.js";
+export {
+  type BrandedCustomerReference,
+  type BrandedEmployeeReference,
+  type BrandedProductReference,
+  type BrandedSupplierReference,
+  type BrandedWarehouseReference,
+  type BusinessMasterDataIdentityScope,
+  type BusinessMasterDataIdentityScopeRule,
+  type BusinessMasterDataWireReference,
+  brandCustomerWireReference,
+  brandEmployeeWireReference,
+  brandProductWireReference,
+  brandSupplierWireReference,
+  brandWarehouseWireReference,
+  type CustomerWireReference,
+  type EmployeeWireReference,
+  identityScopeRuleFromRegistry,
+  type ProductWireReference,
+  type SupplierWireReference,
+  toCustomerWireReference,
+  toEmployeeWireReference,
+  toProductWireReference,
+  toSupplierWireReference,
+  toWarehouseWireReference,
+  type WarehouseWireReference,
+} from "./business-reference-wire.contract.js";
 export {
   normalizeBrandedIdForWire,
   normalizeOptionalBrandedIdForWire,

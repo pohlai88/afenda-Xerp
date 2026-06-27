@@ -43,11 +43,11 @@ Do not use older roadmap sections as delivery authority if they conflict with:
 1. **ADR-0009–0013** (Accepted — documentation and foundation gates)
 2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — **status source of truth**
 3. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — **delivery sequence**
-4. [`tip-status-index.md`](../delivery/tip-status-index.md) — current TIP statuses
+4. [`pas-status-index.md`](../PAS/pas-status-index.md) — PAS slice closure registry
 
 Master plan v5 **supersedes** v4 Section 3, v4 Track B status table, and v4 Section 8 execution order.
 
-**AI agents must read (in order):** pre-accounting roadmap → runtime truth matrix → tip-status-index → then individual delivery TIP docs.
+**AI agents must read (in order):** pre-accounting roadmap → runtime truth matrix → [`docs/PAS/`](../PAS/README.md) → disposition registry.
 
 ---
 
@@ -61,7 +61,7 @@ See: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.
 
 ## LLM operating rules
 
-1. Treat **ADR > Registry > Pre-accounting Roadmap > Delivery TIP > this plan** when they conflict.
+1. Treat **ADR > PAS > Registry > Pre-accounting Roadmap > this plan** when they conflict.
 2. Preserve identifiers: `TIP-###`, `TIP-000A`, `TIP-UI-##`, `DEC-###`, `PKG-###`, `ADR-####`.
 3. **Governance contracts ≠ implementation.** Label explicitly: "Complete (authority only)" vs "Complete (runtime proven)".
 4. **Runtime truth before roadmap updates** (ADR-0009). Read the runtime matrix before starting work.
@@ -139,7 +139,7 @@ Afenda is a **Next.js-first, TypeScript-first, AI-governed, manufacturing-focuse
 | Package / layer / dependency truth | [`docs/architecture/README.md`](README.md) |
 | Canonical vocabulary | [`glossary.md`](glossary.md) |
 | Multi-tenancy implementation | [`multi-tenancy.md`](multi-tenancy.md) |
-| Completed delivery evidence | [`docs/delivery/`](../delivery/) |
+| Completed slice evidence | [`docs/PAS/`](../PAS/README.md) |
 | AI change boundaries | [`docs/ai/`](../ai/) + `@afenda/ai-governance` |
 | TIP-004 UI consumption | [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md) |
 | Machine enforcement | `@afenda/architecture-authority` |
@@ -211,9 +211,9 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-014+ only after pass
 | TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12; DoD #1–24 closed | — |
 | TIP-UI-06 | React 19 ref-as-prop | **Blocked** | ADR-0008 Proposed | Package-wide batch not started |
 
-### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-24)
+### 5.3 Delivery doc hygiene (synced TIP-000D — 2026-06-24; **STALE index names**)
 
-Canonical statuses: [`tip-status-index.md`](../delivery/tip-status-index.md). Duplicate `[status]` prefixes for the same TIP basename are removed — superseded copies retained only for misnumbered evidence (TIP-010†, TIP-011†).
+Historical: TIP status index retired 2026-06-27. Active closure registry: [`pas-status-index.md`](../PAS/pas-status-index.md).
 
 ---
 

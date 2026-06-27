@@ -13,6 +13,7 @@ const requiredTopLevelKeys = [
   "searchTrigger",
   "searchDialog",
   "inlineTocLabel",
+  "fallbackNotice",
   "feedback",
   "pageActions",
   "homeSections",

@@ -3,6 +3,7 @@
   "searchTrigger": "搜索文档",
   "searchDialog": "搜索文档",
   "inlineTocLabel": "本页目录",
+  "fallbackNotice": "此页面尚未提供您所选语言的译文，当前显示英文版本。",
   "feedback": {
     "blockFeedbackLabel": "反馈",
     "close": "关闭",

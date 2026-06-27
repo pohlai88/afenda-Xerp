@@ -1,5 +1,10 @@
 {
   "title": "Use ERP",
   "icon": "User",
-  "pages": ["index", "sign-in"]
+  "pages": [
+    "index",
+    "sign-in",
+    "modules",
+    "auth-lanes"
+  ]
 }

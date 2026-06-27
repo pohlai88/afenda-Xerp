@@ -11,17 +11,35 @@ catalogBindings:
   - auth-routes
 ---
 
-# Troubleshooting login
+import { Callout } from "fumadocs-ui/components/callout";
 
-Use this runbook when users cannot sign in, complete MFA, or reach their workspace.
+## Overview
+
+Use this runbook when users cannot sign in, complete MFA, or reach their workspace. Work top to bottom — most incidents are credential, clock skew, or membership scope issues before platform misconfiguration.
+
+<Callout type="info" title="Gather before changing config">
+
+Ask for the exact URL, HTTP status, time of failure, and whether the user recently changed devices or roles. Compare the URL path to the auth route catalog below before editing environment variables.
+
+</Callout>
 
 ## Common checks
 
 1. **Credentials** — confirm the user account is active and email is verified (`/verify-email` lane).
 2. **MFA** — ensure device time is correct; use `/mfa/recovery` when authenticator access is lost.
 3. **Session** — expired sessions redirect to `/session-expired`; clear cookies and retry sign-in.
-4. **Access** — `/access-denied` indicates RBAC or tenant scope mismatch; review membership and roles.
+4. **Access** — `/access-denied` indicates RBAC or tenant scope mismatch; review membership and roles with a tenant admin.
 5. **Workspace** — users with multiple memberships must complete `/workspace/select`.
+6. **SSO** — confirm IdP callback URLs and client IDs match deployment secrets (see [Environment and authentication](./environment-and-auth)).
+
+## Symptom → route map
+
+| User report | Likely segment | First action |
+| --- | --- | --- |
+| "Kicked out after idle" | `/session-expired` | Expected; re-authenticate |
+| "No permission for page" | `/access-denied` | Review role keys + membership |
+| "Stuck after password" | `/mfa` | Check MFA enrollment and device time |
+| "Wrong company data" | `/workspace/select` | Confirm membership scope |
 
 ## Auth route map
 
@@ -31,4 +49,4 @@ Compare failing URLs against governed auth segments:
 
 ## Escalation
 
-If configuration looks correct but auth still fails, capture correlation IDs from observability tooling and review System Admin audit events before changing environment variables.
+If configuration looks correct but auth still fails, capture correlation IDs from observability tooling and review System Admin audit events before changing environment variables. Roll back one change at a time and re-test the full sign-in → MFA → workspace path.

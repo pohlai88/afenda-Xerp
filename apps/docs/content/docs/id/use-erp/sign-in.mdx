@@ -10,19 +10,67 @@ catalogBindings:
   - auth-routes
 ---
 
-# Sign in to Afenda ERP
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
 
-Use your tenant URL and credentials to reach the ERP workspace. Afenda routes authentication through governed auth segments — each path maps to a lane (access, verify, security, workspace, and others).
+## Overview
 
-## Steps
+Use your tenant URL and credentials to reach the ERP workspace. Afenda routes authentication through **governed auth segments** — each URL maps to a lane (access, verify, security, workspace, and others). The flow below is the happy path; your tenant may enable SSO or require MFA on every sign-in.
 
-1. Open your tenant sign-in URL (typically `/sign-in` on your tenant host).
-2. Enter email and password, or use your organization's SSO provider when enabled.
-3. Complete MFA when prompted at `/mfa`.
-4. Select a workspace at `/workspace/select` if you belong to more than one.
+<Callout type="info" title="Tenant URL">
+
+Your organization admin provides the tenant host (for example `https://your-company.example.com`). Bookmark **`/sign-in`** on that host. Generic marketing URLs do not carry tenant context and will not restore your session.
+
+</Callout>
+
+## Sign-in flow
+
+<Steps>
+
+<Step>
+
+### Open your tenant sign-in URL
+
+Navigate to `/sign-in` on your tenant host. When SSO is enabled, use the provider button configured by your admin instead of email and password.
+
+</Step>
+
+<Step>
+
+### Enter credentials
+
+Sign in with email and password, or complete your organization's SSO flow. If email verification is pending, you may be routed to `/verify-email` before continuing.
+
+</Step>
+
+<Step>
+
+### Complete MFA
+
+When MFA is required, enter the code from your authenticator app at `/mfa`. If you lose device access, use `/mfa/recovery` with a one-time recovery code from your admin.
+
+</Step>
+
+<Step>
+
+### Select a workspace
+
+Users with more than one membership land on `/workspace/select` to choose the company or workspace context for this session. Single-membership users skip this step automatically.
+
+</Step>
+
+</Steps>
+
+## After sign-in
+
+| Situation | Route | What to do |
+| --- | --- | --- |
+| Session expired | `/session-expired` | Sign in again; unsaved work may be lost |
+| Access denied | `/access-denied` | Ask your tenant admin to review role and membership |
+| Invite pending | `/invite/accept` | Complete invite acceptance before using ERP modules |
 
 ## Auth route reference
 
-The table below is synced from the ERP auth path registry at build time.
+The table below is synced from the ERP auth path registry at build time. Use it to confirm which segment you are on when troubleshooting with your admin.
 
 <GeneratedReference catalog="auth-routes" />

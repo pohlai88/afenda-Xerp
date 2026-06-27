@@ -1,10 +1,12 @@
-import {
-  type AccountingReadinessContext,
-  deriveConsolidationScopeContext,
-  type LegalEntityContext,
-  type OperatingContext,
-  type OrganizationUnitContext,
+import type {
+  AccountingDomainWireContext,
+  AccountingReadinessContext,
+  LegalEntityContext,
+  OperatingContext,
+  OrganizationUnitContext,
 } from "@afenda/kernel";
+
+import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server.js";
 
 /**
  * ERP accounting-readiness projection — maps resolved operating context to
@@ -21,6 +23,28 @@ export function isCostCenterOrganizationUnit(
   organizationUnit: Pick<OrganizationUnitContext, "organizationUnitType">
 ): boolean {
   return organizationUnit.organizationUnitType === "cost_center";
+}
+
+/**
+ * Maps kernel accounting-readiness context to accounting-domain wire vocabulary.
+ * Relocated from @afenda/kernel (slice K1).
+ */
+export function toAccountingDomainContext(
+  readiness: AccountingReadinessContext
+): AccountingDomainWireContext {
+  const { legalEntity, entityGroup, organizationUnit } = readiness;
+
+  return {
+    tenantId: legalEntity.tenantId,
+    companyId: legalEntity.companyId,
+    baseCurrency: readiness.baseCurrency,
+    reportingCurrency: readiness.reportingCurrency,
+    entityGroupId: entityGroup?.entityGroupId ?? null,
+    organizationUnitId: organizationUnit?.organizationUnitId ?? null,
+    fiscalCalendarId: legalEntity.fiscalCalendarId,
+    companyType: legalEntity.companyType,
+    countryCode: legalEntity.countryCode,
+  };
 }
 
 export function toAccountingReadinessContext(

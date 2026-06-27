@@ -50,6 +50,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
 | `@afenda/erp` | `@afenda/permissions` | Approved | TIP-010 | — |
+| `@afenda/erp` | `@afenda/storage` | Approved | — | — |
 | `@afenda/erp` | `@afenda/ui` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
@@ -104,8 +105,9 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 | `@afenda/database` | `@afenda/observability` |
 | `@afenda/design-system` | *(none)* |
 | `@afenda/docs` | *(none)* |
+| `@afenda/email` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
@@ -207,7 +209,7 @@ Documentation-only ownership map through Slice 1; **kernel authority registry + 
 | Document | Platform document service | TBD via ADR | — | Not assigned |
 | Project | PM domain | TIP-030 | — | Partial — membership scope only |
 
-**Authority:** [`tips/[Complete] tip-008-master-data-authority.md`](../delivery/tips/%5BComplete%5D%20tip-008-master-data-authority.md) §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
+**Authority:** `tips/[Complete] tip-008-master-data-authority.md` §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
 
 ---
 

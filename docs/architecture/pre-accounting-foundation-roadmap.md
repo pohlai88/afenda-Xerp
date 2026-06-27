@@ -2,18 +2,18 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | ADR-0010, ADR-0013, ADR-0014 (FDR), ADR-0001 (Phase 1 redefinition) |
-| **Implementation authority** | [foundation-delivery-authority.md](foundation-delivery-authority.md) (FDR — ADR-0014) |
+| **Authority** | ADR-0010, ADR-0013, ADR-0014 (PAS), ADR-0001 (Phase 1 redefinition) |
+| **Implementation authority** | [foundation-delivery-authority.md](foundation-delivery-authority.md) (PAS — ADR-0014) |
 | **Supersedes** | Master plan v4 vague Phase 1 exit gate language |
 | **Runtime matrix** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
 | **Drift audit** | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) |
-| **Foundation status** | Phases 0–9 **Complete** (2026-06-24); FDR governs ongoing package work |
+| **Foundation status** | Phases 0–9 **Complete** (2026-06-24); PAS governs ongoing package work |
 
 ---
 
 ## Rule
 
-> **Phases 0–9 are complete.** This roadmap is a **historical phase narrative** and gate record. Ongoing foundation and package implementation is governed by [FDR](foundation-delivery-authority.md) (ADR-0014), not new TIP delivery docs.
+> **Phases 0–9 are complete.** This roadmap is a **historical phase narrative** and gate record. Ongoing foundation and package implementation is governed by [PAS](foundation-delivery-authority.md) (ADR-0014), not legacy delivery docs.
 
 > **No Accounting Core runtime** (COA Drizzle, journal posting, ledger services) until FDR `PKGR01_ACCOUNTING` gaps are closed under a **new ADR** after contracts-only TIP-014 delivery.
 
@@ -64,7 +64,7 @@
 
 **Phase 1 gate:** TIP-001 complete + TIP-006/007/008A contracts frozen + TIP-008B authority map drafted.
 
-> **Implementation sequence:** [tip-status-index §Partially implemented TIP sequence](../delivery/tip-status-index.md#partially-implemented-tip-sequence) — Steps **10–15** (Track A).
+> **Implementation sequence (historical):** Phases 0–9 below — active work follows [`docs/PAS/`](../PAS/README.md).
 
 ---
 
@@ -136,7 +136,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** REST-first, stable, envelope-based API contracts for all ERP surfaces.
 
-**Delivery TIP:** [TIP-010A](../delivery/tips/%5BComplete%5D%20tip-010a-api-contract-governance.md) (accepted slice under TIP-010) — **Complete**
+**Delivery TIP:** TIP-010A (accepted slice under TIP-010) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
@@ -164,7 +164,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | TIP-UI-02 | Component Library | Complete | P0 components exported + tested |
 | TIP-UI-03 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test (TIP-UI-03 Slice 2) |
 | TIP-UI-04 | Metadata-UI Renderers | **Complete** | Renderers + production `/metadata-workspace` (Slices 1–2) |
-| TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12 delivered; DoD #1–24 closed ([`tip-ui-05`](../delivery/tips/%5BComplete%5D%20tip-ui-05-erp-app-surfaces.md)) |
+| TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12 delivered; DoD #1–24 closed (`tip-ui-05`) |
 | TIP-004 consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
 
 **Phase 6 gate:**
@@ -180,7 +180,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Feature source → domain → module → capability → navigation → dashboard projection pipeline.
 
-**Delivery TIP:** [TIP-007A](../delivery/tips/%5BComplete%5D%20tip-007a-feature-manifest-governance.md) (accepted slice under TIP-007) — **Complete**
+**Delivery TIP:** TIP-007A (accepted slice under TIP-007) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
@@ -201,7 +201,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Control plane operational for users, security, and platform configuration.
 
-**Delivery TIP:** [TIP-013](../delivery/tips/[Complete] tip-013-system-admin-control-plane.md) — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
+**Delivery TIP:** TIP-013 — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
 
 | Surface | Current | Exit criterion |
 | --- | --- | --- |
@@ -266,24 +266,24 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
 | AP/AR foundation | PKG-R02+ (reserved) | — | P0 |
 | Vietnam localization | PKG-R03+ (reserved) | — | P0 |
 
-**Reserved packages:** PKG-R01–R05 — register via ADR + FDR before filesystem expansion.
+**Reserved packages:** PKG-R01–R05 — register via ADR + PAS disposition before filesystem expansion.
 
 ---
 
-## Execution order for AI agents (FDR — active)
+## Execution order for AI agents (PAS — active)
 
 ```text
-1. Read ADR > FDR (foundation-disposition.registry.ts) > package-registry > runtime matrix
+1. Read ADR → PAS (docs/PAS/) → foundation-disposition.registry.ts → runtime matrix
 2. Read foundation-delivery-authority.md for workflow
-3. Find FDR entry by packageId; confirm lane, prohibited, gates, allowedAgents
-4. State afenda-coding-session §0 from FDR fields — not from TIP markdown
+3. Find disposition entry by packageId; confirm lane, prohibited, gates, allowedAgents
+4. State afenda-coding-session §0 from PAS slice handoffs — not from legacy TIP/FDR markdown
 5. Implement ONLY within runtimeOwner path; one bounded change per session
 6. Post §11 Completion Report; update runtime matrix
-7. FDR lane/gap changes → foundation-registry-owner
+7. Disposition lane/gap changes → foundation-registry-owner
 8. pnpm check:foundation-disposition && entry gates
 ```
 
-**Historical TIP archive:** [`tip-status-index.md`](../delivery/tip-status-index.md) — Phases 0–9 audit trail only.
+**Historical phase record:** this file — Phases 0–9 audit trail only.
 
 ---
 

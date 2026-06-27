@@ -10,17 +10,29 @@ catalogBindings:
   - auth-routes
 ---
 
-# Environment and authentication
+import { Callout } from "fumadocs-ui/components/callout";
 
-Tenant DevOps operators configure authentication and platform connectivity through governed environment variables. **Never commit secret values** to documentation or source control — use `.env.secret` and `pnpm env:sync`.
+## Overview
+
+Tenant DevOps operators configure authentication and platform connectivity through **governed environment variables**. Names and descriptions are synced to this site; **values are never exported** to documentation or git.
+
+<Callout type="warn" title="Secrets">
+
+Never commit secret values to documentation or source control. Use `.env.secret`, your deployment vault, and `pnpm env:sync` on developer machines. Public keys and URLs belong in `.env.config` only when the repo documents them as non-secret.
+
+</Callout>
 
 ## Auth-related variables
 
 Review Supabase public keys, Better Auth URL, and OAuth client IDs in `.env.config`. Pair secrets (signing keys, database passwords) from `.env.secret` only on deployment targets.
 
-## Validate auth routes
+After any auth-related change:
 
-After changing auth configuration, confirm sign-in, MFA, and invite flows against the synced route catalog:
+1. Redeploy or restart the ERP process so env is re-read.
+2. Walk `/sign-in` → `/mfa` (if enabled) → `/workspace/select` with a test user.
+3. Compare observed routes to the catalog below.
+
+## Validate auth routes
 
 <GeneratedReference catalog="auth-routes" />
 
@@ -29,3 +41,8 @@ After changing auth configuration, confirm sign-in, MFA, and invite flows agains
 Names and descriptions only — values are never exported to docs.
 
 <GeneratedReference catalog="env" />
+
+## Related runbooks
+
+- [Troubleshooting login](./troubleshooting-login) — user-facing failure modes
+- [Users and memberships](/docs/configure-tenant/users-and-memberships) — membership scope issues masquerading as auth bugs

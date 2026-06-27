@@ -10,7 +10,12 @@ function parseFrontmatterTitle(frontmatter: string): string | undefined {
     return undefined;
   }
 
-  const raw = titleMatch[1].trim();
+  const captured = titleMatch[1];
+  if (!captured) {
+    return undefined;
+  }
+
+  const raw = captured.trim();
   if (raw.startsWith('"') && raw.endsWith('"')) {
     return raw.slice(1, -1).trim();
   }
@@ -33,7 +38,11 @@ export function extractMdxFrontmatterTitle(source: string): string | undefined {
   if (!match) {
     return undefined;
   }
-  return parseFrontmatterTitle(match[1]);
+  const frontmatter = match[1];
+  if (!frontmatter) {
+    return undefined;
+  }
+  return parseFrontmatterTitle(frontmatter);
 }
 
 export function mdxBodyDuplicatesFrontmatterTitle(source: string): boolean {
@@ -52,5 +61,10 @@ export function mdxBodyDuplicatesFrontmatterTitle(source: string): boolean {
     return false;
   }
 
-  return normalizeTitle(firstHeading[1]) === normalizeTitle(title);
+  const heading = firstHeading[1];
+  if (!heading) {
+    return false;
+  }
+
+  return normalizeTitle(heading) === normalizeTitle(title);
 }

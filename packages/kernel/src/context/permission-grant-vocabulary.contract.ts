@@ -7,7 +7,7 @@
  * `organization_unit`, …) govern the `module × action × scope` pattern.
  *
  * Resolved membership/role records belong in `@afenda/permissions`; kernel retains grant vocabulary
- * until OperatingContext composition migrates.
+ * and the `OperatingContextPermissionScope` composition slot on `OperatingContext`.
  */
 
 export const PERMISSION_GRANT_SCOPE_TYPES = [

@@ -224,9 +224,9 @@ Path: [`packages/database/src/schema/`](../packages/database/src/schema/)
 
 ---
 
-## 6. FDR / ARCH delivery status (summary)
+## 6. PAS / disposition status (summary)
 
-Full register: [`fdr-status-index.md`](../delivery/fdr-status-index.md) (33 FDRs)
+Full register: [`foundation-disposition.md`](foundation-disposition.md) · [`pas-status-index.md`](../PAS/pas-status-index.md)
 
 | Status | Count | Examples |
 | --- | ---: | --- |
@@ -234,13 +234,13 @@ Full register: [`fdr-status-index.md`](../delivery/fdr-status-index.md) (33 FDRs
 | **Partially Implemented** | 23 | system-admin, operating-context, entitlements, kernel×3, most foundation |
 | **Not started** | 3 | ui-consumption FDR, ai-governance FDR, storybook FDR (runtime exists; docs not reconciled) |
 
-Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
+Active disposition lanes: see [`foundation-disposition.md`](foundation-disposition.md) (machine registry is source of truth).
 
-| ARCH | Delivered | Next |
+| Domain | Delivered (runtime) | Next |
 | --- | --- | --- |
-| ARCH-AUTH-001 | Slices 1–9, workspace session | Waiver review only |
-| ARCH-ADMIN-001 | Slices 1–11 **Complete** | — |
-| ARCH-USER-001 | Slices 1–12 **Complete** | — (profile email change UI → ARCH-AUTH-001 v2) |
+| Auth / identity | Enterprise auth slices 1–21 | Company MFA override admin UI |
+| System admin | Slices 1–11 **Complete** | DoD #14 peer review (disposition) |
+| User settings | Slices 1–12 **Complete** | Profile email change UI (auth follow-up) |
 
 ---
 
@@ -252,9 +252,9 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 | --- | --- | --- | --- |
 | **Accounting ledger runtime** | First business domain; prohibited until ADR | ADR-0010 + new ADR for TIP-015+; [`packages/accounting/`](../packages/accounting/) contracts-only | `PKGR01_ACCOUNTING` prohibited rules in disposition registry |
 | **Domain packages PKG-R02–R05** | No Inventory, HRM, CRM, Procurement runtime | ADR + registry promotion before filesystem | No `packages/inventory` etc. on disk |
-| **In-memory invitations (`AUTH-INV-001`)** | Invites not durable across restarts | Durable `member_invitations` table + ARCH-AUTH waiver closeout | [`ARCH-AUTH-001`](../ARCH/[Partially%20Implemented]%20ARCH-AUTH-001-enterprise-authentication.md) §Remaining gaps |
+| **In-memory invitations (`AUTH-INV-001`)** | Invites not durable across restarts | Durable `member_invitations` table + ARCH-AUTH waiver closeout | `ARCH-AUTH-001` §Remaining gaps |
 | **MFA enroll UI (`AUTH-MFA-UI-001`)** | Policy exists; user enrollment surface missing | ARCH-AUTH-001 waiver track | Same ARCH doc |
-| **Profile email change UI** | Self-service email change not wired in settings | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 gap (not Complete blocker) | [`ARCH-USER-001`](../ARCH/[Complete]%20ARCH-USER-001-user-settings-self-service.md) §15 |
+| **Profile email change UI** | Self-service email change not wired in settings | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 gap (not Complete blocker) | `ARCH-USER-001` §15 |
 | **System admin settings audit waiver** | ~~Mutation audit incomplete for some settings blocks~~ | ARCH-ADMIN-001 Slice 5 **closed** · **Complete** 2026-06-25 | `check:system-admin-mutation-audit` exit 0 |
 | **Storybook runner (400/1860 failures)** | Visual regression gate broken | `fdr-021-storybook` Slice 3 | Runtime matrix row — not re-run this pass |
 | **AI governance test failure** | `quality:ai-governance` not fully green | [`packages/ai-governance/`](../packages/ai-governance/) | **38/39 pass** — 1 failing boundary test (Appendix A.4) |
@@ -265,7 +265,7 @@ Active ARCH docs: [`arch-status-index.md`](../ARCH/arch-status-index.md)
 
 | Gap | Impact | Path / track |
 | --- | --- | --- |
-| **FDR DoD #14 peer review backlog** | ~23 FDRs at 29/30 cannot promote to Complete | Upgrade sequence in [`fdr-status-index.md`](../delivery/fdr-status-index.md) steps 3–8: `fdr-013-logging-tracing`, `fdr-009-rollout-flags`, `fdr-015-tenant-storage`, `fdr-001-shell-composition`, `fdr-018-governed-primitives`, `fdr-006-feature-manifest`, `fdr-007-*` siblings |
+| **FDR DoD #14 peer review backlog** | Disposition entries at audit ceiling | See [`foundation-disposition.md`](foundation-disposition.md) and [`pas-status-index.md`](../PAS/pas-status-index.md) for active closeout sequence |
 | **Registry sync debt** | Four PKG workspaces lack disposition rows | `foundation-registry-owner` Slice 2 — **missing:** `PKG004_DESIGN`, `PKG019_ARCHITECTURE`, `PKG020_AI_GOV`, `PKG021_STORYBOOK`. **Onboarded:** PKG005, PKG011, PKG012, PKG016, PKG017 (Appendix A.5) |
 | **Storage ERP consumer wiring** | Abstraction built; limited app integration | [`packages/storage/`](../packages/storage/) — waiver `storage-erp-e2e` |
 | **Feature flags route-level gating** | Evaluation exists; routes not fully gated | [`apps/erp/src/lib/rollout/`](../apps/erp/src/lib/rollout/) |
@@ -310,11 +310,11 @@ ERP unit tests (658/658 ✓)
 ## 9. Recommended reading order for agents
 
 1. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — what code actually does
-2. [`fdr-status-index.md`](../delivery/fdr-status-index.md) — implementation gates
-3. [`arch-status-index.md`](../ARCH/arch-status-index.md) — next UX/auth/admin slices
-4. [`foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane + prohibited rules
+2. [`pas-status-index.md`](../PAS/pas-status-index.md) — PAS slice closure registry
+3. [`foundation-disposition.md`](foundation-disposition.md) — lane + prohibited rules (human view)
+4. [`foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
 
-**Next coding sessions (per ARCH index):** ARCH-AUTH-001 `changeEmail` maintenance
+**Next coding sessions:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) and active PAS slices — not legacy delivery trees.
 
 ---
 

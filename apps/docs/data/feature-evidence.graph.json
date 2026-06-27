@@ -1,0 +1,601 @@
+{
+  "generated": true,
+  "version": 2,
+  "exportedAt": "2026-06-27T09:43:50.674Z",
+  "manifests": [
+    {
+      "id": "accounting",
+      "kind": "module",
+      "title": "Accounting",
+      "audience": "end-user",
+      "summary": "Journal and accounting surfaces when the accounting module entitlement is enabled.",
+      "productRoutes": [
+        "/modules/accounting"
+      ],
+      "permissionKeys": [
+        "accounting.journal_read"
+      ],
+      "entitlements": [
+        "module.accounting.enabled",
+        "capability:eInvoice",
+        "capability:auditExport"
+      ],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "admin-audit",
+      "kind": "admin-section",
+      "title": "Audit",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for audit — requires `system_admin.audit_read`.",
+      "productRoutes": [
+        "/system-admin/audit"
+      ],
+      "permissionKeys": [
+        "system_admin.audit_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.audit-events.get",
+          "method": "get",
+          "path": "/system-admin/audit-events",
+          "permission": "system_admin.audit_read",
+          "docSlug": "system-admin-audit-events-get"
+        }
+      ]
+    },
+    {
+      "id": "admin-diagnostics",
+      "kind": "admin-section",
+      "title": "Diagnostics",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for diagnostics — requires `system_admin.audit_read`.",
+      "productRoutes": [
+        "/system-admin/diagnostics"
+      ],
+      "permissionKeys": [
+        "system_admin.audit_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "admin-memberships",
+      "kind": "admin-section",
+      "title": "Memberships",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for memberships — requires `system_admin.users_read`.",
+      "productRoutes": [
+        "/system-admin/memberships"
+      ],
+      "permissionKeys": [
+        "system_admin.users_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.memberships.role.post",
+          "method": "post",
+          "path": "/system-admin/memberships/role",
+          "permission": "system_admin.roles_manage",
+          "docSlug": "system-admin-memberships-role-post"
+        }
+      ]
+    },
+    {
+      "id": "admin-permissions",
+      "kind": "admin-section",
+      "title": "Permissions",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for permissions — requires `system_admin.permissions_manage`.",
+      "productRoutes": [
+        "/system-admin/permissions"
+      ],
+      "permissionKeys": [
+        "system_admin.permissions_manage"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "admin-roles",
+      "kind": "admin-section",
+      "title": "Roles",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for roles — requires `system_admin.roles_manage`.",
+      "productRoutes": [
+        "/system-admin/roles"
+      ],
+      "permissionKeys": [
+        "system_admin.roles_manage"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "admin-settings",
+      "kind": "admin-section",
+      "title": "Settings",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for settings — requires `system_admin.modules_manage`.",
+      "productRoutes": [
+        "/system-admin/settings"
+      ],
+      "permissionKeys": [
+        "system_admin.modules_manage"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "admin-users",
+      "kind": "admin-section",
+      "title": "Users",
+      "audience": "tenant-admin",
+      "summary": "System Admin area for users — requires `system_admin.users_read`.",
+      "productRoutes": [
+        "/system-admin/users"
+      ],
+      "permissionKeys": [
+        "system_admin.users_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "system-admin"
+      ],
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.users.invite.post",
+          "method": "post",
+          "path": "/system-admin/users/invite",
+          "permission": "system_admin.users_manage",
+          "docSlug": "system-admin-users-invite-post"
+        }
+      ]
+    },
+    {
+      "id": "ai_copilot",
+      "kind": "module",
+      "title": "AI Copilot",
+      "audience": "end-user",
+      "summary": "Governed AI Copilot module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "productRoutes": [
+        "/modules/ai_copilot"
+      ],
+      "permissionKeys": [
+        "workspace.dashboard_read"
+      ],
+      "entitlements": [
+        "module.ai_copilot.enabled",
+        "capability:aiRecommendations"
+      ],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-access",
+      "kind": "auth-lane",
+      "title": "Access auth lane",
+      "audience": "end-user",
+      "summary": "Sign-in, sign-up, and one-time password entry.",
+      "productRoutes": [
+        "/otp",
+        "/sign-in",
+        "/sign-up"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-invite",
+      "kind": "auth-lane",
+      "title": "Invite auth lane",
+      "audience": "end-user",
+      "summary": "User invitations and acceptance.",
+      "productRoutes": [
+        "/invite",
+        "/invite/accept",
+        "/invite/expired"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-recover",
+      "kind": "auth-lane",
+      "title": "Recover auth lane",
+      "audience": "end-user",
+      "summary": "Forgot-password and reset-password flows.",
+      "productRoutes": [
+        "/forgot-password",
+        "/reset-password",
+        "/reset-password/success"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-security",
+      "kind": "auth-lane",
+      "title": "Security auth lane",
+      "audience": "end-user",
+      "summary": "Multi-factor authentication, session expiry, and access-denied handling.",
+      "productRoutes": [
+        "/access-denied",
+        "/error",
+        "/mfa",
+        "/mfa/recovery",
+        "/security/review",
+        "/session-expired"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-verify",
+      "kind": "auth-lane",
+      "title": "Verify auth lane",
+      "audience": "end-user",
+      "summary": "Email verification before the workspace opens.",
+      "productRoutes": [
+        "/verify-email",
+        "/verify-email/expired",
+        "/verify-email/sent",
+        "/verify-email/success"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "auth-lane-workspace",
+      "kind": "auth-lane",
+      "title": "Workspace auth lane",
+      "audience": "end-user",
+      "summary": "Workspace and organization selection after authentication.",
+      "productRoutes": [
+        "/organization/select",
+        "/workspace/select"
+      ],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [
+        "auth-routes"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "hrm",
+      "kind": "module",
+      "title": "HRM",
+      "audience": "end-user",
+      "summary": "Governed HRM module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "productRoutes": [
+        "/modules/hrm"
+      ],
+      "permissionKeys": [
+        "hr.employee_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "inventory",
+      "kind": "module",
+      "title": "Inventory",
+      "audience": "end-user",
+      "summary": "Track stock levels, warehouses, and movements when your role includes inventory access.",
+      "productRoutes": [
+        "/modules/inventory"
+      ],
+      "permissionKeys": [
+        "inventory.stock_adjust"
+      ],
+      "entitlements": [
+        "capability:lotTracking"
+      ],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": [
+        {
+          "id": "internal.v1.inventory.products.get",
+          "method": "get",
+          "path": "/inventory/products",
+          "permission": "inventory.product_read",
+          "docSlug": "inventory-products-get"
+        },
+        {
+          "id": "internal.v1.inventory.products.post",
+          "method": "post",
+          "path": "/inventory/products",
+          "permission": "inventory.product_manage",
+          "docSlug": "inventory-products-post"
+        },
+        {
+          "id": "internal.v1.inventory.products.patch",
+          "method": "patch",
+          "path": "/inventory/products",
+          "permission": "inventory.product_manage",
+          "docSlug": "inventory-products-patch"
+        },
+        {
+          "id": "internal.v1.inventory.stock-levels.get",
+          "method": "get",
+          "path": "/inventory/stock-levels",
+          "permission": "inventory.product_read",
+          "docSlug": "inventory-stock-levels-get"
+        },
+        {
+          "id": "internal.v1.inventory.stock-movements.post",
+          "method": "post",
+          "path": "/inventory/stock-movements",
+          "permission": "inventory.stock_adjust",
+          "docSlug": "inventory-stock-movements-post"
+        },
+        {
+          "id": "internal.v1.inventory.warehouses.get",
+          "method": "get",
+          "path": "/inventory/warehouses",
+          "permission": "inventory.warehouse_read",
+          "docSlug": "inventory-warehouses-get"
+        },
+        {
+          "id": "internal.v1.inventory.warehouses.post",
+          "method": "post",
+          "path": "/inventory/warehouses",
+          "permission": "inventory.warehouse_manage",
+          "docSlug": "inventory-warehouses-post"
+        },
+        {
+          "id": "internal.v1.inventory.warehouses.patch",
+          "method": "patch",
+          "path": "/inventory/warehouses",
+          "permission": "inventory.warehouse_manage",
+          "docSlug": "inventory-warehouses-patch"
+        }
+      ]
+    },
+    {
+      "id": "manufacturing",
+      "kind": "module",
+      "title": "Manufacturing",
+      "audience": "end-user",
+      "summary": "Governed Manufacturing module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "productRoutes": [
+        "/modules/manufacturing"
+      ],
+      "permissionKeys": [
+        "inventory.stock_adjust"
+      ],
+      "entitlements": [
+        "module.mrp.enabled",
+        "capability:lotTracking",
+        "capability:forecasting"
+      ],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "mrp",
+      "kind": "module",
+      "title": "MRP",
+      "audience": "end-user",
+      "summary": "Governed MRP module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "productRoutes": [
+        "/modules/mrp"
+      ],
+      "permissionKeys": [
+        "inventory.stock_adjust"
+      ],
+      "entitlements": [
+        "module.mrp.enabled",
+        "capability:lotTracking",
+        "capability:forecasting"
+      ],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "platform-auth",
+      "kind": "platform-api",
+      "title": "auth",
+      "audience": "integrator",
+      "summary": "Session authentication and membership resolution.",
+      "productRoutes": [],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [],
+      "openapiTag": "auth",
+      "suppressCasual": true,
+      "apiOperations": [
+        {
+          "id": "internal.v1.auth.memberships.get",
+          "method": "get",
+          "path": "/auth/memberships",
+          "permission": null,
+          "docSlug": "auth-memberships-get"
+        }
+      ]
+    },
+    {
+      "id": "platform-health",
+      "kind": "platform-api",
+      "title": "health",
+      "audience": "integrator",
+      "summary": "Service health and diagnostics.",
+      "productRoutes": [],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [],
+      "openapiTag": "health",
+      "suppressCasual": true,
+      "apiOperations": [
+        {
+          "id": "internal.v1.health.get",
+          "method": "get",
+          "path": "/health",
+          "permission": null,
+          "docSlug": "health-get"
+        }
+      ]
+    },
+    {
+      "id": "platform-observability",
+      "kind": "platform-api",
+      "title": "observability",
+      "audience": "integrator",
+      "summary": "Client-side telemetry and error ingestion.",
+      "productRoutes": [],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [],
+      "openapiTag": "observability",
+      "suppressCasual": true,
+      "apiOperations": [
+        {
+          "id": "internal.v1.client-error.post",
+          "method": "post",
+          "path": "/client-error",
+          "permission": null,
+          "docSlug": "client-error-post"
+        }
+      ]
+    },
+    {
+      "id": "platform-storage",
+      "kind": "platform-api",
+      "title": "storage",
+      "audience": "integrator",
+      "summary": "Binary asset storage operations.",
+      "productRoutes": [],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [],
+      "openapiTag": "storage",
+      "suppressCasual": true,
+      "apiOperations": [
+        {
+          "id": "internal.v1.storage.tenant-brand-logo.post",
+          "method": "post",
+          "path": "/storage/tenant-brand-logo",
+          "permission": "system_admin.modules_manage",
+          "docSlug": "storage-tenant-brand-logo-post"
+        }
+      ]
+    },
+    {
+      "id": "sales",
+      "kind": "module",
+      "title": "Sales",
+      "audience": "end-user",
+      "summary": "Governed Sales module in Afenda ERP — open the module route after sign-in when your tenant grants access.",
+      "productRoutes": [
+        "/modules/sales"
+      ],
+      "permissionKeys": [
+        "finance.invoices_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": []
+    },
+    {
+      "id": "workspace",
+      "kind": "module",
+      "title": "Workspace",
+      "audience": "end-user",
+      "summary": "Your home dashboard and workspace layout after you select a tenant context.",
+      "productRoutes": [
+        "/modules/workspace"
+      ],
+      "permissionKeys": [
+        "workspace.dashboard_read"
+      ],
+      "entitlements": [],
+      "catalogSources": [
+        "modules"
+      ],
+      "apiOperations": [
+        {
+          "id": "internal.v1.workspace.dashboard-layout.get",
+          "method": "get",
+          "path": "/workspace/dashboard-layout",
+          "permission": "workspace.dashboard_read",
+          "docSlug": "workspace-dashboard-layout-get"
+        },
+        {
+          "id": "internal.v1.workspace.dashboard-layout.put",
+          "method": "put",
+          "path": "/workspace/dashboard-layout",
+          "permission": "workspace.dashboard_write",
+          "docSlug": "workspace-dashboard-layout-put"
+        },
+        {
+          "id": "internal.v1.workspace.dashboard-layout.delete",
+          "method": "delete",
+          "path": "/workspace/dashboard-layout",
+          "permission": "workspace.dashboard_write",
+          "docSlug": "workspace-dashboard-layout-delete"
+        }
+      ]
+    }
+  ],
+  "coverageWarnings": [],
+  "coverageErrors": [],
+  "coverageScore": 1,
+  "coverageThreshold": 0.8,
+  "openApiBindingWarnings": []
+}

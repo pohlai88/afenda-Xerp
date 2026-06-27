@@ -41,6 +41,10 @@ export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
 export const LEGACY_DELIVERY_PATH_PATTERN =
   /docs\/(?:delivery|ARCH)\//gi;
 
+/** Relative markdown links to retired delivery/ARCH trees. */
+export const LEGACY_RELATIVE_DELIVERY_PATH_PATTERN =
+  /\]\((?:\.\.\/)+(?:delivery|ARCH)\//gi;
+
 /** Canonical architecture baseline fingerprint (must match dependency-snapshot.json). */
 export const ARCHITECTURE_BASELINE_DOC =
   "docs/architecture/architecture-authority-baseline.md";

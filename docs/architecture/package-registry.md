@@ -8,7 +8,7 @@
 | **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
 | **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-27-v2` |
-| **Active workspaces** | 21 |
+| **Active workspaces** | 22 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry (FDR)](foundation-disposition.md) — not in TIP delivery docs.
@@ -52,6 +52,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-006 | `@afenda/entitlements` | `packages/entitlements` | Integration | active | Entitlements, limits, and access gates | Platform Authority | Yes | `active` |
 | PKG-007 | `@afenda/erp` | `apps/erp` | Application | active | Primary ERP application delivery surface | Application Authority | No | `active` |
 | PKG-021 | `@afenda/storybook` | `apps/storybook` | Application | active | Design-system and ERP shell Storybook delivery surface | Application Authority | No | `active` |
+| PKG-022 | `@afenda/email` | `apps/email` | Application | active | Dev-only React Email preview for auth transactional templates | Application Authority | No | `active` |
 | PKG-008 | `@afenda/execution` | `packages/execution` | Foundation | active | Durable execution and workflow registry | Platform Authority | Yes | `active` |
 | PKG-009 | `@afenda/feature-flags` | `packages/feature-flags` | Integration | active | Deployment flags and rollout evaluation | Platform Authority | Yes | `active` |
 | PKG-010 | `@afenda/kernel` | `packages/kernel` | Platform | active | Platform kernel — branded IDs, Result, and execution contracts | Platform Authority | Yes | `active` |

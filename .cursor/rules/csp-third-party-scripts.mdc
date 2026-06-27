@@ -10,7 +10,7 @@ alwaysApply: false
 
 Applies when adding analytics, tag managers, payment widgets, chat, maps, or any external script to `apps/erp`.
 
-**Authority:** `docs/delivery/nextjs-csp-nonce-pipeline.md`, `.cursor/skills/csp-third-party/SKILL.md`
+**Authority:** `docs/governance/support/nextjs-csp-nonce-pipeline.md`, `.cursor/skills/csp-third-party/SKILL.md`
 
 ## Non-negotiable rules
 

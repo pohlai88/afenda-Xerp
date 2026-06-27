@@ -32,7 +32,7 @@ Handoff from: docs/PAS/slice/b16-10-runtime-rules.md
    docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md (§10 runtime authority)
    package.json (check:kernel-runtime-rules alias)
 4. Prohibited   — ID_FAMILIES edits; apps/erp; packages/database; DB migrations; new external npm deps in kernel; new runtime beyond async propagation; permission evaluation; duplicate §10 bullet lists outside governance contract
-5. Authority    — PAS-001 §10 · §4.11 · §12.4 · §13 · kernel-authority skill
+5. Authority    — PAS-001 §10 · §4.11 · §12.4 · §14 · kernel-authority skill
 6. Gates        —
    pnpm --filter @afenda/kernel typecheck
    pnpm --filter @afenda/kernel test:run

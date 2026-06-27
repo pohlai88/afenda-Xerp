@@ -104,9 +104,9 @@ describe("@afenda/docs theme", () => {
     for (const { variable, value } of Object.values(docsSpacingScale)) {
       expect(paletteCss).toContain(`${variable}: ${value}`);
     }
-    for (const { variable, mapsTo } of Object.values(docsSpacingRoles)) {
-      if (mapsTo) {
-        expect(paletteCss).toContain(`${variable}: var(${mapsTo})`);
+    for (const role of Object.values(docsSpacingRoles)) {
+      if ("mapsTo" in role) {
+        expect(paletteCss).toContain(`${role.variable}: var(${role.mapsTo})`);
       }
     }
     expect(paletteCss).toContain("--docs-divider:");

@@ -76,7 +76,6 @@ export {
   type AccountingPermissionKey,
   toAccountingPermissionKey,
 } from "./accounting-permission-vocabulary.contract.js";
-export { toAccountingDomainContext } from "./bridge/to-accounting-domain-context.js";
 export {
   CONSOLIDATION_METHODS,
   type ConsolidationMethod,

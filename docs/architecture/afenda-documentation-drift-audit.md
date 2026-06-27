@@ -43,7 +43,7 @@ The Afenda ERP monorepo has **advanced materially since 2026-06-20**, but the LL
 | TIP-UI-03/04/05 — Not started | **drifted** | Runtime exists; delivery docs stale | **partially-implemented** |
 | TIP-012 — Not started, 7 kernel contexts missing | **drifted** | `packages/kernel/src/context/context-registry.ts` — 10 required operating-context modules | **partially-implemented** — contracts + ERP resolver exist; spine lifecycle/outbox incomplete |
 | TIP-008 — Not started | **drifted** | `entity_groups`, `legal_entity_ownership` schemas + services | **partially-implemented** — enterprise hierarchy authority foundation delivered via TIP-007/012 slice; master-data entity map still missing |
-| TIP-010 — In progress, ERP wiring incomplete | **implemented** | [`tip-010-api-rbac-wiring.md`](../delivery/tips/%5BComplete%5D%20tip-010-api-rbac-wiring.md), `authorizeApiRoute` | **Complete** — full internal v1 route matrix + system-admin RBAC |
+| TIP-010 — In progress, ERP wiring incomplete | **implemented** | `tip-010-api-rbac-wiring.md`, `authorizeApiRoute` | **Complete** — full internal v1 route matrix + system-admin RBAC |
 | TIP-011 — outbox missing | **implemented** | `packages/database/src/schema/outbox.schema.ts`, `@afenda/execution` publish worker | **Complete** — outbox + Trigger.dev prod worker |
 | Phase 1 exit gate ready for TIP-013 | **drifted (resolved)** | Foundation Phases 0–8 materially advanced; TIP-013 System Admin MVP delivered | **Phase 9 gate** — Accounting Readiness not passed |
 
@@ -278,7 +278,7 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 
 ## 17. ARCH-AUTH-001 documentation drift sync (2026-06-25)
 
-**Trigger:** User `/documentation-drift` on [`ARCH-AUTH-001`](../ARCH/[Partially%20Implemented]%20ARCH-AUTH-001-enterprise-authentication.md) after auth/system-admin implementation wave.
+**Trigger:** User `/documentation-drift` on `ARCH-AUTH-001` after auth/system-admin implementation wave.
 
 | Drift found | Resolution |
 | --- | --- |

@@ -134,7 +134,7 @@ export const MULTI_TENANCY_TEST_REQUIREMENTS = [
     testFiles: [
       "apps/erp/src/__tests__/operating-context-integration.test.ts",
       "apps/erp/src/lib/context/__tests__/context-switch.action.test.ts",
-      "packages/kernel/src/__tests__/untrusted-client-authority.contract.test.ts",
+      "apps/erp/src/lib/context/__tests__/untrusted-client-authority.server.test.ts",
     ],
     coverageMarkers: ["legalEntityId", "authority fields"],
   },

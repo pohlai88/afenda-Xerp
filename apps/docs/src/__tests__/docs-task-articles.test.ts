@@ -71,7 +71,9 @@ describe("@afenda/docs task articles (ARCH-DOCS-002 Slice 1)", () => {
       readFileSync(join(contentRoot, "operate-tenant/meta.json"), "utf8")
     ) as { pages: string[] };
 
-    expect(useErp.pages).toEqual(expect.arrayContaining(["index", "sign-in"]));
+    expect(useErp.pages).toEqual(
+      expect.arrayContaining(["index", "sign-in", "auth-lanes", "modules"])
+    );
     expect(configureTenant.pages).toEqual(
       expect.arrayContaining(["index", "users-and-memberships", "roles-and-permissions"])
     );

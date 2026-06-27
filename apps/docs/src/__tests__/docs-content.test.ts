@@ -54,6 +54,13 @@ describe("@afenda/docs content parity", () => {
       expect(meta.title).toBe(contract?.title);
 
       for (const page of contract?.subpages ?? []) {
+        if (page.id.startsWith("modules-")) {
+          const moduleMeta = readMetaJson(`${sectionId}/modules`);
+          const moduleId = page.id.replace("modules-", "").replace(/-/g, "_");
+          expect(moduleMeta.pages).toContain(moduleId);
+          continue;
+        }
+
         expect(meta.pages).toContain(page.id);
       }
     }

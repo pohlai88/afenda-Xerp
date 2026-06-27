@@ -16,4 +16,9 @@ export {
   resolveScopedMembership,
   type ScopedMembershipResolution,
 } from "./membership-resolution.js";
+export type {
+  assertPermissionScopeContextJsonSerializable,
+  PermissionScopeContext,
+  PermissionScopeWireContext,
+} from "./permission-scope-context.contract.js";
 export type { RoleScope } from "./role-scope.contract.js";

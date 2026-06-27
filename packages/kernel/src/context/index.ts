@@ -8,7 +8,7 @@ export type {
   AccountingReadinessContext,
   AccountingReadinessWireContext,
   assertAccountingReadinessContextJsonSerializable,
-} from "./accounting-readiness.contract.js";
+} from "./accounting-readiness-context.contract.js";
 // ── 10. Consolidation scope ──────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type ConsolidationScopeContext` export substring
 export {
@@ -16,16 +16,6 @@ export {
   type ConsolidationScopeContext,
   type ConsolidationScopeWireContext,
 } from "./consolidation-scope-context.contract.js";
-// ── Consolidation scope resolver (TIP-008A — scope metadata only) ───────────────
-export {
-  CONSOLIDATION_SCOPE_INVESTEE_DEDUP_POLICY,
-  type ConsolidationScopeInvesteeDedupPolicy,
-  mergeInvesteeConsolidationScopeEntry,
-} from "./consolidation-scope-investee-merge.policy.js";
-export {
-  type DeriveConsolidationScopeInput,
-  deriveConsolidationScopeContext,
-} from "./consolidation-scope-resolution.js";
 // ── Registry (governance) ─────────────────────────────────────────────────────
 export {
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
@@ -102,6 +92,12 @@ export {
   type OperatingContextLayerKind,
   type OperatingContextProhibitedKernelBehavior,
 } from "./operating-context-hierarchy.contract.js";
+export type {
+  assertPermissionScopeContextJsonSerializable,
+  OperatingContextPermissionScope,
+  PermissionScopeContext,
+  PermissionScopeWireContext,
+} from "./operating-context-permission-scope.contract.js";
 // ── 5. Organization unit ─────────────────────────────────────────────────────
 export {
   ORGANIZATION_UNIT_TYPES,
@@ -126,23 +122,15 @@ export {
   type PermissionGrantElevationFlags,
   type PermissionGrantScopeType,
 } from "./permission-grant-vocabulary.contract.js";
-export type {
-  assertPermissionScopeContextJsonSerializable,
-  PermissionScopeContext,
-  PermissionScopeWireContext,
-} from "./permission-scope-context.contract.js";
 // ── 7. Project ───────────────────────────────────────────────────────────────
 export {
   PROJECT_LIFECYCLE_STATUSES,
   type ProjectContext,
   type ProjectLifecycleStatus,
 } from "./project-context.contract.js";
-export { normalizeRuntimeModulePath } from "./runtime-module-path.js";
-export {
-  parseSurfaceId,
-  type SurfaceContext,
-  type SurfaceId,
-  toSurfaceContext,
+export type {
+  SurfaceContext,
+  SurfaceId,
 } from "./surface-context.contract.js";
 // ── 6. Team ──────────────────────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TeamContext` export substring
@@ -150,18 +138,9 @@ export { type TeamContext } from "./team-context.contract.js";
 // ── 1. Tenant ────────────────────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TenantContext` export substring
 export { type TenantContext } from "./tenant-context.contract.js";
-// ── Client authority guard ─────────────────────────────────────────────────────
-export {
-  findUntrustedClientAuthorityFields,
-  isUntrustedClientAuthorityFieldKey,
-  UNTRUSTED_CLIENT_AUTHORITY_FIELD_KEYS,
-  type UntrustedClientAuthorityFieldKey,
-} from "./untrusted-client-authority.contract.js";
-export {
-  parseWorkflowId,
-  toWorkflowContext,
-  type WorkflowContext,
-  type WorkflowId,
+export type {
+  WorkflowContext,
+  WorkflowId,
 } from "./workflow-context.contract.js";
 // ── Derived runtime context (no authority) ─────────────────────────────────────
 export type { WorkspaceContext } from "./workspace-context.contract.js";

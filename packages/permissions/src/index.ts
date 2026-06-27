@@ -119,6 +119,7 @@ export {
   requirePolicyDecision,
 } from "./policy-engine.js";
 export {
+  type assertPermissionScopeContextJsonSerializable,
   isDeniedScopedMembershipResolution,
   isMatchedScopedMembershipResolution,
   isMembershipActive,
@@ -126,6 +127,8 @@ export {
   type MembershipScopeType,
   type MembershipStatus,
   membershipMatchesGrantScope,
+  type PermissionScopeContext,
+  type PermissionScopeWireContext,
   type ResolvePermissionScopeInput,
   resolvePermissionScopeContext,
   resolveScopedMembership,

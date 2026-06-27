@@ -58,7 +58,22 @@ export const docsSeedSections = [
     id: "use-erp",
     slug: ["use-erp"],
     title: "Use ERP",
-    subpages: [{ slug: ["use-erp", "sign-in"], id: "sign-in" }],
+    subpages: [
+      { slug: ["use-erp", "sign-in"], id: "sign-in" },
+      { slug: ["use-erp", "auth-lanes"], id: "auth-lanes" },
+      { slug: ["use-erp", "modules"], id: "modules" },
+      { slug: ["use-erp", "modules", "workspace"], id: "modules-workspace" },
+      { slug: ["use-erp", "modules", "accounting"], id: "modules-accounting" },
+      { slug: ["use-erp", "modules", "hrm"], id: "modules-hrm" },
+      { slug: ["use-erp", "modules", "inventory"], id: "modules-inventory" },
+      {
+        slug: ["use-erp", "modules", "manufacturing"],
+        id: "modules-manufacturing",
+      },
+      { slug: ["use-erp", "modules", "mrp"], id: "modules-mrp" },
+      { slug: ["use-erp", "modules", "sales"], id: "modules-sales" },
+      { slug: ["use-erp", "modules", "ai_copilot"], id: "modules-ai-copilot" },
+    ],
   },
   {
     id: "configure-tenant",

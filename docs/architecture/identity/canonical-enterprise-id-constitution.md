@@ -146,4 +146,4 @@ Minimum proof: all 22 enterprise ID families in `ID_FAMILIES` with unique prefix
 - [postgres-split-id-model.md](./postgres-split-id-model.md)
 - [tenant-human-reference-model.md](./tenant-human-reference-model.md)
 - [identity-promotion-process.md](./identity-promotion-process.md)
-- FDR note: [fdr-010-kernel-identity-constitution.md](../../delivery/FDR/fdr-010-kernel-identity-constitution.md)
+- PAS companion: [`PAS-001`](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1 · [`pas-status-index.md`](../PAS/pas-status-index.md)

@@ -47,8 +47,12 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | Standard | Package | Layer | Status |
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Active |
+| [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Foundation | Active |
 
-Package-local annotated tree: [`packages/kernel/PAS-001-KERNEL-TREE.md`](../../packages/kernel/PAS-001-KERNEL-TREE.md)
+Package-local annotated trees:
+
+- Kernel: [`packages/kernel/PAS-001-KERNEL-TREE.md`](../../packages/kernel/PAS-001-KERNEL-TREE.md)
+- Architecture authority: [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
 
 Slice closure registry: [`pas-status-index.md`](pas-status-index.md)
 
@@ -61,6 +65,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS | Agent Skill |
 |---|---|
 | PAS-001 | `.cursor/skills/kernel-authority/SKILL.md` |
+| PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 
 ---
 

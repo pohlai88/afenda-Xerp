@@ -316,7 +316,7 @@ expect(entries).toHaveLength(1);
 
 ## Additional resources
 
-- Delivery evidence: `docs/delivery/pino-erp-logger.md`
+- Delivery evidence: `docs/governance/support/pino-erp-logger.md`
 - Pino redact paths: `packages/observability/src/pino.redact.ts`
 - Pino sink config: `packages/observability/src/pino.sink.ts`
 - Audit event contract: `packages/observability/src/contracts/audit-event.contract.ts`

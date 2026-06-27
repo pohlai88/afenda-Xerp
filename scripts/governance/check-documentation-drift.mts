@@ -5,7 +5,7 @@
  * Detects obvious stale documentation markers and missing authority index files.
  */
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +17,7 @@ import {
   FINGERPRINT_REQUIRED_DOCS,
   LEGACY_DELIVERY_PATH_PATTERN,
   LEGACY_DELIVERY_PATH_SCAN_FILES,
+  LEGACY_RELATIVE_DELIVERY_PATH_PATTERN,
   MASTER_PLAN,
   MASTER_PLAN_FORBIDDEN_MARKERS,
   MASTER_PLAN_REQUIRED_MARKERS,
@@ -52,6 +53,31 @@ function readText(path: string): string | null {
 
 function adrIsAccepted(content: string): boolean {
   return /\*\*Status\*\*\s*\|\s*Accepted/i.test(content);
+}
+
+function listArchitectureMarkdownFiles(): string[] {
+  const root = join(repoRoot, "docs/architecture");
+  const files: string[] = [];
+
+  function walk(dir: string): void {
+    for (const name of readdirSync(dir)) {
+      const absolute = join(dir, name);
+      if (statSync(absolute).isDirectory()) {
+        walk(absolute);
+        continue;
+      }
+
+      if (name.endsWith(".md")) {
+        files.push(absolute.slice(repoRoot.length + 1).replace(/\\/g, "/"));
+      }
+    }
+  }
+
+  if (existsSync(root)) {
+    walk(root);
+  }
+
+  return files;
 }
 
 export function checkDocumentationDrift(): DocumentationDriftViolation[] {
@@ -156,19 +182,36 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     }
   }
 
-  for (const scanPath of LEGACY_DELIVERY_PATH_SCAN_FILES) {
+  for (const scanPath of [
+    ...new Set([
+      ...LEGACY_DELIVERY_PATH_SCAN_FILES,
+      ...listArchitectureMarkdownFiles(),
+    ]),
+  ]) {
     const content = readText(scanPath);
     if (!content) {
       continue;
     }
 
-    const matches = content.match(LEGACY_DELIVERY_PATH_PATTERN);
-    if (matches && matches.length > 0) {
-      const unique = [...new Set(matches)];
+    const absoluteMatches = content.match(LEGACY_DELIVERY_PATH_PATTERN);
+    if (absoluteMatches && absoluteMatches.length > 0) {
+      const unique = [...new Set(absoluteMatches)];
       violations.push({
         file: scanPath,
         message: `Legacy delivery/ARCH path reference(s): ${unique.join(", ")} — use docs/PAS/ or docs/architecture/`,
         rule: "legacy-delivery-path-reference",
+      });
+    }
+
+    const relativeMatches = content.match(
+      LEGACY_RELATIVE_DELIVERY_PATH_PATTERN
+    );
+    if (relativeMatches && relativeMatches.length > 0) {
+      violations.push({
+        file: scanPath,
+        message:
+          "Relative link to retired ../delivery/ or ../ARCH/ tree — use docs/PAS/ or in-repo architecture docs",
+        rule: "legacy-relative-delivery-path-reference",
       });
     }
   }

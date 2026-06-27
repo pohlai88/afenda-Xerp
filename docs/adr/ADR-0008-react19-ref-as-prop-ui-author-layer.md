@@ -101,8 +101,6 @@ If ref-as-prop migration causes regressions:
 
 ## References
 
-- Delivery: [TIP-UI-06 — React 19 Ref-as-Prop Migration](../delivery/tips/%5BBlocked%5D%20tip-ui-06-react19-ref-as-prop.md)
-- Primitive normalization: [ui-radix-primitive-normalization.md](../delivery/ui-radix-primitive-normalization.md)
-- Governed adapter: [tip-004b-primitive-adapter.md](../delivery/tips/%5BComplete%5D%20tip-004b-primitive-adapter.md)
-- Skill: `.cursor/skills/govern-primitive/SKILL.md` (checklist item 5 — update after ADR Accepted)
+- Policy: [TIP-004 governed UI](../governance/tip-004-policy.md) · [ui-guard gates](../governance/ui-guard.md)
+- Skill: `.cursor/skills/govern-primitive/SKILL.md`
 - React catalog: `pnpm-workspace.yaml` → `react: ^19.1.0`

@@ -235,8 +235,6 @@ description: ${JSON.stringify(input.config.indexDescription)}
 full: true
 ---
 
-# ${input.config.indexHeading}
-
 ${input.config.indexIntro}
 
 <Cards>

@@ -7,6 +7,7 @@ import { validateCycles } from "./validate-cycles.js";
 import { validateDependencies } from "./validate-dependencies.js";
 import { validateExceptions } from "./validate-exceptions.js";
 import { validateForbiddenDependencies } from "./validate-forbidden-dependencies.js";
+import { validateFoundationDisposition } from "./validate-foundation-disposition.js";
 import { validateLayers } from "./validate-layers.js";
 import { validateOwnership } from "./validate-ownership.js";
 import { validateRegistry } from "./validate-registry.js";
@@ -22,6 +23,7 @@ export function validateArchitecture(
     validateForbiddenDependencies(workspaces),
     validateCycles(workspaces),
     validateExceptions(),
+    validateFoundationDisposition(),
   ];
 
   return mergeValidationResults(results);

@@ -14,12 +14,9 @@ import {
   type OperatingContextSelection,
   ok,
   type TeamContext,
-  toSurfaceContext,
-  toWorkflowContext,
   type WorkspaceContext,
 } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
-
 import {
   denyOperatingContext,
   ORGANIZATION_ACCESS_BLOCK_REASON,
@@ -37,6 +34,8 @@ import {
   resolveGrantScope,
 } from "./resolve-grant-scope.server";
 import { resolveLegalEntityContext } from "./resolve-legal-entity-context.server";
+import { toSurfaceContext } from "./surface-context.resolution.server.js";
+import { toWorkflowContext } from "./workflow-context.resolution.server.js";
 
 function resolveTeamContext(input: {
   readonly organizationRow: {

@@ -10,26 +10,38 @@ catalogBindings:
   - system-admin
 ---
 
-# Roles and permissions
+import { Callout } from "fumadocs-ui/components/callout";
 
-Afenda RBAC uses **registered permission keys** from `@afenda/permissions` package registry. Roles bundle keys; memberships attach roles to users within tenant scope.
+## Overview
+
+Afenda RBAC uses **registered permission keys** from the `@afenda/permissions` package registry. Roles bundle keys; memberships attach roles to users within tenant scope. The catalogs on this page are **build-time synced** — they reflect what the ERP enforces at runtime.
+
+<Callout type="warn" title="Least privilege">
+
+Start with read-only keys. Add manage, post, or approve keys only when a documented workflow requires them. Review assignments after org changes (reorgs, contractor offboarding).
+
+</Callout>
 
 ## Configure roles
 
 1. Open **System Admin → Roles** (`/system-admin/roles`).
 2. Create or edit a role and attach the minimum permission keys required for the job function.
 3. Prefer read-only keys (`*_read`) until a workflow requires manage/post/approve actions.
+4. Document why elevated keys exist — auditors and future admins need context.
 
 ## Audit permission coverage
 
 1. Open **System Admin → Permissions** (`/system-admin/permissions`).
 2. Compare role assignments against the governed key catalog below.
 3. Remove unused keys from roles to reduce privilege surface.
+4. Repeat after module upgrades — new keys may appear in the synced catalog.
 
 ## Permission keys
 
 <GeneratedReference catalog="permissions" />
 
 ## System admin sections
+
+Each section maps to a System Admin surface. Use this table when scoping roles to UI areas.
 
 <GeneratedReference catalog="system-admin" />

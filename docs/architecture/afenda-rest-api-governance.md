@@ -1,7 +1,7 @@
 # Afenda REST API Governance
 
 > **Operational authority** for governed ERP REST routes.  
-> **Domain ARCH:** [`ARCH-API-001`](../ARCH/[Complete]%20ARCH-API-001-governed-rest-api.md) · **Delivery FDR:** [`fdr-007-api-governance`](../delivery/FDR/[Partially%20Implemented]%20fdr-007-api-governance.md) · **How-to:** [`docs/governance/api-contract.md`](../governance/api-contract.md)
+> **PAS ingress:** [`b10-4.1.10-api-ingress.md`](../PAS/slice/b10-4.1.10-api-ingress.md) · **How-to:** [`docs/governance/api-contract.md`](../governance/api-contract.md)
 
 | Field | Value |
 | --- | --- |
@@ -322,7 +322,7 @@ pnpm --filter @afenda/erp test:run -- api-contract api-envelope api-handler-boun
 
 | Gap | Classification | Close condition |
 | --- | --- | --- |
-| **OpenAPI catalog generation** | **Closed 2026-06-26** | [`ARCH-API-002`](../ARCH/ARCH-API-002-openapi-internal-v1-catalog.md) · `pnpm export:openapi` · `pnpm check:openapi-drift` |
+| **OpenAPI catalog generation** | **Closed 2026-06-26** | `ARCH-API-002` · `pnpm export:openapi` · `pnpm check:openapi-drift` |
 | **Kong / external API gateway** | **P2 — excluded from current production release** | Separate ARCH/FDR approval; seam exists at `api-gateway.adapter.ts` |
 | **Durable idempotency store** | **P1 — production hardening** | Redis/DB-backed `IdempotencyStore`; waiver until Accounting Core ADR amendment |
 | **Real rate-limit enforcement** | **P1 — production hardening** | Provider wired to `assertRateLimitAllowed`; policies already declared on contracts |
@@ -355,8 +355,8 @@ Live catalog: `apps/erp/src/server/api/contracts/api-route-catalog.snapshot.json
 
 | Document | Role |
 | --- | --- |
-| [`ARCH-API-001`](../ARCH/[Complete]%20ARCH-API-001-governed-rest-api.md) | Domain architecture authority |
-| [`fdr-007-api-governance`](../delivery/FDR/[Partially%20Implemented]%20fdr-007-api-governance.md) | Implementation gates and slices |
+| [`PAS-001`](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1.10 | Kernel/API ingress standard |
+| [`foundation-disposition.md`](foundation-disposition.md) | Disposition registry human view |
 | [`api-contract.md`](../governance/api-contract.md) | Developer how-to |
 | [`nextjs-api-hardening.md`](../governance/nextjs-api-hardening.md) | Route handler rules |
 | [`multi-tenancy.md`](./multi-tenancy.md) | Operating context model |

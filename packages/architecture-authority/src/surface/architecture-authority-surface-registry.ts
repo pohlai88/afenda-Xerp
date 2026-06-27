@@ -61,6 +61,30 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
       "assertAuthorityOnlyRuntimeStatus",
     ],
   },
+  {
+    path: "data/business-master-data-authority.registry.ts",
+    role: "ADR-0020 business entity → domain package authority map (relocated from kernel K2)",
+    primaryExports: [
+      "BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY",
+      "getBusinessMasterDataAuthority",
+    ],
+  },
+  {
+    path: "data/business-master-data-import-boundary.policy.ts",
+    role: "TIP-008B import-prefix guard for domain contracts",
+    primaryExports: [
+      "assertBusinessMasterDataImportBoundary",
+      "BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES",
+    ],
+  },
+  {
+    path: "data/business-master-data-shared-package.policy.ts",
+    role: "ADR-0020 persistence ownership per reserved domain package",
+    primaryExports: [
+      "assertSharedPackageOwnershipPolicy",
+      "summarizePackageOwnership",
+    ],
+  },
 ] as const;
 
 /** Validators consumed by CI architecture gates. */
@@ -84,6 +108,26 @@ export const ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES = [
     path: "validators/validate-forbidden-dependencies.ts",
     role: "Cross-layer dependency enforcement",
     primaryExports: ["validateForbiddenDependencies"],
+  },
+  {
+    path: "validators/validate-cycles.ts",
+    role: "Dependency cycle detection",
+    primaryExports: ["validateCycles"],
+  },
+  {
+    path: "validators/validate-layers.ts",
+    role: "Layer assignment and cross-layer matrix",
+    primaryExports: ["validateLayers"],
+  },
+  {
+    path: "validators/validate-ownership.ts",
+    role: "Package ownership audit",
+    primaryExports: ["validateOwnership", "findMissingOwnershipViolations"],
+  },
+  {
+    path: "validators/validate-exceptions.ts",
+    role: "ADR exception registry validation",
+    primaryExports: ["validateExceptions", "validateExceptionEntries"],
   },
   {
     path: "validators/validate-foundation-disposition.ts",
@@ -181,7 +225,8 @@ export const MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES = [
   {
     from: "@afenda/permissions",
     to: "@afenda/kernel",
-    reason: "PermissionScopeContext types from kernel (TIP-007)",
+    reason:
+      "Grant vocabulary from kernel; resolved PermissionScopeContext owned by permissions (K5)",
   },
   {
     from: "@afenda/appshell",

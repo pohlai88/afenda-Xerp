@@ -87,7 +87,6 @@ export const MULTI_TENANCY_CONTEXT_CONTRACT_ROW_MARKERS =
 /** Required root re-export markers. */
 export const MULTI_TENANCY_ROOT_EXPORT_MARKERS = [
   "KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES",
-  "deriveConsolidationScopeContext",
   "OPERATING_CONTEXT_ERROR_CODES",
 ] as const;
 

@@ -39,6 +39,7 @@ import {
 import { DocsSiteGraph } from "@/components/docs-site-graph";
 import { GeneratedReference } from "@/components/generated-reference";
 import { GraphView } from "@/components/graph-view";
+import { Mermaid } from "@/components/mermaid";
 
 /**
  * Global MDX component registry — full Fumadocs UI catalog.
@@ -143,6 +144,7 @@ export function getMDXComponents(
     Folder,
     GithubInfo,
     GraphView,
+    Mermaid,
     ImageZoom,
     InlineTOC,
     img: MdxImage as NonNullable<MDXComponents["img"]>,

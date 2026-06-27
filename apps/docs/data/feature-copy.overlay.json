@@ -1,0 +1,19 @@
+{
+  "_comment": "Editorial overlay for en casual copy. Keys match manifest ids. Regenerate with pnpm sync:product-docs.",
+  "inventory": {
+    "summary": "Track stock levels, warehouses, and movements when your role includes inventory access.",
+    "whenToUse": "Open **Inventory** when you need to review stock, warehouses, or record movements your role allows."
+  },
+  "workspace": {
+    "summary": "Your home dashboard and workspace layout after you select a tenant context.",
+    "whenToUse": "Open **Workspace** after sign-in when you need your dashboard or layout preferences."
+  },
+  "accounting": {
+    "summary": "Journal and accounting surfaces when the accounting module entitlement is enabled.",
+    "whenToUse": "Open **Accounting** when finance roles need journals or accounting screens in the ERP."
+  },
+  "auth-lane-security": {
+    "summary": "Multi-factor authentication, session expiry, and access-denied handling.",
+    "whenToUse": "Use this lane when troubleshooting MFA, session expiry, or access-denied screens."
+  }
+}

@@ -10,26 +10,62 @@ catalogBindings:
   - auth-routes
 ---
 
-# Users and memberships
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Callout } from "fumadocs-ui/components/callout";
 
-Tenant administrators manage who can access the ERP through **Users** and **Memberships** in System Admin.
+## Overview
+
+Tenant administrators manage who can access the ERP through **Users** and **Memberships** in System Admin. A user account is global identity; a **membership** binds that user to a tenant scope (company, workspace, or org unit depending on your configuration).
+
+<Callout type="info" title="Invite vs. create">
+
+Prefer **invite** flows so users verify email and accept terms on `/invite/accept`. Direct account creation without invite is reserved for break-glass procedures documented by your security team.
+
+</Callout>
 
 ## Invite a user
 
-1. Sign in with a role that includes `system_admin.users_manage`.
-2. Open **System Admin → Users** (`/system-admin/users`).
-3. Send an invite; the recipient completes acceptance at `/invite/accept`.
+<Steps>
+
+<Step>
+
+### Confirm your admin role
+
+Sign in with a role that includes `system_admin.users_manage`. Without it, invite actions are hidden or return access denied.
+
+</Step>
+
+<Step>
+
+### Send the invite
+
+Open **System Admin → Users** (`/system-admin/users`) and send an invite. The recipient completes acceptance at `/invite/accept`.
+
+</Step>
+
+<Step>
+
+### Verify membership
+
+After acceptance, confirm the user appears under **Memberships** with the intended scope before they rely on module access.
+
+</Step>
+
+</Steps>
 
 ## Manage memberships
 
 1. Open **System Admin → Memberships** (`/system-admin/memberships`).
 2. Assign the correct company or workspace scope for each member.
-3. Confirm the member can reach `/workspace/select` after sign-in.
+3. Attach roles defined in [Roles and permissions](./roles-and-permissions).
+4. Confirm the member can reach `/workspace/select` after sign-in when multiple scopes apply.
 
 ## System admin sections
 
 <GeneratedReference catalog="system-admin" />
 
 ## Related auth routes
+
+Invite and sign-in flows use governed auth segments — compare failing URLs against this catalog when users report access issues.
 
 <GeneratedReference catalog="auth-routes" />

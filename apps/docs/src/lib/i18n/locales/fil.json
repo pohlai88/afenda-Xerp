@@ -3,6 +3,7 @@
   "searchTrigger": "Maghanap ng dokumentasyon",
   "searchDialog": "Maghanap ng dokumentasyon",
   "inlineTocLabel": "Sa pahinang ito",
+  "fallbackNotice": "Wala pang salin ng pahinang ito sa iyong wika. Ipinapakita ang bersyong Ingles.",
   "feedback": {
     "blockFeedbackLabel": "Feedback",
     "close": "Isara",

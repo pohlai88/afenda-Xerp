@@ -26,8 +26,6 @@ export const IDENTITY_BOUNDARY_SCAN_ROOTS = [
 ] as const;
 
 export const IDENTITY_BOUNDARY_ALLOWLIST_PREFIXES = [
-  "packages/kernel/src/identity/governance/legacy-brand-boundary.contract.ts",
-  "packages/kernel/src/__tests__/legacy-brand-boundary.contract.test.ts",
   "packages/kernel/src/identity/",
   "packages/kernel/src/__tests__/",
 ] as const;

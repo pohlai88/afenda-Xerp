@@ -36,6 +36,12 @@ async function main(): Promise<void> {
   console.log("[sync:product-docs] generating OpenAPI docs…");
   runTsx("apps/docs/scripts/generate-openapi-docs.mts", docsAppDir);
 
+  console.log("[sync:product-docs] generating repo evidence inventory…");
+  runTsx("apps/docs/scripts/generate-repo-evidence.mts", docsAppDir);
+
+  console.log("[sync:product-docs] generating feature evidence…");
+  runTsx("apps/docs/scripts/generate-feature-evidence.mts", docsAppDir);
+
   console.log(`[sync:product-docs] complete (${docsAppDir})`);
 }
 

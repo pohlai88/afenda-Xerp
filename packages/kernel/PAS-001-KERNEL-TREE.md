@@ -36,7 +36,7 @@ packages/kernel/
     │   ├── team-context.contract.ts                # ✅ TeamContext  ← shape only, not team DB
     │   ├── project-context.contract.ts             # ✅ ProjectContext
     │   ├── operating-context.contract.ts           # ✅ OperatingContext + error codes + selection hints
-    │   ├── permission-scope-context.contract.ts    # ⚠️ DRIFT → @afenda/permissions (shape today)
+    │   ├── operating-context-permission-scope.contract.ts # ✅ composition slot (canonical type → @afenda/permissions)
     │   ├── consolidation-scope-context.contract.ts # ✅ ConsolidationScopeContext
     │   │
     │   │── ── §4.4 SUPPORT shapes / metadata ───────────────────────────────
@@ -97,6 +97,7 @@ packages/kernel/
     │   │   └── __tests__/                # 🧪 includes forbidden-platform-floor
     │   ├── wire/                         # ✅ §4.1 wire ingress contracts
     │   │   ├── identity-wire.contract.ts
+    │   │   ├── business-reference-wire.contract.ts  # ✅ §4.7 wire references (K7)
     │   │   ├── auth-subject-id.contract.ts
     │   │   ├── auth-actor-identity.contract.ts
     │   │   ├── audit-event-identity.contract.ts
@@ -119,7 +120,6 @@ packages/kernel/
     │   │   ├── better-auth-boundary.policy.ts
     │   │   ├── business-reference-identity.policy.ts
     │   │   ├── tenant-human-reference.policy.ts
-    │   │   ├── legacy-brand-boundary.contract.ts   # ⚠️ DRIFT 🗑️ remove after migration
     │   │   ├── index.ts
     │   │   └── __tests__/
     │   └── __tests__/                    # 🧪 module-location, identity-boundary
@@ -135,10 +135,6 @@ packages/kernel/
     │   │
     │   ├── platform/
     │   │   ├── platform-entity-authority.contract.ts  # ✅ §4.6 Platform entity map
-    │   │   └── index.ts
-    │   │
-    │   ├── business-reference-identity/  # ✅ §4.7 (renamed from business-master-data — B15)
-    │   │   ├── business-reference-id-boundary.contract.ts  # ⚠️ DRIFT consolidate → identity/families+wire
     │   │   └── index.ts
     │   │
     │   └── accounting-domain/            # ✅ §4.8 vocabulary subpath (@afenda/kernel/accounting-domain)
@@ -218,7 +214,4 @@ apps/erp/src/lib/context/
 
 | Path | Target |
 |------|--------|
-| `context/permission-scope-context.contract.ts` | `@afenda/permissions` |
-| `identity/governance/legacy-brand-boundary.contract.ts` | delete after migration |
-| `contracts/business-reference-identity/business-reference-id-boundary.contract.ts` | consolidate → `identity/families` + `wire` |
 | `contracts/accounting-domain/accounting-id.contract.ts` | ⛔ quarantine until Finance ADR |

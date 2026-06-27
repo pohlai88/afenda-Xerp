@@ -3,6 +3,7 @@
   "searchTrigger": "Cari dokumentasi",
   "searchDialog": "Cari dokumentasi",
   "inlineTocLabel": "Di halaman ini",
+  "fallbackNotice": "Halaman ini belum diterjemahkan ke bahasa anda. Versi Bahasa Inggeris dipaparkan.",
   "feedback": {
     "blockFeedbackLabel": "Maklum balas",
     "close": "Tutup",

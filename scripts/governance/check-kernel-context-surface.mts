@@ -46,9 +46,13 @@ const RETIRED_CONTEXT_MODULES = [
   "app-shell-context.contract.ts",
   "accounting-readiness-gate-live-status.contract.ts",
   "accounting-readiness-gate-requirement-id.contract.ts",
+  "consolidation-scope-resolution.ts",
+  "consolidation-scope-investee-merge.policy.ts",
+  "runtime-module-path.ts",
 ] as const;
 
-const RETIRED_KERNEL_BUSINESS_MASTER_DATA_MODULES = [
+const RETIRED_KERNEL_BUSINESS_REFERENCE_IDENTITY_MODULES = [
+  "contracts/business-reference-identity/business-master-data-scaffold.policy.ts",
   "contracts/business-master-data/business-master-data-scaffold.policy.ts",
 ] as const;
 
@@ -76,6 +80,13 @@ const FORBIDDEN_KERNEL_ROOT_EXPORTS = [
   "ApplicationShellAllowedContextOptions",
   "AccountingReadinessGateLiveSnapshot",
   "isCostCenterOrganizationUnit",
+  "deriveConsolidationScopeContext",
+  "parseSurfaceId",
+  "parseWorkflowId",
+  "toSurfaceContext",
+  "toWorkflowContext",
+  "normalizeRuntimeModulePath",
+  "mergeInvesteeConsolidationScopeEntry",
 ] as const;
 
 const FORBIDDEN_ACCOUNTING_READINESS_PATTERNS = [
@@ -87,7 +98,6 @@ const FORBIDDEN_ACCOUNTING_READINESS_PATTERNS = [
 
 const REQUIRED_DIST_EXPORTS = [
   "OperatingContext",
-  "deriveConsolidationScopeContext",
   "isOwnershipInterestEffectiveAt",
   "KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES",
 ] as const;
@@ -209,15 +219,6 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  if (!support.includes("consolidation-scope-resolution.ts")) {
-    violations.push({
-      rule: "consolidation-resolver-registry",
-      file: contextRegistrySource,
-      message:
-        "consolidation-scope-resolution.ts must remain in KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES",
-    });
-  }
-
   const indexSource = readFileSync(contextIndexSource, "utf8");
   for (const primaryType of primaryTypes) {
     if (!indexSource.includes(`type ${primaryType}`)) {
@@ -242,7 +243,7 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
 
   const accountingSource = join(
     contextRoot,
-    "accounting-readiness.contract.ts"
+    "accounting-readiness-context.contract.ts"
   );
   if (existsSync(accountingSource)) {
     const accounting = readFileSync(accountingSource, "utf8");
@@ -254,7 +255,7 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
         rule: "circular-import",
         file: accountingSource,
         message:
-          "accounting-readiness.contract.ts must not import context/index.js",
+          "accounting-readiness-context.contract.ts must not import context/index.js",
       });
     }
 
@@ -263,7 +264,7 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
         violations.push({
           rule: "prohibited-accounting-readiness-behavior",
           file: accountingSource,
-          message: `accounting-readiness.contract.ts must remain shape-only — remove ${pattern}`,
+          message: `accounting-readiness-context.contract.ts must remain shape-only — remove ${pattern}`,
         });
       }
     }
@@ -281,7 +282,7 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
   }
 
   const kernelSrcRoot = join(kernelRoot, "src");
-  for (const retiredModule of RETIRED_KERNEL_BUSINESS_MASTER_DATA_MODULES) {
+  for (const retiredModule of RETIRED_KERNEL_BUSINESS_REFERENCE_IDENTITY_MODULES) {
     const retiredPath = join(kernelSrcRoot, retiredModule);
     if (existsSync(retiredPath)) {
       violations.push({
@@ -292,20 +293,20 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
     }
   }
 
-  const businessMasterDataIndexSource = join(
+  const businessReferenceIdentityIndexSource = join(
     kernelSrcRoot,
-    "contracts/business-master-data/index.ts"
+    "contracts/business-reference-identity/index.ts"
   );
-  if (existsSync(businessMasterDataIndexSource)) {
-    const businessMasterDataIndex = readFileSync(
-      businessMasterDataIndexSource,
+  if (existsSync(businessReferenceIdentityIndexSource)) {
+    const businessReferenceIdentityIndex = readFileSync(
+      businessReferenceIdentityIndexSource,
       "utf8"
     );
     for (const symbol of FORBIDDEN_KERNEL_SCAFFOLD_EXPORTS) {
-      if (businessMasterDataIndex.includes(symbol)) {
+      if (businessReferenceIdentityIndex.includes(symbol)) {
         violations.push({
           rule: "prohibited-kernel-scaffold-export",
-          file: businessMasterDataIndexSource,
+          file: businessReferenceIdentityIndexSource,
           message: `${symbol} must not be exported from @afenda/kernel — use @afenda/architecture-authority (ADR-0020)`,
         });
       }

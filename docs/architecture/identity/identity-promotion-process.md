@@ -114,4 +114,4 @@ Every row must have unique `prefix` and unique `typeName`. Use package-style own
 
 - [canonical-enterprise-id-constitution.md](./canonical-enterprise-id-constitution.md)
 - [PAS-001 §4.1.14](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
-- FDR note: [fdr-010-kernel-identity-constitution.md](../../delivery/FDR/fdr-010-kernel-identity-constitution.md)
+- PAS companion: [`PAS-001`](../../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1

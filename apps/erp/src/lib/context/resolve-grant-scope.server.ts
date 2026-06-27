@@ -3,7 +3,6 @@ import {
   err,
   type OperatingContextError,
   ok,
-  type PermissionScopeContext,
   type Result,
 } from "@afenda/kernel";
 import {
@@ -15,6 +14,7 @@ import {
   isRoleActive,
   type MembershipContract,
   PERMISSION_REGISTRY,
+  type PermissionScopeContext,
   type RoleScope,
   resolvePermissionScopeContext,
   resolveScopedMembership,

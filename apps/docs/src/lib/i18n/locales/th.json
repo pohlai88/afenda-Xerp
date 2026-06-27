@@ -3,6 +3,7 @@
   "searchTrigger": "ค้นหาเอกสาร",
   "searchDialog": "ค้นหาเอกสาร",
   "inlineTocLabel": "ในหน้านี้",
+  "fallbackNotice": "หน้านี้ยังไม่มีการแปลเป็นภาษาของคุณ กำลังแสดงเวอร์ชันภาษาอังกฤษ",
   "feedback": {
     "blockFeedbackLabel": "ความคิดเห็น",
     "close": "ปิด",

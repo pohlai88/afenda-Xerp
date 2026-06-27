@@ -251,8 +251,8 @@ Tests:
 
 ## Additional resources
 
-- Delivery evidence: `docs/delivery/nextjs-csp-nonce-pipeline.md`
-- Hybrid SRI strategy: `docs/delivery/csp-sri-hybrid-strategy.md`
+- Delivery evidence: `docs/governance/support/nextjs-csp-nonce-pipeline.md`
+- Hybrid SRI strategy: `docs/governance/support/csp-sri-hybrid-strategy.md`
 - Third-party workflow: `.cursor/skills/csp-third-party/SKILL.md`
 - Cursor rule: `.cursor/rules/csp-third-party-scripts.mdc`
 - Next.js CSP guide: https://nextjs.org/docs/app/guides/content-security-policy

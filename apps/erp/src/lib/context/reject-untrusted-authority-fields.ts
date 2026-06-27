@@ -1,8 +1,6 @@
-import {
-  type AppError,
-  AppErrors,
-  findUntrustedClientAuthorityFields,
-} from "@afenda/kernel";
+import { type AppError, AppErrors } from "@afenda/kernel";
+
+import { findUntrustedClientAuthorityFields } from "./untrusted-client-authority.server.js";
 
 const UNTRUSTED_AUTHORITY_FIELD_MESSAGE =
   "Authority scope must be resolved server-side from headers and verified membership.";

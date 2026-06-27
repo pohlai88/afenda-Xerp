@@ -1,4 +1,13 @@
 export {
+  ARCHITECTURE_AUTHORITY_CURRENT_SRC_TOP_LEVEL,
+  ARCHITECTURE_AUTHORITY_PACKAGE_LAYOUT_POLICY,
+  ARCHITECTURE_AUTHORITY_PACKAGE_PROHIBITED_PATHS,
+  ARCHITECTURE_AUTHORITY_PACKAGE_TARGET_PATHS,
+  ARCHITECTURE_AUTHORITY_SUBPATH_EXPORTS,
+  isArchitectureAuthorityCurrentSrcTopLevel,
+  isArchitectureAuthoritySubpathExport,
+} from "./contracts/architecture-authority-package-layout.contract.js";
+export {
   ARCHITECTURE_AUTHORITY_VERSION,
   ARCHITECTURE_BASELINE_FINGERPRINT,
 } from "./contracts/architecture-authority-version.js";
@@ -45,6 +54,21 @@ export type {
   WorkspacePackageJson,
 } from "./contracts/workspace.contract.js";
 export {
+  BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY,
+  BUSINESS_MASTER_DATA_ENTITY_IDS,
+  type BusinessMasterDataAuthorityEntry,
+  type BusinessMasterDataEntityId,
+  type BusinessMasterDataIdentityScope,
+  type BusinessMasterDataPkgCode,
+  getBusinessMasterDataAuthority,
+  isBusinessMasterDataEntityId,
+  TBD_BUSINESS_MASTER_DATA_ENTITIES,
+} from "./data/business-master-data-authority.registry.js";
+export {
+  assertBusinessMasterDataImportBoundary,
+  BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES,
+} from "./data/business-master-data-import-boundary.policy.js";
+export {
   assertAuthorityOnlyRuntimeStatus,
   BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS,
   BUSINESS_MASTER_DATA_RESERVED_PACKAGES,
@@ -53,6 +77,14 @@ export {
   type BusinessMasterDataRuntimeStatus,
   isBusinessMasterDataReservedPackage,
 } from "./data/business-master-data-scaffold.policy.js";
+export {
+  assertSharedPackageOwnershipPolicy,
+  type BusinessMasterDataPackageOwnershipSummary,
+  getEntitiesForReservedPackage,
+  INVENTORY_PERSISTENCE_ENTITY_IDS,
+  INVENTORY_PERSISTENCE_PACKAGE_ID,
+  summarizePackageOwnership,
+} from "./data/business-master-data-shared-package.policy.js";
 export { dependencyContract } from "./data/dependency-registry.data.js";
 export { exceptionContract } from "./data/exception-registry.data.js";
 export {

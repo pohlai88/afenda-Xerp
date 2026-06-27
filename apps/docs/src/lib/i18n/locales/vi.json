@@ -3,6 +3,7 @@
   "searchTrigger": "Tìm kiếm tài liệu",
   "searchDialog": "Tìm kiếm tài liệu",
   "inlineTocLabel": "Trên trang này",
+  "fallbackNotice": "Trang này chưa được dịch sang ngôn ngữ của bạn. Đang hiển thị bản tiếng Anh.",
   "feedback": {
     "blockFeedbackLabel": "Phản hồi",
     "close": "Đóng",

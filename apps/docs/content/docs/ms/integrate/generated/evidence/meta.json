@@ -1,0 +1,31 @@
+{
+  "title": "Feature evidence",
+  "pages": [
+    "index",
+    "accounting",
+    "admin-audit",
+    "admin-diagnostics",
+    "admin-memberships",
+    "admin-permissions",
+    "admin-roles",
+    "admin-settings",
+    "admin-users",
+    "ai_copilot",
+    "auth-lane-access",
+    "auth-lane-invite",
+    "auth-lane-recover",
+    "auth-lane-security",
+    "auth-lane-verify",
+    "auth-lane-workspace",
+    "hrm",
+    "inventory",
+    "manufacturing",
+    "mrp",
+    "platform-auth",
+    "platform-health",
+    "platform-observability",
+    "platform-storage",
+    "sales",
+    "workspace"
+  ]
+}

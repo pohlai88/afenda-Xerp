@@ -6,6 +6,7 @@ export interface DocsUiLocaleCopy {
   readonly searchTrigger: string;
   readonly searchDialog: string;
   readonly inlineTocLabel: string;
+  readonly fallbackNotice: string;
   readonly feedback: DocsFeedbackLocaleCopy;
   readonly pageActions: DocsPageActionsLocaleCopy;
   readonly homeSections: readonly DocsHomeSectionLocaleCopy[];

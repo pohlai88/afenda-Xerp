@@ -2,9 +2,8 @@ import {
   membershipMatchesGrantScope,
   resolveRlsGrantScope,
 } from "@afenda/database";
-import type { PermissionScopeContext } from "@afenda/kernel";
-
 import type { MembershipContract } from "./membership.contract.js";
+import type { PermissionScopeContext } from "./permission-scope-context.contract.js";
 import type { RoleScope } from "./role-scope.contract.js";
 
 export interface ResolvePermissionScopeInput {
@@ -56,7 +55,7 @@ export function selectNarrowestMatchingMembership(
   );
 }
 
-/** Maps a matched membership + role into kernel `PermissionScopeContext`. */
+/** Maps a matched membership + role into `PermissionScopeContext`. */
 export function resolvePermissionScopeContext(
   input: ResolvePermissionScopeInput
 ): PermissionScopeContext {

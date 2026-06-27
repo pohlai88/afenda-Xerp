@@ -5,7 +5,7 @@
 | **Authority** | ADR-0010, ADR-0014, TIP-013A |
 | **Signed off** | 2026-06-24 |
 | **Signatory role** | Architecture Authority (automated evidence + agent execution contract) |
-| **Delivery TIP** | [tip-013a-accounting-readiness-gate.md](../delivery/tips/[Complete]%20tip-013a-accounting-readiness-gate.md) |
+| **Delivery TIP** | tip-013a-accounting-readiness-gate.md |
 | **Foundation disposition** | Zero `red-lane` entries — fingerprint `FOUNDATION-DISPOSITION-2026-06-24-v3` |
 
 > This record documents Phase 9 gate pass. It does **not** authorize ledger posting, journal arithmetic, or `@afenda/accounting` runtime implementation beyond **TIP-014 Accounting Core Contracts** scope.
@@ -31,7 +31,7 @@ Accounting Core (TIP-014+):        UNBLOCKED for contract vocabulary only — no
 | Operating context (non-API) | `resolve-action-operating-context.server.ts` | `pnpm check:multi-tenancy-context-integration` |
 | System Admin + nav parity | All sections materialized + mutation audit registry | `pnpm check:system-admin-mutation-audit` |
 | Governed mutation audit | `governed-mutation-audit-registry.ts` | `pnpm quality:erp-observability` |
-| Documentation sync | Runtime matrix + tip-status-index + TIP-013A Complete | `pnpm check:documentation-drift` |
+| Documentation sync | Runtime matrix + [`pas-status-index.md`](../PAS/pas-status-index.md) | `pnpm check:documentation-drift` |
 
 ---
 
@@ -66,7 +66,7 @@ Accounting Core (TIP-014+):        UNBLOCKED for contract vocabulary only — no
 | 2 | Foundation disposition zero red-lane | Complete |
 | 3 | `pnpm check:accounting-readiness-gate` passes | Complete |
 | 4 | `pnpm check:foundation-disposition` passes | Complete |
-| 5 | Runtime matrix + tip-status-index synced | Complete |
+| 5 | Runtime matrix + pas-status-index synced | Complete |
 | 6 | TIP-013A delivery doc status → Complete | Complete |
 
 **Phase 9 sign-off:** **Complete** (2026-06-24).

@@ -1,6 +1,13 @@
 /**
  * Canonical operating-context module registry — aligned with
  * `docs/architecture/multi-tenancy.md` (Step 4 §522–536, Kernel §354–369).
+ *
+ * Naming (PAS-001 §4.4):
+ * - `{layer}-context.contract.ts` — serializable operating-context **shape** only
+ * - `lifecycle.contract.ts` — shared lifecycle vocabulary for context shapes
+ * - `operating-context-hierarchy.contract.ts` / `enterprise-hierarchy.contract.ts` — layer metadata
+ * - `hierarchy-id-boundary.contract.ts` — wire id parse/normalize at trust boundaries
+ * - `*-resolution.ts` / `*.policy.ts` — derivation or merge **behavior** (owner: apps/erp)
  */
 export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
   {
@@ -36,8 +43,8 @@ export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
     primaryType: "OperatingContext",
   },
   {
-    file: "permission-scope-context.contract.ts",
-    primaryType: "PermissionScopeContext",
+    file: "operating-context-permission-scope.contract.ts",
+    primaryType: "OperatingContextPermissionScope",
   },
   {
     file: "consolidation-scope-context.contract.ts",
@@ -51,14 +58,12 @@ export const KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES = [
   "workspace-context.contract.ts",
   "surface-context.contract.ts",
   "workflow-context.contract.ts",
-  "untrusted-client-authority.contract.ts",
-  "accounting-readiness.contract.ts",
-  "consolidation-scope-resolution.ts",
-  "consolidation-scope-investee-merge.policy.ts",
+  "accounting-readiness-context.contract.ts",
+  "hierarchy-id-boundary.contract.ts",
   "localization-context.contract.ts",
+  "operating-context-hierarchy.contract.ts",
   "permission-grant-vocabulary.contract.ts",
   "enterprise-hierarchy.contract.ts",
-  "runtime-module-path.ts",
 ] as const;
 
 export type KernelOperatingContextRequiredModule =

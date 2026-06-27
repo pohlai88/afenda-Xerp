@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "fingerprint": "ARCH-BASELINE-2026-06-23-v2",
-  "generatedAt": "2026-06-26T17:05:07.900Z",
-  "packageCount": 24,
+  "fingerprint": "ARCH-BASELINE-2026-06-27-v2",
+  "generatedAt": "2026-06-27T09:49:56.079Z",
+  "packageCount": 22,
   "packages": [
     {
       "registryId": "PKG-001",
@@ -88,6 +88,17 @@
       "layer": "Application",
       "lifecycle": "active",
       "purpose": "Design-system and ERP shell Storybook delivery surface",
+      "publicApiOwner": "Application Authority",
+      "layerDepExempt": false,
+      "filesystemRequired": true
+    },
+    {
+      "registryId": "PKG-022",
+      "packageName": "@afenda/email",
+      "path": "apps/email",
+      "layer": "Application",
+      "lifecycle": "active",
+      "purpose": "Dev-only React Email preview for auth transactional templates",
       "publicApiOwner": "Application Authority",
       "layerDepExempt": false,
       "filesystemRequired": true
@@ -240,19 +251,19 @@
       "packageName": "@afenda/accounting",
       "path": "packages/accounting",
       "layer": "Domain",
-      "lifecycle": "active",
-      "purpose": "Accounting domain contracts-only (ADR-0015); ledger/posting prohibited until TIP-015 ADR",
+      "lifecycle": "retired",
+      "purpose": "Retired per ADR-0020 — accounting vocabulary in @afenda/kernel/accounting-domain",
       "publicApiOwner": "Accounting Authority",
       "layerDepExempt": false,
-      "filesystemRequired": true
+      "filesystemRequired": false
     },
     {
       "registryId": "PKG-R02",
       "packageName": "@afenda/inventory",
       "path": "packages/inventory",
       "layer": "Domain",
-      "lifecycle": "planned",
-      "purpose": "Inventory domain (reserved)",
+      "lifecycle": "retired",
+      "purpose": "Retired per ADR-0020 — physical runtime in @afenda/database + apps/erp (PKGR02 packageName: @afenda/database)",
       "publicApiOwner": "Inventory Authority",
       "layerDepExempt": false,
       "filesystemRequired": false
@@ -298,11 +309,6 @@
       "authorityLevel": "erp-spine"
     },
     {
-      "packageName": "@afenda/accounting",
-      "ownerDomain": "Accounting Authority",
-      "authorityLevel": "domain"
-    },
-    {
       "packageName": "@afenda/auth",
       "ownerDomain": "Platform Authority",
       "authorityLevel": "platform"
@@ -334,6 +340,11 @@
     },
     {
       "packageName": "@afenda/storybook",
+      "ownerDomain": "Application Authority",
+      "authorityLevel": "application"
+    },
+    {
+      "packageName": "@afenda/email",
       "ownerDomain": "Application Authority",
       "authorityLevel": "application"
     },
@@ -411,7 +422,6 @@
     "@afenda/typescript-config": "Platform",
     "@afenda/architecture-authority": "Platform",
     "@afenda/ai-governance": "Platform",
-    "@afenda/accounting": "Domain",
     "@afenda/kernel": "Platform",
     "@afenda/design-system": "Design",
     "@afenda/ui": "Design",
@@ -425,7 +435,8 @@
     "@afenda/appshell": "ERPSpine",
     "@afenda/erp": "Application",
     "@afenda/docs": "Application",
-    "@afenda/storybook": "Application"
+    "@afenda/storybook": "Application",
+    "@afenda/email": "Application"
   },
   "dependencies": [
     {
@@ -520,6 +531,11 @@
     },
     {
       "from": "@afenda/erp",
+      "to": "@afenda/storage",
+      "classification": "Approved"
+    },
+    {
+      "from": "@afenda/erp",
       "to": "@afenda/ui",
       "classification": "Approved"
     },
@@ -597,11 +613,6 @@
       "from": "@afenda/ai-governance",
       "to": "@afenda/architecture-authority",
       "classification": "Approved"
-    },
-    {
-      "from": "@afenda/accounting",
-      "to": "@afenda/kernel",
-      "classification": "Approved"
     }
   ],
   "exceptions": [
@@ -615,48 +626,7 @@
     }
   ],
   "validation": {
-    "ok": false,
-    "violations": [
-      {
-        "gate": "registry",
-        "packageName": "@afenda/email",
-        "message": "unregistered workspace package @afenda/email"
-      },
-      {
-        "gate": "registry",
-        "packageName": "@afenda/inventory",
-        "message": "package @afenda/inventory has lifecycle planned but exists on filesystem"
-      },
-      {
-        "gate": "ownership",
-        "packageName": "@afenda/email",
-        "message": "no ownership entry for @afenda/email"
-      },
-      {
-        "gate": "ownership",
-        "packageName": "@afenda/inventory",
-        "message": "no ownership entry for @afenda/inventory"
-      },
-      {
-        "gate": "layers",
-        "packageName": "@afenda/email",
-        "message": "no layer assignment for @afenda/email"
-      },
-      {
-        "gate": "layers",
-        "packageName": "@afenda/inventory",
-        "message": "no layer assignment for @afenda/inventory"
-      },
-      {
-        "gate": "dependencies",
-        "packageName": "@afenda/erp",
-        "message": "unapproved runtime dependency @afenda/erp → @afenda/storage"
-      },
-      {
-        "gate": "dependencies",
-        "packageName": "@afenda/inventory",
-        "message": "unapproved runtime dependency @afenda/inventory → @afenda/kernel"
-      }
-    ]
+    "ok": true,
+    "violations": []
   }
 }

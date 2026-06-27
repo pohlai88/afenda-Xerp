@@ -3,6 +3,7 @@
   "searchTrigger": "Search",
   "searchDialog": "Search docs",
   "inlineTocLabel": "On this page",
+  "fallbackNotice": "This page is not yet translated for your language. Showing the English version.",
   "feedback": {
     "blockFeedbackLabel": "Feedback",
     "close": "Close",

@@ -1,34 +1,28 @@
 /** Editorial MDX blocks — derived from afenda-docs preview CSS. */
 @layer components {
-  :where(#nd-page) {
-    --docs-editorial-block-canvas: var(--color-fd-background);
-    --docs-editorial-block-paper: var(--color-fd-card);
-    --docs-editorial-block-text: var(--color-fd-foreground);
-    --docs-editorial-block-text-muted: var(--color-fd-muted-foreground);
-    --docs-editorial-block-border: var(--color-fd-border);
-    --docs-editorial-block-border-subtle: var(--color-fd-border);
-    --docs-editorial-block-surface-muted: var(--color-fd-muted);
-    --docs-editorial-block-surface-hover: var(--color-fd-accent);
-    --docs-editorial-block-accent: var(--docs-prose-accent);
-    --docs-editorial-prose-accent: var(--docs-prose-accent);
-    --docs-editorial-callout-warn: var(--color-fd-warning);
-    --docs-editorial-block-accent-muted: color-mix(
-      in oklab,
-      var(--docs-prose-accent) 12%,
-      transparent
-    );
+  :where(.nd-page) {
+    --docs-editorial-block-canvas: var(--docs-editorial-canvas);
+    --docs-editorial-block-paper: var(--docs-editorial-paper);
+    --docs-editorial-block-text: var(--docs-editorial-text);
+    --docs-editorial-block-text-muted: var(--docs-editorial-text-muted);
+    --docs-editorial-block-border: var(--docs-editorial-border);
+    --docs-editorial-block-border-subtle: var(--docs-editorial-border-subtle);
+    --docs-editorial-block-surface-muted: var(--docs-editorial-surface-muted);
+    --docs-editorial-block-surface-hover: var(--docs-editorial-surface-hover);
+    --docs-editorial-block-accent: var(--docs-editorial-prose-accent);
+    --docs-editorial-block-accent-muted: color-mix(in oklab, var(--docs-editorial-prose-accent) 12%, transparent);
     --docs-editorial-block-success-fg: oklch(0.45 0.12 145);
-    --docs-editorial-block-warning-fg: var(--color-fd-warning);
-    --docs-editorial-block-ring: var(--color-fd-ring);
+    --docs-editorial-block-warning-fg: var(--docs-editorial-callout-warn);
+    --docs-editorial-block-ring: var(--docs-editorial-ring);
     --docs-editorial-block-shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04);
     --docs-editorial-block-shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
     --docs-editorial-block-radius-lg: 0.5rem;
     --docs-editorial-block-radius-xl: 0.75rem;
-    --docs-editorial-block-space-2: var(--docs-space-2);
-    --docs-editorial-block-space-3: var(--docs-space-3);
-    --docs-editorial-block-space-4: var(--docs-space-4);
-    --docs-editorial-block-space-6: var(--docs-space-5);
-    --docs-editorial-block-space-8: var(--docs-space-6);
+    --docs-editorial-block-space-2: 0.5rem;
+    --docs-editorial-block-space-3: 0.75rem;
+    --docs-editorial-block-space-4: 1rem;
+    --docs-editorial-block-space-6: 1.5rem;
+    --docs-editorial-block-space-8: 2rem;
   }
 
   .afenda-docs-preview {
@@ -55,9 +49,7 @@
       transparent
     );
     --docs-editorial-block-success-fg: oklch(0.45 0.12 145);
-    --docs-editorial-block-warning-fg: var(
-      --afenda-status-tone-warning-foreground
-    );
+    --docs-editorial-block-warning-fg: var(--afenda-status-tone-warning-foreground);
     --docs-editorial-block-ring: var(--ring);
     --docs-editorial-block-shadow-sm: var(
       --afenda-shadow-sm,
@@ -69,11 +61,11 @@
     );
     --docs-editorial-block-radius-lg: 0.5rem;
     --docs-editorial-block-radius-xl: 0.75rem;
-    --docs-editorial-block-space-2: var(--docs-space-2);
-    --docs-editorial-block-space-3: var(--docs-space-3);
-    --docs-editorial-block-space-4: var(--docs-space-4);
-    --docs-editorial-block-space-6: var(--docs-space-5);
-    --docs-editorial-block-space-8: var(--docs-space-6);
+    --docs-editorial-block-space-2: 0.5rem;
+    --docs-editorial-block-space-3: 0.75rem;
+    --docs-editorial-block-space-4: 1rem;
+    --docs-editorial-block-space-6: 1.5rem;
+    --docs-editorial-block-space-8: 2rem;
     color: var(--docs-editorial-block-text);
     background-color: var(--docs-editorial-block-canvas);
   }
@@ -100,15 +92,15 @@
   }
 
   .afenda-docs-guide-grid__title {
-    font-size: var(--docs-text-title);
-    font-weight: 500;
-    line-height: var(--docs-leading-title);
-    letter-spacing: var(--docs-tracking-title);
+    font-size: clamp(1.375rem, 2vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
   .afenda-docs-guide-grid__lead {
-    font-size: var(--docs-text-ui);
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--docs-editorial-block-text-muted);
     text-wrap: pretty;
@@ -149,7 +141,8 @@
     text-decoration: none;
     outline-offset: 2px;
     border-radius: var(--docs-editorial-block-radius-xl);
-    transition: transform 150ms ease-out;
+    transition: transform 150ms
+      ease-out;
   }
 
   .afenda-docs-guide-grid__link:hover {
@@ -216,9 +209,9 @@
   }
 
   .afenda-docs-feature-strip__title {
-    font-size: var(--docs-text-section);
-    font-weight: 500;
-    letter-spacing: var(--docs-tracking-section);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .afenda-docs-feature-strip__subtitle {
@@ -285,9 +278,9 @@
   }
 
   .afenda-docs-steps-panel__title {
-    font-size: var(--docs-text-section);
-    font-weight: 500;
-    letter-spacing: var(--docs-tracking-section);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .afenda-docs-steps-panel__lead {
@@ -404,9 +397,8 @@
     padding: var(--docs-editorial-block-space-4);
     background-color: var(--docs-editorial-block-surface-muted);
     border: 1px solid var(--docs-editorial-block-border);
-    border-left-width: 2px;
+    border-left-width: 4px;
     border-radius: var(--docs-editorial-block-radius-lg);
-    box-shadow: none;
   }
 
   .afenda-docs-callout__icon {
@@ -437,28 +429,35 @@
   }
 
   .afenda-docs-callout[data-tone="warn"] {
-    background-color: var(--docs-callout-surface);
-    border-left-color: var(--docs-callout-rail);
+    background-color: color-mix(
+      in oklab,
+      var(--docs-editorial-callout-warn) 10%,
+      var(--docs-editorial-block-canvas)
+    );
+    border-left-color: var(--docs-editorial-callout-warn);
   }
 
   .afenda-docs-callout[data-tone="success"] {
-    background-color: var(--docs-callout-surface);
-    border-left-color: var(--docs-callout-rail);
+    background-color: color-mix(
+      in oklab,
+      var(--docs-editorial-block-success-fg) 10%,
+      var(--docs-editorial-block-canvas)
+    );
+    border-left-color: var(--docs-editorial-block-success-fg);
   }
 
   .afenda-docs-callout[data-tone="note"],
   .afenda-docs-callout[data-tone="info"] {
-    background-color: var(--docs-callout-surface);
-    border-left-color: var(--docs-callout-rail);
-  }
-
-  .afenda-docs-callout[data-tone="warn"] .afenda-docs-callout__icon,
-  .afenda-docs-callout[data-tone="success"] .afenda-docs-callout__icon {
-    color: var(--color-fd-muted-foreground);
+    background-color: color-mix(
+      in oklab,
+      var(--docs-editorial-prose-accent) 10%,
+      var(--docs-editorial-block-canvas)
+    );
+    border-left-color: var(--docs-editorial-prose-accent);
   }
 
   .afenda-docs-callout[data-tone="success"] .afenda-docs-callout__title {
-    color: var(--docs-text-heading);
+    color: var(--docs-editorial-block-success-fg);
   }
 
   .afenda-docs-callout__title {
@@ -531,13 +530,14 @@
   }
 
   .afenda-docs-accordion-panel__plus-icon {
+    pointer-events: none;
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
     margin-left: auto;
     color: var(--docs-editorial-block-text-muted);
-    pointer-events: none;
-    transition: transform 150ms ease-out;
+    transition: transform 150ms
+      ease-out;
   }
 
   .afenda-docs-accordion-panel__plus-icon svg {
@@ -554,8 +554,10 @@
   .afenda-docs-accordion-panel__plus-icon svg path:last-child {
     transform-origin: center;
     transition:
-      transform 150ms ease-out,
-      opacity 150ms ease-out;
+      transform 150ms
+      ease-out,
+      opacity 150ms
+      ease-out;
   }
 
   .afenda-docs-accordion-panel[data-icon="plus-minus"]
@@ -563,8 +565,8 @@
     .afenda-docs-accordion-panel__plus-icon
     svg
     path:last-child {
-    opacity: 0;
     transform: rotate(90deg);
+    opacity: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -630,8 +632,7 @@
   }
 
   .afenda-docs-code-panel__title {
-    padding: var(--docs-editorial-block-space-2)
-      var(--docs-editorial-block-space-4);
+    padding: var(--docs-editorial-block-space-2) var(--docs-editorial-block-space-4);
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--docs-editorial-block-text-muted);
@@ -797,8 +798,7 @@
 
   .afenda-docs-prop-table__table th,
   .afenda-docs-prop-table__table td {
-    padding: var(--docs-editorial-block-space-3)
-      var(--docs-editorial-block-space-4);
+    padding: var(--docs-editorial-block-space-3) var(--docs-editorial-block-space-4);
     vertical-align: top;
     text-align: left;
     border-bottom: 1px solid var(--docs-editorial-block-border-subtle);
@@ -833,14 +833,12 @@
   .afenda-docs-prop-table[data-variant="compact"]
     .afenda-docs-prop-table__table
     td {
-    padding: var(--docs-editorial-block-space-2)
-      var(--docs-editorial-block-space-3);
+    padding: var(--docs-editorial-block-space-2) var(--docs-editorial-block-space-3);
     font-size: 0.8125rem;
   }
 
   .afenda-docs-file-tree[data-variant="compact"] {
-    padding: var(--docs-editorial-block-space-2)
-      var(--docs-editorial-block-space-3);
+    padding: var(--docs-editorial-block-space-2) var(--docs-editorial-block-space-3);
     font-size: 0.75rem;
   }
 
@@ -849,8 +847,7 @@
     gap: var(--docs-editorial-block-space-4);
     align-items: center;
     justify-content: space-between;
-    padding: var(--docs-editorial-block-space-3)
-      var(--docs-editorial-block-space-4);
+    padding: var(--docs-editorial-block-space-3) var(--docs-editorial-block-space-4);
     background-color: var(--docs-editorial-block-paper);
     border: 1px solid var(--docs-editorial-block-border-subtle);
     border-radius: var(--docs-editorial-block-radius-lg);
@@ -942,15 +939,15 @@
 
   .afenda-docs-block-catalog__title {
     margin: 0;
-    font-size: var(--docs-text-title);
-    font-weight: 500;
-    line-height: var(--docs-leading-title);
+    font-size: 1.75rem;
+    font-weight: 650;
+    line-height: 1.2;
     color: var(--docs-editorial-block-text);
   }
 
   .afenda-docs-block-catalog__lead {
     margin: 0;
-    font-size: var(--docs-text-ui);
+    font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--docs-editorial-block-text-muted);
   }
@@ -1024,8 +1021,7 @@
     gap: var(--docs-editorial-block-space-3);
     align-items: center;
     width: 100%;
-    padding: var(--docs-editorial-block-space-3)
-      var(--docs-editorial-block-space-4);
+    padding: var(--docs-editorial-block-space-3) var(--docs-editorial-block-space-4);
     font-size: 0.9375rem;
     font-weight: 600;
     text-align: left;
@@ -1041,8 +1037,7 @@
   }
 
   .afenda-docs-accordion-panel__trigger:hover,
-  .afenda-docs-accordion-panel__item[open]
-    .afenda-docs-accordion-panel__trigger {
+  .afenda-docs-accordion-panel__item[open] .afenda-docs-accordion-panel__trigger {
     background-color: color-mix(
       in oklab,
       var(--docs-editorial-prose-accent) 5%,
@@ -1051,8 +1046,7 @@
   }
 
   .afenda-docs-accordion-panel__content {
-    padding: 0 var(--docs-editorial-block-space-4)
-      var(--docs-editorial-block-space-4);
+    padding: 0 var(--docs-editorial-block-space-4) var(--docs-editorial-block-space-4);
     font-size: 0.875rem;
     line-height: 1.6;
     color: var(--docs-editorial-block-text-muted);
@@ -1110,4 +1104,5 @@
     outline: 2px solid var(--docs-editorial-block-ring);
     outline-offset: 2px;
   }
+
 }

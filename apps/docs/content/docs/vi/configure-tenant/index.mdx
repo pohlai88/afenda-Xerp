@@ -3,11 +3,27 @@ title: Configure Tenant
 description: Tenant administrator guides for users, memberships, roles, and permissions.
 ---
 
-# Configure Tenant
+## Overview
 
-Manage users, memberships, and RBAC for your tenant.
+**Tenant administrators** manage who can access the ERP and what they can do. Afenda separates **identity** (users, invites, auth routes) from **authorization** (roles, permission keys, system-admin sections).
+
+Use the guides below in order when onboarding a new team: invite users, assign memberships, then attach the minimum role keys required for each job function.
 
 <Cards>
-  <Card title="Users and memberships" href="./users-and-memberships" description="Invite users and manage tenant memberships." />
-  <Card title="Roles and permissions" href="./roles-and-permissions" description="Map roles to governed permission keys." />
+  <Card
+    title="Users and memberships"
+    href="./users-and-memberships"
+    description="Invite users, accept flows, and scope memberships to the correct company or workspace."
+  />
+  <Card
+    title="Roles and permissions"
+    href="./roles-and-permissions"
+    description="Map RBAC roles to governed permission keys and audit coverage against the synced catalog."
+  />
 </Cards>
+
+## Principles
+
+- Prefer **read-only keys** (`*_read`) until a workflow requires manage, post, or approve actions.
+- Remove unused keys from roles to reduce privilege surface — the permission catalog below is the authority.
+- Never share secrets in tickets or docs; auth configuration for operators lives under **Operate Tenant**.

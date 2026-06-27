@@ -1,4 +1,5 @@
 import { Feedback, FeedbackText } from "@/components/feedback/client";
+import { Banner } from "fumadocs-ui/components/banner";
 import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import {
   DocsBody,
@@ -22,11 +23,16 @@ import {
   onBlockFeedbackAction,
   onPageFeedbackAction,
 } from "@/lib/docs-github-feedback.server";
-import { resolveDocsGithubLastModified } from "@/lib/docs-github.server";
+import { resolveDocsLastModified } from "@/lib/docs-last-modified.server";
+import {
+  isDocsLocalizedFallbackPage,
+  resolveDocsFallbackBannerId,
+} from "@/lib/docs-locale-fallback.server";
 import {
   isDocsLongFormContentPath,
   resolveDocsInlineTocLabel,
 } from "@/lib/docs-inline-toc.contract";
+import { resolveDocsUiLocaleCopy } from "@/lib/i18n/resolve-docs-ui-locale-copy";
 import { resolveDocsLlmMarkdownUrl } from "@/lib/get-llm-text";
 import { type DocsPageParams, resolveDocsPage } from "@/lib/docs-page";
 import { resolveDocsContentRelativePath } from "@/lib/docs-page-path";
@@ -61,7 +67,8 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
   const page = resolveDocsPage(slug, lang);
   const MDX = page.data.body;
   const contentRelativePath = resolveDocsContentRelativePath(page, lang);
-  const lastModified = await resolveDocsGithubLastModified(
+  const lastModified = await resolveDocsLastModified(
+    page,
     contentRelativePath,
     lang
   );
@@ -74,6 +81,10 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
   const openApiPreload = pageHasOpenApiFrontmatter(page.data)
     ? await openapi.preloadOpenAPIPage(page)
     : undefined;
+  const showFallbackNotice = isDocsLocalizedFallbackPage(lang, page);
+  const fallbackNotice = showFallbackNotice
+    ? resolveDocsUiLocaleCopy(lang).fallbackNotice
+    : null;
 
   return (
     <DocsPage full={page.data.full} toc={page.data.toc}>
@@ -87,6 +98,14 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
       </div>
       <DocsBody>
         <FeedbackText onSendAction={onBlockFeedbackAction}>
+          {fallbackNotice ? (
+            <Banner
+              id={resolveDocsFallbackBannerId(lang, page.url)}
+              changeLayout={false}
+            >
+              {fallbackNotice}
+            </Banner>
+          ) : null}
           {showInlineToc ? (
             <InlineTOC defaultOpen items={page.data.toc}>
               {resolveDocsInlineTocLabel(lang)}

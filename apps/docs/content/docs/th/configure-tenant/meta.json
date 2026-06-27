@@ -1,5 +1,10 @@
 {
   "title": "Configure Tenant",
   "icon": "Settings",
-  "pages": ["index", "users-and-memberships", "roles-and-permissions"]
+  "pages": [
+    "index",
+    "users-and-memberships",
+    "roles-and-permissions",
+    "generated/admin-sections"
+  ]
 }

@@ -1,11 +1,11 @@
 import type { AfendaDatabase } from "@afenda/database";
-import {
-  type ConsolidationScopeContext,
-  deriveConsolidationScopeContext,
-  type EntityGroupContext,
-  type OwnershipInterestContext,
+import type {
+  ConsolidationScopeContext,
+  EntityGroupContext,
+  OwnershipInterestContext,
 } from "@afenda/kernel";
 
+import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server.js";
 import { loadOperatingContextOwnershipInterests } from "./load-operating-context-ownership-interests.server";
 
 export interface ResolvedConsolidationScope {

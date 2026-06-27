@@ -1,6 +1,6 @@
 # TIP-004 — Governed UI Policy (canonical)
 
-Operational policy for `@afenda/ui` governance. Delivery history lives in [`docs/PAS/slice/`](../delivery/tips/); status authority is [`tip-status-index.md`](../delivery/tip-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
+Operational policy for `@afenda/ui` governance. Foundation delivery history lives in [`docs/PAS/`](../PAS/README.md) and [`pas-status-index.md`](../PAS/pas-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
 
 Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downstream-ui-composition.md)
 
@@ -10,11 +10,11 @@ Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downst
 
 | ID | Topic | Status | Doc |
 |----|-------|--------|-----|
-| TIP-004 contracts | Design system contracts (tokens, recipes, className policy metadata) | Complete (authority only) | [`tip-004-design-system-contracts.md`](../delivery/tips/%5BComplete%20(authority%20only)%5D%20tip-004-design-system-contracts.md) |
-| TIP-004 UI consumption | `@afenda/ui` adapter + consumer adoption evidence | Complete | [`tip-004-ui-consumption.md`](../delivery/tips/%5BComplete%5D%20tip-004-ui-consumption.md) |
-| TIP-004A | Token authority (`--afenda-*` CSS variables) | Complete | [`tip-004a-token-authority.md`](../delivery/tips/%5BComplete%5D%20tip-004a-token-authority.md) |
-| TIP-004B | Governed primitive adapter (`resolvePrimitiveGovernance`) | Complete | [`tip-004b-primitive-adapter.md`](../delivery/tips/%5BComplete%5D%20tip-004b-primitive-adapter.md) |
 | TIP-004 (this) | Author + consumer runtime policy | Active | **This file** |
+| UI guard | Gates A–F enforcement | Active | [`ui-guard.md`](ui-guard.md) |
+| Downstream composition | Package boundaries + CSS order | Active | [`downstream-ui-composition.md`](downstream-ui-composition.md) |
+| Govern primitive skill | Author/consumer checklists | Active | [`.cursor/skills/govern-primitive/SKILL.md`](../../.cursor/skills/govern-primitive/SKILL.md) |
+| shadcn promotion | ADR-0017 adaptation pipeline | Active | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
 
 ---
 

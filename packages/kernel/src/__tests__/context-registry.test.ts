@@ -10,7 +10,6 @@ import {
   type ConsolidationScopeContext,
   type ConsolidationScopeWireContext,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-  deriveConsolidationScopeContext,
   type EntityGroupContext,
   isOwnershipInterestEffectiveAt,
   KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES,
@@ -64,7 +63,7 @@ describe("@afenda/kernel context registry", () => {
 
   it("does not create circular imports through accounting-readiness", () => {
     const accountingSource = readFileSync(
-      join(contextRoot, "accounting-readiness.contract.ts"),
+      join(contextRoot, "accounting-readiness-context.contract.ts"),
       "utf8"
     );
 
@@ -157,36 +156,6 @@ describe("operating context contract surface", () => {
         "2026-06-01"
       )
     ).toBe(true);
-  });
-
-  it("derives consolidation scope without arithmetic", () => {
-    const scope = deriveConsolidationScopeContext({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
-      reportingDate: "2026-06-01",
-      ownershipInterests: [
-        {
-          ownershipInterestId: "oi-1",
-          tenantId: "tenant-1",
-          entityGroupId: "group-1",
-          parentLegalEntityId: "parent-1",
-          childLegalEntityId: "child-1",
-          ownershipPercentage: 100,
-          votingPercentage: 100,
-          controlType: "control",
-          consolidationTreatment: "full_consolidation",
-          nonControllingInterestApplicable: false,
-          effectiveFrom: "2026-01-01",
-          effectiveTo: null,
-          status: "active",
-        },
-      ],
-    });
-
-    expect(scope.legalEntities).toHaveLength(1);
-    expect(scope.legalEntities[0]?.consolidationTreatment).toBe(
-      "full_consolidation"
-    );
   });
 
   it("keeps permission elevation flags serializable", () => {
