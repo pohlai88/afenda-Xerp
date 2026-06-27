@@ -167,8 +167,10 @@ describe("docs openapi manifest bindings", () => {
     ).toBeGreaterThan(0);
 
     const parity = validatePermissionOpenApiParity(bound.manifests);
-    const inventory = bound.manifests.find((manifest) => manifest.id === "inventory");
-    expect(inventory?.apiOperations?.length ?? 0).toBeGreaterThan(0);
+    const inventoryManifest = bound.manifests.find(
+      (manifest) => manifest.id === "inventory"
+    );
+    expect(inventoryManifest?.apiOperations?.length ?? 0).toBeGreaterThan(0);
     expect(
       parity.warnings.some((warning) => warning.startsWith("inventory:"))
     ).toBe(false);

@@ -135,7 +135,7 @@ describe("docs feature evidence", () => {
     expect(developer).toContain("## API operations");
   });
 
-  it("serializes feature evidence graph with version 2", () => {
+  it("serializes feature evidence graph with version 3", () => {
     const modules = readCatalog<ModulesCatalog>("modules.catalog.json");
     const authRoutes = readCatalog<AuthRoutesCatalog>("auth-routes.catalog.json");
     const systemAdmin = readCatalog<SystemAdminCatalog>("system-admin.catalog.json");
@@ -162,9 +162,11 @@ describe("docs feature evidence", () => {
     const coverage = applyFeatureCoverageHardFail(initial, score);
     const graph = buildDocsFeatureEvidenceGraph({ manifests, coverage, score });
 
-    expect(graph.version).toBe(2);
+    expect(graph.version).toBe(3);
     expect(graph.generated).toBe(true);
     expect(graph.manifests.length).toBeGreaterThan(0);
+    expect(graph.permissionParityWarnings).toEqual([]);
+    expect(graph.manifestApiOperationCounts.length).toBe(graph.manifests.length);
     expect(graph.coverageScore).toBeGreaterThanOrEqual(
       DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD
     );
