@@ -30,10 +30,6 @@ const slugPageSource = readFileSync(
   join(process.cwd(), "src/app/[lang]/docs/[[...slug]]/page.tsx"),
   "utf8"
 );
-const slugPageSource = readFileSync(
-  join(process.cwd(), "src/app/[lang]/docs/[[...slug]]/page.tsx"),
-  "utf8"
-);
 
 describe("@afenda/docs search UX", () => {
   it("exports locale-prefixed empty-state quick links", () => {
