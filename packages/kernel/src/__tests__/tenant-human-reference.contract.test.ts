@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { EmployeeId } from "../identity/families/business-reference-id.contract.js";
-import {
-  parseEmployeeId,
-  parseProductId,
-} from "../identity/families/business-reference-id.contract.js";
+import type { EmployeeId, ProductId } from "../identity/families/index.js";
+import { parseEmployeeId, parseProductId } from "../identity/families/index.js";
 import {
   type CustomerNo,
   type EmployeeNo,
@@ -28,10 +25,7 @@ type AssertNotEqual<A, B> = [A] extends [B]
   : true;
 
 type _employeeIdIsNotEmployeeNo = AssertNotEqual<EmployeeId, EmployeeNo>;
-type _skuNoIsNotProductId = AssertNotEqual<
-  SkuNo,
-  import("../identity/families/business-reference-id.contract.js").ProductId
->;
+type _skuNoIsNotProductId = AssertNotEqual<SkuNo, ProductId>;
 type _customerNoUsesHumanReferenceBrand =
   TenantHumanReference<"customer"> extends CustomerNo
     ? CustomerNo extends TenantHumanReference<"customer">

@@ -51,26 +51,19 @@ packages/kernel/
     ├── propagation/                        ← Slice 11 (current)
     ├── identity/                           ← PAS §4.1 / ADR-0021–0023 (flat module — Slice B/E)
     │   ├── index.ts
-    │   ├── brand.contract.ts
-    │   ├── canonical-id.contract.ts
-    │   ├── id-family.registry.ts
-    │   ├── id-pattern.contract.ts
-    │   ├── id-parser.contract.ts
-    │   ├── id-validator.contract.ts
-    │   ├── id-generator.contract.ts
-    │   ├── hierarchy-id.contract.ts
-    │   ├── access-id.contract.ts
-    │   ├── audit-id.contract.ts
-    │   ├── execution-id.contract.ts
-    │   ├── ownership-id.contract.ts
-    │   ├── business-reference-id.contract.ts
-    │   ├── primitive-reference.contract.ts
-    │   ├── tenant-human-reference.contract.ts
-    │   ├── identity-governance.contract.ts
-    │   ├── identity-prohibited-pattern.contract.ts
-    │   ├── wire-boundary.contract.ts
-    │   ├── enterprise-family.factory.ts      ← internal factory (not public tree minimum)
-    │   └── primitive-brand.helper.ts         ← trim-only primitive branding (internal)
+    │   ├── families/                           # PAS §4.1.4 category contracts
+    │   │   ├── index.ts
+    │   │   ├── define-enterprise-family.ts
+    │   │   ├── tenant-hierarchy-id.contract.ts
+    │   │   ├── identity-access-id.contract.ts
+    │   │   ├── audit-execution-id.contract.ts
+    │   │   ├── enterprise-hierarchy-id.contract.ts
+    │   │   └── business-reference-id.contract.ts
+    │   ├── primitives/
+    │   ├── tenant-human-reference/
+    │   ├── postgres/
+    │   ├── wire/
+    │   └── governance/
     └── __tests__/
 ```
 

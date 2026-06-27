@@ -28,7 +28,8 @@ export function defineEnterpriseFamily<TFamily extends EnterpriseIdFamily>(
   }
 
   function create(generator: CanonicalIdBodyGenerator): Id {
-    return createCanonicalId(family, generator) as unknown as Id;
+    const canonicalId = createCanonicalId(family, generator);
+    return parse(unbrand(canonicalId));
   }
 
   function parseOptional(value: string | Id | null | undefined): Id | null {

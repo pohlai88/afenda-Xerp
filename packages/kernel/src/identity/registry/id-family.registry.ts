@@ -348,7 +348,7 @@ export const ID_FAMILIES = {
     typeName: "AssetId",
     prefix: "ast",
     owner: "kernel",
-    recordOwner: "asset-maintenance-finance",
+    recordOwner: "asset-management",
     generates: true,
     category: ID_FAMILY_CATEGORIES.businessReference,
     brandLabel: "assetId",
@@ -494,6 +494,43 @@ type _AssertEnterpriseFamilyCount =
     : never;
 
 export type EnterpriseIdFamily = (typeof ENTERPRISE_ID_FAMILY_KEYS)[number];
+
+/**
+ * PAS-001 §4.1.4 Slice B3 — frozen prefix authority table.
+ * Edit only with ADR amendment and governance gate updates.
+ */
+export const ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY = {
+  tenant: "ten",
+  entityGroup: "egp",
+  company: "cmp",
+  organization: "org",
+  team: "tea",
+  project: "prj",
+  user: "usr",
+  role: "rol",
+  membership: "mem",
+  permission: "per",
+  policy: "pol",
+  auditEvent: "aud",
+  execution: "exe",
+  correlation: "cor",
+  ownershipInterest: "own",
+  customer: "cus",
+  supplier: "sup",
+  product: "prd",
+  employee: "emp",
+  warehouse: "whs",
+  document: "doc",
+  asset: "ast",
+} as const satisfies Record<EnterpriseIdFamily, string>;
+
+type _AssertPrefixAuthorityParity = {
+  [K in EnterpriseIdFamily]: (typeof ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY)[K] extends (typeof ID_FAMILIES)[K]["prefix"]
+    ? (typeof ID_FAMILIES)[K]["prefix"] extends (typeof ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY)[K]
+      ? true
+      : never
+    : never;
+}[EnterpriseIdFamily];
 
 export type EnterpriseIdPrefix =
   (typeof ID_FAMILIES)[EnterpriseIdFamily]["prefix"];

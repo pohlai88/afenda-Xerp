@@ -140,19 +140,30 @@ export function parseCanonicalId<TFamily extends EnterpriseIdFamily>(
   const { typeName, prefix } = ID_FAMILIES[family];
   const expectedPrefix = `${prefix}${CANONICAL_ID_SEPARATOR}`;
 
+  // 1. Non-empty
   if (!raw) {
     throw new InvalidCanonicalIdError(`${typeName} is required.`);
   }
 
-  if (!raw.startsWith(expectedPrefix)) {
-    throw new InvalidCanonicalIdError(
-      `${typeName} must start with ${expectedPrefix}.`
-    );
-  }
-
+  // 2. Generic canonical format (PAS-001 §4.1.3)
   if (!CANONICAL_ID_PATTERN.test(raw)) {
     throw new InvalidCanonicalIdError(
       `${typeName} has invalid canonical ID format.`
+    );
+  }
+
+  // 3. Wire prefix registered in ID_FAMILIES (PAS-001 §4.1.4 registry tier)
+  const wirePrefix = extractCanonicalEnterpriseIdPrefix(raw);
+  if (wirePrefix === null || !isRegisteredEnterpriseIdPrefix(wirePrefix)) {
+    throw new InvalidCanonicalIdError(
+      "Canonical enterprise ID prefix is not registered in ID_FAMILIES."
+    );
+  }
+
+  // 4. Prefix matches requested family
+  if (!raw.startsWith(expectedPrefix)) {
+    throw new InvalidCanonicalIdError(
+      `${typeName} must start with ${expectedPrefix}.`
     );
   }
 

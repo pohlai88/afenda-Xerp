@@ -126,7 +126,7 @@ This section is the **identity constitution** for Afenda ERP. All Kernel identit
 
 Single source: `packages/kernel/src/identity/`
 
-Target nested layout (Slice B). Interim flat files at `identity/` root migrate into these folders:
+Target nested layout (Slice B). Live under `packages/kernel/src/identity/` — no flat root `.ts` files except `index.ts`.
 
 ```text
 packages/kernel/src/identity/
@@ -206,7 +206,48 @@ Unchecked strings cannot become canonical enterprise IDs. Generic `brandRequired
 
 ### 4.1.4 Enterprise ID families
 
-Afenda canonical enterprise IDs are limited to the following **22 approved families**. The frozen registry lives in `packages/kernel/src/identity/registry/id-family.registry.ts` as `ID_FAMILIES`. Parser, validator, generator, wire ingress, Postgres CHECK expectations, and governance gates must derive prefix authority from that registry — not from the generic format regex alone.
+Afenda canonical enterprise IDs are limited to the following **22 approved families**. This table is the Kernel ID constitution — runtime code, Postgres CHECK constraints, parsers, and governance gates must derive prefix authority from `ID_FAMILIES` in `packages/kernel/src/identity/registry/id-family.registry.ts`, not from the generic format regex alone.
+
+| Category | Family | Prefix |
+| --- | --- | --- |
+| Tenant hierarchy | Tenant | `ten` |
+| Tenant hierarchy | EntityGroup | `egp` |
+| Tenant hierarchy | Company | `cmp` |
+| Tenant hierarchy | Organization | `org` |
+| Tenant hierarchy | Team | `tea` |
+| Tenant hierarchy | Project | `prj` |
+| Identity & access | User | `usr` |
+| Identity & access | Role | `rol` |
+| Identity & access | Membership | `mem` |
+| Identity & access | Permission | `per` |
+| Identity & access | Policy | `pol` |
+| Audit & execution | AuditEvent | `aud` |
+| Audit & execution | Execution | `exe` |
+| Audit & execution | Correlation | `cor` |
+| Enterprise hierarchy | OwnershipInterest | `own` |
+| Business reference | Customer | `cus` |
+| Business reference | Supplier | `sup` |
+| Business reference | Product | `prd` |
+| Business reference | Employee | `emp` |
+| Business reference | Warehouse | `whs` |
+| Business reference | Document | `doc` |
+| Business reference | Asset | `ast` |
+
+**Rules:**
+
+1. The approved ID family registry is `ID_FAMILIES` in `packages/kernel/src/identity/registry/id-family.registry.ts`.
+2. Every canonical enterprise ID prefix must be exactly three lowercase letters.
+3. Every prefix must be globally unique across `ID_FAMILIES`.
+4. Unknown prefixes are invalid even if the full string matches the canonical ID regex (for example `abc_01ARZ3NDEKTSV4RRFFQ69G5FAV`).
+5. Family-specific parsers must reject IDs with the wrong family prefix.
+6. Tenant human references such as `EMP-000123`, `CUST-000456`, and `SKU-001` are not canonical enterprise IDs (see §4.1.13).
+7. No unchecked string may become a canonical enterprise ID — trust boundaries use family `parse*` (see §4.1.7).
+
+A canonical enterprise ID is valid only when **all three** hold:
+
+1. It matches `<prefix>_<ulid_body>` (§4.1.3).
+2. The prefix exists in `ID_FAMILIES` / `ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY`.
+3. The prefix matches the requested family parser.
 
 #### Category summary
 
@@ -219,34 +260,20 @@ Afenda canonical enterprise IDs are limited to the following **22 approved famil
 | Business reference | 7 | `customer`, `supplier`, `product`, `employee`, `warehouse`, `document`, `asset` |
 | **Total** | **22** | — |
 
-#### Authority table
+#### Record ownership (business-reference families)
 
-| Category | Family | Type name | Prefix | Record owner |
-| --- | --- | --- | --- | --- |
-| Tenant hierarchy | Tenant | `TenantId` | `ten` | — |
-| Tenant hierarchy | EntityGroup | `EntityGroupId` | `egp` | — |
-| Tenant hierarchy | Company | `CompanyId` | `cmp` | — |
-| Tenant hierarchy | Organization | `OrganizationId` | `org` | — |
-| Tenant hierarchy | Team | `TeamId` | `tea` | — |
-| Tenant hierarchy | Project | `ProjectId` | `prj` | — |
-| Identity & access | User | `UserId` | `usr` | — |
-| Identity & access | Role | `RoleId` | `rol` | — |
-| Identity & access | Membership | `MembershipId` | `mem` | — |
-| Identity & access | Permission | `PermissionId` | `per` | — |
-| Identity & access | Policy | `PolicyId` | `pol` | — |
-| Audit & execution | AuditEvent | `AuditEventId` | `aud` | — |
-| Audit & execution | Execution | `ExecutionId` | `exe` | — |
-| Audit & execution | Correlation | `CorrelationId` | `cor` | — |
-| Enterprise hierarchy | OwnershipInterest | `OwnershipInterestId` | `own` | — |
-| Business reference | Customer | `CustomerId` | `cus` | CRM / Sales |
-| Business reference | Supplier | `SupplierId` | `sup` | Procurement |
-| Business reference | Product | `ProductId` | `prd` | Product / Inventory |
-| Business reference | Employee | `EmployeeId` | `emp` | HRM |
-| Business reference | Warehouse | `WarehouseId` | `whs` | Inventory / Warehouse |
-| Business reference | Document | `DocumentId` | `doc` | Document / ECM |
-| Business reference | Asset | `AssetId` | `ast` | Asset / Maintenance / Finance |
+| Family | `recordOwner` (domain lifecycle) |
+| --- | --- |
+| Customer | `crm-sales` |
+| Supplier | `procurement` |
+| Product | `product-inventory` |
+| Employee | `hrm` |
+| Warehouse | `inventory-warehouse` |
+| Document | `document-management` |
+| Asset | `asset-management` |
+| OwnershipInterest | `enterprise-structure` |
 
-`owner` on every row is `@afenda/kernel` (ID contract authority). `recordOwner` identifies the package or domain that owns record lifecycle for business-reference families.
+`owner` on every row is `kernel` (ID contract authority). `recordOwner` identifies the package or domain that owns record lifecycle where business ownership matters.
 
 #### Two-tier validation
 

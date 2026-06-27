@@ -9,6 +9,7 @@ export {
 export {
   ENTERPRISE_ID_FAMILIES,
   ENTERPRISE_ID_FAMILY_KEYS,
+  ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY,
   ENTERPRISE_ID_TYPE_NAMES,
   type EnterpriseIdFamily,
   type EnterpriseIdPrefix,

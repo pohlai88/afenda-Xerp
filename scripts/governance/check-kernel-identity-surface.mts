@@ -25,9 +25,21 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const identitySources = {
-  hierarchy: join(
+  tenantHierarchy: join(
     repoRoot,
-    "packages/kernel/src/identity/families/hierarchy-id.contract.ts"
+    "packages/kernel/src/identity/families/tenant-hierarchy-id.contract.ts"
+  ),
+  identityAccess: join(
+    repoRoot,
+    "packages/kernel/src/identity/families/identity-access-id.contract.ts"
+  ),
+  auditExecution: join(
+    repoRoot,
+    "packages/kernel/src/identity/families/audit-execution-id.contract.ts"
+  ),
+  enterpriseHierarchy: join(
+    repoRoot,
+    "packages/kernel/src/identity/families/enterprise-hierarchy-id.contract.ts"
   ),
   businessReference: join(
     repoRoot,
@@ -66,8 +78,22 @@ const identitySources = {
     "packages/kernel/src/identity/primitives/global-code.contract.ts"
   ),
   identityIndex: join(repoRoot, "packages/kernel/src/identity/index.ts"),
+  familiesIndex: join(
+    repoRoot,
+    "packages/kernel/src/identity/families/index.ts"
+  ),
   kernelRootIndex: join(repoRoot, "packages/kernel/src/index.ts"),
 } as const;
+
+const APPROVED_FAMILY_FILES = new Set([
+  "index.ts",
+  "define-enterprise-family.ts",
+  "tenant-hierarchy-id.contract.ts",
+  "identity-access-id.contract.ts",
+  "audit-execution-id.contract.ts",
+  "enterprise-hierarchy-id.contract.ts",
+  "business-reference-id.contract.ts",
+]);
 
 const APPROVED_IDENTITY_SUBFOLDERS = new Set([
   "brand",
@@ -85,21 +111,21 @@ const APPROVED_IDENTITY_SUBFOLDERS = new Set([
 const enterpriseSourceByFamilyKey: Partial<
   Record<keyof typeof ID_FAMILIES, string>
 > = {
-  tenant: identitySources.hierarchy,
-  entityGroup: identitySources.hierarchy,
-  company: identitySources.hierarchy,
-  organization: identitySources.hierarchy,
-  team: identitySources.hierarchy,
-  project: identitySources.hierarchy,
-  user: identitySources.hierarchy,
-  role: identitySources.hierarchy,
-  membership: identitySources.hierarchy,
-  permission: identitySources.hierarchy,
-  policy: identitySources.hierarchy,
-  auditEvent: identitySources.hierarchy,
-  execution: identitySources.hierarchy,
-  correlation: identitySources.hierarchy,
-  ownershipInterest: identitySources.hierarchy,
+  tenant: identitySources.tenantHierarchy,
+  entityGroup: identitySources.tenantHierarchy,
+  company: identitySources.tenantHierarchy,
+  organization: identitySources.tenantHierarchy,
+  team: identitySources.tenantHierarchy,
+  project: identitySources.tenantHierarchy,
+  user: identitySources.identityAccess,
+  role: identitySources.identityAccess,
+  membership: identitySources.identityAccess,
+  permission: identitySources.identityAccess,
+  policy: identitySources.identityAccess,
+  auditEvent: identitySources.auditExecution,
+  execution: identitySources.auditExecution,
+  correlation: identitySources.auditExecution,
+  ownershipInterest: identitySources.enterpriseHierarchy,
   customer: identitySources.businessReference,
   supplier: identitySources.businessReference,
   product: identitySources.businessReference,
@@ -127,7 +153,22 @@ export interface IdentitySurfaceViolation {
   readonly rule: string;
 }
 
-const hierarchySource = readFileSync(identitySources.hierarchy, "utf8");
+const tenantHierarchySource = readFileSync(
+  identitySources.tenantHierarchy,
+  "utf8"
+);
+const identityAccessSource = readFileSync(
+  identitySources.identityAccess,
+  "utf8"
+);
+const auditExecutionSource = readFileSync(
+  identitySources.auditExecution,
+  "utf8"
+);
+const enterpriseHierarchySource = readFileSync(
+  identitySources.enterpriseHierarchy,
+  "utf8"
+);
 const businessReferenceSource = readFileSync(
   identitySources.businessReference,
   "utf8"
@@ -144,7 +185,10 @@ const identityIndex = readFileSync(identitySources.identityIndex, "utf8");
 const kernelRootIndex = readFileSync(identitySources.kernelRootIndex, "utf8");
 
 const combinedEnterpriseSource = [
-  hierarchySource,
+  tenantHierarchySource,
+  identityAccessSource,
+  auditExecutionSource,
+  enterpriseHierarchySource,
   businessReferenceSource,
 ].join("\n");
 
@@ -189,7 +233,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
   if (PLATFORM_ID_FAMILY_REGISTRY.length !== 29) {
     violations.push({
       rule: "registry-count",
-      file: identitySources.hierarchy,
+      file: identitySources.familiesIndex,
       message: `Expected 29 PAS §4.1 families, registry has ${PLATFORM_ID_FAMILY_REGISTRY.length}`,
     });
   }
@@ -200,7 +244,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
   if (new Set(enterprisePrefixes).size !== enterprisePrefixes.length) {
     violations.push({
       rule: "duplicate-prefix",
-      file: identitySources.hierarchy,
+      file: identitySources.familiesIndex,
       message: "Enterprise ID prefixes must be unique across ID_FAMILIES",
     });
   }
@@ -209,7 +253,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
     if (combinedEnterpriseSource.includes(`export type ${forbidden}`)) {
       violations.push({
         rule: "forbidden-platform-floor-id",
-        file: identitySources.hierarchy,
+        file: identitySources.familiesIndex,
         message: `${forbidden} must not be exported from kernel identity family contracts`,
       });
     }
@@ -300,7 +344,7 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
   if (ENTERPRISE_ID_FAMILIES.length !== 22) {
     violations.push({
       rule: "enterprise-family-count",
-      file: identitySources.hierarchy,
+      file: identitySources.familiesIndex,
       message: `Expected 22 enterprise ID families, found ${ENTERPRISE_ID_FAMILIES.length}`,
     });
   }
@@ -468,6 +512,30 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
         rule: "unexpected-identity-subfolder",
         file: entryPath,
         message: `${entry}/ is outside the PAS §4.1.2 nested identity layout`,
+      });
+    }
+  }
+
+  const familiesDir = join(repoRoot, "packages/kernel/src/identity/families");
+  for (const entry of readdirSync(familiesDir)) {
+    const entryPath = join(familiesDir, entry);
+    if (!statSync(entryPath).isFile()) {
+      if (entry === "__tests__") {
+        continue;
+      }
+      violations.push({
+        rule: "unexpected-families-subfolder",
+        file: entryPath,
+        message: `${entry}/ is not allowed under identity/families/`,
+      });
+      continue;
+    }
+
+    if (!APPROVED_FAMILY_FILES.has(entry)) {
+      violations.push({
+        rule: "unexpected-family-contract-file",
+        file: entryPath,
+        message: `${entry} is outside the PAS §4.1.4 approved family contract layout`,
       });
     }
   }

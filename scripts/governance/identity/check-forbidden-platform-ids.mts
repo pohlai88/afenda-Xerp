@@ -18,7 +18,10 @@ const kernelIndex = readFileSync(
 );
 
 const familySources = [
-  "families/hierarchy-id.contract.ts",
+  "families/tenant-hierarchy-id.contract.ts",
+  "families/identity-access-id.contract.ts",
+  "families/audit-execution-id.contract.ts",
+  "families/enterprise-hierarchy-id.contract.ts",
   "families/business-reference-id.contract.ts",
 ].map((file) =>
   readFileSync(

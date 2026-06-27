@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   parseCustomerId,
   parseEmployeeId,
-} from "../identity/families/business-reference-id.contract.js";
+} from "../identity/families/index.js";
 
 const VALID_CUSTOMER = "cus_01JZ8R4M7M7Y5E8KZ9Q9V8K2JD";
 

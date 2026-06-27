@@ -97,7 +97,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     entityId: "user",
     displayName: "User",
     kernelContractPath:
-      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
+      "packages/kernel/src/identity/families/identity-access-id.contract.ts",
     kernelContractExport: "UserId",
     schemaPaths: ["packages/database/src/schema/user.schema.ts"],
     authorizationConsumerPaths: ["packages/permissions/src/user.contract.ts"],
@@ -139,7 +139,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     entityId: "permission",
     displayName: "Permission",
     kernelContractPath:
-      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
+      "packages/kernel/src/identity/families/identity-access-id.contract.ts",
     kernelContractExport: "PermissionId",
     schemaPaths: ["packages/database/src/schema/permission.schema.ts"],
     authorizationConsumerPaths: [
@@ -175,7 +175,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     entityId: "audit",
     displayName: "Audit Event",
     kernelContractPath:
-      "packages/kernel/src/identity/families/hierarchy-id.contract.ts",
+      "packages/kernel/src/identity/families/audit-execution-id.contract.ts",
     kernelContractExport: "AuditEventId",
     schemaPaths: ["packages/database/src/schema/audit.schema.ts"],
     authorizationConsumerPaths: ["packages/permissions/src/policy-audit.ts"],

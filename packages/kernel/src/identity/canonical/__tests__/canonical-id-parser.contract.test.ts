@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import { parseProductId, parseTenantId } from "../../families/index.js";
 import {
   isCanonicalEnterpriseId,
   isCanonicalEnterpriseIdForFamily,
@@ -11,9 +11,46 @@ import {
 } from "../canonical-id-parser.contract.js";
 import { InvalidCanonicalIdError } from "../invalid-canonical-id.error.js";
 
+const VALID_TENANT = "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV";
 const VALID_PRODUCT = "prd_01ARZ3NDEKTSV4RRFFQ69G5FBV";
+const WRONG_FAMILY_PRODUCT = "cus_01ARZ3NDEKTSV4RRFFQ69G5FCV";
+const UNREGISTERED_PREFIX = "abc_01ARZ3NDEKTSV4RRFFQ69G5FAV";
 
-describe("canonical-id-parser.contract (PAS-001 §4.1.3 / Action 3)", () => {
+describe("canonical-id-parser.contract (PAS-001 §4.1.3 / Action 4)", () => {
+  describe("Action 4 — validation order: empty → format → registry → family prefix", () => {
+    it("accepts valid tenant and product ids at family parsers", () => {
+      expect(parseTenantId(VALID_TENANT)).toBe(VALID_TENANT);
+      expect(parseProductId(VALID_PRODUCT)).toBe(VALID_PRODUCT);
+    });
+
+    it("rejects wrong family prefix after format and registry checks", () => {
+      expect(() => parseProductId(WRONG_FAMILY_PRODUCT)).toThrow(
+        /ProductId must start with prd_\./
+      );
+    });
+
+    it("rejects unregistered wire prefix before family prefix check", () => {
+      expect(() => parseCanonicalId(UNREGISTERED_PREFIX, "tenant")).toThrow(
+        /prefix is not registered in ID_FAMILIES\./
+      );
+      expect(() => parseProductId(UNREGISTERED_PREFIX)).toThrow(
+        /prefix is not registered in ID_FAMILIES\./
+      );
+    });
+
+    it("validates empty before format", () => {
+      expect(() => parseCanonicalId("", "tenant")).toThrow(
+        /TenantId is required\./
+      );
+    });
+
+    it("validates format before registry and family prefix", () => {
+      expect(() => parseTenantId("ten_invalid")).toThrow(
+        /TenantId has invalid canonical ID format\./
+      );
+    });
+  });
+
   it("trims wire input before validation", () => {
     expect(parseCanonicalId(`  ${VALID_PRODUCT}  `, "product")).toBe(
       VALID_PRODUCT
@@ -37,30 +74,29 @@ describe("canonical-id-parser.contract (PAS-001 §4.1.3 / Action 3)", () => {
     );
   });
 
-  it("rejects wrong registry prefix before format check", () => {
-    expect(() =>
-      parseCanonicalId("cus_01ARZ3NDEKTSV4RRFFQ69G5FCV", "product")
-    ).toThrow(/ProductId must start with prd_\./);
-    expect(
-      tryParseCanonicalId("cus_01ARZ3NDEKTSV4RRFFQ69G5FCV", "product")
-    ).toBeNull();
-  });
-
-  it("rejects unregistered prefix even when generic format regex passes (PAS-001 §4.1.4)", () => {
-    const unregistered = "abc_01ARZ3NDEKTSV4RRFFQ69G5FAV";
-    expect(isCanonicalEnterpriseId(unregistered)).toBe(true);
-    expect(isRegisteredCanonicalEnterpriseId(unregistered)).toBe(false);
-    expect(isCanonicalEnterpriseIdForFamily(unregistered, "product")).toBe(
-      false
-    );
-    expect(() => parseCanonicalId(unregistered, "product")).toThrow(
+  it("rejects wrong registry prefix at family-prefix tier (step 4)", () => {
+    expect(() => parseCanonicalId(WRONG_FAMILY_PRODUCT, "product")).toThrow(
       /ProductId must start with prd_\./
     );
-    expect(tryParseCanonicalId(unregistered, "product")).toBeNull();
-    expect(() => parseRegisteredCanonicalEnterpriseId(unregistered)).toThrow(
-      InvalidCanonicalIdError
+    expect(tryParseCanonicalId(WRONG_FAMILY_PRODUCT, "product")).toBeNull();
+  });
+
+  it("rejects unregistered prefix at registry tier (step 3)", () => {
+    expect(isCanonicalEnterpriseId(UNREGISTERED_PREFIX)).toBe(true);
+    expect(isRegisteredCanonicalEnterpriseId(UNREGISTERED_PREFIX)).toBe(false);
+    expect(
+      isCanonicalEnterpriseIdForFamily(UNREGISTERED_PREFIX, "product")
+    ).toBe(false);
+    expect(() => parseCanonicalId(UNREGISTERED_PREFIX, "product")).toThrow(
+      /prefix is not registered in ID_FAMILIES\./
     );
-    expect(tryParseRegisteredCanonicalEnterpriseId(unregistered)).toBeNull();
+    expect(tryParseCanonicalId(UNREGISTERED_PREFIX, "product")).toBeNull();
+    expect(() =>
+      parseRegisteredCanonicalEnterpriseId(UNREGISTERED_PREFIX)
+    ).toThrow(InvalidCanonicalIdError);
+    expect(
+      tryParseRegisteredCanonicalEnterpriseId(UNREGISTERED_PREFIX)
+    ).toBeNull();
   });
 
   it("parseRegisteredCanonicalEnterpriseId resolves family from registry prefix", () => {
