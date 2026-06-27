@@ -1,9 +1,6 @@
 import type { DocsFeatureManifest } from "@/lib/docs-feature-manifest.contract";
 
-const PERMISSION_PARITY_KINDS = new Set<DocsFeatureManifest["kind"]>([
-  "module",
-  "admin-section",
-]);
+const PERMISSION_PARITY_KINDS = new Set<DocsFeatureManifest["kind"]>(["module"]);
 
 export interface PermissionOpenApiParityResult {
   readonly warnings: readonly string[];
@@ -57,11 +54,9 @@ export function validatePermissionOpenApiParity(
 
 export function applyPermissionParityHardFail(input: {
   readonly warnings: readonly string[];
-  readonly score: number;
-  readonly threshold?: number;
+  readonly score: DocsFeatureCoverageScore;
 }): readonly string[] {
-  const threshold = input.threshold ?? 0.8;
-  if (input.score < threshold) {
+  if (input.score.score < DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD) {
     return input.warnings;
   }
 

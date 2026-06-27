@@ -1,4 +1,11 @@
 import type { DocsAppSurface } from "@/lib/docs-repo-evidence";
+import type {
+  DocsFeatureCoverageScore,
+  DocsFeatureEvidenceGraph,
+  DocsFeatureManifest,
+  DocsFeatureManifestInput,
+  FeatureManifestOverrides,
+} from "@/lib/docs-feature-manifest.contract";
 import {
   applyPermissionParityHardFail,
   summarizeManifestApiOperationCounts,

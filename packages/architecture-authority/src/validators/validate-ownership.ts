@@ -6,6 +6,7 @@ import {
   ownershipByPackage,
   ownershipContract,
 } from "../data/ownership-registry.data.js";
+import { packageContract } from "../data/package-registry.data.js";
 
 function collectRegistryDuplicateViolations(): ArchitectureViolation[] {
   const violations: ArchitectureViolation[] = [];
@@ -46,13 +47,29 @@ export function findMissingOwnershipViolations(
   return violations;
 }
 
+function collectRequiredOwnershipPackageNames(
+  workspaces: readonly DiscoveredWorkspace[]
+): string[] {
+  const requiredPackageNames = new Set(
+    packageContract.packages
+      .filter((pkg) => pkg.lifecycle === "active")
+      .map((pkg) => pkg.packageName)
+  );
+
+  for (const workspace of workspaces) {
+    requiredPackageNames.add(workspace.packageJson.name);
+  }
+
+  return [...requiredPackageNames];
+}
+
 export function validateOwnership(workspaces: readonly DiscoveredWorkspace[]) {
   const violations: ArchitectureViolation[] =
     collectRegistryDuplicateViolations();
 
   violations.push(
     ...findMissingOwnershipViolations(
-      workspaces.map((workspace) => workspace.packageJson.name),
+      collectRequiredOwnershipPackageNames(workspaces),
       ownershipByPackage
     )
   );

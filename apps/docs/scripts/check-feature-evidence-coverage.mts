@@ -5,10 +5,12 @@ import {
   applyFeatureCoverageHardFail,
   applyFeatureManifestOverrides,
   applyOpenApiBindingHardFail,
+  applyPermissionParityHardFail,
   buildDocsFeatureEvidenceGraph,
   buildDocsFeatureManifests,
   computeFeatureCoverageScore,
   validateFeatureCoverage,
+  validatePermissionOpenApiParity,
 } from "../src/lib/docs-feature-manifest.ts";
 import type {
   AuthRoutesCatalog,
@@ -105,9 +107,14 @@ function main(): void {
     warnings: openApiBinding.warnings,
     score,
   });
+  const permissionParity = validatePermissionOpenApiParity(openApiBinding.manifests);
+  const permissionParityErrors = applyPermissionParityHardFail({
+    warnings: permissionParity.warnings,
+    score: score.score,
+  });
 
   console.log(
-    `[check:feature-evidence-coverage] score=${score.score.toFixed(3)} failed=${score.failedChecks}/${score.totalChecks} openapiWarnings=${openApiBinding.warnings.length}`
+    `[check:feature-evidence-coverage] score=${score.score.toFixed(3)} failed=${score.failedChecks}/${score.totalChecks} openapiWarnings=${openApiBinding.warnings.length} permissionParityWarnings=${permissionParity.warnings.length}`
   );
 
   if (coverage.warnings.length > 0) {
