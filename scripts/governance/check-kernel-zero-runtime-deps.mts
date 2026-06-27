@@ -18,7 +18,9 @@ interface KernelPackageJson {
   peerDependencies?: Record<string, string>;
 }
 
-const pkg = JSON.parse(readFileSync(packageJsonPath, "utf8")) as KernelPackageJson;
+const pkg = JSON.parse(
+  readFileSync(packageJsonPath, "utf8")
+) as KernelPackageJson;
 
 const runtimeDeps = Object.keys(pkg.dependencies ?? {});
 const peerDeps = Object.keys(pkg.peerDependencies ?? {});

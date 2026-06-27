@@ -18,9 +18,7 @@ import {
   MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE,
   MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES,
 } from "../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,
   collectErpPermissionEngineDuplicationViolations,

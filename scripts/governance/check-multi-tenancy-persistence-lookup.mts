@@ -9,9 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectPersistenceLookupViolations,
   type PersistenceLookupEnforcementViolation,
@@ -21,7 +19,6 @@ import {
   MULTI_TENANCY_PERSISTENCE_LOOKUP_ENFORCEMENT_LIB,
   MULTI_TENANCY_PERSISTENCE_LOOKUP_GATE,
   MULTI_TENANCY_PERSISTENCE_LOOKUP_SURFACE_RULE,
-  TIP_007_012_PERSISTENCE_LOOKUP_SECTION,
 } from "./multi-tenancy-persistence-lookup-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -108,7 +105,6 @@ export function checkMultiTenancyPersistenceLookup(): MultiTenancyPersistenceLoo
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

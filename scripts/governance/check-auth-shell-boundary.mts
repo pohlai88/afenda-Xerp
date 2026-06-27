@@ -21,8 +21,7 @@ const FORBIDDEN_APP_SHELL_CLASS_RE =
 const FORBIDDEN_DEEP_APPSHELL_IMPORT_RE =
   /@afenda\/appshell\/auth-shell\/src\//;
 
-const FORBIDDEN_PROVIDER_IMPORT_RE =
-  /from\s+["'](?:better-auth|@supabase\/)/;
+const FORBIDDEN_PROVIDER_IMPORT_RE = /from\s+["'](?:better-auth|@supabase\/)/;
 
 export interface AuthShellBoundaryViolation {
   readonly file: string;
@@ -118,7 +117,7 @@ function scanAppshellAuthModules(): AuthShellBoundaryViolation[] {
   const violations: AuthShellBoundaryViolation[] = [];
 
   for (const file of listSourceFiles(APPSHELL_AUTH_MODULE)) {
-    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
+    if (!(file.endsWith(".ts") || file.endsWith(".tsx"))) {
       continue;
     }
 
@@ -146,7 +145,7 @@ function scanConsumerDeepImports(): AuthShellBoundaryViolation[] {
   const violations: AuthShellBoundaryViolation[] = [];
 
   for (const file of listSourceFiles(APP_AUTH_SEGMENT)) {
-    if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
+    if (!(file.endsWith(".ts") || file.endsWith(".tsx"))) {
       continue;
     }
 

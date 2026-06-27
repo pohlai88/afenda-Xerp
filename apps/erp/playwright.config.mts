@@ -1,9 +1,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveErpAdminAuthStoragePath } from "@afenda/testing/e2e/auth-paths";
 import { defineConfig, devices } from "@playwright/test";
 import { config as loadEnv } from "dotenv";
-
-import { resolveErpAdminAuthStoragePath } from "@afenda/testing/e2e/auth-paths";
 
 const erpRoot = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(erpRoot, "../..");
@@ -45,7 +44,8 @@ const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
           AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR:
             process.env["AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR"] ?? "enforce-all",
           AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS:
-            process.env["AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS"] ?? "true",
+            process.env["AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS"] ??
+            "true",
         },
         reuseExistingServer: true,
         timeout: 120_000,

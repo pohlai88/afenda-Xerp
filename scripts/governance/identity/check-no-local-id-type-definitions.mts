@@ -20,7 +20,8 @@ const SCAN_ROOTS = [
   "packages/appshell/src",
 ];
 
-const LOCAL_TYPE_PATTERN = /type\s+(TenantId|CompanyId|CustomerId|ProductId|UserId|RoleId|MembershipId|PermissionId|PolicyId|OrganizationId|EntityGroupId|TeamId|ProjectId|WarehouseId|EmployeeId|SupplierId|DocumentId|AssetId|ExecutionId|CorrelationId|AuditEventId|OwnershipInterestId)\s*=\s*(Brand<|string)/g;
+const LOCAL_TYPE_PATTERN =
+  /type\s+(TenantId|CompanyId|CustomerId|ProductId|UserId|RoleId|MembershipId|PermissionId|PolicyId|OrganizationId|EntityGroupId|TeamId|ProjectId|WarehouseId|EmployeeId|SupplierId|DocumentId|AssetId|ExecutionId|CorrelationId|AuditEventId|OwnershipInterestId)\s*=\s*(Brand<|string)/g;
 
 function collectFiles(relativeRoot: string): string[] {
   const directory = join(repoRoot, relativeRoot);
@@ -31,9 +32,7 @@ function collectFiles(relativeRoot: string): string[] {
       const fullPath = join(directory, entry.name);
       if (entry.isDirectory()) {
         files.push(
-          ...collectFiles(
-            `${relativeRoot}/${entry.name}`.replace(/\\/g, "/")
-          )
+          ...collectFiles(`${relativeRoot}/${entry.name}`.replace(/\\/g, "/"))
         );
         continue;
       }

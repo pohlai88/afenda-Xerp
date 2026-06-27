@@ -22,10 +22,7 @@ const contractPath = join(
   repoRoot,
   "packages/kernel/src/governance/kernel-runtime-rules.contract.ts"
 );
-const pasPath = join(
-  repoRoot,
-  "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md"
-);
+const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
 
 function extractPasSection10Labels(source: string): string[] {
   const sectionStart = source.indexOf("# 10. Runtime Rules");
@@ -57,7 +54,9 @@ const pasLabels = extractPasSection10Labels(readFileSync(pasPath, "utf8"));
 const registryLabels = listKernelRuntimeRules().map((rule) => rule.label);
 
 if (pasLabels.length !== KERNEL_RUNTIME_RULE_IDS.length) {
-  console.error("Kernel runtime rules gate failed: registry/PAS count mismatch.");
+  console.error(
+    "Kernel runtime rules gate failed: registry/PAS count mismatch."
+  );
   console.error(`  PAS §10 labels: ${pasLabels.length}`);
   console.error(`  Registry ids: ${KERNEL_RUNTIME_RULE_IDS.length}`);
   process.exit(1);
@@ -69,7 +68,9 @@ for (let index = 0; index < pasLabels.length; index += 1) {
 
   if (pasLabel !== registryLabel) {
     console.error("Kernel runtime rules gate failed: label drift.");
-    console.error(`  index ${index}: PAS="${pasLabel}" registry="${registryLabel}"`);
+    console.error(
+      `  index ${index}: PAS="${pasLabel}" registry="${registryLabel}"`
+    );
     process.exit(1);
   }
 }
@@ -93,7 +94,12 @@ const propagationSource = readFileSync(
 
 for (const api of propagationPrimitive.apiSurface) {
   const method = api.replace("kernelContext.", "");
-  if (!propagationSource.includes(`${method}<`) && !propagationSource.includes(`${method}(`)) {
+  if (
+    !(
+      propagationSource.includes(`${method}<`) ||
+      propagationSource.includes(`${method}(`)
+    )
+  ) {
     console.error(
       `Kernel runtime rules gate failed: approved primitive missing API surface ${api}.`
     );

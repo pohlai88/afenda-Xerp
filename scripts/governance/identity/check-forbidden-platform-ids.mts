@@ -24,10 +24,7 @@ const familySources = [
   "families/enterprise-hierarchy-id.contract.ts",
   "families/business-reference-id.contract.ts",
 ].map((file) =>
-  readFileSync(
-    join(repoRoot, `packages/kernel/src/identity/${file}`),
-    "utf8"
-  )
+  readFileSync(join(repoRoot, `packages/kernel/src/identity/${file}`), "utf8")
 );
 
 const combined = [kernelIndex, ...familySources].join("\n");

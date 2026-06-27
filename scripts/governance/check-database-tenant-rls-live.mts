@@ -9,12 +9,12 @@
 import { fileURLToPath } from "node:url";
 
 import { loadSyncedEnv } from "../../packages/database/src/load-synced-env.ts";
-import { connectPgPoolWithFallback } from "../../packages/database/src/supabase/pg-network-fallback.server.ts";
 import {
   isLiveTenantRlsVerificationAvailable,
   type TenantRlsLiveViolation,
   verifyTenantRlsLive,
 } from "../../packages/database/src/rls/verify-tenant-rls-live.server.ts";
+import { connectPgPoolWithFallback } from "../../packages/database/src/supabase/pg-network-fallback.server.ts";
 import {
   checkDatabaseTenantRlsCoverage,
   type TenantRlsCoverageViolation,

@@ -111,10 +111,16 @@ interface ArchitectureException {
   readonly owner: string;
   readonly evidence: readonly string[];
   readonly resolution?: string;
+  readonly adr: string;
+  readonly approvedBy: string;
+  readonly expiresAt: string;
+  readonly packageName: string;
+  readonly reason: string;
+  readonly subject: string;
 }
 ```
 
-ADR-level architecture exceptions only. Documentation drift → `pnpm architecture:drift` — not duplicated here.
+ADR-level architecture exceptions only. PAS §4.6 governance fields are additive; runtime compatibility fields remain in the contract for existing exception consumers. Documentation drift → `pnpm architecture:drift` — not duplicated here.
 
 ---
 

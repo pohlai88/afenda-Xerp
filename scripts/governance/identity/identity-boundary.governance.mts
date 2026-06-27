@@ -73,8 +73,7 @@ const FORBIDDEN_ENTERPRISE_ID_CAST_PATTERN = new RegExp(
 const FORBIDDEN_CANONICAL_ENTERPRISE_ID_CAST_PATTERN =
   /\bas\s+CanonicalEnterpriseId(?:<[^>]+>)?\b/g;
 
-const FORBIDDEN_CANONICAL_ID_CAST_PATTERN =
-  /\bas\s+CanonicalId(?:<[^>]+>)?\b/g;
+const FORBIDDEN_CANONICAL_ID_CAST_PATTERN = /\bas\s+CanonicalId(?:<[^>]+>)?\b/g;
 
 const LOCAL_ID_ALIAS_PATTERN = new RegExp(
   `\\btype\\s+(${ENTERPRISE_ID_TYPE_NAMES.join("|")})\\s*=\\s*string\\b`,
@@ -112,7 +111,9 @@ export function collectIdentityBoundaryViolations(
       continue;
     }
 
-    const legacyBrandMatches = file.source.match(FORBIDDEN_LEGACY_BRAND_PATTERN);
+    const legacyBrandMatches = file.source.match(
+      FORBIDDEN_LEGACY_BRAND_PATTERN
+    );
     const castMatches = file.source.match(FORBIDDEN_ENTERPRISE_ID_CAST_PATTERN);
     const canonicalCastMatches = [
       ...(file.source.match(FORBIDDEN_CANONICAL_ENTERPRISE_ID_CAST_PATTERN) ??

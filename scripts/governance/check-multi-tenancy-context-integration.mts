@@ -9,9 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   type ContextIntegrationEnforcementViolation,
   collectContextIntegrationViolations,
@@ -21,7 +19,6 @@ import {
   MULTI_TENANCY_CONTEXT_INTEGRATION_GATE,
   MULTI_TENANCY_CONTEXT_INTEGRATION_SURFACE_RULE,
   MULTI_TENANCY_DOC_CONTEXT_INTEGRATION_MARKERS,
-  TIP_007_012_CONTEXT_INTEGRATION_SECTION,
 } from "./multi-tenancy-context-integration-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -110,7 +107,6 @@ export function checkMultiTenancyContextIntegration(): MultiTenancyContextIntegr
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

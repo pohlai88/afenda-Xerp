@@ -9,9 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectExistingStateAuditViolations,
   type ExistingStateAuditEnforcementViolation,
@@ -21,7 +19,6 @@ import {
   MULTI_TENANCY_EXISTING_STATE_AUDIT_ENFORCEMENT_LIB,
   MULTI_TENANCY_EXISTING_STATE_AUDIT_GATE,
   MULTI_TENANCY_EXISTING_STATE_AUDIT_SURFACE_RULE,
-  TIP_007_012_EXISTING_STATE_AUDIT_SECTION,
 } from "./multi-tenancy-existing-state-audit-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -110,7 +107,6 @@ export function checkMultiTenancyExistingStateAudit(): MultiTenancyExistingState
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

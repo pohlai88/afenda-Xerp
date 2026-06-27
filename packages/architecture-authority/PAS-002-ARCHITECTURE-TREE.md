@@ -11,6 +11,8 @@
 
 Annotated filesystem map for `@afenda/architecture-authority`. Update after serialized slice delivery or registry mutations (`foundation-registry-owner` only for disposition).
 
+**Runtime parity snapshot:** fingerprint `ARCH-BASELINE-2026-06-27-v2` · `ValidationGate` union = 8 values · surface registry = 9 validator modules (1 composite + 8 leaf validators) · `src/__tests__/` = 9 files on disk.
+
 **Legend:** ✅ CANON · 📋 registry data · 🔒 validator · 🧪 tests · 🚫 forbidden path
 
 ```text
@@ -48,7 +50,7 @@ packages/architecture-authority/
     │   ├── business-master-data-import-boundary.policy.ts
     │   └── business-master-data-shared-package.policy.ts
     │
-    ├── validators/                                   # 🔒 pure validation (CI gates)
+    ├── validators/                                   # 🔒 pure validation (CI gates; 1 composite + 8 leaf validators)
     │   ├── validate-architecture.ts                  # §4.7 composite
     │   ├── validate-registry.ts
     │   ├── validate-dependencies.ts
@@ -71,7 +73,7 @@ packages/architecture-authority/
     │   ├── build-dependency-snapshot.ts
     │   └── build-ownership-audit.ts
     │
-    └── __tests__/                                    # 🧪 (8 files)
+    └── __tests__/                                    # 🧪 (9 files)
 ```
 
 ## Forbidden paths (PAS §6.3)

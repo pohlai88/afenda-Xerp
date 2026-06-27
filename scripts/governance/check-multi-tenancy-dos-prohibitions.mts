@@ -11,9 +11,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureSilenceViolations,
   collectForbiddenAccountingViolations,
@@ -348,7 +346,6 @@ export function checkMultiTenancyDosProhibitions(): MultiTenancyDosProhibitionsV
       "Prohibitions"
     )
   );
-
 
   violations.push(...collectDeliveryDocViolations(deliveryContent));
 

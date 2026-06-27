@@ -13,7 +13,9 @@ const violations = collectIdentityBoundaryViolations(
 if (violations.length > 0) {
   console.error("check:identity-boundary failed:\n");
   for (const violation of violations) {
-    console.error(`[${violation.rule}] ${violation.file}: ${violation.message}`);
+    console.error(
+      `[${violation.rule}] ${violation.file}: ${violation.message}`
+    );
   }
   process.exit(1);
 }

@@ -9,11 +9,15 @@ const repoRoot = fileURLToPath(new URL("../../../", import.meta.url)).replace(
   ""
 );
 
-const result = spawnSync("pnpm", ["check:tenant-human-reference-kernel-contract"], {
-  cwd: repoRoot,
-  stdio: "inherit",
-  shell: true,
-});
+const result = spawnSync(
+  "pnpm",
+  ["check:tenant-human-reference-kernel-contract"],
+  {
+    cwd: repoRoot,
+    stdio: "inherit",
+    shell: true,
+  }
+);
 
 if (result.status !== 0) {
   process.exit(result.status ?? 1);

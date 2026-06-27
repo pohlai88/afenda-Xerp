@@ -9,9 +9,7 @@ const snapshotPath = join(
 
 async function main(): Promise<void> {
   const [{ API_CONTRACTS }, { buildApiRouteCatalog }] = await Promise.all([
-    import(
-      "../../apps/erp/src/server/api/contracts/api-contract-registry.ts"
-    ),
+    import("../../apps/erp/src/server/api/contracts/api-contract-registry.ts"),
     import("../../apps/erp/src/server/api/contracts/api-route-catalog.ts"),
   ]);
 

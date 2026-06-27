@@ -2,7 +2,7 @@
 
 **Prerequisite:** Slice B14 — validator surface parity (`docs/PAS/slice/b14-4.11-validator-surface-parity.md`, `Status: Delivered`)
 
-**Status:** Not started
+**Status:** Delivered (2026-06-27)
 
 **Type:** Evidence-sync
 

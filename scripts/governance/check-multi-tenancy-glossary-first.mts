@@ -9,9 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectGlossaryFirstViolations,
   type GlossaryFirstEnforcementViolation,
@@ -23,7 +21,6 @@ import {
   MULTI_TENANCY_GLOSSARY_FIRST_REQUIRED_TERMS,
   MULTI_TENANCY_GLOSSARY_FIRST_SURFACE_RULE,
   MULTI_TENANCY_GLOSSARY_PATH,
-  TIP_007_012_GLOSSARY_FIRST_SECTION,
 } from "./multi-tenancy-glossary-first-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -128,7 +125,6 @@ export function checkMultiTenancyGlossaryFirst(): MultiTenancyGlossaryFirstViola
       });
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

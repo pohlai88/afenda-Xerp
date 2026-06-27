@@ -23,9 +23,7 @@ async function main(): Promise<void> {
   const snapshot = JSON.parse(readFileSync(snapshotPath, "utf8"));
 
   if (JSON.stringify(liveDocument) !== JSON.stringify(snapshot)) {
-    console.error(
-      "OpenAPI snapshot is stale. Run: pnpm export:openapi"
-    );
+    console.error("OpenAPI snapshot is stale. Run: pnpm export:openapi");
     process.exit(1);
   }
 

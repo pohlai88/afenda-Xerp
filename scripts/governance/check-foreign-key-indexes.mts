@@ -55,8 +55,10 @@ export function checkForeignKeyIndexes(): ForeignKeyIndexViolation[] {
     }
 
     if (
-      !schemaFile.source.includes(indexName) &&
-      !schemaFile.source.includes(`tenantForeignKeyIndexName("${table}")`)
+      !(
+        schemaFile.source.includes(indexName) ||
+        schemaFile.source.includes(`tenantForeignKeyIndexName("${table}")`)
+      )
     ) {
       violations.push({
         rule: "tenant-fk-index-missing",
@@ -73,7 +75,10 @@ export function checkForeignKeyIndexes(): ForeignKeyIndexViolation[] {
   if (existsSync(pilotMigration)) {
     const migrationSql = readFileSync(pilotMigration, "utf8");
     for (const { indexName } of PLATFORM_TENANT_FK_INDEXES) {
-      if (!migrationSql.includes(indexName) && indexName === "products_tenant_id_idx") {
+      if (
+        !migrationSql.includes(indexName) &&
+        indexName === "products_tenant_id_idx"
+      ) {
         // Index may pre-exist from master-data migration — verify in any migration
         const migrationFiles = readdirSync(migrationsDir).filter((name) =>
           name.endsWith(".sql")
@@ -93,7 +98,9 @@ export function checkForeignKeyIndexes(): ForeignKeyIndexViolation[] {
   }
 
   for (const { file, source } of schemaSources) {
-    if (!source.includes("tenantIdRef") && !source.includes('idRef("tenant_id")')) {
+    if (
+      !(source.includes("tenantIdRef") || source.includes('idRef("tenant_id")'))
+    ) {
       continue;
     }
 

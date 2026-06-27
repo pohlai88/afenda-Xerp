@@ -3,7 +3,7 @@
  * PAS-001 §5 — kernel prohibited ownership registry gate.
  */
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,10 +17,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const pasPath = join(
-  repoRoot,
-  "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md"
-);
+const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
 const kernelSrcRoot = join(repoRoot, "packages/kernel/src");
 
 const FORBIDDEN_KERNEL_IMPORT_PATTERNS = [
@@ -82,9 +79,13 @@ const registryLabels = listKernelProhibitedOwnershipConcerns().map(
 );
 
 if (pasLabels.length !== KERNEL_PROHIBITED_OWNERSHIP_CONCERN_IDS.length) {
-  console.error("Kernel prohibited ownership gate failed: registry/PAS count mismatch.");
+  console.error(
+    "Kernel prohibited ownership gate failed: registry/PAS count mismatch."
+  );
   console.error(`  PAS §5 labels: ${pasLabels.length}`);
-  console.error(`  Registry ids: ${KERNEL_PROHIBITED_OWNERSHIP_CONCERN_IDS.length}`);
+  console.error(
+    `  Registry ids: ${KERNEL_PROHIBITED_OWNERSHIP_CONCERN_IDS.length}`
+  );
   process.exit(1);
 }
 
@@ -94,7 +95,9 @@ for (let index = 0; index < pasLabels.length; index += 1) {
 
   if (pasLabel !== registryLabel) {
     console.error("Kernel prohibited ownership gate failed: label drift.");
-    console.error(`  index ${index}: PAS="${pasLabel}" registry="${registryLabel}"`);
+    console.error(
+      `  index ${index}: PAS="${pasLabel}" registry="${registryLabel}"`
+    );
     process.exit(1);
   }
 }
@@ -114,7 +117,9 @@ for (const filePath of collectSourceFiles(kernelSrcRoot)) {
 }
 
 if (forbiddenImportViolations.length > 0) {
-  console.error("Kernel prohibited ownership gate failed: forbidden imports in kernel src.");
+  console.error(
+    "Kernel prohibited ownership gate failed: forbidden imports in kernel src."
+  );
   for (const violation of forbiddenImportViolations) {
     console.error(`  ${violation}`);
   }

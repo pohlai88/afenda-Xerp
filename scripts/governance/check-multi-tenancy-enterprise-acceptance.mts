@@ -10,9 +10,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectEnterpriseAcceptanceViolations,
   type EnterpriseAcceptanceEnforcementViolation,
@@ -24,7 +22,6 @@ import {
   MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_ENFORCEMENT_LIB,
   MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_GATE,
   MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SURFACE_RULE,
-  TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION,
 } from "./multi-tenancy-enterprise-acceptance-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -130,7 +127,6 @@ export function checkMultiTenancyEnterpriseAcceptance(): MultiTenancyEnterpriseA
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

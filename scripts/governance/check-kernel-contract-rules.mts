@@ -8,8 +8,8 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  KERNEL_CONTRACT_RULES,
   KERNEL_CONTRACT_RULE_IDS,
+  KERNEL_CONTRACT_RULES,
 } from "../../packages/kernel/src/governance/kernel-contract-rules.policy.ts";
 import { RETIRED_KERNEL_PLATFORM_ID_PATHS } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
 
@@ -147,7 +147,10 @@ function findReadonlyViolations(
       continue;
     }
 
-    if (bodyDepth === 0 && (trimmed.startsWith("{") || /^\|\s*\{/.test(trimmed))) {
+    if (
+      bodyDepth === 0 &&
+      (trimmed.startsWith("{") || /^\|\s*\{/.test(trimmed))
+    ) {
       bodyDepth += (line.match(/\{/g) ?? []).length;
       bodyDepth -= (line.match(/\}/g) ?? []).length;
       if (bodyDepth <= 0) {
@@ -224,10 +227,7 @@ export function checkKernelContractRules(): KernelContractRulesViolation[] {
   if (KERNEL_CONTRACT_RULES.length !== 13) {
     violations.push({
       rule: "policy-rule-count",
-      file: join(
-        kernelSrcRoot,
-        "governance/kernel-contract-rules.policy.ts"
-      ),
+      file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
       message: `Expected 13 PAS §9 rules, found ${KERNEL_CONTRACT_RULES.length}`,
     });
   }
@@ -235,10 +235,7 @@ export function checkKernelContractRules(): KernelContractRulesViolation[] {
   if (KERNEL_CONTRACT_RULE_IDS.length !== 13) {
     violations.push({
       rule: "policy-rule-id-count",
-      file: join(
-        kernelSrcRoot,
-        "governance/kernel-contract-rules.policy.ts"
-      ),
+      file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
       message: `Expected 13 PAS §9 rule ids, found ${KERNEL_CONTRACT_RULE_IDS.length}`,
     });
   }
@@ -305,7 +302,10 @@ export function formatKernelContractRulesViolations(
   }
 
   return violations
-    .map((violation) => `[${violation.rule}] ${violation.file}\n  ${violation.message}`)
+    .map(
+      (violation) =>
+        `[${violation.rule}] ${violation.file}\n  ${violation.message}`
+    )
     .join("\n\n");
 }
 

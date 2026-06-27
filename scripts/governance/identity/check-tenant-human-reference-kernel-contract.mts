@@ -4,12 +4,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  TENANT_HUMAN_REFERENCE_SCOPES,
-  TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS,
-} from "../../../packages/kernel/src/identity/tenant-human-reference/tenant-human-reference.contract.ts";
 import { TENANT_HUMAN_REFERENCE_REGISTRY } from "../../../packages/database/src/ids/tenant-human-reference-registry.ts";
+import {
+  TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS,
+  TENANT_HUMAN_REFERENCE_SCOPES,
+} from "../../../packages/kernel/src/identity/tenant-human-reference/tenant-human-reference.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -27,9 +26,7 @@ const identityIndexPath = join(
 
 const violations: string[] = [];
 
-if (!existsSync(contractPath)) {
-  violations.push("Missing tenant-human-reference.contract.ts");
-} else {
+if (existsSync(contractPath)) {
   const source = readFileSync(contractPath, "utf8");
 
   for (const pattern of [
@@ -56,6 +53,8 @@ if (!existsSync(contractPath)) {
       violations.push(`Missing scope label for ${scope}`);
     }
   }
+} else {
+  violations.push("Missing tenant-human-reference.contract.ts");
 }
 
 const registryScopes = TENANT_HUMAN_REFERENCE_REGISTRY.map((entry) => {

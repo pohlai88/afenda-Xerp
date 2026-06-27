@@ -18,7 +18,9 @@ const violations: string[] = [];
 for (const entry of LIVE_TENANT_HUMAN_REFERENCE_TABLES) {
   const schemaPath = join(schemaDir, entry.schemaFile);
   if (!existsSync(schemaPath)) {
-    violations.push(`Missing schema ${entry.schemaFile} for ${entry.tableName}`);
+    violations.push(
+      `Missing schema ${entry.schemaFile} for ${entry.tableName}`
+    );
     continue;
   }
 
@@ -31,9 +33,11 @@ for (const entry of LIVE_TENANT_HUMAN_REFERENCE_TABLES) {
   }
 
   if (
-    !source.includes(entry.uniqueIndexName) &&
-    !source.includes(
-      `tenantHumanReferenceUniqueIndexName("${entry.tableName}", "${entry.column}")`
+    !(
+      source.includes(entry.uniqueIndexName) ||
+      source.includes(
+        `tenantHumanReferenceUniqueIndexName("${entry.tableName}", "${entry.column}")`
+      )
     )
   ) {
     violations.push(

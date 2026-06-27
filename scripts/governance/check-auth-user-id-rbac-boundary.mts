@@ -40,15 +40,15 @@ const FORBIDDEN_ACTOR_PATTERNS = [
   },
   {
     rule: "session-auth-user-id-permission",
-    pattern: /session\.user\.authUserId[^;\n]{0,120}?(?:checkPermission|requirePermission)/s,
-    message:
-      "Do not derive permission actors from session.user.authUserId.",
+    pattern:
+      /session\.user\.authUserId[^;\n]{0,120}?(?:checkPermission|requirePermission)/s,
+    message: "Do not derive permission actors from session.user.authUserId.",
   },
   {
     rule: "permission-session-auth-user-id",
-    pattern: /(?:checkPermission|requirePermission)[^;]{0,200}?session\.user\.authUserId/s,
-    message:
-      "Do not pass session.user.authUserId into permission checks.",
+    pattern:
+      /(?:checkPermission|requirePermission)[^;]{0,200}?session\.user\.authUserId/s,
+    message: "Do not pass session.user.authUserId into permission checks.",
   },
   {
     rule: "auth-user-id-permission-proximity",
@@ -108,7 +108,7 @@ export function checkAuthUserIdRbacBoundary(): AuthUserIdRbacViolation[] {
     for (const file of listSourceFiles(scanRoot)) {
       const source = readFileSync(file, "utf8");
 
-      if (!PERMISSION_CALL_RE.test(source) && !AUTH_USER_ID_RE.test(source)) {
+      if (!(PERMISSION_CALL_RE.test(source) || AUTH_USER_ID_RE.test(source))) {
         continue;
       }
 

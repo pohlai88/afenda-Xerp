@@ -28,9 +28,7 @@ const HTTP_METHODS = new Set([
 
 function collectStructuralViolations(document: OpenApiDocument): string[] {
   const violations: string[] = [];
-  const declaredTags = new Set(
-    (document.tags ?? []).map((tag) => tag.name)
-  );
+  const declaredTags = new Set((document.tags ?? []).map((tag) => tag.name));
   const operationIds = new Map<string, string>();
 
   for (const [path, pathItem] of Object.entries(document.paths ?? {})) {
@@ -46,12 +44,12 @@ function collectStructuralViolations(document: OpenApiDocument): string[] {
       }
 
       const priorPath = operationIds.get(operationId);
-      if (priorPath !== undefined) {
+      if (priorPath === undefined) {
+        operationIds.set(operationId, `${method.toUpperCase()} ${path}`);
+      } else {
         violations.push(
           `Duplicate operationId "${operationId}" on ${priorPath} and ${method.toUpperCase()} ${path}`
         );
-      } else {
-        operationIds.set(operationId, `${method.toUpperCase()} ${path}`);
       }
 
       for (const tag of operation.tags ?? []) {

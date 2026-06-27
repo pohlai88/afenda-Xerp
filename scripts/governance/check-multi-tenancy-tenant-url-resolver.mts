@@ -9,9 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectTenantUrlResolverViolations,
   type TenantUrlResolverEnforcementViolation,
@@ -21,7 +19,6 @@ import {
   MULTI_TENANCY_TENANT_URL_RESOLVER_ENFORCEMENT_LIB,
   MULTI_TENANCY_TENANT_URL_RESOLVER_GATE,
   MULTI_TENANCY_TENANT_URL_RESOLVER_SURFACE_RULE,
-  TIP_007_012_TENANT_URL_RESOLVER_SECTION,
 } from "./multi-tenancy-tenant-url-resolver-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -110,7 +107,6 @@ export function checkMultiTenancyTenantUrlResolver(): MultiTenancyTenantUrlResol
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

@@ -38,8 +38,7 @@ export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
 ] as const;
 
 /** Patterns that must not appear in authority docs after legacy cleanup. */
-export const LEGACY_DELIVERY_PATH_PATTERN =
-  /docs\/(?:delivery|ARCH)\//gi;
+export const LEGACY_DELIVERY_PATH_PATTERN = /docs\/(?:delivery|ARCH)\//gi;
 
 /** Relative markdown links to retired delivery/ARCH trees. */
 export const LEGACY_RELATIVE_DELIVERY_PATH_PATTERN =

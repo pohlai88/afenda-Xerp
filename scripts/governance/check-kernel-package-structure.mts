@@ -1,14 +1,9 @@
 #!/usr/bin/env tsx
 /** PAS-001 §6.1 / §6.2 / §6.4 — kernel package structure and subpath export gate. */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  checkKernelSubpathExports,
-  formatKernelSubpathExportViolations,
-} from "./check-kernel-subpath-exports.mts";
 import {
   KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL,
   KERNEL_PACKAGE_PROHIBITED_PATHS,
@@ -16,6 +11,10 @@ import {
   KERNEL_PACKAGE_TARGET_PATHS,
 } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
 import { RETIRED_KERNEL_PLATFORM_ID_PATHS } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
+import {
+  checkKernelSubpathExports,
+  formatKernelSubpathExportViolations,
+} from "./check-kernel-subpath-exports.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,

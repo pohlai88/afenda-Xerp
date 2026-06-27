@@ -1,37 +1,37 @@
 return violations;
+}
+
+for (const dimension of MULTI_TENANCY_CONTEXT_INTEGRATION_DIMENSIONS) {
+  if (!section.includes(dimension.tableMarker)) {
+    violations.push({
+      rule: "delivery-dimension-missing",
+      file: deliveryPath,
+      message: `Delivery doc missing ${dimension.tableMarker}`,
+    });
   }
+}
 
-  for (const dimension of MULTI_TENANCY_CONTEXT_INTEGRATION_DIMENSIONS) {
-    if (!section.includes(dimension.tableMarker)) {
-      violations.push({
-        rule: "delivery-dimension-missing",
-        file: deliveryPath,
-        message: `Delivery doc missing ${dimension.tableMarker}`,
-      });
-    }
-  }
+violations.push(
+  ...collectMissingMarkers(
+    section,
+    MULTI_TENANCY_CONTEXT_INTEGRATION_FUNCTION_MARKERS,
+    "delivery-function-marker",
+    deliveryPath,
+    "Integration functions table"
+  )
+);
 
-  violations.push(
-    ...collectMissingMarkers(
-      section,
-      MULTI_TENANCY_CONTEXT_INTEGRATION_FUNCTION_MARKERS,
-      "delivery-function-marker",
-      deliveryPath,
-      "Integration functions table"
-    )
-  );
+violations.push(
+  ...collectMissingMarkers(
+    section,
+    MULTI_TENANCY_CONTEXT_INTEGRATION_WIRING_MARKERS,
+    "delivery-wiring-marker",
+    deliveryPath,
+    "Integration wiring table"
+  )
+);
 
-  violations.push(
-    ...collectMissingMarkers(
-      section,
-      MULTI_TENANCY_CONTEXT_INTEGRATION_WIRING_MARKERS,
-      "delivery-wiring-marker",
-      deliveryPath,
-      "Integration wiring table"
-    )
-  );
-
-  return violations;
+return violations;
 }
 
 export function collectContextIntegrationViolations(

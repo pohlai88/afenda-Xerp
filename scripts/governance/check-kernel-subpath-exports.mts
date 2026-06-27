@@ -194,12 +194,7 @@ export function checkKernelSubpathExports(): KernelSubpathExportViolation[] {
     repoRoot,
     "packages/kernel/src/__tests__/subpath-exports.test.ts"
   );
-  if (!existsSync(subpathTestPath)) {
-    violations.push({
-      rule: "subpath-test-missing",
-      message: "missing packages/kernel/src/__tests__/subpath-exports.test.ts",
-    });
-  } else {
+  if (existsSync(subpathTestPath)) {
     const testSource = readFileSync(subpathTestPath, "utf8");
     for (const key of requiredKeys) {
       if (!testSource.includes(key)) {
@@ -217,6 +212,11 @@ export function checkKernelSubpathExports(): KernelSubpathExportViolation[] {
           "subpath-exports.test.ts must document PAS §6.4 required subpath keys",
       });
     }
+  } else {
+    violations.push({
+      rule: "subpath-test-missing",
+      message: "missing packages/kernel/src/__tests__/subpath-exports.test.ts",
+    });
   }
 
   return violations;

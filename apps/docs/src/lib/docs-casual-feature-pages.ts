@@ -74,6 +74,7 @@ export function renderCasualModulePageMdx(
 title: ${jsxString(manifest.title)}
 description: ${jsxString(manifest.summary)}
 audience: ${manifest.audience}
+relatedManifestId: ${manifest.id}
 relatedRoutes:${yamlStringList(manifest.productRoutes)}
 catalogBindings:${yamlStringList(manifest.catalogSources)}
 ---
@@ -166,16 +167,29 @@ ${laneSections}
 }
 
 export function renderCasualAdminSectionsMdx(
-  manifests: readonly DocsFeatureManifest[]
+  manifests: readonly DocsFeatureManifest[],
+  overlay?: FeatureCopyOverlay
 ): string {
   const sections = manifests.filter(
     (manifest) => manifest.kind === "admin-section"
+  );
+  const adminCallout = resolveFeatureCopyField(
+    overlay,
+    "admin-sections",
+    "adminCallout",
+    "Tenant administrator"
   );
   const rows = sections
     .map((section) => {
       const route = section.productRoutes[0] ?? "—";
       const permission = section.permissionKeys[0] ?? "—";
-      return `| ${section.title} | \`${route}\` | \`${permission}\` | ${section.summary} |`;
+      const summary = resolveFeatureCopyField(
+        overlay,
+        section.id,
+        "summary",
+        section.summary
+      );
+      return `| ${section.title} | \`${route}\` | \`${permission}\` | ${summary} |`;
     })
     .join("\n");
 
@@ -203,7 +217,7 @@ Use this map when onboarding a new tenant admin or verifying why a navigation it
 | --- | --- | --- | --- |
 ${rows}
 
-<Callout type="info" title="Need deeper reference?">
+<Callout type="info" title=${JSON.stringify(adminCallout)}>
 
 For the full permission matrix, see [Permissions reference](/docs/configure-tenant/generated/permissions).
 

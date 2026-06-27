@@ -9,8 +9,8 @@ import { fileURLToPath } from "node:url";
 
 import {
   KERNEL_DECISION_MATRIX_ROW_IDS,
-  listKernelDecisionMatrixRows,
   type KernelDecisionMatrixBelongsInKernel,
+  listKernelDecisionMatrixRows,
 } from "../../packages/kernel/src/governance/kernel-decision-matrix.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -18,15 +18,12 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const pasPath = join(
-  repoRoot,
-  "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md"
-);
+const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
 
 interface PasDecisionMatrixRow {
+  belongsInKernel: KernelDecisionMatrixBelongsInKernel;
   question: string;
   yesOutcome: string;
-  belongsInKernel: KernelDecisionMatrixBelongsInKernel;
 }
 
 function stripMarkdownBackticks(value: string): string {
@@ -50,15 +47,13 @@ function normalizeBelongsInKernel(
     return "id-only";
   }
 
-  throw new Error(
-    `Unexpected PAS §7 belongs-in-kernel value: "${normalized}"`
-  );
+  throw new Error(`Unexpected PAS §7 belongs-in-kernel value: "${normalized}"`);
 }
 
 function parseMarkdownTableRow(line: string): string[] | null {
   const trimmed = line.trim();
 
-  if (!trimmed.startsWith("|") || !trimmed.endsWith("|")) {
+  if (!(trimmed.startsWith("|") && trimmed.endsWith("|"))) {
     return null;
   }
 
@@ -114,7 +109,9 @@ const pasRows = extractPasSection7Rows(readFileSync(pasPath, "utf8"));
 const registryRows = listKernelDecisionMatrixRows();
 
 if (pasRows.length !== KERNEL_DECISION_MATRIX_ROW_IDS.length) {
-  console.error("Kernel decision matrix gate failed: registry/PAS count mismatch.");
+  console.error(
+    "Kernel decision matrix gate failed: registry/PAS count mismatch."
+  );
   console.error(`  PAS §7 rows: ${pasRows.length}`);
   console.error(`  Registry ids: ${KERNEL_DECISION_MATRIX_ROW_IDS.length}`);
   process.exit(1);
@@ -141,9 +138,7 @@ for (let index = 0; index < pasRows.length; index += 1) {
   }
 
   if (pasRow.belongsInKernel !== registryRow.belongsInKernel) {
-    console.error(
-      "Kernel decision matrix gate failed: belongsInKernel drift."
-    );
+    console.error("Kernel decision matrix gate failed: belongsInKernel drift.");
     console.error(
       `  index ${index}: PAS="${String(pasRow.belongsInKernel)}" registry="${String(registryRow.belongsInKernel)}"`
     );

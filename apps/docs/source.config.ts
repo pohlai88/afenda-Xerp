@@ -28,6 +28,8 @@ export const docs = defineDocs({
       docsType: z.enum(["generated-evidence"]).optional(),
       audience: z.enum(TASK_ARTICLE_AUDIENCES).optional(),
       relatedRoutes: z.array(z.string()).optional(),
+      relatedManifestIds: z.array(z.string()).optional(),
+      relatedManifestId: z.string().optional(),
       catalogBindings: z.array(z.enum(CATALOG_IDS)).optional(),
       _openapi: z
         .object({

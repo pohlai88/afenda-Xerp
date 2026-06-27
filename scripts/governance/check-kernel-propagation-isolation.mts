@@ -42,7 +42,10 @@ if (existsSync(frameContractPath)) {
   const propertyMatches = source.matchAll(/^\s*readonly\s+(\w+):/gm);
   for (const match of propertyMatches) {
     const key = match[1];
-    if (key && !allowedFrameKeys.includes(key as (typeof allowedFrameKeys)[number])) {
+    if (
+      key &&
+      !allowedFrameKeys.includes(key as (typeof allowedFrameKeys)[number])
+    ) {
       violations.push(
         `kernel-context-frame.contract.ts has unexpected frame property: ${key}`
       );
@@ -56,7 +59,7 @@ const propagationTestPath = join(
 );
 if (existsSync(propagationTestPath)) {
   const testSource = readFileSync(propagationTestPath, "utf8");
-  if (!/fork\(/.test(testSource) || !/isolat/i.test(testSource)) {
+  if (!(/fork\(/.test(testSource) && /isolat/i.test(testSource))) {
     violations.push(
       "kernel-context.test.ts must include fork() isolation coverage"
     );

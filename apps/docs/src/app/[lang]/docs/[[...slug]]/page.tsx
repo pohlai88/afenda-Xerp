@@ -27,6 +27,7 @@ import { resolveDocsLastModified } from "@/lib/docs-last-modified.server";
 import {
   isDocsLocalizedFallbackPage,
   resolveDocsFallbackBannerId,
+  shouldShowDocsLocaleFallbackNotice,
 } from "@/lib/docs-locale-fallback.server";
 import {
   isDocsLongFormContentPath,
@@ -81,7 +82,11 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
   const openApiPreload = pageHasOpenApiFrontmatter(page.data)
     ? await openapi.preloadOpenAPIPage(page)
     : undefined;
-  const showFallbackNotice = isDocsLocalizedFallbackPage(lang, page);
+  const showFallbackNotice = shouldShowDocsLocaleFallbackNotice({
+    locale: lang,
+    page,
+    contentRelativePath,
+  });
   const fallbackNotice = showFallbackNotice
     ? resolveDocsUiLocaleCopy(lang).fallbackNotice
     : null;

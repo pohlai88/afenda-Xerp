@@ -73,7 +73,9 @@ for (const step of listKernelImplementationSequenceSteps()) {
   for (const evidencePath of step.evidencePaths) {
     const absolutePath = join(repoRoot, evidencePath);
     if (!existsSync(absolutePath)) {
-      console.error(`Missing §11 evidence path for step ${step.id}: ${evidencePath}`);
+      console.error(
+        `Missing §11 evidence path for step ${step.id}: ${evidencePath}`
+      );
       process.exit(1);
     }
   }

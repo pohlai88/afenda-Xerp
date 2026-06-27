@@ -41,7 +41,9 @@ for (const relativePath of requiredFiles) {
     const source = readFileSync(absolutePath, "utf8");
     for (const pattern of forbiddenPatterns) {
       if (pattern.test(source)) {
-        violations.push(`${relativePath} contains forbidden wire type pattern ${pattern}`);
+        violations.push(
+          `${relativePath} contains forbidden wire type pattern ${pattern}`
+        );
       }
     }
   }

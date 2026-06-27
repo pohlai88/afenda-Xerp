@@ -8,9 +8,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  MULTI_TENANCY_DOC_REFERENCE,
-} from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   type ContextContractsEnforcementViolation,
   collectContextContractsViolations,
@@ -20,7 +18,6 @@ import {
   MULTI_TENANCY_CONTEXT_CONTRACTS_GATE,
   MULTI_TENANCY_CONTEXT_CONTRACTS_SURFACE_RULE,
   MULTI_TENANCY_DOC_CONTEXT_CONTRACTS_MARKERS,
-  TIP_007_012_CONTEXT_CONTRACTS_SECTION,
 } from "./multi-tenancy-context-contracts-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -107,7 +104,6 @@ export function checkMultiTenancyContextContracts(): MultiTenancyContextContract
       }
     }
   }
-
 
   const packageJsonContent = readText(packageJsonPath);
   if (packageJsonContent === null) {

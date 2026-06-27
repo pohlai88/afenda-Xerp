@@ -8,13 +8,13 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  ENTERPRISE_ID_FORMAT_CHECKS_MIGRATION_TAG,
   FORBIDDEN_ENTERPRISE_ID_BACKFILL_PATTERNS,
   LIVE_PLATFORM_SCHEMA_FILES,
   LIVE_TENANT_HUMAN_REFERENCE_TABLES,
   PILOT_ENTERPRISE_ID_MIGRATION_TAG,
   PLATFORM_ROLLOUT_MIGRATION_TAG,
   PLATFORM_SLICE_E_MIGRATION_TAG,
-  ENTERPRISE_ID_FORMAT_CHECKS_MIGRATION_TAG,
   REQUIRED_PILOT_IDS_HELPERS,
 } from "../../packages/database/src/ids/database-enterprise-id.contract.ts";
 import { LIVE_ENTERPRISE_ID_CHECK_REGISTRY } from "../../packages/database/src/ids/enterprise-id-check.registry.ts";
@@ -94,7 +94,8 @@ export function checkDatabaseEnterpriseIdContract(): DatabaseEnterpriseIdViolati
       violations.push({
         rule: "enterprise-id-fk",
         file: relativePath,
-        message: "Foreign keys must reference uuid id columns, not enterprise_id",
+        message:
+          "Foreign keys must reference uuid id columns, not enterprise_id",
       });
     }
   }
@@ -118,9 +119,11 @@ export function checkDatabaseEnterpriseIdContract(): DatabaseEnterpriseIdViolati
     }
 
     if (
-      !source.includes(entry.uniqueIndexName) &&
-      !source.includes(
-        `tenantHumanReferenceUniqueIndexName("${entry.tableName}", "${entry.column}")`
+      !(
+        source.includes(entry.uniqueIndexName) ||
+        source.includes(
+          `tenantHumanReferenceUniqueIndexName("${entry.tableName}", "${entry.column}")`
+        )
       )
     ) {
       violations.push({
@@ -198,7 +201,8 @@ export function checkDatabaseEnterpriseIdContract(): DatabaseEnterpriseIdViolati
       violations.push({
         rule: "uuid-v7-default-missing",
         file: pilotMigration,
-        message: "Pilot migration must install uuid_generate_v7() default strategy",
+        message:
+          "Pilot migration must install uuid_generate_v7() default strategy",
       });
     }
   }
@@ -227,11 +231,14 @@ export function checkDatabaseEnterpriseIdContract(): DatabaseEnterpriseIdViolati
     }
   }
 
-  if (LIVE_PLATFORM_SCHEMA_FILES.length !== LIVE_PLATFORM_ENTITY_TABLES.length) {
+  if (
+    LIVE_PLATFORM_SCHEMA_FILES.length !== LIVE_PLATFORM_ENTITY_TABLES.length
+  ) {
     violations.push({
       rule: "live-schema-file-list",
       file: "packages/database/src/ids/database-enterprise-id.contract.ts",
-      message: "LIVE_PLATFORM_SCHEMA_FILES must mirror LIVE_PLATFORM_ENTITY_TABLES",
+      message:
+        "LIVE_PLATFORM_SCHEMA_FILES must mirror LIVE_PLATFORM_ENTITY_TABLES",
     });
   }
 
@@ -250,7 +257,9 @@ function main(): void {
     process.exit(1);
   }
 
-  console.log("Database enterprise-ID contract gate passed (PAS §4.1 / ADR-0022).");
+  console.log(
+    "Database enterprise-ID contract gate passed (PAS §4.1 / ADR-0022)."
+  );
 }
 
 const isDirectRun = (() => {
