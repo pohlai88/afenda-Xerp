@@ -100,3 +100,11 @@ export const docsLuxuryShellStylesheet = "./docs-luxury-shell.css" as const;
 
 /** @deprecated Editorial block CSS still uses --docs-editorial-block-* aliases mapped to fd tokens. */
 export const docsEditorialPrimitiveNames = ["prose-accent", "prose-accent-hover"] as const;
+
+/** Editorial MDX block token chain in docs-editorial-blocks.css (:where(.nd-page)). */
+export const docsEditorialBlockVariables = {
+  canvas: "--docs-editorial-block-canvas",
+  canvasValue: "var(--docs-editorial-canvas)",
+  accent: "--docs-editorial-block-accent",
+  accentValue: "var(--docs-editorial-prose-accent)",
+} as const;

@@ -60,7 +60,7 @@ export interface DocsFeatureCoverageScore {
 
 export interface DocsFeatureEvidenceGraph {
   readonly generated: true;
-  readonly version: 2;
+  readonly version: 3;
   readonly exportedAt: string;
   readonly manifests: readonly DocsFeatureManifest[];
   readonly coverageWarnings: readonly string[];
@@ -68,6 +68,11 @@ export interface DocsFeatureEvidenceGraph {
   readonly coverageScore: number;
   readonly coverageThreshold: number;
   readonly openApiBindingWarnings: readonly string[];
+  readonly permissionParityWarnings: readonly string[];
+  readonly manifestApiOperationCounts: readonly {
+    readonly id: string;
+    readonly apiOperationCount: number;
+  }[];
 }
 
 export type FeatureCopyOverlayEntry = Readonly<{

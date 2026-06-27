@@ -1,11 +1,9 @@
 import type { DocsAppSurface } from "@/lib/docs-repo-evidence";
-import type {
-  DocsFeatureCoverageScore,
-  DocsFeatureEvidenceGraph,
-  DocsFeatureManifest,
-  DocsFeatureManifestInput,
-  FeatureManifestOverrides,
-} from "@/lib/docs-feature-manifest.contract";
+import {
+  applyPermissionParityHardFail,
+  summarizeManifestApiOperationCounts,
+  validatePermissionOpenApiParity,
+} from "@/lib/docs-openapi-permission-parity";
 import {
   DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD,
   docsFeatureManifestSchema,
@@ -412,12 +410,14 @@ export function buildDocsFeatureEvidenceGraph(input: {
   readonly coverage: DocsFeatureCoverageResult;
   readonly score: DocsFeatureCoverageScore;
   readonly openApiBindingWarnings?: readonly string[];
+  readonly permissionParityWarnings?: readonly string[];
 }): DocsFeatureEvidenceGraph {
   const bindingWarnings = input.openApiBindingWarnings ?? [];
+  const parityWarnings = input.permissionParityWarnings ?? [];
 
   return {
     generated: true,
-    version: 2,
+    version: 3,
     exportedAt: new Date().toISOString(),
     manifests: input.manifests,
     coverageWarnings: input.coverage.warnings,
@@ -425,8 +425,14 @@ export function buildDocsFeatureEvidenceGraph(input: {
     coverageScore: input.score.score,
     coverageThreshold: DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD,
     openApiBindingWarnings: bindingWarnings,
+    permissionParityWarnings: parityWarnings,
+    manifestApiOperationCounts: summarizeManifestApiOperationCounts(
+      input.manifests
+    ),
   };
 }
+
+export { validatePermissionOpenApiParity, applyPermissionParityHardFail };
 
 export function listModuleManifests(
   manifests: readonly DocsFeatureManifest[]

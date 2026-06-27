@@ -10,6 +10,7 @@ import {
   docsSpacingRoles,
   docsSpacingScale,
   docsSpacingStylesheet,
+  docsEditorialBlockVariables,
   docsSurfaceVariables,
   docsTypographyRoleClasses,
   docsTypographyScale,
@@ -198,10 +199,10 @@ describe("@afenda/docs theme", () => {
     const blocksCss = readDocsFile("src/app/docs-editorial-blocks.css");
 
     expect(blocksCss).toContain(
-      "--docs-editorial-block-canvas: var(--color-fd-background)"
+      `${docsEditorialBlockVariables.canvas}: ${docsEditorialBlockVariables.canvasValue}`
     );
     expect(blocksCss).toContain(
-      "--docs-editorial-block-accent: var(--docs-prose-accent)"
+      `${docsEditorialBlockVariables.accent}: ${docsEditorialBlockVariables.accentValue}`
     );
   });
 });

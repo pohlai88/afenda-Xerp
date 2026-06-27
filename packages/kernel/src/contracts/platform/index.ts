@@ -6,6 +6,7 @@
 
 export type {
   LegalEntityContext,
+  OperatingContextPermissionScope,
   OrganizationUnitContext,
   PermissionScopeContext,
   TenantContext,
