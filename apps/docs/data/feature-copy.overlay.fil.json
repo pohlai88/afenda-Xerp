@@ -1,0 +1,97 @@
+{
+  "_comment": "Locale overlay for fil casual copy. Merged over feature-copy.overlay.json at sync time.",
+  "accounting": {
+    "summary": "Mga surface ng journal at accounting kapag naka-enable ang accounting module para sa tenant.",
+    "whenToUse": "Buksan ang **Accounting** kapag kailangan ng finance role ang journal o accounting screens sa ERP."
+  },
+  "admin-audit": {
+    "summary": "System Admin area para sa audit — nangangailangan ng `system_admin.audit_read`.",
+    "whenToUse": "Suriin ang **Audit** kapag imbestigahan ang aktibidad ng tenant o compliance exports.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-diagnostics": {
+    "summary": "System Admin area para sa diagnostics — nangangailangan ng `system_admin.audit_read`.",
+    "whenToUse": "Buksan ang **Diagnostics** kapag kailangan ng support ng runtime health signals ng tenant.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-memberships": {
+    "summary": "System Admin area para sa memberships — nangangailangan ng `system_admin.users_read`.",
+    "whenToUse": "Gamitin ang **Memberships** kapag nagtatalaga ng role o nire-review ang mga miyembro ng tenant.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-permissions": {
+    "summary": "System Admin area para sa permissions — nangangailangan ng `system_admin.permissions_read`.",
+    "whenToUse": "Suriin ang **Permissions** kapag ina-audit ang mga key na mayroon ang role o user.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-roles": {
+    "summary": "System Admin area para sa roles — nangangailangan ng `system_admin.roles_read`.",
+    "whenToUse": "I-configure ang **Roles** kapag tumutukoy ng RBAC bundles para sa tenant admins.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-settings": {
+    "summary": "System Admin area para sa settings — nangangailangan ng `system_admin.settings_read`.",
+    "whenToUse": "Buksan ang **Settings** kapag ina-adjust ang tenant-level admin preferences.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-users": {
+    "summary": "System Admin area para sa users — nangangailangan ng `system_admin.users_read`.",
+    "whenToUse": "Pamahalaan ang **Users** kapag nag-iimbita ng kasamahan o nire-review ang membership ng tenant.",
+    "adminCallout": "Tenant administrator"
+  },
+  "admin-sections": {
+    "adminCallout": "Tenant administrator"
+  },
+  "ai_copilot": {
+    "summary": "Governed AI Copilot module kapag naka-enable ang copilot entitlements ng tenant.",
+    "whenToUse": "Buksan ang **AI Copilot** kapag pinapayagan ng role mo ang AI assistant sa ERP."
+  },
+  "auth-lane-access": {
+    "summary": "Sign-in, sign-up, at one-time password entry.",
+    "whenToUse": "Gamitin ang **Access** lane kapag hinahanap ang sign-in o registration URLs."
+  },
+  "auth-lane-invite": {
+    "summary": "Mga imbitasyon ng user at pagtanggap ng imbitasyon.",
+    "whenToUse": "Gamitin ang **Invite** lane kapag tumatanggap ng tenant invitation link."
+  },
+  "auth-lane-recover": {
+    "summary": "Forgot-password at reset-password flows.",
+    "whenToUse": "Gamitin ang **Recover** lane kapag nire-reset ang nakalimutang password."
+  },
+  "auth-lane-security": {
+    "summary": "Multi-factor authentication, session expiry, at access-denied handling.",
+    "whenToUse": "Gamitin ang **Security** lane kapag troubleshooting ng MFA, session expiry, o access denied."
+  },
+  "auth-lane-verify": {
+    "summary": "Email verification bago magbukas ang workspace.",
+    "whenToUse": "Gamitin ang **Verify** lane kapag kumukumpleto ng email verification pagkatapos mag-sign up."
+  },
+  "auth-lane-workspace": {
+    "summary": "Pagpili ng workspace o organization pagkatapos ng authentication.",
+    "whenToUse": "Gamitin ang **Workspace** lane pagkatapos mag-sign in upang pumili ng tenant context."
+  },
+  "hrm": {
+    "summary": "Human resources module kapag naka-enable ang HRM entitlements ng tenant.",
+    "whenToUse": "Buksan ang **HRM** kapag namamahala ang HR o admin ng employee at organization data."
+  },
+  "inventory": {
+    "summary": "Subaybayan ang stock levels, warehouses, at movements kapag may inventory access ang role.",
+    "whenToUse": "Buksan ang **Inventory** kapag kailangan tingnan o hawakan ang stock sa ERP."
+  },
+  "manufacturing": {
+    "summary": "Manufacturing module kapag naka-enable ang production entitlements ng tenant.",
+    "whenToUse": "Buksan ang **Manufacturing** kapag gumagawa ang production role ng production orders."
+  },
+  "mrp": {
+    "summary": "Material requirements planning kapag naka-enable ang MRP entitlements ng tenant.",
+    "whenToUse": "Buksan ang **MRP** kapag nagpapatakbo o nire-review ng planner ang material requirements."
+  },
+  "sales": {
+    "summary": "Sales module kapag naka-enable ang commercial entitlements ng tenant.",
+    "whenToUse": "Buksan ang **Sales** kapag namamahala ang sales role ng orders at customer records."
+  },
+  "workspace": {
+    "summary": "Home dashboard at workspace layout pagkatapos pumili ng tenant context.",
+    "whenToUse": "Buksan ang **Workspace** pagkatapos mag-sign in para sa araw-araw na dashboard."
+  }
+}

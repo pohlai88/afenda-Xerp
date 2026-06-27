@@ -7,6 +7,7 @@ import {
 import { DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD } from "@/lib/docs-feature-manifest.contract";
 import { bindOpenApiOperationsToManifests } from "@/lib/docs-openapi-manifest-bindings";
 import { mergeFeatureManifestsWithPlatformApi } from "@/lib/docs-openapi-platform-manifests";
+import { validatePermissionOpenApiParity } from "@/lib/docs-openapi-permission-parity";
 import { resolveDocsRepoRoot } from "@/lib/docs-repo-evidence";
 
 describe("docs feature manifest overrides", () => {
@@ -164,5 +165,39 @@ describe("docs openapi manifest bindings", () => {
       bound.manifests.find((manifest) => manifest.id === "platform-health")
         ?.apiOperations?.length ?? 0
     ).toBeGreaterThan(0);
+
+    const parity = validatePermissionOpenApiParity(bound.manifests);
+    const inventory = bound.manifests.find((manifest) => manifest.id === "inventory");
+    expect(inventory?.apiOperations?.length ?? 0).toBeGreaterThan(0);
+    expect(
+      parity.warnings.some((warning) => warning.startsWith("inventory:"))
+    ).toBe(false);
+  });
+
+  it("emits permission parity warnings for module mismatches", () => {
+    const parity = validatePermissionOpenApiParity([
+      {
+        id: "inventory",
+        kind: "module",
+        title: "Inventory",
+        audience: "end-user",
+        summary: "Summary",
+        productRoutes: ["/modules/inventory"],
+        permissionKeys: ["inventory.stock_adjust"],
+        entitlements: [],
+        catalogSources: ["modules"],
+        apiOperations: [
+          {
+            id: "mismatch",
+            method: "get",
+            path: "/inventory/products",
+            permission: "inventory.other_permission",
+            docSlug: "inventory-products-get",
+          },
+        ],
+      },
+    ]);
+
+    expect(parity.warnings.length).toBeGreaterThan(0);
   });
 });

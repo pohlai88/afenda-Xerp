@@ -25,7 +25,6 @@ import {
 } from "@/lib/docs-github-feedback.server";
 import { resolveDocsLastModified } from "@/lib/docs-last-modified.server";
 import {
-  isDocsLocalizedFallbackPage,
   resolveDocsFallbackBannerId,
   shouldShowDocsLocaleFallbackNotice,
 } from "@/lib/docs-locale-fallback.server";

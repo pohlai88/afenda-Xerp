@@ -8,6 +8,7 @@ import {
   isDocsSearchLinkAlignedWithSeedSlug,
 } from "@/lib/docs-search.contract";
 import { docsDefaultLocale } from "@/lib/i18n";
+import { source } from "@/lib/source";
 
 const layoutSource = readFileSync(
   join(process.cwd(), "src/app/[lang]/layout.tsx"),
@@ -23,6 +24,10 @@ const searchServerSource = readFileSync(
 );
 const searchRouteSource = readFileSync(
   join(process.cwd(), "src/app/api/search/route.ts"),
+  "utf8"
+);
+const slugPageSource = readFileSync(
+  join(process.cwd(), "src/app/[lang]/docs/[[...slug]]/page.tsx"),
   "utf8"
 );
 
@@ -83,5 +88,25 @@ describe("@afenda/docs search UX", () => {
     );
     expect(searchRouteSource).toContain('from "@/lib/docs-search.server"');
     expect(searchRouteSource).toContain("export { GET }");
+  });
+
+  it("indexes casual module guides and excludes noIndex developer evidence", () => {
+    const pages = source.getPages(docsDefaultLocale);
+    const inventoryCasual = pages.find((page) =>
+      page.url.endsWith("/use-erp/modules/inventory")
+    );
+    const inventoryEvidence = pages.find((page) =>
+      page.url.endsWith("/integrate/generated/evidence/inventory")
+    );
+
+    expect(inventoryCasual).toBeDefined();
+    expect(inventoryCasual?.data.noIndex).not.toBe(true);
+    expect(inventoryEvidence).toBeDefined();
+    expect(inventoryEvidence?.data.noIndex).toBe(true);
+  });
+
+  it("excludes noIndex pages from generateMetadata robots indexing", () => {
+    expect(slugPageSource).toContain("page.data.noIndex");
+    expect(slugPageSource).toContain('robots: { index: false }');
   });
 });

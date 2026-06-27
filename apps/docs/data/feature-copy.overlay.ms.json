@@ -1,0 +1,97 @@
+{
+  "_comment": "Locale overlay for ms casual copy. Merged over feature-copy.overlay.json at sync time.",
+  "accounting": {
+    "summary": "Antara muka jurnal dan perakaunan apabila modul perakaunan didayakan untuk tenant.",
+    "whenToUse": "Buka **Accounting** apabila peranan kewangan memerlukan skrin jurnal atau perakaunan dalam ERP."
+  },
+  "admin-audit": {
+    "summary": "Kawasan System Admin untuk audit — memerlukan `system_admin.audit_read`.",
+    "whenToUse": "Semak **Audit** semasa menyiasat aktiviti tenant atau eksport pematuhan.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-diagnostics": {
+    "summary": "Kawasan System Admin untuk diagnostik — memerlukan `system_admin.audit_read`.",
+    "whenToUse": "Buka **Diagnostics** apabila sokongan memerlukan isyarat kesihatan runtime tenant.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-memberships": {
+    "summary": "Kawasan System Admin untuk keahlian — memerlukan `system_admin.users_read`.",
+    "whenToUse": "Gunakan **Memberships** semasa menetapkan peranan atau menyemak ahli tenant.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-permissions": {
+    "summary": "Kawasan System Admin untuk kebenaran — memerlukan `system_admin.permissions_read`.",
+    "whenToUse": "Semak **Permissions** semasa mengaudit kekunci yang dimiliki peranan atau pengguna.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-roles": {
+    "summary": "Kawasan System Admin untuk peranan — memerlukan `system_admin.roles_read`.",
+    "whenToUse": "Konfigurasi **Roles** semasa mentakrifkan bundle RBAC untuk pentadbir tenant.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-settings": {
+    "summary": "Kawasan System Admin untuk tetapan — memerlukan `system_admin.settings_read`.",
+    "whenToUse": "Buka **Settings** semasa melaraskan pilihan pentadbiran peringkat tenant.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-users": {
+    "summary": "Kawasan System Admin untuk pengguna — memerlukan `system_admin.users_read`.",
+    "whenToUse": "Urus **Users** semasa menjemput rakan sekerja atau menyemak keahlian tenant.",
+    "adminCallout": "Pentadbir tenant"
+  },
+  "admin-sections": {
+    "adminCallout": "Pentadbir tenant"
+  },
+  "ai_copilot": {
+    "summary": "Modul AI Copilot terkawal apabila tenant mendayakan kebenaran copilot.",
+    "whenToUse": "Buka **AI Copilot** apabila peranan anda membenarkan pembantu AI dalam ERP."
+  },
+  "auth-lane-access": {
+    "summary": "Log masuk, daftar, dan kata laluan sekali.",
+    "whenToUse": "Gunakan lorong **Access** apabila mencari URL log masuk atau pendaftaran."
+  },
+  "auth-lane-invite": {
+    "summary": "Jemputan pengguna dan penerimaan jemputan.",
+    "whenToUse": "Gunakan lorong **Invite** apabila menerima pautan jemputan tenant."
+  },
+  "auth-lane-recover": {
+    "summary": "Aliran lupa kata laluan dan set semula kata laluan.",
+    "whenToUse": "Gunakan lorong **Recover** apabila menetapkan semula kata laluan yang terlupa."
+  },
+  "auth-lane-security": {
+    "summary": "Pengesahan berbilang faktor, tamat sesi, dan akses ditolak.",
+    "whenToUse": "Gunakan lorong **Security** apabila menyelesaikan MFA, tamat sesi, atau akses ditolak."
+  },
+  "auth-lane-verify": {
+    "summary": "Pengesahan e-mel sebelum workspace dibuka.",
+    "whenToUse": "Gunakan lorong **Verify** apabila melengkapkan pengesahan e-mel selepas pendaftaran."
+  },
+  "auth-lane-workspace": {
+    "summary": "Pemilihan workspace atau organisasi selepas pengesahan.",
+    "whenToUse": "Gunakan lorong **Workspace** selepas log masuk untuk memilih konteks tenant."
+  },
+  "hrm": {
+    "summary": "Modul sumber manusia apabila tenant mendayakan kebenaran HRM.",
+    "whenToUse": "Buka **HRM** apabila HR atau pentadbir mengurus data pekerja dan organisasi."
+  },
+  "inventory": {
+    "summary": "Jejaki tahap stok, gudang, dan pergerakan apabila peranan mempunyai akses inventori.",
+    "whenToUse": "Buka **Inventory** apabila perlu melihat atau mengendalikan stok dalam ERP."
+  },
+  "manufacturing": {
+    "summary": "Modul pembuatan apabila tenant mendayakan kebenaran pengeluaran.",
+    "whenToUse": "Buka **Manufacturing** apabila peranan pengeluaran mengendalikan pesanan pengeluaran."
+  },
+  "mrp": {
+    "summary": "Perancangan keperluan material apabila tenant mendayakan kebenaran MRP.",
+    "whenToUse": "Buka **MRP** apabila perancang menjalankan atau menyemak keperluan material."
+  },
+  "sales": {
+    "summary": "Modul jualan apabila tenant mendayakan kebenaran komersial.",
+    "whenToUse": "Buka **Sales** apabila peranan jualan mengurus pesanan dan rekod pelanggan."
+  },
+  "workspace": {
+    "summary": "Papan pemuka utama dan susun atur workspace selepas memilih tenant.",
+    "whenToUse": "Buka **Workspace** selepas log masuk untuk papan pemuka harian anda."
+  }
+}
