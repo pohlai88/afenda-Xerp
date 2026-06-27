@@ -1,5 +1,7 @@
-import type { DocsFeatureManifest } from "@/lib/docs-feature-manifest.contract";
-import type { DocsFeatureCoverageScore } from "@/lib/docs-feature-manifest.contract";
+import type {
+  DocsFeatureCoverageScore,
+  DocsFeatureManifest,
+} from "@/lib/docs-feature-manifest.contract";
 import { DOCS_FEATURE_COVERAGE_HARD_FAIL_THRESHOLD } from "@/lib/docs-feature-manifest.contract";
 
 const PERMISSION_PARITY_KINDS = new Set<DocsFeatureManifest["kind"]>(["module"]);
@@ -8,8 +10,25 @@ export interface PermissionOpenApiParityResult {
   readonly warnings: readonly string[];
 }
 
-function manifestPermissionSet(manifest: DocsFeatureManifest): Set<string> {
-  return new Set(manifest.permissionKeys);
+function permissionNamespace(key: string): string {
+  const dotIndex = key.indexOf(".");
+  return dotIndex >= 0 ? key.slice(0, dotIndex) : key;
+}
+
+function manifestPermissionNamespaces(manifest: DocsFeatureManifest): Set<string> {
+  return new Set(manifest.permissionKeys.map(permissionNamespace));
+}
+
+function operationPermissionMatchesManifest(input: {
+  readonly permission: string;
+  readonly manifestKeys: Set<string>;
+  readonly manifestNamespaces: Set<string>;
+}): boolean {
+  if (input.manifestKeys.has(input.permission)) {
+    return true;
+  }
+
+  return input.manifestNamespaces.has(permissionNamespace(input.permission));
 }
 
 export function validatePermissionOpenApiParity(
@@ -27,25 +46,36 @@ export function validatePermissionOpenApiParity(
       continue;
     }
 
-    const permissionSet = manifestPermissionSet(manifest);
+    const manifestKeys = new Set(manifest.permissionKeys);
+    const manifestNamespaces = manifestPermissionNamespaces(manifest);
     const operationPermissions = operations
       .map((operation) => operation.permission)
       .filter((permission): permission is string => typeof permission === "string");
 
     const hasMatchingOperation = operationPermissions.some((permission) =>
-      permissionSet.has(permission)
+      operationPermissionMatchesManifest({
+        permission,
+        manifestKeys,
+        manifestNamespaces,
+      })
     );
 
     if (!hasMatchingOperation) {
       warnings.push(
-        `${manifest.id}: no bound OpenAPI operation declares a manifest permission key (${[...permissionSet].join(", ")}).`
+        `${manifest.id}: no bound OpenAPI operation declares a manifest permission key (${[...manifestKeys].join(", ")}).`
       );
     }
 
     for (const permission of operationPermissions) {
-      if (!permissionSet.has(permission)) {
+      if (
+        !operationPermissionMatchesManifest({
+          permission,
+          manifestKeys,
+          manifestNamespaces,
+        })
+      ) {
         warnings.push(
-          `${manifest.id}: OpenAPI operation permission "${permission}" is not listed in manifest permissionKeys.`
+          `${manifest.id}: OpenAPI operation permission "${permission}" is outside manifest permission namespace (${[...manifestNamespaces].join(", ")}).`
         );
       }
     }

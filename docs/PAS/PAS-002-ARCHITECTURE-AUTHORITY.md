@@ -657,6 +657,9 @@ Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §
 | `b14-4.11-validator-surface-parity.md` | B14 | §4.11 | Delivered | Implementation | B11 |
 | `b22-3.3-governance-import-boundary.md` | B22 | §3.3 | Delivered | Implementation | B10 |
 | `b23-4.10-bmd-authority-comment-sync.md` | B23 | §4.10 | Delivered | Evidence-sync | B8 |
+| `b12-4.6-exception-contract-alignment.md` | B12 | §4.6 | Delivered | Implementation | B6 |
+| `b19-4.3-ownership-registry-parity.md` | B19 | §4.3 | Delivered | Implementation | B13 |
+| `b21-14-doc-runtime-parity.md` | B21 | §14 | Delivered | Evidence-sync | B14 |
 
 Slice naming: `b<N>-<pas-section>-<slug>.md`.
 

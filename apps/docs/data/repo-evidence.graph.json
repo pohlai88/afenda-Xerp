@@ -1,7 +1,7 @@
 {
   "generated": true,
   "version": 1,
-  "exportedAt": "2026-06-27T09:43:47.363Z",
+  "exportedAt": "2026-06-27T10:19:36.192Z",
   "erpAppSurfaces": [
     {
       "file": "apps/erp/src/app/(protected)/page.tsx",

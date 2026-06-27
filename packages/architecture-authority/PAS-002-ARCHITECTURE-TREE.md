@@ -27,6 +27,7 @@ packages/architecture-authority/
     │
     ├── contracts/                                    # ✅ readonly registry contract types
     │   ├── architecture-authority-version.ts
+    │   ├── architecture-authority-package-layout.contract.ts
     │   ├── dependency.contract.ts
     │   ├── exception.contract.ts
     │   ├── foundation-disposition.contract.ts
@@ -89,7 +90,7 @@ Do not add: `src/app/`, `src/components/`, `src/routes/`, `src/server/`, `src/db
 
 Consumer import suffixes: root and `/surface` only — no deep `@afenda/architecture-authority/src/...` imports.
 
-## Completed serialization (PAS-002 slices B1–B10)
+## Completed serialization (PAS-002 slices B1–B23)
 
 | Slice | Closes |
 | --- | --- |
@@ -98,5 +99,13 @@ Consumer import suffixes: root and `/surface` only — no deep `@afenda/architec
 | B8 | §4.10 BMD authority post-K2 attestation |
 | B9 | §6 package tree + surface BMD rows (this file) |
 | B10 | §14 skill publication |
+| B11 | §4.11 canonical doc registry sync |
+| B12 | §4.6 exception contract alignment |
+| B13 | §4.7 composite gate + foundation disposition |
+| B14 | §4.11 validator surface parity |
+| B19 | §4.3 active-package ownership parity |
+| B21 | §14 doc/runtime parity (README + tree) |
+| B22 | §3.3 governance import boundary |
+| B23 | §4.10 BMD comment sync |
 
 See [`docs/PAS/pas-status-index.md`](../docs/PAS/pas-status-index.md).
