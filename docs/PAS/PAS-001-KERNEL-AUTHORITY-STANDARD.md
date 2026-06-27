@@ -135,6 +135,13 @@ packages/kernel/src/identity/
 ├── canonical/                # format, parser, validator, generator, fixtures
 ├── registry/                 # ID_FAMILIES, prefix, owner, generation metadata
 ├── families/                 # TenantId, EmployeeId, … by category
+│   ├── index.ts              # public re-export barrel
+│   ├── define-enterprise-family.ts
+│   ├── tenant-hierarchy-id.contract.ts
+│   ├── identity-access-id.contract.ts
+│   ├── audit-execution-id.contract.ts
+│   ├── enterprise-hierarchy-id.contract.ts
+│   └── business-reference-id.contract.ts
 ├── primitives/               # LocaleCode, CurrencyCode, … (not prefix_ulid)
 ├── tenant-human-reference/   # scope/policy classification — no generation
 ├── postgres/                 # CHECK expectation contracts (not migrations)
@@ -147,7 +154,7 @@ packages/kernel/src/identity/
 | `brand/` | Lowest-level `Brand<T,B>` — not a full ID contract |
 | `canonical/` | `<prefix>_<ulid_body>` pattern, parser, validator, generator |
 | `registry/` | Central ID constitution — prefix, type name, owner, `generates` |
-| `families/` | Family-specific exported types and `parse*` / `create*` |
+| `families/` | Family-specific exported types and `parse*` / `create*` — one contract file per PAS category (§4.1.4) |
 | `primitives/` | ISO/BCP47 codes — separate from enterprise ID parser |
 | `tenant-human-reference/` | Human number scope/policy — Kernel does not generate |
 | `postgres/` | Database CHECK expectations aligned with ADR-0022 |
@@ -259,6 +266,20 @@ A canonical enterprise ID is valid only when **all three** hold:
 | Enterprise hierarchy | 1 | `ownershipInterest` |
 | Business reference | 7 | `customer`, `supplier`, `product`, `employee`, `warehouse`, `document`, `asset` |
 | **Total** | **22** | — |
+
+#### Family contract files (Slice B3 Action 5)
+
+Each PAS category maps to exactly one contract file under `packages/kernel/src/identity/families/`. Governance gate `check:kernel-identity-surface` enforces per-family exports in the mapped file.
+
+| Category | Contract file | Families |
+| --- | --- | --- |
+| Tenant hierarchy | `tenant-hierarchy-id.contract.ts` | 6 |
+| Identity & access | `identity-access-id.contract.ts` | 5 |
+| Audit & execution | `audit-execution-id.contract.ts` | 3 |
+| Enterprise hierarchy | `enterprise-hierarchy-id.contract.ts` | 1 |
+| Business reference | `business-reference-id.contract.ts` | 7 |
+
+Public import surface: `@afenda/kernel` root barrel or `identity/families/index.ts`. Category files are implementation partitions — consumers must not deep-import them outside kernel tests and platform authority path metadata.
 
 #### Record ownership (business-reference families)
 

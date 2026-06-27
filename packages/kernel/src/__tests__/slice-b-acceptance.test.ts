@@ -98,4 +98,25 @@ describe("PAS-001 Slice B — kernel identity acceptance", () => {
       );
     }
   });
+
+  it("lands PAS §4.1.4 category family contract files under identity/families/", () => {
+    const familiesDir = join(kernelRoot, "src/identity/families");
+    const approvedFiles = [
+      "index.ts",
+      "define-enterprise-family.ts",
+      "tenant-hierarchy-id.contract.ts",
+      "identity-access-id.contract.ts",
+      "audit-execution-id.contract.ts",
+      "enterprise-hierarchy-id.contract.ts",
+      "business-reference-id.contract.ts",
+    ];
+
+    for (const fileName of approvedFiles) {
+      expect(existsSync(join(familiesDir, fileName)), fileName).toBe(true);
+    }
+
+    expect(existsSync(join(familiesDir, "hierarchy-id.contract.ts"))).toBe(
+      false
+    );
+  });
 });

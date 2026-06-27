@@ -95,14 +95,6 @@ describe("family contract structure (PAS-001 §4.1.4)", () => {
     );
   });
 
-  it("keeps EnterpriseBrand as a family-keyed nominal alias", () => {
-    type TenantBrand = EnterpriseBrand<"tenant">;
-    const tenantId: TenantBrand = parseTenantId(
-      "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV"
-    );
-    expect(tenantId).toBe("ten_01ARZ3NDEKTSV4RRFFQ69G5FAV");
-  });
-
   it("re-exports identity-access, audit, and business-reference parsers from barrel", () => {
     expect(parseRoleId("rol_01ARZ3NDEKTSV4RRFFQ69G5FAV")).toBe(
       "rol_01ARZ3NDEKTSV4RRFFQ69G5FAV"
@@ -125,5 +117,16 @@ describe("family contract structure (PAS-001 §4.1.4)", () => {
     expect(parseCorrelationId("cor_01ARZ3NDEKTSV4RRFFQ69G5FAV")).toBe(
       "cor_01ARZ3NDEKTSV4RRFFQ69G5FAV"
     );
+  });
+
+  it("keeps EnterpriseBrand serializable as plain string on the wire", () => {
+    type TenantBrand = EnterpriseBrand<"tenant">;
+    const tenantId: TenantBrand = parseTenantId(
+      "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    );
+
+    expect(JSON.parse(JSON.stringify({ tenantId }))).toEqual({
+      tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    });
   });
 });

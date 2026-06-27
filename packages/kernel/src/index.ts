@@ -209,6 +209,7 @@ export {
   ENTERPRISE_ID_FAMILY_PREFIX_AUTHORITY,
   ENTERPRISE_ID_PREFIX_TO_FAMILY,
   ENTERPRISE_ID_TYPE_NAMES,
+  type EnterpriseBrand,
   type EnterpriseIdFamily,
   type EnterpriseIdPrefix,
   type EntityGroupId,

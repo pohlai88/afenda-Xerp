@@ -49,7 +49,7 @@ packages/kernel/
     ├── policy/                             ← Slice 9 (current)
     ├── events/                             ← Slice 10 (current)
     ├── propagation/                        ← Slice 11 (current)
-    ├── identity/                           ← PAS §4.1 / ADR-0021–0023 (flat module — Slice B/E)
+    ├── identity/                           ← PAS §4.1 / ADR-0021–0023 (nested — Slice B/B3/E)
     │   ├── index.ts
     │   ├── families/                           # PAS §4.1.4 category contracts
     │   │   ├── index.ts
@@ -69,7 +69,9 @@ packages/kernel/
 
 **Slice A (2026-06-27):** ADR-0021–0023 Accepted; PAS §4.1 constitution recorded; architecture docs under `docs/architecture/identity/`. No runtime exports added.
 
-**Slice B (2026-06-27):** Flat `packages/kernel/src/identity/` module landed — registry, parser, validator, generator, family contracts, wire boundary. Legacy `contracts/platform-id*.ts` retired.
+**Slice B (2026-06-27):** Nested `packages/kernel/src/identity/` module — registry, parser, validator, generator, category family contracts, wire boundary. Legacy `contracts/platform-id*.ts` retired.
+
+**Slice B3 (2026-06-27):** Enterprise ID family registry hardening + five category contract files under `identity/families/` (PAS §4.1.4).
 
 **Slice C (ADR-gated):** Database `ids/` helpers + phased migrations per ADR-0022.
 

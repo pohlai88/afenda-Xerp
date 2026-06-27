@@ -1,5 +1,5 @@
 /**
- * Enterprise structure hierarchy IDs (PAS-001 category: enterprise-structure).
+ * Enterprise hierarchy IDs (PAS-001 category: enterprise-hierarchy).
  */
 
 import { normalizeBrandedIdForWire } from "../wire/identity-wire.contract.js";
