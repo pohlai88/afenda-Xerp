@@ -50,7 +50,6 @@ export {
   type OperatingContextLayerDefinition,
   type OperatingContextLayerId,
   type OperatingContextLayerKind,
-  type OperatingContextPermissionScope,
   type OperatingContextProhibitedKernelBehavior,
   type OperatingContextResult,
   type OperatingContextSelection,
