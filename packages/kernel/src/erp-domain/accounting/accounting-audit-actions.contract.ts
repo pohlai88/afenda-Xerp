@@ -1,7 +1,3 @@
-/**
- * Accounting domain audit action vocabulary — observability-compatible `module.action` strings.
- * Constants only; persistence wiring remains in @afenda/observability.
- */
 export const ACCOUNTING_AUDIT_ACTIONS = [
   "coa.created",
   "coa.updated",
@@ -24,7 +20,6 @@ export function isAccountingAuditAction(
   return (ACCOUNTING_AUDIT_ACTIONS as readonly string[]).includes(value);
 }
 
-/** Validates module.action shape without accepting arbitrary strings at boundaries. */
 export function parseAccountingAuditAction(
   value: string
 ): AccountingAuditAction | null {

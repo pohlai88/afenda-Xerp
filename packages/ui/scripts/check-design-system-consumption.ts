@@ -18,7 +18,6 @@ import {
 const packageRoot = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const uiSrcRoot = join(packageRoot, "src");
 const designAuthorityRoot = join(uiSrcRoot, "design-authority");
-const designSystemRoot = join(packageRoot, "..", "design-system");
 
 const designSystemBridgePath = "src/governance/design-system.ts";
 const designAuthorityBridgePaths = new Set([
@@ -320,16 +319,16 @@ if (
 }
 
 const reverseDependencyImportPattern =
-  /(?:import|export)\s+(?:type\s+)?(?:[\w*{}\s,]+)\s+from\s+["']@afenda\/ui(?:\/|["'])/u;
+  /(?:import|export)\s+(?:type\s+)?(?:[\w*{}\s,]+)\s+from\s+["']@afenda\/ui(?!\/design-authority)(?:\/|["'])/u;
 
-const designSystemFiles = collectSourceFiles(join(designSystemRoot, "src"));
-for (const filePath of designSystemFiles) {
-  const relativePath = relative(designSystemRoot, filePath).replace(/\\/g, "/");
+const designAuthorityFiles = collectSourceFiles(designAuthorityRoot);
+for (const filePath of designAuthorityFiles) {
+  const relativePath = relative(packageRoot, filePath).replace(/\\/g, "/");
   const source = readText(filePath);
 
   if (reverseDependencyImportPattern.test(source)) {
     failures.push(
-      `packages/design-system/${relativePath}: reverse dependency on @afenda/ui`
+      `packages/ui/${relativePath}: reverse dependency on @afenda/ui from design-authority layer`
     );
   }
 }

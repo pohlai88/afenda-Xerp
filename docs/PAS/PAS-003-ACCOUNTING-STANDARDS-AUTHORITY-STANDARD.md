@@ -19,11 +19,11 @@
 | **Evidence level** | `concept` |
 | **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
 | **Remaining slices** | B1 — accounting standard family registry (next) |
-| **Consumers** | `@afenda/kernel`, `@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` |
+| **Consumers** | See [Architecture Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live), `@afenda/accounting` (blocked), `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting` (planned), `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` (live surfaces) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
-| **ADR prerequisites** | ADR-0013 |
+| **ADR prerequisites** | ADR-0013 · consumer packages declared in [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) |
 
 #### Required gates
 
@@ -42,6 +42,7 @@
 > **Canonical location:** `docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`
 > **Package-local pointer:** [`packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md)
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [PAS-001 context](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Blueprint (consumer discovery):** [Architecture Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
 
@@ -61,6 +62,8 @@
 **Slice entrypoint:** `docs/PAS/slice/` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR03_ACCOUNTING_STANDARDS` · `PKG-023` in `packages/architecture-authority/src/data/package-registry.data.ts`.
+
+**Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not phantom references. Live surfaces today: `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`.
 
 **Kernel boundary (read-only):** Branded IDs, `LegalEntityContext`, and relationship vocabulary (`holding`, `subsidiary`, `associate`, `joint_venture`, etc.) live in `@afenda/kernel` ([PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Accounting Standards **consumes** Kernel types for routing and validation inputs only — it never defines identity brands, relationship semantics, or IFRS treatment logic inside Kernel.
 

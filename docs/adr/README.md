@@ -39,6 +39,8 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0022](ADR-0022-postgres-split-id-persistence-model.md) | PostgreSQL Split-ID Persistence Model | Accepted |
 | [ADR-0023](ADR-0023-tenant-human-reference-numbering.md) | Tenant Human Reference Numbering | Accepted |
 | [ADR-0024](ADR-0024-canonical-id-body-generation.md) | Canonical ID Body Generation (Composition-Root Minting) | Accepted |
+| [ADR-0025](ADR-0025-design-system-retirement.md) | Design System Retirement | Accepted |
+| [ADR-0026](ADR-0026-platform-north-star-and-architecture-blueprint.md) | Platform North Star and Architecture Blueprint | Accepted |
 
 ## Process
 

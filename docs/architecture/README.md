@@ -12,36 +12,48 @@ Package implementation handoffs live in [`docs/PAS/`](../PAS/README.md) — not 
 
 ## Source-of-Truth Flow
 
+**Discovery / lifecycle order** ([ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)):
+
 ```text
-docs/adr/                       ← constitutional decisions
+afenda-platform-north-star.md   ← platform why + capability expectations
+        ↓
+afenda-architecture-blueprint.md ← package/domain decomposition (discover PAS from here)
+        ↓
+docs/adr/                       ← cross-cutting decisions (optional per package)
         ↓
 docs/PAS/                       ← package authority standards + slice handoffs
         ↓
-docs/architecture/              ← registries, runtime evidence, domain guides (this directory)
-        ↓
-packages/architecture-authority ← machine contracts + validators
-        ↓
-CI quality gates                ← automated enforcement
+Code
 ```
 
-When artifacts disagree:
+**Conflict resolution** (when artifacts disagree):
 
 ```text
-ADR  >  docs/PAS/  >  docs/architecture/*-registry.md  >  packages/architecture-authority  >  CI gates
+ADR  >  Foundation Disposition Registry  >  docs/PAS/  >  docs/architecture/*-registry.md  >  packages/architecture-authority  >  CI gates
+```
+
+North Star and Architecture Blueprint are **intent context** — they do not override ADRs or registries.
+
+**Machine enforcement chain:**
+
+```text
+docs/architecture/*-registry.md  →  packages/architecture-authority  →  CI quality gates
 ```
 
 ---
 
 ## AI agents — read in this order
 
-1. [`../PAS/README.md`](../PAS/README.md) — PAS index and canonical location rules
-2. [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS workflow (ADR-0014)
-3. [`foundation-disposition.md`](foundation-disposition.md) — registry human view + lanes
-4. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — runtime evidence (ADR-0009)
-5. [`package-registry.md`](package-registry.md) — PKG-* inventory
-6. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — Phases 0–9 historical gate record (complete)
-7. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5 — narrative compass only
-8. ADR-0009–0015 (Accepted)
+1. [`afenda-platform-north-star.md`](afenda-platform-north-star.md) — platform why + capability expectations (ADR-0026)
+2. [`afenda-architecture-blueprint.md`](afenda-architecture-blueprint.md) — discover packages/domains before PAS
+3. [`../PAS/README.md`](../PAS/README.md) — PAS index and canonical location rules
+4. [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS workflow (ADR-0014)
+5. [`foundation-disposition.md`](foundation-disposition.md) — registry human view + lanes
+6. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — runtime evidence (ADR-0009)
+7. [`package-registry.md`](package-registry.md) — PKG-* inventory (machine census)
+8. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — Phases 0–9 historical gate record (complete)
+9. [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) v5 — roadmap and LLM rules only (not vision authority)
+10. ADR-0009–0015 (Accepted) · [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
 
@@ -49,12 +61,14 @@ ADR  >  docs/PAS/  >  docs/architecture/*-registry.md  >  packages/architecture-
 
 | Document | Purpose |
 |----------|---------|
+| [`afenda-platform-north-star.md`](afenda-platform-north-star.md) | Platform why + capability expectations (ADR-0026) |
+| [`afenda-architecture-blueprint.md`](afenda-architecture-blueprint.md) | Package/domain decomposition — discover PAS from here |
 | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) | PAS implementation workflow |
 | [`foundation-disposition.md`](foundation-disposition.md) | Read-only disposition registry view |
 | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) | Evidence-backed foundation status |
 | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) | 2026-06-24 drift audit (historical) |
 | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) | Phase 0–9 gate record — do not extend |
-| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | LLM strategic compass v5 |
+| [`_afenda-erp-master-plan.llms.md`](_afenda-erp-master-plan.llms.md) | LLM roadmap and operating rules (vision → North Star) |
 | [`glossary.md`](glossary.md) | Canonical multi-tenancy vocabulary |
 | [`multi-tenancy.md`](multi-tenancy.md) | Operating-context implementation guide + gate evidence |
 | [`phase-9-accounting-readiness-sign-off.md`](phase-9-accounting-readiness-sign-off.md) | Accounting readiness gate sign-off |

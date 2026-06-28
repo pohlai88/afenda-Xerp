@@ -1,8 +1,3 @@
-/**
- * PAS-001 §4.8 — accounting domain vocabulary manifest.
- * Contracts-only registry — no runtime posting, ledger, or ID_FAMILIES promotion.
- */
-
 import { ACCOUNT_TYPES } from "./account-type.contract.js";
 import {
   ACCOUNTING_AUDIT_ACTIONS,
@@ -21,7 +16,8 @@ import { FISCAL_PERIOD_STATES } from "./fiscal-period-state.contract.js";
 import { JOURNAL_DOCUMENT_TYPES } from "./journal-document-type.contract.js";
 import { POSTING_STATUSES } from "./posting-status.contract.js";
 
-export const ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001-4.8" as const;
+export const ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID =
+  "PAS-001B-4.8-ACCOUNTING" as const;
 
 export type AccountingDomainVocabularyKind =
   | "closed-vocabulary"
@@ -40,6 +36,13 @@ export interface AccountingDomainClosedVocabularyEntry {
   readonly pasSection: "4.8";
   readonly typeExport: string;
   readonly valueCount: number;
+}
+
+export interface AccountingDomainBrandedIdEntry {
+  readonly brandFunction: string;
+  readonly forbiddenOnPlatformFloor: boolean;
+  readonly toFunction: string;
+  readonly typeName: string;
 }
 
 export const ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES = [
@@ -94,16 +97,6 @@ export const ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES = [
     valueCount: CONSOLIDATION_METHODS.length,
   },
 ] as const satisfies readonly AccountingDomainClosedVocabularyEntry[];
-
-export const ACCOUNTING_DOMAIN_CLOSED_VOCABULARY_IDS =
-  ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES.map((entry) => entry.id);
-
-export interface AccountingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
 
 export const ACCOUNTING_DOMAIN_BRANDED_IDS = [
   {
@@ -198,7 +191,6 @@ export const ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY = {
   authorityMetadata: ACCOUNTING_DOMAIN_AUTHORITY_METADATA,
 } as const;
 
-/** Compile-time guard — audit narrower must accept every registered audit action. */
 type _AssertAuditNarrower =
   (typeof ACCOUNTING_AUDIT_ACTIONS)[number] extends Parameters<
     typeof isAccountingAuditAction

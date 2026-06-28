@@ -1,4 +1,3 @@
-/** Closed chart-of-accounts category vocabulary — labels only, no posting logic. */
 export const ACCOUNT_TYPES = [
   "asset",
   "contra_asset",

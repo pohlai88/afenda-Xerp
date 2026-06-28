@@ -18,16 +18,18 @@ describe("check-erp-domain-layout gate", () => {
     expect(violations).toEqual([]);
   });
 
-  it("registers 28 catalog slugs with three delivered modules", () => {
+  it("registers 28 catalog slugs with all modules delivered", () => {
     expect(ERP_DOMAIN_MODULES).toHaveLength(28);
-    expect(ERP_DOMAIN_MODULE_MATURITY.accounting).toBe("delivered");
-    expect(ERP_DOMAIN_MODULE_MATURITY.inventory).toBe("delivered");
-    expect(ERP_DOMAIN_MODULE_MATURITY.procurement).toBe("delivered");
+    expect(
+      ERP_DOMAIN_MODULES.filter(
+        (slug) => ERP_DOMAIN_MODULE_MATURITY[slug] === "delivered"
+      )
+    ).toHaveLength(28);
     expect(
       ERP_DOMAIN_MODULES.filter(
         (slug) => ERP_DOMAIN_MODULE_MATURITY[slug] === "catalog-only"
       )
-    ).toHaveLength(25);
+    ).toHaveLength(0);
   });
 
   it("exports layout policy with PAS-001B gate name", () => {
@@ -35,7 +37,7 @@ describe("check-erp-domain-layout gate", () => {
     expect(ERP_DOMAIN_LAYOUT_POLICY.layoutGate).toBe(
       "pnpm check:erp-domain-layout"
     );
-    expect(ERP_DOMAIN_LAYOUT_POLICY.deliveredModuleCount).toBe(3);
+    expect(ERP_DOMAIN_LAYOUT_POLICY.deliveredModuleCount).toBe(28);
     expect(ERP_DOMAIN_LAYOUT_POLICY.catalogExpectedCount).toBe(28);
   });
 

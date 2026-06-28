@@ -51,7 +51,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/database", "database", {
       "@afenda/observability": "workspace:*",
     }),
-    workspace("@afenda/design-system", "design-system"),
+    workspace("@afenda/css-authority", "css-authority"),
     workspace("@afenda/docs", "docs"),
     workspace("@afenda/entitlements", "entitlements", {
       "@afenda/database": "workspace:*",
@@ -61,7 +61,6 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/appshell": "workspace:*",
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
-      "@afenda/design-system": "workspace:*",
       "@afenda/entitlements": "workspace:*",
       "@afenda/execution": "workspace:*",
       "@afenda/feature-flags": "workspace:*",
@@ -94,7 +93,6 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     }),
     workspace("@afenda/storybook", "storybook", {
       "@afenda/appshell": "workspace:*",
-      "@afenda/design-system": "workspace:*",
       "@afenda/ui-composition": "workspace:*",
       "@afenda/metadata-ui": "workspace:*",
       "@afenda/ui": "workspace:*",
@@ -102,7 +100,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/storage", "storage"),
     workspace("@afenda/testing", "testing"),
     workspace("@afenda/typescript-config", "typescript-config"),
-    workspace("@afenda/ui", "ui", { "@afenda/design-system": "workspace:*" }),
+    workspace("@afenda/ui", "ui", { "@afenda/css-authority": "workspace:*" }),
     workspace("@afenda/architecture-authority", "architecture-authority"),
     workspace("@afenda/ai-governance", "ai-governance", {
       "@afenda/architecture-authority": "workspace:*",

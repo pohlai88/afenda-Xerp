@@ -1,7 +1,7 @@
 /**
  * @generated — do not edit manually.
  * PAS-005 runtime bundle: Afenda semantic bridge + @theme + base (B29 cutover).
- * Requires @afenda/design-system/css/afenda-tokens.css before this import.
+ * Requires @afenda/css-authority/css/afenda-tokens.css before this import.
  * Regenerate: pnpm --filter @afenda/css-authority build
  */
 @import "./afenda-runtime-bridge.css";

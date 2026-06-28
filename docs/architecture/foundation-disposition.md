@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-28-v23` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-29-v24` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -50,9 +50,10 @@
 | PKG002_AUTH | `@afenda/auth` | amber-lane | yes | see pas-status-index (PKG registry) |
 | PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see pas-status-index (PKG registry) |
 | PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see pas-status-index (PKG registry) |
-| PKGR01B_ERP_DOMAIN_CATALOG | `@afenda/kernel` | green-lane | no | see PAS-001B · B76–B77 |
+| PKGR01B_ERP_DOMAIN_CATALOG | `@afenda/kernel` | green-lane | no | see PAS-001B · B76–B106 |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see pas-status-index (PKG registry) |
-| PKG004_DESIGN | `@afenda/design-system` | amber-lane | no | see design authority |
+| PKG004_DESIGN | `@afenda/ui` | amber-lane | no | see ADR-0025 · PAS-005B |
+| PKGR05B_DESIGN_RETIREMENT | `@afenda/design-system` | amber-lane | no | see PAS-005B · B47 retired |
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |

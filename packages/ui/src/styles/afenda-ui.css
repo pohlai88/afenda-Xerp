@@ -4,8 +4,8 @@
  * The ONLY CSS file this package owns. Import via:
  *   @import "@afenda/ui/afenda-ui.css";
  *
- * Composition (PAS-005 B29 cutover):
- *   1. @afenda/design-system/css/afenda-tokens.css — --afenda-* raw tokens (shim until B30)
+ * Composition (PAS-005B B45 cutover):
+ *   1. @afenda/css-authority/css/afenda-tokens.css — --afenda-* raw tokens (constitutional)
  *   2. @afenda/css-authority/css/afenda-css-authority.css — shadcn bridge + @theme + base
  *   3. primitive structural hooks (components layer)
  *
@@ -17,8 +17,8 @@
 /* ── Cascade layer order: Tailwind v4 native — mirrors @import "tailwindcss" ── */
 @layer theme, base, components, utilities;
 
-/* ── 1. Afenda raw tokens (design-system shim) + CSS Authority runtime bundle ─ */
-@import "@afenda/design-system/css/afenda-tokens.css";
+/* ── 1. Afenda raw tokens + CSS Authority runtime bundle ─ */
+@import "@afenda/css-authority/css/afenda-tokens.css";
 @import "@afenda/css-authority/css/afenda-css-authority.css";
 /*---break---
  */

@@ -17,10 +17,7 @@ const repoRoot = join(packageRoot, "../..");
 const authoritiesRoot = join(packageRoot, "src/authorities");
 const idSequencePath = join(authoritiesRoot, "id-sequence.json");
 
-const AFENDA_TOKENS_CSS = join(
-  repoRoot,
-  "packages/design-system/src/css/afenda-tokens.css"
-);
+const AFENDA_TOKENS_CSS = join(packageRoot, "src/css/afenda-tokens.css");
 const APPSHELL_CSS = join(
   repoRoot,
   "packages/appshell/src/styles/afenda-appshell.css"
@@ -365,7 +362,7 @@ export function syncAfendaExtensionsAuthorityFromTokensCss(): CssAuthorityDomain
   return syncDomainFromCss({
     domain: "afenda-extensions",
     owner: "@afenda/css-authority",
-    source: "packages/design-system/src/css/afenda-tokens.css",
+    source: "packages/css-authority/src/css/afenda-tokens.css",
     introducedIn: "PAS-005-B34",
     jsonPath: AFENDA_EXTENSIONS_JSON,
     propertyNames,

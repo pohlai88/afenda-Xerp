@@ -44,11 +44,12 @@ const ACTIVE_PACKAGES = [
     packageName: "@afenda/design-system",
     path: "packages/design-system",
     layer: "Design",
-    lifecycle: "active",
-    purpose: "Design tokens and visual governance contracts",
+    lifecycle: "retired",
+    purpose:
+      "Retired per ADR-0025 — design authority internalized in @afenda/ui/design-authority; CSS in @afenda/css-authority",
     publicApiOwner: "Design Authority",
     layerDepExempt: false,
-    filesystemRequired: true,
+    filesystemRequired: false,
   },
   {
     registryId: "PKG-005",

@@ -1,7 +1,3 @@
-/**
- * Accounting permission vocabulary — documents domains/actions registered in PERMISSION_REGISTRY.
- * Registry authority remains @afenda/permissions; this is documentation parity only.
- */
 export const ACCOUNTING_PERMISSION_DOMAINS = [
   "coa",
   "fiscalPeriod",
@@ -21,22 +17,17 @@ export type AccountingPermissionAction<
   TDomain extends AccountingPermissionDomain = AccountingPermissionDomain,
 > = (typeof ACCOUNTING_PERMISSION_ACTIONS)[TDomain][number];
 
-const FISCAL_PERIOD_ACTION_PREFIX = "fiscal_period";
-
-/** Maps nested registry domain + action to `{domain}.{action}` permission key wire form. */
 export function toAccountingPermissionKey(
   domain: AccountingPermissionDomain,
   action: AccountingPermissionAction
 ): string {
   const actionSegment =
     domain === "fiscalPeriod"
-      ? `${FISCAL_PERIOD_ACTION_PREFIX}_${action}`
+      ? `fiscal_period_${action}`
       : `${domain}_${action}`;
-
   return `accounting.${actionSegment}`;
 }
 
-/** Flat list of permission keys expected in PERMISSION_REGISTRY.accounting. */
 export const ACCOUNTING_PERMISSION_KEY_VOCABULARY = [
   toAccountingPermissionKey("coa", "read"),
   toAccountingPermissionKey("coa", "manage"),

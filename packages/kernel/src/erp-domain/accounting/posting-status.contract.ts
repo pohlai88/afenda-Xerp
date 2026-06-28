@@ -1,4 +1,3 @@
-/** Posting workflow status labels — no balance or amount fields. */
 export const POSTING_STATUSES = [
   "draft",
   "pending_approval",

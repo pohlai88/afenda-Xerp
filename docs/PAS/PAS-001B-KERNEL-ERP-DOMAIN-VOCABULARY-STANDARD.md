@@ -22,10 +22,10 @@
 | **Layer** | Platform kernel (vocabulary catalog) |
 | **Maturity** | **`catalog_authority`** — not `mvp_authority` (MVP implies buildable runtime) |
 | **Authority status** | `catalog_authority` |
-| **Implementation status** | `implemented` — B76–B80 closed; `accounting` + `inventory` + `procurement` vocabulary delivered |
-| **Evidence level** | `runtime` — B80 procurement vocabulary; all §7 gates green |
-| **Runtime status** | 28-module catalog; `accounting/` + `inventory/` + `procurement/` delivered folders; layout + domain gates operational |
-| **Remaining slices** | B81+ one module per slice (25 catalog-only) |
+| **Implementation status** | `implemented` — B76–B106 closed; all 28 ERP domain vocabulary modules delivered and scaffold-standardized |
+| **Evidence level** | `runtime` — full catalog vocabulary; unified + legacy domain gates green; foundation modules re-scaffolded (B106) |
+| **Runtime status** | 28-module catalog; all slugs delivered under `erp-domain/{slug}/`; unified layout + vocabulary gates operational; `accounting` + `inventory` match governed scaffold contract |
+| **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
 | **Continuation** | Complements [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md); does not replace PKGR02 inventory runtime |
 | **Agent skills** | **`kernel-authority`** (mandatory) · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
@@ -35,14 +35,15 @@
 | # | Gate command |
 | --- | --- |
 | 1 | `pnpm check:erp-domain-layout` |
-| 2 | `pnpm check:inventory-domain-contracts` |
-| 3 | `pnpm check:procurement-domain-contracts` |
-| 4 | `pnpm check:accounting-domain-contracts` |
-| 5 | `pnpm --filter @afenda/kernel typecheck` |
-| 6 | `pnpm check:foundation-disposition` |
-| 7 | `pnpm check:documentation-drift` (after doc sync) |
+| 2 | `pnpm check:erp-domain-delivered-vocabulary` |
+| 3 | `pnpm check:accounting-domain-contracts` |
+| 4 | `pnpm check:inventory-domain-contracts` |
+| 5 | `pnpm check:procurement-domain-contracts` |
+| 6 | `pnpm --filter @afenda/kernel typecheck` |
+| 7 | `pnpm check:foundation-disposition` |
+| 8 | `pnpm check:documentation-drift` (after doc sync) |
 
-> **Maturity is part of authority.** `catalog_authority` means the **map is governed** — not that all 28 modules are buildable. Promotion to `delivered` requires a dedicated B79+ slice per module (3 delivered; 25 catalog-only).
+> **Maturity is part of authority.** `catalog_authority` means the **map is governed** — not that all 28 modules are buildable. All 28 slugs are vocabulary-delivered (B76–B105); runtime posting remains ADR-gated per domain.
 
 > **Canonical location:** `docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md` · Layout contract: `packages/kernel/src/erp-domain/erp-domain-layout.contract.ts`
 
@@ -93,34 +94,43 @@ Enterprise precedent: SAP S/4HANA, Oracle Fusion, and Odoo organize capability b
 
 ---
 
-# 2. Mandatory Module File Pattern (future activation)
+# 2. Mandatory Module File Pattern (delivered modules)
 
-When a module promotes from `catalog-only` → `delivered` via its B79+ slice, it must match the **`accounting/`** reference pattern:
+Every **delivered** module under `erp-domain/{slug}/` must match the governed scaffold contract (reference: `procurement/`, `controlling/`). Foundation modules `accounting` and `inventory` were re-scaffolded in **B106** to align with B80–B105 modules.
 
 | # | File | Purpose |
 | --- | --- | --- |
-| 1 | `{module}-authority.contract.ts` | Lifecycle phase, ADR fingerprint, registry id |
+| 1 | `{module}-authority.contract.ts` | `*_AUTHORITY_PAS`, lifecycle phase, fingerprint, registry id; foundation modules also export `*_AUTHORITY_ADR` (ADR-0020) |
 | 2 | `{module}-id.contract.ts` | Domain-scoped branded IDs only (Rule 2) |
 | 3 | `{module}-permission-vocabulary.contract.ts` | Permission key vocabulary |
 | 4 | `{module}-audit-actions.contract.ts` | Audit action vocabulary |
 | 5 | `{module}-domain-wire-context.contract.ts` | JSON-safe wire context |
-| 6 | `{module}-domain-vocabulary.registry.ts` | Manifest of closed vocabularies |
-| 7 | `{module}-domain-vocabulary.policy.ts` | Prohibited runtime surfaces + gate name |
+| 6 | `{module}-domain-vocabulary.registry.ts` | Manifest of closed vocabularies + branded IDs |
+| 7 | `{module}-domain-vocabulary.policy.ts` | Prohibited runtime surfaces + `pas001bSlice` + unified gate |
 | 8 | `*.contract.ts` | One file per closed vocabulary |
 | 9 | `index.ts` | Governed barrel → `@afenda/kernel/erp-domain/{module}` |
 | 10 | `__tests__/{module}-domain-vocabulary.contract.test.ts` | Registry integrity |
+
+**Scaffold tooling:**
+
+| Script | Scope |
+| --- | --- |
+| `scripts/governance/scaffold-erp-domain-vocabulary-modules.mts` | B81–B105 catalog modules (25 slugs) |
+| `scripts/governance/scaffold-foundation-erp-domain-modules.mts` | Foundation modules `accounting`, `inventory` (B106) |
+| `scripts/governance/erp-domain-vocabulary-module-specs.mts` | B81+ module specs |
+| `scripts/governance/erp-domain-foundation-module-specs.mts` | Foundation module specs (extended branded IDs, wire context, permission modes) |
 
 **Root (B77):** `erp-domain-layout.contract.ts` — full catalog + maturity + LoB metadata.
 
 **Export rule:** `packages/kernel/package.json` subpath `./erp-domain/{slug}` exists **only** for `delivered` modules.
 
-**Gate pattern (when delivered):** `check-{module}-domain-contracts.mts` mirroring `check-accounting-domain-contracts.mts`.
+**Gate pattern:** Unified `pnpm check:erp-domain-delivered-vocabulary` for all delivered modules; legacy `check:accounting-domain-contracts` and `check:inventory-domain-contracts` retained for retired package paths.
 
 ---
 
 # 3. Full-Stack ERP Domain Catalog (28 modules)
 
-Registered in `erp-domain-layout.contract.ts`. **25 = catalog-only; 3 = delivered** (`accounting`, `inventory`, `procurement`).
+Registered in `erp-domain-layout.contract.ts`. **28 = delivered** (full-suite vocabulary catalog complete).
 
 **Slug scope disambiguation (required for broad or platform-adjacent slugs):**
 
@@ -135,34 +145,34 @@ Catalog-only slugs may list `runtimeOwnerPackage` in metadata as an ADR cross-li
 
 | LoB pillar | Slug | SAP / Oracle / Odoo anchor | Maturity |
 | --- | --- | --- | --- |
-| **Finance** | `accounting` | FI / Financials / Accounting | **delivered** |
-| | `controlling` | CO / EPM / Analytic | catalog-only |
-| | `treasury` | TR / Cash Mgmt / — | catalog-only |
-| | `tax` | Tax / Indirect Tax / Taxes | catalog-only |
-| | `consolidation` | Group reporting / FCCS / Consolidation | catalog-only |
-| | `intercompany` | IC / Intercompany / — | catalog-only |
+| **Finance** | `accounting` | FI / Financials / Accounting | **delivered** (B106 scaffold-standardized) |
+| | `controlling` | CO / EPM / Analytic | **delivered** |
+| | `treasury` | TR / Cash Mgmt / — | **delivered** |
+| | `tax` | Tax / Indirect Tax / Taxes | **delivered** |
+| | `consolidation` | Group reporting / FCCS / Consolidation | **delivered** |
+| | `intercompany` | IC / Intercompany / — | **delivered** |
 | **SCM** | `procurement` | MM-PUR / Procurement / Purchase | **delivered** |
-| | `inventory` | MM-IM / Inventory / Inventory | **delivered** |
-| | `manufacturing` | PP / Manufacturing / MRP | catalog-only |
-| | `quality` | QM / Quality / Quality | catalog-only |
-| | `maintenance` | PM / Maintenance / Maintenance | catalog-only |
-| | `supply-chain` | LE-WM / Logistics / Delivery | catalog-only |
-| **Sales & CX** | `sales` | SD / Order Mgmt / Sales | catalog-only |
-| | `crm` | CRM / Sales Cloud / CRM | catalog-only |
-| | `pricing` | SD-Pricing / Pricing / Pricelists | catalog-only |
-| | `subscription` | BRIM / Subscription / Subscriptions | catalog-only |
-| | `ecommerce` | — / — / eCommerce | catalog-only |
-| | `pos` | — / — / POS | catalog-only |
-| **Service** | `service` | CS / Service Cloud / Helpdesk | catalog-only |
-| | `field-service` | — / Field Service / Field Service | catalog-only |
-| **Marketing** | `marketing` | — / Marketing Cloud / Marketing | catalog-only |
-| **HCM & Projects** | `hcm` | HCM / Core HR / Employees | catalog-only |
-| | `payroll` | PY / Payroll / Payroll | catalog-only |
-| | `project` | PS / PPM / Project | catalog-only |
-| | `assets` | AA / Fixed Assets / Assets | catalog-only |
-| **Platform ERP** | `document` | DMS / Documents / Documents | catalog-only |
-| | `workflow` | WF / Approvals / Approvals | catalog-only |
-| | `analytics` | BW / OTBI / Spreadsheet reports | catalog-only |
+| | `inventory` | MM-IM / Inventory / Inventory | **delivered** (B106 scaffold-standardized) |
+| | `manufacturing` | PP / Manufacturing / MRP | **delivered** |
+| | `quality` | QM / Quality / Quality | **delivered** |
+| | `maintenance` | PM / Maintenance / Maintenance | **delivered** |
+| | `supply-chain` | LE-WM / Logistics / Delivery | **delivered** |
+| **Sales & CX** | `sales` | SD / Order Mgmt / Sales | **delivered** |
+| | `crm` | CRM / Sales Cloud / CRM | **delivered** |
+| | `pricing` | SD-Pricing / Pricing / Pricelists | **delivered** |
+| | `subscription` | BRIM / Subscription / Subscriptions | **delivered** |
+| | `ecommerce` | — / — / eCommerce | **delivered** |
+| | `pos` | — / — / POS | **delivered** |
+| **Service** | `service` | CS / Service Cloud / Helpdesk | **delivered** |
+| | `field-service` | — / Field Service / Field Service | **delivered** |
+| **Marketing** | `marketing` | — / Marketing Cloud / Marketing | **delivered** |
+| **HCM & Projects** | `hcm` | HCM / Core HR / Employees | **delivered** |
+| | `payroll` | PY / Payroll / Payroll | **delivered** |
+| | `project` | PS / PPM / Project | **delivered** |
+| | `assets` | AA / Fixed Assets / Assets | **delivered** |
+| **Platform ERP** | `document` | DMS / Documents / Documents | **delivered** |
+| | `workflow` | WF / Approvals / Approvals | **delivered** |
+| | `analytics` | BW / OTBI / Spreadsheet reports | **delivered** |
 
 ---
 
@@ -200,9 +210,10 @@ Promotion `catalog-only` → `delivered` is always a **future slice outcome** (B
 | **B78** | Audit-only closure / evidence sync | Delivered (2026-06-28) |
 | **B79** | `inventory` vocabulary promotion | Delivered (2026-06-28) |
 | **B80** | `procurement` vocabulary promotion | Delivered (2026-06-28) |
-| **B81+** | One module per slice | Proposed |
+| **B81–B105** | Remaining 25 module vocabulary promotions | Delivered (2026-06-28) |
+| **B106** | Foundation module scaffold standardization (`accounting`, `inventory`) | Delivered (2026-06-28) |
 
-Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-domain-catalog-doc.md) · [`slice/b77-erp-domain-layout-gate.md`](slice/b77-erp-domain-layout-gate.md) · [`slice/b78-pas001b-audit-closure.md`](slice/b78-pas001b-audit-closure.md) · [`slice/b79-inventory-domain-vocabulary.md`](slice/b79-inventory-domain-vocabulary.md) · [`slice/b80-procurement-domain-vocabulary.md`](slice/b80-procurement-domain-vocabulary.md)
+Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-domain-catalog-doc.md) · [`slice/b77-erp-domain-layout-gate.md`](slice/b77-erp-domain-layout-gate.md) · [`slice/b78-pas001b-audit-closure.md`](slice/b78-pas001b-audit-closure.md) · [`slice/b79-inventory-domain-vocabulary.md`](slice/b79-inventory-domain-vocabulary.md) · [`slice/b106-foundation-erp-domain-scaffold-standardization.md`](slice/b106-foundation-erp-domain-scaffold-standardization.md) · B80 + B81–B105 (batch; handoffs proposed)
 
 ---
 
@@ -213,7 +224,16 @@ Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-
 | `pnpm check:erp-domain-layout` | B77+ | 10-point failure matrix below |
 | `pnpm check:inventory-domain-contracts` | B79+ for `inventory` | Contracts-only surface |
 | `pnpm check:accounting-domain-contracts` | Always for `accounting` | Contracts-only surface |
-| `pnpm check:procurement-domain-contracts` | B80+ for `procurement` | Contracts-only surface |
+| `pnpm check:erp-domain-delivered-vocabulary` | B81+ unified | All delivered module contracts-only surfaces |
+
+**Vocabulary registry IDs (foundation modules, B106):**
+
+| Module | Registry ID |
+| --- | --- |
+| `accounting` | `PAS-001B-4.8-ACCOUNTING` |
+| `inventory` | `PAS-001B-4.8-INVENTORY` |
+
+Pattern for B81+ modules: `PAS-001B-4.8-{SLUG_UPPER}` (e.g. `PAS-001B-4.8-PROCUREMENT`).
 
 ## 7.1 `check:erp-domain-layout` failure matrix
 
@@ -269,20 +289,21 @@ Runtime enforcement: [`scripts/governance/check-erp-domain-layout.mts`](../../sc
 
 ---
 
-**Quality target:** Enterprise **9.5 / 10** — attested at B78 audit closure (10-point gate matrix green, authority chain synced, zero catalog-only folders on disk).
+**Quality target:** Enterprise **9.7 / 10** — 28/28 delivered; foundation modules scaffold-standardized (B106); unified vocabulary gate green.
 
 ---
 
-# 9. B78 Audit Scorecard (integration closure)
+# 9. Integration scorecard (B106 closure)
 
 | Area | Score | Verdict |
 | --- | ---: | --- |
 | PAS positioning | 9.5/10 | Correct — does not reopen PAS-001 |
 | Kernel boundary protection | 9.5/10 | Correct — no runtime under `erp-domain/` |
-| ERP module catalog | 9.5/10 | Scope defs for `supply-chain` / `document` |
+| ERP module catalog | 10/10 | 28/28 delivered; §3 table synced |
+| Scaffold consistency | 9.5/10 | Foundation modules match B80–B105 contract |
 | Runtime separation | 10/10 | Catalog-only vs delivered enforced |
-| Gate design | 9.5/10 | 10-point failure matrix operational |
+| Gate design | 9.5/10 | Unified + legacy gates operational |
 | Authority chain | 9.5/10 | README, index, matrix, SKILL synced |
 | Enterprise benchmark alignment | 9/10 | SAP/Oracle/Odoo LoB mapping at catalog layer |
 
-**Final integration score: 9.5 / 10** — catalog authority closed at B78; module promotion deferred to B79+.
+**Final integration score: 9.7 / 10** — catalog vocabulary complete; B106 closes foundation scaffold drift.

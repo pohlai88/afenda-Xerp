@@ -14,6 +14,10 @@
       "import": "./dist/css/afenda-css-authority.css",
       "default": "./dist/css/afenda-css-authority.css"
     },
+    "./css/afenda-tokens.css": {
+      "import": "./dist/css/afenda-tokens.css",
+      "default": "./dist/css/afenda-tokens.css"
+    },
     "./generated/css-authority-registry.json": {
       "import": "./dist/generated/css-authority-registry.json",
       "default": "./dist/generated/css-authority-registry.json"
@@ -33,7 +37,8 @@
     "generate:css-authority-registry": "tsx scripts/generate-css-authority-registry.ts"
   },
   "sideEffects": [
-    "./dist/css/afenda-css-authority.css"
+    "./dist/css/afenda-css-authority.css",
+    "./dist/css/afenda-tokens.css"
   ],
   "dependencies": {},
   "devDependencies": {

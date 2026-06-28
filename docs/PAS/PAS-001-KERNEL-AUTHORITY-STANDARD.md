@@ -24,7 +24,7 @@
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
 | **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
-| **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — consumer integration (B71–B75 closed) · [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) — ERP domain vocabulary catalog (B76–B77) |
+| **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — consumer integration (B71–B75 closed) · [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) — ERP domain vocabulary catalog (B76–B106 closed; 28/28 delivered) |
 
 #### Required gates
 

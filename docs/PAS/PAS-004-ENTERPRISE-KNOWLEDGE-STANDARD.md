@@ -6,6 +6,8 @@
 
 > **One sentence:** PAS-004 is Afenda's constitutional charter for enterprise knowledge governance. It defines how knowledge **becomes authoritative through acceptance** — by an accepted authority, supported by evidence, within a defined domain — independent of any technology or platform.
 
+> **Runtime truth:** Live platform state is in [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (semantic model, 58/58) and [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) (operational closure queue). This charter doc retains MVP metadata for §1–§4 immutability only.
+
 | Field | Value |
 | --- | --- |
 | **PAS ID** | PAS-004 |
@@ -461,6 +463,8 @@ pnpm check:documentation-drift
 | --- | --- |
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate rollout — JSON authority, ERP consumer, 9.5 scorecard (derived; does not amend §1–§4) |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted rollout — kernel identity bridge, metadata/docs consumers, graph queries (derived) |
+| [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic model — concept, perspective, projection (derived; closed B38–B48) |
+| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — mirror sync, legacy retirement, corpus depth (derived; B49+) |
 | PAS-001 | Kernel wire shapes — referenced, not duplicated |
 | PAS-002 | Package registry listing — atoms not stored here |
 | PAS-003 | Accounting standards metadata — orthogonal authority |

@@ -1,4 +1,3 @@
-/** Fiscal period lifecycle states — vocabulary only, no period arithmetic. */
 export const FISCAL_PERIOD_STATES = [
   "not_opened",
   "open",

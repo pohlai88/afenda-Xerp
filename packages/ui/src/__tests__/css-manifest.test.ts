@@ -45,13 +45,14 @@ describe("@afenda/ui CSS manifest", () => {
     expect(purposes).not.toContain("fixture");
   });
 
-  it("afenda-ui.css imports tokens shim + css-authority runtime bundle", () => {
+  it("afenda-ui.css imports css-authority tokens + runtime bundle", () => {
     const css = readFileSync(
       join(packageRoot, "src/styles/afenda-ui.css"),
       "utf8"
     );
-    expect(css).toContain("@afenda/design-system/css/afenda-tokens.css");
+    expect(css).toContain("@afenda/css-authority/css/afenda-tokens.css");
     expect(css).toContain("@afenda/css-authority/css/afenda-css-authority.css");
+    expect(css).not.toContain("@afenda/design-system");
     expect(css).not.toContain("afenda-design-system.css");
   });
 

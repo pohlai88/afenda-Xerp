@@ -1,4 +1,3 @@
-/** Reservation workflow status — no allocation arithmetic. */
 export const STOCK_RESERVATION_STATUSES = [
   "draft",
   "reserved",

@@ -3,7 +3,7 @@
  * Downstream UI composition integration gate.
  *
  * Verifies package boundaries, CSS import order, density bridge authority,
- * recipe map authority, and dependency graph among design-system → ui →
+ * recipe map authority, and dependency graph among css-authority → ui →
  * metadata / metadata-ui / appshell → apps/erp.
  */
 
@@ -17,7 +17,6 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const INTEGRATION_PACKAGES = [
-  "@afenda/design-system",
   "@afenda/ui",
   "@afenda/ui-composition",
   "@afenda/metadata-ui",
@@ -27,7 +26,6 @@ const INTEGRATION_PACKAGES = [
 type IntegrationPackage = (typeof INTEGRATION_PACKAGES)[number];
 
 const PACKAGE_ROOTS: Record<IntegrationPackage, string> = {
-  "@afenda/design-system": join(repoRoot, "packages/design-system"),
   "@afenda/ui": join(repoRoot, "packages/ui"),
   "@afenda/ui-composition": join(repoRoot, "packages/ui-composition"),
   "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
@@ -41,6 +39,7 @@ const APPROVED_ERP_CSS_IMPORTS = [
   "@afenda/ui/afenda-ui.css",
   "@afenda/ui/afenda-ui-full.css",
   "@afenda/ui/styles.css",
+  "@afenda/shadcn-studio/shadcn-studio.css",
   "@afenda/appshell/afenda-appshell.css",
   "@afenda/appshell/appshell-full.css",
   "@afenda/appshell/styles.css",
@@ -255,7 +254,7 @@ function checkDuplicateAuthority(
   rule: string,
   message: string
 ): void {
-  if (pkg === "@afenda/design-system" || pkg === "@afenda/ui") {
+  if (pkg === "@afenda/ui") {
     return;
   }
 
@@ -389,19 +388,7 @@ function checkErpGlobalsCss(violations: DownstreamViolation[]): void {
 }
 
 function checkDependencyGraph(violations: DownstreamViolation[]): void {
-  checkPackageDependency(
-    violations,
-    "@afenda/design-system",
-    [],
-    [
-      "@afenda/ui",
-      "@afenda/ui-composition",
-      "@afenda/metadata-ui",
-      "@afenda/appshell",
-    ]
-  );
-
-  checkPackageDependency(violations, "@afenda/ui", "@afenda/design-system", [
+  checkPackageDependency(violations, "@afenda/ui", "@afenda/css-authority", [
     "@afenda/metadata-ui",
     "@afenda/appshell",
     "@afenda/ui-composition",
@@ -411,12 +398,7 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
     violations,
     "@afenda/ui-composition",
     [],
-    [
-      "@afenda/ui",
-      "@afenda/metadata-ui",
-      "@afenda/appshell",
-      "@afenda/design-system",
-    ]
+    ["@afenda/ui", "@afenda/metadata-ui", "@afenda/appshell"]
   );
 
   checkPackageDependency(

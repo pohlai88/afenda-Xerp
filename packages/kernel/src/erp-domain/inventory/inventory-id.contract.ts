@@ -1,11 +1,6 @@
 import type { Brand } from "../../identity/brand/index.js";
 import { unbrand } from "../../identity/brand/index.js";
 
-/**
- * Domain-scoped branded IDs for inventory vocabulary (PAS-001B Rule 2).
- * ProductId, WarehouseId, SupplierId remain under kernel business-reference authority.
- */
-
 function brandTrimRequired<T extends string>(
   value: string | Brand<string, T>,
   label: string
@@ -20,8 +15,6 @@ function brandTrimRequired<T extends string>(
 }
 
 export type StockMovementId = Brand<string, "StockMovementId">;
-export type StockAdjustmentId = Brand<string, "StockAdjustmentId">;
-export type InventoryCountSessionId = Brand<string, "InventoryCountSessionId">;
 
 export function brandStockMovementId(
   value: string | StockMovementId
@@ -29,11 +22,23 @@ export function brandStockMovementId(
   return brandTrimRequired(value, "stockMovementId") as StockMovementId;
 }
 
+export function toStockMovementId(value: StockMovementId): string {
+  return unbrand(value);
+}
+
+export type StockAdjustmentId = Brand<string, "StockAdjustmentId">;
+
 export function brandStockAdjustmentId(
   value: string | StockAdjustmentId
 ): StockAdjustmentId {
   return brandTrimRequired(value, "stockAdjustmentId") as StockAdjustmentId;
 }
+
+export function toStockAdjustmentId(value: StockAdjustmentId): string {
+  return unbrand(value);
+}
+
+export type InventoryCountSessionId = Brand<string, "InventoryCountSessionId">;
 
 export function brandInventoryCountSessionId(
   value: string | InventoryCountSessionId
@@ -42,14 +47,6 @@ export function brandInventoryCountSessionId(
     value,
     "inventoryCountSessionId"
   ) as InventoryCountSessionId;
-}
-
-export function toStockMovementId(value: StockMovementId): string {
-  return unbrand(value);
-}
-
-export function toStockAdjustmentId(value: StockAdjustmentId): string {
-  return unbrand(value);
 }
 
 export function toInventoryCountSessionId(

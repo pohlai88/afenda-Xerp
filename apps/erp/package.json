@@ -22,7 +22,6 @@
     "@afenda/appshell": "workspace:*",
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
-    "@afenda/design-system": "workspace:*",
     "@afenda/entitlements": "workspace:*",
     "@afenda/enterprise-knowledge": "workspace:*",
     "@afenda/execution": "workspace:*",

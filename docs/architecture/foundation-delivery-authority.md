@@ -8,6 +8,8 @@
 | **Package standards** | [`docs/PAS/`](../PAS/README.md) |
 | **Package inventory** | [`package-registry.md`](package-registry.md) |
 | **Runtime evidence** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
+| **Platform North Star** | [`afenda-platform-north-star.md`](afenda-platform-north-star.md) |
+| **Architecture Blueprint** | [`afenda-architecture-blueprint.md`](afenda-architecture-blueprint.md) |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **PAS** = **P**ackage **A**uthority **S**tandard — the canonical location for long-form package governance and executable slice handoffs after legacy ARCH and delivery roadmap retirement (2026-06-27).
@@ -24,6 +26,18 @@
 | `/pas-slice-planner`, `/pas-slice-planner`, `/afenda-batch` (retired) | `/pas-slice-planner`, `/afenda-coding-session`, `/afenda-batch`, package authority skills |
 
 Do not recreate parallel markdown delivery registries outside `docs/PAS/`.
+
+---
+
+## Discovery order (2026-06-29 — ADR-0026)
+
+Before PAS or registry work, read:
+
+```text
+Platform North Star  →  Architecture Blueprint  →  (ADR if cross-cutting)  →  PAS  →  Code
+```
+
+Links: [North Star](afenda-platform-north-star.md) · [Blueprint](afenda-architecture-blueprint.md)
 
 ---
 
@@ -52,6 +66,7 @@ master plan narrative
 ## Subagent workflow
 
 ```text
+0. Read afenda-platform-north-star.md + afenda-architecture-blueprint.md — confirm package/domain is declared
 1. Read foundation-disposition.registry.ts — find entry by packageId or domain
 2. Read afenda-runtime-truth-matrix.md — confirm status + evidence
 3. Read docs/PAS/ — parent PAS + target slice under docs/PAS/slice/

@@ -241,7 +241,7 @@ function emitRuntimeCss(): string {
   return `/**
  * @generated — do not edit manually.
  * PAS-005 runtime bundle: Afenda semantic bridge + @theme + base (B29 cutover).
- * Requires @afenda/design-system/css/afenda-tokens.css before this import.
+ * Requires @afenda/css-authority/css/afenda-tokens.css before this import.
  * Regenerate: pnpm --filter @afenda/css-authority build
  */
 @import "./afenda-runtime-bridge.css";
@@ -273,8 +273,10 @@ function main(): void {
 
   const vendoredSource = join(packageRoot, "src/css/vendored/shadcn-theme.css");
   const bridgeSource = join(packageRoot, "src/css/afenda-runtime-bridge.css");
+  const tokensSource = join(packageRoot, "src/css/afenda-tokens.css");
   copyFileSync(vendoredSource, join(distRoot, "css/vendored/shadcn-theme.css"));
   copyFileSync(bridgeSource, join(distRoot, "css/afenda-runtime-bridge.css"));
+  copyFileSync(tokensSource, join(distRoot, "css/afenda-tokens.css"));
 
   const registryTs = emitRegistryModule();
   writeFileSync(join(generatedRoot, "css-authority-registry.ts"), registryTs);

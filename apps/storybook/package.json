@@ -18,7 +18,6 @@
   "dependencies": {
     "@afenda/appshell": "workspace:*",
     "@afenda/shadcn-studio": "workspace:*",
-    "@afenda/design-system": "workspace:*",
     "@afenda/ui-composition": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
     "@afenda/ui": "workspace:*",

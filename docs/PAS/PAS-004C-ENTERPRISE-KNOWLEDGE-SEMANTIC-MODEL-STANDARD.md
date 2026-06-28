@@ -24,7 +24,7 @@
 | **Implementation status** | `delivered` — B38–B48 complete; PKGR04 authority PAS-004C (registry delegated) |
 | **Evidence level** | `pas_document` + B38–B46 governance gates + B47–B48 consumer projection adoption |
 | **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
-| **Remaining slices** | none |
+| **Remaining slices** | none — operational closure in [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) |
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -639,6 +639,7 @@ When in doubt:
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter — **§1–§4 immutable** |
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate platform — **closed B24–B32** |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted — **closed B33–B37** |
+| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — **B49+ proposed** |
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Wire + identity — **reference only** |
 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity realization validation (B44) |
 
@@ -657,5 +658,7 @@ When in doubt:
 | [b42-pas004c-semantic-edges](slice/b42-pas004c-semantic-edges.md) | §4.7 | Semantic edge vocabulary | Delivered | B44 |
 | [b45-pas004c-lifecycle-transition-governance](slice/b45-pas004c-lifecycle-transition-governance.md) | §4.8 | Transition rules | Delivered | B42 |
 | [b46-pas004c-semantic-attestation](slice/b46-pas004c-semantic-attestation.md) | §4.9 · §11 | Scorecard ≥55/58 + registry promotion | Delivered | B45 |
+| [b47-pas004c-consumer-projection-adoption](slice/b47-pas004c-consumer-projection-adoption.md) | §4.3 | ERP + metadata projection adoption | Delivered | B46 |
+| [b48-pas004c-docs-consumer-projection-adoption](slice/b48-pas004c-docs-consumer-projection-adoption.md) | §4.3 | Docs projection adoption | Delivered | B47 |
 
-Handoff files authored at PAS-004C publication; implementation one slice at a time.
+**Next:** [PAS-004D operational closure](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · [B49 authority mirror sync](slice/b49-pas004d-authority-mirror-sync.md)

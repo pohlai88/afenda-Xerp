@@ -39,10 +39,10 @@ function validateUiImportChain(
     return;
   }
 
-  if (!uiCss.includes("@afenda/design-system/css/afenda-tokens.css")) {
+  if (!uiCss.includes("@afenda/css-authority/css/afenda-tokens.css")) {
     issues.push({
       code: "ui-tokens-import",
-      message: "afenda-ui.css must import afenda-tokens.css",
+      message: "afenda-ui.css must import css-authority afenda-tokens.css",
     });
   }
   if (!uiCss.includes("@afenda/css-authority/css/afenda-css-authority.css")) {
@@ -59,23 +59,23 @@ function validateUiImportChain(
   }
 }
 
-function validateDesignSystemShim(
+function validateCssAuthorityTokens(
   repoRoot: string,
   issues: CssThemeContractIssue[]
 ): void {
-  const shimPath = join(
+  const tokensPath = join(
     repoRoot,
-    "packages/design-system/src/css/afenda-design-system.css"
+    "packages/css-authority/src/css/afenda-tokens.css"
   );
-  const shim = readText(shimPath);
-  if (shim === null) {
-    issues.push({ code: "ds-shim-missing", message: shimPath });
+  const tokens = readText(tokensPath);
+  if (tokens === null) {
+    issues.push({ code: "ca-tokens-missing", message: tokensPath });
     return;
   }
-  if (!shim.includes("@deprecated")) {
+  if (!tokens.includes("--afenda-")) {
     issues.push({
-      code: "ds-shim-deprecated",
-      message: "afenda-design-system.css must be B30 deprecation shim",
+      code: "ca-tokens-empty",
+      message: "css-authority afenda-tokens.css must define --afenda-* variables",
     });
   }
 }
@@ -221,7 +221,7 @@ export function validateCssThemeContract(
   const issues: CssThemeContractIssue[] = [];
 
   validateUiImportChain(repoRoot, issues);
-  validateDesignSystemShim(repoRoot, issues);
+  validateCssAuthorityTokens(repoRoot, issues);
   validateRuntimeBridge(repoRoot, issues);
 
   const distBundle = join(

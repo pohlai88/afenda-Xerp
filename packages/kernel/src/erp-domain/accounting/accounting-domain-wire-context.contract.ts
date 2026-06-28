@@ -1,9 +1,5 @@
 import type { LegalEntityCompanyType } from "../../context/legal-entity-context.contract.js";
 
-/**
- * Serializable accounting domain wire slice — authority fields only.
- * No journal lines, balances, posting amounts, or elimination arithmetic.
- */
 export interface AccountingDomainWireContext {
   readonly baseCurrency: string;
   readonly companyId: string;
@@ -23,9 +19,10 @@ type AssertJsonSerializable<T> = T extends JsonPrimitive
   : T extends readonly (infer U)[]
     ? AssertJsonSerializable<U>
     : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
+      ? { [K in keyof T]: AssertJsonSerializable<T[K]> } extends Record<
+          keyof T,
+          true
+        >
         ? true
         : false
       : false;
@@ -33,6 +30,5 @@ type AssertJsonSerializable<T> = T extends JsonPrimitive
 type _AccountingDomainWireSerializable =
   AssertJsonSerializable<AccountingDomainWireContext>;
 
-/** Compile-time guard — domain wire context must remain JSON-serializable. */
 export type assertAccountingDomainWireContextJsonSerializable =
   _AccountingDomainWireSerializable extends true ? true : never;

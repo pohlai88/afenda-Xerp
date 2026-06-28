@@ -1,8 +1,3 @@
-/**
- * PAS-001B — inventory domain vocabulary manifest.
- * Contracts-only registry — no stock posting, valuation engines, or ID_FAMILIES promotion.
- */
-
 import {
   INVENTORY_AUDIT_ACTIONS,
   type isInventoryAuditAction,
@@ -20,7 +15,8 @@ import { STOCK_MOVEMENT_TYPES } from "./stock-movement-type.contract.js";
 import { STOCK_RESERVATION_STATUSES } from "./stock-reservation-status.contract.js";
 import { VALUATION_METHODS } from "./valuation-method.contract.js";
 
-export const INVENTORY_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001B-4.8" as const;
+export const INVENTORY_DOMAIN_VOCABULARY_REGISTRY_ID =
+  "PAS-001B-4.8-INVENTORY" as const;
 
 export type InventoryDomainVocabularyKind =
   | "closed-vocabulary"
@@ -39,6 +35,13 @@ export interface InventoryDomainClosedVocabularyEntry {
   readonly pasSection: "4.8";
   readonly typeExport: string;
   readonly valueCount: number;
+}
+
+export interface InventoryDomainBrandedIdEntry {
+  readonly brandFunction: string;
+  readonly forbiddenOnPlatformFloor: boolean;
+  readonly toFunction: string;
+  readonly typeName: string;
 }
 
 export const INVENTORY_DOMAIN_CLOSED_VOCABULARIES = [
@@ -83,13 +86,6 @@ export const INVENTORY_DOMAIN_CLOSED_VOCABULARIES = [
     valueCount: VALUATION_METHODS.length,
   },
 ] as const satisfies readonly InventoryDomainClosedVocabularyEntry[];
-
-export interface InventoryDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
 
 export const INVENTORY_DOMAIN_BRANDED_IDS = [
   {

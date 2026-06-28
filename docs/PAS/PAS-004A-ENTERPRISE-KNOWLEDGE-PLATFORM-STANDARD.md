@@ -531,6 +531,8 @@ When in doubt:
 | [B24 slice](slice/b24-knowledge-charter-mvp.md) | MVP delivered 2026-06-28 |
 | [B25 slice](slice/b25-10-json-data-authority.md) | First PAS-004A implementation |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted rollout — B33+ kernel identity + multi-consumer proof |
+| [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic model — closed B38–B48 |
+| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — B49+ proposed |
 
 ---
 

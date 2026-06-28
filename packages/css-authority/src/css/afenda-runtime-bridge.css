@@ -1,10 +1,10 @@
 /**
  * @generated — do not edit manually.
- * PAS-005 B30: Parts B–F synced from design-system token registry.
- * Source: packages/design-system/scripts/generate-tokens-css.ts
- * Regenerate: pnpm --filter @afenda/design-system build
+ * PAS-005 B30: Parts B–F synced from css-authority afenda token registry.
+ * Source: packages/css-authority/src/css/afenda-tokens.css
+ * Regenerate: pnpm --filter @afenda/css-authority build
  *
- * Requires @afenda/design-system/css/afenda-tokens.css before this import.
+ * Requires @afenda/css-authority/css/afenda-tokens.css before this import.
  */
 /* ── Part B: Dark mode variant + shadcn bridge vars ──────────────────────── */
 /* @custom-variant processes only when Tailwind v4 is active in the pipeline. */

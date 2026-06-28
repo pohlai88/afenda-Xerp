@@ -28,7 +28,6 @@ import {
 } from "../../governance";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../../..");
-const designSystemRoot = join(packageRoot, "..", "design-system");
 
 describe("governance dependency direction", () => {
   it("exports internal design-authority from package.json", () => {
@@ -39,16 +38,18 @@ describe("governance dependency direction", () => {
     expect(packageJson.exports?.["./design-authority"]).toBeDefined();
   });
 
-  it("does not allow @afenda/design-system to depend on @afenda/ui", () => {
+  it("does not depend on retired @afenda/design-system package", () => {
     const packageJson = JSON.parse(
-      readFileSync(join(designSystemRoot, "package.json"), "utf8")
+      readFileSync(join(packageRoot, "package.json"), "utf8")
     ) as {
       dependencies?: Record<string, string>;
       devDependencies?: Record<string, string>;
     };
 
-    expect(packageJson.dependencies?.["@afenda/ui"]).toBeUndefined();
-    expect(packageJson.devDependencies?.["@afenda/ui"]).toBeUndefined();
+    expect(packageJson.dependencies?.["@afenda/design-system"]).toBeUndefined();
+    expect(
+      packageJson.devDependencies?.["@afenda/design-system"]
+    ).toBeUndefined();
   });
 });
 

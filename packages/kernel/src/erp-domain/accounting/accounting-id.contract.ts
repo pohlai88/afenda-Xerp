@@ -15,15 +15,16 @@ function brandTrimRequired<T extends string>(
 }
 
 export type AccountId = Brand<string, "AccountId">;
-export type JournalEntryId = Brand<string, "JournalEntryId">;
-/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
-export type FiscalCalendarId = Brand<string, "FiscalCalendarId">;
-export type FiscalPeriodId = Brand<string, "FiscalPeriodId">;
-export type LedgerAccountCode = Brand<string, "LedgerAccountCode">;
 
 export function brandAccountId(value: string | AccountId): AccountId {
   return brandTrimRequired(value, "accountId") as AccountId;
 }
+
+export function toAccountId(value: AccountId): string {
+  return unbrand(value);
+}
+
+export type JournalEntryId = Brand<string, "JournalEntryId">;
 
 export function brandJournalEntryId(
   value: string | JournalEntryId
@@ -31,11 +32,25 @@ export function brandJournalEntryId(
   return brandTrimRequired(value, "journalEntryId") as JournalEntryId;
 }
 
+export function toJournalEntryId(value: JournalEntryId): string {
+  return unbrand(value);
+}
+
+/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
+export type FiscalCalendarId = Brand<string, "FiscalCalendarId">;
+
 export function brandFiscalCalendarId(
   value: string | FiscalCalendarId
 ): FiscalCalendarId {
   return brandTrimRequired(value, "fiscalCalendarId") as FiscalCalendarId;
 }
+
+export function toFiscalCalendarId(value: FiscalCalendarId): string {
+  return unbrand(value);
+}
+
+/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
+export type FiscalPeriodId = Brand<string, "FiscalPeriodId">;
 
 export function brandFiscalPeriodId(
   value: string | FiscalPeriodId
@@ -43,26 +58,16 @@ export function brandFiscalPeriodId(
   return brandTrimRequired(value, "fiscalPeriodId") as FiscalPeriodId;
 }
 
+export function toFiscalPeriodId(value: FiscalPeriodId): string {
+  return unbrand(value);
+}
+
+export type LedgerAccountCode = Brand<string, "LedgerAccountCode">;
+
 export function brandLedgerAccountCode(
   value: string | LedgerAccountCode
 ): LedgerAccountCode {
   return brandTrimRequired(value, "ledgerAccountCode") as LedgerAccountCode;
-}
-
-export function toAccountId(value: AccountId): string {
-  return unbrand(value);
-}
-
-export function toJournalEntryId(value: JournalEntryId): string {
-  return unbrand(value);
-}
-
-export function toFiscalCalendarId(value: FiscalCalendarId): string {
-  return unbrand(value);
-}
-
-export function toFiscalPeriodId(value: FiscalPeriodId): string {
-  return unbrand(value);
 }
 
 export function toLedgerAccountCode(value: LedgerAccountCode): string {

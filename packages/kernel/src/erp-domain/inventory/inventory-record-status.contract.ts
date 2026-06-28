@@ -1,4 +1,3 @@
-/** Master inventory record lifecycle labels — not stock quantity state. */
 export const INVENTORY_RECORD_STATUSES = [
   "active",
   "blocked",

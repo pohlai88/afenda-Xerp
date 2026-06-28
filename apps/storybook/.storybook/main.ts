@@ -15,7 +15,7 @@ const shadcnTailwindCss = join(
 const uiRoot = join(appRoot, "../../packages/ui");
 const uiSrcRoot = join(uiRoot, "src");
 const appshellRoot = join(appRoot, "../../packages/appshell");
-const designSystemRoot = join(appRoot, "../../packages/design-system");
+const cssAuthorityRoot = join(appRoot, "../../packages/css-authority");
 const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const metadataRoot = join(appRoot, "../../packages/ui-composition");
 const shadcnStudioRoot = join(appRoot, "../../packages/shadcn-studio");
@@ -70,8 +70,12 @@ const config: StorybookConfig = {
         replacement: join(uiSrcRoot, "styles/afenda-ui.css"),
       },
       {
-        find: "@afenda/design-system/css/afenda-design-system.css",
-        replacement: join(designSystemRoot, "src/css/afenda-design-system.css"),
+        find: "@afenda/css-authority/css/afenda-tokens.css",
+        replacement: join(cssAuthorityRoot, "src/css/afenda-tokens.css"),
+      },
+      {
+        find: "@afenda/css-authority/css/afenda-css-authority.css",
+        replacement: join(cssAuthorityRoot, "src/css/afenda-css-authority.css"),
       },
       {
         find: "@afenda/appshell/afenda-appshell.css",

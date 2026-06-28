@@ -1,6 +1,3 @@
-/**
- * Inventory permission vocabulary — documents domains/actions for PERMISSION_REGISTRY parity.
- */
 export const INVENTORY_PERMISSION_DOMAINS = [
   "product",
   "warehouse",

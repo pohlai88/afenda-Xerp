@@ -1,9 +1,5 @@
 import type { ValuationMethod } from "./valuation-method.contract.js";
 
-/**
- * Serializable inventory domain wire slice — authority fields only.
- * Wire references use plain strings; ProductId/WarehouseId brands stay on business-reference floor.
- */
 export interface InventoryDomainWireContext {
   readonly companyId: string;
   readonly defaultValuationMethod: ValuationMethod;
@@ -19,9 +15,10 @@ type AssertJsonSerializable<T> = T extends JsonPrimitive
   : T extends readonly (infer U)[]
     ? AssertJsonSerializable<U>
     : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
+      ? { [K in keyof T]: AssertJsonSerializable<T[K]> } extends Record<
+          keyof T,
+          true
+        >
         ? true
         : false
       : false;

@@ -15,7 +15,6 @@
 
 export const CROSS_PACKAGE_NAMES = [
   "@afenda/css-authority",
-  "@afenda/design-system",
   "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/appshell",
@@ -160,52 +159,6 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: [],
         mayNotImportFrom: [
-          "@afenda/design-system",
-          "@afenda/ui-composition",
-          "@afenda/metadata-ui",
-          "@afenda/appshell",
-          "@afenda/ui",
-          "@afenda/permissions",
-          "erp-domains",
-        ],
-      },
-    },
-
-    {
-      package: "@afenda/design-system",
-      role: "Design authority — visual primitives (Foundation phase 04 TS governance)",
-
-      owns: [
-        "accessibility",
-        "design-primitives",
-        "motion",
-        "recipes",
-        "slots",
-        "states",
-        "variants",
-      ],
-
-      mayNotOwn: [
-        "app-shell-implementation",
-        "business-data",
-        "design-tokens",
-        "erp-business-rules",
-        "governed-metadata-arrays",
-        "layout-arrangements",
-        "metadata-architecture",
-        "metadata-contracts",
-        "permission-logic",
-        "policy-execution",
-        "renderer-governance",
-        "renderer-implementation",
-        "section-definitions",
-        "surface-definitions",
-        "ui-implementation",
-      ],
-
-      importPolicy: {
-        mayImportFrom: [],
-        mayNotImportFrom: [
           "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
@@ -253,7 +206,6 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: ["@afenda/enterprise-knowledge"],
         mayNotImportFrom: [
-          "@afenda/design-system",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/ui",
@@ -337,7 +289,16 @@ export const crossPackageAuthority = {
       package: "@afenda/ui",
       role: "UI primitives — governed component library",
 
-      owns: ["governed-ui-primitives"],
+      owns: [
+        "accessibility",
+        "design-primitives",
+        "governed-ui-primitives",
+        "motion",
+        "recipes",
+        "slots",
+        "states",
+        "variants",
+      ],
 
       mayNotOwn: [
         "app-shell-implementation",
@@ -394,7 +355,6 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: [],
         mayNotImportFrom: [
-          "@afenda/design-system",
           "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
@@ -431,7 +391,6 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: ["@afenda/ui-composition", "@afenda/permissions"],
         mayNotImportFrom: [
-          "@afenda/design-system",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/ui",

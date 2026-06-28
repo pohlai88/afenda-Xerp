@@ -85,7 +85,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29; derived from PAS-001) |
-| [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B80 delivered 2026-06-28; accounting + inventory + procurement vocabulary) |
+| [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B106 delivered 2026-06-28; 28/28 vocabulary; foundation re-scaffold) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
@@ -93,6 +93,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate — B38–B48 delivered; scorecard 58/58; derived from PAS-004B |
+| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Proposed — B49–B54; mirror sync, legacy retirement, corpus depth; derived from PAS-004C |
 | [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 605-token registry; runtime cutover live |
 | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | MVP Authority — B38–B42p delivered; strangler sequence complete; derived from PAS-005 |
 | [PAS-005B](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) | Design / Deprecation | Retirement Candidate — B43 delivered; B44 readiness gate next; derived from PAS-005 + PAS-005A |
@@ -129,6 +130,7 @@ Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDA
 
 ## How to add a new PAS
 
+0. Confirm the package or domain authority appears in [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) with status, layer, and **why separate** ([ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)).
 1. Assign the next `PAS-NNN` number from the index above.
 2. Copy templates from `.cursor/skills/kernel-authority/reference/pas-template.md` (index) and the split files `pas-doc-template.md`, `pas-skill-template.md`, `pas-slice-template.md`, `pas-reference-templates.md`.
 3. Create `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.

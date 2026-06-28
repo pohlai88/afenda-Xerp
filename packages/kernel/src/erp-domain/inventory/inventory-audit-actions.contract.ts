@@ -1,6 +1,3 @@
-/**
- * Inventory domain audit action vocabulary — observability-compatible strings.
- */
 export const INVENTORY_AUDIT_ACTIONS = [
   "product.created",
   "product.updated",

@@ -1,7 +1,3 @@
-/**
- * PAS-001B — prohibited inventory runtime surfaces (contracts-only lifecycle).
- */
-
 export const INVENTORY_DOMAIN_PROHIBITED_RUNTIME_SURFACES = [
   "stock-posting-service",
   "inventory-valuation-engine",
@@ -24,5 +20,5 @@ export const INVENTORY_DOMAIN_VOCABULARY_POLICY = {
   prohibitedRuntimeSurfaces: INVENTORY_DOMAIN_PROHIBITED_RUNTIME_SURFACES,
   businessReferenceNote:
     "ProductId, WarehouseId, and SupplierId remain on kernel business-reference authority (PAS-001B Rule 2)." as const,
-  enforcementGate: "pnpm check:inventory-domain-contracts" as const,
+  enforcementGate: "pnpm check:erp-domain-delivered-vocabulary" as const,
 } as const;

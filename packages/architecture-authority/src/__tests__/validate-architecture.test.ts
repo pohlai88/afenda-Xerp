@@ -33,9 +33,6 @@ describe("validateArchitecture", () => {
         "@afenda/kernel": "workspace:*",
       }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/design-system", {
-        "@afenda/css-authority": "workspace:*",
-      }),
       workspace("@afenda/css-authority"),
       workspace("@afenda/shadcn-studio"),
       workspace("@afenda/docs", {
@@ -48,7 +45,6 @@ describe("validateArchitecture", () => {
         "@afenda/appshell": "workspace:*",
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
-        "@afenda/design-system": "workspace:*",
         "@afenda/entitlements": "workspace:*",
         "@afenda/enterprise-knowledge": "workspace:*",
         "@afenda/execution": "workspace:*",
@@ -86,7 +82,6 @@ describe("validateArchitecture", () => {
       }),
       workspace("@afenda/storybook", {
         "@afenda/appshell": "workspace:*",
-        "@afenda/design-system": "workspace:*",
         "@afenda/shadcn-studio": "workspace:*",
         "@afenda/ui-composition": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
@@ -97,7 +92,6 @@ describe("validateArchitecture", () => {
       workspace("@afenda/typescript-config"),
       workspace("@afenda/ui", {
         "@afenda/css-authority": "workspace:*",
-        "@afenda/design-system": "workspace:*",
       }),
       workspace("@afenda/architecture-authority"),
       workspace("@afenda/ai-governance", {
@@ -124,9 +118,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/appshell", { "@afenda/ui": "workspace:*" }),
       workspace("@afenda/auth", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/design-system", {
-        "@afenda/css-authority": "workspace:*",
-      }),
+      workspace("@afenda/css-authority"),
       workspace("@afenda/docs", {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
@@ -136,7 +128,6 @@ describe("validateArchitecture", () => {
         "@afenda/appshell": "workspace:*",
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
-        "@afenda/design-system": "workspace:*",
         "@afenda/entitlements": "workspace:*",
         "@afenda/execution": "workspace:*",
         "@afenda/feature-flags": "workspace:*",
@@ -166,7 +157,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui", { "@afenda/design-system": "workspace:*" }),
+      workspace("@afenda/ui", { "@afenda/css-authority": "workspace:*" }),
       workspace("@afenda/architecture-authority"),
     ]);
     expect(result.ok).toBe(false);

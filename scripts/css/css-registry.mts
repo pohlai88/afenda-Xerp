@@ -6,9 +6,8 @@
  *
  * Adding a CSS file? Add it here first. If it's not here, R19 will reject it.
  *
- * Packages that need this at build time (design-system can't import @afenda/ui)
- * maintain local manifest files that re-declare their entries. The governance
- * script validates that local manifests stay in sync with this registry.
+ * Packages that need this at build time maintain local manifest files that
+ * re-declare their entries. The governance script validates sync with this registry.
  */
 
 // ── Per-package budgets ──────────────────────────────────────────────────────
@@ -22,7 +21,6 @@ export interface CssBudget {
 
 export const CSS_BUDGETS: Record<string, CssBudget> = {
   "@afenda/css-authority": { maxFiles: 4, generatedOnly: false },
-  "@afenda/design-system": { maxFiles: 2, generatedOnly: true },
   "@afenda/ui": { maxFiles: 1, generatedOnly: false },
   "@afenda/metadata-ui": { maxFiles: 2, generatedOnly: false },
   "@afenda/appshell": { maxFiles: 3, generatedOnly: false },
@@ -71,26 +69,16 @@ export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
     generated: true,
     exportPath: "./css/afenda-css-authority.css",
   },
-
-  // ── @afenda/design-system (2 files, both generated) ─────────────────────
-  // Canonical theme/tokens. Never named globals.css — that name is app-only.
   {
-    package: "@afenda/design-system",
+    package: "@afenda/css-authority",
     path: "src/css/afenda-tokens.css",
     role: "generated-tokens",
     generated: true,
     exportPath: "./css/afenda-tokens.css",
   },
-  {
-    package: "@afenda/design-system",
-    path: "src/css/afenda-design-system.css",
-    role: "generated-theme",
-    generated: true,
-    exportPath: "./css/afenda-design-system.css",
-  },
 
   // ── @afenda/ui (1 file) ────────────────────────────────────────────────
-  // Single entry: @imports design-system theme + adds primitive structural hooks.
+  // Single entry: @imports css-authority tokens + runtime bundle + primitive hooks.
   {
     package: "@afenda/ui",
     path: "src/styles/afenda-ui.css",

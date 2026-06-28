@@ -41,7 +41,7 @@ function loadDomainTokenCount(jsonFile: string): number {
 function countAfendaExtensionsFromCss(): number {
   const cssPath = join(
     repoRoot,
-    "packages/design-system/src/css/afenda-tokens.css"
+    "packages/css-authority/src/css/afenda-tokens.css"
   );
   return parseCustomPropertyDefinitions(readFileSync(cssPath, "utf8"), {
     prefix: "--afenda-",

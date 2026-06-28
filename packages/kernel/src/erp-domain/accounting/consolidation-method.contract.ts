@@ -1,4 +1,3 @@
-/** Consolidation method labels — contract-only; no elimination arithmetic. */
 export const CONSOLIDATION_METHODS = [
   "full",
   "proportional",

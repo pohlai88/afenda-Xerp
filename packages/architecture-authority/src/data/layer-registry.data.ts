@@ -62,7 +62,6 @@ export const layerContract: LayerContract = {
     "@afenda/ai-governance": "Platform",
     "@afenda/kernel": "Platform",
     "@afenda/enterprise-knowledge": "Platform",
-    "@afenda/design-system": "Design",
     "@afenda/css-authority": "Design",
     "@afenda/shadcn-studio": "Design",
     "@afenda/ui": "Design",

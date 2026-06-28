@@ -1,6 +1,6 @@
 /**
- * ADR-0020 — accounting ERP domain vocabulary (contracts-only until Foundation phase 15+ runtime ADR).
- * Public surface: `@afenda/kernel/erp-domain/accounting`. No `@afenda/accounting` package.
+ * PAS-001B B76 — accounting ERP domain vocabulary (contracts-only).
+ * Public surface: `@afenda/kernel/erp-domain/accounting`.
  */
 // biome-ignore-all lint/performance/noBarrelFile: governed accounting-domain export surface.
 
@@ -18,6 +18,7 @@ export {
 export {
   ACCOUNTING_AUTHORITY_ADR,
   ACCOUNTING_AUTHORITY_FINGERPRINT,
+  ACCOUNTING_AUTHORITY_PAS,
   ACCOUNTING_CONTRACTS_OWNER,
   ACCOUNTING_PACKAGE_LIFECYCLE,
   ACCOUNTING_PACKAGE_LIFECYCLE_PHASES,

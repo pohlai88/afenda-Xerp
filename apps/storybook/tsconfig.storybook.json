@@ -41,8 +41,11 @@
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
       "@/*": ["../../packages/shadcn-studio/src/*"],
-      "@afenda/design-system/css/afenda-design-system.css": [
-        "../../packages/design-system/dist/css/afenda-design-system.css"
+      "@afenda/css-authority/css/afenda-tokens.css": [
+        "../../packages/css-authority/src/css/afenda-tokens.css"
+      ],
+      "@afenda/css-authority/css/afenda-css-authority.css": [
+        "../../packages/css-authority/src/css/afenda-css-authority.css"
       ],
       "@storybook/react": ["./node_modules/@storybook/react"],
       "storybook/test": ["./node_modules/storybook/dist/test/index.d.ts"],

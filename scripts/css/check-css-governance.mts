@@ -66,7 +66,6 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 
 const PACKAGE_ROOTS: Record<string, string> = {
   "@afenda/css-authority": join(repoRoot, "packages/css-authority"),
-  "@afenda/design-system": join(repoRoot, "packages/design-system"),
   "@afenda/ui": join(repoRoot, "packages/ui"),
   "@afenda/ui-composition": join(repoRoot, "packages/ui-composition"),
   "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
@@ -378,10 +377,10 @@ function warn(rule: string, file: string, message: string): void {
   }
 }
 
-// ─── Rule 6: Only design-system defines --afenda-* variables ─────────────────
+// ─── Rule 6: Only css-authority defines --afenda-* variables ─────────────────
 {
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") {
+    if (pkg === "@afenda/css-authority") {
       continue;
     }
     const cssFiles = collectFiles(
@@ -408,17 +407,17 @@ function warn(rule: string, file: string, message: string): void {
         fail(
           "R6-afenda-token-authority",
           file,
-          `${pkg} defines --afenda-* token "${match[1]?.trim()}" — only @afenda/design-system may define these`
+          `${pkg} defines --afenda-* token "${match[1]?.trim()}" — only @afenda/css-authority may define these`
         );
       }
     }
   }
 }
 
-// ─── Rule 7: Only design-system (shim) and css-authority define @theme ───────
+// ─── Rule 7: Only css-authority defines @theme ───────────────────────────────
 {
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system" || pkg === "@afenda/css-authority") {
+    if (pkg === "@afenda/css-authority") {
       continue;
     }
     const cssFiles = collectFiles(
@@ -434,8 +433,8 @@ function warn(rule: string, file: string, message: string): void {
         fail(
           "R7-theme-authority",
           file,
-          `${pkg} contains @theme — only @afenda/css-authority or @afenda/design-system (shim) may define @theme. ` +
-            `Consumers @import "@afenda/css-authority/css/afenda-css-authority.css" or design-system during cutover.`
+          `${pkg} contains @theme — only @afenda/css-authority may define @theme. ` +
+            `Consumers @import "@afenda/css-authority/css/afenda-css-authority.css".`
         );
       }
     }
@@ -453,14 +452,14 @@ function warn(rule: string, file: string, message: string): void {
     fail(
       "R8-ui-no-root-tokens",
       uiCssPath,
-      "afenda-ui.css must not define :root token authority — @import design-system instead"
+      "afenda-ui.css must not define :root token authority — @import css-authority tokens instead"
     );
   }
   if (/^\s*--afenda-[a-z][^)]*:/m.test(uiCss)) {
     fail(
       "R8-ui-no-root-tokens",
       uiCssPath,
-      "afenda-ui.css defines --afenda-* token values — only design-system may do this"
+      "afenda-ui.css defines --afenda-* token values — only css-authority may do this"
     );
   }
 }
@@ -571,7 +570,7 @@ function warn(rule: string, file: string, message: string): void {
   ];
 
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system" || pkg === "@afenda/css-authority") {
+    if (pkg === "@afenda/css-authority") {
       continue;
     }
     const cssFiles = collectFiles(
@@ -739,7 +738,7 @@ import {
   CSS_FILE_REGISTRY,
   getAllowedPaths,
   getBudget,
-} from "./css-registry.mjs";
+} from "./css-registry.mts";
 
 {
   const SCAN_SKIP = [

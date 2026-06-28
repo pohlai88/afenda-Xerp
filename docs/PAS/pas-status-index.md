@@ -77,16 +77,16 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — Catalog Authority (B76–B80 complete; attested 2026-06-28) |
+| **Status** | Delivered — Catalog Authority (B76–B106 complete; full 28-module vocabulary scaffold-standardized; attested 2026-06-28) |
 | **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
 | **Maturity** | `catalog_authority` · `implemented` · `runtime` |
-| **Runtime status** | 28-module catalog; `accounting/` + `inventory/` + `procurement/` delivered; layout + domain gates operational |
-| **Remaining slices** | B81+ one module per slice (25 catalog-only) |
-| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md), `erp-domain/procurement/`, `check:procurement-domain-contracts`, `check:erp-domain-layout` |
-| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:procurement-domain-contracts`, `pnpm check:inventory-domain-contracts`, `pnpm check:accounting-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
-| **Result** | Three delivered vocabulary modules; 25 catalog-only; Rule 1–3 enforced |
+| **Runtime status** | 28-module catalog; all slugs delivered; unified + legacy domain gates operational; B106 re-scaffold for `accounting` + `inventory` |
+| **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
+| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md), `erp-domain/*`, `scaffold-foundation-erp-domain-modules.mts`, `check:erp-domain-delivered-vocabulary` |
+| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
+| **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
 
-**Next sequence item:** B81+ — next catalog-only promotion (one module per slice).
+**Next sequence item:** PAS-001A metadata-ui permission registry bridge.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -94,7 +94,9 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B77 | [b77-erp-domain-layout-gate.md](slice/b77-erp-domain-layout-gate.md) | Delivered |
 | B78 | [b78-pas001b-audit-closure.md](slice/b78-pas001b-audit-closure.md) | Delivered |
 | B79 | [b79-inventory-domain-vocabulary.md](slice/b79-inventory-domain-vocabulary.md) | Delivered |
-| B80 | [b80-procurement-domain-vocabulary.md](slice/b80-procurement-domain-vocabulary.md) | Delivered |
+| B80 | — (batch scaffold with B81–B105; handoff proposed) | Delivered |
+| B81–B105 | — (batch scaffold; no per-slug handoffs) | Delivered |
+| B106 | [b106-foundation-erp-domain-scaffold-standardization.md](slice/b106-foundation-erp-domain-scaffold-standardization.md) | Delivered |
 
 ---
 
@@ -265,7 +267,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Authority** | PAS-004C · PAS-004B baseline · PAS-001 kernel refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `production_candidate` — scorecard **58/58** |
 | **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
-| **Remaining slices** | none |
+| **Remaining slices** | none — operational closure in [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) |
 | **Runtime evidence** | [PAS-004C canonical doc](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [B46 attestation](slice/b46-pas004c-semantic-attestation.md) · [B47](slice/b47-pas004c-consumer-projection-adoption.md) · [B48](slice/b48-pas004c-docs-consumer-projection-adoption.md) |
 | **Gates (B38+)** | all §13.1–§13.3 gates ✓ |
 | **Result** | North Star semantic model delivered — Concept → Contextual Meaning → Vocabulary → Consumer Projection → Realization |
@@ -283,6 +285,34 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B46 | [b46-pas004c-semantic-attestation.md](slice/b46-pas004c-semantic-attestation.md) | 3 Governance | Delivered |
 | B47 | [b47-pas004c-consumer-projection-adoption.md](slice/b47-pas004c-consumer-projection-adoption.md) | post-close Adoption | Delivered |
 | B48 | [b48-pas004c-docs-consumer-projection-adoption.md](slice/b48-pas004c-docs-consumer-projection-adoption.md) | post-close Adoption | Delivered |
+
+**Next sequence item:** [PAS-004D operational closure](#pas-004d-enterprise-knowledge-operational-closure--b49b54-proposed) — B49 authority mirror sync.
+
+---
+
+## PAS-004D Enterprise Knowledge Operational Closure — B49–B54 (proposed)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Proposed — B49 in progress (doc sync 2026-06-29); B50–B54 not started |
+| **Authority** | PAS-004D · PAS-004C baseline · PAS-001B erp-domain refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
+| **Maturity** | `idea` → `production_candidate` on B54 attestation |
+| **Runtime status** | PAS-004C closed (58/58); closure audit gaps queued — mirror sync, legacy retirement, corpus depth |
+| **Remaining slices** | B49 — authority mirror sync (next) · B50 legacy retirement · B51 corpus depth · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
+| **Runtime evidence** | [PAS-004D canonical doc](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · [B49 handoff](slice/b49-pas004d-authority-mirror-sync.md) |
+| **Gates (B49+)** | inherit PAS-004C §13.1 + new `check:knowledge-authority-mirror` (B49) through `check:knowledge-erp-domain-bridge` (B53) |
+| **Result** | Target **70/70** scorecard (≥66) — operational closure without ontology-engine scope creep |
+
+| Slice | Doc | Phase | Status |
+| --- | --- | --- | --- |
+| B49 | [b49-pas004d-authority-mirror-sync.md](slice/b49-pas004d-authority-mirror-sync.md) | 1 Mirror sync | In progress |
+| B50 | [b50-pas004d-legacy-surface-retirement.md](slice/b50-pas004d-legacy-surface-retirement.md) | 2 Legacy API | Proposed |
+| B51 | [b51-pas004d-corpus-depth.md](slice/b51-pas004d-corpus-depth.md) | 3 Corpus depth | Proposed |
+| B52 | [b52-pas004d-vocabulary-richness.md](slice/b52-pas004d-vocabulary-richness.md) | 3 Vocabulary | Proposed |
+| B53 | [b53-pas004d-erp-domain-bridge.md](slice/b53-pas004d-erp-domain-bridge.md) | 4 Domain bridge | Proposed |
+| B54 | [b54-pas004d-operational-closure-attestation.md](slice/b54-pas004d-operational-closure-attestation.md) | 5 Attestation | Proposed |
+
+**Next sequence item:** B49 — implement `check:knowledge-authority-mirror` and close doc-only hygiene.
 
 ---
 

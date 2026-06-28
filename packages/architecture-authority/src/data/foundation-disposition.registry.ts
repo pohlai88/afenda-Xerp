@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-28-v23" as const;
+  "FOUNDATION-DISPOSITION-2026-06-29-v24" as const;
 
 const foundationDispositionEntries = [
   {
@@ -490,7 +490,7 @@ const foundationDispositionEntries = [
       "scripts/governance/check-erp-domain-layout.mts",
     ],
     knownGaps: [
-      "25 catalog-only modules await B81+ serialized vocabulary slices",
+      "Metadata-ui PERMISSION_REGISTRY bridge for domain permission vocabularies (PAS-001A)",
     ],
     allowedAgents: ["kernel-context-agent", "foundation-registry-owner"],
     prohibited: [
@@ -501,6 +501,7 @@ const foundationDispositionEntries = [
     ],
     gates: [
       "pnpm check:erp-domain-layout",
+      "pnpm check:erp-domain-delivered-vocabulary",
       "pnpm check:accounting-domain-contracts",
       "pnpm check:inventory-domain-contracts",
       "pnpm check:procurement-domain-contracts",
@@ -783,19 +784,21 @@ const foundationDispositionEntries = [
   {
     id: "PKG004_DESIGN",
     packageId: "PKG-004",
-    packageName: "@afenda/design-system",
+    packageName: "@afenda/ui",
     domain: "design-authority",
     lane: "amber-lane",
-    runtimeOwner: "packages/design-system",
-    authority: "ADR-0014",
+    runtimeOwner: "packages/ui/src/design-authority",
+    authority: "ADR-0025",
     requiredBeforeAccounting: false,
     evidence: [
-      "packages/design-system/src/index.ts",
-      "packages/design-system/src/registries/token.registry.ts",
-      "packages/design-system/src/registries/recipe.registry.ts",
-      "packages/design-system/src/css/css-manifest.ts",
-      "packages/design-system/src/scripts/check-governance.ts",
-      "packages/design-system/src/__tests__/index.test.ts",
+      "packages/ui/src/design-authority/index.ts",
+      "packages/ui/src/design-authority/registries/token.registry.ts",
+      "packages/ui/src/design-authority/registries/recipe.registry.ts",
+      "packages/ui/src/design-authority/registries/variant.registry.ts",
+      "packages/ui/src/design-authority/registries/state.registry.ts",
+      "packages/ui/src/design-authority/registries/motion.registry.ts",
+      "docs/adr/ADR-0025-design-system-retirement.md",
+      "docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -804,14 +807,14 @@ const foundationDispositionEntries = [
       "ui-primitive-agent",
     ],
     prohibited: [
-      "do-not-ship-runtime-ui-components",
       "do-not-create-accounting-package",
       "do-not-duplicate-token-authority-in-apps",
+      "do-not-recreate-design-system-package",
     ],
     gates: [
-      "pnpm --filter @afenda/design-system typecheck",
-      "pnpm --filter @afenda/design-system test:run",
-      "pnpm --filter @afenda/design-system check:governance",
+      "pnpm --filter @afenda/ui typecheck",
+      "pnpm --filter @afenda/ui check:governance",
+      "pnpm ui:guard:scan",
     ],
     legacyTipEvidence: [],
   },
@@ -1161,8 +1164,7 @@ const foundationDispositionEntries = [
     ],
     prohibited: [
       "do-not-hand-edit-generated-css-authority-registry",
-      "do-not-refactor-design-system-css-in-place",
-      "do-not-delete-design-system-v1",
+      "do-not-recreate-design-system-package",
       "do-not-import-ui-or-appshell-runtime",
     ],
     gates: [
@@ -1236,6 +1238,41 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/shadcn-studio build",
       "pnpm quality:boundaries",
       "pnpm check:foundation-disposition",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKGR05B_DESIGN_RETIREMENT",
+    packageId: "PKG-004",
+    packageName: "@afenda/design-system",
+    domain: "design-system-retirement",
+    lane: "amber-lane",
+    runtimeOwner: "docs/PAS",
+    authority: "PAS-005B",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md",
+      "docs/adr/ADR-0025-design-system-retirement.md",
+      "packages/ui/src/design-authority/index.ts",
+      "packages/architecture-authority/src/data/package-registry.data.ts",
+      "packages/architecture-authority/src/data/dependency-registry.data.ts",
+    ],
+    knownGaps: [],
+    allowedAgents: [
+      "foundation-registry-owner",
+      "afenda-governed-implementer",
+      "ui-primitive-refactor",
+    ],
+    prohibited: [
+      "do-not-delete-ui-v1",
+      "do-not-merge-css-authority-into-shadcn-studio",
+      "do-not-expand-design-system-package",
+    ],
+    gates: [
+      "pnpm check:documentation-drift",
+      "pnpm check:foundation-disposition",
+      "pnpm check:design-system-retirement-readiness",
+      "pnpm quality:boundaries",
     ],
     legacyTipEvidence: [],
   },

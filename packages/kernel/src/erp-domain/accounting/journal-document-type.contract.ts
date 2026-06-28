@@ -1,4 +1,3 @@
-/** Journal document classification — vocabulary only, no posting runtime. */
 export const JOURNAL_DOCUMENT_TYPES = [
   "standard",
   "adjusting",

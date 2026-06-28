@@ -431,6 +431,8 @@ When in doubt:
 | --- | --- |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter — **§1–§4 immutable** |
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate platform — **closed B24–B32** |
+| [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic model — **closed B38–B48** |
+| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — **B49+ proposed** |
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Wire + identity constitution — **reference only** |
 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity mapping validation authority (B33) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
@@ -447,8 +449,5 @@ When in doubt:
 | [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 | Docs atom citation + gate | **Delivered** | 2026-06-28 |
 | [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Four query helpers + gate | **Delivered** | 2026-06-28 |
 | [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.4 | Scorecard ≥38/40 attestation | **Attested** | registry delegated |
-| [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 | Docs atom citation + gate | Proposed | B34 |
-| [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Four query helpers only — no graph engine | Proposed | B35 |
-| [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.4 · §11 | Combined scorecard + registry promotion | Proposed | B36 |
 
-Handoff files for B34–B37 are authored when the prior slice closes.
+**Superseded by:** [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md)

@@ -1,4 +1,3 @@
-/** Inventory movement direction vocabulary — no quantity or balance fields. */
 export const STOCK_MOVEMENT_TYPES = [
   "receipt",
   "issue",

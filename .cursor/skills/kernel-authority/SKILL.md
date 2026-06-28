@@ -31,8 +31,8 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Catalog Authority — B76–B79 closed; `accounting/` + `inventory/` delivered; layout + domain gates operational |
-| **Remaining slices** | B81+ one module per slice (25 catalog-only) |
+| **Runtime status** | Catalog Authority — B76–B106 closed; 28/28 modules delivered; foundation `accounting` + `inventory` scaffold-standardized |
+| **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge (PAS-001A) |
 | **Canonical** | [`PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md`](../../../docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 
 **Doctrine:** PAS-001B defines the ERP domain vocabulary **map** — without building ERP runtime. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.

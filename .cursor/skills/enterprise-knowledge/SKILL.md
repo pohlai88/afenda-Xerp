@@ -6,18 +6,19 @@ paths:
   - docs/PAS/PAS-004*.md
 ---
 
-# @afenda/enterprise-knowledge — Authority Skill (PAS-004 / PAS-004A)
+# @afenda/enterprise-knowledge — Authority Skill (PAS-004 / PAS-004A–D)
 
 ## PAS rollout status (mirror header — sync on slice close)
 
 | PAS | Runtime status | Remaining slices |
 | --- | --- | --- |
-| **PAS-004** (charter) | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A | none — superseded by PAS-004A |
+| **PAS-004** (charter) | Constitutional §1–§4 — live runtime truth in PAS-004C/D | none — superseded by PAS-004A |
 | **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 | none |
 | **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B | none |
-| **PAS-004C** (semantic model) | B38–B46 delivered — scorecard 56/58; PKGR04 authority PAS-004C (registry delegated) | none |
+| **PAS-004C** (semantic model) | B38–B48 delivered — scorecard **58/58**; PKGR04 authority PAS-004C | none — superseded by PAS-004D |
+| **PAS-004D** (operational closure) | B49 in progress — mirror sync + legacy retirement + corpus depth (proposed B50–B54) | B49 → B54 |
 
-> Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -49,7 +50,8 @@ Apply this skill when touching:
 
 | PAS-004A rollout | [PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · B25–B32 slices (closed) |
 | PAS-004B rollout | [PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · B33–B37 closed · **kernel-authority mandatory** |
-| PAS-004C rollout | [PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B38+ · **kernel-authority on B44 realization paths** |
+| PAS-004C rollout | [PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B38–B48 closed · **kernel-authority on B44 realization paths** |
+| PAS-004D rollout | [PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md](../../../docs/PAS/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49+ · **kernel-authority on B53 erp-domain bridge only** |
 
 ---
 
@@ -152,9 +154,9 @@ For new enterprise-knowledge slices, read in this order:
 4. [docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — §0 Agent Quick Path
 5. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
 
-**Maturity:** Enterprise Accepted delivered (PAS-004B B33–B37). North Star semantic model delivered (PAS-004C B38–B46, scorecard 56/58). Read **`kernel-authority`** before B44 realization mapping.
+**Maturity:** Enterprise Accepted (PAS-004B B33–B37, 40/40). Semantic model closed (PAS-004C B38–B48, **58/58**). Operational closure active (PAS-004D B49+). Read **`kernel-authority`** before B53 erp-domain bridge atoms.
 
-**Slice gate:** B37 closed. **Active slice: B38 only** — do not batch Phase 2/3 before Phase 1. Next: [B38 concept + vocabulary](../../../docs/PAS/slice/b38-pas004c-concept-vocabulary.md).
+**Slice gate:** PAS-004C closed. **Active slice: B49** — mirror sync before B50 legacy retirement. Next: [B49 authority mirror sync](../../../docs/PAS/slice/b49-pas004d-authority-mirror-sync.md).
 
 ---
 

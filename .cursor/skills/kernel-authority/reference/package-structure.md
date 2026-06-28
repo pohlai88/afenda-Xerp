@@ -29,11 +29,12 @@ packages/kernel/
     ├── contracts/                  # result, app-error, problem-detail, json-wire, execution-context, layout
     │   ├── platform/
     │   └── business-reference-identity/   # §4.7 (not business-master-data)
-    ├── erp-domain/                 # §4.8 · PAS-001B catalog — see docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md
-    │   ├── erp-domain-layout.contract.ts   # 28-slug catalog; catalog-only = no folder (Rule 1)
-    │   ├── accounting/             # delivered — @afenda/kernel/erp-domain/accounting
-    │   ├── inventory/              # delivered — @afenda/kernel/erp-domain/inventory (B79)
-    │   └── procurement/            # delivered — @afenda/kernel/erp-domain/procurement (B80)
+    ├── erp-domain/                 # §4.8 · PAS-001B catalog — 28/28 delivered (B76–B106)
+    │   ├── erp-domain-layout.contract.ts   # 28-slug catalog; all slugs delivered
+    │   ├── accounting/             # delivered — scaffold-standardized (B106)
+    │   ├── inventory/              # delivered — scaffold-standardized (B106)
+    │   ├── procurement/            # delivered (B80)
+    │   └── … (25 additional delivered modules — see layout contract)
     ├── context/                    # §4.4 operating-context shapes + context-registry.ts
     │                               # Wire ingress: *.contract.ts + *.assert.ts + *.parser.ts (§4.4 triad)
     ├── identity/                   # §4.1 nested module (brand, canonical, families, wire, …)

@@ -9,7 +9,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -20,7 +20,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -31,7 +31,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -42,7 +42,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -53,7 +53,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -64,7 +64,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -75,7 +75,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -86,7 +86,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -97,7 +97,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -108,7 +108,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -119,7 +119,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -130,7 +130,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -141,7 +141,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -152,7 +152,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -163,7 +163,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -174,7 +174,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -185,7 +185,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -196,7 +196,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -207,7 +207,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -218,7 +218,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -229,7 +229,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -240,7 +240,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -251,7 +251,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -262,7 +262,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -273,7 +273,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -284,7 +284,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -295,7 +295,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -306,7 +306,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -317,7 +317,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -328,7 +328,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -339,7 +339,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -350,7 +350,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -361,7 +361,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -372,7 +372,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -383,7 +383,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -394,7 +394,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -405,7 +405,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -416,7 +416,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -427,7 +427,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -438,7 +438,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -449,7 +449,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -460,7 +460,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -471,7 +471,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -482,7 +482,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -493,7 +493,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -504,7 +504,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -515,7 +515,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -526,7 +526,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -537,7 +537,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -548,7 +548,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -559,7 +559,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -570,7 +570,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -581,7 +581,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -592,7 +592,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -603,7 +603,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -614,7 +614,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -625,7 +625,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -636,7 +636,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -647,7 +647,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -658,7 +658,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -669,7 +669,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -680,7 +680,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -691,7 +691,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -702,7 +702,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -713,7 +713,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -724,7 +724,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -735,7 +735,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -746,7 +746,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -757,7 +757,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -768,7 +768,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -779,7 +779,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -790,7 +790,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -801,7 +801,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -812,7 +812,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -823,7 +823,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -834,7 +834,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -845,7 +845,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -856,7 +856,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -867,7 +867,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -878,7 +878,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -889,7 +889,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -900,7 +900,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -911,7 +911,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -922,7 +922,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -933,7 +933,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -944,7 +944,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -955,7 +955,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -966,7 +966,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -977,7 +977,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -988,7 +988,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -999,7 +999,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1010,7 +1010,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1021,7 +1021,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1032,7 +1032,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1043,7 +1043,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1054,7 +1054,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1065,7 +1065,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1076,7 +1076,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1087,7 +1087,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1098,7 +1098,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1109,7 +1109,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1120,7 +1120,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1131,7 +1131,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1142,7 +1142,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1153,7 +1153,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1164,7 +1164,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "chart",
       "editable": false
@@ -1175,7 +1175,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -1186,7 +1186,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -1197,7 +1197,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -1208,7 +1208,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -1219,7 +1219,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -1230,7 +1230,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -1241,7 +1241,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1252,7 +1252,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1263,7 +1263,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1274,7 +1274,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1285,7 +1285,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1296,7 +1296,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1307,7 +1307,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1318,7 +1318,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1329,7 +1329,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1340,7 +1340,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1351,7 +1351,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1362,7 +1362,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -1373,7 +1373,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1384,7 +1384,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -1395,7 +1395,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1406,7 +1406,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -1417,7 +1417,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1428,7 +1428,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1439,7 +1439,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1450,7 +1450,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1461,7 +1461,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1472,7 +1472,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1483,7 +1483,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1494,7 +1494,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1505,7 +1505,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1516,7 +1516,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1527,7 +1527,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1538,7 +1538,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1549,7 +1549,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1560,7 +1560,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1571,7 +1571,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1582,7 +1582,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1593,7 +1593,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1604,7 +1604,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -1615,7 +1615,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1626,7 +1626,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1637,7 +1637,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1648,7 +1648,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1659,7 +1659,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1670,7 +1670,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -1681,7 +1681,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1692,7 +1692,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1703,7 +1703,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1714,7 +1714,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1725,7 +1725,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1736,7 +1736,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1747,7 +1747,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1758,7 +1758,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1769,7 +1769,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1780,7 +1780,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1791,7 +1791,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1802,7 +1802,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1813,7 +1813,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1824,7 +1824,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1835,7 +1835,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1846,7 +1846,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1857,7 +1857,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1868,7 +1868,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1879,7 +1879,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1890,7 +1890,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1901,7 +1901,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1912,7 +1912,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1923,7 +1923,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1934,7 +1934,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1945,7 +1945,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1956,7 +1956,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1967,7 +1967,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1978,7 +1978,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -1989,7 +1989,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2000,7 +2000,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2011,7 +2011,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2022,7 +2022,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2033,7 +2033,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2044,7 +2044,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2055,7 +2055,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2066,7 +2066,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2077,7 +2077,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2088,7 +2088,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2099,7 +2099,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2110,7 +2110,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2121,7 +2121,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2132,7 +2132,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2143,7 +2143,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2154,7 +2154,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2165,7 +2165,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2176,7 +2176,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2187,7 +2187,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2198,7 +2198,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2209,7 +2209,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2220,7 +2220,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2231,7 +2231,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2242,7 +2242,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2253,7 +2253,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2264,7 +2264,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2275,7 +2275,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2286,7 +2286,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2297,7 +2297,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2308,7 +2308,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2319,7 +2319,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2330,7 +2330,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2341,7 +2341,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2352,7 +2352,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2363,7 +2363,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2374,7 +2374,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2385,7 +2385,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2396,7 +2396,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2407,7 +2407,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2418,7 +2418,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2429,7 +2429,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2440,7 +2440,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2451,7 +2451,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2462,7 +2462,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2473,7 +2473,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -2484,7 +2484,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -2495,7 +2495,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -2506,7 +2506,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2517,7 +2517,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -2528,7 +2528,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "interactive",
       "editable": false
@@ -2539,7 +2539,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2550,7 +2550,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2561,7 +2561,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2572,7 +2572,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2583,7 +2583,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2594,7 +2594,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2605,7 +2605,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2616,7 +2616,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2627,7 +2627,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2638,7 +2638,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2649,7 +2649,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2660,7 +2660,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2671,7 +2671,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2682,7 +2682,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2693,7 +2693,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2704,7 +2704,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2715,7 +2715,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2726,7 +2726,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2737,7 +2737,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2748,7 +2748,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2759,7 +2759,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2770,7 +2770,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "motion",
       "editable": false
@@ -2781,7 +2781,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -2792,7 +2792,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2803,7 +2803,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2814,7 +2814,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2825,7 +2825,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2836,7 +2836,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "radius",
       "editable": false
@@ -2847,7 +2847,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2858,7 +2858,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2869,7 +2869,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -2880,7 +2880,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2891,7 +2891,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2902,7 +2902,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -2913,7 +2913,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2924,7 +2924,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -2935,7 +2935,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -2946,7 +2946,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -2957,7 +2957,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -2968,7 +2968,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -2979,7 +2979,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -2990,7 +2990,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3001,7 +3001,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3012,7 +3012,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3023,7 +3023,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3034,7 +3034,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3045,7 +3045,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3056,7 +3056,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3067,7 +3067,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -3078,7 +3078,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3089,7 +3089,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3100,7 +3100,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3111,7 +3111,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3122,7 +3122,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3133,7 +3133,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3144,7 +3144,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3155,7 +3155,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3166,7 +3166,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3177,7 +3177,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3188,7 +3188,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3199,7 +3199,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3210,7 +3210,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3221,7 +3221,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3232,7 +3232,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3243,7 +3243,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3254,7 +3254,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3265,7 +3265,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3276,7 +3276,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3287,7 +3287,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3298,7 +3298,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3309,7 +3309,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3320,7 +3320,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3331,7 +3331,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3342,7 +3342,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3353,7 +3353,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -3364,7 +3364,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3375,7 +3375,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3386,7 +3386,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3397,7 +3397,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3408,7 +3408,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3419,7 +3419,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3430,7 +3430,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3441,7 +3441,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3452,7 +3452,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3463,7 +3463,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3474,7 +3474,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3485,7 +3485,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
       "editable": false
@@ -3496,7 +3496,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3507,7 +3507,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3518,7 +3518,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3529,7 +3529,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3540,7 +3540,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3551,7 +3551,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3562,7 +3562,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3573,7 +3573,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3584,7 +3584,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3595,7 +3595,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3606,7 +3606,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3617,7 +3617,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3628,7 +3628,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -3639,7 +3639,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3650,7 +3650,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3661,7 +3661,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3672,7 +3672,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3683,7 +3683,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3694,7 +3694,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3705,7 +3705,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3716,7 +3716,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3727,7 +3727,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3738,7 +3738,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3749,7 +3749,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3760,7 +3760,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3771,7 +3771,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3782,7 +3782,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3793,7 +3793,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3804,7 +3804,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3815,7 +3815,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3826,7 +3826,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3837,7 +3837,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3848,7 +3848,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3859,7 +3859,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3870,7 +3870,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3881,7 +3881,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3892,7 +3892,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3903,7 +3903,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3914,7 +3914,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3925,7 +3925,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3936,7 +3936,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -3947,7 +3947,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3958,7 +3958,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3969,7 +3969,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -3980,7 +3980,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -3991,7 +3991,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4002,7 +4002,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4013,7 +4013,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4024,7 +4024,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4035,7 +4035,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4046,7 +4046,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4057,7 +4057,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4068,7 +4068,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -4079,7 +4079,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4090,7 +4090,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4101,7 +4101,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4112,7 +4112,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4123,7 +4123,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4134,7 +4134,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -4145,7 +4145,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4156,7 +4156,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4167,7 +4167,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4178,7 +4178,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4189,7 +4189,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4200,7 +4200,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -4211,7 +4211,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4222,7 +4222,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4233,7 +4233,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4244,7 +4244,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4255,7 +4255,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4266,7 +4266,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4277,7 +4277,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4288,7 +4288,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4299,7 +4299,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4310,7 +4310,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4321,7 +4321,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4332,7 +4332,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4343,7 +4343,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4354,7 +4354,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4365,7 +4365,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4376,7 +4376,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4387,7 +4387,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "feedback",
       "editable": false
@@ -4398,7 +4398,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4409,7 +4409,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4420,7 +4420,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4431,7 +4431,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4442,7 +4442,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4453,7 +4453,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -4464,7 +4464,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4475,7 +4475,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "surface",
       "editable": false
@@ -4486,7 +4486,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4497,7 +4497,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "border",
       "editable": false
@@ -4508,7 +4508,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4519,7 +4519,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "text",
       "editable": false
@@ -4530,7 +4530,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4541,7 +4541,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4552,7 +4552,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4563,7 +4563,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4574,7 +4574,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4585,7 +4585,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4596,7 +4596,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4607,7 +4607,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4618,7 +4618,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4629,7 +4629,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4640,7 +4640,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4651,7 +4651,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4662,7 +4662,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4673,7 +4673,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4684,7 +4684,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4695,7 +4695,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4706,7 +4706,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4717,7 +4717,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4728,7 +4728,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4739,7 +4739,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4750,7 +4750,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4761,7 +4761,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4772,7 +4772,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4783,7 +4783,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4794,7 +4794,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4805,7 +4805,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4816,7 +4816,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4827,7 +4827,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "spacing",
       "editable": false
@@ -4838,7 +4838,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4849,7 +4849,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4860,7 +4860,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4871,7 +4871,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4882,7 +4882,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4893,7 +4893,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4904,7 +4904,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4915,7 +4915,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4926,7 +4926,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4937,7 +4937,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4948,7 +4948,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4959,7 +4959,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "typography",
       "editable": false
@@ -4970,7 +4970,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -4981,7 +4981,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -4992,7 +4992,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5003,7 +5003,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5014,7 +5014,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5025,7 +5025,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5036,7 +5036,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5047,7 +5047,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5058,7 +5058,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5069,7 +5069,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5080,7 +5080,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5091,7 +5091,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5102,7 +5102,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
@@ -5113,7 +5113,7 @@
       "owner": "@afenda/css-authority",
       "authority": "afenda-extensions",
       "lifecycle": "stable",
-      "source": "packages/design-system/src/css/afenda-tokens.css",
+      "source": "packages/css-authority/src/css/afenda-tokens.css",
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false

@@ -20,15 +20,140 @@
       "import": "./dist/erp-domain/accounting/index.js",
       "default": "./dist/erp-domain/accounting/index.js"
     },
-    "./erp-domain/inventory": {
-      "types": "./dist/erp-domain/inventory/index.d.ts",
-      "import": "./dist/erp-domain/inventory/index.js",
-      "default": "./dist/erp-domain/inventory/index.js"
+    "./erp-domain/controlling": {
+      "types": "./dist/erp-domain/controlling/index.d.ts",
+      "import": "./dist/erp-domain/controlling/index.js",
+      "default": "./dist/erp-domain/controlling/index.js"
+    },
+    "./erp-domain/treasury": {
+      "types": "./dist/erp-domain/treasury/index.d.ts",
+      "import": "./dist/erp-domain/treasury/index.js",
+      "default": "./dist/erp-domain/treasury/index.js"
+    },
+    "./erp-domain/tax": {
+      "types": "./dist/erp-domain/tax/index.d.ts",
+      "import": "./dist/erp-domain/tax/index.js",
+      "default": "./dist/erp-domain/tax/index.js"
+    },
+    "./erp-domain/consolidation": {
+      "types": "./dist/erp-domain/consolidation/index.d.ts",
+      "import": "./dist/erp-domain/consolidation/index.js",
+      "default": "./dist/erp-domain/consolidation/index.js"
+    },
+    "./erp-domain/intercompany": {
+      "types": "./dist/erp-domain/intercompany/index.d.ts",
+      "import": "./dist/erp-domain/intercompany/index.js",
+      "default": "./dist/erp-domain/intercompany/index.js"
     },
     "./erp-domain/procurement": {
       "types": "./dist/erp-domain/procurement/index.d.ts",
       "import": "./dist/erp-domain/procurement/index.js",
       "default": "./dist/erp-domain/procurement/index.js"
+    },
+    "./erp-domain/inventory": {
+      "types": "./dist/erp-domain/inventory/index.d.ts",
+      "import": "./dist/erp-domain/inventory/index.js",
+      "default": "./dist/erp-domain/inventory/index.js"
+    },
+    "./erp-domain/manufacturing": {
+      "types": "./dist/erp-domain/manufacturing/index.d.ts",
+      "import": "./dist/erp-domain/manufacturing/index.js",
+      "default": "./dist/erp-domain/manufacturing/index.js"
+    },
+    "./erp-domain/quality": {
+      "types": "./dist/erp-domain/quality/index.d.ts",
+      "import": "./dist/erp-domain/quality/index.js",
+      "default": "./dist/erp-domain/quality/index.js"
+    },
+    "./erp-domain/maintenance": {
+      "types": "./dist/erp-domain/maintenance/index.d.ts",
+      "import": "./dist/erp-domain/maintenance/index.js",
+      "default": "./dist/erp-domain/maintenance/index.js"
+    },
+    "./erp-domain/supply-chain": {
+      "types": "./dist/erp-domain/supply-chain/index.d.ts",
+      "import": "./dist/erp-domain/supply-chain/index.js",
+      "default": "./dist/erp-domain/supply-chain/index.js"
+    },
+    "./erp-domain/sales": {
+      "types": "./dist/erp-domain/sales/index.d.ts",
+      "import": "./dist/erp-domain/sales/index.js",
+      "default": "./dist/erp-domain/sales/index.js"
+    },
+    "./erp-domain/crm": {
+      "types": "./dist/erp-domain/crm/index.d.ts",
+      "import": "./dist/erp-domain/crm/index.js",
+      "default": "./dist/erp-domain/crm/index.js"
+    },
+    "./erp-domain/pricing": {
+      "types": "./dist/erp-domain/pricing/index.d.ts",
+      "import": "./dist/erp-domain/pricing/index.js",
+      "default": "./dist/erp-domain/pricing/index.js"
+    },
+    "./erp-domain/subscription": {
+      "types": "./dist/erp-domain/subscription/index.d.ts",
+      "import": "./dist/erp-domain/subscription/index.js",
+      "default": "./dist/erp-domain/subscription/index.js"
+    },
+    "./erp-domain/ecommerce": {
+      "types": "./dist/erp-domain/ecommerce/index.d.ts",
+      "import": "./dist/erp-domain/ecommerce/index.js",
+      "default": "./dist/erp-domain/ecommerce/index.js"
+    },
+    "./erp-domain/pos": {
+      "types": "./dist/erp-domain/pos/index.d.ts",
+      "import": "./dist/erp-domain/pos/index.js",
+      "default": "./dist/erp-domain/pos/index.js"
+    },
+    "./erp-domain/service": {
+      "types": "./dist/erp-domain/service/index.d.ts",
+      "import": "./dist/erp-domain/service/index.js",
+      "default": "./dist/erp-domain/service/index.js"
+    },
+    "./erp-domain/field-service": {
+      "types": "./dist/erp-domain/field-service/index.d.ts",
+      "import": "./dist/erp-domain/field-service/index.js",
+      "default": "./dist/erp-domain/field-service/index.js"
+    },
+    "./erp-domain/marketing": {
+      "types": "./dist/erp-domain/marketing/index.d.ts",
+      "import": "./dist/erp-domain/marketing/index.js",
+      "default": "./dist/erp-domain/marketing/index.js"
+    },
+    "./erp-domain/hcm": {
+      "types": "./dist/erp-domain/hcm/index.d.ts",
+      "import": "./dist/erp-domain/hcm/index.js",
+      "default": "./dist/erp-domain/hcm/index.js"
+    },
+    "./erp-domain/payroll": {
+      "types": "./dist/erp-domain/payroll/index.d.ts",
+      "import": "./dist/erp-domain/payroll/index.js",
+      "default": "./dist/erp-domain/payroll/index.js"
+    },
+    "./erp-domain/project": {
+      "types": "./dist/erp-domain/project/index.d.ts",
+      "import": "./dist/erp-domain/project/index.js",
+      "default": "./dist/erp-domain/project/index.js"
+    },
+    "./erp-domain/assets": {
+      "types": "./dist/erp-domain/assets/index.d.ts",
+      "import": "./dist/erp-domain/assets/index.js",
+      "default": "./dist/erp-domain/assets/index.js"
+    },
+    "./erp-domain/document": {
+      "types": "./dist/erp-domain/document/index.d.ts",
+      "import": "./dist/erp-domain/document/index.js",
+      "default": "./dist/erp-domain/document/index.js"
+    },
+    "./erp-domain/workflow": {
+      "types": "./dist/erp-domain/workflow/index.d.ts",
+      "import": "./dist/erp-domain/workflow/index.js",
+      "default": "./dist/erp-domain/workflow/index.js"
+    },
+    "./erp-domain/analytics": {
+      "types": "./dist/erp-domain/analytics/index.d.ts",
+      "import": "./dist/erp-domain/analytics/index.js",
+      "default": "./dist/erp-domain/analytics/index.js"
     },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",

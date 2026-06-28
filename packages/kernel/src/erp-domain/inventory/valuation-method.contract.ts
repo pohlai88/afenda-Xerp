@@ -1,4 +1,3 @@
-/** Inventory valuation method labels — policy words only. */
 export const VALUATION_METHODS = [
   "standard",
   "fifo",

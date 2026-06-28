@@ -54,7 +54,6 @@ const nextConfig: NextConfig = {
     "@afenda/appshell",
     "@afenda/auth",
     "@afenda/database",
-    "@afenda/design-system",
     "@afenda/kernel",
     "@afenda/metadata-ui",
     "@afenda/observability",

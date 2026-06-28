@@ -1,7 +1,8 @@
 /**
- * ADR-0020 — Inventory domain authority (kernel contracts-only lifecycle).
- * Serializable surface only; no stock posting, valuation engines, or persistence.
+ * PAS-001B B79 · ADR-0020 — Inventory domain authority (contracts-only).
  */
+
+export const INVENTORY_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const INVENTORY_AUTHORITY_ADR = "ADR-0020" as const;
 
@@ -21,7 +22,6 @@ export const INVENTORY_PACKAGE_LIFECYCLE_PHASES = [
 export type InventoryPackageLifecyclePhase =
   (typeof INVENTORY_PACKAGE_LIFECYCLE_PHASES)[number];
 
-/** Current PKGR02 vocabulary phase — stock runtime remains in @afenda/database ADR scope. */
 export const INVENTORY_PACKAGE_LIFECYCLE: InventoryPackageLifecyclePhase =
   "contracts-only";
 

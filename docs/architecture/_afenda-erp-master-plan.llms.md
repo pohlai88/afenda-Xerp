@@ -2,17 +2,21 @@
 title: Afenda ERP — LLM Development Master Plan
 version: 5.0.0
 date: 2026-06-24
-role: strategic-compass-and-roadmap
+role: roadmap-and-llm-operating-rules
 canonical: true
 supersedes:
   - v4.0.0 Section 3 "Implementation reality audit (2026-06-20)" — STALE; see Runtime Truth section
   - v4.0.0 Section 5.2 Track B status table — STALE; see Runtime Truth section
   - v4.0.0 Section 8 execution order — superseded by pre-accounting-foundation-roadmap.md
+  - Platform vision authority — superseded by afenda-platform-north-star.md (ADR-0026)
+  - Package/domain decomposition — superseded by afenda-architecture-blueprint.md (ADR-0026)
 authority_order:
   - docs/adr/
+  - docs/architecture/afenda-platform-north-star.md
+  - docs/architecture/afenda-architecture-blueprint.md
   - docs/architecture/*-registry.md
+  - docs/PAS/
   - docs/architecture/pre-accounting-foundation-roadmap.md
-  - docs/PAS/slice/[status] tip-*.md
   - packages/architecture-authority
   - this file
 phase_1_authority: ADR-0001
@@ -29,10 +33,12 @@ ui_technology:
 
 # Afenda ERP — LLM Development Master Plan v5
 
-> **Purpose:** Strategic compass, evidence-based delivery roadmap pointer, UI foundation status, and AI implementation rules.
+> **Purpose:** Delivery roadmap pointer, UI foundation status, and AI implementation rules — **not** platform vision or package decomposition authority.
+> **Platform vision:** [`afenda-platform-north-star.md`](afenda-platform-north-star.md) (ADR-0026)
+> **Package/domain map:** [`afenda-architecture-blueprint.md`](afenda-architecture-blueprint.md) (ADR-0026)
 > **Delivery authority:** [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) (ADR-0013)
 > **Runtime evidence:** [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md)
-> **Not authoritative for:** PAS scope after ADR-0001, package ownership, dependency edges — use registries and ADRs.
+> **Not authoritative for:** PAS scope, package ownership, dependency edges — use Blueprint, registries, and ADRs.
 
 ---
 
@@ -47,7 +53,7 @@ Do not use older roadmap sections as delivery authority if they conflict with:
 
 Master plan v5 **supersedes** v4 Section 3, v4 Track B status table, and v4 Section 8 execution order.
 
-**AI agents must read (in order):** pre-accounting roadmap → runtime truth matrix → [`docs/PAS/`](../PAS/README.md) → disposition registry.
+**AI agents must read (in order):** [North Star](afenda-platform-north-star.md) → [Architecture Blueprint](afenda-architecture-blueprint.md) → pre-accounting roadmap → runtime truth matrix → [`docs/PAS/`](../PAS/README.md) → disposition registry.
 
 ---
 

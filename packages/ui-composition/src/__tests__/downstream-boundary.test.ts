@@ -23,7 +23,6 @@ const PROHIBITED_IMPORTS = [
   "react",
   "react-dom",
   "next",
-  "@afenda/design-system",
   "@afenda/metadata-ui",
   "@afenda/appshell",
   "@afenda/ui",
@@ -103,7 +102,6 @@ describe("@afenda/ui-composition downstream boundary", () => {
     ]);
     expect(metadataPolicy.mayNotImportFrom).toEqual(
       expect.arrayContaining([
-        "@afenda/design-system",
         "@afenda/metadata-ui",
         "@afenda/appshell",
         "@afenda/ui",
