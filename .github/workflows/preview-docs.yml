@@ -1,6 +1,7 @@
 name: Preview Docs
 
 # TIP-032 Slice 6 — @afenda/docs preview deployment
+# Verification PR (chore/verify-preview-pipeline): exercises preview-docs + preview.yml end-to-end.
 #
 # Separate Vercel project from ERP (@afenda/erp). No shared auth/database secrets.
 # Skips gracefully when VERCEL_PROJECT_ID_DOCS is not configured.
