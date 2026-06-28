@@ -1,22 +1,20 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recipeRegistry } from "@afenda/design-system";
 import { describe, expect, it } from "vitest";
+import { recipeRegistry } from "../design-authority/index.js";
 
 import { GOVERNED_UI_RECIPES, resolveGovernedRecipe } from "../governance";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
-describe("@afenda/ui design-system consumption", () => {
-  it("depends on @afenda/design-system", () => {
+describe("@afenda/ui design-authority consumption", () => {
+  it("exports @afenda/ui/design-authority from package.json", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")
-    ) as { dependencies?: Record<string, string> };
+    ) as { exports?: Record<string, unknown> };
 
-    expect(packageJson.dependencies?.["@afenda/design-system"]).toBe(
-      "workspace:*"
-    );
+    expect(packageJson.exports?.["./design-authority"]).toBeDefined();
   });
 
   it("keeps governed UI recipes aligned with authority registry", () => {

@@ -20,6 +20,16 @@
       "import": "./dist/erp-domain/accounting/index.js",
       "default": "./dist/erp-domain/accounting/index.js"
     },
+    "./erp-domain/inventory": {
+      "types": "./dist/erp-domain/inventory/index.d.ts",
+      "import": "./dist/erp-domain/inventory/index.js",
+      "default": "./dist/erp-domain/inventory/index.js"
+    },
+    "./erp-domain/procurement": {
+      "types": "./dist/erp-domain/procurement/index.d.ts",
+      "import": "./dist/erp-domain/procurement/index.js",
+      "default": "./dist/erp-domain/procurement/index.js"
+    },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",
       "import": "./dist/propagation/index.js",

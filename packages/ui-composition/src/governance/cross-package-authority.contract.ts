@@ -288,7 +288,7 @@ export const crossPackageAuthority = {
 
       importPolicy: {
         mayImportFrom: [
-          "@afenda/design-system",
+          "@afenda/ui/design-authority",
           "@afenda/css-authority",
           "@afenda/ui-composition",
           "@afenda/ui",
@@ -323,7 +323,7 @@ export const crossPackageAuthority = {
 
       importPolicy: {
         mayImportFrom: [
-          "@afenda/design-system",
+          "@afenda/ui/design-authority",
           "@afenda/css-authority",
           "@afenda/ui-composition",
           "@afenda/metadata-ui",
@@ -357,7 +357,7 @@ export const crossPackageAuthority = {
       ],
 
       importPolicy: {
-        mayImportFrom: ["@afenda/design-system", "@afenda/css-authority"],
+        mayImportFrom: ["@afenda/css-authority"],
         mayNotImportFrom: [
           "@afenda/ui-composition",
           "@afenda/metadata-ui",

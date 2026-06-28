@@ -14,7 +14,8 @@
       "@afenda/ui/governance": ["./src/governance/index.ts"],
       "@afenda/ui/governance/*": ["./src/governance/*"],
       "@afenda/ui/lib/utils": ["./src/lib/utils.ts"],
-      "@afenda/ui/lib/*": ["./src/lib/*"]
+      "@afenda/ui/lib/*": ["./src/lib/*"],
+      "@afenda/ui/design-authority": ["./src/design-authority/index.ts"]
     },
     "rootDir": "src",
     "outDir": "dist",

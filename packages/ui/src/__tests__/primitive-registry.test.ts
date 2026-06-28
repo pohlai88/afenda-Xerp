@@ -1,5 +1,5 @@
-import { recipeRegistry } from "@afenda/design-system";
 import { describe, expect, it } from "vitest";
+import { recipeRegistry } from "../design-authority/index.js";
 import {
   GOVERNED_PRIMITIVE_REGISTRY,
   getPrimitiveDefinition,

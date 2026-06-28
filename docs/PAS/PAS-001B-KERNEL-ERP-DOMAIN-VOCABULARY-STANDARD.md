@@ -22,10 +22,10 @@
 | **Layer** | Platform kernel (vocabulary catalog) |
 | **Maturity** | **`catalog_authority`** — not `mvp_authority` (MVP implies buildable runtime) |
 | **Authority status** | `catalog_authority` |
-| **Implementation status** | `implemented` — B76–B78 catalog authority closed; only `accounting` vocabulary delivered |
-| **Evidence level** | `runtime` — B78 audit closure 2026-06-28; all §7 gates green |
-| **Runtime status** | 28-module catalog in `erp-domain-layout.contract.ts`; `accounting/` sole delivered folder; `pnpm check:erp-domain-layout` 10-point failure matrix enforced |
-| **Remaining slices** | B79 inventory vocabulary (proposed); B80+ one module per slice |
+| **Implementation status** | `implemented` — B76–B80 closed; `accounting` + `inventory` + `procurement` vocabulary delivered |
+| **Evidence level** | `runtime` — B80 procurement vocabulary; all §7 gates green |
+| **Runtime status** | 28-module catalog; `accounting/` + `inventory/` + `procurement/` delivered folders; layout + domain gates operational |
+| **Remaining slices** | B81+ one module per slice (25 catalog-only) |
 | **Continuation** | Complements [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md); does not replace PKGR02 inventory runtime |
 | **Agent skills** | **`kernel-authority`** (mandatory) · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
@@ -35,12 +35,14 @@
 | # | Gate command |
 | --- | --- |
 | 1 | `pnpm check:erp-domain-layout` |
-| 2 | `pnpm check:accounting-domain-contracts` |
-| 3 | `pnpm --filter @afenda/kernel typecheck` |
-| 4 | `pnpm check:foundation-disposition` |
-| 5 | `pnpm check:documentation-drift` (after B76) |
+| 2 | `pnpm check:inventory-domain-contracts` |
+| 3 | `pnpm check:procurement-domain-contracts` |
+| 4 | `pnpm check:accounting-domain-contracts` |
+| 5 | `pnpm --filter @afenda/kernel typecheck` |
+| 6 | `pnpm check:foundation-disposition` |
+| 7 | `pnpm check:documentation-drift` (after doc sync) |
 
-> **Maturity is part of authority.** `catalog_authority` means the **map is governed** — not that 27 modules are buildable. Promotion to `delivered` requires a dedicated B79+ slice per module.
+> **Maturity is part of authority.** `catalog_authority` means the **map is governed** — not that all 28 modules are buildable. Promotion to `delivered` requires a dedicated B79+ slice per module (3 delivered; 25 catalog-only).
 
 > **Canonical location:** `docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md` · Layout contract: `packages/kernel/src/erp-domain/erp-domain-layout.contract.ts`
 
@@ -58,7 +60,7 @@ Read **PAS-001 §0** (kernel boundary — closed), then this §0. Session: `/afe
 | --- | --- |
 | **Rule 1 — No folders for catalog-only modules** | Only `delivered` slugs may have `erp-domain/{slug}/` on disk. Catalog-only slugs exist in `erp-domain-layout.contract.ts` only. `pnpm check:erp-domain-layout` fails on violation. |
 | **Rule 2 — No business-reference duplication** | `CustomerId`, `ProductId`, `EmployeeId`, etc. stay under kernel identity / business-reference (PAS-001 §4.7). `{module}-id.contract.ts` holds **domain-scoped** branded IDs only. |
-| **Rule 3 — One module = one slice** | Do not scaffold 27 modules together. B79+ promotes one slug at a time (inventory recommended first). |
+| **Rule 3 — One module = one slice** | Do not batch-scaffold catalog-only modules. B79 delivered `inventory`; B80 delivered `procurement`; B81+ promotes one slug at a time. |
 
 **Hard stops:**
 
@@ -118,7 +120,7 @@ When a module promotes from `catalog-only` → `delivered` via its B79+ slice, i
 
 # 3. Full-Stack ERP Domain Catalog (28 modules)
 
-Registered in `erp-domain-layout.contract.ts`. **27 = catalog-only; 1 = delivered** (`accounting`).
+Registered in `erp-domain-layout.contract.ts`. **25 = catalog-only; 3 = delivered** (`accounting`, `inventory`, `procurement`).
 
 **Slug scope disambiguation (required for broad or platform-adjacent slugs):**
 
@@ -127,11 +129,9 @@ Registered in `erp-domain-layout.contract.ts`. **27 = catalog-only; 1 = delivere
 | `supply-chain` | Logistics and fulfillment orchestration vocabulary only (transport, warehouse movements, delivery status). Does **not** subsume `inventory`, `procurement`, or `manufacturing`. |
 | `document` | ERP **business document** vocabulary (posting attachments, fiscal document types, retention classes). Not platform document storage, CMS, or kernel wire document contracts. |
 
-**External runtime cross-references (catalog-only — not vocabulary delivery):**
+**External runtime cross-references (catalog-only slugs only):**
 
-| Slug | External lane | Meaning |
-| --- | --- | --- |
-| `inventory` | `PKGR02_INVENTORY` | Points to ADR-gated inventory **runtime** in `@afenda/database`. Kernel vocabulary for inventory remains catalog-only until B79 promotes the slug. |
+Catalog-only slugs may list `runtimeOwnerPackage` in metadata as an ADR cross-link. Delivered vocabulary modules (e.g. `inventory`) expose kernel contracts under `erp-domain/{slug}/` with a dedicated domain gate — runtime persistence remains in `@afenda/database` per ADR-0020.
 
 | LoB pillar | Slug | SAP / Oracle / Odoo anchor | Maturity |
 | --- | --- | --- | --- |
@@ -141,8 +141,8 @@ Registered in `erp-domain-layout.contract.ts`. **27 = catalog-only; 1 = delivere
 | | `tax` | Tax / Indirect Tax / Taxes | catalog-only |
 | | `consolidation` | Group reporting / FCCS / Consolidation | catalog-only |
 | | `intercompany` | IC / Intercompany / — | catalog-only |
-| **SCM** | `procurement` | MM-PUR / Procurement / Purchase | catalog-only |
-| | `inventory` | MM-IM / Inventory / Inventory | catalog-only |
+| **SCM** | `procurement` | MM-PUR / Procurement / Purchase | **delivered** |
+| | `inventory` | MM-IM / Inventory / Inventory | **delivered** |
 | | `manufacturing` | PP / Manufacturing / MRP | catalog-only |
 | | `quality` | QM / Quality / Quality | catalog-only |
 | | `maintenance` | PM / Maintenance / Maintenance | catalog-only |
@@ -198,10 +198,11 @@ Promotion `catalog-only` → `delivered` is always a **future slice outcome** (B
 | **B76** | PAS-001B doc + authority chain | Delivered |
 | **B77** | Layout contract + hardened `check:erp-domain-layout` + PKGR01B | Delivered |
 | **B78** | Audit-only closure / evidence sync | Delivered (2026-06-28) |
-| **B79** | `inventory` vocabulary promotion (recommended first) | Proposed |
-| **B80+** | One module per slice | Proposed |
+| **B79** | `inventory` vocabulary promotion | Delivered (2026-06-28) |
+| **B80** | `procurement` vocabulary promotion | Delivered (2026-06-28) |
+| **B81+** | One module per slice | Proposed |
 
-Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-domain-catalog-doc.md) · [`slice/b77-erp-domain-layout-gate.md`](slice/b77-erp-domain-layout-gate.md) · [`slice/b78-pas001b-audit-closure.md`](slice/b78-pas001b-audit-closure.md)
+Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-domain-catalog-doc.md) · [`slice/b77-erp-domain-layout-gate.md`](slice/b77-erp-domain-layout-gate.md) · [`slice/b78-pas001b-audit-closure.md`](slice/b78-pas001b-audit-closure.md) · [`slice/b79-inventory-domain-vocabulary.md`](slice/b79-inventory-domain-vocabulary.md) · [`slice/b80-procurement-domain-vocabulary.md`](slice/b80-procurement-domain-vocabulary.md)
 
 ---
 
@@ -210,8 +211,9 @@ Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-
 | Gate | When | Enforces |
 | --- | --- | --- |
 | `pnpm check:erp-domain-layout` | B77+ | 10-point failure matrix below |
+| `pnpm check:inventory-domain-contracts` | B79+ for `inventory` | Contracts-only surface |
 | `pnpm check:accounting-domain-contracts` | Always for `accounting` | Contracts-only surface |
-| Per-module `check-{module}-domain-contracts` | When module `delivered` | Module-specific vocabulary integrity |
+| `pnpm check:procurement-domain-contracts` | B80+ for `procurement` | Contracts-only surface |
 
 ## 7.1 `check:erp-domain-layout` failure matrix
 
@@ -242,8 +244,8 @@ Runtime enforcement: [`scripts/governance/check-erp-domain-layout.mts`](../../sc
 | Finance | `tax` | Tax | Indirect Tax | Taxes | — |
 | Finance | `consolidation` | Group Reporting | FCCS | Consolidation | — |
 | Finance | `intercompany` | IC | Intercompany | — | — |
-| SCM | `procurement` | MM-PUR | Procurement | Purchase | — |
-| SCM | `inventory` | MM-IM | Inventory | Inventory | PKGR02_INVENTORY (external ref only) |
+| SCM | `procurement` | MM-PUR | Procurement | Purchase | vocabulary delivered B80 |
+| SCM | `inventory` | MM-IM | Inventory | Inventory | PKGR02_INVENTORY (vocabulary delivered B79) |
 | SCM | `manufacturing` | PP | Manufacturing | MRP | — |
 | SCM | `quality` | QM | Quality | Quality | — |
 | SCM | `maintenance` | PM | Maintenance | Maintenance | — |

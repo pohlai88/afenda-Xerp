@@ -1,4 +1,4 @@
-import { visualDriftPolicy } from "@afenda/design-system";
+import { visualDriftPolicy } from "../design-authority/policies/visual-drift-policy.js";
 
 import {
   assertAllowedLayoutClassName,

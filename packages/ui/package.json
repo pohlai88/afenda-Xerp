@@ -40,6 +40,11 @@
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js",
       "default": "./dist/lib/*.js"
+    },
+    "./design-authority": {
+      "types": "./dist/design-authority/index.d.ts",
+      "import": "./dist/design-authority/index.js",
+      "default": "./dist/design-authority/index.js"
     }
   },
   "files": [

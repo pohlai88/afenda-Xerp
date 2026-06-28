@@ -86,10 +86,10 @@ export const ERP_DOMAIN_MODULE_SCOPE_DEFINITIONS = {
 /**
  * External runtime lane references for catalog-only slugs.
  * Cross-links PKGR rows without implying kernel vocabulary delivery.
+ * Delivered slugs must not appear here (see check:erp-domain-layout).
  */
-export const ERP_DOMAIN_EXTERNAL_RUNTIME_REFERENCES = {
-  inventory: "PKGR02_INVENTORY",
-} as const satisfies Partial<Record<ErpDomainModule, string>>;
+export const ERP_DOMAIN_EXTERNAL_RUNTIME_REFERENCES =
+  {} as const satisfies Partial<Record<ErpDomainModule, string>>;
 
 /** Expected full-suite catalog size — must match PAS-001B §3 table row count. */
 export const ERP_DOMAIN_PAS_CATALOG_EXPECTED_COUNT = 28 as const;
@@ -101,8 +101,8 @@ export const ERP_DOMAIN_MODULE_MATURITY = {
   tax: "catalog-only",
   consolidation: "catalog-only",
   intercompany: "catalog-only",
-  procurement: "catalog-only",
-  inventory: "catalog-only",
+  procurement: "delivered",
+  inventory: "delivered",
   manufacturing: "catalog-only",
   quality: "catalog-only",
   maintenance: "catalog-only",
@@ -180,7 +180,7 @@ export const ERP_DOMAIN_MODULE_METADATA = {
     oracleAnchor: "Procurement",
     odooAnchor: "Purchase",
     runtimeOwnerPackage: null,
-    vocabularyGate: null,
+    vocabularyGate: "pnpm check:procurement-domain-contracts",
   },
   inventory: {
     lobPillar: "scm",
@@ -188,7 +188,7 @@ export const ERP_DOMAIN_MODULE_METADATA = {
     oracleAnchor: "Inventory",
     odooAnchor: "Inventory",
     runtimeOwnerPackage: "PKGR02_INVENTORY",
-    vocabularyGate: null,
+    vocabularyGate: "pnpm check:inventory-domain-contracts",
   },
   manufacturing: {
     lobPillar: "scm",
@@ -355,6 +355,8 @@ export const ERP_DOMAIN_MODULE_METADATA = {
 /** Repo-relative paths to each delivered domain public barrel (`index.ts`). */
 export const ERP_DOMAIN_MODULE_INDEX_PATHS = {
   accounting: "packages/kernel/src/erp-domain/accounting/index.ts",
+  inventory: "packages/kernel/src/erp-domain/inventory/index.ts",
+  procurement: "packages/kernel/src/erp-domain/procurement/index.ts",
 } as const satisfies Partial<Record<ErpDomainModule, string>>;
 
 export const ERP_DOMAIN_DELIVERED_MODULES = ERP_DOMAIN_MODULES.filter(

@@ -13,9 +13,9 @@ paths:
 | Field | Value |
 | --- | --- |
 | **Runtime status** | B42p delivered — ERP + Storybook import `@afenda/shadcn-studio/shadcn-studio.css`; delegating-flip policy registry (68 rows); legacy `shadcn-studio/` path deleted (B42h); strangler complete |
-| **Remaining slices** | none — optional ERP feature delegating per block when a11y parity lands |
+| **Remaining slices** | B44–B49 under [PAS-005B](../../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) — appshell consolidation (B48); optional delegating per block |
 
-> Canonical: [`docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`](../../../docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · Parent: [`PAS-005`](../../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`](../../../docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · Parent: [`PAS-005`](../../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Retirement: [`PAS-005B`](../../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -32,10 +32,13 @@ Apply when touching:
 - `packages/shadcn-studio/**`
 - theme presets, `ThemeCustomizer`, `settings-context.tsx`
 - `shadcn-studio.config.json`, `.cursor/mcp/shadcn-studio.mjs`
-- PAS-005A slices (`b38`–`b42-pas005a-*`)
+- PAS-005A slices (`b38`–`b42p`)
 - MCP `/rui`, `/cui`, `install-theme` install targets
+- PAS-005B B48 appshell presentation consolidation
 
-**Phase 1 rule:** Standalone Afenda-free product until B42. No `@afenda/css-authority` imports.
+**Integration rule (B42+):** ERP and appshell consume this package via public exports and CSS. Package source must not import `@afenda/css-authority` TS — CSS dist alignment only per PAS-005A §3.3.
+
+**PAS-005B hard rule:** shadcn-studio owns presentation product/block truth — not CSS-TOKEN registry (PAS-005 / css-authority).
 
 ---
 

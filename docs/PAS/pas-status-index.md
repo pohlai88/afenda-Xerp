@@ -61,7 +61,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Gates** | Baseline table in PAS-001A §0; all §6 scorecard gates green at B75 |
 | **Result** | ERP runtime speaks kernel operating-context vocabulary end-to-end through permissions, resolver spine, metadata bridge, and governance gates |
 
-**Next sequence item:** none — PAS-001A closed; continue ERP domain vocabulary under [PAS-001B](#pas-001b-kernel-erp-domain-vocabulary-catalog--catalog-authority) (B79+ inventory recommended).
+**Next sequence item:** none — PAS-001A closed; ERP domain vocabulary catalog under [PAS-001B](#pas-001b-kernel-erp-domain-vocabulary-catalog--catalog-authority) (B76–B79 delivered).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -77,22 +77,24 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — Catalog Authority (B76–B78 complete; attested 2026-06-28) |
+| **Status** | Delivered — Catalog Authority (B76–B80 complete; attested 2026-06-28) |
 | **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
 | **Maturity** | `catalog_authority` · `implemented` · `runtime` |
-| **Runtime status** | 28-module catalog; `accounting/` sole delivered folder; `check:erp-domain-layout` 10-point failure matrix; B78 audit closed |
-| **Remaining slices** | B79 inventory vocabulary (proposed); B80+ one module per slice |
-| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) §9, `erp-domain-layout.contract.ts`, `check:erp-domain-layout`, `PKGR01B_ERP_DOMAIN_CATALOG` |
-| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:accounting-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
-| **Result** | Catalog authority closed at 9.5/10 integration score; Rule 1–3 enforced; module promotion queue B79+ only |
+| **Runtime status** | 28-module catalog; `accounting/` + `inventory/` + `procurement/` delivered; layout + domain gates operational |
+| **Remaining slices** | B81+ one module per slice (25 catalog-only) |
+| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md), `erp-domain/procurement/`, `check:procurement-domain-contracts`, `check:erp-domain-layout` |
+| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:procurement-domain-contracts`, `pnpm check:inventory-domain-contracts`, `pnpm check:accounting-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
+| **Result** | Three delivered vocabulary modules; 25 catalog-only; Rule 1–3 enforced |
 
-**Next sequence item:** B79 — `inventory` vocabulary slice (proposed; aligns with PKGR02 partial runtime).
+**Next sequence item:** B81+ — next catalog-only promotion (one module per slice).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
 | B76 | [b76-pas001b-erp-domain-catalog-doc.md](slice/b76-pas001b-erp-domain-catalog-doc.md) | Delivered |
 | B77 | [b77-erp-domain-layout-gate.md](slice/b77-erp-domain-layout-gate.md) | Delivered |
 | B78 | [b78-pas001b-audit-closure.md](slice/b78-pas001b-audit-closure.md) | Delivered |
+| B79 | [b79-inventory-domain-vocabulary.md](slice/b79-inventory-domain-vocabulary.md) | Delivered |
+| B80 | [b80-procurement-domain-vocabulary.md](slice/b80-procurement-domain-vocabulary.md) | Delivered |
 
 ---
 
@@ -127,6 +129,37 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Result** | Derived presentation authority from PAS-005 — theme presets, MCP inventory, appshell bridge, ERP CSS import (B42–B42p complete) |
 
 **Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
+
+---
+
+## PAS-005B Design-System Retirement — doctrine (Retirement Candidate)
+
+| Field | Value |
+| --- | --- |
+| **Status** | B43 delivered — canonical PAS + ADR-0025 Proposed (2026-06-29) |
+| **Authority** | PAS-005B · ADR-0025 · PKG004 `@afenda/design-system` (retiring) |
+| **Maturity** | `retirement_candidate` · `accepted_for_planning` · `partial` · `planning` |
+| **Runtime status** | B43 delivered — doctrine authored; design-system package still active; css-authority 605-token live; shadcn-studio B42p complete |
+| **Remaining slices** | B44 migration study + readiness gate (next) · B45 CSS unify · B46 internalize UI registries (conditional) · B47 delete package · B48 appshell consolidation · B49 attestation (optional) |
+| **Runtime evidence** | [PAS-005B canonical doc](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md) |
+| **Gates** | `pnpm check:documentation-drift`, `pnpm check:foundation-disposition`; B44+ adds `pnpm check:design-system-retirement-readiness` |
+| **Result** | Controlled retirement map — five hard rules; package deletion blocked until ADR Accepted + B44 green + foundation-registry-owner |
+
+**Next sequence item:** B44 — migration study + `check:design-system-retirement-readiness` gate
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B43 | [b43-pas005b-author-retirement-pas.md](slice/b43-pas005b-author-retirement-pas.md) | Delivered |
+| B44 | (proposed — migration study + readiness gate) | Not started |
+| B45 | (proposed — CSS chain unification) | Not started |
+| B46 | (proposed — internalize UI registries, conditional) | Not started |
+| B47 | (proposed — delete package) | Not started |
+| B48 | (proposed — appshell consolidation) | Not started |
+| B49 | (proposed — Production Candidate attestation) | Not started |
+
+---
+
+## PAS-005A slice registry (B38–B42p)
 
 | Slice | Doc | Status |
 | --- | --- | --- |

@@ -490,7 +490,7 @@ const foundationDispositionEntries = [
       "scripts/governance/check-erp-domain-layout.mts",
     ],
     knownGaps: [
-      "27 catalog-only modules await B79+ serialized vocabulary slices (inventory recommended first)",
+      "25 catalog-only modules await B81+ serialized vocabulary slices",
     ],
     allowedAgents: ["kernel-context-agent", "foundation-registry-owner"],
     prohibited: [
@@ -502,6 +502,8 @@ const foundationDispositionEntries = [
     gates: [
       "pnpm check:erp-domain-layout",
       "pnpm check:accounting-domain-contracts",
+      "pnpm check:inventory-domain-contracts",
+      "pnpm check:procurement-domain-contracts",
       "pnpm --filter @afenda/kernel typecheck",
       "pnpm check:foundation-disposition",
     ],

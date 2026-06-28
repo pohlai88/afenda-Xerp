@@ -1,5 +1,8 @@
-import { appShellRecipe, metadataUiRecipe } from "@afenda/design-system";
 import { describe, expect, it } from "vitest";
+import {
+  appShellRecipe,
+  metadataUiRecipe,
+} from "../../design-authority/recipes/index.js";
 
 import {
   APP_SHELL_RECIPE_SLOTS,

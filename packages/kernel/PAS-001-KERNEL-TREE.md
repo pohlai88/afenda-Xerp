@@ -172,19 +172,47 @@ packages/kernel/
     │
     ├── erp-domain/                         # ✅ §4.8 · PAS-001B ERP domain vocabulary catalog
     │   ├── erp-domain-layout.contract.ts   # 📋 28-slug catalog + maturity (PAS-001B B77)
-    │   └── accounting/                     # ✅ delivered — @afenda/kernel/erp-domain/accounting
-    │       ├── accounting-authority.contract.ts
-    │       ├── accounting-domain-vocabulary.registry.ts
-    │       ├── accounting-domain-vocabulary.policy.ts
-    │       ├── accounting-domain-wire-context.contract.ts
-    │       ├── accounting-id.contract.ts             # ⛔ QUARANTINE FiscalCalendarId/FiscalPeriodId
-    │       ├── accounting-permission-vocabulary.contract.ts
-    │       ├── accounting-audit-actions.contract.ts
-    │       ├── account-type.contract.ts
-    │       ├── consolidation-method.contract.ts
-    │       ├── fiscal-period-state.contract.ts
-    │       ├── journal-document-type.contract.ts
-    │       ├── posting-status.contract.ts
+    │   ├── accounting/                     # ✅ delivered — @afenda/kernel/erp-domain/accounting
+    │   │   ├── accounting-authority.contract.ts
+    │   │   ├── accounting-domain-vocabulary.registry.ts
+    │   │   ├── accounting-domain-vocabulary.policy.ts
+    │   │   ├── accounting-domain-wire-context.contract.ts
+    │   │   ├── accounting-id.contract.ts             # ⛔ QUARANTINE FiscalCalendarId/FiscalPeriodId
+    │   │   ├── accounting-permission-vocabulary.contract.ts
+    │   │   ├── accounting-audit-actions.contract.ts
+    │   │   ├── account-type.contract.ts
+    │   │   ├── consolidation-method.contract.ts
+    │   │   ├── fiscal-period-state.contract.ts
+    │   │   ├── journal-document-type.contract.ts
+    │   │   ├── posting-status.contract.ts
+    │   │   ├── index.ts
+    │   │   └── __tests__/
+    │   └── inventory/                      # ✅ delivered — @afenda/kernel/erp-domain/inventory (B79)
+    │       ├── inventory-authority.contract.ts
+    │       ├── inventory-domain-vocabulary.registry.ts
+    │       ├── inventory-domain-vocabulary.policy.ts
+    │       ├── inventory-domain-wire-context.contract.ts
+    │       ├── inventory-id.contract.ts
+    │       ├── inventory-permission-vocabulary.contract.ts
+    │       ├── inventory-audit-actions.contract.ts
+    │       ├── stock-movement-type.contract.ts
+    │       ├── inventory-record-status.contract.ts
+    │       ├── stock-reservation-status.contract.ts
+    │       ├── valuation-method.contract.ts
+    │       ├── index.ts
+    │       └── __tests__/
+    │   └── procurement/                    # ✅ delivered — @afenda/kernel/erp-domain/procurement (B80)
+    │       ├── procurement-authority.contract.ts
+    │       ├── procurement-domain-vocabulary.registry.ts
+    │       ├── procurement-domain-vocabulary.policy.ts
+    │       ├── procurement-domain-wire-context.contract.ts
+    │       ├── procurement-id.contract.ts
+    │       ├── procurement-permission-vocabulary.contract.ts
+    │       ├── procurement-audit-actions.contract.ts
+    │       ├── purchase-requisition-status.contract.ts
+    │       ├── purchase-order-status.contract.ts
+    │       ├── procurement-document-type.contract.ts
+    │       ├── sourcing-method.contract.ts
     │       ├── index.ts
     │       └── __tests__/
     │

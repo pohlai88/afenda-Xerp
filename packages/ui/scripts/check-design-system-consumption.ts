@@ -17,9 +17,15 @@ import {
 
 const packageRoot = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const uiSrcRoot = join(packageRoot, "src");
+const designAuthorityRoot = join(uiSrcRoot, "design-authority");
 const designSystemRoot = join(packageRoot, "..", "design-system");
 
 const designSystemBridgePath = "src/governance/design-system.ts";
+const designAuthorityBridgePaths = new Set([
+  designSystemBridgePath,
+  "src/governance/density.ts",
+  "src/governance/class-name-guard.ts",
+]);
 
 /** Recipe ownership layer — semantic Tailwind is allowed here, forbidden in components. */
 const recipeImplementationPaths = new Set([
@@ -127,10 +133,16 @@ const prohibitedArbitraryPattern = /\b(?:rounded|shadow|text)-\[/u;
 const exportedCvaPattern = /export\s+const\s+\w+Variants\s*=/u;
 
 const deepImportPattern =
-  /@afenda\/design-system\/(?:src|contracts|policies|recipes|tokens|variants)\//u;
+  /@afenda\/(?:design-system|ui\/design-authority)\/(?:src|contracts|policies|recipes|tokens|variants|design-authority)\//u;
 
 const directDesignSystemImportPattern =
   /^\s*import\s+(?:type\s+)?(?:[\w*{}\s,]+)\s+from\s+["']@afenda\/design-system/mu;
+
+const directDesignAuthorityImportPattern =
+  /^\s*import\s+(?:type\s+)?(?:[\w*{}\s,]+)\s+from\s+["']@afenda\/ui\/design-authority/mu;
+
+const relativeDesignAuthorityImportPattern =
+  /^\s*import\s+(?:type\s+)?(?:[\w*{}\s,]+)\s+from\s+["']\.\.\/design-authority\//mu;
 
 const componentCvaPattern = /\bcva\s*\(/u;
 
@@ -154,10 +166,14 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
   const relativePath = relative(packageRoot, filePath).replace(/\\/g, "/");
   const source = readText(filePath);
   const isDesignSystemBridge = relativePath === designSystemBridgePath;
+  const isDesignAuthorityBridge = designAuthorityBridgePaths.has(relativePath);
+  const isDesignAuthorityInternal = relativePath.startsWith(
+    "src/design-authority/"
+  );
   const isRecipeImplementation = recipeImplementationPaths.has(relativePath);
   const isGovernedComponent = governedComponentFiles.includes(relativePath);
 
-  if (!isDesignSystemBridge) {
+  if (!(isDesignSystemBridge || isDesignAuthorityInternal)) {
     for (const pattern of duplicateAuthorityPatterns) {
       if (pattern.test(source)) {
         failures.push(
@@ -168,16 +184,43 @@ for (const filePath of collectSourceFiles(uiSrcRoot)) {
 
     if (deepImportPattern.test(source)) {
       failures.push(
-        `${relativePath}: deep-imports @afenda/design-system private paths`
+        `${relativePath}: deep-imports design-authority private paths`
+      );
+    }
+
+    if (directDesignSystemImportPattern.test(source)) {
+      failures.push(
+        `${relativePath}: imports @afenda/design-system directly — use governance bridge or internal design-authority`
+      );
+    }
+
+    if (
+      directDesignAuthorityImportPattern.test(source) &&
+      !isDesignAuthorityBridge
+    ) {
+      failures.push(
+        `${relativePath}: imports @afenda/ui/design-authority directly instead of governance adapter`
+      );
+    }
+
+    if (
+      relativeDesignAuthorityImportPattern.test(source) &&
+      !isDesignAuthorityBridge &&
+      !isDesignAuthorityInternal
+    ) {
+      failures.push(
+        `${relativePath}: imports design-authority relative paths outside approved bridge files`
       );
     }
 
     if (
       relativePath.startsWith("src/components/") &&
-      directDesignSystemImportPattern.test(source)
+      (directDesignSystemImportPattern.test(source) ||
+        directDesignAuthorityImportPattern.test(source) ||
+        relativeDesignAuthorityImportPattern.test(source))
     ) {
       failures.push(
-        `${relativePath}: imports @afenda/design-system directly instead of governance adapter`
+        `${relativePath}: imports design authority directly instead of governance adapter`
       );
     }
   }
@@ -295,11 +338,19 @@ const uiPackageJson = JSON.parse(
   readText(join(packageRoot, "package.json"))
 ) as {
   dependencies?: Record<string, string>;
+  exports?: Record<string, unknown>;
 };
 
-if (!uiPackageJson.dependencies?.["@afenda/design-system"]) {
+if (!uiPackageJson.exports?.["./design-authority"]) {
   failures.push(
-    "packages/ui/package.json: missing @afenda/design-system dependency"
+    "packages/ui/package.json: missing @afenda/ui/design-authority export"
+  );
+}
+
+const designAuthorityIndexPath = join(designAuthorityRoot, "index.ts");
+if (!readText(designAuthorityIndexPath).includes("designSystemContract")) {
+  failures.push(
+    "packages/ui/src/design-authority/index.ts: missing designSystemContract export"
   );
 }
 

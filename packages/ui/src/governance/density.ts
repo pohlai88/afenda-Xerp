@@ -1,5 +1,5 @@
 /**
- * Density bridge re-exported from @afenda/design-system for downstream hooks.
+ * Density bridge re-exported from internal design-authority for downstream hooks.
  *
  * TS/API uses `standard`; DOM hooks use `data-afenda-density="default"`.
  */
@@ -9,4 +9,4 @@ export {
   densityToAttribute,
   isDensity,
   isDensityAttribute,
-} from "@afenda/design-system";
+} from "../design-authority/contracts/density.contract.js";

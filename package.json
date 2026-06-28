@@ -149,6 +149,8 @@
     "check:accounting-readiness-gate": "tsx scripts/governance/check-accounting-readiness-gate.mts",
     "check:accounting-domain-contracts": "tsx scripts/governance/check-accounting-domain-contracts.mts",
     "check:erp-domain-layout": "tsx scripts/governance/check-erp-domain-layout.mts",
+    "check:inventory-domain-contracts": "tsx scripts/governance/check-inventory-domain-contracts.mts",
+    "check:procurement-domain-contracts": "tsx scripts/governance/check-procurement-domain-contracts.mts",
     "check:docs": "pnpm check:docs-catalog-drift && pnpm check:feature-evidence-coverage && pnpm check:feature-evidence-content-policy && pnpm --filter @afenda/docs lint:links && pnpm --filter @afenda/docs build",
     "check:api-contracts": "tsx scripts/api-contract/check-api-contracts.mts && tsx scripts/api-contract/check-openapi-drift.mts",
     "check:api-route-catalog": "tsx scripts/api-contract/check-api-route-catalog.mts",

@@ -2,10 +2,10 @@
  * @afenda/ui design-system bridge.
  *
  * This file is the only allowed direct import surface from
- * @afenda/design-system into @afenda/ui.
+ * internal design-authority into @afenda/ui governance.
  *
  * Do not import this file from applications.
- * Do not import @afenda/design-system directly from components.
+ * Do not import design-authority directly from components.
  * Do not define tokens, variants, states, recipes, motion, or className policy here.
  *
  * This bridge re-exports governed authority only.
@@ -60,7 +60,7 @@ export type {
   VariantIntent,
   VariantRegistry,
   VariantSelection,
-} from "@afenda/design-system";
+} from "../design-authority/index.js";
 // Authority vocabulary
 // Authority contracts
 export {
@@ -106,4 +106,4 @@ export {
   VARIANT_EMPHASES,
   VARIANT_INTENTS,
   variantContract,
-} from "@afenda/design-system";
+} from "../design-authority/index.js";

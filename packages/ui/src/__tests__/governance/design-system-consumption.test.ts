@@ -31,14 +31,12 @@ const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../../..");
 const designSystemRoot = join(packageRoot, "..", "design-system");
 
 describe("governance dependency direction", () => {
-  it("depends on @afenda/design-system at package level", () => {
+  it("exports internal design-authority from package.json", () => {
     const packageJson = JSON.parse(
       readFileSync(join(packageRoot, "package.json"), "utf8")
-    ) as { dependencies?: Record<string, string> };
+    ) as { exports?: Record<string, unknown> };
 
-    expect(packageJson.dependencies?.["@afenda/design-system"]).toBe(
-      "workspace:*"
-    );
+    expect(packageJson.exports?.["./design-authority"]).toBeDefined();
   });
 
   it("does not allow @afenda/design-system to depend on @afenda/ui", () => {
@@ -163,8 +161,8 @@ describe("accessibility and motion helpers", () => {
 });
 
 describe("governance bridge discipline", () => {
-  it("keeps governed recipe axes aligned with design-system authority", async () => {
-    const { recipeRegistry } = await import("@afenda/design-system");
+  it("keeps governed recipe axes aligned with design-authority", async () => {
+    const { recipeRegistry } = await import("../../design-authority/index.js");
 
     for (const recipeName of GOVERNED_UI_RECIPES) {
       const authorityRecipe = recipeRegistry.recipes.find(

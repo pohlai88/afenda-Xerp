@@ -14,9 +14,9 @@ paths:
 | Field | Value |
 | --- | --- |
 | **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
-| **Remaining slices** | none — optional enhancements only |
+| **Remaining slices** | B44–B49 under [PAS-005B](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) — design-system retirement; css-authority optional Production Candidate (B49) |
 
-> Canonical: [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
+> Canonical: [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Retirement: [`PAS-005B`](../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) · Closure: [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -38,7 +38,15 @@ Apply when touching:
 - PAS-005 slices under `docs/PAS/slice/`
 - `check:css-governance` / R22–R30 consumption gates
 
-**Design-system boundary:** `@afenda/design-system` retains Governed UI variant/recipe TS governance in v1. CSS monolith is a **B30 deprecation shim** — runtime bridge lives in `@afenda/css-authority`. Do not expand `token.registry.ts` palette or hand-edit generated CSS.
+**Design-system boundary:** `@afenda/design-system` is **retiring** under [PAS-005B](../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md). CSS monolith is a **B30 deprecation shim** — runtime bridge lives in `@afenda/css-authority`. **Hard rule:** css-authority owns all CSS token truth — do not expand `token.registry.ts` or add design-system CSS after B45.
+
+**PAS-005B hard rules (summary):**
+
+1. css-authority owns all token truth.
+2. shadcn-studio owns presentation product truth.
+3. design-system must not generate CSS after B45.
+4. `@afenda/ui` cannot be deleted in PAS-005B v1.
+5. Package deletion requires ADR-0025 Accepted + B44 readiness + foundation-registry-owner.
 
 ---
 
@@ -134,5 +142,6 @@ pnpm quality:boundaries
 | Doc | Path |
 | --- | --- |
 | PAS-005 | [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) |
+| PAS-005B | [`docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md`](../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) |
 | Derived view | [`docs/architecture/css-authority.md`](../../docs/architecture/css-authority.md) |
 | Package pointer | [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md) |

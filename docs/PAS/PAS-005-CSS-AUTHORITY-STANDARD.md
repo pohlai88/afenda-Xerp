@@ -292,7 +292,7 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 | P5 | ~~R15 raw visual values in `afenda-appshell-studio.css`~~ | appshell slice | **Resolved** — `--auth-editorial-*` / `--app-shell-studio-*` custom property defs exempt; 0 R15 warnings at last `check:css-governance` run |
 | P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 605-token registry |
 | P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
-| Deferred | Delete `@afenda/design-system` CSS exports | post-v1 | Prohibited in PAS-005 v1 (`do-not-delete-design-system-v1`) |
+| Deferred | Delete `@afenda/design-system` | [PAS-005B](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) B44–B47 | ADR-0025 Proposed; B43 doctrine delivered; deletion blocked until readiness gate |
 | Out of scope (v1) | Governed UI variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
 | P8 | shadcn/studio presentation product (standalone) | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) B38–B42 | Derived PAS — theme presets, MCP seed, lab verification; Afenda bridge deferred to B42 |
 

@@ -40,9 +40,9 @@ describe("motion governance", () => {
     expect(policyIntents).toHaveLength(MOTION_INTENTS.length);
   });
 
-  it("aligns with design-system motion authority", async () => {
+  it("aligns with internal design-authority motion policy", async () => {
     const { motionPolicy: authorityPolicy } = await import(
-      "@afenda/design-system"
+      "../../design-authority/index.js"
     );
 
     expect(getMotionPolicy()).toEqual(authorityPolicy);
