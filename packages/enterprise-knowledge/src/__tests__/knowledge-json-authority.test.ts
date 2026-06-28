@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { KNOWLEDGE_REGISTRY_LOADER_MAX_LINES } from "../constants/knowledge-json-authority.js";
 import {
   validateAtomCorpus,
   validateEdgeCorpus,
@@ -41,7 +42,9 @@ describe("JSON data authority — atoms.json", () => {
     );
     expect(loaderSrc).not.toMatch(/atomId:\s*["']/);
     expect(loaderSrc).not.toMatch(/acceptanceChain:/);
-    expect(loaderSrc.split("\n").length).toBeLessThanOrEqual(40);
+    expect(loaderSrc.split("\n").length).toBeLessThanOrEqual(
+      KNOWLEDGE_REGISTRY_LOADER_MAX_LINES
+    );
   });
 
   it("atoms.json contains twenty-four typed atoms with frozen B24 prefix", () => {

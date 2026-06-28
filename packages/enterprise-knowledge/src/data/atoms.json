@@ -93,6 +93,8 @@
     },
     "implementationMapping": {
       "upstreamContract": "LegalEntityContext",
+      "contractPath": "packages/kernel/src/context/legal-entity-context.contract.ts",
+      "brandedId": "CompanyId",
       "databaseTable": "companies",
       "operatingContextField": "legalEntity",
       "runtimeStatus": "implemented",
@@ -100,6 +102,11 @@
     },
     "ownedByPas": "PAS-004",
     "typedEvidence": [
+      {
+        "evidenceId": "legal_entity_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/families/tenant-hierarchy-id.contract.ts"
+      },
       {
         "evidenceId": "legal_entity_evidence_1",
         "type": "policy",
@@ -200,6 +207,8 @@
     },
     "implementationMapping": {
       "upstreamContract": "OrganizationUnitContext",
+      "contractPath": "packages/kernel/src/context/organization-unit-context.contract.ts",
+      "brandedId": "OrganizationId",
       "databaseTable": "organizations",
       "operatingContextField": "organizationUnit",
       "runtimeStatus": "implemented",
@@ -207,6 +216,11 @@
     },
     "ownedByPas": "PAS-004",
     "typedEvidence": [
+      {
+        "evidenceId": "organization_unit_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/families/tenant-hierarchy-id.contract.ts"
+      },
       {
         "evidenceId": "organization_unit_evidence_1",
         "type": "policy",
@@ -307,6 +321,7 @@
     },
     "implementationMapping": {
       "upstreamContract": "WorkspaceContext",
+      "contractPath": "packages/kernel/src/context/workspace-context.contract.ts",
       "operatingContextField": "workspace",
       "runtimeStatus": "partial",
       "persistenceClass": "derived"
@@ -408,6 +423,7 @@
     },
     "implementationMapping": {
       "upstreamContract": "SurfaceContext",
+      "contractPath": "packages/kernel/src/context/surface-context.contract.ts",
       "operatingContextField": "surface",
       "runtimeStatus": "partial",
       "persistenceClass": "derived"
@@ -1258,9 +1274,28 @@
       "evolution": true,
       "relationship": true
     },
+    "implementationMapping": {
+      "upstreamContract": "TenantContext",
+      "contractPath": "packages/kernel/src/context/tenant-context.contract.ts",
+      "brandedId": "TenantId",
+      "databaseTable": "tenants",
+      "operatingContextField": "tenant",
+      "runtimeStatus": "implemented",
+      "persistenceClass": "persisted"
+    },
     "typedEvidence": [
       {
+        "evidenceId": "tenant_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/families/tenant-hierarchy-id.contract.ts"
+      },
+      {
         "evidenceId": "tenant_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/tenant-context.contract.ts"
+      },
+      {
+        "evidenceId": "tenant_evidence_2",
         "type": "sop",
         "source": "packages/database/src/schema/tenant.schema.ts"
       }

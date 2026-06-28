@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T01:26:01.755Z",
+  "generatedAt": "2026-06-28T01:45:14.989Z",
   "tokens": [
     {
       "id": "CSS-TOKEN-001",
@@ -6249,6 +6249,17 @@
       "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
       "introducedIn": "PAS-005-B34",
       "category": "shadow",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-569",
+      "name": "--app-shell-content-padding-inline",
+      "owner": "@afenda/appshell",
+      "authority": "appshell",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "spacing",
       "editable": false
     }
   ]

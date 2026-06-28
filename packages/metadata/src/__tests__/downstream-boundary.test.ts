@@ -55,12 +55,14 @@ function collectSourceFiles(directory: string): string[] {
 }
 
 describe("@afenda/metadata downstream boundary", () => {
-  it("remains governance-only with no runtime dependencies", () => {
+  it("declares only @afenda/enterprise-knowledge as runtime dependency (PAS-004B B34)", () => {
     const packageJson = JSON.parse(
       readFileSync(join(import.meta.dirname, "../../package.json"), "utf8")
     ) as { dependencies?: Record<string, string> };
 
-    expect(Object.keys(packageJson.dependencies ?? {})).toEqual([]);
+    expect(Object.keys(packageJson.dependencies ?? {})).toEqual([
+      "@afenda/enterprise-knowledge",
+    ]);
   });
 
   it("does not import downstream UI packages or React", () => {
@@ -96,7 +98,9 @@ describe("@afenda/metadata downstream boundary", () => {
   it("matches crossPackageAuthority import policy", () => {
     const metadataPolicy = getMetadataImportPolicy();
 
-    expect(metadataPolicy.mayImportFrom).toEqual([]);
+    expect(metadataPolicy.mayImportFrom).toEqual([
+      "@afenda/enterprise-knowledge",
+    ]);
     expect(metadataPolicy.mayNotImportFrom).toEqual(
       expect.arrayContaining([
         "@afenda/design-system",

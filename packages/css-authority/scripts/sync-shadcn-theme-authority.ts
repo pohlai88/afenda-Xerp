@@ -62,7 +62,7 @@ function inferCategory(varName: string): CssTokenCategory {
   return "surface";
 }
 
-function parseRootCustomProperties(css: string): string[] {
+export function parseRootCustomProperties(css: string): string[] {
   const rootMatch = ROOT_BLOCK_RE.exec(css);
   if (rootMatch === null) {
     throw new Error("shadcn-theme.css: missing :root block");

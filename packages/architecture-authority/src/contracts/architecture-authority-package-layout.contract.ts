@@ -17,6 +17,7 @@ export const ARCHITECTURE_AUTHORITY_SRC_ROOT_BARREL = "index.ts" as const;
 export const ARCHITECTURE_AUTHORITY_CURRENT_SRC_TOP_LEVEL = [
   "contracts",
   "data",
+  "policy",
   "validators",
   "surface",
   "workspace",
@@ -39,6 +40,7 @@ export const ARCHITECTURE_AUTHORITY_PACKAGE_TARGET_PATHS = [
   "packages/architecture-authority/src/data/exception-registry.data.ts",
   "packages/architecture-authority/src/data/foundation-disposition.registry.ts",
   "packages/architecture-authority/src/data/business-master-data-authority.registry.ts",
+  "packages/architecture-authority/src/policy/architecture-kernel-non-duplication.policy.ts",
   "packages/architecture-authority/src/validators/validate-architecture.ts",
   "packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts",
   "packages/architecture-authority/src/surface/index.ts",

@@ -32,6 +32,11 @@ const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
 export default defineConfig({
   expect: {
     timeout: 15_000,
+    toHaveScreenshot: {
+      animations: "disabled",
+      maxDiffPixelRatio: 0.02,
+      pathTemplate: "{testDir}/visual-proof/{arg}{ext}",
+    },
   },
   forbidOnly: isCI,
   outputDir: "e2e/test-results",
@@ -52,6 +57,7 @@ export default defineConfig({
     baseURL,
     screenshot: "only-on-failure",
     trace: "on-first-retry",
+    viewport: { width: 1280, height: 720 },
   },
   ...(webServer ? { webServer } : {}),
 });

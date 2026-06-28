@@ -101,6 +101,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@afenda/enterprise-knowledge':
+        specifier: workspace:*
+        version: link:../../packages/enterprise-knowledge
       '@ai-sdk/react':
         specifier: ^3.0.208
         version: 3.0.213(react@19.2.7)(zod@4.4.3)
@@ -793,6 +796,10 @@ importers:
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
 
   packages/metadata:
+    dependencies:
+      '@afenda/enterprise-knowledge':
+        specifier: workspace:*
+        version: link:../enterprise-knowledge
     devDependencies:
       '@afenda/typescript-config':
         specifier: workspace:*

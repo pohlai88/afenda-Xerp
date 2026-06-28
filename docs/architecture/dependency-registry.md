@@ -27,16 +27,19 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (34 direct edges)
+## Runtime Dependency Edges (41 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
+| `@afenda/accounting-standards` | `@afenda/kernel` | Approved | PAS-003 | — |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
 | `@afenda/appshell` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
 | `@afenda/auth` | `@afenda/database` | Approved | — | — |
 | `@afenda/auth` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/database` | `@afenda/observability` | Approved | — | — |
+| `@afenda/design-system` | `@afenda/css-authority` | Approved | PAS-005 | — |
+| `@afenda/docs` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/entitlements` | `@afenda/database` | Approved | — | — |
 | `@afenda/erp` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
@@ -45,6 +48,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/feature-flags` | Approved | fdr-009-rollout-flags | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/erp` | `@afenda/entitlements` | Approved | TIP-007A | — |
+| `@afenda/erp` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
@@ -57,6 +61,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/feature-flags` | `@afenda/entitlements` | Approved | — | — |
 | `@afenda/metadata-ui` | `@afenda/metadata` | Approved | — | — |
 | `@afenda/metadata-ui` | `@afenda/ui` | Approved | — | — |
+| `@afenda/metadata` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/permissions` | `@afenda/auth` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/database` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/kernel` | Approved | TIP-007 | — |
@@ -65,6 +70,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/storybook` | `@afenda/metadata` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/ui` | Approved | — | — |
+| `@afenda/ui` | `@afenda/css-authority` | Approved | PAS-005 | — |
 | `@afenda/ui` | `@afenda/design-system` | Approved | — | — |
 
 **Exception / deprecated runtime edges at baseline:** 0
@@ -100,18 +106,19 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
+| `@afenda/accounting-standards` | `@afenda/kernel` |
 | `@afenda/appshell` | `@afenda/kernel`, `@afenda/ui` |
 | `@afenda/auth` | `@afenda/database`, `@afenda/kernel` |
 | `@afenda/database` | `@afenda/observability` |
-| `@afenda/design-system` | *(none)* |
-| `@afenda/docs` | *(none)* |
+| `@afenda/design-system` | `@afenda/css-authority` |
+| `@afenda/docs` | `@afenda/enterprise-knowledge` |
 | `@afenda/email` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/enterprise-knowledge`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
-| `@afenda/metadata` | *(none)* |
+| `@afenda/metadata` | `@afenda/enterprise-knowledge` |
 | `@afenda/metadata-ui` | `@afenda/metadata`, `@afenda/ui` |
 | `@afenda/observability` | *(none)* |
 | `@afenda/permissions` | `@afenda/auth`, `@afenda/database`, `@afenda/kernel` |
@@ -119,9 +126,11 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 | `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui` |
 | `@afenda/testing` | *(none — workspace runtime)* |
 | `@afenda/typescript-config` | *(none)* |
-| `@afenda/ui` | `@afenda/design-system` |
+| `@afenda/ui` | `@afenda/css-authority`, `@afenda/design-system` |
 | `@afenda/architecture-authority` | *(none)* |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` |
+| `@afenda/css-authority` | *(none)* |
+| `@afenda/enterprise-knowledge` | *(none)* |
 
 ---
 
@@ -166,10 +175,9 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
   → @afenda/architecture-authority
 
 Packages with no outbound runtime workspace dependencies:
-  @afenda/design-system
-  @afenda/docs
+  @afenda/css-authority
+  @afenda/enterprise-knowledge
   @afenda/kernel
-  @afenda/metadata
   @afenda/observability
   @afenda/storage
   @afenda/testing

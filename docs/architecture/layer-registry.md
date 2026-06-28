@@ -54,19 +54,22 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 22)
+## Package Layer Assignments (active — 25)
 
 | Package | Layer | Rank |
 |---------|-------|------|
 | `@afenda/architecture-authority` | Platform | 1 |
+| `@afenda/accounting-standards` | Foundation | 2 |
 | `@afenda/ai-governance` | Platform | 1 |
 | `@afenda/auth` | Platform | 1 |
 | `@afenda/database` | Platform | 1 |
 | `@afenda/kernel` | Platform | 1 |
+| `@afenda/enterprise-knowledge` | Platform | 1 |
 | `@afenda/observability` | Platform | 1 |
 | `@afenda/permissions` | Platform | 1 |
 | `@afenda/typescript-config` | Platform (tooling) | 1 — exempt from layer-dep enforcement |
 | `@afenda/design-system` | Design | 2 |
+| `@afenda/css-authority` | Design | 2 |
 | `@afenda/ui` | Design | 2 |
 | `@afenda/execution` | Foundation | 2 |
 | `@afenda/storage` | Foundation | 2 |

@@ -23,6 +23,9 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "sideEffects": false,
+  "dependencies": {
+    "@afenda/enterprise-knowledge": "workspace:*"
+  },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
     "vitest": "catalog:"

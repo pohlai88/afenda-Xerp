@@ -11,13 +11,13 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { dependencyContract } from "../../packages/architecture-authority/src/data/dependency-registry.data.ts";
+import { dependencyContract } from "../../packages/architecture-authority/src/index.ts";
 import {
   MULTI_TENANCY_AUTHORITY_OWNERS,
   MULTI_TENANCY_DEPENDENCY_DOC_MARKERS,
   MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE,
   MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES,
-} from "../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
+} from "../../packages/architecture-authority/src/surface/index.ts";
 import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,

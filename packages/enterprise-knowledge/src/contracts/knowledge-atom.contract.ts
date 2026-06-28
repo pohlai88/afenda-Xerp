@@ -214,6 +214,10 @@ export interface KnowledgeExposure {
 }
 
 export interface KnowledgeImplementationMapping {
+  /** PAS-004B §4.1 — ADR-0021 branded ID name cited by platform identity atoms. */
+  readonly brandedId?: string;
+  /** PAS-004B §4.1 — repo-relative kernel contract path for platform identity atoms. */
+  readonly contractPath?: string;
   readonly databaseTable?: string;
   readonly operatingContextField?: string;
   readonly persistenceClass:

@@ -26,6 +26,11 @@ export const CROSS_PACKAGE_NAMES = [
 
 export type CrossPackageName = (typeof CROSS_PACKAGE_NAMES)[number];
 
+/** PAS-004B B34 — metadata may import accepted meaning from enterprise-knowledge only. */
+export type CrossPackageImportSource =
+  | CrossPackageName
+  | "@afenda/enterprise-knowledge";
+
 export const CROSS_PACKAGE_RESPONSIBILITIES = [
   "accessibility",
   "app-shell-implementation",
@@ -60,7 +65,7 @@ export interface CrossPackageImportPolicy {
   /**
    * Packages that this package may import from.
    */
-  readonly mayImportFrom: readonly CrossPackageName[];
+  readonly mayImportFrom: readonly CrossPackageImportSource[];
 
   /**
    * Packages that this package must never import from.
@@ -246,7 +251,7 @@ export const crossPackageAuthority = {
       ],
 
       importPolicy: {
-        mayImportFrom: [],
+        mayImportFrom: ["@afenda/enterprise-knowledge"],
         mayNotImportFrom: [
           "@afenda/design-system",
           "@afenda/metadata-ui",

@@ -8,7 +8,7 @@
 | **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
 | **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
-| **Active workspaces** | 22 |
+| **Active workspaces** | 25 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry (FDR)](foundation-disposition.md) — not in TIP delivery docs.
@@ -38,7 +38,7 @@ TIP-001D validators consume these values exactly — no human variants.
 
 ---
 
-## Active Registry (22)
+## Active Registry (25)
 
 Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 
@@ -66,6 +66,9 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-018 | `@afenda/ui` | `packages/ui` | Design | active | Shared UI primitives foundation | Design Authority | Yes | `active` |
 | PKG-019 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | active | Architecture maps, validators, and governance contracts | Architecture Authority | Yes | `active` |
 | PKG-020 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | active | AI-assisted development governance contracts and validators | Architecture Authority | Yes | `active` |
+| PKG-023 | `@afenda/accounting-standards` | `packages/accounting-standards` | Foundation | active | Versioned accounting-standard authority metadata (PAS-003) | Financial Reporting Standards Authority | Yes | `active` |
+| PKG-024 | `@afenda/enterprise-knowledge` | `packages/enterprise-knowledge` | Platform | active | Accepted enterprise meaning — Knowledge Atoms and conformance (PAS-004) | Enterprise Knowledge Authority | Yes | `active` |
+| PKG-025 | `@afenda/css-authority` | `packages/css-authority` | Design | active | CSS Authority Registry — CSS-TOKEN-* governance (PAS-005) | CSS Authority | Yes | `active` |
 | PKG-R01 | `@afenda/accounting` | *(retired — no path)* | Domain | retired | Accounting vocabulary in `@afenda/kernel/erp-domain/accounting` (ADR-0020) | Accounting Authority | No | `retired` |
 
 **`active-exempt`:** PKG-017 is exempt from layer-dependency enforcement only. It remains registered and owned.

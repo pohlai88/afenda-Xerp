@@ -2,7 +2,7 @@
   "name": "@afenda/enterprise-knowledge",
   "version": "0.0.0",
   "private": true,
-  "description": "Enterprise knowledge charter registry — Knowledge Atoms, acceptance, integrity (PAS-004)",
+  "description": "Enterprise knowledge registry — Knowledge Atoms, acceptance, integrity (PAS-004 / PAS-004A / PAS-004B Enterprise Accepted)",
   "type": "module",
   "exports": {
     ".": {

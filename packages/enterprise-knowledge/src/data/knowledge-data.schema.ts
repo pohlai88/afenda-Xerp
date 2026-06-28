@@ -181,6 +181,38 @@ function validateTypedEvidence(raw: unknown, base: string): ValidationError[] {
   return errors;
 }
 
+function validateImplementationMapping(
+  raw: unknown,
+  base: string
+): ValidationError[] {
+  const errors: ValidationError[] = [];
+  if (raw === undefined) {
+    return errors;
+  }
+  if (!isRecord(raw)) {
+    errors.push({
+      path: `${base}.implementationMapping`,
+      message: "must be an object when present",
+    });
+    return errors;
+  }
+  const contractPath = get(raw, "contractPath");
+  if (contractPath !== undefined && !isString(contractPath)) {
+    errors.push({
+      path: `${base}.implementationMapping.contractPath`,
+      message: "must be a string when present",
+    });
+  }
+  const brandedId = get(raw, "brandedId");
+  if (brandedId !== undefined && !isString(brandedId)) {
+    errors.push({
+      path: `${base}.implementationMapping.brandedId`,
+      message: "must be a string when present",
+    });
+  }
+  return errors;
+}
+
 function validateAtomContent(raw: JsonRecord, base: string): ValidationError[] {
   const errors: ValidationError[] = [];
   if ("reasoning" in raw) {
@@ -199,6 +231,9 @@ function validateAtomContent(raw: JsonRecord, base: string): ValidationError[] {
     ...validateStructuredReasoning(get(raw, "structuredReasoning"), base)
   );
   errors.push(...validateTypedEvidence(get(raw, "typedEvidence"), base));
+  errors.push(
+    ...validateImplementationMapping(get(raw, "implementationMapping"), base)
+  );
   const lifecycle = get(raw, "lifecycle");
   if (
     !KNOWLEDGE_LIFECYCLE_STATUSES.includes(

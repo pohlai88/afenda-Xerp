@@ -86,6 +86,7 @@
   --app-shell-gap-lg: var(--afenda-spacing-4);
   --app-shell-gap-xl: var(--afenda-spacing-6);
   --app-shell-gap-2xl: var(--afenda-spacing-8);
+  --app-shell-content-padding-inline: var(--app-shell-gap-xl);
   --app-shell-padding-card: var(--afenda-spacing-5);
   --app-shell-density-gap: var(
     --afenda-density-gap,

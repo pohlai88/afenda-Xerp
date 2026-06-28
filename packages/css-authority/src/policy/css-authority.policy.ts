@@ -3,6 +3,7 @@ import {
   assertCssTokenId,
   isCssTokenIdFormat,
 } from "../contracts/css-authority.contract.js";
+import type { CssTokenId } from "../generated/css-authority-registry.js";
 import {
   CSS_AUTHORITY_REGISTRY,
   CSS_AUTHORITY_TOKENS,
@@ -11,10 +12,10 @@ import {
   getCssAuthorityTokenByName,
 } from "../generated/css-authority-registry.js";
 
-export function isCssTokenId(
-  value: string
-): value is (typeof CSS_TOKEN_IDS)[number] {
-  return (CSS_TOKEN_IDS as readonly string[]).includes(value);
+const CSS_TOKEN_ID_SET = new Set<string>(CSS_TOKEN_IDS);
+
+export function isCssTokenId(value: string): value is CssTokenId {
+  return CSS_TOKEN_ID_SET.has(value);
 }
 
 function collectTokenFieldErrors(
@@ -121,9 +122,10 @@ export function listCssAuthorityTokens(): readonly CssAuthorityToken[] {
   return CSS_AUTHORITY_TOKENS;
 }
 
-export function getCssAuthorityToken(
-  tokenId: (typeof CSS_TOKEN_IDS)[number]
-): CssAuthorityToken {
+export function getCssAuthorityToken(tokenId: CssTokenId): CssAuthorityToken {
+  if (!isCssTokenId(tokenId)) {
+    throw new Error(`Unknown CSS token id: ${tokenId}`);
+  }
   const token = getCssAuthorityTokenById(tokenId);
   if (token === undefined) {
     throw new Error(`Unknown CSS token id: ${tokenId}`);

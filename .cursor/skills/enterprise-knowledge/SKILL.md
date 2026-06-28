@@ -12,7 +12,7 @@ disable-model-invocation: false
 | --- | --- | --- |
 | **PAS-004** (charter) | Charter MVP — 12 seed atoms, `check:knowledge-conformance` | none — see PAS-004A |
 | **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, scorecard 30/30 | none — see PAS-004B |
-| **PAS-004B** (Enterprise Accepted) | PAS-004B authored; B33–B37 proposed | B33 — kernel identity mapping gate |
+| **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40 | none — PKGR04 authority PAS-004B |
 
 > Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
@@ -150,7 +150,7 @@ For new enterprise-knowledge slices, read in this order:
 
 **Maturity:** Production Candidate delivered (PAS-004A B24–B32). Enterprise Accepted target: PAS-004B B33–B37. Read **`kernel-authority`** before identity mapping work.
 
-**Slice gate:** B32 delivered. Next: [B33 kernel identity mapping gate](../../../docs/PAS/slice/b33-kernel-identity-mapping-gate.md).
+**Slice gate:** B32 delivered. **Active slice: B33 only** — do not batch B34–B37. Next: [B33 kernel identity mapping gate](../../../docs/PAS/slice/b33-kernel-identity-mapping-gate.md).
 
 ---
 

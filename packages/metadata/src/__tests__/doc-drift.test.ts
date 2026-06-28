@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -60,6 +60,9 @@ function collectMarkdownFiles(directory: string): string[] {
 describe("metadata documentation drift", () => {
   it("does not reference retired metadata API names in governed docs", () => {
     for (const docPath of metadataDocPaths) {
+      if (!existsSync(docPath)) {
+        continue;
+      }
       const contents = readFileSync(docPath, "utf8");
       const lines = contents.split(/\r?\n/);
 

@@ -190,6 +190,17 @@ export {
   sampleVerboseDiagnosticsRenderContext,
   sampleVerboseDiagnosticsRenderContextInput,
 } from "./fixtures/sample-runtime-context.fixture.js";
+export {
+  isPlatformIdentityKnowledgeAtomId,
+  METADATA_PLATFORM_IDENTITY_DIMENSION_ATOM_IDS,
+  type MetadataPlatformIdentityDimensionAtomId,
+  PLATFORM_IDENTITY_KNOWLEDGE_ATOM_IDS,
+  type PlatformIdentityKnowledgeAtomId,
+  resolveMetadataPlatformIdentityDimensionLabel,
+  resolvePlatformIdentityKnowledgeBusinessTitle,
+  resolvePlatformIdentityKnowledgeCanonicalDefinition,
+  resolvePlatformIdentityKnowledgeLabel,
+} from "./knowledge/index.js";
 export type {
   LegacyMetadataVisibilityInput,
   MetadataVisibilityInput,
@@ -212,7 +223,6 @@ export type {
   MetadataRendererRegistryResolveInput,
   MetadataRendererResolveInputRegistry,
 } from "./registry/index.js";
-
 export {
   createDefaultMetadataRendererRegistry,
   createMetadataRendererDefinition,

@@ -4,6 +4,7 @@ import {
   MetadataPageSurface,
   MetadataSection,
   MetadataState,
+  resolveMetadataPlatformIdentityDimensionLabel,
 } from "@afenda/metadata-ui/server";
 
 import {
@@ -44,26 +45,30 @@ function MetadataWorkspaceScopeTable({
       </thead>
       <tbody>
         <tr>
-          <td>Tenant</td>
+          <td>{resolveMetadataPlatformIdentityDimensionLabel("tenant")}</td>
           <td>{tenantDisplayName}</td>
           <td>
             <code>{context.runtime.tenantId}</code>
           </td>
         </tr>
         <tr>
-          <td>Legal entity</td>
+          <td>
+            {resolveMetadataPlatformIdentityDimensionLabel("legal_entity")}
+          </td>
           <td>{companyDisplayName}</td>
           <td>
             <code>{context.runtime.companyId}</code>
           </td>
         </tr>
         <tr>
-          <td>Organization unit</td>
+          <td>
+            {resolveMetadataPlatformIdentityDimensionLabel("organization_unit")}
+          </td>
           <td>{organizationDisplayName ?? "—"}</td>
           <td>{organizationId ? <code>{organizationId}</code> : "—"}</td>
         </tr>
         <tr>
-          <td>Workspace</td>
+          <td>{resolveMetadataPlatformIdentityDimensionLabel("workspace")}</td>
           <td>Server-resolved scope</td>
           <td>
             <code>{context.runtime.workspaceId}</code>

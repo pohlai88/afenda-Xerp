@@ -2,7 +2,7 @@
 
 **Prerequisite:** [B32 ERP consumer integration](b32-erp-consumer-integration.md) delivered
 
-**Status:** Not started
+**Status:** Delivered — 2026-06-28
 
 **Type:** Implementation
 
@@ -13,6 +13,8 @@
 ## Purpose
 
 Close the gap between PAS-004A B26 generic kernel path lint and PAS-001 §4.1 / ADR-0021 **identity constitution** discipline. Platform identity atoms must cite validated contract paths under `packages/kernel/src/identity/` (or documented platform-id registry entries), use branded ID names in mapping notes, and never reference parser/assert modules.
+
+**Scope discipline:** this slice is **B33 only**. Do not implement B34–B37 in the same session. If identity mapping is wrong here, metadata and docs consumers will inherit wrong meaning.
 
 ## Handoff block
 
@@ -29,7 +31,7 @@ Handoff from: docs/PAS/slice/b33-kernel-identity-mapping-gate.md
    package.json
    docs/PAS/slice/b33-kernel-identity-mapping-gate.md
    docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md
-4. Prohibited   — packages/kernel/src/** edits; parser/assert duplication; architecture-authority; metadata/erp imports into enterprise-knowledge; foundation-disposition.registry.ts (B37)
+4. Prohibited   — packages/kernel/src/** edits; parser/assert duplication; B34–B37 work in same session; metadata/erp imports into enterprise-knowledge; foundation-disposition.registry.ts (B37)
 5. Authority    — PAS-004B §4.1 · PAS-001 §4.1 · ADR-0021 · kernel-authority skill · enterprise-knowledge skill
 6. Gates        —
    pnpm --filter @afenda/enterprise-knowledge typecheck
@@ -66,7 +68,7 @@ Handoff from: docs/PAS/slice/b33-kernel-identity-mapping-gate.md
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
 | Kernel identity mapping gate | No — Slice B33 | `scripts/governance/check-knowledge-kernel-identity-mapping.mts` |
-| Platform identity atoms ADR-0021 aligned | No — Slice B33 | `packages/enterprise-knowledge/src/data/atoms.json` |
+| Platform identity atoms ADR-0021 aligned | Yes — Slice B33 delivered 2026-06-28 | `packages/enterprise-knowledge/src/data/atoms.json` |
 
 ## Identity atoms in scope
 

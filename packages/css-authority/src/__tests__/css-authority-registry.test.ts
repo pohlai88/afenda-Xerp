@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -10,6 +13,8 @@ import {
   isCssTokenId,
   validateCssAuthorityRegistry,
 } from "../index.js";
+
+const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("CSS Authority Registry", () => {
   it("validates the generated registry", () => {
@@ -43,6 +48,15 @@ describe("CSS Authority Registry", () => {
 
   it("rejects invalid token id strings", () => {
     expect(isCssTokenId("not-a-token")).toBe(false);
+  });
+
+  it("keeps the generated TypeScript registry module thin for IDE performance", () => {
+    const registryTsPath = join(
+      packageRoot,
+      "src/generated/css-authority-registry.ts"
+    );
+    const lineCount = readFileSync(registryTsPath, "utf8").split("\n").length;
+    expect(lineCount).toBeLessThan(100);
   });
 
   it("has unique ids and names", () => {

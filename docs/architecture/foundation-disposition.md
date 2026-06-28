@@ -55,9 +55,9 @@
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
-| PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002 |
+| PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002A |
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | see PAS-003 |
-| PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004A |
+| PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004B |
 | PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | amber-lane | no | see PAS-005 · B26–B33 delivered |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 

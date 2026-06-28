@@ -1,6 +1,8 @@
 # PAS-004B — Enterprise Knowledge Kernel & Consumer Standard (Enterprise Accepted Rollout)
 
-> **Derivation:** PAS-004B continues **Enterprise Accepted** promotion after [PAS-004A Production Candidate closure](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) (B24–B32, scorecard 30/30). It does **not** amend PAS-004 chapters 1–§4 (technology-free charter). It defines **kernel identity bridge discipline** (PAS-001 / ADR-0021), **multi-consumer proof**, **acceptance-graph query surfaces**, and the slice sequence to **Enterprise Accepted** maturity on `PKGR04_ENTERPRISE_KNOWLEDGE`.
+> **Derivation:** PAS-004B continues **Enterprise Accepted** promotion after [PAS-004A Production Candidate closure](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) (B24–B32, scorecard 30/30). It does **not** amend PAS-004 chapters 1–§4 (technology-free charter).
+>
+> **Scope lock (do not expand):** exactly five deliverables — (1) kernel identity mapping, (2) metadata consumer proof, (3) docs consumer proof, (4) acceptance graph query helpers, (5) Enterprise Accepted attestation. Not a graph platform, ontology engine, or UI ownership package.
 
 | Field | Value |
 | --- | --- |
@@ -17,12 +19,12 @@
 | **Package owner** | Enterprise Knowledge Authority |
 | **Parent standards** | PAS-004 (charter) · PAS-004A (Production Candidate platform) |
 | **Agent skills** | `enterprise-knowledge` · **`kernel-authority`** (mandatory for `implementationMapping` / identity paths) |
-| **Maturity** | Enterprise Accepted (`enterprise_accepted`) — **target** |
-| **Authority status** | `accepted_for_implementation` |
-| **Implementation status** | `not_started` |
-| **Evidence level** | `pas_document` |
-| **Runtime status** | PAS-004B authored; B33–B37 slice sequence proposed; PAS-004A B24–B32 remains live runtime truth |
-| **Remaining slices** | B33 — [kernel identity mapping gate](slice/b33-kernel-identity-mapping-gate.md) (next) |
+| **Maturity** | Enterprise Accepted (`enterprise_accepted`) — **40/40 scorecard** |
+| **Authority status** | `approved_for_implementation` |
+| **Implementation status** | `delivered` — B33–B37 complete; PKGR04 authority PAS-004B |
+| **Evidence level** | `pas_document` + B33–B36 governance gates + registry promotion |
+| **Runtime status** | PAS-004B closed 2026-06-28; PKGR04 authority PAS-004B via `foundation-registry-owner` |
+| **Remaining slices** | none |
 | **Consumers** | `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (B33+) |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -83,11 +85,13 @@
 **Hard stops:**
 
 - **Prohibited:** duplicate kernel `*.parser.ts` / `*.assert.ts` / branded parsers in enterprise-knowledge
-- **Prohibited:** `@afenda/metadata` runtime dependency on enterprise-knowledge (cycle risk) — use root governance gates + type-only patterns documented in B34
-- **Prohibited:** claim Enterprise Accepted before B37; claim North Star ontology complete
+- **Prohibited:** enterprise-knowledge → metadata / erp / kernel runtime imports (consumers import atoms; package never imports consumers)
+- **Prohibited:** graph DB, graph engine, ontology engine, integrity scoring, tenant wiki runtime
+- **Prohibited:** batching B34–B37 with B33 — if B33 mapping is wrong, B34/B35 inherit wrong meaning
+- **Prohibited:** claim Enterprise Accepted before B37; PAS-004A 30/30 is **Production Candidate only**
 - **Required:** read `kernel-authority` Phase 0 before any `implementationMapping`, identity path, or kernel cross-ref change
 
-**First implementation slice:** [b33-kernel-identity-mapping-gate](slice/b33-kernel-identity-mapping-gate.md)
+**Execution rule:** one slice at a time, in order. **PAS-004B B33–B36 delivered.** B37 attestation closed; **delegate `foundation-registry-owner`** for PKGR04 promotion (scorecard row #20).
 
 **Planner / registry:** `pas-slice-planner` · disposition changes → `foundation-registry-owner` only
 
@@ -103,22 +107,25 @@
 - Glossary full manifest parity (24 atoms)
 - Production Candidate scorecard **30/30** (B30 attestation)
 
-## 1.2 What PAS-004B owns
+## 1.2 What PAS-004B owns (exactly five — no expansion)
 
-PAS-004B is the **Enterprise Accepted rollout standard** for closing remaining charter gaps without amending §1–§4:
+| # | Deliverable | Slice |
+| ---: | --- | --- |
+| 1 | Kernel identity mapping gate | B33 |
+| 2 | Metadata consumer proof | B34 |
+| 3 | Docs consumer proof (includes docs atom-ID drift gate) | B35 |
+| 4 | Acceptance graph query helpers — **four exports only** | B36 |
+| 5 | Enterprise Accepted attestation + registry promotion | B37 |
 
-1. **Kernel identity bridge** — validate atom `implementationMapping` and evidence against PAS-001 §4.1 / ADR-0021 identity constitution paths
-2. **Multi-consumer proof** — `@afenda/metadata` and `apps/docs` import accepted meaning without inline forks
-3. **Acceptance graph queries** — pure traversal helpers (by domain, edge type, authority, supersession chain)
-4. **Representation sync expansion** — docs identity vocabulary blocks cite atom IDs; automated drift gate
-5. **Enterprise Accepted attestation** — B37 scorecard + `PKGR04` authority promotion to PAS-004B
+> **Accepted meaning + kernel references + consumer proof + simple query helpers.** Nothing else.
 
 ## 1.3 What PAS-004B does not do
 
 - Rewrite PAS-004 chapters 1–§4 or PAS-004A platform rules
 - Move atoms to kernel or architecture-authority
-- Introduce graph DB runtime, integrity scoring engines, or tenant-editable wiki stores (still deferred)
-- Add kernel parsers, asserts, or resolvers inside enterprise-knowledge
+- Become a graph platform, ontology engine, or UI/metadata ownership layer
+- Add kernel parsers, asserts, resolvers, graph DB, scoring engines, or tenant wiki stores
+- Expand atom corpus beyond honest PAS-004A baseline unless a future PAS says so
 
 ---
 
@@ -189,29 +196,22 @@ Consumers **may** import `@afenda/enterprise-knowledge` for vocabulary resolutio
 
 **Rule:** Operational copy stays in consumer contracts; **accepted meaning** (titles, canonical definitions) comes from atoms.
 
-## 4.3 Acceptance graph query surface
+## 4.3 Acceptance graph query helpers (B36 — fixed surface)
 
 **Authority:** PAS-004 §3.1 · PAS-004A §4.9
 
-**Target exports (pure, contracts-only):**
+**Not a graph engine.** B36 adds exactly **four** pure functions over loaded JSON registries — no new modules beyond one query file + tests:
 
 ```typescript
-// Illustrative — implement in B36; names may adjust to match package conventions
 getKnowledgeAtomsByDomain(domain: KnowledgeDomain): readonly KnowledgeAtom[];
 getKnowledgeEdgesFrom(atomId: string, type?: KnowledgeEdgeType): readonly KnowledgeEdge[];
 getSupersessionChain(atomId: string): readonly KnowledgeAtom[];
-resolveAcceptanceGraphRoots(): readonly KnowledgeAtom[]; // atoms with no incoming governs/accepts
+resolveAcceptanceGraphRoots(): readonly KnowledgeAtom[];
 ```
 
-No network, DB, or MCP graph server. Traversal reads loaded JSON registries only.
+No graph DB. No MCP server. No traversal runtime. No fifth export without a new PAS slice.
 
-## 4.4 Docs representation sync
-
-**Authority:** PAS-004 §9.2
-
-**Target:** `apps/docs` identity vocabulary uses atom IDs in frontmatter or typed props; gate verifies cited IDs ⊆ registry and lifecycle ≥ `accepted`.
-
-## 4.5 Enterprise Accepted scorecard (B37)
+## 4.4 Enterprise Accepted scorecard (B37)
 
 **Authority:** PAS-004A §11 pattern · enterprise-erp-standards §9
 
@@ -237,6 +237,7 @@ Everything in PAS-004 §11 and PAS-004A §5, plus:
 - **Metadata section/action rendering** (`@afenda/metadata`)
 - **Docs editorial CSS or MDX layout** (`apps/docs`)
 - **Enterprise Accepted maturity claims** without B37 scorecard ≥ 38/40
+- **Graph engines, ontology engines, or “knowledge platform v2”** scope creep
 
 ---
 
@@ -254,7 +255,7 @@ packages/enterprise-knowledge/
     ├── policy/
     │   └── knowledge-kernel-identity-mapping.policy.ts   # B33
     ├── query/
-    │   └── knowledge-graph.query.ts                      # B36 — pure traversal
+    │   └── knowledge-graph.query.ts                      # B36 — four helpers only
     └── __tests__/
         ├── knowledge-kernel-identity-mapping.test.ts     # B33
         └── knowledge-graph.query.test.ts                 # B36
@@ -277,8 +278,8 @@ scripts/governance/
 | Is this a kernel branded ID **name** for mapping notes? | Reference in atom | **Yes** (text only) |
 | Is this metadata label rendering? | metadata / metadata-ui | **No** (import atoms) |
 | Is this docs MDX layout/CSS? | apps/docs | **No** (import atom meaning) |
-| Is this acceptance graph traversal over loaded JSON? | query module | **Yes** (B36) |
-| Is this graph DB persistence? | Future product | **No** |
+| Is this one of the four B36 query helpers over loaded JSON? | query module | **Yes** (B36 only) |
+| Is this a graph DB, engine, or MCP traversal service? | Out of scope | **No** |
 | Is this integrity score 0–100 computation? | Deferred | **No** |
 | Is this tenant-editable wiki content? | Future product | **No** |
 
@@ -291,7 +292,7 @@ All PAS-004 / PAS-004A contract rules apply, plus:
 1. **Kernel-authority Phase 0** — mandatory before B33–B37 implementation touching mapping or identity paths
 2. **Identity path prefix** — new or updated platform identity `implementationMapping` entries must use `packages/kernel/src/identity/` or platform-id registry documented paths (B33)
 3. **Consumer proof gates** — each consumer package listed in §4.2 must have a root governance script before B37
-4. **Query purity** — graph query exports are pure functions; no side effects on import
+4. **Query purity** — B36 exports are exactly four pure functions; no side effects on import; no graph engine
 5. **No new deprecated types** — use `KnowledgeEdge` / typed evidence / structured reasoning only
 6. **Supersession honesty** — query helpers must respect `effectiveFrom` / `effectiveUntil` / `supersededBy` when present
 
@@ -305,15 +306,17 @@ Same as PAS-004A: **contracts-only**. No runtime npm dependencies. Query helpers
 
 # 10. Implementation Sequence (B33–B37)
 
+**Serialized execution only.** Implement **one slice per session**. Do not start B34–B37 until the prior slice closes and its handoff is updated. B33 wrong → B34/B35 inherit wrong meaning.
+
 Execute in order. Do not skip consumer proof before B37 attestation.
 
 | Order | Slice | Delivers | Status |
 | ---: | --- | --- | --- |
-| 1 | [B33 Kernel identity mapping gate](slice/b33-kernel-identity-mapping-gate.md) | `knowledge-kernel-identity-mapping.policy.ts` + `check:knowledge-kernel-identity-mapping` | **Next** |
-| 2 | [B34 Metadata consumer proof](slice/b34-metadata-consumer-proof.md) | metadata vocabulary gate (≥3 identity labels) | Proposed |
-| 3 | [B35 Docs consumer proof](slice/b35-docs-consumer-proof.md) | docs vocabulary helper + `check:knowledge-docs-consumer-proof` | Proposed |
-| 4 | [B36 Acceptance graph queries](slice/b36-acceptance-graph-queries.md) | `knowledge-graph.query.ts` + gate | Proposed |
-| 5 | [B37 Enterprise Accepted attestation](slice/b37-enterprise-accepted-attestation.md) | Combined scorecard ≥38/40; PKGR04 → PAS-004B | Proposed |
+| 1 | [B33 Kernel identity mapping gate](slice/b33-kernel-identity-mapping-gate.md) | `knowledge-kernel-identity-mapping.policy.ts` + `check:knowledge-kernel-identity-mapping` | **Delivered** |
+| 2 | [B34 Metadata consumer proof](slice/b34-metadata-consumer-proof.md) | metadata vocabulary gate (≥3 identity labels) | **Delivered** |
+| 3 | [B35 Docs consumer proof](slice/b35-docs-consumer-proof.md) | docs vocabulary helper + `check:knowledge-docs-consumer-proof` | **Delivered** |
+| 4 | [B36 Acceptance graph queries](slice/b36-acceptance-graph-queries.md) | `knowledge-graph.query.ts` + gate | **Delivered** |
+| 5 | [B37 Enterprise Accepted attestation](slice/b37-enterprise-accepted-attestation.md) | Combined scorecard ≥38/40; PKGR04 → PAS-004B | **Attested** (registry delegated) |
 
 **Do not add in this package (correct home):**
 
@@ -332,7 +335,7 @@ Execute in order. Do not skip consumer proof before B37 attestation.
 3. Combined scorecard **≥ 38 / 40** (PAS-004A 30 + PAS-004B 10)
 4. `foundation-registry-owner` promotes `PKGR04` authority field to `PAS-004B` with B33–B37 evidence paths
 
-**Honesty rule:** PAS-004A 30/30 alone is **Production Candidate** — not Enterprise Accepted.
+**Honesty rule:** PAS-004A 30/30 alone is **Production Candidate** — not Enterprise Accepted. Registry maturity, doc headers, and agent skills must not say Enterprise Accepted until B37 closes and `foundation-registry-owner` promotes `PKGR04`.
 
 ---
 
@@ -342,8 +345,8 @@ Execute in order. Do not skip consumer proof before B37 attestation.
 | --- | ---: | ---: | --- |
 | Platform identity atoms with kernel identity mapping | partial (B26 generic) | **100%** of identity atoms cite ADR-0021 paths | Validated by B33 gate |
 | Consumer packages with import proof | ERP only | **ERP + metadata + docs** | B34–B35 gates |
-| Acceptance graph query API | none | **5+ pure query exports** | B36 tests |
-| Total atoms | 24 | 24+ (expansion optional in B36+) | Charter review — not North Star complete |
+| Acceptance graph query helpers | none | **exactly 4** pure exports | B36 tests |
+| Total atoms | 24 | 24 (no corpus expansion in PAS-004B) | Charter review — not North Star complete |
 
 **Not a target:** duplicating `packages/kernel/src/identity/**` source into atoms.
 
@@ -408,7 +411,7 @@ Every PAS-004B slice must:
 
 # 15. Final Doctrine
 
-PAS-004 defines **why** knowledge becomes authoritative. PAS-004A defined **how** the platform stores and validates it at Production Candidate. PAS-004B defines **who may consume it at Enterprise Accepted** — with kernel identity discipline, multi-surface proof, and graph queries without owning wire behavior.
+PAS-004 defines **why** knowledge becomes authoritative. PAS-004A defined **how** the platform stores and validates it at Production Candidate. PAS-004B closes Enterprise Accepted with **five bounded deliverables** — nothing more.
 
 > The charter owns the principles.
 > The platform owns the accepted atoms.
@@ -417,8 +420,8 @@ PAS-004 defines **why** knowledge becomes authoritative. PAS-004A defined **how*
 
 When in doubt:
 
-> **May belong in enterprise-knowledge:** accepted meaning, JSON corpus, graph queries, conformance, kernel **references**.
-> **Belongs outside:** parsers, prefix tables, persistence, UI, posting, registry rows, tenant wiki runtime.
+> **May belong in enterprise-knowledge:** accepted meaning, JSON corpus, four query helpers, conformance, kernel **references**.
+> **Belongs outside:** parsers, graph engines, ontology engines, persistence, UI, posting, registry rows, tenant wiki runtime.
 
 ---
 
@@ -439,10 +442,13 @@ When in doubt:
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| [b33-kernel-identity-mapping-gate](slice/b33-kernel-identity-mapping-gate.md) | §4.1 | ADR-0021 identity path validation + gate | **Next** | B32 delivered |
-| [b34-metadata-consumer-proof](slice/b34-metadata-consumer-proof.md) | §4.2 | Metadata vocabulary import proof | Proposed | B33 |
-| [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 · §4.4 | Docs atom citation + gate | Proposed | B33 |
-| [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Pure graph query exports | Proposed | B33 |
-| [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.5 · §11 | Combined scorecard + registry promotion | Proposed | B36 |
+| [b33-kernel-identity-mapping-gate](slice/b33-kernel-identity-mapping-gate.md) | §4.1 | ADR-0021 identity path validation + gate | **Delivered** | 2026-06-28 |
+| [b34-metadata-consumer-proof](slice/b34-metadata-consumer-proof.md) | §4.2 | Metadata vocabulary import proof | **Delivered** | 2026-06-28 |
+| [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 | Docs atom citation + gate | **Delivered** | 2026-06-28 |
+| [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Four query helpers + gate | **Delivered** | 2026-06-28 |
+| [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.4 | Scorecard ≥38/40 attestation | **Attested** | registry delegated |
+| [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 | Docs atom citation + gate | Proposed | B34 |
+| [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Four query helpers only — no graph engine | Proposed | B35 |
+| [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.4 · §11 | Combined scorecard + registry promotion | Proposed | B36 |
 
 Handoff files for B34–B37 are authored when the prior slice closes.

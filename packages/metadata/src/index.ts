@@ -54,6 +54,14 @@ export {
   metadataAiGovernanceRules,
   metadataAuthorityMap,
 } from "./governance/metadata-authority-map.contract.js";
+export {
+  isPlatformIdentityKnowledgeAtomId,
+  PLATFORM_IDENTITY_KNOWLEDGE_ATOM_IDS,
+  type PlatformIdentityKnowledgeAtomId,
+  resolvePlatformIdentityKnowledgeBusinessTitle,
+  resolvePlatformIdentityKnowledgeCanonicalDefinition,
+  resolvePlatformIdentityKnowledgeLabel,
+} from "./knowledge/platform-identity-vocabulary.js";
 export type {
   LayoutContract,
   LayoutContractOwnership,

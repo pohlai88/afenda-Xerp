@@ -9,7 +9,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { ARCHITECTURE_BASELINE_FINGERPRINT } from "../../packages/architecture-authority/src/contracts/architecture-authority-version.ts";
+import { ARCHITECTURE_BASELINE_FINGERPRINT } from "../../packages/architecture-authority/src/index.ts";
 import {
   ARCHITECTURE_BASELINE_DOC,
   DOCUMENTATION_DRIFT_SURFACE_RULE,

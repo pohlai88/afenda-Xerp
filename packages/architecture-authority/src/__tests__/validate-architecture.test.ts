@@ -36,7 +36,9 @@ describe("validateArchitecture", () => {
         "@afenda/css-authority": "workspace:*",
       }),
       workspace("@afenda/css-authority"),
-      workspace("@afenda/docs"),
+      workspace("@afenda/docs", {
+        "@afenda/enterprise-knowledge": "workspace:*",
+      }),
       workspace("@afenda/email"),
       workspace("@afenda/enterprise-knowledge"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
@@ -65,7 +67,9 @@ describe("validateArchitecture", () => {
         "@afenda/entitlements": "workspace:*",
       }),
       workspace("@afenda/kernel"),
-      workspace("@afenda/metadata"),
+      workspace("@afenda/metadata", {
+        "@afenda/enterprise-knowledge": "workspace:*",
+      }),
       workspace("@afenda/metadata-ui", {
         "@afenda/metadata": "workspace:*",
         "@afenda/ui": "workspace:*",
@@ -118,7 +122,9 @@ describe("validateArchitecture", () => {
       workspace("@afenda/design-system", {
         "@afenda/css-authority": "workspace:*",
       }),
-      workspace("@afenda/docs"),
+      workspace("@afenda/docs", {
+        "@afenda/enterprise-knowledge": "workspace:*",
+      }),
       workspace("@afenda/email"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/erp", {
@@ -140,7 +146,9 @@ describe("validateArchitecture", () => {
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",
       }),
-      workspace("@afenda/metadata"),
+      workspace("@afenda/metadata", {
+        "@afenda/enterprise-knowledge": "workspace:*",
+      }),
       workspace("@afenda/metadata-ui", {
         "@afenda/metadata": "workspace:*",
         "@afenda/ui": "workspace:*",

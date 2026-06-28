@@ -18,6 +18,7 @@ import {
   validateAtomCorpus,
   validateEdgeCorpus,
 } from "../../packages/enterprise-knowledge/src/data/knowledge-data.schema.ts";
+import { KNOWLEDGE_REGISTRY_LOADER_MAX_LINES } from "./shared/enterprise-knowledge-governance.imports.mts";
 
 const B24_ATOM_IDS = [
   "legal_entity",
@@ -106,9 +107,9 @@ for (const e of edgeErrors) {
 try {
   const loaderSrc = readFileSync(loaderPath, "utf8");
   const lines = loaderSrc.split("\n");
-  if (lines.length > 40) {
+  if (lines.length > KNOWLEDGE_REGISTRY_LOADER_MAX_LINES) {
     errors.push(
-      `knowledge.registry.ts: ${lines.length} lines — exceeds 40-line thin-loader limit. Inline atoms detected or loader too large.`
+      `knowledge.registry.ts: ${lines.length} lines — exceeds ${KNOWLEDGE_REGISTRY_LOADER_MAX_LINES}-line thin-loader limit (PAS-004A §8). Inline atoms detected or loader too large.`
     );
   }
   if (/atomId:\s*["']/.test(loaderSrc) || /acceptanceChain:/.test(loaderSrc)) {

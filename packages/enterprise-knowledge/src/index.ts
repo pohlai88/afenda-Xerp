@@ -1,9 +1,10 @@
-/** PAS-004 / PAS-004A — @afenda/enterprise-knowledge public surface. */
+/** PAS-004 / PAS-004A / PAS-004B — @afenda/enterprise-knowledge public surface. */
 
 export const ENTERPRISE_KNOWLEDGE_PACKAGE_VERSION = "0.0.0" as const;
 
-// ── Constants ────────────────────────────────────────────────────────────────
 export { COMPLETE_INTEGRITY_PROFILE } from "./constants/knowledge-integrity.js";
+// ── Constants ────────────────────────────────────────────────────────────────
+export { KNOWLEDGE_REGISTRY_LOADER_MAX_LINES } from "./constants/knowledge-json-authority.js";
 // ── Accepting Authority (B25 — typed registry entity) ───────────────────────
 export {
   ACCEPTING_AUTHORITY_CLASSIFICATIONS,
@@ -110,6 +111,16 @@ export {
   isImplementationEvidenceSource,
 } from "./policy/knowledge-evidence-paths.policy.js";
 export {
+  isIdentityConstitutionEvidencePath,
+  isPlatformIdentityAtomId,
+  KERNEL_IDENTITY_PATH_PREFIX,
+  PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS,
+  PLATFORM_IDENTITY_ATOM_IDS,
+  type PlatformIdentityAtomId,
+  REQUIRED_IDENTITY_BRANDED_IDS,
+  validateKnowledgeKernelIdentityMapping,
+} from "./policy/knowledge-kernel-identity-mapping.policy.js";
+export {
   getKernelEvidencePaths,
   isKernelEvidencePath,
   isProhibitedKernelEvidencePath,
@@ -122,3 +133,9 @@ export {
   isFullyIntegrityVerifiedAtom,
   isProductionCandidateQualityAtom,
 } from "./policy/knowledge-quality.policy.js";
+export {
+  getKnowledgeAtomsByDomain,
+  getKnowledgeEdgesFrom,
+  getSupersessionChain,
+  resolveAcceptanceGraphRoots,
+} from "./query/knowledge-graph.query.js";

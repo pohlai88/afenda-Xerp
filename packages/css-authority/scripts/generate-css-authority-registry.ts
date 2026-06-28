@@ -192,9 +192,7 @@ function mergeTokens(): CssAuthorityToken[] {
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
-function emitRegistryModule(registry: CssAuthorityRegistry): string {
-  const tokenIds = registry.tokens.map((token) => token.id);
-
+function emitRegistryModule(): string {
   return `/**
  * @generated — do not edit manually.
  * Source: packages/css-authority/src/authorities/*.json
@@ -202,13 +200,20 @@ function emitRegistryModule(registry: CssAuthorityRegistry): string {
  */
 import type { CssAuthorityRegistry, CssAuthorityToken } from "../contracts/css-authority.contract.js";
 
-export const CSS_AUTHORITY_REGISTRY = ${JSON.stringify(registry, null, 2)} as const satisfies CssAuthorityRegistry;
+import registryJson from "./css-authority-registry.json" with { type: "json" };
 
-export const CSS_AUTHORITY_TOKENS: readonly CssAuthorityToken[] = CSS_AUTHORITY_REGISTRY.tokens;
+/** JSON import widens literals — conformance gate validates shape at CI. */
+export const CSS_AUTHORITY_REGISTRY = registryJson as CssAuthorityRegistry;
 
-export const CSS_TOKEN_IDS = ${JSON.stringify(tokenIds, null, 2)} as const;
+export const CSS_AUTHORITY_TOKENS: readonly CssAuthorityToken[] =
+  CSS_AUTHORITY_REGISTRY.tokens;
 
-export type CssTokenId = (typeof CSS_TOKEN_IDS)[number];
+export const CSS_TOKEN_IDS: readonly string[] = CSS_AUTHORITY_TOKENS.map(
+  (token) => token.id
+);
+
+/** Validated at trust boundaries via \`isCssTokenId()\` — not a 568-member literal union. */
+export type CssTokenId = string;
 
 export const CSS_AUTHORITY_TOKEN_NAMES: readonly string[] = CSS_AUTHORITY_TOKENS.map(
   (token) => token.name
@@ -271,7 +276,7 @@ function main(): void {
   copyFileSync(vendoredSource, join(distRoot, "css/vendored/shadcn-theme.css"));
   copyFileSync(bridgeSource, join(distRoot, "css/afenda-runtime-bridge.css"));
 
-  const registryTs = emitRegistryModule(registry);
+  const registryTs = emitRegistryModule();
   writeFileSync(join(generatedRoot, "css-authority-registry.ts"), registryTs);
   writeFileSync(
     join(generatedRoot, "css-authority-registry.json"),

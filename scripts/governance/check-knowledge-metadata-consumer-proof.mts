@@ -1,0 +1,126 @@
+#!/usr/bin/env tsx
+/**
+ * PAS-004B §4.2 — B34: Metadata consumer import proof gate.
+ *
+ * Validates @afenda/metadata resolves ≥3 platform identity labels from atoms
+ * via getKnowledgeAtom without enterprise-knowledge importing metadata.
+ */
+
+import { readFileSync, readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
+const metadataKnowledgeDir = join(
+  repoRoot,
+  "packages/metadata/src/knowledge"
+);
+const metadataPackageJson = join(repoRoot, "packages/metadata/package.json");
+const enterpriseKnowledgeSrc = join(
+  repoRoot,
+  "packages/enterprise-knowledge/src"
+);
+
+const REQUIRED_PLATFORM_IDENTITY_ATOMS = [
+  "tenant",
+  "legal_entity",
+  "organization_unit",
+] as const;
+
+const errors: string[] = [];
+
+function collectTsFiles(directory: string): string[] {
+  const files: string[] = [];
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectTsFiles(fullPath));
+      continue;
+    }
+    if (entry.name.endsWith(".ts") && !entry.name.endsWith(".test.ts")) {
+      files.push(fullPath);
+    }
+  }
+  return files;
+}
+
+const packageJson = JSON.parse(readFileSync(metadataPackageJson, "utf8")) as {
+  dependencies?: Record<string, string>;
+};
+
+if (!packageJson.dependencies?.["@afenda/enterprise-knowledge"]) {
+  errors.push(
+    "packages/metadata/package.json must declare @afenda/enterprise-knowledge dependency"
+  );
+}
+
+let hasEnterpriseKnowledgeImport = false;
+let hasGetKnowledgeAtomUsage = false;
+let resolvesRequiredAtoms = 0;
+
+for (const filePath of collectTsFiles(metadataKnowledgeDir)) {
+  const content = readFileSync(filePath, "utf8");
+  if (content.includes("@afenda/enterprise-knowledge")) {
+    hasEnterpriseKnowledgeImport = true;
+  }
+  if (content.includes("getKnowledgeAtom")) {
+    hasGetKnowledgeAtomUsage = true;
+  }
+  for (const atomId of REQUIRED_PLATFORM_IDENTITY_ATOMS) {
+    if (content.includes(`"${atomId}"`) || content.includes(`'${atomId}'`)) {
+      resolvesRequiredAtoms += 1;
+    }
+  }
+}
+
+if (!hasEnterpriseKnowledgeImport) {
+  errors.push(
+    "packages/metadata/src/knowledge/** must import @afenda/enterprise-knowledge"
+  );
+}
+
+if (!hasGetKnowledgeAtomUsage) {
+  errors.push("metadata consumer must call getKnowledgeAtom");
+}
+
+if (resolvesRequiredAtoms < REQUIRED_PLATFORM_IDENTITY_ATOMS.length) {
+  errors.push(
+    "metadata consumer must reference tenant, legal_entity, and organization_unit atom ids"
+  );
+}
+
+const testDir = join(metadataKnowledgeDir, "../__tests__");
+const hasConsumerTest = readdirSync(testDir, { withFileTypes: true }).some(
+  (entry) =>
+    entry.isFile() &&
+    entry.name.includes("platform-identity-vocabulary") &&
+    entry.name.endsWith(".test.ts")
+);
+
+if (!hasConsumerTest) {
+  errors.push(
+    "packages/metadata must include platform-identity-vocabulary consumer test"
+  );
+}
+
+for (const filePath of collectTsFiles(enterpriseKnowledgeSrc)) {
+  const content = readFileSync(filePath, "utf8");
+  if (
+    content.includes('from "@afenda/metadata"') ||
+    content.includes("from '@afenda/metadata'")
+  ) {
+    errors.push(
+      `enterprise-knowledge must not import metadata: ${filePath.replace(repoRoot, "")}`
+    );
+  }
+}
+
+if (errors.length > 0) {
+  console.error("knowledge-metadata-consumer-proof: FAIL");
+  for (const error of errors) {
+    console.error(`  - ${error}`);
+  }
+  process.exit(1);
+}
+
+console.log("knowledge-metadata-consumer-proof: PASS");

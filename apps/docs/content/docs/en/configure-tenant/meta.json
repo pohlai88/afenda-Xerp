@@ -3,6 +3,7 @@
   "icon": "Settings",
   "pages": [
     "index",
+    "enterprise-vocabulary",
     "users-and-memberships",
     "roles-and-permissions",
     "generated/admin-sections"

@@ -7,7 +7,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS } from "../../packages/architecture-authority/src/data/business-master-data-scaffold.policy.ts";
+import { BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS } from "../../packages/architecture-authority/src/index.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,

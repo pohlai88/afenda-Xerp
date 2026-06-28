@@ -1,0 +1,43 @@
+---
+description: >-
+  Agent orchestration rules — user/command is orchestrator; personas do not call
+  personas. Links to using-afenda-skills discovery tree.
+alwaysApply: true
+---
+
+# Agent Orchestration
+
+Governing rules (from `.cursor/references/orchestration-patterns.md`):
+
+1. **User or slash-command is the orchestrator.** Personas do not call personas.
+2. **Only one endorsed fan-out pattern:** parallel independent reports → merge in main agent (`/afenda-ship`).
+3. **Sequential lifecycle** stays user-driven — no LLM lifecycle orchestrator.
+4. **Never build:** meta-router persona, persona-chains, deep persona trees, sequential paraphrasing orchestrator.
+
+## Decision matrix
+
+```
+One perspective on one artifact?
+├── Yes → Direct persona or /afenda-review
+└── No  → Will it repeat?
+         ├── No  → Ad hoc direct invocation
+         └── Yes → Independent sub-tasks?
+                  ├── No  → User runs commands in sequence (spec → plan → build → test → review → ship)
+                  └── Yes → /afenda-ship parallel fan-out + merge
+```
+
+| Task | Entry |
+| --- | --- |
+| Skill discovery | [`using-afenda-skills`](.cursor/skills/using-afenda-skills/SKILL.md) |
+| Pre-merge review (single) | `/afenda-review` |
+| Ship / go-no-go | `/afenda-ship` |
+| PAS parallel batch | `@fdr-orchestrator` + [`afenda-fdr-batch`](.cursor/skills/afenda-fdr-batch/SKILL.md) |
+| Code edit | `coding-consistency-bundle` (implementers only) |
+
+## Cursor mapping
+
+Parallel fan-out = **multiple Task tool calls in one assistant turn** with `readonly: true` subagents.
+
+Review personas skip bundle preflight — hooks scope edit tools to implementers.
+
+Full patterns catalog: [`.cursor/references/orchestration-patterns.md`](.cursor/references/orchestration-patterns.md)

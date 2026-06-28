@@ -2,14 +2,14 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Baseline — Pending Sign-off |
-| **Date** | 2026-06-20 |
+| **Status** | Baseline — Attested (ADR-0004) |
+| **Date** | 2026-06-28 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
 | **Invariant** | ARCH-001 — exactly one owner per package |
 
-Validation at baseline is against the **proposed model** pending ADR-0004 acceptance.
+Validation at baseline is attested under **ADR-0004** (TIP-001B). Architecture Authority sign-off recorded 2026-06-28.
 
 Ownership defines **who owns**, **what ownership means**, **what owners may do**, and **how conflicts resolve**. Full rights and restrictions are normative in **ADR-0004** (TIP-001B); this registry is the operational source of truth.
 

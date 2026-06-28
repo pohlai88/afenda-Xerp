@@ -83,6 +83,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
+| [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | MVP Authority (constitutional charter) |
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |

@@ -85,7 +85,7 @@ describe("domain authority sync", () => {
     expect(domain.domain).toBe("appshell");
     expect(domain.owner).toBe("@afenda/appshell");
     expect(domain.tokens.length).toBe(expectedNames.length);
-    expect(domain.tokens.length).toBeGreaterThanOrEqual(40);
+    expect(domain.tokens.length).toBeGreaterThanOrEqual(43);
 
     for (const name of expectedNames) {
       const token = domain.tokens.find((row) => row.name === name);
@@ -145,9 +145,9 @@ describe("domain authority sync", () => {
     ).length;
 
     expect(afendaCount).toBeGreaterThanOrEqual(465);
-    expect(appshellCount).toBeGreaterThanOrEqual(40);
+    expect(appshellCount).toBeGreaterThanOrEqual(43);
     expect(authEditorialCount).toBe(14);
-    expect(CSS_AUTHORITY_TOKENS.length).toBeGreaterThan(500);
+    expect(CSS_AUTHORITY_TOKENS.length).toBeGreaterThanOrEqual(568);
   });
 
   it("keeps unique ids and names across all domains", () => {

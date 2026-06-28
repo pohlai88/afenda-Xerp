@@ -475,6 +475,17 @@
       "introducedIn": "PAS-005-B34",
       "category": "layout",
       "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-569",
+      "name": "--app-shell-content-padding-inline",
+      "owner": "@afenda/appshell",
+      "authority": "appshell",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "spacing",
+      "editable": false
     }
   ]
 }

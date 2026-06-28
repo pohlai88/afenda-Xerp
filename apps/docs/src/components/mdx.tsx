@@ -29,6 +29,7 @@ import {
   DocsGuideCardGrid,
   DocsIdentityBlock,
 } from "@/components/blocks";
+import { DocsKnowledgeAtomBlock } from "@/components/blocks/docs-knowledge-atom-block";
 import { DocsSiteGraph } from "@/components/docs-site-graph";
 import { GeneratedReference } from "@/components/generated-reference";
 import { GraphView } from "@/components/graph-view";
@@ -124,6 +125,7 @@ export function getMDXComponents(
     DocsFileTree,
     DocsGuideCardGrid,
     DocsIdentityBlock,
+    DocsKnowledgeAtomBlock,
     DocsSiteGraph,
     GeneratedReference,
     DynamicCodeBlock,

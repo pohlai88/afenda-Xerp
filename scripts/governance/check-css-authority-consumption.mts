@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
- * PAS-005 — CSS Authority consumption proof (R23–R27).
- * Validates shadcn token definition boundaries and registry-backed var() references.
+ * PAS-005 — CSS Authority consumption proof (R23–R30).
+ * Validates token definition boundaries and registry-backed var() references.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -64,16 +64,32 @@ function collectCssFiles(dir: string): string[] {
   return result;
 }
 
-const SHADCN_TOKEN_NAMES = new Set(
-  CSS_AUTHORITY_TOKENS.filter((token) => token.authority === "shadcn-theme").map(
-    (token) => token.name
-  )
-);
+function tokenNamesForAuthority(
+  authority: "shadcn-theme" | "afenda-extensions" | "appshell" | "auth-editorial"
+): Set<string> {
+  return new Set(
+    CSS_AUTHORITY_TOKENS.filter((token) => token.authority === authority).map(
+      (token) => token.name
+    )
+  );
+}
 
-const ALLOWED_DEFINITION_PACKAGES = new Set([
+const SHADCN_TOKEN_NAMES = tokenNamesForAuthority("shadcn-theme");
+const AFENDA_TOKEN_NAMES = tokenNamesForAuthority("afenda-extensions");
+const APPSHELL_TOKEN_NAMES = tokenNamesForAuthority("appshell");
+const AUTH_EDITORIAL_TOKEN_NAMES = tokenNamesForAuthority("auth-editorial");
+
+const SHADCN_DEFINITION_PACKAGES = new Set([
   "@afenda/css-authority",
   "@afenda/design-system",
 ]);
+
+const AFENDA_DEFINITION_PACKAGES = new Set([
+  "@afenda/css-authority",
+  "@afenda/design-system",
+]);
+
+const APPSHELL_DEFINITION_PACKAGES = new Set(["@afenda/appshell"]);
 
 const PACKAGE_SCAN_ROOTS: Record<string, string> = {
   "@afenda/ui": join(repoRoot, "packages/ui"),
@@ -109,25 +125,60 @@ function isAuthorityTokenDefinition(content: string, tokenName: string): boolean
   return value.length > 0 && !value.startsWith("var(");
 }
 
-for (const [pkg, root] of Object.entries(PACKAGE_SCAN_ROOTS)) {
-  if (ALLOWED_DEFINITION_PACKAGES.has(pkg)) {
-    continue;
-  }
+function scanDefinitionViolations(options: {
+  readonly rule: string;
+  readonly tokenNames: Set<string>;
+  readonly allowedPackages: Set<string>;
+  readonly message: (pkg: string, tokenName: string) => string;
+}): void {
+  for (const [pkg, root] of Object.entries(PACKAGE_SCAN_ROOTS)) {
+    if (options.allowedPackages.has(pkg)) {
+      continue;
+    }
 
-  const cssPath = join(root, "src");
-  for (const file of collectCssFiles(cssPath)) {
-    const content = stripCssComments(readFileSync(file, "utf8"));
-    for (const tokenName of SHADCN_TOKEN_NAMES) {
-      if (isAuthorityTokenDefinition(content, tokenName)) {
-        fail(
-          "R23-shadcn-definition-authority",
-          file,
-          `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority (and design-system shim) may define shadcn bridge token authority`
-        );
+    const cssPath = join(root, "src");
+    for (const file of collectCssFiles(cssPath)) {
+      const content = stripCssComments(readFileSync(file, "utf8"));
+      for (const tokenName of options.tokenNames) {
+        if (isAuthorityTokenDefinition(content, tokenName)) {
+          fail(options.rule, file, options.message(pkg, tokenName));
+        }
       }
     }
   }
 }
+
+scanDefinitionViolations({
+  rule: "R23-shadcn-definition-authority",
+  tokenNames: SHADCN_TOKEN_NAMES,
+  allowedPackages: SHADCN_DEFINITION_PACKAGES,
+  message: (pkg, tokenName) =>
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority (and design-system shim) may define shadcn bridge token authority`,
+});
+
+scanDefinitionViolations({
+  rule: "R28-afenda-definition-authority",
+  tokenNames: AFENDA_TOKEN_NAMES,
+  allowedPackages: AFENDA_DEFINITION_PACKAGES,
+  message: (pkg, tokenName) =>
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority and @afenda/design-system may define --afenda-* token authority`,
+});
+
+scanDefinitionViolations({
+  rule: "R29-appshell-definition-authority",
+  tokenNames: APPSHELL_TOKEN_NAMES,
+  allowedPackages: APPSHELL_DEFINITION_PACKAGES,
+  message: (pkg, tokenName) =>
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/appshell may define --app-shell-* token authority`,
+});
+
+scanDefinitionViolations({
+  rule: "R30-auth-editorial-definition-authority",
+  tokenNames: AUTH_EDITORIAL_TOKEN_NAMES,
+  allowedPackages: APPSHELL_DEFINITION_PACKAGES,
+  message: (pkg, tokenName) =>
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/appshell may define --auth-editorial-* token authority`,
+});
 
 for (const [pkg, root] of Object.entries(PACKAGE_SCAN_ROOTS)) {
   if (pkg === "@afenda/css-authority" || pkg === "@afenda/design-system") {
@@ -191,5 +242,5 @@ if (errors.length > 0) {
 }
 
 process.stdout.write(
-  `css-authority-consumption: PASS (${SHADCN_TOKEN_NAMES.size} shadcn tokens, ${warnings.length} warning(s))\n`
+  `css-authority-consumption: PASS (shadcn=${SHADCN_TOKEN_NAMES.size}, afenda=${AFENDA_TOKEN_NAMES.size}, appshell=${APPSHELL_TOKEN_NAMES.size}, auth-editorial=${AUTH_EDITORIAL_TOKEN_NAMES.size}, ${warnings.length} warning(s))\n`
 );

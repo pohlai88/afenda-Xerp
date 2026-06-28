@@ -21,5 +21,5 @@ if (issues.length > 0) {
 }
 
 process.stdout.write(
-  "css-visual-regression: PASS (import chain + bridge markers + Storybook composed spot-check)\n"
+  "css-visual-regression: PASS (import chain + bridge markers + Storybook composed spot-check + docs pixel baselines wired)\n"
 );

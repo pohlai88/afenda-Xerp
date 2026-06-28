@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-27-v3",
-  "generatedAt": "2026-06-27T12:27:41.755Z",
+  "generatedAt": "2026-06-28T02:14:44.948Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -31,6 +31,14 @@
       "to": "@afenda/observability"
     },
     {
+      "from": "@afenda/design-system",
+      "to": "@afenda/css-authority"
+    },
+    {
+      "from": "@afenda/docs",
+      "to": "@afenda/enterprise-knowledge"
+    },
+    {
       "from": "@afenda/entitlements",
       "to": "@afenda/database"
     },
@@ -49,6 +57,10 @@
     {
       "from": "@afenda/erp",
       "to": "@afenda/design-system"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/enterprise-knowledge"
     },
     {
       "from": "@afenda/erp",
@@ -103,6 +115,10 @@
       "to": "@afenda/entitlements"
     },
     {
+      "from": "@afenda/metadata",
+      "to": "@afenda/enterprise-knowledge"
+    },
+    {
       "from": "@afenda/metadata-ui",
       "to": "@afenda/metadata"
     },
@@ -141,6 +157,10 @@
     {
       "from": "@afenda/storybook",
       "to": "@afenda/ui"
+    },
+    {
+      "from": "@afenda/ui",
+      "to": "@afenda/css-authority"
     },
     {
       "from": "@afenda/ui",

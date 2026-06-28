@@ -22,7 +22,7 @@ Apply when touching:
 - any `@afenda/css-authority` import or CSS bundle export
 - CSS custom property allowlists (`CSS-TOKEN-*`, `--background`, etc.)
 - PAS-005 slices under `docs/PAS/slice/`
-- `check:css-governance` / R22–R27 consumption gates
+- `check:css-governance` / R22–R30 consumption gates
 
 **Design-system boundary:** `@afenda/design-system` retains TIP-004 variant/recipe TS governance in v1. CSS monolith is a **B30 deprecation shim** — runtime bridge lives in `@afenda/css-authority`. Do not expand `token.registry.ts` palette or hand-edit generated CSS.
 
@@ -74,8 +74,8 @@ PAS-005 (docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md)
   → pnpm generate:css-authority-registry
   → src/generated/css-authority-registry.*
   → check:css-authority-conformance
-  → check:css-authority-consumption · check:css-authority-bridge-sync · check:css-visual-regression
-  → check:css-governance (R6–R27)
+  → check:css-authority-consumption · check:css-authority-domain-sync · check:css-authority-bridge-sync · check:css-visual-regression
+  → check:css-governance (R6–R30)
   → dist/css/afenda-css-authority.css
 ```
 
@@ -89,6 +89,7 @@ pnpm --filter @afenda/css-authority test:run
 pnpm --filter @afenda/css-authority build
 pnpm check:css-authority-conformance
 pnpm check:css-authority-consumption
+pnpm check:css-authority-domain-sync
 pnpm check:css-authority-bridge-sync
 pnpm check:css-visual-regression
 pnpm check:css-governance

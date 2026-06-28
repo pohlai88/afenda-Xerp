@@ -27,6 +27,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out', '.source']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
+    "@afenda/enterprise-knowledge": "workspace:*",
     "@ai-sdk/react": "^3.0.208",
     "@floating-ui/react-dom": "^2.1.8",
     "@fuma-translate/react": "^1.0.2",

@@ -10,16 +10,16 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B26–B35 complete; CSS theme contract gate wired |
+| **Status** | Delivered — B26–B37 complete; CSS theme contract + domain-sync + docs pixel baselines wired |
 | **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 |
 | **Maturity** | `mvp_authority` · `accepted_for_boundary` · `mvp_delivered` · `runtime` |
-| **Runtime status** | B26–B35 delivered — 568-token registry (465 afenda + 43 appshell + 14 auth-editorial + 46 shadcn); consumption + bridge + visual contract gates pass |
-| **Remaining slices** | B36 — Enterprise Accepted attestation (proposed) · B37 — Playwright pixel baselines (optional) |
-| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; 568-token registry; R23–R27 + bridge-sync + visual contract gates |
-| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm quality:boundaries` |
+| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Remaining slices** | none — optional enhancements only |
+| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; thin JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
+| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
-**Next sequence item:** B36 — Enterprise Accepted attestation (see [PAS-005 §14](PAS-005-CSS-AUTHORITY-STANDARD.md#14-remaining-work-post-mvp)).
+**Next sequence item:** none — PAS-005 MVP slice sequence closed (see [PAS-005 §14](PAS-005-CSS-AUTHORITY-STANDARD.md#14-remaining-work-post-mvp)).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -31,6 +31,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B33 | [b33-pas005-visual-regression.md](slice/b33-pas005-visual-regression.md) | Delivered |
 | B34 | [b34-pas005-registry-expansion.md](slice/b34-pas005-registry-expansion.md) | Delivered |
 | B35 | [b35-pas005-disposition-sync.md](slice/b35-pas005-disposition-sync.md) | Delivered |
+| B36 | [b36-pas005-risk-mitigation.md](slice/b36-pas005-risk-mitigation.md) | Delivered |
+| B37 | [b37-pas005-pixel-baselines.md](slice/b37-pas005-pixel-baselines.md) | Delivered |
 
 ---
 
@@ -78,7 +80,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B31 | [b31-ontology-completion.md](slice/b31-ontology-completion.md) | Delivered |
 | B32 | [b32-erp-consumer-integration.md](slice/b32-erp-consumer-integration.md) | Delivered |
 
-**Next sequence item:** [PAS-004B](#pas-004b-enterprise-knowledge-kernel--consumer--b33b37-enterprise-accepted) — B33 kernel identity mapping gate.
+**Next sequence item:** PAS-004B closed — PKGR04 promoted to PAS-004B (scorecard 40/40).
 
 ---
 
@@ -86,25 +88,22 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Proposed — PAS-004B authored; implementation not started |
+| **Status** | Closed — B33–B37 delivered; PKGR04 promoted 2026-06-28 |
 | **Authority** | PAS-004B · PAS-004A baseline · PAS-001 §4.1 / ADR-0021 · `PKGR04_ENTERPRISE_KNOWLEDGE` |
-| **Maturity** | `enterprise_accepted` (target) · `accepted_for_implementation` · `not_started` · `pas_document` |
-| **Runtime status** | PAS-004B canonical doc + B33 handoff; PAS-004A B24–B32 remains live runtime truth |
-| **Remaining slices** | B33 — [b33-kernel-identity-mapping-gate.md](slice/b33-kernel-identity-mapping-gate.md) (next) |
-| **Runtime evidence** | `docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md`, B33 handoff |
-| **Gates (baseline)** | All PAS-004A §13 gates + `pnpm check:documentation-drift` |
-| **Gates (B33+)** | `pnpm check:knowledge-kernel-identity-mapping` (B33) · metadata/docs/acceptance-graph gates (B34–B36) |
-| **Result target** | Kernel identity bridge, metadata + docs consumer proof, acceptance graph queries, combined scorecard ≥38/40 |
-
-**Supersedes:** PAS-004A for **maturity claims** only after B37 — platform runtime from 004A remains until B33+ delivers.
+| **Maturity** | `enterprise_accepted` (40/40 scorecard) |
+| **Runtime status** | All B33–B36 gates operational; registry authority PAS-004B |
+| **Remaining slices** | none |
+| **Runtime evidence** | B33–B36 governance scripts under `scripts/governance/check-knowledge-*` |
+| **Gates (B33+)** | all §13.3 gates ✓ |
+| **Result** | **40/40** — PKGR04 authority PAS-004B; B37 scorecard row #20 closed |
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B33 | [b33-kernel-identity-mapping-gate.md](slice/b33-kernel-identity-mapping-gate.md) | Next |
-| B34 | [b34-metadata-consumer-proof.md](slice/b34-metadata-consumer-proof.md) | Proposed |
-| B35 | [b35-docs-consumer-proof.md](slice/b35-docs-consumer-proof.md) | Proposed |
-| B36 | [b36-acceptance-graph-queries.md](slice/b36-acceptance-graph-queries.md) | Proposed |
-| B37 | [b37-enterprise-accepted-attestation.md](slice/b37-enterprise-accepted-attestation.md) | Proposed |
+| B33 | [b33-kernel-identity-mapping-gate.md](slice/b33-kernel-identity-mapping-gate.md) | Delivered |
+| B34 | [b34-metadata-consumer-proof.md](slice/b34-metadata-consumer-proof.md) | Delivered |
+| B35 | [b35-docs-consumer-proof.md](slice/b35-docs-consumer-proof.md) | Delivered |
+| B36 | [b36-acceptance-graph-queries.md](slice/b36-acceptance-graph-queries.md) | Delivered |
+| B37 | [b37-enterprise-accepted-attestation.md](slice/b37-enterprise-accepted-attestation.md) | Attested |
 
 ---
 
@@ -138,6 +137,29 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Result** | PAS §6.1, package-local tree, skill adapter, and runtime package layout are synchronized |
 
 **Next sequence item:** Kernel public API/export closure (PAS §6.3–§6.4) — see [`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md).
+
+---
+
+## PAS-002A Architecture Authority Enterprise Hardening — B38–B42 (Enterprise Accepted)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — B38–B42 complete; PKGR02 authority promoted to PAS-002A |
+| **Authority** | PAS-002A · PAS-002 charter · PAS-001 kernel boundary · `PKGR02_ARCHITECTURE_AUTHORITY` |
+| **Maturity** | `enterprise_accepted` · `delivered` · `runtime_proven` |
+| **Runtime status** | B38–B42 delivered — four new gates operational; ownership attested 2026-06-28 |
+| **Remaining slices** | none |
+| **Runtime evidence** | Policy + gates under `scripts/governance/check-architecture-*.mts`; [B42 scorecard](slice/b42-pas002a-enterprise-accepted-attestation.md) |
+| **Gates** | PAS-002 §13.1 (inherited) + PAS-002A §13.2–§13.3 gates (B38–B41) |
+| **Result** | Enterprise Accepted maturity on PKGR02; contracts-only stance preserved |
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B38 | [b38-pas002a-kernel-boundary-gate.md](slice/b38-pas002a-kernel-boundary-gate.md) | Delivered |
+| B39 | [b39-pas002a-ownership-signoff.md](slice/b39-pas002a-ownership-signoff.md) | Delivered |
+| B40 | [b40-pas002a-governance-consumer-proof.md](slice/b40-pas002a-governance-consumer-proof.md) | Delivered |
+| B41 | [b41-pas002a-disposition-completeness.md](slice/b41-pas002a-disposition-completeness.md) | Delivered |
+| B42 | [b42-pas002a-enterprise-accepted-attestation.md](slice/b42-pas002a-enterprise-accepted-attestation.md) | Delivered |
 
 ---
 

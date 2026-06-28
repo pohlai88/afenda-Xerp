@@ -20,10 +20,10 @@
 | **Agent skill** | `css-authority` · `.cursor/skills/css-authority/SKILL.md` |
 | **Maturity** | MVP Authority (`mvp_authority`) |
 | **Authority status** | `accepted_for_boundary` |
-| **Implementation status** | `mvp_delivered` — B26–B35 slice sequence complete (2026-06-28) |
-| **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 568-token registry; R23–R27 + bridge-sync + visual contract gates pass |
-| **Runtime status** | B26–B35 delivered — 568-token registry (465 afenda + 43 appshell + 14 auth-editorial + 46 shadcn); consumption + bridge + visual contract gates pass |
-| **Remaining slices** | B36 — Enterprise Accepted attestation (proposed) · B37 — Playwright pixel baselines (optional) |
+| **Implementation status** | `mvp_delivered` — B26–B37 slice sequence complete (2026-06-28) |
+| **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 569-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines pass |
+| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines wired |
+| **Remaining slices** | none — optional enhancements only (R15 studio raw values, post-v1 shim removal) |
 | **Consumers** | `@afenda/ui`, `@afenda/appshell`, `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -233,6 +233,7 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | B29 | [Strangler cutover `afenda-ui.css`](slice/b29-pas005-ui-cutover.md) | **Delivered · 2026-06-28** |
 | B30 | [Deprecate design-system CSS monolith (shim)](slice/b30-pas005-deprecate-ds-css.md) | **Delivered · 2026-06-28** |
 | B33 | [Visual regression contract gate](slice/b33-pas005-visual-regression.md) | **Delivered · 2026-06-28** |
+| B37 | [Playwright pixel baselines](slice/b37-pas005-pixel-baselines.md) | **Delivered · 2026-06-28** |
 
 ---
 
@@ -245,7 +246,7 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | Generated registry | **46 shadcn tokens** (B27) | Full extension domains (`afenda-extensions`, `appshell`, `auth-editorial`) |
 | Consumption gates | **R23–R27 pass** (B28) | Zero-warning baseline; R15 studio raw-value cleanup |
 | Runtime cutover | **Yes** — B29/B30 shim (B29) | Remove design-system CSS shim (post-v1) |
-| Visual contract gate | **Yes** — B33 import-chain contract | Playwright pixel baselines (optional) |
+| Visual contract gate | **Yes** — B33 import-chain contract + B37 docs pixel baselines | ERP pixel baselines (optional future) |
 | Enterprise attestation | Not started | Production Candidate scorecard (future B34+) |
 | Disposition lane | `amber-lane` (`PKGR05`) | Production Candidate promotion |
 
@@ -266,6 +267,7 @@ pnpm --filter @afenda/css-authority build
 ```bash
 pnpm check:css-authority-conformance
 pnpm check:css-authority-consumption
+pnpm check:css-authority-domain-sync
 pnpm check:css-authority-bridge-sync
 pnpm check:css-visual-regression
 pnpm check:css-governance
@@ -284,13 +286,14 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 | P1 | ~~Register `--app-shell-*`, `--auth-editorial-*`, Afenda extension tokens in authority JSON~~ | B34 registry expansion | **Delivered** — 568-token merged registry |
 | P2 | ~~Close `PKGR02` knownGap `css-token-authority-migrating-to-PKGR05_CSS_AUTHORITY`~~ | B35 disposition sync | **Delivered** — PKG004_DESIGN knownGaps cleared; design-system retains TIP-004 TS |
 | P3 | Enterprise Accepted attestation + lane promotion | B36 scorecard | Mirror PAS-004A B30 pattern; target `production_candidate` maturity |
-| P4 | Playwright pixel baselines (ERP/docs) | B37 visual proof | Optional beyond B33 contract gate; seed under `apps/docs/e2e/visual-proof/` |
+| P4 | ~~Playwright pixel baselines (docs use-erp CSS theme)~~ | B37 visual proof | **Delivered** — `docs-pixel-baseline.spec.ts` + baselines under `apps/docs/e2e/visual-proof/` |
 | P5 | R15 raw visual values in `afenda-appshell-studio.css` | appshell slice | 3 governance warnings — not css-authority package scope |
-| P6 | Define missing `--app-shell-content-padding-inline` | appshell slice | Consumed in `afenda-appshell.css` but not in `.app-shell-root` definitions block |
+| P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 569-token registry |
+| P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
 | Deferred | Delete `@afenda/design-system` CSS exports | post-v1 | Prohibited in PAS-005 v1 (`do-not-delete-design-system-v1`) |
 | Out of scope (v1) | TIP-004 variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
 
-**Next sequence item:** B36 — Enterprise Accepted attestation + lane promotion.
+**Next sequence item:** none — PAS-005 MVP slice sequence closed; optional ERP pixel baselines or Production Candidate attestation remain out of scope for B37.
 
 ---
 
