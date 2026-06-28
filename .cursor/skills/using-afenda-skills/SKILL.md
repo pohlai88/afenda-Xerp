@@ -49,6 +49,7 @@ Tailwind / package CSS? ──→ afenda-tailwind
 Enterprise knowledge? ────→ enterprise-knowledge
 Docs MDX (apps/docs)? ────→ docs-editorial-design
 shadcn/studio blocks? ────→ afenda-shadcn-components + shadcn-studio
+Accessibility / a11y? ────→ afenda-accessibility
 Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp
 Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
@@ -58,6 +59,7 @@ Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 
 ```
 Tests / coverage? ────────→ /afenda-test (+ vendor test-driven-development)
+Accessibility audit? ───→ afenda-accessibility (+ Storybook addon-a11y on changed stories)
 Pre-merge review? ────────→ /afenda-review
 Ship go/no-go? ───────────→ /afenda-ship
 Web perf audit? ──────────→ /afenda-webperf
@@ -116,5 +118,6 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | Tailwind v4 | `afenda-tailwind` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
 | shadcn promotion | `afenda-shadcn-components` |
+| Accessibility | `afenda-accessibility` |
 
 Full inventory: [README.md](README.md).

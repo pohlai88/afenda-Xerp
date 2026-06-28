@@ -55,7 +55,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
 | `@afenda/erp` | `@afenda/permissions` | Approved | Foundation phase 10 | — |
-| `@afenda/erp` | `@afenda/shadcn-studio` | Approved | PAS-005A | B42 partial — theme CSS chain |
+| `@afenda/erp` | `@afenda/shadcn-studio` | Approved | PAS-005A | B42p — theme CSS chain + presentation bridge |
 | `@afenda/erp` | `@afenda/storage` | Approved | — | — |
 | `@afenda/erp` | `@afenda/ui` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |

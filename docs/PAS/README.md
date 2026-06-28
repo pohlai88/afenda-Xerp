@@ -91,7 +91,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate — B38–B48 delivered; scorecard 58/58; derived from PAS-004B |
-| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 569-token registry; runtime cutover live |
+| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 605-token registry; runtime cutover live |
 | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | MVP Authority — B38–B42p delivered; strangler sequence complete; derived from PAS-005 |
 
 Package-local annotated trees:
@@ -116,6 +116,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |
 | PAS-005 | `.cursor/skills/css-authority/SKILL.md` |
 | PAS-005A | `.cursor/skills/shadcn-studio-authority/SKILL.md` |
+| Accessibility (cross-PAS) | `.cursor/skills/afenda-accessibility/SKILL.md` |
 
 Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
 

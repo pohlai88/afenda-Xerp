@@ -98,6 +98,7 @@ Read the **correct governing skill** based on what files change:
 | **Metadata UI** | `packages/metadata-ui/**` | `afenda-ui-quality` (consumer layer) | `.cursor/skills/afenda-ui-quality/SKILL.md` |
 | **CSS authority** | `packages/css-authority/**` | `css-authority` + `afenda-tailwind` | `.cursor/skills/css-authority/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
 | **Design tokens (shim)** | `packages/design-system/**` | `architecture-authority` + `css-authority` + `afenda-tailwind` | `.cursor/skills/architecture-authority/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
+| **Accessibility pass** | Any interactive UI, MCP blocks, stories | `afenda-accessibility` | `.cursor/skills/afenda-accessibility/SKILL.md` |
 | **Cross-surface** | Multiple packages | All applicable skills above | Read all |
 
 **Unknown surface** → stop with Blocker Report. Do not guess.
@@ -185,6 +186,7 @@ Read applicable rows **before** any file edit:
 | 10 | css-authority | `.cursor/skills/css-authority/SKILL.md` | Any CSS token, custom property, or vendored theme work |
 | 11 | afenda-shadcn-components | `.cursor/skills/afenda-shadcn-components/SKILL.md` | Studio blocks, bridge vars, promotion pipeline |
 | 12 | shadcn-studio | `.cursor/skills/shadcn-studio/SKILL.md` | MCP /cui /rui /iui /ftc workflows only |
+| 13 | afenda-accessibility | `.cursor/skills/afenda-accessibility/SKILL.md` | Interactive UI, MCP blocks, a11y tests, Storybook stories |
 
 ---
 

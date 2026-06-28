@@ -285,12 +285,12 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 
 | Priority | Item | Owner slice (proposed) | Notes |
 | -------- | ---- | ---------------------- | ----- |
-| P1 | ~~Register `--app-shell-*`, `--auth-editorial-*`, Afenda extension tokens in authority JSON~~ | B34 registry expansion | **Delivered** — 568-token merged registry |
+| P1 | ~~Register `--app-shell-*`, `--auth-editorial-*`, Afenda extension tokens in authority JSON~~ | B34 registry expansion | **Delivered** — 605-token merged registry (B42l auth-editorial sync) |
 | P2 | ~~Close `PKGR02` knownGap `css-token-authority-migrating-to-PKGR05_CSS_AUTHORITY`~~ | B35 disposition sync | **Delivered** — PKG004_DESIGN knownGaps cleared; design-system retains Governed UI TS |
 | P3 | Enterprise Accepted attestation + lane promotion | B36 scorecard | Mirror PAS-004A B30 pattern; target `production_candidate` maturity |
 | P4 | ~~Playwright pixel baselines (docs use-erp CSS theme)~~ | B37 visual proof | **Delivered** — `docs-pixel-baseline.spec.ts` + baselines under `apps/docs/e2e/visual-proof/` |
-| P5 | R15 raw visual values in `afenda-appshell-studio.css` | appshell slice | 3 governance warnings — not css-authority package scope |
-| P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 569-token registry |
+| P5 | ~~R15 raw visual values in `afenda-appshell-studio.css`~~ | appshell slice | **Resolved** — `--auth-editorial-*` / `--app-shell-studio-*` custom property defs exempt; 0 R15 warnings at last `check:css-governance` run |
+| P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 605-token registry |
 | P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
 | Deferred | Delete `@afenda/design-system` CSS exports | post-v1 | Prohibited in PAS-005 v1 (`do-not-delete-design-system-v1`) |
 | Out of scope (v1) | Governed UI variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |

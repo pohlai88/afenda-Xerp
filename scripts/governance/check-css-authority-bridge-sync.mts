@@ -49,6 +49,24 @@ if (bridge.length > 0) {
       "afenda-runtime-bridge.css: must not contain Part A tokens (tokens live in afenda-tokens.css)"
     );
   }
+
+  // PAS-005 R6: Part F density hooks must use single-line var() so css-governance R6 exemption applies
+  const partFMatch = bridge.match(
+    /\/\* ── Part F: Density attribute hooks[\s\S]*$/
+  );
+  if (partFMatch !== null) {
+    const partF = partFMatch[0];
+    for (const line of partF.split("\n")) {
+      if (!/^\s*--afenda-density-[\w-]+\s*:/.test(line)) {
+        continue;
+      }
+      if (!/:\s*var\(--afenda-[^)]+\)\s*;/.test(line)) {
+        errors.push(
+          `afenda-runtime-bridge.css: Part F density alias must be single-line var(--afenda-*): ${line.trim()}`
+        );
+      }
+    }
+  }
 }
 
 if (shim.length > 0) {

@@ -17,7 +17,7 @@ export const CSS_TOKEN_IDS: readonly string[] = CSS_AUTHORITY_TOKENS.map(
   (token) => token.id
 );
 
-/** Validated at trust boundaries via `isCssTokenId()` — not a 568-member literal union. */
+/** Validated at trust boundaries via `isCssTokenId()` — not a fixed-size literal union. */
 export type CssTokenId = string;
 
 export const CSS_AUTHORITY_TOKEN_NAMES: readonly string[] = CSS_AUTHORITY_TOKENS.map(
