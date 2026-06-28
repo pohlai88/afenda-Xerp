@@ -2,7 +2,7 @@
 
 Create under `.cursor/skills/<package-name>-authority/reference/`.
 
-← Index: [pas-template.md](pas-template.md)
+← Index: [pas-template.md](pas-template.md) · **Generate from PAS §4/§6** — do not edit independently
 
 ---
 
@@ -68,11 +68,18 @@ Detailed TypeScript shapes for `@afenda/<name>` authority surfaces.
 | `Status: Target` | Planned — requires a dedicated slice |
 | `Status: Deprecated` | Scheduled removal — cite slice or ADR |
 
+**From PAS §4 (include on every surface):**
+
+| Field | Value |
+| --- | --- |
+| **Contract type** | Identity / Domain / Runtime / … |
+| **Stability** | Constitutional / Stable / Evolutionary / Experimental |
+
 ---
 
 ## <Surface name>
 
-Status: Current — `packages/<name>/src/<path>.ts`
+**Contract type:** Domain · **Stability:** Stable · Status: Current — `packages/<name>/src/<path>.ts`
 
 ```ts
 // Minimal shape — expand in PAS §4, not prose here

@@ -105,6 +105,18 @@ Package-local annotated trees:
 
 Slice closure registry: [`pas-status-index.md`](pas-status-index.md)
 
+### Kernel PAS family (composed governance layer)
+
+Platform Kernel uses a **composed PAS family** under [`KERNEL/`](KERNEL/README.md) — distilled from the legacy implementation archive without refactoring root `PAS-001*` files.
+
+| Composed (chain SSOT) | Legacy archive |
+| --- | --- |
+| [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [PAS-001-KERNEL-AUTHORITY-STANDARD.md](PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+
+Agent read order: [Kernel North Star](../NORTHSTAR/kernel-north-star.md) → [Kernel Blueprint](../BLUEPRINT/kernel-blueprint.md) → [KERNEL/README.md](KERNEL/README.md) → [KERNEL/SLICE/README.md](KERNEL/SLICE/README.md).
+
 ---
 
 ## Agent skill entrypoints

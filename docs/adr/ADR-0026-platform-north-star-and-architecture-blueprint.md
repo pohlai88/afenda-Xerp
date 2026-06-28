@@ -56,7 +56,9 @@ Architecture Blueprint
   >
 ADR (optional — cross-cutting decisions only)
   >
-PAS (per-package authority + Slice Catalog)
+PAS (per-package authority + §12 Slice Catalog)
+  >
+Slice (docs/PAS/slice/*.md — work order; Slice N of M declared per slice)
   >
 Code
 ```
@@ -65,8 +67,8 @@ Code
 
 | Document | Location | Role |
 | --- | --- | --- |
-| Platform North Star | [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) | Platform **why** + capability expectations (not feature-level) |
-| Architecture Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) | Forward-looking package/domain decomposition + **why each exists** |
+| Platform North Star | [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) | Root platform spec (§0–§15): platform **why**, boundary, authority surface catalog, PAS catalog, documentation rules, agent chain, templates index |
+| Architecture Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) | Forward-looking package/domain decomposition + **why each exists** + total PAS count + PAS inventory table |
 
 ### 3. Blueprint rules
 
@@ -74,6 +76,7 @@ Code
 - Blueprint may declare **planned** packages/domains not yet in the package registry; promotion to PKG-* requires ADR + `foundation-registry-owner`.
 - Every Blueprint box that becomes a governed package must eventually map to **one PAS**. PAS Slice Catalog (§12) remains inside PAS — no FDR or IPS layer is reintroduced.
 - A PAS **Consumers** field may list only packages declared in the Blueprint (live or planned with explicit status).
+- Blueprint metadata must declare `Total PAS at maturity`, `Live PAS today`, and `Planned PAS` counts. The **PAS Inventory** table in the Blueprint is updated on every new PAS and on every slice close.
 
 ### 4. ADR optional below Blueprint
 
@@ -89,19 +92,35 @@ Before assigning a new `PAS-NNN`, the package or domain must appear in the Archi
 
 ### 7. Agent execution rule
 
-Coding agents must read: North Star → Blueprint → cited ADRs → target PAS → target PAS slice. Agents must not create packages, consumers, PAS documents, or runtime code unless the authority is Blueprint-declared and PAS maturity permits. Canonical text: both architecture documents § Agent execution rule.
+Coding agents must read in this order: **North Star §0 → Blueprint → cited ADRs → target PAS §0 → target Slice**. Agents must not create packages, consumers, PAS documents, or runtime code unless the authority is Blueprint-declared and PAS maturity permits.
+
+Canonical text: [North Star §0](../architecture/afenda-platform-north-star.md#0-agent-quick-path) and [Blueprint § Agent execution rule](../architecture/afenda-architecture-blueprint.md#agent-execution-rule).
 
 ### 8. Documentation doctrine
 
 | Layer | Owns |
 | --- | --- |
-| North Star | WHY |
-| Architecture Blueprint | WHAT EXISTS |
-| ADR | WHY a major architecture decision was chosen |
-| PAS | Package authority and slices |
-| Code | Approved PAS slice only |
+| **North Star** | WHY — platform definition, authority surface catalog, documentation rules |
+| **Architecture Blueprint** | WHAT EXISTS — packages, domains, feature map, total PAS count |
+| **ADR** | WHY a major architectural decision was chosen |
+| **PAS** | Feature specification — what to build, rules, slice catalog, acceptance criteria |
+| **Slice** | Work order — build this one piece; declares `Slice N of M` position |
+| **Code** | Implements the Slice; nothing more |
 
-No document may duplicate authority above or below it. PAS creation requires the six-condition gate in Architecture Blueprint § PAS creation gate.
+No document may duplicate the authority of the document above or below it. PAS creation requires the six-condition gate in Architecture Blueprint § PAS creation gate. Slice creation requires a PAS with a declared §12 Slice Catalog entry.
+
+### 9. Reusable templates
+
+Four fill-in templates exist to make the chain repeatable:
+
+| Template | Location | Use when |
+| --- | --- | --- |
+| `north-star-template.md` | `.cursor/skills/kernel-authority/reference/north-star-template.md` | Authoring a domain-level North Star |
+| `blueprint-template.md` | `.cursor/skills/kernel-authority/reference/blueprint-template.md` | Authoring or extending a Blueprint |
+| `pas-doc-template.md` | `.cursor/skills/kernel-authority/reference/pas-doc-template.md` | Authoring any PAS |
+| `pas-slice-template.md` | `.cursor/skills/kernel-authority/reference/pas-slice-template.md` | Authoring any Slice |
+
+Template index: `.cursor/skills/kernel-authority/reference/pas-template.md`
 
 ---
 
@@ -112,7 +131,8 @@ No document may duplicate authority above or below it. PAS creation requires the
 - PAS is discovered from declared decomposition — no phantom consumers
 - Single platform North Star distinct from per-PAS §1 North Star
 - Registries remain machine truth; Blueprint adds narrative WHY without drift duplication
-- Lifecycle simplifies to North Star → Blueprint → PAS → Code
+- Lifecycle simplifies to North Star → Blueprint → PAS → Slice → Code
+- Four reusable fill-in templates make the chain repeatable for any new domain or feature
 
 ### Negative / trade-offs
 
@@ -124,14 +144,17 @@ No document may duplicate authority above or below it. PAS creation requires the
 
 ## Acceptance Gate
 
-- ADR-0026 status = Accepted
-- [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) published
-- [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) published
-- [`docs/architecture/README.md`](../architecture/README.md) reflects discovery order
-- [`docs/PAS/README.md`](../PAS/README.md) step 0 references Blueprint
-- [`foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md) notes discovery order
-- [`AGENTS.md`](../../AGENTS.md) read-order updated
-- `pnpm check:documentation-drift` passes
+- [x] ADR-0026 status = Accepted
+- [x] [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) published (§0–§15 format)
+- [x] [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) published (PAS Inventory table + Total PAS counts)
+- [x] [`docs/architecture/README.md`](../architecture/README.md) reflects discovery order
+- [x] [`docs/PAS/README.md`](../PAS/README.md) step 0 references Blueprint
+- [x] [`foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md) notes discovery order
+- [x] [`AGENTS.md`](../../AGENTS.md) read-order updated
+- [x] Four reusable templates created (§9 above)
+- [x] `pas-doc-template.md` upgraded with `Blueprint box` + `Total slices planned` + `Delivered slices` fields
+- [x] `pas-slice-template.md` upgraded with `Slice N of M` position declaration
+- [x] `pnpm check:documentation-drift` passes
 
 ---
 

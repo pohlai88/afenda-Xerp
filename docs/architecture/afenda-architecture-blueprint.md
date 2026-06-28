@@ -8,6 +8,9 @@
 | **North Star** | [afenda-platform-north-star.md](afenda-platform-north-star.md) |
 | **Machine truth** | [package-registry.md](package-registry.md) · [layer-registry.md](layer-registry.md) · [dependency-registry.md](dependency-registry.md) · [foundation-disposition.md](foundation-disposition.md) |
 | **Does not confer** | Runtime APIs, contracts, slice handoffs, or registry rows |
+| **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)` |
+| **Live PAS today** | `8 documents` (PAS-001, PAS-001A, PAS-001B, PAS-002, PAS-003, PAS-004 family, PAS-005, PAS-005A) |
+| **Planned PAS** | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement) |
 
 > **One sentence:** The Architecture Blueprint declares **what packages and domain authorities exist, why each exists, how they compose, and which PAS governs each box** — so PAS documents are discovered, not invented.
 
@@ -203,6 +206,42 @@ flowchart TB
   Auth --> ERP
   MetadataUI --> ERP
 ```
+
+---
+
+## PAS Inventory
+
+**Total PAS planned at Blueprint maturity: ~15 root PAS · ~25+ total documents**
+
+This table is the canonical count. Every PAS row must trace back to a Blueprint box above. When a new PAS is authored, add it here and update the metadata table counts at the top of this document.
+
+| PAS | Title | Blueprint box | Live slices / Total slices | Status |
+| --- | --- | --- | --- | --- |
+| PAS-001 | Kernel Authority Standard | Kernel & context | Multiple / TBD | Enterprise Accepted |
+| PAS-001A | Kernel ERP Production Integration | Kernel & context | Multiple / TBD | Production Candidate |
+| PAS-001B | Kernel ERP Domain Vocabulary | Kernel & context | Multiple / TBD | Production Candidate |
+| PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
+| PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
+| PAS-003 | Accounting Standards Authority | Accounting standards authority | B1 planned / ~12 total | Production Candidate |
+| PAS-004 | Enterprise Knowledge Standard | Knowledge | Multiple / TBD | MVP → Production Candidate |
+| PAS-004A | Enterprise Knowledge extension A | Knowledge | — | Production Candidate |
+| PAS-004B | Enterprise Knowledge Kernel Consumer | Knowledge | — | Production Candidate |
+| PAS-004C | Enterprise Knowledge Semantic Model | Knowledge | — | Production Candidate |
+| PAS-004D | Enterprise Knowledge Operational Closure | Knowledge | — | Production Candidate |
+| PAS-005 | CSS Authority Standard | Design system | Multiple / TBD | MVP Authority |
+| PAS-005A | shadcn/studio Presentation | Design system | Multiple / TBD | MVP Authority |
+| PAS-005B | Design System Retirement | Design system | — | Retirement Candidate |
+| PAS-006+ | Accounting Runtime | Accounting runtime | 0 / TBD | Blocked — ADR-0010 |
+| Planned | Consolidation | Consolidation runtime | 0 / TBD | Planned |
+| Planned | Intercompany | Intercompany runtime | 0 / TBD | Planned |
+| Planned | Tax | Tax runtime | 0 / TBD | Planned |
+| Planned | Finance / Management Reporting | Finance / management reporting | 0 / TBD | Planned |
+| Planned | Financial Reporting | Financial reporting (statements) | 0 / TBD | Planned |
+| Planned | HRM | HRM | 0 / TBD | Planned |
+| Planned | CRM | CRM | 0 / TBD | Planned |
+| Planned | Procurement | Procurement | 0 / TBD | Planned |
+
+> **Rule:** A PAS may be marked Live only when its Blueprint box is `live` and at least one slice is Delivered. Update `Live slices / Total slices` on every slice close.
 
 ---
 

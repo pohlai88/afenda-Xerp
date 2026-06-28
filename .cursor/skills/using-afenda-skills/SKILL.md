@@ -36,6 +36,10 @@ Rough idea? ──────────────→ vendor idea-refine
 PAS foundation slice? ────→ pas-slice-planner → @afenda-governed-implementer | @afenda-orchestrator
 Registry lane change? ────→ @foundation-registry-owner
 Docs/matrix drift? ───────→ @documentation-drift
+Governance doc lifecycle? → afenda-doc-lifecycle
+  ├── Author NS/BP/PAS/ADR/Slice → AUTHOR
+  ├── Evidence audit / gap / drift → AUDIT
+  └── SKILL regen / vocab / CI gate → SYNC
 ```
 
 ### Build
@@ -77,6 +81,7 @@ Frontend audit? ──────────→ enterprise-frontend-audit
 | --- | --- |
 | `coding-consistency-bundle` | Any implementer file edit |
 | `ui-consistency-bundle` | UI, CSS, or visual changes |
+| `afenda-doc-lifecycle` | Governance doc work (NS · Blueprint · PAS · ADR · Slice · SKILL regen) |
 
 Orchestrators paste bundle read lists into implementer prompts — personas do not invoke bundles when `readonly: true`.
 

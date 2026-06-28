@@ -1,16 +1,37 @@
 # PAS Skill Template
 
-Copy to `.cursor/skills/<package-name>-authority/SKILL.md`.
+Bootstrap skeleton for `.cursor/skills/<package-name>-authority/SKILL.md`.
 
 ← Index: [pas-template.md](pas-template.md) · Example: [kernel-authority/SKILL.md](../../SKILL.md)
 
-**Token budget:** SKILL.md target **≤350 lines**. TypeScript shapes → `reference/authority-surfaces.md`. Folder trees → `reference/package-structure.md`. Ultra-light fallback → `reference/quick-ref.md`.
+---
 
-**Duplication rule:** Copy §2 boundary, §7 decision matrix, §3.2 + §5 hard stops, and Phase 0 **verbatim** into SKILL — do not use `[From PAS §X]` placeholders in committed skills.
+## Maintenance model (read first)
+
+**PAS is SSOT.** This SKILL is a **generated artifact** — not a second canonical document.
+
+```text
+docs/PAS/PAS-NNN-*.md
+        ↓ extract (manual checklist or future pnpm generate:pas-skill)
+SKILL.md + reference/*.md
+        ↓
+IDE agents
+```
+
+| Rule | Action |
+| --- | --- |
+| PAS §2/§3/§4/§7/§8/§13/§15 changes | Regenerate SKILL — do not edit SKILL alone |
+| New surface | Update PAS §4 first · regen `reference/authority-surfaces.md` |
+| Slice close | Sync `## PAS rollout status` from PAS metadata/YAML |
+| **Same-commit rule** | If any extracted PAS section changes, update SKILL + **Sync checksum** in the **same commit** |
+
+Full extract map: [pas-template.md § PAS → SKILL generation model](pas-template.md#pas--skill-generation-model)
+
+**Token budget:** SKILL.md target **≤350 lines**. TypeScript shapes → `reference/authority-surfaces.md`. Folder trees → `reference/package-structure.md`.
 
 ---
 
-## Copy block — SKILL.md
+## Copy block — SKILL.md (bootstrap once, then regenerate from PAS)
 
 ~~~markdown
 ---
@@ -21,18 +42,37 @@ disable-model-invocation: false
 
 # @afenda/<name> — Authority Skill (PAS-NNN)
 
-## PAS rollout status (mirror header — sync on slice close)
+> **Generated from:** `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md` · Regenerate on PAS amend — do not drift manually.
+
+## PAS rollout status (sync from PAS header/YAML on slice close)
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | `<paste runtime_status from PAS YAML>` |
-| **Remaining slices** | `<paste remaining_slices — or `none`>` |
+| **Runtime status** | `<from PAS metadata>` |
+| **Remaining slices** | `<from PAS metadata — or none>` |
 
-> Canonical: `docs/PAS/PAS-NNN-*.md` frontmatter + header · Closure registry: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: PAS §0 · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
-## Boundary (one sentence)
+## Sync checksum
+
+> **Drift guard.** Update every **Last synced** date when regenerating from PAS. If any listed PAS section changes, this SKILL must be updated in the **same commit**.
+
+| Source | Last synced |
+| --- | --- |
+| PAS §2 Boundary | `YYYY-MM-DD` |
+| PAS §7 Decision matrix | `YYYY-MM-DD` |
+| PAS §3.2 + §5 Hard stops | `YYYY-MM-DD` |
+| PAS §13.1 Gates | `YYYY-MM-DD` |
+| PAS §15 Doctrine | `YYYY-MM-DD` |
+| PAS §3.4 Dependencies (summary) | `YYYY-MM-DD` |
+| PAS §4 Surfaces → `reference/authority-surfaces.md` | `YYYY-MM-DD` |
+| PAS §6 Structure → `reference/package-structure.md` | `YYYY-MM-DD` |
+
+---
+
+## Boundary (from PAS §2)
 
 <Paste §2 verbatim — bold key owns / never owns terms>
 
@@ -48,50 +88,58 @@ Apply this skill when touching:
 - `<key-contract-path-2>`
 - any cross-package <domain> boundary question
 
+**Escalation:** [Authority Escalation Matrix](../../../.cursor/skills/kernel-authority/reference/doc-boundary-contract.md#authority-escalation-matrix)
+
 ---
 
-## Decision matrix
+## Architectural dependencies (from PAS §3.4 — summary)
 
-> Can this belong in <package-name>?
+| Depends on | Required for |
+| --- | --- |
+| Kernel | <summary> |
+| Metadata | <summary> |
+| Permissions | <summary> |
+| Observability | <summary> |
+
+Full table → PAS §3.4
+
+---
+
+## Decision matrix (from PAS §7)
 
 | Question | If yes → | In <package>? |
 | --- | --- | --- |
 | <question 1> | <outcome> | **Yes** / **No** |
-| <question 2> | <outcome> | **Yes** / **No** |
 | … | … | … |
 
-Minimum eight rows — duplicate full §7 table from PAS.
+Minimum eight rows — extract full §7 table from PAS.
 
 ---
 
-## Hard stops
+## Hard stops (from PAS §3.2 + §5)
 
-### Prohibited imports — never add these to <package-name>
-
-```
-<package>  <package>  <framework>
-<one line per group — copy §3.2>
-```
-
-### <Package> must never own
+### Prohibited imports
 
 ```
-<responsibility line 1>
-<responsibility line 2>
-…
+<extract §3.2>
+```
+
+### Must never own
+
+```
+<extract §5>
 ```
 
 ### Documentation-only slices
 
-When the task is **explicitly documentation or skill maintenance only**, add:
+When the task is **explicitly documentation or skill maintenance only**:
 
 ```
 Do not modify packages/<package-name>/src/**
 Do not change package exports
 Do not mark any runtime capability complete
+Regenerate SKILL from PAS when PAS changed
 ```
-
-For implementation slices, the Phase 0 contract governs scope — not this list.
 
 ---
 
@@ -107,10 +155,12 @@ Before editing any <package-name> file, state these six lines:
 5. Authority       — <Package Owner> (PAS-NNN)
 6. Gates           — pnpm --filter @afenda/<name> typecheck
                      pnpm --filter @afenda/<name> test:run
-                     (+ relevant gates from Required gates below)
+                     (+ gates from PAS §13.1)
 ```
 
-If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 first.
+**Implementation work:** a validated slice handoff is **mandatory**. Paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 before any code edit — do not invent scope from SKILL or PAS prose alone.
+
+Documentation-only slices (skill regen, PAS edit) may use the six-line block above without a slice file.
 
 ---
 
@@ -118,51 +168,44 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.m
 
 1. This file (SKILL.md) — boundary, hard stops, Phase 0
 2. [reference/quick-ref.md](reference/quick-ref.md) — optional ultra-light recap
-3. [reference/authority-surfaces.md](reference/authority-surfaces.md) — TypeScript shapes
+3. [reference/authority-surfaces.md](reference/authority-surfaces.md) — TypeScript shapes · type · stability
 4. [reference/package-structure.md](reference/package-structure.md) — folder tree, exports
-5. [docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md) — §0 Agent Quick Path only unless slice cites deeper sections
-6. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
+5. PAS §0 Agent Quick Path — deeper sections only when slice cites them
+6. Target slice — 9-field handoff when implementing
 
-**Slice gate:** <ADR or prerequisite sentence if any>
-
----
-
-## Authority surface summary
-
-| Surface | Owns | Does not own |
-| --- | --- | --- |
-| <surface> | <owns> | <does not own> |
-
-Full TypeScript shapes → [reference/authority-surfaces.md](reference/authority-surfaces.md)
+**Slice gate:** <from PAS §0 / §12 prerequisite>
 
 ---
 
-## Contract rules (checklist)
+## Authority surface summary (from PAS §4)
 
-Before any contract is merged:
+| Surface | Contract type | Stability | Owns | Does not own |
+| --- | --- | --- | --- | --- |
+| <surface> | Domain / Identity / … | Stable / … | <owns> | <does not own> |
+
+Full shapes → [reference/authority-surfaces.md](reference/authority-surfaces.md)
+
+---
+
+## Contract rules (from PAS §8)
 
 - [ ] TypeScript strict mode
 - [ ] <package-specific import rule>
 - [ ] JSON-serializable where used across boundaries
 - [ ] Branded IDs for cross-package identifiers
 - [ ] All object properties are `readonly`
-- [ ] No untyped `string` for governed IDs
-- [ ] No hidden business logic
-- [ ] No side effects during import
+- [ ] Every surface has Contract type + Stability in PAS §4
+- [ ] Breaking Stable/Constitutional surfaces → ADR first
 
 ---
 
 ## Surface anti-patterns
-
-The boundary gate may not catch locally defined forbidden behavior. Flag these when found in source.
 
 | Anti-pattern | Example | Violation | Correct home |
 | --- | --- | --- | --- |
 | <pattern> | `<symbol>()` | PAS §X | `@afenda/<owner>` |
 
 ### Quick decision test
-
-Before adding a function to <package-name>, pass all three:
 
 ```
 1. Does it load, fetch, or resolve data?         → No  (if Yes → wrong package)
@@ -172,77 +215,55 @@ Before adding a function to <package-name>, pass all three:
 
 ---
 
-## Runtime rules
+## Runtime rules (from PAS §9)
 
 <Package> runtime code is only allowed when **all** are true:
 
 1. <rule>
 2. <rule>
 
-**Currently approved runtime primitive(s):** <list or "none — contracts only">
+**Currently approved runtime primitive(s):** <from PAS §9>
 
 ---
 
-## Implementation sequence
-
-When adding new content, follow PAS §10 order:
+## Implementation sequence (from PAS §10)
 
 ```
 1. <step>
 2. <step>
 ```
 
-Do not add <deferred items> in <package-name>.
-
 ---
 
-## Required gates
+## Required gates (from PAS §13.1)
 
 ```bash
 pnpm --filter @afenda/<name> typecheck
 pnpm --filter @afenda/<name> test:run
-# copy §13.1 required gates from PAS
-```
-
-Recommended (when applicable):
-
-```bash
-# copy §13.2 from PAS
+# extract remaining §13.1 gates
 ```
 
 ---
 
-## Acceptance criteria
+## Doctrine (from PAS §15)
 
-### Current (must pass today)
-
-| Category | Check | Required |
-| --- | --- | --- |
-| Architecture | <check> | Pass |
-| Type safety | <check> | Pass |
-| Governance | <check> | Pass |
-
-### Target (slice-gated — not enforced until implemented)
-
-| Category | Check | Slice |
-| --- | --- | --- |
-| <category> | <check> | <slice id> |
+<Paste §15 from PAS>
 
 ---
 
-## Doctrine
+## Canonical PAS
 
-<Paste §15 one paragraph + when-in-doubt blockquote from PAS>
-
-<Optional closing lines: words / decisions / behavior>
+[docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md)
 ~~~
 
 ---
 
-## Reference files to create alongside SKILL.md
+## Reference files (generate from PAS)
 
-| File | Purpose |
-| --- | --- |
-| `reference/quick-ref.md` | [pas-reference-templates.md](pas-reference-templates.md) |
-| `reference/authority-surfaces.md` | TS shapes with Status labels |
-| `reference/package-structure.md` | Current vs Target tree + exports |
+| File | PAS source | Purpose |
+| --- | --- | --- |
+| `reference/quick-ref.md` | §2 · §3.2 · §5 · §13.1 | [pas-reference-templates.md](pas-reference-templates.md) |
+| `reference/authority-surfaces.md` | §4 per surface | TS shapes · type · stability |
+| `reference/package-structure.md` | §6 | Current vs Target tree + exports |
+
+**Do not** maintain reference files independently of PAS — regenerate together with SKILL.
