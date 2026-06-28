@@ -14,6 +14,7 @@ import { normalizeAfendaAuthSession } from "../auth.session.js";
 
 const mockGetSession = vi.fn();
 const mockResolvePlatformActorUserId = vi.fn();
+const mockResolveEnterpriseUserIdFromPlatformUserId = vi.fn();
 const mockAssertTenantMfaPolicySatisfied = vi.fn().mockResolvedValue(undefined);
 const authConfigState = vi.hoisted(() => ({
   calls: [] as Array<{ env?: NodeJS.ProcessEnv } | undefined>,
@@ -34,6 +35,8 @@ vi.mock("../auth.actor-resolution.js", () => ({
   clearPlatformUserIdCacheForTests: vi.fn(),
   resolvePlatformActorUserId: (...args: unknown[]) =>
     mockResolvePlatformActorUserId(...args),
+  resolveEnterpriseUserIdFromPlatformUserId: (...args: unknown[]) =>
+    mockResolveEnterpriseUserIdFromPlatformUserId(...args),
 }));
 
 vi.mock("../auth.mfa-policy.js", async (importOriginal) => {
@@ -48,6 +51,7 @@ vi.mock("../auth.mfa-policy.js", async (importOriginal) => {
 describe("auth.server session helpers", () => {
   beforeEach(() => {
     mockAssertTenantMfaPolicySatisfied.mockResolvedValue(undefined);
+    mockResolveEnterpriseUserIdFromPlatformUserId.mockResolvedValue(null);
   });
 
   it("returns null when Better Auth has no session", async () => {
@@ -127,7 +131,8 @@ describe("auth.server session helpers", () => {
             image: null,
           },
         },
-        "platform_user_1"
+        "platform_user_1",
+        null
       )
     );
     expect(mockResolvePlatformActorUserId).toHaveBeenCalledWith({

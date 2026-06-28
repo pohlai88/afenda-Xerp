@@ -109,4 +109,4 @@ Additional when applicable:
 
 - **Invoke directly when:** user runs `/afenda-ship` or asks for go/no-go before merge
 - **Do not invoke from:** personas
-- **Not for:** PAS parallel implementation batches — use `@fdr-orchestrator` + `/afenda-fdr-batch`
+- **Not for:** PAS parallel implementation batches — use `@afenda-orchestrator` + `/afenda-batch`

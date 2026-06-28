@@ -44,13 +44,15 @@ export function resolveActiveWorkspaceId(
 
 export function normalizeAfendaAuthSession(
   session: BetterAuthSessionLike,
-  platformUserId: string | null = null
+  platformUserId: string | null = null,
+  enterpriseUserId: string | null = null
 ): AfendaAuthSession {
   return {
     sessionId: session.session.id,
     user: {
       authUserId: session.user.id,
       email: session.user.email,
+      enterpriseUserId,
       name: session.user.name,
       emailVerified: session.user.emailVerified,
       linkStatus: resolveAuthActorLinkStatus(platformUserId),

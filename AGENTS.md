@@ -200,6 +200,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Which skill applies? | [`/using-afenda-skills`](.cursor/skills/using-afenda-skills/SKILL.md) |
 | Test / coverage review | [`/afenda-test`](.cursor/skills/afenda-test/SKILL.md) |
 | Web performance audit | [`/afenda-webperf`](.cursor/skills/afenda-webperf/SKILL.md) |
+| Full platform architecture audit (read-only) | [`enterprise-architecture-audit`](.cursor/skills/enterprise-architecture-audit/SKILL.md) + [`@enterprise-architecture-audit-orchestrator`](.cursor/agents/enterprise-architecture-audit-orchestrator.md) |
 
 ### Agent orchestration
 

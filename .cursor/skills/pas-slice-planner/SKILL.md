@@ -383,4 +383,4 @@ This is the template the implementer uses — it is produced by `/afenda-coding-
 - Runtime truth: `docs/architecture/afenda-runtime-truth-matrix.md`
 - Kernel authority: `.cursor/skills/kernel-authority/SKILL.md`
 - Coding session standard: `.cursor/skills/afenda-coding-session/SKILL.md`
-- FDR handoff standard: `.cursor/skills/write-fdr-slice/SKILL.md`
+- Slice handoff standard: `.cursor/skills/kernel-authority/reference/pas-slice-template.md`

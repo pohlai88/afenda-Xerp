@@ -84,7 +84,7 @@ Claiming "I used skill X" without a `Read` on that path **in the same turn** cou
 
 **User-named skills override narrow "when" cells** — if the user says `kernel-authority`, row 7 is required regardless of path.
 
-**Orchestrators** (`fdr-orchestrator`, parent agents launching parallel slices) must paste this bundle into every implementer prompt.
+**Orchestrators** (`afenda-orchestrator`, parent agents launching parallel slices) must paste this bundle into every implementer prompt.
 
 ---
 

@@ -99,8 +99,8 @@ From `.cursor/references/orchestration-patterns.md`:
 | Lane | Skill / agent |
 | --- | --- |
 | Governed implementation | `afenda-governed-implementer` |
-| PAS slice (handoff present) | `fdr-slice-implementer` |
-| PAS batch | `fdr-orchestrator` |
+| PAS slice (handoff present) | `afenda-governed-implementer` |
+| PAS batch | `@afenda-orchestrator` |
 | Architecture / registries | `architecture-authority` |
 | SAP/Oracle red-amber gates | `enterprise-erp-standards` |
 | shadcn/studio promotion | `afenda-shadcn-components` |

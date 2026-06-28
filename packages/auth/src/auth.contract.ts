@@ -10,9 +10,14 @@ export interface AfendaAuthUser {
   readonly authUserId: string;
   readonly email: string;
   readonly emailVerified: boolean;
+  /**
+   * Governed `users.enterprise_id` (`usr_*`) when platform PK is linked.
+   * Null when unlinked or enterprise id has not been resolved yet.
+   */
+  readonly enterpriseUserId: string | null;
   readonly linkStatus: AuthActorLinkStatus;
   readonly name: string;
-  /** Platform `users.id` when linked; null when no identity bridge exists. */
+  /** Platform `users.id` (UUID PK) when linked; null when no identity bridge exists. */
   readonly userId: string | null;
 }
 

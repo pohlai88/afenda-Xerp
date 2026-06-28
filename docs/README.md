@@ -49,7 +49,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | [`PAS/`](PAS/README.md) | Package Authority Standards — canonical long-form standards and slice handoffs |
 | [`architecture/`](architecture/README.md) | Registries, baselines, CSS authority, glossary |
 | [`governance/`](governance/README.md) | Runtime policies — UI guard, API contracts, operational support docs |
-| [`ai/`](ai/README.md) | AI-assisted development policy (TIP-002) |
+| [`ai/`](ai/README.md) | AI-assisted development policy |
 
 **Retired (2026-06-27):** ARCH and delivery roadmap trees — premature architecture/dev roadmaps superseded by PAS.
 

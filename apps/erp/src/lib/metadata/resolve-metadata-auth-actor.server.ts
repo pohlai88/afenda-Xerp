@@ -3,7 +3,11 @@ import {
   parseAuthActorIdentityFromAfendaAuthSession,
   resolveWireActorUserIdFromAfendaAuthSession,
 } from "@afenda/auth";
-import { type OperatingContext, parseUserId, toUserId } from "@afenda/kernel";
+import {
+  normalizeUserIdForWire,
+  type OperatingContext,
+  toUserId,
+} from "@afenda/kernel";
 
 /**
  * Metadata runtime actor id from a governed auth session (PAS-001 §4.1.11 ingress).
@@ -24,5 +28,13 @@ export function resolveMetadataActorUserIdFromAfendaAuthSession(
 export function resolveMetadataActorUserIdFromOperatingContext(
   operatingContext: OperatingContext
 ): string {
-  return toUserId(parseUserId(operatingContext.actor.userId));
+  const normalized = normalizeUserIdForWire(operatingContext.actor.userId);
+
+  if (normalized === null) {
+    throw new Error(
+      "Operating context actor userId must normalize for metadata wire ingress."
+    );
+  }
+
+  return normalized;
 }

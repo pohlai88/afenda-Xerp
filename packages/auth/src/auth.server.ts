@@ -1,5 +1,6 @@
 import {
   clearPlatformUserIdCacheForTests,
+  resolveEnterpriseUserIdFromPlatformUserId,
   resolvePlatformActorUserId,
 } from "./auth.actor-resolution.js";
 import { type AfendaAuth, createAuthConfig } from "./auth.config.js";
@@ -78,6 +79,8 @@ export async function getAfendaAuthSession(
   const platformUserId = await resolvePlatformActorUserId({
     authUserId: result.user.id,
   });
+  const enterpriseUserId =
+    await resolveEnterpriseUserIdFromPlatformUserId(platformUserId);
 
   const activeWorkspaceId = readActiveWorkspaceIdFromBetterAuthSession(
     result.session
@@ -101,7 +104,11 @@ export async function getAfendaAuthSession(
     },
   };
 
-  return normalizeAfendaAuthSession(sessionPayload, platformUserId);
+  return normalizeAfendaAuthSession(
+    sessionPayload,
+    platformUserId,
+    enterpriseUserId
+  );
 }
 
 export async function requireAfendaAuthSession(

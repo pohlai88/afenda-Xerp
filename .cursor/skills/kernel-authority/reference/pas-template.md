@@ -130,7 +130,7 @@ Do not duplicate long-form authority content in this file.
 2. **Duplicate high-signal blocks** in SKILL (boundary, matrix, hard stops, Phase 0) — never `[From PAS §X]` placeholders in committed skills.
 3. **SKILL ≤350 lines** — move TypeScript shapes to `reference/authority-surfaces.md`.
 4. **YAML frontmatter** on new PAS docs — enables `pas-slice-planner` and registry cross-checks.
-5. **9-field handoffs** for every Implementation slice — identical field names to [write-fdr-slice/SKILL.md](../../../write-fdr-slice/SKILL.md) §4.
+5. **9-field handoffs** for every Implementation slice — field names in [pas-slice-template.md](pas-slice-template.md).
 6. **Status labels** on every reference surface: `Current` | `Target` | `Deprecated`.
 
 ---

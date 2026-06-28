@@ -12,11 +12,11 @@ import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
   Storybook status and runner evidence:
   [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
   and
-  [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/%5BNot%20started%5D%20fdr-021-storybook.md).
+  [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) (PKG-021).
 </Callout>
 
 <Callout type="warn" title="Status honesty">
-  Storybook runtime exists (app + colocated stories), but FDR delivery is **Not started**.
+  Storybook runtime exists (app + colocated stories), but PAS slice closeout may remain open.
   Test runner debt (`storybook-test-runner-red`) may remain — verify with
   `pnpm --filter @afenda/storybook test:storybook:run` before relying on visual regression gates.
 </Callout>
@@ -50,7 +50,7 @@ Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui
     },
     {
       title: "Visual gate",
-      description: "Runner status tracked in fdr-021 — may be red",
+      description: "Runner status tracked in PKG-021 PAS slice — may be red",
       icon: PaletteIcon,
     },
   ]}
@@ -76,15 +76,15 @@ pnpm --filter @afenda/storybook typecheck
 pnpm --filter @afenda/storybook test:storybook:run
 ```
 
-Runner failures are a **known gap** until fdr-021 Slice 3 closes `storybook-test-runner-red`.
+Runner failures are a **known gap** until PKG-021 PAS slice Slice 3 closes `storybook-test-runner-red`.
 
 ## Status and known gaps
 
 <Accordions type="single">
-<Accordion title="Runner and FDR status (expand)" id="status-and-known-gaps">
+<Accordion title="Runner and PAS status (expand)" id="status-and-known-gaps">
 
-- FDR **Not started** — registry onboarding and runner green pending
-- ~400/1860 test runner failures reported in inventory (taxonomy in fdr-021 Research)
+- PAS slice closeout open — registry onboarding and runner green pending
+- ~400/1860 test runner failures reported in inventory (taxonomy in PKG-021 PAS slice Research)
 - metadata-ui styles import and a11y debt tracked as blue-lane backlog
 
 </Accordion>
@@ -93,5 +93,5 @@ Runner failures are a **known gap** until fdr-021 Slice 3 closes `storybook-test
 ## Authority links
 
 - [Monorepo feature inventory](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/monorepo-feature-inventory.md)
-- [fdr-021-storybook](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/%5BNot%20started%5D%20fdr-021-storybook.md)
+- [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) (PKG-021)
 - [Monorepo Map](/docs/monorepo-map)

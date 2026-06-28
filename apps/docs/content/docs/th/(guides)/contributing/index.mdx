@@ -1,6 +1,6 @@
 ---
 title: Contributing
-description: Afenda coding session contract, TIP handoffs, and documentation drift rules.
+description: Afenda coding session contract, PAS slice handoffs, and documentation drift rules.
 ---
 
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
@@ -10,7 +10,7 @@ Contributions follow **PAS slice handoffs**, **architecture authority**, and aut
 
 ## Before you code
 
-1. Read [tip-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/README.md) for canonical TIP status.
+1. Read [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) for canonical PAS slice status.
 2. Read [afenda-runtime-truth-matrix.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) for runtime evidence.
 3. Copy **one** handoff block from the target TIP — implement one slice per session.
 
@@ -37,7 +37,7 @@ Every coding turn:
 | Surface | Path | Update when |
 | ------- | ---- | ----------- |
 | Governance | `docs/` at repo root | Architecture / delivery PRs |
-| Published docs | `apps/docs/content/docs/` | TIP-032 content slices |
+| Published docs | `apps/docs/content/docs/` | docs app content slices |
 
 **ADR-0012 rule:** Do not copy ADRs, registries, or TIP specs verbatim into Fumadocs MDX. Cross-link instead.
 
@@ -57,7 +57,7 @@ Allowed in `apps/docs/`:
 Prohibited:
 
 - `@afenda/erp` or spine package imports
-- `@afenda/ui` without TIP-004 approval
+- `@afenda/ui` without UI governance approval
 - Brand accent in shell chrome (sidebar, search, TOC)
 
 </Accordion>
@@ -73,5 +73,5 @@ Prohibited:
 | Status / evidence | `pnpm check:documentation-drift` |
 
 <Callout type="note">
-  Foundation TIPs (execution spine, entitlements, system admin) run on the ERP track. TIP-032 docs work is parallel and must not block TIP-014+ accounting gate progress.
+  Foundation PAS slices (execution spine, entitlements, system admin) run on the ERP track. Docs app work is parallel and must not block Accounting Core gate accounting gate progress.
 </Callout>

@@ -14,7 +14,7 @@ Docs work is isolated on port **3001** — no ERP proxy, CSP, or auth pipeline r
 
 ## Environment files
 
-ERP and platform packages may require `.env.local` files. Follow package README and delivery TIP handoffs for the slice you implement. **Do not commit secrets.**
+ERP and platform packages may require `.env.local` files. Follow package README and PAS slice handoffs for the slice you implement. **Do not commit secrets.**
 
 For docs-only changes, no environment variables are required beyond what Next.js provides locally.
 
@@ -32,20 +32,20 @@ pnpm exec biome ci apps/docs
 pnpm check:documentation-drift
 ```
 
-Root `pnpm quality:docs` runs the docs production build in CI (TIP-032 Slice 2).
+Root `pnpm quality:docs` runs the docs production build in CI (docs app production build gate).
 
 ## Coding session contract
 
 Foundation and application slices use the **afenda-coding-session** contract:
 
 1. State Phase 0 (objective, layer, files, prohibited, authority, gates) before edits.
-2. Implement one TIP handoff slice per session.
+2. Implement one PAS slice handoff slice per session.
 3. Post §11 Completion Report with gate evidence.
 
-See [Contributing](/docs/contributing) for TIP handoff workflow detail.
+See [Contributing](/docs/contributing) for PAS slice handoff workflow detail.
 
 import { Callout } from "fumadocs-ui/components/callout";
 
 <Callout type="warn">
-  Accounting Core (`@afenda/accounting`, TIP-014+) remains blocked until Phase 9 gate (ADR-0010). Do not start ledger or COA work without Architecture Authority approval.
+  Accounting Core (`@afenda/accounting`, Accounting Core gate) remains blocked until Phase 9 gate (ADR-0010). Do not start ledger or COA work without Architecture Authority approval.
 </Callout>

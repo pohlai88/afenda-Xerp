@@ -40,6 +40,21 @@ export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
 /** Patterns that must not appear in authority docs after legacy cleanup. */
 export const LEGACY_DELIVERY_PATH_PATTERN = /docs\/(?:delivery|ARCH)\//gi;
 
+export const PAS_STATUS_INDEX = "docs/PAS/pas-status-index.md" as const;
+
+/** Patterns that must not appear in active authority docs (retired delivery indexes). */
+export const LEGACY_DELIVERY_INDEX_PATTERN =
+  /\btip-status-index\.md\b|\bfdr-status-index\.md\b|\[(?:Complete|Not started|Partially Implemented)\]\s*fdr-/gi;
+
+/** Active surfaces scanned for retired FDR/TIP delivery index references. */
+export const LEGACY_DELIVERY_INDEX_SCAN_FILES = [
+  "AGENTS.md",
+  "README.md",
+  "docs/README.md",
+  "docs/architecture/README.md",
+  ".cursor/skills/using-afenda-skills/SKILL.md",
+] as const;
+
 /** Relative markdown links to retired delivery/ARCH trees. */
 export const LEGACY_RELATIVE_DELIVERY_PATH_PATTERN =
   /\]\((?:\.\.\/)+(?:delivery|ARCH)\//gi;

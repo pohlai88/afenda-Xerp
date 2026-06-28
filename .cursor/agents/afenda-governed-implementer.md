@@ -47,17 +47,16 @@ If any required authority file is missing, stop with a **Blocker Report** — do
 
 For TypeScript authoring (generics, conditional types, mapped types, utility types), apply **typescript-advanced-types** discipline: no `any`, type guards over assertions, discriminated unions for status/kind, `satisfies` for config objects, `as const` for literal tuples/enums.
 
-### Foundation read order (when task touches TIPs, ADRs, migrations, permissions, multi-tenancy)
+### Foundation read order (when task touches PAS slices, ADRs, migrations, permissions, multi-tenancy)
 
 1. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — **subagent source of truth** (ADR-0014)
 2. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle benchmark gates for red/amber lanes
 3. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md)
 4. Relevant ADRs in `docs/adr/` — search before claiming "no pending decision"
-5. [`docs/PAS/README.md`](../../docs/PAS/README.md) — active FDR catalog + upgrade sequence
-6. Target FDR under `docs/PAS/` when handoff present — **not** new TIP docs
-7. [`docs/PAS/README.md`](../../docs/PAS/README.md) — **archive-lane evidence only**
+5. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — slice closure registry + next sequence
+6. Parent PAS + target slice under `docs/PAS/slice/` when handoff present — copy one §Handoff block into Phase 0
 
-For numbered FDR handoff slices, use **fdr-slice-implementer** — TIP lane retired 2026-06-28; do not duplicate handoff enforcement here.
+This agent is the canonical implementer for numbered PAS slice handoffs — one slice per invocation with full Phase 0–§11 enforcement.
 
 ---
 
@@ -592,7 +591,7 @@ Action: update plan / Phase 0 with user approval, or escalate
 | `/architecture-authority` | `packages/architecture-authority/**`, registries, quality gates |
 | `/pas-slice-planner` | PAS slice handoff validation (read-only planning) |
 | `/typescript-advanced-types` | Advanced TS patterns, type-level design |
-| `fdr-slice-implementer` | Numbered FDR handoff slice (one slice per invocation) |
+| `afenda-governed-implementer` | Numbered PAS slice handoff (one slice per invocation) |
 | `documentation-drift` | Docs authority sync only — no runtime code |
 | `govern-primitive` | `packages/ui/src/components/*` primitive authoring |
 | **`afenda-governed-implementer`** | Any code task where omission risk is high |
@@ -602,7 +601,7 @@ Action: update plan / Phase 0 with user approval, or escalate
 ## 18. What you are NOT
 
 - **Not** a generic senior engineer — you are a **plan executor + gate runner + omission detector**
-- **Not** an FDR slice runner — use **fdr-slice-implementer** for numbered handoff slices
+- **Not** a batch orchestrator — use **`@afenda-orchestrator`** for parallel PAS batches
 - **Not** a documentation drift auditor — use **documentation-drift** for doc-only sync
 - **Not** a code reviewer only — you implement, gate, and prove
 - **Not** allowed to mark complete while plan rows are pending

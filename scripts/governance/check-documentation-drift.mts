@@ -15,6 +15,8 @@ import {
   DOCUMENTATION_DRIFT_SURFACE_RULE,
   DRIFT_AUDIT,
   FINGERPRINT_REQUIRED_DOCS,
+  LEGACY_DELIVERY_INDEX_PATTERN,
+  LEGACY_DELIVERY_INDEX_SCAN_FILES,
   LEGACY_DELIVERY_PATH_PATTERN,
   LEGACY_DELIVERY_PATH_SCAN_FILES,
   LEGACY_RELATIVE_DELIVERY_PATH_PATTERN,
@@ -25,6 +27,7 @@ import {
   PAS_KERNEL_STANDARD,
   PAS_README,
   PAS_SLICE_DIR,
+  PAS_STATUS_INDEX,
   PRE_ACCOUNTING_ROADMAP,
   REQUIRED_ACCEPTED_ADRS,
   RUNTIME_TRUTH_MATRIX,
@@ -91,6 +94,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     PAS_README,
     PAS_KERNEL_STANDARD,
     PAS_SLICE_DIR,
+    PAS_STATUS_INDEX,
   ]) {
     if (!existsSync(join(repoRoot, requiredPath))) {
       violations.push({
@@ -212,6 +216,23 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
         message:
           "Relative link to retired ../delivery/ or ../ARCH/ tree — use docs/PAS/ or in-repo architecture docs",
         rule: "legacy-relative-delivery-path-reference",
+      });
+    }
+  }
+
+  for (const scanPath of LEGACY_DELIVERY_INDEX_SCAN_FILES) {
+    const content = readText(scanPath);
+    if (!content) {
+      continue;
+    }
+
+    const indexMatches = content.match(LEGACY_DELIVERY_INDEX_PATTERN);
+    if (indexMatches && indexMatches.length > 0) {
+      const unique = [...new Set(indexMatches)];
+      violations.push({
+        file: scanPath,
+        message: `Retired FDR/TIP delivery index reference(s): ${unique.join(", ")} — use pas-status-index.md and docs/PAS/slice/`,
+        rule: "legacy-delivery-index-reference",
       });
     }
   }

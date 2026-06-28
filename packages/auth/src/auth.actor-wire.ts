@@ -25,26 +25,44 @@ export function toWireAuthActorIdentityFromAfendaAuthSession(
   };
 
   const platformRef = session.user.userId?.trim() ?? "";
+  const enterpriseRef = session.user.enterpriseUserId?.trim() ?? "";
 
-  if (platformRef.length > 0) {
-    if (isUuidV7WireForm(platformRef)) {
-      return {
-        ...wire,
-        userPk: platformRef,
-      };
-    }
+  let wireWithEnterprise: WireAuthActorIdentity = wire;
 
-    const enterpriseUserId = parseOptionalUserId(platformRef);
+  if (enterpriseRef.length > 0) {
+    const enterpriseUserId = parseOptionalUserId(enterpriseRef);
 
     if (enterpriseUserId !== null) {
-      return {
+      wireWithEnterprise = {
         ...wire,
         userId: toUserId(enterpriseUserId),
       };
     }
   }
 
-  return wire;
+  if (platformRef.length > 0) {
+    if (isUuidV7WireForm(platformRef)) {
+      return {
+        ...wireWithEnterprise,
+        userPk: platformRef,
+      };
+    }
+
+    if (wireWithEnterprise.userId === undefined) {
+      const enterpriseUserId = parseOptionalUserId(platformRef);
+
+      if (enterpriseUserId !== null) {
+        return {
+          ...wire,
+          userId: toUserId(enterpriseUserId),
+        };
+      }
+    }
+
+    return wireWithEnterprise;
+  }
+
+  return wireWithEnterprise;
 }
 
 export function parseAuthActorIdentityFromAfendaAuthSession(

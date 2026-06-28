@@ -11,7 +11,10 @@ import { AUTH_TEST_PLATFORM_USER_ID } from "./auth-id-test-fixtures.js";
 const PLATFORM_USER_PK = "018f9f8c-9f1a-7c2b-9c20-000000000003";
 const AUTH_SUBJECT_ID = "auth_user_1";
 
-function createLinkedSession(platformUserId: string) {
+function createLinkedSession(
+  platformUserId: string,
+  enterpriseUserId: string | null = null
+) {
   return normalizeAfendaAuthSession(
     {
       session: {
@@ -29,7 +32,8 @@ function createLinkedSession(platformUserId: string) {
         image: null,
       },
     },
-    platformUserId
+    platformUserId,
+    enterpriseUserId
   );
 }
 
@@ -51,6 +55,20 @@ describe("auth.actor-wire (PAS-001 §4.1.11)", () => {
     expect(wire).toEqual({
       authSubjectId: AUTH_SUBJECT_ID,
       userPk: PLATFORM_USER_PK,
+    });
+  });
+
+  it("maps dual platform pk and enterprise user id when session bridge resolves both", () => {
+    const session = createLinkedSession(
+      PLATFORM_USER_PK,
+      AUTH_TEST_PLATFORM_USER_ID
+    );
+    const wire = toWireAuthActorIdentityFromAfendaAuthSession(session);
+
+    expect(wire).toEqual({
+      authSubjectId: AUTH_SUBJECT_ID,
+      userPk: PLATFORM_USER_PK,
+      userId: AUTH_TEST_PLATFORM_USER_ID,
     });
   });
 

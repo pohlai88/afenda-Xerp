@@ -1,13 +1,18 @@
-import { findPlatformUserIdByAuthUserId } from "@afenda/database";
+import {
+  findPlatformUserIdByAuthUserId,
+  findUserEnterpriseIdByPlatformUserId,
+} from "@afenda/database";
 
 import type { AuthEventContext } from "./auth.contract.js";
 
 const PLATFORM_USER_CACHE_MAX = 256;
 
 const platformUserCache = new Map<string, string | null>();
+const enterpriseUserCache = new Map<string, string | null>();
 
 export function clearPlatformUserIdCacheForTests(): void {
   platformUserCache.clear();
+  enterpriseUserCache.clear();
 }
 
 function rememberPlatformUserId(
@@ -50,4 +55,45 @@ export async function resolvePlatformActorUserId(
   rememberPlatformUserId(authUserId, platformUserId);
 
   return platformUserId;
+}
+
+function rememberEnterpriseUserId(
+  platformUserId: string,
+  enterpriseUserId: string | null
+): void {
+  if (enterpriseUserCache.size >= PLATFORM_USER_CACHE_MAX) {
+    const oldestKey = enterpriseUserCache.keys().next().value;
+
+    if (oldestKey) {
+      enterpriseUserCache.delete(oldestKey);
+    }
+  }
+
+  enterpriseUserCache.set(platformUserId, enterpriseUserId);
+}
+
+/** Resolves governed `users.enterprise_id` from platform `users.id` (ARCH-AUTH-001). */
+export async function resolveEnterpriseUserIdFromPlatformUserId(
+  platformUserId: string | null
+): Promise<string | null> {
+  if (platformUserId === null) {
+    return null;
+  }
+
+  const trimmed = platformUserId.trim();
+
+  if (trimmed.length === 0) {
+    return null;
+  }
+
+  const cached = enterpriseUserCache.get(trimmed);
+
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const enterpriseUserId = await findUserEnterpriseIdByPlatformUserId(trimmed);
+  rememberEnterpriseUserId(trimmed, enterpriseUserId);
+
+  return enterpriseUserId;
 }

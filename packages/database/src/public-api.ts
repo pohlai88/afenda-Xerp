@@ -871,6 +871,7 @@ export {
 export {
   type DeactivateUserInput,
   deactivateUser,
+  findUserEnterpriseIdByPlatformUserId,
   type InsertUserInput,
   insertUser,
   type UpdateUserInput,

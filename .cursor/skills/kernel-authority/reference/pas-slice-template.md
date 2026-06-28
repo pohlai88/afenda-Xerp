@@ -2,7 +2,7 @@
 
 Copy to `docs/PAS/slice/<bN>-<pas-section>-<slug>.md`.
 
-← Index: [pas-template.md](pas-template.md) · Handoff spec: [write-fdr-slice/SKILL.md](../../../write-fdr-slice/SKILL.md) §4
+← Index: [pas-template.md](pas-template.md) · Handoff spec: [pas-slice-template.md](pas-slice-template.md)
 
 Optional companion: `<same-base>-prohibited.md` for extra prohibitions (read by `pas-slice-planner`).
 

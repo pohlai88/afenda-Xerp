@@ -1,5 +1,7 @@
 # ADR-0016 — FDR Delivery Authority
 
+> **Partially superseded (2026-06-28):** FDR delivery trees and `fdr-status-index` were retired in favor of **PAS** slice handoffs under `docs/PAS/slice/` and [`pas-status-index.md`](../PAS/pas-status-index.md). See [`foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md). This ADR remains Accepted as historical evidence for the FDR→PAS transition; do not author new FDR delivery docs.
+
 | Field | Value |
 | --- | --- |
 | **Status** | Accepted |

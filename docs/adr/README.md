@@ -30,7 +30,7 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority (phase narrative; handoffs superseded by ADR-0014) | Accepted |
 | [ADR-0014](ADR-0014-foundation-disposition-registry.md) | Foundation Disposition Registry (FDR) | Accepted |
 | [ADR-0015](ADR-0015-accounting-domain-contracts-only-activation.md) | Accounting Domain Contracts-Only Activation (PKG-R01) | Accepted |
-| [ADR-0016](ADR-0016-fdr-delivery-authority.md) | FDR Delivery Authority (write-fdr, fdr-status-index, parallel subagents) | Accepted |
+| [ADR-0016](ADR-0016-fdr-delivery-authority.md) | FDR Delivery Authority (partially superseded by PAS 2026-06-28) | Accepted |
 | [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | shadcn/studio UI Delivery Acceleration | Proposed |
 | [ADR-0018](ADR-0018-authentication-architecture.md) | Authentication Architecture | Accepted |
 | [ADR-0019](ADR-0019-inventory-domain-master-data-activation.md) | Inventory Domain Master Data Activation | Accepted |

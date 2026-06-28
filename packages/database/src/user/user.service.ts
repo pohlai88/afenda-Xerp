@@ -176,3 +176,17 @@ export async function deactivateUser(
 
   return { id: updated.id };
 }
+
+/** Resolves governed `users.enterprise_id` (`usr_*`) from platform `users.id` (UUID PK). */
+export async function findUserEnterpriseIdByPlatformUserId(
+  platformUserId: string,
+  db: AfendaDatabase = getDb()
+): Promise<string | null> {
+  const [row] = await db
+    .select({ enterpriseId: users.enterpriseId })
+    .from(users)
+    .where(eq(users.id, platformUserId))
+    .limit(1);
+
+  return row?.enterpriseId ?? null;
+}

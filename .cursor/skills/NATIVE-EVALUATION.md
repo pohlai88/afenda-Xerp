@@ -10,9 +10,13 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 
 | Skill / agent | Decision | Reason |
 | --- | --- | --- |
-| `write-tip` | **remove** | Superseded by `write-fdr`; TIP lane retired |
-| `write-tip-slice` | **remove** | Superseded by `write-fdr-slice` |
-| `tip-slice-implementer` | **retired stub** | Redirect to `fdr-slice-implementer` |
+| `write-tip` | **remove** | Superseded by PAS; TIP lane retired |
+| `write-tip-slice` | **remove** | Superseded by `pas-slice-planner` + `pas-slice-template` |
+| `write-fdr` / `write-fdr-slice` | **retired stub** | Redirect to `pas-slice-planner` |
+| `tip-slice-implementer` | **retired stub** | Redirect to `afenda-governed-implementer` |
+| `fdr-slice-implementer` / `fdr-author` | **retired stub** | Redirect to `afenda-governed-implementer` |
+| `fdr-orchestrator` | **retired stub** | Redirect to `afenda-orchestrator` |
+| `afenda-fdr-batch` | **retired stub** | Redirect to `/afenda-batch` |
 | `afenda-fumadocs` | **remove** | No effect; use `docs-editorial-design` |
 | `csp` | **merged → `csp-third-party`** | Single ERP CSP skill |
 | `xforge-nextjs-vercel` | **remove** | Stale `apps/app` paths; no repo wiring |

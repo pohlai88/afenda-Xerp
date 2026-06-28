@@ -15,7 +15,7 @@
 
 > **Phases 0–9 are complete.** This roadmap is a **historical phase narrative** and gate record. Ongoing foundation and package implementation is governed by [PAS](foundation-delivery-authority.md) (ADR-0014), not legacy delivery docs.
 
-> **No Accounting Core runtime** (COA Drizzle, journal posting, ledger services) until FDR `PKGR01_ACCOUNTING` gaps are closed under a **new ADR** after contracts-only TIP-014 delivery.
+> **No Accounting Core runtime** (COA Drizzle, journal posting, ledger services) until `PKGR01_ACCOUNTING` gaps are closed under a **new ADR** after PAS-003 contracts-only delivery.
 
 ---
 
