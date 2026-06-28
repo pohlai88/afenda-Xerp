@@ -1,3 +1,4 @@
+import type { PermissionKey } from "@afenda/database";
 import {
   normalizeCompanyIdForWire,
   normalizeEntityGroupIdForWire,
@@ -13,16 +14,22 @@ import {
   createMetadataUiRenderContext,
   type MetadataUiRenderContext,
 } from "@afenda/metadata-ui/server";
-import type { PermissionDataSource } from "@afenda/permissions";
+import type {
+  PermissionDataSource,
+  PolicyDataSource,
+  PolicyEvaluationOptions,
+} from "@afenda/permissions";
 import { createMetadataRuntimeContext } from "@afenda/ui-composition";
 import type { ApiRouteAuthorizationResult } from "@/lib/api/authorize-api-route.contract";
 import { formatActiveWorkspaceId } from "@/lib/context/active-workspace-id.contract";
+import { resolveMetadataAuthorizationSnapshotFromPreEvaluationDenial } from "./metadata-authorization-projection.server";
 import {
   type MetadataAuthorizationSnapshot,
   resolveMetadataAuthorizationFromOperatingContext,
 } from "./resolve-metadata-authorization.server";
 import {
   isEvaluatedApiRouteAuthorizationDenial,
+  isPreEvaluationMetadataContextRequiredDenial,
   resolveMetadataAuthorizationFromApiRouteResult,
   resolveOperatingContextFromApiRouteResult,
 } from "./resolve-metadata-authorization-from-api-route.server";
@@ -32,11 +39,16 @@ import { resolveMetadataPolicyDecisionFromOperatingContext } from "./resolve-met
 export interface ResolveMetadataUiRenderContextInput {
   readonly authorization?: MetadataAuthorizationSnapshot;
   readonly authorizationDenialPreview?: boolean;
+  readonly boundaryPermissionKey?: PermissionKey | string;
   readonly capabilities?: readonly string[];
+  readonly diagnosticsNamespace?: string;
   readonly operatingContext: OperatingContext;
+  readonly permissionDataSource?: PermissionDataSource;
   readonly permissionModelDescriptors?: readonly PermissionModelDescriptor[];
   readonly permissions?: readonly string[];
+  readonly policyDataSource?: PolicyDataSource;
   readonly policyDecision?: PolicyDecision;
+  readonly policyEvaluationOptions?: PolicyEvaluationOptions;
   readonly skipLiveAuthorization?: boolean;
 }
 
@@ -193,7 +205,8 @@ export function resolveMetadataUiRenderContextFromOperatingContext(
     source: "server",
     hydration: "none",
     diagnosticsLevel: authorizationDenialPreview ? "verbose" : "off",
-    diagnosticsNamespace: "erp.metadata-workspace",
+    diagnosticsNamespace:
+      input.diagnosticsNamespace ?? "erp.metadata-workspace",
   });
 }
 
@@ -216,6 +229,18 @@ export async function resolveMetadataUiRenderContextFromOperatingContextAsync(
       ? undefined
       : await resolveMetadataAuthorizationFromOperatingContext({
           operatingContext: input.operatingContext,
+          ...(input.boundaryPermissionKey === undefined
+            ? {}
+            : { boundaryPermissionKey: input.boundaryPermissionKey }),
+          ...(input.permissionDataSource === undefined
+            ? {}
+            : { permissionDataSource: input.permissionDataSource }),
+          ...(input.policyDataSource === undefined
+            ? {}
+            : { policyDataSource: input.policyDataSource }),
+          ...(input.policyEvaluationOptions === undefined
+            ? {}
+            : { policyEvaluationOptions: input.policyEvaluationOptions }),
         }));
 
   return resolveMetadataUiRenderContextFromOperatingContext({
@@ -224,8 +249,54 @@ export async function resolveMetadataUiRenderContextFromOperatingContextAsync(
   });
 }
 
+export interface ResolveMetadataUiRenderContextFromContextRequiredInput {
+  readonly actorId: string;
+  readonly authorization?: MetadataAuthorizationSnapshot;
+  readonly correlationId: string;
+}
+
+/** Builds metadata runtime for pre-evaluation context-required preview (no operating context). */
+export function resolveMetadataUiRenderContextFromContextRequiredPreview(
+  input: ResolveMetadataUiRenderContextFromContextRequiredInput
+): MetadataUiRenderContext {
+  const authorization =
+    input.authorization ??
+    resolveMetadataAuthorizationSnapshotFromPreEvaluationDenial({
+      denialCode: "missing_context",
+    });
+
+  const runtime = createMetadataRuntimeContext({
+    actorId: input.actorId,
+    correlationId: input.correlationId,
+    permissions: [...authorization.permissionKeys],
+    capabilities: [],
+    density: "default",
+    presentationMode: "default",
+    state: "readonly",
+    diagnosticsEnabled: true,
+    readonlyMode: true,
+    policyDecision: authorization.policyDecision,
+    ...(authorization.permissionModelDescriptors.length === 0
+      ? {}
+      : {
+          permissionModelDescriptors: [
+            ...authorization.permissionModelDescriptors,
+          ],
+        }),
+  });
+
+  return createMetadataUiRenderContext({
+    runtime,
+    source: "server",
+    hydration: "none",
+    diagnosticsLevel: "verbose",
+    diagnosticsNamespace: "erp.metadata-workspace",
+  });
+}
+
 /** Production path — projects a completed `authorizeApiRoute` result into metadata runtime. */
 export async function resolveMetadataUiRenderContextFromApiRouteAuthorization(input: {
+  readonly actorId: string;
   readonly authorizationResult: ApiRouteAuthorizationResult;
   readonly capabilities?: readonly string[];
   readonly permissionDataSource?: PermissionDataSource;
@@ -235,7 +306,28 @@ export async function resolveMetadataUiRenderContextFromApiRouteAuthorization(in
   );
 
   if (operatingContext === null) {
-    return null;
+    if (
+      !isPreEvaluationMetadataContextRequiredDenial(input.authorizationResult)
+    ) {
+      return null;
+    }
+
+    const authorization = await resolveMetadataAuthorizationFromApiRouteResult({
+      result: input.authorizationResult,
+      ...(input.permissionDataSource === undefined
+        ? {}
+        : { permissionDataSource: input.permissionDataSource }),
+    });
+
+    if (authorization === null) {
+      return null;
+    }
+
+    return resolveMetadataUiRenderContextFromContextRequiredPreview({
+      actorId: input.actorId,
+      correlationId: input.authorizationResult.correlationId,
+      authorization,
+    });
   }
 
   const authorization = await resolveMetadataAuthorizationFromApiRouteResult({

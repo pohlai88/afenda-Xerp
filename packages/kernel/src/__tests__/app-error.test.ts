@@ -1,12 +1,25 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  APP_ERROR_CODES,
   type AppErrorCode,
   AppErrors,
   toAppErrorWire,
 } from "../contracts/app-error.contract.js";
 
 describe("AppError contract", () => {
+  it("keeps APP_ERROR_CODES aligned with the AppErrorCode union", () => {
+    expect(APP_ERROR_CODES).toHaveLength(6);
+    expect(APP_ERROR_CODES).toEqual([
+      "VALIDATION_ERROR",
+      "UNAUTHORIZED",
+      "FORBIDDEN",
+      "NOT_FOUND",
+      "CONFLICT",
+      "INTERNAL_ERROR",
+    ]);
+  });
+
   it("creates validation errors with optional fields", () => {
     const error = AppErrors.validation([
       { path: "email", message: "Invalid email" },

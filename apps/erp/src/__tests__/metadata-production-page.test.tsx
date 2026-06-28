@@ -11,6 +11,7 @@ import { authorizeApiRoute } from "@/lib/api/authorize-api-route";
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
 import {
   resolveMetadataUiRenderContextFromApiRouteAuthorization,
+  resolveMetadataUiRenderContextFromContextRequiredPreview,
   resolveMetadataUiRenderContextFromOperatingContext,
 } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import {
@@ -95,6 +96,7 @@ describe("ERP metadata production page", () => {
 
     const context =
       await resolveMetadataUiRenderContextFromApiRouteAuthorization({
+        actorId: operatingContext.actor.userId,
         authorizationResult: authResult,
         permissionDataSource,
       });
@@ -117,6 +119,31 @@ describe("ERP metadata production page", () => {
       screen.getByRole("heading", { name: "Authorization denial preview" })
     ).toBeInTheDocument();
     expect(screen.getByRole("alert")).toHaveTextContent(/access denied/i);
+    expect(screen.getByLabelText("Metadata diagnostics")).toBeInTheDocument();
+  });
+
+  it("renders context-required preview with select workspace action", () => {
+    const context = resolveMetadataUiRenderContextFromContextRequiredPreview({
+      actorId: "user-context-required-preview",
+      correlationId: "corr-context-required-preview",
+    });
+
+    render(
+      <MetadataWorkspacePreviewSurface
+        companyDisplayName="—"
+        context={context}
+        organizationDisplayName={null}
+        tenantDisplayName="Not selected"
+      />
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Context required preview" })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent(/context required/i);
+    expect(
+      screen.getByRole("link", { name: "Select workspace" })
+    ).toHaveAttribute("href", "/workspace/select");
     expect(screen.getByLabelText("Metadata diagnostics")).toBeInTheDocument();
   });
 
@@ -147,8 +174,12 @@ describe("ERP metadata production page", () => {
     );
     expect(pageSource).toContain("isEvaluatedApiRouteAuthorizationDenial");
     expect(pageSource).toContain(
-      "!isEvaluatedApiRouteAuthorizationDenial(authorizationResult)"
+      "isPreEvaluationMetadataContextRequiredDenial"
     );
+    expect(pageSource).toContain(
+      "resolveMetadataUiRenderContextFromContextRequiredPreview"
+    );
+    expect(pageSource).toContain("isOperatingContextContextRequiredError");
     expect(pageSource).toContain("AppShellMain");
   });
 });

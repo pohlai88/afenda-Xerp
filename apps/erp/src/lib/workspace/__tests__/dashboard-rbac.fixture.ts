@@ -27,7 +27,7 @@ export const DASHBOARD_RBAC_COMPANY_ID = createTestEnterpriseId(
 );
 export const DASHBOARD_RBAC_ROLE_ID = createTestEnterpriseId(
   "role",
-  "01ARZ3NDEKTSV4RRFFQ69G5ROL"
+  "01ARZ3NDEKTSV4RRFFQ69G5RV1"
 );
 export const DASHBOARD_RBAC_MEMBERSHIP_ID = createTestEnterpriseId(
   "membership",

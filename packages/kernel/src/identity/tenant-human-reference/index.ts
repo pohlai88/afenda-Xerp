@@ -1,4 +1,9 @@
 export {
+  assertTenantHumanReferenceWireText,
+  TENANT_HUMAN_REFERENCE_MAX_WIRE_LENGTH,
+  type WireTenantHumanReference,
+} from "./tenant-human-reference.assert.js";
+export {
   type AssetNo,
   type CustomerNo,
   type DocumentNo,
@@ -22,10 +27,12 @@ export {
   parseOptionalSkuNo,
   parseOptionalSupplierNo,
   parseOptionalTenantHumanReference,
+  parseOptionalTenantHumanReferenceForScope,
   parseOptionalWarehouseCode,
   parseSkuNo,
   parseSupplierNo,
   parseTenantHumanReference,
+  parseTenantHumanReferenceForScope,
   parseWarehouseCode,
   type SkuNo,
   type SupplierNo,
@@ -33,5 +40,11 @@ export {
   TENANT_HUMAN_REFERENCE_SCOPES,
   type TenantHumanReference,
   type TenantHumanReferenceScope,
+  type TenantHumanReferenceScopeDefinition,
   type WarehouseCode,
 } from "./tenant-human-reference.contract.js";
+export {
+  parseOptionalTenantHumanReferenceWireForScope,
+  parseTenantHumanReferenceWireForScope,
+  parseUnknownTenantHumanReferenceWireForScope,
+} from "./tenant-human-reference.parser.js";

@@ -1,4 +1,4 @@
-import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
+import { unbrand } from "@afenda/kernel";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { getAfendaAuthSessionMock, resolveOperatingContextFromHeadersMock } =
@@ -23,14 +23,20 @@ vi.mock("next/headers", () => ({
   headers: vi.fn(async () => new Headers()),
 }));
 
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  API_TEST_ACTOR_ID,
+  API_TEST_CORRELATION_ID,
+} from "@/lib/api/__tests__/api-id-test-fixtures";
+import { createModuleRouteOperatingContext } from "@/lib/modules/__tests__/module-route-test-fixtures";
 import { resolveUserSettingsOperatingContext } from "../resolve-user-settings-context.server";
+
+const actorUserId = unbrand(API_TEST_ACTOR_ID);
 
 const linkedSession = {
   sessionId: "sess-user-settings",
   user: {
-    authUserId: "auth-user-001",
-    userId: "user-001",
+    authUserId: "auth_user_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    userId: actorUserId,
     email: "user@example.com",
     name: "Test User",
     emailVerified: true,
@@ -46,54 +52,9 @@ const linkedSession = {
   },
 };
 
-const operatingContext = {
-  actor: { userId: "user-001" },
-  correlationId: "corr-user-settings",
-  tenant: {
-    tenantId: "tenant-001",
-    slug: "dev-local",
-    displayName: "Dev Local",
-    status: "active" as const,
-  },
-  entityGroup: null,
-  legalEntity: {
-    companyId: "company-001",
-    tenantId: "tenant-001",
-    entityGroupId: null,
-    slug: "dev-company",
-    legalName: "Dev Company",
-    displayName: "Dev Company",
-    registrationNumber: null,
-    taxRegistrationNumber: null,
-    ...testLegalEntityCurrencyFields(),
-    status: "active" as const,
-  },
-  organizationUnit: null,
-  ownershipInterests: [],
-  permissionScope: {
-    grantScopeType: "company" as const,
-    tenantId: "tenant-001",
-    entityGroupId: null,
-    companyId: "company-001",
-    organizationId: null,
-    teamId: null,
-    projectId: null,
-    membershipId: "membership-001",
-    roleId: "role-001",
-    elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-  },
-  workspace: {
-    tenantId: "tenant-001",
-    companyId: "company-001",
-    organizationId: null,
-    projectId: null,
-  },
-  team: null,
-  project: null,
-  consolidationScope: null,
-  surface: null,
-  workflow: null,
-};
+const operatingContext = createModuleRouteOperatingContext({
+  correlationId: unbrand(API_TEST_CORRELATION_ID),
+});
 
 describe("resolveUserSettingsOperatingContext", () => {
   beforeEach(() => {
@@ -149,11 +110,11 @@ describe("resolveUserSettingsOperatingContext", () => {
 
     expect(result).toEqual({
       kind: "ready",
-      actorUserId: "user-001",
+      actorUserId,
       operatingContext,
     });
     expect(resolveOperatingContextFromHeadersMock).toHaveBeenCalledWith({
-      actorUserId: "user-001",
+      actorUserId,
       activeWorkspaceId: null,
     });
   });

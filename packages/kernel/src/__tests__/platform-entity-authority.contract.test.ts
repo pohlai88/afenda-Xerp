@@ -9,6 +9,7 @@ import {
   type LegalEntityContext,
   type OrganizationUnitContext,
   type PermissionScopeContext,
+  PLATFORM_ENTITY_AUTHORITY_ENTRIES,
   PLATFORM_ENTITY_AUTHORITY_REGISTRY,
   PLATFORM_ENTITY_IDS,
   type PlatformEntityAuthorityEntry,
@@ -37,9 +38,16 @@ describe("@afenda/kernel platform entity authority", () => {
   });
 
   it("maps entity ids to registry entries without duplication", () => {
+    expect(Object.keys(PLATFORM_ENTITY_AUTHORITY_ENTRIES)).toEqual([
+      ...PLATFORM_ENTITY_IDS,
+    ]);
+
     for (const entityId of PLATFORM_ENTITY_IDS) {
       expect(isPlatformEntityId(entityId)).toBe(true);
       expect(getPlatformEntityAuthority(entityId).entityId).toBe(entityId);
+      expect(PLATFORM_ENTITY_AUTHORITY_ENTRIES[entityId].entityId).toBe(
+        entityId
+      );
     }
 
     expect(isPlatformEntityId("not-a-platform-entity")).toBe(false);

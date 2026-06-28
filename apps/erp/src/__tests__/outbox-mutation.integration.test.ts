@@ -4,7 +4,10 @@ import {
   type OutboxEventEnvelope,
   runPublishOutboxEventsJob,
 } from "@afenda/execution";
-import { createFixtureCanonicalIdBodyGenerator } from "@afenda/kernel";
+import {
+  createFixtureCanonicalIdBodyGenerator,
+  createTestEnterpriseId,
+} from "@afenda/kernel";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -85,7 +88,7 @@ describe("outbox mutation integration", () => {
       persistence,
     });
 
-    const correlationId = "corr-outbox-integration-001";
+    const correlationId = createTestEnterpriseId("correlation");
 
     const committed = await commitWorkspaceDashboardMutation(
       {
@@ -146,7 +149,10 @@ describe("outbox mutation integration", () => {
     await enqueue({
       actorId: "actor-b",
       companyId: TENANT_B_COMPANY_ID,
-      correlationId: "corr-tenant-b",
+      correlationId: createTestEnterpriseId(
+        "correlation",
+        "01ARZ3NDEKTSV4RRFFQ69G5TNB"
+      ),
       eventId: "evt-tenant-b",
       eventType: "workspace.dashboard.layout.updated",
       payload: { scope: "tenant-b" },
@@ -156,7 +162,10 @@ describe("outbox mutation integration", () => {
     await enqueue({
       actorId: DASHBOARD_RBAC_ACTOR_ID,
       companyId: DASHBOARD_RBAC_COMPANY_ID,
-      correlationId: "corr-tenant-a",
+      correlationId: createTestEnterpriseId(
+        "correlation",
+        "01ARZ3NDEKTSV4RRFFQ69G5TNA"
+      ),
       eventId: "evt-tenant-a",
       eventType: "workspace.dashboard.layout.updated",
       payload: { scope: "tenant-a" },

@@ -161,6 +161,22 @@ export {
   METADATA_RUNTIME_POLICY_DENIAL_REASONS,
 } from "./metadata-policy-vocabulary.contract.js";
 export type {
+  MetadataTenantHumanReferenceFieldBinding,
+  MetadataTenantHumanReferenceScope,
+  MetadataTenantHumanReferenceWireValue,
+} from "./metadata-tenant-human-reference-vocabulary.contract.js";
+export {
+  assertMetadataTenantHumanReferenceWireShape,
+  isMetadataTenantHumanReferenceFieldBinding,
+  isMetadataTenantHumanReferenceScope,
+  METADATA_TENANT_HUMAN_REFERENCE_MAX_WIRE_LENGTH,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPE_COLUMNS,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPE_LABELS,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPES,
+  normalizeMetadataTenantHumanReferenceWireValue,
+  serializeMetadataTenantHumanReferenceFieldBinding,
+} from "./metadata-tenant-human-reference-vocabulary.contract.js";
+export type {
   PresentationContract,
   PresentationContractOwnership,
   PresentationContractProhibition,

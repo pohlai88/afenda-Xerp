@@ -17,11 +17,11 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-export type KernelSubpathExportSpec = {
+export interface KernelSubpathExportSpec {
   readonly distImport: string;
   readonly distTypes: string;
   readonly srcBarrel: string;
-};
+}
 
 const PAS_64_SUBPATH_BARRELS = {
   ".": {
@@ -78,16 +78,16 @@ export const PAS_64_REQUIRED_SUBPATHS = {
   "./governance": PAS_64_SUBPATH_BARRELS["./governance"],
 } as const satisfies Record<string, KernelSubpathExportSpec>;
 
-export type KernelSubpathExportViolation = {
-  readonly rule: string;
+export interface KernelSubpathExportViolation {
   readonly message: string;
-};
+  readonly rule: string;
+}
 
-type PackageExportEntry = {
-  readonly types?: string;
-  readonly import?: string;
+interface PackageExportEntry {
   readonly default?: string;
-};
+  readonly import?: string;
+  readonly types?: string;
+}
 
 function readPackageExports(): Record<string, PackageExportEntry> {
   const packageJsonPath = join(repoRoot, "packages/kernel/package.json");

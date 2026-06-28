@@ -33,6 +33,15 @@ vi.mock("@/lib/server-actions/record-action-audit", () => ({
   recordActionAudit: recordActionAuditMock,
 }));
 
+vi.mock("@/lib/observability/create-request-bound-logger", () => ({
+  createRequestBoundErpLogger: vi.fn(async () => ({
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+  })),
+}));
+
 vi.mock("@afenda/auth", () => ({
   AUTH_EVENT: {
     ssoProviderConfigured: "auth.sso.provider_configured",

@@ -39,6 +39,9 @@ describe("system-admin-mutation-audit.registry", () => {
     const delegatedExecutorSource = readAppSource(
       "src/lib/system-admin/execute-tenant-settings-section-update.server.ts"
     );
+    const readinessGateExecutorSource = readAppSource(
+      "src/lib/system-admin/execute-refresh-accounting-readiness-gate-full.server.ts"
+    );
 
     for (const entry of SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES) {
       const actionSource = readAppSource(
@@ -46,15 +49,23 @@ describe("system-admin-mutation-audit.registry", () => {
       );
 
       expect(actionSource).toContain('"use server"');
-      expect(actionSource).toContain(`"${entry.id}"`);
+
+      const idSource = actionSource.includes(
+        "executeRefreshAccountingReadinessGateFull"
+      )
+        ? readinessGateExecutorSource
+        : actionSource;
+      expect(idSource).toContain(`"${entry.id}"`);
 
       const auditSource = actionSource.includes(
         "executeTenantSettingsSectionUpdate"
       )
         ? delegatedExecutorSource
-        : actionSource;
+        : actionSource.includes("executeRefreshAccountingReadinessGateFull")
+          ? readinessGateExecutorSource
+          : actionSource;
 
-      expect(auditSource).toContain("resolveActionOperatingContext");
+      expect(actionSource).toContain("resolveActionOperatingContext");
       expect(auditSource).toContain("recordActionAudit");
     }
   });

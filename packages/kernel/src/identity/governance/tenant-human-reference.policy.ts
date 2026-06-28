@@ -37,7 +37,8 @@ export const TENANT_HUMAN_REFERENCE_POLICY = {
     "document_type",
     "document_no",
   ] as const,
-  approvedHumanReferenceIngress: "parseEmployeeNo | parseCustomerNo | …",
+  approvedHumanReferenceIngress:
+    "parseTenantHumanReferenceForScope | parseEmployeeNo | parseCustomerNo | …",
   approvedHumanReferenceEgress: "normalize*ForWire",
   prohibitedPatterns: TENANT_HUMAN_REFERENCE_PROHIBITED_PATTERNS,
   enforcementGates: {

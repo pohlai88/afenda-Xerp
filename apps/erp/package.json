@@ -9,7 +9,7 @@
     "dev": "next dev --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
-    "pretest:run": "pnpm --filter @afenda/observability build",
+    "pretest:run": "pnpm --filter @afenda/observability build && pnpm --filter @afenda/metadata-ui build && pnpm --filter @afenda/execution build",
     "test:run": "vitest run --config vitest.config.ts",
     "pretest:e2e": "pnpm --filter @afenda/testing build",
     "test:e2e": "playwright test",
@@ -43,8 +43,10 @@
     "@supabase/supabase-js": "^2.108.2",
     "better-auth": "^1.6.19",
     "next": "catalog:",
+    "next-themes": "^0.4.6",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "sonner": "catalog:",
     "zod": "^4.4.3"
   },
   "devDependencies": {

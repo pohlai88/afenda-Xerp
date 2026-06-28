@@ -12,10 +12,14 @@ import {
 
 import {
   isEvaluatedApiRouteAuthorizationDenial,
+  isPreEvaluationMetadataContextRequiredDenial,
   resolveMetadataAuthorizationFromApiRouteResult,
   resolveOperatingContextFromApiRouteResult,
 } from "../resolve-metadata-authorization-from-api-route.server";
-import { resolveMetadataUiRenderContextFromApiRouteAuthorization } from "../resolve-metadata-ui-render-context.server";
+import {
+  resolveMetadataUiRenderContextFromApiRouteAuthorization,
+  resolveMetadataUiRenderContextFromContextRequiredPreview,
+} from "../resolve-metadata-ui-render-context.server";
 
 function createMetadataWorkspaceRequest(): Request {
   return new Request("http://localhost/metadata-workspace", {
@@ -167,6 +171,7 @@ describe("resolveMetadataUiRenderContextFromApiRouteAuthorization", () => {
 
     const context =
       await resolveMetadataUiRenderContextFromApiRouteAuthorization({
+        actorId: operatingContext.actor.userId,
         authorizationResult: authResult,
         permissionDataSource,
       });
@@ -211,6 +216,7 @@ describe("resolveMetadataUiRenderContextFromApiRouteAuthorization", () => {
 
     const context =
       await resolveMetadataUiRenderContextFromApiRouteAuthorization({
+        actorId: operatingContext.actor.userId,
         authorizationResult: authResult,
         permissionDataSource,
       });
@@ -232,6 +238,79 @@ describe("resolveMetadataUiRenderContextFromApiRouteAuthorization", () => {
         scope: "legal_entity",
       },
     ]);
+  });
+
+  it("composes context-required preview metadata runtime from missing_context denial", async () => {
+    const actorId = createModuleRouteOperatingContext().actor.userId;
+    const authResult = {
+      kind: "failure",
+      apiCode: "forbidden",
+      correlationId: "corr-missing-context-preview",
+      denialCode: "missing_context",
+      message: "Missing context",
+    } as ApiRouteAuthorizationResult;
+
+    const context =
+      await resolveMetadataUiRenderContextFromApiRouteAuthorization({
+        actorId,
+        authorizationResult: authResult,
+      });
+
+    expect(context).not.toBeNull();
+    expect(context?.runtime.state).toBe("readonly");
+    expect(context?.runtime.readonlyMode).toBe(true);
+    expect(context?.runtime.actorId).toBe(actorId);
+    expect(context?.runtime.correlationId).toBe("corr-missing-context-preview");
+    expect(context?.runtime.policyDecision).toEqual({
+      kind: "defer",
+      reason: "context_required",
+    });
+    expect(context?.diagnostics.level).toBe("verbose");
+    expect(context?.runtime.tenantId).toBeUndefined();
+  });
+});
+
+describe("isPreEvaluationMetadataContextRequiredDenial", () => {
+  it("returns true only for missing_context failures", () => {
+    const missingContext = {
+      kind: "failure",
+      apiCode: "forbidden",
+      correlationId: "corr-missing-context",
+      denialCode: "missing_context",
+      message: "Missing context",
+    } as ApiRouteAuthorizationResult;
+
+    const missingSession = {
+      kind: "failure",
+      apiCode: "unauthenticated",
+      correlationId: "corr-missing-session",
+      denialCode: "missing_session",
+      message: "Missing session",
+    } as ApiRouteAuthorizationResult;
+
+    expect(isPreEvaluationMetadataContextRequiredDenial(missingContext)).toBe(
+      true
+    );
+    expect(isPreEvaluationMetadataContextRequiredDenial(missingSession)).toBe(
+      false
+    );
+  });
+});
+
+describe("resolveMetadataUiRenderContextFromContextRequiredPreview", () => {
+  it("builds defer readonly runtime without tenant or company carriers", () => {
+    const context = resolveMetadataUiRenderContextFromContextRequiredPreview({
+      actorId: "user-metadata-context-preview",
+      correlationId: "corr-context-preview-direct",
+    });
+
+    expect(context.runtime.state).toBe("readonly");
+    expect(context.runtime.policyDecision).toEqual({
+      kind: "defer",
+      reason: "context_required",
+    });
+    expect(context.diagnostics.level).toBe("verbose");
+    expect(context.runtime.tenantId).toBeUndefined();
   });
 });
 

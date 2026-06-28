@@ -1,11 +1,30 @@
 import type { ExecutionJsonObject } from "@afenda/execution";
+import { createTestEnterpriseId } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
 import { enqueueOutboxEvent } from "../enqueue-outbox-event.server.js";
 
+const VALID_CORRELATION_ID = createTestEnterpriseId("correlation");
+
 describe("enqueueOutboxEvent", () => {
+  it("rejects non-canonical correlationId before persistence", async () => {
+    await expect(
+      enqueueOutboxEvent({
+        actorId: "actor-1",
+        companyId: "company-1",
+        correlationId: "corr-1",
+        eventType: "workspace.dashboard.layout.updated",
+        payload: { ok: true },
+        tenantId: "tenant-1",
+      })
+    ).rejects.toMatchObject({
+      code: "validation_failed",
+      message: expect.stringContaining("correlationId"),
+    });
+  });
+
   it("rejects non-serializable metadata before persistence", async () => {
     const invalidMetadata = { invalid: () => undefined };
 
@@ -13,7 +32,7 @@ describe("enqueueOutboxEvent", () => {
       enqueueOutboxEvent({
         actorId: "actor-1",
         companyId: "company-1",
-        correlationId: "corr-1",
+        correlationId: VALID_CORRELATION_ID,
         eventType: "workspace.dashboard.layout.updated",
         metadata: invalidMetadata as unknown as ExecutionJsonObject,
         payload: { ok: true },
@@ -29,7 +48,7 @@ describe("enqueueOutboxEvent", () => {
       enqueueOutboxEvent({
         actorId: "actor-1",
         companyId: "   ",
-        correlationId: "corr-1",
+        correlationId: VALID_CORRELATION_ID,
         eventType: "workspace.dashboard.layout.updated",
         payload: { ok: true },
         tenantId: "tenant-1",
@@ -56,7 +75,7 @@ describe("enqueueOutboxEvent", () => {
       {
         actorId: "actor-1",
         companyId: "company-1",
-        correlationId: "corr-1",
+        correlationId: VALID_CORRELATION_ID,
         eventType: "workspace.dashboard.layout.updated",
         payload: { ok: true },
         tenantId: tenantPk,
@@ -67,5 +86,6 @@ describe("enqueueOutboxEvent", () => {
     expect(captured[0]?.["metadata"]).toEqual(
       expect.objectContaining({ tenantPk })
     );
+    expect(captured[0]?.["correlationId"]).toBe(VALID_CORRELATION_ID);
   });
 });

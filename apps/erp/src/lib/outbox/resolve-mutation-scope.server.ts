@@ -1,4 +1,8 @@
-import type { UserId } from "@afenda/kernel";
+import {
+  parseCorrelationId,
+  toCorrelationId,
+  type UserId,
+} from "@afenda/kernel";
 
 import type { ApiRequestContext } from "@/server/api/runtime/api-request-context";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
@@ -10,6 +14,10 @@ export interface MutationScope {
   readonly organizationId: string | null;
   readonly tenantId: string;
   readonly userId: UserId;
+}
+
+function resolveScopeCorrelationId(value: string): string {
+  return toCorrelationId(parseCorrelationId(value.trim()));
 }
 
 export function resolveMutationScopeFromApiContext(
@@ -42,7 +50,7 @@ export function resolveMutationScopeFromApiContext(
   return {
     actorId,
     companyId,
-    correlationId: context.correlationId,
+    correlationId: resolveScopeCorrelationId(context.correlationId),
     organizationId: context.execution.organizationId,
     tenantId,
     userId: context.userId,

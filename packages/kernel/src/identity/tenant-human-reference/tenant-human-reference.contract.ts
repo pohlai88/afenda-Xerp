@@ -10,6 +10,7 @@
 
 import type { Brand } from "../brand/index.js";
 import { unbrand } from "../brand/index.js";
+import { assertTenantHumanReferenceWireText } from "./tenant-human-reference.assert.js";
 
 /** ADR-0023 governed scopes — parity with `@afenda/database` tenant-human-reference registry. */
 export const TENANT_HUMAN_REFERENCE_SCOPES = [
@@ -36,7 +37,14 @@ export type AssetNo = TenantHumanReference<"asset">;
 export type DocumentNo = TenantHumanReference<"document">;
 export type WarehouseCode = TenantHumanReference<"warehouse">;
 
-const MAX_TENANT_HUMAN_REFERENCE_LENGTH = 64;
+function parseTenantHumanReferenceValue<
+  TScope extends TenantHumanReferenceScope,
+>(value: string, label: string): TenantHumanReference<TScope> {
+  return assertTenantHumanReferenceWireText(
+    value,
+    label
+  ) as TenantHumanReference<TScope>;
+}
 
 export interface TenantHumanReferenceScopeDefinition<
   TScope extends TenantHumanReferenceScope,
@@ -54,17 +62,7 @@ function defineTenantHumanReferenceScope<
   TScope extends TenantHumanReferenceScope,
 >(scope: TScope, label: string): TenantHumanReferenceScopeDefinition<TScope> {
   function parse(value: string): TenantHumanReference<TScope> {
-    const raw = value.trim();
-
-    if (!raw) {
-      throw new Error(`${label} is required.`);
-    }
-
-    if (raw.length > MAX_TENANT_HUMAN_REFERENCE_LENGTH) {
-      throw new Error(`${label} must not exceed 64 characters.`);
-    }
-
-    return raw as TenantHumanReference<TScope>;
+    return parseTenantHumanReferenceValue(value, label);
   }
 
   function parseOptional(
@@ -125,24 +123,32 @@ export const TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS = {
   readonly [K in TenantHumanReferenceScope]: TenantHumanReferenceScopeDefinition<K>;
 };
 
-/** @deprecated Prefer scoped parsers (`parseEmployeeNo`, …). */
+/** Scope-indexed ingress — prefer over deprecated label-based generic. */
+export function parseTenantHumanReferenceForScope<
+  TScope extends TenantHumanReferenceScope,
+>(scope: TScope, value: string): TenantHumanReference<TScope> {
+  const definition = TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS[scope];
+  return definition.parse(value) as TenantHumanReference<TScope>;
+}
+
+export function parseOptionalTenantHumanReferenceForScope<
+  TScope extends TenantHumanReferenceScope,
+>(
+  scope: TScope,
+  value: string | null | undefined
+): TenantHumanReference<TScope> | null {
+  const definition = TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS[scope];
+  return definition.parseOptional(value) as TenantHumanReference<TScope> | null;
+}
+
+/** @deprecated Prefer `parseTenantHumanReferenceForScope` or scoped parsers (`parseEmployeeNo`, …). */
 export function parseTenantHumanReference<
   TScope extends TenantHumanReferenceScope,
 >(value: string, label: string): TenantHumanReference<TScope> {
-  const raw = value.trim();
-
-  if (!raw) {
-    throw new Error(`${label} is required.`);
-  }
-
-  if (raw.length > MAX_TENANT_HUMAN_REFERENCE_LENGTH) {
-    throw new Error(`${label} must not exceed 64 characters.`);
-  }
-
-  return raw as TenantHumanReference<TScope>;
+  return parseTenantHumanReferenceValue(value, label);
 }
 
-/** @deprecated Prefer scoped parsers (`parseOptionalEmployeeNo`, …). */
+/** @deprecated Prefer `parseOptionalTenantHumanReferenceForScope` or scoped parsers. */
 export function parseOptionalTenantHumanReference<
   TScope extends TenantHumanReferenceScope,
 >(
@@ -153,7 +159,7 @@ export function parseOptionalTenantHumanReference<
     return null;
   }
 
-  return parseTenantHumanReference<TScope>(value, label);
+  return parseTenantHumanReferenceValue(value, label);
 }
 
 export const parseEmployeeNo = employeeNoScope.parse;

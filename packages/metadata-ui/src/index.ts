@@ -186,6 +186,22 @@ export {
   METADATA_SURFACE_VISIBILITY_STATES,
   METADATA_SURFACE_WIDTH_MODES,
 } from "./contracts/surface.contract.js";
+export type {
+  MetadataTenantHumanReferenceFieldBinding,
+  MetadataTenantHumanReferenceScope,
+  MetadataTenantHumanReferenceWireValue,
+} from "./contracts/tenant-human-reference-field.contract.js";
+export {
+  assertMetadataTenantHumanReferenceWireShape,
+  isMetadataTenantHumanReferenceFieldBinding,
+  isMetadataTenantHumanReferenceScope,
+  METADATA_TENANT_HUMAN_REFERENCE_MAX_WIRE_LENGTH,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPE_COLUMNS,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPE_LABELS,
+  METADATA_TENANT_HUMAN_REFERENCE_SCOPES,
+  normalizeMetadataTenantHumanReferenceWireValue,
+  serializeMetadataTenantHumanReferenceFieldBinding,
+} from "./contracts/tenant-human-reference-field.contract.js";
 export { createMetadataDiagnosticsSnapshot } from "./diagnostics/index.js";
 export {
   SAMPLE_METADATA_UI_FIXTURE_NAMESPACE,
@@ -220,6 +236,8 @@ export {
   PLATFORM_IDENTITY_KNOWLEDGE_ATOM_IDS,
   type PlatformIdentityKnowledgeAtomId,
   resolveMetadataPlatformIdentityDimensionLabel,
+  resolveMetadataTenantHumanReferenceConceptLabel,
+  resolveMetadataTenantHumanReferenceScopeLabel,
   resolvePlatformIdentityKnowledgeBusinessTitle,
   resolvePlatformIdentityKnowledgeCanonicalDefinition,
   resolvePlatformIdentityKnowledgeLabel,

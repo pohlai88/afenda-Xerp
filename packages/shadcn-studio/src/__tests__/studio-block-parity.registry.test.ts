@@ -6,7 +6,7 @@ import {
   SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,
 } from "../registry/studio-block-parity.registry.js";
 
-describe("studio block parity registry (B42d + B42e + B42f + B42g)", () => {
+describe("studio block parity registry (B42d + B42e + B42f + B42g + B42o)", () => {
   it("documents legacy block baseline from B42b", () => {
     expect(LEGACY_APPSHELL_STUDIO_BLOCK_COUNT).toBe(63);
   });

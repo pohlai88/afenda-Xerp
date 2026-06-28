@@ -24,6 +24,7 @@ export const API_TEST_ROLE_READONLY_ID = createTestEnterpriseId(
 );
 export const API_TEST_MEMBERSHIP_ID = createTestEnterpriseId("membership");
 export const API_TEST_CORRELATION_ID = createTestEnterpriseId("correlation");
+export const API_TEST_ORGANIZATION_ID = createTestEnterpriseId("organization");
 export const API_TEST_PROJECT_ID = createTestEnterpriseId("project");
 export const API_TEST_TEAM_ID = createTestEnterpriseId("team");
 export const API_TEST_CUSTOMER_ID = createTestEnterpriseId("customer");

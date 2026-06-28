@@ -18,7 +18,7 @@ Close remaining stabilization risks from B62 assessment:
 4. Align render-context tests with production `resolveMetadataAuthorizationFromOperatingContext`.
 5. Restore PAS slice documentation for B57–B60 (index-linked closure).
 
-Pre-evaluation metadata UI preview (`missing_context` defer surface) remains **B64+** — page still calls `forbidden()`.
+Pre-evaluation metadata UI preview (`missing_context` defer surface) delivered in **B65** — see [`b65-metadata-context-required-preview.md`](b65-metadata-context-required-preview.md).
 
 ---
 

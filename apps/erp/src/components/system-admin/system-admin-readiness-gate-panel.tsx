@@ -66,6 +66,7 @@ export interface SystemAdminReadinessGatePanelProps {
   readonly diagnosticsOverall: AccountingReadinessDiagnosticsOverallKind;
   readonly requirements: readonly AccountingReadinessGateRequirementStatus[];
   readonly runMode: "structure-only" | "full";
+  readonly showRefreshForm?: boolean;
 }
 
 export function SystemAdminReadinessGatePanel({
@@ -73,6 +74,7 @@ export function SystemAdminReadinessGatePanel({
   diagnosticsOverall,
   requirements,
   runMode,
+  showRefreshForm = true,
 }: SystemAdminReadinessGatePanelProps) {
   const metrics = requirements.map(toReadinessMetric);
   const overallLabel =
@@ -107,7 +109,7 @@ export function SystemAdminReadinessGatePanel({
           {overallLabel} · {runModeLabel} · Last checked{" "}
           <time dateTime={checkedAt}>{checkedAt}</time>
         </p>
-        <SystemAdminReadinessGateRefreshForm />
+        {showRefreshForm ? <SystemAdminReadinessGateRefreshForm /> : null}
       </header>
 
       <SystemAdminReadinessGateMetrics metrics={metrics} />

@@ -1,7 +1,7 @@
 import type { Brand } from "../brand/index.js";
 import { unbrand } from "../brand/index.js";
 import { isCanonicalEnterpriseId } from "../canonical/canonical-id-validator.contract.js";
-import { assertUuidV7WireForm } from "../postgres/uuid-v7-format.contract.js";
+import { assertUuidV7WireForm } from "../postgres/index.js";
 import { TENANT_HUMAN_REFERENCE_PATTERN } from "../primitives/primitive-brand.helpers.js";
 
 /** Internal PostgreSQL primary key at audit/event trust boundaries (UUID v7 wire form). */

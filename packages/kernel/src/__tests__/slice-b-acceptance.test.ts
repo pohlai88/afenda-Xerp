@@ -13,7 +13,7 @@ import {
   isCanonicalEnterpriseId,
   parseCanonicalId,
   parseLocaleCode,
-  parseTenantHumanReference,
+  parseTenantHumanReferenceForScope,
   parseTenantId,
   TENANT_HUMAN_REFERENCE_SCOPES,
   toTenantId,
@@ -49,7 +49,7 @@ describe("PAS-001 Slice B — kernel identity acceptance", () => {
 
   it("classifies tenant human references without minting canonical IDs", () => {
     expect(TENANT_HUMAN_REFERENCE_SCOPES.length).toBeGreaterThan(0);
-    expect(parseTenantHumanReference("EMP-000123", "employee")).toBe(
+    expect(parseTenantHumanReferenceForScope("employee", "EMP-000123")).toBe(
       "EMP-000123"
     );
 

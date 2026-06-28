@@ -97,11 +97,10 @@ export function createDrizzleOutboxPersistenceAdapter(
               assertOutboxRecordDomainEventBridge(record);
               claimed.push(record);
             } catch (error: unknown) {
+              // Non-retryable poison pill — fix data at source; do not re-queue as pending.
               await tx
                 .update(outboxEvents)
                 .set({
-                  attempts: updated.attempts + 1,
-                  availableAt: new Date(input.nowIso),
                   failedAt: new Date(input.nowIso),
                   lastError:
                     error instanceof Error
@@ -109,7 +108,7 @@ export function createDrizzleOutboxPersistenceAdapter(
                       : "Outbox row failed DomainEvent bridge validation.",
                   lockedAt: null,
                   lockedBy: null,
-                  status: "failed",
+                  status: "dead_letter",
                   updatedAt: sql`now()`,
                 })
                 .where(eq(outboxEvents.id, updated.id));

@@ -52,8 +52,8 @@ export interface PlatformEntityAuthorityEntry {
   readonly writeOwner: string;
 }
 
-export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
-  {
+export const PLATFORM_ENTITY_AUTHORITY_ENTRIES = {
+  tenant: {
     entityId: "tenant",
     displayName: "Tenant",
     kernelContractPath:
@@ -65,7 +65,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Scoped packages via kernel context",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  company: {
     entityId: "company",
     displayName: "Legal Entity (Company)",
     kernelContractPath:
@@ -79,7 +79,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Scoped packages via LegalEntityContext",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  organization: {
     entityId: "organization",
     displayName: "Organization Unit",
     kernelContractPath:
@@ -93,7 +93,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Scoped packages via OrganizationUnitContext",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  workspace: {
     entityId: "workspace",
     displayName: "Workspace",
     kernelContractPath:
@@ -107,7 +107,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "@afenda/appshell via app-shell-context-switch.contract.ts",
     auditOwner: "Context resolution observability adapter",
   },
-  {
+  user: {
     entityId: "user",
     displayName: "User",
     kernelContractPath:
@@ -119,7 +119,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Authorization actor resolution",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  membership: {
     entityId: "membership",
     displayName: "Membership",
     kernelContractPath:
@@ -134,7 +134,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "@afenda/permissions grant resolution",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  role: {
     entityId: "role",
     displayName: "Role",
     kernelContractPath: null,
@@ -150,7 +150,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "@afenda/permissions PERMISSION_REGISTRY",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },
-  {
+  permission: {
     entityId: "permission",
     displayName: "Permission",
     kernelContractPath:
@@ -164,7 +164,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "All authorization checks",
     auditOwner: "packages/permissions/src/policy-audit.ts",
   },
-  {
+  policy: {
     entityId: "policy",
     displayName: "Policy",
     kernelContractPath: null,
@@ -175,7 +175,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "@afenda/permissions policy evaluation",
     auditOwner: "packages/permissions/src/policy-audit.ts",
   },
-  {
+  approval: {
     entityId: "approval",
     displayName: "Approval (policy gate outcome)",
     kernelContractPath: null,
@@ -186,7 +186,7 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Policy engine require_approval gate",
     auditOwner: "Policy evaluation audit",
   },
-  {
+  audit: {
     entityId: "audit",
     displayName: "Audit Event",
     kernelContractPath:
@@ -198,22 +198,20 @@ export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = [
     readOwner: "Observability + compliance readers",
     auditOwner: "packages/database audit pipeline",
   },
-] as const satisfies readonly PlatformEntityAuthorityEntry[];
+} satisfies Record<PlatformEntityId, PlatformEntityAuthorityEntry>;
+
+export const PLATFORM_ENTITY_AUTHORITY_REGISTRY = PLATFORM_ENTITY_IDS.map(
+  (id) => PLATFORM_ENTITY_AUTHORITY_ENTRIES[id]
+);
+
+const PLATFORM_ENTITY_ID_SET = new Set<string>(PLATFORM_ENTITY_IDS);
 
 export function getPlatformEntityAuthority(
   entityId: PlatformEntityId
 ): PlatformEntityAuthorityEntry {
-  const entry = PLATFORM_ENTITY_AUTHORITY_REGISTRY.find(
-    (candidate) => candidate.entityId === entityId
-  );
-
-  if (!entry) {
-    throw new Error(`Unknown platform entity: ${entityId}`);
-  }
-
-  return entry;
+  return PLATFORM_ENTITY_AUTHORITY_ENTRIES[entityId];
 }
 
 export function isPlatformEntityId(value: string): value is PlatformEntityId {
-  return (PLATFORM_ENTITY_IDS as readonly string[]).includes(value);
+  return PLATFORM_ENTITY_ID_SET.has(value);
 }

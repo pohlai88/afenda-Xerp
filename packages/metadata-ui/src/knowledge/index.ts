@@ -11,3 +11,7 @@ export {
   resolvePlatformIdentityKnowledgeCanonicalDefinition,
   resolvePlatformIdentityKnowledgeLabel,
 } from "./platform-identity-vocabulary.js";
+export {
+  resolveMetadataTenantHumanReferenceConceptLabel,
+  resolveMetadataTenantHumanReferenceScopeLabel,
+} from "./tenant-human-reference-vocabulary.js";

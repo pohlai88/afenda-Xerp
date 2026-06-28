@@ -10,7 +10,7 @@ import {
   parseCustomerId,
   parseEmployeeNo,
   parseInternalEntityPk,
-  parseTenantHumanReference,
+  parseTenantHumanReferenceForScope,
   TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS,
   TENANT_HUMAN_REFERENCE_SCOPES,
 } from "../../index.js";
@@ -50,7 +50,7 @@ describe("identity stack (PAS-001 §4.1.1)", () => {
     expect(() => parseCustomerId(customerId)).not.toThrow();
     expect(() => parseCustomerId("EMP-000123")).toThrow();
     expect(parseEmployeeNo("EMP-000123")).toBe("EMP-000123");
-    expect(parseTenantHumanReference("EMP-000123", "employee")).toBe(
+    expect(parseTenantHumanReferenceForScope("employee", "EMP-000123")).toBe(
       "EMP-000123"
     );
     expect(TENANT_HUMAN_REFERENCE_SCOPES.length).toBeGreaterThan(0);

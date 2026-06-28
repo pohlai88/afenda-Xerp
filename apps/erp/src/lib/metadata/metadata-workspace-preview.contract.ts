@@ -8,6 +8,17 @@ export const METADATA_WORKSPACE_PREVIEW_SECTION_ID =
 
 export const METADATA_WORKSPACE_PREVIEW_ACTIONS = [
   {
+    key: "select-workspace",
+    label: "Select workspace",
+    kind: "link",
+    href: "/workspace/select",
+    visibility: "hidden",
+    presentation: {
+      group: "primary",
+      order: 5,
+    },
+  },
+  {
     key: "refresh-workspace-preview",
     label: "Refresh view",
     kind: "button",
@@ -32,15 +43,26 @@ export const METADATA_WORKSPACE_PREVIEW_ACTIONS = [
 
 export function resolveMetadataWorkspacePreviewActions(input: {
   readonly authorizationDenied: boolean;
+  readonly contextRequired?: boolean;
 }): readonly MetadataRenderableAction[] {
   return METADATA_WORKSPACE_PREVIEW_ACTIONS.map((action) => {
+    if (action.key === "select-workspace") {
+      return {
+        ...action,
+        visibility: input.contextRequired === true ? "visible" : "hidden",
+      } satisfies MetadataRenderableAction;
+    }
+
     if (action.key !== "refresh-workspace-preview") {
       return action;
     }
 
     return {
       ...action,
-      visibility: input.authorizationDenied ? "disabled" : "visible",
+      visibility:
+        input.authorizationDenied || input.contextRequired === true
+          ? "disabled"
+          : "visible",
     } satisfies MetadataRenderableAction;
   });
 }

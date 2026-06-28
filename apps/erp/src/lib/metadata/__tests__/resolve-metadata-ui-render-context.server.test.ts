@@ -11,7 +11,6 @@ import {
   MODULE_ROUTE_TEST_TENANT_ID,
 } from "@/lib/modules/__tests__/module-route-test-fixtures";
 
-import { resolveMetadataAuthorizationFromOperatingContext } from "../resolve-metadata-authorization.server";
 import {
   resolveMetadataUiRenderContextFromOperatingContext,
   resolveMetadataUiRenderContextFromOperatingContextAsync,
@@ -79,17 +78,11 @@ describe("resolveMetadataUiRenderContextFromOperatingContext", () => {
       PERMISSION_REGISTRY.workspace.dashboard.read,
     ]);
 
-    const authorization =
-      await resolveMetadataAuthorizationFromOperatingContext({
-        operatingContext,
-        permissionDataSource,
-        policyDataSource: new InMemoryPolicyDataSource(),
-      });
-
     const context =
       await resolveMetadataUiRenderContextFromOperatingContextAsync({
         operatingContext,
-        authorization,
+        permissionDataSource,
+        policyDataSource: new InMemoryPolicyDataSource(),
       });
 
     expect(context.runtime.policyDecision).toEqual({ kind: "allow" });

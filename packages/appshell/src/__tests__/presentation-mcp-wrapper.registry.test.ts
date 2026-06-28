@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  computePresentationMcpAccountSettingsContentSummary,
+  PRESENTATION_MCP_ACCOUNT_SETTINGS_CONTENT_REGISTRY,
+} from "../presentation/wrappers/presentation-mcp-account-settings-content.registry";
+import {
   computePresentationMcpWrapperSummary,
   listBridgeBackedPresentationMcpWrappers,
   listDelegatingPresentationMcpWrappers,
@@ -14,7 +18,7 @@ function expectBridgeExportIsFunction(exportName: string): void {
   expect(typeof bridgeExports[exportName]).toBe("function");
 }
 
-describe("presentation MCP wrapper registry (B42i + B42j + B42k)", () => {
+describe("presentation MCP wrapper registry (B42i + B42j + B42k + B42m + B42n aggregate)", () => {
   it("is JSON-serializable", () => {
     expect(() =>
       JSON.stringify(PRESENTATION_MCP_WRAPPER_REGISTRY)
@@ -22,14 +26,27 @@ describe("presentation MCP wrapper registry (B42i + B42j + B42k)", () => {
     expect(() =>
       JSON.stringify(computePresentationMcpWrapperSummary())
     ).not.toThrow();
+    expect(() =>
+      JSON.stringify(PRESENTATION_MCP_ACCOUNT_SETTINGS_CONTENT_REGISTRY)
+    ).not.toThrow();
+    expect(() =>
+      JSON.stringify(computePresentationMcpAccountSettingsContentSummary())
+    ).not.toThrow();
   });
 
-  it("tracks B42k delegating statistics cards and expanded bridge mapping", () => {
+  it("aggregates B42n account-settings content sub-registry", () => {
+    const contentSummary =
+      computePresentationMcpAccountSettingsContentSummary();
+    expect(contentSummary.entryCount).toBe(23);
+    expect(contentSummary.afendaOnlyCount).toBe(23);
+  });
+
+  it("tracks B42m delegating bridge twins and expanded bridge mapping", () => {
     const summary = computePresentationMcpWrapperSummary();
-    expect(summary.entryCount).toBeGreaterThanOrEqual(38);
-    expect(summary.delegatingCount).toBeGreaterThanOrEqual(4);
+    expect(summary.entryCount).toBe(40);
+    expect(summary.delegatingCount).toBeGreaterThanOrEqual(8);
     expect(summary.governedComposeCount).toBeGreaterThanOrEqual(19);
-    expect(summary.afendaOnlyCount).toBeGreaterThanOrEqual(14);
+    expect(summary.afendaOnlyCount).toBeGreaterThanOrEqual(11);
   });
 
   it("resolves every delegating entry to an exported bridge function", () => {

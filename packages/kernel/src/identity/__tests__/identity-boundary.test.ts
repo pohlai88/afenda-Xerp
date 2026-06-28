@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import * as identityPublic from "../index.js";
 import {
+  createTestEnterpriseId,
   InvalidCanonicalIdError,
   isCanonicalEnterpriseId,
   parseCanonicalId,
@@ -47,6 +48,12 @@ describe("identity boundary (PAS-001 §4.1.2)", () => {
 
   it("accepts tenant human reference via human parser", () => {
     expect(parseEmployeeNo("EMP-000123")).toBe("EMP-000123");
+  });
+
+  it("rejects canonical enterprise ID via human parser", () => {
+    expect(() => parseEmployeeNo(createTestEnterpriseId("employee"))).toThrow(
+      /must not be a canonical enterprise ID/i
+    );
   });
 
   it("keeps LocaleCode and CurrencyCode off the enterprise ID parser", () => {

@@ -48,11 +48,11 @@ describe("Next.js App Router hardening — proxy boundary", () => {
 describe("Next.js App Router hardening — UI surface rules", () => {
   const authAndShellSources = [
     "src/app/(auth)/layout.tsx",
-    "src/app/(auth)/_components/sign-in-form.tsx",
-    "src/app/(auth)/_components/sign-in-mfa-step.tsx",
-    "src/app/(auth)/_components/sign-up-form.tsx",
-    "src/app/(auth)/_components/forgot-password-form.tsx",
-    "src/app/(auth)/_components/reset-password-form.tsx",
+    "src/app/(auth)/_components/auth-sign-in-form.tsx",
+    "src/app/(auth)/_components/auth-sign-in-mfa-step.tsx",
+    "src/app/(auth)/_components/auth-sign-up-form.tsx",
+    "src/app/(auth)/_components/auth-forgot-password-form.tsx",
+    "src/app/(auth)/_components/auth-reset-password-form.tsx",
     "src/components/sign-out-button.tsx",
     "src/app/(protected)/page.tsx",
   ];

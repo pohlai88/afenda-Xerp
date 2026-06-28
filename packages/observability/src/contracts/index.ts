@@ -3,6 +3,15 @@ export {
   type ReservedAuditAction,
 } from "./audit-action.contract.js";
 export {
+  type AuditInternalEntityPkLabel,
+  assertAuditInternalEntityPkWire,
+} from "./audit-entity-identity.guard.js";
+export {
+  AUDIT_CANONICAL_ENTERPRISE_ID_PATTERN_SOURCE,
+  AUDIT_TENANT_HUMAN_REFERENCE_PATTERN_SOURCE,
+  AUDIT_UUID_V7_WIRE_PATTERN_SOURCE,
+} from "./audit-entity-wire-patterns.contract.js";
+export {
   AUDIT_ACTOR_TYPES,
   AUDIT_EVENT_VERSION,
   AUDIT_EVENT_VERSIONS,

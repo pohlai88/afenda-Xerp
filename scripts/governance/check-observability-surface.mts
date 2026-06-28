@@ -8,6 +8,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  checkObservabilityIdentityParity,
+  formatObservabilityIdentityParityViolations,
+} from "./identity/observability-identity-parity.governance.mts";
+import {
   OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES,
   OBSERVABILITY_CONSUMER_SCAN_ROOTS,
   OBSERVABILITY_CONTRACT_BARREL_DIRECTORY,
@@ -435,6 +439,18 @@ export function checkObservabilitySurface(): ObservabilitySurfaceViolation[] {
           "dist/index.d.ts is older than src/index.ts — run pnpm --filter @afenda/observability build",
       });
     }
+  }
+
+  const identityParityViolations = checkObservabilityIdentityParity();
+  for (const violation of identityParityViolations) {
+    violations.push({
+      rule: "observability-identity-parity",
+      file: join(
+        observabilitySrcRoot,
+        "contracts/audit-entity-wire-patterns.contract.ts"
+      ),
+      message: `${violation.field}: kernel=${violation.kernel} observability=${violation.observability}`,
+    });
   }
 
   return violations;

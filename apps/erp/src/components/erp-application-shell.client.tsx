@@ -7,7 +7,8 @@ import {
   hydrateManifestNavigation,
 } from "@afenda/appshell";
 import { type ReactNode, useMemo } from "react";
-
+import { ErpFeedbackToaster } from "@/components/erp-feedback-toaster.client";
+import { ErpThemeProvider } from "@/components/erp-theme-provider.client";
 import { resolveAppShellProfileMenuGroups } from "@/lib/user-settings/resolve-app-shell-profile-menu-groups";
 
 type ErpApplicationShellProps = Omit<
@@ -42,13 +43,16 @@ export function ErpApplicationShell({
   );
 
   return (
-    <ApplicationShell
-      profileMenuGroups={profileMenuGroups}
-      {...(navigationPages ? { navigationPages } : {})}
-      {...shellProps}
-    >
-      {children}
-    </ApplicationShell>
+    <ErpThemeProvider>
+      <ApplicationShell
+        profileMenuGroups={profileMenuGroups}
+        {...(navigationPages ? { navigationPages } : {})}
+        {...shellProps}
+      >
+        {children}
+        <ErpFeedbackToaster />
+      </ApplicationShell>
+    </ErpThemeProvider>
   );
 }
 

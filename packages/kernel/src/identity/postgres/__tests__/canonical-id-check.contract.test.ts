@@ -11,7 +11,7 @@ import {
   getCanonicalIdPostgresCheckPattern,
   getPostgresCanonicalIdCheckPattern,
   POSTGRES_CANONICAL_ID_CHECK_PATTERNS,
-} from "../canonical-id-check.contract.js";
+} from "../index.js";
 
 describe("canonical-id-check.contract (PAS-001 §4.1.12 / Action 5)", () => {
   it("builds family-specific Postgres CHECK patterns from format authority", () => {

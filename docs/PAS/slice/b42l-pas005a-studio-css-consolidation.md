@@ -46,3 +46,7 @@ Handoff from: docs/PAS/slice/b42l-pas005a-studio-css-consolidation.md
 - [x] css-manifest.test.ts B42l invariant
 - [x] CSS dist sync + check pass
 - [x] All gates run with evidence
+
+## Deferred (post-B42l — closed in B42m)
+
+- ~~Bridge-index placeholder wrapperPaths for hero, auth parity rows, chart-component-02, statistics orders/sales overview~~ — closed in B42m

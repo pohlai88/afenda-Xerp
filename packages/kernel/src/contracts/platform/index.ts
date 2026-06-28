@@ -22,6 +22,7 @@ export type {
 export {
   getPlatformEntityAuthority,
   isPlatformEntityId,
+  PLATFORM_ENTITY_AUTHORITY_ENTRIES,
   PLATFORM_ENTITY_AUTHORITY_REGISTRY,
   PLATFORM_ENTITY_IDS,
   PLATFORM_ENTITY_POLICY,

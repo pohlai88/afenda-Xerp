@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import type { EmployeeId, ProductId } from "../identity/families/index.js";
-import { parseEmployeeId, parseProductId } from "../identity/families/index.js";
+import {
+  createTestEnterpriseId,
+  parseEmployeeId,
+  parseProductId,
+} from "../identity/families/index.js";
 import {
   type CustomerNo,
   type EmployeeNo,
@@ -11,7 +15,7 @@ import {
   parseEmployeeNo,
   parseOptionalSkuNo,
   parseSkuNo,
-  parseTenantHumanReference,
+  parseTenantHumanReferenceForScope,
   type SkuNo,
   TENANT_HUMAN_REFERENCE_SCOPE_DEFINITIONS,
   TENANT_HUMAN_REFERENCE_SCOPES,
@@ -58,7 +62,7 @@ describe("tenant-human-reference.contract (ADR-0023)", () => {
     }
   });
 
-  it("parses human references without canonical enterprise ID validation", () => {
+  it("parses tenant-scoped human references at ingress", () => {
     expect(parseEmployeeNo("EMP-000123")).toBe("EMP-000123");
     expect(parseCustomerNo("CUST-000456")).toBe("CUST-000456");
     expect(parseSkuNo("LETTUCE-ROMAINE-001")).toBe("LETTUCE-ROMAINE-001");
@@ -77,6 +81,19 @@ describe("tenant-human-reference.contract (ADR-0023)", () => {
     expect(() => parseEmployeeId(human)).toThrow();
   });
 
+  it("rejects canonical enterprise IDs in human reference parsers", () => {
+    const canonicalEmployee = createTestEnterpriseId("employee");
+    expect(() => parseEmployeeNo(canonicalEmployee)).toThrow(
+      /must not be a canonical enterprise ID/i
+    );
+    expect(() => parseCustomerNo(createTestEnterpriseId("customer"))).toThrow(
+      /must not be a canonical enterprise ID/i
+    );
+    expect(() => parseSkuNo(createTestEnterpriseId("product"))).toThrow(
+      /must not be a canonical enterprise ID/i
+    );
+  });
+
   it("normalizes human references to plain strings for wire/JSON", () => {
     const sku = parseSkuNo("SKU-001");
     expect(normalizeSkuNoForWire(sku)).toBe("SKU-001");
@@ -90,9 +107,10 @@ describe("tenant-human-reference.contract (ADR-0023)", () => {
     });
   });
 
-  it("supports generic parseTenantHumanReference for explicit scopes", () => {
-    expect(
-      parseTenantHumanReference<"employee">("EMP-000123", "Employee No")
-    ).toBe("EMP-000123");
+  it("supports scope-indexed ingress via parseTenantHumanReferenceForScope", () => {
+    expect(parseTenantHumanReferenceForScope("employee", "EMP-000123")).toBe(
+      "EMP-000123"
+    );
+    expect(parseTenantHumanReferenceForScope("sku", "SKU-001")).toBe("SKU-001");
   });
 });

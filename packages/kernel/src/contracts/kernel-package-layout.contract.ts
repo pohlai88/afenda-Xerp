@@ -65,10 +65,26 @@ export const KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL = [
 export type KernelPackageCurrentSrcTopLevel =
   (typeof KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL)[number];
 
+/** Canonical `packages/kernel/src/contracts/**` paths (PAS §6.1 tree — platform wire vocabulary). */
+export const KERNEL_CONTRACTS_CANONICAL_PATHS = [
+  "packages/kernel/src/contracts/result.contract.ts",
+  "packages/kernel/src/contracts/app-error.contract.ts",
+  "packages/kernel/src/contracts/problem-detail.contract.ts",
+  "packages/kernel/src/contracts/json-wire.contract.ts",
+  "packages/kernel/src/contracts/execution-context.contract.ts",
+  "packages/kernel/src/contracts/execution-context.policy.contract.ts",
+  "packages/kernel/src/contracts/kernel-package-layout.contract.ts",
+  "packages/kernel/src/contracts/platform/platform-entity-authority.contract.ts",
+  "packages/kernel/src/contracts/platform/index.ts",
+] as const;
+
+export type KernelContractsCanonicalPath =
+  (typeof KERNEL_CONTRACTS_CANONICAL_PATHS)[number];
+
 /** Repo-relative paths that must exist after approved slices (PAS §6.2). */
 export const KERNEL_PACKAGE_TARGET_PATHS = [
   "packages/kernel/PAS-001-KERNEL-TREE.md",
-  "packages/kernel/src/contracts/problem-detail.contract.ts",
+  ...KERNEL_CONTRACTS_CANONICAL_PATHS,
   "packages/kernel/src/context/localization-context.contract.ts",
   "packages/kernel/src/context/localization-context.assert.ts",
   "packages/kernel/src/context/localization-context.parser.ts",
@@ -186,6 +202,7 @@ export type KernelPackageLayoutProhibitedPattern =
 export const KERNEL_PACKAGE_LAYOUT_POLICY = {
   pasSections: KERNEL_PACKAGE_PAS_SECTIONS,
   folderBoundary: KERNEL_SRC_FOLDER_BOUNDARY,
+  contractsCanonicalPaths: KERNEL_CONTRACTS_CANONICAL_PATHS,
   retiredRepoPaths: RETIRED_KERNEL_REPO_PATHS,
   srcRootBarrel: KERNEL_PACKAGE_SRC_ROOT_BARREL,
   currentSrcTopLevel: KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL,
@@ -196,6 +213,7 @@ export const KERNEL_PACKAGE_LAYOUT_POLICY = {
 } as const satisfies {
   readonly pasSections: typeof KERNEL_PACKAGE_PAS_SECTIONS;
   readonly folderBoundary: typeof KERNEL_SRC_FOLDER_BOUNDARY;
+  readonly contractsCanonicalPaths: readonly KernelContractsCanonicalPath[];
   readonly retiredRepoPaths: readonly RetiredKernelRepoPath[];
   readonly srcRootBarrel: typeof KERNEL_PACKAGE_SRC_ROOT_BARREL;
   readonly currentSrcTopLevel: readonly KernelPackageCurrentSrcTopLevel[];
@@ -205,16 +223,20 @@ export const KERNEL_PACKAGE_LAYOUT_POLICY = {
   readonly prohibitedPatterns: readonly KernelPackageLayoutProhibitedPattern[];
 };
 
+const CURRENT_SRC_TOP_LEVEL_SET = new Set<string>(
+  KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL
+);
+
+const SUBPATH_EXPORT_SET = new Set<string>(KERNEL_PACKAGE_SUBPATH_EXPORTS);
+
 export function isKernelPackageCurrentSrcTopLevel(
   value: string
 ): value is KernelPackageCurrentSrcTopLevel {
-  return (KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL as readonly string[]).includes(
-    value
-  );
+  return CURRENT_SRC_TOP_LEVEL_SET.has(value);
 }
 
 export function isKernelPackageSubpathExport(
   value: string
 ): value is KernelPackageSubpathExport {
-  return (KERNEL_PACKAGE_SUBPATH_EXPORTS as readonly string[]).includes(value);
+  return SUBPATH_EXPORT_SET.has(value);
 }

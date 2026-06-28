@@ -7,13 +7,13 @@ const snapshotPath = join(
   "apps/erp/src/server/api/contracts/afenda-internal-v1.openapi.json"
 );
 
-type OpenApiDocument = {
-  readonly tags?: ReadonlyArray<{ readonly name: string }>;
+interface OpenApiDocument {
   readonly paths?: Record<
     string,
     Record<string, { readonly operationId?: string; readonly tags?: string[] }>
   >;
-};
+  readonly tags?: ReadonlyArray<{ readonly name: string }>;
+}
 
 const HTTP_METHODS = new Set([
   "get",

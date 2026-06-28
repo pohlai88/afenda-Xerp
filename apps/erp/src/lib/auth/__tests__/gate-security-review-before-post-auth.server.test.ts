@@ -13,23 +13,24 @@ const navigationMocks = vi.hoisted(() => ({
 
 vi.mock("@/lib/auth/auth-security-review.cookies.server", () => cookieMocks);
 vi.mock("next/navigation", () => navigationMocks);
+vi.mock("@/lib/env/env-reader-source", () => ({
+  readRuntimeEnvSource: vi.fn(() => ({
+    AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS: "true",
+  })),
+}));
+
+import { gateSecurityReviewBeforePostAuth } from "../gate-security-review-before-post-auth.server";
 
 describe("gateSecurityReviewBeforePostAuth", () => {
   beforeEach(() => {
     cookieMocks.hasSecurityReviewAckCookie.mockReset();
     cookieMocks.readPostAuthSignInMethodCookie.mockReset();
     navigationMocks.redirect.mockClear();
-    vi.unstubAllEnvs();
   });
 
   it("redirects passwordless sign-in to security review when enabled", async () => {
-    vi.stubEnv("AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS", "true");
     cookieMocks.hasSecurityReviewAckCookie.mockResolvedValue(false);
     cookieMocks.readPostAuthSignInMethodCookie.mockResolvedValue("google");
-
-    const { gateSecurityReviewBeforePostAuth } = await import(
-      "../gate-security-review-before-post-auth.server"
-    );
 
     await expect(
       gateSecurityReviewBeforePostAuth("/dashboard")
@@ -37,12 +38,7 @@ describe("gateSecurityReviewBeforePostAuth", () => {
   });
 
   it("skips redirect after security review is acknowledged", async () => {
-    vi.stubEnv("AFENDA_AUTH_SECURITY_REVIEW_ON_PASSWORDLESS", "true");
     cookieMocks.hasSecurityReviewAckCookie.mockResolvedValue(true);
-
-    const { gateSecurityReviewBeforePostAuth } = await import(
-      "../gate-security-review-before-post-auth.server"
-    );
 
     await gateSecurityReviewBeforePostAuth("/dashboard");
 

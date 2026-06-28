@@ -5,7 +5,7 @@ import {
   isUuidV7WireForm,
   UUID_V7_WIRE_PATTERN,
   UUID_V7_WIRE_PATTERN_SOURCE,
-} from "../uuid-v7-format.contract.js";
+} from "../index.js";
 
 const VALID_UUID_V7 = "018f9f8c-9f1a-7c2b-9c20-000000000001";
 

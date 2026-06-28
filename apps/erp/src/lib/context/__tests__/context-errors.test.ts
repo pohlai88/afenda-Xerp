@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   COMPANY_ACCESS_BLOCK_REASON,
   denyOperatingContext,
+  isOperatingContextContextRequiredError,
   tenantSlugMissingError,
 } from "../context-errors";
 
@@ -12,6 +13,18 @@ describe("context-errors", () => {
       code: "TENANT_NOT_FOUND",
       userMessage: "Workspace tenant could not be resolved from the request.",
     });
+    expect(
+      isOperatingContextContextRequiredError(tenantSlugMissingError())
+    ).toBe(true);
+  });
+
+  it("does not treat membership denial as context required", () => {
+    expect(
+      isOperatingContextContextRequiredError({
+        code: "MEMBERSHIP_DENIED",
+        userMessage: "You do not have access to this workspace scope.",
+      })
+    ).toBe(false);
   });
 
   it("denies operating context with err result shape", () => {

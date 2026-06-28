@@ -4,6 +4,19 @@ export {
   serializeAuditEntityIdentity,
   type WireAuditEntityIdentity,
 } from "./audit-event-identity.contract.js";
+export {
+  type AuthActorIdentity,
+  parseAuthActorIdentity,
+  serializeAuthActorIdentity,
+  type WireAuthActorIdentity,
+} from "./auth-actor-identity.contract.js";
+export {
+  type AuthSubjectId,
+  isAuthSubjectId,
+  parseAuthSubjectId,
+  parseOptionalAuthSubjectId,
+  toAuthSubjectId,
+} from "./auth-subject-id.contract.js";
 export type { assertBusinessMasterDataWireJsonSerializable } from "./business-reference-wire.contract.js";
 export {
   type BrandedCustomerReference,

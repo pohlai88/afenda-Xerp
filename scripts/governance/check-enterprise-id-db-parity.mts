@@ -9,7 +9,7 @@ import {
   CANONICAL_ID_BODY_PATTERN,
   ENTERPRISE_ID_FAMILY_PREFIXES,
 } from "../../packages/database/src/ids/enterprise-id-patterns.ts";
-import { buildCanonicalEnterpriseIdCheckPattern } from "../../packages/kernel/src/identity/postgres/canonical-id-check.contract.ts";
+import { buildCanonicalEnterpriseIdCheckPattern } from "../../packages/kernel/src/identity/postgres/index.ts";
 import { ID_FAMILIES } from "../../packages/kernel/src/identity/registry/id-family.registry.ts";
 
 const violations: string[] = [];

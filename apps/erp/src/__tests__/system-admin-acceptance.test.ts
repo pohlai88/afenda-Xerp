@@ -1,11 +1,17 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getAfendaAuthSession } from "@afenda/auth";
+import { unbrand } from "@afenda/kernel";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { headers } from "next/headers";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { POST as inviteUserPost } from "@/app/api/internal/v1/system-admin/users/invite/route";
+import {
+  API_TEST_ACTOR_ID,
+  API_TEST_CORRELATION_ID,
+  API_TEST_ROLE_ID,
+} from "@/lib/api/__tests__/api-id-test-fixtures";
 import type { recordErpAuditEvent } from "@/lib/observability/record-erp-audit-event";
 import {
   systemAdminAuditEventsGetContract,
@@ -35,9 +41,13 @@ vi.mock("next/headers", () => ({
   headers: vi.fn(async () => new Headers()),
 }));
 
-vi.mock("@afenda/auth", () => ({
-  getAfendaAuthSession: vi.fn(),
-}));
+vi.mock("@afenda/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/auth")>();
+  return {
+    ...actual,
+    getAfendaAuthSession: vi.fn(),
+  };
+});
 
 vi.mock("@/server/api/runtime/api-request-context", async (importOriginal) => {
   const actual =
@@ -60,8 +70,24 @@ describe("TIP-013 acceptance criteria", () => {
   beforeEach(() => {
     auditMocks.recordErpAuditEvent.mockClear();
     vi.mocked(getAfendaAuthSession).mockResolvedValue({
-      user: { userId: "user-001" },
-    } as Awaited<ReturnType<typeof getAfendaAuthSession>>);
+      sessionId: "sess_acceptance_test",
+      metadata: {
+        activeWorkspaceId: null,
+        expiresAt: "2026-06-28T12:00:00.000Z",
+        image: null,
+        ipAddress: null,
+        issuedAt: "2026-06-28T12:00:00.000Z",
+        userAgent: null,
+      },
+      user: {
+        authUserId: "auth_acceptance_test",
+        email: "acceptance@example.com",
+        emailVerified: true,
+        linkStatus: "linked",
+        name: "Acceptance Test",
+        userId: unbrand(API_TEST_ACTOR_ID),
+      },
+    });
     vi.mocked(headers).mockResolvedValue(new Headers());
   });
 
@@ -107,7 +133,7 @@ describe("TIP-013 acceptance criteria", () => {
 
   describe("GIVEN no users.manage WHEN invite via API THEN 403 + audit denial with actor", () => {
     it("records denied audit with actor and correlation ID on permission failure", async () => {
-      const correlationId = "corr-invite-denied-acceptance";
+      const correlationId = unbrand(API_TEST_CORRELATION_ID);
       const response = await inviteUserPost(
         new Request(
           "http://localhost/api/internal/v1/system-admin/users/invite",
@@ -115,7 +141,7 @@ describe("TIP-013 acceptance criteria", () => {
             body: JSON.stringify({
               displayName: "Denied User",
               email: "denied@example.com",
-              roleId: "role-001",
+              roleId: unbrand(API_TEST_ROLE_ID),
             }),
             headers: {
               "content-type": "application/json",
@@ -130,7 +156,7 @@ describe("TIP-013 acceptance criteria", () => {
       expect(auditMocks.recordErpAuditEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           action: "system_admin.user.invited",
-          actorUserId: "user-001",
+          actorUserId: unbrand(API_TEST_ACTOR_ID),
           correlationId,
           result: "denied",
         })

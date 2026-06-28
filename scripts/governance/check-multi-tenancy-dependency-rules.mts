@@ -18,7 +18,10 @@ import {
   MULTI_TENANCY_DEPENDENCY_RULES_SURFACE_RULE,
   MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES,
 } from "../../packages/architecture-authority/src/surface/index.ts";
-import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,
   collectErpPermissionEngineDuplicationViolations,
@@ -35,6 +38,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 
 const authorityRoot = join(repoRoot, "packages/architecture-authority");
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
+const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
 const registrySource = join(
   authorityRoot,
   "src/surface/architecture-authority-surface-registry.ts"

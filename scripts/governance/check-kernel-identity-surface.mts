@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   IDENTITY_MODULE_BRAND_FILES,
+  IDENTITY_MODULE_POSTGRES_FILES,
   IDENTITY_MODULE_PRIMITIVE_FILES,
 } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
 import {
@@ -117,6 +118,8 @@ const APPROVED_BRAND_FILES = new Set<string>(IDENTITY_MODULE_BRAND_FILES);
 const APPROVED_PRIMITIVE_FILES = new Set<string>(
   IDENTITY_MODULE_PRIMITIVE_FILES
 );
+
+const APPROVED_POSTGRES_FILES = new Set<string>(IDENTITY_MODULE_POSTGRES_FILES);
 
 const APPROVED_IDENTITY_SUBFOLDERS = new Set([
   "brand",
@@ -608,6 +611,30 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
         rule: "primitive-module-layout-drift",
         file: entryPath,
         message: `${entry} is outside the PAS §4.1.5 approved primitive module layout`,
+      });
+    }
+  }
+
+  const postgresDir = join(repoRoot, "packages/kernel/src/identity/postgres");
+  for (const entry of readdirSync(postgresDir)) {
+    const entryPath = join(postgresDir, entry);
+    if (!statSync(entryPath).isFile()) {
+      if (entry === "__tests__") {
+        continue;
+      }
+      violations.push({
+        rule: "unexpected-postgres-subfolder",
+        file: entryPath,
+        message: `${entry}/ is not allowed under identity/postgres/ except __tests__/`,
+      });
+      continue;
+    }
+
+    if (!APPROVED_POSTGRES_FILES.has(entry)) {
+      violations.push({
+        rule: "postgres-module-layout-drift",
+        file: entryPath,
+        message: `${entry} is outside the PAS §4.1.12 approved postgres module layout`,
       });
     }
   }

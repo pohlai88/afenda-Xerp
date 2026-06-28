@@ -16,6 +16,7 @@ export const PLATFORM_IDENTITY_KNOWLEDGE_ATOM_IDS = [
   "organization_unit",
   "workspace",
   "surface",
+  "human_reference",
 ] as const satisfies readonly KnowledgeAtomId[];
 
 export type PlatformIdentityKnowledgeAtomId =

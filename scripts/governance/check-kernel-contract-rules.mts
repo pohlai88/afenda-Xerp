@@ -97,8 +97,7 @@ function findReadonlyViolations(
   let bodyDepth = 0;
   let inEnum = false;
 
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index] ?? "";
+  for (const [index, line] of lines.entries()) {
     const trimmed = line.trim();
 
     if (/^export\s+enum\s+/.test(trimmed)) {

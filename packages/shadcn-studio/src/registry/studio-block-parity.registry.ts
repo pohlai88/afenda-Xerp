@@ -28,7 +28,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/login-page-04",
     status: "bridge-exported",
-    wrapperPath: "packages/appshell/src/auth-shell/auth-shell-entry-layout.tsx",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/auth/login-page-04.wrapper.tsx",
   },
   {
     legacyPath:
@@ -37,6 +38,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/dialog-activity.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/shell/application-shell-02.wrapper.tsx",
   },
   {
     legacyAppshellExport: "StatisticsRevenueCard",
@@ -55,7 +58,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/hero-section-01",
     legacyPath: "n/a — marketing surface (no legacy export)",
     status: "bridge-exported",
-    wrapperPath: "packages/appshell/src/shadcn-studio-bridge/index.ts",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/marketing/hero-section-01.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings01",
@@ -65,6 +69,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-01.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings02",
@@ -74,6 +80,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-02",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-02.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings03",
@@ -83,6 +91,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-03.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings04",
@@ -92,6 +102,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-04",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-04.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings05",
@@ -101,6 +113,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-05",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-05.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings06",
@@ -110,6 +124,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-06",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-06.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings07",
@@ -119,6 +135,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/shell/app-shell-account-settings-07.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardRevenueChart",
@@ -127,7 +145,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "chart-component-01",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/chart-sales-metrics.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/revenue-chart.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardStatisticsExpenseCard",
@@ -136,7 +156,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "statistics-component-02",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-card-02.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/statistics-expense-card.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardInvoiceTable",
@@ -145,7 +167,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "datatable-component-05",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-invoice.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/invoice-table.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardModuleEarnings",
@@ -154,7 +178,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "widget-component-01",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/widget-total-earning.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/module-earnings.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardRecentTransactions",
@@ -163,7 +189,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "widget-component-03",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/widget-transactions.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/recent-transactions.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardPaymentHistory",
@@ -172,7 +200,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "widget-component-14",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/widget-payment-history.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/payment-history.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardKpiStat",
@@ -192,7 +222,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "statistics-component-06",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-sales-overview-card.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/statistics-metrics.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardStatisticsIncomeCard",
@@ -201,7 +233,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "statistics-component-07",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-income-card.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/statistics-income-card.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellDashboardSparklineStat",
@@ -221,7 +255,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "statistics-component-21",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-line-trends-card.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/statistics-line-trends.wrapper.tsx",
   },
   {
     legacyAppshellExport: "StatisticsActivityCard",
@@ -273,7 +309,9 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpBlockId: "widget-component-06",
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/widget-sales-by-countries.tsx",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/regional-sales.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAuthErrorPage02",
@@ -284,7 +322,7 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/error-page-02",
     status: "bridge-exported",
     wrapperPath:
-      "packages/appshell/src/auth-shell/auth-shell-error-surface.client.tsx",
+      "packages/appshell/src/presentation/wrappers/auth/error-page-02.wrapper.tsx",
   },
   {
     legacyAppshellExport: "SystemAdminReadinessGateMetrics",
@@ -352,7 +390,27 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/chart-earning-report.tsx",
     legacyPath: "n/a — MCP chart earning report (no 1:1 legacy export)",
-    status: "mcp-seeded",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/chart-earning-report.wrapper.tsx",
+  },
+  {
+    mcpBlockId: "statistics-component-09",
+    mcpPath:
+      "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-orders-progress-card.tsx",
+    legacyPath: "n/a — MCP statistics orders progress (bridge-only export)",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/statistics/orders-progress-card.wrapper.tsx",
+  },
+  {
+    mcpBlockId: "statistics-component-06",
+    mcpPath:
+      "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-sales-overview-card.tsx",
+    legacyPath: "n/a — MCP statistics sales overview card (bridge-only export)",
+    status: "bridge-exported",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/statistics/sales-overview-card.wrapper.tsx",
   },
   {
     legacyPath:
@@ -361,6 +419,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01/content/connect-account.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-01/connect-account.wrapper.tsx",
   },
   {
     legacyPath:
@@ -369,6 +429,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01/content/danger-zone.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-01/danger-zone.wrapper.tsx",
   },
   {
     legacyPath:
@@ -377,6 +439,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01/content/email-password.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-01/email-password.wrapper.tsx",
   },
   {
     legacyPath:
@@ -385,6 +449,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01/content/personal-info.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-01/personal-info.wrapper.tsx",
   },
   {
     legacyPath:
@@ -393,6 +459,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-01/content/social-url.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-01/social-url.wrapper.tsx",
   },
   {
     legacyPath:
@@ -401,6 +469,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-02/content/all-notifications.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-02/all-notifications.wrapper.tsx",
   },
   {
     legacyPath:
@@ -409,6 +479,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-02/content/browser-notification.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-02/browser-notification.wrapper.tsx",
   },
   {
     legacyPath:
@@ -417,6 +489,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-02/content/do-not-disturb.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-02/do-not-disturb.wrapper.tsx",
   },
   {
     legacyPath:
@@ -425,6 +499,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-02/content/inbox-preference.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-02/inbox-preference.wrapper.tsx",
   },
   {
     legacyPath:
@@ -433,6 +509,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03/content/danger-zone.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-03/danger-zone.wrapper.tsx",
   },
   {
     legacyPath:
@@ -441,6 +519,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03/content/workspace-data.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-03/workspace-data.wrapper.tsx",
   },
   {
     legacyPath:
@@ -449,6 +529,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03/content/workspace-detail.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-03/workspace-detail.wrapper.tsx",
   },
   {
     legacyPath:
@@ -457,6 +539,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03/content/workspace-name.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-03/workspace-name.wrapper.tsx",
   },
   {
     legacyPath:
@@ -465,6 +549,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-03/content/workspace-organizations.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-03/workspace-organizations.wrapper.tsx",
   },
   {
     legacyPath:
@@ -473,6 +559,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-04/content/integrations-communication.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-04/integration-section.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings06Policy",
@@ -482,6 +570,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-06/content/api-key.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-06/policy.wrapper.tsx",
   },
   {
     legacyAppshellExport: "AppShellAccountSettings06User",
@@ -491,6 +581,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-06/content/all-sessions.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-06/user.wrapper.tsx",
   },
   {
     legacyPath:
@@ -499,6 +591,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07/content/add-ons.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-07/add-ons.wrapper.tsx",
   },
   {
     legacyPath:
@@ -507,6 +601,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07/content/ai-gateway.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-07/ai-gateway.wrapper.tsx",
   },
   {
     legacyPath:
@@ -515,6 +611,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07/content/all-billing.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-07/all-billing.wrapper.tsx",
   },
   {
     legacyPath:
@@ -523,6 +621,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07/content/payment-method.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-07/payment-method.wrapper.tsx",
   },
   {
     legacyPath:
@@ -531,6 +631,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-07/content/spend-management.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/account-settings-07/spend-management.wrapper.tsx",
   },
   {
     legacyPath:
@@ -539,6 +641,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/account-settings-06/account-settings-06.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/account-settings/content/panel-section.wrapper.tsx",
   },
   {
     legacyPath:
@@ -547,6 +651,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/dialog-activity.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/shell/activity-feed.wrapper.tsx",
   },
   {
     legacyPath:
@@ -555,6 +661,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/dropdown-profile.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/shell/context-switcher.wrapper.tsx",
   },
   {
     legacyPath:
@@ -563,6 +671,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/statistics-card-03.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/breakdown-utils.wrapper.ts",
   },
   {
     legacyPath:
@@ -571,6 +681,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-invoice.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/invoice-table-columns.wrapper.ts",
   },
   {
     legacyPath:
@@ -579,6 +691,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-invoice.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/dashboard/invoice-table-overflow-menu.wrapper.tsx",
   },
   {
     legacyPath:
@@ -597,6 +711,8 @@ export const SHADCN_STUDIO_BLOCK_PARITY_REGISTRY = [
     mcpPath:
       "packages/shadcn-studio/src/components/shadcn-studio/blocks/menu-trigger.tsx",
     status: "mcp-seeded",
+    wrapperPath:
+      "packages/appshell/src/presentation/wrappers/shell/module-workspace-chrome.wrapper.tsx",
   },
   {
     legacyPath:

@@ -7,13 +7,17 @@ import {
   IDENTITY_MODULE_BRAND_FILES,
   IDENTITY_MODULE_FAMILY_FILES,
   IDENTITY_MODULE_LAYOUT_POLICY,
+  IDENTITY_MODULE_POSTGRES_FILES,
   IDENTITY_MODULE_PRIMITIVE_FILES,
   IDENTITY_MODULE_ROOT_BARREL,
   IDENTITY_MODULE_SUBFOLDERS,
+  IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES,
   isIdentityModuleBrandFile,
   isIdentityModuleFamilyFile,
+  isIdentityModulePostgresFile,
   isIdentityModulePrimitiveFile,
   isIdentityModuleSubfolder,
+  isIdentityModuleTenantHumanReferenceFile,
   RETIRED_KERNEL_PLATFORM_ID_PATHS,
 } from "../governance/identity-module-layout.contract.js";
 
@@ -21,7 +25,9 @@ const kernelRoot = fileURLToPath(new URL("../../..", import.meta.url));
 const identityDir = join(kernelRoot, "src/identity");
 const brandDir = join(identityDir, "brand");
 const familiesDir = join(identityDir, "families");
+const postgresDir = join(identityDir, "postgres");
 const primitivesDir = join(identityDir, "primitives");
+const tenantHumanReferenceDir = join(identityDir, "tenant-human-reference");
 
 describe("identity module location (PAS-001 §4.1.2)", () => {
   it("exports layout policy aligned with PAS §4.1.2", () => {
@@ -45,6 +51,25 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
     expect(isIdentityModulePrimitiveFile("legacy-locale.contract.ts")).toBe(
       false
     );
+    expect(isIdentityModulePostgresFile("uuid-v7-format.contract.ts")).toBe(
+      true
+    );
+    expect(isIdentityModulePostgresFile("legacy-uuid.contract.ts")).toBe(false);
+    expect(
+      isIdentityModuleTenantHumanReferenceFile(
+        "tenant-human-reference.contract.ts"
+      )
+    ).toBe(true);
+    expect(
+      isIdentityModuleTenantHumanReferenceFile(
+        "tenant-human-reference.parser.ts"
+      )
+    ).toBe(true);
+    expect(
+      isIdentityModuleTenantHumanReferenceFile(
+        "tenant-human-reference.generation.ts"
+      )
+    ).toBe(false);
   });
 
   it("keeps only index.ts at identity root", () => {
@@ -114,6 +139,34 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
 
     for (const fileName of files) {
       expect(isIdentityModulePrimitiveFile(fileName), fileName).toBe(true);
+    }
+  });
+
+  it("keeps approved postgres module files only", () => {
+    const files = readdirSync(postgresDir).filter((entry) =>
+      statSync(join(postgresDir, entry)).isFile()
+    );
+
+    expect(files.sort()).toEqual([...IDENTITY_MODULE_POSTGRES_FILES].sort());
+
+    for (const fileName of files) {
+      expect(isIdentityModulePostgresFile(fileName), fileName).toBe(true);
+    }
+  });
+
+  it("keeps approved tenant human reference module files only", () => {
+    const files = readdirSync(tenantHumanReferenceDir).filter((entry) =>
+      statSync(join(tenantHumanReferenceDir, entry)).isFile()
+    );
+
+    expect(files.sort()).toEqual(
+      [...IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES].sort()
+    );
+
+    for (const fileName of files) {
+      expect(isIdentityModuleTenantHumanReferenceFile(fileName), fileName).toBe(
+        true
+      );
     }
   });
 

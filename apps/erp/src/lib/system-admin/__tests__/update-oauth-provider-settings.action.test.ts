@@ -33,6 +33,15 @@ vi.mock("@/lib/server-actions/record-action-audit", () => ({
   recordActionAudit: vi.fn(),
 }));
 
+vi.mock("@/lib/observability/create-request-bound-logger", () => ({
+  createRequestBoundErpLogger: vi.fn(async () => ({
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+  })),
+}));
+
 import { persistAuthAuditEvent } from "@afenda/auth";
 import { mergeTenantOAuthProviderSettings } from "@afenda/database";
 import { recordActionAudit } from "@/lib/server-actions/record-action-audit";

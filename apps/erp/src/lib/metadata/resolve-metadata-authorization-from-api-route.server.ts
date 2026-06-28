@@ -136,6 +136,20 @@ export type EvaluatedApiRouteAuthorizationDenial = Extract<
   };
 };
 
+export type PreEvaluationMetadataContextRequiredDenial = Extract<
+  ApiRouteAuthorizationResult,
+  { kind: "failure" }
+> & {
+  readonly denialCode: "missing_context";
+};
+
+/** True when authorizeApiRoute failed before RBAC because workspace context is missing. */
+export function isPreEvaluationMetadataContextRequiredDenial(
+  result: ApiRouteAuthorizationResult
+): result is PreEvaluationMetadataContextRequiredDenial {
+  return result.kind === "failure" && result.denialCode === "missing_context";
+}
+
 /** True when authorizeApiRoute completed RBAC evaluation and can drive metadata denial preview. */
 export function isEvaluatedApiRouteAuthorizationDenial(
   result: ApiRouteAuthorizationResult

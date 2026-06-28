@@ -18,7 +18,7 @@
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `implemented` (Phase 1) |
 | **Evidence level** | `presentation-runtime` |
-| **Runtime status** | B42l delivered — statistics cards delegating after MCP a11y parity; studio CSS consolidation documented; wrapper registry ≥38 entries |
+| **Runtime status** | B42o delivered — zero parity rows missing wrapperPath; account-settings shell + content strangler wrappers complete |
 | **Remaining slices** | Ongoing block strangler maintenance (~45 MCP blocks); TIP-004 className strip deferred per block — not blocking green-lane acceptance |
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
@@ -487,8 +487,11 @@ pnpm ui:guard
 | B42j | Wrapper expansion + delegating flip + MCP className policy | **Delivered** — [`slice/b42j-pas005a-wrapper-expansion-delegating-flip.md`](slice/b42j-pas005a-wrapper-expansion-delegating-flip.md) |
 | B42k | Statistics MCP a11y parity + delegating flip | **Delivered** — [`slice/b42k-pas005a-statistics-a11y-delegating-flip.md`](slice/b42k-pas005a-statistics-a11y-delegating-flip.md) |
 | B42l | afenda-appshell-studio.css consolidation | **Delivered** — [`slice/b42l-pas005a-studio-css-consolidation.md`](slice/b42l-pas005a-studio-css-consolidation.md) |
+| B42m | Marketing/auth/chart/statistics strangler batch | **Delivered** — [`slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md`](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) |
+| B42n | Account-settings content strangler batch | **Delivered** — [`slice/b42n-pas005a-account-settings-content-strangler-batch.md`](slice/b42n-pas005a-account-settings-content-strangler-batch.md) |
+| B42o | Residual parity wrapperPath closure | **Delivered** — [`slice/b42o-pas005a-residual-parity-wrapper-closure.md`](slice/b42o-pas005a-residual-parity-wrapper-closure.md) |
 
-**Next sequence item:** Ongoing block strangler maintenance — no blocking PAS-005A slices remain
+**Next sequence item:** Optional TIP-004 className strip and delegating-flip maintenance per block
 
 ---
 

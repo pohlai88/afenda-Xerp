@@ -312,6 +312,7 @@
             "noBarrelFile": "off"
           },
           "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
             "noUselessLoneBlockStatements": "off"
           },
           "style": {

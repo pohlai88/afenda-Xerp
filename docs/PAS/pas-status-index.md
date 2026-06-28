@@ -13,7 +13,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 42 delivered slices, runtime gates operational |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 45 delivered slices, runtime gates operational |
 | **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
@@ -38,6 +38,9 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B61 | [b61-metadata-authorization-denial-preview.md](slice/b61-metadata-authorization-denial-preview.md) | Delivered |
 | B62 | [b62-metadata-authorization-bridge-hardening.md](slice/b62-metadata-authorization-bridge-hardening.md) | Delivered |
 | B63 | [b63-metadata-authorization-stabilization.md](slice/b63-metadata-authorization-stabilization.md) | Delivered |
+| B64 | [b64-erp-metadata-action-bridge.md](slice/b64-erp-metadata-action-bridge.md) | Delivered |
+| B65 | [b65-metadata-context-required-preview.md](slice/b65-metadata-context-required-preview.md) | Delivered |
+| B66 | [b66-metadata-test-type-stabilization.md](slice/b66-metadata-test-type-stabilization.md) | Delivered |
 
 ---
 
@@ -62,11 +65,11 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B38–B42l complete (2026-06-28) |
+| **Status** | Delivered — B38–B42o complete (2026-06-28) |
 | **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
 | **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
-| **Runtime status** | B42l delivered — statistics cards delegating after MCP a11y parity; studio CSS consolidation documented |
-| **Remaining slices** | Ongoing block strangler maintenance (~45 MCP blocks); TIP-004 className strip deferred per block |
+| **Runtime status** | B42o delivered — zero parity rows missing wrapperPath; account-settings shell strangler wrappers (7); dashboard bridge-exported parity closure |
+| **Remaining slices** | Optional TIP-004 className strip and delegating-flip maintenance per block |
 | **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
@@ -91,6 +94,9 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B42j | [b42j-pas005a-wrapper-expansion-delegating-flip.md](slice/b42j-pas005a-wrapper-expansion-delegating-flip.md) | Delivered (shell chrome + dashboard wrappers + MCP className policy) |
 | B42k | [b42k-pas005a-statistics-a11y-delegating-flip.md](slice/b42k-pas005a-statistics-a11y-delegating-flip.md) | Delivered (MCP a11y + four statistics delegating flip) |
 | B42l | [b42l-pas005a-studio-css-consolidation.md](slice/b42l-pas005a-studio-css-consolidation.md) | Delivered (studio CSS consolidation + manifest invariant) |
+| B42m | [b42m-pas005a-marketing-auth-chart-strangler-batch.md](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) | Delivered (marketing/auth/chart/statistics strangler wrappers) |
+| B42n | [b42n-pas005a-account-settings-content-strangler-batch.md](slice/b42n-pas005a-account-settings-content-strangler-batch.md) | Delivered (account-settings content strangler — 23 afenda-only wrappers) |
+| B42o | [b42o-pas005a-residual-parity-wrapper-closure.md](slice/b42o-pas005a-residual-parity-wrapper-closure.md) | Delivered (24 parity wrapperPath gaps closed — shell + dashboard + utility) |
 
 ---
 

@@ -11,7 +11,10 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MULTI_TENANCY_DOC_REFERENCE } from "./delivery-evidence-surface-registry.mts";
+import {
+  MULTI_TENANCY_DOC_REFERENCE,
+  TIP_007_012_DELIVERY_DOC,
+} from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureSilenceViolations,
   collectForbiddenAccountingViolations,
@@ -44,6 +47,7 @@ const registryPath = join(
   "scripts/governance/multi-tenancy-dos-prohibitions-registry.mts"
 );
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
+const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
 const packageJsonPath = join(repoRoot, "package.json");
 
 export type MultiTenancyDosProhibitionsViolation =
@@ -347,6 +351,7 @@ export function checkMultiTenancyDosProhibitions(): MultiTenancyDosProhibitionsV
     )
   );
 
+  const deliveryContent = readText(deliveryDocPath);
   violations.push(...collectDeliveryDocViolations(deliveryContent));
 
   const packageJsonContent = readText(packageJsonPath);

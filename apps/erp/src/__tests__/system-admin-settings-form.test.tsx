@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { SystemAdminSettingsForm } from "@/components/system-admin/system-admin-settings-form";
+import { getSystemAdminSectionKnowledgeTitle } from "@/lib/knowledge/enterprise-knowledge-vocabulary.server";
 import { createModuleRouteOperatingContext } from "@/lib/modules/__tests__/module-route-test-fixtures";
 import { resolveSystemAdminSettingsFormValues } from "@/lib/system-admin/resolve-system-admin-settings-form-values";
 import { SYSTEM_ADMIN_SETTINGS_SAVE_DENIED_MESSAGE } from "@/lib/system-admin/system-admin-settings.copy.contract";
@@ -23,12 +24,20 @@ describe("SystemAdminSettingsForm", () => {
 
     render(<SystemAdminSettingsForm formValues={formValues} />);
 
-    expect(screen.getByRole("heading", { name: "Tenant" })).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Legal entity" })
+      screen.getByRole("heading", {
+        name: getSystemAdminSectionKnowledgeTitle("tenant"),
+      })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Permission scope" })
+      screen.getByRole("heading", {
+        name: getSystemAdminSectionKnowledgeTitle("legal-entity"),
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: getSystemAdminSectionKnowledgeTitle("permission-scope"),
+      })
     ).toBeInTheDocument();
     expect(
       document.getElementById("system-admin-settings-tenant.displayName")

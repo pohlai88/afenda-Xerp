@@ -12,23 +12,25 @@ import {
   ID_FAMILIES,
 } from "../registry/id-family.registry.js";
 
-/** Postgres `~` CHECK fragment for a registered enterprise ID prefix. */
+/**
+ * Postgres `~` CHECK fragment for a registered three-letter enterprise ID prefix.
+ *
+ * Use {@link getPostgresCanonicalIdCheckPattern} when the family key is known.
+ */
 export function getCanonicalIdPostgresCheckPattern(prefix: string): string {
   return buildCanonicalEnterpriseIdPatternSource(prefix);
 }
 
-function buildCanonicalIdPostgresChecks(): Record<EnterpriseIdFamily, string> {
-  const checks = {} as Record<EnterpriseIdFamily, string>;
-  for (const family of ENTERPRISE_ID_FAMILIES) {
-    checks[family] = getCanonicalIdPostgresCheckPattern(
-      ID_FAMILIES[family].prefix
-    );
-  }
-  return checks;
-}
-
 /** Frozen CHECK patterns for all 22 enterprise ID families — DB expectation only. */
-export const CANONICAL_ID_POSTGRES_CHECKS = buildCanonicalIdPostgresChecks();
+export const CANONICAL_ID_POSTGRES_CHECKS: Record<EnterpriseIdFamily, string> =
+  Object.freeze(
+    Object.fromEntries(
+      ENTERPRISE_ID_FAMILIES.map((family): [EnterpriseIdFamily, string] => [
+        family,
+        getCanonicalIdPostgresCheckPattern(ID_FAMILIES[family].prefix),
+      ])
+    ) as Record<EnterpriseIdFamily, string>
+  );
 
 export type PostgresCanonicalIdCheckPattern = {
   readonly family: EnterpriseIdFamily;
@@ -44,12 +46,21 @@ export const POSTGRES_CANONICAL_ID_CHECK_PATTERNS = ENTERPRISE_ID_FAMILIES.map(
   })
 );
 
+/**
+ * Postgres `~` CHECK fragment for a registered enterprise ID family key.
+ *
+ * Use {@link getCanonicalIdPostgresCheckPattern} when only the prefix is known.
+ */
 export function getPostgresCanonicalIdCheckPattern(
   family: EnterpriseIdFamily
 ): string {
   return CANONICAL_ID_POSTGRES_CHECKS[family];
 }
 
-/** Governance compatibility alias — prefer `getCanonicalIdPostgresCheckPattern`. */
+/**
+ * Database parity gate alias for {@link getCanonicalIdPostgresCheckPattern}.
+ *
+ * `check:enterprise-id-db-parity` imports this symbol by name — keep stable.
+ */
 export const buildCanonicalEnterpriseIdCheckPattern =
   getCanonicalIdPostgresCheckPattern;

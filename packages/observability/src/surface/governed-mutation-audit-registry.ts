@@ -81,6 +81,12 @@ export const GOVERNED_MUTATION_SERVER_ACTION_MODULES = [
       "apps/erp/src/lib/system-admin/execute-tenant-settings-section-update.server.ts",
   },
   {
+    path: "apps/erp/src/lib/system-admin/update-appearance-settings.action.ts",
+    action: "system_admin.settings.appearance.update",
+    auditRequired: true,
+    requiredSymbols: ["recordActionAudit"],
+  },
+  {
     path: "apps/erp/src/lib/system-admin/update-sso-provider-settings.action.ts",
     action: "system_admin.settings.integrations.sso.update",
     auditRequired: true,

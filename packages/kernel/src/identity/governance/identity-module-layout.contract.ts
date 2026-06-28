@@ -68,6 +68,27 @@ export const IDENTITY_MODULE_PRIMITIVE_FILES = [
 export type IdentityModulePrimitiveFile =
   (typeof IDENTITY_MODULE_PRIMITIVE_FILES)[number];
 
+/** Approved files under `identity/tenant-human-reference/` (PAS §4.1.13). */
+export const IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES = [
+  "index.ts",
+  "tenant-human-reference.assert.ts",
+  "tenant-human-reference.contract.ts",
+  "tenant-human-reference.parser.ts",
+] as const;
+
+export type IdentityModuleTenantHumanReferenceFile =
+  (typeof IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES)[number];
+
+/** Approved files under `identity/postgres/` (PAS §4.1.12 Postgres persistence layout). */
+export const IDENTITY_MODULE_POSTGRES_FILES = [
+  "index.ts",
+  "canonical-id-check.contract.ts",
+  "uuid-v7-format.contract.ts",
+] as const;
+
+export type IdentityModulePostgresFile =
+  (typeof IDENTITY_MODULE_POSTGRES_FILES)[number];
+
 /** Retired flat `contracts/platform-id*` paths — must not reappear (repo-relative). */
 export const RETIRED_KERNEL_PLATFORM_ID_PATHS = [
   "packages/kernel/src/contracts/platform-id.contract.ts",
@@ -95,6 +116,9 @@ export const IDENTITY_MODULE_LAYOUT_POLICY = {
   familyContractFiles: IDENTITY_MODULE_FAMILY_FILES,
   brandContractFiles: IDENTITY_MODULE_BRAND_FILES,
   primitiveContractFiles: IDENTITY_MODULE_PRIMITIVE_FILES,
+  tenantHumanReferenceContractFiles:
+    IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES,
+  postgresContractFiles: IDENTITY_MODULE_POSTGRES_FILES,
   retiredPlatformIdPaths: RETIRED_KERNEL_PLATFORM_ID_PATHS,
   prohibitedPatterns: IDENTITY_MODULE_LAYOUT_PROHIBITED_PATTERNS,
 } as const;
@@ -121,4 +145,18 @@ export function isIdentityModulePrimitiveFile(
   value: string
 ): value is IdentityModulePrimitiveFile {
   return (IDENTITY_MODULE_PRIMITIVE_FILES as readonly string[]).includes(value);
+}
+
+export function isIdentityModulePostgresFile(
+  value: string
+): value is IdentityModulePostgresFile {
+  return (IDENTITY_MODULE_POSTGRES_FILES as readonly string[]).includes(value);
+}
+
+export function isIdentityModuleTenantHumanReferenceFile(
+  value: string
+): value is IdentityModuleTenantHumanReferenceFile {
+  return (
+    IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES as readonly string[]
+  ).includes(value);
 }

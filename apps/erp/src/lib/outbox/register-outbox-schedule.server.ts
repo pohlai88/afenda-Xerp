@@ -4,7 +4,9 @@ import {
   isExecutionSuccess,
   PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
 } from "@afenda/execution";
+import { createCorrelationId } from "@afenda/kernel";
 import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
+import { persistenceCanonicalIdBodyGenerator } from "@/lib/identity/persistence-canonical-id-body-generator.server";
 import {
   recordScheduleRegistrationFailure,
   recordScheduleRegistrationSkipped,
@@ -33,7 +35,7 @@ export async function registerOutboxSchedule(input: {
   if (input.triggerSecretKeyConfigured) {
     const scheduleResult = await input.executionService.schedule({
       context: createServerExecutionContext({
-        correlationId: `outbox-foundation-${crypto.randomUUID()}`,
+        correlationId: createCorrelationId(persistenceCanonicalIdBodyGenerator),
         source: "system",
       }),
       schedule: createPublishOutboxEventsScheduleDefinition(),

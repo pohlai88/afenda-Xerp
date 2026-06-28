@@ -2,7 +2,11 @@ import { randomUUID } from "node:crypto";
 import { type AfendaDatabase, getDb, outboxEvents } from "@afenda/database";
 import type { ExecutionJsonObject, ExecutionPayload } from "@afenda/execution";
 import { isExecutionJsonObject, isExecutionPayload } from "@afenda/execution";
-import { isCanonicalEnterpriseId } from "@afenda/kernel";
+import {
+  isCanonicalEnterpriseId,
+  parseCorrelationId,
+  toCorrelationId,
+} from "@afenda/kernel";
 
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
@@ -49,12 +53,7 @@ function assertScopedOutboxWrite(input: EnqueueOutboxEventInput): void {
     );
   }
 
-  if (input.correlationId.trim().length === 0) {
-    throw new ApiRouteError(
-      "internal_error",
-      "Outbox enqueue requires correlationId."
-    );
-  }
+  resolveOutboxCorrelationId(input.correlationId);
 
   if (!isExecutionPayload(input.payload)) {
     throw new ApiRouteError(
@@ -67,6 +66,26 @@ function assertScopedOutboxWrite(input: EnqueueOutboxEventInput): void {
     throw new ApiRouteError(
       "validation_failed",
       "Outbox metadata must be JSON-serializable."
+    );
+  }
+}
+
+function resolveOutboxCorrelationId(value: string): string {
+  const trimmed = value.trim();
+
+  if (trimmed.length === 0) {
+    throw new ApiRouteError(
+      "internal_error",
+      "Outbox enqueue requires correlationId."
+    );
+  }
+
+  try {
+    return toCorrelationId(parseCorrelationId(trimmed));
+  } catch {
+    throw new ApiRouteError(
+      "validation_failed",
+      "Outbox correlationId must be a canonical enterprise correlation ID (cor_*)."
     );
   }
 }
@@ -102,7 +121,7 @@ export async function enqueueOutboxEvent(
       actorType: input.actorType ?? "user",
       causationId: input.causationId ?? null,
       companyId: input.companyId,
-      correlationId: input.correlationId,
+      correlationId: resolveOutboxCorrelationId(input.correlationId),
       eventId: input.eventId ?? randomUUID(),
       eventType: input.eventType,
       eventVersion: input.eventVersion ?? "1.0",

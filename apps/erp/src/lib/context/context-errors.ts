@@ -1,6 +1,7 @@
 import {
   err,
   type OperatingContextError,
+  type OperatingContextErrorCode,
   type OperatingContextResult,
 } from "@afenda/kernel";
 
@@ -33,6 +34,19 @@ export function tenantSlugMissingError(): OperatingContextError {
     code: "TENANT_NOT_FOUND",
     userMessage: "Workspace tenant could not be resolved from the request.",
   };
+}
+
+const OPERATING_CONTEXT_CONTEXT_REQUIRED_ERROR_CODES =
+  new Set<OperatingContextErrorCode>([
+    "TENANT_NOT_FOUND",
+    "MISSING_LEGAL_ENTITY_SELECTION",
+  ]);
+
+/** True when operating context resolution failed because workspace selection is incomplete. */
+export function isOperatingContextContextRequiredError(
+  error: OperatingContextError
+): boolean {
+  return OPERATING_CONTEXT_CONTEXT_REQUIRED_ERROR_CODES.has(error.code);
 }
 
 /** Fail-closed operating context denial with safe audit logging. */
