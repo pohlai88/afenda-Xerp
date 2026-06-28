@@ -15,17 +15,21 @@ Detailed TypeScript shapes for all `@afenda/kernel` authority surfaces.
 
 ## Brand utility
 
-Status: Current — `packages/kernel/src/contracts/brand.contract.ts`
+Status: Current — `packages/kernel/src/identity/brand/brand.contract.ts`
 
 ```ts
+declare const brandSymbol: unique symbol;
+
 // Branded values remain plain strings at runtime and serialize as JSON strings.
 // Brand only at trust boundaries (DB rows, auth session, validated input).
-export type Brand<T, B extends string> = T & { readonly _brand: B };
+export type Brand<TValue, TBrand extends string> = TValue & {
+  readonly [brandSymbol]: TBrand;
+};
 
 // Strip the compile-time brand — safe for logging and wire formats.
-export function unbrand<T extends string, B extends string>(
-  value: Brand<T, B>
-): T;
+export function unbrand<TValue extends string, TBrand extends string>(
+  value: Brand<TValue, TBrand>
+): TValue;
 ```
 
 ---
@@ -366,34 +370,53 @@ export type PolicyDenialReason =
 
 ## Domain Event Envelope
 
-Status: Current — `packages/kernel/src/events/` · export `@afenda/kernel/events`
+Status: Current — `packages/kernel/src/events/` · export `@afenda/kernel/events` · root barrel re-exports wire triad
+
+Wire triad (PAS-001 §4.4 / §9 rule 14):
+
+```text
+domain-event.contract.ts   # DomainEvent + WireDomainEvent + isDomainEvent
+domain-event.assert.ts     # assertWireDomainEvent / assertDomainEvent + compile-time JSON guard
+domain-event.parser.ts       # parseUnknownDomainEvent / serializeDomainEvent
+```
 
 ```ts
-type JsonPrimitive = string | number | boolean | null;
-
-type JsonValue =
-  | JsonPrimitive
-  | JsonObject
-  | JsonValue[];
-
-interface JsonObject {
-  readonly [key: string]: JsonValue;
-}
-
-// Target DomainEvent shape
 interface DomainEvent<TPayload extends JsonObject = JsonObject> {
   readonly eventId: string;
   readonly eventName: string;
   readonly schemaVersion: number;
   readonly tenantId: TenantId | null;
+  readonly tenantPk?: InternalEntityPk;   // PAS §4.1.9 dual-field — optional internal PK
   readonly correlationId: CorrelationId;
   readonly causationId: string | null;
-  readonly occurredAt: string;    // ISO 8601
+  readonly occurredAt: string;            // ISO 8601
+  readonly payload: TPayload;
+}
+
+interface WireDomainEvent<TPayload extends JsonObject = JsonObject> {
+  readonly eventId: string;
+  readonly eventName: string;
+  readonly schemaVersion: number;
+  readonly tenantId: string | null;
+  readonly tenantPk?: string;
+  readonly correlationId: string;
+  readonly causationId: string | null;
+  readonly occurredAt: string;
   readonly payload: TPayload;
 }
 ```
 
-Rules (target): Events must be JSON-serializable. Events must carry correlation context. Events must not carry functions, classes, database clients, or framework objects. `@afenda/execution` owns dispatch, outbox, retry.
+Public API:
+
+```ts
+parseUnknownDomainEvent(value: unknown): DomainEvent;
+serializeDomainEvent(value: DomainEvent): WireDomainEvent;
+assertWireDomainEvent(value: unknown): asserts value is WireDomainEvent;
+```
+
+Execution consumer (`@afenda/execution`): `toDomainEventFromOutboxRecord` / `toDomainEventFromOutboxEnvelope` in `domain-event-bridge.contract.ts` — maps outbox persistence to kernel wire ingress without redefining the envelope.
+
+Rules: Events must be JSON-serializable. Events must carry correlation context. Kernel does not own dispatch, outbox, retry, or scheduling — `@afenda/execution` owns those behaviors.
 
 ---
 

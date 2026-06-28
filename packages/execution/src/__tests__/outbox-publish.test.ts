@@ -396,13 +396,12 @@ describe("outbox publish service", () => {
       expect.objectContaining({
         claimed: 1,
         deadLetter: 0,
-        entityPk: PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
         failed: 0,
         published: 1,
         skipped: 0,
-        tenantPk: EXECUTION_TEST_TENANT_ID,
       })
     );
+    expect(writtenRows[0]?.tenantId).toBe(EXECUTION_TEST_TENANT_ID);
   });
 
   it("does not emit audit evidence when auditAdapter is omitted", async () => {

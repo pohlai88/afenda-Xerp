@@ -218,6 +218,8 @@ packages/kernel/
     │
     ├── events/                           # ✅ CANON — domain event wire shape
     │   ├── domain-event.contract.ts
+    │   ├── domain-event.assert.ts
+    │   ├── domain-event.parser.ts
     │   └── index.ts                    # @afenda/kernel/events
     │
     └── __tests__/                        # 🧪 package-level acceptance (~35 files)

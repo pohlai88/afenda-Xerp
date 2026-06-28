@@ -7,24 +7,42 @@ import {
   ACCOUNT_TYPES,
   isAccountType,
 } from "../erp-domain/accounting/index.js";
-import type { DomainEvent } from "../events/index.js";
 import {
+  type DomainEvent,
+  parseUnknownDomainEvent,
+  serializeDomainEvent,
+} from "../events/index.js";
+import {
+  KERNEL_BOUNDARY_DRIFT_POLICY,
+  KERNEL_CONTRACT_RULES_POLICY,
   KERNEL_DECISION_MATRIX_POLICY,
   KERNEL_PROHIBITED_OWNERSHIP_POLICY,
+  KERNEL_RUNTIME_RULES_POLICY,
+  listKernelBoundaryDriftEntries,
+  listKernelContractRules,
   listKernelDecisionMatrixRows,
   listKernelProhibitedOwnershipConcerns,
+  listKernelRuntimeRules,
 } from "../governance/index.js";
+import {
+  createTestEnterpriseId,
+  parseInternalEntityPk,
+} from "../identity/index.js";
 import { getPackageName, PACKAGE_NAME } from "../index.js";
 import {
   isPermissionAction,
   PERMISSION_ACTIONS,
   PERMISSION_MODEL_SCOPES,
   type PermissionAction,
+  parseUnknownPermissionModelDescriptor,
+  serializePermissionModelDescriptor,
 } from "../permission/index.js";
 import {
   isPolicyDecisionKind,
   POLICY_DECISION_KINDS,
   type PolicyDecisionKind,
+  parseUnknownPolicyDecision,
+  serializePolicyDecision,
 } from "../policy/index.js";
 import { kernelContext } from "../propagation/index.js";
 
@@ -62,6 +80,25 @@ describe("@afenda/kernel subpath exports", () => {
     });
   });
 
+  it("exposes policy and permission wire serializers from root .", () => {
+    expect(typeof serializePolicyDecision).toBe("function");
+    expect(typeof parseUnknownPolicyDecision).toBe("function");
+    expect(typeof serializePermissionModelDescriptor).toBe("function");
+    expect(typeof parseUnknownPermissionModelDescriptor).toBe("function");
+
+    const policyWire = serializePolicyDecision({ kind: "allow" });
+    expect(parseUnknownPolicyDecision(policyWire)).toEqual({ kind: "allow" });
+
+    const permissionWire = serializePermissionModelDescriptor({
+      module: "workspace",
+      action: "read",
+      scope: "legal_entity",
+    });
+    expect(parseUnknownPermissionModelDescriptor(permissionWire)).toEqual(
+      permissionWire
+    );
+  });
+
   it("exposes operating-context registry from ./context", () => {
     expect(KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES.length).toBeGreaterThan(0);
     expect(
@@ -88,6 +125,16 @@ describe("@afenda/kernel subpath exports", () => {
     expect(typeof kernelContext.fork).toBe("function");
   });
 
+  it("exposes propagation wire helpers from ./propagation", async () => {
+    const propagation = await import("../propagation/index.js");
+    expect(typeof propagation.serializeKernelContextFrame).toBe("function");
+    expect(typeof propagation.normalizeKernelContextFrameForWire).toBe(
+      "function"
+    );
+    expect(typeof propagation.assertKernelContextFrame).toBe("function");
+    expect(typeof propagation.assertWireKernelContextFrame).toBe("function");
+  });
+
   it("exposes policy vocabulary registry from ./policy", () => {
     expect(POLICY_DECISION_KINDS).toContain("allow");
     const decision: PolicyDecisionKind = "allow";
@@ -104,18 +151,27 @@ describe("@afenda/kernel subpath exports", () => {
   });
 
   it("exposes domain event envelope from ./events", () => {
+    const correlationId = createTestEnterpriseId("correlation");
+    const tenantPk = parseInternalEntityPk(
+      "018f9f8c-9f1a-7c2b-9c20-000000000001",
+      "TenantPk"
+    );
+
     const event: DomainEvent = {
       causationId: null,
-      correlationId: "corr-1" as DomainEvent["correlationId"],
+      correlationId,
       eventId: "evt-1",
       eventName: "tenant.created",
       occurredAt: "2026-01-01T00:00:00.000Z",
       payload: { tenantSlug: "acme" },
       schemaVersion: 1,
       tenantId: null,
+      tenantPk,
     };
 
-    expect(JSON.parse(JSON.stringify(event)).eventName).toBe("tenant.created");
+    expect(typeof parseUnknownDomainEvent).toBe("function");
+    expect(typeof serializeDomainEvent).toBe("function");
+    expect(parseUnknownDomainEvent(serializeDomainEvent(event))).toEqual(event);
   });
 
   it("exposes governance registries from ./governance", () => {
@@ -123,5 +179,12 @@ describe("@afenda/kernel subpath exports", () => {
     expect(listKernelDecisionMatrixRows()).toHaveLength(20);
     expect(KERNEL_PROHIBITED_OWNERSHIP_POLICY.pasSection).toBe("5");
     expect(listKernelProhibitedOwnershipConcerns()).toHaveLength(38);
+    expect(KERNEL_CONTRACT_RULES_POLICY.pasSection).toBe("9");
+    expect(listKernelContractRules()).toHaveLength(14);
+    expect(KERNEL_RUNTIME_RULES_POLICY.pasSection).toBe("10");
+    expect(listKernelRuntimeRules()).toHaveLength(7);
+    expect(KERNEL_BOUNDARY_DRIFT_POLICY.entryCount).toBe(
+      listKernelBoundaryDriftEntries().length
+    );
   });
 });

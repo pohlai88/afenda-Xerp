@@ -7,6 +7,12 @@ export function getPackageName(): typeof PACKAGE_NAME {
 }
 
 export {
+  outboxRecordToWireDomainEvent,
+  parseOutboxEventSchemaVersion,
+  toDomainEventFromOutboxEnvelope,
+  toDomainEventFromOutboxRecord,
+} from "./contracts/domain-event-bridge.contract.js";
+export {
   type CancelInput,
   EXECUTION_AUDIT_ACTIONS,
   EXECUTION_KINDS,

@@ -1,6 +1,8 @@
 import type { CanonicalIdBodyGenerator } from "@afenda/kernel";
+import { isCanonicalEnterpriseId } from "@afenda/kernel";
 import type { AuditEventPersistenceAdapter } from "@afenda/observability";
 import { withAuditEvidence } from "@afenda/observability";
+import { toDomainEventFromOutboxEnvelope } from "../contracts/domain-event-bridge.contract.js";
 import { OUTBOX_AUDIT_ACTIONS } from "../contracts/execution.contract.js";
 import {
   createExecutionFailure,
@@ -116,6 +118,23 @@ async function publishSingleEvent(
     { ...record, payload },
     { canonicalIdBodyGenerator }
   );
+
+  try {
+    toDomainEventFromOutboxEnvelope(envelope);
+  } catch (error: unknown) {
+    await persistence.markFailed({
+      attempts: record.attempts + 1,
+      availableAt: nowIso(),
+      failedAt: nowIso(),
+      id: record.id,
+      lastError:
+        error instanceof Error
+          ? error.message
+          : "Outbox envelope failed DomainEvent validation.",
+    });
+    return "failed";
+  }
+
   const dispatchResult = await dispatcher.dispatch(envelope);
 
   if (dispatchResult.ok) {
@@ -167,6 +186,11 @@ function buildOutboxBatchAuditEvidence(
       failed: batchResult.failed,
       published: batchResult.published,
       skipped: batchResult.skipped,
+      ...(input.tenantId !== undefined &&
+      input.tenantId !== null &&
+      !isCanonicalEnterpriseId(input.tenantId)
+        ? { tenantPk: input.tenantId }
+        : {}),
     },
     module: "execution",
     source: "job" as const,

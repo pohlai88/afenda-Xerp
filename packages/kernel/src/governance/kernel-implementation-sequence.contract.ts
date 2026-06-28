@@ -99,8 +99,11 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_STEPS = [
     evidencePaths: [
       "packages/kernel/src/policy/policy-decision.contract.ts",
       "packages/kernel/src/policy/policy-denial-reason.contract.ts",
+      "packages/kernel/src/policy/policy-vocabulary.contract.ts",
+      "packages/kernel/src/policy/policy-decision.assert.ts",
+      "packages/kernel/src/policy/policy-decision.parser.ts",
     ],
-    gateScripts: [],
+    gateScripts: ["check:kernel-policy-wire-serializable"],
   },
   {
     id: "json-wire-utilities",
@@ -123,7 +126,11 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_STEPS = [
     id: "domain-event-envelope",
     order: 10,
     label: "Add domain event envelope.",
-    evidencePaths: ["packages/kernel/src/events/domain-event.contract.ts"],
+    evidencePaths: [
+      "packages/kernel/src/events/domain-event.contract.ts",
+      "packages/kernel/src/events/domain-event.assert.ts",
+      "packages/kernel/src/events/domain-event.parser.ts",
+    ],
     gateScripts: ["check:kernel-events-wire-serializable"],
   },
   {
@@ -144,10 +151,21 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_STEPS = [
   },
 ] as const satisfies readonly KernelImplementationSequenceStep[];
 
+const IMPLEMENTATION_SEQUENCE_STEP_BY_ID = Object.fromEntries(
+  KERNEL_IMPLEMENTATION_SEQUENCE_STEPS.map((step) => [step.id, step])
+) as Record<
+  KernelImplementationSequenceStepId,
+  (typeof KERNEL_IMPLEMENTATION_SEQUENCE_STEPS)[number]
+>;
+
+const IMPLEMENTATION_SEQUENCE_STEP_ID_SET = new Set<string>(
+  KERNEL_IMPLEMENTATION_SEQUENCE_STEP_IDS
+);
+
 export const KERNEL_IMPLEMENTATION_SEQUENCE_DEFERRED_ADDITIONS = [
   "FiscalCalendarContext",
   "CurrencyContext",
-  "fiscal period state outside already-approved accounting-domain vocabulary",
+  "fiscal period state outside already-approved erp-domain accounting vocabulary",
   "fiscal year start month",
   "period open/close/lock runtime status",
   "functional/base/reporting currency decisions",
@@ -175,15 +193,7 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_POLICY = {
 export function getKernelImplementationSequenceStep(
   id: KernelImplementationSequenceStepId
 ): KernelImplementationSequenceStep {
-  const step = KERNEL_IMPLEMENTATION_SEQUENCE_STEPS.find(
-    (candidate) => candidate.id === id
-  );
-
-  if (!step) {
-    throw new Error(`Unknown kernel implementation sequence step: ${id}`);
-  }
-
-  return step;
+  return IMPLEMENTATION_SEQUENCE_STEP_BY_ID[id];
 }
 
 export function listKernelImplementationSequenceSteps(): readonly KernelImplementationSequenceStep[] {
@@ -193,7 +203,5 @@ export function listKernelImplementationSequenceSteps(): readonly KernelImplemen
 export function isKernelImplementationSequenceStepId(
   value: string
 ): value is KernelImplementationSequenceStepId {
-  return (
-    KERNEL_IMPLEMENTATION_SEQUENCE_STEP_IDS as readonly string[]
-  ).includes(value);
+  return IMPLEMENTATION_SEQUENCE_STEP_ID_SET.has(value);
 }

@@ -15,8 +15,11 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 const requiredFiles = [
   "packages/kernel/src/contracts/json-wire.contract.ts",
   "packages/kernel/src/events/domain-event.contract.ts",
+  "packages/kernel/src/events/domain-event.assert.ts",
+  "packages/kernel/src/events/domain-event.parser.ts",
   "packages/kernel/src/events/index.ts",
   "packages/kernel/src/__tests__/domain-event.contract.test.ts",
+  "packages/kernel/src/__tests__/domain-event.parser.test.ts",
   "packages/kernel/src/__tests__/json-wire.contract.test.ts",
 ] as const;
 
