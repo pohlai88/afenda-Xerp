@@ -1,13 +1,13 @@
 /**
- * PAS-004A B27/B32 — production consumer proof for @afenda/enterprise-knowledge.
+ * PAS-004A B27/B32 / PAS-004C B47 — production consumer proof for @afenda/enterprise-knowledge.
  *
- * Resolves accepted enterprise wording from Knowledge Atoms for ERP copy surfaces.
+ * Resolves accepted enterprise wording via consumer profile projections.
  * Registry is authoritative; this module must not redefine atom meaning locally.
  */
 import {
-  getKnowledgeAtom,
   KNOWLEDGE_ATOM_IDS,
   type KnowledgeAtomId,
+  projectKnowledgeAtom,
 } from "@afenda/enterprise-knowledge";
 
 import type { SystemAdminSettingsSectionId } from "../system-admin/system-admin-settings.copy.contract";
@@ -27,18 +27,20 @@ export function isSystemAdminKnowledgeSectionId(
 }
 
 /**
- * Returns Afenda-preferred wording from the authoritative atom registry.
- * Falls back to canonical meaning when preferred wording is absent.
+ * Returns Afenda-preferred wording from the metadata consumer profile,
+ * falling back to ERP canonical label when preferred wording is absent.
  */
 export function getEnterpriseKnowledgePreferredWording(
   atomId: KnowledgeAtomId
 ): string {
-  const atom = getKnowledgeAtom(atomId);
-  const preferred = atom.exposure.afendaPreferredWording;
-  if (preferred.length > 0) {
+  const metadata = projectKnowledgeAtom(atomId, "metadata");
+  const preferred = metadata.preferredWording;
+  if (typeof preferred === "string" && preferred.length > 0) {
     return preferred;
   }
-  return atom.meaning.canonical;
+  const erp = projectKnowledgeAtom(atomId, "erp");
+  const canonicalLabel = erp.canonicalLabel;
+  return typeof canonicalLabel === "string" ? canonicalLabel : "";
 }
 
 export function getSystemAdminSectionKnowledgeWording(
@@ -48,13 +50,17 @@ export function getSystemAdminSectionKnowledgeWording(
   return getEnterpriseKnowledgePreferredWording(atomId);
 }
 
-/** Serializable section title derived from accepted atom business meaning. */
+/** Serializable section title derived from ERP profile shortDescription. */
 export function getSystemAdminSectionKnowledgeTitle(
   sectionId: SystemAdminKnowledgeSectionId
 ): string {
   const atomId = SYSTEM_ADMIN_KNOWLEDGE_ATOM_BY_SECTION[sectionId];
-  const atom = getKnowledgeAtom(atomId);
-  return atom.meaning.business.replace(/\.$/, "");
+  const erp = projectKnowledgeAtom(atomId, "erp");
+  const shortDescription = erp.shortDescription;
+  if (typeof shortDescription !== "string") {
+    return "";
+  }
+  return shortDescription.replace(/\.$/, "");
 }
 
 export function resolveKnowledgeAtomIdFromString(

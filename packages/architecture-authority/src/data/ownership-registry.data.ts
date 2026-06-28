@@ -31,6 +31,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "design",
   },
   {
+    packageName: "@afenda/shadcn-studio",
+    ownerDomain: "Design Authority",
+    authorityLevel: "design",
+  },
+  {
     packageName: "@afenda/docs",
     ownerDomain: "Application Authority",
     authorityLevel: "application",

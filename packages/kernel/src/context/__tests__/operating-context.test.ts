@@ -10,6 +10,7 @@ import {
   normalizeOperatingContextForWire,
   parseOperatingContext,
   parseUnknownOperatingContext,
+  serializeOperatingContext,
 } from "../operating-context.parser.js";
 
 const TENANT_ID = createTestEnterpriseId(
@@ -88,6 +89,7 @@ describe("operating context wire triad (PAS-001 §4.4)", () => {
     const context = parseOperatingContext(VALID_WIRE);
 
     expect(normalizeOperatingContextForWire(context)).toEqual(VALID_WIRE);
+    expect(serializeOperatingContext(context)).toEqual(VALID_WIRE);
   });
 
   it("parses unknown JSON ingress via parseUnknownOperatingContext", () => {

@@ -68,3 +68,10 @@ export function normalizeEntityGroupContextForWire(
     status: value.status,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeEntityGroupContextForWire`. */
+export function serializeEntityGroupContext(
+  value: EntityGroupContext
+): EntityGroupWireContext {
+  return normalizeEntityGroupContextForWire(value);
+}

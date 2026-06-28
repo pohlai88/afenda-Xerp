@@ -13,8 +13,11 @@ import type {
   MetadataRuntimeActorId,
   MetadataRuntimeCompanyId,
   MetadataRuntimeCorrelationId,
+  MetadataRuntimeEntityGroupId,
   MetadataRuntimeOrganizationId,
+  MetadataRuntimeProjectId,
   MetadataRuntimeState,
+  MetadataRuntimeTeamId,
   MetadataRuntimeTenantId,
   MetadataRuntimeWorkspaceId,
   PresentationMode,
@@ -96,6 +99,11 @@ export interface MetadataDiagnosticsPresentationSnapshot {
    * Presentation mode selected for the current metadata UI surface.
    */
   readonly presentationMode: PresentationMode;
+
+  /**
+   * Optional shadcn/studio theme preset slug (PAS-005A B42).
+   */
+  readonly themePresetSlug?: string;
 }
 
 export interface MetadataDiagnosticsIdentitySnapshot {
@@ -110,9 +118,24 @@ export interface MetadataDiagnosticsIdentitySnapshot {
   readonly companyId?: MetadataRuntimeCompanyId;
 
   /**
+   * Optional entity group currently in scope.
+   */
+  readonly entityGroupId?: MetadataRuntimeEntityGroupId;
+
+  /**
    * Optional organization currently in scope.
    */
   readonly organizationId?: MetadataRuntimeOrganizationId;
+
+  /**
+   * Optional project currently in scope.
+   */
+  readonly projectId?: MetadataRuntimeProjectId;
+
+  /**
+   * Optional team currently in scope.
+   */
+  readonly teamId?: MetadataRuntimeTeamId;
   /**
    * Optional tenant currently in scope.
    */

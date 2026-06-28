@@ -105,8 +105,8 @@ describe("JSON data authority — edges.json", () => {
     expect(errors).toEqual([]);
   });
 
-  it("KNOWLEDGE_EDGES loads 10 edges from edges.json", () => {
-    expect(KNOWLEDGE_EDGES).toHaveLength(10);
+  it("KNOWLEDGE_EDGES loads 13 edges from edges.json (10 legacy + 3 semantic B42)", () => {
+    expect(KNOWLEDGE_EDGES).toHaveLength(13);
   });
 
   it("KNOWLEDGE_EDGES uses edgeId (not relationshipId)", () => {
@@ -121,6 +121,7 @@ describe("JSON data authority — edges.json", () => {
       expect(rel).toHaveProperty("relationshipId");
       expect(typeof rel.relationshipId).toBe("string");
     }
-    expect(KNOWLEDGE_RELATIONSHIPS).toHaveLength(KNOWLEDGE_EDGES.length);
+    expect(KNOWLEDGE_RELATIONSHIPS).toHaveLength(10);
+    expect(KNOWLEDGE_RELATIONSHIPS.length).toBeLessThan(KNOWLEDGE_EDGES.length);
   });
 });

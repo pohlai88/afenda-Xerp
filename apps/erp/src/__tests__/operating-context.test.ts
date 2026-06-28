@@ -1,14 +1,35 @@
+import { createTestEnterpriseId } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 import { resolveOperatingContext } from "@/lib/context/resolve-operating-context.server";
 
-const TENANT_ID = "tenant-001";
-const COMPANY_ID = "company-001";
-const ORG_ID = "org-001";
+const TENANT_PK = "tenant-001";
+const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const COMPANY_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const ORG_ID = createTestEnterpriseId(
+  "organization",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const ENTITY_GROUP_ID = createTestEnterpriseId(
+  "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
 const ACTOR_ID = "user-001";
+const MEMBERSHIP_ID = createTestEnterpriseId(
+  "membership",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const ROLE_ID = createTestEnterpriseId("role", "01ARZ3NDEKTSV4RRFFQ69G5FAV");
 
 const tenantRow = {
-  id: TENANT_ID,
+  id: TENANT_PK,
+  enterpriseId: TENANT_ENTERPRISE_ID,
   slug: "dev-local",
   name: "Dev Local Workspace",
   status: "active" as const,
@@ -16,7 +37,7 @@ const tenantRow = {
 
 const companyRow = {
   id: COMPANY_ID,
-  tenantId: TENANT_ID,
+  tenantId: TENANT_PK,
   entityGroupId: null,
   slug: "dev-company",
   legalName: "Dev Company Pty Ltd",
@@ -34,7 +55,7 @@ const companyRow = {
 
 const organizationRow = {
   id: ORG_ID,
-  tenantId: TENANT_ID,
+  tenantId: TENANT_PK,
   companyId: COMPANY_ID,
   slug: "dev-hq",
   name: "Dev HQ",
@@ -46,15 +67,15 @@ const organizationRow = {
 };
 
 const companyMembership: MembershipContract = {
-  id: "membership-001",
-  tenantId: TENANT_ID,
+  id: MEMBERSHIP_ID,
+  tenantId: TENANT_ENTERPRISE_ID,
   companyId: COMPANY_ID,
   entityGroupId: null,
   organizationId: null,
   projectId: null,
   teamId: null,
   userId: ACTOR_ID,
-  roleId: "role-001",
+  roleId: ROLE_ID,
   scopeType: "company",
   status: "active",
 };
@@ -83,13 +104,13 @@ vi.mock("@afenda/permissions", async (importOriginal) => {
     createProductionAuthorizationDataSources: vi.fn(() => ({
       permission: {
         getRole: vi.fn().mockResolvedValue({
-          id: "role-001",
+          id: ROLE_ID,
           key: "organization.admin",
           name: "Organization Admin",
           description: null,
           scope: "organization",
           status: "active",
-          tenantId: TENANT_ID,
+          tenantId: TENANT_ENTERPRISE_ID,
         }),
       },
       policy: {},
@@ -198,7 +219,7 @@ describe("resolveOperatingContext", () => {
 
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.value.tenant.tenantId).toBe(TENANT_ID);
+      expect(`${result.value.tenant.tenantId}`).toBe(TENANT_ENTERPRISE_ID);
       expect(result.value.legalEntity.companyId).toBe(COMPANY_ID);
       expect(result.value.organizationUnit?.organizationUnitId).toBe(ORG_ID);
       expect(result.value.permissionScope.grantScopeType).toBe("organization");
@@ -254,7 +275,7 @@ describe("resolveOperatingContext", () => {
     vi.mocked(findTenantBySlug).mockResolvedValueOnce(tenantRow);
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce({
       ...companyRow,
-      entityGroupId: "group-001",
+      entityGroupId: ENTITY_GROUP_ID,
     });
     vi.mocked(findEntityGroupById).mockResolvedValueOnce(null);
 

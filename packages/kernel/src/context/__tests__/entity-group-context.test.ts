@@ -7,6 +7,7 @@ import {
   normalizeEntityGroupContextForWire,
   parseEntityGroupContext,
   parseUnknownEntityGroupContext,
+  serializeEntityGroupContext,
 } from "../entity-group-context.parser.js";
 
 const ENTITY_GROUP_ID = createTestEnterpriseId(
@@ -36,6 +37,7 @@ describe("entity group context wire triad (PAS-001 §4.4)", () => {
     const context = parseEntityGroupContext(VALID_WIRE);
 
     expect(normalizeEntityGroupContextForWire(context)).toEqual(VALID_WIRE);
+    expect(serializeEntityGroupContext(context)).toEqual(VALID_WIRE);
   });
 
   it("parses unknown JSON ingress via parseUnknownEntityGroupContext", () => {

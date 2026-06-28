@@ -1,6 +1,6 @@
 {
-  "fingerprint": "ARCH-BASELINE-2026-06-27-v3",
-  "generatedAt": "2026-06-28T03:34:31.559Z",
+  "fingerprint": "ARCH-BASELINE-2026-06-28-v4",
+  "generatedAt": "2026-06-28T05:43:32.269Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -92,6 +92,10 @@
     },
     {
       "from": "@afenda/erp",
+      "to": "@afenda/shadcn-studio"
+    },
+    {
+      "from": "@afenda/erp",
       "to": "@afenda/storage"
     },
     {
@@ -113,6 +117,10 @@
     {
       "from": "@afenda/feature-flags",
       "to": "@afenda/entitlements"
+    },
+    {
+      "from": "@afenda/metadata-ui",
+      "to": "@afenda/shadcn-studio"
     },
     {
       "from": "@afenda/metadata-ui",
@@ -145,6 +153,10 @@
     {
       "from": "@afenda/storybook",
       "to": "@afenda/metadata-ui"
+    },
+    {
+      "from": "@afenda/storybook",
+      "to": "@afenda/shadcn-studio"
     },
     {
       "from": "@afenda/storybook",

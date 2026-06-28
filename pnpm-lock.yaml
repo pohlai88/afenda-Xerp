@@ -327,6 +327,9 @@ importers:
       '@afenda/permissions':
         specifier: workspace:*
         version: link:../../packages/permissions
+      '@afenda/shadcn-studio':
+        specifier: workspace:*
+        version: link:../../packages/shadcn-studio
       '@afenda/storage':
         specifier: workspace:*
         version: link:../../packages/storage
@@ -421,6 +424,9 @@ importers:
       '@afenda/metadata-ui':
         specifier: workspace:*
         version: link:../../packages/metadata-ui
+      '@afenda/shadcn-studio':
+        specifier: workspace:*
+        version: link:../../packages/shadcn-studio
       '@afenda/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -433,6 +439,9 @@ importers:
       lucide-react:
         specifier: ^0.525.0
         version: 0.525.0(react@19.2.7)
+      next-themes:
+        specifier: ^0.4.6
+        version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: 'catalog:'
         version: 19.2.7
@@ -494,6 +503,31 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
+  packages/_scaffold-kernel:
+    dependencies:
+      '@afenda/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
+  packages/_scaffold-smoke:
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       vitest:
         specifier: 'catalog:'
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
@@ -804,6 +838,9 @@ importers:
         specifier: workspace:*
         version: link:../ui-composition
     devDependencies:
+      '@afenda/shadcn-studio':
+        specifier: workspace:*
+        version: link:../shadcn-studio
       '@afenda/testing':
         specifier: workspace:*
         version: link:../testing
@@ -872,6 +909,61 @@ importers:
       '@afenda/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
+  packages/shadcn-studio:
+    dependencies:
+      '@radix-ui/react-label':
+        specifier: ^2.1.7
+        version: 2.1.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@radix-ui/react-select':
+        specifier: ^2.2.5
+        version: 2.3.1(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@radix-ui/react-slot':
+        specifier: ^1.3.0
+        version: 1.3.0(@types/react@19.2.17)(react@19.2.7)
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-react:
+        specifier: ^0.525.0
+        version: 0.525.0(react@19.2.7)
+      next-themes:
+        specifier: ^0.4.6
+        version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      tailwind-merge:
+        specifier: ^3.6.0
+        version: 3.6.0
+    devDependencies:
+      '@afenda/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@testing-library/jest-dom':
+        specifier: 'catalog:'
+        version: 6.9.1
+      '@testing-library/react':
+        specifier: 'catalog:'
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.3(@types/react@19.2.17)
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.7(react@19.2.7)
       vitest:
         specifier: 'catalog:'
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)

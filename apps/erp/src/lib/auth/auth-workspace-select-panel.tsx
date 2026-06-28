@@ -2,7 +2,14 @@
 
 import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
 import { Button } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { useRouter } from "next/navigation";
+
+export type AuthWorkspaceSelectPanelGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
+
 import { useState } from "react";
 
 import { useSwitchOperatingContext } from "@/lib/workspace/use-switch-operating-context";

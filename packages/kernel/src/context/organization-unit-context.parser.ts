@@ -84,3 +84,10 @@ export function normalizeOrganizationUnitContextForWire(
     effectiveTo: value.effectiveTo,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeOrganizationUnitContextForWire`. */
+export function serializeOrganizationUnitContext(
+  value: OrganizationUnitContext
+): OrganizationUnitWireContext {
+  return normalizeOrganizationUnitContextForWire(value);
+}

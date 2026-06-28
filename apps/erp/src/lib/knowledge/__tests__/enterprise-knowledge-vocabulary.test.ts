@@ -9,8 +9,8 @@ import {
   resolveKnowledgeAtomIdFromString,
 } from "../enterprise-knowledge-vocabulary.server";
 
-describe("enterprise-knowledge-vocabulary (PAS-004A B27/B32 consumer proof)", () => {
-  it("imports getKnowledgeAtom via production vocabulary helper", () => {
+describe("enterprise-knowledge-vocabulary (PAS-004C B47 ERP consumer projection)", () => {
+  it("imports projectKnowledgeAtom via production vocabulary helper", () => {
     const wording = getEnterpriseKnowledgePreferredWording("legal_entity");
     expect(wording).toContain("Legal Entity");
   });

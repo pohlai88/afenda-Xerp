@@ -83,6 +83,18 @@ describe("createMetadataUiRenderContext", () => {
     });
   });
 
+  it("carries optional theme preset slug in presentation (PAS-005A B42)", () => {
+    const context = createMetadataUiRenderContext({
+      runtime: sampleRuntimeContext,
+      source: "static-preview",
+      themePresetSlug: "modern-minimal",
+    });
+
+    expect(context.presentation).toEqual({
+      themePresetSlug: "modern-minimal",
+    });
+  });
+
   it("defaults strict mode and diagnostics to conservative values", () => {
     const context = createMetadataUiRenderContext({
       runtime: sampleRuntimeContext,

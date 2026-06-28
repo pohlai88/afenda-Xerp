@@ -1,149 +1,150 @@
 ---
 name: shadcn-studio
 description: >-
-  shadcn/studio MCP workflow for Afenda ERP — /cui, /rui, /iui, /ftc block
-  generation, toolbar visual editing, and design-system install paths. Use when
-  using shadcn/studio MCP, generating blocks, refining UI from studio blocks,
-  or running the shadcn/studio toolbar against Storybook or apps.
+  shadcn/studio MCP workflow — /cui, /rui, /iui, /ftc block generation, theme
+  presets, toolbar, and install paths. Use when using shadcn/studio MCP, PAS-005A
+  slices, generating blocks, or running the studio toolbar against Storybook or apps.
 ---
 
-# shadcn/studio (Afenda ERP)
+# shadcn/studio
 
-Authority: [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (constitutional delivery acceleration) · `.cursor/rules/shadcn-studio.instructions.mdc` (always-on MCP workflow discipline).
+**Authority:** [PAS-005A](../../docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
 
-## Repo wiring
+**Agent skill (boundary):** [shadcn-studio-authority](../shadcn-studio-authority/SKILL.md)
+
+## Phase status
+
+| Phase | Scope | Install cwd | Blocks home |
+| --- | --- | --- | --- |
+| **Phase 1 (delivered B38–B41)** | Standalone `@afenda/shadcn-studio` — Afenda-free | `packages/shadcn-studio` | `packages/shadcn-studio/src/blocks/` |
+| **Phase 2 (B42 — next)** | Afenda integration — css-authority, ERP, metadata-ui hook, delete appshell legacy | `packages/shadcn-studio` | Governed promotion per ADR-0017 (updated on B42) |
+
+**Do not migrate** from `packages/appshell/src/shadcn-studio/` — re-seed via MCP; delete legacy on B42 after parity.
+
+---
+
+## Repo wiring (current — PAS-005A Phase 1)
 
 | Item | Path / command |
-|------|----------------|
+| --- | --- |
 | MCP workflow rule | `.cursor/rules/shadcn-studio.instructions.mdc` |
-| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/ui`) |
+| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/shadcn-studio`) |
+| Studio MCP wrapper | `.cursor/mcp/shadcn-studio.mjs` |
 | Studio toolbar config | `shadcn-studio.config.json` |
-| **shadcn install cwd** | **`packages/ui`** — `components.json` lives here with `@ss-blocks` registry |
-| MCP staging (optional) | `packages/ui/src/components/shadcn-studio/` — README only; **do not keep governed blocks here** |
-| Governed blocks path | `packages/appshell/src/shadcn-studio/blocks/` |
-| Install artifact policy | Raw MCP output is excluded from typecheck, Biome, and governance scans — govern primitives, then move to `@afenda/appshell` |
-| Toolbar (Storybook) | `pnpm studio:toolbar` → port 3200 → Storybook 6006 |
-| Toolbar (app) | `pnpm studio:toolbar:app` → port 3200 → app 3000 |
-| Toolbar (web) | `pnpm studio:toolbar:web` → port 3200 → web 3001 |
+| **shadcn install cwd** | **`packages/shadcn-studio`** — `components.json` + `@ss-blocks` / `@ss-components` |
+| Package | `@afenda/shadcn-studio` |
+| Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
+| Primitives | `packages/shadcn-studio/src/components/ui/` |
+| Blocks (seed) | `packages/shadcn-studio/src/blocks/` |
+| Lab stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx` |
+| Legacy (delete on B42) | `packages/appshell/src/shadcn-studio/` — **do not copy** |
 
-Start the target dev server **before** the toolbar. Do not start long-running servers unless the user asks.
+Toolbar:
 
-## MCP servers (two roles)
+| Command | Target |
+| --- | --- |
+| `pnpm studio:toolbar` | Storybook 6006 |
+| `pnpm studio:toolbar:app` | ERP 3000 |
+| `pnpm studio:toolbar:docs` | Docs 3001 |
+
+Start the target dev server **before** the toolbar.
+
+---
+
+## MCP servers
 
 | Server | Role |
-|--------|------|
-| `shadcn` (configured) | Registry search, `shadcn add`, audit checklist — `-c packages/ui` |
-| `shadcn-studio` (configured) | `/cui`, `/rui`, `/iui`, `/ftc` block workflows via `.cursor/mcp/shadcn-studio.mjs` |
-| `figma` (configured) | Remote design context — authenticate in Cursor MCP settings |
-| `figma-desktop` (optional) | Local selection sync — requires Figma Desktop Dev Mode MCP |
+| --- | --- |
+| `shadcn` | Registry search, `shadcn add` — `-c packages/shadcn-studio` |
+| `shadcn-studio` | `/cui`, `/rui`, `/iui`, `/ftc` via `.cursor/mcp/shadcn-studio.mjs` |
+| `figma` / `figma-desktop` | Design context — see [figma-mcp-afenda.md](figma-mcp-afenda.md) |
 
-## Pro block installation (shadcn/studio license)
+---
 
-`@ss-blocks/*` blocks require `EMAIL` + `LICENSE_KEY` env vars at install time.
-Credentials live in `.env.secret` as `SHADCN_STUDIO_ACCOUNT_EMAIL` / `SHADCN_STUDIO_LICENSE_KEY`.
+## Pro block installation
 
-**Always install from `packages/ui` (the cwd that has `components.json`).**
+`@ss-blocks/*` and `@ss-components/*` require `EMAIL` + `LICENSE_KEY` at install time.
 
-PowerShell (Windows):
+Credentials: `.env.secret` → `SHADCN_STUDIO_ACCOUNT_EMAIL` / `SHADCN_STUDIO_LICENSE_KEY` (never commit).
+
+**Install cwd:** `packages/shadcn-studio`
+
+PowerShell:
+
 ```powershell
-$env:EMAIL="<SHADCN_STUDIO_ACCOUNT_EMAIL>"; $env:LICENSE_KEY="<SHADCN_STUDIO_LICENSE_KEY>"; npx shadcn@latest add @ss-blocks/<block-name> -y
+cd packages/shadcn-studio
+$env:EMAIL="<from .env.secret>"; $env:LICENSE_KEY="<from .env.secret>"; npx shadcn@latest add @ss-components/button -y
 ```
 
-Bash (Linux/macOS):
+Bash:
+
 ```bash
-EMAIL=<SHADCN_STUDIO_ACCOUNT_EMAIL> LICENSE_KEY=<SHADCN_STUDIO_LICENSE_KEY> npx shadcn@latest add @ss-blocks/<block-name> -y
+cd packages/shadcn-studio
+EMAIL=<from .env.secret> LICENSE_KEY=<from .env.secret> npx shadcn@latest add @ss-blocks/<block-name> -y
 ```
 
-Read the credential values from `.env.secret` before running. Do **not** hard-code them in any tracked file.
+### Install targets (`packages/shadcn-studio/components.json`)
 
-### Install target paths (set by `packages/ui/components.json` aliases)
+| Artifact | Path |
+| --- | --- |
+| Primitives (`@ss-components`) | `src/components/ui/` |
+| Blocks (`@ss-blocks`) | `src/blocks/` |
+| Theme (`install-theme`) | `src/styles/shadcn-studio.css` |
 
-| Block file type | Lands in |
-|-----------------|----------|
-| Block components (raw MCP) | `packages/ui/src/components/shadcn-studio/blocks/` — **move to** `packages/appshell/src/shadcn-studio/blocks/` after governing |
-| Shared UI primitives | `packages/ui/src/components/` |
-| Hooks | `packages/ui/src/hooks/` |
-| Assets (SVG etc.) | `packages/ui/src/assets/svg/` |
-| App page route | `packages/ui/app/<block-name>/page.tsx` — move to target app after install |
+**Collection rule:** collect all selected items before any install command (MCP `/cui`, `/rui`).
 
-When `shadcn/studio` MCP is active, follow its step-by-step workflow exactly.
+---
 
-## Workflow discipline (from upstream rule)
+## Workflow discipline
 
-### All workflows
-
-- Follow MCP tool sequence in order; no skipping or reordering.
-- Complete collection/analysis before install/write phases.
-- Continue through the full workflow without unnecessary confirmation when the next step is defined.
-- Keep commentary brief between steps.
-- Stop only when: MCP needs input, a repo hook blocks action, or the action violates user instructions.
-
-### Commands
+Follow `.cursor/rules/shadcn-studio.instructions.mdc` step-by-step — no skipping collection before install.
 
 | Command | Purpose |
-|---------|---------|
-| `/cui` | Customize from existing shadcn/studio block — **collect all blocks first, install last**, then customize content |
-| `/rui` | Refine or edit an existing block |
-| `/iui` | Generate inspired UI (Pro) |
-| `/ftc` | Figma design → code (requires Figma MCP) |
+| --- | --- |
+| `/cui` | Customize block — collect all, install once |
+| `/rui` | Refine components / theme |
+| `/iui` | Inspired UI (Pro) |
+| `/ftc` | Figma → code |
 
-Full Figma MCP setup for this repo: [figma-mcp-afenda.md](figma-mcp-afenda.md)
+---
 
-| MCP server | URL | Role |
-|------------|-----|------|
-| `figma` | `https://mcp.figma.com/mcp` | Remote — link-based design context (OAuth in Cursor MCP settings) |
-| `figma-desktop` | `http://127.0.0.1:3845/mcp` | Local — selection-based (Figma Desktop → Enable Dev Mode MCP Server) |
-
-Auth design file: `https://www.figma.com/design/2ZNqNOxyNb5TwCTBIaMVPD/loginauth`
-
-### Recovery
-
-If the workflow drifted: stop → identify last completed step → resume from the next required step → finish without unrelated detours.
-
-## Repo compatibility
-
-- `AGENTS.md` and `.cursor/rules/*.mdc` still apply.
-- Layer order: `apps/erp` → Storybook → `packages/ui` (`agent-discipline.mdc`).
-- Do not edit `packages/ui/src/components/` primitives for app-only polish — hook may block.
-- Add free shadcn components: `npx shadcn@latest add [component] -c packages/ui`
-- Add Pro ss-blocks: see **Pro block installation** section above.
-- Use `pnpm` for repo commands.
-
-## Verification after generated UI lands
-
-Locked pipeline (mandatory for every new production block):
-
-```txt
-MCP install (packages/ui cwd)
-  → normalize block (semantic .app-shell-* classes, governed @afenda/ui props)
-  → promote patterns to afenda-appshell-studio.css via STUDIO-PATTERN-MAP
-  → move block to packages/appshell/src/shadcn-studio/blocks/
-  → apps import @afenda/appshell/afenda-appshell.css ONLY (never studio CSS directly)
-  → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof (Gate G NS1–NS5)
-```
-
-Post-install checklist:
-
-- [ ] Every `@afenda/ui` primitive: zero `className`; governed props only
-- [ ] Block TSX: semantic `.app-shell-*` / `.app-shell-studio-*` only (no raw Tailwind)
-- [ ] Icons: `lucide-react` only
-- [ ] STUDIO-PATTERN-MAP row added for new reusable CSS
-- [ ] `pnpm ui:guard` passes (Gates A–G)
-- [ ] `pnpm ui:guard:proof` prints Gate G attestation (all NS probes zero)
+## Verification (Phase 1 lab)
 
 ```bash
-pnpm --filter @afenda/erp typecheck          # if apps/erp changed
-pnpm --filter @afenda/design-system build    # if tokens changed
-pnpm --filter @afenda/storybook typecheck    # if stories changed
-pnpm ui:guard
-pnpm ui:guard:proof
-pnpm check
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm --filter @afenda/shadcn-studio test:run
+pnpm --filter @afenda/storybook typecheck
+pnpm quality:boundaries
 ```
 
-## Refresh upstream rule
+Storybook: `shadcn-studio-theme-lab`, `shadcn-studio-primitives`, `shadcn-studio-block` stories.
+
+---
+
+## Verification (Phase 2 — B42, not yet active)
+
+After B42 slice closes:
+
+```txt
+MCP install (packages/shadcn-studio)
+  → normalize (STUDIO-PATTERN-MAP, governed @afenda/ui)
+  → css-authority / ERP globals chain
+  → delete packages/appshell/src/shadcn-studio/
+  → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
+```
+
+Handoff: [`docs/PAS/slice/b42-pas005a-afenda-integration.md`](../../docs/PAS/slice/b42-pas005a-afenda-integration.md)
+
+---
+
+## B40 MCP follow-up
+
+B40 used manual shadcn seed (MCP unavailable in agent env). Re-run `/rui` + `/cui` with live credentials to replace placeholders — see slice addendum in `b40-pas005a-mcp-seed.md`.
+
+---
+
+## Refresh upstream MCP rule
 
 ```bash
 curl --create-dirs -o .cursor/rules/shadcn-studio.instructions.mdc https://cdn.shadcnstudio.com/ss-assets/mcp/instructions/shadcn-studio-cursor-instructions.mdc
 ```
-
-Validate: local file size 3568 bytes and SHA-256 matches CDN download.

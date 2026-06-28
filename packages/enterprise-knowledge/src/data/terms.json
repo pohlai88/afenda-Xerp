@@ -1,0 +1,170 @@
+[
+  {
+    "termId": "legal_entity_preferred",
+    "conceptId": "legal_entity",
+    "label": "Company (tenant UI)",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "organization_unit_preferred",
+    "conceptId": "organization_unit",
+    "label": "Organization unit",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "workspace_preferred",
+    "conceptId": "workspace",
+    "label": "Workspace",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "surface_preferred",
+    "conceptId": "surface",
+    "label": "Screen",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "payload_preferred",
+    "conceptId": "payload",
+    "label": "Request data",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "invariant_preferred",
+    "conceptId": "invariant",
+    "label": "Non-negotiable rule",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "contract_preferred",
+    "conceptId": "contract",
+    "label": "Specification",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "metadata_preferred",
+    "conceptId": "metadata",
+    "label": "Descriptive information (not enterprise knowledge)",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "double_entry_preferred",
+    "conceptId": "double_entry",
+    "label": "Double-entry bookkeeping",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "accounting_equation_preferred",
+    "conceptId": "accounting_equation",
+    "label": "Accounting equation (A = L + E)",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "organization_split_preferred",
+    "conceptId": "organization_split",
+    "label": "Company vs organization unit split",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "ifrs_10_preferred",
+    "conceptId": "ifrs_10",
+    "label": "IFRS 10 (control",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "tenant_preferred",
+    "conceptId": "tenant",
+    "label": "Tenant (SaaS customer boundary)",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "entity_group_preferred",
+    "conceptId": "entity_group",
+    "label": "Entity group",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "ownership_interest_preferred",
+    "conceptId": "ownership_interest",
+    "label": "Ownership interest",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "consolidation_scope_preferred",
+    "conceptId": "consolidation_scope",
+    "label": "Consolidation scope",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "operating_context_preferred",
+    "conceptId": "operating_context",
+    "label": "Operating context",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "permission_scope_preferred",
+    "conceptId": "permission_scope",
+    "label": "Permission scope",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "project_preferred",
+    "conceptId": "project",
+    "label": "Project.",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "team_preferred",
+    "conceptId": "team",
+    "label": "Team.",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "localization_context_preferred",
+    "conceptId": "localization_context",
+    "label": "Localization",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "workflow_context_preferred",
+    "conceptId": "workflow_context",
+    "label": "Workflow context.",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "business_reference_preferred",
+    "conceptId": "business_reference",
+    "label": "Business reference number (customer no., employee no., …).",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "human_reference_preferred",
+    "conceptId": "human_reference",
+    "label": "Human reference",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  }
+]

@@ -8,6 +8,8 @@
 
 import type { MetadataRuntimeContext } from "@afenda/ui-composition";
 
+import type { MetadataUiThemePresentation } from "./theme-presentation.contract.js";
+
 export const METADATA_UI_RENDER_SOURCES = [
   "client",
   "server",
@@ -104,6 +106,11 @@ export interface MetadataUiRenderContext {
    * Render policy.
    */
   readonly policy: MetadataUiRenderPolicy;
+
+  /**
+   * Optional theme preset vocabulary (PAS-005A B42).
+   */
+  readonly presentation?: MetadataUiThemePresentation;
   /**
    * Metadata authority runtime context.
    *
@@ -158,6 +165,11 @@ export interface CreateMetadataUiRenderContextInput {
    * Defaults to false.
    */
   readonly strict?: boolean;
+
+  /**
+   * Optional shadcn/studio theme preset slug for diagnostics and ERP wiring.
+   */
+  readonly themePresetSlug?: MetadataUiThemePresentation["themePresetSlug"];
 }
 
 /** @deprecated Use CreateMetadataUiRenderContextInput */

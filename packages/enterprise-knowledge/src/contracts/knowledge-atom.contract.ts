@@ -10,6 +10,7 @@
  * B29: `typedEvidence` + `structuredReasoning` replace legacy string evidence/reasoning.
  */
 import type { KnowledgeEvidence } from "./knowledge-evidence.contract.js";
+import type { KnowledgeRealizationMapping } from "./knowledge-realization.contract.js";
 import type { KnowledgeReasoning } from "./knowledge-reasoning.contract.js";
 
 export const KNOWLEDGE_ATOM_KINDS = [
@@ -195,6 +196,15 @@ export interface KnowledgeApplicability {
   readonly notApplicable: readonly KnowledgeDomain[];
 }
 
+/** PAS-004C §4.6 — B41: accepted vs applicable distinction for multi-framework coexistence. */
+export interface ContextualValidity {
+  /** Always true when present — records that meaning is accepted, not universally applicable. */
+  readonly accepted: true;
+  readonly applicableIn: readonly string[];
+  readonly conflictingWith?: readonly string[];
+  readonly notApplicableIn: readonly string[];
+}
+
 export interface KnowledgeLineage {
   readonly currentAuthority: string;
   readonly evolution: readonly string[];
@@ -239,12 +249,17 @@ export interface KnowledgeAtom {
   readonly atomId: string;
   readonly authorityType: AuthorityType;
   readonly binding: BindingLevel;
+  /** PAS-004C §4.1 — stable concept linkage; required on all registry atoms after B38. */
+  readonly conceptId?: string;
   readonly confidence: Confidence;
+  /** PAS-004C §4.6 — optional; required when confidence.basis spans conflicting frameworks (IFRS + GAAP). */
+  readonly contextualValidity?: ContextualValidity;
   // PAS-004A §4.8 — effective time (optional; required on atoms where lifecycle governs temporal meaning)
   readonly effectiveFrom?: string; // ISO 8601
   readonly effectiveUntil?: string; // ISO 8601 — omit if still current
   readonly exposure: KnowledgeExposure;
   readonly fqn: string;
+  /** @deprecated B46 — prefer realizationMapping; preserved for backward compat until B46. */
   readonly implementationMapping?: KnowledgeImplementationMapping;
   readonly integrity: KnowledgeIntegrityProfile;
   readonly kind: KnowledgeAtomKind;
@@ -255,6 +270,8 @@ export interface KnowledgeAtom {
   readonly meaning: KnowledgeMeaning;
   readonly misconceptions: readonly KnowledgeMisconception[];
   readonly ownedByPas: "PAS-004";
+  /** PAS-004C §4.4 — broadened realization references (kernel, schema, SOP, UI, …). */
+  readonly realizationMapping?: readonly KnowledgeRealizationMapping[];
   readonly structuredReasoning: KnowledgeReasoning;
   readonly supersededBy?: string; // atomId of the replacement
   readonly typedEvidence: readonly KnowledgeEvidence[];

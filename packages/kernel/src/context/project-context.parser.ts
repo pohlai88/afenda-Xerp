@@ -70,3 +70,10 @@ export function normalizeProjectContextForWire(
     status: value.status,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeProjectContextForWire`. */
+export function serializeProjectContext(
+  value: ProjectContext
+): ProjectWireContext {
+  return normalizeProjectContextForWire(value);
+}

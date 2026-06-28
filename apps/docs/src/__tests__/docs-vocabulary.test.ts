@@ -7,7 +7,7 @@ import {
   resolveDocsKnowledgeAtomTitle,
 } from "../lib/knowledge/docs-vocabulary";
 
-describe("docs-vocabulary (PAS-004B B35 docs consumer proof)", () => {
+describe("docs-vocabulary (PAS-004C B48 docs consumer projection)", () => {
   it("resolves at least three platform identity atom definitions", () => {
     expect(DOCS_PLATFORM_IDENTITY_ATOM_IDS.length).toBeGreaterThanOrEqual(3);
 

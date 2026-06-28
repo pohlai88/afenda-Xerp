@@ -65,5 +65,30 @@
     "type": "values",
     "fromAtomId": "double_entry",
     "toAtomId": "accounting_equation"
+  },
+  {
+    "edgeId": "legal_entity_preferred_equivalent_legal_entity",
+    "type": "equivalent",
+    "fromTermId": "legal_entity_preferred",
+    "toConceptId": "legal_entity",
+    "fromAtomId": "legal_entity",
+    "toAtomId": "legal_entity",
+    "note": "Preferred UI term is equivalent to the legal_entity concept."
+  },
+  {
+    "edgeId": "workspace_preferred_equivalent_workspace",
+    "type": "equivalent",
+    "fromTermId": "workspace_preferred",
+    "toConceptId": "workspace",
+    "fromAtomId": "workspace",
+    "toAtomId": "workspace",
+    "note": "Preferred UI term is equivalent to the workspace concept."
+  },
+  {
+    "edgeId": "double_entry_implements_accounting_equation",
+    "type": "implements",
+    "fromAtomId": "double_entry",
+    "toAtomId": "accounting_equation",
+    "note": "Double-entry bookkeeping implements the accounting equation invariant."
   }
 ]

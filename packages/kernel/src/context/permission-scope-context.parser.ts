@@ -121,3 +121,10 @@ export function normalizePermissionScopeContextForWire(
     elevations: value.elevations,
   };
 }
+
+/** Wire egress alias — same contract as `normalizePermissionScopeContextForWire`. */
+export function serializePermissionScopeContext(
+  value: PermissionScopeContext
+): PermissionScopeWireContext {
+  return normalizePermissionScopeContextForWire(value);
+}

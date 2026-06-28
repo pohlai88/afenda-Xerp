@@ -11,7 +11,6 @@ import type {
   LegalEntityContext,
   LegalEntityWireContext,
 } from "./legal-entity-context.contract.js";
-import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 import type {
   OrganizationUnitContext,
   OrganizationUnitWireContext,
@@ -30,7 +29,10 @@ import type {
 } from "./project-context.contract.js";
 import type { SurfaceContext } from "./surface-context.contract.js";
 import type { TeamContext, TeamWireContext } from "./team-context.contract.js";
-import type { TenantContext } from "./tenant-context.contract.js";
+import type {
+  TenantContext,
+  TenantWireContext,
+} from "./tenant-context.contract.js";
 import type { WorkflowContext } from "./workflow-context.contract.js";
 import type { WorkspaceContext } from "./workspace-context.contract.js";
 
@@ -56,13 +58,7 @@ export interface OperatingContext {
   readonly workspace: WorkspaceContext;
 }
 
-/** Wire tenant slice — plain strings until dedicated tenant triad lands. */
-export interface TenantWireContext {
-  readonly displayName: string;
-  readonly slug: string;
-  readonly status: PlatformLifecycleStatus;
-  readonly tenantId: string;
-}
+export type { TenantWireContext } from "./tenant-context.contract.js";
 
 /** Wire workspace slice — derived scope, validated at composed ingress. */
 export interface WorkspaceWireContext {

@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
 | **Invariant** | ARCH-002 — every package belongs to exactly one layer |
 
 Validation at baseline is against the **proposed model** pending ADR-0002 acceptance.
@@ -54,7 +54,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ---
 
-## Package Layer Assignments (active — 25)
+## Package Layer Assignments (active — 26)
 
 | Package | Layer | Rank |
 |---------|-------|------|
@@ -70,6 +70,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 | `@afenda/typescript-config` | Platform (tooling) | 1 — exempt from layer-dep enforcement |
 | `@afenda/design-system` | Design | 2 |
 | `@afenda/css-authority` | Design | 2 |
+| `@afenda/shadcn-studio` | Design | 2 |
 | `@afenda/ui` | Design | 2 |
 | `@afenda/execution` | Foundation | 2 |
 | `@afenda/storage` | Foundation | 2 |

@@ -1489,6 +1489,7 @@ Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-proh
 | [b16-10-runtime-rules.md](slice/b16-10-runtime-rules.md) | B16 | §10 | Delivered | Implementation | Propagation runtime |
 | [b17-11-implementation-sequence.md](slice/b17-11-implementation-sequence.md) | B17 | §11 | Delivered | Implementation | B16-6.2 |
 | [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | B18 | §6.3 | Delivered | Evidence-sync | B16-6.2 |
+| [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | B49 | §4.4 | Delivered | Evidence-sync | Tenant wire triad runtime + ADR-0022 ERP split-ID |
 
 **Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
 

@@ -1,13 +1,29 @@
+import { createTestEnterpriseId } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 import { resolveLegalEntityContext } from "@/lib/context/resolve-legal-entity-context.server";
 
-const TENANT_ID = "tenant-001";
-const COMPANY_ID = "company-001";
+const TENANT_PK = "tenant-001";
+const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const COMPANY_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const ENTITY_GROUP_A_ID = createTestEnterpriseId(
+  "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const ENTITY_GROUP_B_ID = createTestEnterpriseId(
+  "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FBV"
+);
 const ACTOR_ID = "user-001";
 
 const tenant = {
-  tenantId: TENANT_ID,
+  tenantId: TENANT_ENTERPRISE_ID,
   slug: "dev-local",
   displayName: "Dev Local Workspace",
   status: "active" as const,
@@ -15,7 +31,7 @@ const tenant = {
 
 const companyRow = {
   id: COMPANY_ID,
-  tenantId: TENANT_ID,
+  tenantId: TENANT_PK,
   entityGroupId: null,
   slug: "dev-company",
   legalName: "Dev Company Pty Ltd",
@@ -33,7 +49,7 @@ const companyRow = {
 
 const companyMembership: MembershipContract = {
   id: "membership-001",
-  tenantId: TENANT_ID,
+  tenantId: TENANT_PK,
   companyId: COMPANY_ID,
   entityGroupId: null,
   organizationId: null,
@@ -44,6 +60,11 @@ const companyMembership: MembershipContract = {
   scopeType: "company",
   status: "active",
 };
+
+const baseInput = {
+  tenant,
+  tenantPk: TENANT_PK,
+} as const;
 
 vi.mock("@afenda/database", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@afenda/database")>();
@@ -68,7 +89,7 @@ describe("resolveLegalEntityContext", () => {
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce(companyRow);
 
     const result = await resolveLegalEntityContext({
-      tenant,
+      ...baseInput,
       memberships: [companyMembership],
       selection: { companySlug: "dev-company", companyId: null },
     });
@@ -76,15 +97,21 @@ describe("resolveLegalEntityContext", () => {
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.value.legalEntity.companyId).toBe(COMPANY_ID);
+      expect(`${result.value.legalEntity.tenantId}`).toBe(TENANT_ENTERPRISE_ID);
       expect(result.value.entityGroup).toBeNull();
     }
+    expect(findCompanyByTenantAndSlug).toHaveBeenCalledWith(
+      TENANT_PK,
+      "dev-company",
+      undefined
+    );
   });
 
   it("defaults to membership company when no slug hint", async () => {
     vi.mocked(findCompanyById).mockResolvedValueOnce(companyRow);
 
     const result = await resolveLegalEntityContext({
-      tenant,
+      ...baseInput,
       memberships: [companyMembership],
       selection: { companySlug: null, companyId: null },
     });
@@ -100,7 +127,7 @@ describe("resolveLegalEntityContext", () => {
     });
 
     const result = await resolveLegalEntityContext({
-      tenant,
+      ...baseInput,
       memberships: [companyMembership],
       selection: { companySlug: "dev-company", companyId: null },
     });
@@ -114,12 +141,12 @@ describe("resolveLegalEntityContext", () => {
   it("rejects missing entity group for grouped legal entities", async () => {
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce({
       ...companyRow,
-      entityGroupId: "group-001",
+      entityGroupId: ENTITY_GROUP_A_ID,
     });
     vi.mocked(findEntityGroupById).mockResolvedValueOnce(null);
 
     const result = await resolveLegalEntityContext({
-      tenant,
+      ...baseInput,
       memberships: [companyMembership],
       selection: { companySlug: "dev-company", companyId: null },
     });
@@ -135,14 +162,14 @@ describe("resolveLegalEntityContext", () => {
       ...companyMembership,
       id: "membership-group-001",
       companyId: null,
-      entityGroupId: "group-001",
+      entityGroupId: ENTITY_GROUP_A_ID,
       scopeType: "entity_group",
     };
     const mockDb = {} as import("@afenda/database").AfendaDatabase;
 
     vi.mocked(findEntityGroupById).mockResolvedValueOnce({
-      id: "group-001",
-      tenantId: TENANT_ID,
+      id: ENTITY_GROUP_A_ID,
+      tenantId: TENANT_PK,
       slug: "dev-group",
       displayName: "Dev Group",
       parentLegalEntityId: COMPANY_ID,
@@ -154,30 +181,33 @@ describe("resolveLegalEntityContext", () => {
 
     const result = await resolveLegalEntityContext({
       db: mockDb,
-      tenant,
+      ...baseInput,
       memberships: [entityGroupMembership],
       selection: { companySlug: null, companyId: null },
     });
 
     expect(result.ok).toBe(true);
-    expect(findEntityGroupById).toHaveBeenCalledWith("group-001", mockDb);
+    expect(findEntityGroupById).toHaveBeenCalledWith(ENTITY_GROUP_A_ID, mockDb);
     expect(findCompanyById).toHaveBeenCalledWith(COMPANY_ID, mockDb);
   });
 
   it("defaults to first active company in group when parent legal entity is absent", async () => {
-    const subsidiaryId = "company-002";
+    const subsidiaryId = createTestEnterpriseId(
+      "company",
+      "01ARZ3NDEKTSV4RRFFQ69G5FBV"
+    );
     const entityGroupMembership: MembershipContract = {
       ...companyMembership,
       id: "membership-group-002",
       companyId: null,
-      entityGroupId: "group-002",
+      entityGroupId: ENTITY_GROUP_B_ID,
       scopeType: "entity_group",
     };
     const mockDb = {} as import("@afenda/database").AfendaDatabase;
 
     vi.mocked(findEntityGroupById).mockResolvedValueOnce({
-      id: "group-002",
-      tenantId: TENANT_ID,
+      id: ENTITY_GROUP_B_ID,
+      tenantId: TENANT_PK,
       slug: "dev-group-2",
       displayName: "Dev Group 2",
       parentLegalEntityId: null,
@@ -199,15 +229,15 @@ describe("resolveLegalEntityContext", () => {
 
     const result = await resolveLegalEntityContext({
       db: mockDb,
-      tenant,
+      ...baseInput,
       memberships: [entityGroupMembership],
       selection: { companySlug: null, companyId: null },
     });
 
     expect(result.ok).toBe(true);
     expect(findActiveCompaniesByEntityGroupId).toHaveBeenCalledWith(
-      "group-002",
-      TENANT_ID,
+      ENTITY_GROUP_B_ID,
+      TENANT_PK,
       mockDb
     );
     if (result.ok) {

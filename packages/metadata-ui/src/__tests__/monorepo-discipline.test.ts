@@ -133,9 +133,9 @@ describe("metadata-ui monorepo discipline", () => {
     expect(declaredRuntimeDependencies.has("@afenda/testing")).toBe(false);
   });
 
-  it("consumes metadata and UI governance as runtime workspace dependencies", () => {
+  it("consumes metadata, UI governance, and theme vocabulary as runtime workspace dependencies", () => {
     expect([...declaredRuntimeDependencies].sort()).toEqual(
-      ["@afenda/ui", "@afenda/ui-composition"].sort()
+      ["@afenda/shadcn-studio", "@afenda/ui", "@afenda/ui-composition"].sort()
     );
   });
 });

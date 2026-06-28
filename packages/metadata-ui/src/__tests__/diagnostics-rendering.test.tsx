@@ -148,7 +148,10 @@ describe("createMetadataDiagnosticsSnapshot", () => {
       actorId: "actor_fixture_preview",
       tenantId: "tenant_fixture_sample",
       companyId: "company_fixture_sample",
+      entityGroupId: "entity_group_fixture_sample",
       organizationId: "org_fixture_sample",
+      projectId: "project_fixture_sample",
+      teamId: "team_fixture_sample",
       workspaceId: "workspace_fixture_sample",
     });
   });
@@ -169,7 +172,10 @@ describe("createMetadataDiagnosticsSnapshot", () => {
       actorId: "actor_001",
       tenantId: "tenant_001",
       companyId: "company_fixture_sample",
+      entityGroupId: "entity_group_fixture_sample",
       organizationId: "org_fixture_sample",
+      projectId: "project_fixture_sample",
+      teamId: "team_fixture_sample",
       workspaceId: "workspace_fixture_sample",
     });
   });
@@ -188,7 +194,10 @@ describe("createMetadataDiagnosticsSnapshot", () => {
       actorId: "preview_actor",
       tenantId: "tenant_fixture_sample",
       companyId: "company_fixture_sample",
+      entityGroupId: "entity_group_fixture_sample",
       organizationId: "org_fixture_sample",
+      projectId: "project_fixture_sample",
+      teamId: "team_fixture_sample",
       workspaceId: "workspace_fixture_sample",
     });
   });

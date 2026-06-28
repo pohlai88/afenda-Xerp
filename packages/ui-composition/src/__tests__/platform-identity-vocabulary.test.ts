@@ -7,7 +7,7 @@ import {
   resolvePlatformIdentityKnowledgeLabel,
 } from "../knowledge/platform-identity-vocabulary.js";
 
-describe("platform-identity-vocabulary (PAS-004B B34 metadata consumer proof)", () => {
+describe("platform-identity-vocabulary (PAS-004C B47 metadata consumer projection)", () => {
   it("resolves at least three platform identity labels from atoms", () => {
     expect(PLATFORM_IDENTITY_KNOWLEDGE_ATOM_IDS.length).toBeGreaterThanOrEqual(
       3

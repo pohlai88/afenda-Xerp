@@ -1,0 +1,20 @@
+{
+  "[markdown]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never",
+      "source.organizeImports.biome": "never"
+    }
+  },
+  "[mdx]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never",
+      "source.organizeImports.biome": "never"
+    }
+  }
+}

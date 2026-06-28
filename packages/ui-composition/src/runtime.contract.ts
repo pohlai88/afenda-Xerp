@@ -10,6 +10,9 @@ export type MetadataRuntimeActorId = string;
 export type MetadataRuntimeTenantId = string;
 export type MetadataRuntimeCompanyId = string;
 export type MetadataRuntimeOrganizationId = string;
+export type MetadataRuntimeEntityGroupId = string;
+export type MetadataRuntimeTeamId = string;
+export type MetadataRuntimeProjectId = string;
 export type MetadataRuntimeWorkspaceId = string;
 export type MetadataRuntimeCorrelationId = string;
 export type MetadataRuntimePermissionKey = string;
@@ -67,6 +70,7 @@ export interface MetadataRuntimeContext {
   /** Metadata presentation intent. */
   readonly density: MetadataDensityMode;
   readonly diagnosticsEnabled: boolean;
+  readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
 
@@ -78,6 +82,7 @@ export interface MetadataRuntimeContext {
    */
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
   readonly presentationMode: PresentationMode;
+  readonly projectId?: MetadataRuntimeProjectId;
 
   /**
    * Metadata readonly intent.
@@ -94,6 +99,7 @@ export interface MetadataRuntimeContext {
    *
    * These fields describe context shape only. They do not perform data loading.
    */
+  readonly teamId?: MetadataRuntimeTeamId;
   readonly tenantId?: MetadataRuntimeTenantId;
   readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
@@ -105,12 +111,15 @@ export interface CreateMetadataRuntimeContextInput {
   readonly correlationId?: MetadataRuntimeCorrelationId;
   readonly density?: MetadataDensityMode;
   readonly diagnosticsEnabled?: boolean;
+  readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
   readonly presentationMode?: PresentationMode;
+  readonly projectId?: MetadataRuntimeProjectId;
   readonly readonlyMode?: boolean;
   readonly state?: MetadataRuntimeState;
+  readonly teamId?: MetadataRuntimeTeamId;
   readonly tenantId?: MetadataRuntimeTenantId;
   readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
@@ -155,6 +164,11 @@ export function createMetadataRuntimeContext(
     ...(input.organizationId === undefined
       ? {}
       : { organizationId: input.organizationId }),
+    ...(input.entityGroupId === undefined
+      ? {}
+      : { entityGroupId: input.entityGroupId }),
+    ...(input.teamId === undefined ? {} : { teamId: input.teamId }),
+    ...(input.projectId === undefined ? {} : { projectId: input.projectId }),
     ...(input.workspaceId === undefined
       ? {}
       : { workspaceId: input.workspaceId }),

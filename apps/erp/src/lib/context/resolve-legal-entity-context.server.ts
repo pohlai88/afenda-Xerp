@@ -134,21 +134,18 @@ async function resolveCompanyRow(input: {
   readonly db?: AfendaDatabase;
   readonly memberships: readonly MembershipContract[];
   readonly tenant: TenantContext;
+  readonly tenantPk: string;
 }): Promise<Result<CompanyLookupRow, OperatingContextError>> {
   const companySlug = input.companySlug?.trim() || null;
   const companyIdHint = input.companyIdHint?.trim() || null;
 
   let companyRow = companySlug
-    ? await findCompanyByTenantAndSlug(
-        input.tenant.tenantId,
-        companySlug,
-        input.db
-      )
+    ? await findCompanyByTenantAndSlug(input.tenantPk, companySlug, input.db)
     : null;
 
   if (!companyRow && companyIdHint) {
     companyRow = await findCompanyById(companyIdHint, input.db);
-    if (companyRow && companyRow.tenantId !== input.tenant.tenantId) {
+    if (companyRow && companyRow.tenantId !== input.tenantPk) {
       return err(companyScopeMismatchError());
     }
   }
@@ -161,19 +158,19 @@ async function resolveCompanyRow(input: {
     const defaultCompanyId = await resolveDefaultCompanyId({
       ...(input.db === undefined ? {} : { db: input.db }),
       memberships: input.memberships,
-      tenantId: input.tenant.tenantId,
+      tenantId: input.tenantPk,
     });
     if (!defaultCompanyId) {
       return err(missingLegalEntitySelectionError());
     }
 
     companyRow = await findCompanyById(defaultCompanyId, input.db);
-    if (!companyRow || companyRow.tenantId !== input.tenant.tenantId) {
+    if (!companyRow || companyRow.tenantId !== input.tenantPk) {
       return err(companyScopeMismatchError());
     }
   }
 
-  if (companyRow.tenantId !== input.tenant.tenantId) {
+  if (companyRow.tenantId !== input.tenantPk) {
     return err(companyScopeMismatchError());
   }
 
@@ -192,6 +189,8 @@ export interface ResolveLegalEntityContextInput {
     "companyId" | "companySlug"
   >;
   readonly tenant: TenantContext;
+  /** Internal uuid PK for database FK lookups — not branded `TenantId`. */
+  readonly tenantPk: string;
 }
 
 /**
@@ -203,6 +202,7 @@ export async function resolveLegalEntityContext(
 ): Promise<ResolveLegalEntityContextResult> {
   const companyResult = await resolveCompanyRow({
     tenant: input.tenant,
+    tenantPk: input.tenantPk,
     memberships: input.memberships,
     companySlug: input.selection.companySlug ?? null,
     companyIdHint: input.selection.companyId ?? null,
@@ -213,7 +213,10 @@ export async function resolveLegalEntityContext(
     return companyResult;
   }
 
-  const legalEntity = toLegalEntityContext(companyResult.value);
+  const legalEntity = toLegalEntityContext(
+    companyResult.value,
+    input.tenant.tenantId
+  );
   const entityGroupRow = legalEntity.entityGroupId
     ? await findEntityGroupById(legalEntity.entityGroupId, input.db)
     : null;
@@ -221,7 +224,7 @@ export async function resolveLegalEntityContext(
   const entityGroupBoundaryError = verifyEntityGroupBoundary({
     entityGroupId: legalEntity.entityGroupId,
     entityGroupRow,
-    tenantId: input.tenant.tenantId,
+    tenantId: input.tenantPk,
   });
 
   if (entityGroupBoundaryError) {
@@ -230,6 +233,8 @@ export async function resolveLegalEntityContext(
 
   return ok({
     legalEntity,
-    entityGroup: entityGroupRow ? toEntityGroupContext(entityGroupRow) : null,
+    entityGroup: entityGroupRow
+      ? toEntityGroupContext(entityGroupRow, input.tenant.tenantId)
+      : null,
   });
 }

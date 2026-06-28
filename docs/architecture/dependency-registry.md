@@ -6,7 +6,7 @@
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
 | **TIP** | TIP-001A — Architecture Baseline Discovery |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
 | **Invariant** | ARCH-003 — every runtime `@afenda/*` dependency must be declared and approved |
 
 This registry documents **approved runtime workspace dependencies** (`dependencies` in `package.json`). Dev-only links are classified separately and do not require runtime registry declaration.
@@ -54,11 +54,13 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
 | `@afenda/erp` | `@afenda/permissions` | Approved | TIP-010 | — |
+| `@afenda/erp` | `@afenda/shadcn-studio` | Approved | PAS-005A | B42 partial — theme CSS chain |
 | `@afenda/erp` | `@afenda/storage` | Approved | — | — |
 | `@afenda/erp` | `@afenda/ui` | Approved | — | — |
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
 | `@afenda/feature-flags` | `@afenda/entitlements` | Approved | — | — |
+| `@afenda/metadata-ui` | `@afenda/shadcn-studio` | Approved | PAS-005A | theme preset slug vocabulary |
 | `@afenda/metadata-ui` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/metadata-ui` | `@afenda/ui` | Approved | — | — |
 | `@afenda/ui-composition` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
@@ -69,6 +71,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/storybook` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/metadata-ui` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/shadcn-studio` | Approved | PAS-005A | lab + theme stories |
 | `@afenda/storybook` | `@afenda/ui` | Approved | — | — |
 | `@afenda/ui` | `@afenda/css-authority` | Approved | PAS-005 | — |
 | `@afenda/ui` | `@afenda/design-system` | Approved | — | — |
@@ -114,22 +117,23 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 | `@afenda/docs` | `@afenda/enterprise-knowledge` |
 | `@afenda/email` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/enterprise-knowledge`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/enterprise-knowledge`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/shadcn-studio`, `@afenda/storage`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
 | `@afenda/ui-composition` | `@afenda/enterprise-knowledge` |
-| `@afenda/metadata-ui` | `@afenda/ui-composition`, `@afenda/ui` |
+| `@afenda/metadata-ui` | `@afenda/shadcn-studio`, `@afenda/ui-composition`, `@afenda/ui` |
 | `@afenda/observability` | *(none)* |
 | `@afenda/permissions` | `@afenda/auth`, `@afenda/database`, `@afenda/kernel` |
 | `@afenda/storage` | *(none)* |
-| `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui` |
+| `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/shadcn-studio`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui` |
 | `@afenda/testing` | *(none — workspace runtime)* |
 | `@afenda/typescript-config` | *(none)* |
 | `@afenda/ui` | `@afenda/css-authority`, `@afenda/design-system` |
 | `@afenda/architecture-authority` | *(none)* |
 | `@afenda/ai-governance` | `@afenda/architecture-authority` |
 | `@afenda/css-authority` | *(none)* |
+| `@afenda/shadcn-studio` | *(none)* |
 | `@afenda/enterprise-knowledge` | *(none)* |
 
 ---

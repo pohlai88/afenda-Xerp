@@ -68,7 +68,7 @@ export const KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES = [
     file: "tenant-context.contract.ts",
     primaryType: "TenantContext",
     layerId: "tenant",
-    wireIngress: false,
+    wireIngress: true,
   },
   {
     file: "entity-group-context.contract.ts",
@@ -139,6 +139,15 @@ export const KERNEL_OPERATING_CONTEXT_WIRE_INGRESS_MODULES = [
     primaryType: "LocalizationContext",
     wireType: "WireLocalizationContext",
     registryKind: "support",
+  },
+  {
+    slug: "tenant",
+    contract: "tenant-context.contract.ts",
+    assert: "tenant-context.assert.ts",
+    parser: "tenant-context.parser.ts",
+    primaryType: "TenantContext",
+    wireType: "TenantWireContext",
+    registryKind: "required",
   },
   {
     slug: "entity-group",
@@ -233,6 +242,8 @@ export const KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES = [
   "localization-context.contract.ts",
   "localization-context.assert.ts",
   "localization-context.parser.ts",
+  "tenant-context.assert.ts",
+  "tenant-context.parser.ts",
   "entity-group-context.assert.ts",
   "entity-group-context.parser.ts",
   "organization-unit-context.assert.ts",

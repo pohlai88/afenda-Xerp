@@ -1,10 +1,10 @@
 /**
- * PAS-004B B35 — docs consumer proof for @afenda/enterprise-knowledge.
+ * PAS-004B B35 / PAS-004C B48 — docs consumer proof for @afenda/enterprise-knowledge.
  *
- * Accepted meaning for configure-tenant vocabulary blocks comes from atoms only.
+ * Accepted meaning for configure-tenant vocabulary blocks comes from consumer profiles only.
  */
 import {
-  getKnowledgeAtom,
+  projectKnowledgeAtom,
   type KnowledgeAtomId,
 } from "@afenda/enterprise-knowledge";
 
@@ -25,16 +25,31 @@ export function isDocsPlatformIdentityAtomId(
   return (DOCS_PLATFORM_IDENTITY_ATOM_IDS as readonly string[]).includes(value);
 }
 
+function readDocsProjection(atomId: KnowledgeAtomId) {
+  return projectKnowledgeAtom(atomId, "docs");
+}
+
+function readErpProjection(atomId: KnowledgeAtomId) {
+  return projectKnowledgeAtom(atomId, "erp");
+}
+
 export function resolveDocsKnowledgeAtomTitle(
   atomId: KnowledgeAtomId
 ): string {
-  return getKnowledgeAtom(atomId).meaning.business.replace(/\.$/, "");
+  const projected = readErpProjection(atomId);
+  const shortDescription = projected["shortDescription"];
+  if (typeof shortDescription !== "string") {
+    return "";
+  }
+  return shortDescription.replace(/\.$/, "");
 }
 
 export function resolveDocsKnowledgeAtomDefinition(
   atomId: KnowledgeAtomId
 ): string {
-  return getKnowledgeAtom(atomId).meaning.canonical;
+  const projected = readDocsProjection(atomId);
+  const longExplanation = projected["longExplanation"];
+  return typeof longExplanation === "string" ? longExplanation : "";
 }
 
 /** Citation string for MDX and governance scans — includes atomId for proof. */

@@ -1,12 +1,12 @@
 /**
- * PAS-004B B34 — metadata consumer proof for @afenda/enterprise-knowledge.
+ * PAS-004B B34 / PAS-004C B47 — metadata consumer proof for @afenda/enterprise-knowledge.
  *
- * Accepted platform identity labels come from Knowledge Atoms only.
+ * Accepted platform identity labels come from Knowledge Atoms via consumer profiles only.
  * Metadata must not fork canonical meaning locally.
  */
 import {
-  getKnowledgeAtom,
   type KnowledgeAtomId,
+  projectKnowledgeAtom,
 } from "@afenda/enterprise-knowledge";
 
 /** Platform identity atoms cited by metadata section/surface vocabulary. */
@@ -29,27 +29,44 @@ export function isPlatformIdentityKnowledgeAtomId(
   );
 }
 
-/** Afenda-preferred wording from the authoritative atom registry. */
+function readMetadataProjection(atomId: KnowledgeAtomId) {
+  return projectKnowledgeAtom(atomId, "metadata");
+}
+
+function readDocsProjection(atomId: KnowledgeAtomId) {
+  return projectKnowledgeAtom(atomId, "docs");
+}
+
+/** Afenda-preferred wording from the metadata consumer profile. */
 export function resolvePlatformIdentityKnowledgeLabel(
   atomId: PlatformIdentityKnowledgeAtomId
 ): string {
-  const atom = getKnowledgeAtom(atomId);
-  if (atom.exposure.afendaPreferredWording.length > 0) {
-    return atom.exposure.afendaPreferredWording;
+  const projected = readMetadataProjection(atomId);
+  const preferred = projected["preferredWording"];
+  if (typeof preferred === "string" && preferred.length > 0) {
+    return preferred;
   }
-  return atom.meaning.canonical;
+  const shortLabel = projected["shortLabel"];
+  return typeof shortLabel === "string" ? shortLabel : "";
 }
 
-/** Canonical accepted definition for metadata contract documentation. */
+/** Canonical accepted definition via docs consumer profile. */
 export function resolvePlatformIdentityKnowledgeCanonicalDefinition(
   atomId: PlatformIdentityKnowledgeAtomId
 ): string {
-  return getKnowledgeAtom(atomId).meaning.canonical;
+  const projected = readDocsProjection(atomId);
+  const longExplanation = projected["longExplanation"];
+  return typeof longExplanation === "string" ? longExplanation : "";
 }
 
-/** Business-facing title derived from accepted atom meaning. */
+/** Business-facing title from metadata short label. */
 export function resolvePlatformIdentityKnowledgeBusinessTitle(
   atomId: PlatformIdentityKnowledgeAtomId
 ): string {
-  return getKnowledgeAtom(atomId).meaning.business.replace(/\.$/, "");
+  const projected = readMetadataProjection(atomId);
+  const shortLabel = projected["shortLabel"];
+  if (typeof shortLabel !== "string") {
+    return "";
+  }
+  return shortLabel.replace(/\.$/, "");
 }

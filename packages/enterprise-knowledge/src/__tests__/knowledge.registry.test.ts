@@ -94,7 +94,7 @@ describe("@afenda/enterprise-knowledge registry", () => {
   });
 
   it("loads authoritative KnowledgeEdge rows from edges.json", () => {
-    expect(KNOWLEDGE_EDGES).toHaveLength(10);
+    expect(KNOWLEDGE_EDGES).toHaveLength(13);
     for (const edge of KNOWLEDGE_EDGES) {
       expect(edge.edgeId.length).toBeGreaterThan(0);
       expect(isKnowledgeAtomId(edge.fromAtomId)).toBe(true);

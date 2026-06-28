@@ -54,9 +54,27 @@ function createIdentityDiagnosticsItems(
       verboseOnly: true,
     },
     {
+      key: "entity-group-id",
+      label: "Entity group",
+      value: identity.entityGroupId,
+      verboseOnly: true,
+    },
+    {
       key: "organization-id",
       label: "Organization",
       value: identity.organizationId,
+      verboseOnly: true,
+    },
+    {
+      key: "project-id",
+      label: "Project",
+      value: identity.projectId,
+      verboseOnly: true,
+    },
+    {
+      key: "team-id",
+      label: "Team",
+      value: identity.teamId,
       verboseOnly: true,
     },
     {
@@ -122,6 +140,12 @@ function createDiagnosticsItems({
       key: "presentation-mode",
       label: "Presentation",
       value: presentation.presentationMode,
+    },
+    {
+      key: "theme-preset-slug",
+      label: "Theme preset",
+      value: presentation.themePresetSlug,
+      verboseOnly: true,
     },
     {
       key: "readonly-mode",

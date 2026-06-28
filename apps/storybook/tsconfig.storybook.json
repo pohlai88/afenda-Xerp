@@ -36,6 +36,10 @@
         "../../packages/metadata-ui/src/server.ts"
       ],
       "@afenda/ui-composition": ["../../packages/ui-composition/src/index.ts"],
+      "@afenda/shadcn-studio/shadcn-studio.css": [
+        "../../packages/shadcn-studio/src/styles/shadcn-studio.css"
+      ],
+      "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
       "@afenda/design-system/css/afenda-design-system.css": [
         "../../packages/design-system/dist/css/afenda-design-system.css"
       ],
@@ -55,6 +59,10 @@
     ".storybook/**/*.tsx",
     "./stories/**/*.ts",
     "./stories/**/*.tsx",
+    "./stories/_storybook/*.ts",
+    "./stories/_storybook/*.tsx",
+    "./stories/_storybook/**/*.ts",
+    "./stories/_storybook/**/*.tsx",
     "vitest.storybook.config.ts",
     "../../packages/testing/src/mocks/*.tsx",
     "../../packages/testing/src/mocks/*.ts",
@@ -84,7 +92,11 @@
     "../../packages/metadata-ui/src/*.ts",
     "../../packages/metadata-ui/src/*.tsx",
     "../../packages/metadata-ui/src/**/*.ts",
-    "../../packages/metadata-ui/src/**/*.tsx"
+    "../../packages/metadata-ui/src/**/*.tsx",
+    "../../packages/shadcn-studio/src/*.ts",
+    "../../packages/shadcn-studio/src/*.tsx",
+    "../../packages/shadcn-studio/src/**/*.ts",
+    "../../packages/shadcn-studio/src/**/*.tsx"
   ],
   "exclude": [
     "../../packages/appshell/src/**/__tests__/**",

@@ -4,6 +4,7 @@
  * Canonical import order (see docs/governance/downstream-ui-composition.md):
  *   1. tailwindcss               — Tailwind base reset + utilities
  *   2. afenda-ui.css             — design-system @theme bridge + UI primitives
+ *   2b. shadcn-studio.css        — PAS-005A preset-ready shadcn surface (B42)
  *   3. afenda-appshell.css       — AppShell structural chrome
  *   4. afenda-metadata-ui.css    — Metadata renderer structural CSS
  *   5. shadcn/tailwind.css       — shadcn primitive resets
@@ -31,6 +32,9 @@
 /* ── 2. Design tokens + UI primitives (Tailwind v4 @theme-aware) ─────────── */
 @import "@afenda/ui/afenda-ui.css";
 
+/* ── 2b. shadcn/studio presentation preset surface (PAS-005A B42) ────────── */
+@import "@afenda/shadcn-studio/shadcn-studio.css" layer(theme);
+
 /* ── 3. AppShell structural chrome ──────────────────────────────────────── */
 @import "@afenda/appshell/afenda-appshell.css";
 
@@ -46,6 +50,7 @@
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../../packages/appshell/src/**/*.{ts,tsx}";
 @source "../../../../packages/metadata-ui/src/**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
 
 /* ── 6. App overrides ───────────────────────────────────────────────────── */
 @layer components {

@@ -1,18 +1,10 @@
 import { assertWireConsolidationScopeContext } from "./consolidation-scope-context.assert.js";
 import { assertWireEntityGroupContext } from "./entity-group-context.assert.js";
-import {
-  assertLegalEntitySlug,
-  assertWireLegalEntityContext,
-} from "./legal-entity-context.assert.js";
-import {
-  PLATFORM_LIFECYCLE_STATUSES,
-  type PlatformLifecycleStatus,
-} from "./lifecycle.contract.js";
+import { assertWireLegalEntityContext } from "./legal-entity-context.assert.js";
 import type {
   OperatingContextActor,
   OperatingContextWireContext,
   SurfaceWireContext,
-  TenantWireContext,
   WorkflowWireContext,
   WorkspaceWireContext,
 } from "./operating-context.contract.js";
@@ -21,6 +13,7 @@ import { assertWireOwnershipInterestContext } from "./ownership-interest-context
 import { assertWirePermissionScopeContext } from "./permission-scope-context.assert.js";
 import { assertWireProjectContext } from "./project-context.assert.js";
 import { assertWireTeamContext } from "./team-context.assert.js";
+import { assertWireTenantContext } from "./tenant-context.assert.js";
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -43,12 +36,6 @@ type _OperatingContextWireSerializable =
 export type assertOperatingContextWireSerializable =
   _OperatingContextWireSerializable extends true ? true : never;
 
-function isPlatformLifecycleStatus(
-  value: string
-): value is PlatformLifecycleStatus {
-  return (PLATFORM_LIFECYCLE_STATUSES as readonly string[]).includes(value);
-}
-
 export function assertOperatingContextText(value: string, label: string): void {
   if (!value.trim()) {
     throw new Error(`${label} is required.`);
@@ -66,18 +53,6 @@ export function assertOperatingContextOptionalText(
 
 function assertOperatingContextActor(value: OperatingContextActor): void {
   assertOperatingContextText(value.userId, "actor.userId");
-}
-
-function assertTenantWireContext(value: TenantWireContext): void {
-  assertOperatingContextText(value.tenantId, "tenant.tenantId");
-  assertLegalEntitySlug(value.slug);
-  assertOperatingContextText(value.displayName, "tenant.displayName");
-
-  if (!isPlatformLifecycleStatus(value.status)) {
-    throw new Error(
-      `tenant.status must be one of: ${PLATFORM_LIFECYCLE_STATUSES.join(", ")}.`
-    );
-  }
 }
 
 function assertWorkspaceWireContext(value: WorkspaceWireContext): void {
@@ -104,7 +79,7 @@ function assertOperatingContextWireContext(
 ): void {
   assertOperatingContextActor(value.actor);
   assertOperatingContextText(value.correlationId, "correlationId");
-  assertTenantWireContext(value.tenant);
+  assertWireTenantContext(value.tenant);
   assertWireLegalEntityContext(value.legalEntity);
   assertWirePermissionScopeContext(value.permissionScope);
   assertWorkspaceWireContext(value.workspace);

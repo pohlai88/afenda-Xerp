@@ -7,8 +7,8 @@
 | **Owner** | Architecture Authority |
 | **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
 | **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
-| **Active workspaces** | 25 |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
+| **Active workspaces** | 26 |
 | **Planned workspaces** | 0 |
 
 This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry (FDR)](foundation-disposition.md) — not in TIP delivery docs.
@@ -69,6 +69,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-023 | `@afenda/accounting-standards` | `packages/accounting-standards` | Foundation | active | Versioned accounting-standard authority metadata (PAS-003) | Financial Reporting Standards Authority | Yes | `active` |
 | PKG-024 | `@afenda/enterprise-knowledge` | `packages/enterprise-knowledge` | Platform | active | Accepted enterprise meaning — Knowledge Atoms and conformance (PAS-004) | Enterprise Knowledge Authority | Yes | `active` |
 | PKG-025 | `@afenda/css-authority` | `packages/css-authority` | Design | active | CSS Authority Registry — CSS-TOKEN-* governance (PAS-005) | CSS Authority | Yes | `active` |
+| PKG-026 | `@afenda/shadcn-studio` | `packages/shadcn-studio` | Design | active | shadcn/studio presentation product — theme surface, presets, MCP install targets (PAS-005A) | Design Authority | Yes | `active` |
 | PKG-R01 | `@afenda/accounting` | *(retired — no path)* | Domain | retired | Accounting vocabulary in `@afenda/kernel/erp-domain/accounting` (ADR-0020) | Accounting Authority | No | `retired` |
 
 **`active-exempt`:** PKG-017 is exempt from layer-dependency enforcement only. It remains registered and owned.
@@ -125,12 +126,14 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v1` — ADR-0020 inventory package retirement | ADR-0020 |
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v2` — ADR-0020 accounting consolidation + stock runtime Slice 3 | ADR-0020 |
 | 2026-06-28 | Fingerprint bump | PKG-024, PKG-025 | `ARCH-BASELINE-2026-06-27-v3` — PAS-004A enterprise-knowledge + PAS-005 css-authority registry entries | PAS-004A |
+| 2026-06-28 | Activated | PKG-026 | `@afenda/shadcn-studio` registered active (PAS-005A presentation authority) | PAS-005A |
+| 2026-06-28 | Fingerprint bump | PKG-026 | `ARCH-BASELINE-2026-06-28-v4` — PAS-005A shadcn-studio registry + disposition sync | PAS-005A |
 
 ---
 
 ## Acceptance
 
-- [x] 100% active workspace packages discovered (20/20)
+- [x] 100% active workspace packages discovered (26/26)
 - [x] Planned workspaces documented separately (0 filesystem-planned)
 - [x] 0 unknown packages in `apps/*` or `packages/*`
 - [x] Machine-readable status values defined

@@ -294,8 +294,9 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 | P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
 | Deferred | Delete `@afenda/design-system` CSS exports | post-v1 | Prohibited in PAS-005 v1 (`do-not-delete-design-system-v1`) |
 | Out of scope (v1) | TIP-004 variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
+| P8 | shadcn/studio presentation product (standalone) | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) B38–B42 | Derived PAS — theme presets, MCP seed, lab verification; Afenda bridge deferred to B42 |
 
-**Next sequence item:** none — PAS-005 MVP slice sequence closed; optional ERP pixel baselines or Production Candidate attestation remain out of scope for B37.
+**Next sequence item:** none for PAS-005 MVP — continuation work lives under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B38 scaffold next).
 
 ---
 

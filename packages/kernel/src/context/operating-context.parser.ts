@@ -1,6 +1,7 @@
 import {
   normalizeOrganizationIdForWire,
   normalizeProjectIdForWire,
+  normalizeTenantIdForWire,
   parseCompanyId,
   parseOrganizationId,
   parseProjectId,
@@ -23,7 +24,6 @@ import type {
   OperatingContext,
   OperatingContextWireContext,
   SurfaceWireContext,
-  TenantWireContext,
   WorkflowWireContext,
   WorkspaceWireContext,
 } from "./operating-context.contract.js";
@@ -48,18 +48,12 @@ import {
   normalizeTeamContextForWire,
   parseTeamContext,
 } from "./team-context.parser.js";
-import type { TenantContext } from "./tenant-context.contract.js";
+import {
+  normalizeTenantContextForWire,
+  parseTenantContext,
+} from "./tenant-context.parser.js";
 import type { WorkflowContext } from "./workflow-context.contract.js";
 import type { WorkspaceContext } from "./workspace-context.contract.js";
-
-function parseTenantWireContext(value: TenantWireContext): TenantContext {
-  return {
-    tenantId: `${parseTenantId(value.tenantId)}`,
-    slug: value.slug,
-    displayName: value.displayName,
-    status: value.status,
-  };
-}
 
 function parseWorkspaceWireContext(
   value: WorkspaceWireContext
@@ -89,20 +83,11 @@ function parseWorkflowWireContext(value: WorkflowWireContext): WorkflowContext {
   };
 }
 
-function normalizeTenantWireContext(value: TenantContext): TenantWireContext {
-  return {
-    tenantId: `${parseTenantId(value.tenantId)}`,
-    slug: value.slug,
-    displayName: value.displayName,
-    status: value.status,
-  };
-}
-
 function normalizeWorkspaceWireContext(
   value: WorkspaceContext
 ): WorkspaceWireContext {
   return {
-    tenantId: `${parseTenantId(value.tenantId)}`,
+    tenantId: `${normalizeTenantIdForWire(parseTenantId(value.tenantId))}`,
     companyId: `${parseCompanyId(value.companyId)}`,
     organizationId: normalizeOrganizationIdForWire(value.organizationId),
     projectId: normalizeProjectIdForWire(value.projectId),
@@ -132,7 +117,7 @@ function parseValidatedOperatingContext(
   return {
     actor: value.actor,
     correlationId: value.correlationId,
-    tenant: parseTenantWireContext(value.tenant),
+    tenant: parseTenantContext(value.tenant),
     entityGroup:
       value.entityGroup === null
         ? null
@@ -179,7 +164,7 @@ export function normalizeOperatingContextForWire(
   return {
     actor: value.actor,
     correlationId: value.correlationId,
-    tenant: normalizeTenantWireContext(value.tenant),
+    tenant: normalizeTenantContextForWire(value.tenant),
     entityGroup:
       value.entityGroup === null
         ? null
@@ -214,4 +199,11 @@ export function normalizeOperatingContextForWire(
         ? null
         : normalizeWorkflowWireContext(value.workflow),
   };
+}
+
+/** Wire egress alias — same contract as `normalizeOperatingContextForWire`. */
+export function serializeOperatingContext(
+  value: OperatingContext
+): OperatingContextWireContext {
+  return normalizeOperatingContextForWire(value);
 }

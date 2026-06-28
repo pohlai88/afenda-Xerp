@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import Link from "next/link";
+
+export type AuthSecurityReviewPanelGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button"
+>;
+
 import { AUTH_SECURITY_COPY } from "@/lib/auth/auth-copy.registry";
 import { getAuthSupportLink } from "@/lib/auth/auth-link.registry";
 import { acknowledgeSecurityReviewAction } from "@/lib/auth/security-review.action";

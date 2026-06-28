@@ -103,3 +103,10 @@ export function normalizeOwnershipInterestContextForWire(
     status: value.status,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeOwnershipInterestContextForWire`. */
+export function serializeOwnershipInterestContext(
+  value: OwnershipInterestContext
+): OwnershipInterestWireContext {
+  return normalizeOwnershipInterestContextForWire(value);
+}

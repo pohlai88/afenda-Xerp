@@ -15,13 +15,14 @@ import {
   type OrganizationUnitType,
   parseCompanyId,
   parseOptionalEntityGroupId,
-  parseTenantId,
   parseUnknownEntityGroupContext,
   parseUnknownOrganizationUnitContext,
   parseUnknownTeamContext,
+  parseUnknownTenantContext,
   type RelationshipToHoldingCompanyType,
   type TeamContext,
   type TenantContext,
+  type TenantId,
 } from "@afenda/kernel";
 
 /** Persisted DB enum values — mapped to Kernel routing shape at ERP trust boundary. */
@@ -79,12 +80,12 @@ function formatIsoDateOnly(value: string | Date | null): string | null {
 }
 
 function toTenantContext(row: TenantLookupRow): TenantContext {
-  return {
-    tenantId: row.id,
+  return parseUnknownTenantContext({
+    tenantId: row.enterpriseId,
     slug: row.slug,
     displayName: row.name,
     status: row.status,
-  };
+  });
 }
 
 function isOrganizationUnitType(value: string): value is OrganizationUnitType {
@@ -107,12 +108,15 @@ function mapLegacyDbCompanyType(rowCompanyType: string): {
   );
 }
 
-function toLegalEntityContext(row: CompanyLookupRow): LegalEntityContext {
+function toLegalEntityContext(
+  row: CompanyLookupRow,
+  tenantId: TenantId
+): LegalEntityContext {
   const routing = mapLegacyDbCompanyType(row.companyType);
 
   return {
     companyId: parseCompanyId(row.id),
-    tenantId: parseTenantId(row.tenantId),
+    tenantId,
     entityGroupId: parseOptionalEntityGroupId(row.entityGroupId),
     slug: row.slug,
     legalName: row.legalName,
@@ -132,11 +136,12 @@ function toLegalEntityContext(row: CompanyLookupRow): LegalEntityContext {
 }
 
 function toOrganizationUnitContext(
-  row: OrganizationLookupRow
+  row: OrganizationLookupRow,
+  tenantId: TenantId
 ): OrganizationUnitContext {
   return parseUnknownOrganizationUnitContext({
     organizationUnitId: row.id,
-    tenantId: row.tenantId,
+    tenantId,
     companyId: row.companyId,
     slug: row.slug,
     displayName: row.name,
@@ -148,10 +153,13 @@ function toOrganizationUnitContext(
   });
 }
 
-function toEntityGroupContext(row: EntityGroupLookupRow): EntityGroupContext {
+function toEntityGroupContext(
+  row: EntityGroupLookupRow,
+  tenantId: TenantId
+): EntityGroupContext {
   return parseUnknownEntityGroupContext({
     entityGroupId: row.id,
-    tenantId: row.tenantId,
+    tenantId,
     slug: row.slug,
     displayName: row.displayName,
     parentLegalEntityId: row.parentLegalEntityId,

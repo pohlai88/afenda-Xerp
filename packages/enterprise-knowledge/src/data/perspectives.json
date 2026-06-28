@@ -1,0 +1,29 @@
+[
+  {
+    "perspectiveId": "legal_entity_accounting",
+    "conceptId": "legal_entity",
+    "domain": "accounting",
+    "domainClass": "business",
+    "atomId": "legal_entity",
+    "contextualLabel": "Company (accounting books owner)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "legal_entity_identity",
+    "conceptId": "legal_entity",
+    "domain": "identity",
+    "domainClass": "architecture",
+    "atomId": "legal_entity",
+    "contextualLabel": "LegalEntityContext / companies table row",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "legal_entity_reporting",
+    "conceptId": "legal_entity",
+    "domain": "reporting",
+    "domainClass": "business",
+    "atomId": "legal_entity",
+    "contextualLabel": "Legal Entity (statutory reporting unit)",
+    "ownedByPas": "PAS-004C"
+  }
+]

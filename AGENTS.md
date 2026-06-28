@@ -190,7 +190,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Implement governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
 | Audit vibe-coding / bundle preflight violations | [`vibe-coding-violation-auditor`](.cursor/agents/vibe-coding-violation-auditor.md) |
 | Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
-| New package filesystem scaffold | [`monorepo-discipline`](.cursor/skills/monorepo-discipline/SKILL.md) — `turbo gen workspace --copy` from `accounting-standards` or `enterprise-knowledge` |
+| New package filesystem scaffold | [`monorepo-discipline`](.cursor/skills/monorepo-discipline/SKILL.md) — `pnpm scaffold:package` (non-interactive; env via `--with-env-scripts` / `--env-sync-target`) |
 | Enterprise knowledge (PAS-004) | [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) |
 | CSS authority (PAS-005) | [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) |
 | Any UI / CSS / visual change (docs OR erp OR primitives) | [`.cursor/skills/ui-consistency-bundle/SKILL.md`](.cursor/skills/ui-consistency-bundle/SKILL.md) — fix-first, no permission asking |

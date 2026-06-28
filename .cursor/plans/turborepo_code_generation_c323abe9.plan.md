@@ -3,7 +3,7 @@ name: Turborepo Code Generation
 overview: Decision framework — whether to implement Turborepo codegen vs relying on create-skill / create-subagent workflows. Recommendation defer custom generators; adopt built-in --copy only.
 todos:
   - id: decision-phase-0
-    content: "Adopt Phase 0 only: document `turbo gen workspace --copy` in monorepo-discipline skill (no @turbo/gen, no custom Plop)"
+    content: "Superseded (2026-06-28): `pnpm scaffold:package` replaces `turbo gen workspace --copy` — see scripts/scaffold-package.mjs + monorepo-discipline skill"
     status: completed
   - id: decision-defer-custom
     content: "Defer Phase 1–2 custom generators until 3+ authority packages planned in 6 months OR template drift causes repeated gate failures"
@@ -20,7 +20,8 @@ isProject: false
 
 | Approach | Implement now? | Why |
 |----------|----------------|-----|
-| **Built-in `turbo gen workspace --copy`** | **Yes** (documentation only) | Zero repo cost; replaces ad-hoc manual copy; no new dependencies |
+| **Built-in `turbo gen workspace --copy`** | **Retired** | Interactive prompts break agent flows; replaced by `pnpm scaffold:package` |
+| **`pnpm scaffold:package` (templates/)** | **Yes** | Non-interactive; includes optional env loader; no dist/node_modules copy pollution |
 | **Custom Plop generators (`turbo/generators/`)** | **Defer** | Low scaffold frequency; bottleneck is registry/PAS content, not missing files; maintenance cost |
 | **New skill via `/create-skill`** | **Yes, small extension** | Document Phase 0 copy workflow + post-scaffold checklist in `monorepo-discipline` |
 | **New subagent via `/create-subagent`** | **No** | Scaffolding is file creation, not specialized reasoning — existing agents already cover the hard parts |

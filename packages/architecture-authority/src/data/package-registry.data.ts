@@ -285,6 +285,18 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-026",
+    packageName: "@afenda/shadcn-studio",
+    path: "packages/shadcn-studio",
+    layer: "Design",
+    lifecycle: "active",
+    purpose:
+      "shadcn/studio presentation product — theme surface, presets, MCP install targets (PAS-005A)",
+    publicApiOwner: "Design Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",

@@ -18,6 +18,7 @@ const appshellRoot = join(appRoot, "../../packages/appshell");
 const designSystemRoot = join(appRoot, "../../packages/design-system");
 const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const metadataRoot = join(appRoot, "../../packages/ui-composition");
+const shadcnStudioRoot = join(appRoot, "../../packages/shadcn-studio");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
@@ -97,6 +98,14 @@ const config: StorybookConfig = {
       {
         find: "@afenda/metadata-ui/afenda-metadata-ui.css",
         replacement: join(metadataUiRoot, "src/afenda-metadata-ui.css"),
+      },
+      {
+        find: "@afenda/shadcn-studio/shadcn-studio.css",
+        replacement: join(shadcnStudioRoot, "src/styles/shadcn-studio.css"),
+      },
+      {
+        find: "@afenda/shadcn-studio",
+        replacement: join(shadcnStudioRoot, "src/index.ts"),
       },
       {
         find: "@afenda/metadata-ui/fixtures.css",
@@ -185,6 +194,8 @@ const config: StorybookConfig = {
         (dep) => dep !== "@afenda/appshell" && dep !== "next/link"
       ),
       "@afenda/design-system",
+      "@afenda/shadcn-studio",
+      "next-themes",
       "react",
       "react-dom",
       "react/jsx-runtime",

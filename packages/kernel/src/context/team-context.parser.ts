@@ -89,3 +89,8 @@ export function normalizeTeamContextForWire(
     status: value.status,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeTeamContextForWire`. */
+export function serializeTeamContext(value: TeamContext): TeamWireContext {
+  return normalizeTeamContextForWire(value);
+}

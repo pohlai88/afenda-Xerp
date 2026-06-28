@@ -36,20 +36,33 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
-**Next sequence item:** none — PAS-005 MVP slice sequence closed (see [PAS-005 §14](PAS-005-CSS-AUTHORITY-STANDARD.md#14-remaining-work-post-mvp)).
+**Next sequence item:** continuation under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B40 MCP seed) — see PAS-005 §14 P8.
+
+---
+
+## PAS-005A shadcn/studio Presentation — greenfield (MVP Authority)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — B38–B41 complete (2026-06-28) |
+| **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
+| **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
+| **Runtime status** | B42 partial + B42b planning — ERP CSS chain; metadata-ui theme hook; PKGR05A amber-lane; legacy delete **blocked** (3% block parity) |
+| **Remaining slices** | B42c — MCP live re-seed · B42d — appshell re-export bridge + legacy delete |
+| **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
+| **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
+| **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
+
+**Next sequence item:** B42c — MCP live re-seed (operator) · B42d — appshell re-export + legacy delete after parity.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B26 | scaffold | Delivered |
-| B27 | [b27-pas005-shadcn-theme.md](slice/b27-pas005-shadcn-theme.md) | Delivered |
-| B28 | [b28-pas005-consumption-gates.md](slice/b28-pas005-consumption-gates.md) | Delivered |
-| B29 | [b29-pas005-ui-cutover.md](slice/b29-pas005-ui-cutover.md) | Delivered |
-| B30 | [b30-pas005-deprecate-ds-css.md](slice/b30-pas005-deprecate-ds-css.md) | Delivered |
-| B33 | [b33-pas005-visual-regression.md](slice/b33-pas005-visual-regression.md) | Delivered |
-| B34 | [b34-pas005-registry-expansion.md](slice/b34-pas005-registry-expansion.md) | Delivered |
-| B35 | [b35-pas005-disposition-sync.md](slice/b35-pas005-disposition-sync.md) | Delivered |
-| B36 | [b36-pas005-risk-mitigation.md](slice/b36-pas005-risk-mitigation.md) | Delivered |
-| B37 | [b37-pas005-pixel-baselines.md](slice/b37-pas005-pixel-baselines.md) | Delivered |
+| B38 | [b38-pas005a-scaffold.md](slice/b38-pas005a-scaffold.md) | Delivered |
+| B39 | [b39-pas005a-theme-presets.md](slice/b39-pas005a-theme-presets.md) | Delivered |
+| B40 | [b40-pas005a-mcp-seed.md](slice/b40-pas005a-mcp-seed.md) | Delivered (manual seed equivalent) |
+| B41 | [b41-pas005a-lab-verification.md](slice/b41-pas005a-lab-verification.md) | Delivered |
+| B42 | [b42-pas005a-afenda-integration.md](slice/b42-pas005a-afenda-integration.md) | Delivered (partial — legacy delete deferred) |
+| B42b | [b42b-pas005a-legacy-delete-planning.md](slice/b42b-pas005a-legacy-delete-planning.md) | Delivered (planning — delete blocked) |
 
 ---
 
@@ -121,6 +134,35 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B35 | [b35-docs-consumer-proof.md](slice/b35-docs-consumer-proof.md) | Delivered |
 | B36 | [b36-acceptance-graph-queries.md](slice/b36-acceptance-graph-queries.md) | Delivered |
 | B37 | [b37-enterprise-accepted-attestation.md](slice/b37-enterprise-accepted-attestation.md) | Attested |
+
+---
+
+## PAS-004C Enterprise Knowledge Semantic Model — North Star hardening (Production Candidate)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — B38–B48 complete (2026-06-28) |
+| **Authority** | PAS-004C · PAS-004B baseline · PAS-001 kernel refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
+| **Maturity** | `production_candidate` — scorecard **58/58** |
+| **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
+| **Remaining slices** | none |
+| **Runtime evidence** | [PAS-004C canonical doc](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [B46 attestation](slice/b46-pas004c-semantic-attestation.md) · [B47](slice/b47-pas004c-consumer-projection-adoption.md) · [B48](slice/b48-pas004c-docs-consumer-projection-adoption.md) |
+| **Gates (B38+)** | all §13.1–§13.3 gates ✓ |
+| **Result** | North Star semantic model delivered — Concept → Contextual Meaning → Vocabulary → Consumer Projection → Realization |
+
+| Slice | Doc | Phase | Status |
+| --- | --- | --- | --- |
+| B38 | [b38-pas004c-concept-vocabulary.md](slice/b38-pas004c-concept-vocabulary.md) | 1 Semantic Core | Delivered |
+| B39 | [b39-pas004c-contextual-meaning.md](slice/b39-pas004c-contextual-meaning.md) | 1 Semantic Core | Delivered |
+| B40 | [b40-pas004c-domain-axis-split.md](slice/b40-pas004c-domain-axis-split.md) | 1 Semantic Core | Delivered |
+| B41 | [b41-pas004c-accepted-vs-applicable.md](slice/b41-pas004c-accepted-vs-applicable.md) | 1 Semantic Core | Delivered |
+| B43 | [b43-pas004c-consumer-profiles.md](slice/b43-pas004c-consumer-profiles.md) | 2 Consumption | Delivered |
+| B44 | [b44-pas004c-realization-mapping.md](slice/b44-pas004c-realization-mapping.md) | 2 Consumption | Delivered |
+| B42 | [b42-pas004c-semantic-edges.md](slice/b42-pas004c-semantic-edges.md) | 3 Governance | Delivered |
+| B45 | [b45-pas004c-lifecycle-transition-governance.md](slice/b45-pas004c-lifecycle-transition-governance.md) | 3 Governance | Delivered |
+| B46 | [b46-pas004c-semantic-attestation.md](slice/b46-pas004c-semantic-attestation.md) | 3 Governance | Delivered |
+| B47 | [b47-pas004c-consumer-projection-adoption.md](slice/b47-pas004c-consumer-projection-adoption.md) | post-close Adoption | Delivered |
+| B48 | [b48-pas004c-docs-consumer-projection-adoption.md](slice/b48-pas004c-docs-consumer-projection-adoption.md) | post-close Adoption | Delivered |
 
 ---
 

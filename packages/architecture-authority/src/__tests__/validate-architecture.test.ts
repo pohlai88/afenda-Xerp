@@ -36,6 +36,7 @@ describe("validateArchitecture", () => {
         "@afenda/css-authority": "workspace:*",
       }),
       workspace("@afenda/css-authority"),
+      workspace("@afenda/shadcn-studio"),
       workspace("@afenda/docs", {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
@@ -56,6 +57,7 @@ describe("validateArchitecture", () => {
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
         "@afenda/permissions": "workspace:*",
+        "@afenda/shadcn-studio": "workspace:*",
         "@afenda/storage": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
@@ -71,6 +73,7 @@ describe("validateArchitecture", () => {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
       workspace("@afenda/metadata-ui", {
+        "@afenda/shadcn-studio": "workspace:*",
         "@afenda/ui-composition": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
@@ -83,6 +86,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storybook", {
         "@afenda/appshell": "workspace:*",
         "@afenda/design-system": "workspace:*",
+        "@afenda/shadcn-studio": "workspace:*",
         "@afenda/ui-composition": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/ui": "workspace:*",

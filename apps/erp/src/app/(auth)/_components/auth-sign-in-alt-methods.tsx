@@ -10,7 +10,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@afenda/ui";
+import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import type { FormEvent } from "react";
+
+export type AuthSignInAltMethodsGovernedComponents = Extract<
+  GovernedUiComponentName,
+  "Button" | "Input" | "Label" | "Tabs"
+>;
 
 import { AuthForm } from "@/app/(auth)/_components/auth-form.compound";
 import { AuthPasskeyIcon } from "@/app/(auth)/_components/auth-social-provider-icons";

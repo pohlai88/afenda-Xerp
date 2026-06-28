@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * PAS-004B §4.2 — B35: Docs consumer import proof gate.
+ * PAS-004B §4.2 — B35 / PAS-004C B48: Docs consumer import proof gate.
  */
 
 import { readFileSync, readdirSync } from "node:fs";
@@ -64,15 +64,15 @@ if (!packageJson.dependencies?.["@afenda/enterprise-knowledge"]) {
 }
 
 let hasEnterpriseKnowledgeImport = false;
-let hasGetKnowledgeAtomUsage = false;
+let hasProjectKnowledgeAtomUsage = false;
 
 for (const filePath of collectTsFiles(docsKnowledgeDir)) {
   const content = readFileSync(filePath, "utf8");
   if (content.includes("@afenda/enterprise-knowledge")) {
     hasEnterpriseKnowledgeImport = true;
   }
-  if (content.includes("getKnowledgeAtom")) {
-    hasGetKnowledgeAtomUsage = true;
+  if (content.includes("projectKnowledgeAtom")) {
+    hasProjectKnowledgeAtomUsage = true;
   }
 }
 
@@ -82,8 +82,8 @@ if (!hasEnterpriseKnowledgeImport) {
   );
 }
 
-if (!hasGetKnowledgeAtomUsage) {
-  errors.push("docs vocabulary helper must call getKnowledgeAtom");
+if (!hasProjectKnowledgeAtomUsage) {
+  errors.push("docs consumer must call projectKnowledgeAtom (PAS-004C B48)");
 }
 
 const testPath = join(

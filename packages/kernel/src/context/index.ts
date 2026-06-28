@@ -52,14 +52,16 @@ export {
   assertWireEntityGroupContext,
 } from "./entity-group-context.assert.js";
 // ── 2. Entity group ──────────────────────────────────────────────────────────
-export type {
-  EntityGroupContext,
-  EntityGroupWireContext,
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type EntityGroupContext` export substring
+export {
+  type EntityGroupContext,
+  type EntityGroupWireContext,
 } from "./entity-group-context.contract.js";
 export {
   normalizeEntityGroupContextForWire,
   parseEntityGroupContext,
   parseUnknownEntityGroupContext,
+  serializeEntityGroupContext,
 } from "./entity-group-context.parser.js";
 // ── Hierarchy id boundary (TIP-008A Slice 6) ───────────────────────────────────
 export {
@@ -92,6 +94,7 @@ export {
   normalizeLegalEntityContextForWire,
   parseLegalEntityContext,
   parseUnknownLegalEntityContext,
+  serializeLegalEntityContext,
 } from "./legal-entity-context.parser.js";
 // ── Shared lifecycle vocabulary ──────────────────────────────────────────────
 export {
@@ -130,7 +133,6 @@ export {
   type OperatingContextSelection,
   type OperatingContextWireContext,
   type SurfaceWireContext,
-  type TenantWireContext,
   type WorkflowWireContext,
   type WorkspaceWireContext,
 } from "./operating-context.contract.js";
@@ -138,6 +140,7 @@ export {
   normalizeOperatingContextForWire,
   parseOperatingContext,
   parseUnknownOperatingContext,
+  serializeOperatingContext,
 } from "./operating-context.parser.js";
 // ── Operating context hierarchy (PAS §4.4) ─────────────────────────────────────
 export {
@@ -172,6 +175,7 @@ export {
   normalizeOrganizationUnitContextForWire,
   parseOrganizationUnitContext,
   parseUnknownOrganizationUnitContext,
+  serializeOrganizationUnitContext,
 } from "./organization-unit-context.parser.js";
 export {
   type assertOwnershipInterestContextWireSerializable,
@@ -199,6 +203,7 @@ export {
   normalizeOwnershipInterestContextForWire,
   parseOwnershipInterestContext,
   parseUnknownOwnershipInterestContext,
+  serializeOwnershipInterestContext,
 } from "./ownership-interest-context.parser.js";
 // ── 9. Permission scope ──────────────────────────────────────────────────────
 export {
@@ -215,14 +220,16 @@ export {
   type assertPermissionScopeContextWireSerializable,
   assertWirePermissionScopeContext,
 } from "./permission-scope-context.assert.js";
-export type {
-  PermissionScopeContext,
-  PermissionScopeWireContext,
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type PermissionScopeContext` export substring
+export {
+  type PermissionScopeContext,
+  type PermissionScopeWireContext,
 } from "./permission-scope-context.contract.js";
 export {
   normalizePermissionScopeContextForWire,
   parsePermissionScopeContext,
   parseUnknownPermissionScopeContext,
+  serializePermissionScopeContext,
 } from "./permission-scope-context.parser.js";
 export {
   assertProjectContextOptionalText,
@@ -243,6 +250,7 @@ export {
   normalizeProjectContextForWire,
   parseProjectContext,
   parseUnknownProjectContext,
+  serializeProjectContext,
 } from "./project-context.parser.js";
 export type {
   SurfaceContext,
@@ -256,19 +264,35 @@ export {
   assertWireTeamContext,
 } from "./team-context.assert.js";
 // ── 6. Team ──────────────────────────────────────────────────────────────────
-export type {
-  TeamAuthorityId,
-  TeamContext,
-  TeamWireContext,
+// biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TeamContext` export substring
+export {
+  type TeamAuthorityId,
+  type TeamContext,
+  type TeamWireContext,
 } from "./team-context.contract.js";
 export {
   normalizeTeamContextForWire,
   parseTeamContext,
   parseUnknownTeamContext,
+  serializeTeamContext,
 } from "./team-context.parser.js";
+export {
+  assertTenantContextText,
+  type assertTenantContextWireSerializable,
+  assertWireTenantContext,
+} from "./tenant-context.assert.js";
 // ── 1. Tenant ────────────────────────────────────────────────────────────────
 // biome-ignore lint/style/useExportType: kernel-context-surface gate requires `type TenantContext` export substring
-export { type TenantContext } from "./tenant-context.contract.js";
+export {
+  type TenantContext,
+  type TenantWireContext,
+} from "./tenant-context.contract.js";
+export {
+  normalizeTenantContextForWire,
+  parseTenantContext,
+  parseUnknownTenantContext,
+  serializeTenantContext,
+} from "./tenant-context.parser.js";
 export type {
   WorkflowContext,
   WorkflowId,

@@ -13,8 +13,9 @@ disable-model-invocation: false
 | **PAS-004** (charter) | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A | none — superseded by PAS-004A |
 | **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 | none |
 | **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B | none |
+| **PAS-004C** (semantic model) | B38–B46 delivered — scorecard 56/58; PKGR04 authority PAS-004C (registry delegated) | none |
 
-> Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -45,7 +46,8 @@ Apply this skill when touching:
 **Architecture authority boundary:** Package/layer/dependency listing → [PAS-002](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) / `.cursor/skills/architecture-authority/SKILL.md`. Do **not** store Knowledge Atoms in architecture-authority.
 
 | PAS-004A rollout | [PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · B25–B32 slices (closed) |
-| PAS-004B rollout | [PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · B33+ slices · **kernel-authority mandatory** |
+| PAS-004B rollout | [PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · B33–B37 closed · **kernel-authority mandatory** |
+| PAS-004C rollout | [PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B38+ · **kernel-authority on B44 realization paths** |
 
 ---
 
@@ -148,9 +150,9 @@ For new enterprise-knowledge slices, read in this order:
 4. [docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — §0 Agent Quick Path
 5. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
 
-**Maturity:** Production Candidate delivered (PAS-004A B24–B32). Enterprise Accepted target: PAS-004B B33–B37. Read **`kernel-authority`** before identity mapping work.
+**Maturity:** Enterprise Accepted delivered (PAS-004B B33–B37). North Star semantic model delivered (PAS-004C B38–B46, scorecard 56/58). Read **`kernel-authority`** before B44 realization mapping.
 
-**Slice gate:** B32 delivered. **Active slice: B33 only** — do not batch B34–B37. Next: [B33 kernel identity mapping gate](../../../docs/PAS/slice/b33-kernel-identity-mapping-gate.md).
+**Slice gate:** B37 closed. **Active slice: B38 only** — do not batch Phase 2/3 before Phase 1. Next: [B38 concept + vocabulary](../../../docs/PAS/slice/b38-pas004c-concept-vocabulary.md).
 
 ---
 

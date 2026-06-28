@@ -55,7 +55,7 @@ if (!packageJson.dependencies?.["@afenda/enterprise-knowledge"]) {
 }
 
 let hasEnterpriseKnowledgeImport = false;
-let hasGetKnowledgeAtomUsage = false;
+let hasProjectKnowledgeAtomUsage = false;
 let resolvesRequiredAtoms = 0;
 
 for (const filePath of collectTsFiles(metadataKnowledgeDir)) {
@@ -63,8 +63,8 @@ for (const filePath of collectTsFiles(metadataKnowledgeDir)) {
   if (content.includes("@afenda/enterprise-knowledge")) {
     hasEnterpriseKnowledgeImport = true;
   }
-  if (content.includes("getKnowledgeAtom")) {
-    hasGetKnowledgeAtomUsage = true;
+  if (content.includes("projectKnowledgeAtom")) {
+    hasProjectKnowledgeAtomUsage = true;
   }
   for (const atomId of REQUIRED_PLATFORM_IDENTITY_ATOMS) {
     if (content.includes(`"${atomId}"`) || content.includes(`'${atomId}'`)) {
@@ -79,8 +79,8 @@ if (!hasEnterpriseKnowledgeImport) {
   );
 }
 
-if (!hasGetKnowledgeAtomUsage) {
-  errors.push("metadata consumer must call getKnowledgeAtom");
+if (!hasProjectKnowledgeAtomUsage) {
+  errors.push("metadata consumer must call projectKnowledgeAtom (PAS-004C B47)");
 }
 
 if (resolvesRequiredAtoms < REQUIRED_PLATFORM_IDENTITY_ATOMS.length) {

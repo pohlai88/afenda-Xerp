@@ -1,6 +1,6 @@
 ---
 name: monorepo-discipline
-description: Enforces monorepo import discipline, package layering rules, circular dependency prevention, and internal export surface governance for the @afenda workspace. References the architecture-authority layer registry. Use when adding imports between packages, creating a new package, scaffolding with turbo gen workspace --copy, reviewing package.json dependencies, or when the user mentions cross-package imports, circular dependencies, layer violations, or workspace governance.
+description: Enforces monorepo import discipline, package layering rules, circular dependency prevention, and internal export surface governance for the @afenda workspace. References the architecture-authority layer registry. Use when adding imports between packages, creating a new package, scaffolding with pnpm scaffold:package, reviewing package.json dependencies, or when the user mentions cross-package imports, circular dependencies, layer violations, or workspace governance.
 disable-model-invocation: true
 ---
 
@@ -76,51 +76,61 @@ Rank 1 — Platform     : @afenda/auth, @afenda/database, @afenda/observability,
 
 ---
 
-## Scaffolding a new package (Turborepo built-in)
+## Scaffolding a new package (`pnpm scaffold:package`)
 
-Use **`turbo gen workspace --copy`** from the repo root — no custom generators or `@turbo/gen` required. Copy an in-repo authority skeleton, then clean up and register.
+Use **`pnpm scaffold:package`** from the repo root — non-interactive, agent-safe. **Do not use `turbo gen workspace --copy`** (interactive prompts break agent/automation flows and duplicate `dist/` / `node_modules/` from the copy source).
 
-### Choose a template
+Templates live under `templates/package-scaffold/`. Env wiring is integrated: Vitest loads monorepo env automatically; optional `--with-env-scripts` adds `scripts/load-env.ts` + `dotenv` for standalone tsx scripts.
 
-| New package type | Copy from | Runtime deps |
-|------------------|-----------|--------------|
-| Foundation authority (kernel contracts) | `packages/accounting-standards` | `@afenda/kernel` |
-| Platform authority (zero runtime deps) | `packages/enterprise-knowledge` | none |
-| Contract-heavy metadata | `packages/ui-composition` | none — heavier tree |
-| React/UI (Design layer only) | `packages/ui` | many — ask before use |
+### Choose a variant
+
+| New package type | Variant | Runtime deps |
+|------------------|---------|--------------|
+| Foundation authority (kernel contracts) | `foundation-with-kernel` | `@afenda/kernel` |
+| Platform authority (zero runtime deps) | `platform-zero-deps` | none |
+| Contract-heavy metadata | Manual peer copy from `packages/ui-composition` | varies |
+| React/UI (Design layer only) | Manual peer copy from `packages/ui` | many — ask before use |
 
 **Do not copy:** `packages/kernel` wholesale (wrong layout gates). **Do not scaffold:** `crm`, `hrm`, `procurement`, `inventory` — blocked by `pnpm check:business-master-data-scaffold`.
 
 ### Commands
 
 ```bash
+# Platform authority (PAS-004 pattern)
+pnpm scaffold:package -- \
+  --name @afenda/<pkg-name> \
+  --variant platform-zero-deps \
+  --pas PAS-NNN-<NAME>-STANDARD.md \
+  --description "Short PAS description"
+
 # Kernel-dependent Foundation authority (PAS-003 pattern)
-pnpm exec turbo gen workspace --copy packages/accounting-standards \
+pnpm scaffold:package -- \
   --name @afenda/<pkg-name> \
-  --destination packages/<pkg-dir> \
-  --type package
+  --variant foundation-with-kernel \
+  --pas PAS-NNN-<NAME>-STANDARD.md \
+  --description "Short PAS description"
 
-# Zero runtime-deps Platform authority (PAS-004 pattern)
-pnpm exec turbo gen workspace --copy packages/enterprise-knowledge \
+# Package with standalone CLI scripts that read secrets
+pnpm scaffold:package -- \
   --name @afenda/<pkg-name> \
-  --destination packages/<pkg-dir> \
-  --type package
+  --variant platform-zero-deps \
+  --with-env-scripts \
+  --env-sync-target
 ```
 
-Interactive mode (omit flags): `pnpm exec turbo gen workspace --copy`
+`--env-sync-target` prints a checklist to add `packages/<dir>/.env` to `LOCAL_SYNC_TARGETS` in `scripts/env-utils.mjs`, then run `pnpm env:console refresh`. See [env-var-governance](../env-var-governance/SKILL.md) and `.cursor/rules/env-workflow.mdc`.
 
-### Post-copy cleanup (before registry)
+### Post-scaffold cleanup (before registry)
 
 ```
-[ ] Delete copied dist/ and node_modules/ under packages/<pkg-dir>/
-[ ] Update package.json name, description, and PAS id in tombstone filename
-[ ] Rewrite src/index.ts fingerprint export for the new package
-[ ] Update architecture-boundary.test.ts approved/prohibited dependency lists
-[ ] Remove template-specific PAS tombstone content; point to docs/PAS/PAS-NNN-*.md
+[ ] Update src/index.ts fingerprint when PAS contracts stabilize
+[ ] Update architecture-boundary.test.ts approved/prohibited lists if deps differ
+[ ] Remove template PAS tombstone placeholder; point to real docs/PAS/PAS-NNN-*.md
 [ ] pnpm install
 [ ] pnpm --filter @afenda/<pkg-name> typecheck
 [ ] pnpm --filter @afenda/<pkg-name> test:run
 [ ] pnpm check:business-master-data-scaffold
+[ ] If --env-sync-target: edit LOCAL_SYNC_TARGETS → pnpm env:console refresh → .env.example
 ```
 
 **Do not automate:** registry rows (`layer-registry`, `package-registry`, `ownership-registry`, `dependency-registry`, `foundation-disposition.registry.ts`) — delegate to **`foundation-registry-owner`**. Full PAS docs and package-specific governance scripts remain separate slices.
@@ -130,7 +140,7 @@ Interactive mode (omit flags): `pnpm exec turbo gen workspace --copy`
 ## Adding a new package checklist
 
 ```
-[ ] 0. Filesystem scaffold — turbo gen workspace --copy (see above) or manual peer copy
+[ ] 0. Filesystem scaffold — `pnpm scaffold:package` (see above) or manual peer copy for UI/metadata trees
 [ ] 1. Layer assigned in architecture-authority layer-registry.data.ts
 [ ] 2. Package registered in package-registry.data.ts
 [ ] 3. Ownership recorded in ownership-registry.data.ts

@@ -91,6 +91,19 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
       },
     ],
   },
+  {
+    name: "@afenda/shadcn-studio",
+    buildCommand: "pnpm --filter @afenda/shadcn-studio build",
+    syncCommand:
+      "pnpm sync:package-css-dist -- --package @afenda/shadcn-studio",
+    sourcePathPrefix: "packages/shadcn-studio/src/styles/",
+    pairs: [
+      {
+        src: "packages/shadcn-studio/src/styles/shadcn-studio.css",
+        dist: "packages/shadcn-studio/dist/shadcn-studio.css",
+      },
+    ],
+  },
 ];
 
 function normalizeRelativePath(relativePath) {

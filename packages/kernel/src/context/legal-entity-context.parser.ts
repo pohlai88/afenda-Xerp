@@ -107,3 +107,10 @@ export function normalizeLegalEntityContextForWire(
     status: value.status,
   };
 }
+
+/** Wire egress alias — same contract as `normalizeLegalEntityContextForWire`. */
+export function serializeLegalEntityContext(
+  value: LegalEntityContext
+): LegalEntityWireContext {
+  return normalizeLegalEntityContextForWire(value);
+}

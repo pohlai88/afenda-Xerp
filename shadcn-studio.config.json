@@ -4,8 +4,8 @@
   "appPort": 3000,
   "toolbarPort": 3200,
   "shadcn": {
-    "cwd": "packages/ui",
-    "uiPackage": "packages/ui"
+    "cwd": "packages/shadcn-studio",
+    "uiPackage": "packages/shadcn-studio"
   },
   "targets": {
     "erp": {

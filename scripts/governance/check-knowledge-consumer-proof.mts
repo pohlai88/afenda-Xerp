@@ -41,7 +41,7 @@ if (!packageJson.dependencies?.["@afenda/enterprise-knowledge"]) {
 }
 
 let hasEnterpriseKnowledgeImport = false;
-let hasGetKnowledgeAtomUsage = false;
+let hasProjectionUsage = false;
 
 for (const filePath of collectTsFiles(erpKnowledgeDir)) {
   const content = readFileSync(filePath, "utf8");
@@ -49,10 +49,10 @@ for (const filePath of collectTsFiles(erpKnowledgeDir)) {
     hasEnterpriseKnowledgeImport = true;
   }
   if (
-    content.includes("getKnowledgeAtom") ||
+    content.includes("projectKnowledgeAtom") ||
     content.includes("getEnterpriseKnowledgePreferredWording")
   ) {
-    hasGetKnowledgeAtomUsage = true;
+    hasProjectionUsage = true;
   }
 }
 
@@ -62,9 +62,9 @@ if (!hasEnterpriseKnowledgeImport) {
   );
 }
 
-if (!hasGetKnowledgeAtomUsage) {
+if (!hasProjectionUsage) {
   errors.push(
-    "apps/erp consumer must call getKnowledgeAtom or getEnterpriseKnowledgePreferredWording"
+    "apps/erp consumer must call projectKnowledgeAtom or getEnterpriseKnowledgePreferredWording (PAS-004C B47)"
   );
 }
 

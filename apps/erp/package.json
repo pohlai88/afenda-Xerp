@@ -32,6 +32,7 @@
     "@afenda/kernel": "workspace:*",
     "@afenda/ui-composition": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
+    "@afenda/shadcn-studio": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/permissions": "workspace:*",
     "@afenda/storage": "workspace:*",

@@ -27,6 +27,27 @@ function resolveMetadataWorkspaceId(
   });
 }
 
+function resolveMetadataHierarchyScopeCarriers(
+  operatingContext: OperatingContext
+): {
+  readonly entityGroupId?: string;
+  readonly projectId?: string;
+  readonly teamId?: string;
+} {
+  const entityGroupId = operatingContext.entityGroup?.entityGroupId;
+  const teamId = operatingContext.team?.teamId;
+  const projectId =
+    operatingContext.project?.projectId ??
+    operatingContext.workspace.projectId ??
+    undefined;
+
+  return {
+    ...(entityGroupId === undefined ? {} : { entityGroupId }),
+    ...(teamId === undefined ? {} : { teamId }),
+    ...(projectId === undefined || projectId === null ? {} : { projectId }),
+  };
+}
+
 /** Builds a server-side metadata render context from verified ERP operating context. */
 export function resolveMetadataUiRenderContextFromOperatingContext(
   input: ResolveMetadataUiRenderContextInput
@@ -38,11 +59,15 @@ export function resolveMetadataUiRenderContextFromOperatingContext(
     operatingContext.workspace.organizationId ??
     undefined;
 
+  const hierarchyScope =
+    resolveMetadataHierarchyScopeCarriers(operatingContext);
+
   const runtime = createMetadataRuntimeContext({
     actorId: operatingContext.actor.userId,
     tenantId: operatingContext.tenant.tenantId,
     companyId: operatingContext.legalEntity.companyId,
     ...(organizationId === undefined ? {} : { organizationId }),
+    ...hierarchyScope,
     workspaceId: resolveMetadataWorkspaceId(operatingContext),
     correlationId: operatingContext.correlationId,
     permissions: input.permissions ? [...input.permissions] : [],

@@ -168,7 +168,8 @@ function buildCursorPaginationQueryParameters(): Array<{
       schema: {
         type: "string",
         example:
-          cursorField.meta()?.example ?? "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
+          cursorField.meta()?.["example"] ??
+          "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
       },
     },
     {
@@ -183,7 +184,7 @@ function buildCursorPaginationQueryParameters(): Array<{
         minimum: 1,
         maximum: MAX_PAGE_LIMIT,
         default: DEFAULT_PAGE_LIMIT,
-        example: limitField.meta()?.example ?? DEFAULT_PAGE_LIMIT,
+        example: limitField.meta()?.["example"] ?? DEFAULT_PAGE_LIMIT,
       },
     },
   ];

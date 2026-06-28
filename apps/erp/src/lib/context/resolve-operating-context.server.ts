@@ -117,12 +117,13 @@ export async function resolveOperatingContext(
     input.memberships ??
     (await loadActorMemberships({
       actorUserId: input.actorUserId,
-      tenantId: tenant.tenantId,
+      tenantId: tenantRow.id,
       ...(db === undefined ? {} : { db }),
     }));
 
   const legalEntityResult = await resolveLegalEntityContext({
     tenant,
+    tenantPk: tenantRow.id,
     memberships,
     selection: {
       companySlug: input.selection.companySlug ?? null,
@@ -179,7 +180,7 @@ export async function resolveOperatingContext(
   }
 
   if (organizationRow) {
-    if (organizationRow.tenantId !== tenant.tenantId) {
+    if (organizationRow.tenantId !== tenantRow.id) {
       return denyOperatingContext({
         correlationId: input.correlationId,
         tenantSlug,
@@ -230,7 +231,7 @@ export async function resolveOperatingContext(
       });
     }
 
-    if (teamRow.tenantId !== tenant.tenantId) {
+    if (teamRow.tenantId !== tenantRow.id) {
       return denyOperatingContext({
         correlationId: input.correlationId,
         tenantSlug,
@@ -270,7 +271,7 @@ export async function resolveOperatingContext(
 
   const organizationId = organizationRow?.id ?? null;
   const organizationUnit = organizationRow
-    ? toOrganizationUnitContext(organizationRow)
+    ? toOrganizationUnitContext(organizationRow, tenant.tenantId)
     : null;
 
   const team = resolveTeamContext({

@@ -1,4 +1,5 @@
 import { TooltipProvider } from "@afenda/ui";
+import "@afenda/shadcn-studio/shadcn-studio.css";
 import type { Decorator, Preview } from "@storybook/react";
 import type { ReactNode } from "react";
 import React, { useEffect } from "react";

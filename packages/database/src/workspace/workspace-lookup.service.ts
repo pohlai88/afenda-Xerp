@@ -14,6 +14,7 @@ import { organizations } from "../schema/organization.schema.js";
 import { tenants } from "../schema/tenant.schema.js";
 
 export interface TenantLookupRow {
+  readonly enterpriseId: string;
   readonly id: string;
   readonly name: string;
   readonly slug: string;
@@ -93,6 +94,30 @@ const organizationLookupSelect = {
 
 export { organizationLookupSelect };
 
+function toTenantLookupRow(
+  row:
+    | {
+        readonly enterpriseId: string | null;
+        readonly id: string;
+        readonly name: string;
+        readonly slug: string;
+        readonly status: TenantStatus;
+      }
+    | undefined
+): TenantLookupRow | null {
+  if (!row || row.enterpriseId === null) {
+    return null;
+  }
+
+  return {
+    id: row.id,
+    enterpriseId: row.enterpriseId,
+    slug: row.slug,
+    name: row.name,
+    status: row.status,
+  };
+}
+
 export async function findTenantBySlug(
   slug: string,
   db: AfendaDatabase = getDb()
@@ -100,6 +125,7 @@ export async function findTenantBySlug(
   const [row] = await db
     .select({
       id: tenants.id,
+      enterpriseId: tenants.enterpriseId,
       slug: tenants.slug,
       name: tenants.name,
       status: tenants.status,
@@ -108,7 +134,7 @@ export async function findTenantBySlug(
     .where(eq(tenants.slug, slug))
     .limit(1);
 
-  return row ?? null;
+  return toTenantLookupRow(row);
 }
 
 /** Resolves canonical enterprise tenant ID (`ten_*`) to internal uuid PK row. */
@@ -119,6 +145,7 @@ export async function findTenantByEnterpriseId(
   const [row] = await db
     .select({
       id: tenants.id,
+      enterpriseId: tenants.enterpriseId,
       slug: tenants.slug,
       name: tenants.name,
       status: tenants.status,
@@ -127,7 +154,7 @@ export async function findTenantByEnterpriseId(
     .where(eq(tenants.enterpriseId, enterpriseId))
     .limit(1);
 
-  return row ?? null;
+  return toTenantLookupRow(row);
 }
 
 export async function findCompanyByTenantAndSlug(
@@ -232,6 +259,7 @@ export async function findTenantById(
   const [row] = await db
     .select({
       id: tenants.id,
+      enterpriseId: tenants.enterpriseId,
       slug: tenants.slug,
       name: tenants.name,
       status: tenants.status,
@@ -240,5 +268,5 @@ export async function findTenantById(
     .where(eq(tenants.id, tenantId))
     .limit(1);
 
-  return row ?? null;
+  return toTenantLookupRow(row);
 }

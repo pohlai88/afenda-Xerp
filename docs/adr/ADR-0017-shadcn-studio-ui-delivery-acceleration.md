@@ -39,7 +39,7 @@ The following sources are **Approved** for Afenda UI delivery acceleration when 
 | Source | Role | Runtime use |
 |--------|------|-------------|
 | **shadcn/studio MCP** (`shadcn-studio` server) | `/cui`, `/rui`, `/iui`, `/ftc` block discovery and generation | Staging install only → governed promotion |
-| **shadcn CLI** (`@ss-blocks/*`, `@ss-components/*`) | Pro block install from `packages/ui` cwd | Staging install only → governed promotion |
+| **shadcn CLI** (`@ss-blocks/*`, `@ss-components/*`) | Pro block install from `packages/shadcn-studio` cwd | Staging install only → governed promotion |
 | **`_reference/` template** | Local offline catalog of Admin Dashboard v1.0.0 | **Read-only** — never import into runtime |
 | **shadcnstudio.com** | Online block/template catalog | Discovery; install via MCP or CLI |
 
@@ -51,18 +51,18 @@ Every block that reaches production must pass this pipeline in order:
 
 ```txt
 Discover (_reference catalog / MCP /iui or /cui / adaptation guide §3)
-  → Install (packages/ui cwd; LICENSE_KEY from .env.secret for Pro blocks)
-  → Stage (packages/ui/src/components/shadcn-studio/ — raw MCP output only)
+  → Install (packages/shadcn-studio cwd; LICENSE_KEY from .env.secret for Pro blocks)
+  → Stage (packages/shadcn-studio/src/blocks/ — raw MCP output; govern before ERP wiring)
   → Normalize (3-question decision filter — see §2.1; STUDIO-PATTERN-MAP lookup)
-  → Promote CSS (packages/appshell/src/styles/afenda-appshell-studio.css — reusable patterns only, ≥2 blocks)
-  → Move block → packages/appshell/src/shadcn-studio/blocks/
+  → Promote CSS (packages/appshell/src/styles/afenda-appshell-studio.css — reusable patterns only, ≥2 blocks; migrate to css-authority on cutover)
+  → Govern block under PAS-005A (@afenda/shadcn-studio inventory)
   → Storybook story + test (*.stories.tsx; *.test.tsx or *.interaction.test.tsx)
-  → Wire in apps/erp via @afenda/appshell exports only (never studio CSS directly)
+  → Wire in apps/erp via @afenda/appshell exports until legacy delete (PAS-005A B42+)
   → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
 ```
 
-**Canonical install cwd:** `packages/ui` (per `shadcn-studio.config.json` and `packages/ui/components.json`).  
-**Note:** `.cursor/mcp.json` `shadcn` server currently uses `-c apps/erp`; align to `packages/ui` in a follow-up wiring fix.
+**Canonical install cwd:** `packages/shadcn-studio` (per `shadcn-studio.config.json` and `packages/shadcn-studio/components.json` — PAS-005A B38+).  
+**Legacy cwd:** `packages/ui` — deprecated; do not use for new installs.
 
 ### 3. CSS token chain (automatic flow)
 

@@ -21,9 +21,16 @@ function createMetadataDiagnosticsIdentitySnapshot(
     ...(runtime.companyId === undefined
       ? {}
       : { companyId: runtime.companyId }),
+    ...(runtime.entityGroupId === undefined
+      ? {}
+      : { entityGroupId: runtime.entityGroupId }),
     ...(runtime.organizationId === undefined
       ? {}
       : { organizationId: runtime.organizationId }),
+    ...(runtime.projectId === undefined
+      ? {}
+      : { projectId: runtime.projectId }),
+    ...(runtime.teamId === undefined ? {} : { teamId: runtime.teamId }),
     ...(runtime.workspaceId === undefined
       ? {}
       : { workspaceId: runtime.workspaceId }),
@@ -63,6 +70,9 @@ function createMetadataDiagnosticsPresentationSnapshot(
   return {
     densityMode: runtime.density,
     presentationMode: runtime.presentationMode,
+    ...(context.presentation?.themePresetSlug === undefined
+      ? {}
+      : { themePresetSlug: context.presentation.themePresetSlug }),
   };
 }
 

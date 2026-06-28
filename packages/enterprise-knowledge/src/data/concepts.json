@@ -1,0 +1,170 @@
+[
+  {
+    "conceptId": "legal_entity",
+    "fqn": "afenda.enterprise.concept.legal_entity",
+    "label": "Company (tenant UI)",
+    "description": "A registered statutory body that owns accounting books, tax identity, and statutory obligations.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "organization_unit",
+    "fqn": "afenda.enterprise.concept.organization_unit",
+    "label": "Organization unit",
+    "description": "Operational node in the tree beneath a legal entity.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "workspace",
+    "fqn": "afenda.enterprise.concept.workspace",
+    "label": "Workspace",
+    "description": "Active operating snapshot: tenant, company, org, project selections.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "surface",
+    "fqn": "afenda.enterprise.concept.surface",
+    "label": "Screen",
+    "description": "Dot-separated module path for the active ERP screen.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "payload",
+    "fqn": "afenda.enterprise.concept.payload",
+    "label": "Request data",
+    "description": "Business information transmitted, separate from transport metadata.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "invariant",
+    "fqn": "afenda.enterprise.concept.invariant",
+    "label": "Non-negotiable rule",
+    "description": "Condition that must remain true under allowed state transitions.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "contract",
+    "fqn": "afenda.enterprise.concept.contract",
+    "label": "Specification",
+    "description": "Promised interface and behavior between producers and consumers.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "metadata",
+    "fqn": "afenda.enterprise.concept.metadata",
+    "label": "Descriptive information (not enterprise knowledge)",
+    "description": "Descriptive information about other data or assets.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "double_entry",
+    "fqn": "afenda.enterprise.concept.double_entry",
+    "label": "Double-entry bookkeeping",
+    "description": "Every transaction affects at least two accounts with equal debits and credits.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "accounting_equation",
+    "fqn": "afenda.enterprise.concept.accounting_equation",
+    "label": "Accounting equation (A = L + E)",
+    "description": "Assets equal liabilities plus equity at all times.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "organization_split",
+    "fqn": "afenda.enterprise.concept.organization_split",
+    "label": "Company vs organization unit split",
+    "description": "Afenda v2 decision to stop using organization as a catch-all label.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "ifrs_10",
+    "fqn": "afenda.enterprise.concept.ifrs_10",
+    "label": "IFRS 10 (control",
+    "description": "IFRS standard defining control for consolidation.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "tenant",
+    "fqn": "afenda.enterprise.concept.tenant",
+    "label": "Tenant (SaaS customer boundary)",
+    "description": "SaaS customer boundary — root security and subscription isolation unit.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "entity_group",
+    "fqn": "afenda.enterprise.concept.entity_group",
+    "label": "Entity group",
+    "description": "Corporate group structure under a tenant; may represent a holding group.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "ownership_interest",
+    "fqn": "afenda.enterprise.concept.ownership_interest",
+    "label": "Ownership interest",
+    "description": "Ownership relationship between legal entities for consolidation scope.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "consolidation_scope",
+    "fqn": "afenda.enterprise.concept.consolidation_scope",
+    "label": "Consolidation scope",
+    "description": "Scope of legal entities included in consolidated reporting.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "operating_context",
+    "fqn": "afenda.enterprise.concept.operating_context",
+    "label": "Operating context",
+    "description": "Server-resolved ERP operating snapshot composing tenant, legal entity, workspace, and scoped authorities.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "permission_scope",
+    "fqn": "afenda.enterprise.concept.permission_scope",
+    "label": "Permission scope",
+    "description": "Resolved permission evaluation scope for the current actor within tenant and workspace boundaries.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "project",
+    "fqn": "afenda.enterprise.concept.project",
+    "label": "Project.",
+    "description": "Optional project dimension scoping work, budgets, or delivery within a workspace.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "team",
+    "fqn": "afenda.enterprise.concept.team",
+    "label": "Team.",
+    "description": "Optional team dimension for collaborative ownership within a workspace.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "localization_context",
+    "fqn": "afenda.enterprise.concept.localization_context",
+    "label": "Localization",
+    "description": "Locale, currency, and formatting context applied to user-visible and statutory outputs.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "workflow_context",
+    "fqn": "afenda.enterprise.concept.workflow_context",
+    "label": "Workflow context.",
+    "description": "Optional workflow state dimension for approval and process-scoped operations.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "business_reference",
+    "fqn": "afenda.enterprise.concept.business_reference",
+    "label": "Business reference number (customer no., employee no., …).",
+    "description": "Tenant-governed human administrative number family — not a canonical kernel ID.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "human_reference",
+    "fqn": "afenda.enterprise.concept.human_reference",
+    "label": "Human reference",
+    "description": "Tenant-scoped human-readable reference governed separately from kernel canonical IDs.",
+    "ownedByPas": "PAS-004C"
+  }
+]

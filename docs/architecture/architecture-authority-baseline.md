@@ -24,7 +24,7 @@ Immutable identifier for this audit artifact. Any material edit to active worksp
 | Active package owners | 18 |
 
 ```text
-Fingerprint: ARCH-BASELINE-2026-06-27-v3
+Fingerprint: ARCH-BASELINE-2026-06-28-v4
 ```
 
 **v2 change (2026-06-23):** Documentation authority closeout (TIP-000D). ADR-0009–0013 Accepted; runtime truth matrix, pre-accounting roadmap, tip-status-index, and `pnpm quality:documentation-drift` enforced. No workspace topology change from v1.

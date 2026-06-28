@@ -31,6 +31,9 @@ export function createMetadataUiRenderContext(
       hydration,
       interactive: input.source === "client",
     },
+    ...(input.themePresetSlug === undefined
+      ? {}
+      : { presentation: { themePresetSlug: input.themePresetSlug } }),
     policy: {
       strict: input.strict ?? false,
       diagnosticsLevel,

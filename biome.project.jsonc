@@ -17,9 +17,11 @@
       "!!**/next-env.d.ts",
       "!!**/pnpm-lock.yaml",
       // ── Project-specific exclusions ──────────────────────────────────────────
-      // Documentation: markdown + docs tree — not Biome-owned (see .vscode/settings.json).
+      // Documentation: markdown / MDX / Cursor rules — not Biome-owned (see .vscode/settings.json).
       "!!**/docs",
       "!!**/*.md",
+      "!!**/*.mdx",
+      "!!**/*.mdc",
       "!!**/.cursor",
       "!!.cursor-biome-report.json",
       "!!**/packages/ui/src/components/shadcn-studio",
@@ -30,6 +32,7 @@
       "!!**/_reference",
       "!!**/*.docx",
       "!!**/*.tsbuildinfo",
+      "!!**/templates",
       // Soft-ignore: scanner can still index types, but linter skips these
       "!**/packages/database/src/migrations/meta"
     ]

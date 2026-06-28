@@ -84,6 +84,14 @@ export {
   metadataUiContract,
 } from "./contracts/metadata-ui.contract.js";
 export type {
+  MetadataUiThemePresentation,
+  MetadataUiThemePresetSlug,
+} from "./contracts/presentation.contract.js";
+export {
+  isMetadataUiThemePresetSlug,
+  METADATA_UI_THEME_PRESET_SLUGS,
+} from "./contracts/presentation.contract.js";
+export type {
   CreateMetadataRenderContextInput,
   CreateMetadataUiRenderContextInput,
   MetadataUiDiagnosticsLevel,

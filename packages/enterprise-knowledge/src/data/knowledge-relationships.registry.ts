@@ -20,22 +20,17 @@ function isKnowledgeRelationshipType(
   return (KNOWLEDGE_RELATIONSHIP_TYPES as readonly string[]).includes(value);
 }
 
-function toKnowledgeRelationship(
-  edge: (typeof KNOWLEDGE_EDGES)[number]
-): KnowledgeRelationship {
-  if (!isKnowledgeRelationshipType(edge.type)) {
-    throw new Error(
-      `Edge ${edge.edgeId}: type "${edge.type}" is not a legacy KnowledgeRelationshipType`
-    );
-  }
-  return {
-    relationshipId: edge.edgeId,
-    type: edge.type,
-    fromAtomId: edge.fromAtomId,
-    toAtomId: edge.toAtomId,
-    ...(edge.note === undefined ? {} : { note: edge.note }),
-  };
-}
-
 export const KNOWLEDGE_RELATIONSHIPS: readonly KnowledgeRelationship[] =
-  KNOWLEDGE_EDGES.map(toKnowledgeRelationship);
+  KNOWLEDGE_EDGES.flatMap((edge) => {
+    if (!isKnowledgeRelationshipType(edge.type)) {
+      return [];
+    }
+    const relationship: KnowledgeRelationship = {
+      relationshipId: edge.edgeId,
+      type: edge.type,
+      fromAtomId: edge.fromAtomId,
+      toAtomId: edge.toAtomId,
+      ...(edge.note === undefined ? {} : { note: edge.note }),
+    };
+    return [relationship];
+  });
