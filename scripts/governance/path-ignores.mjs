@@ -1,8 +1,8 @@
 /**
  * Paths excluded from governance / typecheck gates.
  *
- * `packages/ui/src/components/shadcn-studio` is raw MCP install output — not
- * @afenda/ui public API. Governed copies live in `packages/appshell/src/shadcn-studio`.
+ * `packages/ui/src/components/shadcn-studio` was retired (PAS-005A B42+).
+ * Canonical MCP inventory: `@afenda/shadcn-studio`. Helpers remain for legacy path scans.
  */
 
 export const UI_SHADCN_STUDIO_INSTALL_REL =
