@@ -55,7 +55,7 @@
 > **Maturity is part of authority.**
 > PAS-002 MVP evidence (B1–B27, green-lane disposition, composite validators) is **closed**. **`contracts-only` runtime stance is permanent** — Enterprise Accepted does **not** mean ERP request-time execution. Do not claim **Enterprise Accepted** until B42 attestation closes and `foundation-registry-owner` promotes `PKGR02` authority to PAS-002A.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Governance baseline (closed):** [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md`
 
@@ -466,7 +466,7 @@ When in doubt, apply the kernel-authority three-question test before adding func
 | Document | Role |
 | --- | --- |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Parent MVP Authority standard |
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Kernel identity boundary |
+| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Kernel identity boundary |
 | [PAS-004A §11](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md#11-enterprise-acceptance-criteria-95-scorecard) | Scorecard pattern reference |
 | [afenda-runtime-truth-matrix.md](../architecture/afenda-runtime-truth-matrix.md) | Runtime evidence vocabulary |
 | [ownership-registry.md](../architecture/ownership-registry.md) | B39 attestation target |

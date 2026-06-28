@@ -485,7 +485,7 @@ const foundationDispositionEntries = [
     authority: "PAS-001B",
     requiredBeforeAccounting: false,
     evidence: [
-      "docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md",
+      "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
       "packages/kernel/src/erp-domain/erp-domain-layout.contract.ts",
       "scripts/governance/check-erp-domain-layout.mts",
     ],
@@ -1287,7 +1287,7 @@ const foundationDispositionEntries = [
     requiredBeforeAccounting: false,
     evidence: [
       "docs/PAS/README.md",
-      "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
+      "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
       "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
       "docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
       "docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md",

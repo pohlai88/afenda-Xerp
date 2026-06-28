@@ -21,7 +21,9 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
+import { KERNEL_PAS_VOCABULARY_ARCHIVE } from "./kernel-pas-paths.mts";
+
+const pasPath = join(repoRoot, KERNEL_PAS_VOCABULARY_ARCHIVE);
 const kernelSrcRoot = join(repoRoot, "packages/kernel/src");
 
 const FORBIDDEN_KERNEL_IMPORT_PATTERNS = [

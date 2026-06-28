@@ -1,6 +1,6 @@
 # PAS-001 — Kernel Vocabulary Authority Standard
 
-> **Composed governance layer** — distilled from accepted legacy [PAS-001](../PAS-001-KERNEL-AUTHORITY-STANDARD.md). Exhaustive §4 contract implementation detail remains in the legacy archive until selectively promoted here.
+> **Composed governance layer** — distilled from accepted [implementation archive](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md). Exhaustive §4 contract detail remains in the archive until selectively promoted here.
 
 | Field | Value |
 | --- | --- |
@@ -25,7 +25,7 @@
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, governed domain packages |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §4 Kernel Vocabulary |
 | **Extension PAS** | [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
-| **Legacy archive** | [PAS-001-KERNEL-AUTHORITY-STANDARD.md](../PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| **Implementation archive** | [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
 | **ADR prerequisites** | ADR-0021 · ADR-0022 · ADR-0023 · ADR-0011 (operating context hierarchy) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -48,13 +48,13 @@
 > **Maturity is part of authority.** PAS-001 vocabulary is closed at Enterprise Accepted. Amendment slices only — do not expand vocabulary under PAS-001A or PAS-001B.
 
 > **Canonical location (composed):** `docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`
-> **Implementation archive:** `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md` · **Package tree:** `packages/kernel/PAS-001-KERNEL-TREE.md`
+> **Implementation archive:** [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · **Package tree:** `packages/kernel/PAS-001-KERNEL-TREE.md`
 
 ---
 
 # 0. Agent Quick Path
 
-**Read order:** [KERNEL README](README.md) → this §0 → legacy [PAS-001 §4](../PAS-001-KERNEL-AUTHORITY-STANDARD.md#4-authority-surfaces) when implementing a cited surface.
+**Read order:** [KERNEL README](README.md) → this §0 → archive [PAS-001 §4](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#4-authority-surfaces) when implementing a cited surface.
 
 **Boundary:** The kernel defines **cross-package facts, branded vocabulary, wire-safe contracts, and execution context primitives**; it never implements **business behavior, persistence, transport, rendering, formatting, authorization evaluation, accounting logic, or external integration**.
 
@@ -108,7 +108,7 @@ If a kernel contract appears to need database, HTTP, auth, permission, UI, or ex
 | **Permissions** | Consumer | Grant-scope *words* on `OperatingContext` | Evaluation in `@afenda/permissions` |
 | **ERP Integration Spine** | Consumer proof | Production wiring | PAS-001A — not kernel substrate |
 
-Full dependency prose: legacy [PAS-001 §3](../PAS-001-KERNEL-AUTHORITY-STANDARD.md#3-dependency-rules).
+Full dependency prose: archive [PAS-001 §3](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#3-dependency-rules).
 
 ---
 
@@ -130,7 +130,7 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 | Domain Event Envelope | Integration | Stable | §4.10 | Domain event envelope |
 | Async Context Propagation | Runtime | Stable | §4.11 | Minimal async context frame |
 
-**Permission model:** legacy [PAS-001 §8](../PAS-001-KERNEL-AUTHORITY-STANDARD.md) — grant-scope vocabulary only; evaluation in `@afenda/permissions`.
+**Permission model:** legacy [PAS-001 §8](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — grant-scope vocabulary only; evaluation in `@afenda/permissions`.
 
 **ERP domain wire terms:** promoted to [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) — not expanded ad hoc under PAS-001 §4.8 alone.
 
@@ -156,7 +156,7 @@ Kernel must never own: database schema/migrations/clients · auth sessions · pe
 
 # 7. Decision Matrix
 
-Boundary questions resolve through legacy [PAS-001 §7](../PAS-001-KERNEL-AUTHORITY-STANDARD.md) decision matrix (≥8 rows, Yes/No). Composed rule: **when in doubt, escalate to Domain NS or open amendment slice — do not patch consumers.**
+Boundary questions resolve through archive [PAS-001 §7](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) decision matrix (≥8 rows, Yes/No). Composed rule: **when in doubt, escalate to Domain NS or open amendment slice — do not patch consumers.**
 
 ---
 
@@ -197,7 +197,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 | Boundary cycles clean | `architecture:cycles` · `architecture:drift` | Platform substrate |
 | B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §13 |
 
-Full §11 table: legacy [PAS-001 §12](../PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).
+Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).
 
 ---
 
@@ -210,7 +210,7 @@ Full §11 table: legacy [PAS-001 §12](../PAS-001-KERNEL-AUTHORITY-STANDARD.md#1
 | B53–B57 | Propagation frame · project · policy · permission wire | Delivered |
 | B67–B70 | Doc attestation · hierarchy boundary · context gate · test hygiene | Delivered |
 
-**Full catalog:** [KERNEL/SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · composed handoffs (SSOT) [KERNEL/SLICE/](SLICE/) · legacy archive [`docs/PAS/slice/`](../slice/) · compliance [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
+**Full catalog:** [KERNEL/SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · handoffs (SSOT) [KERNEL/SLICE/](SLICE/) · compliance [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
 
 **Prerequisite for extension work:** PAS-001 Enterprise Accepted (this document) before PAS-001A or PAS-001B consumer/catalog slices.
 
@@ -245,7 +245,7 @@ Runtime layers own behavior.
 Vocabulary closure (PAS-001) ≠ integration proof (PAS-001A) ≠ ERP wire catalog (PAS-001B).
 ```
 
-**Final kernel doctrine:** legacy [PAS-001 §16](../PAS-001-KERNEL-AUTHORITY-STANDARD.md#16-final-kernel-doctrine).
+**Final kernel doctrine:** legacy [PAS-001 §16](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#16-final-kernel-doctrine).
 
 ---
 
@@ -255,7 +255,7 @@ Vocabulary closure (PAS-001) ≠ integration proof (PAS-001A) ≠ ERP wire catal
 | --- | --- |
 | Kernel North Star | [docs/NORTHSTAR/kernel-north-star.md](../../NORTHSTAR/kernel-north-star.md) |
 | Kernel Blueprint | [docs/BLUEPRINT/kernel-blueprint.md](../../BLUEPRINT/kernel-blueprint.md) |
-| Legacy implementation archive | [PAS-001-KERNEL-AUTHORITY-STANDARD.md](../PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| Implementation archive | [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
 | ERP Integration Spine | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 | Wire vocabulary catalog | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 | Family index | [KERNEL/README.md](README.md) |

@@ -22,7 +22,9 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
+import { KERNEL_PAS_VOCABULARY_ARCHIVE } from "./kernel-pas-paths.mts";
+
+const pasPath = join(repoRoot, KERNEL_PAS_VOCABULARY_ARCHIVE);
 const packageJsonPath = join(repoRoot, "package.json");
 
 function extractPasSection11Deferred(source: string): string[] {

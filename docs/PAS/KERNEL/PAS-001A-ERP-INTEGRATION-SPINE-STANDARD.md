@@ -1,6 +1,6 @@
 # PAS-001A — ERP Integration Spine Standard
 
-> **Composed governance layer** — proves production ERP **consumes** kernel vocabulary through one resolver spine. Renamed from legacy "Kernel ERP Production Integration" to **ERP Integration Spine** per [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md). Legacy archive: [PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md).
+> **Composed governance layer** — proves production ERP **consumes** kernel vocabulary through one resolver spine. Renamed from legacy "Kernel ERP Production Integration" to **ERP Integration Spine** per [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md). Legacy archive: [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md).
 
 | Field | Value |
 | --- | --- |
@@ -24,7 +24,7 @@
 | **Remaining slices** | none |
 | **Integration consumers** | `apps/erp`, `@afenda/permissions`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §5.1 · Kernel NS §4 runtime integration proof |
-| **Legacy archive** | [PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| **Legacy archive** | [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
 | **ADR prerequisites** | ADR-0011 · ADR-0014 · ADR-0021–0023 (read-only branding paths) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -108,7 +108,7 @@ PAS-001 closes when **kernel vocabulary is enterprise-gated**. Production ERP st
 | Metadata authorization bridge (IS-003) | Knowledge atoms (PAS-004) |
 | Doc + matrix sync | PAS-001 hidden amendment |
 
-Full tables: legacy [PAS-001A §1](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#1-derivation-and-scope).
+Full tables: legacy [PAS-001A §1](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#1-derivation-and-scope).
 
 ## 1.3 Integration surfaces (stable IDs)
 
@@ -224,7 +224,7 @@ Bounded contexts: Kernel (vocabulary) · Permissions (grant scope) · Database (
 | ERP → AppShell | Published language | `to-shell-operating-context.ts` |
 | ERP → Metadata UI | Shared kernel | B74 bridge |
 
-Full mermaid + table: legacy [PAS-001A §3](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#3-context-map-bounded-contexts).
+Full mermaid + table: legacy [PAS-001A §3](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#3-context-map-bounded-contexts).
 
 ---
 
@@ -267,7 +267,7 @@ Architectural truths — independent of implementation files. Violations require
 | **INV-005** | Kernel may be imported downstream; kernel must never call upward into ERP, Permissions evaluation, or Presentation | §2.4 |
 | **INV-006** | Permissions returns validated facts; Permissions must never assemble full `OperatingContext` | §2.4 |
 
-Full rules: legacy [PAS-001A §4](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#4-integration-governance-rules).
+Full rules: legacy [PAS-001A §4](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#4-integration-governance-rules).
 
 ---
 
@@ -304,13 +304,13 @@ Pass threshold: **10/10 required rows green.**
 | 9 | Metadata uses spine resolver | IS-003 · INV-004 | B74 |
 | 10 | `check:documentation-drift` + matrix synced | — | B73 |
 
-Legacy title: Production Candidate Scorecard — [PAS-001A §6](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#6-production-candidate-scorecard-b75--closed).
+Legacy title: Production Candidate Scorecard — [PAS-001A §6](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#6-production-candidate-scorecard-b75--closed).
 
 ---
 
 # 7. Closure Waivers (inherit from PAS-001)
 
-Not PAS-001A blockers: `FiscalCalendarId` quarantine · deferred ID families · ledger/posting runtime. See legacy [PAS-001A §7](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#7-closure-waivers-inherit-from-pas-001--not-pas-001a-blockers).
+Not PAS-001A blockers: `FiscalCalendarId` quarantine · deferred ID families · ledger/posting runtime. See legacy [PAS-001A §7](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#7-closure-waivers-inherit-from-pas-001--not-pas-001a-blockers).
 
 ---
 
@@ -349,7 +349,7 @@ If PAS-001A work requires new kernel words → stop and amend PAS-001 explicitly
 | Artifact | Path |
 | --- | --- |
 | Parent PAS (composed) | [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
-| Legacy archive | [PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](../PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| Legacy archive | [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
 | Kernel Blueprint §5.1 | [kernel-blueprint.md](../../BLUEPRINT/kernel-blueprint.md) |
 | Context registry | `packages/kernel/src/context/context-registry.ts` |
 | ERP resolver | `apps/erp/src/lib/context/resolve-operating-context.server.ts` |

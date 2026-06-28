@@ -59,7 +59,7 @@
 > **Maturity is part of authority.**
 > PAS-004A Production Candidate evidence (24 atoms, ERP consumer, 30/30 scorecard) is **closed**. Do not claim **Enterprise Accepted** until B37 attestation closes and `foundation-registry-owner` promotes `PKGR04` authority to PAS-004B.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Charter (unchanged):** [PAS-004 §1–§4](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 > **Platform baseline (closed):** [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md)
 > **Canonical location:** `docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md`
@@ -165,7 +165,7 @@ Consumers **may** import `@afenda/enterprise-knowledge` for vocabulary resolutio
 
 ## 4.1 Kernel identity constitution bridge
 
-**Authority:** [PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md)
+**Authority:** [PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md)
 
 **Problem:** B26 validates generic kernel contract paths. Platform identity atoms (tenant, legal entity, organization unit, workspace) must cite **identity constitution** surfaces — not ad-hoc legacy paths.
 
@@ -433,7 +433,7 @@ When in doubt:
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate platform — **closed B24–B32** |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic model — **closed B38–B48** |
 | [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — **B49+ proposed** |
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Wire + identity constitution — **reference only** |
+| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire + identity constitution — **reference only** |
 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity mapping validation authority (B33) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
 | [B32 slice](slice/b32-erp-consumer-integration.md) | ERP consumer baseline |

@@ -253,7 +253,7 @@ interface LifecycleContract {
 
 Status: Current — `data/business-master-data-authority.registry.ts` + `business-master-data-*.policy.ts`
 
-Records **which business entity IDs are reserved for which domain packages** (ADR-0020). Package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)).
+Records **which business entity IDs are reserved for which domain packages** (ADR-0020). Package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](../../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 
 ---
 

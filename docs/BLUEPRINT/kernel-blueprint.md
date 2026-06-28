@@ -319,9 +319,9 @@ Before authoring a new kernel-scoped PAS:
 
 | Blueprint box | Root PAS (composed) | Legacy archive | Agent skill |
 | --- | --- | --- | --- |
-| Kernel Vocabulary | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [legacy PAS-001](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `kernel-authority` |
-| Kernel Domain Vocabulary Catalog | [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [legacy PAS-001B](../PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `kernel-authority` |
-| ERP Integration Spine | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [legacy PAS-001A](../PAS/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `kernel-authority` + `multi-tenancy-erp` |
+| Kernel Vocabulary | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive PAS-001](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `kernel-authority` |
+| Kernel Domain Vocabulary Catalog | [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive PAS-001B](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `kernel-authority` |
+| ERP Integration Spine | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive PAS-001A](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `kernel-authority` + `multi-tenancy-erp` |
 
 **Handoff fields for PAS authors:**
 
@@ -339,9 +339,9 @@ Gates: PAS §13.1 — must include drift + boundary gates
 
 | PAS ID | Title | Box | Maturity | Slices | Composed | Legacy |
 | --- | --- | --- | --- | --- | --- | --- |
-| PAS-001 | Kernel Vocabulary Authority | Kernel Vocabulary | Enterprise Accepted | B49–B70 closed | [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [PAS-001](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
-| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | B71–B75 closed | [KERNEL/PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [PAS-001A](../PAS/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
-| PAS-001B | ERP Wire Vocabulary Catalog | Domain Catalog | Enterprise Accepted · `catalog_authority` role | B76–B106 closed | [KERNEL/PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [PAS-001B](../PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| PAS-001 | Kernel Vocabulary Authority | Kernel Vocabulary | Enterprise Accepted | B49–B70 closed | [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | B71–B75 closed | [KERNEL/PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| PAS-001B | ERP Wire Vocabulary Catalog | Domain Catalog | Enterprise Accepted · `catalog_authority` role | B76–B106 closed | [KERNEL/PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 
 **Live / Total slices:** 3 / 3 PAS · all slice catalogs closed at current maturity
 
@@ -386,7 +386,7 @@ For any kernel-related coding agent:
 4. If consumer/integration work → [PAS-001A §0](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#0-agent-quick-path) + spine registry
 5. If erp-domain wire term (**KV-***) → [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md)
 6. Read [Kernel Slice catalog](../PAS/KERNEL/SLICE/kernel-slice-catalog.md) — build order + handoff link
-7. Read legacy slice 9-field handoff in `docs/PAS/slice/`
+7. Read target slice 9-field handoff in [`docs/PAS/KERNEL/SLICE/`](../PAS/KERNEL/SLICE/README.md)
 8. /afenda-coding-session Phase 0 + /coding-consistency-bundle
 9. Implement one PAS §4 surface per slice
 10. Run PAS §13 gates + integration gates (§5.1 table)

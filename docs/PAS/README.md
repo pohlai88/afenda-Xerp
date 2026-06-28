@@ -83,9 +83,9 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 
 | Standard | Package | Layer | Maturity |
 |---|---|---|---|
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
-| [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29; derived from PAS-001) |
-| [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B106 delivered 2026-06-28; 28/28 vocabulary; foundation re-scaffold) |
+| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
+| [PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29) |
+| [PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B106 delivered; 28/28 vocabulary modules) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
@@ -107,13 +107,13 @@ Slice closure registry: [`pas-status-index.md`](pas-status-index.md)
 
 ### Kernel PAS family (composed governance layer)
 
-Platform Kernel uses a **composed PAS family** under [`KERNEL/`](KERNEL/README.md) — distilled from the legacy implementation archive without refactoring root `PAS-001*` files.
+Platform Kernel chain SSOT: [`KERNEL/README.md`](KERNEL/README.md) · slices: [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) · implementation archive: [`KERNEL/archive/`](KERNEL/archive/README.md).
 
-| Composed (chain SSOT) | Legacy archive |
+| Composed SSOT | Archive (§4–§16 detail) |
 | --- | --- |
-| [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [PAS-001-KERNEL-AUTHORITY-STANDARD.md](PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
-| [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
-| [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive/PAS-001](KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive/PAS-001A](KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive/PAS-001B](KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 
 Agent read order: [Kernel North Star](../NORTHSTAR/kernel-north-star.md) → [Kernel Blueprint](../BLUEPRINT/kernel-blueprint.md) → [KERNEL/README.md](KERNEL/README.md) → [KERNEL/SLICE/README.md](KERNEL/SLICE/README.md).
 

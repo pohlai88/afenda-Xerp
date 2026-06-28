@@ -51,7 +51,7 @@
 > **Maturity is part of authority.**
 > PAS-004B Enterprise Accepted (40/40) is **closed**. Do not claim **North Star semantic model complete** until B46 attestation closes. Do not expand atom corpus horizontally until Phase 1 (B38–B41) lands.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
+> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
 > **Charter (unchanged):** [PAS-004 §1–§4](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 > **Platform baseline (closed):** [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md)
 > **Canonical location:** `docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md`
@@ -640,7 +640,7 @@ When in doubt:
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate platform — **closed B24–B32** |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted — **closed B33–B37** |
 | [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — **B49+ proposed** |
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Wire + identity — **reference only** |
+| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire + identity — **reference only** |
 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity realization validation (B44) |
 
 ---

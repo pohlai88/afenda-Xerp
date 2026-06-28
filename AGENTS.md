@@ -165,12 +165,12 @@ Read in order:
 1. [`docs/architecture/afenda-platform-north-star.md`](docs/architecture/afenda-platform-north-star.md) — platform why + capability expectations ([ADR-0026](docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md))
 2. [`docs/architecture/afenda-architecture-blueprint.md`](docs/architecture/afenda-architecture-blueprint.md) — discover packages/domains before PAS
 3. [`docs/PAS/README.md`](docs/PAS/README.md) — PAS index and canonical location rules
-4. [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — kernel boundary (first active PAS)
+4. [`docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — kernel boundary (composed SSOT)
 5. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
 6. [`docs/architecture/foundation-disposition.md`](docs/architecture/foundation-disposition.md) — lane vocabulary + entries (synced view)
 7. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
 8. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
-9. Target slice under [`docs/PAS/slice/`](docs/PAS/slice/) — copy one §Handoff block into Phase 0
+9. Target kernel slice under [`docs/PAS/KERNEL/SLICE/`](docs/PAS/KERNEL/SLICE/) — copy one §Handoff block into Phase 0
 
 **Planning:** [`.cursor/skills/pas-slice-planner/SKILL.md`](.cursor/skills/pas-slice-planner/SKILL.md)
 

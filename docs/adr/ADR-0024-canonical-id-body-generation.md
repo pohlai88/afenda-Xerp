@@ -112,7 +112,7 @@ Kernel fixture generators may return fixed bodies; they MUST NOT be wired in pro
 
 - [ADR-0021 — Canonical Enterprise ID Constitution](./ADR-0021-canonical-enterprise-identity.md)
 - [ADR-0022 — PostgreSQL Split-ID Persistence Model](./ADR-0022-postgres-split-id-persistence-model.md)
-- [PAS-001 §4.1](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+- [PAS-001 §4.1](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [canonical-enterprise-id-constitution.md](../architecture/identity/canonical-enterprise-id-constitution.md)
 - `packages/kernel/src/identity/canonical/canonical-id-body-generator.contract.ts`
 - `packages/database/src/ids/enterprise-id-generator.ts`

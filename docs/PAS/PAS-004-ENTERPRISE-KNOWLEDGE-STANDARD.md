@@ -47,7 +47,7 @@
 
 > **Canonical location:** `docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`
 > **Package-local pointer:** [`packages/enterprise-knowledge/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../../packages/enterprise-knowledge/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
-> **Kernel wire boundary (do not duplicate):** [PAS-001 §4](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel wire boundary (do not duplicate):** [PAS-001 §4](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Package map boundary (do not duplicate):** [PAS-002 §0](PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
 
 ---

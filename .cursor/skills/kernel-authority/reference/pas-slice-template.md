@@ -8,9 +8,9 @@
 >
 > It never re-specifies business meaning, package maps, or full PAS contracts.
 
-Copy to `docs/PAS/slice/<bN>-<pas-section>-<slug>.md` (platform PAS legacy path).
+Copy to `docs/PAS/slice/<bN>-<pas-section>-<slug>.md` (non-kernel PAS families — legacy tree removed; recreate per-family slice dirs when those tracks resume).
 
-**Kernel family (PAS-001 / 001A / 001B):** copy to `docs/PAS/KERNEL/SLICE/<bN>-<pas-section>-<slug>.md` — SSOT. Do not author new kernel closure slices under `docs/PAS/slice/` (legacy archive only).
+**Kernel family (PAS-001 / 001A / 001B):** copy to `docs/PAS/KERNEL/SLICE/<bN>-<pas-section>-<slug>.md` — SSOT. Do not author kernel slices under `docs/PAS/slice/`.
 
 ← Index: [pas-template.md](pas-template.md) · Boundaries: [doc-boundary-contract.md](doc-boundary-contract.md)
 
@@ -160,7 +160,7 @@ All slices done   →  PAS §11.6 maturity exit criteria evaluated
 ## Handoff block
 
 ```
-Handoff from: docs/PAS/slice/<filename>.md
+Handoff from: docs/PAS/KERNEL/SLICE/<filename>.md
 
 1. Objective    — <one sentence; verifiable outcome>
 2. Allowed layer— <packages/<owner>/ or docs-only for Research/Evidence-sync>
@@ -304,7 +304,7 @@ When Type is Research or Evidence-sync:
 | Prohibited companion | `<base>-prohibited.md` | `b5-prohibited.md` |
 | Slice ID | `B<N>` matching filename | `B16` |
 
-**Living example:** [b16-10-runtime-rules.md](../../../../docs/PAS/slice/b16-10-runtime-rules.md) (add `Position` line if missing in older slices).
+**Living example:** [b70-kernel-test-import-hygiene.md](../../../../docs/PAS/KERNEL/SLICE/b70-kernel-test-import-hygiene.md)
 
 ---
 

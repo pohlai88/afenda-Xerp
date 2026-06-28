@@ -22,7 +22,9 @@ const contractPath = join(
   repoRoot,
   "packages/kernel/src/governance/kernel-runtime-rules.contract.ts"
 );
-const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
+import { KERNEL_PAS_VOCABULARY_ARCHIVE } from "./kernel-pas-paths.mts";
+
+const pasPath = join(repoRoot, KERNEL_PAS_VOCABULARY_ARCHIVE);
 
 function extractPasSection10Labels(source: string): string[] {
   const sectionStart = source.indexOf("# 10. Runtime Rules");

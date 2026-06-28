@@ -36,7 +36,7 @@ Apply this skill when touching:
 - standard-to-process routing from Kernel relationship context
 - standards-backed warning/block/evidence snapshot questions
 
-**Kernel boundary:** Branded IDs and `LegalEntityContext` / relationship vocabulary live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Do not add IFRS treatment logic to Kernel.
+**Kernel boundary:** Branded IDs and `LegalEntityContext` / relationship vocabulary live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Do not add IFRS treatment logic to Kernel.
 
 ---
 

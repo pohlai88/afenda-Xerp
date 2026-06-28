@@ -2,7 +2,7 @@
 
 Detailed TypeScript shapes for all `@afenda/kernel` authority surfaces.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-001](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+← Back to [SKILL.md](../SKILL.md) | Composed: [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Archive: [PAS-001 §4+](../../../../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
 
 **Status labels used in this file:**
 
@@ -471,7 +471,7 @@ Business Partner convergence (MNC ERP standard): SAP S/4HANA and Oracle EBS unif
 
 ## Permission Model Vocabulary
 
-Status: Current vocabulary (action/scope words) — canonical: [PAS-001 §8](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md#8-permission-model-standard)
+Status: Current vocabulary (action/scope words) — composed: [PAS-001 §8](../../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · archive: [PAS-001 §8](../../../../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#8-permission-model-standard)
 
 Kernel defines the vocabulary pattern. `@afenda/permissions` owns registry and evaluation.
 

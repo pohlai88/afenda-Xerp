@@ -6,7 +6,8 @@
  * Authority-only metadata — no runtime enforcement until a serialized slice
  * executes each entry.
  *
- * Canonical standard: docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md
+ * Canonical standard: docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md
+ * Implementation archive: docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md
  */
 
 import type { RepoRelativePath } from "../contracts/platform/platform-entity-authority.contract.js";

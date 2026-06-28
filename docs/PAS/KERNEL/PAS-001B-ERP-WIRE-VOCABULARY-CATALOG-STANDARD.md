@@ -1,6 +1,6 @@
 # PAS-001B — ERP Wire Vocabulary Catalog Standard
 
-> **Platform Wire Vocabulary Catalog Authority** — governs ERP **wire** vocabulary under `packages/kernel/src/erp-domain/`. Not business glossary (PAS-004). Not domain runtime. Legacy archive: [PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md).
+> **Platform Wire Vocabulary Catalog Authority** — governs ERP **wire** vocabulary under `packages/kernel/src/erp-domain/`. Not business glossary (PAS-004). Not domain runtime. Legacy archive: [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md).
 >
 > **Naming note:** Former title *Kernel Domain Vocabulary Catalog* implied business glossary. This PAS owns **wire shapes only** — aligned with Kernel Blueprint §3.4 and Enterprise Knowledge (PAS-004) for meaning.
 
@@ -24,7 +24,7 @@
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
 | **Agent skills** | `kernel-authority` · `/afenda-coding-session` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §3.4 · Kernel NS §3.2 ERP wire vocabulary |
-| **Legacy archive** | [PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| **Legacy archive** | [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 | **Continuation** | Complements [PAS-003](../PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · meaning in [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -117,7 +117,7 @@ Every **delivered** module under `erp-domain/{slug}/` matches the governed scaff
 
 **Export rule:** `package.json` subpath `./erp-domain/{slug}` only for `delivered` modules.
 
-Full scaffold tooling: legacy [PAS-001B §2](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#2-mandatory-module-file-pattern-delivered-modules).
+Full scaffold tooling: legacy [PAS-001B §2](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#2-mandatory-module-file-pattern-delivered-modules).
 
 ---
 
@@ -163,7 +163,7 @@ All 28 slugs **delivered** at wire vocabulary layer. Machine registry: `erp-doma
 - `supply-chain` (**KV-SC**) — logistics/fulfillment orchestration only
 - `document` (**KV-DOC**) — ERP business document wire vocabulary; not platform CMS
 
-Full SAP/Oracle/Odoo anchor table: legacy [PAS-001B §3](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#3-full-stack-erp-domain-catalog-28-modules).
+Full SAP/Oracle/Odoo anchor table: legacy [PAS-001B §3](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#3-full-stack-erp-domain-catalog-28-modules).
 
 ---
 
@@ -346,7 +346,7 @@ See metadata **Required gates** table. Unified gate `check:erp-domain-delivered-
 
 Enforcement: `scripts/governance/check-erp-domain-layout.mts`
 
-Full matrix: legacy [PAS-001B §7.1](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#71-checkerp-domain-layout-failure-matrix).
+Full matrix: legacy [PAS-001B §7.1](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#71-checkerp-domain-layout-failure-matrix).
 
 ---
 
@@ -360,7 +360,7 @@ Full matrix: legacy [PAS-001B §7.1](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-ST
 | No runtime under erp-domain | policy contracts + boundaries | Kernel NS §9 |
 | Wire vs meaning split | PAS-004 alignment · §5 matrix | Kernel Blueprint §3.4 |
 
-Integration scorecard at B106 closure: **9.7/10** — legacy [PAS-001B §9](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#9-integration-scorecard-b106-closure).
+Integration scorecard at B106 closure: **9.7/10** — legacy [PAS-001B §9](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#9-integration-scorecard-b106-closure).
 
 ---
 
@@ -390,7 +390,7 @@ One slug · one KV id · one slice · one governed folder when delivered.
 | --- | --- |
 | Parent PAS (composed) | [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
 | Integration spine | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
-| Legacy archive | [PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](../PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| Legacy archive | [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 | Kernel Blueprint §3.4 | [kernel-blueprint.md](../../BLUEPRINT/kernel-blueprint.md) |
 | Layout contract | `packages/kernel/src/erp-domain/erp-domain-layout.contract.ts` |
 | Family index | [KERNEL/README.md](README.md) |

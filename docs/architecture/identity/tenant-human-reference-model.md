@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md) · [PAS-001 §4.1.13](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| **Authority** | [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md) · [PAS-001 §4.1.13](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
 | **Implementation** | Domain PAS slices (HRM, CRM, Inventory) — Slice F |
 | **Status** | Accepted — architecture record (Slice A) |
 

@@ -26,7 +26,7 @@ import {
   OBSOLETE_BASELINE_FINGERPRINT,
   PAS_KERNEL_STANDARD,
   PAS_README,
-  PAS_SLICE_DIR,
+  PAS_KERNEL_SLICE_DIR,
   PAS_STATUS_INDEX,
   PRE_ACCOUNTING_ROADMAP,
   REQUIRED_ACCEPTED_ADRS,
@@ -93,7 +93,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     DRIFT_AUDIT,
     PAS_README,
     PAS_KERNEL_STANDARD,
-    PAS_SLICE_DIR,
+    PAS_KERNEL_SLICE_DIR,
     PAS_STATUS_INDEX,
   ]) {
     if (!existsSync(join(repoRoot, requiredPath))) {
@@ -231,7 +231,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
       const unique = [...new Set(indexMatches)];
       violations.push({
         file: scanPath,
-        message: `Retired FDR/TIP delivery index reference(s): ${unique.join(", ")} — use pas-status-index.md and docs/PAS/slice/`,
+        message: `Retired FDR/TIP delivery index reference(s): ${unique.join(", ")} — use pas-status-index.md and docs/PAS/KERNEL/SLICE/ for kernel handoffs`,
         rule: "legacy-delivery-index-reference",
       });
     }

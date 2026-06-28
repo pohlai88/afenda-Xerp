@@ -465,7 +465,7 @@ Stop if any condition fails ([doc-boundary-contract.md](doc-boundary-contract.md
 - [ ] Box status is `live` or `planned` — not `blocked` or `retired` (check §8)
 - [ ] §10 lists the governing PAS for that box
 - [ ] PAS maturity permits coding (not **Idea** — see [PAS maturity labels](pas-doc-template.md))
-- [ ] Slice handoff exists in `docs/PAS/slice/` with complete **9 fields**
+- [ ] Slice handoff exists in `docs/PAS/KERNEL/SLICE/` with complete **9 fields**
 - [ ] `/afenda-coding-session` Phase 0 pasted from slice — not invented from Blueprint prose
 - [ ] Package authority skill loaded (e.g. `.cursor/skills/<pkg>-authority/SKILL.md`) when present
 

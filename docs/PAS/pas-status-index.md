@@ -2,6 +2,8 @@
 
 Lightweight closure registry for Package Authority Standards slices. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B106). Legacy `docs/PAS/slice/` removed.
+
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
 ---
@@ -14,8 +16,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
 | **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`slice/b70-kernel-test-import-hygiene.md`](slice/b70-kernel-test-import-hygiene.md)) |
-| **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
+| **Remaining slices** | none — B70 Delivered ([`KERNEL/SLICE/b70-kernel-test-import-hygiene.md`](KERNEL/SLICE/b70-kernel-test-import-hygiene.md)) |
+| **Runtime evidence** | `packages/kernel/`, [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md), `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
 
@@ -23,28 +25,20 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B18 | [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | Delivered |
-| B49 | [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | Delivered |
-| B50 | [b50-kernel-company-org-wire-triad.md](slice/b50-kernel-company-org-wire-triad.md) | Delivered |
-| B51 | [b51-kernel-parent-org-wire.md](slice/b51-kernel-parent-org-wire.md) | Delivered |
-| B52 | [b52-kernel-full-hierarchy-wire-closure.md](slice/b52-kernel-full-hierarchy-wire-closure.md) | Delivered |
-| B53 | [b53-kernel-propagation-frame-wire.md](slice/b53-kernel-propagation-frame-wire.md) | Delivered |
-| B54 | [b54-kernel-project-wire-triad.md](slice/b54-kernel-project-wire-triad.md) | Delivered |
-| B55 | [b55-kernel-policy-wire-triad.md](slice/b55-kernel-policy-wire-triad.md) | Delivered |
-| B57 | [b57-kernel-permission-wire-triad.md](slice/b57-kernel-permission-wire-triad.md) | Delivered |
-| B67 | [b67-pas001-doc-attestation-closure.md](slice/b67-pas001-doc-attestation-closure.md) | Delivered |
-| B68 | [b68-hierarchy-id-boundary-wire-triad.md](slice/b68-hierarchy-id-boundary-wire-triad.md) | Delivered |
-| B69 | [b69-kernel-context-wire-triad-gate.md](slice/b69-kernel-context-wire-triad-gate.md) | Delivered |
-| B70 | [b70-kernel-test-import-hygiene.md](slice/b70-kernel-test-import-hygiene.md) | Delivered |
-| B58 | [b58-metadata-ui-permission-diagnostics.md](slice/b58-metadata-ui-permission-diagnostics.md) | Delivered |
-| B59 | [b59-live-metadata-authorization-evaluation.md](slice/b59-live-metadata-authorization-evaluation.md) | Delivered |
-| B60 | [b60-api-route-metadata-authorization-bridge.md](slice/b60-api-route-metadata-authorization-bridge.md) | Delivered |
-| B61 | [b61-metadata-authorization-denial-preview.md](slice/b61-metadata-authorization-denial-preview.md) | Delivered |
-| B62 | [b62-metadata-authorization-bridge-hardening.md](slice/b62-metadata-authorization-bridge-hardening.md) | Delivered |
-| B63 | [b63-metadata-authorization-stabilization.md](slice/b63-metadata-authorization-stabilization.md) | Delivered |
-| B64 | [b64-erp-metadata-action-bridge.md](slice/b64-erp-metadata-action-bridge.md) | Delivered |
-| B65 | [b65-metadata-context-required-preview.md](slice/b65-metadata-context-required-preview.md) | Delivered |
-| B66 | [b66-metadata-test-type-stabilization.md](slice/b66-metadata-test-type-stabilization.md) | Delivered |
+| B18 | §6.3 public exports parity | Delivered (pre-B49 historical; legacy handoff removed) |
+| B49 | [b49-kernel-tenant-wire-triad.md](KERNEL/SLICE/b49-kernel-tenant-wire-triad.md) | Delivered |
+| B50 | [b50-kernel-company-org-wire-triad.md](KERNEL/SLICE/b50-kernel-company-org-wire-triad.md) | Delivered |
+| B51 | [b51-kernel-parent-org-wire.md](KERNEL/SLICE/b51-kernel-parent-org-wire.md) | Delivered |
+| B52 | [b52-kernel-full-hierarchy-wire-closure.md](KERNEL/SLICE/b52-kernel-full-hierarchy-wire-closure.md) | Delivered |
+| B53 | [b53-kernel-propagation-frame-wire.md](KERNEL/SLICE/b53-kernel-propagation-frame-wire.md) | Delivered |
+| B54 | [b54-kernel-project-wire-triad.md](KERNEL/SLICE/b54-kernel-project-wire-triad.md) | Delivered |
+| B55 | [b55-kernel-policy-wire-triad.md](KERNEL/SLICE/b55-kernel-policy-wire-triad.md) | Delivered |
+| B57 | [b57-kernel-permission-wire-triad.md](KERNEL/SLICE/b57-kernel-permission-wire-triad.md) | Delivered |
+| B67 | [b67-pas001-doc-attestation-closure.md](KERNEL/SLICE/b67-pas001-doc-attestation-closure.md) | Delivered |
+| B68 | [b68-hierarchy-id-boundary-wire-triad.md](KERNEL/SLICE/b68-hierarchy-id-boundary-wire-triad.md) | Delivered |
+| B69 | [b69-kernel-context-wire-triad-gate.md](KERNEL/SLICE/b69-kernel-context-wire-triad-gate.md) | Delivered |
+| B70 | [b70-kernel-test-import-hygiene.md](KERNEL/SLICE/b70-kernel-test-import-hygiene.md) | Delivered |
+| B58–B66 | metadata authorization sequence | Delivered (legacy handoff tree removed; runtime evidence in matrix) |
 
 ---
 
@@ -56,8 +50,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Authority** | PAS-001A · derived from PAS-001 · `apps/erp/src/lib/context/` |
 | **Maturity** | `production_candidate` · `delivered` · `runtime` |
 | **Runtime status** | Permission-scope wire triad in `@afenda/permissions`; kernel projection-only; ERP spine + metadata bridge gates operational |
-| **Remaining slices** | none — B75 Delivered ([`slice/b75-pas001a-production-candidate-attestation.md`](slice/b75-pas001a-production-candidate-attestation.md)) |
-| **Runtime evidence** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md), `context-integration-registry.ts`, `check:erp-operating-context-spine`, `check:permission-scope-permissions-surface`, `check:metadata-context-authorization-bridge` |
+| **Remaining slices** | none — B75 Delivered ([`KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md`](KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md)) |
+| **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md), `context-integration-registry.ts`, `check:erp-operating-context-spine`, `check:permission-scope-permissions-surface`, `check:metadata-context-authorization-bridge` |
 | **Gates** | Baseline table in PAS-001A §0; all §6 scorecard gates green at B75 |
 | **Result** | ERP runtime speaks kernel operating-context vocabulary end-to-end through permissions, resolver spine, metadata bridge, and governance gates |
 
@@ -65,11 +59,11 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B71 | [b71-permission-scope-permissions-parser.md](slice/b71-permission-scope-permissions-parser.md) | Delivered |
-| B72 | [b72-erp-operating-context-spine-gate.md](slice/b72-erp-operating-context-spine-gate.md) | Delivered |
-| B73 | [b73-kernel-erp-doc-drift-closure.md](slice/b73-kernel-erp-doc-drift-closure.md) | Delivered |
-| B74 | [b74-metadata-context-authorization-bridge.md](slice/b74-metadata-context-authorization-bridge.md) | Delivered |
-| B75 | [b75-pas001a-production-candidate-attestation.md](slice/b75-pas001a-production-candidate-attestation.md) | Delivered |
+| B71 | [b71-permission-scope-permissions-parser.md](KERNEL/SLICE/b71-permission-scope-permissions-parser.md) | Delivered |
+| B72 | [b72-erp-operating-context-spine-gate.md](KERNEL/SLICE/b72-erp-operating-context-spine-gate.md) | Delivered |
+| B73 | [b73-kernel-erp-doc-drift-closure.md](KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md) | Delivered |
+| B74 | [b74-metadata-context-authorization-bridge.md](KERNEL/SLICE/b74-metadata-context-authorization-bridge.md) | Delivered |
+| B75 | [b75-pas001a-production-candidate-attestation.md](KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md) | Delivered |
 
 ---
 
@@ -82,7 +76,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Maturity** | `catalog_authority` · `implemented` · `runtime` |
 | **Runtime status** | 28-module catalog; all slugs delivered; unified + legacy domain gates operational; B106 re-scaffold for `accounting` + `inventory` |
 | **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
-| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md), `erp-domain/*`, `scaffold-foundation-erp-domain-modules.mts`, `check:erp-domain-delivered-vocabulary` |
+| **Runtime evidence** | [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md), `erp-domain/*`, `scaffold-foundation-erp-domain-modules.mts`, `check:erp-domain-delivered-vocabulary` |
 | **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
 | **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
 
@@ -90,13 +84,13 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B76 | [b76-pas001b-erp-domain-catalog-doc.md](slice/b76-pas001b-erp-domain-catalog-doc.md) | Delivered |
-| B77 | [b77-erp-domain-layout-gate.md](slice/b77-erp-domain-layout-gate.md) | Delivered |
-| B78 | [b78-pas001b-audit-closure.md](slice/b78-pas001b-audit-closure.md) | Delivered |
-| B79 | [b79-inventory-domain-vocabulary.md](slice/b79-inventory-domain-vocabulary.md) | Delivered |
-| B80 | — (batch scaffold with B81–B105; handoff proposed) | Delivered |
-| B81–B105 | — (batch scaffold; no per-slug handoffs) | Delivered |
-| B106 | [b106-foundation-erp-domain-scaffold-standardization.md](slice/b106-foundation-erp-domain-scaffold-standardization.md) | Delivered |
+| B76 | [b76-pas001b-erp-domain-catalog-doc.md](KERNEL/SLICE/b76-pas001b-erp-domain-catalog-doc.md) | Delivered |
+| B77 | [b77-erp-domain-layout-gate.md](KERNEL/SLICE/b77-erp-domain-layout-gate.md) | Delivered |
+| B78 | [b78-pas001b-audit-closure.md](KERNEL/SLICE/b78-pas001b-audit-closure.md) | Delivered |
+| B79 | [b79-inventory-domain-vocabulary.md](KERNEL/SLICE/b79-inventory-domain-vocabulary.md) | Delivered |
+| B80 | [b80-procurement-domain-vocabulary.md](KERNEL/SLICE/b80-procurement-domain-vocabulary.md) | Delivered |
+| B81–B105 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md) (individual handoffs) | Delivered |
+| B106 | [b106-foundation-erp-domain-scaffold-standardization.md](KERNEL/SLICE/b106-foundation-erp-domain-scaffold-standardization.md) | Delivered |
 
 ---
 
@@ -339,8 +333,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | --- | --- |
 | **Status** | Complete |
 | **Runtime status** | PAS §6.1, package tree, skill adapter, and runtime layout synchronized |
-| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
-| **Authority** | PAS-001 §6.1, pas-codebase-bridge, `kernel-package-layout.contract.ts` |
+| **Remaining slices** | none — B18 Delivered (historical; pre-B49 closure) |
+| **Authority** | [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §6, pas-codebase-bridge, `kernel-package-layout.contract.ts` |
 | **Runtime evidence** | `packages/kernel/PAS-001-KERNEL-TREE.md`, `kernel-boundary-drift.registry.ts`, `.cursor/skills/kernel-authority/` |
 | **Gates** | `pnpm --filter @afenda/kernel test:run`, `pnpm check:kernel-package-structure`, `pnpm architecture:drift`, `pnpm quality:architecture` |
 | **Result** | PAS §6.1, package-local tree, skill adapter, and runtime package layout are synchronized |

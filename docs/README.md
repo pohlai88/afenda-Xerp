@@ -30,7 +30,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 |----------|-------------|
 | New contributor | [Root README](../README.md) → [Architecture](architecture/README.md) |
 | AI / Cursor agent | See mandatory read order above → [AGENTS.md](../AGENTS.md) → `.cursor/skills/afenda-coding-session/SKILL.md` |
-| Kernel / PAS work | [PAS-001](PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) → `.cursor/skills/kernel-authority/SKILL.md` |
+| Kernel / PAS work | [PAS-001](PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) → `.cursor/skills/kernel-authority/SKILL.md` |
 | UI block install | [afenda-ui-quality skill](../.cursor/skills/afenda-ui-quality/SKILL.md) → [UI guard](governance/ui-guard.md) |
 | React ERP quality | [react-erp-quality skill](../.cursor/skills/react-erp-quality/SKILL.md) → Gate F in [UI guard](governance/ui-guard.md) |
 | API routes | [API contract](governance/api-contract.md) → [Next.js API hardening](governance/nextjs-api-hardening.md) |

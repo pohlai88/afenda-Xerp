@@ -1,6 +1,6 @@
 /**
  * Composes kernel closure slice handoffs B49–B80, B106 into docs/PAS/KERNEL/SLICE/.
- * Legacy docs/PAS/slice/ remains archive; composed files are SSOT for Phase 0.
+ * Legacy docs/PAS/slice/ removed; composed files are SSOT for Phase 0.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -332,6 +332,82 @@ const SLICES: SliceDef[] = [
       {
         capability: "Test import hygiene",
         path: "packages/kernel/src/context/__tests__/",
+      },
+    ],
+  },
+  {
+    id: "B71",
+    filename: "b71-permission-scope-permissions-parser.md",
+    title: "Permission Scope Permissions Parser Owner",
+    pas: "PAS-001A",
+    pasSection: "§2.2 · IS-001",
+    positionN: 1,
+    positionTotal: 5,
+    blueprintBox: "ERP Integration Spine",
+    prerequisite: "PAS-001 Enterprise Accepted (B70 Delivered)",
+    type: "Implementation",
+    risk: "High",
+    cleanCore: "A→B — parser moves to permissions package; kernel projection-only (justified)",
+    purpose:
+      "Close IS-001 permission-scope ownership split per PAS-001A §2.2: wire assert/parse live in @afenda/permissions; kernel retains branded projection only for OperatingContext.permissionScope.",
+    objective:
+      "Attest permission-scope wire triad in @afenda/permissions; remove kernel parser; add governance gate.",
+    allowedLayer:
+      "packages/permissions/src/scope/** · packages/kernel/src/context/permission-scope-context.projection.ts · apps/erp/src/lib/context/** · scripts/governance/**",
+    files: [
+      "packages/permissions/src/scope/permission-scope-context.parser.ts",
+      "packages/kernel/src/context/permission-scope-context.projection.ts",
+      "scripts/governance/check-permission-scope-permissions-surface.mts",
+      "docs/PAS/KERNEL/SLICE/b71-permission-scope-permissions-parser.md",
+    ],
+    prohibited:
+      "New kernel resolver logic · @afenda/kernel importing @afenda/permissions · ERP-local permission vocabulary",
+    authority: "PAS-001A §2.2 · IS-001 · kernel-authority",
+    gates: [
+      "pnpm --filter @afenda/permissions test:run",
+      "pnpm --filter @afenda/kernel test:run",
+      "pnpm check:permission-scope-permissions-surface",
+      "pnpm quality:kernel-context-surface",
+    ],
+    closes: "Closes DoD #1–#4 · IS-001 · INV-001",
+    evidence: [
+      "packages/permissions/src/scope/permission-scope-context.parser.ts",
+      "packages/kernel/src/context/permission-scope-context.projection.ts",
+      "scripts/governance/check-permission-scope-permissions-surface.mts",
+      "Gate output archived in B75 attestation",
+    ],
+    attestation: "Contract · Test · Governance · Security",
+    rules: [
+      "Permission-scope wire assert/parse only in @afenda/permissions.",
+      "Kernel brandPermissionScopeContextFromWire is projection-only.",
+      "ERP assembly imports permissions parser then kernel projection.",
+    ],
+    dod: [
+      {
+        criterion: "No permission-scope parser under kernel",
+        gate: "pnpm check:permission-scope-permissions-surface",
+        trace: "PAS-001A §2.2 IS-001",
+      },
+      {
+        criterion: "Permissions exports assert + parser",
+        gate: "pnpm --filter @afenda/permissions test:run",
+        trace: "PAS-001A §4.2 runtime ingress",
+      },
+      {
+        criterion: "ERP typecheck with spine wiring",
+        gate: "pnpm --filter @afenda/erp typecheck",
+        trace: "Kernel Blueprint §4 ERP Integration Spine",
+      },
+      {
+        criterion: "Context surface gates green",
+        gate: "pnpm quality:kernel-context-surface",
+        trace: "PAS-001A §13 baseline",
+      },
+    ],
+    runtime: [
+      {
+        capability: "IS-001 permissions-owned parser",
+        path: "packages/permissions/src/scope/permission-scope-context.parser.ts",
       },
     ],
   },

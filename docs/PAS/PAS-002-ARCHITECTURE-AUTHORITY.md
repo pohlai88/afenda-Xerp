@@ -44,7 +44,7 @@
 > **Package-local tree:** [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
 > **Package-local pointer:** `packages/architecture-authority/PAS-002-ARCHITECTURE-AUTHORITY-STANDARD.md` *(tombstone — Delivered B10)*
 > **Runtime surface index:** `packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts`
-> **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 
 ---
 
@@ -65,7 +65,7 @@
 
 **Registry:** `PKGR02_ARCHITECTURE_AUTHORITY` · machine authority: `packages/architecture-authority/src/data/foundation-disposition.registry.ts` · surface map: `src/surface/architecture-authority-surface-registry.ts`
 
-**Kernel boundary (read-only):** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Architecture authority records package/layer/dependency truth only — never ID format or parser behavior.
+**Kernel boundary (read-only):** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Architecture authority records package/layer/dependency truth only — never ID format or parser behavior.
 
 **Enterprise knowledge boundary:** Knowledge Atoms, acceptance chains, and accepted business meaning → [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge` / `.cursor/skills/enterprise-knowledge/SKILL.md`. List `@afenda/enterprise-knowledge` in package registries here; do **not** store atoms in this package.
 
@@ -312,7 +312,7 @@ Approved runtime dependency edges between workspace packages. Consumed by `valid
 **Implementation:** `packages/architecture-authority/src/data/business-master-data-authority.registry.ts` · import/scaffold policies under `src/data/business-master-data-*.policy.ts`
 **Slice gate:** Delivered (runtime)
 
-Records **which business entity IDs are reserved for which domain packages** and enforces import/scaffold boundaries. This is package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md)).
+Records **which business entity IDs are reserved for which domain packages** and enforces import/scaffold boundaries. This is package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 
 ## 4.11 Surface Registry
 
@@ -483,7 +483,7 @@ Architecture authority is a governance package, not a runtime feature package.
 | Does the change define ERP business route behavior?                        | Belongs to Application/module authority.        | **No**           |
 | Does the change define delivery status pointers for foundation packages?   | Belongs to foundation disposition registry.     | **Yes**          |
 | Does the change assign a business entity to a domain package (ADR-0020)?   | Update business-master-data authority registry. | **Yes**          |
-| Does the change add Kernel wire/parser behavior for an enterprise ID?      | Belongs to `@afenda/kernel` ([PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md)). | **No**           |
+| Does the change add Kernel wire/parser behavior for an enterprise ID?      | Belongs to `@afenda/kernel` ([PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). | **No**           |
 
 ---
 
@@ -751,7 +751,7 @@ The package-local file should be a pointer or tombstone, not a duplicated full a
 > **Belongs outside:** business master data, runtime module behavior, UI rendering, database schema, auth sessions, outbox workers, audit writing, ERP route behavior.
 
 Architecture Authority owns **structure**.
-Kernel owns **global primitives** ([PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md)).
+Kernel owns **global primitives** ([PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 Business modules own **business meaning**.
 Applications own **composition and user-facing behavior**.
 

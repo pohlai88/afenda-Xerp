@@ -2,7 +2,7 @@
 
 `@afenda/kernel` folder tree, current exports, and governance rules.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-001 §6](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md#6-package-structure-standard)
+← Back to [SKILL.md](../SKILL.md) | Composed: [PAS-001 §6](../../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Archive: [PAS-001 §6](../../../../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#6-package-structure-standard)
 
 **Source truth order:**
 

@@ -44,7 +44,7 @@
 > **Maturity is part of authority.**
 > Production Candidate rollout is **closed** (B24–B32). Enterprise Accepted promotion lives in [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md). Do not claim North Star ontology completion or tenant-specific knowledge — those remain out of scope.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Charter (unchanged):** [PAS-004 §1–§4](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 > **Canonical location:** `docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md`
 
@@ -158,7 +158,7 @@ packages/enterprise-knowledge/src/data/
 
 ## 4.2 Kernel implementation mapping (PAS-001)
 
-**Authority:** [PAS-001 §4](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
+**Authority:** [PAS-001 §4](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
 
 Each atom `implementationMapping` entry must:
 
@@ -525,7 +525,7 @@ When in doubt:
 | Standard | Relationship |
 | --- | --- |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter + MVP platform — **§1–§4 immutable** |
-| [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | Wire contracts — **reference only** via `implementationMapping` |
+| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire contracts — **reference only** via `implementationMapping` |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting metadata — orthogonal |
 | [B24 slice](slice/b24-knowledge-charter-mvp.md) | MVP delivered 2026-06-28 |

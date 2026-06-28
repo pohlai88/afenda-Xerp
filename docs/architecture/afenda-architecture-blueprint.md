@@ -138,7 +138,7 @@ accounting   consolidation  intercompany   tax        finance
 | Blueprint box | Package | Layer | Status | Why separate | PAS |
 | --- | --- | --- | --- | --- | --- |
 | Accounting standards authority | `@afenda/accounting-standards` | Foundation | **live** | Versioned IFRS/MFRS/SFRS evidence and deterministic validation — not posting | [PAS-003](../PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
-| Accounting vocabulary (contracts) | `@afenda/kernel` (`erp-domain/accounting`) | Platform | **live** | Wire vocabulary only; not ledger runtime ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)) | [PAS-001](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [PAS-001B](../PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| Accounting vocabulary (contracts) | `@afenda/kernel` (`erp-domain/accounting`) | Platform | **live** | Wire vocabulary only; not ledger runtime ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)) | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 | Accounting runtime | `@afenda/accounting` | Domain | **blocked** | Journal posting, ledger mutation, COA runtime — distinct from standards | Planned PAS-006+ (after ADR-0010 gate) |
 | Consolidation runtime | `@afenda/consolidation` | Domain | **planned** | Group consolidation calculations — not standards metadata | Planned PAS (TBD) |
 | Intercompany runtime | `@afenda/intercompany` | Domain | **planned** | IC pricing, eliminations, matching — not tax filing | Planned PAS (TBD) |
@@ -160,7 +160,7 @@ accounting   consolidation  intercompany   tax        finance
 | HRM | `@afenda/hrm` | Domain | **planned** | People operations LoB | Planned PAS (TBD) |
 | CRM | `@afenda/crm` | Domain | **planned** | Customer lifecycle LoB | Planned PAS (TBD) |
 
-Kernel ERP domain catalog ([PAS-001B](../PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md)) lists vocabulary for domains above; it does **not** imply runtime delivery.
+Kernel ERP domain catalog ([PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md)) lists vocabulary for domains above; it does **not** imply runtime delivery.
 
 ---
 

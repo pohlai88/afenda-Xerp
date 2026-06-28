@@ -427,7 +427,7 @@ Architecture authority:
 
 Delivery evidence:
 
-* `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
+* `docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`
 * `docs/architecture/multi-tenancy.md`
 
 Dependency rules:

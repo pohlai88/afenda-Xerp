@@ -176,7 +176,7 @@ Compare implementation against these documents (read before Phase 10):
 
 ```
 docs/PAS/README.md                                    ← PAS index
-docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md         ← kernel boundary
+docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md         ← kernel boundary
 docs/adr/                                             ← all ADRs
 docs/PAS/slice/                                       ← active slice handoffs
 docs/architecture/afenda-runtime-truth-matrix.md      ← runtime authority

@@ -3,7 +3,9 @@ name: kernel-authority
 description: Enforces the @afenda/kernel boundary: zero-dependency platform vocabulary, branded IDs, operating context contracts, execution context, authority registries, and guarded runtime exceptions only.
 paths:
   - packages/kernel/**
-  - docs/PAS/PAS-001*.md
+  - docs/PAS/KERNEL/**
+  - docs/NORTHSTAR/kernel-north-star.md
+  - docs/BLUEPRINT/kernel-blueprint.md
 ---
 
 # @afenda/kernel — Authority Skill (PAS-001)
@@ -13,17 +15,17 @@ paths:
 | Field | Value |
 | --- | --- |
 | **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`docs/PAS/slice/b70-kernel-test-import-hygiene.md`](../../../docs/PAS/slice/b70-kernel-test-import-hygiene.md)) |
+| **Remaining slices** | none — B70 Delivered ([`KERNEL/SLICE/b70-kernel-test-import-hygiene.md`](../../../docs/PAS/KERNEL/SLICE/b70-kernel-test-import-hygiene.md)) |
 
 ### PAS-001A — Kernel ERP consumer integration (derived; does not reopen PAS-001)
 
 | Field | Value |
 | --- | --- |
 | **Runtime status** | Production Candidate — closed (B71–B75 Delivered 2026-06-29) |
-| **Remaining slices** | none — [`b75-pas001a-production-candidate-attestation.md`](../../../docs/PAS/slice/b75-pas001a-production-candidate-attestation.md) |
-| **Canonical** | [`PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md`](../../../docs/PAS/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| **Remaining slices** | none — [`KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md`](../../../docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md) |
+| **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 
-> PAS-001: [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 **Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
 
@@ -33,7 +35,7 @@ paths:
 | --- | --- |
 | **Runtime status** | Catalog Authority — B76–B106 closed; 28/28 modules delivered; foundation `accounting` + `inventory` scaffold-standardized |
 | **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge (PAS-001A) |
-| **Canonical** | [`PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md`](../../../docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| **Canonical** | [`PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 
 **Doctrine:** PAS-001B defines the ERP domain vocabulary **map** — without building ERP runtime. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.
 
@@ -154,8 +156,10 @@ For new kernel slices, read in this order:
 2. [authority-surfaces.md](reference/authority-surfaces.md) — TypeScript shapes, operating context hierarchy
 3. [package-structure.md](reference/package-structure.md) — folder tree summary, exports, gates
 4. [packages/kernel/PAS-001-KERNEL-TREE.md](../../../packages/kernel/PAS-001-KERNEL-TREE.md) — annotated package-local filesystem map (drift markers)
-5. [docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — canonical human standard (§0 Agent Quick Path; §1–§16)
-6. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/architecture/identity/canonical-enterprise-id-constitution.md)
+5. [docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — composed governance SSOT (§0 Agent Quick Path)
+6. [docs/PAS/KERNEL/SLICE/](../../../docs/PAS/KERNEL/SLICE/README.md) — paste 9-field handoff into Phase 0 before implementation
+7. Archive [PAS-001 §4–§16](../../../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — contract detail when implementing a cited surface
+8. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/architecture/identity/canonical-enterprise-id-constitution.md)
 
 **Slice gate:** Kernel identity runtime work (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted**.
 
@@ -379,3 +383,14 @@ The kernel is not a dumping ground for shared code. It is the smallest possible 
 The kernel owns the words.
 The owner package owns the decision.
 The runtime layer owns the behavior.
+
+---
+
+## Sync checksum
+
+| Source | Last synced |
+| --- | --- |
+| [KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | 2026-06-29 |
+| [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | 2026-06-29 |
+| [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](../../../docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | 2026-06-29 |
+| [KERNEL/SLICE/kernel-slice-catalog.md](../../../docs/PAS/KERNEL/SLICE/kernel-slice-catalog.md) | 2026-06-29 |

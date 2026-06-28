@@ -40,7 +40,7 @@ Apply this skill when touching:
 - package registration, layer assignment, dependency edge, or ownership questions
 - foundation disposition status (read-only unless delegated to `foundation-registry-owner`)
 
-**Kernel boundary:** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Do not duplicate ID semantics here.
+**Kernel boundary:** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Do not duplicate ID semantics here.
 
 **Enterprise knowledge boundary:** Knowledge Atoms and accepted business meaning → [PAS-004](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `.cursor/skills/enterprise-knowledge/SKILL.md`. Package listing for `@afenda/enterprise-knowledge` belongs here; atom source files do not.
 
@@ -308,7 +308,7 @@ pnpm check:architecture-authority-surface
 > **Belongs outside:** business master data, runtime module behavior, UI rendering, database schema, auth sessions, outbox workers, audit writing, ERP route behavior.
 
 Architecture Authority owns **structure**.
-Kernel owns **global primitives** ([PAS-001](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)).
+Kernel owns **global primitives** ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 Business modules own **business meaning**.
 Applications own **composition and user-facing behavior**.
 

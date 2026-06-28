@@ -1,6 +1,6 @@
 ---
 name: pas-slice-planner
-description: Discovers live docs/PAS/slice/*.md files, reads PAS-001 parent authority and target slice handoff, validates prohibitions and prerequisites, then produces a section-by-section /afenda-coding-session execution plan. Each step is announced and rendered before the next begins. Use for planning or reviewing PAS-001 kernel identity slices. This skill does NOT edit files; series is detected from the live folder, not hardcoded.
+description: Discovers live docs/PAS/KERNEL/SLICE/*.md kernel handoffs, reads PAS-001 parent authority and target slice handoff, validates prohibitions and prerequisites, then produces a section-by-section /afenda-coding-session execution plan. Each step is announced and rendered before the next begins. Use for planning or reviewing PAS-001 kernel identity slices. This skill does NOT edit files; series is detected from the live folder, not hardcoded.
 paths:
   - docs/PAS/**
   - packages/architecture-authority/**
@@ -69,7 +69,7 @@ If no keyword is given, use `plan` mode.
 
 **Announce:** `─── STEP 0: DISCOVER LIVE SLICE FOLDER ───`
 
-Glob `docs/PAS/slice/*.md` and build this discovery index:
+Glob `docs/PAS/KERNEL/SLICE/b*.md` and build this discovery index:
 
 | File | Slice ID | Type | Status | Prerequisite | Has `-prohibited.md` | Handoff complete (9 fields)? | Gates listed? |
 |------|----------|------|--------|--------------|----------------------|------------------------------|---------------|
@@ -95,9 +95,9 @@ After rendering the table, identify the target slice (named by user or next unbl
 Read each source in order and confirm each is found before moving to the next:
 
 ```
-1. docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md     — sections cited by Handoff field 5
-2. docs/PAS/slice/<target>.md                         — handoff block, rules frozen, DoD
-3. docs/PAS/slice/<target>-prohibited.md              — extra prohibitions (confirm absent if not found)
+1. docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md     — sections cited by Handoff field 5
+2. docs/PAS/KERNEL/SLICE/<target>.md                         — handoff block, rules frozen, DoD
+3. docs/PAS/KERNEL/SLICE/<target>-prohibited.md              — extra prohibitions (confirm absent if not found)
 4. .cursor/skills/kernel-authority/SKILL.md           — kernel boundary + hard stops
 5. packages/kernel/src/identity/                      — current runtime state (file listing only)
 ```
@@ -269,7 +269,7 @@ Produce this block that can be pasted directly to start `/afenda-coding-session`
 ```
 Execute Slice <ID> — <short title>.
 
-Handoff from: docs/PAS/slice/<file>.md
+Handoff from: docs/PAS/KERNEL/SLICE/<file>.md
 
 1. Objective    — <Handoff field 1>
 2. Allowed layer— <Handoff field 2>
@@ -293,7 +293,7 @@ Run gates in this order:
 
 Stop and return a repair report if any of these are true:
 
-1. `docs/PAS/slice/` folder is empty or does not exist.
+1. `docs/PAS/KERNEL/SLICE/` folder is empty or does not exist.
 2. Target slice file does not exist.
 3. Handoff block has fewer than 9 fields (or any field is blank).
 4. A Handoff field was inferred from prose — inference is not allowed; read verbatim or stop.

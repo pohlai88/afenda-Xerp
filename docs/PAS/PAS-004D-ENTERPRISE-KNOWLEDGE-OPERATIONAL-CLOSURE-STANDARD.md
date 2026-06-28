@@ -270,7 +270,7 @@ See metadata table §Required gates (PAS-004D).
 | --- | --- |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter — **§1–§4 immutable** |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic baseline — **closed B38–B48** |
-| [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | Wire vocabulary — **reference only** in B53 |
+| [PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | Wire vocabulary — **reference only** in B53 |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Treatment metadata — orthogonal; atoms may cite, not duplicate |
 
 ---

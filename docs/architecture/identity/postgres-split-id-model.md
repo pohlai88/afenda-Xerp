@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | [ADR-0022](../adr/ADR-0022-postgres-split-id-persistence-model.md) · [PAS-001 §4.1.12](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| **Authority** | [ADR-0022](../adr/ADR-0022-postgres-split-id-persistence-model.md) · [PAS-001 §4.1.12](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
 | **Implementation** | `packages/database/src/ids/` (Slice C) |
 | **Status** | Accepted — architecture record (Slice A) |
 

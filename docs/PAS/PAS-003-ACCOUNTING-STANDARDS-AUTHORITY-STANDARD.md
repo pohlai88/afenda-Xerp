@@ -41,7 +41,7 @@
 
 > **Canonical location:** `docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`
 > **Package-local pointer:** [`packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md)
-> **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [PAS-001 context](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001 context](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Blueprint (consumer discovery):** [Architecture Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
@@ -65,7 +65,7 @@
 
 **Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not phantom references. Live surfaces today: `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`.
 
-**Kernel boundary (read-only):** Branded IDs, `LegalEntityContext`, and relationship vocabulary (`holding`, `subsidiary`, `associate`, `joint_venture`, etc.) live in `@afenda/kernel` ([PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Accounting Standards **consumes** Kernel types for routing and validation inputs only — it never defines identity brands, relationship semantics, or IFRS treatment logic inside Kernel.
+**Kernel boundary (read-only):** Branded IDs, `LegalEntityContext`, and relationship vocabulary (`holding`, `subsidiary`, `associate`, `joint_venture`, etc.) live in `@afenda/kernel` ([PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Accounting Standards **consumes** Kernel types for routing and validation inputs only — it never defines identity brands, relationship semantics, or IFRS treatment logic inside Kernel.
 
 **Production Candidate rule:** implementation may begin, but every slice must prove package boundary, standard-version evidence, deterministic validation behavior, and zero journal/ledger mutation.
 

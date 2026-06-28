@@ -22,9 +22,13 @@ export const DRIFT_AUDIT =
 export const PAS_README = "docs/PAS/README.md" as const;
 
 export const PAS_KERNEL_STANDARD =
-  "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md" as const;
+  "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md" as const;
 
-export const PAS_SLICE_DIR = "docs/PAS/slice" as const;
+/** Kernel slice handoff SSOT (legacy `docs/PAS/slice/` removed from repo). */
+export const PAS_KERNEL_SLICE_DIR = "docs/PAS/KERNEL/SLICE" as const;
+
+/** @deprecated Alias — use {@link PAS_KERNEL_SLICE_DIR}. */
+export const PAS_SLICE_DIR = PAS_KERNEL_SLICE_DIR;
 
 /** Authority docs scanned for references to removed legacy delivery paths. */
 export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
@@ -102,7 +106,7 @@ export const STALE_DELIVERY_MARKERS = [
     rule: "runtime-matrix-stale-auth-v2-paths",
   },
   {
-    file: "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
+    file: "docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
     forbidden: [
       "@afenda/kernel/accounting-domain",
       "./accounting-domain",

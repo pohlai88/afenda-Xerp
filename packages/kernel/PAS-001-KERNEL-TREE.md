@@ -1,6 +1,8 @@
 # PAS-001 — Kernel Package Tree (package-local)
 
-> **Canonical PAS:** [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+> **Composed PAS:** [`docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
+>
+> **Implementation archive:** [`docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
 >
 > **Runtime authority (code wins over prose):**
 > [`src/contracts/kernel-package-layout.contract.ts`](src/contracts/kernel-package-layout.contract.ts) ·

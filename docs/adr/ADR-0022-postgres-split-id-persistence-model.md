@@ -132,7 +132,7 @@ Runtime (Slice C — blocked until ADR accepted):
 
 - [ADR-0021 — Canonical Enterprise Identity](./ADR-0021-canonical-enterprise-identity.md)
 - [ADR-0023 — Tenant Human Reference Numbering](./ADR-0023-tenant-human-reference-numbering.md)
-- [PAS-001 §4.1.12](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+- [PAS-001 §4.1.12](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [postgres-split-id-model.md](../architecture/identity/postgres-split-id-model.md)
 - RFC 9562 (UUID v7)
 - Supabase: `schema-primary-keys`, `schema-constraints`, `security-rls-performance`

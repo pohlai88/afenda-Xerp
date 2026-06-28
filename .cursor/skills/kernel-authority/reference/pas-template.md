@@ -247,7 +247,7 @@ On every slice **Delivered**:
 | [pas-reference-templates.md](pas-reference-templates.md) | `reference/*.md` | TS shapes, trees |
 | [adr-constitution.md](adr-constitution.md) | (reference) | ADR lifecycle · supersession · traceability |
 
-**Living example:** [kernel-authority/SKILL.md](../SKILL.md) · [PAS-001](../../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+**Living example:** [kernel-authority/SKILL.md](../SKILL.md) · [PAS-001](../../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 
 **Legacy:** PAS-001 uses §13 Slice Catalog and §14–§16 gates/doctrine. New PAS: §8 Contract Rules through §15 Doctrine; §12 Slice Catalog.
 

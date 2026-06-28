@@ -57,7 +57,7 @@ Common invocations:
 
 ```text
 /pas-codebase-bridge PAS-001 @afenda/kernel
-/pas-codebase-bridge docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md packages/kernel
+/pas-codebase-bridge docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md packages/kernel
 /pas-codebase-bridge compare kernel-authority skill against source
 ```
 
@@ -93,7 +93,7 @@ Do not infer package authority from skill adapters, reference docs, or draft not
 Read in this order:
 
 1. Canonical PAS file
-   Example: `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
+   Example: `docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`
 
 2. Relevant skill adapter
    Example: `.cursor/skills/kernel-authority/SKILL.md`

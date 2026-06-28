@@ -44,7 +44,7 @@ Apply this skill when touching:
 - PAS-004 slice work
 - AI/copilot context that must cite accepted business meaning
 
-**Kernel boundary:** Branded IDs and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Atoms **reference** kernel shapes via `implementationMapping`; never duplicate parsers.
+**Kernel boundary:** Branded IDs and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Atoms **reference** kernel shapes via `implementationMapping`; never duplicate parsers.
 
 **Architecture authority boundary:** Package/layer/dependency listing → [PAS-002](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) / `.cursor/skills/architecture-authority/SKILL.md`. Do **not** store Knowledge Atoms in architecture-authority.
 

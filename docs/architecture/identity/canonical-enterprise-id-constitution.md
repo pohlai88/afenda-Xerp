@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [PAS-001 §4.1](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| **Authority** | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [PAS-001 §4.1](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
 | **Implementation** | `packages/kernel/src/identity/` (Slice B) |
 | **Status** | Accepted — architecture record (Slice A) |
 
@@ -146,4 +146,4 @@ Minimum proof: all 22 enterprise ID families in `ID_FAMILIES` with unique prefix
 - [postgres-split-id-model.md](./postgres-split-id-model.md)
 - [tenant-human-reference-model.md](./tenant-human-reference-model.md)
 - [identity-promotion-process.md](./identity-promotion-process.md)
-- PAS companion: [`PAS-001`](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1 · [`pas-status-index.md`](../PAS/pas-status-index.md)
+- PAS companion: [`PAS-001`](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4.1 · [`pas-status-index.md`](../PAS/pas-status-index.md)

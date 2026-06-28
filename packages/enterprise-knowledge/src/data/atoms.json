@@ -750,7 +750,7 @@
       {
         "evidenceId": "contract_evidence_1",
         "type": "decision",
-        "source": "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md"
+        "source": "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md"
       }
     ],
     "structuredReasoning": {
@@ -1382,7 +1382,7 @@
       },
       {
         "realizationKind": "policy",
-        "reference": "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
+        "reference": "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
         "notes": "Multi-tenant isolation policy authority"
       }
     ],

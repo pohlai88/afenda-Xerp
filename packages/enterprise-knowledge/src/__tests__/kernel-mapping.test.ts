@@ -19,7 +19,9 @@ describe("Knowledge kernel mapping (PAS-004A §4.2 · B26)", () => {
       )
     ).toBe(true);
     expect(
-      isKernelEvidencePath("docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md")
+      isKernelEvidencePath(
+        "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md"
+      )
     ).toBe(false);
   });
 

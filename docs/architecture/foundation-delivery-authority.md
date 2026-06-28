@@ -21,7 +21,7 @@
 | Retired | Active |
 | --- | --- |
 | ARCH domain architecture roadmaps | `docs/PAS/PAS-NNN-*.md` |
-| Legacy delivery trees | `docs/PAS/slice/*.md` handoffs |
+| Legacy delivery trees | Removed — kernel handoffs: `docs/PAS/KERNEL/SLICE/` |
 | Legacy status indexes | [`pas-status-index.md`](../PAS/pas-status-index.md) |
 | `/pas-slice-planner`, `/pas-slice-planner`, `/afenda-batch` (retired) | `/pas-slice-planner`, `/afenda-coding-session`, `/afenda-batch`, package authority skills |
 
@@ -69,7 +69,7 @@ master plan narrative
 0. Read afenda-platform-north-star.md + afenda-architecture-blueprint.md — confirm package/domain is declared
 1. Read foundation-disposition.registry.ts — find entry by packageId or domain
 2. Read afenda-runtime-truth-matrix.md — confirm status + evidence
-3. Read docs/PAS/ — parent PAS + target slice under docs/PAS/slice/
+3. Read docs/PAS/KERNEL/ — composed PAS + target slice under docs/PAS/KERNEL/SLICE/
 4. Copy one slice §Handoff block into Phase 0 (afenda-coding-session)
 5. Implement; run entry gates; post §11 Completion Report
 6. Registry edits → foundation-registry-owner only
@@ -77,7 +77,7 @@ master plan narrative
 
 **Planning:** [`.cursor/skills/pas-slice-planner/SKILL.md`](../../.cursor/skills/pas-slice-planner/SKILL.md)
 
-**Kernel:** [`.cursor/skills/kernel-authority/SKILL.md`](../../.cursor/skills/kernel-authority/SKILL.md) ↔ [PAS-001](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+**Kernel:** [`.cursor/skills/kernel-authority/SKILL.md`](../../.cursor/skills/kernel-authority/SKILL.md) ↔ [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 
 ---
 

@@ -139,5 +139,5 @@ Minimum runtime proof:
 
 - [ADR-0021 — Canonical Enterprise Identity](./ADR-0021-canonical-enterprise-identity.md)
 - [ADR-0022 — PostgreSQL Split-ID Persistence Model](./ADR-0022-postgres-split-id-persistence-model.md)
-- [PAS-001 §4.1.13](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+- [PAS-001 §4.1.13](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [tenant-human-reference-model.md](../architecture/identity/tenant-human-reference-model.md)

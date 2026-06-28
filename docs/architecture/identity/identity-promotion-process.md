@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Authority** | [PAS-001 §4.1.14](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
+| **Authority** | [PAS-001 §4.1.14](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
 | **Governance** | `scripts/governance/identity/` (Slice E) |
 | **Status** | Accepted — architecture record (Slice A) |
 
@@ -113,5 +113,5 @@ Every row must have unique `prefix` and unique `typeName`. Use package-style own
 ## References
 
 - [canonical-enterprise-id-constitution.md](./canonical-enterprise-id-constitution.md)
-- [PAS-001 §4.1.14](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
-- PAS companion: [`PAS-001`](../../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1
+- [PAS-001 §4.1.14](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
+- PAS companion: [`PAS-001`](../../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4.1

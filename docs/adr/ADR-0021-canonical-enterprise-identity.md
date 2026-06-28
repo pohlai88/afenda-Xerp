@@ -196,7 +196,7 @@ Scattered contracts under `packages/kernel/src/contracts/platform-id*.ts` are **
 - [ADR-0022 — PostgreSQL Split-ID Persistence Model](./ADR-0022-postgres-split-id-persistence-model.md)
 - [ADR-0023 — Tenant Human Reference Numbering](./ADR-0023-tenant-human-reference-numbering.md)
 - [ADR-0024 — Canonical ID Body Generation](./ADR-0024-canonical-id-body-generation.md)
-- [PAS-001 §4.1](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)
+- [PAS-001 §4.1](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [canonical-enterprise-id-constitution.md](../architecture/identity/canonical-enterprise-id-constitution.md)
 - [identity-promotion-process.md](../architecture/identity/identity-promotion-process.md)
 - RFC 9562 (UUID v7), ULID spec

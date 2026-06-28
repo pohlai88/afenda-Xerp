@@ -355,7 +355,7 @@ Live catalog: `apps/erp/src/server/api/contracts/api-route-catalog.snapshot.json
 
 | Document | Role |
 | --- | --- |
-| [`PAS-001`](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) §4.1.10 | Kernel/API ingress standard |
+| [`PAS-001`](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4.1.10 | Kernel/API ingress standard |
 | [`foundation-disposition.md`](foundation-disposition.md) | Disposition registry human view |
 | [`api-contract.md`](../governance/api-contract.md) | Developer how-to |
 | [`nextjs-api-hardening.md`](../governance/nextjs-api-hardening.md) | Route handler rules |
