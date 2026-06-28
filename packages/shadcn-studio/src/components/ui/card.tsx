@@ -1,11 +1,6 @@
-/**
- * MCP provenance: B40 manual seed equivalent — shadcn new-york stock pattern.
- * Source: ui.shadcn.com/docs/components/card (new-york style).
- * MCP unavailable in agent environment; matches packages/shadcn-studio/components.json.
- */
 import type * as React from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (

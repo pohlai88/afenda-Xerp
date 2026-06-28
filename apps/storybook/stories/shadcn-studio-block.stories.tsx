@@ -1,17 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import {
-  PlaceholderHeroBlock,
+  HeroSection01Block,
+  LoginPage04Block,
   shadcnStudioBlockDocs,
   shadcnStudioCenteredLayout,
   shadcnStudioDarkThemeGlobals,
+  shadcnStudioFullscreenLayout,
   shadcnStudioStoryA11y,
 } from "@afenda/shadcn-studio";
 import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-decorators";
 
 const meta = {
   title: "Shadcn Studio/Blocks",
-  component: PlaceholderHeroBlock,
+  component: HeroSection01Block,
   tags: ["autodocs"],
   parameters: {
     ...shadcnStudioCenteredLayout,
@@ -23,27 +25,28 @@ const meta = {
     a11y: shadcnStudioStoryA11y,
   },
   decorators: [shadcnStudioThemeDecorator],
-  args: {
-    title: "Studio presentation seed",
-    description:
-      "B40 MCP inventory placeholder — replace via /cui when MCP is available.",
-    actionLabel: "Explore presets",
-  },
-} satisfies Meta<typeof PlaceholderHeroBlock>;
+} satisfies Meta<typeof HeroSection01Block>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const PlaceholderHero: Story = {};
+export const HeroSection01: Story = {};
 
-export const PlaceholderHeroDark: Story = {
+export const HeroSection01Dark: Story = {
   globals: shadcnStudioDarkThemeGlobals,
 };
 
-export const PlaceholderHeroCustomCopy: Story = {
-  args: {
-    title: "Lab verification block",
-    description: "PAS-005A B41 — Storybook renders MCP placeholder-hero block.",
-    actionLabel: "Open theme lab",
+export const LoginPage04: Story = {
+  render: () => <LoginPage04Block />,
+  parameters: {
+    ...shadcnStudioFullscreenLayout,
+  },
+};
+
+export const LoginPage04Dark: Story = {
+  render: () => <LoginPage04Block />,
+  globals: shadcnStudioDarkThemeGlobals,
+  parameters: {
+    ...shadcnStudioFullscreenLayout,
   },
 };

@@ -1,4 +1,4 @@
-/** PAS-005A — @afenda/shadcn-studio public surface (B38 scaffold + B39 theme presets). */
+/** PAS-005A — @afenda/shadcn-studio public surface (B38–B42c MCP live seed). */
 
 export const SHADCN_STUDIO_PACKAGE_VERSION = "0.0.0" as const;
 export const SHADCN_STUDIO_PACKAGE_NAME = "@afenda/shadcn-studio" as const;
@@ -14,10 +14,11 @@ export {
   shadcnStudioStoryA11y,
   shadcnStudioThemeLabDocs,
 } from "./_storybook/story-parameters.js";
-export {
-  PlaceholderHeroBlock,
-  type PlaceholderHeroBlockProps,
-} from "./blocks/placeholder-hero/index.js";
+
+export { default as HeroSection01Block } from "./components/shadcn-studio/blocks/hero-section-01/hero-section-01.js";
+export { default as LoginPage04Block } from "./components/shadcn-studio/blocks/login-page-04/login-page-04.js";
+export { default as StatisticsCard01Block } from "./components/shadcn-studio/blocks/statistics-card-01.js";
+
 export { Button, buttonVariants } from "./components/ui/button.js";
 export {
   Card,
@@ -28,6 +29,14 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/ui/card.js";
+export {
+  computeStudioBlockParitySummary,
+  LEGACY_APPSHELL_STUDIO_BLOCK_COUNT,
+  SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,
+  type StudioBlockParityEntry,
+  type StudioBlockParityStatus,
+  type StudioBlockParitySummary,
+} from "./registry/studio-block-parity.registry.js";
 export {
   applyThemePresetStyles,
   clearThemePresetStyles,

@@ -40,6 +40,7 @@
         "../../packages/shadcn-studio/src/styles/shadcn-studio.css"
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
+      "@/*": ["../../packages/shadcn-studio/src/*"],
       "@afenda/design-system/css/afenda-design-system.css": [
         "../../packages/design-system/dist/css/afenda-design-system.css"
       ],

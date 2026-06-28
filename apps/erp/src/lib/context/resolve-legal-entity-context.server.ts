@@ -27,6 +27,8 @@ import {
 import { verifyEntityGroupBoundary } from "./operating-context.resolution.contract";
 
 export interface ResolvedLegalEntityContext {
+  /** Internal uuid PK for database FK lookups — not branded `CompanyId`. */
+  readonly companyPk: string;
   readonly entityGroup: EntityGroupContext | null;
   readonly legalEntity: LegalEntityContext;
 }

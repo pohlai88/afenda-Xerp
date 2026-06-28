@@ -129,7 +129,11 @@
       }
     },
     {
-      "includes": ["**/packages/ui/**", "**/packages/appshell/**"],
+      "includes": [
+        "**/packages/ui/**",
+        "**/packages/appshell/**",
+        "**/packages/shadcn-studio/**"
+      ],
       "linter": {
         "rules": {
           "style": {

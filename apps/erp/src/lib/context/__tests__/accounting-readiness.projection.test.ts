@@ -1,5 +1,6 @@
 import {
   brandRequiredCurrencyCode,
+  createTestEnterpriseId,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   isOwnershipInterestEffectiveAt,
   type LegalEntityWireContext,
@@ -130,7 +131,10 @@ describe("isCostCenterOrganizationUnit", () => {
   });
 });
 
-const TENANT_WIRE_ID = "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV";
+const TENANT_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
 
 describe("toAccountingReadinessContext", () => {
   it("bundles required authority fields for future accounting modules", () => {
@@ -138,7 +142,7 @@ describe("toAccountingReadinessContext", () => {
       actor: { userId: "user-1" },
       correlationId: "corr-1",
       tenant: {
-        tenantId: TENANT_WIRE_ID,
+        tenantId: TENANT_ID,
         slug: "acme",
         displayName: "Acme",
         status: "active",
@@ -150,7 +154,7 @@ describe("toAccountingReadinessContext", () => {
       team: null,
       project: null,
       workspace: {
-        tenantId: TENANT_WIRE_ID,
+        tenantId: TENANT_ID,
         companyId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         organizationId: "org_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         projectId: null,

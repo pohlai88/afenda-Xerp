@@ -8,6 +8,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS } from "../../packages/architecture-authority/src/index.ts";
+import { BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS as SCAFFOLD_FORBIDDEN_DIRS } from "./business-master-data-scaffold-dirs.mjs";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -15,6 +16,15 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const failures: string[] = [];
+
+const policyDirs = [...BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS].sort();
+const scaffoldDirs = [...SCAFFOLD_FORBIDDEN_DIRS].sort();
+
+if (JSON.stringify(policyDirs) !== JSON.stringify(scaffoldDirs)) {
+  failures.push(
+    "scripts/governance/business-master-data-scaffold-dirs.mjs drift from architecture-authority BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS — sync both sources."
+  );
+}
 
 for (const relativeDir of BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS) {
   const absoluteDir = join(repoRoot, relativeDir);

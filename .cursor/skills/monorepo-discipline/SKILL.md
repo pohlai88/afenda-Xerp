@@ -96,18 +96,18 @@ Templates live under `templates/package-scaffold/`. Env wiring is integrated: Vi
 ### Commands
 
 ```bash
-# Platform authority (PAS-004 pattern)
+# Platform authority (PAS-004 pattern) — always pass --pas for real packages
 pnpm scaffold:package -- \
   --name @afenda/<pkg-name> \
   --variant platform-zero-deps \
-  --pas PAS-NNN-<NAME>-STANDARD.md \
+  --pas PAS-NNN-<kebab-name>-STANDARD.md \
   --description "Short PAS description"
 
 # Kernel-dependent Foundation authority (PAS-003 pattern)
 pnpm scaffold:package -- \
   --name @afenda/<pkg-name> \
   --variant foundation-with-kernel \
-  --pas PAS-NNN-<NAME>-STANDARD.md \
+  --pas PAS-NNN-<kebab-name>-STANDARD.md \
   --description "Short PAS description"
 
 # Package with standalone CLI scripts that read secrets
@@ -116,21 +116,30 @@ pnpm scaffold:package -- \
   --variant platform-zero-deps \
   --with-env-scripts \
   --env-sync-target
+
+# End-to-end template verification (install → typecheck → test → cleanup)
+pnpm scaffold:package -- --verify --variant platform-zero-deps
+pnpm scaffold:package -- --verify --variant foundation-with-kernel
 ```
+
+**Naming:** do not use `_`-prefixed package names in production (`--allow-internal-name` for smoke only). Default tombstone without `--pas` is a placeholder (`PAS-NNN-<kebab-slug>-STANDARD.md`).
+
+**Post-scaffold order:** `pnpm install` first (workspace link), then `typecheck`, then `test:run`.
 
 `--env-sync-target` prints a checklist to add `packages/<dir>/.env` to `LOCAL_SYNC_TARGETS` in `scripts/env-utils.mjs`, then run `pnpm env:console refresh`. See [env-var-governance](../env-var-governance/SKILL.md) and `.cursor/rules/env-workflow.mdc`.
 
 ### Post-scaffold cleanup (before registry)
 
 ```
+[ ] Replace placeholder PAS tombstone if --pas was omitted
 [ ] Update src/index.ts fingerprint when PAS contracts stabilize
 [ ] Update architecture-boundary.test.ts approved/prohibited lists if deps differ
-[ ] Remove template PAS tombstone placeholder; point to real docs/PAS/PAS-NNN-*.md
-[ ] pnpm install
-[ ] pnpm --filter @afenda/<pkg-name> typecheck
-[ ] pnpm --filter @afenda/<pkg-name> test:run
-[ ] pnpm check:business-master-data-scaffold
+[ ] 1. pnpm install  ← required before typecheck/test
+[ ] 2. pnpm --filter @afenda/<pkg-name> typecheck
+[ ] 3. pnpm --filter @afenda/<pkg-name> test:run  (and typecheck:scripts if --with-env-scripts)
+[ ] 4. pnpm check:business-master-data-scaffold
 [ ] If --env-sync-target: edit LOCAL_SYNC_TARGETS → pnpm env:console refresh → .env.example
+[ ] Delegate registry rows to foundation-registry-owner
 ```
 
 **Do not automate:** registry rows (`layer-registry`, `package-registry`, `ownership-registry`, `dependency-registry`, `foundation-disposition.registry.ts`) — delegate to **`foundation-registry-owner`**. Full PAS docs and package-specific governance scripts remain separate slices.

@@ -1,4 +1,5 @@
 import { and, asc, eq } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 
 import type {
   CompanyStatus,
@@ -12,6 +13,11 @@ import { companies } from "../schema/company.schema.js";
 import { entityGroups } from "../schema/entity-group.schema.js";
 import { organizations } from "../schema/organization.schema.js";
 import { tenants } from "../schema/tenant.schema.js";
+
+const parentLegalEntityCompany = alias(
+  companies,
+  "parent_legal_entity_company"
+);
 
 export interface TenantLookupRow {
   readonly enterpriseId: string;
@@ -28,6 +34,7 @@ export interface CompanyLookupRow {
   readonly displayName: string;
   readonly effectiveFrom: string | null;
   readonly effectiveTo: string | null;
+  readonly enterpriseId: string;
   readonly entityGroupId: string | null;
   readonly fiscalCalendarId: string | null;
   readonly id: string;
@@ -41,6 +48,7 @@ export interface CompanyLookupRow {
 
 const companyLookupSelect = {
   id: companies.id,
+  enterpriseId: companies.enterpriseId,
   tenantId: companies.tenantId,
   entityGroupId: companies.entityGroupId,
   slug: companies.slug,
@@ -59,7 +67,9 @@ const companyLookupSelect = {
 
 export interface EntityGroupLookupRow {
   readonly displayName: string;
+  readonly enterpriseId: string;
   readonly id: string;
+  readonly parentLegalEntityEnterpriseId: string | null;
   readonly parentLegalEntityId: string | null;
   readonly slug: string;
   readonly status: CompanyStatus;
@@ -67,9 +77,11 @@ export interface EntityGroupLookupRow {
 }
 
 export interface OrganizationLookupRow {
+  readonly companyEnterpriseId: string;
   readonly companyId: string;
   readonly effectiveFrom: string | null;
   readonly effectiveTo: string | null;
+  readonly enterpriseId: string;
   readonly id: string;
   readonly name: string;
   readonly parentOrganizationId: string | null;
@@ -81,8 +93,10 @@ export interface OrganizationLookupRow {
 
 const organizationLookupSelect = {
   id: organizations.id,
+  enterpriseId: organizations.enterpriseId,
   tenantId: organizations.tenantId,
   companyId: organizations.companyId,
+  companyEnterpriseId: companies.enterpriseId,
   slug: organizations.slug,
   name: organizations.name,
   type: organizations.type,
@@ -93,6 +107,91 @@ const organizationLookupSelect = {
 } as const;
 
 export { organizationLookupSelect };
+
+type CompanyLookupSelectRow = {
+  readonly baseCurrency: string;
+  readonly companyType: LegalEntityCompanyType;
+  readonly countryCode: string;
+  readonly displayName: string;
+  readonly effectiveFrom: string | null;
+  readonly effectiveTo: string | null;
+  readonly entityGroupId: string | null;
+  readonly enterpriseId: string | null;
+  readonly fiscalCalendarId: string | null;
+  readonly id: string;
+  readonly legalName: string;
+  readonly registrationNumber: string | null;
+  readonly slug: string;
+  readonly status: CompanyStatus;
+  readonly taxId: string | null;
+  readonly tenantId: string;
+};
+
+type OrganizationLookupSelectRow = {
+  readonly companyEnterpriseId: string | null;
+  readonly companyId: string;
+  readonly effectiveFrom: string | null;
+  readonly effectiveTo: string | null;
+  readonly enterpriseId: string | null;
+  readonly id: string;
+  readonly name: string;
+  readonly parentOrganizationId: string | null;
+  readonly slug: string;
+  readonly status: OrganizationStatus;
+  readonly tenantId: string;
+  readonly type: string;
+};
+
+type EntityGroupLookupSelectRow = {
+  readonly displayName: string;
+  readonly enterpriseId: string | null;
+  readonly id: string;
+  readonly parentLegalEntityEnterpriseId: string | null;
+  readonly parentLegalEntityId: string | null;
+  readonly slug: string;
+  readonly status: CompanyStatus;
+  readonly tenantId: string;
+};
+
+function toCompanyLookupRow(
+  row: CompanyLookupSelectRow | undefined
+): CompanyLookupRow | null {
+  if (!row || row.enterpriseId === null) {
+    return null;
+  }
+
+  return {
+    ...row,
+    enterpriseId: row.enterpriseId,
+  };
+}
+
+function toOrganizationLookupRow(
+  row: OrganizationLookupSelectRow | undefined
+): OrganizationLookupRow | null {
+  if (!row || row.enterpriseId === null || row.companyEnterpriseId === null) {
+    return null;
+  }
+
+  return {
+    ...row,
+    enterpriseId: row.enterpriseId,
+    companyEnterpriseId: row.companyEnterpriseId,
+  };
+}
+
+function toEntityGroupLookupRow(
+  row: EntityGroupLookupSelectRow | undefined
+): EntityGroupLookupRow | null {
+  if (!row || row.enterpriseId === null) {
+    return null;
+  }
+
+  return {
+    ...row,
+    enterpriseId: row.enterpriseId,
+  };
+}
 
 function toTenantLookupRow(
   row:
@@ -168,7 +267,7 @@ export async function findCompanyByTenantAndSlug(
     .where(and(eq(companies.tenantId, tenantId), eq(companies.slug, slug)))
     .limit(1);
 
-  return row ?? null;
+  return toCompanyLookupRow(row);
 }
 
 export async function findCompanyById(
@@ -181,7 +280,7 @@ export async function findCompanyById(
     .where(eq(companies.id, companyId))
     .limit(1);
 
-  return row ?? null;
+  return toCompanyLookupRow(row);
 }
 
 export async function findOrganizationByCompanyAndSlug(
@@ -192,12 +291,13 @@ export async function findOrganizationByCompanyAndSlug(
   const [row] = await db
     .select(organizationLookupSelect)
     .from(organizations)
+    .innerJoin(companies, eq(organizations.companyId, companies.id))
     .where(
       and(eq(organizations.companyId, companyId), eq(organizations.slug, slug))
     )
     .limit(1);
 
-  return row ?? null;
+  return toOrganizationLookupRow(row);
 }
 
 export async function findOrganizationById(
@@ -207,10 +307,11 @@ export async function findOrganizationById(
   const [row] = await db
     .select(organizationLookupSelect)
     .from(organizations)
+    .innerJoin(companies, eq(organizations.companyId, companies.id))
     .where(eq(organizations.id, organizationId))
     .limit(1);
 
-  return row ?? null;
+  return toOrganizationLookupRow(row);
 }
 
 export async function findEntityGroupById(
@@ -220,17 +321,23 @@ export async function findEntityGroupById(
   const [row] = await db
     .select({
       id: entityGroups.id,
+      enterpriseId: entityGroups.enterpriseId,
       tenantId: entityGroups.tenantId,
       slug: entityGroups.slug,
       displayName: entityGroups.displayName,
       parentLegalEntityId: entityGroups.parentLegalEntityId,
+      parentLegalEntityEnterpriseId: parentLegalEntityCompany.enterpriseId,
       status: entityGroups.status,
     })
     .from(entityGroups)
+    .leftJoin(
+      parentLegalEntityCompany,
+      eq(entityGroups.parentLegalEntityId, parentLegalEntityCompany.id)
+    )
     .where(eq(entityGroups.id, entityGroupId))
     .limit(1);
 
-  return row ?? null;
+  return toEntityGroupLookupRow(row);
 }
 
 /** Active legal entities belonging to an entity group — ordered for deterministic default selection. */
@@ -239,7 +346,7 @@ export async function findActiveCompaniesByEntityGroupId(
   tenantId: string,
   db: AfendaDatabase = getDb()
 ): Promise<readonly CompanyLookupRow[]> {
-  return db
+  const rows = await db
     .select(companyLookupSelect)
     .from(companies)
     .where(
@@ -250,6 +357,11 @@ export async function findActiveCompaniesByEntityGroupId(
       )
     )
     .orderBy(asc(companies.displayName));
+
+  return rows.flatMap((row) => {
+    const mapped = toCompanyLookupRow(row);
+    return mapped ? [mapped] : [];
+  });
 }
 
 export async function findTenantById(

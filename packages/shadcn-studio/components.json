@@ -11,7 +11,7 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@/blocks",
+    "components": "@/components/shadcn-studio",
     "utils": "@/lib/utils",
     "hooks": "@/hooks",
     "lib": "@/lib",

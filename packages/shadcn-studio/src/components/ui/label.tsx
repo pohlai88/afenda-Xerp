@@ -1,15 +1,9 @@
-/**
- * MCP provenance: B40 manual seed equivalent — shadcn new-york stock pattern.
- * Source: ui.shadcn.com/docs/components/label (new-york style).
- * MCP unavailable in agent environment; matches packages/shadcn-studio/components.json.
- */
 "use client";
 
-// biome-ignore lint/performance/noNamespaceImport: shadcn/Radix primitive composition pattern
-import * as LabelPrimitive from "@radix-ui/react-label";
+import { Label as LabelPrimitive } from "radix-ui";
 import type * as React from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 
 function Label({
   className,

@@ -3,6 +3,7 @@ import type { DependencyContract } from "../contracts/dependency.contract.js";
 const RUNTIME_EDGES = [
   ["@afenda/appshell", "@afenda/ui"],
   ["@afenda/appshell", "@afenda/kernel"],
+  ["@afenda/appshell", "@afenda/shadcn-studio"],
   ["@afenda/auth", "@afenda/database"],
   ["@afenda/auth", "@afenda/kernel"],
   ["@afenda/database", "@afenda/observability"],
@@ -55,7 +56,11 @@ export const dependencyContract: DependencyContract = {
     classification: "Approved",
   })),
   approvedRuntimeByPackage: {
-    "@afenda/appshell": ["@afenda/ui", "@afenda/kernel"],
+    "@afenda/appshell": [
+      "@afenda/ui",
+      "@afenda/kernel",
+      "@afenda/shadcn-studio",
+    ],
     "@afenda/auth": ["@afenda/database", "@afenda/kernel"],
     "@afenda/database": ["@afenda/observability"],
     "@afenda/design-system": ["@afenda/css-authority"],

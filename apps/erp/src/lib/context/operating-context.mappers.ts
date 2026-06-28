@@ -115,7 +115,7 @@ function toLegalEntityContext(
   const routing = mapLegacyDbCompanyType(row.companyType);
 
   return {
-    companyId: parseCompanyId(row.id),
+    companyId: parseCompanyId(row.enterpriseId),
     tenantId,
     entityGroupId: parseOptionalEntityGroupId(row.entityGroupId),
     slug: row.slug,

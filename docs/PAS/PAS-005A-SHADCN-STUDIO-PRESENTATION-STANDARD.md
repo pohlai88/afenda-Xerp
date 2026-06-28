@@ -18,8 +18,8 @@
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `implemented` (Phase 1) |
 | **Evidence level** | `presentation-runtime` |
-| **Runtime status** | B42 partial + B42b planning — ERP CSS chain; metadata-ui theme hook; PKGR05A amber-lane; legacy delete blocked (3% block parity) |
-| **Remaining slices** | B42c — MCP live re-seed · B42d — appshell re-export bridge + legacy delete |
+| **Runtime status** | B42c delivered — live MCP @ss-blocks install; placeholders removed; appshell legacy delete still blocked |
+| **Remaining slices** | B42d — appshell re-export bridge + legacy delete after extended parity |
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -477,8 +477,9 @@ pnpm ui:guard
 | B41 | Lab / Storybook verification | Delivered |
 | B42 | Afenda integration — css-authority bridge, ADR-0017 retarget, metadata-ui hook, legacy delete | **Partial** — [`slice/b42-pas005a-afenda-integration.md`](slice/b42-pas005a-afenda-integration.md) |
 | B42b | Legacy parity inventory + delete planning | **Delivered** — [`slice/b42b-pas005a-legacy-delete-planning.md`](slice/b42b-pas005a-legacy-delete-planning.md) |
+| B42c | MCP live re-seed — replace B40 placeholders | **Delivered** — [`slice/b42c-pas005a-mcp-live-reseed.md`](slice/b42c-pas005a-mcp-live-reseed.md) |
 
-**Next sequence item:** B42c — MCP live re-seed · B42d — appshell re-export + legacy delete
+**Next sequence item:** B42d — appshell re-export bridge + legacy delete
 
 ---
 

@@ -32,5 +32,5 @@ export const shadcnStudioPrimitivesDocs = {
 
 export const shadcnStudioBlockDocs = {
   component:
-    "MCP placeholder block inventory (placeholder-hero). B40 manual seed equivalent — replace via /cui when MCP is available.",
+    "Live MCP blocks from @ss-blocks (B42c) — hero-section-01, login-page-04, application-shell chrome, statistics-card-01. Stock shadcn className patterns (Phase 1 — no TIP-004 strip).",
 } as const;

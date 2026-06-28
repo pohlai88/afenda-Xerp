@@ -1,3 +1,4 @@
+import { createTestEnterpriseId } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
 import { describe, expect, it, vi } from "vitest";
 
@@ -24,6 +25,10 @@ import { loadActorMemberships } from "@/lib/context/load-actor-memberships.serve
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
 
 const TENANT_ID = "tenant-001";
+const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
 const ACTOR_ID = "user-001";
 
 const activeMembership: MembershipContract = {
@@ -44,6 +49,7 @@ describe("validatePostLoginMembership", () => {
   it("routes unlinked actors to access denied", async () => {
     vi.mocked(findTenantBySlug).mockResolvedValueOnce({
       id: TENANT_ID,
+      enterpriseId: TENANT_ENTERPRISE_ID,
       name: "Dev",
       slug: "dev-local",
       status: "active",
@@ -65,6 +71,7 @@ describe("validatePostLoginMembership", () => {
   it("routes multi-target memberships to workspace select", async () => {
     vi.mocked(findTenantBySlug).mockResolvedValueOnce({
       id: TENANT_ID,
+      enterpriseId: TENANT_ENTERPRISE_ID,
       name: "Dev",
       slug: "dev-local",
       status: "active",

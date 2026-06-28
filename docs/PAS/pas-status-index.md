@@ -13,13 +13,19 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 29 delivered slices, runtime gates operational |
-| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 31 delivered slices, runtime gates operational |
+| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
 
-**Next sequence item:** Slice B18 — public exports parity ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)).
+**Next sequence item:** none — PAS-001 kernel authority slices complete.
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B18 | [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | Delivered |
+| B49 | [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | Delivered |
+| B50 | [b50-kernel-company-org-wire-triad.md](slice/b50-kernel-company-org-wire-triad.md) | Delivered |
 
 ---
 
@@ -47,13 +53,13 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Delivered — B38–B41 complete (2026-06-28) |
 | **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
 | **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
-| **Runtime status** | B42 partial + B42b planning — ERP CSS chain; metadata-ui theme hook; PKGR05A amber-lane; legacy delete **blocked** (3% block parity) |
-| **Remaining slices** | B42c — MCP live re-seed · B42d — appshell re-export bridge + legacy delete |
+| **Runtime status** | B42d delivered — appshell re-export bridge + parity registry; legacy delete blocked (~6% parity) |
+| **Remaining slices** | B42e — extended `/cui` batches (dashboard, account-settings per B42b); legacy delete when `deleteBlocked === false` |
 | **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
 
-**Next sequence item:** B42c — MCP live re-seed (operator) · B42d — appshell re-export + legacy delete after parity.
+**Next sequence item:** B42e — extended `/cui` batches + legacy delete gate when parity registry reports `deleteBlocked: false`.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -63,6 +69,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B41 | [b41-pas005a-lab-verification.md](slice/b41-pas005a-lab-verification.md) | Delivered |
 | B42 | [b42-pas005a-afenda-integration.md](slice/b42-pas005a-afenda-integration.md) | Delivered (partial — legacy delete deferred) |
 | B42b | [b42b-pas005a-legacy-delete-planning.md](slice/b42b-pas005a-legacy-delete-planning.md) | Delivered (planning — delete blocked) |
+| B42c | [b42c-pas005a-mcp-live-reseed.md](slice/b42c-pas005a-mcp-live-reseed.md) | Delivered (live MCP re-seed) |
+| B42d | [b42d-pas005a-appshell-reexport-bridge.md](slice/b42d-pas005a-appshell-reexport-bridge.md) | Delivered (bridge + parity registry; legacy retained) |
 
 ---
 

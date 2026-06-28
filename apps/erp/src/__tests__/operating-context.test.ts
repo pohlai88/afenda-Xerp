@@ -8,18 +8,17 @@ const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
   "tenant",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
+const COMPANY_PK = "660e8400-e29b-41d4-a716-446655440001";
 const COMPANY_ID = createTestEnterpriseId(
   "company",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
+const ORG_PK = "770e8400-e29b-41d4-a716-446655440002";
 const ORG_ID = createTestEnterpriseId(
   "organization",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
-const ENTITY_GROUP_ID = createTestEnterpriseId(
-  "entityGroup",
-  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-);
+const ENTITY_GROUP_PK = "880e8400-e29b-41d4-a716-446655440003";
 const ACTOR_ID = "user-001";
 const MEMBERSHIP_ID = createTestEnterpriseId(
   "membership",
@@ -36,7 +35,8 @@ const tenantRow = {
 };
 
 const companyRow = {
-  id: COMPANY_ID,
+  id: COMPANY_PK,
+  enterpriseId: COMPANY_ID,
   tenantId: TENANT_PK,
   entityGroupId: null,
   slug: "dev-company",
@@ -54,9 +54,11 @@ const companyRow = {
 };
 
 const organizationRow = {
-  id: ORG_ID,
+  id: ORG_PK,
+  enterpriseId: ORG_ID,
   tenantId: TENANT_PK,
-  companyId: COMPANY_ID,
+  companyId: COMPANY_PK,
+  companyEnterpriseId: COMPANY_ID,
   slug: "dev-hq",
   name: "Dev HQ",
   type: "department",
@@ -69,7 +71,7 @@ const organizationRow = {
 const companyMembership: MembershipContract = {
   id: MEMBERSHIP_ID,
   tenantId: TENANT_ENTERPRISE_ID,
-  companyId: COMPANY_ID,
+  companyId: COMPANY_PK,
   entityGroupId: null,
   organizationId: null,
   projectId: null,
@@ -172,7 +174,7 @@ describe("resolveOperatingContext", () => {
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce(companyRow);
     vi.mocked(findOrganizationByCompanyAndSlug).mockResolvedValueOnce({
       ...organizationRow,
-      companyId: "other-company",
+      companyId: "other-company-pk",
     });
 
     const result = await resolveOperatingContext({
@@ -275,7 +277,7 @@ describe("resolveOperatingContext", () => {
     vi.mocked(findTenantBySlug).mockResolvedValueOnce(tenantRow);
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce({
       ...companyRow,
-      entityGroupId: ENTITY_GROUP_ID,
+      entityGroupId: ENTITY_GROUP_PK,
     });
     vi.mocked(findEntityGroupById).mockResolvedValueOnce(null);
 

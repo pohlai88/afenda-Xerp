@@ -27,7 +27,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ---
 
-## Runtime Dependency Edges (41 direct edges)
+## Runtime Dependency Edges (42 direct edges)
 
 | Package | Dependency | Classification | ADR | Expires |
 |---------|------------|----------------|-----|---------|
@@ -35,6 +35,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/ai-governance` | `@afenda/architecture-authority` | Approved | ADR-0007 | — |
 | `@afenda/appshell` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/appshell` | `@afenda/ui` | Approved | — | — |
+| `@afenda/appshell` | `@afenda/shadcn-studio` | Approved | PAS-005A | B42d re-export bridge |
 | `@afenda/auth` | `@afenda/database` | Approved | — | — |
 | `@afenda/auth` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/database` | `@afenda/observability` | Approved | — | — |
@@ -110,7 +111,7 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 | Package | Approved `@afenda/*` dependencies |
 |---------|-----------------------------------|
 | `@afenda/accounting-standards` | `@afenda/kernel` |
-| `@afenda/appshell` | `@afenda/kernel`, `@afenda/ui` |
+| `@afenda/appshell` | `@afenda/kernel`, `@afenda/shadcn-studio`, `@afenda/ui` |
 | `@afenda/auth` | `@afenda/database`, `@afenda/kernel` |
 | `@afenda/database` | `@afenda/observability` |
 | `@afenda/design-system` | `@afenda/css-authority` |
@@ -143,6 +144,7 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 ```text
 @afenda/erp
   → @afenda/appshell → @afenda/kernel
+  → @afenda/appshell → @afenda/shadcn-studio
   → @afenda/appshell → @afenda/ui → @afenda/design-system
   → @afenda/auth → @afenda/database → @afenda/observability
   → @afenda/auth → @afenda/kernel

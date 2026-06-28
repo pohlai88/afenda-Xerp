@@ -33,9 +33,10 @@ const ALLOWED_RUNTIME_DEPENDENCIES = [
   "@radix-ui/react-slot",
   "class-variance-authority",
   "clsx",
+  "cmdk",
   "lucide-react",
   "next-themes",
-  "react",
+  "radix-ui",
   "tailwind-merge",
 ] as const;
 

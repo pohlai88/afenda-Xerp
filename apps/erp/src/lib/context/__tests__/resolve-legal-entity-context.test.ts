@@ -8,16 +8,24 @@ const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
   "tenant",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
+const COMPANY_PK = "660e8400-e29b-41d4-a716-446655440001";
 const COMPANY_ID = createTestEnterpriseId(
   "company",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
+const ENTITY_GROUP_PK = "880e8400-e29b-41d4-a716-446655440003";
 const ENTITY_GROUP_A_ID = createTestEnterpriseId(
   "entityGroup",
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
+const ENTITY_GROUP_B_PK = "880e8400-e29b-41d4-a716-446655440004";
 const ENTITY_GROUP_B_ID = createTestEnterpriseId(
   "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FBV"
+);
+const SUBSIDIARY_PK = "660e8400-e29b-41d4-a716-446655440005";
+const SUBSIDIARY_ID = createTestEnterpriseId(
+  "company",
   "01ARZ3NDEKTSV4RRFFQ69G5FBV"
 );
 const ACTOR_ID = "user-001";
@@ -30,7 +38,8 @@ const tenant = {
 };
 
 const companyRow = {
-  id: COMPANY_ID,
+  id: COMPANY_PK,
+  enterpriseId: COMPANY_ID,
   tenantId: TENANT_PK,
   entityGroupId: null,
   slug: "dev-company",
@@ -50,7 +59,7 @@ const companyRow = {
 const companyMembership: MembershipContract = {
   id: "membership-001",
   tenantId: TENANT_PK,
-  companyId: COMPANY_ID,
+  companyId: COMPANY_PK,
   entityGroupId: null,
   organizationId: null,
   projectId: null,
@@ -117,7 +126,7 @@ describe("resolveLegalEntityContext", () => {
     });
 
     expect(result.ok).toBe(true);
-    expect(findCompanyById).toHaveBeenCalledWith(COMPANY_ID, undefined);
+    expect(findCompanyById).toHaveBeenCalledWith(COMPANY_PK, undefined);
   });
 
   it("rejects company outside tenant boundary", async () => {
@@ -162,21 +171,23 @@ describe("resolveLegalEntityContext", () => {
       ...companyMembership,
       id: "membership-group-001",
       companyId: null,
-      entityGroupId: ENTITY_GROUP_A_ID,
+      entityGroupId: ENTITY_GROUP_PK,
       scopeType: "entity_group",
     };
     const mockDb = {} as import("@afenda/database").AfendaDatabase;
 
     vi.mocked(findEntityGroupById).mockResolvedValueOnce({
-      id: ENTITY_GROUP_A_ID,
+      id: ENTITY_GROUP_PK,
+      enterpriseId: ENTITY_GROUP_A_ID,
       tenantId: TENANT_PK,
       slug: "dev-group",
       displayName: "Dev Group",
-      parentLegalEntityId: COMPANY_ID,
+      parentLegalEntityId: COMPANY_PK,
+      parentLegalEntityEnterpriseId: COMPANY_ID,
       status: "active",
     });
     vi.mocked(findCompanyById).mockImplementation(async (companyId) =>
-      companyId === COMPANY_ID ? companyRow : null
+      companyId === COMPANY_PK ? companyRow : null
     );
 
     const result = await resolveLegalEntityContext({
@@ -187,43 +198,43 @@ describe("resolveLegalEntityContext", () => {
     });
 
     expect(result.ok).toBe(true);
-    expect(findEntityGroupById).toHaveBeenCalledWith(ENTITY_GROUP_A_ID, mockDb);
-    expect(findCompanyById).toHaveBeenCalledWith(COMPANY_ID, mockDb);
+    expect(findEntityGroupById).toHaveBeenCalledWith(ENTITY_GROUP_PK, mockDb);
+    expect(findCompanyById).toHaveBeenCalledWith(COMPANY_PK, mockDb);
   });
 
   it("defaults to first active company in group when parent legal entity is absent", async () => {
-    const subsidiaryId = createTestEnterpriseId(
-      "company",
-      "01ARZ3NDEKTSV4RRFFQ69G5FBV"
-    );
     const entityGroupMembership: MembershipContract = {
       ...companyMembership,
       id: "membership-group-002",
       companyId: null,
-      entityGroupId: ENTITY_GROUP_B_ID,
+      entityGroupId: ENTITY_GROUP_B_PK,
       scopeType: "entity_group",
     };
     const mockDb = {} as import("@afenda/database").AfendaDatabase;
 
     vi.mocked(findEntityGroupById).mockResolvedValueOnce({
-      id: ENTITY_GROUP_B_ID,
+      id: ENTITY_GROUP_B_PK,
+      enterpriseId: ENTITY_GROUP_B_ID,
       tenantId: TENANT_PK,
       slug: "dev-group-2",
       displayName: "Dev Group 2",
       parentLegalEntityId: null,
+      parentLegalEntityEnterpriseId: null,
       status: "active",
     });
     vi.mocked(findActiveCompaniesByEntityGroupId).mockResolvedValueOnce([
       {
         ...companyRow,
-        id: subsidiaryId,
+        id: SUBSIDIARY_PK,
+        enterpriseId: SUBSIDIARY_ID,
         slug: "subsidiary-co",
         displayName: "Subsidiary Co",
       },
     ]);
     vi.mocked(findCompanyById).mockResolvedValueOnce({
       ...companyRow,
-      id: subsidiaryId,
+      id: SUBSIDIARY_PK,
+      enterpriseId: SUBSIDIARY_ID,
       slug: "subsidiary-co",
     });
 
@@ -236,12 +247,13 @@ describe("resolveLegalEntityContext", () => {
 
     expect(result.ok).toBe(true);
     expect(findActiveCompaniesByEntityGroupId).toHaveBeenCalledWith(
-      ENTITY_GROUP_B_ID,
+      ENTITY_GROUP_B_PK,
       TENANT_PK,
       mockDb
     );
     if (result.ok) {
-      expect(result.value.legalEntity.companyId).toBe(subsidiaryId);
+      expect(result.value.legalEntity.companyId).toBe(SUBSIDIARY_ID);
+      expect(result.value.companyPk).toBe(SUBSIDIARY_PK);
     }
   });
 });

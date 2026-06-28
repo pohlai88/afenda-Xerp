@@ -17,8 +17,8 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 29 delivered slices, runtime gates operational |
-| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 31 delivered slices, runtime gates operational |
+| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -59,7 +59,7 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/slice/` (29 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/slice/` (30 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 

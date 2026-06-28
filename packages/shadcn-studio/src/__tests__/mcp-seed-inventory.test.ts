@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const uiDir = join(packageRoot, "src/components/ui");
-const blocksDir = join(packageRoot, "src/blocks");
+const blocksDir = join(packageRoot, "src/components/shadcn-studio/blocks");
 
 function listUiPrimitiveFiles(): string[] {
   return readdirSync(uiDir)
@@ -13,14 +13,21 @@ function listUiPrimitiveFiles(): string[] {
     .sort();
 }
 
-function listBlockDirectories(): string[] {
+function listBlockEntries(): string[] {
   return readdirSync(blocksDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
+    .flatMap((entry) => {
+      if (entry.isDirectory()) {
+        return [entry.name];
+      }
+      if (entry.isFile() && entry.name.endsWith(".tsx")) {
+        return [entry.name];
+      }
+      return [];
+    })
     .sort();
 }
 
-describe("B40 MCP seed inventory", () => {
+describe("B42c MCP live seed inventory", () => {
   it("seeds at least five ui primitives under src/components/ui/", () => {
     const uiFiles = listUiPrimitiveFiles();
     expect(uiFiles.length).toBeGreaterThanOrEqual(5);
@@ -35,11 +42,15 @@ describe("B40 MCP seed inventory", () => {
     );
   });
 
-  it("seeds at least two block directories under src/blocks/", () => {
-    const blockDirs = listBlockDirectories();
-    expect(blockDirs.length).toBeGreaterThanOrEqual(2);
-    expect(blockDirs).toEqual(
-      expect.arrayContaining(["placeholder-hero", "placeholder-form"])
+  it("installs live MCP blocks under src/components/shadcn-studio/blocks/", () => {
+    const blockEntries = listBlockEntries();
+    expect(blockEntries.length).toBeGreaterThanOrEqual(4);
+    expect(blockEntries).toEqual(
+      expect.arrayContaining([
+        "hero-section-01",
+        "login-page-04",
+        "statistics-card-01.tsx",
+      ])
     );
   });
 
@@ -47,9 +58,21 @@ describe("B40 MCP seed inventory", () => {
     expect(existsSync(join(packageRoot, "src/lib/utils.ts"))).toBe(true);
   });
 
-  it("documents manual seed provenance on installed primitives", () => {
-    const buttonSource = readFileSync(join(uiDir, "button.tsx"), "utf8");
-    expect(buttonSource).toContain("MCP provenance");
-    expect(buttonSource).toContain("manual seed equivalent");
+  it("documents MCP live provenance on installed hero block", () => {
+    const heroSource = readFileSync(
+      join(blocksDir, "hero-section-01/hero-section-01.tsx"),
+      "utf8"
+    );
+    expect(heroSource).toContain("cdn.shadcnstudio.com");
+    expect(heroSource).not.toContain("manual seed equivalent");
+  });
+
+  it("does not retain B40 placeholder block directories", () => {
+    expect(existsSync(join(packageRoot, "src/blocks/placeholder-hero"))).toBe(
+      false
+    );
+    expect(existsSync(join(packageRoot, "src/blocks/placeholder-form"))).toBe(
+      false
+    );
   });
 });
