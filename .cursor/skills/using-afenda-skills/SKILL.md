@@ -15,7 +15,7 @@ When a task arrives, identify the lane and apply the corresponding skill or agen
 
 ```
 Task arrives
-├── PAS/FDR foundation work? ──────────→ pas-slice-planner → fdr-slice-implementer | fdr-orchestrator
+├── PAS foundation work? ────────────────→ pas-slice-planner → afenda-governed-implementer | @afenda-orchestrator
 ├── Registry lane change? ───────────────→ foundation-registry-owner
 ├── Docs/matrix drift suspected? ────────→ documentation-drift
 ├── Any code edit? ──────────────────────→ coding-consistency-bundle (mandatory)
@@ -27,11 +27,12 @@ Task arrives
 ├── Pre-merge review? ───────────────────→ /afenda-review command
 ├── Ship decision? ──────────────────────→ /afenda-ship command
 ├── Underspecified request? ─────────────→ vendor `interview-me` (eval keep)
-├── Rough idea before FDR? ──────────────→ vendor `idea-refine` (eval keep)
+├── Rough idea before PAS slice? ────────→ vendor `idea-refine` (eval keep)
 ├── High-stakes adversarial review? ─────→ vendor `doubt-driven-development` (eval keep)
 ├── Deprecation / migration? ────────────→ vendor `deprecation-and-migration` (eval keep)
 ├── Browser runtime debug (DevTools)? ───→ vendor `browser-testing-with-devtools` (eval keep)
-└── Full frontend maturity audit? ───────→ enterprise-frontend-audit
+├── Full frontend maturity audit? ───────→ enterprise-frontend-audit
+└── Full platform architecture audit? ─→ enterprise-architecture-audit + @enterprise-architecture-audit-orchestrator
 ```
 
 ## Orchestrator commands
@@ -42,7 +43,8 @@ Task arrives
 | Go/no-go before merge | `/afenda-ship` |
 | Test strategy / coverage gaps | `/afenda-test` |
 | Web performance audit | `/afenda-webperf` |
-| PAS parallel batch | `@fdr-orchestrator` + `/afenda-fdr-batch` |
+| Full platform architecture audit (read-only) | `enterprise-architecture-audit` + `@enterprise-architecture-audit-orchestrator` |
+| PAS parallel batch | `@afenda-orchestrator` + `/afenda-batch` |
 | Which skill applies? | `/using-afenda-skills` (this skill) |
 | Vibe-coding / bundle preflight audit | `@vibe-coding-violation-auditor` |
 
@@ -74,7 +76,7 @@ Full scores: [`.cursor/skills/vendor/EVALUATION.md`](../vendor/EVALUATION.md).
 | `coding-consistency-bundle` | Any file edit by implementer agents |
 | `ui-consistency-bundle` | UI, CSS, or visual changes |
 
-Orchestrators (`fdr-orchestrator`, `/afenda-ship`) paste bundle read lists into implementer prompts — personas do not invoke bundles themselves when spawned `readonly: true`.
+Orchestrators (`afenda-orchestrator`, `/afenda-ship`) paste bundle read lists into implementer prompts — personas do not invoke bundles themselves when spawned `readonly: true`.
 
 ## Governing rules
 

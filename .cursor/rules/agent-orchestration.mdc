@@ -31,7 +31,7 @@ One perspective on one artifact?
 | Skill discovery | [`using-afenda-skills`](.cursor/skills/using-afenda-skills/SKILL.md) |
 | Pre-merge review (single) | `/afenda-review` |
 | Ship / go-no-go | `/afenda-ship` |
-| PAS parallel batch | `@fdr-orchestrator` + [`afenda-fdr-batch`](.cursor/skills/afenda-fdr-batch/SKILL.md) |
+| PAS parallel batch | `@afenda-orchestrator` + [`afenda-batch`](.cursor/skills/afenda-batch/SKILL.md) |
 | Code edit | `coding-consistency-bundle` (implementers only) |
 
 ## Cursor mapping

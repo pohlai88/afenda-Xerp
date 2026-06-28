@@ -12,20 +12,20 @@ afenda/
 │   ├── erp/                    # Primary ERP Next.js application (port 3000)
 │   └── docs/                   # Documentation delivery surface (port 3001)
 ├── packages/
-│   ├── architecture-authority/ # Architecture maps, validators, governance (TIP-001)
-│   ├── ai-governance/          # AI-assisted development governance (TIP-002)
-│   ├── design-system/          # Design tokens and UI governance (TIP-003/004)
-│   ├── metadata/               # Metadata architecture authority (TIP-005)
-│   ├── metadata-ui/            # Metadata UI implementation (post-TIP-005)
+│   ├── architecture-authority/ # Architecture maps, validators, governance (PAS-002)
+│   ├── ai-governance/          # AI-assisted development governance
+│   ├── design-system/          # Design tokens and UI governance
+│   ├── metadata/               # Metadata architecture authority
+│   ├── metadata-ui/            # Metadata UI implementation
 │   ├── ui/                     # Shared UI primitives
-│   ├── appshell/               # ERP application shell (TIP-006)
-│   ├── auth/                   # Identity foundation (TIP-010)
-│   ├── permissions/            # Authorization and policy engine (TIP-010)
-│   ├── database/               # Persistence and schema authority (TIP-011)
-│   ├── observability/          # Logging, tracing, audit authority (TIP-011)
-│   ├── execution/              # Durable execution registry (TIP-011)
-│   ├── storage/                # Tenant-scoped storage abstraction (TIP-011)
-│   ├── kernel/                 # Platform kernel and execution contracts (TIP-012)
+│   ├── appshell/               # ERP application shell (PAS-005A consumer)
+│   ├── auth/                   # Identity foundation
+│   ├── permissions/            # Authorization and policy engine
+│   ├── database/               # Persistence and schema authority
+│   ├── observability/          # Logging, tracing, audit authority
+│   ├── execution/              # Durable execution registry
+│   ├── storage/                # Tenant-scoped storage abstraction
+│   ├── kernel/                 # Platform kernel and execution contracts (PAS-001)
 │   ├── entitlements/           # Entitlements, limits, access gates
 │   ├── feature-flags/          # Deployment flags and rollout evaluation
 │   ├── testing/                # Shared test utilities and mock providers
@@ -167,30 +167,16 @@ pnpm architecture:report
 
 **20 active workspace packages** are registered (PKG-001–PKG-020). See [`docs/architecture/package-registry.md`](docs/architecture/package-registry.md).
 
-## Phase 1 critical path (ADR-0001)
+## Foundation status (PAS)
 
-| TIP     | Work item                           | Status      |
-| ------- | ----------------------------------- | ----------- |
-| TIP-001 | Architecture Authority              | Complete    |
-| TIP-002 | AI Development Governance           | Complete    |
-| TIP-003 | Design System Authority             | Complete    |
-| TIP-004 | Design System Contracts             | Complete    |
-| TIP-005 | Metadata Authority                  | Complete    |
-| TIP-006 | AppShell Authority                  | In progress |
-| TIP-007 | ERP Platform Authority              | In progress |
-| TIP-008 | Master Data Authority               | Planned     |
-| TIP-009 | Monorepo & Delivery Foundation      | In progress |
-| TIP-010 | Identity & Authorization Foundation | In progress |
-| TIP-011 | Execution Foundation                | In progress |
-| TIP-012 | ERP Operating Spine                 | In progress |
+Foundation Phases 0–9 are complete per [`pre-accounting-foundation-roadmap.md`](docs/architecture/pre-accounting-foundation-roadmap.md). Ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [slice closure registry](docs/PAS/pas-status-index.md).
 
-TIP-013 Accounting Core is the first business-domain TIP and requires TIP-001–012 complete.
+Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap closure — see [`foundation-delivery-authority.md`](docs/architecture/foundation-delivery-authority.md).
 
 ## What is intentionally deferred
 
-- ERP business domains (Accounting, Inventory, HRM, CRM, Procurement) — TIP-013+
-- AppShell authority contract closeout — TIP-006 (implementation in `packages/appshell` is underway)
-- Complete ERP operating spine wiring — pending TIP-012
+- ERP business domains (Accounting, Inventory, HRM, CRM, Procurement) — blocked until ADR + PAS closeout
+- Accounting Core ledger runtime — ADR-0010 gate
 
 ## Documentation
 

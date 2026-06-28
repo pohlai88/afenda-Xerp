@@ -49,6 +49,12 @@ Retained for coding reference even without heavy Afenda wiring:
 
 `coding-consistency-bundle`, `ui-consistency-bundle`, PAS authority skills, FDR writers, UI chain, security skills, orchestration commands (`afenda-ship`, `using-afenda-skills`, etc.).
 
+| Skill / agent | Status | Added |
+| --- | --- | --- |
+| `enterprise-architecture-audit` | **keep** | 2026-06-28 — read-only full-stack platform audit |
+| `enterprise-architecture-auditor` | **keep** | 2026-06-28 — phase worker agent |
+| `enterprise-architecture-audit-orchestrator` | **keep** | 2026-06-28 — deterministic 8-phase audit orchestrator |
+
 ---
 
 ## Vendor evaluation (2026-06-28)

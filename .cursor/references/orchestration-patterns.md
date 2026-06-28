@@ -358,18 +358,18 @@ Is the work one perspective on one artifact?
 
 ---
 
-### 6. FDR batch orchestration (Afenda-specific)
+### 6. PAS batch orchestration (Afenda-specific)
 
-Domain batch controller for parallel PAS/FDR slice execution. Not a generic review fan-out — carries 14 hard stops, shared-file serialization, and registry conflict matrix.
+Domain batch controller for parallel PAS slice execution. Not a generic review fan-out — carries 14 hard stops, shared-file serialization, and registry conflict matrix.
 
 ```
-User → @fdr-orchestrator (batch manifest) → Task × N (fdr-slice-implementer, parallel)
+User → @afenda-orchestrator (batch manifest) → Task × N (afenda-governed-implementer, parallel)
      → combined diff containment → consolidated gates → Batch Completion Summary
 ```
 
 **Use when:**
 
-- Multiple disjoint FDR slices (Research or Implementation) with complete 9-field handoffs
+- Multiple disjoint PAS slices (Research or Implementation) with complete 9-field handoffs
 - Slots have PASS conflict status on file paths, `runtimeOwner`, and registry entries
 - Registry mutations serialized through `foundation-registry-owner`
 
@@ -379,9 +379,9 @@ User → @fdr-orchestrator (batch manifest) → Task × N (fdr-slice-implementer
 - Slots share files, registry entries, or migration journal
 - Batch type is `registry-sync` in parallel with Implementation on same entry
 
-**Artifact:** [`.cursor/agents/fdr-orchestrator.md`](../agents/fdr-orchestrator.md) · discoverability [`.cursor/skills/afenda-fdr-batch/SKILL.md`](../skills/afenda-fdr-batch/SKILL.md)
+**Artifact:** [`.cursor/agents/afenda-orchestrator.md`](../agents/afenda-orchestrator.md) · discoverability [`.cursor/skills/afenda-batch/SKILL.md`](../skills/afenda-batch/SKILL.md)
 
-**Anti-pattern shadow:** `fdr-meta-orchestrator` or persona that picks between `fdr-author` / `fdr-slice-author` — user selects via `AGENTS.md` task table and `/using-afenda-skills`.
+**Anti-pattern shadow:** meta-orchestrator persona that picks between retired FDR agents — user selects via `AGENTS.md` task table and `/using-afenda-skills`.
 
 ---
 

@@ -5,9 +5,9 @@
 | **As-of** | 2026-06-25 |
 | **Validated** | 2026-06-25 (filesystem + test gates — see [Appendix A](#appendix-a-validation-evidence)) |
 | **Owner** | Architecture Authority |
-| **Authority hierarchy** | ADR > ARCH > FDR > [runtime matrix](afenda-runtime-truth-matrix.md) > code |
+| **Authority hierarchy** | ADR > Foundation Disposition Registry > [PAS](../PAS/README.md) > [runtime matrix](afenda-runtime-truth-matrix.md) > code |
 
-Phase 1 foundation (TIP-001–012 infrastructure) is **largely built in code**; most backlog is **delivery attestation** (FDR peer review, ARCH slices), not greenfield work. Business ERP domains (Accounting ledger, Inventory, HRM, etc.) are **intentionally deferred**.
+Phase 1 foundation infrastructure is **largely built in code**; most backlog is **PAS slice closeout** (registry attestation, enterprise gates), not greenfield work. Business ERP domains (Accounting ledger, Inventory, HRM, etc.) are **intentionally deferred**.
 
 ```mermaid
 flowchart TB

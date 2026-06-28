@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import {
   IDENTITY_MODULE_BRAND_FILES,
   IDENTITY_MODULE_FAMILY_FILES,
+  IDENTITY_MODULE_GOVERNANCE_FILES,
   IDENTITY_MODULE_LAYOUT_POLICY,
   IDENTITY_MODULE_POSTGRES_FILES,
   IDENTITY_MODULE_PRIMITIVE_FILES,
@@ -14,6 +15,7 @@ import {
   IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES,
   isIdentityModuleBrandFile,
   isIdentityModuleFamilyFile,
+  isIdentityModuleGovernanceFile,
   isIdentityModulePostgresFile,
   isIdentityModulePrimitiveFile,
   isIdentityModuleSubfolder,
@@ -25,6 +27,7 @@ const kernelRoot = fileURLToPath(new URL("../../..", import.meta.url));
 const identityDir = join(kernelRoot, "src/identity");
 const brandDir = join(identityDir, "brand");
 const familiesDir = join(identityDir, "families");
+const governanceDir = join(identityDir, "governance");
 const postgresDir = join(identityDir, "postgres");
 const primitivesDir = join(identityDir, "primitives");
 const tenantHumanReferenceDir = join(identityDir, "tenant-human-reference");
@@ -55,6 +58,12 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
       true
     );
     expect(isIdentityModulePostgresFile("legacy-uuid.contract.ts")).toBe(false);
+    expect(
+      isIdentityModuleGovernanceFile("business-reference-identity.policy.ts")
+    ).toBe(true);
+    expect(isIdentityModuleGovernanceFile("legacy-governance.policy.ts")).toBe(
+      false
+    );
     expect(
       isIdentityModuleTenantHumanReferenceFile(
         "tenant-human-reference.contract.ts"
@@ -151,6 +160,18 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
 
     for (const fileName of files) {
       expect(isIdentityModulePostgresFile(fileName), fileName).toBe(true);
+    }
+  });
+
+  it("keeps approved governance module files only", () => {
+    const files = readdirSync(governanceDir).filter((entry) =>
+      statSync(join(governanceDir, entry)).isFile()
+    );
+
+    expect(files.sort()).toEqual([...IDENTITY_MODULE_GOVERNANCE_FILES].sort());
+
+    for (const fileName of files) {
+      expect(isIdentityModuleGovernanceFile(fileName), fileName).toBe(true);
     }
   });
 

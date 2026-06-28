@@ -196,7 +196,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Any UI / CSS / visual change (docs OR erp OR primitives) | [`.cursor/skills/ui-consistency-bundle/SKILL.md`](.cursor/skills/ui-consistency-bundle/SKILL.md) — fix-first, no permission asking |
 | Pre-merge review | [`/afenda-review`](.cursor/skills/afenda-review/SKILL.md) or [`@afenda-code-reviewer`](.cursor/agents/afenda-code-reviewer.md) |
 | Ship / go-no-go | [`/afenda-ship`](.cursor/skills/afenda-ship/SKILL.md) |
-| PAS parallel batch | [`@fdr-orchestrator`](.cursor/agents/fdr-orchestrator.md) + [`/afenda-fdr-batch`](.cursor/skills/afenda-fdr-batch/SKILL.md) |
+| PAS parallel batch | [`@afenda-orchestrator`](.cursor/agents/afenda-orchestrator.md) + [`/afenda-batch`](.cursor/skills/afenda-batch/SKILL.md) |
 | Which skill applies? | [`/using-afenda-skills`](.cursor/skills/using-afenda-skills/SKILL.md) |
 | Test / coverage review | [`/afenda-test`](.cursor/skills/afenda-test/SKILL.md) |
 | Web performance audit | [`/afenda-webperf`](.cursor/skills/afenda-webperf/SKILL.md) |
@@ -208,10 +208,10 @@ Three layers (see [`.cursor/references/orchestration-patterns.md`](.cursor/refer
 | Layer | Role | Afenda examples |
 | --- | --- | --- |
 | **Skill** | How — workflow + exit criteria | `coding-consistency-bundle`, `afenda-coding-session`, domain skills |
-| **Persona** | Who — one role, one report | `afenda-code-reviewer`, `fdr-slice-implementer`, `afenda-governed-implementer` |
-| **Command** | When — user entry point | `/afenda-review`, `/afenda-ship`, `/afenda-fdr-batch` |
+| **Persona** | Who — one role, one report | `afenda-code-reviewer`, `afenda-governed-implementer`, `foundation-registry-owner` |
+| **Command** | When — user entry point | `/afenda-review`, `/afenda-ship`, `/afenda-batch` |
 
-**Rules:** User or slash-command orchestrates. Personas do not call personas. Parallel fan-out only via `/afenda-ship` (or `fdr-orchestrator` for PAS batches). No meta-router agents.
+**Rules:** User or slash-command orchestrates. Personas do not call personas. Parallel fan-out only via `/afenda-ship` (or `@afenda-orchestrator` for PAS batches). No meta-router agents.
 
 Always-on rule: [`.cursor/rules/agent-orchestration.mdc`](.cursor/rules/agent-orchestration.mdc)
 

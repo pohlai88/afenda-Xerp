@@ -111,7 +111,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "erp-app-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "observability-agent",
     ],
     prohibited: [
@@ -155,7 +155,7 @@ const foundationDispositionEntries = [
       "observability-agent",
       "erp-app-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -270,7 +270,7 @@ const foundationDispositionEntries = [
       "packages/storage/src/__tests__/provider-adapters.test.ts",
     ],
     knownGaps: [],
-    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-create-accounting-package",
       "do-not-store-accounting-documents-without-adr",
@@ -325,7 +325,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "ui-primitive-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -351,7 +351,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "appshell-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -388,7 +388,7 @@ const foundationDispositionEntries = [
       "auth-agent",
       "erp-app-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -416,7 +416,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "feature-flags-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -487,12 +487,12 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "inventory-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-recreate-packages-inventory",
       "do-not-create-central-master-data-hub",
-      "do-not-implement-stock-movements-without-fdr-slice",
+      "do-not-implement-stock-movements-without-pas-slice",
       "do-not-import-inventory-from-kernel",
     ],
     gates: [
@@ -555,7 +555,7 @@ const foundationDispositionEntries = [
       "packages/entitlements/src/__tests__/index.test.ts",
     ],
     knownGaps: [],
-    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-create-accounting-package",
       "do-not-duplicate-manifest-module-ids-outside-registry",
@@ -583,7 +583,7 @@ const foundationDispositionEntries = [
       "packages/entitlements/src/__tests__/feature-manifest-drift.test.ts",
     ],
     knownGaps: [],
-    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-create-accounting-package",
       "do-not-add-module-routes-without-manifest-entry",
@@ -688,7 +688,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "testing-agent",
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-import-testing-in-production-runtime",
@@ -721,7 +721,7 @@ const foundationDispositionEntries = [
       "packages/typescript-config/package.json",
     ],
     knownGaps: [],
-    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-inherit-baseurl-from-typescript-config-package",
       "do-not-enforce-layer-dependency-on-typescript-config",
@@ -750,7 +750,7 @@ const foundationDispositionEntries = [
     knownGaps: [],
     allowedAgents: [
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "ui-primitive-agent",
     ],
     prohibited: [
@@ -785,7 +785,7 @@ const foundationDispositionEntries = [
     knownGaps: [],
     allowedAgents: [
       "foundation-registry-owner",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "afenda-governed-implementer",
     ],
     prohibited: [
@@ -816,7 +816,7 @@ const foundationDispositionEntries = [
       "apps/storybook/package.json",
     ],
     knownGaps: [],
-    allowedAgents: ["foundation-registry-owner", "fdr-slice-implementer"],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-couple-erp-runtime",
       "do-not-create-accounting-package",
@@ -885,7 +885,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "documentation-drift",
     ],
     prohibited: [
@@ -932,7 +932,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "documentation-drift",
     ],
     prohibited: [
@@ -1043,7 +1043,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "documentation-drift",
     ],
     prohibited: [
@@ -1106,7 +1106,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
       "ui-primitive-refactor",
     ],
     prohibited: [
@@ -1172,7 +1172,7 @@ const foundationDispositionEntries = [
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
-      "fdr-slice-implementer",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-hand-edit-css-authority-generated",

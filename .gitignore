@@ -80,6 +80,8 @@ _reference/
 # Agent / IDE debug dumps (local only)
 .cursor-*-errors.txt
 .cursor/.gate-stamps/
+.cursor-biome-report.json
+.cursor/audit/.bundle-preflight-session.json
 
 # Accidental TypeScript emit into source trees (build output belongs in dist/)
 vitest.shared.js

@@ -89,6 +89,21 @@ export const IDENTITY_MODULE_POSTGRES_FILES = [
 export type IdentityModulePostgresFile =
   (typeof IDENTITY_MODULE_POSTGRES_FILES)[number];
 
+/** Approved files under `identity/governance/` (PAS §4.1.2 governance policy layout). */
+export const IDENTITY_MODULE_GOVERNANCE_FILES = [
+  "index.ts",
+  "identity-module-layout.contract.ts",
+  "identity-boundary-policy.contract.ts",
+  "identity-stack.contract.ts",
+  "identity-trust-boundary.policy.ts",
+  "better-auth-boundary.policy.ts",
+  "business-reference-identity.policy.ts",
+  "tenant-human-reference.policy.ts",
+] as const;
+
+export type IdentityModuleGovernanceFile =
+  (typeof IDENTITY_MODULE_GOVERNANCE_FILES)[number];
+
 /** Retired flat `contracts/platform-id*` paths — must not reappear (repo-relative). */
 export const RETIRED_KERNEL_PLATFORM_ID_PATHS = [
   "packages/kernel/src/contracts/platform-id.contract.ts",
@@ -119,6 +134,7 @@ export const IDENTITY_MODULE_LAYOUT_POLICY = {
   tenantHumanReferenceContractFiles:
     IDENTITY_MODULE_TENANT_HUMAN_REFERENCE_FILES,
   postgresContractFiles: IDENTITY_MODULE_POSTGRES_FILES,
+  governanceContractFiles: IDENTITY_MODULE_GOVERNANCE_FILES,
   retiredPlatformIdPaths: RETIRED_KERNEL_PLATFORM_ID_PATHS,
   prohibitedPatterns: IDENTITY_MODULE_LAYOUT_PROHIBITED_PATTERNS,
 } as const;
@@ -151,6 +167,14 @@ export function isIdentityModulePostgresFile(
   value: string
 ): value is IdentityModulePostgresFile {
   return (IDENTITY_MODULE_POSTGRES_FILES as readonly string[]).includes(value);
+}
+
+export function isIdentityModuleGovernanceFile(
+  value: string
+): value is IdentityModuleGovernanceFile {
+  return (IDENTITY_MODULE_GOVERNANCE_FILES as readonly string[]).includes(
+    value
+  );
 }
 
 export function isIdentityModuleTenantHumanReferenceFile(

@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   IDENTITY_MODULE_BRAND_FILES,
+  IDENTITY_MODULE_GOVERNANCE_FILES,
   IDENTITY_MODULE_POSTGRES_FILES,
   IDENTITY_MODULE_PRIMITIVE_FILES,
 } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
@@ -120,6 +121,10 @@ const APPROVED_PRIMITIVE_FILES = new Set<string>(
 );
 
 const APPROVED_POSTGRES_FILES = new Set<string>(IDENTITY_MODULE_POSTGRES_FILES);
+
+const APPROVED_GOVERNANCE_FILES = new Set<string>(
+  IDENTITY_MODULE_GOVERNANCE_FILES
+);
 
 const APPROVED_IDENTITY_SUBFOLDERS = new Set([
   "brand",
@@ -635,6 +640,33 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
         rule: "postgres-module-layout-drift",
         file: entryPath,
         message: `${entry} is outside the PAS §4.1.12 approved postgres module layout`,
+      });
+    }
+  }
+
+  const governanceDir = join(
+    repoRoot,
+    "packages/kernel/src/identity/governance"
+  );
+  for (const entry of readdirSync(governanceDir)) {
+    const entryPath = join(governanceDir, entry);
+    if (!statSync(entryPath).isFile()) {
+      if (entry === "__tests__") {
+        continue;
+      }
+      violations.push({
+        rule: "unexpected-governance-subfolder",
+        file: entryPath,
+        message: `${entry}/ is not allowed under identity/governance/ except __tests__/`,
+      });
+      continue;
+    }
+
+    if (!APPROVED_GOVERNANCE_FILES.has(entry)) {
+      violations.push({
+        rule: "governance-module-layout-drift",
+        file: entryPath,
+        message: `${entry} is outside the PAS §4.1 approved governance module layout`,
       });
     }
   }
