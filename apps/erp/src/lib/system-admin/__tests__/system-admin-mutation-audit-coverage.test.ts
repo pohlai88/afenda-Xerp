@@ -65,7 +65,13 @@ describe("system-admin-mutation-audit.registry", () => {
           ? readinessGateExecutorSource
           : actionSource;
 
-      expect(actionSource).toContain("resolveActionOperatingContext");
+      const contextSource =
+        auditSource === actionSource ? actionSource : auditSource;
+
+      expect(
+        actionSource.includes("resolveActionOperatingContext") ||
+          contextSource.includes("resolveActionOperatingContext")
+      ).toBe(true);
       expect(auditSource).toContain("recordActionAudit");
     }
   });

@@ -17,6 +17,10 @@ import {
   parseTimezoneId,
   parseUomCode,
 } from "../index.js";
+import {
+  TENANT_HUMAN_REFERENCE_PATTERN,
+  TENANT_HUMAN_REFERENCE_PATTERN_SOURCE,
+} from "../primitive-brand.helpers.js";
 
 const primitiveDir = fileURLToPath(new URL("../", import.meta.url));
 
@@ -134,5 +138,12 @@ describe("primitive references (PAS-001 §4.1.5 / Slice B4–B5)", () => {
       expect(source).not.toMatch(/\bparseCanonicalId\b/);
       expect(source).not.toMatch(/\bID_FAMILIES\b/);
     }
+  });
+
+  it("freezes tenant human reference pattern source for governance parity", () => {
+    expect(TENANT_HUMAN_REFERENCE_PATTERN.source).toBe(
+      TENANT_HUMAN_REFERENCE_PATTERN_SOURCE
+    );
+    expect(TENANT_HUMAN_REFERENCE_PATTERN.test("EMP-000123")).toBe(true);
   });
 });

@@ -490,8 +490,9 @@ pnpm ui:guard
 | B42m | Marketing/auth/chart/statistics strangler batch | **Delivered** — [`slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md`](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) |
 | B42n | Account-settings content strangler batch | **Delivered** — [`slice/b42n-pas005a-account-settings-content-strangler-batch.md`](slice/b42n-pas005a-account-settings-content-strangler-batch.md) |
 | B42o | Residual parity wrapperPath closure | **Delivered** — [`slice/b42o-pas005a-residual-parity-wrapper-closure.md`](slice/b42o-pas005a-residual-parity-wrapper-closure.md) |
+| B42p | TIP-004 policy closure + delegating-flip maintenance | **Delivered** — [`slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md`](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) |
 
-**Next sequence item:** Optional TIP-004 className strip and delegating-flip maintenance per block
+**Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
 
 ---
 

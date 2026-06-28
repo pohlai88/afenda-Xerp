@@ -2,6 +2,12 @@
 export const PACKAGE_NAME = "@afenda/auth" as const;
 
 export {
+  parseAuthActorIdentityFromAfendaAuthSession,
+  resolveEnterpriseUserIdFromAfendaAuthSession,
+  resolveWireActorUserIdFromAfendaAuthSession,
+  toWireAuthActorIdentityFromAfendaAuthSession,
+} from "./auth.actor-wire.js";
+export {
   type AuthAuditInsertPayload,
   buildAuthAuditPayload,
   persistAuthAuditEvent,

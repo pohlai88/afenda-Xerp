@@ -1,5 +1,4 @@
-import { parseOptionalUserId } from "@afenda/kernel";
-
+import { parseAuthActorIdentityFromAfendaAuthSession } from "./auth.actor-wire.js";
 import type {
   AfendaAuthIdentity,
   AfendaAuthSession,
@@ -81,13 +80,14 @@ export function isAfendaAuthSessionLinked(session: AfendaAuthSession): boolean {
 export function toAfendaAuthIdentity(
   session: AfendaAuthSession
 ): AfendaAuthIdentity {
-  const userId = parseOptionalUserId(session.user.userId);
-  if (userId === null) {
+  const identity = parseAuthActorIdentityFromAfendaAuthSession(session);
+
+  if (identity.userId === undefined) {
     throw new UnlinkedPlatformUserError();
   }
 
   return {
-    userId,
+    userId: identity.userId,
     displayName: session.user.name,
     email: session.user.email,
   };

@@ -2,6 +2,7 @@ import {
   type AfendaAuthSession,
   getAfendaAuthSession,
   isAfendaAuthSessionLinked,
+  resolveWireActorUserIdFromAfendaAuthSession,
 } from "@afenda/auth";
 import {
   type ExecutionContext,
@@ -410,7 +411,7 @@ export async function authorizeApiRoute(
   const actorId =
     input.actorId ??
     (session !== undefined && session !== null
-      ? (session.user.userId?.trim() ?? null)
+      ? resolveWireActorUserIdFromAfendaAuthSession(session)
       : null);
 
   if (actorId === null) {
@@ -573,8 +574,15 @@ export async function assertAuthorizedApiRoute(
 }
 
 export function resolveActorIdFromSession(
-  session: { readonly user: { readonly userId: string | null } } | null
+  session: AfendaAuthSession | null
 ): string | null {
-  const userId = session?.user.userId?.trim();
-  return userId && userId.length > 0 ? userId : null;
+  if (session === null) {
+    return null;
+  }
+
+  try {
+    return resolveWireActorUserIdFromAfendaAuthSession(session);
+  } catch {
+    return null;
+  }
 }

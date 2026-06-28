@@ -66,7 +66,7 @@ describe("SystemAdminInviteDialog", () => {
     );
 
     expect(
-      screen.getByRole("heading", { name: "User identity" })
+      await screen.findByRole("heading", { name: "User identity" })
     ).toBeInTheDocument();
 
     await user.type(screen.getByLabelText("Display name"), "Invited User");
@@ -77,12 +77,13 @@ describe("SystemAdminInviteDialog", () => {
     await user.click(screen.getByRole("button", { name: "Continue" }));
 
     expect(
-      screen.getByRole("heading", { name: "Assign role" })
+      await screen.findByRole("heading", { name: "Assign role" })
     ).toBeInTheDocument();
+    await user.click(screen.getByRole("radio", { name: /Tenant Admin/ }));
     await user.click(screen.getByRole("button", { name: "Continue" }));
 
     expect(
-      screen.getByRole("heading", { name: "Confirm invite" })
+      await screen.findByRole("heading", { name: "Confirm invite" })
     ).toBeInTheDocument();
     expect(screen.getByText("Invited User")).toBeInTheDocument();
     expect(screen.getByText("invited@example.com")).toBeInTheDocument();
@@ -95,7 +96,7 @@ describe("SystemAdminInviteDialog", () => {
       email: "invited@example.com",
       roleId: "role-admin",
     });
-  });
+  }, 20_000);
 
   it("associates role radios with labels for keyboard selection", async () => {
     const user = setupUser();

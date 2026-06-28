@@ -82,7 +82,11 @@ describe("toWorkspaceApiScope", () => {
         companyId: API_TEST_COMPANY_ID,
         slug: "hq",
         displayName: "HQ",
+        organizationUnitType: "company_root",
+        parentOrganizationUnitId: null,
         status: "active",
+        effectiveFrom: "2026-01-01",
+        effectiveTo: null,
       },
       workspace: {
         ...BASE_OPERATING_CONTEXT.workspace,

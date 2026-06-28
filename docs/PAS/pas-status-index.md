@@ -65,16 +65,16 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B38–B42o complete (2026-06-28) |
+| **Status** | Delivered — B38–B42p complete (2026-06-28) |
 | **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
 | **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
-| **Runtime status** | B42o delivered — zero parity rows missing wrapperPath; account-settings shell strangler wrappers (7); dashboard bridge-exported parity closure |
-| **Remaining slices** | Optional TIP-004 className strip and delegating-flip maintenance per block |
+| **Runtime status** | B42p delivered — delegating-flip policy registry (68 rows); zero new flips; strangler sequence complete |
+| **Remaining slices** | none — strangler complete; optional ERP feature delegating per block when a11y parity lands |
 | **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
 
-**Next sequence item:** Ongoing block strangler maintenance — `PKGR05A_SHADCN_STUDIO` promoted to `green-lane` (2026-06-28)
+**Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -97,6 +97,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B42m | [b42m-pas005a-marketing-auth-chart-strangler-batch.md](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) | Delivered (marketing/auth/chart/statistics strangler wrappers) |
 | B42n | [b42n-pas005a-account-settings-content-strangler-batch.md](slice/b42n-pas005a-account-settings-content-strangler-batch.md) | Delivered (account-settings content strangler — 23 afenda-only wrappers) |
 | B42o | [b42o-pas005a-residual-parity-wrapper-closure.md](slice/b42o-pas005a-residual-parity-wrapper-closure.md) | Delivered (24 parity wrapperPath gaps closed — shell + dashboard + utility) |
+| B42p | [b42p-pas005a-tip004-delegating-flip-policy-closure.md](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) | Delivered (delegating-flip policy registry + TIP-004 className inventory; zero new flips) |
 
 ---
 

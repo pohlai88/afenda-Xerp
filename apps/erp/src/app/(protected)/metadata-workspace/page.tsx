@@ -2,7 +2,7 @@ import { AppShellMain } from "@afenda/appshell";
 import {
   getAfendaAuthSession,
   isAfendaAuthSessionLinked,
-  toAfendaAuthIdentity,
+  resolveWireActorUserIdFromAfendaAuthSession,
 } from "@afenda/auth";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { headers } from "next/headers";
@@ -12,6 +12,7 @@ import { MetadataWorkspacePreviewSurface } from "@/components/metadata-workspace
 import { authorizeApiRoute } from "@/lib/api/authorize-api-route";
 import { isOperatingContextContextRequiredError } from "@/lib/context/context-errors";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
+import { resolveMetadataActorUserIdFromAfendaAuthSession } from "@/lib/metadata/resolve-metadata-auth-actor.server";
 import {
   isEvaluatedApiRouteAuthorizationDenial,
   isPreEvaluationMetadataContextRequiredDenial,
@@ -42,10 +43,10 @@ export default async function MetadataWorkspacePreviewPage() {
     redirect("/sign-in?error=unlinked");
   }
 
-  const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveMetadataActorUserIdFromAfendaAuthSession(session);
   const correlationId = resolveCorrelationIdFromHeaders(requestHeaders);
   const operatingResult = await resolveOperatingContextFromHeaders({
-    actorUserId: identity.userId,
+    actorUserId: resolveWireActorUserIdFromAfendaAuthSession(session),
   });
 
   if (!operatingResult.ok) {
@@ -55,7 +56,7 @@ export default async function MetadataWorkspacePreviewPage() {
 
     const metadataContext =
       resolveMetadataUiRenderContextFromContextRequiredPreview({
-        actorId: identity.userId,
+        actorId: actorUserId,
         correlationId,
       });
 
@@ -84,7 +85,7 @@ export default async function MetadataWorkspacePreviewPage() {
   );
 
   const authorizationResult = await authorizeApiRoute({
-    actorId: identity.userId,
+    actorId: actorUserId,
     correlationId: operatingContext.correlationId,
     method: "GET",
     path: "/metadata-workspace",
@@ -105,7 +106,7 @@ export default async function MetadataWorkspacePreviewPage() {
 
   const metadataContext =
     await resolveMetadataUiRenderContextFromApiRouteAuthorization({
-      actorId: identity.userId,
+      actorId: actorUserId,
       authorizationResult,
     });
 

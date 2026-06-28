@@ -1,4 +1,7 @@
-import type { AfendaAuthSession } from "@afenda/auth";
+import {
+  type AfendaAuthSession,
+  resolveWireActorUserIdFromAfendaAuthSession,
+} from "@afenda/auth";
 import type {
   AppError,
   OperatingContext,
@@ -31,10 +34,9 @@ export async function resolveActionOperatingContext(input?: {
     return sessionResult;
   }
 
-  const actorUserId = sessionResult.session.user.userId?.trim() ?? "";
-  if (actorUserId.length === 0) {
-    return { ok: false, error: AppErrors.unauthorized() };
-  }
+  const actorUserId = resolveWireActorUserIdFromAfendaAuthSession(
+    sessionResult.session
+  );
 
   const operatingResult = await resolveOperatingContextFromHeaders({
     actorUserId,

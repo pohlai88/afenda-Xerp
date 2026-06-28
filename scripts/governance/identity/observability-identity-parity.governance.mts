@@ -3,7 +3,7 @@
  */
 
 import { CANONICAL_ID_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/canonical/canonical-id-format.contract.ts";
-import { TENANT_HUMAN_REFERENCE_PATTERN } from "../../../packages/kernel/src/identity/primitives/primitive-brand.helpers.ts";
+import { TENANT_HUMAN_REFERENCE_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/primitives/primitive-brand.helpers.ts";
 import { UUID_V7_WIRE_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/postgres/index.ts";
 import {
   AUDIT_CANONICAL_ENTERPRISE_ID_PATTERN_SOURCE,
@@ -37,7 +37,7 @@ export function checkObservabilityIdentityParity(): ObservabilityIdentityParityV
     },
     {
       field: "tenantHumanReference",
-      kernel: TENANT_HUMAN_REFERENCE_PATTERN.source,
+      kernel: TENANT_HUMAN_REFERENCE_PATTERN_SOURCE,
       observability: AUDIT_TENANT_HUMAN_REFERENCE_PATTERN_SOURCE,
     },
   ];

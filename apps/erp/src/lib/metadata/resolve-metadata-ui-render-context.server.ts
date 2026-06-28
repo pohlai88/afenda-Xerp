@@ -23,6 +23,7 @@ import { createMetadataRuntimeContext } from "@afenda/ui-composition";
 import type { ApiRouteAuthorizationResult } from "@/lib/api/authorize-api-route.contract";
 import { formatActiveWorkspaceId } from "@/lib/context/active-workspace-id.contract";
 import { resolveMetadataAuthorizationSnapshotFromPreEvaluationDenial } from "./metadata-authorization-projection.server";
+import { resolveMetadataActorUserIdFromOperatingContext } from "./resolve-metadata-auth-actor.server";
 import {
   type MetadataAuthorizationSnapshot,
   resolveMetadataAuthorizationFromOperatingContext,
@@ -178,7 +179,7 @@ export function resolveMetadataUiRenderContextFromOperatingContext(
       : normalizeOrganizationIdForWire(organizationId);
 
   const runtime = createMetadataRuntimeContext({
-    actorId: operatingContext.actor.userId,
+    actorId: resolveMetadataActorUserIdFromOperatingContext(operatingContext),
     tenantId: tenantIdWire,
     companyId: companyIdWire,
     ...(organizationIdWire === undefined || organizationIdWire === null
