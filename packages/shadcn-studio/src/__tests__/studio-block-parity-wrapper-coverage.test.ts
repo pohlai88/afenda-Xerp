@@ -44,7 +44,9 @@ describe("studio block parity wrapper coverage (B42o)", () => {
 
     for (const exportName of dashboardBridgeExports) {
       const entry = SHADCN_STUDIO_BLOCK_PARITY_REGISTRY.find(
-        (row) => row.legacyAppshellExport === exportName
+        (row) =>
+          "legacyAppshellExport" in row &&
+          row.legacyAppshellExport === exportName
       );
       expect(entry?.status).toBe("bridge-exported");
       expect(entry?.wrapperPath).toContain(

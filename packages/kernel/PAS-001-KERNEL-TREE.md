@@ -62,8 +62,8 @@ packages/kernel/
     │   └── __tests__/operating-context.test.ts     # 🧪 wire triad (8 cases)
     │   ├── permission-scope-context.contract.ts      # ✅ PermissionScopeContext + Wire* shapes
     │   ├── permission-scope-context.assert.ts        # ✅ §4.4 wire assert (grant scope + ids)
-    │   ├── permission-scope-context.parser.ts        # ✅ §4.4 parse/normalize trust boundary
-    │   └── __tests__/permission-scope-context.test.ts # 🧪 wire triad (12 cases)
+    │   ├── permission-scope-context.projection.ts    # ✅ PAS-001A B71 — kernel branding projection only (no parser)
+    │   └── __tests__/permission-scope-context.test.ts # 🧪 contract + projection (parser/assert owner: @afenda/permissions)
     │   ├── consolidation-scope-context.contract.ts # ✅ ConsolidationScopeContext + Wire* shapes
     │   ├── consolidation-scope-context.assert.ts # ✅ §4.4 wire assert (tenant/group/company ids)
     │   ├── consolidation-scope-context.parser.ts # ✅ §4.4 parse/normalize trust boundary

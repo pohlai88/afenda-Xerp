@@ -21,7 +21,7 @@
 | **Parent standards** | PAS-001 (kernel vocabulary — closed) · [multi-tenancy.md](../architecture/multi-tenancy.md) Step 8 |
 | **Agent skills** | **`kernel-authority`** (mandatory) · `multi-tenancy-erp` · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Maturity** | Production Candidate (`production_candidate`) |
-| **Authority status** | `approved_for_implementation` |
+| **Authority status** | `production_candidate` |
 | **Implementation status** | `implemented` — B71–B75 Delivered; Production Candidate attested 2026-06-29 |
 | **Evidence level** | `runtime` — all §6 scorecard gates green at B75 |
 | **Runtime status** | Permission-scope wire triad in `@afenda/permissions`; kernel projection-only; ERP spine + metadata bridge gates operational |
@@ -59,7 +59,7 @@
 
 > **Maturity is part of authority.**
 > PAS-001 **Enterprise Accepted** is **closed** — do not reopen kernel vocabulary slices under PAS-001A without a PAS-001 amendment handoff.
-> **Evidence promotion rule:** PAS-001A cannot become **Production Candidate** until B75 proves all §6 scorecard gates green **and** docs + runtime matrix are synced. Vocabulary closure (PAS-001) does not imply consumer integration closure (PAS-001A).
+> **Evidence promotion rule:** PAS-001A reached **Production Candidate** at B75 when all §6 scorecard gates were green and docs + runtime matrix were synced. Vocabulary closure (PAS-001) does not imply consumer integration closure (PAS-001A).
 
 > **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [kernel-boundary-drift.registry.ts](../../packages/kernel/src/governance/kernel-boundary-drift.registry.ts) · `.cursor/skills/kernel-authority/SKILL.md`
 > **ERP resolver authority:** [multi-tenancy.md](../architecture/multi-tenancy.md) · `apps/erp/src/lib/context/context-integration-registry.ts`
@@ -77,14 +77,14 @@
 
 **PAS-001A adds (post–PAS-001 closure):**
 
-| Topic | PAS-001 (closed) | PAS-001A target |
+| Topic | PAS-001 (closed) | PAS-001A (delivered) |
 | --- | --- | --- |
 | Permission scope | Dual slot documented (kernel branded + permissions resolved) | **Parser/assert owner = `@afenda/permissions`**; kernel **projection-only** branding for `OperatingContext` |
 | Operating context | 10 required contracts + wire triads | **ERP spine proof** — every `CONTEXT_INTEGRATION_WIRING` delegate resolves via canonical resolvers |
 | Metadata UI | Kernel shapes consumed by metadata packages | **Authorization bridge** — metadata actions receive verified `OperatingContext`, not local scope forks |
-| Runtime matrix | Kernel row **implemented** | **Accounting readiness preview rows** upgraded only where B72+ gate evidence exists |
+| Runtime matrix | Kernel row **implemented** | Kernel consumer integration row **implemented** (B75 attestation) |
 | Gates | `quality:kernel-context-surface` | **`check:erp-operating-context-spine`** (B72) + permission surface gate (B71) |
-| Maturity | PAS-001 Enterprise Accepted | **PAS-001A Production Candidate** via B75 attestation only |
+| Maturity | PAS-001 Enterprise Accepted | **PAS-001A Production Candidate** via B75 attestation (closed) |
 
 **Hard stops:**
 
@@ -133,7 +133,7 @@ PAS-001A is the **kernel consumer integration PAS** — analogous to [PAS-004B](
 | D3 | ERP resolver spine | `apps/erp/src/lib/context/resolve-operating-context.server.ts` + registry | B72 gate scans `CONTEXT_INTEGRATION_WIRING` |
 | D4 | Untrusted authority rejection | `reject-untrusted-authority-fields.ts` + API/action guards | `check:erp-context-surface` (existing) |
 | D5 | Doc + matrix sync | `afenda-runtime-truth-matrix.md`, delivery doc §Context contracts | B73 `check:documentation-drift` |
-| D6 | Metadata authorization bridge | metadata-ui + ui-composition consumers | B74 gate (proposed) |
+| D6 | Metadata authorization bridge | metadata-ui + ui-composition consumers | B74 gate (Delivered) |
 
 ## 1.4 Out of scope (explicit)
 
@@ -150,7 +150,7 @@ PAS-001A is the **kernel consumer integration PAS** — analogous to [PAS-004B](
 
 # 2. Integration Architecture
 
-## 2.1 Consumer spine (target state)
+## 2.1 Consumer spine (delivered state)
 
 ```text
 HTTP / Server Action / RSC request
@@ -342,7 +342,7 @@ If kernel vocabulary change is required → **stop**, open PAS-001 amendment sli
 
 ---
 
-# 6. Production Candidate Scorecard (B75 target)
+# 6. Production Candidate Scorecard (B75 — closed)
 
 | # | Criterion | Evidence | Weight |
 | --- | --- | --- | --- |

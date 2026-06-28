@@ -34,11 +34,13 @@
 | 2 | `pnpm --filter @afenda/kernel test:run` |
 | 3 | `pnpm quality:kernel-context-surface` |
 | 4 | `pnpm check:kernel-context-wire-triad` |
-| 5 | `pnpm check:accounting-domain-contracts` |
-| 6 | `pnpm check:foundation-disposition` |
-| 7 | `pnpm quality:boundaries` |
-| 8 | `pnpm architecture:cycles` |
-| 9 | `pnpm architecture:drift` |
+| 5 | `pnpm check:kernel-identity-governance` |
+| 6 | `pnpm check:kernel-zero-runtime-deps` |
+| 7 | `pnpm check:accounting-domain-contracts` |
+| 8 | `pnpm check:foundation-disposition` |
+| 9 | `pnpm quality:boundaries` |
+| 10 | `pnpm architecture:cycles` |
+| 11 | `pnpm architecture:drift` |
 
 > **Maturity is part of authority.**
 > PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
@@ -1494,6 +1496,17 @@ Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-proh
 | [b17-11-implementation-sequence.md](slice/b17-11-implementation-sequence.md) | B17 | §11 | Delivered | Implementation | B16-6.2 |
 | [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | B18 | §6.3 | Delivered | Evidence-sync | B16-6.2 |
 | [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | B49 | §4.4 | Delivered | Evidence-sync | Tenant wire triad runtime + ADR-0022 ERP split-ID |
+| [b50-kernel-company-org-wire-triad.md](slice/b50-kernel-company-org-wire-triad.md) | B50 | §4.4 | Delivered | Implementation | B49 |
+| [b51-kernel-parent-org-wire.md](slice/b51-kernel-parent-org-wire.md) | B51 | §4.4 | Delivered | Implementation | B50 |
+| [b52-kernel-full-hierarchy-wire-closure.md](slice/b52-kernel-full-hierarchy-wire-closure.md) | B52 | §4.4 | Delivered | Implementation | B51 |
+| [b53-kernel-propagation-frame-wire.md](slice/b53-kernel-propagation-frame-wire.md) | B53 | §4.11 | Delivered | Implementation | B16 §10 |
+| [b54-kernel-project-wire-triad.md](slice/b54-kernel-project-wire-triad.md) | B54 | §4.11 | Delivered | Implementation | B52 |
+| [b55-kernel-policy-wire-triad.md](slice/b55-kernel-policy-wire-triad.md) | B55 | §4.9 | Delivered | Implementation | B15-4.9 |
+| [b57-kernel-permission-wire-triad.md](slice/b57-kernel-permission-wire-triad.md) | B57 | §8 | Delivered | Implementation | B55 |
+| [b67-pas001-doc-attestation-closure.md](slice/b67-pas001-doc-attestation-closure.md) | B67 | §14 | Delivered | Evidence-sync | B57 |
+| [b68-hierarchy-id-boundary-wire-triad.md](slice/b68-hierarchy-id-boundary-wire-triad.md) | B68 | §4.4 | Delivered | Implementation | B67 |
+| [b69-kernel-context-wire-triad-gate.md](slice/b69-kernel-context-wire-triad-gate.md) | B69 | §9 | Delivered | Implementation | B68 |
+| [b70-kernel-test-import-hygiene.md](slice/b70-kernel-test-import-hygiene.md) | B70 | §3.3 | Delivered | Implementation | B69 |
 
 **Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
 
@@ -1512,6 +1525,8 @@ pnpm --filter @afenda/kernel typecheck
 pnpm --filter @afenda/kernel test:run
 pnpm quality:kernel-context-surface
 pnpm check:kernel-context-wire-triad
+pnpm check:kernel-identity-governance
+pnpm check:kernel-zero-runtime-deps
 pnpm check:accounting-domain-contracts
 pnpm check:foundation-disposition
 pnpm quality:boundaries
@@ -1526,7 +1541,6 @@ Recommended gates after relevant slices exist:
 ```bash
 pnpm check:kernel-propagation-isolation
 pnpm check:kernel-events-wire-serializable
-pnpm check:kernel-zero-runtime-deps
 ```
 
 ## 14.3 Promotion rules

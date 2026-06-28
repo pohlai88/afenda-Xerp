@@ -80,7 +80,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Delivered — B26–B37 complete; CSS theme contract + domain-sync + docs pixel baselines wired |
 | **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 |
 | **Maturity** | `mvp_authority` · `accepted_for_boundary` · `mvp_delivered` · `runtime` |
-| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
 | **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; thin JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
 | **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |

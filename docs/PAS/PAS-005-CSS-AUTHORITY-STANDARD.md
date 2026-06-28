@@ -21,8 +21,8 @@
 | **Maturity** | MVP Authority (`mvp_authority`) |
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `mvp_delivered` — B26–B37 slice sequence complete (2026-06-28) |
-| **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 569-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines pass |
-| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 605-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines pass |
+| **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
 | **Consumers** | `@afenda/ui`, `@afenda/appshell`, `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` |
@@ -47,7 +47,7 @@
 | 11 | `pnpm quality:boundaries` |
 
 > **Maturity is part of authority.**
-> MVP Authority is delivered for B26–B37 (569-token registry; consumption + domain-sync + bridge + visual contract + docs pixel baselines). Do not claim Enterprise Accepted — optional Production Candidate attestation remains out of scope.
+> MVP Authority is delivered for B26–B37 (605-token registry; consumption + domain-sync + bridge + visual contract + docs pixel baselines). Do not claim Enterprise Accepted — optional Production Candidate attestation remains out of scope.
 
 > **Canonical location:** `docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`
 > **Package-local pointer:** [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md)
@@ -245,7 +245,7 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | --------- | ----------- | ------ |
 | Constitutional PAS | Yes | — |
 | Package scaffold | Yes | — |
-| Generated registry | **569 tokens** (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn) — B34/B36 | Post-v1 shim removal only |
+| Generated registry | **605 tokens** (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn) — B34/B36 + B42l studio CSS sync | Post-v1 shim removal only |
 | Consumption gates | **R23–R30 pass** (B28/B36) + domain-sync + bridge-sync | R15 studio raw-value cleanup (appshell scope) |
 | Runtime cutover | **Yes** — B29/B30 shim (B29) | Remove design-system CSS shim (post-v1) |
 | Visual contract gate | **Yes** — B33 import-chain contract + B37 docs pixel baselines | ERP pixel baselines (optional future) |

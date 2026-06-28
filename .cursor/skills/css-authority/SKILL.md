@@ -13,7 +13,7 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
 
 > Canonical: [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
