@@ -1121,6 +1121,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/css-authority build",
       "pnpm check:css-authority-conformance",
       "pnpm check:css-authority-consumption",
+      "pnpm check:css-authority-domain-sync",
       "pnpm check:css-authority-bridge-sync",
       "pnpm check:css-visual-regression",
       "pnpm check:css-governance",

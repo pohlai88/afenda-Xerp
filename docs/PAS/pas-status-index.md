@@ -57,7 +57,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
-**Next sequence item:** continuation under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B40 MCP seed) — see PAS-005 §14 P8.
+**Next sequence item:** none for PAS-005 MVP — optional enhancements only; presentation continuation closed under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B42p).
 
 ---
 
@@ -72,7 +72,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Remaining slices** | none — strangler complete; optional ERP feature delegating per block when a11y parity lands |
 | **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
-| **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
+| **Result** | Derived presentation authority from PAS-005 — theme presets, MCP inventory, appshell bridge, ERP CSS import (B42–B42p complete) |
 
 **Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
 

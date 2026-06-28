@@ -245,8 +245,8 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | --------- | ----------- | ------ |
 | Constitutional PAS | Yes | — |
 | Package scaffold | Yes | — |
-| Generated registry | **46 shadcn tokens** (B27) | Full extension domains (`afenda-extensions`, `appshell`, `auth-editorial`) |
-| Consumption gates | **R23–R27 pass** (B28) | Zero-warning baseline; R15 studio raw-value cleanup |
+| Generated registry | **569 tokens** (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn) — B34/B36 | Post-v1 shim removal only |
+| Consumption gates | **R23–R30 pass** (B28/B36) + domain-sync + bridge-sync | R15 studio raw-value cleanup (appshell scope) |
 | Runtime cutover | **Yes** — B29/B30 shim (B29) | Remove design-system CSS shim (post-v1) |
 | Visual contract gate | **Yes** — B33 import-chain contract + B37 docs pixel baselines | ERP pixel baselines (optional future) |
 | Enterprise attestation | Not started | Production Candidate scorecard (future B34+) |

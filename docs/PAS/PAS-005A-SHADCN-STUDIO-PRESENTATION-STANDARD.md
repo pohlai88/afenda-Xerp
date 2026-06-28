@@ -48,13 +48,13 @@
 
 # 0. Agent Quick Path
 
-> Read this section first for IDE/agent work. Full detail in §1–§15. Execution adapter: `.cursor/skills/shadcn-studio-authority/SKILL.md` (target)
+> Read this section first for IDE/agent work. Full detail in §1–§15. Execution adapter: `.cursor/skills/shadcn-studio-authority/SKILL.md`
 
 **Boundary:** `@afenda/shadcn-studio` owns **shadcn/studio theme surface, preset vocabulary, runtime preset application, MCP install targets, and governed presentation blocks/primitives**; it never owns CSS-TOKEN registry authority, Afenda `--afenda-*` token decisions, ERP route wiring, AppShell chrome authority, permission evaluation, or business domain behavior.
 
 **Hard stops (summary):**
 
-- **Prohibited imports (Phase 1):** `@afenda/css-authority`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `apps/erp`, `@afenda/kernel` business resolvers
+- **Prohibited imports (package source):** `@afenda/css-authority`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/kernel` business resolvers — enforced in `package-scaffold.test.ts`; ERP/appshell consume this package via public exports only (B42+)
 - **Must never own:** CSS-TOKEN-* registry edits, `--afenda-*` token source, Governed UI primitive governance, AppShell shell chrome blocks, ERP data fetching, legacy appshell studio migration
 
 **Required gates:** see §13.1
@@ -63,7 +63,7 @@
 
 **Registry:** `PKGR05A_SHADCN_STUDIO` — **green-lane** in `foundation-disposition.registry.ts` (PKG-026)
 
-**Phase 1 rule:** Build the standalone product **Afenda-free**. Do not wire `@afenda/css-authority` or ERP globals until B42.
+**Integration status:** B42–B42p delivered (2026-06-28) — ERP CSS import, appshell re-export bridge, legacy tree delete, strangler complete. Do not re-implement B39–B41 surfaces marked **Delivered** in §4.
 
 ---
 
@@ -125,19 +125,19 @@ Use relative imports inside `packages/shadcn-studio/src/**`. Never `from "@afend
 
 **Authority:** PAS-005 §4.1 (shadcn theme vocabulary) — **derived, not duplicated**
 
-**Implementation (target):** `packages/shadcn-studio/src/styles/shadcn-studio.css`
+**Implementation:** `packages/shadcn-studio/src/styles/shadcn-studio.css`
 
 **Slice gate:** B38 scaffold + B40 MCP `install-theme`
 
-The base theme defines standard shadcn CSS variables (`--background`, `--foreground`, `--primary`, …) in `:root` and `.dark`. In Phase 1 this file is **standalone** — not generated from css-authority JSON. On B42, variables must **align** with PAS-005 vendored shadcn theme (`packages/css-authority/src/theme/shadcn-theme.css`) without forking semantics.
+The base theme defines standard shadcn CSS variables (`--background`, `--foreground`, `--primary`, …) in `:root` and `.dark`. Standalone copy — not generated from css-authority JSON. Variables **align** with PAS-005 vendored shadcn theme (`packages/css-authority/src/css/vendored/shadcn-theme.css`) without forking semantics (B42).
 
-**Status:** Delivered (B38 scaffold — standalone base theme stub)
+**Status:** **Delivered** — B38 scaffold + B42 ERP/Storybook CSS import · evidence: `packages/shadcn-studio/src/styles/shadcn-studio.css`, `apps/erp/src/app/globals.css`
 
 ## 4.2 Theme preset registry (`theme-presets.ts`)
 
 **Authority:** PAS-005A (new surface)
 
-**Implementation (target):** `packages/shadcn-studio/src/theme/theme-presets.ts`
+**Implementation:** `packages/shadcn-studio/src/theme/theme-presets.ts`
 
 **Reference pattern:** `_reference/.../src/utils/theme-presets.ts` — 12 named presets + `default`
 
@@ -148,28 +148,29 @@ The base theme defines standard shadcn CSS variables (`--background`, `--foregro
 
 Preset slugs are **stable public vocabulary**. Adding or renaming a slug requires a slice handoff and semver note in package changelog.
 
-**Status:** Target
+**Status:** **Delivered** — B39 theme preset port · evidence: `theme-presets.ts`, `theme-preset.contract.ts`, `theme-presets.test.ts`
 
 ## 4.3 Runtime settings + preset application
 
 **Authority:** PAS-005A · ADR-0017 §2 (adapted for standalone lab)
 
-**Implementation (target):**
+**Implementation:**
 
 | Module | Responsibility |
 | --- | --- |
 | `settings-context.tsx` | Applies preset via `document.documentElement.style.setProperty('--*', …)`; persists settings (cookie or localStorage in lab) |
 | `theme-config.ts` | Default preset, radius, font, scale |
-| `ThemeCustomizer.tsx` | UI for preset, mode (light/dark/system), radius, font, layout toggles |
+| `theme-customizer.tsx` | UI for preset, mode (light/dark/system), radius, font, layout toggles |
+| `apply-theme-preset.ts` | Apply/clear preset CSS variables on `<html>` |
 
 **Runtime rules:**
 
 - `default` preset **removes** inline overrides (restores base CSS)
 - Named presets **inject** complete variable maps on `<html>`
 - `next-themes` handles color mode; preset handles palette within mode
-- No silent fallback to a corporate Afenda theme in Phase 1
+- No silent fallback to a corporate Afenda theme
 
-**Status:** Target
+**Status:** **Delivered** — B39 SettingsProvider + ThemeCustomizer · evidence: `settings-context.tsx`, `theme-customizer.tsx`, `theme-preset-runtime.test.tsx`
 
 ## 4.4 MCP install pipeline
 
@@ -181,7 +182,7 @@ Preset slugs are **stable public vocabulary**. Adding or renaming a slug require
 | --- | --- | --- |
 | `install-theme` | Theme + cssVars | `src/styles/` merge into base theme |
 | `/rui` collect → install | `@ss-components/*` | `src/components/ui/` |
-| `/cui` collect → install | `@ss-blocks/*` | `src/blocks/` |
+| `/cui` collect → install | `@ss-blocks/*` | `src/components/shadcn-studio/blocks/` |
 
 **Collection rule (ADR-0017 / shadcn-studio MCP):** Collect **all** selected items before any install command. Do not interleave `get-component-content` during collection.
 
@@ -199,29 +200,29 @@ Preset slugs are **stable public vocabulary**. Adding or renaming a slug require
 
 **Authority:** PAS-005A · shadcn standard primitives
 
-**Implementation (target):** `packages/shadcn-studio/src/components/ui/**`
+**Implementation:** `packages/shadcn-studio/src/components/ui/**`
 
-MCP `/rui` seeds Radix-based primitives. Phase 1 uses **stock shadcn className patterns** — Governed UI governed props are **out of scope** until B42.
+MCP `/rui` seeds Radix-based primitives. Stock shadcn className patterns — Governed UI governed props apply only on appshell presentation wrappers (B42+).
 
-**Status:** Target
+**Status:** **Delivered** — B40/B42c MCP live seed · 35 primitives · evidence: `src/components/ui/`, `mcp-seed-inventory.test.ts`
 
 ## 4.6 Blocks inventory (`blocks/`)
 
 **Authority:** PAS-005A · ADR-0017 block catalog
 
-**Implementation (target):** `packages/shadcn-studio/src/blocks/**`
+**Implementation:** `packages/shadcn-studio/src/components/shadcn-studio/blocks/**`
 
-MCP `/cui` seeds Pro blocks. Each block requires Storybook story + test before B41 close.
+MCP `/cui` seeds Pro blocks. Storybook stories + parity registry under appshell bridge (B41–B42p).
 
 **Legacy rule:** Do **not** migrate from deleted `packages/appshell/src/shadcn-studio/` path. Re-seed via MCP into `@afenda/shadcn-studio`; governed Afenda blocks live under `packages/appshell/src/presentation/` (B42h relocation).
 
-**Status:** Target
+**Status:** **Delivered** — B40/B42c–B42e MCP live seed · 41+ block entries · evidence: `src/components/shadcn-studio/blocks/`, `mcp-seed-inventory.test.ts`, `packages/appshell/src/shadcn-studio-bridge/`
 
 ## 4.7 Lab verification harness
 
 **Authority:** PAS-005A §11
 
-**Implementation (target):** `apps/storybook` stories importing `@afenda/shadcn-studio` **or** package-local Storybook — decision in B41 handoff
+**Implementation:** `apps/storybook` + package-local stories under `packages/shadcn-studio/src/*.stories.tsx`
 
 Minimum proof:
 
@@ -229,21 +230,21 @@ Minimum proof:
 - Representative primitive renders (`Button`, `Card`, `DataTable`)
 - At least one MCP-seeded block story
 
-**Status:** Target
+**Status:** **Delivered** — B41 lab verification · evidence: `shadcn-studio-theme-lab.stories.tsx`, `apps/storybook/.storybook/preview.tsx`, slice [b41-pas005a-lab-verification.md](slice/b41-pas005a-lab-verification.md)
 
-## 4.8 Afenda integration bridge (deferred — B42)
+## 4.8 Afenda integration bridge (B42 — delivered)
 
 **Authority:** PAS-005 §4 + PAS-005A §10
 
-**Not Phase 1.** B42 owns:
+B42 delivered:
 
-- Import chain: `afenda-ui.css` → shadcn-studio theme alignment
-- Map `--app-shell-studio-*` bridge (today in appshell CSS) to css-authority domain sync
+- Import chain: `afenda-ui.css` + `@afenda/shadcn-studio/shadcn-studio.css` in ERP globals
+- Map `--app-shell-studio-*` bridge via css-authority domain sync + `afenda-appshell-studio.css`
 - Retarget ADR-0017 promotion pipeline terminus (`@afenda/shadcn-studio`)
 - Relocate governed blocks to `packages/appshell/src/presentation/` — legacy `shadcn-studio/` path deleted (B42h); **`afenda-appshell-studio.css` retained**
-- Enable `pnpm ui:guard` on promoted blocks
+- Appshell presentation wrappers + delegating-flip policy (B42i–B42p)
 
-**Status:** Delivered — B42 integration bridge + B42h legacy path delete + B42i wrapper strangler (Phase 1)
+**Status:** **Delivered** — B42–B42p integration bridge · evidence: `apps/erp/src/app/globals.css`, `packages/appshell/src/shadcn-studio-bridge/`, `presentation-mcp-delegating-flip-policy.registry.ts`
 
 ---
 
@@ -263,7 +264,7 @@ Minimum proof:
 
 # 6. Package Structure Standard
 
-## 6.1 Target tree
+## 6.1 Target tree (live — B42p)
 
 ```text
 packages/shadcn-studio/
@@ -272,18 +273,20 @@ packages/shadcn-studio/
 ├── package.json
 ├── tsconfig.json
 ├── src/
-│   ├── index.ts                                       # public exports (expand on B42)
+│   ├── index.ts                                       # public exports (B42+)
 │   ├── styles/
 │   │   └── shadcn-studio.css                          # base theme
 │   ├── theme/
 │   │   ├── theme-presets.ts                           # preset vocabulary
 │   │   ├── theme-config.ts                            # defaults
 │   │   ├── settings-context.tsx                       # runtime application
-│   │   └── ThemeCustomizer.tsx                        # lab UI
+│   │   ├── theme-customizer.tsx                       # lab UI
+│   │   └── apply-theme-preset.ts                      # preset apply/clear
 │   ├── components/
-│   │   └── ui/                                        # @ss-components seed
-│   └── blocks/                                        # @ss-blocks seed
-└── src/__tests__/                                     # preset + CSS contract tests
+│   │   ├── ui/                                        # @ss-components seed (35 files)
+│   │   └── shadcn-studio/blocks/                      # @ss-blocks seed (41+ entries)
+│   ├── registry/                                      # block parity registry
+│   └── __tests__/                                     # preset + MCP inventory tests
 ```
 
 ## 6.2 `package.json` exports (target)
@@ -299,7 +302,7 @@ packages/shadcn-studio/
 
 Dist sync follows [`package-css-dist-sync`](../../.cursor/rules/package-css-dist-sync.mdc) once CSS sources exist.
 
-**Status:** Partial — B38 scaffold delivered; dist CSS copy on build
+**Status:** **Delivered** — B38–B42 exports live; CSS copied to `dist/` on build · evidence: `package.json` exports, build script
 
 ---
 
@@ -309,7 +312,7 @@ Dist sync follows [`package-css-dist-sync`](../../.cursor/rules/package-css-dist
 | --- | --- | --- |
 | Is it a shadcn CSS variable or preset palette? | Theme / preset surface | **Yes** |
 | Is it runtime preset switching or ThemeCustomizer UI? | Presentation runtime | **Yes** |
-| Is it an MCP-installed primitive or block? | Inventory under `components/ui` or `blocks` | **Yes** |
+| Is it an MCP-installed primitive or block? | Inventory under `components/ui` or `components/shadcn-studio/blocks` | **Yes** |
 | Is it a CSS-TOKEN-* registry entry? | Authority JSON | **No** — PAS-005 |
 | Is it an `--afenda-*` semantic token? | Afenda extension | **No** — PAS-005 / design-system |
 | Is it `--app-shell-*` geometry? | AppShell chrome | **No** — `@afenda/appshell` |
