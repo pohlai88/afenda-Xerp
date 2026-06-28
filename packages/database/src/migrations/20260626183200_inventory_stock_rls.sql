@@ -1,4 +1,4 @@
--- Defense-in-depth tenant isolation for inventory stock runtime (fdr-r02 Slice 3).
+-- Defense-in-depth tenant isolation for inventory stock runtime (inventory domain Slice 3).
 
 ALTER TABLE "stock_levels" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 ALTER TABLE "stock_movements" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint

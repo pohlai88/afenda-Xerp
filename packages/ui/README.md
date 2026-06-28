@@ -10,7 +10,7 @@
 
 - Design-system **recipes** and **variant contracts**
 - **`--afenda-*` CSS variables** from `@afenda/design-system`
-- **TIP-004 class-name policy** (layout-only consumer `className`)
+- **Foundation phase 04 class-name policy** (layout-only consumer `className`)
 - **`resolvePrimitiveGovernance()`** as the single class authority
 
 This package does **not** define raw colors, spacing scales, typography, radius, shadow, or motion tokens.

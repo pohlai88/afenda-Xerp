@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-008 stable public surface for feature-flags package
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 08 stable public surface for feature-flags package
 
 export const PACKAGE_NAME = "@afenda/feature-flags" as const;
 
@@ -28,7 +28,7 @@ export {
 } from "./flag-evaluation";
 
 // ---------------------------------------------------------------------------
-// TIP-008 spec-required public APIs
+// Foundation phase 08 spec-required public APIs
 // ---------------------------------------------------------------------------
 
 export {

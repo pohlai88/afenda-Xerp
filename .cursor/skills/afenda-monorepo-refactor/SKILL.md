@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Afenda Monorepo Refactor
 
-Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines monorepo extraction patterns (dependency-graph order, affected-package scoping, one-slice-at-a-time execution) with Afenda authority boundaries (PAS/FDR, layer registry, package ownership).
+Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines monorepo extraction patterns (dependency-graph order, affected-package scoping, one-slice-at-a-time execution) with Afenda authority boundaries (PAS/PAS, layer registry, package ownership).
 
 **Announce at start:** "I'm using afenda-monorepo-refactor — stating refactor contract before edits."
 
@@ -16,13 +16,13 @@ Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines mo
 
 | Phase | Delegate to |
 |-------|-------------|
-| PAS/FDR compliance audit | `/pas-codebase-bridge` |
+| PAS/PAS compliance audit | `/pas-codebase-bridge` |
 | Semantic boundary scan | `/cross-boundary-anti-pattern-scan` |
 | PAS kernel slice planning | `/pas-slice-planner` |
 | Layer/import rules reference | `/monorepo-discipline` |
 | Implementation execution | `/afenda-coding-session` |
 | Post-refactor repair + gates | `@afenda-governed-implementer` |
-| Registry / FDR lane edits | `foundation-registry-owner` agent |
+| Registry / PAS lane edits | `foundation-registry-owner` agent |
 
 This skill **orchestrates** refactors. It does not replace upstream authority docs or registry owners.
 
@@ -51,7 +51,7 @@ Stop and escalate before editing when any of these are true:
 - Refactor touches `foundation-disposition.registry.ts` without `foundation-registry-owner`
 - Refactor requires database schema change without Drizzle migration ownership
 - Refactor spans multiple serialized slices but user asked for one slice
-- Canonical PAS/FDR prohibits the target shape and no waiver exists
+- Canonical PAS/PAS prohibits the target shape and no waiver exists
 - User requests bulk codemods, regex tree-wide replace, or throwaway migration scripts
 
 **Never:** `git restore` / `git clean` on unrelated WIP. **Never:** `pnpm lint --fix` or `biome check --write .` across the full repo unless explicitly approved.
@@ -129,7 +129,7 @@ Run before `plan` or `execute`:
 2. **Ownership check** — behavior belongs to target authority (not just convenient location)
 3. **Export surface** — target `package.json#exports` and `src/index.ts` can absorb new public API
 4. **Semantic scan** — `/cross-boundary-anti-pattern-scan` on source folder when moving platform/kernel/metadata code
-5. **PAS/FDR** — `/pas-codebase-bridge` when scope is PAS- or FDR-governed
+5. **PAS/PAS** — `/pas-codebase-bridge` when scope is PAS- or PAS-governed
 
 Output a **refactor risk matrix**:
 
@@ -155,7 +155,7 @@ Slice A — Target surface   : types/contracts + package.json exports + index.ts
 Slice B — Move implementation: move source files; fix internal imports; add tests
 Slice C — Consumer migration : update importers one package at a time
 Slice D — Removal            : delete re-exports/shims from source; verify no orphaned imports
-Slice E — Registry/governance: architecture-authority / FDR docs (only if slice authorizes)
+Slice E — Registry/governance: architecture-authority / PAS docs (only if slice authorizes)
 ```
 
 Rules:

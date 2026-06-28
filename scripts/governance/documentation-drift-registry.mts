@@ -31,7 +31,7 @@ export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
   "docs/architecture/afenda-runtime-truth-matrix.md",
   "docs/architecture/README.md",
   "docs/architecture/multi-tenancy.md",
-  "docs/governance/tip-004-policy.md",
+  "docs/governance/governed-ui-policy.md",
   "docs/governance/README.md",
   "AGENTS.md",
   "docs/README.md",
@@ -46,7 +46,7 @@ export const PAS_STATUS_INDEX = "docs/PAS/pas-status-index.md" as const;
 export const LEGACY_DELIVERY_INDEX_PATTERN =
   /\btip-status-index\.md\b|\bfdr-status-index\.md\b|\[(?:Complete|Not started|Partially Implemented)\]\s*fdr-/gi;
 
-/** Active surfaces scanned for retired FDR/TIP delivery index references. */
+/** Active surfaces scanned for retired PAS delivery index references. */
 export const LEGACY_DELIVERY_INDEX_SCAN_FILES = [
   "AGENTS.md",
   "README.md",

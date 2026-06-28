@@ -3,7 +3,7 @@
 **Status:** Complete  
 **Date:** 2026-06-22  
 **Scope:** `apps/erp` structured logging + `@afenda/observability` pino sink  
-**Authority:** `.cursor/skills/pino-erp-logger/SKILL.md`, TIP-009 observability spine
+**Authority:** `.cursor/skills/pino-erp-logger/SKILL.md`, Foundation phase 09 observability spine
 
 ## Objective
 

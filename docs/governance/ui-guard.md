@@ -2,7 +2,7 @@
 
 Canonical reference for all UI governance gates. Orchestrator: `scripts/governance/ui-guard.mjs`.
 
-TIP-004 policy (author + consumer rules): [`tip-004-policy.md`](tip-004-policy.md)
+Foundation phase 04 policy (author + consumer rules): [`governed-ui-policy.md`](governed-ui-policy.md)
 
 Run after shadcn-studio block installs, primitive edits, or consumer wiring changes.
 
@@ -43,7 +43,7 @@ Run after shadcn-studio block installs, primitive edits, or consumer wiring chan
 
 ---
 
-## Gate D — TIP-004 consumption
+## Gate D — Governed UI consumption
 
 **Policy:** `scripts/governance/governed-ui-consumption.mjs`
 
@@ -178,7 +178,7 @@ On pass, prints the Tier D attestation block above.
 | R5 | Raw `<img>` — use `next/image` |
 | R6 | Module-level `let`/`var` in non-`"use client"` files |
 
-Gate F is a **warning gate** in default `pnpm ui:guard` so existing technical debt is visible without blocking TIP-004 work. Use `pnpm ui:guard:strict` when all F violations are resolved.
+Gate F is a **warning gate** in default `pnpm ui:guard` so existing technical debt is visible without blocking Governed UI work. Use `pnpm ui:guard:strict` when all F violations are resolved.
 
 ---
 

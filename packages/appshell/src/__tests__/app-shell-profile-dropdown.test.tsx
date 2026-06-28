@@ -24,7 +24,7 @@ function renderProfileDropdown(
 }
 
 describe("AppShellProfileDropdown", () => {
-  it("renders the trigger without TIP-004 consumer violations", () => {
+  it("renders the trigger without Governed UI consumer violations", () => {
     renderProfileDropdown();
 
     expect(

@@ -40,14 +40,14 @@ export const DATABASE_TENANT_DOMAIN_MODULES = [
     glossaryTerm: "Team",
     table: "organizations",
     status: "partial",
-    notes: "type = team until TIP-030 dedicated table",
+    notes: "type = team until Foundation phase 30 dedicated table",
   },
   {
     directory: "project",
     glossaryTerm: "Project",
     table: null,
     status: "planned",
-    notes: "TIP-030 — authority stub only",
+    notes: "Foundation phase 30 — authority stub only",
   },
   {
     directory: "grant-scope",

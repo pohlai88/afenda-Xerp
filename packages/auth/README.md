@@ -1,6 +1,6 @@
 # Afenda Auth (`@afenda/auth`)
 
-Better Auth foundation for Afenda ERP (TIP-010 — Identity & Authorization Foundation).
+Better Auth foundation for Afenda ERP (Foundation phase 10 — Identity & Authorization Foundation).
 
 ## Responsibilities
 

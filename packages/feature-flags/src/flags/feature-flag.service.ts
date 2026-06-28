@@ -18,7 +18,7 @@ export {
 } from "../flag-evaluation";
 
 /**
- * TIP-008 spec-required API: boolean shorthand for a single flag gate.
+ * Foundation phase 08 spec-required API: boolean shorthand for a single flag gate.
  *
  * Fail-open — missing flags return `true` to support gradual rollout.
  * For security-sensitive paths use `isEnabledStrict`.
@@ -40,7 +40,7 @@ export interface EvaluateFlagInput {
 }
 
 /**
- * TIP-008 spec-required API: single-input capability-style evaluation for a feature flag.
+ * Foundation phase 08 spec-required API: single-input capability-style evaluation for a feature flag.
  *
  * Returns a typed `FlagDecision` discriminated union. Use this when you need
  * structured denial reasons for observability or audit; use `featureFlag` for

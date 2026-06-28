@@ -1,5 +1,5 @@
 /**
- * Stock movement audit trail — fdr-r02 Slice 3.
+ * Stock movement audit trail — inventory domain Slice 3.
  */
 import { index, numeric, pgTable, varchar } from "drizzle-orm/pg-core";
 import { stockMovementTypeEnum } from "../database.types.js";

@@ -1,7 +1,7 @@
 import type { MutationScope } from "@/lib/outbox/resolve-mutation-scope.server";
 
 /**
- * Mandatory ERP operating-spine phases (ADR-0001 TIP-012).
+ * Mandatory ERP operating-spine phases (ADR-0001 Foundation phase 12).
  * Validation and authorization run in `createApiHandler` before `runProtectedMutation`.
  */
 export const PROTECTED_MUTATION_SPINE_PHASES = [

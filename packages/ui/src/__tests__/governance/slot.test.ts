@@ -29,7 +29,7 @@ describe("slot governance", () => {
 
   it("throws for unsupported slot roles", () => {
     expect(() => assertSlotRole("unknown-slot")).toThrow(
-      "TIP-004 slot policy violation"
+      "Governed UI slot policy violation"
     );
   });
 

@@ -30,7 +30,7 @@ function collectStoryFiles(dir: string): string[] {
   return files;
 }
 
-describe("story files: TIP-004 governed UI consumption", () => {
+describe("story files: Governed UI governed UI consumption", () => {
   const storyFiles = collectStoryFiles(join(packageRoot, "src"));
 
   it("scans all Storybook story files", () => {

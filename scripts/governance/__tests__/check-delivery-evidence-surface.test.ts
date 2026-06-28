@@ -8,17 +8,17 @@ import {
   DELIVERY_EVIDENCE_SURFACE_RULE,
   GOVERNANCE_DIST_BUILD_SCRIPT,
   GOVERNANCE_DIST_PACKAGES,
+  MULTI_TENANCY_DELIVERY_ACCEPTANCE_CHECKLIST,
+  MULTI_TENANCY_DELIVERY_FORBIDDEN_OVERCLAIM_PATTERNS,
+  MULTI_TENANCY_DELIVERY_REQUIRED_DISCLAIMERS,
+  MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS,
   MULTI_TENANCY_GOVERNANCE_GATES,
-  TIP_007_012_ACCEPTANCE_CHECKLIST,
-  TIP_007_012_FORBIDDEN_OVERCLAIM_PATTERNS,
-  TIP_007_012_REQUIRED_DISCLAIMERS,
-  TIP_007_012_REQUIRED_SECTIONS,
 } from "../delivery-evidence-surface-registry.mts";
 
 describe("delivery-evidence-surface-registry", () => {
   it("defines the canonical surface rule", () => {
     expect(DELIVERY_EVIDENCE_SURFACE_RULE).toBe(
-      "tip-007-012-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation"
+      "multi-tenancy-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation"
     );
   });
 
@@ -38,15 +38,15 @@ describe("delivery-evidence-surface-registry", () => {
     );
     expect(checkScripts).toContain("check:multi-tenancy-dos-prohibitions");
     expect(checkScripts).toContain("check:multi-tenancy-enterprise-acceptance");
-    expect(checkScripts).toHaveLength(23);
+    expect(checkScripts).toHaveLength(25);
   });
 
   it("requires twenty-five delivery doc sections", () => {
-    expect(TIP_007_012_REQUIRED_SECTIONS).toHaveLength(25);
+    expect(MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS).toHaveLength(25);
   });
 
   it("requires twenty-seven acceptance checklist items", () => {
-    expect(TIP_007_012_ACCEPTANCE_CHECKLIST).toHaveLength(29);
+    expect(MULTI_TENANCY_DELIVERY_ACCEPTANCE_CHECKLIST).toHaveLength(29);
   });
 
   it("defines dist build script and governed packages", () => {
@@ -55,9 +55,11 @@ describe("delivery-evidence-surface-registry", () => {
   });
 
   it("defines scope disclaimers and overclaim guards", () => {
-    expect(TIP_007_012_REQUIRED_DISCLAIMERS.length).toBeGreaterThanOrEqual(3);
     expect(
-      TIP_007_012_FORBIDDEN_OVERCLAIM_PATTERNS.length
+      MULTI_TENANCY_DELIVERY_REQUIRED_DISCLAIMERS.length
+    ).toBeGreaterThanOrEqual(3);
+    expect(
+      MULTI_TENANCY_DELIVERY_FORBIDDEN_OVERCLAIM_PATTERNS.length
     ).toBeGreaterThanOrEqual(4);
   });
 });

@@ -1,4 +1,4 @@
--- Defense-in-depth tenant isolation for inventory master data (ADR-0019 / fdr-r02-inventory Slice 1).
+-- Defense-in-depth tenant isolation for inventory master data (ADR-0019 / inventory master-data Slice 1).
 
 ALTER TABLE "products" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 ALTER TABLE "warehouses" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint

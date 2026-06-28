@@ -90,7 +90,7 @@ Outbox publishing  audit event writing  UI primitives/tokens/variants/recipes/cl
 AppShell layout/route/navigation rendering  ERP route implementation
 Business module workflows (HRM, CRM, Inventory, Accounting, Procurement, Sales, Manufacturing, Finance)
 Vendor SDK implementation  environment secrets  feature implementation logic
-Long-form ADR/PAS/FDR/TIP narrative duplication inside source
+Long-form ADR/PAS narrative duplication inside source
 ```
 
 ### Foundation disposition registry
@@ -159,7 +159,7 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.m
 | Dependency registry | Approved runtime dependency edges | Live dependency resolution at request time |
 | Lifecycle registry | Closed-union package lifecycle states | Business entity lifecycle |
 | Exception registry | ADR-level architecture exceptions with evidence | General tech-debt comments |
-| Foundation disposition | FDR/TIP/PAS status pointers and lanes | Long-form delivery doc bodies |
+| Foundation disposition | PAS status pointers and lanes | Long-form delivery doc bodies |
 | Business master data authority | Domain package reservation for entity IDs (ADR-0020) | Kernel `ID_FAMILIES` / wire parsers |
 | Boundary validators | Layer, cycle, forbidden dependency, registry parity gates | Permission evaluation |
 | Surface registry | Data/validator/doc module index for agents and CI | ERP runtime composition |
@@ -236,7 +236,7 @@ This package must not run inside ERP request lifecycle, UI rendering, auth handl
 When adding new architecture authority content, follow PAS §10 order:
 
 ```
-1. Update ADR/PAS/FDR/TIP authority if the package boundary changes
+1. Update ADR/PAS authority if the package boundary changes
 2. Update package registry
 3. Update layer registry
 4. Update ownership registry

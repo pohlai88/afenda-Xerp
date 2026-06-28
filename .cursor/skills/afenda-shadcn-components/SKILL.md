@@ -14,14 +14,14 @@ disable-model-invocation: true
 # Afenda shadcn Components & shadcn/studio
 
 **Constitutional authority:** [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)  
-**Governance policy:** [TIP-004](../../docs/governance/tip-004-policy.md) · [ui-guard](../../docs/governance/ui-guard.md)  
+**Governance policy:** [Foundation phase 04](../../docs/governance/governed-ui-policy.md) · [ui-guard](../../docs/governance/ui-guard.md)  
 **Operational detail:** [app-ui-component-adaptation-guide.md](../../docs/architecture/app-ui-component-adaptation-guide.md)
 
 ---
 
 ## §0 — Before you touch any UI code
 
-State all six Phase 0 lines (afenda-coding-session contract). Read the target FDR §Handoff
+State all six Phase 0 lines (afenda-coding-session contract). Read the target PAS §Handoff
 block when adapting studio blocks. Never edit production code without Phase 0 complete.
 
 ---
@@ -114,7 +114,7 @@ blocks update together. **Never shortcut to `--afenda-*` in studio CSS.**
 | Failure | Symptom | Prevention |
 |---------|---------|-----------|
 | Raw MCP Tailwind in production TSX | Color drift in dark mode / density changes | Use STUDIO-PATTERN-MAP, strip all raw Tailwind |
-| `className` on `@afenda/ui` primitives | Runtime `TIP-004 className policy violation` | Governed props only (`intent`, `emphasis`, `tone`, `size`, `state`) |
+| `className` on `@afenda/ui` primitives | Runtime `Governed UI className policy violation` | Governed props only (`intent`, `emphasis`, `tone`, `size`, `state`) |
 | `afenda-appshell-studio.css` imported directly by app | Break on CSS layer reorder | Always `@afenda/appshell/afenda-appshell.css` only |
 | `--afenda-*` redefined in appshell/erp | Token drift in scale | Design-system owns all `--afenda-*` |
 | Deprecated class prefixes in blocks | `studio-legacy-class-guard.test.ts` fails | Use STUDIO-PATTERN-MAP, not old `app-shell-dashboard-kpi-*` |
@@ -163,7 +163,7 @@ Never use raw palette (`green-600`, `amber-600`) — see [css-bridge-reference.m
   <Button intent="quiet" emphasis="ghost" presentation="icon" size="lg" />
 </div>
 
-// ❌ className on @afenda/ui — TIP-004 violation
+// ❌ className on @afenda/ui — Governed UI violation
 <Button className="px-6 bg-primary text-white">Save</Button>
 
 // ❌ Studio block className pollution copy-pasted onto primitives
@@ -276,11 +276,11 @@ Run after any change to `packages/appshell/`, `packages/ui/`, or `apps/erp/`.
 
 | Action | Reason |
 |--------|--------|
-| Direct copy from `_reference/` into runtime code | Bypasses TIP-004 / ADR-0017 |
-| Replacing TIP-006 AppShell chrome (`application-shell`, `dashboard-shell`) | Shell authority is frozen |
+| Direct copy from `_reference/` into runtime code | Bypasses Governed UI / ADR-0017 |
+| Replacing Foundation phase 06 AppShell chrome (`application-shell`, `dashboard-shell`) | Shell authority is frozen |
 | Auth page variants from template | Better Auth owns authentication |
 | New npm deps without ADR-0003 / `dependency-registry.md` | Dependency governance |
-| `className` on `@afenda/ui` primitives in consumers | TIP-004 consumer rule |
+| `className` on `@afenda/ui` primitives in consumers | Governed UI consumer rule |
 | `--afenda-*` re-definition outside design-system | Token drift |
 | Importing `afenda-appshell-studio.css` directly from apps | CSS cascade integrity |
 | Production blocks kept in `packages/ui/src/components/shadcn-studio/` | Staging-only policy |

@@ -3,7 +3,7 @@
 **Architecture layer:** Metadata  
 **Lifecycle:** Active  
 **Registry ID:** PKG-011  
-**TIP:** TIP-005 — Metadata Authority  
+**TIP:** Foundation phase 05 — Metadata Authority  
 **Version:** 0.2.0
 
 ## What this package is
@@ -71,7 +71,7 @@ Each domain contract also exports `*_CONTRACT_OWNERSHIPS` and `*_CONTRACT_PROHIB
 
 ```txt
 @afenda/design-system ──┐
-                        ├──▶ @afenda/metadata-ui   (TIP-007, implementation)
+                        ├──▶ @afenda/metadata-ui   (Foundation phase 07, implementation)
 @afenda/ui-composition ───────┘
 ```
 
@@ -198,5 +198,5 @@ This package may only be changed by:
 
 ## Further reading
 
-- Implementation spec: `doc/TIP-005.md`
+- Implementation spec: `doc/Foundation phase 05.md`
 - Delivery record: `docs/PAS/slice/[Complete (authority only)] tip-005-metadata-authority.md`

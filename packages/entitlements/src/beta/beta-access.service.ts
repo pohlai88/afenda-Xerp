@@ -1,4 +1,4 @@
-// TIP-008 spec-required service file — re-exports from the beta-access engine.
+// Foundation phase 08 spec-required service file — re-exports from the beta-access engine.
 export {
   type BetaAccessContext,
   type BetaAccessResolution,

@@ -73,7 +73,7 @@ function formatClassNamePolicyViolation(result: ClassNamePolicyResult): string {
 }
 
 function formatClassNamePolicyError(result: ClassNamePolicyResult): string {
-  return `TIP-004 className policy violation. Offending classes: ${formatClassNamePolicyViolation(
+  return `Governed UI className policy violation. Offending classes: ${formatClassNamePolicyViolation(
     result
   )}. Move semantic styling into governed recipe/variant.`;
 }
@@ -84,7 +84,7 @@ export function getClassNamePolicy() {
     prohibitedPatterns: PROHIBITED_CLASSNAME_PATTERNS,
     allowedLayoutPatterns: ALLOWED_LAYOUT_CLASSNAME_PATTERNS,
     violationMessage:
-      "TIP-004 className policy: className may control layout only. Semantic color, tone, size, radius, shadow, typography, opacity, focus, and motion must come from governed recipes and variants.",
+      "Foundation phase 04 className policy: className may control layout only. Semantic color, tone, size, radius, shadow, typography, opacity, focus, and motion must come from governed recipes and variants.",
   };
 }
 

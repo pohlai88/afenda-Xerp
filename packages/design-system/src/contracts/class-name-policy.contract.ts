@@ -64,7 +64,7 @@ export const classNamePolicyContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "layout escape only",
-  owner: "TIP-004 class-name policy contract",
+  owner: "Governed UI class-name policy contract",
   prohibitedResponsibility: [
     "Override design meaning",
     "Define tokens",

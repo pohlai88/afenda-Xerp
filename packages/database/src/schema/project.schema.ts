@@ -1,5 +1,5 @@
 /**
- * Project authority under a tenant (TIP-030 foundation).
+ * Project authority under a tenant (Foundation phase 30 foundation).
  *
  * Writes: `../project/project.service.ts`
  */

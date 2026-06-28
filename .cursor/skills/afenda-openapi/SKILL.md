@@ -247,7 +247,7 @@ pnpm --filter @afenda/erp test:run -- openapi-document api-contract api-envelope
 | Use `contract.id` dot-notation: `internal.v1.<domain>.<resource>.<method>` | Add routes outside `API_CONTRACTS` registry |
 | Set `deprecated: true` on operations when lifecycle is `deprecated` | Duplicate envelope or error schema constants |
 | Define tags at document level when adding a new tag group | Introduce a parallel OpenAPI generator |
-| Reference `ARCH-API-002` for OpenAPI catalog governance authority | Generate SDK clients without ARCH/FDR approval |
+| Reference `ARCH-API-002` for OpenAPI catalog governance authority | Generate SDK clients without PAS approval |
 
 ---
 
@@ -256,4 +256,4 @@ pnpm --filter @afenda/erp test:run -- openapi-document api-contract api-envelope
 - [`docs/architecture/afenda-rest-api-governance.md`](../../docs/architecture/afenda-rest-api-governance.md) — governance authority
 - [`ARCH-API-002`](../../docs/PAS/ARCH-API-002-openapi-internal-v1-catalog.md) — OpenAPI catalog decision
 - [`docs/governance/api-contract.md`](../../docs/governance/api-contract.md) — developer how-to
-- [`fdr-007-api-governance`](../../docs/PAS/%5BPartially%20Implemented%5D%20fdr-007-api-governance.md) — FDR gates
+- [`PKG-007 api-governance (pas-status-index)`](../../docs/PAS/%5BPartially%20Implemented%5D%20PKG-007 api-governance (pas-status-index).md) — PAS gates

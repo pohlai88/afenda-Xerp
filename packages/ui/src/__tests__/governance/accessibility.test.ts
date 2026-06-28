@@ -49,7 +49,7 @@ describe("accessibility governance", () => {
 
   it("rejects unknown governed components in development", () => {
     expect(() => getComponentAccessibilityRequirement("FancyButton")).toThrow(
-      "TIP-004 accessibility policy violation"
+      "Foundation phase 04 accessibility policy violation"
     );
   });
 });

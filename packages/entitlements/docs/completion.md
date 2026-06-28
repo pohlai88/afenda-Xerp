@@ -1,4 +1,4 @@
-# TIP-008 — Feature Flags and Entitlements
+# Foundation phase 08 — Feature Flags and Entitlements
 
 ## Production integration
 

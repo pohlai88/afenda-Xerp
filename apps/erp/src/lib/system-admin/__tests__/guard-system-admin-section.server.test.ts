@@ -27,7 +27,7 @@ import { guardSystemAdminSection } from "../guard-system-admin-section.server";
 
 const CORRELATION_ID = "corr-system-admin-guard-audit";
 
-describe("guardSystemAdminSection audit evidence (TIP-013 Slice 1)", () => {
+describe("guardSystemAdminSection audit evidence (Foundation phase 13 Slice 1)", () => {
   beforeEach(() => {
     auditMocks.recordErpAuditEvent.mockClear();
     auditMocks.loggerWarn.mockClear();

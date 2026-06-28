@@ -4,7 +4,7 @@
 | --- | --- |
 | **Package** | `@afenda/docs` (PKG-005) |
 | **App path** | `apps/docs/` |
-| **Delivery** | [TIP-032 Slice 6](../tips/[Complete]%20tip-032-implementation-documentation.md#slice-6--deploy-target-afendadocs) |
+| **Delivery** | [Foundation phase 32 Slice 6](../tips/[Complete]%20tip-032-implementation-documentation.md#slice-6--deploy-target-afendadocs) |
 | **Architecture** | [`docs-app-architecture.md`](../../architecture/docs-app-architecture.md) |
 
 ## Summary
@@ -85,5 +85,5 @@ pnpm check:documentation-drift
 
 ## Related
 
-- ERP preview policy: TIP-009 — [`.github/workflows/preview.yml`](../../.github/workflows/preview.yml)
+- ERP preview policy: Foundation phase 09 — [`.github/workflows/preview.yml`](../../.github/workflows/preview.yml)
 - CI build gate: root `quality:docs` / CI Gate 4c

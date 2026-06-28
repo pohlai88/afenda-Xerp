@@ -1,5 +1,5 @@
 /**
- * TIP-008B Slice 5 + ADR-0020 — persistence ownership policy.
+ * Foundation phase 08 Slice 5 + ADR-0020 — persistence ownership policy.
  */
 import {
   BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY,

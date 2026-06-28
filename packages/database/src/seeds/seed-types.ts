@@ -1,4 +1,4 @@
-/** Governed seed profile identifiers (TIP-003A). */
+/** Governed seed profile identifiers (Foundation phase 03). */
 export type SeedProfile = "demo" | "dev" | "platform" | "preview" | "test";
 
 export type BootstrapProfile = "local" | "preview";

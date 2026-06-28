@@ -2,13 +2,13 @@
 
 | Field | Value |
 | --- | --- |
-| **Authority** | ADR-0010, ADR-0014, TIP-013A |
+| **Authority** | ADR-0010, ADR-0014, Foundation phase 13 |
 | **Signed off** | 2026-06-24 |
 | **Signatory role** | Architecture Authority (automated evidence + agent execution contract) |
-| **Delivery TIP** | tip-013a-accounting-readiness-gate.md |
+| **PAS slice** | tip-013a-accounting-readiness-gate.md |
 | **Foundation disposition** | Zero `red-lane` entries — fingerprint `FOUNDATION-DISPOSITION-2026-06-24-v3` |
 
-> This record documents Phase 9 gate pass. It does **not** authorize ledger posting, journal arithmetic, or `@afenda/accounting` runtime implementation beyond **TIP-014 Accounting Core Contracts** scope.
+> This record documents Phase 9 gate pass. It does **not** authorize ledger posting, journal arithmetic, or `@afenda/accounting` runtime implementation beyond **Foundation phase 14 Accounting Core Contracts** scope.
 
 ---
 
@@ -17,7 +17,7 @@
 ```text
 Phase 9 Accounting Readiness Gate: PASSED (2026-06-24)
 Foundation disposition:            zero red-lane / zero open knownGaps on gate-critical entries
-Accounting Core (TIP-014+):        UNBLOCKED for contract vocabulary only — no posting yet
+Accounting Core (Foundation phase 14+):        UNBLOCKED for contract vocabulary only — no posting yet
 ```
 
 ---
@@ -47,7 +47,7 @@ Accounting Core (TIP-014+):        UNBLOCKED for contract vocabulary only — no
 
 ## What is allowed after sign-off
 
-- TIP-014 Accounting Core **Contracts** — ADR for `@afenda/accounting`, contract vocabulary, permission keys, audit patterns
+- Foundation phase 14 Accounting Core **Contracts** — ADR for `@afenda/accounting`, contract vocabulary, permission keys, audit patterns
 - Registry and documentation updates for PKG-R01 (planned)
 
 ## What remains prohibited
@@ -62,11 +62,11 @@ Accounting Core (TIP-014+):        UNBLOCKED for contract vocabulary only — no
 
 | # | Criterion | Status |
 | ---: | --- | --- |
-| 1 | TIP-013A Slices 1–4 delivered | Complete |
+| 1 | Foundation phase 13 Slices 1–4 delivered | Complete |
 | 2 | Foundation disposition zero red-lane | Complete |
 | 3 | `pnpm check:accounting-readiness-gate` passes | Complete |
 | 4 | `pnpm check:foundation-disposition` passes | Complete |
 | 5 | Runtime matrix + pas-status-index synced | Complete |
-| 6 | TIP-013A delivery doc status → Complete | Complete |
+| 6 | Foundation phase 13 delivery doc status → Complete | Complete |
 
 **Phase 9 sign-off:** **Complete** (2026-06-24).

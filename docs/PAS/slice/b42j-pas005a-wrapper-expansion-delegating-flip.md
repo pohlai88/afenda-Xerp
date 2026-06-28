@@ -19,7 +19,7 @@ Handoff from: docs/PAS/slice/b42j-pas005a-wrapper-expansion-delegating-flip.md
 2. Allowed layer— packages/appshell/src/presentation/** · packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/app-shell-header.tsx · packages/appshell/src/__tests__/** · packages/shadcn-studio/src/index.ts · packages/shadcn-studio/src/registry/** · packages/shadcn-studio/src/__tests__/** · docs/PAS/slice/b42j-*.md · docs/PAS/pas-status-index.md · docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row) · docs/PAS/slice/b42i-pas005a-mcp-wrapper-strangler.md (deferred section)
 3. Files        — presentation/wrappers/** (shell chrome + dashboard) · presentation/blocks thin re-exports · presentation-mcp-wrapper.registry.ts · shadcn-studio-bridge/index.ts · shadcn-studio index.ts (shell bridge exports) · studio-block-parity.registry.ts · mcp-presentation-classname-policy.test.ts · slice doc · pas-status-index · PAS-005A §14 · b42i deferred
 4. Prohibited   — foundation-disposition.registry.ts · break @afenda/appshell public exports · remove afenda-appshell-studio.css · copy MCP TSX into appshell · replace AppShellAccountSettings01-07 implementations
-5. Authority    — PAS-005A · ADR-0017 · TIP-004 consumer rules (appshell only) · B42 parity registry
+5. Authority    — PAS-005A · ADR-0017 · Governed UI consumer rules (appshell only) · B42 parity registry
 6. Gates        —
    pnpm --filter @afenda/appshell typecheck
    pnpm --filter @afenda/appshell test:run
@@ -29,7 +29,7 @@ Handoff from: docs/PAS/slice/b42j-pas005a-wrapper-expansion-delegating-flip.md
    pnpm ui:guard:scan
 7. Closes       — Shell chrome wrappers · dashboard KPI/sparkline/readiness wrappers · account-settings registry mapping · MCP className policy test · delegating flip evidence · parity wrapperPath · B42j slice doc
 8. Evidence     — presentation-mcp-wrapper.registry.test.ts · appshell tests · mcp-presentation-classname-policy.test.ts · ui:guard:scan · delegating flip test run
-9. Attestation  — Wrapper expansion · TIP-004 MCP lab policy · Delegating flip criteria · Gate evidence
+9. Attestation  — Wrapper expansion · Governed UI MCP lab policy · Delegating flip criteria · Gate evidence
 ```
 
 ## B42j wrapper scope

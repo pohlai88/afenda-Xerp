@@ -43,7 +43,7 @@ describe("@afenda/docs apps book inventory parity", () => {
     expect(docsIndex).toContain("docs-app-architecture.md");
   });
 
-  it("states Storybook runner or FDR status debt honestly", () => {
+  it("states Storybook runner or PAS status debt honestly", () => {
     const storybookIndex = readMdx(`${docsBuildAfendaSection}/apps/storybook/index.mdx`);
     expect(storybookIndex).toMatch(
       /storybook-test-runner-red|Not started|runner debt|test:storybook:run/i

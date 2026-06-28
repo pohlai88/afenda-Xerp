@@ -20,7 +20,7 @@ Close remaining ADR-0022 hierarchy wire gaps after B49–B51. Kernel wire triads
 2. `OwnershipInterestLookupRow` exposes enterprise IDs for wire; uuid PKs retained for internal FK ops.
 3. `toOwnershipInterestContext` maps enterprise IDs → `parseUnknownOwnershipInterestContext` (`own_*`, `ten_*`, `egp_*`, `cmp_*`).
 4. **Team wire** — org-backed path documented: `toTeamContext` from branded `OrganizationUnitContext` is correct (`org_*` as `TeamAuthorityId`).
-5. **Project** — explicitly deferred until TIP-030 resolver (`verifyProjectSelection` rejects hints); no project lookup in this slice.
+5. **Project** — explicitly deferred until Foundation phase 30 resolver (`verifyProjectSelection` rejects hints); no project lookup in this slice.
 
 ---
 
@@ -42,7 +42,7 @@ Close remaining ADR-0022 hierarchy wire gaps after B49–B51. Kernel wire triads
 ## Handoff block
 
 ```
-1. Objective    — Wire ADR-0022 ownership-interest enterprise_id at ERP/database mapper boundary; document team org-backed path; defer project until TIP-030.
+1. Objective    — Wire ADR-0022 ownership-interest enterprise_id at ERP/database mapper boundary; document team org-backed path; defer project until Foundation phase 30.
 2. Allowed layer— packages/database/src/ownership-interest/**; apps/erp/src/lib/context/**; docs/PAS/
 3. Files        — ownership-interest-lookup.service.ts (MODIFY)
                   ownership-interest.contract.ts (MODIFY)
@@ -67,9 +67,9 @@ Close remaining ADR-0022 hierarchy wire gaps after B49–B51. Kernel wire triads
 
 ---
 
-## Deferred — Project wire (TIP-030)
+## Deferred — Project wire (Foundation phase 30)
 
-Project selection remains blocked at the kernel boundary until TIP-030 delivers a canonical project resolver. `verifyProjectSelection` rejects project hints; **no** `findProjects*` lookup or `toProjectContext` in B52.
+Project selection remains blocked at the kernel boundary until Foundation phase 30 delivers a canonical project resolver. `verifyProjectSelection` rejects project hints; **no** `findProjects*` lookup or `toProjectContext` in B52.
 
 ---
 

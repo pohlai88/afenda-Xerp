@@ -371,7 +371,7 @@ const componentAccessibilityRegistry = Object.freeze({
 >);
 
 function formatUnknownComponentViolation(componentName: string): string {
-  return `TIP-004 accessibility policy violation. Unknown governed component "${componentName}". Register the component accessibility definition before consuming it.`;
+  return `Foundation phase 04 accessibility policy violation. Unknown governed component "${componentName}". Register the component accessibility definition before consuming it.`;
 }
 
 export function getComponentAccessibilityRequirement(

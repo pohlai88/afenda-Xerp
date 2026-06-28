@@ -23,7 +23,7 @@ function renderSidebarUserDropdown(
 }
 
 describe("AppShellSidebarUserDropdown", () => {
-  it("renders without TIP-004 consumer violations", () => {
+  it("renders without Governed UI consumer violations", () => {
     renderSidebarUserDropdown();
 
     expect(

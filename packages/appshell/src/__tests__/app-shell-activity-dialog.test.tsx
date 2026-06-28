@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { AppShellActivityDialog } from "../presentation/blocks/app-shell-activity-dialog";
 
 describe("AppShellActivityDialog", () => {
-  it("renders the trigger without TIP-004 consumer violations", () => {
+  it("renders the trigger without Governed UI consumer violations", () => {
     render(
       <AppShellActivityDialog
         trigger={<button type="button">Open activity</button>}

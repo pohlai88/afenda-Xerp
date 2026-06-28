@@ -20,7 +20,7 @@ Codify PAS §8 permission model vocabulary as typed kernel registry data:
 4. Type guards, non-throwing narrow helpers, authority/ownership metadata, and wire-safe `PermissionModelDescriptor`.
 5. Comprehensive contract tests and public `@afenda/kernel` + `@afenda/kernel/permission` exports.
 
-Distinct from `PERMISSION_GRANT_SCOPE_TYPES` in `context/` — grant scope words serve membership/RLS boundaries (TIP-007 transitional); PAS §8 scope vocabulary governs the permission model pattern only.
+Distinct from `PERMISSION_GRANT_SCOPE_TYPES` in `context/` — grant scope words serve membership/RLS boundaries (Foundation phase 07 transitional); PAS §8 scope vocabulary governs the permission model pattern only.
 
 ## Frozen rules (PAS §8)
 

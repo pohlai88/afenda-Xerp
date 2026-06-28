@@ -1,8 +1,8 @@
 export const PRIMITIVE_GOVERNANCE_ERROR_PREFIX =
-  "TIP-004B primitive governance violation" as const;
+  "Governed UI primitive policy violation" as const;
 
 export const CLASS_NAME_POLICY_ERROR_PREFIX =
-  "TIP-004 className policy violation" as const;
+  "Governed UI className policy violation" as const;
 
 export function primitiveGovernanceError(detail: string): Error {
   return new Error(`${PRIMITIVE_GOVERNANCE_ERROR_PREFIX}. ${detail}`);

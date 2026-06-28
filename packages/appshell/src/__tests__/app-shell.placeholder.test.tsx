@@ -11,7 +11,7 @@ import {
 } from "../presentation/data/app-shell.placeholder.data";
 
 describe("ApplicationShellPlaceholderContent", () => {
-  it("renders the ERP overview dashboard without TIP-004 consumer violations", () => {
+  it("renders the ERP overview dashboard without Governed UI consumer violations", () => {
     render(<ApplicationShellPlaceholderContent />);
 
     expect(

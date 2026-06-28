@@ -95,7 +95,7 @@ pnpm exec biome ci apps/docs
 
 Authority skill: `.cursor/skills/afenda-ui-quality/SKILL.md`
 
-### TIP-004 governance
+### Governed UI governance
 
 ```
 [ ] No className on governed @afenda/ui primitives (Button, Badge, Card, Alert, Dialog*, Sheet*, DropdownMenu*, Sidebar*, Avatar, Tabs*, etc.)
@@ -199,5 +199,5 @@ Authority skill: `.cursor/skills/govern-primitive/SKILL.md`
 | h2 with `border-bottom` | Heading looked like a clickable link | Remove border-bottom, use font-weight hierarchy |
 | Direct `--color-fd-*` in `:root` | Dark mode breaks because @theme inline cascade bypassed | Use `--docs-editorial-*` primitives only |
 | Solid primary on `::highlight(fd-feedback-text)` | Selection looks like neon block | `color-mix(in oklch, var(--docs-editorial-prose-accent) 12%, transparent)` |
-| `<Button className="gap-2">` | TIP-004 runtime throw in Vitest | Remove className; use governed props |
+| `<Button className="gap-2">` | Governed UI runtime throw in Vitest | Remove className; use governed props |
 | `oklch(0.46 0.08 254)` in component CSS | Bypasses token system | Use `var(--docs-editorial-prose-accent)` |

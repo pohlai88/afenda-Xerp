@@ -10,10 +10,10 @@
 ```
 Platform            (global — no tenant boundary)
   └─ Tenant         SaaS/subscription boundary; hard isolation; slug globally unique
-       └─ Entity Group   Corporate group / holding structure (TIP-008 foundation)
+       └─ Entity Group   Corporate group / holding structure (Foundation phase 08 foundation)
             └─ Legal Entity / Company   Statutory body; owns accounting books + tax identity
                  └─ Organization Unit   Operating tree: branch, dept, site, factory, warehouse
-                      └─ Team / Project   Execution units (current: org.type=team; Project planned TIP-030)
+                      └─ Team / Project   Execution units (current: org.type=team; Project planned Foundation phase 30)
                            └─ Membership  User-role-scope grant bound to one of these tiers
 ```
 
@@ -36,17 +36,17 @@ Platform            (global — no tenant boundary)
 | Concept | DB table | Status |
 |---------|----------|--------|
 | Tenant | `tenants` | Implemented |
-| Entity Group | `entity_groups` | Implemented (TIP-008 foundation) |
+| Entity Group | `entity_groups` | Implemented (Foundation phase 08 foundation) |
 | Legal Entity / Company | `companies` | Implemented |
-| Ownership Interest | `legal_entity_ownership` | Implemented (TIP-008 foundation) |
+| Ownership Interest | `legal_entity_ownership` | Implemented (Foundation phase 08 foundation) |
 | Organization Unit | `organizations` | Implemented |
-| Team | `organizations` (`type = "team"`) | Partial — dedicated table TIP-030 |
-| Project | — | **Planned — TIP-030** |
+| Team | `organizations` (`type = "team"`) | Partial — dedicated table Foundation phase 30 |
+| Project | — | **Planned — Foundation phase 30** |
 | Workspace | Runtime context | N/A — derived |
 | Surface | Runtime string ID | N/A — metadata config |
 | RLS Grant (app-level) | `memberships` + permission engine | Implemented |
 | RLS Grant (DB-level) | Supabase RLS policies | In progress |
-| Consolidation Scope | Derived from ownership model | **Planned — TIP-008** |
+| Consolidation Scope | Derived from ownership model | **Planned — Foundation phase 08** |
 
 ---
 
@@ -101,7 +101,7 @@ All top-level entities share `active | suspended | archived`:
 {
   id: CompanyId,
   tenantId: TenantId,
-  entityGroupId: EntityGroupId | null,    // planned TIP-008
+  entityGroupId: EntityGroupId | null,    // planned Foundation phase 08
   slug: string,                            // unique per tenant
   legalName: string,
   displayName: string,
@@ -128,7 +128,7 @@ All top-level entities share `active | suspended | archived`:
 
 ---
 
-## Entity Group (TIP-008 foundation)
+## Entity Group (Foundation phase 08 foundation)
 
 Entity Group sits between Tenant and Company:
 
@@ -152,7 +152,7 @@ Access patterns that will change when Entity Groups are implemented:
 
 ---
 
-## Ownership Interest (TIP-008 foundation)
+## Ownership Interest (Foundation phase 08 foundation)
 
 ```ts
 // Planned schema shape
@@ -204,7 +204,7 @@ type MembershipScopeType = "tenant" | "company" | "organization";
 | `company` | required | `null` | Legal Entity scope (e.g., company CFO) |
 | `organization` | required | required | Org Unit / Team scope |
 
-Future planned membership scopes (TIP-008 / TIP-030):
+Future planned membership scopes (Foundation phase 08 / Foundation phase 30):
 
 | `scopeType` | FK added | Grants access to |
 |-------------|----------|-----------------|
@@ -293,7 +293,7 @@ CREATE POLICY company_membership ON companies
 
 ---
 
-## Consolidation Scope — authority stub (TIP-008)
+## Consolidation Scope — authority stub (Foundation phase 08)
 
 **Do not implement any consolidation arithmetic.** Only prepare the authority model.
 
@@ -307,7 +307,7 @@ Entity Group
         → Consolidation Scope record
 ```
 
-When TIP-008 is implemented, `consolidation_scopes` will be a view or materialized table
+When Foundation phase 08 is implemented, `consolidation_scopes` will be a view or materialized table
 computed from `entity_groups` + `legal_entity_ownership` at a specific `reportingDate`.
 
 ---
@@ -325,7 +325,7 @@ Never write directly to governed tables. Use the service layer from `@afenda/dat
 
 Every service call takes an `audit` context: `{ actorType, actorUserId, correlationId, source }`.
 
-Entity Group and Ownership Interest services will follow the same pattern when TIP-008 is delivered.
+Entity Group and Ownership Interest services will follow the same pattern when Foundation phase 08 is delivered.
 
 ---
 
@@ -366,7 +366,7 @@ type WorkspaceContext = {
   tenantId: string;
   companyId: string;           // selected Legal Entity
   organizationId?: string;     // selected Org Unit (optional)
-  projectId?: string;          // selected Project (optional, TIP-030)
+  projectId?: string;          // selected Project (optional, Foundation phase 30)
   userId: string;
   // derived — never trust from session
 };

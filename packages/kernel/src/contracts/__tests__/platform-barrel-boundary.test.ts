@@ -9,7 +9,7 @@ const platformBarrelPath = join(
   "index.ts"
 );
 
-describe("platform barrel boundary (TIP-007 — type-only context/identity re-exports)", () => {
+describe("platform barrel boundary (Foundation phase 07 — type-only context/identity re-exports)", () => {
   it("re-exports context and identity symbols as types only", () => {
     const source = readFileSync(platformBarrelPath, "utf8");
 

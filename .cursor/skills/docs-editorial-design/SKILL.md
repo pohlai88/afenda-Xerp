@@ -544,4 +544,4 @@ pnpm exec biome ci apps/docs
 - Full OKLCH token table, fd-* mapping, color decision tree → [PALETTE-REFERENCE.md](PALETTE-REFERENCE.md)
 - Type scale, optical sizing, font loader rules → [TYPOGRAPHY.md](TYPOGRAPHY.md)
 - Fumadocs theme CSS presets (OSS reference) → `node_modules/fumadocs-ui/css/`
-- TIP-032 Slice 3 authority → `docs/PAS/slice/[Partially Implemented] tip-032-implementation-documentation.md`
+- Foundation phase 32 Slice 3 authority → `docs/PAS/slice/[Partially Implemented] tip-032-implementation-documentation.md`

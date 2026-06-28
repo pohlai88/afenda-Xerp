@@ -4,7 +4,7 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_LEGAL_ENTITY_BOUNDARY_MARKERS,
   MULTI_TENANCY_MIDDLEWARE_PRESERVATION_MARKERS,
@@ -15,7 +15,7 @@ import {
   TENANT_URL_RESOLVER_FUNCTIONS,
   TENANT_URL_RESOLVER_HEADER,
   TENANT_URL_RESOLVER_PROXY_PRESERVATIONS,
-  TIP_007_012_TENANT_URL_RESOLVER_SECTION,
+  MULTI_TENANCY_TENANT_URL_RESOLVER_SECTION,
 } from "../multi-tenancy-tenant-url-resolver-registry.mts";
 
 export interface TenantUrlResolverEnforcementViolation {
@@ -280,19 +280,19 @@ export function collectTenantUrlResolverViolations(
   repoRoot: string
 ): TenantUrlResolverEnforcementViolation[] {
   const violations: TenantUrlResolverEnforcementViolation[] = [];
-  const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryDocPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required for Step 6 tenant URL tables`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required for Step 6 tenant URL tables`,
     });
     return violations;
   }
 
   const deliveryContent = readFileSync(deliveryDocPath, "utf8");
-  const sectionHeading = `## ${TIP_007_012_TENANT_URL_RESOLVER_SECTION}`;
+  const sectionHeading = `## ${MULTI_TENANCY_TENANT_URL_RESOLVER_SECTION}`;
   const tenantUrlSection = extractSection(deliveryContent, sectionHeading);
 
   if (tenantUrlSection === null) {

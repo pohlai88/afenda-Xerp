@@ -24,9 +24,9 @@ Repository context:
 * Architecture enforcement: `@afenda/architecture-authority`
 * UI shell: `@afenda/appshell`
 * Metadata UI: `@afenda/metadata-ui`
-* Governance source order: ADR > architecture registries > delivery TIP docs > master plan
-* Phase: TIP-007 ERP Platform Authority and TIP-012 ERP Operating Spine
-* Do not start TIP-013 accounting implementation.
+* Governance source order: ADR > architecture registries > PAS slice docs > master plan
+* Phase: Foundation phase 07 ERP Platform Authority and Foundation phase 12 ERP Operating Spine
+* Do not start Foundation phase 13 accounting implementation.
 * Do not implement journals, ledger posting, consolidation eliminations, or accounting business logic yet.
 
 Primary objective:
@@ -343,7 +343,7 @@ Prohibited:
 * no ledger
 * no consolidation eliminations
 * no accounting reports
-* no TIP-013 work
+* no Foundation phase 13 work
 
 Package and file locations:
 
@@ -472,7 +472,7 @@ Prohibitions:
 * Do not allow sibling company access without explicit grant.
 * Do not trust client-provided company/legalEntity/entityGroup/org IDs.
 * Do not implement accounting journals, ledgers, reports, or consolidation entries.
-* Do not start TIP-013.
+* Do not start Foundation phase 13.
 * Do not add business modules.
 * Do not weaken RLS/RBAC/CSP.
 * Do not use `any`.
@@ -663,7 +663,7 @@ Architecture acceptance:
 * No deep imports.
 * No unapproved dependency.
 * No business domain created.
-* No TIP-013 started.
+* No Foundation phase 13 started.
 
 Testing acceptance:
 

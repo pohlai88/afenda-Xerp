@@ -7,7 +7,7 @@
  *
  * Standalone invocations (`pnpm quality:kernel-context-surface`) run
  * `pnpm --filter @afenda/kernel build` first via package.json choreography
- * so gitignored dist/ is always fresh before stale-dist checks (fdr-010-context-contracts Slice 2).
+ * so gitignored dist/ is always fresh before stale-dist checks (PKG-010 context-contracts (pas-status-index) Slice 2).
  */
 
 import { spawnSync } from "node:child_process";

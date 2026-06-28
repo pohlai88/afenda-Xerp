@@ -63,7 +63,7 @@ export {
   parseUnknownEntityGroupContext,
   serializeEntityGroupContext,
 } from "./entity-group-context.parser.js";
-// ── Hierarchy id boundary (TIP-008A Slice 6) ───────────────────────────────────
+// ── Hierarchy id boundary (Foundation phase 08 Slice 6) ───────────────────────────────────
 export {
   type assertHierarchyContextJsonSerializable,
   brandDeriveConsolidationScopeTrustInput,

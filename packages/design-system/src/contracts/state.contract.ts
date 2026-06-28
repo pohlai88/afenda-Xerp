@@ -41,7 +41,7 @@ export const stateContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "UI state",
-  owner: "TIP-004 state contract",
+  owner: "Governed UI state contract",
   prohibitedResponsibility: [
     "Define domain workflow state",
     "Define permission decisions",

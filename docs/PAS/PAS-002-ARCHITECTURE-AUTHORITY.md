@@ -217,7 +217,7 @@ Ownership records are governance metadata, not human-resource employee master da
 **Implementation:** `packages/architecture-authority/src/data/foundation-disposition.registry.ts` · `validators/validate-foundation-disposition.ts`
 **Slice gate:** Delivered (runtime) · registry edits → `foundation-registry-owner` only
 
-The foundation disposition registry tracks FDR/TIP/PAS delivery status for foundation-level architecture work.
+The foundation disposition registry tracks PAS delivery status for foundation-level architecture work.
 
 It answers:
 
@@ -352,7 +352,7 @@ Filesystem discovery of monorepo workspaces for registry parity and dependency s
 * Vendor SDK implementation.
 * Environment secrets.
 * Feature implementation logic.
-* Long-form ADR, PAS, FDR, or TIP narrative duplication.
+* Long-form ADR, PAS, or legacy delivery narrative duplication.
 
 ---
 
@@ -509,7 +509,7 @@ All architecture authority contracts must satisfy:
 16. No layer without dependency direction semantics.
 17. No drift entry without owner and status.
 18. No waiver without evidence and expiry or review condition.
-19. No long-form authority duplication outside PAS/ADR/FDR/TIP documents.
+19. No long-form authority duplication outside PAS/ADR/PAS documents.
 20. No circular dependency introduced by architecture authority.
 
 ---
@@ -548,7 +548,7 @@ Architecture authority may decide whether a dependency is legal. It must not dec
 
 Recommended order for new additions:
 
-1. Add or update ADR/PAS/FDR/TIP authority if the package boundary changes.
+1. Add or update ADR/PAS authority if the package boundary changes.
 2. Update package registry.
 3. Update layer registry.
 4. Update ownership registry.
@@ -600,7 +600,7 @@ A change is accepted only when all criteria pass.
 
 ## 11.3 Governance
 
-* ADR/PAS/FDR/TIP authority is linked where applicable.
+* ADR/PAS authority is linked where applicable.
 * Runtime truth matrix is updated when status changes.
 * Delivery index is updated when foundation disposition changes.
 * Waivers include owner, reason, evidence, and closure path.

@@ -5,14 +5,14 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   CONTEXT_INTEGRATION_FUNCTIONS,
   CONTEXT_INTEGRATION_WIRING,
   MULTI_TENANCY_CONTEXT_INTEGRATION_DIMENSIONS,
   MULTI_TENANCY_CONTEXT_INTEGRATION_FUNCTION_MARKERS,
   MULTI_TENANCY_CONTEXT_INTEGRATION_WIRING_MARKERS,
-  TIP_007_012_CONTEXT_INTEGRATION_SECTION,
+  MULTI_TENANCY_CONTEXT_INTEGRATION_SECTION,
 } from "../multi-tenancy-context-integration-registry.mts";
 
 export interface ContextIntegrationEnforcementViolation {
@@ -280,7 +280,7 @@ function collectDeliverySectionViolations(
   repoRoot: string
 ): ContextIntegrationEnforcementViolation[] {
   const violations: ContextIntegrationEnforcementViolation[] = [];
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryPath)) {
     return violations;
@@ -289,14 +289,14 @@ function collectDeliverySectionViolations(
   const deliveryContent = readFileSync(deliveryPath, "utf8");
   const section = extractSection(
     deliveryContent,
-    `## ${TIP_007_012_CONTEXT_INTEGRATION_SECTION}`
+    `## ${MULTI_TENANCY_CONTEXT_INTEGRATION_SECTION}`
   );
 
   if (section === null) {
     violations.push({
       rule: "delivery-section-missing",
       file: deliveryPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_CONTEXT_INTEGRATION_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_CONTEXT_INTEGRATION_SECTION}`,
     });
     return violations;
   }

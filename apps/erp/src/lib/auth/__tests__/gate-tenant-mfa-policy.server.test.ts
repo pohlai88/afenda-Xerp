@@ -46,6 +46,7 @@ function createTestSession(
       authUserId: "auth_user_1",
       email: "user@example.com",
       emailVerified: true,
+      enterpriseUserId: null,
       linkStatus: "linked",
       name: "User",
       userId: "user_1",

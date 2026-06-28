@@ -120,7 +120,7 @@ packages/appshell/src/
 packages/metadata-ui/src/     ← Metadata renderer components
 packages/ui/src/
   components/                 ← governed primitives
-  governance/                 ← TIP-004 runtime + resolver
+  governance/                 ← Governed UI runtime + resolver
 ```
 
 **Anti-patterns to flag:**
@@ -164,7 +164,7 @@ For every deviation found in Phase 10:
 | Class | Definition | Examples |
 |-------|-----------|---------|
 | **Critical** | Breaks governance, causes production failures, or violates PAS hard stops | "use client" on RSC layout, module mutable state in RSC, className on governed primitive |
-| **High** | Violates TIP-004 / PAS boundary, will fail CI, blocks merge | barrel imports, recharts static import, sequential awaits in RSC |
+| **High** | Violates Governed UI / PAS boundary, will fail CI, blocks merge | barrel imports, recharts static import, sequential awaits in RSC |
 | **Medium** | Architectural anti-pattern, accumulates tech debt | boolean prop explosion, inline component definitions, missing Suspense |
 | **Low** | Style inconsistency, improvement opportunity | naming convention, folder structure deviation, missing JSDoc |
 

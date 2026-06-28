@@ -1,5 +1,5 @@
 /**
- * ADR-0020 + TIP-008B Slice 4 — repo scaffold guard for reserved domain packages.
+ * ADR-0020 + Foundation phase 08 Slice 4 — repo scaffold guard for reserved domain packages.
  * Blocks PKG-R02–R05 package directories until ADR grants reusable runtime ownership.
  * `packages/inventory` retired — inventory persistence lives in @afenda/database + apps/erp.
  */

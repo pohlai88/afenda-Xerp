@@ -7,7 +7,7 @@ import {
 } from "../presentation/data/app-shell.notification.data";
 
 describe("AppShellNotificationDropdown", () => {
-  it("renders the trigger without TIP-004 consumer violations", () => {
+  it("renders the trigger without Governed UI consumer violations", () => {
     render(
       <AppShellNotificationDropdown
         trigger={<button type="button">Open notifications</button>}

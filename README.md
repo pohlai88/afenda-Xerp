@@ -137,7 +137,7 @@ Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript p
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}`.
 
-**Quality stack (TIP-009):**
+**Quality stack (Foundation phase 09):**
 
 | Tool           | Role                                                         |
 | -------------- | ------------------------------------------------------------ |

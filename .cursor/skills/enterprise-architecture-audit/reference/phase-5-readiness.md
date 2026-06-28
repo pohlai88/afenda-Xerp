@@ -11,7 +11,7 @@ Evaluate readiness with **Evidence**, **Partial**, or **Not evidenced** per row.
 | Multi Tenant | tenants table, RLS, resolver | | |
 | Multi Company | companies, legal entity context | | |
 | Multi Organization | organizations tree | | |
-| Multi Project | to-project-context, TIP-030 | | |
+| Multi Project | to-project-context, Foundation phase 30 | | |
 | Multi Team | org.type=team | | |
 | ERP Scale (module manifest) | entitlements + feature manifest | | |
 

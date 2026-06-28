@@ -28,11 +28,11 @@ export const MULTI_TENANCY_DOC_ENTERPRISE_ACCEPTANCE_MARKERS = [
   "Architecture acceptance:",
   "Consolidation scope is documented but not implemented as accounting logic",
   "Client-provided context IDs are treated as untrusted",
-  "No TIP-013 started",
+  "No Foundation phase 13 started",
 ] as const;
 
 /** Delivery doc H2 containing enterprise acceptance matrix. */
-export const TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION =
+export const MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SECTION =
   "Enterprise acceptance criteria checklist" as const;
 
 export const MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_DIMENSIONS = [
@@ -386,9 +386,9 @@ export const MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_CRITERIA = [
   {
     id: "architecture-no-tip-013",
     category: "architecture",
-    requirement: "No TIP-013 started",
+    requirement: "No Foundation phase 13 started",
     delegatedGates: ["check:multi-tenancy-dos-prohibitions"],
-    deliveryMarker: "No TIP-013 started",
+    deliveryMarker: "No Foundation phase 13 started",
   },
 ] as const satisfies readonly EnterpriseAcceptanceCriterion[];
 

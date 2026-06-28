@@ -59,7 +59,7 @@ Run **scoped gates first**. Expand to workspace gates only when the slice touche
 |-----------------|---------------------------|
 | `@afenda/kernel` | `pnpm quality:kernel-context-surface`; PAS-001 slice gates if applicable |
 | `@afenda/database` | `pnpm quality:migrations` — never hand-edit SQL |
-| `@afenda/ui` | `pnpm ui:guard` — TIP-004 governed primitives |
+| `@afenda/ui` | `pnpm ui:guard` — Governed UI governed primitives |
 | `@afenda/appshell` | `pnpm --filter @afenda/appshell test:run` |
 | `apps/erp` | `pnpm --filter @afenda/erp typecheck`; Next.js MCP `get_errors` if routes changed |
 | CSS in packages | `pnpm sync:package-css-dist` then `pnpm check:package-css-dist-sync` |

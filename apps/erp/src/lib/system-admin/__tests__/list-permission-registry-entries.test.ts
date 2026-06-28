@@ -7,7 +7,7 @@ import { isSystemAdminSectionId } from "../system-admin-sections";
 const DOMAIN_SEGMENT_PATTERN = /^[a-z0-9_]+$/;
 const ACTION_SEGMENT_PATTERN = /^[a-z0-9_]+$/;
 
-describe("listPermissionRegistryEntries (TIP-013 Slice 2)", () => {
+describe("listPermissionRegistryEntries (Foundation phase 13 Slice 2)", () => {
   it("returns every PERMISSION_REGISTRY leaf as domain, action, and key", () => {
     const entries = listPermissionRegistryEntries();
 

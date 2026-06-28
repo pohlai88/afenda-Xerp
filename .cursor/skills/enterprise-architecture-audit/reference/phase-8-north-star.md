@@ -20,8 +20,8 @@ Evaluate constitutional alignment. **Implementation recommendations permitted af
 | Semantic consistency | enterprise-knowledge | check:knowledge-conformance | | |
 | API contracts | ARCH-API | check:api-contracts | | |
 | Identity standards | PAS-001, ADR-0021+ | check:kernel-identity-governance | | |
-| Metadata standards | fdr-011/012 | metadata PKG tests | | |
-| Audit standards | fdr-013 | quality:erp-observability | | |
+| Metadata standards | PAS metadata slices | metadata PKG tests | | |
+| Audit standards | `@afenda/observability` | quality:erp-observability | | |
 
 ---
 
@@ -33,7 +33,7 @@ Compare runtime matrix rows to inspected source for in-scope areas.
 
 ### Architecture drift (Deliverable 12)
 
-Compare PAS/FDR status claims to gate-backed runtime.
+Compare PAS/PAS status claims to gate-backed runtime.
 
 ---
 

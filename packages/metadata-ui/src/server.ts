@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 server entry surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 07 server entry surface.
 
 export * from "./index.js";
 export type {

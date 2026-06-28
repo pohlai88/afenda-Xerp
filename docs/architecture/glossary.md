@@ -2,7 +2,7 @@
 
 > **Authority (meaning):** Accepted enterprise vocabulary lives in [`@afenda/enterprise-knowledge`](../../packages/enterprise-knowledge/) — see [PAS-004](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md). This glossary is a **synced representation** for human readers; when it conflicts with the Knowledge Atom registry, the registry wins until a slice updates this view.
 >
-> **Revision:** 2026-06-28 | PAS-004 representation demotion · TIP-007 / TIP-008 scope.
+> **Revision:** 2026-06-28 | PAS-004 representation demotion · Foundation phase 07 / Foundation phase 08 scope.
 >
 > <!-- knowledge-atom-ids: legal_entity, organization_unit, workspace, surface, payload, invariant, contract, metadata, double_entry, accounting_equation, organization_split, ifrs_10, tenant, entity_group, ownership_interest, consolidation_scope, operating_context, permission_scope, project, team, localization_context, workflow_context, business_reference, human_reference -->
 
@@ -46,7 +46,7 @@ An Entity Group is the corporate umbrella that ties related Legal Entities (comp
 
 **Must not be confused with Organization Unit.** Entity Groups sit above Legal Entities; branches and departments live inside companies.
 
-**Schema status:** Authority foundation — `entity_groups` table implemented (TIP-008). Do not implement consolidation accounting logic yet; only prepare the authority model.
+**Schema status:** Authority foundation — `entity_groups` table implemented (Foundation phase 08). Do not implement consolidation accounting logic yet; only prepare the authority model.
 
 **Example corporate structures an Entity Group can represent:**
 - Holding company + subsidiaries
@@ -114,7 +114,7 @@ An Ownership Interest record links a parent (investor) Legal Entity to a child/i
 
 **Must not be confused with Organization Unit.** Ownership is between companies, not operational org tree nodes.
 
-**Schema status:** Authority foundation — `legal_entity_ownership` table implemented (TIP-008).
+**Schema status:** Authority foundation — `legal_entity_ownership` table implemented (Foundation phase 08).
 Do not implement consolidation accounting logic in the current slice; only prepare the authority model.
 
 ---
@@ -161,7 +161,7 @@ A Team is a named group of platform users assembled for a specific operational o
 **Examples:** "Invoice approval team", "Warehouse picking team", "ERP implementation project team"
 
 **Current mapping:** Teams are currently modelled as `organizations.type = "team"` within the Organization tree.
-A dedicated `teams` table is planned for TIP-030 (Project Management) to allow cross-entity and cross-org-unit teams.
+A dedicated `teams` table is planned for Foundation phase 30 (Project Management) to allow cross-entity and cross-org-unit teams.
 
 **RLS scope:** A user's Team membership grants access to the tasks, documents, and records assigned to that Team within the allowed Legal Entity and Organization Unit boundary.
 
@@ -180,7 +180,7 @@ A Project is a bounded initiative with its own budget, timeline, tasks, approval
 
 **Examples:** "Factory expansion Phase 2", "Q3 product launch", "New customer onboarding"
 
-**Schema status:** Planned for TIP-030 (Project Management, Phase 3). Do not create `projects` table before TIP-030 is approved.
+**Schema status:** Planned for Foundation phase 30 (Project Management, Phase 3). Do not create `projects` table before Foundation phase 30 is approved.
 
 **Must not be confused with Team or Organization Unit.** A Project is a bounded initiative with budget and lifecycle — not a permanent org structure or people roster.
 
@@ -281,18 +281,18 @@ A Consolidation Scope defines which Legal Entities are included in a consolidate
 | Effective dates | Only ownership interests active at the reporting date are included |
 
 **Phase boundary:**
-- **Now (Phase 1 / TIP-008):** Prepare the authority model — Entity Group, Legal Entity, and Ownership Interest tables. Data is captured; no arithmetic is run.
-- **Phase 2 (TIP-013+):** Consolidation arithmetic — elimination entries, minority interest calculation, currency translation.
+- **Now (Phase 1 / Foundation phase 08):** Prepare the authority model — Entity Group, Legal Entity, and Ownership Interest tables. Data is captured; no arithmetic is run.
+- **Phase 2 (Foundation phase 13+):** Consolidation arithmetic — elimination entries, minority interest calculation, currency translation.
 
 **Do not implement consolidation accounting logic in this slice.**
 
-**Resolver status (TIP-008A Slice 1–2):** `deriveConsolidationScopeContext` in `packages/kernel/src/context/consolidation-scope-resolution.server.ts` derives scope metadata from effective-dated ownership interests. Duplicate investees use `CONSOLIDATION_SCOPE_INVESTEE_DEDUP_POLICY` (`last_wins_by_input_order`). ERP wiring: `apps/erp/src/lib/context/resolve-consolidation-scope.server.ts`.
+**Resolver status (Foundation phase 08 Slice 1–2):** `deriveConsolidationScopeContext` in `packages/kernel/src/context/consolidation-scope-resolution.server.ts` derives scope metadata from effective-dated ownership interests. Duplicate investees use `CONSOLIDATION_SCOPE_INVESTEE_DEDUP_POLICY` (`last_wins_by_input_order`). ERP wiring: `apps/erp/src/lib/context/resolve-consolidation-scope.server.ts`.
 
 **Must not be confused with Entity Group.** Consolidation Scope is a derived reporting boundary at a point in time — not the corporate group definition itself.
 
 ---
 
-## Business Master Data (TIP-008B)
+## Business Master Data (Foundation phase 08)
 
 **Operational business records — distinct from enterprise hierarchy (Tenant, Entity Group, Legal Entity).**
 
@@ -306,7 +306,7 @@ Business master data entities are governed **party and catalog records** used by
 | **Employee** | HRM Authority | `@afenda/hrm` (PKG-R03) | Tenant + company; employee number unique per company |
 | **Warehouse** | Inventory Authority | `@afenda/inventory` (PKG-R02) | Tenant + company; warehouse code unique per company |
 
-**TBD (future ADR — do not scaffold packages):** Asset (Platform / TPM), Document (Platform document service). **Project** defers to TIP-030 PM domain.
+**TBD (future ADR — do not scaffold packages):** Asset (Platform / TPM), Document (Platform document service). **Project** defers to Foundation phase 30 PM domain.
 
 **Must not be confused with Legal Entity / Company.** A Customer is a business party; a Legal Entity is a registered statutory body. A Warehouse is a storage location inside a company; it is not an Organization Unit type unless explicitly mapped in domain TIPs.
 
@@ -319,22 +319,22 @@ Business master data entities are governed **party and catalog records** used by
 | Concept | Schema table | Status |
 |---------|-------------|--------|
 | Tenant | `tenants` | Implemented |
-| Entity Group | `entity_groups` | Authority foundation — schema + services (TIP-008) |
+| Entity Group | `entity_groups` | Authority foundation — schema + services (Foundation phase 08) |
 | Legal Entity / Company | `companies` | Implemented |
-| Ownership Interest | `legal_entity_ownership` | Authority foundation — schema + services (TIP-008) |
+| Ownership Interest | `legal_entity_ownership` | Authority foundation — schema + services (Foundation phase 08) |
 | Organization Unit | `organizations` | Implemented (types: `branch`, `department`, `company_root`, `team`) |
-| Team | `organizations` (`type = "team"`) | Partial — dedicated table planned TIP-030 |
-| Project | — | **Planned — TIP-030** |
+| Team | `organizations` (`type = "team"`) | Partial — dedicated table planned Foundation phase 30 |
+| Project | — | **Planned — Foundation phase 30** |
 | Workspace | Runtime context only | N/A — derived |
 | Surface | Runtime string ID | N/A — metadata config |
 | RLS Grant | `memberships` + Supabase RLS | Implemented (application-level); DB-level in progress |
-| Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | **Implemented (scope metadata only)** — `consolidation-scope-resolution.server.ts` + ERP resolver (TIP-008A) |
-| Customer | — (PKG-R04 `@afenda/crm`) | **Authority only** — kernel wire contracts (TIP-008B) |
-| Supplier | — (PKG-R05 `@afenda/procurement`) | **Authority only** — kernel wire contracts (TIP-008B) |
-| Product | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (TIP-008B) |
-| Employee | — (PKG-R03 `@afenda/hrm`) | **Authority only** — kernel wire contracts (TIP-008B) |
-| Warehouse | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (TIP-008B) |
+| Consolidation Scope | Derived from `entity_groups` + `legal_entity_ownership` | **Implemented (scope metadata only)** — `consolidation-scope-resolution.server.ts` + ERP resolver (Foundation phase 08) |
+| Customer | — (PKG-R04 `@afenda/crm`) | **Authority only** — kernel wire contracts (Foundation phase 08) |
+| Supplier | — (PKG-R05 `@afenda/procurement`) | **Authority only** — kernel wire contracts (Foundation phase 08) |
+| Product | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (Foundation phase 08) |
+| Employee | — (PKG-R03 `@afenda/hrm`) | **Authority only** — kernel wire contracts (Foundation phase 08) |
+| Warehouse | — (PKG-R02 `@afenda/inventory`) | **Authority only** — kernel wire contracts (Foundation phase 08) |
 
 ---
 
-*Last updated: 2026-06-24 — TIP-008A consolidation resolver + TIP-008B business master data authority map.*
+*Last updated: 2026-06-24 — Foundation phase 08 consolidation resolver + Foundation phase 08 business master data authority map.*

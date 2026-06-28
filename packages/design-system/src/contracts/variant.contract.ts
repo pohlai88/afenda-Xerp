@@ -70,7 +70,7 @@ export const variantContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "meaning",
-  owner: "TIP-004 variant contract",
+  owner: "Governed UI variant contract",
   prohibitedResponsibility: [
     "Define raw CSS values",
     "Define component behavior",

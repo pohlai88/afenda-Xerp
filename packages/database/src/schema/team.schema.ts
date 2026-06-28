@@ -1,5 +1,5 @@
 /**
- * Team authority under a tenant (TIP-030 foundation).
+ * Team authority under a tenant (Foundation phase 30 foundation).
  *
  * Writes: `../team/team.service.ts`
  */

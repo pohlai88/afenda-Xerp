@@ -66,7 +66,7 @@ function readAppSource(relativePath: string): string {
   return readFileSync(join(appSrcRoot, relativePath), "utf8");
 }
 
-describe("TIP-013 acceptance criteria", () => {
+describe("Foundation phase 13 acceptance criteria", () => {
   beforeEach(() => {
     auditMocks.recordErpAuditEvent.mockClear();
     vi.mocked(getAfendaAuthSession).mockResolvedValue({
@@ -83,6 +83,7 @@ describe("TIP-013 acceptance criteria", () => {
         authUserId: "auth_acceptance_test",
         email: "acceptance@example.com",
         emailVerified: true,
+        enterpriseUserId: null,
         linkStatus: "linked",
         name: "Acceptance Test",
         userId: unbrand(API_TEST_ACTOR_ID),

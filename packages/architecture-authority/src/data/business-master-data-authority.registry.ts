@@ -1,5 +1,5 @@
 /**
- * TIP-008B — frozen business master data ownership map.
+ * Foundation phase 08 — frozen business master data ownership map.
  * Serializable registry only; no persistence, authorization, or domain packages.
  *
  * Owner: @afenda/architecture-authority (PAS-002 §4.10 · ADR-0020). Relocated from @afenda/kernel (slice K2).

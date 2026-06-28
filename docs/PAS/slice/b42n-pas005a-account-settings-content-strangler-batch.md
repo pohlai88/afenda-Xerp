@@ -19,7 +19,7 @@ Handoff from: docs/PAS/slice/b42n-pas005a-account-settings-content-strangler-bat
 2. Allowed layer— packages/appshell/src/presentation/wrappers/account-settings/** · packages/appshell/src/presentation/wrappers/presentation-mcp-account-settings-content.registry.ts · packages/appshell/src/__tests__/** · packages/shadcn-studio/src/registry/studio-block-parity.registry.ts · docs/PAS/slice/b42n-*.md · docs/PAS/pas-status-index.md · docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row)
 3. Files        — account-settings/content/**/*.wrapper.tsx (23) · presentation-mcp-account-settings-content.registry.ts · presentation-mcp-wrapper-b42n.test.ts · presentation-mcp-wrapper.registry.test.ts (aggregate) · studio-block-parity.registry.ts · slice doc · pas-status-index · PAS-005A §14
 4. Prohibited   — foundation-disposition.registry.ts · replace account-settings with raw MCP blocks · copy MCP TSX into appshell · break AppShellAccountSettings01–07 prop types or ERP tests · change index.ts public exports unless thin re-export required
-5. Authority    — PAS-005A · ADR-0017 · TIP-004 consumer rules · B42i/B42m strangler registry · account-settings governed blocks under presentation/blocks/
+5. Authority    — PAS-005A · ADR-0017 · Governed UI consumer rules · B42i/B42m strangler registry · account-settings governed blocks under presentation/blocks/
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio build
    pnpm --filter @afenda/shadcn-studio test:run

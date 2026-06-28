@@ -33,7 +33,7 @@ export const recipeContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "styling composition",
-  owner: "TIP-004 recipe contract",
+  owner: "Governed UI recipe contract",
   prohibitedResponsibility: [
     "Define component behavior",
     "Define raw design values",

@@ -1,6 +1,6 @@
 /**
  * Resolved permission scope passed to `requirePermission()`.
- * Wire interfaces use plain string ids for JSON serialization (TIP-007).
+ * Wire interfaces use plain string ids for JSON serialization (Foundation phase 07).
  *
  * Grant vocabulary (`PermissionGrantScopeType`, elevation flags) remains in `@afenda/kernel`.
  */

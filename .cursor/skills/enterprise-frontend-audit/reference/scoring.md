@@ -174,7 +174,7 @@ Surfaces counted: pages, forms, tables, navigation, commands,
 | Zero Critical drift deviations | 3.0 |
 | Zero High drift deviations | 2.5 |
 | Zero Medium drift deviations | 2.0 |
-| PAS/ADR/FDR fully referenced in implementation decisions | 1.5 |
+| PAS/ADR/PAS fully referenced in implementation decisions | 1.5 |
 | Foundation registry lanes correct | 1.0 |
 | **Maximum** | **10.0** |
 
@@ -221,6 +221,6 @@ MetadataCoverage_normalized = MetadataCoverage% / 10
 | Severity | Definition | SLA |
 |----------|-----------|-----|
 | **Critical** | Breaks governance, production failure, or PAS hard stop | Fix before this PR merges |
-| **High** | TIP-004 violation, major a11y gap, architecture boundary breach | Fix within current sprint |
+| **High** | Governed UI violation, major a11y gap, architecture boundary breach | Fix within current sprint |
 | **Medium** | Anti-pattern accumulating debt, moderate a11y gap | Fix within next sprint |
 | **Low** | Style inconsistency, improvement opportunity, naming drift | Backlog with priority |

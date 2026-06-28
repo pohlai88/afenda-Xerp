@@ -21,7 +21,7 @@ export const ACCOUNTING_PACKAGE_LIFECYCLE_PHASES = [
 export type AccountingPackageLifecyclePhase =
   (typeof ACCOUNTING_PACKAGE_LIFECYCLE_PHASES)[number];
 
-/** Current PKG-R01 lifecycle phase — runtime requires separate ADR (TIP-015+). */
+/** Current PKG-R01 lifecycle phase — runtime requires separate ADR (Foundation phase 15+). */
 export const ACCOUNTING_PACKAGE_LIFECYCLE: AccountingPackageLifecyclePhase =
   "contracts-only";
 

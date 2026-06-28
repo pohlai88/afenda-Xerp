@@ -174,7 +174,7 @@ semantic tone. **Never** copy `green-600`, `amber-600`, or `sky-600` into produc
 
 ### Status badge pattern (template → Afenda)
 
-Template raw (TIP-004 violation in Afenda consumers):
+Template raw (Foundation phase 04 violation in Afenda consumers):
 ```tsx
 // ❌ Reference template pattern — do not copy into Afenda consumers
 <Badge className={cn('rounded-sm border-none', {

@@ -35,7 +35,7 @@ A function or type name can trigger review, but final severity must be assigned 
 1. Canonical PAS
 2. Package authority skill (`Hard stops`, `Kernel must never own`)
 3. Current source pattern and context
-4. Relevant FDR / registry entry if present
+4. Relevant PAS / registry entry if present
 
 Pattern names create **suspicion**. PAS / current source authority decides **violation**.
 
@@ -100,7 +100,7 @@ Example for @afenda/kernel:
 ```text
 - Fiscal calendar / fiscal period platform IDs:
   Prohibited as general platform IDs unless canonical PAS approves them.
-  If found inside approved `erp-domain/accounting` contracts, classify as REVIEW and verify against PAS/FDR.
+  If found inside approved `erp-domain/accounting` contracts, classify as REVIEW and verify against PAS/PAS.
 
 - Locale/timezone/date/number selected values:
   Kernel may own vocabulary and LocalizationContext shape.
@@ -231,7 +231,7 @@ Check whether the same type, function, or vocabulary exists in:
 
 - The target package AND another live package in the monorepo
 
-When a duplicate is found, identify which is canonical per PAS/FDR/registry and flag the other as `DRIFT` or `WARN`. Do not automatically assume either is correct — verify against current PAS authority.
+When a duplicate is found, identify which is canonical per PAS/PAS/registry and flag the other as `DRIFT` or `WARN`. Do not automatically assume either is correct — verify against current PAS authority.
 
 ---
 
@@ -274,9 +274,9 @@ Output a table per Dimension with a row per finding:
 | A | `resolve*Currency()` | source file | Currency decision red flag; verify if pure projection | REVIEW | Finance/accounting authority if decision logic |
 | B | `FiscalCalendarId` general platform | source file | General platform fiscal ID not approved | BLOCK/REVIEW | Finance/accounting authority; REVIEW if inside approved erp-domain/accounting |
 | B | Operational snapshot type | source file | Diagnostic contract; verify PAS approval | REVIEW | ERP/observability if runtime telemetry |
-| F | Duplicate vocabulary | two packages | Duplicate authority | WARN/BLOCK | Canonical PAS/FDR owner |
+| F | Duplicate vocabulary | two packages | Duplicate authority | WARN/BLOCK | Canonical PAS/PAS owner |
 
-For `Correct home`: prefer `approved Finance/Accounting authority surface, per current PAS/FDR/registry` over naming a specific package, unless the canonical owner is unambiguously confirmed in PAS or registry.
+For `Correct home`: prefer `approved Finance/Accounting authority surface, per current PAS/PAS/registry` over naming a specific package, unless the canonical owner is unambiguously confirmed in PAS or registry.
 
 ---
 
@@ -307,7 +307,7 @@ Close with a ranked list of the three highest-priority findings, each as a singl
 Format:
 
 ```text
-Priority 1 (BLOCK): [item] — [why it violates PAS §X]; verify against [PAS section/FDR] before removing.
+Priority 1 (BLOCK): [item] — [why it violates PAS §X]; verify against [PAS section/PAS] before removing.
 Priority 2 (REVIEW): [item] — [suspicion]; requires PAS authority check before labeling final severity.
 Priority 3 (WARN): [item] — [drift risk]; schedule cleanup slice after authority confirmation.
 ```

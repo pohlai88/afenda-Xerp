@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_FINAL_OUTPUT_MINIMUM_DIMENSION_SCORE,
   MULTI_TENANCY_FINAL_OUTPUT_SECTIONS,
@@ -51,12 +51,12 @@ export function collectFinalOutputFormatViolations(
 ): FinalOutputFormatViolation[] {
   const violations: FinalOutputFormatViolation[] = [];
 
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
   if (!existsSync(deliveryPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryPath,
-      message: `Final output format requires ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Final output format requires ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
     return violations;
   }

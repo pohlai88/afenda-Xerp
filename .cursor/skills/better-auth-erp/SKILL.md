@@ -1,7 +1,7 @@
 ---
 name: better-auth-erp
 description: >-
-  Complete Better Auth integration guide for @afenda/auth (TIP-004). Covers the
+  Complete Better Auth integration guide for @afenda/auth (Governed UI). Covers the
   auth/permission boundary, session contract, server-side getAfendaAuthSession /
   requireAfendaAuthSession, client authClient hooks, auth singleton fingerprinting,
   audit hook pattern with createAuthMiddleware, platform actor resolution, env vars,
@@ -13,14 +13,14 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Better Auth — `@afenda/auth` (TIP-004)
+# Better Auth — `@afenda/auth` (Governed UI)
 
 ## Auth vs permission boundary
 
 | Layer | Package | Question |
 |-------|---------|----------|
-| Authentication (TIP-004) | `@afenda/auth` | **Who** is this user? (identity, session) |
-| Authorization (TIP-005) | `@afenda/permissions` | **May** this actor act in this scope? |
+| Authentication (Governed UI) | `@afenda/auth` | **Who** is this user? (identity, session) |
+| Authorization (Foundation phase 05) | `@afenda/permissions` | **May** this actor act in this scope? |
 
 Better Auth confirms identity only. It never stores tenant/company/role fields. The `AfendaAuthSession` contract enforces this boundary.
 

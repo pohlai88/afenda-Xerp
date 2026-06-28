@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 client entry surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 07 client entry surface.
 
 export type {
   MetadataActionBarProps,

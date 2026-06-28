@@ -35,7 +35,7 @@ function assertGovernedComponentName(
 ): asserts componentName is GovernedUiComponentName {
   if (!isGovernedPrimitive(componentName)) {
     enforceGovernance(
-      `TIP-004B primitive governance violation. Unknown governed component "${componentName}". Register it in GOVERNED_PRIMITIVE_REGISTRY before calling resolvePrimitiveGovernance().`
+      `Governed UI primitive policy violation. Unknown governed component "${componentName}". Register it in GOVERNED_PRIMITIVE_REGISTRY before calling resolvePrimitiveGovernance().`
     );
   }
 }
@@ -46,7 +46,7 @@ function assertPrimitiveSlotAllowed(
 ): void {
   if (!definition.slots.includes(slot)) {
     enforceGovernance(
-      `TIP-004B primitive slot violation. Component "${definition.componentName}" does not allow slot "${slot}". Allowed slots: ${definition.slots.join(
+      `Foundation phase 04 primitive slot violation. Component "${definition.componentName}" does not allow slot "${slot}". Allowed slots: ${definition.slots.join(
         ", "
       )}.`
     );
@@ -140,7 +140,7 @@ function resolveSlotClassName(
 
     if (slotClassName === undefined) {
       return enforceGovernanceOr(
-        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
+        `Governed UI primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
         definition.slotClassNames[slot] ?? ""
       );
     }
@@ -209,7 +209,7 @@ function resolveDataSlot(
 
     if (dataSlot === undefined) {
       return enforceGovernanceOr(
-        `TIP-004B primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
+        `Governed UI primitive slot key violation. Component "${definition.componentName}" does not define slotKey "${input.slotKey}".`,
         definition.componentName.toLowerCase()
       );
     }
@@ -260,7 +260,7 @@ function assertCardLayoutSize(input: PrimitiveGovernanceInput): void {
 
   if (!isGovernedCardLayoutSize(input.layoutSize)) {
     enforceGovernance(
-      `TIP-004B card layout size violation. Unsupported layout size "${input.layoutSize}". Allowed: default, sm.`
+      `Foundation phase 04 card layout size violation. Unsupported layout size "${input.layoutSize}". Allowed: default, sm.`
     );
   }
 }

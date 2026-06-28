@@ -79,7 +79,7 @@ pnpm test:ui
 
 ---
 
-## UI governance (TIP-004 gates)
+## UI governance (Foundation phase 04 gates)
 
 ```bash
 # Gate D — fastest: full-tree in-process scan, < 2 s

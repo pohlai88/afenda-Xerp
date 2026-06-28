@@ -24,7 +24,7 @@ export const MODULE_PLACEHOLDER_SHELL_DESCRIPTION =
   "Shell placeholder surface. Business domain logic arrives in a future delivery." as const;
 
 export const MODULE_PLACEHOLDER_STANDARD_DOMAIN_BODY =
-  "This module workspace is registered in the feature manifest. Domain capabilities will appear here after the module delivery TIP completes." as const;
+  "This module workspace is registered in the feature manifest. Domain capabilities will appear here after the module PAS slice completes." as const;
 
 export const MODULE_PLACEHOLDER_ACCOUNTING_DOMAIN_BODY =
   "Accounting remains a shell placeholder until the Phase 9 Accounting Readiness Gate passes. Domain capabilities will appear here after Accounting Core delivery — no transaction or financial-record UI in this surface." as const;

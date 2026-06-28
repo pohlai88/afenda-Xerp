@@ -65,7 +65,7 @@ describe("motion governance", () => {
 
   it("rejects unknown runtime motion intent", () => {
     expect(() => getMotionIntent("bounce" as never)).toThrow(
-      "TIP-004 motion policy violation"
+      "Governed UI motion policy violation"
     );
   });
 });

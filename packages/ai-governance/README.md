@@ -76,7 +76,7 @@ import { validateAiGovernance } from "@afenda/ai-governance";
 import type { AiChangeScopeManifest } from "@afenda/ai-governance";
 
 const manifest: AiChangeScopeManifest = {
-  tip: "TIP-012",
+  tip: "Foundation phase 12",
   adr: "ADR-0001",
   allowedPaths: ["packages/execution/**", "packages/kernel/**"],
   forbiddenPaths: ["packages/design-system/**", "packages/auth/**"],

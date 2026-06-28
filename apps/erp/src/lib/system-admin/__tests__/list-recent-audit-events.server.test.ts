@@ -54,7 +54,7 @@ function wireDefaultQueryChain(): void {
   });
 }
 
-describe("mapAuditEventRow (TIP-013 Slice 3)", () => {
+describe("mapAuditEventRow (Foundation phase 13 Slice 3)", () => {
   it("maps database row fields to serializable admin audit event row", () => {
     const row = mapAuditEventRow({
       id: "audit-001",
@@ -96,7 +96,7 @@ describe("mapAuditEventRow (TIP-013 Slice 3)", () => {
   });
 });
 
-describe("listRecentAuditEvents (TIP-013 Slice 3)", () => {
+describe("listRecentAuditEvents (Foundation phase 13 Slice 3)", () => {
   beforeEach(() => {
     dbMocks.select.mockReset();
     dbMocks.from.mockReset();

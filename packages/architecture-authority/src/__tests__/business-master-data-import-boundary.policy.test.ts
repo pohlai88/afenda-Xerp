@@ -35,7 +35,7 @@ function listTypeScriptFiles(directory: string): string[] {
   return files;
 }
 
-describe("@afenda/architecture-authority business master data import boundary (TIP-008B Slice 7)", () => {
+describe("@afenda/architecture-authority business master data import boundary (Foundation phase 08 Slice 7)", () => {
   it("rejects forbidden persistence and application imports", () => {
     for (const forbidden of BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES) {
       expect(() => assertBusinessMasterDataImportBoundary(forbidden)).toThrow(

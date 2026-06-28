@@ -1,5 +1,5 @@
 /**
- * Platform rollout store — feature flags and kill switches (TIP-008).
+ * Platform rollout store — feature flags and kill switches (Foundation phase 08).
  *
  * Writes: `../entitlement/rollout-sync.service.ts`
  * Reads: `../entitlement/rollout-load.service.ts`

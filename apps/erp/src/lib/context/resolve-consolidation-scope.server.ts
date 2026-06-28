@@ -14,7 +14,7 @@ export interface ResolvedConsolidationScope {
 }
 
 /**
- * Governed ERP boundary for consolidation scope (TIP-008A).
+ * Governed ERP boundary for consolidation scope (Foundation phase 08).
  * Loads ownership interests from database lookup services and derives scope metadata only.
  */
 export async function resolveConsolidationScope(input: {

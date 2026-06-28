@@ -6,7 +6,7 @@ export interface FeatureManifestContract {
   readonly requiredEntitlements: readonly string[];
 }
 
-/** @deprecated Prefer `ERP_MODULE_MANIFEST` — retained for TIP-008 backward compatibility. */
+/** @deprecated Prefer `ERP_MODULE_MANIFEST` — retained for Foundation phase 08 backward compatibility. */
 export const featureManifests = ERP_MODULE_MANIFEST.filter((entry) =>
   ["accounting", "mrp", "ai_copilot"].includes(entry.moduleId)
 ).map((entry) => ({

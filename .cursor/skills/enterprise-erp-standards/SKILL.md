@@ -1,6 +1,6 @@
 ---
 name: enterprise-erp-standards
-description: Encodes SAP/Oracle delivery discipline as concrete Afenda guardrails — 30-point enterprise readiness scoring, 10 enterprise gates (G1–G10), Clean Core levels A–D, ISO/IEC 25010 NFRs, DORA targets, SoD evidence, and package-by-package targets. Use before touching red-lane or amber-lane packages, when evaluating Phase 9 readiness, or when authoring FDR docs at enterprise 9.5 benchmark. Full scoring and package targets in write-fdr/ENTERPRISE-BENCHMARK.md.
+description: Encodes SAP/Oracle delivery discipline as concrete Afenda guardrails — 30-point enterprise readiness scoring, 10 enterprise gates (G1–G10), Clean Core levels A–D, ISO/IEC 25010 NFRs, DORA targets, SoD evidence, and package-by-package targets. Use before touching red-lane or amber-lane packages, when evaluating Phase 9 readiness, or when authoring PAS docs at enterprise 9.5 benchmark. Full scoring and package targets in pas-slice-planner/ENTERPRISE-BENCHMARK.md.
 ---
 
 # Enterprise ERP Standards (SAP / Oracle Benchmark)
@@ -29,13 +29,13 @@ Afenda maps each enterprise standard to a **concrete command or registry state**
 
 The correct benchmark is not "do we have every SAP/Oracle feature?" It is whether we match their **delivery discipline**:
 
-| Enterprise discipline | SAP / Oracle equivalent | Afenda FDR guardrail |
+| Enterprise discipline | SAP / Oracle equivalent | Afenda PAS guardrail |
 | --- | --- | --- |
-| Business requirement traceability | SAP Blueprint / Oracle BRD-FDD | FDR §BRD traceability: BRD → AC → DoD → gate |
+| Business requirement traceability | SAP Blueprint / Oracle BRD-FDD | PAS §BRD traceability: BRD → AC → DoD → gate |
 | Clean Core | SAP RISE Clean Core | No local constants, no deep imports, no consumer-side authority |
 | Extension classification | SAP CEMLI / Oracle extension model | Every change classified: config / extension / integration |
 | Transport safety | SAP CTS / Oracle migration control | §Rollback strategy + upgrade path required |
-| Non-functional controls | ISO 25010 / enterprise NFR | FDR §NFR: performance, security, reliability, maintainability |
+| Non-functional controls | ISO 25010 / enterprise NFR | PAS §NFR: performance, security, reliability, maintainability |
 | Security & SoD | SAP GRC / Oracle roles | RBAC, tenant scope, RLS, audit proof, §SoD evidence |
 | Go-live readiness | SOLMAN / Oracle deployment checklist | §Knowledge transfer + runbook + observability |
 
@@ -54,14 +54,14 @@ The correct benchmark is not "do we have every SAP/Oracle feature?" It is whethe
 | SAP Solution Documentation (SOLMAN) | Docs match runtime | `pnpm check:documentation-drift` |
 | SAP AIF integration contracts | Documented API envelopes | `pnpm check:api-contracts` |
 | Oracle CEMLI classification | Customization lane documented | `pnpm check:foundation-disposition` |
-| Oracle FDD testable AC | Gherkin + DoD with gates | `write-fdr` §4 / registry `gates` field |
+| Oracle FDD testable AC | Gherkin + DoD with gates | `pas-slice-planner` §4 / registry `gates` field |
 | Oracle SoD | No self-approval of mutations | Kernel `ApprovalContext` (amber-lane — not Phase 9 blocker) |
 | Oracle Data Security | Cross-company isolation | `pnpm check:database-tenant-rls-coverage` |
 | Oracle Advanced Controls | Audit on sensitive mutations | `pnpm quality:erp-observability` + PKG013_AUDIT gates |
 | Oracle Fusion REST | Envelope, errors, pagination | `pnpm check:api-contracts` |
 | SAP Activate Q-Gate CQC | Phase checkpoint before next delivery phase | `pnpm check:foundation-disposition` + `pnpm check:documentation-drift` |
-| Oracle FDD BRD traceability | Requirement → AC → DoD → gate chain documented | FDR §BRD traceability table (write-fdr §13) |
-| ISO/IEC 25010:2023 NFRs | Product quality characteristics with targets | FDR §NFR section + `pnpm ci:biome` + `pnpm typecheck` |
+| Oracle FDD BRD traceability | Requirement → AC → DoD → gate chain documented | PAS §BRD traceability table (pas-slice-planner §13) |
+| ISO/IEC 25010:2023 NFRs | Product quality characteristics with targets | PAS §NFR section + `pnpm ci:biome` + `pnpm typecheck` |
 | DORA elite slice velocity | Change lead time < 1 day for green-lane slices | Slice delivered in single session; gates exit 0 |
 
 ---
@@ -89,7 +89,7 @@ Accounting agents may run only when **all** pass:
 
 Do **not** claim completion when any of these are true:
 
-- Any `red-lane` entry exists without FDR §Remaining gaps closure plan.
+- Any `red-lane` entry exists without PAS §Remaining gaps closure plan.
 - A nav item or registry claims a route that has no `page.tsx` or API handler.
 - A consumer defines local permission constants instead of `@afenda/permissions`.
 - Server actions resolve tenant scope from session without `resolveOperatingContext()`.
@@ -135,7 +135,7 @@ Target for Phase 9 sign-off: **4+ on all dimensions for green-lane entries**; re
 
 | Lane | SAP analog | Oracle analog | Agent rule |
 | --- | --- | --- | --- |
-| `red-lane` | ATC blocker + transport hold | CEMLI hold | Close FDR §Remaining gaps first — no implementation |
+| `red-lane` | ATC blocker + transport hold | CEMLI hold | Close PAS §Remaining gaps first — no implementation |
 | `amber-lane` | Bounded correction transport | Limited-scope CR | Gap closure only — no scope expansion |
 | `green-lane` | Released transport | Production-ready | Consume; run maintenance gates |
 | `blue-lane` | Sandbox namespace | Incubation pod | No production dependency |
@@ -146,7 +146,7 @@ Target for Phase 9 sign-off: **4+ on all dimensions for green-lane entries**; re
 
 ## 8 · Per-domain control mapping
 
-| FDR domain | SAP control | Oracle control | Required gates |
+| PAS domain | SAP control | Oracle control | Required gates |
 | --- | --- | --- | --- |
 | `system-admin` | Auth objects + audit | Advanced Controls | `check:system-admin-mutation-audit`, `quality:erp-observability` |
 | `operating-context` | HANA RLS | Data Security | `check:multi-tenancy-context-integration`, RLS coverage |
@@ -164,7 +164,7 @@ Target for Phase 9 sign-off: **4+ on all dimensions for green-lane entries**; re
 
 ## 9 · Completion Report enterprise attestation
 
-Every §11 on foundation/FDR work must include:
+Every §11 on foundation/PAS work must include:
 
 ```text
 Enterprise attestation:
@@ -187,7 +187,7 @@ Enterprise attestation:
 
 ## 10 · Clean Core level analog (SAP RISE extensibility)
 
-Every FDR must declare its Clean Core analog level in the metadata table. Levels must be determined by evidence, not by declaration.
+Every PAS slice must declare its Clean Core analog level in the metadata table. Levels must be determined by evidence, not by declaration.
 
 | Level | Meaning | Allowed for red-lane / gate-critical? |
 | --- | --- | --- |
@@ -196,20 +196,20 @@ Every FDR must declare its Clean Core analog level in the metadata table. Levels
 | **C** | Tactical workaround, bounded and tracked, `prohibited[]` referenced | Amber-lane only — not gate-critical |
 | **D** | Local hack, duplicate constant, private import, undocumented runtime behaviour | No — stop |
 
-**Hard rule: no red-lane or gate-critical FDR may be Clean Core C or D.**
+**Hard rule: no red-lane or gate-critical PAS slice may be Clean Core C or D.**
 
-A drop in level during a slice (e.g. A→B) must be justified in FDR §Impact analysis.
+A drop in level during a slice (e.g. A→B) must be justified in PAS §Impact analysis.
 
 ---
 
 ## 11 · ISO/IEC 25010:2023 NFR characteristic mapping
 
-Map product-quality characteristics to Afenda gates. FDR §NFR must document targets for applicable rows.
+Map product-quality characteristics to Afenda gates. PAS §NFR must document targets for applicable rows.
 
 | Characteristic | Subcharacteristic focus | Afenda gate / evidence |
 | --- | --- | --- |
 | Functional suitability | Completeness, correctness | Gherkin AC + `pnpm --filter <pkg> test:run` |
-| Performance efficiency | Time behaviour | P99 target in FDR §NFR; load test or benchmark path |
+| Performance efficiency | Time behaviour | P99 target in PAS §NFR; load test or benchmark path |
 | Compatibility | Interoperability, co-existence | `pnpm quality:boundaries`; backward-compat test |
 | Usability | Accessibility, operability | `pnpm ui:guard` |
 | Reliability | Fault tolerance, recoverability | Retry/idempotency test; rollback in §Rollback strategy |
@@ -230,13 +230,13 @@ Slice velocity targets aligned with DORA research (2026 edition).
 | High | < 1 week | Weekly | < 10% | < 1 day |
 | Medium | < 1 month | Monthly | < 15% | < 1 week |
 
-**FDR slice targets:** green-lane → Elite; amber-lane → High; red-lane → close gaps before velocity claims.
+**PAS slice targets:** green-lane → Elite; amber-lane → High; red-lane → close gaps before velocity claims.
 
 ---
 
 ## 13 · SoD (Segregation of Duties) evidence requirements
 
-Required for amber-lane and above. Records evidence path in FDR §SoD evidence.
+Required for amber-lane and above. Records evidence path in PAS §SoD evidence.
 
 - Every governed mutation must declare approver ≠ initiator via `ApprovalContext`, or declare `"SoD waived — Phase 9 gate"`.
 - Evidence path: test file proving dual-control, or ADR reference for waiver.
@@ -249,6 +249,6 @@ Required for amber-lane and above. Records evidence path in FDR §SoD evidence.
 - Registry: `packages/architecture-authority/src/data/foundation-disposition.registry.ts`
 - ADR: `docs/adr/ADR-0014-foundation-disposition-registry.md`
 - Afenda coding session: `.cursor/skills/afenda-coding-session/SKILL.md`
-- FDR authoring: `.cursor/skills/write-fdr/SKILL.md`
-- Benchmark detail: `.cursor/skills/write-fdr/ENTERPRISE-BENCHMARK.md` — 10 gates, 30-pt scoring, package targets, anti-bullshit rule
-- FDR workflow: `docs/architecture/foundation-delivery-authority.md`
+- PAS authoring: `.cursor/skills/pas-slice-planner/SKILL.md`
+- Benchmark detail: `.cursor/skills/pas-slice-planner/ENTERPRISE-BENCHMARK.md` — 10 gates, 30-pt scoring, package targets, anti-bullshit rule
+- PAS workflow: `docs/architecture/foundation-delivery-authority.md`

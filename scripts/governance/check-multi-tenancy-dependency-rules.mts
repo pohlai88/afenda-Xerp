@@ -20,7 +20,7 @@ import {
 } from "../../packages/architecture-authority/src/surface/index.ts";
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,
@@ -38,7 +38,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 
 const authorityRoot = join(repoRoot, "packages/architecture-authority");
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 const registrySource = join(
   authorityRoot,
   "src/surface/architecture-authority-surface-registry.ts"
@@ -150,7 +150,7 @@ export async function checkMultiTenancyDependencyRules(): Promise<
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `Missing ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Missing ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
   }
 

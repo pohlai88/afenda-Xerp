@@ -11,14 +11,14 @@ import {
   MULTI_TENANCY_LOOKUP_FUNCTIONS,
   MULTI_TENANCY_REQUIRED_INDEXES,
 } from "../../../packages/database/src/tenant-domain/persistence-lookup-registry.ts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_ACCOUNTING_BOUNDARY_ROW_MARKERS,
   MULTI_TENANCY_FOUNDATION_TABLE_ROW_MARKERS,
   MULTI_TENANCY_INDEX_ROW_MARKERS,
   MULTI_TENANCY_LOOKUP_ROW_MARKERS,
   MULTI_TENANCY_PERSISTENCE_LOOKUP_DIMENSIONS,
-  TIP_007_012_PERSISTENCE_LOOKUP_SECTION,
+  MULTI_TENANCY_PERSISTENCE_LOOKUP_SECTION,
 } from "../multi-tenancy-persistence-lookup-registry.mts";
 
 export interface PersistenceLookupEnforcementViolation {
@@ -205,19 +205,19 @@ export function collectPersistenceLookupViolations(
   repoRoot: string
 ): PersistenceLookupEnforcementViolation[] {
   const violations: PersistenceLookupEnforcementViolation[] = [];
-  const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryDocPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required for Step 5 persistence tables`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required for Step 5 persistence tables`,
     });
     return violations;
   }
 
   const deliveryContent = readFileSync(deliveryDocPath, "utf8");
-  const sectionHeading = `## ${TIP_007_012_PERSISTENCE_LOOKUP_SECTION}`;
+  const sectionHeading = `## ${MULTI_TENANCY_PERSISTENCE_LOOKUP_SECTION}`;
   const persistenceSection = extractSection(deliveryContent, sectionHeading);
 
   if (persistenceSection === null) {

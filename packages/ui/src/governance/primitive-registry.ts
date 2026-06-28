@@ -1547,6 +1547,6 @@ export function assertComponentExportCoverage(
   }
 
   throw new Error(
-    `TIP-004B export coverage violation. "${componentExportName}" is exported from @afenda/ui but is not registered as governed or stock pending.`
+    `Governed UI export coverage violation. "${componentExportName}" is exported from @afenda/ui but is not registered as governed or stock pending.`
   );
 }

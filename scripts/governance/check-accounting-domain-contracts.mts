@@ -3,7 +3,7 @@
  * Accounting domain contracts-only gate (PKG-R01 / ADR-0015).
  *
  * Prohibits Drizzle schemas, posting services, and @afenda/database deps
- * under packages/accounting until TIP-015+ ADR accepts runtime work.
+ * under packages/accounting until Foundation phase 15+ ADR accepts runtime work.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -106,7 +106,7 @@ export function findPostingServiceSurfaceViolations(
       violations.push({
         rule: "posting-service-surface",
         file: relativePath,
-        message: `Posting keyword "${keyword}" is prohibited in ${fileName} until TIP-015+`,
+        message: `Posting keyword "${keyword}" is prohibited in ${fileName} until Foundation phase 15+`,
       });
     }
   }
@@ -175,7 +175,7 @@ export function checkErpAccountingSurfaceDrift(
       violations.push({
         rule: "erp-accounting-route-drift",
         file: absoluteDir,
-        message: `${relativeDir} is prohibited until TIP-015+ accounting UI ADR`,
+        message: `${relativeDir} is prohibited until Foundation phase 15+ accounting UI ADR`,
       });
     }
   }
@@ -193,7 +193,7 @@ export function checkErpAccountingSurfaceDrift(
         rule: "erp-accounting-import-drift",
         file: relativePath,
         message:
-          "Production @afenda/accounting imports in apps/erp are prohibited until TIP-015+ UI ADR",
+          "Production @afenda/accounting imports in apps/erp are prohibited until Foundation phase 15+ UI ADR",
       });
     }
   }
@@ -267,7 +267,7 @@ export function checkAccountingDomainContracts(): AccountingDomainContractsViola
         message:
           relativeDir === ACCOUNTING_RETIRED_PACKAGE_ROOT
             ? `${relativeDir} is retired — contracts live in ${ACCOUNTING_CONTRACTS_ROOT} (ADR-0020)`
-            : `${relativeDir} is prohibited until TIP-015+ runtime ADR`,
+            : `${relativeDir} is prohibited until Foundation phase 15+ runtime ADR`,
       });
     }
   }

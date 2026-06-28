@@ -29,7 +29,7 @@ Handoff from: docs/PAS/slice/b42e-pas005a-extended-cui-batch.md
    packages/shadcn-studio/src/__tests__/package-scaffold.test.ts
    docs/PAS/slice/b42e-pas005a-extended-cui-batch.md
    docs/PAS/pas-status-index.md
-4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · packages/appshell/** · foundation-disposition.registry.ts · TIP-004 className strip
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · packages/appshell/** · foundation-disposition.registry.ts · Governed UI className strip
 5. Authority    — PAS-005A §11.4 · ADR-0017 · B42b inventory · PKGR05A prohibited do-not-migrate-appshell-studio-tsx
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck

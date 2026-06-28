@@ -1,7 +1,7 @@
 /**
  * JSON-serializable value types for execution payloads and outbox envelopes.
  *
- * Keeps public contracts boundary-safe for persistence, queues, and TIP-023 outbox.
+ * Keeps public contracts boundary-safe for persistence, queues, and Foundation phase 23 outbox.
  */
 
 export type ExecutionJsonPrimitive = string | number | boolean | null;

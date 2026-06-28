@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectFinalOutputFormatViolations,
@@ -37,7 +37,7 @@ const registryPath = join(
   "scripts/governance/multi-tenancy-final-output-format-registry.mts"
 );
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 const packageJsonPath = join(repoRoot, "package.json");
 
 export type MultiTenancyFinalOutputFormatViolation = FinalOutputFormatViolation;
@@ -134,7 +134,7 @@ export function checkMultiTenancyFinalOutputFormat(): MultiTenancyFinalOutputFor
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `Delivery evidence doc required: ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Delivery evidence doc required: ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
   } else if (
     !deliveryDoc.includes(MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE)

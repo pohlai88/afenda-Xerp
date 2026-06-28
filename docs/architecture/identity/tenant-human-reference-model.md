@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Authority** | [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md) · [PAS-001 §4.1.13](../PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
-| **Implementation** | Domain FDRs (HRM, CRM, Inventory) — Slice F |
+| **Implementation** | Domain PAS slices (HRM, CRM, Inventory) — Slice F |
 | **Status** | Accepted — architecture record (Slice A) |
 
 ---
@@ -57,7 +57,7 @@ constraint employees_tenant_employee_no_unique
 - Composite unique always includes `tenant_id`.
 - FKs between entities use uuid PK columns only.
 
-Tenant-scoped uniqueness is the platform default. A domain FDR may narrow uniqueness to company, organization, warehouse, project, or document-type scope only when explicitly approved and documented. Human reference uniqueness must always include tenant scope directly or indirectly.
+Tenant-scoped uniqueness is the platform default. A domain PAS slice may narrow uniqueness to company, organization, warehouse, project, or document-type scope only when explicitly approved and documented. Human reference uniqueness must always include tenant scope directly or indirectly.
 
 Target helper: `packages/database/src/ids/tenant-human-reference-column.ts` (Slice C) — text column only; no sequence allocation logic.
 
@@ -79,7 +79,7 @@ Prohibited in Kernel:
 
 `tenant_number_sequences` uses tenant/scope rows with row-level locking (`FOR UPDATE`) in short transactions.
 
-Sequence allocation must be atomic, tenant-scoped, and idempotency-aware at the command boundary. Allocation should occur in the same transaction as record creation unless a future ADR/FDR approves a reservation model.
+Sequence allocation must be atomic, tenant-scoped, and idempotency-aware at the command boundary. Allocation should occur in the same transaction as record creation unless a future ADR/PAS slice approves a reservation model.
 
 Human reference sequences are monotonic within tenant/scope but not guaranteed gapless unless a domain-specific statutory requirement explicitly requires gapless numbering.
 

@@ -47,7 +47,7 @@ Apply when touching:
 | CSS-TOKEN-* registry entry? | Authority JSON | **No** — PAS-005 |
 | `--afenda-*` semantic token? | Afenda extension | **No** — PAS-005 |
 | `--app-shell-*` geometry? | AppShell | **No** — `@afenda/appshell` |
-| TIP-004 governed primitive props? | UI governance | **No** until B42 |
+| Governed UI governed primitive props? | UI governance | **No** until B42 |
 | ERP routes / server data? | Application | **No** — `apps/erp` |
 | Migrating appshell legacy studio? | Wrong approach | **No** — re-seed MCP; delete on B42 |
 | Lab/Storybook preset proof? | Product verification | **Yes** (B41) |
@@ -69,7 +69,7 @@ Apply when touching:
 ```
 CSS-TOKEN-* registry edits
 --afenda-* token source
-TIP-004 primitive governance
+Foundation phase 04 primitive governance
 AppShell chrome blocks
 ERP wiring
 Legacy appshell studio migration (copy/move)

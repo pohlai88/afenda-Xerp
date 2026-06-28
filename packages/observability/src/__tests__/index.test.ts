@@ -16,7 +16,7 @@ describe("@afenda/observability", () => {
     expect(getPackageName()).toBe("@afenda/observability");
   });
 
-  it("exports TIP-010 governed audit vocabularies", () => {
+  it("exports Foundation phase 10 governed audit vocabularies", () => {
     expect(AUDIT_RESULTS).toEqual([
       "success",
       "failure",

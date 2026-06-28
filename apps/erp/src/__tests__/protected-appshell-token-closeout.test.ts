@@ -9,7 +9,7 @@ function readAppSource(relativePath: string): string {
   return readFileSync(join(appRoot, relativePath), "utf8");
 }
 
-describe("TIP-UI-03 protected ApplicationShell token closeout", () => {
+describe("UI phase 3 protected ApplicationShell token closeout", () => {
   it("composes AppShell with identity, context, and dashboard providers in production layout", () => {
     const layoutSource = readAppSource("src/app/(protected)/layout.tsx");
 

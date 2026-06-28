@@ -29,13 +29,13 @@ describe("state governance", () => {
 
   it("throws for unsupported state", () => {
     expect(() => assertGovernedState("approved")).toThrow(
-      "TIP-004 state policy violation"
+      "Governed UI state policy violation"
     );
   });
 
   it("rejects domain workflow states", () => {
     expect(() => resolveGovernedState("paid")).toThrow(
-      "TIP-004 state policy violation"
+      "Governed UI state policy violation"
     );
   });
 

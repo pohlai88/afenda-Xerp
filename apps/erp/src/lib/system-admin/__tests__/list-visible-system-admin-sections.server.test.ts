@@ -10,7 +10,7 @@ import { SYSTEM_ADMIN_SECTIONS } from "../system-admin-sections";
 
 const CORRELATION_ID = "corr-system-admin-nav-filter";
 
-describe("filterVisibleSystemAdminSections (TIP-013 nav filtering)", () => {
+describe("filterVisibleSystemAdminSections (Foundation phase 13 nav filtering)", () => {
   it("returns only sections granted by the permission data source", async () => {
     const visible = await filterVisibleSystemAdminSections({
       operatingContext: createModuleRouteOperatingContext({

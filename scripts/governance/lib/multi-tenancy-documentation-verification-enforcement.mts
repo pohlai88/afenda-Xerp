@@ -5,12 +5,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_DOCUMENTATION_VERIFICATION_DIMENSIONS,
   MULTI_TENANCY_VERIFICATION_COMMAND_MARKERS,
   MULTI_TENANCY_VERIFICATION_COMMANDS,
-  TIP_007_012_VERIFICATION_SECTION,
+  MULTI_TENANCY_VERIFICATION_SECTION,
 } from "../multi-tenancy-documentation-verification-registry.mts";
 
 export interface DocumentationVerificationEnforcementViolation {
@@ -40,12 +40,12 @@ export function collectDocumentationVerificationViolations(
 ): DocumentationVerificationEnforcementViolation[] {
   const violations: DocumentationVerificationEnforcementViolation[] = [];
 
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
   if (!existsSync(deliveryPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryPath,
-      message: `Step 10 requires delivery doc at ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Step 10 requires delivery doc at ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
     return violations;
   }
@@ -53,14 +53,14 @@ export function collectDocumentationVerificationViolations(
   const deliveryContent = readFileSync(deliveryPath, "utf8");
   const verificationSection = extractSection(
     deliveryContent,
-    `## ${TIP_007_012_VERIFICATION_SECTION}`
+    `## ${MULTI_TENANCY_VERIFICATION_SECTION}`
   );
 
   if (verificationSection === null) {
     violations.push({
       rule: "verification-section-missing",
       file: deliveryPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_VERIFICATION_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_VERIFICATION_SECTION}`,
     });
     return violations;
   }

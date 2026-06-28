@@ -72,5 +72,5 @@ export const MULTI_TENANCY_GLOSSARY_FIRST_ENFORCEMENT_LIB =
   "scripts/governance/lib/multi-tenancy-glossary-first-enforcement.mts" as const;
 
 /** Delivery doc section title for Step 1 mapping. */
-export const TIP_007_012_GLOSSARY_FIRST_SECTION =
+export const MULTI_TENANCY_GLOSSARY_FIRST_SECTION =
   "Glossary first (Step 1)" as const;

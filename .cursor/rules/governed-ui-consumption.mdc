@@ -1,14 +1,14 @@
 ---
 description: >-
-  TIP-004 rules for consuming @afenda/ui in appshell and app wiring. Prevents
+  Governed UI rules for consuming @afenda/ui in appshell and app wiring. Prevents
   shadcn-studio className pollution on governed primitives.
 globs: "{packages/appshell/src/**/*.tsx,packages/metadata-ui/src/**/*.tsx,apps/erp/src/**/*.tsx}"
 alwaysApply: false
 ---
 
-# Governed UI Consumption (TIP-004)
+# Governed UI Consumption (Governed UI)
 
-Canonical policy: [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md). Gates: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md).
+Canonical policy: [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md). Gates: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md).
 
 Applies when composing `@afenda/ui` in **consumer** packages (`packages/appshell`, `packages/metadata-ui`, `apps/erp`).
 For **authoring** primitives, use `.cursor/skills/govern-primitive/SKILL.md`.
@@ -21,7 +21,7 @@ For **authoring** primitives, use `.cursor/skills/govern-primitive/SKILL.md`.
 | `@afenda/ui` primitives | **Governed props only** — zero `className` (not even layout); use `intent`, `emphasis`, `tone`, `size`, `state` |
 | shadcn-studio / registry blocks | Strip all `className` from governed imports before merge |
 
-**Never** paste studio `className` strings onto `Button`, `DialogContent`, `SheetContent`, `DropdownMenu*`, `Sidebar*`, `Avatar`, `Badge`, `Tabs*`, `Combobox*`, etc. Runtime throws `TIP-004 className policy violation` in dev/tests.
+**Never** paste studio `className` strings onto `Button`, `DialogContent`, `SheetContent`, `DropdownMenu*`, `Sidebar*`, `Avatar`, `Badge`, `Tabs*`, `Combobox*`, etc. Runtime throws `Governed UI className policy violation` in dev/tests.
 
 ## Correct patterns
 

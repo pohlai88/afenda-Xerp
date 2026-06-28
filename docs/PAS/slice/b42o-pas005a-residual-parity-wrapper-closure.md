@@ -19,7 +19,7 @@ Handoff from: docs/PAS/slice/b42o-pas005a-residual-parity-wrapper-closure.md
 2. Allowed layer— packages/appshell/src/presentation/wrappers/** · packages/appshell/src/__tests__/** · packages/shadcn-studio/src/registry/** · packages/shadcn-studio/src/__tests__/** · docs/PAS/slice/b42o-*.md · docs/PAS/pas-status-index.md · docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row)
 3. Files        — account-settings/shell/*.wrapper.tsx (7) · shell/*.wrapper.tsx (4) · dashboard/*-utils/columns/overflow wrappers (3) · presentation-mcp-residual.registry.ts · presentation-mcp-wrapper.registry.ts · studio-block-parity.registry.ts · presentation-mcp-wrapper-b42o.test.ts · studio-block-parity-wrapper-coverage.test.ts · slice doc · pas-status-index · PAS-005A §14
 4. Prohibited   — foundation-disposition.registry.ts · MCP TSX copy into appshell · break AppShellAccountSettings01–07 props or index.ts exports · remove afenda-appshell-studio.css
-5. Authority    — PAS-005A · ADR-0017 · B42i/B42n strangler registry · TIP-004 consumer rules · studio-block-parity.registry.ts
+5. Authority    — PAS-005A · ADR-0017 · B42i/B42n strangler registry · Governed UI consumer rules · studio-block-parity.registry.ts
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio build
    pnpm --filter @afenda/shadcn-studio test:run
@@ -51,8 +51,8 @@ Handoff from: docs/PAS/slice/b42o-pas005a-residual-parity-wrapper-closure.md
 
 ## Follow-on (optional maintenance)
 
-- TIP-004 className strip on remaining governed-compose dashboard blocks
-- Delegating flip when MCP bridge twins reach TIP-004 safe parity
+- Governed UI className strip on remaining governed-compose dashboard blocks
+- Delegating flip when MCP bridge twins reach Governed UI safe parity
 
 ## DoD
 

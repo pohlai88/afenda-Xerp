@@ -14,7 +14,7 @@ function renderMenuTrigger(props?: AppShellMenuTriggerProps) {
 }
 
 describe("AppShellMenuTrigger", () => {
-  it("renders without TIP-004 consumer violations", () => {
+  it("renders without Governed UI consumer violations", () => {
     renderMenuTrigger();
 
     expect(

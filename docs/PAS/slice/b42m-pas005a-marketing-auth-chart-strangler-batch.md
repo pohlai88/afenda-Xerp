@@ -8,7 +8,7 @@
 
 **Risk class:** Medium — replaces bridge-index placeholder wrapperPaths with real strangler files; auth remains afenda-only (ERP governed auth-shell)
 
-**Clean Core impact:** A→A — marketing/chart/statistics bridge delegates where TIP-004 safe; auth wrappers wire governed auth-shell, not MCP login/error blocks
+**Clean Core impact:** A→A — marketing/chart/statistics bridge delegates where Governed UI safe; auth wrappers wire governed auth-shell, not MCP login/error blocks
 
 ## Handoff block
 
@@ -19,7 +19,7 @@ Handoff from: docs/PAS/slice/b42m-pas005a-marketing-auth-chart-strangler-batch.m
 2. Allowed layer— packages/appshell/src/presentation/wrappers/** · packages/appshell/src/__tests__/** · packages/shadcn-studio/src/registry/studio-block-parity.registry.ts · docs/PAS/slice/b42m-*.md · docs/PAS/pas-status-index.md · docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row) · docs/PAS/slice/b42l-pas005a-studio-css-consolidation.md (deferred section)
 3. Files        — marketing/hero-section-01.wrapper.tsx · auth/login-page-04.wrapper.tsx · auth/error-page-02.wrapper.tsx · dashboard/chart-earning-report.wrapper.tsx · statistics/orders-progress-card.wrapper.tsx · statistics/sales-overview-card.wrapper.tsx · presentation-mcp-wrapper.registry.ts · studio-block-parity.registry.ts · presentation-mcp-wrapper.registry.test.ts · presentation-mcp-wrapper-b42m.test.ts · shadcn-studio-bridge.test.ts · slice doc · pas-status-index · PAS-005A §14 · b42l deferred
 4. Prohibited   — foundation-disposition.registry.ts · replace auth-shell with MCP login/error blocks in ERP · copy MCP TSX into appshell · remove afenda-appshell-studio.css · break AppShellAuthLoginPage04 / AppShellAuthErrorPage02 public exports from auth-shell/index.ts
-5. Authority    — PAS-005A · ADR-0017 · TIP-004 consumer rules · B42i/B42k strangler registry · auth-shell promotion pipeline
+5. Authority    — PAS-005A · ADR-0017 · Governed UI consumer rules · B42i/B42k strangler registry · auth-shell promotion pipeline
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio build
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -37,7 +37,7 @@ Handoff from: docs/PAS/slice/b42m-pas005a-marketing-auth-chart-strangler-batch.m
 
 | Public export / registry key | MCP block | Bridge twin | Wrapper status | Rationale |
 | --- | --- | --- | --- | --- |
-| `AppShellPresentationHeroSection01` | `hero-section-01` | `AppShellPresentationHeroSection01` | delegating | Zero-prop MCP hero; TIP-004 safe delegate |
+| `AppShellPresentationHeroSection01` | `hero-section-01` | `AppShellPresentationHeroSection01` | delegating | Zero-prop MCP hero; Governed UI safe delegate |
 | `AppShellAuthLoginPage04` | `login-page-04` | `AppShellPresentationLoginPage04` | afenda-only | ERP governed auth-shell; MCP twin for parity only |
 | `AppShellAuthErrorPage02` | `error-page-02` | `AppShellPresentationAuthErrorPage02` | afenda-only | Same — AuthShellErrorSurface |
 | `AppShellPresentationChartEarningReport` | `chart-component-02` | `AppShellPresentationChartEarningReport` | delegating | Prop-driven pass-through; no ERP governed shell required |

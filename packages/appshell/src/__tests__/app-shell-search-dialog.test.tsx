@@ -19,7 +19,7 @@ function renderSearchDialog(props: Partial<AppShellSearchDialogProps> = {}) {
 }
 
 describe("AppShellSearchDialog", () => {
-  it("renders the trigger without TIP-004 consumer violations", () => {
+  it("renders the trigger without Governed UI consumer violations", () => {
     renderSearchDialog();
 
     expect(

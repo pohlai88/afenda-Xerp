@@ -12,7 +12,7 @@ import {
 } from "../../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts";
 import { DATABASE_TENANT_DOMAIN_MODULES } from "../../../packages/database/src/tenant-domain/tenant-domain-registry.ts";
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_AUTHORITY_DESIGN_DIMENSIONS,
   MULTI_TENANCY_DATABASE_PERSISTENCE_ROW_MARKERS,
@@ -20,7 +20,7 @@ import {
   MULTI_TENANCY_ERP_OWNERSHIP_ROW_MARKERS,
   MULTI_TENANCY_KERNEL_CONTRACT_ROW_MARKERS,
   MULTI_TENANCY_PACKAGE_OWNERSHIP_ROW_MARKERS,
-  TIP_007_012_AUTHORITY_DESIGN_SECTION,
+  MULTI_TENANCY_AUTHORITY_DESIGN_SECTION,
 } from "../multi-tenancy-authority-design-registry.mts";
 
 export interface AuthorityDesignEnforcementViolation {
@@ -216,19 +216,19 @@ export function collectAuthorityDesignViolations(
   repoRoot: string
 ): AuthorityDesignEnforcementViolation[] {
   const violations: AuthorityDesignEnforcementViolation[] = [];
-  const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryDocPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required for Step 3 authority design`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required for Step 3 authority design`,
     });
     return violations;
   }
 
   const deliveryContent = readFileSync(deliveryDocPath, "utf8");
-  const sectionHeading = `## ${TIP_007_012_AUTHORITY_DESIGN_SECTION}`;
+  const sectionHeading = `## ${MULTI_TENANCY_AUTHORITY_DESIGN_SECTION}`;
   const authoritySection = extractSection(deliveryContent, sectionHeading);
 
   if (authoritySection === null) {

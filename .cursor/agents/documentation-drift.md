@@ -109,7 +109,7 @@ Also scan for:
 
 - Slice handoffs claiming **Not started** when runtime matrix says **Partially Implemented** or **Implemented**
 - Master plan v4 markers (`version: 4.0.0`, "Implementation reality audit (2026-06-20)") without stale qualifier
-- Retired FDR/TIP delivery paths (`fdr-status-index`, `tip-status-index`, `[status] fdr-NNN-*.md`) presented as current authority
+- Retired PAS delivery paths (`pas-status-index`, `pas-status-index`, `[status] bNN-*.md slice handoffs`) presented as current authority
 - Obsolete baseline fingerprint `ARCH-BASELINE-2026-06-20-v1` in fingerprint-required registries
 - Individual slice docs contradicting [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
 
@@ -154,7 +154,7 @@ Edit in dependency order:
 | --- | --- |
 | Doc is wrong but historically useful | Add banner: **Superseded by [canonical doc]** — retain file |
 | Doc must not guide coding | Mark **Obsolete** + reason + replacement |
-| Retired FDR/TIP delivery reference | Point to PAS slice or parent PAS; never recreate FDR trees |
+| Retired PAS delivery reference | Point to PAS slice or parent PAS; never recreate PAS trees |
 | Aspirational section presented as current | Move under "Planned" or "Blocked"; cite ADR gate |
 | v4 master plan content | Keep only with explicit "historical — do not use for coding" warning |
 
@@ -288,7 +288,7 @@ End every session with this handoff block:
 - Edit `apps/erp` or `packages/ui` to match outdated docs
 - Skip `pnpm check:documentation-drift` before reporting complete
 - Bump architecture fingerprint for documentation wording-only changes
-- Recreate FDR/TIP delivery indexes or `/write-fdr` workflows as current authority
+- Recreate PAS delivery indexes or `/pas-slice-planner` workflows as current authority
 
 ---
 

@@ -3,7 +3,7 @@
  * Authority: ARCH-SUPA-001 Slice 4.
  *
  * Not in current production release scope.
- * Requires separate ARCH/FDR approval before implementation.
+ * Requires separate PAS approval before implementation.
  */
 export const SUPABASE_EXCLUDED_PRODUCTION_CAPABILITIES = [
   "realtime",

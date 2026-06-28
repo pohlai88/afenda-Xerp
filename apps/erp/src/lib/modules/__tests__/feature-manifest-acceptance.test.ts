@@ -50,7 +50,7 @@ function collectProductionSourceFiles(
   return collected;
 }
 
-describe("TIP-007A acceptance — manifest-only module routes", () => {
+describe("Foundation phase 07 acceptance — manifest-only module routes", () => {
   it("materializes a route for every manifest module without hand-edited ERP paths", () => {
     const routes = generateModuleRoutes();
     const manifestModuleIds = listErpModuleManifests().map(
@@ -77,7 +77,7 @@ describe("TIP-007A acceptance — manifest-only module routes", () => {
   });
 });
 
-describe("TIP-007A acceptance — accounting shell placeholder (ADR-0010)", () => {
+describe("Foundation phase 07 acceptance — accounting shell placeholder (ADR-0010)", () => {
   it("exposes accounting only as a manifest-driven shell route", () => {
     const accountingRoute = getGeneratedModuleRoute("accounting");
 
@@ -105,7 +105,7 @@ describe("TIP-007A acceptance — accounting shell placeholder (ADR-0010)", () =
   });
 });
 
-describe("TIP-007A acceptance — no ad-hoc module route strings in ERP app", () => {
+describe("Foundation phase 07 acceptance — no ad-hoc module route strings in ERP app", () => {
   it("does not hardcode manifest module paths outside the dynamic route segment", () => {
     const hardcodedRoutePattern = new RegExp(
       `/modules/(?:${ERP_MODULE_IDS.join("|")})\\b`

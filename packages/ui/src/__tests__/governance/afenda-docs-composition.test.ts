@@ -37,7 +37,7 @@ function collectCompositionFiles(dir: string): string[] {
 
 const compositionFiles = collectCompositionFiles(afendaDocsDir);
 
-describe("afenda-docs: TIP-004 composition policy", () => {
+describe("afenda-docs: Governed UI composition policy", () => {
   it("includes reference block implementations", () => {
     expect(compositionFiles.length).toBeGreaterThanOrEqual(3);
   });

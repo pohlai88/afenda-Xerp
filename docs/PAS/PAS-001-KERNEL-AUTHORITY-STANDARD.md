@@ -17,7 +17,7 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 33 delivered slices, runtime gates operational |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 45 delivered slices, runtime gates operational |
 | **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | **Change model** | Serialized kernel slices only |
@@ -420,7 +420,7 @@ The 22 families mirror the **platform-floor nouns** that global FMCG enterprises
 | --- | --- | --- |
 | Tenant … Policy (16 families) | See `PLATFORM_ENTITY_TABLE_REGISTRY` | Live schema for platform spine |
 | Correlation | — | Event-only — no entity table; wire and audit payloads only |
-| Customer, Supplier, Employee, Document, Asset | `customers`, `suppliers`, `employees`, `documents`, `assets` | Deferred — registry + parser live; domain FDR owns schema promotion |
+| Customer, Supplier, Employee, Document, Asset | `customers`, `suppliers`, `employees`, `documents`, `assets` | Deferred — registry + parser live; domain PAS slice owns schema promotion |
 
 Database CHECK constraints use **family-specific** patterns (`^prd_[0-9A-HJKMNP-TV-Z]{26}$`), not the generic `[a-z]{3}_` regex. Parity gate: `pnpm check:enterprise-id-db-parity`.
 
@@ -518,7 +518,7 @@ CHECK patterns are duplicated in `@afenda/database` and validated against kernel
 
 **ULID body minting:** Production write paths inject `@afenda/database` `generateUlidBody()` through a `CanonicalIdBodyGenerator` adapter at the `apps/erp` composition root. Kernel does not mint production IDs without an injected generator. Authority: [ADR-0024](../adr/ADR-0024-canonical-id-body-generation.md).
 
-### 4.1.13 Tenant-defined human reference numbers (Slice F — domain FDRs)
+### 4.1.13 Tenant-defined human reference numbers (Slice F — domain PAS slices)
 
 Kernel canonical IDs do **not** replace tenant human reference numbers. Authority: [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md).
 
@@ -536,7 +536,7 @@ Formats may be tenant-configurable within domain policy bounds. Human numbers ar
 
 **Prohibited:** Kernel `createEmployeeNo()` (or any human-number generator); human numbers in cross-package wire contracts; global unique on human number alone; RLS on human number patterns.
 
-Sequence strategy: `tenant_number_sequences` with `FOR UPDATE` in short transactions — domain FDR scope, not Kernel.
+Sequence strategy: `tenant_number_sequences` with `FOR UPDATE` in short transactions — domain PAS slice scope, not Kernel.
 
 ### 4.1.14 Promotion checklist (§4.1.16)
 

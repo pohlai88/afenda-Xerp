@@ -704,7 +704,7 @@ export async function handleAfendaAuthAuditHook(
   }
 }
 
-/** Better Auth after-hooks for governed auth audit events (TIP-004). */
+/** Better Auth after-hooks for governed auth audit events (Governed UI). */
 export function createAfendaAuthAuditHooks() {
   return createAuthMiddleware(async (ctx) => {
     await handleAfendaAuthAuditHook({

@@ -125,7 +125,7 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
     violations.push({
       rule: "project-stub-missing",
       file: projectContract,
-      message: "TIP-030 project authority stub is missing",
+      message: "Foundation phase 30 project authority stub is missing",
     });
   }
 
@@ -135,7 +135,7 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
       rule: "project-stub-no-service",
       file: projectService,
       message:
-        "TIP-030 project must remain stub-only — remove project.service.ts",
+        "Foundation phase 30 project must remain stub-only — remove project.service.ts",
     });
   }
 
@@ -264,7 +264,7 @@ export function checkDatabaseTenantDomainSurface(): DatabaseTenantDomainViolatio
     violations.push({
       rule: "registry-planned-modules",
       file: join(databaseSrcRoot, "tenant-domain/tenant-domain-registry.ts"),
-      message: "Only project module may remain planned (TIP-030)",
+      message: "Only project module may remain planned (Foundation phase 30)",
     });
   }
 

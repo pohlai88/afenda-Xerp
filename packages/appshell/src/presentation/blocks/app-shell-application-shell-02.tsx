@@ -4,7 +4,7 @@
  * application-shell-02 (shadcn/studio Pro) — system-admin nav chrome.
  *
  * Source: @ss-blocks/application-shell-02 (ADR-0017). Sub-blocks (search, profile
- * dropdowns) remain in TIP-006 AppShell header; this block adapts the grouped nav
+ * dropdowns) remain in Foundation phase 06 AppShell header; this block adapts the grouped nav
  * pattern for system-admin sections without replacing shell authority.
  *
  * Normalization:

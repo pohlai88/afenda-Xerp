@@ -31,7 +31,7 @@ Handoff from: docs/PAS/slice/b40-pas005a-mcp-seed.md
    packages/shadcn-studio/src/__tests__/mcp-seed-inventory.test.ts
    docs/PAS/slice/b40-pas005a-mcp-seed.md
    docs/PAS/pas-status-index.md
-4. Prohibited   — packages/ui/** staging; packages/appshell/** migration; apps/erp/**; @afenda/css-authority imports; governed TIP-004 normalization (deferred B42)
+4. Prohibited   — packages/ui/** staging; packages/appshell/** migration; apps/erp/**; @afenda/css-authority imports; governed Governed UI normalization (deferred B42)
 5. Authority    — PAS-005A §4.4–§4.6 · ADR-0017 · afenda-shadcn-components skill (install workflow only)
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -52,7 +52,7 @@ Handoff from: docs/PAS/slice/b40-pas005a-mcp-seed.md
 
 1. MCP cwd = `packages/shadcn-studio`
 2. Collect all selected components/blocks before any install command
-3. Stock shadcn className patterns in Phase 1 — no TIP-004 strip pass
+3. Stock shadcn className patterns in Phase 1 — no Governed UI strip pass
 4. New npm dependencies require dependency-registry.md entry
 
 ## DoD

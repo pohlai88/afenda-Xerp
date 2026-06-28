@@ -12,7 +12,7 @@ import { joinAppShellGovernedClassName } from "./wiring/governance";
 /**
  * Social icon primitives (FacebookIcon, InstagramIcon, etc.) are not in
  * GOVERNED_UI_TAGS — no className restriction applies. The governance import
- * satisfies the TIP-004 consumer-layer policy for all @afenda/ui consumers.
+ * satisfies the Governed UI consumer-layer policy for all @afenda/ui consumers.
  */
 export type AppShellFooterGovernedComponents = Extract<
   GovernedUiComponentName,

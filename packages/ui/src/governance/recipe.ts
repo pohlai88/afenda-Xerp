@@ -286,13 +286,13 @@ function normalizePanelRecipeArgs(
 
   if (!isGovernedPanelRadius(radius)) {
     throw new Error(
-      `TIP-004 panel recipe violation. Unsupported radius "${radius}". Allowed: none, sm, md, lg.`
+      `Foundation phase 04 panel recipe violation. Unsupported radius "${radius}". Allowed: none, sm, md, lg.`
     );
   }
 
   if (!isGovernedPanelShadow(shadow)) {
     throw new Error(
-      `TIP-004 panel recipe violation. Unsupported shadow "${shadow}". Allowed: none, raised, overlay.`
+      `Foundation phase 04 panel recipe violation. Unsupported shadow "${shadow}". Allowed: none, raised, overlay.`
     );
   }
 
@@ -313,7 +313,7 @@ function normalizeStatusRecipeArgs(selection: VariantSelection): {
 
   if (!isGovernedPanelRadius(radius)) {
     throw new Error(
-      `TIP-004 status recipe violation. Unsupported radius "${radius}". Allowed: none, sm, md, lg.`
+      `Foundation phase 04 status recipe violation. Unsupported radius "${radius}". Allowed: none, sm, md, lg.`
     );
   }
 

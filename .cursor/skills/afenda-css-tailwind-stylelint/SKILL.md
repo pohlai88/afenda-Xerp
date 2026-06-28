@@ -46,7 +46,7 @@ See [`docs/architecture/css-authority.md`](../../../docs/architecture/css-author
 
 ## Utility-first (consumer vs author)
 
-**ERP / appshell consumers (TIP-004):**
+**ERP / appshell consumers (Governed UI):**
 
 - No raw Tailwind utilities in `packages/appshell/src/shadcn-studio/blocks/*.tsx` — use `.app-shell-*` / `.app-shell-studio-*` only
 - Shell chrome on plain HTML wrappers may use semantic bridge utilities (`bg-muted`, `flex`, `gap-*`) per Gate D anti-slop policy

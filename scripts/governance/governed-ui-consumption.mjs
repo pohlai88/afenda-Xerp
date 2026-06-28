@@ -1,5 +1,5 @@
 /**
- * TIP-004 consumer-layer policy — shared by Cursor preToolUse hook and package tests.
+ * Governed UI consumer-layer policy — shared by Cursor preToolUse hook and package tests.
  *
  * Governed @afenda/ui primitives validate className at runtime (layout-only).
  * Consumers must use governed props; shell chrome belongs on plain HTML wrappers.
@@ -22,7 +22,7 @@ import {
   tokenizeClassName,
 } from "./consumer-class-name-policy.mjs";
 
-/** PascalCase tags exported from @afenda/ui that enforce TIP-004 className policy. */
+/** PascalCase tags exported from @afenda/ui that enforce Governed UI className policy. */
 export const GOVERNED_UI_TAGS = new Set([
   "Accordion",
   "AccordionContent",

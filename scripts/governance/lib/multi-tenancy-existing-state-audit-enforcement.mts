@@ -8,7 +8,7 @@ import { APPSHELL_CONTEXT_CONSUMPTION_MODULES } from "../../../packages/appshell
 import { DATABASE_TENANT_DOMAIN_MODULES } from "../../../packages/database/src/tenant-domain/tenant-domain-registry.ts";
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
 import { PERMISSIONS_SCOPE_GRANTS_MODULES } from "../../../packages/permissions/src/permissions-scope-grants-registry.ts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_API_ACTIONS_AUDIT_ROW_MARKERS,
   MULTI_TENANCY_APPSHELL_CONTEXT_AUDIT_ROW_MARKERS,
@@ -18,7 +18,7 @@ import {
   MULTI_TENANCY_PERMISSION_GRANT_AUDIT_ROW_MARKERS,
   MULTI_TENANCY_SCHEMA_AUDIT_ROW_MARKERS,
   MULTI_TENANCY_TENANT_SUBDOMAIN_AUDIT_ROW_MARKERS,
-  TIP_007_012_EXISTING_STATE_AUDIT_SECTION,
+  MULTI_TENANCY_EXISTING_STATE_AUDIT_SECTION,
 } from "../multi-tenancy-existing-state-audit-registry.mts";
 
 export interface ExistingStateAuditEnforcementViolation {
@@ -194,19 +194,19 @@ export function collectExistingStateAuditViolations(
   repoRoot: string
 ): ExistingStateAuditEnforcementViolation[] {
   const violations: ExistingStateAuditEnforcementViolation[] = [];
-  const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryDocPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required for Step 2 audit tables`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required for Step 2 audit tables`,
     });
     return violations;
   }
 
   const deliveryContent = readFileSync(deliveryDocPath, "utf8");
-  const sectionHeading = `## ${TIP_007_012_EXISTING_STATE_AUDIT_SECTION}`;
+  const sectionHeading = `## ${MULTI_TENANCY_EXISTING_STATE_AUDIT_SECTION}`;
   const auditSection = extractSection(deliveryContent, sectionHeading);
 
   if (auditSection === null) {

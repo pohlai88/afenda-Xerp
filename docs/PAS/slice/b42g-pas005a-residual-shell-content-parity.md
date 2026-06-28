@@ -18,7 +18,7 @@ Handoff from: docs/PAS/slice/b42g-pas005a-residual-shell-content-parity.md
 1. Objective    — Install dashboard-shell-05 shell chrome; register account-settings content panels + residual legacy surfaces; open delete gate when parity registry >= 63.
 2. Allowed layer— packages/shadcn-studio/** · packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/__tests__/shadcn-studio-bridge.test.ts · docs/PAS/**
 3. Files        — (see Completion Report)
-4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · foundation-disposition.registry.ts · TIP-004 className strip
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · foundation-disposition.registry.ts · Governed UI className strip
 5. Authority    — PAS-005A §11.4 · ADR-0017 · B42b inventory · PKGR05A
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -58,7 +58,7 @@ Added `AppShellPresentationMenuTrigger`, `AppShellPresentationSidebarUserDropdow
 ## Follow-on (B42h — delivered)
 
 - Filesystem delete `packages/appshell/src/shadcn-studio/` — **executed** via `presentation/` relocation ([`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md))
-- TIP-004 className strip on MCP blocks (deferred B42i)
+- Governed UI className strip on MCP blocks (deferred B42i)
 - Storybook lab stories for new shell chrome exports
 
 ## DoD

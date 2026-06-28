@@ -327,4 +327,4 @@ Actual file updates must be done by:
 - De-duplicate security-negative tests.
 - Touch accounting runtime without approved PAS slice + ADR.
 - Proceed past any hard stop — always output Batch Repair Report first.
-- Use retired FDR/TIP delivery agents, indexes, or `/write-fdr` skills as authority.
+- Use retired PAS delivery agents, indexes, or `/pas-slice-planner` skills as authority.

@@ -1,6 +1,6 @@
 # Architecture Documentation
 
-**Constitution entry point for TIP-001 — Architecture Authority.**
+**Constitution entry point for Foundation phase 01 — Architecture Authority.**
 
 Parent index: [`docs/README.md`](../README.md)
 
@@ -88,7 +88,7 @@ Regenerate architecture report JSON: `pnpm architecture:report` → `architectur
 
 ---
 
-## ADR constitution (TIP-001B)
+## ADR constitution (Foundation phase 01)
 
 | ADR | Title |
 |-----|-------|
@@ -104,7 +104,7 @@ See [`docs/adr/README.md`](../adr/README.md) for the full ADR index.
 
 ---
 
-## TIP-001C — six first-class contracts
+## Foundation phase 01 — six first-class contracts
 
 ```text
 ArchitectureAuthority

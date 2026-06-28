@@ -67,7 +67,7 @@ describe("shell primitive governance", () => {
     expect(infoBadge.className).not.toContain("bg-primary/");
   });
 
-  it("renders InputGroupInput without TIP-004 className policy violations", () => {
+  it("renders InputGroupInput without Governed UI className policy violations", () => {
     render(
       <InputGroup>
         <InputGroupAddon align="inline-start">

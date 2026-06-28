@@ -45,7 +45,7 @@ export const OUTBOX_AUDIT_ACTIONS = {
 export type OutboxAuditAction =
   (typeof OUTBOX_AUDIT_ACTIONS)[keyof typeof OUTBOX_AUDIT_ACTIONS];
 
-/** Outbox-compatible envelope for future TIP-023 consumers. */
+/** Outbox-compatible envelope for future Foundation phase 23 consumers. */
 export interface ExecutionOutboxEnvelope {
   readonly correlationId: string;
   readonly eventType: string;

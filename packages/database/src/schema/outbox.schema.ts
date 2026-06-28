@@ -3,7 +3,7 @@
  *
  * Write path: protected mutations enqueue rows in the same transaction as domain
  * commits. Dispatch lifecycle (poll, lock, publish, retry) stays in
- * `@afenda/execution` publish worker (TIP-011 Slice 2).
+ * `@afenda/execution` publish worker (Foundation phase 11 Slice 2).
  */
 import {
   index,

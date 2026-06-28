@@ -167,7 +167,7 @@ Include Architecture, Governance, Security, Documentation, Testing, Operational,
 ```md
 ## Architecture Drift Analysis
 
-| PAS / ADR / FDR | Documented | Code reality | Drift | Evidence |
+| PAS / ADR / PAS | Documented | Code reality | Drift | Evidence |
 | --- | --- | --- | --- | --- |
 | | | | | |
 ```
@@ -250,7 +250,7 @@ Use Phase 5 template from [phase-5-readiness.md](phase-5-readiness.md).
 ```md
 ## Strategic Improvements (1–3 months)
 
-| # | Initiative | PAS slice / FDR | Dependencies | Outcome |
+| # | Initiative | PAS slice / PAS | Dependencies | Outcome |
 | --- | --- | --- | --- | --- |
 | 1 | | | | |
 ```

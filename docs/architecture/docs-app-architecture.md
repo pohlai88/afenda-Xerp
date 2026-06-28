@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Accepted — architecture baseline for TIP-032 |
+| **Status** | Accepted — architecture baseline for Foundation phase 32 |
 | **Date** | 2026-06-24 |
 | **Owner** | Application Authority |
 | **Package** | `@afenda/docs` (PKG-005) |
-| **Delivery TIP** | [`docs-app-architecture.md`](docs-app-architecture.md) (this doc) · deploy runbook [`fumadocs-docs-app-deploy.md`](../governance/support/fumadocs-docs-app-deploy.md) |
+| **PAS slice** | [`docs-app-architecture.md`](docs-app-architecture.md) (this doc) · deploy runbook [`fumadocs-docs-app-deploy.md`](../governance/support/fumadocs-docs-app-deploy.md) |
 | **Runtime matrix** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — `@afenda/docs` row |
 
 ---
@@ -26,11 +26,11 @@ This document defines how Afenda's **documentation delivery application** (`apps
 | Goal | Rationale |
 |------|-----------|
 | **Runtime isolation** | Docs is a read-mostly static site; no tenant DB, auth spine, or outbox |
-| **Delivery independence** | Slices in TIP-032 do not modify `@afenda/erp`, kernel, database, or permissions |
+| **Delivery independence** | Slices in Foundation phase 32 do not modify `@afenda/erp`, kernel, database, or permissions |
 | **Single content root** | All published MDX lives under `apps/docs/content/` — not scattered across the monorepo |
-| **Governance docs stay in repo** | Architecture, ADR, and delivery TIP markdown remain in `docs/` at repo root |
+| **Governance docs stay in repo** | Architecture, ADR, and PAS slice markdown remain in `docs/` at repo root |
 | **Automated gates** | `build`, `typecheck`, and `test:run` run in CI without starting dev servers |
-| **Future OpenAPI hook** | TIP-031 (Public API & OpenAPI) may feed generated reference into this app later |
+| **Future OpenAPI hook** | Foundation phase 31 (Public API & OpenAPI) may feed generated reference into this app later |
 
 ---
 
@@ -80,21 +80,21 @@ This document defines how Afenda's **documentation delivery application** (`apps
 | Concern | Owner | Notes |
 |---------|-------|-------|
 | Architecture registries | `docs/architecture/` | Human truth; update via Architecture Authority |
-| Delivery TIP specs | `docs/PAS/slice/` | Evidence artifacts; not auto-synced to Fumadocs |
+| PAS slice specs | `docs/PAS/slice/` | Evidence artifacts; not auto-synced to Fumadocs |
 | ADRs | `docs/adr/` | Constitutional; never overridden by docs app content |
 | ERP product UI | `apps/erp/` | No imports from `@afenda/docs` |
-| Governed UI primitives | `packages/ui/` | Optional later slice; requires TIP-004 approval |
-| Public OpenAPI reference | TIP-031 (future) | Generated artifacts may be consumed by docs app |
+| Governed UI primitives | `packages/ui/` | Optional later slice; requires Governed UI approval |
+| Public OpenAPI reference | Foundation phase 31 (future) | Generated artifacts may be consumed by docs app |
 
 ### Dependency rules
 
-Per [`dependency-registry.md`](dependency-registry.md), `@afenda/docs` currently has **zero approved `@afenda/*` runtime dependencies**. TIP-032 Slice 1 keeps that boundary.
+Per [`dependency-registry.md`](dependency-registry.md), `@afenda/docs` currently has **zero approved `@afenda/*` runtime dependencies**. Foundation phase 32 Slice 1 keeps that boundary.
 
 | Phase | Allowed npm deps | Allowed workspace deps |
 |-------|------------------|------------------------|
 | Slice 1 (scaffold) | `fumadocs-mdx`, `fumadocs-core`, `fumadocs-ui`, Tailwind v4 | `@afenda/typescript-config` (dev only) |
 | Slice 3+ (theming) | — | Docs-owned OKLCH palette in `docs-editorial-palette.css`; zero `@afenda/*` workspace deps (Slice 3.6) |
-| Slice 3+ (components) | — | `@afenda/ui` — **requires TIP-004 consumption rules + ui:guard** |
+| Slice 3+ (components) | — | `@afenda/ui` — **requires Governed UI consumption rules + ui:guard** |
 
 **Hard rule:** `@afenda/erp` MUST NOT depend on `@afenda/docs`. The docs app is a leaf Application package.
 
@@ -122,11 +122,11 @@ Two documentation surfaces coexist by design:
 | Surface | Path | Purpose | Update trigger |
 |---------|------|---------|----------------|
 | **Governance docs** | `docs/` (repo root) | ADRs, registries, TIPs, drift guard | Architecture / delivery PRs |
-| **Published docs site** | `apps/docs/content/docs/` | Developer guides, onboarding, API how-tos | TIP-032 content slices |
+| **Published docs site** | `apps/docs/content/docs/` | Developer guides, onboarding, API how-tos | Foundation phase 32 content slices |
 
 **Do not** move governance markdown into Fumadocs in Slice 1. Duplication causes drift (ADR-0012). Cross-link from MDX to GitHub/repo paths when needed.
 
-Initial content categories (TIP-032 Slice 4):
+Initial content categories (Foundation phase 32 Slice 4):
 
 1. **Getting started** — clone, `pnpm install`, run ERP + docs
 2. **Monorepo map** — packages, layers, where to edit
@@ -144,7 +144,7 @@ pnpm --filter @afenda/docs dev    # http://localhost:3001
 
 ERP dev (`3000`) is **not** required for docs work.
 
-### CI gates (target state — TIP-032 Slice 2)
+### CI gates (target state — Foundation phase 32 Slice 2)
 
 | Gate | Command |
 |------|---------|
@@ -156,7 +156,7 @@ ERP dev (`3000`) is **not** required for docs work.
 
 Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in scope.
 
-### Deploy (TIP-032 Slice 6)
+### Deploy (Foundation phase 32 Slice 6)
 
 - Separate Vercel project from `@afenda/erp` — Root Directory `apps/docs`
 - No shared env secrets with ERP auth/database
@@ -174,7 +174,7 @@ Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in sc
 | Accidental `@afenda/erp` → `@afenda/docs` dependency | `pnpm quality:boundaries` fails on unapproved edges |
 | Fumadocs upgrade breaks build | Pin versions in catalog or package.json; gate on `build` in CI |
 | Premature `@afenda/ui` consumption | Defer to themed slice; enforce `pnpm ui:guard:scan` when added |
-| Foundation slice coupling | TIP-032 deliverables limited to `apps/docs/**` until explicit registry expansion |
+| Foundation slice coupling | Foundation phase 32 deliverables limited to `apps/docs/**` until explicit registry expansion |
 
 ---
 
@@ -197,7 +197,7 @@ Cursor stop hook already runs `@afenda/docs typecheck` when `apps/docs` is in sc
 |----------|------------------------|-----------------|
 | Fumadocs in isolated app | Nextra, Docusaurus, plain MDX | Fumadocs aligns with Next.js 16 + App Router already used by ERP |
 | Separate `apps/docs` | Docs under `apps/erp` | Avoids CSP/auth/proxy coupling; independent deploy and CI |
-| Zero `@afenda/*` in Slice 1 | Immediate design-system theming | Faster scaffold; no registry or TIP-004 overhead |
+| Zero `@afenda/*` in Slice 1 | Immediate design-system theming | Faster scaffold; no registry or Governed UI overhead |
 | Governance docs stay at repo root | Mirror into Fumadocs | Prevents ADR-0012 drift between two sources of truth |
 
 ---
@@ -208,7 +208,7 @@ Update this document when:
 
 1. `@afenda/docs` gains approved workspace dependencies (registry PR required)
 2. Content model or deploy target changes
-3. TIP-031 OpenAPI integration alters docs app structure
-4. TIP-032 reaches `Complete` — align runtime matrix row with evidence paths
+3. Foundation phase 31 OpenAPI integration alters docs app structure
+4. Foundation phase 32 reaches `Complete` — align runtime matrix row with evidence paths
 
-*Architecture baseline for TIP-032 — 2026-06-24*
+*Architecture baseline for Foundation phase 32 — 2026-06-24*

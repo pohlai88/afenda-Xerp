@@ -8,7 +8,7 @@ export const dashboardBlockStoryParameters = {
   docs: {
     description: {
       component:
-        "Governed dashboard block from `@afenda/appshell`. Layout chrome in `afenda-appshell.css`; `@afenda/ui` primitives without consumer `className` (TIP-004).",
+        "Governed dashboard block from `@afenda/appshell`. Layout chrome in `afenda-appshell.css`; `@afenda/ui` primitives without consumer `className` (Governed UI).",
     },
   },
   a11y: {

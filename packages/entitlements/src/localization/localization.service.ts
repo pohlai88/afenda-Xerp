@@ -1,4 +1,4 @@
-// TIP-008 spec-required service file — re-exports from the localization engine.
+// Foundation phase 08 spec-required service file — re-exports from the localization engine.
 export {
   type LocalizationResolution,
   localization,

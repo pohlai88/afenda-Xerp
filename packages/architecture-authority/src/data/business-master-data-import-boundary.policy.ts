@@ -1,5 +1,5 @@
 /**
- * TIP-008B Slice 7 — contract-layer import boundary (acyclic authority).
+ * Foundation phase 08 Slice 7 — contract-layer import boundary (acyclic authority).
  */
 export const BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES = [
   "@afenda/database",

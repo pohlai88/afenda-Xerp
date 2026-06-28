@@ -1,6 +1,6 @@
 ---
 name: afenda-storybook
-description: Authoritative workflow for writing, fixing, and running Storybook stories in the Afenda ERP monorepo. Covers story file structure, Meta/StoryObj patterns, TIP-004 governed-primitive rules in stories, _storybook/ fixture-composition pattern, tsconfig.storybook.json include rules, common recurring errors with their root causes and fixes, MCP preview workflow, and acceptance gates. Use when writing new stories, debugging Storybook build errors, adding blocks to Storybook, or running story tests.
+description: Authoritative workflow for writing, fixing, and running Storybook stories in the Afenda ERP monorepo. Covers story file structure, Meta/StoryObj patterns, Governed UI governed-primitive rules in stories, _storybook/ fixture-composition pattern, tsconfig.storybook.json include rules, common recurring errors with their root causes and fixes, MCP preview workflow, and acceptance gates. Use when writing new stories, debugging Storybook build errors, adding blocks to Storybook, or running story tests.
 ---
 
 # Afenda Storybook Skill
@@ -101,7 +101,7 @@ export const DarkTheme: Story = {
 
 ---
 
-## 3. TIP-004 governed-primitive rules in stories
+## 3. Governed UI governed-primitive rules in stories
 
 Stories are **consumer code** — same rules as `apps/erp`:
 
@@ -219,12 +219,12 @@ Dashboard block stories also use `layout: "fullscreen"` when they render inside 
 
 ## 6. Governed-components traceability export
 
-In stories that reference governed primitives in compositions, export a `StoriesGovernedComponents` type for TIP-004 traceability:
+In stories that reference governed primitives in compositions, export a `StoriesGovernedComponents` type for Governed UI traceability:
 
 ```tsx
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
 
-/** Governed primitives referenced in this story's compositions (TIP-004 traceability). */
+/** Governed primitives referenced in this story's compositions (Foundation phase 04 traceability). */
 export type MyComponentStoriesGovernedComponents = Extract<
   GovernedUiComponentName,
   "Badge" | "Button"

@@ -14,7 +14,7 @@ export const DESIGN_AUTHORITY_DOMAINS = [
 
 export type DesignAuthorityDomain = (typeof DESIGN_AUTHORITY_DOMAINS)[number];
 
-export const TIP_004_DOWNSTREAM_CONTRACTS = [
+export const GOVERNED_UI_DOWNSTREAM_CONTRACTS = [
   "token.contract.ts",
   "recipe.contract.ts",
   "component.contract.ts",
@@ -28,16 +28,16 @@ export const TIP_004_DOWNSTREAM_CONTRACTS = [
   "class-name-policy.contract.ts",
 ] as const;
 
-export type Tip004DownstreamContract =
-  (typeof TIP_004_DOWNSTREAM_CONTRACTS)[number];
+export type GovernedUiDownstreamContract =
+  (typeof GOVERNED_UI_DOWNSTREAM_CONTRACTS)[number];
 
 export interface DesignAuthorityIdentity {
   readonly contractId: "afenda.design-system.authority";
   readonly decisionAuthority: "ADR-governed Design System Authority";
-  readonly downstreamContractsOwnedByTip004: readonly Tip004DownstreamContract[];
+  readonly downstreamContractsOwnedByGovernedUi: readonly GovernedUiDownstreamContract[];
   readonly owner: "Afenda Architecture Authority";
   readonly packageOwner: "@afenda/design-system";
-  readonly relatedTips: readonly ["TIP-003", "TIP-004"];
+  readonly relatedStandards: readonly ["PAS-005", "Governed UI"];
   readonly supersessionRule: "May be superseded only by accepted ADR and versioned authority contract update";
   readonly version: "0.1.0";
 }
@@ -65,7 +65,7 @@ export interface DesignSystemPackageBoundary {
 }
 
 export interface DesignAuthorityAcceptanceCriteria {
-  readonly given: "TIP-003 is complete";
+  readonly given: "Foundation phase 03 is complete";
   readonly outcomes: readonly string[];
   readonly when: "future UI work begins";
 }
@@ -86,76 +86,76 @@ export interface DesignSystemAuthorityContract {
 const ownershipDomains = Object.freeze([
   {
     domain: "token",
-    owner: "TIP-004 token contract",
+    owner: "Governed UI token contract",
     owns: "Raw and semantic design values",
     boundary:
       "Tokens define values only; they do not define component behavior or layout recipes",
   },
   {
     domain: "recipe",
-    owner: "TIP-004 recipe contract",
+    owner: "Governed UI recipe contract",
     owns: "Styling composition from approved tokens and variants",
     boundary:
       "Recipes compose styling only; they do not invent behavior, state meaning, or accessibility rules",
   },
   {
     domain: "variant",
-    owner: "TIP-004 variant contract",
+    owner: "Governed UI variant contract",
     owns: "Visual meaning and governed option vocabulary",
     boundary: "Variants name meaning only; they do not invent raw values",
   },
   {
     domain: "component",
-    owner: "TIP-004 component contract",
+    owner: "Governed UI component contract",
     owns: "Behavior and accessibility wiring",
     boundary:
       "Components consume tokens, variants, recipes, slots, states, and motion; they do not create them",
   },
   {
     domain: "slot",
-    owner: "TIP-004 slot contract",
+    owner: "Governed UI slot contract",
     owns: "Component structure and named composition positions",
     boundary:
       "Slots define structure only; they do not invent styling or behavior",
   },
   {
     domain: "state",
-    owner: "TIP-004 state contract",
+    owner: "Governed UI state contract",
     owns: "UI state meaning for loading, empty, error, forbidden, invalid, and ready surfaces",
     boundary:
       "States define meaning only; data fetching and business workflows remain outside the design system",
   },
   {
     domain: "motion",
-    owner: "TIP-004 motion contract",
+    owner: "Governed UI motion contract",
     owns: "Movement safety, duration intent, and reduced-motion obligations",
     boundary:
       "Motion defines safe movement rules only; it does not create component APIs",
   },
   {
     domain: "accessibility",
-    owner: "TIP-004 accessibility contract",
+    owner: "Governed UI accessibility contract",
     owns: "Interaction safety, semantic obligations, keyboard reachability, focus, and announced state",
     boundary:
       "Accessibility rules govern UI interaction only; they do not own domain permissions",
   },
   {
     domain: "classNamePolicy",
-    owner: "TIP-004 class-name policy contract",
+    owner: "Governed UI class-name policy contract",
     owns: "Layout escape rules and prohibited semantic class overrides",
     boundary:
       "Class names may support layout only; they must not override design meaning",
   },
   {
     domain: "exportSurface",
-    owner: "TIP-004 export contract",
+    owner: "Governed UI export contract",
     owns: "Public access surface for approved design-system contracts and runtime values",
     boundary:
       "Export governance controls access only; it does not create design primitives",
   },
   {
     domain: "examplePolicy",
-    owner: "TIP-004 example contract",
+    owner: "Governed UI example contract",
     owns: "Approved AI imitation patterns and example provenance",
     boundary:
       "Examples demonstrate approved APIs only; they must not invent new APIs",
@@ -209,7 +209,7 @@ const aiMay = Object.freeze([
   "Consume exported contracts",
   "Extend only through approved contract surfaces",
   "Generate examples only from approved examples",
-  "Implement UI only after TIP-004 contracts exist",
+  "Implement UI only after Governed UI contracts exist",
 ] as const);
 
 const aiMayNot = Object.freeze([
@@ -250,9 +250,9 @@ export const designSystemAuthorityContract = Object.freeze({
     decisionAuthority: "ADR-governed Design System Authority",
     supersessionRule:
       "May be superseded only by accepted ADR and versioned authority contract update",
-    relatedTips: Object.freeze(["TIP-003", "TIP-004"] as const),
-    downstreamContractsOwnedByTip004: Object.freeze([
-      ...TIP_004_DOWNSTREAM_CONTRACTS,
+    relatedStandards: Object.freeze(["PAS-005", "Governed UI"] as const),
+    downstreamContractsOwnedByGovernedUi: Object.freeze([
+      ...GOVERNED_UI_DOWNSTREAM_CONTRACTS,
     ]),
   }),
   ownershipDomains,
@@ -270,12 +270,12 @@ export const designSystemAuthorityContract = Object.freeze({
     mutationPath: "accepted ADR -> version bump -> contract update -> tests",
   }),
   acceptanceCriteria: Object.freeze({
-    given: "TIP-003 is complete",
+    given: "Foundation phase 03 is complete",
     outcomes: Object.freeze([
       "Every visual responsibility has exactly one owner",
       "No UI responsibility overlaps",
       "AI has no permission to invent visual architecture",
-      "TIP-004 can safely implement detailed UI contracts",
+      "Governed UI can safely implement detailed UI contracts",
     ] as const),
     when: "future UI work begins",
   }),

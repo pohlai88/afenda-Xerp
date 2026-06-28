@@ -98,7 +98,7 @@ export interface AppShellMainProps {
   readonly actions?: ReactNode;
   /**
    * Optional status badge slot beside the title.
-   * Compose with governed `@afenda/ui` Badge — no `className` on primitives (TIP-004).
+   * Compose with governed `@afenda/ui` Badge — no `className` on primitives (Governed UI).
    */
   readonly badge?: ReactNode;
   readonly children?: ReactNode;

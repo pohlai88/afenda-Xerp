@@ -1,18 +1,18 @@
 ---
 title: 贡献指南
-description: Afenda 编码会话契约、TIP 切片交接与文档漂移规则。
+description: Afenda 编码会话契约、PAS 切片交接与文档漂移规则。
 ---
 
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
 
-贡献遵循 **交付 TIP 切片**、**架构权威** 与自动化漂移守卫。本页说明工作流 — 交付规格仍以 `docs/PAS/slice/` 为准。
+贡献遵循 **PAS 切片**、**架构权威** 与自动化漂移守卫。本页说明工作流 — 交付规格仍以 `docs/PAS/slice/` 为准。
 
 ## 编码前
 
-1. 阅读 [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/README.md) 了解 TIP 状态。
+1. 阅读 [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) 了解 PAS 切片状态。
 2. 阅读 [afenda-runtime-truth-matrix.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) 了解运行时证据。
-3. 从目标 TIP 复制 **一个** 交接块 — 每个会话只实现一个切片。
+3. 从目标 PAS 切片复制 **一个** 交接块 — 每个会话只实现一个切片。
 
 ## afenda-coding-session 契约
 
@@ -24,7 +24,7 @@ import { Callout } from "fumadocs-ui/components/callout";
 2. Allowed layer — 单一包路径
 3. Files to change — 明确文件列表
 4. Prohibited — 禁止触及的包
-5. Authority — ADR / TIP / skill
+5. Authority — ADR / PAS / skill
 6. Acceptance gates — `pnpm` 命令
 
 **Phase 2（结束前）：** 发布 §11 完成报告，含漂移防护表与 gate 输出。
@@ -36,10 +36,10 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 | 面 | 路径 | 何时更新 |
 | --- | --- | --- |
-| 治理 | 仓库根 `docs/` | 架构 / 交付 PR |
-| 已发布文档 | `apps/docs/content/docs/` | TIP-032 内容切片 |
+| 治理 | 仓库根 `docs/` | 架构 / PAS 切片 PR |
+| 已发布文档 | `apps/docs/content/docs/` | Docs 应用内容切片 |
 
-**ADR-0012 规则：** 不要将 ADR、注册表或 TIP 规格原文复制到 Fumadocs MDX。请交叉链接。
+**ADR-0012 规则：** 不要将 ADR、注册表或 PAS 规格原文复制到 Fumadocs MDX。请交叉链接。
 
 ```bash
 pnpm check:documentation-drift
@@ -57,7 +57,7 @@ pnpm check:documentation-drift
 禁止：
 
 - 导入 `@afenda/erp` 或 spine 包
-- 未经 TIP-004 批准使用 `@afenda/ui`
+- 未经 Governed UI 批准使用 `@afenda/ui`
 - 在 shell  chrome（侧边栏、搜索、TOC）中使用品牌强调色
 
 </Accordion>
@@ -73,5 +73,5 @@ pnpm check:documentation-drift
 | 状态 / 证据 | `pnpm check:documentation-drift` |
 
 <Callout type="note">
-  基础 TIP（执行 spine、entitlements、system admin）走 ERP 轨道。TIP-032 文档工作并行进行，不得阻塞 Accounting Core gate 会计 gate 进度。
+  基础 PAS 切片（执行 spine、entitlements、system admin）走 ERP 轨道。Docs 应用工作并行进行，不得阻塞 Accounting Core gate 进度。
 </Callout>

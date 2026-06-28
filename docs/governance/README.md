@@ -4,7 +4,7 @@ Operational runtime policy for UI, API, CSP, and package composition. Evidence/h
 
 | Doc | Purpose |
 |-----|---------|
-| [`tip-004-policy.md`](tip-004-policy.md) | **Canonical** governed UI policy (author + consumer) |
+| [`governed-ui-policy.md`](governed-ui-policy.md) | **Canonical** governed UI policy (author + consumer) |
 | [`ui-guard.md`](ui-guard.md) | `pnpm ui:guard` gates A–F |
 | [`downstream-ui-composition.md`](downstream-ui-composition.md) | Package boundaries, CSS import order, integration harness |
 | [`api-contract.md`](api-contract.md) | API contract governance |
@@ -23,4 +23,4 @@ Operational delivery evidence and runbooks — not constitutional authority.
 | [`support/fumadocs-docs-app-deploy.md`](support/fumadocs-docs-app-deploy.md) | `@afenda/docs` deploy runbook |
 | [`support/pino-erp-logger.md`](support/pino-erp-logger.md) | ERP pino logging evidence |
 
-**Retired (2026-06-27):** `architecture-erp-kernel-approval.md`, `nextjs-app-router-hardening.md`, `ui-radix-primitive-normalization.md` — one-shot delivery evidence; policy lives in registries, `tip-004-policy.md`, and `ui-guard.md`.
+**Retired (2026-06-27):** `architecture-erp-kernel-approval.md`, `nextjs-app-router-hardening.md`, `ui-radix-primitive-normalization.md` — one-shot delivery evidence; policy lives in registries, `governed-ui-policy.md`, and `ui-guard.md`.

@@ -1,8 +1,8 @@
 /**
- * TIP-007 — single import surface for platform entity authority contracts.
+ * Foundation phase 07 — single import surface for platform entity authority contracts.
  * Re-exports canonical kernel shapes; does not duplicate interface definitions.
  */
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 requires a governed platform authority export surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 07 requires a governed platform authority export surface.
 
 export type {
   LegalEntityContext,

@@ -8,7 +8,7 @@ export const ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_TITLE =
   "Phase 9 signed off";
 
 export const ACCOUNTING_READINESS_GATE_SIGNOFF_BANNER_BODY =
-  "Architecture Authority Phase 9 Accounting Readiness Gate passed on 2026-06-24. TIP-014 Accounting Core Contracts may begin. Ledger posting, journal arithmetic, and @afenda/accounting runtime remain prohibited until TIP-014 contract ADR is accepted.";
+  "Architecture Authority Phase 9 Accounting Readiness Gate passed on 2026-06-24. Foundation phase 14 Accounting Core Contracts may begin. Ledger posting, journal arithmetic, and @afenda/accounting runtime remain prohibited until Foundation phase 14 contract ADR is accepted.";
 
 export const ACCOUNTING_READINESS_GATE_STATUS_LABELS = {
   pass: "Passing",
@@ -39,7 +39,7 @@ export const ACCOUNTING_READINESS_GATE_REFRESH_FAILURE_MESSAGE =
   "Unable to run the full delegated gate check. Retry or run pnpm check:accounting-readiness-gate in CI.";
 
 export const ACCOUNTING_READINESS_GATE_FOOTNOTE_LABEL =
-  "Phase 9 signed off 2026-06-24 — see docs/architecture/phase-9-accounting-readiness-sign-off.md. TIP-014 contracts only; no ledger posting without separate ADR acceptance.";
+  "Phase 9 signed off 2026-06-24 — see docs/architecture/phase-9-accounting-readiness-sign-off.md. Foundation phase 14 contracts only; no ledger posting without separate ADR acceptance.";
 
 export type AccountingReadinessGateRequirementId =
   | "multi-company-model"

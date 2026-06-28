@@ -52,7 +52,7 @@ function collectShadcnDemoFiles(dir: string): string[] {
 
 const demoFiles = collectShadcnDemoFiles(storybookRoot);
 
-describe("storybook shadcn demos: TIP-004 composition policy", () => {
+describe("storybook shadcn demos: Governed UI composition policy", () => {
   it("includes collapsible-10 normalized demo", () => {
     expect(
       demoFiles.some((file) => file.endsWith("collapsible-animated-demo.tsx"))

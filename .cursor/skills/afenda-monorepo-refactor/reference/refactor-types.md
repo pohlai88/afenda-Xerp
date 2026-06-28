@@ -32,7 +32,7 @@ One-level reference for `afenda-monorepo-refactor`. Read only the section matchi
 
 **When:** Code is in the wrong package but does not need a new package.
 
-**Pre-check:** Target package already owns this authority per PAS/FDR/skill.
+**Pre-check:** Target package already owns this authority per PAS slice or skill.
 
 **Slice pattern:** A add to target → B update consumers → C remove from source
 

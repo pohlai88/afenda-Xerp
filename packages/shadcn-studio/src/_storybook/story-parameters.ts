@@ -27,10 +27,10 @@ export const shadcnStudioThemeLabDocs = {
 
 export const shadcnStudioPrimitivesDocs = {
   component:
-    "Stock shadcn/studio primitives from @afenda/shadcn-studio (B40 MCP seed). Unprefixed shadcn CSS variables — not TIP-004 governed @afenda/ui.",
+    "Stock shadcn/studio primitives from @afenda/shadcn-studio (B40 MCP seed). Unprefixed shadcn CSS variables — not Governed UI governed @afenda/ui.",
 } as const;
 
 export const shadcnStudioBlockDocs = {
   component:
-    "Live MCP blocks from @ss-blocks (B42c) — hero-section-01, login-page-04, application-shell chrome, statistics-card-01. Stock shadcn className patterns (Phase 1 — no TIP-004 strip).",
+    "Live MCP blocks from @ss-blocks (B42c) — hero-section-01, login-page-04, application-shell chrome, statistics-card-01. Stock shadcn className patterns (Phase 1 — no Governed UI strip).",
 } as const;

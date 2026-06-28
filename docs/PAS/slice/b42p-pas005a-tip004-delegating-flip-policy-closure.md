@@ -1,4 +1,4 @@
-# Slice B42p — TIP-004 Policy Closure + Delegating Flip Maintenance (PAS-005A §14)
+# Slice B42p — Governed UI Policy Closure + Delegating Flip Maintenance (PAS-005A §14)
 
 **Prerequisite:** B42o delivered — zero parity wrapperPath gaps; 8 delegating + 21 governed-compose strangler entries stable
 
@@ -15,11 +15,11 @@
 ```
 Handoff from: docs/PAS/slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md
 
-1. Objective    — Create serializable delegating-flip policy registry; expand TIP-004 MCP className policy tests for delegating bridge inventory; evaluate flip attempts (expect none); add appshell policy test; close PAS-005A strangler sequence in docs.
+1. Objective    — Create serializable delegating-flip policy registry; expand Governed UI MCP className policy tests for delegating bridge inventory; evaluate flip attempts (expect none); add appshell policy test; close PAS-005A strangler sequence in docs.
 2. Allowed layer— packages/appshell/src/presentation/wrappers/presentation-mcp-delegating-flip-policy.registry.ts · packages/appshell/src/__tests__/presentation-mcp-delegating-flip-policy.test.ts · packages/shadcn-studio/src/__tests__/mcp-presentation-classname-policy.test.ts · docs/PAS/slice/b42p-*.md · docs/PAS/pas-status-index.md · docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row)
 3. Files        — presentation-mcp-delegating-flip-policy.registry.ts · presentation-mcp-delegating-flip-policy.test.ts · mcp-presentation-classname-policy.test.ts · slice doc · pas-status-index · PAS-005A §14
 4. Prohibited   — foundation-disposition.registry.ts · break dashboard/shell/account-settings tests · mass MCP className removal (lab product policy allows stock shadcn)
-5. Authority    — PAS-005A · TIP-004 consumer rules · ADR-0017 · B42i/B42k strangler registry
+5. Authority    — PAS-005A · Governed UI consumer rules · ADR-0017 · B42i/B42k strangler registry
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio build
    pnpm --filter @afenda/shadcn-studio test:run

@@ -1,5 +1,5 @@
 /**
- * Stock level snapshot — quantity on hand per product + warehouse (fdr-r02 Slice 3).
+ * Stock level snapshot — quantity on hand per product + warehouse (inventory domain Slice 3).
  */
 import { index, numeric, pgTable, uniqueIndex } from "drizzle-orm/pg-core";
 import {

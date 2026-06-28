@@ -18,7 +18,7 @@ Handoff from: docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md
 1. Objective    — Delete packages/appshell/src/shadcn-studio/ tree; relocate governed blocks to presentation/; pass consumer scan; update parity registry paths.
 2. Allowed layer— packages/appshell/src/** · packages/shadcn-studio/src/registry/** · apps/storybook/tsconfig.storybook.json · docs/PAS/**
 3. Files        — (see Completion Report)
-4. Prohibited   — Migrate/copy MCP raw blocks into appshell · foundation-disposition.registry.ts · TIP-004 className strip · afenda-appshell-studio.css delete (CSS still required for governed blocks)
+4. Prohibited   — Migrate/copy MCP raw blocks into appshell · foundation-disposition.registry.ts · Governed UI className strip · afenda-appshell-studio.css delete (CSS still required for governed blocks)
 5. Authority    — PAS-005A §11.4 · B42b delete sequence · ADR-0017
 6. Gates        —
    pnpm --filter @afenda/appshell typecheck
@@ -53,7 +53,7 @@ Handoff from: docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md
 ## Follow-on (B42i proposed)
 
 - Thin governed wrappers delegating to `@afenda/shadcn-studio` MCP blocks (replace duplicate presentation TSX)
-- TIP-004 className strip on MCP blocks
+- Governed UI className strip on MCP blocks
 - `foundation-registry-owner`: promote `PKGR05A_SHADCN_STUDIO` to `green-lane`
 
 ## DoD

@@ -2,7 +2,7 @@
 
 > **Constitutional sentence:** CSS truth is proven through authority sources, a generated CSS Authority Registry, and validation gates — not developer memory or ad-hoc custom properties.
 
-> **One sentence:** PAS-005 defines how Afenda owns **CSS token authority** — vendored shadcn theme, registered extensions, generated registry with `CSS-TOKEN-*` identity, and fail-fast consumption gates — while `@afenda/design-system` retains TIP-004 variant/recipe governance until explicitly migrated.
+> **One sentence:** PAS-005 defines how Afenda owns **CSS token authority** — vendored shadcn theme, registered extensions, generated registry with `CSS-TOKEN-*` identity, and fail-fast consumption gates — while `@afenda/design-system` retains Governed UI variant/recipe governance until explicitly migrated.
 
 | Field | Value |
 | --- | --- |
@@ -53,13 +53,13 @@
 > **Package-local pointer:** [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md)
 > **Operational derived view:** [`docs/architecture/css-authority.md`](../architecture/css-authority.md)
 > **shadcn/studio delivery:** [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
-> **Legacy TIP-004 TS governance:** `@afenda/design-system` (CSS surface deprecated — not deleted in v1)
+> **Legacy Governed UI TS governance:** `@afenda/design-system` (CSS surface deprecated — not deleted in v1)
 
 ---
 
 # 0. Agent Quick Path
 
-**Boundary:** `@afenda/css-authority` **owns CSS token authority — authority JSON sources, generated CSS Authority Registry (`CSS-TOKEN-*`), vendored shadcn theme, Afenda extension CSS, and consumption validation; it never owns TIP-004 variant/recipe/state registries (remain in `@afenda/design-system` v1), React UI primitives, AppShell block TSX, or app composition beyond CSS exports.**
+**Boundary:** `@afenda/css-authority` **owns CSS token authority — authority JSON sources, generated CSS Authority Registry (`CSS-TOKEN-*`), vendored shadcn theme, Afenda extension CSS, and consumption validation; it never owns Governed UI variant/recipe/state registries (remain in `@afenda/design-system` v1), React UI primitives, AppShell block TSX, or app composition beyond CSS exports.**
 
 **Hard stops:**
 
@@ -98,13 +98,13 @@ It answers:
 - Which packages may define which namespaces
 - How shadcn default theme is vendored and upgraded
 
-It does **not** answer variant meaning, recipe styling, or primitive behavior (TIP-004 — `@afenda/design-system` + `@afenda/ui`).
+It does **not** answer variant meaning, recipe styling, or primitive behavior (Foundation phase 04 — `@afenda/design-system` + `@afenda/ui`).
 
 ---
 
 # 2. One-Sentence Boundary
 
-**`@afenda/css-authority` owns CSS Authority Registry truth and generated runtime CSS; it never owns TIP-004 variant/recipe governance or UI primitive behavior.**
+**`@afenda/css-authority` owns CSS Authority Registry truth and generated runtime CSS; it never owns Governed UI variant/recipe governance or UI primitive behavior.**
 
 ---
 
@@ -190,7 +190,7 @@ Unknown var(--foo)
 | ------- | ---------- | ------------------- |
 | CSS tokens + `@theme` runtime | `@afenda/css-authority` | **Live** — via `afenda-ui.css` |
 | `--afenda-*` raw tokens | `@afenda/design-system` | **Shim** — `afenda-tokens.css`; monolith deprecated (B30) |
-| Variant / recipe / state / motion | `@afenda/design-system` | TS registries only (TIP-004) |
+| Variant / recipe / state / motion | `@afenda/design-system` | TS registries only (Governed UI) |
 | `afenda-ui.css` import | `@afenda/ui` | **Cutover complete** (B29) — tokens + css-authority bundle |
 
 **Do not delete `@afenda/design-system` in v1.**
@@ -286,14 +286,14 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 | Priority | Item | Owner slice (proposed) | Notes |
 | -------- | ---- | ---------------------- | ----- |
 | P1 | ~~Register `--app-shell-*`, `--auth-editorial-*`, Afenda extension tokens in authority JSON~~ | B34 registry expansion | **Delivered** — 568-token merged registry |
-| P2 | ~~Close `PKGR02` knownGap `css-token-authority-migrating-to-PKGR05_CSS_AUTHORITY`~~ | B35 disposition sync | **Delivered** — PKG004_DESIGN knownGaps cleared; design-system retains TIP-004 TS |
+| P2 | ~~Close `PKGR02` knownGap `css-token-authority-migrating-to-PKGR05_CSS_AUTHORITY`~~ | B35 disposition sync | **Delivered** — PKG004_DESIGN knownGaps cleared; design-system retains Governed UI TS |
 | P3 | Enterprise Accepted attestation + lane promotion | B36 scorecard | Mirror PAS-004A B30 pattern; target `production_candidate` maturity |
 | P4 | ~~Playwright pixel baselines (docs use-erp CSS theme)~~ | B37 visual proof | **Delivered** — `docs-pixel-baseline.spec.ts` + baselines under `apps/docs/e2e/visual-proof/` |
 | P5 | R15 raw visual values in `afenda-appshell-studio.css` | appshell slice | 3 governance warnings — not css-authority package scope |
 | P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 569-token registry |
 | P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
 | Deferred | Delete `@afenda/design-system` CSS exports | post-v1 | Prohibited in PAS-005 v1 (`do-not-delete-design-system-v1`) |
-| Out of scope (v1) | TIP-004 variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
+| Out of scope (v1) | Governed UI variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
 | P8 | shadcn/studio presentation product (standalone) | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) B38–B42 | Derived PAS — theme presets, MCP seed, lab verification; Afenda bridge deferred to B42 |
 
 **Next sequence item:** none for PAS-005 MVP — continuation work lives under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B38 scaffold next).

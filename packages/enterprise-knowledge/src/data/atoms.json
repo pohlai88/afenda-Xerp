@@ -1111,7 +1111,7 @@
     },
     "lifecycle": "ratified",
     "lineage": {
-      "origin": "Multi-tenant ERP hierarchy design (TIP-007 / multi-tenancy.md).",
+      "origin": "Multi-tenant ERP hierarchy design (Foundation phase 07 / multi-tenancy.md).",
       "evolution": [
         "v1 organization represented statutory entities",
         "v2 split into legal_entity + organization_unit"
@@ -1457,7 +1457,7 @@
     },
     "lifecycle": "accepted",
     "lineage": {
-      "origin": "TIP-008 entity group authority.",
+      "origin": "Foundation phase 08 entity group authority.",
       "evolution": [],
       "currentAuthority": "PAS-004",
       "futureDirection": "Consolidation accounting deferred."
@@ -1779,7 +1779,7 @@
         "Afenda resolves permission scope at ERP operating boundaries."
       ],
       "inference": "Every API route resolves permission scope before business logic executes.",
-      "rules": ["PAS-001 PermissionScopeContext", "TIP-004 RBAC"],
+      "rules": ["PAS-001 PermissionScopeContext", "Foundation phase 04 RBAC"],
       "conclusion": "Resolved permission evaluation scope for the current actor within tenant and workspace boundaries."
     },
     "knowledgeDecision": {

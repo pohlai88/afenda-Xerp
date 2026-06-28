@@ -28,6 +28,7 @@ function createSession(
     user: {
       authUserId: "auth_user_1",
       email: "user@example.com",
+      enterpriseUserId: null,
       name: "Test User",
       emailVerified: true,
       linkStatus: "linked",

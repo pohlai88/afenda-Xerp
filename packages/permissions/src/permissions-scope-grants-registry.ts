@@ -47,7 +47,7 @@ export const PERMISSIONS_LEGACY_FLAT_MODULES = [
 
 /**
  * Membership scope tiers implemented today (`memberships.scope_type`).
- * `entity_group` landed in TIP-007/012 Slice A; `project` and `team` in TIP-030.
+ * `entity_group` landed in Foundation phase 07/012 Slice A; `project` and `team` in Foundation phase 30.
  */
 export const PERMISSIONS_IMPLEMENTED_MEMBERSHIP_SCOPES = [
   "tenant",

@@ -25,7 +25,7 @@ This skill is read-only by default.
 
 Do not edit source code.
 Do not implement repairs.
-Do not create ADR/FDR/TIP ceremony.
+Do not create ADR/PAS ceremony.
 Do not decide new architecture ownership.
 Do not treat name-based findings as final proof without checking authority docs.
 
@@ -62,7 +62,7 @@ Before scanning, state:
 
 ```text
 1. Scope package/app     — exact source folder(s)
-2. Authority sources     — PAS/FDR/skill/registry docs to check
+2. Authority sources     — PAS/PAS/skill/registry docs to check
 3. Mode                  — read-only anti-pattern scan
 4. Source truth          — source code + package manifest + exports
 5. Output                — anti-pattern matrix + blind-spot report + priority list
@@ -79,7 +79,7 @@ Read in this order:
 1. Package authority source:
 
    * PAS document, if one exists
-   * FDR, if scope is FDR-governed
+   * PAS, if scope is PAS-governed
    * package authority skill, if one exists
 
 2. Architecture registries:
@@ -122,7 +122,7 @@ A name such as `resolve*`, `format*`, `evaluate*`, `publish*`, or `load*` can tr
 1. canonical authority document
 2. package authority skill
 3. current source pattern
-4. registry / FDR evidence if available
+4. registry / PAS evidence if available
 5. whether the function is pure vocabulary/helper or actual behavior
 ```
 
@@ -323,8 +323,8 @@ For `@afenda/kernel`, use PAS-001 as authority.
 | ----------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `format*Label`                            | REVIEW                 | Violation only if user-facing presentation behavior                                                        |
 | `resolve*Currency`                        | REVIEW                 | Violation if selecting/defaulting/converting currency; allowed only if pure projection explicitly approved |
-| `FiscalCalendarId`                        | REVIEW/BLOCK           | Block as general platform ID unless PAS/FDR approves; review if in approved erp-domain/accounting vocabulary   |
-| `AccountingReadinessGateLiveSnapshot`     | REVIEW                 | Allowed only if PAS/FDR defines it as stable gate contract                                                 |
+| `FiscalCalendarId`                        | REVIEW/BLOCK           | Block as general platform ID unless PAS/PAS approves; review if in approved erp-domain/accounting vocabulary   |
+| `AccountingReadinessGateLiveSnapshot`     | REVIEW                 | Allowed only if PAS/PAS defines it as stable gate contract                                                 |
 | `deriveConsolidationScopeContext`         | REVIEW                 | Allowed if pure derivation from trusted input; violation if it loads/queries                               |
 | `from "@afenda/kernel"` inside kernel     | BLOCK                  | Must use relative import                                                                                   |
 | `Date` in wire contract                   | BLOCK                  | Use ISO string unless contract is not wire-facing                                                          |

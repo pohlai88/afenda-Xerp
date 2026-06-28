@@ -4,7 +4,7 @@
  * Source of truth for all metadata authority union types.
  *
  * Rules:
- * - Do not add values without TIP-005 authority approval.
+ * - Do not add values without Foundation phase 05 authority approval.
  * - Do not duplicate these arrays in downstream packages.
  * - Do not redefine these values in @afenda/metadata-ui.
  * - Any change requires contract version bump and governance tests.

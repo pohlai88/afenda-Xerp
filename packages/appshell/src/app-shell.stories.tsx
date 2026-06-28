@@ -34,7 +34,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `@afenda/appshell/afenda-appshell.css` (TIP-004). Visual recipe slots wire through `@afenda/ui/governance` — see ERP/ApplicationShell/Authority Preview before integration.",
+          "Enterprise ERP application shell from `@afenda/appshell`. Composes governed AppShell* blocks with `@afenda/ui` primitives. Shell layout uses plain HTML wrappers and `@afenda/appshell/afenda-appshell.css` (Governed UI). Visual recipe slots wire through `@afenda/ui/governance` — see ERP/ApplicationShell/Authority Preview before integration.",
       },
     },
     a11y: {
@@ -114,7 +114,7 @@ const meta = {
   },
 } satisfies Meta<typeof ApplicationShell>;
 
-/** Governed primitives referenced in ERP story compositions (TIP-004 traceability). */
+/** Governed primitives referenced in ERP story compositions (Foundation phase 04 traceability). */
 export type ApplicationShellStoriesGovernedComponents = Extract<
   GovernedUiComponentName,
   "Badge" | "Button"

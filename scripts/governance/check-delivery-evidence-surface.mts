@@ -15,7 +15,7 @@ import {
   GOVERNANCE_DIST_BUILD_SCRIPT,
   MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_GOVERNANCE_GATES,
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -67,12 +67,12 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
     });
   }
 
-  if (TIP_007_012_DELIVERY_DOC !== MULTI_TENANCY_DOC_REFERENCE) {
+  if (MULTI_TENANCY_DELIVERY_DOC !== MULTI_TENANCY_DOC_REFERENCE) {
     violations.push({
       rule: "delivery-doc-alias",
       file: registryPath,
       message:
-        "TIP_007_012_DELIVERY_DOC must alias docs/architecture/multi-tenancy.md after legacy cleanup",
+        "MULTI_TENANCY_DELIVERY_DOC must alias docs/architecture/multi-tenancy.md after legacy cleanup",
     });
   }
 

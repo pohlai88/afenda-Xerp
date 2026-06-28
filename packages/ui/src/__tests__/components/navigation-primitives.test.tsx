@@ -360,7 +360,7 @@ describe("navigation primitive governance", () => {
   });
 
   describe("Command", () => {
-    it("renders CommandInput without TIP-004 className policy violations", () => {
+    it("renders CommandInput without Governed UI className policy violations", () => {
       render(
         <Command>
           <CommandInput

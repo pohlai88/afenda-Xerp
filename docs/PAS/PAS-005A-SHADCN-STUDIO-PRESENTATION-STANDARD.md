@@ -13,13 +13,13 @@
 | **Runtime stance** | `presentation-runtime` (theme preset application, settings persistence, lab verification) |
 | **Registry lane** | `green-lane` — `PKGR05A_SHADCN_STUDIO` · PKG-026 |
 | **Package owner** | Design Authority |
-| **Agent skill** | `shadcn-studio-authority` · `.cursor/skills/shadcn-studio-authority/SKILL.md` (target — create on first implementation slice) |
+| **Agent skill** | `shadcn-studio-authority` · `.cursor/skills/shadcn-studio-authority/SKILL.md` |
 | **Maturity** | MVP Authority (`mvp_authority`) |
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `implemented` (Phase 1) |
 | **Evidence level** | `presentation-runtime` |
-| **Runtime status** | B42o delivered — zero parity rows missing wrapperPath; account-settings shell + content strangler wrappers complete |
-| **Remaining slices** | Ongoing block strangler maintenance (~45 MCP blocks); TIP-004 className strip deferred per block — not blocking green-lane acceptance |
+| **Runtime status** | B42p delivered — delegating-flip policy registry (68 rows); zero new flips; strangler sequence complete |
+| **Remaining slices** | none — strangler complete; optional ERP feature delegating per block when a11y parity lands |
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -55,7 +55,7 @@
 **Hard stops (summary):**
 
 - **Prohibited imports (Phase 1):** `@afenda/css-authority`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `apps/erp`, `@afenda/kernel` business resolvers
-- **Must never own:** CSS-TOKEN-* registry edits, `--afenda-*` token source, TIP-004 primitive governance, AppShell shell chrome blocks, ERP data fetching, legacy appshell studio migration
+- **Must never own:** CSS-TOKEN-* registry edits, `--afenda-*` token source, Governed UI primitive governance, AppShell shell chrome blocks, ERP data fetching, legacy appshell studio migration
 
 **Required gates:** see §13.1
 
@@ -201,7 +201,7 @@ Preset slugs are **stable public vocabulary**. Adding or renaming a slug require
 
 **Implementation (target):** `packages/shadcn-studio/src/components/ui/**`
 
-MCP `/rui` seeds Radix-based primitives. Phase 1 uses **stock shadcn className patterns** — TIP-004 governed props are **out of scope** until B42.
+MCP `/rui` seeds Radix-based primitives. Phase 1 uses **stock shadcn className patterns** — Governed UI governed props are **out of scope** until B42.
 
 **Status:** Target
 
@@ -251,8 +251,8 @@ Minimum proof:
 
 - **CSS-TOKEN-* registry** or `packages/css-authority/src/data/**` JSON authority — PAS-005 only
 - **`--afenda-*` token source** or design-system variant/recipe registries — `@afenda/design-system`
-- **TIP-004 governed primitive policy** on `@afenda/ui` — separate governance slice
-- **AppShell chrome** (`application-shell`, `dashboard-shell`, `dashboard-sidebar`) — `@afenda/appshell` / TIP-006
+- **Foundation phase 04 governed primitive policy** on `@afenda/ui` — separate governance slice
+- **AppShell chrome** (`application-shell`, `dashboard-shell`, `dashboard-sidebar`) — `@afenda/appshell` / Foundation phase 06
 - **ERP routes, server actions, data fetching** — `apps/erp`
 - **Legacy studio migration** — do not copy deleted `shadcn-studio/` TSX; re-seed via MCP; governed blocks under `presentation/`
 - **Direct `_reference/` runtime imports** — read-only catalog
@@ -313,7 +313,7 @@ Dist sync follows [`package-css-dist-sync`](../../.cursor/rules/package-css-dist
 | Is it a CSS-TOKEN-* registry entry? | Authority JSON | **No** — PAS-005 |
 | Is it an `--afenda-*` semantic token? | Afenda extension | **No** — PAS-005 / design-system |
 | Is it `--app-shell-*` geometry? | AppShell chrome | **No** — `@afenda/appshell` |
-| Is it TIP-004 governed primitive props? | UI governance | **No** — `@afenda/ui` (B42+ only) |
+| Is it Governed UI governed primitive props? | UI governance | **No** — `@afenda/ui` (B42+ only) |
 | Is it ERP route wiring or server data? | Application layer | **No** — `apps/erp` |
 | Is it copying from `_reference/` into runtime? | Prohibited bypass | **No** — port patterns only |
 | Is it migrating legacy appshell studio files? | Wrong approach | **No** — re-seed via MCP; delete legacy |
@@ -490,7 +490,7 @@ pnpm ui:guard
 | B42m | Marketing/auth/chart/statistics strangler batch | **Delivered** — [`slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md`](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) |
 | B42n | Account-settings content strangler batch | **Delivered** — [`slice/b42n-pas005a-account-settings-content-strangler-batch.md`](slice/b42n-pas005a-account-settings-content-strangler-batch.md) |
 | B42o | Residual parity wrapperPath closure | **Delivered** — [`slice/b42o-pas005a-residual-parity-wrapper-closure.md`](slice/b42o-pas005a-residual-parity-wrapper-closure.md) |
-| B42p | TIP-004 policy closure + delegating-flip maintenance | **Delivered** — [`slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md`](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) |
+| B42p | Governed UI policy closure + delegating-flip maintenance | **Delivered** — [`slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md`](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) |
 
 **Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
 

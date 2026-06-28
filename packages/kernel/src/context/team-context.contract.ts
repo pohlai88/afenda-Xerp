@@ -8,7 +8,7 @@ import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 
 /**
  * Team authority id — dedicated `tea_*` rows or org-backed selection (`org_*`) until
- * operating-context resolver loads `teams` table ids exclusively (TIP-030).
+ * operating-context resolver loads `teams` table ids exclusively (Foundation phase 30).
  */
 export type TeamAuthorityId = TeamId | OrganizationId;
 

@@ -40,7 +40,7 @@ The Afenda monorepo uses **pnpm workspaces** under `apps/` (applications) and `p
 
 | Package | Path | Notes |
 | ------- | ---- | ----- |
-| `@afenda/ui` | `packages/ui` | Governed UI primitives (TIP-004) |
+| `@afenda/ui` | `packages/ui` | Governed UI primitives (Governed UI) |
 | `@afenda/appshell` | `packages/appshell` | ERP shell chrome |
 | `@afenda/design-system` | `packages/design-system` | Tokens — **not** imported by `@afenda/docs` shell |
 
@@ -53,8 +53,8 @@ When changing UI or docs:
 
 1. **App wiring first** — `apps/erp/` or `apps/docs/` before shared packages.
 2. **Contract reference** — see [Docs app contracts](/docs/monorepo-map/docs-contracts) for `@afenda/docs` TypeScript surfaces.
-3. **Ask before editing** `packages/ui` primitives — governed by TIP-004.
-4. **One slice per session** — database → platform → app dependency order for foundation TIPs.
+3. **Ask before editing** `packages/ui` primitives — governed by Foundation phase 04.
+4. **One slice per session** — database → platform → app dependency order for foundation PAS slices.
 5. **Governance docs** — ADRs and registries live under repo-root `docs/`; link, do not duplicate.
 
 ## Dependency enforcement

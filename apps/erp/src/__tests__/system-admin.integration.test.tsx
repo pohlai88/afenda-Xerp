@@ -90,7 +90,7 @@ vi.mock("@afenda/auth", async (importOriginal) => {
   };
 });
 
-describe("system admin API integration (TIP-013 Slice 4)", () => {
+describe("system admin API integration (Foundation phase 13 Slice 4)", () => {
   beforeEach(() => {
     databaseMocks.insertMembership.mockClear();
     databaseMocks.insertUser.mockClear();

@@ -1,5 +1,5 @@
 /**
- * Serializable auth boundary contracts (TIP-004).
+ * Serializable auth boundary contracts (Governed UI).
  * ARCH-AUTH-001: Afenda `users.id` is canonical; Better Auth `authUserId` is login-only.
  */
 

@@ -8,7 +8,7 @@ import {
   normalizePlatformSlug,
 } from "../platform-slug.js";
 
-/** Full PM domain logic remains planned; persistence foundation is TIP-030 Slice 1. */
+/** Full PM domain logic remains planned; persistence foundation is Foundation phase 30 Slice 1. */
 export const PROJECT_DOMAIN_STATUS = "planned" as const;
 
 export type ProjectDomainStatus = typeof PROJECT_DOMAIN_STATUS;

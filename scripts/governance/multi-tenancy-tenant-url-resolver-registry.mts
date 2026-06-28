@@ -52,8 +52,8 @@ export const MULTI_TENANCY_DOC_TENANT_URL_RESOLVER_MARKERS = [
   "Preserve CSP/correlation/auth middleware behavior.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_TENANT_URL_RESOLVER_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_TENANT_URL_RESOLVER_SECTION =
   "Tenant subdomain strategy" as const;
 
 /** Step 6 dimensions — one table per concern in §555–559. */

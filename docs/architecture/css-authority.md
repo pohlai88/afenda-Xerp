@@ -14,7 +14,7 @@ for the app composition entry only — no package may use that name.**
 
 ```
 @afenda/design-system
-  Owns: raw --afenda-* tokens (TIP-004 TS governance + generated afenda-tokens.css)
+  Owns: raw --afenda-* tokens (Foundation phase 04 TS governance + generated afenda-tokens.css)
   Files (generated): ./css/afenda-tokens.css, ./css/afenda-design-system.css (B30 deprecation shim)
   May import from: @afenda/css-authority (shim only)
 

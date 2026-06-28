@@ -19,7 +19,7 @@ disable-model-invocation: false
 
 ## Boundary (one sentence)
 
-`@afenda/css-authority` **owns CSS token authority — authority JSON sources, generated CSS Authority Registry (`CSS-TOKEN-*`), vendored shadcn theme, Afenda extension CSS, and consumption validation; it never owns TIP-004 variant/recipe/state registries, React UI primitives, AppShell block TSX, or app composition beyond CSS exports.**
+`@afenda/css-authority` **owns CSS token authority — authority JSON sources, generated CSS Authority Registry (`CSS-TOKEN-*`), vendored shadcn theme, Afenda extension CSS, and consumption validation; it never owns Governed UI variant/recipe/state registries, React UI primitives, AppShell block TSX, or app composition beyond CSS exports.**
 
 **Constitutional sentence:** CSS truth is proven through authority sources, a generated CSS Authority Registry, and validation gates — not developer memory or ad-hoc custom properties.
 
@@ -35,7 +35,7 @@ Apply when touching:
 - PAS-005 slices under `docs/PAS/slice/`
 - `check:css-governance` / R22–R30 consumption gates
 
-**Design-system boundary:** `@afenda/design-system` retains TIP-004 variant/recipe TS governance in v1. CSS monolith is a **B30 deprecation shim** — runtime bridge lives in `@afenda/css-authority`. Do not expand `token.registry.ts` palette or hand-edit generated CSS.
+**Design-system boundary:** `@afenda/design-system` retains Governed UI variant/recipe TS governance in v1. CSS monolith is a **B30 deprecation shim** — runtime bridge lives in `@afenda/css-authority`. Do not expand `token.registry.ts` palette or hand-edit generated CSS.
 
 ---
 
@@ -69,7 +69,7 @@ Regenerate: `pnpm --filter @afenda/css-authority generate:css-authority-registry
 ### Must never own (v1)
 
 ```
-Variant/recipe/state registries (TIP-004)
+Variant/recipe/state registries (Governed UI)
 Governed UI primitive components
 Studio block TSX
 ERP business logic

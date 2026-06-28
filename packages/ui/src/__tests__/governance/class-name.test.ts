@@ -34,7 +34,7 @@ describe("className governance", () => {
 
   it("strict assertion throws outside development assumptions", () => {
     expect(() => assertAllowedLayoutClassNameStrict("text-white")).toThrow(
-      "TIP-004 className policy violation"
+      "Governed UI className policy violation"
     );
   });
 });
@@ -50,25 +50,25 @@ describe("assertAllowedLayoutClassName", () => {
 
   it("rejects semantic color classes", () => {
     expect(() => assertAllowedLayoutClassName("bg-blue-600")).toThrow(
-      "TIP-004 className policy violation"
+      "Governed UI className policy violation"
     );
   });
 
   it("rejects radius overrides", () => {
     expect(() => assertAllowedLayoutClassName("rounded-[13px]")).toThrow(
-      "TIP-004 className policy violation"
+      "Governed UI className policy violation"
     );
   });
 
   it("rejects shadow overrides", () => {
     expect(() => assertAllowedLayoutClassName("shadow-xl")).toThrow(
-      "TIP-004 className policy violation"
+      "Governed UI className policy violation"
     );
   });
 
   it("rejects typography overrides", () => {
     expect(() => assertAllowedLayoutClassName("text-[15px]")).toThrow(
-      "TIP-004 className policy violation"
+      "Governed UI className policy violation"
     );
   });
 

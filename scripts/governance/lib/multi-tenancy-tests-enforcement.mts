@@ -5,12 +5,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_TEST_REQUIREMENT_MARKERS,
   MULTI_TENANCY_TEST_REQUIREMENTS,
   MULTI_TENANCY_TESTS_DIMENSIONS,
-  TIP_007_012_TESTS_SECTION,
+  MULTI_TENANCY_TESTS_SECTION,
 } from "../multi-tenancy-tests-registry.mts";
 
 export interface MultiTenancyTestsEnforcementViolation {
@@ -83,7 +83,7 @@ function collectDeliverySectionViolations(
   repoRoot: string
 ): MultiTenancyTestsEnforcementViolation[] {
   const violations: MultiTenancyTestsEnforcementViolation[] = [];
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryPath)) {
     return violations;
@@ -92,14 +92,14 @@ function collectDeliverySectionViolations(
   const deliveryContent = readFileSync(deliveryPath, "utf8");
   const section = extractSection(
     deliveryContent,
-    `## ${TIP_007_012_TESTS_SECTION}`
+    `## ${MULTI_TENANCY_TESTS_SECTION}`
   );
 
   if (section === null) {
     violations.push({
       rule: "delivery-section-missing",
       file: deliveryPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_TESTS_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_TESTS_SECTION}`,
     });
     return violations;
   }

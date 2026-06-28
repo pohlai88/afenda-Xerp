@@ -18,10 +18,10 @@ function getEntry(packageName: (typeof CROSS_PACKAGE_NAMES)[number]) {
 }
 
 describe("cross-package authority contract", () => {
-  it("declares version, lifecycle, and TIP-005 authority", () => {
+  it("declares version, lifecycle, and Foundation phase 05 authority", () => {
     expect(crossPackageAuthority.version).toBe("1.0.0");
     expect(crossPackageAuthority.lifecycle).toBe("active");
-    expect(crossPackageAuthority.authority).toBe("TIP-005");
+    expect(crossPackageAuthority.authority).toBe("Foundation phase 05");
     expect(crossPackageAuthority.noOverlapRule.length).toBeGreaterThan(0);
   });
 

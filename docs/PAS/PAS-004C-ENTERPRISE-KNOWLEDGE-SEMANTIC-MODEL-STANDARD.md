@@ -19,11 +19,11 @@
 | **Package owner** | Enterprise Knowledge Authority |
 | **Parent standards** | PAS-004 (charter) · PAS-004A (platform) · PAS-004B (Enterprise Accepted) |
 | **Agent skills** | `enterprise-knowledge` · **`kernel-authority`** (mandatory for `realizationMapping` kernel paths) |
-| **Maturity** | Production Candidate (`production_candidate`) — **56/58 scorecard** |
+| **Maturity** | Production Candidate (`production_candidate`) — **58/58 scorecard** |
 | **Authority status** | `approved_for_implementation` |
-| **Implementation status** | `delivered` — B38–B46 complete; PKGR04 authority PAS-004C (registry delegated) |
-| **Evidence level** | `pas_document` + B38–B45 governance gates + B46 attestation |
-| **Runtime status** | B38–B46 closed — scorecard 56/58; PKGR04 authority PAS-004C |
+| **Implementation status** | `delivered` — B38–B48 complete; PKGR04 authority PAS-004C (registry delegated) |
+| **Evidence level** | `pas_document` + B38–B46 governance gates + B47–B48 consumer projection adoption |
+| **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
 | **Remaining slices** | none |
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |

@@ -58,7 +58,7 @@ export function createDatabaseAuditAdapter(
 }
 
 /**
- * Backward-compatible audit writer for the TIP-010 authority.
+ * Backward-compatible audit writer for the Foundation phase 10 authority.
  *
  * New code should use `withAuditEvidence()` from `@afenda/observability`.
  */

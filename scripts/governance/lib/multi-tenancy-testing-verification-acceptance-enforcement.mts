@@ -5,13 +5,13 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_PRE_EXISTING_BLOCKER_MARKERS,
   MULTI_TENANCY_TESTING_ACCEPTANCE_REQUIREMENTS,
   MULTI_TENANCY_TESTING_VERIFICATION_DIMENSIONS,
   MULTI_TENANCY_VERIFICATION_ACCEPTANCE_REQUIREMENTS,
-  TIP_007_012_TESTING_VERIFICATION_SECTION,
+  MULTI_TENANCY_TESTING_VERIFICATION_SECTION,
 } from "../multi-tenancy-testing-verification-acceptance-registry.mts";
 
 export interface TestingVerificationAcceptanceViolation {
@@ -41,12 +41,12 @@ export function collectTestingVerificationAcceptanceViolations(
 ): TestingVerificationAcceptanceViolation[] {
   const violations: TestingVerificationAcceptanceViolation[] = [];
 
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
   if (!existsSync(deliveryPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryPath,
-      message: `Testing/verification acceptance requires ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Testing/verification acceptance requires ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
     return violations;
   }
@@ -54,14 +54,14 @@ export function collectTestingVerificationAcceptanceViolations(
   const deliveryContent = readFileSync(deliveryPath, "utf8");
   const verificationSection = extractSection(
     deliveryContent,
-    `## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`
+    `## ${MULTI_TENANCY_TESTING_VERIFICATION_SECTION}`
   );
 
   if (verificationSection === null) {
     violations.push({
       rule: "verification-section-missing",
       file: deliveryPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_TESTING_VERIFICATION_SECTION}`,
     });
     return violations;
   }

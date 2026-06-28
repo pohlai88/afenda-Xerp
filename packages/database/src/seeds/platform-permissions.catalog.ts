@@ -14,7 +14,7 @@ function catalogKey(domain: string, action: string): PermissionKey {
 }
 
 /**
- * Platform permission catalog for TIP-003A seeds.
+ * Platform permission catalog for Foundation phase 03 seeds.
  *
  * Must stay aligned with `@afenda/permissions` `PERMISSION_REGISTRY`.
  * Verified by `@afenda/permissions` seed-catalog-alignment test.

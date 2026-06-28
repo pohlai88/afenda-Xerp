@@ -10,9 +10,9 @@
 ```
 tenants (id, slug, name, status)
   │
-  ├── [planned TIP-008] entity_groups (id, tenant_id, slug, display_name, parent_entity_id, status)
+  ├── [planned Foundation phase 08] entity_groups (id, tenant_id, slug, display_name, parent_entity_id, status)
   │     │
-  │     └── [planned TIP-008] legal_entity_ownership (
+  │     └── [planned Foundation phase 08] legal_entity_ownership (
   │           id, entity_group_id,
   │           parent_entity_id → companies.id,
   │           child_entity_id  → companies.id,
@@ -96,7 +96,7 @@ UNIQUE (user_id, tenant_id, organization_id, role_id) WHERE scope_type = 'organi
 companies: {
   id: CompanyId,                  // UUID v4
   tenantId: TenantId,             // FK → tenants.id RESTRICT
-  // entityGroupId: EntityGroupId | null,  ← add in TIP-008
+  // entityGroupId: EntityGroupId | null,  ← add in Foundation phase 08
   slug: varchar(128),             // unique per tenant
   legalName: varchar(255),        // registered statutory name
   displayName: varchar(255),      // UI label
@@ -110,13 +110,13 @@ companies: {
 }
 ```
 
-**Planned fields (TIP-008):**
+**Planned fields (Foundation phase 08):**
 - `entityGroupId` — nullable FK to `entity_groups.id`
 - `companyType` — discriminator: `standalone | holding | subsidiary | associate | joint_venture | minority`
 
 ---
 
-## Entity Group — planned schema (TIP-008)
+## Entity Group — planned schema (Foundation phase 08)
 
 ```ts
 // Planned: packages/database/src/schema/entity-group.schema.ts
@@ -139,7 +139,7 @@ Service functions to add alongside `entity_groups` table:
 
 ---
 
-## Ownership Interest — planned schema (TIP-008)
+## Ownership Interest — planned schema (Foundation phase 08)
 
 ```ts
 // Planned: packages/database/src/schema/legal-entity-ownership.schema.ts
@@ -346,7 +346,7 @@ Request arrives (tenantId in header, companyId + orgId in body/URL)
 
 ---
 
-## Future planned RLS scopes (TIP-008 / TIP-030)
+## Future planned RLS scopes (Foundation phase 08 / Foundation phase 30)
 
 | Scope | `scopeType` value | FK column added | Grants access to |
 |-------|-------------------|-----------------|-----------------|
@@ -357,7 +357,7 @@ These require schema migrations (new FK columns on `memberships`) and service fu
 
 ---
 
-## Consolidation Scope — authority model (TIP-008)
+## Consolidation Scope — authority model (Foundation phase 08)
 
 When implemented, consolidation scope resolution will be:
 

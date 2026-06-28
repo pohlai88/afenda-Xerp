@@ -76,7 +76,7 @@ const CONTRACT_ID_PATTERN = /^afenda\.design-system\./u;
 const erpBusinessLogicPattern = /\bERP\s+business\s+logic\b/u;
 const SEMVER_PATTERN = /^\d+\.\d+\.\d+$/u;
 
-describe("TIP-004 design-system contracts", () => {
+describe("Foundation phase 04 design-system contracts", () => {
   it("keeps every required contract file present", () => {
     for (const fileName of requiredContractFiles) {
       expect(
@@ -90,7 +90,7 @@ describe("TIP-004 design-system contracts", () => {
     for (const contract of designSystemContracts) {
       expect(contract.contractId).toMatch(CONTRACT_ID_PATTERN);
       expect(contract.version).toMatch(SEMVER_PATTERN);
-      expect(contract.owner).toContain("TIP-004");
+      expect(contract.owner).toContain("Governed UI");
       expect(contract.purpose.length).toBeGreaterThan(0);
       expect(contract.allowedResponsibility.length).toBeGreaterThan(0);
       expect(contract.prohibitedResponsibility.length).toBeGreaterThan(0);

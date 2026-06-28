@@ -29,7 +29,7 @@ export const exampleContract = {
     "future component authors",
   ],
   ownedResponsibility: "AI imitation",
-  owner: "TIP-004 example contract",
+  owner: "Governed UI example contract",
   prohibitedResponsibility: [
     "Define public APIs",
     "Define tokens",

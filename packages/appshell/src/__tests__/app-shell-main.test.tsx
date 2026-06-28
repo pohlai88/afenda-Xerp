@@ -30,7 +30,7 @@ describe("AppShellMain", () => {
     expect(within(region).getByText("Workspace body")).toBeInTheDocument();
   });
 
-  it("renders governed badge and action slots without TIP-004 violations", () => {
+  it("renders governed badge and action slots without Governed UI violations", () => {
     render(
       <AppShellMain
         actions={

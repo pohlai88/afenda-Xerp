@@ -51,7 +51,7 @@ describe("check-architecture-authority-surface script", () => {
     );
   });
 
-  it("documents permissions→kernel as an approved registry edge (TIP-007)", () => {
+  it("documents permissions→kernel as an approved registry edge (Foundation phase 07)", () => {
     const permissionsKernel = dependencyContract.runtimeEdges.find(
       (edge) =>
         edge.from === "@afenda/permissions" && edge.to === "@afenda/kernel"

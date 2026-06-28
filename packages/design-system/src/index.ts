@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-003/TIP-004A require a stable public root export surface governed by publicExportContract.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 03/Foundation phase 04 require a stable public root export surface governed by publicExportContract.
 import type { DesignSystemContract } from "./contracts/design-system.contract";
 import { erpGovernedExamples } from "./examples/erp-patterns";
 import { accessibilityPolicy } from "./policies/accessibility";
@@ -54,9 +54,9 @@ export type {
   DesignAuthorityIdentity,
   DesignSystemAuthorityContract,
   DesignSystemPackageBoundary,
+  GovernedUiDownstreamContract,
   OwnershipDomainAuthority,
   ProhibitedOverlapRule,
-  Tip004DownstreamContract,
 } from "./contracts/design-system-authority.contract";
 export type { GovernedExample } from "./contracts/example.contract";
 export type { PublicExportContract } from "./contracts/export.contract";
@@ -128,7 +128,7 @@ export {
 export {
   DESIGN_AUTHORITY_DOMAINS,
   designSystemAuthorityContract,
-  TIP_004_DOWNSTREAM_CONTRACTS,
+  GOVERNED_UI_DOWNSTREAM_CONTRACTS,
 } from "./contracts/design-system-authority.contract";
 export { exampleContract } from "./contracts/example.contract";
 export { exportContract } from "./contracts/export.contract";

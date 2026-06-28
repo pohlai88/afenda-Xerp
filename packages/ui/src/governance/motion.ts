@@ -16,13 +16,13 @@ const motionByIntent = new Map<MotionIntent, MotionContract>(
 function formatMissingMotionIntents(
   missingIntents: readonly MotionIntent[]
 ): string {
-  return `TIP-004 motion policy violation. Missing motion intents: ${missingIntents.join(
+  return `Governed UI motion policy violation. Missing motion intents: ${missingIntents.join(
     ", "
   )}. Every motion intent declared by @afenda/design-system must have a motion policy entry.`;
 }
 
 function formatUnknownMotionIntent(intent: string): string {
-  return `TIP-004 motion policy violation. Unknown motion intent "${intent}". Allowed: ${MOTION_INTENTS.join(
+  return `Governed UI motion policy violation. Unknown motion intent "${intent}". Allowed: ${MOTION_INTENTS.join(
     ", "
   )}.`;
 }

@@ -97,7 +97,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B42m | [b42m-pas005a-marketing-auth-chart-strangler-batch.md](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) | Delivered (marketing/auth/chart/statistics strangler wrappers) |
 | B42n | [b42n-pas005a-account-settings-content-strangler-batch.md](slice/b42n-pas005a-account-settings-content-strangler-batch.md) | Delivered (account-settings content strangler — 23 afenda-only wrappers) |
 | B42o | [b42o-pas005a-residual-parity-wrapper-closure.md](slice/b42o-pas005a-residual-parity-wrapper-closure.md) | Delivered (24 parity wrapperPath gaps closed — shell + dashboard + utility) |
-| B42p | [b42p-pas005a-tip004-delegating-flip-policy-closure.md](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) | Delivered (delegating-flip policy registry + TIP-004 className inventory; zero new flips) |
+| B42p | [b42p-pas005a-tip004-delegating-flip-policy-closure.md](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) | Delivered (delegating-flip policy registry + Governed UI className inventory; zero new flips) |
 
 ---
 

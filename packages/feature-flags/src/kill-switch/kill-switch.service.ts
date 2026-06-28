@@ -9,7 +9,7 @@ import type { KillSwitchContract } from "../contracts/kill-switch.contract";
 export { resolveKillSwitch } from "@afenda/entitlements";
 
 /**
- * TIP-008 spec-required API: boolean shorthand — returns `true` when the
+ * Foundation phase 08 spec-required API: boolean shorthand — returns `true` when the
  * kill switch is armed, `false` when it is inactive or not found.
  *
  * Kill switches are fail-closed: absent = inactive (false).

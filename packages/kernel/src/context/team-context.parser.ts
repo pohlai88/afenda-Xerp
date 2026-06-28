@@ -27,7 +27,7 @@ function requiredWireString(value: string | null, label: string): string {
   return value;
 }
 
-/** Org-backed team selection wires `org_*` into `teamId` until TIP-030 teams resolver. */
+/** Org-backed team selection wires `org_*` into `teamId` until Foundation phase 30 teams resolver. */
 function parseTeamAuthorityId(value: string): TeamAuthorityId {
   try {
     return parseTeamId(value);

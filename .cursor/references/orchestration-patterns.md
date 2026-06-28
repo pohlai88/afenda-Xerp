@@ -381,7 +381,7 @@ User → @afenda-orchestrator (batch manifest) → Task × N (afenda-governed-im
 
 **Artifact:** [`.cursor/agents/afenda-orchestrator.md`](../agents/afenda-orchestrator.md) · discoverability [`.cursor/skills/afenda-batch/SKILL.md`](../skills/afenda-batch/SKILL.md)
 
-**Anti-pattern shadow:** meta-orchestrator persona that picks between retired FDR agents — user selects via `AGENTS.md` task table and `/using-afenda-skills`.
+**Anti-pattern shadow:** meta-orchestrator persona that picks between retired PAS agents — user selects via `AGENTS.md` task table and `/using-afenda-skills`.
 
 ---
 

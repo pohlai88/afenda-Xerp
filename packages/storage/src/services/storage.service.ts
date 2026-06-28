@@ -126,7 +126,7 @@ export function createStorageService(
  * Default export stub — intentionally returns `provider_unavailable` on every
  * operation until a host injects a live provider via {@link createStorageService}.
  *
- * Waiver: `storage-default-stub-export` (fdr-015-tenant-storage) — scaffold safety
+ * Waiver: `storage-default-stub-export` (PKG-015 tenant-storage (pas-status-index)) — scaffold safety
  * for unconsumed package state; production paths must not rely on this singleton.
  */
 export const storageService = createStorageService(unavailableProvider);

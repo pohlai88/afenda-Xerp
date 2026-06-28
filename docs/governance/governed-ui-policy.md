@@ -1,6 +1,6 @@
-# TIP-004 — Governed UI Policy (canonical)
+# Governed UI Policy (canonical)
 
-Operational policy for `@afenda/ui` governance. Foundation delivery history lives in [`docs/PAS/`](../PAS/README.md) and [`pas-status-index.md`](../PAS/pas-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
+Operational policy for `@afenda/ui` governance. Package authority lives in [`docs/PAS/`](../PAS/README.md) and [`pas-status-index.md`](../PAS/pas-status-index.md). **This file** is the single source of truth for day-to-day enforcement.
 
 Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downstream-ui-composition.md)
 
@@ -8,13 +8,13 @@ Related: [`ui-guard.md`](ui-guard.md) · [`downstream-ui-composition.md`](downst
 
 ## Document map
 
-| ID | Topic | Status | Doc |
-|----|-------|--------|-----|
-| TIP-004 (this) | Author + consumer runtime policy | Active | **This file** |
-| UI guard | Gates A–F enforcement | Active | [`ui-guard.md`](ui-guard.md) |
-| Downstream composition | Package boundaries + CSS order | Active | [`downstream-ui-composition.md`](downstream-ui-composition.md) |
-| Govern primitive skill | Author/consumer checklists | Active | [`.cursor/skills/govern-primitive/SKILL.md`](../../.cursor/skills/govern-primitive/SKILL.md) |
-| shadcn promotion | ADR-0017 adaptation pipeline | Active | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
+| Topic | Status | Doc |
+|-------|--------|-----|
+| Governed UI (this) | Active | **This file** |
+| UI guard | Gates A–F enforcement | [`ui-guard.md`](ui-guard.md) |
+| Downstream composition | Package boundaries + CSS order | [`downstream-ui-composition.md`](downstream-ui-composition.md) |
+| Govern primitive skill | Author/consumer checklists | [`.cursor/skills/govern-primitive/SKILL.md`](../../.cursor/skills/govern-primitive/SKILL.md) |
+| shadcn promotion | ADR-0017 adaptation pipeline | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
 
 ---
 
@@ -59,7 +59,7 @@ All governed components call `resolvePrimitiveGovernance()` with a registered `r
 
 - **Allowed:** layout utilities validated by `assertAllowedLayoutClassName` / `guardClassName` (`flex`, `grid`, `w-*`, `h-*`, `overflow-*`, etc.)
 - **Prohibited:** semantic color, radius, shadow, motion, typography overrides; anti-slop patterns (gradients, arbitrary values, raw palette)
-- **Runtime:** throws `TIP-004 className policy violation` in dev/test when violated
+- **Runtime:** throws `Governed UI className policy violation` in dev/test when violated
 
 ```tsx
 // ✅ Author — layout-only className through governance
@@ -201,7 +201,7 @@ Full gate reference: [`ui-guard.md`](ui-guard.md)
 |------|--------------|
 | Block install → normalize → verify | [afenda-shadcn-components](../../.cursor/skills/afenda-shadcn-components/SKILL.md) |
 | Primitive author audit | [govern-primitive](../../.cursor/skills/govern-primitive/SKILL.md) |
-| Accessibility, hooks, RSC, bundle (after TIP-004 clean) | [react-erp-quality](../../.cursor/skills/react-erp-quality/SKILL.md) |
+| Accessibility, hooks, RSC, bundle (after governed UI clean) | [react-erp-quality](../../.cursor/skills/react-erp-quality/SKILL.md) |
 | Consumer Cursor rule | [governed-ui-consumption.mdc](../../.cursor/rules/governed-ui-consumption.mdc) |
 | shadcn-studio MCP wiring | [shadcn-studio](../../.cursor/skills/shadcn-studio/SKILL.md) |
 
@@ -211,10 +211,10 @@ Full gate reference: [`ui-guard.md`](ui-guard.md)
 
 | Message | Layer | Meaning |
 |---------|-------|---------|
-| `TIP-004 className policy violation` | Author or consumer runtime | Semantic or anti-slop class on governed component |
-| `TIP-004B primitive slot key violation` | Author runtime | `slotKey` missing from `dataSlotByKey` in registry |
-| `TIP-004B export coverage violation` | Author static | Export not in `GOVERNED_PRIMITIVE_REGISTRY` |
-| `TIP-004 slot/state policy violation` | Author runtime | Unregistered slot role or governed state |
+| `Governed UI className policy violation` | Author or consumer runtime | Semantic or anti-slop class on governed component |
+| `Governed UI primitive policy violation` | Author runtime | `slotKey` missing from registry or invalid slot |
+| `Governed UI export coverage violation` | Author static | Export not in `GOVERNED_PRIMITIVE_REGISTRY` |
+| `Governed UI slot/state policy violation` | Author runtime | Unregistered slot role or governed state |
 
 ---
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * ui:guard — TIP-004 UI Governance bundle
+ * ui:guard — Governed UI UI Governance bundle
  *
  * Runs all five enforcement layers in dependency order:
  *
@@ -278,19 +278,21 @@ function printHints(violation) {
 const SUBPROCESS_GATES = [
   {
     id: "A",
-    label: "@afenda/ui — author governance (TIP-004 primitives)",
+    label: "@afenda/ui — author governance (Foundation phase 04 primitives)",
     command: "pnpm --filter @afenda/ui check:governance",
     ref: ".cursor/skills/govern-primitive/SKILL.md — Author checklist",
   },
   {
     id: "B",
-    label: "@afenda/appshell — consumer governance (TIP-004 consumption)",
+    label:
+      "@afenda/appshell — consumer governance (Foundation phase 04 consumption)",
     command: "pnpm --filter @afenda/appshell check:governance",
     ref: ".cursor/rules/governed-ui-consumption.mdc",
   },
   {
     id: "C",
-    label: "@afenda/erp — consumer governance (TIP-004 consumption)",
+    label:
+      "@afenda/erp — consumer governance (Foundation phase 04 consumption)",
     command:
       "pnpm --filter @afenda/erp test:run --reporter=verbose src/__tests__/governed-ui-consumption.test.ts",
     ref: ".cursor/rules/governed-ui-consumption.mdc",
@@ -306,7 +308,7 @@ const SUBPROCESS_GATES = [
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 console.log();
-console.log(`${C.bold}${C.cyan}ui:guard${C.reset} — TIP-004 UI Governance`);
+console.log(`${C.bold}${C.cyan}ui:guard${C.reset} — Governed UI UI Governance`);
 divider();
 console.log(
   `  ${C.dim}Policy:  scripts/governance/governed-ui-consumption.mjs${C.reset}`
@@ -523,7 +525,7 @@ if (failures.length === 0) {
   console.log();
   console.log("  Quick fixes:");
   console.log(
-    "    pnpm ui:guard --scan-only --fix-hint   # fast TIP-004 scan + hints"
+    "    pnpm ui:guard --scan-only --fix-hint   # fast Governed UI scan + hints"
   );
   console.log(
     "    pnpm ui:guard --gate F --fix-hint      # React ERP quality + hints"

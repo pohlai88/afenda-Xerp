@@ -1,5 +1,5 @@
 /**
- * Permission grant scope vocabulary — membership/RLS grant boundary words (TIP-007 transitional).
+ * Permission grant scope vocabulary — membership/RLS grant boundary words (Foundation phase 07 transitional).
  *
  * Distinct from PAS §8 permission model scope vocabulary in
  * `permission/permission-model-scope.contract.ts`: grant scope types (`company`, `organization`, …)

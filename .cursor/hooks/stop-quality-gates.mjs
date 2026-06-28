@@ -69,7 +69,7 @@ const GATES = [
     key: "appshell-test",
     scope: "packages/appshell",
     command: "pnpm --filter @afenda/appshell test:run",
-    label: "@afenda/appshell tests (incl. TIP-004 consumption)",
+    label: "@afenda/appshell tests (incl. Governed UI consumption)",
   },
   {
     key: "package-css-dist-sync",

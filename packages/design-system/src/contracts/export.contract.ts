@@ -29,7 +29,7 @@ export const exportContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "public access",
-  owner: "TIP-004 export contract",
+  owner: "Governed UI export contract",
   prohibitedResponsibility: [
     "Define tokens",
     "Define variants",

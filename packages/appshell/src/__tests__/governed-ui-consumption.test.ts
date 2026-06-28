@@ -1,5 +1,5 @@
 /**
- * Static TIP-004 consumer-layer checks for @afenda/appshell.
+ * Static Governed UI consumer-layer checks for @afenda/appshell.
  * Mirrors scripts/governance/governed-ui-consumption.mjs (single policy source).
  */
 
@@ -43,7 +43,7 @@ function collectTsxFiles(dir: string): string[] {
 
 const sourceFiles = collectTsxFiles(srcDir);
 
-describe("governed UI consumption (TIP-004)", () => {
+describe("governed UI consumption (Governed UI)", () => {
   it("policy: requires @afenda/ui/governance import when @afenda/ui is used", () => {
     const violations = checkGovernedUiConsumption(`
       import { DropdownMenu } from "@afenda/ui";
@@ -93,7 +93,7 @@ describe("governed UI consumption (TIP-004)", () => {
     expect(violations).toEqual([]);
   });
 
-  it("shell composition: AppShellModuleWorkspaceChrome passes TIP-004 (no @afenda/ui className)", () => {
+  it("shell composition: AppShellModuleWorkspaceChrome passes Governed UI (no @afenda/ui className)", () => {
     const blockPath = join(
       srcDir,
       "presentation/blocks/app-shell-module-workspace-chrome.tsx"
@@ -112,7 +112,7 @@ describe("governed UI consumption (TIP-004)", () => {
   for (const file of sourceFiles) {
     const rel = relative(packageRoot, file).replace(/\\/g, "/");
 
-    it(`${rel} passes TIP-004 consumer policy (className + governance imports)`, () => {
+    it(`${rel} passes Governed UI consumer policy (className + governance imports)`, () => {
       const repoRelative = relative(join(packageRoot, "../.."), file).replace(
         /\\/g,
         "/"

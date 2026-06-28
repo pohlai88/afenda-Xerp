@@ -40,7 +40,7 @@ export function isErpEmptyStateWithAction(
 
 export const SYSTEM_ADMIN_USERS_EMPTY_STATE = {
   description:
-    "The user directory is empty for this company scope. Invite a teammate to assign a governed role through the TIP-013 invite API.",
+    "The user directory is empty for this company scope. Invite a teammate to assign a governed role through the Foundation phase 13 invite API.",
   iconKey: "users",
   surfaceVariant: "system-admin-users",
   title: "User directory",

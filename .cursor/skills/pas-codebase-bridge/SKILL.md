@@ -29,7 +29,7 @@ Do not edit source code.
 Do not implement missing features.
 Do not mark target items complete.
 Do not rewrite architecture decisions.
-Do not create ADR/FDR/TIP ceremony.
+Do not create ADR/PAS ceremony.
 Do not run repair loops.
 Do not produce git diff unless edits were explicitly requested and performed.
 Do not run destructive, mutating, or long-running commands unless explicitly requested. Prefer static file inspection first. If gates are needed, list them as recommended verification commands instead of running them.
@@ -65,7 +65,7 @@ Common invocations:
 Before auditing, state:
 
 ```text
-1. PAS source      — exact PAS/FDR/skill file being audited
+1. PAS source      — exact PAS/PAS/skill file being audited
 2. Code scope      — exact package/app/source folders being compared
 3. Consumer scope  — packages/apps that may import the target package
 4. Mode            — audit-only, no edits

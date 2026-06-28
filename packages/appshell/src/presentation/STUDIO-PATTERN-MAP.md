@@ -26,7 +26,7 @@
 
 ## Deprecated class prefixes (enforced)
 
-The following prefixes were removed from CSS during TIP-032 Slice 3.9 extraction.
+The following prefixes were removed from CSS during Foundation phase 32 Slice 3.9 extraction.
 They must **not** appear in `className` on production block TSX under
 `packages/appshell/src/presentation/blocks/`:
 
@@ -341,7 +341,7 @@ Used by: `AppShellApplicationShell02SystemAdminChrome`
 
 > **Namespace:** `app-shell-studio-application-shell-02-*`
 > **CSS source:** `afenda-appshell-studio.css` Section K
-> **Authority:** Adapts shell-02 nav grouping; does not replace TIP-006 `AppShell`.
+> **Authority:** Adapts shell-02 nav grouping; does not replace Foundation phase 06 `AppShell`.
 
 | Element | Production class | Notes |
 |---|---|---|

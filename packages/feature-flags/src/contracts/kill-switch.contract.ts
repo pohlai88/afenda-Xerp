@@ -1,4 +1,4 @@
-// TIP-008: Kill switch contracts owned by @afenda/feature-flags.
+// Foundation phase 08: Kill switch contracts owned by @afenda/feature-flags.
 // Types re-exported from @afenda/entitlements to keep the single source of truth.
 export type {
   KillSwitchContract,

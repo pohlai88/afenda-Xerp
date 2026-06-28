@@ -234,7 +234,7 @@ export function MetadataWorkspacePreviewSurface({
                       ),
                       footer: (
                         <MetadataState
-                          message="Static scope summary — domain data fetching remains in future module TIPs."
+                          message="Static scope summary — domain data fetching remains in future domain modules."
                           state="ready"
                           title="Production metadata wiring active"
                         />
@@ -258,7 +258,7 @@ export function MetadataWorkspacePreviewSurface({
                       content: <MetadataWorkspaceHumanReferenceTable />,
                       footer: (
                         <MetadataState
-                          message="Deferred entity scopes (employee, customer, supplier, asset, document) remain domain FDR work — fixtures show live registry columns only."
+                          message="Deferred entity scopes (employee, customer, supplier, asset, document) remain domain PAS slice work — fixtures show live registry columns only."
                           state="ready"
                           title="Tenant human reference boundary active"
                         />

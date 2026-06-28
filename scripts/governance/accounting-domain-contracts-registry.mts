@@ -41,7 +41,7 @@ export const ACCOUNTING_POSTING_SOURCE_KEYWORDS = [
   "calculateElimination",
 ] as const;
 
-/** Dedicated ERP accounting routes are blocked until TIP-015+ UI ADR. */
+/** Dedicated ERP accounting routes are blocked until Foundation phase 15+ UI ADR. */
 export const ACCOUNTING_ERP_FORBIDDEN_ROUTE_DIRS = [
   "apps/erp/src/app/(protected)/modules/accounting",
   "apps/erp/src/app/(protected)/accounting",

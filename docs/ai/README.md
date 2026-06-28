@@ -4,7 +4,7 @@
 |-------|-------|
 | **Status** | Active |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-002 — AI Development Governance |
+| **TIP** | Foundation phase 02 — AI Development Governance |
 | **ADR** | [ADR-0007](../adr/ADR-0007-ai-development-governance.md) |
 | **Fingerprint** | `AI-GOV-BASELINE-2026-06-20-v1` |
 | **Package** | `@afenda/ai-governance` |
@@ -15,7 +15,7 @@
 ADR-0007  >  docs/ai/*  >  .tip-scope.json  >  @afenda/ai-governance  >  CI
 ```
 
-TIP-001 architecture authority remains the source of truth for packages, layers, ownership, and dependencies. AI governance adds scope contracts and AI-specific invariants on top.
+Foundation phase 01 architecture authority remains the source of truth for packages, layers, ownership, and dependencies. AI governance adds scope contracts and AI-specific invariants on top.
 
 ## Documents
 
@@ -39,7 +39,7 @@ pnpm --filter @afenda/ai-governance test:run
 
 ```text
 AI can only change what the TIP explicitly allows.
-AI can only add packages/deps approved by TIP-001.
+AI can only add packages/deps approved by Foundation phase 01.
 AI cannot hide errors.
 AI cannot create duplicate architecture.
 AI cannot touch ERP feature code during governance work.

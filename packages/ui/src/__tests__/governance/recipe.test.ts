@@ -40,7 +40,7 @@ describe("recipe governance", () => {
         intent: "primary",
         tone: "danger",
       })
-    ).toThrow(/TIP-004 variant policy violation/);
+    ).toThrow(/Foundation phase 04 variant policy violation/);
   });
 
   it("resolves governed badge tones", () => {
@@ -85,7 +85,7 @@ describe("recipe governance", () => {
         tone: "neutral",
         intent: "primary",
       })
-    ).toThrow(/TIP-004 variant policy violation/);
+    ).toThrow(/Foundation phase 04 variant policy violation/);
   });
 
   it("produces button className without raw palette utilities", () => {

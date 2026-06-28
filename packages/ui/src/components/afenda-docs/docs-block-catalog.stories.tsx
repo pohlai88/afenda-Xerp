@@ -89,7 +89,7 @@ export const SelectionBoard: Story = {
               },
               {
                 title: "Contributing",
-                description: "Session contract and TIP handoffs.",
+                description: "Session contract and PAS slice handoffs.",
                 href: "/docs/contributing",
                 icon: FileCode2Icon,
               },

@@ -25,8 +25,8 @@ export const MULTI_TENANCY_DOC_PERSISTENCE_LOOKUP_MARKERS = [
   "Do not create accounting tables.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_PERSISTENCE_LOOKUP_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_PERSISTENCE_LOOKUP_SECTION =
   "Persistence and lookup" as const;
 
 /** Step 5 dimensions — one table per concern in §540–551. */

@@ -209,6 +209,7 @@ describe("authorizeApiRoute", () => {
           user: {
             authUserId: "auth_user_unlinked",
             email: "unlinked@example.com",
+            enterpriseUserId: null,
             name: "Unlinked User",
             emailVerified: true,
             linkStatus: "unlinked",

@@ -1,20 +1,20 @@
-# TIP-003A — Database seed and bootstrap foundation
+# Foundation phase 03 — Database seed and bootstrap foundation
 
 ## Status
 
 **Status:** Done
 
-**Scope owner:** `@afenda/database` (TIP-003A)
+**Scope owner:** `@afenda/database` (Foundation phase 03)
 
-**Related:** TIP-003 migrations/schema, TIP-005 authorization read path
+**Related:** Foundation phase 03 migrations/schema, Foundation phase 05 authorization read path
 
 ## Core principle
 
 | Layer | Owns |
 |-------|------|
-| Migration (TIP-003) | Structure |
-| Seed (TIP-003A) | Baseline platform data |
-| Bootstrap (TIP-003A) | First usable workspace |
+| Migration (Foundation phase 03) | Structure |
+| Seed (Foundation phase 03) | Baseline platform data |
+| Bootstrap (Foundation phase 03) | First usable workspace |
 
 Production bootstrap is **explicit**, **audited**, and **idempotent**. Seeds never run from app startup.
 
@@ -108,7 +108,7 @@ Bootstrap does **not** auto-create production admin accounts. For local ERP sign
 
 No direct `role_permissions` inserts outside `grantPermissionToRole()`.
 
-## Authorization integration (TIP-005)
+## Authorization integration (Foundation phase 05)
 
 After `db:seed:platform`, `DatabasePermissionDataSource.getPermissionsForRole()` reads grants from `role_permissions`. Verified by:
 
@@ -117,7 +117,7 @@ After `db:seed:platform`, `DatabasePermissionDataSource.getPermissionsForRole()`
 
 ## Feature flags
 
-Not seeded — no platform feature-flag table exists in TIP-003 schema.
+Not seeded — no platform feature-flag table exists in Foundation phase 03 schema.
 
 ## Tests
 
@@ -148,4 +148,4 @@ Never run destructive reset against shared or production databases.
 
 ## Verdict
 
-TIP-003A provides governed, idempotent platform seeding and explicit bootstrap commands with production guards. Safe for local/preview/test; production requires explicit confirmation.
+Foundation phase 03 provides governed, idempotent platform seeding and explicit bootstrap commands with production guards. Safe for local/preview/test; production requires explicit confirmation.

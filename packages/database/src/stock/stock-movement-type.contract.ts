@@ -1,5 +1,5 @@
 /**
- * Inventory stock movement types — fdr-r02 Slice 3 (ADR-0020 persistence model).
+ * Inventory stock movement types — inventory domain Slice 3 (ADR-0020 persistence model).
  */
 export const STOCK_MOVEMENT_TYPES = ["receipt", "issue", "adjustment"] as const;
 

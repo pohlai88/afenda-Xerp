@@ -19,7 +19,7 @@ function joinClassNames(...values: readonly (string | undefined)[]): string {
 }
 
 /**
- * Strangler factory — returns bridge delegate when TIP-004 safe, otherwise governed compose.
+ * Strangler factory — returns bridge delegate when Governed UI safe, otherwise governed compose.
  */
 export function createPresentationMcpWrapper<P extends object>(
   options: CreatePresentationMcpWrapperOptions<P>

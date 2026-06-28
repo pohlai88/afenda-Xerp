@@ -2,7 +2,7 @@
   "name": "@afenda/auth",
   "version": "0.0.0",
   "private": true,
-  "description": "Authentication foundation (Better Auth in TIP-004)",
+  "description": "Authentication foundation (Better Auth in Foundation phase 04)",
   "type": "module",
   "exports": {
     ".": {

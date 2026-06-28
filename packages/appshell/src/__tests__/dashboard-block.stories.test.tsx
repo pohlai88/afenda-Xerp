@@ -51,22 +51,22 @@ const { Default: StatisticsLineTrendsDefault } = composePortableStories(
 );
 
 describe("Dashboard block stories (portable CSF)", () => {
-  it("KpiStat Default renders without TIP-004 throw", () => {
+  it("KpiStat Default renders without Governed UI throw", () => {
     render(<KpiStatDefault />);
     expect(screen.getByText("Net income")).toBeInTheDocument();
   });
 
-  it("SparklineStat Default renders without TIP-004 throw", () => {
+  it("SparklineStat Default renders without Governed UI throw", () => {
     render(<SparklineStatDefault />);
     expect(screen.getByText("Revenue this month")).toBeInTheDocument();
   });
 
-  it("StatisticsIncomeCard Default renders without TIP-004 throw", () => {
+  it("StatisticsIncomeCard Default renders without Governed UI throw", () => {
     render(<StatisticsIncomeCardDefault />);
     expect(screen.getByText("Revenue this month")).toBeInTheDocument();
   });
 
-  it("StatisticsExpenseCard Default renders without TIP-004 throw", () => {
+  it("StatisticsExpenseCard Default renders without Governed UI throw", () => {
     render(<StatisticsExpenseCardDefault />);
     expect(screen.getByText("Operating expenses")).toBeInTheDocument();
   });
@@ -90,12 +90,12 @@ describe("Dashboard block stories (portable CSF)", () => {
     ).not.toBeNull();
   });
 
-  it("InvoiceTable Default renders without TIP-004 throw", () => {
+  it("InvoiceTable Default renders without Governed UI throw", () => {
     render(<InvoiceTableDefault />);
     expect(screen.getByText("Accounts receivable")).toBeInTheDocument();
   });
 
-  it("ModuleEarnings Default renders without TIP-004 throw", () => {
+  it("ModuleEarnings Default renders without Governed UI throw", () => {
     render(<ModuleEarningsDefault />);
     expect(screen.getByText("Module revenue")).toBeInTheDocument();
   });
@@ -120,32 +120,32 @@ describe("Dashboard block stories (portable CSF)", () => {
     expect(rowChangeValues[0]).toHaveTextContent("-2.1%");
   });
 
-  it("PaymentHistory Default renders without TIP-004 throw", () => {
+  it("PaymentHistory Default renders without Governed UI throw", () => {
     render(<PaymentHistoryDefault />);
     expect(screen.getByText("Corporate card spend")).toBeInTheDocument();
   });
 
-  it("RecentTransactions Default renders without TIP-004 throw", () => {
+  it("RecentTransactions Default renders without Governed UI throw", () => {
     render(<RecentTransactionsDefault />);
     expect(screen.getByText("Recent transactions")).toBeInTheDocument();
   });
 
-  it("RegionalSales Default renders without TIP-004 throw", () => {
+  it("RegionalSales Default renders without Governed UI throw", () => {
     render(<RegionalSalesDefault />);
     expect(screen.getByText("Revenue by region")).toBeInTheDocument();
   });
 
-  it("RevenueChart Default renders without TIP-004 throw", () => {
+  it("RevenueChart Default renders without Governed UI throw", () => {
     render(<RevenueChartDefault />);
     expect(screen.getByText("Total revenue")).toBeInTheDocument();
   });
 
-  it("StatisticsMetrics Default renders without TIP-004 throw", () => {
+  it("StatisticsMetrics Default renders without Governed UI throw", () => {
     render(<StatisticsMetricsDefault />);
     expect(screen.getByText("Revenue growth")).toBeInTheDocument();
   });
 
-  it("StatisticsLineTrends Default renders without TIP-004 throw", () => {
+  it("StatisticsLineTrends Default renders without Governed UI throw", () => {
     render(<StatisticsLineTrendsDefault />);
     expect(screen.getByText("Daily orders")).toBeInTheDocument();
   });

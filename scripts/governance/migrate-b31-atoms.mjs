@@ -154,7 +154,7 @@ const expansion = [
       "Permission scope is derived from membership and role grants, not from UI state.",
     inference:
       "Every API route resolves permission scope before business logic executes.",
-    rules: ["PAS-001 PermissionScopeContext", "TIP-004 RBAC"],
+    rules: ["PAS-001 PermissionScopeContext", "Foundation phase 04 RBAC"],
     domains: ["security", "identity"],
     evidenceSource:
       "packages/kernel/src/context/permission-scope-context.contract.ts",

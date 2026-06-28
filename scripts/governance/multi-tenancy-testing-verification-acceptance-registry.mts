@@ -23,7 +23,7 @@ export const MULTI_TENANCY_DOC_TESTING_VERIFICATION_MARKERS = [
 ] as const;
 
 /** Delivery doc H2 containing sign-off content (shared with Step 10). */
-export const TIP_007_012_TESTING_VERIFICATION_SECTION =
+export const MULTI_TENANCY_TESTING_VERIFICATION_SECTION =
   "Verification results" as const;
 
 export const MULTI_TENANCY_TESTING_VERIFICATION_DIMENSIONS = [

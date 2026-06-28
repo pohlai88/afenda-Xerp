@@ -40,7 +40,7 @@ export const motionContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "movement safety",
-  owner: "TIP-004A motion contract",
+  owner: "Governed UI motion contract",
   prohibitedResponsibility: [
     "Define component behavior",
     "Define UI state meaning",

@@ -1,5 +1,5 @@
 /**
- * Hierarchy context id branding and wire-format guards (TIP-008A Slice 6).
+ * Hierarchy context id branding and wire-format guards (Foundation phase 08 Slice 6).
  *
  * Wire context interfaces keep plain string ids for JSON serialization.
  * Parse ids at explicit trust boundaries via `parse*` helpers.
@@ -110,14 +110,14 @@ export function brandDeriveConsolidationScopeTrustInput(
   };
 }
 
-/** @deprecated Prefer `parseOwnershipInterestContext` — retained for TIP-008A callers. */
+/** @deprecated Prefer `parseOwnershipInterestContext` — retained for Foundation phase 08 callers. */
 export function brandOwnershipInterestContext(
   wire: OwnershipInterestWireContext
 ): BrandedOwnershipInterestContext {
   return parseOwnershipInterestContext(wire);
 }
 
-/** @deprecated Prefer `normalizeOwnershipInterestContextForWire` — retained for TIP-008A callers. */
+/** @deprecated Prefer `normalizeOwnershipInterestContextForWire` — retained for Foundation phase 08 callers. */
 export function toOwnershipInterestWireContext(
   branded: BrandedOwnershipInterestContext
 ): OwnershipInterestWireContext {

@@ -1,4 +1,4 @@
-// TIP-008 capability evaluation contracts — decision results and the full gate input surface.
+// Foundation phase 08 capability evaluation contracts — decision results and the full gate input surface.
 
 export type { BetaFlagContract } from "./beta-flag.contract";
 export type {

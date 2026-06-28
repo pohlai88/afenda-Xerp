@@ -32,4 +32,4 @@
 
 - Declare scope before implementation
 - Narrow `allowedPaths` — never use `**/*` without ADR
-- Delegate registry truth to TIP-001 — do not duplicate in ai-governance
+- Delegate registry truth to Foundation phase 01 — do not duplicate in ai-governance

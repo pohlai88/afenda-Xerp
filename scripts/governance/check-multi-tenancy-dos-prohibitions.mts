@@ -3,7 +3,7 @@
  * Multi-tenancy Do's and Prohibitions gate (multi-tenancy.md §447–480).
  *
  * Authoritative for glossary-first, consolidation-without-accounting scans,
- * forbidden `any`, accounting/TIP-013/business-module prohibition, architecture
+ * forbidden `any`, accounting/Foundation phase 13/business-module prohibition, architecture
  * check silence, and TODO-as-completion. Other Do's/Prohibitions delegate to
  * existing surface gates documented in multi-tenancy-dos-prohibitions-registry.mts.
  */
@@ -13,7 +13,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureSilenceViolations,
@@ -34,7 +34,7 @@ import {
   MULTI_TENANCY_DOS_PROHIBITIONS_GATE,
   MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE,
   MULTI_TENANCY_PROHIBITION_ENFORCEMENT,
-  TIP_007_012_DOS_PROHIBITIONS_SECTION,
+  MULTI_TENANCY_DOS_PROHIBITIONS_SECTION,
 } from "./multi-tenancy-dos-prohibitions-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -47,7 +47,7 @@ const registryPath = join(
   "scripts/governance/multi-tenancy-dos-prohibitions-registry.mts"
 );
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 const packageJsonPath = join(repoRoot, "package.json");
 
 export type MultiTenancyDosProhibitionsViolation =
@@ -124,7 +124,7 @@ function collectDeliveryDocViolations(
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required`,
     });
     return violations;
   }
@@ -137,11 +137,11 @@ function collectDeliveryDocViolations(
     });
   }
 
-  if (!deliveryContent.includes(`## ${TIP_007_012_DOS_PROHIBITIONS_SECTION}`)) {
+  if (!deliveryContent.includes(`## ${MULTI_TENANCY_DOS_PROHIBITIONS_SECTION}`)) {
     violations.push({
       rule: "delivery-section-missing",
       file: deliveryDocPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_DOS_PROHIBITIONS_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_DOS_PROHIBITIONS_SECTION}`,
     });
   }
 

@@ -27,7 +27,7 @@ Handoff from: docs/PAS/slice/b42d-pas005a-appshell-reexport-bridge.md
    packages/shadcn-studio/src/index.ts
    docs/PAS/slice/b42d-pas005a-appshell-reexport-bridge.md
    docs/PAS/pas-status-index.md
-4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · className TIP-004 strip on MCP blocks · foundation-disposition.registry.ts (except registry-owner edge)
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · className Governed UI strip on MCP blocks · foundation-disposition.registry.ts (except registry-owner edge)
 5. Authority    — PAS-005A §11.4 · ADR-0017 · PKGR05A · dependency-registry
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck

@@ -17,7 +17,7 @@ export type DatabaseConnectionConsumer =
 
 /**
  * Canonical Supabase pooler routing per consumer.
- * Authority: ARCH-SUPA-001 Slice 1 · fdr-003-persistence.
+ * Authority: ARCH-SUPA-001 Slice 1 · PKG-003 persistence (pas-status-index).
  *
  * `platform-db-pool` and `auth-db-pool` use transaction mode — matches
  * `getDatabaseUrl()` default for Vercel/serverless ERP runtimes.

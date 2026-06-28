@@ -1,6 +1,6 @@
-# Slice B54 — Kernel Project Wire Triad (PAS-001 §4.11 / TIP-030)
+# Slice B54 — Kernel Project Wire Triad (PAS-001 §4.11 / Foundation phase 30)
 
-**Prerequisite:** B49–B52 operating-context hierarchy wire · TIP-030 project schema + write path
+**Prerequisite:** B49–B52 operating-context hierarchy wire · Foundation phase 30 project schema + write path
 
 **Status:** Delivered — 2026-06-28
 
@@ -23,11 +23,11 @@ Close the remaining **−0.2 Enterprise Quality Score** gap from B52 by wiring p
 ```
 Handoff from: docs/PAS/slice/b54-kernel-project-wire-triad.md
 
-1. Objective    — Wire TIP-030 project lookup + ERP toProjectContext + operating-context resolver; replace verifyProjectSelection stub; add projectSlug selection hint.
+1. Objective    — Wire Foundation phase 30 project lookup + ERP toProjectContext + operating-context resolver; replace verifyProjectSelection stub; add projectSlug selection hint.
 2. Allowed layer— packages/database/src/project/** · apps/erp/src/lib/context/** · packages/kernel/src/context/operating-context.contract.ts (selection + error codes only) · docs/PAS/slice/b54-kernel-project-wire-triad.md · docs/PAS/pas-status-index.md
 3. Files        — project-lookup.service.ts · project/index.ts · public-api.ts · persistence-lookup-registry.ts · to-project-context.ts · resolve-operating-context.server.ts · operating-context.resolution.contract.ts · context-errors.ts · selection schema · API route headers · tests · slice doc · pas-status-index B54 row
 4. Prohibited   — schema migrations · foundation-disposition.registry.ts · parseProjectId uuid acceptance
-5. Authority    — PAS-001 · ADR-0022 split-ID · TIP-030 project schema
+5. Authority    — PAS-001 · ADR-0022 split-ID · Foundation phase 30 project schema
 6. Gates        — pnpm check:kernel-context-surface · pnpm --filter @afenda/database typecheck · pnpm --filter @afenda/kernel typecheck · pnpm --filter @afenda/erp typecheck · ERP context tests
 7. Closes       — Full hierarchy wire for all resolved operating-context slots (10/10)
 8. Evidence     — packages/database/src/project/project-lookup.service.ts · apps/erp/src/lib/context/to-project-context.ts · apps/erp/src/lib/context/resolve-operating-context.server.ts

@@ -44,7 +44,7 @@ export function isAuditPersistenceConfigured(): boolean {
 }
 
 /**
- * Single audit writer authority for TIP-010.
+ * Single audit writer authority for Foundation phase 10.
  *
  * Packages may call this function, but persistence remains delegated to a
  * database-owned adapter so observability does not import database internals.

@@ -4,7 +4,7 @@
 
 Every AI-assisted change request must declare:
 
-1. **TIP ID** — e.g. `TIP-002`
+1. **TIP ID** — e.g. `Foundation phase 02`
 2. **ADR** — e.g. `ADR-0007`
 3. **Scope** — paths in `.tip-scope.json`
 4. **Non-goals** — what must not change
@@ -28,7 +28,7 @@ Changed lines containing suppressions must include TIP or ADR reference in the s
 Allowed patterns:
 
 ```text
-// biome-ignore ... TIP-002 requires barrel export
+// biome-ignore ... Foundation phase 02 requires barrel export
 // ADR-0007: temporary exemption
 ```
 

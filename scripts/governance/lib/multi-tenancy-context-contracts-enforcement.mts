@@ -6,14 +6,14 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_CONTEXT_CONTRACT_ROW_MARKERS,
   MULTI_TENANCY_CONTEXT_CONTRACTS_DIMENSIONS,
   MULTI_TENANCY_FORBIDDEN_CONTRACT_TYPE_PATTERNS,
   MULTI_TENANCY_ROOT_EXPORT_MARKERS,
   MULTI_TENANCY_STEP4_PRIMARY_TYPES,
-  TIP_007_012_CONTEXT_CONTRACTS_SECTION,
+  MULTI_TENANCY_CONTEXT_CONTRACTS_SECTION,
 } from "../multi-tenancy-context-contracts-registry.mts";
 
 export interface ContextContractsEnforcementViolation {
@@ -222,19 +222,19 @@ export function collectContextContractsViolations(
   repoRoot: string
 ): ContextContractsEnforcementViolation[] {
   const violations: ContextContractsEnforcementViolation[] = [];
-  const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 
   if (!existsSync(deliveryDocPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `${TIP_007_012_DELIVERY_DOC} is required for Step 4 context tables`,
+      message: `${MULTI_TENANCY_DELIVERY_DOC} is required for Step 4 context tables`,
     });
     return violations;
   }
 
   const deliveryContent = readFileSync(deliveryDocPath, "utf8");
-  const sectionHeading = `## ${TIP_007_012_CONTEXT_CONTRACTS_SECTION}`;
+  const sectionHeading = `## ${MULTI_TENANCY_CONTEXT_CONTRACTS_SECTION}`;
   const contextSection = extractSection(deliveryContent, sectionHeading);
 
   if (contextSection === null) {

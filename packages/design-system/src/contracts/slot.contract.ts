@@ -43,7 +43,7 @@ export const slotContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "structure",
-  owner: "TIP-004 slot contract",
+  owner: "Governed UI slot contract",
   prohibitedResponsibility: [
     "Define styling",
     "Define raw design values",

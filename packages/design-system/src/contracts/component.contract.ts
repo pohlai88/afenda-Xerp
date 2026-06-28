@@ -28,7 +28,7 @@ export const componentContract = {
   contractId: "afenda.design-system.component",
   downstreamConsumers: ["@afenda/ui", "AppShell", "Metadata UI", "examples"],
   ownedResponsibility: "behavior",
-  owner: "TIP-004 component contract",
+  owner: "Governed UI component contract",
   prohibitedResponsibility: [
     "Invent tokens",
     "Invent variants",

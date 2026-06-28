@@ -10,13 +10,13 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 
 | Skill / agent | Decision | Reason |
 | --- | --- | --- |
-| `write-tip` | **remove** | Superseded by PAS; TIP lane retired |
-| `write-tip-slice` | **remove** | Superseded by `pas-slice-planner` + `pas-slice-template` |
-| `write-fdr` / `write-fdr-slice` | **retired stub** | Redirect to `pas-slice-planner` |
+| `pas-slice-planner` | **remove** | Superseded by PAS; TIP lane retired |
+| `pas-slice-planner-slice` | **remove** | Superseded by `pas-slice-planner` + `pas-slice-template` |
+| `pas-slice-planner` / `pas-slice-planner` | **retired stub** | Redirect to `pas-slice-planner` |
 | `tip-slice-implementer` | **retired stub** | Redirect to `afenda-governed-implementer` |
-| `fdr-slice-implementer` / `fdr-author` | **retired stub** | Redirect to `afenda-governed-implementer` |
-| `fdr-orchestrator` | **retired stub** | Redirect to `afenda-orchestrator` |
-| `afenda-fdr-batch` | **retired stub** | Redirect to `/afenda-batch` |
+| `afenda-governed-implementer` / `pas-slice-planner` | **retired stub** | Redirect to `afenda-governed-implementer` |
+| `afenda-orchestrator` | **retired stub** | Redirect to `afenda-orchestrator` |
+| `afenda-batch` | **retired stub** | Redirect to `/afenda-batch` |
 | `afenda-fumadocs` | **remove** | No effect; use `docs-editorial-design` |
 | `csp` | **merged → `csp-third-party`** | Single ERP CSP skill |
 | `xforge-nextjs-vercel` | **remove** | Stale `apps/app` paths; no repo wiring |
@@ -51,7 +51,7 @@ Retained for coding reference even without heavy Afenda wiring:
 
 ## Keep — authority + bundles
 
-`coding-consistency-bundle`, `ui-consistency-bundle`, PAS authority skills, FDR writers, UI chain, security skills, orchestration commands (`afenda-ship`, `using-afenda-skills`, etc.).
+`coding-consistency-bundle`, `ui-consistency-bundle`, PAS authority skills, PAS writers, UI chain, security skills, orchestration commands (`afenda-ship`, `using-afenda-skills`, etc.).
 
 | Skill / agent | Status | Added |
 | --- | --- | --- |

@@ -25,7 +25,7 @@ Every PR must commit `.tip-scope.json` at repo root.
 
 ```json
 {
-  "tip": "TIP-002",
+  "tip": "Foundation phase 02",
   "adr": "ADR-0007",
   "allowedPaths": [],
   "forbiddenPaths": [],

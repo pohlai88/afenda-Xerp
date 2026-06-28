@@ -3,7 +3,7 @@
 **Architecture layer:** Design  
 **Lifecycle:** Active  
 **Registry ID:** PKG-004  
-**TIP:** TIP-003 — Design System Authority / TIP-004 — Design System Contracts  
+**TIP:** Foundation phase 03 — Design System Authority / Governed UI — Design System Contracts  
 **Version:** 0.1.0  
 **Dependencies:** none
 
@@ -174,7 +174,7 @@ import type { GovernedExample } from "@afenda/design-system";
 // All examples have imitationOnly: true — they are patterns to follow, not authority.
 ```
 
-## TIP-004 downstream contracts
+## Governed UI downstream contracts
 
 Every downstream contract must satisfy one of these 11 governed contract files before consuming:
 
@@ -210,7 +210,7 @@ pnpm --filter @afenda/design-system check:governance
 
 Adding a token, variant, recipe, state, or motion intent requires:
 
-1. An accepted ADR referencing TIP-003 or TIP-004
+1. An accepted ADR referencing Foundation phase 03 or Foundation phase 04
 2. A version bump in the affected contract interface and runtime object
 3. Updated tests confirming the new value is reachable via the public API
 4. No changes to the governance principles above without Architecture Authority approval

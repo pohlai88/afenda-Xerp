@@ -2,7 +2,7 @@ import type { AfendaAuthSession } from "@afenda/auth";
 
 import type { AuthorizationContextDenialCode } from "./authorization-denial-code.js";
 
-/** Actor identity supplied by TIP-004 — permissions never authenticate. */
+/** Actor identity supplied by Governed UI — permissions never authenticate. */
 export interface AuthorizationActor {
   readonly actorId: string;
 }

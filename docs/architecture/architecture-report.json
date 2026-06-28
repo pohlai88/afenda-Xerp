@@ -617,7 +617,7 @@
   ],
   "exceptions": [
     {
-      "adr": "TIP-004",
+      "adr": "Foundation phase 04",
       "approvedBy": "Design Authority",
       "expiresAt": "2027-06-20T00:00:00.000Z",
       "packageName": "@afenda/ui",

@@ -19,7 +19,7 @@ const dependencyRegistryPath = join(
   "docs/architecture/dependency-registry.md"
 );
 
-describe("@afenda/architecture-authority business master data authority (TIP-008B Slice 2)", () => {
+describe("@afenda/architecture-authority business master data authority (Foundation phase 08 Slice 2)", () => {
   it("registers core five entities with stable count and no duplication", () => {
     expect(BUSINESS_MASTER_DATA_ENTITY_IDS).toHaveLength(5);
     expect(BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY).toHaveLength(5);

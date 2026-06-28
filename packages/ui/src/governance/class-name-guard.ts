@@ -91,7 +91,7 @@ export function assertGuardedClassName(className: string | undefined): void {
       .map((violation) => `${violation.token} (${violation.reason})`)
       .join(", ");
     throw new Error(
-      `TIP-004 className policy violation. Offending classes: ${detail}. Move semantic styling into governed recipe/variant.`
+      `Governed UI className policy violation. Offending classes: ${detail}. Move semantic styling into governed recipe/variant.`
     );
   }
 }

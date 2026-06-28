@@ -139,7 +139,7 @@ Need a new font?
 │   ✓ If must customize: add to docs-fonts.constants.ts first
 │
 ├─ Is it a display alternative to Source Serif?
-│   ✗ Requires Design Authority approval (TIP-032 Slice 3+)
+│   ✗ Requires Design Authority approval (Foundation phase 32 Slice 3+)
 │   ✓ If approved: add to docs-fonts.ts loader + docs-fonts.constants.ts
 │
 └─ Is it a third body font?

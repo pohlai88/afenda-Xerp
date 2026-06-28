@@ -9,7 +9,7 @@
 |-------|-------|
 | **As-of** | 2026-06-25 |
 | **Author** | AI agent — UI Documentation Authoring pass |
-| **Authority** | ADR-0017 · ADR-0002 · TIP-004 · TIP-006 · TIP-UI-05 |
+| **Authority** | ADR-0017 · ADR-0002 · Governed UI · Foundation phase 06 · UI phase 5 |
 | **Operational authority (agents)** | [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) |
 | **Status source** | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
 | **Enforcement** | `pnpm ui:guard` · `pnpm quality:boundaries` · `pnpm check:documentation-drift` |
@@ -34,7 +34,7 @@ This guide enables future AI coding agents and engineers to:
 |----------|------|
 | [`ADR-0002`](../adr/ADR-0002-layer-governance.md) | Layer governance — which package owns which responsibility |
 | [`ADR-0003`](../adr/ADR-0003-dependency-governance.md) | Dependency governance — new libs need registry entry |
-| [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md) | UI consumption policy — author vs consumer rules |
+| [`docs/governance/governed-ui-policy.md`](../governance/governed-ui-policy.md) | UI consumption policy — author vs consumer rules |
 | [`ui-guard.md`](../governance/ui-guard.md) | Governed UI gate enforcement |
 | [`docs/PAS/README.md`](../PAS/README.md) | PAS slice handoffs and package standards |
 | [`dependency-registry.md`](dependency-registry.md) | Approved runtime dependencies |
@@ -45,7 +45,7 @@ This guide enables future AI coding agents and engineers to:
 - No pattern may bypass `resolvePrimitiveGovernance()` for any `@afenda/ui` primitive.
 - No `className` on governed primitives in consumer packages (`apps/erp/`, `packages/appshell/`, `packages/metadata-ui/`).
 - New external libraries require a `dependency-registry.md` entry and ADR-0003 approval before use.
-- AppShell shell chrome patterns (`AppShell`, `AppShellMain`, sidebar, nav) are governed by TIP-006. No direct copy of raw shell blocks from shadcn/studio without governance adaptation.
+- AppShell shell chrome patterns (`AppShell`, `AppShellMain`, sidebar, nav) are governed by Foundation phase 06. No direct copy of raw shell blocks from shadcn/studio without governance adaptation.
 
 ---
 
@@ -78,7 +78,7 @@ Anything **not** in this table requires an explicit normalization decision (§2.
 
 **Superseded guidance:** Do not maintain manual per-utility CSS mapping tables for every Tailwind class,
 reference-template layout patterns (6-column grid, density attribute mapping, base-vega vs new-york),
-or template-specific TIP-004 violation tables — use §2.2 and [afenda-shadcn-components SKILL §3](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
+or template-specific Governed UI violation tables — use §2.2 and [afenda-shadcn-components SKILL §3](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
 
 ---
 
@@ -142,9 +142,9 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 | **charts-component** (area, bar, line charts) | shadcn/studio `/iui` | Dashboard revenue/activity trends | 9/10 | 7/10 | 7/10 | High — recharts dependency, chart tokens, accessibility labels needed | **Approved with constraints** |
 | **card-nav** (icon + label navigation cards) | shadcn/studio `/iui` | Module section nav within a page | 8/10 | 8/10 | 8/10 | Low | **Approved for adaptation** |
 | **onboarding-feed** (progressive step list) | shadcn/studio `/iui` | First-login or first-workspace onboarding | 7/10 | 7/10 | 8/10 | Medium — animation must be reduced; step state must be server-sourced | **Reference only** |
-| **application-shell** (full sidebar + header shell) | shadcn/studio `/iui` | — (already owned by TIP-006 AppShell) | n/a | n/a | n/a | **High** — TIP-006 governs all shell chrome; no raw copy permitted | **Rejected** |
-| **dashboard-shell** (sidebar layout variants) | shadcn/studio `/iui` | — (already owned by TIP-006 AppShell) | n/a | n/a | n/a | **High** — same as above | **Rejected** |
-| **dashboard-sidebar** (nav sidebar blocks) | shadcn/studio `/iui` | — (TIP-006 `AppShell` governs sidebar) | n/a | n/a | n/a | High | **Rejected** |
+| **application-shell** (full sidebar + header shell) | shadcn/studio `/iui` | — (already owned by Foundation phase 06 AppShell) | n/a | n/a | n/a | **High** — Foundation phase 06 governs all shell chrome; no raw copy permitted | **Rejected** |
+| **dashboard-shell** (sidebar layout variants) | shadcn/studio `/iui` | — (already owned by Foundation phase 06 AppShell) | n/a | n/a | n/a | **High** — same as above | **Rejected** |
+| **dashboard-sidebar** (nav sidebar blocks) | shadcn/studio `/iui` | — (Foundation phase 06 `AppShell` governs sidebar) | n/a | n/a | n/a | High | **Rejected** |
 | **bento-grid** (asymmetric marketing grid) | shadcn/studio `/iui` | — | 3/10 | n/a | 5/10 | Low but irrelevant — wrong product type | **Rejected** |
 | **hero, features, testimonials, pricing, footer** (Marketing UI) | shadcn/studio `/iui` | — | 2/10 | n/a | n/a | None — wrong context entirely | **Rejected** |
 | **shopping-cart, checkout, product-list** (eCommerce) | shadcn/studio `/iui` | — | 1/10 | n/a | n/a | None | **Rejected** |
@@ -183,7 +183,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 - Component used: `Card` via `@afenda/ui` (governed, zero `className`).
 - Chart library: `recharts` — must be added to `dependency-registry.md` and `apps/erp/package.json` only (not design-system).
 - Chart colors must use `var(--primary)`, `var(--chart-1)` … `var(--chart-5)` CSS variables sourced from `@afenda/design-system` token registry. No raw OKLCH/hex values.
-- Change badge: use `Badge` from `@afenda/ui`. Positive change → `bg-primary/10 text-primary`. Negative → `bg-destructive/10 text-destructive`. Implement via CSS class on outer `<div>`, not via `className` on the governed `Badge` primitive — see TIP-004 consumer rule.
+- Change badge: use `Badge` from `@afenda/ui`. Positive change → `bg-primary/10 text-primary`. Negative → `bg-destructive/10 text-destructive`. Implement via CSS class on outer `<div>`, not via `className` on the governed `Badge` primitive — see Governed UI consumer rule.
 - Accessibility: `<article aria-labelledby>` with stable `useId()` for title/footnote IDs. Pattern already in `AppShellDashboardKpiStat` — replicate this approach.
 
 **Constraints:**
@@ -210,7 +210,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 **Constraints:**
 - Do not build a universal "GenericTable" component. Each table block lives in its owning feature surface (`apps/erp/src/...`) unless proven reusable across 2+ surfaces with distinct API shapes.
 - Server rendering is the default for initial table data. `"use client"` only for sort/filter state that cannot be expressed via URL params + Server Component re-render.
-- The API contract for list endpoints must follow `TIP-010A` pagination contract before wiring a client-side paginated table.
+- The API contract for list endpoints must follow `Foundation phase 10` pagination contract before wiring a client-side paginated table.
 
 ---
 
@@ -225,7 +225,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 - Dashed border: plain HTML `<div className="rounded-md border border-dashed p-6 text-center">` — no governed primitive needed.
 - Heading: `<p className="mt-2 text-sm font-medium">`.
 - Action button (where present): `Button` from `@afenda/ui` (governed, zero `className` override).
-- Module placeholder pages (`/modules/[moduleId]`) currently render plain paragraphs. The empty-state pattern is the correct upgrade target for TIP-UI-05 Step 22.
+- Module placeholder pages (`/modules/[moduleId]`) currently render plain paragraphs. The empty-state pattern is the correct upgrade target for UI phase 5 Step 22.
 
 **Constraints:**
 - Do not create a universal `EmptyState` component in `packages/ui` until 3+ surfaces use the identical markup. For now, inline the pattern at each call site.
@@ -246,7 +246,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 
 **Constraints:**
 - No local form validation library beyond what `@afenda/ui`'s `Input` renders. Validate server-side via Zod in the Server Action.
-- The settings page (`/system-admin/settings`) is currently a scaffold (TIP-013 gap). Apply this pattern there when TIP-UI-05 Step 21 begins.
+- The settings page (`/system-admin/settings`) is currently a scaffold (Foundation phase 13 gap). Apply this pattern there when UI phase 5 Step 21 begins.
 
 ---
 
@@ -288,7 +288,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 
 | Pattern | Reason |
 |---------|--------|
-| **Raw Application Shell copy** (`application-shell`, `dashboard-shell`) | TIP-006 governs all AppShell chrome. Authority contracts are frozen. Import `AppShell` from `@afenda/appshell`. Any new shell surface needs a TIP-006 extension slice, not a raw copy. |
+| **Raw Application Shell copy** (`application-shell`, `dashboard-shell`) | Foundation phase 06 governs all AppShell chrome. Authority contracts are frozen. Import `AppShell` from `@afenda/appshell`. Any new shell surface needs a Foundation phase 06 extension slice, not a raw copy. |
 | **Dashboard Sidebar copy** (`dashboard-sidebar`) | Same as above — sidebar is owned by `AppShell` authority. |
 | **Bento Grid** | Asymmetric marketing layout pattern. Wrong density and semantic structure for operational ERP use. Does not map to any current screen requirement. |
 | **Marketing UI blocks** (hero, features, pricing, footer, testimonials) | Designed for marketing/landing pages. ERP users are authenticated internal operators, not anonymous marketing visitors. Wrong density, wrong information architecture. |
@@ -297,7 +297,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 | **Onboarding Feed** (progressive reveal) | Heavy animation, client-only, no server-rendering path. Onboarding steps should be derivable from feature manifest + permission grants, not local animation state. **Reference only** — inspect for step-list layout ideas, not for direct use. |
 | **Animation-heavy patterns (motion.dev)** | `motion` (previously `framer-motion`) is not in the dependency registry. ERP users are doing operational work — animation reduces perceived performance. Subtle CSS transitions (`transition`, `duration-150`) are sufficient. |
 | **Local color palettes in components** | Any component that defines raw OKLCH or hex values for chart colors outside the `@afenda/design-system` token registry violates design-token governance. Use `var(--primary)`, `var(--chart-1)`…`var(--chart-5)` exclusively. |
-| **Hardcoded className overrides on governed primitives** | violates TIP-004. Any `className` on `<Card className="...">`, `<Button className="...">` etc. in a consumer package will fail Gate D and Gate F of `pnpm ui:guard`. |
+| **Hardcoded className overrides on governed primitives** | violates Foundation phase 04. Any `className` on `<Card className="...">`, `<Button className="...">` etc. in a consumer package will fail Gate D and Gate F of `pnpm ui:guard`. |
 | **Client-only permission logic** | Permission visibility must flow through `packages/permissions/` RBAC, the operating context resolver, and feature manifest entitlements. No `if (userRole === "admin")` in component JSX. |
 
 ---
@@ -314,7 +314,7 @@ Prove reuse, governance, accessibility, and primitive ownership first.
 | Page-level screen content | `apps/erp/src/app/(protected)/` | Users page, Settings page, Module placeholders |
 | App-shell/chrome/navigation | `packages/appshell/src/` | `AppShell`, `AppShellMain`, nav, context switcher |
 | Dashboard blocks (KPI, chart, activity) | `packages/appshell/src/presentation/blocks/` | `AppShellDashboardKpiStat`, revenue chart, sparkline |
-| Metadata-driven section renderer | `packages/metadata-ui/src/` | Default section renderers (TIP-UI-04) |
+| Metadata-driven section renderer | `packages/metadata-ui/src/` | Default section renderers (UI phase 4) |
 | Reusable primitive (Button, Card, Table, etc.) | `packages/ui/src/components/` | 58 existing primitives — do not add without governance |
 | Design token, recipe, variant | `packages/design-system/src/` | Token registry, `generate-tokens-css.ts`, recipes |
 | Permission visibility | `packages/permissions/` + feature manifest | `PERMISSION_REGISTRY`, `evaluatePolicy()` |
@@ -330,7 +330,7 @@ Prove reuse, governance, accessibility, and primitive ownership first.
 **Rule for new ERP page components in `apps/erp/src/`:**
 1. Page is a Server Component by default — add `"use client"` only for interactive state.
 2. Data resolved from Server Components using governed resolvers (`resolveOperatingContext*`, `resolveSystemAdminSectionAccess`, etc.).
-3. Never inline permission logic in JSX — use governing resolvers and `access.ok` guard pattern from TIP-013.
+3. Never inline permission logic in JSX — use governing resolvers and `access.ok` guard pattern from Foundation phase 13.
 
 ---
 
@@ -373,7 +373,7 @@ Target: **9.5 / 10 coding quality**. Every implementation task must satisfy:
 - `key` props must use stable IDs (database IDs or typed constants), never array indices.
 - No `console.log` in production code. No `debugger`. No `alert`.
 
-### UI governance rules (TIP-004)
+### UI governance rules (Governed UI)
 
 - Zero `className` on `@afenda/ui` primitives in consumer packages (`apps/erp/`, `packages/appshell/`, `packages/metadata-ui/`).
 - Shell chrome (`AppShell`, `AppShellMain`) receives no `className` overrides.
@@ -398,7 +398,7 @@ Target: **9.5 / 10 coding quality**. Every implementation task must satisfy:
 
 - No new `npm install` without a `dependency-registry.md` entry.
 - For this guide's candidates: `recharts` and `@tanstack/react-table` require registry entries before use.
-- `papaparse`, `xlsx` — only add if export functionality is explicitly scoped in a delivery TIP slice.
+- `papaparse`, `xlsx` — only add if export functionality is explicitly scoped in a PAS slice slice.
 
 ---
 
@@ -417,7 +417,7 @@ Phase 0:
 4. Prohibited:
    - packages/ui/src/components/ (no new primitives without governance)
    - packages/design-system/ (no new tokens without ADR)
-   - packages/appshell/src/index.ts (no public API changes without TIP-006 slice)
+   - packages/appshell/src/index.ts (no public API changes without Foundation phase 06 slice)
 5. Authority: app-ui-component-adaptation-guide.md §4.[N] [PATTERN_NAME]
 6. Acceptance gates:
    - pnpm --filter @afenda/erp typecheck
@@ -427,20 +427,20 @@ Phase 0:
    - pnpm --filter @afenda/storybook typecheck (if Storybook story added)
 
 Source: docs/architecture/app-ui-component-adaptation-guide.md §4.[N]
-Delivery TIP: [e.g. TIP-UI-05 §Slice 2]
+PAS slice: [e.g. UI phase 5 §Slice 2]
 Visual reference: Storybook — Afenda App Shell / [BLOCK_NAME]
 ```
 
 **Per-pattern handoff notes:**
 
-| Pattern | TIP-UI-05 slice | Storybook reference | Key constraint reminder |
+| Pattern | UI phase 5 slice | Storybook reference | Key constraint reminder |
 |---------|-----------------|---------------------|------------------------|
 | Empty State + card-nav | §Slice 4 | n/a (ERP inline) | `pnpm ui:guard:scan`; zero `className` on primitives |
 | Form layout + account settings | §Slice 5 | n/a (ERP only) | Server Action + Zod; govern-primitive consumer 8/8 |
 | Chart KPI (statistics/charts/widgets) | §Slice 6 | `AppShell / Dashboard KPI Stat` | `recharts` + registry first; `pnpm ui:guard` |
 | DataTable (users/audit list) | §Slice 7 | n/a (ERP only) | `@tanstack/react-table` in registry first |
 | Multi-step invite + admin dialog | §Slice 8 | n/a | Discriminated union; no `AppShellActivityDialog` duplication |
-| Rejected shell/marketing/eCommerce | §Rejected in TIP-UI-05 | — | **Do not implement** |
+| Rejected shell/marketing/eCommerce | §Rejected in UI phase 5 | — | **Do not implement** |
 | onboarding-feed | Reference only | — | Layout ideas only — no copy |
 
 ---
@@ -496,7 +496,7 @@ This document must be updated when:
 | A new shadcn/studio block is adapted into `packages/appshell/` | Add to §3 "Existing adapted blocks" table |
 | A candidate's decision changes (e.g. dependency registered, risk resolved) | Update §3 decision; add implementation detail to §4 |
 | A new UI TIP slice is started | Add entry to §9 handoff notes |
-| TIP-004 policy changes (new gate, new rule) | Update §8 governance rules |
+| Governed UI policy changes (new gate, new rule) | Update §8 governance rules |
 | `dependency-registry.md` gains a new entry relevant to a §4 pattern | Remove the "dependency registration required" constraint from that pattern |
 | A pattern is implemented and proven stable | Move from §4 to §3 existing blocks table; add runtime evidence note |
 | `pnpm check:documentation-drift` fails | Fix the drift before merging |

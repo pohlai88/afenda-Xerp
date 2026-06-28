@@ -46,6 +46,7 @@ import {
   exportContract,
   extractTokenCategory,
   GOVERNED_STATES,
+  GOVERNED_UI_DOWNSTREAM_CONTRACTS,
   getPackageName,
   isAfendaCssVariable,
   isAfendaTokenName,
@@ -69,7 +70,6 @@ import {
   slotContract,
   stateContract,
   statePolicy,
-  TIP_004_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
   tokenContract,
   tokenNamePolicy,
@@ -155,7 +155,7 @@ const publicRuntimeExports = {
   SIZES,
   SLOT_ROLES,
   STATUS_TONES,
-  TIP_004_DOWNSTREAM_CONTRACTS,
+  GOVERNED_UI_DOWNSTREAM_CONTRACTS,
   TOKEN_CATEGORIES,
   VARIANT_AXES,
   VARIANT_EMPHASES,
@@ -217,7 +217,7 @@ const publicRuntimeExports = {
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
-describe("@afenda/design-system (TIP-004A)", () => {
+describe("@afenda/design-system (Foundation phase 04)", () => {
   // ── Package identity ──────────────────────────────────────────────────────
 
   it("exports the package name", () => {
@@ -247,7 +247,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
 
   // ── Authority contract ────────────────────────────────────────────────────
 
-  it("defines TIP-003 authority without creating TIP-004 implementation ownership", () => {
+  it("defines Foundation phase 03 authority without creating Governed UI implementation ownership", () => {
     expect(designSystemAuthorityContract.identity).toMatchObject({
       contractId: "afenda.design-system.authority",
       version: "0.1.0",
@@ -255,13 +255,14 @@ describe("@afenda/design-system (TIP-004A)", () => {
       packageOwner: "@afenda/design-system",
       decisionAuthority: "ADR-governed Design System Authority",
     });
-    expect(designSystemAuthorityContract.identity.relatedTips).toEqual([
-      "TIP-003",
-      "TIP-004",
+    expect(designSystemAuthorityContract.identity.relatedStandards).toEqual([
+      "PAS-005",
+      "Governed UI",
     ]);
     expect(
-      designSystemAuthorityContract.identity.downstreamContractsOwnedByTip004
-    ).toEqual([...TIP_004_DOWNSTREAM_CONTRACTS]);
+      designSystemAuthorityContract.identity
+        .downstreamContractsOwnedByGovernedUi
+    ).toEqual([...GOVERNED_UI_DOWNSTREAM_CONTRACTS]);
   });
 
   it("declares every design authority domain exactly once", () => {
@@ -273,7 +274,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
     expect(new Set(declaredDomains).size).toBe(DESIGN_AUTHORITY_DOMAINS.length);
 
     for (const entry of designSystemAuthorityContract.ownershipDomains) {
-      expect(entry.owner).toContain("TIP-004");
+      expect(entry.owner).toContain("Governed UI");
       expect(entry.owns.length).toBeGreaterThan(0);
       expect(entry.boundary.length).toBeGreaterThan(0);
     }
@@ -298,7 +299,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
       ])
     );
     expect(designSystemAuthorityContract.aiAntiDriftRules.may).toContain(
-      "Implement UI only after TIP-004 contracts exist"
+      "Implement UI only after Governed UI contracts exist"
     );
     expect(designSystemAuthorityContract.aiAntiDriftRules.mayNot).toContain(
       "Duplicate design contracts in metadata-ui or apps"
@@ -322,7 +323,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
     ).toBe(true);
   });
 
-  // ── Token prefix policy (TIP-004A core) ──────────────────────────────────
+  // ── Token prefix policy (Foundation phase 04 core) ──────────────────────────────────
 
   it("enforces afenda. prefix on every token name", () => {
     for (const token of AFENDA_TOKEN_REGISTRY.tokens) {
@@ -638,7 +639,7 @@ describe("@afenda/design-system (TIP-004A)", () => {
     }
   });
 
-  // ── TIP-004A policy files ─────────────────────────────────────────────────
+  // ── Foundation phase 04 policy files ─────────────────────────────────────────────────
 
   it("exports tokenNamePolicy with correct format rules", () => {
     expect(tokenNamePolicy.prefix).toBe("afenda.");

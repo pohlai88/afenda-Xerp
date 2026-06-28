@@ -5,7 +5,7 @@ import { AppShellLanguageDropdown } from "../presentation/blocks/app-shell-langu
 import { defaultAppShellLanguages } from "../presentation/data/app-shell.language.data";
 
 describe("AppShellLanguageDropdown", () => {
-  it("renders the trigger without TIP-004 consumer violations", () => {
+  it("renders the trigger without Governed UI consumer violations", () => {
     render(
       <AppShellLanguageDropdown
         trigger={<button type="button">Open language menu</button>}

@@ -3,8 +3,8 @@
  * `docs/architecture/multi-tenancy.md` (§686–718).
  */
 import {
-  TIP_007_012_DELIVERY_DOC,
-  TIP_007_012_MINIMUM_OVERALL_SCORE,
+  MULTI_TENANCY_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_MINIMUM_OVERALL_SCORE,
 } from "./delivery-evidence-surface-registry.mts";
 
 export const MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE =
@@ -13,7 +13,7 @@ export const MULTI_TENANCY_FINAL_OUTPUT_FORMAT_SURFACE_RULE =
 /** Markers that must appear in multi-tenancy.md (§686–718). */
 export const MULTI_TENANCY_DOC_FINAL_OUTPUT_MARKERS = [
   "Expected final output format:",
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
   "Executive summary",
   "Glossary added/updated",
   "Existing-state audit",
@@ -80,7 +80,7 @@ export const MULTI_TENANCY_FINAL_SCORE_DIMENSIONS = [
 ] as const;
 
 export const MULTI_TENANCY_FINAL_OUTPUT_MINIMUM_DIMENSION_SCORE =
-  TIP_007_012_MINIMUM_OVERALL_SCORE;
+  MULTI_TENANCY_DELIVERY_MINIMUM_OVERALL_SCORE;
 
 export const MULTI_TENANCY_FINAL_OUTPUT_FORMAT_GATE =
   "scripts/governance/check-multi-tenancy-final-output-format.mts" as const;

@@ -7,7 +7,7 @@ import {
   createModuleRoutePermissionDataSource,
 } from "./module-route-test-fixtures";
 
-describe("resolveManifestNavigationFromOperatingContext (TIP-007A acceptance)", () => {
+describe("resolveManifestNavigationFromOperatingContext (Foundation phase 07 acceptance)", () => {
   it("includes HRM when RBAC grants module access", async () => {
     const navigation = await resolveManifestNavigationFromOperatingContext(
       createModuleRouteOperatingContext(),

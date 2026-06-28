@@ -7,7 +7,7 @@
 
 ## Step 0 — Pre-flight
 
-- [ ] Read target FDR §Handoff block (FDR-001 for shell/dashboard, FDR-007 for system admin, FDR-014 for RBAC UI)
+- [ ] Read target PAS §Handoff block (PAS-001 for shell/dashboard, PAS-007 for system admin, PAS-014 for RBAC UI)
 - [ ] State afenda-coding-session Phase 0 (six lines)
 - [ ] Check STUDIO-PATTERN-MAP for existing patterns that match your block's visual vocabulary
 - [ ] Check `packages/appshell/src/shadcn-studio/blocks/` — is a similar block already adapted?
@@ -231,7 +231,7 @@ pnpm check                                      # Biome lint + format
 ```
 Objective: [block name] adapted from shadcn/studio to @afenda/appshell
 Files changed: [list]
-Authority followed: ADR-0017, TIP-004, TIP-006, govern-primitive
+Authority followed: ADR-0017, Foundation phase 04, Foundation phase 06, govern-primitive
 Drift-prevention:
   | STUDIO-PATTERN-MAP consulted | Pass |
   | className stripped from @afenda/ui | Pass |

@@ -1,4 +1,4 @@
-/** @afenda/permissions — authorization foundation (TIP-005). */
+/** @afenda/permissions — authorization foundation (Foundation phase 05). */
 export const PACKAGE_NAME = "@afenda/permissions" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {

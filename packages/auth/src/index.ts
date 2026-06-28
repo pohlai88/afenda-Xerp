@@ -1,4 +1,4 @@
-/** @afenda/auth — Better Auth foundation (TIP-004). */
+/** @afenda/auth — Better Auth foundation (Governed UI). */
 export const PACKAGE_NAME = "@afenda/auth" as const;
 
 export {

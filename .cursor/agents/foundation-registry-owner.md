@@ -23,11 +23,11 @@ All other agents consume the registry read-only.
 | Task | Allowed |
 | --- | --- |
 | Promote/demote lane (`red` → `amber` → `green`) | Yes — with evidence paths |
-| Close `knownGaps` after runtime proof | **Deprecated** — gaps live in FDR §Remaining gaps; keep registry `knownGaps: []` |
+| Close `knownGaps` after runtime proof | **Deprecated** — gaps live in PAS §Remaining gaps; keep registry `knownGaps: []` |
 | Add new registry entry | Yes — must align PKG-ID with package registry |
 | Edit `allowedAgents` / `prohibited` / `gates` | Yes |
 | Sync `docs/architecture/foundation-disposition.md` | Yes — read-only view only |
-| Sync `docs/PAS/README.md` | Yes — when FDR status or lane changes |
+| Sync `docs/PAS/README.md` | Yes — when PAS status or lane changes |
 | Rewrite TIP delivery docs | No — TIP is archive-lane only |
 | Create TIPE or package markdown authority | No |
 | Edit registry from another agent in same session | No |
@@ -36,7 +36,7 @@ All other agents consume the registry read-only.
 
 Promote a lane only when:
 
-- FDR §Remaining gaps for the linked entry are empty or formally deferred with ADR reference.
+- PAS §Remaining gaps for the linked entry are empty or formally deferred with ADR reference.
 - All `gates` listed on the entry pass in CI.
 - Runtime evidence paths exist in the repo.
 - `pnpm check:foundation-disposition` passes after edit.

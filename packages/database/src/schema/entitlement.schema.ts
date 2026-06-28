@@ -1,5 +1,5 @@
 /**
- * Commercial entitlement grants and usage-limit counters (TIP-008).
+ * Commercial entitlement grants and usage-limit counters (Foundation phase 08).
  *
  * Writes: `../entitlement/entitlement-provision.service.ts`
  * Reads: `../entitlement/entitlement-load.service.ts`

@@ -257,7 +257,7 @@ export const tokenContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "value",
-  owner: "TIP-004A token contract",
+  owner: "Governed UI token contract",
   prohibitedResponsibility: [
     "Define visual meaning",
     "Compose styling recipes",

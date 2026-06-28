@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { validateLayoutClassName } from "../../governance/class-name";
 
 /**
- * Author-layer TIP-004 audit: semantic recipe classes must never be passed as
+ * Author-layer Governed UI audit: semantic recipe classes must never be passed as
  * `className` into governed sub-primitives (DialogHeader, InputGroup, Button, …).
  * Apply via plain DOM wrappers + applyGovernedPresentation, descendant selectors,
  * or mergeGovernedPresentation on Radix/content shells.

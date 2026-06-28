@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Tenant RLS defense-in-depth coverage gate (TIP-007/012 DoD #16, Phase 4).
+ * Tenant RLS defense-in-depth coverage gate (Foundation phase 07/012 DoD #16, Phase 4).
  */
 
 import { existsSync, readFileSync } from "node:fs";

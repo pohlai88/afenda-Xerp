@@ -12,7 +12,7 @@ Read [css-authority.md](css-authority.md) first for PAS-005 inventory and shadcn
 |---------|-----------|------|
 | CSS tokens (runtime) | `@afenda/css-authority` | `src/authorities/`, `src/css/vendored/shadcn-theme.css` |
 | CSS registry IDs | Generated | `CSS-TOKEN-*` in `css-authority-registry.ts` |
-| TIP-004 variants/recipes | `@afenda/design-system` (v1) | TS registries only — not new CSS palette |
+| Governed UI variants/recipes | `@afenda/design-system` (v1) | TS registries only — not new CSS palette |
 | Docs editorial | `apps/docs` | `--docs-editorial-*` (separate stack) |
 
 Before any CSS edit, verify which token groups are live:

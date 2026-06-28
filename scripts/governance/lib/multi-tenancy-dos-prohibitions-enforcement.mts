@@ -171,7 +171,7 @@ export function collectForbiddenAccountingViolations(
           violations.push({
             rule: "forbidden-accounting-pattern",
             file: filePath,
-            message: `Accounting / TIP-013 implementation pattern prohibited (code-only): ${pattern.source}`,
+            message: `Accounting / Foundation phase 13 implementation pattern prohibited (code-only): ${pattern.source}`,
           });
         }
       }
@@ -204,7 +204,7 @@ export function collectForbiddenBusinessModulePathViolations(
       violations.push({
         rule: "forbidden-business-module-path",
         file: join(protectedRoot, entry.name),
-        message: `Business module route segment "${entry.name}" is prohibited before TIP-013`,
+        message: `Business module route segment "${entry.name}" is prohibited before Foundation phase 13`,
       });
     }
   }

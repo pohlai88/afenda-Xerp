@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Phase 9 Accounting Readiness Gate orchestrator (ADR-0010 / TIP-013A).
+ * Phase 9 Accounting Readiness Gate orchestrator (ADR-0010 / Foundation phase 13).
  *
  * Validates registry structure, evidence files, and delegates to existing
  * governance gates — no duplicate gate logic.
@@ -17,7 +17,7 @@ import {
   ACCOUNTING_READINESS_GATE_REQUIREMENTS,
   ACCOUNTING_READINESS_GATE_SURFACE_RULE,
   PHASE_9_ROADMAP_DOC,
-  TIP_013A_DELIVERY_DOC,
+  ACCOUNTING_READINESS_DELIVERY_DOC,
 } from "./accounting-readiness-gate-registry.mts";
 import { checkAccountingReadinessErpCopyParity } from "./lib/accounting-readiness-gate-erp-copy-parity.mts";
 import { evaluateAccountingReadinessGateLiveStatus } from "./lib/accounting-readiness-gate-live-status.mts";
@@ -185,7 +185,7 @@ export function checkAccountingReadinessGateStructure(): AccountingReadinessGate
     });
   }
 
-  const deliveryDocPath = join(repoRoot, TIP_013A_DELIVERY_DOC);
+  const deliveryDocPath = join(repoRoot, ACCOUNTING_READINESS_DELIVERY_DOC);
 
   if (existsSync(deliveryDocPath)) {
     const deliveryContent = readFileSync(deliveryDocPath, "utf8");

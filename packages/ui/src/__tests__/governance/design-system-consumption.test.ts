@@ -75,7 +75,7 @@ describe("governed variant resolution", () => {
         { intent: "primary", emphasis: "neon" as "solid" },
         ["intent", "emphasis"]
       )
-    ).toThrow(/TIP-004 variant policy violation/);
+    ).toThrow(/Foundation phase 04 variant policy violation/);
   });
 
   it("accepts governed badge tones only", () => {
@@ -87,7 +87,7 @@ describe("governed variant resolution", () => {
   it("rejects unsupported badge tones in development", () => {
     expect(() =>
       resolveBadgeClassName({ tone: "celebratory" as "neutral" })
-    ).toThrow(/TIP-004 variant policy violation/);
+    ).toThrow(/Foundation phase 04 variant policy violation/);
   });
 });
 
@@ -130,7 +130,7 @@ describe("className and state policy", () => {
 
   it("rejects semantic className overrides in development", () => {
     expect(() => assertAllowedLayoutClassName("bg-red-500 flex")).toThrow(
-      /TIP-004 className policy violation/
+      /Governed UI className policy violation/
     );
   });
 
@@ -140,7 +140,7 @@ describe("className and state policy", () => {
     }
 
     expect(() => assertGovernedState("downloading")).toThrow(
-      /TIP-004 state policy violation/
+      /Governed UI state policy violation/
     );
   });
 });

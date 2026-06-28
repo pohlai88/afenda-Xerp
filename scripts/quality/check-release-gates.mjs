@@ -1,11 +1,11 @@
 /**
- * TIP-009 release gate meta-check.
+ * Foundation phase 09 release gate meta-check.
  *
- * Validates that the TIP-009 governance structure itself is intact:
+ * Validates that the Foundation phase 09 governance structure itself is intact:
  *   - all required workflow files exist
  *   - ci.yml runs every required command
  *   - root package.json defines every required quality script
- *   - the TIP-009 delivery document exists
+ *   - the Foundation phase 09 delivery document exists
  *
  * This script is the self-referential integrity lock for the delivery spine.
  * It must pass before any release reaches a protected branch.

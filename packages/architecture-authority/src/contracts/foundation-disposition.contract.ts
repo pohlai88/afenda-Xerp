@@ -16,7 +16,7 @@ export interface FoundationDispositionEntry {
   readonly evidence: readonly string[];
   readonly gates: readonly string[];
   readonly id: string;
-  /** @deprecated Always []. Gap tracking lives in FDR §Remaining gaps until field removal ADR. */
+  /** @deprecated Always []. Gap tracking lives in PAS slice handoffs until field removal ADR. */
   readonly knownGaps: readonly string[];
   readonly lane: FoundationLane;
   readonly legacyTipEvidence: readonly string[];

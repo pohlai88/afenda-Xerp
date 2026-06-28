@@ -1,9 +1,9 @@
 /**
- * Static TIP-004 consumer-layer checks for @afenda/erp.
+ * Static Governed UI consumer-layer checks for @afenda/erp.
  * Mirrors scripts/governance/governed-ui-consumption.mjs (single policy source).
  *
  * The erp app imports @afenda/ui and @afenda/appshell. Any className passed to
- * a governed @afenda/ui primitive will throw at runtime in dev/test (TIP-004).
+ * a governed @afenda/ui primitive will throw at runtime in dev/test (Governed UI).
  * This static test surfaces violations before they reach the browser.
  */
 
@@ -41,7 +41,7 @@ function collectTsxFiles(dir: string): string[] {
 
 const sourceFiles = collectTsxFiles(srcDir);
 
-describe("governed UI consumption — apps/erp (TIP-004)", () => {
+describe("governed UI consumption — apps/erp (Governed UI)", () => {
   for (const file of sourceFiles) {
     const rel = relative(appRoot, file).replace(/\\/g, "/");
 

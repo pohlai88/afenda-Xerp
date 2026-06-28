@@ -27,10 +27,10 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 | [ADR-0010](ADR-0010-no-accounting-before-foundation-gate.md) | No Accounting Coding Before Pre-accounting Foundation Gate | Accepted |
 | [ADR-0011](ADR-0011-multi-level-company-model-foundational.md) | Multi-level Company / Holding / Subsidiary / Minor Interest Model Is Foundational | Accepted |
 | [ADR-0012](ADR-0012-documentation-evidence-backed.md) | Documentation Must Be Evidence-backed by Runtime | Accepted |
-| [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority (phase narrative; handoffs superseded by ADR-0014) | Accepted |
-| [ADR-0014](ADR-0014-foundation-disposition-registry.md) | Foundation Disposition Registry (FDR) | Accepted |
+| [ADR-0013](ADR-0013-tip-roadmap-delivery-authority.md) | TIP Roadmap Is the Delivery Authority (phase narrative; PAS supersedes handoffs) | Accepted |
+| [ADR-0014](ADR-0014-foundation-disposition-registry.md) | Foundation Disposition Registry | Accepted |
 | [ADR-0015](ADR-0015-accounting-domain-contracts-only-activation.md) | Accounting Domain Contracts-Only Activation (PKG-R01) | Accepted |
-| [ADR-0016](ADR-0016-fdr-delivery-authority.md) | FDR Delivery Authority (partially superseded by PAS 2026-06-28) | Accepted |
+| [ADR-0016](ADR-0016-fdr-delivery-authority.md) | PAS slice Authority (partially superseded by PAS 2026-06-28) | Accepted |
 | [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | shadcn/studio UI Delivery Acceleration | Proposed |
 | [ADR-0018](ADR-0018-authentication-architecture.md) | Authentication Architecture | Accepted |
 | [ADR-0019](ADR-0019-inventory-domain-master-data-activation.md) | Inventory Domain Master Data Activation | Accepted |
@@ -45,23 +45,23 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 1. **Propose** — draft ADR from [ADR-template.md](ADR-template.md)
 2. **Review** — Architecture Authority + affected owner domains
 3. **Accept** — status → Accepted; update registries if material
-4. **Implement** — machine contracts and validators (TIP-001C+)
-5. **Enforce** — CI gates (TIP-001E+)
+4. **Implement** — machine contracts and validators (Foundation phase 01+)
+5. **Enforce** — CI gates (Foundation phase 01+)
 
 ## Rules
 
 - New architectural patterns require an Accepted ADR (ARCH-009).
 - Registry changes for material governance require ADR backing.
-- Exceptions require ADR-0005 and an entry in `ExceptionContract` (TIP-001C).
+- Exceptions require ADR-0005 and an entry in `ExceptionContract` (Foundation phase 01).
 - No exception may exist without expiry.
 
 ## Related
 
-- [FDR workflow](../architecture/foundation-delivery-authority.md)
+- [PAS delivery authority](../architecture/foundation-delivery-authority.md)
 - [Foundation disposition view](../architecture/foundation-disposition.md)
 
 - Baseline: [`docs/architecture/architecture-authority-baseline.md`](../architecture/architecture-authority-baseline.md)
 - Documentation index: [`docs/README.md`](../README.md)
 - Pre-accounting roadmap: [`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md)
 - Runtime truth: [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md)
-- Fingerprint: `ARCH-BASELINE-2026-06-23-v2` (TIP-000D documentation authority closeout)
+- Fingerprint: `ARCH-BASELINE-2026-06-23-v2` (Foundation phase 00 documentation authority closeout)

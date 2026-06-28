@@ -5,10 +5,10 @@ description: >
   Operates as Enterprise Principal Frontend Architect, Design System Architect, UX Architect,
   and Senior Staff Engineer. Reviews, audits, repairs, normalizes, serializes, optimizes,
   hardens, and stabilizes the entire frontend application across: architecture, design system
-  conformance (TIP-004), CSS token authority (PAS-005, css-authority, CSS-TOKEN-*,
+  conformance (Governed UI), CSS token authority (PAS-005, css-authority, CSS-TOKEN-*,
   shadcn-first vendored theme), visual consistency, metadata-driven UI coverage, UX quality,
   component composition, accessibility (WCAG AA), performance, bundle optimization,
-  React server/client boundaries, and architecture conformance (PAS/ADR/FDR/TIP).
+  React server/client boundaries, and architecture conformance (PAS/ADR/PAS).
   Targets 9.5–10.0 across all quality dimensions. Use when auditing the full frontend,
   planning a quality sprint, assessing enterprise maturity, identifying architectural drift,
   auditing CSS token registry or shadcn-first consumption, or producing a remediation plan
@@ -22,9 +22,9 @@ disable-model-invocation: true
 > design system, UX, accessibility, performance, and maintainability.
 >
 > Stack: Next.js 15 App Router · React 19 · Tailwind v4 · `@afenda/ui` governed primitives ·
-> `@afenda/css-authority` (PAS-005 CSS token authority) · `@afenda/design-system` (TIP-004 TS shim) ·
+> `@afenda/css-authority` (PAS-005 CSS token authority) · `@afenda/design-system` (Foundation phase 04 TS shim) ·
 > `@afenda/appshell` · `@afenda/metadata-ui` ·
-> shadcn/Radix · recharts · TIP-004 governance · Ultracite/Biome.
+> shadcn/Radix · recharts · Governed UI governance · Ultracite/Biome.
 
 ---
 
@@ -115,7 +115,7 @@ Phase  6 → Metadata Coverage  (pages, forms, nav, tables, widgets — gap anal
 Phase  7 → UX Assessment      (IA, cognitive load, keyboard, mobile, enterprise)
 Phase  8 → Accessibility      (WCAG AA, ARIA, focus, live regions, charts)
 Phase  9 → Performance        (React, bundle, images, fonts, CSS, CLS, LCP)
-Phase 10 → Architecture Drift (PAS/ADR/FDR/TIP conformance gaps)
+Phase 10 → Architecture Drift (PAS/ADR/PAS conformance gaps)
 Phase 11 → Repair & Normalize (fix violations, apply diffs — fix-first mandate)
 Phase 12 → Verification       (all gates, typecheck, test, visual smoke)
 ```
@@ -174,7 +174,7 @@ Skipping Phase 0 (afenda-coding-session)
 # ─── Structural fast scan (< 2 s) ─────────────────────────────────────────
 pnpm ui:guard:scan              # Gate D — in-process className violation scan
 
-# ─── Full TIP-004 guard ────────────────────────────────────────────────────
+# ─── Full Governed UI guard ────────────────────────────────────────────────────
 pnpm ui:guard                   # Gates A–F (docs/governance/ui-guard.md)
 pnpm ui:guard:erp               # Gate F only — React ERP quality
 pnpm ui:guard:strict            # Gate F as CI hard failure
@@ -280,7 +280,7 @@ Post this block at end of every coding turn. Full templates → [reference/deliv
 - All deliverable templates: [reference/deliverables.md](reference/deliverables.md)
 - Scoring rubric: [reference/scoring.md](reference/scoring.md)
 - PAS-005 / css-authority: `docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md` · `docs/architecture/css-authority.md`
-- TIP-004 policy: `docs/governance/tip-004-policy.md`
+- Governed UI policy: `docs/governance/governed-ui-policy.md`
 - UI guard gates: `docs/governance/ui-guard.md`
 - PAS index: `docs/PAS/README.md`
 - Foundation registry: `packages/architecture-authority/src/data/foundation-disposition.registry.ts`

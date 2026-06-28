@@ -60,7 +60,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | Command | What it checks |
 |---------|----------------|
 | `pnpm ui:guard` | UI governance gates A–F (Gate F warns in dev) |
-| `pnpm ui:guard:scan` | Gate D only — TIP-004 + anti-slop (< 2 s) |
+| `pnpm ui:guard:scan` | Gate D only — Governed UI + anti-slop (< 2 s) |
 | `pnpm ui:guard:erp` | Gate F only — React ERP quality |
 | `pnpm ui:guard:strict` | All gates; Gate F is a hard failure |
 | `pnpm quality:css` | CSS manifest + token authority (Gate E) |

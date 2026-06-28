@@ -87,7 +87,7 @@ Map key `pnpm` commands to audit phases. Orchestrator runs scoped subset and pas
 
 | Gate | Phase | Area |
 | --- | --- | --- |
-| `pnpm ui:guard:scan` | 3 | TIP-004 consumption |
+| `pnpm ui:guard:scan` | 3 | Governed UI consumption |
 | `pnpm ui:guard` | 3 | Full UI guard |
 | `pnpm check:css-authority-conformance` | 3, 8 | PAS-005 |
 

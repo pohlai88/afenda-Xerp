@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-008 requires a stable public root export surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 08 requires a stable public root export surface.
 export const PACKAGE_NAME = "@afenda/entitlements" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {

@@ -5,16 +5,16 @@
 | **Status** | Baseline — Pending Sign-off |
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
-| **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
-| **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
+| **TIP (archive)** | Foundation phase 01 — Architecture Baseline Discovery |
+| **Registry** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
 | **Active workspaces** | 26 |
 | **Planned workspaces** | 0 |
 
-This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry (FDR)](foundation-disposition.md) — not in TIP delivery docs.
+This registry freezes every workspace package in the Afenda monorepo as of the baseline date. **Package disposition** (lane, gaps, gates) lives in the [Foundation Disposition Registry](foundation-disposition.md) — not in legacy delivery docs.
 
 ```text
-Unlisted packages are prohibited once Architecture Authority enforcement is active (TIP-001E).
+Unlisted packages are prohibited once Architecture Authority enforcement is active (Foundation phase 01).
 ```
 
 That enforces **registry-first architecture**: no `temp-package`, `new-package`, or `helper-package` may exist without registration.
@@ -25,7 +25,7 @@ Lifecycle states (`planned`, `experimental`, `active`, `deprecated`, `retired`) 
 
 ## Registry Status Values (machine-readable)
 
-TIP-001D validators consume these values exactly — no human variants.
+Foundation phase 01 validators consume these values exactly — no human variants.
 
 | Status | Meaning |
 |--------|---------|
@@ -113,13 +113,13 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | Date | Action | Registry ID | Package / subject | ADR |
 |------|--------|-------------|-------------------|-----|
 | 2026-06-20 | Created | — | Baseline registry (PKG-001–018 active, PKG-R01–R05 reserved) | ADR-0001 |
-| 2026-06-20 | Activated | PKG-019 | `@afenda/architecture-authority` promoted from planned to active | TIP-001C |
+| 2026-06-20 | Activated | PKG-019 | `@afenda/architecture-authority` promoted from planned to active | Foundation phase 01 |
 | 2026-06-20 | Activated | PKG-020 | `@afenda/ai-governance` registered active | ADR-0007 |
-| 2026-06-20 | Activated | PKG-011 | `@afenda/ui-composition` registered active (metadata authority) | TIP-005 |
+| 2026-06-20 | Activated | PKG-011 | `@afenda/ui-composition` registered active (metadata authority) | Foundation phase 05 |
 | 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
-| 2026-06-23 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-23-v2` — TIP-000D documentation authority closeout (ADR-0009–0013) | ADR-0012 |
-| 2026-06-24 | Activated (contracts-only) | PKG-R01 | `@afenda/accounting` promoted active; filesystem pending TIP-014 Slice 2 | ADR-0015 |
-| 2026-06-24 | Filesystem | PKG-R01 | `packages/accounting/` scaffold + kernel dependency edge | TIP-014 Slice 2 |
+| 2026-06-23 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-23-v2` — Foundation phase 00 documentation authority closeout (ADR-0009–0013) | ADR-0012 |
+| 2026-06-24 | Activated (contracts-only) | PKG-R01 | `@afenda/accounting` promoted active; filesystem pending Foundation phase 14 Slice 2 | ADR-0015 |
+| 2026-06-24 | Filesystem | PKG-R01 | `packages/accounting/` scaffold + kernel dependency edge | Foundation phase 14 Slice 2 |
 | 2026-06-26 | Activated (master-data-foundation) | PKG-R02 | `@afenda/inventory` promoted active; product + warehouse schemas | ADR-0019 |
 | 2026-06-27 | Retired (filesystem) | PKG-R02 | `@afenda/inventory` package removed; runtime in `@afenda/database` + ERP | ADR-0020 |
 | 2026-06-27 | Retired (filesystem) | PKG-R01 | `@afenda/accounting` package removed; vocabulary in `@afenda/kernel/erp-domain/accounting` | ADR-0020 |

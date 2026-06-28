@@ -137,7 +137,7 @@ export const KERNEL_BOUNDARY_DRIFT_ENTRIES = {
       "packages/kernel/src/identity/wire/business-reference-wire.contract.ts",
     pasSection: KERNEL_BOUNDARY_DRIFT_PAS_SECTIONS.businessReference,
     rationale:
-      'PAS §4.7 rename guidance: prefer "Business Reference Identity Authority" over "Business Master Data Authority". Folder name is legacy TIP-008B vocabulary.',
+      'PAS §4.7 rename guidance: prefer "Business Reference Identity Authority" over "Business Master Data Authority". Folder name is legacy Foundation phase 08 vocabulary.',
     refactorLock: true,
     refactorStatus: "completed",
   },

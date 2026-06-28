@@ -2,7 +2,7 @@ import type { CompanyId, EntityGroupId, TenantId } from "../identity/index.js";
 import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 
 /**
- * Corporate group authority (TIP-008).
+ * Corporate group authority (Foundation phase 08).
  *
  * Kernel owns wire ingress triad and branded fields on `OperatingContext.entityGroup`.
  * Persistence and resolver logic live in `@afenda/database` + `apps/erp`.

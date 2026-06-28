@@ -4,7 +4,7 @@ Non-smoke Playwright specs run in the **`chromium-full`** project (`grepInvert: 
 
 ## Status
 
-**Deferred (ARCH-TEST-001 P2).** Not part of PR CI. Requires separate ARCH/FDR approval before:
+**Deferred (ARCH-TEST-001 P2).** Not part of PR CI. Requires separate PAS approval before:
 
 - Nightly scheduled runs
 - Multi-browser matrix (firefox/webkit)
@@ -21,7 +21,7 @@ pnpm --filter @afenda/erp test:e2e --project chromium-full
 ## Trigger criteria for P2 implementation
 
 1. Smoke suite exceeds ~30 tests **or** full suite runtime exceeds 10 minutes on CI.
-2. Separate FDR approved for nightly matrix + blob merge-reports job.
+2. Separate PAS slice approved for nightly matrix + blob merge-reports job.
 3. Sharding uses existing `blob` reporter in [`playwright.config.mts`](../../playwright.config.mts).
 
 ## Manual workflow

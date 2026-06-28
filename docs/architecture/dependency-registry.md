@@ -5,7 +5,7 @@
 | **Status** | Baseline — Pending Sign-off |
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001A — Architecture Baseline Discovery |
+| **Authority** | Foundation phase 01 — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
 | **Invariant** | ARCH-003 — every runtime `@afenda/*` dependency must be declared and approved |
 
@@ -45,16 +45,16 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/erp` | `@afenda/auth` | Approved | — | — |
 | `@afenda/erp` | `@afenda/database` | Approved | — | — |
-| `@afenda/erp` | `@afenda/execution` | Approved | TIP-011 | — |
-| `@afenda/erp` | `@afenda/feature-flags` | Approved | fdr-009-rollout-flags | — |
+| `@afenda/erp` | `@afenda/execution` | Approved | Foundation phase 11 | — |
+| `@afenda/erp` | `@afenda/feature-flags` | Approved | PKG-009 rollout-flags (pas-status-index) | — |
 | `@afenda/erp` | `@afenda/design-system` | Approved | — | — |
-| `@afenda/erp` | `@afenda/entitlements` | Approved | TIP-007A | — |
+| `@afenda/erp` | `@afenda/entitlements` | Approved | Foundation phase 07 | — |
 | `@afenda/erp` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/erp` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
-| `@afenda/erp` | `@afenda/permissions` | Approved | TIP-010 | — |
+| `@afenda/erp` | `@afenda/permissions` | Approved | Foundation phase 10 | — |
 | `@afenda/erp` | `@afenda/shadcn-studio` | Approved | PAS-005A | B42 partial — theme CSS chain |
 | `@afenda/erp` | `@afenda/storage` | Approved | — | — |
 | `@afenda/erp` | `@afenda/ui` | Approved | — | — |
@@ -67,7 +67,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/ui-composition` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/permissions` | `@afenda/auth` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/database` | Approved | — | — |
-| `@afenda/permissions` | `@afenda/kernel` | Approved | TIP-007 | — |
+| `@afenda/permissions` | `@afenda/kernel` | Approved | Foundation phase 07 | — |
 | `@afenda/storybook` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/design-system` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/ui-composition` | Approved | — | — |
@@ -95,10 +95,10 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 
 ## Approved third-party runtime dependencies (ADR-0003)
 
-| Package | Dependency | Version pin | Classification | ADR / TIP | Purpose |
+| Package | Dependency | Version pin | Classification | ADR / PAS | Purpose |
 |---------|------------|-------------|----------------|-----------|---------|
-| `@afenda/appshell` | `recharts` | `3.8.0` | Approved | ADR-0003; TIP-UI-05 Slice 6 | Dashboard sparkline / statistics chart blocks via lazy client imports |
-| `@afenda/erp` | `@tanstack/react-table` | `^8.21.3` | Approved | ADR-0003; TIP-UI-05 Slice 7 | System Admin audit DataTable column defs + `useReactTable` client hook (types-only consumer — table chrome from `@afenda/ui` `DataTable`) |
+| `@afenda/appshell` | `recharts` | `3.8.0` | Approved | ADR-0003; UI phase 5 Slice 6 | Dashboard sparkline / statistics chart blocks via lazy client imports |
+| `@afenda/erp` | `@tanstack/react-table` | `^8.21.3` | Approved | ADR-0003; UI phase 5 Slice 7 | System Admin audit DataTable column defs + `useReactTable` client hook (types-only consumer — table chrome from `@afenda/ui` `DataTable`) |
 | `@afenda/ui` | `recharts` | `3.8.0` | Approved | ADR-0003 | Governed `Chart` primitive wrappers |
 | `@afenda/storybook` | `recharts` | `3.8.0` | Approved | ADR-0003 | Storybook chart block previews |
 
@@ -208,7 +208,7 @@ Inbound dependencies on leaf packages (e.g. `observability` ← `database`) are 
 
 ---
 
-## Business Master Data Authority (TIP-008B)
+## Business Master Data Authority (Foundation phase 08)
 
 Documentation-only ownership map through Slice 1; **kernel authority registry + wire reference contracts** from Slice 2–3 (`packages/kernel/src/contracts/business-master-data/`). **No domain package schemas** until PKG-R02–R05 domain TIPs.
 
@@ -221,15 +221,15 @@ Documentation-only ownership map through Slice 1; **kernel authority registry + 
 | Warehouse | Inventory Authority | `@afenda/database` (PKG-R02 domain) | Tenant + company; warehouse code unique per company | Implemented — database + ERP API (ADR-0020) |
 | Asset | Platform / TPM | TBD via ADR | — | Not assigned |
 | Document | Platform document service | TBD via ADR | — | Not assigned |
-| Project | PM domain | TIP-030 | — | Partial — membership scope only |
+| Project | PM domain | Foundation phase 30 | — | Partial — membership scope only |
 
 **Authority:** `tips/[Complete] tip-008-master-data-authority.md` §008B. Cross-reference: [`package-registry.md`](package-registry.md) Domain Layer (reserved).
 
 ---
 
-## Snapshot Intent (TIP-001F)
+## Snapshot Intent (Foundation phase 01)
 
-This registry is the human source of truth for [`dependency-snapshot.json`](dependency-snapshot.json), generated automatically in TIP-001F.
+This registry is the human source of truth for [`dependency-snapshot.json`](dependency-snapshot.json), generated automatically in Foundation phase 01.
 
 ```text
 pnpm architecture:dependencies  →  writes dependency-snapshot.json
@@ -255,5 +255,5 @@ Any unapproved runtime dependency diff against the committed snapshot must fail 
 - [x] 0 undeclared runtime workspace dependencies (verified against live `package.json`)
 - [x] 0 circular dependencies
 - [x] Blocked dependency patterns documented
-- [x] Snapshot intent documented for TIP-001F
+- [x] Snapshot intent documented for Foundation phase 01
 - [ ] Baseline signed off by Architecture Authority

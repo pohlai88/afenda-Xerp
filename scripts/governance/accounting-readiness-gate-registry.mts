@@ -8,7 +8,7 @@
 export const ACCOUNTING_READINESS_GATE_SURFACE_RULE =
   "accounting-readiness-gate-is-canonical-phase-9-matrix" as const;
 
-export const TIP_013A_DELIVERY_DOC =
+export const ACCOUNTING_READINESS_DELIVERY_DOC =
   "docs/architecture/phase-9-accounting-readiness-sign-off.md" as const;
 
 export const PHASE_9_ROADMAP_DOC =

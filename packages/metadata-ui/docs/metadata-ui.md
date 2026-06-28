@@ -1,4 +1,4 @@
-You are implementing **TIP-007 — Metadata UI Renderer Authority** for the Afenda monorepo.
+You are implementing **Foundation phase 07 — Metadata UI Renderer Authority** for the Afenda monorepo.
 
 Your task is to create and harden the package:
 
@@ -1265,7 +1265,7 @@ Acceptance:
 * no layout types are invented
 * no surface types are invented
 * no section types are invented
-* no registry rules are invented outside TIP-005
+* no registry rules are invented outside Foundation phase 05
 
 ---
 
@@ -1323,7 +1323,7 @@ Do not:
 
 # 24. Definition of Done
 
-TIP-007 is done only when:
+Foundation phase 07 is done only when:
 
 * `@afenda/metadata-ui` package exists
 * package depends on `@afenda/ui-composition`
@@ -1386,7 +1386,7 @@ All commands must pass.
 After implementation, provide:
 
 ```txt
-TIP-007 Metadata UI Completion Report
+Foundation phase 07 Metadata UI Completion Report
 
 1. Files created
 2. Files modified
@@ -1407,4 +1407,4 @@ TIP-007 Metadata UI Completion Report
 17. Ready/not ready for ERP metadata surfaces
 ```
 
-Do not mark TIP-007 complete unless all acceptance commands pass.
+Do not mark Foundation phase 07 complete unless all acceptance commands pass.

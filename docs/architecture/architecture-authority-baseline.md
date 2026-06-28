@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Report** | ARCHITECTURE BASELINE REPORT |
-| **Status** | TIP-001A COMPLETE — TIP-000D documentation authority closeout |
+| **Status** | Foundation phase 01 COMPLETE — Foundation phase 00 documentation authority closeout |
 | **Date** | 2026-06-28 (fingerprint bump) |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001A — Architecture Baseline Discovery |
+| **TIP** | Foundation phase 01 — Architecture Baseline Discovery |
 | **Authority version** | `1.0.0` (`@afenda/architecture-authority`) |
 
 ---
@@ -27,13 +27,13 @@ Immutable identifier for this audit artifact. Any material edit to active worksp
 Fingerprint: ARCH-BASELINE-2026-06-28-v4
 ```
 
-**v2 change (2026-06-23):** Documentation authority closeout (TIP-000D). ADR-0009–0013 Accepted; runtime truth matrix, pre-accounting roadmap, tip-status-index, and `pnpm quality:documentation-drift` enforced. No workspace topology change from v1.
+**v2 change (2026-06-23):** Documentation authority closeout (Foundation phase 00). ADR-0009–0013 Accepted; runtime truth matrix, pre-accounting roadmap, pas-status-index, and `pnpm quality:documentation-drift` enforced. No workspace topology change from v1.
 
 ---
 
 ## Executive Summary
 
-This report freezes the Afenda monorepo architecture as of 2026-06-20. It is the human-readable source of truth aligned with the `@afenda/architecture-authority` package (TIP-001C) and ADR constitution (TIP-001B).
+This report freezes the Afenda monorepo architecture as of 2026-06-20. It is the human-readable source of truth aligned with the `@afenda/architecture-authority` package (Foundation phase 01) and ADR constitution (Foundation phase 01).
 
 **Discovery result:** 18 active workspaces discovered in the filesystem. Zero planned filesystem workspaces. Zero unknown packages. Zero circular dependencies against the proposed model.
 
@@ -182,12 +182,12 @@ Risks identified at baseline. Not violations — tracked for governance closeout
 
 | Risk | Impact | Likelihood | Owner | Mitigation |
 |------|--------|------------|-------|------------|
-| Architecture Authority package not implemented | High | Medium | Architecture Authority | **Resolved** — TIP-001C complete |
-| Dependency drift before TIP-001E CI gate | Medium | High | Platform Authority | **Mitigated** — drift gate active |
-| Missing exception governance (ADR-0005) | Medium | Medium | Architecture Authority | TIP-001B |
-| Missing lifecycle governance (ADR-0006) | Medium | Medium | Architecture Authority | TIP-001B + [`package-lifecycle.md`](package-lifecycle.md) |
-| Proposed layer model not ADR-backed | Medium | High | Architecture Authority | TIP-001B ADR-0002–0004 |
-| AI creates unregistered packages | High | Medium | Architecture Authority | TIP-001E enforcement + TIP-001G lifecycle |
+| Architecture Authority package not implemented | High | Medium | Architecture Authority | **Resolved** — Foundation phase 01 complete |
+| Dependency drift before Foundation phase 01 CI gate | Medium | High | Platform Authority | **Mitigated** — drift gate active |
+| Missing exception governance (ADR-0005) | Medium | Medium | Architecture Authority | Foundation phase 01 |
+| Missing lifecycle governance (ADR-0006) | Medium | Medium | Architecture Authority | Foundation phase 01 + [`package-lifecycle.md`](package-lifecycle.md) |
+| Proposed layer model not ADR-backed | Medium | High | Architecture Authority | Foundation phase 01 ADR-0002–0004 |
+| AI creates unregistered packages | High | Medium | Architecture Authority | Foundation phase 01 enforcement + Foundation phase 01 lifecycle |
 | Silent baseline edits without fingerprint bump | Low | Medium | Architecture Authority | Fingerprint + sign-off on change |
 
 ---
@@ -228,11 +228,11 @@ Risks identified at baseline. Not violations — tracked for governance closeout
 | Audit quality | PASS (post audit-hardening) |
 | **Overall** | **Ready for sign-off** |
 
-**Gate:** TIP-001B (ADR Constitution: ADR-0000–0006) unlocks after baseline sign-off.
+**Gate:** Foundation phase 01 (ADR Constitution: ADR-0000–0006) unlocks after baseline sign-off.
 
 ---
 
-## Acceptance Gate (TIP-001A)
+## Acceptance Gate (Foundation phase 01)
 
 ```text
 GIVEN  the Afenda monorepo as of 2026-06-20

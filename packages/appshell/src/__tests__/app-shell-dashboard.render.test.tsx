@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ApplicationShellDashboardDemo } from "../dashboard";
 
 describe("ApplicationShellDashboardDemo", () => {
-  it("renders governed ERP dashboard surfaces without TIP-004 violations", () => {
+  it("renders governed ERP dashboard surfaces without Governed UI violations", () => {
     render(<ApplicationShellDashboardDemo />);
 
     expect(

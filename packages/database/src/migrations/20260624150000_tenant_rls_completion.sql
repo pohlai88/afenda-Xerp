@@ -1,4 +1,4 @@
--- Defense-in-depth tenant isolation for remaining tenant_id tables (TIP-007/012 DoD #16).
+-- Defense-in-depth tenant isolation for remaining tenant_id tables (multi-tenancy DoD #16).
 -- Application-level grants remain authoritative; policies accept JWT claims or app session vars.
 
 ALTER TABLE "audit_events" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint

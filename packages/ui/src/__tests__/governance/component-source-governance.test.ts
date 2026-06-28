@@ -12,7 +12,7 @@
  *  3. All component + story files — import discipline
  *  4. All files — no duplicate design-authority registries
  *  5. Story files — no cva() / state?: string
- *  6. Story files — TIP-004 className policy on every static className="…" literal
+ *  6. Story files — Governed UI className policy on every static className="…" literal
  *
  * Rules reference: .cursor/skills/govern-primitive/SKILL.md
  */
@@ -328,9 +328,9 @@ describe("govern-primitive: story-file safety (import + cva discipline)", () => 
 });
 
 /**
- * Suite 6 — Story files: TIP-004 className policy on static string literals.
+ * Suite 6 — Story files: Governed UI className policy on static string literals.
  *
- * Story files are held to a pragmatic subset of the full TIP-004 policy:
+ * Story files are held to a pragmatic subset of the full Governed UI policy:
  *
  *   • Raw color-scale palette utilities (e.g. `bg-red-500`) — absolutely
  *     forbidden; these hard-code raw design tokens.
@@ -350,7 +350,7 @@ describe("govern-primitive: story-file safety (import + cva discipline)", () => 
  * Template-literal and expression classNames (`className={cn(...)}`) are
  * excluded — those are validated at render time by the component.
  */
-describe("govern-primitive: story files TIP-004 className policy", () => {
+describe("govern-primitive: story files Governed UI className policy", () => {
   const STATIC_CLASSNAME_RE = /className="([^"]+)"/gu;
 
   /**

@@ -30,8 +30,8 @@ export const MULTI_TENANCY_DOC_CONTEXT_CONTRACTS_MARKERS = [
   "Ensure public export maps are updated.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_CONTEXT_CONTRACTS_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_CONTEXT_CONTRACTS_SECTION =
   "Context contracts" as const;
 
 /** Step 4 dimensions — serializable contracts + export maps. */

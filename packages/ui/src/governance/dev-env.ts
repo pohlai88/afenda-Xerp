@@ -56,14 +56,14 @@ function isStorybookVitestContext(): boolean {
   return false;
 }
 
-/** Resolves how TIP-004 runtime checks behave in the current environment. */
+/** Resolves how Governed UI runtime checks behave in the current environment. */
 export function getGovernanceRuntimeMode(): GovernanceRuntimeMode {
   const explicit = readExplicitGovernanceRuntimeMode();
   if (explicit !== undefined) {
     return explicit;
   }
 
-  // Storybook Vitest renders full stories — static governance tests cover TIP-004.
+  // Storybook Vitest renders full stories — static governance tests cover Foundation phase 04.
   if (isStorybookVitestContext()) {
     return "off";
   }
@@ -71,12 +71,12 @@ export function getGovernanceRuntimeMode(): GovernanceRuntimeMode {
   return "strict";
 }
 
-/** Whether TIP-004 should throw at runtime (dev/test only). */
+/** Whether Governed UI should throw at runtime (dev/test only). */
 export function shouldEnforceGovernanceRuntime(): boolean {
   return isDevelopment && getGovernanceRuntimeMode() === "strict";
 }
 
-/** Whether TIP-004 should warn at runtime without failing render. */
+/** Whether Governed UI should warn at runtime without failing render. */
 export function shouldWarnGovernanceRuntime(): boolean {
   return isDevelopment && getGovernanceRuntimeMode() === "warn";
 }

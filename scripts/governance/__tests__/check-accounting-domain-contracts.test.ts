@@ -120,7 +120,7 @@ describe("check-accounting-domain-contracts gate", () => {
     expect(violations).toEqual([]);
   });
 
-  it("blocks dedicated ERP accounting route directories until TIP-015+", () => {
+  it("blocks dedicated ERP accounting route directories until Foundation phase 15+", () => {
     expect(ACCOUNTING_ERP_FORBIDDEN_ROUTE_DIRS).toContain(
       "apps/erp/src/app/(protected)/modules/accounting"
     );

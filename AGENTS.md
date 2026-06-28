@@ -176,11 +176,11 @@ Read in order:
 
 **Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
 
-**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains TIP-004 variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
+**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains Governed UI variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
 
-**Accounting Core (`TIP-015+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
+**Accounting Core (`Foundation phase 15+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 
-Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:foundation-disposition` · `pnpm check:knowledge-conformance` · `pnpm check:css-visual-regression`
+Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:legacy-delivery-terminology` · `pnpm check:foundation-disposition` · `pnpm check:knowledge-conformance` · `pnpm check:css-visual-regression`
 
 When documentation status, PAS slices, ADR acceptance, registry lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
 
@@ -228,9 +228,9 @@ Operational guide: [`docs/architecture/app-ui-component-adaptation-guide.md`](do
 
 ---
 
-## Governed UI (TIP-004)
+## Governed UI
 
-Canonical policy: [`docs/governance/tip-004-policy.md`](docs/governance/tip-004-policy.md). Gates: [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md).
+Canonical policy: [`docs/governance/governed-ui-policy.md`](docs/governance/governed-ui-policy.md). Gates: [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md).
 
 Two layers — do not confuse them:
 

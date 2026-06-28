@@ -134,7 +134,7 @@ function buildTokensCss(): string {
  * Source: packages/design-system/src/registries/token.registry.ts
  * Regenerate: pnpm --filter @afenda/design-system build
  *
- * All custom properties use the --afenda-* prefix (TIP-004A).
+ * All custom properties use the --afenda-* prefix (Foundation phase 04).
  * Safe to consume in any CSS context without namespace collisions.
  *
  * Usage (token-only surfaces):

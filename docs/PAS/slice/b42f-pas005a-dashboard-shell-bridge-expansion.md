@@ -18,7 +18,7 @@ Handoff from: docs/PAS/slice/b42f-pas005a-dashboard-shell-bridge-expansion.md
 1. Objective    — Install remaining dashboard/shell MCP blocks; register shell chrome parity for B42c surfaces; expand appshell bridge re-exports for account-settings + dashboard blocks.
 2. Allowed layer— packages/shadcn-studio/** · packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/index.ts (bridge export only) · packages/appshell/src/__tests__/shadcn-studio-bridge.test.ts · docs/PAS/**
 3. Files        — (see Completion Report)
-4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · foundation-disposition.registry.ts · TIP-004 className strip
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · foundation-disposition.registry.ts · Governed UI className strip
 5. Authority    — PAS-005A §11.4 · ADR-0017 · B42b inventory · PKGR05A
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -62,7 +62,7 @@ Shell chrome entries (B42c surfaces, B42f registry): `dialog-search`, `dropdown-
 
 - Residual legacy blocks (module chrome, context switcher, account-settings content panels counted separately in B42b)
 - Legacy delete when `computeStudioBlockParitySummary().deleteBlocked === false`
-- TIP-004 className strip on MCP blocks (deferred)
+- Governed UI className strip on MCP blocks (deferred)
 
 ## DoD
 

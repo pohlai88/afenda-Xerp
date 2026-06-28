@@ -11,7 +11,7 @@ const FORBIDDEN_ACCOUNTING_PATTERNS = [
   /postJournal/i,
   /\bledger\b/i,
   /consolidationElimination/i,
-  /TIP-013/i,
+  /Foundation phase 13/i,
   /general_ledger/i,
   /chart_of_accounts/i,
 ] as const;
@@ -72,7 +72,7 @@ describe("accounting-readiness integration — operating context resolver", () =
 });
 
 describe("accounting-readiness integration — prohibited accounting work", () => {
-  it("does not introduce journal, ledger, or TIP-013 code in context layer", () => {
+  it("does not introduce journal, ledger, or Foundation phase 13 code in context layer", () => {
     const violations: string[] = [];
 
     for (const filePath of collectContextSourceFiles(contextRoot)) {

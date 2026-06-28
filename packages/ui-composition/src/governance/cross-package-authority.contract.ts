@@ -98,7 +98,7 @@ export interface CrossPackageAuthorityEntry {
 }
 
 export interface CrossPackageAuthority {
-  readonly authority: "TIP-005";
+  readonly authority: "Foundation phase 05";
   readonly lifecycle: "active";
   readonly metadataUiIntegrationRule: string;
   readonly noOverlapRule: string;
@@ -117,7 +117,7 @@ export const metadataUiIntegrationRule = [
 export const crossPackageAuthority = {
   version: "1.0.0",
   lifecycle: "active",
-  authority: "TIP-005",
+  authority: "Foundation phase 05",
 
   metadataUiIntegrationRule,
 
@@ -173,7 +173,7 @@ export const crossPackageAuthority = {
 
     {
       package: "@afenda/design-system",
-      role: "Design authority — visual primitives (TIP-004 TS governance)",
+      role: "Design authority — visual primitives (Foundation phase 04 TS governance)",
 
       owns: [
         "accessibility",

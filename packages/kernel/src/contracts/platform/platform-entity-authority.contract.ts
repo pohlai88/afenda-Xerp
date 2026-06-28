@@ -1,5 +1,5 @@
 /**
- * ADR-0001 / TIP-007 — frozen platform entity ownership map.
+ * ADR-0001 / Foundation phase 07 — frozen platform entity ownership map.
  * Serializable registry only; no authorization or persistence logic.
  */
 
@@ -61,7 +61,7 @@ export const PLATFORM_ENTITY_AUTHORITY_ENTRIES = {
     kernelContractExport: "TenantContext",
     schemaPaths: ["packages/database/src/schema/tenant.schema.ts"],
     authorizationConsumerPaths: ["packages/permissions/src/tenant.contract.ts"],
-    writeOwner: "Platform admin / System Admin (TIP-013)",
+    writeOwner: "Platform admin / System Admin (Foundation phase 13)",
     readOwner: "Scoped packages via kernel context",
     auditOwner: "packages/database/src/schema/audit.schema.ts",
   },

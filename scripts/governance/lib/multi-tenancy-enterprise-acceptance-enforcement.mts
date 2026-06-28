@@ -5,11 +5,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { TIP_007_012_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "../delivery-evidence-surface-registry.mts";
 import {
   MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_CRITERIA,
   MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_DIMENSIONS,
-  TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION,
+  MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SECTION,
 } from "../multi-tenancy-enterprise-acceptance-registry.mts";
 
 export interface EnterpriseAcceptanceEnforcementViolation {
@@ -39,12 +39,12 @@ export function collectEnterpriseAcceptanceViolations(
 ): EnterpriseAcceptanceEnforcementViolation[] {
   const violations: EnterpriseAcceptanceEnforcementViolation[] = [];
 
-  const deliveryPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+  const deliveryPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
   if (!existsSync(deliveryPath)) {
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryPath,
-      message: `Enterprise acceptance requires ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Enterprise acceptance requires ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
     return violations;
   }
@@ -52,14 +52,14 @@ export function collectEnterpriseAcceptanceViolations(
   const deliveryContent = readFileSync(deliveryPath, "utf8");
   const acceptanceSection = extractSection(
     deliveryContent,
-    `## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`
+    `## ${MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SECTION}`
   );
 
   if (acceptanceSection === null) {
     violations.push({
       rule: "acceptance-section-missing",
       file: deliveryPath,
-      message: `Delivery doc missing section: ## ${TIP_007_012_ENTERPRISE_ACCEPTANCE_SECTION}`,
+      message: `Delivery doc missing section: ## ${MULTI_TENANCY_ENTERPRISE_ACCEPTANCE_SECTION}`,
     });
     return violations;
   }

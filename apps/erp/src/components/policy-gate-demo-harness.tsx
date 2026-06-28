@@ -29,7 +29,8 @@ export function PolicyGateDemoHarness() {
         <h1 className="app-shell-page-title">Policy gate surfaces</h1>
         <p className="app-shell-page-description">
           Inline and dialog UX for governed API policy gate decisions. Primary
-          actions are placeholders until TIP-010 approval flows land.
+          actions are placeholders until Foundation phase 10 approval flows
+          land.
         </p>
       </header>
 

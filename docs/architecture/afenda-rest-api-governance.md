@@ -246,7 +246,7 @@ Mutation contracts with idempotency policy replay responses from Postgres (`api_
 
 ## API gateway seam (Kong deferred)
 
-**P2 — excluded from current production release.** Not in current production release scope. Requires separate ARCH/FDR approval before implementation. No runtime Kong wiring in this work item.
+**P2 — excluded from current production release.** Not in current production release scope. Requires separate PAS approval before implementation. No runtime Kong wiring in this work item.
 
 | Artifact | Role |
 | --- | --- |
@@ -279,7 +279,7 @@ New ERP domain APIs belong under `/api/internal/v1/**` with full registry govern
 | Map DB rows to DTOs before envelope serialization | Return raw Drizzle rows in API responses |
 | Add contract + envelope + boundary tests | Duplicate envelope or policy constants outside `contracts/` |
 | Run `pnpm check:api-contracts` before merge | Hand-edit idempotency persistence (P1 — durable store not shipped) |
-| Refresh catalog snapshot after registry changes | Introduce Kong or OpenAPI generation without ARCH/FDR row |
+| Refresh catalog snapshot after registry changes | Introduce Kong or OpenAPI generation without PAS row |
 
 ---
 
@@ -323,7 +323,7 @@ pnpm --filter @afenda/erp test:run -- api-contract api-envelope api-handler-boun
 | Gap | Classification | Close condition |
 | --- | --- | --- |
 | **OpenAPI catalog generation** | **Closed 2026-06-26** | `ARCH-API-002` · `pnpm export:openapi` · `pnpm check:openapi-drift` |
-| **Kong / external API gateway** | **P2 — excluded from current production release** | Separate ARCH/FDR approval; seam exists at `api-gateway.adapter.ts` |
+| **Kong / external API gateway** | **P2 — excluded from current production release** | Separate PAS approval; seam exists at `api-gateway.adapter.ts` |
 | **Durable idempotency store** | **P1 — production hardening** | Redis/DB-backed `IdempotencyStore`; waiver until Accounting Core ADR amendment |
 | **Real rate-limit enforcement** | **P1 — production hardening** | Provider wired to `assertRateLimitAllowed`; policies already declared on contracts |
 | **Registry gate sync** | **Closed 2026-06-26** | `PKG007_CONTEXT` gates include `pnpm check:api-contracts` + `pnpm check:api-route-catalog` |

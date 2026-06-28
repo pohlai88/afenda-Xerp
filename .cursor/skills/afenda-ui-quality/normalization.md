@@ -2,7 +2,7 @@
 
 > Companion to [SKILL.md](SKILL.md). Read when you need token mappings, CSS patterns, or worked examples.
 >
-> **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
+> **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
 
 ---
 

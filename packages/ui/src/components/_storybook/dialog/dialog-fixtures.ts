@@ -1,7 +1,7 @@
 export const DIALOG_SUBSCRIBE_TITLE = "Subscribe to foundation release notes";
 
 export const DIALOG_SUBSCRIBE_DESCRIPTION =
-  "Get Afenda foundation delivery updates, TIP status changes, and runtime-truth matrix notices. Enter your work email and click Subscribe.";
+  "Get Afenda foundation delivery updates, PAS status changes, and runtime-truth matrix notices. Enter your work email and click Subscribe.";
 
 export const DIALOG_SUBSCRIBE_TRIGGER_LABEL = "Subscribe";
 

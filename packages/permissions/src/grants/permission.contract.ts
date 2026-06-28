@@ -1,5 +1,5 @@
 /**
- * Governed permission registry (TIP-005).
+ * Governed permission registry (Foundation phase 05).
  *
  * Shape validation comes from `@afenda/database` (`{domain}.{action}`).
  * Registry membership is enforced via `assertRegisteredPermissionKey`.
@@ -147,7 +147,7 @@ export function assertRegisteredPermissionKey(
 
 /**
  * Validates a permission key at API boundaries (`requirePermission`, etc.).
- * Shape is enforced by `@afenda/database`; registry membership by TIP-005.
+ * Shape is enforced by `@afenda/database`; registry membership by Foundation phase 05.
  */
 export function resolveBoundaryPermissionKey(
   permissionKey: PermissionKey | string

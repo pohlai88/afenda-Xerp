@@ -42,7 +42,7 @@ describe("team context wire triad (PAS-001 §4.4)", () => {
     expect(`${context.teamId}`).toBe(TEAM_ID);
   });
 
-  it("accepts org-backed teamId wire until TIP-030 teams resolver", () => {
+  it("accepts org-backed teamId wire until Foundation phase 30 teams resolver", () => {
     const orgBackedWire: TeamWireContext = {
       ...VALID_WIRE,
       teamId: ORG_UNIT_ID,

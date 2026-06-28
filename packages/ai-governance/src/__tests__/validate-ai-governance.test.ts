@@ -25,11 +25,11 @@ function baseScope(
   overrides: Partial<AiChangeScopeManifest> = {}
 ): AiChangeScopeManifest {
   return {
-    tip: "TIP-002",
+    tip: "Foundation phase 02",
     adr: "ADR-0007",
     allowedPaths: ["packages/ai-governance/**", "docs/ai/**"],
     forbiddenPaths: ["apps/erp/**"],
-    reason: "Implement TIP-002 only",
+    reason: "Implement Foundation phase 02 only",
     nonGoals: ["No ERP changes"],
     testPlan: ["pnpm --filter @afenda/ai-governance test:run"],
     deletionJustifications: [],
@@ -319,7 +319,7 @@ describe("validateAiGovernance", () => {
     );
   });
 
-  it("passes for a valid TIP-002-shaped change", () => {
+  it("passes for a valid Foundation phase 02-shaped change", () => {
     const filePath = "packages/ai-governance/src/example.ts";
     const testPath = "packages/ai-governance/src/__tests__/example.test.ts";
 

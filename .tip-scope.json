@@ -1,8 +1,7 @@
 {
-  "tip": "TIP-UI-01",
+  "tip": "ui-phase-01",
   "adr": "ADR-0001",
   "allowedPaths": [
-    "docs/delivery/tips/[Complete] tip-ui-01-css-pipeline.md",
     "docs/architecture/dependency-registry.md",
     "docs/architecture/dependency-snapshot.json",
     "packages/design-system/**",
@@ -14,7 +13,7 @@
     ".tip-scope.json"
   ],
   "forbiddenPaths": ["packages/database/**", "packages/permissions/**"],
-  "reason": "Implement TIP-UI-01 CSS pipeline only.",
+  "reason": "Implement UI phase 01 CSS pipeline only.",
   "nonGoals": [
     "No shadcn component scaffolding in this change",
     "No AppShell token migration",

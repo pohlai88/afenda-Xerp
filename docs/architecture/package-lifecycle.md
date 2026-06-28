@@ -5,9 +5,9 @@
 | **Status** | Baseline — Pending Sign-off |
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001G — Package Lifecycle Governance |
+| **TIP** | Foundation phase 01 — Package Lifecycle Governance |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-23-v2` |
-| **ADR** | ADR-0006 (to be authored in TIP-001B) |
+| **ADR** | ADR-0006 (to be authored in Foundation phase 01) |
 
 ## Constitutional Principle
 
@@ -130,10 +130,10 @@ Never: Implementation → documentation someday.
 [ ] ownership-registry.md updated
 [ ] layer-registry.md updated
 [ ] dependency-registry.md updated
-[ ] packages/architecture-authority machine maps updated (TIP-001C+)
+[ ] packages/architecture-authority machine maps updated (Foundation phase 01+)
 [ ] pnpm-workspace.yaml picks up path automatically (apps/* or packages/*)
 [ ] quality:architecture passes
-[ ] package.created audit event emitted (TIP-010+)
+[ ] package.created audit event emitted (Foundation phase 10+)
 ```
 
 ### Forbidden create patterns
@@ -223,7 +223,7 @@ When a package is removed from the monorepo:
 | Approval | Architecture Authority sign-off |
 | Registry | Entry marked `retired` with date (retain history; do not silent-delete) |
 | Evidence | `pnpm ci` green; no remaining imports |
-| Snapshot | `dependency-snapshot.json` updated (TIP-001F) |
+| Snapshot | `dependency-snapshot.json` updated (Foundation phase 01) |
 | Ownership | Owner accountability ends only when state becomes `retired` |
 | Audit | `package.retired` event emitted |
 
@@ -274,7 +274,7 @@ A `retired` package may be requested again (legacy storage adapter, old renderer
 
 ## Lifecycle Audit Events
 
-Aligns with audit-first architecture. TIP-010 observability may emit these automatically.
+Aligns with audit-first architecture. Foundation phase 10 observability may emit these automatically.
 
 | Event | Audit action | When |
 |-------|--------------|------|
@@ -309,5 +309,5 @@ No `experimental`, `deprecated`, or `retired` packages at baseline.
 - [x] Lifecycle audit events defined
 - [x] Forbidden create patterns documented
 - [x] ADR-0006 traceability established
-- [ ] ADR-0006 Package Lifecycle Governance Accepted (TIP-001B)
+- [ ] ADR-0006 Package Lifecycle Governance Accepted (Foundation phase 01)
 - [ ] Baseline signed off by Architecture Authority

@@ -1,13 +1,13 @@
 ---
 name: govern-primitive
-description: Audits and upgrades @afenda/ui primitive components (author layer) and consumer packages (appshell, metadata-ui, erp wiring) to 9.5 enterprise governance quality. Covers resolvePrimitiveGovernance(), forwardRef, slot factories, GovernedXxxProps, TIP-004 className policy, shadcn-studio block integration, and static checker verification. Use when reviewing packages/ui/src/components OR when composing @afenda/ui in packages/appshell, packages/metadata-ui, or apps/erp.
+description: Audits and upgrades @afenda/ui primitive components (author layer) and consumer packages (appshell, metadata-ui, erp wiring) to 9.5 enterprise governance quality. Covers resolvePrimitiveGovernance(), forwardRef, slot factories, GovernedXxxProps, Governed UI className policy, shadcn-studio block integration, and static checker verification. Use when reviewing packages/ui/src/components OR when composing @afenda/ui in packages/appshell, packages/metadata-ui, or apps/erp.
 ---
 
 # govern-primitive
 
 Applies the enterprise governance pattern established for Button / Badge / Card / Alert / Field / Table to any `@afenda/ui` primitive.
 
-**Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
+**Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
 
 ## Audit checklist (score one point per ✅, target 9.5/10)
 
@@ -188,7 +188,7 @@ Every new slot must update **all five** of:
 - **`dataSlotByKey` for every `slotClassNamesByKey` entry** (runtime throws without it)
 - render tests asserting the new `data-slot` value
 
-### slotKey rule (TIP-004B)
+### slotKey rule (Foundation phase 04)
 
 When a component calls `resolvePrimitiveGovernance({ slotKey: "..." })` — directly or via a local helper such as `chartGovernance()` — the key must exist in **both**:
 
@@ -198,7 +198,7 @@ When a component calls `resolvePrimitiveGovernance({ slotKey: "..." })` — dire
 Missing `dataSlotByKey` throws at runtime in dev/Storybook:
 
 ```
-TIP-004B primitive slot key violation. Component "Chart" does not define slotKey "tooltip-row-dot".
+Governed UI primitive slot key violation. Component "Chart" does not define slotKey "tooltip-row-dot".
 ```
 
 **Verification:** `pnpm --filter @afenda/ui test:run src/__tests__/governance/primitive-registry.test.ts` — tests every governed component for:
@@ -465,7 +465,7 @@ See [PATTERNS.md](PATTERNS.md) for reference implementations of every pattern.
 
 **Scope:** `packages/appshell/**`, `packages/metadata-ui/**`, `apps/erp/**` (composition only — not primitive source).
 
-This is the gap that caused shadcn-studio debugging hell: blocks paste `className` onto governed primitives; runtime throws TIP-004 in Vitest.
+This is the gap that caused shadcn-studio debugging hell: blocks paste `className` onto governed primitives; runtime throws Governed UI in Vitest.
 
 ### Consumer checklist (score one point per ✅, target 8/8)
 
@@ -476,7 +476,7 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 [ ] 4.  Shell layout / studio chrome on plain HTML wrappers (div, span, header) only
 [ ] 5.  shadcn-studio blocks live under packages/appshell/src/shadcn-studio/blocks/
 [ ] 6.  Stock shadcn variants mapped via mapStockButtonProps from @afenda/ui/governance — no stock-props.ts, no raw variant strings
-[ ] 7.  Integration render test exists (AppShell mounts without TIP-004 throw)
+[ ] 7.  Integration render test exists (AppShell mounts without Governed UI throw)
 [ ] 8.  pnpm --filter @afenda/appshell test:run passes (includes governed-ui-consumption static test)
 ```
 
@@ -484,7 +484,7 @@ This is the gap that caused shadcn-studio debugging hell: blocks paste `classNam
 
 | Anti-pattern | Why it breaks | Fix |
 |--------------|---------------|-----|
-| `<SheetContent className="gap-0 …">` | TIP-004 runtime throw | Remove className; use default recipe |
+| `<SheetContent className="gap-0 …">` | Governed UI runtime throw | Remove className; use default recipe |
 | `packages/appshell/src/governance/index.ts` re-exporting ui/governance | Confusing indirection, file sprawl | Import at call site |
 | `shell-surfaces.module.css` parallel to globals.css | Duplicate token surface | Use globals.css tokens on plain divs |
 | `<Button className="relative">` for badge dot | layout className blocked | Wrap in `<div className="relative">` |
@@ -508,7 +508,7 @@ pnpm --filter @afenda/appshell test:run
 pnpm --filter @afenda/ui check:governance
 ```
 
-What `pnpm ui:guard` runs (canonical: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md), policy: [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)):
+What `pnpm ui:guard` runs (canonical: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md), policy: [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)):
 
 | Gate | Target | Command |
 |------|--------|---------|

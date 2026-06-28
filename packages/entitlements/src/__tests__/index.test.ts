@@ -49,7 +49,7 @@ describe("@afenda/entitlements", () => {
     expect(getPackageName()).toBe("@afenda/entitlements");
   });
 
-  it("defines required TIP-008 contracts, types, limits, and results", () => {
+  it("defines required Foundation phase 08 contracts, types, limits, and results", () => {
     for (const fileName of requiredContractFiles) {
       expect(
         existsSync(join(currentDirectory, "..", "contracts", fileName))

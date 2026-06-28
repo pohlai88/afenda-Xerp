@@ -208,7 +208,7 @@ Unit tests do not require a live database:
 pnpm --filter @afenda/database test
 ```
 
-Seed and bootstrap (TIP-003A):
+Seed and bootstrap (Foundation phase 03):
 
 ```bash
 pnpm migrate
@@ -217,9 +217,9 @@ pnpm --filter @afenda/database db:bootstrap:local
 pnpm --filter @afenda/database db:verify:seed
 ```
 
-See `docs/TIP-003A-seed-bootstrap.md` for profiles, safety rules, and production confirmation env vars.
+See `docs/Foundation phase 03-seed-bootstrap.md` for profiles, safety rules, and production confirmation env vars.
 
-## Out of scope (TIP-003)
+## Out of scope (Foundation phase 03)
 
 - Better Auth / Supabase Auth tables
 - Permission enforcement middleware

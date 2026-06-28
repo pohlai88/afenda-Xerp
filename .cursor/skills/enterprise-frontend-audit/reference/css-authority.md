@@ -162,5 +162,5 @@ Studio pattern map: `packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`
 |---------|-----------|------|
 | CSS tokens (runtime) | `@afenda/css-authority` | `src/authorities/`, vendored shadcn theme |
 | CSS registry IDs | Generated | `CSS-TOKEN-*` in registry |
-| TIP-004 variants/recipes | `@afenda/design-system` (v1) | TS registries — not new CSS palette |
+| Governed UI variants/recipes | `@afenda/design-system` (v1) | TS registries — not new CSS palette |
 | Docs editorial | `apps/docs` | `--docs-editorial-*` (separate stack) |

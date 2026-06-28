@@ -1,5 +1,5 @@
 /**
- * Legal entity ownership interest (TIP-008 foundation).
+ * Legal entity ownership interest (Foundation phase 08 foundation).
  *
  * Writes: `../ownership-interest/ownership-interest.service.ts`
  */

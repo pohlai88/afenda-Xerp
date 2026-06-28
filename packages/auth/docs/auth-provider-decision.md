@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted — TIP-004
+Accepted — Governed UI
 
 ## Context
 
@@ -10,10 +10,10 @@ Afenda ERP requires authentication that:
 
 - Lives inside the application boundary (not a Supabase-coupled identity product)
 - Supports governed sessions, audit events, and future SSO/MFA/passkey expansion
-- Integrates with Afenda's tenant/company/organization **permission engine** (TIP-005) without embedding authorization in the auth layer
+- Integrates with Afenda's tenant/company/organization **permission engine** (Foundation phase 05) without embedding authorization in the auth layer
 - Remains portable across managed cloud, self-hosted, and enterprise deployment models
 
-Supabase is retained as the **Postgres platform** (TIP-003). Supabase Auth is **not** the primary identity provider.
+Supabase is retained as the **Postgres platform** (Foundation phase 03). Supabase Auth is **not** the primary identity provider.
 
 ## Decision
 
@@ -22,7 +22,7 @@ Use **Better Auth** with:
 - Drizzle ORM adapter against Supabase Postgres (`user`, `session`, `account`, `verification` tables)
 - Next.js App Router integration (`/api/auth/[...all]`, `nextCookies` plugin)
 - `@afenda/auth` package for session contracts, audit hooks, and extension points
-- Platform `users` table (TIP-003) remains separate from Better Auth `user` until TIP-005 links identity
+- Platform `users` table (Foundation phase 03) remains separate from Better Auth `user` until Foundation phase 05 links identity
 
 ## Consequences
 
@@ -35,7 +35,7 @@ Use **Better Auth** with:
 
 ### Negative / trade-offs
 
-- Two user concepts initially: Better Auth `user` vs platform `users` (bridged in TIP-005)
+- Two user concepts initially: Better Auth `user` vs platform `users` (bridged in Foundation phase 05)
 - Middleware uses cookie presence for redirects; server layouts/actions must call `requireSession`
 - Better Auth env (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`) required in addition to database URL
 
@@ -60,4 +60,4 @@ Legacy Supabase JWT debug remains at `/api/integrations/supabase/claims` for inf
 
 - [Better Auth Next.js integration](https://better-auth.com/docs/integrations/next)
 - [Better Auth Drizzle adapter](https://better-auth.com/docs/adapters/drizzle)
-- TIP-003 `@afenda/database` platform schema
+- Foundation phase 03 `@afenda/database` platform schema

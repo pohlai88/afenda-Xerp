@@ -2,7 +2,7 @@
  * Canonical Step 10 documentation and verification registry — aligned with
  * `docs/architecture/multi-tenancy.md` (Step 10, lines 601–611).
  */
-import { TIP_007_012_DELIVERY_DOC } from "./delivery-evidence-surface-registry.mts";
+import { MULTI_TENANCY_DELIVERY_DOC } from "./delivery-evidence-surface-registry.mts";
 
 export const MULTI_TENANCY_DOCUMENTATION_VERIFICATION_SURFACE_RULE =
   "multi-tenancy-documentation-verification-is-canonical-step-10-delivery-and-ci-chain" as const;
@@ -10,7 +10,7 @@ export const MULTI_TENANCY_DOCUMENTATION_VERIFICATION_SURFACE_RULE =
 /** Markers that must appear in multi-tenancy.md Step 10 (§601–611). */
 export const MULTI_TENANCY_DOC_DOCUMENTATION_VERIFICATION_MARKERS = [
   "Step 10 — Documentation and verification",
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
   "pnpm typecheck",
   "pnpm test:run",
   "pnpm build",
@@ -18,7 +18,7 @@ export const MULTI_TENANCY_DOC_DOCUMENTATION_VERIFICATION_MARKERS = [
 ] as const;
 
 /** Delivery doc H2 containing Step 10 verification content. */
-export const TIP_007_012_VERIFICATION_SECTION = "Verification results" as const;
+export const MULTI_TENANCY_VERIFICATION_SECTION = "Verification results" as const;
 
 /** Root commands required by multi-tenancy.md Step 10 (§607–610). */
 export const MULTI_TENANCY_VERIFICATION_COMMANDS = [

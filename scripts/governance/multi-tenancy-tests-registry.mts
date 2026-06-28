@@ -28,8 +28,8 @@ export const MULTI_TENANCY_DOC_TESTS_MARKERS = [
   "CSP/RBAC/correlation regression",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_TESTS_SECTION = "Tests added or updated" as const;
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_TESTS_SECTION = "Tests added or updated" as const;
 
 /** Step 9 test matrix — one row per multi-tenancy.md bullet (§583–599). */
 export const MULTI_TENANCY_TEST_REQUIREMENTS = [

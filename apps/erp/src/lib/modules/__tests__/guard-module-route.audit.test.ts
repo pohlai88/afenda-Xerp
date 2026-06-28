@@ -26,7 +26,7 @@ import {
 
 const CORRELATION_ID = "corr-module-guard-audit";
 
-describe("guardModuleRoute audit evidence (TIP-007A acceptance)", () => {
+describe("guardModuleRoute audit evidence (Foundation phase 07 acceptance)", () => {
   beforeEach(() => {
     auditMocks.recordErpAuditEvent.mockClear();
     auditMocks.loggerWarn.mockClear();

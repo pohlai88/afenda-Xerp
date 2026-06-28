@@ -41,7 +41,7 @@ export const accessibilityContract = {
     "Metadata UI",
   ],
   ownedResponsibility: "interaction safety",
-  owner: "TIP-004A accessibility contract",
+  owner: "Governed UI accessibility contract",
   prohibitedResponsibility: [
     "Define domain permissions",
     "Define domain business rules",

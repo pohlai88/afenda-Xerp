@@ -45,7 +45,7 @@ const FOUNDATION_ITEMS = [
   {
     title: "Contributing",
     description:
-      "Session contract, TIP handoffs, and governance gates before merge.",
+      "Session contract, PAS slice handoffs, and governance gates before merge.",
     href: "/docs/contributing",
     icon: GitBranchIcon,
   },
@@ -54,13 +54,13 @@ const FOUNDATION_ITEMS = [
 const PLATFORM_ITEMS = [
   {
     title: "UI governance",
-    description: "TIP-004 composition rules and ui:guard gates.",
+    description: "Foundation phase 04 composition rules and ui:guard gates.",
     href: "/docs/governance/ui",
     icon: ShieldCheckIcon,
   },
   {
     title: "Delivery workflow",
-    description: "TIP slices, runtime matrix, and documentation drift.",
+    description: "PAS slices, runtime matrix, and documentation drift.",
     href: "/docs/delivery",
     icon: WorkflowIcon,
   },

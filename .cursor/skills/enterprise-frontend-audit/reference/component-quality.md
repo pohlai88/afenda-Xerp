@@ -44,7 +44,7 @@ pnpm --filter @afenda/ui build
 [ ] 4.  Shell layout chrome on plain HTML wrappers only (div, span, header)
 [ ] 5.  shadcn-studio blocks under packages/appshell/src/shadcn-studio/blocks/
 [ ] 6.  Governed Button props used directly (mapStockButtonProps is sunset)
-[ ] 7.  Integration render test exists (AppShell mounts without TIP-004 throw)
+[ ] 7.  Integration render test exists (AppShell mounts without Governed UI throw)
 [ ] 8.  pnpm --filter @afenda/appshell test:run passes
 ```
 
@@ -52,9 +52,9 @@ pnpm --filter @afenda/ui build
 
 | Anti-pattern | Root cause | Fix |
 |--------------|-----------|-----|
-| `<Button className="gap-2 bg-primary">` | TIP-004 throw | Remove className; use `intent="primary" emphasis="solid"` |
-| `<Card className="rounded-xl shadow-lg p-6">` | TIP-004 throw | Wrap in `<div className="my-surface-class">` |
-| `<SheetContent className="gap-0">` | TIP-004 throw | Remove className; use default recipe |
+| `<Button className="gap-2 bg-primary">` | Governed UI throw | Remove className; use `intent="primary" emphasis="solid"` |
+| `<Card className="rounded-xl shadow-lg p-6">` | Governed UI throw | Wrap in `<div className="my-surface-class">` |
+| `<SheetContent className="gap-0">` | Governed UI throw | Remove className; use default recipe |
 | `<Badge className="bg-green-500">Active</Badge>` | No token usage | Use `tone="success"` |
 | `<Button variant="ghost" size="sm">` (stock shadcn) | Sunset API | `intent="quiet" emphasis="ghost" size="sm"` |
 | `<Button variant="destructive">` | Sunset API | `intent="destructive" emphasis="solid"` |

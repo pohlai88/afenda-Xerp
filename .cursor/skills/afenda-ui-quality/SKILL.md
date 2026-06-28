@@ -1,6 +1,6 @@
 ---
 name: afenda-ui-quality
-description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, TIP-004 governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/tip-004-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
+description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, Governed UI governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/governed-ui-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ disable-model-invocation: true
 >
 > Stack: Tailwind v4 · shadcn/Radix · `@afenda/ui` governed primitives · `@afenda/design-system` tokens · shadcn/studio MCP · afenda-ui-quality Phase 5 checklist.
 >
-> **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
+> **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
 
 ---
 
@@ -78,9 +78,9 @@ Use `/cui` for new blocks, `/rui` for refining existing blocks, `/iui` for inspi
 
 ---
 
-## Phase 3 — Normalization (TIP-004 compliance)
+## Phase 3 — Normalization (Foundation phase 04 compliance)
 
-This is the most critical phase. Raw shadcn-studio blocks contain `className` props on `@afenda/ui` governed primitives, which triggers the TIP-004 runtime throw and Vitest failure.
+This is the most critical phase. Raw shadcn-studio blocks contain `className` props on `@afenda/ui` governed primitives, which triggers the Governed UI runtime throw and Vitest failure.
 
 ### 3.1 Identify violations fast
 
@@ -97,7 +97,7 @@ In **consumer** code, governed primitives must receive **zero** `className` (not
 Governed tag set (authoritative list): `GOVERNED_UI_TAGS` in `scripts/governance/governed-ui-consumption.mjs`. Representative tags: `Button`, `Badge`, `Alert`, `Dialog*`, `Sheet*`, `DropdownMenu*`, `Sidebar*`, `Avatar`, `Tabs*`, `Combobox*`, `InputGroup*`, `Kbd`, `Card*`, `Table*`, `Field*`, `Progress`, `Separator`, `Tooltip`, and all registered sub-slots.
 
 ```tsx
-// ❌ Raw MCP output — TIP-004 throw
+// ❌ Raw MCP output — Governed UI throw
 <Button className="relative gap-2 bg-primary text-white rounded-lg px-4">Save</Button>
 
 // ✅ Normalized — governed props only
@@ -215,7 +215,7 @@ Use the repo-specific gate below (Phase 5 checklist in this skill).
 Run `guardClassName()` mentally against every className string in the block:
 
 ```ts
-// Repo's runtime guard — throws TIP-004 for visual slop
+// Repo's runtime guard — throws Governed UI for visual slop
 import { guardClassName } from "@afenda/ui/governance";
 // Patterns it blocks: from-, to-, via-, backdrop-blur, glass, bg-gradient, shadow-[, rounded-[, text-[, bg-[, bg-#, text-#
 ```
@@ -350,7 +350,7 @@ All gates must pass before merging.
 
 ## Additional resources
 
-- **Canonical TIP-004 policy:** [`docs/governance/tip-004-policy.md`](../../docs/governance/tip-004-policy.md)
+- **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
 - **UI guard gates:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
 - **React quality gate (run after Phase 5):** [`.cursor/skills/react-erp-quality/SKILL.md`](../react-erp-quality/SKILL.md)
 - Govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)

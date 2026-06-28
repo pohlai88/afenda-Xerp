@@ -22,7 +22,7 @@ Read each file in full using the Read tool:
 
 | # | Path | Purpose |
 |---|------|---------|
-| 1 | `.cursor/skills/afenda-ui-quality/SKILL.md` | Five-phase pipeline, TIP-004 normalization |
+| 1 | `.cursor/skills/afenda-ui-quality/SKILL.md` | Five-phase pipeline, Governed UI normalization |
 | 2 | `.cursor/skills/govern-primitive/SKILL.md` | 16-point governance checklist, registry rules |
 | 3 | `.cursor/skills/react-erp-quality/SKILL.md` | React hooks, composition, bundle gate |
 
@@ -343,7 +343,7 @@ For every `.stories.tsx`:
 ### Step 9 — Verification gates (run in order)
 
 ```bash
-# 1. Fast scan — find all TIP-004 violations
+# 1. Fast scan — find all Governed UI violations
 pnpm ui:guard:scan
 
 # 2. Full ui:guard (gates A–F — docs/governance/ui-guard.md)

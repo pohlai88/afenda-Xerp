@@ -1,7 +1,7 @@
 ---
 name: rbac-erp
 description: >-
-  Comprehensive RBAC guide for @afenda/permissions (TIP-005). Covers the two-layer
+  Comprehensive RBAC guide for @afenda/permissions (Foundation phase 05). Covers the two-layer
   authorization model (permission check + policy overlay), permission key registry,
   role/membership/tenant contracts, denial codes, policy gate decisions
   (require_approval, require_evidence, require_step_up, readonly), data source
@@ -12,7 +12,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# RBAC — `@afenda/permissions` (TIP-005)
+# RBAC — `@afenda/permissions` (Foundation phase 05)
 
 ## Two-layer model
 
@@ -250,7 +250,7 @@ if (!hasPermission) return <Redirect />;   // enforce on the Server Action, not 
 ## Out of scope for `@afenda/permissions`
 
 - Authentication / session management → `@afenda/auth`
-- Commercial entitlements / plan limits → TIP-008
+- Commercial entitlements / plan limits → Foundation phase 08
 - Module-specific business rules
 - Row-level security (handle in Postgres RLS or service layer)
 

@@ -59,7 +59,7 @@ function validateScopePaths(context: AiGovernanceContext): AiViolation[] {
       violations.push({
         invariant: "AI-004",
         gate: "scope",
-        message: `changed file is outside declared TIP scope (TIP: ${tip})`,
+        message: `changed file is outside declared PAS scope (TIP: ${tip})`,
         path,
       });
     }

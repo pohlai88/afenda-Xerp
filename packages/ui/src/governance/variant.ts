@@ -165,7 +165,7 @@ function formatVariantPolicyViolation(
     ? ` Allowed axes for this recipe: ${allowedAxes.join(", ")}.`
     : ` Allowed governed axes: ${VARIANT_AXES.join(", ")}.`;
 
-  return `TIP-004 variant policy violation. ${details}.${allowedAxisMessage}`;
+  return `Foundation phase 04 variant policy violation. ${details}.${allowedAxisMessage}`;
 }
 
 export function assertGovernedVariantStrict(

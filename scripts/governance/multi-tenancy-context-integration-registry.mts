@@ -17,8 +17,8 @@ export const MULTI_TENANCY_DOC_CONTEXT_INTEGRATION_MARKERS = [
   "Validate context switch server-side.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_CONTEXT_INTEGRATION_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_CONTEXT_INTEGRATION_SECTION =
   "API/action/AppShell integration" as const;
 
 export const CONTEXT_INTEGRATION_WIRING = [

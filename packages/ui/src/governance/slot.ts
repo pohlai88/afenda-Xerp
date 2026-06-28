@@ -4,13 +4,13 @@ import { enforceGovernanceOr } from "./dev-env";
 const slotRoleSet = new Set<string>(SLOT_ROLES);
 
 function formatSlotRoleViolation(role: string): string {
-  return `TIP-004 slot policy violation. Unsupported slot role "${role}". Allowed roles: ${SLOT_ROLES.join(
+  return `Governed UI slot policy violation. Unsupported slot role "${role}". Allowed roles: ${SLOT_ROLES.join(
     ", "
   )}. Components must use governed slot roles from @afenda/design-system only.`;
 }
 
 function formatSlotContractViolation(roles: readonly string[]): string {
-  return `TIP-004 slot contract violation. Unsupported slot roles: ${roles.join(
+  return `Governed UI slot contract violation. Unsupported slot roles: ${roles.join(
     ", "
   )}. Allowed roles: ${SLOT_ROLES.join(", ")}.`;
 }

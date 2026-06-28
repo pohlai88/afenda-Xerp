@@ -24,7 +24,7 @@ function requiredWireString(value: string | null, label: string): string {
 }
 
 /**
- * Governed non-accounting consolidation scope derivation (TIP-008A).
+ * Governed non-accounting consolidation scope derivation (Foundation phase 08).
  * Assigns consolidation treatment per investee legal entity — no eliminations or arithmetic.
  *
  * Owner: apps/erp (PAS-001 §4.4 — operating context resolver).

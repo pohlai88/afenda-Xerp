@@ -1,13 +1,13 @@
 # Afenda Permissions (`@afenda/permissions`)
 
-Central authorization foundation for Afenda ERP (TIP-005).
+Central authorization foundation for Afenda ERP (Foundation phase 05).
 
 ## Auth vs authorization
 
 | Layer | Package | Question answered |
 |-------|---------|-------------------|
-| Authentication (TIP-004) | `@afenda/auth` | **Who** is this user? |
-| Authorization (TIP-005) | `@afenda/permissions` | **May** this actor perform this action in this scope? |
+| Authentication (Governed UI) | `@afenda/auth` | **Who** is this user? |
+| Authorization (Foundation phase 05) | `@afenda/permissions` | **May** this actor perform this action in this scope? |
 
 Better Auth confirms identity. The permission and policy engine confirms authority.
 
@@ -26,7 +26,7 @@ Better Auth confirms identity. The permission and policy engine confirms authori
 ## Out of scope
 
 - User authentication or session management
-- Commercial entitlements or plan checks (TIP-008)
+- Commercial entitlements or plan checks (Foundation phase 08)
 - Module-specific business rules
 - Hardcoded admin bypass
 - Page-level permission checks without action context

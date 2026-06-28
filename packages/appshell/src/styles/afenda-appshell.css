@@ -904,7 +904,7 @@
   }
 
   /**
-   * Shell-05 command search: semantic list rows (no ComboboxInput — TIP-004 safe).
+   * Shell-05 command search: semantic list rows (no ComboboxInput — Governed UI safe).
    */
   .app-shell-search-command {
     display: flex;
@@ -2689,7 +2689,7 @@
   /**
    * Module workspace chrome — §I
    * Consistent header surface for manifest-driven ERP module pages.
-   * Created: Track 2 FDR-001 studio improvement.
+   * Created: Track 2 appshell studio improvement.
    */
   .app-shell-module-workspace-header {
     display: flex;

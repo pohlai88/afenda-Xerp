@@ -126,7 +126,7 @@ Step detail with routes in backticks (`/system-admin/users`).
 - [ ] Reference sections use **GeneratedReference** / OpenAPI — not hand-maintained tables
 - [ ] **Callout** for warnings (`warn`), scope (`info`), or blockers — sparingly
 - [ ] **Cards** on index pages with descriptive `description` props (not one-word stubs)
-- [ ] Links to repo-root `docs/` governance only when citing ADR/FDR — runtime docs stay in this site
+- [ ] Links to repo-root `docs/` governance only when citing ADR/PAS — runtime docs stay in this site
 - [ ] No `<InlineTOC>` in MDX (page shell provides TOC)
 - [ ] Images use default MDX `img` (ImageZoom wired globally)
 

@@ -5,13 +5,13 @@
 | **Status** | Baseline — Attested (ADR-0004) |
 | **Date** | 2026-06-28 |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001A — Architecture Baseline Discovery |
+| **TIP** | Foundation phase 01 — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
 | **Invariant** | ARCH-001 — exactly one owner per package |
 
-Validation at baseline is attested under **ADR-0004** (TIP-001B). Architecture Authority sign-off recorded 2026-06-28.
+Validation at baseline is attested under **ADR-0004** (Foundation phase 01). Architecture Authority sign-off recorded 2026-06-28.
 
-Ownership defines **who owns**, **what ownership means**, **what owners may do**, and **how conflicts resolve**. Full rights and restrictions are normative in **ADR-0004** (TIP-001B); this registry is the operational source of truth.
+Ownership defines **who owns**, **what ownership means**, **what owners may do**, and **how conflicts resolve**. Full rights and restrictions are normative in **ADR-0004** (Foundation phase 01); this registry is the operational source of truth.
 
 ---
 
@@ -71,7 +71,7 @@ Authority levels align with **governance bodies**, not technical categories.
 | **Metadata Authority** | `metadata` | Renderer contracts, metadata schemas, field registries, metadata UI public API |
 | **ERP Spine Authority** | `erp-spine` | App shell, navigation model, command center, layout contracts |
 | **Application Authority** | `application` | App deployment surfaces, routing integration, app-level dependency declarations |
-| **Domain Authority** | `domain` | Domain business contracts, domain APIs, domain data boundaries (per domain at TIP-013+) |
+| **Domain Authority** | `domain` | Domain business contracts, domain APIs, domain data boundaries (per domain at Foundation phase 13+) |
 
 ---
 
@@ -161,7 +161,7 @@ Without escalation, ownership conflicts cannot be resolved. All disputes are log
 
 ---
 
-## Reserved Domain Ownership (TIP-013+)
+## Reserved Domain Ownership (Foundation phase 13+)
 
 | Planned package | Owner domain | Authority level |
 |-----------------|--------------|-----------------|
@@ -200,7 +200,7 @@ For every package, the owner must be able to answer who approves each change cla
 | `@afenda/ui` | Design | Design | Design | Architecture |
 | `@afenda/architecture-authority` *(planned)* | Architecture | Architecture | Architecture | Architecture |
 
-This table is the input schema for TIP-001D ownership validation and TIP-001F `ownership-audit.md` generation.
+This table is the input schema for Foundation phase 01 ownership validation and Foundation phase 01 `ownership-audit.md` generation.
 
 ---
 
@@ -214,7 +214,7 @@ Ownership may not change casually. Example triggers: `metadata-ui` governance sp
 2. **Current owner sign-off** — releasing authority confirms handover
 3. **New owner sign-off** — accepting authority confirms responsibilities
 4. **Architecture Authority approval** — constitutional gate; no transfer without it
-5. **Registry updates** — `ownership-registry.md`, `package-registry.md`, machine maps (TIP-001C+)
+5. **Registry updates** — `ownership-registry.md`, `package-registry.md`, machine maps (Foundation phase 01+)
 6. **Fingerprint bump** — baseline report amended if material
 
 **Forbidden patterns:**
@@ -227,7 +227,7 @@ Ownership may not change casually. Example triggers: `metadata-ui` governance sp
 
 ---
 
-## Ownership Audit Intent (TIP-001F)
+## Ownership Audit Intent (Foundation phase 01)
 
 This registry generates [`ownership-audit.md`](ownership-audit.md) via:
 

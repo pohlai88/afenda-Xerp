@@ -7,10 +7,10 @@ export const exceptionContract: ExceptionContract = {
       status: "active",
       owner: "Design Authority",
       evidence: [
-        "docs/governance/tip-004-policy.md",
+        "docs/governance/governed-ui-policy.md",
         "packages/design-system/src/contracts/design-system-authority.contract.ts",
       ],
-      adr: "TIP-004",
+      adr: "Governed UI policy",
       approvedBy: "Design Authority",
       expiresAt: "2027-06-20T00:00:00.000Z",
       packageName: "@afenda/ui",

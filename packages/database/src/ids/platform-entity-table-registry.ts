@@ -2,7 +2,7 @@
  * PAS §4.1 Slice E — platform entity table registry (ADR-0021 / ADR-0022).
  *
  * Maps kernel enterprise ID families to PostgreSQL tables.
- * `deferred` rows are governed by promotion checklist until domain FDR lands schema.
+ * `deferred` rows are governed by promotion checklist until domain PAS slice lands schema.
  */
 
 import type { EnterpriseIdFamilyKey } from "./enterprise-id-patterns.js";

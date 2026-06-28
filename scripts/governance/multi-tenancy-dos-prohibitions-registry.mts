@@ -35,7 +35,7 @@ export const MULTI_TENANCY_DOC_PROHIBITIONS_MARKERS = [
   "Do not allow sibling company access without explicit grant.",
   "Do not trust client-provided company/legalEntity/entityGroup/org IDs.",
   "Do not implement accounting journals, ledgers, reports, or consolidation entries.",
-  "Do not start TIP-013.",
+  "Do not start Foundation phase 13.",
   "Do not add business modules.",
   "Do not weaken RLS/RBAC/CSP.",
   "Do not use `any`.",
@@ -185,7 +185,7 @@ export const MULTI_TENANCY_PROHIBITION_ENFORCEMENT = [
   },
   {
     id: "no-tip-013",
-    marker: "Do not start TIP-013.",
+    marker: "Do not start Foundation phase 13.",
     checkScript: "check:multi-tenancy-dos-prohibitions",
     scanRule: "forbidden-accounting-pattern",
   },
@@ -304,7 +304,7 @@ export const MULTI_TENANCY_SESSION_TENANT_ID_SCAN_ROOTS = [
 export const MULTI_TENANCY_SESSION_TENANT_ID_PATTERN =
   /session\.user\.tenantId\b/;
 
-/** ERP production scan roots for accounting / TIP-013 prohibition. */
+/** ERP production scan roots for accounting / Foundation phase 13 prohibition. */
 export const MULTI_TENANCY_ACCOUNTING_SCAN_ROOTS = [
   "apps/erp/src/lib/context",
   "apps/erp/src/server",
@@ -324,7 +324,7 @@ export const MULTI_TENANCY_FORBIDDEN_ACCOUNTING_PATTERNS = [
   /tip-013/i,
 ] as const;
 
-/** Protected app route segments that must not exist before TIP-013. */
+/** Protected app route segments that must not exist before Foundation phase 13. */
 export const MULTI_TENANCY_FORBIDDEN_BUSINESS_MODULE_SEGMENTS = [
   "accounting",
   "inventory",
@@ -345,5 +345,5 @@ export const MULTI_TENANCY_DOS_PROHIBITIONS_GATE =
   "scripts/governance/check-multi-tenancy-dos-prohibitions.mts" as const;
 
 /** Delivery doc section title for §447–480 mapping. */
-export const TIP_007_012_DOS_PROHIBITIONS_SECTION =
+export const MULTI_TENANCY_DOS_PROHIBITIONS_SECTION =
   "Do's and Prohibitions enforcement" as const;

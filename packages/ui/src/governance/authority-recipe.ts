@@ -40,7 +40,7 @@ function normalizeAuthorityRecipeSelection(
 
   if (!(STATUS_TONES as readonly string[]).includes(tone)) {
     throw new Error(
-      `TIP-004 authority recipe violation. Unsupported tone "${tone}".`
+      `Foundation phase 04 authority recipe violation. Unsupported tone "${tone}".`
     );
   }
 
@@ -85,7 +85,7 @@ export function resolveAuthorityRecipeSlotClassName(
     case "app-shell": {
       if (!isAppShellSlot(slotName)) {
         throw new Error(
-          `TIP-004 app-shell recipe violation. Unknown slot "${slotName}".`
+          `Foundation phase 04 app-shell recipe violation. Unknown slot "${slotName}".`
         );
       }
       return resolveAppShellSlotClassName(slotName, selection);
@@ -93,7 +93,7 @@ export function resolveAuthorityRecipeSlotClassName(
     case "metadata-ui": {
       if (!isMetadataUiSlot(slotName)) {
         throw new Error(
-          `TIP-004 metadata-ui recipe violation. Unknown slot "${slotName}".`
+          `Foundation phase 04 metadata-ui recipe violation. Unknown slot "${slotName}".`
         );
       }
       return resolveMetadataUiSlotClassName(slotName, selection);

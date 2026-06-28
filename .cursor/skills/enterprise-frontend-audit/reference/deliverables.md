@@ -390,7 +390,7 @@ Each section maps to one of the 15 required deliverables.
 ### P0 — Ship blockers (fix before next deploy)
 | # | Issue | File | Fix | Expected impact |
 |---|-------|------|-----|-----------------|
-| 1 | className on governed primitive causing TIP-004 throw | <path:line> | Remove className; use intent prop | Gate D clean |
+| 1 | className on governed primitive causing Governed UI throw | <path:line> | Remove className; use intent prop | Gate D clean |
 | 2 | ... | ... | ... | ... |
 
 ### P1 — Sprint 1 (this sprint)

@@ -1,5 +1,5 @@
 /**
- * Corporate group authority under a tenant (TIP-008 foundation).
+ * Corporate group authority under a tenant (Foundation phase 08 foundation).
  *
  * Writes: `../entity-group/entity-group.service.ts`
  */

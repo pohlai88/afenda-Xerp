@@ -35,7 +35,7 @@ isProject: false
 ```mermaid
 flowchart TB
   subgraph agentLayer [Agent layer - highest value for Afenda]
-    Sub["create-subagent\nfoundation-registry-owner\nfdr-slice-implementer"]
+    Sub["create-subagent\nfoundation-registry-owner\nafenda-governed-implementer"]
     Skill["create-skill\nmonorepo-discipline\nkernel-authority"]
   end
   subgraph codeLayer [Code artifact layer - lower frequency]
@@ -82,7 +82,7 @@ For a Foundation authority package (PAS-003/004 pattern), scaffolding is roughly
 | Task | Time / complexity | Tool that helps |
 |------|-------------------|-----------------|
 | Registry rows (layer, package, ownership, dependency) | High — must be correct | **`foundation-registry-owner` subagent** |
-| Full PAS doc (25 sections, gates, DoD) | Very high | **`fdr-author` / write-fdr skill** |
+| Full PAS doc (25 sections, gates, DoD) | Very high | **`pas-slice-planner` / pas-slice-planner skill** |
 | Domain model + registry data | High | **PAS slice + governed implementer** |
 | Package-specific governance script | Medium | **Manual slice** |
 | Skill + reference docs | Medium | **`/create-skill` + pas-reference-templates** |
@@ -132,7 +132,7 @@ Optional: a thin project skill `afenda-package-scaffold` with copy commands + ch
 
 - **`foundation-registry-owner`** — after filesystem exists
 - **`afenda-governed-implementer`** — for PAS slice implementation
-- **`fdr-slice-implementer`** — for foundation work
+- **`afenda-governed-implementer`** — for foundation work
 
 A subagent that only copies files would be **less reliable** than `turbo gen workspace --copy` (deterministic) or a skill checklist (flexible).
 

@@ -42,21 +42,21 @@ Source: [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) at
 | code-simplification | 2 | 4 | 4 | 3 | **merge** | `afenda-code-reviewer`, `AGENTS.md` | Chesterton's Fence → review skill notes |
 | context-engineering | 2 | 3 | 4 | 2 | **drop** | `using-afenda-skills`, `.cursor/rules/` | Superseded by Afenda rules + bundles |
 | debugging-and-error-recovery | 2 | 4 | 4 | 4 | **merge** | `error-handling`, `afenda-coding-session` | Triage checklist → native error-handling |
-| deprecation-and-migration | 1 | 4 | 4 | 4 | **keep** | `write-fdr` rollback partial, `afenda-drizzle-migration` | No native general deprecation lifecycle |
-| documentation-and-adrs | 3 | 2 | 4 | 2 | **drop** | `write-fdr`, `docs/adr/` | Conflicts with PAS/FDR authority |
+| deprecation-and-migration | 1 | 4 | 4 | 4 | **keep** | `pas-slice-planner` rollback partial, `afenda-drizzle-migration` | No native general deprecation lifecycle |
+| documentation-and-adrs | 3 | 2 | 4 | 2 | **drop** | `pas-slice-planner`, `docs/adr/` | Conflicts with PAS/PAS authority |
 | doubt-driven-development | 1 | 5 | 4 | 5 | **keep** | none | Adversarial fresh-context review; unique |
-| frontend-ui-engineering | 5 | 1 | 2 | 1 | **drop** | `ui-consistency-bundle`, `enterprise-frontend-audit` | Conflicts TIP-004/PAS-005 |
+| frontend-ui-engineering | 5 | 1 | 2 | 1 | **drop** | `ui-consistency-bundle`, `enterprise-frontend-audit` | Conflicts Foundation phase 04/PAS-005 |
 | git-workflow-and-versioning | 3 | 4 | 4 | 3 | **drop** | user git rules, `afenda-coding-session` | Covered by commit rules + Phase 0 |
 | idea-refine | 1 | 4 | 4 | 3 | **keep** | none | Pre-PAS ideation; planner assumes handoff |
 | incremental-implementation | 4 | 5 | 3 | 2 | **merge** | `afenda-coding-session`, `agent-multi-file.mdc` | Vertical slices in Phase 0/1 |
 | interview-me | 1 | 5 | 4 | 4 | **keep** | none | Intent extraction before spec/PAS |
 | observability-and-instrumentation | 4 | 5 | 3 | 3 | **merge** | `observability-usage`, `pino-erp-logger` | RED/USE/on-call → native observability |
 | performance-optimization | 3 | 4 | 3 | 4 | **keep** | `/afenda-webperf`, enterprise-frontend-audit | Wired in webperf command |
-| planning-and-task-breakdown | 4 | 5 | 4 | 3 | **merge** | `pas-slice-planner`, `write-fdr` | FDR handoffs supersede generic planning |
+| planning-and-task-breakdown | 4 | 5 | 4 | 3 | **merge** | `pas-slice-planner`, `pas-slice-planner` | PAS handoffs supersede generic planning |
 | security-and-hardening | 3 | 4 | 3 | 4 | **keep** | `afenda-security-auditor`, `csp-third-party`, `rbac-erp` | Wired mandatory read |
 | shipping-and-launch | 3 | 3 | 3 | 3 | **keep** | `/afenda-ship`, `enterprise-erp-standards` | Launch checklist context for ship |
 | source-driven-development | 3 | 5 | 4 | 3 | **merge** | `afenda-coding-session`, Next.js MCP rules | Cite-from-docs policy already in rules |
-| spec-driven-development | 4 | 2 | 3 | 2 | **drop** | `write-fdr`, `pas-slice-planner` | Generic spec vs PAS/FDR chain |
+| spec-driven-development | 4 | 2 | 3 | 2 | **drop** | `pas-slice-planner`, `pas-slice-planner` | Generic spec vs PAS/PAS chain |
 | test-driven-development | 3 | 5 | 3 | 4 | **keep** | `afenda-test-engineer`, `test-coverage`, `/afenda-test` | Prove-It / red-green wired |
 | using-agent-skills | 5 | 3 | 2 | 1 | **drop** | `using-afenda-skills` | Fully superseded |
 
@@ -132,7 +132,7 @@ Invoke on demand via paths in `using-afenda-skills`:
 | Skill | When |
 | --- | --- |
 | `interview-me` | Underspecified request; extract intent before PAS |
-| `idea-refine` | Rough concept before `write-fdr` |
+| `idea-refine` | Rough concept before `pas-slice-planner` |
 | `doubt-driven-development` | High-stakes / unfamiliar code; adversarial review |
 | `deprecation-and-migration` | Sunsetting features, compulsory deprecation |
 | `browser-testing-with-devtools` | Browser runtime debugging with DevTools MCP |

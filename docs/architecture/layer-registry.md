@@ -5,7 +5,7 @@
 | **Status** | Baseline — Pending Sign-off |
 | **Date** | 2026-06-20 |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-001A — Architecture Baseline Discovery |
+| **Authority** | Foundation phase 01 — Architecture Baseline Discovery |
 | **Fingerprint** | `ARCH-BASELINE-2026-06-28-v4` |
 | **Invariant** | ARCH-002 — every package belongs to exactly one layer |
 
@@ -89,7 +89,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 
 ## Allowed Cross-Layer Dependencies
 
-Authoritative matrix for TIP-001D `validateForbiddenDependencies()`.
+Authoritative matrix for Foundation phase 01 `validateForbiddenDependencies()`.
 
 ```text
 Application     → ERPSpine, Domain, Metadata, Integration, Foundation, Design, Platform
@@ -138,7 +138,7 @@ Same-layer runtime dependencies are **not** automatically permitted. Each layer 
 
 ## Domain Layer Governance (reserved)
 
-No domain packages exist at baseline. The following structure is reserved for TIP-013+:
+No domain packages exist at baseline. The following structure is reserved for Foundation phase 13+:
 
 ```text
 Domain

@@ -71,7 +71,7 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
   },
   {
     path: "data/business-master-data-import-boundary.policy.ts",
-    role: "TIP-008B import-prefix guard for domain contracts",
+    role: "Foundation phase 08 import-prefix guard for domain contracts",
     primaryExports: [
       "assertBusinessMasterDataImportBoundary",
       "BUSINESS_MASTER_DATA_FORBIDDEN_IMPORT_PREFIXES",

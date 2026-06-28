@@ -6,7 +6,7 @@ import type { StorageProviderId } from "./storage-object.contract.js";
  *
  * R2 remains production authority (`StorageProviderId`).
  * Supabase Storage is an additional option only — does not replace R2.
- * Requires storage ARCH/FDR before adding to `StorageProviderId` or runtime adapters.
+ * Requires storage PAS before adding to `StorageProviderId` or runtime adapters.
  */
 export const STORAGE_ADDITIONAL_APPROVED_PROVIDERS = ["supabase"] as const;
 

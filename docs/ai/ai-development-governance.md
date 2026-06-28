@@ -4,12 +4,12 @@
 |-------|-------|
 | **Status** | Active |
 | **Owner** | Architecture Authority |
-| **TIP** | TIP-002 |
+| **TIP** | Foundation phase 02 |
 | **ADR** | ADR-0007 |
 
 ## Purpose
 
-Establish machine-enforced rules for AI-assisted development after TIP-001 Architecture Authority is active. AI governance controls **how** AI may modify the repo; architecture authority controls **what** may exist.
+Establish machine-enforced rules for AI-assisted development after Foundation phase 01 Architecture Authority is active. AI governance controls **how** AI may modify the repo; architecture authority controls **what** may exist.
 
 ## Invariants
 
@@ -46,7 +46,7 @@ pnpm ci
 - ADR-0007 is Accepted
 - CI blocks scope drift and AI violations on PRs
 - No ERP feature code introduced
-- TIP-001 rules are delegated, not duplicated
+- Foundation phase 01 rules are delegated, not duplicated
 
 ## Rollback Expectations
 

@@ -184,7 +184,7 @@ const expansion = [
     },
     lifecycle: "accepted",
     lineage: {
-      origin: "TIP-008 entity group authority.",
+      origin: "Foundation phase 08 entity group authority.",
       evolution: [],
       currentAuthority: "PAS-004",
       futureDirection: "Consolidation accounting deferred.",

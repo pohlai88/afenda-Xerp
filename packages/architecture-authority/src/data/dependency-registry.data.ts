@@ -40,7 +40,7 @@ const RUNTIME_EDGES = [
   ["@afenda/docs", "@afenda/enterprise-knowledge"],
   ["@afenda/permissions", "@afenda/auth"],
   ["@afenda/permissions", "@afenda/database"],
-  // TIP-007: PermissionScopeContext types from @afenda/kernel — Platform→Platform edge
+  // Foundation phase 07: PermissionScopeContext types from @afenda/kernel — Platform→Platform edge
   ["@afenda/permissions", "@afenda/kernel"],
   ["@afenda/design-system", "@afenda/css-authority"],
   ["@afenda/ui", "@afenda/css-authority"],

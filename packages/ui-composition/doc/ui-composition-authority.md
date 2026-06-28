@@ -1,4 +1,4 @@
-You are implementing **TIP-005 — Metadata Authority** for the Afenda monorepo.
+You are implementing **Foundation phase 05 — Metadata Authority** for the Afenda monorepo.
 
 Your task is to create and harden the package:
 
@@ -69,7 +69,7 @@ Create or update the following files:
 ```txt
 packages/ui-composition/
   README.md
-  doc/TIP-005.md
+  doc/Foundation phase 05.md
   package.json
   tsconfig.json
   tsconfig.vitest.json
@@ -909,7 +909,7 @@ Do not:
 
 ## 14. Definition of Done
 
-TIP-005 is done only when:
+Foundation phase 05 is done only when:
 
 * `@afenda/ui-composition` package exists
 * all required files exist
@@ -960,7 +960,7 @@ All commands must pass.
 After implementation, provide a completion report with:
 
 ```txt
-TIP-005 Completion Report
+Foundation phase 05 Completion Report
 
 1. Files created
 2. Files modified
@@ -970,7 +970,7 @@ TIP-005 Completion Report
 6. Prohibited drift checked
 7. Acceptance commands run
 8. Remaining risks
-9. Ready/not ready for TIP-007 Metadata UI
+9. Ready/not ready for Foundation phase 07 Metadata UI
 ```
 
-Do not mark TIP-005 complete unless all acceptance commands pass.
+Do not mark Foundation phase 05 complete unless all acceptance commands pass.

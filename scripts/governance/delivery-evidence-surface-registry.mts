@@ -2,21 +2,21 @@
  * Canonical delivery evidence registry — aligned with
  * `docs/architecture/multi-tenancy.md` (Delivery evidence, lines 428–430).
  *
- * TIP-007 / TIP-012 delivery doc is the single source of truth for the
+ * Foundation phase 07 / Foundation phase 12 delivery doc is the single source of truth for the
  * multi-tenancy operating-context foundation slice verification chain.
  */
 export const DELIVERY_EVIDENCE_SURFACE_RULE =
-  "tip-007-012-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation" as const;
+  "multi-tenancy-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation" as const;
 
-/** Legacy TIP delivery doc retired — multi-tenancy architecture doc is canonical evidence. */
-export const TIP_007_012_DELIVERY_DOC =
+/** Legacy delivery doc retired — multi-tenancy architecture doc is canonical evidence. */
+export const MULTI_TENANCY_DELIVERY_DOC =
   "docs/architecture/multi-tenancy.md" as const;
 
 export const MULTI_TENANCY_DOC_REFERENCE =
   "docs/architecture/multi-tenancy.md" as const;
 
 /** Required H2 sections per multi-tenancy.md expected final output format (lines 686–715). */
-export const TIP_007_012_REQUIRED_SECTIONS = [
+export const MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS = [
   "Executive summary",
   "Glossary added/updated",
   "Existing-state audit",
@@ -63,14 +63,14 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
     qualityScript: "quality:database-tenant-rls-coverage",
     gateFile: "scripts/governance/check-database-tenant-rls-coverage.mts",
     sliceReference:
-      "Tenant RLS defense-in-depth (TIP-007/012 DoD #16, Phase 4)",
+      "Tenant RLS defense-in-depth (Foundation phase 07/012 DoD #16, Phase 4)",
   },
   {
     checkScript: "check:database-tenant-rls-live",
     qualityScript: "quality:database-tenant-rls-live",
     gateFile: "scripts/governance/check-database-tenant-rls-live.mts",
     sliceReference:
-      "Tenant RLS live apply proof (TIP-007/012 Slice G, environment-specific)",
+      "Tenant RLS live apply proof (Foundation phase 07/012 Slice G, environment-specific)",
   },
   {
     checkScript: "check:erp-context-surface",
@@ -210,7 +210,7 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
 ] as const;
 
 /** Acceptance checklist items — gate requires every item to be checked `[x]`. */
-export const TIP_007_012_ACCEPTANCE_CHECKLIST = [
+export const MULTI_TENANCY_DELIVERY_ACCEPTANCE_CHECKLIST = [
   "Glossary defines all 11 terms with do-not-confuse notes",
   "Kernel serializable contracts exported with governance gate",
   "Database tenant-domain surface with lookup services and gate",
@@ -237,12 +237,12 @@ export const TIP_007_012_ACCEPTANCE_CHECKLIST = [
   "Testing and verification acceptance documented and gated (§667–685)",
   "Expected final output format documented and gated (§686–718)",
   "Delivery evidence doc complete with verification chain",
-  "No accounting / TIP-013 work in this slice",
+  "No accounting / Foundation phase 13 work in this slice",
   "Governance tests pass for all surface gates",
   "Multi-tenancy governance quality chain passes locally (§678–685)",
 ] as const;
 
-export const TIP_007_012_MINIMUM_OVERALL_SCORE = 9.5 as const;
+export const MULTI_TENANCY_DELIVERY_MINIMUM_OVERALL_SCORE = 9.5 as const;
 
 /** Root script that refreshes dist before multi-tenancy surface gates. */
 export const GOVERNANCE_DIST_BUILD_SCRIPT = "build:governance-dist" as const;
@@ -258,27 +258,27 @@ export const GOVERNANCE_DIST_PACKAGES = [
 ] as const;
 
 /**
- * Phrases that must appear in the delivery doc to prevent TIP-008 / TIP-030 over-claiming.
+ * Phrases that must appear in the delivery doc to prevent Foundation phase 08 / Foundation phase 30 over-claiming.
  */
-export const TIP_007_012_REQUIRED_DISCLAIMERS = [
+export const MULTI_TENANCY_DELIVERY_REQUIRED_DISCLAIMERS = [
   "no consolidation arithmetic",
   "authority stub",
-  "TIP-030 table planned",
+  "Foundation phase 30 table planned",
 ] as const;
 
 /**
- * Patterns that must not appear in delivery prose (consolidation / follow-on TIP completion claims).
+ * Patterns that must not appear in delivery prose (consolidation / follow-on completion claims).
  */
-export const TIP_007_012_FORBIDDEN_OVERCLAIM_PATTERNS = [
+export const MULTI_TENANCY_DELIVERY_FORBIDDEN_OVERCLAIM_PATTERNS = [
   /consolidation\s+arithmetic\s+implemented/i,
   /consolidation\s+entries/i,
-  /\bTIP-008\s+complete\b/i,
-  /\bTIP-030\s+complete\b/i,
+  /\bmaster-data foundation complete\b/i,
+  /\bconsolidation foundation complete\b/i,
   /group-level\s+membership\s+scope\s+enforcement.*\bdelivered\b/i,
 ] as const;
 
 /** Entity-group table rows must use authority-foundation vocabulary, not bare "Implemented". */
-export const TIP_007_012_TIP008_TABLE_MARKERS = [
+export const MULTI_TENANCY_ENTITY_GROUP_TABLE_MARKERS = [
   "| Entity Group | `entity_groups` | Authority foundation",
   "| Ownership Interest | `legal_entity_ownership` | Authority foundation",
 ] as const;

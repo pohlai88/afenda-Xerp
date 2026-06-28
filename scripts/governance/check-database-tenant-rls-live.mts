@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 /**
- * Live tenant RLS defense-in-depth gate (TIP-007/012 Slice G).
+ * Live tenant RLS defense-in-depth gate (Foundation phase 07/012 Slice G).
  *
  * Always runs artifact parity first; live Postgres probes are environment-specific.
  */

@@ -135,7 +135,7 @@ MCP install (packages/shadcn-studio)
   → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
 ```
 
-**Remaining (B42i):** thin MCP wrapper strangler; TIP-004 className strip on MCP blocks.
+**Remaining (B42i):** thin MCP wrapper strangler; Governed UI className strip on MCP blocks.
 
 Handoff: [`docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md`](../../docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md) · next: [`b42i`](../../docs/PAS/slice/) (proposed)
 

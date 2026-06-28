@@ -1,4 +1,4 @@
-# TIP-004 — Role-permission bridge completion
+# Governed UI — Role-permission bridge completion
 
 Governed write path for `role_permissions` and production authorization read integration.
 
@@ -56,4 +56,4 @@ Test location: `packages/permissions/src/__tests__/authorization-bridge.integrat
 
 - Authorization seed/bootstrap scripts
 - Policy catalog seeding
-- Commercial entitlements (TIP-008)
+- Commercial entitlements (Foundation phase 08)

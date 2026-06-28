@@ -20,8 +20,8 @@ export const MULTI_TENANCY_DOC_EXISTING_STATE_AUDIT_MARKERS = [
   "Output table before modifying.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_EXISTING_STATE_AUDIT_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_EXISTING_STATE_AUDIT_SECTION =
   "Existing-state audit" as const;
 
 /** Step 2 audit dimensions — one table per bullet in §502–510. */

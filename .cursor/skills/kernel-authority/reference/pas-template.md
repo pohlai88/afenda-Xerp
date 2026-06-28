@@ -145,7 +145,7 @@ Before merging a new PAS + skill:
 - [ ] §0 Agent Quick Path present in PAS doc
 - [ ] §2 boundary ≤2 sentences
 - [ ] §7 decision matrix has ≥8 rows with explicit Yes/No answers
-- [ ] §13 gates resolve to real `pnpm` scripts (or waiver documented in slice/FDR)
+- [ ] §13 gates resolve to real `pnpm` scripts (or waiver documented in slice/PAS)
 - [ ] SKILL.md ≤350 lines; no `[From PAS §X]` placeholders remain
 - [ ] SKILL duplicates matrix + hard stops + Phase 0 (not link-only)
 - [ ] `reference/authority-surfaces.md` uses Status labels on every surface

@@ -14,9 +14,9 @@ import {
 } from "../contracts/token.contract";
 
 /**
- * Afenda ERP v2 token authority (TIP-004B, hardened).
+ * Afenda ERP v2 token authority (Foundation phase 04, hardened).
  *
- * Single source of truth for every governed design value (TIP-004 TS). `generate-tokens-css`
+ * Single source of truth for every governed design value (Foundation phase 04 TS). `generate-tokens-css`
  * reverse-renders this registry into:
  *   src/css/afenda-tokens.css                    (raw --afenda-* vars, grouped by `group`)
  *   src/css/afenda-design-system.css             (B30 deprecation shim — tokens + css-authority)
@@ -2284,7 +2284,7 @@ const tokens: readonly TokenDefinition[] = [
       "afenda.radius.base",
       "0.625rem",
       null,
-      "Base radius — premium ERP refinement (TIP-004B).",
+      "Base radius — premium ERP refinement (Foundation phase 04).",
     ],
     ["afenda.radius.none", "0", null, "No border radius — sharp edges."],
     [

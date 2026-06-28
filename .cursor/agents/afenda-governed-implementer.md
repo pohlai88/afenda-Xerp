@@ -174,7 +174,7 @@ Stop immediately and emit an **Architecture Blocker Report** if the task require
 - Raw `className` on governed `@afenda/ui` primitives in consumers
 - Test that mocks governance instead of canonical resolver
 - Claiming "no pending decision" without searching `docs/adr/` and `docs/delivery/`
-- Accounting Core (`TIP-013+`) before Phase 9 gate (ADR-0010)
+- Accounting Core (`Foundation phase 13+`) before Phase 9 gate (ADR-0010)
 - `packages/ui` edit when user scoped only `apps/erp`
 
 Blocked honesty ranks above unsafe completion.
@@ -498,7 +498,7 @@ Every session ends with:
 Run `git diff --name-only` and classify every changed file. All paths must be within Phase 0 allowed scope or explicitly escalated.
 
 ### Gate G / negative-search proof
-For CSS bridge, studio block, or TIP-004 governance work, paste the **`pnpm ui:guard:proof` attestation block** verbatim in this report (NS1–NS5 counts). A Pass claim without Gate G output is incomplete for 9.5 acceptance.
+For CSS bridge, studio block, or Governed UI governance work, paste the **`pnpm ui:guard:proof` attestation block** verbatim in this report (NS1–NS5 counts). A Pass claim without Gate G output is incomplete for 9.5 acceptance.
 
 ### Collateral consumer scan
 | Search | Result | Action |
@@ -618,7 +618,7 @@ When in doubt: stop, report, and ask — never drift silently.
 Use the afenda-governed-implementer subagent.
 
 Task:
-Implement TIP-032 Slice 3.9A — Studio Metric Collateral Migration Guard.
+Implement Foundation phase 32 Slice 3.9A — Studio Metric Collateral Migration Guard.
 
 Non-negotiable:
 - Extract every criterion from the attached evaluation

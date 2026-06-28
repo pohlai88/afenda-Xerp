@@ -12,7 +12,7 @@ Contributions follow **PAS slice handoffs**, **architecture authority**, and aut
 
 1. Read [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) for canonical PAS slice status.
 2. Read [afenda-runtime-truth-matrix.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) for runtime evidence.
-3. Copy **one** handoff block from the target TIP — implement one slice per session.
+3. Copy **one** handoff block from the target PAS slice — implement one slice per session.
 
 ## afenda-coding-session contract
 
@@ -24,7 +24,7 @@ Every coding turn:
 2. Allowed layer — single package path
 3. Files to change — explicit list
 4. Prohibited — off-limits packages
-5. Authority — ADR / TIP / skill
+5. Authority — ADR / PAS / skill
 6. Acceptance gates — `pnpm` commands
 
 **Phase 2 (before ending):** Post §11 Completion Report with drift-prevention table and gate output.
@@ -39,7 +39,7 @@ Every coding turn:
 | Governance | `docs/` at repo root | Architecture / delivery PRs |
 | Published docs | `apps/docs/content/docs/` | docs app content slices |
 
-**ADR-0012 rule:** Do not copy ADRs, registries, or TIP specs verbatim into Fumadocs MDX. Cross-link instead.
+**ADR-0012 rule:** Do not copy ADRs, registries, or PAS specs verbatim into Fumadocs MDX. Cross-link instead.
 
 ```bash
 pnpm check:documentation-drift

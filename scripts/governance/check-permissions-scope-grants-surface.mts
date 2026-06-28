@@ -223,7 +223,7 @@ export function checkPermissionsScopeGrantsSurface(): PermissionsScopeGrantsViol
         rule: "registry-planned-scopes",
         file: registrySource,
         message:
-          "permissions-scope-grants-registry.ts must declare TIP-008/TIP-030 planned membership scopes",
+          "permissions-scope-grants-registry.ts must declare Foundation phase 08/Foundation phase 30 planned membership scopes",
       });
     }
     if (!registryText.includes("PERMISSIONS_BARREL_DEPENDENCY_RULE")) {

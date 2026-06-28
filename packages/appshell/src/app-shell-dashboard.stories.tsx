@@ -52,7 +52,7 @@ const meta = {
   },
 } satisfies Meta<ApplicationShellDashboardDemoProps>;
 
-/** Governed primitives referenced across dashboard widgets (TIP-004 traceability). */
+/** Governed primitives referenced across dashboard widgets (Foundation phase 04 traceability). */
 export type ApplicationShellDashboardStoriesGovernedComponents = Extract<
   GovernedUiComponentName,
   | "Avatar"

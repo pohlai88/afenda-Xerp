@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 shared entry surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 07 shared entry surface.
 export const PACKAGE_NAME = "@afenda/metadata-ui" as const;
 
 export function getPackageName(): typeof PACKAGE_NAME {

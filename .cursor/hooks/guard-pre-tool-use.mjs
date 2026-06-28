@@ -300,7 +300,7 @@ if (relativePath && UI_STORY_FILE.test(relativePath)) {
       log(TAG, `raw Tailwind in story: ${relativePath} (${violations.length})`);
       ask(
         `Story file contains ${violations.length} raw Tailwind violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
-        `TIP-004: Raw Tailwind in story file. Replace spacing utilities with StoryRow/StoryStack gap/padding props and arbitrary values with governed recipe overrides. See .cursor/rules/no-raw-tailwind.mdc.`
+        `Foundation phase 04: Raw Tailwind in story file. Replace spacing utilities with StoryRow/StoryStack gap/padding props and arbitrary values with governed recipe overrides. See .cursor/rules/no-raw-tailwind.mdc.`
       );
     }
   }
@@ -316,7 +316,7 @@ if (relativePath && UI_COMPONENT_FILE.test(relativePath) && !UI_STORY_FILE.test(
       log(TAG, `raw Tailwind in component: ${relativePath} (${violations.length})`);
       ask(
         `Governed component contains ${violations.length} raw Tailwind violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
-        `TIP-001/TIP-004: Raw Tailwind in governed component. All styling must flow through resolvePrimitiveGovernance and the recipe system. See .cursor/rules/no-raw-tailwind.mdc.`
+        `Foundation phase 01/Foundation phase 04: Raw Tailwind in governed component. All styling must flow through resolvePrimitiveGovernance and the recipe system. See .cursor/rules/no-raw-tailwind.mdc.`
       );
     }
   }
@@ -333,8 +333,8 @@ if (relativePath && GOVERNED_UI_CONSUMER_PATH.test(relativePath)) {
     if (violations.length > 0) {
       log(TAG, `governed UI consumption: ${relativePath} (${violations.length})`);
       ask(
-        `@afenda/ui consumer file has ${violations.length} TIP-004 violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
-        `TIP-004: Do not pass className to governed @afenda/ui primitives. Import mapStockButtonProps from @afenda/ui/governance directly — no stock-props wrappers. Put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
+        `@afenda/ui consumer file has ${violations.length} Governed UI violation(s) in ${relativePath}. Approve only if intentional.\n\n${violations.slice(0, 6).join("\n")}${violations.length > 6 ? `\n…and ${violations.length - 6} more` : ""}`,
+        `Foundation phase 04: Do not pass className to governed @afenda/ui primitives. Import mapStockButtonProps from @afenda/ui/governance directly — no stock-props wrappers. Put shell layout on plain HTML wrappers. See .cursor/rules/governed-ui-consumption.mdc and .cursor/skills/govern-primitive/SKILL.md.`
       );
     }
   }

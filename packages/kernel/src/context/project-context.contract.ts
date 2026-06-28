@@ -17,7 +17,7 @@ export type ProjectLifecycleStatus =
   (typeof PROJECT_LIFECYCLE_STATUSES)[number];
 
 /**
- * Project authority (TIP-030) — kernel wire triad; persistence resolver in `@afenda/database` + `apps/erp`.
+ * Project authority (Foundation phase 30) — kernel wire triad; persistence resolver in `@afenda/database` + `apps/erp`.
  */
 export interface ProjectContext {
   readonly companyId: CompanyId | null;

@@ -96,7 +96,7 @@ Source of truth: [`package-registry.md`](package-registry.md) (22 active workspa
 
 | Package | Path | Key capabilities |
 | --- | --- | --- |
-| `@afenda/architecture-authority` | [`packages/architecture-authority/`](../packages/architecture-authority/) | FDR registry, dependency/layer validators ([`src/data/foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts)) |
+| `@afenda/architecture-authority` | [`packages/architecture-authority/`](../packages/architecture-authority/) | Disposition registry, dependency/layer validators ([`src/data/foundation-disposition.registry.ts`](../packages/architecture-authority/src/data/foundation-disposition.registry.ts)) |
 | `@afenda/ai-governance` | [`packages/ai-governance/`](../packages/ai-governance/) | AI boundary/drift/change validators (ADR-0007) |
 | `@afenda/testing` | [`packages/testing/`](../packages/testing/) | jsdom setup, React interaction helpers ([`src/setup/react.ts`](../packages/testing/src/setup/react.ts)) |
 | `@afenda/typescript-config` | [`packages/typescript-config/`](../packages/typescript-config/) | Shared strict TS presets |
@@ -216,7 +216,7 @@ Path: [`packages/database/src/schema/`](../packages/database/src/schema/)
 | --- | --- | --- |
 | Biome / Ultracite | [`biome.jsonc`](../biome.jsonc) | `pnpm lint`, `pnpm ci:biome`, `pnpm format` |
 | Architecture validators | [`scripts/quality/`](../scripts/quality/), [`scripts/governance/`](../scripts/governance/) | `pnpm quality:architecture`, `pnpm quality:boundaries` |
-| UI governance (TIP-004) | [`scripts/governance/ui-guard.mjs`](../scripts/governance/ui-guard.mjs) | `pnpm ui:guard`, `pnpm ui:guard:scan` |
+| UI governance (Governed UI) | [`scripts/governance/ui-guard.mjs`](../scripts/governance/ui-guard.mjs) | `pnpm ui:guard`, `pnpm ui:guard:scan` |
 | Multi-tenancy gates | 16 `check:multi-tenancy-*` scripts | `pnpm quality:multi-tenancy-enterprise-acceptance` |
 | Accounting readiness | [`check-accounting-readiness-gate.mts`](../scripts/governance/check-accounting-readiness-gate.mts) | `pnpm check:accounting-readiness-gate` — **Phase 9 PASSED 2026-06-24** |
 | Documentation drift | [`check-documentation-drift.mts`](../scripts/governance/check-documentation-drift.mts) | `pnpm check:documentation-drift` |
@@ -232,7 +232,7 @@ Full register: [`foundation-disposition.md`](foundation-disposition.md) · [`pas
 | --- | ---: | --- |
 | **Complete** | 7 | auth, tenant-RLS, outbox-jobs, audit-coverage, RBAC, manifest-nav, accounting-contracts (authority only) |
 | **Partially Implemented** | 23 | system-admin, operating-context, entitlements, kernel×3, most foundation |
-| **Not started** | 3 | ui-consumption FDR, ai-governance FDR, storybook FDR (runtime exists; docs not reconciled) |
+| **Not started** | 3 | ui-consumption PAS slice, ai-governance PAS slice, storybook PAS slice (runtime exists; docs not reconciled) |
 
 Active disposition lanes: see [`foundation-disposition.md`](foundation-disposition.md) (machine registry is source of truth).
 
@@ -250,13 +250,13 @@ Active disposition lanes: see [`foundation-disposition.md`](foundation-dispositi
 
 | Gap | Why critical | Authority / next step | Validation |
 | --- | --- | --- | --- |
-| **Accounting ledger runtime** | First business domain; prohibited until ADR | ADR-0010 + new ADR for TIP-015+; [`packages/accounting/`](../packages/accounting/) contracts-only | `PKGR01_ACCOUNTING` prohibited rules in disposition registry |
+| **Accounting ledger runtime** | First business domain; prohibited until ADR | ADR-0010 + new ADR for Foundation phase 15+; [`packages/accounting/`](../packages/accounting/) contracts-only | `PKGR01_ACCOUNTING` prohibited rules in disposition registry |
 | **Domain packages PKG-R02–R05** | No Inventory, HRM, CRM, Procurement runtime | ADR + registry promotion before filesystem | No `packages/inventory` etc. on disk |
 | **In-memory invitations (`AUTH-INV-001`)** | Invites not durable across restarts | Durable `member_invitations` table + ARCH-AUTH waiver closeout | `ARCH-AUTH-001` §Remaining gaps |
 | **MFA enroll UI (`AUTH-MFA-UI-001`)** | Policy exists; user enrollment surface missing | ARCH-AUTH-001 waiver track | Same ARCH doc |
 | **Profile email change UI** | Self-service email change not wired in settings | ARCH-AUTH-001 `changeEmail.enabled` — ARCH-USER-001 §15 gap (not Complete blocker) | `ARCH-USER-001` §15 |
 | **System admin settings audit waiver** | ~~Mutation audit incomplete for some settings blocks~~ | ARCH-ADMIN-001 Slice 5 **closed** · **Complete** 2026-06-25 | `check:system-admin-mutation-audit` exit 0 |
-| **Storybook runner (400/1860 failures)** | Visual regression gate broken | `fdr-021-storybook` Slice 3 | Runtime matrix row — not re-run this pass |
+| **Storybook runner (400/1860 failures)** | Visual regression gate broken | `PKG-021 storybook (pas-status-index)` Slice 3 | Runtime matrix row — not re-run this pass |
 | **AI governance test failure** | `quality:ai-governance` not fully green | [`packages/ai-governance/`](../packages/ai-governance/) | **38/39 pass** — 1 failing boundary test (Appendix A.4) |
 
 > **Note:** Runtime matrix cites 2 failing ERP tests (`context-switch`, `list-visible-system-admin-sections`). **Validation run:** `@afenda/erp` **658/658 pass** (124 files). Treat matrix row as stale until Evidence-sync.
@@ -265,14 +265,14 @@ Active disposition lanes: see [`foundation-disposition.md`](foundation-dispositi
 
 | Gap | Impact | Path / track |
 | --- | --- | --- |
-| **FDR DoD #14 peer review backlog** | Disposition entries at audit ceiling | See [`foundation-disposition.md`](foundation-disposition.md) and [`pas-status-index.md`](../PAS/pas-status-index.md) for active closeout sequence |
+| **PAS DoD #14 peer review backlog** | Disposition entries at audit ceiling | See [`foundation-disposition.md`](foundation-disposition.md) and [`pas-status-index.md`](../PAS/pas-status-index.md) for active closeout sequence |
 | **Registry sync debt** | Four PKG workspaces lack disposition rows | `foundation-registry-owner` Slice 2 — **missing:** `PKG004_DESIGN`, `PKG019_ARCHITECTURE`, `PKG020_AI_GOV`, `PKG021_STORYBOOK`. **Onboarded:** PKG005, PKG011, PKG012, PKG016, PKG017 (Appendix A.5) |
 | **Storage ERP consumer wiring** | Abstraction built; limited app integration | [`packages/storage/`](../packages/storage/) — waiver `storage-erp-e2e` |
 | **Feature flags route-level gating** | Evaluation exists; routes not fully gated | [`apps/erp/src/lib/rollout/`](../apps/erp/src/lib/rollout/) |
-| **ADR-0008 ref-as-prop migration** | Blocks React 19 primitive modernization | [`packages/ui/`](../packages/ui/) — `fdr-018-governed-primitives` Slice 2 |
+| **ADR-0008 ref-as-prop migration** | Blocks React 19 primitive modernization | [`packages/ui/`](../packages/ui/) — `PKG-018 governed-primitives (pas-status-index)` Slice 2 |
 | **ADR-0017 shadcn/studio acceptance** | MCP cwd + constitutional authority pending | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (Proposed) |
 | **Enterprise SSO / passkey (`AUTH-PHASE3-001`)** | Deferred Phase 3 auth | ARCH-AUTH-001 |
-| **Master data runtime (TIP-008)** | Authority contracts frozen; no domain schemas | [`packages/kernel/src/contracts/business-master-data/`](../packages/kernel/src/contracts/business-master-data/) |
+| **Master data runtime (Foundation phase 08)** | Authority contracts frozen; no domain schemas | [`packages/kernel/src/contracts/business-master-data/`](../packages/kernel/src/contracts/business-master-data/) |
 | **Durable idempotency store** | API idempotency in-memory/deferred | [`apps/erp/src/server/api/`](../apps/erp/src/server/api/) |
 
 ### Intentionally deferred (not gaps for Phase 1)
@@ -291,7 +291,7 @@ Active disposition lanes: see [`foundation-disposition.md`](foundation-dispositi
 IMPLEMENTED (runtime exists)     PARTIAL                         NOT STARTED / BLOCKED
 ─────────────────────────────     ───────────────────────────     ─────────────────────────
 Multi-tenant operating context    Feature flags (route gating)    Accounting ledger
-Better Auth + session bridge      FDR delivery attestation        PKG-R02–R05 domains
+Better Auth + session bridge      PAS slice attestation        PKG-R02–R05 domains
 RBAC + API governance             Storybook test runner           SSO / passkey
 App shell + module nav            AI governance test (1 fail)     Master data schemas
 System admin control plane (Complete)                             Business module UIs
@@ -409,7 +409,7 @@ PKG-R02–R05: **not in filesystem** (planned only) — matches [`package-regist
 
 ### A.5 Disposition registry sync status
 
-Fingerprint: `FOUNDATION-DISPOSITION-2026-06-25-v9` (21 entries including `TIP_ARCHIVE`).
+Fingerprint: `FOUNDATION-DISPOSITION-2026-06-25-v9` (21 entries including legacy archive lane).
 
 | PKG workspace | Disposition entry ID | Status |
 | --- | --- | --- |

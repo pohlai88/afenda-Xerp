@@ -29,7 +29,7 @@ const EXPECTED_DELEGATING_BRIDGE_BLOCK_COUNT = 8 as const;
 
 /**
  * PAS-005A B42j — MCP lab blocks use stock shadcn `@/components/ui/*`, not `@afenda/ui`.
- * TIP-004 consumer zero-className rules apply to appshell/metadata-ui/erp only.
+ * Governed UI consumer zero-className rules apply to appshell/metadata-ui/erp only.
  */
 describe("MCP presentation-layer className policy (B42j)", () => {
   it.each(

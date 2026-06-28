@@ -4,7 +4,7 @@ import { enforceGovernanceOr } from "./dev-env";
 const governedStateSet = new Set<string>(GOVERNED_STATES);
 
 function formatGovernedStateViolation(state: string): string {
-  return `TIP-004 state policy violation. Unsupported governed state "${state}". Allowed states: ${GOVERNED_STATES.join(
+  return `Governed UI state policy violation. Unsupported governed state "${state}". Allowed states: ${GOVERNED_STATES.join(
     ", "
   )}. UI components must use design-system governed states only; domain workflow states must be mapped before reaching @afenda/ui.`;
 }
@@ -12,7 +12,7 @@ function formatGovernedStateViolation(state: string): string {
 function formatGovernedStateContractViolation(
   states: readonly string[]
 ): string {
-  return `TIP-004 state contract violation. Unsupported governed states: ${states.join(
+  return `Governed UI state contract violation. Unsupported governed states: ${states.join(
     ", "
   )}. Allowed states: ${GOVERNED_STATES.join(
     ", "

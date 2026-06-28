@@ -213,7 +213,7 @@ describe("execution service", () => {
 });
 
 describe("execution service audit integration", () => {
-  it("emits execution and workflow audit actions through TIP-010", async () => {
+  it("emits execution and workflow audit actions through Foundation phase 10", async () => {
     const writtenRows: AuditEventInsertRow[] = [];
     const registry = createExecutionRegistry();
     registry.registerWorkflow({

@@ -1,6 +1,6 @@
 ---
 name: afenda-coding-session
-description: Encodes the Afenda monorepo's full coding quality standard AND agent execution guardrail for every session. Three layers — (1) Session Discipline: non-drift execution contract, anti-drift hard stops, package authority matrix; (2) Implementation Quality: TypeScript discipline (branded IDs, no any, satisfies, discriminated unions), React/Next.js App Router patterns, TIP-004 UI governance, Drizzle ORM, Vitest testing; (3) Completion Evidence: mandatory completion report with pass/fail drift-prevention proof. Invoke with /afenda-coding-session or attach explicitly at the start of any coding task — new feature, new component, refactor, bug fix, or skill/doc maintenance.
+description: Encodes the Afenda monorepo's full coding quality standard AND agent execution guardrail for every session. Three layers — (1) Session Discipline: non-drift execution contract, anti-drift hard stops, package authority matrix; (2) Implementation Quality: TypeScript discipline (branded IDs, no any, satisfies, discriminated unions), React/Next.js App Router patterns, Governed UI UI governance, Drizzle ORM, Vitest testing; (3) Completion Evidence: mandatory completion report with pass/fail drift-prevention proof. Invoke with /afenda-coding-session or attach explicitly at the start of any coding task — new feature, new component, refactor, bug fix, or skill/doc maintenance.
 disable-model-invocation: true
 ---
 
@@ -115,7 +115,7 @@ Before writing any code, confirm:
 [ ] Stated the §0 execution contract?  (objective, layer, files, prohibited, authority, gates)
 [ ] Checked §0.1 anti-drift hard stops? (none triggered, or escalated)
 [ ] Which layer am I editing?          (see §2 — layer order)
-[ ] Does the change touch @afenda/ui?  (see §6 — TIP-004 governance)
+[ ] Does the change touch @afenda/ui?  (see §6 — Governed UI governance)
 [ ] Does it touch apps/erp/**?         (read Next.js docs via MCP before guessing)
 [ ] Are existing tests passing?        pnpm typecheck && pnpm test:run
 ```
@@ -239,7 +239,7 @@ export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
 MetricCard.displayName = "MetricCard";
 ```
 
-> **`forwardRef` vs ref-as-prop — [ADR-0008](../../../docs/adr/ADR-0008-react19-ref-as-prop-ui-author-layer.md) status: Proposed/deferred.** Migration batch `TIP-UI-06` not started. Keep `forwardRef` in all `packages/ui` primitives; `govern-primitive` forbids piecemeal migration before the package-wide batch. Consumers unchanged: `<Primitive ref={…} />` works either way. After ADR-0008 Accepted, a gate will ban `forwardRef` in `packages/ui/src/components/**`.
+> **`forwardRef` vs ref-as-prop — [ADR-0008](../../../docs/adr/ADR-0008-react19-ref-as-prop-ui-author-layer.md) status: Proposed/deferred.** Migration batch `UI phase 6` not started. Keep `forwardRef` in all `packages/ui` primitives; `govern-primitive` forbids piecemeal migration before the package-wide batch. Consumers unchanged: `<Primitive ref={…} />` works either way. After ADR-0008 Accepted, a gate will ban `forwardRef` in `packages/ui/src/components/**`.
 
 ### Hooks discipline
 ```ts
@@ -302,7 +302,7 @@ await db.transaction(async (tx) => {
 
 ---
 
-## 6 · Afenda UI governance (TIP-004)
+## 6 · Afenda UI governance (Governed UI)
 
 Two layers. Do not confuse them.
 
@@ -501,7 +501,7 @@ Any `Fail` row must be resolved or escalated before the session is reported comp
 
 - TypeScript patterns in depth → [PATTERNS.md](PATTERNS.md)
 - All quality gates + changed-files→gate matrix → [VERIFICATION.md](VERIFICATION.md)
-- TIP-004 author layer (primitive authoring) → `.cursor/skills/govern-primitive/SKILL.md`
+- Governed UI author layer (primitive authoring) → `.cursor/skills/govern-primitive/SKILL.md`
 - Multi-tenancy architecture → `docs/architecture/multi-tenancy.md`
 - CSS governance → `.cursor/skills/afenda-css-tailwind-stylelint/SKILL.md`
 - Next.js App Router (live docs) → `nextjs-docs://llms-index` via MCP before writing

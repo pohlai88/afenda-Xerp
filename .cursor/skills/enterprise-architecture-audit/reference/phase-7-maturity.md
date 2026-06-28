@@ -30,7 +30,7 @@ Assess maturity **Level 1 (Ad Hoc)** through **Level 5 (Optimized)** per capabil
 | Audit / observability | | | | | | /5 | erp-observability |
 | Event / outbox / jobs | | | | | | /5 | execution PKG |
 | Metadata-driven UI | | | | | | /5 | metadata-ui + ui-composition |
-| Design system / UI governance | | | | | | /5 | ui:guard + TIP-004 |
+| Design system / UI governance | | | | | | /5 | ui:guard + Governed UI |
 | CSS token authority (PAS-005) | | | | | | /5 | css-authority gates |
 | Testing / Prove-It | | | | | | /5 | vitest + interaction |
 | CI/CD / quality gates | | | | | | /5 | pnpm quality |

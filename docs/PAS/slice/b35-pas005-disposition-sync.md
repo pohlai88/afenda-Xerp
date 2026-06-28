@@ -30,9 +30,9 @@ Handoff from: docs/PAS/slice/b35-pas005-disposition-sync.md
 8. Evidence     —
    packages/css-authority/src/authorities/afenda-extensions.json (465 tokens)
    foundation-disposition.registry.ts PKG004_DESIGN.knownGaps = []
-9. Attestation  — css-authority owns CSS-TOKEN rows for --afenda-*; design-system retains TIP-004 TS governance
+9. Attestation  — css-authority owns CSS-TOKEN rows for --afenda-*; design-system retains Governed UI TS governance
 ```
 
 ## Delivery notes
 
-- **Scope boundary:** Closing the knownGap means `@afenda/css-authority` now owns registry rows for `--afenda-*` CSS variables. `@afenda/design-system` retains TIP-004 variant/recipe TS governance; the B30 CSS shim remains until post-v1 per PAS-005.
+- **Scope boundary:** Closing the knownGap means `@afenda/css-authority` now owns registry rows for `--afenda-*` CSS variables. `@afenda/design-system` retains Governed UI variant/recipe TS governance; the B30 CSS shim remains until post-v1 per PAS-005.

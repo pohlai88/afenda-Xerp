@@ -409,7 +409,7 @@ export const calendarSlotClassNamesByKey = {
 
 const calendarButtonSlotKeys = new Set(["nav-button", "day-button"]);
 
-/** Emitted data-slot for every Calendar slotKey — required by TIP-004B runtime. */
+/** Emitted data-slot for every Calendar slotKey — required by Governed UI runtime. */
 export const calendarDataSlotByKey = Object.fromEntries(
   (
     Object.keys(calendarSlotClassNamesByKey) as Array<

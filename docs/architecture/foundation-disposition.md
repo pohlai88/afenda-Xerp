@@ -1,4 +1,4 @@
-# Foundation Disposition Registry (FDR)
+# Foundation Disposition Registry
 
 | Field | Value |
 | --- | --- |
@@ -27,30 +27,30 @@
 
 ## Registry entries
 
-| ID | Package | Lane | Required before accounting | FDR gaps |
+| ID | Package | Lane | Required before accounting | Remaining gaps |
 | --- | --- | --- | --- | --- |
 | PKG007_ADMIN | `@afenda/erp` | green-lane | yes | — |
 | PKG007_CONTEXT | `@afenda/erp` | green-lane | yes | — |
-| PKG013_AUDIT | `@afenda/observability` | green-lane | yes | see fdr-013-audit-coverage |
-| PKG013_LOGGING | `@afenda/observability` | green-lane | yes | see fdr-013-logging-tracing |
+| PKG013_AUDIT | `@afenda/observability` | green-lane | yes | see pas-status-index (PKG registry) |
+| PKG013_LOGGING | `@afenda/observability` | green-lane | yes | see pas-status-index (PKG registry) |
 | PKG003_DATABASE | `@afenda/database` | green-lane | yes | — |
-| PKG006_ENTITLEMENTS | `@afenda/entitlements` | green-lane | yes | see fdr-006-entitlements |
-| PKG006_FEATURE_MANIFEST | `@afenda/entitlements` | green-lane | yes | see fdr-006-feature-manifest |
+| PKG006_ENTITLEMENTS | `@afenda/entitlements` | green-lane | yes | see pas-status-index (PKG registry) |
+| PKG006_FEATURE_MANIFEST | `@afenda/entitlements` | green-lane | yes | see pas-status-index (PKG registry) |
 | PKG010_KERNEL | `@afenda/kernel` | green-lane | yes | — |
 | PKG014_PERMISSIONS | `@afenda/permissions` | green-lane | yes | — |
-| PKG015_STORAGE | `@afenda/storage` | green-lane | yes | see fdr-015-tenant-storage |
+| PKG015_STORAGE | `@afenda/storage` | green-lane | yes | see pas-status-index (PKG registry) |
 | PKG008_EXECUTION | `@afenda/execution` | green-lane | yes | — |
-| PKG005_DOCS | `@afenda/docs` | blue-lane | no | see fdr-005-docs-app |
-| PKG011_METADATA | `@afenda/ui-composition` | green-lane | yes | see fdr-011-metadata-authority |
-| PKG012_METADATA_UI | `@afenda/metadata-ui` | amber-lane | no | see fdr-012-metadata-renderers |
-| PKG016_TESTING | `@afenda/testing` | blue-lane | no | see fdr-016-test-utilities |
-| PKG017_TS_CONFIG | `@afenda/typescript-config` | blue-lane | no | see fdr-017-ts-config |
-| PKG018_UI | `@afenda/ui` | amber-lane | no | see fdr-018-governed-primitives |
-| PKG001_APPSHELL | `@afenda/appshell` | amber-lane | no | see fdr-001-shell-composition |
-| PKG002_AUTH | `@afenda/auth` | amber-lane | yes | see fdr-002-auth-disposition |
-| PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see fdr-009-rollout-flags |
-| PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see fdr-r01-accounting-contracts |
-| PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see fdr-r02-inventory-master-data |
+| PKG005_DOCS | `@afenda/docs` | blue-lane | no | see pas-status-index (PKG registry) |
+| PKG011_METADATA | `@afenda/ui-composition` | green-lane | yes | see pas-status-index (PKG registry) |
+| PKG012_METADATA_UI | `@afenda/metadata-ui` | amber-lane | no | see pas-status-index (PKG registry) |
+| PKG016_TESTING | `@afenda/testing` | blue-lane | no | see pas-status-index (PKG registry) |
+| PKG017_TS_CONFIG | `@afenda/typescript-config` | blue-lane | no | see pas-status-index (PKG registry) |
+| PKG018_UI | `@afenda/ui` | amber-lane | no | see pas-status-index (PKG registry) |
+| PKG001_APPSHELL | `@afenda/appshell` | amber-lane | no | see pas-status-index (PKG registry) |
+| PKG002_AUTH | `@afenda/auth` | amber-lane | yes | see pas-status-index (PKG registry) |
+| PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see pas-status-index (PKG registry) |
+| PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see pas-status-index (PKG registry) |
+| PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see pas-status-index (PKG registry) |
 | PKG004_DESIGN | `@afenda/design-system` | amber-lane | no | see design authority |
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
@@ -80,6 +80,6 @@
 
 ## Legacy delivery quarantine
 
-Legacy ARCH, FDR, and TIP delivery trees were **retired 2026-06-27**. Do not recreate them.
+Legacy delivery trees were **retired 2026-06-27**. Do not recreate them.
 
 **New work:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS parent standard → registry entry → `docs/PAS/slice/` handoff → `afenda-coding-session` §0 → gates → runtime matrix. Index: [`PAS/README.md`](../PAS/README.md).

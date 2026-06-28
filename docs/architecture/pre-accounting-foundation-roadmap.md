@@ -23,20 +23,20 @@
 
 **Objective:** Align all architecture and delivery documentation with runtime reality before further implementation.
 
-| TIP | Title | Status | Exit criterion |
+| PAS | Title | Status | Exit criterion |
 | --- | --- | --- | --- |
-| TIP-000A | Documentation Truth Audit | **Complete (this audit)** | `afenda-documentation-drift-audit.md` published |
-| TIP-000B | Runtime Truth Matrix | **Complete (this audit)** | `afenda-runtime-truth-matrix.md` published with evidence columns |
-| TIP-000C | Master Plan Rewrite | **Complete** | `_afenda-erp-master-plan.llms.md` v5 with runtime truth section |
-| TIP-000D | Glossary and Authority Normalization | **Complete** | Delivery TIP statuses synced; ADR-0009–0013 Accepted; `pnpm check:documentation-drift` |
+| Foundation phase 00 | Documentation Truth Audit | **Complete (this audit)** | `afenda-documentation-drift-audit.md` published |
+| Foundation phase 00 | Runtime Truth Matrix | **Complete (this audit)** | `afenda-runtime-truth-matrix.md` published with evidence columns |
+| Foundation phase 00 | Master Plan Rewrite | **Complete** | `_afenda-erp-master-plan.llms.md` v5 with runtime truth section |
+| Foundation phase 00 | Glossary and Authority Normalization | **Complete** | PAS slice statuses synced; ADR-0009–0013 Accepted; `pnpm check:documentation-drift` |
 
 **Phase 0 gate:**
 
 - [x] Drift audit complete
 - [x] Runtime matrix complete
-- [x] Master plan v5 accepted (TIP-000C)
+- [x] Master plan v5 accepted (Foundation phase 00)
 - [x] ADR-0009–0013 Accepted
-- [x] Stale TIP delivery doc statuses updated (TIP-000D)
+- [x] Stale TIP delivery doc statuses updated (Foundation phase 00)
 - [x] Documentation drift guard operational
 
 ---
@@ -45,13 +45,13 @@
 
 **Objective:** Freeze package boundaries, ownership, dependencies, and authority contracts before platform spine expansion.
 
-| TIP | Title | Current | Exit criterion |
+| PAS | Title | Current | Exit criterion |
 | --- | --- | --- | --- |
-| TIP-001 | Architecture Authority | Complete | CI gates passing |
-| TIP-006 | AppShell Authority | **Complete** | Frozen contracts in `packages/appshell/src/contracts/` + public API re-exports |
-| TIP-007 | ERP Platform Authority | **Complete** | Platform entity authority barrel + drift tests (`@afenda/kernel`) |
-| TIP-008A | Enterprise Hierarchy Authority | **Complete** | Entity group + ownership interest schemas; consolidation resolver; ADR-0011 gate closed |
-| TIP-008B | Business Master Data Authority | **Partial** — authority map delivered | Customer, Product, Employee, Warehouse ownership map (documentation); runtime deferred to domain TIPs |
+| Foundation phase 01 | Architecture Authority | Complete | CI gates passing |
+| Foundation phase 06 | AppShell Authority | **Complete** | Frozen contracts in `packages/appshell/src/contracts/` + public API re-exports |
+| Foundation phase 07 | ERP Platform Authority | **Complete** | Platform entity authority barrel + drift tests (`@afenda/kernel`) |
+| Foundation phase 08 | Enterprise Hierarchy Authority | **Complete** | Entity group + ownership interest schemas; consolidation resolver; ADR-0011 gate closed |
+| Foundation phase 08 | Business Master Data Authority | **Partial** — authority map delivered | Customer, Product, Employee, Warehouse ownership map (documentation); runtime deferred to domain TIPs |
 
 **Deliverables:**
 
@@ -62,7 +62,7 @@
 - Layer enforcement via `pnpm quality:architecture`
 - Out-of-scope file change guard (AI governance + architecture-authority)
 
-**Phase 1 gate:** TIP-001 complete + TIP-006/007/008A contracts frozen + TIP-008B authority map drafted.
+**Phase 1 gate:** Foundation phase 01 complete + Foundation phase 06/007/008A contracts frozen + Foundation phase 08 authority map drafted.
 
 > **Implementation sequence (historical):** Phases 0–9 below — active work follows [`docs/PAS/`](../PAS/README.md).
 
@@ -80,8 +80,8 @@
 | Request context + correlation ID | `apps/erp`, `@afenda/observability` | **Partial** | Correlation on all API + server actions |
 | Audit event contract | `@afenda/database`, `@afenda/observability` | **Partial** | All mutations emit audit events |
 | Observability sink | `@afenda/observability` | **Partial** | Structured logging on all protected paths |
-| TIP-011 Outbox | `@afenda/database`, `@afenda/execution` | **Complete** | Outbox table + publish worker + ERP integration proof (Trigger.dev **20260623.1**) |
-| TIP-012 Operating spine lifecycle | Cross-cutting | **Complete** | Validation→Auth→Policy→Execute→Audit→**Event** proven on dashboard PUT |
+| Foundation phase 11 Outbox | `@afenda/database`, `@afenda/execution` | **Complete** | Outbox table + publish worker + ERP integration proof (Trigger.dev **20260623.1**) |
+| Foundation phase 12 Operating spine lifecycle | Cross-cutting | **Complete** | Validation→Auth→Policy→Execute→Audit→**Event** proven on dashboard PUT |
 
 **Spine lifecycle (mandatory):**
 
@@ -104,7 +104,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | Policy checks | **Partial** — `evaluateAuthorizationPolicy` | All protected routes use policy layer |
 | Scope/grants authority | **Partial** — multi-tenancy slice | Holding/subsidiary scope grants proven |
 | Approval guardrails | **Missing** | ApprovalContext wired (contracts exist in kernel plan) |
-| TIP-010 API RBAC | **Complete** — full internal v1 route matrix + system-admin RBAC | Session→context on all non-API surfaces |
+| Foundation phase 10 API RBAC | **Complete** — full internal v1 route matrix + system-admin RBAC | Session→context on all non-API surfaces |
 
 **Phase 3 gate:** Permission denial + audit proven for cross-company scope mismatch scenarios.
 
@@ -122,7 +122,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 | Drizzle conventions | **Implemented** | Branded IDs at boundaries |
 | RLS strategy | **Implemented** — foundation + completion + schema parity gates | Postgres RLS policies verified per glossary; `pnpm check:database-tenant-rls-coverage` |
 | Tenant isolation proof | **Implemented** — artifact + schema parity + live gate | Cross-tenant negative tests + full tenant-scoped table registry |
-| Entity group / ownership | **Implemented** — schemas + services + contract tests (TIP-008A) | Lookup services + context mappers complete |
+| Entity group / ownership | **Implemented** — schemas + services + contract tests (Foundation phase 08) | Lookup services + context mappers complete |
 | Consolidation scope prep | **Implemented** — `consolidation-scope-resolution.server.ts` + ERP resolver + tests | Non-accounting scope resolution tests |
 | Legal vs operating entity | **Documented** — glossary | Enforced in context resolution |
 
@@ -136,7 +136,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** REST-first, stable, envelope-based API contracts for all ERP surfaces.
 
-**Delivery TIP:** TIP-010A (accepted slice under TIP-010) — **Complete**
+**PAS slice:** Foundation phase 10 (accepted slice under Foundation phase 10) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
@@ -155,24 +155,24 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 ## Foundation Phase 6 — Design, UI, AppShell, and Metadata UI Governance
 
-**Objective:** Governed visual system with zero downstream drift; ERP surfaces use design-system tokens and TIP-004 consumption rules.
+**Objective:** Governed visual system with zero downstream drift; ERP surfaces use design-system tokens and Governed UI consumption rules.
 
-| TIP | Title | Current | Exit criterion |
+| PAS | Title | Current | Exit criterion |
 | --- | --- | --- | --- |
-| TIP-003/004 | Design System Authority + Contracts | Complete | — |
-| TIP-UI-01 | CSS Pipeline | Complete | `globals.css` + tokens.css |
-| TIP-UI-02 | Component Library | Complete | P0 components exported + tested |
-| TIP-UI-03 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test (TIP-UI-03 Slice 2) |
-| TIP-UI-04 | Metadata-UI Renderers | **Complete** | Renderers + production `/metadata-workspace` (Slices 1–2) |
-| TIP-UI-05 | ERP App Surfaces | **Complete** | Slices 1–12 delivered; DoD #1–24 closed (`tip-ui-05`) |
-| TIP-004 consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
+| Foundation phase 03/004 | Design System Authority + Contracts | Complete | — |
+| UI phase 1 | CSS Pipeline | Complete | `globals.css` + tokens.css |
+| UI phase 2 | Component Library | Complete | P0 components exported + tested |
+| UI phase 3 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test (UI phase 3 Slice 2) |
+| UI phase 4 | Metadata-UI Renderers | **Complete** | Renderers + production `/metadata-workspace` (Slices 1–2) |
+| UI phase 5 | ERP App Surfaces | **Complete** | Slices 1–12 delivered; DoD #1–24 closed (`ui-phase-5`) |
+| Governed UI consumption | UI guard Gates D/F | Complete | `pnpm ui:guard:scan` on consumer changes |
 
 **Phase 6 gate:**
 
 - [x] `pnpm ui:guard` passes (gates A–F)
 - [x] ERP module placeholder routes exist (manifest-driven `/modules/[moduleId]` — **shell only, no domain logic**)
-- [x] AppShell production integration in `(protected)` layout (TIP-UI-03 Slice 2 + TIP-UI-05 Slice 2)
-- [x] Metadata renderers demonstrated on at least one ERP page (`/metadata-workspace` — TIP-UI-04 Slice 2 + TIP-UI-05 Slice 3)
+- [x] AppShell production integration in `(protected)` layout (UI phase 3 Slice 2 + UI phase 5 Slice 2)
+- [x] Metadata renderers demonstrated on at least one ERP page (`/metadata-workspace` — UI phase 4 Slice 2 + UI phase 5 Slice 3)
 
 ---
 
@@ -180,12 +180,12 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Feature source → domain → module → capability → navigation → dashboard projection pipeline.
 
-**Delivery TIP:** TIP-007A (accepted slice under TIP-007) — **Complete**
+**PAS slice:** Foundation phase 07 (accepted slice under Foundation phase 07) — **Complete**
 
 | Work item | Current | Exit criterion |
 | --- | --- | --- |
 | Feature source | **Implemented** — entitlements catalog + manifest registry | Single feature source registry |
-| Domain / module / capability map | **Implemented** — manifest pipeline (TIP-007A Slices 1–3) | Manifest drives navigation |
+| Domain / module / capability map | **Implemented** — manifest pipeline (Foundation phase 07 Slices 1–3) | Manifest drives navigation |
 | Navigation contract | **Implemented** — appshell nav from manifest | Governed nav from manifest |
 | Dashboard projection | **Partial** — workspace dashboard layout API | RBAC-aware widget registry |
 | Route contract | **Implemented** — `generate-module-routes.ts` + RBAC guard | Module routes generated from manifest |
@@ -201,7 +201,7 @@ Validation → Authorization → Policy → Execution → Audit → Observabilit
 
 **Objective:** Control plane operational for users, security, and platform configuration.
 
-**Delivery TIP:** TIP-013 — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
+**PAS slice:** Foundation phase 13 — **binding** implementation doc for System Admin (Architecture Authority 2026-06-23).
 
 | Surface | Current | Exit criterion |
 | --- | --- | --- |
@@ -252,16 +252,16 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
                     ACCOUNTING READINESS GATE PASSED
                                     │
                                     ▼
-                          TIP-014 Accounting Core Contracts
+                          Foundation phase 14 Accounting Core Contracts
                           (@afenda/accounting — PKG-R01 via ADR)
 ```
 
-### After gate — Phase 2 business domain (FDR-governed)
+### After gate — Phase 2 business domain (PAS-governed)
 
-| Domain | Package | FDR entry | Priority |
+| Domain | Package | Registry entry | Priority |
 | --- | --- | --- | --- |
 | Accounting contracts | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 — **contracts-only delivered** |
-| Chart of accounts runtime | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 — **ADR + FDR gap closure** (not TIP-015 doc) |
+| Chart of accounts runtime | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 — **ADR + registry gap closure** (not Accounting runtime doc) |
 | General ledger & journals | `@afenda/accounting` | `PKGR01_ACCOUNTING` | P0 |
 | AP/AR foundation | PKG-R02+ (reserved) | — | P0 |
 | Vietnam localization | PKG-R03+ (reserved) | — | P0 |
@@ -276,7 +276,7 @@ Architecture Authority  ──►  Platform Authority  ──►  Design Authori
 1. Read ADR → PAS (docs/PAS/) → foundation-disposition.registry.ts → runtime matrix
 2. Read foundation-delivery-authority.md for workflow
 3. Find disposition entry by packageId; confirm lane, prohibited, gates, allowedAgents
-4. State afenda-coding-session §0 from PAS slice handoffs — not from legacy TIP/FDR markdown
+4. State afenda-coding-session §0 from PAS slice handoffs — not from legacy delivery markdown
 5. Implement ONLY within runtimeOwner path; one bounded change per session
 6. Post §11 Completion Report; update runtime matrix
 7. Disposition lane/gap changes → foundation-registry-owner

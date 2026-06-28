@@ -30,7 +30,7 @@ describe("primitive class-name policy", () => {
 
   it("throws on guarded assertion for violations", () => {
     expect(() => assertGuardedClassName("rounded-[14px]")).toThrow(
-      /TIP-004 className policy violation/
+      /Governed UI className policy violation/
     );
   });
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * TIP-008B Slice 4 — fail when reserved domain package directories exist on disk.
+ * Foundation phase 08 Slice 4 — fail when reserved domain package directories exist on disk.
  */
 
 import { existsSync } from "node:fs";

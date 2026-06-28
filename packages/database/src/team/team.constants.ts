@@ -1,5 +1,5 @@
 /**
- * Teams are persisted as organization units until TIP-030 delivers a dedicated table.
+ * Teams are persisted as organization units until Foundation phase 30 delivers a dedicated table.
  *
  * @see packages/kernel/src/context/team-context.contract.ts
  */

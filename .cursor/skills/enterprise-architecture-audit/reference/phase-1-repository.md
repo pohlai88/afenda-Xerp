@@ -68,9 +68,9 @@ Use `.cursor/skills/cross-boundary-anti-pattern-scan/SKILL.md` for semantic leak
 | Tenancy (7-tier) | `multi-tenancy.md` | `apps/erp/src/lib/context/` | `check:multi-tenancy-enterprise-acceptance` |
 | Authorization | PERMISSION_REGISTRY | `packages/permissions/` | `check:permissions-scope-grants-surface` |
 | Audit | PKG013 | observability + DB audit | `quality:erp-observability` |
-| Events / outbox | fdr-008 | `apps/erp/src/lib/outbox/` | execution PKG tests |
-| API contracts | fdr-007 | `server/api/contracts/` | `check:api-contracts` |
-| Persistence | fdr-003 | `packages/database/` | `quality:migrations` |
+| Events / outbox | PAS execution slice | `apps/erp/src/lib/outbox/` | execution PKG tests |
+| API contracts | PAS-007 | `server/api/contracts/` | `check:api-contracts` |
+| Persistence | `@afenda/database` | `packages/database/` | `quality:migrations` |
 
 ---
 

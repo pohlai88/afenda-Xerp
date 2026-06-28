@@ -1,4 +1,4 @@
-// biome-ignore-all lint/performance/noBarrelFile: TIP-007 diagnostics entry surface.
+// biome-ignore-all lint/performance/noBarrelFile: Foundation phase 07 diagnostics entry surface.
 
 export type { MetadataBoundaryWarningProps } from "../contracts/diagnostics.contract.js";
 export { createMetadataDiagnosticsSnapshot } from "./create-metadata-diagnostics-snapshot.js";

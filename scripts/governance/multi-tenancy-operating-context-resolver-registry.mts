@@ -21,8 +21,8 @@ export const MULTI_TENANCY_DOC_OPERATING_CONTEXT_RESOLVER_MARKERS = [
   "Fail closed.",
 ] as const;
 
-/** Delivery doc H2 — must match `TIP_007_012_REQUIRED_SECTIONS` entry. */
-export const TIP_007_012_OPERATING_CONTEXT_RESOLVER_SECTION =
+/** Delivery doc H2 — must match `MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS` entry. */
+export const MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SECTION =
   "Operating context resolver" as const;
 
 export const OPERATING_CONTEXT_RESOLVER_PIPELINE = [

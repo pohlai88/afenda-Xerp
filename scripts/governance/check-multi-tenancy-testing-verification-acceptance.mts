@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   MULTI_TENANCY_DOC_REFERENCE,
-  TIP_007_012_DELIVERY_DOC,
+  MULTI_TENANCY_DELIVERY_DOC,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectTestingVerificationAcceptanceViolations,
@@ -27,7 +27,7 @@ import {
   MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_SURFACE_RULE,
   MULTI_TENANCY_TESTING_VERIFICATION_DIMENSIONS,
   MULTI_TENANCY_VERIFICATION_ACCEPTANCE_REQUIREMENTS,
-  TIP_007_012_TESTING_VERIFICATION_SECTION,
+  MULTI_TENANCY_TESTING_VERIFICATION_SECTION,
 } from "./multi-tenancy-testing-verification-acceptance-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -40,7 +40,7 @@ const registryPath = join(
   "scripts/governance/multi-tenancy-testing-verification-acceptance-registry.mts"
 );
 const multiTenancyDocPath = join(repoRoot, MULTI_TENANCY_DOC_REFERENCE);
-const deliveryDocPath = join(repoRoot, TIP_007_012_DELIVERY_DOC);
+const deliveryDocPath = join(repoRoot, MULTI_TENANCY_DELIVERY_DOC);
 const packageJsonPath = join(repoRoot, "package.json");
 
 export type MultiTenancyTestingVerificationAcceptanceViolation =
@@ -146,7 +146,7 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
     violations.push({
       rule: "delivery-doc-missing",
       file: deliveryDocPath,
-      message: `Delivery evidence doc required: ${TIP_007_012_DELIVERY_DOC}`,
+      message: `Delivery evidence doc required: ${MULTI_TENANCY_DELIVERY_DOC}`,
     });
   } else {
     if (
@@ -162,12 +162,12 @@ export function checkMultiTenancyTestingVerificationAcceptance(): MultiTenancyTe
     }
 
     if (
-      !deliveryDoc.includes(`## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`)
+      !deliveryDoc.includes(`## ${MULTI_TENANCY_TESTING_VERIFICATION_SECTION}`)
     ) {
       violations.push({
         rule: "delivery-verification-section-missing",
         file: deliveryDocPath,
-        message: `Delivery doc must include ## ${TIP_007_012_TESTING_VERIFICATION_SECTION}`,
+        message: `Delivery doc must include ## ${MULTI_TENANCY_TESTING_VERIFICATION_SECTION}`,
       });
     }
 

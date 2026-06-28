@@ -482,13 +482,13 @@ Afenda does **not** use the [Better Auth Open API plugin](https://better-auth.co
 | Auth endpoint contract evidence | `@afenda/auth` integration tests — `auth.integration.test.ts`, `auth.client.test.ts`, plugin surface checks |
 | ERP ↔ auth wiring map | [`authentication-ecosystem.md`](authentication-ecosystem.md) — Better Auth plugin sections (2FA, passkey, multi-session, OAuth, etc.) |
 | Extension point registry | `AFENDA_AUTH_EXTENSION_POINTS` in `packages/auth/src/auth.contract.ts` |
-| Governed ERP REST OpenAPI | **P2 / blocked** — ARCH-API-001 + TIP-031; separate from Better Auth; not in current release |
+| Governed ERP REST OpenAPI | **P2 / blocked** — ARCH-API-001 + Foundation phase 31; separate from Better Auth; not in current release |
 | Public API docs site | Fumadocs (`apps/docs`) — architecture/governance MDX, not live Better Auth Scalar |
 
 **Why Open API plugin is off**
 
 - **Security:** Interactive “Try it out” against production auth endpoints is undesirable on ERP without environment gating; Scalar loads third-party UI scripts that must align with CSP allowlist + nonce pipeline.
-- **Authority:** Afenda documents auth behavior through ARCH/FDR slices, integration tests, and `authentication-ecosystem.md` — not an auto-generated catalog that can drift from invitation/MFA/OAuth policy.
+- **Authority:** Afenda documents auth behavior through PAS slices, integration tests, and `authentication-ecosystem.md` — not an auto-generated catalog that can drift from invitation/MFA/OAuth policy.
 - **Scope:** ERP public OpenAPI (Kong/catalog) is explicitly deferred P2; Better Auth schema generation is a separate decision.
 
 **If product wants this later**
@@ -635,4 +635,4 @@ Automated contract coverage: `apps/erp/src/lib/auth/__tests__/auth-production-re
 - ARCH-AUTH-002 — auth shell (consolidated 2026-06-26)
 - ARCH-AUTH-003 — tenant auth branding
 - ARCH-AUTH-001 — identity, mirror sync
-- FDR fdr-002-auth — `PKG002_AUTH` boundaries
+- PAS PKG-002 auth (pas-status-index) — `PKG002_AUTH` boundaries

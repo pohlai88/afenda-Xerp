@@ -843,7 +843,7 @@ function PaletteView({
                 </p>
               </StoryStack>
               <Badge emphasis="outline" size="sm" tone="info">
-                TIP-004B authority
+                Governed UI authority
               </Badge>
             </StoryRow>
 

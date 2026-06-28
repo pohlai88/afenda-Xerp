@@ -19,9 +19,9 @@
 | Retired | Active |
 | --- | --- |
 | ARCH domain architecture roadmaps | `docs/PAS/PAS-NNN-*.md` |
-| FDR and TIP delivery trees | `docs/PAS/slice/*.md` handoffs |
-| FDR / TIP status indexes | [`PAS/README.md`](../PAS/README.md) index |
-| `/write-fdr`, `/write-fdr-slice`, `/afenda-fdr-batch` (retired) | `/pas-slice-planner`, `/afenda-coding-session`, `/afenda-batch`, package authority skills |
+| Legacy delivery trees | `docs/PAS/slice/*.md` handoffs |
+| Legacy status indexes | [`pas-status-index.md`](../PAS/pas-status-index.md) |
+| `/pas-slice-planner`, `/pas-slice-planner`, `/afenda-batch` (retired) | `/pas-slice-planner`, `/afenda-coding-session`, `/afenda-batch`, package authority skills |
 
 Do not recreate parallel markdown delivery registries outside `docs/PAS/`.
 

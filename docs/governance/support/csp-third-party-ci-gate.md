@@ -4,7 +4,7 @@
 |-------|-------|
 | **Date** | 2026-06-22 |
 | **Scope** | CI / quality wiring only — no CSP policy changes |
-| **Authority** | `docs/governance/support/nextjs-csp-nonce-pipeline.md`, TIP-009 |
+| **Authority** | `docs/governance/support/nextjs-csp-nonce-pipeline.md`, Foundation phase 09 |
 
 ## Where the gate is wired
 
@@ -14,7 +14,7 @@
 | Quality aggregate | `pnpm quality:csp-third-party` | Alias to the same script; runs as final step in `pnpm quality` |
 | CI (PR + main) | `pnpm check:csp-third-party` | `.github/workflows/ci.yml` — Gate 8d (before release-gate self-check) |
 | Release verification | `pnpm check:csp-third-party` | `.github/workflows/release-verification.yml` — Gate 8d |
-| TIP-009 self-check | Required in `requiredCiCommands` | `scripts/quality/check-release-gates.mjs` |
+| Foundation phase 09 self-check | Required in `requiredCiCommands` | `scripts/quality/check-release-gates.mjs` |
 
 **Prerequisites:** `pnpm install` only. No build step — static scan of `apps/erp/src` and `csp-allowlist.ts`.
 
@@ -62,4 +62,4 @@ pnpm quality                        # full aggregate including quality:csp-third
 
 ## CI security score
 
-**9.5 / 10** — CSP drift blocks merge via CI and local `pnpm quality`. Remaining gap: full RBAC on API routes (TIP-010).
+**9.5 / 10** — CSP drift blocks merge via CI and local `pnpm quality`. Remaining gap: full RBAC on API routes (Foundation phase 10).
